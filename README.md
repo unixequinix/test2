@@ -1,0 +1,1 @@
+# Glownet's gSpot application
