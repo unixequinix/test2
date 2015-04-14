@@ -12,6 +12,19 @@
 /db/*.sqlite3-journal
 
 # Ignore all logfiles and tempfiles.
-/log/*
-!/log/.keep
+/log/*.log
 /tmp
+
+# Ignore secrets. This is symlinked using Capistrano.
+/config/secrets.yml
+/config/database.yml
+
+doc/
+*.swp
+*~
+.project
+.DS_Store
+erd.pdf
+
+/public/sitemap.xml.gz
+public/system/*
