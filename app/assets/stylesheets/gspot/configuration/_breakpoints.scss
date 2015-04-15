@@ -1,0 +1,23 @@
+// -------------------------------------------------------
+//
+// Media queries break points.
+//
+// This is to be used with the media query mixin.
+// The baseline size is ~= 16px
+//
+// 480px  30em
+// 600px  37.5em
+// 768px  48em
+// 992px  62em
+// 1080px 67.5em
+// 1382px 86.375em
+// -------------------------------------------------------
+
+$bp1: 480px;
+$bp2: 600px;
+$bp3: 768px;
+$bp4: 992px;
+$bp5: 1080px;
+$bp6: 1382px;
+
+
