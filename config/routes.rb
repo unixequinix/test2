@@ -13,8 +13,8 @@ Rails.application.routes.draw do
   ## Resources
   ## ------------------------------
 
-  namespace :account do
-    resources :accounts, only: [:show]
+  namespace :customer do
+    resources :customers, only: [:show]
   end
 
   devise_scope :customer do

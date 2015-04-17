@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   ## Devise overwrites
 
   def after_sign_in_path_for(resource)
-    return customer_customer_path if customer_signed_in?
+    return customer_customer_path(resource) if customer_signed_in?
   end
 
   def after_sign_out_path_for(resource)

@@ -1,9 +1,9 @@
 ActionMailer::Base.smtp_settings = {
   :address              => Rails.application.secrets.smtp_server,
-  :port                 => 587,
-  :domain               => Rails.application.secrets.smtp_url,
-  :user_name            => Rails.application.secrets.mail_username,
-  :password             => Rails.application.secrets.mail_password,
+  :port                 => Rails.application.secrets.smtp_port,
+  :domain               => Rails.application.secrets.smtp_domain,
+  :user_name            => Rails.application.secrets.smtp_username,
+  :password             => Rails.application.secrets.smtp_password,
   :authentication       => :plain,
-  :enable_starttls_auto => true
+  :enable_starttls_auto => Rails.application.secrets.smtp_enable_starttls_auto
 }
