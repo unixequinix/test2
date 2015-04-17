@@ -1,0 +1,47 @@
+/* ------------------------------------------------------- *\
+
+  Base stylesheet for common elments
+
+\* ------------------------------------------------------- */
+
+// HTML base styles
+// -------------------------------------------------------
+
+
+header {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: modules(20);
+  background-image: image-url("headerbg.jpg");
+  background-repeat: repeat-x;
+  text-align: center;
+}
+
+// ______________
+
+.container-logos {
+  position: relative;
+  width: 100%;
+
+  @include min-screen($bp3) {
+    @include outer-container;
+  }
+}
+
+.bbf-logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index:1;
+
+  &:hover { opacity: 0.8; }
+}
+
+.logo {
+  display: block;
+  width: 100%;
+  margin-left: 0 auto;
+
+  &:hover { @include animation(shake 150ms infinite linear); }
+}
