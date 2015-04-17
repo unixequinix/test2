@@ -80,4 +80,6 @@ Rails.application.configure do
   config.action_mailer.default_url_options = {
     host: Rails.application.secrets.mail_host
   }
+
+  config.action_mailer.default_url_options = { host: Rails.application.secrets.domain_url, port: 3000 }
 end

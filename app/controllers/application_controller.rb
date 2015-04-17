@@ -1,5 +1,35 @@
 class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+  before_action :set_locale
+
+  private
+
+  ## Devise overwrites
+
+  def after_sign_in_path_for(resource)
+    return customer_customer_path if customer_signed_in?
+  end
+
+  def after_sign_out_path_for(resource)
+    customer_root_path
+  end
+
+  # Get locale from user's browser and set it, unless it's present in session.
+  # Use default otherwise.
+  def set_locale
+    extracted_locale =  session[:locale] ||
+                        extract_locale_from_accept_language_header ||
+                        I18n.default_locale
+    if (I18n.available_locales.any? {|loc| loc.to_s == extracted_locale})
+      I18n.locale = extracted_locale
+      session[:locale] = extracted_locale
+    end
+  end
+
+  def extract_locale_from_accept_language_header
+    if not request.env['HTTP_ACCEPT_LANGUAGE'].nil?
+      request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first
+    end
+  end
+
 end
