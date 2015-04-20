@@ -4,6 +4,16 @@
 //
 // -------------------------------------------------------
 
+
+label {
+  @extend h3;
+
+  @include min-screen ($bp3) {
+    @include span-columns(4);
+  }
+}
+
+
 input[type=text],
 input[type=password],
 input[type=email],
@@ -19,11 +29,14 @@ textarea {
   padding: modules(.5);
   overflow: hidden;
   border-radius: 4px;
-  background-color: $nuclear;
-  box-shadow: inset 0px 0px 0px 2px magenta;
+  background-color: $white;
+  box-shadow: inset 0px 0px 0px 2px $pinkMagenta;
   border: none;
-  font-weight: lighter;
-  opacity: .8;
+  font-family: Helvetica;
+
+  @include min-screen ($bp3) {
+    @include span-columns(8);
+  }
 
   &:focus {
     outline: none;
@@ -31,9 +44,9 @@ textarea {
   }
 
   &:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px $nuclear inset !important;
+    -webkit-box-shadow: 0 0 0px 1000px $white inset !important;
   }
   &:-moz-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px $nuclear inset !important;
+    -webkit-box-shadow: 0 0 0px 1000px $white inset !important;
   }
 }

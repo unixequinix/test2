@@ -25,6 +25,8 @@
 @import "gspot/animations";
 @import "gspot/forms";
 
+@import "gspot/application/base";
+
 @media print {
   @import "gspot/print";
 }

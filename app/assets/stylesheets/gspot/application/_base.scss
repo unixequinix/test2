@@ -3,3 +3,34 @@
 // Base application styles
 //
 // -------------------------------------------------------
+
+.wrapper-main {
+  width: 100%;
+  padding: modules(0.5);
+
+  @include min-screen($bp3) {
+    @include outer-container;
+    padding: 0;
+  }
+}
+
+.wrapper-field {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin: modules(2) 0;
+  padding: modules(2);
+  border-radius: 3px;
+  box-shadow: inset 0px 0px 0px 1px black;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.form-inputs {
+  overflow: hidden;
+}
+
+.form-actions {
+  position: relative;
+  overflow: hidden;
+  height: modules(4);
+}
