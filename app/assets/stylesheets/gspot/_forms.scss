@@ -6,7 +6,7 @@
 
 
 label {
-  @extend h3;
+  @include mscale($button-size);
 
   @include min-screen ($bp3) {
     @include span-columns(4);

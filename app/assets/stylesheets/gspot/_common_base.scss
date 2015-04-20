@@ -11,7 +11,7 @@
 //Variables
 
 $button-size: $base-font-size*2;
-
+$section-title: $base-font-size*4;
 
 // HTML base styles
 
@@ -28,6 +28,18 @@ body {
   background-image: image-url("bg.jpg");
 }
 
+h2 {
+  @include mscale ($section-title);
+  display: inline-block;
+  width: auto;
+  padding-right: modules(2);
+  background-image: image-url("title-background.jpg");
+  background-repeat: repeat-x;
+}
+
+
+a { text-decoration: none; }
+
 .btn {
   @include appearance(none);
   @include transition(all 83ms linear);
@@ -41,9 +53,10 @@ body {
   padding: modules(0.5) modules(2);
   border: 1px solid transparent;
   background-color: $black;
+  color: $white;
+  font-weight: bold;
   text-align: center;
   cursor: pointer;
-  color: $white;
 
   &:hover { color: $pinkMagenta; }
 }

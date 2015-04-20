@@ -4,9 +4,10 @@
 
 \* ------------------------------------------------------- */
 
+$nav-size: $base-font-size*2;
+
 // HTML base styles
 // -------------------------------------------------------
-
 
 header {
   position: relative;
@@ -15,7 +16,37 @@ header {
   height: modules(20);
   background-image: image-url("headerbg.jpg");
   background-repeat: repeat-x;
-  text-align: center;
+
+  h1 { margin-bottom: 0; }
+}
+
+nav {
+  @include mscale($nav-size);
+  width: 1080px;
+  margin: 0 auto;
+  height: modules(4);
+  padding: modules(0.5);
+  display: block;
+  background-image: image-url("menu.png");
+  background-repeat: no-repeat;
+  background-position: 50% 0;
+  color: $white;
+
+  ul { margin: 0; list-style: none; }
+
+  li {
+    display: inline-block;
+    width: auto;
+    margin: 0 modules(1);
+    font-weight: bold;
+    cursor: pointer;
+
+    a {
+      margin: 0 modules(0.25);
+
+      &:hover { color: $pinkMagenta; }
+    }
+  }
 }
 
 // ______________
@@ -23,6 +54,8 @@ header {
 .container-logos {
   position: relative;
   width: 100%;
+  text-align: center;
+
 
   @include min-screen($bp3) {
     @include outer-container;
@@ -43,5 +76,5 @@ header {
   width: 100%;
   margin-left: 0 auto;
 
-  &:hover { @include animation(shake 150ms infinite linear); }
+  &:hover { @include animation(shake 150ms infinite linear, kraken 150ms infinite linear); }
 }

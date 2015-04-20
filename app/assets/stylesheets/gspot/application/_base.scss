@@ -34,3 +34,29 @@
   overflow: hidden;
   height: modules(4);
 }
+
+.field-forgot-password {
+  padding: 0;
+  text-align: center;
+
+  a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: modules(2);
+    color: $black;
+    font-family: Helvetica;
+    cursor: pointer;
+
+    &:hover { background-color: rgba(200, 200, 200, 0.2); }
+  }
+}
+
+.wrapper-title {
+  display: block;
+  width: 100%;
+  margin: modules(1) 0 0;
+  background-image: image-url("title-marquee.png");
+  background-repeat: no-repeat;
+  background-position: 0 25%;
+}

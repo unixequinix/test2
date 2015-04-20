@@ -12,4 +12,10 @@ ANIMTAIONS
   100% { transform: translate(0, 0);}
 }
 
+@keyframes kraken {
+  0% {-moz-transform: rotate(0deg);}
+  50% {-moz-transform: rotate(3deg);}
+  100% {-moz-transform: rotate(0deg);}
+}
+
 // -------------------------------------------------------
