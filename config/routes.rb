@@ -5,7 +5,12 @@ Rails.application.routes.draw do
 
   scope :customer do
     devise_for :customers,
-    controllers: { sessions: 'customer/customers/sessions', passwords: 'customer/customers/passwords'},
+      controllers: {
+        sessions: 'customer/customers/sessions',
+        registrations: 'customer/customers/registrations',
+        confirmations: 'customer/customers/confirmations',
+        passwords: 'customer/customers/passwords'
+      },
       path_names: { sign_up: 'signup', sign_in: 'login', sign_out: 'logout' }
   end
 

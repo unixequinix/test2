@@ -22,7 +22,7 @@ header {
 
 nav {
   @include mscale($nav-size);
-  width: 1080px;
+  width: 100%;
   margin: 0 auto;
   height: modules(4);
   padding: modules(0.5);
@@ -32,7 +32,9 @@ nav {
   background-position: 50% 0;
   color: $white;
 
-  ul { margin: 0; list-style: none; }
+  @include min-screen($bp4) { width: 90%; }
+
+  ul { margin: 0; }
 
   li {
     display: inline-block;
@@ -51,7 +53,7 @@ nav {
 
 // ______________
 
-.container-logos {
+.container-header {
   position: relative;
   width: 100%;
   text-align: center;
@@ -75,5 +77,33 @@ nav {
   width: 100%;
   margin-left: 0 auto;
 
-  &:hover { @include animation(shake 150ms infinite linear, kraken 150ms infinite linear); }
+  &:hover {
+     opacity: 0.8;
+    //@include animation(shake 150ms infinite linear, kraken 150ms infinite linear);
+  }
+}
+
+.language-selection {
+  @include mscale ($nav-size);
+  position: absolute;
+  top: 35%;
+  right: 0;
+  font-weight: bold;
+  cursor: pointer;
+
+  li {
+    display: inline-block;
+    padding-left: modules(0.25);
+  }
+
+  a {
+    &:hover { text-decoration: underline; }
+    &.language-selected { color: $pinkMagenta; }
+  }
+}
+
+.user-options {
+  float: right;
+
+  a { color: $pinkMagenta; }
 }
