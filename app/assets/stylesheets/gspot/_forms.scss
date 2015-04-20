@@ -1,0 +1,39 @@
+// -------------------------------------------------------
+//
+//  Page form styles
+//
+// -------------------------------------------------------
+
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=number],
+input[type=url],
+input[type=tel],
+input[type=search],
+textarea {
+  @include mscale($base_font_size);
+  @include appearance(none);
+  width: 100%;
+  margin-bottom: modules(1);
+  padding: modules(.5);
+  overflow: hidden;
+  border-radius: 4px;
+  background-color: $nuclear;
+  box-shadow: inset 0px 0px 0px 2px magenta;
+  border: none;
+  font-weight: lighter;
+  opacity: .8;
+
+  &:focus {
+    outline: none;
+    opacity: 1;
+  }
+
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px $nuclear inset !important;
+  }
+  &:-moz-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px $nuclear inset !important;
+  }
+}

@@ -18,11 +18,12 @@
 //@import "gspot/configuration/sticky_footer";
 @import "gspot/configuration/typography";
 
-@import "gspot/animations";
 @import "gspot/header";
 @import "gspot/common_base";
 @import "gspot/notifications";
 @import "gspot/exceptions";
+@import "gspot/animations";
+@import "gspot/forms";
 
 @media print {
   @import "gspot/print";
