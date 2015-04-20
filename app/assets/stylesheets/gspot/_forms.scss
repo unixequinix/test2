@@ -6,7 +6,8 @@
 
 
 label {
-  @include mscale($button-size);
+  @include mscale($label-size);
+  font-weight: bold;
 
   @include min-screen ($bp3) {
     @include span-columns(4);
@@ -26,7 +27,7 @@ textarea {
   @include appearance(none);
   width: 100%;
   margin-bottom: modules(1);
-  padding: modules(.5);
+  padding: modules(0.5);
   overflow: hidden;
   border-radius: 4px;
   background-color: $white;
@@ -49,4 +50,18 @@ textarea {
   &:-moz-autofill {
     -webkit-box-shadow: 0 0 0px 1000px $white inset !important;
   }
+}
+
+.input {
+  position: relative;
+  overflow: hidden;
+}
+.customer_remember_me {
+  font-family: Helvetica;
+
+  label {
+    @include mscale($base-font-size);
+    font-weight: 100;
+  }
+
 }

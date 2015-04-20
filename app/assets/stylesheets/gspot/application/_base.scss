@@ -8,21 +8,21 @@
   width: 100%;
   padding: modules(0.5);
 
-  @include min-screen($bp3) {
-    @include outer-container;
-    padding: 0;
-  }
+  @include min-screen($bp3) { @include outer-container; }
+  @include min-screen($bp4) { padding: 0 0 modules(3); }
 }
 
 .wrapper-field {
   position: relative;
   overflow: hidden;
   width: 100%;
-  margin: modules(2) 0;
-  padding: modules(2);
+  margin-top: modules(2);
+  padding: modules(1);
   border-radius: 3px;
-  box-shadow: inset 0px 0px 0px 1px black;
-  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0px 0px 0px 1px $grayGunmetal;
+  background-color: rgba(0, 0, 0, 0.15);
+
+  @include min-screen($bp3) { padding: modules(2); }
 }
 
 .form-inputs {
@@ -32,7 +32,10 @@
 .form-actions {
   position: relative;
   overflow: hidden;
-  height: modules(4);
+  display: block;
+  width: 100%;
+  text-align: right;
+  clear: both;
 }
 
 .field-forgot-password {
@@ -50,6 +53,11 @@
 
     &:hover { background-color: rgba(200, 200, 200, 0.2); }
   }
+
+  figure {
+    display: block;
+    margin: 0 auto;
+  }
 }
 
 .wrapper-title {
@@ -59,4 +67,26 @@
   background-image: image-url("title-marquee.png");
   background-repeat: no-repeat;
   background-position: 0 25%;
+}
+
+.wrapper-register {
+  text-align: center;
+
+  h3 {
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+
+    @include min-screen($bp3) {
+      @include span-columns(9);
+    }
+  }
+
+  .btn {
+    vertical-align: middle;
+
+    @include min-screen($bp3) {
+      @include span-columns(3);
+    }
+  }
 }

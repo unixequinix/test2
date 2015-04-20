@@ -56,7 +56,6 @@ nav {
   width: 100%;
   text-align: center;
 
-
   @include min-screen($bp3) {
     @include outer-container;
   }
