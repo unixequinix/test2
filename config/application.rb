@@ -32,5 +32,7 @@ module Gspot
 
     # Precompile additional assets
     config.assets.precompile += %w( .svg .eot .woff .ttf )
+    config.assets.precompile += %w[welcome_admin.css welcome_admin.js]
+    config.assets.precompile += %w[admin.css admin.js]
   end
 end
