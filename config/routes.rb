@@ -3,6 +3,15 @@ Rails.application.routes.draw do
   ## Devise
   ## ------------------------------
 
+  scope :admin do
+    devise_for :admins,
+      controllers: {
+        sessions: 'admin/admins/sessions',
+        passwords: 'admin/admins/passwords'
+      },
+      path_names: { sign_up: 'signup', sign_in: 'login', sign_out: 'logout' }
+  end
+
   scope :customer do
     devise_for :customers,
       controllers: {
@@ -14,7 +23,6 @@ Rails.application.routes.draw do
       path_names: { sign_up: 'signup', sign_in: 'login', sign_out: 'logout' }
   end
 
-
   ## Resources
   ## ------------------------------
 
@@ -24,6 +32,10 @@ Rails.application.routes.draw do
 
   devise_scope :customer do
     root to: 'customer/customers#show', as: :customer_root
+  end
+
+  devise_scope :admin do
+    root to: 'admin/admins#show', as: :admin_root
   end
 
   root to: 'customer/customers/sessions#new'
