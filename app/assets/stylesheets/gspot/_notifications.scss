@@ -10,16 +10,19 @@
 
 .msg-for-alert, .msg-for-error {
   position: absolute;
-  top: modules(3);
-  left: modules(2);
-  right: modules(2);
+  top: modules(1);
+  left: modules(1);
+  right: modules(1);
   padding: modules(2);
   border-radius: 4px;
-  background-color: $white;
-  box-shadow: inset 0px 0px 0px 3px $red;
-  color: $red;
+  background-color: $red;
+  box-shadow: inset 0px 0px 0px 3px $white;
+  color: $white;
   text-align: center;
   z-index: 3;
+
+  @include min-screen($bp3) { left: modules(2); right: modules(2); }
+  @include min-screen($bp4) { left: modules(3); right: modules(3); }
 
   p {
     @include mscale($nav-size);

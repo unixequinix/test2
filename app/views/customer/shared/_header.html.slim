@@ -14,10 +14,12 @@ header
   nav
     ul
       li
-        = link_to href="http://bcnbeachfestival.com", target: "_blank", class: "bbf-logo" do
-          a Home
+        = link_to href="http://bcnbeachfestival.com", target: "_blank" do
+          | Home
       li
-        a My BBF
+        = link_to '#'
+          | My BBF
+
       - if customer_signed_in?
         li.user-options
           span NAME TODO
