@@ -15,8 +15,15 @@ header
     ul
       li
         a Home
-      li.user-options
-        a
-          - if customer_signed_in?
-            = link_to destroy_customer_session_path, method: :delete do
-              span Cerrar sesión
+      li
+        a My BBF
+      - if customer_signed_in?
+        li.user-options
+          span = resource_name.to_s.humanize
+          ul.submenu
+            li
+              = link_to edit_customer_registration_path(current_customer), class: "link-submenu" do
+                span Edit profile
+            li
+              = link_to destroy_customer_session_path, method: :delete, class: "link-submenu" do
+                span Cerrar sesión

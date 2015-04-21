@@ -13,33 +13,39 @@ header {
   position: relative;
   display: block;
   width: 100%;
-  height: modules(20);
+  height: auto;
   background-image: image-url("headerbg.jpg");
   background-repeat: repeat-x;
+  background-size: 100% 100%;
 
   h1 { margin-bottom: 0; }
 }
 
 nav {
   @include mscale($nav-size);
+  position: relative;
+  display: none;
   width: 100%;
   margin: 0 auto;
   height: modules(4);
   padding: modules(0.5);
-  display: block;
   background-image: image-url("menu.png");
   background-repeat: no-repeat;
   background-position: 50% 0;
   color: $white;
 
-  @include min-screen($bp4) { width: 90%; }
+  @include min-screen($bp2) { display: block; }
+  @include min-screen($bp5) { width: modules(43); }
 
-  ul { margin: 0; }
+  ul {
+    margin: 0;
+    padding: 0;
+  }
 
   li {
     display: inline-block;
     width: auto;
-    margin: 0 modules(1);
+    padding: 0 modules(0.25);
     font-weight: bold;
     cursor: pointer;
 
@@ -47,6 +53,18 @@ nav {
       margin: 0 modules(0.25);
 
       &:hover { color: $pinkMagenta; }
+    }
+
+    &:first-child {
+      padding-left: 0;
+
+      @include min-screen($bp4) { padding: 0 modules(1); }
+    }
+
+    &:last-child {
+      padding-right: 0;
+
+      @include min-screen($bp4) { padding: 0 modules(1); }
     }
   }
 }
@@ -69,13 +87,26 @@ nav {
   left: 0;
   z-index:1;
 
+  img {
+    width: modules(3);
+    height: auto;
+
+    @include min-screen($bp3) {
+      width: modules(6);
+      height: auto;
+    }
+  }
+
   &:hover { opacity: 0.8; }
 }
 
 .logo {
   display: block;
   width: 100%;
-  margin-left: 0 auto;
+  max-width: modules(31);
+  margin: 0 auto;
+
+  img { width: 100%; height: auto; }
 
   &:hover {
      opacity: 0.8;
@@ -85,11 +116,17 @@ nav {
 
 .language-selection {
   @include mscale ($nav-size);
-  position: absolute;
-  top: 35%;
-  right: 0;
+  position: relative;
+  margin: 0 0 modules(1);
+  padding: 0;
   font-weight: bold;
   cursor: pointer;
+
+  @include min-screen($bp3) {
+    position: absolute;
+    top: 45%;
+    right: 0;
+  }
 
   li {
     display: inline-block;
@@ -104,6 +141,39 @@ nav {
 
 .user-options {
   float: right;
+  text-align: right;
 
   a { color: $pinkMagenta; }
+
+  &:hover {
+    .submenu {
+      display: block;
+    }
+  }
+}
+
+.submenu {
+  display: none;
+  position: absolute;
+  top: modules(2.75);
+  right: 0;
+  margin: 0;
+  padding: 0;
+  z-index: 3;
+
+  li { display: block; }
+}
+
+.link-submenu {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: modules(0.5) modules(1);
+  background: $black;
+  box-shadow: inset 0px -2px 0px 0px $grayGunmetal;
+
+  &:hover {
+    background-color: $pinkMagenta;
+    color: $black;
+  }
 }

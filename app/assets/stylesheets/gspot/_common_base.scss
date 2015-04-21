@@ -11,7 +11,7 @@
 //Variables
 
 $label-size: $base-font-size*2;
-$button-size: $base-font-size*3;
+$button-size: $base-font-size*2.75;
 $section-title: $base-font-size*4;
 
 // HTML base styles
@@ -30,7 +30,7 @@ body {
 }
 
 h2 {
-  @include mscale ($section-title);
+  @include mscale ($button-size);
   display: inline-block;
   width: auto;
   margin: 0;
@@ -38,6 +38,10 @@ h2 {
   background-image: image-url("title-background.jpg");
   background-repeat: repeat-x;
   font-weight: bold;
+
+  @include min-screen($bp3) {
+     @include mscale ($section-title);
+  }
 }
 
 h3 {
@@ -58,13 +62,19 @@ a { text-decoration: none; }
   overflow: hidden;
   display: inline-block;
   width: auto;
-  padding: modules(0.25) modules(2);
+  padding: modules(0.25) modules(1);
   border: 1px solid transparent;
   background-color: $black;
   color: $pinkMagenta;
   font-weight: bold;
   text-align: center;
   cursor: pointer;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  @include min-screen($bp3) {
+    padding: modules(0.25) modules(1.25);
+  }
 
   &:hover { background-color: $pinkMagenta; color: $black; }
 }
