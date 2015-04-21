@@ -30,12 +30,15 @@ Rails.application.routes.draw do
     resources :customers, only: [:show]
   end
 
+  namespace :admin do
+  end
+
   devise_scope :customer do
     root to: 'customer/customers#show', as: :customer_root
   end
 
   devise_scope :admin do
-    root to: 'admin/admins#show', as: :admin_root
+    root to: 'admin/dashboards#show', as: :admin_root
   end
 
   root to: 'customer/customers/sessions#new'
