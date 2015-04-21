@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    resources :entitlements
   end
 
   devise_scope :customer do
