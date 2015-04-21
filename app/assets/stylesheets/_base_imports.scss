@@ -19,8 +19,14 @@
 @import "gspot/configuration/typography";
 
 @import "gspot/common_base";
+@import "gspot/header";
 @import "gspot/notifications";
 @import "gspot/exceptions";
+@import "gspot/animations";
+@import "gspot/forms";
+@import "gspot/footer";
+
+@import "gspot/application/base";
 
 @media print {
   @import "gspot/print";

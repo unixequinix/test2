@@ -5,16 +5,17 @@
 // -------------------------------------------------------
 
 @import "font-awesome";
-
+@import url(http://fonts.googleapis.com/css?family=Anton);
 // External fonts
 
 // Custom fonts
-// @include font-face(Lato, 'lato-regular', normal, $asset-pipeline: true);
+@include font-face(Bebas, 'Bebas-Bold', bold, $asset-pipeline: true);
+@include font-face(Bebas, 'Bebas-Regular', normal, $asset-pipeline: true);
 
 
 // Font families
 $serif_family: $georgia;
-$sans_family: $helvetica;
+$sans_family: Bebas, $helvetica;
 
 $base_font_family: $sans_family;
 $heading_font_family: $sans_family;
@@ -26,5 +27,5 @@ $header_font_features: '';
 //$debug: 'true';
 
 // Typography initialization
-@include intialize-typography($font_size: 15, $line_height: 24, $ratio: $minor_third);
-@include intialize-typography($breakpoint: $bp3, $font_size:15, $line_height: 24, $ratio: $minor_third);
+@include intialize-typography($font_size: 16, $line_height: 24, $ratio: $minor_sixth);
+@include intialize-typography($breakpoint: $bp3, $font_size:16, $line_height: 24, $ratio: $minor_sixth);

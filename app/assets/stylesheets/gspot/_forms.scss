@@ -1,0 +1,87 @@
+// -------------------------------------------------------
+//
+//  Page form styles
+//
+// -------------------------------------------------------
+
+abbr { display: none; }
+
+label {
+  @include mscale($label-size);
+  font-weight: bold;
+
+  @include min-screen ($bp3) {
+    @include span-columns(4);
+  }
+}
+
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=number],
+input[type=url],
+input[type=tel],
+input[type=search],
+textarea {
+  @include mscale($base_font_size);
+  @include appearance(none);
+  width: 100%;
+  margin: 0 0 modules(1);
+  padding: modules(0.5);
+  overflow: hidden;
+  border-radius: 4px;
+  background-color: $white;
+  box-shadow: inset 0px 0px 0px 2px $pinkMagenta;
+  border: none;
+  font-family: Helvetica;
+
+  @include min-screen ($bp3) {
+    @include span-columns(8);
+    margin: 0 0 modules(1);
+  }
+
+  &:focus {
+    outline: none;
+    opacity: 1;
+  }
+
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px $white inset !important;
+  }
+  &:-moz-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px $white inset !important;
+  }
+}
+
+.input {
+  position: relative;
+  overflow: hidden;
+}
+
+.customer_remember_me {
+  font-family: Helvetica;
+  margin-bottom: modules(1);
+
+  input {
+    margin-right: modules(0.25);
+    cursor: pointer;
+  }
+
+  label {
+    @include mscale($base-font-size);
+    width: 100%;
+    font-weight: 100;
+    text-align: right;
+  }
+}
+
+.hint {
+  position: absolute;
+  top: modules(0.5);
+  right: 0;
+
+  @include min-screen ($bp3) {
+    bottom: 0;
+    top: auto;
+  }
+}
