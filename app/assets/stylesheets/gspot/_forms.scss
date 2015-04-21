@@ -26,7 +26,7 @@ textarea {
   @include mscale($base_font_size);
   @include appearance(none);
   width: 100%;
-  margin: 0 0 modules(1);
+  margin: 0;
   padding: modules(0.5);
   overflow: hidden;
   border-radius: 4px;

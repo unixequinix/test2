@@ -1,6 +1,42 @@
-footer {
+/* ------------------------------------------------------- *\
+
+  Base stylesheet for footer
+
+\* ------------------------------------------------------- */
+
+// HTML base styles
+//
+
+.container-footer {
+    padding: modules(0.5);
+    text-align: center;
+
+  @include min-screen($bp4) {
+    @include outer-container;
+    padding: 0 modules(3) modules(1);
+  }
+}
+
+.separator {
   display: block;
-  width: 100%;
-  padding: modules(2);
+  height: auto;
+  padding: 0 0 modules(2);
   background-image: image-url("separator.png");
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+
+  @include min-screen($bp4) {
+    height: modules(2);
+    padding: modules(1) modules(1) modules(2);
+  }
+}
+
+.container-powered {
+  display: inline-block;
+
+  @include min-screen($bp3) {
+    float: right;
+  }
+
+  &:hover { opacity: 0.7; }
 }

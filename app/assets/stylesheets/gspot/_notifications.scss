@@ -47,14 +47,14 @@
 }
 
 .error {
-  position: absolute;
-  bottom: 0;
+  position: relative;
   right: modules(0.25);
   color: $red;
   font-weight: bold;
 
   @include min-screen($bp3) {
+    position: absolute;
+    right: modules(0.25);
     top: 0;
-    bottom: auto;
   }
 }
