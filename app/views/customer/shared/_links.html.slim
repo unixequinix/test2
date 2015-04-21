@@ -1,0 +1,21 @@
+- if controller_name != 'sessions'
+  .wrapper-field.wrapper-session
+    h3 Do you have an account?
+    = link_to "Log in", new_session_path(resource_name), class: "btn"
+
+- if devise_mapping.registerable? && controller_name != 'registrations'
+  .wrapper-field.wrapper-session
+    h3 Not registered yet?
+    = link_to "Signup", new_registration_path(resource_name), class: "btn"
+
+- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations'
+  .wrapper-field.field-forgot-password
+    = link_to new_password_path(resource_name) do
+      figure.fa.fa-lock
+      span "Forgot your password?"
+
+- if devise_mapping.confirmable? && controller_name != 'confirmations'
+  .wrapper-field.field-forgot-password
+    = link_to new_confirmation_path(resource_name)
+      figure.fa.fa-envelope
+      span Didn't receive confirmation instructions?
