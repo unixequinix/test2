@@ -1,0 +1,65 @@
+// -------------------------------------------------------
+//
+//  Welcome base styles
+//
+// -------------------------------------------------------
+.container-main {
+  color: $white;
+  position: absolute;
+  width: 100%;
+  min-height: 100%;
+  height: auto;
+  padding: modules(1);
+  background: $blue;
+
+  a { color: $white;  font-weight: 100%; }
+}
+
+.wrapper-welcome {
+  min-height: 100%;
+  padding: modules(1) 0;
+  text-align: center;
+
+  @include min-screen($bp2) { padding-top: modules(4); }
+
+  @include min-screen($bp3) {
+    width: 35%;
+    margin: 0 auto;
+    padding: modules(6) 0 0;
+  }
+
+  @include min-screen($bp4) { width: 30%; }
+}
+
+.logo {
+  width: auto;
+  height: modules(4);
+  margin: 0 auto;
+
+  @include min-screen($bp3) { height: modules(5); }
+}
+
+.remember {
+
+  input {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+    margin-right: modules(0.5);
+  }
+
+  label {
+    color: $white;
+    vertical-align: middle;
+  }
+}
+
+
+.admin-forgot-password {
+  display: inline-block;
+  width: 100%;
+  padding: modules(1) 0;
+  text-align: center;
+
+  &:hover { text-decoration: underline; }
+}

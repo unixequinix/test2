@@ -1,0 +1,51 @@
+/* ------------------------------------------------------- *\
+
+  Base stylesheet for common elments
+
+\* ------------------------------------------------------- */
+
+// HTML base styles
+// ------------------------------------------------------
+
+label { display: none; }
+
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=number],
+input[type=url],
+input[type=tel],
+input[type=search],
+textarea {
+  @include mscale($base_font_size);
+  @include appearance(none);
+  @include placeholder { color: $light_blue; }
+  background-color: transparent !important;
+  box-shadow: inset 12px -57px 0px -56px rgba(255,255,255,.3);
+  border: none;
+  color: $nuclear;
+  font-weight: lighter;
+  overflow: hidden;
+  padding: modules(0.5) 0;
+  text-align: left;
+  width: 100%;
+
+  &:focus {
+    box-shadow: inset 12px -57px 0px -56px $magenta;
+    outline: none;
+    opacity: 1;
+  }
+
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px $blue inset !important;
+    -webkit-text-fill-color: $nuclear;
+  }
+
+  &.big {
+    @include min-screen($bp3) {
+      @include mscale($base_font_size*2);
+    }
+  }
+}
+
+.input { position: relative; }

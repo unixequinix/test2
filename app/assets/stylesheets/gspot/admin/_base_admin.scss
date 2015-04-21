@@ -4,6 +4,36 @@
 //
 // -------------------------------------------------------
 
-.wrapper-main {
-  background: green !important;
+
+// HTML
+
+h2, h3, p, span, a,
+ul, ol, li {
+  text-decoration: none;
+}
+
+// __________
+
+
+.btn {
+  @include appearance(none);
+  @include transition (background-color 150ms linear);
+  display: block;
+  padding: modules(0.5) modules(1);
+  border-radius: 2px;
+  border: 1px solid transparent;
+  box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.5);
+  color: $nuclear;
+  text-transform: uppercase;
+  font-weight: 100;
+  cursor: pointer;
+}
+
+.btn-login {
+  margin-top: modules(1);
+  width: 100%;
+  box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.3);
+  background-color: $magenta;
+
+  &:hover { background-color: lighten($magenta, 8%); }
 }
