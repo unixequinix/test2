@@ -4,16 +4,6 @@ class ApplicationController < ActionController::Base
 
   private
 
-  ## Devise overwrites
-
-  def after_sign_in_path_for(resource)
-    return customer_customer_path(resource) if customer_signed_in?
-  end
-
-  def after_sign_out_path_for(resource)
-    customer_root_path
-  end
-
   # Get locale from user's browser and set it, unless it's present in session.
   # Use default otherwise.
   def set_locale

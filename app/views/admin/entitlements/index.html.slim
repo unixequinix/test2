@@ -1,0 +1,9 @@
+- breadcrumb :admin_entitlements
+- provide :actions do
+  = link_to t("actions.new"), new_admin_entitlement_path
+
+- if @entitlements.empty?
+  p no entitlements TODO
+- else
+  p Admin entitlements list TODO
+  = render "admin/entitlements/list", entitlements: @entitlements

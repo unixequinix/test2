@@ -34,6 +34,9 @@ gem 'friendly_id', '~> 5.1.0'
 # Logic
 gem 'aasm', '~> 4.1.0'
 
+# Navigation
+gem 'gretel', '~> 3.0.8'
+
 group :development do
   gem 'capistrano', '~> 3.4.0' # Use Capistrano for deployment
   gem 'capistrano-rails', '~> 1.1.2'

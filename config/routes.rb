@@ -3,41 +3,40 @@ Rails.application.routes.draw do
   ## Devise
   ## ------------------------------
 
-  scope :admin do
-    devise_for :admins,
-      controllers: {
-        sessions: 'admin/admins/sessions',
-        passwords: 'admin/admins/passwords'
-      },
-      path_names: { sign_up: 'signup', sign_in: 'login', sign_out: 'logout' }
-  end
+  devise_for :admins,
+    controllers: {
+      sessions: 'admin/sessions',
+      passwords: 'admin/passwords'
+    },
+    path_names: { sign_up: 'signup', sign_in: 'login', sign_out: 'logout' }
 
-  scope :customer do
-    devise_for :customers,
-      controllers: {
-        sessions: 'customer/customers/sessions',
-        registrations: 'customer/customers/registrations',
-        confirmations: 'customer/customers/confirmations',
-        passwords: 'customer/customers/passwords'
-      },
-      path_names: { sign_up: 'signup', sign_in: 'login', sign_out: 'logout' }
-  end
+  devise_for :customers,
+    controllers: {
+      sessions: 'customer/sessions',
+      registrations: 'customer/registrations',
+      confirmations: 'customer/confirmations',
+      passwords: 'customer/passwords'
+    },
+    path_names: { sign_up: 'signup', sign_in: 'login', sign_out: 'logout' }
 
   ## Resources
   ## ------------------------------
 
   namespace :customer do
-    resources :customers, only: [:show]
+  end
+
+  namespace :admin do
+    resources :entitlements
   end
 
   devise_scope :customer do
-    root to: 'customer/customers#show', as: :customer_root
+    root to: 'customer/dashboards#show', as: :customer_root
   end
 
   devise_scope :admin do
-    root to: 'admin/admins#show', as: :admin_root
+    get 'admin', to: 'admin/dashboards#show', as: :admin_root
   end
 
-  root to: 'customer/customers/sessions#new'
+  root to: 'customer/sessions#new'
 
 end
