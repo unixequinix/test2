@@ -168,13 +168,19 @@ nav {
 .submenu {
   display: none;
   position: absolute;
-  top: modules(2.75);
+  top: modules(2.65);
   right: 0;
   margin: 0;
-  padding: 0;
-  z-index: 3;
+  text-align: center;
+  z-index: 1;
 
-  li { display: block; }
+  li {
+    display: block;
+    padding: 0;
+
+    &:first-child { padding: 0; }
+    &:last-child { padding: 0; }
+  }
 }
 
 .link-submenu {
