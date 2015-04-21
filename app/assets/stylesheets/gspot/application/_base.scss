@@ -9,7 +9,7 @@
   padding: 0 modules(0.5);
 
   @include min-screen($bp3) { @include outer-container; }
-  @include min-screen($bp4) { padding: 0 0 modules(3); }
+  @include min-screen($bp4) { padding: 0 modules(3) modules(3); }
 }
 
 .wrapper-field {

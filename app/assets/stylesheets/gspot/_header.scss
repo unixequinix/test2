@@ -16,7 +16,7 @@ header {
   height: auto;
   background-image: image-url("headerbg.jpg");
   background-repeat: repeat-x;
-  background-size: 100% 100%;
+  background-size: 95% 95%;
 
   h1 { margin-bottom: 0; }
 }
@@ -35,7 +35,7 @@ nav {
   color: $white;
 
   @include min-screen($bp2) { display: block; }
-  @include min-screen($bp5) { width: modules(43); }
+  @include min-screen($bp5) { width: 1014px; }
 
   ul {
     margin: 0;
@@ -92,7 +92,7 @@ nav {
     height: auto;
 
     @include min-screen($bp3) {
-      width: modules(6);
+      width: modules(6.5);
       height: auto;
     }
   }
@@ -107,30 +107,29 @@ nav {
   margin: 0 auto;
 
   img { width: 100%; height: auto; }
-
-  &:hover {
-     opacity: 0.8;
-    //@include animation(shake 150ms infinite linear, kraken 150ms infinite linear);
-  }
 }
 
 .language-selection {
   @include mscale ($nav-size);
-  position: relative;
-  margin: 0 0 modules(1);
-  padding: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 modules(0.5);
+  background-color: $white;
   font-weight: bold;
   cursor: pointer;
 
   @include min-screen($bp3) {
     position: absolute;
     top: 45%;
-    right: 0;
+    right: modules(2);
   }
 
   li {
     display: inline-block;
     padding-left: modules(0.25);
+
+    &:first-child { padding-left: 0; }
   }
 
   a {
