@@ -3,8 +3,8 @@
   = link_to t("actions.new"), new_admin_entitlement_path
 
 - if @entitlements.empty?
-  h3 no entitlements TODO
+  h3.section-title-empty No entitlements TODO
 - else
-  h3 Admin entitlements list TODO
+  h3.section-title  Admin entitlements list TODO
   = fa_icon "rss"
   = render "admin/entitlements/list", entitlements: @entitlements

@@ -45,8 +45,6 @@ textarea {
   }
 }
 
-.input { position: relative; }
-
 // _______
 
 .container-main {
@@ -100,6 +98,10 @@ textarea {
   }
 }
 
+.input {
+  position: relative;
+  overflow: hidden;
+}
 
 .admin-forgot-password {
   display: inline-block;

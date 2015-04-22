@@ -5,12 +5,14 @@
 // -------------------------------------------------------
 
 aside {
-  display: inline-block;
+  display: none;
   vertical-align: top;
   min-height: 100%;
   height: 100%;
   width: 13%;
   text-align: center;
+
+  @include min-screen($bp3) { display: inline-block; }
 
   li {
     display: block;

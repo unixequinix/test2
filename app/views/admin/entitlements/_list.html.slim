@@ -6,9 +6,10 @@ table.table-single-field
   tbody
     - entitlements.each do |entitlement|
       tr
-        td = entitlement.name
+        td
+          = link_to admin_entitlement_path(entitlement)
+            = entitlement.name
         td.table-actions-field
           ul
-            li.fa.fa-eye = link_to "see TODO", admin_entitlement_path(entitlement)
             li = link_to "delete TODO", admin_entitlement_path(entitlement), method: :delete, data: { confirm: "Are you sure? TODO" }, remote: true
             li = link_to "edit TODO", edit_admin_entitlement_path(entitlement)
