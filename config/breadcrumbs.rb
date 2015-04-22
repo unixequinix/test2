@@ -61,7 +61,7 @@ crumb :admin_online_products do
   link t("breadcrumbs.online_products"), admin_online_products_path
 end
 
-crumb :admin_online_product do |ticket|
+crumb :admin_online_product do |online_product|
   link online_product.name, edit_admin_online_product_path(online_product)
   parent :admin_online_products
 end

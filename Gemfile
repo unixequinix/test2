@@ -35,6 +35,9 @@ gem 'friendly_id', '~> 5.1.0'
 # Logic
 gem 'aasm', '~> 4.1.0'
 
+# CSV
+gem 'roo', '~> 2.0.0beta1'
+
 # Navigation
 gem 'gretel', '~> 3.0.8'
 

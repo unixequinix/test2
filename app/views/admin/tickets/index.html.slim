@@ -2,6 +2,13 @@
 - provide :actions do
   = link_to t("actions.new"), new_admin_ticket_path, class: "btn btn-action btn-action-new"
 
+p Import Products
+
+= form_tag import_admin_tickets_path, multipart: true do
+  = file_field_tag :file
+  = submit_tag "Import"
+
+
 - if @tickets.empty?
   h3.section-title-empty no tickets TODO
 - else
