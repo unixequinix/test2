@@ -1,0 +1,41 @@
+/* ------------------------------------------------------- *\
+
+  Application header styles
+
+\* ------------------------------------------------------- */
+
+header {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: modules(2);
+  margin: 0;
+  padding: modules(0.25) 0;
+  background-color: $blue;
+
+  h1 {
+    display: inline-block;
+    width: 33%;
+    margin: 0;
+    overflow: hidden;
+    height: modules(2);
+    text-align: center;
+
+    @include min-screen($bp5) {
+      width: auto;
+      text-align: left;
+    }
+  }
+}
+
+.menu-option-trigger {
+  position: absolute;
+  top: modules(0.25);
+  right: modules(0.25);
+  color: $white;
+  text-transform: uppercase;
+
+  @include min-screen($bp3) {
+    padding: modules(0.5) modules(1) 0;
+  }
+}

@@ -1,0 +1,26 @@
+// -------------------------------------------------------
+//
+// Basic imports that must be included in all sections of the aplication
+//
+// -------------------------------------------------------
+
+@import "bourbon";
+@import "gspot/configuration/neat_grid_settings";
+@import "neat";
+
+@import "vendor/normalize";
+@import "vendor/media_queries";
+
+@import "lib/fontango/fontango";
+
+@import "gspot/configuration/colors";
+@import "gspot/configuration/breakpoints";
+
+@import "gspot/admin/base_admin";
+@import "gspot/admin/admin_form";
+@import "gspot/admin/welcome_admin";
+@import "gspot/notifications";
+
+@media print {
+  @import "gspot/print";
+}

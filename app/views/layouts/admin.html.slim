@@ -12,8 +12,10 @@ html [lang=I18n.locale]
     #notifications
       = render 'notifications'
     .wrapper-main
-      = render 'admin/shared/header'
-      = render 'admin/shared/action_bar'
       = render 'admin/shared/sidepanel'
-      = yield
-    = render 'admin/shared/footer'
+      .container-main
+        = render 'admin/shared/header'
+        = render 'admin/shared/action_bar'
+        .container-admin
+          = yield
+        = render 'admin/shared/footer'

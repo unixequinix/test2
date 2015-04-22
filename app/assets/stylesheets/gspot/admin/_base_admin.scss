@@ -1,0 +1,205 @@
+// -------------------------------------------------------
+//
+//  Admin base styles
+//
+// -------------------------------------------------------
+
+
+// HTML
+html {
+  position: relative;
+  min-height: 100%;
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  height: 100%;
+  background-color: $side-panel;
+  color: $light_grey;
+}
+
+h1, h2, h3, p, span, a,
+ul, ol, li {
+  text-decoration: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+h3 {
+  padding: modules(0.5);
+  background-color: $blue;
+  color: $white;
+  font-weight: 100;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+
+table {
+  width: 100%;
+  box-shadow: inset 0px 0px 0px 1px $light_grey;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+
+
+  li { display: inline-block; }
+}
+
+th {
+  padding: modules(0.25) modules(0.5);
+  background-color: $white;
+  font-style: italic;
+  font-weight: 100;
+  text-align: left;
+}
+
+tr {
+  background-color: $white;
+  box-shadow: inset 0px -1px 0px 0px $light_grey;
+
+  &:nth-child(odd) { background-color: $admin_grey; }
+  &:last-child { box-shadow: none; }
+}
+
+td {
+  padding: modules(0.5);
+
+}
+
+.table-single-field {
+  width: 100%;
+
+  .table-actions-field {
+    width: 30%;
+  }
+}
+
+// __________
+
+.container-main {
+  position: absolute;
+  display: inline-block;
+  vertical-align: top;
+  width: 87%;
+  height: 100%;
+  min-height: 100%;
+  background-color: $white;
+}
+
+// BREADCRUMBS
+.action-bar {
+  display: block;
+  width: 100%;
+  padding: modules(1);
+  box-shadow: inset 0 -1px 0px 0px grey;
+
+  @include min-screen($bp3) {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  a {
+    color: $blue;
+
+    &:hover { text-decoration: underline; }
+  }
+}
+
+// ______ BREADCRUMBS ______
+
+.breadcrumbs {
+  display: block;
+  width: 100%;
+  padding-top: modules(.5);
+
+  @include min-screen($bp3) {
+    display: inline-block;
+    vertical-align: middle;
+    width: 50%;
+    padding: 0;
+  }
+}
+
+.action-bar-btns {
+  display: block;
+  width: 100%;
+  padding-top: modules(.5);
+
+  @include min-screen($bp3) {
+    display: inline-block;
+    vertical-align: middle;
+    width: 50%;
+    padding: 0;
+    text-align: right;
+  }
+
+  .btn {
+    display: inline-block;
+    width: 32%;
+    margin-right: 2%;
+    padding: modules(0.5) modules(0.5);
+
+    &:last-child { margin-right: 0; }
+
+    i { padding: 0; }
+
+    span {
+      display: none;
+
+      @include min-screen($bp3) {
+        display: inline-block;
+      }
+    }
+  }
+}
+
+// ___________
+
+.container-admin {
+  padding: modules(2);
+
+  @include outer-container(100%);
+}
+
+.btn {
+  @include appearance(none);
+  @include transition (background-color 150ms linear);
+  display: block;
+  padding: modules(0.5) modules(1);
+  border-radius: 2px;
+  border: 1px solid transparent;
+  box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.5);
+  color: $nuclear;
+  text-transform: uppercase;
+  font-weight: 100;
+  cursor: pointer;
+}
+
+.btn-login {
+  margin-top: modules(1);
+  width: 100%;
+  box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.3);
+  background-color: $magenta;
+
+  &:hover { background-color: lighten($magenta, 8%); }
+}
+
+.btn-primary {
+  clear: both;
+  float: right;
+  min-width: modules(10);
+  margin-top: modules(2);
+  background-color: $green;
+  color: $white;
+
+  span { padding-left: modules(0.25); }
+
+  &:hover {
+    background-color: lighten($green,10%);
+  }
+}

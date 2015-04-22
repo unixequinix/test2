@@ -1,14 +1,14 @@
-table
+table.table-single-field
   thead
     tr
       th Name TODO
-      th Actions TODO
+      th.table-actions-field Actions TODO
   tbody
     - entitlements.each do |entitlement|
       tr
         td = entitlement.name
-        td
+        td.table-actions-field
           ul
-            li = link_to "see TODO", admin_entitlement_path(entitlement)
+            li.fa.fa-eye = link_to "see TODO", admin_entitlement_path(entitlement)
             li = link_to "delete TODO", admin_entitlement_path(entitlement), method: :delete, data: { confirm: "Are you sure? TODO" }, remote: true
             li = link_to "edit TODO", edit_admin_entitlement_path(entitlement)
