@@ -1,4 +1,4 @@
-table
+table.entitlements
   thead
     tr
       th Name TODO
@@ -11,6 +11,7 @@ table
             = entitlement.name
         td.table-actions-field
           ul
-            li = link_to admin_entitlement_path(entitlement), method: :delete, data: { confirm: "Are you sure? TODO" }, remote: true do
+            li.table-action.action-delete = link_to admin_entitlement_path(entitlement), method: :delete, data: { confirm: "Are you sure? TODO" }, remote: true do
               = fa_icon "trash"
-            li = link_to "edit TODO", edit_admin_entitlement_path(entitlement)
+            li.table-action.action-edit = link_to edit_admin_entitlement_path(entitlement) do
+               = fa_icon "edit"

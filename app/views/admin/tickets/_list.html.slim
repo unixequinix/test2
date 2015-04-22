@@ -1,16 +1,17 @@
-table
+table.tickets
   thead
     tr
+      th Number TODO
       th Ticket Type TODO
-      th Name TODO
       th.table-actions-field Actions TODO
   tbody
     - tickets.each do |ticket|
       tr
+        td = link_to ticket.number, admin_ticket_path(ticket)
         td = ticket.ticket_type.name
-        td = ticket.number
         td.table-actions-field
           ul
-            li = link_to "see TODO", admin_ticket_path(ticket)
-            li = link_to "delete TODO", admin_ticket_path(ticket), method: :delete, data: { confirm: "Are you sure? TODO" }, remote: true
-            li = link_to "edit TODO", edit_admin_ticket_path(ticket)
+            li.table-action.action-delete = link_to admin_ticket_path(ticket), method: :delete, data: { confirm: "Are you sure? TODO" }, remote: true do
+              = fa_icon "trash"
+            li.table-action.action-edit = link_to edit_admin_ticket_path(ticket) do
+              = fa_icon "edit"

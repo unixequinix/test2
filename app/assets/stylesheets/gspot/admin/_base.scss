@@ -45,17 +45,20 @@ table {
   width: 100%;
   border-radius: 3px;
   box-shadow: inset 0px 0px 0px 1px $graySilver;
-
-  li { display: inline-block; }
 }
 
 th {
-  padding: modules(0.25) modules(0.5);
-  background-color: $side-panel;
-  color: $nuclear;
-  font-style: italic;
-  font-weight: 100;
-  text-align: left;
+  display: none;
+
+  @include min-screen($bp3) {
+    display: table-cell;
+    padding: modules(0.25) modules(0.5);
+    background-color: $side-panel;
+    color: $nuclear;
+    font-style: italic;
+    font-weight: 100;
+    text-align: left;
+  }
 }
 
 tr {
@@ -67,121 +70,107 @@ tr {
 }
 
 td {
-  padding: modules(0.5);
+  position: relative;
+  display: block;
+  width: 100%;
+  vertical-align: top;
+  padding: modules(0.5) modules(0.5) 0;
+  text-align: right;
+
+  @include min-screen($bp3) {
+    display: table-cell;
+    vertical-align: middle;
+    width: auto;
+    padding: 0;
+    text-align: left;
+  }
 
   a {
+    display: inline-block;
+    padding: 0;
     color: $blue;
+
+     @include min-screen($bp3) { padding: modules(0.5); }
 
     &:hover { text-decoration: underline; }
   }
-}
 
-.table-actions-field { width: 30%; }
-
-// __________
-
-// Main wrapper include aside panel andcontainer main
-.wrapper-main {
-  position: relative;
-  min-height:100%;
-  height: auto;
-}
-
-.container-main {
-  position: absolute;
-  display: inline-block;
-  vertical-align: top;
-  width: 100%;
-  height: auto;
-  min-height: 100%;
-  background-color: $white;
-
-  @include min-screen($bp3) {
+  &:before {
+    position: absolute;
+    top: modules(0.5);
+    left: modules(0.5);
     display: inline-block;
-    width: 87%;
-  }
-}
-
-// BREADCRUMBS
-.action-bar {
-  display: block;
-  width: 100%;
-  padding: modules(0.5);
-  box-shadow: inset 0 0px 2px 0px $light_grey;
-  background-color: $admin_grey;
-
-  @include min-screen($bp3) {
-    overflow: hidden;
-    display: inline-block;
-    vertical-align: middle;
-    padding: modules(1);
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-}
-
-// ______ BREADCRUMBS ______
-
-.breadcrumbs {
-  display: block;
-  width: 100%;
-  padding-top: modules(.5);
-
-  @include min-screen($bp3) {
-    display: inline-block;
-    vertical-align: middle;
     width: 50%;
-    padding: 0;
-  }
+    vertical-align: top;
+    color: $dark_grey;
+    text-align: left;
 
-   a {
-    color: $blue;
-
-    &:hover { text-decoration: underline; }
+    @include min-screen($bp3) { display: none; }
   }
 }
 
-.action-bar-btns {
-  display: block;
+.entitlements {
+  td:nth-of-type(1):before { content: "Name"; }
+  //td:nth-of-type(5):before { content: "Actions"; }
+}
+.ticket-types {
+  td:nth-of-type(1):before { content: "Name:"; }
+  td:nth-of-type(2):before { content: "Entitlement:"; }
+  td:nth-of-type(3):before { content: "Company:"; }
+  td:nth-of-type(4):before { content: "Credit:"; }
+  //td:nth-of-type(5):before { content: "Actions"; }
+}
+
+.tickets {
+  td:nth-of-type(1):before { content: "Number"; }
+  td:nth-of-type(2):before { content: "Ticket Type"; }
+  //td:nth-of-type(5):before { content: "Actions"; }
+}
+
+.table-actions-field {
   width: 100%;
-  padding-top: modules(.5);
+  padding: 0;
 
-  @include min-screen($bp3) {
+  @include min-screen($bp3) { width: 30%; }
+
+  li {
     display: inline-block;
-    vertical-align: middle;
     width: 50%;
-    padding: 0;
-    text-align: right;
-  }
+    padding: modules(0.5);
 
-  .btn {
-    display: inline-block;
-    width: 32%;
-    margin-right: 2%;
-    padding: modules(0.5) modules(0.5);
-
-    @include min-screen($bp3) { width: auto; }
-
-    &:last-child { margin-right: 0; }
-
-    i { padding: 0; }
+    @include min-screen($bp3) {
+      width: auto;
+      padding: 0;
+    }
   }
 }
 
-// ___________
+.table-action {
+  @include mscale($base-font-size*1.5);
+  width: modules(2);
+  height: 100%;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+}
 
-.container-admin {
-  padding: modules(0.5);
+.action-delete{
+  a {
+    color: $red;
 
-  @include min-screen($bp2) {
-    padding: modules(1);
-  }
-
-  @include min-screen($bp3) {
-    @include outer-container(100%);
-    padding: modules(2);
+    &:hover { background-color: lighten($red,30%); }
   }
 }
+
+.action-edit{
+  a {
+    color: $amber;
+
+    &:hover { background-color: lighten($amber,35%); }
+  }
+}
+
+//______ BTN ________
 
 .btn {
   @include appearance(none);

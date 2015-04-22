@@ -5,4 +5,7 @@
   = link_to t("actions.edit"), edit_admin_entitlement_path(@entitlement), class: "btn btn-action btn-action-edit"
 
   = link_to t("actions.delete"), admin_entitlement_path(@entitlement), method: :delete, data: { confirm: "Are you sure? TODO" }, class: "btn btn-action btn-action-delete"
-p = @entitlement.name
+.container-show
+  label
+    | Name
+  p = @entitlement.name

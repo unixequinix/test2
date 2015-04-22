@@ -18,10 +18,11 @@
 @import "gspot/configuration/typography";
 
 @import "gspot/admin/notifications";
-@import "gspot/admin/base_admin";
-@import "gspot/admin/admin_form";
-@import "gspot/admin/aside_admin";
-@import "gspot/admin/header_admin";
+@import "gspot/admin/base";
+@import "gspot/admin/forms";
+@import "gspot/admin/aside";
+@import "gspot/admin/header";
+@import "gspot/admin/common_base";
 
 @media print {
   @import "gspot/print";
