@@ -48,5 +48,7 @@ aside {
     height: 100%;
   }
 
-  &:hover { opacity: 0.7; }
+  img { vertical-align: top; }
+
+  &:hover { opacity: 0.5; }
 }

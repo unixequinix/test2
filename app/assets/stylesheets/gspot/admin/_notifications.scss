@@ -15,11 +15,11 @@
   right: modules(1);
   padding: modules(2);
   border-radius: 4px;
-  background-color: $red;
-  box-shadow: inset 0px 0px 0px 1px $white;
-  color: $white;
+  background-color: lighten($red,35%);
+  box-shadow: inset 0px 0px 0px 2px $red;
+  color: $red;
   text-align: center;
-  z-index: 3;
+  z-index: 6;
 
   @include min-screen($bp3) { left: modules(2); right: modules(2); }
   @include min-screen($bp4) { left: modules(3); right: modules(3); }
@@ -36,11 +36,11 @@
   right: modules(1);
   padding: modules(2);
   border-radius: 4px;
-  background-color: $green;
-  box-shadow: inset 0px 0px 0px 1px $white;
-  color: $white;
+  background-color: lighten($greenKickstarter,35%);
+  box-shadow: inset 0px 0px 0px 2px $greenKickstarter;
+  color: darken($greenKickstarter,10%);
   text-align: center;
-  z-index: 3;
+  z-index: 6;
 
   @include min-screen($bp3) { left: modules(2); right: modules(2); }
   @include min-screen($bp4) { left: modules(3); right: modules(3); }
@@ -66,14 +66,17 @@
 }
 
 .error {
-  position: relative;
-  right: modules(0.25);
-  color: $red;
-  font-weight: bold;
+  @include mscale($base-font-size*0.75);
+  position: absolute;
+  right: modules(0);
+  bottom: modules(0);
+  padding: 0 modules(0.25);
+  color: $white;
+  background-color: $red;
 
   @include min-screen($bp3) {
-    position: absolute;
-    right: modules(0.25);
-    top: 0;
+    @include span-columns(8);
+    bottom: modules(0.5);
+    z-index: 4;
   }
 }

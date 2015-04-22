@@ -1,0 +1,243 @@
+// -------------------------------------------------------
+//
+//  Admin base styles
+//
+// -------------------------------------------------------
+
+
+// HTML
+html {
+  position: relative;
+  min-height: 100%;
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  height: 100%;
+  background-color: $side-panel;
+  color: $light_grey;
+  font-family: Lato;
+  font-weight: 300;
+}
+
+h1, h2, h3, p, span, a,
+ul, ol, li {
+  text-decoration: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.section-title-empty {
+  padding: modules(2);
+  background-color: $light_grey;
+  border-radius: 3px;
+  color: $grey;
+  text-shadow: 0px 1px 1px $admin_grey;
+  text-align: center;
+}
+
+// ________ TABLES _________
+
+table {
+  overflow: hidden;
+  width: 100%;
+  border-radius: 3px;
+  box-shadow: inset 0px 0px 0px 1px $graySilver;
+}
+
+th {
+  display: none;
+
+  @include min-screen($bp3) {
+    display: table-cell;
+    padding: modules(0.25) modules(0.5);
+    background-color: $side-panel;
+    color: $nuclear;
+    font-style: italic;
+    font-weight: 100;
+    text-align: left;
+  }
+}
+
+tr {
+  background-color: $white;
+  box-shadow: inset 0px -1px 0px 0px $graySilver;
+
+  &:nth-child(odd) { background-color: $admin_grey }
+  &:last-child { box-shadow: none; }
+}
+
+td {
+  position: relative;
+  display: block;
+  width: 100%;
+  vertical-align: top;
+  padding: modules(0.5) modules(0.5) 0;
+  text-align: right;
+
+  @include min-screen($bp3) {
+    display: table-cell;
+    vertical-align: middle;
+    width: auto;
+    padding: 0;
+    text-align: left;
+  }
+
+  a {
+    display: inline-block;
+    padding: 0;
+    color: $blue;
+
+     @include min-screen($bp3) { padding: modules(0.5); }
+
+    &:hover { text-decoration: underline; }
+  }
+
+  &:before {
+    position: absolute;
+    top: modules(0.5);
+    left: modules(0.5);
+    display: inline-block;
+    width: 50%;
+    vertical-align: top;
+    color: $dark_grey;
+    text-align: left;
+
+    @include min-screen($bp3) { display: none; }
+  }
+}
+
+.entitlements {
+  td:nth-of-type(1):before { content: "Name"; }
+  //td:nth-of-type(5):before { content: "Actions"; }
+}
+.ticket-types {
+  td:nth-of-type(1):before { content: "Name:"; }
+  td:nth-of-type(2):before { content: "Entitlement:"; }
+  td:nth-of-type(3):before { content: "Company:"; }
+  td:nth-of-type(4):before { content: "Credit:"; }
+  //td:nth-of-type(5):before { content: "Actions"; }
+}
+
+.tickets {
+  td:nth-of-type(1):before { content: "Number"; }
+  td:nth-of-type(2):before { content: "Ticket Type"; }
+  //td:nth-of-type(5):before { content: "Actions"; }
+}
+
+.table-actions-field {
+  width: 100%;
+  padding: 0;
+
+  @include min-screen($bp3) { width: 30%; }
+
+  li {
+    display: inline-block;
+    width: 50%;
+    padding: modules(0.5);
+
+    @include min-screen($bp3) {
+      width: auto;
+      padding: 0;
+    }
+  }
+}
+
+.table-action {
+  @include mscale($base-font-size*1.5);
+  width: modules(2);
+  height: 100%;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.action-delete{
+  a {
+    color: $red;
+
+    &:hover { background-color: lighten($red,30%); }
+  }
+}
+
+.action-edit{
+  a {
+    color: $amber;
+
+    &:hover { background-color: lighten($amber,35%); }
+  }
+}
+
+//______ BTN ________
+
+.btn {
+  @include appearance(none);
+  @include transition (background-color 150ms linear);
+  display: inline-block;
+  padding: modules(0.5);
+  border-radius: 2px;
+  border: 1px solid transparent;
+  box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.5);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.btn-login {
+  margin-top: modules(1);
+  width: 100%;
+  box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.3);
+  background-color: $magenta;
+
+  &:hover { background-color: lighten($magenta, 8%); }
+}
+
+.btn-primary {
+  clear: both;
+  float: right;
+  min-width: modules(10);
+  margin-top: modules(2);
+  background-color: $greenKickstarter;
+  color: $white;
+
+  //span { padding-left: modules(0.25); }
+
+  &:hover {
+    background-color: lighten($greenKickstarter,10%);
+  }
+}
+
+.btn-action {
+  max-width: modules(6);
+  color: $white;
+  text-align: center;
+
+  //span { padding-left: modules(0.25); }
+  i { padding-right: modules(0.25); }
+}
+
+.btn-action-new {
+  background-color: $greenKickstarter;
+  color: $white;
+
+  &:hover { background-color: lighten($greenKickstarter,10%); }
+}
+
+.btn-action-back {
+  background-color: $grey;
+
+  &:hover { background-color: lighten($grey,10%); }
+}
+
+.btn-action-edit {
+  background-color: $amber;
+
+  &:hover { background-color: lighten($amber,10%); }
+}
+
+.btn-action-delete {
+  background-color: $red;
+
+  &:hover { background-color: lighten($red,10%); }
+}

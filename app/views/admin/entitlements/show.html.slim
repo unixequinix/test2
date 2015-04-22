@@ -1,7 +1,11 @@
 - breadcrumb :admin_entitlement, @entitlement
 - provide :actions do
-  = link_to t("actions.back"), admin_entitlements_path
-  = link_to t("actions.edit"), edit_admin_entitlement_path(@entitlement)
-  = link_to t("actions.delete"), admin_entitlement_path(@entitlement), method: :delete, data: { confirm: "Are you sure? TODO" }
+  = link_to t("actions.back"), admin_entitlements_path, class: "btn btn-action btn-action-back"
 
-p = @entitlement.name
+  = link_to t("actions.edit"), edit_admin_entitlement_path(@entitlement), class: "btn btn-action btn-action-edit"
+
+  = link_to t("actions.delete"), admin_entitlement_path(@entitlement), method: :delete, data: { confirm: "Are you sure? TODO" }, class: "btn btn-action btn-action-delete"
+.container-show
+  label
+    | Name
+  p = @entitlement.name
