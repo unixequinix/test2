@@ -11,6 +11,7 @@
 // Custom fonts
 @include font-face(Bebas, 'Bebas-Bold', bold, $asset-pipeline: true);
 @include font-face(Bebas, 'Bebas-Regular', normal, $asset-pipeline: true);
+@include font-face(Lato, 'lato-regular', normal, $asset-pipeline: true);
 
 
 // Font families

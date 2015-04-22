@@ -30,12 +30,11 @@ textarea {
   overflow: hidden;
   vertical-align: top;
   width: 100%;
-  padding:  0 0 modules(0.5);
+  padding: 0 0 modules(0.5);
   border: none;
   background-color: transparent !important;
-  box-shadow: inset 12px -57px 0px -56px $light_grey;
+  box-shadow: inset 12px -57px 0px -56px $graySilver;
   color: $dark_grey;
-  font-weight: lighter;
   text-align: left;
 
   @include min-screen($bp3) {
@@ -59,5 +58,5 @@ textarea {
 .input {
   position: relative;
   overflow: hidden;
-  margin-bottom: modules(1);
+  padding-bottom: modules(1);
 }

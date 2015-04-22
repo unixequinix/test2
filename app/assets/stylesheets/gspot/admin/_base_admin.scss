@@ -17,6 +17,8 @@ body {
   height: 100%;
   background-color: $side-panel;
   color: $light_grey;
+  font-family: Lato;
+  font-weight: 300;
 }
 
 h1, h2, h3, p, span, a,
@@ -34,7 +36,6 @@ ul, ol, li {
   color: $grey;
   text-shadow: 0px 1px 1px $admin_grey;
   text-align: center;
-  font-weight: 100;
 }
 
 // ________ TABLES _________
@@ -43,7 +44,7 @@ table {
   overflow: hidden;
   width: 100%;
   border-radius: 3px;
-  box-shadow: inset 0px 0px 0px 1px $light_grey;
+  box-shadow: inset 0px 0px 0px 1px $graySilver;
 
   li { display: inline-block; }
 }
@@ -191,12 +192,11 @@ td {
   border: 1px solid transparent;
   box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.5);
   text-transform: uppercase;
-  font-weight: 100;
   cursor: pointer;
 }
 
 .btn-login {
-  margin-top: modules(2);
+  margin-top: modules(1);
   width: 100%;
   box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.3);
   background-color: $magenta;
@@ -212,7 +212,7 @@ td {
   background-color: $greenKickstarter;
   color: $white;
 
-  span { padding-left: modules(0.25); }
+  //span { padding-left: modules(0.25); }
 
   &:hover {
     background-color: lighten($greenKickstarter,10%);
@@ -224,7 +224,7 @@ td {
   color: $white;
   text-align: center;
 
-  span { padding-left: modules(0.25); }
+  //span { padding-left: modules(0.25); }
   i { padding-right: modules(0.25); }
 }
 
