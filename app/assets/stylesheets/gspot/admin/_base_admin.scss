@@ -60,9 +60,9 @@ th {
 
 tr {
   background-color: $white;
-  box-shadow: inset 0px -1px 0px 0px $light_grey;
+  box-shadow: inset 0px -1px 0px 0px $graySilver;
 
-  &:nth-child(odd) { background-color: $admin_grey; }
+  &:nth-child(odd) { background-color: $admin_grey }
   &:last-child { box-shadow: none; }
 }
 
