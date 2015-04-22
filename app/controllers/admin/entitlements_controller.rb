@@ -16,7 +16,7 @@ class Admin::EntitlementsController < Admin::BaseController
     @entitlement = Entitlement.new(permitted_params)
     if @entitlement.save
       flash[:notice] = "created TODO"
-      redirect_to admin_entitlement_url(@entitlement)
+      redirect_to admin_entitlements_url
     else
       flash[:error] = "ERROR TODO"
       render :new

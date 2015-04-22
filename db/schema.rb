@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150421164407) do
+ActiveRecord::Schema.define(version: 20150422162624) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,13 @@ ActiveRecord::Schema.define(version: 20150421164407) do
   add_index "customers", ["email"], name: "index_customers_on_email", unique: true, using: :btree
   add_index "customers", ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true, using: :btree
 
+  create_table "entitlement_ticket_types", force: :cascade do |t|
+    t.integer  "entitlement_id"
+    t.integer  "ticket_type_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
   create_table "entitlements", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -86,12 +93,11 @@ ActiveRecord::Schema.define(version: 20150421164407) do
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
   create_table "ticket_types", force: :cascade do |t|
-    t.integer  "entitlement_id"
     t.string   "name"
     t.string   "company"
-    t.decimal  "credit",         precision: 8, scale: 2
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.decimal  "credit",     precision: 8, scale: 2
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
   end
 
   create_table "tickets", force: :cascade do |t|

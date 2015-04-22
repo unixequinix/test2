@@ -16,7 +16,7 @@ class Admin::TicketsController < Admin::BaseController
     @ticket = Ticket.new(permitted_params)
     if @ticket.save
       flash[:notice] = "created TODO"
-      redirect_to admin_ticket_url(@ticket)
+      redirect_to admin_tickets_url
     else
       flash[:error] = "ERROR TODO"
       render :new

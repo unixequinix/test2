@@ -16,7 +16,7 @@ class Admin::TicketTypesController < Admin::BaseController
     @ticket_type = TicketType.new(permitted_params)
     if @ticket_type.save
       flash[:notice] = "created TODO"
-      redirect_to admin_ticket_type_url(@ticket_type)
+      redirect_to admin_ticket_types_url
     else
       flash[:error] = "ERROR TODO"
       render :new
@@ -48,7 +48,7 @@ class Admin::TicketTypesController < Admin::BaseController
   private
 
   def permitted_params
-    params.require(:ticket_type).permit(:name, :company, :credit, :entitlement_id)
+    params.require(:ticket_type).permit(:name, :company, :credit, entitlements_ids: [])
   end
 
 end
