@@ -7,7 +7,14 @@
 // HTML base styles
 // ------------------------------------------------------
 
-label { display: none; }
+label {
+  display: block;
+
+  @include min-screen($bp3) {
+    @include span-columns(4);
+    vertical-align: middle;
+  }
+}
 
 input[type=text],
 input[type=password],
@@ -21,14 +28,19 @@ textarea {
   @include appearance(none);
   @include placeholder { color: $light_blue; }
   background-color: transparent !important;
-  box-shadow: inset 12px -57px 0px -56px rgba(255,255,255,.3);
+  box-shadow: inset 12px -57px 0px -56px $grey;
   border: none;
-  color: $nuclear;
+  color: $light_grey;
   font-weight: lighter;
   overflow: hidden;
   padding: modules(0.5) 0;
   text-align: left;
   width: 100%;
+
+  @include min-screen($bp3) {
+    @include span-columns(8);
+    vertical-align: middle;
+  }
 
   &:focus {
     box-shadow: inset 12px -57px 0px -56px $magenta;
@@ -39,12 +51,6 @@ textarea {
   &:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px $blue inset !important;
     -webkit-text-fill-color: $nuclear;
-  }
-
-  &.big {
-    @include min-screen($bp3) {
-      @include mscale($base_font_size*2);
-    }
   }
 }
 

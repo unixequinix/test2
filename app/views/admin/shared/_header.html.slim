@@ -1,2 +1,3 @@
-= link_to destroy_customer_session_path, method: :delete do
-  span Cerrar sesión TODO
+header
+  = link_to destroy_admin_session_path, method: :delete, remote: true, class: 'menu-option-trigger' do
+    span CERRAR TODO

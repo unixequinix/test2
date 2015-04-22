@@ -15,12 +15,11 @@
 
 @import "gspot/configuration/colors";
 @import "gspot/configuration/breakpoints";
-@import "gspot/notifications";
 
 @import "gspot/admin/base_admin";
 @import "gspot/admin/admin_form";
-@import "gspot/admin/aside_admin";
-@import "gspot/admin/header_admin";
+@import "gspot/admin/welcome_admin";
+@import "gspot/notifications";
 
 @media print {
   @import "gspot/print";
