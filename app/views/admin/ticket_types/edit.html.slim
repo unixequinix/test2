@@ -1,0 +1,5 @@
+- breadcrumb :admin_ticket_type, @ticket_type
+- provide :actions do
+  = link_to t("actions.back"), admin_ticket_type_url(@ticket_type)
+
+= render "form", ticket_type: @ticket_type

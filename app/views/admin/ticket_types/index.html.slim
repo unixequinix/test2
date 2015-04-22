@@ -1,0 +1,9 @@
+- breadcrumb :admin_tickets
+- provide :actions do
+  = link_to t("actions.new"), new_admin_ticket_type_path
+
+- if @ticket_types.empty?
+  p no ticket types TODO
+- else
+  p Admin ticket types list TODO
+  = render "admin/ticket_types/list", ticket_types: @ticket_types

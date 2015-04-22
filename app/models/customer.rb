@@ -28,4 +28,13 @@ class Customer < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
+
+  # Associations
+  has_many :admissions
+  has_many :tickets, through: :admissions
+
+  # Validations
+  validates :email, presence: true, uniqueness: true
+  validates :name, :surname, presence: true
+
 end

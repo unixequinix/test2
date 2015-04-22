@@ -27,6 +27,8 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :entitlements
+    resources :ticket_types
+    resources :tickets
   end
 
   devise_scope :customer do
