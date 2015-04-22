@@ -19,7 +19,7 @@
   box-shadow: inset 0px 0px 0px 1px $white;
   color: $white;
   text-align: center;
-  z-index: 3;
+  z-index: 6;
 
   @include min-screen($bp3) { left: modules(2); right: modules(2); }
   @include min-screen($bp4) { left: modules(3); right: modules(3); }
@@ -40,7 +40,7 @@
   box-shadow: inset 0px 0px 0px 1px $white;
   color: $white;
   text-align: center;
-  z-index: 3;
+  z-index: 6;
 
   @include min-screen($bp3) { left: modules(2); right: modules(2); }
   @include min-screen($bp4) { left: modules(3); right: modules(3); }
@@ -70,10 +70,4 @@
   right: modules(0.25);
   color: $red;
   font-weight: bold;
-
-  @include min-screen($bp3) {
-    position: absolute;
-    right: modules(0.25);
-    top: 0;
-  }
 }
