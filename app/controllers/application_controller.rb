@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
     extracted_locale =  session[:locale] ||
                         extract_locale_from_accept_language_header ||
                         I18n.default_locale
-    if (I18n.available_locales.any? {|loc| loc.to_s == extracted_locale})
+    if I18n.available_locales.any? { |loc| loc.to_s == extracted_locale }
       I18n.locale = extracted_locale
       session[:locale] = extracted_locale
     end

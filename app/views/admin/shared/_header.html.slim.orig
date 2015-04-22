@@ -1,0 +1,11 @@
+header
+<<<<<<< HEAD
+  .menu-trigger
+    = image_tag ("admin-panel-logo.png")
+
+  = link_to destroy_admin_session_path, method: :delete, remote: true, class: 'menu-option' do
+    span CERRAR TODO
+=======
+  = link_to destroy_admin_session_path, method: :delete, remote: true, class: 'menu-option-trigger' do
+    span CERRAR TODO
+>>>>>>> development

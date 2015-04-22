@@ -4,6 +4,7 @@ gem 'rails', '4.2.1'
 
 # Database
 gem 'pg', '~> 0.18.1'
+gem 'schema_plus', '~> 2.0.0.pre12'
 
 # Assets
 gem 'jquery-rails', '~> 4.0.3'
@@ -70,6 +71,8 @@ end
 
 group :development, :test, :staging do
   gem 'faker', '~> 1.4.3'
+  gem 'rubocop', '~>0.30.1', require: false # Code quality https://github.com/bbatsov/rubocop
+  gem 'simplecov', '~> 0.10.0', require: false # Code quality https://github.com/colszowka/simplecov
 end
 
 group :test do
@@ -82,4 +85,3 @@ group :production, :staging do
   gem 'therubyracer', '~> 0.12.2', platforms: :ruby
   gem 'dalli', '~> 2.7.4' # Memcached
 end
-

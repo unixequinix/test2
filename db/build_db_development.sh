@@ -22,3 +22,4 @@ bin/rake RAILS_ENV=test db:migrate
 cd $current_dir
 
 bundle exec annotate --exclude tests,fixtures
+bundle exec erd

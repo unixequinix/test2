@@ -1,0 +1,52 @@
+# Offense count: 155
+Metrics/AbcSize:
+  Max: 38
+
+# Offense count: 13
+# Configuration parameters: CountComments.
+Metrics/ClassLength:
+  Max: 146
+
+# Offense count: 38
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+# Offense count: 153
+# Configuration parameters: CountComments.
+Metrics/MethodLength:
+  Max: 16
+
+# Offense count: 22
+Metrics/PerceivedComplexity:
+  Max: 11
+
+AllCops:
+  Exclude:
+    - 'vendor/**/*'
+    - 'spec/fixtures/**/*'
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'script/**/*'
+    - 'bin/**/*'
+    - 'Guardfile'
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+  SupportedStyles:
+    - nested
+    - compact
+
+Style/Encoding:
+  Enabled: true
+
+Style/Encoding:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 99
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/StringLiteralsInInterpolation:
+  Enabled: false

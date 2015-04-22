@@ -1,0 +1,14 @@
+table
+  thead
+    tr
+      th Name TODO
+      th Actions TODO
+  tbody
+    - ticket_types.each do |ticket_type|
+      tr
+        td = ticket_type.name
+        td
+          ul
+            li = link_to "see TODO", admin_ticket_type_path(ticket_type)
+            li = link_to "delete TODO", admin_ticket_type_path(ticket_type), method: :delete, data: { confirm: "Are you sure? TODO" }, remote: true
+            li = link_to "edit TODO", edit_admin_ticket_type_path(ticket_type)
