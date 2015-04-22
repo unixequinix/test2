@@ -3,6 +3,12 @@ table
     tr
       th Entitlement TODO
       th Name TODO
+<<<<<<< HEAD
+      th.table-actions-field  Actions TODO
+  tbody
+    - ticket_types.each do |ticket_type|
+      tr
+=======
       th Company TODO
       th Credit TODO
       th Actions TODO
@@ -13,6 +19,7 @@ table
         td = ticket_type.name
         td = ticket_type.company
         td = ticket_type.credit
+>>>>>>> development
         td
           = link_to admin_ticket_type_path(ticket_type)
             = ticket_type.name

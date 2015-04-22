@@ -1,6 +1,7 @@
 class CreateTicketTypes < ActiveRecord::Migration
   def change
     create_table :ticket_types do |t|
+      t.belongs_to :entitlement
       t.string :name
       t.string :company
       t.decimal :credit, precision: 8, scale: 2
