@@ -1,7 +1,7 @@
 - breadcrumb :admin_ticket, @ticket
 - provide :actions do
-  = link_to t("actions.back"), admin_tickets_path
-  = link_to t("actions.edit"), edit_admin_ticket_path(@ticket)
-  = link_to t("actions.delete"), admin_ticket_path(@ticket), method: :delete, data: { confirm: "Are you sure? TODO" }
+  = link_to t("actions.back"), admin_tickets_path, class: "btn btn-action btn-action-back"
+  = link_to t("actions.edit"), edit_admin_ticket_path(@ticket), class: "btn btn-action btn-action-edit"
+  = link_to t("actions.delete"), admin_ticket_path(@ticket), method: :delete, data: { confirm: "Are you sure? TODO" }, class: "btn btn-action btn-action-delete"
 
 p = @ticket.number

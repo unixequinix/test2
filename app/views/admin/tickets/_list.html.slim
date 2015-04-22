@@ -2,12 +2,12 @@ table
   thead
     tr
       th Name TODO
-      th Actions TODO
+      th.table-actions-field Actions TODO
   tbody
     - tickets.each do |ticket|
       tr
         td = ticket.number
-        td
+        td.table-actions-field
           ul
             li = link_to "see TODO", admin_ticket_path(ticket)
             li = link_to "delete TODO", admin_ticket_path(ticket), method: :delete, data: { confirm: "Are you sure? TODO" }, remote: true

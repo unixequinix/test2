@@ -36,7 +36,7 @@
   right: modules(1);
   padding: modules(2);
   border-radius: 4px;
-  background-color: $green;
+  background-color: $greenKickstarter;
   box-shadow: inset 0px 0px 0px 1px $white;
   color: $white;
   text-align: center;
@@ -66,8 +66,17 @@
 }
 
 .error {
-  position: relative;
-  right: modules(0.25);
-  color: $red;
-  font-weight: bold;
+  @include mscale($base-font-size*0.75);
+  position: absolute;
+    right: modules(0);
+    top: 0;
+    padding: 0 modules(0.25);
+  color: $white;
+  background-color: $red;
+
+  @include min-screen($bp3) {
+    @include span-columns(8);
+
+    z-index: 4;
+  }
 }
