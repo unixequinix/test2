@@ -1,0 +1,5 @@
+- breadcrumb :new_admin_online_product
+- provide :actions do
+  = link_to t("actions.back"), admin_online_products_path, class: "btn btn-action btn-action-back"
+
+= render "form", online_product: @online_product

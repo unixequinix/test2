@@ -16,6 +16,8 @@ class TicketType < ActiveRecord::Base
   has_many :entitlement_ticket_types
   has_many :entitlements, through: :entitlement_ticket_types
 
+  accepts_nested_attributes_for :entitlements
+
   # Validations
   validates :name, :company, :credit, :entitlements, presence: true
 

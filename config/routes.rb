@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     resources :entitlements
     resources :ticket_types
     resources :tickets
+    resources :online_products
   end
 
   devise_scope :customer do

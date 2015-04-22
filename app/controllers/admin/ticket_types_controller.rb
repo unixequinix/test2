@@ -1,7 +1,7 @@
 class Admin::TicketTypesController < Admin::BaseController
 
   def index
-    @ticket_types = TicketType.all
+    @ticket_types = TicketType.all.includes(:entitlements)
   end
 
   def show
@@ -48,7 +48,7 @@ class Admin::TicketTypesController < Admin::BaseController
   private
 
   def permitted_params
-    params.require(:ticket_type).permit(:name, :company, :credit, entitlements_ids: [])
+    params.require(:ticket_type).permit(:name, :company, :credit, entitlement_ids: [])
   end
 
 end
