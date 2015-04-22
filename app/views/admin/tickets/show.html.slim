@@ -4,4 +4,7 @@
   = link_to t("actions.edit"), edit_admin_ticket_path(@ticket)
   = link_to t("actions.delete"), admin_ticket_path(@ticket), method: :delete, data: { confirm: "Are you sure? TODO" }
 
+P Ticket Type
+p = @ticket.ticket_type.name
+p Number
 p = @ticket.number

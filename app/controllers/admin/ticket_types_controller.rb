@@ -48,7 +48,7 @@ class Admin::TicketTypesController < Admin::BaseController
   private
 
   def permitted_params
-    params.require(:ticket_type).permit(:name, :company, :credit)
+    params.require(:ticket_type).permit(:name, :company, :credit, :entitlement_id)
   end
 
 end

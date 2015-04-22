@@ -2,12 +2,13 @@
 #
 # Table name: ticket_types
 #
-#  id         :integer          not null, primary key
-#  name       :string
-#  company    :string
-#  credit     :decimal(8, 2)
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id             :integer          not null, primary key
+#  entitlement_id :integer
+#  name           :string
+#  company        :string
+#  credit         :decimal(8, 2)
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
 #
 
 FactoryGirl.define do

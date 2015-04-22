@@ -1,11 +1,13 @@
 table
   thead
     tr
+      th Ticket Type TODO
       th Name TODO
       th Actions TODO
   tbody
     - tickets.each do |ticket|
       tr
+        td = ticket.ticket_type.name
         td = ticket.number
         td
           ul

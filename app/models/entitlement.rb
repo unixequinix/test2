@@ -11,8 +11,13 @@
 class Entitlement < ActiveRecord::Base
 
   # Associations
-  has_and_belongs_to_many :ticket_types
+  has_many :ticket_types
 
   # Validations
   validates :name, presence: true
+
+  # Select options with all the entitlements
+  def self.form_selector
+    all.map{ |entitlement| [entitlement.name, entitlement.id] }
+  end
 end

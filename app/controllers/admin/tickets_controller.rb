@@ -48,7 +48,7 @@ class Admin::TicketsController < Admin::BaseController
   private
 
   def permitted_params
-    params.require(:ticket).permit(:number)
+    params.require(:ticket).permit(:number, :ticket_type_id)
   end
 
 end
