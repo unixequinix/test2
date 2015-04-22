@@ -15,8 +15,8 @@
 
 @import "gspot/configuration/colors";
 @import "gspot/configuration/breakpoints";
-@import "gspot/notifications";
 
+@import "gspot/admin/notifications";
 @import "gspot/admin/base_admin";
 @import "gspot/admin/admin_form";
 @import "gspot/admin/aside_admin";
