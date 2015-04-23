@@ -4,7 +4,6 @@
 //
 // -------------------------------------------------------
 
-
 // Main wrapper include aside panel andcontainer main
 .wrapper-main {
   position: relative;
@@ -108,7 +107,6 @@
   }
 }
 
-
 .container-show {
   padding: modules(1);
   border-radius: 3px;
@@ -124,4 +122,18 @@
 
     i { padding-right: modules(0.5); }
   }
+}
+
+.wrapper-add-file {
+  @include transition(opacity 83ms linear);
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  padding: modules(1);
+  border-radius: 3px;
+  background-color: $input_grey;
+  border: 2px dashed darken($input_grey,30%);
+  cursor: pointer;
+
+  &:hover { background-color: $admin_grey; }
 }

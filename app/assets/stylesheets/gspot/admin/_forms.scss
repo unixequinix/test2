@@ -7,6 +7,10 @@
 // HTML base styles
 // ------------------------------------------------------
 
+form {
+  overflow: hidden;
+}
+
 label {
   display: block;
 
@@ -39,7 +43,7 @@ textarea {
 
   @include min-screen($bp3) {
     @include span-columns(8);
-    margin: 0;
+    @include omega(0);
     vertical-align: middle;
   }
 
@@ -54,6 +58,38 @@ textarea {
     -webkit-text-fill-color: $nuclear;
   }
 }
+
+input[type=checkbox] { display: none;}
+
+.collection_check_boxes {
+  display: inline-block;
+  width: 100%;
+  margin: 0 0 modules(1);
+  background-color: $input_grey;
+  box-shadow: inset 0px 0px 0px 1px $graySilver;
+  border-radius:4px;
+  color: darken($graySilver,20%);
+  padding: modules(0.5);
+  cursor:pointer;
+
+   @include min-screen($bp3) {
+    width: auto;
+    margin: modules(0.5) modules(0.5);
+
+    &:last-child { margin-right: 0; }
+  }
+
+  &:hover { background-color: $white; }
+}
+
+input[type=checkbox]:checked + .collection_check_boxes {
+  background-color: $blue;
+  color: $white;
+  box-shadow: none;
+
+  &:hover { background-color: $light_blue; }
+}
+
 
 .input {
   position: relative;

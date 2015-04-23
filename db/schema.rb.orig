@@ -68,8 +68,13 @@ ActiveRecord::Schema.define(version: 20150422171942) do
   end
 
   create_table "admissions", force: :cascade do |t|
+<<<<<<< HEAD
+    t.integer  "customer_id", null: false, index: {name: "fk__admissions_customer_id"}, foreign_key: {references: "customers", name: "fk_admissions_customer_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "ticket_id",   null: false, index: {name: "fk__admissions_ticket_id"}, foreign_key: {references: "tickets", name: "fk_admissions_ticket_id", on_update: :no_action, on_delete: :no_action}
+=======
     t.integer  "customer_id", index: {name: "fk__admissions_customer_id"}, foreign_key: {references: "customers", name: "fk_admissions_customer_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "ticket_id",   index: {name: "fk__admissions_ticket_id"}, foreign_key: {references: "tickets", name: "fk_admissions_ticket_id", on_update: :no_action, on_delete: :no_action}
+>>>>>>> mm-layout-design
     t.decimal  "credit",      precision: 8, scale: 2
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
@@ -82,8 +87,13 @@ ActiveRecord::Schema.define(version: 20150422171942) do
   end
 
   create_table "entitlement_ticket_types", force: :cascade do |t|
+<<<<<<< HEAD
+    t.integer  "entitlement_id", null: false, index: {name: "fk__entitlement_ticket_types_entitlement_id"}, foreign_key: {references: "entitlements", name: "fk_entitlement_ticket_types_entitlement_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "ticket_type_id", null: false, index: {name: "fk__entitlement_ticket_types_ticket_type_id"}, foreign_key: {references: "ticket_types", name: "fk_entitlement_ticket_types_ticket_type_id", on_update: :no_action, on_delete: :no_action}
+=======
     t.integer  "entitlement_id", index: {name: "fk__entitlement_ticket_types_entitlement_id"}, foreign_key: {references: "entitlements", name: "fk_entitlement_ticket_types_entitlement_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "ticket_type_id", index: {name: "fk__entitlement_ticket_types_ticket_type_id"}, foreign_key: {references: "ticket_types", name: "fk_entitlement_ticket_types_ticket_type_id", on_update: :no_action, on_delete: :no_action}
+>>>>>>> mm-layout-design
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end
