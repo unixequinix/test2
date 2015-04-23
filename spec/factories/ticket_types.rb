@@ -12,9 +12,17 @@
 
 FactoryGirl.define do
   factory :ticket_type do
-    name "MyString"
-company "MyString"
-credit "9.99"
+    name { Faker::Lorem.word }
+    company { Faker::Lorem.word }
+    credit "9.99"
+
+    transient do
+      posts_count 5
+    end
+
+    after(:build) do |ticket_type, evaluator|
+      ticket_type.entitlements << FactoryGirl.build_list(:entitlement, evaluator.posts_count)
+    end
   end
 
 end

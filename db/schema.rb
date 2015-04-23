@@ -31,14 +31,6 @@ ActiveRecord::Schema.define(version: 20150422171942) do
     t.datetime "updated_at",             null: false
   end
 
-  create_table "admissions", force: :cascade do |t|
-    t.integer  "customer_id"
-    t.integer  "ticket_id"
-    t.decimal  "credit",      precision: 8, scale: 2
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
   create_table "customers", force: :cascade do |t|
     t.string   "email",                  default: "", null: false, index: {name: "index_customers_on_email", unique: true}
     t.string   "name",                   default: "", null: false
@@ -60,17 +52,40 @@ ActiveRecord::Schema.define(version: 20150422171942) do
     t.datetime "updated_at",             null: false
   end
 
-  create_table "entitlement_ticket_types", force: :cascade do |t|
-    t.integer  "entitlement_id"
-    t.integer  "ticket_type_id"
+  create_table "ticket_types", force: :cascade do |t|
+    t.string   "name"
+    t.string   "company"
+    t.decimal  "credit",     precision: 8, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tickets", force: :cascade do |t|
+    t.integer  "ticket_type_id", index: {name: "fk__tickets_ticket_type_id"}, foreign_key: {references: "ticket_types", name: "fk_tickets_ticket_type_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "number"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+  end
+
+  create_table "admissions", force: :cascade do |t|
+    t.integer  "customer_id", null: false, index: {name: "fk__admissions_customer_id"}, foreign_key: {references: "customers", name: "fk_admissions_customer_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "ticket_id",   null: false, index: {name: "fk__admissions_ticket_id"}, foreign_key: {references: "tickets", name: "fk_admissions_ticket_id", on_update: :no_action, on_delete: :no_action}
+    t.decimal  "credit",      precision: 8, scale: 2
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "entitlements", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "entitlement_ticket_types", force: :cascade do |t|
+    t.integer  "entitlement_id", null: false, index: {name: "fk__entitlement_ticket_types_entitlement_id"}, foreign_key: {references: "entitlements", name: "fk_entitlement_ticket_types_entitlement_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "ticket_type_id", null: false, index: {name: "fk__entitlement_ticket_types_ticket_type_id"}, foreign_key: {references: "ticket_types", name: "fk_entitlement_ticket_types_ticket_type_id", on_update: :no_action, on_delete: :no_action}
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -88,21 +103,6 @@ ActiveRecord::Schema.define(version: 20150422171942) do
     t.decimal  "amount",      precision: 8, scale: 2
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-  end
-
-  create_table "ticket_types", force: :cascade do |t|
-    t.string   "name"
-    t.string   "company"
-    t.decimal  "credit",     precision: 8, scale: 2
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "tickets", force: :cascade do |t|
-    t.integer  "ticket_type_id"
-    t.string   "number"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
   end
 
 end

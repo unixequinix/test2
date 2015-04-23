@@ -12,9 +12,9 @@
 
 FactoryGirl.define do
   factory :online_product do
-    name "MyString"
-description "MyText"
-amount "9.99"
+    name { Faker::Lorem.word }
+    description { Faker::Lorem.sentence }
+    amount "9.99"
   end
 
 end

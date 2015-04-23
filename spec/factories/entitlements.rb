@@ -10,7 +10,7 @@
 
 FactoryGirl.define do
   factory :entitlement do
-    name "MyString"
+    name { Faker::Lorem.word }
   end
 
 end

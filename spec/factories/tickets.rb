@@ -11,7 +11,8 @@
 
 FactoryGirl.define do
   factory :ticket do
-    number "MyString"
+    number { Faker::Lorem.word }
+    ticket_type
   end
 
 end
