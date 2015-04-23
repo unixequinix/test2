@@ -90,14 +90,11 @@ td {
 
   @include min-screen($bp3) {
     display: table-cell;
-    overflow: hidden;
     vertical-align: middle;
     max-width: modules(9);
     width: auto;
     padding: 0;
     text-align: left;
-    white-space: nowrap;
-    text-overflow: ellipsis;
   }
 
   a {
@@ -130,7 +127,7 @@ td {
   clear: both;
   width: auto;
   max-width: modules(6);
-  margin: modules(0.25);
+  margin: modules(0.15);
   padding: modules(0.25);
   border-radius: 3px;
   background-color: $dark_grey;
@@ -144,7 +141,6 @@ td {
     vertical-align: middle;
     float: none;
     width: auto;
-    margin: 0 modules(0.25);
     padding: modules(0.25);
   }
 }
@@ -159,6 +155,16 @@ td {
   td:nth-of-type(1):before { content: "Name:"; }
   td:nth-of-type(2):before { content: "Company:"; }
   td:nth-of-type(3):before { content: "Credit:"; }
+  td:nth-of-type(4):before {
+    content: "Entitlements:";
+    position: relative;
+    display: block;
+    width: 100%;
+    margin-bottom: modules(1);
+    text-align: center;
+
+     @include min-screen($bp3) { display: none; }
+  }
   //td:nth-of-type(5):before { content: "Actions"; }
 }
 
