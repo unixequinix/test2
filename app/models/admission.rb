@@ -15,5 +15,4 @@ class Admission < ActiveRecord::Base
   # Associations
   belongs_to :customer
   belongs_to :ticket
-
 end
