@@ -14,8 +14,7 @@ table.ticket-types
         td = ticket_type.credit
         td
           - ticket_type.entitlements.each do |entitlement|
-            span = entitlement.name
-            br
+            span.table-entitlemnet = entitlement.name
         td.table-actions-field
           ul
             li.table-action.action-delete = link_to admin_ticket_type_path(ticket_type), method: :delete, data: { confirm: "Are you sure? TODO" }, remote: true do

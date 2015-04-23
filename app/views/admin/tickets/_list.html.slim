@@ -15,5 +15,3 @@ table.tickets
               = fa_icon "trash"
             li.table-action.action-edit = link_to edit_admin_ticket_path(ticket) do
               = fa_icon "edit"
-
-= link_to "Download CSV", admin_tickets_path(format: "csv"), class: "btn btn-action btn-action-import"

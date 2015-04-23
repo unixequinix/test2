@@ -1,14 +1,18 @@
 - breadcrumb :admin_tickets
 - provide :actions do
   = link_to t("actions.new"), new_admin_ticket_path, class: "btn btn-action btn-action-new"
+  = link_to admin_tickets_path(format: "csv"), class: "btn btn-action btn-action-back"
+    = fa_icon "download"
+    | CSV
 
-p
+p.section-header
   = fa_icon "upload"
   | Import Products
 
-= form_tag import_admin_tickets_path, multipart: true do
-  = file_field_tag :file, class: "wrapper-add-file"
-  = submit_tag "Import", class: "btn btn-action btn-action-import"
+.wrapper-add-file
+  = form_tag import_admin_tickets_path, multipart: true do
+    = file_field_tag :file
+    = submit_tag "Import", class: "btn btn-secondary"
 
 
 - if @tickets.empty?
