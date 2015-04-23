@@ -7,16 +7,14 @@
 // HTML base styles
 // ------------------------------------------------------
 
-form {
-  overflow: hidden;
-}
-
 label {
   display: block;
+  padding-bottom: modules(1);
 
   @include min-screen($bp3) {
     @include span-columns(4);
     vertical-align: middle;
+    padding-bottom: 0;
   }
 }
 

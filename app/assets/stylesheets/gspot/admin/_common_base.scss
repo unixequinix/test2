@@ -119,6 +119,7 @@
 
   label {
     color: $grey;
+    margin: 0;
 
     i { padding-right: modules(0.5); }
   }
@@ -126,14 +127,36 @@
 
 .wrapper-add-file {
   @include transition(opacity 83ms linear);
+  overflow: hidden;
   display: block;
   width: 100%;
-  overflow: hidden;
+  margin-bottom: modules(1);
   padding: modules(1);
   border-radius: 3px;
-  background-color: $input_grey;
-  border: 2px dashed darken($input_grey,30%);
-  cursor: pointer;
+  background-color: $admin_grey;
+  border: 1px dashed $light_grey;
 
-  &:hover { background-color: $admin_grey; }
+  .btn {
+    max-width: 100%;
+    width: 100%;
+
+    @include min-screen($bp3) {
+      @include span-columns(4);
+      margin: 0;
+      vertical-align: middle;
+    }
+  }
+
+  input {
+    cursor: pointer;
+    margin-bottom: modules(1);
+
+    @include min-screen($bp3) {
+      @include span-columns(8);
+      margin-bottom: 0;
+      padding-top: modules(0.5);
+    }
+
+    .btn { margin: 0; }
+  }
 }

@@ -21,7 +21,7 @@ body {
   font-weight: 300;
 }
 
-h1, h2, h3, span, a,
+h1, h2, h3, p,span, a,
 ul, ol, li {
   text-decoration: none;
   list-style: none;
@@ -29,8 +29,9 @@ ul, ol, li {
   padding: 0;
 }
 
-p {
+.section-header {
   color: $blue;
+  margin-bottom: modules(1);
 
   i {
     display: inline-block;
@@ -224,6 +225,16 @@ td {
   }
 }
 
+.btn-secondary {
+  width: 100%;
+  background-color: $light_grey;
+  color: $white;
+
+  &:hover {
+    background-color: lighten($light_grey,10%);
+  }
+}
+
 .btn-action {
   max-width: modules(6);
   color: $white;
@@ -261,7 +272,7 @@ td {
 .btn-action-import {
   float: right;
   max-width: modules(10);
-  margin: modules(1) 0;
+  margin: modules(1) 0 0;
   background-color: $blue;
 
   &:hover { background-color: lighten($blue,10%); }
