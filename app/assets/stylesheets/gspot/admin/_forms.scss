@@ -41,7 +41,7 @@ textarea {
 
   @include min-screen($bp3) {
     @include span-columns(8);
-    @include omega(0);
+    @include omega();
     vertical-align: middle;
   }
 
