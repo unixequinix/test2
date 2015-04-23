@@ -12,7 +12,7 @@ table.ticket-types
         td = link_to ticket_type.name, admin_ticket_type_path(ticket_type)
         td = ticket_type.company
         td = ticket_type.credit
-        td
+        td.entitlements-cell
           - ticket_type.entitlements.each do |entitlement|
             span.table-entitlemnet = entitlement.name
         td.table-actions-field

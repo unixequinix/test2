@@ -149,7 +149,7 @@ td {
   margin: modules(0.15);
   padding: modules(0.25);
   border-radius: 3px;
-  background-color: $dark_grey;
+  background-color: $blue;
   color: $white;
   text-align: center;
   white-space: nowrap;
@@ -162,6 +162,12 @@ td {
     width: auto;
     padding: modules(0.25);
   }
+}
+
+.entitlements-cell {
+  text-align: center;
+
+  @include min-screen($bp3) { text-align: left; }
 }
 
 // _____ TABLE TYPES _____
