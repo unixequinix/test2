@@ -29,6 +29,11 @@ ul, ol, li {
   padding: 0;
 }
 
+abbr {
+  color: $red;
+  font-weight: bold;
+}
+
 .section-header {
   color: $blue;
   margin-bottom: modules(1);
