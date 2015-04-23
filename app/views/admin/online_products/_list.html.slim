@@ -1,0 +1,19 @@
+table.online_products
+  thead
+    tr
+      th Name TODO
+      th Description TODO
+      th Amount TODO
+      th.table-actions-field Actions TODO
+  tbody
+    - online_products.each do |online_product|
+      tr
+        td = link_to online_product.name, admin_online_product_path(online_product)
+        td = online_product.description
+        td = online_product.amount
+        td.table-actions-field
+          ul
+            li.table-action.action-delete = link_to admin_online_product_path(online_product), method: :delete, data: { confirm: "Are you sure? TODO" }, remote: true do
+              = fa_icon "trash"
+            li.table-action.action-edit = link_to edit_admin_online_product_path(online_product) do
+               = fa_icon "edit"

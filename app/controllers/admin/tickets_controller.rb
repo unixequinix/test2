@@ -1,7 +1,11 @@
 class Admin::TicketsController < Admin::BaseController
 
   def index
-    @tickets = Ticket.all
+    @tickets = Ticket.all.includes(:ticket_type)
+    respond_to do |format|
+      format.html
+      format.csv { send_data @tickets.to_csv }
+    end
   end
 
   def show
@@ -43,6 +47,11 @@ class Admin::TicketsController < Admin::BaseController
     @ticket.destroy!
     flash[:notice] = "destroyed TODO"
     redirect_to admin_tickets_url
+  end
+
+  def import
+    Ticket.import(params[:file])
+    redirect_to admin_tickets_url, notice: "Tickets imported TODO"
   end
 
   private

@@ -23,7 +23,7 @@ crumb :new_admin_entitlement do
   parent :admin_entitlements
 end
 
-## Tickets
+## TicketsTypes
 
 crumb :admin_ticket_types do
   link t("breadcrumbs.ticket_types"), admin_ticket_types_path
@@ -39,7 +39,7 @@ crumb :new_admin_ticket_type do
   parent :admin_ticket_types
 end
 
-## TicketTypes
+## Tickets
 
 crumb :admin_tickets do
   link t("breadcrumbs.tickets"), admin_tickets_path
@@ -53,4 +53,20 @@ end
 crumb :new_admin_ticket do
   link t("breadcrumbs.new_ticket")
   parent :admin_tickets
+end
+
+## OnlineProducts
+
+crumb :admin_online_products do
+  link t("breadcrumbs.online_products"), admin_online_products_path
+end
+
+crumb :admin_online_product do |online_product|
+  link online_product.name, edit_admin_online_product_path(online_product)
+  parent :admin_online_products
+end
+
+crumb :new_admin_online_product do
+  link t("breadcrumbs.new_online_product")
+  parent :admin_online_products
 end

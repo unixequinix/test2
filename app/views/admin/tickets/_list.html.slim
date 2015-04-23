@@ -1,3 +1,6 @@
+p Download:
+p = link_to "CSV", admin_tickets_path(format: "csv")
+
 table.tickets
   thead
     tr
@@ -8,7 +11,7 @@ table.tickets
     - tickets.each do |ticket|
       tr
         td = link_to ticket.number, admin_ticket_path(ticket)
-        td = ticket.ticket_type.name
+        td = ticket.ticket_type.name unless ticket.ticket_type.nil?
         td.table-actions-field
           ul
             li.table-action.action-delete = link_to admin_ticket_path(ticket), method: :delete, data: { confirm: "Are you sure? TODO" }, remote: true do

@@ -6,8 +6,10 @@
 
 .container-show
   label
-    | Entitlement:
-  p = @ticket_type.entitlement.name
+    | Entitlements:
+  - @ticket_type.entitlements.each do |entitlement|
+    span = entitlement.name
+    br
   label
     | Name:
   p = @ticket_type.name

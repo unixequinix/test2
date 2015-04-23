@@ -6,7 +6,7 @@
 .container-show
   label
     | Ticket Type
-  p = @ticket.ticket_type.name
+  p = @ticket.ticket_type.name unless @ticket.ticket_type.nil?
   label
     | Number
   p = @ticket.number
