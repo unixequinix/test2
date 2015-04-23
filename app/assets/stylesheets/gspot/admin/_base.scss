@@ -82,8 +82,9 @@ tr {
 td {
   position: relative;
   display: block;
-  width: 100%;
   vertical-align: top;
+  width: 100%;
+  height: auto;
   padding: modules(0.5) modules(0.5) 0;
   text-align: right;
 
@@ -125,12 +126,12 @@ td {
 
 .table-entitlemnet {
   @include mscale($base-font-size*0.75);
-  display: block;
+  display: inline-block;
   clear: both;
-  width: 50%;
-  float: right;
-  margin: 0 0 modules(0.5);
-  padding: 0 modules(0.25);
+  width: auto;
+  max-width: modules(6);
+  margin: modules(0.25);
+  padding: modules(0.25);
   border-radius: 3px;
   background-color: $dark_grey;
   color: $white;
@@ -148,7 +149,7 @@ td {
   }
 }
 
-// _____ TABEL TYPES _____
+// _____ TABLE TYPES _____
 
 .entitlements {
   td:nth-of-type(1):before { content: "Name"; }
@@ -156,9 +157,8 @@ td {
 }
 .ticket-types {
   td:nth-of-type(1):before { content: "Name:"; }
-  td:nth-of-type(2):before { content: "Entitlement:"; }
-  td:nth-of-type(3):before { content: "Company:"; }
-  td:nth-of-type(4):before { content: "Credit:"; }
+  td:nth-of-type(2):before { content: "Company:"; }
+  td:nth-of-type(3):before { content: "Credit:"; }
   //td:nth-of-type(5):before { content: "Actions"; }
 }
 
@@ -180,6 +180,8 @@ td {
   padding: 0;
 
   @include min-screen($bp3) { width: 15%; }
+
+  ul { clear: both; }
 
   li {
     display: inline-block;
@@ -267,12 +269,15 @@ td {
 }
 
 .btn-action {
-  max-width: modules(6);
+  max-width: modules(9);
   color: $white;
   text-align: center;
 
   //span { padding-left: modules(0.25); }
-  i { padding-right: modules(0.25); }
+  i {
+    display: inline-block;
+    margin-right: modules(0.25);
+  }
 }
 
 .btn-action-new {
