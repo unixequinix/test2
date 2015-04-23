@@ -16,6 +16,9 @@ p.section-header
 
 
 - if @tickets.empty?
-  h3.section-title-empty no tickets TODO
+  .section-title-empty
+    = image_tag "img-empty.png"
+    p no tickets TODO
+    = link_to t("actions.new"), new_admin_ticket_path, class: "btn btn-action btn-action-new"
 - else
   = render "admin/tickets/list", tickets: @tickets

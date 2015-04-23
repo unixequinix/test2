@@ -41,11 +41,25 @@ ul, ol, li {
 
 .section-title-empty {
   padding: modules(2);
-  background-color: $light_grey;
   border-radius: 3px;
-  color: $grey;
-  text-shadow: 0px 1px 1px $admin_grey;
+  background-color: $admin_grey;
+  box-shadow: inset 0px 0px 1px 0px $light_grey;
+  color: red;
+  text-shadow: 0px 1px 1px $white;
   text-align: center;
+
+  .btn { margin-top: modules(1); }
+
+  p {
+    color: $light_grey;
+    font-family: Lato;
+    text-transform: uppercase;
+  }
+
+  img {
+    width: auto;
+    height: modules(4);
+  }
 }
 
 // ________ TABLES _________
@@ -158,6 +172,7 @@ td {
   td:nth-of-type(4):before {
     content: "Entitlements:";
     position: relative;
+    left: auto;
     display: block;
     width: 100%;
     margin-bottom: modules(1);
