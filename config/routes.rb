@@ -26,14 +26,14 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :entitlements
-    resources :ticket_types
-    resources :tickets do
+    resources :entitlements, except: :show
+    resources :ticket_types, except: :show
+    resources :tickets, except: :show do
       collection do
         post :import
       end
     end
-    resources :online_products
+    resources :online_products, except: :show
   end
 
   devise_scope :customer do

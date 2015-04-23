@@ -53,8 +53,8 @@ ActiveRecord::Schema.define(version: 20150422171942) do
   end
 
   create_table "ticket_types", force: :cascade do |t|
-    t.string   "name"
-    t.string   "company"
+    t.string   "name",       null: false
+    t.string   "company",    null: false
     t.decimal  "credit",     precision: 8, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

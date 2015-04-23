@@ -1,5 +1,5 @@
 - breadcrumb :admin_entitlement, @entitlement
 - provide :actions do
-  = link_to t("actions.back"), admin_entitlement_url(@entitlement), class: "btn btn-action btn-action-back"
+  = link_to t("actions.back"), admin_entitlements_path, class: "btn btn-action btn-action-back"
 
 = render "form", entitlement: @entitlement

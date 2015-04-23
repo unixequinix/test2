@@ -4,10 +4,6 @@ class Admin::OnlineProductsController < Admin::BaseController
     @online_products = OnlineProduct.all
   end
 
-  def show
-    @online_product = OnlineProduct.find(params[:id])
-  end
-
   def new
     @online_product = OnlineProduct.new
   end

@@ -4,10 +4,6 @@ class Admin::TicketTypesController < Admin::BaseController
     @ticket_types = TicketType.all.includes(:entitlements)
   end
 
-  def show
-    @ticket_type = TicketType.find(params[:id])
-  end
-
   def new
     @ticket_type = TicketType.new
   end

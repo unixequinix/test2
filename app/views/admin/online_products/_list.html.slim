@@ -8,7 +8,7 @@ table.online_products
   tbody
     - online_products.each do |online_product|
       tr
-        td = link_to online_product.name, admin_online_product_path(online_product)
+        td = link_to online_product.name, edit_admin_online_product_path(online_product)
         td = online_product.description
         td = online_product.amount
         td.table-actions-field

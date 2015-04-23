@@ -8,10 +8,6 @@ class Admin::TicketsController < Admin::BaseController
     end
   end
 
-  def show
-    @ticket = Ticket.find(params[:id])
-  end
-
   def new
     @ticket = Ticket.new
   end

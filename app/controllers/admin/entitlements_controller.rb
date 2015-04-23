@@ -4,10 +4,6 @@ class Admin::EntitlementsController < Admin::BaseController
     @entitlements = Entitlement.all
   end
 
-  def show
-    @entitlement = Entitlement.find(params[:id])
-  end
-
   def new
     @entitlement = Entitlement.new
   end

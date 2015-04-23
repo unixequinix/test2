@@ -1,0 +1,24 @@
+-
+  name: 1
+  description: 5
+  amount: 10.25
+-
+  name: 2
+  description: 10
+  amount: 20
+-
+  name: 3
+  description: 15
+  amount: 25.50
+-
+  name: 4
+  description: 20
+  amount: 35.50
+-
+  name: 5
+  description: 25
+  amount: 45.50
+-
+  name: 6
+  description: 30
+  amount: 50.50
