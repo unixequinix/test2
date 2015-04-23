@@ -31,14 +31,6 @@ ActiveRecord::Schema.define(version: 20150422171942) do
     t.datetime "updated_at",             null: false
   end
 
-  create_table "admissions", force: :cascade do |t|
-    t.integer  "customer_id"
-    t.integer  "ticket_id"
-    t.decimal  "credit",      precision: 8, scale: 2
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
   create_table "customers", force: :cascade do |t|
     t.string   "email",                  default: "", null: false, index: {name: "index_customers_on_email", unique: true}
     t.string   "name",                   default: "", null: false
@@ -60,9 +52,17 @@ ActiveRecord::Schema.define(version: 20150422171942) do
     t.datetime "updated_at",             null: false
   end
 
-  create_table "entitlement_ticket_types", force: :cascade do |t|
-    t.integer  "entitlement_id"
-    t.integer  "ticket_type_id"
+  create_table "ticket_types", force: :cascade do |t|
+    t.string   "name"
+    t.string   "company"
+    t.decimal  "credit",     precision: 8, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tickets", force: :cascade do |t|
+    t.integer  "ticket_type_id", index: {name: "fk__tickets_ticket_type_id"}, foreign_key: {references: "ticket_types", name: "fk_tickets_ticket_type_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "number"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end
@@ -103,21 +103,6 @@ ActiveRecord::Schema.define(version: 20150422171942) do
     t.decimal  "amount",      precision: 8, scale: 2
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-  end
-
-  create_table "ticket_types", force: :cascade do |t|
-    t.string   "name"
-    t.string   "company"
-    t.decimal  "credit",     precision: 8, scale: 2
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "tickets", force: :cascade do |t|
-    t.integer  "ticket_type_id"
-    t.string   "number"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
   end
 
 end
