@@ -14,6 +14,7 @@ label {
   @include min-screen($bp3) {
     @include span-columns(4);
     vertical-align: middle;
+    margin: auto;
     padding-bottom: 0;
   }
 }
@@ -77,13 +78,23 @@ textarea { padding: 0; }
     @include omega();
     vertical-align: middle;
   }
+
+  .checkbox {
+    @include span-columns(6);
+    @include omega(2n);
+    overflow: hidden;
+    margin-bottom: modules(1);
+    max-height: modules(2);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }
 
 input[type=checkbox] { display: none;}
 
 .collection_check_boxes {
-  display: inline-block;
   width: 100%;
+  display: inline-block;
   background-color: $input_grey;
   box-shadow: inset 0px 0px 0px 1px $graySilver;
   border-radius:4px;
@@ -91,12 +102,6 @@ input[type=checkbox] { display: none;}
   padding: modules(0.5);
   cursor:pointer;
 
-   @include min-screen($bp3) {
-    width: auto;
-    margin: modules(0.5);
-  }
-
-  &:first-child { margin-right: 0; }
   &:hover { background-color: $white; }
 }
 
