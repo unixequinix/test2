@@ -1,6 +1,7 @@
 - breadcrumb :admin_tickets
 - provide :actions do
   = link_to t("actions.new"), new_admin_ticket_path, class: "btn btn-action btn-action-new"
+  = link_to "Download CSV", admin_tickets_path(format: "csv"), class: "btn btn-action btn-action-back"
 
 p.section-header
   = fa_icon "upload"

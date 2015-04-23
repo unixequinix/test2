@@ -89,10 +89,14 @@ td {
 
   @include min-screen($bp3) {
     display: table-cell;
+    overflow: hidden;
     vertical-align: middle;
+    max-width: modules(9);
     width: auto;
     padding: 0;
     text-align: left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   a {
@@ -118,6 +122,33 @@ td {
     @include min-screen($bp3) { display: none; }
   }
 }
+
+.table-entitlemnet {
+  @include mscale($base-font-size*0.75);
+  display: block;
+  clear: both;
+  width: 50%;
+  float: right;
+  margin: 0 0 modules(0.5);
+  padding: 0 modules(0.25);
+  border-radius: 3px;
+  background-color: $dark_grey;
+  color: $white;
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  @include min-screen($bp3) {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+    width: auto;
+    margin: 0 modules(0.25);
+    padding: modules(0.25);
+  }
+}
+
+// _____ TABEL TYPES _____
 
 .entitlements {
   td:nth-of-type(1):before { content: "Name"; }
@@ -148,7 +179,7 @@ td {
   width: 100%;
   padding: 0;
 
-  @include min-screen($bp3) { width: 30%; }
+  @include min-screen($bp3) { width: 15%; }
 
   li {
     display: inline-block;
