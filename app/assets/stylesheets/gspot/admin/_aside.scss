@@ -26,7 +26,6 @@ aside {
     display: block;
     vertical-align: top;
     text-decoration: none;
-    box-shadow: inset 0px -1px 0px 0px lighten($side_panel,10%);
 
     a {
       display: block;
@@ -35,10 +34,26 @@ aside {
       padding: modules(0.5) 0;
       color: $white;
 
+      @include min-screen($bp3) { box-shadow: inset 0px -1px 0px 0px lighten($side_panel,5%); }
+
       &:hover {
         background-color: lighten($side_panel,10%);
       }
     }
+  }
+}
+
+.mobile-trigger {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+
+  a {
+    display: inline-block;
+    vertical-align: middle;
+    padding: modules(0.5) modules(1) modules(0.5) modules(0.5);
+    color: $white;
   }
 }
 
@@ -59,4 +74,8 @@ aside {
   img { vertical-align: top; }
 
   &:hover { opacity: 0.5; }
+}
+
+.mobile-sign-out {
+  @include min-screen($bp3) { display: none; }
 }
