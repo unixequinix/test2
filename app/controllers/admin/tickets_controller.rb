@@ -1,11 +1,18 @@
 class Admin::TicketsController < Admin::BaseController
 
   def index
-    @tickets = Ticket.all.includes(:ticket_type)
+    @q = Ticket.search(params[:q])
+    @tickets = @q.result(distinct: true).includes(:ticket_type)
     respond_to do |format|
       format.html
       format.csv { send_data @tickets.to_csv }
     end
+  end
+
+  def search
+    @q = Ticket.search(params[:q])
+    @tickets = @q.result(distinct: true).includes(:ticket_type)
+    render :index
   end
 
   def new

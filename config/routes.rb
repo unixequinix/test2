@@ -31,6 +31,7 @@ Rails.application.routes.draw do
     resources :tickets, except: :show do
       collection do
         post :import
+        post :search
       end
     end
     resources :online_products, except: :show
