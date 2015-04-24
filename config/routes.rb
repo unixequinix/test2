@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   ## ------------------------------
 
   namespace :customer do
+    resources :admissions, only: [:new, :create, :destroy]
   end
 
   namespace :admin do

@@ -30,8 +30,8 @@ class Customer < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Associations
-  has_many :admissions
-  has_many :tickets, through: :admissions
+  has_one :admission
+  has_one :assigned_admission, ->{ where(aasm_state: :assigned) }, class_name: "Admission"
 
   # Validations
   validates :email, presence: true, uniqueness: true
