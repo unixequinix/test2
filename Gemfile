@@ -41,6 +41,9 @@ gem 'roo', '~> 2.0.0beta1'
 # Navigation
 gem 'gretel', '~> 3.0.8'
 
+# Search
+gem 'ransack', '~> 1.6.6'
+
 group :development do
   gem 'capistrano', '~> 3.4.0' # Use Capistrano for deployment
   gem 'capistrano-rails', '~> 1.1.2'
