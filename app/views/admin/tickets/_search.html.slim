@@ -1,4 +1,13 @@
+p.section-header
+  = fa_icon "search"
+  | Search
+
 = search_simple_form_for q, url: search_admin_tickets_path, html: { method: :post, class: "searchForm" }  do |f|
-  = f.input :number_cont
-  = f.input :ticket_type_id_eq, as: :select, collection:  TicketType.form_selector, include_blank: true, label: ''
-  = f.submit
+  .container-search
+    .wrapper-search-field
+      .custom-input
+        = f.input :number_cont, placeholder: "Type Number cont TODO"
+      .custom-select
+        = f.input :ticket_type_name_eq, as: :select, collection:  TicketType.form_selector, include_blank: true, label: ''
+        = fa_icon "caret-down"
+    = f.submit class: "btn btn-secondary"

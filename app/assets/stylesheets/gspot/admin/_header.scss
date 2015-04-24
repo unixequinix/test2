@@ -29,6 +29,10 @@ header {
 }
 
 .menu-trigger {
+  display: block;
+  margin: 0 auto;
+  cursor: pointer;
+  text-align: center;
 
   @include min-screen($bp3) { display: none; }
 }

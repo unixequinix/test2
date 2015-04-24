@@ -7,27 +7,13 @@
 @import "bourbon";
 @import "gspot/configuration/neat_grid_settings";
 @import "neat";
+@import "gspot/configuration/colors";
 
 @import "vendor/normalize";
 @import "vendor/media_queries";
 
 @import "lib/fontango/fontango";
 
-@import "gspot/configuration/colors";
 @import "gspot/configuration/breakpoints";
 //@import "gspot/configuration/sticky_footer";
 @import "gspot/configuration/typography";
-
-@import "gspot/common_base";
-@import "gspot/header";
-@import "gspot/notifications";
-@import "gspot/exceptions";
-@import "gspot/animations";
-@import "gspot/forms";
-@import "gspot/footer";
-
-@import "gspot/application/base";
-
-@media print {
-  @import "gspot/print";
-}

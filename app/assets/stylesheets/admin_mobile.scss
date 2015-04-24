@@ -7,6 +7,8 @@
 @import "gspot/admin/header";
 @import "gspot/admin/common_base";
 
+@import "vendor/mmenu/jquery.mmenu";
+
 @media print {
   @import "gspot/print";
 }
