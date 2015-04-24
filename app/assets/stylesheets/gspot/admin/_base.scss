@@ -287,9 +287,9 @@ td {
   margin-top: modules(1);
   width: 100%;
   box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.3);
-  background-color: $magenta;
+  background-color: $greenKickstarter;
 
-  &:hover { background-color: lighten($magenta, 8%); }
+  &:hover { background-color: lighten($greenKickstarter, 8%); }
 }
 
 .btn-primary {
