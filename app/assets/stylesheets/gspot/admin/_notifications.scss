@@ -5,15 +5,16 @@
 // -------------------------------------------------------
 
 .msg-notification {
-  display: none;
 }
 
 .msg-for-alert, .msg-for-error {
+  opacity: 1;
+  // ______
   position: absolute;
   top: modules(1);
   left: modules(1);
   right: modules(1);
-  padding: modules(2);
+  padding: modules(1);
   border-radius: 4px;
   background-color: lighten($red,35%);
   box-shadow: inset 0px 0px 0px 2px $red;
@@ -30,17 +31,16 @@
 }
 
 #msg-notice {
-  display: none;
 }
 
 .msg-for-notice {
-  display: none;
   opacity: 0;
+  // ________
   position: absolute;
   top: modules(1);
   left: modules(1);
   right: modules(1);
-  padding: modules(2);
+  padding: modules(1);
   border-radius: 4px;
   background-color: lighten($greenKickstarter,35%);
   box-shadow: inset 0px 0px 0px 2px $greenKickstarter;
