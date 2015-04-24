@@ -66,7 +66,6 @@ textarea { padding: 0; }
   overflow: hidden;
   vertical-align: top;
   width: 100%;
-  padding: 0 0 modules(0.5);
   border: none;
   background-color: transparent !important;
   box-shadow: inset 12px -57px 0px -56px $graySilver;
@@ -80,19 +79,23 @@ textarea { padding: 0; }
   }
 
   .checkbox {
-    @include span-columns(6);
-    @include omega(2n);
     overflow: hidden;
-    margin-bottom: modules(1);
+    display: inline-block;
+    width: 48%;
+    margin: 0 2% modules(1) 0;
     max-height: modules(2);
-    white-space: nowrap;
-    text-overflow: ellipsis;
+
+    @include min-screen($bp3) {
+      @include span-columns(4);
+      @include omega(3n);
+    }
   }
 }
 
 input[type=checkbox] { display: none;}
 
 .collection_check_boxes {
+  overflow: hidden;
   width: 100%;
   display: inline-block;
   background-color: $input_grey;
@@ -100,6 +103,8 @@ input[type=checkbox] { display: none;}
   border-radius:4px;
   color: darken($graySilver,20%);
   padding: modules(0.5);
+  white-space: nowrap;
+  text-overflow: ellipsis;
   cursor:pointer;
 
   &:hover { background-color: $white; }
