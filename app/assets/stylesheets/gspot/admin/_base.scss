@@ -210,9 +210,9 @@ td {
 
 .table-actions-field {
   width: 100%;
-  padding: 0;
+  padding: modules(1) 0 0;
 
-  @include min-screen($bp3) { width: 15%; }
+  @include min-screen($bp3) { width: 15%; padding: 0; }
 
   ul { clear: both; }
 
@@ -237,19 +237,35 @@ td {
   cursor: pointer;
 }
 
-.action-delete{
-  a {
-    color: $red;
+.action-delete {
+  text-align: left;
 
-    &:hover { background-color: lighten($red,30%); }
+  a {
+    color: $grey;
+
+    &:hover { color: $red; }
+
+    @include min-screen($bp3) {
+      color: $red;
+
+      &:hover { background-color: lighten($red,30%); }
+    }
   }
 }
 
-.action-edit{
-  a {
-    color: $amber;
+.action-edit {
+  text-align: right;
 
-    &:hover { background-color: lighten($amber,35%); }
+  a {
+    color: $grey;
+
+    &:hover { color: $amber; }
+
+    @include min-screen($bp3) {
+      color: $amber;
+
+      &:hover { background-color: lighten($amber,30%); }
+    }
   }
 }
 
@@ -271,9 +287,9 @@ td {
   margin-top: modules(1);
   width: 100%;
   box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.3);
-  background-color: $magenta;
+  background-color: $greenKickstarter;
 
-  &:hover { background-color: lighten($magenta, 8%); }
+  &:hover { background-color: lighten($greenKickstarter, 8%); }
 }
 
 .btn-primary {
