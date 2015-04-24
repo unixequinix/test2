@@ -3,4 +3,4 @@ header
     = image_tag ("admin-panel-logo.png")
 
   = link_to destroy_admin_session_path, method: :delete, class: 'menu-option' do
-    span CERRAR TODO
+    = fa_icon "sign-out"

@@ -33,16 +33,17 @@ header {
   @include min-screen($bp3) { display: none; }
 }
 
-
 .menu-option {
   position: absolute;
   top: modules(0);
   right: modules(0);
   height: modules(2);
   padding: modules(0.55) modules(1);
+  background-color: $dark_blue;
+  box-shadow: inset 1px 0px 0px 0px lighten($blue,5%);
   color: $white;
   text-transform: uppercase;
   z-index: 5;
 
-  &:hover { background-color: $light_blue; }
+  &:hover { background-color: lighten($dark_blue, 10%); }
 }

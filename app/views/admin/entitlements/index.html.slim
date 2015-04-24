@@ -3,6 +3,9 @@
   = link_to t("actions.new"), new_admin_entitlement_path, class: "btn btn-action btn-action-new"
 
 - if @entitlements.empty?
-  h3.section-title-empty No entitlements TODO
+  .section-title-empty
+    = image_tag "img-empty.png"
+    p No entitlements TODO
+    = link_to t("actions.new"), new_admin_entitlement_path, class: "btn btn-action btn-action-new"
 - else
   = render "admin/entitlements/list", entitlements: @entitlements
