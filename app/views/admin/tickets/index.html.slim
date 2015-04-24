@@ -5,11 +5,12 @@
     = fa_icon "download"
     | CSV
 
+
+= render "admin/tickets/search", q: @q
+
 p.section-header
   = fa_icon "upload"
   | Import Products
-
-= render "admin/tickets/search", q: @q
 
 .wrapper-add-file
   = form_tag import_admin_tickets_path, multipart: true do
