@@ -212,11 +212,7 @@ td {
   width: 100%;
   padding: 0;
 
-  @include min-screen($bp3) {
-    width: 15%;
-    background-color: transparent;
-    box-shadow: none;
-  }
+  @include min-screen($bp3) { width: 15%; }
 
   ul { clear: both; }
 
@@ -237,10 +233,8 @@ td {
   width: modules(2);
   height: 100%;
   text-align: center;
-  text-shadow: 0px 2px 2px $white;
   vertical-align: middle;
   cursor: pointer;
-
 }
 
 .action-delete {
@@ -264,7 +258,6 @@ td {
 
   a {
     color: $grey;
-    text-shadow: 0px 1px 1px $white;
 
     &:hover { color: $amber; }
 
