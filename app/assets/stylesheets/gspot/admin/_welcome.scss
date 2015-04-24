@@ -14,18 +14,17 @@ input[type=url],
 input[type=tel],
 input[type=search],
 textarea {
-  @include mscale($base_font_size);
+  @include mscale($base_font_size*2);
   @include appearance(none);
   @include placeholder { color: $light_blue; }
+  overflow: hidden;
+  width: 100%;
   background-color: transparent !important;
   box-shadow: inset 12px -57px 0px -56px rgba(255,255,255,.3);
   border: none;
   color: $nuclear;
-  font-weight: lighter;
-  overflow: hidden;
   padding: modules(0.5) 0;
   text-align: left;
-  width: 100%;
 
   &:focus {
     box-shadow: inset 12px -57px 0px -56px $magenta;
