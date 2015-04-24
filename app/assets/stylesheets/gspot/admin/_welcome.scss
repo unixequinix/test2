@@ -20,20 +20,20 @@ textarea {
   overflow: hidden;
   width: 100%;
   background-color: transparent !important;
-  box-shadow: inset 12px -57px 0px -56px rgba(255,255,255,.3);
-  border: none;
+  border: 1px solid $blue;
+  border-bottom: 1px solid lighten($light_blue,10%);
   color: $nuclear;
   padding: modules(0.5) 0;
   text-align: left;
 
   &:focus {
-    box-shadow: inset 12px -57px 0px -56px $magenta;
+    border-bottom: 1px solid $magenta;
     outline: none;
     opacity: 1;
   }
 
   &:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px $blue inset !important;
+    -webkit-box-shadow: 0 0 0px 300px $blue inset !important;
     -webkit-text-fill-color: $nuclear;
   }
 
