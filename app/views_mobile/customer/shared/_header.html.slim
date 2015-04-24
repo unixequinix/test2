@@ -1,0 +1,32 @@
+header
+  .container-header
+    = link_to href="http://bcnbeachfestival.com", target: "_blank", class: "bbf-logo" do
+        = image_tag "bbf.png"
+
+    h1.logo
+      = image_tag "logo.png"
+
+    ul.language-selection
+      li
+        a.language-selected ENG
+      li
+        a ESP
+  nav
+    ul
+      li
+        = link_to href="http://bcnbeachfestival.com", target: "_blank" do
+          | Home
+      li
+        = link_to '#'
+          | My BBF
+
+      - if customer_signed_in?
+        li.user-options
+          span NAME TODO
+          ul.submenu
+            li
+              = link_to edit_customer_registration_path(current_customer), class: "link-submenu" do
+                span Edit profile
+            li
+              = link_to destroy_customer_session_path, method: :delete, class: "link-submenu" do
+                span Cerrar sesión

@@ -1,0 +1,21 @@
+doctype html
+html [lang=I18n.locale]
+
+  head
+    title Glownet
+    meta name="viewport" content="height=device-height,width=device-width,user-scalable=no,initial-scale=1"
+    = stylesheet_link_tag 'admin_mobile', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'admin_mobile', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+
+  body class="#{controller_name} #{action_name}"
+    #notifications
+      = render 'notifications'
+    .wrapper-main
+      = render 'admin/shared/sidepanel'
+      .container-main
+        = render 'admin/shared/header'
+        = render 'admin/shared/action_bar'
+        .container-admin
+          = yield
+        = render 'admin/shared/footer'

@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :set_locale
+  before_filter :check_for_mobile
 
   private
 
@@ -27,5 +28,27 @@ class ApplicationController < ActionController::Base
       request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first
     end
   end
+
+  # Mobile recognition and view configuration
+
+  def check_for_mobile
+    session[:mobile_override] = (params[:mobile] == '1') ? '1' : '0'
+    prepare_for_mobile if mobile_device?
+  end
+
+  def prepare_for_mobile
+    prepend_view_path Rails.root + 'app' + 'views_mobile'
+  end
+
+  def mobile_device?
+    (session[:mobile_override] == '1') || user_agent_mobile?
+  end
+
+  def user_agent_mobile?
+    # Note: we treat ipad as non mobile
+    request.user_agent =~ (/(iPhone|iPod|Android|webOS|Mobile|iPad)/)
+  end
+
+  helper_method :mobile_device?
 
 end
