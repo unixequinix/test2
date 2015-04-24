@@ -160,3 +160,64 @@
     .btn { margin: 0; }
   }
 }
+
+.container-search {
+  @include transition(opacity 83ms linear);
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  margin-bottom: modules(1);
+  padding: modules(0.5);
+  border-radius: 3px;
+  background-color: $admin_grey;
+  box-shadow: inset 0px 0px 0px 1px $graySilver;
+
+  .btn {
+    width: 100%;
+
+    @include min-screen($bp3) {
+      @include span-columns(4);
+    }
+  }
+  .input { @include min-screen($bp3) { padding-bottom: 0; } }
+
+  input[type=text], select {
+    @include appearance(none);
+    width: 100%;
+    padding: modules(0.25);
+    height: modules(2);
+    border-radius: 3px;
+    background-color: $white;
+    box-shadow: inset 0px 0px 0px 1px $graySilver;
+    border: none;
+  }
+
+  label { display: none; }
+}
+
+.wrapper-search-field {
+  position: relative;
+
+  @include min-screen($bp3) {
+    @include span-columns(8);
+  }
+}
+
+.custom-input {
+  @include span-columns(6 of 8);
+}
+
+.custom-select {
+  @include span-columns(2 of 8);
+  @include omega();
+  position: relative;
+  display: inline-block;
+
+  i {
+    position: absolute;
+    top: modules(0.65);
+    right: modules(0.5);
+    color: $blue;
+    z-index: 9;
+  }
+}
