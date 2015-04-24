@@ -210,9 +210,9 @@ td {
 
 .table-actions-field {
   width: 100%;
-  padding: 0;
+  padding: modules(1) 0 0;
 
-  @include min-screen($bp3) { width: 15%; }
+  @include min-screen($bp3) { width: 15%; padding: 0; }
 
   ul { clear: both; }
 
