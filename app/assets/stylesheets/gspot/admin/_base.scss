@@ -212,7 +212,11 @@ td {
   width: 100%;
   padding: 0;
 
-  @include min-screen($bp3) { width: 15%; }
+  @include min-screen($bp3) {
+    width: 15%;
+    background-color: transparent;
+    box-shadow: none;
+  }
 
   ul { clear: both; }
 
@@ -233,23 +237,42 @@ td {
   width: modules(2);
   height: 100%;
   text-align: center;
+  text-shadow: 0px 2px 2px $white;
   vertical-align: middle;
   cursor: pointer;
+
 }
 
-.action-delete{
-  a {
-    color: $red;
+.action-delete {
+  text-align: left;
 
-    &:hover { background-color: lighten($red,30%); }
+  a {
+    color: $grey;
+
+    &:hover { color: $red; }
+
+    @include min-screen($bp3) {
+      color: $red;
+
+      &:hover { background-color: lighten($red,30%); }
+    }
   }
 }
 
-.action-edit{
-  a {
-    color: $amber;
+.action-edit {
+  text-align: right;
 
-    &:hover { background-color: lighten($amber,35%); }
+  a {
+    color: $grey;
+    text-shadow: 0px 1px 1px $white;
+
+    &:hover { color: $amber; }
+
+    @include min-screen($bp3) {
+      color: $amber;
+
+      &:hover { background-color: lighten($amber,30%); }
+    }
   }
 }
 
