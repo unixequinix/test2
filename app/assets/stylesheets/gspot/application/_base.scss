@@ -28,6 +28,54 @@
   }
 }
 
+.container-profile-resume {
+  position: relative;
+  padding: modules(1) 0 0;
+
+  p {
+    display: block;
+
+    @include min-screen($bp3) {
+      display: inline-block;
+      width: auto;
+    }
+  }
+
+  h3 {
+    display: block;
+    color: $pinkMagenta;
+    margin-bottom: 0;
+
+    @include min-screen($bp3) {
+      display: inline-block;
+      width: auto;
+    }
+  }
+
+  i {
+    display: inline-block;
+    padding-right: modules(0.5)
+  }
+}
+
+.wrapper-profile-field {
+  display: block;
+  width: 100%;
+}
+
+.centered {
+  text-align: center;
+
+  h3 { text-align: center; }
+
+  input {
+    display: block;
+    width: modules(19);
+    margin: 0 auto modules(1);
+    float: none;
+  }
+}
+
 .form-inputs {
   overflow: hidden;
 }
@@ -76,6 +124,14 @@
 .wrapper-session {
   text-align: center;
 
+  .btn {
+    vertical-align: middle;
+
+    @include min-screen($bp3) {
+      @include span-columns(3);
+    }
+  }
+
   h3 {
     vertical-align: middle;
     margin: 0;
@@ -83,14 +139,6 @@
 
     @include min-screen($bp3) {
       @include span-columns(9);
-    }
-  }
-
-  .btn {
-    vertical-align: middle;
-
-    @include min-screen($bp3) {
-      @include span-columns(3);
     }
   }
 }

@@ -1,10 +1,29 @@
-p Ticket Number TODO
-= @admission.ticket.number
-p Credits TODO
-= @admission.ticket.ticket_type.credit
+.wrapper-title
+  h2
+    | My BBF TODO
 
-P Do you want to unassign the ticket
-= simple_form_for @admission, url: customer_admission_path(@admission), method: :delete do |f|
-  = f.button :submit, 'Unassign TODO'
+p TODO Remember: ticket number can only be assigned to a single account. The amount of the top up is personal and untransferable
 
-= link_to 'GO TO TOP UP TODO', new_customer_order_path
+.container-profile-resume
+  .wrapper-profile-field
+    label
+      = fa_icon "ticket"
+      | Ticket Number TODO
+    h3 = @admission.ticket.number
+  .wrapper-profile-field
+    label
+      = fa_icon "money"
+      | Credits TODO
+    h3 = @admission.ticket.ticket_type.credit
+.wrapper-field.wrapper-session
+  h3 Do you want to unassign the ticket
+  = simple_form_for @admission, url: customer_admission_path(@admission), method: :delete do |f|
+    = f.button :submit, 'Unassign TODO'
+.wrapper-field.centered
+  h3
+    | TODO
+    br
+    Avoid unnecesary queues.
+    br
+    Top Up here and maximise your experience
+  = link_to 'GO TO TOP UP TODO', new_customer_order_path, class: "btn btn-primary"

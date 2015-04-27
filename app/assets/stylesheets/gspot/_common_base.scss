@@ -57,6 +57,11 @@ ul {
   padding:0;
 }
 
+p {
+  font-family: Helevetica, sans-serif;
+  margin-top: modules(1);
+}
+
 a { text-decoration: none; }
 
 .btn {
@@ -87,5 +92,12 @@ a { text-decoration: none; }
 
   &:hover { background-color: $pinkMagenta; color: $black; }
 }
+
+.btn-primary {
+  display: block;
+  margin: 0 auto;
+  max-width: modules(14);
+}
+
 
 //______________________
