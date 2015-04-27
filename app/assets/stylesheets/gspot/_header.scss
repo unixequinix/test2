@@ -23,6 +23,7 @@ header {
   h1 { margin-bottom: 0; }
 }
 
+// _____ MOBILE NAV ______
 
 .navigation-mobile {
   position: absolute;
@@ -79,6 +80,8 @@ header {
   }
 }
 
+// _____ DESKTOP NAV ______
+
 .navigation-desktop {
   position: relative;
   display: block;
@@ -108,17 +111,6 @@ header {
     font-weight: bold;
     cursor: pointer;
 
-    a {
-      display: inline-block;
-      width: 100%;
-      height: 100%;
-      color: $white;
-
-      &:hover {
-        color: $black;
-      }
-    }
-
     &:first-child {
       padding-left: 0;
 
@@ -131,6 +123,15 @@ header {
       @include min-screen($bp4) { padding-right: modules(1); }
     }
   }
+}
+
+.nav-link {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  color: $white;
+
+  &:hover { color: $pinkMagenta; }
 }
 
 // ______________

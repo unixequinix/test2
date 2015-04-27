@@ -14,10 +14,10 @@ header
   nav.navigation-desktop
     ul
       li
-        = link_to href="http://bcnbeachfestival.com", target: "_blank" do
+        = link_to href="http://bcnbeachfestival.com", target: "_blank", class:"nav-link" do
           | Home
       li
-        = link_to '#'
+        = link_to '#', class:"nav-link" do
           | My BBF
 
       - if customer_signed_in?
