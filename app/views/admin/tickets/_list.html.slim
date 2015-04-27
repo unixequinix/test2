@@ -3,12 +3,14 @@ table.tickets
     tr
       th Number TODO
       th Ticket Type TODO
+      th Status TODO
       th.table-actions-field Actions TODO
   tbody
     - tickets.each do |ticket|
       tr
         td = link_to ticket.number, edit_admin_ticket_path(ticket)
         td = ticket.ticket_type.name unless ticket.ticket_type.nil?
+        td = ticket.aasm_state
         td.table-actions-field
           ul
             li.table-action.action-delete = link_to admin_ticket_path(ticket), method: :delete, data: { confirm: "Are you sure? TODO" }, remote: true do
