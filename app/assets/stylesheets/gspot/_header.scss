@@ -27,7 +27,7 @@ header {
 
 .navigation-mobile {
   position: absolute;
-  top: modules(4.5);
+  top: modules(3.5);
   left: modules(0.5);
   right: modules(0.5);
   z-index: 4;
@@ -110,18 +110,6 @@ header {
     padding: 0 modules(0.25);
     font-weight: bold;
     cursor: pointer;
-
-    &:first-child {
-      padding-left: 0;
-
-      @include min-screen($bp4) { padding-left: modules(1); }
-    }
-
-    &:last-child {
-      padding-right: 0;
-
-      @include min-screen($bp4) { padding-right: modules(1); }
-    }
   }
 }
 
@@ -211,13 +199,17 @@ header {
 
 .user-options {
   float: right;
-  text-align: right;
 
-  a { color: $pinkMagenta; }
+  a {
+    color: $pinkMagenta;
+  }
 
   &:hover {
+    // TODO MANU Fix absolute magic number
     .submenu {
-      display: block;
+      position: absolute;
+      top: modules(2.55);
+      display: inline-block;
     }
   }
 }
