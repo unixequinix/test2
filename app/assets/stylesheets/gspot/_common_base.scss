@@ -10,8 +10,8 @@
 
 //Variables
 
-$label-size: $base-font-size*2;
-$button-size: $base-font-size*2.75;
+$label-size: $base-font-size*1.75;
+$button-size: $base-font-size*2.25;
 $section-title: $base-font-size*4;
 
 // HTML base styles
@@ -40,7 +40,7 @@ h2 {
   font-weight: bold;
 
   @include min-screen($bp3) {
-     @include mscale ($section-title);
+    @include mscale ($section-title);
   }
 }
 

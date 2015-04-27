@@ -13,7 +13,6 @@
 @include font-face(Bebas, 'Bebas-Regular', normal, $asset-pipeline: true);
 @include font-face(Lato, 'lato-regular', normal, $asset-pipeline: true);
 
-
 // Font families
 $serif_family: $georgia;
 $sans_family: Bebas, $helvetica;
@@ -28,5 +27,5 @@ $header_font_features: '';
 //$debug: 'true';
 
 // Typography initialization
-@include intialize-typography($font_size: 16, $line_height: 24, $ratio: $minor_third);
-@include intialize-typography($breakpoint: $bp3, $font_size:16, $line_height: 24, $ratio: $minor_sixth);
+@include intialize-typography($font_size: 16, $line_height: 24, $ratio: $minor_second);
+@include intialize-typography($breakpoint: $bp3, $font_size:16, $line_height: 24, $ratio: $minor_second);
