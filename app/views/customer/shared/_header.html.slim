@@ -22,7 +22,7 @@ header
 
       - if customer_signed_in?
         li.user-options
-          span NAME TODO
+          span = current_customer.name
           ul.submenu
             li
               = link_to edit_customer_registration_path(current_customer), class: "link-submenu" do

@@ -1,4 +1,10 @@
-p Customer Data
-= @customer.email
-= @customer.name
-= @customer.surname
+p Ticket Number TODO
+= @admission.ticket.number
+p Credits TODO
+= @admission.ticket.ticket_type.credit
+
+P Do you want to unassign the ticket
+= simple_form_for @admission, url: customer_admission_path(@admission), method: :delete do |f|
+  = f.button :submit, 'Unassign TODO'
+
+= link_to 'GO TO TOP UP TODO', new_customer_order_path

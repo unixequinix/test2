@@ -6,7 +6,7 @@ p.section-header
   .container-search
     .wrapper-search-field
       .custom-input
-        = f.input :number_cont, placeholder: "Type Number cont"
+        = f.input :number_cont, placeholder: "Type Number cont TODO"
       .custom-select
         = f.input :ticket_type_name_eq, as: :select, collection:  TicketType.form_selector, include_blank: true, label: ''
         = fa_icon "caret-down"

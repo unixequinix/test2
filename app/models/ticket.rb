@@ -17,7 +17,7 @@ class Ticket < ActiveRecord::Base
   belongs_to :ticket_type
 
   # Validations
-  validates :number, presence: true
+  validates :number, presence: true, uniqueness: true
 
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|

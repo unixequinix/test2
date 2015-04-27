@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150422171942) do
+ActiveRecord::Schema.define(version: 20150425095811) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,15 +62,16 @@ ActiveRecord::Schema.define(version: 20150422171942) do
 
   create_table "tickets", force: :cascade do |t|
     t.integer  "ticket_type_id", index: {name: "fk__tickets_ticket_type_id"}, foreign_key: {references: "ticket_types", name: "fk_tickets_ticket_type_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "number"
+    t.string   "number",         index: {name: "index_tickets_on_number", unique: true}
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end
 
   create_table "admissions", force: :cascade do |t|
     t.integer  "customer_id", null: false, index: {name: "fk__admissions_customer_id"}, foreign_key: {references: "customers", name: "fk_admissions_customer_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "ticket_id",   null: false, index: {name: "fk__admissions_ticket_id"}, foreign_key: {references: "tickets", name: "fk_admissions_ticket_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "ticket_id",   null: false, index: {name: "index_admissions_on_ticket_id"}, foreign_key: {references: "tickets", name: "fk_admissions_ticket_id", on_update: :no_action, on_delete: :no_action}
     t.decimal  "credit",      precision: 8, scale: 2
+    t.string   "aasm_state",  null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
@@ -103,6 +104,17 @@ ActiveRecord::Schema.define(version: 20150422171942) do
     t.decimal  "amount",      precision: 8, scale: 2
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer  "customer_id",       null: false, index: {name: "fk__orders_customer_id"}, foreign_key: {references: "customers", name: "fk_orders_customer_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "online_product_id", null: false, index: {name: "fk__orders_online_product_id"}, foreign_key: {references: "online_products", name: "fk_orders_online_product_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "number",            null: false
+    t.decimal  "amount",            precision: 8, scale: 2, null: false
+    t.string   "aasm_state",        null: false
+    t.datetime "completed_at"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
 end

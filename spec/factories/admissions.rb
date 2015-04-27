@@ -6,6 +6,7 @@
 #  customer_id :integer          not null
 #  ticket_id   :integer          not null
 #  credit      :decimal(8, 2)
+#  aasm_state  :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
