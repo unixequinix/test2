@@ -1,43 +1,42 @@
-# server-based syntax
-# ======================
-# Defines a single server with a list of roles and multiple properties.
-# You can define all roles on a single server, or split them:
+set :rails_env, 'production'
 
-# server 'example.com', user: 'deploy', roles: %w{app db web}, my_property: :my_value
-# server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
-# server 'db.example.com', user: 'deploy', roles: %w{db}
-
-
-
-# role-based syntax
+# Rbenv
 # ==================
+set :rbenv_type, :user # or :system, depends on your rbenv setup
+set :rbenv_ruby, '2.1.2'
+set :rbenv_custom_path, '/home/ubuntu/.rbenv'
+set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
+set :rbenv_map_bins, %w{rake gem bundle ruby rails}
+set :rbenv_roles, :all # default value
 
-# Defines a role with one or multiple servers. The primary server in each
-# group is considered to be the first unless any  hosts have the primary
-# property set. Specify the username and a domain or IP for the server.
-# Don't use `:all`, it's a meta role.
+# Link certification folder
+set :linked_dirs, fetch(:linked_dirs) + %w{certs}
 
-# role :app, %w{deploy@example.com}, my_property: :my_value
-# role :web, %w{user1@primary.com user2@additional.com}, other_property: :other_value
+# Simple Role Syntax
+# ==================
+# Supports bulk-adding hosts to roles, the primary server in each group
+# is considered to be the first unless any hosts have the primary
+# property set.  Don't declare `role :all`, it's a meta role.
+
+# role :app, %w{deploy@example.com}
+# role :web, %w{deploy@example.com}
 # role :db,  %w{deploy@example.com}
 
 
+# Extended Server Syntax
+# ======================
+# This can be used to drop a more detailed server definition into the
+# server list. The second argument is a, or duck-types, Hash and is
+# used to set extended properties on the server.
 
-# Configuration
-# =============
-# You can set any configuration variable like in config/deploy.rb
-# These variables are then only loaded and set in this stage.
-# For available Capistrano configuration variables see the documentation page.
-# http://capistranorb.com/documentation/getting-started/configuration/
-# Feel free to add new variables to customise your setup.
-
+server '54.148.108.236', user: 'ubuntu', roles: %w{web app}, primary: true
+#server '5.135.221.131', user: 'contigo', roles: %w{db}
 
 
 # Custom SSH Options
 # ==================
 # You may pass any option but keep in mind that net/ssh understands a
-# limited set of options, consult the Net::SSH documentation.
-# http://net-ssh.github.io/net-ssh/classes/Net/SSH.html#method-c-start
+# limited set of options, consult[net/ssh documentation](http://net-ssh.github.io/net-ssh/classes/Net/SSH.html#method-c-start).
 #
 # Global options
 # --------------
@@ -46,8 +45,18 @@
 #    forward_agent: false,
 #    auth_methods: %w(password)
 #  }
-#
-# The server-based syntax can be used to override options:
+
+set :default_run_options, {
+  pty: true
+}
+
+set :ssh_options, {
+  keys: [ENV['GLOWNET_CERT']],
+  forward_agent: true,
+  auth_methods: %w(publickey)
+}
+
+# And/or per server (overrides global)
 # ------------------------------------
 # server 'example.com',
 #   user: 'user_name',

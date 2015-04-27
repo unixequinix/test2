@@ -37,5 +37,4 @@ class Customer < ActiveRecord::Base
   # Validations
   validates :email, presence: true, uniqueness: true
   validates :name, :surname, presence: true
-
 end

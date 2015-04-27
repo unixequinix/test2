@@ -5,29 +5,29 @@ Rails.application.routes.draw do
 
   devise_for :admins,
     controllers: {
-      sessions: 'admin/sessions',
-      passwords: 'admin/passwords'
+      sessions: 'admins/sessions',
+      passwords: 'admins/passwords'
     },
     path_names: { sign_up: 'signup', sign_in: 'login', sign_out: 'logout' }
 
   devise_for :customers,
     controllers: {
-      sessions: 'customer/sessions',
-      registrations: 'customer/registrations',
-      confirmations: 'customer/confirmations',
-      passwords: 'customer/passwords'
+      sessions: 'customers/sessions',
+      registrations: 'customers/registrations',
+      confirmations: 'customers/confirmations',
+      passwords: 'customers/passwords'
     },
     path_names: { sign_up: 'signup', sign_in: 'login', sign_out: 'logout' }
 
   ## Resources
   ## ------------------------------
 
-  namespace :customer do
+  namespace :customers do
     resources :admissions, only: [:new, :create, :destroy]
     resources :orders, only: [:new, :create, :show]
   end
 
-  namespace :admin do
+  namespace :admins do
     resources :entitlements, except: :show
     resources :ticket_types, except: :show
     resources :tickets, except: :show do
@@ -39,14 +39,14 @@ Rails.application.routes.draw do
     resources :online_products, except: :show
   end
 
-  devise_scope :customer do
-    root to: 'customer/dashboards#show', as: :customer_root
+  devise_scope :customers do
+    root to: 'customers/dashboards#show', as: :customer_root
   end
 
-  devise_scope :admin do
-    get 'admin', to: 'admin/dashboards#show', as: :admin_root
+  devise_scope :admins do
+    get 'admin', to: 'admins/dashboards#show', as: :admin_root
   end
 
-  root to: 'customer/sessions#new'
+  root to: 'customers/sessions#new'
 
 end
