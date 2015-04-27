@@ -16,4 +16,6 @@ html [lang=I18n.locale]
   body class="#{controller_name} #{action_name}"
 
     #mainWrapper
-      == yield
+      = render 'customer/shared/header'
+      .wrapper-main
+        == yield
