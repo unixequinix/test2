@@ -32,6 +32,7 @@ class Customer < ActiveRecord::Base
   # Associations
   has_one :admission
   has_one :assigned_admission, ->{ where(aasm_state: :assigned) }, class_name: "Admission"
+  has_one :ticket, through: :admission
 
   # Validations
   validates :email, presence: true, uniqueness: true

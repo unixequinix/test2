@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150422171942) do
+ActiveRecord::Schema.define(version: 20150425095811) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,17 @@ ActiveRecord::Schema.define(version: 20150422171942) do
     t.decimal  "amount",      precision: 8, scale: 2
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer  "customer_id",       null: false, index: {name: "fk__orders_customer_id"}, foreign_key: {references: "customers", name: "fk_orders_customer_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "online_product_id", null: false, index: {name: "fk__orders_online_product_id"}, foreign_key: {references: "online_products", name: "fk_orders_online_product_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "number",            null: false
+    t.decimal  "amount",            precision: 8, scale: 2, null: false
+    t.string   "aasm_state",        null: false
+    t.datetime "completed_at"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
 end

@@ -19,6 +19,7 @@ class Admission < ActiveRecord::Base
 
   # Validations
   validates :customer, :ticket, :aasm_state, presence: true
+  validates_uniqueness_of :ticket, conditions: -> { where(aasm_state: :assigned) }
 
   # State machine
   include AASM

@@ -12,7 +12,7 @@ class Customer::AdmissionsController < Customer::BaseController
         flash[:notice] = "created TODO"
         redirect_to customer_root_url
       else
-        flash[:error] = "ERROR TODO"
+        flash[:error] = @admission.errors.full_messages.join(". ")
         render :new
       end
     else

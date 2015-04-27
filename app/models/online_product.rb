@@ -14,4 +14,9 @@ class OnlineProduct < ActiveRecord::Base
 
   # Validations
   validates :name, :description, :amount, presence: true
+
+  # Select options with all the online products
+  def self.form_selector
+    all.map{ |online_product| [online_product.name, online_product.id] }
+  end
 end
