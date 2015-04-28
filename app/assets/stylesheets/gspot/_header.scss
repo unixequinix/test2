@@ -127,6 +127,7 @@ header {
 .container-header {
   position: relative;
   width: 100%;
+  color: $black;
   text-align: center;
 
   @include min-screen($bp3) {

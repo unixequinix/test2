@@ -1,6 +1,11 @@
-p Error
-p Contact us: support@glownet.com
-p Current balance
-p 35 TOKENS
+.container-payment.container-error
+  p.error-title Error
+  p Contact us:
+  p support@glownet.com
+  .container-payment
+    label Now your current balance is
+    h3 35 TOKENS
 
-= link_to 'TOPUP TODO', new_customers_order_path
+.wrapper-field.centered
+  h3 Back to top up
+  = link_to 'TOPUP TODO', new_customers_order_path, class: "btn btn-primary"
