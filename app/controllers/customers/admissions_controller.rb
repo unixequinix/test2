@@ -25,7 +25,7 @@ class Customers::AdmissionsController < Customers::BaseController
     @admission = Admission.find(params[:id])
     @admission.unassign!
     flash[:notice] = "unassigned TODO"
-    redirect_to new_customer_admission_url
+    redirect_to new_customers_admission_url
   end
 
 end

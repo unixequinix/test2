@@ -17,7 +17,7 @@ p TODO Remember: ticket number can only be assigned to a single account. The amo
     h3 = @admission.ticket.ticket_type.credit
 .wrapper-field.wrapper-session
   h3 Do you want to unassign the ticket
-  = simple_form_for @admission, url: customer_admission_path(@admission), method: :delete do |f|
+  = simple_form_for @admission, url: customers_admission_path(@admission), method: :delete do |f|
     = f.button :submit, 'Unassign TODO'
 .wrapper-field.centered
   h3
