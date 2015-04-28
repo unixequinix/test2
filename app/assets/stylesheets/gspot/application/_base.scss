@@ -145,8 +145,7 @@
   }
 }
 
-
-.container-credit-amount {
+.container-payment {
   padding-top: modules(1);
   text-align: center;
 
@@ -162,3 +161,13 @@
     color: $pinkMagenta;
   }
 }
+
+  .error-header {
+    display: inline-block;
+    width: auto;
+    margin: 0 auto;
+    border-radius: 3px;
+    padding: modules(0.25) modules(1);
+    background-color: $red;
+    color: $white;
+  }
