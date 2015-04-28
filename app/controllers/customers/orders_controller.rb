@@ -9,7 +9,7 @@ class Customers::OrdersController < Customers::BaseController
     @order = Order.new(permitted_params)
     if @order.save
       flash[:notice] = "created TODO"
-      redirect_to admin_entitlements_url
+      redirect_to admins_entitlements_url
     else
       flash[:error] = "ERROR TODO"
       render :new

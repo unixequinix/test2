@@ -1,7 +1,7 @@
-- breadcrumb :admin_tickets
+- breadcrumb :admins_tickets
 - provide :actions do
-  = link_to t("actions.new"), new_admin_ticket_path, class: "btn btn-action btn-action-new"
-  = link_to admin_tickets_path(format: "csv"), class: "btn btn-action btn-action-back"
+  = link_to t("actions.new"), new_admins_ticket_path, class: "btn btn-action btn-action-new"
+  = link_to admins_tickets_path(format: "csv"), class: "btn btn-action btn-action-back"
     = fa_icon "download"
     | CSV
 
@@ -13,7 +13,7 @@ p.section-header
   | Import Products
 
 .wrapper-add-file
-  = form_tag import_admin_tickets_path, multipart: true do
+  = form_tag import_admins_tickets_path, multipart: true do
     = file_field_tag :file
     = submit_tag "Import", class: "btn btn-secondary"
 
@@ -22,6 +22,6 @@ p.section-header
   .section-title-empty
     = image_tag "img-empty.png"
     p no tickets TODO
-    = link_to t("actions.new"), new_admin_ticket_path, class: "btn btn-action btn-action-new"
+    = link_to t("actions.new"), new_admins_ticket_path, class: "btn btn-action btn-action-new"
 - else
   = render "admins/tickets/list", tickets: @tickets

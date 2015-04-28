@@ -4,6 +4,6 @@ RSpec.describe OnlineProduct, type: :model do
 
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_presence_of(:description) }
-  it { is_expected.to validate_presence_of(:amount) }
+  it { is_expected.to validate_presence_of(:price) }
 
 end

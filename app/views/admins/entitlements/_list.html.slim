@@ -6,10 +6,10 @@ table.entitlements
   tbody
     - entitlements.each do |entitlement|
       tr
-        td = link_to entitlement.name, edit_admin_entitlement_path(entitlement)
+        td = link_to entitlement.name, edit_admins_entitlement_path(entitlement)
         td.table-actions-field
           ul
-            li.table-action.action-delete = link_to admin_entitlement_path(entitlement), method: :delete, data: { confirm: "Are you sure? TODO" }, remote: true do
+            li.table-action.action-delete = link_to admins_entitlement_path(entitlement), method: :delete, data: { confirm: "Are you sure? TODO" }, remote: true do
               = fa_icon "trash"
-            li.table-action.action-edit = link_to edit_admin_entitlement_path(entitlement) do
+            li.table-action.action-edit = link_to edit_admins_entitlement_path(entitlement) do
                = fa_icon "edit"

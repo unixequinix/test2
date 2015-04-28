@@ -1,4 +1,4 @@
-class Admins::OnlineProductsController < Admin::BaseController
+class Admins::OnlineProductsController < Admins::BaseController
 
   def index
     @online_products = OnlineProduct.all
@@ -12,7 +12,7 @@ class Admins::OnlineProductsController < Admin::BaseController
     @online_product = OnlineProduct.new(permitted_params)
     if @online_product.save
       flash[:notice] = "created TODO"
-      redirect_to admin_online_products_url
+      redirect_to admins_online_products_url
     else
       flash[:error] = "ERROR TODO"
       render :new
@@ -27,7 +27,7 @@ class Admins::OnlineProductsController < Admin::BaseController
     @online_product = OnlineProduct.find(params[:id])
     if @online_product.update(permitted_params)
       flash[:notice] = "updated TODO"
-      redirect_to admin_online_products_url
+      redirect_to admins_online_products_url
     else
       flash[:error] = "ERROR"
       render :edit
@@ -38,13 +38,13 @@ class Admins::OnlineProductsController < Admin::BaseController
     @online_product = OnlineProduct.find(params[:id])
     @online_product.destroy!
     flash[:notice] = "destroyed TODO"
-    redirect_to admin_online_products_url
+    redirect_to admins_online_products_url
   end
 
   private
 
   def permitted_params
-    params.require(:online_product).permit(:name, :description, :amount)
+    params.require(:online_product).permit(:name, :description, :price)
   end
 
 end

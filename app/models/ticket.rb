@@ -13,6 +13,7 @@ class Ticket < ActiveRecord::Base
 
   # Associations
   has_many :admissions
+  has_one :assigned_admission, ->{ where(aasm_state: :assigned) }, class_name: "Admission"
   has_many :customer, through: :admissions
   belongs_to :ticket_type
 

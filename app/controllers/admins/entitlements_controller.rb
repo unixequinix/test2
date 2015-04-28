@@ -1,4 +1,4 @@
-class Admins::EntitlementsController < Admin::BaseController
+class Admins::EntitlementsController < Admins::BaseController
 
   def index
     @entitlements = Entitlement.all
@@ -12,7 +12,7 @@ class Admins::EntitlementsController < Admin::BaseController
     @entitlement = Entitlement.new(permitted_params)
     if @entitlement.save
       flash[:notice] = "created TODO"
-      redirect_to admin_entitlements_url
+      redirect_to admins_entitlements_url
     else
       flash[:error] = "ERROR TODO"
       render :new
@@ -27,7 +27,7 @@ class Admins::EntitlementsController < Admin::BaseController
     @entitlement = Entitlement.find(params[:id])
     if @entitlement.update(permitted_params)
       flash[:notice] = "updated TODO"
-      redirect_to admin_entitlements_url
+      redirect_to admins_entitlements_url
     else
       flash[:error] = "ERROR"
       render :edit
@@ -38,7 +38,7 @@ class Admins::EntitlementsController < Admin::BaseController
     @entitlement = Entitlement.find(params[:id])
     @entitlement.destroy!
     flash[:notice] = "destroyed TODO"
-    redirect_to admin_entitlements_url
+    redirect_to admins_entitlements_url
   end
 
   private

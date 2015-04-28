@@ -9,64 +9,64 @@ end
 
 ## Entitlements
 
-crumb :admin_entitlements do
-  link t("breadcrumbs.entitlements"), admin_entitlements_path
+crumb :admins_entitlements do
+  link t("breadcrumbs.entitlements"), admins_entitlements_path
 end
 
-crumb :admin_entitlement do |entitlement|
-  link entitlement.name, edit_admin_entitlement_path(entitlement)
-  parent :admin_entitlements
+crumb :admins_entitlement do |entitlement|
+  link entitlement.name, edit_admins_entitlement_path(entitlement)
+  parent :admins_entitlements
 end
 
-crumb :new_admin_entitlement do
+crumb :new_admins_entitlement do
   link t("breadcrumbs.new_entitlement")
-  parent :admin_entitlements
+  parent :admins_entitlements
 end
 
 ## TicketsTypes
 
-crumb :admin_ticket_types do
-  link t("breadcrumbs.ticket_types"), admin_ticket_types_path
+crumb :admins_ticket_types do
+  link t("breadcrumbs.ticket_types"), admins_ticket_types_path
 end
 
-crumb :admin_ticket_type do |ticket_type|
-  link ticket_type.name, edit_admin_ticket_type_path(ticket_type)
-  parent :admin_ticket_types
+crumb :admins_ticket_type do |ticket_type|
+  link ticket_type.name, edit_admins_ticket_type_path(ticket_type)
+  parent :admins_ticket_types
 end
 
-crumb :new_admin_ticket_type do
+crumb :new_admins_ticket_type do
   link t("breadcrumbs.new_ticket_type")
-  parent :admin_ticket_types
+  parent :admins_ticket_types
 end
 
 ## Tickets
 
-crumb :admin_tickets do
-  link t("breadcrumbs.tickets"), admin_tickets_path
+crumb :admins_tickets do
+  link t("breadcrumbs.tickets"), admins_tickets_path
 end
 
-crumb :admin_ticket do |ticket|
-  link ticket.number, edit_admin_ticket_path(ticket)
-  parent :admin_tickets
+crumb :admins_ticket do |ticket|
+  link ticket.number, edit_admins_ticket_path(ticket)
+  parent :admins_tickets
 end
 
-crumb :new_admin_ticket do
+crumb :new_admins_ticket do
   link t("breadcrumbs.new_ticket")
-  parent :admin_tickets
+  parent :admins_tickets
 end
 
 ## OnlineProducts
 
-crumb :admin_online_products do
-  link t("breadcrumbs.online_products"), admin_online_products_path
+crumb :admins_online_products do
+  link t("breadcrumbs.online_products"), admins_online_products_path
 end
 
-crumb :admin_online_product do |online_product|
-  link online_product.name, edit_admin_online_product_path(online_product)
-  parent :admin_online_products
+crumb :admins_online_product do |online_product|
+  link online_product.name, edit_admins_online_product_path(online_product)
+  parent :admins_online_products
 end
 
-crumb :new_admin_online_product do
+crumb :new_admins_online_product do
   link t("breadcrumbs.new_online_product")
-  parent :admin_online_products
+  parent :admins_online_products
 end

@@ -1,8 +1,8 @@
-class Admins::TicketsController < Admin::BaseController
+class Admins::TicketsController < Admins::BaseController
 
   def index
     @q = Ticket.search(params[:q])
-    @tickets = @q.result(distinct: true).includes(:ticket_type)
+    @tickets = @q.result(distinct: true).includes(:ticket_type, :assigned_admission)
     respond_to do |format|
       format.html
       format.csv { send_data @tickets.to_csv }
@@ -11,7 +11,7 @@ class Admins::TicketsController < Admin::BaseController
 
   def search
     @q = Ticket.search(params[:q])
-    @tickets = @q.result(distinct: true).includes(:ticket_type)
+    @tickets = @q.result(distinct: true).includes(:ticket_type, :assigned_admission)
     render :index
   end
 
@@ -23,7 +23,7 @@ class Admins::TicketsController < Admin::BaseController
     @ticket = Ticket.new(permitted_params)
     if @ticket.save
       flash[:notice] = "created TODO"
-      redirect_to admin_tickets_url
+      redirect_to admins_tickets_url
     else
       flash[:error] = "ERROR TODO"
       render :new
@@ -38,7 +38,7 @@ class Admins::TicketsController < Admin::BaseController
     @ticket = Ticket.find(params[:id])
     if @ticket.update(permitted_params)
       flash[:notice] = "updated TODO"
-      redirect_to admin_tickets_url
+      redirect_to admins_tickets_url
     else
       flash[:error] = "ERROR"
       render :edit
@@ -49,12 +49,12 @@ class Admins::TicketsController < Admin::BaseController
     @ticket = Ticket.find(params[:id])
     @ticket.destroy!
     flash[:notice] = "destroyed TODO"
-    redirect_to admin_tickets_url
+    redirect_to admins_tickets_url
   end
 
   def import
     Ticket.import(params[:file])
-    redirect_to admin_tickets_url, notice: "Tickets imported TODO"
+    redirect_to admins_tickets_url, notice: "Tickets imported TODO"
   end
 
   private

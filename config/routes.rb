@@ -25,6 +25,12 @@ Rails.application.routes.draw do
   namespace :customers do
     resources :admissions, only: [:new, :create, :destroy]
     resources :orders, only: [:new, :create, :show]
+    resources :payments do
+      collection do
+        get 'success'
+        get 'error'
+      end
+    end
   end
 
   namespace :admins do
@@ -44,7 +50,7 @@ Rails.application.routes.draw do
   end
 
   devise_scope :admins do
-    get 'admin', to: 'admins/dashboards#show', as: :admin_root
+    get 'admins', to: 'admins/dashboards#show', as: :admin_root
   end
 
   root to: 'customers/sessions#new'

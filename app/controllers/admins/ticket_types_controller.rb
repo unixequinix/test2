@@ -1,4 +1,4 @@
-class Admins::TicketTypesController < Admin::BaseController
+class Admins::TicketTypesController < Admins::BaseController
 
   def index
     @ticket_types = TicketType.all.includes(:entitlements)
@@ -12,7 +12,7 @@ class Admins::TicketTypesController < Admin::BaseController
     @ticket_type = TicketType.new(permitted_params)
     if @ticket_type.save
       flash[:notice] = "created TODO"
-      redirect_to admin_ticket_types_url
+      redirect_to admins_ticket_types_url
     else
       flash[:error] = "ERROR TODO"
       render :new
@@ -27,7 +27,7 @@ class Admins::TicketTypesController < Admin::BaseController
     @ticket_type = TicketType.find(params[:id])
     if @ticket_type.update(permitted_params)
       flash[:notice] = "updated TODO"
-      redirect_to admin_ticket_types_url
+      redirect_to admins_ticket_types_url
     else
       flash[:error] = "ERROR"
       render :edit
@@ -38,7 +38,7 @@ class Admins::TicketTypesController < Admin::BaseController
     @ticket_type = TicketType.find(params[:id])
     @ticket_type.destroy!
     flash[:notice] = "destroyed TODO"
-    redirect_to admin_ticket_types_url
+    redirect_to admins_ticket_types_url
   end
 
   private

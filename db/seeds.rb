@@ -62,5 +62,5 @@ puts "----------------------------------------"
 
 OnlineProduct.destroy_all
 YAML.load_file(Rails.root.join("db", "seeds", "online_products.yml")).each do |data|
-  OnlineProduct.create!(name: data['name'], description: data['description'], amount: data['amount'])
+  OnlineProduct.create!(name: data['name'], description: data['description'], price: data['price'])
 end

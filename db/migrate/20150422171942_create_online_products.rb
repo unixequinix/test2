@@ -3,7 +3,7 @@ class CreateOnlineProducts < ActiveRecord::Migration
     create_table :online_products do |t|
       t.string :name
       t.text :description
-      t.decimal :amount, precision: 8, scale: 2
+      t.decimal :price, precision: 8, scale: 2
 
       t.timestamps null: false
     end

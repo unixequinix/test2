@@ -2,7 +2,7 @@
   h2
     | My BBF TODO
 
-p TODO Remember: ticket number can only be assigned to a single account. The amount of the top up is personal and untransferable
+p TODO Remember: ticket number can only be assigned to a single account. The price of the top up is personal and untransferable
 
 .container-profile-resume
   .wrapper-profile-field
@@ -17,7 +17,7 @@ p TODO Remember: ticket number can only be assigned to a single account. The amo
     h3 = @admission.ticket.ticket_type.credit
 .wrapper-field.wrapper-session
   h3 Do you want to unassign the ticket
-  = simple_form_for @admission, url: customer_admission_path(@admission), method: :delete do |f|
+  = simple_form_for @admission, url: customers_admission_path(@admission), method: :delete do |f|
     = f.button :submit, 'Unassign TODO'
 .wrapper-field.centered
   h3
@@ -26,4 +26,4 @@ p TODO Remember: ticket number can only be assigned to a single account. The amo
     Avoid unnecesary queues.
     br
     Top Up here and maximise your experience
-  = link_to 'GO TO TOP UP TODO', new_customer_order_path, class: "btn btn-primary"
+  = link_to 'GO TO TOP UP TODO', new_customers_order_path, class: "btn btn-primary"

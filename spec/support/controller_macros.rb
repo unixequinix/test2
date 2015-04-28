@@ -6,7 +6,7 @@ module ControllerMacros
   end
 
   def login_admin
-    @request.env["devise.mapping"] = Devise.mappings[:admin]
+    @request.env["devise.mapping"] = Devise.mappings[:admins]
     sign_in create(:admin)
   end
 
