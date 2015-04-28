@@ -1,8 +1,11 @@
-p
-  | Welcome
-  = @email
-  | !
-p
-  | You can confirm your account email through the link below:
-p
-  = link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token)
+.container-mail [style=("width: 100%; height: 100%; padding: 24px 0; background-image: url(logo.png); background-color:#e6d500;text-align:center; ")]
+
+  = image_tag attachments['logo.png'].url, :alt => 'BBF', style: ' display: inline-block; width: 350px; height: auto; margin: 0 auto;'
+
+  p [style=("font-family: arial, sans-serif; font-size: 16px; font-weight: bold;")]
+    | Welcome
+    = @email
+    | !
+  p [style=("font-family: arial, sans-serif")]
+    | You can confirm your account email through the link below:
+  = link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token), style: ' display: inline-block; background-color: #2c2c2c; border-radius: 3px; text-transform: uppercase; color:#ff0090; padding: 24px 48px; font-family: arial, sans-serif; font-weight: bold; text-decoration: none'
