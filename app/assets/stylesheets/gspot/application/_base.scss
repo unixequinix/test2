@@ -144,3 +144,21 @@
     }
   }
 }
+
+
+.container-credit-amount {
+  padding-top: modules(1);
+  text-align: center;
+
+  label, h3 {
+    display: inline-block;
+    float: none;
+    width: auto;
+    margin: 0;
+  }
+
+  h3 {
+    padding-left: modules(0.25);
+    color: $pinkMagenta;
+  }
+}
