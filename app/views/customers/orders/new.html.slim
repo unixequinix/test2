@@ -1,5 +1,5 @@
 p TOP UP TODO
 
-= simple_form_for [:customer, @order] do |f|
+= simple_form_for [:customers, @order] do |f|
   = f.input :online_product_id, as: :select, collection: OnlineProduct.form_selector, label: false
   = f.button :submit, 'SEND TODO'

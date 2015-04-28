@@ -1,7 +1,7 @@
 module ControllerMacros
 
   def login_customer
-    @request.env["devise.mapping"] = Devise.mappings[:customer]
+    @request.env["devise.mapping"] = Devise.mappings[:customers]
     sign_in create(:customer)
   end
 
