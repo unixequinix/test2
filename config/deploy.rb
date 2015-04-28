@@ -31,6 +31,8 @@ set :linked_dirs, %w{bin log store tmp/pids tmp/cache tmp/sockets vendor/bundle 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
+set :assets_roles, [:app]
+
 namespace :deploy do
 
   desc 'Restart database'

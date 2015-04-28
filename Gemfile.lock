@@ -403,6 +403,7 @@ DEPENDENCIES
   bullet (~> 4.14.4)
   byebug (~> 4.0.5)
   capistrano (~> 3.4.0)
+  capistrano-bundler (~> 1.1.2)
   capistrano-rails (~> 1.1.2)
   capistrano-rbenv (~> 2.0.3)
   capybara (= 2.4.4)
