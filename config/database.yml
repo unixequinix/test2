@@ -17,10 +17,12 @@ test:
 staging:
   <<: *default
   database: gspot_staging
+  username: ubuntu
+  password: Gl0n3td3vGsP0t
 
 production:
   <<: *default
-  database: gspot
+  database: gspot_production
   username: gspot
   password: ConTango0912
   pool: 10

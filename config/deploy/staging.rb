@@ -29,8 +29,7 @@ set :linked_dirs, fetch(:linked_dirs) + %w{certs}
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server '54.148.108.236', user: 'ubuntu', roles: %w{web app}, primary: true
-#server '5.135.221.131', user: 'contigo', roles: %w{db}
+server '52.11.35.44', user: 'ubuntu', roles: %w{web app}, primary: true
 
 
 # Custom SSH Options
