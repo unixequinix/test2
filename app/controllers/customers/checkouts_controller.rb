@@ -3,7 +3,7 @@ class Customers::CheckoutsController < Customers::BaseController
 
   def new
     @checkout_form = CheckoutForm.new(current_customer)
-    @credits = Credit.all
+    @credits = Credit.all.includes(:online_product)
   end
 
   def create
