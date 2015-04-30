@@ -1,0 +1,7 @@
+= simple_form_for [:admins, credit] do |f|
+  = f.simple_fields_for :online_product do |op|
+    = op.input :name, placeholder: 'Nombre de credit TODO'
+    = op.input :description, placeholder: 'Description de credit TODO'
+    = op.input :price, placeholder: 'Precio del credit TODO'
+  = f.input :value, placeholder: 'Valor del credit TODO'
+  = f.button :submit, class: "btn btn-primary"

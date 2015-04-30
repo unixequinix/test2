@@ -48,6 +48,7 @@ group :development do
   gem 'capistrano', '~> 3.4.0' # Use Capistrano for deployment
   gem 'capistrano-rails', '~> 1.1.2'
   gem 'capistrano-rbenv', '~> 2.0.3'
+  gem 'capistrano-bundler', '~> 1.1.2'
   gem 'annotate', '~> 2.6.8'
   gem 'bullet', '~> 4.14.4' # Help to kill N+1 queries and unused eager loading
   gem 'rails-erd', '~> 1.3.1' # Entity-relationship diagrams (ERD)

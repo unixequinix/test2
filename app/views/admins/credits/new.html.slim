@@ -1,0 +1,5 @@
+- breadcrumb :new_admins_credit
+- provide :actions do
+  = link_to t("actions.back"), admins_credits_path, class: "btn btn-action btn-action-back"
+
+= render "form", credit: @credit

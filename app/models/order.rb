@@ -18,5 +18,32 @@ class Order < ActiveRecord::Base
   has_many :order_items
 
   # Validations
-  validates :customer, :order_items, :number, :price, :aasm_state, presence: true
+  validates :customer, :order_items, :number, :aasm_state, presence: true
+
+  # State machine
+  include AASM
+
+  aasm do
+    state :started, initial: true
+    state :in_progress
+    state :paid
+    state :completed
+
+    event :revert do
+      transitions from: :in_progress, to: :started
+    end
+
+    event :start_payment do
+      transitions from: :started, to: :in_progress
+    end
+
+    event :pay do
+      transitions from: :in_progress, to: :paid
+    end
+
+    event :complete do
+      transitions from: :paid, to: :completed
+    end
+  end
+
 end

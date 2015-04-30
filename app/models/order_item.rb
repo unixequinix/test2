@@ -5,7 +5,7 @@
 #  id                :integer          not null, primary key
 #  order_id          :integer          not null
 #  online_product_id :integer          not null
-#  price             :decimal(8, 2)    not null
+#  amount            :decimal(8, 2)    not null
 #  total             :decimal(8, 2)    not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null

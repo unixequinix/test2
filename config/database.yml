@@ -8,7 +8,7 @@ default: &default
 
 development:
   <<: *default
-  database: gspot_dev
+  database: gspot_development
 
 test:
   <<: *default

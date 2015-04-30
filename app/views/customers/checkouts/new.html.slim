@@ -1,0 +1,8 @@
+p TOP UP TODO
+
+= simple_form_for @checkout_form, url: customers_checkouts_path, method: :post do |f|
+  - @credits.each do |credit|
+    = number_field_tag "checkout_form[credits][#{credit.id}]"
+    p.div 0
+    span €
+  = f.button :submit, 'SEND TODO'

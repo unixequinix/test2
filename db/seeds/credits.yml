@@ -1,0 +1,6 @@
+-
+  name: Standard
+  description: This is the standard token unit
+  price: 3
+  standard: true
+  value: 1

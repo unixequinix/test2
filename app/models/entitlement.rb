@@ -11,8 +11,8 @@
 class Entitlement < ActiveRecord::Base
 
   # Associations
-  has_many :entitlement_ticket_types
-  has_many :ticket_types, through: :entitlement_ticket_types
+  has_many :entitlement_ticket_types, dependent: :destroy
+  has_many :ticket_types, through: :entitlement_ticket_types, dependent: :destroy
 
   # Validations
   validates :name, presence: true

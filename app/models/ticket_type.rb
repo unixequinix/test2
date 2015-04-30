@@ -5,7 +5,7 @@
 #  id         :integer          not null, primary key
 #  name       :string           not null
 #  company    :string           not null
-#  credit     :decimal(8, 2)
+#  credit     :decimal(8, 2)    not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
@@ -13,8 +13,8 @@
 class TicketType < ActiveRecord::Base
 
   # Associations
-  has_many :entitlement_ticket_types
-  has_many :entitlements, through: :entitlement_ticket_types
+  has_many :entitlement_ticket_types, dependent: :destroy
+  has_many :entitlements, through: :entitlement_ticket_types, dependent: :destroy
 
   accepts_nested_attributes_for :entitlements
 

@@ -57,16 +57,16 @@ end
 
 ## OnlineProducts
 
-crumb :admins_online_products do
-  link t("breadcrumbs.online_products"), admins_online_products_path
+crumb :admins_credits do
+  link t("breadcrumbs.credits"), admins_credits_path
 end
 
-crumb :admins_online_product do |online_product|
-  link online_product.name, edit_admins_online_product_path(online_product)
-  parent :admins_online_products
+crumb :admins_credit do |credit|
+  link credit.online_product.name, edit_admins_credit_path(credit)
+  parent :admins_credits
 end
 
-crumb :new_admins_online_product do
-  link t("breadcrumbs.new_online_product")
-  parent :admins_online_products
+crumb :new_admins_credit do
+  link t("breadcrumbs.new_credit")
+  parent :admins_credits
 end
