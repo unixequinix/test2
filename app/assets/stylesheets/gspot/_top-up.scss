@@ -1,0 +1,184 @@
+// -------------------------------------------------------
+//
+// TOPUP application styles
+//
+// -------------------------------------------------------
+
+table {
+  @include mscale($base_font_size*1.25);
+  width: 100%;
+  text-align: left;
+}
+
+th {
+  @include mscale($label_size);
+  padding: 0;
+
+  &:last-child{ text-align: center; }
+}
+
+tr {
+  &:nth-child(even) { background-color: lighten($pinkMagenta, 45%); }
+}
+
+td {
+  padding: modules(0.5);
+}
+
+.table-amount { width: 10%; text-align: center; }
+
+.table-total {
+  background-color: $black;
+  color: $white;
+}
+
+.wrapper-top-up {
+  margin: 0 0 modules(1) 0;
+  padding: modules(1);
+  border-radius: 3px;
+  box-shadow: inset 0px 0px 0px 1px $grayGunmetal;
+  background-color: rgba(0, 0, 0, 0.15);
+  text-align: center;
+
+   @include min-screen($bp3) {
+    width: 45%;
+    margin: 0 auto;
+    padding: modules(1) modules(2);
+  }
+
+  h3 { text-align: center; }
+
+  input {
+    display: inline-block !important;
+    width: 65%  !important;
+    margin: 0 auto modules(1);
+    float: none !important;
+    text-align: center;
+  }
+
+  .btn {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+.top-up-view {
+
+}
+
+.wrapper-product-info {
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  margin-bottom: modules(1);
+  padding-bottom: modules(1);
+  box-shadow: inset 0px -1px 0px 0px $black;
+  text-align: center;
+
+  @include min-screen($bp3) { text-align: left; }
+
+  h3 { margin-bottom: 0; }
+
+  input {
+    display: inline-block;
+    float: none;
+    width: modules(6);
+    margin: 0 modules(0.5);
+  }
+}
+
+.product-title {
+  display: block;
+  clear: both;
+  width: 100%;
+}
+
+.product-amount {
+  position: relative;
+}
+
+.top-up-amount {
+  @include mscale($label_size);
+  display: inline-block;
+  width: 100%;
+  height: modules(4);
+  line-height: 1.7;
+  margin-bottom: modules(1);
+  padding: modules(1) modules(1);
+  font-weight: bold;
+  background-color: $pinkMagenta;
+  color: $black;
+}
+
+.amount-button {
+  @include mscale($label_size);
+  width: 15%;
+  padding: 0 modules(0.5);
+  cursor: pointer;
+
+  &:first-child { text-align: left; padding-left: 0; }
+  &:last-child { text-align: right; padding-right: 0; }
+
+  &:hover { opacity: 0.7; }
+}
+.container-payment {
+  padding-top: modules(1);
+  text-align: center;
+
+  label, h3 {
+    display: inline-block;
+    float: none;
+    width: auto;
+    margin: 0;
+  }
+
+  h3 {
+    padding-left: modules(0.25);
+    color: $pinkMagenta;
+  }
+}
+
+.error-title {
+  display: inline-block;
+  width: auto;
+  margin: 0 auto;
+  border-radius: 3px;
+  padding: modules(0.25) modules(1);
+  background-color: $red;
+  color: $white;
+}
+
+.wrapper-secure-payment {
+  text-align: center;
+
+  @include min-screen($bp3) {
+    text-align: left;
+    float: left;
+  }
+
+  p { margin: modules(0.5) 0; }
+  img { height: modules(1.5); }
+}
+
+ .wrapper-ccs {
+
+  i {
+    @include mscale($label_size);
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 modules(0.25);
+
+    &:first-child { margin-left: 0; }
+  }
+ }
+
+.bank-page-alert {
+  text-align: center;
+  margin-bottom: 0;
+  padding-top: modules(0.5);
+
+  @include min-screen($bp3) {
+    text-align: right;
+    margin-bottom: modules(0.5);
+  }
+}

@@ -1,9 +1,27 @@
-p ORDER TODO
+.wrapper-title
+  h2 TOP UP TODO ORDER TODO
 
-- @order.order_items.each do |order_item|
-  p Amount
-  p = order_item.amount
-  p Total
-  p = order_item.total
+p alskdfjañslkdfjñaksldjfañlksdjfñalksdjf
+.wrapper-field
+  table
+    tr
+      th Credits
+      th
+      th Price
+    - @order.order_items.each do |order_item|
+      tr
+        td [colspan="2"] = order_item.amount
+        td.table-amount = order_item.total
+      tr
+        td.table-total [colspan="2"]
+        td.table-total.table-amount [colspan="3"] = order_item.total
 
-= link_to 'PAY TODO'
+  .wrapper-secure-payment
+    p.small VAT INCLUDED
+    = render 'customers/shared/ssl_cert_seal'
+    .wrapper-ccs
+      = fa_icon "cc-visa"
+      = fa_icon "cc-mastercard"
+      = fa_icon "cc-amex"
+  p.bank-page-alert.small This page will redirect to the payment bank page
+  = link_to 'Pay todo', '#', class: "btn btn-continue"
