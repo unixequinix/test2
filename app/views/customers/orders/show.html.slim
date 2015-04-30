@@ -1,7 +1,7 @@
 .wrapper-title
   h2 TOP UP TODO ORDER TODO
 
-p alskdfjañslkdfjñaksldjfañlksdjfñalksdjf
+p Please, check your order before proceed checkout.
 .wrapper-field
   table
     tr
@@ -13,7 +13,7 @@ p alskdfjañslkdfjñaksldjfañlksdjfñalksdjf
         td [colspan="2"] = order_item.amount
         td.table-amount = order_item.total
       tr
-        td.table-total [colspan="2"]
+        td.table-total [colspan="2"] Total to pay
         td.table-total.table-amount [colspan="3"] = order_item.total
 
   .wrapper-secure-payment
