@@ -57,10 +57,13 @@ end
 
 # Online Products
 # ------------------------------
-puts "Create online products"
+puts "Create credits"
 puts "----------------------------------------"
 
 OnlineProduct.destroy_all
-YAML.load_file(Rails.root.join("db", "seeds", "online_products.yml")).each do |data|
-  OnlineProduct.create!(name: data['name'], description: data['description'], price: data['price'])
+Credit.destroy_all
+YAML.load_file(Rails.root.join("db", "seeds", "credits.yml")).each do |data|
+  credit = Credit.new(standard: data['standard'], value: data['value'])
+  credit.online_product = OnlineProduct.new(name: data['name'], description: data['description'], price: data['price'])
+  credit.save!
 end

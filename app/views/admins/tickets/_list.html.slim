@@ -13,7 +13,7 @@ table.tickets
         td = ticket.assigned_admission.customer.name unless ticket.assigned_admission.nil?
         td.table-actions-field
           ul
-            li.table-action.action-delete = link_to admins_ticket_path(ticket), method: :delete, data: { confirm: "Are you sure? TODO" }, remote: true do
+            li.table-action.action-delete = link_to admins_ticket_path(ticket), method: :delete, data: { confirm: "Are you sure? TODO" } do
               = fa_icon "trash"
             li.table-action.action-edit = link_to edit_admins_ticket_path(ticket) do
               = fa_icon "edit"

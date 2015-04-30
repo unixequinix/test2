@@ -1,0 +1,24 @@
+table.credits
+  thead
+    tr
+      th Name TODO
+      th Description TODO
+      th Standard Credit TODO
+      th Price TODO
+      th Value TODO
+      th.table-actions-field Actions TODO
+  tbody
+    - credits.each do |credit|
+      tr
+        td = link_to credit.online_product.name, edit_admins_credit_path(credit)
+        td = credit.online_product.description
+        td = credit.standard
+        td = credit.online_product.price unless credit.online_product.nil?
+        td = credit.value
+        td.table-actions-field
+          ul
+            - unless credit.standard
+              li.table-action.action-delete = link_to admins_credit_path(credit), method: :delete, data: { confirm: "Are you sure? TODO" } do
+                = fa_icon "trash"
+            li.table-action.action-edit = link_to edit_admins_credit_path(credit) do
+              = fa_icon "edit"

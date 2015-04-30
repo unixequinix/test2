@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150428094959) do
+ActiveRecord::Schema.define(version: 20150429111404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(version: 20150428094959) do
   create_table "ticket_types", force: :cascade do |t|
     t.string   "name",       null: false
     t.string   "company",    null: false
-    t.decimal  "credit",     precision: 8, scale: 2
+    t.decimal  "credit",     precision: 8, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -74,6 +74,13 @@ ActiveRecord::Schema.define(version: 20150428094959) do
     t.string   "aasm_state",  null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "credits", force: :cascade do |t|
+    t.boolean  "standard",   default: false, null: false
+    t.decimal  "value",      precision: 8, scale: 2,                 null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "entitlements", force: :cascade do |t|
@@ -99,11 +106,13 @@ ActiveRecord::Schema.define(version: 20150428094959) do
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
 
   create_table "online_products", force: :cascade do |t|
-    t.string   "name"
-    t.text     "description"
-    t.decimal  "price",       precision: 8, scale: 2
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "name",             null: false
+    t.string   "description",      null: false
+    t.decimal  "price",            precision: 8, scale: 2, null: false
+    t.integer  "purchasable_id",   null: false
+    t.string   "purchasable_type", null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "orders", force: :cascade do |t|
@@ -118,7 +127,7 @@ ActiveRecord::Schema.define(version: 20150428094959) do
   create_table "order_items", force: :cascade do |t|
     t.integer  "order_id",          null: false, index: {name: "fk__order_items_order_id"}, foreign_key: {references: "orders", name: "fk_order_items_order_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "online_product_id", null: false, index: {name: "fk__order_items_online_product_id"}, foreign_key: {references: "online_products", name: "fk_order_items_online_product_id", on_update: :no_action, on_delete: :no_action}
-    t.decimal  "price",             precision: 8, scale: 2, null: false
+    t.decimal  "amount",            precision: 8, scale: 2, null: false
     t.decimal  "total",             precision: 8, scale: 2, null: false
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
