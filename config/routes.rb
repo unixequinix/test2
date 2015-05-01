@@ -25,8 +25,8 @@ Rails.application.routes.draw do
   namespace :customers do
     resources :admissions, only: [:new, :create, :destroy]
     resources :checkouts, only: [:new, :create]
-    resources :orders, only: [:show]
-    resources :payments do
+    resources :orders, only: [:show, :update]
+    resources :payments, only: [:create] do
       collection do
         get 'success'
         get 'error'

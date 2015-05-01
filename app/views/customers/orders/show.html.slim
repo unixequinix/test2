@@ -6,4 +6,6 @@ p ORDER TODO
   p Total
   p = order_item.total
 
-= link_to 'PAY TODO'
+= button_to 'PAY TODO', customers_order_path(@order), method: :patch, remote: true
+
+#paymentForm
