@@ -74,7 +74,7 @@
     margin: 0 auto modules(1);
     float: none;
 
-    @include min-screen($bp3) { width: modules(16); }
+    @include min-screen($bp3) { width: modules(12); }
   }
 }
 
@@ -144,30 +144,3 @@
     }
   }
 }
-
-.container-payment {
-  padding-top: modules(1);
-  text-align: center;
-
-  label, h3 {
-    display: inline-block;
-    float: none;
-    width: auto;
-    margin: 0;
-  }
-
-  h3 {
-    padding-left: modules(0.25);
-    color: $pinkMagenta;
-  }
-}
-
-  .error-title {
-    display: inline-block;
-    width: auto;
-    margin: 0 auto;
-    border-radius: 3px;
-    padding: modules(0.25) modules(1);
-    background-color: $red;
-    color: $white;
-  }
