@@ -14,7 +14,7 @@
 #  merchant_code      :string
 #  success            :boolean
 #  payment_type       :string
-#  pait_at            :datetime
+#  paid_at            :datetime
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #

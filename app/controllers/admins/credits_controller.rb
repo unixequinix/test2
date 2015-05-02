@@ -45,7 +45,7 @@ class Admins::CreditsController < Admins::BaseController
   private
 
   def permitted_params
-    params.require(:credit).permit(:value, online_product_attributes: [:name, :description, :price])
+    params.require(:credit).permit(online_product_attributes: [:name, :description, :price])
   end
 
 end

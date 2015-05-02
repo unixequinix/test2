@@ -70,3 +70,53 @@ crumb :new_admins_credit do
   link t("breadcrumbs.new_credit")
   parent :admins_credits
 end
+
+## Customers
+
+crumb :admins_customers do
+  link t("breadcrumbs.customers"), admins_customers_path
+end
+
+crumb :admins_customer do |customer|
+  link customer.name, admins_customer_path(customer)
+  parent :admins_customers
+end
+
+crumb :new_admins_customer do
+  link t("breadcrumbs.new_customer")
+  parent :admins_customers
+end
+
+
+## Orders
+
+crumb :admins_orders do
+  link t("breadcrumbs.orders"), admins_orders_path
+end
+
+crumb :admins_order do |order|
+  link order.number, admins_order_path(order)
+  parent :admins_orders
+end
+
+crumb :new_admins_order do
+  link t("breadcrumbs.new_order")
+  parent :admins_orders
+end
+
+
+## Payments
+
+crumb :admins_payments do
+  link t("breadcrumbs.payments"), admins_payments_path
+end
+
+crumb :admins_payment do |payment|
+  link payment.id, admins_payment_path(payment)
+  parent :admins_payments
+end
+
+crumb :new_admins_payment do
+  link t("breadcrumbs.new_payment")
+  parent :admins_payments
+end

@@ -78,7 +78,6 @@ ActiveRecord::Schema.define(version: 20150429111404) do
 
   create_table "credits", force: :cascade do |t|
     t.boolean  "standard",   default: false, null: false
-    t.decimal  "value",      precision: 8, scale: 2,                 null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -117,7 +116,7 @@ ActiveRecord::Schema.define(version: 20150429111404) do
 
   create_table "orders", force: :cascade do |t|
     t.integer  "customer_id",  null: false, index: {name: "fk__orders_customer_id"}, foreign_key: {references: "customers", name: "fk_orders_customer_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "number",       null: false
+    t.string   "number",       null: false, index: {name: "index_orders_on_number", unique: true}
     t.string   "aasm_state",   null: false
     t.datetime "completed_at"
     t.datetime "created_at",   null: false
@@ -127,7 +126,7 @@ ActiveRecord::Schema.define(version: 20150429111404) do
   create_table "order_items", force: :cascade do |t|
     t.integer  "order_id",          null: false, index: {name: "fk__order_items_order_id"}, foreign_key: {references: "orders", name: "fk_order_items_order_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "online_product_id", null: false, index: {name: "fk__order_items_online_product_id"}, foreign_key: {references: "online_products", name: "fk_order_items_online_product_id", on_update: :no_action, on_delete: :no_action}
-    t.decimal  "amount",            precision: 8, scale: 2, null: false
+    t.integer  "amount"
     t.decimal  "total",             precision: 8, scale: 2, null: false
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
@@ -145,7 +144,7 @@ ActiveRecord::Schema.define(version: 20150429111404) do
     t.string   "merchant_code"
     t.boolean  "success"
     t.string   "payment_type"
-    t.datetime "pait_at"
+    t.datetime "paid_at"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
   end

@@ -35,7 +35,7 @@ class CheckoutForm
 
   def generate_order_number
     time_hex = Time.now.strftime('%H%M%L').to_i.to_s(16)
-    day = Date.today.strftime('%Y%m%d')
+    day = Date.today.strftime('%y%m%d')
     "#{day}#{time_hex}"
   end
 end

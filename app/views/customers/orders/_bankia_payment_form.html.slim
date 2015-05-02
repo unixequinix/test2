@@ -1,16 +1,16 @@
 // Order hidden form
-= form_tag ENV["Merchant_MerchantFORM"], id: 'gateway_load' do
-  = hidden_field_tag :Ds_Merchant_MerchantName, ENV["Merchant_Name"]
-  = hidden_field_tag :Ds_Merchant_MerchantCode, ENV["Merchant_Code"]
-  = hidden_field_tag :Ds_Merchant_Terminal, ENV["Merchant_Terminal"]
+= form_tag Rails.application.secrets.merchant_form, id: 'gateway_load' do
+  = hidden_field_tag :Ds_Merchant_MerchantName, Rails.application.secrets.merchant_name
+  = hidden_field_tag :Ds_Merchant_MerchantCode, Rails.application.secrets.merchant_code
+  = hidden_field_tag :Ds_Merchant_Terminal, Rails.application.secrets.merchant_terminal
   = hidden_field_tag :Ds_Merchant_Order, @order.number
   = hidden_field_tag :Ds_Merchant_Amount, @amount
-  = hidden_field_tag :Ds_Merchant_Currency, ENV["Merchant_Currency"]
-  = hidden_field_tag :Ds_Merchant_TransactionType, ENV["Merchant_TransactionType"]
+  = hidden_field_tag :Ds_Merchant_Currency, Rails.application.secrets.merchant_currency
+  = hidden_field_tag :Ds_Merchant_TransactionType, Rails.application.secrets.merchant_transaction_type
   = hidden_field_tag :Ds_Merchant_MerchantSignature, @merchant_signature
   = hidden_field_tag :Ds_Merchant_ProductDescription, @product_description
   = hidden_field_tag :Ds_Merchant_Titular, @client_name
-  = hidden_field_tag :Ds_Merchant_PayMethods, ENV["Merchant_PayMethods"]
-  = hidden_field_tag :Ds_Merchant_MerchantURL, shop_payments_url
-  = hidden_field_tag :Ds_Merchant_UrlOK, invitations_registration_step_url(group: @order.group)
-  = hidden_field_tag :Ds_Merchant_UrlKO, payment_error_shop_payments_url
+  = hidden_field_tag :Ds_Merchant_PayMethods, Rails.application.secrets.merchant_pay_methods
+  = hidden_field_tag :Ds_Merchant_MerchantURL, @notificationURL
+  = hidden_field_tag :Ds_Merchant_UrlOK, success_customers_payments_url
+  = hidden_field_tag :Ds_Merchant_UrlKO, error_customers_payments_url

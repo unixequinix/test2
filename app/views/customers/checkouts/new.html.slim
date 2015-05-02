@@ -8,9 +8,9 @@ p Todo: explanation text here
         h3.product-title How many tokens do you want to top up?
         //= credit.online_product.name
         .product-amount
-          = fa_icon "minus-circle", class: "amount-button", data: { id: "#{credit.id}", operation: "minus" }
-          = number_field_tag "checkout_form[credits][#{credit.id}]", 5, min: 1, max: 200, id: "amount-input-#{credit.id}", class: "amount-input"
+          = fa_icon "minus-circle", class: "amount-button", data: { id: "#{credit.id}", price: "#{credit.online_product.price}", operation: "minus" }
+          = number_field_tag "checkout_form[credits][#{credit.id}]", "#{@initial_quantity}", autocomplete: :off, min: "#{@min}", max: "#{@max}", id: "amount-input-#{credit.id}", class: "amount-input", data: { id: "#{credit.id}", price: "#{credit.online_product.price}" }
           // input#amount-input type="text" maxlength="6" name="oa_quantity" class="input-quantity"  value="1"
-          = fa_icon "plus-circle", class: "amount-button", data: { id: "#{credit.id}", operation: "plus" }
-        .top-up-amount [id="amount-credit-#{credit.id}"] 225€
+          = fa_icon "plus-circle", class: "amount-button", data: { id: "#{credit.id}", price: "#{credit.online_product.price}", operation: "plus" }
+        .top-up-amount [id="amount-total-#{credit.id}" data-id="#{credit.id}"] #{credit.online_product.price * @initial_quantity}€
     = f.button :submit, 'SEND TODO', class: "btn btn-full-width"

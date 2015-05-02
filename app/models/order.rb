@@ -16,6 +16,7 @@ class Order < ActiveRecord::Base
   # Associations
   belongs_to :customer
   has_many :order_items
+  has_many   :payments
 
   # Validations
   validates :customer, :order_items, :number, :aasm_state, presence: true
@@ -44,6 +45,14 @@ class Order < ActiveRecord::Base
     event :complete do
       transitions from: :paid, to: :completed
     end
+  end
+
+  def total
+    total_amount = 0
+    self.order_items.each do |order_item|
+      total_amount = total_amount + order_item.total
+    end
+    total_amount
   end
 
 end

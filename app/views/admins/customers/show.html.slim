@@ -1,0 +1,41 @@
+- breadcrumb :admins_customer, @customer
+- provide :actions do
+  = link_to t("actions.back"), admins_customers_path, class: "btn btn-action btn-action-back"
+
+.container-show
+  label
+    | Email TODO
+  p = @customer.email
+  label
+    | Name TODO
+  p = @customer.name
+  label
+    | Surname TODO
+  p = @customer.surname
+  label
+    | Ticket TODO
+  - if !@customer.assigned_admission.nil?
+    p = link_to @customer.assigned_admission.ticket.number, edit_admins_ticket_path(@customer.assigned_admission.ticket)
+  - else
+    p No ticket TODO
+  label
+    | Credits TODO
+  p = @customer.credits
+  label
+    | Sign in count TODO
+  p = @customer.sign_in_count
+  label
+    | Current sign in at TODO
+  p = @customer.current_sign_in_at
+  label
+    | Last sign in at TODO
+  p = @customer.last_sign_in_at
+  label
+    | Current sign in ip TODO
+  p = @customer.current_sign_in_ip
+  label
+    | Last sign in ip TODO
+  p = @customer.last_sign_in_ip
+  label
+    | Unconfirmed email TODO
+  p = @customer.unconfirmed_email
