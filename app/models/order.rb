@@ -27,32 +27,31 @@ class Order < ActiveRecord::Base
   aasm do
     state :started, initial: true
     state :in_progress
-    state :paid
-    state :completed
-
-    event :revert do
-      transitions from: :in_progress, to: :started
-    end
+    state :completed, enter: :complete_order
 
     event :start_payment do
-      transitions from: :started, to: :in_progress
-    end
-
-    event :pay do
-      transitions from: :in_progress, to: :paid
+      transitions from: [:started, :in_progress], to: :in_progress
     end
 
     event :complete do
-      transitions from: :paid, to: :completed
+      transitions from: :in_progress, to: :completed
     end
   end
 
   def total
-    total_amount = 0
-    self.order_items.each do |order_item|
-      total_amount = total_amount + order_item.total
-    end
-    total_amount
+    self.order_items.sum(:total)
+  end
+
+  def generate_order_number!
+    time_hex = Time.now.strftime('%H%M%L').to_i.to_s(16)
+    day = Date.today.strftime('%y%m%d')
+    self.number = "#{day}#{time_hex}"
+  end
+
+  private
+
+  def complete_order
+    self.update(completed_at: Time.now())
   end
 
 end

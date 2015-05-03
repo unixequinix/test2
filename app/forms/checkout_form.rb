@@ -23,7 +23,7 @@ class CheckoutForm
 
   def persist(params)
     @order.customer = @customer
-    @order.number = generate_order_number
+    @order.generate_order_number!
     Credit.all.each do |credit|
       amount = params[:credits]["#{credit.id}"].to_i
       if !amount.nil? && amount > 0
@@ -31,11 +31,5 @@ class CheckoutForm
       end
     end
     @order.save!
-  end
-
-  def generate_order_number
-    time_hex = Time.now.strftime('%H%M%L').to_i.to_s(16)
-    day = Date.today.strftime('%y%m%d')
-    "#{day}#{time_hex}"
   end
 end

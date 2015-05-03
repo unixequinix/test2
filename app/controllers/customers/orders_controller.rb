@@ -8,14 +8,15 @@ class Customers::OrdersController < Customers::BaseController
 
   def update
     @order = Order.find(params[:id])
+    @order.generate_order_number! if @order.in_progress?
     payment_form_info
+    @order.start_payment!
   end
 
   private
 
   def payment_form_info
-    # @amount = (@order.amount * 100).floor
-    @amount = (20 * 100).floor
+    @amount = (@order.total * 100).floor
     @product_description = 'Barcelona Beach Festival Payment'
     @client_name = @order.customer.name
     code = Rails.application.secrets.merchant_code
@@ -28,7 +29,9 @@ class Customers::OrdersController < Customers::BaseController
   end
 
   def require_permission!
-    if current_customer != Order.find(params[:id]).customer
+    @order = Order.find(params[:id])
+    if current_customer != @order.customer || @order.completed?
+      flash.now[:error] = 'Order completed TODO' if @order.completed?
       redirect_to customer_root_path
     end
   end
