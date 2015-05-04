@@ -94,6 +94,7 @@ a { text-decoration: none; }
 }
 
 .btn-primary {
+  clear: both;
   display: block;
   margin: 0 auto;
   max-width: modules(14);
@@ -104,5 +105,9 @@ a { text-decoration: none; }
   float: right !important;
 }
 
+.btn-full-width {
+  min-width: 100%;
+  width: 100%;
+}
 
 //______________________

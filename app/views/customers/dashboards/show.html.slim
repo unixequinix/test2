@@ -15,10 +15,11 @@ p TODO Remember: ticket number can only be assigned to a single account. The pri
       = fa_icon "money"
       | Credits TODO
     h3 = @total_credits
-.wrapper-field.wrapper-session
+.wrapper-field.wrapper-single-option
   h3 Do you want to unassign the ticket
   = simple_form_for @admission, url: customers_admission_path(@admission), method: :delete do |f|
     = f.button :submit, 'Unassign TODO'
+
 .wrapper-field.centered
   h3
     | TODO

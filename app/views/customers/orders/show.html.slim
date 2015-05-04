@@ -3,26 +3,26 @@
 
 p Please, check your order before proceed checkout. TODO
 .wrapper-field
-  table
+  table.table-order
     tr
-      th Credits
-      th
-      th Price
+      th.table-order-title  Credits
+      th.table-order-title
+      th.table-order-title  Price
     - @order.order_items.each do |order_item|
-      tr
-        td [colspan="2"] = order_item.amount
-        td.table-amount = order_item.total
+      tr.table-order-row
+        td.table-order-cell [colspan="2"] = order_item.amount
+        td.table-order-cell.table-amount = order_item.total
     tr
-      td.table-total [colspan="2"] Total to pay TODO
+      td.table-order-cell.table-total [colspan="2"] Total to pay TODO
       td.table-total.table-amount [colspan="3"] = @order.total
 
   .wrapper-secure-payment
     p.small VAT INCLUDED TODO
     = render 'customers/shared/ssl_cert_seal'
     .wrapper-ccs
-      = fa_icon "cc-visa"
-      = fa_icon "cc-mastercard"
-      = fa_icon "cc-amex"
+      = fa_icon "cc-visa", class: "icon-ccs"
+      = fa_icon "cc-mastercard", class: "icon-ccs"
+      = fa_icon "cc-amex", class: "icon-ccs"
   p.bank-page-alert.small This page will redirect to the payment bank page TODO
   = button_to 'PAY TODO', customers_order_path(@order), method: :patch, remote: true, class: "btn btn-continue"
 
