@@ -23,7 +23,7 @@ class CheckoutForm
 
   def persist(params)
     @order.customer = @customer
-    @order.number = '1'
+    @order.generate_order_number!
     Credit.all.each do |credit|
       amount = params[:credits]["#{credit.id}"].to_i
       if !amount.nil? && amount > 0

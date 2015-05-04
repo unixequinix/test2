@@ -25,8 +25,8 @@ Rails.application.routes.draw do
   namespace :customers do
     resources :admissions, only: [:new, :create, :destroy]
     resources :checkouts, only: [:new, :create]
-    resources :orders, only: [:show]
-    resources :payments do
+    resources :orders, only: [:show, :update]
+    resources :payments, only: [:create] do
       collection do
         get 'success'
         get 'error'
@@ -44,6 +44,21 @@ Rails.application.routes.draw do
       end
     end
     resources :credits, except: :show
+    resources :customers, except: [:new, :create, :edit, :update] do
+      collection do
+        post :search
+      end
+    end
+    resources :orders, except: [:new, :create, :edit, :update] do
+      collection do
+        post :search
+      end
+    end
+    resources :payments, except: [:new, :create, :edit, :update] do
+      collection do
+        post :search
+      end
+    end
   end
 
   devise_scope :customers do

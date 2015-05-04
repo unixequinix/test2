@@ -14,10 +14,16 @@
 #  merchant_code      :string
 #  success            :boolean
 #  payment_type       :string
-#  pait_at            :datetime
+#  paid_at            :datetime
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #
 
 class Payment < ActiveRecord::Base
+
+  # Associations
+  belongs_to :order
+
+  # Validations
+  validates :amount, :order_id, presence: true
 end

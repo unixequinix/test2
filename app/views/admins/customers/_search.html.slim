@@ -1,0 +1,10 @@
+p.section-header
+  = fa_icon "search"
+  | Search
+
+= search_simple_form_for q, url: search_admins_customers_path, html: { method: :post, class: "searchForm" }  do |f|
+  .container-search
+    .wrapper-search-field
+      .custom-input
+        = f.input :name_cont, placeholder: "Name cont TODO"
+    = f.submit class: "btn btn-secondary"

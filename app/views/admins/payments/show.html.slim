@@ -1,0 +1,32 @@
+- breadcrumb :admins_payment, @payment
+- provide :actions do
+  = link_to t("actions.back"), admins_payments_path, class: "btn btn-action btn-action-back"
+
+.container-show
+  label
+    | Order id TODO
+  p = link_to @payment.order.number, admins_order_path(@payment.order)
+  label
+    | Amount TODO
+  p = @payment.amount
+  label
+    | Transaction type TODO
+  p = @payment.transaction_type
+  label
+    | Card country TODO
+  p = @payment.card_country
+  label
+    | Response code TODO
+  p = @payment.response_code
+  label
+    | Authorization code TODO
+  p = @payment.authorization_code
+  label
+    | Currency TODO
+  p = @payment.currency
+  label
+    | Success TODO
+  p = @payment.success
+  label
+    | Paid at TODO
+  p = @payment.paid_at

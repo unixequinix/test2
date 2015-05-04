@@ -1,0 +1,26 @@
+table.payments
+  thead
+    tr
+      th Id TODO
+      th Order id TODO
+      th Amount TODO
+      th Transaction type TODO
+      th Card country TODO
+      th Response code TODO
+      th Authorization code TODO
+      th Currency TODO
+      th Success TODO
+      th Paid at TODO
+  tbody
+    - payments.each do |payment|
+      tr
+        td = link_to payment.id, admins_payment_path(payment)
+        td = link_to payment.order.number, admins_order_path(payment.order)
+        td = payment.amount
+        td = payment.transaction_type
+        td = payment.card_country
+        td = payment.response_code
+        td = payment.authorization_code
+        td = payment.currency
+        td = payment.success
+        td = payment.paid_at

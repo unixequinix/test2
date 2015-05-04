@@ -63,7 +63,7 @@ puts "----------------------------------------"
 OnlineProduct.destroy_all
 Credit.destroy_all
 YAML.load_file(Rails.root.join("db", "seeds", "credits.yml")).each do |data|
-  credit = Credit.new(standard: data['standard'], value: data['value'])
+  credit = Credit.new(standard: data['standard'])
   credit.online_product = OnlineProduct.new(name: data['name'], description: data['description'], price: data['price'])
   credit.save!
 end

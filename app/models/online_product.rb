@@ -16,6 +16,7 @@ class OnlineProduct < ActiveRecord::Base
 
   # Associations
   belongs_to :purchasable, polymorphic: true, touch: true
+  has_many :order_items
 
   # Validations
   validates :name, :description, :price, presence: true

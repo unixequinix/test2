@@ -12,7 +12,7 @@ class CreatePayments < ActiveRecord::Migration
       t.string :merchant_code
       t.boolean :success
       t.string :payment_type
-      t.datetime :pait_at
+      t.datetime :paid_at
 
       t.timestamps null: false
     end

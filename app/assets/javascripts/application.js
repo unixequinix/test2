@@ -4,5 +4,6 @@
 
 //= require top-up-buttons
 //= require admin/header
+//= require vendor/fastclick
 
 

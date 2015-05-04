@@ -1,0 +1,11 @@
+- breadcrumb :admins_customers
+- provide :actions do
+
+= render "admins/customers/search", q: @q
+
+- if @customers.empty?
+  .section-title-empty
+    = image_tag "img-empty.png"
+    p no customers TODO
+- else
+  = render "admins/customers/list", customers: @customers
