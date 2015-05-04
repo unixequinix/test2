@@ -22,7 +22,7 @@
   .wrapper-title
     h2
       | Cancel my account
-  .wrapper-field.wrapper-session
+  .wrapper-field.wrapper-single-option
     h3
       | Unhappy?
     = link_to "Cancel", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: "btn"

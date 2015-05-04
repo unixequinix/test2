@@ -88,3 +88,14 @@ textarea {
     top: auto;
   }
 }
+
+// ____ INPUT CENTERED FOR ASSIGN TICKET ____
+
+.assign-input {
+  display: block;
+  width: 100%;
+  margin: 0 auto modules(1);
+  float: none;
+
+  @include min-screen($bp3) { width: modules(12); }
+}

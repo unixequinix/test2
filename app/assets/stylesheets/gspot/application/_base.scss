@@ -32,15 +32,6 @@
   position: relative;
   padding: modules(1) 0 0;
 
-  p {
-    display: block;
-
-    @include min-screen($bp3) {
-      display: inline-block;
-      width: auto;
-    }
-  }
-
   h3 {
     display: block;
     color: $pinkMagenta;
@@ -58,29 +49,7 @@
   }
 }
 
-.wrapper-profile-field {
-  display: block;
-  width: 100%;
-}
-
-.centered {
-  text-align: center;
-
-  h3 { text-align: center; }
-
-  input {
-    display: block;
-    width: 100%;
-    margin: 0 auto modules(1);
-    float: none;
-
-    @include min-screen($bp3) { width: modules(12); }
-  }
-}
-
-.form-inputs {
-  overflow: hidden;
-}
+.form-inputs { overflow: hidden; }
 
 .form-actions {
   position: relative;
@@ -91,7 +60,7 @@
   clear: both;
 }
 
-.field-forgot-password {
+.field-password-options {
   padding: 0;
   text-align: center;
 
@@ -123,7 +92,7 @@
   @include min-screen($bp3) { margin: modules(1) 0 0; }
 }
 
-.wrapper-session {
+.wrapper-single-option {
   text-align: center;
 
   .btn {
@@ -143,4 +112,12 @@
       @include span-columns(9);
     }
   }
+}
+
+// _____ ALIGN TO CENTER ALL ______
+
+.centered {
+  text-align: center;
+
+  h3 { text-align: center; }
 }
