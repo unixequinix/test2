@@ -95,7 +95,8 @@ header {
   color: $white;
 
   @include min-screen($bp2) { display: block; }
-  @include min-screen($bp5) { width: 1014px; }
+  @include min-screen($bp3) { padding: modules(0.5) modules(2);}
+  @include min-screen($bp5) { width: modules(43); }
 
   ul {
     margin: 0;
