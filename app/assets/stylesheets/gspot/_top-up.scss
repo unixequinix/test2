@@ -9,22 +9,22 @@
 .table-order {
   width: 100%;
   text-align: left;
-}
 
-.table-order-title {
-  @include mscale($label_size);
-  padding: 0;
+  th {
+    @include mscale($label_size);
+    padding: 0;
 
-  &:last-child{ text-align: center; }
-}
+    &:last-child{ text-align: center; }
+  }
 
-.table-order-row {
-  &:nth-child(even) { background-color: lighten($pinkMagenta, 45%); }
-}
+  tr {
+    &:nth-child(even) {
+      background-color: lighten($pinkMagenta, 45%);
+      font-family: Helvetica, sans-serif;
+    }
+  }
 
-.table-order-cell {
-  padding: modules(0.5);
-  font-family: Helvetica, sans-serif;
+  td { padding: modules(0.5); }
 }
 
 .table-amount { width: 10%; text-align: center; }
