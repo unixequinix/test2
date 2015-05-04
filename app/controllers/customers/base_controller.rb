@@ -5,7 +5,7 @@ class Customers::BaseController < ApplicationController
 
   def check_has_ticket!
     if current_customer.assigned_admission.nil?
-      redirect_to new_customers_admission_url
+      redirect_to customer_root_url
     end
   end
 end

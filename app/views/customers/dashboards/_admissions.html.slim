@@ -1,0 +1,11 @@
+.container-profile-resume
+  .wrapper-profile-field
+    label
+      = fa_icon "ticket"
+      | Ticket Number TODO
+    h3 = admission.ticket.number
+
+.wrapper-field.wrapper-session
+  h3 Do you want to unassign the ticket TODO
+  = simple_form_for admission, url: customers_admission_path(admission), method: :delete do |f|
+    = f.button :submit, 'Unassign TODO'
