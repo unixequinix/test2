@@ -3,7 +3,7 @@ class Customers::OrdersController < Customers::BaseController
   before_action :require_permission!
 
   def show
-    @order = Order.find(params[:id])
+    @order = Order.includes(order_items: :online_product).find(params[:id])
   end
 
   def update
