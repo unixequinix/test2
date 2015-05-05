@@ -2,10 +2,10 @@
   h2 TOP UP TODO
 
 p Todo: explanation text here
-.wrapper-fit.centered
-  h3.product-title TODO How many tokens do you want to top up?
+.wrapper-fit
   = simple_form_for @checkout_form, url: customers_checkouts_path, method: :post do |f|
     - @credits.each do |credit|
+        h3.product-title = credit.online_product.name
         //h3 = credit.online_product.name
         //= credit.online_product.name
         .product-amount
@@ -13,5 +13,7 @@ p Todo: explanation text here
           = number_field_tag "checkout_form[credits][#{credit.id}]", "#{@initial_quantity}", autocomplete: :off, min: "#{@min}", max: "#{@max}", id: "amount-input-#{credit.id}", class: "amount-input", data: { id: "#{credit.id}", price: "#{credit.online_product.price}" }
           // input#amount-input type="text" maxlength="6" name="oa_quantity" class="input-quantity"  value="1"
           = fa_icon "plus-circle", class: "amount-button", data: { id: "#{credit.id}", price: "#{credit.online_product.price}", operation: "plus" }
-        .top-up-amount [id="amount-total-#{credit.id}" data-id="#{credit.id}"] #{credit.online_product.price * @initial_quantity}€
+        .checkout-total
+          h3 Price TODO
+          .top-up-amount [id="amount-total-#{credit.id}" data-id="#{credit.id}"] #{credit.online_product.price * @initial_quantity}€
     = f.button :submit, 'SEND TODO', class: "btn btn-full-width"

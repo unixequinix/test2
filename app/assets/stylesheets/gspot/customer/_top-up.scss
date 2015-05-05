@@ -59,7 +59,7 @@
 
   input {
     display: inline-block ;
-    width: 65%;
+    width: 35%;
     margin: 0 auto modules(1);
     float: none;
     text-align: center;
@@ -87,29 +87,34 @@
   }
 }
 
-.product-title {
-  display: block;
-  clear: both;
-  width: 100%;
+.product-title, .product-amount {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.product-title { width:40%; }
+.product-amount { width:60%; text-align: right; }
+
+
+.checkout-total {
+  padding-top: modules(0.5);
+  box-shadow: inset 0px 1px 0px 0px $black;
+
+  h3, .top-up-amount {
+    display: inline-block;
+    width: 50%;
+  }
 }
 
 .top-up-amount {
   @include mscale($label_size);
-  display: inline-block;
-  width: 100%;
-  line-height: 1.7;
-  margin-bottom: modules(1);
-  border-radius: 3px;
-  background-color: $white;
-  padding: modules(0.25) modules(1);
   font-weight: bold;
-  box-shadow: inset 0px 0px 0px 1px $grey;
-  color: $black;
+  text-align: right;
 }
 
 .amount-button {
   @include mscale($label_size);
-  width: 15%;
+  width: auto;
   padding: 0 modules(0.5);
   cursor: pointer;
   -moz-user-select: none;
