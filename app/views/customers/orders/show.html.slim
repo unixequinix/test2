@@ -5,12 +5,12 @@ p Please, check your order before proceed checkout. TODO
 .wrapper-field
   table.table-order
     tr.table-head
-      th Credits TODO
-      th
       th Products TODO
+      th
+      th Price TODO
     - @order.order_items.each do |order_item|
       tr
-        td [colspan="2"] #{order_item.amount} #{order_item.online_product.name}
+        td [colspan="2"] #{pluralize(order_item.amount, order_item.online_product.name)}
         td.table-amount #{order_item.total}
     tr
       td.table-total [colspan="2"] Total to pay TODO
