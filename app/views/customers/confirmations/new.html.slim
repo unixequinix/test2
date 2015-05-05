@@ -7,7 +7,6 @@
     = f.full_error :confirmation_token
     .form-inputs
       = f.input :email, required: true, autofocus: true
-    .form-actions
-      = f.button :submit, "Resend confirmation instructions"
+      = f.button :submit, "Resend confirmation instructions", class: "btn btn-continue"
 = render "customers/shared/links"
 

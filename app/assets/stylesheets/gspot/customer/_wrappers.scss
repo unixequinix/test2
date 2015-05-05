@@ -87,31 +87,17 @@
 .form-inputs { overflow: hidden; }
 
 .form-actions {
+  clear: both;
   position: relative;
   overflow: hidden;
   display: block;
   width: 100%;
-  text-align: right;
-  clear: both;
-}
-
-.field-password-options {
-  margin: modules(0.5) 0 0;
-  padding: 0;
   text-align: center;
+  font-family: Helvetica, sans-serif;
 
-  a {
-    display: block;
-    width: 100%;
-    height: 100%;
-    padding: modules(0.5);
-    color: $black;
-    font-family: Helvetica;
-    cursor: pointer;
+  &:hover { text-decoration: underline; }
 
-    &:hover { background-color: rgba(200, 200, 200, 0.2); }
-  }
-
+  a { color: $black; }
   figure { display: inline-block; padding: 0 modules(0.25);}
 }
 
@@ -133,8 +119,12 @@
 }
 
 .highlight {
-  @include mscale($section-title);
+  @include mscale($button-size);
   display: block;
   color: $pinkMagenta;
+
+  @include min-screen($bp3) {
+    @include mscale($section-title);
+  }
 }
 
