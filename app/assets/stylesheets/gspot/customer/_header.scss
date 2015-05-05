@@ -212,6 +212,8 @@ header {
       position: absolute;
       top: modules(2.55);
       display: inline-block;
+
+      @include min-screen($bp3) { margin-right: modules(1); }
     }
   }
 }
