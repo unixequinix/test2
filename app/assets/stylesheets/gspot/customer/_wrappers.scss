@@ -65,19 +65,6 @@
   }
 }
 
-//.resume-input {
-//  @include mscale($base_font_size);
-//  display: block;
-//  margin: 0 auto;
-//  width: modules(8);
-//  padding: modules(0.5) modules(1);
-//  border-radius: 3px;
-//  background-color: $white;
-//  box-shadow: inset 0px 0px 0px 1px $black;
-//  font-family: Helvetica;
-//  font-weight: lighter;
-//}
-
 .form-inputs { overflow: hidden; }
 
 .form-actions {
@@ -116,6 +103,7 @@
   @include mscale($button-size);
   display: block;
   color: $pinkMagenta;
+  text-shadow: 1px 1px lighten($pinkMagenta,35%), -1px -1px darken($pinkMagenta,10%);
 
   @include min-screen($bp3) {
     @include mscale($section-title);
