@@ -65,11 +65,23 @@
   }
 }
 
+//.resume-input {
+//  @include mscale($base_font_size);
+//  display: block;
+//  margin: 0 auto;
+//  width: modules(8);
+//  padding: modules(0.5) modules(1);
+//  border-radius: 3px;
+//  background-color: $white;
+//  box-shadow: inset 0px 0px 0px 1px $black;
+//  font-family: Helvetica;
+//  font-weight: lighter;
+//}
+
 // Basic wrapper for inline-info inside wrapper-field like "Ticketnumber: xxxxxxxx"
 .wrapper-profile-field {
   display: block;
   width: 100%;
-
 }
 
 .form-inputs { overflow: hidden; }
@@ -121,6 +133,8 @@
 }
 
 .highlight {
+  @include mscale($section-title);
+  display: block;
   color: $pinkMagenta;
 }
 
