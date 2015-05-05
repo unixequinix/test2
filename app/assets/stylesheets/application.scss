@@ -6,15 +6,14 @@
 
 @import "base_imports";
 
-@import "gspot/common_base";
-@import "gspot/header";
-@import "gspot/notifications";
-@import "gspot/exceptions";
-@import "gspot/forms";
-@import "gspot/top-up";
-@import "gspot/footer";
-
-@import "gspot/application/base";
+@import "gspot/customer/base";
+@import "gspot/customer/common_base";
+@import "gspot/customer/header";
+@import "gspot/customer/notifications";
+@import "gspot/customer/exceptions";
+@import "gspot/customer/forms";
+@import "gspot/customer/top-up";
+@import "gspot/customer/footer";
 
 @media print {
   @import "gspot/print";

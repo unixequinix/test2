@@ -2,7 +2,7 @@
 //= require jquery_ujs
 //= require turbolinks
 
-//= require top-up-buttons
+//= require customer/top-up-buttons
 //= require admin/header
 //= require vendor/fastclick
 

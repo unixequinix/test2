@@ -71,10 +71,10 @@ a { text-decoration: none; }
   overflow: hidden;
   display: inline-block;
   width: 100%;
-  height: modules(3);
-  line-height: 1.75;
+  height: modules(2);
+  line-height: 0.5 ;
   margin: modules(1) 0 0;
-  padding: modules(0.25) modules(1);
+  padding: modules(0.25) modules(0.5);
   border: 1px solid transparent;
   background-color: $black;
   color: $pinkMagenta;
@@ -87,7 +87,7 @@ a { text-decoration: none; }
   @include min-screen($bp3) {
     width: auto;
     margin: 0;
-    padding: modules(0.25) modules(1.25);
+    padding: modules(0.5) modules(1);
   }
 
   &:hover { background-color: $pinkMagenta; color: $black; }
@@ -97,7 +97,7 @@ a { text-decoration: none; }
   clear: both;
   display: block;
   margin: 0 auto;
-  max-width: modules(14);
+  max-width: modules(12);
 }
 
 .btn-continue {
