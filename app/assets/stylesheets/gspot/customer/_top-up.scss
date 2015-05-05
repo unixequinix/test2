@@ -18,9 +18,14 @@
   }
 
   tr {
-    &:nth-child(even) {
-      background-color: lighten($pinkMagenta, 45%);
-      font-family: Helvetica, sans-serif;
+    font-family: Helvetica;
+
+    &:nth-child(even) { background-color: lighten($pinkMagenta, 45%); }
+    &:nth-child(odd) { background-color: $white; }
+
+    &.table-head {
+      background-color: transparent;
+      font-family: Bebas;
     }
   }
 
