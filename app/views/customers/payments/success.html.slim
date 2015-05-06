@@ -4,10 +4,10 @@
 p TODO Thank you for your order. Your payment has been processed.
 
 .wrapper-field.centered
-  h3 Your credit
+  h3 Your credit TODO
   h3.highlight
     = fa_icon "money"
-    = @total_credits
+    = current_customer.credit_logs.sum(:amount)
 
   h3 Want to top up more TODO?
   = link_to 'TOPUP TODO', new_customers_checkout_path, class: "btn btn-primary"

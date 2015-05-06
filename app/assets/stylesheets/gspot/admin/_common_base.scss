@@ -111,17 +111,36 @@
   padding: modules(1);
   border-radius: 3px;
   background-color: $admin_grey;
-  box-shadow: inset 0px 0px 0px 1px $light_grey;
+  box-shadow: inset 0px 0px 0px 1px $graySilver;
 
   @include min-screen($bp3) {
     padding: modules(2);
   }
 
-  label {
+  dt {
+    overflow: hidden;
     color: $grey;
+
+    @include min-screen($bp3) {
+      display: inline-block;
+      width: 20%;
+    }
+  }
+
+  dd {
+    overflow: hidden;
     margin: 0;
 
-    i { padding-right: modules(0.5); }
+    @include min-screen($bp3) {
+      display: inline-block;
+      width: 75%;
+    }
+  }
+
+  a {
+    color: $blue;
+
+    &:hover { text-decoration: underline; }
   }
 }
 

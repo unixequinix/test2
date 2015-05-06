@@ -1,16 +1,13 @@
 .error_notification
-  h3 Error
-  p Contact us:
+  h3 Error TODO
+  p Contact us TODO:
   p support@glownet.com
-  .container-payment
-    label Now your current balance is
-    h3 #{current_customer.credit_logs.sum(:amount)} CREDITS TODO
 
 .wrapper-field.centered
-  h3 Your credit
+  h3 Your credit TODO
   h3.highlight
     = fa_icon "money"
-    = @total_credits
+    = current_customer.credit_logs.sum(:amount)
 
-  h3 Back to top up
+  h3 Do you want to try again? TODO
   = link_to 'TOPUP TODO', new_customers_checkout_path, class: "btn btn-primary"

@@ -3,45 +3,55 @@
   = link_to t("actions.back"), admins_customers_path, class: "btn btn-action btn-action-back"
 
 .container-show
-  label
-    | Email TODO
-  p = @customer.email
-  label
-    | Name TODO
-  p = @customer.name
-  label
-    | Surname TODO
-  p = @customer.surname
-  label
-    | Ticket TODO
-  - if !@customer.assigned_admission.nil?
-    p = link_to @customer.assigned_admission.ticket.number, edit_admins_ticket_path(@customer.assigned_admission.ticket)
-  - else
-    p No ticket TODO
-  label
-    | Credits TODO
-  p = @customer.credit_logs.sum(:amount)
-  label
-    | Sign in count TODO
-  p = @customer.sign_in_count
-  label
-    | Current sign in at TODO
-  p = @customer.current_sign_in_at
-  label
-    | Last sign in at TODO
-  p = @customer.last_sign_in_at
-  label
-    | Current sign in ip TODO
-  p = @customer.current_sign_in_ip
-  label
-    | Last sign in ip TODO
-  p = @customer.last_sign_in_ip
-  label
-    | Unconfirmed email TODO
-  p = @customer.unconfirmed_email
+  dl
+    dt
+      | Email TODO
+    dd = @customer.email
 
-  h3 Transactions TODO
-  table
+    dt
+      | Name TODO
+    dd = @customer.name
+
+    dt
+      | Surname TODO
+    dd = @customer.surname
+
+    dt
+      | Ticket TODO
+    - if !@customer.assigned_admission.nil?
+      dd = link_to @customer.assigned_admission.ticket.number, edit_admins_ticket_path(@customer.assigned_admission.ticket)
+    - else
+      dd No ticket TODO
+
+    dt
+      | Credits TODO
+    dd = @customer.credit_logs.sum(:amount)
+
+    dt
+      | Sign in count TODO
+    dd = @customer.sign_in_count
+
+    dt
+      | Current sign in at TODO
+    dd = @customer.current_sign_in_at
+
+    dt
+      | Last sign in at TODO
+    dd = @customer.last_sign_in_at
+    dt
+      | Current sign in ip TODO
+    dd = @customer.current_sign_in_ip
+
+    dt
+      | Last sign in ip TODO
+    dd = @customer.last_sign_in_ip
+
+    dt
+      | Unconfirmed email TODO
+    dd = @customer.unconfirmed_email
+
+  table.subtable
+    caption Transactions TODO
     thead
       tr
         th Transaction Type TODO

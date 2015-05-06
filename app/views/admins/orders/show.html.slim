@@ -3,24 +3,25 @@
   = link_to t("actions.back"), admins_orders_path, class: "btn btn-action btn-action-back"
 
 .container-show
-  label
-    | Number TODO
-  p = @order.number
-  label
-    | Customer TODO
-  p = link_to @order.customer.email, admins_customer_path(@order.customer)
-  label
-    | State TODO
-  p = @order.aasm_state
-  label
-    | Created at TODO
-  p = @order.created_at
-  label
-    | Completed at TODO
-  p = @order.completed_at
+  dl
+    dt
+      | Number TODO
+    dd = @order.number
+    dt
+      | Customer TODO
+    dd = link_to @order.customer.email, admins_customer_path(@order.customer)
+    dt
+      | State TODO
+    dd = @order.aasm_state
+    dt
+      | Created at TODO
+    dd = @order.created_at
+    dt
+      | Completed at TODO
+    dd = @order.completed_at
 
-  h3 Order Items TODO
-  table
+  table.subtable
+    caption Order Items TODO
     thead
       tr
         th Amount TODO
