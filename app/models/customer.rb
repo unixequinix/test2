@@ -34,12 +34,10 @@ class Customer < ActiveRecord::Base
   has_one :assigned_admission, ->{ where(aasm_state: :assigned) }, class_name: "Admission"
   has_one :ticket, through: :admission
   has_many :orders
+  has_many :credit_logs
 
   # Validations
   validates :email, presence: true, uniqueness: true
   validates :name, :surname, presence: true
 
-  def credits
-    user_credits = Credit.joins(online_product: {order_items: {order: :customer}}).where(customers: {id: self.id}).sum("order_items.amount")
-  end
 end

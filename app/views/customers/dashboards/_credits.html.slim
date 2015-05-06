@@ -2,7 +2,7 @@
   h3 Your credit TODO:
   h3.highlight
     = fa_icon "money"
-    = total_credits
+    = current_customer.credit_logs.sum(:amount)
 
   h3 Avoid queues: Top Up here and maximise your experience TODO
   = link_to 'GO TO TOP UP TODO', new_customers_checkout_path, class: "btn btn-primary"

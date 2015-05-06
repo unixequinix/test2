@@ -5,7 +5,7 @@ p TODO Thank you for your order. Your payment has been processed.
 
 .container-payment
   label Now your current balance is
-  h3 #{@total_credits} CREDITS TODO
+  h3 #{current_customer.credit_logs.sum(:amount)} CREDITS TODO
 .wrapper-field.centered
   h3 Want to top up more?
   = link_to 'TOPUP TODO', new_customers_checkout_path, class: "btn btn-primary"
