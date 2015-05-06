@@ -20,13 +20,13 @@ class Customers::PaymentsController < Customers::BaseController
 
   def success
     if !current_customer.assigned_admission.nil?
-      @admission = Admission.includes(:ticket).find(current_customer.assigned_admission.id)
+      @admission = Admission.find(current_customer.assigned_admission.id)
     end
   end
 
   def error
     if !current_customer.assigned_admission.nil?
-      @admission = Admission.includes(:ticket).find(current_customer.assigned_admission.id)
+      @admission = Admission.find(current_customer.assigned_admission.id)
     end
   end
 
