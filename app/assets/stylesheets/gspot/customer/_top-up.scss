@@ -56,14 +56,6 @@
     margin: 0 auto;
     padding: modules(1) modules(2);
   }
-
-  input {
-    display: inline-block ;
-    width: 35%;
-    margin: 0 auto modules(1);
-    float: none;
-    text-align: center;
-  }
 }
 
 .wrapper-product-info {
@@ -93,8 +85,18 @@
 }
 
 .product-title { width:40%; }
-.product-amount { width:60%; text-align: right; }
 
+.product-amount {
+  width:60%; text-align: right;
+
+  input {
+    display: inline-block ;
+    width: 35%;
+    margin: 0 auto modules(1);
+    float: none;
+    text-align: center;
+  }
+}
 
 .checkout-total {
   padding-top: modules(0.5);
@@ -127,22 +129,7 @@
   &:hover { opacity: 0.5; }
 }
 
-.container-payment {
-  padding-top: modules(1);
-  text-align: center;
-
-  label, h3 {
-    display: inline-block;
-    float: none;
-    width: auto;
-    margin: 0;
-  }
-
-  h3 {
-    padding-left: modules(0.25);
-    color: $pinkMagenta;
-  }
-}
+.wrapper-payment-error { padding: modules(1) 0; }
 
 .error-title {
   display: inline-block;

@@ -5,5 +5,6 @@ p TODO In order to proceed asign the ticket number as appears in your ticket. Th
 .wrapper-fit.centered
   h3 TODO Your bbf begins here. Asign your ticket and go!
   = form_tag customers_admissions_path do |f|
-    = text_field_tag :ticket_number, nil, placeholder: '000000000 TODO'
-    = submit_tag 'Assign TODO', class: "btn btn-primary"
+    .assign-input
+      = text_field_tag :ticket_number, nil, placeholder: '000000000 TODO'
+    = submit_tag 'Assign TODO', class: "btn btn-full-width"
