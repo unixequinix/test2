@@ -67,7 +67,7 @@
   text-align: center;
   color: $white;
 
-  p { margin: 0; }
+  p, h3 { margin: 0; color: $white; }
 }
 
 .error {

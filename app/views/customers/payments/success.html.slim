@@ -4,9 +4,10 @@
 p TODO Thank you for your order. Your payment has been processed.
 
 .wrapper-field.centered
-  h3 Now your current balance is
-  h3.highlight #{@total_credits} CREDITS TODO
+  h3 Your credit
+  h3.highlight
+    = fa_icon "money"
+    = @total_credits
 
-.wrapper-field.centered
-  h3 Want to top up more?
+  h3 Want to top up more TODO?
   = link_to 'TOPUP TODO', new_customers_checkout_path, class: "btn btn-primary"

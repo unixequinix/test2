@@ -1,13 +1,13 @@
-.wrapper-field.centered
-  .wrapper-payment-error
-    p.error-title Error
-    p Contact us:
-    p support@glownet.com
-
-
-  h3 Now your current balance is
-  h3.highlight #{@total_credits} CREDITS TODO
+.error_notification
+  h3 Error
+  p Contact us:
+  p support@glownet.com
 
 .wrapper-field.centered
+  h3 Your credit
+  h3.highlight
+    = fa_icon "money"
+    = @total_credits
+
   h3 Back to top up
   = link_to 'TOPUP TODO', new_customers_checkout_path, class: "btn btn-primary"
