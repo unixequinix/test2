@@ -157,8 +157,7 @@
 
 .bank-page-alert {
   text-align: center;
-  margin-bottom: 0;
-  padding-top: modules(0.5);
+  padding: modules(0.5) 0;
 
   @include min-screen($bp3) {
     text-align: right;
