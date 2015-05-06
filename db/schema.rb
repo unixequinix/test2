@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150429111404) do
+ActiveRecord::Schema.define(version: 20150505180300) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,14 @@ ActiveRecord::Schema.define(version: 20150429111404) do
     t.datetime "updated_at",  null: false
   end
 
+  create_table "credit_logs", force: :cascade do |t|
+    t.integer  "customer_id",      null: false, index: {name: "fk__credit_logs_customer_id"}, foreign_key: {references: "customers", name: "fk_credit_logs_customer_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "transaction_type"
+    t.decimal  "amount",           precision: 8, scale: 2, null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
   create_table "credits", force: :cascade do |t|
     t.boolean  "standard",   default: false, null: false
     t.datetime "created_at", null: false
@@ -95,6 +103,13 @@ ActiveRecord::Schema.define(version: 20150429111404) do
     t.datetime "updated_at",     null: false
   end
 
+  create_table "events", force: :cascade do |t|
+    t.string   "name"
+    t.string   "aasm_state"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",           null: false, index: {name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", with: ["sluggable_type", "scope"], unique: true}
     t.integer  "sluggable_id",   null: false, index: {name: "index_friendly_id_slugs_on_sluggable_id"}
@@ -110,6 +125,10 @@ ActiveRecord::Schema.define(version: 20150429111404) do
     t.decimal  "price",            precision: 8, scale: 2, null: false
     t.integer  "purchasable_id",   null: false
     t.string   "purchasable_type", null: false
+    t.integer  "min_purchasable"
+    t.integer  "max_purchasable"
+    t.integer  "initial_amount"
+    t.integer  "step"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end

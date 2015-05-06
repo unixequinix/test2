@@ -8,6 +8,10 @@
 #  price            :decimal(8, 2)    not null
 #  purchasable_id   :integer          not null
 #  purchasable_type :string           not null
+#  min_purchasable  :integer
+#  max_purchasable  :integer
+#  initial_amount   :integer
+#  step             :integer
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #

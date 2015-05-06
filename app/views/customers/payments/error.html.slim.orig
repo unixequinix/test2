@@ -2,9 +2,12 @@
   h3 Error
   p Contact us:
   p support@glownet.com
+<<<<<<< HEAD
+=======
   .container-payment
     label Now your current balance is
     h3 #{current_customer.credit_logs.sum(:amount)} CREDITS TODO
+>>>>>>> development
 
 .wrapper-field.centered
   h3 Your credit

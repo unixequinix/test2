@@ -20,7 +20,7 @@
     p No ticket TODO
   label
     | Credits TODO
-  p = @customer.credits
+  p = @customer.credit_logs.sum(:amount)
   label
     | Sign in count TODO
   p = @customer.sign_in_count
@@ -39,3 +39,15 @@
   label
     | Unconfirmed email TODO
   p = @customer.unconfirmed_email
+
+  h3 Transactions TODO
+  table
+    thead
+      tr
+        th Transaction Type TODO
+        th Amount TODO
+    tbody
+      - @customer.credit_logs.each do |credit_log|
+        tr
+          td = credit_log.transaction_type
+          td = credit_log.amount

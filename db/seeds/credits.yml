@@ -1,5 +1,9 @@
 -
-  name: Credit
+  name: Credits
   description: This is the standard token unit
   price: 3
   standard: true
+  min_purchasable: 1
+  max_purchasable: 50
+  initial_amount: 5
+  step: 5
