@@ -104,14 +104,3 @@
   p { margin: 0; }
 }
 
-.highlight {
-  @include mscale($button-size);
-  display: block;
-  color: $pinkMagenta;
-  text-shadow: 1px 1px lighten($pinkMagenta,34%), -1px -1px darken($pinkMagenta,10%);
-
-  @include min-screen($bp3) {
-    @include mscale($section-title);
-  }
-}
-

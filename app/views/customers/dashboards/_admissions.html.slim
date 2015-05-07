@@ -1,9 +1,11 @@
-.wrapper-field.centered
+.wrapper-field
   = simple_form_for admission, url: customers_admission_path(admission), method: :delete do |f|
-    h3 Your ticket number TODO:
-    h3.highlight
-      = fa_icon "ticket"
-      = admission.ticket.number
-
-    h3 Do you want to unassign the ticket? TODO
-    = f.button :submit, 'Unassign TODO', class: "btn btn-primary"
+    .dashboard-field.dashboard-field-info
+      h3
+        = fa_icon "ticket"
+        | Your ticket number TODO:
+      h3.highlight
+        = admission.ticket.number
+    .dashboard-field.dashboard-field-action
+      h3 Do you want to unassign the ticket? TODO
+      = f.button :submit, 'Unassign TODO', class: "btn"

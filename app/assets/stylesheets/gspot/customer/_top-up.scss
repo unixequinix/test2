@@ -116,11 +116,10 @@
 
 .amount-button {
   @include mscale($label_size);
+  @include user-select(none);
   width: auto;
   padding: 0 modules(0.5);
   cursor: pointer;
-  -moz-user-select: none;
-  -webkit-user-select: none;
   color: $pinkMagenta;
 
   &:first-child { text-align: left; padding-left: 0; }
