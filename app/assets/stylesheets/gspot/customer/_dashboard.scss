@@ -13,7 +13,16 @@ $highlight-tittle: $base-font-size*4.5;
 
   @include min-screen($bp4) {
     min-height: modules(6);
+    height: auto;
+    padding-bottom: modules(2);
     text-align: left;
+
+    .btn {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
   }
 
   h3 { text-align: center; }
@@ -21,6 +30,7 @@ $highlight-tittle: $base-font-size*4.5;
   .btn { display: block; margin: 0 auto; }
 }
 
+// Big pink text
 .highlight {
   @include mscale($button-size);
   display: block;
@@ -43,7 +53,7 @@ $highlight-tittle: $base-font-size*4.5;
   @include min-screen($bp4) {
     display: inline-block;
     vertical-align: top;
-    width: 57%;
+    width: 60%;
     margin-right: 3%;
     box-shadow: inset -1px 0px 0px 0px $grayGunmetal;
   }
@@ -56,7 +66,7 @@ $highlight-tittle: $base-font-size*4.5;
   @include min-screen($bp4) {
     display: inline-block;
     vertical-align: top;
-    width: 40%;
+    width: 37%;
     text-align: center;
 
     h3 { text-align: center; }
