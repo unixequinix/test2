@@ -1,0 +1,104 @@
+// -------------------------------------------------------
+//
+//  Dashboard styles
+//
+// -------------------------------------------------------
+
+.container-dashboard {
+  position: relative;
+  margin-bottom: modules(1);
+  padding: 0;
+
+  @include min-screen($bp3) {
+    @include span-columns(6);
+      @include omega(2n);
+   }
+
+  h3 {
+    overflow: hidden;
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+  }
+}
+
+.wrapper-dashboard {
+  padding: modules(1);
+}
+
+.wrapper-dashboard-main {
+  padding: modules(1);
+  background-color: $blue;
+
+  h2, h3,p { color: $white; }
+
+}
+
+.dashboard-table-header {
+  margin-bottom: 0;
+  padding: modules(0.25) modules(1);
+  background-color: $blue;
+  color: $white;
+  font-weight: lighter;
+  text-transform: uppercase;
+}
+
+.dashboard-highlight {
+  color: $grey;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.event-status {
+  position: relative;
+  text-align: center;
+
+  @include min-screen($bp4) {
+    display: inline-block;
+    vertical-align: top;
+    width: 65%;
+    min-height: modules(4);
+    text-align: left;
+  }
+}
+
+.change-status {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width: 100%;
+  min-height: modules(4);
+  padding-top: modules(1);
+
+  .input{ padding: 0; }
+
+  @include min-screen($bp4) {
+    width: 35%;
+    padding: 0 0 0 modules(1);
+    box-shadow: inset 1px 0px 0px 0px $light_blue;
+
+    .input{ padding-bottom: modules(1); }
+  }
+
+  h2, h3, p { text-align: center; }
+}
+
+.current-status {
+  @include mscale($base_font_size*2);
+  text-transform: uppercase;
+  font-weight: 100;
+
+  @include min-screen($bp4) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+
+  &:before {
+      @include mscale($base_font_size*0.70);
+      content: "Current status TODO:";
+      display: block;
+      line-height: 0;
+    }
+}
