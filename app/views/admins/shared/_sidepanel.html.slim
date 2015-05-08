@@ -1,8 +1,8 @@
 aside#main-menu
-  h1.img-header
-    = link_to admin_root_path
-      =image_tag ("admin-panel-logo.png")
   ul
+    h1.img-header
+      = link_to admin_root_path
+        = image_tag ("admin-panel-logo.png")
     li = link_to 'Entitlements TODO', admins_entitlements_path
     li = link_to 'Ticket Types TODO', admins_ticket_types_path
     li = link_to 'Tickets TODO', admins_tickets_path
