@@ -55,7 +55,6 @@
   @include mscale($base_font_size*0.75);
   color: $grey;
   font-weight: bold;
-  text-transform: uppercase;
 
   @include min-screen($bp4) { @include mscale($base_font_size); }
 }
@@ -102,9 +101,9 @@
   }
 
   &:before {
-      @include mscale($base_font_size*0.70);
-      content: "Current status TODO:";
-      display: block;
-      line-height: 0;
-    }
+    @include mscale($base_font_size*0.70);
+    content: "Current status TODO:";
+    display: block;
+    line-height: 0;
+  }
 }
