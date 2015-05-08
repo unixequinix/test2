@@ -110,8 +110,8 @@
 .container-show {
   padding: modules(1);
   border-radius: 3px;
-  background-color: $admin_grey;
-  box-shadow: inset 0px 0px 0px 1px $graySilver;
+  background-color: $white;
+  box-shadow: inset 0px 0px 1px 0px $dark_grey;
 
   @include min-screen($bp3) {
     padding: modules(2);
@@ -142,6 +142,14 @@
 
     &:hover { text-decoration: underline; }
   }
+}
+
+.wrapper-dashboard {
+
+   @include min-screen($bp3) {
+     @include span-columns(6);
+      @include omega(2n);
+   }
 }
 
 .wrapper-add-file {
