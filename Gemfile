@@ -22,8 +22,10 @@ gem 'bourbon', '~> 4.2.2'
 gem 'neat', '~> 1.7.2'
 gem 'font-awesome-rails', '~> 4.3.0.0'
 
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+# JSON APIs
 gem 'jbuilder', '~> 2.2.13'
+gem 'active_model_serializers', '~> 0.9.3'
+gem 'rack-cors', require: 'rack/cors'
 
 # Turbolinks
 gem 'turbolinks', '~> 2.5.3'

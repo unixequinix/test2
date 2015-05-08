@@ -4,6 +4,7 @@ class DeviseCreateAdmins < ActiveRecord::Migration
       ## Database authenticatable
       t.string :email,              null: false, default: "", index: { unique: true }
       t.string :encrypted_password, null: false, default: ""
+      t.string :access_token,       null: false
 
       ## Recoverable
       t.string   :reset_password_token, index: { unique: true }

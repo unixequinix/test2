@@ -39,5 +39,12 @@ module Gspot
 
     # Custom exception handling
     config.exceptions_app = ->(env) { ExceptionController.action(:show).call(env) }
+
+    config.middleware.insert_before 0, 'Rack::Cors' do
+      allow do
+        origins '*'
+        resource '*', headers: :any, methods: [:get, :post, :options]
+      end
+    end
   end
 end

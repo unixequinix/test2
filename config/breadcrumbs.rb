@@ -6,6 +6,11 @@ end
 ## Admin
 ## -------------------------------------------------
 
+## Dashboards
+
+crumb :admins_root do
+  link t("breadcrumbs.dashboard"), admin_root_path
+end
 
 ## Entitlements
 

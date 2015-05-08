@@ -1,0 +1,13 @@
+- breadcrumb :admins_root
+
+.container-show
+  P = @event.name
+  p Actual State #{@event.aasm_state}
+  p Change state TODO
+  = render "admins/events/change_state", state: :started, action: "Start" if @event.created?
+  = render "admins/events/change_state", state: :finished, action: "Finish" if @event.started?
+  = render "admins/events/change_state", state: :created, action: "Reboot" if @event.finished?
+
+.container-show
+  p Your current API access token TODO
+  P = current_admin.access_token

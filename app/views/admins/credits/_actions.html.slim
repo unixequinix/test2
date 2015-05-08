@@ -1,0 +1,6 @@
+ul
+  - unless credit.standard
+    li.table-action.action-delete = link_to admins_credit_path(credit), method: :delete, data: { confirm: "Are you sure? TODO" } do
+      = fa_icon "trash"
+  li.table-action.action-edit = link_to edit_admins_credit_path(credit) do
+    = fa_icon "edit"

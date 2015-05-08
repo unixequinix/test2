@@ -15,12 +15,12 @@ class CreditLog < ActiveRecord::Base
   # Associations
   belongs_to :customer
 
-  TICKET_ASSIGMENT  = 'ticket_assignment'
-  TICKET_UNASSIGMENT  = 'ticket_unassignment'
+  TICKET_ASSIGNMENT  = 'ticket_assignment'
+  TICKET_UNASSIGNMENT  = 'ticket_unassignment'
   CREDITS_PURCHASE  = 'credits_purchase'
 
   # Type of the invoices
-  TRANSACTION_TYPES = [TICKET_ASSIGMENT, TICKET_UNASSIGMENT, CREDITS_PURCHASE]
+  TRANSACTION_TYPES = [TICKET_ASSIGNMENT, TICKET_UNASSIGNMENT, CREDITS_PURCHASE]
 
   # Validations
   validates :customer, :transaction_type, :amount, presence: true

@@ -24,6 +24,8 @@
 #
 
 class Customer < ActiveRecord::Base
+  # Constants
+  MAIL_FORMAT = Devise.email_regexp
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
@@ -37,7 +39,7 @@ class Customer < ActiveRecord::Base
   has_many :credit_logs
 
   # Validations
-  validates :email, presence: true, uniqueness: true
+  validates :email, format: { with: MAIL_FORMAT }, presence: true, uniqueness: true
   validates :name, :surname, presence: true
 
 end

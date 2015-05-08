@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20150505180300) do
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  default: "", null: false, index: {name: "index_admins_on_email", unique: true}
     t.string   "encrypted_password",     default: "", null: false
+    t.string   "access_token",           null: false
     t.string   "reset_password_token",   index: {name: "index_admins_on_reset_password_token", unique: true}
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

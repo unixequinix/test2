@@ -1,3 +1,5 @@
+require 'api_constraints'
+
 Rails.application.routes.draw do
 
   ## Devise
@@ -19,6 +21,16 @@ Rails.application.routes.draw do
     },
     path_names: { sign_up: 'signup', sign_in: 'login', sign_out: 'logout' }
 
+  ## API
+  ## ------------------------------
+
+  namespace :api, defaults: { format: 'json' } do
+    scope module: :v1,
+          constraints: ApiConstraints.new(version: 1, default: true) do
+      resources :customers, only: [:index]
+    end
+  end
+
   ## Resources
   ## ------------------------------
 
@@ -35,6 +47,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admins do
+    resources :events, only: :update
     resources :entitlements, except: :show
     resources :ticket_types, except: :show
     resources :tickets, except: :show do

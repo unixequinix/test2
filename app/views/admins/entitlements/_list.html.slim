@@ -8,8 +8,4 @@ table.entitlements
       tr
         td = link_to entitlement.name, edit_admins_entitlement_path(entitlement)
         td.table-actions-field
-          ul
-            li.table-action.action-delete = link_to admins_entitlement_path(entitlement), method: :delete, data: { confirm: "Are you sure? TODO" } do
-              = fa_icon "trash"
-            li.table-action.action-edit = link_to edit_admins_entitlement_path(entitlement) do
-               = fa_icon "edit"
+          = render 'admins/entitlements/actions', entitlement: entitlement unless current_event.started?
