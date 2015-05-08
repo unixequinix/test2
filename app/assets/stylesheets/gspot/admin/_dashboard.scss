@@ -25,6 +25,9 @@
 
 .wrapper-dashboard {
   padding: modules(1);
+  text-align: center;
+
+   @include min-screen($bp3) { text-align: left;}
 }
 
 .wrapper-dashboard-main {
@@ -42,12 +45,19 @@
   color: $white;
   font-weight: lighter;
   text-transform: uppercase;
+
+  text-align: center;
+
+   @include min-screen($bp3) { text-align: left;}
 }
 
 .dashboard-highlight {
+  @include mscale($base_font_size*0.75);
   color: $grey;
   font-weight: bold;
   text-transform: uppercase;
+
+  @include min-screen($bp4) { @include mscale($base_font_size); }
 }
 
 .event-status {
@@ -71,14 +81,10 @@
   min-height: modules(4);
   padding-top: modules(1);
 
-  .input{ padding: 0; }
-
   @include min-screen($bp4) {
     width: 35%;
     padding: 0 0 0 modules(1);
     box-shadow: inset 1px 0px 0px 0px $light_blue;
-
-    .input{ padding-bottom: modules(1); }
   }
 
   h2, h3, p { text-align: center; }
