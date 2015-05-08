@@ -20,7 +20,7 @@ th {
     background-color: $side-panel;
     color: $nuclear;
     font-style: italic;
-    font-weight: 100;
+    font-weight: 200;
     text-align: left;
   }
 }
@@ -39,8 +39,8 @@ td {
   width: 100%;
   height: auto;
   padding: modules(0.5) modules(0.5) 0;
-  text-align: right;
   box-shadow: inset 0px -1px 0px 0px darken($input_grey,5%);
+  text-align: right;
 
   @include min-screen($bp3) {
     display: table-cell;
