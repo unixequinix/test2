@@ -32,7 +32,6 @@ class Admin < ActiveRecord::Base
 
   # Hooks
   before_create :generate_access_token
-
   # Methods
   # -------------------------------------------------------
 
@@ -40,5 +39,9 @@ class Admin < ActiveRecord::Base
     begin
       self.access_token = SecureRandom.hex
     end while self.class.exists?(access_token: access_token)
+  end
+
+  def valid_token?(token)
+    self.access_token == token
   end
 end
