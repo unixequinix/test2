@@ -7,4 +7,3 @@ if ( $('#main-menu').length ) {
 
 $(document).on('page:load', SideMenu);
 $(document).ready(SideMenu);
-

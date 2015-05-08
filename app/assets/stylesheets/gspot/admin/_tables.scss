@@ -39,7 +39,6 @@ td {
   width: 100%;
   height: auto;
   padding: modules(0.5) modules(0.5) 0;
-  box-shadow: inset 0px -1px 0px 0px darken($input_grey,5%);
   text-align: right;
 
   @include min-screen($bp3) {
@@ -48,6 +47,7 @@ td {
     max-width: modules(9);
     width: auto;
     padding: 0;
+    box-shadow: inset 0px -1px 0px 0px darken($input_grey,5%);
     text-align: left;
   }
 
@@ -149,6 +149,32 @@ td {
   td:nth-of-type(2):before { content: "Amount";}
 }
 
+.credits {
+  td:nth-of-type(1):before { content: "Name"; }
+  td:nth-of-type(2):before { content: "Description"; }
+  td:nth-of-type(3):before { content: "Credit"; }
+  td:nth-of-type(4):before { content: "Price"; }
+  td:nth-of-type(5):before { content: "Min"; }
+  td:nth-of-type(6):before { content: "Max"; }
+  td:nth-of-type(7):before { content: "Initial"; }
+  td:nth-of-type(8):before { content: "Step"; }
+}
+
+.customers {
+  td:nth-of-type(1):before { content: "Email"; }
+  td:nth-of-type(2):before { content: "Name"; }
+  td:nth-of-type(3):before { content: "Surname"; }
+  td:nth-of-type(4):before { content: "Ticket"; }
+  td:nth-of-type(5):before { content: "Credits"; }
+}
+
+.orders {
+  td:nth-of-type(1):before { content: "Number"; }
+  td:nth-of-type(2):before { content: "Customer"; }
+  td:nth-of-type(3):before { content: "Created"; }
+  td:nth-of-type(4):before { content: "Completed"; }
+}
+
 .order-subtable {
   td:nth-of-type(1):before { content: "Amount"; }
   td:nth-of-type(2):before { content: "Unit"; }
@@ -156,6 +182,19 @@ td {
   td:nth-of-type(4):before { content: "Name"; }
   td:nth-of-type(5):before { content: "Description"; }
   td:nth-of-type(6):before { content: "Type"; }
+}
+
+.payments {
+  td:nth-of-type(1):before { content: "Id"; }
+  td:nth-of-type(2):before { content: "Order"; }
+  td:nth-of-type(3):before { content: "Amount"; }
+  td:nth-of-type(4):before { content: "Transaction"; }
+  td:nth-of-type(5):before { content: "Card"; }
+  td:nth-of-type(6):before { content: "RSP code"; }
+  td:nth-of-type(7):before { content: "Autorizathion code"; }
+  td:nth-of-type(8):before { content: "Currency"; }
+  td:nth-of-type(9):before { content: "Success"; }
+  td:nth-of-type(10):before { content: "Paid at"; }
 }
 
 .subtable {
