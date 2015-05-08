@@ -16,18 +16,9 @@ $highlight-tittle: $base-font-size*4.5;
     height: auto;
     padding-bottom: modules(2);
     text-align: left;
-
-    .btn {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-    }
   }
 
   h3 { text-align: center; }
-
-  .btn { display: block; margin: 0 auto; }
 }
 
 // Big pink text
