@@ -50,8 +50,11 @@
       | Unconfirmed email TODO
     dd = @customer.unconfirmed_email
 
-  table.subtable
-    caption Transactions TODO
+  h3
+    = fa_icon "table"
+    | Transactions TODO
+
+  table.subtable.customer-show-subtable
     thead
       tr
         th Transaction Type TODO
@@ -61,3 +64,4 @@
         tr
           td = credit_log.transaction_type
           td = credit_log.amount
+

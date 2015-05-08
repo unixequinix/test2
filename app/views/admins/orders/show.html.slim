@@ -20,8 +20,10 @@
       | Completed at TODO
     dd = @order.completed_at
 
-  table.subtable
-    caption Order Items TODO
+  h3
+    = fa_icon "table"
+    | Order Items TODO
+  table.subtable.order-subtable
     thead
       tr
         th Amount TODO

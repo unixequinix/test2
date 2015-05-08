@@ -3,11 +3,4 @@
   p Contact us TODO:
   p support@glownet.com
 
-.wrapper-field.centered
-  h3 Your credit TODO
-  h3.highlight
-    = fa_icon "money"
-    = current_customer.credit_logs.sum(:amount)
-
-  h3 Do you want to try again? TODO
-  = link_to 'TOPUP TODO', new_customers_checkout_path, class: "btn btn-primary"
+= render 'customers/dashboards/credits', call_to_action: 'Do you want to try again? TODO'
