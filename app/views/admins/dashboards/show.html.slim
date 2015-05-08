@@ -1,13 +1,18 @@
 - breadcrumb :admins_root
 
-.container-show.wrapper-dashboard
-  P = @event.name
-  p Actual State #{@event.aasm_state}
-  p Change state TODO
-  = render "admins/events/change_state", state: :started, action: :start if @event.created?
-  = render "admins/events/change_state", state: :finished, action: :finish if @event.started?
-  = render "admins/events/change_state", state: :created, action: :reboot if @event.finished?
+.container-show.container-dashboard.wrapper-dashboard-main
+    .event-status
+      h3 = @event.name
 
-.container-show.wrapper-dashboard
-  p Your current API access token TODO
-  P = current_admin.access_token
+      p.current-status #{@event.aasm_state}
+    .change-status
+      p Change state TODO?
+      = render "admins/events/change_state", state: :started, action: :start if @event.created?
+      = render "admins/events/change_state", state: :finished, action: :finish if @event.started?
+      = render "admins/events/change_state", state: :created, action: :reboot if @event.finished?
+
+.container-show.container-dashboard
+  h3.dashboard-table-header Access API TODO:
+  .wrapper-dashboard
+    p Your current API access token TODO:
+    p.dashboard-highlight = current_admin.access_token

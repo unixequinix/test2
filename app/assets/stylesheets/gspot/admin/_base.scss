@@ -18,7 +18,7 @@ body {
   background-color: $side-panel;
   color: $light_grey;
   font-family: Lato;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 h1, h2, p,span, a,
@@ -169,3 +169,25 @@ abbr {
   &:hover { background-color: lighten($blue,10%); }
 }
 
+.btn-dashboard { width: 100%; }
+
+.btn-dashboard-started {
+  background-color: $greenKickstarter;
+  color: $white;
+
+  &:hover { background-color: lighten($greenKickstarter,10%); }
+}
+
+.btn-dashboard-finished {
+  background-color: $red;
+  color: $white;
+
+  &:hover { background-color: lighten($red,10%); }
+}
+
+.btn-dashboard-created {
+  background-color: $amber;
+  color: $white;
+
+  &:hover { background-color: lighten($amber,10%); }
+}
