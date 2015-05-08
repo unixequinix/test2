@@ -20,8 +20,8 @@ class Api::BaseController < ApplicationController
   end
 
   def restrict_access_with_http
-    authenticate_or_request_with_http_basic do |username, password|
-      admin = Admin.find_for_database_authentication(email: username)
+    authenticate_or_request_with_http_basic do |emai, password|
+      admin = Admin.find_for_database_authentication(email: emai)
       admin.valid_password?(password)
     end
   end

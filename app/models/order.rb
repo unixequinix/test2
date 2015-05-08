@@ -42,6 +42,10 @@ class Order < ActiveRecord::Base
     self.order_items.sum(:total)
   end
 
+  def credits_total
+    self.order_items.joins(:online_product).where(online_products: {purchasable_type: :Credit}).sum(:amount)
+  end
+
   def generate_order_number!
     time_hex = Time.now.strftime('%H%M%L').to_i.to_s(16)
     day = Date.today.strftime('%y%m%d')
