@@ -8,7 +8,7 @@ table {
   overflow: hidden;
   width: 100%;
   border-radius: 3px;
-  box-shadow: inset 0px 0px 0px 1px $graySilver;
+  box-shadow: inset 0px 0 0px 1px $input_grey;
 }
 
 th {
@@ -27,7 +27,6 @@ th {
 
 tr {
   background-color: $white;
-  box-shadow: inset 0px -1px 0px 0px $graySilver;
 
   &:nth-child(odd) { background-color: $admin_grey }
   &:last-child { box-shadow: none; }
@@ -41,6 +40,7 @@ td {
   height: auto;
   padding: modules(0.5) modules(0.5) 0;
   text-align: right;
+  box-shadow: inset 0px -1px 0px 0px darken($input_grey,5%);
 
   @include min-screen($bp3) {
     display: table-cell;

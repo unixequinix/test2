@@ -108,13 +108,14 @@
 }
 
 .container-show {
+  overflow: hidden;
   padding: modules(1);
   border-radius: 3px;
   background-color: $white;
   box-shadow: inset 0px 0px 1px 0px $dark_grey;
 
   @include min-screen($bp3) {
-    padding: modules(2);
+    margin-bottom: modules(1);
   }
 
   dt {
@@ -142,14 +143,6 @@
 
     &:hover { text-decoration: underline; }
   }
-}
-
-.wrapper-dashboard {
-
-   @include min-screen($bp3) {
-     @include span-columns(6);
-      @include omega(2n);
-   }
 }
 
 .wrapper-add-file {

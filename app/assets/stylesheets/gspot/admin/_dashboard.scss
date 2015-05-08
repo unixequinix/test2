@@ -1,0 +1,35 @@
+// -------------------------------------------------------
+//
+//  Dashboard styles
+//
+// -------------------------------------------------------
+
+.container-dashboard {
+  margin-bottom: modules(1);
+  padding: 0;
+
+   @include min-screen($bp3) {
+    @include span-columns(6);
+      @include omega(2n);
+   }
+}
+
+.wrapper-dashboard {
+  padding: modules(1);
+}
+
+.dashboard-table-header {
+  margin-bottom: 0;
+  padding: modules(0.25) modules(1);
+  background-color: $blue;
+  color: $white;
+  font-weight: lighter;
+  text-transform: uppercase;
+}
+
+.dashboard-highlight {
+  color: $grey;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+

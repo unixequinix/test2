@@ -2,7 +2,7 @@
 - provide :actions do
   = link_to t("actions.back"), admins_customers_path, class: "btn btn-action btn-action-back"
 
-.container-show
+.container-show.wrapper-dashboard
   dl
     dt
       | Email TODO
@@ -54,7 +54,7 @@
     = fa_icon "table"
     | Transactions TODO
 
-  table.subtable.customer-show-subtable
+  table.subtable.customer-show-subtable.wrapper-dashboard
     thead
       tr
         th Transaction Type TODO
