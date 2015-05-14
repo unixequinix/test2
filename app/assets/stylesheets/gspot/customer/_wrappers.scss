@@ -42,6 +42,24 @@
   h3, p { margin: 0; }
 }
 
+.container-login-map {
+  position: relative;
+
+  @include min-screen($bp3) {
+      @include span-columns(4);
+  }
+
+  h3 { padding: 0; }
+}
+
+.container-login-form {
+  position: relative;
+
+  @include min-screen($bp3) {
+    @include span-columns(8);
+  }
+}
+
 // Basic wrapper for single options like cancel account etc
 .wrapper-single-option {
   text-align: center;
