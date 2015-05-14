@@ -7,9 +7,11 @@
 #  tag_serial_number :string
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  deleted_at        :datetime
 #
 
 class Gtag < ActiveRecord::Base
+  acts_as_paranoid
 
   # Associations
   has_many :gtag_registrations

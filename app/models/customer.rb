@@ -21,9 +21,12 @@
 #  unconfirmed_email      :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  deleted_at             :datetime
 #
 
 class Customer < ActiveRecord::Base
+  acts_as_paranoid
+
   # Constants
   MAIL_FORMAT = Devise.email_regexp
   # Include default devise modules. Others available are:

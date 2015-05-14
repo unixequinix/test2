@@ -67,7 +67,7 @@ crumb :admins_gtags do
 end
 
 crumb :admins_gtag do |gtag|
-  link '#{gtag.tag_uid} #{gtag.tag_serial_number}', edit_admins_gtag_path(gtag)
+  link "#{gtag.tag_uid}-#{gtag.tag_serial_number}", edit_admins_gtag_path(gtag)
   parent :admins_gtags
 end
 

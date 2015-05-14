@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150514114502) do
+ActiveRecord::Schema.define(version: 20150514170350) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20150514114502) do
     t.string   "unconfirmed_email"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.datetime "deleted_at",             index: {name: "index_customers_on_deleted_at"}
   end
 
   create_table "ticket_types", force: :cascade do |t|
@@ -59,6 +60,7 @@ ActiveRecord::Schema.define(version: 20150514114502) do
     t.decimal  "credit",     precision: 8, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at", index: {name: "index_ticket_types_on_deleted_at"}
   end
 
   create_table "tickets", force: :cascade do |t|
@@ -66,6 +68,7 @@ ActiveRecord::Schema.define(version: 20150514114502) do
     t.string   "number",         index: {name: "index_tickets_on_number", unique: true}
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.datetime "deleted_at",     index: {name: "index_tickets_on_deleted_at"}
   end
 
   create_table "admissions", force: :cascade do |t|
@@ -88,12 +91,14 @@ ActiveRecord::Schema.define(version: 20150514114502) do
     t.boolean  "standard",   default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at", index: {name: "index_credits_on_deleted_at"}
   end
 
   create_table "entitlements", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at", index: {name: "index_entitlements_on_deleted_at"}
   end
 
   create_table "entitlement_ticket_types", force: :cascade do |t|
@@ -101,6 +106,7 @@ ActiveRecord::Schema.define(version: 20150514114502) do
     t.integer  "ticket_type_id", null: false, index: {name: "fk__entitlement_ticket_types_ticket_type_id"}, foreign_key: {references: "ticket_types", name: "fk_entitlement_ticket_types_ticket_type_id", on_update: :no_action, on_delete: :no_action}
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.datetime "deleted_at",     index: {name: "index_entitlement_ticket_types_on_deleted_at"}
   end
 
   create_table "events", force: :cascade do |t|
@@ -124,6 +130,7 @@ ActiveRecord::Schema.define(version: 20150514114502) do
     t.string   "tag_serial_number"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.datetime "deleted_at",        index: {name: "index_gtags_on_deleted_at"}
   end
 
   create_table "gtag_registrations", force: :cascade do |t|
@@ -146,6 +153,7 @@ ActiveRecord::Schema.define(version: 20150514114502) do
     t.integer  "step"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.datetime "deleted_at",       index: {name: "index_online_products_on_deleted_at"}
   end
 
   create_table "orders", force: :cascade do |t|

@@ -10,6 +10,7 @@ namespace :db do
     make_entitlements
     make_ticket_types
     make_tickets
+    make_gtags
     make_credits
   end
 

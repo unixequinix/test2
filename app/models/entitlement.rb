@@ -6,9 +6,11 @@
 #  name       :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  deleted_at :datetime
 #
 
 class Entitlement < ActiveRecord::Base
+  acts_as_paranoid
 
   # Associations
   has_many :entitlement_ticket_types, dependent: :destroy
