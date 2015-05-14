@@ -72,7 +72,7 @@ group :development, :test do
   gem 'better_errors', '~> 2.1.1'
   gem 'binding_of_caller', '~> 0.7.2' # extra features for better_errors
   gem 'meta_request', '~> 0.3.4' # for rails_panel chrome extension
-  gem 'spring', '~> 1.3.4' # App preloader. https://github.com/rails/spring
+  gem 'spring', '~> 1.3.5' # App preloader. https://github.com/rails/spring
   gem 'rspec-rails', '~> 3.2.1'
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'guard-rspec', '~> 4.5.0', require: false

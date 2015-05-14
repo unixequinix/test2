@@ -1,24 +1,24 @@
 # == Schema Information
 #
-# Table name: admissions
+# Table name: rfid_tag_registrations
 #
 #  id          :integer          not null, primary key
 #  customer_id :integer          not null
-#  ticket_id   :integer          not null
-#  aasm_state  :string           not null
+#  rfid_tag_id :integer          not null
+#  aasm_state  :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
 
-class Admission < ActiveRecord::Base
+class RfidTagRegistration < ActiveRecord::Base
 
   # Associations
   belongs_to :customer
-  belongs_to :ticket
+  belongs_to :rfid_tag
 
   # Validations
-  validates :customer, :ticket, :aasm_state, presence: true
-  validates_uniqueness_of :ticket, conditions: -> { where(aasm_state: :assigned) }
+  validates :customer, :rfid_tag, :aasm_state, presence: true
+  validates_uniqueness_of :rfid_tag, conditions: -> { where(aasm_state: :assigned) }
 
   # State machine
   include AASM
@@ -31,5 +31,7 @@ class Admission < ActiveRecord::Base
       transitions from: :assigned, to: :unassigned
     end
   end
+
+end
 
 end

@@ -62,6 +62,18 @@ namespace :db do
     end
   end
 
+  def make_rfid_tags
+
+    puts "Create Rfid Tags"
+    puts "----------------------------------------"
+
+    RfidTag.destroy_all
+    YAML.load_file(Rails.root.join("db", "seeds", "rfid_tags.yml")).each do |data|
+      rfid_tag = RfidTag.new(tag_uid: data['tag_uid'], tag_serial_number: data['tag_serial_number'])
+      rfid_tag.save!
+    end
+  end
+
   def make_credits
 
     puts "Create credits"
