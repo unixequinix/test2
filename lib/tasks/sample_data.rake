@@ -62,6 +62,18 @@ namespace :db do
     end
   end
 
+  def make_gtags
+
+    puts "Create GTags"
+    puts "----------------------------------------"
+
+    Gtag.destroy_all
+    YAML.load_file(Rails.root.join("db", "seeds", "gtags.yml")).each do |data|
+      gtag = Gtag.new(tag_uid: data['tag_uid'], tag_serial_number: data['tag_serial_number'])
+      gtag.save!
+    end
+  end
+
   def make_credits
 
     puts "Create credits"

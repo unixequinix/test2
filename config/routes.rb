@@ -28,6 +28,8 @@ Rails.application.routes.draw do
     scope module: :v1,
           constraints: ApiConstraints.new(version: 1, default: true) do
       resources :customers, only: [:index]
+      resources :orders, only: [:index]
+      resources :tickets, only: [:index]
     end
   end
 
@@ -36,6 +38,7 @@ Rails.application.routes.draw do
 
   namespace :customers do
     resources :admissions, only: [:new, :create, :destroy]
+    resources :gtag_registrations, only: [:new, :create, :destroy]
     resources :checkouts, only: [:new, :create]
     resources :orders, only: [:show, :update]
     resources :payments, only: [:create] do
@@ -51,6 +54,12 @@ Rails.application.routes.draw do
     resources :entitlements, except: :show
     resources :ticket_types, except: :show
     resources :tickets, except: :show do
+      collection do
+        post :import
+        post :search
+      end
+    end
+    resources :gtags, except: :show do
       collection do
         post :import
         post :search

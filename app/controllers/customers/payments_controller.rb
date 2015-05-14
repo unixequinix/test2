@@ -11,6 +11,7 @@ class Customers::PaymentsController < Customers::BaseController
       if success
         @order = Order.find_by(number: params[:Ds_Order])
         @order.complete!
+        @credit_log = CreditLog.create(customer_id: @order.customer.id, transaction_type: CreditLog::CREDITS_PURCHASE, amount: @order.credits_total)
         payment = Payment.new(transaction_type: params[:Ds_TransactionType], card_country: params[:Ds_Card_Country], paid_at: "#{params[:Ds_Date]}, #{params[:Ds_Hour]}", order: @order, response_code: response, authorization_code: params[:Ds_AuthorisationCode], currency: params[:Ds_Currency], merchant_code: params[:Ds_MerchantCode], amount: amount,  terminal: params[:Ds_Terminal], success: true)
         payment.save!
       end

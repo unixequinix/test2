@@ -1,0 +1,5 @@
+ul
+  li.table-action.action-delete = link_to admins_gtag_path(gtag), method: :delete, data: { confirm: "Are you sure? TODO" } do
+    = fa_icon "trash"
+  li.table-action.action-edit = link_to edit_admins_gtag_path(gtag) do
+    = fa_icon "edit"

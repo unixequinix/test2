@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150505180300) do
+ActiveRecord::Schema.define(version: 20150514114502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,7 +71,6 @@ ActiveRecord::Schema.define(version: 20150505180300) do
   create_table "admissions", force: :cascade do |t|
     t.integer  "customer_id", null: false, index: {name: "fk__admissions_customer_id"}, foreign_key: {references: "customers", name: "fk_admissions_customer_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "ticket_id",   null: false, index: {name: "index_admissions_on_ticket_id"}, foreign_key: {references: "tickets", name: "fk_admissions_ticket_id", on_update: :no_action, on_delete: :no_action}
-    t.decimal  "credit",      precision: 8, scale: 2
     t.string   "aasm_state",  null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
@@ -119,6 +118,21 @@ ActiveRecord::Schema.define(version: 20150505180300) do
     t.datetime "created_at"
   end
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
+
+  create_table "gtags", force: :cascade do |t|
+    t.string   "tag_uid"
+    t.string   "tag_serial_number"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  create_table "gtag_registrations", force: :cascade do |t|
+    t.integer  "customer_id", null: false, index: {name: "fk__gtag_registrations_customer_id"}, foreign_key: {references: "customers", name: "fk_gtag_registrations_customer_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "gtag_id",     null: false, index: {name: "index_gtag_registrations_on_gtag_id"}, foreign_key: {references: "gtags", name: "fk_gtag_registrations_gtag_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "aasm_state"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "online_products", force: :cascade do |t|
     t.string   "name",             null: false

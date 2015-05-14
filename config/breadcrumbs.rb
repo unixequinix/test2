@@ -60,6 +60,22 @@ crumb :new_admins_ticket do
   parent :admins_tickets
 end
 
+## GTag
+
+crumb :admins_gtags do
+  link t("breadcrumbs.gtags"), admins_gtags_path
+end
+
+crumb :admins_gtag do |gtag|
+  link '#{gtag.tag_uid} #{gtag.tag_serial_number}', edit_admins_gtag_path(gtag)
+  parent :admins_gtags
+end
+
+crumb :new_admins_gtag do
+  link t("breadcrumbs.new_gtag")
+  parent :admins_gtags
+end
+
 ## OnlineProducts
 
 crumb :admins_credits do

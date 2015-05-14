@@ -1,25 +1,24 @@
 # == Schema Information
 #
-# Table name: tickets
+# Table name: gtags
 #
-#  id             :integer          not null, primary key
-#  ticket_type_id :integer
-#  number         :string
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  id                :integer          not null, primary key
+#  tag_uid           :string
+#  tag_serial_number :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
 #
 
-class Ticket < ActiveRecord::Base
+class Gtag < ActiveRecord::Base
 
   # Associations
-  has_many :admissions
-  has_one :assigned_admission, ->{ where(aasm_state: :assigned) }, class_name: "Admission"
-  has_many :customers, through: :admissions
-  has_one :assigned_customer, ->{ where(admissions: {aasm_state: :assigned}) }, class_name: "Customer"
-  belongs_to :ticket_type
+  has_many :gtag_registrations
+  has_one :assigned_gtag_registration, ->{ where(aasm_state: :assigned) }, class_name: "GtagRegistration"
+  has_many :customers, through: :gtag_registrations
+  has_one :assigned_customer, ->{ where(gtag_registrations: {aasm_state: :assigned}) }, class_name: "Customer"
 
   # Validations
-  validates :number, presence: true, uniqueness: true
+  validates :tag_uid, :tag_serial_number, presence: true, uniqueness: true
 
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
@@ -36,7 +35,7 @@ class Ticket < ActiveRecord::Base
     (2..spreadsheet.last_row).each do |i|
       row = Hash[[header, spreadsheet.row(i)].transpose]
       ticket = find_by_id(row["id"]) || new
-      ticket.attributes = row.to_hash.slice(*Ticket.attribute_names)
+      ticket.attributes = row.to_hash.slice(*Gtag.attribute_names)
       ticket.save!
     end
   end
@@ -49,5 +48,4 @@ class Ticket < ActiveRecord::Base
     else raise "Unknown file type: #{file.original_filename}"
     end
   end
-
 end
