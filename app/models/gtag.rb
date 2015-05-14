@@ -20,13 +20,14 @@ class Gtag < ActiveRecord::Base
   has_one :assigned_customer, ->{ where(gtag_registrations: {aasm_state: :assigned}) }, class_name: "Customer"
 
   # Validations
-  validates :tag_uid, :tag_serial_number, presence: true, uniqueness: true
+  validates :tag_uid, :tag_serial_number, presence: true
+  validates_uniqueness_of :tag_uid, scope: :tag_serial_number
 
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
       csv << column_names
-      all.each do |ticket|
-        csv << ticket.attributes.values_at(*column_names)
+      all.each do |gtag|
+        csv << gtag.attributes.values_at(*column_names)
       end
     end
   end
@@ -36,9 +37,9 @@ class Gtag < ActiveRecord::Base
     header = spreadsheet.row(1)
     (2..spreadsheet.last_row).each do |i|
       row = Hash[[header, spreadsheet.row(i)].transpose]
-      ticket = find_by_id(row["id"]) || new
-      ticket.attributes = row.to_hash.slice(*Gtag.attribute_names)
-      ticket.save!
+      gtag = find_by_id(row["id"]) || new
+      gtag.attributes = row.to_hash.slice(*Gtag.attribute_names)
+      gtag.save!
     end
   end
 

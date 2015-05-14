@@ -10,6 +10,6 @@ table.gtags
       tr
         td = link_to gtag.tag_uid, edit_admins_gtag_path(gtag)
         td = gtag.tag_serial_number
-        // td = gtag.assigned_customer.customer.name unless gtag.assigned_customer.nil?
+        td = gtag.assigned_gtag_registration.customer.email unless gtag.assigned_gtag_registration.nil?
         td.table-actions-field
           = render 'admins/gtags/actions', gtag: gtag

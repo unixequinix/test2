@@ -10,6 +10,14 @@ module Api
       def last_sign_in_ip
         object.last_sign_in_ip.to_s
       end
+
+      def current_sign_in_at
+        object.current_sign_in_at.in_time_zone.strftime("%y-%m-%d %H:%M:%S") if object.current_sign_in_at
+      end
+
+      def last_sign_in_at
+        object.last_sign_in_at.in_time_zone.strftime("%y-%m-%d %H:%M:%S") if object.last_sign_in_at
+      end
     end
   end
 end

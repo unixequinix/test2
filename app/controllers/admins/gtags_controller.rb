@@ -2,7 +2,7 @@ class Admins::GtagsController < Admins::BaseController
 
   def index
     @q = Gtag.search(params[:q])
-    @gtags = @q.result(distinct: true)
+    @gtags = @q.result(distinct: true).includes(:assigned_gtag_registration)
     respond_to do |format|
       format.html
       format.csv { send_data @gtags.to_csv }
@@ -11,7 +11,7 @@ class Admins::GtagsController < Admins::BaseController
 
   def search
     @q = Gtag.search(params[:q])
-    @gtags = @q.result(distinct: true)
+    @gtags = @q.result(distinct: true).includes(:assigned_gtag_registration)
     render :index
   end
 
