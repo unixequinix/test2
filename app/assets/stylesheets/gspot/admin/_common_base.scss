@@ -227,6 +227,13 @@
   @include span-columns(6 of 8);
 }
 
+.search-input {
+  display: inline-block;
+  width:46%;
+
+  &:first-child { margin-right: 3%; }
+}
+
 .custom-select {
   @include span-columns(2 of 8);
   @include omega();

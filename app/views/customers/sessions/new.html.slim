@@ -2,10 +2,23 @@
   h2
     | Log in
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-  .wrapper-field
-    .form-inputs
+  .wrapper-field.container-login-map
+    h3 Register in a few steps:
+    ul
+      li
+        p Register
+      li
+        p Mail confirmation
+      li
+        p Assign ticket
+      li
+        p Top up
+
+  .container-login-form
+    .wrapper-field
+      .form-inputs
       = f.input :email, required: false, autofocus: true
       = f.input :password, required: false
       = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
       = f.button :submit, "Log in", class: "btn btn-continue"
-  = render "customers/shared/links"
+    = render "customers/shared/links"
