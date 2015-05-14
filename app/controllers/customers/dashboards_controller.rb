@@ -1,8 +1,7 @@
 class Customers::DashboardsController < Customers::BaseController
 
   def show
-    if !current_customer.assigned_admission.nil?
-      @admission = Admission.includes(:ticket).find(current_customer.assigned_admission.id)
-    end
+    @admission = Admission.includes(:ticket).find(current_customer.assigned_admission.id) unless current_customer.assigned_admission.nil?
+    @gtag_registration = GtagRegistration.includes(:gtag).find(current_customer.assigned_gtag_registration.id) unless current_customer.assigned_gtag_registration.nil?
   end
 end

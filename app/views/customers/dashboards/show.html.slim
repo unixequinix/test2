@@ -5,3 +5,5 @@
 = render 'customers/dashboards/admissions', admission: @admission if @admission
 = render 'customers/dashboards/without_admissions' if !@admission
 = render 'customers/dashboards/credits', call_to_action: 'Avoid queues: Top Up here and maximise your experience TODO'
+= render 'customers/dashboards/gtag_registrations', gtag_registration: @gtag_registration if @gtag_registration
+= render 'customers/dashboards/without_gtags' if !@gtag_registration

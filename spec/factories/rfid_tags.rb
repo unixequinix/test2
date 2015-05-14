@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: rfid_tags
+# Table name: gtags
 #
 #  id                :integer          not null, primary key
 #  tag_uid           :string
@@ -10,7 +10,7 @@
 #
 
 FactoryGirl.define do
-  factory :rfid_tag do
+  factory :gtag do
     tag_uid "MyString"
 tag_serial_number "MyString"
   end

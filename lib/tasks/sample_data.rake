@@ -62,15 +62,15 @@ namespace :db do
     end
   end
 
-  def make_rfid_tags
+  def make_gtags
 
-    puts "Create Rfid Tags"
+    puts "Create GTags"
     puts "----------------------------------------"
 
-    RfidTag.destroy_all
-    YAML.load_file(Rails.root.join("db", "seeds", "rfid_tags.yml")).each do |data|
-      rfid_tag = RfidTag.new(tag_uid: data['tag_uid'], tag_serial_number: data['tag_serial_number'])
-      rfid_tag.save!
+    Gtag.destroy_all
+    YAML.load_file(Rails.root.join("db", "seeds", "gtags.yml")).each do |data|
+      gtag = Gtag.new(tag_uid: data['tag_uid'], tag_serial_number: data['tag_serial_number'])
+      gtag.save!
     end
   end
 
