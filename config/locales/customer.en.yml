@@ -70,10 +70,11 @@ en:
     title: "Refund claim"
     description: "We need your bank account to complete your claim."
     call_to_action: "Introduce your bank account!"
+    button: "Save"
   edit_refund:
     title: "Refund claim"
     description: "You can edit the bank account for your claim."
     call_to_action: "Introduce your bank account!"
-    button:
+    button: "Save"
     placeholders:
       bank_account: 'ES00 0000 0000 0000 0000 0000'
