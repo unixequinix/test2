@@ -18,6 +18,10 @@ class Gtag < ActiveRecord::Base
   has_one :assigned_gtag_registration, ->{ where(aasm_state: :assigned) }, class_name: "GtagRegistration"
   has_many :customers, through: :gtag_registrations
   has_one :assigned_customer, ->{ where(gtag_registrations: {aasm_state: :assigned}) }, class_name: "Customer"
+  has_one :gtag_credit_log
+  has_one :refund
+
+  accepts_nested_attributes_for :gtag_credit_log, allow_destroy: true
 
   # Validations
   validates :tag_uid, :tag_serial_number, presence: true
@@ -39,6 +43,9 @@ class Gtag < ActiveRecord::Base
       row = Hash[[header, spreadsheet.row(i)].transpose]
       gtag = find_by_id(row["id"]) || new
       gtag.attributes = row.to_hash.slice(*Gtag.attribute_names)
+      if row["amount"]
+        gtag.gtag_credit_log.nil? ? gtag.gtag_credit_log = GtagCreditLog.create(amount: row["amount"]) : gtag.gtag_credit_log.amount = row["amount"]
+      end
       gtag.save!
     end
   end

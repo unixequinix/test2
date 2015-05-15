@@ -2,9 +2,9 @@
   .dashboard-field.dashboard-field-info
     h3
       = fa_icon "money"
-      | Your credit TODO:
+      = t('dashboard.credits.header')
     h3.highlight
       = current_customer.credit_logs.sum(:amount)
   .dashboard-field.dashboard-field-action
     h3 = call_to_action
-    = link_to 'GO TO TOP UP TODO', new_customers_checkout_path, class: "btn btn-dashboard"
+    = link_to t('dashboard.credits.button'), new_customers_checkout_path, class: "btn btn-dashboard"

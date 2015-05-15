@@ -21,8 +21,8 @@ module Gspot
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     I18n.config.enforce_available_locales = true
-    config.i18n.default_locale = :es
-    config.i18n.available_locales = [:en, :es]
+    config.i18n.default_locale = :en
+    config.i18n.available_locales = [:en]
     config.time_zone = "Madrid"
 
     # Do not swallow errors in after_commit/after_rollback callbacks.

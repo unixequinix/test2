@@ -1,4 +1,6 @@
 = simple_form_for [:admins, gtag] do |f|
-  = f.input :tag_uid, placeholder: "Tag UID cont TODO"
-  = f.input :tag_serial_number, placeholder: "Tag Serial Number cont TODO"
+  = f.input :tag_uid, placeholder: "Tag UID TODO"
+  = f.input :tag_serial_number, placeholder: "Tag Serial Number TODO"
+  = f.simple_fields_for :gtag_credit_log do |gcl|
+    = gcl.input :amount, placeholder: 'Credits balance amount TODO'
   = f.button :submit, class: "btn btn-primary"

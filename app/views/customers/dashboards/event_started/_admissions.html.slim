@@ -3,9 +3,8 @@
     .dashboard-field.dashboard-field-info
       h3
         = fa_icon "ticket"
-        | Your ticket number TODO:
+        = t('dashboard.admissions.header')
       h3.highlight
         = admission.ticket.number
     .dashboard-field.dashboard-field-action
-      h3 Do you want to unassign the ticket? TODO
-      = f.button :submit, 'Unassign TODO', class: "btn btn-dashboard"
+      h3 = t('dashboard.admissions.description_started')

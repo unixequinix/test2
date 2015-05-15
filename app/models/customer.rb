@@ -42,6 +42,8 @@ class Customer < ActiveRecord::Base
   has_one :ticket, through: :admission
   has_many :orders
   has_many :credit_logs
+  has_one :bank_account
+  has_one :refund
 
   # Validations
   validates :email, format: { with: MAIL_FORMAT }, presence: true, uniqueness: true

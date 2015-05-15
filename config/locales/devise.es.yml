@@ -3,9 +3,11 @@
 es:
   devise:
     confirmations:
+      title: "Reenviar instrucciones de comfirmación"
       confirmed: "Tu cuenta ha sido confirmada."
       send_instructions: "Recibirás un correo electrónico en unos minutos con instrucciones sobre cómo restablecer tu contraseña."
       send_paranoid_instructions: "Si tu correo electrónico existe en nuestra base de datos recibirás un correo electrónico en unos minutos con instrucciones sobre cómo restablecer tu contraseña."
+      button: "Reenviar"
     failure:
       already_authenticated: "Ya has iniciado sesión."
       inactive: "Tu cuenta aún no ha sido activada."

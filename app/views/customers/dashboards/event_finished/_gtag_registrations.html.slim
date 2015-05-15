@@ -3,9 +3,9 @@
     .dashboard-field.dashboard-field-info
       h3
         = fa_icon "ticket"
-        | Your wristband number TODO:
+        = t('dashboard.gtag_registration.title')
       h3.highlight
         = gtag_registration.gtag.tag_serial_number
     .dashboard-field.dashboard-field-action
-      h3 Do you want to unassign the wristband? TODO
-      = f.button :submit, 'Unassign TODO', class: "btn btn-dashboard"
+      h3 = t('dashboard.gtag_registration.call_to_action')
+      = f.button :submit, t('dashboard.gtag_registration.button'), class: "btn btn-dashboard"

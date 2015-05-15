@@ -1,29 +1,29 @@
 .wrapper-title
-  h2 TOP UP TODO ORDER TODO
+  h2 = t('orders.title')
 
-p Please, check your order before proceed checkout. TODO
+p = t('orders.description')
 .wrapper-field
   table.table-order
     tr.table-head
-      th Products TODO
+      th = t('orders.products')
       th
-      th Price TODO
+      th = t('orders.price')
     - @order.order_items.each do |order_item|
       tr
         td [colspan="2"] #{pluralize(order_item.amount, order_item.online_product.name)}
         td.table-amount #{order_item.total}
     tr
-      td.table-total [colspan="2"] Total to pay TODO
-      td.table-total.table-amount [colspan="3"] = @order.total
+      td.table-total [colspan="2"] = t('orders.total')
+      td.table-total.table-amount [colspan="3"] #{@order.total} #{t('currency_symbol')}
 
   .wrapper-secure-payment
-    p.small VAT INCLUDED TODO
+    p.small = t('orders.vat')
     = render 'customers/shared/ssl_cert_seal'
     .wrapper-ccs
       = fa_icon "cc-visa", class: "icon-ccs"
       = fa_icon "cc-mastercard", class: "icon-ccs"
       = fa_icon "cc-amex", class: "icon-ccs"
-  p.bank-page-alert.small This page will redirect to the payment bank page TODO
-  = button_to 'PAY TODO', customers_order_path(@order), method: :patch, remote: true, class: "btn btn-continue"
+  p.bank-page-alert.small = t('orders.redirect')
+  = button_to t('orders.button'), customers_order_path(@order), method: :patch, remote: true, class: "btn btn-continue"
 
 #paymentForm

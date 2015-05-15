@@ -1,0 +1,8 @@
+= simple_form_for [:customers, refund] do |f|
+  .assign-input
+    = f.input :customer_id, as: :hidden, input_html: { value: current_customer.id }
+    = f.input :gtag_id, as: :hidden, input_html: { value: current_customer.assigned_gtag_registration.gtag.id }
+    = f.simple_fields_for :bank_account do |ba|
+      = ba.input :customer_id, as: :hidden, input_html: { value: current_customer.id }
+      = ba.input :number, label: false, placeholder: t('edit_refund.placeholders.bank_account')
+    = f.button :submit, class: "btn btn-primary"

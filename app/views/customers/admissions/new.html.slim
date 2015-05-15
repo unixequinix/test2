@@ -1,10 +1,9 @@
 .wrapper-title
-  h2
-    | Wristband assignment TODO
-p TODO In order to proceed asign the wristband number as appears in your ticket. The number consists of XX digits. With this number you cantop up your account as many times as you want.
+  h2 = t('admissions.title')
+p = t('admissions.description')
 .wrapper-fit.centered
-  h3 TODO Your bbf begins here. Asign your ticket and go!
+  h3 = t('admissions.call_to_action')
   = form_tag customers_admissions_path do |f|
     .assign-input
-      = text_field_tag :ticket_number, nil, placeholder: '000000000 TODO'
-    = submit_tag 'Assign TODO', class: "btn btn-full-width"
+      = text_field_tag :ticket_number, nil, placeholder: t('admissions.placeholders.ticket_number')
+    = submit_tag t('admissions.button'), class: "btn btn-full-width"
