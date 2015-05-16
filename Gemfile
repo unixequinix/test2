@@ -48,7 +48,7 @@ gem 'gretel', '~> 3.0.8'
 gem 'ransack', '~> 1.6.6'
 
 group :development do
-  gem 'capistrano', git: 'https://github.com/capistrano/rails.git', branch: 'master' # Use Capistrano for deployment
+  gem 'capistrano' # Use Capistrano for deployment
   gem 'capistrano-rails', '~> 1.1.3'
   gem 'capistrano-rbenv', '~> 2.0.3'
   gem 'capistrano-bundler', '~> 1.1.2'
