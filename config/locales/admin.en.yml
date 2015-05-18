@@ -1,1 +1,44 @@
 en:
+  admin:
+    defaults:
+      actions: Actions
+      home: home
+      empty_credits: "No credits"
+      empty_entitlements: "No entitlements"
+      empty_tickets: "No tickets"
+      empty_gtags: "No GTags"
+      search: "Search"
+    actions:
+      back: "Back"
+      new: "New"
+      csv: "CSV"
+    confirm:
+      delete: "Are you sure?"
+    credits:
+      name: "Name"
+      description: "Description"
+      standard_credit: "Standard Credit"
+      price: "Price"
+      min_purchasable: "Min purchasable"
+      max_purchasable: "Max purchasable"
+      initial_amount: "Initial Amount"
+      step: "Step"
+    entitlements:
+      name: "Name"
+    ticket_types:
+      name: "Name"
+      company: "Company"
+      credit: "Credit"
+      entitlements: "Entitlements"
+    tickets:
+      number: "Number"
+      ticket_type: "Ticket type"
+      customer: "Customer"
+      search: "Type number cont"
+      import: "Import products"
+    gtags:
+      tag: "Tag UID"
+      serial: "Tag Serial Number"
+      customer: "Customer"
+      total: "Total Credits"
+      import: "Import GTags"

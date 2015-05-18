@@ -1,15 +1,15 @@
 table.credits
   thead
     tr
-      th Name TODO
-      th Description TODO
-      th Standard Credit TODO
-      th Price TODO
-      th Min purchasable TODO
-      th Max purchasable TODO
-      th Initial amount TODO
-      th Step TODO
-      th.table-actions-field Actions TODO
+      th = t('admin.credits.name')
+      th = t('admin.credits.description')
+      th = t('admin.credits.standard_credit')
+      th = t('admin.credits.price')
+      th = t('admin.credits.min_purchasable')
+      th = t('admin.credits.max_purchasable')
+      th = t('admin.credits.initial_amount')
+      th = t('admin.credits.step')
+      th.table-actions-field = t('admin.defaults.actions')
   tbody
     - credits.each do |credit|
       tr

@@ -1,5 +1,5 @@
 crumb :root do
-  link "Home TODO", admin_root_path
+  link t("admins.defaults.home"), admin_root_path
 end
 
 ## -------------------------------------------------

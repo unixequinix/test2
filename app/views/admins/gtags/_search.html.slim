@@ -1,6 +1,6 @@
 p.section-header
   = fa_icon "search"
-  | Search
+  = t("admin.defaults.search")
 
 = search_simple_form_for q, url: search_admins_gtags_path, html: { method: :post, class: "searchForm" }  do |f|
   .container-search

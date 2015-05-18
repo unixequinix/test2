@@ -3,14 +3,14 @@
   = link_to t("actions.new"), new_admins_ticket_path, class: "btn btn-action btn-action-new"
   = link_to admins_tickets_path(format: "csv"), class: "btn btn-action btn-action-back"
     = fa_icon "download"
-    | CSV
+    = t("admin.actions.csv")
 
 
 = render "admins/tickets/search", q: @q
 
 p.section-header
   = fa_icon "upload"
-  | Import Products
+  = t("admin.tickets.import")
 
 .wrapper-add-file
   = form_tag import_admins_tickets_path, multipart: true do
@@ -21,7 +21,7 @@ p.section-header
 - if @tickets.empty?
   .section-title-empty
     = image_tag "img-empty.png"
-    p no tickets TODO
+    p = t("admin.defaults.empty_tickets")
     = link_to t("actions.new"), new_admins_ticket_path, class: "btn btn-action btn-action-new"
 - else
   = render "admins/tickets/list", tickets: @tickets

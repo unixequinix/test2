@@ -1,4 +1,4 @@
 = simple_form_for [:admins, ticket] do |f|
-  = f.input :ticket_type_id, as: :select, collection: TicketType.form_selector, include_blank: true, label: 'Ticket Type TODO'
-  = f.input :number, placeholder: 'Nombre de ticket TODO'
+  = f.input :ticket_type_id, as: :select, collection: TicketType.form_selector, include_blank: true, placeholder: true
+  = f.input :number, placeholder: true
   = f.button :submit, class: "btn btn-primary"

@@ -1,8 +1,8 @@
 table.entitlements
   thead
     tr
-      th Name TODO
-      th.table-actions-field Actions TODO
+      th = t('admin.entitlements.name')
+      th.table-actions-field = t('admin.defauts.actions')
   tbody
     - entitlements.each do |entitlement|
       tr
