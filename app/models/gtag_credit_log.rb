@@ -14,5 +14,5 @@ class GtagCreditLog < ActiveRecord::Base
   # Associations
   belongs_to :gtag
 
-  validates :gtag, :amount, presence: true
+  validates :amount, presence: true
 end

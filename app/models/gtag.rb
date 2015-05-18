@@ -29,9 +29,13 @@ class Gtag < ActiveRecord::Base
 
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
-      csv << column_names
+      gtag_columns = column_names
+      gtag_columns << 'amount'
+      csv << gtag_columns
       all.each do |gtag|
-        csv << gtag.attributes.values_at(*column_names)
+        attributes = gtag.attributes.values_at(*column_names)
+        attributes[-1] = gtag.gtag_credit_log.amount unless gtag.gtag_credit_log.nil?
+        csv << attributes
       end
     end
   end
