@@ -1,5 +1,6 @@
 class Customers::BaseController < ApplicationController
   before_action :authenticate_customer!
+  before_action :fetch_current_event
 
   private
 

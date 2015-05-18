@@ -14,9 +14,11 @@
 #  step             :integer
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  deleted_at       :datetime
 #
 
 class OnlineProduct < ActiveRecord::Base
+  acts_as_paranoid
 
   # Associations
   belongs_to :purchasable, polymorphic: true, touch: true

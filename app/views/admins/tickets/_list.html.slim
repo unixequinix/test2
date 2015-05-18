@@ -10,6 +10,6 @@ table.tickets
       tr
         td = link_to ticket.number, edit_admins_ticket_path(ticket)
         td = ticket.ticket_type.name unless ticket.ticket_type.nil?
-        td = ticket.assigned_admission.customer.name unless ticket.assigned_admission.nil?
+        td = ticket.assigned_admission.customer.email unless ticket.assigned_admission.nil?
         td.table-actions-field
           = render 'admins/tickets/actions', ticket: ticket unless current_event.started?

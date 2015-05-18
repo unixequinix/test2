@@ -29,7 +29,7 @@ set :linked_dirs, fetch(:linked_dirs) + %w{certs}
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server '52.11.35.44', user: 'ubuntu', roles: %w{web app}, primary: true
+server 'gspot-test.glownet.com', user: 'ubuntu', roles: %w{web app}, primary: true
 
 
 # Custom SSH Options
@@ -50,7 +50,7 @@ set :default_run_options, {
 }
 
 set :ssh_options, {
-  keys: [ENV['GLOWNET_CERT']],
+  keys: [ENV['GSPOT_STAGING_CERT']],
   forward_agent: true,
   auth_methods: %w(publickey)
 }

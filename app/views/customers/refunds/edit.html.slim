@@ -1,0 +1,6 @@
+.wrapper-title
+  h2 = t('edit_refund.title')
+p = t('edit_refund.description')
+.wrapper-fit.centered
+  h3 = t('edit_refund.call_to_action')
+  = render 'customers/refunds/form', refund: @refund

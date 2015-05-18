@@ -8,6 +8,10 @@ module Api
       def state
         object.aasm_state
       end
+
+      def completed_at
+        object.completed_at.in_time_zone.strftime("%y-%m-%d %H:%M:%S") if object.completed_at
+      end
     end
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150514114502) do
+ActiveRecord::Schema.define(version: 20150515104719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20150514114502) do
     t.string   "unconfirmed_email"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.datetime "deleted_at",             index: {name: "index_customers_on_deleted_at"}
   end
 
   create_table "ticket_types", force: :cascade do |t|
@@ -59,6 +60,7 @@ ActiveRecord::Schema.define(version: 20150514114502) do
     t.decimal  "credit",     precision: 8, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at", index: {name: "index_ticket_types_on_deleted_at"}
   end
 
   create_table "tickets", force: :cascade do |t|
@@ -66,12 +68,20 @@ ActiveRecord::Schema.define(version: 20150514114502) do
     t.string   "number",         index: {name: "index_tickets_on_number", unique: true}
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.datetime "deleted_at",     index: {name: "index_tickets_on_deleted_at"}
   end
 
   create_table "admissions", force: :cascade do |t|
     t.integer  "customer_id", null: false, index: {name: "fk__admissions_customer_id"}, foreign_key: {references: "customers", name: "fk_admissions_customer_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "ticket_id",   null: false, index: {name: "index_admissions_on_ticket_id"}, foreign_key: {references: "tickets", name: "fk_admissions_ticket_id", on_update: :no_action, on_delete: :no_action}
     t.string   "aasm_state",  null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "bank_accounts", force: :cascade do |t|
+    t.integer  "customer_id", null: false, index: {name: "fk__bank_accounts_customer_id"}, foreign_key: {references: "customers", name: "fk_bank_accounts_customer_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "number",      null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
@@ -88,12 +98,14 @@ ActiveRecord::Schema.define(version: 20150514114502) do
     t.boolean  "standard",   default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at", index: {name: "index_credits_on_deleted_at"}
   end
 
   create_table "entitlements", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at", index: {name: "index_entitlements_on_deleted_at"}
   end
 
   create_table "entitlement_ticket_types", force: :cascade do |t|
@@ -101,6 +113,7 @@ ActiveRecord::Schema.define(version: 20150514114502) do
     t.integer  "ticket_type_id", null: false, index: {name: "fk__entitlement_ticket_types_ticket_type_id"}, foreign_key: {references: "ticket_types", name: "fk_entitlement_ticket_types_ticket_type_id", on_update: :no_action, on_delete: :no_action}
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.datetime "deleted_at",     index: {name: "index_entitlement_ticket_types_on_deleted_at"}
   end
 
   create_table "events", force: :cascade do |t|
@@ -124,6 +137,14 @@ ActiveRecord::Schema.define(version: 20150514114502) do
     t.string   "tag_serial_number"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.datetime "deleted_at",        index: {name: "index_gtags_on_deleted_at"}
+  end
+
+  create_table "gtag_credit_logs", force: :cascade do |t|
+    t.integer  "gtag_id",    null: false, index: {name: "fk__gtag_credit_logs_gtag_id"}, foreign_key: {references: "gtags", name: "fk_gtag_credit_logs_gtag_id", on_update: :no_action, on_delete: :no_action}
+    t.decimal  "amount",     precision: 8, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "gtag_registrations", force: :cascade do |t|
@@ -146,6 +167,7 @@ ActiveRecord::Schema.define(version: 20150514114502) do
     t.integer  "step"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.datetime "deleted_at",       index: {name: "index_online_products_on_deleted_at"}
   end
 
   create_table "orders", force: :cascade do |t|
@@ -181,6 +203,15 @@ ActiveRecord::Schema.define(version: 20150514114502) do
     t.datetime "paid_at"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+  end
+
+  create_table "refunds", force: :cascade do |t|
+    t.integer  "customer_id",     null: false, index: {name: "fk__refunds_customer_id"}, foreign_key: {references: "customers", name: "fk_refunds_customer_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "gtag_id",         null: false, index: {name: "fk__refunds_gtag_id"}, foreign_key: {references: "gtags", name: "fk_refunds_gtag_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "bank_account_id", null: false, index: {name: "fk__refunds_bank_account_id"}, foreign_key: {references: "bank_accounts", name: "fk_refunds_bank_account_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "aasm_state",      null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
 end

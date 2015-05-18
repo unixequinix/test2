@@ -50,7 +50,7 @@ set :default_run_options, {
 }
 
 set :ssh_options, {
-  keys: [ENV['GLOWNET_CERT']],
+  keys: [ENV['GSPOT_PRODUCTION_CERT']],
   forward_agent: true,
   auth_methods: %w(publickey)
 }

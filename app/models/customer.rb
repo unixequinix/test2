@@ -21,9 +21,12 @@
 #  unconfirmed_email      :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  deleted_at             :datetime
 #
 
 class Customer < ActiveRecord::Base
+  acts_as_paranoid
+
   # Constants
   MAIL_FORMAT = Devise.email_regexp
   # Include default devise modules. Others available are:
@@ -34,11 +37,13 @@ class Customer < ActiveRecord::Base
   # Associations
   has_one :admission
   has_one :assigned_admission, ->{ where(aasm_state: :assigned) }, class_name: "Admission"
-  has_one :gtag
+  has_one :gtag_registration
   has_one :assigned_gtag_registration, ->{ where(aasm_state: :assigned) }, class_name: "GtagRegistration"
   has_one :ticket, through: :admission
   has_many :orders
   has_many :credit_logs
+  has_one :bank_account
+  has_one :refund
 
   # Validations
   validates :email, format: { with: MAIL_FORMAT }, presence: true, uniqueness: true

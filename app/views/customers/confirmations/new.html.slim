@@ -1,12 +1,11 @@
 .wrapper-title
-  h2
-    | Resend confirmation instructions
+  h2 = t('devise.confirmations.title')
 = simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
   = f.error_notification
   .wrapper-field
     = f.full_error :confirmation_token
     .form-inputs
       = f.input :email, required: true, autofocus: true
-      = f.button :submit, "Resend TODO", class: "btn btn-continue"
+      = f.button :submit, t('devise.confirmations.button'), class: "btn btn-continue"
 = render "customers/shared/links"
 

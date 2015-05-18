@@ -1,0 +1,80 @@
+en:
+  currency_symbol: EUR
+  actions:
+    back: "Back"
+  dashboard:
+    title: "My BBF"
+    admissions:
+      header: "Your ticket number:"
+      description: "Do you want to unassign the ticket?"
+      description_started: "The event just started so you cannot unassign the ticket"
+      button: "Unassign"
+    without_admissions:
+      call_to_action: "Please activate your festival ticket first"
+      description: "Only one Festival Ticket can be activated per account."
+      button: "Activate Ticket"
+    credits:
+      header: "Your Online Credit Balance"
+      call_to_action: "If you want to avoid queues, Top-up your wristband in advance."
+      call_to_action_started: "The event just started so you cannot topup anymore"
+      call_to_action_no_admission: "To securely buy your Online Top-up you need to activate your Festival Ticket first."
+      button: "Top-up"
+    without_gtags:
+      title: "Credit left?"
+      description: "You need to assign your wristband to start the refund process"
+      button: "Assign wristband"
+    gtag_registration:
+      title: "Your wristband number:"
+      call_to_action: "Do you want to unassign the wristband?"
+      button: "Unassign"
+    gtag_after_refund:
+      description: "Your refund is in process"
+    without_refunds:
+      title: "Your credit:"
+      call_to_action: "Proceed to refund"
+      button: "Claim your credits"
+    refunds:
+      title: "Your credit:"
+      call_to_action: "Edit your refund details"
+      button: "Edit"
+  admissions:
+    title: "Ticket Activation"
+    description: "To activate your Festival Ticket, put your Barcode Number below. You can find this number right under the barcode printed on your ticket."
+    call_to_action: "Activate your Ticket!"
+    button: "Activate"
+    placeholders:
+      ticket_number: "Ticket Number"
+  checkout:
+    title: "Top-up"
+    description: "If you want to enjoy Barcelona Beach Festival without queueing, you can buy Online Credits here which will automatically be added to your wristband once you enter the festival."
+    total: "Total"
+    button: "Confirm Order"
+  orders:
+    title: "Confirm Top-up"
+    description: "Please, review your order and proceed to payment."
+    products: "Products"
+    price: "Price"
+    total: "Total"
+    vat: "VAT Included"
+    redirect: "You will be redirected to the bank’s payment gateway."
+    button: "Pay"
+  gtag_registrations:
+    title: "Assign wristband"
+    description: "In order to proceed asign the number as appears in your wristband. The number consists of 2 lines."
+    call_to_action: "Asign your wristband and go!"
+    button: "Assign"
+    placeholders:
+      line_1: "Line 1"
+      line_2: "Line 2"
+  refund:
+    title: "Refund claim"
+    description: "We need your bank account to complete your claim."
+    call_to_action: "Introduce your bank account!"
+    button: "Save"
+  edit_refund:
+    title: "Refund claim"
+    description: "You can edit the bank account for your claim."
+    call_to_action: "Introduce your bank account!"
+    button: "Save"
+    placeholders:
+      bank_account: 'ES00 0000 0000 0000 0000 0000'

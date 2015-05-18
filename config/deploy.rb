@@ -1,7 +1,7 @@
 # config valid only for current version of Capistrano
 lock '3.4.0'
 
-set :application, 'gspot.glownet.com'
+set :application, 'gspot'
 set :repo_url, 'git@dev.glownet.com:acidtango/gspot.git'
 set :branch, 'development'
 set :deploy_to, '~/glownet_gspot'
@@ -36,11 +36,7 @@ namespace :deploy do
   desc 'Restart database'
   task :restart_db do
     on roles(:app), in: :sequence, wait: 5 do
-      execute :rake, 'db:drop'
-      execute :rake, 'db:create'
       execute :rake, 'db:migrate'
-      execute :rake, 'db:seed'
-      execute :rake, 'db:populate'
     end
   end
 
