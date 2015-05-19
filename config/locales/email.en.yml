@@ -8,3 +8,13 @@ en:
           order_number: 'Order Number'
           greet: 'Hello %{name}!'
           date: 'Purchase date'
+      confirmation:
+        greet: 'Hello %{email}!'
+      reset_password:
+        greet: 'Hello %{email}!'
+    admin:
+      reset_password:
+        greet: 'Hello %{email}!'
+        mail_body: 'Someone has requested a link to change your password. You can do this through the link below.'
+        mail_link: "Change my password"
+        mail_ignore: "If you didn't request this, please ignore this email. Your password won't change until you access the link above and create a new one."

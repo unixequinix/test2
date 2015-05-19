@@ -6,6 +6,6 @@
 - if @orders.empty?
   .section-title-empty
     = image_tag "img-empty.png"
-    p no orders TODO
+    p = t("admin.defaults.empty_orders")
 - else
   = render "admins/orders/list", orders: @orders

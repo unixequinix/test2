@@ -9,18 +9,23 @@ en:
       empty_tickets: "No tickets"
       empty_gtags: "No GTags"
       empty_customers: "No Customers"
+      empty_orders: "No orders"
       search: "Search"
       empty_payments: "No payments"
     actions:
       back: "Back"
       new: "New"
       csv: "CSV"
+    sessions:
+      mail: "user@domain.com"
+      password: "password"
     passwords:
       forgotten: "Forgot your password?"
       send_instructions: "Send me reset password instructions"
       new: "New password"
       confirm: "Confirm your new password"
       change: "Change my password"
+      reset_password: "Reset password"
     confirm:
       delete: "Are you sure?"
     aside:
