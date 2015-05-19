@@ -102,7 +102,7 @@
 
   &:before {
     @include mscale($base_font_size*0.70);
-    content: "Current status TODO:";
+    content: "Current status:";
     display: block;
     line-height: 0;
   }

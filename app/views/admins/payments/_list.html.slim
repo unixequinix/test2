@@ -1,16 +1,16 @@
 table.payments
   thead
     tr
-      th Id TODO
-      th Order id TODO
-      th Amount TODO
-      th Transaction type TODO
-      th Card country TODO
-      th Response code TODO
-      th Authorization code TODO
-      th Currency TODO
-      th Success TODO
-      th Paid at TODO
+      th = t("admin.payments.id")
+      th = t("admin.payments.order_id")
+      th = t("admin.payments.amount")
+      th = t("admin.payments.transaction_type")
+      th = t("admin.payments.card_country")
+      th = t("admin.payments.response_code")
+      th = t("admin.payments.authorization_code")
+      th = t("admin.payments.currency")
+      th = t("admin.payments.success")
+      th = t("admin.payments.paid")
   tbody
     - payments.each do |payment|
       tr

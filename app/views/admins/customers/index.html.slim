@@ -6,6 +6,6 @@
 - if @customers.empty?
   .section-title-empty
     = image_tag "img-empty.png"
-    p no customers TODO
+    p = t("admin.defaults.empty_customer")
 - else
   = render "admins/customers/list", customers: @customers

@@ -5,8 +5,8 @@ h2
   = f.input :reset_password_token, as: :hidden
   = f.full_error :reset_password_token
   .form-inputs
-    = f.input :password, label: "New password", required: true, autofocus: true
-    = f.input :password_confirmation, label: "Confirm your new password", required: true
+    = f.input :password, label: t("admin.password.new"), required: true, autofocus: true
+    = f.input :password_confirmation, label: t("admin.password.confirm"), required: true
   .form-actions
-    = f.button :submit, "Change my password"
+    = f.button :submit, t("admin.password.new")
 = render "admins/shared/links"

@@ -3,9 +3,9 @@
 
 = render "admins/payments/search", q: @q
 
-- if @payments.empty?
-  .section-title-empty
-    = image_tag "img-empty.png"
-    p no payments TODO
-- else
-  = render "admins/payments/list", payments: @payments
+//- if @payments.empty?
+//  .section-title-empty
+//    = image_tag "img-empty.png"
+//    p = t("admin.defaults.empty_payments")
+//- else
+= render "admins/payments/list", payments: @payments

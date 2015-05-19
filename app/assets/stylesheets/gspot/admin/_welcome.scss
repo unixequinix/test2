@@ -72,6 +72,8 @@ textarea {
   }
 
   @include min-screen($bp4) { width: 30%; }
+
+  h3 { color: $white; }
 }
 
 .logo {

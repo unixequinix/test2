@@ -3,30 +3,21 @@
   = link_to t("actions.back"), admins_payments_path, class: "btn btn-action btn-action-back"
 
 .container-show
-  label
-    | Order id TODO
+  label = t("admin.payments.order_id")
   p = link_to @payment.order.number, admins_order_path(@payment.order)
-  label
-    | Amount TODO
+  label = t("admin.payments.amount")
   p = @payment.amount
-  label
-    | Transaction type TODO
+  label = t("admin.payments.transaction_type")
   p = @payment.transaction_type
-  label
-    | Card country TODO
+  label = t("admin.payments.card_country")
   p = @payment.card_country
-  label
-    | Response code TODO
+  label = t("admin.payments.response_code")
   p = @payment.response_code
-  label
-    | Authorization code TODO
+  label = t("admin.payments.authorization_code")
   p = @payment.authorization_code
-  label
-    | Currency TODO
+  label = t("admin.payments.currency")
   p = @payment.currency
-  label
-    | Success TODO
+  label = t("admin.payments.success")
   p = @payment.success
-  label
-    | Paid at TODO
+  label = t("admin.payments.paid")
   p = @payment.paid_at

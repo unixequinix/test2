@@ -45,6 +45,11 @@ en:
         new: &label_gtag
           tag_uid: "Tag UID"
           tag_serial_number: "Tag serial number"
+          gtag_credit_log: "Bingo"
+        edit:
+          <<: *label_gtag
+      gtag_credit_log:
+        new: &label_gtag
           amount: "Amount"
         edit:
           <<: *label_gtag
@@ -59,7 +64,7 @@ en:
           min_purchasable: 'Min units per order in number'
           max_purchasable: 'Max units per order in number'
           initial_amount: 'Initial Amount in number'
-          step: 'Step'
+          step: 'Incremental Step'
         edit:
           <<: *placeholder_online_product
       entitlement:
@@ -71,7 +76,7 @@ en:
         new: &placeholder_ticket_type
           name: "Weekend pass"
           company: "Event company"
-          credit: "250€ "
+          credit: "250€"
           entitlement: "Entitlement"
         edit:
           <<: *placeholder_ticket_type
@@ -84,8 +89,13 @@ en:
         new: &placeholder_gtag
           tag_uid: "0000"
           tag_serial_number: "X0X0000X0"
-          amount: "250€"
+          gtag_credit_log: "Bingo"
         edit:
           <<: *placeholder_gtag
+      gtag_credit_log:
+        new: &placeholder_gtag
+          amount: "2"
+        edit:
+          <<: *label_gtag
 
 

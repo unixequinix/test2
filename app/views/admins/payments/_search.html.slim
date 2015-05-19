@@ -1,10 +1,10 @@
 p.section-header
   = fa_icon "search"
-  | Search
+  = t("admin.defaults.search")
 
 = search_simple_form_for q, url: search_admins_payments_path, html: { method: :post, class: "searchForm" }  do |f|
   .container-search
     .wrapper-search-field
       .custom-input
-        = f.input :id_eq, placeholder: "Id eq TODO"
+        = f.input :id_eq, placeholder: t("admin.payments.search")
     = f.submit class: "btn btn-secondary"

@@ -2,5 +2,5 @@
   = f.input :tag_uid, placeholder: true
   = f.input :tag_serial_number, placeholder: true
   = f.simple_fields_for :gtag_credit_log do |gcl|
-    = gcl.input :amount, placeholder: "250€"
+    = gcl.input :amount, placeholder: true
   = f.button :submit, class: "btn btn-primary"

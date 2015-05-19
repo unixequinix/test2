@@ -1,20 +1,41 @@
 en:
   admin:
     defaults:
-      actions: Actions
-      home: home
+      actions: "Actions"
+      home: "Home"
+      log_in: "Log In"
       empty_credits: "No credits"
       empty_entitlements: "No entitlements"
       empty_tickets: "No tickets"
       empty_gtags: "No GTags"
       empty_customers: "No Customers"
       search: "Search"
+      empty_payments: "No payments"
     actions:
       back: "Back"
       new: "New"
       csv: "CSV"
+    passwords:
+      forgotten: "Forgot your password?"
+      send_instructions: "Send me reset password instructions"
+      new: "New password"
+      confirm: "Confirm your new password"
+      change: "Change my password"
     confirm:
       delete: "Are you sure?"
+    aside:
+      entitlements: "Entitlements"
+      ticket_types: "Ticket Types"
+      gtag: "GTags"
+      credits: "Credits"
+      customers: "Customers"
+      orders: "Orders"
+      payments: "Payments"
+      sign_out: "Sign out"
+    dashboard:
+      change_state: "Change state?"
+      api_access: "API access"
+      current_token: "Your current API access token:"
     credits:
       name: "Name"
       description: "Description"
@@ -35,7 +56,9 @@ en:
       number: "Number"
       ticket_type: "Ticket type"
       customer: "Customer"
-      search: "Type number cont"
+      search:
+        number: "Number"
+        type: "Type"
       import: "Import products"
     gtags:
       tag: "Tag UID"
@@ -61,4 +84,29 @@ en:
       transactions: "Transactions"
       transactions_type: "Transactions type"
       amount: "Amount"
-
+    orders:
+      number: "Number"
+      customer: "Customer"
+      state: "State"
+      created: "Created at"
+      completed: "Completed at"
+      amount: "Amount"
+      product_price: "Product price"
+      total: "Total"
+      product_name: "Product name"
+      product_description: "Product description"
+      product_type: "Product type"
+      order_item: "Order items"
+      search: "Number cont"
+    payments:
+      search: "Id eq"
+      id: "Id"
+      order_id: "Order Id"
+      amount: "Amount"
+      transaction_type: "Transaction type"
+      card_country: "Card country"
+      response_code: "Response code"
+      authorization_code: "Authorization code"
+      currency: "Currency"
+      success: "Success"
+      paid: "Paid at"

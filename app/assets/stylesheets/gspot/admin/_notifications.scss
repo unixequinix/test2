@@ -73,16 +73,18 @@
 
 .error {
   @include mscale($base-font-size*0.75);
-  position: absolute;
-  right: modules(0);
-  bottom: modules(0);
+  width: 100%;
+  display: block;
   padding: 0 modules(0.25);
   color: $white;
   background-color: $red;
 
   @include min-screen($bp3) {
     @include span-columns(8);
-    bottom: modules(0.5);
+    position: absolute;
+    right: modules(1);
+    left: auto;
+    bottom: modules(0.45);
     z-index: 4;
   }
 }
