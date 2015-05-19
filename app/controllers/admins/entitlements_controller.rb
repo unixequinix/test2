@@ -11,10 +11,10 @@ class Admins::EntitlementsController < Admins::BaseController
   def create
     @entitlement = Entitlement.new(permitted_params)
     if @entitlement.save
-      flash[:notice] = "created TODO"
+      flash[:notice] = I18n.t('alerts.created')
       redirect_to admins_entitlements_url
     else
-      flash[:error] = "ERROR TODO"
+      flash[:error] = I18n.t('alerts.error')
       render :new
     end
   end
@@ -26,10 +26,10 @@ class Admins::EntitlementsController < Admins::BaseController
   def update
     @entitlement = Entitlement.find(params[:id])
     if @entitlement.update(permitted_params)
-      flash[:notice] = "updated TODO"
+      flash[:notice] = I18n.t('alerts.updated')
       redirect_to admins_entitlements_url
     else
-      flash[:error] = "ERROR"
+      flash[:error] = I18n.t('alerts.error')
       render :edit
     end
   end
@@ -37,7 +37,7 @@ class Admins::EntitlementsController < Admins::BaseController
   def destroy
     @entitlement = Entitlement.find(params[:id])
     @entitlement.destroy!
-    flash[:notice] = "destroyed TODO"
+    flash[:notice] = I18n.t('alerts.destroyed')
     redirect_to admins_entitlements_url
   end
 

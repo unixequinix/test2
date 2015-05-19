@@ -1,6 +1,6 @@
 .wrapper-title
-  h2 PAYMENT DONE
+  h2 = t('payment.success.title')
 
-p Thank you for your order. Your payment has been processed.
+p = t('payment.success.description')
 
 = render 'customers/dashboards/event_created/credits', call_to_action: 'Want to top up more TODO?'

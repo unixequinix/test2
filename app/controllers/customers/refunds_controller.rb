@@ -8,7 +8,7 @@ class Customers::RefundsController < Customers::BaseController
   def create
     @refund = Refund.new(permitted_params)
     if @refund.save
-      flash[:notice] = "created TODO"
+      flash[:notice] = I18n.t('alerts.created')
       redirect_to customer_root_url
     else
       flash[:error] = @refund.errors.full_messages.join(". ")
@@ -24,7 +24,7 @@ class Customers::RefundsController < Customers::BaseController
   def update
     @refund = Refund.find(params[:id])
     if @refund.update(permitted_params)
-      flash[:notice] = "updated TODO"
+      flash[:notice] = I18n.t('alerts.updated')
       redirect_to customer_root_url
     else
       flash[:error] = @refund.errors.full_messages.join(". ")

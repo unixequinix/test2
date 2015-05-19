@@ -63,7 +63,7 @@ end
 ## GTag
 
 crumb :admins_gtags do
-  link t("breadcrumbs.ﬁ"), admins_gtags_path
+  link t("breadcrumbs.gtags"), admins_gtags_path
 end
 
 crumb :admins_gtag do |gtag|

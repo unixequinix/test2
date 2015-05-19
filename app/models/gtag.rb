@@ -29,11 +29,11 @@ class Gtag < ActiveRecord::Base
 
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
-      gtag_columns = column_names
+      gtag_columns = column_names.clone
       gtag_columns << 'amount'
       csv << gtag_columns
       all.each do |gtag|
-        attributes = gtag.attributes.values_at(*column_names)
+        attributes = gtag.attributes.values_at(*gtag_columns)
         attributes[-1] = gtag.gtag_credit_log.amount unless gtag.gtag_credit_log.nil?
         csv << attributes
       end
@@ -48,7 +48,7 @@ class Gtag < ActiveRecord::Base
       gtag = find_by_id(row["id"]) || new
       gtag.attributes = row.to_hash.slice(*Gtag.attribute_names)
       if row["amount"]
-        gtag.gtag_credit_log.nil? ? gtag.gtag_credit_log = GtagCreditLog.create(amount: row["amount"]) : gtag.gtag_credit_log.amount = row["amount"]
+        gtag.gtag_credit_log.nil? ? gtag.gtag_credit_log = GtagCreditLog.create(gtag_id: row["id"], amount: row["amount"]) : gtag.gtag_credit_log.amount = row["amount"]
       end
       gtag.save!
     end

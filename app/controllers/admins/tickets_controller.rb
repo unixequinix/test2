@@ -22,10 +22,10 @@ class Admins::TicketsController < Admins::BaseController
   def create
     @ticket = Ticket.new(permitted_params)
     if @ticket.save
-      flash[:notice] = "created TODO"
+      flash[:notice] = I18n.t('alerts.created')
       redirect_to admins_tickets_url
     else
-      flash[:error] = "ERROR TODO"
+      flash[:error] = I18n.t('alerts.error')
       render :new
     end
   end
@@ -37,10 +37,10 @@ class Admins::TicketsController < Admins::BaseController
   def update
     @ticket = Ticket.find(params[:id])
     if @ticket.update(permitted_params)
-      flash[:notice] = "updated TODO"
+      flash[:notice] = I18n.t('alerts.updated')
       redirect_to admins_tickets_url
     else
-      flash[:error] = "ERROR"
+      flash[:error] = I18n.t('alerts.error')
       render :edit
     end
   end
@@ -48,13 +48,13 @@ class Admins::TicketsController < Admins::BaseController
   def destroy
     @ticket = Ticket.find(params[:id])
     @ticket.destroy!
-    flash[:notice] = "destroyed TODO"
+    flash[:notice] = I18n.t('alerts.destroyed')
     redirect_to admins_tickets_url
   end
 
   def import
     Ticket.import(params[:file])
-    redirect_to admins_tickets_url, notice: "Tickets imported TODO"
+    redirect_to admins_tickets_url, notice: I18n.t('alerts.imported')
   end
 
   private
