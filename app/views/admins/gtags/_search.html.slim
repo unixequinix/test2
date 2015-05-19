@@ -6,6 +6,6 @@ p.section-header
   .container-search
     .wrapper-search-field
       .custom-input
-        = f.input :tag_uid_cont, placeholder: t("admin.gtags.tag_uid"), wrapper_html: {class: "search-input" }
-        = f.input :tag_serial_number_cont, placeholder: t("admin.gtags.tag_serial"), wrapper_html: {class: "search-input" }
+        = f.input :tag_uid_cont, placeholder: t("admin.gtags.search.tag_uid"), wrapper_html: {class: "search-input" }
+        = f.input :tag_serial_number_cont, placeholder: t("admin.gtags.search.tag_serial"), wrapper_html: {class: "search-input" }
     = f.submit class: "btn btn-secondary"

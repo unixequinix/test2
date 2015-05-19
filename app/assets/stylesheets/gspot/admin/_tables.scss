@@ -58,7 +58,10 @@ td {
 
      @include min-screen($bp3) { padding: modules(0.5); }
 
-    &:hover { text-decoration: underline; }
+    &:hover, &:focus  {
+      text-decoration: underline;
+      outline: none;
+    }
   }
 
   &:before {
@@ -256,7 +259,10 @@ td {
     @include min-screen($bp3) {
       color: $red;
 
-      &:hover { background-color: lighten($red,30%); }
+      &:hover, &:focus {
+        background-color: lighten($red,30%);
+        outline: none;
+      }
     }
   }
 }
@@ -272,7 +278,10 @@ td {
     @include min-screen($bp3) {
       color: $amber;
 
-      &:hover { background-color: lighten($amber,30%); }
+      &:hover, &:focus {
+        background-color: lighten($amber,30%);
+        outline: none;
+      }
     }
   }
 }

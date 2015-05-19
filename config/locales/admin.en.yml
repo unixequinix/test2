@@ -66,8 +66,9 @@ en:
       customer: "Customer"
       total: "Total Credits"
       import: "Import GTags"
-      tag_uid: "Tag UID Cont"
-      tag_serial: "Tag Serial Number Cont"
+      search:
+        tag_uid: "Tag UID"
+        tag_serial: "Tag serial number"
     customers:
       email: "Email"
       name: "Name"
@@ -84,6 +85,8 @@ en:
       transactions: "Transactions"
       transactions_type: "Transactions type"
       amount: "Amount"
+      search:
+        name: "Type name"
     orders:
       number: "Number"
       customer: "Customer"
@@ -97,9 +100,9 @@ en:
       product_description: "Product description"
       product_type: "Product type"
       order_item: "Order items"
-      search: "Number cont"
+      search:
+        number: "Number"
     payments:
-      search: "Id eq"
       id: "Id"
       order_id: "Order Id"
       amount: "Amount"
@@ -110,3 +113,5 @@ en:
       currency: "Currency"
       success: "Success"
       paid: "Paid at"
+      search:
+        id: "Id eq"
