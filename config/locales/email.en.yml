@@ -1,0 +1,10 @@
+en:
+  email:
+    customer:
+      order:
+        completed:
+          title: 'Order Notification'
+          subject: 'Order Completed'
+          order_number: 'Order Number'
+          greet: 'Hello %{name}!'
+          date: 'Purchase date'
