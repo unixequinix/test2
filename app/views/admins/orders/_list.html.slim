@@ -1,11 +1,11 @@
 table.orders
   thead
     tr
-      th Number TODO
-      th Customer TODO
-      th State TODO
-      th Created at TODO
-      th Completed at TODO
+      th = t("admin.orders.number")
+      th = t("admin.orders.customer")
+      th = t("admin.orders.state")
+      th = t("admin.orders.created")
+      th = t("admin.orders.completed")
   tbody
     - orders.each do |order|
       tr

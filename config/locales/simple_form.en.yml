@@ -11,21 +11,91 @@ en:
     error_notification:
       default_message: "Please review the problems below:"
     # Examples
-    # labels:
-    #   defaults:
-    #     password: 'Password'
-    #   user:
-    #     new:
-    #       email: 'E-mail to sign in.'
-    #     edit:
-    #       email: 'E-mail.'
-    # hints:
-    #   defaults:
-    #     username: 'User name to sign in.'
-    #     password: 'No special characters, please.'
-    # include_blanks:
-    #   defaults:
-    #     age: 'Rather not say'
-    # prompts:
-    #   defaults:
-    #     age: 'Select your age'
+    labels:
+      defaults:
+        password: 'Password'
+      online_product:
+        new: &label_online_product
+          name: 'Name'
+          description: 'Description'
+          price: 'Price'
+          min_purchasable: 'Min Purchasable'
+          max_purchasable: 'Max Purchasable'
+          initial_amount: 'Initial Amount'
+          step: 'Step'
+        edit:
+          <<: *label_online_product
+      entitlement:
+        new: &label_entitlement
+          name: 'Name'
+      ticket_type:
+        new: &label_ticket_type
+          name: "Name"
+          company: "Company"
+          credit: "Credit"
+          entitlement: "Entitlement"
+        edit:
+          <<: *label_ticket_type
+      ticket:
+        new: &label_ticket
+          number: "Number"
+        edit:
+          <<: *label_ticket
+      gtag:
+        new: &label_gtag
+          tag_uid: "Tag UID"
+          tag_serial_number: "Tag serial number"
+          gtag_credit_log: "Bingo"
+        edit:
+          <<: *label_gtag
+      gtag_credit_log:
+        new: &label_gtag
+          amount: "Amount"
+        edit:
+          <<: *label_gtag
+
+
+    placeholders:
+      online_product:
+        new: &placeholder_online_product
+          name: '20 Credits'
+          description: 'Event credits'
+          price: '2€'
+          min_purchasable: 'Min units per order in number'
+          max_purchasable: 'Max units per order in number'
+          initial_amount: 'Initial Amount in number'
+          step: 'Incremental Step'
+        edit:
+          <<: *placeholder_online_product
+      entitlement:
+        new: &placeholder_entitlement
+          name: 'Choose a name for entitlement'
+        edit:
+          <<: *placeholder_entitlement
+      ticket_type:
+        new: &placeholder_ticket_type
+          name: "Weekend pass"
+          company: "Event company"
+          credit: "250€"
+          entitlement: "Entitlement"
+        edit:
+          <<: *placeholder_ticket_type
+      ticket:
+        new: &placeholder_ticket
+          number: "0000 00000000"
+        edit:
+          <<: *placeholder_ticket
+      gtag:
+        new: &placeholder_gtag
+          tag_uid: "0000"
+          tag_serial_number: "X0X0000X0"
+          gtag_credit_log: "Bingo"
+        edit:
+          <<: *placeholder_gtag
+      gtag_credit_log:
+        new: &placeholder_gtag
+          amount: "2"
+        edit:
+          <<: *label_gtag
+
+

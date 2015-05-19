@@ -35,6 +35,9 @@ header {
   text-align: center;
 
   @include min-screen($bp3) { display: none; }
+  a {
+    &:focus { outline: 1px solid red; }
+  }
 }
 
 .menu-option {
@@ -49,5 +52,8 @@ header {
   text-transform: uppercase;
   z-index: 5;
 
-  &:hover { background-color: lighten($dark_blue, 10%); }
+  &:hover, &:focus {
+    background-color: lighten($dark_blue, 10%);
+    outline: none;
+  }
 }

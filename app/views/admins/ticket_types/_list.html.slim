@@ -1,11 +1,12 @@
 table.ticket-types
   thead
     tr
-      th Name TODO
-      th Company TODO
-      th Credit TODO
-      th Entitlements TODO
-      th Actions TODO
+      th = t("admin.ticket_types.name")
+      th = t("admin.ticket_types.company")
+      th = t("admin.ticket_types.credit")
+      th = t("admin.ticket_types.entitlements")
+      th = t("admin.defaults.actions")
+
   tbody
     - ticket_types.each do |ticket_type|
       tr

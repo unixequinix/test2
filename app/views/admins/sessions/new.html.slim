@@ -1,6 +1,8 @@
 .wrapper-welcome
   h1
-    = image_tag "glownet-login-logo.png", class: "logo"
+    = link_to admin_root_path
+      = image_tag "glownet-login-logo.png", class: "logo"
+
   = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
     .form-inputs
       = f.input :email, required: false, placeholder: "user@domain.com", autofocus: true

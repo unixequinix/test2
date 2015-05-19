@@ -4,62 +4,50 @@
 
 .container-show
   dl
-    dt
-      | Email TODO
+    dt = t ("admin.customers.email")
     dd = @customer.email
 
-    dt
-      | Name TODO
+    dt = t ("admin.customers.name")
     dd = @customer.name
 
-    dt
-      | Surname TODO
+    dt = t ("admin.customers.surname")
     dd = @customer.surname
 
-    dt
-      | Ticket TODO
+    dt = t ("admin.customers.tickets")
     - if !@customer.assigned_admission.nil?
       dd = link_to @customer.assigned_admission.ticket.number, edit_admins_ticket_path(@customer.assigned_admission.ticket)
     - else
-      dd No ticket TODO
-
-    dt
-      | Credits TODO
+      dd = t ("admin.defaults.empty_tickets")
+    dt = t ("admin.customers.credits")
     dd = @customer.credit_logs.sum(:amount)
 
-    dt
-      | Sign in count TODO
+    dt = t ("admin.customers.sign")
     dd = @customer.sign_in_count
 
-    dt
-      | Current sign in at TODO
+    dt = t ("admin.customers.current_sign")
     dd = @customer.current_sign_in_at
 
-    dt
-      | Last sign in at TODO
+    dt = t ("admin.customers.last_sign")
     dd = @customer.last_sign_in_at
-    dt
-      | Current sign in ip TODO
+
+    dt = t ("admin.customers.current_sign_ip")
     dd = @customer.current_sign_in_ip
 
-    dt
-      | Last sign in ip TODO
+    dt = t ("admin.customers.last_sign_ip")
     dd = @customer.last_sign_in_ip
 
-    dt
-      | Unconfirmed email TODO
+    dt = t ("admin.customers.unconfirmed")
     dd = @customer.unconfirmed_email
 
   h3
     = fa_icon "table"
-    | Transactions TODO
-
+    = t ("admin.customers.transactions")
   table.subtable.customer-show-subtable
     thead
       tr
-        th Transaction Type TODO
-        th Amount TODO
-    tbody
+        th = t("admin.customers.transactions_type")
+        th = t("admin.customers.amount")
+
       - @customer.credit_logs.each do |credit_log|
         tr
           td = credit_log.transaction_type

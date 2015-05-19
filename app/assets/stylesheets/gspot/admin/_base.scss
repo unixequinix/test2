@@ -95,7 +95,10 @@ abbr {
   box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.3);
   background-color: $greenKickstarter;
 
-  &:hover { background-color: lighten($greenKickstarter, 8%); }
+  &:hover, &:focus  {
+    background-color: lighten($greenKickstarter, 8%);
+    outline: none;
+  }
 }
 
 .btn-primary {
@@ -108,8 +111,9 @@ abbr {
 
   //span { padding-left: modules(0.25); }
 
-  &:hover {
+  &:hover, &:focus {
     background-color: lighten($greenKickstarter,10%);
+    outline: none;
   }
 }
 
@@ -118,8 +122,9 @@ abbr {
   background-color: $light_grey;
   color: $white;
 
-  &:hover {
+  &:hover, &:focus  {
     background-color: lighten($light_grey,10%);
+    outline: none;
   }
 }
 
@@ -139,25 +144,37 @@ abbr {
   background-color: $greenKickstarter;
   color: $white;
 
-  &:hover { background-color: lighten($greenKickstarter,10%); }
+  &:hover, &:focus {
+    background-color: lighten($greenKickstarter,10%);
+    outline: none;
+  }
 }
 
 .btn-action-back {
   background-color: $grey;
 
-  &:hover { background-color: lighten($grey,10%); }
+  &:hover, &:focus  {
+    background-color: lighten($grey,10%);
+    outline: none;
+  }
 }
 
 .btn-action-edit {
   background-color: $amber;
 
-  &:hover { background-color: lighten($amber,10%); }
+  &:hover, &:focus  {
+    background-color: lighten($amber,10%);
+    outline: none;
+  }
 }
 
 .btn-action-delete {
   background-color: $red;
 
-  &:hover { background-color: lighten($red,10%); }
+  &:hover, &:focus  {
+    background-color: lighten($red,10%);
+    outline: none;
+  }
 }
 
 .btn-action-import {
@@ -175,19 +192,28 @@ abbr {
   background-color: $greenKickstarter;
   color: $white;
 
-  &:hover { background-color: lighten($greenKickstarter,10%); }
+  &:hover, &:focus  {
+    background-color: lighten($greenKickstarter,10%);
+    outline: none;
+  }
 }
 
 .btn-dashboard-finished {
   background-color: $red;
   color: $white;
 
-  &:hover { background-color: lighten($red,10%); }
+  &:hover, &:focus {
+    background-color: lighten($red,10%);
+    outline: none;
+  }
 }
 
 .btn-dashboard-created {
   background-color: $amber;
   color: $white;
 
-  &:hover { background-color: lighten($amber,10%); }
+  &:hover, &:focus {
+    background-color: lighten($amber,10%);
+    outline: none;
+  }
 }

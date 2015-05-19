@@ -6,14 +6,14 @@ aside#main-menu
     h1.img-header.aside-logo
       = link_to admin_root_path
         = image_tag ("admin-panel-logo.png")
-    li = link_to 'Entitlements TODO', admins_entitlements_path
-    li = link_to 'Ticket Types TODO', admins_ticket_types_path
-    li = link_to 'Tickets TODO', admins_tickets_path
-    li = link_to 'GTags TODO', admins_gtags_path
-    li = link_to 'Credits TODO', admins_credits_path
-    li = link_to 'Customers TODO', admins_customers_path
-    li = link_to 'Orders TODO', admins_orders_path
-    li = link_to 'Payments TODO', admins_payments_path
+    li = link_to t("admin.aside.entitlements"), admins_entitlements_path
+    li = link_to t("admin.aside.ticket_types"), admins_ticket_types_path
+    li = link_to t("admin.aside.tickets"), admins_tickets_path
+    li = link_to t("admin.aside.gtag"), admins_gtags_path
+    li = link_to t("admin.aside.credits"), admins_credits_path
+    li = link_to t("admin.aside.customers"), admins_customers_path
+    li = link_to t("admin.aside.orders"), admins_orders_path
+    li = link_to t("admin.aside.payments"), admins_payments_path
     li.mobile-sign-out
-      = link_to 'Sign Out TODO', destroy_admin_session_path, method: :delete
+      = link_to t("admin.aside.sign_out"), destroy_admin_session_path, method: :delete
 

@@ -61,7 +61,10 @@
    a {
     color: $blue;
 
-    &:hover { text-decoration: underline; }
+    &:hover, &:focus {
+      text-decoration: underline;
+      outline: none;
+    }
   }
 }
 
@@ -246,5 +249,8 @@
     right: modules(0.5);
     color: $blue;
     z-index: 9;
+    pointer-events: none;
   }
+
+  &:focus { border: 1px solid yellow; }
 }

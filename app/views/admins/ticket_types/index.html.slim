@@ -5,7 +5,7 @@
 - if @ticket_types.empty?
   .section-title-empty
     = image_tag "img-empty.png"
-    p no ticket types TODO
+    p  =t("admin.defaults.empty_tickets")
     = link_to t("actions.new"), new_admins_ticket_type_path, class: "btn btn-action btn-action-new"
 - else
   = render "admins/ticket_types/list", ticket_types: @ticket_types

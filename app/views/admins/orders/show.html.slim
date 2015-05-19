@@ -4,35 +4,30 @@
 
 .container-show
   dl
-    dt
-      | Number TODO
+    dt = t("admin.orders.number")
     dd = @order.number
-    dt
-      | Customer TODO
+    dt = t("admin.orders.customer")
     dd = link_to @order.customer.email, admins_customer_path(@order.customer)
-    dt
-      | State TODO
+    dt = t("admin.orders.state")
     dd = @order.aasm_state
-    dt
-      | Created at TODO
+    dt = t("admin.orders.created")
     dd = @order.created_at
-    dt
-      | Completed at TODO
+    dt = t("admin.orders.completed")
     dd = @order.completed_at
 
 .container-show
   h3
     = fa_icon "table"
-    | Order Items TODO
+    = t("admin.orders.order_item")
   table.subtable.order-subtable
     thead
       tr
-        th Amount TODO
-        th Product unit price TODO
-        th Total TODO
-        th Product name TODO
-        th Product description TODO
-        th Product type TODO
+        th = t("admin.orders.amount")
+        th = t("admin.orders.product_price")
+        th = t("admin.orders.total")
+        th = t("admin.orders.product_name")
+        th = t("admin.orders.product_description")
+        th = t("admin.orders.product_type")
     tbody
       - @order.order_items.each do |order_item|
         tr

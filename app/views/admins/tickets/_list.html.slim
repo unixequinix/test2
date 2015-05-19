@@ -1,10 +1,10 @@
 table.tickets
   thead
     tr
-      th Number TODO
-      th Ticket Type TODO
-      th Customer TODO
-      th.table-actions-field Actions TODO
+      th = t("admin.tickets.number")
+      th = t("admin.tickets.ticket_type")
+      th = t("admin.tickets.customer")
+      th.table-actions-field = t("admin.defaults.actions")
   tbody
     - tickets.each do |ticket|
       tr

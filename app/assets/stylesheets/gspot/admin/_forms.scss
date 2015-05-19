@@ -37,7 +37,6 @@ textarea {
   border: none;
   background-color: transparent;
   box-shadow: inset 12px -57px 0px -56px $graySilver;
-  color: $dark_grey;
   text-align: left;
 
   @include min-screen($bp3) {
@@ -55,6 +54,14 @@ textarea {
   &:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px $blue inset !important;
     -webkit-text-fill-color: $nuclear;
+  }
+}
+
+input[type=file] {
+
+  &:focus {
+    box-shadow: inset 0px 0px 0px 1px $white;
+    outline: none;
   }
 }
 

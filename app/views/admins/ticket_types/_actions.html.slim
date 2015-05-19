@@ -1,5 +1,5 @@
 ul
-  li.table-action.action-delete = link_to admins_ticket_type_path(ticket_type), method: :delete, data: { confirm: "Are you sure? TODO" } do
+  li.table-action.action-delete = link_to admins_ticket_type_path(ticket_type), method: :delete, data: { confirm: t("admin.confirm.delete") } do
     = fa_icon "trash"
   li.table-action.action-edit = link_to edit_admins_ticket_type_path(ticket_type) do
     = fa_icon "edit"

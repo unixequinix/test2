@@ -1,6 +1,6 @@
 = simple_form_for [:admins, ticket_type] do |f|
-  = f.input :name, placeholder: 'Nombre de ticket_type TODO', required: true
-  = f.input :company, placeholder: 'Empresa TODO', required: true
-  = f.input :credit, placeholder: 'Credito TODO', required: true
+  = f.input :name, placeholder: true, required: true
+  = f.input :company, placeholder: true, required: true
+  = f.input :credit, placeholder: true, required: true
   = f.association :entitlements, as: :check_boxes, include_hidden: false, include_blank: false, boolean_style: :inline, collection: Entitlement.form_selector, required: false, label: 'Entitlements', wrapper: :checkboxes, required: true
   = f.button :submit, class: "btn btn-primary"
