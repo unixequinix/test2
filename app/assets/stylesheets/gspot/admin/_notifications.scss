@@ -10,7 +10,7 @@
 .msg-for-alert, .msg-for-error {
   opacity: 1;
   // ______
-  position: absolute;
+  position: fixed;
   top: modules(1);
   left: modules(1);
   right: modules(1);

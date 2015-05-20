@@ -9,7 +9,7 @@
 }
 
 .msg-for-alert, .msg-for-error {
-  position: absolute;
+  position: fixed;
   top: modules(1);
   left: modules(1);
   right: modules(1);

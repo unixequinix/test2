@@ -68,7 +68,7 @@
     vertical-align: middle;
 
     @include min-screen($bp3) {
-      @include span-columns(3);
+      @include span-columns(4);
     }
   }
 
@@ -78,7 +78,7 @@
     padding: 0;
 
     @include min-screen($bp3) {
-      @include span-columns(9);
+      @include span-columns(8);
     }
   }
 }
