@@ -188,6 +188,26 @@ abbr {
 
 .btn-dashboard { width: 100%; }
 
+.btn-dashboard-created {
+  background-color: $amber;
+  color: $white;
+
+  &:hover, &:focus {
+    background-color: lighten($amber,10%);
+    outline: none;
+  }
+}
+
+.btn-dashboard-launched {
+  background-color: $amber;
+  color: $white;
+
+  &:hover, &:focus {
+    background-color: lighten($amber,10%);
+    outline: none;
+  }
+}
+
 .btn-dashboard-started {
   background-color: $greenKickstarter;
   color: $white;
@@ -208,7 +228,7 @@ abbr {
   }
 }
 
-.btn-dashboard-created {
+.btn-dashboard-closed {
   background-color: $amber;
   color: $white;
 

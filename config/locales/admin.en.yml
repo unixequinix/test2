@@ -1,5 +1,12 @@
 en:
   admin:
+    event:
+      states:
+        created: 'Not published'
+        launched: 'Pre-event'
+        started: 'During event'
+        finished: 'After event'
+        closed: 'Closed'
     defaults:
       actions: "Actions"
       home: "Home"

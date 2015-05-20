@@ -16,19 +16,29 @@ class Event < ActiveRecord::Base
 
   aasm do
     state :created, initial: true
+    state :launched
     state :started
     state :finished
+    state :closed
+
+    event :launch do
+      transitions from: :created, to: :launched
+    end
 
     event :start do
-      transitions from: :created, to: :started
+      transitions from: :launched, to: :started
     end
 
     event :finish do
       transitions from: :started, to: :finished
     end
 
+    event :close do
+      transitions from: :finished, to: :closed
+    end
+
     event :reboot do
-      transitions from: :finished, to: :created
+      transitions from: :closed, to: :created
     end
   end
 
