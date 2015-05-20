@@ -90,7 +90,7 @@ a { text-decoration: none; }
   @include min-screen($bp3) {
     width: auto;
     margin: 0;
-    padding: modules(0.5) modules(1);
+    padding: modules(0.5);
     line-height: 0.75;
   }
 
