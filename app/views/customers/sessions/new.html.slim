@@ -1,5 +1,8 @@
 .wrapper-title
   h2 = t('sessions.new.title')
+
+= render "customers/sessions/confirmation_message" if @sign_up
+
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
   .wrapper-field.container-login-map
     h3 = t('sessions.new.description')

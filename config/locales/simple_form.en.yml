@@ -87,8 +87,8 @@ en:
           <<: *placeholder_ticket
       gtag:
         new: &placeholder_gtag
-          tag_uid: "0000"
-          tag_serial_number: "X0X0000X0"
+          tag_serial_number: "0000"
+          tag_uid: "X0X0000X0"
           gtag_credit_log: "Bingo"
         edit:
           <<: *placeholder_gtag

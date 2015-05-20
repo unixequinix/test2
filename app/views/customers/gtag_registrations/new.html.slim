@@ -6,6 +6,6 @@ p = t('gtag_registrations.description')
   h3 = t('gtag_registrations.call_to_action')
   = form_tag customers_gtag_registrations_path do |f|
     .assign-input
-      = text_field_tag :tag_uid, nil, placeholder: t('gtag_registrations.placeholders.line_1')
-      = text_field_tag :tag_serial_number, nil, placeholder: t('gtag_registrations.placeholders.line_2')
+      = text_field_tag :tag_serial_number, nil, placeholder: t('gtag_registrations.placeholders.line_1')
+      = text_field_tag :tag_uid, nil, placeholder: t('gtag_registrations.placeholders.line_2')
     = submit_tag t('gtag_registrations.button'), class: "btn btn-full-width"

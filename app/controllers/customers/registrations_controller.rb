@@ -3,6 +3,10 @@ class Customers::RegistrationsController < Devise::RegistrationsController
 
   private
 
+  def after_inactive_sign_up_path_for(resource)
+    new_customer_session_path(sign_up: true)
+  end
+
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) << [:name, :surname]
     devise_parameter_sanitizer.for(:account_update) << [:name, :surname]
