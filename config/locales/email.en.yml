@@ -5,9 +5,12 @@ en:
         completed:
           title: 'Order Notification'
           subject: 'Order Completed'
-          order_number: 'This is your order number'
+          order_number: 'Your order'
           greet: 'Hello %{name}!'
           date: 'Purchase date'
+          success: 'Your order has been received. You can find details below:'
+          thanks: 'Thank you for your ordering.'
+          footer: 'Any question about your order? Contact directly with support'
       confirmation:
         greet: 'Hello %{name}!'
         mail_body: 'You can confirm your account email through the link below.'
