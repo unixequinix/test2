@@ -49,8 +49,8 @@ en:
       button: "Claim your credits"
     refunds:
       title: "Your credit:"
-      call_to_action: "Edit your refund details"
-      button: "Edit"
+      call_to_action: "Refund successfully claimed Expect transfer by %{date}"
+      button: "Modify bank account"
   admissions:
     title: "Ticket Activation"
     description: "To activate your Festival Ticket, put your Barcode Number below. You can find this number right under the barcode printed on your ticket."
