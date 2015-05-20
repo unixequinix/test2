@@ -5,13 +5,15 @@ en:
         completed:
           title: 'Order Notification'
           subject: 'Order Completed'
-          order_number: 'Order Number'
+          order_number: 'This is your order number'
           greet: 'Hello %{name}!'
           date: 'Purchase date'
       confirmation:
-        greet: 'Hello %{email}!'
+        greet: 'Hello %{name}!'
+        mail_body: 'You can confirm your account email through the link below.'
       reset_password:
-        greet: 'Hello %{email}!'
+        greet: 'Hello %{name}!'
+        mail_body: 'Someone has requested a link to change your password. You can do this through the link below.'
     admin:
       reset_password:
         greet: 'Hello %{email}!'
