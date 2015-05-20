@@ -83,6 +83,19 @@
   }
 }
 
+.wrapper-mail-confirm-message {
+  text-align: center;
+
+  //@include min-screen($bp3) {
+  //  padding: 0 modules(7);
+  //}
+
+  i {
+    display: block;
+    padding-bottom: modules(0.5);
+  }
+}
+
 .form-inputs { overflow: hidden; }
 
 .form-actions {
