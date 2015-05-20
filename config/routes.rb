@@ -85,7 +85,6 @@ Rails.application.routes.draw do
   end
 
   devise_scope :customers do
-    get 'customers/confirmations/message', to: 'customers/confirmations#message'
     root to: 'customers/dashboards#show', as: :customer_root
   end
 
