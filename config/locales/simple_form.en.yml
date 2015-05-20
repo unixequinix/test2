@@ -58,9 +58,9 @@ en:
     placeholders:
       online_product:
         new: &placeholder_online_product
-          name: '20 Credits'
-          description: 'Event credits'
-          price: '2€'
+          name: 'Choose a descriptive name'
+          description: 'Event credits details'
+          price: 'Credit price'
           min_purchasable: 'Min units per order in number'
           max_purchasable: 'Max units per order in number'
           initial_amount: 'Initial Amount in number'
@@ -74,27 +74,26 @@ en:
           <<: *placeholder_entitlement
       ticket_type:
         new: &placeholder_ticket_type
-          name: "Weekend pass"
+          name: "Choose a ticket name "
           company: "Event company"
-          credit: "250€"
+          credit: "Available Credit"
           entitlement: "Entitlement"
         edit:
           <<: *placeholder_ticket_type
       ticket:
         new: &placeholder_ticket
-          number: "0000 00000000"
+          number: "Ticket number"
         edit:
           <<: *placeholder_ticket
       gtag:
         new: &placeholder_gtag
-          tag_serial_number: "0000"
-          tag_uid: "X0X0000X0"
-          gtag_credit_log: "Bingo"
+          tag_serial_number: "First numbers line of the wristband"
+          tag_uid: "Second numbers line of the wristband"
         edit:
           <<: *placeholder_gtag
       gtag_credit_log:
         new: &placeholder_gtag
-          amount: "2"
+          amount: "Amount available"
         edit:
           <<: *label_gtag
 
