@@ -30,6 +30,7 @@ Rails.application.routes.draw do
       resources :customers, only: [:index]
       resources :orders, only: [:index]
       resources :tickets, only: [:index]
+      resources :refunds, only: [:index]
     end
   end
 
