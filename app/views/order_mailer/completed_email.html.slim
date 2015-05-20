@@ -8,47 +8,63 @@ html
     table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" style="border-collapse: collapse; margin: 0; background-color: #00DFA7 0%; text-align: center; font-family: sans-serif;" width="100%"
       tr
         td
-          table align="center" style="padding: 10px 50px; background-color: #fff;" width="900px"
+          //Main table
+          table align="center" style="padding: 10px; background-color: #fff;" width="800px"
             tr
+              //Logo
               td colspan="2" style="text-align: center; background-color:#e6d500;"
                 = image_tag attachments['logo.png'].url, :alt => 'BBF', style: 'display: inline-block; width: 300px; height: auto; margin: 0 auto;'
-
             tr
-              td colspan="2" style="padding: 48px 0 6px 0; text-align: left; font-size: 24px; font-weight: bold;"
-                span = t('email.customer.order.completed.greet', name: @name)
-            tr
-              td cellpadding="0" cellspacing="0" style="padding-bottom: 24px; text-align: left; font-size: 15px; color: #2c2c2;"
-                p = t('email.customer.order.completed.thanks')
-                p = t('email.customer.order.completed.success')
-            tr
-              td colspan="2"
-                table width="100%" style="padding: 10px 5px; border-top: 1px dotted #c2c2c2; border-bottom: 1px dotted #c2c2c2;"
+              td
+                //Table with order info
+                table width="100%" style="padding:0 50px;"
                   tr
-                    td cellpadding="0" cellspacing="0" style="text-align: left; font-size: 18px;"
-                      span style="color: #FF3333; font-size: 18px; font-weight: 200;" = "#{t('email.customer.order.completed.order_number')} :"
-                      span style="font-weight: bold; font-size: 18px; color: #FF3333; font-weight: 200;" #{@order.number}
-                    td cellpadding="0" cellspacing="0" style=" padding: 0 10px; text-align: left; color: #2c2c2c; font-size: 12px; font-weight: bold; text-align: right;" #{t('email.customer.order.completed.date')}: #{@order.completed_at.strftime("%y-%m-%d %H:%M:%S")}
-            tr
-              td colspan="2" style="padding:24px 0; text-align: center;"
-                table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse; margin: 0 auto; background-color: #fff; text-align: left;"
-                  tr style="border: 1px solid #C2C2C2;"
-                    th style=" padding: 5px 10px; background-color: #f2f2f2; color: #616161; font-size: 14px;"  = t('orders.products')
-                    th style="width: 30%; padding:5px 20px; background-color: #f2f2f2; color: #616161; text-align: right; font-size: 14px;"  = t('orders.price')
-                  - @order.order_items.each do |order_item|
-                    tr style="border: 1px solid #C2C2C2;"
-                      td style="padding: 20px 10px; vertical-align: middle; font-size: 14px; color: #616161; font-style: italic;"  = pluralize(order_item.amount, order_item.online_product.name)
-                      td style="width: 30%;padding: 20px 20px; vertical-align: middle; color: #616161; font-size: 14px; text-align: right;"  = order_item.total
+                    //Greet
+                    td colspan="2" style="padding: 48px 0 6px 0; text-align: left; font-size: 24px; font-weight: bold;"
+                      span = t('email.customer.order.completed.greet', name: @name)
                   tr
-                    td width="75%"
-                    td width="25%"
-                      table width="100%" style="border-bottom: 1px dotted #616161;"
+                    //Thanks
+                    td cellpadding="0" cellspacing="0" style="padding-bottom: 24px; text-align: left; font-size: 15px; color: #2c2c2;"
+                      p = t('email.customer.order.completed.thanks')
+                      p = t('email.customer.order.completed.success')
+                  tr
+                    //Order id and date
+                    td colspan="2"
+                      table width="100%" style="padding: 10px 5px; border: 1px solid #c2c2c2;"
                         tr
-                          td style="width: 50; padding: 40px 10px 10px; font-weight: bold; font-size: 14px; vertical-align: middle;"  = t('orders.total')
-                          td style="width: 50; padding: 40px 10px 10px; font-weight: bold; font-size: 14px; vertical-align: middle; text-align: right;" = "#{@order.total} #{t('currency_symbol')}"
-              tr
-                td colspan="2" style="padding: 40px; background-color: #f2f2f2; "
-                  p style="font-size: 14px; font-style: italic; color: #616161;" = t('email.customer.order.completed.footer')
-                  a href="" style="display: block;"
-                    = mail_to t('event.support_email')
+                          td cellpadding="0" cellspacing="0" style="text-align: left; font-size: 18px;"
+                            span style="color: #FF3333; font-size: 18px; font-weight: 200;" = "#{t('email.customer.order.completed.order_number')} :"
+                            //ORDER NAME
+                            span style="font-weight: bold; font-size: 18px; color: #FF3333; font-weight: 200;" #{@order.number}
+                          td cellpadding="0" cellspacing="0" style=" padding: 0 10px; text-align: left; color: #2c2c2c; font-size: 12px; font-weight: bold; text-align: right;" #{t('email.customer.order.completed.date')}: #{@order.completed_at.strftime("%y-%m-%d %H:%M:%S")}
+                  tr
+                    td colspan="2" style="padding:24px 0; text-align: center;"
+                      //Resume table
+                      table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse; margin: 0 auto; background-color: #fff; text-align: left;"
+                        tr style="border: 1px solid #C2C2C2;"
+                          //Products
+                          th style=" padding: 5px 10px; background-color: #f2f2f2; color: #616161; font-size: 14px;"  = t('orders.products')
+                          //Products
+                          th style="width: 30%; padding:5px 20px; background-color: #f2f2f2; color: #616161; text-align: right; font-size: 14px;"  = t('orders.price')
+                        - @order.order_items.each do |order_item|
+                          tr style="border: 1px solid #C2C2C2;"
+                            //Product quantity
+                            td style="padding: 20px 10px; vertical-align: middle; font-size: 14px; color: #616161; font-style: italic;"  = pluralize(order_item.amount, order_item.online_product.name)
+                             //Product price
+                            td style="width: 30%;padding: 20px 20px; vertical-align: middle; color: #616161; font-size: 14px; text-align: right;"  = order_item.total
+                        tr
+                          //Product total
+                          td width="75%"
+                          td width="25%"
+                            table width="100%"
+                              tr
+                                td style="width: 50; padding: 40px 10px 10px; font-weight: bold; font-size: 14px; vertical-align: middle;"  = t('orders.total')
+                                td style="width: 50; padding: 40px 10px 10px; font-weight: bold; font-size: 14px; vertical-align: middle; text-align: right;" = "#{@order.total} #{t('currency_symbol')}"
+            //Support Info
+            tr
+              td colspan="2" style="padding: 40px; background-color: #f2f2f2; "
+                p style="font-size: 14px; font-style: italic; color: #616161;" = t('email.customer.order.completed.footer')
+                a href="" style="display: block;"
+                  = mail_to t('event.support_email')
 
                     //= "#{t('orders.total')} #{@order.total} #{t('currency_symbol')}"
