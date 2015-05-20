@@ -16,12 +16,15 @@
               </td>
             </tr>
             <tr>
-              <td colspan="2" style="text-align: left;" >
+              <td colspan="2" style="text-align: left; font-weight: bold;" >
                 <%= t('email.customer.order.completed.greet', name: @name) %>
               </td>
             </tr>
             <tr>
-              <td style="text-align: left;"><%= "#{t('email.customer.order.completed.order_number')}: #{@order.number}" %></td>
+              <td style="text-align: left;">
+                <span><%= "#{t('email.customer.order.completed.order_number')}:" %></span>
+                <span style="font-weight: bold;"><%= "#{@order.number}" %></span>
+              </td>
               <td style="text-align: left;"><%= "#{t('email.customer.order.completed.date')}: #{@order.completed_at.strftime("%y-%m-%d %H:%M:%S")}" %></td>
             <tr>
               <td colspan="2" style="padding:24px 0; text-align: center;">
