@@ -1,1 +1,7 @@
 en:
+  event:
+    name: 'Barcelona Beach Festival'
+    url: 'http://bcnbeachfestival.com'
+    locales:
+      en: 'ENG'
+      es: 'ESP'

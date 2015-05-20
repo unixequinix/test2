@@ -1,0 +1,11 @@
+en:
+  alerts:
+    created: 'Succesfully created'
+    updated: 'Succesfully updated'
+    imported: 'Succesfully imported'
+    destroyed: 'Succesfully removed'
+    unassigned: 'Succesfully unassigned'
+    error: 'Check the form errors'
+    addminsions:  "This is not a valid ticket"
+    gtag: "This is not a valid wristband"
+    order_complete: 'Order Completed'

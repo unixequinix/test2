@@ -10,14 +10,14 @@ class Customers::AdmissionsController < Customers::BaseController
       @admission = Admission.new(customer_id: current_customer.id, ticket_id: ticket.id)
       if @admission.save
         @credit_log = CreditLog.create(customer_id: current_customer.id, transaction_type: CreditLog::TICKET_ASSIGNMENT, amount: ticket.ticket_type.credit)
-        flash[:notice] = "created TODO"
+        flash[:notice] = I18n.t('alerts.created')
         redirect_to customer_root_url
       else
         flash[:error] = @admission.errors.full_messages.join(". ")
         render :new
       end
     else
-      flash[:error] = "This is not a valid ticket TODO"
+      flash[:error] = I18n.t('alerts.addminsions')
       render :new
     end
   end
@@ -26,7 +26,7 @@ class Customers::AdmissionsController < Customers::BaseController
     @admission = Admission.find(params[:id])
     @admission.unassign!
     @credit_log = CreditLog.create(customer_id: current_customer.id, transaction_type: CreditLog::TICKET_UNASSIGNMENT, amount: -@admission.ticket.ticket_type.credit)
-    flash[:notice] = "unassigned TODO"
+    flash[:notice] = I18n.t('alerts.unassigned')
     redirect_to customer_root_url
   end
 

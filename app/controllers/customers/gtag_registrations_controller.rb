@@ -9,14 +9,14 @@ class Customers::GtagRegistrationsController < Customers::BaseController
     if !gtag.nil?
       @gtag_registration = GtagRegistration.new(customer_id: current_customer.id, gtag_id: gtag.id)
       if @gtag_registration.save
-        flash[:notice] = "created TODO"
+        flash[:notice] = I18n.t('alerts.created')
         redirect_to customer_root_url
       else
         flash[:error] = @gtag_registration.errors.full_messages.join(". ")
         render :new
       end
     else
-      flash[:error] = "This is not a valid wristband TODO"
+      flash[:error] = I18n.t('alerts.gtag')
       render :new
     end
   end

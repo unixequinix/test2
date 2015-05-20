@@ -3,10 +3,10 @@ class Admins::EventsController < Admins::BaseController
   def update
     @event = Event.find(params[:id])
     if @event.update(permitted_params)
-      flash[:notice] = "updated TODO"
+      flash[:notice] = I18n.t('alerts.updated')
       redirect_to admin_root_url
     else
-      flash[:error] = "ERROR"
+      flash[:error] = I18n.t('alerts.error')
       render :edit
     end
   end

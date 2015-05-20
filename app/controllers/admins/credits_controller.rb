@@ -12,7 +12,7 @@ class Admins::CreditsController < Admins::BaseController
   def create
     @credit = Credit.new(permitted_params)
     if @credit.save
-      flash[:notice] = "created TODO"
+      flash[:notice] = I18n.t('alerts.created')
       redirect_to admins_credits_url
     else
       flash[:error] = @credit.errors.full_messages.join(". ")
@@ -27,7 +27,7 @@ class Admins::CreditsController < Admins::BaseController
   def update
     @credit = Credit.find(params[:id])
     if @credit.update(permitted_params)
-      flash[:notice] = "updated TODO"
+      flash[:notice] = I18n.t('alerts.updated')
       redirect_to admins_credits_url
     else
       flash[:error] = @credit.errors.full_messages.join(". ")
@@ -38,7 +38,7 @@ class Admins::CreditsController < Admins::BaseController
   def destroy
     @credit = Credit.find(params[:id])
     @credit.destroy!
-    flash[:notice] = "destroyed TODO"
+    flash[:notice] = I18n.t('alerts.destroyed')
     redirect_to admins_credits_url
   end
 

@@ -2,6 +2,20 @@ en:
   currency_symbol: EUR
   actions:
     back: "Back"
+    cancel: "Cancel"
+  header:
+    edit: "Edit Profile"
+    close: "Cerrar sesión"
+    menu: "My BBF"
+    home: "Festival Website"
+  links:
+    sign_in: 'Do you have an account?'
+    sign_up: 'Not registered yet?'
+    forgot: 'Forgot your password?'
+    resend_confirmation: "Didn't receive confirmation instructions?"
+    buttons:
+      sign_in: 'Log in'
+      sign_up: 'Register'
   dashboard:
     title: "My BBF"
     admissions:
@@ -78,3 +92,43 @@ en:
     button: "Save"
     placeholders:
       bank_account: 'ES00 0000 0000 0000 0000 0000'
+  payment:
+    error:
+      title: 'Error'
+      call_to_action: 'Contact us:'
+      email: 'support@glownet.com'
+    success:
+      title: 'Payment Done'
+      description: 'Thank you for your order. Your payment has been processed.'
+  passwords:
+    new:
+      title: 'Forgot your password?'
+      button: 'Send me password instructions'
+    edit:
+      title: 'Change your password'
+      button: 'Change my password'
+      password: "New password"
+      password_confirmation: "Confirm your new password"
+  registration:
+    new:
+      title: 'Sign up'
+      description: 'All the fields in this form are required.'
+      button: 'Sign up'
+    edit:
+      title: 'Edit'
+      password_hint: "leave it blank if you don't want to change it"
+      current_password_hint: "we need your current password to confirm your changes"
+      waiting_confirmation: 'Currently waiting confirmation for:'
+      button: 'Update'
+  sessions:
+    new:
+      title: 'Log in'
+      description: 'Register in a few steps:'
+      step1: 'Register'
+      step2: 'Mail confirmation'
+      step3: 'Assign ticket'
+      step4: 'Top up'
+      button: 'Log in'
+  cancel:
+    title: 'Cancel my account'
+    unhappy: 'Unhappy?'

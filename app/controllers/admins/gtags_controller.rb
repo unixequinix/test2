@@ -23,7 +23,7 @@ class Admins::GtagsController < Admins::BaseController
   def create
     @gtag = Gtag.new(permitted_params)
     if @gtag.save
-      flash[:notice] = "created TODO"
+      flash[:notice] = I18n.t('alerts.created')
       redirect_to admins_gtags_url
     else
       flash[:error] = @gtag.errors.full_messages.join(". ")
@@ -39,7 +39,7 @@ class Admins::GtagsController < Admins::BaseController
   def update
     @gtag = Gtag.find(params[:id])
     if @gtag.update(permitted_params)
-      flash[:notice] = "updated TODO"
+      flash[:notice] = I18n.t('alerts.updated')
       redirect_to admins_gtags_url
     else
       flash[:error] = @gtag.errors.full_messages.join(". ")
@@ -50,13 +50,13 @@ class Admins::GtagsController < Admins::BaseController
   def destroy
     @gtag = Gtag.find(params[:id])
     @gtag.destroy!
-    flash[:notice] = "destroyed TODO"
+    flash[:notice] = I18n.t('alerts.destroyed')
     redirect_to admins_gtags_url
   end
 
   def import
     Gtag.import(params[:file])
-    redirect_to admins_gtags_url, notice: "Gtags imported TODO"
+    redirect_to admins_gtags_url, notice: I18n.t('alerts.imported')
   end
 
   private

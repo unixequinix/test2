@@ -11,10 +11,10 @@ class Admins::TicketTypesController < Admins::BaseController
   def create
     @ticket_type = TicketType.new(permitted_params)
     if @ticket_type.save
-      flash[:notice] = "created TODO"
+      flash[:notice] = I18n.t('alerts.created')
       redirect_to admins_ticket_types_url
     else
-      flash[:error] = "ERROR TODO"
+      flash[:error] = I18n.t('alerts.error')
       render :new
     end
   end
@@ -26,10 +26,10 @@ class Admins::TicketTypesController < Admins::BaseController
   def update
     @ticket_type = TicketType.find(params[:id])
     if @ticket_type.update(permitted_params)
-      flash[:notice] = "updated TODO"
+      flash[:notice] = I18n.t('alerts.updated')
       redirect_to admins_ticket_types_url
     else
-      flash[:error] = "ERROR"
+      flash[:error] = I18n.t('alerts.error')
       render :edit
     end
   end
@@ -37,7 +37,7 @@ class Admins::TicketTypesController < Admins::BaseController
   def destroy
     @ticket_type = TicketType.find(params[:id])
     @ticket_type.destroy!
-    flash[:notice] = "destroyed TODO"
+    flash[:notice] = I18n.t('alerts.destroyed')
     redirect_to admins_ticket_types_url
   end
 

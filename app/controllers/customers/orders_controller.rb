@@ -17,7 +17,7 @@ class Customers::OrdersController < Customers::BaseController
 
   def payment_form_info
     @amount = (@order.total * 100).floor
-    @product_description = 'Barcelona Beach Festival Payment'
+    @product_description = I18n.t('event.name')
     @client_name = @order.customer.name
     code = Rails.application.secrets.merchant_code
     currency = Rails.application.secrets.merchant_currency
@@ -31,7 +31,7 @@ class Customers::OrdersController < Customers::BaseController
   def require_permission!
     @order = Order.find(params[:id])
     if current_customer != @order.customer || @order.completed?
-      flash.now[:error] = 'Order completed TODO' if @order.completed?
+      flash.now[:error] = I18n.t('alerts.order_complete') if @order.completed?
       redirect_to customer_root_path
     end
   end
