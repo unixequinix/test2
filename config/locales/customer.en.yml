@@ -96,7 +96,6 @@ en:
     error:
       title: 'Error'
       call_to_action: 'Contact us:'
-      email: 'support@glownet.com'
     success:
       title: 'Payment Done'
       description: 'Thank you for your order. Your payment has been processed.'

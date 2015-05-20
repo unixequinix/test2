@@ -2,6 +2,7 @@ en:
   event:
     name: 'Barcelona Beach Festival'
     url: 'http://bcnbeachfestival.com'
+    support_email: 'support@glownet.com'
     locales:
       en: 'ENG'
       es: 'ESP'
