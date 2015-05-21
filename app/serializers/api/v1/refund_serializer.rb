@@ -1,7 +1,7 @@
 module Api
   module V1
     class RefundSerializer < Api::V1::BaseSerializer
-      attributes :name, :surname, :email, :gtag_serial_number, :gtag_uid, :bank_account
+      attributes :name, :surname, :email, :gtag_serial_number, :gtag_uid, :bank_account, :amount
 
       def name
         object.customer.name
@@ -28,7 +28,8 @@ module Api
       end
 
       def amount
-        object.gtag.gtag_credit_logs.amount.number
+        gtag = object.gtag
+        gtag.gtag_credit_log.nil? ? 0.0 : gtag.gtag_credit_log.amount
       end
     end
   end
