@@ -2,6 +2,8 @@ en:
   event:
     name: 'Barcelona Beach Festival'
     url: 'http://bcnbeachfestival.com'
+    privacy_policy:  "http://bcnbeachfestival.com/politica-de-privacidad/"
+    support_email: 'support@glownet.com'
     locales:
       en: 'ENG'
       es: 'ESP'

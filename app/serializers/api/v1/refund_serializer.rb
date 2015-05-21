@@ -26,6 +26,10 @@ module Api
       def bank_account
         object.bank_account.number
       end
+
+      def amount
+        object.gtag.gtag_credit_logs.amount.number
+      end
     end
   end
 end
