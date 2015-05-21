@@ -12,7 +12,7 @@ html [lang=I18n.locale]
     = csrf_meta_tags
 
     = render 'customers/shared/cookies_consent'
-    = render 'application/analytics' if Rails.env.production?
+    = render 'application/analytics'
 
   body class="#{controller_name} #{action_name}"
     #notifications
