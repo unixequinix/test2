@@ -8,9 +8,9 @@ header
 
     ul.language-selection
       li
-        a.language-selected = t('event.locales.en')
+        = link_to t('event.locales.en'), change_locale_path("en"), title: t('event.locales.en'), class: ("language-selected" if session[:locale] == 'en')
       li
-        a = t('event.locales.es')
+        = link_to t('event.locales.es'), change_locale_path("es"), title: t('event.locales.es'), class: ("language-selected" if session[:locale] == 'es')
   nav.navigation-desktop
     ul
       li

@@ -21,6 +21,12 @@ Rails.application.routes.draw do
     },
     path_names: { sign_up: 'signup', sign_in: 'login', sign_out: 'logout' }
 
+  resources :locale do
+    member do
+      get 'change'
+    end
+  end
+
   ## API
   ## ------------------------------
 

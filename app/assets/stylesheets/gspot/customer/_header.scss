@@ -195,6 +195,7 @@ header {
 
   a {
     &:hover { text-decoration: underline; }
+    &:visited { color: $black; }
     &.language-selected { color: $pinkMagenta; }
   }
 }

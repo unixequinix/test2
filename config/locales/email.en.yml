@@ -9,7 +9,7 @@ en:
           greet: 'Hello %{name}!'
           date: 'Purchase date'
           success: 'Your order has been received. You can find details below:'
-          thanks: 'Thank you for your ordering.'
+          thanks: 'Thank you for your purchase.'
           footer: 'Any question about your order? Contact directly with support'
       confirmation:
         greet: 'Hello %{name}!'

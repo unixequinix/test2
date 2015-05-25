@@ -65,7 +65,9 @@ p {
   margin-top: modules(1);
 }
 
-a { text-decoration: none; }
+a {
+  text-decoration: none;
+}
 
 .btn {
   @include appearance(none);

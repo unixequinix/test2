@@ -87,7 +87,7 @@ en:
       surname: "Surname"
       tickets: "Tickets"
       credits: "Credits"
-      search: "Name Cont"
+      search: "Name Count"
       sign: "Sign in count"
       current_sign: "Current sign in"
       last_sign: "Last sign in at"

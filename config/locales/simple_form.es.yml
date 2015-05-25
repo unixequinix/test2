@@ -1,6 +1,6 @@
 es:
   simple_form:
-    "yes": 'Sí'
+    "si": 'Si'
     "no": 'No'
     required:
       text: 'requerido'
@@ -9,23 +9,92 @@ es:
       # When using html, text and mark won't be used.
       # html: '<abbr title="required">*</abbr>'
     error_notification:
-      default_message: "Por favor, compruebe los siguientes errores:"
+      default_message: "Por favor revisar los siguientes problemas:"
     # Examples
-    # labels:
-    #   defaults:
-    #     password: 'Password'
-    #   user:
-    #     new:
-    #       email: 'E-mail to sign in.'
-    #     edit:
-    #       email: 'E-mail.'
-    # hints:
-    #   defaults:
-    #     username: 'User name to sign in.'
-    #     password: 'No special characters, please.'
-    # include_blanks:
-    #   defaults:
-    #     age: 'Rather not say'
-    # prompts:
-    #   defaults:
-    #     age: 'Select your age'
+    labels:
+      defaults:
+        password: 'Contraseña'
+      online_product:
+        new: &label_online_product
+          name: 'Nombre'
+          description: 'Descripción'
+          price: 'Precio'
+          min_purchasable: 'Mínimo Comprable'
+          max_purchasable: 'Máximo Comprable'
+          initial_amount: 'Monto Inicial'
+          step: 'Escala'
+        edit:
+          <<: *label_online_product
+      entitlement:
+        new: &label_entitlement
+          name: 'Nombre'
+      ticket_type:
+        new: &label_ticket_type
+          name: "Nombre"
+          company: "Compañía"
+          credit: "Crédito"
+          entitlement: "Derecho"
+        edit:
+          <<: *label_ticket_type
+      ticket:
+        new: &label_ticket
+          number: "Número"
+        edit:
+          <<: *label_ticket
+      gtag:
+        new: &label_gtag
+          tag_uid: "Tag UID"
+          tag_serial_number: "Tag Número Serial"
+          gtag_credit_log: "Bingo"
+        edit:
+          <<: *label_gtag
+      gtag_credit_log:
+        new: &label_gtag
+          amount: "Monto"
+        edit:
+          <<: *label_gtag
+
+
+    placeholders:
+      online_product:
+        new: &placeholder_online_product
+          name: 'Elige un nombre descriptivo'
+          description: 'Detalles de créditos del evento'
+          price: 'Precio del Crédito'
+          min_purchasable: 'Unidad mínima por órden en número'
+          max_purchasable: 'Unidad máxima por órden en número'
+          initial_amount: 'Cantidad inicial en número'
+          step: 'Escala incremental'
+        edit:
+          <<: *placeholder_online_product
+      entitlement:
+        new: &placeholder_entitlement
+          name: 'Elige un nombre para el Derecho'
+        edit:
+          <<: *placeholder_entitlement
+      ticket_type:
+        new: &placeholder_ticket_type
+          name: "Elige un nombre de ticket"
+          company: "Compañía del Evento"
+          credit: "Créditos Disponibles"
+          entitlement: "Derechos"
+        edit:
+          <<: *placeholder_ticket_type
+      ticket:
+        new: &placeholder_ticket
+          number: "Número de Ticket"
+        edit:
+          <<: *placeholder_ticket
+      gtag:
+        new: &placeholder_gtag
+          tag_serial_number: "Número de la primera línea de la pulsera"
+          tag_uid: "Número de la segunda línea de la pulsera"
+        edit:
+          <<: *placeholder_gtag
+      gtag_credit_log:
+        new: &placeholder_gtag
+          amount: "Monto disponible"
+        edit:
+          <<: *label_gtag
+
+

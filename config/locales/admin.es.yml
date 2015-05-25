@@ -1,1 +1,129 @@
 es:
+  admin:
+    event:
+      states:
+        created: 'No publicado'
+        launched: 'Pre-evento'
+        started: 'Durante evento'
+        finished: 'Después evento'
+        closed: 'Cerrado'
+    defaults:
+      actions: "Acciones"
+      home: "Home"
+      log_in: "Iniciar Sesión"
+      empty_credits: "Sin Créditos"
+      empty_entitlements: "Sin derechos"
+      empty_tickets: "Sin tickets"
+      empty_gtags: "Sin GTags"
+      empty_customers: "Sin Clientes"
+      empty_orders: "Sin órdenes"
+      search: "Buscar"
+      empty_payments: "Sin pagos"
+    actions:
+      back: "Atrás"
+      new: "Nuevo"
+      csv: "CSV"
+    sessions:
+      mail: "user@domain.com"
+      password: "password"
+    passwords:
+      forgotten: "Olvidaste tu contraseña?"
+      send_instructions: "Enviar instrucciones de reseteo de contraseña."
+      new: "Nueva contraseña"
+      confirm: "Confirma tu nueva contraseña."
+      change: "Cambiar mi contraseña."
+      reset_password: "Resetear contraseña"
+    confirm:
+      delete: "Estás seguro?"
+    aside:
+      entitlements: "Derechos"
+      ticket_types: "Tipos de Tickets"
+      gtag: "GTags"
+      credits: "Créditos"
+      customers: "Clientes"
+      orders: "Órdenes"
+      payments: "Pagos"
+      sign_out: "Cerrar Sesión"
+    dashboard:
+      change_state: "Cambiar de Estado?"
+      api_access: "Acceso al API"
+      current_token: "Tu token de acceso del API:"
+    credits:
+      name: "Nombre"
+      description: "Descripción"
+      standard_credit: "Crédito Estándar"
+      price: "Precio"
+      min_purchasable: "Mínimo comprable"
+      max_purchasable: "Máximo comprable"
+      initial_amount: "Monto Inicial"
+      step: "Escala"
+    entitlements:
+      name: "Nombre"
+    ticket_types:
+      name: "Nombre"
+      company: "Compañía"
+      credit: "Crédito"
+      entitlements: "Derecho"
+    tickets:
+      number: "Número"
+      ticket_type: "Tipo de Ticket"
+      customer: "Cliente"
+      search:
+        number: "Número"
+        type: "Tipo"
+      import: "Importar productos"
+    gtags:
+      tag: "Tag UID"
+      serial: "Tag Número Serial"
+      customer: "Cliente"
+      total: "Créditos Totales"
+      import: "Importar GTags"
+      search:
+        tag_uid: "Tag UID"
+        tag_serial: "Tag Número Serial"
+    customers:
+      email: "Email"
+      name: "Nombre"
+      surname: "Apellido"
+      tickets: "Tickets"
+      credits: "Créditos"
+      search: "Conteo de Nombre"
+      sign: "Conteo de Inicio de Sesión"
+      current_sign: "Inicio de Sesión Actual"
+      last_sign: "Último Inicio de Sesión en"
+      current_sign_ip: "Inicio de Sesión Actual en IP"
+      last_sign_ip: "Último Inicio de Sesión en IP"
+      unconfirmed: "Email sin confirmar"
+      transactions: "Transacciones"
+      transactions_type: "Tipos de Transacciones"
+      amount: "Monto"
+      search:
+        name: "Tipo de nombre"
+    orders:
+      number: "Número"
+      customer: "Cliente"
+      state: "Estado"
+      created: "Creado en"
+      completed: "Completado en"
+      amount: "Monto"
+      product_price: "Precio del Producto"
+      total: "Total"
+      product_name: "Nomebre del Producto"
+      product_description: "Descripción del Producto"
+      product_type: "Tipo de Producto"
+      order_item: "Items de Órdenes"
+      search:
+        number: "Número"
+    payments:
+      id: "Id"
+      order_id: "Order Id"
+      amount: "Cantidad"
+      transaction_type: "Tipo de Transacción"
+      card_country: "País de Tarjeta"
+      response_code: "Código de Respuesta"
+      authorization_code: "Código de Autorización"
+      currency: "Moneda"
+      success: "Exitoso"
+      paid: "Pagado en"
+      search:
+        id: "Id eq"

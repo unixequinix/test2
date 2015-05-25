@@ -1,1 +1,25 @@
 es:
+  email:
+    customer:
+      order:
+        completed:
+          title: 'Notificación de Compra.'
+          subject: 'Compra Completada.'
+          order_number: 'Tu Compra.'
+          greet: 'Hola %{name}!'
+          date: 'Fecha de compra'
+          success: 'Tu compra ha sido recibida. Encuentra los detalles debajo:'
+          thanks: 'Gracias por tu compra.'
+          footer: 'Alguna duda sobre tu compra? Contácta con nuestro soporte.'
+      confirmation:
+        greet: 'Hola %{name}!'
+        mail_body: 'Puedes confirmar tu cuenta mediante el siguiente enlace:'
+      reset_password:
+        greet: 'Hola %{name}!'
+        mail_body: 'Has solicitado cambiar tu contraseña. Puedes hacerlo mediante el siguiente enlace:'
+    admin:
+      reset_password:
+        greet: 'Hola %{email}!'
+        mail_body: 'Has solicitado cambiar tu contraseña. Puedes hacerlo mediante el siguiente enlace:'
+        mail_link: "Cambiar mi contraseña."
+        mail_ignore: "Si no lo has solicitado, por favor ignora este correo. Tu contraseña no sufrirá cambios hasta que se proceda al enlace proporcionado y se cree una nueva contraseña."

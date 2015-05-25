@@ -5,7 +5,7 @@ en:
     cancel: "Cancel"
   header:
     edit: "Edit Profile"
-    close: "Cerrar sesión"
+    close: "Logout"
     menu: "My BBF"
     home: "Festival Website"
   links:
@@ -130,4 +130,4 @@ en:
       button: 'Log in'
   cancel:
     title: 'Cancel my account'
-    unhappy: 'Unhappy?'
+    unhappy: 'Write us an email, we want to know what happened!'
