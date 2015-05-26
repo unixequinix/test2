@@ -1,6 +1,7 @@
 table.tickets
   thead
     tr
+      th = t("admin.tickets.id")
       th = t("admin.tickets.number")
       th = t("admin.tickets.ticket_type")
       th = t("admin.tickets.customer")
@@ -8,6 +9,7 @@ table.tickets
   tbody
     - tickets.each do |ticket|
       tr
+        td = ticket.id
         td = link_to ticket.number, edit_admins_ticket_path(ticket)
         td = ticket.ticket_type.name unless ticket.ticket_type.nil?
         td = ticket.assigned_admission.customer.email unless ticket.assigned_admission.nil?

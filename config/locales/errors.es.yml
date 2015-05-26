@@ -19,8 +19,8 @@ es:
         one: "es muy larga (máximo 1 caracter)"
         other: "es muy larga (máximo %{count} caracteres)"
       too_short:
-        one: "es muy corto (máximo 1 caracter)"
-        other: "es muy corto (máximo %{count} caracteres)"
+        one: "es muy corto (mínimo 1 caracter)"
+        other: "es muy corto (mínimo %{count} caracteres)"
       wrong_length:
         one: "tamaño equivocado (debe ser 1 caracter)"
         other: "tamaño equivocado (debe ser %{count} caracteres)"

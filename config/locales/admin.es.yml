@@ -65,19 +65,21 @@ es:
       credit: "Crédito"
       entitlements: "Derecho"
     tickets:
+      id: "Id"
       number: "Número"
       ticket_type: "Tipo de Ticket"
       customer: "Cliente"
       search:
         number: "Número"
         type: "Tipo"
-      import: "Importar productos"
+      import: "Importar tickets (Seleccionar un fichero CSV separado por comas)"
     gtags:
+      id: "Id"
       tag: "Tag UID"
       serial: "Tag Número Serial"
       customer: "Cliente"
       total: "Créditos Totales"
-      import: "Importar GTags"
+      import: "Importar GTags (Seleccionar un fichero CSV separado por comas)"
       search:
         tag_uid: "Tag UID"
         tag_serial: "Tag Número Serial"

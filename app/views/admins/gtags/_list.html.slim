@@ -1,6 +1,7 @@
 table.gtags
   thead
     tr
+      th = t ("admin.gtags.id")
       th  =t ("admin.gtags.serial")
       th  =t ("admin.gtags.tag")
       th  =t ("admin.gtags.customer")
@@ -10,6 +11,7 @@ table.gtags
   tbody
     - gtags.each do |gtag|
       tr
+        td = gtag.id
         td = link_to gtag.tag_serial_number, edit_admins_gtag_path(gtag)
         td = gtag.tag_uid
         td = gtag.assigned_gtag_registration.customer.email unless gtag.assigned_gtag_registration.nil?

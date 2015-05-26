@@ -49,9 +49,13 @@ class Admins::GtagsController < Admins::BaseController
 
   def destroy
     @gtag = Gtag.find(params[:id])
-    @gtag.destroy!
-    flash[:notice] = I18n.t('alerts.destroyed')
-    redirect_to admins_gtags_url
+    if @gtag.destroy
+      flash[:notice] = I18n.t('alerts.destroyed')
+      redirect_to admins_gtags_url
+    else
+      flash[:error] = @gtag.errors.full_messages.join(". ")
+      redirect_to admins_gtags_url
+    end
   end
 
   def import

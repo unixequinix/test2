@@ -65,19 +65,21 @@ en:
       credit: "Credit"
       entitlements: "Entitlements"
     tickets:
+      id: "Id"
       number: "Number"
       ticket_type: "Ticket type"
       customer: "Customer"
       search:
         number: "Number"
         type: "Type"
-      import: "Import products"
+      import: "Import tickets (Select a CSV file comma separated)"
     gtags:
+      id: "Id"
       tag: "Tag UID"
       serial: "Tag Serial Number"
       customer: "Customer"
       total: "Total Credits"
-      import: "Import GTags"
+      import: "Import GTags (Select a CSV file comma separated)"
       search:
         tag_uid: "Tag UID"
         tag_serial: "Tag serial number"

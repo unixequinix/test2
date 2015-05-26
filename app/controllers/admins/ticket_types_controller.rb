@@ -36,9 +36,13 @@ class Admins::TicketTypesController < Admins::BaseController
 
   def destroy
     @ticket_type = TicketType.find(params[:id])
-    @ticket_type.destroy!
-    flash[:notice] = I18n.t('alerts.destroyed')
-    redirect_to admins_ticket_types_url
+    if @ticket_type.destroy
+      flash[:notice] = I18n.t('alerts.destroyed')
+      redirect_to admins_ticket_types_url
+    else
+      flash[:error] = @ticket_type.errors.full_messages.join(". ")
+      redirect_to admins_ticket_types_url
+    end
   end
 
   private

@@ -14,8 +14,8 @@ p.section-header
 
 .wrapper-add-file
   = form_tag import_admins_tickets_path, multipart: true do
-    = file_field_tag :file
-    = submit_tag "Import", class: "btn btn-secondary"
+    = file_field_tag :file, id: "file", accept: 'text/csv'
+    = submit_tag "Import", id: "sendButton", class: "btn btn-secondary"
 
 
 - if @tickets.empty?

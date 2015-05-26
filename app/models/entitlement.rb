@@ -13,8 +13,8 @@ class Entitlement < ActiveRecord::Base
   acts_as_paranoid
 
   # Associations
-  has_many :entitlement_ticket_types, dependent: :destroy
-  has_many :ticket_types, through: :entitlement_ticket_types, dependent: :destroy
+  has_many :entitlement_ticket_types, dependent: :restrict_with_error
+  has_many :ticket_types, through: :entitlement_ticket_types, dependent: :restrict_with_error
 
   # Validations
   validates :name, presence: true
