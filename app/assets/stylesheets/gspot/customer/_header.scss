@@ -9,20 +9,6 @@ $nav-size: $base-font-size*2;
 // HTML base styles
 // -------------------------------------------------------
 
-header {
-  position: relative;
-  display: block;
-  width: 100%;
-  height: auto;
-  background-image: image-url("headerbg.jpg");
-  background-repeat: repeat-x;
-  background-size: 95% 95%;
-
-  @include min-screen($bp2) {  background-size: auto; }
-
-  h1 { margin-bottom: 0; }
-}
-
 // _____ MOBILE NAV ______
 
 .navigation-mobile {
@@ -129,43 +115,44 @@ header {
   position: relative;
   width: 100%;
   color: $black;
-  text-align: center;
+  padding: modules(1) 0;
 
   @include min-screen($bp3) {
     @include outer-container;
   }
-}
 
-.bbf-logo {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index:1;
-
-  @include min-screen($bp4) {
-    left: modules(2.5);
+  p { margin: 0; }
+  i {
+    display: inline-block;
+    padding-right: modules(0.5);
   }
-
-  img {
-    width: modules(3);
-    height: auto;
-
-    @include min-screen($bp3) {
-      width: modules(6.5);
-      height: auto;
-    }
-  }
-
-  &:hover { opacity: 0.8; }
 }
 
 .logo {
   display: block;
-  width: 100%;
-  max-width: modules(31);
-  margin: 0 auto;
+  text-align: right;
+  max-height: modules(7);
+  min-height: modules(7);
+  border: 1px solid red;
 
-  img { width: 100%; height: auto; }
+  @include min-screen($bp3) {
+    @include span-columns(6);
+  }
+
+  a {
+    overflow: hidden;
+    display: inline-block;
+    width: auto;
+    cursor: pointer;
+
+    &:hover { opacity: 0.5; }
+  }
+
+  img {
+    display: inline-block;
+    width: auto;
+    height: 100%;
+  }
 }
 
 .language-selection {

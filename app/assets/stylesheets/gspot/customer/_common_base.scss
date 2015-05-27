@@ -22,20 +22,7 @@ html {
   height: 100%;
 }
 
-h2 {
-  @include mscale ($button-size);
-  display: inline-block;
-  width: auto;
-  margin: 0;
-  padding-right: modules(2);
-  background-image: image-url("title-background.jpg");
-  background-repeat: repeat-x;
-  font-weight: bold;
-
-  @include min-screen($bp3) {
-    @include mscale ($section-title);
-  }
-}
+h1 { margin: 0; }
 
 h3 {
   display: inline-block;

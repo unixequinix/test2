@@ -16,11 +16,27 @@ body {
   background-color: $input_grey;
 }
 
+// _____ HEADER ______
+
+header {
+  position: relative;
+  display: block;
+  width: 100%;
+
+  h2 {  color: $pinkMagenta; }
+}
+
+.wrapper-date {
+
+  @include min-screen($bp3) {
+    @include span-columns(6);
+  }
+}
+
+
 // _____ NAVIGATION ______
 
 nav {
-  position: relative;
-  display: block;
   width: 100%;
   margin: 0 auto;
   padding: modules(0.25);

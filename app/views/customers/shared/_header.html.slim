@@ -1,17 +1,20 @@
 header
   .container-header
-    = link_to href="#{t('event.url')}", target: "_blank", class: "bbf-logo" do
-        = image_tag "bbf.png"
+    .wrapper-date
+      h2 Barcelona Beach Festival 2015
+      p
+        = fa_icon "calendar"
+        | 21 June - 23 June TODO
+      p
+        = fa_icon "map-marker"
+        | Romanones 8, MAD Spain TODO
 
     h1.logo
-      = image_tag "logo.png"
+      = link_to href="#{t('event.url')}", target: "_blank", class: "bbf-logo" do
+        = image_tag "logo.png"
 
-    ul.language-selection
-      li
-        = link_to t('event.locales.en'), change_locale_path("en"), title: t('event.locales.en'), class: ("language-selected" if session[:locale] == 'en')
-      li
-        = link_to t('event.locales.es'), change_locale_path("es"), title: t('event.locales.es'), class: ("language-selected" if session[:locale] == 'es')
-  nav.navigation-desktop
+
+  nav
     ul
       li
         = link_to customer_root_path, class: "nav-link" do
