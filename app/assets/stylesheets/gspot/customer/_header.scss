@@ -80,48 +80,48 @@ header {
   }
 }
 
-// _____ DESKTOP NAV ______
-
-.navigation-desktop {
-  position: relative;
-  display: block;
-  width: 100%;
-  margin: 0 auto;
-  height: modules(4);
-  padding: modules(0.5);
-  background-image: image-url("menu.png");
-  background-repeat: no-repeat;
-  background-position: 50% 0;
-  color: $white;
-
-  @include min-screen($bp2) { display: block; }
-  @include min-screen($bp3) { padding: modules(0.5) modules(2);}
-  @include min-screen($bp5) { width: modules(43); }
-
-  ul {
-    margin: 0;
-    padding: 0;
-  }
-
-  li {
-    @include mscale($nav-size);
-    display: inline-block;
-    vertical-align: top;
-    width: auto;
-    padding: 0 modules(0.25);
-    font-weight: bold;
-    cursor: pointer;
-  }
-}
-
-.nav-link {
-  display: inline-block;
-  width: 100%;
-  height: 100%;
-  color: $white;
-
-  &:hover { color: $pinkMagenta; }
-}
+//// _____ DESKTOP NAV ______
+//
+//.navigation-desktop {
+//  position: relative;
+//  display: block;
+//  width: 100%;
+//  margin: 0 auto;
+//  height: modules(4);
+//  padding: modules(0.5);
+//  background-image: image-url("menu.png");
+//  background-repeat: no-repeat;
+//  background-position: 50% 0;
+//  color: $white;
+//
+//  @include min-screen($bp2) { display: block; }
+//  @include min-screen($bp3) { padding: modules(0.5) modules(2);}
+//  @include min-screen($bp5) { width: modules(43); }
+//
+//  ul {
+//    margin: 0;
+//    padding: 0;
+//  }
+//
+//  li {
+//    @include mscale($nav-size);
+//    display: inline-block;
+//    vertical-align: top;
+//    width: auto;
+//    padding: 0 modules(0.25);
+//    font-weight: bold;
+//    cursor: pointer;
+//  }
+//}
+//
+//.nav-link {
+//  display: inline-block;
+//  width: 100%;
+//  height: 100%;
+//  color: $white;
+//
+//  &:hover { color: $pinkMagenta; }
+//}
 
 // ______________
 

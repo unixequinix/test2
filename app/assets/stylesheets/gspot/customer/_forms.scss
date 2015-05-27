@@ -7,7 +7,7 @@
 abbr { display: none; }
 
 label {
-  @include mscale($label-size);
+  color: $grey;
   font-weight: bold;
 
   @include min-screen ($bp3) {
@@ -29,9 +29,9 @@ textarea {
   margin: 0;
   padding: modules(0.5);
   overflow: hidden;
-  border-radius: 4px;
-  background-color: $white;
-  box-shadow: inset 0px 0px 0px 2px $pinkMagenta;
+  border-radius: 2px;
+  background-color: $admin_grey;
+  box-shadow: inset 0px 0px 0px 1px $input_grey;
   border: none;
   font-family: Helvetica;
 
@@ -46,10 +46,10 @@ textarea {
   }
 
   &:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px $white inset !important;
+    -webkit-box-shadow: 0 0 0px 1000px $admin_grey inset !important;
   }
   &:-moz-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px $white inset !important;
+    -webkit-box-shadow: 0 0 0px 1000px $admin_grey inset !important;
   }
 }
 

@@ -1,0 +1,110 @@
+/* ------------------------------------------------------- *\
+
+  Include all the elements and classes that user can customize
+
+\* ------------------------------------------------------- */
+
+
+// _____ BACKGROUND ______
+
+
+body {
+  width: 100%;
+  min-height: 100%;
+  height: 100%;
+  //background-image: image-url("bg.jpg");
+  background-color: $input_grey;
+}
+
+// _____ NAVIGATION ______
+
+nav {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+  padding: modules(0.25);
+  box-shadow: inset 0px 0px 1px 0px $grayGunmetal;
+  background-color: $nuclear;
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    display: inline-block;
+    vertical-align: top;
+    width: auto;
+    padding: 0 modules(0.25);
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  a {
+    color: $pinkMagenta;
+
+    &:hover { color: $dark_grey;  }
+  }
+}
+
+// _____ BUTTONS ______
+
+.btn {
+  @include appearance(none);
+  @include transition(all 83ms linear);
+  overflow: hidden;
+  display: inline-block;
+  width: 100%;
+  margin: modules(1) 0 0;
+  padding: modules(0.25) modules(0.5);
+  border: 1px solid transparent;
+  background-color: $pinkMagenta;
+  color: $nuclear;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  @include min-screen($bp3) {
+    width: auto;
+    margin: 0;
+    padding: modules(0.5);
+    line-height: 0.75;
+  }
+
+  &:hover { background-color: $pinkMagenta; color: $black; }
+}
+
+.btn-primary {
+  clear: both;
+  display: block;
+  margin: 0  auto modules(1);
+  max-width: modules(12);
+}
+
+.btn-continue {
+  display: block;
+  float: right !important;
+}
+
+.btn-full-width {
+  min-width: 100%;
+  width: 100%;
+}
+
+.btn-dashboard {
+  display: block; margin: 0 auto;
+
+  @include min-screen($bp3) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin-bottom: 0;
+  }
+}
+
+//______________________
