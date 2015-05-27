@@ -133,7 +133,6 @@ $nav-size: $base-font-size*2;
   text-align: right;
   max-height: modules(7);
   min-height: modules(7);
-  border: 1px solid red;
 
   @include min-screen($bp3) {
     @include span-columns(6);
@@ -151,7 +150,7 @@ $nav-size: $base-font-size*2;
   img {
     display: inline-block;
     width: auto;
-    height: 100%;
+    height: modules(7);
   }
 }
 

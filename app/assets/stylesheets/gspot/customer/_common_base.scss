@@ -22,6 +22,8 @@ html {
   height: 100%;
 }
 
+h1, h2, h3, h4, p, span { color: $grey; }
+
 h1 { margin: 0; }
 
 h3 {
@@ -39,10 +41,7 @@ ul {
   padding:0;
 }
 
-p {
-  font-family: Helevetica, sans-serif;
-  margin-top: modules(1);
-}
+p { line-height: 170%; }
 
 a {
   text-decoration: none;
