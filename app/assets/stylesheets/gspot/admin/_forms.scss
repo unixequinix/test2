@@ -38,6 +38,7 @@ textarea {
   background-color: transparent;
   box-shadow: inset 12px -57px 0px -56px $graySilver;
   text-align: left;
+  color: $black;
 
   @include min-screen($bp3) {
     @include span-columns(8);

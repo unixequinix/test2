@@ -44,6 +44,8 @@ en:
       orders: "Orders"
       payments: "Payments"
       sign_out: "Sign out"
+      setup: "Setup"
+      crm: "CRM"
     dashboard:
       change_state: "Change state?"
       api_access: "API access"

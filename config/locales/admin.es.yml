@@ -44,6 +44,8 @@ es:
       orders: "Órdenes"
       payments: "Pagos"
       sign_out: "Cerrar Sesión"
+      setup: "Setup"
+      crm: "CRM"
     dashboard:
       change_state: "Cambiar de Estado?"
       api_access: "Acceso al API"

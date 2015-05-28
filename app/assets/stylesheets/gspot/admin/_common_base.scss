@@ -4,7 +4,7 @@
 //
 // -------------------------------------------------------
 
-// Main wrapper include aside panel andcontainer main
+// Main wrapper include aside panel and container main
 .wrapper-main {
   position: relative;
   min-height:100%;
@@ -22,7 +22,7 @@
 
   @include min-screen($bp3) {
     display: inline-block;
-    width: 87%;
+    width: 83%;
   }
 }
 
@@ -66,6 +66,8 @@
       outline: none;
     }
   }
+
+  .current { color: $grey; }
 }
 
 .action-bar-btns {
