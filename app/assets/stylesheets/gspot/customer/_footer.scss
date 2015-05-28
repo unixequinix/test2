@@ -4,11 +4,7 @@
 
 \* ------------------------------------------------------- */
 
-// HTML base styles
-//
-
 footer {
-  position: absolute;
   bottom: 0;
   right: 0;
   left: 0;
@@ -17,5 +13,8 @@ footer {
 
   a {
     margin: 0;
+    color: $pinkMagenta;
+
+    &:hover { opacity: 0.4; }
   }
 }

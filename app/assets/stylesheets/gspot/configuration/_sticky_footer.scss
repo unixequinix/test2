@@ -7,7 +7,7 @@
 // Footer must be a fixed height.
 
 @mixin sticky-footer($footer_height,
-  $wrapper_selector: unquote(".wrapper-main"),
+  $wrapper_selector: unquote(".container-wrapper-main"),
   $container_selector: unquote(".container-main"),
   $footer_selector: unquote("footer")) {
 

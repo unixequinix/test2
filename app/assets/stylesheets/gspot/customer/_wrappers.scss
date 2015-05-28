@@ -6,6 +6,8 @@
 
 .wrapper-main {
   position: relative;
+  min-height: 100%;
+  height: auto;
 
   @include min-screen($bp3) {
     @include outer-container;
@@ -18,17 +20,26 @@
   overflow: hidden;
   width: 100%;
   margin: 0 0 modules(1) 0;
-  padding: modules(1);
   border-radius: 3px;
-  box-shadow: inset 0px 0px 1px 0px $grayGunmetal;
+  border: 1px solid rgba(150, 150, 150, 0.5);
   background-color: $white;
 
   @include min-screen($bp3) {
     margin: modules(1) 0 modules(2);
-    padding: modules(1);
   }
 
   p { margin: 0; }
+}
+
+.wrapper-empty { padding: modules(1); }
+
+.customer-section-header {
+  width: 100%;
+  margin-bottom: 0;
+  padding: modules(0.25) modules(0.5);
+  box-shadow: inset 0px -1px 0px 0px rgba(150, 150, 150, 0.5);
+  background-color: $admin_grey;
+  color: $pinkMagenta;
 }
 
 .container-login-map {
@@ -38,7 +49,10 @@
       @include span-columns(4);
   }
 
-  h3 { padding: 0; }
+  h2, li {
+    padding: 0;
+    text-align: left
+  }
 }
 
 .container-login-form {
@@ -51,7 +65,6 @@
 
 // Basic wrapper for single options like cancel account etc
 .wrapper-single-option {
-  text-align: center;
 
   .btn {
     vertical-align: middle;
@@ -61,7 +74,7 @@
     }
   }
 
-  h3 {
+  p {
     vertical-align: middle;
     margin: 0;
     padding: 0;
@@ -85,7 +98,10 @@
   }
 }
 
-.form-inputs { overflow: hidden; }
+.form-inputs {
+  overflow: hidden;
+  padding: modules(1);
+}
 
 .form-actions {
   clear: both;

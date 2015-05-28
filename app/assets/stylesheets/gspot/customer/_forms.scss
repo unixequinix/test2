@@ -29,11 +29,10 @@ textarea {
   margin: 0;
   padding: modules(0.5);
   overflow: hidden;
-  border-radius: 2px;
+  border-radius: 4px;
   background-color: $admin_grey;
-  box-shadow: inset 0px 0px 0px 1px $input_grey;
-  border: none;
-  font-family: Helvetica;
+  border: 1px solid $input_grey;
+  box-shadow: inset 0px 1px 1px $light_grey;
 
   @include min-screen ($bp3) {
     @include span-columns(8);
@@ -43,13 +42,6 @@ textarea {
   &:focus {
     outline: none;
     opacity: 1;
-  }
-
-  &:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px $admin_grey inset !important;
-  }
-  &:-moz-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px $admin_grey inset !important;
   }
 }
 
