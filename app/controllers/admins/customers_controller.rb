@@ -2,7 +2,7 @@ class Admins::CustomersController < Admins::BaseController
 
   def index
     @q = Customer.search(params[:q])
-    @customers = @q.result(distinct: true).includes(:assigned_admission)
+    @customers = @q.result(distinct: true).page(params[:page]).includes(:assigned_admission)
   end
 
   def search

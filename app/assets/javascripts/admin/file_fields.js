@@ -1,6 +1,6 @@
 function FileField() {
   $('#sendButton').prop('disabled',true);
-  $('#file').change(function(){
+  $('#file').on('change', function(){
     $('#sendButton').prop('disabled', this.value == "" ? true : false);
   });
 };

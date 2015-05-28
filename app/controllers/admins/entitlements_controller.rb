@@ -1,7 +1,7 @@
 class Admins::EntitlementsController < Admins::BaseController
 
   def index
-    @entitlements = Entitlement.all
+    @entitlements = Entitlement.all.page(params[:page])
   end
 
   def new

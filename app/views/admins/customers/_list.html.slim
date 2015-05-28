@@ -17,3 +17,5 @@ table.customers
         - else
           td = t("admin.defaults.empty_tickets")
         td = customer.credit_logs.sum(:amount)
+
+= paginate customers

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150515104719) do
+ActiveRecord::Schema.define(version: 20150528111943) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,18 +57,21 @@ ActiveRecord::Schema.define(version: 20150515104719) do
   create_table "ticket_types", force: :cascade do |t|
     t.string   "name",       null: false
     t.string   "company",    null: false
-    t.decimal  "credit",     precision: 8, scale: 2, null: false
+    t.decimal  "credit",     precision: 8, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at", index: {name: "index_ticket_types_on_deleted_at"}
   end
 
   create_table "tickets", force: :cascade do |t|
-    t.integer  "ticket_type_id", index: {name: "fk__tickets_ticket_type_id"}, foreign_key: {references: "ticket_types", name: "fk_tickets_ticket_type_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "number",         index: {name: "index_tickets_on_number", unique: true}
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.datetime "deleted_at",     index: {name: "index_tickets_on_deleted_at"}
+    t.integer  "ticket_type_id",    index: {name: "fk__tickets_ticket_type_id"}, foreign_key: {references: "ticket_types", name: "fk_tickets_ticket_type_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "number",            index: {name: "index_tickets_on_number", unique: true}
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.datetime "deleted_at",        index: {name: "index_tickets_on_deleted_at"}
+    t.string   "purchaser_email"
+    t.string   "purchaser_name"
+    t.string   "purchaser_surname"
   end
 
   create_table "admissions", force: :cascade do |t|
@@ -84,6 +87,7 @@ ActiveRecord::Schema.define(version: 20150515104719) do
     t.string   "number",      null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.string   "swift"
   end
 
   create_table "credit_logs", force: :cascade do |t|

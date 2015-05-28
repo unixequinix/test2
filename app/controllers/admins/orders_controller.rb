@@ -2,7 +2,7 @@ class Admins::OrdersController < Admins::BaseController
 
   def index
     @q = Order.search(params[:q])
-    @orders = @q.result(distinct: true).includes(:customer)
+    @orders = @q.result(distinct: true).page(params[:page]).includes(:customer)
   end
 
   def search

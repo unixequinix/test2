@@ -73,6 +73,11 @@ en:
         number: "Number"
         type: "Type"
       import: "Import tickets (Select a CSV file comma separated)"
+      created_at: "Created at"
+    purchasers:
+      name: "Purchaser Name"
+      surname: "Purchaser Surname"
+      email: "Purchaser Email"
     gtags:
       id: "Id"
       tag: "Tag UID"

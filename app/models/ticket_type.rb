@@ -21,7 +21,7 @@ class TicketType < ActiveRecord::Base
   accepts_nested_attributes_for :entitlements
 
   # Validations
-  validates :name, :company, :credit, presence: true
+  validates :name, :company, presence: true
 
   # Select options with all the entitlements
   def self.form_selector

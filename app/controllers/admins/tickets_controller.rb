@@ -2,7 +2,7 @@ class Admins::TicketsController < Admins::BaseController
 
   def index
     @q = Ticket.search(params[:q])
-    @tickets = @q.result(distinct: true).includes(:ticket_type, :assigned_admission)
+    @tickets = @q.result(distinct: true).page(params[:page]).includes(:ticket_type, :assigned_admission)
     respond_to do |format|
       format.html
       format.csv { send_data @tickets.to_csv }
@@ -11,7 +11,7 @@ class Admins::TicketsController < Admins::BaseController
 
   def search
     @q = Ticket.search(params[:q])
-    @tickets = @q.result(distinct: true).includes(:ticket_type, :assigned_admission)
+    @tickets = @q.result(distinct: true).page(params[:page]).includes(:ticket_type, :assigned_admission)
     render :index
   end
 
@@ -57,14 +57,19 @@ class Admins::TicketsController < Admins::BaseController
   end
 
   def import
-    Ticket.import(params[:file])
-    redirect_to admins_tickets_url, notice: I18n.t('alerts.imported')
+    if Ticket.import(params[:file])
+      flash[:notice] = I18n.t('alerts.imported')
+      redirect_to admins_tickets_url
+    else
+      flash[:error] = I18n.t('alerts.error')
+      redirect_to admins_tickets_url
+    end
   end
 
   private
 
   def permitted_params
-    params.require(:ticket).permit(:number, :ticket_type_id)
+    params.require(:ticket).permit(:number, :ticket_type_id, :purchaser_name, :purchaser_surname, :purchaser_email)
   end
 
 end

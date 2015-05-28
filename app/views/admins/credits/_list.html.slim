@@ -23,3 +23,5 @@ table.credits
         td = credit.online_product.step
         td.table-actions-field
           = render 'admins/credits/actions', credit: credit unless current_event.started?
+
+= paginate credits

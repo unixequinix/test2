@@ -1,7 +1,7 @@
 class Admins::TicketTypesController < Admins::BaseController
 
   def index
-    @ticket_types = TicketType.all.includes(:entitlements)
+    @ticket_types = TicketType.all.page(params[:page]).includes(:entitlements)
   end
 
   def new

@@ -18,3 +18,5 @@ table.gtags
         td = gtag.gtag_credit_log.amount unless gtag.gtag_credit_log.nil?
         td.table-actions-field
           = render 'admins/gtags/actions', gtag: gtag
+
+= paginate gtags

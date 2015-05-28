@@ -9,3 +9,5 @@ table.entitlements
         td = link_to entitlement.name, edit_admins_entitlement_path(entitlement)
         td.table-actions-field
           = render 'admins/entitlements/actions', entitlement: entitlement unless current_event.started?
+
+= paginate entitlements

@@ -2,12 +2,15 @@
 #
 # Table name: tickets
 #
-#  id             :integer          not null, primary key
-#  ticket_type_id :integer
-#  number         :string
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  deleted_at     :datetime
+#  id                :integer          not null, primary key
+#  ticket_type_id    :integer
+#  number            :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  deleted_at        :datetime
+#  purchaser_email   :string
+#  purchaser_name    :string
+#  purchaser_surname :string
 #
 
 class Ticket < ActiveRecord::Base
@@ -23,6 +26,7 @@ class Ticket < ActiveRecord::Base
 
   # Validations
   validates :number, presence: true, uniqueness: true
+
 
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
@@ -40,13 +44,20 @@ class Ticket < ActiveRecord::Base
       row = Hash[[header, spreadsheet.row(i)].transpose]
       ticket = find_by_id(row["id"]) || new
       ticket.attributes = row.to_hash.slice(*Ticket.attribute_names)
-      ticket.save!
+      if row["ticket_type"]
+        ticket.ticket_type = TicketType.create(name: row["ticket_type"], credit: row["credit"], company: row["company"]) if ticket.ticket_type.nil?
+      end
+      begin
+        ticket.save!
+      rescue ActiveRecord::RecordInvalid => invalid
+        puts invalid.record.errors
+      end
     end
   end
 
   def self.open_spreadsheet(file)
     case File.extname(file.original_filename)
-    when ".csv" then Roo::Spreadsheet.open(file.path, extension: :csv)
+    when ".csv" then Roo::Spreadsheet.open(file.path, extension: :csv, csv_options: { encoding: Encoding::ISO_8859_1})
     when ".xls" then Roo::Spreadsheet.open(file.path, extension: :xls)
     when ".xlsx" then Roo::Spreadsheet.open(file.path, extension: :xlsx)
     else raise "Unknown file type: #{file.original_filename}"

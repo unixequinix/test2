@@ -43,6 +43,7 @@ gem 'roo', '~> 2.0.0beta1'
 
 # Navigation
 gem 'gretel', '~> 3.0.8'
+gem 'kaminari', '~>0.16.3'
 
 # Search
 gem 'ransack', '~> 1.6.6'

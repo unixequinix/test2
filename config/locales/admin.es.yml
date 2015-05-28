@@ -73,6 +73,11 @@ es:
         number: "Número"
         type: "Tipo"
       import: "Importar tickets (Seleccionar un fichero CSV separado por comas)"
+      created_at: "Creado el"
+    purchasers:
+      name: "Nombre comprador"
+      surname: "Apellido comprador"
+      email: "Email comprador"
     gtags:
       id: "Id"
       tag: "Tag UID"

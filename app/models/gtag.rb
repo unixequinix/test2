@@ -51,7 +51,11 @@ class Gtag < ActiveRecord::Base
       if row["amount"]
         gtag.gtag_credit_log.nil? ? gtag.gtag_credit_log = GtagCreditLog.create(gtag_id: row["id"], amount: row["amount"]) : gtag.gtag_credit_log.amount = row["amount"]
       end
-      gtag.save!
+      begin
+        gtag.save!
+      rescue ActiveRecord::RecordInvalid => invalid
+        puts invalid.record.errors
+      end
     end
   end
 

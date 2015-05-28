@@ -39,6 +39,9 @@ es:
       ticket:
         new: &label_ticket
           number: "Número"
+          purchaser_name: "Nombre Comprador"
+          purchaser_surname: "Apellido Comprador"
+          purchaser_email: "Email Comprador"
         edit:
           <<: *label_ticket
       gtag:
@@ -83,6 +86,9 @@ es:
       ticket:
         new: &placeholder_ticket
           number: "Número de Ticket"
+          purchaser_name: ""
+          purchaser_surname: ""
+          purchaser_email: ""
         edit:
           <<: *placeholder_ticket
       gtag:

@@ -50,7 +50,7 @@ es:
     refunds:
       title: "Tus Créditos restantes:"
       call_to_action: "Reembolso exitoso, transferencia se realizará el %{date}"
-      button: "Modificar cuenta bancaria"
+      button: "Modificar cuenta"
   admissions:
     title: "Activación del Ticket"
     description: "Para activar tu Ticket coloca el número del código de barra. Este número se encuentra debajo del código de barra impreso en tu ticket."

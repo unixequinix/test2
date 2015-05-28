@@ -9,6 +9,8 @@ en:
       es: 'ESP'
   activerecord:
     errors:
+      messages:
+        record_invalid: 'Campo no valido'
       models:
         customer:
           attributes:
@@ -26,6 +28,8 @@ en:
                 many: "Can't be deleted because there are tickets associated"
         tickets:
           attributes:
+            number:
+              taken: 'Number taken'
             base:
               restrict_dependent_destroy:
                 many: "Can't be deleted because there are customers associated"
