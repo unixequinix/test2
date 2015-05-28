@@ -37,27 +37,22 @@ header {
 // _____ NAVIGATION ______
 
 nav {
-  width: 100%;
+  width: 100%;;
   margin: 0 auto;
-  padding: modules(0.25);
+  border-radius: 2px;
   box-shadow: inset 0px 0px 1px 0px $grayGunmetal;
   background-color: $nuclear;
-
-  ul {
-    margin: 0;
-    padding: 0;
-  }
 
   li {
     display: inline-block;
     vertical-align: top;
     width: auto;
-    padding: 0 modules(0.25);
+    padding: modules(0.5);
     font-weight: bold;
     cursor: pointer;
   }
 
-  a {
+  a, span {
     color: $pinkMagenta;
 
     &:hover { color: $dark_grey;  }
@@ -67,14 +62,13 @@ nav {
 // _____ BUTTONS ______
 
 .btn {
-  @include appearance(none);
-  @include transition(all 83ms linear);
+  @include transition(opacity 83ms linear);
+  @include button($pinkMagenta);
   overflow: hidden;
   display: inline-block;
   width: 100%;
   margin: modules(1) 0 0;
   padding: modules(0.25) modules(0.5);
-  border: 1px solid transparent;
   background-color: $pinkMagenta;
   color: $nuclear;
   font-weight: bold;
@@ -90,7 +84,7 @@ nav {
     line-height: 0.75;
   }
 
-  &:hover { background-color: $pinkMagenta; color: $black; }
+  &:hover { opacity: 0.7; }
 }
 
 .btn-primary {

@@ -9,108 +9,6 @@ $nav-size: $base-font-size*2;
 // HTML base styles
 // -------------------------------------------------------
 
-// _____ MOBILE NAV ______
-
-.navigation-mobile {
-  position: absolute;
-  top: modules(3.5);
-  left: modules(0.5);
-  right: modules(0.5);
-  z-index: 4;
-
-  p {
-    @include mscale($base-font-size*0.9);
-    @include linear-gradient(to top, #3d3d3d, #585858);
-    position: relative;
-    display: block;
-    margin-bottom: 0;
-    padding: modules(0.5) modules(0.25);
-    font-family: Helvetica;
-    color: $white;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-  i {
-    display: block;
-    position: absolute;
-    top: modules(0.5);
-    right: modules(0.25);
-    padding: 0 modules(0.25);
-    box-shadow: inset 1px 0px 0px 0px $grey;
-  }
-
-  ul {
-    display: none;
-    background-color: $white;
-    margin: 0;
-    padding: 0;
-
-    &.open { display: block; }
-  }
-
-  li {
-    position: relative;
-
-    a {
-      display: block;
-      width: 100%;
-      height: 100%;
-      padding: modules(0.5);
-      box-shadow: inset 0px -1px 0px 0px $input_grey;
-      color: $grey;
-      font-weight: bold;
-
-      &:hover { background-color: $input_grey; }
-    }
-  }
-}
-
-//// _____ DESKTOP NAV ______
-//
-//.navigation-desktop {
-//  position: relative;
-//  display: block;
-//  width: 100%;
-//  margin: 0 auto;
-//  height: modules(4);
-//  padding: modules(0.5);
-//  background-image: image-url("menu.png");
-//  background-repeat: no-repeat;
-//  background-position: 50% 0;
-//  color: $white;
-//
-//  @include min-screen($bp2) { display: block; }
-//  @include min-screen($bp3) { padding: modules(0.5) modules(2);}
-//  @include min-screen($bp5) { width: modules(43); }
-//
-//  ul {
-//    margin: 0;
-//    padding: 0;
-//  }
-//
-//  li {
-//    @include mscale($nav-size);
-//    display: inline-block;
-//    vertical-align: top;
-//    width: auto;
-//    padding: 0 modules(0.25);
-//    font-weight: bold;
-//    cursor: pointer;
-//  }
-//}
-//
-//.nav-link {
-//  display: inline-block;
-//  width: 100%;
-//  height: 100%;
-//  color: $white;
-//
-//  &:hover { color: $pinkMagenta; }
-//}
-
-// ______________
-
 .container-header {
   position: relative;
   width: 100%;
@@ -154,53 +52,26 @@ $nav-size: $base-font-size*2;
   }
 }
 
-.language-selection {
-  @include mscale ($nav-size);
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 0 modules(0.5);
-  background-color: $white;
-  font-weight: bold;
-  cursor: pointer;
-
-  @include min-screen($bp3) {
-    position: absolute;
-    top: 45%;
-    background: none;
-  }
-
-  @include min-screen($bp4) { right: modules(2); }
-
-  li {
-    display: inline-block;
-    padding-left: modules(0.25);
-
-    &:first-child { padding-left: 0; }
-  }
-
-  a {
-    &:hover { text-decoration: underline; }
-    &:visited { color: $black; }
-    &.language-selected { color: $pinkMagenta; }
-  }
-}
-
 .user-options {
+  position: relative;
   float: right;
 
   a {
-    color: $pinkMagenta;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: modules(0.25) modules(0.5);
+    background-color: $nuclear;
+    box-shadow: inset 0px -1px 0px 0px $light_grey;
+
+    &:hover { background-color: $admin_grey; }
   }
 
   &:hover {
-    // TODO MANU Fix absolute magic number
     .submenu {
       position: absolute;
-      top: modules(2.55);
+      top: modules(1.85);
       display: inline-block;
-
-      @include min-screen($bp3) { margin-right: modules(1); }
     }
   }
 }
@@ -208,31 +79,17 @@ $nav-size: $base-font-size*2;
 .submenu {
   display: none;
   position: absolute;
-  top: modules(2.65);
+  top: 0;
   right: 0;
   margin: 0;
+  min-width: modules(7);
+  width: 100%;
   text-align: center;
   z-index: 1;
+  pointer-events: auto;
 
   li {
     display: block;
     padding: 0;
-
-    &:first-child { padding: 0; }
-    &:last-child { padding: 0; }
-  }
-}
-
-.link-submenu {
-  display: block;
-  width: 100%;
-  height: 100%;
-  padding: modules(0.5) modules(1);
-  background: $black;
-  box-shadow: inset 0px -2px 0px 0px $grayGunmetal;
-
-  &:hover {
-    background-color: $pinkMagenta;
-    color: $black;
   }
 }
