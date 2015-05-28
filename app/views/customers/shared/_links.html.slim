@@ -1,6 +1,6 @@
 - if controller_name != 'sessions'
   .wrapper-field.wrapper-single-option
-    h3 = t('links.sign_in')
+    h3.single-option-header = t('links.sign_in')
     = link_to t('links.buttons.sign_in'), new_session_path(resource_name), class: "btn"
 
 - if devise_mapping.registerable? && controller_name != 'registrations'

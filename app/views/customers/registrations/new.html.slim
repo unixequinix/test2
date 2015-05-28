@@ -1,9 +1,7 @@
-.wrapper-title
-  h2 = t('registration.new.title')
-p = t('registration.new.description')
 = simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
   = f.error_notification
   .wrapper-field
+    h3.customer-section-header = t('registration.new.title')
     .form-inputs
       = f.input :email, required: true, autofocus: true
       = f.input :name, required: true, autofocus: true
@@ -11,4 +9,6 @@ p = t('registration.new.description')
       = f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @validatable)
       = f.input :password_confirmation, required: true
       = f.button :submit, t('registration.new.button'), class: "btn btn-continue"
+      p = t('registration.new.description')
+
 = render "customers/shared/links"

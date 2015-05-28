@@ -4,17 +4,18 @@
 = render "customers/sessions/confirmation_message" if @sign_up
 
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-  .wrapper-field.container-login-map.wrapper-single-option
-    h2 = t('sessions.new.description')
-    ul
-      li
-        p = t('sessions.new.step1')
-      li
-        p = t('sessions.new.step2')
-      li
-        p = t('sessions.new.step3')
-      li
-        p = t('sessions.new.step4')
+  .wrapper-field.container-login-map
+    h3.customer-section-header = t('sessions.new.description')
+    .form-inputs
+      ul
+        li
+          p = t('sessions.new.step1')
+        li
+          p = t('sessions.new.step2')
+        li
+          p = t('sessions.new.step3')
+        li
+          p = t('sessions.new.step4')
 
   .container-login-form
     .wrapper-field

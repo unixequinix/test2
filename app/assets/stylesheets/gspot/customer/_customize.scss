@@ -59,6 +59,26 @@ nav {
   }
 }
 
+// _____ COLORS ______
+
+.customer-section-header {
+  width: 100%;
+  margin-bottom: 0;
+  padding: modules(0.25) modules(0.5);
+  box-shadow: inset 0px -1px 0px 0px rgba(150, 150, 150, 0.5);
+  background-color: $admin_grey;
+  color: $pinkMagenta;
+}
+
+.single-option-header {
+  padding: modules(1);
+  margin-bottom: 0;
+
+  @include min-screen($bp3) {
+    @include span-columns(8);
+  }
+}
+
 // _____ BUTTONS ______
 
 .btn {

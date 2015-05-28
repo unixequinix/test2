@@ -33,20 +33,11 @@
 
 .wrapper-empty { padding: modules(1); }
 
-.customer-section-header {
-  width: 100%;
-  margin-bottom: 0;
-  padding: modules(0.25) modules(0.5);
-  box-shadow: inset 0px -1px 0px 0px rgba(150, 150, 150, 0.5);
-  background-color: $admin_grey;
-  color: $pinkMagenta;
-}
-
 .container-login-map {
   position: relative;
 
   @include min-screen($bp3) {
-      @include span-columns(4);
+    @include span-columns(4);
   }
 
   h2, li {
