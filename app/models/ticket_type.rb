@@ -45,7 +45,7 @@ class TicketType < ActiveRecord::Base
     # Import Tickets
     (2..spreadsheet.last_row).each do |i|
       row = Hash[[header, spreadsheet.row(i)].transpose]
-      # ticket = find_by_id(row["id"]) || new
+      # ticket_type = find_by_id(row["id"]) || new
       ticket_type = new
       ticket_type.attributes = row.to_hash.slice(*Ticket.attribute_names)
       # if row["ticket_type"]
