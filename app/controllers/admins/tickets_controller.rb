@@ -57,11 +57,12 @@ class Admins::TicketsController < Admins::BaseController
   end
 
   def import
-    if Ticket.import(params[:file])
+    import_result = Ticket.import_csv(params[:file])
+    if import_result
       flash[:notice] = I18n.t('alerts.imported')
       redirect_to admins_tickets_url
     else
-      flash[:error] = I18n.t('alerts.error')
+      flash[:error] = import_result
       redirect_to admins_tickets_url
     end
   end

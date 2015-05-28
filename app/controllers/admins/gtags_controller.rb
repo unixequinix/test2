@@ -59,11 +59,12 @@ class Admins::GtagsController < Admins::BaseController
   end
 
   def import
-    if Gtag.import(params[:file])
+    import_result = Gtag.import_csv(params[:file])
+    if import_result
       flash[:notice] = I18n.t('alerts.imported')
       redirect_to admins_gtags_url
     else
-      flash[:error] = I18n.t('alerts.error')
+      flash[:error] = import_result
       redirect_to admins_gtags_url
     end
   end

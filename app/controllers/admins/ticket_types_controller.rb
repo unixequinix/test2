@@ -45,6 +45,18 @@ class Admins::TicketTypesController < Admins::BaseController
     end
   end
 
+  def import
+    import_result = TicketType.import_csv(params[:file])
+    if import_result
+      flash[:notice] = I18n.t('alerts.imported')
+      redirect_to admins_ticket_types_url
+    else
+      flash[:error] = import_result
+      redirect_to admins_ticket_types_url
+    end
+  end
+
+
   private
 
   def permitted_params

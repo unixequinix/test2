@@ -27,7 +27,6 @@ class Ticket < ActiveRecord::Base
   # Validations
   validates :number, presence: true, uniqueness: true
 
-
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
       csv << column_names
@@ -37,21 +36,28 @@ class Ticket < ActiveRecord::Base
     end
   end
 
-  def self.import(file)
+  def self.import_csv(file)
     spreadsheet = open_spreadsheet(file)
     header = spreadsheet.row(1)
+    tickets = []
+
+    # Import Tickets
     (2..spreadsheet.last_row).each do |i|
       row = Hash[[header, spreadsheet.row(i)].transpose]
-      ticket = find_by_id(row["id"]) || new
+      # ticket = find_by_id(row["id"]) || new
+      ticket = new
       ticket.attributes = row.to_hash.slice(*Ticket.attribute_names)
-      if row["ticket_type"]
-        ticket.ticket_type = TicketType.create(name: row["ticket_type"], credit: row["credit"], company: row["company"]) if ticket.ticket_type.nil?
-      end
-      begin
-        ticket.save!
-      rescue ActiveRecord::RecordInvalid => invalid
-        puts invalid.record.errors
-      end
+      # if row["ticket_type"]
+      #  ticket_type = TicketType.where(name: row["ticket_type"], company: row["company"]).first
+      #  assignation_ticket_type = ticket_type.nil? ? TicketType.create(name: row["ticket_type"], credit: row["credit"], company: row["company"]) : ticket_type
+      #  ticket.ticket_type = assignation_ticket_type if ticket.ticket_type.nil?
+      #end
+      tickets << ticket
+    end
+    begin
+      import tickets, validate: false
+    rescue PG::UniqueViolation => invalid
+      @result << "Fila #{index}: " + invalid.record.errors.full_messages.join(". ")
     end
   end
 

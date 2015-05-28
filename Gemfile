@@ -6,6 +6,7 @@ gem 'rails', '4.2.1'
 gem 'pg', '~> 0.18.1'
 gem 'schema_plus', '~> 2.0.0.pre12'
 gem "paranoia", "~> 2.0"
+gem 'activerecord-import', '~> 0.8.0'
 
 # Assets
 gem 'jquery-rails', '~> 4.0.3'
