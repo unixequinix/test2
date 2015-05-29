@@ -44,19 +44,56 @@
 
 .container-login-map {
   position: relative;
+  text-align: center;
 
   @include min-screen($bp3) {
-      @include span-columns(4);
+    @include span-columns(8);
+    min-height: modules(15);
+    margin-top: 0;
+
+    ul { margin: modules(1) 0; }
   }
 
-  h3 { padding: 0; }
+  h1, h2, h3 {
+    display: block;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    background-image: none;
+  }
+
+  h1 { color: $pinkMagenta; }
+
+  i {
+    @include mscale($base_font_size*1.5);
+    display: inline-block;
+    padding-right: modules(0.25);
+  }
 }
 
 .container-login-form {
   position: relative;
 
   @include min-screen($bp3) {
-    @include span-columns(8);
+    @include span-columns(4);
+
+    .wrapper-field {
+      min-height: modules(15);
+      margin: 0 0 modules(1) 0;
+    }
+  }
+
+  .btn { width: 100%; }
+
+  .customer_remember_me {
+    margin: modules(0.5) 0;
+    padding: 0;
+  }
+
+  .input-login {
+    display: block;
+    width: 100%;
+    margin-bottom: 0;
   }
 }
 

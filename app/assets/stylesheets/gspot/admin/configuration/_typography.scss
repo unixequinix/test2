@@ -8,14 +8,12 @@
 // External fonts
 
 // Custom fonts
-@include font-face(Bebas, 'Bebas-Bold', bold, $asset-pipeline: true);
-@include font-face(Bebas, 'Bebas-Regular', normal, $asset-pipeline: true);
 @include font-face(Lato, 'lato-regular', normal, $asset-pipeline: true);
 
 
 // Font families
 $serif_family: $georgia;
-$sans_family: Bebas, $helvetica;
+$sans_family: Lato, $helvetica;
 
 $base_font_family: $sans_family;
 $heading_font_family: $sans_family;

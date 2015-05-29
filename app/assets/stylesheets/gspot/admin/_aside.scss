@@ -39,7 +39,6 @@ aside {
       height: 100%;
       padding: modules(0.25) modules(1);
       color: $white;
-      box-shadow: inset 0px -1px 0px 0px lighten($side_panel,5%);
       opacity: 0.5;
 
       @include min-screen($bp3) { box-shadow: none; }
@@ -58,6 +57,8 @@ aside {
 
     &:last-child { margin-bottom: modules(1); }
   }
+
+  .selected { background-color: rgba(255, 255, 255, 0.2); }
 }
 
 .mobile-trigger {
