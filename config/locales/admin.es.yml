@@ -48,7 +48,7 @@ es:
       crm: "CRM"
     dashboard:
       change_state: "Cambiar de Estado?"
-      api_access: "Acceso al API"
+      api_access: "Acceso API"
       current_token: "Tu token de acceso del API:"
     credits:
       name: "Nombre"

@@ -22,6 +22,7 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  deleted_at             :datetime
+#  agreed_on_registration :boolean          default(FALSE)
 #
 
 FactoryGirl.define do

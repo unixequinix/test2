@@ -20,8 +20,8 @@ namespace :db do
     puts "----------------------------------------"
 
     Customer.destroy_all
-    Customer.create(email: 'customer@test.com', password: 'password', name: 'Alejandro', surname: 'González Núñez',     confirmed_at: '2015-04-21 13:39:18.381529')
-    Customer.create(email: 'customer2@test.com', password: 'password', name: 'Pedro', surname: 'De La Rosa', confirmed_at: '2015-04-21 13:39:18.381529')
+    Customer.create(email: 'customer@test.com', password: 'password', name: 'Alejandro', surname: 'González Núñez', confirmed_at: '2015-04-21 13:39:18.381529', agreed_on_registration: true)
+    Customer.create(email: 'customer2@test.com', password: 'password', name: 'Pedro', surname: 'De La Rosa', confirmed_at: '2015-04-21 13:39:18.381529', agreed_on_registration: true)
   end
 
   def make_entitlements
