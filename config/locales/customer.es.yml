@@ -12,7 +12,7 @@ es:
     sign_in: 'Ya tienes cuenta?'
     sign_up: 'Todavía no te has registrado?'
     forgot: 'Olvidaste tu contraseña?'
-    resend_confirmation: "No has recibido las instrucciones de confirmación?"
+    resend_confirmation: "Reenviar mail de confirmación"
     buttons:
       sign_in: 'Inicia Sesión'
       sign_up: 'Registrar'
@@ -123,11 +123,13 @@ es:
     new:
       title: 'Inicia Sesión'
       description: 'Registro en pocos pasos:'
-      step1: 'Registro'
-      step2: 'Confirmarción por correo'
-      step3: 'Activa tu Ticket'
+      activate: 'Podrás activar tu cuenta y evitar la cola de activación'
+      topup: 'Recarga tantas veces como quieras'
+      refund: 'Después del vento podrás reembolsar el crédito no disfrutado desde aquí'
       step4: 'Recarga'
       button: 'Inicia Sesión'
+      claim: '¡Registro online abierto!'
+      copy: '¿Para qué sirve?'
   cancel:
     title: 'Cancelar cuenta'
     unhappy: 'Queremos saber que ha ocurrido, envíanos un correo!'

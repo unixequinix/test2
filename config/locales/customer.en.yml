@@ -12,7 +12,7 @@ en:
     sign_in: 'Do you have an account?'
     sign_up: 'Not registered yet?'
     forgot: 'Forgot your password?'
-    resend_confirmation: "Didn't receive confirmation instructions?"
+    resend_confirmation: "Resend mail instructions"
     buttons:
       sign_in: 'Log in'
       sign_up: 'Register'
@@ -123,11 +123,13 @@ en:
     new:
       title: 'Log in'
       description: 'Register in a few steps:'
-      step1: 'Register'
-      step2: 'Mail confirmation'
-      step3: 'Assign ticket'
+      activate: 'You could activate your ticket now and avoid physical activation'
+      topup: 'Top up as many times as you want and get ready for the event'
+      refund: 'After the event you could refund here your credit left'
       step4: 'Top up'
       button: 'Log in'
+      claim: 'Online registrayions opened!'
+      copy: 'What does it means?'
   cancel:
     title: 'Cancel my account'
     unhappy: 'Write us an email, we want to know what happened!'
