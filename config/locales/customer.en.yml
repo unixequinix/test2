@@ -123,12 +123,12 @@ en:
     new:
       title: 'Log in'
       description: 'Register in a few steps:'
-      activate: 'You could activate your ticket now and avoid physical activation'
+      activate: 'You could activate your ticket now and get extra benefits'
       topup: 'Top up as many times as you want and get ready for the event'
       refund: 'After the event you could refund here your credit left'
       step4: 'Top up'
       button: 'Log in'
-      claim: 'Online registrayions opened!'
+      claim: 'Online registrations opened!'
       copy: 'What are the advantages?'
   cancel:
     title: 'Cancel my account'

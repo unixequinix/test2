@@ -123,9 +123,9 @@ es:
     new:
       title: 'Inicia Sesión'
       description: 'Registro en pocos pasos:'
-      activate: 'Podrás activar tu cuenta y evitar la cola de activación'
+      activate: 'Podrás activar tu cuenta y obtener beneficios extra'
       topup: 'Recarga tantas veces como quieras'
-      refund: 'Después del vento podrás reembolsar el crédito no disfrutado desde aquí'
+      refund: 'Después del evento podrás reembolsar el crédito no disfrutado desde aquí'
       step4: 'Recarga'
       button: 'Inicia Sesión'
       claim: '¡Registro online abierto!'
