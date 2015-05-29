@@ -12,6 +12,7 @@
   @include min-screen($bp3) {
     @include span-columns(6);
       @include omega(2n);
+      min-height: modules(6);
    }
 
   h3 {
@@ -26,6 +27,7 @@
 .wrapper-dashboard {
   padding: modules(1);
   text-align: center;
+  min-height: modules(4);
 
    @include min-screen($bp3) { text-align: left;}
 }
@@ -92,7 +94,7 @@
 .current-status {
   @include mscale($base_font_size*2);
   text-transform: uppercase;
-  font-weight: 100;
+  margin-bottom: 0;
 
   @include min-screen($bp4) {
     position: absolute;
