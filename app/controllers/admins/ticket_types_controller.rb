@@ -2,6 +2,10 @@ class Admins::TicketTypesController < Admins::BaseController
 
   def index
     @ticket_types = TicketType.all.page(params[:page]).includes(:entitlements)
+    respond_to do |format|
+      format.html
+      format.csv { send_data @ticket_types.to_csv }
+    end
   end
 
   def new

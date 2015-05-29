@@ -1,6 +1,7 @@
 table.ticket-types
   thead
     tr
+      th = t("admin.ticket_types.id")
       th = t("admin.ticket_types.name")
       th = t("admin.ticket_types.company")
       th = t("admin.ticket_types.credit")
@@ -10,6 +11,7 @@ table.ticket-types
   tbody
     - ticket_types.each do |ticket_type|
       tr
+        td = ticket_type.id
         td = link_to ticket_type.name, edit_admins_ticket_type_path(ticket_type)
         td = ticket_type.company
         td = ticket_type.credit

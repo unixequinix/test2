@@ -42,23 +42,21 @@ class TicketType < ActiveRecord::Base
     header = spreadsheet.row(1)
     ticket_types = []
 
-    # Import Tickets
+    # Import Ticket Types
     (2..spreadsheet.last_row).each do |i|
       row = Hash[[header, spreadsheet.row(i)].transpose]
-      # ticket_type = find_by_id(row["id"]) || new
-      ticket_type = new
-      ticket_type.attributes = row.to_hash.slice(*Ticket.attribute_names)
-      # if row["ticket_type"]
-      #  ticket_type = TicketType.where(name: row["ticket_type"], company: row["company"]).first
-      #  assignation_ticket_type = ticket_type.nil? ? TicketType.create(name: row["ticket_type"], credit: row["credit"], company: row["company"]) : ticket_type
-      #  ticket.ticket_type = assignation_ticket_type if ticket.ticket_type.nil?
-      #end
-      ticket_types << ticket_type
+      ticket_type = find_by_id(row["id"]) || new
+      ticket_type.attributes = row.to_hash.slice(*TicketType.attribute_names)
+      ticket_type.save!
     end
-    begin
-      import tickets, validate: false
-    rescue PG::UniqueViolation => invalid
-      @result << "Fila #{index}: " + invalid.record.errors.full_messages.join(". ")
+  end
+
+  def self.open_spreadsheet(file)
+    case File.extname(file.original_filename)
+    when ".csv" then Roo::Spreadsheet.open(file.path, extension: :csv)
+    when ".xls" then Roo::Spreadsheet.open(file.path, extension: :xls)
+    when ".xlsx" then Roo::Spreadsheet.open(file.path, extension: :xlsx)
+    else raise "Unknown file type: #{file.original_filename}"
     end
   end
 

@@ -42,21 +42,19 @@ class Ticket < ActiveRecord::Base
     tickets = []
 
     # Import Tickets
+    ticket_types = Hash[TicketType.form_selector]
     (2..spreadsheet.last_row).each do |i|
       row = Hash[[header, spreadsheet.row(i)].transpose]
-      # ticket = find_by_id(row["id"]) || new
       ticket = new
       ticket.attributes = row.to_hash.slice(*Ticket.attribute_names)
-      # if row["ticket_type"]
-      #  ticket_type = TicketType.where(name: row["ticket_type"], company: row["company"]).first
-      #  assignation_ticket_type = ticket_type.nil? ? TicketType.create(name: row["ticket_type"], credit: row["credit"], company: row["company"]) : ticket_type
-      #  ticket.ticket_type = assignation_ticket_type if ticket.ticket_type.nil?
-      #end
+      if row["ticket_type"]
+        ticket.ticket_type_id = ticket_types[row["ticket_type"]]
+      end
       tickets << ticket
     end
     begin
       import tickets, validate: false
-    rescue PG::UniqueViolation => invalid
+    rescue PG::Error => invalid
       @result << "Fila #{index}: " + invalid.record.errors.full_messages.join(". ")
     end
   end
