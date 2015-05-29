@@ -129,7 +129,7 @@ en:
       step4: 'Top up'
       button: 'Log in'
       claim: 'Online registrayions opened!'
-      copy: 'What does it means?'
+      copy: 'What are the advantages?'
   cancel:
     title: 'Cancel my account'
     unhappy: 'Write us an email, we want to know what happened!'

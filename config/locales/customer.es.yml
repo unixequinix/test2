@@ -129,7 +129,7 @@ es:
       step4: 'Recarga'
       button: 'Inicia Sesión'
       claim: '¡Registro online abierto!'
-      copy: '¿Para qué sirve?'
+      copy: '¿Qué ventajas tiene?'
   cancel:
     title: 'Cancelar cuenta'
     unhappy: 'Queremos saber que ha ocurrido, envíanos un correo!'
