@@ -57,6 +57,8 @@ aside {
 
     &:last-child { margin-bottom: modules(1); }
   }
+
+  .selected { background-color: rgba(255, 255, 255, 0.2); }
 }
 
 .mobile-trigger {
