@@ -76,7 +76,7 @@ textarea {
 
   @include min-screen ($bp3) {
     position: absolute;
-    bottom: 0;
+    bottom: modules(1);
     top: auto;
   }
 }

@@ -37,7 +37,7 @@
   position: relative;
 
   @include min-screen($bp3) {
-    @include span-columns(4);
+    @include span-columns(8);
   }
 
   h2, li {
@@ -50,7 +50,7 @@
   position: relative;
 
   @include min-screen($bp3) {
-    @include span-columns(8);
+    @include span-columns(4);
   }
 }
 
