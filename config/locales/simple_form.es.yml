@@ -14,6 +14,13 @@ es:
     labels:
       defaults:
         password: 'Contraseña'
+      admin:
+        new: &label_admin
+          email: 'Email'
+          password: 'Contraseña'
+          password_confirmation: 'Confirmación de contraseña'
+        edit:
+          <<: *label_admin
       customer:
         new: &label_customer
           email: 'Email'

@@ -11,6 +11,7 @@ en:
       actions: "Actions"
       home: "Home"
       log_in: "Log In"
+      empty_admins: "No Admins"
       empty_credits: "No credits"
       empty_entitlements: "No entitlements"
       empty_tickets: "No tickets"
@@ -36,6 +37,7 @@ en:
     confirm:
       delete: "Are you sure?"
     aside:
+      admins: "Admins"
       entitlements: "Entitlements"
       ticket_types: "Ticket Types"
       gtag: "GTags"

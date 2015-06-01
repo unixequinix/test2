@@ -1,0 +1,13 @@
+table.admins
+  thead
+    tr
+      th = t('admin.admins.name')
+      th.table-actions-field = t('admin.defauts.actions')
+  tbody
+    - admins.each do |admin|
+      tr
+        td = link_to admin.email, edit_admins_admin_path(admin)
+        td.table-actions-field
+          = render 'admins/admins/actions', admin: admin unless current_event.started?
+
+= paginate admins

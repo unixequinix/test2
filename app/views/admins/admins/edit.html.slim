@@ -1,0 +1,5 @@
+- breadcrumb :admins_admin, @admin
+- provide :actions do
+  = link_to t("actions.back"), admins_admins_path, class: "btn btn-action btn-action-back"
+
+= render "form", admin: @admin

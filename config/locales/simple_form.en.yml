@@ -14,6 +14,23 @@ en:
     labels:
       defaults:
         password: 'Password'
+      admin:
+        new: &label_admin
+          email: 'Email'
+          password: 'Password'
+          password_confirmation: 'Password Confirmation'
+        edit:
+          <<: *label_admin
+      customer:
+        new: &label_customer
+          email: 'Email'
+          name: 'Name'
+          surname: 'Surname'
+          password: 'Password'
+          password_confirmation: 'Password Confirmation'
+          agreed_on_registration: "I readed and understand the terms of use"
+        edit:
+          <<: *label_customer
       online_product:
         new: &label_online_product
           name: 'Name'

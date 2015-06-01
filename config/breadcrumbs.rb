@@ -12,6 +12,22 @@ crumb :admins_root do
   link t("breadcrumbs.dashboard"), admin_root_path
 end
 
+## Admins
+
+crumb :admins_admins do
+  link t("breadcrumbs.admins"), admins_admins_path
+end
+
+crumb :admins_admin do |admin|
+  link admin.email, edit_admins_admin_path(admin)
+  parent :admins_admins
+end
+
+crumb :new_admins_admin do
+  link t("breadcrumbs.new_admin")
+  parent :admins_admins
+end
+
 ## Entitlements
 
 crumb :admins_entitlements do

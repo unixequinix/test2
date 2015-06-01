@@ -11,6 +11,7 @@ es:
       actions: "Acciones"
       home: "Home"
       log_in: "Iniciar Sesión"
+      empty_admins: "Sin Administradores"
       empty_credits: "Sin Créditos"
       empty_entitlements: "Sin derechos"
       empty_tickets: "Sin tickets"
@@ -36,6 +37,7 @@ es:
     confirm:
       delete: "Estás seguro?"
     aside:
+      admins: "Administradores"
       entitlements: "Privilegios"
       ticket_types: "Tipos de Tickets"
       gtag: "GTags"

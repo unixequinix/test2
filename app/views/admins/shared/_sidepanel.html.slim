@@ -8,6 +8,9 @@ aside#main-menu
         = image_tag ("admin-panel-logo.png")
     h3 = t("admin.aside.setup")
 
+    li = link_to admins_admins_path do
+      = fa_icon "user"
+      = t("admin.aside.admins")
     li = link_to admins_entitlements_path do
       = fa_icon "thumbs-up"
       = t("admin.aside.entitlements")

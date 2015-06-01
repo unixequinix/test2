@@ -2,6 +2,8 @@ en:
   breadcrumbs:
     home: "Home"
     dashboard: "Dashboard"
+    admins: "Admins"
+    new_admin: "New Admin"
     entitlements: "Entitlements"
     new_entitlement: "New entitlement"
     ticket_types: "Ticket types"
