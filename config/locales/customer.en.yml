@@ -123,9 +123,9 @@ en:
     new:
       title: 'Log in'
       description: 'Register in a few steps:'
-      step1: 'Register'
-      step2: 'Mail confirmation'
-      step3: 'Assign ticket'
+      activate: 'You could activate your ticket now and get extra benefits'
+      topup: 'Top up as many times as you want and get ready for the event'
+      refund: 'After the event you could refund here your credit left'
       step4: 'Top up'
       button: 'Log in'
   cancel:

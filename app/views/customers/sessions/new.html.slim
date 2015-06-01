@@ -12,18 +12,18 @@
       ul
         li
           p
-            = fa_icon "user"
-            = t('sessions.new.step1')
+            = fa_icon "ticket"
+            = t('sessions.new.activate')
         //li
         //  p = t('sessions.new.step2')
         li
           p
-            = fa_icon "ticket"
-            = t('sessions.new.step3')
+            = fa_icon "money"
+            = t('sessions.new.topup')
         li
           p
-            = fa_icon "money"
-            = t('sessions.new.step4')
+            = fa_icon "refresh"
+            = t('sessions.new.refund')
       - if devise_mapping.registerable? && controller_name != 'registrations'
         = link_to t('links.buttons.sign_up'), new_registration_path(resource_name), class: "btn"
 
