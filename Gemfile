@@ -49,6 +49,9 @@ gem 'kaminari', '~>0.16.3'
 # Search
 gem 'ransack', '~> 1.6.6'
 
+# Bank Account
+gem 'iban-tools'
+
 group :development do
   gem 'capistrano'
   gem 'capistrano-rails', '~> 1.1.3'

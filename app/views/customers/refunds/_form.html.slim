@@ -4,7 +4,7 @@
     = f.input :gtag_id, as: :hidden, input_html: { value: current_customer.assigned_gtag_registration.gtag.id }
     = f.simple_fields_for :bank_account do |ba|
       = ba.input :customer_id, as: :hidden, input_html: { value: current_customer.id }
-      = ba.input :number, label: false, placeholder: t('edit_refund.placeholders.bank_account')
+      = ba.input :iban, label: false, placeholder: t('edit_refund.placeholders.bank_account')
       p = t('edit_refund.swift')
       = ba.input :swift, label: false, placeholder: t('edit_refund.placeholders.swift')
     = f.button :submit, t('refund.button'), class: "btn btn-primary"

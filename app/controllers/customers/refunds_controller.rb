@@ -35,7 +35,7 @@ class Customers::RefundsController < Customers::BaseController
   private
 
   def permitted_params
-    params.require(:refund).permit(:customer_id, :gtag_id, bank_account_attributes: [:id, :customer_id, :number])
+    params.require(:refund).permit(:customer_id, :gtag_id, bank_account_attributes: [:id, :customer_id, :iban, :swift])
   end
 
 end

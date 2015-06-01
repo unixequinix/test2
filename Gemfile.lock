@@ -146,6 +146,7 @@ GEM
     hirb (0.7.3)
     hitimes (1.2.2)
     i18n (0.7.0)
+    iban-tools (1.0.0)
     its-it (1.1.1)
     jbuilder (2.2.13)
       activesupport (>= 3.0.0, < 5)
@@ -430,6 +431,7 @@ DEPENDENCIES
   gretel (~> 3.0.8)
   guard-rspec (~> 4.5.0)
   hirb (~> 0.7.3)
+  iban-tools
   jbuilder (~> 2.2.13)
   jquery-rails (~> 4.0.3)
   kaminari (~> 0.16.3)

@@ -1,7 +1,7 @@
 module Api
   module V1
     class RefundSerializer < Api::V1::BaseSerializer
-      attributes :name, :surname, :email, :gtag_serial_number, :gtag_uid, :bank_account, :amount
+      attributes :name, :surname, :email, :gtag_serial_number, :gtag_uid, :iban, :swift, :amount
 
       def name
         object.customer.name
@@ -23,8 +23,12 @@ module Api
         object.gtag.tag_uid
       end
 
-      def bank_account
-        object.bank_account.number
+      def iban
+        object.bank_account.iban
+      end
+
+      def swift
+        object.bank_account.swift
       end
 
       def amount

@@ -34,9 +34,10 @@ en:
       button: "Activate Ticket"
     credits:
       header: "Your Online Credit Balance"
-      call_to_action: "If you want to avoid queues, Top-up your wristband in advance."
+      call_to_action: "If you want to avoid queues,"
+      call_to_action2: "Top-up your wristband in advance"
       call_to_action_started: "The event just started so you cannot topup anymore"
-      call_to_action_no_admission: "To securely buy your Online Top-up you need to activate your Festival Ticket first."
+      call_to_action_no_admission: "To securely buy your Online Top-up you need to activate your Festival Ticket first"
       button: "Top-up"
     without_gtags:
       title: "Credit left?"

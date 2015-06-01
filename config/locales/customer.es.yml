@@ -34,8 +34,9 @@ es:
       button: "Activar Ticket"
     credits:
       header: "Tu Balance de Créditos"
-      call_to_action: "Si quieres evitar colas, recarga tu pulsera por adelantado"
-      call_to_action_started: "TEl evento ya ha comenzado, no puedes recargar más"
+      call_to_action: "Si quieres evitar colas,"
+      call_to_action2: "recarga tu pulsera por adelantado"
+      call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"
       call_to_action_no_admission: "Para poder recargar tu pulsera, deberás activar tu Ticket primero"
       button: "Recarga"
     without_gtags:
