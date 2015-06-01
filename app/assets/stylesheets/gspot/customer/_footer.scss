@@ -13,7 +13,14 @@
 
   @include min-screen($bp4) {
     @include outer-container;
+    text-align: left;
     padding: 0 modules(3) modules(1);
+  }
+
+  a {
+    color: $black;
+
+    &:hover { color: $pinkMagenta; }
   }
 }
 

@@ -140,3 +140,6 @@ es:
   cancel:
     title: 'Cancelar cuenta'
     unhappy: 'Queremos saber que ha ocurrido, envíanos un correo!'
+  footer:
+    use: "Condiciones de uso"
+    privacy: "Política de privacidad"
