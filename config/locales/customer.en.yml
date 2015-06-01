@@ -24,7 +24,7 @@ en:
   dashboard:
     title: "My BBF"
     admissions:
-      header: "Your ticket number:"
+      header: "Your ticket number"
       description: "Do you want to unassign the ticket?"
       description_started: "The event just started so you cannot unassign the ticket"
       button: "Unassign"
@@ -120,6 +120,7 @@ en:
       title: 'Sign up'
       description: 'All the fields in this form are required.'
       button: 'Sign up'
+      details: "Please provide your personal details as a festival visitor. This will allow us to give you a secure and personalized service"
     edit:
       title: 'Edit'
       password_hint: "leave it blank if you don't want to change it"

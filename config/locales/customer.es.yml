@@ -24,7 +24,7 @@ es:
   dashboard:
     title: "My BBF"
     admissions:
-      header: "Tu número de Ticket:"
+      header: "Tu número de Ticket"
       description: "Quieres desactivar tu ticket?"
       description_started: "El evento ya ha comenzado, no puedes desactivar tu ticket"
       button: "Desactivar"
@@ -120,6 +120,7 @@ es:
       title: 'Regístrate'
       description: 'Todos los campos son obligatorios.'
       button: 'Regístrate'
+      details: 'Por favor introduce tus datos personales. Esto permitirá proporcionarte un servicio más seguro y personalizado'
     edit:
       title: 'Editar'
       password_hint: "Déjalo en blanco si no lo quieres cambiar"

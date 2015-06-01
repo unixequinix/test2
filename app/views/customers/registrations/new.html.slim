@@ -1,9 +1,11 @@
 .wrapper-title
   h2 = t('registration.new.title')
-p = t('registration.new.description')
+p.fa.fa-info-circle = t('registration.new.details')
 = simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
   = f.error_notification
   .wrapper-field
+    .required-fields
+     p = t('registration.new.description')
     .form-inputs
       = f.input :email, required: true, autofocus: true
       = f.input :name, required: true, autofocus: true

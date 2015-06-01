@@ -42,6 +42,12 @@
   h3, p { margin: 0; }
 }
 
+.required-fields {
+  font-style: italic;
+
+  p { margin-bottom: modules(1); }
+}
+
 .customer_agreed_on_registration {
   display: inline-block;
   width: auto;
