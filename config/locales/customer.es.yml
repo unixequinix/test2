@@ -24,7 +24,7 @@ es:
   dashboard:
     title: "My BBF"
     admissions:
-      header: "Tu número de Ticket:"
+      header: "Tu número de Ticket"
       description: "Quieres desactivar tu ticket?"
       description_started: "El evento ya ha comenzado, no puedes desactivar tu ticket"
       button: "Desactivar"
@@ -89,13 +89,13 @@ es:
   refund:
     title: "Pide tu reembolso"
     description: "Necesitamos tu cuenta de banco para completar tu reembolso."
-    call_to_action: "Coloca tu cuenta de banco!"
+    call_to_action: "Introduce tu cuenta de banco!"
     button: "Guardar"
   edit_refund:
     title: "Reembolso"
     description: "Puedes editar tu cuenta de banco para pedir tu reembolso."
-    call_to_action: "Coloca tu cuenta de banco!"
-    swift: "Introduce to código SWIFT"
+    call_to_action: "Introduce tu cuenta de banco!"
+    swift: "SWIFT (Sólo para cuentas fueras de España)"
     button: "Guardar "
     placeholders:
       swift: "0000 0000"
@@ -121,6 +121,7 @@ es:
       title: 'Regístrate'
       description: 'Todos los campos son obligatorios.'
       button: 'Regístrate'
+      details: 'Por favor introduce tus datos personales. Esto permitirá proporcionarte un servicio más seguro y personalizado'
     edit:
       title: 'Editar'
       password_hint: "Déjalo en blanco si no lo quieres cambiar"
@@ -141,3 +142,6 @@ es:
   cancel:
     title: 'Cancelar cuenta'
     unhappy: 'Queremos saber que ha ocurrido, envíanos un correo!'
+  footer:
+    use: "Condiciones de uso"
+    privacy: "Política de privacidad"
