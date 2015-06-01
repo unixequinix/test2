@@ -5,17 +5,25 @@
 
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
   .wrapper-field.container-login-map
-    h3.customer-section-header = t('sessions.new.description')
+    //h3.customer-section-header = t('sessions.new.description')
     .form-inputs
       ul
         li
-          p = t('sessions.new.step1')
+          p
+            = fa_icon "user"
+            = t('sessions.new.step1')
+        //li
+        //  p = t('sessions.new.step2')
         li
-          p = t('sessions.new.step2')
+          p
+            = fa_icon "ticket"
+            = t('sessions.new.step3')
         li
-          p = t('sessions.new.step3')
-        li
-          p = t('sessions.new.step4')
+          p
+            = fa_icon "money"
+            = t('sessions.new.step4')
+      - if devise_mapping.registerable? && controller_name != 'registrations'
+        = link_to t('links.buttons.sign_up'), new_registration_path(resource_name), class: "btn"
 
   .container-login-form
     .wrapper-field
@@ -24,13 +32,5 @@
         = f.input :email, required: false, autofocus: true
         = f.input :password, required: false
         = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
-        = f.button :submit, t('sessions.new.button'), class: "btn btn-continue"
+        = f.button :submit, t('sessions.new.button'), class: "btn"
     = render "customers/shared/links"
-
-
-//- if devise_mapping.registerable? && controller_name != 'registrations'
-//  .wrapper-field.wrapper-single-option
-//    h3.customer-section-header = t('links.sign_up')
-//    .form-inputs
-//      p It´s quick. It´s free
-//      = link_to t('links.buttons.sign_up'), new_registration_path(resource_name), class: "btn"//

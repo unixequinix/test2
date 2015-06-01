@@ -18,13 +18,14 @@
 .wrapper-field {
   position: relative;
   overflow: hidden;
-  width: 100%;
-  margin: 0 0 modules(1) 0;
+  width: 95%;
+  margin: modules(1) auto;
   border-radius: 3px;
   border: 1px solid rgba(150, 150, 150, 0.5);
   background-color: $white;
 
   @include min-screen($bp3) {
+    width: 100%;
     margin: modules(1) 0 modules(2);
   }
 
