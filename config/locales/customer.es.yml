@@ -88,13 +88,13 @@ es:
   refund:
     title: "Pide tu reembolso"
     description: "Necesitamos tu cuenta de banco para completar tu reembolso."
-    call_to_action: "Coloca tu cuenta de banco!"
+    call_to_action: "Introduce tu cuenta de banco!"
     button: "Guardar"
   edit_refund:
     title: "Reembolso"
     description: "Puedes editar tu cuenta de banco para pedir tu reembolso."
-    call_to_action: "Coloca tu cuenta de banco!"
-    swift: "Introduce to código SWIFT"
+    call_to_action: "Introduce tu cuenta de banco!"
+    swift: "SWIFT (Sólo para cuentas fueras de España)"
     button: "Guardar "
     placeholders:
       swift: "0000 0000"
