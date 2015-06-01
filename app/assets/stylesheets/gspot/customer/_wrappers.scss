@@ -41,10 +41,19 @@
     @include span-columns(8);
   }
 
-  h2, li {
-    padding: 0;
-    text-align: left
-  }
+  ul { margin-bottom: modules(1); }
+}
+
+.claim {
+  @include mscale($base_font_size*3);
+  color: $pinkMagenta;
+  font-weight: bold;
+}
+
+.sub-claim {
+  margin-bottom: 0;
+  text-transform: uppercase;
+  letter-spacing: modules(0.15);
 }
 
 .container-login-form {
