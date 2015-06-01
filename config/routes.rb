@@ -95,6 +95,9 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'privacy_policy', to: 'static_pages#privacy_policy'
+  get 'terms_of_use', to: 'static_pages#terms_of_use'
+
   devise_scope :customers do
     root to: 'customers/dashboards#show', as: :customer_root
   end

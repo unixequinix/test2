@@ -48,6 +48,6 @@ class Customer < ActiveRecord::Base
 
   # Validations
   validates :email, format: { with: MAIL_FORMAT }, presence: true, uniqueness: true
-  validates :name, :surname, presence: true
+  validates :name, :surname, :agreed_on_registration, presence: true
 
 end

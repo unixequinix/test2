@@ -8,6 +8,11 @@ es:
     close: "Cerrar sesión"
     menu: "My BBF"
     home: "Web del Festival"
+  conditions:
+    action: 'Acepto'
+    conjunction: 'y'
+    privacy_conditions: 'la política de privacidad'
+    terms_of_use: 'las condiciones de uso'
   links:
     sign_in: 'Ya tienes cuenta?'
     sign_up: 'Todavía no te has registrado?'
@@ -89,8 +94,10 @@ es:
     title: "Reembolso"
     description: "Puedes editar tu cuenta de banco para pedir tu reembolso."
     call_to_action: "Coloca tu cuenta de banco!"
+    swift: "Introduce to código SWIFT"
     button: "Guardar "
     placeholders:
+      swift: "0000 0000"
       bank_account: 'ES00 0000 0000 0000 0000 0000'
   payment:
     error:

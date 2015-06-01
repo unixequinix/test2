@@ -8,6 +8,11 @@ en:
     close: "Logout"
     menu: "My BBF"
     home: "Festival Website"
+  conditions:
+    action: 'I accept'
+    conjunction: 'and'
+    privacy_conditions: 'the privacy conditions'
+    terms_of_use: 'the terms of use'
   links:
     sign_in: 'Do you have an account?'
     sign_up: 'Not registered yet?'
@@ -89,8 +94,10 @@ en:
     title: "Refund claim"
     description: "You can edit the bank account for your claim."
     call_to_action: "Introduce your bank account!"
+    swift: "Introduce your SWIFT code"
     button: "Save"
     placeholders:
+      swift: "0000 0000"
       bank_account: 'ES00 0000 0000 0000 0000 0000'
   payment:
     error:

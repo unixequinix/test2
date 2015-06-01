@@ -14,6 +14,16 @@ es:
     labels:
       defaults:
         password: 'Contraseña'
+      customer:
+        new: &label_customer
+          email: 'Email'
+          name: 'Nombre'
+          surname: 'Apellidos'
+          password: 'Contraseña'
+          password_confirmation: 'Confirmación de contraseña'
+          agreed_on_registration: "He leído y entiendo los términos del registro"
+        edit:
+          <<: *label_customer
       online_product:
         new: &label_online_product
           name: 'Nombre'
