@@ -22,6 +22,7 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  deleted_at             :datetime
+#  agreed_on_registration :boolean          default(FALSE)
 #
 
 class Customer < ActiveRecord::Base
@@ -47,6 +48,6 @@ class Customer < ActiveRecord::Base
 
   # Validations
   validates :email, format: { with: MAIL_FORMAT }, presence: true, uniqueness: true
-  validates :name, :surname, presence: true
+  validates :name, :surname, :agreed_on_registration, presence: true
 
 end

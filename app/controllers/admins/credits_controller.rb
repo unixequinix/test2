@@ -1,7 +1,7 @@
 class Admins::CreditsController < Admins::BaseController
 
   def index
-    @credits = Credit.all.includes(:online_product)
+    @credits = Credit.all.page(params[:page]).includes(:online_product)
   end
 
   def new

@@ -87,6 +87,11 @@ textarea {
 .assign-input {
   position: relative;
 
+  p {
+    margin-top: 0;
+    text-align: left;
+  }
+
   input {
     display: block;
     width: 100%;

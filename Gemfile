@@ -6,6 +6,7 @@ gem 'rails', '4.2.1'
 gem 'pg', '~> 0.18.1'
 gem 'schema_plus', '~> 2.0.0.pre12'
 gem "paranoia", "~> 2.0"
+gem 'activerecord-import', '~> 0.8.0'
 
 # Assets
 gem 'jquery-rails', '~> 4.0.3'
@@ -43,12 +44,16 @@ gem 'roo', '~> 2.0.0beta1'
 
 # Navigation
 gem 'gretel', '~> 3.0.8'
+gem 'kaminari', '~>0.16.3'
 
 # Search
 gem 'ransack', '~> 1.6.6'
 
+# Bank Account
+gem 'iban-tools'
+
 group :development do
-  gem 'capistrano' # Use Capistrano for deployment
+  gem 'capistrano'
   gem 'capistrano-rails', '~> 1.1.3'
   gem 'capistrano-rbenv', '~> 2.0.3'
   gem 'capistrano-bundler', '~> 1.1.2'

@@ -1,7 +1,7 @@
 class Admins::EntitlementsController < Admins::BaseController
 
   def index
-    @entitlements = Entitlement.all
+    @entitlements = Entitlement.all.page(params[:page])
   end
 
   def new
@@ -36,9 +36,13 @@ class Admins::EntitlementsController < Admins::BaseController
 
   def destroy
     @entitlement = Entitlement.find(params[:id])
-    @entitlement.destroy!
-    flash[:notice] = I18n.t('alerts.destroyed')
-    redirect_to admins_entitlements_url
+    if @entitlement.destroy
+      flash[:notice] = I18n.t('alerts.destroyed')
+      redirect_to admins_entitlements_url
+    else
+      flash[:error] = @entitlement.errors.full_messages.join(". ")
+      redirect_to admins_entitlements_url
+    end
   end
 
   private

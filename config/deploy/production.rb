@@ -29,7 +29,7 @@ set :linked_dirs, fetch(:linked_dirs) + %w{certs}
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server 'bbf.glownet.com', user: 'ubuntu', roles: %w{web app}, primary: true
+server 'bbf.glownet.com', user: 'ubuntu', roles: %w{web app db}, primary: true
 
 
 # Custom SSH Options

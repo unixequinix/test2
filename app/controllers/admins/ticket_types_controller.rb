@@ -1,7 +1,11 @@
 class Admins::TicketTypesController < Admins::BaseController
 
   def index
-    @ticket_types = TicketType.all.includes(:entitlements)
+    @ticket_types = TicketType.all.page(params[:page]).includes(:entitlements)
+    respond_to do |format|
+      format.html
+      format.csv { send_data @ticket_types.to_csv }
+    end
   end
 
   def new
@@ -36,10 +40,26 @@ class Admins::TicketTypesController < Admins::BaseController
 
   def destroy
     @ticket_type = TicketType.find(params[:id])
-    @ticket_type.destroy!
-    flash[:notice] = I18n.t('alerts.destroyed')
-    redirect_to admins_ticket_types_url
+    if @ticket_type.destroy
+      flash[:notice] = I18n.t('alerts.destroyed')
+      redirect_to admins_ticket_types_url
+    else
+      flash[:error] = @ticket_type.errors.full_messages.join(". ")
+      redirect_to admins_ticket_types_url
+    end
   end
+
+  def import
+    import_result = TicketType.import_csv(params[:file])
+    if import_result
+      flash[:notice] = I18n.t('alerts.imported')
+      redirect_to admins_ticket_types_url
+    else
+      flash[:error] = import_result
+      redirect_to admins_ticket_types_url
+    end
+  end
+
 
   private
 

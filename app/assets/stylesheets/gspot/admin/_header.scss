@@ -35,9 +35,6 @@ header {
   text-align: center;
 
   @include min-screen($bp3) { display: none; }
-  a {
-    &:focus { outline: 1px solid red; }
-  }
 }
 
 .menu-option {
@@ -47,13 +44,12 @@ header {
   height: modules(2);
   padding: modules(0.55) modules(1);
   background-color: $dark_blue;
-  box-shadow: inset 1px 0px 0px 0px lighten($blue,5%);
   color: $white;
   text-transform: uppercase;
   z-index: 5;
 
   &:hover, &:focus {
-    background-color: lighten($dark_blue, 10%);
+    background-color: $side_panel;
     outline: none;
   }
 }

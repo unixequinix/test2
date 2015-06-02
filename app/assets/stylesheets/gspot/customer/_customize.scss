@@ -56,9 +56,9 @@ nav {
   }
 
   a, span {
-    color: $grey;
+    color: $pinkMagenta;
 
-    &:hover { color: $pinkMagenta;  }
+    &:hover { color: $dark_grey;  }
   }
 }
 
@@ -70,6 +70,7 @@ nav {
   padding: modules(0.25) modules(0.5);
   box-shadow: inset 0px -1px 0px 0px rgba(150, 150, 150, 0.5);
   background-color: $admin_grey;
+  color: $pinkMagenta;
 }
 
 .single-option-header {
@@ -103,6 +104,7 @@ nav {
     width: auto;
     margin: 0;
     padding: modules(0.5);
+    line-height: 0.75;
   }
 
   &:hover { opacity: 0.7; }

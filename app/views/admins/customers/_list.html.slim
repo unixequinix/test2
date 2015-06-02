@@ -9,11 +9,13 @@ table.customers
   tbody
     - customers.each do |customer|
       tr
-        td = link_to customer.email, admins_customer_path(customer)
-        td = customer.name
-        td = customer.surname
+        td data-label=t("admin.customers.email") = link_to customer.email, admins_customer_path(customer)
+        td data-label=t("admin.customers.name") = customer.name
+        td data-label=t("admin.customers.surname") = customer.surname
         - if !customer.assigned_admission.nil?
           td = link_to customer.assigned_admission.ticket.number, edit_admins_ticket_path(customer.assigned_admission.ticket)
         - else
-          td = t("admin.defaults.empty_tickets")
-        td = customer.credit_logs.sum(:amount)
+          td data-label=t("admin.customers.tickets") = t("admin.defaults.empty_tickets")
+        td data-label=t("admin.customers.credits") = customer.credit_logs.sum(:amount)
+
+= paginate customers

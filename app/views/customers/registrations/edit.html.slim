@@ -13,7 +13,6 @@
           = resource.unconfirmed_email
       = f.input :password, autocomplete: "off", hint: t('registration.edit.password_hint'), required: false
       = f.input :password_confirmation, required: false
-      = f.input :current_password, hint: t('registration.edit.current_password_hint'), required: true
       = f.button :submit, t('registration.edit.button'), class: "btn btn-continue"
 
   .wrapper-title

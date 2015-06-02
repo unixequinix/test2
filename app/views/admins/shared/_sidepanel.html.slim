@@ -1,19 +1,44 @@
 aside#main-menu
-  h1.img-header.aside
+  h1.img-header
     = link_to admin_root_path
       = image_tag ("admin-panel-logo.png")
   ul
     h1.img-header.aside-logo
       = link_to admin_root_path
         = image_tag ("admin-panel-logo.png")
-    li = link_to t("admin.aside.entitlements"), admins_entitlements_path
-    li = link_to t("admin.aside.ticket_types"), admins_ticket_types_path
-    li = link_to t("admin.aside.tickets"), admins_tickets_path
-    li = link_to t("admin.aside.gtag"), admins_gtags_path
-    li = link_to t("admin.aside.credits"), admins_credits_path
-    li = link_to t("admin.aside.customers"), admins_customers_path
-    li = link_to t("admin.aside.orders"), admins_orders_path
-    li = link_to t("admin.aside.payments"), admins_payments_path
+    h3 = t("admin.aside.setup")
+
+    li = link_to admins_admins_path do
+      = fa_icon "user"
+      = t("admin.aside.admins")
+    li = link_to admins_entitlements_path do
+      = fa_icon "thumbs-up"
+      = t("admin.aside.entitlements")
+    li = link_to admins_ticket_types_path do
+      = fa_icon "tags"
+      = t("admin.aside.ticket_types")
+    li = link_to admins_tickets_path do
+      = fa_icon "ticket"
+      = t("admin.aside.tickets")
+    li = link_to admins_gtags_path do
+      = fa_icon "bookmark"
+      = t("admin.aside.gtag")
+    li = link_to admins_credits_path
+      = fa_icon "database"
+      = t("admin.aside.credits")
+
+    h3 = t("admin.aside.crm")
+
+    li = link_to admins_customers_path do
+      = fa_icon "users"
+      = t("admin.aside.customers")
+    li = link_to admins_orders_path do
+      = fa_icon "list"
+      = t("admin.aside.orders")
+    li = link_to admins_payments_path
+      = fa_icon "money"
+      = t("admin.aside.payments")
+
     li.mobile-sign-out
       = link_to t("admin.aside.sign_out"), destroy_admin_session_path, method: :delete
 

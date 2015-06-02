@@ -58,9 +58,14 @@ Rails.application.routes.draw do
   end
 
   namespace :admins do
+    resources :admins, except: :show
     resources :events, only: :update
     resources :entitlements, except: :show
-    resources :ticket_types, except: :show
+    resources :ticket_types, except: :show do
+      collection do
+        post :import
+      end
+    end
     resources :tickets, except: :show do
       collection do
         post :import
@@ -90,6 +95,9 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  get 'privacy_policy', to: 'static_pages#privacy_policy'
+  get 'terms_of_use', to: 'static_pages#terms_of_use'
 
   devise_scope :customers do
     root to: 'customers/dashboards#show', as: :customer_root

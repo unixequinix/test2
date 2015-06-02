@@ -55,6 +55,15 @@ $nav-size: $base-font-size*2;
 .user-options {
   position: relative;
   float: right;
+  text-align: right;
+  max-width: modules(2);
+  overflow: hidden;
+  display: inline-block;
+
+  @include min-screen($bp2) {
+    max-width: auto;
+    min-width: modules(7);
+  }
 
   a {
     display: inline-block;

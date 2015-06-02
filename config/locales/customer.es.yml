@@ -8,18 +8,23 @@ es:
     close: "Cerrar sesión"
     menu: "My BBF"
     home: "Web del Festival"
+  conditions:
+    action: 'Acepto'
+    conjunction: 'y'
+    privacy_conditions: 'la política de privacidad'
+    terms_of_use: 'las condiciones de uso'
   links:
     sign_in: 'Ya tienes cuenta?'
     sign_up: 'Todavía no te has registrado?'
     forgot: 'Olvidaste tu contraseña?'
-    resend_confirmation: "No has recibido las instrucciones de confirmación?"
+    resend_confirmation: "Reenviar mail de confirmación"
     buttons:
       sign_in: 'Inicia Sesión'
       sign_up: 'Registrar'
   dashboard:
     title: "My BBF"
     admissions:
-      header: "Tu número de Ticket:"
+      header: "Tu número de Ticket"
       description: "Quieres desactivar tu ticket?"
       description_started: "El evento ya ha comenzado, no puedes desactivar tu ticket"
       button: "Desactivar"
@@ -29,8 +34,9 @@ es:
       button: "Activar Ticket"
     credits:
       header: "Tu Balance de Créditos"
-      call_to_action: "Si quieres evitar colas, recarga tu pulsera por adelantado"
-      call_to_action_started: "TEl evento ya ha comenzado, no puedes recargar más"
+      call_to_action: "Si quieres evitar colas,"
+      call_to_action2: "recarga tu pulsera por adelantado"
+      call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"
       call_to_action_no_admission: "Para poder recargar tu pulsera, deberás activar tu Ticket primero"
       button: "Recarga"
     without_gtags:
@@ -50,7 +56,7 @@ es:
     refunds:
       title: "Tus Créditos restantes:"
       call_to_action: "Reembolso exitoso, transferencia se realizará el %{date}"
-      button: "Modificar cuenta bancaria"
+      button: "Modificar cuenta"
   admissions:
     title: "Activación del Ticket"
     description: "Para activar tu Ticket coloca el número del código de barra. Este número se encuentra debajo del código de barra impreso en tu ticket."
@@ -83,14 +89,16 @@ es:
   refund:
     title: "Pide tu reembolso"
     description: "Necesitamos tu cuenta de banco para completar tu reembolso."
-    call_to_action: "Coloca tu cuenta de banco!"
+    call_to_action: "Introduce tu cuenta de banco!"
     button: "Guardar"
   edit_refund:
     title: "Reembolso"
     description: "Puedes editar tu cuenta de banco para pedir tu reembolso."
-    call_to_action: "Coloca tu cuenta de banco!"
+    call_to_action: "Introduce tu cuenta de banco!"
+    swift: "SWIFT (Sólo para cuentas fueras de España)"
     button: "Guardar "
     placeholders:
+      swift: "0000 0000"
       bank_account: 'ES00 0000 0000 0000 0000 0000'
   payment:
     error:
@@ -113,6 +121,7 @@ es:
       title: 'Regístrate'
       description: 'Todos los campos son obligatorios.'
       button: 'Regístrate'
+      details: 'Por favor introduce tus datos personales. Esto permitirá proporcionarte un servicio más seguro y personalizado'
     edit:
       title: 'Editar'
       password_hint: "Déjalo en blanco si no lo quieres cambiar"
@@ -127,6 +136,11 @@ es:
       topup: 'Añade el crédito que quieras a tu ticket sin esperas'
       refund: 'Al finalizar ele evnto podrás gestionas la devoluión del crédito no disfrutado'
       button: 'Inicia Sesión'
+      claim: '¡Registro online abierto!'
+      copy: '¿Qué ventajas tiene?'
   cancel:
     title: 'Cancelar cuenta'
     unhappy: 'Queremos saber que ha ocurrido, envíanos un correo!'
+  footer:
+    use: "Condiciones de uso"
+    privacy: "Política de privacidad"

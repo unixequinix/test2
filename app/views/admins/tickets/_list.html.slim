@@ -1,15 +1,27 @@
 table.tickets
   thead
     tr
+      th = t("admin.tickets.id")
       th = t("admin.tickets.number")
       th = t("admin.tickets.ticket_type")
+      th = t("admin.purchasers.name")
+      th = t("admin.purchasers.surname")
+      th = t("admin.purchasers.email")
       th = t("admin.tickets.customer")
+      th = t("admin.tickets.created_at")
       th.table-actions-field = t("admin.defaults.actions")
   tbody
     - tickets.each do |ticket|
       tr
-        td = link_to ticket.number, edit_admins_ticket_path(ticket)
-        td = ticket.ticket_type.name unless ticket.ticket_type.nil?
-        td = ticket.assigned_admission.customer.email unless ticket.assigned_admission.nil?
+        td data-label=t("admin.tickets.id") = ticket.id
+        td data-label=t("admin.tickets.number") = link_to ticket.number, edit_admins_ticket_path(ticket)
+        td data-label=t("admin.tickets.ticket_type") = ticket.ticket_type.name unless ticket.ticket_type.nil?
+        td data-label=t("admin.purchasers.name") = ticket.purchaser_name
+        td data-label=t("admin.purchasers.surname") = ticket.purchaser_surname
+        td data-label=t("admin.purchasers.email") = ticket.purchaser_email
+        td data-label=t("admin.tickets.customer") = ticket.assigned_admission.customer.email unless ticket.assigned_admission.nil?
+        td data-label=t("admin.tickets.created_at") = ticket.created_at.strftime("%y-%m-%d %H:%M:%S")
         td.table-actions-field
           = render 'admins/tickets/actions', ticket: ticket unless current_event.started?
+
+= paginate tickets

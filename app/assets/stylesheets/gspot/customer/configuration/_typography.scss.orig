@@ -1,0 +1,36 @@
+// -------------------------------------------------------
+//
+//  Font configuration
+//
+// -------------------------------------------------------
+
+@import "font-awesome";
+// External fonts
+
+// Custom fonts
+<<<<<<< HEAD:app/assets/stylesheets/gspot/configuration/_typography.scss
+//@include font-face(Bebas, 'Bebas-Bold', bold, $asset-pipeline: true);
+//@include font-face(Bebas, 'Bebas-Regular', normal, $asset-pipeline: true);
+@include font-face(Lato, 'lato-regular', normal, $asset-pipeline: true);
+
+=======
+@include font-face(Bebas, 'Bebas-Bold', bold, $asset-pipeline: true);
+@include font-face(Bebas, 'Bebas-Regular', normal, $asset-pipeline: true);
+>>>>>>> development:app/assets/stylesheets/gspot/customer/configuration/_typography.scss
+
+// Font families
+$serif_family: $georgia;
+$sans_family: Lato, $helvetica;
+
+$base_font_family: $sans_family;
+$heading_font_family: $sans_family;
+
+// TODO Study wether these are causing problems or not.
+$body_font_features: '';
+$header_font_features: '';
+
+//$debug: 'true';
+
+// Typography initialization
+@include intialize-typography($font_size: 16, $line_height: 24, $ratio: $minor_third);
+@include intialize-typography($breakpoint: $bp3, $font_size: 15, $line_height: 22, $ratio: $minor_third);

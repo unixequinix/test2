@@ -1,0 +1,159 @@
+/* ------------------------------------------------------- *\
+
+  Include all the elements and classes that user can customize
+
+\* ------------------------------------------------------- */
+
+
+// _____ BACKGROUND ______
+
+
+body {
+  width: 100%;
+  min-height: 100%;
+  height: 100%;
+  //background-image: image-url("bg.jpg");
+  background-color: $input_grey;
+}
+
+// _____ HEADER ______
+
+header {
+  position: relative;
+  display: block;
+<<<<<<< HEAD
+  width: 95%;
+  margin: 0 auto;
+
+  @include min-screen($bp3) { width: 100%; }
+=======
+  width: 100%;
+>>>>>>> development
+
+  h2 {  color: $pinkMagenta; }
+}
+
+.wrapper-date {
+
+  @include min-screen($bp3) {
+    @include span-columns(6);
+  }
+}
+
+
+// _____ NAVIGATION ______
+
+nav {
+  width: 100%;;
+  margin: 0 auto;
+  border-radius: 2px;
+  box-shadow: inset 0px 0px 1px 0px $grayGunmetal;
+  background-color: $nuclear;
+
+  li {
+    display: inline-block;
+    vertical-align: top;
+    width: auto;
+    padding: modules(0.5);
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  a, span {
+<<<<<<< HEAD
+    color: $grey;
+
+    &:hover { color: $pinkMagenta;  }
+=======
+    color: $pinkMagenta;
+
+    &:hover { color: $dark_grey;  }
+>>>>>>> development
+  }
+}
+
+// _____ COLORS ______
+
+.customer-section-header {
+  width: 100%;
+  margin-bottom: 0;
+  padding: modules(0.25) modules(0.5);
+  box-shadow: inset 0px -1px 0px 0px rgba(150, 150, 150, 0.5);
+  background-color: $admin_grey;
+<<<<<<< HEAD
+=======
+  color: $pinkMagenta;
+>>>>>>> development
+}
+
+.single-option-header {
+  padding: modules(1);
+  margin-bottom: 0;
+
+  @include min-screen($bp3) {
+    @include span-columns(8);
+  }
+}
+
+// _____ BUTTONS ______
+
+.btn {
+  @include transition(opacity 83ms linear);
+  @include button($pinkMagenta);
+  overflow: hidden;
+  display: inline-block;
+  width: 100%;
+  margin: modules(1) 0 0;
+  padding: modules(0.25) modules(0.5);
+  background-color: $pinkMagenta;
+  color: $nuclear;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  @include min-screen($bp3) {
+    width: auto;
+    margin: 0;
+    padding: modules(0.5);
+<<<<<<< HEAD
+=======
+    line-height: 0.75;
+>>>>>>> development
+  }
+
+  &:hover { opacity: 0.7; }
+}
+
+.btn-primary {
+  clear: both;
+  display: block;
+  margin: 0  auto modules(1);
+  max-width: modules(12);
+}
+
+.btn-continue {
+  display: block;
+  float: right !important;
+}
+
+.btn-full-width {
+  min-width: 100%;
+  width: 100%;
+}
+
+.btn-dashboard {
+  display: block; margin: 0 auto;
+
+  @include min-screen($bp3) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin-bottom: 0;
+  }
+}
+
+//______________________

@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: bank_accounts
+#
+#  id          :integer          not null, primary key
+#  customer_id :integer          not null
+#  iban        :string           not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  swift       :string
+#
+
 require 'rails_helper'
 
 RSpec.describe BankAccount, type: :model do

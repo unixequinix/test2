@@ -37,6 +37,7 @@
 
 .container-login-map {
   position: relative;
+  text-align: center;
 
   @include min-screen($bp3) {
     @include span-columns(8);

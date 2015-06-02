@@ -7,3 +7,34 @@ es:
     locales:
       en: 'ENG'
       es: 'ESP'
+  activerecord:
+    errors:
+      messages:
+        record_invalid: 'Invalid record'
+      models:
+        customer:
+          attributes:
+            email:
+              taken: 'Email ya utilizado'
+        entitlement:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: 'No se puede eliminar porque existen tipos de tickets asociados'
+        ticket_type:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: 'No se puede eliminar porque existen tickets asociados'
+        ticket:
+          attributes:
+            number:
+              taken: 'Número ya utilizado'
+            base:
+              restrict_dependent_destroy:
+                many: 'No se puede eliminar porque existen clientes asociados'
+        gtag:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: 'No se puede eliminar porque existen clientes asociados'

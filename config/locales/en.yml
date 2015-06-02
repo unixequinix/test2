@@ -7,3 +7,34 @@ en:
     locales:
       en: 'ENG'
       es: 'ESP'
+  activerecord:
+    errors:
+      messages:
+        record_invalid: 'Campo no valido'
+      models:
+        customer:
+          attributes:
+            email:
+              taken: 'Email taken'
+        entitlement:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: "Can't be deleted because there are ticket types associated"
+        ticket_type:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: "Can't be deleted because there are tickets associated"
+        tickets:
+          attributes:
+            number:
+              taken: 'Number taken'
+            base:
+              restrict_dependent_destroy:
+                many: "Can't be deleted because there are customers associated"
+        gtag:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: "Can't be deleted because there are customers associated"

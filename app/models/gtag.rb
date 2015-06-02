@@ -11,10 +11,11 @@
 #
 
 class Gtag < ActiveRecord::Base
+  default_scope { order(:id) }
   acts_as_paranoid
 
   # Associations
-  has_many :gtag_registrations
+  has_many :gtag_registrations, dependent: :restrict_with_error
   has_one :assigned_gtag_registration, ->{ where(aasm_state: :assigned) }, class_name: "GtagRegistration"
   has_many :customers, through: :gtag_registrations
   has_one :assigned_customer, ->{ where(gtag_registrations: {aasm_state: :assigned}) }, class_name: "Customer"
@@ -50,7 +51,11 @@ class Gtag < ActiveRecord::Base
       if row["amount"]
         gtag.gtag_credit_log.nil? ? gtag.gtag_credit_log = GtagCreditLog.create(gtag_id: row["id"], amount: row["amount"]) : gtag.gtag_credit_log.amount = row["amount"]
       end
-      gtag.save!
+      begin
+        gtag.save!
+      rescue ActiveRecord::RecordInvalid => invalid
+        puts invalid.record.errors
+      end
     end
   end
 

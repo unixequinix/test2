@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150515104719) do
+ActiveRecord::Schema.define(version: 20150601162434) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,14 +33,14 @@ ActiveRecord::Schema.define(version: 20150515104719) do
   end
 
   create_table "customers", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false, index: {name: "index_customers_on_email", unique: true}
-    t.string   "name",                   default: "", null: false
-    t.string   "surname",                default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                  default: "",    null: false, index: {name: "index_customers_on_email", unique: true}
+    t.string   "name",                   default: "",    null: false
+    t.string   "surname",                default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token",   index: {name: "index_customers_on_reset_password_token", unique: true}
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
@@ -52,23 +52,27 @@ ActiveRecord::Schema.define(version: 20150515104719) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.datetime "deleted_at",             index: {name: "index_customers_on_deleted_at"}
+    t.boolean  "agreed_on_registration", default: false
   end
 
   create_table "ticket_types", force: :cascade do |t|
     t.string   "name",       null: false
     t.string   "company",    null: false
-    t.decimal  "credit",     precision: 8, scale: 2, null: false
+    t.decimal  "credit",     precision: 8, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at", index: {name: "index_ticket_types_on_deleted_at"}
   end
 
   create_table "tickets", force: :cascade do |t|
-    t.integer  "ticket_type_id", index: {name: "fk__tickets_ticket_type_id"}, foreign_key: {references: "ticket_types", name: "fk_tickets_ticket_type_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "number",         index: {name: "index_tickets_on_number", unique: true}
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.datetime "deleted_at",     index: {name: "index_tickets_on_deleted_at"}
+    t.integer  "ticket_type_id",    index: {name: "fk__tickets_ticket_type_id"}, foreign_key: {references: "ticket_types", name: "fk_tickets_ticket_type_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "number",            index: {name: "index_tickets_on_number", unique: true}
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.datetime "deleted_at",        index: {name: "index_tickets_on_deleted_at"}
+    t.string   "purchaser_email"
+    t.string   "purchaser_name"
+    t.string   "purchaser_surname"
   end
 
   create_table "admissions", force: :cascade do |t|
@@ -81,9 +85,10 @@ ActiveRecord::Schema.define(version: 20150515104719) do
 
   create_table "bank_accounts", force: :cascade do |t|
     t.integer  "customer_id", null: false, index: {name: "fk__bank_accounts_customer_id"}, foreign_key: {references: "customers", name: "fk_bank_accounts_customer_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "number",      null: false
+    t.string   "iban",        null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.string   "swift"
   end
 
   create_table "credit_logs", force: :cascade do |t|

@@ -8,18 +8,23 @@ en:
     close: "Logout"
     menu: "My BBF"
     home: "Festival Website"
+  conditions:
+    action: 'I accept'
+    conjunction: 'and'
+    privacy_conditions: 'the privacy conditions'
+    terms_of_use: 'the terms of use'
   links:
     sign_in: 'Do you have an account?'
     sign_up: 'Not registered yet?'
     forgot: 'Forgot your password?'
-    resend_confirmation: "Didn't receive confirmation instructions?"
+    resend_confirmation: "Resend mail instructions"
     buttons:
       sign_in: 'Log in'
       sign_up: 'Register'
   dashboard:
     title: "My BBF"
     admissions:
-      header: "Your ticket number:"
+      header: "Your ticket number"
       description: "Do you want to unassign the ticket?"
       description_started: "The event just started so you cannot unassign the ticket"
       button: "Unassign"
@@ -29,9 +34,10 @@ en:
       button: "Activate Ticket"
     credits:
       header: "Your Online Credit Balance"
-      call_to_action: "If you want to avoid queues, Top-up your wristband in advance."
+      call_to_action: "If you want to avoid queues,"
+      call_to_action2: "Top-up your wristband in advance"
       call_to_action_started: "The event just started so you cannot topup anymore"
-      call_to_action_no_admission: "To securely buy your Online Top-up you need to activate your Festival Ticket first."
+      call_to_action_no_admission: "To securely buy your Online Top-up you need to activate your Festival Ticket first"
       button: "Top-up"
     without_gtags:
       title: "Credit left?"
@@ -89,8 +95,10 @@ en:
     title: "Refund claim"
     description: "You can edit the bank account for your claim."
     call_to_action: "Introduce your bank account!"
+    swift: "SWIFT (If account is outside Spain)"
     button: "Save"
     placeholders:
+      swift: "0000 0000"
       bank_account: 'ES00 0000 0000 0000 0000 0000'
   payment:
     error:
@@ -113,6 +121,7 @@ en:
       title: 'Sign up'
       description: 'All the fields in this form are required.'
       button: 'Sign up'
+      details: "Please provide your personal details as a festival visitor. This will allow us to give you a secure and personalized service"
     edit:
       title: 'Edit'
       password_hint: "leave it blank if you don't want to change it"
@@ -128,6 +137,11 @@ en:
       refund: 'After the event you could refund here your credit left'
       step4: 'Top up'
       button: 'Log in'
+      claim: 'Online registrations opened!'
+      copy: 'What are the advantages?'
   cancel:
     title: 'Cancel my account'
     unhappy: 'Write us an email, we want to know what happened!'
+  footer:
+    use: "Use conditions"
+    privacy: "Privacy politic"

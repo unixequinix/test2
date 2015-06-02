@@ -33,22 +33,26 @@ tr {
 }
 
 td {
+  overflow: hidden;
   position: relative;
   display: block;
   vertical-align: top;
   width: 100%;
-  height: auto;
+  height: modules(2);
   padding: modules(0.5) modules(0.5) 0;
   text-align: right;
 
   @include min-screen($bp3) {
+    overflow: hidden;
     display: table-cell;
     vertical-align: middle;
-    max-width: modules(9);
+    max-width: modules(6);
     width: auto;
-    padding: 0;
+    padding: 0 modules(0.25);
     box-shadow: inset 0px -1px 0px 0px darken($input_grey,5%);
     text-align: left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   a {
@@ -65,12 +69,12 @@ td {
   }
 
   &:before {
+    content: attr(data-label);
     position: absolute;
     top: modules(0.5);
     left: modules(0.5);
-    display: inline-block;
+    display: block;
     width: 50%;
-    vertical-align: top;
     color: $dark_grey;
     text-align: left;
 
@@ -111,94 +115,108 @@ td {
 
 // _____ TABLE TYPES _____
 
-.entitlements {
-  td:nth-of-type(1):before { content: "Name"; }
-  //td:nth-of-type(5):before { content: "Actions"; }
-}
-.ticket-types {
-  td:nth-of-type(1):before { content: "Name:"; }
-  td:nth-of-type(2):before { content: "Company:"; }
-  td:nth-of-type(3):before { content: "Credit:"; }
-  td:nth-of-type(4):before {
-    content: "Entitlements:";
-    position: relative;
-    left: auto;
-    display: block;
-    width: 100%;
-    margin-bottom: modules(1);
-    text-align: center;
-
-     @include min-screen($bp3) { display: none; }
-  }
-  //td:nth-of-type(5):before { content: "Actions"; }
-}
-
-.tickets {
-  td:nth-of-type(1):before { content: "Number"; }
-  td:nth-of-type(2):before { content: "Ticket Type"; }
-  //td:nth-of-type(5):before { content: "Actions"; }
-}
-
-.online_products {
-  td:nth-of-type(1):before { content: "Name"; }
-  td:nth-of-type(2):before { content: "Description"; }
-  td:nth-of-type(3):before { content: "Amount"; }
-  //td:nth-of-type(5):before { content: "Actions"; }
-}
-
-
-.customer-show-subtable {
-  td:nth-of-type(1):before { content: "Transaction"; }
-  td:nth-of-type(2):before { content: "Amount";}
-}
-
-.credits {
-  td:nth-of-type(1):before { content: "Name"; }
-  td:nth-of-type(2):before { content: "Description"; }
-  td:nth-of-type(3):before { content: "Credit"; }
-  td:nth-of-type(4):before { content: "Price"; }
-  td:nth-of-type(5):before { content: "Min"; }
-  td:nth-of-type(6):before { content: "Max"; }
-  td:nth-of-type(7):before { content: "Initial"; }
-  td:nth-of-type(8):before { content: "Step"; }
-}
-
-.customers {
-  td:nth-of-type(1):before { content: "Email"; }
-  td:nth-of-type(2):before { content: "Name"; }
-  td:nth-of-type(3):before { content: "Surname"; }
-  td:nth-of-type(4):before { content: "Ticket"; }
-  td:nth-of-type(5):before { content: "Credits"; }
-}
-
-.orders {
-  td:nth-of-type(1):before { content: "Number"; }
-  td:nth-of-type(2):before { content: "Customer"; }
-  td:nth-of-type(3):before { content: "Created"; }
-  td:nth-of-type(4):before { content: "Completed"; }
-}
-
-.order-subtable {
-  td:nth-of-type(1):before { content: "Amount"; }
-  td:nth-of-type(2):before { content: "Unit"; }
-  td:nth-of-type(3):before { content: "Total"; }
-  td:nth-of-type(4):before { content: "Name"; }
-  td:nth-of-type(5):before { content: "Description"; }
-  td:nth-of-type(6):before { content: "Type"; }
-}
-
-.payments {
-  td:nth-of-type(1):before { content: "Id"; }
-  td:nth-of-type(2):before { content: "Order"; }
-  td:nth-of-type(3):before { content: "Amount"; }
-  td:nth-of-type(4):before { content: "Transaction"; }
-  td:nth-of-type(5):before { content: "Card"; }
-  td:nth-of-type(6):before { content: "RSP code"; }
-  td:nth-of-type(7):before { content: "Autorizathion code"; }
-  td:nth-of-type(8):before { content: "Currency"; }
-  td:nth-of-type(9):before { content: "Success"; }
-  td:nth-of-type(10):before { content: "Paid at"; }
-}
+//.entitlements {
+//  td:nth-of-type(1):before { content: "Name"; }
+//  //td:nth-of-type(5):before { content: "Actions"; }
+//}
+//.ticket-types {
+//  td:nth-of-type(1):before { content: "Name:"; }
+//  td:nth-of-type(2):before { content: "Company:"; }
+//  td:nth-of-type(3):before { content: "Credit:"; }
+//  td:nth-of-type(4):before {
+//    content: "Entitlements:";
+//    position: relative;
+//    left: auto;
+//    display: block;
+//    width: 100%;
+//    margin-bottom: modules(1);
+//    text-align: center;
+//
+//     @include min-screen($bp3) { display: none; }
+//  }
+//  //td:nth-of-type(5):before { content: "Actions"; }
+//}
+//
+//.tickets {
+//  td:nth-of-type(1):before { content: "Id"; }
+//  td:nth-of-type(2):before { content: "Number"; }
+//  td:nth-of-type(3):before { content: "Ticket Type"; }
+//  td:nth-of-type(4):before { content: "Name"; }
+//  td:nth-of-type(5):before { content: "Surname"; }
+//  td:nth-of-type(6):before { content: "Email"; }
+//  td:nth-of-type(7):before { content: "Customer"; }
+//  td:nth-of-type(8):before { content: "Created"; }
+//  //td:nth-of-type(5):before { content: "Actions"; }
+//}
+//
+//.online_products {
+//  td:nth-of-type(1):before { content: "Name"; }
+//  td:nth-of-type(2):before { content: "Description"; }
+//  td:nth-of-type(3):before { content: "Amount"; }
+//  //td:nth-of-type(5):before { content: "Actions"; }
+//}
+//
+//
+//.customer-show-subtable {
+//  td:nth-of-type(1):before { content: "Transaction"; }
+//  td:nth-of-type(2):before { content: "Amount";}
+//}
+//
+//.credits {
+//  td:nth-of-type(1):before { content: "Name"; }
+//  td:nth-of-type(2):before { content: "Description"; }
+//  td:nth-of-type(3):before { content: "Credit"; }
+//  td:nth-of-type(4):before { content: "Price"; }
+//  td:nth-of-type(5):before { content: "Min"; }
+//  td:nth-of-type(6):before { content: "Max"; }
+//  td:nth-of-type(7):before { content: "Initial"; }
+//  td:nth-of-type(8):before { content: "Step"; }
+//}
+//
+//.customers {
+//  td:nth-of-type(1):before { content: "Email"; }
+//  td:nth-of-type(2):before { content: "Name"; }
+//  td:nth-of-type(3):before { content: "Surname"; }
+//  td:nth-of-type(4):before { content: "Ticket"; }
+//  td:nth-of-type(5):before { content: "Credits"; }
+//}
+//
+//.orders {
+//  td:nth-of-type(1):before { content: "Number"; }
+//  td:nth-of-type(2):before { content: "Customer"; }
+//  td:nth-of-type(3):before { content: "Created"; }
+//  td:nth-of-type(4):before { content: "Completed"; }
+//}
+//
+//.order-subtable {
+//  td:nth-of-type(1):before { content: "Amount"; }
+//  td:nth-of-type(2):before { content: "Unit"; }
+//  td:nth-of-type(3):before { content: "Total"; }
+//  td:nth-of-type(4):before { content: "Name"; }
+//  td:nth-of-type(5):before { content: "Description"; }
+//  td:nth-of-type(6):before { content: "Type"; }
+//}
+//
+//.payments {
+//  td:nth-of-type(1):before { content: "Id"; }
+//  td:nth-of-type(2):before { content: "Order"; }
+//  td:nth-of-type(3):before { content: "Amount"; }
+//  td:nth-of-type(4):before { content: "Transaction"; }
+//  td:nth-of-type(5):before { content: "Card"; }
+//  td:nth-of-type(6):before { content: "RSP code"; }
+//  td:nth-of-type(7):before { content: "Autorizathion code"; }
+//  td:nth-of-type(8):before { content: "Currency"; }
+//  td:nth-of-type(9):before { content: "Success"; }
+//  td:nth-of-type(10):before { content: "Paid at"; }
+//}
+//
+//.gtags {
+//  td:nth-of-type(1):before { content: "Id"; }
+//  td:nth-of-type(2):before { content: "Number"; }
+//  td:nth-of-type(3):before { content: "Tag UID"; }
+//  td:nth-of-type(4):before { content: "Customer"; }
+//  td:nth-of-type(5):before { content: "Total"; }
+//}
 
 .subtable {
   width: 100%;
@@ -221,11 +239,17 @@ td {
 
 .table-actions-field {
   width: 100%;
-  padding: modules(1) 0 0;
+  padding: 0;
 
-  @include min-screen($bp3) { width: 15%; padding: 0; }
+  @include min-screen($bp3) { width: 15%; }
 
-  ul { clear: both; }
+  ul {
+    background-color: $grey;
+    clear: both;
+
+    @include min-screen($bp3) { background-color: transparent; }
+
+  }
 
   li {
     display: inline-block;
@@ -240,7 +264,7 @@ td {
 }
 
 .table-action {
-  @include mscale($base-font-size*1.5);
+  @include mscale($base-font-size*1.25);
   width: modules(2);
   height: 100%;
   text-align: center;
@@ -252,7 +276,7 @@ td {
   text-align: left;
 
   a {
-    color: $grey;
+    color: $white;
 
     &:hover { color: $red; }
 
@@ -271,7 +295,7 @@ td {
   text-align: right;
 
   a {
-    color: $grey;
+    color: $white;
 
     &:hover { color: $amber; }
 
@@ -284,4 +308,42 @@ td {
       }
     }
   }
+}
+
+.pagination {
+  padding-top: modules(1);
+  text-align: center;
+
+  span {
+    display: inline-block !important;
+  }
+
+  a {
+    display: block;
+    color: $light_grey;
+    width: 100%;
+    height: 100%;
+    padding: 0 modules(0.5);
+
+    &:hover { color: $blue; }
+  }
+}
+
+.page {
+  box-shadow: inset -1px 0px 0px 0px $light_grey;
+
+  &:last-child { box-shadow: none; }
+}
+
+.current {
+  padding: 0 modules(0.5);
+  color: $magenta;
+}
+
+.gap { box-shadow:  none; }
+
+.first, .prev, .next, .last {
+  display: inline-block !important;
+  overflow: visible;
+  opacity: 1;
 }

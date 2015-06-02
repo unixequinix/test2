@@ -1,0 +1,54 @@
+/* ------------------------------------------------------- *\
+
+  Base stylesheet for footer
+
+\* ------------------------------------------------------- */
+
+<<<<<<< HEAD
+footer {
+  bottom: 0;
+  right: 0;
+  left: 0;
+  padding: modules(0.5);
+  background-color: $dark_grey;
+
+  a {
+    margin: 0;
+    color: $pinkMagenta;
+
+    &:hover { opacity: 0.4; }
+=======
+// HTML base styles
+//
+
+.container-footer {
+    padding: modules(0.5);
+    text-align: center;
+
+  @include min-screen($bp4) {
+    @include outer-container;
+    text-align: left;
+    padding: 0 modules(3) modules(1);
+  }
+
+  a {
+    color: $black;
+
+    &:hover { color: $pinkMagenta; }
+  }
+}
+
+.separator {
+  display: block;
+  height: auto;
+  padding: 0 0 modules(2);
+  background-image: image-url("separator.png");
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+
+  @include min-screen($bp4) {
+    height: modules(2);
+    padding: modules(1) modules(1) modules(2);
+>>>>>>> development
+  }
+}

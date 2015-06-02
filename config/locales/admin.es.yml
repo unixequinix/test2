@@ -11,6 +11,7 @@ es:
       actions: "Acciones"
       home: "Home"
       log_in: "Iniciar Sesión"
+      empty_admins: "Sin Administradores"
       empty_credits: "Sin Créditos"
       empty_entitlements: "Sin derechos"
       empty_tickets: "Sin tickets"
@@ -36,7 +37,8 @@ es:
     confirm:
       delete: "Estás seguro?"
     aside:
-      entitlements: "Derechos"
+      admins: "Administradores"
+      entitlements: "Privilegios"
       ticket_types: "Tipos de Tickets"
       gtag: "GTags"
       credits: "Créditos"
@@ -44,10 +46,14 @@ es:
       orders: "Órdenes"
       payments: "Pagos"
       sign_out: "Cerrar Sesión"
+      setup: "Setup"
+      crm: "CRM"
     dashboard:
       change_state: "Cambiar de Estado?"
-      api_access: "Acceso al API"
+      api_access: "Acceso API"
       current_token: "Tu token de acceso del API:"
+    admins:
+      email: "Email"
     credits:
       name: "Nombre"
       description: "Descripción"
@@ -60,24 +66,33 @@ es:
     entitlements:
       name: "Nombre"
     ticket_types:
+      id: "Id"
       name: "Nombre"
       company: "Compañía"
       credit: "Crédito"
       entitlements: "Derecho"
+      import: "Importar tipos de ticket (Seleccionar un fichero CSV separado por comas)"
     tickets:
+      id: "Id"
       number: "Número"
       ticket_type: "Tipo de Ticket"
       customer: "Cliente"
       search:
         number: "Número"
         type: "Tipo"
-      import: "Importar productos"
+      import: "Importar tickets (Seleccionar un fichero CSV separado por comas)"
+      created_at: "Creado el"
+    purchasers:
+      name: "Nombre comprador"
+      surname: "Apellido comprador"
+      email: "Email comprador"
     gtags:
+      id: "Id"
       tag: "Tag UID"
       serial: "Tag Número Serial"
       customer: "Cliente"
       total: "Créditos Totales"
-      import: "Importar GTags"
+      import: "Importar GTags (Seleccionar un fichero CSV separado por comas)"
       search:
         tag_uid: "Tag UID"
         tag_serial: "Tag Número Serial"

@@ -2,7 +2,7 @@ class Admins::GtagsController < Admins::BaseController
 
   def index
     @q = Gtag.search(params[:q])
-    @gtags = @q.result(distinct: true).includes(:assigned_gtag_registration, :gtag_credit_log)
+    @gtags = @q.result(distinct: true).page(params[:page]).includes(:assigned_gtag_registration, :gtag_credit_log)
     respond_to do |format|
       format.html
       format.csv { send_data @gtags.to_csv }
@@ -11,7 +11,7 @@ class Admins::GtagsController < Admins::BaseController
 
   def search
     @q = Gtag.search(params[:q])
-    @gtags = @q.result(distinct: true).includes(:assigned_gtag_registration, :gtag_credit_log)
+    @gtags = @q.result(distinct: true).page(params[:page]).includes(:assigned_gtag_registration, :gtag_credit_log)
     render :index
   end
 
@@ -49,14 +49,24 @@ class Admins::GtagsController < Admins::BaseController
 
   def destroy
     @gtag = Gtag.find(params[:id])
-    @gtag.destroy!
-    flash[:notice] = I18n.t('alerts.destroyed')
-    redirect_to admins_gtags_url
+    if @gtag.destroy
+      flash[:notice] = I18n.t('alerts.destroyed')
+      redirect_to admins_gtags_url
+    else
+      flash[:error] = @gtag.errors.full_messages.join(". ")
+      redirect_to admins_gtags_url
+    end
   end
 
   def import
-    Gtag.import(params[:file])
-    redirect_to admins_gtags_url, notice: I18n.t('alerts.imported')
+    import_result = Gtag.import_csv(params[:file])
+    if import_result
+      flash[:notice] = I18n.t('alerts.imported')
+      redirect_to admins_gtags_url
+    else
+      flash[:error] = import_result
+      redirect_to admins_gtags_url
+    end
   end
 
   private
