@@ -17,10 +17,8 @@ body {
   min-height: 100%;
   height: 100%;
   //background-image: image-url("bg.jpg");
-  background-color: $dark_grey;
+  background-color: $input_grey;
 }
-
-h1, h2, h3, h4, p, span { color: $light_grey; }
 
 // _____ HEADER ______
 
@@ -66,18 +64,51 @@ header {
   }
 }
 
+.container-sub-header {
+  position: relative;
+  width: 100%;
+  color: $black;
+  border-radius: 3px;
+  border: 1px solid rgba(150, 150, 150, 0.5);
+  background-color: $white;
+  text-align: center;
+
+  @include min-screen($bp3) {
+    @include outer-container;
+    margin: modules(1) auto 0;
+    text-align: left;
+  }
+
+  p {
+    margin: modules(0.5);
+    font-style: italic;
+  }
+
+  i {
+    display: inline-block;
+    padding-right: modules(0.5);
+  }
+}
+
+.sub-header-separator {
+  border-bottom: 1px dotted $background-color;
+
+  @include min-screen($bp3) { padding: modules(0.5); }
+}
+
 // _____ NAVIGATION ______
 
 nav {
   width: 100%;;
   box-shadow: inset 0px 0px 1px 0px $grayGunmetal;
-  background-color: $nuclear;
+  //background-color: $white;
+  background-color: $glwnt_header;
 
   ul { text-align: right; }
   a, span {
-    color: $default;
+    color: $white;
 
-    &:hover { color: $dark_grey;  }
+    &:hover { color: $default;  }
   }
 }
 
@@ -88,7 +119,6 @@ nav {
 
   &:before, a, span, i, figure { color: $default; }
 }
-
 
 .claim {
   @include mscale($base_font_size*3);
