@@ -14,15 +14,15 @@ table.payments
   tbody
     - payments.each do |payment|
       tr
-        td = link_to payment.id, admins_payment_path(payment)
-        td = link_to payment.order.number, admins_order_path(payment.order)
-        td = payment.amount
-        td = payment.transaction_type
-        td = payment.card_country
-        td = payment.response_code
-        td = payment.authorization_code
-        td = payment.currency
-        td = payment.success
-        td = payment.paid_at
+        td data-label=t("admin.payments.id") = link_to payment.id, admins_payment_path(payment)
+        td data-label=t("admin.payments.order_id") = link_to payment.order.number, admins_order_path(payment.order)
+        td data-label=t("admin.payments.amount") = payment.amount
+        td data-label=t("admin.payments.transaction_type") = payment.transaction_type
+        td data-label=t("admin.payments.card_country") = payment.card_country
+        td data-label=t("admin.payments.response_code") = payment.response_code
+        td data-label=t("admin.payments.authorization_code") = payment.authorization_code
+        td data-label=t("admin.payments.currency") = payment.currency
+        td data-label=t("admin.payments.success") = payment.success
+        td data-label=t("admin.payments.paid") = payment.paid_at
 
 = paginate payments

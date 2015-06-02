@@ -52,6 +52,8 @@ es:
       change_state: "Cambiar de Estado?"
       api_access: "Acceso API"
       current_token: "Tu token de acceso del API:"
+    admins:
+      email: "Email"
     credits:
       name: "Nombre"
       description: "Descripción"
