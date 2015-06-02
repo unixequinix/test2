@@ -11,11 +11,11 @@ table.ticket-types
   tbody
     - ticket_types.each do |ticket_type|
       tr
-        td = ticket_type.id
-        td = link_to ticket_type.name, edit_admins_ticket_type_path(ticket_type)
-        td = ticket_type.company
-        td = ticket_type.credit
-        td.entitlements-cell
+        td data-label=t("admin.ticket_types.id") = ticket_type.id
+        td data-label=t("admin.ticket_types.name") = link_to ticket_type.name, edit_admins_ticket_type_path(ticket_type)
+        td data-label=t("admin.ticket_types.company") = ticket_type.company
+        td data-label=t("admin.ticket_types.credit") = ticket_type.credit
+        td.entitlements-cell data-label=t("admin.ticket_types.entitlements")
           - ticket_type.entitlements.each do |entitlement|
             span.table-entitlemnet = entitlement.name
         td.table-actions-field
