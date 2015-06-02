@@ -11,35 +11,28 @@
   text-align: left;
 
   th {
-    @include mscale($label_size);
-    padding: 0;
+    padding: 0 0 modules(0.5);
 
     &:last-child{ text-align: center; }
   }
 
   tr {
-    font-family: Helvetica;
 
     &:nth-child(even) { background-color: lighten($pinkMagenta, 45%); }
     &:nth-child(odd) { background-color: $white; }
 
     &.table-head {
       background-color: transparent;
-      font-family: Bebas;
     }
   }
 
   td { padding: modules(0.5); }
 }
-
 .table-amount { width: 10%; text-align: center; }
 
 .table-total {
-  @include mscale($base_font_size*1.5);
   background-color: $black;
   color: $white;
-  font-family: Bebas;
-  font-weight: bold;
 }
 
 // ______ STYLES ______
@@ -48,8 +41,8 @@
   margin: 0 0 modules(1) 0;
   padding: modules(1);
   border-radius: 3px;
-  box-shadow: inset 0px 0px 0px 1px $grayGunmetal;
-  background-color: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(150, 150, 150, 0.5);
+  background-color: $white;
 
   @include min-screen($bp3) {
     width: 45%;

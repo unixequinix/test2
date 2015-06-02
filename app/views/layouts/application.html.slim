@@ -18,7 +18,8 @@ html [lang=I18n.locale]
     #notifications
       = render 'notifications'
 
+    = render 'customers/shared/header'
     #mainWrapper.wrapper-main
-      = render 'customers/shared/header'
+      = render 'customers/shared/sub_header'
       == yield
     = render 'customers/shared/footer'

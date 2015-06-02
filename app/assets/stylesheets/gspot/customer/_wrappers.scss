@@ -27,7 +27,6 @@
 
   @include min-screen($bp3) {
     width: 100%;
-    margin: modules(1) 0;
   }
 
   p { margin: 0; }
@@ -37,13 +36,12 @@
 
 .container-login-map {
   position: relative;
-  text-align: center;
 
   @include min-screen($bp3) {
     @include span-columns(8);
   }
 
-  ul { margin-bottom: modules(1); }
+  ul { margin-bottom: modules(2); }
 
   i {
     @include mscale($base_font_size*1.25);
@@ -51,12 +49,6 @@
     padding-right: modules(0.5);
     color: $pinkMagenta;
   }
-}
-
-.claim {
-  @include mscale($base_font_size*3);
-  color: $pinkMagenta;
-  font-weight: bold;
 }
 
 .sub-claim {
@@ -132,6 +124,7 @@
 
 .centered {
   text-align: center;
+  padding: modules(0.5);
 
   h3 { text-align: center; }
 }

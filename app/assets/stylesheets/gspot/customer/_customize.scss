@@ -4,6 +4,10 @@
 
 \* ------------------------------------------------------- */
 
+$background-color:    #2c2c2c;
+$default:             #ff0090;
+
+$highlight-tittle: $base-font-size*4.5;
 
 // _____ BACKGROUND ______
 
@@ -13,52 +17,102 @@ body {
   min-height: 100%;
   height: 100%;
   //background-image: image-url("bg.jpg");
-  background-color: $input_grey;
+  background-color: $dark_grey;
 }
+
+h1, h2, h3, h4, p, span { color: $light_grey; }
 
 // _____ HEADER ______
 
 header {
   position: relative;
   display: block;
-  width: 95%;
-  margin: 0 auto;
-
-  @include min-screen($bp3) { width: 100%; }
-
-  h2 {  color: $pinkMagenta; }
+  height: modules(2);
 }
 
 .wrapper-date {
 
   @include min-screen($bp3) {
-    @include span-columns(6);
+    @include span-columns(8);
   }
+
+  h2, i { color: $default; }
 }
 
+.logo {
+  display: block;
+  text-align: right;
+  max-height: modules(6);
+  min-height: modules(6);
+  margin-bottom: 0;
+
+  @include min-screen($bp3) {
+    @include span-columns(4);
+  }
+
+  a {
+    overflow: hidden;
+    display: inline-block;
+    width: auto;
+    cursor: pointer;
+
+    &:hover { opacity: 0.5; }
+  }
+
+  img {
+    display: inline-block;
+    width: 100%;
+    height: auto;
+  }
+}
 
 // _____ NAVIGATION ______
 
 nav {
   width: 100%;;
-  margin: 0 auto;
-  border-radius: 2px;
   box-shadow: inset 0px 0px 1px 0px $grayGunmetal;
   background-color: $nuclear;
 
-  li {
-    display: inline-block;
-    vertical-align: top;
-    width: auto;
-    padding: modules(0.5);
-    font-weight: bold;
-    cursor: pointer;
-  }
-
+  ul { text-align: right; }
   a, span {
-    color: $pinkMagenta;
+    color: $default;
 
     &:hover { color: $dark_grey;  }
+  }
+}
+
+// _____ LOGIN _______
+
+.form-actions {
+  color: $default;
+
+  &:before, a, span, i, figure { color: $default; }
+}
+
+
+.claim {
+  @include mscale($base_font_size*3);
+  color: $default;
+  font-weight: bold;
+}
+
+// _____ DAHSBOARDS _____
+
+// Big pink text
+.highlight {
+  @include mscale($button-size);
+  display: block;
+  color: $default;
+  text-shadow: 0px 1px 1px $grayTimberwolf;
+  text-align: center;
+  font-weight: lighter;
+
+  @include min-screen($bp4) {
+    @include mscale($highlight-tittle);
+    position: absolute;
+    bottom: modules(1);
+    left: 0;
+    line-height: 0;
   }
 }
 
@@ -70,11 +124,10 @@ nav {
   padding: modules(0.25) modules(0.5);
   box-shadow: inset 0px -1px 0px 0px rgba(150, 150, 150, 0.5);
   background-color: $admin_grey;
-  color: $pinkMagenta;
+  color: $default;
 }
 
 .single-option-header {
-  padding: modules(1);
   margin-bottom: 0;
 
   @include min-screen($bp3) {
@@ -86,13 +139,13 @@ nav {
 
 .btn {
   @include transition(opacity 83ms linear);
-  @include button($pinkMagenta);
+  @include button($default);
   overflow: hidden;
   display: inline-block;
   width: 100%;
   margin: modules(1) 0 0;
   padding: modules(0.25) modules(0.5);
-  background-color: $pinkMagenta;
+  background-color: $default;
   color: $nuclear;
   font-weight: bold;
   text-align: center;
@@ -139,5 +192,4 @@ nav {
     margin-bottom: 0;
   }
 }
-
 //______________________

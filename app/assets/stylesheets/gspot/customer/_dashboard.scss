@@ -3,7 +3,6 @@
   Base stylesheet for DASHBOARD
 
 \* ------------------------------------------------------- */
-$highlight-tittle: $base-font-size*4.5;
 
 // Container for dashboard info for ticket and credit
 .dashboard-field {
@@ -20,23 +19,6 @@ $highlight-tittle: $base-font-size*4.5;
   h3 { text-align: center; }
 }
 
-// Big pink text
-.highlight {
-  @include mscale($button-size);
-  display: block;
-  color: $pinkMagenta;
-  text-shadow: 0px 1px 1px $grayTimberwolf;
-  text-align: center;
-
-  @include min-screen($bp4) {
-    @include mscale($highlight-tittle);
-    position: absolute;
-    bottom: modules(1);
-    left: 0;
-    line-height: 0;
-  }
-}
-
 .dashboard-field-info {
   width: 100%;
 
@@ -45,7 +27,7 @@ $highlight-tittle: $base-font-size*4.5;
     vertical-align: top;
     width: 60%;
     margin-right: 3%;
-    box-shadow: inset -1px 0px 0px 0px $grayGunmetal;
+    box-shadow: inset -1px 0px 0px 0px $light_grey;
   }
 }
 

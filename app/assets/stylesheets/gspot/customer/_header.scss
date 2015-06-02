@@ -9,14 +9,36 @@ $nav-size: $base-font-size*2;
 // HTML base styles
 // -------------------------------------------------------
 
-.container-header {
+.nav-logo {
+  float: left;
+  height: modules(2);
+  width: auto;
+
+  img { width: auto; height: 100%; }
+  &:hover { opacity: 0.5; }
+}
+
+.nav-item {
+  display: inline-block;
+  vertical-align: middle;
+  width: auto;
+  height: modules(2);
+  padding: modules(0.5) modules(0.5);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.container-sub-header {
   position: relative;
-  width: 100%;
+  width: 95%;
   color: $black;
-  padding: modules(1) 0;
+  margin: modules(1) auto 0;
+  padding-bottom: modules(1);
+  border-bottom: 1px dotted $white;
 
   @include min-screen($bp3) {
     @include outer-container;
+    width: 100%;
   }
 
   p { margin: 0; }
@@ -26,50 +48,16 @@ $nav-size: $base-font-size*2;
   }
 }
 
-.logo {
-  display: block;
-  text-align: right;
-  max-height: modules(7);
-  min-height: modules(7);
-
-  @include min-screen($bp3) {
-    @include span-columns(6);
-  }
-
-  a {
-    overflow: hidden;
-    display: inline-block;
-    width: auto;
-    cursor: pointer;
-
-    &:hover { opacity: 0.5; }
-  }
-
-  img {
-    display: inline-block;
-    width: auto;
-    height: modules(7);
-  }
-}
-
 .user-options {
   position: relative;
   float: right;
   text-align: right;
-  max-width: modules(2);
-  overflow: hidden;
   display: inline-block;
-
-  @include min-screen($bp2) {
-    max-width: auto;
-    min-width: modules(7);
-  }
 
   a {
     display: inline-block;
     width: 100%;
-    height: 100%;
-    padding: modules(0.25) modules(0.5);
+    height: modules(2);
     background-color: $nuclear;
     box-shadow: inset 0px -1px 0px 0px $light_grey;
 
@@ -78,27 +66,26 @@ $nav-size: $base-font-size*2;
 
   &:hover {
     .submenu {
+      display: block;
       position: absolute;
-      top: modules(1.85);
-      display: inline-block;
+      top: modules(2);
+      right: 0;
+      margin: 0;
+      min-width: modules(7);
+      width: 9rem;
+      height: auto;
+      text-align: right;
+      pointer-events: auto;
+      z-index: 50;
     }
   }
 }
 
 .submenu {
   display: none;
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 0;
-  min-width: modules(7);
-  width: 100%;
-  text-align: center;
-  z-index: 1;
-  pointer-events: auto;
 
-  li {
-    display: block;
-    padding: 0;
+  li { display: block;
+
+    a { padding: modules(0.5); }
   }
 }
