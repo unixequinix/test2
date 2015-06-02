@@ -38,3 +38,5 @@ es:
             base:
               restrict_dependent_destroy:
                 many: 'No se puede eliminar porque existen clientes asociados'
+            tag_uid:
+              taken: 'Número de serie y UID ya utilizados'

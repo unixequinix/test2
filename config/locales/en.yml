@@ -38,3 +38,5 @@ en:
             base:
               restrict_dependent_destroy:
                 many: "Can't be deleted because there are customers associated"
+            tag_uid:
+              taken: 'Serial Number and UID taken'

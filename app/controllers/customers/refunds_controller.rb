@@ -2,7 +2,7 @@ class Customers::RefundsController < Customers::BaseController
 
   def new
     @refund = Refund.new
-    @refund.build_bank_account unless current_customer.bank_account
+    @refund.build_bank_account
   end
 
   def create

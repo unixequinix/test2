@@ -1,0 +1,24 @@
+table.refunds
+  thead
+    tr
+      th = t("admin.refunds.amount")
+      th = t("admin.refunds.customer_email")
+      th = t("admin.refunds.gtag_serial_number")
+      th = t("admin.refunds.gtag_uid")
+      th = t("admin.refunds.iban")
+      th = t("admin.refunds.swift")
+      th = t("admin.refunds.created_at")
+      th = t("admin.refunds.aasm_state")
+  tbody
+    - refunds.each do |refund|
+      tr
+        td = link_to (refund.gtag.gtag_credit_log.nil? ? 0.0 : refund.gtag.gtag_credit_log.amount), admins_refund_path(refund)
+        td = link_to refund.customer.email, admins_customer_path(refund.customer)
+        td = refund.gtag.tag_serial_number
+        td = refund.gtag.tag_uid
+        td = refund.bank_account.iban
+        td = refund.bank_account.swift
+        td = refund.created_at.strftime("%y-%m-%d %H:%M:%S")
+        td = refund.aasm_state
+
+= paginate refunds

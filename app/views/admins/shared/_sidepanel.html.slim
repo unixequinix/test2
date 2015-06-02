@@ -38,6 +38,9 @@ aside#main-menu
     li = link_to admins_payments_path
       = fa_icon "money"
       = t("admin.aside.payments")
+    li = link_to admins_refunds_path
+      = fa_icon "reply"
+      = t("admin.aside.refunds")
 
     li.mobile-sign-out
       = link_to t("admin.aside.sign_out"), destroy_admin_session_path, method: :delete

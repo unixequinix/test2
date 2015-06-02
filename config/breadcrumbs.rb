@@ -157,3 +157,19 @@ crumb :new_admins_payment do
   link t("breadcrumbs.new_payment")
   parent :admins_payments
 end
+
+## Payments
+
+crumb :admins_refunds do
+  link t("breadcrumbs.refunds"), admins_refunds_path
+end
+
+crumb :admins_refund do |refund|
+  link refund.id, admins_refund_path(refund)
+  parent :admins_refunds
+end
+
+crumb :new_admins_refund do
+  link t("breadcrumbs.new_refund")
+  parent :admins_refunds
+end

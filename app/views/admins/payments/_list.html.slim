@@ -23,6 +23,6 @@ table.payments
         td = payment.authorization_code
         td = payment.currency
         td = payment.success
-        td = payment.paid_at
+        td = payment.paid_at.strftime("%y-%m-%d %H:%M:%S")
 
 = paginate payments
