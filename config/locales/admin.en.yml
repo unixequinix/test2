@@ -153,7 +153,7 @@ en:
       gtag_serial_number: "Serial number"
       gtag_uid: "UID number"
       iban: "IBAN number"
-      swift: "SWIFT/BIC number"
+      swift: "BIC/SWIFT number"
       amount: "Amount"
       created: "Created at"
       aasm_state: "State"

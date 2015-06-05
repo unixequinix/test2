@@ -95,7 +95,7 @@ es:
     title: "Reembolso"
     description: "Puedes editar tu cuenta de banco para pedir tu reembolso."
     call_to_action: "Introduce tu cuenta de banco!"
-    swift: "SWIFT (Sólo para cuentas fueras de España)"
+    swift: "BIC/SWIFT (Sólo para cuentas fueras de España)"
     button: "Guardar "
     placeholders:
       swift: "0000 0000"

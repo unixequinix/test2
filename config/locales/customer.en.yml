@@ -95,7 +95,7 @@ en:
     title: "Refund claim"
     description: "You can edit the bank account for your claim."
     call_to_action: "Introduce your bank account!"
-    swift: "SWIFT (If account is outside Spain)"
+    swift: "BIC/SWIFT (If account is outside Spain)"
     button: "Save"
     placeholders:
       swift: "0000 0000"
