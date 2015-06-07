@@ -40,3 +40,7 @@ es:
                 many: 'No se puede eliminar porque existen clientes asociados'
             tag_uid:
               taken: 'Número de serie y UID ya utilizados'
+        admission:
+          attributes:
+            ticket:
+              taken: 'ya asignado'

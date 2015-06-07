@@ -78,6 +78,7 @@ es:
     vat: "IVA Incluido"
     redirect: "Serás redirigido a la pasarela de pago del banco."
     button: "Pagar"
+    button_iupay: "IUPAY"
   gtag_registrations:
     title: "Activar Pulsera"
     description: "Para proceder, debes activar tu pulsera colocando los números que aparecen en tu pulsera. Tu pulsera debe tener 2 líneas de números."

@@ -40,3 +40,7 @@ en:
                 many: "Can't be deleted because there are customers associated"
             tag_uid:
               taken: 'Serial Number and UID taken'
+        admission:
+          attributes:
+            ticket:
+              taken: 'taken'

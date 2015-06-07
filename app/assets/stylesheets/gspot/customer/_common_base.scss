@@ -109,6 +109,10 @@ a {
 .btn-continue {
   display: block;
   float: right !important;
+
+  @include min-screen($bp3) {
+    margin-left: modules(0.5);
+  }
 }
 
 .btn-full-width {
