@@ -8,6 +8,7 @@ es:
     close: "Cerrar sesión"
     menu: "My BBF"
     home: "Web del Festival"
+    help: "Ayuda"
   conditions:
     action: 'Acepto'
     conjunction: 'y'

@@ -8,6 +8,7 @@ en:
     close: "Logout"
     menu: "My BBF"
     home: "Festival Website"
+    help: "Help"
   conditions:
     action: 'I accept'
     conjunction: 'and'

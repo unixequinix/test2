@@ -20,6 +20,8 @@ header
         = link_to href="http://bcnbeachfestival.com", target: "_blank" do
           = t('header.home')
       li
+        = mail_to t('event.support_email'), t('header.help'), subject: t('event.subject_support')
+      li
         = link_to customer_root_path
           = t('header.menu')
 
