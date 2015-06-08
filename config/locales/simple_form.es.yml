@@ -38,7 +38,7 @@ es:
           price: 'Precio'
           min_purchasable: 'Mínimo Comprable'
           max_purchasable: 'Máximo Comprable'
-          initial_amount: 'Monto Inicial'
+          initial_amount: 'Cantidad Inicial'
           step: 'Escala'
         edit:
           <<: *label_online_product
@@ -70,7 +70,7 @@ es:
           <<: *label_gtag
       gtag_credit_log:
         new: &label_gtag
-          amount: "Monto"
+          amount: "Cantidad"
         edit:
           <<: *label_gtag
 
@@ -116,7 +116,7 @@ es:
           <<: *placeholder_gtag
       gtag_credit_log:
         new: &placeholder_gtag
-          amount: "Monto disponible"
+          amount: "Cantidad disponible"
         edit:
           <<: *label_gtag
 

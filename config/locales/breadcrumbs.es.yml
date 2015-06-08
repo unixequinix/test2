@@ -20,3 +20,5 @@ es:
     new_order: "Nueva Órden"
     payments: "Pagos"
     new_payment: "Nuevo Pago"
+    refunds: "Devoluciones"
+    new_refund: "Nueva devolución"

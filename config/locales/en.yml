@@ -4,6 +4,7 @@ en:
     url: 'http://bcnbeachfestival.com'
     privacy_policy:  "http://bcnbeachfestival.com/politica-de-privacidad/"
     support_email: 'support@glownet.com'
+    subject_support: 'BBF Help'
     locales:
       en: 'ENG'
       es: 'ESP'
@@ -38,3 +39,9 @@ en:
             base:
               restrict_dependent_destroy:
                 many: "Can't be deleted because there are customers associated"
+            tag_uid:
+              taken: 'Serial Number and UID taken'
+        admission:
+          attributes:
+            ticket:
+              taken: 'taken'

@@ -16,6 +16,7 @@ class Customers::OrdersController < Customers::BaseController
   private
 
   def payment_form_info
+    @iupay = params[:iupay] == 'true'
     @amount = (@order.total * 100).floor
     @product_description = I18n.t('event.name')
     @client_name = @order.customer.name

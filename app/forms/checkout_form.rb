@@ -7,8 +7,7 @@ class CheckoutForm
   end
 
   def submit(params)
-    if valid?
-      persist(params)
+    if persist(params)
       true
     else
       false
@@ -30,6 +29,10 @@ class CheckoutForm
         @order.order_items << OrderItem.new(online_product_id: credit.online_product.id, amount: amount, total: amount * credit.online_product.price)
       end
     end
-    @order.save!
+    if @order.save
+      true
+    else
+      false
+    end
   end
 end

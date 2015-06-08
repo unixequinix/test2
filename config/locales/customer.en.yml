@@ -8,10 +8,11 @@ en:
     close: "Logout"
     menu: "My BBF"
     home: "Festival Website"
+    help: "Help"
   conditions:
     action: 'I accept'
     conjunction: 'and'
-    privacy_conditions: 'the privacy conditions'
+    privacy_conditions: 'the privacy policy'
     terms_of_use: 'the terms of use'
   links:
     sign_in: 'Do you have an account?'
@@ -78,6 +79,7 @@ en:
     vat: "VAT Included"
     redirect: "You will be redirected to the bank’s payment gateway."
     button: "Pay"
+    button_iupay: "IUPAY"
   gtag_registrations:
     title: "Assign wristband"
     description: "In order to proceed asign the number as appears in your wristband. The number consists of 2 lines."
@@ -95,7 +97,7 @@ en:
     title: "Refund claim"
     description: "You can edit the bank account for your claim."
     call_to_action: "Introduce your bank account!"
-    swift: "SWIFT (If account is outside Spain)"
+    swift: "BIC/SWIFT (If account is outside Spain)"
     button: "Save"
     placeholders:
       swift: "0000 0000"
@@ -143,5 +145,5 @@ en:
     title: 'Cancel my account'
     unhappy: 'Write us an email, we want to know what happened!'
   footer:
-    use: "Use conditions"
-    privacy: "Privacy politic"
+    use: "Terms of use"
+    privacy: "Privacy policy"

@@ -18,12 +18,14 @@ es:
       empty_gtags: "Sin GTags"
       empty_customers: "Sin Clientes"
       empty_orders: "Sin órdenes"
-      search: "Buscar"
       empty_payments: "Sin pagos"
+      empty_refunds: "Sin devoluciones"
+      search: "Buscar"
     actions:
       back: "Atrás"
       new: "Nuevo"
       csv: "CSV"
+      disable: "Deshabilitar"
     sessions:
       mail: "user@domain.com"
       password: "password"
@@ -45,6 +47,7 @@ es:
       customers: "Clientes"
       orders: "Órdenes"
       payments: "Pagos"
+      refunds: "Devoluciones"
       sign_out: "Cerrar Sesión"
       setup: "Setup"
       crm: "CRM"
@@ -61,7 +64,7 @@ es:
       price: "Precio"
       min_purchasable: "Mínimo comprable"
       max_purchasable: "Máximo comprable"
-      initial_amount: "Monto Inicial"
+      initial_amount: "Cantidad Inicial"
       step: "Escala"
     entitlements:
       name: "Nombre"
@@ -111,7 +114,7 @@ es:
       unconfirmed: "Email sin confirmar"
       transactions: "Transacciones"
       transactions_type: "Tipos de Transacciones"
-      amount: "Monto"
+      amount: "Cantidad"
       search:
         name: "Tipo de nombre"
     orders:
@@ -120,7 +123,7 @@ es:
       state: "Estado"
       created: "Creado en"
       completed: "Completado en"
-      amount: "Monto"
+      amount: "Cantidad"
       product_price: "Precio del Producto"
       total: "Total"
       product_name: "Nomebre del Producto"
@@ -142,3 +145,17 @@ es:
       paid: "Pagado en"
       search:
         id: "Id eq"
+    refunds:
+      id: "Id"
+      customer_id: "Customer Id"
+      customer_name: "Nombre del cliente"
+      customer_email: "Email del cliente"
+      gtag_serial_number: "Número de serie"
+      gtag_uid: "UID"
+      iban: "Número IBAN"
+      swift: "Número BIC/SWIFT"
+      amount: "Cantidad"
+      created: "Creado en"
+      aasm_state: "Estado"
+      search:
+        customer_email: "Email del cliente"

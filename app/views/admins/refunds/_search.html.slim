@@ -1,0 +1,10 @@
+p.section-header
+  = fa_icon "search"
+  = t("admin.defaults.search")
+
+= search_simple_form_for q, url: search_admins_refunds_path, html: { method: :post, class: "searchForm" }  do |f|
+  .container-search
+    .wrapper-search-field
+      .custom-input
+        = f.input :customer_email_cont, placeholder: t("admin.refunds.search.customer_email")
+    = f.submit class: "btn btn-secondary"

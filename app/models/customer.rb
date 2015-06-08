@@ -44,7 +44,7 @@ class Customer < ActiveRecord::Base
   has_many :orders
   has_many :credit_logs
   has_one :bank_account
-  has_one :refund
+  has_one :refund, ->{ where(aasm_state: :created) }
 
   # Validations
   validates :email, format: { with: MAIL_FORMAT }, presence: true, uniqueness: true

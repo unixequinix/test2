@@ -4,13 +4,14 @@ es:
     url: 'http://bcnbeachfestival.com'
     privacy_policy:  "http://bcnbeachfestival.com/politica-de-privacidad/"
     support_email: 'support@glownet.com'
+    subject_support: 'Ayuda BBF'
     locales:
       en: 'ENG'
       es: 'ESP'
   activerecord:
     errors:
       messages:
-        record_invalid: 'Invalid record'
+        record_invalid: 'Registro no válido'
       models:
         customer:
           attributes:
@@ -38,3 +39,9 @@ es:
             base:
               restrict_dependent_destroy:
                 many: 'No se puede eliminar porque existen clientes asociados'
+            tag_uid:
+              taken: 'Número de serie y UID ya utilizados'
+        admission:
+          attributes:
+            ticket:
+              taken: 'ya asignado'

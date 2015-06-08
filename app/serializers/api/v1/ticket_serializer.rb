@@ -1,10 +1,9 @@
 module Api
   module V1
     class TicketSerializer < Api::V1::BaseSerializer
-      attributes :ticket_type, :number, :assigned, :customer_assignation_history, :created_at
+      attributes :ticket_type, :number, :assigned, :customer_assignation_history, :purchaser_email, :purchaser_name, :purchaser_surname, :created_at
       has_one :ticket_type
       has_one :assigned_admission
-      has_one :purchaser
 
       def customer_assignation_history
         object.customers.map do |customer|

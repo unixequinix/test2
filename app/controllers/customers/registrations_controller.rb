@@ -8,7 +8,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   end
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:sign_up) << [:name, :surname]
-    devise_parameter_sanitizer.for(:account_update) << [:name, :surname]
+    devise_parameter_sanitizer.for(:sign_up) << [:name, :surname, :agreed_on_registration]
+    devise_parameter_sanitizer.for(:account_update) << [:name, :surname, :agreed_on_registration]
   end
 end

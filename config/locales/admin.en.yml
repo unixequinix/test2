@@ -18,12 +18,14 @@ en:
       empty_gtags: "No GTags"
       empty_customers: "No Customers"
       empty_orders: "No orders"
-      search: "Search"
       empty_payments: "No payments"
+      empty_refunds: "No refunds"
+      search: "Search"
     actions:
       back: "Back"
       new: "New"
       csv: "CSV"
+      disable: "Disable"
     sessions:
       mail: "user@domain.com"
       password: "password"
@@ -45,6 +47,7 @@ en:
       customers: "Customers"
       orders: "Orders"
       payments: "Payments"
+      refunds: "Refunds"
       sign_out: "Sign out"
       setup: "Setup"
       crm: "CRM"
@@ -142,3 +145,17 @@ en:
       paid: "Paid at"
       search:
         id: "Id eq"
+    refunds:
+      id: "Id"
+      customer_id: "Customer Id"
+      customer_name: "Customer name"
+      customer_email: "Customer email"
+      gtag_serial_number: "Serial number"
+      gtag_uid: "UID number"
+      iban: "IBAN number"
+      swift: "BIC/SWIFT number"
+      amount: "Amount"
+      created: "Created at"
+      aasm_state: "State"
+      search:
+        customer_email: "Customer email"

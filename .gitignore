@@ -18,6 +18,7 @@
 # Ignore secrets. This is symlinked using Capistrano.
 /config/secrets.yml
 /config/database.yml
+/config/newrelic.yml
 
 doc/
 *.swp

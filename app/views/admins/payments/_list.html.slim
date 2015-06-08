@@ -23,6 +23,6 @@ table.payments
         td data-label=t("admin.payments.authorization_code") = payment.authorization_code
         td data-label=t("admin.payments.currency") = payment.currency
         td data-label=t("admin.payments.success") = payment.success
-        td data-label=t("admin.payments.paid") = payment.paid_at
+        td data-label=t("admin.payments.paid") = payment.paid_at.strftime("%y-%m-%d %H:%M:%S")
 
 = paginate payments

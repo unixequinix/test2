@@ -4,13 +4,11 @@ class Customers::CheckoutsController < Customers::BaseController
   def new
     @checkout_form = CheckoutForm.new(current_customer)
     @credits = Credit.all.includes(:online_product)
-    @initial_quantity = 5
-    @min = 1
-    @max = 10
   end
 
   def create
     @checkout_form = CheckoutForm.new(current_customer)
+    @credits = Credit.all.includes(:online_product)
     if @checkout_form.submit(params[:checkout_form])
       flash[:notice] = I18n.t('alerts.created')
       redirect_to customers_order_url(@checkout_form.order)

@@ -1,14 +1,14 @@
 namespace :deploy do
   desc "Fill database with sample data"
   task secrets: :environment do
-    %w[secrets database].each do |file|
+    %w[secrets database newrelic].each do |file|
       file_path = Rails.root.join("config", "#{file}.yml")
       system "scp -i #{ENV['GSPOT_STAGING_CERT']} #{file_path} ubuntu@#{Rails.application.secrets.host}:/home/ubuntu/glownet_gspot/shared/config"
     end
   end
 
   task secrets_production: :environment do
-    %w[secrets database].each do |file|
+    %w[secrets database newrelic].each do |file|
       file_path = Rails.root.join("config", "#{file}.yml")
       system "scp -i #{ENV['GSPOT_PRODUCTION_CERT']} #{file_path} ubuntu@#{Rails.application.secrets.host}:/home/ubuntu/glownet_gspot/shared/config"
     end

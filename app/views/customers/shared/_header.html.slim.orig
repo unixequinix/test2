@@ -7,10 +7,15 @@ header
       li.nav-item
         = link_to customer_root_path, class: "nav-link" do
           = t('header.menu')
+<<<<<<< HEAD
       li.nav-item
         = link_to href="#{t('event.url')}", target: "_blank", class:"nav-link" do
+=======
+      li
+        = link_to href="#{t('event.url')}", target: "_blank", class: "nav-link" do
+>>>>>>> development
           = t('header.home')
-      li.nav-item
+      li
         = mail_to t('event.support_email'), t('header.help'), subject: t('event.subject_support'), class: "nav-link"
 
       - if customer_signed_in?

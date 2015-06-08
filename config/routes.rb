@@ -94,6 +94,11 @@ Rails.application.routes.draw do
         post :search
       end
     end
+    resources :refunds, except: [:new, :create, :edit] do
+      collection do
+        post :search
+      end
+    end
   end
 
   get 'privacy_policy', to: 'static_pages#privacy_policy'
