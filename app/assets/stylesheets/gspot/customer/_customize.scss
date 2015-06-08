@@ -41,6 +41,7 @@ header {
 
   @include min-screen($bp3) {
     @include span-columns(6);
+    padding: 0;
   }
 
   h2 {
@@ -54,11 +55,12 @@ header {
 .logo {
   overflow: hidden;
   display: block;
-  text-align: right;
+  text-align: center;
   margin-bottom: 0;
 
   @include min-screen($bp3) {
     @include span-columns(6);
+    text-align: right;
   }
 
   a {
@@ -82,12 +84,12 @@ header {
   width: 100%;
   color: $black;
   border-radius: 3px;
-  //border: 1px solid rgba(150, 150, 150, 0.5);
-  //background-color: $white;
+  background-color: $air_gray;
   text-align: center;
 
   @include min-screen($bp3) {
     @include outer-container;
+    background-color: transparent;
     margin: modules(1) auto 0;
     text-align: left;
   }
