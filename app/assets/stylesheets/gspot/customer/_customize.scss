@@ -31,21 +31,20 @@ header {
 .wrapper-date {
 
   @include min-screen($bp3) {
-    @include span-columns(8);
+    @include span-columns(6);
   }
 
   h2, i { color: $default; }
 }
 
 .logo {
+  overflow: hidden;
   display: block;
   text-align: right;
-  max-height: modules(6);
-  min-height: modules(6);
   margin-bottom: 0;
 
   @include min-screen($bp3) {
-    @include span-columns(4);
+    @include span-columns(6);
   }
 
   a {
@@ -59,8 +58,8 @@ header {
 
   img {
     display: inline-block;
-    width: 100%;
-    height: auto;
+    width: auto;
+    max-height: modules(5);
   }
 }
 
@@ -69,8 +68,8 @@ header {
   width: 100%;
   color: $black;
   border-radius: 3px;
-  border: 1px solid rgba(150, 150, 150, 0.5);
-  background-color: $white;
+  //border: 1px solid rgba(150, 150, 150, 0.5);
+  //background-color: $white;
   text-align: center;
 
   @include min-screen($bp3) {
@@ -90,11 +89,7 @@ header {
   }
 }
 
-.sub-header-separator {
-  border-bottom: 1px dotted $background-color;
-
-  @include min-screen($bp3) { padding: modules(0.5); }
-}
+.sub-header-separator { border-bottom: 1px dotted $background-color; }
 
 // _____ NAVIGATION ______
 
