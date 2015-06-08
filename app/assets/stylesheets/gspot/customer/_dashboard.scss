@@ -40,9 +40,10 @@
     vertical-align: top;
     width: 37%;
     text-align: center;
-
-    h3 { text-align: center; }
   }
 
-  h3 { text-align: center; }
+  h3 {
+    text-align: center;
+    margin-bottom: 0;
+  }
 }

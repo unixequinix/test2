@@ -1,5 +1,7 @@
 //h2 = t('payment.success.title')
 
-p = t('payment.success.description')
+p.payment-success
+  = fa_icon "check-circle"
+  = t('payment.success.description')
 
 = render 'customers/dashboards/event_launched/credits', call_to_action: 'Want to top up more TODO?'

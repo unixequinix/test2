@@ -10,23 +10,30 @@
 
 .msg-for-alert, .msg-for-error {
   position: fixed;
-  top: modules(1);
-  left: modules(1);
-  right: modules(1);
+  top: modules(2);
+  left: modules(0);
+  right: modules(0);
   padding: modules(1);
-  border-radius: 4px;
   background-color: $red;
-  box-shadow: inset 0px 0px 0px 2px $white;
+  box-shadow: inset 0px 0px 0px 2px $red;
   color: $white;
   text-align: center;
   z-index: 3;
 
-  @include min-screen($bp3) { left: modules(2); right: modules(2); }
-  @include min-screen($bp4) { left: modules(3); right: modules(3); }
+  p { margin: 0; }
 
-  p {
-    @include mscale($base-font-size*1.25);
-    margin: 0;
+  &:before {
+    @include mscale($base_font_size*2);
+    content: "✖";
+    display: block;
+    width: modules(2);
+    height: modules(2);
+    margin: 0 auto modules(0.5) auto;
+    border-radius:25px;
+    background-color: transparent;
+    box-shadow: inset 0px 0px 0px 3px $white;
+    color: $white;
+    text-align: center;
   }
 }
 
@@ -63,11 +70,15 @@
 .error_notification {
   padding: modules(1);
   border-radius: 3px;
-  background-color: $red;
+  background-color: $white;
   text-align: center;
-  color: $white;
+  color: $red;
 
-  p, h3 { margin: 0; color: $white; }
+  p, h3 {
+    @include mscale($base-font-size);
+    margin: 0;
+    color: $red;
+  }
 }
 
 .error {

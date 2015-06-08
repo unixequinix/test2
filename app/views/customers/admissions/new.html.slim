@@ -1,7 +1,7 @@
 //h2 = t('admissions.title')
-p = t('admissions.description')
 .wrapper-fit.centered
   h3 = t('admissions.call_to_action')
+  p = t('admissions.description')
   = form_tag customers_admissions_path do |f|
     .assign-input
       = text_field_tag :ticket_number, nil, placeholder: t('admissions.placeholders.ticket_number')

@@ -1,7 +1,6 @@
 //h2 = t('orders.title')
-
-p = t('orders.description')
 .wrapper-field.form-inputs
+  p = t('orders.description')
   table.table-order
     tr.table-head
       th = t('orders.products')
@@ -24,6 +23,6 @@ p = t('orders.description')
       = fa_icon "cc-amex", class: "icon-ccs"
   p.bank-page-alert.small = t('orders.redirect')
   = button_to t('orders.button'), customers_order_path(@order, iupay: false), method: :patch, remote: true, class: "btn btn-continue"
-  = button_to t('orders.button_iupay'), customers_order_path(@order, iupay: true), method: :patch, remote: true, class: "btn btn-continue"
+  = button_to t('orders.button_iupay'), customers_order_path(@order, iupay: true), method: :patch, remote: true, class: "btn btn-continue btn-table"
 
 #paymentForm

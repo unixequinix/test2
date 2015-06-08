@@ -13,6 +13,8 @@
     @include outer-container;
     padding-bottom: modules(2);
   }
+
+  p { color: $grayBattleship; }
 }
 
 // Basic style for each container
@@ -33,23 +35,6 @@
 }
 
 .wrapper-empty { padding: modules(1); }
-
-.container-login-map {
-  position: relative;
-
-  @include min-screen($bp3) {
-    @include span-columns(8);
-  }
-
-  ul { margin-bottom: modules(2); }
-
-  i {
-    @include mscale($base_font_size*1.25);
-    display: inline-block;
-    padding-right: modules(0.5);
-    color: $pinkMagenta;
-  }
-}
 
 .sub-claim {
   margin-bottom: 0;

@@ -6,31 +6,10 @@
 
 // ______ TABLE ______
 
-.table-order {
-  width: 100%;
-  text-align: left;
-
-  th {
-    padding: 0 0 modules(0.5);
-
-    &:last-child{ text-align: center; }
-  }
-
-  tr {
-
-    &:nth-child(even) { background-color: lighten($pinkMagenta, 45%); }
-    &:nth-child(odd) { background-color: $white; }
-
-    &.table-head {
-      background-color: transparent;
-    }
-  }
-
-  td { padding: modules(0.5); }
-}
 .table-amount { width: 10%; text-align: center; }
 
 .table-total {
+  padding: modules(0.5);
   background-color: $black;
   color: $white;
 }
@@ -46,7 +25,7 @@
 
   @include min-screen($bp3) {
     width: 45%;
-    margin: 0 auto;
+    margin: modules(2) auto 0;
     padding: modules(1) modules(2);
   }
 }
@@ -110,20 +89,6 @@
   @include mscale($label_size);
   font-weight: bold;
   text-align: right;
-}
-
-.amount-button {
-  @include mscale($label_size);
-  @include user-select(none);
-  width: auto;
-  padding: 0 modules(0.5);
-  cursor: pointer;
-  color: $pinkMagenta;
-
-  &:first-child { text-align: left; padding-left: 0; }
-  &:last-child { text-align: right; padding-right: 0; }
-
-  &:hover { opacity: 0.5; }
 }
 
 .wrapper-payment-error { padding: modules(1) 0; }

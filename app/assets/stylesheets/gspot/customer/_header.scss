@@ -19,13 +19,17 @@ $nav-size: $base-font-size*2;
 }
 
 .nav-item {
-  display: inline-block;
+  display: none;
   vertical-align: middle;
   width: auto;
   height: modules(2);
   padding: modules(0.5) modules(0.5);
   font-weight: bold;
   cursor: pointer;
+
+  @include min-screen($bp2) {
+    display: inline-block;
+  }
 }
 
 .user-options {
