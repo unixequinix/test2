@@ -1,7 +1,7 @@
 -
   name: Credits
   description: This is the standard token unit
-  price: 3
+  price: 1
   standard: true
   min_purchasable: 5
   max_purchasable: 50

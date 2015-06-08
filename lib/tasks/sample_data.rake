@@ -11,7 +11,6 @@ namespace :db do
     make_ticket_types
     make_tickets
     make_gtags
-    make_credits
   end
 
   def make_customers
@@ -72,20 +71,6 @@ namespace :db do
     YAML.load_file(Rails.root.join("db", "seeds", "gtags.yml")).each do |data|
       gtag = Gtag.new(tag_serial_number: data['tag_serial_number'], tag_uid: data['tag_uid'])
       gtag.save!
-    end
-  end
-
-  def make_credits
-
-    puts "Create credits"
-    puts "----------------------------------------"
-
-    OnlineProduct.destroy_all
-    Credit.destroy_all
-    YAML.load_file(Rails.root.join("db", "seeds", "credits.yml")).each do |data|
-      credit = Credit.new(standard: data['standard'])
-      credit.online_product = OnlineProduct.new(name: data['name'], description: data['description'], price: data['price'], min_purchasable: data['min_purchasable'], max_purchasable: data['max_purchasable'], initial_amount: data['initial_amount'], step: data['step'])
-      credit.save!
     end
   end
 
