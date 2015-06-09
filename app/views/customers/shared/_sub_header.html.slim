@@ -1,6 +1,8 @@
 .container-sub-header
   .wrapper-date
-    h2 Barcelona Beach Festival 2015
+    h2
+      = link_to customer_root_path do
+        | Barcelona Beach Festival 2015 TODO
     p
       = fa_icon "calendar"
       | 21 June - 23 June TODO
@@ -9,7 +11,7 @@
       | Romanones 8, MAD Spain TODO
 
   h1.logo
-    = link_to href="#{t('event.url')}", target: "_blank" do
+    = link_to customer_root_path do
       = image_tag "sonar2.png"
 //////= image_tag "Sonar-2015-ENG-2.gif"
 

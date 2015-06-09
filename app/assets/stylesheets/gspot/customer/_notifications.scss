@@ -66,18 +66,21 @@
 
 .msg-for-info { }
 
-
 .error_notification {
+  margin: modules(0.5);
   padding: modules(1);
   border-radius: 3px;
-  background-color: $white;
+  background-color: $red;
   text-align: center;
-  color: $red;
+
+  @include min-screen($bp2) {
+    margin: modules(1) 0 0;
+  }
 
   p, h3 {
     @include mscale($base-font-size);
     margin: 0;
-    color: $red;
+    color: $white;
   }
 }
 

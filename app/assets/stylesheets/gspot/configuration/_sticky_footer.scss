@@ -7,7 +7,7 @@
 // Footer must be a fixed height.
 
 @mixin sticky-footer($footer_height,
-  $wrapper_selector: unquote(".wrapper-main"),
+  $wrapper_selector: unquote(".container-main"),
   $container_selector: unquote(".wrapper-main"),
   $footer_selector: unquote("footer")) {
 
@@ -18,12 +18,12 @@
   #{$wrapper_selector} {
     clear: both;
     min-height: 100%;
+    height: auto !important;
     height: 100%;
     margin-bottom: -$footer_height;
 
     #{$container_selector} {
       padding-bottom: $footer_height;
-      height: 100%;
     }
   }
 

@@ -17,7 +17,7 @@
 // ______ STYLES ______
 
 .wrapper-fit {
-  margin: 0 0 modules(1) 0;
+  margin: modules(0.5) modules(0.5) modules(1);
   padding: modules(1);
   border-radius: 3px;
   border: 1px solid rgba(150, 150, 150, 0.5);
@@ -33,6 +33,7 @@
 .wristband-image {
   width: auto;
   height: modules(3);
+  margin-bottom: modules(0.5);
 }
 
 .wrapper-product-info {
