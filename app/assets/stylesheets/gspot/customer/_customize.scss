@@ -4,6 +4,8 @@
 
 \* ------------------------------------------------------- */
 
+$color_text:          #848482;
+
 $quarter_text:           $base_font_size*1.25;
 $half_text:              $base_font_size*1.5;
 $double_text:            $base-font-size*2;
@@ -18,6 +20,8 @@ body {
   height: 100%;
   //background-image: $background_image;
   background-attachment: fixed;
+
+  p { color: $color_text; }
 }
 
 // _____ HEADER ______
@@ -268,8 +272,12 @@ nav {
   text-align: center;
 
   @include min-screen($bp3) {
-    margin-top: modules(1) 0 0;
+    margin: modules(1) 0 0;
   }
 
-  i { display: block; }
+  i {
+    @include mscale($half_text);
+    margin-bottom: modules(0.25);
+    display: block;
+  }
 }
