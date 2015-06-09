@@ -4,26 +4,14 @@
 
 \* ------------------------------------------------------- */
 
-$background-color:    #2c2c2c;
-$default:             #ff0090;
-$sonar:               #e51513;
-$air_gray:          #f2f2f2;
-
-$color_text:          #848482;
-
-$half_text:           $base_font_size*1.5;
-$double_text:         $base-font-size*2;
-$triple_text:         $base-font-size*3;
-$highlight-tittle:    $base-font-size*4.5;
 // _____ BACKGROUND ______
-
 
 body {
   width: 100%;
   min-height: 100%;
   height: 100%;
-  //background-image: image-url("bg.jpg");
-  background-color: $white;
+  //background-image: $background_image;
+  background-attachment: fixed;
 }
 
 // _____ HEADER ______
@@ -32,7 +20,27 @@ header {
   position: relative;
   display: block;
   height: modules(2);
-  background-color: $glwnt_header;
+}
+
+/*Container for the title, date and location event*/
+
+.container-sub-header {
+  position: relative;
+  width: 100%;
+  border-radius: 3px;
+  text-align: center;
+
+  @include min-screen($bp3) {
+    @include outer-container;
+    background-color: transparent;
+    margin: modules(1) auto 0;
+    text-align: left;
+  }
+
+  i {
+    display: inline-block;
+    padding-right: modules(0.5);
+  }
 }
 
 .wrapper-date {
@@ -40,14 +48,11 @@ header {
   text-align: left;
 
   @include min-screen($bp3) {
-    @include span-columns(6);
+    @include span-columns(5);
     padding: 0;
   }
 
-  h2 {
-    color: $sonar;
-    margin-bottom: modules(0.5);
-  }
+  h2 { margin-bottom: modules(0.5); }
 
   p { margin-bottom: modules(0.25); }
 }
@@ -59,7 +64,7 @@ header {
   margin-bottom: 0;
 
   @include min-screen($bp3) {
-    @include span-columns(6);
+    @include span-columns(7);
     text-align: right;
   }
 
@@ -79,33 +84,6 @@ header {
   }
 }
 
-.container-sub-header {
-  position: relative;
-  width: 100%;
-  color: $black;
-  border-radius: 3px;
-  background-color: $air_gray;
-  text-align: center;
-
-  @include min-screen($bp3) {
-    @include outer-container;
-    background-color: transparent;
-    margin: modules(1) auto 0;
-    text-align: left;
-  }
-
-  i {
-    display: inline-block;
-    padding-right: modules(0.5);
-  }
-}
-
-.sub-header-separator {
-  border-bottom: 2px solid $sonar;
-
-
-}
-
 .container-login-map {
   position: relative;
 
@@ -116,66 +94,40 @@ header {
   ul { margin-bottom: modules(2); }
 
   i {
-    @include mscale($base_font_size*1.25);
     display: inline-block;
     padding-right: modules(0.5);
-    color: $sonar;
   }
 }
 
 // _____ NAVIGATION ______
 
 nav {
-  width: 100%;;
-  box-shadow: inset 0px 0px 1px 0px $grayGunmetal;
+  width: 100%;
   //background-color: $white;
 
-  ul {
-    text-align: right;
-  }
-  a, span {
-    color: $white;
 
-    &:hover { color: $default;  }
-  }
+  ul { text-align: right; }
 }
 
 // _____ LOGIN _______
 
-.form-actions {
-  color: $default;
 
-  &:before, a, span, i, figure { color: $sonar; }
-}
-
-.claim {
-  @include mscale($base_font_size*3);
-  color: $sonar;
-  font-weight: bold;
-}
+.claim { font-weight: bold; }
 
 // _____ DAHSBOARDS _____
 
 // Big pink text
 .highlight {
-  @include mscale($button-size);
   display: block;
-  color: $sonar;
   text-align: center;
   font-weight: bold;
 
   @include min-screen($bp4) {
-    @include mscale($highlight-tittle);
     position: absolute;
     bottom: modules(1);
     left: 0;
     line-height: 0;
   }
-}
-
-
-.hint {
-  color: $sonar;
 }
 // _____ COLORS ______
 
@@ -183,9 +135,6 @@ nav {
   width: 100%;
   margin-bottom: 0;
   padding: modules(0.25) modules(0.5);
-  box-shadow: inset 0px 0px 0px 1px $sonar;
-  background-color: $sonar;
-  color: $white;
 }
 
 .single-option-header {
@@ -209,8 +158,6 @@ nav {
   padding: modules(0.25) modules(0.5);
   border: 1px solid transparent;
   border-radius: 3px;
-  background-color: $sonar;
-  color: $nuclear;
   font-weight: bold;
   text-align: center;
   cursor: pointer;
@@ -268,9 +215,7 @@ nav {
   width: auto;
   padding: 0 modules(0.5);
   cursor: pointer;
-  color: $sonar;
 
-  &:before { @include mscale($half_text); }
   &:first-child { text-align: left; padding-left: 0; }
   &:last-child { text-align: right; padding-right: 0; }
 
@@ -290,9 +235,6 @@ nav {
 
   tr {
 
-    &:nth-child(even) { background-color: $air_gray }
-    &:nth-child(odd) { background-color: $white; }
-
     &.table-head {
       background-color: transparent;
     }
@@ -304,10 +246,10 @@ nav {
 .payment-success {
   margin-top: modules(1);
   padding: modules(0.5);
-  background-color: $white;
+  background-color: $snow;
   border: 1px solid rgba(150, 150, 150, 0.5);
   border-radius: 3px;
-  color: $green;
+  color: $succes;
   text-align: center;
 
   i { display: block; }

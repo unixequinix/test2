@@ -1,0 +1,79 @@
+/* ------------------------------------------------------- *\
+
+ Customize inline variables
+
+\* ------------------------------------------------------- */
+
+//COLORS:
+
+/*Header*/
+$glwnt_header:        #212738;
+/*Pink*/
+$default:             #ff0090;
+/*Sonar red*/
+$sonar:               #e51513;
+/*Grays*/
+$snow:                #fff;
+$air_gray:            #f2f2f2;
+$color_text:          #848482;
+$background-color:    #2c2c2c;
+$dark:                #2E2E2E;
+/*Succes*/
+$succes:              #00CD00;
+
+//SIZES:
+
+$quarter_text:           $base_font_size*1.25;
+$half_text:              $base_font_size*1.5;
+$double_text:            $base-font-size*2;
+$triple_text:            $base-font-size*3;
+$highlight-tittle:       $base-font-size*4.5;
+
+//IMAGES:
+
+$background-image: image-url("background.jpg");
+
+
+body    { background-color: $snow; }
+header  { background-color: $glwnt_header; }
+
+nav {
+  box-shadow: inset 0px 0px 1px 0px $color_text;
+
+  ul { color: $snow; }
+
+   a {
+    color: $snow;
+
+    &:hover { color: $default;  }
+  }
+}
+
+.container-sub-header     { background-color: $air_gray; }
+.container-sub-header     { color: $dark; }
+.wrapper-date h2          { color: $sonar; }
+.sub-header-separator     { border-bottom: 2px solid $sonar; }
+.container-login-map i    { font-size: $quarter_text; }
+.container-login-map i    { color: $sonar; }
+.form-actions             { color: $default; }
+.form-actions a, span, i, figure, :before { color: $sonar; }
+.claim                    { font-size: 3rem; }
+.claim                    { color: $sonar; }
+.highlight                { font-size: $button-size; color: $sonar;
+
+                            @include min-screen($bp4) { font-size: 4.25rem; }
+                          }
+
+.hint                     { color: $sonar; }
+.customer-section-header  { box-shadow: inset 0px 0px 0px 1px $sonar; background-color: $sonar; color: $snow; }
+.btn                      { background-color: $sonar; }
+.btn                      { color: $snow; }
+
+.amount-button            { color: $sonar; }
+.amount-button:before     { font-size: $half_text;}
+
+.table-order tr:nth-child(even) { background-color: $air_gray; }
+.table-order tr:nth-child(odd)  { background-color: $snow; }
+
+
+
