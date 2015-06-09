@@ -56,9 +56,9 @@ html [lang=I18n.locale]
   body class="#{controller_name} #{action_name}"
     #notifications
       = render 'notifications'
-
-    = render 'customers/shared/header'
-    #mainWrapper.wrapper-main
-      = render 'customers/shared/sub_header'
-      == yield
-  = render 'customers/shared/footer'
+    .container-main
+      = render 'customers/shared/header'
+      #mainWrapper.wrapper-main
+        = render 'customers/shared/sub_header'
+        == yield
+    = render 'customers/shared/footer'

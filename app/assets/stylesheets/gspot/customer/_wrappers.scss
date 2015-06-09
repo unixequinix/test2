@@ -3,16 +3,17 @@
 // Base application styles
 //
 // -------------------------------------------------------
+.container-main {
+  min-height: 100%;
+}
+
 .wrapper-main {
   position: relative;
-  min-height: 100%;
-  height: auto;
 
   @include min-screen($bp2) { padding: modules(0.5); }
 
   @include min-screen($bp4) {
     @include outer-container;
-    padding: 0 0 modules(2);
   }
 }
 
