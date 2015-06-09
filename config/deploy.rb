@@ -3,7 +3,6 @@ lock '3.4.0'
 
 set :application, 'gspot'
 set :repo_url, 'git@dev.glownet.com:acidtango/gspot.git'
-set :branch, 'development'
 set :deploy_to, '~/glownet_gspot'
 set :bundle_without, [:darwin, :development, :test]
 

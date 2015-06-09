@@ -1,3 +1,4 @@
+set :branch, 'bbf'
 set :rails_env, 'production'
 
 # Rbenv
