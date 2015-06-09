@@ -1,3 +1,4 @@
+set :branch, 'mm-sonar'
 set :rails_env, 'production'
 
 # Rbenv
