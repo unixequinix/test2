@@ -4,6 +4,12 @@
 
 \* ------------------------------------------------------- */
 
+$quarter_text:           $base_font_size*1.25;
+$half_text:              $base_font_size*1.5;
+$double_text:            $base-font-size*2;
+$triple_text:            $base-font-size*3;
+$highlight-tittle:       $base-font-size*4.5;
+
 // _____ BACKGROUND ______
 
 body {
@@ -28,6 +34,7 @@ header {
   position: relative;
   width: 100%;
   border-radius: 3px;
+  background-color: $admin_grey;
   text-align: center;
 
   @include min-screen($bp3) {
@@ -87,11 +94,17 @@ header {
 .container-login-map {
   position: relative;
 
-  @include min-screen($bp3) {
+  @include min-screen($bp4) {
     @include span-columns(8);
   }
 
-  ul { margin-bottom: modules(2); }
+  ul {
+    margin: 0;
+
+    @include min-screen($bp3) {
+      margin-bottom: modules(2);
+    }
+  }
 
   i {
     display: inline-block;
@@ -118,11 +131,13 @@ nav {
 
 // Big pink text
 .highlight {
+  @include mscale($double_text);
   display: block;
   text-align: center;
   font-weight: bold;
 
   @include min-screen($bp4) {
+    @include mscale($highlight-tittle);
     position: absolute;
     bottom: modules(1);
     left: 0;
@@ -205,7 +220,9 @@ nav {
 }
 
 .btn-table {
-  margin-right: modules(1);
+  @include min-screen($bp3) {
+    margin-right: modules(1);
+  }
 }
 
 // _______ ORDER ________
@@ -244,13 +261,15 @@ nav {
 }
 
 .payment-success {
-  margin-top: modules(1);
+  margin: modules(0.5);
   padding: modules(0.5);
-  background-color: $white;
   border: 1px solid rgba(150, 150, 150, 0.5);
   border-radius: 3px;
-  color: $green;
   text-align: center;
+
+  @include min-screen($bp3) {
+    margin-top: modules(1) 0 0;
+  }
 
   i { display: block; }
 }

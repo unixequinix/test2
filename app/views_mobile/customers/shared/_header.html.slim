@@ -1,34 +1,25 @@
 header
-  .container-header
-    = link_to href="http://bcnbeachfestival.com", target: "_blank", class: "bbf-logo" do
-        = image_tag "bbf.png"
-
-    h1.logo
-      = image_tag "logo.png"
-
-    ul.language-selection
-      li
-        = link_to t('event.locales.en'), change_locale_path("en"), title: t('event.locales.en'), class: ("language-selected" if session[:locale] == 'en')
-      li
-        = link_to t('event.locales.es'), change_locale_path("es"), title: t('event.locales.es'), class: ("language-selected" if session[:locale] == 'es')
-  nav.navigation-mobile
-    p#submenu-trigger
-      = t('event.name')
-      = fa_icon "bars"
-    ul#submenu-list
-      li
-        = link_to href="http://bcnbeachfestival.com", target: "_blank" do
-          = t('header.home')
-      li
-        = mail_to t('event.support_email'), t('header.help'), subject: t('event.subject_support')
-      li
-        = link_to customer_root_path
-          = t('header.menu')
-
-      - if customer_signed_in?
+  nav
+    ul
+      li.nav-logo
+        = link_to customer_root_path, target: "blank"
+          = image_tag 'admin-logo.png'
+      li.mobile-trigger
+        = fa_icon "bars"
+        ul.mobile-list
           li
-            = link_to edit_customer_registration_path(current_customer)  do
-              span = t('header.edit')
+            = link_to customer_root_path, class: "nav-link" do
+              = t('header.menu')
           li
-            = link_to destroy_customer_session_path, method: :delete do
-              span = t('header.close')
+            = link_to href="#{t('event.url')}", target: "_blank", class:"nav-link" do
+              = t('header.home')
+          li
+            = mail_to t('event.support_email'), t('header.help'), subject: t('event.subject_support'), class: "nav-link"
+
+          - if customer_signed_in?
+            li
+              = link_to edit_customer_registration_path(current_customer), class: "link-submenu" do
+                span = t('header.edit')
+            li
+              = link_to destroy_customer_session_path, method: :delete, class: "link-submenu" do
+                span = t('header.close')

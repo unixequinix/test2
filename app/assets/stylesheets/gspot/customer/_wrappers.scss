@@ -3,18 +3,17 @@
 // Base application styles
 //
 // -------------------------------------------------------
-
 .wrapper-main {
   position: relative;
   min-height: 100%;
   height: auto;
 
-  @include min-screen($bp3) {
-    @include outer-container;
-    padding-bottom: modules(2);
-  }
+  @include min-screen($bp2) { padding: modules(0.5); }
 
-  p { color: $grayBattleship; }
+  @include min-screen($bp4) {
+    @include outer-container;
+    padding: 0 0 modules(2);
+  }
 }
 
 // Basic style for each container
@@ -45,7 +44,7 @@
 .container-login-form {
   position: relative;
 
-  @include min-screen($bp3) {
+  @include min-screen($bp4) {
     @include span-columns(4);
   }
 }

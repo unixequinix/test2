@@ -35,6 +35,7 @@ $background-image: image-url("background.jpg");
 
 
 body                      { background-color: $snow; }
+body                      { color: $color_text; }
 header                    { background-color: $glwnt_header; }
 
 nav                       { box-shadow: inset 0px 0px 1px 0px $color_text; }
@@ -43,7 +44,7 @@ nav ul a                  { color: $snow; }
 nav ul a:hover             { color: $default; }
 
 .container-sub-header     { background-color: $air_gray; }
-.container-sub-header     { color: $dark; }
+.container-sub-header     { color: $color_text; }
 .wrapper-date h2          { color: $sonar; }
 .sub-header-separator     { border-bottom: 2px solid $sonar; }
 .container-login-map i    { font-size: 1.25rem; }
@@ -58,6 +59,9 @@ nav ul a:hover             { color: $default; }
 .customer-section-header  { box-shadow: inset 0px 0px 0px 1px $sonar; }
 .customer-section-header  { background-color: $sonar; }
 .customer-section-header  { color: $snow; }
+.payment-success          { background-color: $snow; }
+.payment-success          { color: $succes; }
+.payment-success i        { color: $succes; }
 
 .btn                      { background-color: $sonar; }
 .btn                      { color: $snow; }
@@ -67,10 +71,4 @@ nav ul a:hover             { color: $default; }
 
 .table-order tr:nth-child(even) { background-color: $air_gray; }
 .table-order tr:nth-child(odd)  { background-color: $snow; }
-
-
-@media (min-width: 992px) {
-  .highlight { font-size: 4.25rem; }
-}
-
 

@@ -4,11 +4,6 @@
 
 \* ------------------------------------------------------- */
 
-
-
-/*$background-image: image-url("background.jpg");*/
-
-
 body                      { background-color: #fff; }
 header                    { background-color: #212738; }
 
@@ -18,13 +13,12 @@ nav ul a                  { color: #fff; }
 nav ul a:hover             { color: #ff0090; }
 
 .container-sub-header     { background-color: #f2f2f2; }
-.container-sub-header     { color: #2E2E2E; }
 .wrapper-date h2          { color: #e51513; }
 .sub-header-separator     { border-bottom: 2px solid #e51513; }
 .container-login-map i    { font-size: 1.25rem; }
 .container-login-map i    { color: #e51513; }
 .form-actions             { color: #ff0090; }
-.form-actions a, span, i, figure, :before { color: #e51513; }
+.form-actions a, i, figure { color: #e51513; }
 .claim                    { font-size: 3rem; }
 .claim                    { color: #e51513; }
 .highlight                { font-size: 2.25rem; }
@@ -33,6 +27,10 @@ nav ul a:hover             { color: #ff0090; }
 .customer-section-header  { box-shadow: inset 0px 0px 0px 1px #e51513; }
 .customer-section-header  { background-color: #e51513; }
 .customer-section-header  { color: #fff; }
+.payment-success          { background-color: #fff; }
+.payment-success          { color: #00CD00; }
+.payment-success i        { color: #00CD00; }
+.payment-success:before   { color: #00CD00 !important; }
 
 .btn                      { background-color: #e51513; }
 .btn                      { color: #fff; }
@@ -42,10 +40,4 @@ nav ul a:hover             { color: #ff0090; }
 
 .table-order tr:nth-child(even) { background-color: #f2f2f2; }
 .table-order tr:nth-child(odd)  { background-color: #fff; }
-
-
-@media (min-width: 992px) {
-  .highlight { font-size: 4.25rem; }
-}
-
 

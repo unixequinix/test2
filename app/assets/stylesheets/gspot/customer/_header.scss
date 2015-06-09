@@ -73,3 +73,40 @@ $nav-size: $base-font-size*2;
     a { padding: modules(0.5); }
   }
 }
+
+// _______ MOBILE _______
+.mobile-trigger {
+  padding: modules(0.5);
+
+  i { color: $white; }
+
+  &:hover {
+    .mobile-list {
+      display: block;
+      position: absolute;
+      top: modules(2);
+      left: 0;
+      right: 0;
+      z-index: 7;
+
+      li {
+        display: block;
+        width: 100%;
+        background-color: lighten($glwnt_header,5%);
+        box-shadow: inset 0px -1px 0px 0px $glwnt_header;
+
+        a {
+          overflow: hidden;
+          display: block;
+          width: 100%;
+          height: 100%;
+           padding: modules(0.5);
+        }
+      }
+    }
+  }
+}
+
+.mobile-list {
+  display: none;
+}

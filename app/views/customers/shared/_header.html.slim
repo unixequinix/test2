@@ -15,7 +15,7 @@ header
 
       - if customer_signed_in?
         li.nav-item.user-options
-          span = current_customer.name
+          = current_customer.name
           ul.submenu
             li
               = link_to edit_customer_registration_path(current_customer), class: "link-submenu" do
