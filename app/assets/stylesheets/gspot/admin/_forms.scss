@@ -100,7 +100,9 @@ textarea { padding: 0; }
   }
 }
 
-input[type=checkbox] { display: none;}
+.checkbox{
+  input[type=checkbox] { display: none;}
+}
 
 .collection_check_boxes {
   overflow: hidden;

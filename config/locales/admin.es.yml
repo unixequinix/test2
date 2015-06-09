@@ -26,6 +26,8 @@ es:
       new: "Nuevo"
       csv: "CSV"
       disable: "Deshabilitar"
+      select_all: "Seleccionar todo"
+      delete_selected: "Borrar seleccionados"
     sessions:
       mail: "user@domain.com"
       password: "password"

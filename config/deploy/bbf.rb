@@ -1,4 +1,4 @@
-set :branch, 'mm-sonar'
+set :branch, 'bbf'
 set :rails_env, 'production'
 
 # Rbenv
@@ -30,7 +30,7 @@ set :linked_dirs, fetch(:linked_dirs) + %w{certs}
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server 'sonar.glownet.com', user: 'ubuntu', roles: %w{web app db}, primary: true
+server 'bbf.glownet.com', user: 'ubuntu', roles: %w{web app db}, primary: true
 
 
 # Custom SSH Options

@@ -49,7 +49,9 @@ Rails.application.routes.draw do
     resources :gtag_registrations, only: [:new, :create, :destroy]
     resources :checkouts, only: [:new, :create]
     resources :orders, only: [:show, :update]
-    resources :payments, only: [:create] do
+    resources :payments, only: [:create]
+    # resources :payments, only: [:create], constraints: lambda{|request|request.env['HTTP_X_REAL_IP'].match(Rails.application.secrets.merchant_ip)}
+    resources :payments, except: [:index, :show, :new, :create, :edit, :update, :destroy] do
       collection do
         get 'success'
         get 'error'
@@ -70,12 +72,14 @@ Rails.application.routes.draw do
       collection do
         post :import
         post :search
+        delete :destroy_multiple
       end
     end
     resources :gtags, except: :show do
       collection do
         post :import
         post :search
+        delete :destroy_multiple
       end
     end
     resources :credits, except: :show

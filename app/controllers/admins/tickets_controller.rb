@@ -56,6 +56,16 @@ class Admins::TicketsController < Admins::BaseController
     end
   end
 
+  def destroy_multiple
+    tickets = params[:tickets]
+    Ticket.where(id: tickets.keys).each do |ticket|
+      if !ticket.destroy
+        flash[:error] = ticket.errors.full_messages.join(". ")
+      end
+    end
+    redirect_to admins_tickets_url
+  end
+
   def import
     import_result = Ticket.import_csv(params[:file])
     if import_result
