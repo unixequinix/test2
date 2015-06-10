@@ -173,7 +173,7 @@ nav {
   display: inline-block;
   width: 100%;
   margin: modules(1) 0 0;
-  padding: modules(0.25) modules(0.5);
+  padding: modules(0.5);
   border: 1px solid transparent;
   border-radius: 3px;
   font-weight: bold;
@@ -207,9 +207,16 @@ nav {
   @include min-screen($bp3) { margin-top: modules(1) }
 }
 
+.btn-order {
+  margin-top: modules(1);
+
+  @include min-screen($bp3) { margin-top: 0;}
+}
+
 .btn-full-width {
   min-width: 100%;
   width: 100%;
+  margin-top: 0;
 }
 
 .btn-dashboard {

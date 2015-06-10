@@ -22,7 +22,7 @@
       = fa_icon "cc-mastercard", class: "icon-ccs"
       = fa_icon "cc-amex", class: "icon-ccs"
   p.bank-page-alert.small = t('orders.redirect')
-  = button_to t('orders.button'), customers_order_path(@order, iupay: false), method: :patch, remote: true, class: "btn btn-continue"
-  = button_to t('orders.button_iupay'), customers_order_path(@order, iupay: true), method: :patch, remote: true, class: "btn btn-continue btn-table"
+  = button_to t('orders.button'), customers_order_path(@order, iupay: false), method: :patch, remote: true, class: "btn btn-continue btn-order"
+  = button_to t('orders.button_iupay'), customers_order_path(@order, iupay: true), method: :patch, remote: true, class: "btn btn-continue btn-order btn-table"
 
 #paymentForm
