@@ -16,8 +16,11 @@ Admin.create(email: 'admin@test.com', password: 'password')
 puts "Create events"
 puts "----------------------------------------"
 
-Event.create(name: 'Barcelona Beach Festival')
-
+Event.destroy_all
+YAML.load_file(Rails.root.join("db", "seeds", "events.yml")).each do |data|
+  event = Event.new(name: data['name'], location: data['location'], start_date: data['start_date'], end_date: data['end_date'], description: data['description'], support_email: data['support_email'])
+  event.save!
+end
 
 puts "Create credits"
 puts "----------------------------------------"

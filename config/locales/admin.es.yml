@@ -42,6 +42,8 @@ es:
     confirm:
       delete: "Estás seguro?"
     aside:
+      event: "Evento"
+      details: "Detalles"
       admins: "Administradores"
       entitlements: "Privilegios"
       ticket_types: "Tipos de Tickets"

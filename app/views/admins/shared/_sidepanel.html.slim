@@ -6,6 +6,13 @@ aside#main-menu
     h1.img-header.aside-logo
       = link_to admin_root_path
         = image_tag ("admin-panel-logo.png")
+
+    h3 = t("admin.aside.event")
+
+    li = link_to edit_admins_event_path(current_event) do
+      = fa_icon "cogs"
+      = t("admin.aside.details")
+
     h3 = t("admin.aside.setup")
 
     li = link_to admins_admins_path do

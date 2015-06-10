@@ -2,6 +2,8 @@ en:
   breadcrumbs:
     home: "Home"
     dashboard: "Dashboard"
+    events: "Events"
+    new_event: "New event"
     admins: "Admins"
     new_admin: "New Admin"
     entitlements: "Entitlements"

@@ -2,6 +2,8 @@ es:
   breadcrumbs:
     home: "Home"
     dashboard: "Panel de Control"
+    events: "Eventos"
+    new_event: "Nuevo evento"
     admins: "Administradores"
     new_admin: "Nuevo Administrador"
     entitlements: "Derechos"
