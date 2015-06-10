@@ -4,35 +4,6 @@
 
 \* ------------------------------------------------------- */
 
-//COLORS:
-
-/*Header*/
-$glwnt_header:        #212738;
-/*Pink*/
-$default:             #ff0090;
-/*Sonar red*/
-$sonar:               #e51513;
-/*Grays*/
-$snow:                #fff;
-$air_gray:            #f2f2f2;
-$color_text:          #848482;
-$background-color:    #2c2c2c;
-$dark:                #2E2E2E;
-/*Succes*/
-$succes:              #00CD00;
-
-//SIZES:
-
-$quarter_text:           $base_font_size*1.25;
-$half_text:              $base_font_size*1.5;
-$double_text:            $base-font-size*2;
-$triple_text:            $base-font-size*3;
-$highlight-tittle:       $base-font-size*4.5;
-
-//IMAGES:
-
-$background-image: image-url("background.jpg");
-
 
 body                      { background-color: $snow; }
 body                      { color: $color_text; }
@@ -43,8 +14,6 @@ nav ul                    { color: $snow; }
 nav ul a                  { color: $snow; }
 nav ul a:hover             { color: $default; }
 
-.container-sub-header     { background-color: $air_gray; }
-.container-sub-header     { color: $color_text; }
 .wrapper-date h2          { color: $sonar; }
 .sub-header-separator     { border-bottom: 2px solid $sonar; }
 .container-login-map i    { font-size: 1.25rem; }
@@ -71,4 +40,6 @@ nav ul a:hover             { color: $default; }
 
 .table-order tr:nth-child(even) { background-color: $air_gray; }
 .table-order tr:nth-child(odd)  { background-color: $snow; }
+
+@inc
 

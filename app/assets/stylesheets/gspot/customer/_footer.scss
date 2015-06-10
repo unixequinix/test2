@@ -5,7 +5,6 @@
 \* ------------------------------------------------------- */
 
 footer {
-  //height: modules(2);
   padding: modules(0.5);
   background-color: $glwnt_header;
   box-shadow: inset 0px 1px 0px 0px $black;
@@ -16,6 +15,7 @@ footer {
     color: $white;
     text-shadow: 0px 1px 2px #555;
   }
+  .selected { color: $white; text-shadow: none; }
 }
 
 .copy {
@@ -43,7 +43,6 @@ footer {
   color: $black;
   text-shadow: 0px 1px 2px #555;
 
-  .selected { color: $white; text-shadow: none; }
   &:hover { color: $grey; text-shadow: none; }
 }
 
