@@ -3,9 +3,6 @@
   Include all the elements and classes that user can customize
 
 \* ------------------------------------------------------- */
-
-$color_text:          #848482;
-
 $quarter_text:           $base_font_size*1.25;
 $half_text:              $base_font_size*1.5;
 $double_text:            $base-font-size*2;
@@ -18,8 +15,7 @@ body {
   width: 100%;
   //background-image: $background_image;
   background-attachment: fixed;
-
-  p { color: $color_text; }
+  color: $color_text;
 }
 
 // _____ HEADER ______
@@ -28,6 +24,8 @@ header {
   position: relative;
   display: block;
   height: modules(2);
+  background-color: $glwnt_header;
+  box-shadow: inset 0px -1px 0px 0px $black;
 }
 
 /*Container for the title, date and location event*/
@@ -127,13 +125,16 @@ nav {
 // _____ LOGIN _______
 
 
-.claim { font-weight: bold; }
+.claim {
+  @include mscale($triple_text);
+  font-weight: bold;
+}
 
 // _____ DAHSBOARDS _____
 
 // Big pink text
 .highlight {
-  @include mscale($double_text);
+  @include mscale($triple_text);
   display: block;
   text-align: center;
   font-weight: bold;
@@ -201,6 +202,9 @@ nav {
 .btn-continue {
   display: block;
   float: right !important;
+  margin-top: 0;
+
+  @include min-screen($bp3) { margin-top: modules(1) }
 }
 
 .btn-full-width {
@@ -210,6 +214,7 @@ nav {
 
 .btn-dashboard {
   display: block; margin: 0 auto;
+  margin-top: modules(1);
 
   @include min-screen($bp3) {
     position: absolute;
@@ -217,7 +222,7 @@ nav {
     left: 0;
     right: 0;
     width: 100%;
-    margin-bottom: 0;
+    margin: 0;
   }
 }
 
