@@ -72,165 +72,192 @@ abbr {
   }
 }
 
-//______ BTN ________
+// -------------------------------------------------------
+//
+//  Common base styles
+//
+// -------------------------------------------------------
 
-.btn {
-  @include appearance(none);
-  @include transition (background-color 150ms linear);
+// Main wrapper include aside panel and container main
+.wrapper-main {
+  position: relative;
+  min-height:100%;
+  height: auto;
+}
+
+.container-main {
+  position: absolute;
   display: inline-block;
-  padding: modules(0.5);
-  border-radius: 2px;
-  border: 1px solid transparent;
-  box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.5);
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.btn-login {
-  margin-top: modules(1);
+  vertical-align: top;
   width: 100%;
-  box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.3);
-  background-color: $greenKickstarter;
+  height: auto;
+  min-height: 100%;
+  background-color: $white;
 
-  &:hover, &:focus  {
-    background-color: lighten($greenKickstarter, 8%);
-    outline: none;
-  }
-}
-
-.btn-primary {
-  clear: both;
-  float: right;
-  min-width: modules(10);
-  margin-top: modules(2);
-  background-color: $greenKickstarter;
-  color: $white;
-
-  //span { padding-left: modules(0.25); }
-
-  &:hover, &:focus {
-    background-color: lighten($greenKickstarter,10%);
-    outline: none;
-  }
-}
-
-.btn-secondary {
-  width: 100%;
-  background-color: $light_grey;
-  color: $white;
-
-  &:hover, &:focus  {
-    background-color: lighten($light_grey,10%);
-    outline: none;
-  }
-}
-
-.btn-action {
-  max-width: modules(9);
-  color: $white;
-  text-align: center;
-
-  //span { padding-left: modules(0.25); }
-  i {
+  @include min-screen($bp3) {
     display: inline-block;
-    margin-right: modules(0.25);
+    width: 83%;
   }
 }
 
-.btn-action-new {
-  background-color: $greenKickstarter;
-  color: $white;
+// _________
 
-  &:hover, &:focus {
-    background-color: lighten($greenKickstarter,10%);
-    outline: none;
+.container-admin {
+  padding: modules(0.5);
+
+  @include min-screen($bp2) {
+    padding: modules(1);
+  }
+
+  @include min-screen($bp3) {
+    @include outer-container(100%);
+    padding: modules(2);
   }
 }
 
-.btn-action-back {
-  background-color: $grey;
+.container-show {
+  overflow: hidden;
+  padding: modules(1);
+  border-radius: 3px;
+  background-color: $white;
+  box-shadow: inset 0px 0px 1px 0px $dark_grey;
 
-  &:hover, &:focus  {
-    background-color: lighten($grey,10%);
-    outline: none;
+  @include min-screen($bp3) {
+    margin-bottom: modules(1);
+  }
+
+  dt {
+    overflow: hidden;
+    color: $grey;
+
+    @include min-screen($bp3) {
+      display: inline-block;
+      width: 40%;
+    }
+  }
+
+  dd {
+    overflow: hidden;
+    margin: 0;
+
+    @include min-screen($bp3) {
+      display: inline-block;
+      width: 60%;
+    }
+  }
+
+  a {
+    color: $blue;
+
+    &:hover { text-decoration: underline; }
+  }
+
+  p { margin-bottom: 0; }
+}
+
+.wrapper-add-file {
+  @include transition(opacity 83ms linear);
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  margin-bottom: modules(1);
+  padding: modules(0.5);
+  border-radius: 3px;
+  background-color: $admin_grey;
+  border: 1px dashed $light_grey;
+
+  .btn {
+    max-width: 100%;
+    width: 100%;
+
+    @include min-screen($bp3) {
+      @include span-columns(4);
+      margin: 0;
+      vertical-align: middle;
+    }
+  }
+
+  input {
+    cursor: pointer;
+    margin-bottom: modules(1);
+
+    @include min-screen($bp3) {
+      @include span-columns(8);
+      margin-bottom: 0;
+      padding-top: modules(0.5);
+    }
+
+    .btn { margin: 0; }
   }
 }
 
-.btn-action-edit {
-  background-color: $amber;
+.container-search {
+  @include transition(opacity 83ms linear);
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  margin-bottom: modules(1);
+  padding: modules(0.5);
+  border-radius: 3px;
+  background-color: $admin_grey;
+  box-shadow: inset 0px 0px 0px 1px $graySilver;
 
-  &:hover, &:focus  {
-    background-color: lighten($amber,10%);
-    outline: none;
+  .btn {
+    width: 100%;
+
+    @include min-screen($bp3) {
+      @include span-columns(4);
+    }
+  }
+  .input { @include min-screen($bp3) { padding-bottom: 0; } }
+
+  input[type=text], select {
+    @include appearance(none);
+    width: 100%;
+    padding: modules(0.25);
+    height: modules(2);
+    border-radius: 3px;
+    background-color: $white;
+    box-shadow: inset 0px 0px 0px 1px $graySilver;
+    border: none;
+  }
+
+  label { display: none; }
+}
+
+.wrapper-search-field {
+  position: relative;
+
+  @include min-screen($bp3) {
+    @include span-columns(8);
   }
 }
 
-.btn-action-delete {
-  background-color: $red;
-
-  &:hover, &:focus  {
-    background-color: lighten($red,10%);
-    outline: none;
-  }
+.custom-input {
+  @include span-columns(6 of 8);
 }
 
-.btn-action-import {
-  float: right;
-  max-width: modules(10);
-  margin: modules(1) 0 0;
-  background-color: $blue;
+.search-input {
+  display: inline-block;
+  width:46%;
 
-  &:hover { background-color: lighten($blue,10%); }
+  &:first-child { margin-right: 3%; }
 }
 
-.btn-dashboard { width: 100%; }
+.custom-select {
+  @include span-columns(2 of 8);
+  @include omega();
+  position: relative;
+  display: inline-block;
 
-.btn-dashboard-created {
-  background-color: $amber;
-  color: $white;
-
-  &:hover, &:focus {
-    background-color: lighten($amber,10%);
-    outline: none;
+  i {
+    position: absolute;
+    top: modules(0.65);
+    right: modules(0.5);
+    color: $blue;
+    z-index: 9;
+    pointer-events: none;
   }
-}
 
-.btn-dashboard-launched {
-  background-color: $amber;
-  color: $white;
-
-  &:hover, &:focus {
-    background-color: lighten($amber,10%);
-    outline: none;
-  }
-}
-
-.btn-dashboard-started {
-  background-color: $greenKickstarter;
-  color: $white;
-
-  &:hover, &:focus  {
-    background-color: lighten($greenKickstarter,10%);
-    outline: none;
-  }
-}
-
-.btn-dashboard-finished {
-  background-color: $red;
-  color: $white;
-
-  &:hover, &:focus {
-    background-color: lighten($red,10%);
-    outline: none;
-  }
-}
-
-.btn-dashboard-closed {
-  background-color: $amber;
-  color: $white;
-
-  &:hover, &:focus {
-    background-color: lighten($amber,10%);
-    outline: none;
-  }
+  &:focus { border: 1px solid yellow; }
 }

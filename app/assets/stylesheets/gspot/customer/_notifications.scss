@@ -10,12 +10,13 @@
 
 .msg-for-alert, .msg-for-error {
   position: fixed;
-  top: modules(2);
-  left: modules(0);
-  right: modules(0);
+  top: modules(1);
+  left: modules(1);
+  right: modules(1);
   padding: modules(1);
+  border-radius: 3px;
   background-color: $red;
-  box-shadow: inset 0px 0px 0px 2px $red;
+  box-shadow: 0px 0px 2px 0px $black;
   color: $white;
   text-align: center;
   z-index: 3;
@@ -68,30 +69,27 @@
 
 .error_notification {
   margin: modules(0.5);
-  padding: modules(1);
+  padding: modules(0.5);
   border-radius: 3px;
-  background-color: $red;
+  border: 1px solid red;
+  background-color: lighten($red, 42%);
+  color: $red;
   text-align: center;
 
   @include min-screen($bp2) {
     margin: modules(1) 0 0;
   }
 
-  p, h3 {
-    @include mscale($base-font-size);
-    margin: 0;
-    color: $white;
-  }
 }
 
 .error {
   position: relative;
-  right: modules(0.25);
+  left: 0;
   color: $red;
-  font-weight: bold;
 
   @include min-screen($bp3) {
     position: absolute;
+    left: auto;
     right: modules(0.25);
     top: 0;
   }

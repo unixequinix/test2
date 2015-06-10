@@ -1,7 +1,7 @@
 table.ticket-types
   thead
     tr
-      th = t("admin.ticket_types.id")
+      th.select-all = t("admin.ticket_types.id")
       th = t("admin.ticket_types.name")
       th = t("admin.ticket_types.company")
       th = t("admin.ticket_types.credit")
@@ -11,7 +11,7 @@ table.ticket-types
   tbody
     - ticket_types.each do |ticket_type|
       tr
-        td data-label=t("admin.ticket_types.id") = ticket_type.id
+        td.select-all data-label=t("admin.ticket_types.id") = ticket_type.id
         td data-label=t("admin.ticket_types.name") = link_to ticket_type.name, edit_admins_ticket_type_path(ticket_type)
         td data-label=t("admin.ticket_types.company") = ticket_type.company
         td data-label=t("admin.ticket_types.credit") = ticket_type.credit

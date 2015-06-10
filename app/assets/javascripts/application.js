@@ -4,8 +4,9 @@
 
 //= require customer/top-up-buttons
 //= require customer/nav-mobile
+
 //= require admin/header
+
 //= require vendor/fastclick
+//= require vendor/fastclick_load
 //= require vendor/jquery.cookiebar
-
-

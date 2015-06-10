@@ -31,7 +31,9 @@
     width: 100%;
   }
 
-  p { margin: 0; }
+  p {
+    margin-bottom: modules(0.25);
+  }
 }
 
 .wrapper-empty { padding: modules(1); }
@@ -47,6 +49,10 @@
 
   @include min-screen($bp4) {
     @include span-columns(4);
+  }
+
+  label {
+    padding-bottom: modules(1);
   }
 }
 
@@ -103,6 +109,8 @@
 
   a { color: $black; }
   figure { display: inline-block; padding: 0 modules(0.25);}
+
+  &:last-child { margin-bottom: modules(1); }
 }
 
 // _____ ALIGN TO CENTER ALL ______
@@ -112,11 +120,6 @@
   padding: modules(0.5);
 
   h3 { text-align: center; }
-}
-
-.customer_remember_me {
-  display: inline-block;
-  margin: 0 auto;
 }
 
 .copy-text {

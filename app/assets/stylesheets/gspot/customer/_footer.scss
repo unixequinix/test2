@@ -5,9 +5,9 @@
 \* ------------------------------------------------------- */
 
 footer {
-  //height: modules(2);
-  padding: modules(0.75) modules(0.5) 0;
-  background-color: #3B3B3B;
+  padding: modules(0.5);
+  background-color: $glwnt_header;
+  box-shadow: inset 0px 1px 0px 0px $black;
 
   i {
     display: inline-block;
@@ -15,6 +15,7 @@ footer {
     color: $white;
     text-shadow: 0px 1px 2px #555;
   }
+  .selected { color: $white; text-shadow: none; }
 }
 
 .copy {
@@ -25,9 +26,9 @@ footer {
   }
 
 .container-language {
+  position: relative;
   display: inline-block;
   float: right;
-  position: relative;
 
   li {
     display: inline-block;
@@ -42,7 +43,16 @@ footer {
   color: $black;
   text-shadow: 0px 1px 2px #555;
 
-  .selected { color: $pinkMagenta; text-shadow: none; }
+  &:hover { color: $grey; text-shadow: none; }
+}
 
-  &:hover { color: $light_grey; text-shadow: none; }
+.footer-separator {
+  display: inline-block;
+  &:before{
+    content: "|";
+    display: block;
+    border-radius: 5px;
+    color: $black;
+    text-shadow: 0px 2px 2px #555;
+  }
 }

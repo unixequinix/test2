@@ -21,6 +21,7 @@ es:
       empty_payments: "Sin pagos"
       empty_refunds: "Sin devoluciones"
       search: "Buscar"
+      all: "Seleccionar"
     actions:
       back: "Atrás"
       new: "Nuevo"

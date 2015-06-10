@@ -1,0 +1,77 @@
+// ____________________
+
+// BREADCRUMBS
+
+// ____________________
+
+.action-bar {
+  display: block;
+  width: 100%;
+  padding: modules(0.5) modules(0.5) modules(1);
+  box-shadow: 0 0px 1px 0px $light_grey;
+  background-color: $admin_grey;
+
+  @include min-screen($bp3) {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    padding: modules(0.5)  modules(1);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+// ______ BREADCRUMBS ______
+
+.breadcrumbs {
+  display: block;
+  width: 100%;
+  padding-top: modules(.5);
+
+  @include min-screen($bp3) {
+    display: inline-block;
+    vertical-align: middle;
+    width: 50%;
+    padding: 0;
+  }
+
+   a {
+    color: $blue;
+
+    &:hover, &:focus {
+      text-decoration: underline;
+      outline: none;
+    }
+  }
+
+  .current { color: $grey; }
+}
+
+.action-bar-btns {
+  display: block;
+  width: 100%;
+  padding-top: modules(.5);
+
+  @include min-screen($bp3) {
+    display: inline-block;
+    vertical-align: middle;
+    width: 50%;
+    padding: 0;
+    text-align: right;
+  }
+
+  .btn {
+    display: inline-block;
+    width: 32%;
+    margin-right: 2%;
+    padding: modules(0.5) modules(0.5);
+
+    @include min-screen($bp3) { width: auto; }
+
+    &:last-child { margin-right: 0; }
+
+    i { padding: 0; }
+  }
+}
+
+// ___________
