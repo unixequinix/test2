@@ -5,9 +5,7 @@ footer
 
   ul.container-language
     li
-      = link_to '#', class: "language-item selected" do
-        | ENG
+      = link_to t('event.locales.en'), change_locale_path("en"), title: t('event.locales.en'), class: "language-item #{(' selected' if session[:locale] == 'en')}"
     li.footer-separator
     li
-      = link_to '#', class: "language-item" do
-        | SPA
+      = link_to t('event.locales.es'), change_locale_path("es"), title: t('event.locales.es'), class: "language-item #{(' selected' if session[:locale] == 'es')}"

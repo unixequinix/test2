@@ -14,7 +14,6 @@ gem 'sass-rails', '~> 5.0.3'
 gem 'uglifier', '~> 2.7.1'
 gem 'slim', '~> 3.0.3'
 gem 'simple_form', '~> 3.1.0'
-gem 'rails-i18n', '~> 4.0.1'
 gem 'paperclip', '~> 4.2.2'
 
 # Authentication
