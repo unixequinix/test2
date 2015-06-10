@@ -68,8 +68,8 @@
 .msg-for-info { }
 
 .error_notification {
-  margin: modules(1);
-  padding: modules(1);
+  margin: modules(0.5);
+  padding: modules(0.5);
   border-radius: 3px;
   border: 1px solid red;
   background-color: lighten($red, 42%);

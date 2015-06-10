@@ -19,7 +19,11 @@ nav ul a:hover             { color: $default; }
 .container-login-map i    { font-size: 1.25rem; }
 .container-login-map i    { color: $sonar; }
 .form-actions             { color: $default; }
-.form-actions a, span, i, figure, :before { color: $sonar; }
+.form-actions a           { color: $sonar; }
+.form-actions span        { color: $sonar; }
+.form-actions i           { color: $sonar; }
+.form-actions figure      { color: $sonar; }
+.form-actions:before      { color: $sonar; }
 .claim                    { font-size: 3rem; }
 .claim                    { color: $sonar; }
 .highlight                { font-size: 2.25rem; }
@@ -40,6 +44,4 @@ nav ul a:hover             { color: $default; }
 
 .table-order tr:nth-child(even) { background-color: $air_gray; }
 .table-order tr:nth-child(odd)  { background-color: $snow; }
-
-@inc
 
