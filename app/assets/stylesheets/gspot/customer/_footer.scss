@@ -22,6 +22,7 @@ footer {
     margin: 0;
     color: $pinkMagenta;
 
+
     &:hover { opacity: 0.4; }
   }
 
@@ -43,7 +44,7 @@ footer {
   color: $black;
   text-shadow: 0px 1px 2px #555;
 
-  &:hover { color: $grey; text-shadow: none; }
+  &:hover { color: $pinkMagenta; text-shadow: none; }
 }
 
 .footer-separator {
