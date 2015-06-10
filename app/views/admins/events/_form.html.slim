@@ -5,7 +5,7 @@
   = f.input :start_date, as: :date
   = f.input :end_date, as: :date
   = f.input :description, as: :text, input_html: { rows: 5 }
-  = f.input :style, as: :text, input_html: { rows: 20 }
+  = f.input :style, as: :text, input_html: { rows: 40, class: "textarea" }
   //= f.input :logo_file_name          :string
   //= f.input :background_updated_at   :datetime
   = f.button :submit, class: "btn btn-primary"

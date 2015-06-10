@@ -14,7 +14,7 @@ nav ul                    { color: $snow; }
 nav ul a                  { color: $snow; }
 nav ul a:hover             { color: $default; }
 
-.wrapper-date h2          { color: $sonar; }
+.wrapper-date h2 a          { color: $sonar; }
 .sub-header-separator     { border-bottom: 2px solid $sonar; }
 .container-login-map i    { font-size: 1.25rem; }
 .container-login-map i    { color: $sonar; }
