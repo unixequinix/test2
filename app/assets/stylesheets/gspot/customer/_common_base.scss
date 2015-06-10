@@ -8,6 +8,8 @@
   box-sizing: border-box;
 }
 
+@include sticky-footer(modules(2));
+
 //Variables
 
 $label-size: $base-font-size*1.75;
@@ -16,9 +18,8 @@ $section-title: $base-font-size*4;
 
 // HTML base styles
 
-html {
+html, body {
   position: relative;
-  min-height: 100%;
   height: 100%;
 }
 

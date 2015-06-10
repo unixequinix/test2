@@ -5,16 +5,44 @@
 \* ------------------------------------------------------- */
 
 footer {
-  bottom: 0;
-  right: 0;
-  left: 0;
-  padding: modules(0.5);
-  background-color: $black;
+  //height: modules(2);
+  padding: modules(0.75) modules(0.5) 0;
+  background-color: #3B3B3B;
 
-  a {
+  i {
+    display: inline-block;
+    padding-right: modules(0.25);
+    color: $white;
+    text-shadow: 0px 1px 2px #555;
+  }
+}
+
+.copy {
     margin: 0;
     color: $pinkMagenta;
 
     &:hover { opacity: 0.4; }
   }
+
+.container-language {
+  display: inline-block;
+  float: right;
+  position: relative;
+
+  li {
+    display: inline-block;
+    width: auto;
+    padding: 0 modules(0.15);
+    font-weight: bold;
+    cursor: pointer;
+  }
+}
+
+.language-item {
+  color: $black;
+  text-shadow: 0px 1px 2px #555;
+
+  .selected { color: $pinkMagenta; text-shadow: none; }
+
+  &:hover { color: $light_grey; text-shadow: none; }
 }
