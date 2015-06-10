@@ -21,6 +21,7 @@ en:
       empty_payments: "No payments"
       empty_refunds: "No refunds"
       search: "Search"
+      all: "Select"
     actions:
       back: "Back"
       new: "New"

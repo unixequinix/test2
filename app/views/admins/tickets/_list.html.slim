@@ -2,8 +2,7 @@
   table.tickets
     thead
       tr
-        th
-          = t("admin.actions.select_all")
+        th.select-all
           = check_box_tag "select-all", 1
         th = t("admin.tickets.id")
         th = t("admin.tickets.number")
@@ -17,7 +16,8 @@
     tbody
       - tickets.each do |ticket|
         tr
-          td = check_box_tag "tickets[#{ticket.id}]", 1
+          td.select-all data-label = t("admin.defaults.all")
+            = check_box_tag "tickets[#{ticket.id}]", 1
           td data-label=t("admin.tickets.id") = ticket.id
           td data-label=t("admin.tickets.number") = link_to ticket.number, edit_admins_ticket_path(ticket)
           td data-label=t("admin.tickets.ticket_type") = ticket.ticket_type.name unless ticket.ticket_type.nil?
@@ -28,6 +28,6 @@
           td data-label=t("admin.tickets.created_at") = ticket.created_at.strftime("%y-%m-%d %H:%M:%S")
           td.table-actions-field
             = render 'admins/tickets/actions', ticket: ticket unless current_event.started?
-
-  = paginate tickets
-  = submit_tag t("admin.actions.delete_selected")
+  .container-pagination
+    = paginate tickets
+    = submit_tag t("admin.actions.delete_selected")
