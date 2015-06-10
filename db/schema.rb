@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150609192756) do
+ActiveRecord::Schema.define(version: 20150610140345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,16 +122,16 @@ ActiveRecord::Schema.define(version: 20150609192756) do
   end
 
   create_table "events", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",                    null: false
     t.string   "aasm_state"
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
-    t.string   "slug",                    index: {name: "index_events_on_slug", unique: true}
+    t.string   "slug",                    null: false, index: {name: "index_events_on_slug", unique: true}
     t.string   "location"
     t.datetime "start_date"
     t.datetime "end_date"
     t.text     "description"
-    t.string   "support_email"
+    t.string   "support_email",           default: "support@glownet.com", null: false
     t.text     "style"
     t.string   "logo_file_name"
     t.string   "logo_content_type"
@@ -141,6 +141,7 @@ ActiveRecord::Schema.define(version: 20150609192756) do
     t.string   "background_content_type"
     t.integer  "background_file_size"
     t.datetime "background_updated_at"
+    t.string   "url"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|

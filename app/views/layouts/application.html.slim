@@ -11,44 +11,7 @@ html [lang=I18n.locale]
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
 
-    css:
-      body                      { background-color: #fff; }
-      header                    { background-color: #212738; }
-
-      nav                       { box-shadow: inset 0px 0px 1px 0px #848482; }
-      nav ul                    { color: #fff; }
-      nav ul a                  { color: #fff; }
-      nav ul a:hover            { color: #ff0090; }
-      nav ul li:hover           { color: #ff0090; }
-
-      .wrapper-date h2          { color: #e51513; }
-      .wrapper-date a           { color: #e51513; }
-      .wrapper-date a:hover     { opacity: 0.5; }
-      .sub-header-separator     { border-bottom: 2px solid #e51513; }
-      .container-login-map i    { font-size: 1.25rem; }
-      .container-login-map i    { color: #e51513; }
-      .form-actions             { color: #ff0090; }
-      .form-actions a, i, figure { color: #e51513; }
-      .claim                    { font-size: 3rem; }
-      .claim                    { color: #e51513; }
-      .highlight                { color: #e51513; }
-      .hint                     { color: #e51513; }
-      .customer-section-header  { box-shadow: inset 0px 0px 0px 1px #e51513; }
-      .customer-section-header  { background-color: #e51513; }
-      .customer-section-header  { color: #fff; }
-      .payment-success          { background-color: #fff; }
-      .payment-success          { color: #00CD00; }
-      .payment-success i        { color: #00CD00; }
-      .payment-success:before   { color: #00CD00 !important; }
-
-      .btn                      { background-color: #e51513; }
-      .btn                      { color: #fff; }
-
-      .amount-button            { color: #e51513; }
-      .amount-button:before     { font-size:1.5rem;}
-
-      .table-order tr:nth-child(even) { background-color: #f2f2f2; }
-      .table-order tr:nth-child(odd)  { background-color: #fff; }
+    = content_tag :style, current_event.style, type: "text/css"
 
     = render 'customers/shared/cookies_consent'
     = render 'application/analytics'

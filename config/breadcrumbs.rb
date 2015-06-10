@@ -12,6 +12,17 @@ crumb :admins_root do
   link t("breadcrumbs.dashboard"), admin_root_path
 end
 
+## Events
+
+crumb :admins_events do
+  link t("breadcrumbs.events"), admin_root_path
+end
+
+crumb :admins_event do |event|
+  link event.name, edit_admins_event_path(event)
+  parent :admins_events
+end
+
 ## Admins
 
 crumb :admins_admins do

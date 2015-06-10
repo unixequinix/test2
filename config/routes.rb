@@ -61,7 +61,7 @@ Rails.application.routes.draw do
 
   namespace :admins do
     resources :admins, except: :show
-    resources :events, only: :update
+    resources :events, only: [:edit, :update]
     resources :entitlements, except: :show
     resources :ticket_types, except: :show do
       collection do

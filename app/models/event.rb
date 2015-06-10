@@ -3,16 +3,16 @@
 # Table name: events
 #
 #  id                      :integer          not null, primary key
-#  name                    :string
+#  name                    :string           not null
 #  aasm_state              :string
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
-#  slug                    :string
+#  slug                    :string           not null
 #  location                :string
 #  start_date              :datetime
 #  end_date                :datetime
 #  description             :text
-#  support_email           :string
+#  support_email           :string           default("support@glownet.com"), not null
 #  style                   :text
 #  logo_file_name          :string
 #  logo_content_type       :string
@@ -22,9 +22,12 @@
 #  background_content_type :string
 #  background_file_size    :integer
 #  background_updated_at   :datetime
+#  url                     :string
 #
 
 class Event < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :name, use: :slugged
 
   # State machine
   include AASM

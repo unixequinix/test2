@@ -2,13 +2,13 @@
   .wrapper-date
     h2
       = link_to customer_root_path do
-        | Sonar festival
+        = current_event.name
     p
       = fa_icon "calendar"
-      | 18 Junio - 20 Junio
+      | #{current_event.start_date.strftime(t('date.formats.short'))} - #{current_event.end_date.strftime(t('date.formats.short'))}
     p
       = fa_icon "map-marker"
-      | Barcelona
+      | #{current_event.location}
 
   h1.logo
     = link_to customer_root_path do
