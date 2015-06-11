@@ -112,7 +112,7 @@ es:
   passwords:
     new:
       title: 'Olvidaste tu contraseña?'
-      button: 'Reenviar instrucciones de contraseña'
+      button: 'Reenviar instrucciones'
     edit:
       title: 'Cambiar tu contraseña'
       button: 'Cambiar tu contraseña'

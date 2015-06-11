@@ -11,9 +11,12 @@ html
           //Main table
           table align="center" style="padding: 10px; background-color: #fff;" width="800px"
             tr
+              td colspan="2" height="50px" style="padding:2px 5px; text-align: left; background-color: #212738; "
+                = image_tag attachments['logo.png'].url, :alt => 'BBF', style: ' display: inline-block; height: auto; width: 100px;'
+            tr
               //Logo
-              td colspan="2" style="text-align: center; background-color:#e6d500;"
-                = image_tag attachments['logo.png'].url, :alt => 'BBF', style: 'display: inline-block; width: 300px; height: auto; margin: 0 auto;'
+              td colspan="2" style="padding: 35px 50px 0; text-align: left;"
+                = image_tag attachments['logo.png'].url, :alt => 'BBF', style: ' display: inline-block; width: 210px; height: auto; margin: 0 auto;'
             tr
               td
                 //Table with order info
@@ -62,9 +65,8 @@ html
                                 td style="width: 50; padding: 40px 10px 10px; font-weight: bold; font-size: 14px; vertical-align: middle; text-align: right;" = "#{@order.total} #{t('currency_symbol')}"
             //Support Info
             tr
-              td colspan="2" style="padding: 40px; background-color: #f2f2f2; "
-                p style="font-size: 14px; font-style: italic; color: #616161;" = t('email.customer.order.completed.footer')
-                a href="" style="display: block;"
-                  = mail_to t('event.support_email')
+              td colspan="2" style="padding: 10px; text-align: center; background-color: #212738; "
+                p style="font-size: 14px; font-style: italic; color: #B3B3B1;" = t('email.customer.order.completed.footer')
+                = mail_to t('event.support_email')
 
                     //= "#{t('orders.total')} #{@order.total} #{t('currency_symbol')}"

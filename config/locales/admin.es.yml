@@ -34,7 +34,7 @@ es:
       password: "password"
     passwords:
       forgotten: "Olvidaste tu contraseña?"
-      send_instructions: "Enviar instrucciones de reseteo de contraseña."
+      send_instructions: "Reenviar instrucciones"
       new: "Nueva contraseña"
       confirm: "Confirma tu nueva contraseña."
       change: "Cambiar mi contraseña."
