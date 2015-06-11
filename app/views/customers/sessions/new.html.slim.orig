@@ -2,9 +2,13 @@
 
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
   .wrapper-field.container-login-map
+<<<<<<< HEAD
     //h3.customer-section-header = t('sessions.new.description')
     h3.customer-section-header
       = t('sessions.new.description')
+=======
+    h3.customer-section-header Quick Safe and Free
+>>>>>>> development
     .form-inputs
       h2.claim
         = t('sessions.new.claim')

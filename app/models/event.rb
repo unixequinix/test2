@@ -23,19 +23,27 @@
 #  background_file_size    :integer
 #  background_updated_at   :datetime
 #  url                     :string
+#  background_type         :string           default("fixed")
 #
 
 class Event < ActiveRecord::Base
+
+  #Background Types
+  BACKGROUND_FIXED = 'fixed'
+  BACKGROUND_REPEAT = 'repeat'
+
+  BACKGROUND_TYPES = [BACKGROUND_FIXED, BACKGROUND_REPEAT]
+
   extend FriendlyId
   friendly_id :name, use: :slugged
 
   has_attached_file :logo,
-                    styles: { medium: '100x100>' },
-                    default_url: 'missing-logo.png'
+                    path: 'public/system/event-logos/:id/:filename',
+                    url: '/system/event-logos/:id/:basename.:extension'
 
   has_attached_file :background,
-                    styles: { thumb: '100x100>' },
-                    default_url: 'missing-background.png'
+                    path: 'public/system/event-backgrounds/:id/:filename',
+                    url: '/system/event-backgrounds/:id/:basename.:extension'
 
   # Validations
   validates :name, :support_email, presence: true
@@ -73,6 +81,10 @@ class Event < ActiveRecord::Base
     event :reboot do
       transitions from: :closed, to: :created
     end
+  end
+
+  def self.background_types_selector
+    BACKGROUND_TYPES.map { |f| [I18n.t('admin.event.background_types.' + f), f] }
   end
 
 end

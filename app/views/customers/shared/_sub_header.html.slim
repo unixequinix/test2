@@ -12,7 +12,6 @@
 
   h1.logo
     = link_to customer_root_path do
-      = image_tag "sonar2.png"
-//////= image_tag "Sonar-2015-ENG-2.gif"
+      = image_tag current_event.logo.url unless current_event.logo.blank?
 
 .sub-header-separator
