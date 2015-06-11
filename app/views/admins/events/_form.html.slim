@@ -6,6 +6,9 @@
   = f.input :end_date, as: :datetime
   = f.input :description, as: :text, input_html: { rows: 5 }
   = f.input :logo
+  = image_tag current_event.logo.url unless current_event.logo.blank?
+  = f.input :background_type, collection: Event.background_types_selector
   = f.input :background
+  = image_tag current_event.background.url unless current_event.background.blank?
   = f.input :style, as: :text, input_html: { rows: 40, class: "textarea" }
   = f.button :submit, class: "btn btn-primary"

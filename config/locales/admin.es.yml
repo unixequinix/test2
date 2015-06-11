@@ -1,12 +1,25 @@
 es:
   admin:
     event:
+      name: 'Nombre'
+      support_email: 'Email de soporte'
+      location: 'Localización'
+      start_date: 'Fecha de inicio'
+      end_date: 'Fecha de finalización'
+      description: 'Descripción'
+      logo: 'Logo'
+      background_type: 'Tipo de Fondo'
+      background: 'Fondo'
+      style: 'Estilo'
       states:
         created: 'No publicado'
         launched: 'Pre-evento'
         started: 'Durante evento'
         finished: 'Después evento'
         closed: 'Cerrado'
+      background_types:
+        fixed: 'Fijo'
+        repeat: 'Repetir'
     defaults:
       actions: "Acciones"
       home: "Home"

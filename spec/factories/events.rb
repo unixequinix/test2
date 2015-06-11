@@ -23,6 +23,7 @@
 #  background_file_size    :integer
 #  background_updated_at   :datetime
 #  url                     :string
+#  background_type         :string           default("fixed")
 #
 
 FactoryGirl.define do

@@ -9,7 +9,7 @@ aside#main-menu
 
     h3 = t("admin.aside.event")
 
-    li = link_to edit_admins_event_path(current_event) do
+    li = link_to admins_event_path(current_event) do
       = fa_icon "cogs"
       = t("admin.aside.details")
 

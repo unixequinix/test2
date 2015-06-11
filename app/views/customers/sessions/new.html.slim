@@ -1,11 +1,7 @@
-//.wrapper-title
-//  h2 = t('sessions.new.title')
-
 = render "customers/sessions/confirmation_message" if @sign_up
 
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
   .wrapper-field.container-login-map
-    //h3.customer-section-header = t('sessions.new.description')
     h3.customer-section-header Quick Safe and Free
     .form-inputs
       h2.claim Your event starts now!
@@ -14,8 +10,6 @@
           p
             = fa_icon "ticket"
             = t('sessions.new.activate')
-        //li
-        //  p = t('sessions.new.step2')
         li
           p
             = fa_icon "money"
