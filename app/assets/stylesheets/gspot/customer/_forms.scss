@@ -91,17 +91,43 @@ textarea {
   }
 }
 
-.required {
+.required-reminder {
   margin-bottom: modules(1);
+  clear: both;
+  text-align: left;
 
-  @include min-screen ($bp3) { margin-bottom: 0; }
-
-  p { font-weight: bold; }
   i {
     @include mscale($base_font_size*1.25);
     display: inline-block;
     margin-right: modules(0.25);
     color: $grey;
+  }
+}
+
+.accept-terms {
+  clear: both;
+  width: 100%;
+  padding-bottom: modules(1);
+  text-align: center;
+
+  @include min-screen ($bp3) {
+    padding-bottom: 0;
+    text-align: right;
+  }
+
+  .input, span {
+    display: inline;
+    vertical-align: bottom;
+
+    @include min-screen ($bp3) {display: inline-block; }
+  }
+
+  .input { padding-right: modules(0.25); }
+
+  a {
+    padding: 0 modules(0.25);
+
+    &:hover { text-decoration: underline; }
   }
 }
 
