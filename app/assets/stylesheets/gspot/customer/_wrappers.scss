@@ -131,3 +131,34 @@
   p { margin: 0; }
 }
 
+.wrapper-terms {
+  padding: modules(0.5);
+
+  @include min-screen($bp3) {
+    padding: modules(1) 0;
+  }
+
+  h2, h3, p, a, span  { line-height: 160%; }
+
+  a {
+    color: $pinkMagenta;
+
+    &:hover { text-decoration: underline; }
+  }
+
+  table {
+    width: 100%;
+
+    th {
+      padding: modules(0.5);
+      color: $white;
+      background-color: $pinkMagenta;
+    }
+
+    td {
+      padding: modules(0.25);
+      border: 1px solid $color_text;
+    }
+  }
+}
+

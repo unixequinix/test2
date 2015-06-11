@@ -3,15 +3,15 @@
   .wrapper-field
     h3.customer-section-header = t('registration.new.title')
     .form-inputs
+      .required-reminder
+        p
+          = fa_icon "exclamation-circle"
+          = t('registration.new.description')
       = f.input :email, required: true, autofocus: true
       = f.input :name, required: true, autofocus: true
       = f.input :surname, required: true, autofocus: true
       = f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @validatable)
       = f.input :password_confirmation, required: true
-      .required
-        p
-          = fa_icon "exclamation-circle"
-          = t('registration.new.description')
       .accept-terms
         = f.input :agreed_on_registration, label: false, required: true
         span = t('conditions.action')
