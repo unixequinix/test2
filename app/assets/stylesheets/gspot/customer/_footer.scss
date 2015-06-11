@@ -5,9 +5,15 @@
 \* ------------------------------------------------------- */
 
 footer {
+  overflow: hidden;
   padding: modules(0.5);
   background-color: $glwnt_header;
   box-shadow: inset 0px 1px 0px 0px $black;
+  text-align: center;
+
+  @include min-screen($bp3) {
+    text-align: left;
+  }
 
   i {
     display: inline-block;
@@ -19,6 +25,46 @@ footer {
   .selected { color: $footer_text; text-shadow: none; }
 }
 
+.nav-footer {
+  display: block;
+  float: right;
+  width: 100%;
+  text-align: center;
+
+  @include min-screen($bp3) {
+    display: inline-block;
+    width: auto;
+    text-align: left;
+  }
+}
+
+.wrapper-conditions {
+  display: inline-block;
+  width: auto;
+  padding-top: modules(1);
+  text-align: center;
+
+
+  @include min-screen($bp3) {
+    display: inline;
+    padding-top: 0;
+    text-align: right;
+  }
+}
+
+.condition-link {
+  display: inline-block;
+  width: auto;
+  padding: 0 modules(0.25);
+
+  &:last-child:after {
+    content: "/";
+    display: inline;
+    padding-left: modules(0.25);
+    font-weight: bold;
+  }
+}
+
 .copy {
   margin: 0;
   color: $footer_text;
@@ -27,14 +73,16 @@ footer {
   letter-spacing: 1px;
   opacity: 0.8;
 
-
   &:hover { color: $pinkMagenta; }
 }
+
+
 
 .container-language {
   position: relative;
   display: inline-block;
-  float: right;
+
+  @include min-screen($bp3) { width: auto; padding: 0; }
 
   li {
     display: inline-block;

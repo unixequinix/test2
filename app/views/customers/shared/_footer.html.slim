@@ -2,10 +2,16 @@ footer
   = link_to href="http://glownet.com/", target: "_blank", class: "copy small" do
     = t('footer.copyright')
     = Date.current.year
+  .nav-footer
+    ul.wrapper-conditions
+      li.condition-link
+        = link_to t("footer.privacy"), privacy_policy_url, target: '_blank', class: "copy small"
+      li.condition-link
+        = link_to t("footer.use"), terms_of_use_url, target: '_blank', class: "copy small"
 
-  ul.container-language
-    li
-      = link_to t('event.locales.en'), change_locale_path("en"), title: t('event.locales.en'), class: "language-item #{(' selected' if session[:locale] == 'en')}"
-    li.footer-separator
-    li
-      = link_to t('event.locales.es'), change_locale_path("es"), title: t('event.locales.es'), class: "language-item #{(' selected' if session[:locale] == 'es')}"
+    ul.container-language
+      li
+        = link_to t('event.locales.en'), change_locale_path("en"), title: t('event.locales.en'), class: "language-item #{(' selected' if session[:locale] == 'en')}"
+      li.footer-separator
+      li
+        = link_to t('event.locales.es'), change_locale_path("es"), title: t('event.locales.es'), class: "language-item #{(' selected' if session[:locale] == 'es')}"
