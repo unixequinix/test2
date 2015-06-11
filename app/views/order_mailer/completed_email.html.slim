@@ -12,11 +12,11 @@ html
           table align="center" style="padding: 10px; background-color: #fff;" width="800px"
             tr
               td colspan="2" height="50px" style="padding:2px 5px; text-align: left; background-color: #212738; "
-                = image_tag attachments['logo.png'].url, :alt => 'BBF', style: ' display: inline-block; height: auto; width: 100px;'
+                = image_tag attachments['logo'].url, style: ' display: inline-block; height: auto; width: 100px;'
             tr
               //Logo
               td colspan="2" style="padding: 35px 50px 0; text-align: left;"
-                = image_tag attachments['logo.png'].url, :alt => 'BBF', style: ' display: inline-block; width: 210px; height: auto; margin: 0 auto;'
+                = image_tag attachments['logo-company'].url, style: ' display: inline-block; width: 210px; height: auto; margin: 0 auto;' unless attachments['logo-company'].nil?
             tr
               td
                 //Table with order info

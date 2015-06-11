@@ -3,6 +3,8 @@
   = link_to t("actions.back"), admin_root_path, class: "btn btn-action btn-action-back"
   = link_to t("actions.edit"), edit_admins_event_path(@event), class: "btn btn-action btn-action-new"
 
+= render "admins/events/controls", event: @event
+
 .container-show
   dl
     dt = t("admin.event.name")
