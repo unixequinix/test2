@@ -6,9 +6,11 @@
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
   .wrapper-field.container-login-map
     //h3.customer-section-header = t('sessions.new.description')
-    h3.customer-section-header Quick Safe and Free
+    h3.customer-section-header
+      = t('sessions.new.description')
     .form-inputs
-      h2.claim Your event starts now!
+      h2.claim
+        = t('sessions.new.claim')
       ul
         li
           p

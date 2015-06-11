@@ -133,12 +133,12 @@ es:
   sessions:
     new:
       title: 'Inicia Sesión'
-      description: 'Registro en pocos pasos:'
+      description: 'Rápido, seguro y gratuito'
+      claim: "Prepara tu evento hoy!"
       activate: 'Activa tu ticket y beneficiate de todas sus ventajas'
       topup: 'Añade el crédito que quieras a tu ticket sin esperas'
       refund: 'Al finalizar el evnto podrás gestionas la devolución del crédito no disfrutado'
       button: 'Inicia Sesión'
-      claim: '¡Registro online abierto!'
       copy: '¿Qué ventajas tiene?'
   cancel:
     title: 'Cancelar cuenta'

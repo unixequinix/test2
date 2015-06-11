@@ -133,12 +133,12 @@ en:
   sessions:
     new:
       title: 'Log in'
-      description: 'Register in a few steps:'
+      description: 'Quick, safe and free'
+      claim: "Your event starts now!"
       activate: 'You could activate your ticket now and get extra benefits'
       topup: 'Top up as many times as you want and get ready for the event'
       refund: 'After the event you could refund here your credit left'
       button: 'Log in'
-      claim: 'Online registrations opened!'
       copy: 'What are the advantages?'
   cancel:
     title: 'Cancel my account'
