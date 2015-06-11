@@ -235,6 +235,11 @@ abbr {
 
 .custom-input {
   @include span-columns(6 of 8);
+
+  input:focus {
+    //TODO Manu: remove important
+    box-shadow: inset 0px 0px 0px 1px $graySilver !important;
+  }
 }
 
 .search-input {
