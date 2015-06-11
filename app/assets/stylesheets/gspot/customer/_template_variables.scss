@@ -3,9 +3,7 @@
  Customize inline variables
 
 \* ------------------------------------------------------- */
-
-
-body                      { background-color: $snow; }
+body                      { background-color: $air_gray; }
 body                      { color: $color_text; }
 header                    { background-color: $glwnt_header; }
 
@@ -14,33 +12,29 @@ nav ul                    { color: $snow; }
 nav ul a                  { color: $snow; }
 nav ul a:hover             { color: $default; }
 
-.wrapper-date h2 a          { color: $sonar; }
-.sub-header-separator     { border-bottom: 2px solid $sonar; }
-.container-login-map i    { font-size: 1.25rem; }
-.container-login-map i    { color: $sonar; }
+.wrapper-date h2 a         { color: $default; }
+.sub-header-separator     { border-bottom: 2px solid $default; }
+.container-login-map i    { color: $default; }
 .form-actions             { color: $default; }
-.form-actions a           { color: $sonar; }
-.form-actions span        { color: $sonar; }
-.form-actions i           { color: $sonar; }
-.form-actions figure      { color: $sonar; }
-.form-actions:before      { color: $sonar; }
-.claim                    { font-size: 3rem; }
-.claim                    { color: $sonar; }
-.highlight                { font-size: 2.25rem; }
-.highlight                { color: $sonar; }
-.hint                     { color: $sonar; }
-.customer-section-header  { box-shadow: inset 0px 0px 0px 1px $sonar; }
-.customer-section-header  { background-color: $sonar; }
+.form-actions a           { color: $default; }
+.form-actions span        { color: $default; }
+.form-actions i           { color: $default; }
+.form-actions figure      { color: $default; }
+.form-actions:before      { color: $default; }
+.claim                    { color: $default; }
+.highlight                { color: $default; }
+.hint                     { color: $default; }
+.customer-section-header  { box-shadow: inset 0px 0px 0px 1px $default; }
+.customer-section-header  { background-color: $default; }
 .customer-section-header  { color: $snow; }
 .payment-success          { background-color: $snow; }
 .payment-success          { color: $succes; }
 .payment-success i        { color: $succes; }
 
-.btn                      { background-color: $sonar; }
+.btn                      { background-color: $default; }
 .btn                      { color: $snow; }
 
-.amount-button            { color: $sonar; }
-.amount-button:before     { font-size:1.5rem;}
+.amount-button            { color: $default; }
 
 .table-order tr:nth-child(even) { background-color: $air_gray; }
 .table-order tr:nth-child(odd)  { background-color: $snow; }
