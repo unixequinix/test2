@@ -5,7 +5,7 @@
         = current_event.name
     p
       = fa_icon "calendar"
-      | #{current_event.start_date.strftime(t('date.formats.short'))} - #{current_event.end_date.strftime(t('date.formats.short'))}
+      | #{t('date.formats.custom', day: current_event.start_date.day, month: t('date.month_names')[current_event.start_date.month])} - #{t('date.formats.custom', day: current_event.end_date.day, month: t('date.month_names')[current_event.end_date.month])}
     p
       = fa_icon "map-marker"
       | #{current_event.location}

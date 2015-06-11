@@ -12,6 +12,12 @@
         p
           = fa_icon "exclamation-circle"
           = t('registration.new.description')
+      .accept-terms
+        = f.input :agreed_on_registration, label: false, required: true
+        span = t('conditions.action')
+        = link_to t('conditions.terms_of_use'), terms_of_use_url, target: '_blank'
+        span = t('conditions.conjunction')
+        = link_to t('conditions.privacy_conditions'), privacy_policy_url, target: '_blank'
       = f.button :submit, t('registration.new.button'), class: "btn btn-continue"
 
 = render "customers/shared/links"

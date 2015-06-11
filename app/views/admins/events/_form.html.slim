@@ -1,11 +1,11 @@
-= simple_form_for [:admins, event] do |f|
+= simple_form_for [:admins, event], html: { multipart: true } do |f|
   = f.input :name, placeholder: true, required: true
   = f.input :support_email, placeholder: true, required: true
   = f.input :location, placeholder: true
-  = f.input :start_date, as: :date
-  = f.input :end_date, as: :date
+  = f.input :start_date, as: :datetime
+  = f.input :end_date, as: :datetime
   = f.input :description, as: :text, input_html: { rows: 5 }
+  = f.input :logo
+  = f.input :background
   = f.input :style, as: :text, input_html: { rows: 40, class: "textarea" }
-  //= f.input :logo_file_name          :string
-  //= f.input :background_updated_at   :datetime
   = f.button :submit, class: "btn btn-primary"

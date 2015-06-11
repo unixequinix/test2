@@ -29,6 +29,21 @@ class Event < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
 
+  has_attached_file :logo,
+                    styles: { medium: '100x100>' },
+                    default_url: 'missing-logo.png'
+
+  has_attached_file :background,
+                    styles: { thumb: '100x100>' },
+                    default_url: 'missing-background.png'
+
+  # Validations
+  validates :name, :support_email, presence: true
+  validates :name, uniqueness: true
+  validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
+  validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
+
+
   # State machine
   include AASM
 

@@ -8,7 +8,6 @@ es:
     locales:
       en: 'ENG'
       es: 'ESP'
-    date_format: "%d %b"
   activerecord:
     errors:
       messages:
