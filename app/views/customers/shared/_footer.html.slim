@@ -3,6 +3,9 @@ footer
     | © Glownet
     = Date.current.year
 
+  = link_to t("footer.privacy"), privacy_policy_url, target: '_blank'
+  = link_to t("footer.use"), terms_of_use_url, target: '_blank'
+
   ul.container-language
     li
       = link_to t('event.locales.en'), change_locale_path("en"), title: t('event.locales.en'), class: "language-item #{(' selected' if session[:locale] == 'en')}"
