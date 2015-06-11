@@ -6,12 +6,13 @@
 
 footer {
   overflow: hidden;
-  padding: modules(0.5);
+  padding:  modules(1) modules(0.5);
   background-color: $glwnt_header;
   box-shadow: inset 0px 1px 0px 0px $black;
   text-align: center;
 
   @include min-screen($bp3) {
+    padding: modules(0.5);
     text-align: left;
   }
 
@@ -57,11 +58,14 @@ footer {
   width: auto;
   padding: 0 modules(0.25);
 
-  &:last-child:after {
-    content: "/";
-    display: inline;
-    padding-left: modules(0.25);
-    font-weight: bold;
+   @include min-screen($bp1) {
+
+    &:last-child:after {
+      content: "/";
+      display: inline;
+      padding-left: modules(0.25);
+      font-weight: bold;
+    }
   }
 }
 
