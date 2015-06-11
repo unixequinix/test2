@@ -7,6 +7,11 @@
 // HTML base styles
 // ------------------------------------------------------
 
+fieldset {
+  border-bottom: 1px solid $graySilver;
+  margin-bottom: modules(1);
+}
+
 label {
   display: block;
   padding-bottom: modules(1);

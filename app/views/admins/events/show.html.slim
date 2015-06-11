@@ -20,9 +20,6 @@
     dt = t("admin.event.logo")
     = image_tag @event.logo.url unless @event.logo.blank?
     dt = t("admin.event.background_type")
-    dd = @event.background_type
+    dt = t("admin.event.background_types." + @event.background_type)
     dt = t("admin.event.background")
     = image_tag @event.background.url unless @event.background.blank?
-    dt = t("admin.event.style")
-    dd.event-style-text
-      = @event.style
