@@ -20,6 +20,9 @@ es:
       background_types:
         fixed: 'Fijo'
         repeat: 'Repetir'
+      images:
+        profile: "Imágen de perfil"
+        background: "Imágen de fondo"
     defaults:
       actions: "Acciones"
       home: "Home"

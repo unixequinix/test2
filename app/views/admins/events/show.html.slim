@@ -4,23 +4,25 @@
   = link_to t("actions.edit"), edit_admins_event_path(@event), class: "btn btn-action btn-action-new"
 
 .container-show
-  label = t("admin.event.name")
-  p = @event.name
-  label = t("admin.event.support_email")
-  p = @event.support_email
-  label = t("admin.event.location")
-  p = @event.location
-  label = t("admin.event.start_date")
-  p = @event.start_date
-  label = t("admin.event.end_date")
-  p = @event.end_date
-  label = t("admin.event.description")
-  p = @event.description
-  label = t("admin.event.logo")
-  = image_tag @event.logo.url unless @event.logo.blank?
-  label = t("admin.event.background_type")
-  p = @event.background_type
-  label = t("admin.event.background")
-  = image_tag @event.background.url unless @event.background.blank?
-  label = t("admin.event.style")
-  p = @event.style
+  dl
+    dt = t("admin.event.name")
+    dd = @event.name
+    dt = t("admin.event.support_email")
+    dd = @event.support_email
+    dt = t("admin.event.location")
+    dd = @event.location
+    dt = t("admin.event.start_date")
+    dd = @event.start_date
+    dt = t("admin.event.end_date")
+    dd = @event.end_date
+    dt = t("admin.event.description")
+    dd = @event.description
+    dt = t("admin.event.logo")
+    = image_tag @event.logo.url unless @event.logo.blank?
+    dt = t("admin.event.background_type")
+    dd = @event.background_type
+    dt = t("admin.event.background")
+    = image_tag @event.background.url unless @event.background.blank?
+    dt = t("admin.event.style")
+    dd.event-style-text
+      = @event.style

@@ -20,6 +20,9 @@ en:
       background_types:
         fixed: 'Fixed'
         repeat: 'Repeat'
+      images:
+        profile: "Profile image preview"
+        background: "Background image preview"
     defaults:
       actions: "Actions"
       home: "Home"

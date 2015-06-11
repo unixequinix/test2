@@ -126,12 +126,16 @@ abbr {
     margin-bottom: modules(1);
   }
 
+  dl { margin: 0; }
+
   dt {
     overflow: hidden;
     color: $grey;
 
     @include min-screen($bp3) {
       display: inline-block;
+      vertical-align: top;
+      padding: modules(0.25) 0;
       width: 40%;
     }
   }
@@ -142,6 +146,8 @@ abbr {
 
     @include min-screen($bp3) {
       display: inline-block;
+      vertical-align: top;
+      padding: modules(0.25) 0;
       width: 60%;
     }
   }
@@ -152,8 +158,21 @@ abbr {
     &:hover { text-decoration: underline; }
   }
 
+  img {
+
+    @include min-screen($bp3) {
+      display: inline-block;
+      vertical-align: top;
+      padding: modules(0.25) 0;
+      max-width: 60%;
+      width: auto;
+    }
+  }
+
   p { margin-bottom: 0; }
 }
+
+.event-style-text { font-family: Courier; }
 
 .wrapper-add-file {
   @include transition(opacity 83ms linear);
