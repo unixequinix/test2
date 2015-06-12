@@ -12,7 +12,8 @@
 
 FactoryGirl.define do
   factory :bank_account do
-    number "MyString"
+    customer
+    iban { Faker::Number.number(4) }
+    swift { Faker::Number.number(8) }
   end
-
 end

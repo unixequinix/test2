@@ -11,9 +11,6 @@
 
 FactoryGirl.define do
   factory :credit do
-    name "MyString"
-description "MyString"
-value "9.99"
+    standard true
   end
-
 end

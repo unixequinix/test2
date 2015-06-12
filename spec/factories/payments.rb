@@ -21,17 +21,16 @@
 
 FactoryGirl.define do
   factory :payment do
-    amount "9.99"
-terminal "MyString"
-transaction_type "MyString"
-card_country "MyString"
-response_code "MyString"
-authorization_code "MyString"
-currency "MyString"
-merchant_code "MyString"
-success ""
-payment_type "MyString"
-pait_at "2015-04-28 11:49:59"
+    amount '9.99'
+    terminal { Faker::Lorem.word }
+    transaction_type { Faker::Lorem.word }
+    card_country { Faker::Lorem.word }
+    response_code { Faker::Number.number(10) }
+    authorization_code { Faker::Number.number(10) }
+    currency { Faker::Lorem.word }
+    merchant_code { Faker::Lorem.word }
+    success true
+    payment_type { Faker::Lorem.word }
+    pait_at { Time.now }
   end
-
 end

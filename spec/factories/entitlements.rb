@@ -13,5 +13,4 @@ FactoryGirl.define do
   factory :entitlement do
     name { Faker::Lorem.word }
   end
-
 end

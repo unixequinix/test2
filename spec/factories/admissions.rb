@@ -12,9 +12,9 @@
 
 FactoryGirl.define do
   factory :admission do
-    credit "9.99"
+    credit '9.99'
+    aasm_state 'assigned'
     customer
     ticket
   end
-
 end

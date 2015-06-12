@@ -13,8 +13,8 @@
 
 FactoryGirl.define do
   factory :order do
-    number "MyString"
-price "9.99"
+    number { Faker::Number.number(10) }
+    aasm_state 'started'
+    customer
   end
-
 end

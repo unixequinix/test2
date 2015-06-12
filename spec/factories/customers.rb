@@ -32,5 +32,4 @@ FactoryGirl.define do
     email { Faker::Internet.email }
     password 'password'
   end
-
 end

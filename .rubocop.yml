@@ -1,24 +1,24 @@
-# Offense count: 155
-Metrics/AbcSize:
-  Max: 38
+# # Offense count: 155
+# Metrics/AbcSize:
+#   Max: 38
 
-# Offense count: 13
-# Configuration parameters: CountComments.
-Metrics/ClassLength:
-  Max: 146
+# # Offense count: 13
+# # Configuration parameters: CountComments.
+# Metrics/ClassLength:
+#   Max: 146
 
-# Offense count: 38
-Metrics/CyclomaticComplexity:
-  Max: 10
+# # Offense count: 38
+# Metrics/CyclomaticComplexity:
+#   Max: 10
 
-# Offense count: 153
-# Configuration parameters: CountComments.
-Metrics/MethodLength:
-  Max: 16
+# # Offense count: 153
+# # Configuration parameters: CountComments.
+# Metrics/MethodLength:
+#   Max: 16
 
-# Offense count: 22
-Metrics/PerceivedComplexity:
-  Max: 11
+# # Offense count: 22
+# Metrics/PerceivedComplexity:
+#   Max: 11
 
 AllCops:
   Exclude:
@@ -36,17 +36,17 @@ Style/ClassAndModuleChildren:
     - nested
     - compact
 
-Style/Encoding:
-  Enabled: true
-
-Style/Encoding:
+Documentation:
   Enabled: false
 
-Metrics/LineLength:
-  Max: 99
+# Style/Encoding:
+#   Enabled: true
 
-Style/StringLiterals:
-  Enabled: false
+# Style/Encoding:
+#   Enabled: false
 
-Style/StringLiteralsInInterpolation:
-  Enabled: false
+# Style/StringLiterals:
+#   Enabled: false
+
+# Style/StringLiteralsInInterpolation:
+#   Enabled: false
