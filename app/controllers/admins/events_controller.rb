@@ -38,7 +38,7 @@ class Admins::EventsController < Admins::BaseController
   private
 
   def permitted_params
-    params.require(:event).permit(:aasm_state, :name, :url, :location, :start_date, :end_date, :description, :support_email, :style, :logo, :background_type, :background)
+    params.require(:event).permit(:aasm_state, :name, :url, :location, :start_date, :end_date, :description, :support_email, :style, :logo, :background_type, :background, :features)
   end
 
 end

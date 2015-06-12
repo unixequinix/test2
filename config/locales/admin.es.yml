@@ -13,6 +13,7 @@ es:
       background_type: 'Tipo de Fondo'
       background: 'Fondo'
       style: 'Estilo'
+      features: 'Funcionalidades habilitadas'
       states:
         created: 'No publicado'
         launched: 'Pre-evento'
@@ -25,6 +26,9 @@ es:
       images:
         profile: "Imágen de perfil"
         background: "Imágen de fondo"
+      features_options:
+        ticketing: 'Ticketing'
+        refunds: 'Devoluciones'
     defaults:
       actions: "Acciones"
       home: "Home"

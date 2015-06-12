@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150611123135) do
+ActiveRecord::Schema.define(version: 20150612182945) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -143,6 +143,7 @@ ActiveRecord::Schema.define(version: 20150611123135) do
     t.datetime "background_updated_at"
     t.string   "url"
     t.string   "background_type",         default: "fixed"
+    t.integer  "features",                default: 0,                     null: false
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|

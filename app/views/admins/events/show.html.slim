@@ -15,6 +15,10 @@
     dd = @event.url
     dt = t("admin.event.url")
     dd = @event.support_email
+    dt = t("admin.event.features")
+    dd
+      - Event::FEATURES.each_with_index do |feature, index|
+        = (index > 0 ? ", #{t("admin.event.features_options.#{feature}")}" : t("admin.event.features_options.#{feature}")) if @event.flag_enabled?(feature)
     dt = t("admin.event.location")
     dd = @event.location
     dt = t("admin.event.start_date")

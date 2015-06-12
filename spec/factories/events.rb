@@ -24,6 +24,7 @@
 #  background_updated_at   :datetime
 #  url                     :string
 #  background_type         :string           default("fixed")
+#  features                :integer          default(0), not null
 #
 
 FactoryGirl.define do

@@ -13,6 +13,7 @@ en:
       background_type: 'Background type'
       background: 'Background'
       style: 'Style'
+      features: 'Enabled Features'
       states:
         created: 'Not published'
         launched: 'Pre-event'
@@ -25,6 +26,9 @@ en:
       images:
         profile: "Profile image preview"
         background: "Background image preview"
+      features_options:
+        ticketing: 'Ticketing'
+        refunds: 'Refunds'
     defaults:
       actions: "Actions"
       home: "Home"

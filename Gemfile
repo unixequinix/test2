@@ -55,6 +55,9 @@ gem 'ransack', '~> 1.6.6'
 # Bank Account
 gem 'iban-tools', '~>1.0.0'
 
+# Flags
+gem 'flag_shih_tzu', '~>0.3.13'
+
 group :development do
   gem 'capistrano'
   gem 'capistrano-rails', '~> 1.1.3'

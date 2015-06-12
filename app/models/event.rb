@@ -24,6 +24,7 @@
 #  background_updated_at   :datetime
 #  url                     :string
 #  background_type         :string           default("fixed")
+#  features                :integer          default(0), not null
 #
 
 class Event < ActiveRecord::Base
@@ -33,6 +34,14 @@ class Event < ActiveRecord::Base
   BACKGROUND_REPEAT = 'repeat'
 
   BACKGROUND_TYPES = [BACKGROUND_FIXED, BACKGROUND_REPEAT]
+
+  include FlagShihTzu
+
+  has_flags 1 => :ticketing,
+            2 => :refunds,
+            column: 'features'
+
+  FEATURES = [:ticketing, :refunds]
 
   extend FriendlyId
   friendly_id :name, use: :slugged
