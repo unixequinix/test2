@@ -35,6 +35,8 @@ module Gspot
     config.assets.precompile += %w[welcome_admin.css welcome_admin.js]
     config.assets.precompile += %w[admin.css admin.js]
     config.assets.precompile += %w[admin_mobile.css admin_mobile.js]
+    config.assets.precompile += %w[customer/configuration/background/background_fixed.css]
+    config.assets.precompile += %w[customer/configuration/background/background_repeat.css]
 
     config.paperclip_defaults = {
       storage: :s3,

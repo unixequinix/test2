@@ -37,6 +37,7 @@ $background-image: image-url("background.jpg");
 body {
   width: 100%;
   color: $color_text;
+  background-attachment: fixed;
 }
 
 // _____ HEADER ______

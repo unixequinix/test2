@@ -25,7 +25,7 @@
         = t('admin.event.images.profile')
       .container-image-preview
         = image_tag current_event.logo.url unless current_event.logo.blank?
-    = f.input :background_type, collection: Event.background_types_selector
+    = f.input :background_type, collection: Event.background_types_selector, include_blank: false
     = f.input :background
     .edit-event-image
       label
