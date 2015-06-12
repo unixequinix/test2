@@ -71,10 +71,9 @@ textarea {
   label {
     width: 100%;
     margin: 0;
+    margin-bottom: modules(0.5);
     padding: 0;
     font-weight: 300;
-
-    @include min-screen($bp3) { margin-bottom: modules(0.5); }
   }
 }
 
