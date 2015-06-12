@@ -40,6 +40,9 @@ es:
       call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"
       call_to_action_no_admission: "Para poder recargar tu pulsera, deberás activar tu Ticket primero"
       button: "Recarga"
+    event_refunds:
+      claim: "El evento está acabando"
+      description: "Pronto podrás realizr el reembolso del crédito no disfrutado"
     without_gtags:
       title: "Te quedan Créditos?"
       description: "Deberás activar tu pulsera para poder empezar el proceso de reembolso"

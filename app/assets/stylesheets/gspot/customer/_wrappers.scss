@@ -119,7 +119,14 @@
   text-align: center;
   padding: modules(0.5);
 
-  h3 { text-align: center; }
+  h3 {
+    display: block;
+    text-align: center;
+  }
+
+  .btn {
+    margin-bottom: 0;
+  }
 }
 
 .copy-text {
