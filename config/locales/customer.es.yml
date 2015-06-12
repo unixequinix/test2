@@ -3,6 +3,7 @@ es:
   actions:
     back: "Atrás"
     cancel: "Cancelar"
+    check_news: "Ir al evento"
   header:
     edit: "Editar Pérfil"
     close: "Cerrar sesión"

@@ -3,6 +3,7 @@ en:
   actions:
     back: "Back"
     cancel: "Cancel"
+    check_news: "Check event newest"
   header:
     edit: "Edit Profile"
     close: "Logout"
