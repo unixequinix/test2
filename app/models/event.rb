@@ -38,13 +38,12 @@ class Event < ActiveRecord::Base
   friendly_id :name, use: :slugged
 
   has_attached_file :logo,
-                    path: 'public/system/event-logos/:id/:filename',
-                    url: '/system/event-logos/:id/:basename.:extension'
+                    path:  "#{Rails.env}/event/:id/logos/:filename",
+                    url: "#{Rails.env}/event/:id/logos/:basename.:extension"
 
   has_attached_file :background,
-                    path: 'public/system/event-backgrounds/:id/:filename',
-                    url: '/system/event-backgrounds/:id/:basename.:extension'
-
+                    path: "#{Rails.env}/event/:id/backgrounds/:filename",
+                    url: "#{Rails.env}/event/:id/backgrounds/:basename.:extension"
   # Validations
   validates :name, :support_email, presence: true
   validates :name, uniqueness: true

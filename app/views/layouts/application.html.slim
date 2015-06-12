@@ -12,6 +12,7 @@ html [lang=I18n.locale]
     = csrf_meta_tags
 
     = content_tag :style, current_event.style, type: "text/css"
+    = content_tag :style, "body { background-repeat: no-repeat; }", type: "text/css" if current_event.background_type == Event::BACKGROUND_FIXED
 
     = render 'customers/shared/cookies_consent'
     = render 'application/analytics'

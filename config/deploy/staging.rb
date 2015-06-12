@@ -1,4 +1,4 @@
-set :branch, 'sonar'
+set :branch, 'development'
 set :rails_env, 'staging'
 
 # Rbenv

@@ -12,11 +12,27 @@ class Admins::EventsController < Admins::BaseController
     @event = Event.friendly.find(params[:id])
     if @event.update(permitted_params)
       flash[:notice] = I18n.t('alerts.updated')
+      @event.slug = nil
+      @event.save!
       redirect_to admins_event_url(@event)
     else
       flash[:error] = I18n.t('alerts.error')
       render :edit
     end
+  end
+
+  def remove_logo
+    @event = Event.friendly.find(params[:id])
+    @event.update(logo: nil)
+    flash[:notice] = I18n.t('alerts.destroyed')
+    redirect_to admins_event_url(@event)
+  end
+
+  def remove_background
+    @event = Event.friendly.find(params[:id])
+    @event.update(background: nil)
+    flash[:notice] = I18n.t('alerts.destroyed')
+    redirect_to admins_event_url(@event)
   end
 
   private

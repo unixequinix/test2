@@ -2,6 +2,7 @@ en:
   admin:
     event:
       name: 'Name'
+      slug: 'Slug'
       support_email: 'Support email'
       location: 'Location'
       start_date: 'Start date'

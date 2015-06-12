@@ -9,6 +9,8 @@
   dl
     dt = t("admin.event.name")
     dd = @event.name
+    dt = t("admin.event.slug")
+    dd = @event.slug
     dt = t("admin.event.support_email")
     dd = @event.support_email
     dt = t("admin.event.location")
@@ -19,9 +21,15 @@
     dd = @event.end_date
     dt = t("admin.event.description")
     dd = @event.description
-    dt = t("admin.event.logo")
-    = image_tag @event.logo.url unless @event.logo.blank?
+    - if !@event.logo.blank?
+      dt = t("admin.event.logo")
+      = image_tag @event.logo.url
+      = link_to remove_logo_admins_event_path(@event), method: :post, data: { confirm: t('admin.confirm.delete') } do
+        = fa_icon "trash"
     dt = t("admin.event.background_type")
     dt = t("admin.event.background_types." + @event.background_type)
-    dt = t("admin.event.background")
-    = image_tag @event.background.url unless @event.background.blank?
+    - if !@event.background.blank?
+      dt = t("admin.event.background")
+      = image_tag @event.background.url
+      = link_to remove_background_admins_event_path(@event), method: :post, data: { confirm: t('admin.confirm.delete') } do
+        = fa_icon "trash"
