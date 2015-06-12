@@ -42,7 +42,7 @@ en:
       call_to_action_no_admission: "To securely buy your Online Top-up you need to activate your Festival Ticket first"
       button: "Top-up"
     event_refunds:
-      claim: "Event not ended yet"
+      claim: "Event not yet ended"
       description: "Credit left refunds will be available soon"
     without_gtags:
       title: "Credit left?"
