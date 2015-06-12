@@ -3,6 +3,7 @@ es:
     event:
       name: 'Nombre'
       slug: 'Identificador'
+      url: 'Url del festival'
       support_email: 'Email de soporte'
       location: 'Localización'
       start_date: 'Fecha de inicio'

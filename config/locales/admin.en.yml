@@ -3,6 +3,7 @@ en:
     event:
       name: 'Name'
       slug: 'Slug'
+      url: 'Festival url'
       support_email: 'Support email'
       location: 'Location'
       start_date: 'Start date'

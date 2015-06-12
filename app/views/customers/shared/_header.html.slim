@@ -8,10 +8,10 @@ header
         = link_to customer_root_path, class: "nav-link" do
           = t('header.menu')
       li.nav-item
-        = link_to href="#{t('event.url')}", target: "_blank", class:"nav-link" do
-          = t('header.home')
+        = link_to href="#{current_event.url}", target: "_blank", class:"nav-link" do
+          = current_event.name
       li.nav-item
-        = mail_to t('event.support_email'), t('header.help'), subject: t('event.subject_support'), class: "nav-link"
+        = mail_to current_event.support_email, t('header.help'), subject: t('event.subject_support', event: current_event.name), class: "nav-link"
 
       - if customer_signed_in?
         li.nav-item.user-options

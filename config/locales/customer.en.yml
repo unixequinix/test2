@@ -7,7 +7,7 @@ en:
   header:
     edit: "Edit Profile"
     close: "Logout"
-    menu: "My BBF"
+    menu: "Home"
     home: "Festival Website"
     help: "Help"
   conditions:

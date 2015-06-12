@@ -18,7 +18,7 @@ class Customers::OrdersController < Customers::BaseController
   def payment_form_info
     @iupay = params[:iupay] == 'true'
     @amount = (@order.total * 100).floor
-    @product_description = I18n.t('event.name')
+    @product_description = current_event.name
     @client_name = @order.customer.name
     code = Rails.application.secrets.merchant_code
     currency = Rails.application.secrets.merchant_currency

@@ -1,6 +1,6 @@
 .error_notification
   h3 = t('payment.error.title')
   p = t('payment.error.call_to_action')
-  p = t('event.support_email')
+  p = current_event.support_email
 
 = render 'customers/dashboards/event_launched/credits', call_to_action: 'Do you want to try again?'
