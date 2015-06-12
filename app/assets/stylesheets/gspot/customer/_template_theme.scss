@@ -82,8 +82,8 @@ header {
   }
 
   h2 { margin-bottom: modules(0.5); }
-
   p { margin-bottom: modules(0.25); }
+  a:hover { opacity: 0.5; }
 }
 
 .logo {
@@ -138,6 +138,7 @@ header {
 
 nav {
   width: 100%;
+  box-shadow: inset 0px 0px 0px 1px 0px $color_text;
   //background-color: $white;
 
 

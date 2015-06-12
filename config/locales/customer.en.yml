@@ -3,6 +3,7 @@ en:
   actions:
     back: "Back"
     cancel: "Cancel"
+    check_news: "Check event newest"
   header:
     edit: "Edit Profile"
     close: "Logout"
@@ -40,6 +41,9 @@ en:
       call_to_action_started: "The event just started so you cannot topup anymore"
       call_to_action_no_admission: "To securely buy your Online Top-up you need to activate your Festival Ticket first"
       button: "Top-up"
+    event_refunds:
+      claim: "Event not ended yet"
+      description: "Credit left refunds will be available soon"
     without_gtags:
       title: "Credit left?"
       description: "You need to assign your wristband to start the refund process"
