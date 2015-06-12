@@ -85,8 +85,9 @@ footer {
 .container-language {
   position: relative;
   display: inline-block;
+  padding-top: modules(1);
 
-  @include min-screen($bp3) { width: auto; padding: 0; }
+  @include min-screen($bp1) { width: auto; padding: 0; }
 
   li {
     display: inline-block;
