@@ -5,23 +5,23 @@ html
     meta content="width=device-width, initial-scale=1.0" name="viewport"
     title = t('email.customer.order.completed.title')
   body style="margin: 0; padding: 0; background-color:#f2f2f2;"
-    table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" style="border-collapse: collapse; margin: 0; background-color: #e51513 0%; font-family: sans-serif;" width="100%"
+    table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" style="border-collapse: collapse; margin: 0; background-color: #e51513 0%; font-family: arial, sans-serif;" width="100%"
       tr
         td
           //Main table
-          table align="center" style="padding: 10px; background-color: #fff;" width="800px"
+          table align="center" style="padding: 10px; background-color: #fff; font-family: arial, sans-serif;" width="800px"
             tr
               td colspan="2" height="50px" style="padding:2px 5px; text-align: left; background-color: #212738; "
                 = image_tag attachments['logo'].url, style: ' display: inline-block; height: auto; width: 100px;'
             tr
               td style="padding-top:12px; line-height: 160%;"
-                p style=" margin-bottom: 0; font-size: 24px; font-weight: bold;" = t("email.customer.confirmation.greet", name: "#{@resource.name} #{@resource.surname}")
-                p style="margin-top: 0; padding: 5px 0; font-size: 15px; color: #848482;" = t("email.customer.confirmation.mail_body")
+                p style=" margin-bottom: 0; font-size: 24px; font-weight: bold; font-family: arial, sans-serif;" = t("email.customer.confirmation.greet", name: "#{@resource.name} #{@resource.surname}")
+                p style="margin-top: 0; padding: 5px 0; font-size: 15px; color: #848482; font-family: arial, sans-serif;" = t("email.customer.confirmation.mail_body")
             tr
               td style="padding-bottom: 56px;"
                 = link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token), style: 'display: inline-block; background-color: #e51513; border-radius: 3px; text-transform: uppercase; color:#fff; padding: 12px 48px; font-family: arial, sans-serif; text-decoration: none'
             tr
               td colspan="2" style="padding: 10px; text-align: center; background-color: #212738; "
-                p style="font-size: 14px; font-style: italic; color: #B3B3B1;" = t('email.customer.order.completed.footer')
+                p style="font-size: 14px; font-style: italic; color: #B3B3B1; font-family: arial, sans-serif;" = t('email.customer.order.completed.footer')
                 a style="display: block; color: #f2f2f2; font-weight: bold;" href=""
                   = mail_to t('event.support_email')
