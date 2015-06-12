@@ -36,6 +36,16 @@ module Gspot
     config.assets.precompile += %w[admin.css admin.js]
     config.assets.precompile += %w[admin_mobile.css admin_mobile.js]
 
+    config.paperclip_defaults = {
+      storage: :s3,
+      s3_protocol: :https,
+      s3_credentials: { access_key_id: Rails.application.secrets.access_key_id,
+                        secret_access_key: Rails.application.secrets.secret_access_key,
+                        bucket: Rails.application.secrets.bucket,
+                        s3_host_name: Rails.application.secrets.hostname
+                      }
+    }
+
     # Custom exception handling
     config.exceptions_app = ->(env) { ExceptionController.action(:show).call(env) }
 

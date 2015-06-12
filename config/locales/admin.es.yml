@@ -2,6 +2,7 @@ es:
   admin:
     event:
       name: 'Nombre'
+      slug: 'Identificador'
       support_email: 'Email de soporte'
       location: 'Localización'
       start_date: 'Fecha de inicio'
