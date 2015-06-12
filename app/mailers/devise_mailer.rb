@@ -7,13 +7,11 @@ class DeviseMailer < Devise::Mailer
 
   def confirmation_instructions(record, token, opts={})
     headers['X-No-Spam'] = 'True'
-    attachments.inline['logo'] = File.read("#{Rails.root}/app/assets/images/glow.png")
     super
   end
 
   def reset_password_instructions(record, token, opts={})
     headers['X-No-Spam'] = 'True'
-    attachments.inline['logo'] = File.read("#{Rails.root}/app/assets/images/glow.png")
     super
   end
 end
