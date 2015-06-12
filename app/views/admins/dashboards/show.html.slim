@@ -1,20 +1,5 @@
 - breadcrumb :admins_root
+- provide :actions do
+  = link_to t("actions.edit"), edit_admins_event_path(@event), class: "btn btn-action btn-action-new"
 
-.container-show.container-dashboard.wrapper-dashboard-main
-    .event-status
-      h3 = @event.name
-
-      p.current-status = t("admin.event.states.#{@event.aasm_state}")
-    .change-status
-      p = t("admin.dashboard.change_state")
-      = render "admins/events/change_state", new_state: :launched, action: :launch if @event.created?
-      = render "admins/events/change_state", new_state: :started, action: :start if @event.launched?
-      = render "admins/events/change_state", new_state: :finished, action: :finish if @event.started?
-      = render "admins/events/change_state", new_state: :closed, action: :close if @event.finished?
-      = render "admins/events/change_state", new_state: :created, action: :reboot if @event.closed?
-
-.container-show.container-dashboard
-  h3.dashboard-table-header = t("admin.dashboard.api_access")
-  .wrapper-dashboard
-    p = t("admin.dashboard.current_token")
-    p.dashboard-highlight = current_admin.access_token
+= render "admins/events/controls", event: @event

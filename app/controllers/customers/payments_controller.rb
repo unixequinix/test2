@@ -36,7 +36,7 @@ class Customers::PaymentsController < Customers::BaseController
   private
 
   def send_mail_for(order)
-    OrderMailer.completed_email(order).deliver_later
+    OrderMailer.completed_email(order, current_event).deliver_later
   end
 
 end
