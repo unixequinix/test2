@@ -2,8 +2,8 @@ en:
   email:
     customer:
       communication: "This a communication of Glownet"
-      footer: 'Any question about the service? Contact directly with support'
-      footer_copy: 'Copyright © %{year} All rights reserved.'
+      footer: 'Any question about the service? Contact directly with our support department.'
+      footer_copy: 'Copyright Glownet © %{year} All rights reserved.'
       order:
         completed:
           title: 'Order Notification'
@@ -14,9 +14,12 @@ en:
           success: 'Your order has been received. You can find details below:'
           thanks: 'Thank you for your purchase.'
       confirmation:
+        title: 'Confirm password'
         greet: 'Hello %{name}!'
         mail_body: 'You can confirm your account email through the link below.'
+        mail_link: "Confirm account"
       reset_password:
+        title: 'Reset password'
         greet: 'Hello %{name}!'
         mail_body: 'Someone has requested a link to change your password. You can do this through the link below.'
         mail_link: "Change my password"

@@ -1,9 +1,9 @@
 es:
   email:
     customer:
-      communication: "Esta es un mensaje de Glownet"
-      footer: 'Alguna duda sobre tu compra? Contácta con nuestro soporte.'
-      footer_copy: 'Copyright © %{year} Todos los derechos reservados.'
+      communication: "Este es un mensaje de Glownet"
+      footer: 'Alguna duda sobre tu compra? Contácta con nuestro departamente de soporte.'
+      footer_copy: 'Copyright Glownet © %{year} Todos los derechos reservados.'
       order:
         completed:
           title: 'Notificación de Compra.'
@@ -14,9 +14,12 @@ es:
           success: 'Tu compra ha sido recibida. Encuentra los detalles debajo:'
           thanks: 'Gracias por tu compra.'
       confirmation:
+        title: 'Confirmar contraseña'
         greet: 'Hola %{name}!'
         mail_body: 'Puedes confirmar tu cuenta mediante el siguiente enlace:'
+        mail_link: "Confirmar cuenta"
       reset_password:
+        title: 'Cambiar contraseña'
         greet: 'Hola %{name}!'
         mail_body: 'Has solicitado cambiar tu contraseña. Puedes hacerlo mediante el siguiente enlace:'
         mail_link: "Cambiar mi contraseña"
