@@ -12,7 +12,8 @@
 
 FactoryGirl.define do
   factory :gtag_registration do
-    aasm_state "MyString"
+    aasm_state 'assigned'
+    gtag
+    customer
   end
-
 end

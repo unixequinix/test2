@@ -25,6 +25,6 @@ class OnlineProduct < ActiveRecord::Base
   has_many :order_items
 
   # Validations
-  validates :name, :description, :price, :min_purchasable, :max_purchasable, :initial_amount, :step, presence: true
-
+  validates :name, :description, :price, :min_purchasable,
+            :max_purchasable, :initial_amount, :step, presence: true
 end

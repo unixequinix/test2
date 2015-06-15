@@ -12,11 +12,10 @@
 #
 
 class Order < ActiveRecord::Base
-
   # Associations
   belongs_to :customer
   has_many :order_items
-  has_many   :payments
+  has_many :payments
 
   # Validations
   validates :customer, :order_items, :number, :aasm_state, presence: true
@@ -57,5 +56,4 @@ class Order < ActiveRecord::Base
   def complete_order
     self.update(completed_at: Time.now())
   end
-
 end

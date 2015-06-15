@@ -27,11 +27,12 @@ class Admin < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Validations
-  validates :email, format: { with: MAIL_FORMAT }, presence: true, uniqueness: true
-
+  validates :email,
+            format: { with: MAIL_FORMAT }, presence: true, uniqueness: true
 
   # Hooks
   before_create :generate_access_token
+
   # Methods
   # -------------------------------------------------------
 

@@ -15,5 +15,4 @@ FactoryGirl.define do
     entitlement
     ticket_type
   end
-
 end

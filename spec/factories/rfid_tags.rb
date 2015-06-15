@@ -11,8 +11,7 @@
 
 FactoryGirl.define do
   factory :gtag do
-    tag_uid "MyString"
-tag_serial_number "MyString"
+    tag_uid 'TagUID'
+    tag_serial_number { Faker::Number.number(10) }
   end
-
 end
