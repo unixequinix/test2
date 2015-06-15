@@ -2,6 +2,7 @@ class MoveAdmissionDataToAdmittances < ActiveRecord::Migration
   class Admission < ActiveRecord::Base
     belongs_to :customer
     belongs_to :ticket
+    has_many :admittances
   end
 
   def change
