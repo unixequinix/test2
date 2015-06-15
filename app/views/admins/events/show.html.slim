@@ -29,13 +29,15 @@
     dd = @event.description
     - if !@event.logo.blank?
       dt = t("admin.event.logo")
-      = image_tag @event.logo.url
-      = link_to remove_logo_admins_event_path(@event), method: :post, data: { confirm: t('admin.confirm.delete') } do
-        = fa_icon "trash"
+      dd
+        = image_tag @event.logo.url, class: "event-img-preview"
+        = link_to remove_logo_admins_event_path(@event), method: :post, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
+          = fa_icon "trash"
     dt = t("admin.event.background_type")
     dt = t("admin.event.background_types." + @event.background_type)
     - if !@event.background.blank?
       dt = t("admin.event.background")
-      = image_tag @event.background.url
-      = link_to remove_background_admins_event_path(@event), method: :post, data: { confirm: t('admin.confirm.delete') } do
-        = fa_icon "trash"
+      dd
+        = image_tag @event.background.url, class: "event-img-preview"
+        = link_to remove_background_admins_event_path(@event), method: :post, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
+          = fa_icon "trash"
