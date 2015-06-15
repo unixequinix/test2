@@ -23,7 +23,6 @@ set :linked_dirs, fetch(:linked_dirs) + %w{certs}
 # role :web, %w{deploy@example.com}
 # role :db,  %w{deploy@example.com}
 
-
 # Extended Server Syntax
 # ======================
 # This can be used to drop a more detailed server definition into the
@@ -31,6 +30,7 @@ set :linked_dirs, fetch(:linked_dirs) + %w{certs}
 # used to set extended properties on the server.
 
 server 'sonar-test.glownet.com', user: 'ubuntu', roles: %w{web app db}, primary: true
+server 'mulafest-test.glownet.com', user: 'ubuntu', roles: %w{web app db}, primary: true
 
 
 # Custom SSH Options

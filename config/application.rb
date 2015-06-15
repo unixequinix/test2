@@ -41,10 +41,10 @@ module Gspot
     config.paperclip_defaults = {
       storage: :s3,
       s3_protocol: :https,
-      s3_credentials: { access_key_id: Rails.application.secrets.access_key_id,
-                        secret_access_key: Rails.application.secrets.secret_access_key,
-                        bucket: Rails.application.secrets.bucket,
-                        s3_host_name: Rails.application.secrets.hostname
+      s3_credentials: { access_key_id: Rails.application.secrets.s3_access_key_id,
+                        secret_access_key: Rails.application.secrets.s3_secret_access_key,
+                        bucket: Rails.application.secrets.s3_bucket,
+                        s3_host_name: Rails.application.secrets.s3_hostname
                       }
     }
 

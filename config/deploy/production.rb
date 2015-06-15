@@ -1,4 +1,4 @@
-set :branch, 'sonar'
+set :branch, 'development'
 set :rails_env, 'production'
 
 # Rbenv
@@ -22,7 +22,9 @@ set :linked_dirs, fetch(:linked_dirs) + %w{certs}
 # role :app, %w{deploy@example.com}
 # role :web, %w{deploy@example.com}
 # role :db,  %w{deploy@example.com}
-
+role :app, "sonar.glownet.com", "mulafest.glownet.com"
+role :web, "sonar.glownet.com", "mulafest.glownet.com"
+role :db, "sonar.glownet.com", "mulafest.glownet.com"
 
 # Extended Server Syntax
 # ======================
@@ -31,6 +33,7 @@ set :linked_dirs, fetch(:linked_dirs) + %w{certs}
 # used to set extended properties on the server.
 
 server 'sonar.glownet.com', user: 'ubuntu', roles: %w{web app db}, primary: true
+server 'mulafest.glownet.com', user: 'ubuntu', roles: %w{web app db}, primary: true
 
 
 # Custom SSH Options
