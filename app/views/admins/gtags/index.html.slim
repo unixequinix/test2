@@ -5,23 +5,23 @@
     = fa_icon "download"
     = t("admin.actions.csv")
 
+.wrapper-negative-space
+  = render "admins/gtags/search", q: @q
 
-= render "admins/gtags/search", q: @q
+  p.section-header
+    = fa_icon "upload"
+    = t("admin.gtags.import")
 
-p.section-header
-  = fa_icon "upload"
-  = t("admin.gtags.import")
-
-.wrapper-add-file
-  = form_tag import_admins_gtags_path, multipart: true do
-    = file_field_tag :file, id: "file", accept: 'text/csv'
-    = submit_tag "Import", id: "sendButton", class: "btn btn-secondary"
+  .wrapper-add-file
+    = form_tag import_admins_gtags_path, multipart: true do
+      = file_field_tag :file, id: "file", accept: 'text/csv'
+      = submit_tag "Import", id: "sendButton", class: "btn btn-secondary"
 
 
-- if @gtags.empty?
-  .section-title-empty
-    = image_tag "img-empty.png"
-    p = t("admin.defaults.empty_gtags")
-    = link_to t("actions.new"), new_admins_gtag_path, class: "btn btn-action btn-action-new"
-- else
-  = render "admins/gtags/list", gtags: @gtags
+  - if @gtags.empty?
+    .section-title-empty
+      = image_tag "img-empty.png"
+      p = t("admin.defaults.empty_gtags")
+      = link_to t("actions.new"), new_admins_gtag_path, class: "btn btn-action btn-action-new"
+  - else
+    = render "admins/gtags/list", gtags: @gtags

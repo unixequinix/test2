@@ -9,7 +9,16 @@
 
 fieldset {
   border-bottom: 1px solid $graySilver;
-  margin-bottom: modules(1);
+  padding: modules(0.5);
+
+  @include min-screen($bp2) {
+    padding: modules(1);
+  }
+
+  @include min-screen($bp3) {
+    @include outer-container(100%);
+    padding: modules(2);
+  }
 }
 
 label {

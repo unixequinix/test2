@@ -100,7 +100,7 @@ abbr {
 
 // _________
 
-.container-admin {
+.wrapper-negative-space {
   padding: modules(0.5);
 
   @include min-screen($bp2) {
@@ -110,6 +110,11 @@ abbr {
   @include min-screen($bp3) {
     @include outer-container(100%);
     padding: modules(2);
+  }
+
+  .btn-primary {
+    margin: 0 0 modules(1);
+    @include min-screen($bp3) { margin: 0; }
   }
 }
 

@@ -11,6 +11,7 @@
       - Event::FEATURES.each_with_index do |feature, index|
         = t("admin.event.features_options.#{feature}")
         = check_box_tag t("admin.event.features_options.refunds"), event.flag_mapping["features"][feature], (:checked if event.flag_enabled?(feature)), id: "#{feature}-feature", class: "flag-selector"
+
     = f.input :features, as: :hidden
     = f.input :url, placeholder: true
     = f.input :description, as: :text, input_html: { rows: 5 }
@@ -45,4 +46,5 @@
       = fa_icon "paint-brush"
       = t("admin.event.fieldests.custom")
     = f.input :style, as: :text, input_html: { rows: 40, class: "textarea" }
-  = f.button :submit, class: "btn btn-primary"
+  .wrapper-negative-space
+    = f.button :submit, class: "btn btn-primary"
