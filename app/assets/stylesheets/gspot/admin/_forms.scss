@@ -116,9 +116,11 @@ textarea {
 }
 
 .file {
-  width: modules(10);
+  input {
+    width: modules(10);
 
-  @include min-screen($bp3) { width: 100%; }
+    @include min-screen($bp3) { width: auto; }
+  }
 }
 
 // ________ CHECKBOXES ________
