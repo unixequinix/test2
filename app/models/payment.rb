@@ -20,10 +20,9 @@
 #
 
 class Payment < ActiveRecord::Base
-
   # Associations
   belongs_to :order
 
   # Validations
-  validates :amount, :order_id, presence: true
+  validates :amount, :order, presence: true
 end
