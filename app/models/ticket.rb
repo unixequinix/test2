@@ -19,9 +19,13 @@ class Ticket < ActiveRecord::Base
 
   # Associations
   has_many :admissions, dependent: :restrict_with_error
-  has_one :assigned_admission, ->{ where(aasm_state: :assigned) }, class_name: "Admission"
+  has_one :assigned_admission,
+          -> { where(aasm_state: :assigned) },
+          class_name: 'Admission'
   has_many :customers, through: :admissions
-  has_one :assigned_customer, ->{ where(admissions: {aasm_state: :assigned}) }, class_name: "Customer"
+  has_one :assigned_customer,
+          -> { where(admissions: { aasm_state: :assigned }) },
+          class_name: 'Customer'
   belongs_to :ticket_type
 
   # Validations
@@ -47,25 +51,26 @@ class Ticket < ActiveRecord::Base
       row = Hash[[header, spreadsheet.row(i)].transpose]
       ticket = new
       ticket.attributes = row.to_hash.slice(*Ticket.attribute_names)
-      if row["ticket_type"]
-        ticket.ticket_type_id = ticket_types[row["ticket_type"]]
+      if row['ticket_type']
+        ticket.ticket_type_id = ticket_types[row['ticket_type']]
       end
       tickets << ticket
     end
     begin
       import tickets, validate: false
     rescue PG::Error => invalid
-      @result << "Fila #{index}: " + invalid.record.errors.full_messages.join(". ")
+      @result << "Fila #{index}: " +
+        invalid.record.errors.full_messages.join('. ')
     end
   end
 
   def self.open_spreadsheet(file)
     case File.extname(file.original_filename)
-    when ".csv" then Roo::Spreadsheet.open(file.path, extension: :csv, csv_options: { encoding: Encoding::ISO_8859_1})
-    when ".xls" then Roo::Spreadsheet.open(file.path, extension: :xls)
-    when ".xlsx" then Roo::Spreadsheet.open(file.path, extension: :xlsx)
-    else raise "Unknown file type: #{file.original_filename}"
+    when '.csv' then Roo::Spreadsheet.open(file.path,
+      extension: :csv, csv_options: { encoding: Encoding::ISO_8859_1 })
+    when '.xls' then Roo::Spreadsheet.open(file.path, extension: :xls)
+    when '.xlsx' then Roo::Spreadsheet.open(file.path, extension: :xlsx)
+    else fail "Unknown file type: #{file.original_filename}"
     end
   end
-
 end

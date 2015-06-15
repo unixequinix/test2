@@ -21,6 +21,7 @@ class Credit < ActiveRecord::Base
   validates :online_product, presence: true
 
   # Select options with all the credits
+  # TODO: move responsability
   def self.form_selector
     all.map{ |credit| [credit.name, credit.id] }
   end
