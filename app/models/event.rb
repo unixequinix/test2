@@ -47,13 +47,13 @@ class Event < ActiveRecord::Base
   friendly_id :name, use: :slugged
 
   has_attached_file :logo,
-                    path:  "#{Rails.env}/#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:filename",
-                    url: "#{Rails.env}/#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:basename.:extension",
+                    path:  "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:filename",
+                    url: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:basename.:extension",
                     default_url: ':default_event_image_url'
 
   has_attached_file :background,
-                    path: "#{Rails.env}/#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:filename",
-                    url: "#{Rails.env}/#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:basename.:extension"
+                    path: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:filename",
+                    url: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:basename.:extension"
   # Validations
   validates :name, :support_email, presence: true
   validates :name, uniqueness: true
