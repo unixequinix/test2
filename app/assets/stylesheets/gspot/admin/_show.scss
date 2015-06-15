@@ -93,3 +93,27 @@
     background-color: lighten($red, 15%);
   }
 }
+
+.edit-event-image {
+  width: 100%;
+  overflow: hidden;
+}
+
+.container-image-preview {
+  overflow: hidden;
+  margin-bottom: modules(1);
+  padding: modules(0.5);
+  border-radius: 3px;
+  box-shadow: inset 0px 0px 0px 1px $graySilver;
+  background-color: $input_grey;
+
+  @include min-screen($bp3) { @include span-columns(8); }
+
+  img {
+    height: auto;
+    width: 100%;
+    max-height: modules(7);
+
+    @include min-screen($bp1) { width: auto; }
+  }
+}

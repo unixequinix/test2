@@ -73,10 +73,7 @@ abbr {
   }
 }
 
-// -------------------------------------------------------
-//
 //  Common base styles
-//
 // -------------------------------------------------------
 
 // Main wrapper include aside panel and container main
@@ -115,8 +112,6 @@ abbr {
     padding: modules(2);
   }
 }
-
-
 
 .wrapper-add-file {
   @include transition(opacity 83ms linear);
