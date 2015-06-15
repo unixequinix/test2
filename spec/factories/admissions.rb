@@ -12,8 +12,7 @@
 
 FactoryGirl.define do
   factory :admission do
-    aasm_state 'assigned'
     customer
-    ticket
+    event
   end
 end

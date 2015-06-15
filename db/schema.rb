@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150612182945) do
+ActiveRecord::Schema.define(version: 20150615102220) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,38 @@ ActiveRecord::Schema.define(version: 20150612182945) do
     t.boolean  "agreed_on_registration", default: false
   end
 
+  create_table "events", force: :cascade do |t|
+    t.string   "name",                    null: false
+    t.string   "aasm_state"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.string   "slug",                    null: false, index: {name: "index_events_on_slug", unique: true}
+    t.string   "location"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.text     "description"
+    t.string   "support_email",           default: "support@glownet.com", null: false
+    t.text     "style"
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
+    t.string   "background_file_name"
+    t.string   "background_content_type"
+    t.integer  "background_file_size"
+    t.datetime "background_updated_at"
+    t.string   "url"
+    t.string   "background_type",         default: "fixed"
+    t.integer  "features",                default: 0,                     null: false
+  end
+
+  create_table "admissions", force: :cascade do |t|
+    t.integer  "customer_id", null: false, index: {name: "fk__admissions_customer_id"}, foreign_key: {references: "customers", name: "fk_admissions_customer_id", on_update: :no_action, on_delete: :no_action}
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "event_id",    default: 1, null: false, index: {name: "index_admissions_on_event_id"}, foreign_key: {references: "events", name: "admissions_event_id_fkey", on_update: :no_action, on_delete: :no_action}
+  end
+
   create_table "ticket_types", force: :cascade do |t|
     t.string   "name",       null: false
     t.string   "company",    null: false
@@ -75,12 +107,12 @@ ActiveRecord::Schema.define(version: 20150612182945) do
     t.string   "purchaser_surname"
   end
 
-  create_table "admissions", force: :cascade do |t|
-    t.integer  "customer_id", null: false, index: {name: "fk__admissions_customer_id"}, foreign_key: {references: "customers", name: "fk_admissions_customer_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "ticket_id",   null: false, index: {name: "index_admissions_on_ticket_id"}, foreign_key: {references: "tickets", name: "fk_admissions_ticket_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "aasm_state",  null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+  create_table "admittances", force: :cascade do |t|
+    t.integer  "admission_id", index: {name: "index_admittances_on_admission_id"}, foreign_key: {references: "admissions", name: "fk_admittances_admission_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "ticket_id",    index: {name: "index_admittances_on_ticket_id"}, foreign_key: {references: "tickets", name: "fk_admittances_ticket_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "aasm_state"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "bank_accounts", force: :cascade do |t|
@@ -119,31 +151,6 @@ ActiveRecord::Schema.define(version: 20150612182945) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.datetime "deleted_at",     index: {name: "index_entitlement_ticket_types_on_deleted_at"}
-  end
-
-  create_table "events", force: :cascade do |t|
-    t.string   "name",                    null: false
-    t.string   "aasm_state"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-    t.string   "slug",                    null: false, index: {name: "index_events_on_slug", unique: true}
-    t.string   "location"
-    t.datetime "start_date"
-    t.datetime "end_date"
-    t.text     "description"
-    t.string   "support_email",           default: "support@glownet.com", null: false
-    t.text     "style"
-    t.string   "logo_file_name"
-    t.string   "logo_content_type"
-    t.integer  "logo_file_size"
-    t.datetime "logo_updated_at"
-    t.string   "background_file_name"
-    t.string   "background_content_type"
-    t.integer  "background_file_size"
-    t.datetime "background_updated_at"
-    t.string   "url"
-    t.string   "background_type",         default: "fixed"
-    t.integer  "features",                default: 0,                     null: false
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|

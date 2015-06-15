@@ -28,8 +28,7 @@
 #
 
 class Event < ActiveRecord::Base
-
-  #Background Types
+  # Background Types
   BACKGROUND_FIXED = 'fixed'
   BACKGROUND_REPEAT = 'repeat'
 
@@ -52,13 +51,13 @@ class Event < ActiveRecord::Base
 
   has_attached_file :background,
                     path: "#{Rails.env}/event/:id/backgrounds/:filename",
-                    url: "#{Rails.env}/event/:id/backgrounds/:basename.:extension"
+                    url:
+                      "#{Rails.env}/event/:id/backgrounds/:basename.:extension"
   # Validations
   validates :name, :support_email, presence: true
   validates :name, uniqueness: true
   validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
-
 
   # State machine
   include AASM
@@ -91,8 +90,10 @@ class Event < ActiveRecord::Base
     end
   end
 
+  # Methods
+  # -------------------------------------------------------
+
   def self.background_types_selector
     BACKGROUND_TYPES.map { |f| [I18n.t('admin.event.background_types.' + f), f] }
   end
-
 end
