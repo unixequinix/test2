@@ -1,4 +1,9 @@
 class MoveAdmissionDataToAdmittances < ActiveRecord::Migration
+  class Admission < ActiveRecord::Base
+    belongs_to :customer
+    belongs_to :ticket
+  end
+
   def change
     Admission.find_each do |admission|
       admission.admittances.create(
