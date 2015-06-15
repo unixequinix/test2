@@ -15,7 +15,7 @@
 
 FactoryGirl.define do
   factory :ticket do
-    number { Faker::Lorem.word }
+    sequence(:number) { |n| n.to_s }
     ticket_type
     purchaser_email 'purchaser@email.com'
     purchaser_name 'John'

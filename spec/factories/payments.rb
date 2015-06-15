@@ -22,6 +22,7 @@
 FactoryGirl.define do
   factory :payment do
     amount '9.99'
+    order
     terminal { Faker::Lorem.word }
     transaction_type { Faker::Lorem.word }
     card_country { Faker::Lorem.word }
@@ -31,6 +32,6 @@ FactoryGirl.define do
     merchant_code { Faker::Lorem.word }
     success true
     payment_type { Faker::Lorem.word }
-    pait_at { Time.now }
+    paid_at { Time.now }
   end
 end

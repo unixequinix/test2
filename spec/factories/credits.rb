@@ -12,5 +12,9 @@
 FactoryGirl.define do
   factory :credit do
     standard true
+
+    after :build do |credit|
+      credit.online_product = build(:online_product, purchasable: credit)
+    end
   end
 end

@@ -12,7 +12,7 @@
 #  start_date              :datetime
 #  end_date                :datetime
 #  description             :text
-#  support_email           :string           default("support@glownet.com"), not null
+#  support_email           :string           not null
 #  style                   :text
 #  logo_file_name          :string
 #  logo_content_type       :string

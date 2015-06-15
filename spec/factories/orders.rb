@@ -16,5 +16,13 @@ FactoryGirl.define do
     number { Faker::Number.number(10) }
     aasm_state 'started'
     customer
+
+    transient do
+      item_count 3
+    end
+
+    after :build do |order|
+      order.order_items << FactoryGirl.build(:order_item, order: order)
+    end
   end
 end

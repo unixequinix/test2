@@ -13,7 +13,7 @@
 FactoryGirl.define do
   factory :bank_account do
     customer
-    iban { Faker::Number.number(4) }
-    swift { Faker::Number.number(8) }
+    iban 'SA0380000000608010167519'
+    swift 'BOFAUS6S'
   end
 end

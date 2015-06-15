@@ -13,7 +13,7 @@
 
 FactoryGirl.define do
   factory :order_item do
-    price '9.99'
+    amount '9.99'
     total '9.99'
     online_product
     order
