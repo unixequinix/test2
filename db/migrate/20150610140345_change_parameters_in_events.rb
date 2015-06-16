@@ -1,4 +1,7 @@
 class ChangeParametersInEvents < ActiveRecord::Migration
+  class Event < ActiveRecord::Base
+  end
+
   def change
     Event.find_each do |event|
       event.support_email = 'support@glownet.com' if event.support_email.nil?

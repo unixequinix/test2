@@ -22,9 +22,6 @@ set :linked_dirs, fetch(:linked_dirs) + %w{certs}
 # role :app, %w{deploy@example.com}
 # role :web, %w{deploy@example.com}
 # role :db,  %w{deploy@example.com}
-role :app, "sonar.glownet.com", "mulafest.glownet.com"
-role :web, "sonar.glownet.com", "mulafest.glownet.com"
-role :db, "sonar.glownet.com", "mulafest.glownet.com"
 
 # Extended Server Syntax
 # ======================
@@ -32,8 +29,7 @@ role :db, "sonar.glownet.com", "mulafest.glownet.com"
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server 'sonar.glownet.com', user: 'ubuntu', roles: %w{web app db}, primary: true
-server 'mulafest.glownet.com', user: 'ubuntu', roles: %w{web app db}, primary: true
+server 'bbf.glownet.com', user: 'ubuntu', roles: %w{web app db}
 
 
 # Custom SSH Options
