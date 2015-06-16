@@ -79,12 +79,19 @@ header {
 
   @include min-screen($bp3) {
     @include span-columns(4);
-    margin: 0 0 modules(1);
-    padding: modules(0.5);
+    margin: 0;
   }
 
-  h2 { margin-bottom: modules(0.25); font-size: 2rem; }
-  p { margin-bottom: modules(0.25); }
+  h2 {
+    @include mscale($double_text);
+    margin-bottom: modules(0.25);
+  }
+
+  h3 {
+    margin-bottom: 0;
+    color: $white;
+  }
+
   a:hover { opacity: 0.5; }
 }
 
