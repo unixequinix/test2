@@ -21,6 +21,20 @@ en:
           password_confirmation: 'Password Confirmation'
         edit:
           <<: *label_admin
+      event:
+        new: &label_event
+          name: 'Name'
+          support_email: 'Support email'
+          description: 'Description'
+          start_date: 'Start date'
+          end_date: 'End date'
+          location: 'Location'
+          logo: 'Logo'
+          background_type: 'Background type'
+          background: 'background'
+          style: 'Style'
+        edit:
+          <<: *label_event
       customer:
         new: &label_customer
           email: 'Email'
@@ -76,6 +90,16 @@ en:
 
 
     placeholders:
+      event:
+        new: &placeholder_event
+          name: 'Event´s name. Include year is a good idea'
+          support_email: 'Customer email support'
+          url: 'Official site of the event'
+          description: 'Add some extra information and other information you consider is important'
+          location: 'Where is the event?'
+          style: '/*Add some CSS magic*/'
+        edit:
+          <<: *placeholder_event
       online_product:
         new: &placeholder_online_product
           name: 'Choose a descriptive name'

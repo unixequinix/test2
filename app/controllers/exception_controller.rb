@@ -1,4 +1,5 @@
-class ExceptionController < ActionController::Base
+class ExceptionController < ApplicationController
+  before_action :fetch_current_event
   layout 'exception'
 
   def show

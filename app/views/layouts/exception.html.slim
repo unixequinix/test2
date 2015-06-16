@@ -11,11 +11,18 @@ html [lang=I18n.locale]
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
 
+    = content_tag :style, current_event.style, type: "text/css"
+    = content_tag :style, "body { background-repeat: no-repeat; }", type: "text/css" if current_event.background_type == Event::BACKGROUND_FIXED
+
     = render 'customers/shared/cookies_consent'
     = render 'application/analytics'
 
-  body class="#{controller_name} #{action_name}"
-
-    #mainWrapper
+  body class="#{controller_name} #{action_name}" style=("background-image: url(#{current_event.background})")
+    #notifications
+      = render 'notifications'
+    .container-main
       = render 'customers/shared/header'
-      == yield
+      #mainWrapper.wrapper-main
+        = render 'customers/shared/sub_header'
+        == yield
+    = render 'customers/shared/footer'

@@ -2,6 +2,8 @@
 = simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
   = f.error_notification
   .wrapper-field
+    h3.customer-section-header
+      = t('devise.confirmations.title')
     = f.full_error :confirmation_token
     .form-inputs
       = f.input :email, required: true, autofocus: true

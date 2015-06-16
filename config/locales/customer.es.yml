@@ -137,7 +137,7 @@ es:
   sessions:
     new:
       title: 'Inicia Sesión'
-      description: 'Rápido, seguro y gratuito'
+      description: 'Rápido y seguro'
       claim: "Prepara tu evento hoy!"
       activate: 'Activa tu ticket y beneficiate de todas sus ventajas'
       topup: 'Añade el crédito que quieras a tu ticket sin esperas'
