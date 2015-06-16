@@ -28,9 +28,9 @@
 FactoryGirl.define do
   factory :customer do
     name { Faker::Name.name }
-    surname { Faker::Name.first_name + ' ' + Faker::Name.last_name }
+    surname { Faker::Name.last_name }
     email { Faker::Internet.email }
+    agreed_on_registration true
     password 'password'
   end
-
 end

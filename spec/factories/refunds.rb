@@ -13,7 +13,9 @@
 
 FactoryGirl.define do
   factory :refund do
-    aasm_state "MyString"
+    aasm_state 'created'
+    gtag
+    customer
+    bank_account
   end
-
 end

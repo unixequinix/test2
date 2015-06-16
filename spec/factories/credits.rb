@@ -11,9 +11,10 @@
 
 FactoryGirl.define do
   factory :credit do
-    name "MyString"
-description "MyString"
-value "9.99"
-  end
+    standard true
 
+    after :build do |credit|
+      credit.online_product = build(:online_product, purchasable: credit)
+    end
+  end
 end

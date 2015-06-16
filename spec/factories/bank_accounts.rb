@@ -12,7 +12,8 @@
 
 FactoryGirl.define do
   factory :bank_account do
-    number "MyString"
+    customer
+    iban 'SA0380000000608010167519'
+    swift 'BOFAUS6S'
   end
-
 end

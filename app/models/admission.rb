@@ -11,14 +11,14 @@
 #
 
 class Admission < ActiveRecord::Base
-
   # Associations
   belongs_to :customer
   belongs_to :ticket
 
   # Validations
   validates :customer, :ticket, :aasm_state, presence: true
-  validates_uniqueness_of :ticket, conditions: -> { where(aasm_state: :assigned) }
+  validates_uniqueness_of :ticket,
+    conditions: -> { where(aasm_state: :assigned) }
 
   # State machine
   include AASM
@@ -31,5 +31,4 @@ class Admission < ActiveRecord::Base
       transitions from: :assigned, to: :unassigned
     end
   end
-
 end

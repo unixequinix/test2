@@ -21,7 +21,11 @@ FactoryGirl.define do
   factory :online_product do
     name { Faker::Lorem.word }
     description { Faker::Lorem.sentence }
-    price "9.99"
+    price '9.99'
+    min_purchasable '1'
+    max_purchasable '10'
+    initial_amount '20'
+    step '1'
+    purchasable { |op| op.association(:credit) }
   end
-
 end

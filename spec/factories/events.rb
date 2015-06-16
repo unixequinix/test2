@@ -12,7 +12,7 @@
 #  start_date              :datetime
 #  end_date                :datetime
 #  description             :text
-#  support_email           :string           default("support@glownet.com"), not null
+#  support_email           :string           not null
 #  style                   :text
 #  logo_file_name          :string
 #  logo_content_type       :string
@@ -29,8 +29,15 @@
 
 FactoryGirl.define do
   factory :event do
-    name "MyString"
-aasm_state "MyString"
+    name { Faker::Lorem.word }
+    aasm_state 'created'
+    location { Faker::Address.street_address }
+    start_date { Time.now }
+    end_date { Time.now + 2.days }
+    description { Faker::Lorem.paragraph }
+    support_email 'valid@email.com'
+    style 'html{color:white;}'
+    url { Faker::Internet.url }
+    background_type { Event::BACKGROUND_TYPES.sample }
   end
-
 end

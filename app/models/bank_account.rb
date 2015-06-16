@@ -11,7 +11,6 @@
 #
 
 class BankAccount < ActiveRecord::Base
-
   # Associations
   belongs_to :customer
   has_many :refunds
