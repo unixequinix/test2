@@ -3,7 +3,7 @@
   = link_to t("actions.new"), new_admins_entitlement_path, class: "btn btn-action btn-action-new"
 
 - if @entitlements.empty?
-  .section-title-empty
+  .section-title-empty.wrapper-negative-space
     = image_tag "img-empty.png"
     p = t("admin.defaults.empty_entitlements")
     = link_to t("actions.new"), new_admins_entitlement_path, class: "btn btn-action btn-action-new"

@@ -25,5 +25,5 @@ $header_font_features: '';
 //$debug: 'true';
 
 // Typography initialization
-@include intialize-typography($font_size: 15, $line_height: 24, $ratio: $minor_third);
-@include intialize-typography($breakpoint: $bp3, $font_size:15, $line_height: 24, $ratio: $minor_third);
+@include intialize-typography($font_size: 15, $line_height: 22, $ratio: $minor_third);
+@include intialize-typography($breakpoint: $bp3, $font_size:15, $line_height: 22, $ratio: $minor_third);

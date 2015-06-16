@@ -1,7 +1,7 @@
 footer
   = link_to href="http://glownet.com/", target: "_blank", class: "copy small" do
     = t('footer.copyright')
-    = Date.current.year
+    span.footer-year = Date.current.year
   .nav-footer
     ul.wrapper-conditions
       li.condition-link
