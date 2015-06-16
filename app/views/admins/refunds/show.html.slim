@@ -2,28 +2,29 @@
 - provide :actions do
   = link_to t("actions.back"), admins_refunds_path, class: "btn btn-action btn-action-back"
 
-.container-show
-  dl
-    dt = t("admin.refund.amount")
-    dd = @refund.gtag.gtag_credit_log.nil? ? 0.0 : @refund.gtag.gtag_credit_log.amount
-    dt = t("admin.refund.customer_name")
-    dd = link_to "#{@refund.customer.name} #{@refund.customer.surname}", admins_customer_path(@refund.customer)
-    dt = t("admin.refunds.customer_email")
-    dd = @refund.customer.email
-    dt = t("admin.refunds.gtag_serial_number")
-    dd = @refund.gtag.tag_serial_number
-    dt = t("admin.refunds.gtag_uid")
-    dd = @refund.gtag.tag_uid
-    dt = t("admin.refunds.iban")
-    dd = @refund.bank_account.iban
-    dt = t("admin.refunds.swift")
-    dd = @refund.bank_account.swift
-    dt = t("admin.refunds.created_at")
-    dd = @refund.created_at.strftime("%y-%m-%d %H:%M:%S")
-    dt = t("admin.refunds.aasm_state")
-    dd = @refund.aasm_state
+.wrapper-negative-space
+  .container-show
+    dl
+      dt = t("admin.refund.amount")
+      dd = @refund.gtag.gtag_credit_log.nil? ? 0.0 : @refund.gtag.gtag_credit_log.amount
+      dt = t("admin.refund.customer_name")
+      dd = link_to "#{@refund.customer.name} #{@refund.customer.surname}", admins_customer_path(@refund.customer)
+      dt = t("admin.refunds.customer_email")
+      dd = @refund.customer.email
+      dt = t("admin.refunds.gtag_serial_number")
+      dd = @refund.gtag.tag_serial_number
+      dt = t("admin.refunds.gtag_uid")
+      dd = @refund.gtag.tag_uid
+      dt = t("admin.refunds.iban")
+      dd = @refund.bank_account.iban
+      dt = t("admin.refunds.swift")
+      dd = @refund.bank_account.swift
+      dt = t("admin.refunds.created_at")
+      dd = @refund.created_at.strftime("%y-%m-%d %H:%M:%S")
+      dt = t("admin.refunds.aasm_state")
+      dd = @refund.aasm_state
 
-- if @refund.created?
-  = simple_form_for @refund, url: admins_refund_path(@refund) do |f|
-    = f.input :aasm_state, as: :hidden, input_html: { value: :disabled }
-    = f.button :submit, t("admin.actions.disable")
+  - if @refund.created?
+    = simple_form_for @refund, url: admins_refund_path(@refund) do |f|
+      = f.input :aasm_state, as: :hidden, input_html: { value: :disabled }
+      = f.button :submit, t("admin.actions.disable")

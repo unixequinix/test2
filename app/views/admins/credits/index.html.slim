@@ -3,9 +3,10 @@
   = link_to t("admin.actions.new"), new_admins_credit_path, class: "btn btn-action btn-action-new"
 
 - if @credits.empty?
-  .section-title-empty
+  .section-title-empty.wrapper-negative-space
     = image_tag "img-empty.png"
     p = t("admin.defaults.empty_credits")
     = link_to t("admin.actions.new"), new_admins_credit_path, class: "btn btn-action btn-action-new"
 - else
-  = render "admins/credits/list", credits: @credits
+  .wrapper-negative-space
+    = render "admins/credits/list", credits: @credits

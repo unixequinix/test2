@@ -73,10 +73,7 @@ abbr {
   }
 }
 
-// -------------------------------------------------------
-//
 //  Common base styles
-//
 // -------------------------------------------------------
 
 // Main wrapper include aside panel and container main
@@ -103,7 +100,7 @@ abbr {
 
 // _________
 
-.container-admin {
+.wrapper-negative-space {
   padding: modules(0.5);
 
   @include min-screen($bp2) {
@@ -114,63 +111,11 @@ abbr {
     @include outer-container(100%);
     padding: modules(2);
   }
-}
 
-.container-show {
-  overflow: hidden;
-  padding: modules(1);
-  border-radius: 3px;
-  background-color: $white;
-  box-shadow: inset 0px 0px 1px 0px $dark_grey;
-
-  @include min-screen($bp3) {
-    margin-bottom: modules(1);
+  .btn-primary {
+    margin: 0 0 modules(1);
+    @include min-screen($bp3) { margin: 0; }
   }
-
-  dl { margin: 0; }
-
-  dt {
-    overflow: hidden;
-    color: $grey;
-
-    @include min-screen($bp3) {
-      display: inline-block;
-      vertical-align: top;
-      padding: modules(0.25) 0;
-      width: 40%;
-    }
-  }
-
-  dd {
-    overflow: hidden;
-    margin: 0;
-
-    @include min-screen($bp3) {
-      display: inline-block;
-      vertical-align: top;
-      padding: modules(0.25) 0;
-      width: 60%;
-    }
-  }
-
-  a {
-    color: $blue;
-
-    &:hover { text-decoration: underline; }
-  }
-
-  img {
-
-    @include min-screen($bp3) {
-      display: inline-block;
-      vertical-align: top;
-      padding: modules(0.25) 0;
-      max-width: 60%;
-      width: auto;
-    }
-  }
-
-  p { margin-bottom: 0; }
 }
 
 .wrapper-add-file {

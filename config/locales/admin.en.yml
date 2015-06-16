@@ -14,6 +14,11 @@ en:
       background: 'Background'
       style: 'Style'
       features: 'Enabled Features'
+      fieldests:
+        info: "Event info"
+        date: "Sate and location"
+        image: "Images"
+        custom: "Custom styles"
       states:
         created: 'Not published'
         launched: 'Pre-event'

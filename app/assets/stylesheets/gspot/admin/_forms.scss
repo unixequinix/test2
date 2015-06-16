@@ -9,7 +9,16 @@
 
 fieldset {
   border-bottom: 1px solid $graySilver;
-  margin-bottom: modules(1);
+  padding: modules(0.5);
+
+  @include min-screen($bp2) {
+    padding: modules(1);
+  }
+
+  @include min-screen($bp3) {
+    @include outer-container(100%);
+    padding: modules(2);
+  }
 }
 
 label {
@@ -115,6 +124,16 @@ textarea {
   }
 }
 
+
+// Adjust width of the input file fields
+.file {
+  input {
+    width: modules(10);
+
+    @include min-screen($bp3) { width: auto; }
+  }
+}
+
 // ________ CHECKBOXES ________
 
 .controls {
@@ -130,6 +149,7 @@ textarea {
   @include min-screen($bp3) {
     @include span-columns(8);
     @include omega();
+    float: none;
     vertical-align: middle;
   }
 
@@ -183,27 +203,4 @@ input[type=checkbox]:checked + .collection_check_boxes {
   padding-bottom: modules(1);
 }
 
-.edit-event-image {
-  width: 100%;
-  overflow: hidden;
-}
 
-.container-image-preview {
-  overflow: hidden;
-  margin-bottom: modules(1);
-  padding: modules(0.5);
-  border-radius: 3px;
-  box-shadow: inset 0px 0px 0px 1px $graySilver;
-  background-color: $input_grey;
-
-  @include min-screen($bp3) { @include span-columns(8); }
-
-  img {
-    height: auto;
-    width: 100%;
-    max-height: modules(7);
-
-    @include min-screen($bp1) { width: auto; }
-  }
-
-}
