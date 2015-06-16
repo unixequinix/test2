@@ -65,6 +65,7 @@
 .product-title { width:40%; }
 
 .product-amount {
+  @include mscale($half_text);
   width:60%; text-align: right;
 
   input {
