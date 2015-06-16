@@ -79,7 +79,8 @@ header {
 
   @include min-screen($bp3) {
     @include span-columns(4);
-    margin: 0;
+    margin: 0 0 modules(1);
+    padding: 0;
   }
 
   h2 {
