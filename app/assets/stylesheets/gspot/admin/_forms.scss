@@ -149,6 +149,7 @@ textarea {
   @include min-screen($bp3) {
     @include span-columns(8);
     @include omega();
+    float: none;
     vertical-align: middle;
   }
 
@@ -201,3 +202,5 @@ input[type=checkbox]:checked + .collection_check_boxes {
   overflow: hidden;
   padding-bottom: modules(1);
 }
+
+

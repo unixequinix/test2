@@ -12,7 +12,9 @@ nav ul                    { color: $snow; }
 nav ul a                  { color: $snow; }
 nav ul a:hover             { color: $default; }
 
-.wrapper-date h2 a        { color: $default; }
+.wrapper-date             { background-color: $default; }
+.wrapper-date h2 a        { color: $white; }
+.wrapper-date h2 p        { color: $white; }
 .sub-header-separator     { border-bottom: 2px solid $default; }
 .container-login-map i    { color: $default; }
 .form-actions             { color: $default; }
