@@ -81,6 +81,7 @@ input[type=file] {
 
 textarea {
   @include appearance(none);
+  @include placeholder { color: $light_grey; }
   width: 100%;
   border-radius: 3px;
   border: 1px solid transparent;
@@ -104,6 +105,7 @@ textarea {
 
 .textarea {
   @include appearance(none);
+  @include placeholder { color: $input_grey; }
   border-radius: 3px;
   box-shadow: inset 0px 0px 0px 1px $black;
   padding: modules(0.5);

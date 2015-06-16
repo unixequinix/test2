@@ -137,7 +137,7 @@ en:
   sessions:
     new:
       title: 'Log in'
-      description: 'Quick, safe and free'
+      description: 'Quick and safe'
       claim: "Your event starts now!"
       activate: 'You could activate your ticket now and get extra benefits'
       topup: 'Top up as many times as you want and get ready for the event'
