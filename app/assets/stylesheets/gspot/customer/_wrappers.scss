@@ -62,9 +62,7 @@
   .btn {
     vertical-align: middle;
 
-    @include min-screen($bp3) {
-      @include span-columns(4);
-    }
+    @include min-screen($bp3) { float: right; }
   }
 
   p {
@@ -75,23 +73,6 @@
     @include min-screen($bp3) {
       @include span-columns(8);
     }
-  }
-}
-
-.wrapper-mail-confirm-message {
-  margin: modules(0.5);
-  padding: modules(1);
-  border-radius: 3px;
-  border: 1px solid rgba(150, 150, 150, 0.5);
-  background-color: $white;
-  text-align: center;
-
-  @include min-screen($bp3) { margin: modules(1) 0 0; }
-
-  i {
-    @include mscale($base_font_size*1.25);
-    display: block;
-    padding-bottom: modules(0.25);
   }
 }
 
@@ -128,6 +109,8 @@
     text-align: center;
   }
 }
+
+.align-right { text-align: right; }
 
 .copy-text {
   clear: both;
