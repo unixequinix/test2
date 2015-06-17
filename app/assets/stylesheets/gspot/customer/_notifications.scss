@@ -45,11 +45,11 @@ $light_red: lighten($red, 8%);
     width: modules(1.5);
     height: modules(1.5);
     margin: 0 auto;
-    padding-top: modules(0.25);
+    padding-top: modules(0.15);
     vertical-align: top;
     border-radius:25px;
     background-color: transparent;
-    box-shadow: inset 0px 0px 0px 3px $white;
+    border: 3px solid $white;
     color: $white;
     text-align: center;
   }

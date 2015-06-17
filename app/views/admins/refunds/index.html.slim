@@ -1,11 +1,13 @@
 - breadcrumb :admins_refunds
 - provide :actions do
 
-= render "admins/refunds/search", q: @q
+.wrapper-negative-space
 
-- if @refunds.empty?
-  .section-title-empty
-    = image_tag "img-empty.png"
-    p = t("admin.defaults.empty_refunds")
-- else
-  = render "admins/refunds/list", refunds: @refunds
+  = render "admins/refunds/search", q: @q
+
+  - if @refunds.empty?
+    .section-title-empty
+      = image_tag "img-empty.png"
+      p = t("admin.defaults.empty_refunds")
+  - else
+    = render "admins/refunds/list", refunds: @refunds

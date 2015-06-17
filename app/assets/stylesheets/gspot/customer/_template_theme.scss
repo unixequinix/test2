@@ -56,7 +56,6 @@ header {
   position: relative;
   width: 100%;
   border-radius: 3px;
-  background-color: $admin_grey;
   text-align: center;
 
   @include min-screen($bp3) {
@@ -73,16 +72,28 @@ header {
 }
 
 .wrapper-date {
-  padding: modules(0.5);
+  margin: modules(0.5);
+  padding: modules(0.25);
   text-align: left;
+  border-radius: 3px;
 
   @include min-screen($bp3) {
-    @include span-columns(5);
-    padding: 0 0 modules(0.5);
+    @include span-columns(6);
+    margin: 0 0 modules(1);
+    padding: 0;
   }
 
-  h2 { margin-bottom: modules(0.5); }
-  p { margin-bottom: modules(0.25); }
+  h2 {
+    @include mscale($double_text);
+    margin-bottom: modules(0.25);
+  }
+
+  h3 {
+    display: block;
+    margin-bottom: 0;
+    color: $white;
+  }
+
   a:hover { opacity: 0.5; }
 }
 
@@ -93,7 +104,7 @@ header {
   margin-bottom: 0;
 
   @include min-screen($bp3) {
-    @include span-columns(7);
+    @include span-columns(6);
     text-align: right;
   }
 

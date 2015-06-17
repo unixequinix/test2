@@ -1,13 +1,14 @@
-table.entitlements
-  thead
-    tr
-      th = t('admin.entitlements.name')
-      th.table-actions-field = t('admin.defauts.actions')
-  tbody
-    - entitlements.each do |entitlement|
+.wrapper-negative-space
+  table.entitlements
+    thead
       tr
-        td data-label=t('admin.entitlements.name') = link_to entitlement.name, edit_admins_entitlement_path(entitlement)
-        td.table-actions-field
-          = render 'admins/entitlements/actions', entitlement: entitlement unless current_event.started?
+        th = t('admin.entitlements.name')
+        th.table-actions-field = t('admin.defauts.actions')
+    tbody
+      - entitlements.each do |entitlement|
+        tr
+          td data-label=t('admin.entitlements.name') = link_to entitlement.name, edit_admins_entitlement_path(entitlement)
+          td.table-actions-field
+            = render 'admins/entitlements/actions', entitlement: entitlement unless current_event.started?
 
-= paginate entitlements
+  = paginate entitlements

@@ -1,4 +1,4 @@
-set :branch, 'sonar'
+set :branch, 'development'
 set :rails_env, 'production'
 
 # Rbenv
@@ -23,14 +23,13 @@ set :linked_dirs, fetch(:linked_dirs) + %w{certs}
 # role :web, %w{deploy@example.com}
 # role :db,  %w{deploy@example.com}
 
-
 # Extended Server Syntax
 # ======================
 # This can be used to drop a more detailed server definition into the
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server 'sonar.glownet.com', user: 'ubuntu', roles: %w{web app db}, primary: true
+server 'bbf.glownet.com', user: 'ubuntu', roles: %w{web app db}
 
 
 # Custom SSH Options

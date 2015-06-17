@@ -21,6 +21,20 @@ es:
           password_confirmation: 'Confirmación de contraseña'
         edit:
           <<: *label_admin
+      event:
+        new: &label_event
+          name: 'Nombre'
+          support_email: 'Email de soporte'
+          description: 'Descripción'
+          start_date: 'Fecha de inicio'
+          end_date: 'Fecha de finalización'
+          location: 'Localización'
+          logo: 'Logo'
+          background_type: 'Tipo de fondo'
+          background: 'Fondo'
+          style: 'Estilo'
+        edit:
+          <<: *label_event
       customer:
         new: &label_customer
           email: 'Email'
@@ -74,8 +88,17 @@ es:
         edit:
           <<: *label_gtag
 
-
     placeholders:
+      event:
+        new: &placeholder_event
+          name: 'Nombre del evento. No olvides el año'
+          support_email: 'Mail de ayuda para los usuarios'
+          url: 'Página oficial del evento'
+          description: 'Añade algo de información extra u otros datos que consideres importantes'
+          location: '¿Dónde se celebra?'
+          style: '/*Dale vida con CSS*/'
+        edit:
+          <<: *placeholder_event
       online_product:
         new: &placeholder_online_product
           name: 'Elige un nombre descriptivo'

@@ -79,7 +79,7 @@ textarea {
 .logo {
   width: auto;
   height: modules(4);
-  margin: 0 auto;
+  margin: modules(0.5);
 
   @include min-screen($bp3) { height: modules(5); }
 }
