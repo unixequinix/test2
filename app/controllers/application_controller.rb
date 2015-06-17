@@ -9,11 +9,19 @@ class ApplicationController < ActionController::Base
     @current_event = Event.first
   end
 
+  def current_admission
+    current_customer ? fetch_current_event_admission : Admission.none
+  end
+
   private
 
   def fetch_current_event
     @current_event = Event.first
     # TODO User authentication
+  end
+
+  def fetch_current_event_admission
+    current_customer.admissions.for_event(current_event).first || Admission.none
   end
 
   def after_sign_out_path_for(resource)
@@ -61,5 +69,4 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :mobile_device?
-
 end

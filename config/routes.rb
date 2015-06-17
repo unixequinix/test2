@@ -110,6 +110,10 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :events do
+    resources :admissions
+  end
+
   get 'privacy_policy', to: 'static_pages#privacy_policy'
   get 'terms_of_use', to: 'static_pages#terms_of_use'
 
@@ -122,5 +126,4 @@ Rails.application.routes.draw do
   end
 
   root to: 'customers/sessions#new'
-
 end

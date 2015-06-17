@@ -58,6 +58,9 @@ gem 'iban-tools', '~>1.0.0'
 # Flags
 gem 'flag_shih_tzu', '~>0.3.13'
 
+# Architectural
+gem 'reform', '~> 1.2.6'
+
 group :development do
   gem 'capistrano'
   gem 'capistrano-rails', '~> 1.1.3'

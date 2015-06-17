@@ -13,7 +13,13 @@ class Admission < ActiveRecord::Base
   # Associations
   belongs_to :customer
   belongs_to :event
+  has_many :admittances
+  has_one :assigned_admittance, -> { where(aasm_state: :assigned) },
+    class_name: "Admittance"
 
   # Validations
   validates :customer, :event, presence: true
+
+  # Scopes
+  scope :for_event, -> (event) { where(event: event) }
 end

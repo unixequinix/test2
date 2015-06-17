@@ -36,8 +36,7 @@ class Customer < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Associations
-  has_one :admission
-  has_one :assigned_admission, ->{ where(aasm_state: :assigned) }, class_name: "Admission"
+  has_many :admissions
   has_one :gtag_registration
   has_one :assigned_gtag_registration, ->{ where(aasm_state: :assigned) }, class_name: "GtagRegistration"
   has_one :ticket, through: :admission
@@ -49,5 +48,4 @@ class Customer < ActiveRecord::Base
   # Validations
   validates :email, format: { with: MAIL_FORMAT }, presence: true, uniqueness: true
   validates :name, :surname, :agreed_on_registration, presence: true
-
 end
