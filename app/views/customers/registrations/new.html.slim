@@ -14,6 +14,6 @@
       = f.input :password_confirmation, required: true
       .accept-terms
         = f.input :agreed_on_registration, label: ("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), privacy_policy_url, target: '_blank'}").html_safe
-      = f.button :submit, t('registration.new.button'), class: "btn btn-continue"
+      = f.button :submit, t('registration.new.button'), class: "btn btn-top"
 
 = render "customers/shared/links"
