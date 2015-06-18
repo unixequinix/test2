@@ -4,7 +4,7 @@ es:
   devise:
     confirmations:
       title: "Reenviar instrucciones de confirmación"
-      confirmed: "Tu dirección de correo ha sido confirmada exitosamente."
+      confirmed: "Tu dirección de correo ha sido confirmada exitosamente. Ya puedes probar a iniciar sesión."
       send_instructions: "Recibirás un correo con instrucciones de como confirmar tu dirección de correo en un par de minutos."
       send_paranoid_instructions: "Si tu correo ya existe en nuestro sistema, recibirás un correo con instrucciones de como confirmar tu dirección de correo en un par de minutos"
       button: "Reenviar"

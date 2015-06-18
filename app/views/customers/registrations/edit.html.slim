@@ -10,7 +10,6 @@
         p = t('registration.edit.waiting_confirmation')
           = resource.unconfirmed_email
       = f.input :password, autocomplete: "off", hint: t('registration.edit.password_hint'), required: false
-      = f.input :password_confirmation, required: false
       .container-button.align-right
         = f.button :submit, t('registration.edit.button'), class: "btn btn-top"
 
