@@ -53,7 +53,7 @@
 
   @include min-screen($bp3) {
     width: 45%;
-    margin: modules(2) auto 0;
+    margin: modules(2) auto;
     padding: modules(1) modules(2);
   }
 }

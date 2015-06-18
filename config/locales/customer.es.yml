@@ -90,8 +90,11 @@ es:
     call_to_action: "Activa tu pulsera y continua!"
     button: "Activar"
     placeholders:
-      line_1: "Línea 1"
-      line_2: "Línea 2"
+      line_1: "Línea 1 ej: 12345"
+      line_2: "Línea 2 ej: BA6D7DC0"
+    info:
+      line_1: 'Sólo números del "0" al "9"'
+      line_2: 'Letras y números del "0" a la "F". ¡Si encuentras una "o" es un "0"!'
   refund:
     title: "Pide tu reembolso"
     description: "Necesitamos tu cuenta de banco para completar tu reembolso."
