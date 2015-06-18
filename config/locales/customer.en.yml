@@ -90,8 +90,11 @@ en:
     call_to_action: "Asign your wristband and go!"
     button: "Assign"
     placeholders:
-      line_1: "Line 1"
-      line_2: "Line 2"
+      line_1: "Line 1 e.g: 12345"
+      line_2: "Line 2 e.g BA6D7DC0"
+    info:
+      line_1: 'Only numbers from "0" to "9"'
+      line_2: 'Letters and numbers from "0" to "F". If you find an "o" it´s a "0"'
   refund:
     title: "Refund claim"
     description: "We need your bank account to complete your claim."
