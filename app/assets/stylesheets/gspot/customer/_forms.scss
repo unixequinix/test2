@@ -167,6 +167,17 @@ textarea {
   input {
     display: block;
     width: 100%;
-    margin: 0 auto modules(1);
+    margin: 0 0 modules(0.5);
+  }
+}
+
+.wristband-hint {
+  display: block;
+  clear: both;
+  padding-top: modules(0.5);
+
+  i {
+    display: inline-block;
+    padding-right: modules(0.25);
   }
 }
