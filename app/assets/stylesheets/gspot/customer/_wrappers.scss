@@ -22,13 +22,14 @@
   position: relative;
   overflow: hidden;
   width: 95%;
-  margin: modules(1) auto;
+  margin: modules(0.5) auto;
   border-radius: 3px;
   border: 1px solid rgba(150, 150, 150, 0.5);
   background-color: $white;
 
   @include min-screen($bp3) {
     width: 100%;
+    margin: modules(1) auto;
   }
 
   p {

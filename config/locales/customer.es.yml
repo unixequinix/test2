@@ -118,6 +118,7 @@ es:
       title: 'Olvidaste tu contraseña?'
       button: 'Reenviar instrucciones'
     edit:
+      header: 'Nueva contraseña'
       title: 'Cambiar tu contraseña'
       button: 'Cambiar tu contraseña'
       password: "Contraseña nueva"
@@ -140,18 +141,25 @@ es:
       description: 'Rápido y seguro'
       button: 'Inicia Sesión'
       copy: '¿Qué ventajas tiene?'
-  disclaimer_ticketing:
-    title: "Prepara tu evento hoy!"
+  info_ticketing:
+    title: 'Prepara tu evento hoy!'
     register: 'Activa tu ticket y beneficiate de todas sus ventajas'
     topup: 'Añade el crédito que quieras a tu ticket sin esperas'
     refund: 'Al finalizar el evnto podrás gestionas la devolución del crédito no disfrutado'
-  disclaimer_refunds:
+  info_refunds:
     title: 'Solicita tu devolución'
     register: 'Regístrate y activa tu pulsera *'
     email: 'Recibirás un mail que te indicará cuando puedes continuar tu proceso de devolución **'
     refund: 'Regresa, inicia sesión, y reclama tu devolución! ***'
+  info_services_combined:
+    title: 'Prepara tu evento hoy!'
+    register: 'Activa tu ticket y beneficiate de todas sus ventajas'
+    topup: 'Añade el crédito que quieras a tu ticket sin esperas'
+    register_refund: 'Al finalizar regístrate y activa tu pulsera y podrás gestionas la devolución del crédito no disfrutado *'
+    email: 'Recibirás un mail que te indicará cuando puedes continuar tu proceso de devolución **'
+    refund: 'Regresa, inicia sesión, y reclama tu devolución! ***'
   disclaimer_list:
-    wristband: '* Periodo de solicitud de devoluciones: desde el domingo 21 de junio a las 8h hasta el martes 23 de junio a las 23:59h (GMT+1).'
+    wristband: '* Periodo de solicitud de devoluciones: desde el domingo 21 de junio a las 8h (GMT+1) hasta el martes 23 de junio a las 23:59h (GMT+1).'
     validate: '** Este mail no tardará más de 15 días hábiles. Tenemos que validar todas las solicitudes.'
     transfer: '*** Una vez reclames tu devolución, el ingreso puede tardar 1-2 dïas para cuentas dentro de Single European Payments Area (SEPA) y hasta 30 días para el resto de cuentas. Costes bancarios: 2€ para cuentas dentro de SEPA y un mínimo de 6€ para el resto de cuentas.'
     sepa: 'Más información sobre SEPA'

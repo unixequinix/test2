@@ -118,6 +118,7 @@ en:
       title: 'Forgot your password?'
       button: 'Send me password instructions'
     edit:
+      header: 'New password'
       title: 'Change your password'
       button: 'Change my password'
       password: "New password"
@@ -140,18 +141,27 @@ en:
       description: 'Quick and safe'
       button: 'Log in'
       copy: 'What are the advantages?'
-  disclaimer_ticketing:
+  info_ticketing:
     title: 'Your event starts now!'
     register: 'You could activate your ticket now and get extra benefits'
     topup: 'Top up as many times as you want and get ready for the event'
     refund: 'After the event you could refund here your credit left'
-  disclaimer_refunds:
+  info_refunds:
     title: 'Claim your refund'
     register: 'Register and activate your wristband *'
     email: 'Wait to receive an e-mail which will notify you to continue you refund process **'
     refund: 'Come back, login and receive your refund ***'
+
+  info_services_combined:
+    title: 'Your event starts now!'
+    register: 'You could activate your ticket now and get extra benefits'
+    topup: 'Top up as many times as you want and get ready for the event'
+    register_refund: 'Register after the event and you could refund here your credit left *'
+    email: 'Wait to receive an e-mail which will notify you to continue you refund process **'
+    refund: 'Come back, login and receive your refund ***'
+
   disclaimer_list:
-    wristband: '* Wristband activation period: from Sunday, June 21st at 8:00 till Tuesday, June 23rd at 23:59 (GMT+1).'
+    wristband: '* Wristband activation period: from Sunday, June 21st at 8:00 (GMT+1) till Tuesday, June 23rd at 23:59 (GMT+1).'
     validate: '** You will receive this notification within 15 business days. We have to validate your balance.'
     transfer: '*** After you process the refund, the transfer should reach your account in 1-2 days within Single European Payments Area (SEPA) and within 30 days for other bank accounts. Bank transfer costs: 2€ for accounts within SEPA and minimum 6€ for other accounts.'
     sepa: 'More information about SEPA'
