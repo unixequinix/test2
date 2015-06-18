@@ -118,6 +118,7 @@ en:
       title: 'Forgot your password?'
       button: 'Send me password instructions'
     edit:
+      header: 'New password'
       title: 'Change your password'
       button: 'Change my password'
       password: "New password"

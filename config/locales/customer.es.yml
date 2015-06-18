@@ -118,6 +118,7 @@ es:
       title: 'Olvidaste tu contraseña?'
       button: 'Reenviar instrucciones'
     edit:
+      header: 'Nueva contraseña'
       title: 'Cambiar tu contraseña'
       button: 'Cambiar tu contraseña'
       password: "Contraseña nueva"
