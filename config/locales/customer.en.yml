@@ -151,7 +151,7 @@ en:
     email: 'Wait to receive an e-mail which will notify you to continue you refund process **'
     refund: 'Come back, login and receive your refund ***'
   disclaimer_list:
-    wristband: '* Wristband activation period: from Sunday, June 21st at 8:00 till Tuesday, June 23rd at 23:59.'
+    wristband: '* Wristband activation period: from Sunday, June 21st at 8:00 till Tuesday, June 23rd at 23:59 (GMT+1).'
     validate: '** You will receive this notification within 15 business days. We have to validate your balance.'
     transfer: '*** After you process the refund, the transfer should reach your account in 1-2 days within Single European Payments Area (SEPA) and within 30 days for other bank accounts. Bank transfer costs: 2€ for accounts within SEPA and minimum 6€ for other accounts.'
     sepa: 'More information about SEPA'
