@@ -1,16 +1,4 @@
-h2.claim
-  = t('disclaimer_ticketing.title')
-ul
-  li
-    p
-      = fa_icon "ticket"
-      = t('disclaimer_ticketing.register')
-  li
-    p
-      = fa_icon "money"
-      = t('disclaimer_ticketing.topup')
-  li
-    p
-      = fa_icon "refresh"
-      = t('disclaimer_ticketing.refund')
-
+ul.disclaimer-list
+  li.small = t('disclaimer_list.wristband')
+  li.small = t('disclaimer_list.validate')
+  li.small #{t('disclaimer_list.transfer')}, #{link_to t('disclaimer_list.sepa'), 'https://en.wikipedia.org/wiki/Single_Euro_Payments_Area', target: "_blank"}
