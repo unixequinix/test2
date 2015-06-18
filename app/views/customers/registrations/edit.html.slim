@@ -1,8 +1,7 @@
-//h2 = t('registration.edit.title')
-  //= resource_name.to_s.humanize
 = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
   = f.error_notification
   .wrapper-field
+    h3.customer-section-header = t('registration.edit.title')
     .form-inputs
       = f.input :email, required: true, autofocus: true
       = f.input :name, required: true, autofocus: true
@@ -12,11 +11,11 @@
           = resource.unconfirmed_email
       = f.input :password, autocomplete: "off", hint: t('registration.edit.password_hint'), required: false
       = f.input :password_confirmation, required: false
-      = f.button :submit, t('registration.edit.button'), class: "btn btn-continue"
+      .container-button.align-right
+        = f.button :submit, t('registration.edit.button'), class: "btn btn-top"
 
-  .wrapper-title
-    h2 = t('cancel.title')
   .wrapper-field.wrapper-single-option
+    h3.customer-section-header = t('cancel.title')
     .form-inputs
       h3.single-option-header = t('cancel.unhappy')
       = link_to t('actions.cancel'), registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: "btn"

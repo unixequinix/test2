@@ -1,5 +1,3 @@
-//h2 = t('checkout.title')
-
 .wrapper-fit
   p = t('checkout.description')
   = simple_form_for @checkout_form, url: customers_checkouts_path, method: :post do |f|
@@ -12,4 +10,4 @@
         .checkout-total
           h3 = t('checkout.total')
           .top-up-amount [id="amount-total-#{credit.id}" data-id="#{credit.id}"] #{credit.online_product.price * credit.online_product.initial_amount}#{t('currency_symbol')}
-    = f.button :submit, t('checkout.button'), class: "btn btn-full-width"
+    = f.button :submit, t('checkout.button'), class: "btn btn-top btn-full-width"

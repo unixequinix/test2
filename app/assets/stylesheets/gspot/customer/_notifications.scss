@@ -45,11 +45,11 @@ $light_red: lighten($red, 8%);
     width: modules(1.5);
     height: modules(1.5);
     margin: 0 auto;
-    padding-top: modules(0.25);
+    padding-top: modules(0.15);
     vertical-align: top;
     border-radius:25px;
     background-color: transparent;
-    box-shadow: inset 0px 0px 0px 3px $white;
+    border: 3px solid $white;
     color: $white;
     text-align: center;
   }
@@ -79,7 +79,28 @@ $light_red: lighten($red, 8%);
 }
 
 .msg-for-success {
+}
 
+.success-message {
+  margin: modules(0.5);
+  padding: modules(0.5);
+  background-color: lighten($green, 38%);
+  border: 1px solid rgba(150, 150, 150, 0.3);
+  border-radius: 3px;
+  color: darken($green, 20%);
+  text-align: center;
+  font-weight: bold;
+
+  @include min-screen($bp3) {
+    margin: modules(1) 0 0;
+  }
+
+  i {
+    @include mscale($base_font_size*1.25);
+    color: darken($green, 20%);
+    margin-bottom: modules(0.25);
+    display: block;
+  }
 }
 
 .msg-for-info { }
@@ -132,11 +153,4 @@ $light_red: lighten($red, 8%);
     right: 0;
     text-align: right;
   }
-  //&:after {
-  //  content: "⇧";
-  //  display: inline-block;
-  //  width: auto;
-  //  padding: 0 modules(0.25);
-  //  font-weight: bold;
-  //}
 }
