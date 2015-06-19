@@ -72,8 +72,7 @@ header {
 }
 
 .wrapper-date {
-  margin: modules(0.5);
-  padding: modules(0.25);
+  margin: modules(0.5) modules(0.5) 0;
   text-align: left;
   border-radius: 3px;
 
@@ -84,11 +83,17 @@ header {
   }
 
   h2 {
-    @include mscale($double_text);
-    margin-bottom: modules(0.25);
+    @include mscale($base-font-size);
+    margin-bottom: 0;
+
+    @include min-screen($bp3) {
+      @include mscale($double_text);
+      margin-bottom: modules(0.25);
+    }
   }
 
   h3 {
+    @include mscale($base-font-size);
     display: block;
     margin-bottom: 0;
     color: $white;
@@ -111,9 +116,11 @@ header {
 
   a {
     overflow: hidden;
-    display: inline-block;
+    display: inlinew;
     width: auto;
     cursor: pointer;
+
+    @include min-screen($bp3) { display: inline-block; }
 
     &:hover { opacity: 0.5; }
   }
