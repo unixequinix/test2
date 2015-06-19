@@ -29,6 +29,7 @@ set :linked_dirs, fetch(:linked_dirs) + %w{certs}
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
+server 'sonar-pre.glownet.com', user: 'ubuntu', roles: %w{web app db}
 server 'bbf.glownet.com', user: 'ubuntu', roles: %w{web app db}
 
 
