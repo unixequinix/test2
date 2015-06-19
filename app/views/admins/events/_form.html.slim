@@ -15,6 +15,7 @@
             label.collection_check_boxes for="#{feature}-feature" = t("admin.event.features_options.#{feature}")
 
     = f.input :features, as: :hidden
+    = f.input :refund_service, collection: Event.refund_services_selector, include_blank: true
     = f.input :url, placeholder: true
     = f.input :description, as: :text, input_html: { rows: 5 }
   fieldset

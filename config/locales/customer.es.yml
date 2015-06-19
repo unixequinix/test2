@@ -134,14 +134,14 @@ es:
       details: 'Por favor introduce tus datos personales. Esto permitirá proporcionarte un servicio más seguro y personalizado'
     edit:
       title: 'Editar'
-      password_hint: "Déjalo en blanco si no lo quieres cambiar"
+      password_hint: "Déjala en blanco si no la quieres cambiar"
       current_password_hint: "Necesitamos tu contraseña para confirmar los cambios realizados."
       waiting_confirmation: 'En espera de confirmarción de:'
       button: 'Actualizar'
   sessions:
     new:
       title: 'Inicia Sesión'
-      description: 'Rápido y seguro'
+      description: 'Así es como funciona'
       button: 'Inicia Sesión'
       copy: '¿Qué ventajas tiene?'
   info_ticketing:

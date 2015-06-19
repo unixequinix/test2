@@ -1,5 +1,6 @@
 = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
   = f.error_notification
+  = devise_error_messages!
   .wrapper-field
     h3.customer-section-header = t('registration.edit.title')
     .form-inputs
@@ -9,6 +10,8 @@
       - if devise_mapping.confirmable? && resource.pending_reconfirmation?
         p = t('registration.edit.waiting_confirmation')
           = resource.unconfirmed_email
+
+      = f.input :current_password, autocomplete: "off"
       = f.input :password, autocomplete: "off", hint: t('registration.edit.password_hint'), required: false
       .container-button.align-right
         = f.button :submit, t('registration.edit.button'), class: "btn btn-top"

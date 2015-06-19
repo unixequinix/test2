@@ -30,6 +30,7 @@ en:
           end_date: 'End date'
           location: 'Location'
           logo: 'Logo'
+          refund_service: 'Refund service'
           background_type: 'Background type'
           background: 'background'
           style: 'Style'
@@ -40,6 +41,7 @@ en:
           email: 'Email'
           name: 'Name'
           surname: 'Surname'
+          password: 'Current Password'
           password: 'Password'
           password_confirmation: 'Password Confirmation'
           agreed_on_registration: "I readed and understand the terms of use"

@@ -33,7 +33,7 @@ class Customer < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable
 
   # Associations
   has_one :admission
@@ -47,7 +47,8 @@ class Customer < ActiveRecord::Base
   has_one :refund, ->{ where(aasm_state: :created) }
 
   # Validations
-  validates :email, format: { with: MAIL_FORMAT }, presence: true, uniqueness: true
+  validates :email, format: { with: MAIL_FORMAT }, presence: true
   validates :name, :surname, :agreed_on_registration, presence: true
+  validates_uniqueness_of :email, conditions: -> { where(deleted_at: nil) }
 
 end

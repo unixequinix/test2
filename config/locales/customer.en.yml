@@ -141,7 +141,7 @@ en:
   sessions:
     new:
       title: 'Log in'
-      description: 'Quick and safe'
+      description: 'This is how it works'
       button: 'Log in'
       copy: 'What are the advantages?'
   info_ticketing:
