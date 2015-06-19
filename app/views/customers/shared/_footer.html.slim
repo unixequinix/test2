@@ -1,4 +1,9 @@
 footer
+  = mail_to current_event.support_email, subject: t('event.subject_support', event: current_event.name), class: "footer-support small" do
+    = fa_icon "question-circle"
+    = t('footer.support')
+
+
   = link_to href="http://glownet.com/", target: "_blank", class: "copy small" do
     = t('footer.copyright')
     span.footer-year = Date.current.year

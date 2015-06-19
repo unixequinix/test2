@@ -5,6 +5,7 @@ es:
       slug: 'Identificador'
       url: 'Url del festival'
       support_email: 'Email de soporte'
+      refund_service: 'Servicio de devolución'
       location: 'Localización'
       start_date: 'Fecha de inicio'
       end_date: 'Fecha de finalización'
@@ -28,6 +29,9 @@ es:
       background_types:
         fixed: 'Fijo'
         repeat: 'Repetir'
+      refund_services:
+        bank_account: 'Cuenta bancaria'
+        epg: 'Easy payment gateway'
       images:
         profile: "Imágen de perfil"
         background: "Imágen de fondo"

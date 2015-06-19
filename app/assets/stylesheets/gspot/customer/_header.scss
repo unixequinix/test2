@@ -7,6 +7,13 @@
 $nav-size: $base-font-size*2;
 
 // HTML base styles
+
+nav li {
+  text-transform: uppercase;
+  opacity: 0.8;
+
+  &:hover { opacity: 1; }
+}
 // -------------------------------------------------------
 
 .nav-logo {

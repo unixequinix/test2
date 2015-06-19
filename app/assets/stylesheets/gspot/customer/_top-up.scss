@@ -4,6 +4,34 @@
 //
 // -------------------------------------------------------
 
+// _____ IUPAY BTN ______
+
+.btn-iupay {
+  @include transition(opacity 83ms linear);
+  @include appearance(none);
+  overflow: hidden;
+  display: inline-block;
+  width: 100%;
+  margin:  0 0 modules(1);
+  padding-top: modules(0.5);
+  border: 1px solid transparent;
+  background-color: $light_grey;
+  border-radius: 3px;
+  text-align: center;
+  cursor: pointer;
+
+  @include min-screen($bp4) {
+    width: modules(6);
+    height: modules(1.5);
+    margin-top: 0;
+    padding-top: modules(0.25);
+  }
+
+  img { width: auto; height: modules(1);}
+
+  &:hover { opacity: 0.7; }
+}
+
 // ______ TABLE ______
 
 .table-amount { width: 10%; text-align: center; }
@@ -25,7 +53,7 @@
 
   @include min-screen($bp3) {
     width: 45%;
-    margin: modules(2) auto 0;
+    margin: modules(2) auto;
     padding: modules(1) modules(2);
   }
 }
@@ -98,7 +126,7 @@
 .wrapper-secure-payment {
   text-align: center;
 
-  @include min-screen($bp3) {
+  @include min-screen($bp2) {
     text-align: left;
     float: left;
   }
@@ -109,15 +137,19 @@
 
 // _______ CREDIT CARDS ICONS _______
 
+#siteseal { padding-left: modules(0.5); }
+
+.wrapper-ccs i {
+  @include mscale($double_text);
+}
+
 .icon-ccs {
-  @include mscale($label_size);
   display: inline-block;
   vertical-align: top;
   margin: 0 modules(0.25);
 
   &:first-child { margin-left: 0; }
 }
-
 
 .bank-page-alert {
   text-align: center;
@@ -126,5 +158,21 @@
   @include min-screen($bp3) {
     text-align: right;
     margin-bottom: modules(0.5);
+  }
+}
+
+.container-order-buttons {
+  overflow: hidden;
+  text-align: center;
+
+   @include min-screen($bp2) { text-align: right }
+
+  form {
+
+    @include min-screen($bp2) {
+      display: inline-block;
+      vertical-align: top;
+      padding-left: modules(0.5);
+    }
   }
 }

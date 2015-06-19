@@ -134,14 +134,30 @@ header {
   ul {
     margin: 0;
 
-    @include min-screen($bp3) {
-      margin-bottom: modules(2);
-    }
+    @include min-screen($bp3) { margin-bottom: modules(2); }
   }
 
   i {
     display: inline-block;
     padding-right: modules(0.5);
+  }
+}
+
+.disclaimer-list {
+  padding: 0 modules(0.5);
+  text-align: center;
+
+  @include min-screen($bp4) {
+    padding: 0;
+    text-align: left;
+  }
+
+  li { margin: 0; }
+  a {
+    padding: 0 modules(0.15);
+    color: $default;
+
+    &:hover { text-decoration: underline; }
   }
 }
 
@@ -204,7 +220,6 @@ nav {
 .btn {
   @include transition(opacity 83ms linear);
   @include appearance(none);
-  //@include button($default);
   overflow: hidden;
   display: inline-block;
   width: 100%;
@@ -218,8 +233,8 @@ nav {
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  @include min-screen($bp3) {
-    width: auto;
+  @include min-screen($bp4) {
+    width: modules(12);
     margin: 0;
     padding: modules(0.5);
     line-height: 0.75;
@@ -228,50 +243,19 @@ nav {
   &:hover { opacity: 0.7; }
 }
 
-.btn-primary {
-  clear: both;
-  display: block;
-  margin: 0  auto modules(1);
-  max-width: modules(12);
-}
-
-.btn-continue {
-  display: block;
-  float: right !important;
-  margin-top: 0;
-
-  @include min-screen($bp3) { margin-top: modules(1) }
-}
-
-.btn-order {
-  margin-top: modules(1);
-
-  @include min-screen($bp3) { margin-top: 0;}
-}
-
-.btn-full-width {
-  min-width: 100%;
-  width: 100%;
-  margin-top: 0;
-}
+.btn-top        { margin-top: 0; }
+.btn-full-width { width :100%; }
+.btn-action-activate { margin-top: modules(1); }
 
 .btn-dashboard {
   display: block; margin: 0 auto;
   margin-top: modules(1);
 
-  @include min-screen($bp3) {
+  @include min-screen($bp4) {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    width: 100%;
-    margin: 0;
-  }
-}
-
-.btn-table {
-  @include min-screen($bp3) {
-    margin-right: modules(1);
   }
 }
 
@@ -291,7 +275,7 @@ nav {
 
 .table-order {
   width: 100%;
-  padding-top: modules(2);
+  padding-top: modules(1);
   text-align: left;
 
   th {
@@ -307,23 +291,8 @@ nav {
     }
   }
 
-  td { padding: modules(0.25); }
-}
-
-.payment-success {
-  margin: modules(0.5);
-  padding: modules(0.5);
-  border: 1px solid rgba(150, 150, 150, 0.5);
-  border-radius: 3px;
-  text-align: center;
-
-  @include min-screen($bp3) {
-    margin: modules(1) 0 0;
-  }
-
-  i {
-    @include mscale($half_text);
-    margin-bottom: modules(0.25);
-    display: block;
+  td {
+    box-shadow: inset 0px 1px 0px 0px $color_text;
+    padding: modules(0.25);
   }
 }

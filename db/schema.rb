@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150615102220) do
+ActiveRecord::Schema.define(version: 20150618185623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 20150615102220) do
   end
 
   create_table "customers", force: :cascade do |t|
-    t.string   "email",                  default: "",    null: false, index: {name: "index_customers_on_email", unique: true}
+    t.string   "email",                  default: "",    null: false, index: {name: "index_customers_on_email"}
     t.string   "name",                   default: "",    null: false
     t.string   "surname",                default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 20150615102220) do
     t.string   "url"
     t.string   "background_type",         default: "fixed"
     t.integer  "features",                default: 0,                     null: false
+    t.string   "refund_service"
   end
 
   create_table "admissions", force: :cascade do |t|

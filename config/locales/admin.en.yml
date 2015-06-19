@@ -5,6 +5,7 @@ en:
       slug: 'Slug'
       url: 'Festival url'
       support_email: 'Support email'
+      refund_service: 'Refund service'
       location: 'Location'
       start_date: 'Start date'
       end_date: 'End date'
@@ -28,6 +29,9 @@ en:
       background_types:
         fixed: 'Fixed'
         repeat: 'Repeat'
+      refund_services:
+        bank_account: 'Bank account'
+        epg: 'Easy payment gateway'
       images:
         profile: "Profile image preview"
         background: "Background image preview"

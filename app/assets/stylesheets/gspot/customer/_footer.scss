@@ -82,6 +82,21 @@ footer {
 
 .footer-year { padding-left: modules(0.25); }
 
+.footer-support {
+  display: block;
+  color: $footer_text;
+  text-transform: uppercase;
+  font-weight: bold;
+  opacity: 0.8;
+
+  @include min-screen($bp1) {
+    display: inline-block;
+    padding-right: modules(0.5);
+  }
+
+  i { color: $footer_text; }
+}
+
 .container-language {
   position: relative;
   display: inline-block;

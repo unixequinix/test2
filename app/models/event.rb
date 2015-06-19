@@ -25,14 +25,24 @@
 #  url                     :string
 #  background_type         :string           default("fixed")
 #  features                :integer          default(0), not null
+#  refund_service          :string
 #
 
 class Event < ActiveRecord::Base
-  # Background Types
+  nilify_blanks
+
+  #Background Types
   BACKGROUND_FIXED = 'fixed'
   BACKGROUND_REPEAT = 'repeat'
 
   BACKGROUND_TYPES = [BACKGROUND_FIXED, BACKGROUND_REPEAT]
+
+
+  #Refund Services
+  BANK_ACCOUNT = 'bank_account'
+  EASY_PAYMENT_GATEWAY = 'epg'
+
+  REFUND_SERVICES = [BANK_ACCOUNT, EASY_PAYMENT_GATEWAY]
 
   include FlagShihTzu
 
@@ -99,4 +109,9 @@ class Event < ActiveRecord::Base
   def self.background_types_selector
     BACKGROUND_TYPES.map { |f| [I18n.t('admin.event.background_types.' + f), f] }
   end
+
+  def self.refund_services_selector
+    REFUND_SERVICES.map { |f| [I18n.t('admin.event.refund_services.' + f), f] }
+  end
+
 end

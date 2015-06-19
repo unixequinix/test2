@@ -25,6 +25,7 @@
 #  url                     :string
 #  background_type         :string           default("fixed")
 #  features                :integer          default(0), not null
+#  refund_service          :string
 #
 
 FactoryGirl.define do

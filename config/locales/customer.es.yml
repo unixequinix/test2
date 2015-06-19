@@ -90,8 +90,11 @@ es:
     call_to_action: "Activa tu pulsera y continua!"
     button: "Activar"
     placeholders:
-      line_1: "Línea 1"
-      line_2: "Línea 2"
+      line_1: "Línea 1 ej: 12345"
+      line_2: "Línea 2 ej: BA6D7DC0"
+    info:
+      line_1: 'Sólo números del "0" al "9"'
+      line_2: 'Letras y números del "0" a la "F". ¡Si encuentras una "o" es un "0"!'
   refund:
     title: "Pide tu reembolso"
     description: "Necesitamos tu cuenta de banco para completar tu reembolso."
@@ -112,12 +115,13 @@ es:
       call_to_action: 'Contáctanos:'
     success:
       title: 'Pago realizado'
-      description: 'Gracias por tu compra. El pago ha sido realizado.'
+      description: 'Gracias por tu compra. El pago ha sido realizado. Podrás encontar un email con el resumen de tu compra en el correo'
   passwords:
     new:
       title: 'Olvidaste tu contraseña?'
       button: 'Reenviar instrucciones'
     edit:
+      header: 'Nueva contraseña'
       title: 'Cambiar tu contraseña'
       button: 'Cambiar tu contraseña'
       password: "Contraseña nueva"
@@ -130,20 +134,38 @@ es:
       details: 'Por favor introduce tus datos personales. Esto permitirá proporcionarte un servicio más seguro y personalizado'
     edit:
       title: 'Editar'
-      password_hint: "Déjalo en blanco si no lo quieres cambiar"
+      password_hint: "Déjala en blanco si no la quieres cambiar"
       current_password_hint: "Necesitamos tu contraseña para confirmar los cambios realizados."
       waiting_confirmation: 'En espera de confirmarción de:'
       button: 'Actualizar'
   sessions:
     new:
       title: 'Inicia Sesión'
-      description: 'Rápido y seguro'
-      claim: "Prepara tu evento hoy!"
-      activate: 'Activa tu ticket y beneficiate de todas sus ventajas'
-      topup: 'Añade el crédito que quieras a tu ticket sin esperas'
-      refund: 'Al finalizar el evnto podrás gestionas la devolución del crédito no disfrutado'
+      description: 'Así es como funciona'
       button: 'Inicia Sesión'
       copy: '¿Qué ventajas tiene?'
+  info_ticketing:
+    title: 'Prepara tu evento hoy!'
+    register: 'Activa tu ticket y beneficiate de todas sus ventajas'
+    topup: 'Añade el crédito que quieras a tu ticket sin esperas'
+    refund: 'Al finalizar el evnto podrás gestionas la devolución del crédito no disfrutado'
+  info_refunds:
+    title: 'Solicita tu devolución'
+    register: 'Regístrate y activa tu pulsera *'
+    email: 'Recibirás un mail que te indicará cuando puedes continuar tu proceso de devolución **'
+    refund: 'Regresa, inicia sesión, y reclama tu devolución! ***'
+  info_services_combined:
+    title: 'Prepara tu evento hoy!'
+    register: 'Activa tu ticket y beneficiate de todas sus ventajas'
+    topup: 'Añade el crédito que quieras a tu ticket sin esperas'
+    register_refund: 'Al finalizar regístrate y activa tu pulsera y podrás gestionas la devolución del crédito no disfrutado *'
+    email: 'Recibirás un mail que te indicará cuando puedes continuar tu proceso de devolución **'
+    refund: 'Regresa, inicia sesión, y reclama tu devolución! ***'
+  disclaimer_list:
+    wristband: '* Periodo de solicitud de devoluciones: desde el domingo 21 de junio a las 8h (GMT+1) hasta el martes 23 de junio a las 23:59h (GMT+1).'
+    validate: '** Este mail no tardará más de 15 días hábiles. Tenemos que validar todas las solicitudes.'
+    transfer: '*** Una vez reclames tu devolución, el ingreso puede tardar 1-2 dïas para cuentas dentro de Single European Payments Area (SEPA) y hasta 30 días para el resto de cuentas. Costes bancarios: 2€ para cuentas dentro de SEPA y un mínimo de 6€ para el resto de cuentas.'
+    sepa: 'Más información sobre SEPA'
   cancel:
     title: 'Cancelar cuenta'
     unhappy: 'Queremos saber que ha ocurrido, envíanos un correo!'
@@ -151,3 +173,4 @@ es:
     use: "Condiciones de uso"
     privacy: "Política de privacidad"
     copyright: "© Copyright Glownet"
+    support: 'Support'
