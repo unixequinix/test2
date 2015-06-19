@@ -105,6 +105,7 @@ header {
 
   @include min-screen($bp3) {
     @include span-columns(6);
+    float: right;
     text-align: right;
   }
 
@@ -119,8 +120,15 @@ header {
 
   img {
     display: inline-block;
-    width: auto;
-    max-height: modules(5);
+    width: 100%;
+    height: auto;
+    padding: modules(0.5);
+
+    @include min-screen($bp3) {
+      width: auto;
+      max-height: modules(5);
+      padding: 0;
+    }
   }
 }
 
@@ -140,6 +148,25 @@ header {
   i {
     display: inline-block;
     padding-right: modules(0.5);
+  }
+}
+
+.info-list {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  padding-left: modules(1);
+
+  &:before {
+    @include mscale($triple_text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    content: "·";
+    margin-right: modules(0.25);
+    vertical-align: top;
+    line-height: modules(0.5);
   }
 }
 
