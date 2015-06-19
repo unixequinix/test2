@@ -44,10 +44,16 @@ es:
     event_refunds:
       claim: "El evento aun no ha acabado"
       description: "Pronto podrás realizar el reembolso del crédito no disfrutado"
+    wait_refund_disclaimer:
+      claim: "Perfecto"
+      description: "Prontro podrás pedir tus creditos"
     without_gtags:
       title: "Te quedan Créditos?"
       description: "Deberás activar tu pulsera para poder empezar el proceso de reembolso"
       button: "Activar Pulsera"
+    without_gtags_claiming_started:
+      claim: "Lo sentimos"
+      description: "Ya ha pasado el periodo de reembolso, ponte en contacto con soporte si tienes alguna duda."
     gtag_registration:
       title: "Tu número de pulsera:"
       call_to_action: "Quieres desactivar tu pulsera?"
@@ -60,7 +66,7 @@ es:
       button: "Reclama tus créditos"
     refunds:
       title: "Tus Créditos restantes:"
-      call_to_action: "Reembolso exitoso, transferencia se realizará el %{date}"
+      call_to_action: "Reembolso realizado con éxito, pronto se realizará su transferencia"
       button: "Modificar cuenta"
   admissions:
     title: "Activación del Ticket"

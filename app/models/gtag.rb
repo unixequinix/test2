@@ -41,7 +41,7 @@ class Gtag < ActiveRecord::Base
     end
   end
 
-  def self.import(file)
+  def self.import_csv(file)
     spreadsheet = open_spreadsheet(file)
     header = spreadsheet.row(1)
     (2..spreadsheet.last_row).each do |i|

@@ -78,6 +78,7 @@ class Event < ActiveRecord::Base
     state :launched
     state :started
     state :finished
+    state :claiming_started
     state :closed
 
     event :launch do
@@ -92,8 +93,12 @@ class Event < ActiveRecord::Base
       transitions from: :started, to: :finished
     end
 
+    event :start_claim do
+      transitions from: :finished, to: :claiming_started
+    end
+
     event :close do
-      transitions from: :finished, to: :closed
+      transitions from: :claiming_started, to: :closed
     end
 
     event :reboot do

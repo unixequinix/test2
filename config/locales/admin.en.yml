@@ -25,6 +25,7 @@ en:
         launched: 'Pre-event'
         started: 'During event'
         finished: 'After event'
+        claiming_started: 'Claim started'
         closed: 'Closed'
       background_types:
         fixed: 'Fixed'

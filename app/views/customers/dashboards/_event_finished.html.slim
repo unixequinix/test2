@@ -1,5 +1,3 @@
 = render 'customers/dashboards/event_finished/gtag_registrations', gtag_registration: gtag_registration if gtag_registration && !refund && current_event.refunds?
 = render 'customers/dashboards/event_finished/without_gtags' if !gtag_registration && current_event.refunds?
-= render 'customers/dashboards/event_finished/gtag_after_refund', gtag_registration: gtag_registration if gtag_registration && refund && current_event.refunds?
-= render 'customers/dashboards/event_finished/refunds', gtag_registration: gtag_registration, refund: refund, call_to_action: t('dashboard.refunds.call_to_action', date: Time.now.strftime("%Y-%m-%d")) if gtag_registration && refund && current_event.refunds?
-= render 'customers/dashboards/event_finished/without_refund', gtag_registration: gtag_registration, call_to_action: t('dashboard.without_refunds.call_to_action') if gtag_registration && !refund && current_event.refunds?
+= render 'customers/dashboards/event_finished/wait_refund_disclaimer'if gtag_registration && !refund && current_event.refunds?

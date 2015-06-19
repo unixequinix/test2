@@ -25,6 +25,7 @@ es:
         launched: 'Pre-evento'
         started: 'Durante evento'
         finished: 'Después evento'
+        claiming_started: 'Devoluciones'
         closed: 'Cerrado'
       background_types:
         fixed: 'Fijo'

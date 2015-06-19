@@ -42,12 +42,18 @@ en:
       call_to_action_no_admission: "To securely buy your Online Top-up you need to activate your Festival Ticket first"
       button: "Top-up"
     event_refunds:
-      claim: "Event not yet ended"
+      claim: "Event not ended yet"
       description: "Credit left refunds will be available soon"
+    wait_refund_disclaimer:
+      claim: "Great"
+      description: "Soon, you will be able to claim your credits"
     without_gtags:
       title: "Credit left?"
       description: "You need to assign your wristband to start the refund process"
       button: "Assign wristband"
+    without_gtags_claiming_started:
+      claim: "Sorry"
+      description: "The refunds period is finished, I you have any question contact support."
     gtag_registration:
       title: "Your wristband number:"
       call_to_action: "Do you want to unassign the wristband?"
@@ -60,7 +66,7 @@ en:
       button: "Claim your credits"
     refunds:
       title: "Your credit:"
-      call_to_action: "Refund successfully claimed Expect transfer by %{date}"
+      call_to_action: "Refund successfully claimed, soon you will receive your transfer"
       button: "Modify bank account"
   admissions:
     title: "Ticket Activation"

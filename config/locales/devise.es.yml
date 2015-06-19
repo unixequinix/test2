@@ -20,7 +20,7 @@ es:
       unconfirmed: "Debes confirmar tu dirección de correo para continuar."
     mailer:
       confirmation_instructions:
-        subject: "Instrucciones de confimarción"
+        subject: "Instrucciones de confimación"
       reset_password_instructions:
         subject: "Resetear instrucciones de contraseña."
       unlock_instructions:
@@ -39,7 +39,7 @@ es:
       signed_up: "Bienvenido! Has iniciado sesión exitosamente."
       signed_up_but_inactive: "Te has registrado exitosamente. Sin embargo, no has iniciado sesión debido a que tu cuenta no ha sido activada todavía."
       signed_up_but_locked: "Te has registrado exitosamente. Sin embargo, no has iniciado sesión debido a que tu cuenta ha sido bloqueada."
-      signed_up_but_unconfirmed: "Se ha enviado un mensaje con un enlace de confirmación a tu dirección de correo. Por favor procede al enlace para activar tu cuenta."
+      signed_up_but_unconfirmed: "Se ha enviado un mensaje con un enlace de confirmación a tu dirección de correo. Por favor sigue el enlace para activar tu cuenta."
       update_needs_confirmation: "Has actualizado tu cuenta exitosamente, pero necesitamos verificar tu nueva dirección de correo. Por favor revisa tu correo y procede al enlace de confirmación para confirmar tu nueva dirección de correo."
       updated: "Tu cuenta ha sido actualizada exitosamente"
     sessions:
