@@ -44,18 +44,19 @@ class Gtag < ActiveRecord::Base
   def self.import_csv(file)
     spreadsheet = open_spreadsheet(file)
     header = spreadsheet.row(1)
+    gtags = []
+
+    # Import Gtags
     (2..spreadsheet.last_row).each do |i|
       row = Hash[[header, spreadsheet.row(i)].transpose]
-      gtag = find_by_id(row["id"]) || new
+      gtag = new
       gtag.attributes = row.to_hash.slice(*Gtag.attribute_names)
-      if row["amount"]
-        gtag.gtag_credit_log.nil? ? gtag.gtag_credit_log = GtagCreditLog.create(gtag_id: row["id"], amount: row["amount"]) : gtag.gtag_credit_log.amount = row["amount"]
-      end
-      begin
-        gtag.save!
-      rescue ActiveRecord::RecordInvalid => invalid
-        puts invalid.record.errors
-      end
+      gtags << gtag
+    end
+    begin
+      import gtags, validate: false
+    rescue PG::Error => invalid
+      @result << "Fila #{index}: " + invalid.record.errors.full_messages.join(". ")
     end
   end
 

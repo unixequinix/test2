@@ -83,6 +83,7 @@ textarea {
 
   @include min-screen($bp3) {
     height: modules(5);
+    width: modules(5);
   }
 }
 
