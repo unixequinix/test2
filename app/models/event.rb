@@ -42,11 +42,14 @@ class Event < ActiveRecord::Base
 
   FEATURES = [:ticketing, :refunds]
 
+  # Associations
+  has_many :admissions
+
   extend FriendlyId
   friendly_id :name, use: :slugged
 
   has_attached_file :logo,
-                    path:  "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:filename",
+                    path: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:filename",
                     url: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:basename.:extension",
                     default_url: ':default_event_image_url'
 

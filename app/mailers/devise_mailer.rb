@@ -8,14 +8,14 @@ class DeviseMailer < Devise::Mailer
   def confirmation_instructions(record, token, opts={})
     headers['X-No-Spam'] = 'True'
     # TODO Get event from the customer
-    @event = Event.first
+    @event = Event.first || Event.new
     super
   end
 
   def reset_password_instructions(record, token, opts={})
     headers['X-No-Spam'] = 'True'
     # TODO Get event from the customer
-    @event = Event.first
+    @event = Event.first || Event.new
     super
   end
 end

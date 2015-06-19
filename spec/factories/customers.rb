@@ -32,5 +32,6 @@ FactoryGirl.define do
     email { Faker::Internet.email }
     agreed_on_registration true
     password 'password'
+    password_confirmation 'password'
   end
 end

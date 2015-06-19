@@ -111,7 +111,7 @@ Rails.application.routes.draw do
   end
 
   resources :events do
-    resources :admissions
+    resources :admissions, controller: 'events/admissions'
   end
 
   get 'privacy_policy', to: 'static_pages#privacy_policy'

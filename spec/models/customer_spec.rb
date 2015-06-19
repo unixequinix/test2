@@ -40,7 +40,7 @@ RSpec.describe Customer, type: :model do
 
     describe 'the password' do
       it 'is ok if valid' do
-        @customer.password = 'validpsswd2'
+        @customer.password = @customer.password_confirmation = 'validpsswd2'
         expect(@customer).to be_valid
       end
 
@@ -49,7 +49,7 @@ RSpec.describe Customer, type: :model do
         'empty' => ''
       }.each do |problematic, password|
         it "cannot be #{problematic}" do
-          @customer.password = password
+          @customer.password = @customer.password_confirmation  = password
           expect(@customer).not_to be_valid
           expect(@customer.errors['password']).to be_any
         end
