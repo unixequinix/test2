@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150618185623) do
+ActiveRecord::Schema.define(version: 20150619181255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -181,11 +181,11 @@ ActiveRecord::Schema.define(version: 20150618185623) do
   end
 
   create_table "gtag_registrations", force: :cascade do |t|
-    t.integer  "customer_id", null: false, index: {name: "fk__gtag_registrations_customer_id"}, foreign_key: {references: "customers", name: "fk_gtag_registrations_customer_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "gtag_id",     null: false, index: {name: "index_gtag_registrations_on_gtag_id"}, foreign_key: {references: "gtags", name: "fk_gtag_registrations_gtag_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "gtag_id",      null: false, index: {name: "index_gtag_registrations_on_gtag_id"}, foreign_key: {references: "gtags", name: "fk_gtag_registrations_gtag_id", on_update: :no_action, on_delete: :no_action}
     t.string   "aasm_state"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "admission_id", default: 1, null: false, index: {name: "index_gtag_registrations_on_admission_id"}, foreign_key: {references: "admissions", name: "gtag_registrations_admission_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "online_products", force: :cascade do |t|

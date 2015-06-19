@@ -19,6 +19,9 @@ class Admission < ActiveRecord::Base
   has_many :admittances, dependent: :destroy
   has_one :assigned_admittance, -> { where(aasm_state: :assigned) },
     class_name: 'Admittance'
+  has_one :gtag_registration
+  has_one :assigned_gtag_registration, ->{ where(aasm_state: :assigned) },
+    class_name: 'GtagRegistration'
 
   # Validations
   validates :customer, :event, presence: true
