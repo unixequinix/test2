@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 20150618185623) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "event_id",    default: 1, null: false, index: {name: "index_admissions_on_event_id"}, foreign_key: {references: "events", name: "admissions_event_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.datetime "deleted_at",  index: {name: "index_admissions_on_deleted_at"}
   end
 
   create_table "ticket_types", force: :cascade do |t|
@@ -111,6 +112,7 @@ ActiveRecord::Schema.define(version: 20150618185623) do
   create_table "admittances", force: :cascade do |t|
     t.integer  "admission_id", index: {name: "index_admittances_on_admission_id"}, foreign_key: {references: "admissions", name: "fk_admittances_admission_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "ticket_id",    index: {name: "index_admittances_on_ticket_id"}, foreign_key: {references: "tickets", name: "fk_admittances_ticket_id", on_update: :no_action, on_delete: :no_action}
+    t.datetime "deleted_at",   index: {name: "index_admittances_on_deleted_at"}
     t.string   "aasm_state"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false

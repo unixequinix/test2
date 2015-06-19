@@ -9,7 +9,6 @@ class Events::AdmissionsController < Events::BaseController
       AdmissionForm.new(admission: Admission.new, customer: Customer.new)
     if @admission_form.validate(permitted_params) && @admission_form.save
       flash[:notice] = 'ALLES GUT!! TODO'
-      # TODO: where to redirect?
       customer = @admission_form.model[:customer]
       sign_in(customer)
       redirect_to after_sign_in_path_for(customer)
@@ -21,7 +20,8 @@ class Events::AdmissionsController < Events::BaseController
   private
 
   def permitted_params
-    params.require(:admission).permit(:email, :name, :surname,
-      :password, :password_confirmation, :agreed_on_registration, :event_id)
+    params.require(:admission)
+      .permit(:email, :name, :surname, :password, :password_confirmation,
+              :agreed_on_registration, :event_id)
   end
 end

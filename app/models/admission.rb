@@ -7,13 +7,16 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  event_id    :integer          default(1), not null
+#  deleted_at  :datetime
 #
 
 class Admission < ActiveRecord::Base
+  acts_as_paranoid
+
   # Associations
   belongs_to :customer
   belongs_to :event
-  has_many :admittances
+  has_many :admittances, dependent: :destroy
   has_one :assigned_admittance, -> { where(aasm_state: :assigned) },
     class_name: 'Admittance'
 

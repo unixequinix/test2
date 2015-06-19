@@ -24,7 +24,7 @@ RSpec.describe Events::AdmissionsController, type: :controller do
       end.to change(Admission, :count).by(1)
     end
 
-    it "associates the customer with the admission" do
+    it 'associates the customer with the admission' do
       post :create, post_params
       customer = Customer.last
       admission = Admission.last
