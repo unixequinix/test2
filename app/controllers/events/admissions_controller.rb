@@ -12,7 +12,7 @@ class Events::AdmissionsController < Events::BaseController
       # TODO: where to redirect?
       customer = @admission_form.model[:customer]
       sign_in(customer)
-      redirect_to :root
+      redirect_to after_sign_in_path_for(customer)
     else
       render :new
     end

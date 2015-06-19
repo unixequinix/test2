@@ -15,7 +15,7 @@ class Admission < ActiveRecord::Base
   belongs_to :event
   has_many :admittances
   has_one :assigned_admittance, -> { where(aasm_state: :assigned) },
-    class_name: "Admittance"
+    class_name: 'Admittance'
 
   # Validations
   validates :customer, :event, presence: true
