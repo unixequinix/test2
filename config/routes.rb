@@ -44,7 +44,7 @@ Rails.application.routes.draw do
   ## ------------------------------
 
   namespace :customers do
-    resources :admissions, only: [:new, :create, :destroy]
+    resources :admittances, only: [:new, :create, :destroy]
     resources :refunds, only: [:new, :create, :edit, :update]
     resources :gtag_registrations, only: [:new, :create, :destroy]
     resources :checkouts, only: [:new, :create]

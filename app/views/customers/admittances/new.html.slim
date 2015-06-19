@@ -2,7 +2,7 @@
 .wrapper-fit.centered
   h3 = t('admissions.call_to_action')
   p = t('admissions.description')
-  = form_tag customers_admissions_path do |f|
+  = form_tag customers_admittances_path do |f|
     .assign-input
       = text_field_tag :ticket_number, nil, placeholder: t('admissions.placeholders.ticket_number')
     = submit_tag t('admissions.button'), class: "btn"

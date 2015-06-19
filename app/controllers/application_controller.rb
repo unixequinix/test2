@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 
   # TODO Do this somewhere else other than the global space
   def current_event
-    @current_event = Event.first
+    @current_event ||= Event.first
   end
 
   def current_admission

@@ -1,2 +1,2 @@
 = render "customers/dashboards/event_#{current_event.aasm_state}",
-  admission: @admission, gtag_registration: @gtag_registration, refund: @refund
+  presenter: @presenter if @presenter.can_render?

@@ -3,7 +3,7 @@ module Api
     class TicketSerializer < Api::V1::BaseSerializer
       attributes :ticket_type, :number, :assigned, :customer_assignation_history, :purchaser_email, :purchaser_name, :purchaser_surname, :created_at
       has_one :ticket_type
-      has_one :assigned_admission
+      has_one :assigned_admittance
 
       def customer_assignation_history
         object.customers.map do |customer|
@@ -12,7 +12,7 @@ module Api
       end
 
       def assigned
-        !object.assigned_admission.nil?
+        !object.assigned_admittance.nil?
       end
 
       def created_at

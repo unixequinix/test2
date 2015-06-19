@@ -1,0 +1,12 @@
+.wrapper-field.form-inputs
+  = simple_form_for admittance, url: customers_admittance_path(admittance), method: :delete do |f|
+    .dashboard-field.dashboard-field-info
+      h3
+        = fa_icon 'ticket'
+        = t('dashboard.admissions.header')
+      h3.highlight
+        = admittance.ticket.number
+    .dashboard-field.dashboard-field-action
+      h3 = t('dashboard.admissions.description')
+      - unless current_event.started?
+        = f.button :submit, t('dashboard.admissions.button'), class: "btn btn-dashboard"
