@@ -23,6 +23,19 @@ en:
         greet: 'Hello %{name}!'
         mail_body: 'Someone has requested a link to change your password. You can do this through the link below.'
         mail_link: "Change my password"
+      gtag:
+        assigned:
+          title: 'Wristband assigned'
+          subject: 'Wristband assigned'
+          greet: 'Hello %{name}!'
+          mail_body: 'You assigned a wristband with the id:'
+          mail_link: 'Check it on the website'
+        unassigned:
+          title: 'Wristband unassigned'
+          subject: 'Wristband unassigned'
+          greet: 'Hello %{name}!'
+          mail_body: 'You unassigned a wristband with the id:'
+          mail_link: 'Check it on the website'
     admin:
       reset_password:
         greet: 'Hello %{email}!'

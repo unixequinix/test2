@@ -23,6 +23,19 @@ es:
         greet: 'Hola %{name}!'
         mail_body: 'Has solicitado cambiar tu contraseña. Puedes hacerlo mediante el siguiente enlace:'
         mail_link: "Cambiar mi contraseña"
+      gtag:
+        assigned:
+          title: 'Pulsera activada'
+          subject: 'Pulsera activada'
+          greet: 'Hola %{name}!'
+          mail_body: 'Has asignado una pulsera con el siguiente identificador:'
+          mail_link: 'Puede verlo en la web'
+        unassigned:
+          title: 'Pulsera desactivada'
+          subject: 'Pulsera desactivada'
+          greet: 'Hola %{name}!'
+          mail_body: 'Has desactivado una pulsera con el siguiente identificador:'
+          mail_link: 'Puede verlo en la web'
     admin:
       reset_password:
         greet: 'Hola %{email}!'

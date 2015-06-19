@@ -1,10 +1,10 @@
 es:
   alerts:
-    created: 'Creado exitosamente'
-    updated: 'Actualizado exitosamente'
-    imported: 'Importado exitosamente'
-    destroyed: 'Eliminado exitosamente'
-    unassigned: 'Desactivado exitosamente'
+    created: 'Creado con exito'
+    updated: 'Actualizado con exito'
+    imported: 'Importado con exito'
+    destroyed: 'Eliminado con exito'
+    unassigned: 'Desactivado con exito'
     error: 'Revisar errores de formulario'
     addminsions:  "Ticket no reconocido. Si has realizado tu compra en las últimas 48 horas, intenta de nuevo luego mientras actualizamos tu compra. Si persiste, contacta soporte"
     gtag: "Pulsera no válida"

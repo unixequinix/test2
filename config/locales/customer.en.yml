@@ -87,7 +87,7 @@ en:
   gtag_registrations:
     title: "Assign wristband"
     description: "In order to proceed asign the number as appears in your wristband. The number consists of 2 lines."
-    call_to_action: "Asign your wristband and go!"
+    call_to_action: "Assign your wristband and go!"
     button: "Assign"
     placeholders:
       line_1: "Line 1 e.g: 12345"
