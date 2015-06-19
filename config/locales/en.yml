@@ -1,6 +1,5 @@
 en:
   event:
-    support_email: 'support@glownet.com'
     subject_support: 'Need help for %{event}'
     locales:
       en: 'ENG'
