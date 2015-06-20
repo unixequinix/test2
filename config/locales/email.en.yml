@@ -1,8 +1,12 @@
 en:
   email:
     customer:
+      our_company: 'Learn more about Glownet'
+      follow_on_twitter: 'Follow on Twitter'
+      like_on_facebook: 'Like on Facebook'
+      suscribe_on_you_tube: 'Subscribe on YouTube'
       communication: "This a communication of Glownet"
-      footer: 'Any question about the service? Contact directly with our support department.'
+      footer: 'Any question about the service? Contact directly %{event_name} support department.'
       footer_copy: 'Copyright Glownet © %{year} All rights reserved.'
       order:
         completed:

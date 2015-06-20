@@ -52,6 +52,4 @@ class Customer < ActiveRecord::Base
   validates :agreed_on_registration, acceptance: { accept: true }
   validates_length_of :password, within: Devise.password_length, allow_blank: true
   validates_uniqueness_of :email, conditions: -> { where(deleted_at: nil) }
-
-
 end

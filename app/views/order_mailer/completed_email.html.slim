@@ -406,33 +406,29 @@ html
                       td.footerContent[valign="top"]
                         table[border="0" cellpadding="10" cellspacing="0" width="100%"]
                           tr
-                            td#social[colspan="2" valign="middle"]
-                              div[mc:edit="std_social"]
-                                |   
-                                a[href="https://twitter.com/GlownetHQ"]
-                                  | follow on Twitter
-                                |  |
-                                a[href="https://www.facebook.com/glowneteventtechnology"]
-                                  | friend on Facebook
-                                |  |
-                                a[href="https://www.youtube.com/channel/UCruCrMlIVUrQxF64Ijqsqig"]
-                                  | subscribe YouTube
-                                |  |
-                                a[href="https://www.linkedin.com/company/glownet?trk=prof-exp-company-name"]
-                                  | Our company
-                                |  
-                          tr
                             td#footer[valign="top" width="100%"]
                               div[mc:edit="std_footer"]
                                 br
                                 strong
-                                  = t('email.customer.footer')
+                                  = t('email.customer.footer', event_name: @event.name)
                                 br
                                 = mail_to @event.support_email
+                          tr
+                            td#social[colspan="2" valign="middle"]
+                              div[mc:edit="std_social"]
+                                = link_to t('email.customer.our_company'), "https://www.linkedin.com/company/glownet?trk=prof-exp-company-name"
+                                |  |
+                                = link_to t('email.customer.follow_on_twitter'), "https://twitter.com/GlownetHQ"
+                                |  |
+                                = link_to t('email.customer.like_on_facebook'), "https://www.facebook.com/glowneteventtechnology"
+                                |  |
+                                = link_to t('email.customer.suscribe_on_you_tube'), "https://www.youtube.com/channel/UCruCrMlIVUrQxF64Ijqsqig"
+                          tr
+                            td#footer[valign="top" width="100%"]
+                              div[mc:edit="std_footer"]
                                 p
                                   = t('email.customer.footer_copy', year: Time.now.year)
                             //td#monkeyRewards[valign="top" width="190"]
                             //  div[mc:edit="monkeyrewards"]
                             //    |  *|IF:REWARDS|* *|HTML:REWARDS|* *|END:IF|*
             br
-

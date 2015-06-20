@@ -42,11 +42,11 @@ es:
       call_to_action_no_admission: "Para poder recargar tu pulsera, deberás activar tu Ticket primero"
       button: "Recarga"
     event_refunds:
-      claim: "El evento aun no ha acabado"
-      description: "Pronto podrás realizar el reembolso del crédito no disfrutado"
+      claim: "El evento aún no ha acabado"
+      description: "Vuelve pronto para poder reclamar tus creditos"
     wait_refund_disclaimer:
       claim: "Perfecto"
-      description: "Prontro podrás pedir tus creditos"
+      description: "Te enviaremos un e-mail cuando tus creditos estén listos para reembolsar"
     without_gtags:
       title: "Te quedan Créditos?"
       description: "Deberás activar tu pulsera para poder empezar el proceso de reembolso"
@@ -135,6 +135,7 @@ es:
   registration:
     new:
       title: 'Regístrate'
+      info: 'Por favor introduce tus detalles personales para que podamos ofrecerte un servicio seguro y conveniente.'
       description: 'Todos los campos son obligatorios.'
       button: 'Regístrate'
       details: 'Por favor introduce tus datos personales. Esto permitirá proporcionarte un servicio más seguro y personalizado'

@@ -3,7 +3,7 @@ en:
   actions:
     back: "Back"
     cancel: "Cancel"
-    check_news: "Check event newest"
+    check_news: "Back to Festival Website"
   header:
     edit: "Edit Profile"
     close: "Logout"
@@ -42,11 +42,11 @@ en:
       call_to_action_no_admission: "To securely buy your Online Top-up you need to activate your Festival Ticket first"
       button: "Top-up"
     event_refunds:
-      claim: "Event not ended yet"
-      description: "Credit left refunds will be available soon"
+      claim: "Event hasn't finished yet"
+      description: "Come back soon to apply for your credits refund"
     wait_refund_disclaimer:
       claim: "Great"
-      description: "Soon, you will be able to claim your credits"
+      description: "We will send you an e-mail when your credits are ready for the refund"
     without_gtags:
       title: "Credit left?"
       description: "You need to assign your wristband to start the refund process"
@@ -135,6 +135,7 @@ en:
   registration:
     new:
       title: 'Sign up'
+      info: 'Please enter your correct personal details below so that we can provide you with secure and convenient service.'
       description: 'All the fields in this form are required.'
       button: 'Sign up'
       details: "Please provide your personal details as a festival visitor. This will allow us to give you a secure and personalized service"
