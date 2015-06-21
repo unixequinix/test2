@@ -111,6 +111,9 @@ Rails.application.routes.draw do
         post :search
       end
     end
+    authenticate :admin do
+      mount Sidekiq::Web, at: '/sidekiq'
+    end
   end
 
 
@@ -122,9 +125,7 @@ Rails.application.routes.draw do
     get 'admins', to: 'admins/dashboards#show', as: :admin_root
   end
 
-  authenticate :admin do
-    mount Sidekiq::Web, at: '/sidekiq'
-  end
+
 
   root to: 'customers/sessions#new'
 
