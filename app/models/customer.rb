@@ -52,4 +52,9 @@ class Customer < ActiveRecord::Base
   validates :agreed_on_registration, acceptance: { accept: true }
   validates_length_of :password, within: Devise.password_length, allow_blank: true
   validates_uniqueness_of :email, conditions: -> { where(deleted_at: nil) }
+
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
+  end
+
 end
