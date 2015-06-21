@@ -62,6 +62,9 @@ gem 'flag_shih_tzu', '~>0.3.13'
 # Architectural
 gem 'reform', '~> 1.2.6'
 
+# Asyncronous mailer
+gem 'sidekiq', '~> 3.4.1'
+
 group :development do
   gem 'capistrano'
   gem 'capistrano-rails', '~> 1.1.3'
