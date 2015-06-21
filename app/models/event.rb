@@ -62,7 +62,8 @@ class Event < ActiveRecord::Base
 
   has_attached_file :background,
                     path: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:filename",
-                    url: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:basename.:extension"
+                    url: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:basename.:extension",
+                    default_url: ':default_event_background_url'
   # Validations
   validates :name, :support_email, presence: true
   validates :name, uniqueness: true
