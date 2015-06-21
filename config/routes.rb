@@ -1,4 +1,5 @@
 require 'api_constraints'
+require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
@@ -119,6 +120,10 @@ Rails.application.routes.draw do
 
   devise_scope :admins do
     get 'admins', to: 'admins/dashboards#show', as: :admin_root
+  end
+
+  authenticate :admin do
+    mount Sidekiq::Web, at: '/sidekiq'
   end
 
   root to: 'customers/sessions#new'
