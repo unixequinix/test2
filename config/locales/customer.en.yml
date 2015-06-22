@@ -46,8 +46,8 @@ en:
       description: "Come back soon to apply for your credits refund"
     wait_refund_disclaimer:
       claim: "You successfully applied for your refund"
-      description: "We will send you an e-mail when your credits are ready for the refund."
-      description2: "You will receive it within 15 business days as soon they are ready."
+      description: "Expect an e-mail between 5 to 15 business days when your credits are ready."
+      description2: "Then you will be able to enter your bank details and receive the payment."
     without_gtags:
       title: "Credit left?"
       description: "You need to assign your wristband to start the refund process"
@@ -99,7 +99,7 @@ en:
     button: "Accept"
     placeholders:
       line_1: "Line 1 e.g: 12345"
-      line_2: "Line 2 e.g BA6D7DC0"
+      line_2: "Line 2 e.g: BA6D7DC0"
     info:
       line_1: 'Only numbers from "0" to "9"'
       line_2: 'Letters and numbers from "0" to "F". If you find an "o" it´s a "0"'
@@ -173,8 +173,8 @@ en:
     refund: 'Come back, login and receive your refund ***'
 
   disclaimer_list:
-    wristband: '* Wristband activation period: from Sunday, June 21st at 8:00 (GMT+1) till Tuesday, June 23rd at 23:59 (GMT+1).'
-    validate: '** You will receive this notification within 15 business days. We have to validate your balance.'
+    wristband: '* Period to assign your wristband: from Sunday, June 21st at 8:00 (GMT+1) till Tuesday, June 23rd at 23:59 (GMT+1).'
+    validate: '** You will receive this notification between 5 and 15 business days. We have to validate your balance.'
     transfer: '*** After you process the refund, the transfer should reach your account in 1-2 days within Single European Payments Area (SEPA) and within 30 days for other bank accounts. Bank transfer costs: 2€ for accounts within SEPA and minimum 6€ for other accounts.'
     sepa: 'More information about SEPA'
   cancel:

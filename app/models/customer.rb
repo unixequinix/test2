@@ -27,6 +27,7 @@
 
 class Customer < ActiveRecord::Base
   acts_as_paranoid
+  default_scope { order('email') }
 
   # Constants
   MAIL_FORMAT = Devise.email_regexp

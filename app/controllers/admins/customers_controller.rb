@@ -15,10 +15,8 @@ class Admins::CustomersController < Admins::BaseController
   end
 
   def resend_confirmation
-    customer = Customer.find(params[:id])
-    customer.send_confirmation_instructions
-    flash[:notice] = I18n.t('alerts.resend')
-    redirect_to admins_customers_url
+    @customer = Customer.find(params[:id])
+    @customer.send_confirmation_instructions
   end
 
 end

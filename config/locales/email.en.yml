@@ -29,11 +29,11 @@ en:
         mail_link: "Change my password"
       gtag:
         assigned:
-          title: 'You have successfully applied for your refund'
+          title: 'You have successfullCreatey applied for your refund'
           subject: 'You have successfully applied for your refund'
           greet: 'Hello %{name}!'
           mail_body: 'You assigned a wristband with the id:'
-          mail_link: 'You will receive another email from us within 15 business days as soon as your credits are ready for the refund.'
+          mail_link: 'You will receive another email from us between 5 and 15 business days as soon as your credits are ready for the refund.'
         unassigned:
           title: 'Wristband deleted'
           subject: 'Wristband deleted'

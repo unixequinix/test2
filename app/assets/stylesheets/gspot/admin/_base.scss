@@ -174,7 +174,7 @@ abbr {
   }
   .input { @include min-screen($bp3) { padding-bottom: 0; } }
 
-  input[type=text], select {
+  input[type=text], input[type=email], select {
     @include appearance(none);
     width: 100%;
     padding: modules(0.25);
@@ -186,6 +186,14 @@ abbr {
   }
 
   label { display: none; }
+
+  //TODO Manu
+  .checkbox {
+    display: block;
+    input[type=checkbox] {
+      display: block;
+    }
+  }
 }
 
 .wrapper-search-field {

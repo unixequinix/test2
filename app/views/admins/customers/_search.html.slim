@@ -7,4 +7,7 @@ p.section-header
     .wrapper-search-field
       .custom-input
         = f.input :name_cont, placeholder: t("admin.customers.search.name")
+        = f.input :surname_cont, placeholder: t("admin.customers.search.surname")
+        = f.input :email_cont, placeholder: t("admin.customers.search.email")
+        = f.input :confirmed_at_null, as: :boolean, label: t("admin.customers.search.not_confirmed_at")
     = f.submit class: "btn btn-secondary"

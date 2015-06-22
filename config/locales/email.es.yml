@@ -33,7 +33,7 @@ es:
           subject: 'Has solicitado el reembolso con éxito'
           greet: 'Hola %{name}!'
           mail_body: 'Has introducido una pulsera con el siguiente identificador:'
-          mail_link: 'Te enviaremos otro mail a lo largo de 15 días laborables cuando tus créditos estén listos para ser reembolsados.'
+          mail_link: 'Te enviaremos otro mail entre 5 y 15 días laborables cuando tus créditos estén listos para ser reembolsados.'
         unassigned:
           title: 'Pulsera borrada'
           subject: 'Pulsera borrada'

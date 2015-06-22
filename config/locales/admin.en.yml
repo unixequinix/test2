@@ -157,6 +157,9 @@ en:
       amount: "Amount"
       search:
         name: "Type name"
+        surname: "Type surname"
+        email: "Type email"
+        confirmed_at: "Not confirmed"
     orders:
       number: "Number"
       customer: "Customer"

@@ -46,8 +46,8 @@ es:
       description: "Vuelve pronto para poder reclamar tus creditos"
     wait_refund_disclaimer:
       claim: "Has solicitado el reembolso con éxito"
-      description: "Te enviaremos un mail cuando tus créditos estén listos para ser reembolsados."
-      description2: "Lo recibirás a lo largo de 15 días laborables tan pronto como estén listos."
+      description: "Te enviaremos un mail entre 5 y 15 días hábiles tan pronto como tu créditos estén listos."
+      description2: "Entonces podrás introducir tus datos bancarios y recibir el pago."
     without_gtags:
       title: "Te quedan Créditos?"
       description: "Deberás introducir tu pulsera para poder empezar el proceso de reembolso"
@@ -172,7 +172,7 @@ es:
     refund: 'Regresa, inicia sesión, y reclama tu devolución! ***'
   disclaimer_list:
     wristband: '* Periodo de solicitud de devoluciones: desde el domingo 21 de junio a las 8h (GMT+1) hasta el martes 23 de junio a las 23:59h (GMT+1).'
-    validate: '** Este mail no tardará más de 15 días hábiles. Tenemos que validar todas las solicitudes.'
+    validate: '** Este mail tardará entre 5 y 15 días hábiles. Tenemos que validar todas las solicitudes.'
     transfer: '*** Una vez reclames tu devolución, el ingreso puede tardar 1-2 dïas para cuentas dentro de Single European Payments Area (SEPA) y hasta 30 días para el resto de cuentas. Costes bancarios: 2€ para cuentas dentro de SEPA y un mínimo de 6€ para el resto de cuentas.'
     sepa: 'Más información sobre SEPA'
   cancel:

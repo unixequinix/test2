@@ -157,7 +157,10 @@ es:
       transactions_type: "Tipos de Transacciones"
       amount: "Cantidad"
       search:
-        name: "Tipo de nombre"
+        name: "Nombre"
+        surname: "Apellido"
+        email: "Email"
+        not_confirmed_at: "Sin confirmar"
     orders:
       number: "Número"
       customer: "Cliente"
