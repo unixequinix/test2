@@ -1,4 +1,4 @@
 ul
   - if customer.confirmed_at.nil?
-    li.table-action.action-delete = link_to resend_confirmation_admins_customers_path(customer),data: { confirm: t("admin.confirm.delete") } do
+    li.table-action.action-delete = link_to resend_confirmation_admins_customers_path(id: customer),data: { confirm: t("admin.confirm.delete") } do
       = fa_icon "send"

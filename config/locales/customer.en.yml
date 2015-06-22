@@ -45,8 +45,9 @@ en:
       claim: "Event hasn't finished yet"
       description: "Come back soon to apply for your credits refund"
     wait_refund_disclaimer:
-      claim: "Great"
-      description: "We will send you an e-mail when your credits are ready for the refund"
+      claim: "You successfully applied for your refund"
+      description: "We will send you an e-mail when your credits are ready for the refund."
+      description2: "You will receive it within 15 business days as soon they are ready."
     without_gtags:
       title: "Credit left?"
       description: "You need to assign your wristband to start the refund process"
@@ -56,8 +57,9 @@ en:
       description: "The refunds period is finished, I you have any question contact support."
     gtag_registration:
       title: "Your wristband number:"
-      call_to_action: "Do you want to unassign the wristband?"
-      button: "Unassign"
+      call_to_action: "Have more wristbands? Please create an account for each."
+      call_to_action2: "Put a wrong wristband by mistake?"
+      button: "Erase and restart the process"
     gtag_after_refund:
       description: "Your refund is in process"
     without_refunds:
@@ -92,9 +94,9 @@ en:
     button_iupay: "IUPAY"
   gtag_registrations:
     title: "Assign wristband"
-    description: "In order to proceed asign the number as appears in your wristband. The number consists of 2 lines."
+    description: "In order to proceed assign the number as appears in your wristband. The number consists of 2 lines."
     call_to_action: "Assign your wristband and go!"
-    button: "Assign"
+    button: "Accept"
     placeholders:
       line_1: "Line 1 e.g: 12345"
       line_2: "Line 2 e.g BA6D7DC0"
@@ -158,7 +160,7 @@ en:
     refund: 'After the event you could refund here your credit left'
   info_refunds:
     title: 'Claim your refund'
-    register: 'Register and activate your wristband *'
+    register: 'Introduce your wristband number *'
     email: 'Wait to receive an e-mail which will notify you to continue you refund process **'
     refund: 'Come back, login and receive your refund ***'
 

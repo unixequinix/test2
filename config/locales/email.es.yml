@@ -29,16 +29,16 @@ es:
         mail_link: "Cambiar mi contraseña"
       gtag:
         assigned:
-          title: 'Pulsera activada'
-          subject: 'Pulsera activada'
+          title: 'Has solicitado el reembolso con éxito'
+          subject: 'Has solicitado el reembolso con éxito'
           greet: 'Hola %{name}!'
-          mail_body: 'Has asignado una pulsera con el siguiente identificador:'
-          mail_link: 'Puede verlo en la web'
+          mail_body: 'Has introducido una pulsera con el siguiente identificador:'
+          mail_link: 'Te enviaremos otro mail a lo largo de 15 días laborables cuando tus créditos estén listos para ser reembolsados.'
         unassigned:
-          title: 'Pulsera desactivada'
-          subject: 'Pulsera desactivada'
+          title: 'Pulsera borrada'
+          subject: 'Pulsera borrada'
           greet: 'Hola %{name}!'
-          mail_body: 'Has desactivado una pulsera con el siguiente identificador:'
+          mail_body: 'Has borrado una pulsera con el siguiente identificador:'
           mail_link: 'Puede verlo en la web'
     admin:
       reset_password:

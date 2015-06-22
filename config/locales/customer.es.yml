@@ -45,19 +45,21 @@ es:
       claim: "El evento aún no ha acabado"
       description: "Vuelve pronto para poder reclamar tus creditos"
     wait_refund_disclaimer:
-      claim: "Perfecto"
-      description: "Te enviaremos un e-mail cuando tus creditos estén listos para reembolsar"
+      claim: "Has solicitado el reembolso con éxito"
+      description: "Te enviaremos un mail cuando tus créditos estén listos para ser reembolsados."
+      description2: "Lo recibirás en 15 días laborables tan pronto como estén listos."
     without_gtags:
       title: "Te quedan Créditos?"
-      description: "Deberás activar tu pulsera para poder empezar el proceso de reembolso"
-      button: "Activar Pulsera"
+      description: "Deberás introducir tu pulsera para poder empezar el proceso de reembolso"
+      button: "Introducir Pulsera"
     without_gtags_claiming_started:
       claim: "Lo sentimos"
       description: "Ya ha pasado el periodo de reembolso, ponte en contacto con soporte si tienes alguna duda."
     gtag_registration:
       title: "Tu número de pulsera:"
-      call_to_action: "Quieres desactivar tu pulsera?"
-      button: "Desactivar"
+      call_to_action: "¿Tienes más pulseras? Crea una cuenta por cada una."
+      call_to_action2: "¿Introdujiste una incorrecta por error?"
+      button: "Borrala y reinicia el proceso"
     gtag_after_refund:
       description: "Tu reembolso está en proceso"
     without_refunds:
@@ -91,10 +93,10 @@ es:
     button: "Pagar"
     button_iupay: "IUPAY"
   gtag_registrations:
-    title: "Activar Pulsera"
-    description: "Para proceder, debes activar tu pulsera colocando los números que aparecen en tu pulsera. Tu pulsera debe tener 2 líneas de números."
-    call_to_action: "Activa tu pulsera y continua!"
-    button: "Activar"
+    title: "Introducir Pulsera"
+    description: "Para proceder, debes introducir tu pulsera colocando los números que aparecen en tu pulsera. Tu pulsera debe tener 2 líneas de números."
+    call_to_action: "Introduce tu pulsera y continua!"
+    button: "Aceptar"
     placeholders:
       line_1: "Línea 1 ej: 12345"
       line_2: "Línea 2 ej: BA6D7DC0"
@@ -158,14 +160,14 @@ es:
     refund: 'Al finalizar el evnto podrás gestionas la devolución del crédito no disfrutado'
   info_refunds:
     title: 'Solicita tu devolución'
-    register: 'Regístrate y activa tu pulsera *'
+    register: 'Introduce el número de tu pulsera *'
     email: 'Recibirás un mail que te indicará cuando puedes continuar tu proceso de devolución **'
     refund: 'Regresa, inicia sesión, y reclama tu devolución! ***'
   info_services_combined:
     title: 'Prepara tu evento hoy!'
     register: 'Activa tu ticket y beneficiate de todas sus ventajas'
     topup: 'Añade el crédito que quieras a tu ticket sin esperas'
-    register_refund: 'Al finalizar regístrate y activa tu pulsera y podrás gestionas la devolución del crédito no disfrutado *'
+    register_refund: 'Al finalizar regístrate y introduce tu pulsera y podrás gestionar la devolución del crédito no disfrutado *'
     email: 'Recibirás un mail que te indicará cuando puedes continuar tu proceso de devolución **'
     refund: 'Regresa, inicia sesión, y reclama tu devolución! ***'
   disclaimer_list:

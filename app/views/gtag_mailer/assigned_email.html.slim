@@ -366,7 +366,7 @@ html
                                 p = t("email.customer.gtag.assigned.mail_body")
                                 p style="font-weight: bold; font-size: 18px; color: #FF3333; font-weight: 200;" #{@gtag.tag_serial_number} #{@gtag.tag_uid}
 
-                                = link_to t('email.customer.gtag.assigned.mail_link'), customer_root_url, { :style => "color: #ff0090; font-size: 26px; text-decoration: underline; " }
+                                p = t('email.customer.gtag.assigned.mail_link')
 
               tr
                 td[align="center" valign="top"]
