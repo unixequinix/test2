@@ -4,18 +4,31 @@ table.customers
       th = t("admin.customers.email")
       th = t("admin.customers.name")
       th = t("admin.customers.surname")
+      th = t("admin.customers.confirmed_at")
+      th = t("admin.customers.confirmation_sent_at")
       th = t("admin.customers.tickets")
+      th = t("admin.customers.gtags")
       th = t("admin.customers.credits")
+      th.table-actions-field = t ("admin.defaults.actions")
   tbody
     - customers.each do |customer|
       tr
         td data-label=t("admin.customers.email") = link_to customer.email, admins_customer_path(customer)
         td data-label=t("admin.customers.name") = customer.name
         td data-label=t("admin.customers.surname") = customer.surname
+        td data-label=t("admin.customers.confirmed_at") = customer.confirmed_at
+        td data-label=t("admin.customers.confirmation_sent_at") = customer.confirmation_sent_at
         - if !customer.assigned_admission.nil?
           td = link_to customer.assigned_admission.ticket.number, edit_admins_ticket_path(customer.assigned_admission.ticket)
         - else
           td data-label=t("admin.customers.tickets") = t("admin.defaults.empty_tickets")
+        - if !customer.assigned_gtag_registration.nil?
+          td #{customer.assigned_gtag_registration.gtag.tag_serial_number} - #{customer.assigned_gtag_registration.gtag.tag_uid}
+        - else
+          td data-label=t("admin.customers.gtags") = t("admin.defaults.empty_gtags")
+
         td data-label=t("admin.customers.credits") = customer.credit_logs.sum(:amount)
+        td.table-actions-field
+          = render 'admins/customers/actions', customer: customer
 
 = paginate customers

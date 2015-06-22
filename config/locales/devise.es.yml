@@ -20,7 +20,7 @@ es:
       unconfirmed: "Debes confirmar tu dirección de correo para continuar."
     mailer:
       confirmation_instructions:
-        subject: "Instrucciones de confimación"
+        subject: "Instrucciones de confirmación"
       reset_password_instructions:
         subject: "Resetear instrucciones de contraseña."
       unlock_instructions:

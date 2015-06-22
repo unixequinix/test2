@@ -94,6 +94,7 @@ Rails.application.routes.draw do
     resources :customers, except: [:new, :create, :edit, :update] do
       collection do
         post :search
+        get :resend_confirmation
       end
     end
     resources :orders, except: [:new, :create, :edit, :update] do

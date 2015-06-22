@@ -139,7 +139,11 @@ es:
     customers:
       email: "Email"
       name: "Nombre"
-      surname: "Apellido"
+      surname: "Apellidos"
+      confirmed_at: "Confirmado el"
+      confirmation_sent_at: "Confimación enviada"
+      tickets: "Tickets"
+      gtags: "Gtags"
       tickets: "Tickets"
       credits: "Créditos"
       search: "Conteo de Nombre"

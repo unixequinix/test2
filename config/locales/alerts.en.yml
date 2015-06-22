@@ -2,6 +2,7 @@ en:
   alerts:
     created: 'Succesfully created'
     updated: 'Succesfully updated'
+    resend: 'Succesfully resend'
     imported: 'Succesfully imported'
     destroyed: 'Succesfully removed'
     unassigned: 'Succesfully unassigned'

@@ -14,4 +14,10 @@ class Admins::CustomersController < Admins::BaseController
     @customer = Customer.find(params[:id])
   end
 
+  def resend_confirmation
+    Devise::Mailer.confirmation_instructions(params[:id]).deliver_later
+    flash[:notice] = I18n.t('alerts.resend')
+    redirect_to admins_customers_url
+  end
+
 end
