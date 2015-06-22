@@ -47,7 +47,7 @@ es:
     wait_refund_disclaimer:
       claim: "Has solicitado el reembolso con éxito"
       description: "Te enviaremos un mail cuando tus créditos estén listos para ser reembolsados."
-      description2: "Lo recibirás en 15 días laborables tan pronto como estén listos."
+      description2: "Lo recibirás a lo largo de 15 días laborables tan pronto como estén listos."
     without_gtags:
       title: "Te quedan Créditos?"
       description: "Deberás introducir tu pulsera para poder empezar el proceso de reembolso"
@@ -95,7 +95,7 @@ es:
   gtag_registrations:
     title: "Introducir Pulsera"
     description: "Para proceder, debes introducir tu pulsera colocando los números que aparecen en tu pulsera. Tu pulsera debe tener 2 líneas de números."
-    call_to_action: "Introduce tu pulsera y continua!"
+    call_to_action: "Introduce tu pulsera y continúa!"
     button: "Aceptar"
     placeholders:
       line_1: "Línea 1 ej: 12345"
