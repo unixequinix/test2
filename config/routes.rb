@@ -79,37 +79,39 @@ Rails.application.routes.draw do
     resources :tickets, except: :show do
       collection do
         post :import
-        post :search
+        get :search
         delete :destroy_multiple
       end
     end
     resources :gtags, except: :show do
       collection do
         post :import
-        post :search
+        get :search
         delete :destroy_multiple
       end
     end
     resources :credits, except: :show
     resources :customers, except: [:new, :create, :edit, :update] do
       collection do
-        post :search
+        get :search
+      end
+      member do
         post :resend_confirmation
       end
     end
     resources :orders, except: [:new, :create, :edit, :update] do
       collection do
-        post :search
+        get :search
       end
     end
     resources :payments, except: [:new, :create, :edit, :update] do
       collection do
-        post :search
+        get :search
       end
     end
     resources :refunds, except: [:new, :create, :edit] do
       collection do
-        post :search
+        get :search
       end
     end
     authenticate :admin do
