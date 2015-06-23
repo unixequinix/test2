@@ -47,11 +47,15 @@ en:
     wait_refund_disclaimer:
       claim: "You successfully applied for your refund"
       description: "Expect an e-mail between 5 to 15 business days when your credits are ready."
-      description2: "Then you will be able to enter your bank details and receive the payment."
+      description2: "Then you will be able to check your balance, enter your bank details and receive the payment."
     without_gtags:
       title: "Credit left?"
       description: "You need to assign your wristband to start the refund process"
       button: "Assign wristband"
+    without_gtags_disabled:
+      claim: "The period to apply for a refund of your wristband credits is closed"
+      description: "If you have previously contacted us with any support question,"
+      description2: "do not worry, we will help you through with your refund."
     without_gtags_claiming_started:
       claim: "Sorry"
       description: "The refunds period is finished, I you have any question contact support."
@@ -153,30 +157,6 @@ en:
       description: 'This is how it works'
       button: 'Log in'
       copy: 'What are the advantages?'
-  info_ticketing:
-    title: 'Your event starts now!'
-    register: 'You could activate your ticket now and get extra benefits'
-    topup: 'Top up as many times as you want and get ready for the event'
-    refund: 'After the event you could refund here your credit left'
-  info_refunds:
-    title: 'Claim your refund'
-    register: 'Introduce your wristband number *'
-    email: 'Wait to receive an e-mail which will notify you to continue you refund process **'
-    refund: 'Come back, login and receive your refund ***'
-
-  info_services_combined:
-    title: 'Your event starts now!'
-    register: 'You could activate your ticket now and get extra benefits'
-    topup: 'Top up as many times as you want and get ready for the event'
-    register_refund: 'Register after the event and you could refund here your credit left *'
-    email: 'Wait to receive an e-mail which will notify you to continue you refund process **'
-    refund: 'Come back, login and receive your refund ***'
-
-  disclaimer_list:
-    wristband: '* Period to assign your wristband: from Sunday, June 21st at 8:00 (GMT+1) till Tuesday, June 23rd at 23:59 (GMT+1).'
-    validate: '** You will receive this notification between 5 and 15 business days. We have to validate your balance.'
-    transfer: '*** After you process the refund, the transfer should reach your account in 1-2 days within Single European Payments Area (SEPA) and within 30 days for other bank accounts. Bank transfer costs: 2€ for accounts within SEPA and minimum 6€ for other accounts.'
-    sepa: 'More information about SEPA'
   cancel:
     title: 'Cancel my account'
     unhappy: 'Write us an email, we want to know what happened!'

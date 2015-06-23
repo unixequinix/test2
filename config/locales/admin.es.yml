@@ -20,6 +20,7 @@ es:
         date: "Fechas y localización"
         image: "Imágenes"
         custom: "Personalización"
+        text: "Textos"
       states:
         created: 'No publicado'
         launched: 'Pre-evento'

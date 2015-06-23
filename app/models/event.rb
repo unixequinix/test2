@@ -26,10 +26,12 @@
 #  background_type         :string           default("fixed")
 #  features                :integer          default(0), not null
 #  refund_service          :string
+#  gtag_registration       :boolean          default(TRUE), not null
 #
 
 class Event < ActiveRecord::Base
   nilify_blanks
+  translates :info, :disclaimer
 
   #Background Types
   BACKGROUND_FIXED = 'fixed'
@@ -64,6 +66,7 @@ class Event < ActiveRecord::Base
                     path: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:filename",
                     url: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:basename.:extension",
                     default_url: ':default_event_background_url'
+
   # Validations
   validates :name, :support_email, presence: true
   validates :name, uniqueness: true

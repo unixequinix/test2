@@ -18,6 +18,7 @@ en:
       fieldests:
         info: "Event info"
         date: "Sate and location"
+        text: "Texts"
         image: "Images"
         custom: "Custom styles"
       states:
