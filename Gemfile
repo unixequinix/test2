@@ -63,8 +63,11 @@ gem 'flag_shih_tzu', '~>0.3.13'
 gem 'reform', '~> 1.2.6'
 
 # Asyncronous mailer
-gem 'sinatra', :require => nil
+gem 'sinatra', require: false
 gem 'sidekiq', '~> 3.4.1'
+
+# Cron tasks
+gem 'whenever', '~> 0.9.4', require: false
 
 group :development do
   gem 'capistrano'
