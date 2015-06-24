@@ -21,7 +21,7 @@ $dark:                #2E2E2E;
 $succes:              #00CD00;
 
 //SIZES:
-
+$disclaimer:             $base_font_size*0.78;
 $quarter_text:           $base_font_size*1.25;
 $half_text:              $base_font_size*1.5;
 $double_text:            $base-font-size*2;
@@ -146,10 +146,33 @@ header {
     @include span-columns(8);
   }
 
+  h2 {
+    @include mscale($triple_text);
+    font-weight: bold;
+  }
+
   ul {
     margin: 0;
 
     @include min-screen($bp3) { margin-bottom: modules(2); }
+  }
+
+  li {
+    position: relative;
+    vertical-align: top;
+    padding-left: modules(1);
+
+    &:before {
+      @include mscale($triple_text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: inline-block;
+      content: "·";
+      margin-right: modules(0.25);
+      vertical-align: top;
+      line-height: modules(0.5);
+    }
   }
 
   i {
@@ -162,24 +185,6 @@ header {
   }
 }
 
-.info-list {
-  position: relative;
-  vertical-align: top;
-  padding-left: modules(1);
-
-  &:before {
-    @include mscale($triple_text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: inline-block;
-    content: "·";
-    margin-right: modules(0.25);
-    vertical-align: top;
-    line-height: modules(0.5);
-  }
-}
-
 .disclaimer-list {
   padding: 0 modules(0.5);
   text-align: center;
@@ -189,8 +194,18 @@ header {
     text-align: left;
   }
 
-  li { margin: 0; }
+  li {
+    @include mscale($disclaimer);
+    margin: 0;
+    padding: 0;
+
+    &:before { display: none; }
+  }
+
+  p { @include mscale($disclaimer); }
+
   a {
+    @include mscale($disclaimer);
     padding: 0 modules(0.15);
     color: $default;
 
@@ -210,7 +225,6 @@ nav {
 }
 
 // _____ LOGIN _______
-
 
 .claim {
   @include mscale($triple_text);
