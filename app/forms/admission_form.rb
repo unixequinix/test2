@@ -17,7 +17,7 @@ class AdmissionForm < Reform::Form
   validates_presence_of :surname
   validates_presence_of :password
   validates_presence_of :event_id
-  validates_acceptance_of :agreed_on_registration
+  validates :agreed_on_registration, acceptance: { accept: true }
 
   def save
     return false unless valid?
