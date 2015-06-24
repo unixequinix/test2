@@ -1,1 +1,2 @@
-= render 'customers/dashboards/event_closed/refunds', gtag_registration: gtag_registration, refund: refund, call_to_action: t('dashboard.refunds.call_to_action', date: Time.now.strftime("%Y-%m-%d")) if gtag_registration && refund && current_event.refunds?
+- %w(refunds).each do |view|
+  - @dashboard.build_presenter(view)

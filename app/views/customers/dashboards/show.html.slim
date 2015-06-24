@@ -1,2 +1,4 @@
-= render "customers/dashboards/event_#{current_event.aasm_state}",
-  presenter: @presenter if @presenter.can_render?
+= render @dashboard.partial unless @dashboard.empty?
+
+- @dashboard.each_presenter do |view, presenter|
+  = render presenter.path, presenter: presenter if presenter.can_render?

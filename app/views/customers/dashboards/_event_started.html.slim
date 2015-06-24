@@ -1,3 +1,2 @@
-= render 'customers/dashboards/event_started/admissions', admission: admission if admission && current_event.ticketing?
-= render 'customers/dashboards/event_started/credits', call_to_action: t('dashboard.credits.call_to_action_started')if current_event.ticketing?
-= render 'customers/dashboards/event_started/refunds', call_to_action: t('dashboard.credits.call_to_action_started')if current_event.refunds?
+- %w(admittances credits refunds).each do |view|
+  - @dashboard.build_presenter(view)

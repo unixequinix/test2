@@ -7,7 +7,7 @@ class Customers::GtagRegistrationsController < Customers::BaseController
   def create
     gtag = Gtag.find_by(tag_uid: params[:tag_uid].upcase, tag_serial_number: params[:tag_serial_number].upcase)
     if !gtag.nil?
-      @gtag_registration = GtagRegistration.new(customer_id: current_customer.id, gtag_id: gtag.id)
+      @gtag_registration = GtagRegistration.new(admission: current_admission, gtag: gtag)
       if @gtag_registration.save
         flash[:notice] = I18n.t('alerts.created')
         GtagMailer.assigned_email(@gtag_registration, current_event).deliver_later

@@ -9,8 +9,6 @@ class Customers::BaseController < ApplicationController
   private
 
   def check_has_ticket!
-    if current_customer.assigned_admission.nil?
-      redirect_to customer_root_url
-    end
+    redirect_to customer_root_url unless current_admission.assigned_admittance
   end
 end
