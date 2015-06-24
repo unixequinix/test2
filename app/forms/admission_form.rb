@@ -17,7 +17,7 @@ class AdmissionForm < Reform::Form
   validates_presence_of :surname
   validates_presence_of :password
   validates_presence_of :event_id
-  validates :agreed_on_registration, acceptance: { accept: true }
+  validates :agreed_on_registration, acceptance: true
 
   def save
     return false unless valid?
@@ -25,6 +25,10 @@ class AdmissionForm < Reform::Form
     admission = model[:admission]
     admission.customer = fetch_or_create_customer
     admission.save
+  end
+
+  def customer
+    model[:customer]
   end
 
   private

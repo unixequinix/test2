@@ -11,7 +11,6 @@
       = f.input :name, autofocus: true
       = f.input :surname, autofocus: true
       = f.input :password
-      = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
       .accept-terms
         = f.input :agreed_on_registration, label: ("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), customers_terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), customers_privacy_policy_url, target: '_blank'}").html_safe
       = f.button :submit, t('registration.new.button'), class: "btn btn-continue"

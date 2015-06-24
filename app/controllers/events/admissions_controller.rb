@@ -8,12 +8,12 @@ class Events::AdmissionsController < Events::BaseController
     @admission_form =
       AdmissionForm.new(admission: Admission.new, customer: Customer.new)
     if @admission_form.validate(permitted_params) && @admission_form.save
-      flash[:notice] = 'ALLES GUT!! TODO'
-      customer = @admission_form.model[:customer]
+      customer = @admission_form.customer
       sign_in(customer)
-      redirect_to after_sign_in_path_for(customer)
+      redirect_to after_sign_in_path_for(customer), notice:'ALLES GUT!! TODO'
     else
-      render :new
+      puts @admission_form.errors.inspect
+      render :new, error: 'ERROR Creating admission TODO'
     end
   end
 
@@ -22,6 +22,6 @@ class Events::AdmissionsController < Events::BaseController
   def permitted_params
     params.require(:admission)
       .permit(:email, :name, :surname, :password, :password_confirmation,
-              :agreed_on_registration, :event_id)
+              :agreed_on_registration).merge(event_id: current_event.id)
   end
 end
