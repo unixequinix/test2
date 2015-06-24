@@ -14,12 +14,10 @@ header
         = mail_to current_event.support_email, t('header.help'), subject: t('event.subject_support', event: current_event.name), class: "nav-link"
 
       - if customer_signed_in?
-        li.nav-item.user-options
-          = current_customer.name
-          ul.submenu
-            li
-              = link_to edit_customer_registration_path(current_customer), class: "link-submenu" do
-                span = t('header.edit')
-            li
-              = link_to destroy_customer_session_path, method: :delete, class: "link-submenu" do
-                span = t('header.close')
+        li.nav-item
+          = link_to edit_customer_registration_path(current_customer), class:"nav-link" do
+            = current_customer.name
+
+        li.nav-end-session
+          = link_to destroy_customer_session_path, method: :delete do
+            = fa_icon "sign-out"

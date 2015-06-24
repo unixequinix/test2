@@ -10,7 +10,7 @@
         = raw current_event.info
         - if devise_mapping.registerable? && controller_name != 'registrations'
           = link_to t('links.buttons.sign_up'), new_registration_path(resource_name), class: "btn"
-    ul.disclaimer-list
+    .disclaimer-list
       = raw current_event.disclaimer
 
   .container-login-form

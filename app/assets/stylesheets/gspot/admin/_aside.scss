@@ -81,7 +81,9 @@ aside {
   width: 100%;
   height: modules(2);
   padding: modules(0.25) modules(0.75);
-  background-color: darken($side_panel, 5%);
+  text-align: center;
+
+  @include min-screen($bp3) { background-color: darken($side_panel, 5%); }
 
   a {
     display: block;
@@ -103,5 +105,7 @@ aside {
 }
 
 .mobile-sign-out {
+  background-color: $black;
+  color: $white;
   @include min-screen($bp3) { display: none; }
 }
