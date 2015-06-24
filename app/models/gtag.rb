@@ -28,6 +28,13 @@ class Gtag < ActiveRecord::Base
   validates :tag_uid, :tag_serial_number, presence: true
   validates_uniqueness_of :tag_uid, scope: :tag_serial_number, conditions: -> { where(deleted_at: nil) }
 
+  # Methods
+  # -------------------------------------------------------
+
+  def credit_amount
+    gtag_credit_log ? gtag_credit_log.amount : 0.0
+  end
+
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
       gtag_columns = column_names.clone

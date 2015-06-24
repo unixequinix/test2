@@ -5,6 +5,7 @@ class Customers::BaseController < ApplicationController
   def current_admission
     current_customer.admissions.for_event(current_event).first || Admission.new
   end
+  helper_method :current_admission
 
   private
 

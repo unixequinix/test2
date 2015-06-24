@@ -1,4 +1,4 @@
-class DashboardPresenter
+class Dashboard
   attr_accessor :admittance, :gtag_registration, :refund, :event
 
   def initialize(admission)
@@ -6,7 +6,7 @@ class DashboardPresenter
     @gtag_registration = admission.assigned_gtag_registration
     @refund = admission.customer.refund
     @event = admission.event
-    @presenters = {}
+    @presenters = []
   end
 
   def empty?
@@ -14,16 +14,16 @@ class DashboardPresenter
   end
 
   def partial
-    "customers/dashboards/event_#{@event.aasm_state}"
+    "customers/dashboards/states/event_#{@event.aasm_state}"
   end
 
   def build_presenter(view)
-    @presenters[view] = "#{view.camelize}Presenter".constantize.new(self)
+    @presenters << "#{view.camelize}Presenter".constantize.new(self)
   end
 
   def each_presenter
-    @presenters.each do |view, presenter|
-      yield view, presenter
+    @presenters.each do |presenter|
+      yield presenter
     end
   end
 end

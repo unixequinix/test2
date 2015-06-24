@@ -1,8 +1,0 @@
-.wrapper-field.form-inputs
-  = simple_form_for gtag_registration, url: customers_gtag_registration_path(gtag_registration), method: :delete do |f|
-    .dashboard-field.dashboard-field-info
-      h3
-        = fa_icon "ticket"
-        = t('dashboard.gtag_registration.title')
-      h3.highlight
-        = gtag_registration.gtag.tag_uid

@@ -1,13 +1,4 @@
-class GtagRegistrationsPresenter
-  attr_accessor :gtag_registration
-
-  def initialize(dashboard)
-    @dashboard = dashboard
-    @gtag_registration = dashboard.gtag_registration
-    @refund = dashboard.refund
-    @event = dashboard.event
-  end
-
+class GtagRegistrationsPresenter < BasePresenter
   def can_render?
     @event.refunds?
   end
@@ -23,13 +14,5 @@ class GtagRegistrationsPresenter
 
   def customer_has_refund?
     @refund.present?
-  end
-
-  def event_url
-    @event.url
-  end
-
-  def tag_uid
-    @gtag_registration.gtag.tag_uid
   end
 end

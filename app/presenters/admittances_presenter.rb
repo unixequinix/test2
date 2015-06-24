@@ -1,12 +1,4 @@
-class AdmittancesPresenter
-  attr_accessor :admittance
-
-  def initialize(dashboard)
-    @dashboard = dashboard
-    @event = dashboard.event
-    @admittance = dashboard.admittance
-  end
-
+class AdmittancesPresenter < BasePresenter
   def can_render?
     @event.ticketing?
   end

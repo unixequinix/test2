@@ -1,11 +1,4 @@
-class CreditsPresenter
-  def initialize(dashboard)
-    @dashboard = dashboard
-    @event = dashboard.event
-    @admittance = dashboard.admittance
-    @customer = fetch_customer
-  end
-
+class CreditsPresenter < BasePresenter
   def can_render?
     @event.ticketing?
   end
@@ -14,17 +7,13 @@ class CreditsPresenter
     'credits'
   end
 
-  def admittance_present?
-    @admittance.present?
-  end
-
-  def credit_sum
-    @customer.credit_logs.sum(:amount)
+  def customer_credit_sum
+    customer.credit_logs.sum(:amount)
   end
 
   private
 
-  def fetch_customer
-    @admittance ? @admittance.admission.customer : Customer.new
+  def customer
+    @customer ||= @admittance ? @admittance.admission.customer : Customer.new
   end
 end
