@@ -18,5 +18,4 @@ class Admins::CustomersController < Admins::BaseController
     @customer = Customer.find(params[:id])
     @customer.send_confirmation_instructions
   end
-
 end

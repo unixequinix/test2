@@ -1,0 +1,11 @@
+- breadcrumb :new_admins_customer_admission, @customer
+- provide :actions do
+  = link_to t("actions.back"), admins_customer_path(@customer), class: "btn btn-action btn-action-back"
+
+= form_tag admins_customer_admissions_path(@customer) do |f|
+  .wrapper-negative-space
+    = hidden_field_tag :customer_id, @customer.id
+    .input
+      = label_tag t('admin.admissions.ticket')
+      = text_field_tag :ticket_number, nil, placeholder: t('admissions.placeholders.ticket_number')
+    = submit_tag t('gtag_registrations.button'), class: "btn btn-primary"

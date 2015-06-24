@@ -64,6 +64,7 @@ Rails.application.routes.draw do
 
   namespace :admins do
     resources :admins, except: :show
+    resources :admissions, only: [:destroy]
     resources :events, only: [:show, :edit, :update] do
       member do
         post :remove_logo
@@ -91,7 +92,10 @@ Rails.application.routes.draw do
       end
     end
     resources :credits, except: :show
+    resources :gtag_registrations, only: [:destroy]
     resources :customers, except: [:new, :create, :edit, :update] do
+      resources :admissions, only: [:new, :create]
+      resources :gtag_registrations, only: [:new, :create]
       collection do
         get :search
       end
