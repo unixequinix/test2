@@ -1,8 +1,12 @@
 en:
   email:
     customer:
-      communication: "This a communication of Glownet"
-      footer: 'Any question about the service? Contact directly with our support department.'
+      our_company: 'Learn more about Glownet'
+      follow_on_twitter: 'Follow on Twitter'
+      like_on_facebook: 'Like on Facebook'
+      suscribe_on_you_tube: 'Subscribe on YouTube'
+      communication: "This communication is communication from Glownet"
+      footer: 'Any question about the service? Contact directly %{event_name} support department.'
       footer_copy: 'Copyright Glownet © %{year} All rights reserved.'
       order:
         completed:
@@ -23,6 +27,19 @@ en:
         greet: 'Hello %{name}!'
         mail_body: 'Someone has requested a link to change your password. You can do this through the link below.'
         mail_link: "Change my password"
+      gtag:
+        assigned:
+          title: 'You have successfullCreatey applied for your refund'
+          subject: 'You have successfully applied for your refund'
+          greet: 'Hello %{name}!'
+          mail_body: 'You assigned a wristband with the id:'
+          mail_link: 'You will receive another email from us between 5 and 15 business days as soon as your credits are ready for the refund.'
+        unassigned:
+          title: 'Wristband deleted'
+          subject: 'Wristband deleted'
+          greet: 'Hello %{name}!'
+          mail_body: 'You deleted a wristband with the id:'
+          mail_link: 'Check it on the website'
     admin:
       reset_password:
         greet: 'Hello %{email}!'

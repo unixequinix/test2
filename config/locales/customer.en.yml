@@ -3,7 +3,7 @@ en:
   actions:
     back: "Back"
     cancel: "Cancel"
-    check_news: "Check event newest"
+    check_news: "Back to Festival Website"
   header:
     edit: "Edit Profile"
     close: "Logout"
@@ -42,16 +42,28 @@ en:
       call_to_action_no_admission: "To securely buy your Online Top-up you need to activate your Festival Ticket first"
       button: "Top-up"
     event_refunds:
-      claim: "Event not yet ended"
-      description: "Credit left refunds will be available soon"
+      claim: "Event hasn't finished yet"
+      description: "Come back soon to apply for your credits refund"
+    wait_refund_disclaimer:
+      claim: "You successfully applied for your refund"
+      description: "Expect an e-mail between 5 to 15 business days when your credits are ready."
+      description2: "Then you will be able to check your balance, enter your bank details and receive the payment."
     without_gtags:
       title: "Credit left?"
       description: "You need to assign your wristband to start the refund process"
       button: "Assign wristband"
+    without_gtags_disabled:
+      claim: "The period to apply for a refund of your wristband credits is closed"
+      description: "If you have previously contacted us with any support question,"
+      description2: "do not worry, we will help you through with your refund."
+    without_gtags_claiming_started:
+      claim: "Sorry"
+      description: "The refunds period is finished, I you have any question contact support."
     gtag_registration:
       title: "Your wristband number:"
-      call_to_action: "Do you want to unassign the wristband?"
-      button: "Unassign"
+      call_to_action: "Have more wristbands? Please create an account for each."
+      call_to_action2: "Put a wrong wristband by mistake?"
+      button: "Erase and restart the process"
     gtag_after_refund:
       description: "Your refund is in process"
     without_refunds:
@@ -60,7 +72,7 @@ en:
       button: "Claim your credits"
     refunds:
       title: "Your credit:"
-      call_to_action: "Refund successfully claimed Expect transfer by %{date}"
+      call_to_action: "Refund successfully claimed, soon you will receive your transfer"
       button: "Modify bank account"
   admissions:
     title: "Ticket Activation"
@@ -86,12 +98,12 @@ en:
     button_iupay: "IUPAY"
   gtag_registrations:
     title: "Assign wristband"
-    description: "In order to proceed asign the number as appears in your wristband. The number consists of 2 lines."
-    call_to_action: "Asign your wristband and go!"
-    button: "Assign"
+    description: "In order to proceed assign the number as appears in your wristband. The number consists of 2 lines."
+    call_to_action: "Assign your wristband and go!"
+    button: "Accept"
     placeholders:
       line_1: "Line 1 e.g: 12345"
-      line_2: "Line 2 e.g BA6D7DC0"
+      line_2: "Line 2 e.g: BA6D7DC0"
     info:
       line_1: 'Only numbers from "0" to "9"'
       line_2: 'Letters and numbers from "0" to "F". If you find an "o" it´s a "0"'
@@ -129,6 +141,7 @@ en:
   registration:
     new:
       title: 'Sign up'
+      info: 'Please enter your correct personal details below so that we can provide you with secure and convenient service.'
       description: 'All the fields in this form are required.'
       button: 'Sign up'
       details: "Please provide your personal details as a festival visitor. This will allow us to give you a secure and personalized service"
@@ -144,30 +157,6 @@ en:
       description: 'This is how it works'
       button: 'Log in'
       copy: 'What are the advantages?'
-  info_ticketing:
-    title: 'Your event starts now!'
-    register: 'You could activate your ticket now and get extra benefits'
-    topup: 'Top up as many times as you want and get ready for the event'
-    refund: 'After the event you could refund here your credit left'
-  info_refunds:
-    title: 'Claim your refund'
-    register: 'Register and activate your wristband *'
-    email: 'Wait to receive an e-mail which will notify you to continue you refund process **'
-    refund: 'Come back, login and receive your refund ***'
-
-  info_services_combined:
-    title: 'Your event starts now!'
-    register: 'You could activate your ticket now and get extra benefits'
-    topup: 'Top up as many times as you want and get ready for the event'
-    register_refund: 'Register after the event and you could refund here your credit left *'
-    email: 'Wait to receive an e-mail which will notify you to continue you refund process **'
-    refund: 'Come back, login and receive your refund ***'
-
-  disclaimer_list:
-    wristband: '* Wristband activation period: from Sunday, June 21st at 8:00 (GMT+1) till Tuesday, June 23rd at 23:59 (GMT+1).'
-    validate: '** You will receive this notification within 15 business days. We have to validate your balance.'
-    transfer: '*** After you process the refund, the transfer should reach your account in 1-2 days within Single European Payments Area (SEPA) and within 30 days for other bank accounts. Bank transfer costs: 2€ for accounts within SEPA and minimum 6€ for other accounts.'
-    sepa: 'More information about SEPA'
   cancel:
     title: 'Cancel my account'
     unhappy: 'Write us an email, we want to know what happened!'

@@ -26,6 +26,7 @@
 #  background_type         :string           default("fixed")
 #  features                :integer          default(0), not null
 #  refund_service          :string
+#  gtag_registration       :boolean          default(TRUE), not null
 #
 
 FactoryGirl.define do

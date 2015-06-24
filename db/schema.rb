@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150619181255) do
+ActiveRecord::Schema.define(version: 20150623165734) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 20150619181255) do
     t.string   "background_type",         default: "fixed"
     t.integer  "features",                default: 0,                     null: false
     t.string   "refund_service"
+    t.boolean  "gtag_registration",       default: true,                  null: false
   end
 
   create_table "admissions", force: :cascade do |t|
@@ -155,6 +156,16 @@ ActiveRecord::Schema.define(version: 20150619181255) do
     t.datetime "updated_at",     null: false
     t.datetime "deleted_at",     index: {name: "index_entitlement_ticket_types_on_deleted_at"}
   end
+
+  create_table "event_translations", force: :cascade do |t|
+    t.integer  "event_id",   null: false, index: {name: "fk__event_translations_event_id"}, foreign_key: {references: "events", name: "fk_event_translations_event_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "locale",     null: false, index: {name: "index_event_translations_on_locale"}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text     "info",       null: false
+    t.text     "disclaimer", null: false
+  end
+  add_index "event_translations", ["event_id"], name: "index_event_translations_on_event_id"
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",           null: false, index: {name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", with: ["sluggable_type", "scope"], unique: true}

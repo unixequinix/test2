@@ -77,11 +77,14 @@ textarea {
 }
 
 .logo {
-  width: auto;
-  height: modules(4);
+  width: 100%;
+  height: auto;
   margin: modules(0.5);
 
-  @include min-screen($bp3) { height: modules(5); }
+  @include min-screen($bp3) {
+    height: modules(5);
+    width: modules(5);
+  }
 }
 
 .remember {

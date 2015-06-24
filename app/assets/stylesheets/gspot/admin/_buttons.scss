@@ -151,6 +151,17 @@
   }
 }
 
+
+.btn-dashboard-claiming_started {
+  background-color: $red;
+  color: $white;
+
+  &:hover, &:focus {
+    background-color: lighten($greenKickstarter,10%);
+    outline: none;
+  }
+}
+
 .btn-dashboard-closed {
   background-color: $amber;
   color: $white;

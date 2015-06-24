@@ -43,3 +43,7 @@
           = image_tag @event.background.url, class: "event-img-preview"
           = link_to remove_background_admins_event_path(@event), method: :post, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
             = fa_icon "trash"
+      dt = t("admin.event.info")
+      dd = @event.info
+      dt = t("admin.event.disclaimer")
+      dd = @event.disclaimer

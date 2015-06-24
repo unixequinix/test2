@@ -62,6 +62,16 @@ gem 'flag_shih_tzu', '~>0.3.13'
 # Architectural
 gem 'reform', '~> 1.2.6'
 
+# Asyncronous mailer
+gem 'sinatra', require: false
+gem 'sidekiq', '~> 3.4.1'
+
+# Cron tasks
+gem 'whenever', '~> 0.9.4', require: false
+
+# Database Internationalization
+gem 'globalize', '~> 5.0.1'
+
 group :development do
   gem 'capistrano'
   gem 'capistrano-rails', '~> 1.1.3'

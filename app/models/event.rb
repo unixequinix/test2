@@ -26,10 +26,12 @@
 #  background_type         :string           default("fixed")
 #  features                :integer          default(0), not null
 #  refund_service          :string
+#  gtag_registration       :boolean          default(TRUE), not null
 #
 
 class Event < ActiveRecord::Base
   nilify_blanks
+  translates :info, :disclaimer
 
   #Background Types
   BACKGROUND_FIXED = 'fixed'
@@ -65,7 +67,9 @@ class Event < ActiveRecord::Base
 
   has_attached_file :background,
                     path: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:filename",
-                    url: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:basename.:extension"
+                    url: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:basename.:extension",
+                    default_url: ':default_event_background_url'
+
   # Validations
   validates :name, :support_email, presence: true
   validates :name, uniqueness: true
@@ -80,6 +84,7 @@ class Event < ActiveRecord::Base
     state :launched
     state :started
     state :finished
+    state :claiming_started
     state :closed
 
     event :launch do
@@ -94,8 +99,12 @@ class Event < ActiveRecord::Base
       transitions from: :started, to: :finished
     end
 
+    event :start_claim do
+      transitions from: :finished, to: :claiming_started
+    end
+
     event :close do
-      transitions from: :finished, to: :closed
+      transitions from: :claiming_started, to: :closed
     end
 
     event :reboot do

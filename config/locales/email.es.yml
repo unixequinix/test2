@@ -1,8 +1,12 @@
 es:
   email:
     customer:
+      our_company: 'Sobre Glownet'
+      follow_on_twitter: 'Síguenos en Twitter'
+      like_on_facebook: 'Dale a me gusta en Facebook'
+      suscribe_on_you_tube: 'Suscríbete en YouTube'
       communication: "Este es un mensaje de Glownet"
-      footer: 'Alguna duda sobre tu compra? Contácta con nuestro departamente de soporte.'
+      footer: '¿Alguna duda sobre el servicio? Contácta al departamento de soporte de %{event_name}.'
       footer_copy: 'Copyright Glownet © %{year} Todos los derechos reservados.'
       order:
         completed:
@@ -23,6 +27,19 @@ es:
         greet: 'Hola %{name}!'
         mail_body: 'Has solicitado cambiar tu contraseña. Puedes hacerlo mediante el siguiente enlace:'
         mail_link: "Cambiar mi contraseña"
+      gtag:
+        assigned:
+          title: 'Has solicitado el reembolso con éxito'
+          subject: 'Has solicitado el reembolso con éxito'
+          greet: 'Hola %{name}!'
+          mail_body: 'Has introducido una pulsera con el siguiente identificador:'
+          mail_link: 'Te enviaremos otro mail entre 5 y 15 días laborables cuando tus créditos estén listos para ser reembolsados.'
+        unassigned:
+          title: 'Pulsera borrada'
+          subject: 'Pulsera borrada'
+          greet: 'Hola %{name}!'
+          mail_body: 'Has borrado una pulsera con el siguiente identificador:'
+          mail_link: 'Puede verlo en la web'
     admin:
       reset_password:
         greet: 'Hola %{email}!'

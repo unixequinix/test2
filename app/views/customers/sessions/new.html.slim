@@ -7,16 +7,17 @@
       h3.customer-section-header
         = t('sessions.new.description')
       .form-inputs
-        = render "customers/sessions/info_refunds"
+        = raw current_event.info
         - if devise_mapping.registerable? && controller_name != 'registrations'
           = link_to t('links.buttons.sign_up'), new_registration_path(resource_name), class: "btn"
-    = render "customers/sessions/disclaimer_refunds"
+    ul.disclaimer-list
+      = raw current_event.disclaimer
 
   .container-login-form
     .wrapper-field
       h3.customer-section-header Login
       .form-inputs
-        = f.input :email, required: false, autofocus: true
+        = f.input :email, required: false
         = f.input :password, required: false
         = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
         = f.button :submit, t('sessions.new.button'), class: "btn-top"

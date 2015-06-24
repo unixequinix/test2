@@ -1,0 +1,6 @@
+.wrapper-field.centered
+  .form-inputs
+    h3.claim = t('dashboard.without_gtags_claiming_started.claim')
+    h3 = t('dashboard.without_gtags_claiming_started.description')
+    = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+      = t("actions.check_news")

@@ -123,19 +123,23 @@
 }
 
 .wrapper-terms {
-  padding: modules(0.5);
+  padding: modules(2);
 
   @include min-screen($bp3) {
-    padding: modules(1) 0;
+    padding: modules(2) 0;
   }
 
   h2, h3, p, a, span  { line-height: 160%; }
+  h3 { padding: modules(1) 0 0; }
 
   a {
+    padding: 0 modules(0.15);
     color: $pinkMagenta;
 
     &:hover { text-decoration: underline; }
   }
+
+  li { list-style-type: none; }
 
   table {
     width: 100%;

@@ -3,6 +3,8 @@ require File.expand_path('../boot', __FILE__)
 require 'rails/all'
 require 'csv'
 
+ENV['RANSACK_FORM_BUILDER'] = '::SimpleForm::FormBuilder'
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -28,7 +30,7 @@ module Gspot
 
     # Precompile additional assets
     config.assets.precompile += %w( .svg .eot .woff .ttf )
-    config.assets.precompile += %w[welcome_admin.css welcome_admin.js]
+    config.assets.precompile += %w[welcome_admin.css]
     config.assets.precompile += %w[admin.css admin.js]
     config.assets.precompile += %w[admin_mobile.css admin_mobile.js]
 
@@ -51,5 +53,7 @@ module Gspot
         resource '*', headers: :any, methods: [:get, :post, :options]
       end
     end
+
+    config.active_job.queue_adapter = :sidekiq
   end
 end

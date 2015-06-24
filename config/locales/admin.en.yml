@@ -18,6 +18,7 @@ en:
       fieldests:
         info: "Event info"
         date: "Sate and location"
+        text: "Texts"
         image: "Images"
         custom: "Custom styles"
       states:
@@ -25,6 +26,7 @@ en:
         launched: 'Pre-event'
         started: 'During event'
         finished: 'After event'
+        claiming_started: 'Claim started'
         closed: 'Closed'
       background_types:
         fixed: 'Fixed'
@@ -139,7 +141,10 @@ en:
       email: "Email"
       name: "Name"
       surname: "Surname"
+      confirmed_at: "Confirmed at"
+      confirmation_sent_at: "Confirmation sent at"
       tickets: "Tickets"
+      gtags: "Gtags"
       credits: "Credits"
       search: "Name Count"
       sign: "Sign in count"
@@ -153,6 +158,9 @@ en:
       amount: "Amount"
       search:
         name: "Type name"
+        surname: "Type surname"
+        email: "Type email"
+        confirmed_at: "Not confirmed"
     orders:
       number: "Number"
       customer: "Customer"

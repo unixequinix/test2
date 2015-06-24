@@ -2,7 +2,7 @@ p.section-header
   = fa_icon "search"
   = t("admin.defaults.search")
 
-= search_simple_form_for q, url: search_admins_payments_path, html: { method: :post, class: "searchForm" }  do |f|
+= search_form_for q, url: search_admins_payments_path, html: { novalidate: true, class: "searchForm" }  do |f|
   .container-search
     .wrapper-search-field
       .custom-input

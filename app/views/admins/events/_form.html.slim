@@ -14,6 +14,7 @@
             = check_box_tag t("admin.event.features_options.refunds"), event.flag_mapping["features"][feature], (:checked if event.flag_enabled?(feature)), id: "#{feature}-feature", class: "flag-selector"
             label.collection_check_boxes for="#{feature}-feature" = t("admin.event.features_options.#{feature}")
 
+    = f.input :gtag_registration, as: :radio_buttons
     = f.input :features, as: :hidden
     = f.input :refund_service, collection: Event.refund_services_selector, include_blank: true
     = f.input :url, placeholder: true
@@ -25,6 +26,16 @@
     = f.input :start_date, as: :datetime
     = f.input :end_date, as: :datetime
     = f.input :location, placeholder: true
+
+
+  fieldset
+    h3.section-header
+      = fa_icon "file-text-o"
+      = t("admin.event.fieldests.text")
+    = f.input :info, as: :text, input_html: { rows: 15, class: "textarea" }
+    = f.input :disclaimer, as: :text, input_html: { rows: 15, class: "textarea" }
+
+
 
   fieldset
     h3.section-header
@@ -49,5 +60,6 @@
       = fa_icon "paint-brush"
       = t("admin.event.fieldests.custom")
     = f.input :style, as: :text, input_html: { rows: 40, class: "textarea" }
+
   .wrapper-negative-space
     = f.button :submit, class: "btn btn-primary"

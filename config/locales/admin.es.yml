@@ -20,11 +20,13 @@ es:
         date: "Fechas y localización"
         image: "Imágenes"
         custom: "Personalización"
+        text: "Textos"
       states:
         created: 'No publicado'
         launched: 'Pre-evento'
         started: 'Durante evento'
         finished: 'Después evento'
+        claiming_started: 'Devoluciones'
         closed: 'Cerrado'
       background_types:
         fixed: 'Fijo'
@@ -138,7 +140,11 @@ es:
     customers:
       email: "Email"
       name: "Nombre"
-      surname: "Apellido"
+      surname: "Apellidos"
+      confirmed_at: "Confirmado el"
+      confirmation_sent_at: "Confimación enviada"
+      tickets: "Tickets"
+      gtags: "Gtags"
       tickets: "Tickets"
       credits: "Créditos"
       search: "Conteo de Nombre"
@@ -152,7 +158,10 @@ es:
       transactions_type: "Tipos de Transacciones"
       amount: "Cantidad"
       search:
-        name: "Tipo de nombre"
+        name: "Nombre"
+        surname: "Apellido"
+        email: "Email"
+        not_confirmed_at: "Sin confirmar"
     orders:
       number: "Número"
       customer: "Cliente"
