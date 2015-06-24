@@ -204,6 +204,32 @@ abbr {
   }
 }
 
+
+.fourth {
+
+  .input {
+    width: 100%;
+    @include min-screen($bp3) {
+      display: inline-block;
+      width: 31%;
+      padding: 0 0.5%;
+    }
+  }
+  .custom-input { width: 100%; }
+  .q_confirmed_at_null {
+    width: 100%; display: inline-block;
+    padding-bottom: 0;
+
+    input, label, span {
+      display: inline-block !important;
+      vertical-align: middle;
+      margin-bottom: 0 !important;
+    }
+  }
+}
+
+
+
 .custom-input {
   @include span-columns(6 of 8);
 
