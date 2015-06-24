@@ -9,7 +9,7 @@ RSpec.describe Events::AdmissionsController, type: :controller do
   describe 'CREATE' do
     let(:post_params) do
       { admission: attributes_for(:customer).merge(event_id: @event.id),
-        event_id: @event.id,  }
+        event_id: @event.id  }
     end
 
     it 'creates a customer' do

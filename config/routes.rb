@@ -119,16 +119,17 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :events do
-    resources :admissions, controller: 'events/admissions'
-  end
-
   devise_scope :customers do
     root to: 'customers/dashboards#show', as: :customer_root
   end
 
   devise_scope :admins do
     get 'admins', to: 'admins/dashboards#show', as: :admin_root
+  end
+
+  resources :events, only: [:show], path: '/' do
+    resources :admissions,
+      only: [:new, :create], controller: 'events/admissions'
   end
 
   root to: 'customers/sessions#new'

@@ -14,6 +14,6 @@ FactoryGirl.define do
   factory :gtag_registration do
     aasm_state 'assigned'
     gtag
-    customer
+    admission
   end
 end
