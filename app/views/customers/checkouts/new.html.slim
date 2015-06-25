@@ -6,7 +6,6 @@
         .product-amount
           = fa_icon "minus-circle", class: "amount-button", data: { id: "#{credit.id}", price: "#{credit.online_product.price}", operation: "minus", step: "#{credit.online_product.step}" }
           = number_field_tag "checkout_form[credits][#{credit.id}]", "#{credit.online_product.initial_amount}", autocomplete: :off, min: "#{credit.online_product.min_purchasable}", max: "#{credit.online_product.max_purchasable}", step: "#{credit.online_product.step}", id: "amount-input-#{credit.id}", class: "amount-input", data: { id: "#{credit.id}", price: "#{credit.online_product.price}" }
-          = number_field_tag "checkout_form[credits][#{credit.id}]", "#{credit.online_product.initial_amount}", autocomplete: :off, min: "#{credit.online_product.min_purchasable}", max: "#{credit.online_product.max_purchasable}", step: "#{credit.online_product.step}", id: "amount-input-#{credit.id}", class: "amount-input", data: { id: "#{credit.id}", price: "#{credit.online_product.price}" }
           = fa_icon "plus-circle", class: "amount-button", data: { id: "#{credit.id}", price: "#{credit.online_product.price}", operation: "plus", step: "#{credit.online_product.step}" }
         .checkout-total
           h3 = t('checkout.total')
