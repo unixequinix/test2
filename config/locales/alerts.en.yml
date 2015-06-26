@@ -7,6 +7,7 @@ en:
     destroyed: 'Succesfully removed'
     unassigned: 'Succesfully unassigned'
     error: 'Check the form errors'
+    checkout: 'You can only introduce numeric data and without decimals'
     addminsions:  "Ticket not recognized. If you purchased it within the last 48 hours, try again later while we update your purchase. Otherwise contact support"
     gtag: "This is not a valid wristband"
     order_complete: 'Order Completed'

@@ -17,7 +17,7 @@ function topUpButton() {
       var amount = $(this).data('operation') == "plus" ? parseInt(input.val())+step : parseInt(input.val())-step;
       if (amount >= min && amount <= max) {
         input.val(amount);
-        total.text((amount * price).toFixed(1) + "€");
+        total.text((amount * price));
       }
     });
 
@@ -26,7 +26,7 @@ function topUpButton() {
       var price = $(this).data('price');
       var amount = $(this).val();
       var total = $('#amount-total-' + inputId);
-      total.text((amount * price).toFixed(1) + "€");
+      total.text((amount * price));
     });
   }
 };

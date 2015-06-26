@@ -4,6 +4,6 @@
       = fa_icon "money"
       = t('dashboard.credits.header')
     h3.highlight
-      = current_customer.credit_logs.sum(:amount)
+      = current_customer.credit_logs.sum(:amount).floor
   .dashboard-field.dashboard-field-action
     h3 = call_to_action
