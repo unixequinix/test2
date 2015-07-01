@@ -17,7 +17,6 @@
         = f.button :submit, t('registration.edit.button'), class: "btn btn-top"
 
   .wrapper-field.wrapper-single-option
-    h3.customer-section-header = t('cancel.title')
     .form-inputs
       h3.single-option-header = t('cancel.unhappy')
       = link_to t('actions.cancel'), registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: "btn"
