@@ -16,9 +16,9 @@ es:
     privacy_conditions: 'la política de privacidad'
     terms_of_use: 'las condiciones de uso'
   links:
-    sign_in: 'Ya tienes cuenta?'
-    sign_up: 'Todavía no te has registrado?'
-    forgot: 'Olvidaste tu contraseña?'
+    sign_in: '¿Ya tienes cuenta?'
+    sign_up: '¿Todavía no te has registrado?'
+    forgot: '¿Olvidaste tu contraseña?'
     resend_confirmation: "Reenviar mail de confirmación"
     buttons:
       sign_in: 'Inicia Sesión'
@@ -27,30 +27,30 @@ es:
     title: "My BBF"
     admissions:
       header: "Tu número de Ticket"
-      description: "Quieres desactivar tu ticket?"
-      description_started: "El evento ya ha comenzado, no puedes desactivar tu ticket"
-      button: "Desactivar"
+      description: "¿Introdujiste un ticket incorrecto por error?"
+      description_started: "El evento ya ha comenzado, no puedes cambiar tu ticket"
+      button: "Borralo y reinicia el proceso"
     without_admissions:
       call_to_action: "Por favor activa tu ticket primero"
       description: "Sólo un Ticket puede ser activado por cuenta"
       button: "Activar Ticket"
     credits:
-      header: "Tu Balance de Créditos"
-      call_to_action: "Si quieres evitar colas,"
-      call_to_action2: "recarga tu pulsera por adelantado"
+      header: "Tu Balance de créditos"
+      call_to_action: "Para evitar colas, recarga tu pulsera ahora para todas tus compras dentro del festival"
       call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"
-      call_to_action_no_admission: "Para poder recargar tu pulsera, deberás activar tu Ticket primero"
+      call_to_action_no_admission: "Para poder recargar tu pulsera,"
+      call_to_action_no_admission2: "deberás activar tu Ticket primero"
       button: "Recarga"
     event_refunds:
       claim: "El evento aún no ha acabado"
-      description: "Vuelve pronto para poder reclamar tus creditos"
+      description: "Vuelve pronto para poder reclamar tus créditos"
     wait_refund_disclaimer:
       claim: "Has solicitado el reembolso con éxito"
       description: "Te enviaremos un mail entre 5 y 15 días hábiles tan pronto como tu créditos estén listos."
       description2: "Entonces podrás ver tu saldo, introducir tus datos bancarios y recibir el pago."
     without_gtags:
-      title: "Te quedan Créditos?"
-      description: "Deberás introducir tu pulsera para poder empezar el proceso de reembolso"
+      title: "¿Te quedan créditos?"
+      description: "Introduce tu pulsera para empezar el proceso de reembolso. Sólo una pulsera puede ser activada por cuenta (email)."
       button: "Introducir Pulsera"
     without_gtags_disabled:
       claim: "El tiempo para solicitar tu devolución de créditos en tu pulsera ha terminado"
@@ -61,29 +61,29 @@ es:
       description: "Ya ha pasado el periodo de reembolso, ponte en contacto con soporte si tienes alguna duda."
     gtag_registration:
       title: "Tu número de pulsera:"
-      call_to_action: "¿Tienes más pulseras? Crea una cuenta por cada una."
+      call_to_action: "¿Tienes más pulseras? Regístrate otra vez con un email diferente por cada una."
       call_to_action2: "¿Introdujiste una incorrecta por error?"
       button: "Borrala y reinicia el proceso"
     gtag_after_refund:
       description: "Tu reembolso está en proceso"
     without_refunds:
-      title: "Tus Créditos restantes:"
+      title: "Tus créditos restantes:"
       call_to_action: "Proceder al reembolso"
       button: "Reclama tus créditos"
     refunds:
-      title: "Tus Créditos restantes:"
+      title: "Tus créditos restantes:"
       call_to_action: "Reembolso realizado con éxito, pronto se realizará su transferencia"
       button: "Modificar cuenta"
   admissions:
     title: "Activación del Ticket"
-    description: "Para activar tu Ticket coloca el número del código de barra. Este número se encuentra debajo del código de barra impreso en tu ticket."
-    call_to_action: "Activa tu Ticket!"
+    description: "Por favor, introduce el número impreso debajo del código de barras en tu ticket del festival."
+    call_to_action: "¡Actíva tu Ticket del Festival!"
     button: "Activar"
     placeholders:
       ticket_number: "Número de Ticket"
   checkout:
     title: "Recarga"
-    description: "Si quieres disfrutar del Barcelona Beach Festival sin hacer colas, compra créditos aquí que serán añadidos automáticamente a tu pulsera al entrar."
+    description: "Los créditos que compras aquí serán añadidos automáticamente a tu pulsera al entrar al festival."
     total: "Total"
     button: "Confirmar Órden"
   orders:
@@ -99,7 +99,7 @@ es:
   gtag_registrations:
     title: "Introducir Pulsera"
     description: "Para proceder, debes introducir tu pulsera colocando los números que aparecen en tu pulsera. Tu pulsera debe tener 2 líneas de números."
-    call_to_action: "Introduce tu pulsera y continúa!"
+    call_to_action: "¡Introduce tu pulsera y continúa!"
     button: "Aceptar"
     placeholders:
       line_1: "Línea 1 ej: 12345"
@@ -110,12 +110,12 @@ es:
   refund:
     title: "Pide tu reembolso"
     description: "Necesitamos tu cuenta de banco para completar tu reembolso."
-    call_to_action: "Introduce tu cuenta de banco!"
+    call_to_action: "¡Introduce tu cuenta de banco!"
     button: "Guardar"
   edit_refund:
     title: "Reembolso"
     description: "Puedes editar tu cuenta de banco para pedir tu reembolso."
-    call_to_action: "Introduce tu cuenta de banco!"
+    call_to_action: "¡Introduce tu cuenta de banco!"
     swift: "BIC/SWIFT (Sólo para cuentas fueras de España)"
     button: "Guardar "
     placeholders:
@@ -127,10 +127,10 @@ es:
       call_to_action: 'Contáctanos:'
     success:
       title: 'Pago realizado'
-      description: 'Gracias por tu compra. El pago ha sido realizado. Podrás encontar un email con el resumen de tu compra en el correo'
+      description: 'Gracias por tu compra. El pago ha sido realizado. Recibirás un email de confirmación de tu compra.'
   passwords:
     new:
-      title: 'Olvidaste tu contraseña?'
+      title: '¿Olvidaste tu contraseña?'
       button: 'Reenviar instrucciones'
     edit:
       header: 'Nueva contraseña'
@@ -159,7 +159,7 @@ es:
       copy: '¿Qué ventajas tiene?'
   cancel:
     title: 'Cancelar cuenta'
-    unhappy: 'Queremos saber que ha ocurrido, envíanos un correo!'
+    unhappy: '¡Queremos saber que ha ocurrido, envíanos un correo!'
   footer:
     use: "Condiciones de uso"
     privacy: "Política de privacidad"

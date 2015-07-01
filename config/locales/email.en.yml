@@ -15,6 +15,7 @@ en:
           order_number: 'Your order'
           greet: 'Hello %{name}!'
           date: 'Purchase date'
+          description: 'All your purchased Online Credits will automatically be applied to your wristband once you enter the festival. Your Festival Wristband is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.'
           success: 'Your order has been received. You can find details below:'
           thanks: 'Thank you for your purchase.'
       confirmation:
@@ -29,8 +30,8 @@ en:
         mail_link: "Change my password"
       gtag:
         assigned:
-          title: 'You have successfullCreatey applied for your refund'
-          subject: 'You have successfully applied for your refund'
+          title: 'You have successfullCreatey applied for your refund!'
+          subject: 'You have successfully applied for your refund!'
           greet: 'Hello %{name}!'
           mail_body: 'You assigned a wristband with the id:'
           mail_link: 'You will receive another email from us between 5 and 15 business days as soon as your credits are ready for the refund.'

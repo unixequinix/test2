@@ -135,6 +135,16 @@ crumb :new_admins_customer do
   parent :admins_customers
 end
 
+crumb :new_admins_customer_admission do |customer|
+  link t("breadcrumbs.new_customer_admission")
+  parent :admins_customer, customer
+end
+
+crumb :new_admins_customer_gtag_registration do |customer|
+  link t("breadcrumbs.new_customer_gtag_registration")
+  parent :admins_customer, customer
+end
+
 
 ## Orders
 
@@ -184,3 +194,5 @@ crumb :new_admins_refund do
   link t("breadcrumbs.new_refund")
   parent :admins_refunds
 end
+
+

@@ -9,10 +9,10 @@
     - @order.order_items.each do |order_item|
       tr
         td [colspan="2"] #{pluralize(order_item.amount, order_item.online_product.name)}
-        td.table-amount #{order_item.total}
+        td.table-amount #{order_item.total.floor}
     tr
       td.table-total [colspan="2"] = t('orders.total')
-      td.table-total.table-amount [colspan="3"] #{@order.total} #{t('currency_symbol')}
+      td.table-total.table-amount [colspan="3"] #{@order.total.floor} #{t('currency_symbol')}
 
   .wrapper-secure-payment
     p.small = t('orders.vat')

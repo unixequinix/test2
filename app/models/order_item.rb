@@ -15,4 +15,7 @@ class OrderItem < ActiveRecord::Base
   # Associations
   belongs_to :order
   belongs_to :online_product
+
+  # Validations
+  validates :amount, numericality: { only_integer: true }
 end
