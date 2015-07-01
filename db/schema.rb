@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150623165734) do
+ActiveRecord::Schema.define(version: 20150626195534) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,6 +89,16 @@ ActiveRecord::Schema.define(version: 20150623165734) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.string   "swift"
+  end
+
+  create_table "claims", force: :cascade do |t|
+    t.integer  "customer_id",  null: false, index: {name: "fk__claims_customer_id"}, foreign_key: {references: "customers", name: "fk_claims_customer_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "number",       null: false, index: {name: "index_claims_on_number", unique: true}
+    t.string   "aasm_state",   null: false
+    t.datetime "completed_at"
+    t.decimal  "total",        precision: 8, scale: 2, null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "credit_logs", force: :cascade do |t|

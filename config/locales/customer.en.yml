@@ -38,7 +38,8 @@ en:
       header: "Your Online Credit Balance"
       call_to_action: "To avoid queues, top-up your wristband now for all your festival purchases"
       call_to_action_started: "The event just started so you cannot topup anymore"
-      call_to_action_no_admission: "To buy your Online Top-up, please activate your Festival Ticket first"
+      call_to_action_no_admission: "To buy your Online Top-up,"
+      call_to_action_no_admission2: "please activate your Festival Ticket first"
       button: "Top-up"
     event_refunds:
       claim: "Event hasn't finished yet"
@@ -47,6 +48,12 @@ en:
       claim: "You successfully applied for your refund"
       description: "Expect an e-mail between 5 to 15 business days when your credits are ready."
       description2: "Then you will be able to check your balance, enter your bank details and receive the payment."
+    success_refund_disclaimer:
+      claim: "You successfully processed your refund"
+      description: "In a few days you will recieve the payment in your bank account."
+    error_refund_disclaimer:
+      claim: "There was an error on your refund"
+      description: "Try to go back to your dashboard and claim again."
     without_gtags:
       title: "Credits left?"
       description: "Assign your wristband to start the refund process. Only one Wristband can be activated per account (email)."
@@ -90,6 +97,18 @@ en:
     description: "Please, review your order and proceed to payment."
     products: "Products"
     price: "Price"
+    amount: "Amount"
+    total: "Total"
+    vat: "VAT Included"
+    redirect: "You will be redirected to the bank’s payment gateway."
+    button: "Pay"
+    button_iupay: "IUPAY"
+  claims:
+    title: "Confirm Refund"
+    description: "Please, review your order and proceed to payment."
+    products: "Products"
+    amount: "Amount"
+    product_description: "Credits to be refunded"
     total: "Total"
     vat: "VAT Included"
     redirect: "You will be redirected to the bank’s payment gateway."
@@ -127,6 +146,13 @@ en:
     success:
       title: 'Payment Done'
       description: 'Thank you for your order. Your payment has been processed. You will receive a confirmation email of your order.'
+  refund:
+    error:
+      title: 'Error'
+      call_to_action: 'Contact us:'
+    success:
+      title: 'Refund Done'
+      description: 'Thank you for your claim. Your refund has been processed. You will receive a confirmation email of your claim.'
   passwords:
     new:
       title: 'Forgot your password?'

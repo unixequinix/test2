@@ -9,4 +9,10 @@ class Customers::BaseController < ApplicationController
       redirect_to customer_root_url
     end
   end
+
+  def check_has_gtag!
+    if current_customer.assigned_gtag_registration.nil?
+      redirect_to customer_root_url
+    end
+  end
 end

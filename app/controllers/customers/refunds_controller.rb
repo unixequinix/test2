@@ -1,41 +1,36 @@
 class Customers::RefundsController < Customers::BaseController
-
-  def new
-    @refund = Refund.new
-    @refund.build_bank_account
-  end
+  skip_before_action :authenticate_customer!, only: [:create]
+  skip_before_filter :verify_authenticity_token, only: [:create]
+  skip_before_action :check_has_gtag!, only: [:create]
 
   def create
-    @refund = Refund.new(permitted_params)
-    if @refund.save
-      flash[:notice] = I18n.t('alerts.created')
-      redirect_to customer_root_url
-    else
-      flash[:error] = @refund.errors.full_messages.join(". ")
-      render :new
-    end
+    puts params
+    #if params[:Ds_Order] and params[:Ds_MerchantCode] == Rails.application.secrets.merchant_code.to_s
+    #  response = params[:Ds_Response]
+    #  success = response =~ /00[0-9][0-9]|0900/
+    #  amount = params[:Ds_Amount].to_f / 100 # last two digits are decimals
+    #  if success
+    #    @order = Order.find_by(number: params[:Ds_Order])
+    #    @credit_log = CreditLog.create(customer_id: @order.customer.id, transaction_type: CreditLog::CREDITS_PURCHASE, amount: @order.credits_total)
+    #    payment = Payment.new(transaction_type: params[:Ds_TransactionType], card_country: params[:Ds_Card_Country], paid_at: "#{params[:Ds_Date]}, #{params[:Ds_Hour]}", order: @order, response_code: response, authorization_code: params[:Ds_AuthorisationCode], currency: params[:Ds_Currency], merchant_code: params[:Ds_MerchantCode], amount: amount,  terminal: params[:Ds_Terminal], success: true)
+    #    payment.save!
+    #    @order.complete!
+    #    send_mail_for(@order)
+    #  end
+    #end
+    render nothing: true
   end
 
-  def edit
-    @refund = Refund.find(params[:id])
-    @refund.build_bank_account unless current_customer.bank_account
+  def success
   end
 
-  def update
-    @refund = Refund.find(params[:id])
-    if @refund.update(permitted_params)
-      flash[:notice] = I18n.t('alerts.updated')
-      redirect_to customer_root_url
-    else
-      flash[:error] = @refund.errors.full_messages.join(". ")
-      render :edit
-    end
+  def error
   end
 
   private
 
-  def permitted_params
-    params.require(:refund).permit(:customer_id, :gtag_id, bank_account_attributes: [:id, :customer_id, :iban, :swift])
+  def send_mail_for(order)
+    OrderMailer.completed_email(order, current_event).deliver_later
   end
 
 end

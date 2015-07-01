@@ -46,8 +46,14 @@ es:
       description: "Vuelve pronto para poder reclamar tus créditos"
     wait_refund_disclaimer:
       claim: "Has solicitado el reembolso con éxito"
-      description: "Te enviaremos un mail entre 5 y 15 días hábiles tan pronto como tu créditos estén listos."
+      description: "Te enviaremos un mail entre 5 y 15 días hábiles tan pronto como tus créditos estén listos."
       description2: "Entonces podrás ver tu saldo, introducir tus datos bancarios y recibir el pago."
+    success_refund_disclaimer:
+      claim: "Has solicitado el reembolso con éxito"
+      description: "En unos días recibirás el embolso en tu cuenta."
+    error_refund_disclaimer:
+      claim: "Ha habido un error en tu reembolso"
+      description: "Vuelve a tu panel e inténtalo de nuevo."
     without_gtags:
       title: "¿Te quedan créditos?"
       description: "Introduce tu pulsera para empezar el proceso de reembolso. Sólo una pulsera puede ser activada por cuenta (email)."
@@ -91,11 +97,22 @@ es:
     description: "Por favor, revisa tu órden y procede a realizar el pago."
     products: "Productos"
     price: "Precio"
+    amount: "Cantidad"
     total: "Total"
     vat: "IVA Incluido"
     redirect: "Serás redirigido a la pasarela de pago del banco."
     button: "Pagar"
     button_iupay: "IUPAY"
+  claims:
+    title: "Confirmar Reembolso"
+    description: "Por favor, revisa tu órden y procede a realizar el pago."
+    products: "Productos"
+    amount: "Cantidad"
+    product_description: "Créditos a reembolsar"
+    total: "Total"
+    vat: "IVA Incluido"
+    redirect: "Serás redirigido a la pasarela de pago del banco."
+    button: "Reembolsar"
   gtag_registrations:
     title: "Introducir Pulsera"
     description: "Para proceder, debes introducir tu pulsera colocando los números que aparecen en tu pulsera. Tu pulsera debe tener 2 líneas de números."
@@ -128,6 +145,13 @@ es:
     success:
       title: 'Pago realizado'
       description: 'Gracias por tu compra. El pago ha sido realizado. Recibirás un email de confirmación de tu compra.'
+  refund:
+    error:
+      title: 'Error'
+      call_to_action: 'Contáctanos:'
+    success:
+      title: 'Pago realizado'
+      description: 'Gracias por tu petición. El reembolso ha sido realizado. Recibirás un email de confirmación de tu reembolso.'
   passwords:
     new:
       title: '¿Olvidaste tu contraseña?'

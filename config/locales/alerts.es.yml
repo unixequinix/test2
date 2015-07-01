@@ -11,3 +11,4 @@ es:
     addminsions:  "Ticket no reconocido. Si has realizado tu compra en las últimas 48 horas, intenta de nuevo luego mientras actualizamos tu compra. Si persiste, contacta soporte"
     gtag: "Pulsera no válida"
     order_complete: 'Órden completada'
+    claim_complete: 'Petición de reembolso completada'
