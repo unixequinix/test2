@@ -1,5 +1,11 @@
 en:
   admin:
+    actions:
+      new: "Create new"
+      back: "Back"
+      cancel: "Cancel"
+      assign_ticket: "Assign ticket"
+      assign_gtag: "Assign gtag"
     event:
       name: 'Name'
       slug: 'Slug'
@@ -123,6 +129,8 @@ en:
         type: "Type"
       import: "Import tickets (Select a CSV file comma separated)"
       created_at: "Created at"
+    admissions:
+      ticket: "Ticket"
     purchasers:
       name: "Purchaser Name"
       surname: "Purchaser Surname"
@@ -137,6 +145,9 @@ en:
       search:
         tag_uid: "Tag UID"
         tag_serial: "Tag serial number"
+    gtag_registrations:
+      tag: "Tag UID"
+      serial: "Tag Serial Number"
     customers:
       email: "Email"
       name: "Name"

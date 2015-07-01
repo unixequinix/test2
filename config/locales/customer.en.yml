@@ -27,19 +27,18 @@ en:
     title: "My BBF"
     admissions:
       header: "Your ticket number"
-      description: "Do you want to unassign the ticket?"
-      description_started: "The event just started so you cannot unassign the ticket"
-      button: "Unassign"
+      description: "Put a wrong ticket by mistake?"
+      description_started: "The event just started so you cannot change the ticket"
+      button: "Erase and restart the process"
     without_admissions:
       call_to_action: "Please activate your festival ticket first"
       description: "Only one Festival Ticket can be activated per account."
       button: "Activate Ticket"
     credits:
       header: "Your Online Credit Balance"
-      call_to_action: "If you want to avoid queues,"
-      call_to_action2: "Top-up your wristband in advance"
+      call_to_action: "To avoid queues, top-up your wristband now for all your festival purchases"
       call_to_action_started: "The event just started so you cannot topup anymore"
-      call_to_action_no_admission: "To securely buy your Online Top-up you need to activate your Festival Ticket first"
+      call_to_action_no_admission: "To buy your Online Top-up, please activate your Festival Ticket first"
       button: "Top-up"
     event_refunds:
       claim: "Event hasn't finished yet"
@@ -49,8 +48,8 @@ en:
       description: "Expect an e-mail between 5 to 15 business days when your credits are ready."
       description2: "Then you will be able to check your balance, enter your bank details and receive the payment."
     without_gtags:
-      title: "Credit left?"
-      description: "You need to assign your wristband to start the refund process"
+      title: "Credits left?"
+      description: "Assign your wristband to start the refund process. Only one Wristband can be activated per account (email)."
       button: "Assign wristband"
     without_gtags_disabled:
       claim: "The period to apply for a refund of your wristband credits is closed"
@@ -61,7 +60,7 @@ en:
       description: "The refunds period is finished, I you have any question contact support."
     gtag_registration:
       title: "Your wristband number:"
-      call_to_action: "Have more wristbands? Please create an account for each."
+      call_to_action: "Have more wristbands? Please register again with a different email for each."
       call_to_action2: "Put a wrong wristband by mistake?"
       button: "Erase and restart the process"
     gtag_after_refund:
@@ -76,14 +75,14 @@ en:
       button: "Modify bank account"
   admissions:
     title: "Ticket Activation"
-    description: "To activate your Festival Ticket, put your Barcode Number below. You can find this number right under the barcode printed on your ticket."
-    call_to_action: "Activate your Ticket!"
+    description: "Please enter the number that is printed on your festival ticket just below the barcode."
+    call_to_action: "Activate your Festival Ticket!"
     button: "Activate"
     placeholders:
-      ticket_number: "Ticket Number"
+      ticket_number: "Festival Ticket Barcode Number"
   checkout:
     title: "Top-up"
-    description: "If you want to enjoy Barcelona Beach Festival without queueing, you can buy Online Credits here which will automatically be added to your wristband once you enter the festival."
+    description: "After you buy online credits here, they will automatically be applied to your wristband once you enter the festival."
     total: "Total"
     button: "Confirm Order"
   orders:
@@ -127,7 +126,7 @@ en:
       call_to_action: 'Contact us:'
     success:
       title: 'Payment Done'
-      description: 'Thank you for your order. Your payment has been processed. An email with the order resume has been sent to your account.'
+      description: 'Thank you for your order. Your payment has been processed. You will receive a confirmation email of your order.'
   passwords:
     new:
       title: 'Forgot your password?'

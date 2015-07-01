@@ -18,6 +18,8 @@ en:
     new_credit: "New credit"
     customers: "Customer"
     new_customer: "New customer"
+    new_customer_admission: "Assigning Ticket"
+    new_customer_gtag_registration: "Assigning Gtag"
     orders: "Orders"
     new_order: "New order"
     payments: "Payments"

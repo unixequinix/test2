@@ -6,9 +6,10 @@
         .product-amount
           = fa_icon "minus-circle", class: "amount-button", data: { id: "#{credit.id}", price: "#{credit.online_product.price}", operation: "minus", step: "#{credit.online_product.step}" }
           = number_field_tag "checkout_form[credits][#{credit.id}]", "#{credit.online_product.initial_amount}", autocomplete: :off, min: "#{credit.online_product.min_purchasable}", max: "#{credit.online_product.max_purchasable}", step: "#{credit.online_product.step}", id: "amount-input-#{credit.id}", class: "amount-input", data: { id: "#{credit.id}", price: "#{credit.online_product.price}" }
-          = number_field_tag "checkout_form[credits][#{credit.id}]", "#{credit.online_product.initial_amount}", autocomplete: :off, min: "#{credit.online_product.min_purchasable}", max: "#{credit.online_product.max_purchasable}", step: "#{credit.online_product.step}", id: "amount-input-#{credit.id}", class: "amount-input", data: { id: "#{credit.id}", price: "#{credit.online_product.price}" }
           = fa_icon "plus-circle", class: "amount-button", data: { id: "#{credit.id}", price: "#{credit.online_product.price}", operation: "plus", step: "#{credit.online_product.step}" }
         .checkout-total
           h3 = t('checkout.total')
-          .top-up-amount [id="amount-total-#{credit.id}" data-id="#{credit.id}"] #{credit.online_product.price * credit.online_product.initial_amount}#{t('currency_symbol')}
+          .top-up-amount [data-id="#{credit.id}"]
+            span [id="amount-total-#{credit.id}"] #{(credit.online_product.price * credit.online_product.initial_amount).floor}
+            span #{t('currency_symbol')}
     = f.button :submit, t('checkout.button'), class: "btn btn-top btn-full-width"
