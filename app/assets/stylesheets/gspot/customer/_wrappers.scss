@@ -157,3 +157,12 @@
   }
 }
 
+.container-button {
+  width: 100%;
+  margin-top: modules(1);
+  padding-top: modules(1);
+  text-align: right;
+
+  @include min-screen($bp3) { margin-top: 0; }
+}
+
