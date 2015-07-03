@@ -73,6 +73,7 @@ gem 'whenever', '~> 0.9.4', require: false
 gem 'globalize', '~> 5.0.1'
 
 group :development do
+  gem 'foreman', '~> 0.78.0'
   gem 'capistrano'
   gem 'capistrano-rails', '~> 1.1.3'
   gem 'capistrano-rbenv', '~> 2.0.3'

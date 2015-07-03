@@ -4,7 +4,21 @@ class Customers::RefundsController < Customers::BaseController
   skip_before_action :check_has_gtag!, only: [:create]
 
   def create
-    puts params
+    response = Nokogiri::XML(request.body.read)
+    operations = response.xpath("//payfrex-response/operations/operation")
+    operations.each do |operation|
+      operation_hash = Hash.from_xml(operation.to_s)
+      puts operation_hash["operation"]["amount"]
+      puts operation_hash["operation"]["currency"]
+      puts operation_hash["operation"]["merchantTransactionId"]
+      puts operation_hash["operation"]["message"]
+      puts operation_hash["operation"]["operationType"]
+      puts operation_hash["operation"]["payFrexTransactionId"]
+      puts operation_hash["operation"]["paymentSolution"]
+      puts operation_hash["operation"]["status"]
+    end
+
+
     #if params[:Ds_Order] and params[:Ds_MerchantCode] == Rails.application.secrets.merchant_code.to_s
     #  response = params[:Ds_Response]
     #  success = response =~ /00[0-9][0-9]|0900/
