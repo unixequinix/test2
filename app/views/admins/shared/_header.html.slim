@@ -3,9 +3,10 @@ header
     = image_tag ("admin-panel-logo.png")
 
   .container-language
-    = link_to t('event.locales.en'), change_locale_path("en"), title: t('event.locales.en'), class: " language-item #{(' selected' if session[:locale] == 'en')}"
-    span |
-    = link_to t('event.locales.es'), change_locale_path("es"), title: t('event.locales.es'), class: " language-item #{(' selected' if session[:locale] == 'es')}"
+    - I18n.available_locales.each_with_index do |locale, index|
+      = link_to t("event.locales.#{locale}"), change_locale_path("#{locale}"), title: t("event.locales.#{locale}"), class: "language-item #{(' selected' if session[:locale] == "#{locale}")}"
+      - if (index + 1 < I18n.available_locales.length)
+        span |
 
   = link_to destroy_admin_session_path, method: :delete, class: 'menu-option' do
     = fa_icon "sign-out"
