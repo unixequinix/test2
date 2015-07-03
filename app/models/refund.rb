@@ -16,11 +16,9 @@ class Refund < ActiveRecord::Base
   # Associations
   belongs_to :customer
   belongs_to :gtag
-  belongs_to :bank_account
+  belongs_to :claim
 
-  accepts_nested_attributes_for :bank_account
-
-  validates :customer, :gtag, :bank_account, :aasm_state, presence: true
+  validates :customer, :gtag, :claim, :aasm_state, presence: true
 
   # State machine
   include AASM

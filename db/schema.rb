@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150626195534) do
+ActiveRecord::Schema.define(version: 20150703123134) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -251,12 +251,20 @@ ActiveRecord::Schema.define(version: 20150626195534) do
   end
 
   create_table "refunds", force: :cascade do |t|
-    t.integer  "customer_id",     null: false, index: {name: "fk__refunds_customer_id"}, foreign_key: {references: "customers", name: "fk_refunds_customer_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "gtag_id",         null: false, index: {name: "fk__refunds_gtag_id"}, foreign_key: {references: "gtags", name: "fk_refunds_gtag_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "bank_account_id", null: false, index: {name: "fk__refunds_bank_account_id"}, foreign_key: {references: "bank_accounts", name: "fk_refunds_bank_account_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "aasm_state",      null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.integer  "customer_id",                null: false, index: {name: "fk__refunds_customer_id"}, foreign_key: {references: "customers", name: "fk_refunds_customer_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "gtag_id",                    null: false, index: {name: "fk__refunds_gtag_id"}, foreign_key: {references: "gtags", name: "fk_refunds_gtag_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "bank_account_id",            null: false, index: {name: "fk__refunds_bank_account_id"}, foreign_key: {references: "bank_accounts", name: "fk_refunds_bank_account_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "aasm_state",                 null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "claim_id",                   index: {name: "index_refunds_on_claim_id"}, foreign_key: {references: "claims", name: "refunds_claim_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.decimal  "amount",                     precision: 8, scale: 2, null: false
+    t.string   "currency"
+    t.string   "message"
+    t.string   "operation_type"
+    t.string   "gateway_transaction_number"
+    t.string   "payment_solution"
+    t.string   "status"
   end
 
 end
