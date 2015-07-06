@@ -116,11 +116,13 @@ es:
   gtag_registrations:
     title: "Introducir Pulsera"
     description: "Para proceder, debes introducir tu pulsera colocando los números que aparecen en tu pulsera. Tu pulsera debe tener 2 líneas de números."
+    simple_description: "Para proceder, debes introducir tu pulsera colocando los números que aparecen en tu pulsera."
     call_to_action: "¡Introduce tu pulsera y continúa!"
     button: "Aceptar"
     placeholders:
       line_1: "Línea 1 ej: 12345"
       line_2: "Línea 2 ej: BA6D7DC0"
+      simple_line: "Número ej: BA6D7DC0"
     info:
       line_1: 'Sólo números del "0" al "9"'
       line_2: 'Letras y números del "0" a la "F". ¡Si encuentras una "o" es un "0"!'

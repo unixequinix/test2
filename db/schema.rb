@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150703123134) do
+ActiveRecord::Schema.define(version: 20150704083823) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -101,6 +101,24 @@ ActiveRecord::Schema.define(version: 20150703123134) do
     t.datetime "updated_at",   null: false
   end
 
+  create_table "parameters", force: :cascade do |t|
+    t.string   "name",        null: false
+    t.string   "data_type",   null: false
+    t.string   "category",    null: false
+    t.string   "group"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "claim_parameters", force: :cascade do |t|
+    t.string   "value",        default: "", null: false
+    t.integer  "claim_id",     null: false, index: {name: "index_claim_parameters_on_claim_id"}, foreign_key: {references: "claims", name: "fk_claim_parameters_claim_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "parameter_id", null: false, index: {name: "index_claim_parameters_on_parameter_id"}, foreign_key: {references: "parameters", name: "fk_claim_parameters_parameter_id", on_update: :no_action, on_delete: :no_action}
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
   create_table "credit_logs", force: :cascade do |t|
     t.integer  "customer_id",      null: false, index: {name: "fk__credit_logs_customer_id"}, foreign_key: {references: "customers", name: "fk_credit_logs_customer_id", on_update: :no_action, on_delete: :no_action}
     t.string   "transaction_type"
@@ -156,6 +174,14 @@ ActiveRecord::Schema.define(version: 20150703123134) do
     t.integer  "features",                default: 0,                     null: false
     t.string   "refund_service"
     t.boolean  "gtag_registration",       default: true,                  null: false
+  end
+
+  create_table "event_parameters", force: :cascade do |t|
+    t.string   "value",        default: "", null: false
+    t.integer  "event_id",     null: false, index: {name: "index_event_parameters_on_event_id"}, foreign_key: {references: "events", name: "fk_event_parameters_event_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "parameter_id", null: false, index: {name: "index_event_parameters_on_parameter_id"}, foreign_key: {references: "parameters", name: "fk_event_parameters_parameter_id", on_update: :no_action, on_delete: :no_action}
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "event_translations", force: :cascade do |t|
