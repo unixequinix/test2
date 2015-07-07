@@ -18,6 +18,16 @@ es:
           description: 'Todos los créditos que has comprado serán añadidos automáticamente a tu pulsera al entrar al festival. Tu pulsera es una manera rápida y conveniente de pagar por comida, bebidas y merchandising. Es la única forma de pago acceptada por todas las tiendas dentro del evento.'
           success: 'Tu compra ha sido recibida. Encuentra los detalles debajo:'
           thanks: 'Gracias por tu compra.'
+      claim:
+        completed:
+          title: 'Notificación de devolución'
+          subject: 'Compra Completada'
+          order_number: 'Tu petición de reembolso'
+          greet: '¡Hola %{name}!'
+          date: 'Fecha de transacción'
+          description: 'Todos los créditos que reembolsados.'
+          success: 'Tu petición ha sido recibida. Encuentra los detalles debajo:'
+          thanks: 'Gracias por tu petición de reembolso.'
       confirmation:
         title: 'Confirmar contraseña'
         greet: '¡Hola %{name}!'

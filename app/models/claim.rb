@@ -10,15 +10,28 @@
 #  total        :decimal(8, 2)    not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  service_type :string
+#  gtag_id      :integer
 #
 
 class Claim < ActiveRecord::Base
+  default_scope { order(created_at: :desc) }
+
+  #Service Types
+  BANK_ACCOUNT = 'bank_account'
+  EASY_PAYMENT_GATEWAY = 'epg'
+
+  REFUND_SERVICES = [BANK_ACCOUNT, EASY_PAYMENT_GATEWAY]
+
+
   # Associations
   belongs_to :customer
   has_many :refunds
+  has_many :claim_parameters
+  belongs_to :gtag
 
   # Validations
-  validates :customer, :number, :total, :aasm_state, presence: true
+  validates :customer, :gtag, :service_type, :number, :total, :aasm_state, presence: true
 
   # State machine
   include AASM
@@ -26,7 +39,7 @@ class Claim < ActiveRecord::Base
   aasm do
     state :started, initial: true
     state :in_progress
-    state :completed, enter: :complete_order
+    state :completed, enter: :complete_claim
 
     event :start_claim do
       transitions from: [:started, :in_progress], to: :in_progress

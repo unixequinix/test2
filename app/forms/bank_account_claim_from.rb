@@ -1,17 +1,28 @@
-class BankAccountClaimForm < Reform::Form
+class BankAccountClaimForm
+  include ActiveModel::Model
+  include Virtus.model
 
-  property :iban, virtual: true
-  property :swift, virtual: true
+  attribute :iban, String
+  attribute :swift, String
 
   validates_presence_of :iban
   validates_presence_of :swift
 
-  def initialize
-    super(nil)
+  def save
+    if valid?
+      persist!
+      true
+    else
+      false
+    end
   end
 
-  def self.property(name, options={})
-    super(name, options.merge(virtual: true)) # every property needs to be virtual.
+  private
+
+  def persist!
+    Parameter.where(category: 'claim', group: 'bank_account').each do |parameter|
+      ClaimParameter.create!(value: attributes[parameter.name.to_sym], claim_id: claim_id, parameter_id: parameter.id)
+    end
   end
 
 end

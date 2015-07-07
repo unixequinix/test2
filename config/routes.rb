@@ -122,6 +122,11 @@ Rails.application.routes.draw do
         get :search
       end
     end
+    resources :claims, except: [:new, :create, :edit, :update] do
+      collection do
+        get :search
+      end
+    end
     resources :refunds, except: [:new, :create, :edit] do
       collection do
         get :search

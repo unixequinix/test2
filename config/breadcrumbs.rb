@@ -179,7 +179,24 @@ crumb :new_admins_payment do
   parent :admins_payments
 end
 
-## Payments
+## Claims
+
+crumb :admins_claims do
+  link t("breadcrumbs.claim"), admins_claims_path
+end
+
+crumb :admins_claim do |claim|
+  link claim.number, admins_claim_path(claim)
+  parent :admins_claims
+end
+
+crumb :new_admins_claim do
+  link t("breadcrumbs.new_claim")
+  parent :admins_claims
+end
+
+
+## Refunds
 
 crumb :admins_refunds do
   link t("breadcrumbs.refunds"), admins_refunds_path

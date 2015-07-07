@@ -1,0 +1,35 @@
+- breadcrumb :admins_claim, @claim
+- provide :actions do
+  = link_to t("actions.back"), admins_claims_path, class: "btn btn-action btn-action-back"
+.wrapper-negative-space
+  .container-show
+    dl
+      dt = t("admin.claims.number")
+      dd = @claim.number
+      dt = t("admin.claims.customer")
+      dd = link_to @claim.customer.email, admins_customer_path(@claim.customer)
+      dt = t("admin.claims.state")
+      dd = @claim.aasm_state
+      dt = t("admin.claims.total")
+      dd = @claim.total
+      dt = t("admin.claims.service_type")
+      dd = @claim.service_type
+      dt = t("admin.claims.created")
+      dd = @claim.created_at
+      dt = t("admin.claims.completed")
+      dd = @claim.completed_at
+
+  .container-show
+    h3
+      = fa_icon "table"
+      = t("admin.claims.claim_item")
+    table.subtable.claim-subtable
+      thead
+        tr
+          th = t("admin.claims.claim_parameter")
+          th = t("admin.claims.claim_parameter_value")
+      tbody
+        - @claim.claim_parameters.each do |claim_parameter|
+          tr
+            td = t("admin.claims.parameters.#{claim_parameter.parameter.name}")
+            td = claim_parameter.value

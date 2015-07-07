@@ -1,22 +1,21 @@
 class EpgClaimForm
   include ActiveModel::Model
+  include Virtus.model
 
-  attr_accessor :state, :city, :post_code, :telephone, :address, :customer_id, :claim_id
+  attribute :state, String
+  attribute :city, String
+  attribute :post_code, String
+  attribute :telephone, String
+  attribute :address, String
+  attribute :claim_id, Integer
 
   validates_presence_of :state
   validates_presence_of :city
   validates_presence_of :post_code
   validates_presence_of :telephone
   validates_presence_of :address
+  validates_presence_of :claim_id
 
-  def initialize(customer, attributes={})
-    super()
-    @claim = Claim.new
-    @claim.generate_claim_number!
-    @claim.customer = customer
-    @claim.total = customer.assigned_gtag_registration.gtag.gtag_credit_log.amount
-    @claim.save!
-  end
 
   def save
     if valid?
@@ -27,17 +26,12 @@ class EpgClaimForm
     end
   end
 
-  def claim
-    @claim
-  end
-
   private
 
   def persist!
     Parameter.where(category: 'claim', group: 'epg').each do |parameter|
-      ClaimParameter.create!(value: params[parameter.name], claim_id: @claim.id, parameter_id: parameter.id)
+      ClaimParameter.create!(value: attributes[parameter.name.to_sym], claim_id: claim_id, parameter_id: parameter.id)
     end
-    @claim.start_claim!
   end
 
 end

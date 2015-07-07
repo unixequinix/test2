@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150704083823) do
+ActiveRecord::Schema.define(version: 20150707192834) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,14 @@ ActiveRecord::Schema.define(version: 20150704083823) do
     t.string   "swift"
   end
 
+  create_table "gtags", force: :cascade do |t|
+    t.string   "tag_uid"
+    t.string   "tag_serial_number"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.datetime "deleted_at",        index: {name: "index_gtags_on_deleted_at"}
+  end
+
   create_table "claims", force: :cascade do |t|
     t.integer  "customer_id",  null: false, index: {name: "fk__claims_customer_id"}, foreign_key: {references: "customers", name: "fk_claims_customer_id", on_update: :no_action, on_delete: :no_action}
     t.string   "number",       null: false, index: {name: "index_claims_on_number", unique: true}
@@ -99,6 +107,8 @@ ActiveRecord::Schema.define(version: 20150704083823) do
     t.decimal  "total",        precision: 8, scale: 2, null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.integer  "gtag_id",      index: {name: "index_claims_on_gtag_id"}, foreign_key: {references: "gtags", name: "claims_gtag_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.string   "service_type"
   end
 
   create_table "parameters", force: :cascade do |t|
@@ -203,14 +213,6 @@ ActiveRecord::Schema.define(version: 20150704083823) do
   end
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
 
-  create_table "gtags", force: :cascade do |t|
-    t.string   "tag_uid"
-    t.string   "tag_serial_number"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-    t.datetime "deleted_at",        index: {name: "index_gtags_on_deleted_at"}
-  end
-
   create_table "gtag_credit_logs", force: :cascade do |t|
     t.integer  "gtag_id",    null: false, index: {name: "fk__gtag_credit_logs_gtag_id"}, foreign_key: {references: "gtags", name: "fk_gtag_credit_logs_gtag_id", on_update: :no_action, on_delete: :no_action}
     t.decimal  "amount",     precision: 8, scale: 2, null: false
@@ -277,10 +279,6 @@ ActiveRecord::Schema.define(version: 20150704083823) do
   end
 
   create_table "refunds", force: :cascade do |t|
-    t.integer  "customer_id",                null: false, index: {name: "fk__refunds_customer_id"}, foreign_key: {references: "customers", name: "fk_refunds_customer_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "gtag_id",                    null: false, index: {name: "fk__refunds_gtag_id"}, foreign_key: {references: "gtags", name: "fk_refunds_gtag_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "bank_account_id",            null: false, index: {name: "fk__refunds_bank_account_id"}, foreign_key: {references: "bank_accounts", name: "fk_refunds_bank_account_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "aasm_state",                 null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.integer  "claim_id",                   index: {name: "index_refunds_on_claim_id"}, foreign_key: {references: "claims", name: "refunds_claim_id_fkey", on_update: :no_action, on_delete: :no_action}

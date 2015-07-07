@@ -1,5 +1,5 @@
-= render 'customers/dashboards/event_finished/gtag_registrations', gtag_registration: gtag_registration if gtag_registration && !refund && current_event.refunds? && current_event.gtag_registration
-= render 'customers/dashboards/event_finished/gtag_registrations_disabled', gtag_registration: gtag_registration if gtag_registration && !refund && current_event.refunds? && !current_event.gtag_registration
+= render 'customers/dashboards/event_finished/gtag_registrations', gtag_registration: gtag_registration if gtag_registration && !claim && current_event.refunds? && current_event.gtag_registration
+= render 'customers/dashboards/event_finished/gtag_registrations_disabled', gtag_registration: gtag_registration if gtag_registration && !claim && current_event.refunds? && !current_event.gtag_registration
 = render 'customers/dashboards/event_finished/without_gtags' if !gtag_registration && current_event.refunds? && current_event.gtag_registration
 = render 'customers/dashboards/event_finished/without_gtags_disabled' if !gtag_registration && current_event.refunds? && !current_event.gtag_registration
 = render 'customers/dashboards/event_finished/wait_refund_disclaimer' if gtag_registration && current_event.refunds?

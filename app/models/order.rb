@@ -12,6 +12,8 @@
 #
 
 class Order < ActiveRecord::Base
+  default_scope { order(created_at: :desc) }
+
   # Associations
   belongs_to :customer
   has_many :order_items

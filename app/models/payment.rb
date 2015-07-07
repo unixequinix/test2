@@ -20,9 +20,11 @@
 #
 
 class Payment < ActiveRecord::Base
+  default_scope { order(created_at: :desc) }
+
   # Associations
   belongs_to :order
 
   # Validations
-  validates :amount, :order, presence: true
+  validates :order, :amount, presence: true
 end

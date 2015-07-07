@@ -83,7 +83,7 @@ es:
   admissions:
     title: "Activación del Ticket"
     description: "Por favor, introduce el número impreso debajo del código de barras en tu ticket del festival."
-    call_to_action: "¡Actíva tu Ticket del Festival!"
+    call_to_action: "¡Activa tu Ticket del Festival!"
     button: "Activar"
     placeholders:
       ticket_number: "Número de Ticket"

@@ -24,5 +24,7 @@ en:
     new_order: "New order"
     payments: "Payments"
     new_payment: "New payment"
+    claims: "Claims"
+    new_claim: "New claims"
     refunds: "Refunds"
     new_refund: "New refund"

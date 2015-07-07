@@ -21,6 +21,8 @@ class Gtag < ActiveRecord::Base
   has_one :assigned_customer, ->{ where(gtag_registrations: {aasm_state: :assigned}) }, class_name: "Customer"
   has_one :gtag_credit_log
   has_one :refund
+  has_many :claims
+  has_one :claim_completed, ->{ where(aasm_state: :completed) }, class_name: "Claim"
 
   accepts_nested_attributes_for :gtag_credit_log, allow_destroy: true
 

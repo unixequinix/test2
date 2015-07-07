@@ -18,6 +18,16 @@ en:
           description: 'All your purchased Online Credits will automatically be applied to your wristband once you enter the festival. Your Festival Wristband is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.'
           success: 'Your order has been received. You can find details below:'
           thanks: 'Thank you for your purchase.'
+      claim:
+        completed:
+          title: 'Refund Notification'
+          subject: 'Refund Completed'
+          order_number: 'Your claim'
+          greet: 'Hello %{name}!'
+          date: 'Transaction date'
+          description: 'All your refunded Online Credits.'
+          success: 'Your order has been received. You can find details below:'
+          thanks: 'Thank you for your claim.'
       confirmation:
         title: 'Confirm password'
         greet: 'Hello %{name}!'
