@@ -1,32 +1,20 @@
-class Customers::ClaimsController < Customers::BaseController
+class Customers::EpgClaimsController < Customers::BaseController
   before_action :check_has_gtag!
-  before_action :require_permission!, only: [:show, :update]
+  # before_action :require_permission!, only: [:create, :update]
+
+  def new
+    @epg_claim_form = EpgClaimForm.new(current_customer)
+  end
 
   def create
-    @claim = Claim.new
-    @claim.generate_claim_number!
-    # payment_form_info
-    @claim.start_claim!
-    @claim.customer = current_customer
-    @claim.total = current_customer.assigned_gtag_registration.gtag.gtag_credit_log.amount
-    if @claim.save
+    @epg_claim_form = EpgClaimForm.new(current_customer)
+    if @epg_claim_form.submit(params[:epg_claim_form])
       flash[:notice] = I18n.t('alerts.created')
-      redirect_to customers_claim_url(@claim)
+      redirect_to refund_url(@epg_claim_form.claim)
     else
       flash[:error] = @claim.errors.full_messages.join(". ")
-      redirect_to customer_root_path
+      render :new
     end
-  end
-
-  def show
-    @claim = Claim.find(params[:id])
-  end
-
-  def update
-    @claim = Claim.find(params[:id])
-    @claim.generate_claim_number! if @claim.in_progress?
-    @claim.start_claim!
-    redirect_to refund_url(@claim)
   end
 
   private

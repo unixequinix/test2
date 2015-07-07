@@ -1,0 +1,31 @@
+.wrapper-field.form-inputs
+  p = t('claims.description')
+  table.table-order
+    tr.table-head
+      th = t('claims.products')
+      th
+      th = t('claims.amount')
+    tr
+      td [colspan="2"] #{t('claims.product_description')}
+      td.table-amount #{@epg_claim_form.claim.total.floor}
+    tr
+      td.table-total [colspan="2"] = t('orders.total')
+      td.table-total.table-amount [colspan="3"] #{@epg_claim_form.claim.total.floor} #{t('currency_symbol')}
+
+  .wrapper-secure-payment
+    p.small = t('claims.vat')
+
+  .form-inputs
+    = simple_form_for @epg_claim_form, url: customers_epg_claims_path(@epg_claim_form), method: :post  do |f|
+      = f.error_notification
+      = f.input :state, autofocus: true
+      = f.input :city, autofocus: true
+      = f.input :post_code, autofocus: true
+      = f.input :telephone, autofocus: true
+      = f.input :address, autofocus: true
+
+      .wrapper-secure-payment
+        = render 'customers/shared/ssl_cert_seal'
+      p.bank-page-alert.small = t('claims.redirect')
+      .container-order-buttons
+        = f.button :submit, t('claims.button'), class: "btn btn-top"

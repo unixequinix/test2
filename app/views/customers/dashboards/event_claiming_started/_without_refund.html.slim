@@ -5,6 +5,7 @@
       = t('dashboard.without_refunds.title')
     h3.highlight
       = gtag_registration.gtag.gtag_credit_log.nil? ? 0.0 : gtag_registration.gtag.gtag_credit_log.amount
-  .dashboard-field.dashboard-field-action
-    h3 = call_to_action
-    = link_to t('dashboard.without_refunds.button'), customers_claims_path, method: :post, class: "btn btn-dashboard"
+  - if current_event.refund_service
+    .dashboard-field.dashboard-field-action
+      h3 = call_to_action
+      = link_to t('dashboard.without_refunds.button'), send("new_customers_#{current_event.refund_service}_claim_path"), class: "btn btn-dashboard"
