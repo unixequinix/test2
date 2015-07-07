@@ -23,6 +23,9 @@ class TicketType < ActiveRecord::Base
   # Validations
   validates :name, :company, :credit, presence: true
 
+  # Scopes
+  scope :companies, -> { uniq.pluck(:company) }
+
   # Select options with all the entitlements
   def self.form_selector
     all.map{ |ticket_type| [ticket_type.name, ticket_type.id] }

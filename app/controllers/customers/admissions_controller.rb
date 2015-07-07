@@ -17,7 +17,7 @@ class Customers::AdmissionsController < Customers::BaseController
         render :new
       end
     else
-      flash[:error] = I18n.t('alerts.addminsions')
+      flash[:error] = I18n.t('alerts.admissions', companies: TicketType.companies.join(', '))
       render :new
     end
   end
