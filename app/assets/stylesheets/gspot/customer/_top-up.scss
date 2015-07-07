@@ -127,6 +127,12 @@
 
 .wrapper-payment-error { padding: modules(1) 0; }
 
+.container-payment {
+  clear: both;
+  width: 100%;
+  display: block;
+}
+
 .wrapper-secure-payment {
   text-align: center;
 
