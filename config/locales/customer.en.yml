@@ -114,6 +114,7 @@ en:
     redirect: "You will be redirected to the bank’s payment gateway."
     button: "Refund"
     button_iupay: "IUPAY"
+    refund: "Please, review your credits to proceed refund"
   gtag_registrations:
     title: "Assign wristband"
     description: "In order to proceed assign the number as appears in your wristband. The number consists of 2 lines."
