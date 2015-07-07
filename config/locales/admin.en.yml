@@ -140,6 +140,7 @@ en:
       tag: "Tag UID"
       serial: "Tag Serial Number"
       customer: "Customer"
+      assigned_at: "Assigned at"
       total: "Total Credits"
       import: "Import GTags (Select a CSV file comma separated)"
       search:

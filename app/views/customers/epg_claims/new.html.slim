@@ -16,8 +16,7 @@
     p.small = t('claims.vat')
 
   .form-inputs
-    = simple_form_for @epg_claim_form, url: customers_epg_claims_path(@epg_claim_form), method: :post  do |f|
-      = f.error_notification
+    = simple_form_for @epg_claim_form, url: customers_epg_claims_path  do |f|
       = f.input :state, autofocus: true
       = f.input :city, autofocus: true
       = f.input :post_code, autofocus: true

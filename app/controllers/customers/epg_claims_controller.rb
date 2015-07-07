@@ -7,17 +7,20 @@ class Customers::EpgClaimsController < Customers::BaseController
   end
 
   def create
-    @epg_claim_form = EpgClaimForm.new(current_customer)
-    if @epg_claim_form.submit(params[:epg_claim_form])
+    @epg_claim_form = EpgClaimForm.new(current_customer, permitted_params)
+    if @epg_claim_form.save
       flash[:notice] = I18n.t('alerts.created')
       redirect_to refund_url(@epg_claim_form.claim)
     else
-      flash[:error] = @claim.errors.full_messages.join(". ")
       render :new
     end
   end
 
   private
+
+  def permitted_params
+    params.require(:epg_claim_form).permit(:state, :city, :post_code, :telephone, :address)
+  end
 
   def crypt(value, key)
     cipher = OpenSSL::Cipher::AES.new(256, :ECB)
@@ -31,7 +34,7 @@ class Customers::EpgClaimsController < Customers::BaseController
   def refund_url(claim)
     value = "amount=#{claim.total}"
     value += "&country=MT"
-    value += "&language=es"
+    value += "&language=en"
     value += "&currency=EUR"
     value += "&state=Barcelona"
     value += "&city=Barcelona"

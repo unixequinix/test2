@@ -7,8 +7,9 @@
         th = t("admin.gtags.id")
         th = t("admin.gtags.serial")
         th = t("admin.gtags.tag")
-        th = t("admin.gtags.customer")
         th = t("admin.gtags.total")
+        th = t("admin.gtags.customer")
+        th = t("admin.gtags.assigned_at")
         th.table-actions-field = t ("admin.defaults.actions")
 
     tbody
@@ -19,8 +20,9 @@
           td data-label=t("admin.gtags.id") = link_to gtag.id, edit_admins_gtag_path(gtag)
           td data-label=t("admin.gtags.serial") = gtag.tag_serial_number
           td data-label=t("admin.gtags.tag") = gtag.tag_uid
-          td data-label=t("admin.gtags.customer") = gtag.assigned_gtag_registration.customer.email unless gtag.assigned_gtag_registration.nil? || gtag.assigned_gtag_registration.customer.nil?
           td data-label=t("admin.gtags.total") = gtag.gtag_credit_log.amount unless gtag.gtag_credit_log.nil?
+          td data-label=t("admin.gtags.customer") = gtag.assigned_gtag_registration.customer.email unless gtag.assigned_gtag_registration.nil? || gtag.assigned_gtag_registration.customer.nil?
+          td data-label=t("admin.gtags.assigned_at") = gtag.assigned_gtag_registration.created_at.strftime("%y-%m-%d %H:%M:%S") unless gtag.assigned_gtag_registration.nil?
           td.table-actions-field
             = render 'admins/gtags/actions', gtag: gtag
   .container-pagination

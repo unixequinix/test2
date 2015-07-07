@@ -60,6 +60,7 @@ gem 'iban-tools', '~>1.0.0'
 gem 'flag_shih_tzu', '~>0.3.13'
 
 # Architectural
+gem 'virtus', '~> 1.0.5'
 gem 'reform', '~> 1.2.6'
 
 # Asyncronous mailer
