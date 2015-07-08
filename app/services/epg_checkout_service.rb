@@ -41,7 +41,7 @@ class EpgCheckoutService
   end
 
   def create_value
-    value = "amount=#{@claim.total}"
+    value = "amount=#{@claim.total_after_fee}"
     value += "&country=#{Rails.application.secrets.epg_country}"
     value += "&language=#{I18n.locale.to_s}"
     value += "&currency=#{Rails.application.secrets.epg_currency}"

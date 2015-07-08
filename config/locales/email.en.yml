@@ -22,7 +22,7 @@ en:
         completed:
           title: 'Refund Notification'
           subject: 'Refund Completed'
-          order_number: 'Your claim'
+          order_number: 'Claim number'
           greet: 'Hello %{name}!'
           date: 'Transaction date'
           description: 'All your refunded Online Credits.'

@@ -6,25 +6,28 @@
   .container-show
     dl
       dt = t("admin.refund.amount")
-      dd = @refund.gtag.gtag_credit_log.nil? ? 0.0 : @refund.gtag.gtag_credit_log.amount
+      dd = @refund.claim.gtag.gtag_credit_log.nil? ? 0.0 : @refund.claim.gtag.gtag_credit_log.amount
       dt = t("admin.refund.customer_name")
-      dd = link_to "#{@refund.customer.name} #{@refund.customer.surname}", admins_customer_path(@refund.customer)
+      dd = link_to "#{@refund.claim.customer.name} #{@refund.claim.customer.surname}", admins_customer_path(@refund.claim.customer)
       dt = t("admin.refunds.customer_email")
-      dd = @refund.customer.email
-      dt = t("admin.refunds.gtag_serial_number")
-      dd = @refund.gtag.tag_serial_number
-      dt = t("admin.refunds.gtag_uid")
-      dd = @refund.gtag.tag_uid
-      dt = t("admin.refunds.iban")
-      dd = @refund.bank_account.iban
-      dt = t("admin.refunds.swift")
-      dd = @refund.bank_account.swift
-      dt = t("admin.refunds.created_at")
-      dd = @refund.created_at.strftime("%y-%m-%d %H:%M:%S")
-      dt = t("admin.refunds.aasm_state")
-      dd = @refund.aasm_state
-
-  - if @refund.created?
-    = simple_form_for @refund, url: admins_refund_path(@refund) do |f|
-      = f.input :aasm_state, as: :hidden, input_html: { value: :disabled }
-      = f.button :submit, t("admin.actions.disable")
+      dd = @refund.claim.customer.email
+      dt =t('admin.refunds.created_at')
+      dd = @refund.created_at
+      dt =t('admin.refunds.updated_at')
+      dd = @refund.updated_at
+      dt =t('admin.refunds.claim')
+      dd = link_to "#{@refund.claim.number}", admins_claim_path(@refund.claim)
+      dt =t('admin.refunds.amount')
+      dd = @refund.amount
+      dt =t('admin.refunds.currency')
+      dd = @refund.currency
+      dt =t('admin.refunds.message')
+      dd = @refund.message
+      dt =t('admin.refunds.operation_type')
+      dd = @refund.operation_type
+      dt =t('admin.refunds.gateway_transaction_number')
+      dd = @refund.gateway_transaction_number
+      dt =t('admin.refunds.payment_solution')
+      dd = @refund.payment_solution
+      dt =t('admin.refunds.status')
+      dd = @refund.status

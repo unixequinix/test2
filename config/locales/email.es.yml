@@ -21,8 +21,8 @@ es:
       claim:
         completed:
           title: 'Notificación de devolución'
-          subject: 'Compra Completada'
-          order_number: 'Tu petición de reembolso'
+          subject: 'Petición de devolución Completada'
+          order_number: 'Petición número'
           greet: '¡Hola %{name}!'
           date: 'Fecha de transacción'
           description: 'Todos los créditos que reembolsados.'

@@ -56,6 +56,10 @@ class Claim < ActiveRecord::Base
     self.number = "#{day}#{time_hex}"
   end
 
+  def total_after_fee
+    total - fee
+  end
+
   private
 
   def complete_claim

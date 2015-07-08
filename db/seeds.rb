@@ -49,9 +49,8 @@ parameters = {
     }
   },
   'refund' => {
-    'epg' => {
-      'format' => 'string',
-      'notation' => 'string'
+    'main' => {
+      'fee' => 'currency'
     },
   }
 }
@@ -74,7 +73,6 @@ end
 puts "Create Claim parameters"
 puts "----------------------------------------"
 
-Parameter.destroy_all
 parameters = {
   'claim' => {
     'bank_account' => {

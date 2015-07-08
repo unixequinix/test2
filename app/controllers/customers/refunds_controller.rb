@@ -9,7 +9,7 @@ class Customers::RefundsController < Customers::BaseController
     operations.each do |operation|
       operation_hash = Hash.from_xml(operation.to_s)
       if @claim = Claim.find_by(number: operation_hash["operation"]["merchantTransactionId"])
-        amount = operation_hash["operation"]["amount"].to_f / 100 # last two digits are decimals
+        amount = operation_hash["operation"]["amount"] # last two digits are decimals
         refund = Refund.new(claim_id: @claim.id,
           amount: amount,
           currency: operation_hash["operation"]["currency"],
@@ -19,8 +19,10 @@ class Customers::RefundsController < Customers::BaseController
           payment_solution: operation_hash["operation"]["paymentSolution"],
           status: operation_hash["operation"]["status"])
         refund.save!
-        @claim.complete!
-        send_mail_for(@claim)
+        if refund.status == 'SUCCESS' || refund.status == 'PENDING'
+          @claim.complete!
+          send_mail_for(@claim)
+        end
       end
     end
     render nothing: true

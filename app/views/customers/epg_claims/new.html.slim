@@ -9,8 +9,11 @@
       td [colspan="2"] #{t('claims.product_description')}
       td.table-amount #{@claim.total.floor}
     tr
+      td [colspan="2"] #{t('claims.fee')}
+      td.table-amount #{@claim.fee.floor}
+    tr
       td.table-total [colspan="2"] = t('orders.total')
-      td.table-total.table-amount [colspan="3"] #{@claim.total.floor} #{t('currency_symbol')}
+      td.table-total.table-amount [colspan="3"] #{@claim.total_after_fee.floor} #{t('currency_symbol')}
 
   .wrapper-secure-payment
     p.small = t('claims.vat')
@@ -19,12 +22,13 @@
     .form-inputs
       = simple_form_for @epg_claim_form, url: customers_epg_claims_path do |f|
         = f.input :claim_id, as: :hidden, input_html: { value: @claim.id }
-        = f.input :country_code, autofocus: true, priority: t('country_iso_priority')
-        = f.input :state, autofocus: true
-        = f.input :city, autofocus: true
-        = f.input :post_code, autofocus: true
         = f.input :phone, autofocus: true
         = f.input :address, autofocus: true
+        = f.input :city, autofocus: true
+        = f.input :state, autofocus: true
+        = f.input :post_code, autofocus: true
+        = f.input :country_code, autofocus: true, priority: t('country_iso_priority')
+        = f.input :claim_id, as: :hidden, input_html: { value: @claim.id }
 
         .wrapper-secure-payment
           = render 'customers/shared/ssl_cert_seal'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150707192834) do
+ActiveRecord::Schema.define(version: 20150708160123) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(version: 20150707192834) do
     t.datetime "updated_at",   null: false
     t.integer  "gtag_id",      index: {name: "index_claims_on_gtag_id"}, foreign_key: {references: "gtags", name: "claims_gtag_id_fkey", on_update: :no_action, on_delete: :no_action}
     t.string   "service_type"
+    t.decimal  "fee",          precision: 8, scale: 2
   end
 
   create_table "parameters", force: :cascade do |t|

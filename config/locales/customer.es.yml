@@ -109,6 +109,7 @@ es:
     products: "Productos"
     amount: "Cantidad"
     product_description: "Créditos a reembolsar"
+    fee: "Comisión de devolución"
     total: "Total"
     vat: "IVA Incluido"
     redirect: "Serás redirigido a la pasarela de pago del banco."

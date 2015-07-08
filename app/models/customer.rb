@@ -46,7 +46,7 @@ class Customer < ActiveRecord::Base
   has_many :claims
   has_many :credit_logs
   has_one :bank_account
-  has_one :claim, ->{ where(aasm_state: :completed) }
+  has_one :completed_claim, ->{ where(aasm_state: :completed) }, class_name: "Claim"
 
   # Validations
   validates :email, format: { with: MAIL_FORMAT }, presence: true

@@ -12,3 +12,4 @@ en:
     gtag: "This is not a valid wristband"
     order_complete: 'Order Completed'
     claim_complete: 'Claim Completed'
+    quantity_not_refundable: 'Credits quantity not refundable'

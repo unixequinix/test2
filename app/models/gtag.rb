@@ -22,7 +22,7 @@ class Gtag < ActiveRecord::Base
   has_one :gtag_credit_log
   has_one :refund
   has_many :claims
-  has_one :claim_completed, ->{ where(aasm_state: :completed) }, class_name: "Claim"
+  has_one :completed_claim, ->{ where(aasm_state: :completed) }, class_name: "Claim"
 
   accepts_nested_attributes_for :gtag_credit_log, allow_destroy: true
 
