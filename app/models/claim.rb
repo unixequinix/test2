@@ -60,6 +60,10 @@ class Claim < ActiveRecord::Base
     total - fee
   end
 
+  def enough_credits?
+    1 <= total - fee
+  end
+
   private
 
   def complete_claim

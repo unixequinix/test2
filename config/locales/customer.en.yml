@@ -76,6 +76,9 @@ en:
       title: "Your credit:"
       call_to_action: "Proceed to refund"
       button: "Claim your credits"
+    not_refundable:
+      title: "Your credit:"
+      call_to_action: "We are sorry, but you don't have enough credits to be refunded"
     refunds:
       title: "Your credit:"
       call_to_action: "Refund successfully claimed, soon you will receive your transfer"

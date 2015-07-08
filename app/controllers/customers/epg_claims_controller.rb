@@ -2,12 +2,13 @@ class Customers::EpgClaimsController < Customers::BaseController
   before_action :check_has_gtag!
   before_action :check_has_not_claims!
   before_action :require_permission!, only: [:create]
+  before_action :enough_credits!, only: [:create]
 
   def new
     @epg_claim_form = EpgClaimForm.new
     @claim = Claim.new
     @claim.service_type = Claim::EASY_PAYMENT_GATEWAY
-    @claim.fee = 6.0
+    @claim.fee = 2.0
     @claim.generate_claim_number!
     @claim.customer = current_customer
     @claim.gtag = current_customer.assigned_gtag_registration.gtag
@@ -48,4 +49,11 @@ class Customers::EpgClaimsController < Customers::BaseController
     end
   end
 
+  def enough_credits!
+    @claim = Claim.find(params[:epg_claim_form][:claim_id])
+    if !@claim.enough_credits?
+      flash.now[:error] = I18n.t('alerts.quantity_not_refundable')
+      redirect_to customer_root_path
+    end
+  end
 end

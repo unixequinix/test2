@@ -32,4 +32,8 @@ class GtagRegistration < ActiveRecord::Base
     end
   end
 
+  def refundable?
+    self.gtag.gtag_credit_log.amount - 6 >= 1
+  end
+
 end

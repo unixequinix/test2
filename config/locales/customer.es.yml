@@ -76,6 +76,9 @@ es:
       title: "Tus créditos restantes:"
       call_to_action: "Proceder al reembolso"
       button: "Reclama tus créditos"
+    not_refundable:
+      title: "Tus créditos restantes:"
+      call_to_action: "Lo sentimos pero no tienes suficiente creditos para pedir un reembolso"
     refunds:
       title: "Tus créditos restantes:"
       call_to_action: "Reembolso realizado con éxito, pronto se realizará su transferencia"
