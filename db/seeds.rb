@@ -82,6 +82,7 @@ parameters = {
       'swift' => 'string'
     },
     'epg' => {
+      'country_code' => 'string',
       'state' => 'string',
       'city' => 'string',
       'post_code' => 'string',

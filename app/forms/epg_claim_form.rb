@@ -2,6 +2,7 @@ class EpgClaimForm
   include ActiveModel::Model
   include Virtus.model
 
+  attribute :country_code, String
   attribute :state, String
   attribute :city, String
   attribute :post_code, String
@@ -9,12 +10,15 @@ class EpgClaimForm
   attribute :address, String
   attribute :claim_id, Integer
 
+  validates_presence_of :country_code
   validates_presence_of :state
   validates_presence_of :city
   validates_presence_of :post_code
   validates_presence_of :telephone
   validates_presence_of :address
   validates_presence_of :claim_id
+
+  validates_plausible_phone :telephone, normalized_country_code: 'ES'
 
 
   def save

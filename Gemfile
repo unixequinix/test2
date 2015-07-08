@@ -53,8 +53,10 @@ gem 'kaminari', '~>0.16.3'
 # Search
 gem 'ransack', '~> 1.6.6'
 
-# Bank Account
+# Form normalizers
 gem 'iban-tools', '~>1.0.0'
+gem 'country_select', '~> 2.2.0'
+gem 'phony_rails', '~> 0.12.8'
 
 # Flags
 gem 'flag_shih_tzu', '~>0.3.13'

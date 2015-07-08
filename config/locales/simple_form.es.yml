@@ -89,6 +89,14 @@ es:
           amount: "Cantidad"
         edit:
           <<: *label_gtag
+      epg_claim_form:
+        new:
+          country_code: "País"
+          state: "Provincia"
+          city: "Ciudad"
+          post_code: "Código Postal"
+          telephone: "Teléfono"
+          address: "Dirección"
 
     placeholders:
       event:
@@ -144,5 +152,9 @@ es:
           amount: "Cantidad disponible"
         edit:
           <<: *label_gtag
-
+      epg_claim_form:
+        new:
+          state: "Tu provincia o estado"
+          telephone: "Teléfono con código internacional: +34123..."
+          address: "Dirección, número y piso"
 

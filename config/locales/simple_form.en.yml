@@ -89,7 +89,14 @@ en:
           amount: "Amount"
         edit:
           <<: *label_gtag
-
+      epg_claim_form:
+        new:
+          country_code: "Country"
+          state: "State"
+          city: "City"
+          post_code: "Post code"
+          telephone: "Phone"
+          address: "Address"
 
     placeholders:
       event:
@@ -145,5 +152,9 @@ en:
           amount: "Amount available"
         edit:
           <<: *label_gtag
-
+      epg_claim_form:
+        new:
+          state: "Your state of province"
+          telephone: "Phone with international code: +1123..."
+          address: "Address, number and door number"
 

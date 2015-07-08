@@ -1,9 +1,17 @@
 en:
+  country_iso_priority: [AT, BE, BG, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, GB]
   event:
     subject_support: 'Need help for %{event}'
     locales:
       en: 'ENG'
       es: 'ESP'
+  activemodel:
+    errors:
+      models:
+        epg_claim_form:
+          attributes:
+            telephone:
+              improbable_phone: "It's not a valid phone number"
   activerecord:
     errors:
       messages:

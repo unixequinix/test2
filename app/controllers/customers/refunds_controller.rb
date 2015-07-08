@@ -4,12 +4,11 @@ class Customers::RefundsController < Customers::BaseController
   skip_before_action :check_has_gtag!, only: [:create]
 
   def create
-    response = Nokogiri::XML("request.body.read")
+    response = Nokogiri::XML(request.body.read)
     operations = response.xpath("//payfrex-response/operations/operation")
     operations.each do |operation|
       operation_hash = Hash.from_xml(operation.to_s)
-      if operation_hash["operation"]["status"] == 'SUCCESS' &&
-        @claim = Claim.find_by(number: operation_hash["operation"]["merchantTransactionId"])
+      if @claim = Claim.find_by(number: operation_hash["operation"]["merchantTransactionId"])
         amount = operation_hash["operation"]["amount"].to_f / 100 # last two digits are decimals
         refund = Refund.new(claim_id: @claim.id,
           amount: amount,
