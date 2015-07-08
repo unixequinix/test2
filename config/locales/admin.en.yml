@@ -196,7 +196,7 @@ en:
         state: "State"
         city: "City"
         post_code: "Post code"
-        telephone: "Phone"
+        phone: "Phone"
         address: "Address"
         iban: "IBAN"
         swift: "BIC/SWIFT"

@@ -28,7 +28,7 @@ class Customers::EpgClaimsController < Customers::BaseController
   private
 
   def permitted_params
-    params.require(:epg_claim_form).permit(:country_code, :state, :city, :post_code, :telephone, :address, :claim_id)
+    params.require(:epg_claim_form).permit(:country_code, :state, :city, :post_code, :phone, :address, :claim_id)
   end
 
   def require_permission!

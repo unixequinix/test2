@@ -10,7 +10,7 @@ en:
       models:
         epg_claim_form:
           attributes:
-            telephone:
+            phone:
               improbable_phone: "It's not a valid phone number"
   activerecord:
     errors:

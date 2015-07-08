@@ -197,7 +197,7 @@ es:
         state: "Provincia"
         city: "Ciudad"
         post_code: "Código postal"
-        telephone: "Teléfono"
+        phone: "Teléfono"
         address: "Dirección"
         iban: "IBAN"
         swift: "BIC/SWIFT"

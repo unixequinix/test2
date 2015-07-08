@@ -95,7 +95,7 @@ en:
           state: "State"
           city: "City"
           post_code: "Post code"
-          telephone: "Phone"
+          phone: "Phone"
           address: "Address"
 
     placeholders:
@@ -155,6 +155,6 @@ en:
       epg_claim_form:
         new:
           state: "Your state of province"
-          telephone: "Phone with international code: +1123..."
+          phone: "Phone with international code: +1123..."
           address: "Address, number and door number"
 

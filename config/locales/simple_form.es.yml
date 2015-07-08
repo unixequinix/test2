@@ -95,7 +95,7 @@ es:
           state: "Provincia"
           city: "Ciudad"
           post_code: "Código Postal"
-          telephone: "Teléfono"
+          phone: "Teléfono"
           address: "Dirección"
 
     placeholders:
@@ -155,6 +155,6 @@ es:
       epg_claim_form:
         new:
           state: "Tu provincia o estado"
-          telephone: "Teléfono con código internacional: +34123..."
+          phone: "Teléfono con código internacional: +34123..."
           address: "Dirección, número y piso"
 

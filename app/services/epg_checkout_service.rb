@@ -48,7 +48,7 @@ class EpgCheckoutService
     value += "&state=#{@epg_claim_form.state}"
     value += "&city=#{@epg_claim_form.city}"
     value += "&postCode=#{@epg_claim_form.post_code}"
-    value += "&telephone=#{@epg_claim_form.telephone}"
+    value += "&telephone=#{@epg_claim_form.phone}"
     value += "&addressLine1=#{@epg_claim_form.address}"
     value += "&customerEmail=#{@claim.customer.email}"
     value += "&firstName=#{@claim.customer.name}"

@@ -86,7 +86,7 @@ parameters = {
       'state' => 'string',
       'city' => 'string',
       'post_code' => 'string',
-      'telephone' => 'string',
+      'phone' => 'string',
       'address' => 'string'
     }
   }
