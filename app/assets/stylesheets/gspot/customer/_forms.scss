@@ -17,6 +17,24 @@ label {
   }
 }
 
+select {
+  @include mscale($base_font_size);
+  //@include appearance(none);
+  width: 100%;
+  margin: 0;
+  padding: modules(0.5);
+  overflow: hidden;
+  border-radius: 4px;
+  background-color: $admin_grey;
+  border: 1px solid $input_grey;
+  box-shadow: inset 0px 1px 1px $light_grey;
+
+  @include min-screen ($bp3) {
+    @include span-columns(4);
+    margin: 0 0 modules(1);
+  }
+}
+
 input[type=text],
 input[type=password],
 input[type=email],
