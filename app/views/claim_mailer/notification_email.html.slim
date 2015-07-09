@@ -367,10 +367,10 @@ html
                           tr
                             td[valign="top"]
                               div[mc:edit="std_content00"]
-                                h1.h1 = t("email.customer.confirmation.greet", name: "#{@resource.name} #{@resource.surname}")
+                                h1.h1 = t("email.customer.confirmation.greet", name: "#{@name}")
                                 p = t("email.customer.claim.available_claim.mail_body")
 
-                                = link_to t('email.customer.claim.available_claim.mail_link'), confirmation_url(@resource, confirmation_token: @token), { :style => "color: #ff0090; font-size: 26px; text-decoration: underline; " }
+                                = link_to t('email.customer.claim.available_claim.mail_link'), customer_root_url, { :style => "color: #ff0090; font-size: 26px; text-decoration: underline; " }
               tr
                 td[align="center" valign="top"]
                   table#templateFooter[border="0" cellpadding="10" cellspacing="0" width="600"]
