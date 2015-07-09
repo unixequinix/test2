@@ -14,9 +14,7 @@ class Admins::RefundSettingsController < Admins::BaseController
     @event = Event.friendly.find(params[:id])
     if @event.update(permitted_params)
       flash[:notice] = I18n.t('alerts.updated')
-      @event.slug = nil
-      @event.save!
-      redirect_to admins_event_url(@event)
+      redirect_to admins_refund_settings_url(@event)
     else
       flash[:error] = I18n.t('alerts.error')
       render :edit
@@ -25,9 +23,13 @@ class Admins::RefundSettingsController < Admins::BaseController
 
   def notify_customers
     @event = Event.friendly.find(params[:id])
-    @event.update(background: nil)
-    flash[:notice] = I18n.t('alerts.destroyed')
-    redirect_to admins_event_url(@event)
+    if RefundNotificationService.new.notify(@event)
+      flash[:notice] = I18n.t('alerts.updated')
+      redirect_to admins_refund_setting_url(@event)
+    else
+      flash[:error] = I18n.t('alerts.error')
+      render :edit
+    end
   end
 
   private

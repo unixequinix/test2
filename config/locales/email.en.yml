@@ -19,6 +19,12 @@ en:
           success: 'Your order has been received. You can find details below:'
           thanks: 'Thank you for your purchase.'
       claim:
+        available_claim:
+          title: '¡You can now refund your credits!'
+          subject: '¡You can now refund your credits!'
+          greet: 'Hello %{name}!'
+          mail_body: 'You can now refund your credits through the link below.'
+          mail_link: "Refund"
         completed:
           title: 'Refund Notification'
           subject: 'Refund Completed'

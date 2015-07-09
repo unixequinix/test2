@@ -19,6 +19,12 @@ es:
           success: 'Tu compra ha sido recibida. Encuentra los detalles debajo:'
           thanks: 'Gracias por tu compra.'
       claim:
+        available_claim:
+          title: '¡Ya puedes reembolsar tus créditos!'
+          subject: '¡Ya puedes reembolsar tus créditos!'
+          greet: '¡Hola %{name}!'
+          mail_body: 'Ya puedes proceder al reembolso de tus creditos mediante el siguiente enlace:'
+          mail_link: "Realizar reembolso"
         completed:
           title: 'Notificación de devolución'
           subject: 'Petición de devolución Completada'
