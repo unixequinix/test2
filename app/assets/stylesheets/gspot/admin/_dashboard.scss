@@ -63,16 +63,23 @@
 }
 
 .refunds-alert {
-  background-color: $red;
+  background-color: $amber;
 
-  .event-status {
-    width: 100%;
 
-    @include min-screen($bp4) { width: 45%; }
-  }
 
   .change-status {
     @include min-screen($bp4) { box-shadow: inset 1px 0px 0px 0px $nuclear; }
+  }
+
+  .btn {
+    width: 100%;
+    background-color: $greenKickstarter;
+    margin-top: modules(1);
+
+    @include min-screen($bp4) {
+      width: 100%;
+      margin-top: modules(1.5);
+    }
   }
 }
 
@@ -90,15 +97,30 @@
 }
 
 .alert-sign {
-  @include mscale($base_font_size*3);
+  @include mscale($base_font_size*2.25);
   display: inline-block;
-  vertical-align: top;
+  vertical-align: middle;
   width: 100%;
-  padding-top: modules(0.75);
   color: $white;
   text-align: center;
 
-  @include min-screen($bp4) { width: 15%; text-align: left; }
+  @include min-screen($bp4) {
+    width: 15%;
+    text-align: left;
+  }
+}
+
+.alert-text {
+  display: inline-block;
+  vertical-align: middle;
+  width: 100%;
+  color: $white;
+  text-align: center;
+
+  @include min-screen($bp4) {
+    width: 85%;
+    text-align: left;
+  }
 }
 
 .change-status {
