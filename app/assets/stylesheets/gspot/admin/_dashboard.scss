@@ -8,6 +8,7 @@
   position: relative;
   margin-bottom: modules(1);
   padding: 0;
+  overflow: visible;
 
   @include min-screen($bp3) {
     @include span-columns(6);
@@ -61,6 +62,20 @@
   @include min-screen($bp4) { @include mscale($base_font_size); }
 }
 
+.refunds-alert {
+  background-color: $red;
+
+  .event-status {
+    width: 100%;
+
+    @include min-screen($bp4) { width: 45%; }
+  }
+
+  .change-status {
+    @include min-screen($bp4) { box-shadow: inset 1px 0px 0px 0px $nuclear; }
+  }
+}
+
 .event-status {
   position: relative;
   text-align: center;
@@ -72,6 +87,18 @@
     min-height: modules(4);
     text-align: left;
   }
+}
+
+.alert-sign {
+  @include mscale($base_font_size*3);
+  display: inline-block;
+  vertical-align: top;
+  width: 100%;
+  padding-top: modules(0.75);
+  color: $white;
+  text-align: center;
+
+  @include min-screen($bp4) { width: 15%; text-align: left; }
 }
 
 .change-status {

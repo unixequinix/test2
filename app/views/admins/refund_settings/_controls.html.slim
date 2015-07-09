@@ -1,8 +1,8 @@
-.container-show.container-dashboard.wrapper-dashboard-main
-    .event-status
-      h3 = event.name
-
-      p = t("admin.refund_settings.nofication_description")
-    .change-status
-      p = t("admin.refund_settings.want_to_notify")
-      = render "admins/refund_settings/notify_customers" if event.claiming_started?
+.container-show.container-dashboard.wrapper-dashboard-main.refunds-alert
+  span.alert-sign = fa_icon "exclamation-triangle"
+  .event-status
+    h3 = event.name
+    p = t("admin.refund_settings.nofication_description")
+  .change-status
+    p = t("admin.refund_settings.want_to_notify")
+    = render "admins/refund_settings/notify_customers" if event.claiming_started?
