@@ -119,6 +119,7 @@
 
   @include min-screen($bp4) {
     width: 85%;
+    padding-right: modules(0.25);
     text-align: left;
   }
 }
