@@ -8,6 +8,7 @@
   position: relative;
   margin-bottom: modules(1);
   padding: 0;
+  overflow: visible;
 
   @include min-screen($bp3) {
     @include span-columns(6);
@@ -71,6 +72,66 @@
     width: 65%;
     min-height: modules(4);
     text-align: left;
+  }
+}
+
+.alert-sign {
+  @include animation(alertColor 3s ease-in);
+  @include animation-iteration-count(infinite);
+  position: absolute;
+  top: modules(2.75);
+  left: modules(-0.35);
+  width: modules(1.25);
+  height: modules(1.25);
+  padding-top: modules(0.15);
+  border-radius: 3px;
+  background-color: lighten($red, 5%);
+  color: $white;
+  text-align: center;
+
+  @include min-screen($bp4) { left: modules(-0.65); }
+
+  &:before {
+    @include animation(colorIcon 3s ease-in);
+    @include animation-iteration-count(infinite);
+    display: block;
+    content: "";
+    position: absolute;
+    top: modules(0.3);
+    right: -6px;
+    width: 0;
+    height: 0;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-left: 7px solid lighten($red, 5%);
+  }
+}
+
+@keyframes alertColor {
+  0% {
+    background-color: lighten($red, 8%);
+  }
+
+  50% {
+    background-color: darken($red, 15%);
+  }
+
+  100% {
+    background-color: lighten($red, 8%);
+  }
+}
+
+@keyframes colorIcon {
+  0% {
+    border-left: 7px solid lighten($red, 8%);
+  }
+
+  50% {
+    border-left: 7px solid darken($red, 15%);
+  }
+
+  100% {
+     border-left: 7px solid lighten($red, 8%);
   }
 }
 
