@@ -80,6 +80,11 @@ Rails.application.routes.draw do
         post :remove_background
       end
     end
+    resources :refund_settings, only: [:show, :edit, :update] do
+      member do
+        post :notify_customers
+      end
+    end
     resources :entitlements, except: :show
     resources :ticket_types, except: :show do
       collection do

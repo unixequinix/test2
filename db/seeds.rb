@@ -42,15 +42,22 @@ puts "----------------------------------------"
 
 Parameter.destroy_all
 parameters = {
-  'form' => {
-    'gtag' => {
+  'gtag' => {
+    'form' => {
       'format' => 'string',
       'notation' => 'string'
     }
   },
   'refund' => {
-    'main' => {
-      'fee' => 'currency'
+    'epg' => {
+      'fee' => 'currency',
+      'country' => 'string',
+      'currency' => 'string',
+      'operation_type' => 'string',
+      'payment_solution' => 'string',
+      'md5key' => 'string',
+      'merchant_id' => 'string',
+      'url' => 'string'
     },
   }
 }

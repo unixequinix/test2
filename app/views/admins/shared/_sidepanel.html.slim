@@ -12,6 +12,9 @@ aside#main-menu
     li = link_to admins_event_path(current_event) do
       = fa_icon "cogs"
       = t("admin.aside.details")
+    li = link_to admins_refund_setting_path(current_event) do
+      = fa_icon "reply"
+      = t("admin.aside.refund_settings")
 
     h3 = t("admin.aside.setup")
 

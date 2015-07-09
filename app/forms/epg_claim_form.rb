@@ -9,6 +9,7 @@ class EpgClaimForm
   attribute :phone, String
   attribute :address, String
   attribute :claim_id, Integer
+  attribute :agreed_on_claim, Boolean
 
   validates_presence_of :country_code
   validates_presence_of :state
@@ -17,6 +18,7 @@ class EpgClaimForm
   validates_presence_of :phone
   validates_presence_of :address
   validates_presence_of :claim_id
+  validates_presence_of :agreed_on_claim
 
   validates_plausible_phone :phone, normalized_country_code: :country_code
 

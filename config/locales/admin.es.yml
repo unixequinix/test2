@@ -46,6 +46,19 @@ es:
       features_options:
         ticketing: 'Ticketing'
         refunds: 'Devoluciones'
+    refund_settings:
+      nofication_description: 'Proceder a notificar a los usuarios que ya pueden reclamar su devolución.'
+      want_to_notify: '¿Quiere notificar?'
+      notify: 'Notificar'
+      epg:
+        fee: 'Comisión'
+        country: 'País'
+        currency: 'Moneda'
+        operation_type: 'Tipo de operación'
+        payment_solution: 'Solución de pago'
+        md5key: 'Clave md5'
+        merchant_id: 'Número de comercio'
+        url: 'URL'
     defaults:
       actions: "Acciones"
       home: "Home"
@@ -84,6 +97,7 @@ es:
     aside:
       event: "Evento"
       details: "Detalles"
+      refund_settings: "Configuración de devoluciones"
       admins: "Administradores"
       entitlements: "Privilegios"
       ticket_types: "Tipos de Tickets"

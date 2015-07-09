@@ -1,0 +1,8 @@
+.container-show.container-dashboard.wrapper-dashboard-main
+    .event-status
+      h3 = event.name
+
+      p = t("admin.refund_settings.nofication_description")
+    .change-status
+      p = t("admin.refund_settings.want_to_notify")
+      = render "admins/refund_settings/notify_customers", new_state: :launched, action: :launch if event.claiming_started?

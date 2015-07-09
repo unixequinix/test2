@@ -10,8 +10,9 @@
 #  total        :decimal(8, 2)    not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
-#  service_type :string
 #  gtag_id      :integer
+#  service_type :string
+#  fee          :decimal(8, 2)
 #
 
 class Claim < ActiveRecord::Base

@@ -46,6 +46,19 @@ en:
       features_options:
         ticketing: 'Ticketing'
         refunds: 'Refunds'
+    refund_settings:
+      nofication_description: 'Notify to the customers they can claim their refund.'
+      want_to_notify: 'Do you want to notify?'
+      notify: 'Notify'
+      epg:
+        fee: 'Fee'
+        country: 'Country'
+        currency: 'Currency'
+        operation_type: 'Operation type'
+        payment_solution: 'Payment solution'
+        md5key: 'Md5 key'
+        merchant_id: 'Merchant Id'
+        url: 'URL'
     defaults:
       actions: "Actions"
       home: "Home"
@@ -84,6 +97,7 @@ en:
     aside:
       event: "Event"
       details: "Details"
+      refund_settings: "Refund Settings"
       admins: "Admins"
       entitlements: "Entitlements"
       ticket_types: "Ticket Types"

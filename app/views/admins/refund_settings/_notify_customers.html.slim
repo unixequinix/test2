@@ -1,0 +1,3 @@
+= simple_form_for @event, url: admins_event_path(@event) do |f|
+  = f.input :aasm_state, as: :hidden, input_html: { value: new_state }
+  = f.button :submit, t('admin.refund_settings.notify'), class: "btn btn-dashboard btn-dashboard-created"
