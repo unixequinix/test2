@@ -23,8 +23,8 @@ es:
           title: '¡Ya puedes reembolsar tus créditos!'
           subject: '¡Ya puedes reembolsar tus créditos!'
           greet: '¡Hola %{name}!'
-          mail_body: 'Ya puedes proceder al reembolso de tus creditos mediante el siguiente enlace:'
-          mail_link: "Realizar reembolso"
+          mail_body: 'Ya puedes proceder a la devolución de tus creditos mediante el siguiente enlace:'
+          mail_link: "Realizar devolución"
         completed:
           title: 'Notificación de devolución'
           subject: 'Petición de devolución Completada'
@@ -33,7 +33,7 @@ es:
           date: 'Fecha de transacción'
           description: 'Todos los créditos que reembolsados.'
           success: 'Tu petición ha sido recibida. Encuentra los detalles debajo:'
-          thanks: 'Gracias por tu petición de reembolso.'
+          thanks: 'Gracias por tu petición de devolución.'
       confirmation:
         title: 'Confirmar contraseña'
         greet: '¡Hola %{name}!'
@@ -46,8 +46,8 @@ es:
         mail_link: "Cambiar mi contraseña"
       gtag:
         assigned:
-          title: '¡Has solicitado el reembolso con éxito!'
-          subject: '¡Has solicitado el reembolso con éxito!'
+          title: '¡Has solicitado tu devolución con éxito!'
+          subject: '¡Has solicitado tu devolución con éxito!'
           greet: '¡Hola %{name}!'
           mail_body: 'Has introducido una pulsera con el siguiente identificador:'
           mail_link: 'Te enviaremos otro mail entre 5 y 15 días laborables cuando tus créditos estén listos para ser reembolsados.'

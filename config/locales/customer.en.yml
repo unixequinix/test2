@@ -50,7 +50,7 @@ en:
       description2: "Then you will be able to check your balance, enter your bank details and receive the payment."
     success_refund_disclaimer:
       claim: "You successfully processed your refund"
-      description: "In a few days you will recieve the payment in your bank account."
+      description: "In 1-3 days you will receive the payment in your bank account."
     error_refund_disclaimer:
       claim: "There was an error on your refund"
       description: "Try to go back to your dashboard and claim again."
@@ -73,14 +73,14 @@ en:
     gtag_after_refund:
       description: "Your refund is in process"
     without_refunds:
-      title: "Your credit:"
+      title: "Your credits:"
       call_to_action: "Proceed to refund"
       button: "Claim your credits"
     not_refundable:
-      title: "Your credit:"
-      call_to_action: "We are sorry, but you don't have enough credits to be refunded"
+      title: "Your credits:"
+      call_to_action: "We are sorry, but you don't have enough credits to be refunded as the refund fee is %{fee} EUR"
     refunds:
-      title: "Your credit:"
+      title: "Your credits:"
       call_to_action: "Refund successfully claimed, soon you will receive your transfer"
       button: "Modify bank account"
   admissions:
@@ -148,18 +148,18 @@ en:
       bank_account: 'ES00 0000 0000 0000 0000 0000'
   payment:
     error:
-      title: 'Error'
+      title: 'Transaction failed'
       call_to_action: 'Contact us:'
     success:
       title: 'Payment Done'
       description: 'Thank you for your order. Your payment has been processed. You will receive a confirmation email of your order.'
   refund:
     error:
-      title: 'Error'
+      title: 'Transaction failed'
       call_to_action: 'Contact us:'
     success:
       title: 'Refund Done'
-      description: 'Thank you for your claim. Your refund has been processed. You will receive a confirmation email of your claim.'
+      description: 'Your refund has been processed. You will receive a confirmation email of your claim.'
   passwords:
     new:
       title: 'Forgot your password?'
