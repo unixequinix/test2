@@ -5,7 +5,7 @@ class Admins::TicketsController < Admins::BaseController
     @tickets = @q.result(distinct: true).page(params[:page]).includes(:ticket_type, :assigned_admission)
     respond_to do |format|
       format.html
-      format.csv { send_data @tickets.to_csv }
+      format.csv { send_data Ticket.all.to_csv }
     end
   end
 

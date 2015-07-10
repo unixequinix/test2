@@ -4,7 +4,7 @@ class Admins::TicketTypesController < Admins::BaseController
     @ticket_types = TicketType.all.page(params[:page]).includes(:entitlements)
     respond_to do |format|
       format.html
-      format.csv { send_data @ticket_types.to_csv }
+      format.csv { send_data TicketType.all.to_csv }
     end
   end
 
