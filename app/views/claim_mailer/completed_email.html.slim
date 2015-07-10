@@ -393,12 +393,12 @@ html
                       //Product quantity
                       td style="padding: 20px 10px; vertical-align: middle; font-size: 14px; color: #616161; font-style: italic;"  = t('claims.product_description')
                        //Product price
-                      td style="width: 30%;padding: 20px 20px; vertical-align: middle; color: #616161; font-size: 14px; text-align: right;"  = @claim.total.floor
+                      td style="width: 30%;padding: 20px 20px; vertical-align: middle; color: #616161; font-size: 14px; text-align: right;"  = @claim.total
                     tr style="border: 1px solid #C2C2C2;"
                       //Product quantity
                       td style="padding: 20px 10px; vertical-align: middle; font-size: 14px; color: #616161; font-style: italic;"  = t('claims.fee')
                        //Product price
-                      td style="width: 30%;padding: 20px 20px; vertical-align: middle; color: #616161; font-size: 14px; text-align: right;"  = -@claim.fee.floor
+                      td style="width: 30%;padding: 20px 20px; vertical-align: middle; color: #616161; font-size: 14px; text-align: right;"  = -@claim.fee
                     tr
                       //Product total
                       td width="75%"
@@ -406,7 +406,7 @@ html
                         table width="100%"
                           tr
                             td style="width: 50; padding: 40px 10px 10px; font-weight: bold; font-size: 14px; vertical-align: middle;"  = t('orders.total')
-                            td style="width: 50; padding: 40px 10px 10px; font-weight: bold; font-size: 14px; vertical-align: middle; text-align: right;" = "#{@claim.total_after_fee.floor}"
+                            td style="width: 50; padding: 40px 10px 10px; font-weight: bold; font-size: 14px; vertical-align: middle; text-align: right;" = "#{@claim.total_after_fee}"
 
               tr
                 td[align="center" valign="top"]
