@@ -24,16 +24,18 @@ en:
           subject: '¡You can now refund your credits!'
           greet: 'Hello %{name}!'
           mail_body: 'You can now refund your credits through the link below.'
-          mail_link: "Refund"
+          mail_body2: "If your bank account is not in Single European Payment Area (SEPA https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) countries, we recommend using an account of your relative or friend living in SEPA."
+          mail_body3: 'If that is not possible, please contact us at %{support_email} providing your bank account details for manual payment. Note that manual non-SEPA payments are not immediate and may require lead to higher bank transfer fees.'
+          mail_link: "Login to see your balance and perform the transfer"
         completed:
           title: 'Refund Notification'
           subject: 'Refund Completed'
           order_number: 'Claim number'
           greet: 'Hello %{name}!'
+          thanks: 'Thank you for your refund! '
+          description: 'Your credits have been transferred. In 1-3 days you will recieve the payment in your bank account.'
+          success: 'Here are the details of your refund:'
           date: 'Transaction date'
-          description: 'All your refunded Online Credits.'
-          success: 'Your order has been received. You can find details below:'
-          thanks: 'Thank you for your claim.'
       confirmation:
         title: 'Confirm password'
         greet: 'Hello %{name}!'
