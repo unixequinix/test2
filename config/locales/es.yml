@@ -11,7 +11,7 @@ es:
         epg_claim_form:
           attributes:
             phone:
-              improbable_phone: 'No es un número de teléfono válido'
+              improbable_phone: 'No es un número de teléfono válido. Verifica que el país concuerda con el número.'
   activerecord:
     errors:
       messages:
