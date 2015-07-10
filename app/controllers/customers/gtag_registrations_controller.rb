@@ -1,4 +1,5 @@
 class Customers::GtagRegistrationsController < Customers::BaseController
+  before_action :check_event_status!
 
   def new
     @gtag_registration = GtagRegistration.new
@@ -28,6 +29,13 @@ class Customers::GtagRegistrationsController < Customers::BaseController
     flash[:notice] = I18n.t('alerts.unassigned')
     GtagMailer.unassigned_email(@gtag_registration, current_event).deliver_later
     redirect_to customer_root_url
+  end
+
+  def check_event_status!
+    if !current_event.gtag_registration?
+      flash.now[:error] = I18n.t('alerts.error')
+      redirect_to customer_root_path
+    end
   end
 
 end

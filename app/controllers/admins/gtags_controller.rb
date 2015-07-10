@@ -5,7 +5,7 @@ class Admins::GtagsController < Admins::BaseController
     @gtags = @q.result(distinct: true).page(params[:page]).includes(:assigned_gtag_registration, :gtag_credit_log)
     respond_to do |format|
       format.html
-      format.csv { send_data @gtags.to_csv }
+      format.csv { send_data Gtag.all.to_csv }
     end
   end
 
@@ -87,6 +87,26 @@ class Admins::GtagsController < Admins::BaseController
       flash[:error] = import_result
       redirect_to admins_gtags_url
     end
+  end
+
+  def import_credits
+    import_result = GtagCreditLog.import_csv(params[:file])
+    if import_result
+      flash[:notice] = I18n.t('alerts.imported')
+      redirect_to admins_gtags_url
+    else
+      flash[:error] = import_result
+      redirect_to admins_gtags_url
+    end
+  end
+
+  def clean_credits
+    GtagCreditLog.all.each do |gtag_credit_log|
+      if !gtag_credit_log.destroy
+        flash[:error] = gtag_credit_log.errors.full_messages.join(". ")
+      end
+    end
+    redirect_to admins_gtags_url
   end
 
   private

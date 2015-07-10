@@ -62,4 +62,5 @@
     = f.input :style, as: :text, input_html: { rows: 40, class: "textarea" }
 
   .wrapper-negative-space
+    = link_to t("admin.gtags.actions.delete_credits"), clean_credits_admins_gtags_path, method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "btn btn-action btn-action-delete"
     = f.button :submit, class: "btn btn-primary"

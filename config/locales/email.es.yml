@@ -20,20 +20,22 @@ es:
           thanks: 'Gracias por tu compra.'
       claim:
         available_claim:
-          title: '¡Ya puedes reembolsar tus créditos!'
-          subject: '¡Ya puedes reembolsar tus créditos!'
+          title: '¡Ya puedes acceder a la devolución de tus créditos!'
+          subject: '¡Ya puedes acceder a la devolución de tus créditos!'
           greet: '¡Hola %{name}!'
-          mail_body: 'Ya puedes proceder a la devolución de tus creditos mediante el siguiente enlace:'
-          mail_link: "Realizar devolución"
+          mail_body: 'Ya puedes proceder a la devolución de tus creditos mediante el siguiente enlace.'
+          mail_body2: 'Si tu cuenta bancaria no es en uno de los países de la Zona Única de Pagos en Euros (SEPA https://en.wikipedia.org/wiki/Single_Euro_Payments_Area), recomendamos usar la cuenta de algún pariente o amigo que viva en SEPA.'
+          mail_body3: 'Si no es posible, por favor ponte en contacto con %{support_email} enviando tus datos bancarios para un pago manual. Por favor ten en cuenta que los pagos a cuentas bancarias fuera de SEPA no son inmediatas y pueden tener comisiones más altas.'
+          mail_link: "Acceder para ver tu balance y realizar la transferencia"
         completed:
           title: 'Notificación de devolución'
           subject: 'Petición de devolución Completada'
           order_number: 'Petición número'
           greet: '¡Hola %{name}!'
-          date: 'Fecha de transacción'
-          description: 'Todos los créditos que reembolsados.'
-          success: 'Tu petición ha sido recibida. Encuentra los detalles debajo:'
           thanks: 'Gracias por tu petición de devolución.'
+          description: 'Tu saldo a sido transferido. Recibirás el pago a tu cuenta bancaria entre 1-4 días.'
+          success: 'Aquí están los detalles de tu devolución:'
+          date: 'Fecha de transacción'
       confirmation:
         title: 'Confirmar contraseña'
         greet: '¡Hola %{name}!'
