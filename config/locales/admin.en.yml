@@ -159,9 +159,12 @@ en:
       assigned_at: "Assigned at"
       total: "Total Credits"
       import: "Import GTags (Select a CSV file comma separated)"
+      import_credits: "Import Credits (Select a CSV file comma separated)"
       search:
         tag_uid: "Tag UID"
         tag_serial: "Tag serial number"
+      actions:
+        delete_credits: "Delete all credits"
     gtag_registrations:
       tag: "Tag UID"
       serial: "Tag Serial Number"

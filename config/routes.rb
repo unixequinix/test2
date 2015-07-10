@@ -101,8 +101,10 @@ Rails.application.routes.draw do
     resources :gtags, except: :show do
       collection do
         post :import
+        post :import_credits
         get :search
         delete :destroy_multiple
+        delete :clean_credits
       end
     end
     resources :credits, except: :show
