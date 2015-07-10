@@ -20,6 +20,13 @@ class EpgClaimForm
   validates_presence_of :claim_id
   validates_presence_of :agreed_on_claim
 
+  validates_length_of :state, minimum: 1, maximum: 32
+  validates_length_of :city, minimum: 1, maximum: 32
+  validates_length_of :post_code, minimum: 1, maximum: 10
+  validates_length_of :phone, minimum: 1, maximum: 24
+  validates_length_of :address, minimum: 1, maximum: 32
+
+
   validates_plausible_phone :phone, normalized_country_code: :country_code
 
 
