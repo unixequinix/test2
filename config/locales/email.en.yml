@@ -33,7 +33,7 @@ en:
           order_number: 'Claim number'
           greet: 'Hello %{name}!'
           thanks: 'Thank you for your refund! '
-          description: 'Your credits have been transferred. In 1-3 days you will recieve the payment in your bank account.'
+          description: 'Your credits have been transferred. In 1-4 days you will recieve the payment in your bank account.'
           success: 'Here are the details of your refund:'
           date: 'Transaction date'
       confirmation:

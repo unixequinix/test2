@@ -32,7 +32,7 @@ class Customers::GtagRegistrationsController < Customers::BaseController
   end
 
   def check_event_status!
-    if current_event.claiming_started? || current_event.closed?
+    if !current_event.gtag_registration?
       flash.now[:error] = I18n.t('alerts.error')
       redirect_to customer_root_path
     end

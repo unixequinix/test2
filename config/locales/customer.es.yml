@@ -24,7 +24,7 @@ es:
       sign_in: 'Inicia Sesión'
       sign_up: 'Registrar'
   dashboard:
-    title: "My BBF"
+    title: "My dashboard"
     admissions:
       header: "Tu número de Ticket"
       description: "¿Introdujiste un ticket incorrecto por error?"
@@ -50,7 +50,7 @@ es:
       description2: "Entonces podrás ver tu saldo, introducir tus datos bancarios y recibir el pago."
     success_refund_disclaimer:
       claim: "Has solicitado tu devolución con éxito"
-      description: "En 1-3 días recibirás el embolso en tu cuenta."
+      description: "En 1-4 días recibirás el embolso en tu cuenta."
     error_refund_disclaimer:
       claim: "Ha habido un error en tu devolución"
       description: "Vuelve a tu panel e inténtalo de nuevo."
@@ -85,7 +85,8 @@ es:
       button: "Modificar cuenta"
   admissions:
     title: "Activación del Ticket"
-    description: "Por favor, introduce el número impreso debajo del código de barras en tu ticket del festival."
+    description: "Por favor, introduce el código impreso debajo del código de barras en tu ticket del festival."
+    description2: "Tu código debería empezar por '4UNhvW'."
     call_to_action: "¡Activa tu Ticket del Festival!"
     button: "Activar"
     placeholders:

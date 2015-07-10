@@ -24,7 +24,7 @@ en:
       sign_in: 'Log in'
       sign_up: 'Register'
   dashboard:
-    title: "My BBF"
+    title: "My dashboard"
     admissions:
       header: "Your ticket number"
       description: "Put a wrong ticket by mistake?"
@@ -50,7 +50,7 @@ en:
       description2: "Then you will be able to check your balance, enter your bank details and receive the payment."
     success_refund_disclaimer:
       claim: "You successfully processed your refund"
-      description: "In 1-3 days you will receive the payment in your bank account."
+      description: "In 1-4 days you will receive the payment in your bank account."
     error_refund_disclaimer:
       claim: "There was an error on your refund"
       description: "Try to go back to your dashboard and claim again."
@@ -85,7 +85,8 @@ en:
       button: "Modify bank account"
   admissions:
     title: "Ticket Activation"
-    description: "Please enter the number that is printed on your festival ticket just below the barcode."
+    description: "Please enter the code that is printed on your festival ticket just below the barcode."
+    description2: "Your code should start with '4UNhvW'"
     call_to_action: "Activate your Festival Ticket!"
     button: "Activate"
     placeholders:
