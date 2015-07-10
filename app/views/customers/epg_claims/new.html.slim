@@ -10,7 +10,7 @@
       td.table-amount #{@claim.total.floor}
     tr
       td [colspan="2"] #{t('claims.fee')}
-      td.table-amount #{@claim.fee.floor}
+      td.table-amount #{-@claim.fee.floor}
     tr
       td.table-total [colspan="2"] = t('orders.total')
       td.table-total.table-amount [colspan="3"] #{@claim.total_after_fee.floor} #{t('currency_symbol')}

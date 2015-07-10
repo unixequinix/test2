@@ -11,5 +11,5 @@ es:
     admissions:  "Ticket no reconocido. Si has realizado tu compra en las últimas 48 horas, intenta de nuevo luego mientras actualizamos tu compra. Si persiste, contacta soporte. Por favor tenga en cuenta que solo las compañías %{companies} están soportadas en este servicio."
     gtag: "Pulsera no válida"
     order_complete: 'Órden completada'
-    claim_complete: 'Petición de reembolso completada'
+    claim_complete: 'Devolución completada'
     quantity_not_refundable: 'Créditos insuficientes para ser reembolsados'

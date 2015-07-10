@@ -12,6 +12,8 @@ class RefundNotificationService
   end
 
   def send_mail_to(customer, event)
+    puts customer.to_json
+    puts event.to_json
     ClaimMailer.notification_email(customer, event).deliver_later
   end
 end

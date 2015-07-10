@@ -45,18 +45,18 @@ es:
       claim: "El evento aún no ha acabado"
       description: "Vuelve pronto para poder reclamar tus créditos"
     wait_refund_disclaimer:
-      claim: "Has solicitado el reembolso con éxito"
+      claim: "Has solicitado tu devolución con éxito"
       description: "Te enviaremos un mail entre 5 y 15 días hábiles tan pronto como tus créditos estén listos."
       description2: "Entonces podrás ver tu saldo, introducir tus datos bancarios y recibir el pago."
     success_refund_disclaimer:
-      claim: "Has solicitado el reembolso con éxito"
-      description: "En unos días recibirás el embolso en tu cuenta."
+      claim: "Has solicitado tu devolución con éxito"
+      description: "En 1-3 días recibirás el embolso en tu cuenta."
     error_refund_disclaimer:
-      claim: "Ha habido un error en tu reembolso"
+      claim: "Ha habido un error en tu devolución"
       description: "Vuelve a tu panel e inténtalo de nuevo."
     without_gtags:
       title: "¿Te quedan créditos?"
-      description: "Introduce tu pulsera para empezar el proceso de reembolso. Sólo una pulsera puede ser activada por cuenta (email)."
+      description: "Introduce tu pulsera para empezar el proceso de devolución. Sólo una pulsera puede ser activada por cuenta (email)."
       button: "Introducir Pulsera"
     without_gtags_disabled:
       claim: "El tiempo para solicitar tu devolución de créditos en tu pulsera ha terminado"
@@ -64,21 +64,21 @@ es:
       description2: "no te preocupes, te ayudaremos con tu devolución."
     without_gtags_claiming_started:
       claim: "Lo sentimos"
-      description: "Ya ha pasado el periodo de reembolso, ponte en contacto con soporte si tienes alguna duda."
+      description: "Ya ha pasado el periodo de devolución, ponte en contacto con soporte si tienes alguna duda."
     gtag_registration:
       title: "Tu número de pulsera:"
       call_to_action: "¿Tienes más pulseras? Regístrate otra vez con un email diferente por cada una."
       call_to_action2: "¿Introdujiste una incorrecta por error?"
       button: "Borrala y reinicia el proceso"
     gtag_after_refund:
-      description: "Tu reembolso está en proceso"
+      description: "Tu devolución está en proceso"
     without_refunds:
       title: "Tus créditos restantes:"
-      call_to_action: "Proceder al reembolso"
+      call_to_action: "Proceder a la devolución"
       button: "Reclama tus créditos"
     not_refundable:
       title: "Tus créditos restantes:"
-      call_to_action: "Lo sentimos pero no tienes suficiente creditos para pedir un reembolso"
+      call_to_action: "Lo sentimos, pero no tienes suficientes creditos para pedir una devolución ya que la comisión es de %{fee} EUR"
     refunds:
       title: "Tus créditos restantes:"
       call_to_action: "Reembolso realizado con éxito, pronto se realizará su transferencia"
@@ -132,13 +132,13 @@ es:
       line_1: 'Sólo números del "0" al "9"'
       line_2: 'Letras y números del "0" a la "F". ¡Si encuentras una "o" es un "0"!'
   refund:
-    title: "Pide tu reembolso"
-    description: "Necesitamos tu cuenta de banco para completar tu reembolso."
+    title: "Pide tu devolución"
+    description: "Necesitamos tu cuenta de banco para completar tu devolución."
     call_to_action: "¡Introduce tu cuenta de banco!"
     button: "Guardar"
   edit_refund:
     title: "Reembolso"
-    description: "Puedes editar tu cuenta de banco para pedir tu reembolso."
+    description: "Puedes editar tu cuenta de banco para pedir tu devolución."
     call_to_action: "¡Introduce tu cuenta de banco!"
     swift: "BIC/SWIFT (Sólo para cuentas fueras de España)"
     button: "Guardar "
@@ -147,18 +147,18 @@ es:
       bank_account: 'ES00 0000 0000 0000 0000 0000'
   payment:
     error:
-      title: 'Error'
+      title: 'Transacción fallida'
       call_to_action: 'Contáctanos:'
     success:
       title: 'Pago realizado'
       description: 'Gracias por tu compra. El pago ha sido realizado. Recibirás un email de confirmación de tu compra.'
   refund:
     error:
-      title: 'Error'
+      title: 'Transacción fallida'
       call_to_action: 'Contáctanos:'
     success:
       title: 'Pago realizado'
-      description: 'Gracias por tu petición. El reembolso ha sido realizado. Recibirás un email de confirmación de tu reembolso.'
+      description: 'La devolución ha sido realizada. Recibirás un email de confirmación de tu petición.'
   passwords:
     new:
       title: '¿Olvidaste tu contraseña?'

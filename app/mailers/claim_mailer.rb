@@ -1,6 +1,7 @@
 class ClaimMailer < ApplicationMailer
   def completed_email(claim, event)
     config_parameters(claim.customer, event)
+    @claim = claim
     mail(to: claim.customer.email, subject: I18n.t('email.customer.claim.completed.subject'))
   end
 
@@ -13,8 +14,7 @@ class ClaimMailer < ApplicationMailer
 
   def config_parameters(customer, event)
     headers['X-No-Spam'] = 'True'
-    @name = customer.name + ' ' + claim.customer.surname
-    @claim = claim
+    @name = customer.name + ' ' + customer.surname
     @event = event
   end
 end
