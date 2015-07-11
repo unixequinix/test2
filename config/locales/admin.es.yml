@@ -271,3 +271,6 @@ es:
       status: "Estado"
       search:
         claim: "Número de petición"
+        gateway_transaction_number: "Número de transacción"
+        amount: "Cantidad"
+        status: "Estado"

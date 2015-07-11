@@ -13,7 +13,7 @@ table.refunds
   tbody
     - refunds.each do |refund|
       tr
-        td data-label=t("admin.refunds.amount") = link_to (refund.claim.gtag.gtag_credit_log.nil? ? 0.0 : refund.claim.gtag.gtag_credit_log.amount), admins_refund_path(refund)
+        td data-label=t("admin.refunds.amount") = link_to (refund.id), admins_refund_path(refund)
         td data-label=t("admin.refunds.customer_email") = link_to refund.claim.customer.email, admins_customer_path(refund.claim.customer)
         td data-label=t('admin.refunds.claim') = link_to "#{refund.claim.number}", admins_claim_path(refund.claim)
         td data-label=t('admin.refunds.amount') = refund.amount

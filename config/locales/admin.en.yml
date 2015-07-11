@@ -270,3 +270,6 @@ en:
       status: "Status"
       search:
         claim: "Claim number"
+        gateway_transaction_number: "Gateway transaction number"
+        amount: "Amount"
+        status: "Estado"

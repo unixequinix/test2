@@ -1,5 +1,8 @@
 - breadcrumb :admins_refunds
 - provide :actions do
+  = link_to admins_refunds_path(format: "csv"), class: "btn btn-action btn-action-back"
+    = fa_icon "download"
+    = t("admin.actions.csv")
 
 .wrapper-negative-space
 

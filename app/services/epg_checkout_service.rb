@@ -41,18 +41,20 @@ class EpgCheckoutService
   end
 
   def create_value
+    valid_characters = /[^0-9A-Za-zñÑ\-,'"]/
+
     value = "amount=#{@claim.total_after_fee}"
     value += "&country=#{Rails.application.secrets.epg_country}"
     value += "&language=#{I18n.locale.to_s}"
     value += "&currency=#{Rails.application.secrets.epg_currency}"
-    value += "&state=#{@epg_claim_form.state}"
-    value += "&city=#{@epg_claim_form.city}"
-    value += "&postCode=#{@epg_claim_form.post_code}"
+    value += "&state=#{@epg_claim_form.state.gsub(valid_characters, ' ')}"
+    value += "&city=#{@epg_claim_form.city.gsub(valid_characters, ' ')}"
+    value += "&postCode=#{@epg_claim_form.post_code.gsub(valid_characters, ' ')}"
     value += "&telephone=#{@epg_claim_form.phone}"
-    value += "&addressLine1=#{@epg_claim_form.address}"
+    value += "&addressLine1=#{@epg_claim_form.address.gsub(valid_characters, ' ')}"
     value += "&customerEmail=#{@claim.customer.email}"
-    value += "&firstName=#{@claim.customer.name}"
-    value += "&lastName=#{@claim.customer.surname}"
+    value += "&firstName=#{@claim.customer.name.gsub(valid_characters, ' ')}"
+    value += "&lastName=#{@claim.customer.surname.gsub(valid_characters, ' ')}"
     value += "&customerId=#{@claim.customer.id}"
     value += "&merchantId=#{Rails.application.secrets.epg_merchant_id}"
     value += "&merchantTransactionId=#{@claim.number}"
