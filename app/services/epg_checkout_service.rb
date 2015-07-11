@@ -41,7 +41,7 @@ class EpgCheckoutService
   end
 
   def create_value
-    valid_characters = /[^0-9A-Za-zñÑ\-,'"]/
+    valid_characters = /[^0-9A-Za-zñÑ\-,'"ªº]/
 
     value = "amount=#{@claim.total_after_fee}"
     value += "&country=#{Rails.application.secrets.epg_country}"
