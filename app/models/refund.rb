@@ -32,7 +32,7 @@ class Refund < ActiveRecord::Base
       csv << refund_columns
       all.each do |refund|
         attributes = refund.attributes.values_at(*refund_columns)
-        attributes[-2] = refund.claim.customer.email
+        attributes[-2] = refund.claim.customer.nil? ? '' : refund.claim.customer.email
         attributes[-1] = refund.claim.number
         csv << attributes
       end
