@@ -74,7 +74,7 @@ gem 'whenever', '~> 0.9.4', require: false
 
 # Internationalization
 gem 'globalize', '~> 5.0.1'
-gem 'i18n-globals', '~> 0.0.1'
+gem 'i18n-globals', git: 'https://github.com/sebastianzillessen/i18n-globals.git'
 
 group :development do
   gem 'foreman', '~> 0.78.0'

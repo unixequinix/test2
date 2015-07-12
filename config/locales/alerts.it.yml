@@ -1,0 +1,15 @@
+it:
+  alerts:
+    created: 'Creato con successo'
+    updated: 'Aggiornato con successo'
+    resend: 'Ri-inviato con successo'
+    imported: 'Importato con successo'
+    destroyed: 'Rimosso con successo'
+    unassigned: 'Annullato con successo'
+    error: 'Controlla il modulo per possibili errori'
+    checkout: 'Si possono solo inserire dati numerici senza decimali e meno di %{limit}'
+    admissions:  "PayCard non riconosciuta. Se lai comprata entro le ultime 48 ore, riprova di nuovo mentre aggiorniamo il tuo acquisto. Altrimenti contatto l'uffico di supporto. Tieni in mente che solo %{companies} biglietti sono supportati per questo servizio pre-evento."
+    gtag: "Questa PayCard non è valida %{gtag}"
+    order_complete: 'Ordine completato'
+    claim_complete: 'Richiesta completata'
+    quantity_not_refundable: 'Non si può rimborsare questa quantità di crediti'

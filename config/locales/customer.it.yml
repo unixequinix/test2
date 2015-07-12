@@ -1,0 +1,200 @@
+it:
+  currency_symbol: EUR
+  actions:
+    back: "Torna indietro"
+    cancel: "Cancella"
+    check_news: "Torna al sito del festival"
+  header:
+    edit: "Modifica profilo"
+    close: "Logout"
+    menu: "Home"
+    home: "Sito del festival"
+    help: "Help"
+  conditions:
+    action: 'Accetto'
+    conjunction: 'e'
+    privacy_conditions: 'la informativa sulla privacy'
+    terms_of_use: "le condizioni d'uso"
+  links:
+    sign_in: 'Hai già un account?'
+    sign_up: 'Non ancora registrato?'
+    forgot: 'Dimenticato la tua password?'
+    resend_confirmation: "Rimandare nuovamente le istruzioni di posta"
+    buttons:
+      sign_in: 'Log in'
+      sign_up: 'Iscriviti'
+  dashboard:
+    title: "My Kappa FuturFestival"
+    admissions:
+      header: "Your ticket number"
+      description: "Put a wrong ticket by mistake?"
+      description_started: "The event just started so you cannot change the ticket"
+      button: "Erase and restart the process"
+    without_admissions:
+      call_to_action: "Please activate your festival ticket first"
+      description: "Only one Festival Ticket can be activated per account."
+      button: "Activate Ticket"
+    credits:
+      header: "Your Online Credit Balance"
+      call_to_action: "To avoid queues, top-up your wristband now for all your festival purchases"
+      call_to_action_started: "The event just started so you cannot topup anymore"
+      call_to_action_no_admission: "To buy your Online Top-up,"
+      call_to_action_no_admission2: "please activate your Festival Ticket first"
+      button: "Top-up"
+    event_refunds:
+      claim: "L'evento non è ancora finito"
+      description: "Torna presto per richiedere per un rimborso"
+    wait_refund_disclaimer:
+      claim: "La tua richiesta per un rimborso è stata effettuata con successo"
+      description: "Riceverai un e-mail tra 5-15 giorni lavorativi quando sarà pronto il tuo credito"
+      description2: "Potrai vedere quanti crediti ti sono rimasti, inserire i tuoi dettagli bancari e ricevere il pagamento."
+    success_refund_disclaimer:
+      claim: "Il rimborso è stato elaborato con successo"
+      description: "Tra un paio di giorni riceverai il pagamento sul tuo conto bancario."
+    error_refund_disclaimer:
+      claim: "C'è stato un errore con il tuo rimborso"
+      description: "Torna indietro e riprova."
+    without_gtags:
+      title: "Crediti residui?"
+      description: "Registra la tua Paycard per avviare il processo di rimborso. Si può registrare solo una Paycard per ogni account (email)."
+      button: "Registra la tua Paycard"
+    without_gtags_disabled:
+      claim: "Il periodo per richedere un rimborso dei tuoi crediti residui è chiuso"
+      description: "Se ci hai già contattato con qualsiasi domanda,"
+      description2: "non ti preocupare, ti aiuteremo con il tuo rimborso."
+    without_gtags_claiming_started:
+      claim: "Scusa"
+      description: "Il periodo per richiedere un rimborso è chiuso, se hai qualsiasi domanda contattare il supporto."
+    gtag_registration:
+      title: "Il numero della tua Paycard:"
+      call_to_action: "Hai più di una Paycard? Si prega di registrare ogni Paycard diversa con un indirizzo email diverso."
+      call_to_action2: "Registrato una Paycard sbagliata per sbaglio?"
+      button: "Cancella e riavvia il processo"
+    gtag_after_refund:
+      description: "Il tuo rimborso è in corso"
+    without_refunds:
+      title: "Il tuo credito:"
+      call_to_action: "Procedere al rimborso"
+      button: "Richiedi i tuoi crediti"
+      not_refundable:
+      title: "Il tuo credito:"
+      call_to_action: "Mi dispiace, ma non hai abbastanza crediti per richiedere il rimborso. La spesa di rimborso è %{fee} EUR"
+    refunds:
+      title: "Il tuo credito:"
+      call_to_action: "La tua richiesta per un rimborso è stata effettuata con successo. Tra poco riceverai il trasferimento"
+      button: "Modifica conto bancario"
+  admissions:
+    title: "Ticket Activation"
+    description: "Please enter the number that is printed on your festival ticket just below the barcode."
+    description2: "Your code should start with '4UNhvW'"
+    call_to_action: "Activate your Festival Ticket!"
+    button: "Activate"
+    placeholders:
+      ticket_number: "Festival Ticket Barcode Number"
+  checkout:
+    title: "Top-up"
+    description: "After you buy online credits here, they will automatically be applied to your wristband once you enter the festival."
+    total: "Total"
+    button: "Confirm Order"
+  orders:
+    title: "Confirm Top-up"
+    description: "Please, review your order and proceed to payment."
+    products: "Products"
+    price: "Price"
+    amount: "Amount"
+    total: "Total"
+    vat: "VAT Included"
+    redirect: "You will be redirected to the bank’s payment gateway."
+    button: "Pay"
+    button_iupay: "IUPAY"
+  claims:
+    title: "Confermare rimborso"
+    description: "Si prega di controllare il suo ordine e procedere al pagamento."
+    products: "Prodotti"
+    amount: "Importo"
+    product_description: "Crediti da rimborsare"
+    fee: "Spesa di rimborso"
+    total: "Total"
+    vat: "IVA incluso"
+    redirect: "Sarai reindirizzato al gateway di pagamento della banca."
+    button: "Rimborso"
+    button_iupay: "IUPAY"
+    refund: "Verifica i tuoi crediti prima di richiedere il tuo rimborso"
+  gtag_registrations:
+    title: "Registra la tua Paycard"
+    description: "Per poter procedere inserisci i due codici così come appaiano sul retro della tua Paycard."
+    simple_description: "Per poter procedere inserisci il numero così come appaiano sulla %{gtag}."
+    call_to_action: "Registra la tua Paycard e inizia!"
+    button: "Accetto"
+    placeholders:
+      line_1: "Codice 1 e.g: 12345"
+      line_2: "Codice 2 e.g: BA6D7DC0"
+      simple_line: "Numero ID e.g: BA6D7DC0"
+    info:
+      line_1: 'Solo numero da "0" a "9"'
+      line_2: 'Lettere e numeri da "0" a "F". Se vedi un "o" è un "0"'
+  refund:
+    title: "Richiedi rimborso"
+    description: "Abbiamo bisogno dei tuoi dati bancari per poter completare la richiesta."
+    call_to_action: "Introdurre il tuo conto bancario!"
+    button: "Salva"
+  edit_refund:
+    title: "Richiedi rimborso"
+    description: "Puoi modificare il tuo conto bancario per la richiesta del tuo rimborso."
+    call_to_action: "Introdurre il tuo conto bancario!"
+    swift: "BIC/SWIFT (Se il conto bancario è fuori d'Italia)"
+    button: "Salva"
+    placeholders:
+      swift: "0000 0000"
+      bank_account: 'ES00 0000 0000 0000 0000 0000'
+  payment:
+    error:
+      title: 'Errore'
+      call_to_action: 'Contattaci:'
+    success:
+      title: 'Il pagamento è stato eseguito'
+      description: 'Grazie per il tuo ordine. Il tuo pagamento è stato effettuato. Riceverai una conferma email del tuo ordine.'
+  refund:
+    error:
+      title: 'Errore'
+      call_to_action: 'Contattaci:'
+    success:
+      title: 'Il rimborso è stato fatto'
+      description: 'Grazie per la tua richiesta. Il tuo rimborso è stato effettuato. Riceverai una conferma email della tua richiest.'
+  passwords:
+    new:
+      title: 'Dimenticato il tuo password?'
+      button: 'Mandami istruzioni per il password '
+    edit:
+      header: 'Nuovo password'
+      title: 'Cambia il tuo password'
+      button: 'Cambia il mio password'
+      password: "Nuovo password"
+      password_confirmation: "Confermare la tua password nuova"
+  registration:
+    new:
+      title: 'Iscriviti'
+      info: 'Inserisci correttamente i tuoi dati personali in modo da poter fornire un servizio sicuro e conveniente.'
+      description: 'Tutti i campi in questo modulo sono necessari.'
+      button: 'Iscriviti'
+      details: "Per favore inserire i tuoi dettagli personali in modo che possiamo darti un servizio sicuro e personalizzato"
+    edit:
+      title: 'Modifica'
+      password_hint: "Lascialo vuoto se non vuoi cambiarlo"
+      current_password_hint: "abbiamo bisogno della tua password corrente in modo di poter confermare i cambiamenti"
+      waiting_confirmation: 'In attesa della conferma per:'
+      button: 'Aggiornare'
+  sessions:
+    new:
+      title: 'Log in'
+      description: 'Ecco come funziona'
+      button: 'Log in'
+      copy: 'Quali sono i vantaggi?'
+  cancel:
+    title: 'Cancellare il mio account'
+    unhappy: "Scrivici un email, vogliamo sapere cos'è successo!"
+  footer:
+    use: "Condizioni d'uso"
+    privacy: "Informativa sulla privacy"
+    copyright: "© Copyright Glownet"
+    support: 'Support'
