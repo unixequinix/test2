@@ -5,6 +5,7 @@ en:
     locales:
       en: 'ENG'
       es: 'ESP'
+      it: 'ITA'
   activemodel:
     errors:
       models:

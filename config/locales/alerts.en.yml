@@ -9,7 +9,7 @@ en:
     error: 'Check the form errors'
     checkout: 'You can only introduce numeric data without decimals and lower than %{limit}'
     admissions:  "Ticket not recognized. If you purchased it within the last 48 hours, try again later while we update your purchase. Otherwise contact support. Please note that only %{companies} tickets are supported for this pre-event service."
-    gtag: "This is not a valid wristband"
+    gtag: "This is not a valid %{gtag}"
     order_complete: 'Order Completed'
     claim_complete: 'Claim Completed'
     quantity_not_refundable: 'Credits quantity not refundable'

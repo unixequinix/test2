@@ -143,8 +143,8 @@ en:
           <<: *placeholder_ticket
       gtag:
         new: &placeholder_gtag
-          tag_serial_number: "First numbers line of the wristband"
-          tag_uid: "Second numbers line of the wristband"
+          tag_serial_number: "First numbers line of the %{gtag}"
+          tag_uid: "Second numbers line of the %{gtag}"
         edit:
           <<: *placeholder_gtag
       gtag_credit_log:

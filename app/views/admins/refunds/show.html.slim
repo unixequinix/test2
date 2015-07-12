@@ -8,9 +8,9 @@
       dt = t("admin.refund.amount")
       dd = @refund.claim.gtag.gtag_credit_log.nil? ? 0.0 : @refund.claim.gtag.gtag_credit_log.amount
       dt = t("admin.refund.customer_name")
-      dd = link_to "#{@refund.claim.customer.name} #{@refund.claim.customer.surname}", admins_customer_path(@refund.claim.customer)
+      dd = link_to "#{@refund.claim.customer.name} #{@refund.claim.customer.surname}", admins_customer_path(@refund.claim.customer) unless @refund.claim.customer.nil?
       dt = t("admin.refunds.customer_email")
-      dd = @refund.claim.customer.email
+      dd = @refund.claim.customer.email unless @refund.claim.customer.nil?
       dt =t('admin.refunds.created_at')
       dd = @refund.created_at
       dt =t('admin.refunds.updated_at')

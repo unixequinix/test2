@@ -72,8 +72,9 @@ gem 'sidekiq', '~> 3.4.1'
 # Cron tasks
 gem 'whenever', '~> 0.9.4', require: false
 
-# Database Internationalization
+# Internationalization
 gem 'globalize', '~> 5.0.1'
+gem 'i18n-globals', '~> 0.0.1'
 
 group :development do
   gem 'foreman', '~> 0.78.0'

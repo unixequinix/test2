@@ -36,7 +36,7 @@ en:
       button: "Activate Ticket"
     credits:
       header: "Your Online Credit Balance"
-      call_to_action: "To avoid queues, top-up your wristband now for all your festival purchases"
+      call_to_action: "To avoid queues, top-up your %{gtag} now for all your festival purchases"
       call_to_action_started: "The event just started so you cannot topup anymore"
       call_to_action_no_admission: "To buy your Online Top-up,"
       call_to_action_no_admission2: "please activate your Festival Ticket first"
@@ -56,19 +56,19 @@ en:
       description: "Try to go back to your dashboard and claim again."
     without_gtags:
       title: "Credits left?"
-      description: "Assign your wristband to start the refund process. Only one Wristband can be activated per account (email)."
-      button: "Assign wristband"
+      description: "Assign your %{gtag} to start the refund process. Only one %{gtag} can be activated per account (email)."
+      button: "Assign %{gtag}"
     without_gtags_disabled:
-      claim: "The period to apply for a refund of your wristband credits is closed"
+      claim: "The period to apply for a refund of your %{gtag} credits is closed"
       description: "If you have previously contacted us with any support question,"
       description2: "do not worry, we will help you through with your refund."
     without_gtags_claiming_started:
       claim: "Sorry"
       description: "The refunds period is finished, I you have any question contact support."
     gtag_registration:
-      title: "Your wristband number:"
-      call_to_action: "Have more wristbands? Please register again with a different email for each."
-      call_to_action2: "Put a wrong wristband by mistake?"
+      title: "Your %{gtag} number:"
+      call_to_action: "Have more %{gtag}s? Please register again with a different email for each."
+      call_to_action2: "Put a wrong %{gtag} by mistake?"
       button: "Erase and restart the process"
     gtag_after_refund:
       description: "Your refund is in process"
@@ -93,7 +93,7 @@ en:
       ticket_number: "Festival Ticket Barcode Number"
   checkout:
     title: "Top-up"
-    description: "After you buy online credits here, they will automatically be applied to your wristband once you enter the festival."
+    description: "After you buy online credits here, they will automatically be applied to your %{gtag} once you enter the festival."
     total: "Total"
     button: "Confirm Order"
   orders:
@@ -121,10 +121,10 @@ en:
     button_iupay: "IUPAY"
     refund: "Please, review your credits to proceed refund"
   gtag_registrations:
-    title: "Assign wristband"
-    description: "In order to proceed assign the number as appears in your wristband. The number consists of 2 lines."
-    simple_description: "In order to proceed assign the number as appears in your wristband."
-    call_to_action: "Assign your wristband and go!"
+    title: "Assign %{gtag}"
+    description: "In order to proceed assign the number as appears in your %{gtag}. The number consists of 2 lines."
+    simple_description: "In order to proceed assign the number as appears in your %{gtag}."
+    call_to_action: "Assign your %{gtag} and go!"
     button: "Accept"
     placeholders:
       line_1: "Line 1 e.g: 12345"

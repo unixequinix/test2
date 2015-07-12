@@ -36,9 +36,9 @@ es:
       button: "Activar Ticket"
     credits:
       header: "Tu Balance de créditos"
-      call_to_action: "Para evitar colas, recarga tu pulsera ahora para todas tus compras dentro del festival"
+      call_to_action: "Para evitar colas, recarga tu %{gtag} ahora para todas tus compras dentro del festival"
       call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"
-      call_to_action_no_admission: "Para poder recargar tu pulsera,"
+      call_to_action_no_admission: "Para poder recargar tu %{gtag},"
       call_to_action_no_admission2: "deberás activar tu Ticket primero"
       button: "Recarga"
     event_refunds:
@@ -56,18 +56,18 @@ es:
       description: "Vuelve a tu panel e inténtalo de nuevo."
     without_gtags:
       title: "¿Te quedan créditos?"
-      description: "Introduce tu pulsera para empezar el proceso de devolución. Sólo una pulsera puede ser activada por cuenta (email)."
-      button: "Introducir Pulsera"
+      description: "Introduce tu %{gtag} para empezar el proceso de devolución. Sólo una %{gtag} puede ser activada por cuenta (email)."
+      button: "Introducir %{gtag}"
     without_gtags_disabled:
-      claim: "El tiempo para solicitar tu devolución de créditos en tu pulsera ha terminado"
+      claim: "El tiempo para solicitar tu devolución de créditos en tu %{gtag} ha terminado"
       description: "Si has contactado al soporte con alguna pregunta previamente,"
       description2: "no te preocupes, te ayudaremos con tu devolución."
     without_gtags_claiming_started:
       claim: "Lo sentimos"
       description: "Ya ha pasado el periodo de devolución, ponte en contacto con soporte si tienes alguna duda."
     gtag_registration:
-      title: "Tu número de pulsera:"
-      call_to_action: "¿Tienes más pulseras? Regístrate otra vez con un email diferente por cada una."
+      title: "Tu número de %{gtag}:"
+      call_to_action: "¿Tienes más %{gtag}s? Regístrate otra vez con un email diferente por cada una."
       call_to_action2: "¿Introdujiste una incorrecta por error?"
       button: "Borrala y reinicia el proceso"
     gtag_after_refund:
@@ -93,7 +93,7 @@ es:
       ticket_number: "Número de Ticket"
   checkout:
     title: "Recarga"
-    description: "Los créditos que compras aquí serán añadidos automáticamente a tu pulsera al entrar al festival."
+    description: "Los créditos que compras aquí serán añadidos automáticamente a tu %{gtag} al entrar al festival."
     total: "Total"
     button: "Confirmar Órden"
   orders:
@@ -120,10 +120,10 @@ es:
     button: "Reembolsar"
     refund: "Por favor, revisa que los créditos a devolver son correctos"
   gtag_registrations:
-    title: "Introducir Pulsera"
-    description: "Para proceder, debes introducir tu pulsera colocando los números que aparecen en tu pulsera. Tu pulsera debe tener 2 líneas de números."
-    simple_description: "Para proceder, debes introducir tu pulsera colocando los números que aparecen en tu pulsera."
-    call_to_action: "¡Introduce tu pulsera y continúa!"
+    title: "Introducir %{gtag}"
+    description: "Para proceder, debes introducir tu %{gtag} colocando los números que aparecen en tu %{gtag}. Tu %{gtag} debe tener 2 líneas de números."
+    simple_description: "Para proceder, debes introducir tu %{gtag} colocando los números que aparecen en tu %{gtag}."
+    call_to_action: "¡Introduce tu %{gtag} y continúa!"
     button: "Aceptar"
     placeholders:
       line_1: "Línea 1 ej: 12345"

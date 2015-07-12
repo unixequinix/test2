@@ -143,8 +143,8 @@ es:
           <<: *placeholder_ticket
       gtag:
         new: &placeholder_gtag
-          tag_serial_number: "Número de la primera línea de la pulsera"
-          tag_uid: "Número de la segunda línea de la pulsera"
+          tag_serial_number: "Número de la primera línea de la %{gtag}"
+          tag_uid: "Número de la segunda línea de la %{gtag}"
         edit:
           <<: *placeholder_gtag
       gtag_credit_log:
