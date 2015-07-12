@@ -47,7 +47,7 @@ en:
     wait_refund_disclaimer:
       claim: "You successfully applied for your refund"
       description: "Expect an e-mail between 5 to 15 business days when your credits are ready."
-      description2: "Then you will be able to check your balance, enter your bank details and receive the payment."
+      description2_html: "Then you will be able to check your balance, enter your bank details and receive the payment."
     success_refund_disclaimer:
       claim: "You successfully processed your refund"
       description: "In 1-4 days you will receive the payment in your bank account."

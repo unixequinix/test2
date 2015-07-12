@@ -67,8 +67,8 @@ it:
       description: "Il periodo per richiedere un rimborso è chiuso, se hai qualsiasi domanda contattare il supporto."
     gtag_registration:
       title: "Il numero della tua Paycard:"
-      call_to_action: "Hai più di una Paycard? Si prega di registrare ogni Paycard diversa con un indirizzo email diverso."
-      call_to_action2: "Registrato una Paycard sbagliata per sbaglio?"
+      call_to_action: "Si prega di registrare ogni Paycard diversa con un indirizzo email diverso."
+      call_to_action2_html: "<br/>Registrato una Paycard sbagliata per?"
       button: "Cancella e riavvia il processo"
     gtag_after_refund:
       description: "Il tuo rimborso è in corso"

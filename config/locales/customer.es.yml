@@ -68,7 +68,7 @@ es:
     gtag_registration:
       title: "Tu número de %{gtag}:"
       call_to_action: "¿Tienes más %{gtag}s? Regístrate otra vez con un email diferente por cada una."
-      call_to_action2: "¿Introdujiste una incorrecta por error?"
+      call_to_action2_html: "¿Introdujiste una incorrecta por error?"
       button: "Borrala y reinicia el proceso"
     gtag_after_refund:
       description: "Tu devolución está en proceso"
