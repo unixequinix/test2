@@ -57,6 +57,13 @@ class Claim < ActiveRecord::Base
     self.number = "#{day}#{time_hex}"
   end
 
+  # def generate_claim_number!
+  #   gtag_uid = self.gtag.tag_uid.to_i(16)
+  #   gtag_serial_number = self.gtag.tag_serial_number.to_i(16)
+  #   customer = self.customer.id
+  #   self.number = "#{gtag_uid}#{customer}#{gtag_serial_number}"
+  # end
+
   def total_after_fee
     total - fee
   end

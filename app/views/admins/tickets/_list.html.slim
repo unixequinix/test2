@@ -11,7 +11,6 @@
         th = t("admin.purchasers.surname")
         th = t("admin.purchasers.email")
         th = t("admin.tickets.customer")
-        th = t("admin.tickets.created_at")
         th.table-actions-field = t("admin.defaults.actions")
     tbody
       - tickets.each do |ticket|
@@ -25,7 +24,6 @@
           td data-label=t("admin.purchasers.surname") = ticket.purchaser_surname
           td data-label=t("admin.purchasers.email") = ticket.purchaser_email
           td data-label=t("admin.tickets.customer") = ticket.assigned_admission.customer.email unless ticket.assigned_admission.nil?
-          td data-label=t("admin.tickets.created_at") = ticket.created_at.strftime("%y-%m-%d %H:%M:%S")
           td.table-actions-field
             = render 'admins/tickets/actions', ticket: ticket unless current_event.started?
   .container-pagination

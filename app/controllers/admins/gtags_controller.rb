@@ -59,20 +59,11 @@ class Admins::GtagsController < Admins::BaseController
   end
 
   def destroy_multiple
-    params[:gtags].each do |id|
-      gtag = Gtag.find(id.to_i)
-      if !gtag.destroy
-        flash[:error] = gtag.errors.full_messages.join(". ")
-        redirect_to admins_gtags_url
-      end
-    end
-  end
-
-  def destroy_multiple
-    gtags = params[:gtags]
-    Gtag.where(id: gtags.keys).each do |gtag|
-      if !gtag.destroy
-        flash[:error] = gtag.errors.full_messages.join(". ")
+    if gtags = params[:gtags]
+      Gtag.where(id: gtags.keys).each do |gtag|
+        if !gtag.destroy
+          flash[:error] = gtag.errors.full_messages.join(". ")
+        end
       end
     end
     redirect_to admins_gtags_url

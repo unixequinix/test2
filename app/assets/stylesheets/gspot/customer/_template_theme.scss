@@ -26,7 +26,7 @@ $quarter_text:           $base_font_size*1.25;
 $half_text:              $base_font_size*1.5;
 $double_text:            $base-font-size*2;
 $triple_text:            $base-font-size*3;
-$highlight-tittle:       $base-font-size*4.5;
+$highlight-tittle:       $base-font-size*3.5;
 
 //IMAGES:
 
@@ -238,12 +238,16 @@ nav {
 
 // _____ DAHSBOARDS _____
 
-// Big pink text
 .highlight {
-  @include mscale($triple_text);
+  @include mscale($half_text);
   display: block;
   text-align: center;
   font-weight: bold;
+
+
+  @include min-screen($bp2) {
+    @include mscale($triple_text);
+  }
 
   @include min-screen($bp4) {
     @include mscale($highlight-tittle);

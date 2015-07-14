@@ -51,6 +51,7 @@ Rails.application.routes.draw do
     resources :checkouts, only: [:new, :create]
     resources :orders, only: [:show, :update]
     resources :epg_claims, only: [:new, :create]
+    resources :bank_account_claims, only: [:new, :create]
     resources :payments, only: [:create]
     # resources :payments, only: [:create], constraints: lambda{|request|request.env['HTTP_X_REAL_IP'].match(Rails.application.secrets.merchant_ip)}
     resources :payments, except: [:index, :show, :new, :create, :edit, :update, :destroy] do

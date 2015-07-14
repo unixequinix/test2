@@ -16,7 +16,7 @@
 
     = f.input :gtag_registration, as: :radio_buttons
     = f.input :features, as: :hidden
-    = f.input :refund_service, collection: Event.refund_services_selector
+    = f.input :refund_service, collection: Event.refund_services_selector, include_blank: false
     = f.input :url, placeholder: true
     = f.input :description, as: :text, input_html: { rows: 5 }
   fieldset

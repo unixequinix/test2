@@ -4,14 +4,10 @@
 
   .refund-form
     .form-inputs
-      = simple_form_for @epg_claim_form, url: customers_epg_claims_path do |f|
+      = simple_form_for @bank_account_claim_form, url: customers_bank_account_claims_path do |f|
         = f.input :claim_id, as: :hidden, input_html: { value: @claim.id }
-        = f.input :phone, autofocus: true
-        = f.input :address, autofocus: true
-        = f.input :city, autofocus: true
-        = f.input :state, autofocus: true
-        = f.input :post_code, autofocus: true
-        = f.input :country_code, autofocus: true, priority: t('country_iso_priority')
+        = f.input :swift, autofocus: true
+        = f.input :iban, autofocus: true
         = f.input :claim_id, as: :hidden, input_html: { value: @claim.id }
         .accept-terms
           = f.input :agreed_on_claim, as: :boolean, label: ("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), customers_terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), customers_privacy_policy_url, target: '_blank'}").html_safe
