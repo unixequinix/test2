@@ -27,7 +27,7 @@ class Claim < ActiveRecord::Base
 
   # Associations
   belongs_to :customer
-  has_many :refunds
+  has_one :refund
   has_many :claim_parameters
   belongs_to :gtag
 

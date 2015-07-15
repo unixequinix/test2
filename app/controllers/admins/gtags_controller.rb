@@ -91,12 +91,13 @@ class Admins::GtagsController < Admins::BaseController
     end
   end
 
+  def clean_gtags
+    Gtag.destroy_all
+    redirect_to admins_gtags_url
+  end
+
   def clean_credits
-    GtagCreditLog.all.each do |gtag_credit_log|
-      if !gtag_credit_log.destroy
-        flash[:error] = gtag_credit_log.errors.full_messages.join(". ")
-      end
-    end
+    GtagCreditLog.delete_all
     redirect_to admins_gtags_url
   end
 

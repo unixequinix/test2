@@ -97,6 +97,10 @@ es:
           post_code: "Código Postal"
           phone: "Teléfono"
           address: "Dirección"
+      bank_account_claim_form:
+        new:
+          swift: "BIC/SWIFT"
+          iban: "IBAN"
 
     placeholders:
       event:
@@ -157,4 +161,7 @@ es:
           state: "Tu provincia o estado"
           phone: "Teléfono con código internacional: +34123..."
           address: "Dirección, número y piso"
-
+      bank_account_claim_form:
+        new:
+          swift: "0000 0000"
+          iban: 'ES00 0000 0000 0000 0000 0000'

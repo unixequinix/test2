@@ -116,6 +116,11 @@ abbr {
     margin: 0 0 modules(1);
     @include min-screen($bp3) { margin: 0; }
   }
+
+  .btn-action {
+    margin: 0 0 modules(1);
+    @include min-screen($bp3) { margin: 0 modules(0.5) 0 0; }
+  }
 }
 
 .wrapper-add-file {

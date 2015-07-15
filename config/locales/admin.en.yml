@@ -140,11 +140,14 @@ en:
       number: "Number"
       ticket_type: "Ticket type"
       customer: "Customer"
+      created_at: "Created at"
       search:
         number: "Number"
+        purchaser_email: "Purchaser Email"
         type: "Type"
       import: "Import tickets (Select a CSV file comma separated)"
-      created_at: "Created at"
+      actions:
+        delete_tickets: "Delete all tickets"
     admissions:
       ticket: "Ticket"
     purchasers:
@@ -164,6 +167,7 @@ en:
         tag_uid: "Tag UID"
         tag_serial: "Tag serial number"
       actions:
+        delete_gtags: "Delete all gtags"
         delete_credits: "Delete all credits"
     gtag_registrations:
       tag: "Tag UID"

@@ -11,6 +11,7 @@
 #
 
 class Gtag < ActiveRecord::Base
+  before_save :upcase_gtag
   default_scope { order(:id) }
   acts_as_paranoid
 
@@ -53,6 +54,8 @@ class Gtag < ActiveRecord::Base
       row = Hash[[header, spreadsheet.row(i)].transpose]
       gtag = new
       gtag.attributes = row.to_hash.slice(*Gtag.attribute_names)
+      gtag.tag_uid = gtag.tag_uid.upcase
+      gtag.tag_serial_number = gtag.tag_serial_number.upcase
       gtags << gtag
     end
     begin
@@ -69,5 +72,12 @@ class Gtag < ActiveRecord::Base
     when ".xlsx" then Roo::Spreadsheet.open(file.path, extension: :xlsx)
     else raise "Unknown file type: #{file.original_filename}"
     end
+  end
+
+  private
+
+  def upcase_gtag
+    self.tag_uid.upcase!
+    self.tag_serial_number.upcase!
   end
 end

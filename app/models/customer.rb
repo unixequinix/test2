@@ -45,7 +45,6 @@ class Customer < ActiveRecord::Base
   has_many :orders
   has_many :claims
   has_many :credit_logs
-  has_one :bank_account
   has_one :completed_claim, ->{ where(aasm_state: :completed) }, class_name: "Claim"
 
   # Validations
@@ -59,4 +58,19 @@ class Customer < ActiveRecord::Base
     devise_mailer.send(notification, self, *args).deliver_later
   end
 
+  def total_credits
+    self.credit_logs.sum(:amount).floor
+  end
+
+  def ticket_credits
+    self.credit_logs.where.not(transaction_type: CreditLog::CREDITS_PURCHASE).sum(:amount).floor
+  end
+
+  def purchased_credits
+    self.credit_logs.where(transaction_type: CreditLog::CREDITS_PURCHASE).sum(:amount).floor
+  end
+
+  def refundable_credits
+    self.gtag_registration.gtag.gtag_credit_log.amount unless self.gtag_registration.nil?
+  end
 end

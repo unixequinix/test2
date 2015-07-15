@@ -16,9 +16,18 @@ class Customers::BankAccountClaimsController < Customers::ClaimsController
     @bank_account_claim_form = BankAccountClaimForm.new(permitted_params)
     @claim = Claim.find(permitted_params[:claim_id])
     if @bank_account_claim_form.save
-      flash[:notice] = I18n.t('alerts.created')
       @claim.start_claim!
-      redirect_to customer_root_url
+      if RefundService.new(@claim, current_event).create(params = {
+          amount: @claim.total_after_fee,
+          currency: 'EUR',
+          message: 'Created manual bank account refund',
+          payment_solution: 'manual',
+          status: 'PENDING'
+        })
+        redirect_to success_customers_refunds_url
+      else
+        redirect_to error_customers_refunds_url
+      end
     else
       render :new
     end

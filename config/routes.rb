@@ -97,6 +97,7 @@ Rails.application.routes.draw do
         post :import
         get :search
         delete :destroy_multiple
+        delete :clean_tickets
       end
     end
     resources :gtags, except: :show do
@@ -105,6 +106,7 @@ Rails.application.routes.draw do
         post :import_credits
         get :search
         delete :destroy_multiple
+        delete :clean_gtags
         delete :clean_credits
       end
     end

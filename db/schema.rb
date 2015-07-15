@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150708160123) do
+ActiveRecord::Schema.define(version: 20150715170545) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,14 +81,6 @@ ActiveRecord::Schema.define(version: 20150708160123) do
     t.string   "aasm_state",  null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-  end
-
-  create_table "bank_accounts", force: :cascade do |t|
-    t.integer  "customer_id", null: false, index: {name: "fk__bank_accounts_customer_id"}, foreign_key: {references: "customers", name: "fk_bank_accounts_customer_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "iban",        null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.string   "swift"
   end
 
   create_table "gtags", force: :cascade do |t|
@@ -290,6 +282,16 @@ ActiveRecord::Schema.define(version: 20150708160123) do
     t.string   "gateway_transaction_number"
     t.string   "payment_solution"
     t.string   "status"
+  end
+
+  create_table "vs_database_diagrams", id: false, force: :cascade do |t|
+    t.string   "name",     limit: 80
+    t.text     "diadata"
+    t.string   "comment",  limit: 1022
+    t.text     "preview"
+    t.string   "lockinfo", limit: 80
+    t.datetime "locktime"
+    t.string   "version",  limit: 80
   end
 
 end

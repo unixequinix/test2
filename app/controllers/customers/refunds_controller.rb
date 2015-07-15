@@ -9,20 +9,16 @@ class Customers::RefundsController < Customers::BaseController
     operations.each do |operation|
       operation_hash = Hash.from_xml(operation.to_s)
       if @claim = Claim.find_by(number: operation_hash["operation"]["merchantTransactionId"])
-        amount = operation_hash["operation"]["amount"] # last two digits are decimals
-        refund = Refund.new(claim_id: @claim.id,
-          amount: amount,
-          currency: operation_hash["operation"]["currency"],
-          message: operation_hash["operation"]["message"],
-          operation_type: operation_hash["operation"]["operationType"],
-          gateway_transaction_number: operation_hash["operation"]["payFrexTransactionId"],
-          payment_solution: operation_hash["operation"]["paymentSolution"],
-          status: operation_hash["operation"]["status"])
-        refund.save!
-        if refund.status == 'SUCCESS' || refund.status == 'PENDING'
-          @claim.complete!
-          send_mail_for(@claim)
-        end
+        refund = RefundService.new(@claim, current_event).create(
+          params = {
+            amount: operation_hash["operation"]["amount"],
+            currency: operation_hash["operation"]["currency"],
+            message: operation_hash["operation"]["message"],
+            operation_type: operation_hash["operation"]["operationType"],
+            gateway_transaction_number: operation_hash["operation"]["payFrexTransactionId"],
+            payment_solution: operation_hash["operation"]["paymentSolution"],
+            status: operation_hash["operation"]["status"]
+        })
       end
     end
     render nothing: true
@@ -32,12 +28,6 @@ class Customers::RefundsController < Customers::BaseController
   end
 
   def error
-  end
-
-  private
-
-  def send_mail_for(claim)
-    ClaimMailer.completed_email(claim, current_event).deliver_later
   end
 
 end
