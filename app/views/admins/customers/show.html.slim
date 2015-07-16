@@ -27,14 +27,26 @@
       - else
         dd = t ("admin.defaults.empty_tickets")
 
-      dt = t ("admin.customers.gtags")
       - if !@customer.assigned_gtag_registration.nil?
+        dt = t ("admin.customers.gtags")
         dd
           = link_to "#{@customer.assigned_gtag_registration.gtag.tag_serial_number} #{@customer.assigned_gtag_registration.gtag.tag_uid}", edit_admins_gtag_path(@customer.assigned_gtag_registration.gtag)
           = link_to admins_gtag_registration_path(@customer.assigned_gtag_registration), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
             = fa_icon "trash"
+        dt = t("admin.customers.gtag_credits")
+        dd = @customer.assigned_gtag_registration.gtag.gtag_credit_log.amount unless @customer.assigned_gtag_registration.gtag.gtag_credit_log.nil?
       - else
+        dt = t ("admin.customers.gtags")
         dd = t ("admin.defaults.empty_gtags")
+        dt = t("admin.customers.gtag_credits")
+        dt 0.0
+
+      dt = t ("admin.customers.confirmed_at")
+      dd = @customer.confirmed_at.strftime("%y-%m-%d %H:%M:%S") unless @customer.confirmed_at.nil?
+
+      dt = t("admin.customers.confirmation_sent_at")
+      dd = @customer.confirmation_sent_at.strftime("%y-%m-%d %H:%M:%S") unless @customer.confirmation_sent_at.nil?
+
 
       dt = t ("admin.customers.sign")
       dd = @customer.sign_in_count

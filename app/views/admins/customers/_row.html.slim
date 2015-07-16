@@ -1,16 +1,17 @@
 td data-label=t("admin.customers.email") = link_to customer.email, admins_customer_path(customer)
 td data-label=t("admin.customers.name") = customer.name
 td data-label=t("admin.customers.surname") = customer.surname
-td data-label=t("admin.customers.confirmed_at") = customer.confirmed_at
-td data-label=t("admin.customers.confirmation_sent_at") = customer.confirmation_sent_at
+td data-label=t("admin.customers.confirmation_sent_at") = customer.confirmation_sent_at.strftime("%y-%m-%d %H:%M:%S") unless customer.confirmation_sent_at.nil?
 - if !customer.assigned_admission.nil?
   td = link_to customer.assigned_admission.ticket.number, edit_admins_ticket_path(customer.assigned_admission.ticket)
 - else
   td data-label=t("admin.customers.tickets") = t("admin.defaults.empty_tickets")
 - if !customer.assigned_gtag_registration.nil?
   td #{customer.assigned_gtag_registration.gtag.tag_serial_number} - #{customer.assigned_gtag_registration.gtag.tag_uid}
+  td data-label=t("admin.customers.gtag_credits") = customer.assigned_gtag_registration.gtag.gtag_credit_log.amount unless customer.assigned_gtag_registration.gtag.gtag_credit_log.nil?
 - else
   td data-label=t("admin.customers.gtags") = t("admin.defaults.empty_gtags")
+  td data-label=t("admin.customers.gtag_credits") 0.0
 
 td data-label=t("admin.customers.credits") = customer.credit_logs.sum(:amount)
 td.table-actions-field

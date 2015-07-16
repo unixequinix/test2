@@ -180,6 +180,7 @@ en:
       confirmation_sent_at: "Confirmation sent at"
       tickets: "Tickets"
       gtags: "Gtags"
+      gtag_credits: "Gtag Credits"
       credits: "Credits"
       search: "Name Count"
       sign: "Sign in count"
