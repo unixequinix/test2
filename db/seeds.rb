@@ -59,6 +59,9 @@ parameters = {
       'merchant_id' => 'string',
       'url' => 'string'
     },
+    'bank_account' => {
+      'fee' => 'currency'
+    }
   }
 }
 

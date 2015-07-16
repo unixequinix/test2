@@ -5,4 +5,4 @@
     p.alert-text = t("admin.refund_settings.nofication_description")
   .change-status
     p = t("admin.refund_settings.want_to_notify")
-    = render "admins/refund_settings/notify_customers" if event.claiming_started?
+    = render "admins/refund_settings/notify_customers", event: event if event.claiming_started?

@@ -6,6 +6,7 @@ es:
       en: 'ENG'
       es: 'ESP'
       it: 'ITA'
+  gtag: 'Pulsera'
   activemodel:
     errors:
       models:

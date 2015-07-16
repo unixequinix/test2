@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_i18n_globals
-    I18n.config.globals[:gtag] = 'Paycard'
+    I18n.config.globals[:gtag] = I18n.t('gtag')
   end
 
   helper_method :mobile_device?

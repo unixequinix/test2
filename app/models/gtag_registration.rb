@@ -32,8 +32,8 @@ class GtagRegistration < ActiveRecord::Base
     end
   end
 
-  def refundable?
-    !self.gtag.gtag_credit_log.nil? && self.gtag.gtag_credit_log.amount - 2 >= 1
+  def refundable?(fee)
+    !self.gtag.gtag_credit_log.nil? && self.gtag.gtag_credit_log.amount - fee.to_d >= 1
   end
 
 end

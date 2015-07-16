@@ -2,19 +2,29 @@ class Admins::RefundSettingsController < Admins::BaseController
 
   def show
     @event = current_event
-    @parameters = Parameter.where(category: 'refund')
+    @event_parameters = EventParameter.where(event_id: @event.id, parameters: { group: @event.refund_service, category: 'refund'}).includes(:parameter)
   end
 
   def edit
     @event = current_event
-    @parameters = Parameter.where(category: 'refund')
+    @parameters = Parameter.where(group: @event.refund_service, category: 'refund')
+    @refund_settings_form = ("#{@event.refund_service.camelize}RefundSettingsForm").constantize.new
+    event_parameters = EventParameter.where(event_id: @event.id, parameters: { group: @event.refund_service, category: 'refund'}).includes(:parameter)
+    event_parameters.each do |event_parameter|
+      @refund_settings_form[event_parameter.parameter.name.to_sym] = event_parameter.value
+    end
+    @refund_settings_form[:refund_success_message] = @event.refund_success_message
   end
 
   def update
-    @event = Event.friendly.find(params[:id])
-    if @event.update(permitted_params)
+    @event = Event.friendly.find(params[:event_id])
+    @parameters = Parameter.where(group: @event.refund_service, category: 'refund')
+    @refund_settings_form = ("#{@event.refund_service.camelize}RefundSettingsForm").constantize.new(permitted_params)
+    if @refund_settings_form.save
+      @event.refund_success_message = permitted_params[:refund_success_message]
+      @event.save
       flash[:notice] = I18n.t('alerts.updated')
-      redirect_to admins_refund_settings_url(@event)
+      redirect_to admins_event_refund_settings_url(@event)
     else
       flash[:error] = I18n.t('alerts.error')
       render :edit
@@ -22,10 +32,10 @@ class Admins::RefundSettingsController < Admins::BaseController
   end
 
   def notify_customers
-    @event = Event.friendly.find(params[:id])
+    @event = Event.friendly.find(params[:event_id])
     if RefundNotificationService.new.notify(@event)
       flash[:notice] = I18n.t('alerts.updated')
-      redirect_to admins_refund_setting_url(@event)
+      redirect_to admins_event_refund_settings_url(@event)
     else
       flash[:error] = I18n.t('alerts.error')
       render :edit
@@ -35,7 +45,10 @@ class Admins::RefundSettingsController < Admins::BaseController
   private
 
   def permitted_params
-    params.require(:event).permit(:aasm_state, :name, :url, :location, :start_date, :end_date, :description, :support_email, :style, :logo, :background_type, :background, :features, :refund_service, :gtag_registration, :info, :disclaimer)
+    params_names = Parameter.where(group: current_event.refund_service, category: 'refund').map(&:name)
+    params_names << :event_id
+    params_names << :refund_success_message
+    params.require("#{current_event.refund_service}_refund_settings_form").permit(params_names)
   end
 
 end

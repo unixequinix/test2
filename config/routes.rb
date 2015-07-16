@@ -80,10 +80,10 @@ Rails.application.routes.draw do
         post :remove_logo
         post :remove_background
       end
-    end
-    resources :refund_settings, only: [:show, :edit, :update] do
-      member do
-        post :notify_customers
+      resource :refund_settings, only: [:show, :edit, :update] do
+        member do
+          post :notify_customers
+        end
       end
     end
     resources :entitlements, except: :show

@@ -7,6 +7,6 @@ class ApplicationMailer < ActionMailer::Base
           parts_order: [ "multipart/alternative", "text/html", "text/enriched", "text/plain", "application/pdf" ]
 
   def set_i18n_globals
-    I18n.config.globals[:gtag] = 'Paycard'
+    I18n.config.globals[:gtag] = I18n.t('gtag')
   end
 end

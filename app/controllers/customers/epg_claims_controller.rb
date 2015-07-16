@@ -4,7 +4,7 @@ class Customers::EpgClaimsController < Customers::ClaimsController
     @epg_claim_form = EpgClaimForm.new
     @claim = Claim.new
     @claim.service_type = Claim::EASY_PAYMENT_GATEWAY
-    @claim.fee = 2.0
+    @claim.fee = EventParameter.where(event_id: current_event.id, parameters: { group: current_event.refund_service, category: 'refund', name: 'fee'}).includes(:parameter).first.value
     @claim.customer = current_customer
     @claim.gtag = current_customer.assigned_gtag_registration.gtag
     @claim.total = current_customer.assigned_gtag_registration.gtag.gtag_credit_log.amount

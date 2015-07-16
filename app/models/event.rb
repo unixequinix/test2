@@ -31,7 +31,7 @@
 
 class Event < ActiveRecord::Base
   nilify_blanks
-  translates :info, :disclaimer
+  translates :info, :disclaimer, :refund_success_message
 
   #Background Types
   BACKGROUND_FIXED = 'fixed'

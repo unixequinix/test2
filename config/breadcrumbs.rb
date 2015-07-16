@@ -30,7 +30,7 @@ crumb :admins_refund_settings do
 end
 
 crumb :admins_refund_setting do |event|
-  link event.name, edit_admins_refund_setting_path(event)
+  link event.name, edit_admins_event_refund_settings_path(event)
   parent :admins_refund_settings
 end
 
