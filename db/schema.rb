@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150716165123) do
+ActiveRecord::Schema.define(version: 20150717130921) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -105,10 +105,10 @@ ActiveRecord::Schema.define(version: 20150716165123) do
   end
 
   create_table "parameters", force: :cascade do |t|
-    t.string   "name",        null: false
+    t.string   "name",        null: false, index: {name: "index_parameters_on_name_and_group_and_category", with: ["group", "category"], unique: true}
     t.string   "data_type",   null: false
     t.string   "category",    null: false
-    t.string   "group"
+    t.string   "group",       null: false
     t.string   "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
@@ -186,6 +186,7 @@ ActiveRecord::Schema.define(version: 20150716165123) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
+  add_index "event_parameters", ["event_id", "parameter_id"], name: "index_event_parameters_on_event_id_and_parameter_id", unique: true
 
   create_table "event_translations", force: :cascade do |t|
     t.integer  "event_id",               null: false, index: {name: "fk__event_translations_event_id"}, foreign_key: {references: "events", name: "fk_event_translations_event_id", on_update: :no_action, on_delete: :no_action}

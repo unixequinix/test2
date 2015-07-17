@@ -19,7 +19,7 @@ en:
     sign_in: 'Do you have an account?'
     sign_up: 'Not registered yet?'
     forgot: 'Forgot your password?'
-    resend_confirmation: "Resend mail instructions"
+    resend_confirmation: "Didn't receive confirmation e-mail?"
     buttons:
       sign_in: 'Log in'
       sign_up: 'Register'
@@ -132,7 +132,7 @@ en:
       simple_line: "ID Number e.g: BA6D7DC0"
     info:
       line_1: 'Only numbers from "0" to "9"'
-      line_2: 'Letters and numbers from "0" to "F". If you find an "o" it´s a "0"'
+      line_2: 'Symbols allowed: "0" - "9" and "A, B, C, D, E, F"'
   refund:
     title: "Refund claim"
     description: "We need your bank account to complete your claim."

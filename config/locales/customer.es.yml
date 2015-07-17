@@ -19,7 +19,7 @@ es:
     sign_in: '¿Ya tienes cuenta?'
     sign_up: '¿Todavía no te has registrado?'
     forgot: '¿Olvidaste tu contraseña?'
-    resend_confirmation: "Reenviar mail de confirmación"
+    resend_confirmation: "¿No has recibido el email de confirmación?"
     buttons:
       sign_in: 'Inicia Sesión'
       sign_up: 'Registrar'
@@ -131,7 +131,7 @@ es:
       simple_line: "Número ej: BA6D7DC0"
     info:
       line_1: 'Sólo números del "0" al "9"'
-      line_2: 'Letras y números del "0" a la "F". ¡Si encuentras una "o" es un "0"!'
+      line_2: 'Símbolos permitidos: "0" - "9" y "A, B, C, D, E, F"'
   refund:
     title: "Pide tu devolución"
     description: "Necesitamos tu cuenta de banco para completar tu devolución."

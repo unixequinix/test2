@@ -19,7 +19,7 @@ it:
     sign_in: 'Hai già un account?'
     sign_up: 'Non ancora registrato?'
     forgot: 'Dimenticato la tua password?'
-    resend_confirmation: "Rimandare nuovamente le istruzioni di posta"
+    resend_confirmation: "Non hanno ricevuto le istruzioni di posta?"
     buttons:
       sign_in: 'Log in'
       sign_up: 'Iscriviti'
@@ -132,7 +132,7 @@ it:
       simple_line: "Numero ID e.g: BA6D7DC0"
     info:
       line_1: 'Solo numero da "0" a "9"'
-      line_2: 'Lettere e numeri da "0" a "F". Se vedi un "o" è un "0"'
+      line_2: 'Simboli ammessi: "0" - "9" e "A, B, C, D, E, F"'
   refund:
     title: "Richiedi rimborso"
     description: "Abbiamo bisogno dei tuoi dati bancari per poter completare la richiesta."

@@ -31,4 +31,8 @@ class Admission < ActiveRecord::Base
       transitions from: :assigned, to: :unassigned
     end
   end
+
+  def customer
+    Customer.unscoped { super }
+  end
 end

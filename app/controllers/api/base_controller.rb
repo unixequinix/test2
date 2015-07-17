@@ -12,7 +12,7 @@ class Api::BaseController < ApplicationController
     authenticate_or_request_with_http_token do |token, options|
       email = options.blank? ? nil : options[:email]
       @admin = email && Admin.find_by(email: email)
-      # Is used to avoid Timing attacks
+      # It's used to avoid Timing attacks
       # http://codahale.com/a-lesson-in-timing-attacks/
       @admin && ActiveSupport::SecurityUtils.secure_compare(
                                       @admin.access_token, token)

@@ -37,9 +37,11 @@ class Customer < ActiveRecord::Base
          :recoverable, :rememberable, :trackable
 
   # Associations
-  has_one :admission
+  has_many :admissions
+  has_many :assigned_admissions, ->{ where(aasm_state: :assigned) }, class_name: "Admission"
   has_one :assigned_admission, ->{ where(aasm_state: :assigned) }, class_name: "Admission"
-  has_one :gtag_registration
+  has_many :gtag_registrations
+  has_many :assigned_gtag_registrations, ->{ where(aasm_state: :assigned) }, class_name: "GtagRegistration"
   has_one :assigned_gtag_registration, ->{ where(aasm_state: :assigned) }, class_name: "GtagRegistration"
   has_one :ticket, through: :admission
   has_many :orders
@@ -71,6 +73,6 @@ class Customer < ActiveRecord::Base
   end
 
   def refundable_credits
-    self.gtag_registration.gtag.gtag_credit_log.amount unless self.gtag_registration.nil?
+    self.assigned_gtag_registration.gtag.gtag_credit_log.amount unless self.assigned_gtag_registration.nil?
   end
 end

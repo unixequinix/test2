@@ -1,4 +1,5 @@
 class Customers::AdmissionsController < Customers::BaseController
+  before_action :check_has_not_admissions!, only: [:new, :create]
 
   def new
     @admission = Admission.new
@@ -28,6 +29,15 @@ class Customers::AdmissionsController < Customers::BaseController
     @credit_log = CreditLog.create(customer_id: current_customer.id, transaction_type: CreditLog::TICKET_UNASSIGNMENT, amount: -@admission.ticket.ticket_type.credit) unless @admission.ticket.ticket_type.credit.nil?
     flash[:notice] = I18n.t('alerts.unassigned')
     redirect_to customer_root_url
+  end
+
+  private
+
+  def check_has_not_admissions!
+    if !current_customer.assigned_admission.nil?
+      flash.now[:error] = I18n.t('alerts.created')
+      redirect_to customer_root_path
+    end
   end
 
 end

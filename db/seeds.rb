@@ -77,6 +77,25 @@ parameters.each do |category, group|
   end
 end
 
+# Event parameters
+# ------------------------------
+
+puts "Create default values for event parameters"
+puts "----------------------------------------"
+
+EventParameter.destroy_all
+Event.all.each do |event|
+  YAML.load_file(Rails.root.join("db", "seeds", "default_event_parameters.yml")).each do |data|
+    data['groups'].each do |group|
+      group['values'].each do |value|
+        parameter = Parameter.find_by(category: data['category'], group: group['name'], name: value['name'])
+        event_parameter = EventParameter.new(event_id: event.id, value: value['value'], parameter_id: parameter.id)
+        event_parameter.save!
+      end
+    end
+  end
+end
+
 # Claim parameters
 # ------------------------------
 

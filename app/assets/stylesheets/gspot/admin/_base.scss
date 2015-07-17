@@ -268,3 +268,8 @@ abbr {
 
   &:focus { border: 1px solid yellow; }
 }
+
+// TODO Manu: Find a better way
+.deleted-field{
+  color: $red;
+}

@@ -11,6 +11,7 @@
 #
 
 class GtagRegistration < ActiveRecord::Base
+  default_scope { order(created_at: :desc) }
 
   # Associations
   belongs_to :customer
@@ -34,6 +35,10 @@ class GtagRegistration < ActiveRecord::Base
 
   def refundable?(fee)
     !self.gtag.gtag_credit_log.nil? && self.gtag.gtag_credit_log.amount - fee.to_d >= 1
+  end
+
+  def customer
+    Customer.unscoped { super }
   end
 
 end
