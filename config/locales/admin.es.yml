@@ -186,6 +186,8 @@ es:
       state: "Estado"
       admissions: "Registro de Tickets"
       creadit_logs: "Compras de creditos"
+      orders: "Ordenes"
+      payments: "Pagos"
       gtag_registrations: "Registro de Gtags"
       completed_claim: "Peticiones de devolución completadas"
       refund: "Refund"
@@ -250,6 +252,7 @@ es:
       product_description: "Descripción del Producto"
       product_type: "Tipo de Producto"
       order_item: "Items de Órdenes"
+      payments: "Pagos"
       search:
         number: "Número"
     payments:

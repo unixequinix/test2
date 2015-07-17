@@ -186,6 +186,8 @@ en:
       state: "State"
       admissions: "Ticket registrations"
       creadit_logs: "Credits logs"
+      orders: "Orders"
+      payments: "Payments"
       gtag_registrations: "Gtag registrations"
       completed_claim: "Completed claims"
       refund: "Refund"
@@ -249,6 +251,7 @@ en:
       product_description: "Product description"
       product_type: "Product type"
       order_item: "Order items"
+      payments: "Payments"
       search:
         number: "Number"
     payments:
