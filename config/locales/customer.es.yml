@@ -4,6 +4,7 @@ es:
     back: "Atrás"
     cancel: "Cancelar"
     check_news: "Ir al evento"
+    delete_account: "Eliminar tu cuenta"
   header:
     edit: "Editar Pérfil"
     close: "Cerrar sesión"

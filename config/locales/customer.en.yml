@@ -4,6 +4,7 @@ en:
     back: "Back"
     cancel: "Cancel"
     check_news: "Back to Festival Website"
+    delete_account: "Delete your account"
   header:
     edit: "Edit Profile"
     close: "Logout"
