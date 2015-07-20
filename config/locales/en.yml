@@ -14,6 +14,10 @@ en:
           attributes:
             phone:
               improbable_phone: "It's not a valid phone number. Check that country matches the phone number."
+        bank_account_claim_form:
+          attributes:
+            iban:
+              invalid: "It's not a valid IBAN, introduce a valid account for SEPA"
   activerecord:
     errors:
       messages:

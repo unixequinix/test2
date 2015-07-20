@@ -51,6 +51,7 @@ class Order < ActiveRecord::Base
     time_hex = Time.now.strftime('%H%M%L').to_i.to_s(16)
     day = Date.today.strftime('%y%m%d')
     self.number = "#{day}#{time_hex}"
+    self.save
   end
 
   private

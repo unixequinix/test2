@@ -92,7 +92,7 @@
         tbody
           - @customer.admissions.each do |admission|
             tr
-              td = link_to "#{admission.ticket.number}", edit_admins_gtag_path(admission.ticket)
+              td = link_to "#{admission.ticket.number}", edit_admins_ticket_path(admission.ticket)
               td = admission.aasm_state
               td = admission.created_at.strftime("%y-%m-%d %H:%M:%S")
 
