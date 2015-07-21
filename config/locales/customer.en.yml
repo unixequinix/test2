@@ -87,7 +87,7 @@ en:
   admissions:
     title: "Ticket Activation"
     description: "Please enter the code that is printed on your festival ticket just below the barcode."
-    description2: "Your code should start with '4UNhvW'"
+    description2: "Your code should start with '4UMoB'"
     call_to_action: "Activate your Festival Ticket!"
     button: "Activate"
     placeholders:

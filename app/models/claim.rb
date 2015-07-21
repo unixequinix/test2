@@ -41,6 +41,7 @@ class Claim < ActiveRecord::Base
     state :started, initial: true
     state :in_progress
     state :completed, enter: :complete_claim
+    state :cancelled
 
     event :start_claim do
       transitions from: [:started, :in_progress], to: :in_progress
@@ -48,6 +49,10 @@ class Claim < ActiveRecord::Base
 
     event :complete do
       transitions from: :in_progress, to: :completed
+    end
+
+    event :cancel do
+      transitions from: :completed, to: :cancelled
     end
   end
 

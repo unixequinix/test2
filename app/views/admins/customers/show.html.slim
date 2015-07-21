@@ -162,6 +162,7 @@
             th = t("admin.claims.service_type")
             th = t("admin.claims.created")
             th = t("admin.claims.completed")
+            th = t("admin.defaults.actions")
         tbody
           tr
             td data-label=t("admin.claims.number") = link_to @customer.completed_claim.number, admins_claim_path(@customer.completed_claim)
@@ -170,6 +171,12 @@
             td data-label=t("admin.claims.service_type") = @customer.completed_claim.service_type
             td data-label=t("admin.claims.created") = @customer.completed_claim.created_at.strftime("%y-%m-%d %H:%M:%S")
             td data-label=t("admin.claims.completed") = @customer.completed_claim.completed_at.strftime("%y-%m-%d %H:%M:%S") unless @customer.completed_claim.completed_at.nil?
+            td.table-actions-field
+              ul
+                - if @customer.completed_claim.completed?
+                  li.table-action.action-delete
+                    = link_to admins_claim_path(@customer.completed_claim, claim: { aasm_state: :cancelled }), method: :patch, data: { confirm: t("admin.confirm.delete") } do
+                      = fa_icon "ban"
 
       h3
         = fa_icon "table"

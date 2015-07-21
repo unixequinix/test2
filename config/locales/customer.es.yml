@@ -87,7 +87,7 @@ es:
   admissions:
     title: "Activación del Ticket"
     description: "Por favor, introduce el código impreso debajo del código de barras en tu ticket del festival."
-    description2: "Tu código debería empezar por '4UNhvW'."
+    description2: "Tu código debería empezar por '4UMoB'."
     call_to_action: "¡Activa tu Ticket del Festival!"
     button: "Activar"
     placeholders:
