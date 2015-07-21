@@ -4,6 +4,7 @@ it:
     back: "Torna indietro"
     cancel: "Cancella"
     check_news: "Torna al sito del festival"
+    delete_account: "Elimina il tuo account"
   header:
     edit: "Modifica profilo"
     close: "Logout"
@@ -76,7 +77,7 @@ it:
       title: "Il tuo credito:"
       call_to_action: "Procedere al rimborso"
       button: "Richiedi i tuoi crediti"
-      not_refundable:
+    not_refundable:
       title: "Il tuo credito:"
       call_to_action: "Mi dispiace, ma non hai abbastanza crediti per richiedere il rimborso. La spesa di rimborso è %{fee} EUR"
     refunds:
