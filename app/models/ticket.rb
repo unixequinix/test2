@@ -3,7 +3,7 @@
 # Table name: tickets
 #
 #  id                :integer          not null, primary key
-#  ticket_type_id    :integer
+#  ticket_type_id    :integer          not null
 #  number            :string
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
@@ -25,7 +25,8 @@ class Ticket < ActiveRecord::Base
   belongs_to :ticket_type
 
   # Validations
-  validates :number, presence: true, uniqueness: true
+  validates :number, :ticket_type, presence: true
+  validates :number, uniqueness: true
 
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|

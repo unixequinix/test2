@@ -6,7 +6,7 @@
 #  name        :string           not null
 #  data_type   :string           not null
 #  category    :string           not null
-#  group       :string
+#  group       :string           not null
 #  description :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
