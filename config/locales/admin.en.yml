@@ -139,10 +139,12 @@ en:
       id: "Id"
       number: "Number"
       ticket_type: "Ticket type"
-      customer: "Customer"
+      customer: "Assigned customer"
       created_at: "Created at"
+      admission: "Tickets registrations"
       search:
         number: "Number"
+        customer: "Assigned customer email"
         purchaser_email: "Purchaser Email"
         type: "Type"
       import: "Import tickets (Select a CSV file comma separated)"
@@ -150,6 +152,15 @@ en:
         delete_tickets: "Delete all tickets"
     admissions:
       ticket: "Ticket"
+      customer:
+        email: "Email"
+        complete_name: "Complete name"
+      aasm_state: "State"
+      created_at: "Created at"
+      updated_at: "Updated at"
+      states:
+        assigned: "Is assigned now"
+        unassigned: "Previous assignation"
     purchasers:
       name: "Purchaser Name"
       surname: "Purchaser Surname"
@@ -160,7 +171,10 @@ en:
       serial: "Tag Serial Number"
       customer: "Customer"
       assigned_at: "Assigned at"
+      created_at: "Created at"
+      updated_at: "Updated at"
       total: "Total Credits"
+      gtag_registration: "Gtag registrations"
       import: "Import GTags (Select a CSV file comma separated)"
       import_credits: "Import Credits (Select a CSV file comma separated)"
       search:
@@ -172,6 +186,15 @@ en:
     gtag_registrations:
       tag: "Tag UID"
       serial: "Tag Serial Number"
+      customer:
+        email: "Email"
+        complete_name: "Complete name"
+      aasm_state: "State"
+      created_at: "Created at"
+      updated_at: "Updated at"
+      states:
+        assigned: "Is assigned now"
+        unassigned: "Previous assignation"
     customers:
       delete: "Deleted"
       email: "Email"

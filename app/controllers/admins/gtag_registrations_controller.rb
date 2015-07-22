@@ -6,7 +6,7 @@ class Admins::GtagRegistrationsController < Admins::BaseController
   end
 
   def create
-    gtag = Gtag.find_by(tag_uid: params[:tag_uid].upcase, tag_serial_number: params[:tag_serial_number].upcase)
+    gtag = Gtag.find_by(tag_uid: params[:tag_uid].strip.upcase, tag_serial_number: params[:tag_serial_number].strip.upcase)
     @customer = Customer.with_deleted.find(params[:customer_id])
     if !gtag.nil?
       @gtag_registration = GtagRegistration.new(customer_id: params[:customer_id], gtag_id: gtag.id)

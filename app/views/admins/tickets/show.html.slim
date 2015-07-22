@@ -1,0 +1,52 @@
+- breadcrumb :admins_ticket, @ticket
+- provide :actions do
+  = link_to t("actions.delete"), admins_ticket_path(@ticket), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-action btn-action-new btn-action-delete"
+  = link_to t("actions.edit"), edit_admins_ticket_path(@ticket), class: "btn btn-action btn-action-new"
+  = link_to t("actions.back"), admins_tickets_path, class: "btn btn-action btn-action-back"
+.wrapper-negative-space
+  .container-show
+    dl
+      dt = t("admin.tickets.id")
+      dd = @ticket.id
+      dt = t("admin.tickets.number")
+      dd = @ticket.number
+      dt = t("admin.tickets.ticket_type")
+      dd = @ticket.ticket_type.name unless @ticket.ticket_type.nil?
+      dt = t("admin.purchasers.name")
+      dd = @ticket.purchaser_name
+      dt = t("admin.purchasers.surname")
+      dd = @ticket.purchaser_surname
+      dt = t("admin.purchasers.email")
+      dd = @ticket.purchaser_email
+      dt = t("admin.tickets.created_at")
+      dd = @ticket.created_at.strftime("%y-%m-%d %H:%M:%S")
+      dt = t("admin.tickets.updated_at")
+      dd = @ticket.updated_at.strftime("%y-%m-%d %H:%M:%S")
+
+  .container-show
+    h3
+      = fa_icon "table"
+      = t("admin.tickets.admission")
+    table.subtable.claim-subtable
+      thead
+        tr
+          th = t("admin.admissions.customer.email")
+          th = t("admin.admissions.customer.complete_name")
+          th = t("admin.admissions.aasm_state")
+          th = t("admin.admissions.created_at")
+          th = t("admin.admissions.updated_at")
+          th = t("admin.defaults.actions")
+      tbody
+        - @ticket.admissions.each do |admission|
+          tr
+            td = link_to admission.customer.email, admins_customer_path(admission.customer) unless admission.nil?
+            td = "#{admission.customer.name} #{admission.customer.surname}"
+            td = t("admin.admissions.states.#{admission.aasm_state}")
+            td = admission.created_at.strftime("%y-%m-%d %H:%M:%S")
+            td = admission.updated_at.strftime("%y-%m-%d %H:%M:%S")
+            td.table-actions-field
+              ul
+                - if admission.assigned?
+                  li.table-action.action-delete
+                    = link_to admins_admission_path(admission), method: :delete, data: { confirm: t("admin.confirm.delete") } do
+                      = fa_icon "ban"

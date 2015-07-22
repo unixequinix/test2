@@ -3,8 +3,13 @@ it:
   actions:
     back: "Torna indietro"
     cancel: "Cancella"
+    edit: "Modifica"
+    delete: "Rimuovere"
     check_news: "Torna al sito del festival"
     delete_account: "Elimina il tuo account"
+    logout: "Disconnettersi"
+  confirm:
+    remove_ticket: "Your purchased credits are assigned to your account. If you remove your ticket, you will need to assign another one to use those credits in the festival."
   header:
     edit: "Modifica profilo"
     close: "Logout"
@@ -49,6 +54,8 @@ it:
       claim: "La tua richiesta per un rimborso è stata effettuata con successo"
       description: "Riceverai un e-mail tra 5-15 giorni lavorativi quando sarà pronto il tuo credito"
       description2: "Potrai vedere quanti crediti ti sono rimasti, inserire i tuoi dettagli bancari e ricevere il pagamento."
+    more_gtags:
+      description: "Si prega di registrare ogni Paycard diversa con un indirizzo email diverso."
     success_refund_disclaimer:
       claim: "Il rimborso è stato elaborato con successo"
       description: "Tra un paio di giorni riceverai il pagamento sul tuo conto bancario."
@@ -68,8 +75,7 @@ it:
       description: "Il periodo per richiedere un rimborso è chiuso, se hai qualsiasi domanda contattare il supporto."
     gtag_registration:
       title: "Il numero della tua Paycard:"
-      call_to_action: "Si prega di registrare ogni Paycard diversa con un indirizzo email diverso."
-      call_to_action2_html: "<br/>Registrato una Paycard sbagliata per?"
+      call_to_action: "Registrato una Paycard sbagliata per?"
       button: "Cancella e riavvia il processo"
     gtag_after_refund:
       description: "Il tuo rimborso è in corso"

@@ -7,7 +7,7 @@ class Customers::GtagRegistrationsController < Customers::BaseController
   end
 
   def create
-    gtag = Gtag.find_by(tag_uid: params[:tag_uid].upcase, tag_serial_number: params[:tag_serial_number].upcase)
+    gtag = Gtag.find_by(tag_uid: params[:tag_uid].strip.upcase, tag_serial_number: params[:tag_serial_number].strip.upcase)
     if !gtag.nil? && current_customer.assigned_gtag_registration.nil?
       @gtag_registration = GtagRegistration.new(customer_id: current_customer.id, gtag_id: gtag.id)
       if @gtag_registration.save

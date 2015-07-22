@@ -3,8 +3,13 @@ en:
   actions:
     back: "Back"
     cancel: "Cancel"
+    edit: "Edit"
+    delete: "Delete"
     check_news: "Back to Festival Website"
     delete_account: "Delete your account"
+    logout: "Logout"
+  confirm:
+    remove_ticket: "Your purchased credits are assigned to your account. If you remove your ticket, you will need to assign another one to use those credits in the festival."
   header:
     edit: "Edit Profile"
     close: "Logout"
@@ -49,6 +54,8 @@ en:
       claim: "You successfully applied for your refund"
       description: "Expect an e-mail between 5 to 15 business days when your credits are ready."
       description2: "Then you will be able to check your balance, enter your bank details and receive the payment."
+    more_gtags:
+      description: "Have more %{gtag}s? Please register again with a different email for each."
     success_refund_disclaimer:
       claim: "You successfully processed your refund"
       description: "In 1-4 days you will receive the payment in your bank account."
@@ -68,8 +75,7 @@ en:
       description: "The refunds period is finished, I you have any question contact support."
     gtag_registration:
       title: "Your %{gtag} number:"
-      call_to_action: "Have more %{gtag}s? Please register again with a different email for each."
-      call_to_action2_html: "Put a wrong %{gtag} by mistake?"
+      call_to_action: "Put a wrong %{gtag} by mistake?"
       button: "Erase and restart the process"
     gtag_after_refund:
       description: "Your refund is in process"

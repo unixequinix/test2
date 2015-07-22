@@ -6,7 +6,7 @@ class Customers::AdmissionsController < Customers::BaseController
   end
 
   def create
-    ticket = Ticket.find_by(number: params[:ticket_number])
+    ticket = Ticket.find_by(number: params[:ticket_number].strip)
     if !ticket.nil?
       @admission = Admission.new(customer_id: current_customer.id, ticket_id: ticket.id)
       if @admission.save

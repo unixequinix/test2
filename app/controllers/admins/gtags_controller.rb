@@ -15,6 +15,10 @@ class Admins::GtagsController < Admins::BaseController
     render :index
   end
 
+  def show
+    @gtag = Gtag.includes(gtag_registrations: :customer).find(params[:id])
+  end
+
   def new
     @gtag = Gtag.new
     @gtag.build_gtag_credit_log
@@ -40,7 +44,7 @@ class Admins::GtagsController < Admins::BaseController
     @gtag = Gtag.find(params[:id])
     if @gtag.update(permitted_params)
       flash[:notice] = I18n.t('alerts.updated')
-      redirect_to admins_gtags_url
+      redirect_to admins_gtag_url(@gtag)
     else
       flash[:error] = @gtag.errors.full_messages.join(". ")
       render :edit

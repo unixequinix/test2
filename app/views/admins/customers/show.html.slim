@@ -25,6 +25,7 @@
           dt = t ("admin.customers.tickets")
           dd
             = link_to assigned_admission.ticket.number, edit_admins_ticket_path(assigned_admission.ticket)
+            = " - #{assigned_admission.ticket.ticket_type.name}"
             = link_to admins_admission_path(assigned_admission), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
               = fa_icon "trash"
       - else
@@ -93,7 +94,7 @@
           - @customer.admissions.each do |admission|
             tr
               td = link_to "#{admission.ticket.number}", edit_admins_ticket_path(admission.ticket)
-              td = admission.aasm_state
+              td = t("admin.admissions.states.#{admission.aasm_state}")
               td = admission.created_at.strftime("%y-%m-%d %H:%M:%S")
 
     - if !@customer.credit_logs.empty?
@@ -146,13 +147,13 @@
           - @customer.gtag_registrations.each do |gtag_registration|
             tr
               td = link_to "#{gtag_registration.gtag.tag_serial_number} #{gtag_registration.gtag.tag_uid}", edit_admins_gtag_path(gtag_registration.gtag)
-              td = gtag_registration.aasm_state
+              td = t("admin.gtag_registrations.states.#{gtag_registration.aasm_state}")
               td = gtag_registration.created_at.strftime("%y-%m-%d %H:%M:%S")
 
-    - if !@customer.completed_claim.nil?
+    - if !@customer.claims.empty?
       h3
         = fa_icon "table"
-        = t ("admin.customers.completed_claim")
+        = t ("admin.customers.claims")
       table.subtable.customer-show-subtable
         thead
           tr
@@ -164,20 +165,22 @@
             th = t("admin.claims.completed")
             th = t("admin.defaults.actions")
         tbody
-          tr
-            td data-label=t("admin.claims.number") = link_to @customer.completed_claim.number, admins_claim_path(@customer.completed_claim)
-            td data-label=t("admin.claims.state") = @customer.completed_claim.aasm_state
-            td data-label=t("admin.claims.total") = @customer.completed_claim.total
-            td data-label=t("admin.claims.service_type") = @customer.completed_claim.service_type
-            td data-label=t("admin.claims.created") = @customer.completed_claim.created_at.strftime("%y-%m-%d %H:%M:%S")
-            td data-label=t("admin.claims.completed") = @customer.completed_claim.completed_at.strftime("%y-%m-%d %H:%M:%S") unless @customer.completed_claim.completed_at.nil?
-            td.table-actions-field
-              ul
-                - if @customer.completed_claim.completed?
-                  li.table-action.action-delete
-                    = link_to admins_claim_path(@customer.completed_claim, claim: { aasm_state: :cancelled }), method: :patch, data: { confirm: t("admin.confirm.delete") } do
-                      = fa_icon "ban"
+          - @customer.claims.each do |claim|
+            tr
+              td data-label=t("admin.claims.number") = link_to claim.number, admins_claim_path(claim)
+              td data-label=t("admin.claims.state") = claim.aasm_state
+              td data-label=t("admin.claims.total") = claim.total
+              td data-label=t("admin.claims.service_type") = claim.service_type
+              td data-label=t("admin.claims.created") = claim.created_at.strftime("%y-%m-%d %H:%M:%S")
+              td data-label=t("admin.claims.completed") = claim.completed_at.strftime("%y-%m-%d %H:%M:%S") unless claim.completed_at.nil?
+              td.table-actions-field
+                ul
+                  - if claim.completed?
+                    li.table-action.action-delete
+                      = link_to admins_claim_path(claim, claim: { aasm_state: :cancelled }), method: :patch, data: { confirm: t("admin.confirm.delete") } do
+                        = fa_icon "ban"
 
+    - if !@customer.completed_claim.nil?
       h3
         = fa_icon "table"
         = t ("admin.customers.refund")
@@ -200,26 +203,3 @@
             td data-label=t('admin.refunds.payment_solution') = @customer.completed_claim.refund.payment_solution
             td data-label=t('admin.refunds.status') = @customer.completed_claim.refund.status
             td data-label=t('admin.refunds.created_at') = @customer.completed_claim.refund.created_at.strftime("%y-%m-%d %H:%M:%S")
-
-    - if !@customer.claims.empty?
-      h3
-        = fa_icon "table"
-        = t ("admin.customers.claims")
-      table.subtable.customer-show-subtable
-        thead
-          tr
-            th = t("admin.claims.number")
-            th = t("admin.claims.state")
-            th = t("admin.claims.total")
-            th = t("admin.claims.service_type")
-            th = t("admin.claims.created")
-            th = t("admin.claims.completed")
-        tbody
-          - @customer.claims.each do |claim|
-            tr
-              td data-label=t("admin.claims.number") = link_to claim.number, admins_claim_path(claim)
-              td data-label=t("admin.claims.state") = claim.aasm_state
-              td data-label=t("admin.claims.total") = claim.total
-              td data-label=t("admin.claims.service_type") = claim.service_type
-              td data-label=t("admin.claims.created") = claim.created_at.strftime("%y-%m-%d %H:%M:%S")
-              td data-label=t("admin.claims.completed") = claim.completed_at.strftime("%y-%m-%d %H:%M:%S") unless claim.completed_at.nil?

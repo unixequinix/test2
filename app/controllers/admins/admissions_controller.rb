@@ -6,7 +6,7 @@ class Admins::AdmissionsController < Admins::BaseController
   end
 
   def create
-    ticket = Ticket.find_by(number: params[:ticket_number])
+    ticket = Ticket.find_by(number: params[:ticket_number].strip)
     @customer = Customer.with_deleted.find(params[:customer_id])
     if !ticket.nil?
       @admission = Admission.new(customer_id: @customer.id, ticket_id: ticket.id)

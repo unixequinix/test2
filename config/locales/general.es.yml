@@ -1,4 +1,3 @@
----
 es:
   date:
     abbr_day_names:
@@ -35,6 +34,7 @@ es:
       default: "%d/%m/%Y"
       long: "%d de %B de %Y"
       short: "%d de %b"
+      custom: "%{day} de %{month}"
     month_names:
     -
     - enero

@@ -139,10 +139,12 @@ es:
       id: "Id"
       number: "Número"
       ticket_type: "Tipo de Ticket"
-      customer: "Cliente"
+      customer: "Cliente asignado"
       created_at: "Creado el"
+      admission: "Registros de tickets"
       search:
         number: "Número"
+        customer: "Email cliente asignado"
         purchaser_email: "Email comprador"
         type: "Tipo"
       import: "Importar tickets (Seleccionar un fichero CSV separado por comas)"
@@ -150,6 +152,15 @@ es:
         delete_tickets: "Borrar tickets"
     admissions:
       ticket: "Ticket"
+      customer:
+        email: "Email"
+        complete_name: "Nombre completo"
+      aasm_state: "Estado"
+      created_at: "Creado el"
+      updated_at: "Actualizado el"
+      states:
+        assigned: "Asignación actual"
+        unassigned: "Asignación previa"
     purchasers:
       name: "Nombre comprador"
       surname: "Apellido comprador"
@@ -160,7 +171,10 @@ es:
       serial: "Tag Número Serial"
       customer: "Cliente"
       assigned_at: "Asignado el"
+      created_at: "Creado el"
+      updated_at: "Actualizado el"
       total: "Créditos Totales"
+      gtag_registration: "Registros del Gtag"
       import: "Importar GTags (Seleccionar un fichero CSV separado por comas)"
       import_credits: "Importar Creditos (Seleccionar un fichero CSV separado por comas)"
       search:
@@ -172,6 +186,15 @@ es:
     gtag_registrations:
       tag: "Tag UID"
       serial: "Tag Número Serial"
+      customer:
+        email: "Email"
+        complete_name: "Nombre completo"
+      aasm_state: "Estado"
+      created_at: "Creado el"
+      updated_at: "Actualizado el"
+      states:
+        assigned: "Asignación actual"
+        unassigned: "Asignación previa"
     customers:
       delete: "Borrado"
       email: "Email"

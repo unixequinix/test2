@@ -92,7 +92,7 @@ Rails.application.routes.draw do
         post :import
       end
     end
-    resources :tickets, except: :show do
+    resources :tickets do
       collection do
         post :import
         get :search
@@ -100,7 +100,7 @@ Rails.application.routes.draw do
         delete :clean_tickets
       end
     end
-    resources :gtags, except: :show do
+    resources :gtags do
       collection do
         post :import
         post :import_credits

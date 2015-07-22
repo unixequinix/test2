@@ -11,6 +11,7 @@
 #
 
 class Admission < ActiveRecord::Base
+  default_scope { order(created_at: :desc) }
   # Associations
   belongs_to :customer
   belongs_to :ticket

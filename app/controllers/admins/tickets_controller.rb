@@ -15,6 +15,10 @@ class Admins::TicketsController < Admins::BaseController
     render :index
   end
 
+  def show
+    @ticket = Ticket.includes(admissions: :customer).find(params[:id])
+  end
+
   def new
     @ticket = Ticket.new
   end
@@ -38,7 +42,7 @@ class Admins::TicketsController < Admins::BaseController
     @ticket = Ticket.find(params[:id])
     if @ticket.update(permitted_params)
       flash[:notice] = I18n.t('alerts.updated')
-      redirect_to admins_tickets_url
+      redirect_to admins_ticket_url(@ticket)
     else
       flash[:error] = I18n.t('alerts.error')
       render :edit

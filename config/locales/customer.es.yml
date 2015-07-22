@@ -3,8 +3,13 @@ es:
   actions:
     back: "Atrás"
     cancel: "Cancelar"
+    edit: "Editar"
+    delete: "Borrar"
     check_news: "Ir al evento"
     delete_account: "Eliminar tu cuenta"
+    logout: "Cerrar sessión"
+  confirm:
+    remove_ticket: "Tus créditos comprados se asignan a tu cuenta. Si borras tu ticket, tendrás que asignar otro para utilizar esos créditos en el festival."
   header:
     edit: "Editar Pérfil"
     close: "Cerrar sesión"
@@ -49,6 +54,8 @@ es:
       claim: "Has solicitado tu devolución con éxito"
       description: "Te enviaremos un mail entre 5 y 15 días hábiles tan pronto como tus créditos estén listos."
       description2: "Entonces podrás ver tu saldo, introducir tus datos bancarios y recibir el pago."
+    more_gtags:
+      description: "¿Tienes más %{gtag}s? Regístrate otra vez con un email diferente por cada una."
     success_refund_disclaimer:
       claim: "Has solicitado tu devolución con éxito"
       description: "En 1-4 días recibirás el embolso en tu cuenta."
@@ -68,8 +75,7 @@ es:
       description: "Ya ha pasado el periodo de devolución, ponte en contacto con soporte si tienes alguna duda."
     gtag_registration:
       title: "Tu número de %{gtag}:"
-      call_to_action: "¿Tienes más %{gtag}s? Regístrate otra vez con un email diferente por cada una."
-      call_to_action2_html: "¿Introdujiste una incorrecta por error?"
+      call_to_action: "¿Introdujiste una incorrecta por error?"
       button: "Borrala y reinicia el proceso"
     gtag_after_refund:
       description: "Tu devolución está en proceso"
