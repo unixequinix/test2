@@ -6,7 +6,7 @@
     = t("admin.actions.csv")
 
 .wrapper-negative-space
-  = render "admins/tickets/search", q: @q
+  = render 'admins/tickets/search', q: @q
 
   p.section-header
     = fa_icon "upload"
@@ -24,4 +24,4 @@
       p = t("admin.defaults.empty_tickets")
       = link_to t("actions.new"), new_admins_ticket_path, class: "btn btn-action btn-action-new"
   - else
-    = render "admins/tickets/list", tickets: @tickets
+    = render 'admins/tickets/list', tickets: @tickets

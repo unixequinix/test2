@@ -35,8 +35,8 @@
       tbody
         - @gtag.gtag_registrations.each do |gtag_registration|
           tr
-            td = link_to gtag_registration.customer.email, admins_customer_path(gtag_registration.customer) unless gtag_registration.nil?
-            td = "#{gtag_registration.customer.name} #{gtag_registration.customer.surname}"
+            td = link_to gtag_registration.customer.email, admins_customer_path(gtag_registration.customer) unless gtag_registration.nil? || gtag_registration.customer.nil?
+            td = "#{gtag_registration.customer.name} #{gtag_registration.customer.surname}" unless gtag_registration.nil? || gtag_registration.customer.nil?
             td = t("admin.gtag_registrations.states.#{gtag_registration.aasm_state}")
             td = gtag_registration.created_at.strftime("%y-%m-%d %H:%M:%S")
             td = gtag_registration.updated_at.strftime("%y-%m-%d %H:%M:%S")
@@ -46,3 +46,6 @@
                   li.table-action.action-delete
                     = link_to admins_gtag_registration_path(gtag_registration), method: :delete, data: { confirm: t("admin.confirm.delete") } do
                       = fa_icon "ban"
+
+  = render partial: "admins/comments/comments", locals: {commentable: @gtag}
+  = render partial: "admins/comments/form", locals: {commentable: @gtag}

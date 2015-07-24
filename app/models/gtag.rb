@@ -24,6 +24,7 @@ class Gtag < ActiveRecord::Base
   has_one :refund
   has_many :claims
   has_one :completed_claim, ->{ where(aasm_state: :completed) }, class_name: "Claim"
+  has_many :comments, as: :commentable
 
   accepts_nested_attributes_for :gtag_credit_log, allow_destroy: true
 

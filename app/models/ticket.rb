@@ -23,6 +23,7 @@ class Ticket < ActiveRecord::Base
   has_many :customers, through: :admissions
   has_one :assigned_customer, ->{ where(admissions: {aasm_state: :assigned}) }, class_name: "Customer"
   belongs_to :ticket_type
+  has_many :comments, as: :commentable
 
   # Validations
   validates :number, :ticket_type, presence: true

@@ -121,4 +121,8 @@ class Event < ActiveRecord::Base
     REFUND_SERVICES.map { |f| [I18n.t('admin.event.refund_services.' + f), f] }
   end
 
+  def standard_credit
+    Credit.find_by(standard: true)
+  end
+
 end

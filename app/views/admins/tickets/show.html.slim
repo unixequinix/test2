@@ -50,3 +50,6 @@
                   li.table-action.action-delete
                     = link_to admins_admission_path(admission), method: :delete, data: { confirm: t("admin.confirm.delete") } do
                       = fa_icon "ban"
+
+  = render partial: "admins/comments/comments", locals: {commentable: @ticket}
+  = render partial: "admins/comments/form", locals: {commentable: @ticket}

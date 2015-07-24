@@ -4,7 +4,7 @@
       = fa_icon "money"
       = t('dashboard.without_refunds.title')
     h3.highlight
-      = gtag_registration.gtag.gtag_credit_log.nil? ? 0.0 : gtag_registration.gtag.gtag_credit_log.amount
+      = "#{gtag_registration.refundable_amount} EUR"
   - if current_event.refund_service
     .dashboard-field.dashboard-field-action
       h3 = call_to_action

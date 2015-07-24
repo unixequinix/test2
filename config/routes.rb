@@ -93,6 +93,7 @@ Rails.application.routes.draw do
       end
     end
     resources :tickets do
+      resources :comments, module: :tickets
       collection do
         post :import
         get :search
@@ -101,6 +102,7 @@ Rails.application.routes.draw do
       end
     end
     resources :gtags do
+      resources :comments, module: :gtags
       collection do
         post :import
         post :import_credits

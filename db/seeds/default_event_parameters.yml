@@ -8,6 +8,9 @@
           name: fee
           value: 0.0
         -
+          name: minimum
+          value: 0.0
+        -
           name: country
           value: MT
         -
@@ -33,4 +36,7 @@
       values:
         -
           name: fee
+          value: 0.0
+        -
+          name: minimum
           value: 0.0

@@ -44,7 +44,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: Rails.application.secrets.host, port: 3000 }
 
   #Rails.application.routes.default_url_options[:host] = "#{Rails.application.secrets.host}:3000"
-  Rails.application.routes.default_url_options[:host] = "69b221a.ngrok.com"
+  Rails.application.routes.default_url_options[:host] = "4f5bb6c9.ngrok.com"
 
   config.after_initialize do
     Bullet.enable = true

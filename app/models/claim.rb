@@ -12,7 +12,8 @@
 #  updated_at   :datetime         not null
 #  gtag_id      :integer
 #  service_type :string
-#  fee          :decimal(8, 2)
+#  fee          :decimal(8, 2)    default(0.0)
+#  minimum      :decimal(8, 2)    default(0.0)
 #
 
 class Claim < ActiveRecord::Base
@@ -74,7 +75,7 @@ class Claim < ActiveRecord::Base
   end
 
   def enough_credits?
-    total - fee >= 1
+    total - fee >= minimum
   end
 
   private

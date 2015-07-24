@@ -85,10 +85,10 @@ es:
         edit:
           <<: *label_gtag
       gtag_credit_log:
-        new: &label_gtag
+        new: &label_gtag_credit_log
           amount: "Cantidad"
         edit:
-          <<: *label_gtag
+          <<: *label_gtag_credit_log
       epg_claim_form:
         new:
           country_code: "País"
@@ -101,6 +101,9 @@ es:
         new:
           swift: "BIC/SWIFT"
           iban: "IBAN"
+      comment:
+        new:
+          body: "Comentario"
 
     placeholders:
       event:
@@ -152,10 +155,10 @@ es:
         edit:
           <<: *placeholder_gtag
       gtag_credit_log:
-        new: &placeholder_gtag
+        new: &placeholder_gtag_credit_log
           amount: "Cantidad disponible"
         edit:
-          <<: *label_gtag
+          <<: *placeholder_gtag_credit_log
       epg_claim_form:
         new:
           state: "Tu provincia o estado"
@@ -165,3 +168,6 @@ es:
         new:
           swift: "0000 0000"
           iban: 'ES00 0000 0000 0000 0000 0000'
+      comment:
+        new:
+          body: "Añade un comentario"

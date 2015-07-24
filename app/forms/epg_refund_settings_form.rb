@@ -3,6 +3,7 @@ class EpgRefundSettingsForm
   include Virtus.model
 
   attribute :fee, Decimal
+  attribute :minimum, Decimal
   attribute :country, String
   attribute :currency, String
   attribute :operation_type, String
@@ -14,6 +15,7 @@ class EpgRefundSettingsForm
   attribute :refund_success_message
 
   validates_presence_of :fee
+  validates_presence_of :minimum
   validates_presence_of :country
   validates_presence_of :currency
   validates_presence_of :operation_type

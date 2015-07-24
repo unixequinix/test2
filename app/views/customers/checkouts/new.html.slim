@@ -10,6 +10,6 @@
         .checkout-total
           h3 = t('checkout.total')
           .top-up-amount [data-id="#{credit.id}"]
-            span [id="amount-total-#{credit.id}"] #{(credit.online_product.price * credit.online_product.initial_amount).floor}
+            span [id="amount-total-#{credit.id}"] #{(credit.online_product.rounded_price * credit.online_product.initial_amount)}
             span #{t('currency_symbol')}
     = f.button :submit, t('checkout.button'), class: "btn btn-top btn-full-width"

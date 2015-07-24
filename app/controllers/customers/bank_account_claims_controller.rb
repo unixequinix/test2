@@ -2,14 +2,7 @@ class Customers::BankAccountClaimsController < Customers::ClaimsController
 
   def new
     @bank_account_claim_form = BankAccountClaimForm.new
-    @claim = Claim.new
-    @claim.service_type = Claim::BANK_ACCOUNT
-    @claim.fee = EventParameter.where(event_id: current_event.id, parameters: { category: 'refund', group: current_event.refund_service, name: 'fee'}).includes(:parameter).first.value
-    @claim.customer = current_customer
-    @claim.gtag = current_customer.assigned_gtag_registration.gtag
-    @claim.total = current_customer.assigned_gtag_registration.gtag.gtag_credit_log.amount
-    @claim.generate_claim_number!
-    @claim.save!
+    generate_claim(Claim::BANK_ACCOUNT)
   end
 
   def create

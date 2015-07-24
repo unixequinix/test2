@@ -52,6 +52,7 @@ en:
       notify: 'Notify'
       epg:
         fee: 'Fee'
+        fee: 'Minimum'
         country: 'Country'
         currency: 'Currency'
         operation_type: 'Operation type'
@@ -59,6 +60,9 @@ en:
         md5key: 'Md5 key'
         merchant_id: 'Merchant Id'
         url: 'URL'
+      bank_account:
+        fee: 'Fee'
+        minimum: 'Minimum'
     defaults:
       actions: "Actions"
       home: "Home"
@@ -290,6 +294,8 @@ en:
       paid: "Paid at"
       search:
         id: "Id eq"
+    comments:
+      title: "Comments"
     refunds:
       id: "Id"
       customer_id: "Customer Id"

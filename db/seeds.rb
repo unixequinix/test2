@@ -51,6 +51,7 @@ parameters = {
   'refund' => {
     'epg' => {
       'fee' => 'currency',
+      'minimum' => 'currency',
       'country' => 'string',
       'currency' => 'string',
       'operation_type' => 'string',
@@ -60,7 +61,8 @@ parameters = {
       'url' => 'string'
     },
     'bank_account' => {
-      'fee' => 'currency'
+      'fee' => 'currency',
+      'minimum' => 'currency'
     }
   }
 }
@@ -71,8 +73,17 @@ parameters.each do |category, group|
       puts " - Group: #{group_name}"
     param_list.each do |param, data_type|
       puts "   - #{param}"
-      p = Parameter.create!(category: category, group: group_name,
-                          name: param, data_type: data_type, description: '')
+      p = Parameter.new(
+        category: category,
+        group: group_name,
+        name: param,
+        data_type: data_type,
+        description: '')
+      begin
+        p.save
+      rescue
+        puts 'Already exists'
+      end
     end
   end
 end
@@ -90,7 +101,11 @@ Event.all.each do |event|
       group['values'].each do |value|
         parameter = Parameter.find_by(category: data['category'], group: group['name'], name: value['name'])
         event_parameter = EventParameter.new(event_id: event.id, value: value['value'], parameter_id: parameter.id)
-        event_parameter.save!
+        begin
+          event_parameter.save
+        rescue
+          puts 'Already exists'
+        end
       end
     end
   end

@@ -2,14 +2,7 @@ class Customers::EpgClaimsController < Customers::ClaimsController
 
   def new
     @epg_claim_form = EpgClaimForm.new
-    @claim = Claim.new
-    @claim.service_type = Claim::EASY_PAYMENT_GATEWAY
-    @claim.fee = EventParameter.find_by(event_id: current_event.id, parameter_id: Parameter.find_by(category: 'refund', group: current_event.refund_service, name: 'fee')).value
-    @claim.customer = current_customer
-    @claim.gtag = current_customer.assigned_gtag_registration.gtag
-    @claim.total = current_customer.assigned_gtag_registration.gtag.gtag_credit_log.amount
-    @claim.generate_claim_number!
-    @claim.save!
+    generate_claim(Claim::EASY_PAYMENT_GATEWAY)
   end
 
   def create

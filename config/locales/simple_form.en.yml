@@ -101,6 +101,9 @@ en:
         new:
           swift: "BIC/SWIFT"
           iban: "IBAN"
+      comment:
+        new:
+          body: "Comment"
 
     placeholders:
       event:
@@ -165,3 +168,6 @@ en:
         new:
           swift: "0000 0000"
           iban: 'GB00 0000 0000 0000 0000 0000'
+      comment:
+        new:
+          body: "Add a comment"

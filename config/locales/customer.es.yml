@@ -85,7 +85,7 @@ es:
       button: "Reclama tus créditos"
     not_refundable:
       title: "Tus créditos restantes:"
-      call_to_action: "Lo sentimos, pero no tienes suficientes creditos para pedir una devolución ya que la comisión es de %{fee} EUR"
+      call_to_action: "Lo sentimos, pero no tienes suficientes creditos para pedir una devolución ya que la comisión es de %{fee} EUR y el mínimo reembolsable es %{minimum} EUR"
     refunds:
       title: "Tus créditos restantes:"
       call_to_action: "Reembolso realizado con éxito, pronto se realizará su transferencia"

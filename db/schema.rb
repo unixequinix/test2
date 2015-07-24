@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150717130921) do
+ActiveRecord::Schema.define(version: 20150724125834) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,12 +96,13 @@ ActiveRecord::Schema.define(version: 20150717130921) do
     t.string   "number",       null: false, index: {name: "index_claims_on_number", unique: true}
     t.string   "aasm_state",   null: false
     t.datetime "completed_at"
-    t.decimal  "total",        precision: 8, scale: 2, null: false
+    t.decimal  "total",        precision: 8, scale: 2,               null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.integer  "gtag_id",      index: {name: "index_claims_on_gtag_id"}, foreign_key: {references: "gtags", name: "claims_gtag_id_fkey", on_update: :no_action, on_delete: :no_action}
     t.string   "service_type"
-    t.decimal  "fee",          precision: 8, scale: 2
+    t.decimal  "fee",          precision: 8, scale: 2, default: 0.0
+    t.decimal  "minimum",      precision: 8, scale: 2, default: 0.0
   end
 
   create_table "parameters", force: :cascade do |t|
@@ -120,6 +121,15 @@ ActiveRecord::Schema.define(version: 20150717130921) do
     t.integer  "parameter_id", null: false, index: {name: "index_claim_parameters_on_parameter_id"}, foreign_key: {references: "parameters", name: "fk_claim_parameters_parameter_id", on_update: :no_action, on_delete: :no_action}
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.integer  "commentable_id",   null: false
+    t.string   "commentable_type", null: false
+    t.integer  "admin_id",         index: {name: "fk__comments_admin_id"}, foreign_key: {references: "admins", name: "fk_comments_admin_id", on_update: :no_action, on_delete: :no_action}
+    t.text     "body"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "credit_logs", force: :cascade do |t|
