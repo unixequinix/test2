@@ -84,6 +84,7 @@ class Claim < ActiveRecord::Base
     self.update(completed_at: Time.now())
   end
 
+  # TODO Improve this download
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
       claim_columns = []
