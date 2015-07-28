@@ -24,7 +24,7 @@ en:
           subject: '¡You can now refund your credits!'
           greet: 'Hello %{name}!'
           mail_body: 'You can now refund your credits through the link below.'
-          mail_body2: "If your bank account is not in Single European Payment Area (SEPA https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) countries, we recommend using an account of your relative or friend living in SEPA."
+          mail_body2: "Please enter your bank account number before August 2nd 23:59. There are no fees for the refund."
           mail_body3: 'If that is not possible, please contact us at %{support_email} providing your bank account details for manual payment. Note that manual non-SEPA payments are not immediate and may require lead to higher bank transfer fees.'
           mail_link: "Login to see your balance and perform the transfer"
         completed:

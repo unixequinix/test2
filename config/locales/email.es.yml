@@ -24,7 +24,7 @@ es:
           subject: '¡Ya puedes acceder a la devolución de tus créditos!'
           greet: '¡Hola %{name}!'
           mail_body: 'Ya puedes proceder a la devolución de tus creditos mediante el siguiente enlace.'
-          mail_body2: 'Si tu cuenta bancaria no es en uno de los países de la Zona Única de Pagos en Euros (SEPA https://en.wikipedia.org/wiki/Single_Euro_Payments_Area), recomendamos usar la cuenta de algún pariente o amigo que viva en SEPA.'
+          mail_body2: 'Tendras hasta 2 de Agosto a las 23:59 para introducir tus datos bancarios. Las devoluciones no llevan ningún coste bancario.'
           mail_body3: 'Si no es posible, por favor ponte en contacto con %{support_email} enviando tus datos bancarios para un pago manual. Por favor ten en cuenta que los pagos a cuentas bancarias fuera de SEPA no son inmediatas y pueden tener comisiones más altas.'
           mail_link: "Acceder para ver tu balance y realizar la transferencia"
         completed:
