@@ -40,12 +40,18 @@ class GtagRegistration < ActiveRecord::Base
     self.gtag.gtag_credit_log.amount * standard_credit_price
   end
 
-  def refundable?
+  def refundable_amount_after_fee
     # TODO Get event from relation
     current_event = Event.find(1)
     fee = EventParameter.find_by(event_id: current_event.id, parameter_id: Parameter.find_by(category: 'refund', group: current_event.refund_service, name: 'fee')).value
+    refundable_amount - fee.to_f
+  end
+
+  def refundable?
+    # TODO Get event from relation
+    current_event = Event.find(1)
     minimum = EventParameter.find_by(event_id: Event.find(1).id, parameter_id: Parameter.find_by(category: 'refund', group: current_event.refund_service, name: 'minimum')).value
-    !self.gtag.gtag_credit_log.nil? && (refundable_amount - fee.to_f >= minimum.to_f)
+    !self.gtag.gtag_credit_log.nil? && (refundable_amount_after_fee >= minimum.to_f)
   end
 
   def customer
