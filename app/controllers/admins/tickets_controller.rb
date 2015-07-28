@@ -82,11 +82,6 @@ class Admins::TicketsController < Admins::BaseController
     end
   end
 
-  def clean_tickets
-    Ticket.destroy_all
-    redirect_to admins_tickets_url
-  end
-
   private
 
   def permitted_params

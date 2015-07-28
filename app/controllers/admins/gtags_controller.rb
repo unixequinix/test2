@@ -95,16 +95,6 @@ class Admins::GtagsController < Admins::BaseController
     end
   end
 
-  def clean_gtags
-    Gtag.destroy_all
-    redirect_to admins_gtags_url
-  end
-
-  def clean_credits
-    GtagCreditLog.delete_all
-    redirect_to admins_gtags_url
-  end
-
   private
 
   def permitted_params

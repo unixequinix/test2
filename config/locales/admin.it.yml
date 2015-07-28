@@ -6,6 +6,8 @@ it:
       cancel: "Cancel"
       assign_ticket: "Assign ticket"
       assign_gtag: "Assign gtag"
+      assign_gtag: "Assign gtag"
+      manual_claims_csv: "Manual claims CSV"
     event:
       name: 'Name'
       slug: 'Slug'

@@ -3,10 +3,15 @@ class Admins::ClaimsController < Admins::BaseController
   def index
     @q = Claim.search(params[:q])
     @claims = @q.result(distinct: true).page(params[:page]).includes(:customer)
+    respond_to do |format|
+      format.html
+      format.csv { send_data Claim.where(service_type: :bank_account, aasm_state: :completed).to_csv }
+    end
   end
 
   def search
-    index
+    @q = Claim.search(params[:q])
+    @claims = @q.result(distinct: true).page(params[:page]).includes(:customer)
     render :index
   end
 

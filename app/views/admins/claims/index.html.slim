@@ -1,5 +1,8 @@
 - breadcrumb :admins_claims
 - provide :actions do
+  = link_to admins_claims_path(format: "csv"), class: "btn btn-action btn-action-back"
+    = fa_icon "download"
+    = t("admin.actions.manual_claims_csv")
 
 .wrapper-negative-space
   = render "admins/claims/search", q: @q

@@ -6,6 +6,7 @@ es:
       cancel: "Cancelar"
       assign_ticket: "Asignar ticket"
       assign_gtag: "Asignar gtag"
+      manual_claims_csv: "CSV Peticiones Manuales"
     event:
       name: 'Nombre'
       slug: 'Identificador'
