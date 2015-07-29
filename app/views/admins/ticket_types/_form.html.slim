@@ -4,5 +4,5 @@
     = f.input :simplified_name, placeholder: true
     = f.input :company, placeholder: true, required: true
     = f.input :credit, placeholder: true
-    = f.association :entitlements, as: :check_boxes, include_hidden: false, include_blank: false,   boolean_style: :inline, collection: Entitlement.form_selector, required: false, label: 'Entitlements', wrapper: :checkboxes
+    = f.association :entitlements, as: :check_boxes, include_hidden: true, include_blank: true,   boolean_style: :inline, collection: Entitlement.form_selector, required: false, label: 'Entitlements', wrapper: :checkboxes
     = f.button :submit, class: "btn btn-primary"
