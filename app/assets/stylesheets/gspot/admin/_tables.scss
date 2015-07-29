@@ -82,6 +82,14 @@ td {
   }
 }
 
+.entitlements-cell {
+  text-align: center;
+  max-width: modules(12);
+  white-space: normal;
+
+  @include min-screen($bp3) { text-align: left; }
+}
+
 .table-entitlemnet {
   @include mscale($base-font-size*0.75);
   display: inline-block;
@@ -106,13 +114,6 @@ td {
     padding: modules(0.25);
   }
 }
-
-.entitlements-cell {
-  text-align: center;
-
-  @include min-screen($bp3) { text-align: left; }
-}
-
 .subtable {
   width: 100%;
 

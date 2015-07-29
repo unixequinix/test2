@@ -16,8 +16,9 @@ class TicketType < ActiveRecord::Base
   acts_as_paranoid
 
   # Associations
-  has_many :entitlement_ticket_types, dependent: :restrict_with_error
-  has_many :entitlements, through: :entitlement_ticket_types, dependent: :restrict_with_error
+  has_many :tickets, dependent: :restrict_with_error
+  has_many :entitlement_ticket_types, dependent: :destroy
+  has_many :entitlements, through: :entitlement_ticket_types
 
   accepts_nested_attributes_for :entitlements
 
