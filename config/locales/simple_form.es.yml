@@ -64,6 +64,7 @@ es:
       ticket_type:
         new: &label_ticket_type
           name: "Nombre"
+          simplified_name: "Nombre simplificado"
           company: "Compañía"
           credit: "Crédito"
           entitlement: "Derecho"
@@ -135,6 +136,7 @@ es:
       ticket_type:
         new: &placeholder_ticket_type
           name: "Elige un nombre de ticket"
+          simplified_name: "Un nombre simplificado para tu ticket"
           company: "Compañía del Evento"
           credit: "Créditos Disponibles"
           entitlement: "Derechos"

@@ -95,7 +95,7 @@ class Claim < ActiveRecord::Base
       claim_columns << 'Serial Number'
       claim_columns << 'IBAN'
       claim_columns << 'SWIFT/BIC'
-      claim_columns << 'amount'
+      claim_columns << 'amount_after_fee'
       csv << claim_columns
       all.each do |claim|
         attributes = []
@@ -104,9 +104,9 @@ class Claim < ActiveRecord::Base
         attributes[2] = claim.customer.nil? ? '' : claim.customer.email
         attributes[3] = claim.gtag.nil? ? '' : claim.gtag.tag_uid
         attributes[4] = claim.gtag.nil? ? '' : claim.gtag.tag_serial_number
-        attributes[5] = claim.claim_parameters.nil? ? '' : claim.claim_parameters.find_by(parameter_id: Parameter.find_by(category: 'claim', group: 'bank_account', name: 'iban')).value
-        attributes[6] = claim.claim_parameters.nil? ? '' : claim.claim_parameters.find_by(parameter_id: Parameter.find_by(category: 'claim', group: 'bank_account', name: 'swift')).value
-        attributes[7] = claim.gtag.gtag_credit_log.nil? ? '' : claim.gtag.gtag_credit_log.amount
+        attributes[5] = claim.claim_parameters.nil? ? '' : claim.claim_parameters.find_by(parameter_id: Parameter.find_by(category: 'claim', group: 'bank_account', name: 'iban')).value.upcase.gsub(/\s+/, '')
+        attributes[6] = claim.claim_parameters.nil? ? '' : claim.claim_parameters.find_by(parameter_id: Parameter.find_by(category: 'claim', group: 'bank_account', name: 'swift')).value.upcase.gsub(/\s+/, '')
+        attributes[7] = claim.refund.nil? ? '' : claim.refund.amount
         csv << attributes
       end
     end

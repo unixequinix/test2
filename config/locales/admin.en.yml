@@ -136,6 +136,7 @@ en:
     ticket_types:
       id: "Id"
       name: "Name"
+      simplified_name: "Simplified Name"
       company: "Company"
       credit: "Credit"
       entitlements: "Entitlements"
@@ -144,6 +145,7 @@ en:
       id: "Id"
       number: "Number"
       ticket_type: "Ticket type"
+      ticket_type_simplified: "Simplified Ticket type"
       customer: "Assigned customer"
       created_at: "Created at"
       admission: "Tickets registrations"

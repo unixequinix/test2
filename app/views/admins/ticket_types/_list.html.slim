@@ -3,6 +3,7 @@ table.ticket-types
     tr
       th.select-all = t("admin.ticket_types.id")
       th = t("admin.ticket_types.name")
+      th = t("admin.ticket_types.simplified_name")
       th = t("admin.ticket_types.company")
       th = t("admin.ticket_types.credit")
       th = t("admin.ticket_types.entitlements")
@@ -13,6 +14,7 @@ table.ticket-types
       tr
         td.select-all data-label=t("admin.ticket_types.id") = ticket_type.id
         td data-label=t("admin.ticket_types.name") = link_to ticket_type.name, edit_admins_ticket_type_path(ticket_type)
+        td data-label=t("admin.ticket_types.simplified_name") = ticket_type.simplified_name
         td data-label=t("admin.ticket_types.company") = ticket_type.company
         td data-label=t("admin.ticket_types.credit") = ticket_type.credit
         td.entitlements-cell data-label=t("admin.ticket_types.entitlements")

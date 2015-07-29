@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150724125834) do
+ActiveRecord::Schema.define(version: 20150728141123) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,12 +56,13 @@ ActiveRecord::Schema.define(version: 20150724125834) do
   end
 
   create_table "ticket_types", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.string   "company",    null: false
-    t.decimal  "credit",     precision: 8, scale: 2
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "deleted_at", index: {name: "index_ticket_types_on_deleted_at"}
+    t.string   "name",            null: false
+    t.string   "company",         null: false
+    t.decimal  "credit",          precision: 8, scale: 2
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.datetime "deleted_at",      index: {name: "index_ticket_types_on_deleted_at"}
+    t.string   "simplified_name"
   end
 
   create_table "tickets", force: :cascade do |t|

@@ -2,13 +2,14 @@
 #
 # Table name: ticket_types
 #
-#  id         :integer          not null, primary key
-#  name       :string           not null
-#  company    :string           not null
-#  credit     :decimal(8, 2)
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  deleted_at :datetime
+#  id              :integer          not null, primary key
+#  name            :string           not null
+#  company         :string           not null
+#  credit          :decimal(8, 2)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  deleted_at      :datetime
+#  simplified_name :string
 #
 
 require 'rails_helper'
