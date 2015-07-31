@@ -9,9 +9,9 @@ html [lang=I18n.locale]
     = csrf_meta_tags
 
   body class="#{controller_name} #{action_name}"
-    #notifications
-      = render 'notifications'
     .wrapper-main
+      #notifications
+        = render 'notifications'
       = render 'admins/shared/sidepanel'
       .container-main
         = render 'admins/shared/header'

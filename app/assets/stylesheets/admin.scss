@@ -13,6 +13,9 @@
 @import "gspot/admin/dashboard";
 @import "gspot/admin/configuration/typography";
 
+@import "vendor/mmenu/jquery.mmenu";
+@import "vendor/mmenu/extensions/jquery.mmenu.positioning";
+
 @media print {
   @import "gspot/print";
 }
