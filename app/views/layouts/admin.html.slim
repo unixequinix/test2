@@ -19,5 +19,4 @@ html [lang=I18n.locale]
         .container-admin
           = yield
         = render 'admins/shared/footer'
-    = render 'admins/shared/searchpanel'
-    = render 'admins/shared/importpanel'
+    = render 'admins/shared/searchpanel' if lookup_context.exists?("search", ["admins/#{controller_name}"], true)
