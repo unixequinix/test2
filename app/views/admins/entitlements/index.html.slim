@@ -2,10 +2,11 @@
 - provide :actions do
   = link_to t("actions.new"), new_admins_entitlement_path, class: "btn btn-action btn-action-new"
 
-- if @entitlements.empty?
-  .section-title-empty.wrapper-negative-space
-    = image_tag "img-empty.png"
-    p = t("admin.defaults.empty_entitlements")
-    = link_to t("actions.new"), new_admins_entitlement_path, class: "btn btn-action btn-action-new"
-- else
-  = render "admins/entitlements/list", entitlements: @entitlements
+.wrapper-negative-space
+  - if @entitlements.empty?
+    .section-title-empty
+      = image_tag "img-empty.png"
+      p = t("admin.defaults.empty_entitlements")
+      = link_to t("actions.new"), new_admins_entitlement_path, class: "btn btn-action btn-action-new"
+  - else
+    = render "admins/entitlements/list", entitlements: @entitlements

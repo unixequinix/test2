@@ -32,6 +32,14 @@ class Gtag < ActiveRecord::Base
   validates :tag_uid, :tag_serial_number, presence: true
   validates_uniqueness_of :tag_uid, conditions: -> { where(deleted_at: nil) }
 
+
+
+  # Scopes
+  scope :total_credits, -> { joins(:gtag_credit_log).sum(:amount) }
+
+
+
+
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
       gtag_columns = column_names.clone

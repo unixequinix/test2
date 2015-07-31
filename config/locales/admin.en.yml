@@ -190,6 +190,8 @@ en:
       actions:
         delete_gtags: "Delete all gtags"
         delete_credits: "Delete all credits"
+      report:
+        total_credits: "Total Credits"
     gtag_registrations:
       tag: "Tag UID"
       serial: "Tag Serial Number"

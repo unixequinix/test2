@@ -8,6 +8,7 @@
     = fa_icon 'bars'
 
 .wrapper-negative-space
+  = render "admins/gtags/report", gtags: @gtags
   - if @gtags.empty?
     .section-title-empty
       = image_tag "img-empty.png"
