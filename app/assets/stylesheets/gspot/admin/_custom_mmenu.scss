@@ -1,0 +1,17 @@
+.mm-menu {
+  background: transparent;
+}
+
+.mm-menu > .mm-panel > .mm-listview {
+  margin: 0;
+}
+
+.mm-listview > li {
+  color: $white;
+  border-color: transparent;
+  @include mscale($base_font_size);
+}
+
+.mm-panel.mm-hasnavbar .mm-navbar {
+  display: none;
+}

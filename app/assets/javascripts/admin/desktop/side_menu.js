@@ -2,15 +2,11 @@ function SideMenu() {
 
   if ( $('#search-menu').length ) {
     $("#search-menu").mmenu({
-      "offCanvas": {
-         "position": "right"
-      }
-    });
-  }
-  if ( $('#import-menu').length ) {
-    $("#import-menu").mmenu({
-      "offCanvas": {
-         "position": "right"
+      offCanvas: {
+        position: "right"
+      },
+      navbar: {
+        add: false
       }
     });
   }

@@ -51,6 +51,17 @@ abbr {
   }
 }
 
+.menu-header {
+  padding: modules(0.25) modules(0.25) 0;
+  color: $blue;
+  font-weight: 200;
+
+  i {
+    display: inline-block;
+    padding-right: modules(0.5);
+  }
+}
+
 .section-title-empty {
   padding: modules(2);
   border-radius: 3px;
@@ -164,12 +175,8 @@ abbr {
   overflow: hidden;
   display: block;
   width: 100%;
-  margin-bottom: modules(1);
-  padding: modules(0.5);
+  padding: 0 modules(0.5);
   border-radius: 3px;
-
-  .btn { width: 100%; }
-  .input { @include min-screen($bp3) { padding-bottom: 0; } }
 
   input[type=text], input[type=email], select {
     @include appearance(none);
@@ -180,9 +187,20 @@ abbr {
     background-color: $white;
     box-shadow: inset 0px 0px 0px 1px $graySilver;
     border: none;
+
+    &:focus { box-shadow: inset 0px 0px 0px 1px $magenta; }
   }
 
-  label, input { width: 100%; display: block; }
+  label, input {
+    display: block;
+    width: 100%;
+  }
+
+  label {
+    color: $nuclear;
+  }
+
+  abbr { display: none; }
 
   //TODO Manu
   .checkbox {
@@ -195,21 +213,16 @@ abbr {
 }
 
 .custom-select {
-  @include span-columns(2 of 8);
-  @include omega();
   position: relative;
-  display: inline-block;
 
   i {
     position: absolute;
-    top: modules(0.65);
+    top: modules(0.75);
     right: modules(0.5);
-    color: $blue;
+    color: $grey;
     z-index: 9;
     pointer-events: none;
   }
-
-  &:focus { border: 1px solid yellow; }
 }
 
 // TODO Manu: Find a better way

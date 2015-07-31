@@ -26,7 +26,6 @@ aside {
     width: 100%;
     top: modules(2.5);
     left: 0;
-    background-color: transparent;
   }
 
   li {
@@ -39,7 +38,7 @@ aside {
       width: 100%;
       height: 100%;
       padding: modules(0.25) modules(1);
-      color: $white;
+      color: $nuclear;
       opacity: 0.5;
 
       @include min-screen($bp3) { box-shadow: none; }
@@ -62,7 +61,11 @@ aside {
   .selected { background-color: rgba(255, 255, 255, 0.2); }
 }
 
-#main-menu, #search-menu, #import-menu { background-color: transparent; }
+//#main-menu, #search-menu, #import-menu { background-color: $side_panel; }
+
+.mm-listview {
+  li { border: none; }
+}
 
 .mobile-trigger {
   position: absolute;
