@@ -1,5 +1,6 @@
 = render "customers/sessions/confirmation_message" if @sign_up
 = render "customers/sessions/confirmed_message" if @confirmed
+= render "customers/sessions/password_sent_message" if @password_sent
 
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
   .container-login-map

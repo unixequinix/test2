@@ -58,6 +58,7 @@ parameters = {
       'payment_solution' => 'string',
       'md5key' => 'string',
       'merchant_id' => 'string',
+      'product_id' => 'string',
       'url' => 'string'
     },
     'bank_account' => {

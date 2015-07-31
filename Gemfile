@@ -55,6 +55,7 @@ gem 'ransack', '~> 1.6.6'
 
 # Form normalizers
 gem 'iban-tools', '~>1.0.0'
+gem 'iso-swift', '~>0.0.2'
 gem 'country_select', '~> 2.2.0'
 gem 'phony_rails', '~> 0.12.8'
 

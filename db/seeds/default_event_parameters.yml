@@ -29,6 +29,9 @@
           name: merchant_id
           value: 1067
         -
+          name: product_id
+          value: 0000
+        -
           name: url
           value: https://staging.easypaymentgateway.com/EPGCheckout/rest/online/tokenize
     -

@@ -10,6 +10,7 @@ class EpgRefundSettingsForm
   attribute :payment_solution, String
   attribute :md5key, String
   attribute :merchant_id, String
+  attribute :product_id, String
   attribute :url, String
   attribute :event_id, Integer
   attribute :refund_success_message
@@ -22,6 +23,7 @@ class EpgRefundSettingsForm
   validates_presence_of :payment_solution
   validates_presence_of :md5key
   validates_presence_of :merchant_id
+  validates_presence_of :product_id
   validates_presence_of :url
   validates_presence_of :event_id
   validates_presence_of :refund_success_message

@@ -16,6 +16,8 @@ es:
               improbable_phone: 'No es un número de teléfono válido. Verifica que el país concuerda con el número.'
         bank_account_claim_form:
           attributes:
+            swift:
+              invalid: 'No es un número de BIC/SWIFT válido'
             iban:
               invalid: 'No es un número de IBAN válido, introduce una cuenta válida SEPA'
   activerecord:

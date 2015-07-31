@@ -4,6 +4,10 @@
   = link_to admins_tickets_path(format: "csv"), class: "btn btn-action btn-action-back"
     = fa_icon "download"
     = t("admin.actions.csv")
+  = link_to '#search-menu' do
+    = fa_icon 'bars'
+  = link_to '#import-menu' do
+    = fa_icon 'bars'
 
 .wrapper-negative-space
   = render 'admins/tickets/search', q: @q

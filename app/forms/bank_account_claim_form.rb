@@ -11,6 +11,7 @@ class BankAccountClaimForm
   validates_presence_of :swift
   validates_presence_of :claim_id
   validates_presence_of :agreed_on_claim
+  validates_with SwiftValidator, message: "Error swift"
   validates_with IbanValidator, message: "Error iban"
 
   def save

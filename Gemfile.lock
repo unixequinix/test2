@@ -196,6 +196,8 @@ GEM
     i18n_data (0.7.0)
     iban-tools (1.0.0)
     ice_nine (0.11.1)
+    iso-swift (0.0.2)
+      countries
     its-it (1.1.1)
     jbuilder (2.2.13)
       activesupport (>= 3.0.0, < 5)
@@ -539,6 +541,7 @@ DEPENDENCIES
   hirb (~> 0.7.3)
   i18n-globals!
   iban-tools (~> 1.0.0)
+  iso-swift (~> 0.0.2)
   jbuilder (~> 2.2.13)
   jquery-rails (~> 4.0.3)
   kaminari (~> 0.16.3)
