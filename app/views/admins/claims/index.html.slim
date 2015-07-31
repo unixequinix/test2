@@ -1,10 +1,9 @@
 - breadcrumb :admins_claims
 - provide :actions do
-  = link_to admins_claims_path(format: "csv"), class: "btn btn-action btn-action-back"
+  = link_to admins_claims_path(format: "csv"), class: "btn btn-action btn-action-download"
     = fa_icon "download"
-    = t("admin.actions.manual_claims_csv")
-  = link_to '#search-menu' do
-    = fa_icon 'bars'
+  = link_to '#search-menu', class: "btn btn-action btn-action-search" do
+    = fa_icon 'search'
 
 .wrapper-negative-space
   - if @claims.empty?

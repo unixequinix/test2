@@ -178,6 +178,13 @@ abbr {
   padding: 0 modules(0.5);
   border-radius: 3px;
 
+  .input { padding-bottom: modules(0.5); }
+
+  .btn {
+    margin-top: modules(1);
+    padding: modules(0.5);
+  }
+
   input[type=text], input[type=email], select {
     @include appearance(none);
     width: 100%;
@@ -194,6 +201,7 @@ abbr {
   label, input {
     display: block;
     width: 100%;
+    padding: 0 0 modules(0.5);
   }
 
   label {

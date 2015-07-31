@@ -8,7 +8,6 @@
 
 .mm-listview > li {
   color: $white;
-  border-color: transparent;
   @include mscale($base_font_size);
 }
 

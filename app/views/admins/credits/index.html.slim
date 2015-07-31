@@ -1,6 +1,7 @@
 - breadcrumb :admins_credits
 - provide :actions do
-  = link_to t("admin.actions.new"), new_admins_credit_path, class: "btn btn-action btn-action-new"
+  = link_to new_admins_credit_path, class: "btn btn-action btn-action-new" do
+    = fa_icon 'plus'
 
 - if @credits.empty?
   .section-title-empty.wrapper-negative-space

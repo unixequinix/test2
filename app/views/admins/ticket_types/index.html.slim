@@ -1,9 +1,9 @@
 - breadcrumb :admins_ticket_types
 - provide :actions do
-  = link_to t("actions.new"), new_admins_ticket_type_path, class: "btn btn-action btn-action-new"
-  = link_to admins_ticket_types_path(format: "csv"), class: "btn btn-action btn-action-back"
+  = link_to new_admins_ticket_type_path, class: "btn btn-action btn-action-new" do
+    = fa_icon 'plus'
+  = link_to admins_ticket_types_path(format: "csv"), class: "btn btn-action btn-action-download"
     = fa_icon "download"
-    = t("admin.actions.csv")
 
 .wrapper-negative-space
   - if @ticket_types.empty?
