@@ -1,11 +1,17 @@
 - breadcrumb :admins_tickets
 - provide :actions do
-  = link_to t("actions.new"), new_admins_ticket_path, class: "btn btn-action btn-action-new"
+  = link_to new_admins_ticket_path, class: "btn btn-action btn-action-new" do
+    = fa_icon 'plus'
+    span.link-tooltip
+      = t('actions.back')
   = link_to admins_tickets_path(format: "csv"), class: "btn btn-action btn-action-back"
     = fa_icon "download"
-    = t("admin.actions.csv")
-  = link_to '#search-menu' do
-    = fa_icon 'bars'
+    span.link-tooltip
+      = t('actions.download')
+  = link_to '#search-menu', class: "btn btn-action btn-action-search" do
+    = fa_icon 'search'
+    span.link-tooltip
+      = t('actions.search')
 
 .wrapper-negative-space
   - if @tickets.empty?

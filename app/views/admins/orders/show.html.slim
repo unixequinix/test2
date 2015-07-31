@@ -1,6 +1,7 @@
 - breadcrumb :admins_order, @order
 - provide :actions do
-  = link_to t("actions.back"), admins_orders_path, class: "btn btn-action btn-action-back"
+  = link_to admins_orders_path, class: "btn btn-action btn-action-back" do
+    = fa_icon 'arrow-circle-left'
 .wrapper-negative-space
   .container-show
     dl

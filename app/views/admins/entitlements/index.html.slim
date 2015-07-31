@@ -1,6 +1,7 @@
 - breadcrumb :admins_entitlements
 - provide :actions do
-  = link_to t("actions.new"), new_admins_entitlement_path, class: "btn btn-action btn-action-new"
+  = link_to new_admins_entitlement_path, class: "btn btn-action btn-action-new" do
+    = fa_icon 'plus'
 
 .wrapper-negative-space
   - if @entitlements.empty?

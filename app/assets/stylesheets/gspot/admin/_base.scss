@@ -51,6 +51,17 @@ abbr {
   }
 }
 
+.menu-header {
+  padding: modules(0.25) modules(0.25) 0;
+  color: $blue;
+  font-weight: 200;
+
+  i {
+    display: inline-block;
+    padding-right: modules(0.5);
+  }
+}
+
 .section-title-empty {
   padding: modules(2);
   border-radius: 3px;
@@ -164,20 +175,15 @@ abbr {
   overflow: hidden;
   display: block;
   width: 100%;
-  margin-bottom: modules(1);
-  padding: modules(0.5);
+  padding: 0 modules(0.5);
   border-radius: 3px;
-  background-color: $admin_grey;
-  box-shadow: inset 0px 0px 0px 1px $graySilver;
+
+  .input { padding-bottom: modules(0.5); }
 
   .btn {
-    width: 100%;
-
-    @include min-screen($bp3) {
-      @include span-columns(4);
-    }
+    margin-top: modules(1);
+    padding: modules(0.5);
   }
-  .input { @include min-screen($bp3) { padding-bottom: 0; } }
 
   input[type=text], input[type=email], select {
     @include appearance(none);
@@ -188,85 +194,43 @@ abbr {
     background-color: $white;
     box-shadow: inset 0px 0px 0px 1px $graySilver;
     border: none;
+
+    &:focus { box-shadow: inset 0px 0px 0px 1px $magenta; }
   }
 
-  label { display: none; }
+  label, input {
+    display: block;
+    width: 100%;
+    padding: 0 0 modules(0.5);
+  }
+
+  label {
+    color: $nuclear;
+  }
+
+  abbr { display: none; }
 
   //TODO Manu
   .checkbox {
     display: block;
+
     input[type=checkbox] {
       display: block;
     }
   }
 }
 
-.wrapper-search-field {
-  position: relative;
-
-  @include min-screen($bp3) {
-    @include span-columns(8);
-  }
-}
-
-
-.fourth {
-
-  .input {
-    width: 100%;
-    @include min-screen($bp3) {
-      display: inline-block;
-      width: 31%;
-      padding: 0 0.5%;
-    }
-  }
-  .custom-input { width: 100%; }
-  .q_confirmed_at_null {
-    width: 100%; display: inline-block;
-    padding-bottom: 0;
-
-    input, label, span {
-      display: inline-block !important;
-      vertical-align: middle;
-      margin-bottom: 0 !important;
-    }
-  }
-}
-
-
-
-.custom-input {
-  @include span-columns(6 of 8);
-
-  input:focus {
-    //TODO Manu: remove important
-    box-shadow: inset 0px 0px 0px 1px $graySilver !important;
-  }
-}
-
-.search-input {
-  display: inline-block;
-  width:46%;
-
-  &:first-child { margin-right: 3%; }
-}
-
 .custom-select {
-  @include span-columns(2 of 8);
-  @include omega();
   position: relative;
-  display: inline-block;
 
   i {
     position: absolute;
-    top: modules(0.65);
+    top: modules(0.75);
     right: modules(0.5);
-    color: $blue;
+    color: $grey;
     z-index: 9;
     pointer-events: none;
   }
-
-  &:focus { border: 1px solid yellow; }
 }
 
 // TODO Manu: Find a better way

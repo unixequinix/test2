@@ -1,5 +1,6 @@
 - breadcrumb :new_admins_ticket_type
 - provide :actions do
-  = link_to t("actions.back"), admins_ticket_types_path, class: "btn btn-action btn-action-back"
+  = link_to admins_ticket_types_path, class: "btn btn-action btn-action-back" do
+    = fa_icon 'arrow-circle-left'
 
 = render "form", ticket_type: @ticket_type

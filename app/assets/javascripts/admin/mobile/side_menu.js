@@ -3,10 +3,13 @@ function SideMenu() {
   if ( $('#main-menu').length ) {
     $("#main-menu").mmenu();
   }
-  if ( $('#import-menu').length ) {
-    $("#import-menu").mmenu({
+  if ( $('#search-menu').length ) {
+    $("#search-menu").mmenu({
       offCanvas: {
         position: "right"
+      },
+      navbar: {
+        add: false
       }
     });
   }
@@ -14,11 +17,3 @@ function SideMenu() {
 
 $(document).on('page:load', SideMenu);
 $(document).ready(SideMenu);
-
-$(document).ready(function() {
-      $("#search-menu").mmenu({
-         offCanvas: {
-            position: "right"
-         }
-      });
-   });

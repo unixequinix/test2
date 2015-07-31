@@ -1,6 +1,7 @@
 - breadcrumb :admins_admins
 - provide :actions do
-  = link_to t("actions.new"), new_admins_admin_path, class: "btn btn-action btn-action-new"
+  = link_to new_admins_admin_path, class: "btn btn-action btn-action-new" do
+    = fa_icon 'plus'
 
 .wrapper-negative-space
   - if @admins.empty?
