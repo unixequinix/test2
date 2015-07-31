@@ -1,31 +1,21 @@
 /*
 	jQuery.mmenu iconbar extension CSS
 */
+body {
+  overflow-x: hidden; }
 
-@import "../inc/variables";
+.mm-menu.mm-iconbar {
+  display: block; }
 
+.mm-page {
+  background: inherit;
+  min-height: 100vh; }
 
-$mm_ib_pageOffset: $mm_btnSize + ( $mm_padding * 2 ) !default;
-
-body
-{
-	overflow-x: hidden;
-}
-
-.mm-page
-{
-	background: inherit;
-	min-height: 100vh;
-
-	padding-right: $mm_ib_pageOffset;
-	@include mm-webkit-prefix( 'transform', translateX( $mm_ib_pageOffset ) );
-}
-
-.mm-menu
-{
-	&:first-child,
-	&.mm-current
-	{
-		display: block;
-	}
-}
+.mm-slideout {
+  box-sizing: border-box;
+  padding-right: 60px;
+  -webkit-transform: translate3d(60px, 0, 0);
+  -moz-transform: translate3d(60px, 0, 0);
+  -ms-transform: translate3d(60px, 0, 0);
+  -o-transform: translate3d(60px, 0, 0);
+  transform: translate3d(60px, 0, 0); }

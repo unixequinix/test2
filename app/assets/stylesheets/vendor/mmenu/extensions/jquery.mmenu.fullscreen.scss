@@ -1,24 +1,57 @@
 /*
 	jQuery.mmenu fullscreen extension CSS
 */
+.mm-menu.mm-fullscreen {
+  width: 100%;
+  min-width: 140px;
+  max-width: 10000px; }
 
-@import "../inc/variables";
+html.mm-opening.mm-fullscreen .mm-slideout {
+  -webkit-transform: translate(100%, 0);
+  -moz-transform: translate(100%, 0);
+  -ms-transform: translate(100%, 0);
+  -o-transform: translate(100%, 0);
+  transform: translate(100%, 0); }
 
-$mm_fs_class	: ".mm-fullscreen";
-$mm_fs_full		: 1 !default;
-$mm_fs_min		: 140px !default;
-$mm_fs_max		: 10000px !default;
+@media all and (max-width: 140px) {
+  html.mm-opening.mm-fullscreen .mm-slideout {
+    -webkit-transform: translate(140px, 0);
+    -moz-transform: translate(140px, 0);
+    -ms-transform: translate(140px, 0);
+    -o-transform: translate(140px, 0);
+    transform: translate(140px, 0); } }
+@media all and (min-width: 10000px) {
+  html.mm-opening.mm-fullscreen .mm-slideout {
+    -webkit-transform: translate(10000px, 0);
+    -moz-transform: translate(10000px, 0);
+    -ms-transform: translate(10000px, 0);
+    -o-transform: translate(10000px, 0);
+    transform: translate(10000px, 0); } }
+html.mm-right.mm-opening.mm-fullscreen .mm-slideout {
+  -webkit-transform: translate(-100%, 0);
+  -moz-transform: translate(-100%, 0);
+  -ms-transform: translate(-100%, 0);
+  -o-transform: translate(-100%, 0);
+  transform: translate(-100%, 0); }
 
-@include mm_sizing( $mm_fs_class,
-	$mm_fs_full, $mm_fs_min, $mm_fs_max );
+@media all and (max-width: 140px) {
+  html.mm-right.mm-opening.mm-fullscreen .mm-slideout {
+    -webkit-transform: translate(-140px, 0);
+    -moz-transform: translate(-140px, 0);
+    -ms-transform: translate(-140px, 0);
+    -o-transform: translate(-140px, 0);
+    transform: translate(-140px, 0); } }
+@media all and (min-width: 10000px) {
+  html.mm-right.mm-opening.mm-fullscreen .mm-slideout {
+    -webkit-transform: translate(-10000px, 0);
+    -moz-transform: translate(-10000px, 0);
+    -ms-transform: translate(-10000px, 0);
+    -o-transform: translate(-10000px, 0);
+    transform: translate(-10000px, 0); } }
+.mm-menu.mm-fullscreen.mm-top, .mm-menu.mm-fullscreen.mm-bottom {
+  height: 100%;
+  min-height: 140px;
+  max-height: 10000px; }
 
-@include mm_sizing_right( $mm_fs_class,
-	$mm_fs_full, $mm_fs_min, $mm_fs_max);
-
-@include mm_sizing_zposition( $mm_fs_class,
-	$mm_fs_full, $mm_fs_min, $mm_fs_max );
-	
-html.mm-opened#{$mm_fs_class} .mm-page
-{
-	box-shadow: none !important;
-}
+html.mm-opened.mm-fullscreen .mm-page {
+  box-shadow: none !important; }
