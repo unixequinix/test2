@@ -6,15 +6,6 @@
     = t("admin.actions.csv")
 
 .wrapper-negative-space
-  p.section-header
-    = fa_icon "upload"
-    = t("admin.ticket_types.import")
-
-  .wrapper-add-file
-    = form_tag import_admins_ticket_types_path, multipart: true do
-      = file_field_tag :file, id: "file", accept: 'text/csv'
-      = submit_tag "Import", id: "sendButton", class: "btn btn-secondary"
-
   - if @ticket_types.empty?
     .section-title-empty
       = image_tag "img-empty.png"

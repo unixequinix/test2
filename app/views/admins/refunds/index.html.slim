@@ -3,10 +3,10 @@
   = link_to admins_refunds_path(format: "csv"), class: "btn btn-action btn-action-back"
     = fa_icon "download"
     = t("admin.actions.csv")
+  = link_to '#search-menu' do
+    = fa_icon 'bars'
 
 .wrapper-negative-space
-  = render "admins/refunds/search", q: @q
-
   - if @refunds.empty?
     .section-title-empty
       = image_tag "img-empty.png"
