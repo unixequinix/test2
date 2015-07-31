@@ -167,16 +167,8 @@ abbr {
   margin-bottom: modules(1);
   padding: modules(0.5);
   border-radius: 3px;
-  background-color: $admin_grey;
-  box-shadow: inset 0px 0px 0px 1px $graySilver;
 
-  .btn {
-    width: 100%;
-
-    @include min-screen($bp3) {
-      @include span-columns(4);
-    }
-  }
+  .btn { width: 100%; }
   .input { @include min-screen($bp3) { padding-bottom: 0; } }
 
   input[type=text], input[type=email], select {
@@ -190,65 +182,16 @@ abbr {
     border: none;
   }
 
-  label { display: none; }
+  label, input { width: 100%; display: block; }
 
   //TODO Manu
   .checkbox {
     display: block;
+
     input[type=checkbox] {
       display: block;
     }
   }
-}
-
-.wrapper-search-field {
-  position: relative;
-
-  @include min-screen($bp3) {
-    @include span-columns(8);
-  }
-}
-
-
-.fourth {
-
-  .input {
-    width: 100%;
-    @include min-screen($bp3) {
-      display: inline-block;
-      width: 31%;
-      padding: 0 0.5%;
-    }
-  }
-  .custom-input { width: 100%; }
-  .q_confirmed_at_null {
-    width: 100%; display: inline-block;
-    padding-bottom: 0;
-
-    input, label, span {
-      display: inline-block !important;
-      vertical-align: middle;
-      margin-bottom: 0 !important;
-    }
-  }
-}
-
-
-
-.custom-input {
-  @include span-columns(6 of 8);
-
-  input:focus {
-    //TODO Manu: remove important
-    box-shadow: inset 0px 0px 0px 1px $graySilver !important;
-  }
-}
-
-.search-input {
-  display: inline-block;
-  width:46%;
-
-  &:first-child { margin-right: 3%; }
 }
 
 .custom-select {

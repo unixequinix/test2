@@ -4,7 +4,5 @@ p.section-header
 
 = search_form_for q, url: search_admins_claims_path, html: { novalidate: true, class: "searchForm" }  do |f|
   .container-search
-    .wrapper-search-field
-      .custom-input
-        = f.input :number_cont, placeholder: t("admin.claims.search.number")
+    = f.input :number_cont, placeholder: t("admin.claims.search.number")
     = f.submit class: "btn btn-secondary"

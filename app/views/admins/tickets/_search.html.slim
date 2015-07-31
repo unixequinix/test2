@@ -4,12 +4,9 @@ p.section-header
 
 = search_form_for q, url: search_admins_tickets_path, html: { novalidate: true, class: "searchForm" }  do |f|
   .container-search
-    .wrapper-search-field
-      .custom-input
-        = f.input :number_cont, placeholder: t("admin.tickets.search.number"), wrapper_html: {class: "search-input" }
-        = f.input :assigned_admission_customer_email_cont, placeholder: t("admin.tickets.search.customer"), wrapper_html: {class: "search-input" }
-        = f.input :purchaser_email_cont, placeholder: t("admin.tickets.search.purchaser_email"), wrapper_html: {class: "search-input" }
-      .custom-select
-        = f.input :ticket_type_id_eq, as: :select, collection:  TicketType.form_selector, include_blank: t("admin.tickets.search.type"), label: ''
-        = fa_icon "caret-down"
+    = f.input :number_cont, placeholder: t("admin.tickets.search.number")
+    = f.input :assigned_admission_customer_email_cont, placeholder: t("admin.tickets.search.customer")
+    = f.input :purchaser_email_cont, placeholder: t("admin.tickets.search.purchaser_email")
+    = f.input :ticket_type_id_eq, as: :select, collection:  TicketType.form_selector, include_blank: t("admin.tickets.search.type"), label: '', html: { class: "cutom-select" }
+    = fa_icon "caret-down"
     = f.submit class: "btn btn-secondary"
