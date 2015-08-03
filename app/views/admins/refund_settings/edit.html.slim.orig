@@ -1,6 +1,10 @@
 - breadcrumb :admins_event, @event
 - provide :actions do
+<<<<<<< HEAD
+  = link_to admins_event_path(@event), class: "btn btn-action btn-action-back" do
+=======
   = link_to admins_event_refund_settings_path(@event), class: "btn btn-action btn-action-back" do
+>>>>>>> development
     = fa_icon 'arrow-circle-left'
     span.link-tooltip = t('actions.back')
 

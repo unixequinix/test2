@@ -44,8 +44,7 @@ class Customers::GtagRegistrationsController < Customers::BaseController
 
   def check_has_not_gtag_registration!
     if !current_customer.assigned_gtag_registration.nil?
-      flash.now[:error] = I18n.t('alerts.claim_complete')
-      redirect_to customer_root_path
+      redirect_to customer_root_path, flash: { error: I18n.t('alerts.already_assigned') }
     end
   end
 end

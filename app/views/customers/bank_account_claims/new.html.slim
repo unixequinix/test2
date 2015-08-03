@@ -17,3 +17,8 @@
         p.bank-page-alert.small = t('claims.redirect')
         .container-order-buttons
           = f.button :submit, t('claims.button'), class: "btn btn-top"
+
+.disclaimer-list
+  ul
+    li = t('bank_account_claim.bic_swift_disclaimer_html')
+    li = t('bank_account_claim.iban_disclaimer_html')

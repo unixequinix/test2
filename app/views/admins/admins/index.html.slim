@@ -5,10 +5,11 @@
     span.link-tooltip
       = t('admin.actions.new')
 
-- if @admins.empty?
-  .section-title-empty.wrapper-negative-space
-    = image_tag "img-empty.png"
-    p = t("admin.defaults.empty_admins")
-    = link_to t("actions.new"), new_admins_admin_path, class: "btn btn-action btn-action-new"
-- else
-  = render "admins/admins/list", admins: @admins
+.wrapper-negative-space
+  - if @admins.empty?
+    .section-title-empty
+      = image_tag "img-empty.png"
+      p = t("admin.defaults.empty_admins")
+      = link_to t("actions.new"), new_admins_admin_path, class: "btn btn-action btn-action-new"
+  - else
+    = render "admins/admins/list", admins: @admins

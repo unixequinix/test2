@@ -13,6 +13,7 @@
 #
 
 class TicketType < ActiveRecord::Base
+  default_scope { order(:id) }
   acts_as_paranoid
 
   # Associations

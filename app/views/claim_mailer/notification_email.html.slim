@@ -373,6 +373,7 @@ html
                                 = link_to t('email.customer.claim.available_claim.mail_link'), customer_root_url, { :style => "color: #ff0090; font-size: 26px; text-decoration: underline; " }
 
                                 p = t("email.customer.claim.available_claim.mail_body2")
+                                p = t("email.customer.claim.available_claim.mail_body3", support_email: @event.support_email)
               tr
                 td[align="center" valign="top"]
                   table#templateFooter[border="0" cellpadding="10" cellspacing="0" width="600"]
