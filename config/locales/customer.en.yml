@@ -154,6 +154,9 @@ en:
     placeholders:
       swift: "0000 0000"
       bank_account: 'ES00 0000 0000 0000 0000 0000'
+  bank_account_claim:
+    bic_swift_disclaimer_html: "<sup>1</sup>For more info about BIC/SWIFT go to <a href='https://en.wikipedia.org/wiki/ISO_9362' target='_blank'>https://en.wikipedia.org/wiki/ISO_9362</a>"
+    iban_disclaimer_html: "<sup>2</sup>For more info about IBAN go to <a href='https://en.wikipedia.org/wiki/International_Bank_Account_Number' target='_blank'>https://en.wikipedia.org/wiki/International_Bank_Account_Number</a>"
   payment:
     error:
       title: 'Transaction failed'

@@ -13,3 +13,4 @@ es:
     order_complete: 'Órden completada'
     claim_complete: 'Devolución completada'
     quantity_not_refundable: 'Créditos insuficientes para ser reembolsados'
+    already_assigned: 'Ya tienes uno asignado'

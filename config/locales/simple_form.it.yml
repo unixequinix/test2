@@ -100,8 +100,8 @@ it:
           address: "Indirizzo"
       bank_account_claim_form:
         new:
-          swift: "BIC/SWIFT"
-          iban: "IBAN"
+          swift_html: "BIC/SWIFT<sup>1</sup>"
+          iban_html: "IBAN<sup>2</sup>"
       comment:
         new:
           body: "Comment"

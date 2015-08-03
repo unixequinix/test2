@@ -35,8 +35,7 @@ class Customers::AdmissionsController < Customers::BaseController
 
   def check_has_not_admissions!
     if !current_customer.assigned_admission.nil?
-      flash.now[:error] = I18n.t('alerts.created')
-      redirect_to customer_root_path
+      redirect_to customer_root_path, flash: { error: I18n.t('alerts.already_assigned') }
     end
   end
 

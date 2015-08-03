@@ -13,3 +13,4 @@ it:
     order_complete: 'Ordine completato'
     claim_complete: 'Richiesta completata'
     quantity_not_refundable: 'Non si può rimborsare questa quantità di crediti'
+    already_assigned: 'Hanno già uno assegnato'

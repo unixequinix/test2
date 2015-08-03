@@ -153,6 +153,9 @@ es:
     placeholders:
       swift: "0000 0000"
       bank_account: 'ES00 0000 0000 0000 0000 0000'
+  bank_account_claim:
+    bic_swift_disclaimer_html: "<sup>1</sup>Para más información acerca del número BIC/SWIFT ir a <a href='https://es.wikipedia.org/wiki/ISO_9362' target='_blank'>https://es.wikipedia.org/wiki/ISO_9362</a>"
+    iban_disclaimer_html: "<sup>2</sup>Para más información acerca del número IBAN ir a <a href='https://es.wikipedia.org/wiki/International_Bank_Account_Number' target='_blank'>https://es.wikipedia.org/wiki/International_Bank_Account_Number</a>"
   payment:
     error:
       title: 'Transacción fallida'
