@@ -60,19 +60,19 @@
   text-align: center;
   box-shadow: none;
 
+  @include min-screen($bp2) {
+    &:hover {
+      color: $dark_grey;
+      background-color: $nuclear;
+
+      .link-tooltip { display: block; }
+    }
+  }
+
   i {
     display: inline-block;
     font-weight: bold;
     text-shadow: 0px 2px 0px $nuclear;
-  }
-
-  &:hover {
-    color: $dark_grey;
-    background-color: $nuclear;
-
-    .link-tooltip {
-      display: block;
-    }
   }
 }
 

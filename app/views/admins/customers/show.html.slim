@@ -82,7 +82,7 @@
       dt = t ("admin.customers.deleted_at")
       dd = @customer.deleted_at.strftime("%y-%m-%d %H:%M:%S") unless @customer.deleted_at.nil?
 
-
+  .container-show
     - if !@customer.admissions.empty?
       h3
         = fa_icon "table"
