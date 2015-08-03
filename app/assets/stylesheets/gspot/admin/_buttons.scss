@@ -55,24 +55,22 @@
   @include transition(background-color 150ms linear);
   @include transition(color 150ms linear);
   position: relative;
-  border-radius: 10px;
-  color: $light_grey;
-  text-align: center;
   box-shadow: none;
+  color: $grey;
+  text-align: center;
+  text-shadow: 0px 1px 1px $nuclear;
+
+  @include min-screen($bp2) {
+    &:hover {
+      color: $dark_grey;
+      background-color: $nuclear;
+    }
+  }
 
   i {
     display: inline-block;
+    padding-right: modules(0.25);
     font-weight: bold;
-    text-shadow: 0px 2px 0px $nuclear;
-  }
-
-  &:hover {
-    color: $dark_grey;
-    background-color: $nuclear;
-
-    .link-tooltip {
-      display: block;
-    }
   }
 }
 

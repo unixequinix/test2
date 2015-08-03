@@ -51,17 +51,6 @@ abbr {
   }
 }
 
-.menu-header {
-  padding: modules(0.25) modules(0.25) 0;
-  color: $blue;
-  font-weight: 200;
-
-  i {
-    display: inline-block;
-    padding-right: modules(0.5);
-  }
-}
-
 .section-title-empty {
   padding: modules(2);
   border-radius: 3px;
@@ -222,12 +211,33 @@ abbr {
   }
 }
 
+.menu-header {
+  height: modules(2);
+  padding: modules(0.75) modules(0.5) 0;
+  background-color: $dark_grey;
+  color: $nuclear;
+  font-weight: 200;
+
+  i {
+    display: inline-block;
+    padding-right: modules(0.5);
+  }
+}
+
 .custom-select {
   position: relative;
 
+  select {
+    font-style: italic;
+
+    option { font-style: normal; }
+
+     &:focus { box-shadow: inset 0px 0px 0px 1px $graySilver; }
+  }
+
   i {
     position: absolute;
-    top: modules(0.75);
+    top: modules(1.25);
     right: modules(0.5);
     color: $grey;
     z-index: 9;
@@ -235,7 +245,6 @@ abbr {
   }
 }
 
-// TODO Manu: Find a better way
 .deleted-field{
   color: $red;
 }

@@ -1,13 +1,11 @@
 - breadcrumb :admins_ticket_types
 - provide :actions do
-  = link_to new_admins_ticket_type_path, class: "btn btn-action btn-action-new" do
+  = link_to new_admins_ticket_type_path, class: "btn btn-action btn-action-new small" do
     = fa_icon 'plus'
-    span.link-tooltip
-      = t('admin.actions.new')
-  = link_to admins_ticket_types_path(format: "csv"), class: "btn btn-action btn-action-download"
+    = t('admin.actions.new')
+  = link_to admins_ticket_types_path(format: "csv"), class: "btn btn-action btn-action-download small"
     = fa_icon "download"
-    span.link-tooltip
-      = t('admin.actions.download')
+    = t('admin.actions.download')
 
 .wrapper-negative-space
   - if @ticket_types.empty?

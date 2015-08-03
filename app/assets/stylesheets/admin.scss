@@ -12,9 +12,12 @@
 @import "gspot/admin/tables";
 @import "gspot/admin/pagination";
 @import "gspot/admin/configuration/typography";
+@import "gspot/admin/switch";
 
 @import "vendor/mmenu/jquery.mmenu";
 @import "vendor/mmenu/extensions/jquery.mmenu.positioning";
+@import "vendor/mmenu/jquery.mmenu.oncanvas";
+@import "vendor/mmenu/jquery.mmenu.offcanvas";
 @import "gspot/admin/custom_mmenu";
 
 @media print {
