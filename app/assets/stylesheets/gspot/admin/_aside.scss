@@ -23,11 +23,14 @@ aside {
 
   ul {
     display: block;
+    width: 100%;
     overflow: hidden;
     position: absolute;
     top: modules(2.5);
     left: 0;
     right: 83%;
+
+    @include min-screen($bp3) { width: 17%; }
   }
 
   li {
@@ -93,6 +96,10 @@ aside {
   padding: modules(0.25) modules(0.75);
   text-align: center;
 
+  @include iphone3 { display: none; }
+  @include iphone4 { display: none; }
+  @include iphone5 { display: none; }
+
   @include min-screen($bp3) { background-color: darken($side_panel, 5%); }
 
   a {
@@ -112,6 +119,10 @@ aside {
   padding: 0;
 
   @include min-screen($bp2) { display: none; }
+  @include iphone3 { display: none; }
+  @include iphone4 { display: none; }
+  @include iphone5 { display: none; }
+
 }
 
 .mobile-sign-out {
