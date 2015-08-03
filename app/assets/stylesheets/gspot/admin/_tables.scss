@@ -9,10 +9,14 @@ table {
   width: 100%;
   border-radius: 3px;
   box-shadow: inset 0px 0 0px 1px $input_grey;
+  table-layout:fixed;
 }
 
 th {
+  overflow: hidden;
   display: none;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 
   @include min-screen($bp3) {
     display: table-cell;
@@ -56,9 +60,13 @@ td {
   }
 
   a {
+    width: 100%;
+    overflow: hidden;
     display: inline-block;
     padding: 0;
     color: $blue;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 
      @include min-screen($bp3) { padding: modules(0.5); }
 
