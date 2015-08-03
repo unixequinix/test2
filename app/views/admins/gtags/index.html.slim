@@ -2,10 +2,16 @@
 - provide :actions do
   = link_to new_admins_gtag_path, class: "btn btn-action btn-action-new" do
     = fa_icon 'plus'
+    span.link-tooltip
+      = t('admin.actions.new')
   = link_to admins_gtags_path(format: "csv"), class: "btn btn-action btn-action-download"
     = fa_icon "download"
+    span.link-tooltip
+      = t('admin.actions.download')
   = link_to '#search-menu', class: "btn btn-action btn-action-search" do
     = fa_icon 'search'
+    span.link-tooltip
+      = t('actions.search')
 
 .wrapper-negative-space
   = render "admins/gtags/report", gtags: @gtags

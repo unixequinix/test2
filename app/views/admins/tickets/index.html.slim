@@ -3,15 +3,15 @@
   = link_to new_admins_ticket_path, class: "btn btn-action btn-action-new" do
     = fa_icon 'plus'
     span.link-tooltip
-      = t('actions.back')
+      = t('admin.actions.new')
   = link_to admins_tickets_path(format: "csv"), class: "btn btn-action btn-action-back"
     = fa_icon "download"
     span.link-tooltip
-      = t('actions.download')
+      = t('admin.actions.download')
   = link_to '#search-menu', class: "btn btn-action btn-action-search" do
     = fa_icon 'search'
     span.link-tooltip
-      = t('actions.search')
+      = t('admin.actions.search')
 
 .wrapper-negative-space
   - if @tickets.empty?

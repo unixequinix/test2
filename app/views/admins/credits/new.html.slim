@@ -2,5 +2,7 @@
 - provide :actions do
   = link_to admins_credits_path, class: "btn btn-action btn-action-back" do
     = fa_icon 'arrow-circle-left'
+    span.link-tooltip
+      = t('actions.back')
 
 = render "form", credit: @credit
