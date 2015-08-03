@@ -1,5 +1,7 @@
 - breadcrumb :admins_event, @event
 - provide :actions do
-  = link_to t("actions.back"), admins_event_path(@event), class: "btn btn-action btn-action-back"
+  = link_to t("actions.back"), admins_event_path(@event), class: "btn btn-action btn-action-back" do
+    = fa_icon 'arrow-circle-left'
+    span.link-tooltip = t('actions.back')
 
 = render "form", event: @event

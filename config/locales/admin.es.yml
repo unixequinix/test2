@@ -7,6 +7,12 @@ es:
       assign_ticket: "Asignar ticket"
       assign_gtag: "Asignar gtag"
       manual_claims_csv: "CSV Peticiones Manuales"
+      csv: "CSV"
+      disable: "Deshabilitar"
+      select_all: "Seleccionar todo"
+      delete_selected: "Borrar seleccionados"
+      download: "Descargar CSV"
+      search: "Buscar"
     event:
       name: 'Nombre'
       slug: 'Identificador'
@@ -80,13 +86,6 @@ es:
       empty_refunds: "Sin devoluciones"
       search: "Buscar"
       all: "Seleccionar"
-    actions:
-      back: "Atrás"
-      new: "Nuevo"
-      csv: "CSV"
-      disable: "Deshabilitar"
-      select_all: "Seleccionar todo"
-      delete_selected: "Borrar seleccionados"
     sessions:
       mail: "user@domain.com"
       password: "password"

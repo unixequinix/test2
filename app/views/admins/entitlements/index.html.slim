@@ -2,6 +2,8 @@
 - provide :actions do
   = link_to new_admins_entitlement_path, class: "btn btn-action btn-action-new" do
     = fa_icon 'plus'
+    span.link-tooltip
+      = t('admin.actions.new')
 
 - if @entitlements.empty?
   .section-title-empty.wrapper-negative-space

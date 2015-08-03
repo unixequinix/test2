@@ -1,6 +1,8 @@
 - breadcrumb :new_admins_gtag
 - provide :actions do
   = link_to admins_gtags_path, class: "btn btn-action btn-action-back" do
-    = fa_icon 'search'
+    = fa_icon 'arrow-circle-left'
+    span.link-tooltip
+      = t('actions.back')
 
 = render "form", gtag: @gtag
