@@ -72,7 +72,7 @@ en:
       description2: "do not worry, we will help you through with your refund."
     without_gtags_claiming_started:
       claim: "Sorry"
-      description: "The refunds period is finished, I you have any question contact support."
+      description: "The refunds period is finished, If you have any question contact support."
     gtag_registration:
       title: "Your %{gtag} number:"
       call_to_action: "Put a wrong %{gtag} by mistake?"
