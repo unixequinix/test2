@@ -68,7 +68,7 @@ td {
     white-space: nowrap;
     text-overflow: ellipsis;
 
-     @include min-screen($bp3) { padding: modules(0.5); }
+     @include min-screen($bp3) { padding: modules(0.5) modules(0.25); }
 
     &:hover, &:focus  {
       text-decoration: underline;
