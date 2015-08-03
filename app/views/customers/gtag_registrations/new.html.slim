@@ -1,20 +1,20 @@
 .wrapper-fit.centered
-  //= image_tag "img-singleid-wb.png", class: "wristband-image"
-  = image_tag "img-wb.png", class: "wristband-image"
+  = image_tag "img-singleid-wb.png", class: "wristband-image"
+  //= image_tag "img-wb.png", class: "wristband-image"
   //= image_tag "img-rfid-card.png", class: "wristband-image rfid-card"
   h3 = t('gtag_registrations.call_to_action')
   p = t('gtag_registrations.description')
   //p = t('gtag_registrations.simple_description')
   = form_tag customers_gtag_registrations_path do |f|
     .assign-input
-      p.wristband-hint
-        = fa_icon "info-circle"
-        = t('gtag_registrations.info.line_1')
-      = text_field_tag :tag_serial_number, nil, placeholder: t('gtag_registrations.placeholders.line_1')
-      //= hidden_field_tag :tag_serial_number, '00000'
+      //p.wristband-hint
+      //  = fa_icon "info-circle"
+      //  = t('gtag_registrations.info.line_1')
+      //= text_field_tag :tag_serial_number, nil, placeholder: t('gtag_registrations.placeholders.line_1')
+      = hidden_field_tag :tag_serial_number, '00000'
       p.wristband-hint
         = fa_icon "info-circle"
         = t('gtag_registrations.info.line_2')
-      //= text_field_tag :tag_uid, nil, placeholder: t('gtag_registrations.placeholders.simple_line')
-      = text_field_tag :tag_uid, nil, placeholder: t('gtag_registrations.placeholders.line_2')
+      = text_field_tag :tag_uid, nil, placeholder: t('gtag_registrations.placeholders.simple_line')
+      //= text_field_tag :tag_uid, nil, placeholder: t('gtag_registrations.placeholders.line_2')
     = submit_tag t('gtag_registrations.button'), class: "btn btn-full-width btn-action-activate"
