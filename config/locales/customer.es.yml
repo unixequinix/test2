@@ -154,8 +154,8 @@ es:
       swift: "0000 0000"
       bank_account: 'ES00 0000 0000 0000 0000 0000'
   bank_account_claim:
-    bic_swift_disclaimer_html: "<sup>1</sup>Para más información acerca del número BIC/SWIFT ir a <a href='https://es.wikipedia.org/wiki/ISO_9362' target='_blank'>https://es.wikipedia.org/wiki/ISO_9362</a>"
-    iban_disclaimer_html: "<sup>2</sup>Para más información acerca del número IBAN ir a <a href='https://es.wikipedia.org/wiki/International_Bank_Account_Number' target='_blank'>https://es.wikipedia.org/wiki/International_Bank_Account_Number</a>"
+    bic_swift_disclaimer_html: "<sup>1</sup><a href='http://www.ennaranja.com/economia-facil/que-son-los-codigos-iban-y-bic-y-para-que-sirven-al-hacer-transferencias/ ' target='_blank'>¿Qué es el número BIC / SWIFT y donde puedo encontrar el mío?</a>"
+    iban_disclaimer_html: "<sup>2</sup><a href='http://www.ennaranja.com/economia-facil/que-son-los-codigos-iban-y-bic-y-para-que-sirven-al-hacer-transferencias/' target='_blank'>¿Qué es el número IBAN y donde puedo encontrar el mío?</a>"
   payment:
     error:
       title: 'Transacción fallida'

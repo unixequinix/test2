@@ -141,8 +141,12 @@ parameters.each do |category, group|
       puts " - Group: #{group_name}"
     param_list.each do |param, data_type|
       puts "   - #{param}"
-      p = Parameter.create!(category: category, group: group_name,
+      begin
+        p = Parameter.create!(category: category, group: group_name,
                           name: param, data_type: data_type, description: '')
+      rescue
+        puts 'Already exists'
+      end
     end
   end
 end
