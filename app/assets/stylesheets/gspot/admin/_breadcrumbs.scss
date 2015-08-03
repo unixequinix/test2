@@ -19,6 +19,8 @@
     white-space: nowrap;
     text-overflow: ellipsis;
   }
+
+  .small { margin-bottom: 0; }
 }
 
 // ______ BREADCRUMBS ______
@@ -63,35 +65,6 @@
   .btn {
     display: inline-block;
     padding: modules(0.5);
-  }
-}
-
-.link-tooltip {
-  position: absolute;
-  overflow: visible;
-  top: modules(2);
-  right: modules(0.25);
-  display: none;
-  background-color: $dark_grey;
-  color: $nuclear;
-  text-shadow: none;
-  padding: 0 modules(0.5);
-  border-radius: 3px;
-  z-index: 1;
-
-  &:before {
-    display: block;
-    content:"";
-    position: absolute;
-    z-index: 9;
-    top: -5px;
-    right: 3px;
-    width: 0;
-    height: 0;
-    border-left: 9px solid transparent;
-    border-right: 9px solid transparent;
-    border-bottom: 9px solid $dark_grey;
-
   }
 }
 

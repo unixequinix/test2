@@ -1,12 +1,11 @@
 - breadcrumb :admins_customer, @customer
 - provide :actions do
-  = link_to t("admin.actions.assign_ticket"), new_admins_customer_admission_path(@customer), class: "btn btn-action btn-action-new" unless @customer.assigned_admission
+  = link_to t("admin.actions.assign_ticket"), new_admins_customer_admission_path(@customer), class: "btn btn-action btn-action-new small" unless @customer.assigned_admission
 
-  = link_to t("admin.actions.assign_gtag"), new_admins_customer_gtag_registration_path(@customer), class: "btn btn-action btn-action-new" unless @customer.assigned_gtag_registration
-  = link_to admins_customers_path, class: "btn btn-action btn-action-back" do
+  = link_to t("admin.actions.assign_gtag"), new_admins_customer_gtag_registration_path(@customer), class: "btn btn-action btn-action-new small" unless @customer.assigned_gtag_registration
+  = link_to admins_customers_path, class: "btn btn-action btn-action-back small" do
     = fa_icon "arrow-circle-left"
-    span.link-tooltip
-      = t('actions.back')
+    = t('actions.back')
 .wrapper-negative-space
   .container-show
     dl

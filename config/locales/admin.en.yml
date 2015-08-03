@@ -1,7 +1,7 @@
 en:
   admin:
     actions:
-      new: "Create new"
+      new: "New"
       back: "Back"
       cancel: "Cancel"
       assign_ticket: "Assign ticket"
@@ -11,8 +11,8 @@ en:
       disable: "Disable"
       select_all: "Select all"
       delete_selected: "Delete selected"
-      download: "Download CSV"
-      serach: "Search"
+      download: "CSV"
+      search: "Search"
     event:
       name: 'Name'
       slug: 'Slug'

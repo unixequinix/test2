@@ -1,0 +1,992 @@
+Searching 3102 files for "link-tooltip"
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtags/new.html.slim:
+    5:     span.link-tooltip
+
+/Users/Manu/Workspace/gspot/app/views/admins/orders/index.html.slim:
+    5:     span.link-tooltip
+
+/Users/Manu/Workspace/gspot/app/views/admins/orders/show.html.slim:
+    5:     span.link-tooltip = t('actions.back')
+
+/Users/Manu/Workspace/gspot/app/views/admins/payments/index.html.slim:
+    5:     span.link-tooltip
+    9:     span.link-tooltip
+
+/Users/Manu/Workspace/gspot/app/views/admins/refund_settings/edit.html.slim:
+    5:     span.link-tooltip = t('actions.back')
+
+/Users/Manu/Workspace/gspot/app/views/admins/refund_settings/edit.html.slim.orig:
+    9:     span.link-tooltip = t('actions.back')
+
+/Users/Manu/Workspace/gspot/app/views/admins/refund_settings/show.html.slim:
+    5:     span.link-tooltip = t('actions.back')
+    8:     span.link-tooltip = t('actions.edit')
+
+/Users/Manu/Workspace/gspot/app/views/admins/refunds/index.html.slim:
+    5:     span.link-tooltip
+    9:     span.link-tooltip
+
+/Users/Manu/Workspace/gspot/app/views/admins/ticket_types/edit.html.slim:
+    5:     span.link-tooltip
+
+/Users/Manu/Workspace/gspot/app/views/admins/ticket_types/index.html.slim:
+    5:     span.link-tooltip
+    9:     span.link-tooltip
+
+/Users/Manu/Workspace/gspot/app/views/admins/ticket_types/new.html.slim:
+    5:     span.link-tooltip
+
+/Users/Manu/Workspace/gspot/app/views/admins/tickets/edit.html.slim:
+    5:     span.link-tooltip
+
+16 matches across 12 files
+
+
+Searching 3109 files for "btn-action"
+
+/Users/Manu/Workspace/gspot/app/assets/stylesheets/gspot/admin/_base.scss:
+  122:   .btn-action {
+
+/Users/Manu/Workspace/gspot/app/assets/stylesheets/gspot/admin/_buttons.scss:
+   54: .btn-action {
+   77: .btn-action-new {
+   80: .btn-action-back {
+   83: .btn-action-edit {
+   87: .btn-action-delete {
+   91: .btn-action-import {
+
+/Users/Manu/Workspace/gspot/app/assets/stylesheets/gspot/customer/_template_theme.scss:
+  308: .btn-action-activate { margin-top: modules(1); }
+
+/Users/Manu/Workspace/gspot/app/views/admins/admins/edit.html.slim:
+    3:   = link_to admins_admins_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/admins/index.html.slim:
+    3:   = link_to new_admins_admin_path, class: "btn btn-action btn-action-new" do
+   12:       = link_to t("actions.new"), new_admins_admin_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/admins/new.html.slim:
+    3:   = link_to admins_admins_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/admissions/new.html.slim:
+    3:   = link_to t("actions.back"), admins_customer_path(@customer), class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/claims/index.html.slim:
+    3:   = link_to admins_claims_path(format: "csv"), class: "btn btn-action btn-action-download"
+    7:   = link_to '#search-menu', class: "btn btn-action btn-action-search" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/claims/show.html.slim:
+    3:   = link_to admins_claims_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/credits/edit.html.slim:
+    3:   = link_to admins_credits_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/credits/index.html.slim:
+    3:   = link_to new_admins_credit_path, class: "btn btn-action btn-action-new" do
+   11:     = link_to t("admin.actions.new"), new_admins_credit_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/credits/new.html.slim:
+    3:   = link_to admins_credits_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/customers/index.html.slim:
+    3:   = link_to '#search-menu', class: 'btn btn-action btn-action-search'  do
+
+/Users/Manu/Workspace/gspot/app/views/admins/customers/show.html.slim:
+    3:   = link_to t("admin.actions.assign_ticket"), new_admins_customer_admission_path(@customer), class: "btn btn-action btn-action-new" unless @customer.assigned_admission
+    5:   = link_to t("admin.actions.assign_gtag"), new_admins_customer_gtag_registration_path(@customer), class: "btn btn-action btn-action-new" unless @customer.assigned_gtag_registration
+    6:   = link_to admins_customers_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/dashboards/show.html.slim:
+    3:   = link_to edit_admins_event_path(@event), class: "btn btn-action btn-action-edit" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/entitlements/edit.html.slim:
+    3:   = link_to admins_entitlements_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/entitlements/index.html.slim:
+    3:   = link_to new_admins_entitlement_path, class: "btn btn-action btn-action-new" do
+   12:       = link_to t("actions.new"), new_admins_entitlement_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/entitlements/new.html.slim:
+    3:   = link_to admins_entitlements_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/events/edit.html.slim:
+    3:   = link_to admins_event_path(@event), class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/events/show.html.slim:
+    3:   = link_to admin_root_path, class: "btn btn-action btn-action-back" do
+    6:   = link_to edit_admins_event_path(@event), class: "btn btn-action btn-action-edit" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtag_registrations/new.html.slim:
+    3:   = link_to t("actions.back"), admins_customer_path(@customer), class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtags/edit.html.slim:
+    3:   = link_to admins_gtags_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtags/index.html.slim:
+    3:   = link_to new_admins_gtag_path, class: "btn btn-action btn-action-new" do
+    6:   = link_to admins_gtags_path(format: "csv"), class: "btn btn-action btn-action-download"
+    9:   = link_to '#search-menu', class: "btn btn-action btn-action-search" do
+   19:       = link_to t("actions.new"), new_admins_gtag_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtags/new.html.slim:
+    3:   = link_to admins_gtags_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtags/show.html.slim:
+    3:   = link_to t("actions.delete"), admins_gtag_path(@gtag), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-action btn-action-new btn-action-delete"
+    4:   = link_to t("actions.edit"), edit_admins_gtag_path(@gtag), class: "btn btn-action btn-action-new"
+    5:   = link_to t("actions.back"), admins_gtags_path, class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/orders/index.html.slim:
+    3:   = link_to '#search-menu', class: 'btn btn-action btn-action-search' do
+
+/Users/Manu/Workspace/gspot/app/views/admins/orders/show.html.slim:
+    3:   = link_to admins_orders_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/payments/index.html.slim:
+    3:   = link_to admins_payments_path(format: "csv"), class: "btn btn-action btn-action-download"
+    6:   = link_to '#search-menu', class: "btn btn-action btn-action-search" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/payments/show.html.slim:
+    3:   = link_to t("actions.back"), admins_payments_path, class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/refund_settings/edit.html.slim:
+    3:   = link_to admins_event_refund_settings_path(@event), class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/refund_settings/edit.html.slim.orig:
+    4:   = link_to admins_event_path(@event), class: "btn btn-action btn-action-back" do
+    6:   = link_to admins_event_refund_settings_path(@event), class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/refund_settings/show.html.slim:
+    3:   = link_to admin_root_path, class: "btn btn-action btn-action-back" do
+    6:   = link_to edit_admins_event_refund_settings_path(@event), class: "btn btn-action btn-action-edit" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/refunds/index.html.slim:
+    3:   = link_to admins_refunds_path(format: "csv"), class: "btn btn-action btn-action-download"
+    6:   = link_to '#search-menu', class: "btn btn-action btn-action-search" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/refunds/show.html.slim:
+    3:   = link_to t("actions.back"), admins_refunds_path, class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/ticket_types/edit.html.slim:
+    3:   = link_to admins_ticket_types_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/ticket_types/index.html.slim:
+    3:   = link_to new_admins_ticket_type_path, class: "btn btn-action btn-action-new" do
+    6:   = link_to admins_ticket_types_path(format: "csv"), class: "btn btn-action btn-action-download"
+   15:       = link_to t("actions.new"), new_admins_ticket_type_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/ticket_types/new.html.slim:
+    3:   = link_to admins_ticket_types_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/tickets/edit.html.slim:
+    3:   = link_to admins_tickets_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/tickets/index.html.slim:
+    3:   = link_to new_admins_ticket_path, class: "btn btn-action btn-action-new small" do
+    6:   = link_to admins_tickets_path(format: "csv"), class: "btn btn-action btn-action-back small"
+    9:   = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
+   18:       = link_to t("actions.new"), new_admins_ticket_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/tickets/new.html.slim:
+    3:   = link_to t("actions.back"), admins_tickets_path, class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/tickets/show.html.slim:
+    3:   = link_to t("actions.delete"), admins_ticket_path(@ticket), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-action btn-action-new btn-action-delete"
+    4:   = link_to t("actions.edit"), edit_admins_ticket_path(@ticket), class: "btn btn-action btn-action-new"
+    5:   = link_to t("actions.back"), admins_tickets_path, class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_claiming_started/_error_refund_disclaimer.html.slim:
+    5:     = link_to href="#{customer_root_url}", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_claiming_started/_success_refund_disclaimer.html.slim:
+    5:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_claiming_started/_without_gtags_claiming_started.html.slim:
+    5:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_finished/_more_gtags.html.slim:
+    4:     = link_to destroy_customer_session_path, method: :delete, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_finished/_wait_refund_disclaimer.html.slim:
+    6:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_finished/_without_gtags.html.slim:
+    4:   = link_to t('dashboard.without_gtags.button'), new_customers_gtag_registration_path, class: "btn btn-action-activate"
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_finished/_without_gtags_disabled.html.slim:
+    6:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_launched/_without_admissions.html.slim:
+    4:   = link_to t('dashboard.without_admissions.button'), new_customers_admission_path, class: "btn btn-action-activate"
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_started/_refunds.html.slim:
+    5:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/gtag_registrations/new.html.slim:
+   20:     = submit_tag t('gtag_registrations.button'), class: "btn btn-full-width btn-action-activate"
+
+Unable to open /Users/Manu/Workspace/gspot/tmp/data/meta_request/ac622d6b-4547-424e-90e0-38dbe807e00d.json
+149 matches across 51 files
+
+
+Searching 3115 files for "btn-action"
+
+/Users/Manu/Workspace/gspot/app/assets/stylesheets/gspot/admin/_base.scss:
+  122:   .btn-action {
+
+/Users/Manu/Workspace/gspot/app/assets/stylesheets/gspot/admin/_buttons.scss:
+   54: .btn-action {
+   77: .btn-action-new {
+   80: .btn-action-back {
+   83: .btn-action-edit {
+   87: .btn-action-delete {
+   91: .btn-action-import {
+
+/Users/Manu/Workspace/gspot/app/assets/stylesheets/gspot/customer/_template_theme.scss:
+  308: .btn-action-activate { margin-top: modules(1); }
+
+/Users/Manu/Workspace/gspot/app/views/admins/admins/edit.html.slim:
+    3:   = link_to admins_admins_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/admins/index.html.slim:
+    3:   = link_to new_admins_admin_path, class: "btn btn-action btn-action-new" do
+   12:       = link_to t("actions.new"), new_admins_admin_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/admins/new.html.slim:
+    3:   = link_to admins_admins_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/admissions/new.html.slim:
+    3:   = link_to t("actions.back"), admins_customer_path(@customer), class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/claims/index.html.slim:
+    3:   = link_to admins_claims_path(format: "csv"), class: "btn btn-action btn-action-download"
+    7:   = link_to '#search-menu', class: "btn btn-action btn-action-search" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/claims/show.html.slim:
+    3:   = link_to admins_claims_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/credits/edit.html.slim:
+    3:   = link_to admins_credits_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/credits/index.html.slim:
+    3:   = link_to new_admins_credit_path, class: "btn btn-action btn-action-new" do
+   11:     = link_to t("admin.actions.new"), new_admins_credit_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/credits/new.html.slim:
+    3:   = link_to admins_credits_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/customers/index.html.slim:
+    3:   = link_to '#search-menu', class: 'btn btn-action btn-action-search'  do
+
+/Users/Manu/Workspace/gspot/app/views/admins/customers/show.html.slim:
+    3:   = link_to t("admin.actions.assign_ticket"), new_admins_customer_admission_path(@customer), class: "btn btn-action btn-action-new" unless @customer.assigned_admission
+    5:   = link_to t("admin.actions.assign_gtag"), new_admins_customer_gtag_registration_path(@customer), class: "btn btn-action btn-action-new" unless @customer.assigned_gtag_registration
+    6:   = link_to admins_customers_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/dashboards/show.html.slim:
+    3:   = link_to edit_admins_event_path(@event), class: "btn btn-action btn-action-edit" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/entitlements/edit.html.slim:
+    3:   = link_to admins_entitlements_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/entitlements/index.html.slim:
+    3:   = link_to new_admins_entitlement_path, class: "btn btn-action btn-action-new" do
+   12:       = link_to t("actions.new"), new_admins_entitlement_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/entitlements/new.html.slim:
+    3:   = link_to admins_entitlements_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/events/edit.html.slim:
+    3:   = link_to admins_event_path(@event), class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/events/show.html.slim:
+    3:   = link_to admin_root_path, class: "btn btn-action btn-action-back" do
+    6:   = link_to edit_admins_event_path(@event), class: "btn btn-action btn-action-edit" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtag_registrations/new.html.slim:
+    3:   = link_to t("actions.back"), admins_customer_path(@customer), class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtags/edit.html.slim:
+    3:   = link_to admins_gtags_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtags/index.html.slim:
+    3:   = link_to new_admins_gtag_path, class: "btn btn-action btn-action-new" do
+    6:   = link_to admins_gtags_path(format: "csv"), class: "btn btn-action btn-action-download"
+    9:   = link_to '#search-menu', class: "btn btn-action btn-action-search" do
+   19:       = link_to t("actions.new"), new_admins_gtag_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtags/new.html.slim:
+    3:   = link_to admins_gtags_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtags/show.html.slim:
+    3:   = link_to t("actions.delete"), admins_gtag_path(@gtag), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-action btn-action-new btn-action-delete"
+    4:   = link_to t("actions.edit"), edit_admins_gtag_path(@gtag), class: "btn btn-action btn-action-new"
+    5:   = link_to t("actions.back"), admins_gtags_path, class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/orders/index.html.slim:
+    3:   = link_to '#search-menu', class: 'btn btn-action btn-action-search' do
+
+/Users/Manu/Workspace/gspot/app/views/admins/orders/show.html.slim:
+    3:   = link_to admins_orders_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/payments/index.html.slim:
+    3:   = link_to admins_payments_path(format: "csv"), class: "btn btn-action btn-action-download"
+    6:   = link_to '#search-menu', class: "btn btn-action btn-action-search" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/payments/show.html.slim:
+    3:   = link_to t("actions.back"), admins_payments_path, class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/refund_settings/edit.html.slim:
+    3:   = link_to admins_event_refund_settings_path(@event), class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/refund_settings/edit.html.slim.orig:
+    4:   = link_to admins_event_path(@event), class: "btn btn-action btn-action-back" do
+    6:   = link_to admins_event_refund_settings_path(@event), class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/refund_settings/show.html.slim:
+    3:   = link_to admin_root_path, class: "btn btn-action btn-action-back" do
+    6:   = link_to edit_admins_event_refund_settings_path(@event), class: "btn btn-action btn-action-edit" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/refunds/index.html.slim:
+    3:   = link_to admins_refunds_path(format: "csv"), class: "btn btn-action btn-action-download"
+    6:   = link_to '#search-menu', class: "btn btn-action btn-action-search" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/refunds/show.html.slim:
+    3:   = link_to t("actions.back"), admins_refunds_path, class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/ticket_types/edit.html.slim:
+    3:   = link_to admins_ticket_types_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/ticket_types/index.html.slim:
+    3:   = link_to new_admins_ticket_type_path, class: "btn btn-action btn-action-new" do
+    6:   = link_to admins_ticket_types_path(format: "csv"), class: "btn btn-action btn-action-download"
+   15:       = link_to t("actions.new"), new_admins_ticket_type_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/ticket_types/new.html.slim:
+    3:   = link_to admins_ticket_types_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/tickets/edit.html.slim:
+    3:   = link_to admins_tickets_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/tickets/index.html.slim:
+    3:   = link_to new_admins_ticket_path, class: "btn btn-action btn-action-new small" do
+    6:   = link_to admins_tickets_path(format: "csv"), class: "btn btn-action btn-action-back small"
+    9:   = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
+   18:       = link_to t("actions.new"), new_admins_ticket_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/tickets/new.html.slim:
+    3:   = link_to t("actions.back"), admins_tickets_path, class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/tickets/show.html.slim:
+    3:   = link_to t("actions.delete"), admins_ticket_path(@ticket), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-action btn-action-new btn-action-delete"
+    4:   = link_to t("actions.edit"), edit_admins_ticket_path(@ticket), class: "btn btn-action btn-action-new"
+    5:   = link_to t("actions.back"), admins_tickets_path, class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_claiming_started/_error_refund_disclaimer.html.slim:
+    5:     = link_to href="#{customer_root_url}", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_claiming_started/_success_refund_disclaimer.html.slim:
+    5:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_claiming_started/_without_gtags_claiming_started.html.slim:
+    5:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_finished/_more_gtags.html.slim:
+    4:     = link_to destroy_customer_session_path, method: :delete, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_finished/_wait_refund_disclaimer.html.slim:
+    6:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_finished/_without_gtags.html.slim:
+    4:   = link_to t('dashboard.without_gtags.button'), new_customers_gtag_registration_path, class: "btn btn-action-activate"
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_finished/_without_gtags_disabled.html.slim:
+    6:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_launched/_without_admissions.html.slim:
+    4:   = link_to t('dashboard.without_admissions.button'), new_customers_admission_path, class: "btn btn-action-activate"
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_started/_refunds.html.slim:
+    5:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/gtag_registrations/new.html.slim:
+   20:     = submit_tag t('gtag_registrations.button'), class: "btn btn-full-width btn-action-activate"
+
+
+
+Searching 3115 files for "btn-action"
+
+/Users/Manu/Workspace/gspot/app/assets/stylesheets/gspot/admin/_base.scss:
+  122:   .btn-action {
+
+/Users/Manu/Workspace/gspot/app/assets/stylesheets/gspot/admin/_buttons.scss:
+   54: .btn-action {
+   77: .btn-action-new {
+   80: .btn-action-back {
+   83: .btn-action-edit {
+   87: .btn-action-delete {
+   91: .btn-action-import {
+
+/Users/Manu/Workspace/gspot/app/assets/stylesheets/gspot/customer/_template_theme.scss:
+  308: .btn-action-activate { margin-top: modules(1); }
+
+/Users/Manu/Workspace/gspot/app/views/admins/admins/edit.html.slim:
+    3:   = link_to admins_admins_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/admins/index.html.slim:
+    3:   = link_to new_admins_admin_path, class: "btn btn-action btn-action-new" do
+   12:       = link_to t("actions.new"), new_admins_admin_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/admins/new.html.slim:
+    3:   = link_to admins_admins_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/admissions/new.html.slim:
+    3:   = link_to t("actions.back"), admins_customer_path(@customer), class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/claims/index.html.slim:
+    3:   = link_to admins_claims_path(format: "csv"), class: "btn btn-action btn-action-download"
+    7:   = link_to '#search-menu', class: "btn btn-action btn-action-search" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/claims/show.html.slim:
+    3:   = link_to admins_claims_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/credits/edit.html.slim:
+    3:   = link_to admins_credits_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/credits/index.html.slim:
+    3:   = link_to new_admins_credit_path, class: "btn btn-action btn-action-new" do
+   11:     = link_to t("admin.actions.new"), new_admins_credit_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/credits/new.html.slim:
+    3:   = link_to admins_credits_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/customers/index.html.slim:
+    3:   = link_to '#search-menu', class: 'btn btn-action btn-action-search'  do
+
+/Users/Manu/Workspace/gspot/app/views/admins/customers/show.html.slim:
+    3:   = link_to t("admin.actions.assign_ticket"), new_admins_customer_admission_path(@customer), class: "btn btn-action btn-action-new" unless @customer.assigned_admission
+    5:   = link_to t("admin.actions.assign_gtag"), new_admins_customer_gtag_registration_path(@customer), class: "btn btn-action btn-action-new" unless @customer.assigned_gtag_registration
+    6:   = link_to admins_customers_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/dashboards/show.html.slim:
+    3:   = link_to edit_admins_event_path(@event), class: "btn btn-action btn-action-edit" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/entitlements/edit.html.slim:
+    3:   = link_to admins_entitlements_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/entitlements/index.html.slim:
+    3:   = link_to new_admins_entitlement_path, class: "btn btn-action btn-action-new" do
+   12:       = link_to t("actions.new"), new_admins_entitlement_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/entitlements/new.html.slim:
+    3:   = link_to admins_entitlements_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/events/edit.html.slim:
+    3:   = link_to admins_event_path(@event), class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/events/show.html.slim:
+    3:   = link_to admin_root_path, class: "btn btn-action btn-action-back" do
+    6:   = link_to edit_admins_event_path(@event), class: "btn btn-action btn-action-edit" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtag_registrations/new.html.slim:
+    3:   = link_to t("actions.back"), admins_customer_path(@customer), class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtags/edit.html.slim:
+    3:   = link_to admins_gtags_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtags/index.html.slim:
+    3:   = link_to new_admins_gtag_path, class: "btn btn-action btn-action-new" do
+    6:   = link_to admins_gtags_path(format: "csv"), class: "btn btn-action btn-action-download"
+    9:   = link_to '#search-menu', class: "btn btn-action btn-action-search" do
+   19:       = link_to t("actions.new"), new_admins_gtag_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtags/new.html.slim:
+    3:   = link_to admins_gtags_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtags/show.html.slim:
+    3:   = link_to t("actions.delete"), admins_gtag_path(@gtag), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-action btn-action-new btn-action-delete"
+    4:   = link_to t("actions.edit"), edit_admins_gtag_path(@gtag), class: "btn btn-action btn-action-new"
+    5:   = link_to t("actions.back"), admins_gtags_path, class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/orders/index.html.slim:
+    3:   = link_to '#search-menu', class: 'btn btn-action btn-action-search' do
+
+/Users/Manu/Workspace/gspot/app/views/admins/orders/show.html.slim:
+    3:   = link_to admins_orders_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/payments/index.html.slim:
+    3:   = link_to admins_payments_path(format: "csv"), class: "btn btn-action btn-action-download"
+    6:   = link_to '#search-menu', class: "btn btn-action btn-action-search" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/payments/show.html.slim:
+    3:   = link_to t("actions.back"), admins_payments_path, class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/refund_settings/edit.html.slim:
+    3:   = link_to admins_event_refund_settings_path(@event), class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/refund_settings/edit.html.slim.orig:
+    4:   = link_to admins_event_path(@event), class: "btn btn-action btn-action-back" do
+    6:   = link_to admins_event_refund_settings_path(@event), class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/refund_settings/show.html.slim:
+    3:   = link_to admin_root_path, class: "btn btn-action btn-action-back" do
+    6:   = link_to edit_admins_event_refund_settings_path(@event), class: "btn btn-action btn-action-edit" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/refunds/index.html.slim:
+    3:   = link_to admins_refunds_path(format: "csv"), class: "btn btn-action btn-action-download"
+    6:   = link_to '#search-menu', class: "btn btn-action btn-action-search" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/refunds/show.html.slim:
+    3:   = link_to t("actions.back"), admins_refunds_path, class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/ticket_types/edit.html.slim:
+    3:   = link_to admins_ticket_types_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/ticket_types/index.html.slim:
+    3:   = link_to new_admins_ticket_type_path, class: "btn btn-action btn-action-new" do
+    6:   = link_to admins_ticket_types_path(format: "csv"), class: "btn btn-action btn-action-download"
+   15:       = link_to t("actions.new"), new_admins_ticket_type_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/ticket_types/new.html.slim:
+    3:   = link_to admins_ticket_types_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/tickets/edit.html.slim:
+    3:   = link_to admins_tickets_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/tickets/index.html.slim:
+    3:   = link_to new_admins_ticket_path, class: "btn btn-action btn-action-new small" do
+    6:   = link_to admins_tickets_path(format: "csv"), class: "btn btn-action btn-action-back small"
+    9:   = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
+   18:       = link_to t("actions.new"), new_admins_ticket_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/tickets/new.html.slim:
+    3:   = link_to t("actions.back"), admins_tickets_path, class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/tickets/show.html.slim:
+    3:   = link_to t("actions.delete"), admins_ticket_path(@ticket), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-action btn-action-new btn-action-delete"
+    4:   = link_to t("actions.edit"), edit_admins_ticket_path(@ticket), class: "btn btn-action btn-action-new"
+    5:   = link_to t("actions.back"), admins_tickets_path, class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_claiming_started/_error_refund_disclaimer.html.slim:
+    5:     = link_to href="#{customer_root_url}", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_claiming_started/_success_refund_disclaimer.html.slim:
+    5:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_claiming_started/_without_gtags_claiming_started.html.slim:
+    5:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_finished/_more_gtags.html.slim:
+    4:     = link_to destroy_customer_session_path, method: :delete, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_finished/_wait_refund_disclaimer.html.slim:
+    6:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_finished/_without_gtags.html.slim:
+    4:   = link_to t('dashboard.without_gtags.button'), new_customers_gtag_registration_path, class: "btn btn-action-activate"
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_finished/_without_gtags_disabled.html.slim:
+    6:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_launched/_without_admissions.html.slim:
+    4:   = link_to t('dashboard.without_admissions.button'), new_customers_admission_path, class: "btn btn-action-activate"
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_started/_refunds.html.slim:
+    5:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/gtag_registrations/new.html.slim:
+   20:     = submit_tag t('gtag_registrations.button'), class: "btn btn-full-width btn-action-activate"
+
+Unable to open /Users/Manu/Workspace/gspot/tmp/data/meta_request/94b27926-8b18-481d-925c-5992f9f56a9b.json
+149 matches across 51 files
+
+
+Searching 3194 files for "action-bar"
+
+/Users/Manu/Workspace/gspot/app/assets/stylesheets/gspot/admin/_breadcrumbs.scss:
+    7: .action-bar {
+   50: .action-bar-btns {
+
+/Users/Manu/Workspace/gspot/app/views/admins/shared/_action_bar.html.slim:
+    1: .action-bar
+    4:     .action-bar-btns
+
+Unable to open /Users/Manu/Workspace/gspot/tmp/data/meta_request/5c2b763c-32db-48d4-ad9b-17748c9a7669.json
+4 matches across 2 files
+
+
+Searching 3234 files for "btn-action"
+
+/Users/Manu/Workspace/gspot/app/assets/stylesheets/gspot/admin/_base.scss:
+  122:   .btn-action {
+
+/Users/Manu/Workspace/gspot/app/assets/stylesheets/gspot/admin/_buttons.scss:
+   54: .btn-action {
+   77: .btn-action-new {
+   80: .btn-action-back {
+   83: .btn-action-edit {
+   87: .btn-action-delete {
+   91: .btn-action-import {
+
+/Users/Manu/Workspace/gspot/app/assets/stylesheets/gspot/customer/_template_theme.scss:
+  308: .btn-action-activate { margin-top: modules(1); }
+
+/Users/Manu/Workspace/gspot/app/views/admins/admins/edit.html.slim:
+    3:   = link_to admins_admins_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/admins/index.html.slim:
+    3:   = link_to new_admins_admin_path, class: "btn btn-action btn-action-new" do
+   12:       = link_to t("actions.new"), new_admins_admin_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/admins/new.html.slim:
+    3:   = link_to admins_admins_path, class: "btn btn-action btn-action-back small" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/admissions/new.html.slim:
+    3:   = link_to t("actions.back"), admins_customer_path(@customer), class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/claims/index.html.slim:
+    3:   = link_to admins_claims_path(format: "csv"), class: "btn btn-action btn-action-download"
+    7:   = link_to '#search-menu', class: "btn btn-action btn-action-search" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/claims/show.html.slim:
+    3:   = link_to admins_claims_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/credits/edit.html.slim:
+    3:   = link_to admins_credits_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/credits/index.html.slim:
+    3:   = link_to new_admins_credit_path, class: "btn btn-action btn-action-new" do
+   11:     = link_to t("admin.actions.new"), new_admins_credit_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/credits/new.html.slim:
+    3:   = link_to admins_credits_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/customers/index.html.slim:
+    3:   = link_to '#search-menu', class: 'btn btn-action btn-action-search'  do
+
+/Users/Manu/Workspace/gspot/app/views/admins/customers/show.html.slim:
+    3:   = link_to t("admin.actions.assign_ticket"), new_admins_customer_admission_path(@customer), class: "btn btn-action btn-action-new" unless @customer.assigned_admission
+    5:   = link_to t("admin.actions.assign_gtag"), new_admins_customer_gtag_registration_path(@customer), class: "btn btn-action btn-action-new" unless @customer.assigned_gtag_registration
+    6:   = link_to admins_customers_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/dashboards/show.html.slim:
+    3:   = link_to edit_admins_event_path(@event), class: "btn btn-action btn-action-edit" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/entitlements/edit.html.slim:
+    3:   = link_to admins_entitlements_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/entitlements/index.html.slim:
+    3:   = link_to new_admins_entitlement_path, class: "btn btn-action btn-action-new" do
+   12:       = link_to t("actions.new"), new_admins_entitlement_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/entitlements/new.html.slim:
+    3:   = link_to admins_entitlements_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/events/edit.html.slim:
+    3:   = link_to admins_event_path(@event), class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/events/show.html.slim:
+    3:   = link_to admin_root_path, class: "btn btn-action btn-action-back" do
+    6:   = link_to edit_admins_event_path(@event), class: "btn btn-action btn-action-edit" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtag_registrations/new.html.slim:
+    3:   = link_to t("actions.back"), admins_customer_path(@customer), class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtags/edit.html.slim:
+    3:   = link_to admins_gtags_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtags/index.html.slim:
+    3:   = link_to new_admins_gtag_path, class: "btn btn-action btn-action-new" do
+    6:   = link_to admins_gtags_path(format: "csv"), class: "btn btn-action btn-action-download"
+    9:   = link_to '#search-menu', class: "btn btn-action btn-action-search" do
+   19:       = link_to t("actions.new"), new_admins_gtag_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtags/new.html.slim:
+    3:   = link_to admins_gtags_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtags/show.html.slim:
+    3:   = link_to t("actions.delete"), admins_gtag_path(@gtag), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-action btn-action-new btn-action-delete"
+    4:   = link_to t("actions.edit"), edit_admins_gtag_path(@gtag), class: "btn btn-action btn-action-new"
+    5:   = link_to t("actions.back"), admins_gtags_path, class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/orders/index.html.slim:
+    3:   = link_to '#search-menu', class: 'btn btn-action btn-action-search' do
+
+/Users/Manu/Workspace/gspot/app/views/admins/orders/show.html.slim:
+    3:   = link_to admins_orders_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/payments/index.html.slim:
+    3:   = link_to admins_payments_path(format: "csv"), class: "btn btn-action btn-action-download"
+    6:   = link_to '#search-menu', class: "btn btn-action btn-action-search" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/payments/show.html.slim:
+    3:   = link_to t("actions.back"), admins_payments_path, class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/refund_settings/edit.html.slim:
+    3:   = link_to admins_event_refund_settings_path(@event), class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/refund_settings/edit.html.slim.orig:
+    4:   = link_to admins_event_path(@event), class: "btn btn-action btn-action-back" do
+    6:   = link_to admins_event_refund_settings_path(@event), class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/refund_settings/show.html.slim:
+    3:   = link_to admin_root_path, class: "btn btn-action btn-action-back" do
+    6:   = link_to edit_admins_event_refund_settings_path(@event), class: "btn btn-action btn-action-edit" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/refunds/index.html.slim:
+    3:   = link_to admins_refunds_path(format: "csv"), class: "btn btn-action btn-action-download"
+    6:   = link_to '#search-menu', class: "btn btn-action btn-action-search" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/refunds/show.html.slim:
+    3:   = link_to t("actions.back"), admins_refunds_path, class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/ticket_types/edit.html.slim:
+    3:   = link_to admins_ticket_types_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/ticket_types/index.html.slim:
+    3:   = link_to new_admins_ticket_type_path, class: "btn btn-action btn-action-new" do
+    6:   = link_to admins_ticket_types_path(format: "csv"), class: "btn btn-action btn-action-download"
+   15:       = link_to t("actions.new"), new_admins_ticket_type_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/ticket_types/new.html.slim:
+    3:   = link_to admins_ticket_types_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/tickets/edit.html.slim:
+    3:   = link_to admins_tickets_path, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/tickets/index.html.slim:
+    3:   = link_to new_admins_ticket_path, class: "btn btn-action btn-action-new small" do
+    6:   = link_to admins_tickets_path(format: "csv"), class: "btn btn-action btn-action-back small"
+    9:   = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
+   18:       = link_to t("actions.new"), new_admins_ticket_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/tickets/new.html.slim:
+    3:   = link_to t("actions.back"), admins_tickets_path, class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/admins/tickets/show.html.slim:
+    3:   = link_to t("actions.delete"), admins_ticket_path(@ticket), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-action btn-action-new btn-action-delete"
+    4:   = link_to t("actions.edit"), edit_admins_ticket_path(@ticket), class: "btn btn-action btn-action-new"
+    5:   = link_to t("actions.back"), admins_tickets_path, class: "btn btn-action btn-action-back"
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_claiming_started/_error_refund_disclaimer.html.slim:
+    5:     = link_to href="#{customer_root_url}", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_claiming_started/_success_refund_disclaimer.html.slim:
+    5:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_claiming_started/_without_gtags_claiming_started.html.slim:
+    5:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_finished/_more_gtags.html.slim:
+    4:     = link_to destroy_customer_session_path, method: :delete, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_finished/_wait_refund_disclaimer.html.slim:
+    6:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_finished/_without_gtags.html.slim:
+    4:   = link_to t('dashboard.without_gtags.button'), new_customers_gtag_registration_path, class: "btn btn-action-activate"
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_finished/_without_gtags_disabled.html.slim:
+    6:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_launched/_without_admissions.html.slim:
+    4:   = link_to t('dashboard.without_admissions.button'), new_customers_admission_path, class: "btn btn-action-activate"
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_started/_refunds.html.slim:
+    5:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/gtag_registrations/new.html.slim:
+   20:     = submit_tag t('gtag_registrations.button'), class: "btn btn-full-width btn-action-activate"
+
+149 matches across 51 files
+
+
+Searching 3234 files for "btn-action"
+
+/Users/Manu/Workspace/gspot/app/assets/stylesheets/gspot/admin/_base.scss:
+  122:   .btn-action {
+
+/Users/Manu/Workspace/gspot/app/assets/stylesheets/gspot/admin/_buttons.scss:
+   54: .btn-action {
+   77: .btn-action-new {
+   80: .btn-action-back {
+   83: .btn-action-edit {
+   87: .btn-action-delete {
+   91: .btn-action-import {
+
+/Users/Manu/Workspace/gspot/app/assets/stylesheets/gspot/customer/_template_theme.scss:
+  308: .btn-action-activate { margin-top: modules(1); }
+
+/Users/Manu/Workspace/gspot/app/views/admins/admins/edit.html.slim:
+    3:   = link_to admins_admins_path, class: "btn btn-action btn-action-back small" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/admins/index.html.slim:
+    3:   = link_to new_admins_admin_path, class: "btn btn-action btn-action-new small" do
+   12:       = link_to t("actions.new"), new_admins_admin_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/admins/new.html.slim:
+    3:   = link_to admins_admins_path, class: "btn btn-action btn-action-back small" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/admissions/new.html.slim:
+    3:   = link_to t("actions.back"), admins_customer_path(@customer), class: "btn btn-action btn-action-back small"
+
+/Users/Manu/Workspace/gspot/app/views/admins/claims/index.html.slim:
+    3:   = link_to admins_claims_path(format: "csv"), class: "btn btn-action btn-action-download small"
+    7:   = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/claims/show.html.slim:
+    3:   = link_to admins_claims_path, class: "btn btn-action btn-action-back small" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/credits/edit.html.slim:
+    3:   = link_to admins_credits_path, class: "btn btn-action btn-action-back small" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/credits/index.html.slim:
+    3:   = link_to new_admins_credit_path, class: "btn btn-action btn-action-new small" do
+   11:     = link_to t("admin.actions.new"), new_admins_credit_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/credits/new.html.slim:
+    3:   = link_to admins_credits_path, class: "btn btn-action btn-action-back small" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/customers/index.html.slim:
+    3:   = link_to '#search-menu', class: 'btn btn-action btn-action-search small'  do
+
+/Users/Manu/Workspace/gspot/app/views/admins/customers/show.html.slim:
+    3:   = link_to t("admin.actions.assign_ticket"), new_admins_customer_admission_path(@customer), class: "btn btn-action btn-action-new" unless @customer.assigned_admission
+    5:   = link_to t("admin.actions.assign_gtag"), new_admins_customer_gtag_registration_path(@customer), class: "btn btn-action btn-action-new small" unless @customer.assigned_gtag_registration
+    6:   = link_to admins_customers_path, class: "btn btn-action btn-action-back small" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/dashboards/show.html.slim:
+    3:   = link_to edit_admins_event_path(@event), class: "btn btn-action btn-action-edit small" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/entitlements/edit.html.slim:
+    3:   = link_to admins_entitlements_path, class: "btn btn-action btn-action-back small" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/entitlements/index.html.slim:
+    3:   = link_to new_admins_entitlement_path, class: "btn btn-action btn-action-new small" do
+   12:       = link_to t("actions.new"), new_admins_entitlement_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/entitlements/new.html.slim:
+    3:   = link_to admins_entitlements_path, class: "btn btn-action btn-action-back small" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/events/edit.html.slim:
+    3:   = link_to admins_event_path(@event), class: "btn btn-action btn-action-back small" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/events/show.html.slim:
+    3:   = link_to admin_root_path, class: "btn btn-action btn-action-back small" do
+    6:   = link_to edit_admins_event_path(@event), class: "btn btn-action btn-action-edit small" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtag_registrations/new.html.slim:
+    3:   = link_to t("actions.back"), admins_customer_path(@customer), class: "btn btn-action btn-action-back small"
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtags/edit.html.slim:
+    3:   = link_to admins_gtags_path, class: "btn btn-action btn-action-back small" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtags/index.html.slim:
+    3:   = link_to new_admins_gtag_path, class: "btn btn-action btn-action-new small" do
+    6:   = link_to admins_gtags_path(format: "csv"), class: "btn btn-action btn-action-download small"
+    9:   = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
+   19:       = link_to t("actions.new"), new_admins_gtag_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtags/new.html.slim:
+    3:   = link_to admins_gtags_path, class: "btn btn-action btn-action-back small" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/gtags/show.html.slim:
+    3:   = link_to t("actions.delete"), admins_gtag_path(@gtag), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-action btn-action-new btn-action-delete small"
+    4:   = link_to t("actions.edit"), edit_admins_gtag_path(@gtag), class: "btn btn-action btn-action-new small"
+    5:   = link_to t("actions.back"), admins_gtags_path, class: "btn btn-action btn-action-back small"
+
+/Users/Manu/Workspace/gspot/app/views/admins/orders/index.html.slim:
+    3:   = link_to '#search-menu', class: 'btn btn-action btn-action-search small' do
+
+/Users/Manu/Workspace/gspot/app/views/admins/orders/show.html.slim:
+    3:   = link_to admins_orders_path, class: "btn btn-action btn-action-back small" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/payments/index.html.slim:
+    3:   = link_to admins_payments_path(format: "csv"), class: "btn btn-action btn-action-download small"
+    6:   = link_to '#search-menu', class: "btn btn-action btn-action-search" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/payments/show.html.slim:
+    3:   = link_to t("actions.back"), admins_payments_path, class: "btn btn-action btn-action-back small"
+
+/Users/Manu/Workspace/gspot/app/views/admins/refund_settings/edit.html.slim:
+    3:   = link_to admins_event_refund_settings_path(@event), class: "btn btn-action btn-action-back small" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/refund_settings/edit.html.slim.orig:
+    4:   = link_to admins_event_path(@event), class: "btn btn-action btn-action-back" do
+    6:   = link_to admins_event_refund_settings_path(@event), class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/refund_settings/show.html.slim:
+    3:   = link_to admin_root_path, class: "btn btn-action btn-action-back small" do
+    6:   = link_to edit_admins_event_refund_settings_path(@event), class: "btn btn-action btn-action-edit small" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/refunds/index.html.slim:
+    3:   = link_to admins_refunds_path(format: "csv"), class: "btn btn-action btn-action-download small"
+    6:   = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/refunds/show.html.slim:
+    3:   = link_to t("actions.back"), admins_refunds_path, class: "btn btn-action btn-action-back small"
+
+/Users/Manu/Workspace/gspot/app/views/admins/ticket_types/edit.html.slim:
+    3:   = link_to admins_ticket_types_path, class: "btn btn-action btn-action-back small" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/ticket_types/index.html.slim:
+    3:   = link_to new_admins_ticket_type_path, class: "btn btn-action btn-action-new small" do
+    6:   = link_to admins_ticket_types_path(format: "csv"), class: "btn btn-action btn-action-download small"
+   15:       = link_to t("actions.new"), new_admins_ticket_type_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/ticket_types/new.html.slim:
+    3:   = link_to admins_ticket_types_path, class: "btn btn-action btn-action-back small" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/tickets/edit.html.slim:
+    3:   = link_to admins_tickets_path, class: "btn btn-action btn-action-back small" do
+
+/Users/Manu/Workspace/gspot/app/views/admins/tickets/index.html.slim:
+    3:   = link_to new_admins_ticket_path, class: "btn btn-action btn-action-new small" do
+    6:   = link_to admins_tickets_path(format: "csv"), class: "btn btn-action btn-action-back small"
+    9:   = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
+   18:       = link_to t("actions.new"), new_admins_ticket_path, class: "btn btn-action btn-action-new"
+
+/Users/Manu/Workspace/gspot/app/views/admins/tickets/new.html.slim:
+    3:   = link_to t("actions.back"), admins_tickets_path, class: "btn btn-action btn-action-back small"
+
+/Users/Manu/Workspace/gspot/app/views/admins/tickets/show.html.slim:
+    3:   = link_to t("actions.delete"), admins_ticket_path(@ticket), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-action btn-action-new btn-action-delete small"
+    4:   = link_to t("actions.edit"), edit_admins_ticket_path(@ticket), class: "btn btn-action btn-action-new small"
+    5:   = link_to t("actions.back"), admins_tickets_path, class: "btn btn-action btn-action-back small"
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_claiming_started/_error_refund_disclaimer.html.slim:
+    5:     = link_to href="#{customer_root_url}", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_claiming_started/_success_refund_disclaimer.html.slim:
+    5:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_claiming_started/_without_gtags_claiming_started.html.slim:
+    5:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_finished/_more_gtags.html.slim:
+    4:     = link_to destroy_customer_session_path, method: :delete, class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_finished/_wait_refund_disclaimer.html.slim:
+    6:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_finished/_without_gtags.html.slim:
+    4:   = link_to t('dashboard.without_gtags.button'), new_customers_gtag_registration_path, class: "btn btn-action-activate"
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_finished/_without_gtags_disabled.html.slim:
+    6:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_launched/_without_admissions.html.slim:
+    4:   = link_to t('dashboard.without_admissions.button'), new_customers_admission_path, class: "btn btn-action-activate"
+
+/Users/Manu/Workspace/gspot/app/views/customers/dashboards/event_started/_refunds.html.slim:
+    5:     = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+
+/Users/Manu/Workspace/gspot/app/views/customers/gtag_registrations/new.html.slim:
+   20:     = submit_tag t('gtag_registrations.button'), class: "btn btn-full-width btn-action-activate"
+
+
+
+Searching 3234 files for "action bar"
+
+0 matches across 0 files

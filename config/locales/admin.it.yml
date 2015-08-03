@@ -1,13 +1,18 @@
 it:
   admin:
     actions:
-      new: "Create new"
+      new: "New"
       back: "Back"
       cancel: "Cancel"
       assign_ticket: "Assign ticket"
       assign_gtag: "Assign gtag"
-      assign_gtag: "Assign gtag"
       manual_claims_csv: "Manual claims CSV"
+      csv: "CSV"
+      disable: "Disable"
+      select_all: "Select all"
+      delete_selected: "Delete selected"
+      download: "CSV"
+      search: "Search"
     event:
       name: 'Name'
       slug: 'Slug'
