@@ -205,4 +205,71 @@ input[type=checkbox]:checked + .collection_check_boxes {
   padding-bottom: modules(1);
 }
 
+.onoffswitch {
+  @include user-select(none);
+  position: relative;
+  width: modules(3);
+  padding-top: modules(1);
+
+  input { display: none; }
+}
+.onoffswitch-checkbox {
+  display: none;
+}
+
+.onoffswitch-label {
+  overflow: hidden;
+  display: block;
+  width: modules(3);
+  height: modules(1);
+  box-shadow: inset 0px 0px 0px 2px $nuclear;
+  color: $nuclear;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.onoffswitch-inner {
+  @include transition(margin 300ms ease-in);
+  display: block;
+  width: 200%;
+  margin-left: -100%;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+  display: block;
+  float: left;
+  width: 50%;
+  height: 30px;
+  padding: 0;
+}
+.onoffswitch-inner:before {
+  content: "ON";
+  padding-left: 10px;
+  background-color: $green;
+  font-weight: bold;
+}
+.onoffswitch-inner:after {
+  content: "OFF";
+  padding-right: 10px;
+  background-color: transparent;
+  text-align: right;
+}
+.onoffswitch-switch {
+  @include transition(all 300ms ease-in);
+  position: absolute;
+  top: modules(0.95);
+  right: modules(2);
+  display: block;
+  width: modules(0.5);
+  height: modules(0.5);
+  margin: 6px;
+  background: $nuclear;
+  border-radius: 20px;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+  margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+  right: 0px;
+}
+
 
