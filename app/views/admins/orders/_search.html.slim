@@ -5,4 +5,7 @@ p.menu-header
 = search_form_for q, url: search_admins_orders_path, html: { novalidate: true, class: "searchForm" }  do |f|
   .container-search
     = f.input :number_cont, placeholder: t("admin.orders.search.number")
+    .range
+      = f.input :created_at_gteq, as: :datepicker, label: t('simple_form.labels.defaults.created_at') + " " + t('ransack.between'), discard_hour: true
+      = f.input :created_at_lteq, as: :datepicker, label: t('ransack.and'), discard_hour: true
     = f.submit class: "btn btn-secondary"

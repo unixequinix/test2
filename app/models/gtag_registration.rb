@@ -37,7 +37,9 @@ class GtagRegistration < ActiveRecord::Base
     # TODO Get event from relation
     current_event = Event.find(1)
     standard_credit_price = current_event.standard_credit.online_product.rounded_price
-    self.gtag.gtag_credit_log.amount * standard_credit_price
+    credit_amount = 0
+    credit_amount = self.gtag.gtag_credit_log.amount unless self.gtag.gtag_credit_log.nil?
+    credit_amount * standard_credit_price
   end
 
   def refundable_amount_after_fee

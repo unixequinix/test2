@@ -14,6 +14,8 @@ es:
     labels:
       defaults:
         password: 'Contraseña'
+        updated_at: 'Actualizado el'
+        created_at: 'Creado el'
       admin:
         new: &label_admin
           email: 'Email'
