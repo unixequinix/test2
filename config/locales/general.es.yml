@@ -1,5 +1,6 @@
 es:
   date:
+    datepicker: "dd/mm/yyyy"
     abbr_day_names:
     - dom
     - lun

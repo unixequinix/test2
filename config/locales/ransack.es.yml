@@ -1,0 +1,13 @@
+es:
+  ransack:
+    all: todos
+    and: y
+    any: cualquier
+    asc: ascendente
+    attribute: atributo
+    combinator: combinado
+    condition: condición
+    desc: descendente
+    or: o
+    between: entre
+    predicate: predicado

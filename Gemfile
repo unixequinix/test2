@@ -11,6 +11,7 @@ gem 'nilify_blanks', '~>1.2.1'
 
 # Assets
 gem 'jquery-rails', '~> 4.0.3'
+gem 'jquery-ui-rails', '~> 4.2.0'
 gem 'sass-rails', '~> 5.0.3'
 gem 'uglifier', '~> 2.7.1'
 gem 'slim', '~> 3.0.3'
