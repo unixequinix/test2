@@ -4,6 +4,9 @@
 //
 // -------------------------------------------------------
 
+$statistics-mobile:     $base_font_size*1.75;
+$statistics-size:       $base_font_size*3.25;
+
 .container-dashboard {
   position: relative;
   overflow: visible;
@@ -46,14 +49,49 @@
   h2, h3,p { color: $white; }
 }
 
-.wrapper-statistics {
+.container-statistics {
+  @extend .container-show;
+}
 
-  @include min-screen($bp3) {
-    @include span-columns(6 of 12);
-      @include omega(2n);
+.wrapper-statistics {
+  text-align: center;
+  display: inline-block;
+  width: 50%;
+  padding-top: modules(0.25);
+
+  &:first-child { box-shadow: inset -1px 0px 0px 0px $graySilver; }
+  &:nth-child(2) { box-shadow: none; }
+  &:nth-child(3) { box-shadow: inset -1px 0px 0px 0px $graySilver; }
+
+  @include min-screen($bp2) {
+    display: inline-block;
+    width: 25%;
+    padding: 0;
+    box-shadow: inset 1px 0px 0px 0px $graySilver;
+
+    &:first-child { box-shadow: inset -1px 0px 0px 0px $graySilver; }
+    &:nth-child(2) { box-shadow: none; }
+    &:nth-child(3) { box-shadow: inset 1px 0px 0px 0px $graySilver; }
+    &:nth-child(4) { box-shadow: inset 1px 0px 0px 0px $graySilver; }
   }
 
-  dt, dd { display: block; }
+  h2, span {
+    display: block;
+    width: 100%;
+    margin: 0;
+    margin-top: 0;
+  }
+
+  h2 {
+    font-weight: bold;
+    color: $blue;
+    @include min-screen($bp3) { @include mscale($statistics-mobile); }
+    @include min-screen($bp5) { @include mscale($statistics-size); }
+  }
+
+  span {
+    color: $grey;
+  }
 }
 
 .dashboard-table-header {
