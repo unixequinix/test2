@@ -57,11 +57,11 @@ $statistics-size:       $base_font_size*3.25;
   text-align: center;
   display: inline-block;
   width: 50%;
-  padding-top: modules(0.25);
 
   &:first-child { box-shadow: inset -1px 0px 0px 0px $graySilver; }
   &:nth-child(2) { box-shadow: none; }
-  &:nth-child(3) { box-shadow: inset -1px 0px 0px 0px $graySilver; }
+  &:nth-child(3) { padding-top: modules(1); box-shadow: inset -1px 0px 0px 0px $graySilver; }
+  &:nth-child(4) { padding-top: modules(1); }
 
   @include min-screen($bp2) {
     display: inline-block;
@@ -69,10 +69,10 @@ $statistics-size:       $base_font_size*3.25;
     padding: 0;
     box-shadow: inset 1px 0px 0px 0px $graySilver;
 
-    &:first-child { box-shadow: inset -1px 0px 0px 0px $graySilver; }
+    &:first-child  { box-shadow: inset -1px 0px 0px 0px $graySilver; }
     &:nth-child(2) { box-shadow: none; }
-    &:nth-child(3) { box-shadow: inset 1px 0px 0px 0px $graySilver; }
-    &:nth-child(4) { box-shadow: inset 1px 0px 0px 0px $graySilver; }
+    &:nth-child(3) { padding: 0; box-shadow: inset 1px 0px 0px 0px $graySilver; }
+    &:nth-child(4) { padding: 0; box-shadow: inset 1px 0px 0px 0px $graySilver; }
   }
 
   h2, span {
