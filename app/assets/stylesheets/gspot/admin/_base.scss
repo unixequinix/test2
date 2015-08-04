@@ -78,7 +78,6 @@ abbr {
 
 // Main wrapper include aside panel and container main
 .wrapper-main {
-  position: relative;
   min-height:100%;
   height: auto;
 }
@@ -98,6 +97,13 @@ abbr {
     display: inline-block;
     width: 83%;
   }
+
+  @include ipad                                   { width: 100% !important; }
+  @include ipad(landscape)                        { width: 100% !important; }
+  @include ipad(portrait)                         { width: 100% !important; }
+  @include ipad-retina                            { width: 100% !important; }
+  @include ipad-retina(landscape)                 { width: 100% !important; }
+  @include ipad-retina(portrait)                  { width: 100% !important; }
 }
 
 // _________

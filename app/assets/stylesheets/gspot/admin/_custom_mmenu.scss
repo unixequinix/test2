@@ -8,13 +8,12 @@
 }
 
 .mm-listview > li {
-  color: $white;
   @include mscale($base_font_size);
+  color: $nuclear;
 }
 
 .mm-panel.mm-hasnavbar .mm-navbar {
   display: none;
 }
-
 
 //.mm-menu.mm-right { width: 30%; }

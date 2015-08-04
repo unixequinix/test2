@@ -44,7 +44,16 @@
   background-color: $blue;
 
   h2, h3,p { color: $white; }
+}
 
+.wrapper-statistics {
+
+  @include min-screen($bp3) {
+    @include span-columns(6 of 12);
+      @include omega(2n);
+  }
+
+  dt, dd { display: block; }
 }
 
 .dashboard-table-header {
