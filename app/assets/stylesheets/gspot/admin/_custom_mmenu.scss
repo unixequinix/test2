@@ -1,6 +1,16 @@
 
 .mm-menu {
   background: transparent;
+  overflow: visible;
+}
+.mm-page {
+
+  @include min-screen($bp3) { position: static; }
+}
+
+
+.mm-menu.mm-right {
+  overflow-y: scroll;
 }
 
 .mm-menu > .mm-panel > .mm-listview {

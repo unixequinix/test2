@@ -172,6 +172,8 @@ abbr {
   overflow: hidden;
   display: block;
   width: 100%;
+  min-height: 100%;
+  height: auto;
   padding: 0 modules(0.5);
   border-radius: 3px;
 

@@ -1,0 +1,126 @@
+.ui-datepicker {
+  margin-top: modules(0.75) !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.ui-datepicker-calendar {
+  overflow: hidden;
+  width: 95%;
+  margin: 0 auto;
+  table-layout: fixed;
+  background-color: $nuclear;
+  box-shadow: none;
+
+  th, tr, td {
+    background-color: transparent;
+    box-shadow: none;
+    text-align: center;
+  }
+
+  th {
+    display: table-cell;
+    width: auto;
+    font-style: normal;
+    color: $light_grey;
+    border-top: 1px solid $graySilver;
+    border-bottom: 1px solid $graySilver;
+  }
+
+  td {
+    display: table-cell;
+    width: auto;
+    height: auto;
+    padding: modules(0.15);
+
+    a {
+      padding: modules(0.3) modules(0.5);
+      border-radius: 3px;
+      color: $grey;
+
+      &:hover {
+        background-color: $pinkMagenta;
+        color: $nuclear;
+      }
+    }
+  }
+}
+
+.ui-datepicker-header {
+  position: relative;
+  width: 95%;
+  margin: 0 auto;
+  padding: modules(0.5) 0;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  background-color: $nuclear;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    right: modules(0.75);
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-bottom: 9px solid $nuclear;
+    z-index: 12;
+  }
+}
+
+.ui-datepicker-title {
+  text-align: center;
+  color: $dark_grey;
+  font-weight: bold;
+}
+
+.ui-datepicker-prev, .ui-datepicker-next {
+  @include mscale($base_font_size);
+  position: absolute;
+  top: modules(0.25);
+  width: modules(1.5);
+  height: modules(1.5);
+  border-radius: 3px;
+  text-align:center;
+  font-weight: bold;
+  cursor: pointer;
+
+  span { display: none; }
+
+  &:before {
+    padding: modules(0.25);
+    color: $grey;
+  }
+
+  &:hover {
+    background-color: $input_grey;
+  }
+}
+
+.ui-datepicker-prev {
+  left: 0;
+
+  @include min-screen($bp3) { left: modules(0.5); }
+
+  &:before {
+    content: "◄";
+    display: block;
+  }
+}
+
+.ui-datepicker-next {
+  right: 0;
+
+  @include min-screen($bp3) { right: modules(0.5); }
+
+  &:before {
+    content: "►";
+    display: block;
+  }
+}
+
+
