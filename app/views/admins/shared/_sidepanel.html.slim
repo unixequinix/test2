@@ -3,10 +3,6 @@ aside#main-menu
     = link_to admin_root_path
       = image_tag ("admin-panel-logo.png")
   ul
-    h1.img-header.aside-logo
-      = link_to admin_root_path
-        = image_tag ("admin-panel-logo.png")
-
     h3.aside-title.first = t("admin.aside.event")
 
     li.aside-list = link_to admins_event_path(current_event) do
