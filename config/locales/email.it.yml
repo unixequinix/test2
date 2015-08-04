@@ -26,6 +26,8 @@ it:
           mail_body: 'Adesso è possibile rimborsare i tuoi crediti cliccando sul link in basso'
           mail_body2: "Se il tuo conto bancario non fa parte dei paesi di Single European Payment Area (SEPA https://en.wikipedia.org/wiki/Single_Euro_Payments_Area), consigliamo di usare un account di un amico o un parente che vive in un paese del SEPA."
           mail_body3: 'Se quello non è possibile, contattaci a %{support_email} dacci i tuoi dati bancari per il pagamento manuale. Tieni in considerazione che pagamenti manuali di paesi non-SEPA non sono immediati e potrebbero richiedere spese bancarie più elevati.'
+          mail_body4: "You will have until August 9th at 23:59 to enter your bank details. Refunds can only be made for wristbands with a minimum of 4€, however there is no banking fee."
+          mail_body5: "In order to receive your refund from the portal, it is mandatory to have a BIC/SWIFT and IBAN. Please speak with your bank should you have any questions regarding these two types of bank account numbers. If your bank doesn't have BIC/SWIFT or IBAN, please send us an email to %{support_email} in order to be able to help you."
           mail_link: "Login per vedere il tuo saldo e per eseguire l'imborso"
         completed:
           title: 'Notifica di rimborso'

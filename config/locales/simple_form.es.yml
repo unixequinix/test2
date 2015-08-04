@@ -98,6 +98,19 @@ es:
           post_code: "Código Postal"
           phone: "Teléfono"
           address: "Dirección"
+      refund_setting:
+        edit:
+          fee: "Comisión"
+          country: "Pais"
+          currency: "Moneda"
+          operation_type: "Tipo de operación"
+          payment_solution: "Solución de pago"
+          md5key: "Md5key"
+          merchant: "Comercio"
+          url: "Url"
+          minimum: "Mínimo"
+          product: "Producto"
+          refund_success_message: "Mensaje de éxito en la devolución"
       bank_account_claim_form:
         new:
           swift_html: "BIC/SWIFT<sup>1</sup>"
