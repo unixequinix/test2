@@ -13,6 +13,7 @@ es:
       delete_selected: "Borrar seleccionados"
       download: "CSV"
       search: "Buscar"
+      update: "Actualizar"
     event:
       name: 'Nombre'
       slug: 'Identificador'
@@ -28,6 +29,7 @@ es:
       background: 'Fondo'
       style: 'Estilo'
       features: 'Funcionalidades habilitadas'
+      refund_success_message: "Mensaje de éxito en la devolución"
       fieldests:
         info: "Info del evento"
         date: "Fechas y localización"
@@ -67,6 +69,7 @@ es:
         md5key: 'Clave md5'
         merchant_id: 'Número de comercio'
         url: 'URL'
+        product_id: "Producto"
       bank_account:
         fee: 'Comisión'
         minimum: 'Mínimo'

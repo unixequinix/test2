@@ -59,7 +59,7 @@ class EpgCheckoutService
     value += "&lastName=#{@claim.customer.surname}"
     value += "&customerId=#{@claim.customer.id}"
     value += "&merchantId=#{@epg_values[:merchant_id]}"
-    # value += "&productId=#{@epg_values[:product_id]}"
+    value += "&productId=#{@epg_values[:product_id]}"
     value += "&merchantTransactionId=#{@claim.number}"
     value += "&operationType=#{@epg_values[:operation_type]}"
     value += "&paymentSolution=#{@epg_values[:payment_solution]}"

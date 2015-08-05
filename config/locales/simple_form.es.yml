@@ -92,15 +92,13 @@ es:
           amount: "Cantidad"
         edit:
           <<: *label_gtag_credit_log
-      epg_claim_form:
-        new:
-          country_code: "País"
-          state: "Provincia"
-          city: "Ciudad"
-          post_code: "Código Postal"
-          phone: "Teléfono"
-          address: "Dirección"
-      refund_setting:
+      bank_account_refund_settings_form:
+        edit:
+          fee: "Comisión"
+          minimum: "Mínimo"
+          product_id: "Producto"
+          refund_success_message: "Mensaje de éxito en la devolución"
+      epg_refund_settings_form:
         edit:
           fee: "Comisión"
           country: "Pais"
@@ -111,8 +109,16 @@ es:
           merchant: "Comercio"
           url: "Url"
           minimum: "Mínimo"
-          product: "Producto"
+          product_id: "Producto"
           refund_success_message: "Mensaje de éxito en la devolución"
+      epg_claim_form:
+        new:
+          country_code: "País"
+          state: "Provincia"
+          city: "Ciudad"
+          post_code: "Código Postal"
+          phone: "Teléfono"
+          address: "Dirección"
       bank_account_claim_form:
         new:
           swift_html: "BIC/SWIFT<sup>1</sup>"

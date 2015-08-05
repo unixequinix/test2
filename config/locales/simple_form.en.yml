@@ -92,15 +92,13 @@ en:
           amount: "Amount"
         edit:
           <<: *label_gtag
-      epg_claim_form:
-        new:
-          country_code: "Country"
-          state: "State"
-          city: "City"
-          post_code: "Post code"
-          phone: "Phone"
-          address: "Address"
-      refund_setting:
+      bank_account_refund_settings_form:
+        edit:
+          fee: "Fee"
+          minimum: "Minimum"
+          product_id: "Product"
+          refund_success_message: "Refund success message"
+      epg_refund_settings_form:
         edit:
           fee: "Fee"
           country: "Country"
@@ -111,8 +109,16 @@ en:
           merchant: "Merchant"
           url: "Url"
           minimum: "Minimum"
-          product: "Product"
+          product_id: "Product"
           refund_success_message: "Refund success message"
+      epg_claim_form:
+        new:
+          country_code: "Country"
+          state: "State"
+          city: "City"
+          post_code: "Post code"
+          phone: "Phone"
+          address: "Address"
       bank_account_claim_form:
         new:
           swift_html: "BIC/SWIFT<sup>1</sup>"

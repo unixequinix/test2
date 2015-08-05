@@ -13,6 +13,7 @@ it:
       delete_selected: "Delete selected"
       download: "CSV"
       search: "Search"
+      update: "Update"
     event:
       name: 'Name'
       slug: 'Slug'
@@ -28,6 +29,7 @@ it:
       background: 'Background'
       style: 'Style'
       features: 'Enabled Features'
+      refund_success_message: "Refund success message"
       fieldests:
         info: "Event info"
         date: "Sate and location"
@@ -67,6 +69,7 @@ it:
         md5key: 'Md5 key'
         merchant_id: 'Merchant Id'
         url: 'URL'
+        product_id: "Product"
       bank_account:
         fee: 'Fee'
         minimum: 'Minimum'
