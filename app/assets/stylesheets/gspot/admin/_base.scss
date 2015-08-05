@@ -184,7 +184,7 @@ abbr {
     padding: modules(0.5);
   }
 
-  input[type=text], input[type=email], select {
+  input[type=text], input[type=email] {
     @include appearance(none);
     width: 100%;
     padding: modules(0.25);
@@ -216,6 +216,14 @@ abbr {
     input[type=checkbox] {
       display: block;
     }
+  }
+}
+
+.range {
+
+  select {
+    display: inline-block;
+    width: 32%;
   }
 }
 

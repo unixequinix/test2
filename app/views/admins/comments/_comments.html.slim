@@ -1,4 +1,7 @@
-h3 = t('admin.comments.title')
-- commentable.comments.each do |comment|
-  .container-show
-    = comment.body
+.container-show
+  h31
+    = fa_icon "comments"
+    = t('admin.comments.title')
+  - commentable.comments.each do |comment|
+    .container-comment
+      = comment.body
