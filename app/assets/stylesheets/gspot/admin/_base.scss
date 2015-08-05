@@ -78,7 +78,6 @@ abbr {
 
 // Main wrapper include aside panel and container main
 .wrapper-main {
-  position: relative;
   min-height:100%;
   height: auto;
 }
@@ -98,6 +97,13 @@ abbr {
     display: inline-block;
     width: 83%;
   }
+
+  @include ipad                                   { width: 100% !important; }
+  @include ipad(landscape)                        { width: 100% !important; }
+  @include ipad(portrait)                         { width: 100% !important; }
+  @include ipad-retina                            { width: 100% !important; }
+  @include ipad-retina(landscape)                 { width: 100% !important; }
+  @include ipad-retina(portrait)                  { width: 100% !important; }
 }
 
 // _________
@@ -166,6 +172,8 @@ abbr {
   overflow: hidden;
   display: block;
   width: 100%;
+  min-height: 100%;
+  height: auto;
   padding: 0 modules(0.5);
   border-radius: 3px;
 
@@ -176,7 +184,7 @@ abbr {
     padding: modules(0.5);
   }
 
-  input[type=text], input[type=email], select {
+  input[type=text], input[type=email] {
     @include appearance(none);
     width: 100%;
     padding: modules(0.25);
@@ -208,6 +216,14 @@ abbr {
     input[type=checkbox] {
       display: block;
     }
+  }
+}
+
+.range {
+
+  select {
+    display: inline-block;
+    width: 32%;
   }
 }
 

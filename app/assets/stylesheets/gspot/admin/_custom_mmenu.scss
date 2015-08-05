@@ -1,6 +1,15 @@
 
 .mm-menu {
   background: transparent;
+  overflow: visible;
+}
+.mm-page {
+
+  @include min-screen($bp3) { position: static; }
+}
+
+.mm-menu.mm-right {
+  overflow-y: scroll;
 }
 
 .mm-menu > .mm-panel > .mm-listview {
@@ -8,13 +17,12 @@
 }
 
 .mm-listview > li {
-  color: $white;
   @include mscale($base_font_size);
+  color: $nuclear;
 }
 
 .mm-panel.mm-hasnavbar .mm-navbar {
   display: none;
 }
-
 
 //.mm-menu.mm-right { width: 30%; }
