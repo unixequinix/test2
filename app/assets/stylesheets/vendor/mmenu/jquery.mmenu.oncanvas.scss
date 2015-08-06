@@ -1,7 +1,7 @@
 /*
 	jQuery.mmenu oncanvas CSS
 */
-@import "vendor/mmenu/extensions/variables";
+@import "_inc/variables";
 
 
 //	Generic classes
@@ -51,7 +51,7 @@
 	transition: transform $mm_transitionDuration $mm_transitionFunction;
 
 	@include mm_webkit_prefix( 'transform', translate3d( 100%, 0, 0 ) );
-
+	
 	&.mm-opened
 	{
 		@include mm_webkit_prefix( 'transform', translate3d( 0%, 0, 0 ) );
@@ -76,7 +76,7 @@
 	overflow-x: hidden;
 	overflow-y: auto;
 
-	box-sizing: border-box;
+	box-sizing: border-box;	
 	padding: 0 $mm_panelPadding;
 
 	&.mm-hasnavbar
@@ -259,7 +259,7 @@ li.mm-vertical.mm-opened
 				padding-right: $mm_subopenWidth;
 			}
 		}
-
+		
 		&:not(.mm-divider)
 		{
 			@include mm_border_bottom;
@@ -294,12 +294,12 @@ li.mm-vertical.mm-opened
 		&.mm-fullsubopen
 		{
 			width: 100%;
-
+			
 			&:before
 			{
 				border-left: none;
 			}
-
+			
 			+ a,
 			+ span
 			{
@@ -309,7 +309,7 @@ li.mm-vertical.mm-opened
 		}
 	}
 }
-.mm-menu > .mm-panel
+.mm-menu > .mm-panel 
 {
 	> .mm-listview
 	{
@@ -353,7 +353,7 @@ li.mm-vertical.mm-opened
 .mm-listview .mm-spacer
 {
 	padding-top: $mm_btnSize;
-
+	
 	> .mm-next
 	{
 		top: $mm_btnSize;

@@ -7,17 +7,8 @@ p.menu-header
     = f.input :name_cont, placeholder: t("admin.customers.search.name")
     = f.input :surname_cont, placeholder: t("admin.customers.search.surname")
     = f.input :email_cont, placeholder: t("admin.customers.search.email")
-    .switch
-      = f.input_field :confirmed_at_null, as: :boolean, label: false, inline_label: false, id: "switched"
-      label.switch-label for="switched"
-        span.switch-inner
-        span.on-off-switch
+    = f.input :confirmed_at_null, as: :boolean, label: t("admin.customers.search.not_confirmed")
     = f.submit class: "btn btn-secondary"
 
-    .switch
-      input#switched.switch-checkbox type="checkbox" name="switch"
-      label.switch-label for="switched"
-        span.switch-inner
-        span.on-off-switch
 
 

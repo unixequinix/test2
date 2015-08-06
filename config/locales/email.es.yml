@@ -26,8 +26,6 @@ es:
           mail_body: 'Ya puedes proceder a la devolución de tus creditos mediante el siguiente enlace.'
           mail_body2: 'Tendras hasta 9 de Agosto a las 23:59 para introducir tus datos bancarios. Las devoluciones no llevan ningún coste bancario.'
           mail_body3: 'Para recibir su devolución a través del portal, es necesario tener un BIC/SWIFT e IBAN. Por favor consulte con su banco si tiene alguna duda sobre estos dos números. Si su banco no tiene BIC/SWIFT o IBAN, por favor envíanos un correo a %{support_email} para poder ayudarle.'
-          mail_body4: "You will have until August 9th at 23:59 to enter your bank details. Refunds can only be made for wristbands with a minimum of 4€, however there is no banking fee."
-          mail_body5: "In order to receive your refund from the portal, it is mandatory to have a BIC/SWIFT and IBAN. Please speak with your bank should you have any questions regarding these two types of bank account numbers. If your bank doesn't have BIC/SWIFT or IBAN, please send us an email to %{support_email} in order to be able to help you."
           mail_link: "Acceder para ver tu balance y realizar la transferencia"
         completed:
           title: 'Notificación de devolución'
