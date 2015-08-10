@@ -25,6 +25,17 @@ end
 
 ## Refund Settings
 
+crumb :admins_gtag_settings do
+  link t("breadcrumbs.gtag_settings"), admin_root_path
+end
+
+crumb :admins_gtag_setting do |event|
+  link event.name, edit_admins_event_gtag_settings_path(event)
+  parent :admins_gtag_settings
+end
+
+## Refund Settings
+
 crumb :admins_refund_settings do
   link t("breadcrumbs.refund_settings"), admin_root_path
 end

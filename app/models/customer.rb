@@ -43,7 +43,7 @@ class Customer < ActiveRecord::Base
   has_many :gtag_registrations
   has_many :assigned_gtag_registrations, ->{ where(aasm_state: :assigned) }, class_name: "GtagRegistration"
   has_one :assigned_gtag_registration, ->{ where(aasm_state: :assigned) }, class_name: "GtagRegistration"
-  has_one :ticket, through: :admission
+  has_one :ticket, through: :assigned_admission
   has_many :orders
   has_many :claims
   has_many :credit_logs

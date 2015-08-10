@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_i18n_globals
-    I18n.config.globals[:gtag] = I18n.t('gtag')
+    I18n.config.globals[:gtag] = current_event.gtag_name
   end
 
   helper_method :mobile_device?

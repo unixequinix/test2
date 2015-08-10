@@ -24,8 +24,6 @@ it:
           subject: '¡Adesso è possibile rimborsare i tuoi crediti!'
           greet: 'Ciao %{name}!'
           mail_body: 'Adesso è possibile rimborsare i tuoi crediti cliccando sul link in basso'
-          mail_body2: "Se il tuo conto bancario non fa parte dei paesi di Single European Payment Area (SEPA https://en.wikipedia.org/wiki/Single_Euro_Payments_Area), consigliamo di usare un account di un amico o un parente che vive in un paese del SEPA."
-          mail_body3: 'Se quello non è possibile, contattaci a %{support_email} dacci i tuoi dati bancari per il pagamento manuale. Tieni in considerazione che pagamenti manuali di paesi non-SEPA non sono immediati e potrebbero richiedere spese bancarie più elevati.'
           mail_link: "Login per vedere il tuo saldo e per eseguire l'imborso"
         completed:
           title: 'Notifica di rimborso'

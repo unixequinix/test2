@@ -4,6 +4,7 @@ en:
     dashboard: "Dashboard"
     events: "Events"
     new_event: "New event"
+    gtag_settings: "Gtag Settings"
     refund_settings: "Refund Settings"
     admins: "Admins"
     new_admin: "New Admin"

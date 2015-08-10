@@ -6,7 +6,7 @@ it:
       en: 'ENG'
       es: 'ESP'
       it: 'ITA'
-  gtag: 'PAYCARD'
+    gtag_name: 'PAYCARD'
   activemodel:
     errors:
       models:

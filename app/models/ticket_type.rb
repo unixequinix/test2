@@ -5,7 +5,7 @@
 #  id              :integer          not null, primary key
 #  name            :string           not null
 #  company         :string           not null
-#  credit          :decimal(8, 2)
+#  credit          :decimal(8, 2)    default(0.0), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  deleted_at      :datetime

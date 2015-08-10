@@ -64,7 +64,7 @@ en:
       description: "Try to go back to your dashboard and claim again."
     without_gtags:
       title: "Credits left?"
-      description: "Assign your %{gtag} to start the refund process. Only one %{gtag} can be activated per account (email)."
+      description: "Assign your %{gtag} to start the refund process. Only one %{gtag} can be activated per account."
       button: "Assign %{gtag}"
     without_gtags_disabled:
       claim: "The period to apply for a refund of your %{gtag} credits is closed"
@@ -129,14 +129,22 @@ en:
     refund: "Please, review your credits to proceed refund"
   gtag_registrations:
     title: "Assign %{gtag}"
-    description: "In order to proceed assign the number as appears in your %{gtag}. The number consists of 2 lines."
-    simple_description: "In order to proceed assign the number as appears in your %{gtag}."
+    description:
+      standard: "In order to proceed assign the number as appears in your %{gtag}. The number consists of 2 lines."
+      card: "In order to proceed assign the number as appears in your %{gtag}. The number consists of 2 lines."
+      simple: "In order to proceed assign the number as appears in your %{gtag}."
     call_to_action: "Assign your %{gtag} and go!"
     button: "Accept"
     placeholders:
-      line_1: "Line 1 e.g: 12345"
-      line_2: "Line 2 e.g: BA6D7DC0"
-      simple_line: "ID Number e.g: BA6D7DC0"
+      standard:
+        line_1: "Line 1 e.g: 12345"
+        line_2: "Line 2 e.g: BA6D7DC0"
+      card:
+        line_1: "Line 1 e.g: 12345"
+        line_2: "Line 2 e.g: BA6D7DC0"
+      simple:
+        line_1: ""
+        line_2: "ID Number e.g: BA6D7DC0"
     info:
       line_1: 'Only numbers from "0" to "9"'
       line_2: 'Symbols allowed: "0" - "9" and "A, B, C, D, E, F"'

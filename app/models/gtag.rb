@@ -11,6 +11,15 @@
 #
 
 class Gtag < ActiveRecord::Base
+
+  STANDARD       = 'standard'
+  CARD  = 'card'
+  SIMPLE = 'simple'
+
+  # Type of the gtags
+  FORMATS = [STANDARD, CARD, SIMPLE]
+
+
   before_save :upcase_gtag
   default_scope { order(:id) }
   acts_as_paranoid

@@ -8,6 +8,9 @@ aside#main-menu
     li.aside-list = link_to admins_event_path(current_event) do
       = fa_icon "cogs"
       = t("admin.aside.details")
+    li.aside-list = link_to admins_event_gtag_settings_path(current_event) do
+      = fa_icon "bookmark"
+      = t("admin.aside.gtag_settings")
     li.aside-list = link_to admins_event_refund_settings_path(current_event) do
       = fa_icon "reply"
       = t("admin.aside.refund_settings")

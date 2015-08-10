@@ -98,6 +98,13 @@ en:
           minimum: "Minimum"
           product_id: "Product"
           refund_success_message: "Refund success message"
+          mass_email_claim_notification: "Mass email claim notification"
+      gtag_settings_form:
+        edit:
+          format: "Format"
+          name: "Name"
+          gtag_assignation_notification: "Gtag  assignation notification"
+          gtag_form_disclaimer: "Gtag assignation form disclaimer"
       epg_refund_settings_form:
         edit:
           fee: "Fee"
@@ -111,6 +118,7 @@ en:
           minimum: "Minimum"
           product_id: "Product"
           refund_success_message: "Refund success message"
+          mass_email_claim_notification: "Mass email claim notification"
       epg_claim_form:
         new:
           country_code: "Country"

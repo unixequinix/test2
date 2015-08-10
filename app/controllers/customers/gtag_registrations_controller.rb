@@ -3,10 +3,11 @@ class Customers::GtagRegistrationsController < Customers::BaseController
   before_action :check_has_not_gtag_registration!, only: [:new, :create]
 
   def new
-    @gtag_registration = GtagRegistration.new
+    @gtag_registration_presenter = GtagRegistrationPresenter.new(current_event: current_event)
   end
 
   def create
+    @gtag_registration_presenter = GtagRegistrationPresenter.new(current_event: current_event)
     gtag = Gtag.find_by(tag_uid: params[:tag_uid].strip.upcase, tag_serial_number: params[:tag_serial_number].strip.upcase)
     if !gtag.nil? && current_customer.assigned_gtag_registration.nil?
       @gtag_registration = GtagRegistration.new(customer_id: current_customer.id, gtag_id: gtag.id)

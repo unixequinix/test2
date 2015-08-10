@@ -64,7 +64,7 @@ it:
       description: "Torna indietro e riprova."
     without_gtags:
       title: "Crediti residui?"
-      description: "Registra la tua Paycard per avviare il processo di rimborso. Si può registrare solo una Paycard per ogni account (email)."
+      description: "Registra la tua Paycard per avviare il processo di rimborso. Si può registrare solo una Paycard per ogni account."
       button: "Registra la tua Paycard"
     without_gtags_disabled:
       claim: "Il periodo per richedere un rimborso dei tuoi crediti residui è chiuso"
@@ -129,14 +129,22 @@ it:
     refund: "Verifica i tuoi crediti prima di richiedere il tuo rimborso"
   gtag_registrations:
     title: "Registra la tua Paycard"
-    description: "Per poter procedere inserisci i due codici così come appaiano sul retro della tua Paycard."
-    simple_description: "Per poter procedere inserisci il numero così come appaiano sulla %{gtag}."
+    description:
+      standard: "Per poter procedere inserisci i due codici così come appaiano sul retro della tua Paycard."
+      card: "Per poter procedere inserisci i due codici così come appaiano sul retro della tua Paycard."
+      simple: "Per poter procedere inserisci il numero così come appaiano sulla %{gtag}."
     call_to_action: "Registra la tua Paycard e inizia!"
     button: "Accetto"
     placeholders:
-      line_1: "Codice 1 e.g: 12345"
-      line_2: "Codice 2 e.g: BA6D7DC0"
-      simple_line: "Numero ID e.g: BA6D7DC0"
+      standard:
+        line_1: "Codice 1 e.g: 12345"
+        line_2: "Codice 2 e.g: BA6D7DC0"
+      card:
+        line_1: "Codice 1 e.g: 12345"
+        line_2: "Codice 2 e.g: BA6D7DC0"
+      simple:
+        line_1: ""
+        line_2: "Numero ID e.g: BA6D7DC0"
     info:
       line_1: 'Solo numero da "0" a "9"'
       line_2: 'Simboli ammessi: "0" - "9" e "A, B, C, D, E, F"'

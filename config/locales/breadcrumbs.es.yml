@@ -4,6 +4,7 @@ es:
     dashboard: "Panel de Control"
     events: "Eventos"
     new_event: "Nuevo evento"
+    gtag_settings: "Configuración de gtags"
     refund_settings: "Configuración de devoluciones"
     admins: "Administradores"
     new_admin: "Nuevo Administrador"

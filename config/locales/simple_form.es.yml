@@ -98,6 +98,13 @@ es:
           minimum: "Mínimo"
           product_id: "Producto"
           refund_success_message: "Mensaje de éxito en la devolución"
+          mass_email_claim_notification: "Notificación general (petición de devolución)"
+      gtag_settings_form:
+        edit:
+          format: "Formato"
+          name: "Nombre"
+          gtag_assignation_notification: "Notificación al asignar el Gtag"
+          gtag_form_disclaimer: "Texto formulario asignación Gtag"
       epg_refund_settings_form:
         edit:
           fee: "Comisión"
@@ -111,6 +118,7 @@ es:
           minimum: "Mínimo"
           product_id: "Producto"
           refund_success_message: "Mensaje de éxito en la devolución"
+          mass_email_claim_notification: "Notificación general (petición de devolución)"
       epg_claim_form:
         new:
           country_code: "País"

@@ -25,13 +25,13 @@
 #  url                     :string
 #  background_type         :string           default("fixed")
 #  features                :integer          default(0), not null
-#  refund_service          :string
+#  refund_service          :string           default("bank_account")
 #  gtag_registration       :boolean          default(TRUE), not null
 #
 
 class Event < ActiveRecord::Base
   nilify_blanks
-  translates :info, :disclaimer, :refund_success_message
+  translates :info, :disclaimer, :refund_success_message, :mass_email_claim_notification, :gtag_assignation_notification, :gtag_form_disclaimer, :gtag_name, fallbacks_for_empty_translations: true
 
   #Background Types
   BACKGROUND_FIXED = 'fixed'

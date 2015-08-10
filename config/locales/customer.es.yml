@@ -64,7 +64,7 @@ es:
       description: "Vuelve a tu panel e inténtalo de nuevo."
     without_gtags:
       title: "¿Te quedan créditos?"
-      description: "Introduce tu %{gtag} para empezar el proceso de devolución. Sólo una %{gtag} puede ser activada por cuenta (email)."
+      description: "Introduce tu %{gtag} para empezar el proceso de devolución. Sólo una %{gtag} puede ser activada por cuenta."
       button: "Introducir %{gtag}"
     without_gtags_disabled:
       claim: "El tiempo para solicitar tu devolución de créditos en tu %{gtag} ha terminado"
@@ -128,14 +128,22 @@ es:
     refund: "Por favor, revisa que los créditos a devolver son correctos"
   gtag_registrations:
     title: "Introducir %{gtag}"
-    description: "Para proceder, debes introducir tu %{gtag} colocando los números que aparecen en tu %{gtag}. Tu %{gtag} debe tener 2 líneas de números."
-    simple_description: "Para proceder, debes introducir tu %{gtag} colocando los números que aparecen en tu %{gtag}."
+    description:
+      standard: "Para proceder, debes introducir tu %{gtag} colocando los números que aparecen en tu %{gtag}. Tu %{gtag} debe tener 2 líneas de números."
+      card: "Para proceder, debes introducir tu %{gtag} colocando los números que aparecen en tu %{gtag}. Tu %{gtag} debe tener 2 líneas de números."
+      simple: "Para proceder, debes introducir tu %{gtag} colocando los números que aparecen en tu %{gtag}."
     call_to_action: "¡Introduce tu %{gtag} y continúa!"
     button: "Aceptar"
     placeholders:
-      line_1: "Línea 1 ej: 12345"
-      line_2: "Línea 2 ej: BA6D7DC0"
-      simple_line: "Número ej: BA6D7DC0"
+      standard:
+        line_1: "Línea 1 ej: 12345"
+        line_2: "Línea 2 ej: BA6D7DC0"
+      card:
+        line_1: "Línea 1 ej: 12345"
+        line_2: "Línea 2 ej: BA6D7DC0"
+      simple:
+        line_1: ""
+        line_2: "Numero ID e.g: BA6D7DC0"
     info:
       line_1: 'Sólo números del "0" al "9"'
       line_2: 'Símbolos permitidos: "0" - "9" y "A, B, C, D, E, F"'

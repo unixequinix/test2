@@ -16,5 +16,6 @@ class ClaimMailer < ApplicationMailer
     headers['X-No-Spam'] = 'True'
     @name = customer.name + ' ' + customer.surname
     @event = event
+    I18n.config.globals[:gtag] = event.gtag_name
   end
 end

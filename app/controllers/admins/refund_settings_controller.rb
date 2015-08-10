@@ -14,6 +14,7 @@ class Admins::RefundSettingsController < Admins::BaseController
       @refund_settings_form[event_parameter.parameter.name.to_sym] = event_parameter.value
     end
     @refund_settings_form[:refund_success_message] = @event.refund_success_message
+    @refund_settings_form[:mass_email_claim_notification] = @event.mass_email_claim_notification
   end
 
   def update
@@ -22,6 +23,7 @@ class Admins::RefundSettingsController < Admins::BaseController
     @refund_settings_form = ("#{@event.refund_service.camelize}RefundSettingsForm").constantize.new(permitted_params)
     if @refund_settings_form.save
       @event.refund_success_message = permitted_params[:refund_success_message]
+      @event.mass_email_claim_notification = permitted_params[:mass_email_claim_notification]
       @event.save
       flash[:notice] = I18n.t('alerts.updated')
       redirect_to admins_event_refund_settings_url(@event)
@@ -48,6 +50,7 @@ class Admins::RefundSettingsController < Admins::BaseController
     params_names = Parameter.where(group: current_event.refund_service, category: 'refund').map(&:name)
     params_names << :event_id
     params_names << :refund_success_message
+    params_names << :mass_email_claim_notification
     params.require("#{current_event.refund_service}_refund_settings_form").permit(params_names)
   end
 

@@ -43,3 +43,12 @@
         -
           name: minimum
           value: 0.0
+-
+  category: gtag
+  groups:
+    -
+      name: form
+      values:
+        -
+          name: format
+          value: standard

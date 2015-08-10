@@ -24,8 +24,6 @@ en:
           subject: '¡You can now refund your credits!'
           greet: 'Hello %{name}!'
           mail_body: 'You can now refund your credits through the link below.'
-          mail_body2: "You will have until August 9th at 23:59 to enter your bank details. Refunds can only be made for wristbands with a minimum of 4€, however there is no banking fee."
-          mail_body3: "In order to receive your refund from the portal, it is mandatory to have a BIC/SWIFT and IBAN. Please speak with your bank should you have any questions regarding these two types of bank account numbers. If your bank doesn't have BIC/SWIFT or IBAN, please send us an email to %{support_email} in order to be able to help you."
           mail_link: "Login to see your balance and perform the transfer"
         completed:
           title: 'Refund Notification'
@@ -52,7 +50,6 @@ en:
           subject: 'You have successfully applied for your refund!'
           greet: 'Hello %{name}!'
           mail_body: 'You assigned a %{gtag} with the id:'
-          mail_link: 'You will receive another email from us between 5 and 15 business days as soon as your credits are ready for the refund.'
         unassigned:
           title: '%{gtag} deleted'
           subject: '%{gtag} deleted'

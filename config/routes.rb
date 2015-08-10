@@ -80,6 +80,7 @@ Rails.application.routes.draw do
         post :remove_logo
         post :remove_background
       end
+      resource :gtag_settings, only: [:show, :edit, :update]
       resource :refund_settings, only: [:show, :edit, :update] do
         member do
           post :notify_customers

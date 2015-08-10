@@ -44,8 +44,7 @@ Parameter.destroy_all
 parameters = {
   'gtag' => {
     'form' => {
-      'format' => 'string',
-      'notation' => 'string'
+      'format' => 'string'
     }
   },
   'refund' => {
@@ -109,6 +108,19 @@ Event.all.each do |event|
         end
       end
     end
+  end
+end
+
+# Event parameters
+# ------------------------------
+
+puts "Create default values for event parameters"
+puts "----------------------------------------"
+
+Event.all.each do |event|
+  YAML.load_file(Rails.root.join("db", "seeds", "default_event_translations.yml")).each do |data|
+    I18n.locale = data['locale']
+    event.update(info: data['info'], disclaimer: data['disclaimer'], refund_success_message: data['refund_success_message'], mass_email_claim_notification: data['mass_email_claim_notification'], gtag_assignation_notification: data['gtag_assignation_notification'], gtag_form_disclaimer: data['gtag_form_disclaimer'], gtag_name: data['gtag_name'])
   end
 end
 

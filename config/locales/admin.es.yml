@@ -30,6 +30,9 @@ es:
       style: 'Estilo'
       features: 'Funcionalidades habilitadas'
       refund_success_message: "Mensaje de éxito en la devolución"
+      mass_email_claim_notification: "Notificación general (petición de devolución)"
+      gtag_assignation_notification: "Notificación al asignar el Gtag"
+      gtag_form_disclaimer: "Texto formulario asignación Gtag"
       fieldests:
         info: "Info del evento"
         date: "Fechas y localización"
@@ -55,6 +58,10 @@ es:
       features_options:
         ticketing: 'Ticketing'
         refunds: 'Devoluciones'
+    gtag_settings:
+      form:
+        format: 'Formato'
+        name: 'Nombre'
     refund_settings:
       nofication_description: 'Proceder a notificar a los usuarios que ya pueden reclamar su devolución.'
       want_to_notify: '¿Quiere notificar?'
@@ -104,6 +111,7 @@ es:
     aside:
       event: "Evento"
       details: "Detalles"
+      gtag_settings: "Configuración de gtags"
       refund_settings: "Configuración de devoluciones"
       admins: "Administradores"
       entitlements: "Privilegios"

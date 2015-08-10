@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150729170023) do
+ActiveRecord::Schema.define(version: 20150810190745) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 20150729170023) do
   create_table "ticket_types", force: :cascade do |t|
     t.string   "name",            null: false
     t.string   "company",         null: false
-    t.decimal  "credit",          precision: 8, scale: 2
+    t.decimal  "credit",          precision: 8, scale: 2, default: 0.0, null: false
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.datetime "deleted_at",      index: {name: "index_ticket_types_on_deleted_at"}
@@ -186,7 +186,7 @@ ActiveRecord::Schema.define(version: 20150729170023) do
     t.string   "url"
     t.string   "background_type",         default: "fixed"
     t.integer  "features",                default: 0,                     null: false
-    t.string   "refund_service"
+    t.string   "refund_service",          default: "bank_account"
     t.boolean  "gtag_registration",       default: true,                  null: false
   end
 
@@ -200,13 +200,17 @@ ActiveRecord::Schema.define(version: 20150729170023) do
   add_index "event_parameters", ["event_id", "parameter_id"], name: "index_event_parameters_on_event_id_and_parameter_id", unique: true
 
   create_table "event_translations", force: :cascade do |t|
-    t.integer  "event_id",               null: false, index: {name: "fk__event_translations_event_id"}, foreign_key: {references: "events", name: "fk_event_translations_event_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "locale",                 null: false, index: {name: "index_event_translations_on_locale"}
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.text     "info",                   null: false
-    t.text     "disclaimer",             null: false
+    t.integer  "event_id",                      null: false, index: {name: "fk__event_translations_event_id"}, foreign_key: {references: "events", name: "fk_event_translations_event_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "locale",                        null: false, index: {name: "index_event_translations_on_locale"}
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.text     "info"
+    t.text     "disclaimer"
     t.text     "refund_success_message"
+    t.text     "mass_email_claim_notification"
+    t.text     "gtag_assignation_notification"
+    t.text     "gtag_form_disclaimer"
+    t.string   "gtag_name"
   end
   add_index "event_translations", ["event_id"], name: "index_event_translations_on_event_id"
 

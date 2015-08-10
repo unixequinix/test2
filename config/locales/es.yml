@@ -6,7 +6,7 @@ es:
       en: 'ENG'
       es: 'ESP'
       it: 'ITA'
-  gtag: 'Pulsera'
+    gtag_name: 'Pulsera'
   activemodel:
     errors:
       models:
