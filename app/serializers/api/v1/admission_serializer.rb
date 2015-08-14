@@ -1,12 +1,11 @@
 module Api
   module V1
     class AdmissionSerializer < Api::V1::BaseSerializer
-      attributes :customer
+      attributes :number
 
-      def customer
-        object.customer.name
+      def number
+        object.ticket.number
       end
-
     end
   end
 end

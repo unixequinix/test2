@@ -29,7 +29,7 @@ en:
       background: 'Background'
       style: 'Style'
       features: 'Enabled Features'
-      refund_success_message: "Refund success message"
+      refund_success_message: "Refund success message (Click to check)"
       mass_email_claim_notification: "Mass email claim notification"
       gtag_assignation_notification: "Gtag  assignation notification"
       gtag_form_disclaimer: "Gtag assignation form disclaimer"

@@ -97,6 +97,8 @@
   figure { display: inline-block; padding: 0 modules(0.25);}
 
   &:last-child { margin-bottom: modules(1); }
+
+  span { position: relative }
 }
 
 // _____ ALIGN TO CENTER ALL ______

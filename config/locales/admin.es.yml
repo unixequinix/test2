@@ -29,7 +29,7 @@ es:
       background: 'Fondo'
       style: 'Estilo'
       features: 'Funcionalidades habilitadas'
-      refund_success_message: "Mensaje de éxito en la devolución"
+      refund_success_message: "Mensaje de éxito en la devolución (Pulsar para verificar)"
       mass_email_claim_notification: "Notificación general (petición de devolución)"
       gtag_assignation_notification: "Notificación al asignar el Gtag"
       gtag_form_disclaimer: "Texto formulario asignación Gtag"

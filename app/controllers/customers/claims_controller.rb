@@ -1,10 +1,18 @@
 class Customers::ClaimsController < Customers::BaseController
+  before_action :check_event_status!
   before_action :check_has_gtag!
   before_action :check_has_not_claims!
   before_action :require_permission!, only: [:create]
   before_action :enough_credits!, only: [:create]
 
   private
+
+  def check_event_status!
+    if !current_event.claiming_started?
+      flash.now[:error] = I18n.t('alerts.error')
+      redirect_to customer_root_path
+    end
+  end
 
   def check_has_not_claims!
     if current_customer.completed_claim

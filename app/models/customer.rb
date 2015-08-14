@@ -38,14 +38,18 @@ class Customer < ActiveRecord::Base
 
   # Associations
   has_many :admissions
-  has_many :assigned_admissions, ->{ where(aasm_state: :assigned) }, class_name: "Admission"
+  has_many :assigned_admissions, class_name: "Admission"
   has_one :assigned_admission, ->{ where(aasm_state: :assigned) }, class_name: "Admission"
-  has_many :gtag_registrations
-  has_many :assigned_gtag_registrations, ->{ where(aasm_state: :assigned) }, class_name: "GtagRegistration"
-  has_one :assigned_gtag_registration, ->{ where(aasm_state: :assigned) }, class_name: "GtagRegistration"
+  has_one :tickets, through: :assigned_admissions
   has_one :ticket, through: :assigned_admission
+  has_many :gtag_registrations
+  has_many :assigned_gtag_registrations, class_name: "GtagRegistration"
+  has_one :assigned_gtag_registration, ->{ where(aasm_state: :assigned) }, class_name: "GtagRegistration"
+  has_many :gtags, through: :assigned_gtag_registrations
+  has_one :gtag, through: :assigned_gtag_registration
   has_many :orders
   has_many :claims
+  has_many :refunds, through: :claims
   has_many :credit_logs
   has_one :completed_claim, ->{ where(aasm_state: :completed) }, class_name: "Claim"
 
@@ -75,4 +79,5 @@ class Customer < ActiveRecord::Base
   def refundable_credits
     self.assigned_gtag_registration.gtag.gtag_credit_log.amount unless self.assigned_gtag_registration.nil? || self.assigned_gtag_registration.gtag.gtag_credit_log.nil?
   end
+
 end
