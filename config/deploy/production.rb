@@ -1,4 +1,4 @@
-set :branch, 'development'
+set :branch, 'master'
 set :rails_env, 'production'
 
 # Link certification folder
