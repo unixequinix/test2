@@ -202,6 +202,10 @@ es:
         delete_credits: "Borrar créditos"
       report:
         total_credits: "Créditos totales"
+      report:
+        total_credits: "Créditos totales"
+        total_refundable_money: "Dinero a devolver total"
+        total_refundable_gtags: "Gtags con crédito a devolver"
     gtag_registrations:
       tag: "Tag UID"
       serial: "Tag Número Serial"

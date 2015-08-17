@@ -202,6 +202,8 @@ en:
         delete_credits: "Delete all credits"
       report:
         total_credits: "Total Credits"
+        total_refundable_money: "Total refundable money"
+        total_refundable_gtags: "Total refundable gtags"
     gtag_registrations:
       tag: "Tag UID"
       serial: "Tag Serial Number"

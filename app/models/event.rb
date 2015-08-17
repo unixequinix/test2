@@ -76,7 +76,6 @@ class Event < ActiveRecord::Base
   validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
 
-
   # State machine
   include AASM
 
@@ -123,6 +122,34 @@ class Event < ActiveRecord::Base
 
   def standard_credit
     Credit.find_by(standard: true)
+  end
+
+  def total_credits
+    Gtag.all.joins(:gtag_credit_log).sum(:amount)
+  end
+
+  def total_refundable_money
+    fee = refund_fee
+    standard_price = standard_credit_price
+    Gtag.all.joins(:gtag_credit_log).where("((amount * #{standard_price}) - #{fee}) >= #{refund_minimun}").sum("(amount * #{standard_price}) - #{fee}")
+  end
+
+  def total_refundable_gtags
+    Gtag.all.joins(:gtag_credit_log).where("((amount * #{standard_credit_price}) - #{refund_fee}) >= #{refund_minimun}").count
+  end
+
+  private
+
+  def refund_fee
+    fee = EventParameter.find_by(event_id: self.id, parameter_id: Parameter.find_by(category: 'refund', group: self.refund_service, name: 'fee')).value
+  end
+
+  def refund_minimun
+    minimum = EventParameter.find_by(event_id: Event.find(1).id, parameter_id: Parameter.find_by(category: 'refund', group: self.refund_service, name: 'minimum')).value
+  end
+
+  def standard_credit_price
+    self.standard_credit.online_product.rounded_price
   end
 
 end
