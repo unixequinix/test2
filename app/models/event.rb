@@ -131,11 +131,19 @@ class Event < ActiveRecord::Base
   def total_refundable_money
     fee = refund_fee
     standard_price = standard_credit_price
-    Gtag.all.joins(:gtag_credit_log).where("((amount * #{standard_price}) - #{fee}) >= #{refund_minimun}").sum("(amount * #{standard_price}) - #{fee}")
+    GtagRegistration.all
+      .joins(:gtag, gtag: :gtag_credit_log)
+      .where(aasm_state: :assigned)
+      .where("((amount * #{standard_price}) - #{fee}) >= #{refund_minimun}")
+      .sum("(amount * #{standard_price}) - #{fee}")
   end
 
   def total_refundable_gtags
-    Gtag.all.joins(:gtag_credit_log).where("((amount * #{standard_credit_price}) - #{refund_fee}) >= #{refund_minimun}").count
+    GtagRegistration.all
+      .joins(:gtag, gtag: :gtag_credit_log)
+      .where(aasm_state: :assigned)
+      .where("((amount * #{standard_credit_price}) - #{refund_fee}) >= #{refund_minimun}")
+      .count
   end
 
   private
