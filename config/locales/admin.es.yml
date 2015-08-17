@@ -67,8 +67,8 @@ es:
       want_to_notify: '¿Quiere notificar?'
       notify: 'Notificar'
       epg:
-        fee: 'Comisión'
-        minimum: 'Mínimo'
+        fee: 'Comisión de devolución (en la moneda seleccionada)'
+        minimum: 'Mínimo a devolver después de comisiones (en la moneda seleccionada)'
         country: 'País'
         currency: 'Moneda'
         operation_type: 'Tipo de operación'
@@ -78,8 +78,8 @@ es:
         url: 'URL'
         product_id: "Producto"
       bank_account:
-        fee: 'Comisión'
-        minimum: 'Mínimo'
+        fee: 'Comisión de devolución (en la moneda seleccionada)'
+        minimum: 'Mínimo a devolver después de comisiones (en la moneda seleccionada)'
     defaults:
       actions: "Acciones"
       home: "Home"
@@ -203,8 +203,8 @@ es:
       report:
         total_credits: "Créditos totales"
       report:
-        total_credits: "Créditos totales"
-        total_refundable_money: "Dinero a devolver total"
+        total_credits: "Créditos totales en el sistema"
+        total_refundable_money: "Dinero devolver (menos comisiones)"
         total_refundable_gtags: "Gtags con crédito a devolver"
     gtag_registrations:
       tag: "Tag UID"

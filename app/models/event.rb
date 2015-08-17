@@ -135,6 +135,7 @@ class Event < ActiveRecord::Base
       .joins(:gtag, gtag: :gtag_credit_log)
       .where(aasm_state: :assigned)
       .where("((amount * #{standard_price}) - #{fee}) >= #{refund_minimun}")
+      .where("((amount * #{standard_price}) - #{fee}) > 0")
       .sum("(amount * #{standard_price}) - #{fee}")
   end
 
@@ -143,6 +144,7 @@ class Event < ActiveRecord::Base
       .joins(:gtag, gtag: :gtag_credit_log)
       .where(aasm_state: :assigned)
       .where("((amount * #{standard_credit_price}) - #{refund_fee}) >= #{refund_minimun}")
+      .where("((amount * #{standard_credit_price}) - #{refund_fee}) > 0")
       .count
   end
 

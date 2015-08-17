@@ -53,7 +53,7 @@ class GtagRegistration < ActiveRecord::Base
     # TODO Get event from relation
     current_event = Event.find(1)
     minimum = EventParameter.find_by(event_id: Event.find(1).id, parameter_id: Parameter.find_by(category: 'refund', group: current_event.refund_service, name: 'minimum')).value
-    !self.gtag.gtag_credit_log.nil? && (refundable_amount_after_fee >= minimum.to_f)
+    !self.gtag.gtag_credit_log.nil? && (refundable_amount_after_fee >= minimum.to_f && refundable_amount_after_fee >= 0)
   end
 
   def customer

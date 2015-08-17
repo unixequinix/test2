@@ -67,8 +67,8 @@ en:
       want_to_notify: 'Do you want to notify?'
       notify: 'Notify'
       epg:
-        fee: 'Fee'
-        fee: 'Minimum'
+        fee: 'Refund Fee (in currency)'
+        minimum: 'After-Fee Refund Minimum (in currency)'
         country: 'Country'
         currency: 'Currency'
         operation_type: 'Operation type'
@@ -78,8 +78,8 @@ en:
         url: 'URL'
         product_id: "Product"
       bank_account:
-        fee: 'Fee'
-        minimum: 'Minimum'
+        fee: 'Refund Fee (in currency)'
+        minimum: 'After-Fee Refund Minimum (in currency)'
     defaults:
       actions: "Actions"
       home: "Home"
@@ -201,9 +201,9 @@ en:
         delete_gtags: "Delete all gtags"
         delete_credits: "Delete all credits"
       report:
-        total_credits: "Total Credits"
-        total_refundable_money: "Total refundable money"
-        total_refundable_gtags: "Total refundable gtags"
+        total_credits: "Total Credits in the System"
+        total_refundable_money: "Total Money To Refund (after fee)"
+        total_refundable_gtags: "Number of gTags to Refund"
     gtag_registrations:
       tag: "Tag UID"
       serial: "Tag Serial Number"
