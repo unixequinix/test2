@@ -1,5 +1,5 @@
 class Customers::DashboardsController < Customers::BaseController
   def show
-    @dashboard = Dashboard.new(current_admission)
+    @dashboard = Dashboard.new(current_customer_event_profile)
   end
 end

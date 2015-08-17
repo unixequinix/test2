@@ -17,6 +17,24 @@ label {
   }
 }
 
+select {
+  @include mscale($base_font_size);
+  //@include appearance(none);
+  width: 100%;
+  margin: 0;
+  padding: modules(0.5);
+  overflow: hidden;
+  border-radius: 4px;
+  background-color: $admin_grey;
+  border: 1px solid $input_grey;
+  box-shadow: inset 0px 1px 1px $light_grey;
+
+  @include min-screen ($bp3) {
+    @include span-columns(4);
+    margin: 0 0 modules(1);
+  }
+}
+
 input[type=text],
 input[type=password],
 input[type=email],
@@ -150,7 +168,7 @@ textarea {
     width: 100%;
     text-align: center;
 
-     @include min-screen ($bp3) { text-align: right; }
+    @include min-screen ($bp3) { text-align: right; }
   }
 }
 
@@ -179,5 +197,55 @@ textarea {
   i {
     display: inline-block;
     padding-right: modules(0.25);
+  }
+}
+
+.refund-form {
+  display: block;
+  width: 100%;
+  padding: 0;
+
+  .form-inputs {
+    clear: both;
+    display: block;
+    width: 100%;
+    padding: modules(1) 0
+  }
+
+  .wrapper-secure-payment {
+    display: block;
+    width: 100%;
+    text-align: center;
+
+    @include min-screen ($bp4) {
+      display: inline-block;
+      width: auto;
+      text-align: left;
+      margin-top: modules(2);
+    }
+  }
+}
+
+.container-third {
+  .input {
+    display: block;
+    width: 100%;
+
+    @include min-screen ($bp3) {
+      @include span-columns(4);
+      @include omega(3n);
+    }
+  }
+}
+
+.container-half {
+  .input {
+    display: block;
+    width: 100%;
+
+    @include min-screen ($bp3) {
+      @include span-columns(6);
+      @include omega(2n);
+    }
   }
 }

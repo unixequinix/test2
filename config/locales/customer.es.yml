@@ -3,7 +3,13 @@ es:
   actions:
     back: "Atrás"
     cancel: "Cancelar"
+    edit: "Editar"
+    delete: "Borrar"
     check_news: "Ir al evento"
+    delete_account: "Eliminar tu cuenta"
+    logout: "Cerrar sessión"
+  confirm:
+    remove_ticket: "Tus créditos comprados se asignan a tu cuenta. Si borras tu ticket, tendrás que asignar otro para utilizar esos créditos en el festival."
   header:
     edit: "Editar Pérfil"
     close: "Cerrar sesión"
@@ -16,74 +22,85 @@ es:
     privacy_conditions: 'la política de privacidad'
     terms_of_use: 'las condiciones de uso'
   links:
-    sign_in: 'Ya tienes cuenta?'
-    sign_up: 'Todavía no te has registrado?'
-    forgot: 'Olvidaste tu contraseña?'
-    resend_confirmation: "Reenviar mail de confirmación"
+    sign_in: '¿Ya tienes cuenta?'
+    sign_up: '¿Todavía no te has registrado?'
+    forgot: '¿Olvidaste tu contraseña?'
+    resend_confirmation: "¿No has recibido el email de confirmación?"
     buttons:
       sign_in: 'Inicia Sesión'
       sign_up: 'Registrar'
   dashboard:
-    title: "My BBF"
+    title: "My dashboard"
     admissions:
       header: "Tu número de Ticket"
-      description: "Quieres desactivar tu ticket?"
-      description_started: "El evento ya ha comenzado, no puedes desactivar tu ticket"
-      button: "Desactivar"
+      description: "¿Introdujiste un ticket incorrecto por error?"
+      description_started: "El evento ya ha comenzado, no puedes cambiar tu ticket"
+      button: "Borralo y reinicia el proceso"
     without_admissions:
       call_to_action: "Por favor activa tu ticket primero"
       description: "Sólo un Ticket puede ser activado por cuenta"
       button: "Activar Ticket"
     credits:
-      header: "Tu Balance de Créditos"
-      call_to_action: "Si quieres evitar colas,"
-      call_to_action2: "recarga tu pulsera por adelantado"
+      header: "Tu Balance de créditos"
+      call_to_action: "Para evitar colas, recarga tu %{gtag} ahora para todas tus compras dentro del festival"
       call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"
-      call_to_action_no_admission: "Para poder recargar tu pulsera, deberás activar tu Ticket primero"
+      call_to_action_no_admission: "Para poder recargar tu %{gtag},"
+      call_to_action_no_admission2: "deberás activar tu Ticket primero"
       button: "Recarga"
     event_refunds:
       claim: "El evento aún no ha acabado"
-      description: "Vuelve pronto para poder reclamar tus creditos"
+      description: "Vuelve pronto para poder reclamar tus créditos"
     wait_refund_disclaimer:
-      claim: "Has solicitado el reembolso con éxito"
-      description: "Te enviaremos un mail entre 5 y 15 días hábiles tan pronto como tu créditos estén listos."
+      claim: "Has solicitado tu devolución con éxito"
+      description: "Te enviaremos un mail entre 5 y 15 días hábiles tan pronto como tus créditos estén listos."
       description2: "Entonces podrás ver tu saldo, introducir tus datos bancarios y recibir el pago."
+    more_gtags:
+      description: "¿Tienes más %{gtag}s? Regístrate otra vez con un email diferente por cada una."
+    success_refund_disclaimer:
+      claim: "Has solicitado tu devolución con éxito"
+      description: "En 1-4 días recibirás el embolso en tu cuenta."
+    error_refund_disclaimer:
+      claim: "Ha habido un error en tu devolución"
+      description: "Vuelve a tu panel e inténtalo de nuevo."
     without_gtags:
-      title: "Te quedan Créditos?"
-      description: "Deberás introducir tu pulsera para poder empezar el proceso de reembolso"
-      button: "Introducir Pulsera"
+      title: "¿Te quedan créditos?"
+      description: "Introduce tu %{gtag} para empezar el proceso de devolución. Sólo una %{gtag} puede ser activada por cuenta."
+      button: "Introducir %{gtag}"
     without_gtags_disabled:
-      claim: "El tiempo para solicitar tu devolución de créditos en tu pulsera ha terminado"
+      claim: "El tiempo para solicitar tu devolución de créditos en tu %{gtag} ha terminado"
       description: "Si has contactado al soporte con alguna pregunta previamente,"
       description2: "no te preocupes, te ayudaremos con tu devolución."
     without_gtags_claiming_started:
       claim: "Lo sentimos"
-      description: "Ya ha pasado el periodo de reembolso, ponte en contacto con soporte si tienes alguna duda."
+      description: "Ya ha pasado el periodo de devolución, ponte en contacto con soporte si tienes alguna duda."
     gtag_registration:
-      title: "Tu número de pulsera:"
-      call_to_action: "¿Tienes más pulseras? Crea una cuenta por cada una."
-      call_to_action2: "¿Introdujiste una incorrecta por error?"
+      title: "Tu número de %{gtag}:"
+      call_to_action: "¿Introdujiste una incorrecta por error?"
       button: "Borrala y reinicia el proceso"
     gtag_after_refund:
-      description: "Tu reembolso está en proceso"
+      description: "Tu devolución está en proceso"
     without_refunds:
-      title: "Tus Créditos restantes:"
-      call_to_action: "Proceder al reembolso"
+      title: "Tus créditos restantes:"
+      call_to_action: "Proceder a la devolución"
       button: "Reclama tus créditos"
+    not_refundable:
+      title: "Tus créditos restantes:"
+      call_to_action: "Lo sentimos, pero no tienes suficientes creditos para pedir una devolución ya que la comisión es de %{fee} EUR y el mínimo reembolsable es %{minimum} EUR"
     refunds:
-      title: "Tus Créditos restantes:"
+      title: "Tus créditos restantes:"
       call_to_action: "Reembolso realizado con éxito, pronto se realizará su transferencia"
       button: "Modificar cuenta"
   admissions:
     title: "Activación del Ticket"
-    description: "Para activar tu Ticket coloca el número del código de barra. Este número se encuentra debajo del código de barra impreso en tu ticket."
-    call_to_action: "Activa tu Ticket!"
+    description: "Por favor, introduce el código impreso debajo del código de barras en tu ticket del festival."
+    description2: "Tu código debería empezar por '4UMoB'."
+    call_to_action: "¡Activa tu Ticket del Festival!"
     button: "Activar"
     placeholders:
       ticket_number: "Número de Ticket"
   checkout:
     title: "Recarga"
-    description: "Si quieres disfrutar del Barcelona Beach Festival sin hacer colas, compra créditos aquí que serán añadidos automáticamente a tu pulsera al entrar."
+    description: "Los créditos que compras aquí serán añadidos automáticamente a tu %{gtag} al entrar al festival."
     total: "Total"
     button: "Confirmar Órden"
   orders:
@@ -91,46 +108,79 @@ es:
     description: "Por favor, revisa tu órden y procede a realizar el pago."
     products: "Productos"
     price: "Precio"
+    amount: "Cantidad"
     total: "Total"
     vat: "IVA Incluido"
     redirect: "Serás redirigido a la pasarela de pago del banco."
     button: "Pagar"
     button_iupay: "IUPAY"
+  claims:
+    title: "Confirmar Reembolso"
+    description: "Por favor, revisa tu órden y procede a realizar el pago."
+    products: "Productos"
+    amount: "Cantidad"
+    product_description: "Créditos a devolver"
+    fee: "Comisión de devolución"
+    total: "Total"
+    vat: "IVA Incluido"
+    redirect: "Serás redirigido a la pasarela de pago del banco."
+    button: "Reembolsar"
+    refund: "Por favor, revisa que los créditos a devolver son correctos"
   gtag_registrations:
-    title: "Introducir Pulsera"
-    description: "Para proceder, debes introducir tu pulsera colocando los números que aparecen en tu pulsera. Tu pulsera debe tener 2 líneas de números."
-    call_to_action: "Introduce tu pulsera y continúa!"
+    title: "Introducir %{gtag}"
+    description:
+      standard: "Para proceder, debes introducir tu %{gtag} colocando los números que aparecen en tu %{gtag}. Tu %{gtag} debe tener 2 líneas de números."
+      card: "Para proceder, debes introducir tu %{gtag} colocando los números que aparecen en tu %{gtag}. Tu %{gtag} debe tener 2 líneas de números."
+      simple: "Para proceder, debes introducir tu %{gtag} colocando los números que aparecen en tu %{gtag}."
+    call_to_action: "¡Introduce tu %{gtag} y continúa!"
     button: "Aceptar"
     placeholders:
-      line_1: "Línea 1 ej: 12345"
-      line_2: "Línea 2 ej: BA6D7DC0"
+      standard:
+        line_1: "Línea 1 ej: 12345"
+        line_2: "Línea 2 ej: BA6D7DC0"
+      card:
+        line_1: "Línea 1 ej: 12345"
+        line_2: "Línea 2 ej: BA6D7DC0"
+      simple:
+        line_1: ""
+        line_2: "Numero ID e.g: BA6D7DC0"
     info:
       line_1: 'Sólo números del "0" al "9"'
-      line_2: 'Letras y números del "0" a la "F". ¡Si encuentras una "o" es un "0"!'
+      line_2: 'Símbolos permitidos: "0" - "9" y "A, B, C, D, E, F"'
   refund:
-    title: "Pide tu reembolso"
-    description: "Necesitamos tu cuenta de banco para completar tu reembolso."
-    call_to_action: "Introduce tu cuenta de banco!"
+    title: "Pide tu devolución"
+    description: "Necesitamos tu cuenta de banco para completar tu devolución."
+    call_to_action: "¡Introduce tu cuenta de banco!"
     button: "Guardar"
   edit_refund:
     title: "Reembolso"
-    description: "Puedes editar tu cuenta de banco para pedir tu reembolso."
-    call_to_action: "Introduce tu cuenta de banco!"
+    description: "Puedes editar tu cuenta de banco para pedir tu devolución."
+    call_to_action: "¡Introduce tu cuenta de banco!"
     swift: "BIC/SWIFT (Sólo para cuentas fueras de España)"
     button: "Guardar "
     placeholders:
       swift: "0000 0000"
       bank_account: 'ES00 0000 0000 0000 0000 0000'
+  bank_account_claim:
+    bic_swift_disclaimer_html: "<sup>1</sup><a href='http://www.ennaranja.com/economia-facil/que-son-los-codigos-iban-y-bic-y-para-que-sirven-al-hacer-transferencias/ ' target='_blank'>¿Qué es el número BIC / SWIFT y donde puedo encontrar el mío?</a>"
+    iban_disclaimer_html: "<sup>2</sup><a href='http://www.ennaranja.com/economia-facil/que-son-los-codigos-iban-y-bic-y-para-que-sirven-al-hacer-transferencias/' target='_blank'>¿Qué es el número IBAN y donde puedo encontrar el mío?</a>"
   payment:
     error:
-      title: 'Error'
+      title: 'Transacción fallida'
       call_to_action: 'Contáctanos:'
     success:
       title: 'Pago realizado'
-      description: 'Gracias por tu compra. El pago ha sido realizado. Podrás encontar un email con el resumen de tu compra en el correo'
+      description: 'Gracias por tu compra. El pago ha sido realizado. Recibirás un email de confirmación de tu compra.'
+  refund:
+    error:
+      title: 'Transacción fallida'
+      call_to_action: 'Contáctanos:'
+    success:
+      title: 'Pago realizado'
+      description: 'La devolución ha sido realizada. Recibirás un email de confirmación de tu petición.'
   passwords:
     new:
-      title: 'Olvidaste tu contraseña?'
+      title: '¿Olvidaste tu contraseña?'
       button: 'Reenviar instrucciones'
     edit:
       header: 'Nueva contraseña'
@@ -159,7 +209,7 @@ es:
       copy: '¿Qué ventajas tiene?'
   cancel:
     title: 'Cancelar cuenta'
-    unhappy: 'Queremos saber que ha ocurrido, envíanos un correo!'
+    unhappy: '¡Queremos saber que ha ocurrido, envíanos un correo!'
   footer:
     use: "Condiciones de uso"
     privacy: "Política de privacidad"

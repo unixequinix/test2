@@ -1,9 +1,10 @@
 - breadcrumb :admins_orders
 - provide :actions do
+  = link_to '#search-menu', class: 'btn btn-action btn-action-search small' do
+    = fa_icon 'search'
+    = t('admin.actions.search')
 
 .wrapper-negative-space
-  = render "admins/orders/search", q: @q
-
   - if @orders.empty?
     .section-title-empty
       = image_tag "img-empty.png"

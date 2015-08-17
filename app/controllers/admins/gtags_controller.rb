@@ -5,7 +5,7 @@ class Admins::GtagsController < Admins::BaseController
     @gtags = @q.result(distinct: true).page(params[:page]).includes(:assigned_gtag_registration, :gtag_credit_log)
     respond_to do |format|
       format.html
-      format.csv { send_data @gtags.to_csv }
+      format.csv { send_data Gtag.all.to_csv }
     end
   end
 
@@ -13,6 +13,10 @@ class Admins::GtagsController < Admins::BaseController
     @q = Gtag.search(params[:q])
     @gtags = @q.result(distinct: true).page(params[:page]).includes(:assigned_gtag_registration, :gtag_credit_log)
     render :index
+  end
+
+  def show
+    @gtag = Gtag.includes(gtag_registrations: :customer).find(params[:id])
   end
 
   def new
@@ -40,7 +44,7 @@ class Admins::GtagsController < Admins::BaseController
     @gtag = Gtag.find(params[:id])
     if @gtag.update(permitted_params)
       flash[:notice] = I18n.t('alerts.updated')
-      redirect_to admins_gtags_url
+      redirect_to admins_gtag_url(@gtag)
     else
       flash[:error] = @gtag.errors.full_messages.join(". ")
       render :edit
@@ -59,20 +63,11 @@ class Admins::GtagsController < Admins::BaseController
   end
 
   def destroy_multiple
-    params[:gtags].each do |id|
-      gtag = Gtag.find(id.to_i)
-      if !gtag.destroy
-        flash[:error] = gtag.errors.full_messages.join(". ")
-        redirect_to admins_gtags_url
-      end
-    end
-  end
-
-  def destroy_multiple
-    gtags = params[:gtags]
-    Gtag.where(id: gtags.keys).each do |gtag|
-      if !gtag.destroy
-        flash[:error] = gtag.errors.full_messages.join(". ")
+    if gtags = params[:gtags]
+      Gtag.where(id: gtags.keys).each do |gtag|
+        if !gtag.destroy
+          flash[:error] = gtag.errors.full_messages.join(". ")
+        end
       end
     end
     redirect_to admins_gtags_url
@@ -80,6 +75,17 @@ class Admins::GtagsController < Admins::BaseController
 
   def import
     import_result = Gtag.import_csv(params[:file])
+    if import_result
+      flash[:notice] = I18n.t('alerts.imported')
+      redirect_to admins_gtags_url
+    else
+      flash[:error] = import_result
+      redirect_to admins_gtags_url
+    end
+  end
+
+  def import_credits
+    import_result = GtagCreditLog.import_csv(params[:file])
     if import_result
       flash[:notice] = I18n.t('alerts.imported')
       redirect_to admins_gtags_url

@@ -1,5 +1,6 @@
 en:
   date:
+    datepicker: "mm/dd/yyyy"
     abbr_day_names:
     - Sun
     - Mon

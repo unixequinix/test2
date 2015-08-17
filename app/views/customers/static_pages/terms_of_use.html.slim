@@ -6,11 +6,11 @@
       h3 1. Introduction
       ul
         li
-          | 1.1.  These terms and conditions (the Terms) set out the basis on which you may use our website to obtain a refund from a payment service provider for the Sonar Festival (Services) available at
+          | 1.1.  These terms and conditions (the Terms) set out the basis on which you may use our website to obtain a refund from a payment service provider for the Festival (Services) available at
 
           = link_to href=customer_root_url, target:"_blank" do
             span
-              | sonar.glownet.com
+              | #{current_event.url}
 
         li 1.2.  This Site is owned and operated by Glownet Limited, with registered no. 08245670 and registered address at 35B Wroughton Road, London, SW11 6BE. We are a technology service provider who provide cashless payment solutions for live events and festivals (we, us or our).
 
@@ -37,7 +37,7 @@
     li
       h3 4. Account
       ul
-        li 4.1.  To access our Services made available on the Site, you will need to set up an account http://sonar.glownet.com/. You will be required to provide personal information about yourself (including name, email address, password, bank account details and wristband or festival card identification numbers).
+        li 4.1.  To access our Services made available on the Site, you will need to set up an account #{current_event.url}. You will be required to provide personal information about yourself (including name, email address, password, country, address, state, city, post code, phone, bank account details and wristband or festival card identification numbers).
 
         li
           | 4.2.  You agree that you will provide accurate, current and complete information about yourself, and maintain and promptly update your personal information contained in your account profile. For more information about how we will use your personal information please see our
@@ -55,7 +55,7 @@
 
           = mail_to current_event.support_email, subject: t('event.subject_support', event: current_event.name) do
             span
-              | Sónar 2015
+              | #{current_event.name}
 
         li 5.3.  You will receive confirmation (if any) from the payment service provider regarding any successful refund, and not from us. We shall not be responsible for the actions or omissions of any payment service provider.
 
@@ -63,7 +63,7 @@
           | 5.4.  We are not the event organiser and we are not responsible for any issues relating to the event itself, including ticket purchases and refunds. If you need to speak to someone please contact the event organiser
           = mail_to current_event.support_email, subject: t('event.subject_support', event: current_event.name) do
             span
-              | Sónar 2015
+              | #{current_event.name}
           | .
     li
       h3 6. Intellectual property rights
@@ -97,7 +97,7 @@
 
           = mail_to current_event.support_email, subject: t('event.subject_support', event: current_event.name) do
             span
-              | Sónar 2015
+              | #{current_event.name}
     li
       h3 9.  Links to and from the Site
       ul

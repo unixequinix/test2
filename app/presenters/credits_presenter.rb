@@ -14,6 +14,6 @@ class CreditsPresenter < BasePresenter
   private
 
   def customer
-    @customer ||= @admittance ? @admittance.admission.customer : Customer.new
+    @customer ||= @admission ? @admission.customer_event_profile.customer : Customer.new
   end
 end

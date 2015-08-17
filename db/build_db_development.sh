@@ -22,4 +22,4 @@ bin/rake RAILS_ENV=test db:migrate
 cd $current_dir
 
 bundle exec annotate --exclude tests,fixtures
-bundle exec erd
+bundle exec erd --orientation=horizontal --title='GSPOT DB Diagram' --attributes=primary_keys,foreign_keys,inheritance,content

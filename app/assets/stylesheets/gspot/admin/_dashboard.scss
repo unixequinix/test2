@@ -4,13 +4,19 @@
 //
 // -------------------------------------------------------
 
+$statistics-mobile:     $base_font_size*1.75;
+$statistics-size:       $base_font_size*3.25;
+
 .container-dashboard {
   position: relative;
+  overflow: visible;
   margin-bottom: modules(1);
   padding: 0;
+  border-radius: 3px;
+  box-shadow: inset 0px 0px 1px 0px $light_grey;
 
   @include min-screen($bp3) {
-    @include span-columns(6);
+    @include span-columns(6 of 12);
       @include omega(2n);
       min-height: modules(6);
    }
@@ -18,10 +24,14 @@
   h3 {
     overflow: hidden;
     width: 100%;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
     white-space: nowrap;
     text-overflow: ellipsis;
     text-transform: uppercase;
   }
+
+  p { margin-bottom: 0; }
 }
 
 .wrapper-dashboard {
@@ -37,8 +47,103 @@
   background-color: $blue;
 
   h2, h3,p { color: $white; }
-
 }
+
+.container-statistics {
+  @extend .container-show;
+}
+
+.wrapper-statistics {
+  text-align: center;
+  display: inline-block;
+  width: 50%;
+
+  &:first-child { box-shadow: inset -1px 0px 0px 0px $graySilver; }
+  &:nth-child(2) { box-shadow: none; }
+  &:nth-child(3) { padding-top: modules(1); box-shadow: inset -1px 0px 0px 0px $graySilver; }
+  &:nth-child(4) { padding-top: modules(1); }
+
+  @include min-screen($bp2) {
+    display: inline-block;
+    width: 25%;
+    padding: 0;
+    box-shadow: inset 1px 0px 0px 0px $graySilver;
+
+    &:first-child  { box-shadow: inset -1px 0px 0px 0px $graySilver; }
+    &:nth-child(2) { box-shadow: none; }
+    &:nth-child(3) { padding: 0; box-shadow: inset 1px 0px 0px 0px $graySilver; }
+    &:nth-child(4) { padding: 0; box-shadow: inset 1px 0px 0px 0px $graySilver; }
+  }
+
+  h2, span {
+    display: block;
+    width: 100%;
+    margin: 0;
+    margin-top: 0;
+  }
+
+  h2 {
+    font-weight: bold;
+    color: $blue;
+    @include min-screen($bp3) { @include mscale($statistics-mobile); }
+    @include min-screen($bp5) { @include mscale($statistics-size); }
+  }
+
+  span {
+    color: $grey;
+  }
+}
+
+// ========= COMMENTS ========
+
+.container-comment {
+  position: relative;
+  background-color: lighten($graySilver,13%);
+  color: $dark_grey;
+  margin-bottom: modules(1);
+  padding: modules(0.5);
+  border-radius: 7px;
+
+  &:before {
+    content: "";
+    position: absolute;
+    bottom: -9px;
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid lighten($graySilver,13%);
+  }
+
+    &:nth-child(odd) { right: modules(1.25); }
+    &:nth-child(even) { left: modules(1.25); }
+}
+
+.new_comment {
+  clear: both;
+  overflow: hidden;
+  padding: modules(0.5);
+  border-radius: 6px;
+  background-color: $blue;
+  text-align: right;
+
+  @include min-screen($bp3) {
+    width: 50%;
+    float: right;
+  }
+
+  .input { padding-bottom: modules(0.5); }
+
+  .comment_body {
+    display: block;
+    width: 100%;
+
+    textarea { width: 100%; margin-bottom: 0; }
+  }
+}
+
+// ===========================
 
 .dashboard-table-header {
   margin-bottom: 0;
@@ -61,6 +166,25 @@
   @include min-screen($bp4) { @include mscale($base_font_size); }
 }
 
+.refunds-alert {
+  background-color: $amber;
+
+  .change-status {
+    @include min-screen($bp4) { box-shadow: inset 1px 0px 0px 0px $nuclear; }
+  }
+
+  .btn {
+    width: 100%;
+    background-color: $greenKickstarter;
+    margin-top: modules(1);
+
+    @include min-screen($bp4) {
+      width: 100%;
+      margin-top: modules(1.5);
+    }
+  }
+}
+
 .event-status {
   position: relative;
   text-align: center;
@@ -70,6 +194,34 @@
     vertical-align: top;
     width: 65%;
     min-height: modules(4);
+    text-align: left;
+  }
+}
+
+.alert-sign {
+  @include mscale($base_font_size*2.25);
+  display: inline-block;
+  vertical-align: middle;
+  width: 100%;
+  color: $white;
+  text-align: center;
+
+  @include min-screen($bp4) {
+    width: 15%;
+    text-align: left;
+  }
+}
+
+.alert-text {
+  display: inline-block;
+  vertical-align: middle;
+  width: 100%;
+  color: $white;
+  text-align: center;
+
+  @include min-screen($bp4) {
+    width: 85%;
+    padding-right: modules(0.25);
     text-align: left;
   }
 }

@@ -5,7 +5,7 @@ class Admins::TicketsController < Admins::BaseController
     @tickets = @q.result(distinct: true).page(params[:page]).includes(:ticket_type, :assigned_admittance)
     respond_to do |format|
       format.html
-      format.csv { send_data @tickets.to_csv }
+      format.csv { send_data Ticket.all.to_csv }
     end
   end
 
@@ -13,6 +13,10 @@ class Admins::TicketsController < Admins::BaseController
     @q = Ticket.search(params[:q])
     @tickets = @q.result(distinct: true).page(params[:page]).includes(:ticket_type, :assigned_admittance)
     render :index
+  end
+
+  def show
+    @ticket = Ticket.includes(admissions: :customer).find(params[:id])
   end
 
   def new
@@ -38,7 +42,7 @@ class Admins::TicketsController < Admins::BaseController
     @ticket = Ticket.find(params[:id])
     if @ticket.update(permitted_params)
       flash[:notice] = I18n.t('alerts.updated')
-      redirect_to admins_tickets_url
+      redirect_to admins_ticket_url(@ticket)
     else
       flash[:error] = I18n.t('alerts.error')
       render :edit
@@ -57,10 +61,11 @@ class Admins::TicketsController < Admins::BaseController
   end
 
   def destroy_multiple
-    tickets = params[:tickets]
-    Ticket.where(id: tickets.keys).each do |ticket|
-      if !ticket.destroy
-        flash[:error] = ticket.errors.full_messages.join(". ")
+    if tickets = params[:tickets]
+      Ticket.where(id: tickets.keys).each do |ticket|
+        if !ticket.destroy
+          flash[:error] = ticket.errors.full_messages.join(". ")
+        end
       end
     end
     redirect_to admins_tickets_url

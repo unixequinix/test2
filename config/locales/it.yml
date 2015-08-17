@@ -1,0 +1,59 @@
+it:
+  country_iso_priority: [AT, BE, BG, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, GB]
+  event:
+    subject_support: 'Vuoi aiuto per il %{event}'
+    locales:
+      en: 'ENG'
+      es: 'ESP'
+      it: 'ITA'
+    gtag_name: 'PAYCARD'
+  activemodel:
+    errors:
+      models:
+        epg_claim_form:
+          attributes:
+            phone:
+              improbable_phone: "Non è un numero di telefono valido. Verifica che il numero di telefono corresponde al paese"
+        bank_account_claim_form:
+          attributes:
+            swift:
+              invalid: "Non è un BIC/SWIFT valida"
+            iban:
+              invalid: "Non è un IBAN valida immettere un account valido per SEPA"
+  activerecord:
+    errors:
+      messages:
+        record_invalid: 'Campo non valido'
+      models:
+        customer:
+          attributes:
+            email:
+              taken: 'Email già presso'
+        entitlement:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: "Non può essere cancellato perchè ci sono dei tipi di biglietti associati"
+        ticket_type:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: "Non può essere cancellato perchè ci sono biglietti associati"
+        tickets:
+          attributes:
+            number:
+              taken: 'Numero già presso'
+            base:
+              restrict_dependent_destroy:
+                many: "Non può essere cancellato perchè ci sono clienti associati"
+        gtag:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: "Non può essere cancellato perchè ci sono clienti associati"
+            tag_uid:
+              taken: 'Numero Seriale e UID già presso'
+        admission:
+          attributes:
+            ticket:
+              taken: 'già presso'

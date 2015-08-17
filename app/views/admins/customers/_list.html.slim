@@ -1,15 +1,15 @@
-= t('helpers.page_entries_info.more_pages.display_entries_small', count: customers.count, total: Customer.count)
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: customers.count, total: Customer.count)
 table.customers
   thead
     tr
       th = t("admin.customers.email")
       th = t("admin.customers.name")
       th = t("admin.customers.surname")
-      th = t("admin.customers.confirmed_at")
       th = t("admin.customers.confirmation_sent_at")
       th = t("admin.customers.tickets")
-      th = t("admin.customers.gtags")
       th = t("admin.customers.credits")
+      th = t("admin.customers.gtags")
+      th = t("admin.customers.gtag_credits")
       th.table-actions-field = t ("admin.defaults.actions")
   tbody
     - customers.each do |customer|

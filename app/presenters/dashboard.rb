@@ -7,6 +7,8 @@ class Dashboard
     @refund = admission.customer.refund
     @event = admission.event
     @presenters = []
+    @fee = EventParameter.find_by(event_id: @event.id, parameter_id: Parameter.find_by(category: 'refund', group: @event.refund_service, name: 'fee')).value
+    @minimum = EventParameter.find_by(event_id: @event.id, parameter_id: Parameter.find_by(category: 'refund', group: @event.refund_service, name: 'minimum')).value
   end
 
   def empty?

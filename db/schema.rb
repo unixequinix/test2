@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150623165734) do
+ActiveRecord::Schema.define(version: 20150815201634) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,29 +78,30 @@ ActiveRecord::Schema.define(version: 20150623165734) do
     t.string   "url"
     t.string   "background_type",         default: "fixed"
     t.integer  "features",                default: 0,                     null: false
-    t.string   "refund_service"
+    t.string   "refund_service",          default: "bank_account"
     t.boolean  "gtag_registration",       default: true,                  null: false
   end
 
-  create_table "admissions", force: :cascade do |t|
-    t.integer  "customer_id", null: false, index: {name: "fk__admissions_customer_id"}, foreign_key: {references: "customers", name: "fk_admissions_customer_id", on_update: :no_action, on_delete: :no_action}
+  create_table "customer_event_profiles", force: :cascade do |t|
+    t.integer  "customer_id", null: false, index: {name: "fk__customer_event_profiles_customer_id"}, foreign_key: {references: "customers", name: "fk_customer_event_profiles_customer_id", on_update: :no_action, on_delete: :no_action}
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.integer  "event_id",    default: 1, null: false, index: {name: "index_admissions_on_event_id"}, foreign_key: {references: "events", name: "admissions_event_id_fkey", on_update: :no_action, on_delete: :no_action}
-    t.datetime "deleted_at",  index: {name: "index_admissions_on_deleted_at"}
+    t.integer  "event_id",    default: 1, null: false, index: {name: "index_customer_event_profiles_on_event_id"}, foreign_key: {references: "events", name: "customer_event_profiles_event_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.datetime "deleted_at",  index: {name: "index_customer_event_profiles_on_deleted_at"}
   end
 
   create_table "ticket_types", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.string   "company",    null: false
-    t.decimal  "credit",     precision: 8, scale: 2
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "deleted_at", index: {name: "index_ticket_types_on_deleted_at"}
+    t.string   "name",            null: false
+    t.string   "company",         null: false
+    t.decimal  "credit",          precision: 8, scale: 2, default: 0.0, null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.datetime "deleted_at",      index: {name: "index_ticket_types_on_deleted_at"}
+    t.string   "simplified_name"
   end
 
   create_table "tickets", force: :cascade do |t|
-    t.integer  "ticket_type_id",    index: {name: "fk__tickets_ticket_type_id"}, foreign_key: {references: "ticket_types", name: "fk_tickets_ticket_type_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "ticket_type_id",    null: false, index: {name: "fk__tickets_ticket_type_id"}, foreign_key: {references: "ticket_types", name: "fk_tickets_ticket_type_id", on_update: :no_action, on_delete: :no_action}
     t.string   "number",            index: {name: "index_tickets_on_number", unique: true}
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
@@ -110,21 +111,62 @@ ActiveRecord::Schema.define(version: 20150623165734) do
     t.string   "purchaser_surname"
   end
 
-  create_table "admittances", force: :cascade do |t|
-    t.integer  "admission_id", index: {name: "index_admittances_on_admission_id"}, foreign_key: {references: "admissions", name: "fk_admittances_admission_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "ticket_id",    index: {name: "index_admittances_on_ticket_id"}, foreign_key: {references: "tickets", name: "fk_admittances_ticket_id", on_update: :no_action, on_delete: :no_action}
-    t.datetime "deleted_at",   index: {name: "index_admittances_on_deleted_at"}
+  create_table "admissions", force: :cascade do |t|
+    t.integer  "customer_event_profile_id", index: {name: "index_admissions_on_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_admissions_admission_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "ticket_id",                 index: {name: "index_admissions_on_ticket_id"}, foreign_key: {references: "tickets", name: "fk_admissions_ticket_id", on_update: :no_action, on_delete: :no_action}
+    t.datetime "deleted_at",                index: {name: "index_admissions_on_deleted_at"}
     t.string   "aasm_state"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  create_table "gtags", force: :cascade do |t|
+    t.string   "tag_uid",           index: {name: "index_gtags_on_tag_uid", unique: true}
+    t.string   "tag_serial_number"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.datetime "deleted_at",        index: {name: "index_gtags_on_deleted_at"}
+  end
+
+  create_table "claims", force: :cascade do |t|
+    t.integer  "customer_id",  null: false, index: {name: "fk__claims_customer_id"}, foreign_key: {references: "customers", name: "fk_claims_customer_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "number",       null: false, index: {name: "index_claims_on_number", unique: true}
+    t.string   "aasm_state",   null: false
+    t.datetime "completed_at"
+    t.decimal  "total",        precision: 8, scale: 2,               null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "gtag_id",      index: {name: "index_claims_on_gtag_id"}, foreign_key: {references: "gtags", name: "claims_gtag_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.string   "service_type"
+    t.decimal  "fee",          precision: 8, scale: 2, default: 0.0
+    t.decimal  "minimum",      precision: 8, scale: 2, default: 0.0
+  end
+
+  create_table "parameters", force: :cascade do |t|
+    t.string   "name",        null: false, index: {name: "index_parameters_on_name_and_group_and_category", with: ["group", "category"], unique: true}
+    t.string   "data_type",   null: false
+    t.string   "category",    null: false
+    t.string   "group",       null: false
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "claim_parameters", force: :cascade do |t|
+    t.string   "value",        default: "", null: false
+    t.integer  "claim_id",     null: false, index: {name: "index_claim_parameters_on_claim_id"}, foreign_key: {references: "claims", name: "fk_claim_parameters_claim_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "parameter_id", null: false, index: {name: "index_claim_parameters_on_parameter_id"}, foreign_key: {references: "parameters", name: "fk_claim_parameters_parameter_id", on_update: :no_action, on_delete: :no_action}
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
 
-  create_table "bank_accounts", force: :cascade do |t|
-    t.integer  "customer_id", null: false, index: {name: "fk__bank_accounts_customer_id"}, foreign_key: {references: "customers", name: "fk_bank_accounts_customer_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "iban",        null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.string   "swift"
+  create_table "comments", force: :cascade do |t|
+    t.integer  "commentable_id",   null: false
+    t.string   "commentable_type", null: false
+    t.integer  "admin_id",         index: {name: "fk__comments_admin_id"}, foreign_key: {references: "admins", name: "fk_comments_admin_id", on_update: :no_action, on_delete: :no_action}
+    t.text     "body"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "credit_logs", force: :cascade do |t|
@@ -157,13 +199,27 @@ ActiveRecord::Schema.define(version: 20150623165734) do
     t.datetime "deleted_at",     index: {name: "index_entitlement_ticket_types_on_deleted_at"}
   end
 
+  create_table "event_parameters", force: :cascade do |t|
+    t.string   "value",        default: "", null: false
+    t.integer  "event_id",     null: false, index: {name: "index_event_parameters_on_event_id"}, foreign_key: {references: "events", name: "fk_event_parameters_event_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "parameter_id", null: false, index: {name: "index_event_parameters_on_parameter_id"}, foreign_key: {references: "parameters", name: "fk_event_parameters_parameter_id", on_update: :no_action, on_delete: :no_action}
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+  add_index "event_parameters", ["event_id", "parameter_id"], name: "index_event_parameters_on_event_id_and_parameter_id", unique: true
+
   create_table "event_translations", force: :cascade do |t|
-    t.integer  "event_id",   null: false, index: {name: "fk__event_translations_event_id"}, foreign_key: {references: "events", name: "fk_event_translations_event_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "locale",     null: false, index: {name: "index_event_translations_on_locale"}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.text     "info",       null: false
-    t.text     "disclaimer", null: false
+    t.integer  "event_id",                      null: false, index: {name: "fk__event_translations_event_id"}, foreign_key: {references: "events", name: "fk_event_translations_event_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "locale",                        null: false, index: {name: "index_event_translations_on_locale"}
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.text     "info"
+    t.text     "disclaimer"
+    t.text     "refund_success_message"
+    t.text     "mass_email_claim_notification"
+    t.text     "gtag_assignation_notification"
+    t.text     "gtag_form_disclaimer"
+    t.string   "gtag_name"
   end
   add_index "event_translations", ["event_id"], name: "index_event_translations_on_event_id"
 
@@ -176,14 +232,6 @@ ActiveRecord::Schema.define(version: 20150623165734) do
   end
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
 
-  create_table "gtags", force: :cascade do |t|
-    t.string   "tag_uid"
-    t.string   "tag_serial_number"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-    t.datetime "deleted_at",        index: {name: "index_gtags_on_deleted_at"}
-  end
-
   create_table "gtag_credit_logs", force: :cascade do |t|
     t.integer  "gtag_id",    null: false, index: {name: "fk__gtag_credit_logs_gtag_id"}, foreign_key: {references: "gtags", name: "fk_gtag_credit_logs_gtag_id", on_update: :no_action, on_delete: :no_action}
     t.decimal  "amount",     precision: 8, scale: 2, null: false
@@ -192,11 +240,11 @@ ActiveRecord::Schema.define(version: 20150623165734) do
   end
 
   create_table "gtag_registrations", force: :cascade do |t|
-    t.integer  "gtag_id",      null: false, index: {name: "index_gtag_registrations_on_gtag_id"}, foreign_key: {references: "gtags", name: "fk_gtag_registrations_gtag_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "gtag_id",                   null: false, index: {name: "index_gtag_registrations_on_gtag_id"}, foreign_key: {references: "gtags", name: "fk_gtag_registrations_gtag_id", on_update: :no_action, on_delete: :no_action}
     t.string   "aasm_state"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.integer  "admission_id", default: 1, null: false, index: {name: "index_gtag_registrations_on_admission_id"}, foreign_key: {references: "admissions", name: "gtag_registrations_admission_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.integer  "customer_event_profile_id", default: 1, null: false, index: {name: "index_gtag_registrations_on_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "gtag_registrations_admission_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "online_products", force: :cascade do |t|
@@ -250,12 +298,16 @@ ActiveRecord::Schema.define(version: 20150623165734) do
   end
 
   create_table "refunds", force: :cascade do |t|
-    t.integer  "customer_id",     null: false, index: {name: "fk__refunds_customer_id"}, foreign_key: {references: "customers", name: "fk_refunds_customer_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "gtag_id",         null: false, index: {name: "fk__refunds_gtag_id"}, foreign_key: {references: "gtags", name: "fk_refunds_gtag_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "bank_account_id", null: false, index: {name: "fk__refunds_bank_account_id"}, foreign_key: {references: "bank_accounts", name: "fk_refunds_bank_account_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "aasm_state",      null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "claim_id",                   index: {name: "index_refunds_on_claim_id"}, foreign_key: {references: "claims", name: "refunds_claim_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.decimal  "amount",                     precision: 8, scale: 2, null: false
+    t.string   "currency"
+    t.string   "message"
+    t.string   "operation_type"
+    t.string   "gateway_transaction_number"
+    t.string   "payment_solution"
+    t.string   "status"
   end
 
 end

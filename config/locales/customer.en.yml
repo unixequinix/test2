@@ -3,7 +3,13 @@ en:
   actions:
     back: "Back"
     cancel: "Cancel"
+    edit: "Edit"
+    delete: "Delete"
     check_news: "Back to Festival Website"
+    delete_account: "Delete your account"
+    logout: "Logout"
+  confirm:
+    remove_ticket: "Your purchased credits are assigned to your account. If you remove your ticket, you will need to assign another one to use those credits in the festival."
   header:
     edit: "Edit Profile"
     close: "Logout"
@@ -19,27 +25,27 @@ en:
     sign_in: 'Do you have an account?'
     sign_up: 'Not registered yet?'
     forgot: 'Forgot your password?'
-    resend_confirmation: "Resend mail instructions"
+    resend_confirmation: "Didn't receive confirmation e-mail?"
     buttons:
       sign_in: 'Log in'
       sign_up: 'Register'
   dashboard:
-    title: "My BBF"
+    title: "My dashboard"
     admissions:
       header: "Your ticket number"
-      description: "Do you want to unassign the ticket?"
-      description_started: "The event just started so you cannot unassign the ticket"
-      button: "Unassign"
+      description: "Put a wrong ticket by mistake?"
+      description_started: "The event just started so you cannot change the ticket"
+      button: "Erase and restart the process"
     without_admissions:
       call_to_action: "Please activate your festival ticket first"
       description: "Only one Festival Ticket can be activated per account."
       button: "Activate Ticket"
     credits:
       header: "Your Online Credit Balance"
-      call_to_action: "If you want to avoid queues,"
-      call_to_action2: "Top-up your wristband in advance"
+      call_to_action: "To avoid queues, top-up your %{gtag} now for all your festival purchases"
       call_to_action_started: "The event just started so you cannot topup anymore"
-      call_to_action_no_admission: "To securely buy your Online Top-up you need to activate your Festival Ticket first"
+      call_to_action_no_admission: "To buy your Online Top-up,"
+      call_to_action_no_admission2: "please activate your Festival Ticket first"
       button: "Top-up"
     event_refunds:
       claim: "Event hasn't finished yet"
@@ -48,42 +54,53 @@ en:
       claim: "You successfully applied for your refund"
       description: "Expect an e-mail between 5 to 15 business days when your credits are ready."
       description2: "Then you will be able to check your balance, enter your bank details and receive the payment."
+    more_gtags:
+      description: "Have more %{gtag}s? Please register again with a different email for each."
+    success_refund_disclaimer:
+      claim: "You successfully processed your refund"
+      description: "In 1-4 days you will receive the payment in your bank account."
+    error_refund_disclaimer:
+      claim: "There was an error on your refund"
+      description: "Try to go back to your dashboard and claim again."
     without_gtags:
-      title: "Credit left?"
-      description: "You need to assign your wristband to start the refund process"
-      button: "Assign wristband"
+      title: "Credits left?"
+      description: "Assign your %{gtag} to start the refund process. Only one %{gtag} can be activated per account."
+      button: "Assign %{gtag}"
     without_gtags_disabled:
-      claim: "The period to apply for a refund of your wristband credits is closed"
+      claim: "The period to apply for a refund of your %{gtag} credits is closed"
       description: "If you have previously contacted us with any support question,"
       description2: "do not worry, we will help you through with your refund."
     without_gtags_claiming_started:
       claim: "Sorry"
-      description: "The refunds period is finished, I you have any question contact support."
+      description: "The refunds period is finished, If you have any question contact support."
     gtag_registration:
-      title: "Your wristband number:"
-      call_to_action: "Have more wristbands? Please create an account for each."
-      call_to_action2: "Put a wrong wristband by mistake?"
+      title: "Your %{gtag} number:"
+      call_to_action: "Put a wrong %{gtag} by mistake?"
       button: "Erase and restart the process"
     gtag_after_refund:
       description: "Your refund is in process"
     without_refunds:
-      title: "Your credit:"
+      title: "Your credits:"
       call_to_action: "Proceed to refund"
       button: "Claim your credits"
+    not_refundable:
+      title: "Your credits:"
+      call_to_action: "We are sorry, but you don't have enough credits to be refunded as the refund fee is %{fee} EUR and the minimum refundable is %{minimum} EUR"
     refunds:
-      title: "Your credit:"
+      title: "Your credits:"
       call_to_action: "Refund successfully claimed, soon you will receive your transfer"
       button: "Modify bank account"
   admissions:
     title: "Ticket Activation"
-    description: "To activate your Festival Ticket, put your Barcode Number below. You can find this number right under the barcode printed on your ticket."
-    call_to_action: "Activate your Ticket!"
+    description: "Please enter the code that is printed on your festival ticket just below the barcode."
+    description2: "Your code should start with '4UMoB'"
+    call_to_action: "Activate your Festival Ticket!"
     button: "Activate"
     placeholders:
-      ticket_number: "Ticket Number"
+      ticket_number: "Festival Ticket Barcode Number"
   checkout:
     title: "Top-up"
-    description: "If you want to enjoy Barcelona Beach Festival without queueing, you can buy Online Credits here which will automatically be added to your wristband once you enter the festival."
+    description: "After you buy online credits here, they will automatically be applied to your %{gtag} once you enter the festival."
     total: "Total"
     button: "Confirm Order"
   orders:
@@ -91,22 +108,46 @@ en:
     description: "Please, review your order and proceed to payment."
     products: "Products"
     price: "Price"
+    amount: "Amount"
     total: "Total"
     vat: "VAT Included"
     redirect: "You will be redirected to the bank’s payment gateway."
     button: "Pay"
     button_iupay: "IUPAY"
+  claims:
+    title: "Confirm Refund"
+    description: "Please, review your order and proceed to payment."
+    products: "Products"
+    amount: "Amount"
+    product_description: "Credits to be refunded"
+    fee: "Refund fee"
+    total: "Total"
+    vat: "VAT Included"
+    redirect: "You will be redirected to the bank’s payment gateway."
+    button: "Refund"
+    button_iupay: "IUPAY"
+    refund: "Please, review your credits to proceed refund"
   gtag_registrations:
-    title: "Assign wristband"
-    description: "In order to proceed assign the number as appears in your wristband. The number consists of 2 lines."
-    call_to_action: "Assign your wristband and go!"
+    title: "Assign %{gtag}"
+    description:
+      standard: "In order to proceed assign the number as appears in your %{gtag}. The number consists of 2 lines."
+      card: "In order to proceed assign the number as appears in your %{gtag}. The number consists of 2 lines."
+      simple: "In order to proceed assign the number as appears in your %{gtag}."
+    call_to_action: "Assign your %{gtag} and go!"
     button: "Accept"
     placeholders:
-      line_1: "Line 1 e.g: 12345"
-      line_2: "Line 2 e.g: BA6D7DC0"
+      standard:
+        line_1: "Line 1 e.g: 12345"
+        line_2: "Line 2 e.g: BA6D7DC0"
+      card:
+        line_1: "Line 1 e.g: 12345"
+        line_2: "Line 2 e.g: BA6D7DC0"
+      simple:
+        line_1: ""
+        line_2: "ID Number e.g: BA6D7DC0"
     info:
       line_1: 'Only numbers from "0" to "9"'
-      line_2: 'Letters and numbers from "0" to "F". If you find an "o" it´s a "0"'
+      line_2: 'Symbols allowed: "0" - "9" and "A, B, C, D, E, F"'
   refund:
     title: "Refund claim"
     description: "We need your bank account to complete your claim."
@@ -121,13 +162,23 @@ en:
     placeholders:
       swift: "0000 0000"
       bank_account: 'ES00 0000 0000 0000 0000 0000'
+  bank_account_claim:
+    bic_swift_disclaimer_html: "<sup>1</sup><a href='http://www.business.hsbc.co.uk/1/2/international-business/iban-bic' target='_blank'>What is BIC / SWIFT and where can I find mine?</a>"
+    iban_disclaimer_html: "<sup>2</sup><a href='http://www.business.hsbc.co.uk/1/2/international-business/iban-bic' target='_blank'>What is IBAN and where can I find mine?</a>"
   payment:
     error:
-      title: 'Error'
+      title: 'Transaction failed'
       call_to_action: 'Contact us:'
     success:
       title: 'Payment Done'
-      description: 'Thank you for your order. Your payment has been processed. An email with the order resume has been sent to your account.'
+      description: 'Thank you for your order. Your payment has been processed. You will receive a confirmation email of your order.'
+  refund:
+    error:
+      title: 'Transaction failed'
+      call_to_action: 'Contact us:'
+    success:
+      title: 'Refund Done'
+      description: 'Your refund has been processed. You will receive a confirmation email of your claim.'
   passwords:
     new:
       title: 'Forgot your password?'

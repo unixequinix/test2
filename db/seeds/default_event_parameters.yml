@@ -1,0 +1,54 @@
+-
+  category: refund
+  groups:
+    -
+      name: epg
+      values:
+        -
+          name: fee
+          value: 0.0
+        -
+          name: minimum
+          value: 0.0
+        -
+          name: country
+          value: MT
+        -
+          name: currency
+          value: EUR
+        -
+          name: operation_type
+          value: credit
+        -
+          name: payment_solution
+          value: entercash
+        -
+          name: md5key
+          value: 05a5e6fa2a3294f9b4e5db504208f019
+        -
+          name: merchant_id
+          value: 1067
+        -
+          name: product_id
+          value: 0000
+        -
+          name: url
+          value: https://staging.easypaymentgateway.com/EPGCheckout/rest/online/tokenize
+    -
+      name: bank_account
+      values:
+        -
+          name: fee
+          value: 0.0
+        -
+          name: minimum
+          value: 0.0
+-
+  category: gtag
+  groups:
+    -
+      name: form
+      values:
+        -
+          name: format
+          value: standard

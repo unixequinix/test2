@@ -1,24 +1,27 @@
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: refunds.count, total: Refund.count)
 table.refunds
   thead
     tr
-      th = t("admin.refunds.amount")
+      th = t("admin.refunds.id")
       th = t("admin.refunds.customer_email")
-      th = t("admin.refunds.gtag_serial_number")
-      th = t("admin.refunds.gtag_uid")
-      th = t("admin.refunds.iban")
-      th = t("admin.refunds.swift")
-      th = t("admin.refunds.created")
-      th = t("admin.refunds.aasm_state")
+      th = t('admin.refunds.claim')
+      th = t('admin.refunds.amount')
+      th = t('admin.refunds.currency')
+      th = t('admin.refunds.gateway_transaction_number')
+      th = t('admin.refunds.payment_solution')
+      th = t('admin.refunds.status')
+      th = t('admin.refunds.created_at')
   tbody
     - refunds.each do |refund|
       tr
-        td data-label=t("admin.refunds.amount") = link_to (refund.gtag.gtag_credit_log.nil? ? 0.0 : refund.gtag.gtag_credit_log.amount), admins_refund_path(refund)
-        td data-label=t("admin.refunds.customer_email") = link_to refund.customer.email, admins_customer_path(refund.customer)
-        td data-label=t("admin.refunds.gtag_serial_number") = refund.gtag.tag_serial_number
-        td data-label=t("admin.refunds.gtag_uid") = refund.gtag.tag_uid
-        td data-label=t("admin.refunds.iban") = refund.bank_account.iban
-        td data-label=t("admin.refunds.swift") = refund.bank_account.swift
-        td data-label=t("admin.refunds.created") = refund.created_at.strftime("%y-%m-%d %H:%M:%S")
-        td data-label=t("admin.refunds.aasm_state") = refund.aasm_state
+        td data-label=t("admin.refunds.id") = link_to (refund.id), admins_refund_path(refund)
+        td data-label=t("admin.refunds.customer_email") = link_to refund.claim.customer.email, admins_customer_path(refund.claim.customer) unless refund.claim.customer.nil?
+        td data-label=t('admin.refunds.claim') = link_to "#{refund.claim.number}", admins_claim_path(refund.claim) unless refund.claim.customer.nil?
+        td data-label=t('admin.refunds.amount') = refund.amount
+        td data-label=t('admin.refunds.currency') = refund.currency
+        td data-label=t('admin.refunds.gateway_transaction_number') = refund.gateway_transaction_number
+        td data-label=t('admin.refunds.payment_solution') = refund.payment_solution
+        td data-label=t('admin.refunds.status') = refund.status
+        td data-label=t('admin.refunds.created_at') = refund.created_at.strftime("%y-%m-%d %H:%M:%S")
 
 = paginate refunds

@@ -1,5 +1,6 @@
 = render "customers/sessions/confirmation_message" if @sign_up
 = render "customers/sessions/confirmed_message" if @confirmed
+= render "customers/sessions/password_sent_message" if @password_sent
 
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
   .container-login-map
@@ -10,7 +11,7 @@
         = raw current_event.info
         - if devise_mapping.registerable? && controller_name != 'registrations'
           = link_to t('links.buttons.sign_up'), new_registration_path(resource_name), class: "btn"
-    ul.disclaimer-list
+    .disclaimer-list
       = raw current_event.disclaimer
 
   .container-login-form

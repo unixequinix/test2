@@ -78,13 +78,14 @@ abbr {
 
 // Main wrapper include aside panel and container main
 .wrapper-main {
-  position: relative;
   min-height:100%;
   height: auto;
 }
 
 .container-main {
   position: absolute;
+  right: 0;
+  top: 0;
   display: inline-block;
   vertical-align: top;
   width: 100%;
@@ -96,6 +97,13 @@ abbr {
     display: inline-block;
     width: 83%;
   }
+
+  @include ipad                                   { width: 100% !important; }
+  @include ipad(landscape)                        { width: 100% !important; }
+  @include ipad(portrait)                         { width: 100% !important; }
+  @include ipad-retina                            { width: 100% !important; }
+  @include ipad-retina(landscape)                 { width: 100% !important; }
+  @include ipad-retina(portrait)                  { width: 100% !important; }
 }
 
 // _________
@@ -115,6 +123,11 @@ abbr {
   .btn-primary {
     margin: 0 0 modules(1);
     @include min-screen($bp3) { margin: 0; }
+  }
+
+  .btn-action {
+    margin: 0 0 modules(1);
+    @include min-screen($bp3) { margin: 0 modules(0.5) 0 0; }
   }
 }
 
@@ -159,22 +172,19 @@ abbr {
   overflow: hidden;
   display: block;
   width: 100%;
-  margin-bottom: modules(1);
-  padding: modules(0.5);
+  min-height: 100%;
+  height: auto;
+  padding: 0 modules(0.5);
   border-radius: 3px;
-  background-color: $admin_grey;
-  box-shadow: inset 0px 0px 0px 1px $graySilver;
+
+  .input { padding-bottom: modules(0.5); }
 
   .btn {
-    width: 100%;
-
-    @include min-screen($bp3) {
-      @include span-columns(4);
-    }
+    margin-top: modules(1);
+    padding: modules(0.5);
   }
-  .input { @include min-screen($bp3) { padding-bottom: 0; } }
 
-  input[type=text], input[type=email], select {
+  input[type=text], input[type=email] {
     @include appearance(none);
     width: 100%;
     padding: modules(0.25);
@@ -183,57 +193,74 @@ abbr {
     background-color: $white;
     box-shadow: inset 0px 0px 0px 1px $graySilver;
     border: none;
+
+    &:focus { box-shadow: inset 0px 0px 0px 1px $magenta; }
   }
 
-  label { display: none; }
+  label, input {
+    display: block;
+    width: 100%;
+    padding: 0 0 modules(0.5);
+  }
+
+  label {
+    color: $nuclear;
+  }
+
+  abbr { display: none; }
 
   //TODO Manu
   .checkbox {
     display: block;
+
     input[type=checkbox] {
       display: block;
     }
   }
 }
 
-.wrapper-search-field {
-  position: relative;
+.range {
 
-  @include min-screen($bp3) {
-    @include span-columns(8);
+  select {
+    display: inline-block;
+    width: 32%;
   }
 }
 
-.custom-input {
-  @include span-columns(6 of 8);
+.menu-header {
+  height: modules(2);
+  padding: modules(0.75) modules(0.5) 0;
+  background-color: $dark_grey;
+  color: $nuclear;
+  font-weight: 200;
 
-  input:focus {
-    //TODO Manu: remove important
-    box-shadow: inset 0px 0px 0px 1px $graySilver !important;
+  i {
+    display: inline-block;
+    padding-right: modules(0.5);
   }
-}
-
-.search-input {
-  display: inline-block;
-  width:46%;
-
-  &:first-child { margin-right: 3%; }
 }
 
 .custom-select {
-  @include span-columns(2 of 8);
-  @include omega();
   position: relative;
-  display: inline-block;
+
+  select {
+    font-style: italic;
+
+    option { font-style: normal; }
+
+     &:focus { box-shadow: inset 0px 0px 0px 1px $graySilver; }
+  }
 
   i {
     position: absolute;
-    top: modules(0.65);
+    top: modules(1.25);
     right: modules(0.5);
-    color: $blue;
+    color: $grey;
     z-index: 9;
     pointer-events: none;
   }
+}
 
-  &:focus { border: 1px solid yellow; }
+.deleted-field{
+  color: $red;
 }

@@ -17,5 +17,6 @@ class GtagMailer < ApplicationMailer
     @name = gtag_registration.customer.name + ' ' + gtag_registration.customer.surname
     @gtag = gtag_registration.gtag
     @event = event
+    I18n.config.globals[:gtag] = event.gtag_name
   end
 end

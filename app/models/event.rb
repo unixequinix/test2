@@ -25,13 +25,13 @@
 #  url                     :string
 #  background_type         :string           default("fixed")
 #  features                :integer          default(0), not null
-#  refund_service          :string
+#  refund_service          :string           default("bank_account")
 #  gtag_registration       :boolean          default(TRUE), not null
 #
 
 class Event < ActiveRecord::Base
   nilify_blanks
-  translates :info, :disclaimer
+  translates :info, :disclaimer, :refund_success_message, :mass_email_claim_notification, :gtag_assignation_notification, :gtag_form_disclaimer, :gtag_name, fallbacks_for_empty_translations: true
 
   #Background Types
   BACKGROUND_FIXED = 'fixed'
@@ -69,6 +69,9 @@ class Event < ActiveRecord::Base
                     path: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:filename",
                     url: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:basename.:extension",
                     default_url: ':default_event_background_url'
+
+  # Association
+  has_many :event_parameters
 
   # Validations
   validates :name, :support_email, presence: true
@@ -121,6 +124,10 @@ class Event < ActiveRecord::Base
 
   def self.refund_services_selector
     REFUND_SERVICES.map { |f| [I18n.t('admin.event.refund_services.' + f), f] }
+  end
+
+  def standard_credit
+    Credit.find_by(standard: true)
   end
 
 end

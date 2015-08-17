@@ -1,0 +1,6 @@
+.wrapper-field.centered
+  .form-inputs
+    h3.claim = t('dashboard.error_refund_disclaimer.claim')
+    h3 = t('dashboard.error_refund_disclaimer.description')
+    = link_to href="#{customer_root_url}", class: "btn btn-action btn-action-back" do
+      = t("actions.back")

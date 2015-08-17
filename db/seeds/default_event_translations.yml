@@ -1,0 +1,27 @@
+-
+  locale: en
+  info:
+  disclaimer:
+  refund_success_message:
+  mass_email_claim_notification:
+  gtag_assignation_notification:
+  gtag_form_disclaimer:
+  gtag_name: wristband
+-
+  locale: es
+  info:
+  disclaimer:
+  refund_success_message:
+  mass_email_claim_notification:
+  gtag_assignation_notification:
+  gtag_form_disclaimer:
+  gtag_name: pulsera
+-
+  locale: it
+  info:
+  disclaimer:
+  refund_success_message:
+  mass_email_claim_notification:
+  gtag_assignation_notification:
+  gtag_form_disclaimer:
+  gtag_name: paycard

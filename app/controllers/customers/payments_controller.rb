@@ -4,7 +4,6 @@ class Customers::PaymentsController < Customers::BaseController
   skip_before_action :check_has_ticket!, only: [:create]
 
   def create
-    puts request.env['HTTP_X_REAL_IP']
     if params[:Ds_Order] and params[:Ds_MerchantCode] == Rails.application.secrets.merchant_code.to_s
       response = params[:Ds_Response]
       success = response =~ /00[0-9][0-9]|0900/

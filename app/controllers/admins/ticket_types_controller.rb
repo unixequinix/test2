@@ -4,7 +4,7 @@ class Admins::TicketTypesController < Admins::BaseController
     @ticket_types = TicketType.all.page(params[:page]).includes(:entitlements)
     respond_to do |format|
       format.html
-      format.csv { send_data @ticket_types.to_csv }
+      format.csv { send_data TicketType.all.to_csv }
     end
   end
 
@@ -64,7 +64,7 @@ class Admins::TicketTypesController < Admins::BaseController
   private
 
   def permitted_params
-    params.require(:ticket_type).permit(:name, :company, :credit, entitlement_ids: [])
+    params.require(:ticket_type).permit(:name, :simplified_name, :company, :credit, entitlement_ids: [])
   end
 
 end

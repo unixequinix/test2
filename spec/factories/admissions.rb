@@ -2,17 +2,19 @@
 #
 # Table name: admissions
 #
-#  id          :integer          not null, primary key
-#  customer_id :integer          not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  event_id    :integer          default(1), not null
-#  deleted_at  :datetime
+#  id           :integer          not null, primary key
+#  customer_event_profile_id :integer
+#  ticket_id    :integer
+#  deleted_at   :datetime
+#  aasm_state   :string
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 
 FactoryGirl.define do
   factory :admission do
-    customer
-    event
+    customer_event_profile
+    ticket
+    aasm_state 'assigned'
   end
 end

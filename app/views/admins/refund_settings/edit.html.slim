@@ -1,0 +1,7 @@
+- breadcrumb :admins_refund_setting, @event
+- provide :actions do
+  = link_to admins_event_refund_settings_path(@event), class: "btn btn-action btn-action-back small" do
+    = fa_icon 'arrow-circle-left'
+    = t('actions.back')
+
+= render "form", event: @event

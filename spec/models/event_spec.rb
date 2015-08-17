@@ -25,10 +25,8 @@
 #  url                     :string
 #  background_type         :string           default("fixed")
 #  features                :integer          default(0), not null
-#  refund_service          :string
-#  info                    :text
-#  disclaimer              :text
-#  wristband_registration  :boolean          default(TRUE), not null
+#  refund_service          :string           default("bank_account")
+#  gtag_registration       :boolean          default(TRUE), not null
 #
 
 require 'rails_helper'

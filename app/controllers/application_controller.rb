@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   helper_method :current_event
   before_filter :check_for_mobile
+  before_filter :set_i18n_globals
 
   # TODO Do this somewhere else other than the global space
   def current_event
@@ -58,6 +59,10 @@ class ApplicationController < ActionController::Base
   def user_agent_mobile?
     # Note: we treat ipad as non mobile
     request.user_agent =~ (/(iPhone|iPod|Android|webOS|Mobile|iPad)/)
+  end
+
+  def set_i18n_globals
+    I18n.config.globals[:gtag] = current_event.gtag_name
   end
 
   helper_method :mobile_device?

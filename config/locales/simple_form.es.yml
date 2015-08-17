@@ -14,6 +14,8 @@ es:
     labels:
       defaults:
         password: 'Contraseña'
+        updated_at: 'Actualizado el'
+        created_at: 'Creado el'
       admin:
         new: &label_admin
           email: 'Email'
@@ -64,6 +66,7 @@ es:
       ticket_type:
         new: &label_ticket_type
           name: "Nombre"
+          simplified_name: "Nombre simplificado"
           company: "Compañía"
           credit: "Crédito"
           entitlement: "Derecho"
@@ -85,10 +88,52 @@ es:
         edit:
           <<: *label_gtag
       gtag_credit_log:
-        new: &label_gtag
+        new: &label_gtag_credit_log
           amount: "Cantidad"
         edit:
-          <<: *label_gtag
+          <<: *label_gtag_credit_log
+      bank_account_refund_settings_form:
+        edit:
+          fee: "Comisión"
+          minimum: "Mínimo"
+          product_id: "Producto"
+          refund_success_message: "Mensaje de éxito en la devolución"
+          mass_email_claim_notification: "Notificación general (petición de devolución)"
+      gtag_settings_form:
+        edit:
+          format: "Formato"
+          name: "Nombre"
+          gtag_assignation_notification: "Notificación al asignar el Gtag"
+          gtag_form_disclaimer: "Texto formulario asignación Gtag"
+      epg_refund_settings_form:
+        edit:
+          fee: "Comisión"
+          country: "Pais"
+          currency: "Moneda"
+          operation_type: "Tipo de operación"
+          payment_solution: "Solución de pago"
+          md5key: "Md5key"
+          merchant: "Comercio"
+          url: "Url"
+          minimum: "Mínimo"
+          product_id: "Producto"
+          refund_success_message: "Mensaje de éxito en la devolución"
+          mass_email_claim_notification: "Notificación general (petición de devolución)"
+      epg_claim_form:
+        new:
+          country_code: "País"
+          state: "Provincia"
+          city: "Ciudad"
+          post_code: "Código Postal"
+          phone: "Teléfono"
+          address: "Dirección"
+      bank_account_claim_form:
+        new:
+          swift_html: "BIC/SWIFT<sup>1</sup>"
+          iban_html: "IBAN<sup>2</sup>"
+      comment:
+        new:
+          body: "Comentario"
 
     placeholders:
       event:
@@ -120,6 +165,7 @@ es:
       ticket_type:
         new: &placeholder_ticket_type
           name: "Elige un nombre de ticket"
+          simplified_name: "Un nombre simplificado para tu ticket"
           company: "Compañía del Evento"
           credit: "Créditos Disponibles"
           entitlement: "Derechos"
@@ -135,14 +181,24 @@ es:
           <<: *placeholder_ticket
       gtag:
         new: &placeholder_gtag
-          tag_serial_number: "Número de la primera línea de la pulsera"
-          tag_uid: "Número de la segunda línea de la pulsera"
+          tag_serial_number: "Número de la primera línea de la %{gtag}"
+          tag_uid: "Número de la segunda línea de la %{gtag}"
         edit:
           <<: *placeholder_gtag
       gtag_credit_log:
-        new: &placeholder_gtag
+        new: &placeholder_gtag_credit_log
           amount: "Cantidad disponible"
         edit:
-          <<: *label_gtag
-
-
+          <<: *placeholder_gtag_credit_log
+      epg_claim_form:
+        new:
+          state: "Tu provincia o estado"
+          phone: "Teléfono con código internacional: +34123..."
+          address: "Dirección, número y piso"
+      bank_account_claim_form:
+        new:
+          swift: "0000 0000"
+          iban: 'ES00 0000 0000 0000 0000 0000'
+      comment:
+        new:
+          body: "Añade un comentario"

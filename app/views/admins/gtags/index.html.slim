@@ -1,23 +1,17 @@
 - breadcrumb :admins_gtags
 - provide :actions do
-  = link_to t("actions.new"), new_admins_gtag_path, class: "btn btn-action btn-action-new"
-  = link_to admins_gtags_path(format: "csv"), class: "btn btn-action btn-action-back"
+  = link_to new_admins_gtag_path, class: "btn btn-action btn-action-new small" do
+    = fa_icon 'plus'
+    = t('admin.actions.new')
+  = link_to admins_gtags_path(format: "csv"), class: "btn btn-action btn-action-download small"
     = fa_icon "download"
-    = t("admin.actions.csv")
+    = t('admin.actions.download')
+  = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
+    = fa_icon 'search'
+    = t('actions.search')
 
 .wrapper-negative-space
-  = render "admins/gtags/search", q: @q
-
-  p.section-header
-    = fa_icon "upload"
-    = t("admin.gtags.import")
-
-  .wrapper-add-file
-    = form_tag import_admins_gtags_path, multipart: true do
-      = file_field_tag :file, id: "file", accept: 'text/csv'
-      = submit_tag "Import", id: "sendButton", class: "btn btn-secondary"
-
-
+  = render "admins/gtags/report", gtags: @gtags
   - if @gtags.empty?
     .section-title-empty
       = image_tag "img-empty.png"

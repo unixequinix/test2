@@ -1,11 +1,14 @@
 class Customers::GtagRegistrationsController < Customers::BaseController
+  before_action :check_event_status!
+  before_action :check_has_not_gtag_registration!, only: [:new, :create]
 
   def new
-    @gtag_registration = GtagRegistration.new
+    @gtag_registration_presenter = GtagRegistrationPresenter.new(current_event: current_event)
   end
 
   def create
-    gtag = Gtag.find_by(tag_uid: params[:tag_uid].upcase, tag_serial_number: params[:tag_serial_number].upcase)
+    @gtag_registration_presenter = GtagRegistrationPresenter.new(current_event: current_event)
+    gtag = Gtag.find_by(tag_uid: params[:tag_uid].upcase, tag_serial_number: params[:tag_serial_number].strip.upcase)
     if !gtag.nil?
       @gtag_registration = GtagRegistration.new(admission: current_admission, gtag: gtag)
       if @gtag_registration.save
@@ -30,4 +33,18 @@ class Customers::GtagRegistrationsController < Customers::BaseController
     redirect_to customer_root_url
   end
 
+  private
+
+  def check_event_status!
+    if !current_event.gtag_registration?
+      flash.now[:error] = I18n.t('alerts.error')
+      redirect_to customer_root_path
+    end
+  end
+
+  def check_has_not_gtag_registration!
+    if !current_customer.assigned_gtag_registration.nil?
+      redirect_to customer_root_path, flash: { error: I18n.t('alerts.already_assigned') }
+    end
+  end
 end

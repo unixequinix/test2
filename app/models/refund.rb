@@ -2,35 +2,41 @@
 #
 # Table name: refunds
 #
-#  id              :integer          not null, primary key
-#  customer_id     :integer          not null
-#  gtag_id         :integer          not null
-#  bank_account_id :integer          not null
-#  aasm_state      :string           not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id                         :integer          not null, primary key
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
+#  claim_id                   :integer
+#  amount                     :decimal(8, 2)    not null
+#  currency                   :string
+#  message                    :string
+#  operation_type             :string
+#  gateway_transaction_number :string
+#  payment_solution           :string
+#  status                     :string
 #
 
 class Refund < ActiveRecord::Base
+  default_scope { order(created_at: :desc) }
 
   # Associations
-  belongs_to :customer
-  belongs_to :gtag
-  belongs_to :bank_account
+  belongs_to :claim
+  has_one :user, through: :claims
 
-  accepts_nested_attributes_for :bank_account
+  # Validations
+  validates :claim, :amount, presence: true
 
-  validates :customer, :gtag, :bank_account, :aasm_state, presence: true
-
-  # State machine
-  include AASM
-
-  aasm do
-    state :created, initial: true
-    state :disabled
-
-    event :disable do
-      transitions from: :created, to: :disabled
+  def self.to_csv(options = {})
+    CSV.generate(options) do |csv|
+      refund_columns = column_names.clone
+      refund_columns << 'customer_email'
+      refund_columns << 'claim_number'
+      csv << refund_columns
+      all.each do |refund|
+        attributes = refund.attributes.values_at(*refund_columns)
+        attributes[-2] = refund.claim.customer.nil? ? '' : refund.claim.customer.email
+        attributes[-1] = refund.claim.number
+        csv << attributes
+      end
     end
   end
 

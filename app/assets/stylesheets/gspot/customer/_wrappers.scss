@@ -97,6 +97,8 @@
   figure { display: inline-block; padding: 0 modules(0.25);}
 
   &:last-child { margin-bottom: modules(1); }
+
+  span { position: relative }
 }
 
 // _____ ALIGN TO CENTER ALL ______
@@ -155,5 +157,14 @@
       border: 1px solid $color_text;
     }
   }
+}
+
+.container-button {
+  width: 100%;
+  margin-top: modules(1);
+  padding-top: modules(1);
+  text-align: right;
+
+  @include min-screen($bp3) { margin-top: 0; }
 }
 

@@ -1,0 +1,10 @@
+.wrapper-field.form-inputs
+  .dashboard-field.dashboard-field-info
+    h3
+      = fa_icon "money"
+      = t('dashboard.credits.header')
+    h3.highlight
+      = current_customer.credit_logs.sum(:amount).floor
+  .dashboard-field.dashboard-field-action
+    h3 = t('dashboard.credits.call_to_action_no_admission')
+    h3 = t('dashboard.credits.call_to_action_no_admission2')

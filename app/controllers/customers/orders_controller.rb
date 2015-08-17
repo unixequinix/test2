@@ -7,8 +7,20 @@ class Customers::OrdersController < Customers::BaseController
   end
 
   def update
-    @order = Order.find(params[:id])
-    @order.generate_order_number! if @order.in_progress?
+    @actual_order = Order.find(params[:id])
+    if @actual_order.in_progress?
+      @order = current_customer.orders.build
+      @actual_order.order_items.each do |order_item|
+        @order.order_items << OrderItem.new(
+            online_product_id: order_item.online_product.id,
+            amount: order_item.amount,
+            total: order_item.total)
+      end
+      @order.generate_order_number!
+      @order.save
+    else
+      @order = @actual_order
+    end
     payment_form_info
     @order.start_payment!
   end

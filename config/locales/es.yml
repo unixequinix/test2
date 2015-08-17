@@ -1,9 +1,25 @@
 es:
+  country_iso_priority: [AT, BE, BG, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, GB]
   event:
     subject_support: 'Necesito ayuda para %{event}'
     locales:
       en: 'ENG'
       es: 'ESP'
+      it: 'ITA'
+    gtag_name: 'Pulsera'
+  activemodel:
+    errors:
+      models:
+        epg_claim_form:
+          attributes:
+            phone:
+              improbable_phone: 'No es un número de teléfono válido. Verifica que el país concuerda con el número.'
+        bank_account_claim_form:
+          attributes:
+            swift:
+              invalid: 'No es un número de BIC/SWIFT válido'
+            iban:
+              invalid: 'No es un número de IBAN válido, introduce una cuenta válida SEPA'
   activerecord:
     errors:
       messages:

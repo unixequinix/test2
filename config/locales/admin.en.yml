@@ -1,5 +1,19 @@
 en:
   admin:
+    actions:
+      new: "New"
+      back: "Back"
+      cancel: "Cancel"
+      assign_ticket: "Assign ticket"
+      assign_gtag: "Assign gtag"
+      manual_claims_csv: "Manual claims CSV"
+      csv: "CSV"
+      disable: "Disable"
+      select_all: "Select all"
+      delete_selected: "Delete selected"
+      download: "CSV"
+      search: "Search"
+      update: "Update"
     event:
       name: 'Name'
       slug: 'Slug'
@@ -15,6 +29,10 @@ en:
       background: 'Background'
       style: 'Style'
       features: 'Enabled Features'
+      refund_success_message: "Refund success message (Click to check)"
+      mass_email_claim_notification: "Mass email claim notification"
+      gtag_assignation_notification: "Gtag  assignation notification"
+      gtag_form_disclaimer: "Gtag assignation form disclaimer"
       fieldests:
         info: "Event info"
         date: "Sate and location"
@@ -40,6 +58,28 @@ en:
       features_options:
         ticketing: 'Ticketing'
         refunds: 'Refunds'
+    gtag_settings:
+      form:
+        format: 'Format'
+        name: 'Name'
+    refund_settings:
+      nofication_description: 'Notify to the customers they can claim their refund.'
+      want_to_notify: 'Do you want to notify?'
+      notify: 'Notify'
+      epg:
+        fee: 'Fee'
+        fee: 'Minimum'
+        country: 'Country'
+        currency: 'Currency'
+        operation_type: 'Operation type'
+        payment_solution: 'Payment solution'
+        md5key: 'Md5 key'
+        merchant_id: 'Merchant Id'
+        url: 'URL'
+        product_id: "Product"
+      bank_account:
+        fee: 'Fee'
+        minimum: 'Minimum'
     defaults:
       actions: "Actions"
       home: "Home"
@@ -52,16 +92,10 @@ en:
       empty_customers: "No Customers"
       empty_orders: "No orders"
       empty_payments: "No payments"
+      empty_claims: "No claims"
       empty_refunds: "No refunds"
       search: "Search"
       all: "Select"
-    actions:
-      back: "Back"
-      new: "New"
-      csv: "CSV"
-      disable: "Disable"
-      select_all: "Select all"
-      delete_selected: "Delete selected"
     sessions:
       mail: "user@domain.com"
       password: "password"
@@ -77,6 +111,8 @@ en:
     aside:
       event: "Event"
       details: "Details"
+      gtag_settings: "Gtag Settings"
+      refund_settings: "Refund Settings"
       admins: "Admins"
       entitlements: "Entitlements"
       ticket_types: "Ticket Types"
@@ -85,6 +121,7 @@ en:
       customers: "Customers"
       orders: "Orders"
       payments: "Payments"
+      claims: "Claims"
       refunds: "Refunds"
       sign_out: "Sign out"
       setup: "Setup"
@@ -109,6 +146,7 @@ en:
     ticket_types:
       id: "Id"
       name: "Name"
+      simplified_name: "Simplified Name"
       company: "Company"
       credit: "Credit"
       entitlements: "Entitlements"
@@ -117,12 +155,29 @@ en:
       id: "Id"
       number: "Number"
       ticket_type: "Ticket type"
-      customer: "Customer"
+      ticket_type_simplified: "Simplified Ticket type"
+      customer: "Assigned customer"
+      created_at: "Created at"
+      admission: "Tickets registrations"
       search:
         number: "Number"
+        customer: "Assigned customer email"
+        purchaser_email: "Purchaser Email"
         type: "Type"
       import: "Import tickets (Select a CSV file comma separated)"
+      actions:
+        delete_tickets: "Delete all tickets"
+    admissions:
+      ticket: "Ticket"
+      customer:
+        email: "Email"
+        complete_name: "Complete name"
+      aasm_state: "State"
       created_at: "Created at"
+      updated_at: "Updated at"
+      states:
+        assigned: "Is assigned now"
+        unassigned: "Previous assignation"
     purchasers:
       name: "Purchaser Name"
       surname: "Purchaser Surname"
@@ -132,19 +187,54 @@ en:
       tag: "Tag UID"
       serial: "Tag Serial Number"
       customer: "Customer"
+      assigned_at: "Assigned at"
+      created_at: "Created at"
+      updated_at: "Updated at"
       total: "Total Credits"
+      gtag_registration: "Gtag registrations"
       import: "Import GTags (Select a CSV file comma separated)"
+      import_credits: "Import Credits (Select a CSV file comma separated)"
       search:
         tag_uid: "Tag UID"
         tag_serial: "Tag serial number"
+      actions:
+        delete_gtags: "Delete all gtags"
+        delete_credits: "Delete all credits"
+      report:
+        total_credits: "Total Credits"
+    gtag_registrations:
+      tag: "Tag UID"
+      serial: "Tag Serial Number"
+      customer:
+        email: "Email"
+        complete_name: "Complete name"
+      aasm_state: "State"
+      created_at: "Created at"
+      updated_at: "Updated at"
+      states:
+        assigned: "Is assigned now"
+        unassigned: "Previous assignation"
     customers:
+      delete: "Deleted"
       email: "Email"
       name: "Name"
       surname: "Surname"
       confirmed_at: "Confirmed at"
       confirmation_sent_at: "Confirmation sent at"
       tickets: "Tickets"
+      ticket: "Ticket"
       gtags: "Gtags"
+      gtag: "Gtag"
+      state: "State"
+      admissions: "Ticket registrations"
+      creadit_logs: "Credits logs"
+      orders: "Orders"
+      payments: "Payments"
+      gtag_registrations: "Gtag registrations"
+      completed_claim: "Completed claims"
+      refund: "Refund"
+      claims: "Claims"
+      gtag_credits: "Gtag Credits"
       credits: "Credits"
       search: "Name Count"
       sign: "Sign in count"
@@ -155,12 +245,41 @@ en:
       unconfirmed: "Unconfirmed email"
       transactions: "Transactions"
       transactions_type: "Transactions type"
+      created_at: "Created at"
+      deleted_at: "Deleted at"
       amount: "Amount"
       search:
         name: "Type name"
         surname: "Type surname"
         email: "Type email"
         confirmed_at: "Not confirmed"
+    claims:
+      number: "Number"
+      customer: "Customer"
+      state: "State"
+      created: "Created at"
+      completed: "Completed at"
+      amount: "Amount"
+      product_price: "Product price"
+      total: "Total"
+      service_type: "Service Type"
+      product_name: "Product name"
+      product_description: "Product description"
+      product_type: "Product type"
+      order_item: "Order items"
+      claim_parameters: "Parameters"
+      claim_parameter: "Parameter"
+      claim_parameter_value: "Value"
+      parameters:
+        state: "State"
+        city: "City"
+        post_code: "Post code"
+        phone: "Phone"
+        address: "Address"
+        iban: "IBAN"
+        swift: "BIC/SWIFT"
+      search:
+        number: "Number"
     orders:
       number: "Number"
       customer: "Customer"
@@ -174,6 +293,7 @@ en:
       product_description: "Product description"
       product_type: "Product type"
       order_item: "Order items"
+      payments: "Payments"
       search:
         number: "Number"
     payments:
@@ -189,6 +309,8 @@ en:
       paid: "Paid at"
       search:
         id: "Id eq"
+    comments:
+      title: "Comments"
     refunds:
       id: "Id"
       customer_id: "Customer Id"
@@ -199,7 +321,19 @@ en:
       iban: "IBAN number"
       swift: "BIC/SWIFT number"
       amount: "Amount"
-      created: "Created at"
       aasm_state: "State"
+      created_at: "Created at"
+      updated_at: "Updated at"
+      claim: "Claim"
+      amount: "Amount"
+      currency: "Currency"
+      message: "Message"
+      operation_type: "Operation type"
+      gateway_transaction_number: "Gateway transaction number"
+      payment_solution: "Payment solution"
+      status: "Status"
       search:
-        customer_email: "Customer email"
+        claim: "Claim number"
+        gateway_transaction_number: "Gateway transaction number"
+        amount: "Amount"
+        status: "Estado"

@@ -11,6 +11,7 @@ gem 'nilify_blanks', '~>1.2.1'
 
 # Assets
 gem 'jquery-rails', '~> 4.0.3'
+gem 'jquery-ui-rails', '~> 4.2.0'
 gem 'sass-rails', '~> 5.0.3'
 gem 'uglifier', '~> 2.7.1'
 gem 'slim', '~> 3.0.3'
@@ -53,13 +54,17 @@ gem 'kaminari', '~>0.16.3'
 # Search
 gem 'ransack', '~> 1.6.6'
 
-# Bank Account
+# Form normalizers
 gem 'iban-tools', '~>1.0.0'
+gem 'iso-swift', '~>0.0.2'
+gem 'country_select', '~> 2.2.0'
+gem 'phony_rails', '~> 0.12.8'
 
 # Flags
 gem 'flag_shih_tzu', '~>0.3.13'
 
 # Architectural
+gem 'virtus', '~> 1.0.5'
 gem 'reform', '~> 1.2.6'
 
 # Asyncronous mailer
@@ -69,10 +74,12 @@ gem 'sidekiq', '~> 3.4.1'
 # Cron tasks
 gem 'whenever', '~> 0.9.4', require: false
 
-# Database Internationalization
+# Internationalization
 gem 'globalize', '~> 5.0.1'
+gem 'i18n-globals', git: 'https://github.com/sebastianzillessen/i18n-globals.git'
 
 group :development do
+  gem 'foreman', '~> 0.78.0'
   gem 'capistrano'
   gem 'capistrano-rails', '~> 1.1.3'
   gem 'capistrano-rbenv', '~> 2.0.3'

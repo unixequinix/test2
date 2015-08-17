@@ -13,7 +13,7 @@ class Customers::CheckoutsController < Customers::BaseController
       flash[:notice] = I18n.t('alerts.created')
       redirect_to customers_order_url(@checkout_form.order)
     else
-      flash[:error] = I18n.t('alerts.error')
+      flash[:error] = I18n.t('alerts.checkout', limit: 500)
       render :new
     end
   end

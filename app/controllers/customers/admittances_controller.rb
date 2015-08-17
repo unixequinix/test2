@@ -1,10 +1,11 @@
 class Customers::AdmittancesController < Customers::BaseController
+  before_action :check_has_not_admissions!, only: [:new, :create]
   def new
     @admittance = Admittance.new
   end
 
   def create
-    ticket = Ticket.find_by(number: params[:ticket_number])
+    ticket = Ticket.find_by(number: params[:ticket_number].strip)
     if !ticket.nil?
       @admittance = current_admission.admittances.build(ticket: ticket)
       if @admittance.save
@@ -16,7 +17,7 @@ class Customers::AdmittancesController < Customers::BaseController
         render :new
       end
     else
-      flash[:error] = I18n.t('alerts.addminsions')
+      flash[:error] = I18n.t('alerts.admissions', companies: TicketType.companies.join(', '))
       render :new
     end
   end
@@ -28,4 +29,13 @@ class Customers::AdmittancesController < Customers::BaseController
     flash[:notice] = I18n.t('alerts.unassigned')
     redirect_to customer_root_url
   end
+
+  private
+
+  def check_has_not_admissions!
+    if !current_customer.assigned_admission.nil?
+      redirect_to customer_root_path, flash: { error: I18n.t('alerts.already_assigned') }
+    end
+  end
+
 end

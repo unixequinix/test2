@@ -19,7 +19,8 @@ module Gspot
     # Locale
     I18n.config.enforce_available_locales = true
     config.i18n.default_locale = :es
-    config.i18n.available_locales = [:en, :es]
+    config.i18n.available_locales = [:en, :es, :it]
+    config.i18n.fallbacks = true
     config.time_zone = "Madrid"
 
     # Do not swallow errors in after_commit/after_rollback callbacks.

@@ -1,41 +1,33 @@
 class Customers::RefundsController < Customers::BaseController
-
-  def new
-    @refund = Refund.new
-    @refund.build_bank_account
-  end
+  skip_before_action :authenticate_customer!, only: [:create]
+  skip_before_filter :verify_authenticity_token, only: [:create]
+  skip_before_action :check_has_gtag!, only: [:create]
 
   def create
-    @refund = Refund.new(permitted_params)
-    if @refund.save
-      flash[:notice] = I18n.t('alerts.created')
-      redirect_to customer_root_url
-    else
-      flash[:error] = @refund.errors.full_messages.join(". ")
-      render :new
+    response = Nokogiri::XML(request.body.read)
+    operations = response.xpath("//payfrex-response/operations/operation")
+    operations.each do |operation|
+      operation_hash = Hash.from_xml(operation.to_s)
+      if @claim = Claim.find_by(number: operation_hash["operation"]["merchantTransactionId"])
+        refund = RefundService.new(@claim, current_event).create(
+          params = {
+            amount: operation_hash["operation"]["amount"],
+            currency: operation_hash["operation"]["currency"],
+            message: operation_hash["operation"]["message"],
+            operation_type: operation_hash["operation"]["operationType"],
+            gateway_transaction_number: operation_hash["operation"]["payFrexTransactionId"],
+            payment_solution: operation_hash["operation"]["paymentSolution"],
+            status: operation_hash["operation"]["status"]
+        })
+      end
     end
+    render nothing: true
   end
 
-  def edit
-    @refund = Refund.find(params[:id])
-    @refund.build_bank_account unless current_customer.bank_account
+  def success
   end
 
-  def update
-    @refund = Refund.find(params[:id])
-    if @refund.update(permitted_params)
-      flash[:notice] = I18n.t('alerts.updated')
-      redirect_to customer_root_url
-    else
-      flash[:error] = @refund.errors.full_messages.join(". ")
-      render :edit
-    end
-  end
-
-  private
-
-  def permitted_params
-    params.require(:refund).permit(:customer_id, :gtag_id, bank_account_attributes: [:id, :customer_id, :iban, :swift])
+  def error
   end
 
 end

@@ -1,0 +1,204 @@
+it:
+  simple_form:
+    "si": 'Si'
+    "no": 'No'
+    required:
+      text: 'richiesto'
+      mark: '*'
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    error_notification:
+      default_message: "Verifica i problemi in basso:"
+    # Examples
+    labels:
+      defaults:
+        password: 'Password'
+        updated_at: 'Updated at'
+        created_at: 'Created at'
+      admin:
+        new: &label_admin
+          email: 'Email'
+          password: 'Password'
+          password_confirmation: 'Conferma Password'
+        edit:
+          <<: *label_admin
+      event:
+        new: &label_event
+          name: 'Nome'
+          support_email: 'Email di Sopporte'
+          description: 'Descrizione'
+          start_date: "Data d'inizio"
+          end_date: 'Data di fine'
+          location: 'Localizzazione'
+          logo: 'Logo'
+          refund_service: 'Servizio di Rimborso'
+          background_type: 'Tipo di Background'
+          background: 'background'
+          style: 'Stile'
+        edit:
+          <<: *label_event
+      customer:
+        new: &label_customer
+          email: 'Email'
+          name: 'Nome'
+          surname: 'Cognome'
+          password: 'Password Attuale'
+          password: 'Password'
+          password_confirmation: 'Conferma Password'
+          agreed_on_registration: "Ho letto e accetto i termini e le condizioni d'uso"
+        edit:
+          <<: *label_customer
+      online_product:
+        new: &label_online_product
+          name: 'Nome'
+          description: 'Descrizione'
+          price: 'Prezzo'
+          min_purchasable: 'Min Compra'
+          max_purchasable: 'Max Compra'
+          initial_amount: 'Monto Iniziale'
+          step: 'Step'
+        edit:
+          <<: *label_online_product
+      entitlement:
+        new: &label_entitlement
+          name: 'Nome'
+      ticket_type:
+        new: &label_ticket_type
+          name: "Nome"
+          simplified_name: "Nome semplificata"
+          company: "Compagnia"
+          credit: "Credito"
+          entitlement: "Entitlement"
+        edit:
+          <<: *label_ticket_type
+      ticket:
+        new: &label_ticket
+          number: "Numero"
+          purchaser_name: "Nome del Cliente"
+          purchaser_surname: "Cognome del Cliente"
+          purchaser_email: "Email del Cliente"
+        edit:
+          <<: *label_ticket
+      gtag:
+        new: &label_gtag
+          tag_uid: "Tag UID"
+          tag_serial_number: "Tag serial number"
+          gtag_credit_log: "Bingo"
+        edit:
+          <<: *label_gtag
+      gtag_credit_log:
+        new: &label_gtag
+          amount: "Importo"
+        edit:
+          <<: *label_gtag
+      bank_account_refund_settings_form:
+        edit:
+          fee: "Fee"
+          minimum: "Minimum"
+          product_id: "Product"
+          refund_success_message: "Refund success message"
+          mass_email_claim_notification: "Mass email claim notification"
+      gtag_settings_form:
+        edit:
+          format: "Format"
+          name: "Name"
+          gtag_assignation_notification: "Gtag  assignation notification"
+          gtag_form_disclaimer: "Gtag assignation form disclaimer"
+      epg_refund_settings_form:
+        edit:
+          fee: "Fee"
+          country: "Country"
+          currency: "Currency"
+          operation_type: "Operation type"
+          payment_solution: "Payment solution"
+          md5key: "Md5key"
+          merchant: "Merchant"
+          url: "Url"
+          minimum: "Minimum"
+          product_id: "Product"
+          refund_success_message: "Refund success message"
+          mass_email_claim_notification: "Mass email claim notification"
+      epg_claim_form:
+        new:
+          country_code: "Paese"
+          state: "Regione"
+          city: "Città"
+          post_code: "Codice Postale"
+          phone: "Telefono"
+          address: "Indirizzo"
+      bank_account_claim_form:
+        new:
+          swift_html: "BIC/SWIFT<sup>1</sup>"
+          iban_html: "IBAN<sup>2</sup>"
+      comment:
+        new:
+          body: "Comment"
+
+    placeholders:
+      event:
+        new: &placeholder_event
+          name: 'Event´s name. Include year is a good idea'
+          support_email: 'Customer email support'
+          url: 'Official site of the event'
+          description: 'Add some extra information and other information you consider is important'
+          location: 'Where is the event?'
+          style: '/*Add some CSS magic*/'
+        edit:
+          <<: *placeholder_event
+      online_product:
+        new: &placeholder_online_product
+          name: 'Choose a descriptive name'
+          description: 'Event credits details'
+          price: 'Credit price'
+          min_purchasable: 'Min units per order in number'
+          max_purchasable: 'Max units per order in number'
+          initial_amount: 'Initial Amount in number'
+          step: 'Incremental Step'
+        edit:
+          <<: *placeholder_online_product
+      entitlement:
+        new: &placeholder_entitlement
+          name: 'Choose a name for entitlement'
+        edit:
+          <<: *placeholder_entitlement
+      ticket_type:
+        new: &placeholder_ticket_type
+          name: "Choose a ticket name "
+          simplified_name: "A Simplified Name for your ticket"
+          company: "Event company"
+          credit: "Available Credit"
+          entitlement: "Entitlement"
+        edit:
+          <<: *placeholder_ticket_type
+      ticket:
+        new: &placeholder_ticket
+          number: "Ticket number"
+          purchaser_name: ""
+          purchaser_surname: ""
+          purchaser_email: ""
+        edit:
+          <<: *placeholder_ticket
+      gtag:
+        new: &placeholder_gtag
+          tag_serial_number: "La prima linea di numeri della %{gtag}"
+          tag_uid: "La seconda linea di numeri della %{gtag}"
+        edit:
+          <<: *placeholder_gtag
+      gtag_credit_log:
+        new: &placeholder_gtag
+          amount: "Totale disponibile"
+        edit:
+          <<: *label_gtag
+      epg_claim_form:
+        new:
+          state: "La tua regione"
+          phone: "Telefono con codice internazionale: +1123..."
+          address: "Indirizzo e numero"
+      bank_account_claim_form:
+        new:
+          swift: "0000 0000"
+          iban: 'IT00 0000 0000 0000 0000 0000'
+      comment:
+        new:
+          body: "Add a comment"

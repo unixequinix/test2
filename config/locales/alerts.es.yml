@@ -7,6 +7,10 @@ es:
     destroyed: 'Eliminado con éxito'
     unassigned: 'Desactivado con éxito'
     error: 'Revisar errores de formulario'
-    addminsions:  "Ticket no reconocido. Si has realizado tu compra en las últimas 48 horas, intenta de nuevo luego mientras actualizamos tu compra. Si persiste, contacta soporte"
-    gtag: "Pulsera no válida"
+    checkout: 'Solo se pueden introducir datos numéricos sin decimales e inferiores a %{limit}'
+    admissions:  "Ticket no reconocido. Si has realizado tu compra en las últimas 48 horas, intenta de nuevo luego mientras actualizamos tu compra. Si persiste, contacta soporte. Por favor tenga en cuenta que solo las compañías %{companies} están soportadas en este servicio."
+    gtag: "%{gtag} no válida"
     order_complete: 'Órden completada'
+    claim_complete: 'Devolución completada'
+    quantity_not_refundable: 'Créditos insuficientes para ser reembolsados'
+    already_assigned: 'Ya tienes uno asignado'

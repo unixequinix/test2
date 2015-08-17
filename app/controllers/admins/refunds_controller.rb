@@ -2,11 +2,16 @@ class Admins::RefundsController < Admins::BaseController
 
   def index
     @q = Refund.search(params[:q])
-    @refunds = @q.result(distinct: true).page(params[:page]).includes(:gtag, :customer, :bank_account)
+    @refunds = @q.result(distinct: true).page(params[:page]).includes(:claim, claim: :customer)
+    respond_to do |format|
+      format.html
+      format.csv { send_data Refund.all.to_csv }
+    end
   end
 
   def search
-    index
+    @q = Refund.search(params[:q])
+    @refunds = @q.result(distinct: true).page(params[:page]).includes(:claim, claim: :customer)
     render :index
   end
 

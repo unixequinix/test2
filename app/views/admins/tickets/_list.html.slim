@@ -1,3 +1,4 @@
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: tickets.count, total: Ticket.count)
 = form_tag destroy_multiple_admins_tickets_path, method: :delete do
   table.tickets
     thead
@@ -7,11 +8,9 @@
         th = t("admin.tickets.id")
         th = t("admin.tickets.number")
         th = t("admin.tickets.ticket_type")
-        th = t("admin.purchasers.name")
-        th = t("admin.purchasers.surname")
-        th = t("admin.purchasers.email")
+        th = t("admin.tickets.ticket_type_simplified")
         th = t("admin.tickets.customer")
-        th = t("admin.tickets.created_at")
+        th = t("admin.purchasers.email")
         th.table-actions-field = t("admin.defaults.actions")
     tbody
       - tickets.each do |ticket|
@@ -19,10 +18,10 @@
           td.select-all data-label = t("admin.defaults.all")
             = check_box_tag "tickets[#{ticket.id}]", 1
           td data-label=t("admin.tickets.id") = ticket.id
-          td data-label=t("admin.tickets.number") = link_to ticket.number, edit_admins_ticket_path(ticket)
+          td data-label=t("admin.tickets.number") = link_to ticket.number, admins_ticket_path(ticket)
           td data-label=t("admin.tickets.ticket_type") = ticket.ticket_type.name unless ticket.ticket_type.nil?
-          td data-label=t("admin.purchasers.name") = ticket.purchaser_name
-          td data-label=t("admin.purchasers.surname") = ticket.purchaser_surname
+          td data-label=t("admin.tickets.ticket_type_simplified") = ticket.ticket_type.simplified_name unless ticket.ticket_type.nil?
+          td data-label=t("admin.tickets.customer") = link_to ticket.assigned_admission.customer.email, admins_customer_path(ticket.assigned_admission.customer) unless ticket.assigned_admission.nil?
           td data-label=t("admin.purchasers.email") = ticket.purchaser_email
           td data-label=t("admin.tickets.customer") = ticket.assigned_admittance.customer.email unless ticket.assigned_admittance.nil?
           td data-label=t("admin.tickets.created_at") = ticket.created_at.strftime("%y-%m-%d %H:%M:%S")

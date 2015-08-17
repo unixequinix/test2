@@ -1,5 +1,7 @@
 - breadcrumb :admins_credit, @credit
 - provide :actions do
-  = link_to t("admin.actions.back"), admins_credits_path, class: "btn btn-action btn-action-back"
+  = link_to admins_credits_path, class: "btn btn-action btn-action-back small" do
+    = fa_icon 'arrow-circle-left'
+    = t('admin.actions.back')
 
 = render "form", credit: @credit

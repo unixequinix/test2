@@ -1,0 +1,4 @@
+= render 'customers/dashboards/event_launched/admissions', admission: admission if admission && current_event.ticketing?
+= render 'customers/dashboards/event_launched/without_admissions' if !admission && current_event.ticketing?
+= render 'customers/dashboards/event_launched/credits', call_to_action: t('dashboard.credits.call_to_action') if admission && current_event.ticketing?
+= render 'customers/dashboards/event_launched/credits_without_admissions' if !admission && current_event.ticketing?

@@ -27,4 +27,8 @@ class OnlineProduct < ActiveRecord::Base
   # Validations
   validates :name, :description, :price, :min_purchasable,
             :max_purchasable, :initial_amount, :step, presence: true
+
+  def rounded_price
+    self.price.round == self.price ? self.price.floor : self.price
+  end
 end

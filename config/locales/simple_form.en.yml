@@ -14,6 +14,8 @@ en:
     labels:
       defaults:
         password: 'Password'
+        updated_at: 'Updated at'
+        created_at: 'Created at'
       admin:
         new: &label_admin
           email: 'Email'
@@ -64,6 +66,7 @@ en:
       ticket_type:
         new: &label_ticket_type
           name: "Name"
+          simplified_name: "Simplified Name"
           company: "Company"
           credit: "Credit"
           entitlement: "Entitlement"
@@ -89,7 +92,48 @@ en:
           amount: "Amount"
         edit:
           <<: *label_gtag
-
+      bank_account_refund_settings_form:
+        edit:
+          fee: "Fee"
+          minimum: "Minimum"
+          product_id: "Product"
+          refund_success_message: "Refund success message"
+          mass_email_claim_notification: "Mass email claim notification"
+      gtag_settings_form:
+        edit:
+          format: "Format"
+          name: "Name"
+          gtag_assignation_notification: "Gtag  assignation notification"
+          gtag_form_disclaimer: "Gtag assignation form disclaimer"
+      epg_refund_settings_form:
+        edit:
+          fee: "Fee"
+          country: "Country"
+          currency: "Currency"
+          operation_type: "Operation type"
+          payment_solution: "Payment solution"
+          md5key: "Md5key"
+          merchant: "Merchant"
+          url: "Url"
+          minimum: "Minimum"
+          product_id: "Product"
+          refund_success_message: "Refund success message"
+          mass_email_claim_notification: "Mass email claim notification"
+      epg_claim_form:
+        new:
+          country_code: "Country"
+          state: "State"
+          city: "City"
+          post_code: "Post code"
+          phone: "Phone"
+          address: "Address"
+      bank_account_claim_form:
+        new:
+          swift_html: "BIC/SWIFT<sup>1</sup>"
+          iban_html: "IBAN<sup>2</sup>"
+      comment:
+        new:
+          body: "Comment"
 
     placeholders:
       event:
@@ -121,6 +165,7 @@ en:
       ticket_type:
         new: &placeholder_ticket_type
           name: "Choose a ticket name "
+          simplified_name: "A Simplified Name for your ticket"
           company: "Event company"
           credit: "Available Credit"
           entitlement: "Entitlement"
@@ -136,8 +181,8 @@ en:
           <<: *placeholder_ticket
       gtag:
         new: &placeholder_gtag
-          tag_serial_number: "First numbers line of the wristband"
-          tag_uid: "Second numbers line of the wristband"
+          tag_serial_number: "First numbers line of the %{gtag}"
+          tag_uid: "Second numbers line of the %{gtag}"
         edit:
           <<: *placeholder_gtag
       gtag_credit_log:
@@ -145,5 +190,15 @@ en:
           amount: "Amount available"
         edit:
           <<: *label_gtag
-
-
+      epg_claim_form:
+        new:
+          state: "Your state of province"
+          phone: "Phone with international code: +1123..."
+          address: "Address, number and door number"
+      bank_account_claim_form:
+        new:
+          swift: "0000 0000"
+          iban: 'GB00 0000 0000 0000 0000 0000'
+      comment:
+        new:
+          body: "Add a comment"

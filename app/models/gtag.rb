@@ -11,6 +11,16 @@
 #
 
 class Gtag < ActiveRecord::Base
+
+  STANDARD       = 'standard'
+  CARD  = 'card'
+  SIMPLE = 'simple'
+
+  # Type of the gtags
+  FORMATS = [STANDARD, CARD, SIMPLE]
+
+
+  before_save :upcase_gtag
   default_scope { order(:id) }
   acts_as_paranoid
 
@@ -21,12 +31,23 @@ class Gtag < ActiveRecord::Base
   has_one :assigned_customer, ->{ where(gtag_registrations: {aasm_state: :assigned}) }, class_name: "Customer"
   has_one :gtag_credit_log
   has_one :refund
+  has_many :claims
+  has_one :completed_claim, ->{ where(aasm_state: :completed) }, class_name: "Claim"
+  has_many :comments, as: :commentable
 
   accepts_nested_attributes_for :gtag_credit_log, allow_destroy: true
 
   # Validations
   validates :tag_uid, :tag_serial_number, presence: true
-  validates_uniqueness_of :tag_uid, scope: :tag_serial_number, conditions: -> { where(deleted_at: nil) }
+  validates_uniqueness_of :tag_uid, conditions: -> { where(deleted_at: nil) }
+
+
+
+  # Scopes
+  scope :total_credits, -> { joins(:gtag_credit_log).sum(:amount) }
+
+
+
 
   # Methods
   # -------------------------------------------------------
@@ -58,6 +79,8 @@ class Gtag < ActiveRecord::Base
       row = Hash[[header, spreadsheet.row(i)].transpose]
       gtag = new
       gtag.attributes = row.to_hash.slice(*Gtag.attribute_names)
+      gtag.tag_uid = gtag.tag_uid.upcase
+      gtag.tag_serial_number = gtag.tag_serial_number.upcase
       gtags << gtag
     end
     begin
@@ -74,5 +97,12 @@ class Gtag < ActiveRecord::Base
     when ".xlsx" then Roo::Spreadsheet.open(file.path, extension: :xlsx)
     else raise "Unknown file type: #{file.original_filename}"
     end
+  end
+
+  private
+
+  def upcase_gtag
+    self.tag_uid.upcase!
+    self.tag_serial_number.upcase!
   end
 end

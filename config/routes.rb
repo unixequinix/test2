@@ -45,14 +45,24 @@ Rails.application.routes.draw do
   ## ------------------------------
 
   namespace :customers do
-    resources :admittances, only: [:new, :create, :destroy]
+    resources :admissions, only: [:new, :create, :destroy]
     resources :refunds, only: [:new, :create, :edit, :update]
     resources :gtag_registrations, only: [:new, :create, :destroy]
     resources :checkouts, only: [:new, :create]
     resources :orders, only: [:show, :update]
+    resources :epg_claims, only: [:new, :create]
+    resources :bank_account_claims, only: [:new, :create]
     resources :payments, only: [:create]
     # resources :payments, only: [:create], constraints: lambda{|request|request.env['HTTP_X_REAL_IP'].match(Rails.application.secrets.merchant_ip)}
     resources :payments, except: [:index, :show, :new, :create, :edit, :update, :destroy] do
+      collection do
+        get 'success'
+        get 'error'
+      end
+    end
+    resources :refunds, only: [:create]
+    # resources :refunds, only: [:create], constraints: lambda{|request|request.env['HTTP_X_REAL_IP'].match(Rails.application.secrets.merchant_ip)}
+    resources :refunds, except: [:index, :show, :new, :create, :edit, :update, :destroy] do
       collection do
         get 'success'
         get 'error'
@@ -64,10 +74,17 @@ Rails.application.routes.draw do
 
   namespace :admins do
     resources :admins, except: :show
+    resources :admissions, only: [:destroy]
     resources :events, only: [:show, :edit, :update] do
       member do
         post :remove_logo
         post :remove_background
+      end
+      resource :gtag_settings, only: [:show, :edit, :update]
+      resource :refund_settings, only: [:show, :edit, :update] do
+        member do
+          post :notify_customers
+        end
       end
     end
     resources :entitlements, except: :show
@@ -76,22 +93,28 @@ Rails.application.routes.draw do
         post :import
       end
     end
-    resources :tickets, except: :show do
+    resources :tickets do
+      resources :comments, module: :tickets
       collection do
         post :import
         get :search
         delete :destroy_multiple
       end
     end
-    resources :gtags, except: :show do
+    resources :gtags do
+      resources :comments, module: :gtags
       collection do
         post :import
+        post :import_credits
         get :search
         delete :destroy_multiple
       end
     end
     resources :credits, except: :show
+    resources :gtag_registrations, only: [:destroy]
     resources :customers, except: [:new, :create, :edit, :update] do
+      resources :admissions, only: [:new, :create]
+      resources :gtag_registrations, only: [:new, :create]
       collection do
         get :search
       end
@@ -105,6 +128,11 @@ Rails.application.routes.draw do
       end
     end
     resources :payments, except: [:new, :create, :edit, :update] do
+      collection do
+        get :search
+      end
+    end
+    resources :claims, except: [:new, :create, :edit] do
       collection do
         get :search
       end
@@ -128,8 +156,8 @@ Rails.application.routes.draw do
   end
 
   resources :events, only: [:show], path: '/' do
-    resources :admissions,
-      only: [:new, :create], controller: 'events/admissions'
+    resources :customer_event_profiles,
+      only: [:new, :create], controller: 'events/customer_event_profiles'
   end
 
   root to: 'customers/sessions#new'

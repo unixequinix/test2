@@ -2,7 +2,7 @@
 	jQuery.mmenu offcanvas addon CSS
 */
 
-@import "../inc/variables";
+@import "../_inc/variables";
 
 
 //	Animations
@@ -23,7 +23,7 @@ html.mm-opened
 {
 	overflow: hidden;
 	position: relative;
-	
+
 	body
 	{
 		overflow: hidden;

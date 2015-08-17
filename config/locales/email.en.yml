@@ -5,7 +5,7 @@ en:
       follow_on_twitter: 'Follow on Twitter'
       like_on_facebook: 'Like on Facebook'
       suscribe_on_you_tube: 'Subscribe on YouTube'
-      communication: "This communication is communication from Glownet"
+      communication: "This is communication from Glownet"
       footer: 'Any question about the service? Contact directly %{event_name} support department.'
       footer_copy: 'Copyright Glownet © %{year} All rights reserved.'
       order:
@@ -15,8 +15,25 @@ en:
           order_number: 'Your order'
           greet: 'Hello %{name}!'
           date: 'Purchase date'
+          description: 'All your purchased Online Credits will automatically be applied to your %{gtag} once you enter the festival. Your Festival %{gtag} is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.'
           success: 'Your order has been received. You can find details below:'
           thanks: 'Thank you for your purchase.'
+      claim:
+        available_claim:
+          title: '¡You can now refund your credits!'
+          subject: '¡You can now refund your credits!'
+          greet: 'Hello %{name}!'
+          mail_body: 'You can now refund your credits through the link below.'
+          mail_link: "Login to see your balance and perform the transfer"
+        completed:
+          title: 'Refund Notification'
+          subject: 'Refund Completed'
+          order_number: 'Claim number'
+          greet: 'Hello %{name}!'
+          thanks: 'Thank you for your refund! '
+          description: 'Your credits have been transferred. In 1-4 days you will recieve the payment in your bank account.'
+          success: 'Here are the details of your refund:'
+          date: 'Transaction date'
       confirmation:
         title: 'Confirm password'
         greet: 'Hello %{name}!'
@@ -29,16 +46,15 @@ en:
         mail_link: "Change my password"
       gtag:
         assigned:
-          title: 'You have successfullCreatey applied for your refund'
-          subject: 'You have successfully applied for your refund'
+          title: 'You have successfullCreatey applied for your refund!'
+          subject: 'You have successfully applied for your refund!'
           greet: 'Hello %{name}!'
-          mail_body: 'You assigned a wristband with the id:'
-          mail_link: 'You will receive another email from us between 5 and 15 business days as soon as your credits are ready for the refund.'
+          mail_body: 'You assigned a %{gtag} with the id:'
         unassigned:
-          title: 'Wristband deleted'
-          subject: 'Wristband deleted'
+          title: '%{gtag} deleted'
+          subject: '%{gtag} deleted'
           greet: 'Hello %{name}!'
-          mail_body: 'You deleted a wristband with the id:'
+          mail_body: 'You deleted a %{gtag} with the id:'
           mail_link: 'Check it on the website'
     admin:
       reset_password:

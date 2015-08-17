@@ -3,6 +3,10 @@
 //  Pagination base styles
 //
 // -------------------------------------------------------
+.current-showing {
+  padding-bottom: modules(0.5);
+  font-style: italic;
+}
 
 .pagination {
   padding-top: modules(1);
@@ -51,7 +55,7 @@
   text-align: right;
 
   @include min-screen($bp3) {
-    width: 2%;
+    width: 4%;
     text-align: center;
   }
 }
@@ -62,14 +66,17 @@
 
   input {
     @include appearance(none);
+    @include transition(background-color 150ms linear);
     display: block;
     margin: modules(1) auto 0;
+    padding: modules(0.25) modules(0.5);
     border: 1px solid transparent;
-    border-radius: 3px;
-    background-color: $blue;
-    color: $white;
+    box-shadow: inset 0px 0px 0px 2px $redBrighter;
+    border-radius: 5px;
+    background-color: transparent;
+    color: $redBrighter;
 
-    &:hover { opacity: 0.7; }
+    &:hover {background-color: lighten($redBrighter,23%); }
 
     @include min-screen($bp3) {
       position: absolute;

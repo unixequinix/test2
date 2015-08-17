@@ -24,8 +24,8 @@ class BasePresenter
     gtag.tag_uid
   end
 
-  def gtag_credit_amount
-    gtag.credit_amount
+  def gtag_refundable_amount
+    gtag_registration.refundable_amount
   end
 
   private

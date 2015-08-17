@@ -1,5 +1,19 @@
 es:
   admin:
+    actions:
+      new: "Nuevo"
+      back: "Atrás"
+      cancel: "Cancelar"
+      assign_ticket: "Asignar ticket"
+      assign_gtag: "Asignar gtag"
+      manual_claims_csv: "CSV Peticiones Manuales"
+      csv: "CSV"
+      disable: "Deshabilitar"
+      select_all: "Seleccionar todo"
+      delete_selected: "Borrar seleccionados"
+      download: "CSV"
+      search: "Buscar"
+      update: "Actualizar"
     event:
       name: 'Nombre'
       slug: 'Identificador'
@@ -15,6 +29,10 @@ es:
       background: 'Fondo'
       style: 'Estilo'
       features: 'Funcionalidades habilitadas'
+      refund_success_message: "Mensaje de éxito en la devolución (Pulsar para verificar)"
+      mass_email_claim_notification: "Notificación general (petición de devolución)"
+      gtag_assignation_notification: "Notificación al asignar el Gtag"
+      gtag_form_disclaimer: "Texto formulario asignación Gtag"
       fieldests:
         info: "Info del evento"
         date: "Fechas y localización"
@@ -40,6 +58,28 @@ es:
       features_options:
         ticketing: 'Ticketing'
         refunds: 'Devoluciones'
+    gtag_settings:
+      form:
+        format: 'Formato'
+        name: 'Nombre'
+    refund_settings:
+      nofication_description: 'Proceder a notificar a los usuarios que ya pueden reclamar su devolución.'
+      want_to_notify: '¿Quiere notificar?'
+      notify: 'Notificar'
+      epg:
+        fee: 'Comisión'
+        minimum: 'Mínimo'
+        country: 'País'
+        currency: 'Moneda'
+        operation_type: 'Tipo de operación'
+        payment_solution: 'Solución de pago'
+        md5key: 'Clave md5'
+        merchant_id: 'Número de comercio'
+        url: 'URL'
+        product_id: "Producto"
+      bank_account:
+        fee: 'Comisión'
+        minimum: 'Mínimo'
     defaults:
       actions: "Acciones"
       home: "Home"
@@ -52,16 +92,10 @@ es:
       empty_customers: "Sin Clientes"
       empty_orders: "Sin órdenes"
       empty_payments: "Sin pagos"
+      empty_claims: "Sin peticiones"
       empty_refunds: "Sin devoluciones"
       search: "Buscar"
       all: "Seleccionar"
-    actions:
-      back: "Atrás"
-      new: "Nuevo"
-      csv: "CSV"
-      disable: "Deshabilitar"
-      select_all: "Seleccionar todo"
-      delete_selected: "Borrar seleccionados"
     sessions:
       mail: "user@domain.com"
       password: "password"
@@ -77,6 +111,8 @@ es:
     aside:
       event: "Evento"
       details: "Detalles"
+      gtag_settings: "Configuración de gtags"
+      refund_settings: "Configuración de devoluciones"
       admins: "Administradores"
       entitlements: "Privilegios"
       ticket_types: "Tipos de Tickets"
@@ -85,6 +121,7 @@ es:
       customers: "Clientes"
       orders: "Órdenes"
       payments: "Pagos"
+      claims: "Peticiones"
       refunds: "Devoluciones"
       sign_out: "Cerrar Sesión"
       setup: "Setup"
@@ -109,6 +146,7 @@ es:
     ticket_types:
       id: "Id"
       name: "Nombre"
+      simplified_name: "Nombre Simplificado"
       company: "Compañía"
       credit: "Crédito"
       entitlements: "Derecho"
@@ -117,12 +155,29 @@ es:
       id: "Id"
       number: "Número"
       ticket_type: "Tipo de Ticket"
-      customer: "Cliente"
+      ticket_type_simplified: "Tipo de Ticket Simplificado"
+      customer: "Cliente asignado"
+      created_at: "Creado el"
+      admission: "Registros de tickets"
       search:
         number: "Número"
+        customer: "Email cliente asignado"
+        purchaser_email: "Email comprador"
         type: "Tipo"
       import: "Importar tickets (Seleccionar un fichero CSV separado por comas)"
+      actions:
+        delete_tickets: "Borrar tickets"
+    admissions:
+      ticket: "Ticket"
+      customer:
+        email: "Email"
+        complete_name: "Nombre completo"
+      aasm_state: "Estado"
       created_at: "Creado el"
+      updated_at: "Actualizado el"
+      states:
+        assigned: "Asignación actual"
+        unassigned: "Asignación previa"
     purchasers:
       name: "Nombre comprador"
       surname: "Apellido comprador"
@@ -132,23 +187,58 @@ es:
       tag: "Tag UID"
       serial: "Tag Número Serial"
       customer: "Cliente"
+      assigned_at: "Asignado el"
+      created_at: "Creado el"
+      updated_at: "Actualizado el"
       total: "Créditos Totales"
+      gtag_registration: "Registros del Gtag"
       import: "Importar GTags (Seleccionar un fichero CSV separado por comas)"
+      import_credits: "Importar Creditos (Seleccionar un fichero CSV separado por comas)"
       search:
         tag_uid: "Tag UID"
         tag_serial: "Tag Número Serial"
+      actions:
+        delete_gtags: "Borrar gtags"
+        delete_credits: "Borrar créditos"
+      report:
+        total_credits: "Créditos totales"
+    gtag_registrations:
+      tag: "Tag UID"
+      serial: "Tag Número Serial"
+      customer:
+        email: "Email"
+        complete_name: "Nombre completo"
+      aasm_state: "Estado"
+      created_at: "Creado el"
+      updated_at: "Actualizado el"
+      states:
+        assigned: "Asignación actual"
+        unassigned: "Asignación previa"
     customers:
+      delete: "Borrado"
       email: "Email"
       name: "Nombre"
       surname: "Apellidos"
       confirmed_at: "Confirmado el"
       confirmation_sent_at: "Confimación enviada"
       tickets: "Tickets"
+      ticket: "Ticket"
       gtags: "Gtags"
+      gtag: "Gtag"
+      state: "Estado"
+      admissions: "Registro de Tickets"
+      creadit_logs: "Compras de creditos"
+      orders: "Ordenes"
+      payments: "Pagos"
+      gtag_registrations: "Registro de Gtags"
+      completed_claim: "Peticiones de devolución completadas"
+      refund: "Refund"
+      claims: "Peticiones de devolución"
+      gtag_credits: "Créditos Gtag"
       tickets: "Tickets"
       credits: "Créditos"
       search: "Conteo de Nombre"
-      sign: "Conteo de Inicio de Sesión"
+      sign: "Número de inicios de Sesión"
       current_sign: "Inicio de Sesión Actual"
       last_sign: "Último Inicio de Sesión en"
       current_sign_ip: "Inicio de Sesión Actual en IP"
@@ -156,12 +246,41 @@ es:
       unconfirmed: "Email sin confirmar"
       transactions: "Transacciones"
       transactions_type: "Tipos de Transacciones"
+      created_at: "Creado el"
+      deleted_at: "Borrado el"
       amount: "Cantidad"
       search:
         name: "Nombre"
         surname: "Apellido"
         email: "Email"
         not_confirmed_at: "Sin confirmar"
+    claims:
+      number: "Número"
+      customer: "Cliente"
+      state: "Estado"
+      created: "Creado en"
+      completed: "Completado en"
+      amount: "Cantidad"
+      product_price: "Precio del Producto"
+      total: "Total"
+      service_type: "Tipo de servicio"
+      product_name: "Nomebre del Producto"
+      product_description: "Descripción del Producto"
+      product_type: "Tipo de Producto"
+      order_item: "Items de Órdenes"
+      claim_parameters: "Parametros"
+      claim_parameter: "Parametro"
+      claim_parameter_value: "Valor"
+      parameters:
+        state: "Provincia"
+        city: "Ciudad"
+        post_code: "Código postal"
+        phone: "Teléfono"
+        address: "Dirección"
+        iban: "IBAN"
+        swift: "BIC/SWIFT"
+      search:
+        number: "Número"
     orders:
       number: "Número"
       customer: "Cliente"
@@ -175,6 +294,7 @@ es:
       product_description: "Descripción del Producto"
       product_type: "Tipo de Producto"
       order_item: "Items de Órdenes"
+      payments: "Pagos"
       search:
         number: "Número"
     payments:
@@ -190,6 +310,8 @@ es:
       paid: "Pagado en"
       search:
         id: "Id eq"
+    comments:
+      title: "Comentarios"
     refunds:
       id: "Id"
       customer_id: "Customer Id"
@@ -200,7 +322,19 @@ es:
       iban: "Número IBAN"
       swift: "Número BIC/SWIFT"
       amount: "Cantidad"
-      created: "Creado en"
       aasm_state: "Estado"
+      created_at: "Creado en"
+      updated_at: "Actualizado en"
+      claim: "Petición"
+      amount: "Cantidad"
+      currency: "Moneda"
+      message: "Mensaje"
+      operation_type: "Tipo de operación"
+      gateway_transaction_number: "Número de transacción"
+      payment_solution: "Solución de pago"
+      status: "Estado"
       search:
-        customer_email: "Email del cliente"
+        claim: "Número de petición"
+        gateway_transaction_number: "Número de transacción"
+        amount: "Cantidad"
+        status: "Estado"

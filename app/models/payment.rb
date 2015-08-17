@@ -20,9 +20,22 @@
 #
 
 class Payment < ActiveRecord::Base
+  default_scope { order(created_at: :desc) }
+
   # Associations
   belongs_to :order
 
   # Validations
-  validates :amount, :order, presence: true
+  validates :order, :amount, presence: true
+
+  def self.to_csv(options = {})
+    CSV.generate(options) do |csv|
+      payment_columns = column_names.clone
+      csv << payment_columns
+      all.each do |payment|
+        attributes = payment.attributes.values_at(*payment_columns)
+        csv << attributes
+      end
+    end
+  end
 end

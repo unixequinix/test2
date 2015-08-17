@@ -15,8 +15,9 @@ footer
         = link_to t("footer.use"), customers_terms_of_use_url, target: '_blank', class: "copy small"
 
     ul.container-language
-      li
-        = link_to t('event.locales.en'), change_locale_path("en"), title: t('event.locales.en'), class: "language-item #{(' selected' if session[:locale] == 'en')}"
-      li.footer-separator
-      li
-        = link_to t('event.locales.es'), change_locale_path("es"), title: t('event.locales.es'), class: "language-item #{(' selected' if session[:locale] == 'es')}"
+      - if I18n.available_locales.length > 1
+        - I18n.available_locales.each_with_index do |locale, index|
+          li
+            = link_to t("event.locales.#{locale}"), change_locale_path("#{locale}"), title: t("event.locales.#{locale}"), class: "language-item #{(' selected' if session[:locale] == "#{locale}")}"
+          - if (index + 1 < I18n.available_locales.length)
+            li.footer-separator

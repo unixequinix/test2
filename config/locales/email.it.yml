@@ -1,0 +1,65 @@
+it:
+  email:
+    customer:
+      our_company: 'Più su Glownet'
+      follow_on_twitter: 'Seguici su Twitter'
+      like_on_facebook: 'Mi piace su Facebook'
+      suscribe_on_you_tube: 'Abbonati su YouTube'
+      communication: "Questo è un messaggio da Glownet"
+      footer: 'Qualche dubbio del servizio? Contatta direttamente il servizio di assistenza del %{event_name}.'
+      footer_copy: 'Copyright Glownet © %{year} Tutti i diritti riservati.'
+      order:
+        completed:
+          title: 'Notifica di ordine'
+          subject: 'Ordine completato'
+          order_number: 'Il tuo ordine'
+          greet: 'Ciao %{name}!'
+          date: 'Data del acquisto'
+          description: 'All your purchased Online Credits will automatically be applied to your %{gtag} once you enter the festival. Your Festival %{gtag} is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.'
+          success: 'Il tuo ordine è stato ricevuto. I dettagli sono in basso:'
+          thanks: 'Grazie per il tuo acquisto.'
+      claim:
+        available_claim:
+          title: '¡Adesso è possibile rimborsare i tuoi crediti!'
+          subject: '¡Adesso è possibile rimborsare i tuoi crediti!'
+          greet: 'Ciao %{name}!'
+          mail_body: 'Adesso è possibile rimborsare i tuoi crediti cliccando sul link in basso'
+          mail_link: "Login per vedere il tuo saldo e per eseguire l'imborso"
+        completed:
+          title: 'Notifica di rimborso'
+          subject: 'Rimborso completato'
+          order_number: 'Numero di richiesta'
+          greet: 'Ciao %{name}!'
+          thanks: 'Grazie per aver richiesto il tuo rimborso! '
+          description: 'I tuoi crediti sono stati trasferiti. Fra 1-4 giorni riceverai un pagamento nel tuo conto bancario.'
+          success: 'Ecco i dettagli del tuo rimborso:'
+          date: 'Data di transazione'
+      confirmation:
+        title: 'Conferma password'
+        greet: 'Ciao %{name}!'
+        mail_body: 'Puoi conferma il tuo account di email attraverso il link in basso'
+        mail_link: "Conferma account"
+      reset_password:
+        title: 'Reset password'
+        greet: 'Ciao %{name}!'
+        mail_body: 'Qualcuno ha richiesto un link per cambiare il tuo password. Per cambiare la tua password clicca sul link in basso.'
+        mail_link: "Cambia il mio password"
+      gtag:
+        assigned:
+          title: 'La richiesta per il tuo rimborso è stata confermata con successo!'
+          subject: 'Hai richiesto per il tuo rimborso con successo!'
+          greet: 'Ciao %{name}!'
+          mail_body: 'Hai assegnato un %{gtag} con il id:'
+          mail_link: 'Fra 5-10 giorni lavorativi, appena i tuoi crediti saranno pronti per il rimborso, riceverai da noi un email.'
+        unassigned:
+          title: '%{gtag} cancellato'
+          subject: '%{gtag} cancellato'
+          greet: 'Ciao %{name}!'
+          mail_body: 'Hai cancellato un %{gtag} con il id:'
+          mail_link: 'Verificalo sul sito web'
+    admin:
+      reset_password:
+        greet: 'Ciao %{email}!'
+        mail_body: 'Qualcuno ha richiesto un link per cambiare il tuo password. Per cambiare la tua password clicca sul link sopra.'
+        mail_link: "Cambia il mio password"
+        mail_ignore: "Se non l'hai richiesto, ignora questo email. Il tuo password non cambierà finche clicchi sul link sopra e crei una nuova."

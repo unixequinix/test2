@@ -38,11 +38,11 @@ class Customer < ActiveRecord::Base
 
   # Associations
   has_many :admissions
-  has_one :ticket, through: :admission
   has_many :orders
+  has_many :claims
+  has_many :refunds, through: :claims
   has_many :credit_logs
-  has_one :bank_account
-  has_one :refund, ->{ where(aasm_state: :created) }
+  has_one :completed_claim, ->{ where(aasm_state: :completed) }, class_name: "Claim"
 
   # Validations
   validates :email, format: { with: MAIL_FORMAT }, presence: true
@@ -57,4 +57,5 @@ class Customer < ActiveRecord::Base
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
   end
+
 end

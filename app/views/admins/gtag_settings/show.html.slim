@@ -1,0 +1,22 @@
+- breadcrumb :admins_gtag_setting, @event
+- provide :actions do
+  = link_to admin_root_path, class: "btn btn-action btn-action-back small" do
+    = fa_icon 'arrow-circle-left'
+    = t('actions.back')
+  = link_to edit_admins_event_gtag_settings_path(@event), class: "btn btn-action btn-action-edit small" do
+    = fa_icon 'edit'
+    = t('actions.edit')
+
+.wrapper-negative-space
+  .container-show
+    dl
+      - @event_parameters.each do |event_parameter|
+        dt = t("admin.gtag_settings.form.#{event_parameter.parameter.name}")
+        dd = event_parameter.value
+
+      dt = t("admin.event.gtag_name")
+      dd = @event.gtag_name
+      dt = t("admin.event.gtag_form_disclaimer")
+      dd = @event.gtag_form_disclaimer
+      dt = t("admin.event.gtag_assignation_notification")
+      dd = @event.gtag_assignation_notification

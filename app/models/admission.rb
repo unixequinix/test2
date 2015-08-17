@@ -2,30 +2,36 @@
 #
 # Table name: admissions
 #
-#  id          :integer          not null, primary key
-#  customer_id :integer          not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  event_id    :integer          default(1), not null
-#  deleted_at  :datetime
+#  id                        :integer          not null, primary key
+#  customer_event_profile_id :integer
+#  ticket_id                 :integer
+#  deleted_at                :datetime
+#  aasm_state                :string
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
 #
 
 class Admission < ActiveRecord::Base
   acts_as_paranoid
 
   # Associations
-  belongs_to :customer
-  belongs_to :event
-  has_many :admittances, dependent: :destroy
-  has_one :assigned_admittance, -> { where(aasm_state: :assigned) },
-    class_name: 'Admittance'
-  has_one :gtag_registration
-  has_one :assigned_gtag_registration, ->{ where(aasm_state: :assigned) },
-    class_name: 'GtagRegistration'
+  belongs_to :customer_event_profile
+  belongs_to :ticket
 
   # Validations
-  validates :customer, :event, presence: true
+  validates :customer_event_profile, :ticket, :aasm_state, presence: true
+  validates_uniqueness_of :ticket,
+    conditions: -> { where(aasm_state: :assigned) }
 
-  # Scopes
-  scope :for_event, -> (event) { where(event: event) }
+  # State machine
+  include AASM
+
+  aasm do
+    state :assigned, initial: true
+    state :unassigned
+
+    event :unassign do
+      transitions from: :assigned, to: :unassigned
+    end
+  end
 end
