@@ -6,7 +6,7 @@
 #  customer_id :integer          not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  event_id    :integer          default(1), not null
+#  event_id    :integer          not null
 #  deleted_at  :datetime
 #
 
@@ -19,10 +19,15 @@ class CustomerEventProfile < ActiveRecord::Base
   belongs_to :event
   has_many :admissions, dependent: :destroy
   has_one :assigned_admission, -> { where(aasm_state: :assigned) },
-    class_name: 'Admittance'
-  has_one :gtag_registration
+    class_name: 'Admission'
+  has_many :gtag_registrations, dependent: :destroy
   has_one :assigned_gtag_registration, ->{ where(aasm_state: :assigned) },
     class_name: 'GtagRegistration'
+  has_many :orders
+  has_many :claims
+  has_many :refunds, through: :claims
+  has_many :credit_logs
+  has_one :completed_claim, ->{ where(aasm_state: :completed) }, class_name: "Claim"
 
   # Validations
   validates :customer, :event, presence: true
@@ -35,15 +40,15 @@ class CustomerEventProfile < ActiveRecord::Base
   end
 
   def total_credits
-    self.credit_logs.sum(:amount).floor
+    customer.credit_logs.sum(:amount).floor
   end
 
   def ticket_credits
-    self.credit_logs.where.not(transaction_type: CreditLog::CREDITS_PURCHASE).sum(:amount).floor
+    customer.credit_logs.where.not(transaction_type: CreditLog::CREDITS_PURCHASE).sum(:amount).floor
   end
 
   def purchased_credits
-    self.credit_logs.where(transaction_type: CreditLog::CREDITS_PURCHASE).sum(:amount).floor
+    customer.credit_logs.where(transaction_type: CreditLog::CREDITS_PURCHASE).sum(:amount).floor
   end
 
   def refundable_credits

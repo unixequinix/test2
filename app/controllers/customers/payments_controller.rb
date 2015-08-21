@@ -21,15 +21,21 @@ class Customers::PaymentsController < Customers::BaseController
   end
 
   def success
-    if !current_customer.assigned_admission.nil?
-      @admission = Admission.find(current_customer.assigned_admission.id)
+    if !current_customer_event_profile.assigned_admission.nil?
+      @admission = Admission.find(current_customer_event_profile.assigned_admission.id)
     end
+    # TODO User credits partial as a separated entity
+    @dashboard = Dashboard.new(current_customer_event_profile)
+    @presenter = CreditsPresenter.new(@dashboard)
   end
 
   def error
-    if !current_customer.assigned_admission.nil?
-      @admission = Admission.find(current_customer.assigned_admission.id)
+    if !current_customer_event_profile.assigned_admission.nil?
+      @admission = Admission.find(current_customer_event_profile.assigned_admission.id)
     end
+    # TODO User credits partial as a separated entity
+    @dashboard = Dashboard.new(current_customer_event_profile)
+    @presenter = CreditsPresenter.new(@dashboard)
   end
 
   private

@@ -40,11 +40,11 @@ class Customers::ClaimsController < Customers::BaseController
   def generate_claim(service_type)
     @claim = Claim.new
     @claim.service_type = service_type
-    @claim.fee = EventParameter.find_by(event_id: current_event.id, parameter_id: Parameter.find_by(category: 'refund', group: current_event.refund_service, name: 'fee')).value
-    @claim.minimum = EventParameter.find_by(event_id: current_event.id, parameter_id: Parameter.find_by(category: 'refund', group: current_event.refund_service, name: 'minimum')).value
+    @claim.fee = current_event.get_parameter('refund', current_event.refund_service, 'fee')
+    @claim.minimum = current_event.get_parameter('refund', current_event.refund_service, 'minimum')
     @claim.customer = current_customer
-    @claim.gtag = current_customer.assigned_gtag_registration.gtag
-    @claim.total = current_customer.assigned_gtag_registration.gtag.gtag_credit_log.amount * current_event.standard_credit.online_product.rounded_price
+    @claim.gtag = current_customer_event_profile.assigned_gtag_registration.gtag
+    @claim.total = current_customer_event_profile.assigned_gtag_registration.gtag.gtag_credit_log.amount * current_event.standard_credit.online_product.rounded_price
     @claim.generate_claim_number!
     @claim.save!
   end

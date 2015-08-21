@@ -1,14 +1,14 @@
 class Dashboard
-  attr_accessor :admittance, :gtag_registration, :refund, :event
+  attr_accessor :admission, :gtag_registration, :completed_claim, :event
 
-  def initialize(admission)
-    @admittance = admission.assigned_admittance
-    @gtag_registration = admission.assigned_gtag_registration
-    @refund = admission.customer.refund
-    @event = admission.event
+  def initialize(customer_event_profile)
+    @event = customer_event_profile.event
+    @admission = customer_event_profile.assigned_admission
+    @gtag_registration = customer_event_profile.assigned_gtag_registration
+    @completed_claim = customer_event_profile.customer.completed_claim
+    @fee = @event.get_parameter('refund', @event.refund_service, 'fee')
+    @minimum = @event.get_parameter('refund', @event.refund_service, 'minimum')
     @presenters = []
-    @fee = EventParameter.find_by(event_id: @event.id, parameter_id: Parameter.find_by(category: 'refund', group: @event.refund_service, name: 'fee')).value
-    @minimum = EventParameter.find_by(event_id: @event.id, parameter_id: Parameter.find_by(category: 'refund', group: @event.refund_service, name: 'minimum')).value
   end
 
   def empty?

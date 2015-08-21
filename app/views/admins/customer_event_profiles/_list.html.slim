@@ -1,4 +1,4 @@
-.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: customers.count, total: Customer.count)
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: customer_event_profiles.count, total: CustomerEventProfile.count)
 table.customers
   thead
     tr
@@ -12,8 +12,8 @@ table.customers
       th = t("admin.customers.gtag_credits")
       th.table-actions-field = t ("admin.defaults.actions")
   tbody
-    - customers.each do |customer|
-      tr [id="customer-#{customer.id}"]
-        = render 'admins/customers/row', customer: customer
+    - customer_event_profiles.each do |customer_event_profile|
+      tr [id="customer-#{customer_event_profile.id}"]
+        = render 'admins/customer_event_profiles/row', customer_event_profile: customer_event_profile
 
-= paginate customers
+= paginate customer_event_profiles

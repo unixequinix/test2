@@ -18,11 +18,11 @@ class Ticket < ActiveRecord::Base
   acts_as_paranoid
 
   # Associations
-  has_many :admittances, dependent: :restrict_with_error
-  has_one :assigned_admittance,
+  has_many :admissions, dependent: :restrict_with_error
+  has_one :assigned_admission,
           -> { where(aasm_state: :assigned) },
-          class_name: 'Admittance'
-  has_many :customers, through: :admittances
+          class_name: 'Admission'
+  has_many :customers, through: :admissions
   has_one :assigned_customer,
           -> { where(admissions: { aasm_state: :assigned }) },
           class_name: 'Customer'

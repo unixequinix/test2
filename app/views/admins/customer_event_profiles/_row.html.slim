@@ -1,0 +1,18 @@
+td data-label=t("admin.customers.email") = link_to customer_event_profile.customer.email, admins_customer_event_profile_path(customer_event_profile), class: (customer_event_profile.deleted? ? "deleted-field" : "")
+td data-label=t("admin.customers.name") = customer_event_profile.customer.name
+td data-label=t("admin.customers.surname") = customer_event_profile.customer.surname
+td data-label=t("admin.customers.confirmation_sent_at") = customer_event_profile.customer.confirmation_sent_at.strftime("%y-%m-%d %H:%M:%S") unless customer_event_profile.customer.confirmation_sent_at.nil?
+- if !customer_event_profile.assigned_admission.nil?
+  td = link_to customer_event_profile.assigned_admission.ticket.number, edit_admins_ticket_path(customer_event_profile.assigned_admission.ticket)
+- else
+  td data-label=t("admin.customers.tickets") = t("admin.defaults.empty_tickets")
+td data-label=t("admin.customers.credits") = customer_event_profile.customer.credit_logs.sum(:amount)
+- if !customer_event_profile.assigned_gtag_registration.nil?
+  td = link_to "#{customer_event_profile.assigned_gtag_registration.gtag.tag_serial_number} - #{customer_event_profile.assigned_gtag_registration.gtag.tag_uid}", edit_admins_gtag_path(customer_event_profile.assigned_gtag_registration.gtag)
+  td data-label=t("admin.customers.gtag_credits") = customer_event_profile.assigned_gtag_registration.gtag.gtag_credit_log.amount unless customer_event_profile.assigned_gtag_registration.gtag.gtag_credit_log.nil?
+- else
+  td data-label=t("admin.customers.gtags") = t("admin.defaults.empty_gtags")
+  td data-label=t("admin.customers.gtag_credits") 0.0
+
+td.table-actions-field
+  = render 'admins/customer_event_profiles/actions', customer_event_profile: customer_event_profile

@@ -1,5 +1,4 @@
 .wrapper-field.form-inputs
-  = simple_form_for [:customers, presenter.gtag_registration], method: :delete do |f|
     .dashboard-field.dashboard-field-info
       h3
         = fa_icon 'ticket'
@@ -16,7 +15,5 @@
       = presenter.gtag_credit_amount
   .dashboard-field.dashboard-field-action
     h3 = presenter.call_to_action
-    - if presenter.refund_present?
-      = link_to t('dashboard.refunds.button'), edit_customers_refund_path(presenter.refund), class: 'btn btn-dashboard'
-    - else
-      = link_to t('dashboard.without_refunds.button'), new_customers_refund_path, class: 'btn btn-dashboard'
+    - if presenter.refundable? && !presenter.completed_claim?
+      = link_to t('dashboard.without_refunds.button'), send("new_customers_#{presenter.refund_service}_claim_path"), class: "btn btn-dashboard"

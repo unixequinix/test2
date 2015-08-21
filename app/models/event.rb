@@ -55,7 +55,7 @@ class Event < ActiveRecord::Base
   FEATURES = [:ticketing, :refunds]
 
   # Associations
-  has_many :admissions
+  has_many :customer_event_profiles
 
   extend FriendlyId
   friendly_id :name, use: :slugged
@@ -128,6 +128,49 @@ class Event < ActiveRecord::Base
 
   def standard_credit
     Credit.find_by(standard: true)
+  end
+
+  def total_credits
+    Gtag.all.joins(:gtag_credit_log).sum(:amount)
+  end
+
+  def total_refundable_money
+    fee = refund_fee
+    standard_price = standard_credit_price
+    GtagRegistration.all
+      .joins(:gtag, gtag: :gtag_credit_log)
+      .where(aasm_state: :assigned)
+      .where("((amount * #{standard_price}) - #{fee}) >= #{refund_minimun}")
+      .where("((amount * #{standard_price}) - #{fee}) > 0")
+      .sum("(amount * #{standard_price}) - #{fee}")
+  end
+
+  def total_refundable_gtags
+    GtagRegistration.all
+      .joins(:gtag, gtag: :gtag_credit_log)
+      .where(aasm_state: :assigned)
+      .where("((amount * #{standard_credit_price}) - #{refund_fee}) >= #{refund_minimun}")
+      .where("((amount * #{standard_credit_price}) - #{refund_fee}) > 0")
+      .count
+  end
+
+  # TODO: Improve with decorators
+  def get_parameter(category, group, name)
+    parameter = EventParameter.find_by(event_id: self.id, parameter_id: Parameter.find_by(category: category, group: group, name: name)).value
+  end
+
+  private
+
+  def refund_fee
+    get_parameter('refund', self.refund_service, 'fee')
+  end
+
+  def refund_minimun
+    get_parameter('refund', self.refund_service, 'minimum')
+  end
+
+  def standard_credit_price
+    self.standard_credit.online_product.rounded_price
   end
 
 end

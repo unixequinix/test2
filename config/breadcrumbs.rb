@@ -143,28 +143,28 @@ end
 
 ## Customers
 
-crumb :admins_customers do
-  link t("breadcrumbs.customers"), admins_customers_path
+crumb :admins_customer_event_profiles do
+  link t("breadcrumbs.customers"), admins_customer_event_profiles_path
 end
 
-crumb :admins_customer do |customer|
-  link customer.name, admins_customer_path(customer)
-  parent :admins_customers
+crumb :admins_customer_event_profile do |customer_event_profile|
+  link customer_event_profile.customer.name, admins_customer_event_profile_path(customer_event_profile)
+  parent :admins_customer_event_profiles
 end
 
-crumb :new_admins_customer do
+crumb :new_admins_customer_event_profile do
   link t("breadcrumbs.new_customer")
-  parent :admins_customers
+  parent :admins_customer_event_profiles
 end
 
-crumb :new_admins_customer_admission do |customer|
+crumb :new_admins_customer_event_profile_admission do |customer_event_profile|
   link t("breadcrumbs.new_customer_admission")
-  parent :admins_customer, customer
+  parent :admins_customer_event_profile, customer_event_profile
 end
 
-crumb :new_admins_customer_gtag_registration do |customer|
+crumb :new_admins_customer_event_profile_gtag_registration do |customer_event_profile|
   link t("breadcrumbs.new_customer_gtag_registration")
-  parent :admins_customer, customer
+  parent :admins_customer_event_profile, customer_event_profiles
 end
 
 

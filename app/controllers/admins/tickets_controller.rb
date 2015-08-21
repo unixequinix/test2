@@ -2,7 +2,7 @@ class Admins::TicketsController < Admins::BaseController
 
   def index
     @q = Ticket.search(params[:q])
-    @tickets = @q.result(distinct: true).page(params[:page]).includes(:ticket_type, :assigned_admittance)
+    @tickets = @q.result(distinct: true).page(params[:page]).includes(:ticket_type, :assigned_admission)
     respond_to do |format|
       format.html
       format.csv { send_data Ticket.all.to_csv }
@@ -11,7 +11,7 @@ class Admins::TicketsController < Admins::BaseController
 
   def search
     @q = Ticket.search(params[:q])
-    @tickets = @q.result(distinct: true).page(params[:page]).includes(:ticket_type, :assigned_admittance)
+    @tickets = @q.result(distinct: true).page(params[:page]).includes(:ticket_type, :assigned_admission)
     render :index
   end
 

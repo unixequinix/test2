@@ -75,7 +75,7 @@ class Claim < ActiveRecord::Base
   end
 
   def enough_credits?
-    total - fee >= minimum
+    total - fee >= minimum && total - fee > 0
   end
 
   private

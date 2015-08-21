@@ -33,8 +33,8 @@ it:
     title: "My Kappa FuturFestival"
     admissions:
       header: "Your ticket number"
-      description: "Put a wrong ticket by mistake?"
-      description_started: "The event just started so you cannot change the ticket"
+      call_to_action: "Put a wrong ticket by mistake?"
+      call_to_action_started: "The event just started so you cannot change the ticket"
       button: "Erase and restart the process"
     without_admissions:
       call_to_action: "Please activate your festival ticket first"
@@ -44,8 +44,7 @@ it:
       header: "Your Online Credit Balance"
       call_to_action: "To avoid queues, top-up your wristband now for all your festival purchases"
       call_to_action_started: "The event just started so you cannot topup anymore"
-      call_to_action_no_admission: "To buy your Online Top-up,"
-      call_to_action_no_admission2: "please activate your Festival Ticket first"
+      call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate your Festival Ticket first"
       button: "Top-up"
     event_refunds:
       claim: "L'evento non è ancora finito"

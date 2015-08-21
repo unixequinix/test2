@@ -1,5 +1,5 @@
 # See: http://www.vanderpol.net/cleaning-rails-app-signup-devise-reform/
-class AdmissionForm < Reform::Form
+class CustomerEventProfileForm < Reform::Form
   include Composition
   include ModelReflections
 
@@ -8,9 +8,9 @@ class AdmissionForm < Reform::Form
   property :surname, on: :customer
   property :password, on: :customer
   property :agreed_on_registration, on: :customer
-  property :event_id, on: :admission
+  property :event_id, on: :customer_event_profile
 
-  model :admission
+  model :customer_event_profile
 
   validates_presence_of :email
   validates_presence_of :name
@@ -22,9 +22,9 @@ class AdmissionForm < Reform::Form
   def save
     return false unless valid?
     sync
-    admission = model[:admission]
-    admission.customer = fetch_or_create_customer
-    admission.save
+    customer_event_profile = model[:customer_event_profile]
+    customer_event_profile.customer = fetch_or_create_customer
+    customer_event_profile.save
   end
 
   def customer

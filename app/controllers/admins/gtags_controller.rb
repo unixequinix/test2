@@ -16,7 +16,7 @@ class Admins::GtagsController < Admins::BaseController
   end
 
   def show
-    @gtag = Gtag.includes(gtag_registrations: :customer).find(params[:id])
+    @gtag = Gtag.includes(gtag_registrations: :customer_event_profile).find(params[:id])
   end
 
   def new

@@ -21,10 +21,8 @@
           td data-label=t("admin.tickets.number") = link_to ticket.number, admins_ticket_path(ticket)
           td data-label=t("admin.tickets.ticket_type") = ticket.ticket_type.name unless ticket.ticket_type.nil?
           td data-label=t("admin.tickets.ticket_type_simplified") = ticket.ticket_type.simplified_name unless ticket.ticket_type.nil?
-          td data-label=t("admin.tickets.customer") = link_to ticket.assigned_admission.customer.email, admins_customer_path(ticket.assigned_admission.customer) unless ticket.assigned_admission.nil?
+          td data-label=t("admin.tickets.customer") = link_to ticket.assigned_admission.customer.email, admins_customer_event_profile_path(ticket.assigned_admission.customer) unless ticket.assigned_admission.nil?
           td data-label=t("admin.purchasers.email") = ticket.purchaser_email
-          td data-label=t("admin.tickets.customer") = ticket.assigned_admittance.customer.email unless ticket.assigned_admittance.nil?
-          td data-label=t("admin.tickets.created_at") = ticket.created_at.strftime("%y-%m-%d %H:%M:%S")
           td.table-actions-field
             = render 'admins/tickets/actions', ticket: ticket unless current_event.started?
   .container-pagination

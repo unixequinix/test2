@@ -94,8 +94,8 @@ en:
           <<: *label_gtag
       bank_account_refund_settings_form:
         edit:
-          fee: "Fee"
-          minimum: "Minimum"
+          fee: 'Refund Fee (in currency)'
+          minimum: 'After-Fee Refund Minimum (in currency)'
           product_id: "Product"
           refund_success_message: "Refund success message"
           mass_email_claim_notification: "Mass email claim notification"
@@ -107,7 +107,8 @@ en:
           gtag_form_disclaimer: "Gtag assignation form disclaimer"
       epg_refund_settings_form:
         edit:
-          fee: "Fee"
+          fee: 'Refund Fee (in currency)'
+          minimum: 'After-Fee Refund Minimum (in currency)'
           country: "Country"
           currency: "Currency"
           operation_type: "Operation type"
@@ -115,7 +116,6 @@ en:
           md5key: "Md5key"
           merchant: "Merchant"
           url: "Url"
-          minimum: "Minimum"
           product_id: "Product"
           refund_success_message: "Refund success message"
           mass_email_claim_notification: "Mass email claim notification"

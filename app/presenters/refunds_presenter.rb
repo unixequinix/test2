@@ -1,14 +1,14 @@
 class RefundsPresenter < BasePresenter
   def can_render?
-    @event.refunds? && (!@event.closed? || customer_refunded?)
+    @gtag_registration && @event.refunds? && (!@event.closed? || completed_claim?)
   end
 
   def path
     @event.closed? ? 'refunds_closed' : 'refunds'
   end
 
-  def customer_refunded?
-    @gtag_registration && @refund
+  def gtag_credit_amount
+    "#{@gtag_registration.refundable_amount} EUR"
   end
 
   def call_to_action

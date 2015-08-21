@@ -50,7 +50,7 @@
       tbody
         - @ticket.admissions.each do |admission|
           tr
-            td = link_to admission.customer.email, admins_customer_path(admission.customer) unless admission.nil?
+            td = link_to admission.customer.email, admins_customer_event_profile_path(admission.customer) unless admission.nil?
             td = "#{admission.customer.name} #{admission.customer.surname}"
             td = t("admin.admissions.states.#{admission.aasm_state}")
             td = admission.created_at.strftime("%y-%m-%d %H:%M:%S")

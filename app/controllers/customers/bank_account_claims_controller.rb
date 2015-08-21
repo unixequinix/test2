@@ -10,6 +10,7 @@ class Customers::BankAccountClaimsController < Customers::ClaimsController
     @claim = Claim.find(permitted_params[:claim_id])
     if @bank_account_claim_form.save
       @claim.start_claim!
+      # TODO Remove hardcoded message text
       if RefundService.new(@claim, current_event).create(params = {
           amount: @claim.total_after_fee,
           currency: 'EUR',

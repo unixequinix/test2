@@ -4,7 +4,7 @@ module Api
       def index
         @customers = Customer.all
         # render json: @customers
-        render json: Api::V1::EventCustomersSerializer.new(@customers)
+        render json: Api::V1::EventCustomersSerializer.new(@customers, root: false)
       end
     end
   end

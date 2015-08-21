@@ -1,6 +1,12 @@
 .container-statistics
   .wrapper-statistics
-    h2 = Gtag.total_credits
+    h2 = current_event.total_credits
     span = t("admin.gtags.report.total_credits")
+  .wrapper-statistics
+    h2 = current_event.total_refundable_money
+    span = t("admin.gtags.report.total_refundable_money")
+  .wrapper-statistics
+    h2 = current_event.total_refundable_gtags
+    span = t("admin.gtags.report.total_refundable_gtags")
 
 

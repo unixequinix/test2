@@ -37,12 +37,7 @@ class Customer < ActiveRecord::Base
          :recoverable, :rememberable, :trackable
 
   # Associations
-  has_many :admissions
-  has_many :orders
-  has_many :claims
-  has_many :refunds, through: :claims
-  has_many :credit_logs
-  has_one :completed_claim, ->{ where(aasm_state: :completed) }, class_name: "Claim"
+  has_many :customer_event_profiles
 
   # Validations
   validates :email, format: { with: MAIL_FORMAT }, presence: true

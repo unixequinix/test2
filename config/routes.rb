@@ -112,7 +112,7 @@ Rails.application.routes.draw do
     end
     resources :credits, except: :show
     resources :gtag_registrations, only: [:destroy]
-    resources :customers, except: [:new, :create, :edit, :update] do
+    resources :customer_event_profiles, except: [:new, :create, :edit, :update] do
       resources :admissions, only: [:new, :create]
       resources :gtag_registrations, only: [:new, :create]
       collection do

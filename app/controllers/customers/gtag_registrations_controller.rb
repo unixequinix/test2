@@ -10,7 +10,7 @@ class Customers::GtagRegistrationsController < Customers::BaseController
     @gtag_registration_presenter = GtagRegistrationPresenter.new(current_event: current_event)
     gtag = Gtag.find_by(tag_uid: params[:tag_uid].upcase, tag_serial_number: params[:tag_serial_number].strip.upcase)
     if !gtag.nil?
-      @gtag_registration = GtagRegistration.new(admission: current_admission, gtag: gtag)
+      @gtag_registration = current_customer_event_profile.gtag_registrations.build(gtag: gtag)
       if @gtag_registration.save
         flash[:notice] = I18n.t('alerts.created')
         GtagMailer.assigned_email(@gtag_registration, current_event).deliver_later
@@ -43,7 +43,7 @@ class Customers::GtagRegistrationsController < Customers::BaseController
   end
 
   def check_has_not_gtag_registration!
-    if !current_customer.assigned_gtag_registration.nil?
+    if !current_customer_event_profile.assigned_gtag_registration.nil?
       redirect_to customer_root_path, flash: { error: I18n.t('alerts.already_assigned') }
     end
   end

@@ -11,7 +11,7 @@ table.orders
     - orders.each do |order|
       tr
         td data-label=t("admin.orders.number") = link_to order.number, admins_order_path(order)
-        td data-label=t("admin.orders.customer") = link_to order.customer.email, admins_customer_path(order.customer) unless order.customer.nil?
+        td data-label=t("admin.orders.customer") = link_to order.customer.email, admins_customer_event_profile_path(order.customer) unless order.customer.nil?
         td data-label=t("admin.orders.state") = order.aasm_state
         td data-label=t("admin.orders.created") = order.created_at.strftime("%y-%m-%d %H:%M:%S")
         td data-label=t("admin.orders.completed") = order.completed_at.strftime("%y-%m-%d %H:%M:%S") unless order.completed_at.nil?

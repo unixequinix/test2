@@ -94,8 +94,8 @@ es:
           <<: *label_gtag_credit_log
       bank_account_refund_settings_form:
         edit:
-          fee: "Comisión"
-          minimum: "Mínimo"
+          fee: 'Comisión de devolución (en la moneda seleccionada)'
+          minimum: 'Mínimo a devolver después de comisiones (en la moneda seleccionada)'
           product_id: "Producto"
           refund_success_message: "Mensaje de éxito en la devolución"
           mass_email_claim_notification: "Notificación general (petición de devolución)"
@@ -107,7 +107,8 @@ es:
           gtag_form_disclaimer: "Texto formulario asignación Gtag"
       epg_refund_settings_form:
         edit:
-          fee: "Comisión"
+          fee: 'Comisión de devolución (en la moneda seleccionada)'
+          minimum: 'Mínimo a devolver después de comisiones (en la moneda seleccionada)'
           country: "Pais"
           currency: "Moneda"
           operation_type: "Tipo de operación"
@@ -115,7 +116,6 @@ es:
           md5key: "Md5key"
           merchant: "Comercio"
           url: "Url"
-          minimum: "Mínimo"
           product_id: "Producto"
           refund_success_message: "Mensaje de éxito en la devolución"
           mass_email_claim_notification: "Notificación general (petición de devolución)"

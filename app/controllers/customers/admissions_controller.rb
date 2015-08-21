@@ -1,19 +1,20 @@
-class Customers::AdmittancesController < Customers::BaseController
-  before_action :check_has_not_admissions!, only: [:new, :create]
+class Customers::AdmissionsController < Customers::BaseController
+  # before_action :check_has_not_admissions!, only: [:new, :create]
   def new
-    @admittance = Admittance.new
+    @admission = Admission.new
   end
 
   def create
     ticket = Ticket.find_by(number: params[:ticket_number].strip)
     if !ticket.nil?
-      @admittance = current_admission.admittances.build(ticket: ticket)
-      if @admittance.save
+      @admission = current_customer_event_profile.admissions.build(ticket: ticket)
+      @admission.customer_event_profile
+      if @admission.save
         @credit_log = CreditLog.create(customer_id: current_customer.id, transaction_type: CreditLog::TICKET_ASSIGNMENT, amount: ticket.ticket_type.credit) unless ticket.ticket_type.credit.nil?
         flash[:notice] = I18n.t('alerts.created')
         redirect_to customer_root_url
       else
-        flash[:error] = @admittance.errors.full_messages.join(". ")
+        flash[:error] = @admission.errors.full_messages.join(". ")
         render :new
       end
     else
@@ -23,9 +24,9 @@ class Customers::AdmittancesController < Customers::BaseController
   end
 
   def destroy
-    @admittance = Admittance.find(params[:id])
-    @admittance.unassign!
-    @credit_log = CreditLog.create(customer_id: current_customer.id, transaction_type: CreditLog::TICKET_UNASSIGNMENT, amount: -@admittance.ticket.ticket_type.credit) unless @admittance.ticket.ticket_type.credit.nil?
+    @admission = Admission.find(params[:id])
+    @admission.unassign!
+    @credit_log = CreditLog.create(customer_id: current_customer.id, transaction_type: CreditLog::TICKET_UNASSIGNMENT, amount: -@admission.ticket.ticket_type.credit) unless @admission.ticket.ticket_type.credit.nil?
     flash[:notice] = I18n.t('alerts.unassigned')
     redirect_to customer_root_url
   end
@@ -33,7 +34,7 @@ class Customers::AdmittancesController < Customers::BaseController
   private
 
   def check_has_not_admissions!
-    if !current_customer.assigned_admission.nil?
+    if !current_customer_event_profile.assigned_admission.nil?
       redirect_to customer_root_path, flash: { error: I18n.t('alerts.already_assigned') }
     end
   end

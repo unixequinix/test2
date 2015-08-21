@@ -1,5 +1,0 @@
-= render 'customers/dashboards/event_claiming_started/without_gtags_claiming_started' if !gtag_registration && current_event.refunds?
-= render 'customers/dashboards/event_claiming_started/gtag_after_refund', gtag_registration: gtag_registration if gtag_registration && current_event.refunds?
-= render 'customers/dashboards/event_claiming_started/refunds', gtag_registration: gtag_registration, call_to_action: t('dashboard.refunds.call_to_action') if gtag_registration && claim && current_event.refunds?
-= render 'customers/dashboards/event_claiming_started/without_refund', gtag_registration: gtag_registration, call_to_action: t('dashboard.without_refunds.call_to_action', fee: fee, minimum: minimum) if gtag_registration && !claim && current_event.refunds? && gtag_registration.refundable?
-= render 'customers/dashboards/event_claiming_started/not_refundable', gtag_registration: gtag_registration, call_to_action: t('dashboard.not_refundable.call_to_action', fee: fee, minimum: minimum) if gtag_registration && !claim && current_event.refunds? && !gtag_registration.refundable?

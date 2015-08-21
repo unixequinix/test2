@@ -2,4 +2,9 @@ p.success-message
   = fa_icon "check-circle"
   = t('refund.success.description')
 
-= render 'customers/dashboards/event_claiming_started/success_refund_disclaimer'
+.wrapper-field.centered
+  .form-inputs
+    h3.claim = t('dashboard.success_refund_disclaimer.claim')
+    h3 = current_event.refund_success_message
+    = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
+      = t("actions.check_news")

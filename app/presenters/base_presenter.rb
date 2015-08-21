@@ -1,10 +1,10 @@
 class BasePresenter
-  attr_accessor :gtag_registration, :refund, :event, :admittance
+  attr_accessor :gtag_registration, :refund, :event, :admission
 
   def initialize(dashboard)
     @event = dashboard.event
-    @admittance = dashboard.admittance
-    @refund = dashboard.refund
+    @admission = dashboard.admission
+    @completed_claim = dashboard.completed_claim
     @gtag_registration = dashboard.gtag_registration
   end
 
@@ -12,12 +12,12 @@ class BasePresenter
     @event.url
   end
 
-  def refund_present?
-    @refund.present?
+  def completed_claim?
+    @completed_claim.present?
   end
 
-  def admittance_present?
-    @admittance.present?
+  def admission_present?
+    @admission.present?
   end
 
   def gtag_tag_uid

@@ -1,30 +1,30 @@
-- breadcrumb :admins_customer, @customer
+- breadcrumb :admins_customer_event_profile, @customer_event_profile
 - provide :actions do
-  = link_to t("admin.actions.assign_ticket"), new_admins_customer_admission_path(@customer), class: "btn btn-action btn-action-new small" unless @customer.assigned_admission
+  = link_to t("admin.actions.assign_ticket"), new_admins_customer_event_profile_admission_path(@customer_event_profile), class: "btn btn-action btn-action-new small" unless @customer_event_profile.assigned_admission
 
-  = link_to t("admin.actions.assign_gtag"), new_admins_customer_gtag_registration_path(@customer), class: "btn btn-action btn-action-new small" unless @customer.assigned_gtag_registration
-  = link_to admins_customers_path, class: "btn btn-action btn-action-back small" do
+  = link_to t("admin.actions.assign_gtag"), new_admins_customer_event_profile_gtag_registration_path(@customer_event_profile), class: "btn btn-action btn-action-new small" unless @customer_event_profile.assigned_gtag_registration
+  = link_to admins_customer_event_profiles_path, class: "btn btn-action btn-action-back small" do
     = fa_icon "arrow-circle-left"
     = t('actions.back')
 .wrapper-negative-space
   .container-show
     dl
       // TODO Manu: find a better design
-      - if @customer.deleted?
+      - if @customer_event_profile.customer.deleted?
         dt.deleted-field = t ("admin.customers.deleted")
         dd
 
       dt = t ("admin.customers.email")
-      dd = @customer.email
+      dd = @customer_event_profile.customer.email
 
       dt = t ("admin.customers.name")
-      dd = @customer.name
+      dd = @customer_event_profile.customer.name
 
       dt = t ("admin.customers.surname")
-      dd = @customer.surname
+      dd = @customer_event_profile.customer.surname
 
-      - if !@customer.assigned_admissions.empty?
-        - @customer.assigned_admissions.each do |assigned_admission|
+      - if !@customer_event_profile.admissions.empty?
+        - @customer_event_profile.admissions.each do |admissions|
           dt = t ("admin.customers.tickets")
           dd
             = link_to assigned_admission.ticket.number, edit_admins_ticket_path(assigned_admission.ticket)
@@ -36,10 +36,10 @@
         dd = t ("admin.defaults.empty_tickets")
 
       dt = t ("admin.customers.credits")
-      dd = @customer.credit_logs.sum(:amount)
+      dd = @customer_event_profile.customer.credit_logs.sum(:amount)
 
-      - if !@customer.assigned_gtag_registrations.empty?
-        - @customer.assigned_gtag_registrations.each do |gtag_registration|
+      - if !@customer_event_profile.gtag_registrations.empty?
+        - @customer_event_profile.gtag_registrations.each do |gtag_registration|
           dt = t ("admin.customers.gtags")
           dd
             = link_to "#{gtag_registration.gtag.tag_serial_number} #{gtag_registration.gtag.tag_uid}", edit_admins_gtag_path(gtag_registration.gtag)
@@ -54,35 +54,35 @@
           dt 0.0
 
       dt = t ("admin.customers.confirmed_at")
-      dd = @customer.confirmed_at.strftime("%y-%m-%d %H:%M:%S") unless @customer.confirmed_at.nil?
+      dd = @customer_event_profile.customer.confirmed_at.strftime("%y-%m-%d %H:%M:%S") unless @customer_event_profile.customer.confirmed_at.nil?
 
       dt = t("admin.customers.confirmation_sent_at")
-      dd = @customer.confirmation_sent_at.strftime("%y-%m-%d %H:%M:%S") unless @customer.confirmation_sent_at.nil?
+      dd = @customer_event_profile.customer.confirmation_sent_at.strftime("%y-%m-%d %H:%M:%S") unless @customer_event_profile.customer.confirmation_sent_at.nil?
 
 
       dt = t ("admin.customers.sign")
-      dd = @customer.sign_in_count
+      dd = @customer_event_profile.customer.sign_in_count
 
       dt = t ("admin.customers.current_sign")
-      dd = @customer.current_sign_in_at
+      dd = @customer_event_profile.customer.current_sign_in_at
 
       dt = t ("admin.customers.last_sign")
-      dd = @customer.last_sign_in_at
+      dd = @customer_event_profile.customer.last_sign_in_at
 
       dt = t ("admin.customers.current_sign_ip")
-      dd = @customer.current_sign_in_ip
+      dd = @customer_event_profile.customer.current_sign_in_ip
 
       dt = t ("admin.customers.last_sign_ip")
-      dd = @customer.last_sign_in_ip
+      dd = @customer_event_profile.customer.last_sign_in_ip
 
       dt = t ("admin.customers.unconfirmed")
-      dd = @customer.unconfirmed_email
+      dd = @customer_event_profile.customer.unconfirmed_email
 
       dt = t ("admin.customers.deleted_at")
-      dd = @customer.deleted_at.strftime("%y-%m-%d %H:%M:%S") unless @customer.deleted_at.nil?
+      dd = @customer_event_profile.customer.deleted_at.strftime("%y-%m-%d %H:%M:%S") unless @customer_event_profile.customer.deleted_at.nil?
 
   .container-show
-    - if !@customer.admissions.empty?
+    - if !@customer_event_profile.admissions.empty?
       h3
         = fa_icon "table"
         = t ("admin.customers.admissions")
@@ -94,13 +94,13 @@
             th = t("admin.customers.created_at")
 
         tbody
-          - @customer.admissions.each do |admission|
+          - @customer_event_profile.admissions.each do |admission|
             tr
               td = link_to "#{admission.ticket.number}", edit_admins_ticket_path(admission.ticket)
               td = t("admin.admissions.states.#{admission.aasm_state}")
               td = admission.created_at.strftime("%y-%m-%d %H:%M:%S")
 
-    - if !@customer.credit_logs.empty?
+    - if !@customer_event_profile.customer.credit_logs.empty?
       h3
         = fa_icon "table"
         = t ("admin.customers.creadit_logs")
@@ -111,12 +111,12 @@
             th = t("admin.customers.amount")
 
         tbody
-          - @customer.credit_logs.each do |credit_log|
+          - @customer_event_profile.customer.credit_logs.each do |credit_log|
             tr
               td = credit_log.transaction_type
               td = credit_log.amount
 
-    - if !@customer.orders.empty?
+    - if !@customer_event_profile.customer.orders.empty?
       h3
         = fa_icon "table"
         = t ("admin.customers.orders")
@@ -128,14 +128,14 @@
             th = t("admin.orders.created")
             th = t("admin.orders.completed")
         tbody
-          - @customer.orders.each do |order|
+          - @customer_event_profile.customer.orders.each do |order|
             tr
               td data-label=t("admin.orders.number") = link_to order.number, admins_order_path(order)
               td data-label=t("admin.orders.state") = order.aasm_state
               td data-label=t("admin.orders.created") = order.created_at.strftime("%y-%m-%d %H:%M:%S")
               td data-label=t("admin.orders.completed") = order.completed_at.strftime("%y-%m-%d %H:%M:%S") unless order.completed_at.nil?
 
-    - if !@customer.gtag_registrations.empty?
+    - if !@customer_event_profile.gtag_registrations.empty?
       h3
         = fa_icon "table"
         = t ("admin.customers.gtag_registrations")
@@ -147,13 +147,13 @@
             th = t("admin.customers.created_at")
 
         tbody
-          - @customer.gtag_registrations.each do |gtag_registration|
+          - @customer_event_profile.gtag_registrations.each do |gtag_registration|
             tr
               td = link_to "#{gtag_registration.gtag.tag_serial_number} #{gtag_registration.gtag.tag_uid}", edit_admins_gtag_path(gtag_registration.gtag)
               td = t("admin.gtag_registrations.states.#{gtag_registration.aasm_state}")
               td = gtag_registration.created_at.strftime("%y-%m-%d %H:%M:%S")
 
-    - if !@customer.claims.empty?
+    - if !@customer_event_profile.customer.claims.empty?
       h3
         = fa_icon "table"
         = t ("admin.customers.claims")
@@ -168,7 +168,7 @@
             th = t("admin.claims.completed")
             th = t("admin.defaults.actions")
         tbody
-          - @customer.claims.each do |claim|
+          - @customer_event_profile.customer.claims.each do |claim|
             tr
               td data-label=t("admin.claims.number") = link_to claim.number, admins_claim_path(claim)
               td data-label=t("admin.claims.state") = claim.aasm_state
@@ -183,7 +183,7 @@
                       = link_to admins_claim_path(claim, claim: { aasm_state: :cancelled }), method: :patch, data: { confirm: t("admin.confirm.delete") } do
                         = fa_icon "ban"
 
-    - if !@customer.completed_claim.nil?
+    - if !@customer_event_profile.customer.completed_claim.nil?
       h3
         = fa_icon "table"
         = t ("admin.customers.refund")
@@ -199,10 +199,10 @@
             th = t('admin.refunds.created_at')
         tbody
           tr
-            td data-label=t("admin.refunds.id") = link_to (@customer.completed_claim.refund.id), admins_refund_path(@customer.completed_claim.refund)
-            td data-label=t('admin.refunds.amount') = @customer.completed_claim.refund.amount
-            td data-label=t('admin.refunds.currency') = @customer.completed_claim.refund.currency
-            td data-label=t('admin.refunds.gateway_transaction_number') = @customer.completed_claim.refund.gateway_transaction_number
-            td data-label=t('admin.refunds.payment_solution') = @customer.completed_claim.refund.payment_solution
-            td data-label=t('admin.refunds.status') = @customer.completed_claim.refund.status
-            td data-label=t('admin.refunds.created_at') = @customer.completed_claim.refund.created_at.strftime("%y-%m-%d %H:%M:%S")
+            td data-label=t("admin.refunds.id") = link_to (@customer_event_profile.customer.completed_claim.refund.id), admins_refund_path(@customer_event_profile.customer.completed_claim.refund)
+            td data-label=t('admin.refunds.amount') = @customer_event_profile.customer.completed_claim.refund.amount
+            td data-label=t('admin.refunds.currency') = @customer_event_profile.customer.completed_claim.refund.currency
+            td data-label=t('admin.refunds.gateway_transaction_number') = @customer_event_profile.customer.completed_claim.refund.gateway_transaction_number
+            td data-label=t('admin.refunds.payment_solution') = @customer_event_profile.customer.completed_claim.refund.payment_solution
+            td data-label=t('admin.refunds.status') = @customer_event_profile.customer.completed_claim.refund.status
+            td data-label=t('admin.refunds.created_at') = @customer_event_profile.customer.completed_claim.refund.created_at.strftime("%y-%m-%d %H:%M:%S")

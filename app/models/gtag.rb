@@ -27,8 +27,8 @@ class Gtag < ActiveRecord::Base
   # Associations
   has_many :gtag_registrations, dependent: :restrict_with_error
   has_one :assigned_gtag_registration, ->{ where(aasm_state: :assigned) }, class_name: "GtagRegistration"
-  has_many :customers, through: :gtag_registrations
-  has_one :assigned_customer, ->{ where(gtag_registrations: {aasm_state: :assigned}) }, class_name: "Customer"
+  has_many :customer_event_profiles, through: :gtag_registrations
+  has_one :assigned_customer_event_profile, ->{ where(gtag_registrations: {aasm_state: :assigned}) }, class_name: "CustomerEventProfile"
   has_one :gtag_credit_log
   has_one :refund
   has_many :claims
@@ -40,21 +40,6 @@ class Gtag < ActiveRecord::Base
   # Validations
   validates :tag_uid, :tag_serial_number, presence: true
   validates_uniqueness_of :tag_uid, conditions: -> { where(deleted_at: nil) }
-
-
-
-  # Scopes
-  scope :total_credits, -> { joins(:gtag_credit_log).sum(:amount) }
-
-
-
-
-  # Methods
-  # -------------------------------------------------------
-
-  def credit_amount
-    gtag_credit_log ? gtag_credit_log.amount : 0.0
-  end
 
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
