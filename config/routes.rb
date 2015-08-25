@@ -68,10 +68,9 @@ Rails.application.routes.draw do
           get 'error'
         end
       end
+      get 'privacy_policy', to: 'static_pages#privacy_policy'
+      get 'terms_of_use', to: 'static_pages#terms_of_use'
     end
-
-    get 'privacy_policy', to: 'static_pages#privacy_policy'
-    get 'terms_of_use', to: 'static_pages#terms_of_use'
   end
 
   namespace :admins do
