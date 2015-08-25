@@ -11,6 +11,7 @@
 #  purchaser_email   :string
 #  purchaser_name    :string
 #  purchaser_surname :string
+#  event_id          :integer          not null
 #
 
 FactoryGirl.define do

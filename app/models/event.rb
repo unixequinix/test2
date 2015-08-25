@@ -55,6 +55,13 @@ class Event < ActiveRecord::Base
   FEATURES = [:ticketing, :refunds]
 
   # Associations
+  has_many :entitlements
+  has_many :ticket_types
+  has_many :tickets
+  has_many :admissions, through: :tickets
+  has_many :gtags
+  has_many :gtag_registrations, through: :gtags
+  has_many :online_products
   has_many :customer_event_profiles
 
   extend FriendlyId
@@ -127,17 +134,19 @@ class Event < ActiveRecord::Base
   end
 
   def standard_credit
-    Credit.find_by(standard: true)
+    Credit.joins(:online_product)
+      .where(online_products: { event_id: self.id })
+      .find_by(standard: true)
   end
 
   def total_credits
-    Gtag.all.joins(:gtag_credit_log).sum(:amount)
+    self.gtags.joins(:gtag_credit_log).sum(:amount)
   end
 
   def total_refundable_money
     fee = refund_fee
     standard_price = standard_credit_price
-    GtagRegistration.all
+    self.gtag_registrations
       .joins(:gtag, gtag: :gtag_credit_log)
       .where(aasm_state: :assigned)
       .where("((amount * #{standard_price}) - #{fee}) >= #{refund_minimun}")
@@ -146,7 +155,7 @@ class Event < ActiveRecord::Base
   end
 
   def total_refundable_gtags
-    GtagRegistration.all
+    self.gtag_registrations
       .joins(:gtag, gtag: :gtag_credit_log)
       .where(aasm_state: :assigned)
       .where("((amount * #{standard_credit_price}) - #{refund_fee}) >= #{refund_minimun}")

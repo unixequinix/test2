@@ -1,0 +1,19 @@
+- breadcrumb :admins_event_refund_settings, @event
+- provide :actions do
+  = link_to edit_admins_event_refund_settings_path(@event), class: "btn btn-action btn-action-edit small" do
+    = fa_icon 'edit'
+    = t('actions.edit')
+.wrapper-negative-space
+  = render "admins/events/refund_settings/controls", event: @event
+
+  .container-show
+    dl
+      - @event_parameters.each do |event_parameter|
+        dt = t("admin.refund_settings.#{@event.refund_service}.#{event_parameter.parameter.name}")
+        dd = event_parameter.value
+
+
+      dt = link_to t("admin.event.refund_success_message"), success_customers_refunds_url, target: "_blank"
+      dd = @event.refund_success_message
+      dt = t("admin.event.mass_email_claim_notification")
+      dd = @event.mass_email_claim_notification

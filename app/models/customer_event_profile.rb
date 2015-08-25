@@ -40,15 +40,15 @@ class CustomerEventProfile < ActiveRecord::Base
   end
 
   def total_credits
-    customer.credit_logs.sum(:amount).floor
+    credit_logs.sum(:amount).floor
   end
 
   def ticket_credits
-    customer.credit_logs.where.not(transaction_type: CreditLog::CREDITS_PURCHASE).sum(:amount).floor
+    credit_logs.where.not(transaction_type: CreditLog::CREDITS_PURCHASE).sum(:amount).floor
   end
 
   def purchased_credits
-    customer.credit_logs.where(transaction_type: CreditLog::CREDITS_PURCHASE).sum(:amount).floor
+    credit_logs.where(transaction_type: CreditLog::CREDITS_PURCHASE).sum(:amount).floor
   end
 
   def refundable_credits

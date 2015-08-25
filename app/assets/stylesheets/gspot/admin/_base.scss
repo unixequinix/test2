@@ -95,7 +95,6 @@ abbr {
 
   @include min-screen($bp3) {
     display: inline-block;
-    width: 83%;
   }
 
   @include ipad                                   { width: 100% !important; }
@@ -104,6 +103,15 @@ abbr {
   @include ipad-retina                            { width: 100% !important; }
   @include ipad-retina(landscape)                 { width: 100% !important; }
   @include ipad-retina(portrait)                  { width: 100% !important; }
+}
+
+.container-event {
+  width: 100%;
+
+  @include min-screen($bp3) {
+    width: 83%;
+  }
+
 }
 
 // _________

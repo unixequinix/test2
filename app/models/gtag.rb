@@ -8,6 +8,7 @@
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  deleted_at        :datetime
+#  event_id          :integer          not null
 #
 
 class Gtag < ActiveRecord::Base
@@ -25,6 +26,7 @@ class Gtag < ActiveRecord::Base
   acts_as_paranoid
 
   # Associations
+  belongs_to :event
   has_many :gtag_registrations, dependent: :restrict_with_error
   has_one :assigned_gtag_registration, ->{ where(aasm_state: :assigned) }, class_name: "GtagRegistration"
   has_many :customer_event_profiles, through: :gtag_registrations

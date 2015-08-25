@@ -2,25 +2,25 @@
 #
 # Table name: orders
 #
-#  id           :integer          not null, primary key
-#  customer_id  :integer          not null
-#  number       :string           not null
-#  aasm_state   :string           not null
-#  completed_at :datetime
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  id                        :integer          not null, primary key
+#  customer_event_profile_id :integer          not null
+#  number                    :string           not null
+#  aasm_state                :string           not null
+#  completed_at              :datetime
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
 #
 
 class Order < ActiveRecord::Base
   default_scope { order(created_at: :desc) }
 
   # Associations
-  belongs_to :customer
+  belongs_to :customer_event_profile
   has_many :order_items
   has_many :payments
 
   # Validations
-  validates :customer, :order_items, :number, :aasm_state, presence: true
+  validates :customer_event_profile, :order_items, :number, :aasm_state, presence: true
 
   # State machine
   include AASM
@@ -44,7 +44,7 @@ class Order < ActiveRecord::Base
   end
 
   def credits_total
-    self.order_items.joins(:online_product).where(online_products: {purchasable_type: :Credit}).sum(:amount)
+    self.order_items.joins(:online_product).where(online_products: {purchasable_type: :credit}).sum(:amount)
   end
 
   def generate_order_number!

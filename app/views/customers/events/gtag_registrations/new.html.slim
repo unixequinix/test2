@@ -1,0 +1,13 @@
+.wrapper-fit.centered
+  = image_tag "#{@gtag_registration_presenter.gtag_format}-gtag.png", class: "wristband-image"
+  h3 = t('gtag_registrations.call_to_action')
+  p = t("gtag_registrations.description.#{@gtag_registration_presenter.gtag_format}")
+  p = @gtag_registration_presenter.gtag_form_disclaimer
+  = form_tag customers_gtag_registrations_path do |f|
+    .assign-input
+      = render "customers/gtag_registrations/#{@gtag_registration_presenter.gtag_format}"
+      p.wristband-hint
+        = fa_icon "info-circle"
+        = t('gtag_registrations.info.line_2')
+      = text_field_tag :tag_uid, nil, placeholder: t("gtag_registrations.placeholders.#{@gtag_registration_presenter.gtag_format}.line_2")
+    = submit_tag t('gtag_registrations.button'), class: "btn btn-full-width btn-action-activate"

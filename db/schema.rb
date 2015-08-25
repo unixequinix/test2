@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150815201634) do
+ActiveRecord::Schema.define(version: 20150824103123) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(version: 20150815201634) do
     t.datetime "updated_at",      null: false
     t.datetime "deleted_at",      index: {name: "index_ticket_types_on_deleted_at"}
     t.string   "simplified_name"
+    t.integer  "event_id",        null: false, index: {name: "index_ticket_types_on_event_id"}, foreign_key: {references: "events", name: "ticket_types_event_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "tickets", force: :cascade do |t|
@@ -109,6 +110,7 @@ ActiveRecord::Schema.define(version: 20150815201634) do
     t.string   "purchaser_email"
     t.string   "purchaser_name"
     t.string   "purchaser_surname"
+    t.integer  "event_id",          null: false, index: {name: "index_tickets_on_event_id"}, foreign_key: {references: "events", name: "tickets_event_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "admissions", force: :cascade do |t|
@@ -126,20 +128,21 @@ ActiveRecord::Schema.define(version: 20150815201634) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.datetime "deleted_at",        index: {name: "index_gtags_on_deleted_at"}
+    t.integer  "event_id",          null: false, index: {name: "index_gtags_on_event_id"}, foreign_key: {references: "events", name: "gtags_event_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "claims", force: :cascade do |t|
-    t.integer  "customer_id",  null: false, index: {name: "fk__claims_customer_id"}, foreign_key: {references: "customers", name: "fk_claims_customer_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "number",       null: false, index: {name: "index_claims_on_number", unique: true}
-    t.string   "aasm_state",   null: false
+    t.integer  "customer_event_profile_id", null: false, index: {name: "fk__claims_customer_id"}, foreign_key: {references: "customers", name: "fk_claims_customer_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "number",                    null: false, index: {name: "index_claims_on_number", unique: true}
+    t.string   "aasm_state",                null: false
     t.datetime "completed_at"
-    t.decimal  "total",        precision: 8, scale: 2,               null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.integer  "gtag_id",      index: {name: "index_claims_on_gtag_id"}, foreign_key: {references: "gtags", name: "claims_gtag_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.decimal  "total",                     precision: 8, scale: 2,               null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.integer  "gtag_id",                   index: {name: "index_claims_on_gtag_id"}, foreign_key: {references: "gtags", name: "claims_gtag_id_fkey", on_update: :no_action, on_delete: :no_action}
     t.string   "service_type"
-    t.decimal  "fee",          precision: 8, scale: 2, default: 0.0
-    t.decimal  "minimum",      precision: 8, scale: 2, default: 0.0
+    t.decimal  "fee",                       precision: 8, scale: 2, default: 0.0
+    t.decimal  "minimum",                   precision: 8, scale: 2, default: 0.0
   end
 
   create_table "parameters", force: :cascade do |t|
@@ -170,11 +173,11 @@ ActiveRecord::Schema.define(version: 20150815201634) do
   end
 
   create_table "credit_logs", force: :cascade do |t|
-    t.integer  "customer_id",      null: false, index: {name: "fk__credit_logs_customer_id"}, foreign_key: {references: "customers", name: "fk_credit_logs_customer_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "customer_event_profile_id", null: false, index: {name: "fk__credit_logs_customer_id"}, foreign_key: {references: "customers", name: "fk_credit_logs_customer_id", on_update: :no_action, on_delete: :no_action}
     t.string   "transaction_type"
-    t.decimal  "amount",           precision: 8, scale: 2, null: false
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.decimal  "amount",                    precision: 8, scale: 2, null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "credits", force: :cascade do |t|
@@ -189,6 +192,7 @@ ActiveRecord::Schema.define(version: 20150815201634) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at", index: {name: "index_entitlements_on_deleted_at"}
+    t.integer  "event_id",   null: false, index: {name: "index_entitlements_on_event_id"}, foreign_key: {references: "events", name: "entitlements_event_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "entitlement_ticket_types", force: :cascade do |t|
@@ -260,15 +264,16 @@ ActiveRecord::Schema.define(version: 20150815201634) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.datetime "deleted_at",       index: {name: "index_online_products_on_deleted_at"}
+    t.integer  "event_id",         null: false, index: {name: "index_online_products_on_event_id"}, foreign_key: {references: "events", name: "online_products_event_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "orders", force: :cascade do |t|
-    t.integer  "customer_id",  null: false, index: {name: "fk__orders_customer_id"}, foreign_key: {references: "customers", name: "fk_orders_customer_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "number",       null: false, index: {name: "index_orders_on_number", unique: true}
-    t.string   "aasm_state",   null: false
+    t.integer  "customer_event_profile_id", null: false, index: {name: "fk__orders_customer_id"}, foreign_key: {references: "customers", name: "fk_orders_customer_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "number",                    null: false, index: {name: "index_orders_on_number", unique: true}
+    t.string   "aasm_state",                null: false
     t.datetime "completed_at"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "order_items", force: :cascade do |t|

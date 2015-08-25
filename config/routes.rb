@@ -45,101 +45,105 @@ Rails.application.routes.draw do
   ## ------------------------------
 
   namespace :customers do
-    resources :admissions, only: [:new, :create, :destroy]
-    resources :refunds, only: [:new, :create, :edit, :update]
-    resources :gtag_registrations, only: [:new, :create, :destroy]
-    resources :checkouts, only: [:new, :create]
-    resources :orders, only: [:show, :update]
-    resources :epg_claims, only: [:new, :create]
-    resources :bank_account_claims, only: [:new, :create]
-    resources :payments, only: [:create]
-    # resources :payments, only: [:create], constraints: lambda{|request|request.env['HTTP_X_REAL_IP'].match(Rails.application.secrets.merchant_ip)}
-    resources :payments, except: [:index, :show, :new, :create, :edit, :update, :destroy] do
-      collection do
-        get 'success'
-        get 'error'
+    scope module: 'events' do
+      resources :admissions, only: [:new, :create, :destroy]
+      resources :gtag_registrations, only: [:new, :create, :destroy]
+      resources :checkouts, only: [:new, :create]
+      resources :orders, only: [:show, :update]
+      resources :epg_claims, only: [:new, :create]
+      resources :bank_account_claims, only: [:new, :create]
+      resources :payments, only: [:create]
+      # resources :payments, only: [:create], constraints: lambda{|request|request.env['HTTP_X_REAL_IP'].match(Rails.application.secrets.merchant_ip)}
+      resources :payments, except: [:index, :show, :new, :create, :edit, :update, :destroy] do
+        collection do
+          get 'success'
+          get 'error'
+        end
+      end
+      resources :refunds, only: [:create]
+      # resources :refunds, only: [:create], constraints: lambda{|request|request.env['HTTP_X_REAL_IP'].match(Rails.application.secrets.merchant_ip)}
+      resources :refunds, except: [:index, :show, :new, :create, :edit, :update, :destroy] do
+        collection do
+          get 'success'
+          get 'error'
+        end
       end
     end
-    resources :refunds, only: [:create]
-    # resources :refunds, only: [:create], constraints: lambda{|request|request.env['HTTP_X_REAL_IP'].match(Rails.application.secrets.merchant_ip)}
-    resources :refunds, except: [:index, :show, :new, :create, :edit, :update, :destroy] do
-      collection do
-        get 'success'
-        get 'error'
-      end
-    end
+
     get 'privacy_policy', to: 'static_pages#privacy_policy'
     get 'terms_of_use', to: 'static_pages#terms_of_use'
   end
 
   namespace :admins do
     resources :admins, except: :show
-    resources :admissions, only: [:destroy]
-    resources :events, only: [:show, :edit, :update] do
+    resources :events, only: [:index, :show, :new, :create, :edit, :update] do
       member do
         post :remove_logo
         post :remove_background
       end
-      resource :gtag_settings, only: [:show, :edit, :update]
-      resource :refund_settings, only: [:show, :edit, :update] do
-        member do
-          post :notify_customers
+      scope module: 'events' do
+        resources :admissions, only: [:destroy]
+        resource :gtag_settings, only: [:show, :edit, :update]
+        resource :refund_settings, only: [:show, :edit, :update] do
+          member do
+            post :notify_customers
+          end
         end
-      end
-    end
-    resources :entitlements, except: :show
-    resources :ticket_types, except: :show do
-      collection do
-        post :import
-      end
-    end
-    resources :tickets do
-      resources :comments, module: :tickets
-      collection do
-        post :import
-        get :search
-        delete :destroy_multiple
-      end
-    end
-    resources :gtags do
-      resources :comments, module: :gtags
-      collection do
-        post :import
-        post :import_credits
-        get :search
-        delete :destroy_multiple
-      end
-    end
-    resources :credits, except: :show
-    resources :gtag_registrations, only: [:destroy]
-    resources :customer_event_profiles, except: [:new, :create, :edit, :update] do
-      resources :admissions, only: [:new, :create]
-      resources :gtag_registrations, only: [:new, :create]
-      collection do
-        get :search
-      end
-      member do
-        post :resend_confirmation
-      end
-    end
-    resources :orders, except: [:new, :create, :edit, :update] do
-      collection do
-        get :search
-      end
-    end
-    resources :payments, except: [:new, :create, :edit, :update] do
-      collection do
-        get :search
-      end
-    end
-    resources :claims, except: [:new, :create, :edit] do
-      collection do
-        get :search
-      end
-    end
-    resources :refunds, except: [:new, :create, :edit] do
-      collection do
-        get :search
+        resources :entitlements, except: :show
+        resources :ticket_types, except: :show do
+          collection do
+            post :import
+          end
+        end
+        resources :tickets do
+          resources :comments, module: :tickets
+          collection do
+            post :import
+            get :search
+            delete :destroy_multiple
+          end
+        end
+        resources :gtags do
+          resources :comments, module: :gtags
+          collection do
+            post :import
+            post :import_credits
+            get :search
+            delete :destroy_multiple
+          end
+        end
+        resources :credits, except: :show
+        resources :gtag_registrations, only: [:destroy]
+        resources :customer_event_profiles, except: [:new, :create, :edit, :update] do
+          resources :admissions, only: [:new, :create]
+          resources :gtag_registrations, only: [:new, :create]
+          collection do
+            get :search
+          end
+          member do
+            post :resend_confirmation
+          end
+        end
+        resources :orders, except: [:new, :create, :edit, :update] do
+          collection do
+            get :search
+          end
+        end
+        resources :payments, except: [:new, :create, :edit, :update] do
+          collection do
+            get :search
+          end
+        end
+        resources :claims, except: [:new, :create, :edit] do
+          collection do
+            get :search
+          end
+        end
+        resources :refunds, except: [:new, :create, :edit] do
+          collection do
+            get :search
+          end
+        end
       end
     end
     authenticate :admin do
@@ -148,11 +152,11 @@ Rails.application.routes.draw do
   end
 
   devise_scope :customers do
-    root to: 'customers/dashboards#show', as: :customer_root
+    root to: 'customers/events/dashboards#show', as: :customer_root
   end
 
   devise_scope :admins do
-    get 'admins', to: 'admins/dashboards#show', as: :admin_root
+    get 'admins', to: 'admins/events#index', as: :admin_root
   end
 
   resources :events, only: [:show], path: '/' do

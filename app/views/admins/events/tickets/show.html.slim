@@ -1,0 +1,66 @@
+- breadcrumb :admins_event_ticket, current_event, @ticket
+- provide :actions do
+  = link_to admins_event_ticket_path(current_event, @ticket), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-action btn-action-new btn-action-delete small" do
+      = fa_icon "times"
+      = t("actions.delete")
+  = link_to edit_admins_event_ticket_path(current_event, @ticket), class: "btn btn-action btn-action-new small" do
+      = fa_icon "edit"
+      = t("actions.edit")
+  = link_to admins_event_tickets_path, class: "btn btn-action btn-action-back small" do
+    = fa_icon "arrow-circle-left"
+    = t("actions.back")
+
+.wrapper-negative-space
+  .container-show
+    dl
+      dt = t("admin.tickets.id")
+      dd = @ticket.id
+      dt = t("admin.tickets.number")
+      dd = @ticket.number
+      dt = t("admin.tickets.ticket_type")
+      dd = @ticket.ticket_type.name unless @ticket.ticket_type.nil?
+      dt = t("admin.tickets.ticket_type_simplified")
+      dd = @ticket.ticket_type.simplified_name unless @ticket.ticket_type.nil?
+      dt = t("admin.ticket_types.company")
+      dd = @ticket.ticket_type.company unless @ticket.ticket_type.nil?
+      dt = t("admin.purchasers.name")
+      dd = @ticket.purchaser_name
+      dt = t("admin.purchasers.surname")
+      dd = @ticket.purchaser_surname
+      dt = t("admin.purchasers.email")
+      dd = @ticket.purchaser_email
+      dt = t("admin.tickets.created_at")
+      dd = @ticket.created_at.strftime("%y-%m-%d %H:%M:%S")
+      dt = t("admin.tickets.updated_at")
+      dd = @ticket.updated_at.strftime("%y-%m-%d %H:%M:%S")
+
+  .container-show
+    h3
+      = fa_icon "table"
+      = t("admin.tickets.admission")
+    table.subtable.claim-subtable
+      thead
+        tr
+          th = t("admin.admissions.customer.email")
+          th = t("admin.admissions.customer.complete_name")
+          th = t("admin.admissions.aasm_state")
+          th = t("admin.admissions.created_at")
+          th = t("admin.admissions.updated_at")
+          th = t("admin.defaults.actions")
+      tbody
+        - @ticket.admissions.each do |admission|
+          tr
+            td = link_to admission.customer.email, admins_event_customer_event_profile_path(current_event, admission.customer) unless admission.nil?
+            td = "#{admission.customer.name} #{admission.customer.surname}"
+            td = t("admin.admissions.states.#{admission.aasm_state}")
+            td = admission.created_at.strftime("%y-%m-%d %H:%M:%S")
+            td = admission.updated_at.strftime("%y-%m-%d %H:%M:%S")
+            td.table-actions-field
+              ul
+                - if admission.assigned?
+                  li.table-action.action-delete
+                    = link_to admins_event_admission_path(current_event, admission), method: :delete, data: { confirm: t("admin.confirm.delete") } do
+                      = fa_icon "ban"
+
+  = render partial: "admins/comments/comments", locals: {commentable: @ticket}
+  = render partial: "admins/comments/form", locals: {commentable: @ticket}

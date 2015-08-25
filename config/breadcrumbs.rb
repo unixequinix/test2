@@ -6,45 +6,6 @@ end
 ## Admin
 ## -------------------------------------------------
 
-## Dashboards
-
-crumb :admins_root do
-  link t("breadcrumbs.dashboard"), admin_root_path
-end
-
-## Events
-
-crumb :admins_events do
-  link t("breadcrumbs.events"), admin_root_path
-end
-
-crumb :admins_event do |event|
-  link event.name, edit_admins_event_path(event)
-  parent :admins_events
-end
-
-## Refund Settings
-
-crumb :admins_gtag_settings do
-  link t("breadcrumbs.gtag_settings"), admin_root_path
-end
-
-crumb :admins_gtag_setting do |event|
-  link event.name, edit_admins_event_gtag_settings_path(event)
-  parent :admins_gtag_settings
-end
-
-## Refund Settings
-
-crumb :admins_refund_settings do
-  link t("breadcrumbs.refund_settings"), admin_root_path
-end
-
-crumb :admins_refund_setting do |event|
-  link event.name, edit_admins_event_refund_settings_path(event)
-  parent :admins_refund_settings
-end
-
 ## Admins
 
 crumb :admins_admins do
@@ -61,177 +22,218 @@ crumb :new_admins_admin do
   parent :admins_admins
 end
 
+## Dashboards
+
+crumb :admins_root do
+  link t("breadcrumbs.dashboard"), admin_root_path
+end
+
+## Events
+
+crumb :admins_events do
+  link t("breadcrumbs.events"), admin_root_path
+end
+
+crumb :admins_event do |event|
+  link event.name, admins_event_path(event)
+end
+
+crumb :new_admins_event do |event|
+  link t("breadcrumbs.new_event")
+end
+
+## Gtag Settings
+
+crumb :admins_event_gtag_settings do |event|
+  link t("breadcrumbs.gtag_settings"), admin_root_path
+  parent :admins_event, event
+end
+
+## Refund Settings
+
+crumb :admins_event_refund_settings do |event|
+  link t("breadcrumbs.refund_settings"), admin_root_path
+  parent :admins_event, event
+end
+
 ## Entitlements
 
-crumb :admins_entitlements do
-  link t("breadcrumbs.entitlements"), admins_entitlements_path
+crumb :admins_event_entitlements do |event|
+  link t("breadcrumbs.entitlements"), admins_event_entitlements_path(event)
+  parent :admins_event, event
 end
 
-crumb :admins_entitlement do |entitlement|
-  link entitlement.name, edit_admins_entitlement_path(entitlement)
-  parent :admins_entitlements
+crumb :admins_event_entitlement do |event, entitlement|
+  link entitlement.name, edit_admins_event_entitlement_path(event, entitlement)
+  parent :admins_event_entitlements, event
 end
 
-crumb :new_admins_entitlement do
+crumb :new_admins_event_entitlement do |event|
   link t("breadcrumbs.new_entitlement")
-  parent :admins_entitlements
+  parent :admins_event_entitlements, event
 end
 
 ## TicketsTypes
 
-crumb :admins_ticket_types do
-  link t("breadcrumbs.ticket_types"), admins_ticket_types_path
+crumb :admins_event_ticket_types do |event|
+  link t("breadcrumbs.ticket_types"), admins_event_ticket_types_path(event)
+  parent :admins_event, event
 end
 
-crumb :admins_ticket_type do |ticket_type|
-  link ticket_type.name, edit_admins_ticket_type_path(ticket_type)
-  parent :admins_ticket_types
+crumb :admins_event_ticket_type do |event, ticket_type|
+  link ticket_type.name, edit_admins_event_ticket_type_path(event, ticket_type)
+  parent :admins_event_ticket_types, event
 end
 
-crumb :new_admins_ticket_type do
+crumb :new_admins_event_ticket_type do |event|
   link t("breadcrumbs.new_ticket_type")
-  parent :admins_ticket_types
+  parent :admins_event_ticket_types, event
 end
 
 ## Tickets
 
-crumb :admins_tickets do
-  link t("breadcrumbs.tickets"), admins_tickets_path
+crumb :admins_event_tickets do |event|
+  link t("breadcrumbs.tickets"), admins_event_tickets_path(event)
+  parent :admins_event, event
 end
 
-crumb :admins_ticket do |ticket|
-  link ticket.number, edit_admins_ticket_path(ticket)
-  parent :admins_tickets
+crumb :admins_event_ticket do |event, ticket|
+  link ticket.number, edit_admins_event_ticket_path(event, ticket)
+  parent :admins_event_tickets, event
 end
 
-crumb :new_admins_ticket do
+crumb :new_admins_event_ticket do |event|
   link t("breadcrumbs.new_ticket")
-  parent :admins_tickets
+  parent :admins_event_tickets, event
 end
 
 ## GTag
 
-crumb :admins_gtags do
-  link t("breadcrumbs.gtags"), admins_gtags_path
+crumb :admins_event_gtags do |event|
+  link t("breadcrumbs.gtag"), admins_event_gtags_path(event)
+  parent :admins_event, event
 end
 
-crumb :admins_gtag do |gtag|
-  link "#{gtag.tag_uid}-#{gtag.tag_serial_number}", edit_admins_gtag_path(gtag)
-  parent :admins_gtags
+crumb :admins_event_gtag do |event, gtag|
+  link "#{gtag.tag_serial_number} - #{gtag.tag_uid}", edit_admins_event_gtag_path(event, gtag)
+  parent :admins_event_gtags, event
 end
 
-crumb :new_admins_gtag do
-  link t("breadcrumbs.new_gtag")
-  parent :admins_gtags
+crumb :new_admins_event_gtag do |event|
+  link t("breadcrumbs.new_gtag_type")
+  parent :admins_event_gtags, event
 end
 
-## OnlineProducts
+## Credits
 
-crumb :admins_credits do
-  link t("breadcrumbs.credits"), admins_credits_path
+crumb :admins_event_credits do |event|
+  link t("breadcrumbs.credits"), admins_event_credits_path(event)
+  parent :admins_event, event
 end
 
-crumb :admins_credit do |credit|
-  link credit.online_product.name, edit_admins_credit_path(credit)
-  parent :admins_credits
+crumb :admins_event_credit do |event, credit|
+  link credit.online_product.name, edit_admins_event_credit_path(event, credit)
+  parent :admins_event_credits, event
 end
 
-crumb :new_admins_credit do
-  link t("breadcrumbs.new_credit")
-  parent :admins_credits
+crumb :new_admins_event_credit do |event|
+  link t("breadcrumbs.new_credit_type")
+  parent :admins_event_credits, event
 end
 
 ## Customers
 
-crumb :admins_customer_event_profiles do
-  link t("breadcrumbs.customers"), admins_customer_event_profiles_path
+
+crumb :admins_event_customer_event_profiles do |event|
+  link t("breadcrumbs.customer_event_profile"), admins_event_customer_event_profiles_path(event)
+  parent :admins_event, event
 end
 
-crumb :admins_customer_event_profile do |customer_event_profile|
-  link customer_event_profile.customer.name, admins_customer_event_profile_path(customer_event_profile)
-  parent :admins_customer_event_profiles
+crumb :admins_event_customer_event_profile do |event, customer_event_profile|
+  link customer_event_profile_type.name, edit_admins_event_customer_event_profile_path(event, customer_event_profile)
+  parent :admins_event_customer_event_profiles, event
 end
 
-crumb :new_admins_customer_event_profile do
-  link t("breadcrumbs.new_customer")
-  parent :admins_customer_event_profiles
+crumb :new_admins_event_customer_event_profile do |event|
+  link t("breadcrumbs.new_customer_event_profile_type")
+  parent :admins_event_customer_event_profiles, event
 end
 
-crumb :new_admins_customer_event_profile_admission do |customer_event_profile|
+crumb :new_admins_event_customer_event_profile_admission do |event,customer_event_profile|
   link t("breadcrumbs.new_customer_admission")
-  parent :admins_customer_event_profile, customer_event_profile
+  parent :admins_event_customer_event_profiles, event, customer_event_profile
 end
 
-crumb :new_admins_customer_event_profile_gtag_registration do |customer_event_profile|
+crumb :new_admins_event_customer_event_profile_gtag_registration do |event, customer_event_profile|
   link t("breadcrumbs.new_customer_gtag_registration")
-  parent :admins_customer_event_profile, customer_event_profiles
+  parent :admins_event_customer_event_profiles, event, customer_event_profile
 end
 
 
 ## Orders
 
-crumb :admins_orders do
-  link t("breadcrumbs.orders"), admins_orders_path
+crumb :admins_event_orders do |event|
+  link t("breadcrumbs.order"), admins_event_orders_path(event)
+  parent :admins_event, event
 end
 
-crumb :admins_order do |order|
-  link order.number, admins_order_path(order)
-  parent :admins_orders
+crumb :admins_event_order do |event, order|
+  link order_type.name, edit_admins_event_order_path(event, order)
+  parent :admins_event_orders, event
 end
 
-crumb :new_admins_order do
-  link t("breadcrumbs.new_order")
-  parent :admins_orders
+crumb :new_admins_event_order do |event|
+  link t("breadcrumbs.new_order_type")
+  parent :admins_event_orders, event
 end
-
 
 ## Payments
 
-crumb :admins_payments do
-  link t("breadcrumbs.payments"), admins_payments_path
+crumb :admins_event_payments do |event|
+  link t("breadcrumbs.payment"), admins_event_payments_path(event)
+  parent :admins_event, event
 end
 
-crumb :admins_payment do |payment|
-  link payment.id, admins_payment_path(payment)
-  parent :admins_payments
+crumb :admins_event_payment do |event, payment|
+  link payment_type.name, edit_admins_event_payment_path(event, payment)
+  parent :admins_event_payments, event
 end
 
-crumb :new_admins_payment do
-  link t("breadcrumbs.new_payment")
-  parent :admins_payments
+crumb :new_admins_event_payment do |event|
+  link t("breadcrumbs.new_payment_type")
+  parent :admins_event_payments, event
 end
 
 ## Claims
 
-crumb :admins_claims do
-  link t("breadcrumbs.claim"), admins_claims_path
+crumb :admins_event_claims do |event|
+  link t("breadcrumbs.claim"), admins_event_claims_path(event)
+  parent :admins_event, event
 end
 
-crumb :admins_claim do |claim|
-  link claim.number, admins_claim_path(claim)
-  parent :admins_claims
+crumb :admins_event_claim do |event, claim|
+  link claim_type.name, edit_admins_event_claim_path(event, claim)
+  parent :admins_event_claims, event
 end
 
-crumb :new_admins_claim do
-  link t("breadcrumbs.new_claim")
-  parent :admins_claims
+crumb :new_admins_event_claim do |event|
+  link t("breadcrumbs.new_claim_type")
+  parent :admins_event_claims, event
 end
-
 
 ## Refunds
 
-crumb :admins_refunds do
-  link t("breadcrumbs.refunds"), admins_refunds_path
+crumb :admins_event_refunds do |event|
+  link t("breadcrumbs.refund"), admins_event_refunds_path(event)
+  parent :admins_event, event
 end
 
-crumb :admins_refund do |refund|
-  link refund.id, admins_refund_path(refund)
-  parent :admins_refunds
+crumb :admins_event_refund do |event, refund|
+  link refund_type.name, edit_admins_event_refund_path(event, refund)
+  parent :admins_event_refunds, event
 end
 
-crumb :new_admins_refund do
-  link t("breadcrumbs.new_refund")
-  parent :admins_refunds
+crumb :new_admins_event_refund do |event|
+  link t("breadcrumbs.new_refund_type")
+  parent :admins_event_refunds, event
 end
-
-

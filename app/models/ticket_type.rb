@@ -10,6 +10,7 @@
 #  updated_at      :datetime         not null
 #  deleted_at      :datetime
 #  simplified_name :string
+#  event_id        :integer          not null
 #
 
 class TicketType < ActiveRecord::Base
@@ -17,6 +18,7 @@ class TicketType < ActiveRecord::Base
   acts_as_paranoid
 
   # Associations
+  belongs_to :event
   has_many :tickets, dependent: :restrict_with_error
   has_many :entitlement_ticket_types, dependent: :destroy
   has_many :entitlements, through: :entitlement_ticket_types

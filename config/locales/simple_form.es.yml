@@ -168,7 +168,7 @@ es:
           simplified_name: "Un nombre simplificado para tu ticket"
           company: "Compañía del Evento"
           credit: "Créditos Disponibles"
-          entitlement: "Derechos"
+          entitlement: "Privilegios"
         edit:
           <<: *placeholder_ticket_type
       ticket:

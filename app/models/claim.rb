@@ -2,18 +2,18 @@
 #
 # Table name: claims
 #
-#  id           :integer          not null, primary key
-#  customer_id  :integer          not null
-#  number       :string           not null
-#  aasm_state   :string           not null
-#  completed_at :datetime
-#  total        :decimal(8, 2)    not null
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  gtag_id      :integer
-#  service_type :string
-#  fee          :decimal(8, 2)    default(0.0)
-#  minimum      :decimal(8, 2)    default(0.0)
+#  id                        :integer          not null, primary key
+#  customer_event_profile_id :integer          not null
+#  number                    :string           not null
+#  aasm_state                :string           not null
+#  completed_at              :datetime
+#  total                     :decimal(8, 2)    not null
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  gtag_id                   :integer
+#  service_type              :string
+#  fee                       :decimal(8, 2)    default(0.0)
+#  minimum                   :decimal(8, 2)    default(0.0)
 #
 
 class Claim < ActiveRecord::Base
@@ -27,13 +27,13 @@ class Claim < ActiveRecord::Base
 
 
   # Associations
-  belongs_to :customer
+  belongs_to :customer_event_profile
   has_one :refund
   has_many :claim_parameters
   belongs_to :gtag
 
   # Validations
-  validates :customer, :gtag, :service_type, :number, :total, :aasm_state, presence: true
+  validates :customer_event_profile, :gtag, :service_type, :number, :total, :aasm_state, presence: true
 
   # State machine
   include AASM
@@ -99,9 +99,9 @@ class Claim < ActiveRecord::Base
       csv << claim_columns
       all.each do |claim|
         attributes = []
-        attributes[0] = claim.customer.nil? ? '' : claim.customer.name
-        attributes[1] = claim.customer.nil? ? '' : claim.customer.surname
-        attributes[2] = claim.customer.nil? ? '' : claim.customer.email
+        attributes[0] = claim.customer_event_profile.nil? ? '' : claim.customer_event_profile.customer.name
+        attributes[1] = claim.customer_event_profile.nil? ? '' : claim.customer_event_profile.customer.surname
+        attributes[2] = claim.customer_event_profile.nil? ? '' : claim.customer_event_profile.customer.email
         attributes[3] = claim.gtag.nil? ? '' : claim.gtag.tag_uid
         attributes[4] = claim.gtag.nil? ? '' : claim.gtag.tag_serial_number
         attributes[5] = claim.claim_parameters.nil? ? '' : claim.claim_parameters.find_by(parameter_id: Parameter.find_by(category: 'claim', group: 'bank_account', name: 'iban')).value.upcase.gsub(/\s+/, '')

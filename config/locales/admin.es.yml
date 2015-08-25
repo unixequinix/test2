@@ -109,6 +109,7 @@ es:
     confirm:
       delete: "Estás seguro?"
     aside:
+      access: "Acceso"
       event: "Evento"
       details: "Detalles"
       gtag_settings: "Configuración de gtags"

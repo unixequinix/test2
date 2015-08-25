@@ -4,11 +4,11 @@ class CreditsPresenter < BasePresenter
   end
 
   def path
-    'customers/dashboards/credits'
+    'customers/events/dashboards/credits'
   end
 
   def customer_credit_sum
-    customer.credit_logs.sum(:amount).floor
+    customer_event_profile.credit_logs.sum(:amount).floor
   end
 
   def event_started?
@@ -25,7 +25,7 @@ class CreditsPresenter < BasePresenter
 
   private
 
-  def customer
-    @customer ||= @admission ? @admission.customer_event_profile.customer : Customer.new
+  def customer_event_profile
+    @customer_event_profile ||= @admission ? @admission.customer_event_profile : CustomerEventProfile.new
   end
 end

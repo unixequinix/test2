@@ -1,0 +1,16 @@
+- breadcrumb :admins_payments
+- provide :actions do
+  = link_to admins_payments_path(format: "csv"), class: "btn btn-action btn-action-download small"
+    = fa_icon "download"
+    = t('admin.actions.download')
+  = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
+    = fa_icon 'search'
+    = t('admin.actions.search')
+
+.wrapper-negative-space
+  - if @payments.empty?
+    .section-title-empty
+      = image_tag "img-empty.png"
+      p = t("admin.defaults.empty_payments")
+  - else
+    = render "admins/payments/list", payments: @payments

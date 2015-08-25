@@ -1,8 +1,8 @@
 class CheckoutForm
   include ActiveModel::Model
 
-  def initialize(customer)
-    @customer = customer
+  def initialize(customer_event_profile)
+    @customer_event_profile = customer_event_profile
     @order = Order.new
   end
 
@@ -21,7 +21,7 @@ class CheckoutForm
   private
 
   def persist(params)
-    @order.customer = @customer
+    @order.customer_event_profile = @customer_event_profile
     @order.generate_order_number!
     Credit.all.each do |credit|
       amount = params[:credits]["#{credit.id}"].to_i

@@ -16,6 +16,7 @@ class GtagRegistration < ActiveRecord::Base
   # Associations
   belongs_to :customer_event_profile
   belongs_to :gtag
+  has_one :event, through: :gtag
 
   # Validations
   validates :customer_event_profile, :gtag, :aasm_state, presence: true
@@ -34,8 +35,7 @@ class GtagRegistration < ActiveRecord::Base
   end
 
   def refundable_amount
-    # TODO Get event from relation
-    current_event = Event.find(1)
+    current_event = self.event
     standard_credit_price = current_event.standard_credit.online_product.rounded_price
     credit_amount = 0
     credit_amount = self.gtag.gtag_credit_log.amount unless self.gtag.gtag_credit_log.nil?
@@ -43,15 +43,13 @@ class GtagRegistration < ActiveRecord::Base
   end
 
   def refundable_amount_after_fee
-    # TODO Get event from relation
-    current_event = Event.find(1)
+    current_event = self.event
     fee = current_event.get_parameter('refund', current_event.refund_service, 'fee')
     refundable_amount - fee.to_f
   end
 
   def refundable?
-    # TODO Get event from relation
-    current_event = Event.find(1)
+    current_event = self.event
     minimum = current_event.get_parameter('refund', current_event.refund_service, 'minimum')
     !self.gtag.gtag_credit_log.nil? && (refundable_amount_after_fee >= minimum.to_f && refundable_amount_after_fee >= 0)
   end

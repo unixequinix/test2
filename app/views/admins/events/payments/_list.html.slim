@@ -1,0 +1,29 @@
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: payments.count, total: Payment.count)
+table.payments
+  thead
+    tr
+      th = t("admin.payments.id")
+      th = t("admin.payments.order_id")
+      th = t("admin.payments.amount")
+      th = t("admin.payments.transaction_type")
+      th = t("admin.payments.card_country")
+      th = t("admin.payments.response_code")
+      th = t("admin.payments.authorization_code")
+      th = t("admin.payments.currency")
+      th = t("admin.payments.success")
+      th = t("admin.payments.paid")
+  tbody
+    - payments.each do |payment|
+      tr
+        td data-label=t("admin.payments.id") = link_to payment.id, admins_payment_path(payment)
+        td data-label=t("admin.payments.order_id") = link_to payment.order.number, admins_order_path(payment.order)
+        td data-label=t("admin.payments.amount") = payment.amount
+        td data-label=t("admin.payments.transaction_type") = payment.transaction_type
+        td data-label=t("admin.payments.card_country") = payment.card_country
+        td data-label=t("admin.payments.response_code") = payment.response_code
+        td data-label=t("admin.payments.authorization_code") = payment.authorization_code
+        td data-label=t("admin.payments.currency") = payment.currency
+        td data-label=t("admin.payments.success") = payment.success
+        td data-label=t("admin.payments.paid") = payment.paid_at.strftime("%y-%m-%d %H:%M:%S")
+
+= paginate payments

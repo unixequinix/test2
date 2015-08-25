@@ -11,6 +11,7 @@
 #  purchaser_email   :string
 #  purchaser_name    :string
 #  purchaser_surname :string
+#  event_id          :integer          not null
 #
 
 class Ticket < ActiveRecord::Base
@@ -18,14 +19,15 @@ class Ticket < ActiveRecord::Base
   acts_as_paranoid
 
   # Associations
+  belongs_to :event
   has_many :admissions, dependent: :restrict_with_error
   has_one :assigned_admission,
           -> { where(aasm_state: :assigned) },
           class_name: 'Admission'
-  has_many :customers, through: :admissions
-  has_one :assigned_customer,
+  has_many :customer_event_profiles, through: :admissions
+  has_one :assigned_customer_event_profile,
           -> { where(admissions: { aasm_state: :assigned }) },
-          class_name: 'Customer'
+          class_name: 'CustomerEventProfile'
   belongs_to :ticket_type
   has_many :comments, as: :commentable
 

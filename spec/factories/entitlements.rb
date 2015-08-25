@@ -7,6 +7,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  deleted_at :datetime
+#  event_id   :integer          not null
 #
 
 FactoryGirl.define do

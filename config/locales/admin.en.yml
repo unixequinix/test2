@@ -109,6 +109,7 @@ en:
     confirm:
       delete: "Are you sure?"
     aside:
+      access: "Access"
       event: "Event"
       details: "Details"
       gtag_settings: "Gtag Settings"

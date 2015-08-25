@@ -20,7 +20,6 @@ class Refund < ActiveRecord::Base
 
   # Associations
   belongs_to :claim
-  has_one :user, through: :claims
 
   # Validations
   validates :claim, :amount, presence: true

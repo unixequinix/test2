@@ -1,0 +1,9 @@
+p.menu-header
+  = fa_icon "search"
+  = t("admin.defaults.search")
+
+= search_form_for q, url: search_admins_gtags_path, html: { novalidate: true, class: "searchForm" }  do |f|
+  .container-search
+    = f.input :tag_serial_number_cont, placeholder: t("admin.gtags.search.tag_serial")
+    = f.input :tag_uid_cont, placeholder: t("admin.gtags.search.tag_uid")
+    = f.submit class: "btn btn-secondary"

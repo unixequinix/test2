@@ -36,8 +36,10 @@ namespace :db do
     puts 'Create entitlements'
     puts '----------------------------------------'
     Entitlement.destroy_all
-    YAML.load_file(Rails.root.join('db', 'seeds', 'entitlements.yml')).each do |data|
-      Entitlement.create!(name: data['name'])
+    Event.all.each do |event|
+      YAML.load_file(Rails.root.join('db', 'seeds', 'entitlements.yml')).each do |data|
+        Entitlement.create!(event_id: event.id, name: data['name'])
+      end
     end
   end
 
@@ -45,12 +47,14 @@ namespace :db do
     puts 'Create ticket types'
     puts '----------------------------------------'
     TicketType.destroy_all
-    YAML.load_file(Rails.root.join('db', 'seeds', 'ticket_types.yml')).each do |data|
-      ticket_type = TicketType.new(name: data['name'], company: data['company'], credit: data['credit'])
-      data['entitlements'].each do |entitlement|
-        ticket_type.entitlements << Entitlement.find_by(name: entitlement['name'])
+    Event.all.each do |event|
+      YAML.load_file(Rails.root.join('db', 'seeds', 'ticket_types.yml')).each do |data|
+        ticket_type = TicketType.new(event_id: event.id, name: data['name'], company: data['company'], credit: data['credit'])
+        data['entitlements'].each do |entitlement|
+          ticket_type.entitlements << Entitlement.find_by(name: entitlement['name'])
+        end
+        ticket_type.save!
       end
-      ticket_type.save!
     end
   end
 
@@ -58,10 +62,12 @@ namespace :db do
     puts 'Create tickets'
     puts '----------------------------------------'
     Ticket.destroy_all
-    YAML.load_file(Rails.root.join('db', 'seeds', 'tickets.yml')).each do |data|
-      ticket = Ticket.new(number: data['number'])
-      ticket.ticket_type = TicketType.find_by(name: data['ticket_type'])
-      ticket.save!
+    Event.all.each do |event|
+      YAML.load_file(Rails.root.join('db', 'seeds', 'tickets.yml')).each do |data|
+        ticket = Ticket.new(event_id: event.id, number: data['number'])
+        ticket.ticket_type = TicketType.find_by(name: data['ticket_type'])
+        ticket.save!
+      end
     end
   end
 
@@ -69,9 +75,11 @@ namespace :db do
     puts 'Create GTags'
     puts '----------------------------------------'
     Gtag.destroy_all
-    YAML.load_file(Rails.root.join('db', 'seeds', 'gtags.yml')).each do |data|
-      gtag = Gtag.new(tag_serial_number: data['tag_serial_number'], tag_uid: data['tag_uid'])
-      gtag.save!
+    Event.all.each do |event|
+      YAML.load_file(Rails.root.join('db', 'seeds', 'gtags.yml')).each do |data|
+        gtag = Gtag.new(event_id: event.id, tag_serial_number: data['tag_serial_number'], tag_uid: data['tag_uid'])
+        gtag.save!
+      end
     end
   end
 
