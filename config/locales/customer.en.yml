@@ -171,6 +171,11 @@ en:
     success:
       title: 'Payment Done'
       description: 'Thank you for your order. Your payment has been processed. You will receive a confirmation email of your order.'
+
+  sessions:
+    new:
+      email: 'Forgot your password?'
+      password: 'Send me password instructions'
   refund:
     error:
       title: 'Transaction failed'

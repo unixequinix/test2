@@ -22,10 +22,10 @@ class Admins::Events::ClaimsController < Admins::Events::BaseController
     @claim = Claim.find(params[:id])
     if @claim.update(permitted_params)
       flash[:notice] = I18n.t('alerts.updated')
-      redirect_to admins_customer_event_profile_url(@claim.customer_event_profile)
+      redirect_to admins_event_customer_event_profile_url(current_event, @claim.customer_event_profile)
     else
       flash[:error] = @claim.errors.full_messages.join(". ")
-      redirect_to admins_customer_event_profile_url(@claim.customer_event_profile)
+      redirect_to admins_event_customer_event_profile_url(current_event, @claim.customer_event_profile)
     end
   end
 

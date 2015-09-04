@@ -46,6 +46,7 @@ it:
           password: 'Password Attuale'
           password: 'Password'
           password_confirmation: 'Conferma Password'
+          remember_me: 'Ricordare'
           agreed_on_registration: "Ho letto e accetto i termini e le condizioni d'uso"
         edit:
           <<: *label_customer

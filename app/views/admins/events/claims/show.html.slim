@@ -1,6 +1,6 @@
-- breadcrumb :admins_claim, @claim
+- breadcrumb :admins_event_claim, current_event, @claim
 - provide :actions do
-  = link_to admins_claims_path, class: "btn btn-action btn-action-back small" do
+  = link_to admins_event_claims_path(current_event), class: "btn btn-action btn-action-back small" do
     = fa_icon "arrow-circle-left"
     = t('actions.back')
 .wrapper-negative-space
@@ -9,7 +9,7 @@
       dt = t("admin.claims.number")
       dd = @claim.number
       dt = t("admin.claims.customer")
-      dd = link_to @claim.customer_event_profile.customer.email, admins_customer_event_profile_path(@claim.customer_event_profile) unless @claim.customer_event_profile.nil?
+      dd = link_to @claim.customer_event_profile.customer.email, admins_event_customer_event_profile_path(current_event, @claim.customer_event_profile) unless @claim.customer_event_profile.nil?
       dt = t("admin.claims.state")
       dd = @claim.aasm_state
       dt = t("admin.claims.total")

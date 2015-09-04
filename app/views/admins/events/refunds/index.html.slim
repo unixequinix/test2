@@ -1,6 +1,6 @@
-- breadcrumb :admins_refunds
+- breadcrumb :admins_event_refunds, current_event
 - provide :actions do
-  = link_to admins_refunds_path(format: "csv"), class: "btn btn-action btn-action-download small"
+  = link_to admins_event_refunds_path(current_event, format: "csv"), class: "btn btn-action btn-action-download small"
     = fa_icon "download"
     = t('admin.actions.download')
   = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
@@ -13,4 +13,4 @@
       = image_tag "img-empty.png"
       p = t("admin.defaults.empty_refunds")
   - else
-    = render "admins/refunds/list", refunds: @refunds
+    = render "admins/events/refunds/list", refunds: @refunds

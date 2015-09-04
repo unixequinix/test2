@@ -10,6 +10,9 @@ class EpgCheckoutService
 
   def url
     value = create_value
+    puts '------------------------'
+    puts value
+    puts '------------------------'
     md5key = @epg_values[:md5key]
     sha256ParamsIntegrityCheck = Digest::SHA256.hexdigest(value)
 
@@ -54,18 +57,18 @@ class EpgCheckoutService
     value += "&postCode=#{@epg_claim_form.post_code.gsub(valid_characters, ' ')}"
     value += "&telephone=#{@epg_claim_form.phone}"
     value += "&addressLine1=#{@epg_claim_form.address.gsub(valid_characters, ' ')}"
-    value += "&customerEmail=#{@claim.customer.email}"
-    value += "&firstName=#{@claim.customer.name}"
-    value += "&lastName=#{@claim.customer.surname}"
-    value += "&customerId=#{@claim.customer.id}"
+    value += "&customerEmail=#{@claim.customer_event_profile.customer.email}"
+    value += "&firstName=#{@claim.customer_event_profile.customer.name}"
+    value += "&lastName=#{@claim.customer_event_profile.customer.surname}"
+    value += "&customerId=#{@claim.customer_event_profile.customer.id}"
     value += "&merchantId=#{@epg_values[:merchant_id]}"
     value += "&productId=#{@epg_values[:product_id]}"
     value += "&merchantTransactionId=#{@claim.number}"
     value += "&operationType=#{@epg_values[:operation_type]}"
     value += "&paymentSolution=#{@epg_values[:payment_solution]}"
-    value += "&successURL=#{success_customers_refunds_url}"
-    value += "&errorURL=#{error_customers_refunds_url}"
-    value += "&statusURL=#{customers_refunds_url}"
+    value += "&successURL=#{success_event_refunds_url(@claim.customer_event_profile.event)}"
+    value += "&errorURL=#{error_event_refunds_url(@claim.customer_event_profile.event)}"
+    value += "&statusURL=#{event_refunds_url(@claim.customer_event_profile.event)}"
   end
 
 end

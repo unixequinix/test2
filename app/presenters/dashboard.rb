@@ -16,7 +16,7 @@ class Dashboard
   end
 
   def partial
-    "customers/events/dashboards/states/event_#{@event.aasm_state}"
+    "events/events/states/event_#{@event.aasm_state}"
   end
 
   def build_presenter(view)

@@ -1,9 +1,8 @@
-- breadcrumb :admins_customer_event_profile, @customer_event_profile
+- breadcrumb :admins_event_customer_event_profile, current_event, @customer_event_profile
 - provide :actions do
-  = link_to t("admin.actions.assign_ticket"), new_admins_customer_event_profile_admission_path(@customer_event_profile), class: "btn btn-action btn-action-new small" unless @customer_event_profile.assigned_admission
-
-  = link_to t("admin.actions.assign_gtag"), new_admins_customer_event_profile_gtag_registration_path(@customer_event_profile), class: "btn btn-action btn-action-new small" unless @customer_event_profile.assigned_gtag_registration
-  = link_to admins_customer_event_profiles_path, class: "btn btn-action btn-action-back small" do
+  = link_to t("admin.actions.assign_ticket"), new_admins_event_customer_event_profile_admission_path(current_event, @customer_event_profile), class: "btn btn-action btn-action-new small" unless @customer_event_profile.assigned_admission
+  = link_to t("admin.actions.assign_gtag"), new_admins_event_customer_event_profile_gtag_registration_path(current_event, @customer_event_profile), class: "btn btn-action btn-action-new small" unless @customer_event_profile.assigned_gtag_registration
+  = link_to admins_event_customer_event_profiles_path(current_event), class: "btn btn-action btn-action-back small" do
     = fa_icon "arrow-circle-left"
     = t('actions.back')
 .wrapper-negative-space
@@ -26,9 +25,9 @@
       - if !@customer_event_profile.assigned_admission.nil?
         dt = t ("admin.customers.tickets")
         dd
-          = link_to @customer_event_profile.assigned_admission.ticket.number, edit_admins_ticket_path(@customer_event_profile.assigned_admission.ticket)
+          = link_to @customer_event_profile.assigned_admission.ticket.number, edit_admins_event_ticket_path(current_event, @customer_event_profile.assigned_admission.ticket)
           = " - #{@customer_event_profile.assigned_admission.ticket.ticket_type.name}"
-          = link_to admins_admission_path(@customer_event_profile.assigned_admission), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
+          = link_to admins_event_admission_path(current_event, @customer_event_profile.assigned_admission), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
             = fa_icon "trash"
       - else
         dt = t ("admin.customers.tickets")
@@ -40,8 +39,8 @@
       - if !@customer_event_profile.assigned_gtag_registration.nil?
         dt = t ("admin.customers.gtags")
         dd
-          = link_to "#{@customer_event_profile.assigned_gtag_registration.gtag.tag_serial_number} #{@customer_event_profile.assigned_gtag_registration.gtag.tag_uid}", edit_admins_gtag_path(@customer_event_profile.assigned_gtag_registration.gtag)
-          = link_to admins_gtag_registration_path(@customer_event_profile.assigned_gtag_registration), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
+          = link_to "#{@customer_event_profile.assigned_gtag_registration.gtag.tag_serial_number} #{@customer_event_profile.assigned_gtag_registration.gtag.tag_uid}", edit_admins_event_gtag_path(current_event, @customer_event_profile.assigned_gtag_registration.gtag)
+          = link_to admins_event_gtag_registration_path(current_event, @customer_event_profile.assigned_gtag_registration), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
             = fa_icon "trash"
         dt = t("admin.customers.gtag_credits")
         dd = @customer_event_profile.assigned_gtag_registration.gtag.gtag_credit_log.amount unless @customer_event_profile.assigned_gtag_registration.gtag.gtag_credit_log.nil?
@@ -94,7 +93,7 @@
         tbody
           - @customer_event_profile.admissions.each do |admission|
             tr
-              td = link_to "#{admission.ticket.number}", edit_admins_ticket_path(admission.ticket)
+              td = link_to "#{admission.ticket.number}", edit_admins_event_ticket_path(current_event, admission.ticket)
               td = t("admin.admissions.states.#{admission.aasm_state}")
               td = admission.created_at.strftime("%y-%m-%d %H:%M:%S")
 
@@ -128,7 +127,7 @@
         tbody
           - @customer_event_profile.orders.each do |order|
             tr
-              td data-label=t("admin.orders.number") = link_to order.number, admins_order_path(order)
+              td data-label=t("admin.orders.number") = link_to order.number, admins_event_order_path(current_event, order)
               td data-label=t("admin.orders.state") = order.aasm_state
               td data-label=t("admin.orders.created") = order.created_at.strftime("%y-%m-%d %H:%M:%S")
               td data-label=t("admin.orders.completed") = order.completed_at.strftime("%y-%m-%d %H:%M:%S") unless order.completed_at.nil?
@@ -147,7 +146,7 @@
         tbody
           - @customer_event_profile.gtag_registrations.each do |gtag_registration|
             tr
-              td = link_to "#{gtag_registration.gtag.tag_serial_number} #{gtag_registration.gtag.tag_uid}", edit_admins_gtag_path(gtag_registration.gtag)
+              td = link_to "#{gtag_registration.gtag.tag_serial_number} #{gtag_registration.gtag.tag_uid}", edit_admins_event_gtag_path(current_event, gtag_registration.gtag)
               td = t("admin.gtag_registrations.states.#{gtag_registration.aasm_state}")
               td = gtag_registration.created_at.strftime("%y-%m-%d %H:%M:%S")
 
@@ -168,7 +167,7 @@
         tbody
           - @customer_event_profile.claims.each do |claim|
             tr
-              td data-label=t("admin.claims.number") = link_to claim.number, admins_claim_path(claim)
+              td data-label=t("admin.claims.number") = link_to claim.number, admins_event_claim_path(current_event, claim)
               td data-label=t("admin.claims.state") = claim.aasm_state
               td data-label=t("admin.claims.total") = claim.total
               td data-label=t("admin.claims.service_type") = claim.service_type
@@ -178,7 +177,7 @@
                 ul
                   - if claim.completed?
                     li.table-action.action-delete
-                      = link_to admins_claim_path(claim, claim: { aasm_state: :cancelled }), method: :patch, data: { confirm: t("admin.confirm.delete") } do
+                      = link_to admins_event_claim_path(current_event, claim, claim: { aasm_state: :cancelled }), method: :patch, data: { confirm: t("admin.confirm.delete") } do
                         = fa_icon "ban"
 
     - if !@customer_event_profile.completed_claim.nil?
@@ -197,7 +196,7 @@
             th = t('admin.refunds.created_at')
         tbody
           tr
-            td data-label=t("admin.refunds.id") = link_to (@customer_event_profile.completed_claim.refund.id), admins_refund_path(@customer_event_profile.completed_claim.refund)
+            td data-label=t("admin.refunds.id") = link_to (@customer_event_profile.completed_claim.refund.id), admins_event_refund_path(current_event, @customer_event_profile.completed_claim.refund)
             td data-label=t('admin.refunds.amount') = @customer_event_profile.completed_claim.refund.amount
             td data-label=t('admin.refunds.currency') = @customer_event_profile.completed_claim.refund.currency
             td data-label=t('admin.refunds.gateway_transaction_number') = @customer_event_profile.completed_claim.refund.gateway_transaction_number

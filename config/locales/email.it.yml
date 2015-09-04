@@ -6,7 +6,7 @@ it:
       like_on_facebook: 'Mi piace su Facebook'
       suscribe_on_you_tube: 'Abbonati su YouTube'
       communication: "Questo è un messaggio da Glownet"
-      footer: 'Qualche dubbio del servizio? Contatta direttamente il servizio di assistenza del %{event_name}.'
+      footer: 'Qualche dubbio del servizio? Contatta direttamente il servizio di assistenza del %{support_name}.'
       footer_copy: 'Copyright Glownet © %{year} Tutti i diritti riservati.'
       order:
         completed:

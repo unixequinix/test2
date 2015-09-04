@@ -1,0 +1,10 @@
+= simple_form_for @customer, url: event_passwords_path(current_event), method: :post do |f|
+  = f.error_notification
+  .wrapper-field
+    h3.customer-section-header
+      = t('passwords.new.title')
+    .form-inputs
+      = f.input :email, required: true, autofocus: true
+      .container-button.align-right
+        = f.button :submit, t('passwords.new.button'), class: "btn btn-top"
+= render "events/shared/links"

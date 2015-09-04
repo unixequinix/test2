@@ -150,7 +150,7 @@ crumb :admins_event_customer_event_profiles do |event|
 end
 
 crumb :admins_event_customer_event_profile do |event, customer_event_profile|
-  link customer_event_profile_type.name, edit_admins_event_customer_event_profile_path(event, customer_event_profile)
+  link customer_event_profile.customer.name, admins_event_customer_event_profile_path(event, customer_event_profile)
   parent :admins_event_customer_event_profiles, event
 end
 
@@ -178,7 +178,7 @@ crumb :admins_event_orders do |event|
 end
 
 crumb :admins_event_order do |event, order|
-  link order_type.name, edit_admins_event_order_path(event, order)
+  link order.number, admins_event_order_path(event, order)
   parent :admins_event_orders, event
 end
 
@@ -195,7 +195,7 @@ crumb :admins_event_payments do |event|
 end
 
 crumb :admins_event_payment do |event, payment|
-  link payment_type.name, edit_admins_event_payment_path(event, payment)
+  link payment.id, admins_event_payment_path(event, payment)
   parent :admins_event_payments, event
 end
 
@@ -212,7 +212,7 @@ crumb :admins_event_claims do |event|
 end
 
 crumb :admins_event_claim do |event, claim|
-  link claim_type.name, edit_admins_event_claim_path(event, claim)
+  link claim.number, admins_event_claim_path(event, claim)
   parent :admins_event_claims, event
 end
 
@@ -229,7 +229,7 @@ crumb :admins_event_refunds do |event|
 end
 
 crumb :admins_event_refund do |event, refund|
-  link refund_type.name, edit_admins_event_refund_path(event, refund)
+  link refund.id, admins_event_refund_path(event, refund)
   parent :admins_event_refunds, event
 end
 

@@ -1,6 +1,6 @@
-- breadcrumb :admins_order, @order
+- breadcrumb :admins_event_order, current_event, @order
 - provide :actions do
-  = link_to admins_orders_path, class: "btn btn-action btn-action-back small" do
+  = link_to admins_event_orders_path(current_event), class: "btn btn-action btn-action-back small" do
     = fa_icon 'arrow-circle-left'
     = t('actions.back')
 .wrapper-negative-space
@@ -9,7 +9,7 @@
       dt = t("admin.orders.number")
       dd = @order.number
       dt = t("admin.orders.customer")
-      dd = link_to @order.customer_event_profile.customer.email, admins_customer_event_profile_path(@order.customer_event_profile)
+      dd = link_to @order.customer_event_profile.customer.email, admins_event_customer_event_profile_path(current_event, @order.customer_event_profile)
       dt = t("admin.orders.state")
       dd = @order.aasm_state
       dt = t("admin.orders.created")
@@ -60,7 +60,7 @@
           tbody
             - @order.payments.each do |payment|
               tr
-                td data-label=t("admin.payments.id") = link_to payment.id, admins_payment_path(payment)
+                td data-label=t("admin.payments.id") = link_to payment.id, admins_event_payment_path(current_event, payment)
                 td data-label=t("admin.payments.amount") = payment.amount
                 td data-label=t("admin.payments.transaction_type") = payment.transaction_type
                 td data-label=t("admin.payments.card_country") = payment.card_country

@@ -4,8 +4,8 @@ class AdmissionsPresenter < BasePresenter
   end
 
   def path
-    @admission ? 'customers/events/dashboards/admission_form' :
-                  'customers/events/dashboards/admission_activation'
+    @admission ? 'events/events/admission_form' :
+                  'events/events/admission_activation'
   end
 
   def ticket_number

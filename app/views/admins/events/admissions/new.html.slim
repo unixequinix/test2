@@ -1,8 +1,8 @@
-- breadcrumb :new_admins_customer_event_profile_admission, @customer_event_profile
+- breadcrumb :new_admins_event_customer_event_profile_admission, current_event, @customer_event_profile
 - provide :actions do
-  = link_to t("actions.back"), admins_customer_event_profile_path(@customer_event_profile), class: "btn btn-action btn-action-back small"
+  = link_to t("actions.back"), admins_event_customer_event_profile_path(current_event, @customer_event_profile), class: "btn btn-action btn-action-back small"
 
-= form_tag admins_customer_event_profile_admissions_path(@customer_event_profile) do |f|
+= form_tag admins_event_customer_event_profile_admissions_path(current_event, @customer_event_profile) do |f|
   .wrapper-negative-space
     = hidden_field_tag :customer_event_profile_id, @customer_event_profile.id
     .input

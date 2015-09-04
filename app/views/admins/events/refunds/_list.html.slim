@@ -14,9 +14,9 @@ table.refunds
   tbody
     - refunds.each do |refund|
       tr
-        td data-label=t("admin.refunds.id") = link_to (refund.id), admins_refund_path(refund)
-        td data-label=t("admin.refunds.customer_email") = link_to refund.claim.customer_event_profile.customer.email, admins_customer_event_profile_path(refund.claim.customer_event_profile) unless refund.claim.customer_event_profile.customer.nil?
-        td data-label=t('admin.refunds.claim') = link_to "#{refund.claim.number}", admins_claim_path(refund.claim) unless refund.claim.customer_event_profile.customer.nil?
+        td data-label=t("admin.refunds.id") = link_to (refund.id), admins_event_refund_path(current_event, refund)
+        td data-label=t("admin.refunds.customer_email") = link_to refund.claim.customer_event_profile.customer.email, admins_event_customer_event_profile_path(current_event, refund.claim.customer_event_profile) unless refund.claim.customer_event_profile.customer.nil?
+        td data-label=t('admin.refunds.claim') = link_to "#{refund.claim.number}", admins_event_claim_path(current_event, refund.claim) unless refund.claim.customer_event_profile.customer.nil?
         td data-label=t('admin.refunds.amount') = refund.amount
         td data-label=t('admin.refunds.currency') = refund.currency
         td data-label=t('admin.refunds.gateway_transaction_number') = refund.gateway_transaction_number

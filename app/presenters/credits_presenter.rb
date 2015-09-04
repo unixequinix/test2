@@ -4,7 +4,7 @@ class CreditsPresenter < BasePresenter
   end
 
   def path
-    'customers/events/dashboards/credits'
+    'events/events/credits'
   end
 
   def customer_credit_sum

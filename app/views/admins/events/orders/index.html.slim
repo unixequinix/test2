@@ -1,4 +1,4 @@
-- breadcrumb :admins_orders
+- breadcrumb :admins_event_orders, current_event
 - provide :actions do
   = link_to '#search-menu', class: 'btn btn-action btn-action-search small' do
     = fa_icon 'search'
@@ -10,4 +10,4 @@
       = image_tag "img-empty.png"
       p = t("admin.defaults.empty_orders")
   - else
-    = render "admins/orders/list", orders: @orders
+    = render "admins/events/orders/list", orders: @orders

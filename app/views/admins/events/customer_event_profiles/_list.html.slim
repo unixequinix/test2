@@ -14,6 +14,6 @@ table.customers
   tbody
     - customer_event_profiles.each do |customer_event_profile|
       tr [id="customer-#{customer_event_profile.id}"]
-        = render 'admins/customer_event_profiles/row', customer_event_profile: customer_event_profile
+        = render 'admins/events/customer_event_profiles/row', customer_event_profile: customer_event_profile
 
 = paginate customer_event_profiles

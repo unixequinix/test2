@@ -1,0 +1,22 @@
+.wrapper-field.form-inputs
+
+  = render 'events/claims/claim_details', claim: @claim
+
+  .refund-form
+    .form-inputs
+      = simple_form_for @bank_account_claim_form, url: event_bank_account_claims_path(current_event) do |f|
+        = f.input :swift, autofocus: true
+        = f.input :iban, autofocus: true
+        = f.input :claim_id, as: :hidden, input_html: { value: @claim.id }
+        .accept-terms
+          = f.input :agreed_on_claim, as: :boolean, label: ("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), customers_terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), customers_privacy_policy_url, target: '_blank'}").html_safe
+        .disclaimer-list
+          ul
+            li = t('bank_account_claim.bic_swift_disclaimer_html')
+            li = t('bank_account_claim.iban_disclaimer_html')
+
+        .wrapper-secure-payment
+          = render 'events/shared/ssl_cert_seal'
+        .container-order-buttons
+          = f.button :submit, t('claims.button'), class: "btn btn-top"
+

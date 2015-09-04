@@ -13,7 +13,7 @@
         dd = event_parameter.value
 
 
-      dt = link_to t("admin.event.refund_success_message"), success_customers_refunds_url, target: "_blank"
+      dt = link_to t("admin.event.refund_success_message"), success_event_refunds_url(current_event), target: "_blank"
       dd = @event.refund_success_message
       dt = t("admin.event.mass_email_claim_notification")
       dd = @event.mass_email_claim_notification

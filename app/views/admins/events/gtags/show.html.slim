@@ -36,7 +36,7 @@
       tbody
         - @gtag.gtag_registrations.each do |gtag_registration|
           tr
-            td = link_to gtag_registration.customer_event_profile.customer.email, admins_event_customer_event_profile_path(gtag_registration.customer_event_profile.customer) unless gtag_registration.nil? || gtag_registration.customer_event_profile.customer.nil?
+            td = link_to gtag_registration.customer_event_profile.customer.email, admins_event_customer_event_profile_path(current_event, gtag_registration.customer_event_profile) unless gtag_registration.nil? || gtag_registration.customer_event_profile.customer.nil?
             td = "#{gtag_registration.customer_event_profile.customer.name} #{gtag_registration.customer_event_profile.customer.surname}" unless gtag_registration.nil? || gtag_registration.customer_event_profile.customer.nil?
             td = t("admin.gtag_registrations.states.#{gtag_registration.aasm_state}")
             td = gtag_registration.created_at.strftime("%y-%m-%d %H:%M:%S")
@@ -45,7 +45,7 @@
               ul
                 - if gtag_registration.assigned?
                   li.table-action.action-delete
-                    = link_to admins_event_gtag_registration_path(gtag_registration), method: :delete, data: { confirm: t("admin.confirm.delete") } do
+                    = link_to admins_event_gtag_registration_path(current_event, gtag_registration), method: :delete, data: { confirm: t("admin.confirm.delete") } do
                       = fa_icon "ban"
 
   = render partial: "admins/comments/comments", locals: {commentable: @gtag}

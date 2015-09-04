@@ -1,0 +1,12 @@
+= simple_form_for @customer, url: event_confirmations_path(current_event), method: :post do |f|
+  = f.error_notification
+  .wrapper-field
+    h3.customer-section-header
+      = t('devise.confirmations.title')
+    = f.full_error :confirmation_token
+    .form-inputs
+      = f.input :email, required: true, autofocus: true
+      .container-button.align-right
+        = f.button :submit, t('devise.confirmations.button'), class: "btn btn-top"
+= render "events/shared/links"
+

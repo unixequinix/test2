@@ -1,13 +1,7 @@
 class ApplicationController < ActionController::Base
-  helper_method :current_event
-  before_action :fetch_current_event
   protect_from_forgery with: :exception
   before_action :set_locale
   before_filter :check_for_mobile
-
-  def current_event
-    @current_event || Event.new
-  end
 
   private
 
@@ -15,6 +9,11 @@ class ApplicationController < ActionController::Base
     return admin_root_path if resource == :admin
     return customer_root_path if resource == :customer
     root_path
+  end
+
+
+  def after_confirmation_path_for(resource_name, resource)
+    new_customer_session_path(confirmed: true)
   end
 
   # Get locale from user's browser and set it, unless it's present in session.
@@ -55,12 +54,6 @@ class ApplicationController < ActionController::Base
     request.user_agent =~ (/(iPhone|iPod|Android|webOS|Mobile|iPad)/)
   end
 
-  def fetch_current_event
-    id = params[:event_id] || params[:id]
-    # @current_event = Event.friendly.find(id)
-    @current_event = Event.first
-    # TODO User authentication
-  end
 
   helper_method :mobile_device?
 end
