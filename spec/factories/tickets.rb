@@ -18,8 +18,9 @@ FactoryGirl.define do
   factory :ticket do
     sequence(:number) { |n| n.to_s }
     ticket_type
-    purchaser_email 'purchaser@email.com'
-    purchaser_name 'John'
-    purchaser_surname 'Doe'
+    purchaser_email { Faker::Internet.email }
+    purchaser_name { Faker::Name.first_name }
+    purchaser_surname { Faker::Name.last_name }
+    event
   end
 end
