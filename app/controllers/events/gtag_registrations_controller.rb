@@ -13,7 +13,7 @@ class Events::GtagRegistrationsController < Events::BaseController
       @gtag_registration = current_customer_event_profile.gtag_registrations.build(gtag: gtag)
       if @gtag_registration.save
         flash[:notice] = I18n.t('alerts.created')
-        GtagMailer.assigned_email(@gtag_registration, current_event).deliver_later
+        GtagMailer.assigned_email(@gtag_registration).deliver_later
         redirect_to event_url(current_event)
       else
         flash[:error] = @gtag_registration.errors.full_messages.join(". ")
@@ -29,7 +29,7 @@ class Events::GtagRegistrationsController < Events::BaseController
     @gtag_registration = GtagRegistration.find(params[:id])
     @gtag_registration.unassign!
     flash[:notice] = I18n.t('alerts.unassigned')
-    GtagMailer.unassigned_email(@gtag_registration, current_event).deliver_later
+    GtagMailer.unassigned_email(@gtag_registration).deliver_later
     redirect_to event_url(current_event)
   end
 
