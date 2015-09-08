@@ -1,9 +1,0 @@
-.wrapper-fit.centered
-  = image_tag "img-bar-code.png", class: "wristband-image bar-code"
-  h3 = t('admissions.call_to_action')
-  p = t('admissions.description')
-  p = t('admissions.description2')
-  = form_tag customers_admissions_path do |f|
-    .assign-input
-      = text_field_tag :ticket_number, nil, placeholder: t('admissions.placeholders.ticket_number')
-    = submit_tag t('admissions.button'), class: "btn"

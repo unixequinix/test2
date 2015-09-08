@@ -10,9 +10,6 @@ class EpgCheckoutService
 
   def url
     value = create_value
-    puts '------------------------'
-    puts value
-    puts '------------------------'
     md5key = @epg_values[:md5key]
     sha256ParamsIntegrityCheck = Digest::SHA256.hexdigest(value)
 

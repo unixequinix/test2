@@ -1,15 +1,14 @@
 class OrderMailer < ApplicationMailer
   def completed_email(order, event)
     config_parameters(order, event)
-    mail(to: order.customer.email, subject: I18n.t('email.customer.order.completed.subject'))
-
+    mail(to: order.customer_event_profile.customer.email, subject: I18n.t('email.customer.order.completed.subject'))
   end
 
   private
 
   def config_parameters(order, event)
     headers['X-No-Spam'] = 'True'
-    @name = order.customer.name + ' ' + order.customer.surname
+    @name = order.customer_event_profile.customer.name + ' ' + order.customer_event_profile.customer.surname
     @order = order
     @event = event
   end

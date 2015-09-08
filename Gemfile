@@ -87,6 +87,7 @@ group :development do
   gem 'annotate', '~> 2.6.8'
   gem 'bullet', '~> 4.14.4' # Help to kill N+1 queries and unused eager loading
   gem 'rails-erd', '~> 1.3.1' # Entity-relationship diagrams (ERD)
+  gem 'railroady', '~> 1.3.1' # Controller diagrams (ERD)
   gem 'quiet_assets', '~> 1.1.0'
   gem 'hirb', '~> 0.7.3' #  Improve ripl(irb)'s default inspect output
   # bundle exec rake doc:rails generates the API under doc/api.
