@@ -21,7 +21,7 @@
           td data-label=t("admin.tickets.number") = link_to ticket.number, admins_event_ticket_path(current_event, ticket)
           td data-label=t("admin.tickets.ticket_type") = ticket.ticket_type.name unless ticket.ticket_type.nil?
           td data-label=t("admin.tickets.ticket_type_simplified") = ticket.ticket_type.simplified_name unless ticket.ticket_type.nil?
-          td data-label=t("admin.tickets.customer") = link_to ticket.assigned_admission.customer.email, admins_customer_event_profile_path(ticket.assigned_admission.customer) unless ticket.assigned_admission.nil?
+          td data-label=t("admin.tickets.customer") = link_to ticket.assigned_admission.customer_event_profile.customer.email, admins_event_customer_event_profile_path(current_event, ticket.assigned_admission.customer_event_profile) unless ticket.assigned_admission.nil?
           td data-label=t("admin.purchasers.email") = ticket.purchaser_email
           td.table-actions-field
             = render 'admins/events/tickets/actions', ticket: ticket unless current_event.started?
