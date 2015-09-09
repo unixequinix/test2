@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150824103123) do
+ActiveRecord::Schema.define(version: 20150908165710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,7 +132,6 @@ ActiveRecord::Schema.define(version: 20150824103123) do
   end
 
   create_table "claims", force: :cascade do |t|
-    t.integer  "customer_event_profile_id", null: false, index: {name: "fk__claims_customer_id"}, foreign_key: {references: "customers", name: "fk_claims_customer_id", on_update: :no_action, on_delete: :no_action}
     t.string   "number",                    null: false, index: {name: "index_claims_on_number", unique: true}
     t.string   "aasm_state",                null: false
     t.datetime "completed_at"
@@ -143,6 +142,7 @@ ActiveRecord::Schema.define(version: 20150824103123) do
     t.string   "service_type"
     t.decimal  "fee",                       precision: 8, scale: 2, default: 0.0
     t.decimal  "minimum",                   precision: 8, scale: 2, default: 0.0
+    t.integer  "customer_event_profile_id", index: {name: "index_claims_on_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "claims_customer_event_profile_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "parameters", force: :cascade do |t|
@@ -173,11 +173,11 @@ ActiveRecord::Schema.define(version: 20150824103123) do
   end
 
   create_table "credit_logs", force: :cascade do |t|
-    t.integer  "customer_event_profile_id", null: false, index: {name: "fk__credit_logs_customer_id"}, foreign_key: {references: "customers", name: "fk_credit_logs_customer_id", on_update: :no_action, on_delete: :no_action}
     t.string   "transaction_type"
     t.decimal  "amount",                    precision: 8, scale: 2, null: false
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.integer  "customer_event_profile_id", index: {name: "index_credit_logs_on_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "credit_logs_customer_event_profile_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "credits", force: :cascade do |t|
@@ -248,7 +248,7 @@ ActiveRecord::Schema.define(version: 20150824103123) do
     t.string   "aasm_state"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
-    t.integer  "customer_event_profile_id", default: 1, null: false, index: {name: "index_gtag_registrations_on_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "gtag_registrations_admission_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.integer  "customer_event_profile_id", null: false, index: {name: "index_gtag_registrations_on_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "gtag_registrations_admission_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "online_products", force: :cascade do |t|
@@ -268,12 +268,12 @@ ActiveRecord::Schema.define(version: 20150824103123) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.integer  "customer_event_profile_id", null: false, index: {name: "fk__orders_customer_id"}, foreign_key: {references: "customers", name: "fk_orders_customer_id", on_update: :no_action, on_delete: :no_action}
     t.string   "number",                    null: false, index: {name: "index_orders_on_number", unique: true}
     t.string   "aasm_state",                null: false
     t.datetime "completed_at"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.integer  "customer_event_profile_id", index: {name: "index_orders_on_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "orders_customer_event_profile_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "order_items", force: :cascade do |t|

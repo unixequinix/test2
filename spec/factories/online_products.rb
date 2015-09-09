@@ -22,6 +22,7 @@ FactoryGirl.define do
   factory :online_product do
     name { Faker::Lorem.word }
     description { Faker::Lorem.sentence }
+    event
     price '9.99'
     min_purchasable '1'
     max_purchasable '10'

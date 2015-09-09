@@ -17,9 +17,13 @@
 
 FactoryGirl.define do
   factory :refund do
-    aasm_state 'created'
-    gtag
-    customer
-    bank_account
+    claim
+    amount 9.98
+    currency "dummy"
+    message "dummy"
+    operation_type "dummy"
+    gateway_transaction_number "dummy"
+    payment_solution "dummy"
+    status "dummy"
   end
 end

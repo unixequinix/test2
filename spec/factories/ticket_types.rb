@@ -17,7 +17,7 @@ FactoryGirl.define do
   factory :ticket_type do
     name { Faker::Lorem.word }
     company { Faker::Lorem.word }
-    credit '9.99'
+    credit 9.99
     simplified_name { Faker::Lorem.word }
     event
 

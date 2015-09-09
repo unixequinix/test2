@@ -1,7 +1,10 @@
 class ChangeTopupAndRefundsReferences < ActiveRecord::Migration
   def change
-    rename_column :orders, :customer_id, :customer_event_profile_id
-    rename_column :claims, :customer_id, :customer_event_profile_id
-    rename_column :credit_logs, :customer_id, :customer_event_profile_id
+    add_reference :orders, :customer_event_profile, index: true
+    add_reference :claims, :customer_event_profile, index: true
+    add_reference :credit_logs, :customer_event_profile, index: true
+    remove_reference :orders, :customer, index: true
+    remove_reference :claims, :customer, index: true
+    remove_reference :credit_logs, :customer, index: true
   end
 end

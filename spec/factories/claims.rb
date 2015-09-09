@@ -1,27 +1,27 @@
 # == Schema Information
 #
-# Table name: orders
+# Table name: claims
 #
 #  id                        :integer          not null, primary key
 #  number                    :string           not null
 #  aasm_state                :string           not null
 #  completed_at              :datetime
+#  total                     :decimal(8, 2)    not null
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
+#  gtag_id                   :integer
+#  service_type              :string
+#  fee                       :decimal(8, 2)    default(0.0)
+#  minimum                   :decimal(8, 2)    default(0.0)
 #  customer_event_profile_id :integer
 #
 
 FactoryGirl.define do
-  factory :order do
-    number { Faker::Number.number(10) }
+  factory :claim do
     customer_event_profile
-
-    transient do
-      item_count 3
-    end
-
-    after :build do |order|
-      order.order_items << FactoryGirl.build(:order_item, order: order)
-    end
+    number { Faker::Number.number(10) }
+    total 9.98
+    gtag
+    service_type "dummy"
   end
 end

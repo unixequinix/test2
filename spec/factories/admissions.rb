@@ -15,6 +15,5 @@ FactoryGirl.define do
   factory :admission do
     customer_event_profile
     ticket
-    aasm_state 'assigned'
   end
 end

@@ -3,12 +3,12 @@
 # Table name: orders
 #
 #  id                        :integer          not null, primary key
-#  customer_event_profile_id :integer          not null
 #  number                    :string           not null
 #  aasm_state                :string           not null
 #  completed_at              :datetime
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
+#  customer_event_profile_id :integer
 #
 
 class Order < ActiveRecord::Base

@@ -7,11 +7,14 @@
 #  tag_serial_number :string
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  deleted_at        :datetime
+#  event_id          :integer          not null
 #
 
 FactoryGirl.define do
   factory :gtag do
-    tag_uid 'TagUID'
+    event
+    tag_uid { Faker::Number.number(10) }
     tag_serial_number { Faker::Number.number(10) }
   end
 end

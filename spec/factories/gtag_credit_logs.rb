@@ -11,7 +11,7 @@
 
 FactoryGirl.define do
   factory :gtag_credit_log do
-    amount '9.99'
     gtag
+    amount '9.99'
   end
 end

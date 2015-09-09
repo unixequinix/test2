@@ -3,7 +3,6 @@
 # Table name: claims
 #
 #  id                        :integer          not null, primary key
-#  customer_event_profile_id :integer          not null
 #  number                    :string           not null
 #  aasm_state                :string           not null
 #  completed_at              :datetime
@@ -14,6 +13,7 @@
 #  service_type              :string
 #  fee                       :decimal(8, 2)    default(0.0)
 #  minimum                   :decimal(8, 2)    default(0.0)
+#  customer_event_profile_id :integer
 #
 
 class Claim < ActiveRecord::Base

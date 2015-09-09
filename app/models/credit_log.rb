@@ -3,11 +3,11 @@
 # Table name: credit_logs
 #
 #  id                        :integer          not null, primary key
-#  customer_event_profile_id :integer          not null
 #  transaction_type          :string
 #  amount                    :decimal(8, 2)    not null
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
+#  customer_event_profile_id :integer
 #
 
 class CreditLog < ActiveRecord::Base

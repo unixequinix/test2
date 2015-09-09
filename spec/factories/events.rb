@@ -31,8 +31,7 @@
 
 FactoryGirl.define do
   factory :event do
-    name { Faker::Lorem.word }
-    aasm_state 'created'
+    name { Faker::Lorem.words(2).join + Faker::Code.ean }
     location { Faker::Address.street_address }
     start_date { Time.now }
     end_date { Time.now + 2.days }
