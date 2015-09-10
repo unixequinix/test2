@@ -34,3 +34,4 @@ es:
       other_than: "debe ser distinto que %{count}"
       odd: "debe ser impar"
       even: "debe ser par"
+      not_belong_to_event: "no pertenece a este evento"

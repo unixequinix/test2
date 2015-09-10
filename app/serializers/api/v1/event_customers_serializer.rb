@@ -1,18 +1,22 @@
 module Api
   module V1
     class EventCustomersSerializer < Api::V1::BaseSerializer
-      # attributes :ticket_credits, :purchased_credits, :refund_status
-      attributes :customers
+      attributes :customer_event_profiles
 
-      def customers
-        customer_query.map do |customer|
-          Api::V1::CustomerSerializer.new(customer, scope: scope, root: false)
+      def customer_event_profiles
+        customer_event_profile_query.map do |customer_event_profile|
+          Api::V1::CustomerEventProfileSerializer.new(customer_event_profile, scope: scope, root: false)
         end.flatten
       end
 
-      def customer_query
-        query = Customer.all
-          .includes(:assigned_admission, :assigned_gtag_registration, :completed_claim, :refunds, :credit_logs, :claims, :gtag, :ticket)
+      def customer_event_profile_query
+        query = object
+          .includes(:assigned_admission,
+                    :assigned_gtag_registration,
+                    :completed_claim,
+                    :refunds,
+                    :credit_logs,
+                    :claims)
       end
     end
   end

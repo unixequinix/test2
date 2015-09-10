@@ -15,5 +15,9 @@ FactoryGirl.define do
   factory :admission do
     customer_event_profile
     ticket
+
+    before :create do |admission, evaluator|
+      evaluator.customer_event_profile.event = evaluator.ticket.event
+    end
   end
 end

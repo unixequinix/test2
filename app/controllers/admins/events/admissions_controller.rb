@@ -19,7 +19,7 @@ class Admins::Events::AdmissionsController < Admins::Events::BaseController
         render :new
       end
     else
-      flash[:error] = I18n.t('alerts.admissions', companies: TicketType.companies.join(', '))
+      flash[:error] = I18n.t('alerts.admissions', companies: TicketType.where(event: current_event).companies.join(', '))
       render :new
     end
   end

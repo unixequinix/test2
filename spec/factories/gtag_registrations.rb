@@ -14,5 +14,9 @@ FactoryGirl.define do
   factory :gtag_registration do
     gtag
     customer_event_profile
+
+    before :create do |gtag_registration, evaluator|
+      evaluator.customer_event_profile.event = evaluator.gtag.event
+    end
   end
 end
