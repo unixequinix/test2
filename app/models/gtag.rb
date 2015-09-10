@@ -21,7 +21,7 @@ class Gtag < ActiveRecord::Base
   FORMATS = [STANDARD, CARD, SIMPLE]
 
 
-  before_save :upcase_gtag
+  before_validation :upcase_gtag
   default_scope { order(:id) }
   acts_as_paranoid
 
@@ -40,8 +40,8 @@ class Gtag < ActiveRecord::Base
   accepts_nested_attributes_for :gtag_credit_log, allow_destroy: true
 
   # Validations
+  validates_uniqueness_of :tag_uid, scope: :event_id
   validates :tag_uid, :tag_serial_number, presence: true
-  validates_uniqueness_of :tag_uid, conditions: -> { where(deleted_at: nil) }
 
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|

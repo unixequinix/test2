@@ -21,6 +21,7 @@ class GtagRegistration < ActiveRecord::Base
   # Validations
   validates :customer_event_profile, :gtag, :aasm_state, presence: true
   validates_uniqueness_of :gtag, conditions: -> { where(aasm_state: :assigned) }
+  validate :gtag_belongs_to_current_event
 
   # State machine
   include AASM
@@ -56,6 +57,12 @@ class GtagRegistration < ActiveRecord::Base
 
   def customer_event_profile
     CustomerEventProfile.unscoped { super }
+  end
+
+  private
+
+  def gtag_belongs_to_current_event
+    errors.add(:gtag_id, I18n.t("errors.messages.not_belong_to_event")) unless self.gtag.event == self.customer_event_profile.event
   end
 
 end

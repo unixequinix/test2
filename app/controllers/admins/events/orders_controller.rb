@@ -1,8 +1,10 @@
 class Admins::Events::OrdersController < Admins::Events::BaseController
 
   def index
-    @q = Order.search(params[:q])
-    @orders = @q.result(distinct: true).page(params[:page]).includes(:customer_event_profile)
+    @q = Order.joins(:customer_event_profile)
+      .where(customer_event_profiles: { event_id: current_event.id })
+      .search(params[:q])
+    @orders = @q.result(distinct: true).page(params[:page]).includes(:customer_event_profile, customer_event_profile: :customer)
   end
 
   def search

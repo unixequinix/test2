@@ -1,7 +1,9 @@
 class Admins::Events::ClaimsController < Admins::Events::BaseController
   def index
-    @q = Claim.search(params[:q])
-    @claims = @q.result(distinct: true).page(params[:page]).includes(:customer_event_profile)
+    @q = Claim.joins(:customer_event_profile)
+      .where(customer_event_profiles: { event_id: current_event.id })
+      .search(params[:q])
+    @claims = @q.result(distinct: true).page(params[:page]).includes(:customer_event_profile, customer_event_profile: :customer)
     respond_to do |format|
       format.html
       format.csv { send_data Claim.where(service_type: :bank_account, aasm_state: :completed).to_csv }
@@ -9,7 +11,9 @@ class Admins::Events::ClaimsController < Admins::Events::BaseController
   end
 
   def search
-    @q = Claim.search(params[:q])
+    @q = Claim.joins(:customer_event_profile)
+      .where(customer_event_profiles: { event_id: current_event.id })
+      .search(params[:q])
     @claims = @q.result(distinct: true).page(params[:page]).includes(:customer_event_profile)
     render :index
   end

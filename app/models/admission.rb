@@ -22,6 +22,7 @@ class Admission < ActiveRecord::Base
   validates :customer_event_profile, :ticket, :aasm_state, presence: true
   validates_uniqueness_of :ticket,
     conditions: -> { where(aasm_state: :assigned) }
+  validate :ticket_belongs_to_current_event
 
   # State machine
   include AASM
@@ -33,5 +34,16 @@ class Admission < ActiveRecord::Base
     event :unassign do
       transitions from: :assigned, to: :unassigned
     end
+  end
+
+  private
+
+  def ticket_belongs_to_current_event
+    puts '-----------'
+    puts self.ticket.ticket_type.name
+    puts self.ticket.ticket_type.event.name
+    puts self.customer_event_profile.event.name
+    puts '-----------'
+    errors.add(:ticket_id, I18n.t("errors.messages.not_belong_to_event")) unless self.ticket.event == self.customer_event_profile.event
   end
 end

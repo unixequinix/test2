@@ -580,6 +580,3 @@ DEPENDENCIES
   uglifier (~> 2.7.1)
   virtus (~> 1.0.5)
   whenever (~> 0.9.4)
-
-BUNDLED WITH
-   1.10.6

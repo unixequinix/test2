@@ -2,7 +2,7 @@ p.menu-header
   = fa_icon "search"
   = t("admin.defaults.search")
 
-= search_form_for q, url: search_admins_orders_path, html: { novalidate: true, class: "searchForm" }  do |f|
+= search_form_for q, url: search_admins_event_orders_path, html: { novalidate: true, class: "searchForm" }  do |f|
   .container-search
     = f.input :number_cont, placeholder: t("admin.orders.search.number")
     .range

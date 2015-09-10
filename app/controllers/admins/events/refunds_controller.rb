@@ -1,8 +1,10 @@
 class Admins::Events::RefundsController < Admins::Events::BaseController
 
   def index
-    @q = Refund.search(params[:q])
-    @refunds = @q.result(distinct: true).page(params[:page]).includes(:claim, claim: :customer_event_profile)
+    @q = Refund.joins(claim: :customer_event_profile)
+      .where(customer_event_profiles: { event_id: current_event.id })
+      .search(params[:q])
+    @refunds = @q.result(distinct: true).page(params[:page]).includes(:claim, claim: [:customer_event_profile, customer_event_profile: :customer])
     respond_to do |format|
       format.html
       format.csv { send_data Refund.all.to_csv }
@@ -10,8 +12,10 @@ class Admins::Events::RefundsController < Admins::Events::BaseController
   end
 
   def search
-    @q = Refund.search(params[:q])
-    @refunds = @q.result(distinct: true).page(params[:page]).includes(:claim, claim: :customer_event_profile)
+    @q = Refund.joins(:customer_event_profile)
+      .where(customer_event_profiles: { event_id: current_event.id })
+      .search(params[:q])
+    @refunds = @q.result(distinct: true).page(params[:page]).includes(:claim, claim: [:customer_event_profile, customer_event_profile: :customer])
     render :index
   end
 

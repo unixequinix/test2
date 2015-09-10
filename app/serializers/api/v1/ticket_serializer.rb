@@ -6,8 +6,8 @@ module Api
       has_one :assigned_admission
 
       def customer_assignation_history
-        object.customers.map do |customer|
-          "#{customer.name} #{customer.surname} <#{customer.email}>"
+        object.customer_event_profiles.map do |customer_event_profile|
+          "#{customer_event_profile.customer.name} #{customer_event_profile.customer.surname} <#{customer_event_profile.customer.email}>"
         end.join(', ')
       end
 
