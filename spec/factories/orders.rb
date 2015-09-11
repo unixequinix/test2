@@ -21,7 +21,7 @@ FactoryGirl.define do
     end
 
     after :build do |order|
-      order.order_items << FactoryGirl.build(:order_item, order: order)
+      order.order_items << build(:order_item, order: order)
     end
   end
 end

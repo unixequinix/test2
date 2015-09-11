@@ -39,6 +39,7 @@ class Admission < ActiveRecord::Base
   private
 
   def ticket_belongs_to_current_event
+    binding.pry
     errors.add(:ticket_id, I18n.t("errors.messages.not_belong_to_event")) unless self.ticket.event == self.customer_event_profile.event
   end
 end

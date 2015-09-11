@@ -11,8 +11,7 @@
 #  updated_at                :datetime         not null
 #
 
-require 'rails_helper'
+class Admission < ActiveRecord::Base
 
-RSpec.describe Admission, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
 end
+

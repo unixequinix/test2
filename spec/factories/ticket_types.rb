@@ -27,7 +27,7 @@ FactoryGirl.define do
 
     after(:build) do |ticket_type, evaluator|
       ticket_type.entitlements <<
-        FactoryGirl.build_list(:entitlement, evaluator.posts_count)
+        build_list(:entitlement, evaluator.posts_count)
     end
 
 

@@ -15,14 +15,14 @@ FactoryGirl.define do
     transient do
       position_of_value [0,1,2].sample
     end
-    value { [Faker::Lorem.word, Faker::Number.number(5), Faker::Number.decimal(2)][position_of_value]}
+    value { [Faker::Lorem.word, Faker::Number.number(5), Faker::Number.decimal(2)][position_of_value] }
     event
 
     after :build do |event_parameter, evaluator|
       case evaluator.position_of_value
-        when 0 then event_parameter.parameter = FactoryGirl.build(:parameter, data_type: "string" )
-        when 1 then event_parameter.parameter = FactoryGirl.build(:parameter, data_type: "integer" )
-        when 2 then event_parameter.parameter = FactoryGirl.build(:parameter, data_type: "currency" )
+        when 0 then event_parameter.parameter = build(:parameter, data_type: "string")
+        when 1 then event_parameter.parameter = build(:parameter, data_type: "integer")
+        when 2 then event_parameter.parameter = build(:parameter, data_type: "currency")
       end
     end
   end

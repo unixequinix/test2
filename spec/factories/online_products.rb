@@ -23,7 +23,7 @@ FactoryGirl.define do
     name { Faker::Lorem.word }
     description { Faker::Lorem.sentence }
     event
-    price '9.99'
+    price { Faker::Number.decimal(2) }
     min_purchasable '1'
     max_purchasable '10'
     initial_amount '20'
