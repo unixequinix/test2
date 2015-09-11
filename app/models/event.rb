@@ -64,8 +64,6 @@ class Event < ActiveRecord::Base
   has_many :gtag_registrations, through: :gtags
   has_many :online_products
   has_many :credits, through: :online_products, source: :purchasable, source_type: "Credit"
-  has_one :standard_credit, -> { credits.where(standard: true)}
-
   extend FriendlyId
   friendly_id :name, use: :slugged
 
