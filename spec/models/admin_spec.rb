@@ -55,5 +55,22 @@ RSpec.describe Admin, type: :model do
         end
       end
     end
+
+    describe 'a new token' do
+      it "is set" do
+        admin = create(:admin)
+        expect(admin.access_token).not_to be_nil
+      end
+    end
+  end
+
+  context 'with an existing admin' do
+    describe 'the token' do
+      it "can be validated" do
+        admin = create(:admin)
+        token = admin.access_token
+        expect(admin.valid_token?(token)).to eq(true)
+      end
+    end
   end
 end

@@ -23,4 +23,18 @@ RSpec.describe OnlineProduct, type: :model do
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_presence_of(:description) }
   it { is_expected.to validate_presence_of(:price) }
+  it { is_expected.to validate_presence_of(:min_purchasable) }
+  it { is_expected.to validate_presence_of(:max_purchasable) }
+  it { is_expected.to validate_presence_of(:initial_amount) }
+  it { is_expected.to validate_presence_of(:step) }
+
+
+  it "returns the price formated. It returns the price truncated if the decimal is .0, if it is not, it returns the number without any change" do
+    online_product = build(:online_product, price: 1.0)
+    expect(online_product.rounded_price).to eq(1)
+
+    online_product = build(:online_product, price: 1.5)
+    expect(online_product.rounded_price).to eq(1.5)
+  end
+
 end

@@ -11,5 +11,7 @@
 #  updated_at                :datetime         not null
 #
 
-require 'rails_helper'
+class Admission < ActiveRecord::Base
+
+end
 

@@ -14,7 +14,7 @@
 FactoryGirl.define do
   factory :gtag do
     event
-    tag_uid { Faker::Number.number(10) }
-    tag_serial_number { Faker::Number.number(10) }
+    tag_uid { Faker::Lorem.characters(10) }
+    tag_serial_number { Faker::Lorem.characters(10) }
   end
 end

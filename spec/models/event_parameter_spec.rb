@@ -1,5 +1,5 @@
 require 'rails_helper'
 
 RSpec.describe EventParameter, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  pending "validation error: event parameter and value should be set."
 end

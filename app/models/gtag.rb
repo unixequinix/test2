@@ -21,7 +21,7 @@ class Gtag < ActiveRecord::Base
   FORMATS = [STANDARD, CARD, SIMPLE]
 
 
-  before_validation :upcase_gtag
+  before_validation :upcase_gtag!
   default_scope { order(:id) }
   acts_as_paranoid
 
@@ -88,7 +88,7 @@ class Gtag < ActiveRecord::Base
 
   private
 
-  def upcase_gtag
+  def upcase_gtag!
     self.tag_uid.upcase!
     self.tag_serial_number.upcase!
   end
