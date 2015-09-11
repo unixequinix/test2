@@ -64,6 +64,7 @@ class Event < ActiveRecord::Base
   has_many :gtag_registrations, through: :gtags
   has_many :online_products
   has_many :credits, through: :online_products, source: :purchasable, source_type: "Credit"
+
   extend FriendlyId
   friendly_id :name, use: :slugged
 

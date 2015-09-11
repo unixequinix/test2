@@ -1,9 +1,9 @@
 # config valid only for current version of Capistrano
 lock '3.4.0'
 
-set :application, 'gspot'
-set :repo_url, 'git@dev.glownet.com:acidtango/gspot.git'
-set :deploy_to, '~/glownet_gspot'
+set :application, 'glownet_web'
+set :repo_url, 'git@gitlab.dev.glownet.com:acidtango/glownet_web.git'
+set :deploy_to, '~/glownet_web'
 set :bundle_without, [:darwin, :development, :test]
 
 # Default value for :scm is :git
