@@ -255,7 +255,10 @@ en:
         name: "Type name"
         surname: "Type surname"
         email: "Type email"
-        confirmed_at: "Not confirmed"
+        confirmed: "Confirmed?"
+        tickets: "Tickets?"
+        gtag_registrations: "Gtags?"
+        credits_purchased: "Credits Purchased?"
     claims:
       number: "Number"
       customer: "Customer"

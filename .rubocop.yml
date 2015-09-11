@@ -1,52 +1,28 @@
-# # Offense count: 155
-# Metrics/AbcSize:
-#   Max: 38
-
-# # Offense count: 13
-# # Configuration parameters: CountComments.
-# Metrics/ClassLength:
-#   Max: 146
-
-# # Offense count: 38
-# Metrics/CyclomaticComplexity:
-#   Max: 10
-
-# # Offense count: 153
-# # Configuration parameters: CountComments.
-# Metrics/MethodLength:
-#   Max: 16
-
-# # Offense count: 22
-# Metrics/PerceivedComplexity:
-#   Max: 11
-
 AllCops:
   Exclude:
-    - 'vendor/**/*'
-    - 'spec/fixtures/**/*'
     - 'db/**/*'
-    - 'config/**/*'
-    - 'script/**/*'
-    - 'bin/**/*'
+    - 'spec/spec_helper.rb'
+    - 'spec/rails_helper.rb'
+    - 'config/initializers/*'
+    - 'config/environments/*'
+    - 'config/application.rb'
+    - 'bin/*'
     - 'Guardfile'
+    - 'Rakefile'
+    - 'lib/tasks/*'
+    - 'lib/api_error_log.rb'
+
+Documentation:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+  SupportedStyles:
+    - single_quotes
+    - double_quotes
 
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
   SupportedStyles:
     - nested
     - compact
-
-Documentation:
-  Enabled: false
-
-# Style/Encoding:
-#   Enabled: true
-
-# Style/Encoding:
-#   Enabled: false
-
-# Style/StringLiterals:
-#   Enabled: false
-
-# Style/StringLiteralsInInterpolation:
-#   Enabled: false

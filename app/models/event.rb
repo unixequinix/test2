@@ -55,6 +55,7 @@ class Event < ActiveRecord::Base
   FEATURES = [:ticketing, :refunds]
 
   # Associations
+  has_many :customer_event_profiles
   has_many :entitlements
   has_many :ticket_types
   has_many :tickets
@@ -62,7 +63,8 @@ class Event < ActiveRecord::Base
   has_many :gtags
   has_many :gtag_registrations, through: :gtags
   has_many :online_products
-  has_many :customer_event_profiles
+  has_many :credits, through: :online_products, source: :purchasable, source_type: "Credit"
+  has_one :standard_credit, -> { credits.where(standard: true)}
 
   extend FriendlyId
   friendly_id :name, use: :slugged
@@ -134,9 +136,11 @@ class Event < ActiveRecord::Base
   end
 
   def standard_credit
-    Credit.joins(:online_product)
-      .where(online_products: { event_id: self.id })
-      .find_by(standard: true)
+    self.credits.where(standard: true).first
+  end
+
+  def standard_credit_price
+    self.standard_credit.online_product.rounded_price
   end
 
   def total_credits
@@ -176,10 +180,6 @@ class Event < ActiveRecord::Base
 
   def refund_minimun
     get_parameter('refund', self.refund_service, 'minimum')
-  end
-
-  def standard_credit_price
-    self.standard_credit.online_product.rounded_price
   end
 
 end

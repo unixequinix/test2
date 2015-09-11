@@ -1,6 +1,7 @@
 class DeviseMailer < Devise::Mailer
   helper :application
   default from: Rails.application.secrets.from_email,
+          sender: Rails.application.secrets.from_email,
           content_type: 'multipart/mixed',
           parts_order: [ "multipart/alternative", "text/html", "text/enriched", "text/plain", "application/pdf" ]
   include Devise::Controllers::UrlHelpers # Optional. eg. `confirmation_url`

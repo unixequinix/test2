@@ -258,7 +258,10 @@ es:
         name: "Nombre"
         surname: "Apellido"
         email: "Email"
-        not_confirmed_at: "Sin confirmar"
+        confirmed: "¿Confirmado?"
+        tickets: "¿Tickets?"
+        gtag_registrations: "¿Gtags?"
+        credits_purchased: "¿Créditos Comprados?"
     claims:
       number: "Número"
       customer: "Cliente"
