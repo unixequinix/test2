@@ -32,4 +32,5 @@ erd.pdf
 public/system/*
 
 coverage
+rubocop
 dump.rdb
