@@ -3,8 +3,8 @@ lock '3.4.0'
 
 set :application, 'glownet_web'
 set :repo_url, 'git@gitlab.dev.glownet.com:acidtango/glownet_web.git'
-set :deploy_to, '~/glownet_web'
 set :bundle_without, [:darwin, :development, :test]
+set :deploy_to, '~/glownet_web'
 
 # Default value for :scm is :git
 # set :scm, :git
@@ -29,6 +29,23 @@ set :linked_dirs, %w{log store tmp/pids tmp/cache tmp/sockets vendor/bundle publ
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
+
+set :sidekiq_default_hooks, true
+set :sidekiq_pid, File.join(shared_path, "tmp", "pids", "sidekiq.pid")
+set :sidekiq_env, fetch(:rack_env, fetch(:rails_env, fetch(:stage)))
+set :sidekiq_log, File.join(shared_path, "log", "sidekiq.log")
+# set :sidekiq_options, nil
+# set :sidekiq_require, nil
+# set :sidekiq_tag, nil
+# set :sidekiq_config, nil
+# set :sidekiq_queue, %w(default mailer)
+# set :sidekiq_timeout, 10
+# set :sidekiq_role, :app
+# set :sidekiq_processes, 1
+# set :sidekiq_options_per_process, nil
+# set :sidekiq_concurrency, 5
+
+set :pty, false
 
 namespace :deploy do
 
@@ -55,6 +72,17 @@ namespace :deploy do
       # within release_path do
       #   execute :rake, 'cache:clear'
       # end
+    end
+  end
+end
+
+namespace :apache do
+  [:stop, :start, :restart, :reload].each do |action|
+    desc "#{action.to_s.capitalize} Apache"
+    task action do
+      on roles :web do
+        execute "#sudo service apache2 #{action}"
+      end
     end
   end
 end
