@@ -8,5 +8,4 @@ RSpec.configure do |config|
   config.mock_with :rspec do |mocks|
     mocks.verify_partial_doubles = true
   end
-  puts '+++++ Hey, I am at the end of spec_helper'
 end

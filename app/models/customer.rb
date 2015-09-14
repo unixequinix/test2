@@ -28,7 +28,6 @@
 class Customer < ActiveRecord::Base
   acts_as_paranoid
   default_scope { order('email') }
-  puts '+++++ Hey, I am in Customer'
 
   # Constants
   MAIL_FORMAT = Devise.email_regexp

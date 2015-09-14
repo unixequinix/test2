@@ -14,5 +14,4 @@
 class Comment < ActiveRecord::Base
   belongs_to :commentable, polymorphic: true
   belongs_to :admin
-  puts '+++++ Hey, I am in Comment'
 end
