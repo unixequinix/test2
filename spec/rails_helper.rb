@@ -14,7 +14,10 @@ SimpleCov.start do
   add_group "Mailers", "app/mailers"
   add_group "Views", "app/views"
 
-
+  add_filter "/spec/"
+  add_filter "/config/"
+  add_filter "/lib/"
+  add_filter "/vendor/"
 end
   ENV['RAILS_ENV'] ||= 'test'
 
