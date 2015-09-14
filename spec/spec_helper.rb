@@ -1,5 +1,4 @@
 RSpec.configure do |config|
-  puts '+++++ Hey, I am at the beginning of spec_helper'
 
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true

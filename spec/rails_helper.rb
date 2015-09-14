@@ -13,8 +13,6 @@ SimpleCov.start do
   add_group "Serializers", "app/serializers"
   add_group "Mailers", "app/mailers"
   add_group "Views", "app/views"
-
-
 end
   ENV['RAILS_ENV'] ||= 'test'
 
