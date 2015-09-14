@@ -1,8 +1,8 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
+require 'simplecov'
 ENV['RAILS_ENV'] ||= 'test'
 require 'spec_helper'
 
-require 'simplecov'
 SimpleCov.start do
   add_group "Models", "app/models"
   add_group "Services", "app/services"
