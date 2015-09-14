@@ -125,7 +125,7 @@ group :test do
 end
 
 group :production, :staging, :demo, :refunds do
-  # gem 'therubyracer', '~> 0.12.2', platforms: :ruby
+  gem 'therubyracer', '~> 0.12.2', platforms: :ruby
   gem 'dalli', '~> 2.7.4' # Memcached
   gem 'newrelic_rpm', '~> 3.12.0.288'
 end

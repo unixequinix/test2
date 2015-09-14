@@ -3,8 +3,8 @@
 # Table name: gtags
 #
 #  id                :integer          not null, primary key
-#  tag_uid           :string
-#  tag_serial_number :string
+#  tag_uid           :string           not null
+#  tag_serial_number :string           not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  deleted_at        :datetime
