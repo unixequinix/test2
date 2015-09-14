@@ -15,6 +15,8 @@
 #
 
 class Ticket < ActiveRecord::Base
+  puts '+++++ Hey, I am in Ticket'
+
   default_scope { order(:id) }
   acts_as_paranoid
 

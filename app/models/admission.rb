@@ -13,6 +13,8 @@
 
 class Admission < ActiveRecord::Base
   acts_as_paranoid
+  puts '+++++ Hey, I am in Admission'
+
 
   # Associations
   belongs_to :customer_event_profile

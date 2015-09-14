@@ -2,23 +2,34 @@
 require 'simplecov'
 require 'spec_helper'
 
+puts '+++++ Hey, I am right before SimpleCov.start'
 SimpleCov.start do
-
+  puts '+++++ Hey, I am in SimpleCov.start'
   add_group "Models", "app/models"
+  puts '+++++ Hey, I am after add_group Models'
   add_group "Services", "app/services"
+  puts '+++++ Hey, I am after add_group Services'
   add_group "Forms", "app/forms"
+  puts '+++++ Hey, I am after add_group Forms'
   add_group "Presenters", "app/presenters"
+  puts '+++++ Hey, I am after add_group Presenters'
   add_group "Helpers", "app/helpers"
+  puts '+++++ Hey, I am after add_group Helpers'
   add_group "Controllers", "app/controllers"
+  puts '+++++ Hey, I am after add_group Controllers'
   add_group "Serializers", "app/serializers"
+  puts '+++++ Hey, I am after add_group Serializers'
   add_group "Mailers", "app/mailers"
+  puts '+++++ Hey, I am after add_group Mailers'
   add_group "Views", "app/views"
+  puts '+++++ Hey, I am after add_group Views'
 
   add_filter "/spec/"
   add_filter "/config/"
   add_filter "/lib/"
   add_filter "/vendor/"
 end
+puts '+++++ Hey, I am right after SimpleCov.start'
 
 ENV['RAILS_ENV'] ||= 'test'
 
