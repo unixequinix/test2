@@ -80,10 +80,6 @@ gem 'i18n-globals', git: 'https://github.com/sebastianzillessen/i18n-globals.git
 
 group :development do
   gem 'foreman', '~> 0.78.0'
-  gem 'capistrano'
-  gem 'capistrano-rails', '~> 1.1.3'
-  gem 'capistrano-rbenv', '~> 2.0.3'
-  gem 'capistrano-bundler', '~> 1.1.2'
   gem 'annotate', '~> 2.6.8'
   gem 'bullet', '~> 4.14.4' # Help to kill N+1 queries and unused eager loading
   gem 'rails-erd', '~> 1.3.1' # Entity-relationship diagrams (ERD)
@@ -102,6 +98,11 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', '~> 4.0.5'
   gem 'pry-rails', '~> 0.3.4'
+  gem 'capistrano'
+  gem 'capistrano-rails', '~> 1.1.3'
+  gem 'capistrano-rbenv', '~> 2.0.3'
+  gem 'capistrano-bundler', '~> 1.1.2'
+  gem "capistrano-sidekiq", "~> 0.5.3"
   gem 'better_errors', '~> 2.1.1'
   gem 'binding_of_caller', '~> 0.7.2' # extra features for better_errors
   gem 'meta_request', '~> 0.3.4' # for rails_panel chrome extension
@@ -115,6 +116,7 @@ end
 group :development, :test, :staging do
   gem 'faker', '~> 1.4.3'
   gem 'rubocop', '~>0.30.1', require: false # Code quality https://github.com/bbatsov/rubocop
+  gem 'rubocop-checkstyle_formatter', require: false
   gem 'simplecov', '~> 0.10.0', require: false # Code quality https://github.com/colszowka/simplecov
 end
 

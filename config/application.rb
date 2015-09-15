@@ -12,7 +12,7 @@ Bundler.require(*Rails.groups)
 module Gspot
   class Application < Rails::Application
     config.autoload_paths +=
-    %W(#{config.root}/app/services
+    %W(#{config.root}/app/glownet
        #{config.root}/app/presenters
        #{config.root}/app/forms)
 
