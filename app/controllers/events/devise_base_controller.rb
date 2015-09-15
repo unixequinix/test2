@@ -113,6 +113,12 @@ class Events::DeviseBaseController < ApplicationController
     params.fetch(resource_name, {})
   end
 
+  def update_needs_confirmation?(resource, previous)
+    resource.respond_to?(:pending_reconfirmation?) &&
+      resource.pending_reconfirmation? &&
+      previous != resource.unconfirmed_email
+  end
+
   def create_customer_event_profile(customer)
     customer_event_profile =
       CustomerEventProfile.find_by(customer: customer, event: current_event) ||

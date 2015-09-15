@@ -1,21 +1,20 @@
 class DeviseMailer < Devise::Mailer
   helper :application
   default from: Rails.application.secrets.from_email,
-          sender: Rails.application.secrets.from_email,
           content_type: 'multipart/mixed',
           parts_order: [ "multipart/alternative", "text/html", "text/enriched", "text/plain", "application/pdf" ]
   include Devise::Controllers::UrlHelpers # Optional. eg. `confirmation_url`
 
   def reset_password_instructions(record, token, opts={})
     @event = opts[:event_id].nil? ? nil : Event.find(opts[:event_id])
-    @event.nil? ? general_config_parameters : event_config_parameters(@event)
+    @event.nil? ? general_config_parameters : event_config_parameters(@event, opts)
     reset_password_instructions_url(record, token, @event)
     super
   end
 
   def confirmation_instructions(record, token, opts={})
     @event = opts[:event_id].nil? ? nil : Event.find(opts[:event_id])
-    @event.nil? ? general_config_parameters : event_config_parameters(@event)
+    @event.nil? ? general_config_parameters : event_config_parameters(@event, opts)
     confirmation_instruccions_url(record, token, @event)
     super
   end
@@ -23,8 +22,9 @@ class DeviseMailer < Devise::Mailer
 
   private
 
-  def event_config_parameters(event)
+  def event_config_parameters(event, opts)
     headers['X-No-Spam'] = 'True'
+    opts[:reply_to] = event.support_email
     @logo_url = @event.logo.url
     @support_name = event.name
     @support_email = event.support_email

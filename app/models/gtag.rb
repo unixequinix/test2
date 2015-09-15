@@ -86,6 +86,26 @@ class Gtag < ActiveRecord::Base
     end
   end
 
+  def refundable_amount
+    current_event = self.event
+    standard_credit_price = current_event.standard_credit.online_product.rounded_price
+    credit_amount = 0
+    credit_amount = self.gtag_credit_log.amount unless self.gtag_credit_log.nil?
+    credit_amount * standard_credit_price
+  end
+
+  def refundable_amount_after_fee
+    current_event = self.event
+    fee = current_event.get_parameter('refund', current_event.refund_service, 'fee')
+    refundable_amount - fee.to_f
+  end
+
+  def refundable?
+    current_event = self.event
+    minimum = current_event.get_parameter('refund', current_event.refund_service, 'minimum')
+    !self.gtag_credit_log.nil? && (refundable_amount_after_fee >= minimum.to_f && refundable_amount_after_fee >= 0)
+  end
+
   private
 
   def upcase_gtag!

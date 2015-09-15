@@ -4,15 +4,15 @@ module Api
       attributes :refundable_amount, :refundable_amount_after_fee, :refundable?
 
       def refundable_amount
-        object.refundable_amount
+        object.gtag.refundable_amount
       end
 
       def refundable_amount_after_fee
-        object.refundable_amount_after_fee
+        object.gtag.refundable_amount_after_fee
       end
 
       def refundable
-        object.refundable?
+        object.gtag.refundable?
       end
 
     end

@@ -10,14 +10,14 @@ class Events::ClaimsController < Events::BaseController
   def check_event_status!
     if !current_event.claiming_started?
       flash.now[:error] = I18n.t('alerts.error')
-      redirect_to customer_root_path
+      redirect_to event_url(current_event)
     end
   end
 
   def check_has_not_claims!
     if current_customer_event_profile.completed_claim
       flash.now[:error] = I18n.t('alerts.claim_complete')
-      redirect_to customer_root_path
+      redirect_to event_url(current_event)
     end
   end
 
@@ -25,15 +25,15 @@ class Events::ClaimsController < Events::BaseController
     @claim = Claim.find(params["#{current_event.refund_service}_claim_form"][:claim_id])
     if current_customer_event_profile != @claim.customer_event_profile || @claim.completed?
       flash.now[:error] = I18n.t('alerts.claim_complete')
-      redirect_to customer_root_path
+      redirect_to event_url(current_event)
     end
   end
 
   def enough_credits!
     @claim = Claim.find(params["#{current_event.refund_service}_claim_form"][:claim_id])
-    if !@claim.enough_credits?
+    if !@claim.gtag.refundable?
       flash.now[:error] = I18n.t('alerts.quantity_not_refundable')
-      redirect_to customer_root_path
+      redirect_to event_url(current_event)
     end
   end
 

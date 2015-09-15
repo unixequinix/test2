@@ -16,15 +16,15 @@ module Api
       end
 
       def gtag_refundable_amount
-        object.refundable_amount
+        object.gtag.refundable_amount
       end
 
       def gtag_refundable_amount_after_fee
-        object.refundable_amount_after_fee
+        object.gtag.refundable_amount_after_fee
       end
 
       def gtag_refundable
-        object.refundable?
+        object.gtag.refundable?
       end
     end
   end

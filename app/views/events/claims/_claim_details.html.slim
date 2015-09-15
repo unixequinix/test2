@@ -12,7 +12,7 @@ table.table-order
     td.table-amount #{-claim.fee}
   tr
     td.table-total [colspan="2"] = t('orders.total')
-    td.table-total.table-amount [colspan="3"] #{claim.total_after_fee} #{t('currency_symbol')}
+    td.table-total.table-amount [colspan="3"] #{claim.gtag.refundable_amount_after_fee} #{t('currency_symbol')}
 
 .wrapper-secure-payment
   p.small = t('claims.vat')

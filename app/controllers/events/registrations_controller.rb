@@ -28,6 +28,27 @@ class Events::RegistrationsController < Events::DeviseBaseController
     end
   end
 
+  def edit
+    @customer = current_customer
+  end
+
+  def update
+    @customer = current_customer
+    prev_unconfirmed_email = @customer.unconfirmed_email if @customer.respond_to?(:unconfirmed_email)
+    if @customer.update(permitted_params)
+      if is_flashing_format?
+        flash_key = update_needs_confirmation?(@customer, prev_unconfirmed_email) ?
+          :update_needs_confirmation : :updated
+        set_flash_message :notice, flash_key
+      end
+      sign_in(@customer.class.name, @customer)
+      redirect_to after_update_path_for(@customer)
+    else
+      clean_up_passwords @customer
+      render :edit
+    end
+  end
+
   private
 
   def permitted_params
