@@ -4,5 +4,5 @@ set :output, 'log/cron.log'
 set :environment, ENV['RAILS_ENV']
 
 every :reboot do
-  rake 'sidekiq:start'
+  rake 'sidekiq:restart'
 end

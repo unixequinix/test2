@@ -47,6 +47,8 @@ set :sidekiq_log, File.join(shared_path, "log", "sidekiq.log")
 
 set :pty, false
 
+set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
+
 namespace :deploy do
 
   desc 'Restart database'
@@ -60,11 +62,10 @@ namespace :deploy do
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
       # Your restart mechanism here, for example:
-      # execute :touch, release_path.join('tmp/restart.txt')
+      execute :touch, release_path.join('tmp/restart.txt')
+      # execute "service apache2 restart"
     end
   end
-
-  after :publishing, :restart
 
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
@@ -74,15 +75,6 @@ namespace :deploy do
       # end
     end
   end
-end
 
-namespace :apache do
-  [:stop, :start, :restart, :reload].each do |action|
-    desc "#{action.to_s.capitalize} Apache"
-    task action do
-      on roles :web do
-        execute "#sudo service apache2 #{action}"
-      end
-    end
-  end
+  after :publishing, :restart
 end
