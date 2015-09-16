@@ -4,7 +4,7 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
     @ticket_types = TicketType.where(event_id: current_event.id).page(params[:page]).includes(:entitlements)
     respond_to do |format|
       format.html
-      format.csv { send_data TicketType.all.to_csv }
+      format.csv { send_data Csv::CsvExporter.to_csv TicketType.all }
     end
   end
 
