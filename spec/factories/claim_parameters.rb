@@ -12,7 +12,7 @@
 
 FactoryGirl.define do
   factory :claim_parameter do
-    value "0.0"
+    value { Faker::Number.decimal(2) }
     claim
     parameter
   end

@@ -10,8 +10,28 @@
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
 #
+require "rails_helper"
 
-class Admission < ActiveRecord::Base
+it { is_expected.to validate_presence_of(:aasm_state) }
+it { is_expected.to validate_presence_of(:ticket) }
+it { is_expected.to validate_presence_of(:customer_event_profile) }
 
+RSpec.describe Admission, type: :model do
+  describe "ticket_belongs_to_current_event" do
+    it "should validate that the ticket belongs to the current event" do
+      admission = build(:admission)
+      admission.ticket.event = admission.customer_event_profile.event
+      admission.valid?
+
+      expect(admission.errors[:ticket_id].any?).to be(false)
+    end
+    it "should add an error if the ticket does not belongs to current event" do
+      admission = build(:admission)
+      admission.ticket.event = create(:event)
+      admission.valid?
+
+      expect(admission.errors[:ticket_id].any?).to be(true)
+    end
+  end
 end
 

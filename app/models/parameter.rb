@@ -25,9 +25,10 @@ class Parameter < ActiveRecord::Base
   has_many :events, through: :event_parameters
 
   # Validations
-  validates :name, presence: true
+  validates :name, :category, :group, presence: true
   validates :data_type, presence: true
   validates :category, presence: true
+  validates_uniqueness_of :name, scope: [:group, :category]
 
   # Methods
   # -------------------------------------------------------

@@ -20,8 +20,8 @@ class Admission < ActiveRecord::Base
 
   # Validations
   validates :customer_event_profile, :ticket, :aasm_state, presence: true
-  validates_uniqueness_of :ticket,
-    conditions: -> { where(aasm_state: :assigned) }
+  validates_uniqueness_of :ticket, conditions: -> { where(
+    aasm_state: :assigned) }
   validate :ticket_belongs_to_current_event
 
   # State machine

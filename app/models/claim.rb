@@ -33,7 +33,17 @@ class Claim < ActiveRecord::Base
   belongs_to :gtag
 
   # Validations
-  validates :customer_event_profile, :gtag, :service_type, :number, :total, :aasm_state, presence: true
+  validates :customer_event_profile, :gtag, :service_type, :number, :total,
+            :aasm_state, presence: true
+
+  # Scopes
+  scope :selected_data, -> (service_type, aasm_state) {
+    joins(:customer_event_profile, :gtag, :refund,
+          customer_event_profile: :customer)
+    .includes(:claim_parameters)
+    .where(service_type: service_type)
+    .select("customers.name, customers.surname, customers.email, gtags.tag_uid,
+            gtags.tag_serial_number, refunds.amount") }
 
   # State machine
   include AASM
@@ -84,31 +94,8 @@ class Claim < ActiveRecord::Base
     self.update(completed_at: Time.now())
   end
 
-  # TODO Improve this download
-  def self.to_csv(options = {})
-    CSV.generate(options) do |csv|
-      claim_columns = []
-      claim_columns << 'name'
-      claim_columns << 'surname'
-      claim_columns << 'email'
-      claim_columns << 'UID'
-      claim_columns << 'Serial Number'
-      claim_columns << 'IBAN'
-      claim_columns << 'SWIFT/BIC'
-      claim_columns << 'amount_after_fee'
-      csv << claim_columns
-      all.each do |claim|
-        attributes = []
-        attributes[0] = claim.customer_event_profile.nil? ? '' : claim.customer_event_profile.customer.name
-        attributes[1] = claim.customer_event_profile.nil? ? '' : claim.customer_event_profile.customer.surname
-        attributes[2] = claim.customer_event_profile.nil? ? '' : claim.customer_event_profile.customer.email
-        attributes[3] = claim.gtag.nil? ? '' : claim.gtag.tag_uid
-        attributes[4] = claim.gtag.nil? ? '' : claim.gtag.tag_serial_number
-        attributes[5] = claim.claim_parameters.nil? ? '' : claim.claim_parameters.find_by(parameter_id: Parameter.find_by(category: 'claim', group: 'bank_account', name: 'iban')).value.upcase.gsub(/\s+/, '')
-        attributes[6] = claim.claim_parameters.nil? ? '' : claim.claim_parameters.find_by(parameter_id: Parameter.find_by(category: 'claim', group: 'bank_account', name: 'swift')).value.upcase.gsub(/\s+/, '')
-        attributes[7] = claim.refund.nil? ? '' : claim.refund.amount
-        csv << attributes
-      end
-    end
+  def bank_account_parameters
+    claim.claim_parameters.nil? ? '' : claim.claim_parameters.find_by(parameter_id: Parameter.find_by(category: 'claim', group: 'bank_account', name: 'iban')).value.upcase.gsub(/\s+/, '')
+    claim.claim_parameters.nil? ? '' : claim.claim_parameters.find_by(parameter_id: Parameter.find_by(category: 'claim', group: 'bank_account', name: 'swift')).value.upcase.gsub(/\s+/, '')
   end
 end

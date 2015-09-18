@@ -19,4 +19,10 @@ RSpec.describe Ticket, type: :model do
   it { is_expected.to validate_presence_of(:number) }
   it { is_expected.to validate_presence_of(:number) }
   it { is_expected.to validate_presence_of(:ticket_type) }
+
+  it do
+    ticket = FactoryGirl.build(:ticket)
+
+    expect(ticket.valid?).to be(true)
+  end
 end

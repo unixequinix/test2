@@ -1,9 +1,9 @@
 class Csv::CsvExporter
 
   #Ticket Type
-  def self.to_csv(items, options = {})
+  def self.to_csv(items, csv_options = {})
     column_names = items.first.attributes.keys
-    CSV.generate(options) do |csv|
+    CSV.generate(csv_options) do |csv|
       csv << column_names
       items.each do |item|
         csv << item.attributes.values_at(*column_names)
