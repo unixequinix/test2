@@ -6,9 +6,9 @@ class Admins::Events::ClaimsController < Admins::Events::BaseController
     @claims = @q.result(distinct: true).page(params[:page]).includes(:customer_event_profile, customer_event_profile: :customer)
     respond_to do |format|
       format.html
-      format.csv { send_data(Csv::CsvExporter.to_csv(Claim.selected_data(
-        current_event.refund_service, :completed)
-      ))}
+      format.csv { send_data Claim.where(service_type: :bank_account, aasm_state: :completed).to_csv }
+
+      #format.csv { send_data(Csv::CsvExporter.to_csv(Claim.selected_data(current_event.refund_service, :completed)))}
 
     end
   end

@@ -73,6 +73,8 @@ class Claim < ActiveRecord::Base
     self.number = "#{day}#{time_hex}"
   end
 
+
+
   private
 
   def complete_claim
@@ -82,5 +84,33 @@ class Claim < ActiveRecord::Base
   def bank_account_parameters
     claim.claim_parameters.nil? ? '' : claim.claim_parameters.find_by(parameter_id: Parameter.find_by(category: 'claim', group: 'bank_account', name: 'iban')).value.upcase.gsub(/\s+/, '')
     claim.claim_parameters.nil? ? '' : claim.claim_parameters.find_by(parameter_id: Parameter.find_by(category: 'claim', group: 'bank_account', name: 'swift')).value.upcase.gsub(/\s+/, '')
+  end
+
+  def self.to_csv(options = {})
+    a = CSV.generate(options) do |csv|
+      claim_columns = []
+      claim_columns << 'name'
+      claim_columns << 'surname'
+      claim_columns << 'email'
+      claim_columns << 'UID'
+      claim_columns << 'Serial Number'
+      claim_columns << 'IBAN'
+      claim_columns << 'SWIFT/BIC'
+      claim_columns << 'amount_after_fee'
+      csv << claim_columns
+      all.each do |claim|
+        attributes = []
+        attributes[0] = claim.customer_event_profile.nil? ? '' : claim.customer_event_profile.customer.name
+        attributes[1] = claim.customer_event_profile.nil? ? '' : claim.customer_event_profile.customer.surname
+        attributes[2] = claim.customer_event_profile.nil? ? '' : claim.customer_event_profile.customer.email
+        attributes[3] = claim.gtag.nil? ? '' : claim.gtag.tag_uid
+        attributes[4] = claim.gtag.nil? ? '' : claim.gtag.tag_serial_number
+        attributes[5] = claim.claim_parameters.nil? ? '' : claim.claim_parameters.find_by(parameter_id: Parameter.find_by(category: 'claim', group: 'bank_account', name: 'iban')).value.upcase.gsub(/\s+/, '')
+        attributes[6] = claim.claim_parameters.nil? ? '' : claim.claim_parameters.find_by(parameter_id: Parameter.find_by(category: 'claim', group: 'bank_account', name: 'swift')).value.upcase.gsub(/\s+/, '')
+        attributes[7] = claim.refund.nil? ? '' : claim.refund.amount
+        csv << attributes
+      end
+    end
+    binding.pry
   end
 end
