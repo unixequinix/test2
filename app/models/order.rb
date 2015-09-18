@@ -44,7 +44,9 @@ class Order < ActiveRecord::Base
   end
 
   def credits_total
-    self.order_items.joins(:online_product).where(online_products: {purchasable_type: 'Credit', event_id: self.customer_event_profile.event.id}).sum(:amount)
+    self.order_items.joins(:online_product)
+    .where(online_products: {purchasable_type: 'Credit',
+      event_id: self.customer_event_profile.event.id}).sum(:amount)
   end
 
   def generate_order_number!

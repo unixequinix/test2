@@ -12,11 +12,8 @@
 #
 require "rails_helper"
 
-it { is_expected.to validate_presence_of(:aasm_state) }
-it { is_expected.to validate_presence_of(:ticket) }
-it { is_expected.to validate_presence_of(:customer_event_profile) }
-
 RSpec.describe Admission, type: :model do
+
   describe "ticket_belongs_to_current_event" do
     it "should validate that the ticket belongs to the current event" do
       admission = build(:admission)

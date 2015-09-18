@@ -19,4 +19,12 @@ RSpec.describe Order, type: :model do
   it { is_expected.to validate_presence_of(:number) }
   it { is_expected.to validate_presence_of(:aasm_state) }
 
+  describe "total" do
+    it "returns the total of all the items in the order" do
+      order = create(:order)
+
+      expect(order.total).to eq(49.95)
+    end
+  end
+
 end
