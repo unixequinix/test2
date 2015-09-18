@@ -58,6 +58,7 @@ Rails.application.routes.draw do
       scope module: 'events' do
         resources :admissions, only: [:destroy]
         resource :gtag_settings, only: [:show, :edit, :update]
+        resource :payment_settings, only: [:show, :edit, :update]
         resource :refund_settings, only: [:show, :edit, :update] do
           member do
             post :notify_customers

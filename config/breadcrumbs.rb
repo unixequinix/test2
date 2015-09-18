@@ -49,6 +49,13 @@ crumb :admins_event_gtag_settings do |event|
   parent :admins_event, event
 end
 
+## Payment Settings
+
+crumb :admins_event_payment_settings do |event|
+  link t("breadcrumbs.payment_settings"), admin_root_path
+  parent :admins_event, event
+end
+
 ## Refund Settings
 
 crumb :admins_event_refund_settings do |event|

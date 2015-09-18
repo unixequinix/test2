@@ -122,10 +122,16 @@ es:
         one: No se puede eliminar el registro porque existe un %{record} dependiente
         many: No se puede eliminar el registro porque existen %{record} dependientes
       taken: ya está en uso
-      too_long: es demasiado largo (%{count} caracteres máximo)
-      too_short: es demasiado corto (%{count} caracteres mínimo)
-      wrong_length: no tiene la longitud correcta (%{count} caracteres exactos)
-      other_than: debe ser distinto de %{count}
+      too_long:
+        one: es demasiado largo (1 caracter máximo)
+        other: es demasiado largo (%{count} caracteres máximo)
+      too_short:
+        one: es demasiado largo (1 caracter mínimo)
+        other: es demasiado largo (%{count} caracteres mínimo)
+      wrong_length:
+        one: no tiene la longitud correcta (1 caracter exacto)
+        other: no tiene la longitud correcta (%{count} caracteres exactos)
+      other_than:  debe ser distinto de %{count}
     template:
       body: 'Se encontraron problemas con los siguientes campos:'
       header:
@@ -182,6 +188,7 @@ es:
     percentage:
       format:
         delimiter: ''
+        format: "%n%"
     precision:
       format:
         delimiter: ''

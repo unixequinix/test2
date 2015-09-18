@@ -9,7 +9,7 @@
 #  deleted_at :datetime
 #
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Entitlement, type: :model do
 

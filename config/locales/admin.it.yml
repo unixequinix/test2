@@ -19,6 +19,7 @@ it:
       slug: 'Slug'
       url: 'Festival url'
       support_email: 'Support email'
+      payment_service: 'Payment service'
       refund_service: 'Refund service'
       location: 'Location'
       start_date: 'Start date'
@@ -49,6 +50,8 @@ it:
       background_types:
         fixed: 'Fixed'
         repeat: 'Repeat'
+      payment_services:
+        redsys: 'Redsys'
       refund_services:
         bank_account: 'Bank account'
         epg: 'Easy payment gateway'
@@ -62,6 +65,17 @@ it:
       form:
         format: 'Format'
         name: 'Name'
+    payment_settings:
+      redsys:
+        name: 'Name'
+        code: 'Code'
+        terminal: 'Terminal'
+        password: 'Password'
+        currency: 'Currency'
+        transaction_type: 'Transaction Type'
+        pay_methods: 'Pay methods'
+        ip: 'IP'
+        form: 'Form URL'
     refund_settings:
       nofication_description: 'Notify to the customers they can claim their refund.'
       want_to_notify: 'Do you want to notify?'
@@ -96,13 +110,6 @@ it:
       empty_refunds: "No refunds"
       search: "Search"
       all: "Select"
-    actions:
-      back: "Back"
-      new: "New"
-      csv: "CSV"
-      disable: "Disable"
-      select_all: "Select all"
-      delete_selected: "Delete selected"
     sessions:
       mail: "user@domain.com"
       password: "password"
@@ -120,6 +127,7 @@ it:
       event: "Event"
       details: "Details"
       gtag_settings: "Gtag Settings"
+      payment_settings: "Payment Settings"
       refund_settings: "Refund Settings"
       admins: "Admins"
       entitlements: "Entitlements"
@@ -245,6 +253,7 @@ it:
       refund: "Refund"
       claims: "Claims"
       gtag_credits: "Gtag Credits"
+      tickets: "Tickets"
       credits: "Credits"
       search: "Name Count"
       sign: "Sign in count"
@@ -349,4 +358,4 @@ it:
         claim: "Claim number"
         gateway_transaction_number: "Gateway transaction number"
         amount: "Amount"
-        status: "Estado"
+        status: "State"

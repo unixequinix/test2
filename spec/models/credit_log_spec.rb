@@ -10,7 +10,7 @@
 #  updated_at       :datetime         not null
 #
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe CreditLog, type: :model do
   it { is_expected.to validate_presence_of(:amount) }

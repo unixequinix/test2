@@ -29,7 +29,7 @@
 #  gtag_registration       :boolean          default(TRUE), not null
 #
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Event, type: :model do
   it { is_expected.to validate_presence_of(:name) }

@@ -84,7 +84,7 @@ it:
       button: "Richiedi i tuoi crediti"
     not_refundable:
       title: "Il tuo credito:"
-      call_to_action: "Mi dispiace, ma non hai abbastanza crediti per richiedere il rimborso. La spesa di rimborso è %{fee} EUR e il minimo rimborsabile è %{minimum} EUR"
+      call_to_action: "Mi dispiace, ma non hai abbastanza crediti per richiedere il rimborso. La spesa di rimborso è %{fee} %{currency_symbol} e il minimo rimborsabile è %{minimum} %{currency_symbol}"
     refunds:
       title: "Il tuo credito:"
       call_to_action: "La tua richiesta per un rimborso è stata effettuata con successo. Tra poco riceverai il trasferimento"

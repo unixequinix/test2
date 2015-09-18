@@ -5,6 +5,7 @@ es:
     events: "Eventos"
     new_event: "Nuevo evento"
     gtag_settings: "Configuración de gtags"
+    payment_settings: "Configuración de pagos"
     refund_settings: "Configuración de devoluciones"
     admins: "Administradores"
     new_admin: "Nuevo Administrador"

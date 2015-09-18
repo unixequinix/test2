@@ -1,0 +1,87 @@
+-
+  name: gtag
+  groups:
+    -
+      name: form
+      parameters:
+        -
+          name: format
+          data_type: string
+-
+  name: payment
+  groups:
+    -
+      name: redsys
+      parameters:
+        -
+          name: name
+          data_type: string
+        -
+          name: code
+          data_type: string
+        -
+          name: terminal
+          data_type: string
+        -
+          name: password
+          data_type: string
+        -
+          name: currency
+          data_type: string
+        -
+          name: transaction_type
+          data_type: string
+        -
+          name: pay_methods
+          data_type: string
+        -
+          name: ip
+          data_type: string
+        -
+          name: form
+          data_type: string
+-
+  name: refund
+  groups:
+    -
+      name: epg
+      parameters:
+        -
+          name: fee
+          data_type: currency
+        -
+          name: minimum
+          data_type: currency
+        -
+          name: country
+          data_type: string
+        -
+          name: currency
+          data_type: string
+        -
+          name: operation_type
+          data_type: string
+        -
+          name: payment_solution
+          data_type: string
+        -
+          name: md5key
+          data_type: string
+        -
+          name: merchant_id
+          data_type: string
+        -
+          name: product_id
+          data_type: string
+        -
+          name: url
+          data_type: string'
+    -
+      name: bank_account
+      parameters:
+        -
+          name: fee
+          data_type: currency
+        -
+          name: minimum
+          data_type: currency

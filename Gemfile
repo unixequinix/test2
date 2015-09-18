@@ -121,7 +121,7 @@ group :development, :test, :staging do
 end
 
 group :test do
-  gem 'capybara', '2.4.4'
+  gem 'capybara', '~> 2.4.4'
   gem 'shoulda-matchers', '~> 2.8.0', require: false
   gem 'database_cleaner', '~> 1.4.1'
 end

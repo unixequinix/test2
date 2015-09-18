@@ -45,7 +45,7 @@ class Events::OrdersController < Events::BaseController
     @order = Order.find(params[:id])
     if current_customer_event_profile != @order.customer_event_profile || @order.completed?
       flash.now[:error] = I18n.t('alerts.order_complete') if @order.completed?
-      redirect_to customer_root_path
+      redirect_to event_url(current_event)
     end
   end
 

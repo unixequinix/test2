@@ -12,8 +12,8 @@ class Events::BankAccountClaimsController < Events::ClaimsController
       @claim.start_claim!
       # TODO Remove hardcoded message text
       if RefundService.new(@claim, current_event).create(params = {
-          amount: @claim.total_after_fee,
-          currency: 'EUR',
+          amount: @claim.gtag.refundable_amount_after_fee,
+          currency: I18n.t('currency_symbol'),
           message: 'Created manual bank account refund',
           payment_solution: 'manual',
           status: 'PENDING'

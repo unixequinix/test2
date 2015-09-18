@@ -10,8 +10,10 @@ echo 'Create Database'
 bin/rake RAILS_ENV=development db:create
 echo 'Migrate'
 bin/rake RAILS_ENV=development db:migrate
-echo 'Populate'
+echo 'Seed'
 bin/rake RAILS_ENV=development db:seed
+echo 'Populate'
+bin/rake RAILS_ENV=development db:create_admin_access
 bin/rake RAILS_ENV=development db:populate
 
 echo 'Test Database config'

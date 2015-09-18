@@ -1,4 +1,37 @@
 -
+  category: payment
+  groups:
+    -
+      name: redsys
+      values:
+        -
+          name: name
+          value: Live Nation Esp SAU
+        -
+          name: code
+          value: 126327360
+        -
+          name: terminal
+          value: 6
+        -
+          name: password
+          value: qwertyasdf0123456789
+        -
+          name: currency
+          value: 978
+        -
+          name: transaction_type
+          value: 0
+        -
+          name: pay_methods
+          value: T
+        -
+          name: ip
+          value: 195.76.9.247
+        -
+          name: form
+          value: https://sis-t.redsys.es:25443/sis/realizarPago
+-
   category: refund
   groups:
     -
