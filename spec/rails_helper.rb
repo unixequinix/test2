@@ -1,6 +1,7 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'simplecov'
 require 'spec_helper'
+require 'capybara/rspec'
 
 ENV['RAILS_ENV'] ||= 'test'
 
@@ -73,10 +74,14 @@ RSpec.configure do |config|
   # Add stuff to make devise work
   config.include Devise::TestHelpers, type: :controller
   config.include ControllerMacros, type: :controller
+  config.include I18nMacros, type: :feature
+  config.include ParametersMacros, type: :feature
+  config.include Warden::Test::Helpers
 
   # Database cleaner
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
+    Warden.test_mode!
   end
 
   config.before(:each) do
@@ -93,5 +98,6 @@ RSpec.configure do |config|
 
   config.after(:each) do
     DatabaseCleaner.clean
+    Warden.test_reset!
   end
 end

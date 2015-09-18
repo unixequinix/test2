@@ -25,7 +25,7 @@
 #  agreed_on_registration :boolean          default(FALSE)
 #
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Customer, type: :model do
   it { is_expected.to validate_presence_of(:email) }
@@ -33,30 +33,30 @@ RSpec.describe Customer, type: :model do
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_presence_of(:surname) }
 
-  context 'with a new customer' do
+  context "with a new customer" do
     before do
       @customer = create(:customer)
     end
 
-    describe 'the password' do
-      it 'is ok if valid' do
-        @customer.password = @customer.password_confirmation = 'validpsswd2'
+    describe "the password" do
+      it "is ok if valid" do
+        @customer.password = @customer.password_confirmation = "validpsswd2"
         expect(@customer).to be_valid
       end
 
-      { 'too short' => 'x',
-        'too long' => 'longpassword' * 10,
-        'empty' => ''
+      { "too short" => "x",
+        "too long" => "longpassword" * 10,
+        "empty" => ""
       }.each do |problematic, password|
         it "cannot be #{problematic}" do
           @customer.password = @customer.password_confirmation  = password
           expect(@customer).not_to be_valid
-          expect(@customer.errors['password']).to be_any
+          expect(@customer.errors["password"]).to be_any
         end
       end
     end
 
-    describe 'the email' do
+    describe "the email" do
       %w(customer.foo.com customer@test _@test.).each do |wrong_mail|
         it "is invalid if resembles #{wrong_mail}" do
           @customer.email = wrong_mail

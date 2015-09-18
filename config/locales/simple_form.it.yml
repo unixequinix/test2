@@ -106,6 +106,17 @@ it:
           name: "Name"
           gtag_assignation_notification: "Gtag  assignation notification"
           gtag_form_disclaimer: "Gtag assignation form disclaimer"
+      redsys_payment_settings_form:
+        edit:
+          name: 'Name'
+          code: 'Code'
+          terminal: 'Terminal'
+          password: 'Password'
+          currency: 'Currency'
+          transaction_type: 'Transaction Type'
+          pay_methods: 'Pay methods'
+          ip: 'IP'
+          form: 'Form URL'
       epg_refund_settings_form:
         edit:
           fee: 'Refund Fee (in currency)'

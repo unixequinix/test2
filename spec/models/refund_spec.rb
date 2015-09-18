@@ -15,7 +15,7 @@
 #  status                     :string
 #
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Refund, type: :model do
   it { is_expected.to validate_presence_of(:claim) }

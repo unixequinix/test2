@@ -1,0 +1,63 @@
+-
+  name: ticket_type_1
+  company: company_1
+  credit: nil
+  entitlements:
+    -
+      name: entitlement_1
+    -
+      name: entitlement_2
+-
+  name: ticket_type_2
+  company: company_1
+  credit: 20.5
+  entitlements:
+    -
+      name: entitlement_1
+    -
+      name: entitlement_2
+    -
+      name: entitlement_3
+-
+  name: ticket_type_3
+  company: company_1
+  credit: 20
+  entitlements:
+    -
+      name: entitlement_3
+-
+  name: ticket_type_4
+  company: company_2
+  credit: 10
+  entitlements:
+    -
+      name: entitlement_2
+    -
+      name: entitlement_3
+-
+  name: ticket_type_5
+  company: company_2
+  credit: 15
+  entitlements:
+    -
+      name: entitlement_4
+-
+  name: ticket_type_6
+  company: company_2
+  credit: 18.4
+  entitlements:
+    -
+      name: entitlement_5
+    -
+      name: entitlement_6
+-
+  name: ticket_type_7
+  company: company_3
+  credit: nil
+  entitlements:
+    -
+      name: entitlement_7
+    -
+      name: entitlement_8
+    -
+      name: entitlement_9

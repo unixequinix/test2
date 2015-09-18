@@ -106,6 +106,17 @@ es:
           name: "Nombre"
           gtag_assignation_notification: "Notificación al asignar el Gtag"
           gtag_form_disclaimer: "Texto formulario asignación Gtag"
+      redsys_payment_settings_form:
+        edit:
+          name: 'Nombre'
+          code: 'Código'
+          terminal: 'Terminal'
+          password: 'Password'
+          currency: 'Moneda'
+          transaction_type: 'Tipo de transacción'
+          pay_methods: 'Metodos de pago'
+          ip: 'IP'
+          form: 'Url del formulario'
       epg_refund_settings_form:
         edit:
           fee: 'Comisión de devolución (en la moneda seleccionada)'

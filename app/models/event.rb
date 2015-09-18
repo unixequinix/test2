@@ -27,6 +27,7 @@
 #  features                :integer          default(0), not null
 #  refund_service          :string           default("bank_account")
 #  gtag_registration       :boolean          default(TRUE), not null
+#  payment_service         :string           default("redsys")
 #
 
 class Event < ActiveRecord::Base
@@ -39,6 +40,10 @@ class Event < ActiveRecord::Base
 
   BACKGROUND_TYPES = [BACKGROUND_FIXED, BACKGROUND_REPEAT]
 
+  #Payment Services
+  REDSYS = 'redsys'
+
+  PAYMENT_SERVICES = [REDSYS]
 
   #Refund Services
   BANK_ACCOUNT = 'bank_account'
@@ -128,6 +133,10 @@ class Event < ActiveRecord::Base
 
   def self.background_types_selector
     BACKGROUND_TYPES.map { |f| [I18n.t('admin.event.background_types.' + f), f] }
+  end
+
+  def self.payment_services_selector
+    PAYMENT_SERVICES.map { |f| [I18n.t('admin.event.payment_services.' + f), f] }
   end
 
   def self.refund_services_selector

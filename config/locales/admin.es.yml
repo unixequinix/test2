@@ -19,6 +19,7 @@ es:
       slug: 'Identificador'
       url: 'Url del festival'
       support_email: 'Email de soporte'
+      payment_service: 'Servicio de pago'
       refund_service: 'Servicio de devolución'
       location: 'Localización'
       start_date: 'Fecha de inicio'
@@ -36,9 +37,9 @@ es:
       fieldests:
         info: "Info del evento"
         date: "Fechas y localización"
+        text: "Textos"
         image: "Imágenes"
         custom: "Personalización"
-        text: "Textos"
       states:
         created: 'No publicado'
         launched: 'Pre-evento'
@@ -49,6 +50,8 @@ es:
       background_types:
         fixed: 'Fijo'
         repeat: 'Repetir'
+      payment_services:
+        redsys: 'Redsys'
       refund_services:
         bank_account: 'Cuenta bancaria'
         epg: 'Easy payment gateway'
@@ -62,6 +65,17 @@ es:
       form:
         format: 'Formato'
         name: 'Nombre'
+    payment_settings:
+      redsys:
+        name: 'Nombre'
+        code: 'Código'
+        terminal: 'Terminal'
+        password: 'Password'
+        currency: 'Moneda'
+        transaction_type: 'Tipo de transacción'
+        pay_methods: 'Metodos de pago'
+        ip: 'IP'
+        form: 'Url del formulario'
     refund_settings:
       nofication_description: 'Proceder a notificar a los usuarios que ya pueden reclamar su devolución.'
       want_to_notify: '¿Quiere notificar?'
@@ -113,6 +127,7 @@ es:
       event: "Evento"
       details: "Detalles"
       gtag_settings: "Configuración de gtags"
+      payment_settings: "Configuración de pagos"
       refund_settings: "Configuración de devoluciones"
       admins: "Administradores"
       entitlements: "Privilegios"
@@ -201,8 +216,6 @@ es:
       actions:
         delete_gtags: "Borrar gtags"
         delete_credits: "Borrar créditos"
-      report:
-        total_credits: "Créditos totales"
       report:
         total_credits: "Créditos totales en el sistema"
         total_refundable_money: "Dinero devolver (menos comisiones)"
