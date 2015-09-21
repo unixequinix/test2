@@ -1,8 +1,7 @@
 class Payments::RedsysDataRetriever
   include Rails.application.routes.url_helpers
-  def initialize(event, iupay, order)
+  def initialize(event, order)
     @current_event = event
-    @iupay = iupay
     @order = order
   end
 
@@ -39,8 +38,7 @@ class Payments::RedsysDataRetriever
   end
 
   def pay_methods
-    # TODO make iuypay work
-    iupay == true ? '0' : Rails.application.secrets.merchant_pay_methods
+    '0'
   end
 
   def product_description
