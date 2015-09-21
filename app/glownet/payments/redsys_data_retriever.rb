@@ -3,6 +3,10 @@ class Payments::RedsysDataRetriever
   def initialize(event, order)
     @current_event = event
     @order = order
+
+    @payment_parameters = Parameter.joins(:event_parameters)
+      .where(event_parameters: {event: Event.first})
+      .select("parameters.name, event_parameters.*")
   end
 
   def iupay
@@ -14,27 +18,31 @@ class Payments::RedsysDataRetriever
   end
 
   def form
-    Rails.application.secrets.merchant_form
+    get_value_of_parameter("form")
   end
 
   def name
-    Rails.application.secrets.merchant_name
+    get_value_of_parameter("name")
   end
 
   def code
-    Rails.application.secrets.merchant_code
+    get_value_of_parameter("code")
   end
 
   def terminal
-    Rails.application.secrets.merchant_terminal
+    get_value_of_parameter("terminal")
   end
 
   def currency
-    Rails.application.secrets.merchant_currency
+    get_value_of_parameter("currency")
   end
 
   def transaction_type
-    Rails.application.secrets.merchant_transaction_type
+    get_value_of_parameter("transaction_type")
+  end
+
+  def password
+    get_value_of_parameter("password")
   end
 
   def pay_methods
@@ -49,25 +57,10 @@ class Payments::RedsysDataRetriever
     @order.customer_event_profile.customer.name
   end
 
-  def code
-    Rails.application.secrets.merchant_code
-  end
-
-  def currency
-    Rails.application.secrets.merchant_currency
-  end
-
-  def transaction_type
-    Rails.application.secrets.merchant_transaction_type
-  end
-
   def notification_url
     event_payments_url(@current_event)
   end
 
-  def password
-    password = Rails.application.secrets.merchant_password
-  end
 
   def message
     "#{amount}#{@order.number}#{code}#{currency}#{transaction_type}#{notification_url}#{password}"
@@ -75,5 +68,11 @@ class Payments::RedsysDataRetriever
 
   def signature
     Digest::SHA1.hexdigest(message).upcase
+  end
+
+  private
+
+  def get_value_of_parameter(parameter)
+    @payment_parameters.find { |param| param.name == parameter }.value
   end
 end
