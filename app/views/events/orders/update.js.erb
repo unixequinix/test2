@@ -1,6 +1,2 @@
-<% if @iupay %>
-  $('#paymentForm').html("<%= j(render 'iupay_payment_form').html_safe %>");
-<% else %>
-  $('#paymentForm').html("<%= j(render 'bankia_payment_form').html_safe %>");
-<% end %>
+$('#paymentForm').html('<%= j(render "#{@current_event.payment_service}_payment_form").html_safe %>');
 $('#gateway_load').submit();

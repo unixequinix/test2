@@ -5,7 +5,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
     @gtags = @q.result(distinct: true).page(params[:page]).includes(:assigned_gtag_registration, :gtag_credit_log)
     respond_to do |format|
       format.html
-      format.csv { send_data Csv::CsvExporter.to_csv(Gtag.selected_data(current_event.id)) }
+      format.csv { send_data(Csv::CsvExporter.to_csv(Gtag.selected_data(current_event.id))) }
 
     end
   end

@@ -6,7 +6,7 @@ RSpec.describe Csv::CsvExporter do
     5.times do
       FactoryGirl.create(:refund)
     end
-    @csv_file = Csv::CsvExporter.to_csv(Refund.all)
+      @csv_file = Csv::CsvExporter.to_csv(Refund.all)
   end
 
   describe "the CSV file" do

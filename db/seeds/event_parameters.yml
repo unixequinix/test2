@@ -75,7 +75,7 @@
           data_type: string
         -
           name: url
-          data_type: string'
+          data_type: string
     -
       name: bank_account
       parameters:
