@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150916125623) do
+ActiveRecord::Schema.define(version: 20150923152807) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 20150916125623) do
     t.datetime "updated_at",             null: false
     t.datetime "deleted_at",             index: {name: "index_customers_on_deleted_at"}
     t.boolean  "agreed_on_registration", default: false
+    t.string   "phone"
   end
 
   create_table "events", force: :cascade do |t|

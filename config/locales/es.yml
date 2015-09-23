@@ -12,6 +12,10 @@ es:
   activemodel:
     errors:
       models:
+        customer:
+          attributes:
+            phone:
+              improbable_phone: 'No es un número de teléfono válido. Verifica que el país concuerda con el número.'
         epg_claim_form:
           attributes:
             phone:

@@ -7,6 +7,7 @@
 #  name                   :string           default(""), not null
 #  surname                :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
+#  phone                  :phone
 #  reset_password_token   :string
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
@@ -32,5 +33,6 @@ FactoryGirl.define do
     email { Faker::Internet.email }
     agreed_on_registration true
     password 'password'
+    phone { Faker::PhoneNumber.phone_number }
   end
 end

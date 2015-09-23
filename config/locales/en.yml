@@ -16,6 +16,10 @@ en:
           attributes:
             phone:
               improbable_phone: "It's not a valid phone number. Check that country matches the phone number."
+        epg_claim_form:
+          attributes:
+            phone:
+              improbable_phone: "It's not a valid phone number. Check that country matches the phone number."
         bank_account_claim_form:
           attributes:
             swift:
