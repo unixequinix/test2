@@ -21,9 +21,7 @@
 require "rails_helper"
 
 RSpec.describe Admin, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
 
-=begin
   it { is_expected.to validate_presence_of(:email) }
   it { is_expected.to validate_presence_of(:password) }
 
@@ -76,5 +74,4 @@ RSpec.describe Admin, type: :model do
       end
     end
   end
-=end
 end

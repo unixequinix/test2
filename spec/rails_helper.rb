@@ -6,7 +6,6 @@ require 'capybara/rspec'
 ENV['RAILS_ENV'] ||= 'test'
 
 SimpleCov.start do
-
   add_group "Models", "app/models"
   add_group "Services", "app/glownet"
   add_group "Forms", "app/forms"

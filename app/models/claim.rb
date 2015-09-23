@@ -74,12 +74,6 @@ class Claim < ActiveRecord::Base
     self.number = "#{day}#{time_hex}"
   end
 
-  private
-
-  def complete_claim
-    self.update(completed_at: Time.now())
-  end
-
   def self.selected_data(aasm_state)
     claims = query_for_csv(aasm_state)
     headers = []
@@ -93,4 +87,11 @@ class Claim < ActiveRecord::Base
     end
     [claims, headers, extra_columns]
   end
+
+  private
+
+  def complete_claim
+    self.update(completed_at: Time.now())
+  end
+
 end

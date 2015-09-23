@@ -21,7 +21,6 @@ class Csv::CsvExporter
     end
   end
 
-
   def self.attach_columns_to_csv(csv_file, headers, extra_columns)
     csv_file.split.to_enum.with_index.map do |row, index|
       if(index == 0)

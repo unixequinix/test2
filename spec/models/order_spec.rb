@@ -21,9 +21,34 @@ RSpec.describe Order, type: :model do
 
   describe "total" do
     it "returns the total of all the items in the order" do
+      binding.pry
       order = create(:order)
 
       expect(order.total).to eq(49.95)
+    end
+  end
+
+  describe "generate_order_number!" do
+    it "should create a new order number" do
+      order = create(:order)
+      order.generate_order_number!
+      day = Date.today.strftime('%y%m%d')
+
+      expect(order.number).to start_with(day)
+      expect(order.number).to match(/^[a-f0-9]*$/)
+      expect(order.number.size).to eq(12)
+    end
+  end
+
+  describe "complete_order" do
+    it "should store the time when an order is completed" do
+      order = create(:order)
+      time_before = order.completed_at.to_i
+      order.start_payment
+      order.complete
+      time_after = order.completed_at.to_i
+
+      expect(time_after).to be > time_before
     end
   end
 
