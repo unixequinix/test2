@@ -53,7 +53,7 @@ class Events::RegistrationsController < Events::DeviseBaseController
 
   def permitted_params
     params.require(:customer)
-      .permit(:email, :name, :surname, :password, :password_confirmation,
+      .permit(:email, :name, :surname, :phone, :password, :password_confirmation,
               :agreed_on_registration)
   end
 
