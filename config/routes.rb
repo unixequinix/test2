@@ -65,15 +65,10 @@ Rails.application.routes.draw do
           end
         end
         resources :entitlements, except: :show
-        resources :ticket_types, except: :show do
-          collection do
-            post :import
-          end
-        end
+        resources :ticket_types, except: :show
         resources :tickets do
           resources :comments, module: :tickets
           collection do
-            post :import
             get :search
             delete :destroy_multiple
           end
@@ -81,8 +76,6 @@ Rails.application.routes.draw do
         resources :gtags do
           resources :comments, module: :gtags
           collection do
-            post :import
-            post :import_credits
             get :search
             delete :destroy_multiple
           end

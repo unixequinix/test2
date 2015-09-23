@@ -7,7 +7,7 @@ class Admins::Events::RefundsController < Admins::Events::BaseController
     @refunds = @q.result(distinct: true).page(params[:page]).includes(:claim, claim: [:customer_event_profile, customer_event_profile: :customer])
     respond_to do |format|
       format.html
-      format.csv { send_data Refund.all.to_csv }
+      format.csv { send_data Csv::CsvExporter.to_csv(Refund.selected_data(current_event.id)) }
     end
   end
 

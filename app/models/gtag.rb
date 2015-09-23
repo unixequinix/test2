@@ -20,7 +20,6 @@ class Gtag < ActiveRecord::Base
   # Type of the gtags
   FORMATS = [STANDARD, CARD, SIMPLE]
 
-
   before_validation :upcase_gtag!
   default_scope { order(:id) }
   acts_as_paranoid
@@ -43,48 +42,12 @@ class Gtag < ActiveRecord::Base
   validates_uniqueness_of :tag_uid, scope: :event_id
   validates :tag_uid, :tag_serial_number, presence: true
 
-  def self.to_csv(options = {})
-    CSV.generate(options) do |csv|
-      gtag_columns = column_names.clone
-      gtag_columns << 'amount'
-      csv << gtag_columns
-      all.each do |gtag|
-        attributes = gtag.attributes.values_at(*gtag_columns)
-        attributes[-1] = gtag.gtag_credit_log.amount unless gtag.gtag_credit_log.nil?
-        csv << attributes
-      end
-    end
-  end
-
-  def self.import_csv(file)
-    spreadsheet = open_spreadsheet(file)
-    header = spreadsheet.row(1)
-    gtags = []
-
-    # Import Gtags
-    (2..spreadsheet.last_row).each do |i|
-      row = Hash[[header, spreadsheet.row(i)].transpose]
-      gtag = new
-      gtag.attributes = row.to_hash.slice(*Gtag.attribute_names)
-      gtag.tag_uid = gtag.tag_uid.upcase
-      gtag.tag_serial_number = gtag.tag_serial_number.upcase
-      gtags << gtag
-    end
-    begin
-      import gtags, validate: false
-    rescue PG::Error => invalid
-      @result << "Fila #{index}: " + invalid.record.errors.full_messages.join(". ")
-    end
-  end
-
-  def self.open_spreadsheet(file)
-    case File.extname(file.original_filename)
-    when ".csv" then Roo::Spreadsheet.open(file.path, extension: :csv)
-    when ".xls" then Roo::Spreadsheet.open(file.path, extension: :xls)
-    when ".xlsx" then Roo::Spreadsheet.open(file.path, extension: :xlsx)
-    else raise "Unknown file type: #{file.original_filename}"
-    end
-  end
+  # Scope
+  scope :selected_data, -> (event_id) {
+    joins("LEFT OUTER JOIN gtag_credit_logs ON gtag_credit_logs.gtag_id = gtags.id")
+    .select("gtags.*, gtag_credit_logs.amount")
+    .where(event: event_id)
+  }
 
   def refundable_amount
     current_event = self.event

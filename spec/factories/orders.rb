@@ -20,8 +20,10 @@ FactoryGirl.define do
       item_count 3
     end
 
-    after :build do |order|
-      order.order_items << build(:order_item, order: order)
+    after :build do |order, evaluator|
+      5.times do
+        order.order_items << build(:order_item, order: order)
+      end
     end
   end
 end

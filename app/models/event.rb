@@ -144,7 +144,7 @@ class Event < ActiveRecord::Base
   end
 
   def standard_credit
-    self.credits.where(standard: true).first
+    self.credits.find_by(standard: true)
   end
 
   def standard_credit_price

@@ -24,19 +24,10 @@ class Refund < ActiveRecord::Base
   # Validations
   validates :claim, :amount, presence: true
 
-  def self.to_csv(options = {})
-    CSV.generate(options) do |csv|
-      refund_columns = column_names.clone
-      refund_columns << 'customer_email'
-      refund_columns << 'claim_number'
-      csv << refund_columns
-      all.each do |refund|
-        attributes = refund.attributes.values_at(*refund_columns)
-        attributes[-2] = refund.claim.customer.nil? ? '' : refund.claim.customer.email
-        attributes[-1] = refund.claim.number
-        csv << attributes
-      end
-    end
-  end
-
+  scope :selected_data, -> (event_id) {
+    joins(:claim, claim:
+      [ :customer_event_profile, { customer_event_profile: :customer } ] )
+    .select("refunds.*, claims.number, customers.email")
+    .where(customer_event_profiles: { event_id: event_id })
+  }
 end

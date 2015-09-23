@@ -22,6 +22,6 @@ FactoryGirl.define do
     number { Faker::Number.number(10) }
     total 9.98
     gtag
-    service_type "dummy"
+    service_type(["bank_account", "epg"].sample)
   end
 end

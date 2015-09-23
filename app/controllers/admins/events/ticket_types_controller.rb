@@ -4,7 +4,7 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
     @ticket_types = TicketType.where(event_id: current_event.id).page(params[:page]).includes(:entitlements)
     respond_to do |format|
       format.html
-      format.csv { send_data TicketType.all.to_csv }
+      format.csv { send_data(Csv::CsvExporter.to_csv(TicketType.where(event_id: current_event.id)))}
     end
   end
 
@@ -48,18 +48,6 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
       redirect_to admins_event_ticket_types_url
     end
   end
-
-  def import
-    import_result = TicketType.import_csv(params[:file])
-    if import_result
-      flash[:notice] = I18n.t('alerts.imported')
-      redirect_to admins_event_ticket_types_url
-    else
-      flash[:error] = import_result
-      redirect_to admins_event_ticket_types_url
-    end
-  end
-
 
   private
 

@@ -14,7 +14,7 @@
 
 FactoryGirl.define do
   factory :parameter do
-    name { Faker::Lorem.words(2).join }
+    name { ["iban", "swift"].sample }
     data_type { ["string", "currency", "integer"].sample }
     category { ["gtag", "refund", "claim"].sample }
     group { ["bank_account", "epg"].sample }

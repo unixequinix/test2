@@ -22,8 +22,6 @@
       = fa_icon "cc-amex", class: "icon-ccs"
   p.bank-page-alert.small = t('orders.redirect')
   .container-order-buttons
-    = button_to event_order_path(current_event, @order, iupay: true), method: :patch, remote: true, class: "btn-iupay" do
-      = image_tag "logo-iupay.png"
-    = button_to t('orders.button'), event_order_path(current_event, @order, iupay: false), method: :patch, remote: true, class: "btn btn-top"
+    = button_to t('orders.button'), event_order_path(current_event, @order), method: :patch, remote: true, class: "btn btn-top"
 
 #paymentForm

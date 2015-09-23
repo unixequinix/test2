@@ -15,7 +15,27 @@
 require "rails_helper"
 
 RSpec.describe TicketType, type: :model do
+
+  before do
+    FactoryGirl.create(:ticket_type, name: "repellendus", id: 16)
+    FactoryGirl.create(:ticket_type, name: "tenetur", id: 17)
+    FactoryGirl.create(:ticket_type, name: "est", id: 18)
+    FactoryGirl.create(:ticket_type, name: "in", id: 19)
+    FactoryGirl.create(:ticket_type, name: "labore", id: 20)
+  end
+
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_presence_of(:company) }
   it { is_expected.to validate_presence_of(:credit) }
+
+  it "creates an array for the selectors" do
+    expect(TicketType.form_selector()).to eq([
+      ["repellendus", 16],
+      ["tenetur", 17],
+      ["est", 18],
+      ["in", 19],
+      ["labore", 20]
+    ])
+  end
+
 end
