@@ -15,9 +15,10 @@
 class Parameter < ActiveRecord::Base
 
   DATA_TYPES = {
-    'string' => { default: '-', validator: /.+/ },
-    'currency' => { default: '0.0', validator: /^\d+(\.\d{2})?/ },
-    'integer' => { default: '0', validator: /^\d+/ }
+    "string" => { default: "-", validator: /.+/ },
+    "currency" => { default: "0.0", validator: /^\d+(\.\d{2})?/ },
+    "integer" => { default: "0", validator: /^\d+/ },
+    "boolean" => { default: "false", validator: /true|false/}
   }
 
   # Associations

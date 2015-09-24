@@ -7,7 +7,6 @@
 #  name                   :string           default(""), not null
 #  surname                :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
-#  phone                  :phone
 #  reset_password_token   :string
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
@@ -24,6 +23,7 @@
 #  updated_at             :datetime         not null
 #  deleted_at             :datetime
 #  agreed_on_registration :boolean          default(FALSE)
+#  phone                  :string
 #
 
 FactoryGirl.define do

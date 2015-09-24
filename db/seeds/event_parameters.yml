@@ -85,3 +85,12 @@
         -
           name: minimum
           data_type: currency
+-
+  name: registration
+  groups:
+    -
+      name: form
+      parameters:
+        -
+          name: phone
+          data_type: boolean

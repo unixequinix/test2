@@ -85,3 +85,12 @@
         -
           name: format
           value: standard
+-
+  category: registration
+  groups:
+    -
+      name: form
+      values:
+        -
+          name: phone
+          value: false

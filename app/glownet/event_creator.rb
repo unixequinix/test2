@@ -24,7 +24,7 @@ class EventCreator
       data['groups'].each do |group|
         group['values'].each do |value|
           parameter = Parameter.find_by(category: data['category'], group: group['name'], name: value['name'])
-          event_parameter = EventParameter.new(event_id: @event.id, value: value['value'], parameter_id: parameter.id)
+          event_parameter = EventParameter.new(event_id: @event.id, value: value['value'].to_s, parameter_id: parameter.id)
           begin
             event_parameter.save
           rescue
