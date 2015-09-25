@@ -11,7 +11,7 @@ module Api
 
       def customer_event_profile_query
         query = object
-          .includes(:assigned_admission,
+          .includes(:assigned_admissions,
                     :assigned_gtag_registration,
                     :completed_claim,
                     :refunds,

@@ -59,7 +59,7 @@ en:
         profile: "Profile image preview"
         background: "Background image preview"
       features_options:
-        ticketing: 'Ticketing'
+        top_ups: 'Credit top ups'
         refunds: 'Refunds'
     gtag_settings:
       form:

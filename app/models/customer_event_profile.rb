@@ -18,7 +18,7 @@ class CustomerEventProfile < ActiveRecord::Base
   belongs_to :customer
   belongs_to :event
   has_many :admissions, dependent: :destroy
-  has_one :assigned_admission, -> { where(aasm_state: :assigned) },
+  has_many :assigned_admissions, -> { where(aasm_state: :assigned) },
     class_name: 'Admission'
   has_many :gtag_registrations, dependent: :destroy
   has_one :assigned_gtag_registration, ->{ where(aasm_state: :assigned) },

@@ -1,6 +1,6 @@
 - breadcrumb :admins_event_customer_event_profile, current_event, @customer_event_profile
 - provide :actions do
-  = link_to t("admin.actions.assign_ticket"), new_admins_event_customer_event_profile_admission_path(current_event, @customer_event_profile), class: "btn btn-action btn-action-new small" unless @customer_event_profile.assigned_admission
+  = link_to t("admin.actions.assign_ticket"), new_admins_event_customer_event_profile_admission_path(current_event, @customer_event_profile), class: "btn btn-action btn-action-new small"
   = link_to t("admin.actions.assign_gtag"), new_admins_event_customer_event_profile_gtag_registration_path(current_event, @customer_event_profile), class: "btn btn-action btn-action-new small" unless @customer_event_profile.assigned_gtag_registration
   = link_to admins_event_customer_event_profiles_path(current_event), class: "btn btn-action btn-action-back small" do
     = fa_icon "arrow-circle-left"
@@ -22,13 +22,14 @@
       dt = t ("admin.customers.surname")
       dd = @customer_event_profile.customer.surname
 
-      - if !@customer_event_profile.assigned_admission.nil?
-        dt = t ("admin.customers.tickets")
-        dd
-          = link_to @customer_event_profile.assigned_admission.ticket.number, edit_admins_event_ticket_path(current_event, @customer_event_profile.assigned_admission.ticket)
-          = " - #{@customer_event_profile.assigned_admission.ticket.ticket_type.name}"
-          = link_to admins_event_admission_path(current_event, @customer_event_profile.assigned_admission), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
-            = fa_icon "trash"
+      - if @customer_event_profile.assigned_admissions
+        - @customer_event_profile.assigned_admissions.each do |assigned_admission|
+          dt = t ("admin.customers.tickets")
+          dd
+            = link_to assigned_admission.ticket.number, edit_admins_event_ticket_path(current_event, assigned_admission.ticket)
+            = " - #{assigned_admission.ticket.ticket_type.name}"
+            = link_to admins_event_admission_path(current_event, assigned_admission), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
+              = fa_icon "trash"
       - else
         dt = t ("admin.customers.tickets")
         dd = t ("admin.defaults.empty_tickets")

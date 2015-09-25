@@ -21,7 +21,6 @@ RSpec.describe Order, type: :model do
 
   describe "total" do
     it "returns the total of all the items in the order" do
-      binding.pry
       order = create(:order)
 
       expect(order.total).to eq(49.95)

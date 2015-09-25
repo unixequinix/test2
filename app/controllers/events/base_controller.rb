@@ -27,13 +27,18 @@ class Events::BaseController < ApplicationController
     I18n.config.globals[:gtag] = current_event.gtag_name
   end
 
+  def check_top_ups_is_active!
+    redirect_to event_url(current_event) unless
+      current_event.top_ups?
+  end
+
   def check_has_ticket!
-    redirect_to customer_root_url unless
-      current_customer_event_profile.assigned_admission
+    redirect_to event_url(current_event) unless
+      current_customer_event_profile.assigned_admissions
   end
 
   def check_has_gtag!
-    redirect_to customer_root_url unless
+    redirect_to event_url(current_event) unless
       current_customer_event_profile.assigned_gtag_registration
   end
 

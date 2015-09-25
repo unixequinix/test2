@@ -53,11 +53,11 @@ class Event < ActiveRecord::Base
 
   include FlagShihTzu
 
-  has_flags 1 => :ticketing,
+  has_flags 1 => :top_ups,
             2 => :refunds,
             column: 'features'
 
-  FEATURES = [:ticketing, :refunds]
+  FEATURES = [:top_ups, :refunds]
 
   # Associations
   has_many :customer_event_profiles

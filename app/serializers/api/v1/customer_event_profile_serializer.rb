@@ -2,11 +2,7 @@ module Api
   module V1
     class CustomerEventProfileSerializer < Api::V1::BaseSerializer
       has_one :customer
-      attributes :id, :has_assigned_ticket, :assigned_ticket, :has_assigned_gtag, :assigned_gtag, :total_credits, :ticket_credits, :purchased_credits, :refunded, :refund_status, :completed_claim
-
-      def assigned_ticket
-        Api::V1::AssignedTicketSerializer.new(object.assigned_admission, scope: scope, root: false)
-      end
+      attributes :id, :has_assigned_ticket, :assigned_admissions, :has_assigned_gtag, :assigned_gtag, :total_credits, :ticket_credits, :purchased_credits, :refunded, :refund_status, :completed_claim
 
       def assigned_gtag
         Api::V1::AssignedGtagSerializer.new(object.assigned_gtag_registration, scope: scope, root: false)
@@ -17,7 +13,7 @@ module Api
       end
 
       def has_assigned_ticket
-        assigned_admission ? true : false
+        assigned_admissions ? true : false
       end
 
       def has_assigned_gtag
@@ -47,8 +43,8 @@ module Api
         @assigned_gtag_registration ||= object.assigned_gtag_registration
       end
 
-      def assigned_admission
-        @assigned_admission ||= object.assigned_admission
+      def assigned_admissions
+        @assigned_admissions ||= object.assigned_admissions
       end
 
       def refund_status

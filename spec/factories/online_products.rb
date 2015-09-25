@@ -28,5 +28,6 @@ FactoryGirl.define do
     max_purchasable '10'
     initial_amount '20'
     step '1'
+    purchasable { |op| op.association(:credit) }
   end
 end

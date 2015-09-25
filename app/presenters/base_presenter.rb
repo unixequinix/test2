@@ -1,9 +1,10 @@
 class BasePresenter
-  attr_accessor :gtag_registration, :refund, :event, :admission
+  attr_accessor :customer_event_profile, :gtag_registration, :refund, :event, :admissions
 
   def initialize(dashboard)
+    @customer_event_profile = dashboard.customer_event_profile
     @event = dashboard.event
-    @admission = dashboard.admission
+    @admissions = dashboard.admissions
     @completed_claim = dashboard.completed_claim
     @gtag_registration = dashboard.gtag_registration
   end
@@ -17,7 +18,7 @@ class BasePresenter
   end
 
   def admission_present?
-    @admission.present?
+    @admissions.any?
   end
 
   def gtag_tag_uid

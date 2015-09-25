@@ -1,5 +1,5 @@
 class Events::AdmissionsController < Events::BaseController
-  before_action :check_has_not_admissions!, only: [:new, :create]
+
   def new
     @admission = Admission.new
   end
@@ -29,14 +29,6 @@ class Events::AdmissionsController < Events::BaseController
     @credit_log = CreditLog.create(customer_event_profile_id: current_customer_event_profile.id, transaction_type: CreditLog::TICKET_UNASSIGNMENT, amount: -@admission.ticket.ticket_type.credit) unless @admission.ticket.ticket_type.credit.nil?
     flash[:notice] = I18n.t('alerts.unassigned')
     redirect_to event_url(current_event)
-  end
-
-  private
-
-  def check_has_not_admissions!
-    if !current_customer_event_profile.assigned_admission.nil?
-      redirect_to event_url(current_event), flash: { error: I18n.t('alerts.already_assigned') }
-    end
   end
 
 end

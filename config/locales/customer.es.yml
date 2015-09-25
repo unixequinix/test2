@@ -33,18 +33,19 @@ es:
     title: "My dashboard"
     admissions:
       header: "Tu número de Ticket"
-      call_to_action: "¿Introdujiste un ticket incorrecto por error?"
+      header: "Ticket %{ticket_type}"
+      call_to_action: "¿Quiéres borrar el ticket?"
       call_to_action_started: "El evento ya ha comenzado, no puedes cambiar tu ticket"
-      button: "Borralo y reinicia el proceso"
+      button: "Borrar"
     without_admissions:
-      call_to_action: "Por favor activa tu ticket primero"
-      description: "Sólo un Ticket puede ser activado por cuenta"
+      call_to_action: "Por favor activa un ticket"
+      description: "Puedes activar tantos tickets como quieras"
       button: "Activar Ticket"
     credits:
       header: "Tu Balance de créditos"
       call_to_action: "Para evitar colas, recarga tu %{gtag} ahora para todas tus compras dentro del festival"
       call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"
-      call_to_action_no_admission_html: "Para poder recargar online,<br>deberás activar tu Ticket primero"
+      call_to_action_no_admission_html: "Para poder recargar online,<br>deberás activar un Ticket primero"
       button: "Recarga"
     event_refunds:
       claim: "El evento aún no ha acabado"

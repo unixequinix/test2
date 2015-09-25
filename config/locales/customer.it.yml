@@ -32,19 +32,19 @@ it:
   dashboard:
     title: "My Kappa FuturFestival"
     admissions:
-      header: "Your ticket number"
-      call_to_action: "Put a wrong ticket by mistake?"
+      header: "Ticket %{ticket_type}"
+      call_to_action: "Do you want to remove this ticket?"
       call_to_action_started: "The event just started so you cannot change the ticket"
-      button: "Erase and restart the process"
+      button: "Remove"
     without_admissions:
-      call_to_action: "Please activate your festival ticket first"
-      description: "Only one Festival Ticket can be activated per account."
+      call_to_action: "Please activate a festival ticket"
+      description: "You can activate as much tickets as you want."
       button: "Activate Ticket"
     credits:
       header: "Your Online Credit Balance"
       call_to_action: "To avoid queues, top-up your wristband now for all your festival purchases"
       call_to_action_started: "The event just started so you cannot topup anymore"
-      call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate your Festival Ticket first"
+      call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Festival Ticket first"
       button: "Top-up"
     event_refunds:
       claim: "L'evento non è ancora finito"
