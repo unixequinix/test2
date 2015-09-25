@@ -38,6 +38,14 @@ RSpec.describe Customer, type: :model do
       @customer = create(:customer)
     end
 
+    describe "the phone" do
+      it "is not required" do
+        customer = Customer.new(phone: "+34660660660")
+        customer.valid?
+        expect(customer.errors[:phone]).to eq([])
+      end
+    end
+
     describe "the password" do
       it "is ok if valid" do
         @customer.password = @customer.password_confirmation = "validpsswd2"

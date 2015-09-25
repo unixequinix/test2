@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150916125623) do
+ActiveRecord::Schema.define(version: 20150925144406) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,13 @@ ActiveRecord::Schema.define(version: 20150916125623) do
     t.datetime "updated_at",             null: false
     t.datetime "deleted_at",             index: {name: "index_customers_on_deleted_at"}
     t.boolean  "agreed_on_registration", default: false
+    t.string   "phone"
+    t.string   "postcode"
+    t.string   "address"
+    t.string   "city"
+    t.string   "country"
+    t.string   "gender"
+    t.datetime "birthdate"
   end
 
   create_table "events", force: :cascade do |t|
@@ -81,6 +88,7 @@ ActiveRecord::Schema.define(version: 20150916125623) do
     t.string   "refund_service",          default: "bank_account"
     t.boolean  "gtag_registration",       default: true,                  null: false
     t.string   "payment_service",         default: "redsys"
+    t.integer  "registration_parameters", default: 0,                     null: false
   end
 
   create_table "customer_event_profiles", force: :cascade do |t|

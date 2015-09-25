@@ -28,6 +28,7 @@
 #  refund_service          :string           default("bank_account")
 #  gtag_registration       :boolean          default(TRUE), not null
 #  payment_service         :string           default("redsys")
+#  registration_parameters :integer          default(0), not null
 #
 
 FactoryGirl.define do

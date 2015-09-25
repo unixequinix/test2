@@ -12,7 +12,17 @@
       = f.input :name, autofocus: true
       = f.input :surname, autofocus: true
       = f.input :password
+      = f.input :phone if(current_event.phone?)
+      = f.input :address if(current_event.address?)
+      = f.input :city if(current_event.city?)
+      = f.input :country if(current_event.country?)
+      = f.input :postcode if(current_event.postcode?)
+      = f.input :gender, collection: Customer.gender_selector, include_blank: false if(current_event.gender?)
+      = f.input :birthdate, as: :date, start_year: 1950,
+        end_year: Date.today.year - 12,
+        order: [:day, :month, :year] if(current_event.birthdate?)
       .accept-terms
         = f.input :agreed_on_registration, label: ("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), customers_terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), customers_privacy_policy_url, target: '_blank'}").html_safe
       .container-button
         = f.button :submit, t('registration.new.button'), class: "btn-top"
+

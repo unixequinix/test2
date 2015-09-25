@@ -6,6 +6,7 @@ class Admins::Events::GtagSettingsController < Admins::Events::BaseController
   end
 
   def edit
+    # TODO: Try to initialize the gtag settings form
     @event = current_event
     @parameters = Parameter.where(group: 'form', category: 'gtag')
     @gtag_settings_form = GtagSettingsForm.new

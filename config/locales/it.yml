@@ -2,6 +2,9 @@ it:
   country_iso_priority: [AT, BE, BG, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, GB]
   general_company_name: 'Glownet'
   general_support_email: 'support@glownet.com'
+  gender:
+    male: 'Maschio'
+    female: 'Femminile'
   event:
     subject_support: 'Vuoi aiuto per il %{event}'
     locales:
@@ -12,6 +15,10 @@ it:
   activemodel:
     errors:
       models:
+        customer:
+          attributes:
+            phone:
+              improbable_phone: "Non è un numero di telefono valido. Verifica che il numero di telefono corresponde al paese"
         epg_claim_form:
           attributes:
             phone:

@@ -40,6 +40,7 @@ es:
         text: "Textos"
         image: "Imágenes"
         custom: "Personalización"
+        optional_form_parameters: "Parámetros opcionales de formulario"
       states:
         created: 'No publicado'
         launched: 'Pre-evento'

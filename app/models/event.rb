@@ -28,6 +28,7 @@
 #  refund_service          :string           default("bank_account")
 #  gtag_registration       :boolean          default(TRUE), not null
 #  payment_service         :string           default("redsys")
+#  registration_parameters :integer          default(0), not null
 #
 
 class Event < ActiveRecord::Base
@@ -58,6 +59,18 @@ class Event < ActiveRecord::Base
             column: 'features'
 
   FEATURES = [:top_ups, :refunds]
+
+
+  has_flags 1 => :phone,
+            2 => :address,
+            3 => :city,
+            4 => :country,
+            5 => :postcode,
+            6 => :gender,
+            7 => :birthdate,
+            column: 'registration_parameters'
+
+  REGISTRATION_PARAMETERS = [:phone,:address, :city, :country, :postcode, :gender, :birthdate]
 
   # Associations
   has_many :customer_event_profiles
@@ -143,6 +156,7 @@ class Event < ActiveRecord::Base
     REFUND_SERVICES.map { |f| [I18n.t('admin.event.refund_services.' + f), f] }
   end
 
+
   def standard_credit
     self.credits.find_by(standard: true)
   end
@@ -179,6 +193,7 @@ class Event < ActiveRecord::Base
   def get_parameter(category, group, name)
     parameter = EventParameter.find_by(event_id: self.id, parameter_id: Parameter.find_by(category: category, group: group, name: name)).value
   end
+
 
   private
 
