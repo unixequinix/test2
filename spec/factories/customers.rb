@@ -24,6 +24,12 @@
 #  deleted_at             :datetime
 #  agreed_on_registration :boolean          default(FALSE)
 #  phone                  :string
+#  postcode               :string
+#  address                :string
+#  city                   :string
+#  country                :string
+#  gender                 :string
+#  birthdate              :datetime
 #
 
 FactoryGirl.define do

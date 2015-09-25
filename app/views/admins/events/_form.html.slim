@@ -65,7 +65,7 @@
       .controls
         - Event::REGISTRATION_PARAMETERS.each do |parameter|
           span.checkbox
-            = check_box_tag "whatever", event.flag_mapping["registration_parameters"][parameter], (:checked if event.flag_enabled?(parameter)), id: "#{parameter}-parameter", class: "flag-selector", data: {"checkbox-group" => "registration_parameters"}
+            = check_box_tag "reg_form_param", event.flag_mapping["registration_parameters"][parameter], (:checked if event.flag_enabled?(parameter)), id: "#{parameter}-parameter", class: "flag-selector", data: {"checkbox-group" => "registration_parameters"}
             label.collection_check_boxes for="#{parameter}-parameter" = t("admin.event.features_options.#{parameter}")
     = f.input :registration_parameters, as: :hidden
 

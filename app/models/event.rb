@@ -28,6 +28,7 @@
 #  refund_service          :string           default("bank_account")
 #  gtag_registration       :boolean          default(TRUE), not null
 #  payment_service         :string           default("redsys")
+#  registration_parameters :integer          default(0), not null
 #
 
 class Event < ActiveRecord::Base
@@ -61,10 +62,15 @@ class Event < ActiveRecord::Base
 
 
   has_flags 1 => :phone,
+            2 => :address,
+            3 => :city,
+            4 => :country,
+            5 => :postcode,
+            6 => :gender,
+            7 => :birthdate,
             column: 'registration_parameters'
 
-  REGISTRATION_PARAMETERS = [:phone]
-
+  REGISTRATION_PARAMETERS = [:phone,:address, :city, :country, :postcode, :gender, :birthdate]
 
   # Associations
   has_many :customer_event_profiles

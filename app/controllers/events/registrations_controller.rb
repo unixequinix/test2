@@ -54,7 +54,8 @@ class Events::RegistrationsController < Events::DeviseBaseController
   def permitted_params
     params.require(:customer)
       .permit(:email, :name, :surname, :phone, :password, :password_confirmation,
-              :agreed_on_registration)
+              :postcode, :address, :city, :country, :postcode, :gender,
+              :birthdate, :agreed_on_registration)
   end
 
   def after_inactive_sign_up_path_for(resource)

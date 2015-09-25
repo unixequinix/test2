@@ -48,6 +48,12 @@ en:
           password_confirmation: 'Password Confirmation'
           remember_me: 'Remember me'
           phone: 'Phone Number'
+          address: 'Address'
+          city: 'City'
+          country: 'Country'
+          postcode: 'Post Code'
+          gender: 'Gender'
+          birthdate: 'Birthdate'
           agreed_on_registration: "I readed and understand the terms of use"
         edit:
           <<: *label_customer

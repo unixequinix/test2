@@ -140,6 +140,11 @@ it:
           post_code: "Codice Postale"
           phone: "Telefono"
           address: "Indirizzo"
+          city: 'Città'
+          country: 'Country'
+          postcode: 'Nazione'
+          gender: 'Genere'
+          birthdate: 'Data di Nascita'
       bank_account_claim_form:
         new:
           swift_html: "BIC/SWIFT<sup>1</sup>"

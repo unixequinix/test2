@@ -24,11 +24,23 @@
 #  deleted_at             :datetime
 #  agreed_on_registration :boolean          default(FALSE)
 #  phone                  :string
+#  postcode               :string
+#  address                :string
+#  city                   :string
+#  country                :string
+#  gender                 :string
+#  birthdate              :datetime
 #
 
 class Customer < ActiveRecord::Base
   acts_as_paranoid
   default_scope { order('email') }
+
+  #Genders
+  MALE = 'male'
+  FEMALE = 'female'
+
+  GENDERS = [MALE, FEMALE]
 
   # Constants
   MAIL_FORMAT = Devise.email_regexp
@@ -49,6 +61,13 @@ class Customer < ActiveRecord::Base
 
   # Methods
   # -------------------------------------------------------
+
+  def self.gender_selector
+    GENDERS.map { |f| [I18n.t('gender.' + f), f] }
+  end
+
+
+  # TODO Big mess
 
   def self.send_reset_password_instructions(attributes={})
     recoverable = find_or_initialize_with_errors(reset_password_keys, attributes, :not_found)
