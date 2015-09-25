@@ -59,6 +59,13 @@ class Event < ActiveRecord::Base
 
   FEATURES = [:ticketing, :refunds]
 
+
+  has_flags 1 => :phone,
+            column: 'registration_parameters'
+
+  REGISTRATION_PARAMETERS = [:phone]
+
+
   # Associations
   has_many :customer_event_profiles
   has_many :entitlements
@@ -143,6 +150,7 @@ class Event < ActiveRecord::Base
     REFUND_SERVICES.map { |f| [I18n.t('admin.event.refund_services.' + f), f] }
   end
 
+
   def standard_credit
     self.credits.find_by(standard: true)
   end
@@ -179,6 +187,7 @@ class Event < ActiveRecord::Base
   def get_parameter(category, group, name)
     parameter = EventParameter.find_by(event_id: self.id, parameter_id: Parameter.find_by(category: category, group: group, name: name)).value
   end
+
 
   private
 

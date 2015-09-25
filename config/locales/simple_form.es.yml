@@ -45,6 +45,7 @@ es:
           surname: 'Apellidos'
           current_password: 'Contraseña actual'
           password: 'Contraseña'
+          phone: 'Número de Teléfono'
           password_confirmation: 'Confirmación de contraseña'
           remember_me: 'Recuerdame'
           agreed_on_registration: "He leído y entiendo los términos del registro"

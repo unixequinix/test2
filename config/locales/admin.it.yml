@@ -40,6 +40,7 @@ it:
         text: "Texts"
         image: "Images"
         custom: "Custom styles"
+        optional_form_parameters: "Optional form parameters"
       states:
         created: 'Not published'
         launched: 'Pre-event'

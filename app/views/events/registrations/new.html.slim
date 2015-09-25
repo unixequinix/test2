@@ -12,7 +12,7 @@
       = f.input :name, autofocus: true
       = f.input :surname, autofocus: true
       = f.input :password
-      = f.input :phone
+      = f.input :phone if(current_event.phone?)
       .accept-terms
         = f.input :agreed_on_registration, label: ("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), customers_terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), customers_privacy_policy_url, target: '_blank'}").html_safe
       .container-button
