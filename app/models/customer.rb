@@ -63,6 +63,8 @@ class Customer < ActiveRecord::Base
   validates :country, inclusion: { in:Country.all.map(&:pop) }
   validates :gender, inclusion: { in: GENDERS }
   validate :valid_birthday?
+  validates :postcode, numericality: { allow_blank: true, only_integer: true }
+
 
 
   # Methods
@@ -127,7 +129,10 @@ class Customer < ActiveRecord::Base
 
   def birthdate_is_date?
     unless(birthdate.is_a?(ActiveSupport::TimeWithZone))
-      errors.add(:birthdate, 'must be a valid date')
+      errors.add(
+        :birthdate,
+        I18n.t('activemodel.errors.models.customer.attributes.birthdate.invalid')
+      )
       false
     else
       true
@@ -135,8 +140,15 @@ class Customer < ActiveRecord::Base
   end
 
   def enough_age?
-    unless(Date.today.midnight - 12.years >= birthdate.midnight)
-      errors.add(:birthdate, 'must be older than 12')
+    minimum_age = 12
+    binding.pry
+    unless(Date.today.midnight - minimum_age.years >= birthdate.midnight)
+      errors.add(
+        :birthdate,
+        I18n.t('activemodel.errors.models.customer.attributes.birthdate.too_young',
+          age: minimum_age
+        )
+      )
     end
   end
 

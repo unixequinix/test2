@@ -58,7 +58,6 @@ gem 'ransack', '~> 1.6.6'
 gem 'iban-tools', '~>1.0.0'
 gem 'iso-swift', '~>0.0.2'
 gem 'country_select', '~> 2.2.0'
-gem 'phonelib', '~> 0.5.0'
 
 # Flags
 gem 'flag_shih_tzu', '~>0.3.13'
