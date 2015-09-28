@@ -61,6 +61,10 @@ class Customer < ActiveRecord::Base
   validates_uniqueness_of :email, conditions: -> { where(deleted_at: nil) }
 
   validates_format_of :phone, :with => /\A[+]?\d{6,}\Z/
+  validates :country, inclusion: { in:Country.all.map(&:pop) }
+  validates :gender, inclusion: { in: GENDERS }
+
+
 
   # Methods
   # -------------------------------------------------------
