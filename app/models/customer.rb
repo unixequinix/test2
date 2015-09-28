@@ -56,8 +56,11 @@ class Customer < ActiveRecord::Base
   validates :email, format: { with: MAIL_FORMAT }, presence: true
   validates :name, :surname, :password, presence: true
   validates :agreed_on_registration, acceptance: { accept: true }
+
   validates_length_of :password, within: Devise.password_length, allow_blank: true
   validates_uniqueness_of :email, conditions: -> { where(deleted_at: nil) }
+
+  validates_format_of :phone, :with => /\A[+]?\d{6,}\Z/
 
   # Methods
   # -------------------------------------------------------
