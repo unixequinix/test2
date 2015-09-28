@@ -60,10 +60,9 @@ class Customer < ActiveRecord::Base
   validates_length_of :password, within: Devise.password_length, allow_blank: true
   validates_uniqueness_of :email, conditions: -> { where(deleted_at: nil) }
 
-  validates_format_of :phone, :with => /\A[+]?\d{6,}\Z/
   validates :country, inclusion: { in:Country.all.map(&:pop) }
   validates :gender, inclusion: { in: GENDERS }
-
+  validate :valid_birthday?
 
 
   # Methods
@@ -118,6 +117,27 @@ class Customer < ActiveRecord::Base
 
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
+  end
+
+  private
+
+  def valid_birthday?
+    birthdate_is_date? && enough_age?
+  end
+
+  def birthdate_is_date?
+    unless(birthdate.is_a?(ActiveSupport::TimeWithZone))
+      errors.add(:birthdate, 'must be a valid date')
+      false
+    else
+      true
+    end
+  end
+
+  def enough_age?
+    unless(Date.today.midnight - 12.years >= birthdate.midnight)
+      errors.add(:birthdate, 'must be older than 12')
+    end
   end
 
 end

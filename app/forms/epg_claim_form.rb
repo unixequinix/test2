@@ -26,10 +26,6 @@ class EpgClaimForm
   validates_length_of :phone, minimum: 1, maximum: 24
   validates_length_of :address, minimum: 5, maximum: 32
 
-
-  validates_plausible_phone :phone, normalized_country_code: :country_code
-
-
   def save
     if valid?
       persist!
