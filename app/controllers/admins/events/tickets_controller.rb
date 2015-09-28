@@ -16,7 +16,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
   end
 
   def show
-    @ticket = Ticket.includes(admissions: :customer).find(params[:id])
+    @ticket = Ticket.includes(admissions: [:customer_event_profile, customer_event_profile: :customer]).find(params[:id])
   end
 
   def new
