@@ -141,7 +141,6 @@ class Customer < ActiveRecord::Base
 
   def enough_age?
     minimum_age = 12
-    binding.pry
     unless(Date.today.midnight - minimum_age.years >= birthdate.midnight)
       errors.add(
         :birthdate,

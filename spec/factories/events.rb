@@ -49,5 +49,6 @@ FactoryGirl.define do
     info { Faker::Lorem.words(2).join }
     mass_email_claim_notification { Faker::Lorem.words(2).join }
     refund_success_message { Faker::Lorem.words(2).join }
+
   end
 end
