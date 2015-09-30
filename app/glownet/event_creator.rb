@@ -1,4 +1,5 @@
 class EventCreator
+  attr_reader :event
 
   def initialize(params)
     @params = params
@@ -11,10 +12,6 @@ class EventCreator
     standard_credit
     default_event_parameters
     default_event_translations
-  end
-
-  def event
-    @event
   end
 
   private
