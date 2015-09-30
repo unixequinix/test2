@@ -14,18 +14,25 @@ require "rails_helper"
 RSpec.describe Entitlement, type: :model do
 
   before do
-    FactoryGirl.create(:entitlement, name: "repellendus", id: 16)
-    FactoryGirl.create(:entitlement, name: "tenetur", id: 17)
-    FactoryGirl.create(:entitlement, name: "est", id: 18)
-    FactoryGirl.create(:entitlement, name: "in", id: 19)
-    FactoryGirl.create(:entitlement, name: "labore", id: 20)
+    @first_event = create(:event)
+    create(:entitlement, name: "repellendus", id: 16, event: @first_event)
+    create(:entitlement, name: "tenetur", id: 17, event: @first_event)
+    create(:entitlement, name: "est", id: 18, event: @first_event)
+    create(:entitlement, name: "in", id: 19, event: @first_event)
+    create(:entitlement, name: "labore", id: 20, event: @first_event)
+    @second_event = create(:event)
+    create(:entitlement, name: "repellendus is", id: 21, event: @second_event)
+    create(:entitlement, name: "tenetur is", id: 22, event: @second_event)
+    create(:entitlement, name: "est is", id: 23, event: @second_event)
+    create(:entitlement, name: "in is", id: 24, event: @second_event)
+    create(:entitlement, name: "labore is", id: 25, event: @second_event)
   end
 
   it { is_expected.to validate_presence_of(:name) }
 
   describe "Entitlement" do
     it "should create an array for the selectors" do
-      expect(Entitlement.form_selector()).to eq([
+      expect(Entitlement.form_selector(@first_event)).to eq([
         ["repellendus", 16],
         ["tenetur", 17],
         ["est", 18],
