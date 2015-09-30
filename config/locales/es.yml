@@ -19,6 +19,9 @@ es:
           attributes:
             phone:
               improbable_phone: 'No es un número de teléfono válido. Verifica que el país concuerda con el número.'
+            birthdate:
+              invalid: "No es una fecha válida"
+              too_young: "Debe tener más de %{age} años"
         epg_claim_form:
           attributes:
             phone:

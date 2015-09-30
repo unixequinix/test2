@@ -56,8 +56,16 @@ class Customer < ActiveRecord::Base
   validates :email, format: { with: MAIL_FORMAT }, presence: true
   validates :name, :surname, :password, presence: true
   validates :agreed_on_registration, acceptance: { accept: true }
+
   validates_length_of :password, within: Devise.password_length, allow_blank: true
   validates_uniqueness_of :email, conditions: -> { where(deleted_at: nil) }
+
+  validates :country, inclusion: { in:Country.all.map(&:pop) }
+  validates :gender, inclusion: { in: GENDERS }
+  validate :valid_birthday?
+  validates :postcode, numericality: { allow_blank: true, only_integer: true }
+
+
 
   # Methods
   # -------------------------------------------------------
@@ -114,6 +122,36 @@ class Customer < ActiveRecord::Base
 
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
+  end
+
+  private
+
+  def valid_birthday?
+    birthdate_is_date? && enough_age?
+  end
+
+  def birthdate_is_date?
+    unless(birthdate.is_a?(ActiveSupport::TimeWithZone))
+      errors.add(
+        :birthdate,
+        I18n.t('activemodel.errors.models.customer.attributes.birthdate.invalid')
+      )
+      false
+    else
+      true
+    end
+  end
+
+  def enough_age?
+    minimum_age = 12
+    unless(Date.today.midnight - minimum_age.years >= birthdate.midnight)
+      errors.add(
+        :birthdate,
+        I18n.t('activemodel.errors.models.customer.attributes.birthdate.too_young',
+          age: minimum_age
+        )
+      )
+    end
   end
 
 end

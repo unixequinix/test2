@@ -18,6 +18,8 @@ class RefundService
     if refund.status == 'SUCCESS' || refund.status == 'PENDING'
       @claim.complete!
       send_mail_for(@claim)
+    else
+      false
     end
   end
 

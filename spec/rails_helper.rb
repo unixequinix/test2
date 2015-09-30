@@ -83,6 +83,10 @@ RSpec.configure do |config|
     Warden.test_mode!
   end
 
+  config.before(:suite) do
+    Seeder::SeedLoader.create_event_parameters
+  end
+
   config.before(:each) do
     DatabaseCleaner.strategy = :transaction
   end
@@ -99,4 +103,5 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
     Warden.test_reset!
   end
+
 end

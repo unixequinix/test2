@@ -6,9 +6,11 @@ class RefundNotificationService
   private
 
   def notify_customers_to(event)
-    GtagRegistration.includes(:customer_event_profile).where(aasm_state: :assigned).each do |gtag_registration|
-      send_mail_to(gtag_registration.customer_event_profile, event)
+    sent = false
+    CustomerEventProfile.with_gtag(event).each do |customer_event_profile|
+      sent = true if send_mail_to(customer_event_profile, event)
     end
+    sent
   end
 
   def send_mail_to(customer_event_profile, event)

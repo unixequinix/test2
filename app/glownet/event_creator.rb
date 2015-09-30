@@ -1,4 +1,5 @@
 class EventCreator
+  attr_reader :event
 
   def initialize(params)
     @params = params
@@ -13,26 +14,10 @@ class EventCreator
     default_event_translations
   end
 
-  def event
-    @event
-  end
-
   private
 
   def default_event_parameters
-    YAML.load_file(Rails.root.join("db", "seeds", "default_event_parameters.yml")).each do |data|
-      data['groups'].each do |group|
-        group['values'].each do |value|
-          parameter = Parameter.find_by(category: data['category'], group: group['name'], name: value['name'])
-          event_parameter = EventParameter.new(event_id: @event.id, value: value['value'].to_s, parameter_id: parameter.id)
-          begin
-            event_parameter.save
-          rescue
-            puts 'Already exists'
-          end
-        end
-      end
-    end
+    Seeder::SeedLoader.load_default_event_parameters(@event)
   end
 
   def default_event_translations
