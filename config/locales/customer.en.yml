@@ -37,8 +37,8 @@ en:
       call_to_action_started: "The event just started so you cannot change the ticket"
       button: "Remove"
     without_admissions:
-      call_to_action: "Please activate a festival ticket"
-      description: "You can activate as much tickets as you want."
+      call_to_action: "Please register ALL tickets belonging to YOU"
+      description: "Do NOT register your friend's tickets under your account."
       button: "Activate Ticket"
     credits:
       header: "Your Online Credit Balance"

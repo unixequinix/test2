@@ -38,8 +38,8 @@ es:
       call_to_action_started: "El evento ya ha comenzado, no puedes cambiar tu ticket"
       button: "Borrar"
     without_admissions:
-      call_to_action: "Por favor activa un ticket"
-      description: "Puedes activar tantos tickets como quieras"
+      call_to_action: "Por favor activa todos tus tickets"
+      description: "NO registres los tickets de tus amigos en tu cuenta."
       button: "Activar Ticket"
     credits:
       header: "Tu Balance de créditos"

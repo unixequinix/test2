@@ -5,7 +5,7 @@ en:
       follow_on_twitter: 'Follow on Twitter'
       like_on_facebook: 'Like on Facebook'
       suscribe_on_you_tube: 'Subscribe on YouTube'
-      communication: "This is communication from Glownet"
+      communication: "This is communication from %{event_name}"
       footer: 'Any question about the service? Contact directly %{support_name} support department.'
       footer_copy: 'Copyright Glownet © %{year} All rights reserved.'
       order:
