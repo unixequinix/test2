@@ -86,6 +86,9 @@ class Customer < ActiveRecord::Base
   end
 
   def self.send_confirmation_instructions(attributes={})
+    puts '--------------'
+    puts attributes
+    puts '--------------'
     confirmable = find_by_unconfirmed_email_with_errors(attributes) if reconfirmable
     unless confirmable.try(:persisted?)
       confirmable = find_or_initialize_with_errors(confirmation_keys, attributes, :not_found)
