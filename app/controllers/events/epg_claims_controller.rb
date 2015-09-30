@@ -20,7 +20,8 @@ class Events::EpgClaimsController < Events::ClaimsController
   private
 
   def permitted_params
-    params.require(:epg_claim_form).permit(:country_code, :state, :city, :post_code, :phone, :address, :claim_id, :agreed_on_claim)
+    params.require(:epg_claim_form).permit(:country_code, :state, :city,
+      :post_code, :phone, :address, :claim_id, :agreed_on_claim)
   end
 
 end

@@ -6,7 +6,6 @@ RSpec.feature "Redsys Setup", type: :feature do
     before :each do
       admin = create(:admin)
       login_as(admin, scope: :admin)
-      load_event_parameters
     end
 
     describe "new event and redsys payment system selection" do

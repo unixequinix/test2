@@ -19,10 +19,12 @@ FactoryGirl.define do
     event
 
     after :build do |event_parameter, evaluator|
-      case evaluator.position_of_value
-        when 0 then event_parameter.parameter = build(:parameter, data_type: "string")
-        when 1 then event_parameter.parameter = build(:parameter, data_type: "integer")
-        when 2 then event_parameter.parameter = build(:parameter, data_type: "currency")
+      unless evaluator.parameter_id
+        case evaluator.position_of_value
+          when 0 then event_parameter.parameter = build(:parameter, data_type: "string")
+          when 1 then event_parameter.parameter = build(:parameter, data_type: "integer")
+          when 2 then event_parameter.parameter = build(:parameter, data_type: "currency")
+        end
       end
     end
   end
