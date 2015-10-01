@@ -12,5 +12,10 @@
 
       = f.input :current_password, autocomplete: "off"
       = f.input :password, autocomplete: "off", hint: t('registration.edit.password_hint'), required: false
+      = f.input :phone if(current_event.phone?)
+      = f.input :address if(current_event.address?)
+      = f.input :city if(current_event.city?)
+      = f.input :country if(current_event.country?)
+      = f.input :postcode if(current_event.postcode?)
       .container-button.align-right
         = f.button :submit, t('registration.edit.button'), class: "btn btn-top"
