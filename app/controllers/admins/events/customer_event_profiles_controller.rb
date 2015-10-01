@@ -15,7 +15,8 @@ class Admins::Events::CustomerEventProfilesController < Admins::Events::BaseCont
   end
 
   def resend_confirmation
-    @customer = CustomerEventProfile.find(params[:id]).customer
-    @customer.send_confirmation_instructions
+    @customer_event_profile = CustomerEventProfile.find(params[:id])
+    @customer = @customer_event_profile.customer
+    @customer.resend_confirmation_instructions(current_event.id)
   end
 end
