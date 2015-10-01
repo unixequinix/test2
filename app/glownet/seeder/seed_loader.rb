@@ -16,7 +16,7 @@ class Seeder::SeedLoader
             parameter_id: parameter.id
           )
           begin
-            event_parameter.save
+            event_parameter.save!
           rescue
             puts 'Already exists'
           end
@@ -34,7 +34,7 @@ class Seeder::SeedLoader
         puts " - Group: #{group['name']}"
         group['parameters'].each do |parameter|
           puts "   - #{parameter['name']}"
-          p = Parameter.create!(
+          p = Parameter.new(
             category: category['name'],
             group: group['name'],
             name: parameter['name'],
@@ -42,7 +42,7 @@ class Seeder::SeedLoader
             description: ''
           )
           begin
-            p.save
+            p.save!
           rescue
             puts 'Already exists'
           end
@@ -59,7 +59,7 @@ class Seeder::SeedLoader
         puts " - Group: #{group['name']}"
         group['parameters'].each do |parameter|
           puts "   - #{parameter['name']}"
-          p = Parameter.create!(
+          p = Parameter.new(
             category: category['name'],
             group: group['name'],
             name: parameter['name'],
@@ -67,7 +67,7 @@ class Seeder::SeedLoader
             description: ''
           )
           begin
-            p.save
+            p.save!
           rescue
             puts 'Already exists'
           end

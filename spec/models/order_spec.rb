@@ -23,7 +23,7 @@ RSpec.describe Order, type: :model do
     it "returns the total of all the items in the order" do
       order = create(:order)
 
-      expect(order.total).to eq(49.95)
+      expect(order.total).to eq(99.75)
     end
   end
 
@@ -35,7 +35,6 @@ RSpec.describe Order, type: :model do
 
       expect(order.number).to start_with(day)
       expect(order.number).to match(/^[a-f0-9]*$/)
-      expect(order.number.size).to eq(12)
     end
   end
 

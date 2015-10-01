@@ -13,7 +13,6 @@ RSpec.describe Claim, type: :model do
 
       expect(claim.number).to start_with(day)
       expect(claim.number).to match(/^[a-f0-9]*$/)
-      expect(claim.number.size).to eq(12)
     end
   end
 

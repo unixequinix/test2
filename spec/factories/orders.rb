@@ -22,7 +22,7 @@ FactoryGirl.define do
 
     after :build do |order, evaluator|
       5.times do
-        order.order_items << build(:order_item, order: order)
+        order.order_items << build(:order_item, order: order, total: 19.95)
       end
     end
   end
