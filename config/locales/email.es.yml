@@ -5,7 +5,7 @@ es:
       follow_on_twitter: 'Síguenos en Twitter'
       like_on_facebook: 'Dale a me gusta en Facebook'
       suscribe_on_you_tube: 'Suscríbete en YouTube'
-      communication: "Este es un mensaje de %{event_name}"
+      communication: "Este es un mensaje automático de %{event_name}"
       footer: '¿Alguna duda sobre el servicio? Contácta al departamento de soporte de %{support_name}.'
       footer_copy: 'Copyright Glownet © %{year} Todos los derechos reservados.'
       order:

@@ -65,7 +65,6 @@ class Customer < ActiveRecord::Base
   # validate :valid_birthday?
   # validates :postcode, numericality: { only_integer: true }
 
-
   # Methods
   # -------------------------------------------------------
 
