@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150925144406) do
+ActiveRecord::Schema.define(version: 20151002190845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,36 +30,6 @@ ActiveRecord::Schema.define(version: 20150925144406) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
-  end
-
-  create_table "customers", force: :cascade do |t|
-    t.string   "email",                  default: "",    null: false, index: {name: "index_customers_on_email"}
-    t.string   "name",                   default: "",    null: false
-    t.string   "surname",                default: "",    null: false
-    t.string   "encrypted_password",     default: "",    null: false
-    t.string   "reset_password_token",   index: {name: "index_customers_on_reset_password_token", unique: true}
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,     null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.inet     "current_sign_in_ip"
-    t.inet     "last_sign_in_ip"
-    t.string   "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.datetime "deleted_at",             index: {name: "index_customers_on_deleted_at"}
-    t.boolean  "agreed_on_registration", default: false
-    t.string   "phone"
-    t.string   "postcode"
-    t.string   "address"
-    t.string   "city"
-    t.string   "country"
-    t.string   "gender"
-    t.datetime "birthdate"
   end
 
   create_table "events", force: :cascade do |t|
@@ -89,6 +59,37 @@ ActiveRecord::Schema.define(version: 20150925144406) do
     t.boolean  "gtag_registration",       default: true,                  null: false
     t.string   "payment_service",         default: "redsys"
     t.integer  "registration_parameters", default: 0,                     null: false
+  end
+
+  create_table "customers", force: :cascade do |t|
+    t.string   "email",                  default: "",    null: false, index: {name: "index_customers_on_email_and_event_id", with: ["event_id"], unique: true}
+    t.string   "name",                   default: "",    null: false
+    t.string   "surname",                default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
+    t.string   "reset_password_token",   index: {name: "index_customers_on_reset_password_token", unique: true}
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,     null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet     "current_sign_in_ip"
+    t.inet     "last_sign_in_ip"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.datetime "deleted_at",             index: {name: "index_customers_on_deleted_at"}
+    t.boolean  "agreed_on_registration", default: false
+    t.string   "phone"
+    t.string   "postcode"
+    t.string   "address"
+    t.string   "city"
+    t.string   "country"
+    t.string   "gender"
+    t.datetime "birthdate"
+    t.integer  "event_id",               null: false, index: {name: "fk__customers_event_id"}, foreign_key: {references: "events", name: "customers_event_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "customer_event_profiles", force: :cascade do |t|

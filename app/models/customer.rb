@@ -51,6 +51,7 @@ class Customer < ActiveRecord::Base
 
   # Associations
   has_many :customer_event_profiles
+  belongs_to :event
 
   # Validations
   validates :email, format: { with: MAIL_FORMAT }, presence: true
@@ -58,7 +59,7 @@ class Customer < ActiveRecord::Base
   validates :agreed_on_registration, acceptance: { accept: true }
 
   validates_length_of :password, within: Devise.password_length, allow_blank: true
-  validates_uniqueness_of :email, conditions: -> { where(deleted_at: nil) }
+  validates_uniqueness_of :email, scope: [:event_id], conditions: -> { where(deleted_at: nil) }
 
   # Methods
   # -------------------------------------------------------
