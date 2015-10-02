@@ -60,11 +60,10 @@ class Customer < ActiveRecord::Base
   validates_length_of :password, within: Devise.password_length, allow_blank: true
   validates_uniqueness_of :email, conditions: -> { where(deleted_at: nil) }
 
-  validates :country, inclusion: { in:Country.all.map(&:pop) }
-  validates :gender, inclusion: { in: GENDERS }
-  validate :valid_birthday?
-  validates :postcode, numericality: { allow_blank: true, only_integer: true }
-
+  # validates :country, inclusion: { in:Country.all.map(&:pop) }
+  # validates :gender, inclusion: { in: GENDERS }
+  # validate :valid_birthday?
+  # validates :postcode, numericality: { only_integer: true }
 
 
   # Methods

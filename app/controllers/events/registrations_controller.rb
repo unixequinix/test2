@@ -2,24 +2,24 @@ class Events::RegistrationsController < Events::DeviseBaseController
   skip_before_action :authenticate_customer!, only: [:new, :create]
 
   def new
-    @customer = Customer.new
+    @customer_form = CustomerForm.new
   end
 
   def create
-    @customer = Customer.new(permitted_params)
-    @customer.skip_confirmation_notification!
-    if @customer.save
-      if @customer.active_for_authentication?
+    @customer_form = CustomerForm.new(permitted_params)
+    #@customer_form.skip_confirmation_notification!
+    if @customer_form.save
+      if @customer_form.customer.active_for_authentication?
         set_flash_message :notice, :signed_up if is_flashing_format?
-        create_customer_event_profile(@customer)
-        sign_up(@customer.class.name, @customer)
-        redirect_to after_sign_up_path_for(@customer)
+        create_customer_event_profile(@customer_form.customer)
+        sign_up(@customer_form.customer.class.name, @customer_form.customer)
+        redirect_to after_sign_up_path_for(@customer_form.customer)
       else
         Customer.send_confirmation_instructions(permitted_params.merge(event_id: current_event.id))
-        set_flash_message :notice, :"signed_up_but_#{@customer.inactive_message}" if is_flashing_format?
+        set_flash_message :notice, :"signed_up_but_#{@customer_form.customer.inactive_message}" if is_flashing_format?
         expire_data_after_sign_in!
-        create_customer_event_profile(@customer)
-        redirect_to after_inactive_sign_up_path_for(@customer)
+        create_customer_event_profile(@customer_form.customer)
+        redirect_to after_inactive_sign_up_path_for(@customer_form.customer)
       end
     else
       clean_up_passwords @customer
@@ -34,6 +34,7 @@ class Events::RegistrationsController < Events::DeviseBaseController
 
   def update
     @customer = current_customer
+
     prev_unconfirmed_email = @customer.unconfirmed_email if @customer.respond_to?(:unconfirmed_email)
     if @customer.update(permitted_params)
       if is_flashing_format?
@@ -52,7 +53,7 @@ class Events::RegistrationsController < Events::DeviseBaseController
   private
 
   def permitted_params
-    params.require(:customer)
+    params.require(:customer_form)
       .permit(:email, :name, :surname, :phone, :password, :password_confirmation,
               :postcode, :address, :city, :country, :postcode, :gender,
               :birthdate, :agreed_on_registration)
