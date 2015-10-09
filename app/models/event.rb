@@ -74,6 +74,7 @@ class Event < ActiveRecord::Base
 
   # Associations
   has_many :customer_event_profiles
+  has_many :customers
   has_many :entitlements
   has_many :ticket_types
   has_many :tickets
