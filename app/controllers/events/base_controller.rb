@@ -1,7 +1,5 @@
 class Events::BaseController < ApplicationController
   layout 'event'
-  helper_method :current_event
-  before_action :fetch_current_event
   before_action :authenticate_customer!
   before_filter :set_i18n_globals
 
@@ -12,16 +10,7 @@ class Events::BaseController < ApplicationController
   end
   helper_method :current_customer_event_profile
 
-  def current_event
-    @current_event || Event.new
-  end
-
   private
-
-  def fetch_current_event
-    id = params[:event_id] || params[:id]
-    @current_event = Event.friendly.find(id)
-  end
 
   def set_i18n_globals
     I18n.config.globals[:gtag] = current_event.gtag_name
@@ -43,6 +32,11 @@ class Events::BaseController < ApplicationController
   end
 
   def authenticate_customer!
-    redirect_to new_event_session_path(current_event), notice: 'if you want to add a notice' unless current_customer
+    if current_customer && current_customer.event != current_event
+      sign_out(current_customer)
+      redirect_to event_url(current_event)
+    else
+      redirect_to new_customer_event_session_path(current_event) unless current_customer
+    end
   end
 end

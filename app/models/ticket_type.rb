@@ -29,7 +29,7 @@ class TicketType < ActiveRecord::Base
   validates :name, :company, :credit, presence: true
 
   # Scopes
-  scope :companies, -> { unscoped.uniq.pluck(:company) }
+  scope :companies, -> (event) { where(event: event).pluck(:company).uniq }
 
   # Select options with all the entitlements
   def self.form_selector(event)

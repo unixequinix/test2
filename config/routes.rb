@@ -13,15 +13,6 @@ Rails.application.routes.draw do
     },
     path_names: { sign_up: 'signup', sign_in: 'login', sign_out: 'logout' }
 
-  devise_for :customers,
-    controllers: {
-      sessions: 'customers/sessions',
-      registrations: 'customers/registrations',
-      confirmations: 'customers/confirmations',
-      passwords: 'customers/passwords'
-    },
-    path_names: { sign_up: 'signup', sign_in: 'login', sign_out: 'logout' }
-
   resources :locale do
     member do
       get 'change'
@@ -123,26 +114,17 @@ Rails.application.routes.draw do
     get 'admins', to: 'admins/events#index', as: :admin_root
   end
 
-  namespace :customers do
-    get 'privacy_policy', to: 'static_pages#privacy_policy'
-    get 'terms_of_use', to: 'static_pages#terms_of_use'
-  end
-
   scope module: 'events' do
     resources :events, only: [:show], path: '/' do
-      resources :registrations, only: [:new, :create, :edit, :update]
-      resources :sessions, only: [:new, :create, :destroy]
-      resources :confirmations, only: [:new, :create] do
-        collection do
-          get :show
-        end
-      end
-      resources :passwords, only: [:new, :create] do
-        collection do
-          get :edit
-          patch :update
-        end
-      end
+      devise_for :customers,
+        controllers: {
+          sessions: 'events/sessions',
+          registrations: 'events/registrations',
+          confirmations: 'events/confirmations',
+          passwords: 'events/passwords'
+        },
+        path: '/',
+        path_names: { sign_up: 'signup', sign_in: 'login', sign_out: 'logout' }
       resources :admissions, only: [:new, :create, :destroy]
       resources :gtag_registrations, only: [:new, :create, :destroy]
       resources :checkouts, only: [:new, :create]
@@ -174,5 +156,5 @@ Rails.application.routes.draw do
     root to: 'customers/dashboards#show', as: :customer_root
   end
 
-  root to: 'customers/sessions#new'
+  root to: 'customers/dashboards#show'
 end

@@ -1,6 +1,6 @@
 class RefundsPresenter < BasePresenter
   def can_render?
-    @gtag_registration && @event.refunds? && (!@event.closed? || completed_claim?)
+    @event.refunds? && (!@event.closed? || completed_claim?)
   end
 
   def path

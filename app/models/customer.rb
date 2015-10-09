@@ -47,7 +47,8 @@ class Customer < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :trackable
+         :recoverable, :rememberable, :trackable,
+         authentication_keys: [:email, :event_id]
 
   # Associations
   has_many :customer_event_profiles
@@ -64,55 +65,16 @@ class Customer < ActiveRecord::Base
   # Methods
   # -------------------------------------------------------
 
+
   def self.gender_selector
     GENDERS.map { |f| [I18n.t('gender.' + f), f] }
   end
 
+  protected
 
-  # TODO Big mess
-
-  def self.send_reset_password_instructions(attributes={})
-    recoverable = find_or_initialize_with_errors(reset_password_keys, attributes, :not_found)
-    recoverable.send_reset_password_instructions(attributes[:event_id]) if recoverable.persisted?
-    recoverable
-  end
-
-  def send_reset_password_instructions(event_id=nil)
-    token = set_reset_password_token
-    send_reset_password_instructions_notification(token, event_id)
-    token
-  end
-
-  def send_reset_password_instructions_notification(token, event_id=nil)
-    send_devise_notification(:reset_password_instructions, token, {event_id: event_id})
-  end
-
-  def self.send_confirmation_instructions(attributes={})
-    confirmable = find_by_unconfirmed_email_with_errors(attributes) if reconfirmable
-    unless confirmable.try(:persisted?)
-      confirmable = find_or_initialize_with_errors(confirmation_keys, attributes, :not_found)
-    end
-    confirmable.resend_confirmation_instructions(attributes[:event_id]) if confirmable.persisted?
-    confirmable
-  end
-
-   def resend_confirmation_instructions(event_id=nil)
-    pending_any_confirmation do
-      send_confirmation_instructions(event_id)
-    end
-   end
-
-  def send_confirmation_instructions(event_id=nil)
-    unless @raw_confirmation_token
-      generate_confirmation_token!
-    end
-    opts = pending_reconfirmation? ? { to: unconfirmed_email } : { }
-    opts[:event_id] = event_id
-    send_devise_notification(:confirmation_instructions, @raw_confirmation_token, opts)
-  end
-
-  def send_devise_notification(notification, *args)
-    devise_mailer.send(notification, self, *args).deliver_later
+  def self.find_for_authentication(warden_conditions)
+    where(email: warden_conditions[:email],
+          event_id: warden_conditions[:event_id]).first
   end
 
   private

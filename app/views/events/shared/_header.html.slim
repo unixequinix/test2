@@ -15,9 +15,9 @@ header
 
       - if customer_signed_in?
         li.nav-item
-          = link_to edit_event_registration_path(current_event, current_customer), class:"nav-link" do
+          = link_to edit_customer_event_registration_path(1, current_customer), class:"nav-link" do
             = current_customer.name
 
         li.nav-end-session
-          = link_to event_session_path(current_event, current_customer), method: :delete do
+          = link_to destroy_customer_event_session_path(current_event), method: :delete do
             = fa_icon "sign-out"

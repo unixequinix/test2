@@ -6,5 +6,4 @@ class Events::StaticPagesController < Events::BaseController
 
   def terms_of_use
   end
-
 end

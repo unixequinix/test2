@@ -6,15 +6,15 @@ class DeviseMailer < Devise::Mailer
   include Devise::Controllers::UrlHelpers # Optional. eg. `confirmation_url`
 
   def reset_password_instructions(record, token, opts={})
-    @event = opts[:event_id].nil? ? nil : Event.find(opts[:event_id])
-    @event.nil? ? general_config_parameters : event_config_parameters(@event, opts)
+    @event = record.event
+    event_config_parameters(@event, opts)
     reset_password_instructions_url(record, token, @event)
     super
   end
 
   def confirmation_instructions(record, token, opts={})
-    @event = opts[:event_id].nil? ? nil : Event.find(opts[:event_id])
-    @event.nil? ? general_config_parameters : event_config_parameters(@event, opts)
+    @event = record.event
+    event_config_parameters(@event, opts)
     confirmation_instruccions_url(record, token, @event)
     super
   end
@@ -30,20 +30,11 @@ class DeviseMailer < Devise::Mailer
     @support_email = event.support_email
   end
 
-  def general_config_parameters
-    headers['X-No-Spam'] = 'True'
-    @logo_url =
-      "#{Rails.application.secrets.host_url}/assets/glownet-event-logo.png"
-    @support_name = I18n.t('general_company_name')
-    @support_email = I18n.t('general_support_email')
+  def reset_password_instructions_url(record, token, event)
+    @url = edit_customer_event_password_url(event, reset_password_token: token)
   end
 
-  def reset_password_instructions_url(record, token, event=nil)
-    @url = event.nil? ? edit_password_url(record, reset_password_token: token) : edit_event_passwords_url(event, reset_password_token: token)
-  end
-
-  def confirmation_instruccions_url(record, token, event=nil)
-    @url = event.nil? ?
-      confirmation_url(record, confirmation_token: token) : event_confirmations_url(event, confirmation_token: token)
+  def confirmation_instruccions_url(record, token, event)
+    @url = customer_event_confirmation_url(event, confirmation_token: token)
   end
 end

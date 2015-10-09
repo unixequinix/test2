@@ -2,18 +2,18 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :set_locale
   before_filter :check_for_mobile
+  helper_method :current_event
+  before_action :fetch_current_event
+
+  def current_event
+    @current_event || Event.new
+  end
 
   private
 
-  def after_sign_out_path_for(resource)
-    return admin_root_path if resource == :admin
-    return customer_root_path if resource == :customer
-    root_path
-  end
-
-
-  def after_confirmation_path_for(resource_name, resource)
-    new_customer_session_path(confirmed: true)
+  def fetch_current_event
+    id = params[:event_id] || params[:id]
+    @current_event = Event.friendly.find(id) if id
   end
 
   # Get locale from user's browser and set it, unless it's present in session.
@@ -48,6 +48,7 @@ class ApplicationController < ActionController::Base
   def mobile_device?
     (session[:mobile_override] == '1') || user_agent_mobile?
   end
+  helper_method :mobile_device?
 
   def user_agent_mobile?
     # Note: we treat ipad as non mobile
@@ -55,5 +56,4 @@ class ApplicationController < ActionController::Base
   end
 
 
-  helper_method :mobile_device?
 end

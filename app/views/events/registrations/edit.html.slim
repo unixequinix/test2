@@ -1,8 +1,9 @@
-= simple_form_for @customer, url: event_registration_path(current_event, @customer) do |f|
+= simple_form_for @customer, url: customer_event_registration_path(current_event, @customer), method: :post do |f|
   = f.error_notification
   .wrapper-field
     h3.customer-section-header = t('registration.edit.title')
     .form-inputs
+      = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
       = f.input :email, required: true, autofocus: true
       = f.input :name, required: true, autofocus: true
       = f.input :surname, required: true, autofocus: true
