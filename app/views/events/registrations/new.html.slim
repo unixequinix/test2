@@ -23,7 +23,7 @@
         end_year: Date.today.year - 12,
         order: [:day, :month, :year] if(current_event.birthdate?)
       .accept-terms
-        = f.input :agreed_on_registration, label: ("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), event_terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), event_privacy_policy_url, target: '_blank'}").html_safe
+        = f.input :agreed_on_registration, as: :boolean, label: ("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), customers_terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), customers_privacy_policy_url, target: '_blank'}").html_safe
       .container-button
         = f.button :submit, t('registration.new.button'), class: "btn-top"
 

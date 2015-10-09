@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: gtags
+#
+#  id                :integer          not null, primary key
+#  tag_uid           :string           not null
+#  tag_serial_number :string           not null
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  deleted_at        :datetime
+#  event_id          :integer          not null
+#
+
 require "rails_helper"
 
 RSpec.describe Gtag, type: :model do

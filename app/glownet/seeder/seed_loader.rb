@@ -16,9 +16,9 @@ class Seeder::SeedLoader
             parameter_id: parameter.id
           )
           begin
-            event_parameter.save
+            event_parameter.save!
           rescue
-            puts 'Already exists'
+            Rails.logger.warn 'Already exists'
           end
         end
       end
@@ -29,12 +29,9 @@ class Seeder::SeedLoader
     file = "event_parameters.yml"
     YAML.load_file(
       Rails.root.join("db", "seeds", file)).each do |category|
-      puts "Category: #{category['name']}"
       category['groups'].each do |group|
-        puts " - Group: #{group['name']}"
         group['parameters'].each do |parameter|
-          puts "   - #{parameter['name']}"
-          p = Parameter.create!(
+          p = Parameter.new(
             category: category['name'],
             group: group['name'],
             name: parameter['name'],
@@ -42,9 +39,9 @@ class Seeder::SeedLoader
             description: ''
           )
           begin
-            p.save
+            p.save!
           rescue
-            puts 'Already exists'
+            Rails.logger.warn 'Already exists'
           end
         end
       end
@@ -54,12 +51,9 @@ class Seeder::SeedLoader
   def self.create_claim_parameters
     file = "claim_parameters.yml"
     YAML.load_file(Rails.root.join("db", "seeds", file)).each do |category|
-      puts "Category: #{category['name']}"
       category['groups'].each do |group|
-        puts " - Group: #{group['name']}"
         group['parameters'].each do |parameter|
-          puts "   - #{parameter['name']}"
-          p = Parameter.create!(
+          p = Parameter.new(
             category: category['name'],
             group: group['name'],
             name: parameter['name'],
@@ -67,9 +61,9 @@ class Seeder::SeedLoader
             description: ''
           )
           begin
-            p.save
+            p.save!
           rescue
-            puts 'Already exists'
+            Rails.logger.warn 'Already exists'
           end
         end
       end

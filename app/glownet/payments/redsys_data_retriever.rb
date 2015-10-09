@@ -1,16 +1,11 @@
 class Payments::RedsysDataRetriever
   include Rails.application.routes.url_helpers
+  attr_reader :current_event
+
   def initialize(event, order)
     @current_event = event
     @order = order
-
-    @payment_parameters = Parameter.joins(:event_parameters)
-      .where(event_parameters: {event: Event.first})
-      .select("parameters.name, event_parameters.*")
-  end
-
-  def iupay
-    @iupay
+    @payment_parameters = Parameter.joins(:event_parameters).where(category: "payment", event_parameters: {event: event}).select("parameters.name, event_parameters.*")
   end
 
   def amount
@@ -60,7 +55,6 @@ class Payments::RedsysDataRetriever
   def notification_url
     event_payments_url(@current_event)
   end
-
 
   def message
     "#{amount}#{@order.number}#{code}#{currency}#{transaction_type}#{notification_url}#{password}"

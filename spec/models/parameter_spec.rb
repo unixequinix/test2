@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: parameters
+#
+#  id          :integer          not null, primary key
+#  name        :string           not null
+#  data_type   :string           not null
+#  category    :string           not null
+#  group       :string           not null
+#  description :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
 require "rails_helper"
 
 RSpec.describe Parameter, type: :model do

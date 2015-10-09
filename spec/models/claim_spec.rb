@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: claims
+#
+#  id                        :integer          not null, primary key
+#  number                    :string           not null
+#  aasm_state                :string           not null
+#  completed_at              :datetime
+#  total                     :decimal(8, 2)    not null
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  gtag_id                   :integer
+#  service_type              :string
+#  fee                       :decimal(8, 2)    default(0.0)
+#  minimum                   :decimal(8, 2)    default(0.0)
+#  customer_event_profile_id :integer
+#
+
 require "rails_helper"
 
 RSpec.describe Claim, type: :model do
@@ -13,7 +31,6 @@ RSpec.describe Claim, type: :model do
 
       expect(claim.number).to start_with(day)
       expect(claim.number).to match(/^[a-f0-9]*$/)
-      expect(claim.number.size).to eq(12)
     end
   end
 

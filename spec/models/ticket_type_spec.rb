@@ -10,6 +10,7 @@
 #  updated_at      :datetime         not null
 #  deleted_at      :datetime
 #  simplified_name :string
+#  event_id        :integer          not null
 #
 
 require "rails_helper"

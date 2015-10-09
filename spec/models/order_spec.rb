@@ -2,13 +2,13 @@
 #
 # Table name: orders
 #
-#  id           :integer          not null, primary key
-#  customer_id  :integer          not null
-#  number       :string           not null
-#  aasm_state   :string           not null
-#  completed_at :datetime
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  id                        :integer          not null, primary key
+#  number                    :string           not null
+#  aasm_state                :string           not null
+#  completed_at              :datetime
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  customer_event_profile_id :integer
 #
 
 require "rails_helper"
@@ -23,7 +23,7 @@ RSpec.describe Order, type: :model do
     it "returns the total of all the items in the order" do
       order = create(:order)
 
-      expect(order.total).to eq(49.95)
+      expect(order.total).to eq(99.75)
     end
   end
 
@@ -35,7 +35,6 @@ RSpec.describe Order, type: :model do
 
       expect(order.number).to start_with(day)
       expect(order.number).to match(/^[a-f0-9]*$/)
-      expect(order.number.size).to eq(12)
     end
   end
 

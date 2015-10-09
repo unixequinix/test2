@@ -23,6 +23,14 @@
 #  updated_at             :datetime         not null
 #  deleted_at             :datetime
 #  agreed_on_registration :boolean          default(FALSE)
+#  phone                  :string
+#  postcode               :string
+#  address                :string
+#  city                   :string
+#  country                :string
+#  gender                 :string
+#  birthdate              :datetime
+#  event_id               :integer          not null
 #
 
 require "rails_helper"
