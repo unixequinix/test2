@@ -12,11 +12,11 @@ class Events::SessionsController < Devise::SessionsController
   private
 
   def after_sign_out_path_for(resource)
-    event_path(current_event)
+    event_path(id: params[:event_id])
   end
 
   def after_sign_in_path_for(resource)
-    event_path(current_event)
+    event_path(id: params[:event_id])
   end
 
   def configure_permitted_parameters
