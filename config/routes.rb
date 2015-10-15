@@ -153,7 +153,7 @@ Rails.application.routes.draw do
   end
 
   devise_scope :customers do
-    root to: 'customers/dashboards#show', as: :customer_root
+    get ':event_id', to: 'events/events#show', as: :customer_root
   end
 
   root to: 'customers/dashboards#show'

@@ -1,17 +1,21 @@
 class Admins::Events::TicketsController < Admins::Events::BaseController
 
   def index
-    @q = Ticket.where(event_id: current_event.id).search(params[:q])
+    all_tickets = @fetcher.tickets
+    @q = all_tickets.search(params[:q])
     @tickets = @q.result(distinct: true).page(params[:page]).includes(:ticket_type, :assigned_admission)
+    @tickets_count = all_tickets.count
     respond_to do |format|
       format.html
-      format.csv { send_data(Csv::CsvExporter.to_csv(Ticket.where(event_id: current_event.id)))}
+      format.csv { send_data(Csv::CsvExporter.to_csv(@fetcher.tickets))}
     end
   end
 
   def search
-    @q = Ticket.where(event_id: current_event.id).search(params[:q])
+    all_tickets = @fetcher.tickets
+    @q = all_tickets.search(params[:q])
     @tickets = @q.result(distinct: true).page(params[:page]).includes(:ticket_type, :assigned_admission)
+    @tickets_count = all_tickets.count
     render :index
   end
 
