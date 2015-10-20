@@ -5,7 +5,7 @@ class Events::AdmissionsController < Events::BaseController
   end
 
   def create
-    ticket = Ticket.find_by(number: params[:ticket_number].strip)
+    ticket = Ticket.find_by(number: params[:ticket_number].strip, event: current_event)
     if !ticket.nil?
       @admission = current_customer_event_profile.admissions.build(ticket: ticket)
       if @admission.save

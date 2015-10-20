@@ -81,12 +81,14 @@ gem 'whenever', '~> 0.9.4', require: false
 gem 'globalize', '~> 5.0.1'
 gem 'i18n-globals', git: 'https://github.com/sebastianzillessen/i18n-globals.git'
 
+gem 'glownet_checking_ngn', path: '../glownet_checking_ngn'
+
 group :development do
   gem 'foreman', '~> 0.78.0'
   gem 'annotate', '~> 2.6.8'
   gem 'bullet', '~> 4.14.4' # Help to kill N+1 queries and unused eager loading
   gem 'rails-erd', '~> 1.3.1' # Entity-relationship diagrams (ERD)
-  gem 'railroady', '~> 1.3.1' # Controller diagrams (ERD)
+  gem 'railroady', '~> 1.4.0' # Controller diagrams (ERD)
   gem 'quiet_assets', '~> 1.1.0'
   gem 'hirb', '~> 0.7.3' #  Improve ripl(irb)'s default inspect output
   # bundle exec rake doc:rails generates the API under doc/api.

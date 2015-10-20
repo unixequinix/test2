@@ -1,4 +1,4 @@
-= simple_form_for @customer, url: customer_event_registration_path(current_event, @customer), method: :post do |f|
+= simple_form_for @customer, url: customer_event_registration_path(current_event), method: :patch do |f|
   = f.error_notification
   .wrapper-field
     h3.customer-section-header = t('registration.edit.title')
@@ -18,10 +18,9 @@
       = f.input :city if(current_event.city?)
       = f.input :country if(current_event.country?)
       = f.input :postcode if(current_event.postcode?)
+      = f.input :gender, collection: Customer.gender_selector, include_blank: false if(current_event.gender?)
+      = f.input :birthdate, as: :date, start_year: 1950,
+        end_year: Date.today.year - 12,
+        order: [:day, :month, :year] if(current_event.birthdate?)
       .container-button.align-right
         = f.button :submit, t('registration.edit.button'), class: "btn btn-top"
-
-  .wrapper-field.wrapper-single-option
-    .form-inputs
-      h3.single-option-header = t('cancel.unhappy')
-      = link_to t('actions.delete_account'), registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: "btn"

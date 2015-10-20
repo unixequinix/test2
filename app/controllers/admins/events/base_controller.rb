@@ -1,6 +1,13 @@
 class Admins::Events::BaseController < Admins::BaseController
   layout 'admin_event'
   before_filter :set_i18n_globals
+  before_filter :enable_fetcher
+
+  private
+
+  def enable_fetcher
+    @fetcher = Multitenancy::Fetcher.new(current_event)
+  end
 
   def set_i18n_globals
     I18n.config.globals[:gtag] = current_event.gtag_name

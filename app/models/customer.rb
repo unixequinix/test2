@@ -62,11 +62,8 @@ class Customer < ActiveRecord::Base
 
   validates_length_of :password, within: Devise.password_length, allow_blank: true
   validates_uniqueness_of :email, scope: [:event_id], conditions: -> { where(deleted_at: nil) }
+  validate :validate_configurable_fields
 
-  # validates :country, inclusion: { in:Country.all.map(&:pop) }
-  # validates :gender, inclusion: { in: GENDERS }
-  # validate :valid_birthday?
-  # validates :postcode, numericality: { only_integer: true }
 
   # Methods
   # -------------------------------------------------------
@@ -111,6 +108,9 @@ class Customer < ActiveRecord::Base
         )
       )
     end
+  end
+
+  def validate_configurable_fields
   end
 
 end

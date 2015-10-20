@@ -7,10 +7,7 @@
       ul
         li
           | 1.1.  These terms and conditions (the Terms) set out the basis on which you may use our website to obtain a refund from a payment service provider for the Festival (Services) available at
-
-          = link_to href=customer_root_url, target:"_blank" do
-            span
-              | #{current_event.url}
+          = link_to current_event.name, event_url(current_event), target:"_blank"
 
         li 1.2.  This Site is owned and operated by Glownet Limited, with registered no. 08245670 and registered address at 35B Wroughton Road, London, SW11 6BE. We are a technology service provider who provide cashless payment solutions for live events and festivals (we, us or our).
 
@@ -41,7 +38,7 @@
 
         li
           | 4.2.  You agree that you will provide accurate, current and complete information about yourself, and maintain and promptly update your personal information contained in your account profile. For more information about how we will use your personal information please see our
-          = link_to t("footer.privacy"), customers_privacy_policy_url, target: '_blank'
+          = link_to t("footer.privacy"), event_privacy_policy_url(current_event), target: '_blank'
 
         li 4.3. You agree to not share your account password, and to keep your password confidential.
 
@@ -81,12 +78,12 @@
       ul
         li
           | 7.1. Any personal information that we collect from you as you browse and use the Site will be used in accordance with our privacy policy. To find out more about the data we collect from you and how we use it please read our privacy policy available here
-          = link_to t("footer.privacy"), customers_privacy_policy_url, target: '_blank'
+          = link_to t("footer.privacy"), event_privacy_policy_url(current_event), target: '_blank'
           | .
 
         li
           | 7.2.  By accepting the Terms you also consent to our use of your personal data in accordance with our
-          = link_to t("footer.privacy"), customers_privacy_policy_url, target: '_blank'
+          = link_to t("footer.privacy"), event_privacy_policy_url(current_event), target: '_blank'
           | .
     li
       h3 8. Complaints or Queries

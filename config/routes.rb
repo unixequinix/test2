@@ -38,7 +38,7 @@ Rails.application.routes.draw do
 
   ## Resources
   ## ------------------------------
-
+  mount GlownetCheckingNgn::Engine, at: "admins"
   namespace :admins do
     resources :admins, except: :show
     resources :events, only: [:index, :show, :new, :create, :edit, :update] do
@@ -59,13 +59,6 @@ Rails.application.routes.draw do
         resources :ticket_types, except: :show
         resources :tickets do
           resources :comments, module: :tickets
-          collection do
-            get :search
-            delete :destroy_multiple
-          end
-        end
-        resources :gtags do
-          resources :comments, module: :gtags
           collection do
             get :search
             delete :destroy_multiple
@@ -153,7 +146,7 @@ Rails.application.routes.draw do
   end
 
   devise_scope :customers do
-    root to: 'customers/dashboards#show', as: :customer_root
+    get ':event_id', to: 'events/events#show', as: :customer_root
   end
 
   root to: 'customers/dashboards#show'

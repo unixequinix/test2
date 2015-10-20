@@ -7,9 +7,7 @@
     ul
       li
         | 1.1 This privacy policy sets out the basis on which we will process any personal data that we collect from you or that you provide to us when you use our website:
-        = link_to href=customer_root_url, target:"_blank" do
-          span
-            | #{current_event.url}
+        = link_to current_event.name, event_url(current_event), target:"_blank"
 
         | . Please read the following privacy policy carefully to understand how we use and protect the personal information that you provide to us.
 
@@ -34,7 +32,7 @@
     ul
       li
         | 4.1. We will only use the personal information that we collect from you in accordance with this privacy policy and the Website
-        = link_to t("footer.use"), customers_terms_of_use_url, target: '_blank'
+        = link_to t("footer.use"), event_terms_of_use_url(current_event), target: '_blank'
         | as applicable to you.
 
       li 4.2.  In addition to the specific uses set out in section 3 above, we may use your information for the following purposes:

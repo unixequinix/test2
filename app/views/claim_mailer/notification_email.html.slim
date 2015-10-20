@@ -370,7 +370,7 @@ html
                                 h1.h1 = t("email.customer.confirmation.greet", name: "#{@name}")
                                 p = t("email.customer.claim.available_claim.mail_body")
 
-                                = link_to t('email.customer.claim.available_claim.mail_link'), customer_root_url, { :style => "color: #ff0090; font-size: 26px; text-decoration: underline; " }
+                                = link_to t('email.customer.claim.available_claim.mail_link'), event_url(@event), { :style => "color: #ff0090; font-size: 26px; text-decoration: underline; " }
 
                                 = raw @event.mass_email_claim_notification
               tr
