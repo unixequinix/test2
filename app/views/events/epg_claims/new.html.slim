@@ -13,7 +13,7 @@
         = f.input :country_code, autofocus: true, priority: t('country_iso_priority')
         = f.input :claim_id, as: :hidden, input_html: { value: @claim.id }
         .accept-terms
-          = f.input :agreed_on_claim, as: :boolean, label: ("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), customers_terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), customers_privacy_policy_url, target: '_blank'}").html_safe
+          = f.input :agreed_on_claim, as: :boolean, label: ("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), event_terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), event_privacy_policy_url, target: '_blank'}").html_safe
 
         .wrapper-secure-payment
           = render 'events/shared/ssl_cert_seal'

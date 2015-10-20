@@ -6,7 +6,7 @@ class Admins::Events::AdmissionsController < Admins::Events::BaseController
   end
 
   def create
-    ticket = Ticket.find_by(number: params[:ticket_number].strip)
+    ticket = Ticket.find_by(number: params[:ticket_number].strip, event: current_event)
     @customer_event_profile = CustomerEventProfile.with_deleted.find(params[:customer_event_profile_id])
     if !ticket.nil?
       @admission = Admission.new(customer_event_profile_id: @customer_event_profile.id, ticket_id: ticket.id)

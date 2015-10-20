@@ -6,7 +6,7 @@ class Admins::Events::GtagRegistrationsController < Admins::Events::BaseControll
   end
 
   def create
-    gtag = Gtag.find_by(tag_uid: params[:tag_uid].strip.upcase, tag_serial_number: params[:tag_serial_number].strip.upcase)
+    gtag = Gtag.find_by(tag_uid: params[:tag_uid].strip.upcase, tag_serial_number: params[:tag_serial_number].strip.upcase, event: current_event)
     @customer_event_profile = CustomerEventProfile.with_deleted.find(params[:customer_event_profile_id])
     if !gtag.nil?
       @gtag_registration = GtagRegistration.new(customer_event_profile_id: params[:customer_event_profile_id], gtag_id: gtag.id)

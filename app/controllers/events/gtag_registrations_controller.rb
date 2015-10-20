@@ -8,7 +8,7 @@ class Events::GtagRegistrationsController < Events::BaseController
 
   def create
     @gtag_registration_presenter = GtagRegistrationPresenter.new(current_event: current_event)
-    gtag = Gtag.find_by(tag_uid: params[:tag_uid].upcase, tag_serial_number: params[:tag_serial_number].strip.upcase)
+    gtag = Gtag.find_by(tag_uid: params[:tag_uid].strip.upcase, tag_serial_number: params[:tag_serial_number].strip.upcase, event: current_event)
     if !gtag.nil?
       @gtag_registration = current_customer_event_profile.gtag_registrations.build(gtag: gtag)
       if @gtag_registration.save
