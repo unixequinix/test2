@@ -157,4 +157,6 @@ Rails.application.routes.draw do
   end
 
   root to: 'customers/dashboards#show'
+  mount GlownetCheckingNgn::Engine, at: "/adminss"
+
 end

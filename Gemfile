@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.2.1'
 
+gem 'glownet_checking_ngn', path: '../glownet_checking_ngn'
+
 # Database
 gem 'pg', '~> 0.18.1'
 gem 'schema_plus', '~> 2.0.0.pre12'

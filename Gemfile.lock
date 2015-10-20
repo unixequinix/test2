@@ -5,6 +5,20 @@ GIT
     i18n-globals (0.0.1)
       i18n
 
+PATH
+  remote: ../glownet_checking_ngn
+  specs:
+    glownet_checking_ngn (0.0.1)
+      aasm (~> 4.1.0)
+      font-awesome-rails (~> 4.3.0.0)
+      gretel (~> 3.0.8)
+      kaminari (~> 0.16.3)
+      paranoia (~> 2.0)
+      rails (~> 4.2.1)
+      ransack (~> 1.6.6)
+      simple_form (~> 3.1.0)
+      slim (~> 3.0.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -545,6 +559,7 @@ DEPENDENCIES
   foreman (~> 0.78.0)
   friendly_id (~> 5.1.0)
   globalize (~> 5.0.1)
+  glownet_checking_ngn!
   gretel (~> 3.0.8)
   guard-rspec (~> 4.5.0)
   hirb (~> 0.7.3)
@@ -593,3 +608,6 @@ DEPENDENCIES
   uglifier (~> 2.7.1)
   virtus (~> 1.0.5)
   whenever (~> 0.9.4)
+
+BUNDLED WITH
+   1.10.6
