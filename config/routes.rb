@@ -38,7 +38,6 @@ Rails.application.routes.draw do
 
   ## Resources
   ## ------------------------------
-  mount GlownetCheckingNgn::Engine, at: "admins"
   namespace :admins do
     resources :admins, except: :show
     resources :events, only: [:index, :show, :new, :create, :edit, :update] do
