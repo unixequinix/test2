@@ -64,13 +64,6 @@ Rails.application.routes.draw do
             delete :destroy_multiple
           end
         end
-        resources :gtags do
-          resources :comments, module: :gtags
-          collection do
-            get :search
-            delete :destroy_multiple
-          end
-        end
         resources :credits, except: :show
         resources :gtag_registrations, only: [:destroy]
         resources :customer_event_profiles, except: [:new, :create, :edit, :update] do
