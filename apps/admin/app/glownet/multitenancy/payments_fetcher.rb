@@ -1,4 +1,4 @@
-class Multitenancy::Fetcher
+class Multitenancy::PaymentsFetcher
 
   def initialize(event)
     @event = event

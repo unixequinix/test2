@@ -1,0 +1,5 @@
+.action-bar
+  == breadcrumbs separator: " / "
+  - if content_for(:actions)
+    .action-bar-btns
+      = yield :actions

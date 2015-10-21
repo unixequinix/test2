@@ -1,0 +1,52 @@
+- breadcrumb :admins_event_gtag, current_event, @gtag
+- provide :actions do
+  = link_to t("actions.delete"), admins_event_gtag_path(current_event, @gtag), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-action btn-action-new btn-action-delete small"
+  = link_to t("actions.edit"), edit_admins_event_gtag_path(current_event, @gtag), class: "btn btn-action btn-action-new small"
+  = link_to t("actions.back"), admins_event_gtags_path, class: "btn btn-action btn-action-back small"
+
+.wrapper-negative-space
+  .container-show
+    dl
+      dt = t("admin.gtags.id")
+      dd = @gtag.id
+      dt = t("admin.gtags.serial")
+      dd = @gtag.tag_serial_number
+      dt = t("admin.gtags.tag")
+      dd = @gtag.tag_uid
+      dt = t("admin.gtags.total")
+      dd = @gtag.gtag_credit_log.amount unless @gtag.gtag_credit_log.nil?
+      dt = t("admin.gtags.created_at")
+      dd = @gtag.created_at.strftime("%y-%m-%d %H:%M:%S")
+      dt = t("admin.gtags.updated_at")
+      dd = @gtag.updated_at.strftime("%y-%m-%d %H:%M:%S")
+
+  .container-show
+    h3
+      = fa_icon "table"
+      = t("admin.gtags.gtag_registration")
+    table.subtable.claim-subtable
+      thead
+        tr
+          th = t("admin.gtag_registrations.customer.email")
+          th = t("admin.gtag_registrations.customer.complete_name")
+          th = t("admin.gtag_registrations.aasm_state")
+          th = t("admin.gtag_registrations.created_at")
+          th = t("admin.gtag_registrations.updated_at")
+          th = t("admin.defaults.actions")
+      tbody
+        - @gtag.gtag_registrations.each do |gtag_registration|
+          tr
+            td = link_to gtag_registration.customer_event_profile.customer.email, admins_event_customer_event_profile_path(current_event, gtag_registration.customer_event_profile) unless gtag_registration.nil? || gtag_registration.customer_event_profile.customer.nil?
+            td = "#{gtag_registration.customer_event_profile.customer.name} #{gtag_registration.customer_event_profile.customer.surname}" unless gtag_registration.nil? || gtag_registration.customer_event_profile.customer.nil?
+            td = t("admin.gtag_registrations.states.#{gtag_registration.aasm_state}")
+            td = gtag_registration.created_at.strftime("%y-%m-%d %H:%M:%S")
+            td = gtag_registration.updated_at.strftime("%y-%m-%d %H:%M:%S")
+            td.table-actions-field
+              ul
+                - if gtag_registration.assigned?
+                  li.table-action.action-delete
+                    = link_to admins_event_gtag_registration_path(current_event, gtag_registration), method: :delete, data: { confirm: t("admin.confirm.delete") } do
+                      = fa_icon "ban"
+
+  = render partial: "admins/comments/comments", locals: {commentable: @gtag}
+  = render partial: "admins/comments/form", locals: {commentable: @gtag}

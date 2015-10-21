@@ -1,0 +1,30 @@
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: tickets.count, total: @tickets_count)
+= form_tag destroy_multiple_admins_event_tickets_path, method: :delete do
+  table.tickets
+    thead
+      tr
+        th.select-all
+          = check_box_tag "select-all", 1
+        th = t("admin.tickets.id")
+        th = t("admin.tickets.number")
+        th = t("admin.tickets.ticket_type")
+        th = t("admin.tickets.ticket_type_simplified")
+        th = t("admin.tickets.customer")
+        th = t("admin.purchasers.email")
+        th.table-actions-field = t("admin.defaults.actions")
+    tbody
+      - tickets.each do |ticket|
+        tr
+          td.select-all data-label = t("admin.defaults.all")
+            = check_box_tag "tickets[#{ticket.id}]", 1
+          td data-label=t("admin.tickets.id") = ticket.id
+          td data-label=t("admin.tickets.number") = link_to ticket.number, admins_event_ticket_path(current_event, ticket)
+          td data-label=t("admin.tickets.ticket_type") = ticket.ticket_type.name unless ticket.ticket_type.nil?
+          td data-label=t("admin.tickets.ticket_type_simplified") = ticket.ticket_type.simplified_name unless ticket.ticket_type.nil?
+          td data-label=t("admin.tickets.customer") = link_to ticket.assigned_admission.customer_event_profile.customer.email, admins_event_customer_event_profile_path(current_event, ticket.assigned_admission.customer_event_profile) unless ticket.assigned_admission.nil?
+          td data-label=t("admin.purchasers.email") = ticket.purchaser_email
+          td.table-actions-field
+            = render 'admins/events/tickets/actions', ticket: ticket unless current_event.started?
+  .container-pagination
+    = paginate tickets
+    = submit_tag t("admin.actions.delete_selected")

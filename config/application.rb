@@ -9,6 +9,14 @@ ENV['RANSACK_FORM_BUILDER'] = '::SimpleForm::FormBuilder'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+# require railties and engines here.
+require_relative "../lib/boot_inquirer"
+require 'shared'
+
+BootInquirer.each_active_app do |app|
+  require app.gem_name
+end
+
 module GlownetWeb
   class Application < Rails::Application
     config.autoload_paths +=

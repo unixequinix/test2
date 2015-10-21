@@ -1,6 +1,13 @@
+require File.dirname(__FILE__) + '/lib/boot_inquirer'
+
 source 'https://rubygems.org'
 
 gem 'rails', '4.2.1'
+
+gemspec path: "apps/shared"
+BootInquirer.each_active_app do |app|
+  gemspec path: "apps/#{app.gem_name}"
+end
 
 # Database
 gem 'pg', '~> 0.18.1'
@@ -78,8 +85,6 @@ gem 'whenever', '~> 0.9.4', require: false
 # Internationalization
 gem 'globalize', '~> 5.0.1'
 gem 'i18n-globals', git: 'https://github.com/sebastianzillessen/i18n-globals.git'
-
-gem 'checking', path: '../checking'
 
 group :development do
   gem 'foreman', '~> 0.78.0'

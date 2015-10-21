@@ -1,0 +1,17 @@
+p.menu-header
+  = fa_icon "search"
+  | Search
+
+= search_form_for q, url: search_admins_event_customer_event_profiles_path, html: { novalidate: true, class: "searchForm" }  do |f|
+  .container-search
+    = f.input :customer_name_cont, placeholder: t("admin.customers.search.name")
+    = f.input :customer_surname_cont, placeholder: t("admin.customers.search.surname")
+    = f.input :customer_email_cont, placeholder: t("admin.customers.search.email")
+    = f.input :customer_confirmed_at_not_null, as: :select, label: t("admin.customers.search.confirmed")
+    = f.input :assigned_admissions_id_not_null, as: :select, label: t("admin.customers.search.tickets")
+    = f.input :assigned_gtag_registration_id_not_null, as: :select, label: t("admin.customers.search.gtag_registrations")
+    = f.input :credit_purchased_logs_id_not_null, as: :select, label: t("admin.customers.search.credits_purchased")
+    = f.submit class: "btn btn-secondary"
+
+
+
