@@ -6,18 +6,33 @@ GIT
       i18n
 
 PATH
-  remote: ../glownet_checking_ngn
+  remote: apps/admin
   specs:
-    glownet_checking_ngn (0.0.1)
-      aasm (~> 4.1.0)
-      font-awesome-rails (~> 4.3.0.0)
-      gretel (~> 3.0.8)
-      kaminari (~> 0.16.3)
-      paranoia (~> 2.0)
+    admin (0.0.1)
       rails (~> 4.2.1)
-      ransack (~> 1.6.6)
-      simple_form (~> 3.1.0)
-      slim (~> 3.0.3)
+
+PATH
+  remote: apps/api
+  specs:
+    api (0.0.1)
+      rails (~> 4.2.1)
+
+PATH
+  remote: apps/checking
+  specs:
+    checking (0.0.1)
+      rails (~> 4.2.1)
+
+PATH
+  remote: apps/customer
+  specs:
+    customer (0.0.1)
+      rails (~> 4.2.1)
+
+PATH
+  remote: apps/shared
+  specs:
+    shared (0.0.1)
 
 GEM
   remote: https://rubygems.org/
@@ -533,7 +548,9 @@ DEPENDENCIES
   aasm (~> 4.1.0)
   active_model_serializers (~> 0.9.3)
   activerecord-import (~> 0.8.0)
+  admin!
   annotate (~> 2.6.8)
+  api!
   aws-sdk (~> 2)
   aws-sdk-v1
   better_errors (~> 2.1.1)
@@ -547,7 +564,9 @@ DEPENDENCIES
   capistrano-rbenv (~> 2.0.3)
   capistrano-sidekiq (~> 0.5.3)
   capybara (~> 2.4.4)
+  checking!
   country_select (~> 2.2.0)
+  customer!
   dalli (~> 2.7.4)
   database_cleaner (~> 1.4.1)
   devise (~> 3.4.1)
@@ -559,7 +578,6 @@ DEPENDENCIES
   foreman (~> 0.78.0)
   friendly_id (~> 5.1.0)
   globalize (~> 5.0.1)
-  glownet_checking_ngn!
   gretel (~> 3.0.8)
   guard-rspec (~> 4.5.0)
   hirb (~> 0.7.3)
@@ -595,6 +613,7 @@ DEPENDENCIES
   sass-rails (~> 5.0.3)
   schema_plus (~> 2.0.0.pre12)
   sdoc (~> 0.4.1)
+  shared!
   shoulda-matchers (~> 2.8.0)
   sidekiq (~> 3.4.1)
   simple_form (~> 3.1.0)

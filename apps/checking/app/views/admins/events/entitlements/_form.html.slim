@@ -1,0 +1,5 @@
+= simple_form_for [:admins, current_event, entitlement] do |f|
+  .wrapper-negative-space
+    = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
+    = f.input :name, placeholder: true, required: true
+    = f.button :submit, class: "btn btn-primary"

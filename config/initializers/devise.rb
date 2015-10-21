@@ -16,6 +16,7 @@ Devise.setup do |config|
   # config.mailer = 'Devise::Mailer'
   config.mailer = 'DeviseMailer'
 
+  config.parent_controller = 'Shared::ApplicationController'
   # ==> ORM configuration
   # Load and configure the ORM. Supports :active_record (default) and
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
@@ -252,7 +253,7 @@ Devise.setup do |config|
   #     mount MyEngine, at: '/my_engine'
   #
   # The router that invoked `devise_for`, in the example above, would be:
-  # config.router_name = :my_engine
+  config.router_name = :shared
   #
   # When using omniauth, Devise cannot automatically set Omniauth path,
   # so you need to do it manually. For the users scope, it would be:

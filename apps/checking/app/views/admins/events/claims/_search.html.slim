@@ -1,0 +1,11 @@
+p.menu-header
+  = fa_icon "search"
+  = t("admin.defaults.search")
+
+= search_form_for q, url: search_admins_event_claims_path, html: { novalidate: true, class: "searchForm" }  do |f|
+  .container-search
+    = f.input :number_cont, placeholder: t("admin.claims.search.number")
+    .range
+      = f.input :created_at_gteq, as: :datetime, label: t('simple_form.labels.defaults.created_at') + " " + t('ransack.between'), discard_hour: true, include_blank: true
+      = f.input :created_at_lteq, as: :datetime, label: t('ransack.and'), discard_hour: true, include_blank: true
+    = f.submit class: "btn btn-secondary"
