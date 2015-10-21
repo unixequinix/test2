@@ -8,21 +8,21 @@
 
 @import "vendor/jquery.cookiebar";
 
-@import "gspot/customer/base";
-@import "gspot/customer/wrappers";
-@import "gspot/customer/header";
-@import "gspot/customer/notifications";
-@import "gspot/customer/exceptions";
-@import "gspot/customer/forms";
+@import "glownet/customer/base";
+@import "glownet/customer/wrappers";
+@import "glownet/customer/header";
+@import "glownet/customer/notifications";
+@import "glownet/customer/exceptions";
+@import "glownet/customer/forms";
 
-@import "gspot/customer/template_theme";
-@import "gspot/customer/template_variables";
+@import "glownet/customer/template_theme";
+@import "glownet/customer/template_variables";
 
-@import "gspot/customer/dashboard";
-@import "gspot/customer/top-up";
-@import "gspot/customer/footer";
-@import "gspot/customer/configuration/typography";
+@import "glownet/customer/dashboard";
+@import "glownet/customer/top-up";
+@import "glownet/customer/footer";
+@import "glownet/customer/configuration/typography";
 
 @media print {
-  @import "gspot/print";
+  @import "glownet/print";
 }

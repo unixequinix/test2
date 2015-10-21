@@ -1,4 +1,4 @@
-# Glownet's gSpot application
+# Glownet web application
 
 To test the email:
 

@@ -48,14 +48,16 @@ namespace :db do
       name: 'Alejandro',
       surname: 'González Núñez',
       confirmed_at: '2015-04-21 13:39:18.381529',
-      agreed_on_registration: true)
+      agreed_on_registration: true,
+      event_id: 1)
     Customer.create(
       email: 'customer2@test.com',
       password: 'password',
       name: 'Pedro',
       surname: 'De La Rosa',
       confirmed_at: '2015-04-21 13:39:18.381529',
-      agreed_on_registration: true)
+      agreed_on_registration: true,
+      event_id: 1)
   end
 
 

@@ -6,9 +6,9 @@ GIT
       i18n
 
 PATH
-  remote: ../glownet_checking_ngn
+  remote: ../checking
   specs:
-    glownet_checking_ngn (0.0.1)
+    checking (0.0.1)
       aasm (~> 4.1.0)
       font-awesome-rails (~> 4.3.0.0)
       gretel (~> 3.0.8)
@@ -547,6 +547,7 @@ DEPENDENCIES
   capistrano-rbenv (~> 2.0.3)
   capistrano-sidekiq (~> 0.5.3)
   capybara (~> 2.4.4)
+  checking!
   country_select (~> 2.2.0)
   dalli (~> 2.7.4)
   database_cleaner (~> 1.4.1)
@@ -559,7 +560,6 @@ DEPENDENCIES
   foreman (~> 0.78.0)
   friendly_id (~> 5.1.0)
   globalize (~> 5.0.1)
-  glownet_checking_ngn!
   gretel (~> 3.0.8)
   guard-rspec (~> 4.5.0)
   hirb (~> 0.7.3)

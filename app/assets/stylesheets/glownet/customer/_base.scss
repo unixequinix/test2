@@ -1,0 +1,48 @@
+/* ------------------------------------------------------- *\
+
+  Base stylesheet for common elments
+
+\* ------------------------------------------------------- */
+
+*, :after, :before {
+  box-sizing: border-box;
+}
+
+//Variables
+
+$label-size: $base-font-size*1.75;
+$button-size: $base-font-size*2.25;
+$section-title: $base-font-size*4;
+
+// HTML base styles
+
+html, body {
+  position: relative;
+  height: 100%;
+
+  @include min-screen($bp3) { @include sticky-footer(modules(2)); }
+}
+
+h1 { margin: 0; }
+
+h3 {
+  display: inline-block;
+  width: auto;
+  padding: 0 modules(0.25);
+  text-align: left;
+
+  i { padding-right: modules(0.5); }
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding:0;
+}
+
+p { line-height: 170%; }
+
+a {
+  text-decoration: none;
+}
+

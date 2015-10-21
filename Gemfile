@@ -79,7 +79,7 @@ gem 'whenever', '~> 0.9.4', require: false
 gem 'globalize', '~> 5.0.1'
 gem 'i18n-globals', git: 'https://github.com/sebastianzillessen/i18n-globals.git'
 
-gem 'glownet_checking_ngn', path: '../glownet_checking_ngn'
+gem 'checking', path: '../checking'
 
 group :development do
   gem 'foreman', '~> 0.78.0'

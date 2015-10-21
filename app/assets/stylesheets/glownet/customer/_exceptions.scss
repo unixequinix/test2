@@ -1,0 +1,16 @@
+// -------------------------------------------------------
+//
+//  Exceptions styling
+//
+// -------------------------------------------------------
+$status_code_text:            $base-font-size*7;
+
+.container-exception {
+}
+
+.status-code {
+  @include mscale($status_code_text);
+  color: $dark_grey;
+  letter-spacing: 5px;
+  font-weight: bold;
+}

@@ -1,10 +1,10 @@
 @import "base_imports";
 
-@import "gspot/admin/notifications";
-@import "gspot/admin/base";
-@import "gspot/admin/buttons";
-@import "gspot/admin/welcome";
+@import "glownet/admin/notifications";
+@import "glownet/admin/base";
+@import "glownet/admin/buttons";
+@import "glownet/admin/welcome";
 
 @media print {
-  @import "gspot/print";
+  @import "glownet/print";
 }

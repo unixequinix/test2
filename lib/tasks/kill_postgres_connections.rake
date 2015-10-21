@@ -1,5 +1,5 @@
 task kill_postgres_connections: :environment do
-  db_name = "gspot_#{Rails.env}"
+  db_name = "glownet_web_#{Rails.env}"
   sh = <<EOF
 ps xa \
   | grep postgres: \
