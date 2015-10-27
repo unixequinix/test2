@@ -1,0 +1,26 @@
+= simple_form_for @customer, url: event_registrations_path(current_event), method: :patch do |f|
+  = f.error_notification
+  .wrapper-field
+    h3.customer-section-header = t('registration.edit.title')
+    .form-inputs
+      = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
+      = f.input :email, required: true, autofocus: true
+      = f.input :name, required: true, autofocus: true
+      = f.input :surname, required: true, autofocus: true
+      - if @customer.pending_reconfirmation?
+        p = t('registration.edit.waiting_confirmation')
+          = resource.unconfirmed_email
+
+      = f.input :current_password, autocomplete: "off"
+      = f.input :password, autocomplete: "off", hint: t('registration.edit.password_hint'), required: false
+      = f.input :phone if(current_event.phone?)
+      = f.input :address if(current_event.address?)
+      = f.input :city if(current_event.city?)
+      = f.input :country if(current_event.country?)
+      = f.input :postcode if(current_event.postcode?)
+      = f.input :gender, collection: Customer.gender_selector, include_blank: false if(current_event.gender?)
+      = f.input :birthdate, as: :date, start_year: 1950,
+        end_year: Date.today.year - 12,
+        order: [:day, :month, :year] if(current_event.birthdate?)
+      .container-button.align-right
+        = f.button :submit, t('registration.edit.button'), class: "btn btn-top"

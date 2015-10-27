@@ -9,12 +9,12 @@ es:
     delete_account: "Eliminar tu cuenta"
     logout: "Cerrar sessión"
   confirm:
-    remove_ticket: "Tus créditos comprados se asignan a tu cuenta. Si borras tu ticket, tendrás que asignar otro para utilizar esos créditos en el festival."
+    remove_ticket: "Tus créditos comprados se asignan a tu cuenta. Si borras tu ticket, tendrás que asignar otro para utilizar esos créditos en el evento."
   header:
     edit: "Editar Pérfil"
     close: "Cerrar sesión"
     menu: "Home"
-    home: "Web del Festival"
+    home: "Web del Evento"
     help: "Ayuda"
   conditions:
     action: 'Acepto'
@@ -43,7 +43,7 @@ es:
       button: "Activar Ticket"
     credits:
       header: "Tu Balance de créditos"
-      call_to_action: "Para evitar colas, recarga tu %{gtag} ahora para todas tus compras dentro del festival"
+      call_to_action: "Para evitar colas, recarga tu %{gtag} ahora para todas tus compras dentro del evento"
       call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"
       call_to_action_no_admission_html: "Para poder recargar online,<br>deberás activar un Ticket primero"
       button: "Recarga"
@@ -92,15 +92,15 @@ es:
       button: "Modificar cuenta"
   admissions:
     title: "Activación del Ticket"
-    description: "Por favor, introduce el código impreso debajo del código de barras en tu ticket del festival."
+    description: "Por favor, introduce el código impreso debajo del código de barras en tu ticket del evento."
     description2: "Tu código debería empezar por '4UMoB'."
-    call_to_action: "¡Activa tu Ticket del Festival!"
+    call_to_action: "¡Activa tu Ticket del Evento!"
     button: "Activar"
     placeholders:
       ticket_number: "Número de Ticket"
   checkout:
     title: "Recarga"
-    description: "Los créditos que compras aquí serán añadidos automáticamente a tu %{gtag} al entrar al festival."
+    description: "Los créditos que compras aquí serán añadidos automáticamente a tu %{gtag} al entrar al evento."
     total: "Total"
     button: "Confirmar Órden"
   orders:

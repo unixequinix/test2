@@ -1,0 +1,43 @@
+class UnauthorizedController < ActionController::Metal
+  include ActionController::UrlFor
+  include ActionController::Redirecting
+  include Rails.application.routes.url_helpers
+  include Rails.application.routes.mounted_helpers
+
+  delegate :flash, to: :request
+
+  def self.call(env)
+    @respond ||= action(:respond)
+    @respond.call(env)
+  end
+
+  def respond
+    unless request.get?
+      message = warden_options.fetch(:message, "unauthorized.#{scope}")
+      flash.alert = I18n.t(message)
+    end
+
+    redirect
+  end
+
+  private
+
+  def redirect
+    redirect_to scope_url
+  end
+
+  def scope_url
+    @route = "/"
+    @route = new_event_sessions_url(event_id: params['id']) if scope == :customer
+    @route = new_admins_sessions_url if scope == :admin
+    @route
+  end
+
+  def warden_options
+    env['warden.options']
+  end
+
+  def scope
+    @scope ||= warden_options[:scope]
+  end
+end

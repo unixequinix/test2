@@ -1,0 +1,11 @@
+.wrapper-field.form-inputs
+  .dashboard-field.dashboard-field-info
+    h3
+      = fa_icon 'money'
+      = t('dashboard.credits.header')
+    h3.highlight
+      = presenter.customer_total_credits
+  .dashboard-field.dashboard-field-action
+    h3 = presenter.call_to_action
+    - if presenter.admission_present? && !presenter.event_started?
+      = link_to t('dashboard.credits.button'), new_event_checkout_path(current_event), class: "btn btn-dashboard"

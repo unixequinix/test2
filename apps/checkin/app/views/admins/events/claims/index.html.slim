@@ -1,0 +1,17 @@
+- breadcrumb :admins_event_claims, current_event
+- provide :actions do
+  = link_to admins_event_claims_path(current_event, format: "csv"), class: "btn btn-action btn-action-download small"
+    = fa_icon "download"
+    = t('admin.actions.download')
+
+  = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
+    = fa_icon 'search'
+    = t('admin.actions.search')
+
+.wrapper-negative-space
+  - if @claims.empty?
+    .section-title-empty
+      = image_tag "img-empty.png"
+      p = t("admin.defaults.empty_claims")
+  - else
+    = render "admins/events/claims/list", claims: @claims

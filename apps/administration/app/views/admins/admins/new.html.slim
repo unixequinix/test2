@@ -1,0 +1,7 @@
+- breadcrumb :new_admins_admin
+- provide :actions do
+  = link_to admins_admins_path, class: "btn btn-action btn-action-back small" do
+    = fa_icon 'arrow-circle-left'
+    = t('actions.back')
+
+= render "form", admin: @admin

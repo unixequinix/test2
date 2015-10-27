@@ -15,10 +15,10 @@
 
 class BootInquirer
   APPS = {
-    'a' => 'admin',
-    'i' => 'api',
-    'h' => 'checking',
-    'c' => 'customer'
+    'u' => 'customer_area',
+    'a' => 'administration',
+    'h' => 'checkin',
+    'p' => 'api'
   }
 
   class << self
@@ -88,7 +88,7 @@ class BootInquirer
 
     def engine
       module_name = gem_name.classify
-      module_name << 's' if gem_name[-1] == 's'
+      module_name << 'c' if gem_name[-1] == 'c'
       module_name.constantize.const_get(:Engine)
     end
   end

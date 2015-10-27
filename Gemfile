@@ -4,10 +4,10 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.2.1'
 
-gemspec path: "apps/shared"
 BootInquirer.each_active_app do |app|
   gemspec path: "apps/#{app.gem_name}"
 end
+gemspec path: "apps/core"
 
 # Database
 gem 'pg', '~> 0.18.1'
@@ -28,8 +28,8 @@ gem 'aws-sdk-v1'
 gem 'aws-sdk', '~> 2'
 
 # Authentication
-gem 'devise', '~> 3.4.1'
-gem 'devise-i18n', '~> 0.12.0'
+gem 'bcrypt', '~> 3.1.10'
+gem 'warden', '~> 1.2.3'
 
 # Design
 gem 'bourbon', '~> 4.2.2'

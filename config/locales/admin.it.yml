@@ -17,7 +17,7 @@ it:
     event:
       name: 'Name'
       slug: 'Slug'
-      url: 'Festival url'
+      url: 'Event url'
       support_email: 'Support email'
       payment_service: 'Payment service'
       refund_service: 'Refund service'

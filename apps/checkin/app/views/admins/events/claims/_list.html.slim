@@ -1,0 +1,24 @@
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: claims.count, total: Claim.count)
+table.claims
+  thead
+    tr
+      th = t("admin.claims.number")
+      th = t("admin.claims.customer")
+      th = t("admin.claims.state")
+      th = t("admin.claims.total")
+      th = t("admin.claims.service_type")
+      th = t("admin.claims.created")
+      th = t("admin.claims.completed")
+
+  tbody
+    - claims.each do |claim|
+      tr
+        td data-label=t("admin.claims.number") = link_to claim.number, admins_event_claim_path(current_event, claim)
+        td data-label=t("admin.claims.customer") = link_to claim.customer_event_profile.customer.email, admins_event_customer_event_profile_path(current_event, claim.customer_event_profile) unless claim.customer_event_profile.nil?
+        td data-label=t("admin.claims.state") = claim.aasm_state
+        td data-label=t("admin.claims.total") = claim.total
+        td data-label=t("admin.claims.service_type") = claim.service_type
+        td data-label=t("admin.claims.created") = claim.created_at.strftime("%y-%m-%d %H:%M:%S")
+        td data-label=t("admin.claims.completed") = claim.completed_at.strftime("%y-%m-%d %H:%M:%S") unless claim.completed_at.nil?
+
+= paginate claims

@@ -1,0 +1,33 @@
+- breadcrumb :admins_event_refund, current_event, @refund
+- provide :actions do
+  = link_to t("actions.back"), admins_event_refunds_path(current_event), class: "btn btn-action btn-action-back small"
+
+.wrapper-negative-space
+  .container-show
+    dl
+      dt = t("admin.refund.amount")
+      dd = @refund.claim.gtag.gtag_credit_log.nil? ? 0.0 : @refund.claim.gtag.gtag_credit_log.amount
+      dt = t("admin.refund.customer_name")
+      dd = link_to "#{@refund.claim.customer_event_profile.customer.name} #{@refund.claim.customer_event_profile.customer.surname}", admins_event_customer_event_profile_path(current_event, @refund.claim.customer_event_profile.customer) unless @refund.claim.customer_event_profile.customer.nil?
+      dt = t("admin.refunds.customer_email")
+      dd = @refund.claim.customer_event_profile.customer.email unless @refund.claim.customer_event_profile.customer.nil?
+      dt =t('admin.refunds.created_at')
+      dd = @refund.created_at
+      dt =t('admin.refunds.updated_at')
+      dd = @refund.updated_at
+      dt =t('admin.refunds.claim')
+      dd = link_to "#{@refund.claim.number}", admins_event_claim_path(current_event, @refund.claim)
+      dt =t('admin.refunds.amount')
+      dd = @refund.amount
+      dt =t('admin.refunds.currency')
+      dd = @refund.currency
+      dt =t('admin.refunds.message')
+      dd = @refund.message
+      dt =t('admin.refunds.operation_type')
+      dd = @refund.operation_type
+      dt =t('admin.refunds.gateway_transaction_number')
+      dd = @refund.gateway_transaction_number
+      dt =t('admin.refunds.payment_solution')
+      dd = @refund.payment_solution
+      dt =t('admin.refunds.status')
+      dd = @refund.status

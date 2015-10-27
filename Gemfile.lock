@@ -6,9 +6,9 @@ GIT
       i18n
 
 PATH
-  remote: apps/admin
+  remote: apps/administration
   specs:
-    admin (0.0.1)
+    administration (0.0.1)
       rails (~> 4.2.1)
 
 PATH
@@ -18,21 +18,21 @@ PATH
       rails (~> 4.2.1)
 
 PATH
-  remote: apps/checking
+  remote: apps/checkin
   specs:
-    checking (0.0.1)
+    checkin (0.0.1)
       rails (~> 4.2.1)
 
 PATH
-  remote: apps/customer
+  remote: apps/core
   specs:
-    customer (0.0.1)
-      rails (~> 4.2.1)
+    core (0.0.1)
 
 PATH
-  remote: apps/shared
+  remote: apps/customer_area
   specs:
-    shared (0.0.1)
+    customer_area (0.0.1)
+      rails (~> 4.2.1)
 
 GEM
   remote: https://rubygems.org/
@@ -169,14 +169,6 @@ GEM
     debug_inspector (0.0.2)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
-    devise (3.4.1)
-      bcrypt (~> 3.0)
-      orm_adapter (~> 0.1)
-      railties (>= 3.2.6, < 5)
-      responders
-      thread_safe (~> 0.1)
-      warden (~> 1.2.3)
-    devise-i18n (0.12.0)
     diff-lcs (1.2.5)
     disposable (0.0.9)
       representable (~> 2.0)
@@ -287,7 +279,6 @@ GEM
     notiffany (0.0.6)
       nenv (~> 0.1)
       shellany (~> 0.0)
-    orm_adapter (0.5.0)
     paperclip (4.2.2)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -378,8 +369,6 @@ GEM
       multi_json
       nokogiri
       uber (~> 0.0.7)
-    responders (2.1.0)
-      railties (>= 4.2.0, < 5)
     roo (2.0.0beta1)
       nokogiri (~> 1)
       rubyzip (~> 1.1, < 2.0.0)
@@ -548,11 +537,12 @@ DEPENDENCIES
   aasm (~> 4.1.0)
   active_model_serializers (~> 0.9.3)
   activerecord-import (~> 0.8.0)
-  admin!
+  administration!
   annotate (~> 2.6.8)
   api!
   aws-sdk (~> 2)
   aws-sdk-v1
+  bcrypt (~> 3.1.10)
   better_errors (~> 2.1.1)
   binding_of_caller (~> 0.7.2)
   bourbon (~> 4.2.2)
@@ -564,13 +554,12 @@ DEPENDENCIES
   capistrano-rbenv (~> 2.0.3)
   capistrano-sidekiq (~> 0.5.3)
   capybara (~> 2.4.4)
-  checking!
+  checkin!
+  core!
   country_select (~> 2.2.0)
-  customer!
+  customer_area!
   dalli (~> 2.7.4)
   database_cleaner (~> 1.4.1)
-  devise (~> 3.4.1)
-  devise-i18n (~> 0.12.0)
   factory_girl_rails (~> 4.5.0)
   faker (~> 1.4.3)
   flag_shih_tzu (~> 0.3.13)
@@ -613,7 +602,6 @@ DEPENDENCIES
   sass-rails (~> 5.0.3)
   schema_plus (~> 2.0.0.pre12)
   sdoc (~> 0.4.1)
-  shared!
   shoulda-matchers (~> 2.8.0)
   sidekiq (~> 3.4.1)
   simple_form (~> 3.1.0)
@@ -626,4 +614,5 @@ DEPENDENCIES
   turbolinks (~> 2.5.3)
   uglifier (~> 2.7.1)
   virtus (~> 1.0.5)
+  warden (~> 1.2.3)
   whenever (~> 0.9.4)

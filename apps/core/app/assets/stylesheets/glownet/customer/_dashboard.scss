@@ -1,0 +1,49 @@
+/* ------------------------------------------------------- *\
+
+  Base stylesheet for DASHBOARD
+
+\* ------------------------------------------------------- */
+
+// Container for dashboard info for ticket and credit
+.dashboard-field {
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+
+  @include min-screen($bp4) {
+    min-height: modules(6);
+    height: auto;
+    text-align: left;
+  }
+
+  h3 { text-align: center; }
+}
+
+.dashboard-field-info {
+  width: 100%;
+
+  @include min-screen($bp4) {
+    display: inline-block;
+    vertical-align: top;
+    width: 60%;
+    margin-right: 3%;
+    box-shadow: inset -1px 0px 0px 0px $light_grey;
+  }
+}
+
+.dashboard-field-action {
+  width: 100%;
+  text-align: center;
+
+  @include min-screen($bp4) {
+    display: inline-block;
+    vertical-align: top;
+    width: 37%;
+    text-align: center;
+  }
+
+  h3 {
+    text-align: center;
+    margin-bottom: 0;
+  }
+}
