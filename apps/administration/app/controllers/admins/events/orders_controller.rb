@@ -1,5 +1,7 @@
 class Admins::Events::OrdersController < Admins::Events::BaseController
 
+  before_filter :enable_fetcher
+
   def index
     @q = Order.joins(:customer_event_profile)
       .where(customer_event_profiles: { event_id: current_event.id })
@@ -15,5 +17,12 @@ class Admins::Events::OrdersController < Admins::Events::BaseController
   def show
     @order = Order.find(params[:id])
   end
+
+
+  private
+
+    def enable_fetcher
+      @fetcher = Multitenancy::OrdersFetcher.new(current_event)
+    end
 
 end

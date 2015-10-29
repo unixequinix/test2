@@ -1,4 +1,7 @@
 class Admins::Events::ClaimsController < Admins::Events::BaseController
+
+  before_filter :enable_fetcher
+
   def index
     @q = Claim.joins(:customer_event_profile)
       .where(customer_event_profiles: { event_id: current_event.id })
@@ -35,7 +38,11 @@ class Admins::Events::ClaimsController < Admins::Events::BaseController
 
   private
 
-  def permitted_params
-    params.require(:claim).permit(:aasm_state)
-  end
+    def permitted_params
+      params.require(:claim).permit(:aasm_state)
+    end
+
+    def enable_fetcher
+      @fetcher = Multitenancy::RefundsFetcher.new(current_event)
+    end
 end

@@ -1,5 +1,7 @@
 class Admins::Events::RefundsController < Admins::Events::BaseController
 
+  before_filter :enable_fetcher
+
   def index
     @q = Refund.joins(claim: :customer_event_profile)
       .where(customer_event_profiles: { event_id: current_event.id })
@@ -36,8 +38,12 @@ class Admins::Events::RefundsController < Admins::Events::BaseController
 
   private
 
-  def permitted_params
-    params.require(:refund).permit(:aasm_state)
-  end
+    def permitted_params
+      params.require(:refund).permit(:aasm_state)
+    end
+
+    def enable_fetcher
+      @fetcher = Multitenancy::RefundsFetcher.new(current_event)
+    end
 
 end
