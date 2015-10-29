@@ -1,4 +1,3 @@
-
 require Rails.root.join('apps/core/lib/strategies/customer_password_strategy')
 require Rails.root.join('apps/core/lib/strategies/admin_password_strategy')
 

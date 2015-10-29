@@ -8,7 +8,7 @@ module Core
         config.default_scope = :customer
 
         config.scope_defaults :admin, strategies: [:admin_password]
-        config.scope_defaults :customer, strategies: [:customer_password]
+        config.scope_defaults :customer, strategies: [:customer_password, :customer_remember_me]
       end
     end
 

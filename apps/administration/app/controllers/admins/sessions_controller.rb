@@ -30,7 +30,7 @@ class Admins::SessionsController < Admins::BaseController
   private
 
   def after_sign_out_path
-    event_path(id: params[:event_id])
+    new_admins_sessions_path
   end
 
   def after_sign_in_path

@@ -52,6 +52,7 @@ it:
       unlocked: "Il tuo account è stato sbloccato. Fai Log-in per continuare."
   errors:
     messages:
+      unauthorized: "Invalido email o password"
       already_confirmed: "è giá stato confermato, prova fare log-in."
       confirmation_period_expired: "deve essere confermato entro %{period}, richiedine uno nuovo"
       expired: "è scaduto, richiedi uno nuovo"
@@ -60,3 +61,6 @@ it:
       not_saved:
         one: "1 errore non ha consentito questo %{resource} di essere salvato:"
         other: "%{count} errori hanno evitato questo %{resource} di essere salvato:"
+  unauthorized:
+    admin:
+    user:

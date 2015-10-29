@@ -11,7 +11,7 @@ es:
     failure:
       already_authenticated: "Ya has iniciado sesión."
       inactive: "Tu cuenta no ha sido activada todavía."
-      invalid: "%{authentication_keys} o contraseña inválida."
+      invalid: "%{authentication_keys} o contraseña incorrecta."
       locked: "Tu cuenta ha sido bloqueada."
       last_attempt: "Te queda un intento para proceder al bloqueo de tu cuenta."
       not_found_in_database: "%{authentication_keys} o contraseña inválida."
@@ -52,6 +52,7 @@ es:
       unlocked: "Tu cuenta ha sido desbloqueda exitosamente. Por favor inicia sesión para continuar."
   errors:
     messages:
+      unauthorized: "Email o contraseña incorrecta."
       already_confirmed: "Ya ha sido confirmado, por favor prueba iniciar sesión."
       confirmation_period_expired: "Necesita ser confirmada dentro de %{period}, por favor solicita uno nuevo."
       expired: "ha expirado, por favor solicita uno nuevo."

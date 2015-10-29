@@ -7,9 +7,6 @@
       = f.input :email, required: true, autofocus: true
       = f.input :name, required: true, autofocus: true
       = f.input :surname, required: true, autofocus: true
-      - if @customer.pending_reconfirmation?
-        p = t('registration.edit.waiting_confirmation')
-          = resource.unconfirmed_email
 
       = f.input :current_password, autocomplete: "off"
       = f.input :password, autocomplete: "off", hint: t('registration.edit.password_hint'), required: false

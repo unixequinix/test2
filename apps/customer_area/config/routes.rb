@@ -37,5 +37,5 @@ Rails.application.routes.draw do
     end
   end
 
-  get ':id', to: 'events/events#show', as: :customer_root
+  get ':event_id', to: 'events/events#show', as: :customer_root
 end

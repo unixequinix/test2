@@ -8,7 +8,7 @@ class AdminPasswordStrategy < ::Warden::Strategies::Base
   def authenticate!
     admin = Admin.find_by_email(params["admin"].fetch("email"), )
     if admin.nil? || admin.password != params["admin"].fetch("password")
-      fail! message: "strategies.password.failed"
+      fail! message: "errors.messages.unauthorized"
     else
       success!(admin)
     end

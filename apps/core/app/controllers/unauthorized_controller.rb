@@ -13,7 +13,7 @@ class UnauthorizedController < ActionController::Metal
 
   def respond
     unless request.get?
-      message = warden_options.fetch(:message, "unauthorized.#{scope}")
+      message = warden_options.fetch(:message, "errors.messages.unauthorized")
       flash.alert = I18n.t(message)
     end
 
@@ -23,14 +23,17 @@ class UnauthorizedController < ActionController::Metal
   private
 
   def redirect
-    redirect_to scope_url
+    redirect_to send("scope_#{scope}_url")
   end
 
-  def scope_url
-    @route = "/"
-    @route = new_event_sessions_url(event_id: params['id']) if scope == :customer
+  def scope_customer_url
+    event_id = params[:event_id].nil? ? params[:id] : params[:event_id]
+    @route = new_event_sessions_url(event_id: event_id) if scope == :customer
+  end
+
+
+  def scope_admin_url
     @route = new_admins_sessions_url if scope == :admin
-    @route
   end
 
   def warden_options
