@@ -84,6 +84,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     Seeder::SeedLoader.create_event_parameters
+    Seeder::SeedLoader.create_claim_parameters
   end
 
   config.before(:each) do

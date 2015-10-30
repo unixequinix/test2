@@ -45,7 +45,7 @@ class Claim < ActiveRecord::Base
     .where(customer_event_profiles: { event_id: event.id })
     .select("claims.id, customers.name, customers.surname, customers.email,
             gtags.tag_uid, gtags.tag_serial_number, refunds.amount,
-            claims.service_type") }
+            claims.service_type").order(:id)}
 
   # State machine
   include AASM
