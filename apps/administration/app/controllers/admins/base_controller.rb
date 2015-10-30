@@ -10,7 +10,7 @@ class Admins::BaseController < ApplicationController
   end
 
   def current_admin
-    @current_admin ||= Admin.find(warden.user(:admin)["id"]) unless warden.user(:admin).nil?
+    warden.user(:admin)
   end
 
   def warden

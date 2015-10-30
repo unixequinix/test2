@@ -11,7 +11,7 @@ class Events::BaseController < ApplicationController
   end
 
   def current_customer
-    @current_customer ||= Customer.find(warden.user(:customer)["id"]) unless warden.user(:customer).nil?
+    warden.user(:customer)
   end
 
   def warden
