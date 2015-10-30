@@ -20,7 +20,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   end
 
   def show
-    @ticket = Ticket.includes(admissions: [:customer_event_profile, customer_event_profile: :customer]).find(params[:id])
+    @ticket = @fetcher.tickets.includes(admissions: [:customer_event_profile, customer_event_profile: :customer]).find(params[:id])
   end
 
   def new
@@ -39,11 +39,11 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   end
 
   def edit
-    @ticket = Ticket.find(params[:id])
+    @ticket = @fetcher.tickets.find(params[:id])
   end
 
   def update
-    @ticket = Ticket.find(params[:id])
+    @ticket = @fetcher.tickets.find(params[:id])
     if @ticket.update(permitted_params)
       flash[:notice] = I18n.t('alerts.updated')
       redirect_to admins_event_ticket_url(current_event, @ticket)
@@ -54,7 +54,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   end
 
   def destroy
-    @ticket = Ticket.find(params[:id])
+    @ticket = @fetcher.tickets.find(params[:id])
     if @ticket.destroy
       flash[:notice] = I18n.t('alerts.destroyed')
       redirect_to admins_event_tickets_url
@@ -66,7 +66,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
 
   def destroy_multiple
     if tickets = params[:tickets]
-      Ticket.where(id: tickets.keys).each do |ticket|
+      @fetcher.tickets.where(id: tickets.keys).each do |ticket|
         if !ticket.destroy
           flash[:error] = ticket.errors.full_messages.join(". ")
         end

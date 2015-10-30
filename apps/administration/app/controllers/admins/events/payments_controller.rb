@@ -19,6 +19,4 @@ class Admins::Events::PaymentsController < Admins::Events::BaseController
     @payment = @fetcher.payments.find(params[:id])
   end
 
-  private
-
 end

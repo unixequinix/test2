@@ -2,12 +2,12 @@ class Admins::Events::AdmissionsController < Admins::Events::CheckinBaseControll
 
   def new
     @admission = Admission.new
-    @customer_event_profile = CustomerEventProfile.with_deleted.find(params[:customer_event_profile_id])
+    @customer_event_profile = @fetcher.customer_event_profiles.with_deleted.find(params[:customer_event_profile_id])
   end
 
   def create
     ticket = Ticket.find_by(number: params[:ticket_number].strip, event: current_event)
-    @customer_event_profile = CustomerEventProfile.with_deleted.find(params[:customer_event_profile_id])
+    @customer_event_profile = @fetcher.customer_event_profiles.with_deleted.find(params[:customer_event_profile_id])
     if !ticket.nil?
       @admission = Admission.new(customer_event_profile_id: @customer_event_profile.id, ticket_id: ticket.id)
       if @admission.save
@@ -19,7 +19,7 @@ class Admins::Events::AdmissionsController < Admins::Events::CheckinBaseControll
         render :new
       end
     else
-      flash[:error] = I18n.t('alerts.admissions', companies: TicketType.companies( current_event).join(', '))
+      flash[:error] = I18n.t('alerts.admissions', companies: TicketType.companies(current_event).join(', '))
       render :new
     end
   end

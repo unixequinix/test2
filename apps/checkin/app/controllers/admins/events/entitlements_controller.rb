@@ -1,7 +1,7 @@
 class Admins::Events::EntitlementsController < Admins::Events::CheckinBaseController
 
   def index
-    @entitlements = Entitlement.where(event_id: current_event.id).page(params[:page])
+    @entitlements = @fetcher.entitlements.page(params[:page])
   end
 
   def new
@@ -20,11 +20,11 @@ class Admins::Events::EntitlementsController < Admins::Events::CheckinBaseContro
   end
 
   def edit
-    @entitlement = Entitlement.find(params[:id])
+    @entitlement = @fetcher.entitlements.find(params[:id])
   end
 
   def update
-    @entitlement = Entitlement.find(params[:id])
+    @entitlement = @fetcher.entitlements.find(params[:id])
     if @entitlement.update(permitted_params)
       flash[:notice] = I18n.t('alerts.updated')
       redirect_to admins_event_entitlements_url
@@ -35,7 +35,7 @@ class Admins::Events::EntitlementsController < Admins::Events::CheckinBaseContro
   end
 
   def destroy
-    @entitlement = Entitlement.find(params[:id])
+    @entitlement = @fetcher.entitlements.find(params[:id])
     if @entitlement.destroy
       flash[:notice] = I18n.t('alerts.destroyed')
       redirect_to admins_event_entitlements_url

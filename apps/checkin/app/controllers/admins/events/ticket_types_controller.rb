@@ -1,10 +1,10 @@
 class Admins::Events::TicketTypesController < Admins::Events::CheckinBaseController
 
   def index
-    @ticket_types = TicketType.where(event_id: current_event.id).page(params[:page]).includes(:entitlements)
+    @ticket_types = @fetcher.ticket_types.page(params[:page]).includes(:entitlements)
     respond_to do |format|
       format.html
-      format.csv { send_data(Csv::CsvExporter.to_csv(TicketType.where(event_id: current_event.id)))}
+      format.csv { send_data(Csv::CsvExporter.to_csv(@fetcher.ticket_types))}
     end
   end
 
@@ -24,11 +24,11 @@ class Admins::Events::TicketTypesController < Admins::Events::CheckinBaseControl
   end
 
   def edit
-    @ticket_type = TicketType.find(params[:id])
+    @ticket_type = @fetcher.ticket_types.find(params[:id])
   end
 
   def update
-    @ticket_type = TicketType.find(params[:id])
+    @ticket_type = @fetcher.ticket_types.find(params[:id])
     if @ticket_type.update(permitted_params)
       flash[:notice] = I18n.t('alerts.updated')
       redirect_to admins_event_ticket_types_url
@@ -39,7 +39,7 @@ class Admins::Events::TicketTypesController < Admins::Events::CheckinBaseControl
   end
 
   def destroy
-    @ticket_type = TicketType.find(params[:id])
+    @ticket_type = @fetcher.ticket_types.find(params[:id])
     if @ticket_type.destroy
       flash[:notice] = I18n.t('alerts.destroyed')
       redirect_to admins_event_ticket_types_url

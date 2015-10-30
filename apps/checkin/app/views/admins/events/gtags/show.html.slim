@@ -47,6 +47,3 @@
                   li.table-action.action-delete
                     = link_to admins_event_gtag_registration_path(current_event, gtag_registration), method: :delete, data: { confirm: t("admin.confirm.delete") } do
                       = fa_icon "ban"
-
-  = render partial: "admins/comments/comments", locals: {commentable: @gtag}
-  = render partial: "admins/comments/form", locals: {commentable: @gtag}

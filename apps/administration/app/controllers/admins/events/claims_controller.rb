@@ -5,7 +5,7 @@ class Admins::Events::ClaimsController < Admins::Events::BaseController
     @claims = @q.result(distinct: true).page(params[:page]).includes(:customer_event_profile, customer_event_profile: :customer)
     respond_to do |format|
       format.html
-      format.csv { send_data(Csv::CsvExporter.to_csv(@fetcher.claims.selected_data(:completed, current_event)))}
+      format.csv { send_data(Csv::CsvExporter.to_csv(Claims.selected_data(:completed, current_event)))}
     end
   end
 
