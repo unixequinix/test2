@@ -133,7 +133,6 @@ class Customer < ActiveRecord::Base
       token = SecureRandom.urlsafe_base64
       unless Customer.where(confirmation_token: token).any?
         self.confirmation_token = token
-        self.confirmation_sent_at = Time.now.utc
         break
       end
     end
