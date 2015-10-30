@@ -2,14 +2,14 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
 
   def show
     @event = Event.friendly.find(params[:event_id])
-    @event_parameters = EventParameter.where(event_id: @event.id, parameters: { group: @event.payment_service, category: 'payment'}).includes(:parameter)
+    @event_parameters = @fetcher.event_parameters.where(parameters: { group: @event.payment_service, category: 'payment'}).includes(:parameter)
   end
 
   def edit
     @event = Event.friendly.find(params[:event_id])
     @parameters = Parameter.where(group: @event.payment_service, category: 'payment')
     @payment_settings_form = ("#{@event.payment_service.camelize}PaymentSettingsForm").constantize.new
-    event_parameters = EventParameter.where(event_id: @event.id, parameters: { group: @event.payment_service, category: 'payment'}).includes(:parameter)
+    event_parameters = @fetcher.event_parameters.where(parameters: { group: @event.payment_service, category: 'payment'}).includes(:parameter)
     event_parameters.each do |event_parameter|
       @payment_settings_form[event_parameter.parameter.name.to_sym] = event_parameter.value
     end

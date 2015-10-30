@@ -2,7 +2,7 @@ class Admins::Events::GtagSettingsController < Admins::Events::BaseController
 
   def show
     @event = current_event
-    @event_parameters = EventParameter.where(event_id: @event.id, parameters: { group: 'form', category: 'gtag'}).includes(:parameter)
+    @event_parameters = @fetch.event_parameters.where(parameters: { group: 'form', category: 'gtag'}).includes(:parameter)
   end
 
   def edit
@@ -10,7 +10,7 @@ class Admins::Events::GtagSettingsController < Admins::Events::BaseController
     @event = current_event
     @parameters = Parameter.where(group: 'form', category: 'gtag')
     @gtag_settings_form = GtagSettingsForm.new
-    event_parameters = EventParameter.where(event_id: @event.id, parameters: { group: 'form', category: 'gtag'}).includes(:parameter)
+    event_parameters = @fetch.event_parameters.where(parameters: { group: 'form', category: 'gtag'}).includes(:parameter)
     event_parameters.each do |event_parameter|
       @gtag_settings_form[event_parameter.parameter.name.to_sym] = event_parameter.value
     end

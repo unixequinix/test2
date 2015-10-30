@@ -2,14 +2,14 @@ class Admins::Events::RefundSettingsController < Admins::Events::BaseController
 
   def show
     @event = Event.friendly.find(params[:event_id])
-    @event_parameters = EventParameter.where(event_id: @event.id, parameters: { group: @event.refund_service, category: 'refund'}).includes(:parameter)
+    @event_parameters = @fetcher.event_parameters.where(parameters: { group: @event.refund_service, category: 'refund'}).includes(:parameter)
   end
 
   def edit
     @event = Event.friendly.find(params[:event_id])
     @parameters = Parameter.where(group: @event.refund_service, category: 'refund')
     @refund_settings_form = ("#{@event.refund_service.camelize}RefundSettingsForm").constantize.new
-    event_parameters = EventParameter.where(event_id: @event.id, parameters: { group: @event.refund_service, category: 'refund'}).includes(:parameter)
+    event_parameters = @fetcher.event_parameters.where(parameters: { group: @event.refund_service, category: 'refund'}).includes(:parameter)
     event_parameters.each do |event_parameter|
       @refund_settings_form[event_parameter.parameter.name.to_sym] = event_parameter.value
     end
