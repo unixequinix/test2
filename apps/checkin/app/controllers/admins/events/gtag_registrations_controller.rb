@@ -1,4 +1,4 @@
-class Admins::Events::GtagRegistrationsController < Admins::Events::CheckingBaseController
+class Admins::Events::GtagRegistrationsController < Admins::Events::CheckinBaseController
 
   def new
     @gtag_registration = GtagRegistration.new

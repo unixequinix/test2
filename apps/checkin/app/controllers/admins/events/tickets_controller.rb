@@ -1,4 +1,4 @@
-class Admins::Events::TicketsController < Admins::Events::CheckingBaseController
+class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
 
   def index
     all_tickets = @fetcher.tickets

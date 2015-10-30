@@ -1,4 +1,4 @@
-class Admins::Events::TicketTypesController < Admins::Events::CheckingBaseController
+class Admins::Events::TicketTypesController < Admins::Events::CheckinBaseController
 
   def index
     @ticket_types = TicketType.where(event_id: current_event.id).page(params[:page]).includes(:entitlements)

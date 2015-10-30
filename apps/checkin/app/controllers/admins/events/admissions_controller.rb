@@ -1,4 +1,4 @@
-class Admins::Events::AdmissionsController < Admins::Events::CheckingBaseController
+class Admins::Events::AdmissionsController < Admins::Events::CheckinBaseController
 
   def new
     @admission = Admission.new

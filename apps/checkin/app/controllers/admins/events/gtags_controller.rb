@@ -1,4 +1,4 @@
-class Admins::Events::GtagsController < Admins::Events::CheckingBaseController
+class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
 
   def index
     @q = Gtag.where(event_id: current_event.id).search(params[:q])

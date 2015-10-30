@@ -1,31 +1,27 @@
 class Admins::Events::ClaimsController < Admins::Events::BaseController
 
-  before_filter :enable_fetcher
-
   def index
-    @q = Claim.joins(:customer_event_profile)
-      .where(customer_event_profiles: { event_id: current_event.id })
-      .search(params[:q])
+    @q = @fetcher.claims.search(params[:q])
     @claims = @q.result(distinct: true).page(params[:page]).includes(:customer_event_profile, customer_event_profile: :customer)
     respond_to do |format|
       format.html
-      format.csv { send_data(Csv::CsvExporter.to_csv(Claim.selected_data(:completed, current_event)))}
+      format.csv { send_data(Csv::CsvExporter.to_csv(@fetcher.claims.selected_data(:completed, current_event)))}
     end
   end
 
   def search
-    @q = Claim.joins(:customer_event_profile)
-      .where(customer_event_profiles: { event_id: current_event.id })
-      .search(params[:q])
+    @q =  @fetcher.claims.search(params[:q])
     @claims = @q.result(distinct: true).page(params[:page]).includes(:customer_event_profile)
     render :index
   end
 
   def show
+    #@claim = @fetcher.claims.includes(claim_parameters: :parameter).find(params[:id])
     @claim = Claim.includes(claim_parameters: :parameter).find(params[:id])
   end
 
   def update
+    # @claim = @fetcher.claims.find(params[:id])
     @claim = Claim.find(params[:id])
     if @claim.update(permitted_params)
       flash[:notice] = I18n.t('alerts.updated')
@@ -40,9 +36,5 @@ class Admins::Events::ClaimsController < Admins::Events::BaseController
 
     def permitted_params
       params.require(:claim).permit(:aasm_state)
-    end
-
-    def enable_fetcher
-      @fetcher = Multitenancy::RefundsFetcher.new(current_event)
     end
 end

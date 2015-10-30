@@ -1,4 +1,4 @@
-class Admins::Events::EntitlementsController < Admins::Events::CheckingBaseController
+class Admins::Events::EntitlementsController < Admins::Events::CheckinBaseController
 
   def index
     @entitlements = Entitlement.where(event_id: current_event.id).page(params[:page])
