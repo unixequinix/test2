@@ -2,6 +2,7 @@ class Events::BaseController < ApplicationController
   layout 'event'
   protect_from_forgery
   before_filter :set_i18n_globals
+  before_action :ensure_customer
   before_action :authenticate_customer!
 
   helper_method :warden, :customer_signed_in?, :current_customer
@@ -11,11 +12,20 @@ class Events::BaseController < ApplicationController
   end
 
   def current_customer
-    @current_customer ||= Customer.find(warden.user(:customer)["id"]) unless warden.user(:customer).nil?
+    @current_customer ||= Customer.find(warden.user(:customer)["id"]) unless
+      warden.user(:customer).nil? ||
+      Customer.where(id: warden.user(:customer)["id"]).empty?
   end
 
   def warden
     request.env['warden']
+  end
+
+  def ensure_customer
+    unless customer_signed_in?
+      warden.logout
+      return false
+    end
   end
 
   def authenticate_customer!

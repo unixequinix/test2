@@ -10,6 +10,7 @@ class Events::RegistrationsController < Events::BaseController
     @customer = Customer.new(permitted_params)
     if @customer.save
       CustomerMailer.confirmation_instructions_email(@customer).deliver_later
+      @customer.update(confirmation_sent_at: Time.now.utc)
       flash[:notice] = t("registrations.customer.success")
       redirect_to after_inactive_sign_up_path
     else

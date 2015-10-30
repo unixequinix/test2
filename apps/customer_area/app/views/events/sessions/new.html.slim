@@ -1,6 +1,7 @@
 = render "events/sessions/confirmation_message" if @sign_up
 = render "events/sessions/confirmed_message" if @confirmed
 = render "events/sessions/password_sent_message" if @password_sent
+= render "events/sessions/confirmation_sent_message" if @confirmation_sent
 
 .container-login-map
   .wrapper-field

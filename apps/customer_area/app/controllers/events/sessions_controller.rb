@@ -6,6 +6,7 @@ class Events::SessionsController < Events::BaseController
     @sign_up = params[:sign_up]
     @confirmed = params[:confirmed]
     @password_sent = params[:password_sent]
+    @confirmation_sent = params[:confirmation_sent]
     @customer = Customer.new
   end
 

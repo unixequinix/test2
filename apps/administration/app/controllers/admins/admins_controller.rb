@@ -48,6 +48,6 @@ class Admins::AdminsController < Admins::BaseController
   private
 
   def permitted_params
-    params.require(:admin).permit(:email, :password_confirmation, :password)
+    params.require(:admin).permit(:email, :password)
   end
 end
