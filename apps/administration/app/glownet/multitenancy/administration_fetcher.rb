@@ -13,8 +13,7 @@ class Multitenancy::AdministrationFetcher
   end
 
   def claims
-    Claim.joins(:customer_event_profile)
-      .where(customer_event_profiles: { event_id: @event.id })
+    Claim.joins(:customer_event_profile).where(customer_event_profiles: { event_id: @event.id })
   end
 
   private
