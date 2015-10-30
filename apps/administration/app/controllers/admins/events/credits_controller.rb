@@ -1,7 +1,7 @@
 class Admins::Events::CreditsController < Admins::Events::BaseController
 
   def index
-    @credits = Credit.joins(:online_product)
+    @credits = @fetcher.credits
       .where(online_products: { event_id: current_event.id })
       .page(params[:page])
       .includes(:online_product)
@@ -24,11 +24,11 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
   end
 
   def edit
-    @credit = Credit.find(params[:id])
+    @credit = @fetcher.credits.find(params[:id])
   end
 
   def update
-    @credit = Credit.find(params[:id])
+    @credit = @fetcher.credits.find(params[:id])
     if @credit.update(permitted_params)
       flash[:notice] = I18n.t('alerts.updated')
       redirect_to admins_event_credits_url
@@ -39,7 +39,7 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
   end
 
   def destroy
-    @credit = Credit.find(params[:id])
+    @credit = @fetcher.credits.find(params[:id])
     @credit.destroy!
     flash[:notice] = I18n.t('alerts.destroyed')
     redirect_to admins_event_credits_url

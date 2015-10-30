@@ -16,6 +16,10 @@ class Multitenancy::AdministrationFetcher
     Claim.joins(:customer_event_profile).where(customer_event_profiles: { event_id: @event.id })
   end
 
+  def credits
+    Credit.joins(:online_product).where(online_products: { event_id: @event.id })
+  end
+
   private
 
     def admin?
