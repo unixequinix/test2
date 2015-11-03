@@ -29,6 +29,7 @@ RSpec.describe Seeder::SeedLoader, type: :service do
 
   describe "create_claim_parameters" do
     it "stores in the DB all the default claim parameters" do
+      DatabaseCleaner.clean_with(:truncation)
       number_of_parameters_before = Parameter.count
       Seeder::SeedLoader.create_claim_parameters
       expect(Parameter.count).to be > number_of_parameters_before

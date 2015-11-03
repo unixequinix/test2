@@ -13,10 +13,8 @@ RSpec.feature "Gtag assignation", type: :feature do
       @customer = build(:customer, event: @event, confirmation_token: nil, confirmed_at: Time.now)
       create(:customer_event_profile, customer: @customer, event: @event)
 
-      visit "/#{@event_creator.event.slug}/login"
-      fill_in(t('simple_form.labels.customer.new.email'), with: @customer.email)
-      fill_in(t('simple_form.labels.customer.new..password'), with: @customer.password)
-      click_button(t('sessions.new.button'))
+      login_as(@customer, scope: :customer)
+
     end
 
     describe "a customer " do

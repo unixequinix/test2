@@ -2,10 +2,13 @@ Rails.application.routes.draw do
 
   scope module: 'events' do
     resources :events, only: [:show], path: '/' do
+      get "signin", to: "registrations#new"
+      get "login", to: "sessions#new"
+      delete "logout", to: "sessions#destroy"
       resources :customers do
         collection do
-          resource :registrations, only: [:new, :create, :edit, :update]
-          resource :sessions, only: [:new, :create, :destroy]
+          resource :registrations, only: [:new, :create, :edit, :update, :delete]
+          resource :sessions, only: [:new, :create]
           resource :confirmations, only: [:new, :create, :show]
           resource :passwords, only: [:new, :create, :edit, :update]
         end

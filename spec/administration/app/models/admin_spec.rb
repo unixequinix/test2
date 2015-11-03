@@ -23,7 +23,6 @@ require "rails_helper"
 RSpec.describe Admin, type: :model do
 
   it { is_expected.to validate_presence_of(:email) }
-  it { is_expected.to validate_presence_of(:password) }
 
   context "with a new admin" do
     before do
@@ -36,15 +35,14 @@ RSpec.describe Admin, type: :model do
         expect(@admin).to be_valid
       end
 
-      { "too short" => "x",
-        "too long" => "longpassword" * 10,
-        "empty" => ""
-      }.each do |problematic, password|
-        it "cannot be #{problematic}" do
-          @admin.password = password
-          expect(@admin).not_to be_valid
-          expect(@admin.errors["password"]).to be_any
-        end
+      it "should have 8 characters or more" do
+        @admin.password = "1234567"
+        expect(@admin).to be_invalid
+      end
+
+      it "should have 20 characters or less" do
+        @admin.password = "12345" * 4
+        expect(@admin).to be_invalid
       end
     end
 

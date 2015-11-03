@@ -50,15 +50,12 @@ class Customer < ActiveRecord::Base
   belongs_to :event
 
   # Validations
-  # validates :email, format: { with: MAIL_FORMAT }, presence: true
+  #validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   validates :email, presence: true
   validates :name, :surname, :password, presence: true
   validates :agreed_on_registration, acceptance: { accept: true }
 
-  #validates_length_of :password, within: 8..20, allow_blank: true
   validates_uniqueness_of :email, scope: [:event_id], conditions: -> { where(deleted_at: nil) }
-  validate :validate_configurable_fields
-
 
   # Hooks
   before_create :generate_confirmation_token
@@ -123,9 +120,6 @@ class Customer < ActiveRecord::Base
         )
       )
     end
-  end
-
-  def validate_configurable_fields
   end
 
   def generate_confirmation_token

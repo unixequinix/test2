@@ -69,5 +69,4 @@ class Seeder::SeedLoader
       end
     end
   end
-
 end

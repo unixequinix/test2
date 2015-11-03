@@ -28,7 +28,7 @@ class UnauthorizedController < ActionController::Metal
 
   def scope_customer_url
     event_id = params[:event_id].nil? ? params[:id] : params[:event_id]
-    @route = new_event_sessions_url(event_id: event_id) if scope == :customer
+    @route = event_login_url(event_id: event_id) if scope == :customer
   end
 
 

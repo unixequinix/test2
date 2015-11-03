@@ -100,8 +100,14 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
-    DatabaseCleaner.clean
+
     Warden.test_reset!
+  end
+
+  config.after(:all) do
+    DatabaseCleaner.clean_with(:truncation)
+    Seeder::SeedLoader.create_event_parameters
+    Seeder::SeedLoader.create_claim_parameters
   end
 
 end

@@ -9,6 +9,8 @@ RSpec.feature "Payment", type: :feature do
       load_gtag
       to_login
       I18n.locale = :en
+      Capybara.javascript_driver = :webkit
+
     end
 
     describe "a customer", :js => true do

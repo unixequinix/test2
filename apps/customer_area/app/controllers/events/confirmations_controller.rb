@@ -17,10 +17,10 @@ class Events::ConfirmationsController < Events::BaseController
         redirect_to after_sending_confirmation_instructions_path
       else
         flash.now[:error] = I18n.t('errors.messages.already_confirmed')
-        redirect_to new_event_sessions_path(current_event, confirmed: true)
+        redirect_to event_login_path(current_event, confirmed: true)
       end
     else
-      new_event_sessions_path(current_event, confirmed: true)
+      event_login_path(current_event, confirmed: true)
     end
   end
 
@@ -48,11 +48,11 @@ class Events::ConfirmationsController < Events::BaseController
   end
 
   def after_sending_confirmation_instructions_path
-    new_event_sessions_path(current_event, confirmation_sent: true)
+    event_login_path(current_event, confirmation_sent: true)
   end
 
   def after_confirmation_path
-    new_event_sessions_path(current_event, confirmed: true)
+    event_login_path(current_event, confirmed: true)
   end
 
   def permitted_params

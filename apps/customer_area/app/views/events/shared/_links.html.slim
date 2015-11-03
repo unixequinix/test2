@@ -2,7 +2,7 @@
   .wrapper-field.wrapper-single-option
     .form-inputs
       h3.single-option-header = t('links.sign_in')
-      = link_to t('links.buttons.sign_in'), new_event_sessions_path(current_event), class: "btn"
+      = link_to t('links.buttons.sign_in'), event_login_path(current_event), class: "btn"
 
 - if controller_name != 'passwords' && controller_name != 'registrations'
   .form-actions

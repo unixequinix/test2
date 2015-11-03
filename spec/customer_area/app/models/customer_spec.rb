@@ -65,7 +65,7 @@ RSpec.describe Customer, type: :model do
         "empty" => ""
       }.each do |problematic, password|
         it "cannot be #{problematic}" do
-          @customer.password = @customer.password_confirmation  = password
+          @customer.password = password
           expect(@customer).not_to be_valid
           expect(@customer.errors["password"]).to be_any
         end

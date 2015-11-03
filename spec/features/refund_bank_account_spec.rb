@@ -45,9 +45,6 @@ RSpec.feature "Refund for Bank account", type: :feature do
   end
 
   def to_login
-    visit "/#{@event_creator.event.slug}/login"
-    fill_in(t('simple_form.labels.customer.new.email'), with: @customer.email)
-    fill_in(t('simple_form.labels.customer.new.password'), with: @customer.password)
-    click_button(t('sessions.new.button'))
+    login_as(@customer, scope: :customer)
   end
 end

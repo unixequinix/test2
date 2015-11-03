@@ -195,6 +195,33 @@ class Event < ActiveRecord::Base
     parameter = EventParameter.find_by(event_id: self.id, parameter_id: Parameter.find_by(category: category, group: group, name: name)).value
   end
 
+  def to_hash_parameters
+    {name: name,
+    aasm_state: aasm_state,
+    slug: slug,
+    location: location,
+    start_date: start_date,
+    end_date: end_date,
+    description: description,
+    support_email: support_email,
+    style: style,
+    logo_file_name: logo_file_name,
+    logo_content_type: logo_content_type,
+    logo_file_size: logo_file_size,
+    logo_updated_at: logo_updated_at,
+    background_file_name: background_file_name,
+    background_content_type: background_content_type,
+    background_file_size: background_file_size,
+    background_updated_at: background_updated_at,
+    url: url,
+    background_type: background_type,
+    features: features,
+    refund_service: refund_service,
+    gtag_registration: gtag_registration,
+    payment_service: payment_service,
+    registration_parameters: registration_parameters}
+  end
+
 
   private
 

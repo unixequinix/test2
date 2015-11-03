@@ -9,7 +9,7 @@
       = t('sessions.new.description')
     .form-inputs
       = raw current_event.info
-      = link_to t('links.buttons.sign_up'), new_event_registrations_path(current_event), class: "btn"
+      = link_to t('links.buttons.sign_up'), event_signin_path(current_event), class: "btn"
   .disclaimer-list
     = raw current_event.disclaimer
 

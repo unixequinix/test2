@@ -43,7 +43,7 @@ class Events::RegistrationsController < Events::BaseController
   private
 
   def after_inactive_sign_up_path
-    new_event_sessions_path(current_event, sign_up: true)
+    event_login_path(current_event, sign_up: true)
   end
 
   def permitted_params

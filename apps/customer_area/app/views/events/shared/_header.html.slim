@@ -19,5 +19,5 @@ header
             = current_customer.name
 
         li.nav-end-session
-          = link_to event_sessions_path(current_event), method: :delete do
+          = link_to event_logout_path(current_event), method: :delete do
             = fa_icon "sign-out"

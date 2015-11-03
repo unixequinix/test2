@@ -43,7 +43,7 @@ class Events::PasswordsController < Events::BaseController
   end
 
   def after_sending_reset_password_instructions_path
-    new_event_sessions_path(current_event, password_sent: true)
+    event_login_path(current_event, password_sent: true)
   end
 
   def permitted_params
