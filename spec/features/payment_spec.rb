@@ -9,13 +9,10 @@ RSpec.feature "Payment", type: :feature do
       load_gtag
       to_login
       I18n.locale = :en
-      Capybara.javascript_driver = :webkit
-
     end
 
     describe "a customer", :js => true do
       it "should be able to buy new credits" do
-
         visit "/#{@event_creator.event.slug}/checkouts/new"
         click_button("Confirmar Orden")
         click_button("Pagar")

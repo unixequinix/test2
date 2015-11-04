@@ -32,4 +32,8 @@ class Multitenancy::CheckinFetcher
     CustomerEventProfile.where(event: @event)
   end
 
+  def customers
+    Customer.where(event: @event)
+  end
+
 end

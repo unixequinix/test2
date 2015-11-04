@@ -1,10 +1,10 @@
-- breadcrumb :new_admins_event_customer_event_profile_gtag_registration, current_event, @customer_event_profile
+- breadcrumb :new_admins_event_customer_gtag_registration, current_event, @customer
 - provide :actions do
-  = link_to t("actions.back"), admins_event_customer_event_profile_path(current_event, @customer_event_profile), class: "btn btn-action btn-action-back small"
+  = link_to t("actions.back"), admins_event_customer_path(current_event, @customer.customer_event_profile), class: "btn btn-action btn-action-back small"
 
-= form_tag admins_event_customer_event_profile_gtag_registrations_path(current_event, @customer_event_profile) do |f|
+= form_tag admins_event_customer_gtag_registrations_path(current_event, @customer) do |f|
   .wrapper-negative-space
-    = hidden_field_tag :customer_event_profile_id, @customer_event_profile.id
+    = hidden_field_tag :customer_event_profile_id, @customer.customer_event_profile.id
     .input
       = label_tag t('admin.gtag_registrations.serial')
       = text_field_tag :tag_serial_number, nil, placeholder: t('gtag_registrations.placeholders.standard.line_1')

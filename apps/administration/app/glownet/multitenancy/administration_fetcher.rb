@@ -20,8 +20,8 @@ class Multitenancy::AdministrationFetcher
     Credit.joins(:online_product).where(online_products: { event_id: @event.id })
   end
 
-  def customer_event_profiles
-    CustomerEventProfile.where(event_id: @event.id)
+  def customers
+    Customer.where(event_id: @event.id)
   end
 
   def event_parameters

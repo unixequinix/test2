@@ -44,7 +44,7 @@ aside#main-menu
 
     h3.aside-title = t("admin.aside.crm")
 
-    li.aside-list = link_to admins_event_customer_event_profiles_path(current_event) do
+    li.aside-list = link_to admins_event_customers_path(current_event) do
       = fa_icon "users"
       = t("admin.aside.customers")
     li.aside-list = link_to admins_event_orders_path(current_event) do
