@@ -33,7 +33,7 @@
 
 class Event < ActiveRecord::Base
   nilify_blanks
-  translates :info, :disclaimer, :refund_success_message, :mass_email_claim_notification, :gtag_assignation_notification, :gtag_form_disclaimer, :gtag_name, fallbacks_for_empty_translations: true
+  translates :info, :disclaimer, :refund_success_message, :mass_email_claim_notification, :gtag_assignation_notification, :gtag_form_disclaimer, :gtag_name, :agreed_event_condition_message, fallbacks_for_empty_translations: true
 
   #Background Types
   BACKGROUND_FIXED = 'fixed'
@@ -68,9 +68,10 @@ class Event < ActiveRecord::Base
             5 => :postcode,
             6 => :gender,
             7 => :birthdate,
+            8 => :agreed_event_condition,
             column: 'registration_parameters'
 
-  REGISTRATION_PARAMETERS = [:phone,:address, :city, :country, :postcode, :gender, :birthdate]
+  REGISTRATION_PARAMETERS = [:phone,:address, :city, :country, :postcode, :gender, :birthdate, :agreed_event_condition]
 
   # Associations
   has_many :customer_event_profiles

@@ -65,7 +65,7 @@ class Admins::EventsController < Admins::BaseController
       :start_date, :end_date, :description, :support_email, :style, :logo,
       :background_type, :background, :features, :payment_service,
       :refund_service, :gtag_registration, :info, :disclaimer,
-      :registration_parameters)
+      :registration_parameters, :agreed_event_condition_message)
   end
 
 end

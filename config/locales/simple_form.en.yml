@@ -27,6 +27,7 @@ en:
         new: &label_event
           name: 'Name'
           support_email: 'Support email'
+          agreed_event_condition_message: 'Condition message'
           description: 'Description'
           start_date: 'Start date'
           end_date: 'End date'
@@ -36,6 +37,7 @@ en:
           background_type: 'Background type'
           background: 'background'
           style: 'Style'
+          agreed_event_condition_message: 'Condition message'
         edit:
           <<: *label_event
       customer:
@@ -163,6 +165,7 @@ en:
           description: 'Add some extra information and other information you consider is important'
           location: 'Where is the event?'
           style: '/*Add some CSS magic*/'
+          agreed_event_condition_message: 'Adds the condition you want the user accepts when registering'
         edit:
           <<: *placeholder_event
       online_product:

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151002190845) do
+ActiveRecord::Schema.define(version: 20151106112556) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,14 +62,14 @@ ActiveRecord::Schema.define(version: 20151002190845) do
   end
 
   create_table "customers", force: :cascade do |t|
-    t.string   "email",                  default: "",    null: false, index: {name: "index_customers_on_email_and_event_id", with: ["event_id"], unique: true}
-    t.string   "name",                   default: "",    null: false
-    t.string   "surname",                default: "",    null: false
-    t.string   "encrypted_password",     default: "",    null: false
-    t.string   "reset_password_token",   index: {name: "index_customers_on_reset_password_token", unique: true}
+    t.string   "email",                          default: "",    null: false, index: {name: "index_customers_on_email_and_event_id", with: ["event_id"], unique: true}
+    t.string   "name",                           default: "",    null: false
+    t.string   "surname",                        default: "",    null: false
+    t.string   "encrypted_password",             default: "",    null: false
+    t.string   "reset_password_token",           index: {name: "index_customers_on_reset_password_token", unique: true}
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,     null: false
+    t.integer  "sign_in_count",                  default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
@@ -78,10 +78,10 @@ ActiveRecord::Schema.define(version: 20151002190845) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.datetime "deleted_at",             index: {name: "index_customers_on_deleted_at"}
-    t.boolean  "agreed_on_registration", default: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.datetime "deleted_at",                     index: {name: "index_customers_on_deleted_at"}
+    t.boolean  "agreed_on_registration",         default: false
     t.string   "phone"
     t.string   "postcode"
     t.string   "address"
@@ -89,7 +89,8 @@ ActiveRecord::Schema.define(version: 20151002190845) do
     t.string   "country"
     t.string   "gender"
     t.datetime "birthdate"
-    t.integer  "event_id",               null: false, index: {name: "fk__customers_event_id"}, foreign_key: {references: "events", name: "customers_event_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.integer  "event_id",                       null: false, index: {name: "fk__customers_event_id"}, foreign_key: {references: "events", name: "customers_event_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.boolean  "agreed_event_condition_message"
   end
 
   create_table "customer_event_profiles", force: :cascade do |t|
@@ -223,10 +224,10 @@ ActiveRecord::Schema.define(version: 20151002190845) do
   add_index "event_parameters", ["event_id", "parameter_id"], name: "index_event_parameters_on_event_id_and_parameter_id", unique: true
 
   create_table "event_translations", force: :cascade do |t|
-    t.integer  "event_id",                      null: false, index: {name: "fk__event_translations_event_id"}, foreign_key: {references: "events", name: "fk_event_translations_event_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "locale",                        null: false, index: {name: "index_event_translations_on_locale"}
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.integer  "event_id",                       null: false, index: {name: "fk__event_translations_event_id"}, foreign_key: {references: "events", name: "fk_event_translations_event_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "locale",                         null: false, index: {name: "index_event_translations_on_locale"}
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.text     "info"
     t.text     "disclaimer"
     t.text     "refund_success_message"
@@ -234,6 +235,7 @@ ActiveRecord::Schema.define(version: 20151002190845) do
     t.text     "gtag_assignation_notification"
     t.text     "gtag_form_disclaimer"
     t.string   "gtag_name"
+    t.text     "agreed_event_condition_message"
   end
   add_index "event_translations", ["event_id"], name: "index_event_translations_on_event_id"
 

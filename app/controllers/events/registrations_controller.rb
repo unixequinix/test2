@@ -16,13 +16,13 @@ class Events::RegistrationsController < Devise::RegistrationsController
     devise_parameter_sanitizer.for(:sign_up) do |u|
       u.permit(:email, :password, :password_confirmation, :name, :surname,
         :phone, :address, :city, :country, :postcode, :gender, :birthdate,
-        :event_id, :agreed_on_registration)
+        :event_id, :agreed_on_registration, :agreed_event_condition_message)
     end
 
     devise_parameter_sanitizer.for(:account_update) do |u|
       u.permit(:email, :password, :password_confirmation, :current_password,
         :name, :surname, :phone, :address, :city, :country, :postcode, :gender,
-        :birthdate, :event_id, :agreed_on_registration)
+        :birthdate, :event_id, :agreed_on_registration, :agreed_event_condition_message)
     end
   end
 end
