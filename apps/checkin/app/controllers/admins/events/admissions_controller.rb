@@ -9,7 +9,7 @@ class Admins::Events::AdmissionsController < Admins::Events::CheckinBaseControll
     ticket = Ticket.find_by(number: params[:ticket_number].strip, event: current_event)
     @customer = current_customer
     if !ticket.nil?
-      @admission = Admission.new(customer_event_profile: @customer.customer_event_profile, ticket_id: ticket.id)
+      @admission = current_customer_event_profile.admissions.build(ticket: ticket)
       if @admission.save
         @credit_log = CreditLog.create(customer_event_profile_id: params[:customer_event_profile_id], transaction_type: CreditLog::TICKET_ASSIGNMENT, amount: ticket.ticket_type.credit) unless ticket.ticket_type.credit.nil?
         flash[:notice] = I18n.t('alerts.created')
@@ -34,11 +34,13 @@ class Admins::Events::AdmissionsController < Admins::Events::CheckinBaseControll
   end
 
   private
-    def current_customer_event_profile
-      current_customer.customer_event_profile ||
-        CustomerEventProfile.new(customer: current_customer, event: current_event)
-    end
-    def current_customer
-      Customer.find(params[:customer_id])
-    end
+
+  def current_customer_event_profile
+    current_customer.customer_event_profile ||
+      CustomerEventProfile.new(customer: current_customer, event: current_event)
+  end
+
+  def current_customer
+    Customer.find(params[:customer_id])
+  end
 end

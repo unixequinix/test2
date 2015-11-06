@@ -1,6 +1,5 @@
 require "rails_helper"
 
-
 RSpec.describe EpgCheckoutService, type: :service do
   before(:all) do
     event = create(:event, refund_service: "epg")

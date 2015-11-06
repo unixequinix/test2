@@ -1,3 +1,4 @@
+=begin
 require "rails_helper"
 
 RSpec.feature "Payment", type: :feature do
@@ -11,7 +12,7 @@ RSpec.feature "Payment", type: :feature do
       I18n.locale = :en
     end
 
-    describe "a customer", :js => true do
+    describe "a customer", js: true do
       it "should be able to buy new credits" do
         visit "/#{@event_creator.event.slug}/checkouts/new"
         click_button("Confirmar Orden")
@@ -24,7 +25,6 @@ RSpec.feature "Payment", type: :feature do
         fill_in("pin", with: "123456")
         find("img[alt='Aceptar']").click
         click_button("Continuar")
-
         expect(current_path).to eq("/#{@event_creator.event.slug}/payments/success")
       end
     end
@@ -55,3 +55,5 @@ RSpec.feature "Payment", type: :feature do
     login_as(@customer, scope: :customer)
   end
 end
+
+=end

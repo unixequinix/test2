@@ -19,34 +19,44 @@ RSpec.describe Order, type: :model do
   it { is_expected.to validate_presence_of(:number) }
   it { is_expected.to validate_presence_of(:aasm_state) }
 
+  before(:all) do
+    @customer_event_profile = create(:customer_event_profile)
+    @order = create(:order, customer_event_profile: @customer_event_profile)
+  end
+
   describe "total" do
     it "returns the total of all the items in the order" do
-      order = create(:order)
 
-      expect(order.total).to eq(99.75)
+      expect(@order.total).to eq(99.75)
     end
   end
 
   describe "generate_order_number!" do
     it "should create a new order number" do
-      order = create(:order)
-      order.generate_order_number!
+      @order.generate_order_number!
       day = Date.today.strftime('%y%m%d')
 
-      expect(order.number).to start_with(day)
-      expect(order.number).to match(/^[a-f0-9]*$/)
+      expect(@order.number).to start_with(day)
+      expect(@order.number).to match(/^[a-f0-9]*$/)
     end
   end
 
   describe "complete_order" do
     it "should store the time when an order is completed" do
-      order = create(:order)
-      time_before = order.completed_at.to_i
-      order.start_payment
-      order.complete
-      time_after = order.completed_at.to_i
+      time_before = @order.completed_at.to_i
+      @order.start_payment
+      @order.complete
+      time_after = @order.completed_at.to_i
 
       expect(time_after).to be > time_before
+    end
+  end
+
+  describe "credits_total" do
+    it "should return the total amount of credits available" do
+      binding.pry
+       #self.order_items.joins(:online_product).where(online_products: { purchasable_type: "Credit" })
+      @order.credits_total
     end
   end
 

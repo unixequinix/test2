@@ -9,7 +9,7 @@ class Admins::Events::GtagRegistrationsController < Admins::Events::CheckinBaseC
     gtag = @fetcher.gtags.find_by(tag_uid: params[:tag_uid].strip.upcase, tag_serial_number: params[:tag_serial_number].strip.upcase)
     @customer = @fetcher.customers.with_deleted.find(params[:customer_id])
     if !gtag.nil?
-      @gtag_registration = GtagRegistration.new(customer_event_profile_id: params[:customer_event_profile_id], gtag_id: gtag.id)
+      @gtag_registration = current_customer_event_profile.gtag_registrations.build(gtag: gtag)
       if @gtag_registration.save
         flash[:notice] = I18n.t('alerts.created')
         GtagMailer.assigned_email(@gtag_registration).deliver_later
@@ -32,4 +32,13 @@ class Admins::Events::GtagRegistrationsController < Admins::Events::CheckinBaseC
     GtagMailer.unassigned_email(@gtag_registration).deliver_later
     redirect_to admins_event_customer_url(current_event, @customer_event_profile.customer)
   end
+
+  private
+    def current_customer_event_profile
+      current_customer.customer_event_profile ||
+        CustomerEventProfile.new(customer: current_customer, event: current_event)
+    end
+    def current_customer
+      Customer.find(params[:customer_id])
+    end
 end
