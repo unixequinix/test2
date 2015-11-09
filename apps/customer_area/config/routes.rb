@@ -7,8 +7,8 @@ Rails.application.routes.draw do
       delete "logout", to: "sessions#destroy"
       resources :customers do
         collection do
-          resource :registrations, only: [:new, :create, :edit, :update, :delete]
-          resource :sessions, only: [:new, :create]
+          resource :registrations, only: [:new, :create, :edit, :update]
+          resource :sessions, only: [:new, :create, :destroy]
           resource :confirmations, only: [:new, :create, :show]
           resource :passwords, only: [:new, :create, :edit, :update]
         end

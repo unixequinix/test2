@@ -1,4 +1,4 @@
-= simple_form_for @customer, url: event_registrations_path(current_event), method: :post do |f|
+= simple_form_for @new_profile_form, url: event_registrations_path(current_event), method: :post do |f|
   = f.error_notification
   .wrapper-field
     h3.customer-section-header = t('registration.new.title')

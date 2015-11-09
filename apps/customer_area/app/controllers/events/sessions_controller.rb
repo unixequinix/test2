@@ -7,16 +7,17 @@ class Events::SessionsController < Events::BaseController
     @confirmed = params[:confirmed]
     @password_sent = params[:password_sent]
     @confirmation_sent = params[:confirmation_sent]
-    @customer = Customer.new
+    @customer_login_form = CustomerLoginForm.new(Customer.new)
   end
 
   def create
-    @customer = Customer.find_by(email: permitted_params[:email], event: current_event)
-    if !@customer.nil?
+    customer = Customer.find_by(email: permitted_params[:email], event: current_event)
+    @customer_login_form = CustomerLoginForm.new(customer)
+    if @customer_login_form.validate(permitted_params) && @customer_login_form.save
       authenticate_customer!
       redirect_to after_sign_in_path
     else
-      @customer = Customer.new
+      @customer_login_form = CustomerLoginForm.new(Customer.new)
       flash.now[:error] = I18n.t('auth.failure.invalid', authentication_keys: 'email')
       render :new
     end

@@ -6,8 +6,10 @@ class AdminPasswordStrategy < ::Warden::Strategies::Base
   end
 
   def authenticate!
-    admin = Admin.find_by_email(params["admin"].fetch("email"), )
-    if admin.nil? || admin.password != params["admin"].fetch("password")
+    admin = Admin.find_by_email(params["admin"].fetch("email"))
+    current_password = BCrypt::Password.new(admin.encrypted_password)
+    if admin.nil? ||
+      current_password != params["admin"].fetch("password")
       fail! message: "errors.messages.unauthorized"
     else
       success!(admin)

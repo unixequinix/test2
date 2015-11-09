@@ -22,5 +22,5 @@
 .wrapper-field.centered
   .form-inputs
     h3 = t('dashboard.more_gtags.description')
-    = link_to destroy_customer_event_session_path(current_event), method: :delete, class: "btn btn-action btn-action-back" do
+    = link_to event_logout_path(current_event), method: :delete, class: "btn btn-action btn-action-back" do
       = t("actions.logout")

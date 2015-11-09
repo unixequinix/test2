@@ -32,10 +32,8 @@
 #  birthdate              :datetime
 #  event_id               :integer          not null
 #
-require 'bcrypt'
 
 class Customer < ActiveRecord::Base
-  include BCrypt
   acts_as_paranoid
   default_scope { order('email') }
 
@@ -50,9 +48,8 @@ class Customer < ActiveRecord::Base
   belongs_to :event
 
   # Validations
-  #validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
-  validates :email, presence: true
-  validates :name, :surname, :password, presence: true
+  validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+  validates :email, :name, :surname, :encrypted_password, presence: true
   validates :agreed_on_registration, acceptance: { accept: true }
 
   validates_uniqueness_of :email, scope: [:event_id], conditions: -> { where(deleted_at: nil) }
@@ -62,15 +59,6 @@ class Customer < ActiveRecord::Base
 
   # Methods
   # -------------------------------------------------------
-
-  def password
-    @password ||= Password.new(self.encrypted_password)
-  end
-
-  def password=(new_password)
-    @password = Password.create(new_password)
-    self.encrypted_password = @password
-  end
 
   def confirm!
     self.confirmation_token = nil

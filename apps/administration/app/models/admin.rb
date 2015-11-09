@@ -32,15 +32,6 @@ class Admin < ActiveRecord::Base
   # Methods
   # -------------------------------------------------------
 
-  def password
-    @password ||= Password.new(self.encrypted_password)
-  end
-
-  def password=(new_password)
-    @password = Password.create(new_password)
-    self.encrypted_password = @password
-  end
-
   def valid_token?(token)
     self.access_token == token
   end

@@ -73,7 +73,7 @@ gem 'flag_shih_tzu', '~>0.3.13'
 
 # Architectural
 gem 'virtus', '~> 1.0.5'
-gem 'reform', '~> 1.2.6'
+gem 'reform', '~> 2.0.5'
 
 # Asyncronous mailer
 gem 'sinatra', require: false
