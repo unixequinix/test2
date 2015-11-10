@@ -67,8 +67,9 @@
           span.checkbox
             = check_box_tag "reg_form_param", event.flag_mapping["registration_parameters"][parameter], (:checked if event.flag_enabled?(parameter)), id: "#{parameter}-parameter", class: "flag-selector", data: {"checkbox-group" => "registration_parameters"}
             label.collection_check_boxes for="#{parameter}-parameter" = t("admin.event.features_options.#{parameter}")
+      .condition-message
+        = f.input :agreed_event_condition_message, as: :text, input_html: { rows: 5, class: "textarea"}
     = f.input :registration_parameters, as: :hidden
-
 
   fieldset
     h3.section-header

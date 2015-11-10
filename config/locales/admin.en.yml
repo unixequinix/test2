@@ -261,6 +261,7 @@ en:
       current_sign: "Current sign in"
       last_sign: "Last sign in at"
       current_sign_ip: "Current sign in ip"
+      agreed_event_condition: "Event condition agreed"
       last_sign_ip: "Last sign in ip"
       unconfirmed: "Unconfirmed email"
       transactions: "Transactions"

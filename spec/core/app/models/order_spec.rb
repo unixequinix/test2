@@ -27,7 +27,7 @@ RSpec.describe Order, type: :model do
   describe "total" do
     it "returns the total of all the items in the order" do
 
-      expect(@order.total).to eq(99.75)
+      expect(@order.total).to eq(59.85)
     end
   end
 
@@ -54,9 +54,13 @@ RSpec.describe Order, type: :model do
 
   describe "credits_total" do
     it "should return the total amount of credits available" do
-      binding.pry
-       #self.order_items.joins(:online_product).where(online_products: { purchasable_type: "Credit" })
-      @order.credits_total
+      event = @customer_event_profile.event
+      op = create(:online_product, event: event)
+      5.times do
+        create(:order_item, online_product: op, order: @order)
+      end
+      #45 is 9*5. amount set in order_items.rb
+      expect(@order.credits_total).to be(45)
     end
   end
 

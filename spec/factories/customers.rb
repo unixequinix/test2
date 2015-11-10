@@ -46,6 +46,7 @@ FactoryGirl.define do
     gender { ["male", "female"].sample }
     birthdate { Faker::Date.between(70.years.ago, 13.years.ago) }
     postcode { Faker::Address.postcode }
+    agreed_event_condition { [true, false].sample }
     event
   end
 end

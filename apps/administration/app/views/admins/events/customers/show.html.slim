@@ -22,6 +22,7 @@
       dt = t ("admin.customers.surname")
       dd = @customer.surname
 
+
       - if !@customer.customer_event_profile.nil?
         - if @customer.customer_event_profile.assigned_admissions
           - @customer.customer_event_profile.assigned_admissions.each do |assigned_admission|
@@ -52,33 +53,35 @@
           dt = t("admin.customers.gtag_credits")
           dt 0.0
 
-        dt = t ("admin.customers.confirmed_at")
-        dd = @customer.confirmed_at.strftime("%y-%m-%d %H:%M:%S") unless @customer.confirmed_at.nil?
+      dt = t ("admin.customers.confirmed_at")
+      dd = @customer.confirmed_at.strftime("%y-%m-%d %H:%M:%S") unless @customer.confirmed_at.nil?
 
-        dt = t("admin.customers.confirmation_sent_at")
-        dd = @customer.confirmation_sent_at.strftime("%y-%m-%d %H:%M:%S") unless @customer.confirmation_sent_at.nil?
+      dt = t("admin.customers.confirmation_sent_at")
+      dd = @customer.confirmation_sent_at.strftime("%y-%m-%d %H:%M:%S") unless @customer.confirmation_sent_at.nil?
 
+      dt = t ("admin.customers.sign")
+      dd = @customer.sign_in_count
 
-        dt = t ("admin.customers.sign")
-        dd = @customer.sign_in_count
+      dt = t ("admin.customers.current_sign")
+      dd = @customer.current_sign_in_at
 
-        dt = t ("admin.customers.current_sign")
-        dd = @customer.current_sign_in_at
+      dt = t ("admin.customers.last_sign")
+      dd = @customer.last_sign_in_at
 
-        dt = t ("admin.customers.last_sign")
-        dd = @customer.last_sign_in_at
+      dt = t ("admin.customers.current_sign_ip")
+      dd = @customer.current_sign_in_ip
 
-        dt = t ("admin.customers.current_sign_ip")
-        dd = @customer.current_sign_in_ip
+      dt = t ("admin.customers.last_sign_ip")
+      dd = @customer.last_sign_in_ip
 
-        dt = t ("admin.customers.last_sign_ip")
-        dd = @customer.last_sign_in_ip
+      dt = t ("admin.customers.unconfirmed")
+      dd = @customer.unconfirmed_email
 
-        dt = t ("admin.customers.unconfirmed")
-        dd = @customer.unconfirmed_email
+      dt = t ("admin.customers.deleted_at")
+      dd = @customer.deleted_at.strftime("%y-%m-%d %H:%M:%S") unless @customer.deleted_at.nil?
 
-        dt = t ("admin.customers.deleted_at")
-        dd = @customer.deleted_at.strftime("%y-%m-%d %H:%M:%S") unless @customer.deleted_at.nil?
+      dt = t ("admin.customers.agreed_event_condition")
+      dd = @customer.agreed_event_condition
 
   .container-show
     - if !@customer.customer_event_profile.nil?

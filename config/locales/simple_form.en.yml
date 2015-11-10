@@ -36,6 +36,7 @@ en:
           background_type: 'Background type'
           background: 'background'
           style: 'Style'
+          agreed_event_condition_message: 'Condition message'
         edit:
           <<: *label_event
       customer:
