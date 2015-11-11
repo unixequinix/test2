@@ -1,5 +1,4 @@
-class Admins::Events::ClaimsController < Admins::Events::BaseController
-
+class Admins::Events::ClaimsController < Admins::Events::RefundsBaseController
   def index
     @q = @fetcher.claims.search(params[:q])
     @claims = @q.result(distinct: true).page(params[:page]).includes(:customer_event_profile, customer_event_profile: :customer)

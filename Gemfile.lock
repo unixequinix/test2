@@ -40,6 +40,12 @@ PATH
     payment_ngn (0.0.1)
       rails (~> 4.2.1)
 
+PATH
+  remote: apps/refund_ngn
+  specs:
+    refund_ngn (0.0.1)
+      rails (~> 4.2.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -614,6 +620,7 @@ DEPENDENCIES
   ransack (~> 1.6.6)
   rb-fsevent
   reform (~> 1.2.6)
+  refund_ngn!
   roo (~> 2.0.0beta1)
   rspec-rails (~> 3.2.1)
   rubocop (~> 0.30.1)

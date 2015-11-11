@@ -1,4 +1,4 @@
-class Admins::Events::OrdersController < Admins::Events::BaseController
+class Admins::Events::OrdersController < Admins::Events::PaymentsBaseController
 
   def index
     @q = @fetcher.orders.search(params[:q])

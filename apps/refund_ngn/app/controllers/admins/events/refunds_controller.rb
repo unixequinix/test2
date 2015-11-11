@@ -1,4 +1,4 @@
-class Admins::Events::RefundsController < Admins::Events::BaseController
+class Admins::Events::RefundsController < Admins::Events::RefundsBaseController
 
   def index
     @q = @fetcher.refunds.search(params[:q])
