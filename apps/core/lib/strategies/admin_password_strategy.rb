@@ -12,6 +12,7 @@ class AdminPasswordStrategy < ::Warden::Strategies::Base
       current_password != params["admin"].fetch("password")
       fail! message: "errors.messages.unauthorized"
     else
+      admin.update_tracked_fields!(request)
       success!(admin)
     end
   end

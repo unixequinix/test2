@@ -13,6 +13,7 @@ class CustomerPasswordStrategy < ::Warden::Strategies::Base
       BCrypt::Password.new(customer.encrypted_password) != params["customer"].fetch("password")
       fail! message: "errors.messages.unauthorized"
     else
+      customer.update_tracked_fields!(request)
       success!(customer)
     end
   end

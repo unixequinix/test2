@@ -63,7 +63,21 @@ class Customer < ActiveRecord::Base
   def confirm!
     self.confirmation_token = nil
     self.confirmed_at = Time.now.utc
-    self.save!
+    save!
+  end
+
+  def update_tracked_fields!(request)
+    old_current, new_current = self.current_sign_in_at, Time.now.utc
+    self.last_sign_in_at     = old_current || new_current
+    self.current_sign_in_at  = new_current
+
+    old_current, new_current = self.current_sign_in_ip, request.env["REMOTE_ADDR"]
+    self.last_sign_in_ip     = old_current || new_current
+    self.current_sign_in_ip  = new_current
+
+    self.sign_in_count ||= 0
+    self.sign_in_count += 1
+    save!
   end
 
   def init_password_token!
