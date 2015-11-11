@@ -34,6 +34,12 @@ PATH
     customer_area (0.0.1)
       rails (~> 4.2.1)
 
+PATH
+  remote: apps/payment_ngn
+  specs:
+    payment_ngn (0.0.1)
+      rails (~> 4.2.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -596,6 +602,7 @@ DEPENDENCIES
   nilify_blanks (~> 1.2.1)
   paperclip (~> 4.2.2)
   paranoia (~> 2.0)
+  payment_ngn!
   pg (~> 0.18.1)
   phony_rails (~> 0.12.8)
   pry-rails (~> 0.3.4)

@@ -15,6 +15,7 @@
 
 class BootInquirer
   APPS = {
+    'o' => 'payment_ngn',
     'u' => 'customer_area',
     'a' => 'administration',
     'h' => 'checkin',
@@ -22,7 +23,6 @@ class BootInquirer
   }
 
   class << self
-
     def apps
       APPS.map{ |k,v| BootInquirer::App.new(k, v) }
     end
@@ -72,7 +72,6 @@ class BootInquirer
       default_value = !!boot_flag.to_s.index(flag)
       negate? ? !default_value : default_value
     end
-
   end
 
   class App
