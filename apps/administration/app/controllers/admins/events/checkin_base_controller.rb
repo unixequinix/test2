@@ -4,6 +4,6 @@ class Admins::Events::CheckinBaseController < ::Admins::Events::BaseController
   private
 
   def enable_fetcher
-    @fetcher = Multitenancy::CheckinFetcher.new(current_event)
+    @fetcher = Multitenancy::AdministrationFetcher.new(current_event)
   end
 end

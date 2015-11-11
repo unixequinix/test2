@@ -25,6 +25,30 @@ Rails.application.routes.draw do
             post :notify_customers
           end
         end
+        resources :gtags do
+          resources :comments, module: :gtags
+          collection do
+            get :search
+            delete :destroy_multiple
+          end
+        end
+        resources :entitlements, except: :show
+        resources :ticket_types, except: :show
+        resources :tickets do
+          resources :comments, module: :tickets
+          collection do
+            get :search
+            delete :destroy_multiple
+          end
+        end
+        resources :gtag_registrations, only: [:destroy]
+        resources :customer_event_profiles, only: [] do
+          resources :admissions, only: [:new, :create]
+          resources :gtag_registrations, only: [:new, :create]
+          collection do
+            get :search
+          end
+        end
         resources :entitlements, except: :show
         resources :ticket_types, except: :show
         resources :tickets do

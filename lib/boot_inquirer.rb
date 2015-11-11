@@ -19,7 +19,6 @@ class BootInquirer
     'r' => 'refund_ngn',
     'u' => 'customer_area',
     'a' => 'administration',
-    'h' => 'checkin',
     'p' => 'api'
   }
 
