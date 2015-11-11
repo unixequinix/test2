@@ -49,19 +49,6 @@ crumb :admins_event_gtag_settings do |event|
   parent :admins_event, event
 end
 
-## Payment Settings
-
-crumb :admins_event_payment_settings do |event|
-  link t("breadcrumbs.payment_settings"), admin_root_path
-  parent :admins_event, event
-end
-
-## Refund Settings
-
-crumb :admins_event_refund_settings do |event|
-  link t("breadcrumbs.refund_settings"), admin_root_path
-  parent :admins_event, event
-end
 
 ## Entitlements
 
@@ -150,7 +137,6 @@ end
 
 ## Customers
 
-
 crumb :admins_event_customers do |event|
   link t("breadcrumbs.customer"), admins_event_customers_path(event)
   parent :admins_event, event
@@ -174,73 +160,4 @@ end
 crumb :new_admins_event_customer_gtag_registration do |event, customer|
   link t("breadcrumbs.new_customer_gtag_registration")
   parent :admins_event_customers, event, customer
-end
-
-
-## Orders
-
-crumb :admins_event_orders do |event|
-  link t("breadcrumbs.order"), admins_event_orders_path(event)
-  parent :admins_event, event
-end
-
-crumb :admins_event_order do |event, order|
-  link order.number, admins_event_order_path(event, order)
-  parent :admins_event_orders, event
-end
-
-crumb :new_admins_event_order do |event|
-  link t("breadcrumbs.new_order_type")
-  parent :admins_event_orders, event
-end
-
-## Payments
-
-crumb :admins_event_payments do |event|
-  link t("breadcrumbs.payment"), admins_event_payments_path(event)
-  parent :admins_event, event
-end
-
-crumb :admins_event_payment do |event, payment|
-  link payment.id, admins_event_payment_path(event, payment)
-  parent :admins_event_payments, event
-end
-
-crumb :new_admins_event_payment do |event|
-  link t("breadcrumbs.new_payment_type")
-  parent :admins_event_payments, event
-end
-
-## Claims
-
-crumb :admins_event_claims do |event|
-  link t("breadcrumbs.claim"), admins_event_claims_path(event)
-  parent :admins_event, event
-end
-
-crumb :admins_event_claim do |event, claim|
-  link claim.number, admins_event_claim_path(event, claim)
-  parent :admins_event_claims, event
-end
-
-crumb :new_admins_event_claim do |event|
-  link t("breadcrumbs.new_claim_type")
-  parent :admins_event_claims, event
-end
-
-## Refunds
-
-crumb :admins_event_refunds do |event|
-  link t("breadcrumbs.refund"), admins_event_refunds_path(event)
-  parent :admins_event, event
-end
-
-crumb :admins_event_refund do |event, refund|
-  link refund.id, admins_event_refund_path(event, refund)
-  parent :admins_event_refunds, event
-end
-
-crumb :new_admins_event_refund do |event|
-  link t("breadcrumbs.new_refund_type")
-  parent :admins_event_refunds, event
 end
