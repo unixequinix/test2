@@ -11,8 +11,14 @@ class Admins::BaseController < ApplicationController
   end
 
   def authenticate_admin!
-    warden.authenticate(:admin_password, scope: :admin)
+    if current_admin
+      redirect_to admin_root_path
+    else
+      redirect_to new_admins_sessions_path
+    end
   end
+
+  def
 
   def logout_admin!
     warden.logout(:admin)
@@ -30,8 +36,12 @@ class Admins::BaseController < ApplicationController
   end
 
   def current_admin
-    @current_admin ||= Admin.find(warden.user(:admin)["id"]) unless
-      warden.user(:admin).nil? ||
-      Admin.where(id: warden.user(:admin)["id"]).empty?
+    if warden.authenticated?(:admin)
+      @current_admin ||= Admin.find(warden.user(:admin)["id"]) unless
+        warden.user(:admin).nil? ||
+        Admin.where(id: warden.user(:admin)["id"]).empty?
+    else
+      @current_admin = warden.authenticate(:admin_password, scope: :admin)
+    end
   end
 end

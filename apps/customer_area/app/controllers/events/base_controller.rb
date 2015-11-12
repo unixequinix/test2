@@ -38,8 +38,8 @@ class Events::BaseController < ApplicationController
   def current_customer
     if warden.authenticated?(:customer)
       @current_customer ||= Customer.find(warden.user(:customer)["id"]) unless
-      warden.user(:customer).nil? ||
-      Customer.where(id: warden.user(:customer)["id"]).empty?
+        warden.user(:customer).nil? ||
+        Customer.where(id: warden.user(:customer)["id"]).empty?
     else
       @current_customer = warden.authenticate(:customer_password, scope: :customer)
     end

@@ -11,8 +11,7 @@ class Admins::SessionsController < Admins::BaseController
 
   def create
     @admin = Admin.find_by(email: permitted_params[:email])
-    if !@admin.nil?
-      authenticate_admin!
+    if !@admin.nil? && authenticate_admin!
       redirect_to after_sign_in_path
     else
       @admin = Admin.new

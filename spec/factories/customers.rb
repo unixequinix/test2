@@ -31,6 +31,7 @@
 #  gender                 :string
 #  birthdate              :datetime
 #  event_id               :integer          not null
+#  remember_token         :string
 #
 
 FactoryGirl.define do

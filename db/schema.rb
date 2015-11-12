@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151002190845) do
+ActiveRecord::Schema.define(version: 20151111191823) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(version: 20151002190845) do
     t.string   "gender"
     t.datetime "birthdate"
     t.integer  "event_id",               null: false, index: {name: "fk__customers_event_id"}, foreign_key: {references: "events", name: "customers_event_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.string   "remember_token",         index: {name: "index_customers_on_remember_token", unique: true}
   end
 
   create_table "customer_event_profiles", force: :cascade do |t|
