@@ -16,11 +16,11 @@
 .container-login-form
   .wrapper-field
     h3.customer-section-header Login
-    = simple_form_for @customer, url: event_sessions_path(current_event), method: :post do |f|
+    = simple_form_for @customer_login_form, url: event_sessions_path(current_event), method: :post do |f|
       .form-inputs
         = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
         = f.input :email
         = f.input :password
-        // = f.input :remember_me, as: :boolean
+        = f.input :remember_me, as: :boolean
         = f.button :submit, t('sessions.new.button'), class: "btn-top"
   = render "events/shared/links"

@@ -7,29 +7,42 @@ class Events::BaseController < ApplicationController
 
   helper_method :warden, :customer_signed_in?, :current_customer
 
+  def warden
+    request.env['warden']
+  end
+
+  def authenticate_customer!
+    if current_customer && current_customer.event != current_event
+      logout_customer!
+      redirect_to customer_root_path(current_event)
+    else
+      redirect_to event_login_path(current_event) unless current_customer
+    end
+  end
+
+  def logout_customer!
+    warden.logout(:customer)
+  end
+
+  def ensure_customer
+    unless customer_signed_in?
+      logout_customer!
+      return false
+    end
+  end
+
   def customer_signed_in?
     !current_customer.nil?
   end
 
   def current_customer
-    @current_customer ||= Customer.find(warden.user(:customer)["id"]) unless
+    if warden.authenticated?(:customer)
+      @current_customer ||= Customer.find(warden.user(:customer)["id"]) unless
       warden.user(:customer).nil? ||
       Customer.where(id: warden.user(:customer)["id"]).empty?
-  end
-
-  def warden
-    request.env['warden']
-  end
-
-  def ensure_customer
-    unless customer_signed_in?
-      warden.logout
-      return false
+    else
+      @current_customer = warden.authenticate(:customer_password, scope: :customer)
     end
-  end
-
-  def authenticate_customer!
-    warden.authenticate!(:customer_password, scope: :customer)
   end
 
   def current_customer_event_profile

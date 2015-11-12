@@ -12,9 +12,7 @@ RSpec.feature "Refund for Bank account", type: :feature do
 
     describe "a customer" do
       it "should be able claim and get the credits into his bank account" do
-        binding.pry
         visit "/#{@event_creator.event.slug}/bank_account_claims/new"
-        binding.pry
         within("form") do
           fill_in(('bank_account_claim_form_swift'), with: "BSABESBB")
           fill_in(('bank_account_claim_form_iban'), with: "ES6200810575700001135015")

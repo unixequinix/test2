@@ -32,10 +32,8 @@
 #  birthdate              :datetime
 #  event_id               :integer          not null
 #
-require 'bcrypt'
 
 class Customer < ActiveRecord::Base
-  include BCrypt
   acts_as_paranoid
   default_scope { order('email') }
 
@@ -50,9 +48,8 @@ class Customer < ActiveRecord::Base
   belongs_to :event
 
   # Validations
-  #validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
-  validates :email, presence: true
-  validates :name, :surname, :password, presence: true
+  validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+  validates :email, :name, :surname, :encrypted_password, presence: true
   validates :agreed_on_registration, acceptance: { accept: true }
 
   validates_uniqueness_of :email, scope: [:event_id], conditions: -> { where(deleted_at: nil) }
@@ -63,19 +60,24 @@ class Customer < ActiveRecord::Base
   # Methods
   # -------------------------------------------------------
 
-  def password
-    @password ||= Password.new(self.encrypted_password)
-  end
-
-  def password=(new_password)
-    @password = Password.create(new_password)
-    self.encrypted_password = @password
-  end
-
   def confirm!
     self.confirmation_token = nil
     self.confirmed_at = Time.now.utc
-    self.save!
+    save!
+  end
+
+  def update_tracked_fields!(request)
+    old_current, new_current = self.current_sign_in_at, Time.now.utc
+    self.last_sign_in_at     = old_current || new_current
+    self.current_sign_in_at  = new_current
+
+    old_current, new_current = self.current_sign_in_ip, request.env["REMOTE_ADDR"]
+    self.last_sign_in_ip     = old_current || new_current
+    self.current_sign_in_ip  = new_current
+
+    self.sign_in_count ||= 0
+    self.sign_in_count += 1
+    save!
   end
 
   def init_password_token!

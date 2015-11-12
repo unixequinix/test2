@@ -25,7 +25,7 @@ namespace :db do
     puts "Create admins"
     puts "----------------------------------------"
     Admin.destroy_all
-    Admin.create(email: 'admin@test.com', password: 'password')
+    Admin.create(email: 'admin@test.com', encrypted_password: BCrypt::Password.create("password"))
   end
 
   def make_events

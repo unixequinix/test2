@@ -32,17 +32,22 @@ class Admin < ActiveRecord::Base
   # Methods
   # -------------------------------------------------------
 
-  def password
-    @password ||= Password.new(self.encrypted_password)
-  end
-
-  def password=(new_password)
-    @password = Password.create(new_password)
-    self.encrypted_password = @password
-  end
-
   def valid_token?(token)
     self.access_token == token
+  end
+
+  def update_tracked_fields!(request)
+    old_current, new_current = self.current_sign_in_at, Time.now.utc
+    self.last_sign_in_at     = old_current || new_current
+    self.current_sign_in_at  = new_current
+
+    old_current, new_current = self.current_sign_in_ip, request.env["REMOTE_ADDR"]
+    self.last_sign_in_ip     = old_current || new_current
+    self.current_sign_in_ip  = new_current
+
+    self.sign_in_count ||= 0
+    self.sign_in_count += 1
+    save!
   end
 
   private

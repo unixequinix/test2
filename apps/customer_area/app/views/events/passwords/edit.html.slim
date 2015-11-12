@@ -1,4 +1,4 @@
-= simple_form_for @customer, url: event_passwords_path(current_event, @customer), method: :patch do |f|
+= simple_form_for @reset_password_form, url: event_passwords_path(current_event), method: :patch do |f|
   = f.input :reset_password_token, as: :hidden
   = f.full_error :reset_password_token
   = f.error_notification

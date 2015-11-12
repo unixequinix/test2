@@ -104,7 +104,7 @@ RSpec.describe Payments::RedsysDataRetriever, type: :service do
       message += "126327360"
       message += "978"
       message += "0"
-      message += "http://localhost:3000/"
+      message += Rails.application.secrets.host_url + "/"
       message += @redsys_data_retriever.current_event.name
       message += "/payments"
       message += "qwertyasdf0123456789"

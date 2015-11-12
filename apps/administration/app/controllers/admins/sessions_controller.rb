@@ -1,6 +1,6 @@
 class Admins::SessionsController < Admins::BaseController
   layout 'welcome_admin'
-  skip_before_filter :authenticate_admin!
+  skip_before_filter :authenticate_admin!, only: [:new, :create]
 
   def new
     @sign_up = params[:sign_up]
@@ -23,7 +23,7 @@ class Admins::SessionsController < Admins::BaseController
 
   def destroy
     admin = current_admin
-    warden.logout
+    logout_admin!
     redirect_to after_sign_out_path
   end
 
