@@ -29,23 +29,6 @@ RSpec.describe Admin, type: :model do
       @admin = build(:admin)
     end
 
-    describe "the password" do
-      it "is ok if valid" do
-        @admin.password = "validpsswd2"
-        expect(@admin).to be_valid
-      end
-
-      it "should have 8 characters or more" do
-        @admin.password = "1234567"
-        expect(@admin).to be_invalid
-      end
-
-      it "should have 20 characters or less" do
-        @admin.password = "12345" * 4
-        expect(@admin).to be_invalid
-      end
-    end
-
     describe "the email" do
       %w(admin.foo.com admin@test _@test.).each do |wrong_mail|
         it "is invalid if resembles #{wrong_mail}" do

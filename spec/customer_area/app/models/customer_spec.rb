@@ -37,7 +37,6 @@ require "rails_helper"
 
 RSpec.describe Customer, type: :model do
   it { is_expected.to validate_presence_of(:email) }
-  it { is_expected.to validate_presence_of(:password) }
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_presence_of(:surname) }
 
@@ -51,24 +50,6 @@ RSpec.describe Customer, type: :model do
         customer = Customer.new(phone: "+34660660660")
         customer.valid?
         expect(customer.errors[:phone]).to eq([])
-      end
-    end
-
-    describe "the password" do
-      it "is ok if valid" do
-        @customer.password = @customer.password_confirmation = "validpsswd2"
-        expect(@customer).to be_valid
-      end
-
-      { "too short" => "x",
-        "too long" => "longpassword" * 10,
-        "empty" => ""
-      }.each do |problematic, password|
-        it "cannot be #{problematic}" do
-          @customer.password = password
-          expect(@customer).not_to be_valid
-          expect(@customer.errors["password"]).to be_any
-        end
       end
     end
 

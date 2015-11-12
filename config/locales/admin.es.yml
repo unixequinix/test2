@@ -261,6 +261,7 @@ es:
       current_sign: "Inicio de Sesión Actual"
       last_sign: "Último Inicio de Sesión en"
       current_sign_ip: "Inicio de Sesión Actual en IP"
+      agreed_event_condition: "Condición del evento aceptada"
       last_sign_ip: "Último Inicio de Sesión en IP"
       unconfirmed: "Email sin confirmar"
       transactions: "Transacciones"

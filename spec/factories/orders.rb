@@ -16,14 +16,14 @@ FactoryGirl.define do
     number { Faker::Number.number(10) }
     customer_event_profile
 
-    transient do
-      item_count 3
-    end
-
     after :build do |order, evaluator|
-      5.times do
+      3.times do
         order.order_items << build(:order_item, order: order, total: 19.95)
       end
+    end
+
+    trait :empty_order_items do
+      order_items = []
     end
   end
 end

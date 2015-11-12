@@ -21,6 +21,6 @@
 FactoryGirl.define do
   factory :admin do
     email { Faker::Internet.email }
-    password 'password'
+    encrypted_password BCrypt::Password.create('password')
   end
 end

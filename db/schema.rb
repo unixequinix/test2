@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(version: 20151111191823) do
     t.string   "gender"
     t.datetime "birthdate"
     t.integer  "event_id",               null: false, index: {name: "fk__customers_event_id"}, foreign_key: {references: "events", name: "customers_event_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.boolean  "agreed_event_condition", default: false
     t.string   "remember_token",         index: {name: "index_customers_on_remember_token", unique: true}
   end
 
@@ -224,10 +225,10 @@ ActiveRecord::Schema.define(version: 20151111191823) do
   add_index "event_parameters", ["event_id", "parameter_id"], name: "index_event_parameters_on_event_id_and_parameter_id", unique: true
 
   create_table "event_translations", force: :cascade do |t|
-    t.integer  "event_id",                      null: false, index: {name: "fk__event_translations_event_id"}, foreign_key: {references: "events", name: "fk_event_translations_event_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "locale",                        null: false, index: {name: "index_event_translations_on_locale"}
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.integer  "event_id",                       null: false, index: {name: "fk__event_translations_event_id"}, foreign_key: {references: "events", name: "fk_event_translations_event_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "locale",                         null: false, index: {name: "index_event_translations_on_locale"}
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.text     "info"
     t.text     "disclaimer"
     t.text     "refund_success_message"
@@ -235,6 +236,7 @@ ActiveRecord::Schema.define(version: 20151111191823) do
     t.text     "gtag_assignation_notification"
     t.text     "gtag_form_disclaimer"
     t.string   "gtag_name"
+    t.text     "agreed_event_condition_message"
   end
   add_index "event_translations", ["event_id"], name: "index_event_translations_on_event_id"
 

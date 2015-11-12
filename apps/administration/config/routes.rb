@@ -25,6 +25,30 @@ Rails.application.routes.draw do
             post :notify_customers
           end
         end
+        resources :gtags do
+          resources :comments, module: :gtags
+          collection do
+            get :search
+            delete :destroy_multiple
+          end
+        end
+        resources :entitlements, except: :show
+        resources :ticket_types, except: :show
+        resources :tickets do
+          resources :comments, module: :tickets
+          collection do
+            get :search
+            delete :destroy_multiple
+          end
+        end
+        resources :gtag_registrations, only: [:destroy]
+        resources :customer_event_profiles, only: [] do
+          resources :admissions, only: [:new, :create]
+          resources :gtag_registrations, only: [:new, :create]
+          collection do
+            get :search
+          end
+        end
         resources :entitlements, except: :show
         resources :ticket_types, except: :show
         resources :tickets do
@@ -36,7 +60,7 @@ Rails.application.routes.draw do
         end
         resources :credits, except: :show
         resources :gtag_registrations, only: [:destroy]
-        resources :customer_event_profiles, except: [:new, :create, :edit, :update] do
+        resources :customers, except: [:new, :create, :edit, :update] do
           resources :admissions, only: [:new, :create]
           resources :gtag_registrations, only: [:new, :create]
           collection do
@@ -44,26 +68,6 @@ Rails.application.routes.draw do
           end
           member do
             post :resend_confirmation
-          end
-        end
-        resources :orders, except: [:new, :create, :edit, :update] do
-          collection do
-            get :search
-          end
-        end
-        resources :payments, except: [:new, :create, :edit, :update] do
-          collection do
-            get :search
-          end
-        end
-        resources :claims, except: [:new, :create, :edit] do
-          collection do
-            get :search
-          end
-        end
-        resources :refunds, except: [:new, :create, :edit] do
-          collection do
-            get :search
           end
         end
       end

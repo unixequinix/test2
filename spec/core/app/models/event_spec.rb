@@ -12,7 +12,7 @@
 #  start_date              :datetime
 #  end_date                :datetime
 #  description             :text
-#  support_email           :string           default("support@glownet.com"), not null
+#  support_email           :string           default("supportglownet.com"), not null
 #  style                   :text
 #  logo_file_name          :string
 #  logo_content_type       :string
@@ -36,4 +36,31 @@ require "rails_helper"
 RSpec.describe Event, type: :model do
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_presence_of(:support_email) }
+
+  before(:all) do
+    event_creator = EventCreator.new(build(:event,gtag_registration: true).to_hash_parameters)
+    event_creator.save
+    @event = event_creator.event
+    customer = create(:customer, event: @event, confirmation_token: nil, confirmed_at: Time.now)
+    customer_event_profile = create(:customer_event_profile, event: @event, customer: customer)
+    gtag = create(:gtag, event: @event)
+    create(:gtag_credit_log, gtag: gtag)
+    create(:gtag_credit_log, gtag: gtag)
+    gtag2 = create(:gtag, event: @event)
+    create(:gtag_credit_log, gtag: gtag2)
+    create(:gtag_registration, gtag: gtag, customer_event_profile: customer_event_profile)
+
+  end
+
+  it "should return the credits available for that event" do
+    expect(@event.total_credits.to_f).to be(29.97)
+  end
+
+  it "should return the amount of money that can be refunded" do
+    expect(@event.total_refundable_money.to_f).to be(19.98)
+  end
+
+  it "should return the amount of money that can be refunded" do
+    expect(@event.total_refundable_gtags).to be(2)
+  end
 end
