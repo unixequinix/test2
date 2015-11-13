@@ -43,6 +43,11 @@ class Order < ActiveRecord::Base
     self.order_items.sum(:total)
   end
 
+  def total_stripe_formated
+    total_formated = sprintf "%.2f", total
+    total_formated.gsub(".","")
+  end
+
   def credits_total
     self.order_items.joins(:online_product).where(online_products: { purchasable_type: 'Credit',event_id: self.customer_event_profile.event.id } ).sum(:amount)
   end

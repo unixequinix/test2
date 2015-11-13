@@ -1,5 +1,4 @@
 class Admins::Events::RefundSettingsController < Admins::Events::BaseController
-
   def show
     @event = Event.friendly.find(params[:event_id])
     @event_parameters = @fetcher.event_parameters.where(parameters: { group: @event.refund_service, category: 'refund'}).includes(:parameter)

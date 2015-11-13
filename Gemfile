@@ -67,6 +67,8 @@ gem 'iso-swift', '~>0.0.2'
 gem 'country_select', '~> 2.2.0'
 gem 'phony_rails', '~> 0.12.8'
 
+# Payments Infrastructures
+gem 'stripe'
 
 # Flags
 gem 'flag_shih_tzu', '~>0.3.13'

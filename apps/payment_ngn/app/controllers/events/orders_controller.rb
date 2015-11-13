@@ -21,6 +21,7 @@ class Events::OrdersController < Events::BaseController
     else
       @order = actual_order
     end
+    binding.pry
     @form_data = ("Payments::#{current_event.payment_service.camelize}DataRetriever").constantize.new(current_event, @order)
     @order.start_payment!
   end
