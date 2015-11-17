@@ -43,8 +43,9 @@ class Event < ActiveRecord::Base
 
   #Payment Services
   REDSYS = 'redsys'
+  STRIPE = 'stripe'
 
-  PAYMENT_SERVICES = [REDSYS]
+  PAYMENT_SERVICES = [REDSYS, STRIPE]
 
   #Refund Services
   BANK_ACCOUNT = 'bank_account'

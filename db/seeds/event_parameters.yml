@@ -40,6 +40,15 @@
         -
           name: form
           data_type: string
+    -
+      name: stripe
+      parameters:
+        -
+          name: name
+          data_type: string
+        -
+          name: key
+          data_type: string
 -
   name: refund
   groups:

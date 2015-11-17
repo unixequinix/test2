@@ -21,14 +21,11 @@ class Events::OrdersController < Events::BaseController
     else
       @order = actual_order
     end
-    binding.pry
     @form_data = ("Payments::#{current_event.payment_service.camelize}DataRetriever").constantize.new(current_event, @order)
     @order.start_payment!
   end
 
   private
-
-
   def require_permission!
     @order = Order.find(params[:id])
     if current_customer_event_profile != @order.customer_event_profile || @order.completed?

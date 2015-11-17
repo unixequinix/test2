@@ -27,4 +27,19 @@ Rails.application.routes.draw do
       end
     end
   end
+  scope module: 'events' do
+    resources :events, only: [:show], path: '/' do
+      resources :refunds, only: [:create] do
+        collection do
+          get 'success'
+          get 'error'
+        end
+      end
+      resources :epg_claims, only: [:new, :create]
+      resources :bank_account_claims, only: [:new, :create]
+    end
+  end
 end
+
+
+

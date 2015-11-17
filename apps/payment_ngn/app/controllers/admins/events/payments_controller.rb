@@ -5,7 +5,7 @@ class Admins::Events::PaymentsController < Admins::Events::PaymentsBaseControlle
     @payments = @q.result(distinct: true).page(params[:page]).includes(:order)
     respond_to do |format|
       format.html
-      format.csv { send_data Csv::CsvExporter.to_csv(Payment.all)}
+      format.csv { send_data Csv::CsvExporter.to_csv(Payment.all) }
     end
   end
 

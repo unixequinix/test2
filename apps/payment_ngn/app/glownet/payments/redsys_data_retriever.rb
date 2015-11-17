@@ -5,7 +5,7 @@ class Payments::RedsysDataRetriever
   def initialize(event, order)
     @current_event = event
     @order = order
-    @payment_parameters = Parameter.joins(:event_parameters).where(category: "payment", event_parameters: {event: event}).select("parameters.name, event_parameters.*")
+    @payment_parameters = Parameter.joins(:event_parameters).where(category: "payment", group: @current_event.payment_service,event_parameters: {event: event}).select("parameters.name, event_parameters.*")
   end
 
   def amount
@@ -53,7 +53,7 @@ class Payments::RedsysDataRetriever
   end
 
   def notification_url
-    event_payments_url(@current_event)
+    event_order_payments_url(@current_event, @order)
   end
 
   def message

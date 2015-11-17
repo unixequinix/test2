@@ -4,16 +4,28 @@ class Events::PaymentsController < Events::BaseController
   skip_before_action :check_has_ticket!, only: [:create]
 
   def new
-
+    @order = Order.find(params[:order_id])
 
   end
 
   def create
-     payment_notifier =
-       ("Payments::#{current_event.payment_service.camelize}Notifier")
-         .constantize.new
-     payment_notifier.notify_payment(params)
-     render nothing: true
+    binding.pry
+    payment_notifier =
+     ("Payments::#{current_event.payment_service.camelize}Notifier")
+     .constantize.new
+    if(current_event.payment_service == "stripe")
+      charge = payment_notifier.charge(params)
+      payment_notifier.notify_payment(params, charge)
+      redirect_to success_event_order_payments_path
+    end
+
+    if current_event.payment_service == "redsys"
+      payment_notifier =
+      ("Payments::#{current_event.payment_service.camelize}Notifier")
+        .constantize.new
+      payment_notifier.notify_payment(params)
+      render nothing: true
+    end
   end
 
   def success
@@ -27,21 +39,4 @@ class Events::PaymentsController < Events::BaseController
     @dashboard = Dashboard.new(current_customer_event_profile)
     @presenter = CreditsPresenter.new(@dashboard)
   end
-=begin
-  def method_name
-    Stripe.api_key = Rails.application.secrets.stripe_secret_key
-    token = params[:stripeToken]
-    amount = Order.find(params[:order_id]).total_stripe_formated
-    begin
-      charge = Stripe::Charge.create(
-        :amount => amount, # amount in cents, again
-        :currency => "eur",
-        :source => token,
-        :description => "Example charge"
-      )
-    rescue Stripe::CardError => e
-      # The card has been declined
-    end
-  end
-=end
 end

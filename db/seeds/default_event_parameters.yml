@@ -31,6 +31,15 @@
         -
           name: form
           value: https://sis-t.redsys.es:25443/sis/realizarPago
+    -
+      name: stripe
+      values:
+        -
+          name: name
+          value: Stripe
+        -
+          name: key
+          value: 12234556
 -
   category: refund
   groups:

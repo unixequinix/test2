@@ -53,6 +53,7 @@ es:
         repeat: 'Repetir'
       payment_services:
         redsys: 'Redsys'
+        stripe: 'Stripe'
       refund_services:
         bank_account: 'Cuenta bancaria'
         epg: 'Easy payment gateway'
