@@ -36,10 +36,11 @@ es:
       header: "Ticket %{ticket_type}"
       call_to_action: "¿Quiéres borrar el ticket?"
       call_to_action_started: "El evento ya ha comenzado, no puedes cambiar tu ticket"
+      success: "¡Ticket activado con éxito!"
       button: "Borrar"
     without_admissions:
-      call_to_action: "Por favor activa todos tus tickets"
-      description: "NO registres los tickets de tus amigos en tu cuenta."
+      call_to_action: "Solo activa los tickets que vayas a utilizar"
+      description: "NO actives los tickets de tus amigos en tu cuenta."
       button: "Activar Ticket"
     credits:
       header: "Tu Balance de créditos"

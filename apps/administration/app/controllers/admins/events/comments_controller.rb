@@ -1,5 +1,4 @@
 class Admins::Events::CommentsController < Admins::Events::BaseController
-  before_action :authenticate_admin!
 
   def create
     @comment = @commentable.comments.build(permitted_params)

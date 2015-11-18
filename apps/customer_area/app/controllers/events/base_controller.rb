@@ -12,12 +12,8 @@ class Events::BaseController < ApplicationController
   end
 
   def authenticate_customer!
-    if current_customer && current_customer.event != current_event
-      logout_customer!
-      redirect_to customer_root_path(current_event)
-    else
-      redirect_to event_login_path(current_event) unless current_customer
-    end
+    logout_customer! if customer_signed_in? && current_customer.event != current_event
+    warden.authenticate!(scope: :customer)
   end
 
   def logout_customer!
@@ -36,13 +32,9 @@ class Events::BaseController < ApplicationController
   end
 
   def current_customer
-    if warden.authenticated?(:customer)
-      @current_customer ||= Customer.find(warden.user(:customer)["id"]) unless
-        warden.user(:customer).nil? ||
-        Customer.where(id: warden.user(:customer)["id"]).empty?
-    else
-      @current_customer = warden.authenticate(:customer_password, scope: :customer)
-    end
+    @current_customer ||= Customer.find(warden.user(:customer)["id"]) unless
+      warden.user(:customer).nil? ||
+      Customer.where(id: warden.user(:customer)["id"]).empty?
   end
 
   def current_customer_event_profile

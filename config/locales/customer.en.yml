@@ -35,10 +35,11 @@ en:
       header: "Ticket %{ticket_type}"
       call_to_action: "Do you want to remove this ticket?"
       call_to_action_started: "The event just started so you cannot change the ticket"
+      success: "Ticket successfully activated!"
       button: "Remove"
     without_admissions:
-      call_to_action: "Please register ALL tickets belonging to YOU"
-      description: "Do NOT register your friend's tickets under your account."
+      call_to_action: "Only activate the ticket(s) which you will be using YOURSELF"
+      description: "Do NOT activate your friend's tickets under your account."
       button: "Activate Ticket"
     credits:
       header: "Your Online Credit Balance"

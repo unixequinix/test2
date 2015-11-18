@@ -26,6 +26,8 @@ class EpgClaimForm
   validates_length_of :phone, minimum: 1, maximum: 24
   validates_length_of :address, minimum: 5, maximum: 32
 
+  validates_plausible_phone :phone, normalized_country_code: :country_code
+
   def save
     if valid?
       persist!
@@ -38,7 +40,7 @@ class EpgClaimForm
   private
 
   def persist!
-    #self.phone = self.phone.phony_normalized(country_code: self.country_code)
+    self.phone = self.phone.phony_normalized(country_code: self.country_code)
     Parameter.where(category: 'claim', group: 'epg').each do |parameter|
       cp = ClaimParameter.find_by(claim_id: claim_id, parameter_id: parameter.id)
       cp.nil? ? ClaimParameter.create!(value: attributes[parameter.name.to_sym], claim_id: claim_id, parameter_id: parameter.id) : cp.update(value: attributes[parameter.name.to_sym])
