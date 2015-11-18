@@ -1,23 +1,30 @@
 class Payments::StripePayer
+  attr_reader :action_after_payment
+  def initialize
+    @action_after_payment = ""
+  end
 
   def start(params)
     charge_object = charge(params)
-    notify_payment(params, charge_object)
+    if charge_object
+      notify_payment(params, charge_object)
+      @action_after_payment = "redirect_to(success_event_order_payments_path)"
+    else
+      @action_after_payment = "redirect_to(error_event_order_payments_path)"
+    end
   end
 
   def charge(params)
-    parameter =
-
-    Stripe.api_key = EventParameter.find_by(event_id: self.id,
+    event = Event.friendly.find(params[:event_id])
+    token = params[:stripeToken]
+    order = Order.find(params[:order_id])
+    amount = order.total_stripe_formated
+    Stripe.api_key = EventParameter.find_by(event_id: event.id,
       parameter_id: Parameter.find_by(
         category: "payment",
         group: "stripe",
         name: "secret_key"
       )).value
-    token = params[:stripeToken]
-    event = Event.friendly.find(params[:event_id])
-    order = Order.find(params[:order_id])
-    amount = order.total_stripe_formated
     begin
       charge = Stripe::Charge.create(
         amount: amount, # amount in cents, again
@@ -27,9 +34,7 @@ class Payments::StripePayer
       )
     rescue Stripe::CardError => e
       # The card has been declined
-
-      #doesn't work, move this redirection
-      redirect_to error_event_order_payments_url(event, order)
+      charge = nil
     end
     return charge
   end
@@ -51,11 +56,6 @@ class Payments::StripePayer
       order.complete!
       send_mail_for(order, Event.friendly.find(params[:event_id]) )
     end
-  end
-
-  def action_after_payment
-    # this method will be evaluated in the controller
-    "redirect_to(success_event_order_payments_path)"
   end
 
   private

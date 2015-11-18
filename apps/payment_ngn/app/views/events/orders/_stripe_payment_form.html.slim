@@ -1,7 +1,7 @@
 .wrapper-inside
-  = form_tag event_order_payments_path(current_event, @order), id: "stripe-payment-form", class: "basic-grey"
+  = form_tag event_order_payments_path(@form_data.current_event, @form_data.order), id: "stripe-payment-form", class: "basic-grey", :"data-p-key" => @form_data.publishable_key
+    .payment-errors
     = label_tag t('orders.stripe.card_number'), nil, required: true
-    span.payment-errors
     .control-group
       .controls
         = text_field_tag :card_number, nil, class: "input-block-level", "data-stripe" => "number"
@@ -10,22 +10,20 @@
     .control-group
       .controls
         = text_field_tag :card_verification, nil, class: "input-block-level", "data-stripe" => "cvc"
-
     = label_tag t('orders.stripe.card_expiration_date'), nil, required: true
     = select_tag :exp_month, options_for_select(Date::MONTHNAMES.compact.each_with_index.map { |name,i| ["#{i+1} - #{name}", i+1] }), include_blank: false, "data-stripe" => "exp-month", class: "span2"
     = select_tag :exp_year, options_for_select((Date.today.year..(Date.today.year+10)).to_a), include_blank: false, "data-stripe" => "exp-year", class: "span1"
-    = hidden_field_tag :order_id, @order.id
+    = hidden_field_tag :order_id, @form_data.order.id
     .actions
       = submit_tag t('orders.stripe.button'), class: "btn"
-
 script src="https://js.stripe.com/v2/" type="text/javascript"
-javascript:
 
+javascript:
   var stripeResponseHandler = function(status, response) {
     var $form = $('#stripe-payment-form');
     if (response.error) {
       $form.find('.payment-errors').text(response.error.message);
-      $form.find('button').prop('disabled', false);
+      $form.find("input[type=submit]").prop('disabled', false);
     }
     else {
       var token = response.id;
@@ -39,12 +37,7 @@ javascript:
     event.preventDefault();
     var $form = $(this);
     $form.find("input[type=submit]").prop("disabled", true);
-    Stripe.setPublishableKey(EventParameter.find_by(event_id: self.id,
-      parameter_id: Parameter.find_by(
-        category: "payment",
-        group: "stripe",
-        name: "publishable_key"
-      )).value);
+    Stripe.setPublishableKey($("#stripe-payment-form").data("p-key"));
     Stripe.card.createToken($form, stripeResponseHandler);
     return false;
   });
