@@ -38,8 +38,11 @@
           name: name
           value: Stripe
         -
-          name: key
-          value: 12234556
+          name: secret_key
+          value: sk_test_123456789aBcDeFgHiJkLmNo
+        -
+          name: publishable_key
+          value: pk_test_123456789aBcDeFgHiJkLmNo
 -
   category: refund
   groups:

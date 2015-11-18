@@ -47,7 +47,10 @@
           name: name
           data_type: string
         -
-          name: key
+          name: secret_key
+          data_type: string
+        -
+          name: publishable_key
           data_type: string
 -
   name: refund

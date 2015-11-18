@@ -3,11 +3,13 @@ class StripePaymentSettingsForm
   include Virtus.model
 
   attribute :name, String
-  attribute :key, String
+  attribute :secret_key, String
+  attribute :publishable_key, String
   attribute :event_id, Integer
 
   validates_presence_of :name
-  validates_presence_of :key
+  validates_presence_of :secret_key
+  validates_presence_of :publishable_key
   validates_presence_of :event_id
 
   def save

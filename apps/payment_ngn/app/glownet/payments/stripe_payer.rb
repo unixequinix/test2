@@ -6,7 +6,14 @@ class Payments::StripePayer
   end
 
   def charge(params)
-    Stripe.api_key = Rails.application.secrets.stripe_secret_key
+    parameter =
+
+    Stripe.api_key = EventParameter.find_by(event_id: self.id,
+      parameter_id: Parameter.find_by(
+        category: "payment",
+        group: "stripe",
+        name: "secret_key"
+      )).value
     token = params[:stripeToken]
     event = Event.friendly.find(params[:event_id])
     order = Order.find(params[:order_id])

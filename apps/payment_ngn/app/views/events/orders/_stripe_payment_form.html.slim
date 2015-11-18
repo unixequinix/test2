@@ -39,7 +39,12 @@ javascript:
     event.preventDefault();
     var $form = $(this);
     $form.find("input[type=submit]").prop("disabled", true);
-    Stripe.setPublishableKey('#{Rails.application.secrets.stripe_publishable_key}');
+    Stripe.setPublishableKey(EventParameter.find_by(event_id: self.id,
+      parameter_id: Parameter.find_by(
+        category: "payment",
+        group: "stripe",
+        name: "publishable_key"
+      )).value);
     Stripe.card.createToken($form, stripeResponseHandler);
     return false;
   });
