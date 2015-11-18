@@ -96,7 +96,7 @@ namespace :db do
     Customer.destroy_all
     Customer.create(
       email: 'customer@test.com',
-      password: 'password',
+      encrypted_password: BCrypt::Password.create("password"),
       name: 'Alejandro',
       surname: 'González Núñez',
       confirmed_at: '2015-04-21 13:39:18.381529',
@@ -104,7 +104,7 @@ namespace :db do
       event_id: 1)
     Customer.create(
       email: 'customer2@test.com',
-      password: 'password',
+      encrypted_password: BCrypt::Password.create("password"),
       name: 'Pedro',
       surname: 'De La Rosa',
       confirmed_at: '2015-04-21 13:39:18.381529',

@@ -11,6 +11,7 @@ class Events::SessionsController < Events::BaseController
     if customer_signed_in?
       redirect_to customer_root_path(current_event)
     end
+    reset_session
   end
 
   def create
@@ -19,6 +20,10 @@ class Events::SessionsController < Events::BaseController
       @customer_login_form = CustomerLoginForm.new(customer)
       if @customer_login_form.validate(permitted_params) && @customer_login_form.save
         authenticate_customer!
+        if params["customer"].fetch("remember_me") == "1"
+          customer.init_remember_token!
+          cookies['remember_token'] = { value: customer.remember_token, expires: Time.parse(customer.remember_me_token_expires_at(2.weeks).to_s) }
+        end
         redirect_to after_sign_in_path
       else
         @customer_login_form = CustomerLoginForm.new(Customer.new)

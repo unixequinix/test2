@@ -648,6 +648,3 @@ DEPENDENCIES
   virtus (~> 1.0.5)
   warden (~> 1.2.3)
   whenever (~> 0.9.4)
-
-BUNDLED WITH
-   1.10.6
