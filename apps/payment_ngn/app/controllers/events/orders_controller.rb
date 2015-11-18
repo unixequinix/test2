@@ -28,8 +28,9 @@ class Events::OrdersController < Events::BaseController
   private
   def require_permission!
     @order = Order.find(params[:id])
-    if current_customer_event_profile != @order.customer_event_profile || @order.completed?
+    if current_customer_event_profile != @order.customer_event_profile || @order.completed? || @order.expired?
       flash.now[:error] = I18n.t('alerts.order_complete') if @order.completed?
+      flash.now[:error] = I18n.t('alerts.order_expired') if @order.expired?
       redirect_to event_url(current_event)
     end
   end

@@ -59,6 +59,10 @@ class Order < ActiveRecord::Base
     self.save
   end
 
+  def expired?
+    Time.now > created_at + 15.minutes
+  end
+
   private
 
   def complete_order
