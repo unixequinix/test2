@@ -13,6 +13,7 @@ class NewProfileForm < Reform::Form
   property :gender, on: :customer
   property :birthdate, on: :customer
   property :agreed_on_registration, on: :customer
+  property :agreed_event_condition, on: :customer
   property :encrypted_password, on: :customer
   property :password, virtual: true
 
