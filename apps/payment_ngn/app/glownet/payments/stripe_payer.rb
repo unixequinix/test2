@@ -1,7 +1,8 @@
-class Payments::StripeNotifier
+class Payments::StripePayer
 
-  def initialize
-
+  def start(params)
+    charge_object = charge(params)
+    notify_payment(params, charge_object)
   end
 
   def charge(params)
@@ -36,7 +37,7 @@ class Payments::StripeNotifier
         merchant_code: charge.balance_transaction,
         currency: charge.currency,
         paid_at: charge.created,
-        response_code: charge
+        response_code: charge,
         success: true
       )
       payment.save!
@@ -45,25 +46,14 @@ class Payments::StripeNotifier
     end
   end
 
+  def action_after_payment
+    # this method will be evaluated in the controller
+    "redirect_to(success_event_order_payments_path)"
+  end
+
   private
 
   def send_mail_for(order, event)
     OrderMailer.completed_email(order, event).deliver_later
-
   end
 end
-
-=begin
-        payment = Payment.new(
-          transaction_type: params[:Ds_TransactionType],
-          card_country: params[:Ds_Card_Country],
-          paid_at: "#{params[:Ds_Date]}, #{params[:Ds_Hour]}",
-          order: order,
-          response_code: response,
-          authorization_code: params[:Ds_AuthorisationCode],
-          currency: params[:Ds_Currency],
-          merchant_code: params[:Ds_MerchantCode],
-          amount: charge.amount.to_f / 100 # last two digits are decimals,
-          terminal: params[:Ds_Terminal],
-          success: true)
-=end

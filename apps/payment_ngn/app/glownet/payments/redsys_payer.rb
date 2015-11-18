@@ -1,7 +1,7 @@
-class Payments::RedsysNotifier
+class Payments::RedsysPayer
 
-  def initialize
-
+  def start(params)
+    notify_payment(params)
   end
 
   def notify_payment(params)
@@ -9,7 +9,6 @@ class Payments::RedsysNotifier
       response = params[:Ds_Response]
       success = response =~ /00[0-9][0-9]|0900/
       amount = params[:Ds_Amount].to_f / 100 # last two digits are decimals
-      binding.pry
       if success
         order = Order.find_by(number: params[:Ds_Order])
         credit_log = CreditLog.create(customer_event_profile_id: order.customer_event_profile.id, transaction_type: CreditLog::CREDITS_PURCHASE, amount: order.credits_total)
@@ -25,12 +24,16 @@ class Payments::RedsysNotifier
           amount: amount,
           terminal: params[:Ds_Terminal],
           success: true)
-        binding.pry
         payment.save!
         order.complete!
         send_mail_for(order)
       end
     end
+  end
+
+  def action_after_payment
+    # this method will be evaluated in the controller
+    "render nothing: true"
   end
 
   private

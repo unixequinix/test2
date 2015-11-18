@@ -3,29 +3,11 @@ class Events::PaymentsController < Events::BaseController
   skip_before_filter :verify_authenticity_token, only: [:create]
   skip_before_action :check_has_ticket!, only: [:create]
 
-  def new
-    @order = Order.find(params[:order_id])
-
-  end
-
   def create
-    binding.pry
-    payment_notifier =
-     ("Payments::#{current_event.payment_service.camelize}Notifier")
+    payer_object = ("Payments::#{current_event.payment_service.camelize}Payer")
      .constantize.new
-    if(current_event.payment_service == "stripe")
-      charge = payment_notifier.charge(params)
-      payment_notifier.notify_payment(params, charge)
-      redirect_to success_event_order_payments_path
-    end
-
-    if current_event.payment_service == "redsys"
-      payment_notifier =
-      ("Payments::#{current_event.payment_service.camelize}Notifier")
-        .constantize.new
-      payment_notifier.notify_payment(params)
-      render nothing: true
-    end
+    payer_object.start(params)
+    eval(payer_object.action_after_payment)
   end
 
   def success

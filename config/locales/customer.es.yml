@@ -112,8 +112,13 @@ es:
     total: "Total"
     vat: "IVA Incluido"
     redirect: "Serás redirigido a la pasarela de pago del banco."
-    button: "Pagar"
+    button: "Siguiente"
     button_iupay: "IUPAY"
+    stripe:
+      card_number: "Número de tarjeta"
+      card_code_verification: "Código de verificación (CCV)"
+      card_expiration_date: "Fecha de expiración"
+      button: "Pagar"
   claims:
     title: "Confirmar Reembolso"
     description: "Por favor, revisa tu órden y procede a realizar el pago."

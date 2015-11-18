@@ -1,7 +1,1 @@
-<% if current_event.payment_service == "redsys" %>
   $('#paymentForm').html('<%= j(render "#{current_event.payment_service}_payment_form").html_safe %>');
-  $('#gateway_load').submit();
-<% end %>
-<% if current_event.payment_service == "stripe" %>
-  window.location.replace('<%= new_event_order_payment_path(current_event, @order) %>');
-<% end %>

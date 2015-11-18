@@ -249,3 +249,14 @@ textarea {
     }
   }
 }
+
+#paymentForm {
+  input[type="submit"] {
+    float: right;
+  }
+
+  select:first-child {
+    height: 20px;
+    margin-right: 8px;
+  }
+}

@@ -23,4 +23,5 @@
   p.bank-page-alert.small = t('orders.redirect')
   .container-order-buttons
     = button_to t('orders.button'), event_order_path(current_event, @order), method: :patch, remote: true, class: "btn btn-top"
-#paymentForm
+
+#paymentForm class="wrapper-field form-inputs"

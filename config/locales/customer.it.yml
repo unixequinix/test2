@@ -111,8 +111,13 @@ it:
     total: "Total"
     vat: "VAT Included"
     redirect: "You will be redirected to the bank’s payment gateway."
-    button: "Pay"
+    button: "Next"
     button_iupay: "IUPAY"
+    stripe:
+      card_number: "Card number"
+      card_code_verification: "Card code verification (CCV)"
+      card_expiration_date: "Card expiration date"
+      button: "Pay"
   claims:
     title: "Confermare rimborso"
     description: "Si prega di controllare il suo ordine e procedere al pagamento."
