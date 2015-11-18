@@ -7,7 +7,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
     @tickets_count = all_tickets.count
     respond_to do |format|
       format.html
-      format.csv { send_data(Csv::CsvExporter.to_csv(@fetcher.tickets))}
+      format.csv { send_data(Csv::CsvExporter.to_csv(Ticket.selected_data(current_event.id)))}
     end
   end
 

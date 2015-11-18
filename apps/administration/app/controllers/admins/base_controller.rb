@@ -11,7 +11,7 @@ class Admins::BaseController < ApplicationController
   end
 
   def authenticate_admin!
-    warden.authenticate(:admin_password, scope: :admin)
+    warden.authenticate!(:admin_password, scope: :admin)
   end
 
   def logout_admin!
@@ -31,7 +31,7 @@ class Admins::BaseController < ApplicationController
 
   def current_admin
     @current_admin ||= Admin.find(warden.user(:admin)["id"]) unless
-      warden.user(:admin).nil? ||
-      Admin.where(id: warden.user(:admin)["id"]).empty?
+        !warden.authenticated?(:admin) ||
+        Admin.where(id: warden.user(:admin)["id"]).empty?
   end
 end

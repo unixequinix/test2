@@ -31,6 +31,7 @@
 #  gender                 :string
 #  birthdate              :datetime
 #  event_id               :integer          not null
+#  remember_token         :string
 #
 
 class Customer < ActiveRecord::Base
@@ -55,7 +56,7 @@ class Customer < ActiveRecord::Base
   validates_uniqueness_of :email, scope: [:event_id], conditions: -> { where(deleted_at: nil) }
 
   # Hooks
-  before_create :generate_confirmation_token
+  before_create :init_confirmation_token
 
   # Methods
   # -------------------------------------------------------
@@ -80,9 +81,24 @@ class Customer < ActiveRecord::Base
     save!
   end
 
+  def init_confirmation_token
+    generate_token(:confirmation_token)
+  end
+
   def init_password_token!
-    generate_reset_password_token
-    self.save
+    generate_token(:reset_password_token)
+    self.reset_password_sent_at = Time.now.utc
+    save
+  end
+
+  def init_remember_token!
+    generate_token(:remember_token)
+    self.remember_created_at = Time.now.utc
+    save
+  end
+
+  def remember_me_token_expires_at(expiration_time)
+    remember_created_at + expiration_time
   end
 
   def self.gender_selector
@@ -124,25 +140,10 @@ class Customer < ActiveRecord::Base
     end
   end
 
-  def generate_confirmation_token
-    loop do
-      token = SecureRandom.urlsafe_base64
-      unless Customer.where(confirmation_token: token).any?
-        self.confirmation_token = token
-        break
-      end
-    end
-  end
-
-  def generate_reset_password_token
-    loop do
-      token = SecureRandom.urlsafe_base64
-      unless Customer.where(reset_password_token: token).any?
-        self.reset_password_token = token
-        self.reset_password_sent_at = Time.now.utc
-        break
-      end
-    end
+  def generate_token(column)
+    begin
+      self[column] = SecureRandom.urlsafe_base64
+    end while Customer.exists?(column => self[column])
   end
 
 end

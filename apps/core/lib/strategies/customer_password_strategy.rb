@@ -1,6 +1,5 @@
 class CustomerPasswordStrategy < ::Warden::Strategies::Base
   def valid?
-    return false if request.get?
     customer_data = params.fetch("customer", {})
     !(customer_data["email"].blank? || customer_data["password"].blank?)
   end

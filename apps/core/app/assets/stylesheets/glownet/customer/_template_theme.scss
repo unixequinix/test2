@@ -319,6 +319,24 @@ nav {
   }
 }
 
+.wrapper-success-dashboard {
+  .fa {
+    color: green;
+  }
+}
+
+.wrapper-action {
+  display: block; margin: 0 auto;
+  margin-top: modules(1);
+
+  @include min-screen($bp4) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
 // _______ ORDER ________
 
 .amount-button {
