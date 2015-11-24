@@ -38,11 +38,33 @@
           name: name
           value: Stripe
         -
-          name: secret_key
-          value: sk_test_123456789aBcDeFgHiJkLmNo
+          name: stripe_account_id
+          value: 12345
         -
-          name: publishable_key
-          value: pk_test_123456789aBcDeFgHiJkLmNo
+          name: email
+          value: quino@acidtango.com
+        -
+          name: country
+          value: "US"
+        -
+          name: platform_secret_key
+          value: sk_test_5uDobG1KW9DqfXoDxo1d5sia
+        -
+          name: account_secret_key
+          value: 6789
+        -
+          name: account_publishable_key
+          value: 00000
+        -
+          name: bank_account
+          value: 23456789
+        -
+          name: routing_number
+          data_type: 111111111
+        -
+          name: currency
+          data_type: "USD"
+
 -
   category: refund
   groups:

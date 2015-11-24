@@ -12,12 +12,28 @@ class Payments::StripeDataRetriever
     get_value_of_parameter("name")
   end
 
-  def secret_key
-    get_value_of_parameter("secret_key")
+  def stripe_account_id
+    get_value_of_parameter("stripe_account_id")
   end
 
-  def publishable_key
-    get_value_of_parameter("publishable_key")
+  def email
+    get_value_of_parameter("email")
+  end
+
+  def country
+    get_value_of_parameter("country")
+  end
+
+  def platform_secret_key
+    get_value_of_parameter("platform_secret_key")
+  end
+
+  def account_secret_key
+    get_value_of_parameter("account_secret_key")
+  end
+
+  def account_publishable_key
+    get_value_of_parameter("account_publishable_key")
   end
 
 

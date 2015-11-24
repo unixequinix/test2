@@ -5,6 +5,26 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
     @event_parameters = @fetcher.event_parameters.where(parameters: { group: @event.payment_service, category: 'payment'}).includes(:parameter)
   end
 
+  def new
+    @event = Event.friendly.find(params[:event_id])
+    @payment_settings_form = ("#{@event.payment_service.camelize}PaymentSettingsForm").constantize.new
+  end
+
+  def create
+    @event = Event.friendly.find(params[:event_id])
+    @payment_settings_form = ("#{@event.payment_service.camelize}PaymentSettingsForm").constantize.new(permitted_params)
+
+    if @payment_settings_form.save
+      AccountGenerator::Stripe.generate_params(params)
+      @event.save
+      flash[:notice] = I18n.t('alerts.updated')
+      redirect_to admins_event_payment_settings_url(@event)
+    else
+      flash[:error] = I18n.t('alerts.error')
+      render :edit
+    end
+  end
+
   def edit
     @event = Event.friendly.find(params[:event_id])
     @parameters = Parameter.where(group: @event.payment_service, category: 'payment')

@@ -1,5 +1,5 @@
 .wrapper-inside
-  = form_tag event_order_payments_path(@form_data.current_event, @form_data.order), id: "stripe-payment-form", class: "basic-grey", :"data-p-key" => @form_data.publishable_key
+  = form_tag event_order_payments_path(@form_data.current_event, @form_data.order), id: "stripe-payment-form", class: "basic-grey", :"data-p-key" => Rails.application.secrets.stripe_platform_publishable
     .payment-errors
     = label_tag t('orders.stripe.card_number'), nil, required: true
     .control-group

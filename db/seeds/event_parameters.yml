@@ -47,10 +47,31 @@
           name: name
           data_type: string
         -
-          name: secret_key
+          name: stripe_account_id
           data_type: string
         -
-          name: publishable_key
+          name: email
+          data_type: string
+        -
+          name: platform_secret_key
+          data_type: string
+        -
+          name: account_secret_key
+          data_type: string
+        -
+          name: account_publishable_key
+          data_type: string
+        -
+          name: bank_account
+          data_type: string
+        -
+          name: routing_number
+          data_type: string
+        -
+          name: country
+          data_type: string
+        -
+          name: currency
           data_type: string
 -
   name: refund

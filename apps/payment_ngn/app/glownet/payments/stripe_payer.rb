@@ -19,19 +19,14 @@ class Payments::StripePayer
     token = params[:stripeToken]
     order = Order.find(params[:order_id])
     amount = order.total_stripe_formated
-    Stripe.api_key = EventParameter.find_by(event_id: event.id,
-      parameter_id: Parameter.find_by(
-        category: "payment",
-        group: "stripe",
-        name: "secret_key"
-      )).value
+    Stripe.api_key = Rails.application.secrets.stripe_platform_secret
     begin
-      charge = Stripe::Charge.create(
+      charge = Stripe::Charge.create({
         amount: amount, # amount in cents, again
-        currency: "eur",
+        currency: get_event_parameter_value(event, "currency"),
         source: token,
         description: "Example charge"
-      )
+      }, { stripe_account: get_event_parameter_value(event, "stripe_account_id") } )
     rescue Stripe::CardError => e
       # The card has been declined
       charge = nil
@@ -62,5 +57,9 @@ class Payments::StripePayer
 
   def send_mail_for(order, event)
     OrderMailer.completed_email(order, event).deliver_later
+  end
+
+  def get_event_parameter_value(event, name)
+    EventParameter.find_by(event_id: event.id, parameter: Parameter.where(category: 'payment', group: 'stripe', name: name)).value
   end
 end

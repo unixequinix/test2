@@ -24,6 +24,12 @@ Rails.application.routes.draw do
             get :search
           end
         end
+        resource :payment_settings, only: [:show, :new, :create, :edit, :update]
+        resource :refund_settings, only: [:show, :edit, :update] do
+          member do
+            post :notify_customers
+          end
+        end
       end
     end
   end
