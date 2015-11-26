@@ -39,15 +39,15 @@ class Admins::Events::RefundSettingsController < Admins::Events::BaseController
   end
 
   def update_messages
-    @event = Event.friendly.find(params[:id])
-    if @event.update(permitted_params)
+    @event = Event.friendly.find(params[:event_id])
+    if @event.update(permitted_event_params)
       flash[:notice] = I18n.t('alerts.updated')
       @event.slug = nil
       @event.save!
       redirect_to admins_event_refund_settings_url(@event)
     else
       flash[:error] = I18n.t('alerts.error')
-      render :edit
+      render :edit_messages
     end
   end
 
@@ -74,11 +74,7 @@ class Admins::Events::RefundSettingsController < Admins::Events::BaseController
 
   def permitted_event_params
 
-    params.require(:event).permit(:aasm_state, :name, :url, :location,
-      :start_date, :end_date, :description, :support_email, :style, :logo,
-      :background_type, :background, :features, :payment_service,
-      :refund_services, :gtag_registration, :info, :disclaimer,
-      :registration_parameters, :agreed_event_condition_message)
+    params.require(:event).permit(:refund_success_message, :mass_email_claim_notification, :refund_disclaimer)
   end
 
 end
