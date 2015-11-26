@@ -19,6 +19,8 @@ Rails.application.routes.draw do
       scope module: 'events' do
         resources :refund_settings, only: [:index, :edit, :update] do
           collection do
+            get :edit_messages
+            patch :update_messages
             post :notify_customers
           end
         end
