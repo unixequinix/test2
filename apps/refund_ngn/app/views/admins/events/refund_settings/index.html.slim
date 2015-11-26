@@ -2,8 +2,9 @@
 .wrapper-negative-space
   = render "admins/events/refund_settings/controls", event: @event
 
-  - @event.selected_refund_services.each do |refund_service|
-    = render "admins/events/refund_settings/refund_method", refund_service: refund_service
+  .container-refunds
+    - @event.selected_refund_services.each do |refund_service|
+      = render "admins/events/refund_settings/refund_method", refund_service: refund_service
 
   .container-show
     dl
