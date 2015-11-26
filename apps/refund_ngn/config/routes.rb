@@ -2,6 +2,9 @@ require "admin_constraints"
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+
+  ## Resources
+  ## ------------------------------
   namespace :admins do
     resources :admins, except: :show do
       collection do
@@ -14,6 +17,11 @@ Rails.application.routes.draw do
         post :remove_background
       end
       scope module: 'events' do
+        resources :refund_settings, only: [:index, :edit, :update] do
+          collection do
+            post :notify_customers
+          end
+        end
         resources :claims, except: [:new, :create, :edit] do
           collection do
             get :search

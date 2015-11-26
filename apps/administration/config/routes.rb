@@ -20,11 +20,6 @@ Rails.application.routes.draw do
         resources :admissions, only: [:destroy]
         resource :gtag_settings, only: [:show, :edit, :update]
         resource :payment_settings, only: [:show, :edit, :update]
-        resource :refund_settings, only: [:show, :edit, :update] do
-          member do
-            post :notify_customers
-          end
-        end
         resources :gtags do
           resources :comments, module: :gtags
           collection do

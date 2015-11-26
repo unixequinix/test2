@@ -26,7 +26,7 @@ class BasePresenter
   end
 
   def gtag_refundable_amount
-    gtag_registration.refundable_amount
+    gtag.refundable_amount
   end
 
   private

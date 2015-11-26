@@ -20,7 +20,7 @@ en:
       url: 'Event url'
       support_email: 'Support email'
       payment_service: 'Payment service'
-      refund_service: 'Refund service'
+      refund_service: 'Refund services'
       location: 'Location'
       start_date: 'Start date'
       end_date: 'End date'
@@ -56,6 +56,7 @@ en:
       refund_services:
         bank_account: 'Bank account'
         epg: 'Easy payment gateway'
+        tipalti: 'Tipalti'
       images:
         profile: "Profile image preview"
         background: "Background image preview"

@@ -20,7 +20,7 @@ es:
       url: 'Url del evento'
       support_email: 'Email de soporte'
       payment_service: 'Servicio de pago'
-      refund_service: 'Servicio de devolución'
+      refund_service: 'Servicios de devolución'
       location: 'Localización'
       start_date: 'Fecha de inicio'
       end_date: 'Fecha de finalización'
@@ -56,6 +56,7 @@ es:
       refund_services:
         bank_account: 'Cuenta bancaria'
         epg: 'Easy payment gateway'
+        tipalti: 'Tipalti'
       images:
         profile: "Imágen de perfil"
         background: "Imágen de fondo"

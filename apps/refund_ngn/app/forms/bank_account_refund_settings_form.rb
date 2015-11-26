@@ -5,16 +5,13 @@ class BankAccountRefundSettingsForm
   attribute :fee, Decimal
   attribute :minimum, Decimal
   attribute :event_id, Integer
-  attribute :refund_success_message
-  attribute :mass_email_claim_notification
 
   validates_presence_of :fee
   validates_presence_of :minimum
   validates_presence_of :event_id
-  validates_presence_of :refund_success_message
-  validates_presence_of :mass_email_claim_notification
 
   validates_numericality_of :fee
+  validates_numericality_of :minimum
 
   def save
     if valid?

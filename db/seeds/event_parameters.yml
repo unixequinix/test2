@@ -85,3 +85,24 @@
         -
           name: minimum
           data_type: currency
+    -
+      name: tipalti
+      parameters:
+        -
+          name: fee
+          data_type: currency
+        -
+          name: minimum
+          data_type: currency
+        -
+          name: payer
+          data_type: string
+        -
+          name: idap
+          data_type: string
+        -
+          name: secret_key
+          data_type: string
+        -
+          name: url
+          data_type: string

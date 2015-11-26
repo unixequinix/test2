@@ -3,6 +3,7 @@ class Events::EpgClaimsController < Events::ClaimsController
   def new
     @epg_claim_form = EpgClaimForm.new
     generate_claim(Claim::EASY_PAYMENT_GATEWAY)
+    @url = TipaltiCheckoutService.new.url
   end
 
   def create

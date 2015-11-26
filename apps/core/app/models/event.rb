@@ -46,12 +46,6 @@ class Event < ActiveRecord::Base
 
   PAYMENT_SERVICES = [REDSYS]
 
-  #Refund Services
-  BANK_ACCOUNT = 'bank_account'
-  EASY_PAYMENT_GATEWAY = 'epg'
-
-  REFUND_SERVICES = [BANK_ACCOUNT, EASY_PAYMENT_GATEWAY]
-
   include FlagShihTzu
 
   has_flags 1 => :top_ups,
@@ -71,7 +65,14 @@ class Event < ActiveRecord::Base
             8 => :agreed_event_condition,
             column: 'registration_parameters'
 
-  REGISTRATION_PARAMETERS = [:phone,:address, :city, :country, :postcode, :gender, :birthdate, :agreed_event_condition]
+  REGISTRATION_PARAMETERS = [:phone, :address, :city, :country, :postcode, :gender, :birthdate, :agreed_event_condition]
+
+  has_flags 1 => :bank_account,
+            2 => :epg,
+            3 => :tipalti,
+            column: 'refund_services'
+
+  REFUND_SERVICES = [:bank_account, :epg, :tipalti]
 
   # Associations
   has_many :customer_event_profiles
@@ -147,15 +148,15 @@ class Event < ActiveRecord::Base
   # -------------------------------------------------------
 
   def self.background_types_selector
-    BACKGROUND_TYPES.map { |f| [I18n.t('admin.event.background_types.' + f), f] }
+    BACKGROUND_TYPES.map { |f| [I18n.t('admin.event.background_types.' + f.to_s), f] }
   end
 
   def self.payment_services_selector
-    PAYMENT_SERVICES.map { |f| [I18n.t('admin.event.payment_services.' + f), f] }
+    PAYMENT_SERVICES.map { |f| [I18n.t('admin.event.payment_services.' + f.to_s), f] }
   end
 
   def self.refund_services_selector
-    REFUND_SERVICES.map { |f| [I18n.t('admin.event.refund_services.' + f), f] }
+    REFUND_SERVICES.map { |f| [I18n.t('admin.event.refund_services.' + f.to_s), f] }
   end
 
 

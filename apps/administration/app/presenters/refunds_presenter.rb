@@ -8,7 +8,7 @@ class RefundsPresenter < BasePresenter
   end
 
   def gtag_credit_amount
-    "#{@gtag_registration.refundable_amount} #{I18n.t('currency_symbol')}"
+    "#{@gtag_registration.gtag.refundable_amount} #{I18n.t('currency_symbol')}"
   end
 
   def call_to_action

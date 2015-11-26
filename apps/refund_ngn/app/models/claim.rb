@@ -19,13 +19,6 @@
 class Claim < ActiveRecord::Base
   default_scope { order(created_at: :desc) }
 
-  #Service Types
-  BANK_ACCOUNT = 'bank_account'
-  EASY_PAYMENT_GATEWAY = 'epg'
-
-  REFUND_SERVICES = [BANK_ACCOUNT, EASY_PAYMENT_GATEWAY]
-
-
   # Associations
   belongs_to :customer_event_profile
   has_one :refund
