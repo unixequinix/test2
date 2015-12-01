@@ -2,32 +2,31 @@ class StripePaymentSettingsForm
   include ActiveModel::Model
   include Virtus.model
 
-  attribute :name, String
   attribute :email, String
-  attribute :country, Integer
-  attribute :bank_account, String
-  attribute :routing_number, String
   attribute :currency, String
+  attribute :country, String
+  attribute :bank_account, String
+  attribute :legal_first_name, String
+  attribute :legal_last_name, String
+  attribute :legal_dob, DateTime
+  attribute :legal_type, String
   attribute :event_id, Integer
 
-  validates_presence_of :name
   validates_presence_of :email
-  validates_presence_of :country
-  validates_presence_of :bank_account
-  validates_presence_of :routing_number
   validates_presence_of :currency
-  validates_presence_of :event_id
+  validates_presence_of :country
 
-  # attribute :stripe_account_id, String
-  # attribute :platform_secret_key, String
-  # attribute :account_secret_key, String
-  # attribute :account_publishable_key, String
-  # validates_presence_of :stripe_account_id
-  # validates_presence_of :platform_secret_key
-  # validates_presence_of :account_secret_key
-  # validates_presence_of :account_publishable_key
+  def save(params, request)
+    if valid?
+      persist!
+      AccountManager::Stripe.new.persist_parameters(params, request)
+      true
+    else
+      false
+    end
+  end
 
-  def save
+    def update
     if valid?
       persist!
       true
@@ -42,7 +41,7 @@ class StripePaymentSettingsForm
       ep = EventParameter.find_by(event_id: event_id, parameter_id: parameter.id)
       ep.nil? ?
       EventParameter.create!(value: attributes[parameter.name.to_sym], event_id: event_id, parameter_id: parameter.id) :
-      ep.update(value: attributes[parameter.name.to_sym])
+      ep.update(value: attributes[parameter.name.to_sym]) if attributes.keys.include?(parameter.name.to_s)
     end
   end
 end

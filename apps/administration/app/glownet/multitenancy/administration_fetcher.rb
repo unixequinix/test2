@@ -23,6 +23,14 @@ class Multitenancy::AdministrationFetcher
     EventParameter.where(event_id: @event.id)
   end
 
+  def ticket_types
+    TicketType.where(event_id: @event.id)
+  end
+
+  def entitlements
+    Entitlement.where(event_id: @event.id)
+  end
+
   private
 
   def admin?

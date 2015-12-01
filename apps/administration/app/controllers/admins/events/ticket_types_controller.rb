@@ -1,7 +1,9 @@
 class Admins::Events::TicketTypesController < Admins::Events::CheckinBaseController
 
   def index
-    @ticket_types = @fetcher.ticket_types.page(params[:page]).includes(:entitlements)
+    all_ticket_types = @fetcher.ticket_types
+    @ticket_types = all_ticket_types.page(params[:page]).includes(:entitlements)
+    @ticket_types_count = all_ticket_types.count
     respond_to do |format|
       format.html
       format.csv { send_data(Csv::CsvExporter.to_csv(@fetcher.ticket_types))}

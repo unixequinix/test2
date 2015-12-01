@@ -1,10 +1,12 @@
 class Admins::Events::CreditsController < Admins::Events::BaseController
 
   def index
-    @credits = @fetcher.credits
+    all_credits = @fetcher.credits
+    @credits = all_credits
       .where(online_products: { event_id: current_event.id })
       .page(params[:page])
       .includes(:online_product)
+    @credits_count = all_credits.count
   end
 
   def new

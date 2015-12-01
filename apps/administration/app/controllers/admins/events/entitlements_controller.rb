@@ -1,7 +1,9 @@
 class Admins::Events::EntitlementsController < Admins::Events::CheckinBaseController
 
   def index
-    @entitlements = @fetcher.entitlements.page(params[:page])
+    all_entitlements = @fetcher.entitlements
+    @entitlements = all_entitlements.page(params[:page])
+    @entitlements_count = all_entitlements.count
   end
 
   def new

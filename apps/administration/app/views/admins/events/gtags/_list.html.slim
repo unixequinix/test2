@@ -1,4 +1,4 @@
-.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: gtags.count, total: Gtag.count)
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: gtags.count, total: @gtags_count)
 = form_tag destroy_multiple_admins_event_gtags_path, method: :delete do
   table.gtags
     thead

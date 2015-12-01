@@ -4,6 +4,7 @@
 
 //= require customer/top-up-buttons
 //= require customer/nav-mobile
+//= require customer/stripe
 
 //= require admin/header
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151111191823) do
+ActiveRecord::Schema.define(version: 20151124125800) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,9 @@ ActiveRecord::Schema.define(version: 20151111191823) do
     t.boolean  "gtag_registration",       default: true,                  null: false
     t.string   "payment_service",         default: "redsys"
     t.integer  "registration_parameters", default: 0,                     null: false
+    t.string   "currency",                null: false
+    t.string   "host_country",            null: false
+    t.integer  "locales",                 default: 1,                     null: false
   end
 
   create_table "customers", force: :cascade do |t|

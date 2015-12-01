@@ -21,12 +21,23 @@ class Payments::StripePayer
     amount = order.total_stripe_formated
     Stripe.api_key = Rails.application.secrets.stripe_platform_secret
     begin
+=begin
+      # Charging directly
       charge = Stripe::Charge.create({
         amount: amount, # amount in cents, again
-        currency: get_event_parameter_value(event, "currency"),
+        currency: event.currency,
         source: token,
-        description: "Example charge"
+        description: "Payment of #{amount} #{event.currency}"
       }, { stripe_account: get_event_parameter_value(event, "stripe_account_id") } )
+=end
+      # Charging through the platform
+      charge = Stripe::Charge.create({
+        amount: amount, # amount in cents, again
+        currency: event.currency,
+        source: token,
+        description: "Payment of #{amount} #{event.currency}",
+        destination: get_event_parameter_value(event, "stripe_account_id")})
+
     rescue Stripe::CardError => e
       # The card has been declined
       charge = nil
@@ -43,7 +54,7 @@ class Payments::StripePayer
         amount: (charge.amount.to_f / 100), # last two digits are decimals,
         merchant_code: charge.balance_transaction,
         currency: charge.currency,
-        paid_at: charge.created,
+        paid_at: Time.at(charge.created),
         response_code: charge,
         success: true
       )

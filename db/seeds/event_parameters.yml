@@ -44,16 +44,16 @@
       name: stripe
       parameters:
         -
-          name: name
-          data_type: string
-        -
-          name: stripe_account_id
-          data_type: string
-        -
           name: email
           data_type: string
         -
-          name: platform_secret_key
+          name: country
+          data_type: string
+        -
+          name: currency
+          data_type: string
+        -
+          name: stripe_account_id
           data_type: string
         -
           name: account_secret_key
@@ -65,13 +65,22 @@
           name: bank_account
           data_type: string
         -
-          name: routing_number
+          name: legal_first_name
           data_type: string
         -
-          name: country
+          name: legal_last_name
           data_type: string
         -
-          name: currency
+          name: legal_dob
+          data_type: string
+        -
+          name: legal_type
+          data_type: string
+        -
+          name: tos_acceptance_date
+          data_type: string
+        -
+          name: tos_acceptance_ip
           data_type: string
 -
   name: refund

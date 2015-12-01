@@ -1,8 +1,10 @@
 class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
 
   def index
-    @q = @fetcher.gtags.search(params[:q])
+    all_gtags = @fetcher.gtags
+    @q = all_gtags.search(params[:q])
     @gtags = @q.result(distinct: true).page(params[:page]).includes(:assigned_gtag_registration, :gtag_credit_log)
+    @gtags_count = all_gtags.count
     respond_to do |format|
       format.html
       format.csv { send_data(Csv::CsvExporter.to_csv(Gtag.selected_data(current_event.id))) }

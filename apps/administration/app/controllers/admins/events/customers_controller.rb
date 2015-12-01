@@ -2,6 +2,7 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
  def index
     @q = @fetcher.customers.with_deleted.search(params[:q])
     @customers = @q.result(distinct: true).page(params[:page]).includes(:customer_event_profile, customer_event_profile: [:assigned_admissions, :assigned_gtag_registration, assigned_admissions: :ticket, admissions: :ticket] )
+    @customers_count = @q.result(distinct: true).count
   end
 
   def search

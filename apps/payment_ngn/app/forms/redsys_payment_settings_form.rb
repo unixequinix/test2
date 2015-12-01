@@ -33,6 +33,15 @@ class RedsysPaymentSettingsForm
     end
   end
 
+  def update
+    if valid?
+      persist!
+      true
+    else
+      false
+    end
+  end
+
   private
   def persist!
     Parameter.where(category: 'payment', group: 'redsys').each do |parameter|

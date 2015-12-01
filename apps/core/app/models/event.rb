@@ -74,6 +74,14 @@ class Event < ActiveRecord::Base
 
   REGISTRATION_PARAMETERS = [:phone,:address, :city, :country, :postcode, :gender, :birthdate, :agreed_event_condition]
 
+  has_flags 1 => :english,
+            2 => :spanish,
+            3 => :italian,
+            column: 'locales'
+
+  LOCALES = [:english, :spanish, :italian]
+
+
   # Associations
   has_many :customer_event_profiles
   has_many :customers
@@ -221,6 +229,9 @@ class Event < ActiveRecord::Base
     refund_service: refund_service,
     gtag_registration: gtag_registration,
     payment_service: payment_service,
+    country: country,
+    currency: currency,
+    locales: locales,
     registration_parameters: registration_parameters}
   end
 

@@ -2,6 +2,7 @@ class Admins::Events::ClaimsController < Admins::Events::RefundsBaseController
   def index
     @q = @fetcher.claims.search(params[:q])
     @claims = @q.result(distinct: true).page(params[:page]).includes(:customer_event_profile, customer_event_profile: :customer)
+    @claims_count = @q.result(distinct: true).count
     respond_to do |format|
       format.html
       format.csv { send_data(Csv::CsvExporter.to_csv(Claim.selected_data(:completed, current_event)))}

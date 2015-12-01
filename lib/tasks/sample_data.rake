@@ -33,7 +33,7 @@ namespace :db do
     puts "----------------------------------------"
     Event.destroy_all
     YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", "events.yml")).each do |data|
-      event = EventCreator.new(name: data['name'], location: data['location'], start_date: data['start_date'], end_date: data['end_date'], description: data['description'], support_email: data['support_email'], features: data['features'])
+      event = EventCreator.new(name: data['name'], location: data['location'], start_date: data['start_date'], end_date: data['end_date'], description: data['description'], currency: data['currency'], host_country: data['host_country'], support_email: data['support_email'], features: data['features'])
       event.save
     end
   end
