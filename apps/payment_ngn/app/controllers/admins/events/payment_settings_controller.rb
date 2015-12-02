@@ -12,14 +12,11 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
       category: 'payment',
       name: 'stripe_account_id')
     )
-    if(stripe_id.nil? || stripe_id.value.nil? || stripe_id.value.length < 5)
-      @payment_settings_form = ("#{@event.payment_service.camelize}PaymentSettingsForm").constantize.new
-      render :new
-    else
-      @payment_settings_form = ("#{@event.payment_service.camelize}PaymentSettingsForm").constantize.new
-      render :new
+    # if(stripe_id.nil? || stripe_id.value.nil? || stripe_id.value.length < 5)
+    @payment_settings_form = ("#{@event.payment_service.camelize}PaymentSettingsForm").constantize.new
+    render :new
       #redirect_to(admins_event_payment_settings_path)
-    end
+    # end
   end
 
   def create

@@ -41,6 +41,8 @@ FactoryGirl.define do
     support_email 'valid@email.com'
     style 'html{color:white;}'
     url { Faker::Internet.url }
+    currency { "GBP" }
+    host_country { "GB" }
     background_type { Event::BACKGROUND_TYPES.sample }
     disclaimer { Faker::Lorem.words(2).join }
     gtag_assignation_notification { Faker::Lorem.words(2).join }

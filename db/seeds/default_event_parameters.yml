@@ -31,6 +31,21 @@
         -
           name: form
           value: https://sis-t.redsys.es:25443/sis/realizarPago
+    -
+      name: stripe
+      values:
+        -
+          name: email
+          value: unassigned
+        -
+          name: country
+          value: unassigned
+        -
+          name: currency
+          value: unassigned
+        -
+          name: stripe_account_id
+          value: unassigned
 -
   category: refund
   groups:

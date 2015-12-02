@@ -81,7 +81,6 @@ class Event < ActiveRecord::Base
 
   LOCALES = [:english, :spanish, :italian]
 
-
   # Associations
   has_many :customer_event_profiles
   has_many :customers
@@ -205,7 +204,7 @@ class Event < ActiveRecord::Base
     parameter = EventParameter.find_by(event_id: self.id, parameter_id: Parameter.find_by(category: category, group: group, name: name)).value
   end
 
-  def to_hash_parameters
+  def to_hash_parameters # method for testing
     {name: name,
     aasm_state: aasm_state,
     slug: slug,
@@ -229,7 +228,7 @@ class Event < ActiveRecord::Base
     refund_service: refund_service,
     gtag_registration: gtag_registration,
     payment_service: payment_service,
-    country: country,
+    host_country: host_country,
     currency: currency,
     locales: locales,
     registration_parameters: registration_parameters}

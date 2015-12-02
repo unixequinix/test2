@@ -8,7 +8,7 @@ class AccountManager::Stripe
     Stripe.api_key = platform_secret_key
     @account = build_account(params)
     account_parameters = extract_account_parameters
-    attach_legal_parameters(params, request)
+    # attach_legal_parameters(params, request)
     legal_parameters = extract_legal_parameters
 
     persist!(account_parameters, params[:event_id])

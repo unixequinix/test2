@@ -1,7 +1,8 @@
+# coding UTF-8
 =begin
 require "rails_helper"
 
-RSpec.feature "Payment", type: :feature do
+RSpec.feature "Stripe Payment", type: :feature do
 
   context "with account signed in" do
     before :all do
@@ -9,22 +10,21 @@ RSpec.feature "Payment", type: :feature do
       load_customer
       load_gtag
       to_login
-      I18n.locale = :en
+      I18n.locale = :es
     end
 
-    describe "a customer", js: true do
-      it "should be able to buy new credits" do
+    describe "a customer", js: true  do
+      it "should be able to buy new credits using stripe platform" do
+        binding.pry
         visit "/#{@event_creator.event.slug}/checkouts/new"
-        click_button("Confirmar Orden")
-        click_button("Pagar")
-        fill_in("inputCard", with: "4548812049400004")
-        fill_in("cad1", with: "12")
-        fill_in("cad2", with: "20")
-        fill_in("codseg", with: "123")
-        click_button("Pagar")
-        fill_in("pin", with: "123456")
-        find("img[alt='Aceptar']").click
-        click_button("Continuar")
+        click_button(t("checkout.button"))
+        click_button(t("orders.button"))
+        fill_in("card_number", with: "4242424242424242")
+        fill_in("card_verification", with: "123")
+        select "2020", :from => "exp_year"
+        click_button(t("orders.stripe.button"))
+        binding.pry
+        sleep 3
         expect(current_path).to eq("/#{@event_creator.event.slug}/payments/success")
       end
     end
@@ -46,12 +46,7 @@ RSpec.feature "Payment", type: :feature do
   end
 
   def load_event
-    @event_creator = EventCreator.new(build(:event,
-      gtag_registration: true,
-      features: 3,
-      aasm_state: "launched",
-      currency: "GBP",
-      host_country: "GB").to_hash_parameters)
+    @event_creator = EventCreator.new(build(:event,gtag_registration: true, features: 3, aasm_state: "launched", currency: "USD", host_country: "US", payment_service: "stripe").to_hash_parameters)
     @event_creator.save
     @event = @event_creator.event
   end
@@ -61,4 +56,3 @@ RSpec.feature "Payment", type: :feature do
   end
 end
 =end
-
