@@ -30,6 +30,7 @@ it:
       background: 'Background'
       style: 'Style'
       features: 'Enabled Features'
+      locales: 'Enabled Languages'
       refund_success_message: "Refund success message (Click to check)"
       mass_email_claim_notification: "Mass email claim notification"
       gtag_assignation_notification: "Gtag  assignation notification"
@@ -63,6 +64,10 @@ it:
       features_options:
         top_ups: 'Credit top ups'
         refunds: 'Refunds'
+      locales_options:
+        english: "Inglese"
+        italian: "Italiano"
+        spanish: "Spagnolo"
     gtag_settings:
       form:
         format: 'Format'

@@ -30,6 +30,7 @@ es:
       background: 'Fondo'
       style: 'Estilo'
       features: 'Funcionalidades habilitadas'
+      locales: 'Idiomas habilitados'
       refund_success_message: "Mensaje de éxito en la devolución (Pulsar para verificar)"
       mass_email_claim_notification: "Notificación general (petición de devolución)"
       gtag_assignation_notification: "Notificación al asignar el Gtag"
@@ -63,6 +64,10 @@ es:
       features_options:
         top_ups: 'Recarga de creditos'
         refunds: 'Devoluciones'
+      locales_options:
+        english: "Inglés"
+        italian: "Italiano"
+        spanish: "Español"
     gtag_settings:
       form:
         format: 'Formato'
