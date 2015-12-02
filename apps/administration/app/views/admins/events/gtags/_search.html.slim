@@ -4,6 +4,6 @@ p.menu-header
 
 = search_form_for q, url: search_admins_event_gtags_path, html: { novalidate: true, class: "searchForm" }  do |f|
   .container-search
-    = f.input :tag_serial_number_cont, placeholder: t("admin.gtags.search.tag_serial")
-    = f.input :tag_uid_cont, placeholder: t("admin.gtags.search.tag_uid")
+    = f.input :tag_serial_number_cont, label: t("admin.gtags.search.tag_serial"), placeholder: t("admin.gtags.search.tag_serial")
+    = f.input :tag_uid_cont, label: "Tag uid", placeholder: t("admin.gtags.search.tag_uid")
     = f.submit class: "btn btn-secondary"

@@ -284,6 +284,7 @@ en:
         gtag_registrations: "Gtags?"
         credits_purchased: "Credits Purchased?"
     claims:
+      claim_number: "Claim number"
       number: "Number"
       customer: "Customer"
       state: "State"
