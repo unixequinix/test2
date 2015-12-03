@@ -183,7 +183,7 @@ it:
       created_at: "Created at"
       admission: "Tickets registrations"
       search:
-        number: "Number"
+        number: "Ticket barcode number"
         customer: "Assigned customer email"
         purchaser_email: "Purchaser Email"
         type: "Type"

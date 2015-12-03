@@ -183,7 +183,7 @@ es:
       created_at: "Creado el"
       admission: "Registros de tickets"
       search:
-        number: "Número"
+        number: "Ticket barcode number"
         customer: "Email cliente asignado"
         purchaser_email: "Email comprador"
         type: "Tipo"
