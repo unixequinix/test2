@@ -319,6 +319,17 @@ nav {
   }
 }
 
+.btn-refund-method {
+  margin-bottom: modules(0.5);
+
+  &.btn-blocked {
+    opacity: 0.4;
+    cursor: default;
+
+    &:hover { opacity: 0.4; }
+  }
+}
+
 .wrapper-success-dashboard {
   .fa {
     color: green;

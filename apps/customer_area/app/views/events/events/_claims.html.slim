@@ -6,16 +6,24 @@
       h3.highlight
         = presenter.gtag_tag_uid
 
-.wrapper-field.form-inputs
-  .dashboard-field.dashboard-field-info
+.wrapper-field.form-inputs.wrapper-claims-btns
+  .dashboard-field.dashboard-field-claims
     h3
       = fa_icon 'money'
       = presenter.refunds_title
     h3.highlight
       = presenter.gtag_credit_amount
-  .dashboard-field.dashboard-field-action
-    h3 = presenter.call_to_action
+  .dashboard-field.claims-field
+    h3.refunds-method-title = presenter.call_to_action
     - if presenter.refundable? && !presenter.completed_claim?
       - presenter.refund_services.each do |refund_service|
-        = link_to presenter.action_name(refund_service), send("new_event_#{refund_service}_claim_path", current_event), class: "btn"
-p = presenter.refund_disclaimer
+        = link_to presenter.action_name(refund_service), send("new_event_#{refund_service}_claim_path", current_event), class: "btn btn-refund-method btn-blocked"
+.disclaimer-list = raw presenter.refund_disclaimer
+
+.wrapper-field.form-inputs
+    .dashboard-field.dashboard-field-info
+      h3
+        = fa_icon 'ticket'
+        = t('dashboard.gtag_registration.title')
+      h3.highlight
+        = presenter.gtag_tag_uid
