@@ -74,12 +74,12 @@ class Event < ActiveRecord::Base
 
   REGISTRATION_PARAMETERS = [:phone,:address, :city, :country, :postcode, :gender, :birthdate, :agreed_event_condition]
 
-  has_flags 1 => :english,
-            2 => :spanish,
-            3 => :italian,
+  has_flags 1 => :eng_lang,
+            2 => :es_lang,
+            3 => :it_lang,
             column: 'locales'
 
-  LOCALES = [:english, :spanish, :italian]
+  LOCALES = [:eng_lang, :es_lang, :it_lang]
 
   # Associations
   has_many :customer_event_profiles
@@ -202,6 +202,10 @@ class Event < ActiveRecord::Base
   # TODO: Improve with decorators
   def get_parameter(category, group, name)
     parameter = EventParameter.find_by(event_id: self.id, parameter_id: Parameter.find_by(category: category, group: group, name: name)).value
+  end
+
+  def selected_locales_formated
+    selected_locales.map { |key| key.to_s.tr("_lang", "") }
   end
 
   def to_hash_parameters # method for testing

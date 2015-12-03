@@ -15,10 +15,10 @@ footer
         = link_to t("footer.use"), event_terms_of_use_url(current_event), target: '_blank', class: "copy small"
 
     ul.container-language
-      - translated_locales = current_event.selected_locales.map { |key| { english: :en, spanish: :es, italian: :it }[key] }
-      - if translated_locales.length >= 1
-        - translated_locales.each_with_index do |locale, index|
+      - locales = current_event.selected_locales_formated
+      - if locales.length >= 1
+        - locales.each_with_index do |locale, index|
           li
             = link_to t("event.locales.#{locale}"), change_locale_path("#{locale}"), title: t("event.locales.#{locale}"), class: "language-item #{(' selected' if session[:locale] == "#{locale}")}"
-          - if (index + 1 < I18n.available_locales.length)
+          - if (index + 1 < current_event.selected_locales.length)
             li.footer-separator

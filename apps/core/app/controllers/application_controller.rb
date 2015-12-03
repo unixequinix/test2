@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  before_action :set_locale
   before_filter :check_for_mobile
   helper_method :current_event
   before_action :fetch_current_event
@@ -18,11 +17,11 @@ class ApplicationController < ActionController::Base
 
   # Get locale from user's browser and set it, unless it's present in session.
   # Use default otherwise.
-  def set_locale
+  def set_locale(available_locales)
     extracted_locale =  session[:locale] ||
                         extract_locale_from_accept_language_header ||
                         I18n.default_locale
-    if I18n.available_locales.any? { |loc| loc.to_s == extracted_locale }
+    if available_locales.any? { |loc| loc.to_s == extracted_locale }
       I18n.locale = extracted_locale
       session[:locale] = extracted_locale
     end

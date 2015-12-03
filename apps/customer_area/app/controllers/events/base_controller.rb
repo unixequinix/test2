@@ -3,6 +3,7 @@ class Events::BaseController < ApplicationController
   protect_from_forgery
   before_filter :set_i18n_globals
   before_action :ensure_customer
+  before_action :set_locale
   before_action :authenticate_customer!
 
   helper_method :warden, :customer_signed_in?, :current_customer
@@ -47,6 +48,10 @@ class Events::BaseController < ApplicationController
 
   def set_i18n_globals
     I18n.config.globals[:gtag] = current_event.gtag_name
+  end
+
+  def set_locale
+    super(current_event.selected_locales_formated)
   end
 
   def check_top_ups_is_active!
