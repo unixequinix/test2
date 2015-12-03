@@ -2,10 +2,14 @@ class Admins::Events::RefundSettingsController < Admins::Events::BaseController
 
   def index
     @event = Event.friendly.find(params[:event_id])
-    @event_parameters = @fetcher.event_parameters.where(
+    @refund_parameters = @fetcher.event_parameters.where(
                           parameters: {
                             group: (@event.selected_refund_services.map &:to_s),
                             category: 'refund'}).includes(:parameter)
+    @event_parameters = @fetcher.event_parameters.where(
+                          parameters: {
+                            group: 'refund',
+                            category: 'event'}).includes(:parameter)
   end
 
   def edit
@@ -47,13 +51,13 @@ class Admins::Events::RefundSettingsController < Admins::Events::BaseController
       redirect_to admins_event_refund_settings_url(@event)
     else
       flash[:error] = I18n.t('alerts.error')
-      render :edit_messages
+      render :edit
     end
   end
 
   def notify_customers
     @event = Event.friendly.find(params[:event_id])
-    if RefundNotificationService.new.notify(@event)
+    if RefundNotification.new.notify(@event)
       flash[:notice] = I18n.t('alerts.updated')
       redirect_to admins_event_refund_settings_url(@event)
     else
@@ -67,8 +71,6 @@ class Admins::Events::RefundSettingsController < Admins::Events::BaseController
   def permitted_params
     params_names = Parameter.where(group: @refund_service, category: 'refund').map(&:name)
     params_names << :event_id
-    params_names << :refund_success_message
-    params_names << :mass_email_claim_notification
     params.require("#{@refund_service}_refund_settings_form").permit(params_names)
   end
 

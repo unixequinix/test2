@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe EpgCheckoutService, type: :service do
+RSpec.describe EpgCheckout, type: :service do
   before(:all) do
     event = create(:event, refund_service: "epg")
     Seeder::SeedLoader.load_default_event_parameters(event)
@@ -18,7 +18,7 @@ RSpec.describe EpgCheckoutService, type: :service do
       city: "Madrid" ,post_code: "28004", phone: +34660556776,
       address: "C/Conde Romanones", claim_id: claim.id, agreed_on_claim: true)
 
-    @epg_checkout_service = EpgCheckoutService.new(claim, epg_claim_form)
+    @epg_checkout_service = EpgCheckout.new(claim, epg_claim_form)
   end
 
   describe "when a new instance is created" do

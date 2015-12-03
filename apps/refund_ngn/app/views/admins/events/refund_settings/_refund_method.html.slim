@@ -3,9 +3,9 @@
     dt
       p.refund-title = t("admin.refund_services.#{refund_service}")
     dd
-    - @event_parameters.where(parameters: { group: refund_service}).each do |event_parameter|
-      dt = t("admin.refund_settings.#{refund_service}.#{event_parameter.parameter.name}")
-      dd = event_parameter.value
+    - @refund_parameters.where(parameters: { group: refund_service}).each do |refund_parameter|
+      dt = t("admin.refund_settings.#{refund_service}.#{refund_parameter.parameter.name}")
+      dd = refund_parameter.value
 
   = link_to edit_admins_event_refund_setting_path(@event, refund_service), class: "btn btn-primary small" do
     = fa_icon 'edit'

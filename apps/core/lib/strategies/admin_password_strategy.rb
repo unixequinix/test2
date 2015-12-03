@@ -9,7 +9,7 @@ class AdminPasswordStrategy < ::Warden::Strategies::Base
     admin = Admin.find_by_email(params["admin"].fetch("email"))
     if admin.nil? ||
       BCrypt::Password.new(admin.encrypted_password) != params["admin"].fetch("password")
-      fail! message: "errors.messages.unauthorized"
+      fail!(message: "errors.messages.unauthorized")
     else
       admin.update_tracked_fields!(request)
       success!(admin)

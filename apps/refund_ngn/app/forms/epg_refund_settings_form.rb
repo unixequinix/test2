@@ -2,6 +2,7 @@ class EpgRefundSettingsForm
   include ActiveModel::Model
   include Virtus.model
 
+  attribute :action_name, String
   attribute :fee, Decimal
   attribute :minimum, Decimal
   attribute :country, String
@@ -14,6 +15,7 @@ class EpgRefundSettingsForm
   attribute :url, String
   attribute :event_id, Integer
 
+  validates_presence_of :action_name
   validates_presence_of :fee
   validates_presence_of :minimum
   validates_presence_of :country

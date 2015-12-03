@@ -37,6 +37,11 @@ es:
           background: 'Fondo'
           style: 'Estilo'
           agreed_event_condition_message: 'Mensaje de la condición'
+          gtag_assignation_notification: "Notificación al asignar el Gtag"
+          gtag_form_disclaimer: "Texto formulario asignación Gtag"
+          refund_disclaimer: "Mensaje general de devolución"
+          refund_success_message: "Mensaje de éxito en la devolución"
+          mass_email_claim_notification: "Notificación general (petición de devolución)"
         edit:
           <<: *label_event
       customer:
@@ -106,14 +111,10 @@ es:
           fee: 'Comisión de devolución (en la moneda seleccionada)'
           minimum: 'Mínimo a devolver después de comisiones (en la moneda seleccionada)'
           product_id: "Producto"
-          refund_success_message: "Mensaje de éxito en la devolución"
-          mass_email_claim_notification: "Notificación general (petición de devolución)"
       gtag_settings_form:
         edit:
           format: "Formato"
           name: "Nombre"
-          gtag_assignation_notification: "Notificación al asignar el Gtag"
-          gtag_form_disclaimer: "Texto formulario asignación Gtag"
       redsys_payment_settings_form:
         edit:
           name: 'Nombre'
@@ -137,8 +138,6 @@ es:
           merchant: "Comercio"
           url: "Url"
           product_id: "Producto"
-          refund_success_message: "Mensaje de éxito en la devolución"
-          mass_email_claim_notification: "Notificación general (petición de devolución)"
       epg_claim_form:
         new:
           country_code: "País"

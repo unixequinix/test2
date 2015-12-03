@@ -7,6 +7,7 @@
     = f.input :refund_disclaimer, as: :text, input_html: { rows: 15, class: "textarea" }
     = f.input :refund_success_message, as: :text, input_html: { rows: 15, class: "textarea" }
     = f.input :mass_email_claim_notification, as: :text, input_html: { rows: 15, class: "textarea" }
+    = f.input :event_id, as: :hidden, input_html: { value: @event.id }
 
   .wrapper-negative-space
     = f.button :submit, t('admin.actions.update'), class: "btn btn-primary"

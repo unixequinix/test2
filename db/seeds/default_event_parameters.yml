@@ -38,6 +38,9 @@
       name: epg
       values:
         -
+          name: action_name
+          value: "Epg"
+        -
           name: fee
           value: 0.0
         -
@@ -71,14 +74,23 @@
       name: bank_account
       values:
         -
+          name: action_name
+          value: "Bank Account"
+        -
           name: fee
           value: 0.0
         -
           name: minimum
           value: 0.0
+        -
+          name: validate_sepa
+          value: true
     -
       name: tipalti
       values:
+        -
+          name: action_name
+          value: "Tipalti"
         -
           name: fee
           value: 0.0
@@ -89,8 +101,8 @@
           name: payer
           value: Glownet
         -
-          name: idap
-          value: payeeToOpenHere
+          name: secret_key
+          value: n6RwV8g/lM7IP51GWqOmcsTmJ9YSu4YpteoYHuXPmymjB1oaIimAC6lm3EUWxBoT
         -
           name: url
           value: https://ui.sandbox.tipalti.com/Payees/PayeeDashboard.aspx

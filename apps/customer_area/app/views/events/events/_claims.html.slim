@@ -16,4 +16,6 @@
   .dashboard-field.dashboard-field-action
     h3 = presenter.call_to_action
     - if presenter.refundable? && !presenter.completed_claim?
-      = link_to t('dashboard.without_refunds.button'), send("new_event_#{presenter.refund_service}_claim_path", current_event), class: "btn btn-dashboard"
+      - presenter.refund_services.each do |refund_service|
+        = link_to presenter.action_name(refund_service), send("new_event_#{refund_service}_claim_path", current_event), class: "btn"
+p = presenter.refund_disclaimer

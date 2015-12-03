@@ -2,19 +2,19 @@ class TipaltiRefundSettingsForm
   include ActiveModel::Model
   include Virtus.model
 
+  attribute :action_name, String
   attribute :fee, Decimal
   attribute :minimum, Decimal
   attribute :event_id, Integer
   attribute :payer, String
-  attribute :idap, String
   attribute :secret_key, String
   attribute :url, String
 
+  validates_presence_of :action_name
   validates_presence_of :fee
   validates_presence_of :minimum
   validates_presence_of :event_id
   validates_presence_of :payer
-  validates_presence_of :idap
   validates_presence_of :secret_key
   validates_presence_of :url
 

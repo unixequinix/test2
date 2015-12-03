@@ -30,6 +30,9 @@ it:
       background: 'Background'
       style: 'Style'
       features: 'Enabled Features'
+      fee: 'Fee'
+      minimum: 'Minimum'
+      refund_disclaimer: "Refund disclaimer"
       refund_success_message: "Refund success message (Click to check)"
       mass_email_claim_notification: "Mass email claim notification"
       gtag_assignation_notification: "Gtag  assignation notification"
@@ -96,6 +99,14 @@ it:
       bank_account:
         fee: 'Refund Fee (in currency)'
         minimum: 'After-Fee Refund Minimum (in currency)'
+      tipalti:
+        fee: 'Refund Fee (in currency)'
+        minimum: 'After-Fee Refund Minimum (in currency)'
+        country: 'Country'
+        payer: 'Payer'
+        idap: 'Idap'
+        secret_key: 'Secret key'
+        url: 'URL'
     defaults:
       actions: "Actions"
       home: "Home"
