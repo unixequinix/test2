@@ -14,12 +14,6 @@
       name: redsys
       parameters:
         -
-          name: fee
-          data_type: currency
-        -
-          name: minimum
-          data_type: currency
-        -
           name: name
           data_type: string
         -

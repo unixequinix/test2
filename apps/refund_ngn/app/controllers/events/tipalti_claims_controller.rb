@@ -1,7 +1,7 @@
 class Events::TipaltiClaimsController < Events::ClaimsController
 
   def new
-    @claim = generate_claim(Claim::TIPALTI)
+    @claim = generate_claim
     @url = TipaltiCheckout.new(@claim).url
   end
 
@@ -12,9 +12,9 @@ class Events::TipaltiClaimsController < Events::ClaimsController
       @claim.start_claim!
       # TODO Remove hardcoded message text
       if RefundService.new(@claim, current_event).create(params = {
-          amount: @claim.gtag.refundable_amount_after_fee,
+          amount: @claim.gtag.refundable_amount_after_fee(service_type),
           currency: I18n.t('currency_symbol'),
-          message: 'Created manual bank account refund',
+          message: 'Created tipalti account refund',
           payment_solution: 'manual',
           status: 'PENDING'
         })
@@ -31,6 +31,10 @@ class Events::TipaltiClaimsController < Events::ClaimsController
 
   def permitted_params
     params.require(:bank_account_claim_form).permit(:iban, :swift, :claim_id, :agreed_on_claim)
+  end
+
+  def service_type
+    Claim::TIPALTI
   end
 
 end

@@ -85,7 +85,7 @@ en:
       button: "Claim your credits"
     not_refundable:
       title: "Your credits:"
-      call_to_action: "We are sorry, but you don't have enough credits to be refunded as the refund fee is %{fee} %{currency_symbol} and the minimum refundable is %{minimum} %{currency_symbol}"
+      call_to_action: "We are sorry, but you don't have enough credits to be refunded"
     refunds:
       title: "Your credits:"
       call_to_action: "Refund successfully claimed, soon you will receive your transfer"

@@ -1,7 +1,8 @@
 class BasePresenter
-  attr_accessor :customer_event_profile, :gtag_registration, :refund, :event, :admissions
+  attr_accessor :context, :customer_event_profile, :gtag_registration, :refund, :event, :admissions
 
-  def initialize(dashboard)
+  def initialize(dashboard, context)
+    @context = context
     @customer_event_profile = dashboard.customer_event_profile
     @event = dashboard.event
     @admissions = dashboard.admissions

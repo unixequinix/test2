@@ -1,4 +1,5 @@
 class ClaimsPresenter < BasePresenter
+
   def can_render?
     @event.refunds?
   end
@@ -25,9 +26,12 @@ class ClaimsPresenter < BasePresenter
     @event.get_parameter('refund', refund_service, 'action_name')
   end
 
-  def refundable?
-    # @gtag_registration.gtag.refundable?
-    true
+  def refundable?(refund_service)
+    @gtag_registration.gtag.refundable?(refund_service)
+  end
+
+  def any_refundable_method?
+    @gtag_registration.gtag.any_refundable_method?
   end
 
   def gtag_credit_amount
@@ -35,10 +39,30 @@ class ClaimsPresenter < BasePresenter
   end
 
   def call_to_action
-    if refundable?
+    if any_refundable_method?
       completed_claim? ? I18n.t('dashboard.refunds.call_to_action') : I18n.t('dashboard.without_refunds.call_to_action')
     else
-      I18n.t('dashboard.not_refundable.call_to_action', fee: @event.refund_fee, minimum: @event.refund_minimun, currency_symbol: I18n.t('currency_symbol'))
+      I18n.t('dashboard.not_refundable.call_to_action')
     end
+  end
+
+  def refund_actions
+    actions = ""
+    if any_refundable_method? && !completed_claim?
+      refund_services.each do |refund_service|
+        not_refundable = !refundable?(refund_service)
+        class_definition = "btn btn-refund-method"
+        class_definition << " btn-blocked" if not_refundable
+        actions <<
+          (not_refundable ?
+            context.content_tag("a", action_name(refund_service),
+              class: class_definition,
+              disabled: not_refundable) :
+            context.link_to(action_name(refund_service),
+              context.send("new_event_#{refund_service}_claim_path", @event),
+              class: class_definition))
+      end
+    end
+    return actions
   end
 end

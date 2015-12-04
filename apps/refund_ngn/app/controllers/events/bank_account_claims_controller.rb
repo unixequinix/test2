@@ -2,7 +2,7 @@ class Events::BankAccountClaimsController < Events::ClaimsController
 
   def new
     @bank_account_claim_form = BankAccountClaimForm.new
-    generate_claim(Claim::BANK_ACCOUNT)
+    @claim = generate_claim
   end
 
   def create
@@ -12,7 +12,7 @@ class Events::BankAccountClaimsController < Events::ClaimsController
       @claim.start_claim!
       # TODO Remove hardcoded message text
       if RefundService.new(@claim, current_event).create(params = {
-          amount: @claim.gtag.refundable_amount_after_fee,
+          amount: @claim.gtag.refundable_amount_after_fee(service_type),
           currency: I18n.t('currency_symbol'),
           message: 'Created manual bank account refund',
           payment_solution: 'manual',
@@ -31,6 +31,10 @@ class Events::BankAccountClaimsController < Events::ClaimsController
 
   def permitted_params
     params.require(:bank_account_claim_form).permit(:iban, :swift, :claim_id, :agreed_on_claim)
+  end
+
+  def service_type
+    Claim::BANK_ACCOUNT
   end
 
 end
