@@ -15,7 +15,7 @@ en:
           order_number: 'Your order'
           greet: 'Hello %{name}!'
           date: 'Purchase date'
-          description: 'All your purchased Online Credits will automatically be applied to your %{gtag} once you enter the festival. Your Festival %{gtag} is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.'
+          description: 'All your purchased Online Credits will automatically be applied to your %{gtag} once you enter the event. Your Event %{gtag} is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.'
           success: 'Your order has been received. You can find details below:'
           thanks: 'Thank you for your purchase.'
       claim:

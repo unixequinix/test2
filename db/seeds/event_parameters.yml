@@ -40,12 +40,57 @@
         -
           name: form
           data_type: string
+    -
+      name: stripe
+      parameters:
+        -
+          name: email
+          data_type: string
+        -
+          name: country
+          data_type: string
+        -
+          name: currency
+          data_type: string
+        -
+          name: stripe_account_id
+          data_type: string
+        -
+          name: account_secret_key
+          data_type: string
+        -
+          name: account_publishable_key
+          data_type: string
+        -
+          name: bank_account
+          data_type: string
+        -
+          name: legal_first_name
+          data_type: string
+        -
+          name: legal_last_name
+          data_type: string
+        -
+          name: legal_dob
+          data_type: string
+        -
+          name: legal_type
+          data_type: string
+        -
+          name: tos_acceptance_date
+          data_type: string
+        -
+          name: tos_acceptance_ip
+          data_type: string
 -
   name: refund
   groups:
     -
       name: epg
       parameters:
+        -
+          name: action_name
+          data_type: string
         -
           name: fee
           data_type: currency
@@ -80,8 +125,35 @@
       name: bank_account
       parameters:
         -
+          name: action_name
+          data_type: string
+        -
           name: fee
           data_type: currency
         -
           name: minimum
           data_type: currency
+        -
+          name: validate_sepa
+          data_type: boolean
+    -
+      name: tipalti
+      parameters:
+        -
+          name: action_name
+          data_type: string
+        -
+          name: fee
+          data_type: currency
+        -
+          name: minimum
+          data_type: currency
+        -
+          name: payer
+          data_type: string
+        -
+          name: secret_key
+          data_type: string
+        -
+          name: url
+          data_type: string

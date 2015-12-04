@@ -1,0 +1,13 @@
+td data-label=t("admin.customers.email") = link_to customer.email, admins_event_customer_path(current_event, customer), class: (customer.deleted? ? "deleted-field" : "")
+td data-label=t("admin.customers.name") = customer.name
+td data-label=t("admin.customers.surname") = customer.surname
+td data-label=t("admin.customers.confirmation_sent_at") = customer.confirmation_sent_at.strftime("%y-%m-%d %H:%M:%S") unless customer.confirmation_sent_at.nil?
+- if customer.customer_event_profile
+  = render 'admins/events/customers/customer_event_profile_data_in_row', customer: customer
+- else
+  td
+  td
+  td
+  td
+td.table-actions-field
+  = render 'admins/events/customers/actions', customer: customer

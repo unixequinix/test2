@@ -5,6 +5,41 @@ GIT
     i18n-globals (0.0.1)
       i18n
 
+PATH
+  remote: apps/administration
+  specs:
+    administration (0.0.1)
+      rails (~> 4.2.1)
+
+PATH
+  remote: apps/api
+  specs:
+    api (0.0.1)
+      rails (~> 4.2.1)
+
+PATH
+  remote: apps/core
+  specs:
+    core (0.0.1)
+
+PATH
+  remote: apps/customer_area
+  specs:
+    customer_area (0.0.1)
+      rails (~> 4.2.1)
+
+PATH
+  remote: apps/payment_ngn
+  specs:
+    payment_ngn (0.0.1)
+      rails (~> 4.2.1)
+
+PATH
+  remote: apps/refund_ngn
+  specs:
+    refund_ngn (0.0.1)
+      rails (~> 4.2.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -48,6 +83,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    addressable (2.3.8)
     annotate (2.6.8)
       activerecord (>= 3.2, <= 4.3)
       rake (~> 10.4)
@@ -109,6 +145,8 @@ GEM
       xpath (~> 2.0)
     celluloid (0.16.0)
       timers (~> 4.0.0)
+    childprocess (0.5.7)
+      ffi (~> 1.0, >= 1.0.11)
     choice (0.1.7)
     chronic (0.10.2)
     climate_control (0.0.3)
@@ -127,6 +165,7 @@ GEM
     coffee-script-source (1.9.1.1)
     colorize (0.7.5)
     columnize (0.9.0)
+    concurrent-ruby (1.0.0)
     connection_pool (2.2.0)
     countries (0.11.4)
       currencies (~> 0.4.2)
@@ -140,19 +179,13 @@ GEM
     debug_inspector (0.0.2)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
-    devise (3.4.1)
-      bcrypt (~> 3.0)
-      orm_adapter (~> 0.1)
-      railties (>= 3.2.6, < 5)
-      responders
-      thread_safe (~> 0.1)
-      warden (~> 1.2.3)
-    devise-i18n (0.12.0)
     diff-lcs (1.2.5)
-    disposable (0.0.9)
-      representable (~> 2.0)
+    disposable (0.1.14)
+      representable (>= 2.2.3, < 3.0.0)
       uber
     docile (1.1.5)
+    domain_name (0.5.25)
+      unf (>= 0.0.5, < 1.0.0)
     equalizer (0.0.11)
     erubis (2.7.0)
     execjs (2.5.2)
@@ -163,7 +196,7 @@ GEM
       railties (>= 3.0.0)
     faker (1.4.3)
       i18n (~> 0.5)
-    ffi (1.9.8)
+    ffi (1.9.10)
     flag_shih_tzu (0.3.13)
     font-awesome-rails (4.3.0.0)
       railties (>= 3.2, < 5.0)
@@ -194,7 +227,9 @@ GEM
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
     hirb (0.7.3)
-    hitimes (1.2.2)
+    hitimes (1.2.3)
+    http-cookie (1.0.2)
+      domain_name (~> 0.5)
     i18n (0.7.0)
     i18n_data (0.7.0)
     iban-tools (1.0.0)
@@ -213,11 +248,13 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (4.2.0)
       railties (>= 3.2.16)
-    json (1.8.2)
+    json (1.8.3)
     kaminari (0.16.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
     key_struct (0.4.2)
+    launchy (2.4.3)
+      addressable (~> 2.3)
     libv8 (3.16.14.11)
     listen (2.10.0)
       celluloid (~> 0.16.0)
@@ -241,7 +278,7 @@ GEM
     modware (0.1.2)
       its-it
       key_struct (~> 0.4)
-    multi_json (1.11.0)
+    multi_json (1.11.2)
     neat (1.7.2)
       bourbon (>= 4.0)
       sass (>= 3.3)
@@ -249,6 +286,7 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
+    netrc (0.11.0)
     newrelic_rpm (3.12.0.288)
     nilify_blanks (1.2.1)
       activerecord (>= 3.0.0)
@@ -258,7 +296,6 @@ GEM
     notiffany (0.0.6)
       nenv (~> 0.1)
       shellany (~> 0.0)
-    orm_adapter (0.5.0)
     paperclip (4.2.2)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -336,21 +373,17 @@ GEM
       ffi (>= 0.5.0)
     rdoc (4.2.0)
       json (~> 1.4)
-    redis (3.2.1)
-    redis-namespace (1.5.2)
-      redis (~> 3.0, >= 3.0.4)
+    redis (3.2.2)
     ref (2.0.0)
-    reform (1.2.6)
-      activemodel
-      disposable (~> 0.0.5)
-      representable (~> 2.1.0)
+    reform (2.0.5)
+      disposable (~> 0.1.11)
       uber (~> 0.0.11)
-    representable (2.1.8)
-      multi_json
-      nokogiri
+    representable (2.3.0)
       uber (~> 0.0.7)
-    responders (2.1.0)
-      railties (>= 4.2.0, < 5)
+    rest-client (1.8.0)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 3.0)
+      netrc (~> 0.7)
     roo (2.0.0beta1)
       nokogiri (~> 1)
       rubyzip (~> 1.1, < 2.0.0)
@@ -440,15 +473,19 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    selenium-webdriver (2.47.1)
+      childprocess (~> 0.5)
+      multi_json (~> 1.0)
+      rubyzip (~> 1.0)
+      websocket (~> 1.0)
     shellany (0.0.1)
     shoulda-matchers (2.8.0)
       activesupport (>= 3.0.0)
-    sidekiq (3.4.1)
-      celluloid (~> 0.16.0)
-      connection_pool (>= 2.1.1)
-      json
-      redis (>= 3.0.6)
-      redis-namespace (>= 1.3.1)
+    sidekiq (4.0.1)
+      concurrent-ruby (~> 1.0)
+      connection_pool (~> 2.2, >= 2.2.0)
+      json (~> 1.0)
+      redis (~> 3.2, >= 3.2.1)
     simple_form (3.1.0)
       actionpack (~> 4.0)
       activemodel (~> 4.0)
@@ -480,6 +517,9 @@ GEM
       colorize (>= 0.7.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    stripe (1.31.0)
+      json (~> 1.8.1)
+      rest-client (~> 1.4)
     temple (0.7.5)
     therubyracer (0.12.2)
       libv8 (~> 3.16.14.0)
@@ -487,16 +527,19 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (1.4.1)
-    timers (4.0.1)
+    timers (4.0.4)
       hitimes
     turbolinks (2.5.3)
       coffee-rails
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    uber (0.0.13)
+    uber (0.0.15)
     uglifier (2.7.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.1)
     unicode_utils (1.4.0)
     uniform_notifier (1.8.0)
     valuable (0.9.9)
@@ -507,6 +550,7 @@ GEM
       equalizer (~> 0.0, >= 0.0.9)
     warden (1.2.3)
       rack (>= 1.0)
+    websocket (1.2.2)
     whenever (0.9.4)
       chronic (>= 0.6.3)
     xpath (2.0.0)
@@ -519,9 +563,12 @@ DEPENDENCIES
   aasm (~> 4.1.0)
   active_model_serializers (~> 0.9.3)
   activerecord-import (~> 0.8.0)
+  administration!
   annotate (~> 2.6.8)
+  api!
   aws-sdk (~> 2)
   aws-sdk-v1
+  bcrypt (~> 3.1.10)
   better_errors (~> 2.1.1)
   binding_of_caller (~> 0.7.2)
   bourbon (~> 4.2.2)
@@ -533,11 +580,11 @@ DEPENDENCIES
   capistrano-rbenv (~> 2.0.3)
   capistrano-sidekiq (~> 0.5.3)
   capybara (~> 2.4.4)
+  core!
   country_select (~> 2.2.0)
+  customer_area!
   dalli (~> 2.7.4)
   database_cleaner (~> 1.4.1)
-  devise (~> 3.4.1)
-  devise-i18n (~> 0.12.0)
   factory_girl_rails (~> 4.5.0)
   faker (~> 1.4.3)
   flag_shih_tzu (~> 0.3.13)
@@ -555,6 +602,7 @@ DEPENDENCIES
   jquery-rails (~> 4.0.3)
   jquery-ui-rails (~> 4.2.0)
   kaminari (~> 0.16.3)
+  launchy
   meta_request (~> 0.3.4)
   metamagic (~> 3.1.7)
   neat (~> 1.7.2)
@@ -562,6 +610,7 @@ DEPENDENCIES
   nilify_blanks (~> 1.2.1)
   paperclip (~> 4.2.2)
   paranoia (~> 2.0)
+  payment_ngn!
   pg (~> 0.18.1)
   phony_rails (~> 0.12.8)
   pry-rails (~> 0.3.4)
@@ -572,7 +621,8 @@ DEPENDENCIES
   rails-erd (~> 1.3.1)
   ransack (~> 1.6.6)
   rb-fsevent
-  reform (~> 1.2.6)
+  reform (~> 2.0.5)
+  refund_ngn!
   roo (~> 2.0.0beta1)
   rspec-rails (~> 3.2.1)
   rubocop (~> 0.30.1)
@@ -580,16 +630,19 @@ DEPENDENCIES
   sass-rails (~> 5.0.3)
   schema_plus (~> 2.0.0.pre12)
   sdoc (~> 0.4.1)
+  selenium-webdriver
   shoulda-matchers (~> 2.8.0)
-  sidekiq (~> 3.4.1)
+  sidekiq (~> 4.0.1)
   simple_form (~> 3.1.0)
   simplecov (~> 0.10.0)
   sinatra
   slim (~> 3.0.3)
   spring (~> 1.3.5)
   spring-commands-rspec (~> 1.0.4)
+  stripe
   therubyracer (~> 0.12.2)
   turbolinks (~> 2.5.3)
   uglifier (~> 2.7.1)
   virtus (~> 1.0.5)
+  warden (~> 1.2.3)
   whenever (~> 0.9.4)

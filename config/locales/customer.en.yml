@@ -5,16 +5,16 @@ en:
     cancel: "Cancel"
     edit: "Edit"
     delete: "Delete"
-    check_news: "Back to Festival Website"
+    check_news: "Back to Event Website"
     delete_account: "Delete your account"
     logout: "Logout"
   confirm:
-    remove_ticket: "Your purchased credits are assigned to your account. If you remove your ticket, you will need to assign another one to use those credits in the festival."
+    remove_ticket: "Your purchased credits are assigned to your account. If you remove your ticket, you will need to assign another one to use those credits in the event."
   header:
     edit: "Edit Profile"
     close: "Logout"
     menu: "Home"
-    home: "Festival Website"
+    home: "Event Website"
     help: "Help"
   conditions:
     action: 'I accept'
@@ -35,16 +35,17 @@ en:
       header: "Ticket %{ticket_type}"
       call_to_action: "Do you want to remove this ticket?"
       call_to_action_started: "The event just started so you cannot change the ticket"
+      success: "Ticket successfully activated!"
       button: "Remove"
     without_admissions:
-      call_to_action: "Please register ALL tickets belonging to YOU"
-      description: "Do NOT register your friend's tickets under your account."
+      call_to_action: "Only activate the ticket(s) which you will be using YOURSELF"
+      description: "Do NOT activate your friend's tickets under your account."
       button: "Activate Ticket"
     credits:
       header: "Your Online Credit Balance"
-      call_to_action: "To avoid queues, top-up your %{gtag} now for all your festival purchases"
+      call_to_action: "To avoid queues, top-up your %{gtag} now for all your event purchases"
       call_to_action_started: "The event just started so you cannot topup anymore"
-      call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Festival Ticket first"
+      call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Event Ticket first"
       button: "Top-up"
     event_refunds:
       claim: "Event hasn't finished yet"
@@ -84,22 +85,22 @@ en:
       button: "Claim your credits"
     not_refundable:
       title: "Your credits:"
-      call_to_action: "We are sorry, but you don't have enough credits to be refunded as the refund fee is %{fee} %{currency_symbol} and the minimum refundable is %{minimum} %{currency_symbol}"
+      call_to_action: "We are sorry, but you don't have enough credits to be refunded"
     refunds:
       title: "Your credits:"
       call_to_action: "Refund successfully claimed, soon you will receive your transfer"
       button: "Modify bank account"
   admissions:
     title: "Ticket Activation"
-    description: "Please enter the code that is printed on your festival ticket just below the barcode."
+    description: "Please enter the code that is printed on your event ticket just below the barcode."
     description2: "Your code should start with '4UMoB'"
-    call_to_action: "Activate your Festival Ticket!"
+    call_to_action: "Activate your Event Ticket!"
     button: "Activate"
     placeholders:
-      ticket_number: "Festival Ticket Barcode Number"
+      ticket_number: "Event Ticket Barcode Number"
   checkout:
     title: "Top-up"
-    description: "After you buy online credits here, they will automatically be applied to your %{gtag} once you enter the festival."
+    description: "After you buy online credits here, they will automatically be applied to your %{gtag} once you enter the event."
     total: "Total"
     button: "Confirm Order"
   orders:
@@ -111,8 +112,13 @@ en:
     total: "Total"
     vat: "VAT Included"
     redirect: "You will be redirected to the bank’s payment gateway."
-    button: "Pay"
+    button: "Next"
     button_iupay: "IUPAY"
+    stripe:
+      card_number: "Card number"
+      card_code_verification: "Card code verification (CCV)"
+      card_expiration_date: "Card expiration date"
+      button: "Pay"
   claims:
     title: "Confirm Refund"
     description: "Please, review your order and proceed to payment."
@@ -199,7 +205,7 @@ en:
       info: 'Please enter your correct personal details below so that we can provide you with secure and convenient service.'
       description: 'All the fields in this form are required.'
       button: 'Sign up'
-      details: "Please provide your personal details as a festival visitor. This will allow us to give you a secure and personalized service"
+      details: "Please provide your personal details as a event visitor. This will allow us to give you a secure and personalized service"
     edit:
       title: 'Edit'
       password_hint: "Leave it blank if you don't want to change it"

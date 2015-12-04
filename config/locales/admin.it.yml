@@ -17,10 +17,10 @@ it:
     event:
       name: 'Name'
       slug: 'Slug'
-      url: 'Festival url'
+      url: 'Event url'
       support_email: 'Support email'
       payment_service: 'Payment service'
-      refund_service: 'Refund service'
+      refund_service: 'Refund services'
       location: 'Location'
       start_date: 'Start date'
       end_date: 'End date'
@@ -30,6 +30,10 @@ it:
       background: 'Background'
       style: 'Style'
       features: 'Enabled Features'
+      locales: 'Enabled Languages'
+      fee: 'Fee'
+      minimum: 'Minimum'
+      refund_disclaimer: "Refund disclaimer"
       refund_success_message: "Refund success message (Click to check)"
       mass_email_claim_notification: "Mass email claim notification"
       gtag_assignation_notification: "Gtag  assignation notification"
@@ -53,15 +57,21 @@ it:
         repeat: 'Repeat'
       payment_services:
         redsys: 'Redsys'
+        stripe: 'Stripe'
       refund_services:
         bank_account: 'Bank account'
         epg: 'Easy payment gateway'
+        tipalti: 'Tipalti'
       images:
         profile: "Profile image preview"
         background: "Background image preview"
       features_options:
         top_ups: 'Credit top ups'
         refunds: 'Refunds'
+      locales_options:
+        english: "Inglese"
+        italian: "Italiano"
+        spanish: "Spagnolo"
     gtag_settings:
       form:
         format: 'Format'
@@ -95,6 +105,14 @@ it:
       bank_account:
         fee: 'Refund Fee (in currency)'
         minimum: 'After-Fee Refund Minimum (in currency)'
+      tipalti:
+        fee: 'Refund Fee (in currency)'
+        minimum: 'After-Fee Refund Minimum (in currency)'
+        country: 'Country'
+        payer: 'Payer'
+        idap: 'Idap'
+        secret_key: 'Secret key'
+        url: 'URL'
     defaults:
       actions: "Actions"
       home: "Home"
@@ -177,7 +195,7 @@ it:
       created_at: "Created at"
       admission: "Tickets registrations"
       search:
-        number: "Number"
+        number: "Ticket barcode number"
         customer: "Assigned customer email"
         purchaser_email: "Purchaser Email"
         type: "Type"
@@ -261,6 +279,7 @@ it:
       current_sign: "Current sign in"
       last_sign: "Last sign in at"
       current_sign_ip: "Current sign in ip"
+      agreed_event_condition: "Event condition agreed"
       last_sign_ip: "Last sign in ip"
       unconfirmed: "Unconfirmed email"
       transactions: "Transactions"

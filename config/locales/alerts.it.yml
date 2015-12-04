@@ -11,6 +11,7 @@ it:
     admissions:  "PayCard non riconosciuta. Se lai comprata entro le ultime 48 ore, riprova di nuovo mentre aggiorniamo il tuo acquisto. Altrimenti contatto l'uffico di supporto. Tieni in mente che solo %{companies} biglietti sono supportati per questo servizio pre-evento."
     gtag: "Questa PayCard non è valida %{gtag}"
     order_complete: 'Ordine completato'
+    order_expired: 'Ordine scaduto. Ci sono voluti più di 15 minuti'
     claim_complete: 'Richiesta completata'
     quantity_not_refundable: 'Non si può rimborsare questa quantità di crediti'
     already_assigned: 'Hanno già uno assegnato'

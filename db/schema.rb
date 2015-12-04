@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151002190845) do
+ActiveRecord::Schema.define(version: 20151126125334) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,10 +55,13 @@ ActiveRecord::Schema.define(version: 20151002190845) do
     t.string   "url"
     t.string   "background_type",         default: "fixed"
     t.integer  "features",                default: 0,                     null: false
-    t.string   "refund_service",          default: "bank_account"
     t.boolean  "gtag_registration",       default: true,                  null: false
     t.string   "payment_service",         default: "redsys"
     t.integer  "registration_parameters", default: 0,                     null: false
+    t.string   "currency",                null: false
+    t.string   "host_country",            null: false
+    t.integer  "locales",                 default: 1,                     null: false
+    t.integer  "refund_services",         default: 0,                     null: false
   end
 
   create_table "customers", force: :cascade do |t|
@@ -90,6 +93,8 @@ ActiveRecord::Schema.define(version: 20151002190845) do
     t.string   "gender"
     t.datetime "birthdate"
     t.integer  "event_id",               null: false, index: {name: "fk__customers_event_id"}, foreign_key: {references: "events", name: "customers_event_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.boolean  "agreed_event_condition", default: false
+    t.string   "remember_token",         index: {name: "index_customers_on_remember_token", unique: true}
   end
 
   create_table "customer_event_profiles", force: :cascade do |t|
@@ -223,10 +228,10 @@ ActiveRecord::Schema.define(version: 20151002190845) do
   add_index "event_parameters", ["event_id", "parameter_id"], name: "index_event_parameters_on_event_id_and_parameter_id", unique: true
 
   create_table "event_translations", force: :cascade do |t|
-    t.integer  "event_id",                      null: false, index: {name: "fk__event_translations_event_id"}, foreign_key: {references: "events", name: "fk_event_translations_event_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "locale",                        null: false, index: {name: "index_event_translations_on_locale"}
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.integer  "event_id",                       null: false, index: {name: "fk__event_translations_event_id"}, foreign_key: {references: "events", name: "fk_event_translations_event_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "locale",                         null: false, index: {name: "index_event_translations_on_locale"}
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.text     "info"
     t.text     "disclaimer"
     t.text     "refund_success_message"
@@ -234,6 +239,8 @@ ActiveRecord::Schema.define(version: 20151002190845) do
     t.text     "gtag_assignation_notification"
     t.text     "gtag_form_disclaimer"
     t.string   "gtag_name"
+    t.text     "agreed_event_condition_message"
+    t.text     "refund_disclaimer"
   end
   add_index "event_translations", ["event_id"], name: "index_event_translations_on_event_id"
 

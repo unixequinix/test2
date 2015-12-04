@@ -1,0 +1,13 @@
+- breadcrumb :admins_event_customers, current_event
+- provide :actions do
+  = link_to '#search-menu', class: 'btn btn-action btn-action-search small'  do
+    = fa_icon 'search'
+    = t('admin.actions.search')
+
+.wrapper-negative-space
+  - if @customers.empty?
+    .section-title-empty
+      = image_tag "img-empty.png"
+      p = t("admin.defaults.empty_customer")
+  - else
+    = render "admins/events/customers/list", customers: @customers

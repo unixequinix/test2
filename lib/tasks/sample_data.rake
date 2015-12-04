@@ -14,18 +14,18 @@ namespace :db do
     puts 'Creating fake data'
     puts '----------------------------------------'
     make_events
-    make_customers
     make_entitlements
     make_ticket_types
     make_tickets
     make_gtags
+    make_customers
   end
 
   def make_admins
     puts "Create admins"
     puts "----------------------------------------"
     Admin.destroy_all
-    Admin.create(email: 'admin@test.com', password: 'password')
+    Admin.create(email: 'admin@test.com', encrypted_password: BCrypt::Password.create("password"))
   end
 
   def make_events
@@ -33,29 +33,9 @@ namespace :db do
     puts "----------------------------------------"
     Event.destroy_all
     YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", "events.yml")).each do |data|
-      event = EventCreator.new(name: data['name'], location: data['location'], start_date: data['start_date'], end_date: data['end_date'], description: data['description'], support_email: data['support_email'], features: data['features'])
+      event = EventCreator.new(name: data['name'], location: data['location'], start_date: data['start_date'], end_date: data['end_date'], description: data['description'], currency: data['currency'], host_country: data['host_country'], support_email: data['support_email'], features: data['features'])
       event.save
     end
-  end
-
-  def make_customers
-    puts 'Create customers'
-    puts '----------------------------------------'
-    Customer.destroy_all
-    Customer.create(
-      email: 'customer@test.com',
-      password: 'password',
-      name: 'Alejandro',
-      surname: 'González Núñez',
-      confirmed_at: '2015-04-21 13:39:18.381529',
-      agreed_on_registration: true)
-    Customer.create(
-      email: 'customer2@test.com',
-      password: 'password',
-      name: 'Pedro',
-      surname: 'De La Rosa',
-      confirmed_at: '2015-04-21 13:39:18.381529',
-      agreed_on_registration: true)
   end
 
 
@@ -99,7 +79,7 @@ namespace :db do
   end
 
   def make_gtags
-    puts 'Create GTags'
+    puts 'Create gtags'
     puts '----------------------------------------'
     Gtag.destroy_all
     Event.all.each do |event|
@@ -108,6 +88,28 @@ namespace :db do
         gtag.save!
       end
     end
+  end
+
+  def make_customers
+    puts 'Create customers'
+    puts '----------------------------------------'
+    Customer.destroy_all
+    Customer.create(
+      email: 'customer@test.com',
+      encrypted_password: BCrypt::Password.create("password"),
+      name: 'Alejandro',
+      surname: 'González Núñez',
+      confirmed_at: '2015-04-21 13:39:18.381529',
+      agreed_on_registration: true,
+      event_id: 1)
+    Customer.create(
+      email: 'customer2@test.com',
+      encrypted_password: BCrypt::Password.create("password"),
+      name: 'Pedro',
+      surname: 'De La Rosa',
+      confirmed_at: '2015-04-21 13:39:18.381529',
+      agreed_on_registration: true,
+      event_id: 1)
   end
 
 end

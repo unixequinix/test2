@@ -1,0 +1,14 @@
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: entitlements.count, total: @entitlements_count)
+table.entitlements
+  thead
+    tr
+      th = t('admin.entitlements.name')
+      th.table-actions-field = t('admin.defauts.actions')
+  tbody
+    - entitlements.each do |entitlement|
+      tr
+        td data-label=t('admin.entitlements.name') = link_to entitlement.name, edit_admins_event_entitlement_path(current_event, entitlement)
+        td.table-actions-field
+          = render 'admins/events/entitlements/actions', entitlement: entitlement unless current_event.started?
+
+= paginate entitlements

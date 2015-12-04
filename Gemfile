@@ -1,6 +1,13 @@
+require File.dirname(__FILE__) + '/lib/boot_inquirer'
+
 source 'https://rubygems.org'
 
 gem 'rails', '4.2.1'
+
+BootInquirer.each_active_app do |app|
+  gemspec path: "apps/#{app.gem_name}"
+end
+gemspec path: "apps/core"
 
 # Database
 gem 'pg', '~> 0.18.1'
@@ -21,8 +28,8 @@ gem 'aws-sdk-v1'
 gem 'aws-sdk', '~> 2'
 
 # Authentication
-gem 'devise', '~> 3.4.1'
-gem 'devise-i18n', '~> 0.12.0'
+gem 'bcrypt', '~> 3.1.10'
+gem 'warden', '~> 1.2.3'
 
 # Design
 gem 'bourbon', '~> 4.2.2'
@@ -60,17 +67,19 @@ gem 'iso-swift', '~>0.0.2'
 gem 'country_select', '~> 2.2.0'
 gem 'phony_rails', '~> 0.12.8'
 
+# Payments Infrastructures
+gem 'stripe'
 
 # Flags
 gem 'flag_shih_tzu', '~>0.3.13'
 
 # Architectural
 gem 'virtus', '~> 1.0.5'
-gem 'reform', '~> 1.2.6'
+gem 'reform', '~> 2.0.5'
 
 # Asyncronous mailer
 gem 'sinatra', require: false
-gem 'sidekiq', '~> 3.4.1'
+gem 'sidekiq', '~> 4.0.1'
 
 # Cron tasks
 gem 'whenever', '~> 0.9.4', require: false
@@ -123,6 +132,8 @@ end
 
 group :test do
   gem 'capybara', '~> 2.4.4'
+  gem 'selenium-webdriver'
+  gem 'launchy'
   gem 'shoulda-matchers', '~> 2.8.0', require: false
   gem 'database_cleaner', '~> 1.4.1'
 end
