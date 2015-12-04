@@ -69,6 +69,15 @@ class Gtag < ActiveRecord::Base
     !self.gtag_credit_log.nil? && (refundable_amount_after_fee(refund_service) >= minimum.to_f && refundable_amount_after_fee(refund_service) >= 0)
   end
 
+  def any_refundable_method?
+    refundable = false
+    current_event = self.event
+    current_event.selected_refund_services.each do |refund_service|
+      refundable = refundable?(refund_service)
+    end
+    refundable
+  end
+
   private
 
   def upcase_gtag!

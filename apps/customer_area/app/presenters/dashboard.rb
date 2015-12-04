@@ -1,7 +1,8 @@
 class Dashboard
-  attr_accessor :customer_event_profile, :admissions, :gtag_registration, :completed_claim, :event
+  attr_accessor :context, :customer_event_profile, :admissions, :gtag_registration, :completed_claim, :event
 
-  def initialize(customer_event_profile)
+  def initialize(customer_event_profile, context)
+    @context = context
     @customer_event_profile = customer_event_profile
     @event = customer_event_profile.event
     @admissions = customer_event_profile.assigned_admissions
@@ -20,7 +21,7 @@ class Dashboard
   end
 
   def build_presenter(view)
-    @presenters << "#{view.camelize}Presenter".constantize.new(self)
+    @presenters << "#{view.camelize}Presenter".constantize.new(self, context)
   end
 
   def each_presenter

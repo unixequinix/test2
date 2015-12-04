@@ -2,7 +2,7 @@ class Events::EpgClaimsController < Events::ClaimsController
 
   def new
     @epg_claim_form = EpgClaimForm.new
-    generate_claim(Claim::EASY_PAYMENT_GATEWAY)
+    @claim = generate_claim
   end
 
   def create
@@ -22,6 +22,10 @@ class Events::EpgClaimsController < Events::ClaimsController
   def permitted_params
     params.require(:epg_claim_form).permit(:country_code, :state, :city,
       :post_code, :phone, :address, :claim_id, :agreed_on_claim)
+  end
+
+  def service_type
+    Claim::EASY_PAYMENT_GATEWAY
   end
 
 end
