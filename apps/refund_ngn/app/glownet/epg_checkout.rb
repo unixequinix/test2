@@ -49,7 +49,7 @@ class EpgCheckout
   def create_value
     valid_characters = /[^0-9A-Za-zñÑ\-,'"ªº]/
 
-    value = "amount=#{@claim.gtag.refundable_amount_after_fee}"
+    value = "amount=#{@claim.gtag.refundable_amount_after_fee(Claim::EASY_PAYMENT_GATEWAY)}"
     value += "&country=#{@epg_values[:country]}"
     value += "&language=#{I18n.locale.to_s}"
     value += "&currency=#{@epg_values[:currency]}"
