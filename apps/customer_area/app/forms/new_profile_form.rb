@@ -31,7 +31,7 @@ class NewProfileForm < Reform::Form
 
   def sync
     super
-    model.encrypted_password = BCrypt::Password.create(password)
+    model.encrypted_password = Authentication::Encryptor.digest(password)
   end
 
   def email_uniqueness

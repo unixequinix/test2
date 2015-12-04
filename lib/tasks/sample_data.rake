@@ -25,7 +25,7 @@ namespace :db do
     puts "Create admins"
     puts "----------------------------------------"
     Admin.destroy_all
-    Admin.create(email: 'admin@test.com', encrypted_password: BCrypt::Password.create("password"))
+    Admin.create(email: 'admin@test.com', encrypted_password: Authentication::Encryptor.digest("password"))
   end
 
   def make_events
@@ -96,7 +96,7 @@ namespace :db do
     Customer.destroy_all
     Customer.create(
       email: 'customer@test.com',
-      encrypted_password: BCrypt::Password.create("password"),
+      encrypted_password: Authentication::Encryptor.digest("password"),
       name: 'Alejandro',
       surname: 'González Núñez',
       confirmed_at: '2015-04-21 13:39:18.381529',
@@ -104,7 +104,7 @@ namespace :db do
       event_id: 1)
     Customer.create(
       email: 'customer2@test.com',
-      encrypted_password: BCrypt::Password.create("password"),
+      encrypted_password: Authentication::Encryptor.digest("password"),
       name: 'Pedro',
       surname: 'De La Rosa',
       confirmed_at: '2015-04-21 13:39:18.381529',

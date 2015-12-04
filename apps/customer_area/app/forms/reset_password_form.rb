@@ -20,7 +20,7 @@ class ResetPasswordForm < Reform::Form
 
   def sync
     super
-    model.encrypted_password = BCrypt::Password.create(password)
+    model.encrypted_password = Authentication::Encryptor.digest(password)
     model.reset_password_token = nil
     model.reset_password_sent_at = nil
   end

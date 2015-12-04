@@ -19,7 +19,7 @@ class CustomerLoginForm < Reform::Form
   def correct_password
     errors[:password_confirmation] <<
       I18n.t('auth.failure.invalid_current_password') if
-      BCrypt::Password.new(model.encrypted_password) != password
+      !Authentication::Encryptor.compare(model.encrypted_password, password)
   end
 
 end

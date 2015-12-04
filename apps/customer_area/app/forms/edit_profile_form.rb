@@ -31,13 +31,13 @@ class EditProfileForm < Reform::Form
   def sync
     self.password = current_password unless !self.password.empty?
     super
-    model.encrypted_password = BCrypt::Password.create(password)
+    model.encrypted_password = Authentication::Encryptor.digest(password)
   end
 
   def current_password_same_as_password
     errors[:current_password] <<
       I18n.t('auth.failure.invalid_current_password') unless
-      BCrypt::Password.new(model.encrypted_password) == current_password
+      Authentication::Encryptor.compare(model.encrypted_password, current_password)
   end
 
   def email_uniqueness

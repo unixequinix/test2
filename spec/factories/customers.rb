@@ -40,7 +40,7 @@ FactoryGirl.define do
     surname { Faker::Name.last_name }
     email { Faker::Internet.email }
     agreed_on_registration true
-    encrypted_password BCrypt::Password.create('password')
+    encrypted_password Authentication::Encryptor.digest('password')
     phone { Faker::PhoneNumber.phone_number }
     country { Faker::Address.country_code }
     gender { ["male", "female"].sample }
