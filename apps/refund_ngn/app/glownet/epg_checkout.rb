@@ -28,6 +28,7 @@ class EpgCheckout
     binding.pry
     uri = URI.parse(@epg_values[:url])
     uri.query = URI.encode_www_form(parameters)
+    binding.pry
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
