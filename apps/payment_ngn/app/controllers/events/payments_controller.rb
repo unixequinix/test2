@@ -12,13 +12,13 @@ class Events::PaymentsController < Events::BaseController
 
   def success
     @admissions = current_customer_event_profile.assigned_admissions
-    @dashboard = Dashboard.new(current_customer_event_profile)
-    @presenter = CreditsPresenter.new(@dashboard)
+    @dashboard = Dashboard.new(current_customer_event_profile, view_context)
+    @presenter = CreditsPresenter.new(@dashboard, view_context)
   end
 
   def error
     @admissions = current_customer_event_profile.assigned_admissions
-    @dashboard = Dashboard.new(current_customer_event_profile)
-    @presenter = CreditsPresenter.new(@dashboard)
+    @dashboard = Dashboard.new(current_customer_event_profile, view_context)
+    @presenter = CreditsPresenter.new(@dashboard, view_context)
   end
 end

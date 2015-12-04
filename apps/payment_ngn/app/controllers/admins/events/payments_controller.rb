@@ -3,6 +3,7 @@ class Admins::Events::PaymentsController < Admins::Events::PaymentsBaseControlle
   def index
     @q = @fetcher.payments.search(params[:q])
     @payments = @q.result(distinct: true).page(params[:page]).includes(:order)
+    @payments_count = @q.result(distinct: true).count
     respond_to do |format|
       format.html
       format.csv { send_data Csv::CsvExporter.to_csv(Payment.all) }

@@ -3,7 +3,7 @@ class Admins::Events::RefundsController < Admins::Events::RefundsBaseController
   def index
     @q = @fetcher.refunds.search(params[:q])
     @refunds = @q.result(distinct: true).page(params[:page]).includes(:claim, claim: [:customer_event_profile, customer_event_profile: :customer])
-    @refunds_count = @q.result(distinct: true)
+    @refunds_count = @q.result(distinct: true).count
     respond_to do |format|
       format.html
       format.csv { send_data Csv::CsvExporter.to_csv(Refund.selected_data(current_event.id)) }

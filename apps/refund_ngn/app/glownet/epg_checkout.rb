@@ -25,7 +25,7 @@ class EpgCheckout
       'encrypted' => encryptedValue,
       'integrityCheck' => sha256ParamsIntegrityCheck
     }
-
+    binding.pry
     uri = URI.parse(@epg_values[:url])
     uri.query = URI.encode_www_form(parameters)
     http = Net::HTTP.new(uri.host, uri.port)
@@ -33,6 +33,7 @@ class EpgCheckout
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     request = Net::HTTP::Post.new(uri.request_uri)
     response = http.request(request).body
+    binding.pry
   end
 
   private
@@ -48,7 +49,6 @@ class EpgCheckout
 
   def create_value
     valid_characters = /[^0-9A-Za-zñÑ\-,'"ªº]/
-
     value = "amount=#{@claim.gtag.refundable_amount_after_fee(Claim::EASY_PAYMENT_GATEWAY)}"
     value += "&country=#{@epg_values[:country]}"
     value += "&language=#{I18n.locale.to_s}"
