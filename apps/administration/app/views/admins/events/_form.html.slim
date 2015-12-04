@@ -13,6 +13,8 @@
           span.checkbox
             = check_box_tag t("admin.event.features_options.#{feature}"), event.flag_mapping["features"][feature], (:checked if event.flag_enabled?(feature)), id: "#{feature}-feature", class: "flag-selector", data: {"checkbox-group" => "features"}
             label.collection_check_boxes for="#{feature}-feature" = t("admin.event.features_options.#{feature}")
+    = f.input :features, as: :hidden
+
     #locales
       label
         = t("admin.event.locales")
@@ -21,9 +23,8 @@
           span.checkbox
             = check_box_tag "locales", event.flag_mapping["locales"][locale], (:checked if event.flag_enabled?(locale)), id: "#{locale}-locale", class: "flag-selector", data: {"checkbox-group" => "locales"}
             label.collection_check_boxes for="#{locale}-locale" = t("admin.event.locales_options.#{locale}")
-
-    = f.input :features, as: :hidden
     = f.input :locales, as: :hidden
+
     = f.input :gtag_registration, as: :radio_buttons
     = f.input :host_country
     = f.input :currency
