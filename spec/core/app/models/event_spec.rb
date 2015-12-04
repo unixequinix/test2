@@ -56,11 +56,27 @@ RSpec.describe Event, type: :model do
     expect(@event.total_credits.to_f).to be(29.97)
   end
 
-  it "should return the amount of money that can be refunded" do
-    expect(@event.total_refundable_money.to_f).to be(19.98)
+  it "should return the amount of money that can be refunded for epg" do
+    expect(@event.total_refundable_money(Claim::EASY_PAYMENT_GATEWAY).to_f).to be(19.98)
   end
 
-  it "should return the amount of money that can be refunded" do
-    expect(@event.total_refundable_gtags).to be(2)
+  it "should return the amount of money that can be refunded for bank account" do
+    expect(@event.total_refundable_money(Claim::BANK_ACCOUNT).to_f).to be(19.98)
+  end
+
+  it "should return the amount of money that can be refunded for tipalti" do
+    expect(@event.total_refundable_money(Claim::TIPALTI).to_f).to be(19.98)
+  end
+
+  it "should return the amount of money that can be refunded for epg" do
+    expect(@event.total_refundable_gtags(Claim::EASY_PAYMENT_GATEWAY)).to be(2)
+  end
+
+  it "should return the amount of money that can be refunded for bank account" do
+    expect(@event.total_refundable_gtags(Claim::BANK_ACCOUNT)).to be(2)
+  end
+
+  it "should return the amount of money that can be refunded for tipalti" do
+    expect(@event.total_refundable_gtags(Claim::TIPALTI)).to be(2)
   end
 end
