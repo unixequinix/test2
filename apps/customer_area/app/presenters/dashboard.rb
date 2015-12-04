@@ -8,8 +8,6 @@ class Dashboard
                                         .includes(:ticket, ticket: :ticket_type)
     @gtag_registration = customer_event_profile.assigned_gtag_registration
     @completed_claim = customer_event_profile.completed_claim
-    @fee = @event.get_parameter('refund', @event.refund_service, 'fee')
-    @minimum = @event.get_parameter('refund', @event.refund_service, 'minimum')
     @presenters = []
   end
 

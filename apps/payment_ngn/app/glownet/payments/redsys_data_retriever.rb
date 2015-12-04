@@ -1,6 +1,6 @@
 class Payments::RedsysDataRetriever
   include Rails.application.routes.url_helpers
-  attr_reader :current_event
+  attr_reader :current_event, :order
 
   def initialize(event, order)
     @current_event = event

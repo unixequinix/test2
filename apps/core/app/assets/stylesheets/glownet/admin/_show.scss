@@ -124,3 +124,24 @@
     @include min-screen($bp1) { width: auto; }
   }
 }
+
+// ------------------------------- Styles for "Refund" containers -------------------------------
+
+
+.container-refunds {
+  clear: both;
+  overflow: hidden;
+
+  .btn {
+    margin-top: modules(1);
+    color: $nuclear;
+    text-align: center;
+  }
+}
+
+.refund-title {
+
+  margin-bottom: modules(0.5) !important;
+  color: $dark_grey;
+  font-weight: bold;
+}

@@ -20,7 +20,7 @@ RSpec.describe EventCreator, type: :service do
         name: "test", location: "test",
         start_date: Date.yesterday, end_date: Date.today,
         description: "test", support_email: "test@test.com",
-        features: "ticketing")
+        currency: "GBP", host_country: "GB", features: "ticketing")
       event_creator.save
       expect(event_creator.event.id).not_to be_nil
     end

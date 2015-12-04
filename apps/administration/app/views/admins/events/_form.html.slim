@@ -8,10 +8,10 @@
     #features
       label
         = t("admin.event.features")
-      .controls
+      .controls.no-box-shadow
         - Event::FEATURES.each_with_index do |feature, index|
           span.checkbox
-            = check_box_tag t("admin.event.features_options.refunds"), event.flag_mapping["features"][feature], (:checked if event.flag_enabled?(feature)), id: "#{feature}-feature", class: "flag-selector", data: {"checkbox-group" => "features"}
+            = check_box_tag t("admin.event.features_options.#{feature}"), event.flag_mapping["features"][feature], (:checked if event.flag_enabled?(feature)), id: "#{feature}-feature", class: "flag-selector", data: {"checkbox-group" => "features"}
             label.collection_check_boxes for="#{feature}-feature" = t("admin.event.features_options.#{feature}")
     #locales
       label
@@ -28,7 +28,16 @@
     = f.input :host_country
     = f.input :currency
     = f.input :payment_service, collection: Event.payment_services_selector, include_blank: false
-    = f.input :refund_service, collection: Event.refund_services_selector, include_blank: false
+    #refund-services
+      label
+        = t("admin.event.refund_service")
+      .controls
+        - Event::REFUND_SERVICES.each_with_index do |refund_service, index|
+          span.checkbox
+            = check_box_tag t("admin.event.refund_services.#{refund_service}"), event.flag_mapping["refund_services"][refund_service], (:checked if event.flag_enabled?(refund_service)), id: "#{refund_service}-refund-service", class: "flag-selector", data: {"checkbox-group" => "refund_services"}
+            label.collection_check_boxes for="#{refund_service}-refund-service" = t("admin.event.refund_services.#{refund_service}")
+    = f.input :refund_services, as: :hidden
+
     = f.input :url, placeholder: true
     = f.input :description, as: :text, input_html: { rows: 5 }
 

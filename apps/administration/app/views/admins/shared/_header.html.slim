@@ -5,7 +5,7 @@ header
   .container-language
     - if I18n.available_locales.length > 1
       - I18n.available_locales.each_with_index do |locale, index|
-        = link_to t("event.locales.#{locale}"), change_locale_path("#{locale}"), title: t("event.locales.#{locale}"), class: "language-item #{(' selected' if session[:locale] == "#{locale}")}"
+        = link_to t("event.locales.#{locale}"), change_admins_locale_path("#{locale}"), title: t("event.locales.#{locale}"), class: "language-item #{(' selected' if session[:locale] == "#{locale}")}"
         - if (index + 1 < I18n.available_locales.length)
           span |
 

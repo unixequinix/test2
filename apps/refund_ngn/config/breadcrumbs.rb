@@ -4,6 +4,7 @@ crumb :admins_event_refund_settings do |event|
   link t("breadcrumbs.refund_settings"), admin_root_path
   parent :admins_event, event
 end
+
 ## Claims
 
 crumb :admins_event_claims do |event|

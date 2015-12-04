@@ -1,4 +1,4 @@
-= simple_form_for @refund_settings_form, url: admins_event_refund_settings_path(event_id: @event.id), method: :patch do |f|
+= simple_form_for @refund_settings_form, url: admins_event_refund_setting_path(@event, @refund_service), method: :patch do |f|
   fieldset
     h3.section-header
       = fa_icon "info-circle"
@@ -6,13 +6,6 @@
     - @parameters.each do |parameter|
       = f.input parameter.name
     = f.input :event_id, as: :hidden, input_html: { value: @event.id }
-
-  fieldset
-    h3.section-header
-      = fa_icon "file-text-o"
-      = t("admin.event.fieldests.text")
-    = f.input :refund_success_message, as: :text, input_html: { rows: 15, class: "textarea" }
-    = f.input :mass_email_claim_notification, as: :text, input_html: { rows: 15, class: "textarea" }
 
   .wrapper-negative-space
     = f.button :submit, t('admin.actions.update'), class: "btn btn-primary"

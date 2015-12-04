@@ -1,4 +1,4 @@
-class EpgCheckoutService
+class EpgCheckout
   include Rails.application.routes.url_helpers
 
   def initialize(claim, epg_claim_form)

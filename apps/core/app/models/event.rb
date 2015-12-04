@@ -33,7 +33,7 @@
 
 class Event < ActiveRecord::Base
   nilify_blanks
-  translates :info, :disclaimer, :refund_success_message, :mass_email_claim_notification, :gtag_assignation_notification, :gtag_form_disclaimer, :gtag_name, :agreed_event_condition_message, fallbacks_for_empty_translations: true
+  translates :info, :disclaimer, :refund_success_message, :mass_email_claim_notification, :refund_disclaimer, :gtag_assignation_notification, :gtag_form_disclaimer, :gtag_name, :agreed_event_condition_message, fallbacks_for_empty_translations: true
 
   #Background Types
   BACKGROUND_FIXED = 'fixed'
@@ -46,12 +46,6 @@ class Event < ActiveRecord::Base
   STRIPE = 'stripe'
 
   PAYMENT_SERVICES = [REDSYS, STRIPE]
-
-  #Refund Services
-  BANK_ACCOUNT = 'bank_account'
-  EASY_PAYMENT_GATEWAY = 'epg'
-
-  REFUND_SERVICES = [BANK_ACCOUNT, EASY_PAYMENT_GATEWAY]
 
   include FlagShihTzu
 
@@ -72,14 +66,21 @@ class Event < ActiveRecord::Base
             8 => :agreed_event_condition,
             column: 'registration_parameters'
 
-  REGISTRATION_PARAMETERS = [:phone,:address, :city, :country, :postcode, :gender, :birthdate, :agreed_event_condition]
+  REGISTRATION_PARAMETERS = [:phone, :address, :city, :country, :postcode, :gender, :birthdate, :agreed_event_condition]
 
-  has_flags 1 => :eng_lang,
+  has_flags 1 => :bank_account,
+            2 => :epg,
+            3 => :tipalti,
+            column: 'refund_services'
+
+  REFUND_SERVICES = [:bank_account, :epg, :tipalti]
+
+  has_flags 1 => :en_lang,
             2 => :es_lang,
             3 => :it_lang,
             column: 'locales'
 
-  LOCALES = [:eng_lang, :es_lang, :it_lang]
+  LOCALES = [:en_lang, :es_lang, :it_lang]
 
   # Associations
   has_many :customer_event_profiles
@@ -155,15 +156,15 @@ class Event < ActiveRecord::Base
   # -------------------------------------------------------
 
   def self.background_types_selector
-    BACKGROUND_TYPES.map { |f| [I18n.t('admin.event.background_types.' + f), f] }
+    BACKGROUND_TYPES.map { |f| [I18n.t('admin.event.background_types.' + f.to_s), f] }
   end
 
   def self.payment_services_selector
-    PAYMENT_SERVICES.map { |f| [I18n.t('admin.event.payment_services.' + f), f] }
+    PAYMENT_SERVICES.map { |f| [I18n.t('admin.event.payment_services.' + f.to_s), f] }
   end
 
   def self.refund_services_selector
-    REFUND_SERVICES.map { |f| [I18n.t('admin.event.refund_services.' + f), f] }
+    REFUND_SERVICES.map { |f| [I18n.t('admin.event.refund_services.' + f.to_s), f] }
   end
 
 
@@ -179,23 +180,26 @@ class Event < ActiveRecord::Base
     self.gtags.joins(:gtag_credit_log).sum(:amount)
   end
 
-  def total_refundable_money
-    fee = refund_fee
+  def total_refundable_money(refund_service)
+    fee = refund_fee(refund_service)
+    minimun = refund_minimun(refund_service)
     standard_price = standard_credit_price
     self.gtag_registrations
       .joins(:gtag, gtag: :gtag_credit_log)
       .where(aasm_state: :assigned)
-      .where("((amount * #{standard_price}) - #{fee}) >= #{refund_minimun}")
+      .where("((amount * #{standard_price}) - #{fee}) >= #{minimun}")
       .where("((amount * #{standard_price}) - #{fee}) > 0")
       .sum("(amount * #{standard_price}) - #{fee}")
   end
 
-  def total_refundable_gtags
+  def total_refundable_gtags(refund_service)
+    fee = refund_fee(refund_service)
+    minimun = refund_minimun(refund_service)
     self.gtag_registrations
       .joins(:gtag, gtag: :gtag_credit_log)
       .where(aasm_state: :assigned)
-      .where("((amount * #{standard_credit_price}) - #{refund_fee}) >= #{refund_minimun}")
-      .where("((amount * #{standard_credit_price}) - #{refund_fee}) > 0")
+      .where("((amount * #{standard_credit_price}) - #{fee}) >= #{minimun}")
+      .where("((amount * #{standard_credit_price}) - #{fee}) > 0")
       .count
   end
 
@@ -205,7 +209,7 @@ class Event < ActiveRecord::Base
   end
 
   def selected_locales_formated
-    selected_locales.map { |key| key.to_s.tr("_lang", "") }
+    selected_locales.map { |key| key.to_s.gsub("_lang", "") }
   end
 
   def to_hash_parameters # method for testing
@@ -229,7 +233,7 @@ class Event < ActiveRecord::Base
     url: url,
     background_type: background_type,
     features: features,
-    refund_service: refund_service,
+    refund_services: refund_services,
     gtag_registration: gtag_registration,
     payment_service: payment_service,
     host_country: host_country,
@@ -238,15 +242,12 @@ class Event < ActiveRecord::Base
     registration_parameters: registration_parameters}
   end
 
-
-  private
-
-  def refund_fee
-    get_parameter('refund', self.refund_service, 'fee')
+  def refund_fee(refund_service)
+    get_parameter('refund', refund_service, 'fee')
   end
 
-  def refund_minimun
-    get_parameter('refund', self.refund_service, 'minimum')
+  def refund_minimun(refund_service)
+    get_parameter('refund', refund_service, 'minimum')
   end
 
 end

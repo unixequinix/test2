@@ -19,6 +19,6 @@ footer
       - if locales.length >= 1
         - locales.each_with_index do |locale, index|
           li
-            = link_to t("event.locales.#{locale}"), change_locale_path("#{locale}"), title: t("event.locales.#{locale}"), class: "language-item #{(' selected' if session[:locale] == "#{locale}")}"
+            = link_to t("event.locales.#{locale}"), change_event_locale_path(current_event, "#{locale}"), title: t("event.locales.#{locale}"), class: "language-item #{(' selected' if session[:locale] == "#{locale}")}"
           - if (index + 1 < current_event.selected_locales.length)
             li.footer-separator

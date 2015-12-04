@@ -11,7 +11,7 @@ class Events::EpgClaimsController < Events::ClaimsController
     if @epg_claim_form.save
       flash[:notice] = I18n.t('alerts.created')
       @claim.start_claim!
-      redirect_to EpgCheckoutService.new(@claim, @epg_claim_form).url
+      redirect_to EpgCheckout.new(@claim, @epg_claim_form).url
     else
       render :new
     end

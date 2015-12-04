@@ -11,7 +11,6 @@ class Events::SessionsController < Events::BaseController
     if customer_signed_in?
       redirect_to customer_root_path(current_event)
     end
-    reset_session
   end
 
   def create

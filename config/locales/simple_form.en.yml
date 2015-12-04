@@ -41,6 +41,9 @@ en:
           background: 'background'
           style: 'Style'
           agreed_event_condition_message: 'Condition message'
+          refund_disclaimer: "Refund disclaimer"
+          refund_success_message: "Refund success message"
+          mass_email_claim_notification: "Mass email claim notification"
         edit:
           <<: *label_event
       customer:
@@ -110,8 +113,6 @@ en:
           fee: 'Refund Fee (in currency)'
           minimum: 'After-Fee Refund Minimum (in currency)'
           product_id: "Product"
-          refund_success_message: "Refund success message"
-          mass_email_claim_notification: "Mass email claim notification"
       gtag_settings_form:
         edit:
           format: "Format"
@@ -141,8 +142,6 @@ en:
           merchant: "Merchant"
           url: "Url"
           product_id: "Product"
-          refund_success_message: "Refund success message"
-          mass_email_claim_notification: "Mass email claim notification"
       epg_claim_form:
         new:
           country_code: "Country"

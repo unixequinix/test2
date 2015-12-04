@@ -2,6 +2,11 @@ Rails.application.routes.draw do
 
   scope module: 'events' do
     resources :events, only: [:show], path: '/' do
+      resources :locale do
+        member do
+          get 'change'
+        end
+      end
       get "signin", to: "registrations#new"
       get "login", to: "sessions#new"
       delete "logout", to: "sessions#destroy"

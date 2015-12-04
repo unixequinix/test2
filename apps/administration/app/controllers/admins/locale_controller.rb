@@ -1,10 +1,9 @@
-class LocaleController < ApplicationController
+class Admins::LocaleController < Admins::BaseController
   skip_before_action :fetch_current_event
 
   # Change the locale in the session
   def change
     session[:locale] = params[:id]
-    redirect_to :back
+    redirect_to(admins_events_path)
   end
-
 end

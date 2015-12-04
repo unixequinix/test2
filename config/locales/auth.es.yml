@@ -53,8 +53,9 @@ es:
       unlocked: "Tu cuenta ha sido desbloqueda exitosamente. Por favor inicia sesión para continuar."
   errors:
     messages:
-      unauthorized: "Email o contraseña incorrecta."
+      unauthorized: "Credenciales inválidos"
       already_confirmed: "Ya ha sido confirmado, por favor prueba iniciar sesión."
+      unconfirmed: "Debes confirmar tu dirección de correo para continuar."
       confirmation_period_expired: "Necesita ser confirmada dentro de %{period}, por favor solicita uno nuevo."
       expired: "ha expirado, por favor solicita uno nuevo."
       not_found: "no encontrado"

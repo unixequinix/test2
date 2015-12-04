@@ -57,16 +57,16 @@ class Gtag < ActiveRecord::Base
     credit_amount * standard_credit_price
   end
 
-  def refundable_amount_after_fee
+  def refundable_amount_after_fee(refund_service)
     current_event = self.event
-    fee = current_event.get_parameter('refund', current_event.refund_service, 'fee')
+    fee = current_event.refund_fee(refund_service)
     refundable_amount - fee.to_f
   end
 
-  def refundable?
+  def refundable?(refund_service)
     current_event = self.event
-    minimum = current_event.get_parameter('refund', current_event.refund_service, 'minimum')
-    !self.gtag_credit_log.nil? && (refundable_amount_after_fee >= minimum.to_f && refundable_amount_after_fee >= 0)
+    minimum = current_event.refund_minimun(refund_service)
+    !self.gtag_credit_log.nil? && (refundable_amount_after_fee(refund_service) >= minimum.to_f && refundable_amount_after_fee(refund_service) >= 0)
   end
 
   private

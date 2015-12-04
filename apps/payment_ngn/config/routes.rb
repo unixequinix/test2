@@ -25,18 +25,15 @@ Rails.application.routes.draw do
           end
         end
         resource :payment_settings, only: [:show, :new, :create, :edit, :update]
-        resource :refund_settings, only: [:show, :edit, :update] do
-          member do
-            post :notify_customers
-          end
-        end
       end
     end
   end
   scope module: 'events' do
     resources :events, only: [:show], path: '/' do
       resources :orders, only: [:show, :update] do
-        resources :payments, only: [:new,:create] do
+        # TODO Check security in this action
+        # resources :payments, only: [:create], constraints: lambda{|request|request.env['HTTP_X_REAL_IP'].match(Rails.application.secrets.merchant_ip)}
+        resources :payments, only: [:new, :create] do
           collection do
             get 'success'
             get 'error'

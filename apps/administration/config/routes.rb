@@ -2,10 +2,14 @@ require "admin_constraints"
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-
   ## Resources
   ## ------------------------------
   namespace :admins do
+    resources :locale do
+      member do
+        get 'change'
+      end
+    end
     resources :admins, except: :show do
       collection do
         resource :sessions, only: [:new, :create, :destroy]

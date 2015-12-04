@@ -20,7 +20,7 @@ it:
       url: 'Event url'
       support_email: 'Support email'
       payment_service: 'Payment service'
-      refund_service: 'Refund service'
+      refund_service: 'Refund services'
       location: 'Location'
       start_date: 'Start date'
       end_date: 'End date'
@@ -31,6 +31,9 @@ it:
       style: 'Style'
       features: 'Enabled Features'
       locales: 'Enabled Languages'
+      fee: 'Fee'
+      minimum: 'Minimum'
+      refund_disclaimer: "Refund disclaimer"
       refund_success_message: "Refund success message (Click to check)"
       mass_email_claim_notification: "Mass email claim notification"
       gtag_assignation_notification: "Gtag  assignation notification"
@@ -58,6 +61,7 @@ it:
       refund_services:
         bank_account: 'Bank account'
         epg: 'Easy payment gateway'
+        tipalti: 'Tipalti'
       images:
         profile: "Profile image preview"
         background: "Background image preview"
@@ -101,6 +105,14 @@ it:
       bank_account:
         fee: 'Refund Fee (in currency)'
         minimum: 'After-Fee Refund Minimum (in currency)'
+      tipalti:
+        fee: 'Refund Fee (in currency)'
+        minimum: 'After-Fee Refund Minimum (in currency)'
+        country: 'Country'
+        payer: 'Payer'
+        idap: 'Idap'
+        secret_key: 'Secret key'
+        url: 'URL'
     defaults:
       actions: "Actions"
       home: "Home"

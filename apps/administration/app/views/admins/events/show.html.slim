@@ -24,7 +24,9 @@
         - Event::FEATURES.each_with_index do |feature, index|
           = (index > 0 ? ", #{t("admin.event.features_options.#{feature}")}" : t("admin.event.features_options.#{feature}")) if @event.flag_enabled?(feature)
       dt = t("admin.event.refund_service")
-      dd = t("admin.event.refund_services.#{@event.refund_service}") unless @event.refund_service.nil?
+      dd
+        - Event::REFUND_SERVICES.each_with_index do |refund_service, index|
+          = (index > 0 ? ", #{t("admin.event.refund_services.#{refund_service}")}" : t("admin.event.refund_services.#{refund_service}")) if @event.flag_enabled?(refund_service)
       dt = t("admin.event.location")
       dd = @event.location
       dt = t("admin.event.start_date")

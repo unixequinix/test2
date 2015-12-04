@@ -13,7 +13,7 @@ class UnauthorizedController < ActionController::Metal
 
   def respond
     unless request.get?
-      message = warden_options.fetch(:message, "errors.messages.unauthorized")
+      message = env['warden'].message[:message]
       flash.alert = I18n.t(message)
     end
 

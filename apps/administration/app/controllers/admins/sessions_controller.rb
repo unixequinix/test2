@@ -3,9 +3,6 @@ class Admins::SessionsController < Admins::BaseController
   skip_before_filter :authenticate_admin!, only: [:new, :create]
 
   def new
-    @sign_up = params[:sign_up]
-    @confirmed = params[:confirmed]
-    @password_sent = params[:password_sent]
     @admin = Admin.new
   end
 
