@@ -4,10 +4,6 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.2.1'
 
-BootInquirer.each_active_app do |app|
-  gemspec path: "apps/#{app.gem_name}"
-end
-gemspec path: "apps/core"
 
 # Database
 gem 'pg', '~> 0.18.1'
@@ -143,3 +139,9 @@ group :production, :staging, :demo, :refunds do
   gem 'dalli', '~> 2.7.4' # Memcached
   gem 'newrelic_rpm', '~> 3.12.0.288'
 end
+
+
+BootInquirer.each_active_app do |app|
+  gemspec path: "apps/#{app.gem_name}"
+end
+gemspec path: "apps/core"

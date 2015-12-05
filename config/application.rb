@@ -22,8 +22,6 @@ module GlownetWeb
     config.autoload_paths +=
     %W(#{config.root}/app/glownet
        #{config.root}/app/presenters
-       #{config.root}/apps/payment_ngn
-       #{config.root}/apps/refund_ngn
        #{config.root}/app/forms)
 
     # Locale
