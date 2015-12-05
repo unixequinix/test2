@@ -1,6 +1,9 @@
+require File.dirname(__FILE__) + '/lib/boot_inquirer'
+
 source 'https://rubygems.org'
 
 gem 'rails', '4.2.1'
+
 
 # Database
 gem 'pg', '~> 0.18.1'
@@ -21,8 +24,8 @@ gem 'aws-sdk-v1'
 gem 'aws-sdk', '~> 2'
 
 # Authentication
-gem 'devise', '~> 3.4.1'
-gem 'devise-i18n', '~> 0.12.0'
+gem 'bcrypt', '~> 3.1.10'
+gem 'warden', '~> 1.2.3'
 
 # Design
 gem 'bourbon', '~> 4.2.2'
@@ -60,17 +63,19 @@ gem 'iso-swift', '~>0.0.2'
 gem 'country_select', '~> 2.2.0'
 gem 'phony_rails', '~> 0.12.8'
 
+# Payments Infrastructures
+gem 'stripe'
 
 # Flags
 gem 'flag_shih_tzu', '~>0.3.13'
 
 # Architectural
 gem 'virtus', '~> 1.0.5'
-gem 'reform', '~> 1.2.6'
+gem 'reform', '~> 2.0.5'
 
 # Asyncronous mailer
 gem 'sinatra', require: false
-gem 'sidekiq', '~> 3.4.1'
+gem 'sidekiq', '~> 4.0.1'
 
 # Cron tasks
 gem 'whenever', '~> 0.9.4', require: false
@@ -84,7 +89,7 @@ group :development do
   gem 'annotate', '~> 2.6.8'
   gem 'bullet', '~> 4.14.4' # Help to kill N+1 queries and unused eager loading
   gem 'rails-erd', '~> 1.3.1' # Entity-relationship diagrams (ERD)
-  gem 'railroady', '~> 1.3.1' # Controller diagrams (ERD)
+  gem 'railroady', '~> 1.4.0' # Controller diagrams (ERD)
   gem 'quiet_assets', '~> 1.1.0'
   gem 'hirb', '~> 0.7.3' #  Improve ripl(irb)'s default inspect output
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -123,6 +128,8 @@ end
 
 group :test do
   gem 'capybara', '~> 2.4.4'
+  gem 'selenium-webdriver'
+  gem 'launchy'
   gem 'shoulda-matchers', '~> 2.8.0', require: false
   gem 'database_cleaner', '~> 1.4.1'
 end
@@ -132,3 +139,9 @@ group :production, :staging, :demo, :refunds do
   gem 'dalli', '~> 2.7.4' # Memcached
   gem 'newrelic_rpm', '~> 3.12.0.288'
 end
+
+
+BootInquirer.each_active_app do |app|
+  gemspec path: "apps/#{app.gem_name}"
+end
+gemspec path: "apps/core"

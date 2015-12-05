@@ -25,7 +25,7 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'shoulda/matchers'
-require 'devise'
+require 'warden'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -71,7 +71,6 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   # Add stuff to make devise work
-  config.include Devise::TestHelpers, type: :controller
   config.include ControllerMacros, type: :controller
   config.include I18nMacros, type: :feature
   config.include ParametersMacros, type: :feature
@@ -85,6 +84,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     Seeder::SeedLoader.create_event_parameters
+    Seeder::SeedLoader.create_claim_parameters
   end
 
   config.before(:each) do
@@ -100,8 +100,14 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
-    DatabaseCleaner.clean
+
     Warden.test_reset!
+  end
+
+  config.after(:all) do
+    DatabaseCleaner.clean_with(:truncation)
+    Seeder::SeedLoader.create_event_parameters
+    Seeder::SeedLoader.create_claim_parameters
   end
 
 end

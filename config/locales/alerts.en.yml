@@ -11,6 +11,7 @@ en:
     admissions:  "Ticket not recognized. If you purchased it within the last 48 hours, try again later while we update your purchase. Otherwise contact support. Please note that only %{companies} tickets are supported for this pre-event service."
     gtag: "This is not a valid %{gtag}"
     order_complete: 'Order Completed'
-    claim_complete: 'Claim Completed'
+    order_expired: 'Orden expired. Pasaron más de 15 minutos'
+    claim_complete: 'Claim Completed. Spent more than 15 minutes'
     quantity_not_refundable: 'Credits quantity not refundable'
     already_assigned: 'You have one already assigned'

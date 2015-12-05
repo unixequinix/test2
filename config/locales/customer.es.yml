@@ -9,12 +9,12 @@ es:
     delete_account: "Eliminar tu cuenta"
     logout: "Cerrar sessión"
   confirm:
-    remove_ticket: "Tus créditos comprados se asignan a tu cuenta. Si borras tu ticket, tendrás que asignar otro para utilizar esos créditos en el festival."
+    remove_ticket: "Tus créditos comprados se asignan a tu cuenta. Si borras tu ticket, tendrás que asignar otro para utilizar esos créditos en el evento."
   header:
     edit: "Editar Pérfil"
     close: "Cerrar sesión"
     menu: "Home"
-    home: "Web del Festival"
+    home: "Web del Evento"
     help: "Ayuda"
   conditions:
     action: 'Acepto'
@@ -36,14 +36,15 @@ es:
       header: "Ticket %{ticket_type}"
       call_to_action: "¿Quiéres borrar el ticket?"
       call_to_action_started: "El evento ya ha comenzado, no puedes cambiar tu ticket"
+      success: "¡Ticket activado con éxito!"
       button: "Borrar"
     without_admissions:
-      call_to_action: "Por favor activa todos tus tickets"
-      description: "NO registres los tickets de tus amigos en tu cuenta."
+      call_to_action: "Solo activa los tickets que vayas a utilizar"
+      description: "NO actives los tickets de tus amigos en tu cuenta."
       button: "Activar Ticket"
     credits:
       header: "Tu Balance de créditos"
-      call_to_action: "Para evitar colas, recarga tu %{gtag} ahora para todas tus compras dentro del festival"
+      call_to_action: "Para evitar colas, recarga tu %{gtag} ahora para todas tus compras dentro del evento"
       call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"
       call_to_action_no_admission_html: "Para poder recargar online,<br>deberás activar un Ticket primero"
       button: "Recarga"
@@ -85,24 +86,24 @@ es:
       button: "Reclama tus créditos"
     not_refundable:
       title: "Tus créditos restantes:"
-      call_to_action: "Lo sentimos, pero no tienes suficientes creditos para pedir una devolución ya que la comisión es de %{fee} %{currency_symbol} y el mínimo reembolsable es %{minimum} %{currency_symbol}"
+      call_to_action: "Lo sentimos, pero no tienes suficientes creditos para pedir una devolución"
     refunds:
       title: "Tus créditos restantes:"
       call_to_action: "Reembolso realizado con éxito, pronto se realizará su transferencia"
       button: "Modificar cuenta"
   admissions:
     title: "Activación del Ticket"
-    description: "Por favor, introduce el código impreso debajo del código de barras en tu ticket del festival."
+    description: "Por favor, introduce el código impreso debajo del código de barras en tu ticket del evento."
     description2: "Tu código debería empezar por '4UMoB'."
-    call_to_action: "¡Activa tu Ticket del Festival!"
+    call_to_action: "¡Activa tu Ticket del Evento!"
     button: "Activar"
     placeholders:
       ticket_number: "Número de Ticket"
   checkout:
     title: "Recarga"
-    description: "Los créditos que compras aquí serán añadidos automáticamente a tu %{gtag} al entrar al festival."
+    description: "Los créditos que compras aquí serán añadidos automáticamente a tu %{gtag} al entrar al evento."
     total: "Total"
-    button: "Confirmar Órden"
+    button: "Confirmar Orden"
   orders:
     title: "Confirmar Recarga"
     description: "Por favor, revisa tu órden y procede a realizar el pago."
@@ -112,8 +113,13 @@ es:
     total: "Total"
     vat: "IVA Incluido"
     redirect: "Serás redirigido a la pasarela de pago del banco."
-    button: "Pagar"
+    button: "Siguiente"
     button_iupay: "IUPAY"
+    stripe:
+      card_number: "Número de tarjeta"
+      card_code_verification: "Código de verificación (CCV)"
+      card_expiration_date: "Fecha de expiración"
+      button: "Pagar"
   claims:
     title: "Confirmar Reembolso"
     description: "Por favor, revisa tu órden y procede a realizar el pago."

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151106112556) do
+ActiveRecord::Schema.define(version: 20151126125334) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,10 +55,13 @@ ActiveRecord::Schema.define(version: 20151106112556) do
     t.string   "url"
     t.string   "background_type",         default: "fixed"
     t.integer  "features",                default: 0,                     null: false
-    t.string   "refund_service",          default: "bank_account"
     t.boolean  "gtag_registration",       default: true,                  null: false
     t.string   "payment_service",         default: "redsys"
     t.integer  "registration_parameters", default: 0,                     null: false
+    t.string   "currency",                null: false
+    t.string   "host_country",            null: false
+    t.integer  "locales",                 default: 1,                     null: false
+    t.integer  "refund_services",         default: 0,                     null: false
   end
 
   create_table "customers", force: :cascade do |t|
@@ -89,8 +92,9 @@ ActiveRecord::Schema.define(version: 20151106112556) do
     t.string   "country"
     t.string   "gender"
     t.datetime "birthdate"
-    t.integer  "event_id",                       null: false, index: {name: "fk__customers_event_id"}, foreign_key: {references: "events", name: "customers_event_id_fkey", on_update: :no_action, on_delete: :no_action}
-    t.boolean  "agreed_event_condition_message"
+    t.integer  "event_id",               null: false, index: {name: "fk__customers_event_id"}, foreign_key: {references: "events", name: "customers_event_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.boolean  "agreed_event_condition", default: false
+    t.string   "remember_token",         index: {name: "index_customers_on_remember_token", unique: true}
   end
 
   create_table "customer_event_profiles", force: :cascade do |t|
@@ -236,6 +240,7 @@ ActiveRecord::Schema.define(version: 20151106112556) do
     t.text     "gtag_form_disclaimer"
     t.string   "gtag_name"
     t.text     "agreed_event_condition_message"
+    t.text     "refund_disclaimer"
   end
   add_index "event_translations", ["event_id"], name: "index_event_translations_on_event_id"
 

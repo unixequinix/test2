@@ -14,6 +14,6 @@ FactoryGirl.define do
   factory :claim_parameter do
     value { Faker::Number.decimal(2) }
     claim
-    parameter
+    parameter { Parameter.find(rand(1..30)) }
   end
 end

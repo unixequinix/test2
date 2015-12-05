@@ -1,0 +1,17 @@
+- if controller_name != 'sessions'
+  .wrapper-field.wrapper-single-option
+    .form-inputs
+      h3.single-option-header = t('links.sign_in')
+      = link_to t('links.buttons.sign_in'), event_login_path(current_event), class: "btn"
+
+- if controller_name != 'passwords' && controller_name != 'registrations'
+  .form-actions
+    = link_to new_event_passwords_path(current_event) do
+      figure.fa.fa-lock
+      span = t('links.forgot')
+
+- if controller_name != 'confirmations'
+  .form-actions
+    = link_to new_event_confirmations_path(current_event)
+      figure.fa.fa-envelope
+      span = t('links.resend_confirmation')

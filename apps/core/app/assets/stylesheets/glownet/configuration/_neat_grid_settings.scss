@@ -1,0 +1,28 @@
+// -------------------------------------------------------
+//
+//  Neat configuration
+//
+// -------------------------------------------------------
+
+
+@import "neat-helpers";
+
+// Change the grid settings
+$column: modular-scale(6, $value: 24, $ratio: $augmented-fourth);
+$gutter: modular-scale(4, $value: 24, $ratio: $augmented-fourth);
+$grid-columns: 12;
+$max-width: rem(modular-scale(10, $value: 34, $ratio: $augmented-fourth));
+
+// $column: 90px;
+// $gutter: 30px;
+// $grid-columns: 10;
+//$max-width: em(1088);
+
+$visual-grid: false;
+$visual-grid-index: front;
+$visual-grid-opacity: 0.2;
+$visual-grid-color: lighten(blue, 30%);
+
+// Define your breakpoints
+// $tablet: new-breakpoint(max-width 768px 8);
+// $mobile: new-breakpoint(max-width 480px 4);

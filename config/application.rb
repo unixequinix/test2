@@ -9,7 +9,15 @@ ENV['RANSACK_FORM_BUILDER'] = '::SimpleForm::FormBuilder'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module Gspot
+# require railties and engines here.
+require_relative "../lib/boot_inquirer"
+
+require 'core'
+BootInquirer.each_active_app do |app|
+  require app.gem_name
+end
+
+module GlownetWeb
   class Application < Rails::Application
     config.autoload_paths +=
     %W(#{config.root}/app/glownet
@@ -18,7 +26,7 @@ module Gspot
 
     # Locale
     I18n.config.enforce_available_locales = true
-    config.i18n.default_locale = :es
+    config.i18n.default_locale = :en
     config.i18n.available_locales = [:en, :es, :it]
     config.i18n.fallbacks = true
     config.time_zone = "Madrid"

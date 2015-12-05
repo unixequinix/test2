@@ -15,7 +15,7 @@ es:
           order_number: 'Tu Compra'
           greet: '¡Hola %{name}!'
           date: 'Fecha de compra'
-          description: 'Todos los créditos que has comprado serán añadidos automáticamente a tu %{gtag} al entrar al festival. Tu %{gtag} es una manera rápida y conveniente de pagar por comida, bebidas y merchandising. Es la única forma de pago acceptada por todas las tiendas dentro del evento.'
+          description: 'Todos los créditos que has comprado serán añadidos automáticamente a tu %{gtag} al entrar al event. Tu %{gtag} es una manera rápida y conveniente de pagar por comida, bebidas y merchandising. Es la única forma de pago acceptada por todas las tiendas dentro del evento.'
           success: 'Tu compra ha sido recibida. Encuentra los detalles debajo:'
           thanks: 'Gracias por tu compra.'
       claim:

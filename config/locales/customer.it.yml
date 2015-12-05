@@ -5,16 +5,16 @@ it:
     cancel: "Cancella"
     edit: "Modifica"
     delete: "Rimuovere"
-    check_news: "Torna al sito del festival"
+    check_news: "Torna al sito del evento"
     delete_account: "Elimina il tuo account"
     logout: "Disconnettersi"
   confirm:
-    remove_ticket: "Your purchased credits are assigned to your account. If you remove your ticket, you will need to assign another one to use those credits in the festival."
+    remove_ticket: "Your purchased credits are assigned to your account. If you remove your ticket, you will need to assign another one to use those credits in the event."
   header:
     edit: "Modifica profilo"
     close: "Logout"
     menu: "Home"
-    home: "Sito del festival"
+    home: "Sito del evento"
     help: "Help"
   conditions:
     action: 'Accetto'
@@ -30,21 +30,22 @@ it:
       sign_in: 'Log in'
       sign_up: 'Iscriviti'
   dashboard:
-    title: "My Kappa FuturFestival"
+    title: "My dashboard"
     admissions:
       header: "Ticket %{ticket_type}"
       call_to_action: "Do you want to remove this ticket?"
       call_to_action_started: "The event just started so you cannot change the ticket"
+      success: "Ticket successfully activated!"
       button: "Remove"
     without_admissions:
-      call_to_action: "Please register ALL tickets belonging to YOU"
-      description: "Do NOT register your friend's tickets under your account."
+      call_to_action: "Only activate the ticket(s) which you will be using YOURSELF"
+      description: "Do NOT activate your friend's tickets under your account."
       button: "Activate Ticket"
     credits:
       header: "Your Online Credit Balance"
-      call_to_action: "To avoid queues, top-up your wristband now for all your festival purchases"
+      call_to_action: "To avoid queues, top-up your wristband now for all your event purchases"
       call_to_action_started: "The event just started so you cannot topup anymore"
-      call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Festival Ticket first"
+      call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Event Ticket first"
       button: "Top-up"
     event_refunds:
       claim: "L'evento non è ancora finito"
@@ -84,22 +85,22 @@ it:
       button: "Richiedi i tuoi crediti"
     not_refundable:
       title: "Il tuo credito:"
-      call_to_action: "Mi dispiace, ma non hai abbastanza crediti per richiedere il rimborso. La spesa di rimborso è %{fee} %{currency_symbol} e il minimo rimborsabile è %{minimum} %{currency_symbol}"
+      call_to_action: "Mi dispiace, ma non hai abbastanza crediti per richiedere il rimborso."
     refunds:
       title: "Il tuo credito:"
       call_to_action: "La tua richiesta per un rimborso è stata effettuata con successo. Tra poco riceverai il trasferimento"
       button: "Modifica conto bancario"
   admissions:
     title: "Ticket Activation"
-    description: "Please enter the number that is printed on your festival ticket just below the barcode."
+    description: "Please enter the number that is printed on your event ticket just below the barcode."
     description2: "Your code should start with '4UMoB'"
-    call_to_action: "Activate your Festival Ticket!"
+    call_to_action: "Activate your Event Ticket!"
     button: "Activate"
     placeholders:
-      ticket_number: "Festival Ticket Barcode Number"
+      ticket_number: "Event Ticket Barcode Number"
   checkout:
     title: "Top-up"
-    description: "After you buy online credits here, they will automatically be applied to your wristband once you enter the festival."
+    description: "After you buy online credits here, they will automatically be applied to your wristband once you enter the event."
     total: "Total"
     button: "Confirm Order"
   orders:
@@ -111,8 +112,13 @@ it:
     total: "Total"
     vat: "VAT Included"
     redirect: "You will be redirected to the bank’s payment gateway."
-    button: "Pay"
+    button: "Next"
     button_iupay: "IUPAY"
+    stripe:
+      card_number: "Card number"
+      card_code_verification: "Card code verification (CCV)"
+      card_expiration_date: "Card expiration date"
+      button: "Pay"
   claims:
     title: "Confermare rimborso"
     description: "Si prega di controllare il suo ordine e procedere al pagamento."

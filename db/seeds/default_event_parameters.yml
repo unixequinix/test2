@@ -31,12 +31,30 @@
         -
           name: form
           value: https://sis-t.redsys.es:25443/sis/realizarPago
+    -
+      name: stripe
+      values:
+        -
+          name: email
+          value: unassigned
+        -
+          name: country
+          value: unassigned
+        -
+          name: currency
+          value: unassigned
+        -
+          name: stripe_account_id
+          value: unassigned
 -
   category: refund
   groups:
     -
       name: epg
       values:
+        -
+          name: action_name
+          value: "Epg"
         -
           name: fee
           value: 0.0
@@ -71,11 +89,38 @@
       name: bank_account
       values:
         -
+          name: action_name
+          value: "Bank Account"
+        -
           name: fee
           value: 0.0
         -
           name: minimum
           value: 0.0
+        -
+          name: validate_sepa
+          value: true
+    -
+      name: tipalti
+      values:
+        -
+          name: action_name
+          value: "Tipalti"
+        -
+          name: fee
+          value: 0.0
+        -
+          name: minimum
+          value: 0.0
+        -
+          name: payer
+          value: Glownet
+        -
+          name: secret_key
+          value: n6RwV8g/lM7IP51GWqOmcsTmJ9YSu4YpteoYHuXPmymjB1oaIimAC6lm3EUWxBoT
+        -
+          name: url
+          value: https://ui.sandbox.tipalti.com/Payees/PayeeDashboard.aspx
 -
   category: gtag
   groups:

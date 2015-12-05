@@ -1,0 +1,39 @@
+- breadcrumb :admins_event_payment_settings, @event
+- provide :actions do
+  = link_to admins_event_payment_settings_path(@event), class: "btn btn-action btn-action-back small" do
+    = fa_icon 'arrow-circle-left'
+    = t('actions.back')
+= simple_form_for @payment_settings_form, html: { :"data-p-key" => Rails.application.secrets.stripe_platform_publishable },
+url: admins_event_payment_settings_path(event_id: @event.id), method: :post do |f|
+  = render "form", event: @event, f: f
+
+script src="https://js.stripe.com/v2/" type="text/javascript"
+
+javascript:
+  var stripeResponseHandler = function(status, response) {
+    var $form = $('#new_stripe_payment_settings_form');
+    debugger;
+    if (response.error) {
+      $form.find('.payment-errors').text(response.error.message);
+      $form.find("input[type=submit]").prop('disabled', false);
+    }
+    else {
+      var token = response.id;
+      $form.append($('<input type="hidden" name="stripe_payment_settings_form[bankAccountToken]" />').val(token));
+      $form.get(0).submit();
+    }
+  };
+
+  $("#DISABLEDnew_stripe_payment_settings_form").on("submit", function(event) {
+      event.stopPropagation();
+      event.preventDefault();
+      var $form = $(this);
+      $form.find("input[type=submit]").prop("disabled", true);
+      Stripe.setPublishableKey($("#new_stripe_payment_settings_form").data("p-key"));
+      Stripe.bankAccount.createToken({
+        country: $('#stripe_payment_settings_form_country').val(),
+        currency: $('#stripe_payment_settings_form_currency').val(),
+        account_number: $('#stripe_payment_settings_form_bank_account').val()
+      }, stripeResponseHandler);
+      return false;
+  });

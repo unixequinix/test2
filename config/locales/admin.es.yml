@@ -17,10 +17,10 @@ es:
     event:
       name: 'Nombre'
       slug: 'Identificador'
-      url: 'Url del festival'
+      url: 'Url del evento'
       support_email: 'Email de soporte'
       payment_service: 'Servicio de pago'
-      refund_service: 'Servicio de devolución'
+      refund_service: 'Servicios de devolución'
       location: 'Localización'
       start_date: 'Fecha de inicio'
       end_date: 'Fecha de finalización'
@@ -30,6 +30,10 @@ es:
       background: 'Fondo'
       style: 'Estilo'
       features: 'Funcionalidades habilitadas'
+      locales: 'Idiomas habilitados'
+      fee: 'Comisión'
+      minimum: 'Mínimo'
+      refund_disclaimer: "Mensaje general de devolución"
       refund_success_message: "Mensaje de éxito en la devolución (Pulsar para verificar)"
       mass_email_claim_notification: "Notificación general (petición de devolución)"
       gtag_assignation_notification: "Notificación al asignar el Gtag"
@@ -53,15 +57,21 @@ es:
         repeat: 'Repetir'
       payment_services:
         redsys: 'Redsys'
+        stripe: 'Stripe'
       refund_services:
         bank_account: 'Cuenta bancaria'
         epg: 'Easy payment gateway'
+        tipalti: 'Tipalti'
       images:
         profile: "Imágen de perfil"
         background: "Imágen de fondo"
       features_options:
         top_ups: 'Recarga de creditos'
         refunds: 'Devoluciones'
+      locales_options:
+        english: "Inglés"
+        italian: "Italiano"
+        spanish: "Español"
     gtag_settings:
       form:
         format: 'Formato'
@@ -95,6 +105,14 @@ es:
       bank_account:
         fee: 'Comisión de devolución (en la moneda seleccionada)'
         minimum: 'Mínimo a devolver después de comisiones (en la moneda seleccionada)'
+      tipalti:
+        fee: 'Comisión de devolución (en la moneda seleccionada)'
+        minimum: 'Mínimo a devolver después de comisiones (en la moneda seleccionada)'
+        country: 'País'
+        payer: 'Pagador'
+        idap: 'Idap'
+        secret_key: 'Clave secreta'
+        url: 'URL'
     defaults:
       actions: "Acciones"
       home: "Home"
@@ -177,7 +195,7 @@ es:
       created_at: "Creado el"
       admission: "Registros de tickets"
       search:
-        number: "Número"
+        number: "Ticket barcode number"
         customer: "Email cliente asignado"
         purchaser_email: "Email comprador"
         type: "Tipo"
@@ -261,6 +279,7 @@ es:
       current_sign: "Inicio de Sesión Actual"
       last_sign: "Último Inicio de Sesión en"
       current_sign_ip: "Inicio de Sesión Actual en IP"
+      agreed_event_condition: "Condición del evento aceptada"
       last_sign_ip: "Último Inicio de Sesión en IP"
       unconfirmed: "Email sin confirmar"
       transactions: "Transacciones"
