@@ -2,4 +2,23 @@
 
   = render 'events/claims/claim_details', claim: @claim
 
-  iframe height=900 width=900 frameBorder=0 src=@url
+.wrapper-field.form-inputs
+  iframe id="tipaltiIframe" frameBorder=0 src=@url
+
+javascript:
+  tipaltiHandler = function (evt) {
+    if (evt.data && evt.data.TipaltiIframeInfo) {
+
+      console.log(evt.data);
+      //DO STUFF, For example:
+      if (evt.data.TipaltiIframeInfo.height)
+        $('#tipaltiIframe').height(evt.data.TipaltiIframeInfo.height);
+      if (evt.data.TipaltiIframeInfo.width)
+        $('#tipaltiIframe').width(evt.data.TipaltiIframeInfo.width);
+    }
+  }
+
+  if (window.addEventListener)
+    window.addEventListener("message", tipaltiHandler, false);
+  else
+    window.attachEvent("onmessage", tipaltiHandler);
