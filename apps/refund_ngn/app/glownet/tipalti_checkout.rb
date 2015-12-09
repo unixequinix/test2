@@ -19,11 +19,11 @@ class TipaltiCheckout
 
 
   def create_value
-    valid_characters = /[^0-9A-Za-zñÑ\-,'"ªº]/
+    valid_characters = /[^0-9A-Za-z]/
 
     value = "idap=#{@claim.customer_event_profile.id}"
-    value += "&last=John"
-    value += "&first=Smith"
+    value += "&last=#{@claim.customer_event_profile.customer.surname.gsub(valid_characters, '')}"
+    value += "&first=#{@claim.customer_event_profile.customer.name.gsub(valid_characters, '')}"
     value += "&ts=#{Time.now.to_i}"
     value += "&payer=#{@tipalti_values[:payer]}"
   end

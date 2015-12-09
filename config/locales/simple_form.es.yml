@@ -167,6 +167,7 @@ es:
           description: 'Añade algo de información extra u otros datos que consideres importantes'
           location: '¿Dónde se celebra?'
           style: '/*Dale vida con CSS*/'
+          agreed_event_condition_message: 'Añade la condición que quieres que el usuario acepte cuando se registre'
         edit:
           <<: *placeholder_event
       online_product:
