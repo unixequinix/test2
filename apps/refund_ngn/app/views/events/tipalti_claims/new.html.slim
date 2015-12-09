@@ -9,8 +9,6 @@ javascript:
   tipaltiHandler = function (evt) {
     if (evt.data && evt.data.TipaltiIframeInfo) {
       console.log(evt);
-      console.log(evt.data);
-      //DO STUFF, For example:
       if (evt.data.TipaltiIframeInfo.height)
         $('#tipaltiIframe').height(evt.data.TipaltiIframeInfo.height);
       if (evt.data.TipaltiIframeInfo.width)

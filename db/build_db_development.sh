@@ -24,5 +24,6 @@ bin/rake RAILS_ENV=test db:migrate
 cd $current_dir
 
 bundle exec annotate --exclude tests,fixtures --model-dir ../administration/app/models
-bundle exec erd --orientation=horizontal --title='Glownet web DB Diagram' --attributes=primary_keys,foreign_keys,inheritance,content
+bin/rake RAILS_ENV=development annotate:models
+bin/rake RAILS_ENV=development generate:erd_diagram
 railroady -ajmzM --hide-types | sed -E 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g' | dot -Tpng > /Users/agonzaleznu/Workspace/glownet_web/models_complete.png
