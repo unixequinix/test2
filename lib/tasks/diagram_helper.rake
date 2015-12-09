@@ -7,7 +7,6 @@ namespace :generate do
     options[:title]    = 'Glownet web DB Diagram'
     options[:attributes]    = [:primary_keys, :foreign_keys, :inheritance, :content]
     options[:orientation]    = :horizontal
-    #options[:filename] = File.join(::Rails.root, 'core/db', filename(s))
     RailsERD::Diagram::Graphviz.create(options)
   end
 end
