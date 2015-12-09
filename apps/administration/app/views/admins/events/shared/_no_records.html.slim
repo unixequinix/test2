@@ -1,0 +1,4 @@
+.section-title-empty
+  = image_tag "img-empty.png"
+  p = t("admin.defaults.empty_tickets", item: "Ticket".constantize.model_name.human(count: 0))
+  = link_to t("actions.new"), new_admins_event_ticket_path, class: "btn btn-action btn-action-new"

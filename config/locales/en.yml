@@ -35,6 +35,37 @@ en:
             iban:
               invalid: "It's not a valid IBAN, introduce a valid account for SEPA"
   activerecord:
+    models:
+      admin:
+        one: 'admin'
+        other: 'admins'
+      claim:
+        one: 'claim'
+        other: 'claims'
+      credit:
+        one: 'credit'
+        other: 'credits'
+      customer:
+        one: 'customer'
+        other: 'customers'
+      entitlement:
+        one: 'entitlement'
+        other: 'entitlements'
+      gtag:
+        one: 'gtag'
+        other: 'gtags'
+      order:
+        one: 'order'
+        other: 'orders'
+      payment:
+        one: 'payment'
+        other: 'payments'
+      refund:
+        one: 'refund'
+        other: 'refunds'
+      ticket:
+        one: 'ticket'
+        other: 'tickets'
     errors:
       messages:
         record_invalid: 'Campo no valido'

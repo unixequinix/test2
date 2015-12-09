@@ -1,10 +1,10 @@
 class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
 
   def index
-    all_tickets = @fetcher.tickets
-    @q = all_tickets.search(params[:q])
-    @tickets = @q.result(distinct: true).page(params[:page]).includes(:ticket_type, :assigned_admission)
-    @tickets_count = all_tickets.count
+    @ticket_presenter = TicketPresenter.new(
+      fetcher: @fetcher,
+      search_query: params[:q],
+      page: params[:page])
     respond_to do |format|
       format.html
       format.csv { send_data(Csv::CsvExporter.to_csv(Ticket.selected_data(current_event.id)))}
@@ -12,10 +12,10 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   end
 
   def search
-    all_tickets = @fetcher.tickets
-    @q = all_tickets.search(params[:q])
-    @tickets = @q.result(distinct: true).page(params[:page]).includes(:ticket_type, :assigned_admission)
-    @tickets_count = all_tickets.count
+    @ticket_presenter = TicketPresenter.new(
+      fetcher: @fetcher,
+      search_query: params[:q],
+      page: params[:page])
     render :index
   end
 
