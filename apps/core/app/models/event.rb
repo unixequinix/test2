@@ -208,7 +208,8 @@ class Event < ActiveRecord::Base
 
   # TODO: Improve with decorators
   def get_parameter(category, group, name)
-    parameter = EventParameter.find_by(event_id: self.id, parameter_id: Parameter.find_by(category: category, group: group, name: name)).value
+    parameter = Parameter.find_by(category: category, group: group, name: name)
+    event_parameter = EventParameter.find_by(event_id: self.id, parameter_id: parameter.id).value
   end
 
   def selected_locales_formated
