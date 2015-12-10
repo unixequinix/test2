@@ -1,8 +1,7 @@
 class Admins::Events::CustomersController < Admins::Events::BaseController
- def index
-    @q = @fetcher.customers.with_deleted.search(params[:q])
-    @customers = @q.result(distinct: true).page(params[:page]).includes(:customer_event_profile, customer_event_profile: [:assigned_admissions, :assigned_gtag_registration, assigned_admissions: :ticket, admissions: :ticket] )
-    @customers_count = @q.result(distinct: true).count
+
+  def index
+    set_presenter
   end
 
   def search
@@ -17,5 +16,20 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
   def resend_confirmation
     @customer = @fetcher.customers.find(params[:id])
     CustomerMailer.confirmation_instructions_email(@customer).deliver_later
+  end
+
+  def set_presenter
+    @list_model_presenter = ListModelPresenter.new(
+      model_name: "Customer".constantize.model_name,
+      fetcher: @fetcher.customers,
+      search_query: params[:q],
+      page: params[:page],
+      context: view_context,
+      include_for_all_items: [:customer_event_profile, customer_event_profile:
+        [:assigned_admissions, :assigned_gtag_registration,
+          assigned_admissions: :ticket, admissions: :ticket
+        ]
+      ]
+    )
   end
 end

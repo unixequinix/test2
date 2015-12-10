@@ -1,4 +1,4 @@
-.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: tickets.count, total: @ticket_presenter.tickets_count)
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @list_model_presenter.current_items, total: @list_model_presenter.count)
 = form_tag destroy_multiple_admins_event_tickets_path, method: :delete do
   table.tickets
     thead

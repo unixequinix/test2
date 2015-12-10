@@ -1,9 +1,7 @@
 class Admins::Events::OrdersController < Admins::Events::PaymentsBaseController
 
   def index
-    @q = @fetcher.orders.search(params[:q])
-    @orders = @q.result(distinct: true).page(params[:page]).includes(:customer_event_profile, customer_event_profile: :customer)
-    @orders_count = @q.result(distinct: true).count
+    set_presenter
   end
 
   def search
@@ -13,6 +11,19 @@ class Admins::Events::OrdersController < Admins::Events::PaymentsBaseController
 
   def show
     @order = @fetcher.orders.find(params[:id])
+  end
+
+  private
+  def set_presenter
+    @list_model_presenter = ListModelPresenter.new(
+      model_name: "Order".constantize.model_name,
+      fetcher: @fetcher.orders,
+      search_query: params[:q],
+      page: params[:page],
+      include_for_all_items:
+        [:customer_event_profile, customer_event_profile: :customer],
+      context: view_context
+    )
   end
 
 end

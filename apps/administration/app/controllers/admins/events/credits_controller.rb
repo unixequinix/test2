@@ -1,12 +1,7 @@
 class Admins::Events::CreditsController < Admins::Events::BaseController
 
   def index
-    all_credits = @fetcher.credits
-    @credits = all_credits
-      .where(online_products: { event_id: current_event.id })
-      .page(params[:page])
-      .includes(:online_product)
-    @credits_count = all_credits.count
+    set_presenter
   end
 
   def new
@@ -48,6 +43,16 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
   end
 
   private
+  def set_presenter
+    @list_model_presenter = ListModelPresenter.new(
+      model_name: "Credit".constantize.model_name,
+      fetcher: @fetcher.credits,
+      search_query: params[:q],
+      page: params[:page],
+      include_for_all_items: [:online_product],
+      context: view_context
+    )
+  end
 
   def permitted_params
     params.require(:credit).permit(online_product_attributes: [:event_id, :name, :description, :price, :min_purchasable, :max_purchasable, :initial_amount, :step])

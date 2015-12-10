@@ -9,9 +9,7 @@
     = t('admin.actions.search')
 
 .wrapper-negative-space
-  - if @claims.empty?
-    .section-title-empty
-      = image_tag "img-empty.png"
-      p = t("admin.defaults.empty_claims")
+  - if @list_model_presenter.is_there_any?
+    = render 'admins/events/claims/list', claims: @list_model_presenter.get_all_items
   - else
-    = render "admins/events/claims/list", claims: @claims
+    = render @list_model_presenter.no_items_for_presentation

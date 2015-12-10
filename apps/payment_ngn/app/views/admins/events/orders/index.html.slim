@@ -5,9 +5,8 @@
     = t('admin.actions.search')
 
 .wrapper-negative-space
-  - if @orders.empty?
-    .section-title-empty
-      = image_tag "img-empty.png"
-      p = t("admin.defaults.empty_orders")
+  - if @list_model_presenter.is_there_any?
+    = render 'admins/events/orders/list',
+      orders: @list_model_presenter.get_all_items
   - else
-    = render "admins/events/orders/list", orders: @orders
+    = render @list_model_presenter.no_items_for_presentation

@@ -11,7 +11,7 @@
     = t('admin.actions.search')
 
 .wrapper-negative-space
-  - if @ticket_presenter.tickets.empty?
-    = render @ticket_presenter.no_tickets_text
+  - if @list_model_presenter.is_there_any?
+    = render 'admins/events/tickets/list', tickets: @list_model_presenter.get_all_items
   - else
-    = render 'admins/events/tickets/list', tickets: @ticket_presenter.tickets
+    = render @list_model_presenter.no_items_for_presentation
