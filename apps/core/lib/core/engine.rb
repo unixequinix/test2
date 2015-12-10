@@ -29,5 +29,6 @@ module Core
       app.config.assets.precompile += ["admin_mobile.scss"]
       app.config.assets.precompile += ["admin_mobile.js"]
     end
+
   end
 end

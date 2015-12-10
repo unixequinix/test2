@@ -19,10 +19,12 @@ end
 
 module GlownetWeb
   class Application < Rails::Application
-    config.autoload_paths +=
-    %W(#{config.root}/app/glownet
-       #{config.root}/app/presenters
-       #{config.root}/app/forms)
+
+    config.eager_load_paths += ["#{config.root}/apps/core/app/models"]
+    BootInquirer.each_active_app do |app|
+      directory = "#{config.root}/apps/#{app.gem_name}/app/models"
+      config.eager_load_paths += [directory] if File.directory?(directory)
+    end
 
     # Locale
     I18n.config.enforce_available_locales = true
