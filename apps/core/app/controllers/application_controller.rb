@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
 
   def fetch_current_event
     id = params[:event_id] || params[:id]
-    @current_event = Event.friendly.find(id) if id
+    @current_event = Event.find_by_slug(id) if id
   end
 
   # Get locale from user's browser and set it, unless it's present in session.
@@ -53,6 +53,5 @@ class ApplicationController < ActionController::Base
     # Note: we treat ipad as non mobile
     request.user_agent =~ (/(iPhone|iPod|Android|webOS|Mobile|iPad)/)
   end
-
 
 end
