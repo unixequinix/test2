@@ -11,10 +11,7 @@
     = t('admin.actions.search')
 
 .wrapper-negative-space
-  - if @tickets.empty?
-    .section-title-empty
-      = image_tag "img-empty.png"
-      p = t("admin.defaults.empty_tickets")
-      = link_to t("actions.new"), new_admins_event_ticket_path, class: "btn btn-action btn-action-new"
+  - if @list_model_presenter.is_there_any?
+    = render 'admins/events/tickets/list', tickets: @list_model_presenter.get_all_items
   - else
-    = render 'admins/events/tickets/list', tickets: @tickets
+    = render @list_model_presenter.no_items_for_presentation

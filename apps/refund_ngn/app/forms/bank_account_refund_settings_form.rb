@@ -5,14 +5,14 @@ class BankAccountRefundSettingsForm
   attribute :action_name, String
   attribute :fee, Decimal
   attribute :minimum, Decimal
-  attribute :validate_sepa, Boolean
+  attribute :validate_sepa, String
   attribute :event_id, Integer
 
   validates_presence_of :action_name
   validates_presence_of :fee
   validates_presence_of :minimum
-  validates_presence_of :validate_sepa
   validates_presence_of :event_id
+  validates_inclusion_of :validate_sepa, in: ["true", "false"]
 
   validates_numericality_of :fee
   validates_numericality_of :minimum

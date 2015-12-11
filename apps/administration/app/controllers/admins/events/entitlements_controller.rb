@@ -1,9 +1,7 @@
 class Admins::Events::EntitlementsController < Admins::Events::CheckinBaseController
 
   def index
-    all_entitlements = @fetcher.entitlements
-    @entitlements = all_entitlements.page(params[:page])
-    @entitlements_count = all_entitlements.count
+    set_presenter
   end
 
   def new
@@ -48,6 +46,16 @@ class Admins::Events::EntitlementsController < Admins::Events::CheckinBaseContro
   end
 
   private
+  def set_presenter
+    @list_model_presenter = ListModelPresenter.new(
+      model_name: "Entitlement".constantize.model_name,
+      fetcher: @fetcher.entitlements,
+      search_query: params[:q],
+      page: params[:page],
+      include_for_all_items: [],
+      context: view_context
+    )
+  end
 
   def permitted_params
     params.require(:entitlement).permit(:event_id, :name)

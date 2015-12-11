@@ -33,6 +33,37 @@ es:
             iban:
               invalid: 'No es un número de IBAN válido, introduce una cuenta válida SEPA'
   activerecord:
+    models:
+      admin:
+        one: 'Administrador'
+        other: 'Administradores'
+      claim:
+        one: 'Reclamación'
+        other: 'Reclamaciónes'
+      credit:
+        one: 'Crédito'
+        other: 'Créditos'
+      customer:
+        one: 'Cliente'
+        other: 'Clientes'
+      entitlement:
+        one: 'Derecho'
+        other: 'Derechos'
+      gtag:
+        one: 'Gtag'
+        other: 'Gtags'
+      order:
+        one: 'Orden'
+        other: 'Órdenes'
+      payment:
+        one: 'Pago'
+        other: 'Pagos'
+      refund:
+        one: 'Devolución'
+        other: 'Devoluciones'
+      ticket:
+        one: 'Ticket'
+        other: 'Tickets'
     errors:
       messages:
         record_invalid: 'Registro no válido'

@@ -1,9 +1,7 @@
 class Admins::Events::RefundsController < Admins::Events::RefundsBaseController
+  before_filter :set_presenter, only: [:index, :search]
 
   def index
-    @q = @fetcher.refunds.search(params[:q])
-    @refunds = @q.result(distinct: true).page(params[:page]).includes(:claim, claim: [:customer_event_profile, customer_event_profile: :customer])
-    @refunds_count = @q.result(distinct: true).count
     respond_to do |format|
       format.html
       format.csv { send_data Csv::CsvExporter.to_csv(Refund.selected_data(current_event.id)) }
@@ -11,8 +9,6 @@ class Admins::Events::RefundsController < Admins::Events::RefundsBaseController
   end
 
   def search
-    @q = @fetcher.refunds.search(params[:q])
-    @refunds = @q.result(distinct: true).page(params[:page]).includes(:claim, claim: [:customer_event_profile, customer_event_profile: :customer])
     render :index
   end
 
@@ -32,6 +28,16 @@ class Admins::Events::RefundsController < Admins::Events::RefundsBaseController
   end
 
   private
+    def set_presenter
+      @list_model_presenter = ListModelPresenter.new(
+        model_name: "Refund".constantize.model_name,
+        fetcher: @fetcher.refunds,
+        search_query: params[:q],
+        page: params[:page],
+        context: view_context,
+        include_for_all_items: [:claim, claim: [:customer_event_profile, customer_event_profile: :customer]]
+      )
+    end
 
     def permitted_params
       params.require(:refund).permit(:aasm_state)

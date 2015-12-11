@@ -25,10 +25,13 @@
 #  url                     :string
 #  background_type         :string           default("fixed")
 #  features                :integer          default(0), not null
-#  refund_service          :string           default("bank_account")
 #  gtag_registration       :boolean          default(TRUE), not null
 #  payment_service         :string           default("redsys")
 #  registration_parameters :integer          default(0), not null
+#  currency                :string           not null
+#  host_country            :string           not null
+#  locales                 :integer          default(1), not null
+#  refund_services         :integer          default(0), not null
 #
 
 class Event < ActiveRecord::Base
@@ -205,7 +208,8 @@ class Event < ActiveRecord::Base
 
   # TODO: Improve with decorators
   def get_parameter(category, group, name)
-    parameter = EventParameter.find_by(event_id: self.id, parameter_id: Parameter.find_by(category: category, group: group, name: name)).value
+    parameter = Parameter.find_by(category: category, group: group, name: name)
+    event_parameter = EventParameter.find_by(event_id: self.id, parameter_id: parameter.id).value
   end
 
   def selected_locales_formated

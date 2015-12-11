@@ -11,8 +11,9 @@ class BankAccountClaimForm
   validates_presence_of :swift
   validates_presence_of :claim_id
   validates_presence_of :agreed_on_claim
-  validates_with SwiftValidator, message: "Error swift"
-  validates_with IbanValidator, message: "Error iban"
+  validates_with SwiftValidator, if: :sepa_validatable?
+  validates_with IbanValidator, if: :sepa_validatable?
+
 
   def save
     if valid?
@@ -30,5 +31,11 @@ class BankAccountClaimForm
       ClaimParameter.create!(value: attributes[parameter.name.to_sym], claim_id: claim_id, parameter_id: parameter.id)
     end
   end
+
+  def sepa_validatable?
+    # TODO Create boolean casting in Parameter or EventParameter class
+    Claim.find(claim_id).customer_event_profile.event.get_parameter('refund', 'bank_account', 'validate_sepa') == 'true'
+  end
+
 
 end

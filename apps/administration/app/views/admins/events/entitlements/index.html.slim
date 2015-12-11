@@ -5,10 +5,7 @@
     = t('admin.actions.new')
 
 .wrapper-negative-space
-  - if @entitlements.empty?
-    .section-title-empty
-      = image_tag "img-empty.png"
-      p = t("admin.defaults.empty_entitlements")
-      = link_to t("actions.new"), new_admins_event_entitlement_path, class: "btn btn-action btn-action-new"
+  - if @list_model_presenter.is_there_any?
+    = render 'admins/events/entitlements/list', entitlements: @list_model_presenter.get_all_items
   - else
-    = render "admins/events/entitlements/list", entitlements: @entitlements
+    = render @list_model_presenter.no_items_for_presentation

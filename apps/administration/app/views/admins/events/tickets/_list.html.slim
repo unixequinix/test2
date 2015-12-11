@@ -1,4 +1,4 @@
-.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: tickets.count, total: @tickets_count)
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @list_model_presenter.current_items, total: @list_model_presenter.count)
 = form_tag destroy_multiple_admins_event_tickets_path, method: :delete do
   table.tickets
     thead
@@ -21,7 +21,7 @@
           td data-label=t("admin.tickets.number") = link_to ticket.number, admins_event_ticket_path(current_event, ticket)
           td data-label=t("admin.tickets.ticket_type") = ticket.ticket_type.name unless ticket.ticket_type.nil?
           td data-label=t("admin.tickets.ticket_type_simplified") = ticket.ticket_type.simplified_name unless ticket.ticket_type.nil?
-          td data-label=t("admin.tickets.customer") = link_to ticket.assigned_admission.customer_event_profile.customer.email, admins_event_customer_path(current_event, ticket.assigned_admission.customer_event_profile) unless ticket.assigned_admission.nil?
+          td data-label=t("admin.tickets.customer") = link_to ticket.assigned_admission.customer_event_profile.customer.email, admins_event_customer_path(current_event, ticket.assigned_admission.customer_event_profile.customer) unless ticket.assigned_admission.nil?
           td data-label=t("admin.purchasers.email") = ticket.purchaser_email
           td.table-actions-field
             = render 'admins/events/tickets/actions', ticket: ticket unless current_event.started?

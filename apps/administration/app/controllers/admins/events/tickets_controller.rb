@@ -1,10 +1,7 @@
 class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
+  before_filter :set_presenter, only: [:index, :search]
 
   def index
-    all_tickets = @fetcher.tickets
-    @q = all_tickets.search(params[:q])
-    @tickets = @q.result(distinct: true).page(params[:page]).includes(:ticket_type, :assigned_admission)
-    @tickets_count = all_tickets.count
     respond_to do |format|
       format.html
       format.csv { send_data(Csv::CsvExporter.to_csv(Ticket.selected_data(current_event.id)))}
@@ -12,10 +9,6 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   end
 
   def search
-    all_tickets = @fetcher.tickets
-    @q = all_tickets.search(params[:q])
-    @tickets = @q.result(distinct: true).page(params[:page]).includes(:ticket_type, :assigned_admission)
-    @tickets_count = all_tickets.count
     render :index
   end
 
@@ -76,6 +69,16 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   end
 
   private
+  def set_presenter
+    @list_model_presenter = ListModelPresenter.new(
+      model_name: "Ticket".constantize.model_name,
+      fetcher: @fetcher.tickets,
+      search_query: params[:q],
+      page: params[:page],
+      include_for_all_items: [:ticket_type, :assigned_admission],
+      context: view_context
+    )
+  end
 
   def permitted_params
     params.require(:ticket).permit(:event_id, :number, :ticket_type_id, :purchaser_name, :purchaser_surname, :purchaser_email)
