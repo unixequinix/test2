@@ -5,6 +5,10 @@ en:
 
     # The values :model, :attribute and :value are always available for interpolation
     # The value :count is available when applicable. Can be used for pluralization.
+    main:
+      error_400: "Bad Request"
+      error_404: "Route not found"
+      error_500: "Internal Server Error"
     messages:
       model_invalid: "Validation failed: %{errors}"
       inclusion: "is not included in the list"
