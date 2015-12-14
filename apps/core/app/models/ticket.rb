@@ -26,6 +26,8 @@ class Ticket < ActiveRecord::Base
   has_one :assigned_customer_event_profile, -> { where(
     admissions: { aasm_state: :assigned }) }, class_name: 'CustomerEventProfile'
   belongs_to :ticket_type
+  has_many :credential_assignments, as: :credentiable, dependent: :destroy
+
   #has_many :comments, as: :commentable
 
   # Validations

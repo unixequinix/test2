@@ -29,7 +29,9 @@ class CustomerEventProfile < ActiveRecord::Base
   has_many :credit_logs
   has_many :credit_purchased_logs, ->{ where(transaction_type: CreditLog::CREDITS_PURCHASE) },
     class_name: 'CreditLog'
+  has_many :credential_assignments
   has_one :completed_claim, ->{ where(aasm_state: :completed) }, class_name: "Claim"
+
 
   # Validations
   validates :customer, :event, presence: true
