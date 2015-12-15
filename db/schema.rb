@@ -105,38 +105,6 @@ ActiveRecord::Schema.define(version: 20151211094600) do
     t.datetime "deleted_at",  index: {name: "index_customer_event_profiles_on_deleted_at"}
   end
 
-  create_table "ticket_types", force: :cascade do |t|
-    t.string   "name",            null: false
-    t.string   "company",         null: false
-    t.decimal  "credit",          precision: 8, scale: 2, default: 0.0, null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.datetime "deleted_at",      index: {name: "index_ticket_types_on_deleted_at"}
-    t.string   "simplified_name"
-    t.integer  "event_id",        null: false, index: {name: "index_ticket_types_on_event_id"}, foreign_key: {references: "events", name: "ticket_types_event_id_fkey", on_update: :no_action, on_delete: :no_action}
-  end
-
-  create_table "tickets", force: :cascade do |t|
-    t.integer  "ticket_type_id",    null: false, index: {name: "fk__tickets_ticket_type_id"}, foreign_key: {references: "ticket_types", name: "fk_tickets_ticket_type_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "number",            index: {name: "index_tickets_on_number", unique: true}
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-    t.datetime "deleted_at",        index: {name: "index_tickets_on_deleted_at"}
-    t.string   "purchaser_email"
-    t.string   "purchaser_name"
-    t.string   "purchaser_surname"
-    t.integer  "event_id",          null: false, index: {name: "index_tickets_on_event_id"}, foreign_key: {references: "events", name: "tickets_event_id_fkey", on_update: :no_action, on_delete: :no_action}
-  end
-
-  create_table "admissions", force: :cascade do |t|
-    t.integer  "customer_event_profile_id", index: {name: "index_admissions_on_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_admissions_admission_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "ticket_id",                 index: {name: "index_admissions_on_ticket_id"}, foreign_key: {references: "tickets", name: "fk_admissions_ticket_id", on_update: :no_action, on_delete: :no_action}
-    t.datetime "deleted_at",                index: {name: "index_admissions_on_deleted_at"}
-    t.string   "aasm_state"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-  end
-
   create_table "gtags", force: :cascade do |t|
     t.string   "tag_uid",           null: false, index: {name: "index_gtags_on_tag_uid_and_event_id", with: ["event_id"], unique: true}
     t.string   "tag_serial_number", null: false
@@ -220,6 +188,17 @@ ActiveRecord::Schema.define(version: 20151211094600) do
     t.integer  "event_id",   null: false, index: {name: "index_entitlements_on_event_id"}, foreign_key: {references: "events", name: "entitlements_event_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
+  create_table "ticket_types", force: :cascade do |t|
+    t.string   "name",            null: false
+    t.string   "company",         null: false
+    t.decimal  "credit",          precision: 8, scale: 2, default: 0.0, null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.datetime "deleted_at",      index: {name: "index_ticket_types_on_deleted_at"}
+    t.string   "simplified_name"
+    t.integer  "event_id",        null: false, index: {name: "index_ticket_types_on_event_id"}, foreign_key: {references: "events", name: "ticket_types_event_id_fkey", on_update: :no_action, on_delete: :no_action}
+  end
+
   create_table "entitlement_ticket_types", force: :cascade do |t|
     t.integer  "entitlement_id", null: false, index: {name: "fk__entitlement_ticket_types_entitlement_id"}, foreign_key: {references: "entitlements", name: "fk_entitlement_ticket_types_entitlement_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "ticket_type_id", null: false, index: {name: "fk__entitlement_ticket_types_ticket_type_id"}, foreign_key: {references: "ticket_types", name: "fk_entitlement_ticket_types_ticket_type_id", on_update: :no_action, on_delete: :no_action}
@@ -268,14 +247,6 @@ ActiveRecord::Schema.define(version: 20151211094600) do
     t.decimal  "amount",     precision: 8, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "gtag_registrations", force: :cascade do |t|
-    t.integer  "gtag_id",                   null: false, index: {name: "index_gtag_registrations_on_gtag_id"}, foreign_key: {references: "gtags", name: "fk_gtag_registrations_gtag_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "aasm_state"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.integer  "customer_event_profile_id", null: false, index: {name: "index_gtag_registrations_on_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "gtag_registrations_admission_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "online_products", force: :cascade do |t|
@@ -340,6 +311,18 @@ ActiveRecord::Schema.define(version: 20151211094600) do
     t.string   "gateway_transaction_number"
     t.string   "payment_solution"
     t.string   "status"
+  end
+
+  create_table "tickets", force: :cascade do |t|
+    t.integer  "ticket_type_id",    null: false, index: {name: "fk__tickets_ticket_type_id"}, foreign_key: {references: "ticket_types", name: "fk_tickets_ticket_type_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "number",            index: {name: "index_tickets_on_number", unique: true}
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.datetime "deleted_at",        index: {name: "index_tickets_on_deleted_at"}
+    t.string   "purchaser_email"
+    t.string   "purchaser_name"
+    t.string   "purchaser_surname"
+    t.integer  "event_id",          null: false, index: {name: "index_tickets_on_event_id"}, foreign_key: {references: "events", name: "tickets_event_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
 end

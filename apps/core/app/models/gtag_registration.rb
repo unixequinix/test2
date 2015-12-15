@@ -19,9 +19,9 @@ class GtagRegistration < ActiveRecord::Base
   has_one :event, through: :gtag
 
   # Validations
+  validate :gtag_belongs_to_current_event
   validates :customer_event_profile, :gtag, :aasm_state, presence: true
   validates_uniqueness_of :gtag, conditions: -> { where(aasm_state: :assigned) }
-  validate :gtag_belongs_to_current_event
 
   # State machine
   include AASM

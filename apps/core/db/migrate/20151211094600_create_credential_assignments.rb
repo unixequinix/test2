@@ -22,6 +22,11 @@ class CreateCredentialAssignments < ActiveRecord::Migration
 
     move_records_to_credential_assignments("Admission", "ticket")
     move_records_to_credential_assignments("GtagRegistration", "gtag")
+
+    if(CredentialAssignment.count == Admission.count + GtagRegistration.count)
+      drop_table :admissions
+      drop_table :gtag_registrations
+    end
   end
 
   def move_records_to_credential_assignments(resource, extra_attribute)
