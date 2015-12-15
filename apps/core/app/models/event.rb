@@ -91,9 +91,11 @@ class Event < ActiveRecord::Base
   has_many :entitlements
   has_many :ticket_types
   has_many :tickets
-  has_many :admissions, through: :tickets
   has_many :gtags
-  has_many :gtag_registrations, through: :gtags
+
+  has_many :credential_assignments, through: :tickets, as: :tickets_registrations
+  has_many :credential_assignments, through: :gtags, as: :gtags_registrations
+
   has_many :online_products
   has_many :credits, through: :online_products, source: :purchasable, source_type: "Credit"
 

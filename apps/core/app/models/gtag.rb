@@ -26,10 +26,10 @@ class Gtag < ActiveRecord::Base
 
   # Associations
   belongs_to :event
-  has_many :gtag_registrations, dependent: :restrict_with_error
-  has_one :assigned_gtag_registration, ->{ where(aasm_state: :assigned) }, class_name: "GtagRegistration"
-  has_many :customer_event_profiles, through: :gtag_registrations
-  has_one :assigned_customer_event_profile, ->{ where(gtag_registrations: {aasm_state: :assigned}) }, class_name: "CustomerEventProfile"
+
+  has_one :assigned_gtag_credential, ->{ where(aasm_state: :assigned) }, as: :credentiable, class_name: "CredentialAssignment"
+  has_many :customer_event_profiles, through: :credential_assignments
+  has_one :assigned_customer_event_profile, ->{ where(credential_assignments: {aasm_state: :assigned }) }, class_name: "CredentialAssignment"
   has_one :gtag_credit_log
   has_one :refund
   has_many :claims

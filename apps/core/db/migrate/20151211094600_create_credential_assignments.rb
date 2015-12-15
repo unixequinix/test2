@@ -20,8 +20,8 @@ class CreateCredentialAssignments < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    move_records_to_credential_assignments("Admission", "ticket")
-    move_records_to_credential_assignments("GtagRegistration", "gtag")
+    move_records_to_credential_assignments("#{self.class.name}::Admission", "ticket")
+    move_records_to_credential_assignments("#{self.class.name}::GtagRegistration", "gtag")
 
     if(CredentialAssignment.count == Admission.count + GtagRegistration.count)
       drop_table :admissions
@@ -30,8 +30,8 @@ class CreateCredentialAssignments < ActiveRecord::Migration
   end
 
   def move_records_to_credential_assignments(resource, extra_attribute)
-    klass = resource.constantize
-    list_credential_assignments = klass.includes(extra_attribute.to_sym).all.map do |item|
+      klass = resource.constantize
+      list_credential_assignments = klass.includes(extra_attribute.to_sym).all.map do |item|
       CredentialAssignment.new(
         aasm_state: item[:aasm_state],
         customer_event_profile_id: item[:customer_event_profile_id],
