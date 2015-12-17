@@ -11,7 +11,7 @@ class Admins::Events::AdmissionsController < Admins::Events::CheckinBaseControll
     if !ticket.nil?
       @admission = current_customer_event_profile.admissions.build(ticket: ticket)
       if @admission.save
-        @credit_log = CreditLog.create(customer_event_profile_id: params[:customer_event_profile_id], transaction_type: CreditLog::TICKET_ASSIGNMENT, amount: ticket.ticket_type.credit) unless ticket.ticket_type.credit.nil?
+        @credit_log = CreditLog.create(customer_event_profile: current_customer_event_profile, transaction_type: CreditLog::TICKET_ASSIGNMENT, amount: ticket.ticket_type.credit) unless ticket.ticket_type.credit.nil?
         flash[:notice] = I18n.t('alerts.created')
         redirect_to admins_event_customer_url(current_event, @customer)
       else
@@ -28,7 +28,7 @@ class Admins::Events::AdmissionsController < Admins::Events::CheckinBaseControll
     @admission = Admission.find(params[:id])
     @customer_event_profile = @admission.customer_event_profile
     @admission.unassign!
-    @credit_log = CreditLog.create(customer_event_profile_id: @customer_event_profile.customer.id, transaction_type: CreditLog::TICKET_UNASSIGNMENT, amount: -@admission.ticket.ticket_type.credit) unless @admission.ticket.ticket_type.credit.nil?
+    @credit_log = CreditLog.create(customer_event_profile: @customer_event_profile, transaction_type: CreditLog::TICKET_UNASSIGNMENT, amount: -@admission.ticket.ticket_type.credit) unless @admission.ticket.ticket_type.credit.nil?
     flash[:notice] = I18n.t('alerts.unassigned')
     redirect_to admins_event_customer_url(current_event, @customer_event_profile.customer)
   end

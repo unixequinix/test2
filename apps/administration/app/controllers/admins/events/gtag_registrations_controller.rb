@@ -34,11 +34,13 @@ class Admins::Events::GtagRegistrationsController < Admins::Events::CheckinBaseC
   end
 
   private
-    def current_customer_event_profile
-      current_customer.customer_event_profile ||
-        CustomerEventProfile.new(customer: current_customer, event: current_event)
-    end
-    def current_customer
-      Customer.find(params[:customer_id])
-    end
+
+  def current_customer_event_profile
+    current_customer.customer_event_profile ||
+      CustomerEventProfile.new(customer: current_customer, event: current_event)
+  end
+
+  def current_customer
+    Customer.find(params[:customer_id])
+  end
 end
