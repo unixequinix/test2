@@ -8,7 +8,7 @@ module Api
       def customer_assignation_history
         object.customer_event_profiles.map do |customer_event_profile|
           "#{customer_event_profile.customer.name} #{customer_event_profile.customer.surname} <#{customer_event_profile.customer.email}>"
-        end.join(', ')
+        end.join(", ")
       end
 
       def assigned

@@ -1,7 +1,6 @@
 require "rails_helper"
 
 RSpec.describe Seeder::SeedLoader, type: :service do
-
   describe "load_default_event_parameters" do
     it "stores in the DB all the default values for an event" do
       event = create(:event)
@@ -42,7 +41,4 @@ RSpec.describe Seeder::SeedLoader, type: :service do
       expect(Parameter.count).to eq(number_of_parameters_before)
     end
   end
-
 end
-
-

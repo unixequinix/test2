@@ -8,6 +8,6 @@ class TicketActivationsPresenter < BasePresenter
   end
 
   def path
-    'events/events/ticket_activations'
+    "events/events/ticket_activations"
   end
 end

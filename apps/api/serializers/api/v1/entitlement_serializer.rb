@@ -4,9 +4,7 @@ module Api
       attributes :name, :company, :credit
 
       def entitlements
-        object.entitlements.map do |entitlement|
-          entitlement.name
-        end.join(', ')
+        object.entitlements.map(&:name).join(", ")
       end
     end
   end

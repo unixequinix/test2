@@ -1,5 +1,5 @@
 class Events::ConfirmationsController < Events::BaseController
-  layout 'event'
+  layout "event"
   skip_before_filter :authenticate_customer!
 
   def new
@@ -16,7 +16,7 @@ class Events::ConfirmationsController < Events::BaseController
         flash[:notice] = t("auth.confirmations.send_instructions")
         redirect_to after_sending_confirmation_instructions_path
       else
-        flash.now[:error] = I18n.t('errors.messages.already_confirmed')
+        flash.now[:error] = I18n.t("errors.messages.already_confirmed")
         redirect_to event_login_path(current_event, confirmed: true)
       end
     else
@@ -35,15 +35,14 @@ class Events::ConfirmationsController < Events::BaseController
       warden.set_user(@customer, scope: :admin)
       redirect_to after_confirmation_path
     end
-
   end
 
   private
 
   def redirect_if_token_empty!
-    unless params.has_key?(:token)
+    unless params.key?(:token)
       flash.alert = t("confirmations.token.empty")
-      redirect_to :root and return
+      redirect_to(:root) && return
     end
   end
 

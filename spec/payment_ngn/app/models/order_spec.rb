@@ -26,7 +26,6 @@ RSpec.describe Order, type: :model do
 
   describe "total" do
     it "returns the total of all the items in the order" do
-
       expect(@order.total).to eq(59.85)
     end
   end
@@ -34,7 +33,7 @@ RSpec.describe Order, type: :model do
   describe "generate_order_number!" do
     it "should create a new order number" do
       @order.generate_order_number!
-      day = Date.today.strftime('%y%m%d')
+      day = Date.today.strftime("%y%m%d")
 
       expect(@order.number).to start_with(day)
       expect(@order.number).to match(/^[a-f0-9]*$/)
@@ -59,9 +58,8 @@ RSpec.describe Order, type: :model do
       5.times do
         create(:order_item, online_product: op, order: @order)
       end
-      #45 is 9*5. amount set in order_items.rb
+      # 45 is 9*5. amount set in order_items.rb
       expect(@order.credits_total).to be(45)
     end
   end
-
 end

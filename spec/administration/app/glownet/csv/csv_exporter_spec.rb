@@ -1,10 +1,8 @@
 require "rails_helper"
 
 RSpec.describe Csv::CsvExporter do
-
   context "With many Claims in the DB" do
     before :all do
-
       gtag_odd = create(:gtag, tag_uid: "4OBXCHS2FT", tag_serial_number: "MIUE4Z2HNT")
       gtag_even = create(:gtag, tag_uid: "5OBXCHS2FT", tag_serial_number: "MOUE4Z2HNT", event: gtag_odd.event)
       event = gtag_odd.event
@@ -14,14 +12,14 @@ RSpec.describe Csv::CsvExporter do
       customer_event_profile_even = create(:customer_event_profile, event: event, customer: customer_even)
       (1..5).each do |time|
         if time.odd?
-          claim = Claim.create(id: time,number: "15102511a6e5" + time.to_s,aasm_state: "completed",completed_at: Date.yesterday ,total: 233, created_at: Date.yesterday - 1.day, updated_at: Date.yesterday, gtag_id: gtag_odd.id, service_type: "bank_account ", fee: 10.5, minimum: 0, customer_event_profile_id: customer_event_profile_odd.id)
+          claim = Claim.create(id: time, number: "15102511a6e5" + time.to_s, aasm_state: "completed", completed_at: Date.yesterday, total: 233, created_at: Date.yesterday - 1.day, updated_at: Date.yesterday, gtag_id: gtag_odd.id, service_type: "bank_account ", fee: 10.5, minimum: 0, customer_event_profile_id: customer_event_profile_odd.id)
         else
-          claim = Claim.create(id: time,number: "15102511a6e5" + time.to_s,aasm_state: "completed",completed_at: Date.yesterday ,total: 233, created_at: Date.yesterday - 1.day, updated_at: Date.yesterday, gtag_id: gtag_even.id, service_type: "bank_account", fee: 10.5, minimum: 0, customer_event_profile_id: customer_event_profile_even.id)
+          claim = Claim.create(id: time, number: "15102511a6e5" + time.to_s, aasm_state: "completed", completed_at: Date.yesterday, total: 233, created_at: Date.yesterday - 1.day, updated_at: Date.yesterday, gtag_id: gtag_even.id, service_type: "bank_account", fee: 10.5, minimum: 0, customer_event_profile_id: customer_event_profile_even.id)
         end
         create(:refund, claim: claim)
-        p = Parameter.find_by(name: "iban",data_type: "string", category: "claim", group: "bank_account")
+        p = Parameter.find_by(name: "iban", data_type: "string", category: "claim", group: "bank_account")
         create(:claim_parameter, parameter: p, claim: claim, value: "UNCRITM1MN9")
-        p = Parameter.find_by(name: "swift",data_type: "string", category: "claim", group: "bank_account")
+        p = Parameter.find_by(name: "swift", data_type: "string", category: "claim", group: "bank_account")
         create(:claim_parameter, parameter: p, claim: claim, value: "IT26U0200802487000005011003")
       end
       @csv_file = Csv::CsvExporter.to_csv(Claim.selected_data(:completed, event))
@@ -29,7 +27,7 @@ RSpec.describe Csv::CsvExporter do
 
     describe "the CSV file exported" do
       it "should have the same rows as records in DB +1 (for the headers)" do
-        expect(number_of_records_in_csv(@csv_file)).to be(Claim.count())
+        expect(number_of_records_in_csv(@csv_file)).to be(Claim.count)
       end
 
       it "should be able to export to a file" do
@@ -37,7 +35,6 @@ RSpec.describe Csv::CsvExporter do
 
         expect(@csv_file).to eq(csv_expected)
       end
-
     end
   end
 
@@ -47,19 +44,19 @@ RSpec.describe Csv::CsvExporter do
 
       claim = create(:claim, id: 100)
       Refund.create(id: 100, created_at: "Tue, 27 Oct 2015 15:34:23 CET +01:00",
-        updated_at: "Tue, 27 Oct 2015 15:34:23 CET +01:00", claim_id: claim.id,
-        amount: 10, currency: "eur", message: "dummy", operation_type: "payment",
-        gateway_transaction_number: "epg", payment_solution: "dummy", status: "completed")
+                    updated_at: "Tue, 27 Oct 2015 15:34:23 CET +01:00", claim_id: claim.id,
+                    amount: 10, currency: "eur", message: "dummy", operation_type: "payment",
+                    gateway_transaction_number: "epg", payment_solution: "dummy", status: "completed")
       Refund.create(id: 200, created_at: "Tue, 27 Oct 2015 15:34:23 CET +01:00",
-        updated_at: "Tue, 27 Oct 2015 15:34:23 CET +01:00", claim_id: claim.id,
-        amount: 10, currency: "eur", message: "dummy", operation_type: "payment",
-        gateway_transaction_number: "epg", payment_solution: "dummy", status: "completed")
+                    updated_at: "Tue, 27 Oct 2015 15:34:23 CET +01:00", claim_id: claim.id,
+                    amount: 10, currency: "eur", message: "dummy", operation_type: "payment",
+                    gateway_transaction_number: "epg", payment_solution: "dummy", status: "completed")
       Refund.create(id: 300, created_at: "Tue, 27 Oct 2015 15:34:23 CET +01:00",
-        updated_at: "Tue, 27 Oct 2015 15:34:23 CET +01:00", claim_id: claim.id,
-        amount: 10, currency: "eur", message: "dummy", operation_type: "payment",
-        gateway_transaction_number: "epg", payment_solution: "dummy", status: "completed")
+                    updated_at: "Tue, 27 Oct 2015 15:34:23 CET +01:00", claim_id: claim.id,
+                    amount: 10, currency: "eur", message: "dummy", operation_type: "payment",
+                    gateway_transaction_number: "epg", payment_solution: "dummy", status: "completed")
 
-        @csv_file = Csv::CsvExporter.to_csv(Refund.all)
+      @csv_file = Csv::CsvExporter.to_csv(Refund.all)
     end
 
     describe "the CSV file exported" do
@@ -69,7 +66,7 @@ RSpec.describe Csv::CsvExporter do
       end
 
       it "should have the same rows as records in DB +1 (for the headers)" do
-        expect(number_of_records_in_csv(@csv_file)).to be(Refund.count())
+        expect(number_of_records_in_csv(@csv_file)).to be(Refund.count)
       end
 
       it "should be able to export to a file" do
@@ -77,23 +74,20 @@ RSpec.describe Csv::CsvExporter do
 
         expect(@csv_file).to eq(csv_expected)
       end
-
     end
   end
 
   private
-  def get_headers_from_csv_file file
+
+  def get_headers_from_csv_file(file)
     file.split("\n").first.split(",")
   end
 
-  def included_in? contained, container
+  def included_in?(contained, container)
     (contained - container).empty?
   end
 
-  def number_of_records_in_csv file
-    file.count("\n") - 1 #remove headers
+  def number_of_records_in_csv(file)
+    file.count("\n") - 1 # remove headers
   end
-
 end
-
-

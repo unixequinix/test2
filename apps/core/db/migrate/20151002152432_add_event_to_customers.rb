@@ -1,5 +1,4 @@
 class AddEventToCustomers < ActiveRecord::Migration
-
   def change
     remove_index :customers, :email
     change_column :customers, :email, :string, null: false, default: ""

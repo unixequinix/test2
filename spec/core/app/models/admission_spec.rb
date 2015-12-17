@@ -13,9 +13,7 @@
 require "rails_helper"
 
 RSpec.describe Admission, type: :model do
-
   describe "ticket_belongs_to_current_event" do
-
     it "should validate that the ticket belongs to the current event" do
       admission = build(:admission)
       admission.ticket.event = admission.customer_event_profile.event
@@ -32,4 +30,3 @@ RSpec.describe Admission, type: :model do
     end
   end
 end
-

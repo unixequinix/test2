@@ -26,8 +26,6 @@ module Api
       def claim_minimum
         object.minimum
       end
-
-
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 
 FactoryGirl.define do
-  factory :credit do |param|
+  factory :credit do |_param|
     standard true
     after :build do |credit|
       credit.online_product = build(:online_product, purchasable: credit)

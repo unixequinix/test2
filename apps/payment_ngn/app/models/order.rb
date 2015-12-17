@@ -40,23 +40,23 @@ class Order < ActiveRecord::Base
   end
 
   def total
-    self.order_items.sum(:total)
+    order_items.sum(:total)
   end
 
   def total_stripe_formated
     total_formated = sprintf "%.2f", total
-    total_formated.gsub(".","")
+    total_formated.gsub(".", "")
   end
 
   def credits_total
-    self.order_items.joins(:online_product).where(online_products: { purchasable_type: 'Credit',event_id: self.customer_event_profile.event.id } ).sum(:amount)
+    order_items.joins(:online_product).where(online_products: { purchasable_type: "Credit", event_id: customer_event_profile.event.id }).sum(:amount)
   end
 
   def generate_order_number!
-    time_hex = Time.now.strftime('%H%M%L').to_i.to_s(16)
-    day = Date.today.strftime('%y%m%d')
+    time_hex = Time.now.strftime("%H%M%L").to_i.to_s(16)
+    day = Date.today.strftime("%y%m%d")
     self.number = "#{day}#{time_hex}"
-    self.save
+    save
   end
 
   def expired?
@@ -66,6 +66,6 @@ class Order < ActiveRecord::Base
   private
 
   def complete_order
-    self.update(completed_at: Time.now())
+    update(completed_at: Time.now)
   end
 end

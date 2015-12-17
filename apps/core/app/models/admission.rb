@@ -20,8 +20,10 @@ class Admission < ActiveRecord::Base
 
   # Validations
   validates :customer_event_profile, :ticket, :aasm_state, presence: true
-  validates_uniqueness_of :ticket, conditions: -> { where(
-    aasm_state: :assigned) }
+  validates_uniqueness_of :ticket, conditions: -> do
+    where(
+      aasm_state: :assigned)
+  end
   validate :ticket_belongs_to_current_event
 
   # State machine
@@ -39,6 +41,6 @@ class Admission < ActiveRecord::Base
   private
 
   def ticket_belongs_to_current_event
-    errors.add(:ticket_id, I18n.t("errors.messages.not_belong_to_event")) unless self.ticket.event == self.customer_event_profile.event
+    errors.add(:ticket_id, I18n.t("errors.messages.not_belong_to_event")) unless ticket.event == customer_event_profile.event
   end
 end

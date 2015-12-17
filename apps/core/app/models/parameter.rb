@@ -13,12 +13,11 @@
 #
 
 class Parameter < ActiveRecord::Base
-
   DATA_TYPES = {
     "string" => { default: "-", validator: /.+/ },
     "currency" => { default: "0.0", validator: /^\d+(\.\d{2})?/ },
     "integer" => { default: "0", validator: /^\d+/ },
-    "boolean" => { default: "false", validator: /true|false/}
+    "boolean" => { default: "false", validator: /true|false/ }
   }
 
   # Associations
@@ -39,8 +38,7 @@ class Parameter < ActiveRecord::Base
     if data_config
       data_config[:default]
     else
-      ''
+      ""
     end
   end
-
 end

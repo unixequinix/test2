@@ -1,5 +1,5 @@
 class Events::SessionsController < Events::BaseController
-  layout 'event'
+  layout "event"
   skip_before_filter :authenticate_customer!, only: [:new, :create]
 
   def new
@@ -8,9 +8,7 @@ class Events::SessionsController < Events::BaseController
     @password_sent = params[:password_sent]
     @confirmation_sent = params[:confirmation_sent]
     @customer_login_form = CustomerLoginForm.new(Customer.new)
-    if customer_signed_in?
-      redirect_to customer_root_path(current_event)
-    end
+    redirect_to customer_root_path(current_event) if customer_signed_in?
   end
 
   def create
@@ -21,17 +19,17 @@ class Events::SessionsController < Events::BaseController
         authenticate_customer!
         if params["customer"].fetch("remember_me") == "1"
           customer.init_remember_token!
-          cookies['remember_token'] = { value: customer.remember_token, expires: Time.parse(customer.remember_me_token_expires_at(2.weeks).to_s) }
+          cookies["remember_token"] = { value: customer.remember_token, expires: Time.parse(customer.remember_me_token_expires_at(2.weeks).to_s) }
         end
         redirect_to after_sign_in_path
       else
         @customer_login_form = CustomerLoginForm.new(Customer.new)
-        flash.now[:error] = I18n.t('auth.failure.invalid', authentication_keys: 'email')
+        flash.now[:error] = I18n.t("auth.failure.invalid", authentication_keys: "email")
         render :new
       end
     else
       @customer_login_form = CustomerLoginForm.new(Customer.new)
-      flash.now[:error] = I18n.t('auth.failure.invalid', authentication_keys: 'email')
+      flash.now[:error] = I18n.t("auth.failure.invalid", authentication_keys: "email")
       render :new
     end
   end

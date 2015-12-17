@@ -42,7 +42,6 @@ class GtagRegistration < ActiveRecord::Base
   private
 
   def gtag_belongs_to_current_event
-    errors.add(:gtag_id, I18n.t("errors.messages.not_belong_to_event")) unless self.gtag.event == self.customer_event_profile.event
+    errors.add(:gtag_id, I18n.t("errors.messages.not_belong_to_event")) unless gtag.event == customer_event_profile.event
   end
-
 end

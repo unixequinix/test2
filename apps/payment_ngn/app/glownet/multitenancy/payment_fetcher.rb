@@ -14,6 +14,7 @@ class Multitenancy::PaymentFetcher
   end
 
   private
+
   def admin?
     @user.is_admin?
   end

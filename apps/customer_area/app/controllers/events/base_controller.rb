@@ -1,5 +1,5 @@
 class Events::BaseController < ApplicationController
-  layout 'event'
+  layout "event"
   protect_from_forgery
   before_filter :set_i18n_globals
   before_action :ensure_customer
@@ -14,7 +14,7 @@ class Events::BaseController < ApplicationController
   end
 
   def warden
-    request.env['warden']
+    request.env["warden"]
   end
 
   def authenticate_customer!
@@ -54,7 +54,7 @@ class Events::BaseController < ApplicationController
   def fetch_current_event
     id = params[:event_id] || params[:id]
     @current_event = Event.find_by_slug(id) if id
-    raise ActiveRecord::RecordNotFound if @current_event.nil?
+    fail ActiveRecord::RecordNotFound if @current_event.nil?
     @current_event
   end
 

@@ -1,8 +1,7 @@
 require "admin_constraints"
-require 'sidekiq/web'
+require "sidekiq/web"
 
 Rails.application.routes.draw do
-
   ## Resources
   ## ------------------------------
   namespace :admins do
@@ -16,7 +15,7 @@ Rails.application.routes.draw do
         post :remove_logo
         post :remove_background
       end
-      scope module: 'events' do
+      scope module: "events" do
         resources :refund_settings, only: [:index, :edit, :update] do
           collection do
             get :edit_messages
@@ -38,6 +37,3 @@ Rails.application.routes.draw do
     end
   end
 end
-
-
-

@@ -27,5 +27,4 @@ class Payment < ActiveRecord::Base
 
   # Validations
   validates :order, :amount, presence: true
-
 end

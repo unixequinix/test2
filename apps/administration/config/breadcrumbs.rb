@@ -38,7 +38,7 @@ crumb :admins_event do |event|
   link event.name, admins_event_path(event)
 end
 
-crumb :new_admins_event do |event|
+crumb :new_admins_event do |_event|
   link t("breadcrumbs.new_event")
 end
 
@@ -48,7 +48,6 @@ crumb :admins_event_gtag_settings do |event|
   link t("breadcrumbs.gtag_settings"), admin_root_path
   parent :admins_event, event
 end
-
 
 ## Entitlements
 
@@ -152,7 +151,7 @@ crumb :new_admins_event_customer do |event|
   parent :admins_event_customers, event
 end
 
-crumb :new_admins_event_customer_admission do |event,customer|
+crumb :new_admins_event_customer_admission do |event, customer|
   link t("breadcrumbs.new_customer_admission")
   parent :admins_event_customers, event, customer
 end

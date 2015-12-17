@@ -1,5 +1,4 @@
 class Multitenancy::RefundFetcher
-
   def initialize(event)
     @event = event
   end
@@ -23,12 +22,11 @@ class Multitenancy::RefundFetcher
 
   private
 
-    def admin?
-      @user.is_admin?
-    end
+  def admin?
+    @user.is_admin?
+  end
 
-    def manager?
-      @user.is_manager?
-    end
-
+  def manager?
+    @user.is_manager?
+  end
 end

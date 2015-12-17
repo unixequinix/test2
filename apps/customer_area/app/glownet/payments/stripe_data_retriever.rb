@@ -5,7 +5,7 @@ class Payments::StripeDataRetriever
   def initialize(event, order)
     @current_event = event
     @order = order
-    @payment_parameters = Parameter.joins(:event_parameters).where(category: "payment", group: @current_event.payment_service, event_parameters: {event: event}).select("parameters.name, event_parameters.*")
+    @payment_parameters = Parameter.joins(:event_parameters).where(category: "payment", group: @current_event.payment_service, event_parameters: { event: event }).select("parameters.name, event_parameters.*")
   end
 
   def name
@@ -36,8 +36,8 @@ class Payments::StripeDataRetriever
     get_value_of_parameter("account_publishable_key")
   end
 
-
   private
+
   def get_value_of_parameter(parameter)
     @payment_parameters.find { |param| param.name == parameter }.value
   end

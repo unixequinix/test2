@@ -1,8 +1,8 @@
-set :branch, 'master'
-set :rails_env, 'production'
+set :branch, "master"
+set :rails_env, "production"
 
 # Link certification folder
-set :linked_dirs, fetch(:linked_dirs) + %w{certs}
+set :linked_dirs, fetch(:linked_dirs) + %w(certs)
 
 # Simple Role Syntax
 # ==================
@@ -20,7 +20,7 @@ set :linked_dirs, fetch(:linked_dirs) + %w{certs}
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server 'gspot.glownet.com', user: 'ubuntu', roles: %w{web app db}
+server "gspot.glownet.com", user: "ubuntu", roles: %w(web app db)
 
 # Custom SSH Options
 # ==================
@@ -35,15 +35,11 @@ server 'gspot.glownet.com', user: 'ubuntu', roles: %w{web app db}
 #    auth_methods: %w(password)
 #  }
 
-set :default_run_options, {
-  pty: true
-}
+set :default_run_options,   pty: true
 
-set :ssh_options, {
-  keys: [ENV['GSPOT_PRODUCTION_CERT']],
-  forward_agent: true,
-  auth_methods: %w(publickey)
-}
+set :ssh_options,   keys: [ENV["GSPOT_PRODUCTION_CERT"]],
+                    forward_agent: true,
+                    auth_methods: %w(publickey)
 
 # And/or per server (overrides global)
 # ------------------------------------

@@ -1,5 +1,4 @@
 class Admins::Events::CustomersController < Admins::Events::BaseController
-
   def index
     set_presenter
   end
@@ -27,9 +26,9 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
       context: view_context,
       include_for_all_items: [:customer_event_profile, customer_event_profile:
         [:assigned_admissions, :assigned_gtag_registration,
-          assigned_admissions: :ticket, admissions: :ticket
+         assigned_admissions: :ticket, admissions: :ticket
         ]
-      ]
+                             ]
     )
   end
 end

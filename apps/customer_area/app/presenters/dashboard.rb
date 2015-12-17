@@ -6,7 +6,7 @@ class Dashboard
     @customer_event_profile = customer_event_profile
     @event = customer_event_profile.event
     @admissions = customer_event_profile.assigned_admissions
-                                        .includes(:ticket, ticket: :ticket_type)
+                  .includes(:ticket, ticket: :ticket_type)
     @gtag_registration = customer_event_profile.assigned_gtag_registration
     @completed_claim = customer_event_profile.completed_claim
     @presenters = []

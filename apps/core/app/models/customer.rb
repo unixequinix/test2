@@ -37,11 +37,11 @@
 
 class Customer < ActiveRecord::Base
   acts_as_paranoid
-  default_scope { order('email') }
+  default_scope { order("email") }
 
-  #Genders
-  MALE = 'male'
-  FEMALE = 'female'
+  # Genders
+  MALE = "male"
+  FEMALE = "female"
 
   GENDERS = [MALE, FEMALE]
 
@@ -69,11 +69,11 @@ class Customer < ActiveRecord::Base
   end
 
   def update_tracked_fields!(request)
-    old_current, new_current = self.current_sign_in_at, Time.now.utc
+    old_current, new_current = current_sign_in_at, Time.now.utc
     self.last_sign_in_at     = old_current || new_current
     self.current_sign_in_at  = new_current
 
-    old_current, new_current = self.current_sign_in_ip, request.env["REMOTE_ADDR"]
+    old_current, new_current = current_sign_in_ip, request.env["REMOTE_ADDR"]
     self.last_sign_in_ip     = old_current || new_current
     self.current_sign_in_ip  = new_current
 
@@ -103,7 +103,7 @@ class Customer < ActiveRecord::Base
   end
 
   def self.gender_selector
-    GENDERS.map { |f| [I18n.t('gender.' + f), f] }
+    GENDERS.map { |f| [I18n.t("gender." + f), f] }
   end
 
   private
@@ -118,10 +118,10 @@ class Customer < ActiveRecord::Base
   end
 
   def birthdate_is_date?
-    unless(birthdate.is_a?(ActiveSupport::TimeWithZone))
+    unless birthdate.is_a?(ActiveSupport::TimeWithZone)
       errors.add(
         :birthdate,
-        I18n.t('activemodel.errors.models.customer.attributes.birthdate.invalid')
+        I18n.t("activemodel.errors.models.customer.attributes.birthdate.invalid")
       )
       false
     else
@@ -131,12 +131,12 @@ class Customer < ActiveRecord::Base
 
   def enough_age?
     minimum_age = 12
-    unless(Date.today.midnight - minimum_age.years >= birthdate.midnight)
+    unless (Date.today.midnight - minimum_age.years >= birthdate.midnight)
       errors.add(
         :birthdate,
-        I18n.t('activemodel.errors.models.customer.attributes.birthdate.too_young',
-          age: minimum_age
-        )
+        I18n.t("activemodel.errors.models.customer.attributes.birthdate.too_young",
+               age: minimum_age
+              )
       )
     end
   end
@@ -146,5 +146,4 @@ class Customer < ActiveRecord::Base
       self[column] = SecureRandom.urlsafe_base64
     end while Customer.exists?(column => self[column])
   end
-
 end

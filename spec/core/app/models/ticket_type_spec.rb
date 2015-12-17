@@ -16,7 +16,6 @@
 require "rails_helper"
 
 RSpec.describe TicketType, type: :model do
-
   before do
     @first_event = create(:event)
     create(:ticket_type, name: "repellendus", id: 16, event: @first_event)
@@ -45,5 +44,4 @@ RSpec.describe TicketType, type: :model do
       ["labore", 20]
     ])
   end
-
 end

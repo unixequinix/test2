@@ -3,7 +3,7 @@ class Admins::Events::Gtags::CommentsController < Admins::Events::CommentsContro
 
   private
 
-    def set_commentable
-      @commentable = Gtag.find(params[:gtag_id])
-    end
+  def set_commentable
+    @commentable = Gtag.find(params[:gtag_id])
+  end
 end

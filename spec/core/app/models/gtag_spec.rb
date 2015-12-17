@@ -36,8 +36,7 @@ RSpec.describe Gtag, type: :model do
       gtag = create(:gtag, event: credit.online_product.event)
       gtag_credit_log = create(:gtag_credit_log, amount: 9.99, gtag: gtag)
       price = credit.online_product.price
-      expect(gtag.refundable_amount()).to eq(price*9.99)
+      expect(gtag.refundable_amount).to eq(price * 9.99)
     end
   end
-
 end

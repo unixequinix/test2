@@ -5,11 +5,11 @@ class EpgCheckout
     @claim = claim
     @epg_claim_form = epg_claim_form
     eps = EventParameter.select(:value, "parameters.name")
-      .joins(:parameter).where(
-        event_id: claim.customer_event_profile.event_id,
-        parameters: { category: 'refund', group: 'epg' }
-      )
-    @epg_values = Hash[eps.map{ |ep| [ep.name.to_sym, ep.value] }]
+          .joins(:parameter).where(
+            event_id: claim.customer_event_profile.event_id,
+            parameters: { category: "refund", group: "epg" }
+          )
+    @epg_values = Hash[eps.map { |ep| [ep.name.to_sym, ep.value] }]
   end
 
   def url
@@ -21,9 +21,9 @@ class EpgCheckout
     encryptedValue = encrypted
 
     parameters = {
-      'merchantId' => @epg_values[:merchant_id],
-      'encrypted' => encryptedValue,
-      'integrityCheck' => sha256ParamsIntegrityCheck
+      "merchantId" => @epg_values[:merchant_id],
+      "encrypted" => encryptedValue,
+      "integrityCheck" => sha256ParamsIntegrityCheck
     }
     uri = URI.parse(@epg_values[:url])
     uri.query = URI.encode_www_form(parameters)
@@ -49,7 +49,7 @@ class EpgCheckout
     valid_characters = /[^0-9A-Za-zñÑ\-,'"ªº]/
     value = "amount=#{@claim.gtag.refundable_amount_after_fee(Claim::EASY_PAYMENT_GATEWAY)}"
     value += "&country=#{@epg_values[:country]}"
-    value += "&language=#{I18n.locale.to_s}"
+    value += "&language=#{I18n.locale}"
     value += "&currency=#{@epg_values[:currency]}"
     value += "&state=#{@epg_claim_form.state.gsub(valid_characters, ' ')}"
     value += "&city=#{@epg_claim_form.city.gsub(valid_characters, ' ')}"
@@ -69,5 +69,4 @@ class EpgCheckout
     value += "&errorURL=#{error_event_refunds_url(@claim.customer_event_profile.event)}"
     value += "&statusURL=#{event_refunds_url(@claim.customer_event_profile.event)}"
   end
-
 end

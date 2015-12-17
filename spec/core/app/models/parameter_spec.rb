@@ -22,18 +22,18 @@ RSpec.describe Parameter, type: :model do
   describe "default_value_for" do
     it "should get '' as default value for a Parameter with data_type nil" do
       data_type = nil
-      expect(Parameter.default_value_for(data_type)).to eq('')
+      expect(Parameter.default_value_for(data_type)).to eq("")
     end
 
     it "should get default value for a Parameter with a data_type" do
-      data_type = 'string'
-      expect(Parameter.default_value_for(data_type)).to eq('-')
+      data_type = "string"
+      expect(Parameter.default_value_for(data_type)).to eq("-")
 
-      data_type = 'currency'
-      expect(Parameter.default_value_for(data_type)).to eq('0.0')
+      data_type = "currency"
+      expect(Parameter.default_value_for(data_type)).to eq("0.0")
 
-      data_type = 'integer'
-      expect(Parameter.default_value_for(data_type)).to eq('0')
+      data_type = "integer"
+      expect(Parameter.default_value_for(data_type)).to eq("0")
     end
   end
 end

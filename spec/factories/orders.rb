@@ -16,7 +16,7 @@ FactoryGirl.define do
     number { Faker::Number.number(10) }
     customer_event_profile
 
-    after :build do |order, evaluator|
+    after :build do |order, _evaluator|
       3.times do
         order.order_items << build(:order_item, order: order, total: 19.95)
       end

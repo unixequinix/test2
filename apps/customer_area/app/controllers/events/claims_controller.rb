@@ -8,15 +8,15 @@ class Events::ClaimsController < Events::BaseController
   private
 
   def check_event_status!
-    if !current_event.claiming_started?
-      flash.now[:error] = I18n.t('alerts.error')
+    unless current_event.claiming_started?
+      flash.now[:error] = I18n.t("alerts.error")
       redirect_to event_url(current_event)
     end
   end
 
   def check_has_not_claims!
     if current_customer_event_profile.completed_claim
-      flash.now[:error] = I18n.t('alerts.claim_complete')
+      flash.now[:error] = I18n.t("alerts.claim_complete")
       redirect_to event_url(current_event)
     end
   end
@@ -24,15 +24,15 @@ class Events::ClaimsController < Events::BaseController
   def require_permission!
     @claim = Claim.find(params["#{service_type}_claim_form"][:claim_id])
     if current_customer_event_profile != @claim.customer_event_profile || @claim.completed?
-      flash.now[:error] = I18n.t('alerts.claim_complete')
+      flash.now[:error] = I18n.t("alerts.claim_complete")
       redirect_to event_url(current_event)
     end
   end
 
   def enough_credits!
     @gtag = current_customer_event_profile.assigned_gtag_registration.gtag
-    if !@gtag.refundable?(service_type)
-      flash.now[:error] = I18n.t('alerts.quantity_not_refundable')
+    unless @gtag.refundable?(service_type)
+      flash.now[:error] = I18n.t("alerts.quantity_not_refundable")
       redirect_to event_url(current_event)
     end
   end
@@ -49,5 +49,4 @@ class Events::ClaimsController < Events::BaseController
     @claim.save!
     @claim
   end
-
 end

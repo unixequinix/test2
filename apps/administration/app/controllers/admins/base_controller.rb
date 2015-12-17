@@ -1,5 +1,5 @@
 class Admins::BaseController < ApplicationController
-  layout 'admin'
+  layout "admin"
   protect_from_forgery
   before_action :ensure_admin
   before_action :set_locale
@@ -12,7 +12,7 @@ class Admins::BaseController < ApplicationController
   end
 
   def warden
-    request.env['warden']
+    request.env["warden"]
   end
 
   def authenticate_admin!
@@ -29,7 +29,6 @@ class Admins::BaseController < ApplicationController
       return false
     end
   end
-
 
   def admin_signed_in?
     !current_admin.nil?

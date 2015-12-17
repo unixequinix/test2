@@ -19,17 +19,17 @@ class CustomerEventProfile < ActiveRecord::Base
   belongs_to :event
   has_many :admissions, dependent: :destroy
   has_many :assigned_admissions, -> { where(aasm_state: :assigned) },
-    class_name: 'Admission'
+           class_name: "Admission"
   has_many :gtag_registrations, dependent: :destroy
-  has_one :assigned_gtag_registration, ->{ where(aasm_state: :assigned) },
-    class_name: 'GtagRegistration'
+  has_one :assigned_gtag_registration, -> { where(aasm_state: :assigned) },
+          class_name: "GtagRegistration"
   has_many :orders
   has_many :claims
   has_many :refunds, through: :claims
   has_many :credit_logs
-  has_many :credit_purchased_logs, ->{ where(transaction_type: CreditLog::CREDITS_PURCHASE) },
-    class_name: 'CreditLog'
-  has_one :completed_claim, ->{ where(aasm_state: :completed) }, class_name: "Claim"
+  has_many :credit_purchased_logs, -> { where(transaction_type: CreditLog::CREDITS_PURCHASE) },
+           class_name: "CreditLog"
+  has_one :completed_claim, -> { where(aasm_state: :completed) }, class_name: "Claim"
 
   # Validations
   validates :customer, :event, presence: true
@@ -55,6 +55,6 @@ class CustomerEventProfile < ActiveRecord::Base
   end
 
   def refundable_credits
-    self.assigned_gtag_registration.gtag.gtag_credit_log.amount unless self.assigned_gtag_registration.nil? || self.assigned_gtag_registration.gtag.gtag_credit_log.nil?
+    assigned_gtag_registration.gtag.gtag_credit_log.amount unless assigned_gtag_registration.nil? || assigned_gtag_registration.gtag.gtag_credit_log.nil?
   end
 end

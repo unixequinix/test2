@@ -14,7 +14,6 @@ module Api
       def refundable
         object.gtag.refundable?
       end
-
     end
   end
 end

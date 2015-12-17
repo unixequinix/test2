@@ -8,15 +8,15 @@ RSpec.describe EpgCheckout, type: :service do
     gtag = create(:gtag, event: event)
     claim = create(:claim, customer_event_profile: cep, gtag: gtag)
     parameter = Parameter.find_by(category: "refund", group: "epg", name: "fee")
-    event_parameter =EventParameter.find_by(parameter_id: parameter.id, event: event, value: 23)
+    event_parameter = EventParameter.find_by(parameter_id: parameter.id, event: event, value: 23)
     online_product = create(:online_product, event: event, price: 20)
     credit = create(:credit, standard: true)
 
     claim = CustomerEventProfile.find_by(event: event).claims.first
 
     epg_claim_form = EpgClaimForm.new(country_code: "ES", state: "Madrid",
-      city: "Madrid" ,post_code: "28004", phone: +34660556776,
-      address: "C/Conde Romanones", claim_id: claim.id, agreed_on_claim: true)
+                                      city: "Madrid", post_code: "28004", phone: +34_660_556_776,
+                                      address: "C/Conde Romanones", claim_id: claim.id, agreed_on_claim: true)
 
     @epg_checkout_service = EpgCheckout.new(claim, epg_claim_form)
   end
@@ -37,4 +37,3 @@ RSpec.describe EpgCheckout, type: :service do
     end
   end
 end
-
