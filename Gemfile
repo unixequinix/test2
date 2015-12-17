@@ -124,6 +124,8 @@ group :development, :test, :staging do
   gem 'rubocop', '~>0.30.1', require: false # Code quality https://github.com/bbatsov/rubocop
   gem 'rubocop-checkstyle_formatter', require: false
   gem 'simplecov', '~> 0.10.0', require: false # Code quality https://github.com/colszowka/simplecov
+  gem 'flay', '>= 2.6.1'
+  gem 'flog', '>= 4.3.2'
 end
 
 group :test do

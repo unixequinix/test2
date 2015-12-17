@@ -4,9 +4,14 @@ class Events::BaseController < ApplicationController
   before_filter :set_i18n_globals
   before_action :ensure_customer
   before_action :set_locale
+  helper_method :current_event
+  before_action :fetch_current_event
   before_action :authenticate_customer!
-
   helper_method :warden, :customer_signed_in?, :current_customer
+
+  def current_event
+    @current_event || Event.new
+  end
 
   def warden
     request.env['warden']
@@ -45,6 +50,13 @@ class Events::BaseController < ApplicationController
   helper_method :current_customer_event_profile
 
   private
+
+  def fetch_current_event
+    id = params[:event_id] || params[:id]
+    @current_event = Event.find_by_slug(id) if id
+    raise ActiveRecord::RecordNotFound if @current_event.nil?
+    @current_event
+  end
 
   def set_i18n_globals
     I18n.config.globals[:gtag] = current_event.gtag_name

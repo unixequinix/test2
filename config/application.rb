@@ -56,7 +56,12 @@ module GlownetWeb
     }
 
     # Custom exception handling
-    config.exceptions_app = ->(env) { ExceptionController.action(:show).call(env) }
+    config.exceptions_app = ->(env) {
+      params = env["action_dispatch.request.parameters"]
+      namespace = params["controller"].split('/')[0].capitalize
+      controller = namespace.nil? ? "ExceptionsController" : "#{namespace}::ExceptionsController"
+      controller.constantize.action(:show).call(env)
+    }
 
     config.middleware.insert_before 0, 'Rack::Cors' do
       allow do
