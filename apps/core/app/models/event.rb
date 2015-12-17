@@ -93,8 +93,8 @@ class Event < ActiveRecord::Base
   has_many :tickets
   has_many :gtags
 
-  has_many :credential_assignments, through: :tickets, as: :tickets_registrations
-  has_many :credential_assignments, through: :gtags, as: :gtags_registrations
+  has_many :credential_assignments, through: :tickets, as: :tickets_assignments
+  has_many :credential_assignments, through: :gtags, as: :gtags_assignments
 
   has_many :online_products
   has_many :credits, through: :online_products, source: :purchasable, source_type: "Credit"
@@ -189,7 +189,7 @@ class Event < ActiveRecord::Base
     fee = refund_fee(refund_service)
     minimun = refund_minimun(refund_service)
     standard_price = standard_credit_price
-    self.gtag_registrations
+    self.gtag_assignments
       .joins(:gtag, gtag: :gtag_credit_log)
       .where(aasm_state: :assigned)
       .where("((amount * #{standard_price}) - #{fee}) >= #{minimun}")
@@ -200,7 +200,7 @@ class Event < ActiveRecord::Base
   def total_refundable_gtags(refund_service)
     fee = refund_fee(refund_service)
     minimun = refund_minimun(refund_service)
-    self.gtag_registrations
+    self.gtag_assignments
       .joins(:gtag, gtag: :gtag_credit_log)
       .where(aasm_state: :assigned)
       .where("((amount * #{standard_credit_price}) - #{fee}) >= #{minimun}")

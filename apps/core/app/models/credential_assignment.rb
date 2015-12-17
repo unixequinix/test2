@@ -26,8 +26,8 @@ class CredentialAssignment < ActiveRecord::Base
   # State machine
   include AASM
   aasm do
-    state :unassigned, initial: true
-    state :assigned
+    state :assigned, initial: true
+    state :unassigned
 
     event :assign do
       transitions from: :unassigned, to: :assigned

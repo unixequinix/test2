@@ -1,5 +1,14 @@
-class Admins::Events::GtagRegistrationsController < Admins::Events::CheckinBaseController
+class Admins::Events::GtagAssignmentsController < Admins::Events::CredentialAssignmentsController
 
+  def new
+  end
+
+  def create
+
+  end
+end
+
+=begin
   def new
     @gtag_registration = GtagRegistration.new
     @customer = @fetcher.customers.with_deleted.find(params[:customer_id])
@@ -34,11 +43,13 @@ class Admins::Events::GtagRegistrationsController < Admins::Events::CheckinBaseC
   end
 
   private
-    def current_customer_event_profile
-      current_customer.customer_event_profile ||
-        CustomerEventProfile.new(customer: current_customer, event: current_event)
-    end
-    def current_customer
-      Customer.find(params[:customer_id])
-    end
-end
+
+  def current_customer_event_profile
+    current_customer.customer_event_profile ||
+      CustomerEventProfile.new(customer: current_customer, event: current_event)
+  end
+
+  def current_customer
+    Customer.find(params[:customer_id])
+  end
+=end

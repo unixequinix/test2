@@ -1,7 +1,7 @@
 - breadcrumb :admins_event_customer, current_event, @customer
 - provide :actions do
-  = link_to t("admin.actions.assign_ticket"), new_admins_event_customer_admission_path(current_event, @customer), class: "btn btn-action btn-action-new small"
-  = link_to t("admin.actions.assign_gtag"), new_admins_event_customer_gtag_registration_path(current_event, @customer), class: "btn btn-action btn-action-new small" if @customer.customer_event_profile.nil? || (!@customer.customer_event_profile.nil? && !@customer.customer_event_profile.assigned_gtag_registration)
+  = link_to t("admin.actions.assign_ticket"), new_admins_event_customer_ticket_assignment_path(current_event, @customer), class: "btn btn-action btn-action-new small"
+  = link_to t("admin.actions.assign_gtag"), new_admins_event_customer_credential_assignments_gtags_assigned_path(current_event, @customer), class: "btn btn-action btn-action-new small" if @customer.customer_event_profile.nil? || (!@customer.customer_event_profile.nil? && !@customer.customer_event_profile.credential_assignments_gtags_assigned)
   = link_to admins_event_customers_path(current_event), class: "btn btn-action btn-action-back small" do
     = fa_icon "arrow-circle-left"
     = t('actions.back')
@@ -23,14 +23,14 @@
       dd = @customer.surname
 
 
-      - if !@customer.customer_event_profile.nil?
-        - if @customer.customer_event_profile.assigned_admissions
-          - @customer.customer_event_profile.assigned_admissions.each do |assigned_admission|
+      - if !@customer.customer_event_profile.blank?
+        - if @customer.customer_event_profile.credential_assignments_tickets_assigned
+          - @customer.customer_event_profile.credential_assignments_tickets_assigned.each do |credentiable_ticket|
             dt = t ("admin.customers.tickets")
             dd
-              = link_to assigned_admission.ticket.number, edit_admins_event_ticket_path(current_event, assigned_admission.ticket)
-              = " - #{assigned_admission.ticket.ticket_type.name}"
-              = link_to admins_event_admission_path(current_event, assigned_admission), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
+              = link_to credentiable_ticket.credentiable.number, edit_admins_event_ticket_path(current_event, credentiable_ticket.credentiable)
+              = " - #{credentiable_ticket.credentiable_type}"
+              = link_to admins_event_ticket_assignment_path(current_event, credentiable_ticket.id), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
                 = fa_icon "trash"
         - else
           dt = t ("admin.customers.tickets")
@@ -39,14 +39,14 @@
         dt = t ("admin.customers.credits")
         dd = @customer.customer_event_profile.credit_logs.sum(:amount)
 
-        - if !@customer.customer_event_profile.assigned_gtag_registration.nil?
+        - if !@customer.customer_event_profile.credential_assignments_gtags_assigned.blank?
           dt = t ("admin.customers.gtags")
           dd
-            = link_to "#{@customer.customer_event_profile.assigned_gtag_registration.gtag.tag_serial_number} #{@customer.customer_event_profile.assigned_gtag_registration.gtag.tag_uid}", edit_admins_event_gtag_path(current_event, @customer.customer_event_profile.assigned_gtag_registration.gtag)
-            = link_to admins_event_gtag_registration_path(current_event, @customer.customer_event_profile.assigned_gtag_registration), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
+            = link_to "#{@customer.customer_event_profile.credential_assignments_gtags_assigned.gtag.tag_serial_number} #{@customer.customer_event_profile.credential_assignments_gtags_assigned.gtag.tag_uid}", edit_admins_event_gtag_path(current_event, @customer.customer_event_profile.credential_assignments_gtags_assigned.gtag)
+            = link_to admins_event_gtag_registration_path(current_event, @customer.customer_event_profile.credential_assignments_gtags_assigned), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
               = fa_icon "trash"
           dt = t("admin.customers.gtag_credits")
-          dd = @customer.customer_event_profile.assigned_gtag_registration.gtag.gtag_credit_log.amount unless @customer.customer_event_profile.assigned_gtag_registration.gtag.gtag_credit_log.nil?
+          dd = @customer.customer_event_profile.credential_assignments_gtags_assigned.gtag.gtag_credit_log.amount unless @customer.customer_event_profile.credential_assignments_gtags_assigned.gtag.gtag_credit_log.nil?
         - else
           dt = t ("admin.customers.gtags")
           dd = t ("admin.defaults.empty_gtags")
@@ -85,7 +85,7 @@
 
   .container-show
     - if !@customer.customer_event_profile.nil?
-      - if !@customer.customer_event_profile.admissions.empty?
+      - if !@customer.customer_event_profile.credential_assignments_tickets.empty?
         h3
           = fa_icon "table"
           = t ("admin.customers.admissions")
@@ -97,9 +97,9 @@
               th = t("admin.customers.created_at")
 
           tbody
-            - @customer.customer_event_profile.admissions.each do |admission|
+            - @customer.customer_event_profile.credential_assignments_tickets.each do |admission|
               tr
-                td = link_to "#{admission.ticket.number}", edit_admins_event_ticket_path(current_event, admission.ticket)
+                td = link_to "#{admission.credentiable.number}", edit_admins_event_ticket_path(current_event, admission.credentiable)
                 td = t("admin.admissions.states.#{admission.aasm_state}")
                 td = admission.created_at.strftime("%y-%m-%d %H:%M:%S")
 
@@ -138,7 +138,7 @@
                 td data-label=t("admin.orders.created") = order.created_at.strftime("%y-%m-%d %H:%M:%S")
                 td data-label=t("admin.orders.completed") = order.completed_at.strftime("%y-%m-%d %H:%M:%S") unless order.completed_at.nil?
 
-      - if !@customer.customer_event_profile.gtag_registrations.empty?
+      - if !@customer.customer_event_profile.credential_assignments_gtags.empty?
         h3
           = fa_icon "table"
           = t ("admin.customers.gtag_registrations")

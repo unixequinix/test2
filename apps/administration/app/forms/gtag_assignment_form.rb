@@ -1,4 +1,4 @@
-class GtagSettingsForm
+class GtagAssignmentForm
   include ActiveModel::Model
   include Virtus.model
 
@@ -23,11 +23,6 @@ class GtagSettingsForm
       false
     end
   end
-
-  def gtag_formats
-    Gtag::FORMATS
-  end
-
 
   private
 
