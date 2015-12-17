@@ -37,22 +37,6 @@ Rails.application.routes.draw do
       end
     end
   end
-
-  scope module: 'events' do
-    resources :events, only: [:show], path: '/' do
-      # TODO Check security in this action
-      # resources :refunds, only: [:create], constraints: lambda{|request|request.env['HTTP_X_REAL_IP'].match(Rails.application.secrets.merchant_ip)}
-      resources :refunds, only: [:create] do
-        collection do
-          get 'success'
-          get 'error'
-        end
-      end
-      resources :epg_claims, only: [:new, :create]
-      resources :bank_account_claims, only: [:new, :create]
-      resources :tipalti_claims, only: [:new, :create]
-    end
-  end
 end
 
 

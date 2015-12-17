@@ -5,6 +5,10 @@ es:
 
     # The values :model, :attribute and :value are always available for interpolation
     # The value :count is available when applicable. Can be used for pluralization.
+    main:
+      error_400: "Solicitud incorrecta"
+      error_404: "Ruta no encontrada"
+      error_500: "Error interno"
     messages:
       model_invalid: "Validación fallida: %{errors}"
       inclusion: "no está incluida en la lista"

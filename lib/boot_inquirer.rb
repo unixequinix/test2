@@ -15,9 +15,9 @@
 
 class BootInquirer
   APPS = {
+    'u' => 'customer_area',
     'o' => 'payment_ngn',
     'r' => 'refund_ngn',
-    'u' => 'customer_area',
     'a' => 'administration',
     'p' => 'api'
   }

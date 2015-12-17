@@ -52,4 +52,8 @@ end
   def current_customer
     Customer.find(params[:customer_id])
   end
+<<<<<<< HEAD:apps/administration/app/controllers/admins/events/gtag_assignments_controller.rb
 =end
+=======
+end
+>>>>>>> development:apps/administration/app/controllers/admins/events/gtag_registrations_controller.rb

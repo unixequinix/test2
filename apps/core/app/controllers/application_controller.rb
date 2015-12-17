@@ -1,19 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_filter :check_for_mobile
-  helper_method :current_event
-  before_action :fetch_current_event
-
-  def current_event
-    @current_event || Event.new
-  end
-
-  private
-
-  def fetch_current_event
-    id = params[:event_id] || params[:id]
-    @current_event = Event.friendly.find(id) if id
-  end
 
   # Get locale from user's browser and set it, unless it's present in session.
   # Use default otherwise.
@@ -53,6 +40,5 @@ class ApplicationController < ActionController::Base
     # Note: we treat ipad as non mobile
     request.user_agent =~ (/(iPhone|iPod|Android|webOS|Mobile|iPad)/)
   end
-
 
 end
