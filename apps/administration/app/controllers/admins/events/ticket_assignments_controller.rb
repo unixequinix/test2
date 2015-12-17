@@ -16,7 +16,6 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::CredentialAs
         transaction_type: CreditLog::TICKET_ASSIGNMENT,
         amount: ticket.ticket_type.credit
       ) if ticket.ticket_type.credit.present?
-      binding.pry
       flash[:notice] = I18n.t('alerts.created')
       redirect_to admins_event_customer_url(current_event, @customer)
     else
@@ -26,7 +25,6 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::CredentialAs
   end
 
   def destroy
-    binding.pry
     credential_assignment = CredentialAssignment.find(params[:id])
     customer_event_profile = credential_assignment.customer_event_profile
     credential_assignment.unassign!
@@ -47,16 +45,6 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::CredentialAs
   def ticket_assignment_parameters
     params.require(:ticket_assignment_form).permit(:number)
   end
-
-  def current_customer
-    @fetcher.customers.find(params[:customer_id])
-  end
-
-  def current_customer_event_profile
-    current_customer.customer_event_profile ||
-      CustomerEventProfile.new(customer: current_customer, event: current_event)
-  end
-
 
 end
 
@@ -92,15 +80,6 @@ end
     @credit_log = CreditLog.create(customer_event_profile_id: @customer_event_profile.customer.id, transaction_type: CreditLog::TICKET_UNASSIGNMENT, amount: -@admission.ticket.ticket_type.credit) unless @admission.ticket.ticket_type.credit.nil?
     flash[:notice] = I18n.t('alerts.unassigned')
     redirect_to admins_event_customer_url(current_event, @customer_event_profile.customer)
-  end
-
-  def current_customer_event_profile
-    current_customer.customer_event_profile ||
-      CustomerEventProfile.new(customer: current_customer, event: current_event)
-  end
-
-  def current_customer
-    Customer.find(params[:customer_id])
   end
 
 

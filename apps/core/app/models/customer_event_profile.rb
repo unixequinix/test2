@@ -24,13 +24,12 @@ class CustomerEventProfile < ActiveRecord::Base
   has_many :credit_purchased_logs, ->{ where(transaction_type: CreditLog::CREDITS_PURCHASE) },
     class_name: 'CreditLog'
   has_many :credential_assignments
-  has_many :credential_assignments_tickets, -> { where(credentiable_type: "Ticket") }, class_name: "CredentialAssignment"
-  has_many :credential_assignments_gtags, -> { where(credentiable_type: "Gtag") }, class_name: "CredentialAssignment"
+  has_many :credential_assignments_tickets, -> { where(credentiable_type: "Ticket") }, class_name: "CredentialAssignment", dependent: :destroy
+  has_many :credential_assignments_gtags, -> { where(credentiable_type: "Gtag") }, class_name: "CredentialAssignment", dependent: :destroy
   has_many :credential_assignments_assigned, -> { where(aasm_state: :assigned) }, class_name: "CredentialAssignment"
   has_many :credential_assignments_tickets_assigned, -> { where(aasm_state: :assigned, credentiable_type: "Ticket") }, class_name: "CredentialAssignment"
-  has_many :credential_assignments_gtags_assigned, -> { where(aasm_state: :assigned, credentiable_type: "Gtag") }, class_name: "CredentialAssignment"
+  has_one :credential_assignments_gtag_assigned, -> { where(aasm_state: :assigned, credentiable_type: "Gtag") }, class_name: "CredentialAssignment"
   has_one :completed_claim, ->{ where(aasm_state: :completed) }, class_name: "Claim"
-
 
   # Validations
   validates :customer, :event, presence: true

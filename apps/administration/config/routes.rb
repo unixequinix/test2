@@ -52,7 +52,6 @@ Rails.application.routes.draw do
           end
         end
         resources :credits, except: :show
-        resources :gtag_registrations, only: [:destroy]
         resources :customers, except: [:new, :create, :edit, :update] do
           resources :ticket_assignments, only: [:new, :create], controller: "/admins/events/ticket_assignments"
           resources :gtag_assignments, only: [:new, :create], controller: "/admins/events/gtag_assignments"
