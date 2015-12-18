@@ -1,3 +1,4 @@
+#TODO - Check Pundit Scopes instead of fetchers
 class Multitenancy::AdministrationFetcher
   def initialize(event)
     @event = event

@@ -8,19 +8,12 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::CredentialAs
   def create
     @ticket_assignment_form = TicketAssignmentForm.new(ticket_assignment_parameters)
     @customer = current_customer
-    ticket = @fetcher.tickets.find_by(number: @ticket_assignment_form.number.strip)
-    ticket_assignment = current_customer_event_profile.credential_assignments.build(credentiable: ticket)
 
-    if ticket_assignment.save
-      @credit_log = CreditLog.create(
-        customer_event_profile: current_customer_event_profile,
-        transaction_type: CreditLog::TICKET_ASSIGNMENT,
-        amount: ticket.ticket_type.credit
-      ) if ticket.ticket_type.credit.present?
+    if(@ticket_assignment_form.save(@fetcher.tickets, current_customer_event_profile, current_event))
       flash[:notice] = I18n.t('alerts.created')
       redirect_to admins_event_customer_url(current_event, @customer)
     else
-      flash[:error] = ticket_assignment.errors.full_messages.join(". ")
+      flash[:error] = @ticket_assignment_form.errors.full_messages.join
       render :new
     end
   end
