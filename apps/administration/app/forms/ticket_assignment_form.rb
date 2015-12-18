@@ -7,6 +7,7 @@ class TicketAssignmentForm
   validates_presence_of :number
 
   def save
+    binding.pry
     if valid?
       persist!
       true
@@ -17,9 +18,7 @@ class TicketAssignmentForm
 
   private
 
-
-
   def persist!
-
   end
+
 end

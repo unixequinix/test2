@@ -12,6 +12,7 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::CredentialAssi
       tag_serial_number: @gtag_assignment_form.tag_serial_number.strip.upcase
     )
     @customer = @fetcher.customers.with_deleted.find(params[:customer_id])
+
     if !gtag.nil?
       @gtag_registration = current_customer_event_profile.credential_assignments_gtags.build(credentiable: gtag)
       if @gtag_registration.save

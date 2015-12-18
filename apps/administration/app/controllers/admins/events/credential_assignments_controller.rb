@@ -9,5 +9,4 @@ class Admins::Events::CredentialAssignmentsController < Admins::Events::CheckinB
       CustomerEventProfile.new(customer: current_customer, event: current_event)
   end
 
-
 end
