@@ -39,7 +39,7 @@ es:
         other: 'Administradores'
       claim:
         one: 'Reclamación'
-        other: 'Reclamaciónes'
+        other: 'Reclamaciones'
       credit:
         one: 'Crédito'
         other: 'Créditos'

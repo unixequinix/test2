@@ -28,8 +28,8 @@
 #  gtag_registration       :boolean          default(TRUE), not null
 #  payment_service         :string           default("redsys")
 #  registration_parameters :integer          default(0), not null
-#  currency                :string           not null
-#  host_country            :string           not null
+#  currency                :string           default("USD"), not null
+#  host_country            :string           default("US"), not null
 #  locales                 :integer          default(1), not null
 #  refund_services         :integer          default(0), not null
 #
@@ -90,9 +90,11 @@ class Event < ActiveRecord::Base
   has_many :entitlements
   has_many :ticket_types
   has_many :tickets
-  has_many :admissions, through: :tickets
   has_many :gtags
-  has_many :gtag_registrations, through: :gtags
+
+  has_many :credential_assignments, through: :tickets, as: :tickets_assignments
+  has_many :credential_assignments, through: :gtags, as: :gtags_assignments
+
   has_many :online_products
   has_many :credits, through: :online_products, source: :purchasable, source_type: "Credit"
 
@@ -185,7 +187,7 @@ class Event < ActiveRecord::Base
     fee = refund_fee(refund_service)
     minimun = refund_minimun(refund_service)
     standard_price = standard_credit_price
-    gtag_registrations
+    self.gtag_assignments
       .joins(:gtag, gtag: :gtag_credit_log)
       .where(aasm_state: :assigned)
       .where("((amount * #{standard_price}) - #{fee}) >= #{minimun}")
@@ -196,7 +198,7 @@ class Event < ActiveRecord::Base
   def total_refundable_gtags(refund_service)
     fee = refund_fee(refund_service)
     minimun = refund_minimun(refund_service)
-    gtag_registrations
+    self.gtag_assignments
       .joins(:gtag, gtag: :gtag_credit_log)
       .where(aasm_state: :assigned)
       .where("((amount * #{standard_credit_price}) - #{fee}) >= #{minimun}")

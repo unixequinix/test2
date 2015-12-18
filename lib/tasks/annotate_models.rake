@@ -1,7 +1,6 @@
 namespace :annotate do
   desc "Annotate models"
-    task :models, [] => [:environment] do |t, args|
-
+  task :models, [] => [:environment] do |t, args|
     models = []
     models += ["#{Rails.root}/apps/core/app/models"]
     BootInquirer.each_active_app do |app|
