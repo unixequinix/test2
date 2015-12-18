@@ -146,6 +146,7 @@ es:
       gtag: "GTags"
       credits: "Créditos"
       customers: "Clientes"
+      customer_event_profiles: "Perfiles de evento"
       orders: "Órdenes"
       payments: "Pagos"
       claims: "Peticiones"

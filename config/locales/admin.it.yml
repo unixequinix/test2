@@ -146,6 +146,7 @@ it:
       gtag: "GTags"
       credits: "Credits"
       customers: "Customers"
+      customer_event_profiles: "Customer event profiles"
       orders: "Orders"
       payments: "Payments"
       claims: "Claims"

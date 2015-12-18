@@ -6,7 +6,10 @@ RSpec.feature "Ticket assignation", type: :feature do
       @event_creator = EventCreator.new(build(:event, features: 3, aasm_state: "launched").to_hash_parameters)
       @event_creator.save
       @event = @event_creator.event
-      @customer = build(:customer, event: @event, confirmation_token: nil, confirmed_at: Time.now)
+      @customer = build(:customer,
+                        event: @event,
+                        confirmation_token: nil,
+                        confirmed_at: Time.now)
       create(:customer_event_profile, customer: @customer, event: @event)
 
       login_as(@customer, scope: :customer)

@@ -147,7 +147,7 @@ crumb :admins_event_customer do |event, customer|
 end
 
 crumb :new_admins_event_customer do |event|
-  link t("breadcrumbs.new_customer_type")
+  link t("breadcrumbs.new_customer")
   parent :admins_event_customers, event
 end
 
@@ -159,4 +159,31 @@ end
 crumb :new_admins_event_customer_gtag_registration do |event, customer|
   link t("breadcrumbs.new_customer_gtag_registration")
   parent :admins_event_customers, event, customer
+end
+
+## Customer event profiles
+
+crumb :admins_event_customer_event_profiles do |event|
+  link t("breadcrumbs.customer_event_profile"), admins_event_customer_event_profiles_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_customer_event_profile do |event, customer_event_profile|
+  link customer_event_profile.id, admins_event_customer_path(event, customer_event_profile)
+  parent :admins_event_customer_event_profiles, event
+end
+
+crumb :new_admins_event_customer_event_profile do |event|
+  link t("breadcrumbs.new_customer_event_profile")
+  parent :admins_event_customer_event_profiles, event
+end
+
+crumb :new_admins_event_customer_event_profile_admission do |event, customer_event_profile|
+  link t("breadcrumbs.new_customer_event_profile_admission")
+  parent :admins_event_customer_event_profiles, event, customer_event_profile
+end
+
+crumb :new_admins_event_customer_event_profile_gtag_registration do |event, customer_event_profile|
+  link t("breadcrumbs.new_customer_event_profile_gtag_registration")
+  parent :admins_event_customer_event_profiles, event, customer_event_profile
 end

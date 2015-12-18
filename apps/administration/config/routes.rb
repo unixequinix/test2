@@ -40,13 +40,6 @@ Rails.application.routes.draw do
           end
         end
         resources :gtag_registrations, only: [:destroy]
-        resources :customer_event_profiles, only: [] do
-          resources :admissions, only: [:new, :create]
-          resources :gtag_registrations, only: [:new, :create]
-          collection do
-            get :search
-          end
-        end
         resources :entitlements, except: :show
         resources :ticket_types, except: :show
         resources :tickets do
@@ -66,6 +59,11 @@ Rails.application.routes.draw do
           end
           member do
             post :resend_confirmation
+          end
+        end
+        resources :customer_event_profiles, except: [:new, :create, :edit, :update] do
+          collection do
+            get :search
           end
         end
       end
