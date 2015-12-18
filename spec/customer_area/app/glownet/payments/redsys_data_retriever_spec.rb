@@ -1,9 +1,8 @@
 require "rails_helper"
 
 RSpec.describe Payments::RedsysDataRetriever, type: :service do
-
   before(:all) do
-    order = create(:order , number: "2678434012")
+    order = create(:order, number: "2678434012")
     customer_event_profile = order.customer_event_profile
     event = customer_event_profile.event
     Seeder::SeedLoader.load_default_event_parameters(event)
@@ -65,14 +64,14 @@ RSpec.describe Payments::RedsysDataRetriever, type: :service do
 
   describe "amount" do
     it "returns the total amount of all the order items attached to the order" do
-      #prices of every item is in the orders.rb file. In after build section
+      # prices of every item is in the orders.rb file. In after build section
       expect(@redsys_data_retriever.amount).to eq(5985)
     end
   end
 
   describe "pay_methods" do
     it "returns the payment method attached to redsys" do
-      expect(@redsys_data_retriever.pay_methods).to eq('0')
+      expect(@redsys_data_retriever.pay_methods).to eq("0")
     end
   end
 
@@ -119,5 +118,4 @@ RSpec.describe Payments::RedsysDataRetriever, type: :service do
       expect(@redsys_data_retriever.signature).to match(/\A[A-Z0-9]{40}\z/)
     end
   end
-
 end

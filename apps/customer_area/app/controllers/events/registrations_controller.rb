@@ -1,5 +1,5 @@
 class Events::RegistrationsController < Events::BaseController
-  layout 'event'
+  layout "event"
   skip_before_filter :authenticate_customer!, only: [:new, :create]
 
   def new
@@ -44,8 +44,8 @@ class Events::RegistrationsController < Events::BaseController
 
   def permitted_params
     params.require(:customer).permit(:event_id, :email, :name,
-      :surname, :phone, :address, :city, :country, :postcode,
-      :gender, :birthdate, :password, :current_password, :agreed_on_registration,
-      :agreed_event_condition)
+                                     :surname, :phone, :address, :city, :country, :postcode,
+                                     :gender, :birthdate, :password, :current_password, :agreed_on_registration,
+                                     :agreed_event_condition)
   end
 end

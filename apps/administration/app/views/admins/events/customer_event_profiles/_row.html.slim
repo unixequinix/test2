@@ -1,7 +1,6 @@
 td data-label=t("admin.customers.email") = link_to customer_event_profile.customer.email, admins_event_customer_event_profile_path(current_event, customer_event_profile), class: (customer_event_profile.deleted? ? "deleted-field" : "")
 td data-label=t("admin.customers.name") = customer_event_profile.customer.name
 td data-label=t("admin.customers.surname") = customer_event_profile.customer.surname
-td data-label=t("admin.customers.confirmation_sent_at") = customer_event_profile.customer.confirmation_sent_at.strftime("%y-%m-%d %H:%M:%S") unless customer_event_profile.customer.confirmation_sent_at.nil?
 - if customer_event_profile.assigned_admissions
   td
     - customer_event_profile.assigned_admissions.each do |assigned_admission|
@@ -15,6 +14,3 @@ td data-label=t("admin.customers.credits") = customer_event_profile.credit_logs.
 - else
   td data-label=t("admin.customers.gtags") = t("admin.defaults.empty_gtags")
   td data-label=t("admin.customers.gtag_credits") 0.0
-
-td.table-actions-field
-  = render 'admins/events/customer_event_profiles/actions', customer_event_profile: customer_event_profile

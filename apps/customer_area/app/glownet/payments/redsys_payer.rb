@@ -1,5 +1,4 @@
 class Payments::RedsysPayer
-
   def start(params)
     notify_payment(params)
   end
@@ -7,7 +6,7 @@ class Payments::RedsysPayer
   def notify_payment(params)
     event = Event.friendly.find(params[:event_id])
     merchant_code = EventParameter.find_by(event_id: event.id, parameter_id: Parameter.find_by(category: "payment", group: "redsys", name: "code")).value
-     if params[:Ds_Order] and params[:Ds_MerchantCode] == merchant_code
+    if params[:Ds_Order] && params[:Ds_MerchantCode] == merchant_code
       response = params[:Ds_Response]
       success = response =~ /00[0-9][0-9]|0900/
       amount = params[:Ds_Amount].to_f / 100 # last two digits are decimals
@@ -30,7 +29,7 @@ class Payments::RedsysPayer
         order.complete!
         send_mail_for(order, event)
       end
-    end
+   end
   end
 
   def action_after_payment

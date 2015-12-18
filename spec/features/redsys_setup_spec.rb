@@ -1,7 +1,6 @@
 require "rails_helper"
 
 RSpec.feature "Redsys Setup", type: :feature do
-
   context "with account signed in" do
     before :each do
       admin = create(:admin)

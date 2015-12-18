@@ -27,8 +27,7 @@ class ResetPasswordForm < Reform::Form
 
   def equal_passwords
     errors[:password_confirmation] <<
-      I18n.t('auth.failure.invalid_current_password') if
+      I18n.t("auth.failure.invalid_current_password") if
       password != password_confirmation
   end
 end
-

@@ -18,7 +18,7 @@ class Events::RefundsController < Events::BaseController
             gateway_transaction_number: operation_hash["operation"]["payFrexTransactionId"],
             payment_solution: operation_hash["operation"]["paymentSolution"],
             status: operation_hash["operation"]["status"]
-        })
+          })
       end
     end
     render nothing: true
@@ -29,5 +29,4 @@ class Events::RefundsController < Events::BaseController
 
   def error
   end
-
 end

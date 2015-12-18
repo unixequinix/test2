@@ -31,6 +31,6 @@ class OnlineProduct < ActiveRecord::Base
             :max_purchasable, :initial_amount, :step, presence: true
 
   def rounded_price
-    self.price.round == self.price ? self.price.floor : self.price
+    price.round == price ? price.floor : price
   end
 end

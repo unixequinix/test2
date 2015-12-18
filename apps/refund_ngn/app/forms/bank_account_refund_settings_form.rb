@@ -12,7 +12,7 @@ class BankAccountRefundSettingsForm
   validates_presence_of :fee
   validates_presence_of :minimum
   validates_presence_of :event_id
-  validates_inclusion_of :validate_sepa, in: ["true", "false"]
+  validates_inclusion_of :validate_sepa, in: %w(true false)
 
   validates_numericality_of :fee
   validates_numericality_of :minimum
@@ -29,10 +29,9 @@ class BankAccountRefundSettingsForm
   private
 
   def persist!
-    Parameter.where(category: 'refund', group: 'bank_account').each do |parameter|
+    Parameter.where(category: "refund", group: "bank_account").each do |parameter|
       eps = EventParameter.find_by(event_id: event_id, parameter_id: parameter.id)
       eps.nil? ? EventParameter.create!(value: attributes[parameter.name.to_sym], event_id: event_id, parameter_id: parameter.id) : eps.update(value: attributes[parameter.name.to_sym])
     end
   end
-
 end

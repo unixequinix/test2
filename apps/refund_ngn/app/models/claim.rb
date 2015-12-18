@@ -19,10 +19,10 @@
 class Claim < ActiveRecord::Base
   default_scope { order(created_at: :desc) }
 
-  #Service Types
-  BANK_ACCOUNT = 'bank_account'
-  EASY_PAYMENT_GATEWAY = 'epg'
-  TIPALTI = 'tipalti'
+  # Service Types
+  BANK_ACCOUNT = "bank_account"
+  EASY_PAYMENT_GATEWAY = "epg"
+  TIPALTI = "tipalti"
 
   REFUND_SERVICES = [BANK_ACCOUNT, EASY_PAYMENT_GATEWAY, TIPALTI]
 
@@ -37,15 +37,16 @@ class Claim < ActiveRecord::Base
             :aasm_state, presence: true
 
   # Scopes
-  scope :query_for_csv, -> (aasm_state, event) {
+  scope :query_for_csv, lambda  { |aasm_state, event|
     joins(:customer_event_profile, :gtag, :refund,
           customer_event_profile: :customer)
-    .includes(:claim_parameters, claim_parameters: :parameter)
-    .where(aasm_state: aasm_state)
-    .where(customer_event_profiles: { event_id: event.id })
-    .select("claims.id, customers.name, customers.surname, customers.email,
+      .includes(:claim_parameters, claim_parameters: :parameter)
+      .where(aasm_state: aasm_state)
+      .where(customer_event_profiles: { event_id: event.id })
+      .select("claims.id, customers.name, customers.surname, customers.email,
             gtags.tag_uid, gtags.tag_serial_number, refunds.amount,
-            claims.service_type").order(:id)}
+            claims.service_type").order(:id)
+  }
 
   # State machine
   include AASM
@@ -70,8 +71,8 @@ class Claim < ActiveRecord::Base
   end
 
   def generate_claim_number!
-    time_hex = Time.now.strftime('%H%M%L').to_i.to_s(16)
-    day = Date.today.strftime('%y%m%d')
+    time_hex = Time.now.strftime("%H%M%L").to_i.to_s(16)
+    day = Date.today.strftime("%y%m%d")
     self.number = "#{day}#{time_hex}"
   end
 
@@ -80,7 +81,7 @@ class Claim < ActiveRecord::Base
     headers = []
     extra_columns = {}
     claims.each_with_index do |claim, index|
-      extra_columns[index+1] = claim.claim_parameters.reduce({}) do |acum, claim_parameter|
+      extra_columns[index + 1] = claim.claim_parameters.reduce({}) do |acum, claim_parameter|
         headers |= [claim_parameter.parameter.name]
         acum[claim_parameter.parameter.name] = claim_parameter.value
         acum
@@ -92,7 +93,6 @@ class Claim < ActiveRecord::Base
   private
 
   def complete_claim
-    self.update(completed_at: Time.now())
+    update(completed_at: Time.now)
   end
-
 end

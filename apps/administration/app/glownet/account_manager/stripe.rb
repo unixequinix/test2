@@ -1,22 +1,22 @@
 class AccountManager::Stripe
-
   def platform_secret_key
     Rails.application.secrets.stripe_platform_secret
   end
 
-  def persist_parameters(params, request)
+  def persist_parameters(params, _request)
     Stripe.api_key = platform_secret_key
     @account = build_account(params)
     account_parameters = extract_account_parameters
     # TODO next lines are to manage legal parameters
     # attach_legal_parameters(params, request)
-    #legal_parameters = extract_legal_parameters
+    # legal_parameters = extract_legal_parameters
 
     persist!(account_parameters, params[:event_id])
-    #persist!(legal_parameters, params[:event_id])
+    # persist!(legal_parameters, params[:event_id])
   end
 
   private
+
   def build_account(params)
     parameters = params[:stripe_payment_settings_form]
     acc_params = {
@@ -66,10 +66,9 @@ class AccountManager::Stripe
     @account.save
   end
 
-
   def persist!(new_params, event_id)
-    Parameter.where(category: 'payment', group: 'stripe', name: new_params.keys).each do |parameter|
-      if !new_params[parameter.name.to_sym].nil?
+    Parameter.where(category: "payment", group: "stripe", name: new_params.keys).each do |parameter|
+      unless new_params[parameter.name.to_sym].nil?
         ep = EventParameter.find_by(event_id: event_id, parameter_id: parameter.id)
         ep.nil? ?
         EventParameter.create!(value: new_params[parameter.name.to_sym], event_id: event_id, parameter_id: parameter.id) :
@@ -77,5 +76,4 @@ class AccountManager::Stripe
       end
     end
   end
-
 end

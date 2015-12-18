@@ -13,7 +13,6 @@
 require "rails_helper"
 
 RSpec.describe Entitlement, type: :model do
-
   before do
     @first_event = create(:event)
     create(:entitlement, name: "repellendus", id: 16, event: @first_event)

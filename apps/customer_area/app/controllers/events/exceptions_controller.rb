@@ -1,3 +1,3 @@
 class Events::ExceptionsController < ExceptionsController
-  layout 'exception'
+  layout "exception"
 end

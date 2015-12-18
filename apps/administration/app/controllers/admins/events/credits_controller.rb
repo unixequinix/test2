@@ -1,5 +1,4 @@
 class Admins::Events::CreditsController < Admins::Events::BaseController
-
   def index
     set_presenter
   end
@@ -12,7 +11,7 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
   def create
     @credit = Credit.new(permitted_params)
     if @credit.save
-      flash[:notice] = I18n.t('alerts.created')
+      flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_credits_url
     else
       flash[:error] = @credit.errors.full_messages.join(". ")
@@ -27,7 +26,7 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
   def update
     @credit = @fetcher.credits.find(params[:id])
     if @credit.update(permitted_params)
-      flash[:notice] = I18n.t('alerts.updated')
+      flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_credits_url
     else
       flash[:error] = @credit.errors.full_messages.join(". ")
@@ -38,11 +37,12 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
   def destroy
     @credit = @fetcher.credits.find(params[:id])
     @credit.destroy!
-    flash[:notice] = I18n.t('alerts.destroyed')
+    flash[:notice] = I18n.t("alerts.destroyed")
     redirect_to admins_event_credits_url
   end
 
   private
+
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Credit".constantize.model_name,
@@ -57,5 +57,4 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
   def permitted_params
     params.require(:credit).permit(online_product_attributes: [:event_id, :name, :description, :price, :min_purchasable, :max_purchasable, :initial_amount, :step])
   end
-
 end

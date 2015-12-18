@@ -1,5 +1,4 @@
 class Events::EpgClaimsController < Events::ClaimsController
-
   def new
     @epg_claim_form = EpgClaimForm.new
     @claim = generate_claim
@@ -9,7 +8,7 @@ class Events::EpgClaimsController < Events::ClaimsController
     @epg_claim_form = EpgClaimForm.new(permitted_params)
     @claim = Claim.find(permitted_params[:claim_id])
     if @epg_claim_form.save
-      flash[:notice] = I18n.t('alerts.created')
+      flash[:notice] = I18n.t("alerts.created")
       @claim.start_claim!
       redirect_to EpgCheckout.new(@claim, @epg_claim_form).url
     else
@@ -21,11 +20,10 @@ class Events::EpgClaimsController < Events::ClaimsController
 
   def permitted_params
     params.require(:epg_claim_form).permit(:country_code, :state, :city,
-      :post_code, :phone, :address, :claim_id, :agreed_on_claim)
+                                           :post_code, :phone, :address, :claim_id, :agreed_on_claim)
   end
 
   def service_type
     Claim::EASY_PAYMENT_GATEWAY
   end
-
 end

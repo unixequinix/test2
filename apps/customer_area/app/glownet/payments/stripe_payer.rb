@@ -21,31 +21,28 @@ class Payments::StripePayer
     amount = order.total_stripe_formated
     Stripe.api_key = Rails.application.secrets.stripe_platform_secret
     begin
-=begin
-      # Charging directly
-      charge = Stripe::Charge.create({
-        amount: amount, # amount in cents, again
-        currency: event.currency,
-        source: token,
-        description: "Payment of #{amount} #{event.currency}"
-      }, { stripe_account: get_event_parameter_value(event, "stripe_account_id") } )
-=end
-      # Charging through the platform
-      charge = Stripe::Charge.create({
-        amount: amount, # amount in cents, again
-        currency: event.currency,
-        source: token,
-        description: "Payment of #{amount} #{event.currency}",
-        destination: get_event_parameter_value(event, "stripe_account_id")})
+      #       # Charging directly
+      #       charge = Stripe::Charge.create({
+      #         amount: amount, # amount in cents, again
+      #         currency: event.currency,
+      #         source: token,
+      #         description: "Payment of #{amount} #{event.currency}"
+      #       }, { stripe_account: get_event_parameter_value(event, "stripe_account_id") } )
+      #  Charging through the platform
+      charge = Stripe::Charge.create(amount: amount, # amount in cents, again
+                                     currency: event.currency,
+                                     source: token,
+                                     description: "Payment of #{amount} #{event.currency}",
+                                     destination: get_event_parameter_value(event, "stripe_account_id"))
 
     rescue Stripe::CardError => e
       # The card has been declined
       charge = nil
     end
-    return charge
+    charge
   end
 
-  def notify_payment(params,charge)
+  def notify_payment(params, charge)
     if charge.status == "succeeded"
       order = Order.find(params[:order_id])
       credit_log = CreditLog.create(customer_event_profile_id: order.customer_event_profile.id, transaction_type: CreditLog::CREDITS_PURCHASE, amount: order.credits_total)
@@ -60,7 +57,7 @@ class Payments::StripePayer
       )
       payment.save!
       order.complete!
-      send_mail_for(order, Event.friendly.find(params[:event_id]) )
+      send_mail_for(order, Event.friendly.find(params[:event_id]))
     end
   end
 
@@ -71,6 +68,6 @@ class Payments::StripePayer
   end
 
   def get_event_parameter_value(event, name)
-    EventParameter.find_by(event_id: event.id, parameter: Parameter.where(category: 'payment', group: 'stripe', name: name)).value
+    EventParameter.find_by(event_id: event.id, parameter: Parameter.where(category: "payment", group: "stripe", name: name)).value
   end
 end

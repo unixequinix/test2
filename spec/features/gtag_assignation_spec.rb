@@ -1,10 +1,9 @@
 require "rails_helper"
 
 RSpec.feature "Gtag assignation", type: :feature do
-
   context "with account signed in" do
     before :all do
-      @event_creator = EventCreator.new(build(:event,gtag_registration: true).to_hash_parameters)
+      @event_creator = EventCreator.new(build(:event, gtag_registration: true).to_hash_parameters)
       @event_creator.save
       @event = @event_creator.event
       ep = EventParameter.find_by(event: Event.first, parameter: 1)
@@ -14,7 +13,6 @@ RSpec.feature "Gtag assignation", type: :feature do
       create(:customer_event_profile, customer: @customer, event: @event)
 
       login_as(@customer, scope: :customer)
-
     end
 
     describe "a customer " do
@@ -28,7 +26,7 @@ RSpec.feature "Gtag assignation", type: :feature do
           fill_in(t("gtag_registrations.placeholders.#{@gtag_format}.line_1"), with: @gtag.tag_serial_number)
           fill_in(t("gtag_registrations.placeholders.#{@gtag_format}.line_2"), with: @gtag.tag_uid)
         end
-        click_button(t('gtag_registrations.button'))
+        click_button(t("gtag_registrations.button"))
         expect(current_path).to eq("/#{@event_creator.event.slug}")
       end
     end

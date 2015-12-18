@@ -22,4 +22,3 @@ RSpec.describe EventParameter, type: :model do
     end
   end
 end
-

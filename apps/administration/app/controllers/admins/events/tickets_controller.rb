@@ -4,7 +4,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   def index
     respond_to do |format|
       format.html
-      format.csv { send_data(Csv::CsvExporter.to_csv(Ticket.selected_data(current_event.id)))}
+      format.csv { send_data(Csv::CsvExporter.to_csv(Ticket.selected_data(current_event.id))) }
     end
   end
 
@@ -23,10 +23,10 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   def create
     @ticket = Ticket.new(permitted_params)
     if @ticket.save
-      flash[:notice] = I18n.t('alerts.created')
+      flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_tickets_url
     else
-      flash[:error] = I18n.t('alerts.error')
+      flash[:error] = I18n.t("alerts.error")
       render :new
     end
   end
@@ -38,10 +38,10 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   def update
     @ticket = @fetcher.tickets.find(params[:id])
     if @ticket.update(permitted_params)
-      flash[:notice] = I18n.t('alerts.updated')
+      flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_ticket_url(current_event, @ticket)
     else
-      flash[:error] = I18n.t('alerts.error')
+      flash[:error] = I18n.t("alerts.error")
       render :edit
     end
   end
@@ -49,7 +49,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   def destroy
     @ticket = @fetcher.tickets.find(params[:id])
     if @ticket.destroy
-      flash[:notice] = I18n.t('alerts.destroyed')
+      flash[:notice] = I18n.t("alerts.destroyed")
       redirect_to admins_event_tickets_url
     else
       flash[:error] = @ticket.errors.full_messages.join(". ")
@@ -60,7 +60,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   def destroy_multiple
     if tickets = params[:tickets]
       @fetcher.tickets.where(id: tickets.keys).each do |ticket|
-        if !ticket.destroy
+        unless ticket.destroy
           flash[:error] = ticket.errors.full_messages.join(". ")
         end
       end
@@ -69,6 +69,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   end
 
   private
+
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Ticket".constantize.model_name,
@@ -83,5 +84,4 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   def permitted_params
     params.require(:ticket).permit(:event_id, :number, :ticket_type_id, :purchaser_name, :purchaser_surname, :purchaser_email)
   end
-
 end

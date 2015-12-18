@@ -29,7 +29,5 @@ FactoryGirl.define do
       ticket_type.entitlements <<
         build_list(:entitlement, evaluator.posts_count)
     end
-
-
   end
 end

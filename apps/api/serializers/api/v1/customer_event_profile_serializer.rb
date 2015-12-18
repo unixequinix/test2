@@ -24,7 +24,6 @@ module Api
         !object.completed_claim.nil?
       end
 
-
       def total_credits
         object.credit_logs.sum(:amount).floor
       end
@@ -54,7 +53,6 @@ module Api
       def get_refund_status
         object.claims.any? && object.completed_claim.nil? ? "NOT FINISHED" : object.completed_claim.refund.status
       end
-
     end
   end
 end

@@ -35,5 +35,4 @@ class TicketType < ActiveRecord::Base
   def self.form_selector(event)
     where(event: event).map { |ticket_type| [ticket_type.name, ticket_type.id] }
   end
-
 end

@@ -13,7 +13,7 @@
 FactoryGirl.define do
   factory :event_parameter do
     transient do
-      position_of_value [0,1].sample
+      position_of_value [0, 1].sample
     end
     value { [Faker::Lorem.word, Faker::Number.decimal(2)][position_of_value] }
     event
@@ -22,9 +22,9 @@ FactoryGirl.define do
       unless evaluator.parameter_id
         case evaluator.position_of_value
           when 0 then event_parameter.parameter = Parameter.find_by(data_type: "string")
-          #(data_type: "string", category: "payment")
+          # (data_type: "string", category: "payment")
           when 1 then event_parameter.parameter = Parameter.find_by(data_type: "currency")
-          #(data_type: "currency", category: "data_type")
+          # (data_type: "currency", category: "data_type")
         end
       end
     end

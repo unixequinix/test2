@@ -19,7 +19,6 @@
 require "rails_helper"
 
 RSpec.describe Claim, type: :model do
-
   describe "Claim.selected_data" do
     it "should prepare the rows with the default columns and the extra columns for a csv exportation" do
       gtag = create(:gtag)
@@ -27,11 +26,11 @@ RSpec.describe Claim, type: :model do
       customer = create(:customer, event: event)
       customer_event_profile = create(:customer_event_profile, customer: customer, event: event)
       claim = create(:claim,
-        aasm_state: :completed,
-        customer_event_profile: customer_event_profile,
-        gtag: gtag,
-        service_type: "bank_account"
-      )
+                     aasm_state: :completed,
+                     customer_event_profile: customer_event_profile,
+                     gtag: gtag,
+                     service_type: "bank_account"
+                    )
       refund = create(:refund, claim: claim)
       parameter = Parameter.find_by(name: "iban", category: "claim", group: "bank_account")
       claim_parameter = create(:claim_parameter, claim: claim, parameter: parameter)
@@ -41,5 +40,4 @@ RSpec.describe Claim, type: :model do
       expect(extra_columns.size).to eq(1)
     end
   end
-
 end

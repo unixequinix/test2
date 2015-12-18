@@ -17,6 +17,7 @@ class Admins::Events::PaymentsController < Admins::Events::PaymentsBaseControlle
   end
 
   private
+
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Payment".constantize.model_name,
@@ -27,7 +28,4 @@ class Admins::Events::PaymentsController < Admins::Events::PaymentsBaseControlle
       context: view_context
     )
   end
-
 end
-
-

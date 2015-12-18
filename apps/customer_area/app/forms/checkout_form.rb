@@ -14,9 +14,7 @@ class CheckoutForm
     end
   end
 
-  def order
-    @order
-  end
+  attr_reader :order
 
   private
 

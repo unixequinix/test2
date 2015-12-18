@@ -29,22 +29,21 @@ class EditProfileForm < Reform::Form
   end
 
   def sync
-    self.password = current_password unless !self.password.empty?
+    self.password = current_password if password.empty?
     super
     model.encrypted_password = Authentication::Encryptor.digest(password)
   end
 
   def current_password_same_as_password
     errors[:current_password] <<
-      I18n.t('auth.failure.invalid_current_password') unless
+      I18n.t("auth.failure.invalid_current_password") unless
       Authentication::Encryptor.compare(model.encrypted_password, current_password)
   end
 
   def email_uniqueness
     errors[:email] <<
-      I18n.t('activerecord.errors.models.customer.attributes.email.taken') if
+      I18n.t("activerecord.errors.models.customer.attributes.email.taken") if
       email != model.email &&
       Customer.exists?(email: email, event_id: event_id, deleted_at: nil)
   end
-
 end

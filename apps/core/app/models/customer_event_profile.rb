@@ -55,6 +55,6 @@ class CustomerEventProfile < ActiveRecord::Base
   end
 
   def refundable_credits
-    self.assigned_gtag_registration.gtag.gtag_credit_log.amount unless self.assigned_gtag_registration.nil? || self.assigned_gtag_registration.gtag.gtag_credit_log.nil?
+    assigned_gtag_registration.gtag.gtag_credit_log.amount unless assigned_gtag_registration.nil? || assigned_gtag_registration.gtag.gtag_credit_log.nil?
   end
 end

@@ -1,7 +1,6 @@
 require "rails_helper"
 
 RSpec.feature "Admin Gtag assignation", type: :feature do
-
   context "with account signed in" do
     before :all do
       @event_creator = EventCreator.new(build(:event, gtag_registration: true).to_hash_parameters)
@@ -23,10 +22,10 @@ RSpec.feature "Admin Gtag assignation", type: :feature do
         within("[data-label='Email']") do
           click_link("a")
         end
-        find('a', text:t("admin.actions.assign_gtag")).click
-        fill_in(t('gtag_registrations.placeholders.standard.line_1'), with: @gtag.tag_serial_number)
-        fill_in(t('gtag_registrations.placeholders.standard.line_2'), with: @gtag.tag_uid)
-        click_on(t('gtag_registrations.button'))
+        find("a", text: t("admin.actions.assign_gtag")).click
+        fill_in(t("gtag_registrations.placeholders.standard.line_1"), with: @gtag.tag_serial_number)
+        fill_in(t("gtag_registrations.placeholders.standard.line_2"), with: @gtag.tag_uid)
+        click_on(t("gtag_registrations.button"))
 
         expect(page.body).to include(@gtag.tag_uid)
         expect(page.body).to include(@gtag.tag_serial_number)
@@ -34,4 +33,3 @@ RSpec.feature "Admin Gtag assignation", type: :feature do
     end
   end
 end
-

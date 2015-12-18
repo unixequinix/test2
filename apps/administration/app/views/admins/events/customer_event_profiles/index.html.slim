@@ -5,9 +5,7 @@
     = t('admin.actions.search')
 
 .wrapper-negative-space
-  - if @customer_event_profiles.empty?
-    .section-title-empty
-      = image_tag "img-empty.png"
-      p = t("admin.defaults.empty_customer")
+  - if @list_model_presenter.is_there_any?
+    = render 'admins/events/customer_event_profiles/list', customer_event_profiles: @list_model_presenter.get_all_items
   - else
-    = render "admins/events/customer_event_profiles/list", customer_event_profiles: @customer_event_profiles
+    = render @list_model_presenter.no_items_for_presentation
