@@ -7,8 +7,8 @@ p.menu-header
     = f.input :customer_name_cont, placeholder: t("admin.customers.search.name")
     = f.input :customer_surname_cont, placeholder: t("admin.customers.search.surname")
     = f.input :customer_email_cont, placeholder: t("admin.customers.search.email")
-    = f.input :assigned_admissions_id_not_null, as: :select, label: t("admin.customers.search.tickets")
-    = f.input :assigned_gtag_registration_id_not_null, as: :select, label: t("admin.customers.search.gtag_registrations")
+    = f.input :credential_assignments_tickets_assigned_id_not_null, as: :select, label: t("admin.customers.search.tickets")
+    = f.input :credential_assignments_gtag_assigned_id_not_null, as: :select, label: t("admin.customers.search.gtag_registrations")
     = f.input :credit_purchased_logs_id_not_null, as: :select, label: t("admin.customers.search.credits_purchased")
     = f.submit class: "btn btn-secondary"
 
