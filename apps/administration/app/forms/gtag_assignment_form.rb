@@ -8,18 +8,28 @@ class GtagAssignmentForm
   validates_presence_of :tag_uid
   validates_presence_of :tag_serial_number
 
-  def save
-    if valid?
-      persist!
-      true
+  def save(fetcher, current_customer_event_profile)
+    gtag = fetcher.find_by(
+      tag_uid: tag_uid.strip.upcase,
+      tag_serial_number: tag_serial_number.strip.upcase
+    )
+    if !gtag.nil?
+      if valid?
+        persist!(current_customer_event_profile, gtag)
+        true
+      else
+        errors.add(:ticket_assignment, full_messages.join(". "))
+        false
+      end
     else
-      false
+      errors.add(:ticket_assignment, I18n.t('alerts.gtag'))
     end
   end
 
   private
 
-  def persist!
-
+  def persist!(current_customer_event_profile, gtag)
+    @gtag_registration = current_customer_event_profile.credential_assignments_gtags.create(credentiable: gtag)
+    GtagMailer.assigned_email(@gtag_registration).deliver_later
   end
 end

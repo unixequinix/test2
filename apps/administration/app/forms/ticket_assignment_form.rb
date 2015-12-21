@@ -9,7 +9,6 @@ class TicketAssignmentForm
   def save(ticket_fetcher, current_customer_event_profile, current_event)
     ticket = ticket_fetcher.find_by(number: number.strip)
     if !ticket.nil?
-      @ticket_assignment = current_customer_event_profile.credential_assignments.build(credentiable: ticket)
       if valid?
         persist!(ticket, current_customer_event_profile)
         true
@@ -29,7 +28,7 @@ class TicketAssignmentForm
   private
 
   def persist!(ticket, current_customer_event_profile)
-    @ticket_assignment.save
+    current_customer_event_profile.credential_assignments.create(credentiable: ticket)
     credit_log = CreditLog.create(
       customer_event_profile: current_customer_event_profile,
       transaction_type: CreditLog::TICKET_ASSIGNMENT,
