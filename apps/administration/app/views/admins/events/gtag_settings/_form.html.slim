@@ -1,4 +1,4 @@
-= simple_form_for @gtag_settings_form, url: admins_event_gtag_settings_path(event_id: @event.id), method: :patch do |f|
+= simple_form_for @gtag_settings_form, url: admins_event_gtag_settings_path(@event), method: :patch do |f|
   fieldset
     h3.section-header
       = fa_icon "info-circle"
