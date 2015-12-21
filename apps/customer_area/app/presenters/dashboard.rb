@@ -1,13 +1,13 @@
 class Dashboard
-  attr_accessor :context, :customer_event_profile, :admissions, :gtag_registration, :completed_claim, :event
+  attr_accessor :context, :customer_event_profile, :ticket_assignments, :gtag_assignment, :completed_claim, :event
 
   def initialize(customer_event_profile, context)
     @context = context
     @customer_event_profile = customer_event_profile
     @event = customer_event_profile.event
-    @admissions = customer_event_profile.assigned_admissions
-                  .includes(:ticket, ticket: :ticket_type)
-    @gtag_registration = customer_event_profile.assigned_gtag_registration
+    @ticket_assignments = customer_event_profile.credential_assignments_tickets_assigned
+                  .includes(:credentiable)
+    @gtag_assignment = customer_event_profile.credential_assignments_gtag_assigned
     @completed_claim = customer_event_profile.completed_claim
     @presenters = []
   end

@@ -58,8 +58,8 @@ ActiveRecord::Schema.define(version: 20151211094600) do
     t.boolean  "gtag_registration",       default: true,                  null: false
     t.string   "payment_service",         default: "redsys"
     t.integer  "registration_parameters", default: 0,                     null: false
-    t.string   "currency",                null: false
-    t.string   "host_country",            null: false
+    t.string   "currency",                default: "USD",                 null: false
+    t.string   "host_country",            default: "US",                  null: false
     t.integer  "locales",                 default: 1,                     null: false
     t.integer  "refund_services",         default: 0,                     null: false
   end
