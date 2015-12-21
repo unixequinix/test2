@@ -20,12 +20,12 @@
       dt = t ("admin.customers.surname")
       dd = @customer_event_profile.customer.surname
 
-      - if @customer_event_profile.assigned_admissions
-        - @customer_event_profile.assigned_admissions.each do |assigned_admission|
+      - if @customer_event_profile.credential_assignments_tickets_assigned
+        - @customer_event_profile.credential_assignments_tickets_assigned.each do |ticket_assigned|
           dt = t ("admin.customers.tickets")
           dd
-            = link_to assigned_admission.ticket.number, edit_admins_event_ticket_path(current_event, assigned_admission.ticket)
-            = " - #{assigned_admission.ticket.ticket_type.name}"
+            = link_to ticket_assigned.credentiable.number, edit_admins_event_ticket_path(current_event, ticket_assigned.credentiable)
+            = " - #{ticket_assigned.credentiable.ticket_type.name}"
       - else
         dt = t ("admin.customers.tickets")
         dd = t ("admin.defaults.empty_tickets")
@@ -33,12 +33,12 @@
       dt = t ("admin.customers.credits")
       dd = @customer_event_profile.credit_logs.sum(:amount)
 
-      - if !@customer_event_profile.assigned_gtag_registration.nil?
+      - if !@customer_event_profile.credential_assignments_gtag_assigned.nil?
         dt = t ("admin.customers.gtags")
         dd
-          = link_to "#{@customer_event_profile.assigned_gtag_registration.gtag.tag_serial_number} #{@customer_event_profile.assigned_gtag_registration.gtag.tag_uid}", edit_admins_event_gtag_path(current_event, @customer_event_profile.assigned_gtag_registration.gtag)
+          = link_to "#{@customer_event_profile.credential_assignments_gtag_assigned.gtag.tag_serial_number} #{@customer_event_profile.credential_assignments_gtag_assigned.gtag.tag_uid}", edit_admins_event_gtag_path(current_event, @customer_event_profile.credential_assignments_gtag_assigned.gtag)
         dt = t("admin.customers.gtag_credits")
-        dd = @customer_event_profile.assigned_gtag_registration.gtag.gtag_credit_log.amount unless @customer_event_profile.assigned_gtag_registration.gtag.gtag_credit_log.nil?
+        dd = @customer_event_profile.credential_assignments_gtag_assigned.gtag.gtag_credit_log.amount unless @customer_event_profile.credential_assignments_gtag_assigned.gtag.gtag_credit_log.nil?
       - else
         dt = t ("admin.customers.gtags")
         dd = t ("admin.defaults.empty_gtags")
@@ -74,7 +74,7 @@
       dd = @customer_event_profile.customer.deleted_at.strftime("%y-%m-%d %H:%M:%S") unless @customer_event_profile.customer.deleted_at.nil?
 
   .container-show
-    - if !@customer_event_profile.admissions.empty?
+    - if !@customer_event_profile.credential_assignments_tickets.empty?
       h3
         = fa_icon "table"
         = t ("admin.customers.admissions")
@@ -86,9 +86,9 @@
             th = t("admin.customers.created_at")
 
         tbody
-          - @customer_event_profile.admissions.each do |admission|
+          - @customer_event_profile.credential_assignments_tickets.each do |admission|
             tr
-              td = link_to "#{admission.ticket.number}", edit_admins_event_ticket_path(current_event, admission.ticket)
+              td = link_to "#{admission.credentiable.number}", edit_admins_event_ticket_path(current_event, admission.credentiable)
               td = t("admin.admissions.states.#{admission.aasm_state}")
               td = admission.created_at.strftime("%y-%m-%d %H:%M:%S")
 
@@ -127,7 +127,7 @@
               td data-label=t("admin.orders.created") = order.created_at.strftime("%y-%m-%d %H:%M:%S")
               td data-label=t("admin.orders.completed") = order.completed_at.strftime("%y-%m-%d %H:%M:%S") unless order.completed_at.nil?
 
-    - if !@customer_event_profile.gtag_registrations.empty?
+    - if !@customer_event_profile.credential_assignments_gtags.empty?
       h3
         = fa_icon "table"
         = t ("admin.customers.gtag_registrations")
@@ -139,11 +139,11 @@
             th = t("admin.customers.created_at")
 
         tbody
-          - @customer_event_profile.gtag_registrations.each do |gtag_registration|
+          - @customer_event_profile.credential_assignments_gtags.each do |gtag_assignment|
             tr
-              td = link_to "#{gtag_registration.gtag.tag_serial_number} #{gtag_registration.gtag.tag_uid}", edit_admins_event_gtag_path(current_event, gtag_registration.gtag)
-              td = t("admin.gtag_registrations.states.#{gtag_registration.aasm_state}")
-              td = gtag_registration.created_at.strftime("%y-%m-%d %H:%M:%S")
+              td = link_to "#{gtag_assignment.credentiable.tag_serial_number} #{gtag_assignment.credentiable.tag_uid}", edit_admins_event_gtag_path(current_event, gtag_assignment.credentiable)
+              td = t("admin.gtag_registrations.states.#{gtag_assignment.aasm_state}")
+              td = gtag_assignment.created_at.strftime("%y-%m-%d %H:%M:%S")
 
     - if !@customer_event_profile.claims.empty?
       h3
