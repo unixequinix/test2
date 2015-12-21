@@ -7,9 +7,10 @@ table.table-order
   tr
     td [colspan="2"] #{t('claims.product_description')}
     td.table-amount #{claim.total}
-  tr
-    td [colspan="2"] #{t('claims.fee')}
-    td.table-amount #{-claim.fee}
+  - if claim.fee > 0
+    tr
+      td [colspan="2"] #{t('claims.fee')}
+      td.table-amount #{-claim.fee}
   tr
     td.table-total [colspan="2"] = t('orders.total')
     td.table-total.table-amount [colspan="3"] #{claim.gtag.refundable_amount_after_fee(claim.service_type)} #{t('currency_symbol')}
