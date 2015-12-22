@@ -15,4 +15,4 @@
           h3 = t('dashboard.admissions.success')
         .wrapper-action
           p = t('dashboard.admissions.call_to_action')
-          = link_to t('dashboard.admissions.button'), event_admission_path(current_event, ticket_assignment), data: { confirm: (t("confirm.remove_ticket") if current_customer_event_profile.purchased_credits > 0) }, method: :delete, class: "btn"
+          = link_to t('dashboard.admissions.button'), event_ticket_assignment_path(current_event, ticket_assignment), data: { confirm: (t("confirm.remove_ticket") if current_customer_event_profile.purchased_credits > 0) }, method: :delete, class: "btn"

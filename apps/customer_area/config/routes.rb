@@ -17,8 +17,8 @@ Rails.application.routes.draw do
           resource :passwords, only: [:new, :create, :edit, :update]
         end
       end
-      resources :admissions, only: [:new, :create, :destroy]
-      resources :gtag_registrations, only: [:new, :create, :destroy]
+      resources :ticket_assignments, only: [:new, :create, :destroy]
+      resources :gtag_assignments, only: [:new, :create, :destroy]
       resources :checkouts, only: [:new, :create]
       get "privacy_policy", to: "static_pages#privacy_policy"
       get "terms_of_use", to: "static_pages#terms_of_use"
