@@ -253,4 +253,8 @@ class Event < ActiveRecord::Base
   def refund_minimun(refund_service)
     get_parameter("refund", refund_service, "minimum")
   end
+
+  def gtag_assignment?
+    gtag_registration?
+  end
 end

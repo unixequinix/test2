@@ -9,7 +9,12 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
   end
 
   def show
-    @customer = @fetcher.customers.with_deleted.includes(:customer_event_profile, customer_event_profile: [:credential_assignments_tickets_assigned, :credential_assignments_gtag_assigned ]).find(params[:id])
+    @customer = @fetcher.customers.with_deleted.includes(
+      :customer_event_profile,
+      customer_event_profile: [:credential_assignments_tickets_assigned,
+        :credential_assignments_gtag_assigned,
+        credential_assignments: :credentiable ]
+      ).find(params[:id])
   end
 
   def resend_confirmation

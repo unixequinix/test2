@@ -38,7 +38,7 @@
         dd
           = link_to "#{@customer_event_profile.credential_assignments_gtag_assigned.credentiable.tag_serial_number} #{@customer_event_profile.credential_assignments_gtag_assigned.credentiable.tag_uid}", edit_admins_event_gtag_path(current_event, @customer_event_profile.credential_assignments_gtag_assigned.credentiable)
         dt = t("admin.customers.gtag_credits")
-        dd = @customer_event_profile.credential_assignments_gtag_assigned.gtag.gtag_credit_log.amount unless @customer_event_profile.credential_assignments_gtag_assigned.gtag.gtag_credit_log.nil?
+        dd = @customer_event_profile.credential_assignments_gtag_assigned.credentiable.gtag_credit_log.amount unless @customer_event_profile.credential_assignments_gtag_assigned.credentiable.gtag_credit_log.nil?
       - else
         dt = t ("admin.customers.gtags")
         dd = t ("admin.defaults.empty_gtags")

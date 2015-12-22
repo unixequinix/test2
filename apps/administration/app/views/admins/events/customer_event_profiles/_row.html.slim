@@ -9,8 +9,8 @@ td data-label=t("admin.customers.surname") = customer_event_profile.customer.sur
   td data-label=t("admin.customers.tickets") = t("admin.defaults.empty_tickets")
 td data-label=t("admin.customers.credits") = customer_event_profile.credit_logs.sum(:amount)
 - if !customer_event_profile.credential_assignments_gtag_assigned.nil?
-  td = link_to "#{customer_event_profile.credential_assignments_gtag_assigned.gtag.tag_uid}", edit_admins_event_gtag_path(current_event, customer_event_profile.credential_assignments_gtag_assigned.gtag)
-  td data-label=t("admin.customers.gtag_credits") = customer_event_profile.credential_assignments_gtag_assigned.gtag.gtag_credit_log.amount unless customer_event_profile.credential_assignments_gtag_assigned.gtag.gtag_credit_log.nil?
+  td = link_to "#{customer_event_profile.credential_assignments_gtag_assigned.credentiable.tag_uid}", edit_admins_event_gtag_path(current_event, customer_event_profile.credential_assignments_gtag_assigned.credentiable)
+  td data-label=t("admin.customers.gtag_credits") = customer_event_profile.credential_assignments_gtag_assigned.credentiable.gtag_credit_log.amount unless customer_event_profile.credential_assignments_gtag_assigned.credentiable.gtag_credit_log.nil?
 - else
   td data-label=t("admin.customers.gtags") = t("admin.defaults.empty_gtags")
   td data-label=t("admin.customers.gtag_credits") 0.0
