@@ -38,6 +38,7 @@ Rails.application.routes.draw do
         collection do
           get "success"
           get "error"
+          post "tipalti_success"
         end
       end
       resources :epg_claims, only: [:new, :create]

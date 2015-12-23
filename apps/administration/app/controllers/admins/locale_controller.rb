@@ -4,6 +4,7 @@ class Admins::LocaleController < Admins::BaseController
   # Change the locale in the session
   def change
     session[:locale] = params[:id]
+    I18n.locale = params[:id]
     redirect_to(admins_events_path)
   end
 end

@@ -1,0 +1,230 @@
+th:
+  simple_form:
+    "yes": 'ใช่'
+    "no": 'ไม่ใช่'
+    required:
+      text: 'จำเป็น'
+      mark: '*'
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    error_notification:
+      default_message: "กรุณาตรวจสอบปัญหาด้านล่าง"
+    # Examples
+    labels:
+      defaults:
+        password: 'รหัสผ่าน'
+        updated_at: 'อัพเดทเมื่อ'
+        created_at: 'สร้างขึ้นเมื่อ'
+      admin:
+        new: &label_admin
+          email: 'อีเมล'
+          current_password: 'รหัสผ่านปัจจุบัน'
+          password: 'รหัสผ่าน'
+          password_confirmation: 'ยืนยันรหัสผ่าน'
+        edit:
+          <<: *label_admin
+      event:
+        new: &label_event
+          name: 'ชื่อ'
+          support_email: 'อีเมลช่วยเหลือ'
+          agreed_event_condition_message: 'Condition message'
+          description: 'คำอธิบาย'
+          start_date: 'วันเริ่ม'
+          end_date: 'วันจบ'
+          location: 'สถานที่'
+          logo: 'โลโก้'
+          refund_service: 'บริการคืนเงิน'
+          gtag_registration: 'สมัครใช้งาน'
+          payment_service: 'บริการชำระเงิน'
+          host_country: 'ประเทศ'
+          currency: 'สกุลเงิน'
+          background_type: 'Background type'
+          background: 'background'
+          style: 'Style'
+          agreed_event_condition_message: 'Condition message'
+          refund_disclaimer: "เงื่อนไขการรับเงินคืน"
+          refund_success_message: "ข้อความแจ้งว่าการคืนเงินสำเร็จ"
+          mass_email_claim_notification: "ส่งอีเมลแจ้งสถานะการเคลม"
+        edit:
+          <<: *label_event
+      customer:
+        new: &label_customer
+          email: 'อีเมลl'
+          name: 'ชื่อ'
+          surname: 'นามสกุล'
+          password: 'รหัสผ่านปัจจุบัน'
+          password: 'รหัสผ่าน'
+          password_confirmation: 'ยืนยันรหัสผ่าน'
+          remember_me: 'บันทึกข้อมูลของฉัน'
+          phone: 'เบอร์โทรศัพท์'
+          address: 'ที่อยู่'
+          city: 'จังหวัด'
+          country: 'ประเทศ'
+          postcode: 'รหัสไปรษณีย์'
+          gender: 'เพศ'
+          birthdate: 'วันเกิด'
+          agreed_on_registration: "ข้าพเจ้าได้อ่านและทำความเข้าใจกับข้อตกลงการใช้งาน"
+        edit:
+          <<: *label_customer
+      online_product:
+        new: &label_online_product
+          name: 'ชื่อ'
+          description: 'คำอธิบาย'
+          price: 'ราคา'
+          min_purchasable: 'การซื้อขั้นต่ำ'
+          max_purchasable: 'การซื้อสูงสุด'
+          initial_amount: 'จำนวนเดิม'
+          step: 'ขั้นตอน'
+        edit:
+          <<: *label_online_product
+      entitlement:
+        new: &label_entitlement
+          name: 'ชื่อ'
+      ticket_type:
+        new: &label_ticket_type
+          name: "ชื่อ"
+          simplified_name: "ชื่อย่อ"
+          company: "บริษัท"
+          credit: "เครดิต"
+          entitlement: "สิทธิ์"
+        edit:
+          <<: *label_ticket_type
+      ticket:
+        new: &label_ticket
+          number: "ชื่อ"
+          purchaser_name: "ชื่อผู้ซื้อ"
+          purchaser_surname: "นามสกุลผู้ซื้อ"
+          purchaser_email: "อีเมลผู้ซื้อ"
+        edit:
+          <<: *label_ticket
+      gtag:
+        new: &label_gtag
+          tag_uid: "Tag UID"
+          tag_serial_number: "Tag serial number"
+          gtag_credit_log: "Bingo"
+        edit:
+          <<: *label_gtag
+      gtag_credit_log:
+        new: &label_gtag
+          amount: "จำนวน"
+        edit:
+          <<: *label_gtag
+      bank_account_refund_settings_form:
+        edit:
+          fee: 'ค่าบริการในการคืนเงิน (ในสกุลเงิน)'
+          minimum: 'ยอดเงินคืนขั้นต่ำหลังหักค่าบริการ (ในสกุลเงิน)'
+          product_id: "สินค้า"
+      gtag_settings_form:
+        edit:
+          format: "รูปแบบ"
+          name: "ชื่อ"
+          gtag_assignation_notification: "การแจ้งสถานะของ Gtag"
+          gtag_form_disclaimer: "Gtag assignation form disclaimer"
+      redsys_payment_settings_form:
+        edit:
+          name: 'ชื่อ'
+          code: 'โค้ด'
+          terminal: 'Terminal'
+          password: 'รหัสผ่าน'
+          currency: 'สกุลเงิน'
+          transaction_type: 'ประเภทของการชำระเงิน'
+          pay_methods: 'วิธีการชำระเงิน'
+          ip: 'IP'
+          form: 'Form URL'
+      epg_refund_settings_form:
+        edit:
+          fee: 'ค่าบริการในการคืนเงิน (ในสกุลเงิน)'
+          minimum: 'ยอดเงินคืนขั้นต่ำหลังหักค่าบริการ (ในสกุลเงิน)'
+          country: "ประเทศ"
+          currency: "สกุลเงิน"
+          operation_type: "Operation type"
+          payment_solution: "Payment solution"
+          md5key: "Md5key"
+          merchant: "ร้านค้า"
+          url: "Url"
+          product_id: "สินค้า"
+      epg_claim_form:
+        new:
+          country_code: "ประเทศ"
+          state: "จังหวัด"
+          city: "จังหวัด"
+          post_code: "รหัสไปรษณีย์"
+          phone: "เบอร์โทรศัพท์"
+          address: "ที่อยู่"
+      bank_account_claim_form:
+        new:
+          swift_html: "BIC/SWIFT<sup>1</sup>"
+          iban_html: "IBAN<sup>2</sup>"
+      comment:
+        new:
+          body: "ข้อคิดเห็น"
+
+    placeholders:
+      event:
+        new: &placeholder_event
+          name: 'ชื่องาน และปีที่งานจะเกิดขึ้น'
+          support_email: 'อีเมลช่วยเหลือ'
+          url: 'เว็บไซด์ของงาน'
+          description: 'ใส่ข้อมูลของงานและข้อมูลอื่นๆ ที่คุณคิดว่าสำคัญ'
+          location: 'งานจะเกิดขึ้นที่ไหน?'
+          style: '/*ใส่ CSS*/'
+          agreed_event_condition_message: 'ใส่เงื่อนไขที่คุณต้องการให้ผู้ใช้ทำการยอมรับตอนสมัครใช้บริการ'
+        edit:
+          <<: *placeholder_event
+      online_product:
+        new: &placeholder_online_product
+          name: 'Event´s name. Include year is a good idea'
+          support_email: 'อีเมลช่วยเหลือ'
+          url: 'เว็บไซด์ของงาน'
+          description: 'ใส่ข้อมูลของงานและข้อมูลอื่นๆ ที่คุณคิดว่าสำคัญ'
+          location: 'งานจะเกิดขึ้นที่ไหน?'
+          style: '/*ใส่ CSS*/'
+          agreed_event_condition_message: 'ใส่เงื่อนไขที่คุณต้องการให้ผู้ใช้ทำการยอมรับตอนสมัครใช้บริการ'
+        edit:
+          <<: *placeholder_event
+      entitlement:
+        new: &placeholder_entitlement
+          name: 'ชื่อของผู้มีสิทธิ์'
+        edit:
+          <<: *placeholder_entitlement
+      ticket_type:
+        new: &placeholder_ticket_type
+          name: "ชื่อของบัตรเข้างาน"
+          simplified_name: "ชื่อของบัตรเข้างาน"
+          company: "บริษัทของงาน"
+          credit: "เครดิตคงเหลือ"
+          entitlement: "สิทธิ"
+        edit:
+          <<: *placeholder_ticket_type
+      ticket:
+        new: &placeholder_ticket
+          number: "หมายเลขบัตร"
+          purchaser_name: ""
+          purchaser_surname: ""
+          purchaser_email: ""
+        edit:
+          <<: *placeholder_ticket
+      gtag:
+        new: &placeholder_gtag
+          tag_serial_number: "หมายเลขบรรทัดแรกของ %{gtag}"
+          tag_uid: "หมายเลขบรรทัดที่สอง %{gtag}"
+        edit:
+          <<: *placeholder_gtag
+      gtag_credit_log:
+        new: &placeholder_gtag
+          amount: "จำนวนคงเหลือ"
+        edit:
+          <<: *label_gtag
+      epg_claim_form:
+        new:
+          state: "จังหวัด"
+          phone: "หมายเลขโทรศัพท์ พร้อมรหัสประเทศ: +1123..."
+          address: "ที่อยู่"
+      bank_account_claim_form:
+        new:
+          swift: "0000 0000"
+          iban: 'GB00 0000 0000 0000 0000 0000'
+      comment:
+        new:
+          body: "ใส่ข้อคิดเห็น"

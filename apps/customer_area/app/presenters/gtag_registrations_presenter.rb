@@ -15,4 +15,8 @@ class GtagRegistrationsPresenter < BasePresenter
   def customer_has_refund?
     @refund.present?
   end
+
+  def gtag_name
+    @event.gtag_name
+  end
 end
