@@ -1,4 +1,4 @@
-class Admins::Events::GtagAssignmentsController < Admins::Events::CredentialAssignmentsController
+class Admins::Events::GtagAssignmentsController < Admins::Events::CheckinBaseController
 
   def new
     @customer = @fetcher.customers.with_deleted.find(params[:customer_id])
@@ -36,4 +36,12 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::CredentialAssi
     params.require(:gtag_assignment_form).permit(:number, :tag_uid, :tag_serial_number)
   end
 
+  def current_customer
+    @fetcher.customers.find(params[:customer_id])
+  end
+
+  def current_customer_event_profile
+    current_customer.customer_event_profile ||
+      CustomerEventProfile.new(customer: current_customer, event: current_event)
+  end
 end

@@ -11,7 +11,6 @@ class Events::GtagAssignmentsController < Events::BaseController
     @gtag_assignment_form = GtagAssignmentForm.new(gtag_assignment_parameters)
     if @gtag_assignment_form.save(Gtag.where(event: current_event), current_customer_event_profile)
       flash[:notice] = I18n.t("alerts.created")
-      GtagMailer.assigned_email(@gtag_assignment).deliver_later
       redirect_to event_url(current_event)
     else
       flash[:error] = @gtag_assignment_form.errors.full_messages.join

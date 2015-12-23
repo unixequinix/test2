@@ -1,4 +1,4 @@
-class Admins::Events::TicketAssignmentsController < Admins::Events::CredentialAssignmentsController
+class Admins::Events::TicketAssignmentsController < Admins::Events::CheckinBaseController
 
   def new
     @customer = @fetcher.customers.with_deleted.find(params[:customer_id])
@@ -38,6 +38,15 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::CredentialAs
 
   def ticket_assignment_parameters
     params.require(:ticket_assignment_form).permit(:number)
+  end
+
+  def current_customer
+    @fetcher.customers.find(params[:customer_id])
+  end
+
+  def current_customer_event_profile
+    current_customer.customer_event_profile ||
+      CustomerEventProfile.new(customer: current_customer, event: current_event)
   end
 
 end
