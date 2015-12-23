@@ -29,7 +29,8 @@ class GtagAssignmentForm
   private
 
   def persist!(current_customer_event_profile, gtag)
-    @gtag_registration = current_customer_event_profile.credential_assignments_gtags.create(credentiable: gtag)
+    @gtag_registration =
+      current_customer_event_profile.gtag_assignment.create(credentiable: gtag)
     GtagMailer.assigned_email(@gtag_registration).deliver_later
   end
 end

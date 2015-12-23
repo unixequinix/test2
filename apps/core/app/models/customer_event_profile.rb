@@ -25,18 +25,31 @@ class CustomerEventProfile < ActiveRecord::Base
     ->{ where(transaction_type: CreditLog::CREDITS_PURCHASE) },
     class_name: 'CreditLog'
   has_many :credential_assignments
-  has_many :credential_assignments_tickets,
+
+  # credential_assignments_tickets
+  has_many :ticket_assignments,
     -> { where(credentiable_type: "Ticket") },
     class_name: "CredentialAssignment", dependent: :destroy
-  has_many :credential_assignments_gtags,
+
+  # credential_assignments_gtags
+  has_many :gtag_assignment,
     -> { where(credentiable_type: "Gtag") },
     class_name: "CredentialAssignment", dependent: :destroy
-  has_many :credential_assignments_assigned,
+
+  # credential_assignments_assigned
+  has_many :active_assignments,
     -> { where(aasm_state: :assigned) }, class_name: "CredentialAssignment"
-  has_many :credential_assignments_tickets_assigned,
-    -> { where(aasm_state: :assigned, credentiable_type: "Ticket") }, class_name: "CredentialAssignment"
-  has_one :credential_assignments_gtag_assigned,
-    -> { where(aasm_state: :assigned, credentiable_type: "Gtag") }, class_name: "CredentialAssignment"
+
+  # credential_assignments_tickets_assigned
+  has_many :active_tickets_assignment,
+    -> { where(aasm_state: :assigned, credentiable_type: "Ticket") },
+    class_name: "CredentialAssignment"
+
+  # credential_assignments_gtag_assigned
+  has_one :active_gtag_assignment,
+    -> { where(aasm_state: :assigned, credentiable_type: "Gtag") },
+    class_name: "CredentialAssignment"
+
   has_one :completed_claim,
     ->{ where(aasm_state: :completed) }, class_name: "Claim"
 

@@ -11,8 +11,8 @@ class Admins::Events::CustomerEventProfilesController < Admins::Events::BaseCont
   def show
     @customer_event_profile =
       @fetcher.customer_event_profiles.with_deleted.includes(
-        :credential_assignments_tickets_assigned,
-        :credential_assignments_gtag_assigned,
+        :active_tickets_assignment,
+        :active_gtag_assignment,
         credential_assignments: :credentiable).find(params[:id])
   end
 
@@ -25,8 +25,9 @@ class Admins::Events::CustomerEventProfilesController < Admins::Events::BaseCont
       context: view_context,
       include_for_all_items: [
         :customer,
-        :credential_assignments_tickets_assigned,
-        :credential_assignments_gtag_assigned
+        :active_tickets_assignment,
+        :active_gtag_assignment,
+        credential_assignments: :credentiable
       ]
     )
   end

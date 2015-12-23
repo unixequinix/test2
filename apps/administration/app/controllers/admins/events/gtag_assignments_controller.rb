@@ -16,8 +16,6 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::CredentialAssi
       flash[:error] = @gtag_assignment_form.errors.full_messages.join
       render :new
     end
-
-
   end
 
   def destroy

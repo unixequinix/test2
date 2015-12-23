@@ -11,8 +11,8 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
   def show
     @customer = @fetcher.customers.with_deleted.includes(
       :customer_event_profile,
-      customer_event_profile: [:credential_assignments_tickets_assigned,
-        :credential_assignments_gtag_assigned,
+      customer_event_profile: [:ticket_assignments,
+        :active_gtag_assignment,
         credential_assignments: :credentiable ]
       ).find(params[:id])
   end
@@ -30,8 +30,8 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
       page: params[:page],
       context: view_context,
       include_for_all_items: [:customer_event_profile, customer_event_profile:
-        [:credential_assignments_tickets_assigned, :credential_assignments_gtag_assigned,
-          credential_assignments_assigned: :credentiable
+        [:active_gtag_assignment,
+          active_assignments: :credentiable
         ]
       ]
     )

@@ -1,16 +1,16 @@
 td data-label=t("admin.customers.email") = link_to customer_event_profile.customer.email, admins_event_customer_event_profile_path(current_event, customer_event_profile), class: (customer_event_profile.deleted? ? "deleted-field" : "")
 td data-label=t("admin.customers.name") = customer_event_profile.customer.name
 td data-label=t("admin.customers.surname") = customer_event_profile.customer.surname
-- if customer_event_profile.credential_assignments_tickets_assigned
+- if customer_event_profile.active_tickets_assignment
   td
-    - customer_event_profile.credential_assignments_tickets_assigned.each do |assigned_ticket|
+    - customer_event_profile.active_tickets_assignment.each do |assigned_ticket|
       = link_to assigned_ticket.credentiable.number, edit_admins_event_ticket_path(current_event, assigned_ticket.credentiable)
 - else
   td data-label=t("admin.customers.tickets") = t("admin.defaults.empty_tickets")
 td data-label=t("admin.customers.credits") = customer_event_profile.credit_logs.sum(:amount)
-- if !customer_event_profile.credential_assignments_gtag_assigned.nil?
-  td = link_to "#{customer_event_profile.credential_assignments_gtag_assigned.credentiable.tag_uid}", edit_admins_event_gtag_path(current_event, customer_event_profile.credential_assignments_gtag_assigned.credentiable)
-  td data-label=t("admin.customers.gtag_credits") = customer_event_profile.credential_assignments_gtag_assigned.credentiable.gtag_credit_log.amount unless customer_event_profile.credential_assignments_gtag_assigned.credentiable.gtag_credit_log.nil?
+- if !customer_event_profile.active_gtag_assignment.nil?
+  td = link_to "#{customer_event_profile.active_gtag_assignment.credentiable.tag_uid}", edit_admins_event_gtag_path(current_event, customer_event_profile.active_gtag_assignment.credentiable)
+  td data-label=t("admin.customers.gtag_credits") = customer_event_profile.active_gtag_assignment.credentiable.gtag_credit_log.amount unless customer_event_profile.active_gtag_assignment.credentiable.gtag_credit_log.nil?
 - else
   td data-label=t("admin.customers.gtags") = t("admin.defaults.empty_gtags")
   td data-label=t("admin.customers.gtag_credits") 0.0

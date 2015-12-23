@@ -5,9 +5,9 @@ class Dashboard
     @context = context
     @customer_event_profile = customer_event_profile
     @event = customer_event_profile.event
-    @ticket_assignments = customer_event_profile.credential_assignments_tickets_assigned
-                  .includes(:credentiable)
-    @gtag_assignment = customer_event_profile.credential_assignments_gtag_assigned
+    @ticket_assignments = customer_event_profile.active_tickets_assignment
+                  .includes(:credentiable, credentiable: :ticket_type)
+    @gtag_assignment = customer_event_profile.active_gtag_assignment
     @completed_claim = customer_event_profile.completed_claim
     @presenters = []
   end

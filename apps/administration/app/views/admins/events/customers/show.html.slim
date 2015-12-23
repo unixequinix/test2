@@ -1,7 +1,7 @@
 - breadcrumb :admins_event_customer, current_event, @customer
 - provide :actions do
   = link_to t("admin.actions.assign_ticket"), new_admins_event_customer_ticket_assignment_path(current_event, @customer), class: "btn btn-action btn-action-new small"
-  = link_to t("admin.actions.assign_gtag"), new_admins_event_customer_gtag_assignment_path(current_event, @customer), class: "btn btn-action btn-action-new small" if @customer.customer_event_profile.nil? || (!@customer.customer_event_profile.nil? && !@customer.customer_event_profile.credential_assignments_gtag_assigned)
+  = link_to t("admin.actions.assign_gtag"), new_admins_event_customer_gtag_assignment_path(current_event, @customer), class: "btn btn-action btn-action-new small" if @customer.customer_event_profile.nil? || (!@customer.customer_event_profile.nil? && !@customer.customer_event_profile.active_gtag_assignment)
   = link_to admins_event_customers_path(current_event), class: "btn btn-action btn-action-back small" do
     = fa_icon "arrow-circle-left"
     = t('actions.back')
@@ -24,8 +24,8 @@
 
 
       - if !@customer.customer_event_profile.blank?
-        - if @customer.customer_event_profile.credential_assignments_tickets_assigned
-          - @customer.customer_event_profile.credential_assignments_tickets_assigned.each do |credentiable_ticket|
+        - if @customer.customer_event_profile.active_tickets_assignment
+          - @customer.customer_event_profile.active_tickets_assignment.each do |credentiable_ticket|
             dt = t ("admin.customers.tickets")
             dd
               = link_to credentiable_ticket.credentiable.number, edit_admins_event_ticket_path(current_event, credentiable_ticket.credentiable)
@@ -39,14 +39,14 @@
         dt = t ("admin.customers.credits")
         dd = @customer.customer_event_profile.credit_logs.sum(:amount)
 
-        - if !@customer.customer_event_profile.credential_assignments_gtag_assigned.blank?
+        - if !@customer.customer_event_profile.active_gtag_assignment.blank?
           dt = t ("admin.customers.gtags")
           dd
-            = link_to "#{@customer.customer_event_profile.credential_assignments_gtag_assigned.credentiable.tag_serial_number} #{@customer.customer_event_profile.credential_assignments_gtag_assigned.credentiable.tag_uid}", edit_admins_event_gtag_path(current_event, @customer.customer_event_profile.credential_assignments_gtag_assigned.credentiable)
-            = link_to admins_event_gtag_assignment_path(current_event, @customer.customer_event_profile.credential_assignments_gtag_assigned), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
+            = link_to "#{@customer.customer_event_profile.active_gtag_assignment.credentiable.tag_serial_number} #{@customer.customer_event_profile.active_gtag_assignment.credentiable.tag_uid}", edit_admins_event_gtag_path(current_event, @customer.customer_event_profile.active_gtag_assignment.credentiable)
+            = link_to admins_event_gtag_assignment_path(current_event, @customer.customer_event_profile.active_gtag_assignment), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
               = fa_icon "trash"
           dt = t("admin.customers.gtag_credits")
-          dd = @customer.customer_event_profile.credential_assignments_gtag_assigned.credentiable.gtag_credit_log.amount unless @customer.customer_event_profile.credential_assignments_gtag_assigned.credentiable.gtag_credit_log.nil?
+          dd = @customer.customer_event_profile.active_gtag_assignment.credentiable.gtag_credit_log.amount unless @customer.customer_event_profile.active_gtag_assignment.credentiable.gtag_credit_log.nil?
         - else
           dt = t ("admin.customers.gtags")
           dd = t ("admin.defaults.empty_gtags")
@@ -85,7 +85,7 @@
 
   .container-show
     - if !@customer.customer_event_profile.nil?
-      - if !@customer.customer_event_profile.credential_assignments_tickets.empty?
+      - if !@customer.customer_event_profile.ticket_assignments.empty?
         h3
           = fa_icon "table"
           = t ("admin.customers.admissions")
@@ -97,7 +97,7 @@
               th = t("admin.customers.created_at")
 
           tbody
-            - @customer.customer_event_profile.credential_assignments_tickets.each do |admission|
+            - @customer.customer_event_profile.ticket_assignments.each do |admission|
               tr
                 td = link_to "#{admission.credentiable.number}", edit_admins_event_ticket_path(current_event, admission.credentiable)
                 td = t("admin.admissions.states.#{admission.aasm_state}")
@@ -138,7 +138,7 @@
                 td data-label=t("admin.orders.created") = order.created_at.strftime("%y-%m-%d %H:%M:%S")
                 td data-label=t("admin.orders.completed") = order.completed_at.strftime("%y-%m-%d %H:%M:%S") unless order.completed_at.nil?
 
-      - if !@customer.customer_event_profile.credential_assignments_gtags.empty?
+      - if !@customer.customer_event_profile.gtag_assignment.empty?
         h3
           = fa_icon "table"
           = t ("admin.customers.gtag_registrations")
@@ -150,10 +150,10 @@
               th = t("admin.customers.created_at")
 
           tbody
-            - @customer.customer_event_profile.credential_assignments_gtags.each do |credential_gtag|
+            - @customer.customer_event_profile.gtag_assignment.each do |credential_gtag|
               tr
                 td = link_to "#{credential_gtag.credentiable.tag_serial_number} #{credential_gtag.credentiable.tag_uid}", edit_admins_event_gtag_path(current_event, credential_gtag.credentiable)
-                td = t("admin.credential_assignments_gtags.states.#{credential_gtag.aasm_state}")
+                td = t("admin.gtag_assignment.states.#{credential_gtag.aasm_state}")
                 td = credential_gtag.created_at.strftime("%y-%m-%d %H:%M:%S")
 
       - if !@customer.customer_event_profile.claims.empty?
