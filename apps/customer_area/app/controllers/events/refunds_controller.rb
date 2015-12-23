@@ -1,7 +1,7 @@
 class Events::RefundsController < Events::BaseController
-  skip_before_action :authenticate_customer!, only: [:create]
-  skip_before_filter :verify_authenticity_token, only: [:create]
-  skip_before_action :check_has_gtag!, only: [:create]
+  skip_before_action :authenticate_customer!, only: [:create, :tipalti_success]
+  skip_before_filter :verify_authenticity_token, only: [:create, :tipalti_success]
+  skip_before_action :check_has_gtag!, only: [:create, :tipalti_success]
 
   def create
     response = Nokogiri::XML(request.body.read)
@@ -22,6 +22,22 @@ class Events::RefundsController < Events::BaseController
       end
     end
     render nothing: true
+  end
+
+  def tipalti_success
+    if @claim = Claim.where(customer_event_profile_id: params[:customer_id]).last
+      RefundService.new(@claim, current_event)
+        .create(params = {
+          amount: @claim.gtag.refundable_amount_after_fee(service_type),
+          currency: I18n.t("currency_symbol"),
+          message: "Created tipalti refund",
+          payment_solution: "tipalti",
+          status: params[:status]
+        })
+      redirect_to success_event_refunds_url(current_event)
+    else
+      redirect_to error_event_refunds_url(current_event)
+    end
   end
 
   def success

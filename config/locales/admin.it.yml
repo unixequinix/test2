@@ -69,9 +69,10 @@ it:
         top_ups: 'Credit top ups'
         refunds: 'Refunds'
       locales_options:
-        english: "Inglese"
-        italian: "Italiano"
-        spanish: "Spagnolo"
+        en_lang: "Inglese"
+        it_lang: "Italiano"
+        es_lang: "Spagnolo"
+        th_lang: "Thai"
     gtag_settings:
       form:
         format: 'Format'

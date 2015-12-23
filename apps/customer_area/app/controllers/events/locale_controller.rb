@@ -4,6 +4,7 @@ class Events::LocaleController < Events::BaseController
   # Change the locale in the session
   def change
     session[:locale] = params[:id]
+    I18n.locale = params[:id]
     redirect_to(current_event)
   end
 end

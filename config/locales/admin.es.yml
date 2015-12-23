@@ -69,9 +69,10 @@ es:
         top_ups: 'Recarga de creditos'
         refunds: 'Devoluciones'
       locales_options:
-        english: "Inglés"
-        italian: "Italiano"
-        spanish: "Español"
+        en_lang: "Inglés"
+        it_lang: "Italiano"
+        es_lang: "Español"
+        th_lang: "Thailandes"
     gtag_settings:
       form:
         format: 'Formato'

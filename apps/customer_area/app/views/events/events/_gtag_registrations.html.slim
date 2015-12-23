@@ -10,7 +10,6 @@
         .dashboard-field.dashboard-field-action
           h3 = t('dashboard.gtag_registration.call_to_action', gtag: current_event.gtag_name)
           = link_to t('dashboard.gtag_registration.button'), event_gtag_assignment_path(current_event, presenter.gtag_assignment), method: :delete, class: "btn btn-dashboard"
-
 .wrapper-field.centered
   .form-inputs
     h3.claim = t('dashboard.wait_refund_disclaimer.claim')
@@ -21,6 +20,6 @@
 
 .wrapper-field.centered
   .form-inputs
-    h3 = t('dashboard.more_gtags.description', gtag: current_event.gtag_name)
+    h3 = t('dashboard.more_gtags.description', gtag: presenter.gtag_name)
     = link_to event_logout_path(current_event), method: :delete, class: "btn btn-action btn-action-back" do
       = t("actions.logout")

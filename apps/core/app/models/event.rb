@@ -80,9 +80,10 @@ class Event < ActiveRecord::Base
   has_flags 1 => :en_lang,
             2 => :es_lang,
             3 => :it_lang,
+            4 => :th_lang,
             column: "locales"
 
-  LOCALES = [:en_lang, :es_lang, :it_lang]
+  LOCALES = [:en_lang, :es_lang, :it_lang, :th_lang]
 
   # Associations
   has_many :customer_event_profiles

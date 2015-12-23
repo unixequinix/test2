@@ -4,31 +4,29 @@ class Admins::AdminsController < Admins::BaseController
   end
 
   def new
-    @admin = Admin.new
+    @admin_form = NewAdminForm.new(Admin.new)
   end
 
   def create
-    @admin = Admin.new(permitted_params)
-    if @admin.save
+    @admin_form = NewAdminForm.new(Admin.new)
+    if @admin_form.validate(permitted_params) && @admin_form.save
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_admins_url
     else
-      flash[:error] = @admin.errors.full_messages.join(". ")
       render :new
     end
   end
 
   def edit
-    @admin = Admin.find(params[:id])
+    @admin_form = EditAdminForm.new(Admin.find(params[:id]))
   end
 
   def update
-    @admin = Admin.find(params[:id])
-    if @admin.update(permitted_params)
+    @admin_form = EditAdminForm.new(Admin.find(params[:id]))
+    if @admin_form.validate(permitted_params) && @admin_form.save
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_admins_url
     else
-      flash[:error] = @admin.errors.full_messages.join(". ")
       render :edit
     end
   end
@@ -47,6 +45,6 @@ class Admins::AdminsController < Admins::BaseController
   private
 
   def permitted_params
-    params.require(:admin).permit(:email, :password)
+    params.require(:admin).permit(:email, :current_password, :password)
   end
 end

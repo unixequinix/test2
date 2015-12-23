@@ -11,6 +11,7 @@ it:
       en: 'ENG'
       es: 'ESP'
       it: 'ITA'
+      th: 'THA'
     gtag_name: 'PAYCARD'
   activemodel:
     errors:

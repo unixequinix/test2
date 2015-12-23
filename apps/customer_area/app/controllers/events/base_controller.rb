@@ -1,9 +1,9 @@
 class Events::BaseController < ApplicationController
   layout "event"
   protect_from_forgery
-  before_filter :set_i18n_globals
   before_action :ensure_customer
   before_action :set_locale
+  before_filter :set_i18n_globals
   helper_method :current_event
   before_action :fetch_current_event
   before_action :authenticate_customer!
@@ -38,7 +38,8 @@ class Events::BaseController < ApplicationController
   end
 
   def current_customer
-    @current_customer ||= Customer.find(warden.user(:customer)["id"]) unless
+    @current_customer ||=
+      Customer.find(warden.user(:customer)["id"]) unless
       warden.user(:customer).nil? ||
       Customer.where(id: warden.user(:customer)["id"]).empty?
   end
@@ -58,12 +59,12 @@ class Events::BaseController < ApplicationController
     @current_event
   end
 
-  def set_i18n_globals
-    I18n.config.globals[:gtag] = current_event.gtag_name
-  end
-
   def set_locale
     super(current_event.selected_locales_formated)
+  end
+
+  def set_i18n_globals
+    I18n.config.globals[:gtag] = current_event.gtag_name
   end
 
   def check_top_ups_is_active!
