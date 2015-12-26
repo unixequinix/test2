@@ -5,11 +5,6 @@ class StripePaymentSettingsForm
   attribute :email, String
   attribute :currency, String
   attribute :country, String
-  # attribute :bank_account, String
-  # attribute :legal_first_name, String
-  # attribute :legal_last_name, String
-  # attribute :legal_dob, DateTime
-  # attribute :legal_type, String
   attribute :event_id, Integer
 
   validates_presence_of :email

@@ -7,7 +7,6 @@ class Events::GtagAssignmentsController < Events::BaseController
   end
 
   def create
-    binding.pry
     @gtag_assignment_form = GtagAssignmentForm.new(gtag_assignment_parameters)
     if @gtag_assignment_form.save(Gtag.where(event: current_event), current_customer_event_profile)
       flash[:notice] = I18n.t("alerts.created")
