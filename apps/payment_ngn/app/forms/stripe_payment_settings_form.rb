@@ -5,6 +5,11 @@ class StripePaymentSettingsForm
   attribute :email, String
   attribute :currency, String
   attribute :country, String
+  # attribute :bank_account, String
+  # attribute :legal_first_name, String
+  # attribute :legal_last_name, String
+  # attribute :legal_dob, DateTime
+  # attribute :legal_type, String
   attribute :event_id, Integer
 
   validates_presence_of :email
@@ -31,9 +36,8 @@ class StripePaymentSettingsForm
   end
 
   private
-
   def persist!
-    Parameter.where(category: "payment", group: "stripe").each do |parameter|
+    Parameter.where(category: 'payment', group: 'stripe').each do |parameter|
       ep = EventParameter.find_by(event_id: event_id, parameter_id: parameter.id)
       ep.nil? ?
       EventParameter.create!(value: attributes[parameter.name.to_sym], event_id: event_id, parameter_id: parameter.id) :

@@ -28,6 +28,7 @@ class TicketAssignmentForm
   private
 
   def persist!(ticket, current_customer_event_profile)
+    current_customer_event_profile.save
     current_customer_event_profile.credential_assignments.create(credentiable: ticket)
     credit_log = CreditLog.create(
       customer_event_profile: current_customer_event_profile,
