@@ -38,12 +38,12 @@ Rails.application.routes.draw do
         collection do
           get "success"
           get "error"
-          post "tipalti_success"
+          get "tipalti_success"
         end
       end
       resources :epg_claims, only: [:new, :create]
       resources :bank_account_claims, only: [:new, :create]
-      resources :tipalti_claims, only: [:new, :create]
+      resources :tipalti_claims, only: [:new]
     end
   end
   get ":event_id", to: "events/events#show", as: :customer_root

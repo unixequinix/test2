@@ -2,29 +2,7 @@ class Events::TipaltiClaimsController < Events::ClaimsController
   def new
     @claim = generate_claim
     @url = TipaltiCheckout.new(@claim).url
-  end
-
-  def create
-    @bank_account_claim_form = BankAccountClaimForm.new(permitted_params)
-    @claim = Claim.find(permitted_params[:claim_id])
-    if @bank_account_claim_form.save
-      @claim.start_claim!
-      # TODO Remove hardcoded message text
-      if RefundService.new(@claim, current_event)
-          .create(params = {
-            amount: @claim.gtag.refundable_amount_after_fee(service_type),
-            currency: current_event.currency,
-            message: "Created tipalti account refund",
-            payment_solution: "manual",
-            status: "PENDING"
-          })
-        redirect_to success_event_refunds_url(current_event)
-      else
-        redirect_to error_event_refunds_url(current_event)
-      end
-    else
-      render :new
-    end
+    @claim.start_claim!
   end
 
   private
