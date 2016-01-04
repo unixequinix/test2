@@ -6,11 +6,13 @@ class BankAccountRefundSettingsForm
   attribute :fee, Decimal
   attribute :minimum, Decimal
   attribute :validate_sepa, String
+  attribute :area, String
   attribute :event_id, Integer
 
   validates_presence_of :action_name
   validates_presence_of :fee
   validates_presence_of :minimum
+  validates_presence_of :area
   validates_presence_of :event_id
   validates_inclusion_of :validate_sepa, in: %w(true false)
 

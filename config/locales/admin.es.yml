@@ -34,6 +34,7 @@ es:
       fee: 'Comisión'
       minimum: 'Mínimo'
       refund_disclaimer: "Mensaje general de devolución"
+      bank_account_disclaimer: "Mensaje de cuenta bancaria"
       refund_success_message: "Mensaje de éxito en la devolución (Pulsar para verificar)"
       mass_email_claim_notification: "Notificación general (petición de devolución)"
       gtag_assignation_notification: "Notificación al asignar el Gtag"

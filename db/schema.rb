@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151126125334) do
+ActiveRecord::Schema.define(version: 20160104133824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -241,6 +241,7 @@ ActiveRecord::Schema.define(version: 20151126125334) do
     t.string   "gtag_name"
     t.text     "agreed_event_condition_message"
     t.text     "refund_disclaimer"
+    t.text     "bank_account_disclaimer"
   end
   add_index "event_translations", ["event_id"], name: "index_event_translations_on_event_id"
 

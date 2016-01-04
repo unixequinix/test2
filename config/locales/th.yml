@@ -35,6 +35,28 @@ th:
               invalid: "หมายเลข BIC/SWIFT ไม่ถูกต้อง"
             iban:
               invalid: "หมายเลข IBAN ไม่ถูกต้อง, กรุณาใส่ข้อมูที่ถูกต้องสำหรับ SEPA"
+    attributes:
+      euro_bank_account_claim_form:
+        swift: "BIC/SWIFT"
+        iban: "IBAN"
+        account_holder: "Account holder's name"
+        bank_name: "Bank name"
+      aus_bank_account_claim_form:
+        bsb: "BSB"
+        account_holder: "Account holder's name"
+        bank_name: "Bank name"
+        number: "Account number"
+      nz_bank_account_claim_form:
+        bsb: "BSB"
+        account_holder: "Account holder's name"
+        bank_name: "Bank name"
+        number: "Account number"
+      thailand_bank_account_claim_form:
+        bsb: "BSB"
+        account_holder: "Account holder's name (Thai)"
+        account_holder_translation: "Account holder's name (English)"
+        bank_name: "Bank name"
+        number: "Account number"
   activerecord:
     models:
       admin:

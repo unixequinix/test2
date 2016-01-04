@@ -1,11 +1,11 @@
 class Events::BankAccountClaimsController < Events::ClaimsController
   def new
-    @bank_account_claim_form = BankAccountClaimForm.new
+    @bank_account_claim_form = ("#{area.camelize}BankAccountClaimForm").constantize.new
     @claim = generate_claim
   end
 
   def create
-    @bank_account_claim_form = BankAccountClaimForm.new(permitted_params)
+    @bank_account_claim_form = ("#{area.camelize}BankAccountClaimForm").constantize.new(permitted_params)
     @claim = Claim.find(permitted_params[:claim_id])
     if @bank_account_claim_form.save
       @claim.start_claim!
@@ -30,10 +30,18 @@ class Events::BankAccountClaimsController < Events::ClaimsController
   private
 
   def permitted_params
-    params.require(:bank_account_claim_form).permit(:iban, :swift, :claim_id, :event_id, :agreed_on_claim)
+    params.require(form_name).permit(:iban, :swift, :number, :bsb, :bank_name, :account_holder, :account_holder_translation, :claim_id, :event_id, :agreed_on_claim)
   end
 
   def service_type
     Claim::BANK_ACCOUNT
+  end
+
+  def form_name
+    "#{area}_#{service_type}_claim_form"
+  end
+
+  def area
+    current_event.get_parameter("refund", "bank_account", "area")
   end
 end

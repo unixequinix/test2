@@ -74,6 +74,6 @@ class Admins::Events::RefundSettingsController < Admins::Events::BaseController
   end
 
   def permitted_event_params
-    params.require(:event).permit(:refund_success_message, :mass_email_claim_notification, :refund_disclaimer)
+    params.require(:event).permit(:refund_success_message, :mass_email_claim_notification, :refund_disclaimer, :bank_account_disclaimer)
   end
 end

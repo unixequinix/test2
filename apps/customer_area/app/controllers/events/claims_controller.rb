@@ -22,7 +22,7 @@ class Events::ClaimsController < Events::BaseController
   end
 
   def require_permission!
-    @claim = Claim.find(params["#{service_type}_claim_form"][:claim_id])
+    @claim = Claim.find(params[form_name][:claim_id])
     if current_customer_event_profile != @claim.customer_event_profile || @claim.completed?
       flash.now[:error] = I18n.t("alerts.claim_complete")
       redirect_to event_url(current_event)

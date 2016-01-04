@@ -8,10 +8,14 @@ class Events::TipaltiClaimsController < Events::ClaimsController
   private
 
   def permitted_params
-    params.require(:bank_account_claim_form).permit(:iban, :swift, :claim_id, :agreed_on_claim)
+    params.require(form_name).permit(:iban, :swift, :claim_id, :agreed_on_claim)
   end
 
   def service_type
     Claim::TIPALTI
+  end
+
+  def form_name
+    "#{service_type}_claim_form"
   end
 end

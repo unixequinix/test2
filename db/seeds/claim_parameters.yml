@@ -10,6 +10,21 @@
         -
           name: swift
           data_type: string
+        -
+          name: number
+          data_type: string
+        -
+          name: bsb
+          data_type: string
+        -
+          name: bank_name
+          data_type: string
+        -
+          name: account_holder
+          data_type: string
+        -
+          name: account_holder_translation
+          data_type: string
     -
       name: epg
       parameters:

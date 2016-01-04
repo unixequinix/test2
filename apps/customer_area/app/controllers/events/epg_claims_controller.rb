@@ -19,11 +19,15 @@ class Events::EpgClaimsController < Events::ClaimsController
   private
 
   def permitted_params
-    params.require(:epg_claim_form).permit(:country_code, :state, :city,
+    params.require(form_name).permit(:country_code, :state, :city,
                                            :post_code, :phone, :address, :claim_id, :agreed_on_claim)
   end
 
   def service_type
     Claim::EASY_PAYMENT_GATEWAY
+  end
+
+  def form_name
+    "#{service_type}_claim_form"
   end
 end

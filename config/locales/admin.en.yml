@@ -34,6 +34,7 @@ en:
       fee: 'Fee'
       minimum: 'Minimum'
       refund_disclaimer: "Refund disclaimer"
+      bank_account_disclaimer: "Bank account disclaimer"
       refund_success_message: "Refund success message (Click to check)"
       mass_email_claim_notification: "Mass email claim notification"
       gtag_assignation_notification: "Gtag  assignation notification"
