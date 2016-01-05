@@ -11,7 +11,6 @@
 #
 
 class EventParameter < ActiveRecord::Base
-
   # Association
   belongs_to :event
   belongs_to :parameter
@@ -23,18 +22,20 @@ class EventParameter < ActiveRecord::Base
   validate :value_type
 
   # Scopes
-  scope :full, -> { joins(:parameter)
-                  .select("event_parameters.*,
-                          parameters.group as group,
-                          parameters.name as name,
-                          parameters.category as category,
-                          parameters.data_type as data_type") }
+  scope :full, lambda {
+    joins(:parameter)
+      .select("event_parameters.*,
+             parameters.group as group,
+             parameters.name as name,
+             parameters.category as category,
+             parameters.data_type as data_type")
+  }
 
   # Methods
   # -------------------------------------------------------
 
   def self.for_category(category, event)
-    full.where(event: event, parameters: {category: category})
+    full.where(event: event, parameters: { category: category })
   end
 
   private
@@ -45,5 +46,4 @@ class EventParameter < ActiveRecord::Base
       errors.add(:value, "errors.parameters.incorrect_type.#{parameter.data_type}") unless value =~ validator
     end
   end
-
 end

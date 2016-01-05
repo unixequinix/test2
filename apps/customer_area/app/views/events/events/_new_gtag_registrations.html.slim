@@ -1,8 +1,8 @@
 .wrapper-field.centered
   - if presenter.gtag_registrations_enabled?
     h3 = t('dashboard.without_gtags.title')
-    p = t('dashboard.without_gtags.description')
-    = link_to t('dashboard.without_gtags.button'), new_event_gtag_registration_path(current_event), class: 'btn btn-primary'
+    p = t('dashboard.without_gtags.description', gtag: current_event.gtag_name)
+    = link_to t('dashboard.without_gtags.button', gtag: current_event.gtag_name), new_event_gtag_registration_path(current_event), class: 'btn btn-primary'
   - else
     // TODO Manu: form-input outside a form???
     .form-inputs

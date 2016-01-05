@@ -19,6 +19,7 @@ es:
       admin:
         new: &label_admin
           email: 'Email'
+          current_password: 'Contraseña actual'
           password: 'Contraseña'
           password_confirmation: 'Confirmación de contraseña'
         edit:

@@ -4,8 +4,8 @@ class GtagRegistrationsPresenter < BasePresenter
   end
 
   def path
-    @gtag_registration.present? ? 'gtag_registrations' :
-                                  'new_gtag_registrations'
+    @gtag_registration.present? ? "gtag_registrations" :
+                                  "new_gtag_registrations"
   end
 
   def gtag_registrations_enabled?
@@ -14,5 +14,9 @@ class GtagRegistrationsPresenter < BasePresenter
 
   def customer_has_refund?
     @refund.present?
+  end
+
+  def gtag_name
+    @event.gtag_name
   end
 end

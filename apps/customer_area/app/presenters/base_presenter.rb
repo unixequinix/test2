@@ -37,6 +37,6 @@ class BasePresenter
   end
 
   def formatted_date
-    Time.now.strftime('%Y-%m-%d')
+    Time.now.strftime("%Y-%m-%d")
   end
 end

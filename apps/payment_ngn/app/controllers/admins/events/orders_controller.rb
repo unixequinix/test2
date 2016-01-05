@@ -1,5 +1,4 @@
 class Admins::Events::OrdersController < Admins::Events::PaymentsBaseController
-
   def index
     set_presenter
   end
@@ -14,6 +13,7 @@ class Admins::Events::OrdersController < Admins::Events::PaymentsBaseController
   end
 
   private
+
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Order".constantize.model_name,
@@ -25,5 +25,4 @@ class Admins::Events::OrdersController < Admins::Events::PaymentsBaseController
       context: view_context
     )
   end
-
 end

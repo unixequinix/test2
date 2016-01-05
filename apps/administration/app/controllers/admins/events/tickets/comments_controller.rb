@@ -3,7 +3,7 @@ class Admins::Events::Tickets::CommentsController < Admins::Events::CommentsCont
 
   private
 
-    def set_commentable
-      @commentable = Ticket.find(params[:ticket_id])
-    end
+  def set_commentable
+    @commentable = Ticket.find(params[:ticket_id])
+  end
 end

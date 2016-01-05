@@ -1,13 +1,18 @@
 class Admins::BaseController < ApplicationController
-  layout 'admin'
+  layout "admin"
   protect_from_forgery
   before_action :ensure_admin
-  before_action :authenticate_admin!
   before_action :set_locale
+  before_action :authenticate_admin!
   helper_method :warden, :admin_signed_in?, :current_admin
+  helper_method :current_event
+
+  def current_event
+    @current_event || Event.new
+  end
 
   def warden
-    request.env['warden']
+    request.env["warden"]
   end
 
   def authenticate_admin!
@@ -25,7 +30,6 @@ class Admins::BaseController < ApplicationController
     end
   end
 
-
   def admin_signed_in?
     !current_admin.nil?
   end
@@ -37,6 +41,7 @@ class Admins::BaseController < ApplicationController
   end
 
   private
+
   def set_locale
     super(I18n.available_locales)
   end

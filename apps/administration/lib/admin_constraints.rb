@@ -4,6 +4,6 @@ class AdminConstraints
   end
 
   def matches?(req)
-    req.env['warden'].authenticate!({ scope: @scope })
+    req.env["warden"].authenticate!(scope: @scope)
   end
 end

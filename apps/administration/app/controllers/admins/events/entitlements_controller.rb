@@ -1,5 +1,4 @@
 class Admins::Events::EntitlementsController < Admins::Events::CheckinBaseController
-
   def index
     set_presenter
   end
@@ -11,10 +10,10 @@ class Admins::Events::EntitlementsController < Admins::Events::CheckinBaseContro
   def create
     @entitlement = Entitlement.new(permitted_params)
     if @entitlement.save
-      flash[:notice] = I18n.t('alerts.created')
+      flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_entitlements_url
     else
-      flash[:error] = I18n.t('alerts.error')
+      flash[:error] = I18n.t("alerts.error")
       render :new
     end
   end
@@ -26,10 +25,10 @@ class Admins::Events::EntitlementsController < Admins::Events::CheckinBaseContro
   def update
     @entitlement = @fetcher.entitlements.find(params[:id])
     if @entitlement.update(permitted_params)
-      flash[:notice] = I18n.t('alerts.updated')
+      flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_entitlements_url
     else
-      flash[:error] = I18n.t('alerts.error')
+      flash[:error] = I18n.t("alerts.error")
       render :edit
     end
   end
@@ -37,7 +36,7 @@ class Admins::Events::EntitlementsController < Admins::Events::CheckinBaseContro
   def destroy
     @entitlement = @fetcher.entitlements.find(params[:id])
     if @entitlement.destroy
-      flash[:notice] = I18n.t('alerts.destroyed')
+      flash[:notice] = I18n.t("alerts.destroyed")
       redirect_to admins_event_entitlements_url
     else
       flash[:error] = @entitlement.errors.full_messages.join(". ")
@@ -46,6 +45,7 @@ class Admins::Events::EntitlementsController < Admins::Events::CheckinBaseContro
   end
 
   private
+
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Entitlement".constantize.model_name,
@@ -60,5 +60,4 @@ class Admins::Events::EntitlementsController < Admins::Events::CheckinBaseContro
   def permitted_params
     params.require(:entitlement).permit(:event_id, :name)
   end
-
 end

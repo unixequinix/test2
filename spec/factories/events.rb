@@ -41,8 +41,8 @@ FactoryGirl.define do
     start_date { Time.now }
     end_date { Time.now + 2.days }
     description { Faker::Lorem.paragraph }
-    support_email 'valid@email.com'
-    style 'html{color:white;}'
+    support_email "valid@email.com"
+    style "html{color:white;}"
     url { Faker::Internet.url }
     currency { "GBP" }
     host_country { "GB" }
@@ -54,6 +54,5 @@ FactoryGirl.define do
     info { Faker::Lorem.words(2).join }
     mass_email_claim_notification { Faker::Lorem.words(2).join }
     refund_success_message { Faker::Lorem.words(2).join }
-
   end
 end

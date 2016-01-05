@@ -23,6 +23,6 @@ class Entitlement < ActiveRecord::Base
 
   # Select options with all the entitlements
   def self.form_selector(event)
-    where(event: event).map{ |entitlement| [entitlement.name, entitlement.id] }
+    where(event: event).map { |entitlement| [entitlement.name, entitlement.id] }
   end
 end

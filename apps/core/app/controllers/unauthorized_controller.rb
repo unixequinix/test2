@@ -13,7 +13,7 @@ class UnauthorizedController < ActionController::Metal
 
   def respond
     unless request.get?
-      message = env['warden'].message[:message]
+      message = env["warden"].message[:message]
       flash.alert = I18n.t(message)
     end
 
@@ -31,13 +31,12 @@ class UnauthorizedController < ActionController::Metal
     @route = event_login_url(event_id: event_id) if scope == :customer
   end
 
-
   def scope_admin_url
     @route = new_admins_sessions_url if scope == :admin
   end
 
   def warden_options
-    env['warden.options']
+    env["warden.options"]
   end
 
   def scope

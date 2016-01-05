@@ -1,0 +1,377 @@
+th:
+  admin:
+    actions:
+      new: "New"
+      back: "Back"
+      cancel: "Cancel"
+      assign_ticket: "Assign ticket"
+      assign_gtag: "Assign gtag"
+      manual_claims_csv: "Manual claims CSV"
+      csv: "CSV"
+      disable: "Disable"
+      select_all: "Select all"
+      delete_selected: "Delete selected"
+      download: "CSV"
+      search: "Search"
+      update: "Update"
+    event:
+      name: 'Name'
+      slug: 'Slug'
+      url: 'Event url'
+      support_email: 'Support email'
+      payment_service: 'Payment service'
+      refund_service: 'Refund services'
+      location: 'Location'
+      start_date: 'Start date'
+      end_date: 'End date'
+      description: 'Description'
+      logo: 'Logo'
+      background_type: 'Background type'
+      background: 'Background'
+      style: 'Style'
+      features: 'Enabled Features'
+      locales: 'Enabled Languages'
+      fee: 'Fee'
+      minimum: 'Minimum'
+      refund_disclaimer: "Refund disclaimer"
+      bank_account_disclaimer: "Bank account disclaimer"
+      refund_success_message: "Refund success message (Click to check)"
+      mass_email_claim_notification: "Mass email claim notification"
+      gtag_assignation_notification: "Gtag  assignation notification"
+      gtag_form_disclaimer: "Gtag assignation form disclaimer"
+      fieldests:
+        info: "Event info"
+        date: "Sate and location"
+        text: "Texts"
+        image: "Images"
+        custom: "Custom styles"
+        optional_form_parameters: "Optional form parameters"
+      states:
+        created: 'Not published'
+        launched: 'Pre-event'
+        started: 'During event'
+        finished: 'After event'
+        claiming_started: 'Claim started'
+        closed: 'Closed'
+      background_types:
+        fixed: 'Fixed'
+        repeat: 'Repeat'
+      payment_services:
+        redsys: 'Redsys'
+        stripe: 'Stripe'
+      refund_services:
+        bank_account: 'Bank account'
+        epg: 'Easy payment gateway'
+        tipalti: 'Tipalti'
+      images:
+        profile: "Profile image preview"
+        background: "Background image preview"
+      features_options:
+        top_ups: 'Credit top ups'
+        refunds: 'Refunds'
+      locales_options:
+        en_lang: "English"
+        it_lang: "Italian"
+        es_lang: "Spanish"
+        th_lang: "Thai"
+    gtag_settings:
+      form:
+        format: 'Format'
+        name: 'Name'
+    payment_settings:
+      redsys:
+        name: 'Name'
+        code: 'Code'
+        terminal: 'Terminal'
+        password: 'Password'
+        currency: 'Currency'
+        transaction_type: 'Transaction Type'
+        pay_methods: 'Pay methods'
+        ip: 'IP'
+        form: 'Form URL'
+    refund_settings:
+      nofication_description: 'Notify to the customers they can claim their refund.'
+      want_to_notify: 'Do you want to notify?'
+      notify: 'Notify'
+      epg:
+        fee: 'Refund Fee (in currency)'
+        minimum: 'After-Fee Refund Minimum (in currency)'
+        country: 'Country'
+        currency: 'Currency'
+        operation_type: 'Operation type'
+        payment_solution: 'Payment solution'
+        md5key: 'Md5 key'
+        merchant_id: 'Merchant Id'
+        url: 'URL'
+        product_id: "Product"
+      bank_account:
+        fee: 'Refund Fee (in currency)'
+        minimum: 'After-Fee Refund Minimum (in currency)'
+      tipalti:
+        fee: 'Refund Fee (in currency)'
+        minimum: 'After-Fee Refund Minimum (in currency)'
+        country: 'Country'
+        payer: 'Payer'
+        idap: 'Idap'
+        secret_key: 'Secret key'
+        url: 'URL'
+    defaults:
+      actions: "Actions"
+      home: "Home"
+      log_in: "Log In"
+      empty_item: "No %{item}"
+      item_not_found: "No %{item} found"
+      search: "Search"
+      all: "Select"
+    sessions:
+      mail: "user@domain.com"
+      password: "password"
+    passwords:
+      forgotten: "Forgot your password?"
+      send_instructions: "Send me reset password instructions"
+      new: "New password"
+      confirm: "Confirm your new password"
+      change: "Change my password"
+      reset_password: "Reset password"
+    confirm:
+      delete: "Are you sure?"
+    aside:
+      access: "Access"
+      event: "Event"
+      details: "Details"
+      gtag_settings: "Gtag Settings"
+      payment_settings: "Payment Settings"
+      refund_settings: "Refund Settings"
+      admins: "Admins"
+      entitlements: "Entitlements"
+      ticket_types: "Ticket Types"
+      gtag: "GTags"
+      credits: "Credits"
+      customers: "Customers"
+      customer_event_profiles: "Customer event profiles"
+      orders: "Orders"
+      payments: "Payments"
+      claims: "Claims"
+      refunds: "Refunds"
+      sign_out: "Sign out"
+      setup: "Setup"
+      crm: "CRM"
+    dashboard:
+      change_state: "Change state?"
+      api_access: "API access"
+      current_token: "Your current API access token:"
+    admins:
+      email: "Email"
+    credits:
+      name: "Name"
+      description: "Description"
+      standard_credit: "Standard Credit"
+      price: "Price"
+      min_purchasable: "Min purchasable"
+      max_purchasable: "Max purchasable"
+      initial_amount: "Initial Amount"
+      step: "Step"
+    entitlements:
+      name: "Name"
+    ticket_types:
+      id: "Id"
+      name: "Name"
+      simplified_name: "Simplified Name"
+      company: "Company"
+      credit: "Credit"
+      entitlements: "Entitlements"
+      import: "Import ticket types (Select a CSV file comma separated)"
+    tickets:
+      id: "Id"
+      number: "Number"
+      ticket_type: "Ticket type"
+      ticket_type_simplified: "Simplified Ticket type"
+      customer: "Assigned customer"
+      created_at: "Created at"
+      admission: "Tickets registrations"
+      search:
+        number: "Ticket barcode number"
+        customer: "Assigned customer email"
+        purchaser_email: "Purchaser Email"
+        type: "Type"
+      import: "Import tickets (Select a CSV file comma separated)"
+      actions:
+        delete_tickets: "Delete all tickets"
+    admissions:
+      ticket: "Ticket"
+      customer:
+        email: "Email"
+        complete_name: "Complete name"
+      aasm_state: "State"
+      created_at: "Created at"
+      updated_at: "Updated at"
+      states:
+        assigned: "Is assigned now"
+        unassigned: "Previous assignation"
+    purchasers:
+      name: "Purchaser Name"
+      surname: "Purchaser Surname"
+      email: "Purchaser Email"
+    gtags:
+      id: "Id"
+      tag: "Tag UID"
+      serial: "Tag Serial Number"
+      customer: "Customer"
+      assigned_at: "Assigned at"
+      created_at: "Created at"
+      updated_at: "Updated at"
+      total: "Total Credits"
+      gtag_registration: "Gtag registrations"
+      import: "Import GTags (Select a CSV file comma separated)"
+      import_credits: "Import Credits (Select a CSV file comma separated)"
+      search:
+        tag_uid: "Tag UID"
+        tag_serial: "Tag serial number"
+      actions:
+        delete_gtags: "Delete all gtags"
+        delete_credits: "Delete all credits"
+      report:
+        total_credits: "Total Credits in the System"
+        total_refundable_money: "Total Money To Refund (after fee)"
+        total_refundable_gtags: "Number of gTags to Refund"
+    gtag_registrations:
+      tag: "Tag UID"
+      serial: "Tag Serial Number"
+      customer:
+        email: "Email"
+        complete_name: "Complete name"
+      aasm_state: "State"
+      created_at: "Created at"
+      updated_at: "Updated at"
+      states:
+        assigned: "Is assigned now"
+        unassigned: "Previous assignation"
+    customers:
+      delete: "Deleted"
+      email: "Email"
+      name: "Name"
+      surname: "Surname"
+      confirmed_at: "Confirmed at"
+      confirmation_sent_at: "Confirmation sent at"
+      tickets: "Tickets"
+      ticket: "Ticket"
+      gtags: "Gtags"
+      gtag: "Gtag"
+      state: "State"
+      admissions: "Ticket registrations"
+      creadit_logs: "Credits logs"
+      orders: "Orders"
+      payments: "Payments"
+      gtag_registrations: "Gtag registrations"
+      completed_claim: "Completed claims"
+      refund: "Refund"
+      claims: "Claims"
+      gtag_credits: "Gtag Credits"
+      tickets: "Tickets"
+      credits: "Credits"
+      search: "Name Count"
+      sign: "Sign in count"
+      current_sign: "Current sign in"
+      last_sign: "Last sign in at"
+      current_sign_ip: "Current sign in ip"
+      agreed_event_condition: "Event condition agreed"
+      last_sign_ip: "Last sign in ip"
+      unconfirmed: "Unconfirmed email"
+      transactions: "Transactions"
+      transactions_type: "Transactions type"
+      created_at: "Created at"
+      deleted_at: "Deleted at"
+      amount: "Amount"
+      search:
+        name: "Type name"
+        surname: "Type surname"
+        email: "Type email"
+        confirmed: "Confirmed?"
+        tickets: "Tickets?"
+        gtag_registrations: "Gtags?"
+        credits_purchased: "Credits Purchased?"
+    claims:
+      claim_number: "Claim number"
+      number: "Number"
+      customer: "Customer"
+      state: "State"
+      created: "Created at"
+      completed: "Completed at"
+      amount: "Amount"
+      product_price: "Product price"
+      total: "Total"
+      service_type: "Service Type"
+      product_name: "Product name"
+      product_description: "Product description"
+      product_type: "Product type"
+      order_item: "Order items"
+      claim_parameters: "Parameters"
+      claim_parameter: "Parameter"
+      claim_parameter_value: "Value"
+      parameters:
+        state: "State"
+        city: "City"
+        post_code: "Post code"
+        phone: "Phone"
+        address: "Address"
+        iban: "IBAN"
+        swift: "BIC/SWIFT"
+      search:
+        number: "Number"
+    orders:
+      number: "Number"
+      customer: "Customer"
+      state: "State"
+      created: "Created at"
+      completed: "Completed at"
+      amount: "Amount"
+      product_price: "Product price"
+      total: "Total"
+      product_name: "Product name"
+      product_description: "Product description"
+      product_type: "Product type"
+      order_item: "Order items"
+      payments: "Payments"
+      search:
+        number: "Number"
+    payments:
+      id: "Id"
+      order_id: "Order Id"
+      amount: "Amount"
+      transaction_type: "Transaction type"
+      card_country: "Card country"
+      response_code: "Response code"
+      authorization_code: "Authorization code"
+      currency: "Currency"
+      success: "Success"
+      paid: "Paid at"
+      search:
+        id: "Id eq"
+    comments:
+      title: "Comments"
+    refunds:
+      id: "Id"
+      customer_id: "Customer Id"
+      customer_name: "Customer name"
+      customer_email: "Customer email"
+      gtag_serial_number: "Serial number"
+      gtag_uid: "UID number"
+      iban: "IBAN number"
+      swift: "BIC/SWIFT number"
+      amount: "Amount"
+      aasm_state: "State"
+      created_at: "Created at"
+      updated_at: "Updated at"
+      claim: "Claim"
+      amount: "Amount"
+      currency: "Currency"
+      message: "Message"
+      operation_type: "Operation type"
+      gateway_transaction_number: "Gateway transaction number"
+      payment_solution: "Payment solution"
+      status: "Status"
+      search:
+        claim: "Claim number"
+        gateway_transaction_number: "Gateway transaction number"
+        amount: "Amount"
+        status: "State"

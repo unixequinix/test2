@@ -1,5 +1,4 @@
 class Multitenancy::GeneralFetcher
-
   def initialize(event)
     @event = event
   end
@@ -14,12 +13,11 @@ class Multitenancy::GeneralFetcher
 
   private
 
-    def admin?
-      @user.is_admin?
-    end
+  def admin?
+    @user.is_admin?
+  end
 
-    def manager?
-      @user.is_manager?
-    end
-
+  def manager?
+    @user.is_manager?
+  end
 end

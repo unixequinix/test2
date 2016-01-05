@@ -11,6 +11,7 @@ es:
       en: 'ENG'
       es: 'ESP'
       it: 'ITA'
+      th: 'THA'
     gtag_name: 'Pulsera'
   activemodel:
     errors:
@@ -32,6 +33,28 @@ es:
               invalid: 'No es un número de BIC/SWIFT válido'
             iban:
               invalid: 'No es un número de IBAN válido, introduce una cuenta válida SEPA'
+    attributes:
+      euro_bank_account_claim_form:
+        swift: "BIC/SWIFT"
+        iban: "IBAN"
+        account_holder: "Nombre del propietario"
+        bank_name: "Nombre del banco"
+      aus_bank_account_claim_form:
+        bsb: "BSB"
+        account_holder: "Nombre del propietario"
+        bank_name: "Nombre del banco"
+        number: "Número de cuenta"
+      nz_bank_account_claim_form:
+        bsb: "BSB"
+        account_holder: "Nombre del propietario"
+        bank_name: "Nombre del banco"
+        number: "Número de cuenta"
+      thailand_bank_account_claim_form:
+        bsb: "BSB"
+        account_holder: "Nombre del propietario (Thai)"
+        account_holder_translation: "Nombre del propietario (Inglés)"
+        bank_name: "Nombre del banco"
+        number: "Número de cuenta"
   activerecord:
     models:
       admin:

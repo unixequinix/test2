@@ -1,0 +1,19 @@
+p = t('claims.refund')
+table.table-order
+  tr.table-head
+    th = t('claims.products')
+    th
+    th = t('claims.amount')
+  tr
+    td [colspan="2"] #{t('claims.product_description')}
+    td.table-amount #{claim.total}
+  - if claim.fee > 0
+    tr
+      td [colspan="2"] #{t('claims.fee')}
+      td.table-amount #{-claim.fee}
+  tr
+    td.table-total [colspan="2"] = t('orders.total')
+    td.table-total.table-amount [colspan="3"] #{claim.gtag.refundable_amount_after_fee(claim.service_type)} #{current_event.currency}
+
+.wrapper-secure-payment
+  p.small = t('claims.vat')

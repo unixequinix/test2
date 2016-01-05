@@ -6,9 +6,7 @@ module I18n
       @globals ||= {}
     end
 
-    def globals=(globals)
-      @globals = globals
-    end
+    attr_writer :globals
   end
 
   class << self
@@ -20,6 +18,6 @@ module I18n
       end
       super(*args)
     end
-    alias :t :translate
+    alias_method :t, :translate
   end
 end

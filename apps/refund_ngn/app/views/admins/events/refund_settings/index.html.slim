@@ -13,6 +13,8 @@
           dd = event_parameter.value
         dt = t("admin.event.refund_disclaimer")
         dd = @event.refund_disclaimer
+        dt = t("admin.event.bank_account_disclaimer")
+        dd = @event.bank_account_disclaimer
         dt = link_to t("admin.event.refund_success_message"), success_event_refunds_url(current_event), target: "_blank"
         dd = @event.refund_success_message
         dt = t("admin.event.mass_email_claim_notification")

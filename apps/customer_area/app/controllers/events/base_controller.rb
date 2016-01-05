@@ -1,15 +1,20 @@
 class Events::BaseController < ApplicationController
-  layout 'event'
+  layout "event"
   protect_from_forgery
-  before_filter :set_i18n_globals
   before_action :ensure_customer
   before_action :set_locale
+  before_filter :set_i18n_globals
+  helper_method :current_event
+  before_action :fetch_current_event
   before_action :authenticate_customer!
-
   helper_method :warden, :customer_signed_in?, :current_customer
 
+  def current_event
+    @current_event || Event.new
+  end
+
   def warden
-    request.env['warden']
+    request.env["warden"]
   end
 
   def authenticate_customer!
@@ -33,7 +38,8 @@ class Events::BaseController < ApplicationController
   end
 
   def current_customer
-    @current_customer ||= Customer.find(warden.user(:customer)["id"]) unless
+    @current_customer ||=
+      Customer.find(warden.user(:customer)["id"]) unless
       warden.user(:customer).nil? ||
       Customer.where(id: warden.user(:customer)["id"]).empty?
   end
@@ -46,12 +52,19 @@ class Events::BaseController < ApplicationController
 
   private
 
-  def set_i18n_globals
-    I18n.config.globals[:gtag] = current_event.gtag_name
+  def fetch_current_event
+    id = params[:event_id] || params[:id]
+    @current_event = Event.find_by_slug(id) if id
+    fail ActiveRecord::RecordNotFound if @current_event.nil?
+    @current_event
   end
 
   def set_locale
     super(current_event.selected_locales_formated)
+  end
+
+  def set_i18n_globals
+    I18n.config.globals[:gtag] = current_event.gtag_name
   end
 
   def check_top_ups_is_active!

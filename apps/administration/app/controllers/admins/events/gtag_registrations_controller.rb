@@ -1,5 +1,4 @@
 class Admins::Events::GtagRegistrationsController < Admins::Events::CheckinBaseController
-
   def new
     @gtag_registration = GtagRegistration.new
     @customer = @fetcher.customers.with_deleted.find(params[:customer_id])
@@ -11,7 +10,7 @@ class Admins::Events::GtagRegistrationsController < Admins::Events::CheckinBaseC
     if !gtag.nil?
       @gtag_registration = current_customer_event_profile.gtag_registrations.build(gtag: gtag)
       if @gtag_registration.save
-        flash[:notice] = I18n.t('alerts.created')
+        flash[:notice] = I18n.t("alerts.created")
         GtagMailer.assigned_email(@gtag_registration).deliver_later
         redirect_to admins_event_customer_url(current_event, @customer)
       else
@@ -19,7 +18,7 @@ class Admins::Events::GtagRegistrationsController < Admins::Events::CheckinBaseC
         render :new
       end
     else
-      flash[:error] = I18n.t('alerts.gtag')
+      flash[:error] = I18n.t("alerts.gtag")
       render :new
     end
   end
@@ -28,17 +27,19 @@ class Admins::Events::GtagRegistrationsController < Admins::Events::CheckinBaseC
     @gtag_registration = GtagRegistration.find(params[:id])
     @customer_event_profile = @gtag_registration.customer_event_profile
     @gtag_registration.unassign!
-    flash[:notice] = I18n.t('alerts.unassigned')
+    flash[:notice] = I18n.t("alerts.unassigned")
     GtagMailer.unassigned_email(@gtag_registration).deliver_later
     redirect_to admins_event_customer_url(current_event, @customer_event_profile.customer)
   end
 
   private
-    def current_customer_event_profile
-      current_customer.customer_event_profile ||
-        CustomerEventProfile.new(customer: current_customer, event: current_event)
-    end
-    def current_customer
-      Customer.find(params[:customer_id])
-    end
+
+  def current_customer_event_profile
+    current_customer.customer_event_profile ||
+      CustomerEventProfile.new(customer: current_customer, event: current_event)
+  end
+
+  def current_customer
+    Customer.find(params[:customer_id])
+  end
 end

@@ -1,7 +1,7 @@
 class ListModelPresenter
   attr_accessor :all, :q, :page, :search_query, :model_name
 
-  #TODO - Make it lighter. Too many arguments for the initializer
+  # TODO - Make it lighter. Too many arguments for the initializer
   def initialize(attributes = {})
     @all = attributes[:fetcher]
     @page = attributes[:page]
@@ -22,7 +22,7 @@ class ListModelPresenter
   end
 
   def current_items
-    @page = @page || 1
+    @page ||= 1
     items_per_page = @model_name.name.constantize.page.count
 
     from = set_first_record(items_per_page)
@@ -49,13 +49,13 @@ class ListModelPresenter
   end
 
   private
+
   def set_first_record(items_per_page)
-    (items_per_page * (@page.to_i-1)) +1
+    (items_per_page * (@page.to_i - 1)) + 1
   end
 
   def set_last_record(items_per_page)
     last = items_per_page * @page.to_i
     count < last ? count : last
   end
-
 end

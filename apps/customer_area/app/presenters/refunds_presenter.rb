@@ -4,14 +4,14 @@ class RefundsPresenter < BasePresenter
   end
 
   def path
-    @event.closed? ? 'refunds_closed' : 'refunds'
+    @event.closed? ? "refunds_closed" : "refunds"
   end
 
   def gtag_credit_amount
-    "#{@gtag_registration.refundable_amount} #{I18n.t('currency_symbol')}"
+    "#{@gtag_registration.gtag.refundable_amount} #{@event.currency}"
   end
 
   def call_to_action
-    I18n.t('dashboard.refunds.call_to_action', date: formatted_date)
+    I18n.t("dashboard.refunds.call_to_action", date: formatted_date)
   end
 end

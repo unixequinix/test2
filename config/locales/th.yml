@@ -1,0 +1,127 @@
+th:
+  country_iso_priority: [AT, BE, BG, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, GB]
+  general_company_name: 'Glownet'
+  general_support_email: 'support@glownet.com'
+  gender:
+    male: 'ผู้ชาย'
+    female: 'ผู้หญิง'
+  event:
+    subject_support: 'ต้องการความช่วยเหลือสำหรับงาน %{event}'
+    locales:
+      en: 'ENG'
+      es: 'ESP'
+      it: 'ITA'
+      th: 'THA'
+    gtag_name: 'สายรัดข้อมือ'
+  activemodel:
+    errors:
+      models:
+        customer:
+          attributes:
+            birthdate:
+              invalid: "วันที่ไม่ถูกต้อง"
+              too_young: "ต้องอายุมากกว่า %{age} ปี"
+        epg_claim_form:
+          attributes:
+            phone:
+              improbable_phone: "หมายเลขโทรศัพท์ไม่ถูกต้อง กรุณาเช็คว่าคุณเลือกประเทศถูกต้อง"
+        epg_claim_form:
+          attributes:
+            phone:
+              improbable_phone: "หมายเลขโทรศัพท์ไม่ถูกต้อง กรุณาเช็คว่าคุณเลือกประเทศถูกต้อง"
+        bank_account_claim_form:
+          attributes:
+            swift:
+              invalid: "หมายเลข BIC/SWIFT ไม่ถูกต้อง"
+            iban:
+              invalid: "หมายเลข IBAN ไม่ถูกต้อง, กรุณาใส่ข้อมูที่ถูกต้องสำหรับ SEPA"
+    attributes:
+      euro_bank_account_claim_form:
+        swift: "BIC/SWIFT"
+        iban: "IBAN"
+        account_holder: "Account holder's name"
+        bank_name: "Bank name"
+      aus_bank_account_claim_form:
+        bsb: "BSB"
+        account_holder: "Account holder's name"
+        bank_name: "Bank name"
+        number: "Account number"
+      nz_bank_account_claim_form:
+        bsb: "BSB"
+        account_holder: "Account holder's name"
+        bank_name: "Bank name"
+        number: "Account number"
+      thailand_bank_account_claim_form:
+        bsb: "BSB"
+        account_holder: "Account holder's name (Thai)"
+        account_holder_translation: "Account holder's name (English)"
+        bank_name: "Bank name"
+        number: "Account number"
+  activerecord:
+    models:
+      admin:
+        one: 'แอดมิน'
+        other: 'แอดมินอื่นๆ'
+      claim:
+        one: 'เคลม'
+        other: 'เคลมอื่นๆ'
+      credit:
+        one: 'เครดิต'
+        other: 'เครดิตอื่นๆ'
+      customer:
+        one: 'ลูกค้า'
+        other: 'ลูกค้าอื่นๆ'
+      entitlement:
+        one: 'การมีสิทธิ์'
+        other: 'การมีสิทธิ์'
+      gtag:
+        one: 'gtag'
+        other: 'gtags'
+      order:
+        one: 'รายการ'
+        other: 'รายการอื่นๆ'
+      payment:
+        one: 'การชำระเงิน'
+        other: 'การชำระเงินอื่นๆ'
+      refund:
+        one: 'การรับเงินคืน'
+        other: 'การรับเงินคืน'
+      ticket:
+        one: 'บัครเข้างาน'
+        other: 'บัตรเข้างานอื่นๆ'
+    errors:
+      messages:
+        record_invalid: 'Campo no valido'
+      models:
+        customer:
+          attributes:
+            email:
+              taken: 'อีเมลได้ถูกใช้แล้ว'
+        entitlement:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: "ไม่สามารถยกเลิกได้ เพราะมีการเกี่ยวข้องกับบัตรเข้างานอยู่"
+        ticket_type:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: "ไม่สามารถยกเลิกได้ เพราะมีการเกี่ยวข้องกับบัตรเข้างานอยู่"
+        tickets:
+          attributes:
+            number:
+              taken: 'Number taken'
+            base:
+              restrict_dependent_destroy:
+                many: "ไม่สามารถยกเลิกได้ เพราะมีการเกี่ยวข้องกับบัตรเข้างานอยู่"
+        gtag:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: "ไม่สามารถยกเลิกได้ เพราะมีการเกี่ยวข้องกับบัตรเข้างานอยู่"
+            tag_uid:
+              taken: 'เลขบัตรประชาชนได้ถูกใช้แล้ว'
+        admission:
+          attributes:
+            ticket:
+              taken: 'ถูกใช้แล้ว'

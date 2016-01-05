@@ -1,5 +1,4 @@
 class Authentication::Encryptor
-
   def self.digest(password)
     password = "#{password}#{Rails.application.secrets.devise_pepper}"
     ::BCrypt::Password.create(password, cost: 10).to_s
@@ -22,5 +21,4 @@ class Authentication::Encryptor
     b.each_byte { |byte| res |= byte ^ l.shift }
     res == 0
   end
-
 end

@@ -15,16 +15,16 @@
 
 class BootInquirer
   APPS = {
-    'o' => 'payment_ngn',
-    'r' => 'refund_ngn',
-    'u' => 'customer_area',
-    'a' => 'administration',
-    'p' => 'api'
+    "u" => "customer_area",
+    "o" => "payment_ngn",
+    "r" => "refund_ngn",
+    "a" => "administration",
+    "p" => "api"
   }
 
   class << self
     def apps
-      APPS.map{ |k,v| BootInquirer::App.new(k, v) }
+      APPS.map { |k, v| BootInquirer::App.new(k, v) }
     end
 
     def each_active_app
@@ -34,11 +34,11 @@ class BootInquirer
     end
 
     def any?(*keys)
-      keys.any?{|k| send("#{k}?") }
+      keys.any? { |k| send("#{k}?") }
     end
 
     def all?(*keys)
-      keys.all?{|k| send("#{k}?") }
+      keys.all? { |k| send("#{k}?") }
     end
 
     def using_boot_flags?
@@ -47,7 +47,7 @@ class BootInquirer
 
     def method_missing(method_name, *args)
       if method_name.to_s =~ /(.+)\?$/
-        app = apps.detect{|app| app.gem_name == $1}
+        app = apps.detect { |app| app.gem_name == Regexp.last_match(1) }
         if app
           app.enabled?
         else
@@ -59,7 +59,7 @@ class BootInquirer
     end
 
     def boot_flag
-      @boot_flag ||= ENV['ENGINE_BOOT']
+      @boot_flag ||= ENV["ENGINE_BOOT"]
     end
 
     def negate?
@@ -87,7 +87,7 @@ class BootInquirer
 
     def engine
       module_name = gem_name.classify
-      module_name << 'c' if gem_name[-1] == 'c'
+      module_name << "c" if gem_name[-1] == "c"
       module_name.constantize.const_get(:Engine)
     end
   end

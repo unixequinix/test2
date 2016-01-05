@@ -38,7 +38,7 @@ RSpec.describe Event, type: :model do
   it { is_expected.to validate_presence_of(:support_email) }
 
   before(:all) do
-    event_creator = EventCreator.new(build(:event,gtag_registration: true).to_hash_parameters)
+    event_creator = EventCreator.new(build(:event, gtag_registration: true).to_hash_parameters)
     event_creator.save
     @event = event_creator.event
     customer = create(:customer, event: @event, confirmation_token: nil, confirmed_at: Time.now)
@@ -49,7 +49,6 @@ RSpec.describe Event, type: :model do
     gtag2 = create(:gtag, event: @event)
     create(:gtag_credit_log, gtag: gtag2)
     create(:gtag_registration, gtag: gtag, customer_event_profile: customer_event_profile)
-
   end
 
   it "should return the credits available for that event" do

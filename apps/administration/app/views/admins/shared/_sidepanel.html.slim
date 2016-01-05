@@ -11,52 +11,55 @@ aside#main-menu
 
     h3.aside-title = t("admin.aside.event")
 
-    li.aside-list = link_to admins_event_path(current_event) do
+    li.aside-list = link_to admins_event_path(event) do
       = fa_icon "cogs"
       = t("admin.aside.details")
-    li.aside-list = link_to admins_event_gtag_settings_path(current_event) do
+    li.aside-list = link_to admins_event_gtag_settings_path(event) do
       = fa_icon "bookmark"
       = t("admin.aside.gtag_settings")
-    li.aside-list = link_to admins_event_payment_settings_path(current_event) do
+    li.aside-list = link_to admins_event_payment_settings_path(event) do
       = fa_icon "money"
       = t("admin.aside.payment_settings")
-    li.aside-list = link_to admins_event_refund_settings_path(current_event) do
+    li.aside-list = link_to admins_event_refund_settings_path(event) do
       = fa_icon "reply"
       = t("admin.aside.refund_settings")
 
     h3.aside-title = t("admin.aside.setup")
 
-    li.aside-list = link_to admins_event_entitlements_path(current_event) do
+    li.aside-list = link_to admins_event_entitlements_path(event) do
       = fa_icon "thumbs-up"
       = t("admin.aside.entitlements")
-    li.aside-list = link_to admins_event_ticket_types_path(current_event) do
+    li.aside-list = link_to admins_event_ticket_types_path(event) do
       = fa_icon "tags"
       = t("admin.aside.ticket_types")
-    li.aside-list = link_to admins_event_tickets_path(current_event) do
+    li.aside-list = link_to admins_event_tickets_path(event) do
       = fa_icon "ticket"
       = t("admin.aside.tickets")
-    li.aside-list = link_to admins_event_gtags_path(current_event) do
+    li.aside-list = link_to admins_event_gtags_path(event) do
       = fa_icon "bookmark"
       = t("admin.aside.gtag")
-    li.aside-list = link_to admins_event_credits_path(current_event)
+    li.aside-list = link_to admins_event_credits_path(event)
       = fa_icon "database"
       = t("admin.aside.credits")
 
     h3.aside-title = t("admin.aside.crm")
 
-    li.aside-list = link_to admins_event_customers_path(current_event) do
+    li.aside-list = link_to admins_event_customers_path(event) do
       = fa_icon "users"
       = t("admin.aside.customers")
-    li.aside-list = link_to admins_event_orders_path(current_event) do
+    li.aside-list = link_to admins_event_customer_event_profiles_path(event) do
+      = fa_icon "street-view"
+      = t("admin.aside.customer_event_profiles")
+    li.aside-list = link_to admins_event_orders_path(event) do
       = fa_icon "list"
       = t("admin.aside.orders")
-    li.aside-list = link_to admins_event_payments_path(current_event)
+    li.aside-list = link_to admins_event_payments_path(event)
       = fa_icon "money"
       = t("admin.aside.payments")
-    li.aside-list = link_to admins_event_claims_path(current_event) do
+    li.aside-list = link_to admins_event_claims_path(event) do
       = fa_icon "tty"
       = t("admin.aside.claims")
-    li.aside-list = link_to admins_event_refunds_path(current_event)
+    li.aside-list = link_to admins_event_refunds_path(event)
       = fa_icon "reply"
       = t("admin.aside.refunds")
 

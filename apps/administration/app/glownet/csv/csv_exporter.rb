@@ -1,6 +1,5 @@
 class Csv::CsvExporter
-
-  #Ticket Type
+  # Ticket Type
   def self.to_csv(items_and_extra_columns, csv_options = {})
     if items_and_extra_columns.first.class != items_and_extra_columns.second.class
       items, headers, extra_columns = items_and_extra_columns
@@ -14,8 +13,8 @@ class Csv::CsvExporter
         csv << item.attributes.values_at(*column_names)
       end
     end
-    if(extra_columns)
-      csv_file = self.attach_columns_to_csv(csv_file, headers, extra_columns).join
+    if extra_columns
+      csv_file = attach_columns_to_csv(csv_file, headers, extra_columns).join
     else
       csv_file
     end
@@ -23,7 +22,7 @@ class Csv::CsvExporter
 
   def self.attach_columns_to_csv(csv_file, headers, extra_columns)
     csv_file.split("\n").to_enum.with_index.map do |row, index|
-      if(index == 0)
+      if (index == 0)
         row + "," + headers.join(",") + "\n"
       else
         new_row_to_add = headers.reduce("") do |new_row, key|
@@ -34,5 +33,4 @@ class Csv::CsvExporter
       end
     end
   end
-
 end

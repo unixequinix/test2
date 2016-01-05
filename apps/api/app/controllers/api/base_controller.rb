@@ -1,12 +1,11 @@
 class Api::BaseController < ApplicationController
   protect_from_forgery with: :null_session
-  #before_action :restrict_access
+  # before_action :restrict_access
   before_action :restrict_access_with_http
 
   serialization_scope :view_context
 
   private
-
 
   def restrict_access
     authenticate_or_request_with_http_token do |token, options|
@@ -15,7 +14,7 @@ class Api::BaseController < ApplicationController
       # It's used to avoid Timing attacks
       # http://codahale.com/a-lesson-in-timing-attacks/
       @admin && ActiveSupport::SecurityUtils.secure_compare(
-                                      @admin.access_token, token)
+        @admin.access_token, token)
     end
   end
 
@@ -25,5 +24,4 @@ class Api::BaseController < ApplicationController
       admin.valid_token?(token)
     end
   end
-
 end
