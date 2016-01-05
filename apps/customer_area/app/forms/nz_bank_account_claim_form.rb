@@ -11,6 +11,7 @@ class NzBankAccountClaimForm
   validates_presence_of :account_holder
   validates_presence_of :claim_id
   validates_presence_of :agreed_on_claim
+  validates_with NzValidator
 
   def save
     if valid?
