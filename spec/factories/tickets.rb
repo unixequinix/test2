@@ -22,5 +22,6 @@ FactoryGirl.define do
     purchaser_name { Faker::Name.first_name }
     purchaser_surname { Faker::Name.last_name }
     event
+
   end
 end

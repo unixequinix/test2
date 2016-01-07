@@ -14,6 +14,7 @@ class Credit < ActiveRecord::Base
 
   # Associations
   has_one :online_product, as: :purchasable, dependent: :destroy
+  has_many :preevent_product_units, as: :purchasable, dependent: :destroy
   accepts_nested_attributes_for :online_product, allow_destroy: true
 
   # Validations

@@ -1,0 +1,12 @@
+class CreatePreeventProducts < ActiveRecord::Migration
+  def change
+    create_table :preevent_products do |t|
+      t.integer :event_id
+      t.string :name
+      t.boolean :online
+
+      t.datetime :deleted_at, index: true
+      t.timestamps null: false
+    end
+  end
+end
