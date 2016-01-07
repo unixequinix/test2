@@ -36,9 +36,8 @@ class StripePaymentSettingsForm
   end
 
   private
-
   def persist!
-    Parameter.where(category: "payment", group: "stripe").each do |parameter|
+    Parameter.where(category: 'payment', group: 'stripe').each do |parameter|
       ep = EventParameter.find_by(event_id: event_id, parameter_id: parameter.id)
       ep.nil? ?
       EventParameter.create!(value: attributes[parameter.name.to_sym], event_id: event_id, parameter_id: parameter.id) :

@@ -11,8 +11,9 @@ class Admins::Events::CustomerEventProfilesController < Admins::Events::BaseCont
   def show
     @customer_event_profile =
       @fetcher.customer_event_profiles.with_deleted.includes(
-        :assigned_admissions, :assigned_gtag_registration, admissions: :ticket,
-        gtag_registrations: [:gtag, gtag: :gtag_credit_log]).find(params[:id])
+        :active_tickets_assignment,
+        :active_gtag_assignment,
+        credential_assignments: :credentiable).find(params[:id])
   end
 
   def set_presenter
@@ -22,8 +23,12 @@ class Admins::Events::CustomerEventProfilesController < Admins::Events::BaseCont
       search_query: params[:q],
       page: params[:page],
       context: view_context,
-      include_for_all_items: [:customer, :assigned_admissions, :assigned_gtag_registration,
-         assigned_admissions: :ticket, admissions: :ticket]
+      include_for_all_items: [
+        :customer,
+        :active_tickets_assignment,
+        :active_gtag_assignment,
+        credential_assignments: :credentiable
+      ]
     )
   end
 end

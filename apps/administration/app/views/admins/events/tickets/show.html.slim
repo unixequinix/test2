@@ -48,7 +48,7 @@
           th = t("admin.admissions.updated_at")
           th = t("admin.defaults.actions")
       tbody
-        - @ticket.admissions.each do |admission|
+        - @ticket.credential_assignments.each do |admission|
           tr
             td = link_to admission.customer_event_profile.customer.email, admins_event_customer_path(current_event, admission.customer_event_profile.customer) unless admission.nil?
             td = "#{admission.customer_event_profile.customer.name} #{admission.customer_event_profile.customer.surname}"
@@ -59,5 +59,5 @@
               ul
                 - if admission.assigned?
                   li.table-action.action-delete
-                    = link_to admins_event_admission_path(current_event, admission), method: :delete, data: { confirm: t("admin.confirm.delete") } do
+                    = link_to admins_event_ticket_assignment_path(current_event, admission), method: :delete, data: { confirm: t("admin.confirm.delete") } do
                       = fa_icon "ban"

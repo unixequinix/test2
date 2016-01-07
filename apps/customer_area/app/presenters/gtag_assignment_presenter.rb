@@ -1,4 +1,4 @@
-class GtagRegistrationPresenter
+class GtagAssignmentPresenter
   attr_accessor :current_event,
                 :gtag_format,
                 :gtag_name,

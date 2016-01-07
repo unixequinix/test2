@@ -34,7 +34,7 @@
           th = t("admin.gtag_registrations.updated_at")
           th = t("admin.defaults.actions")
       tbody
-        - @gtag.gtag_registrations.each do |gtag_registration|
+        - @gtag.credential_assignments.each do |credential_assignment|
           tr
             td = link_to gtag_registration.customer_event_profile.customer.email, admins_event_customer_path(current_event, gtag_registration.customer_event_profile.customer) unless gtag_registration.nil? || gtag_registration.customer_event_profile.customer.nil?
             td = "#{gtag_registration.customer_event_profile.customer.name} #{gtag_registration.customer_event_profile.customer.surname}" unless gtag_registration.nil? || gtag_registration.customer_event_profile.customer.nil?

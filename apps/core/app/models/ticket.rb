@@ -19,18 +19,16 @@ class Ticket < ActiveRecord::Base
 
   # Associations
   belongs_to :event
-  has_many :admissions, dependent: :restrict_with_error
-  has_one :assigned_admission, -> do
-    where(
-      aasm_state: :assigned)
-  end, class_name: "Admission"
-  has_many :customer_event_profiles, through: :admissions
-  has_one :assigned_customer_event_profile, -> do
-    where(
-      admissions: { aasm_state: :assigned })
-  end, class_name: "CustomerEventProfile"
+  has_many :credential_assignments, as: :credentiable, dependent: :destroy
+  has_one :assigned_ticket_credential, ->{ where(aasm_state: :assigned) }, as: :credentiable, class_name: "CredentialAssignment"
+
+  has_many :customer_event_profiles, through: :credential_assignments
+  has_one :assigned_customer_event_profile, -> { where(
+    credential_assignments: { aasm_state: :assigned } ) }, class_name: 'CustomerEventProfile'
   belongs_to :ticket_type
-  # has_many :comments, as: :commentable
+
+  # TODO Remove comments from tickets
+  #has_many :comments, as: :commentable
 
   # Validations
   validates :number, :ticket_type, presence: true

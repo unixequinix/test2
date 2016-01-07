@@ -8,7 +8,7 @@ class Admins::Events::BaseController < Admins::BaseController
 
   def fetch_current_event
     id = params[:event_id] || params[:id]
-    @current_event = Event.find_by_slug(id) if id
+    @current_event = Event.find_by_slug(id) || Event.find(id) if id
     fail ActiveRecord::RecordNotFound if @current_event.nil?
     @current_event
   end

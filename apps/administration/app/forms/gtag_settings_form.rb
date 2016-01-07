@@ -27,6 +27,7 @@ class GtagSettingsForm
     Gtag::FORMATS
   end
 
+
   private
 
   def persist!

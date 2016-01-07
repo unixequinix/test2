@@ -1,0 +1,14 @@
+- breadcrumb :new_admins_event_customer_gtag_registration, current_event, @customer
+- provide :actions do
+  = link_to t("actions.back"), admins_event_customer_path(current_event, @customer), class: "btn btn-action btn-action-back small"
+
+= form_for @gtag_assignment_form, url: admins_event_customer_gtag_assignments_path(current_event, @customer) do |f|
+  .wrapper-negative-space
+    = f.hidden_field :customer_id, value: @customer.id
+    .input
+      = f.label t('admin.gtag_registrations.serial')
+      = f.text_field :tag_serial_number, placeholder: t('gtag_registrations.placeholders.standard.line_1')
+    .input
+      = f.label t('admin.gtag_registrations.tag')
+      = f.text_field :tag_uid, placeholder: t('gtag_registrations.placeholders.standard.line_2')
+    = f.submit t('gtag_registrations.button'), class: "btn btn-primary"
