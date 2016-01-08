@@ -28,8 +28,8 @@
 #  gtag_registration       :boolean          default(TRUE), not null
 #  payment_service         :string           default("redsys")
 #  registration_parameters :integer          default(0), not null
-#  currency                :string           not null
-#  host_country            :string           not null
+#  currency                :string           default("USD"), not null
+#  host_country            :string           default("US"), not null
 #  locales                 :integer          default(1), not null
 #  refund_services         :integer          default(0), not null
 #
