@@ -317,6 +317,7 @@ ActiveRecord::Schema.define(version: 20160107151752) do
     t.integer  "initial_amount"
     t.decimal  "price"
     t.integer  "step"
+    t.integer  "max_purchasable"
     t.datetime "deleted_at",       index: {name: "index_preevent_product_units_on_deleted_at"}
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false

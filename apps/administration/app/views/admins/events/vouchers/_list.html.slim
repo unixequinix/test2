@@ -1,0 +1,26 @@
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @list_model_presenter.current_items, total: @list_model_presenter.count)
+table.credits
+  thead
+    tr
+      th = t('admin.preevent_product_unit.name')
+      th = t('admin.preevent_product_unit.description')
+      th = t('admin.preevent_product_unit.initial_amount')
+      th = t('admin.preevent_product_unit.price')
+      th = t('admin.preevent_product_unit.step')
+      th = t('admin.preevent_product_unit.max_purchasable')
+      th = t('admin.voucher.counter')
+      th.table-actions-field = t('admin.defaults.actions')
+  tbody
+    - vouchers.each do |voucher|
+      tr
+        td data-label=t('admin.preevent_product_unit.name') = link_to(voucher.preevent_product_unit.name, edit_admins_event_voucher_path(current_event, voucher))
+        td data-label=t('admin.preevent_product_unit.description') = voucher.preevent_product_unit.description
+        td data-label=t('admin.preevent_product_unit.initial_amount') = voucher.preevent_product_unit.initial_amount
+        td data-label=t('admin.preevent_product_unit.price') = voucher.preevent_product_unit.price
+        td data-label=t('admin.preevent_product_unit.step') = voucher.preevent_product_unit.step
+        td data-label=t('admin.preevent_product_unit.step') = voucher.preevent_product_unit.max_purchasable
+        td data-label=t('admin.vouchers.counter') = voucher.counter
+        td.table-actions-field
+          = render 'admins/events/vouchers/actions', voucher: voucher unless current_event.started?
+
+= paginate vouchers

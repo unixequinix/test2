@@ -8,6 +8,7 @@ class CreatePreeventProductUnits < ActiveRecord::Migration
       t.integer :initial_amount
       t.decimal :price
       t.integer :step
+      t.integer :max_purchasable
 
       t.datetime :deleted_at, index: true
       t.timestamps null: false

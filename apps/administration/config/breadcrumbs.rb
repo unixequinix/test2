@@ -134,6 +134,24 @@ crumb :new_admins_event_credit do |event|
   parent :admins_event_credits, event
 end
 
+## Vouchers
+
+crumb :admins_event_vouchers do |event|
+  link t("breadcrumbs.vouchers"), admins_event_vouchers_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_voucher do |event, voucher|
+  link voucher.preevent_product_unit.name, edit_admins_event_voucher_path(event, voucher)
+  parent :admins_event_vouchers, event
+end
+
+crumb :new_admins_event_voucher do |event|
+  link t("breadcrumbs.new_voucher")
+  parent :admins_event_vouchers, event
+end
+
+
 ## Customers
 
 crumb :admins_event_customers do |event|

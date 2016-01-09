@@ -11,6 +11,7 @@
 #  initial_amount   :integer
 #  price            :decimal(, )
 #  step             :integer
+#  max_purchasable  :integer
 #  deleted_at       :datetime
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null

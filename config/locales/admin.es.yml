@@ -172,6 +172,16 @@ es:
       max_purchasable: "Máximo comprable"
       initial_amount: "Cantidad Inicial"
       step: "Escala"
+    preevent_product_unit:
+      name: "Name"
+      description: "Descripción"
+      initial_amount: "Cantidad Inicial"
+      price: "Precio"
+      step: "Escala"
+      max_purchasable: "Máximo Comprable"
+    vouchers:
+      id: "Id"
+      counter: "Contador"
     entitlements:
       name: "Nombre"
     ticket_types:

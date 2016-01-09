@@ -36,6 +36,10 @@ class Multitenancy::AdministrationFetcher
     Entitlement.where(event_id: @event.id)
   end
 
+  def vouchers
+    Voucher.joins(:preevent_product_unit).where(preevent_product_units: { event_id: @event.id })
+  end
+
   private
 
   def admin?

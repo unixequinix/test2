@@ -12,8 +12,10 @@
 class Voucher < ActiveRecord::Base
   acts_as_paranoid
 
-  has_many :preevent_product_units, as: :purchasable, dependent: :destroy
+  has_one :preevent_product_unit, as: :purchasable, dependent: :destroy
+  accepts_nested_attributes_for :preevent_product_unit, allow_destroy: true
 
   # Validations
   validates :counter, presence: true
+  validates :preevent_product_unit, presence: true
 end
