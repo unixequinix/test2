@@ -156,6 +156,7 @@ es:
       sign_out: "Cerrar Sesión"
       setup: "Setup"
       crm: "CRM"
+      vouchers: "Cupones"
     dashboard:
       change_state: "Cambiar de Estado?"
       api_access: "Acceso API"

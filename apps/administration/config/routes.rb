@@ -50,6 +50,7 @@ Rails.application.routes.draw do
           end
         end
         resources :credits, except: :show
+        resources :vouchers, except: :show
         resources :customers, except: [:new, :create, :edit, :update] do
           resources :ticket_assignments, only: [:new, :create]
           resources :gtag_assignments, only: [:new, :create]

@@ -156,6 +156,7 @@ it:
       sign_out: "Sign out"
       setup: "Setup"
       crm: "CRM"
+      vouchers: "Vouchers"
     dashboard:
       change_state: "Change state?"
       api_access: "API access"

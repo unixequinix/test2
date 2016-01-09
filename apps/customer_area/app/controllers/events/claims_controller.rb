@@ -30,7 +30,7 @@ class Events::ClaimsController < Events::BaseController
   end
 
   def enough_credits!
-    @gtag = current_customer_event_profile.assigned_gtag_registration.gtag
+    @gtag = current_customer_event_profile.active_gtag_assignment.credentiable
     unless @gtag.refundable?(service_type)
       flash.now[:error] = I18n.t("alerts.quantity_not_refundable")
       redirect_to event_url(current_event)
@@ -43,8 +43,8 @@ class Events::ClaimsController < Events::BaseController
     @claim.fee = current_event.refund_fee(service_type)
     @claim.minimum = current_event.refund_minimun(service_type)
     @claim.customer_event_profile = current_customer_event_profile
-    @claim.gtag = current_customer_event_profile.assigned_gtag_registration.gtag
-    @claim.total = current_customer_event_profile.assigned_gtag_registration.gtag.gtag_credit_log.amount * current_event.standard_credit.online_product.rounded_price
+    @claim.gtag = current_customer_event_profile.active_gtag_assignment.credentiable
+    @claim.total = current_customer_event_profile.active_gtag_assignment.credentiable.gtag_credit_log.amount * current_event.standard_credit.online_product.rounded_price
     @claim.generate_claim_number!
     @claim.save!
     @claim

@@ -41,6 +41,9 @@ aside#main-menu
     li.aside-list = link_to admins_event_credits_path(event)
       = fa_icon "database"
       = t("admin.aside.credits")
+    li.aside-list = link_to admins_event_vouchers_path(event)
+      = fa_icon "tag"
+      = t("admin.aside.vouchers")
 
     h3.aside-title = t("admin.aside.crm")
 

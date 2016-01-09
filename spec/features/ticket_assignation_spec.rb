@@ -26,7 +26,7 @@ RSpec.feature "Ticket assignation", type: :feature do
       end
 
       it "should be able to assign a ticket" do
-        visit "/#{@event_creator.event.slug}/admissions/new"
+        visit "/#{@event_creator.event.slug}/ticket_assignments/new"
         within("form") do
           fill_in(t("admissions.placeholders.ticket_number"), with: @ticket.number)
         end
