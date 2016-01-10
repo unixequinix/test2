@@ -1,4 +1,4 @@
-= simple_form_for [:admins, current_event, voucher] do |f|
+= simple_form_for [:admins, current_event, credential_type] do |f|
   .wrapper-negative-space
     = f.simple_fields_for :preevent_product_unit do |ppu|
       = ppu.input :event_id, as: :hidden, input_html: { value: current_event.id }
@@ -8,6 +8,6 @@
       = ppu.input :price, placeholder: true
       = ppu.input :step, placeholder: true
       = ppu.input :max_purchasable, placeholder: true
-    = f.input :counter, placeholder: true
+    = f.input :position, placeholder: true
 
     = f.button :submit, class: "btn btn-primary"

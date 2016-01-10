@@ -1,0 +1,26 @@
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @list_model_presenter.current_items, total: @list_model_presenter.count)
+table.credential_types
+  thead
+    tr
+      th = t('admin.preevent_product_unit.name')
+      th = t('admin.preevent_product_unit.description')
+      th = t('admin.preevent_product_unit.initial_amount')
+      th = t('admin.preevent_product_unit.price')
+      th = t('admin.preevent_product_unit.step')
+      th = t('admin.preevent_product_unit.max_purchasable')
+      th = t('admin.credential_type.position')
+      th.table-actions-field = t('admin.defaults.actions')
+  tbody
+    - credential_types.each do |credential_type|
+      tr
+        td data-label=t('admin.preevent_product_unit.name') = link_to(credential_type.preevent_product_unit.name, edit_admins_event_credential_type_path(current_event, credential_type))
+        td data-label=t('admin.preevent_product_unit.description') = credential_type.preevent_product_unit.description
+        td data-label=t('admin.preevent_product_unit.initial_amount') = credential_type.preevent_product_unit.initial_amount
+        td data-label=t('admin.preevent_product_unit.price') = credential_type.preevent_product_unit.price
+        td data-label=t('admin.preevent_product_unit.step') = credential_type.preevent_product_unit.step
+        td data-label=t('admin.preevent_product_unit.step') = credential_type.preevent_product_unit.max_purchasable
+        td data-label=t('admin.credential_types.position') = credential_type.position
+        td.table-actions-field
+          = render 'admins/events/credential_types/actions', credential_type: credential_type unless current_event.started?
+
+= paginate credential_types

@@ -166,7 +166,7 @@ ActiveRecord::Schema.define(version: 20160107151752) do
   end
 
   create_table "credential_types", force: :cascade do |t|
-    t.integer  "positon",    default: 0, null: false
+    t.integer  "position",   default: 0, null: false
     t.datetime "deleted_at", index: {name: "index_credential_types_on_deleted_at"}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

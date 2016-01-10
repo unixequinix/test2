@@ -44,6 +44,9 @@ aside#main-menu
     li.aside-list = link_to admins_event_vouchers_path(event)
       = fa_icon "tag"
       = t("admin.aside.vouchers")
+    li.aside-list = link_to admins_event_credential_types_path(event)
+      = fa_icon "cubes"
+      = t("admin.aside.credential_types")
 
     h3.aside-title = t("admin.aside.crm")
 
@@ -65,8 +68,6 @@ aside#main-menu
     li.aside-list = link_to admins_event_refunds_path(event)
       = fa_icon "reply"
       = t("admin.aside.refunds")
-
-
 
     li.mobile-sign-out
       = link_to t("admin.aside.sign_out"), admins_sessions_path, method: :delete

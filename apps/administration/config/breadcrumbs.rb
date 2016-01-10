@@ -151,6 +151,23 @@ crumb :new_admins_event_voucher do |event|
   parent :admins_event_vouchers, event
 end
 
+## CredentialTypes
+
+crumb :admins_event_credential_types do |event|
+  link t("breadcrumbs.credential_types"), admins_event_credential_types_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_credential_type do |event, credential_type|
+  link credential_type.preevent_product_unit.name, edit_admins_event_credential_type_path(event, credential_type)
+  parent :admins_event_credential_types, event
+end
+
+crumb :new_admins_event_credential_type do |event|
+  link t("breadcrumbs.new_credential_type")
+  parent :admins_event_credential_types, event
+end
+
 
 ## Customers
 

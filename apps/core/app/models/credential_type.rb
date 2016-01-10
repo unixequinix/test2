@@ -3,7 +3,7 @@
 # Table name: credential_types
 #
 #  id         :integer          not null, primary key
-#  positon    :integer          default(0), not null
+#  position   :integer          default(0), not null
 #  deleted_at :datetime
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -12,8 +12,10 @@
 class CredentialType < ActiveRecord::Base
   acts_as_paranoid
 
-  has_many :preevent_product_units, as: :purchasable, dependent: :destroy
+  has_one :preevent_product_unit, as: :purchasable, dependent: :destroy
+  accepts_nested_attributes_for :preevent_product_unit, allow_destroy: true
 
   # Validations
   validates :position, presence: true
+  validates :preevent_product_unit, presence: true
 end

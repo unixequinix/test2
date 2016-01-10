@@ -157,6 +157,7 @@ it:
       setup: "Setup"
       crm: "CRM"
       vouchers: "Vouchers"
+      credential_types: "Credential Types"
     dashboard:
       change_state: "Change state?"
       api_access: "API access"
@@ -182,6 +183,8 @@ it:
     vouchers:
       id: "Id"
       counter: "Counter"
+    credential_types:
+      position: "Position"
     entitlements:
       name: "Name"
     ticket_types:
