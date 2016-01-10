@@ -13,7 +13,7 @@ class Multitenancy::AdministrationFetcher
   end
 
   def credits
-    Credit.joins(:online_product).where(online_products: { event_id: @event.id })
+    Credit.joins(:preevent_product_unit).where(preevent_product_units: { event_id: @event.id })
   end
 
   def customers

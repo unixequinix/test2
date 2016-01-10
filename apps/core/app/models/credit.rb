@@ -13,11 +13,9 @@ class Credit < ActiveRecord::Base
   acts_as_paranoid
 
   # Associations
-  has_one :online_product, as: :purchasable, dependent: :destroy
   has_one :preevent_product_unit, as: :purchasable, dependent: :destroy
-  accepts_nested_attributes_for :online_product, allow_destroy: true
   accepts_nested_attributes_for :preevent_product_unit, allow_destroy: true
 
   # Validations
-  validates :online_product, presence: true
+  validates :preevent_product_unit, presence: true
 end

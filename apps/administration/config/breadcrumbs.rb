@@ -125,7 +125,7 @@ crumb :admins_event_credits do |event|
 end
 
 crumb :admins_event_credit do |event, credit|
-  link credit.online_product.name, edit_admins_event_credit_path(event, credit)
+  link credit.preevent_product_unit.name, edit_admins_event_credit_path(event, credit)
   parent :admins_event_credits, event
 end
 

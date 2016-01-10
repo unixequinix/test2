@@ -165,14 +165,7 @@ es:
     admins:
       email: "Email"
     credits:
-      name: "Nombre"
-      description: "Descripción"
-      standard_credit: "Crédito Estándar"
-      price: "Precio"
-      min_purchasable: "Mínimo comprable"
-      max_purchasable: "Máximo comprable"
-      initial_amount: "Cantidad Inicial"
-      step: "Escala"
+      standard: "Estándar"
     preevent_product_unit:
       name: "Name"
       description: "Descripción"

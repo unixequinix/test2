@@ -5,7 +5,7 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
 
   def new
     @credit = Credit.new
-    @credit.build_online_product
+    @credit.build_preevent_product_unit
   end
 
   def create
@@ -49,12 +49,13 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
       fetcher: @fetcher.credits,
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [:online_product],
+      include_for_all_items: [:preevent_product_unit],
       context: view_context
     )
   end
 
   def permitted_params
-    params.require(:credit).permit(online_product_attributes: [:event_id, :name, :description, :price, :min_purchasable, :max_purchasable, :initial_amount, :step])
+    params.require(:credit).permit(:standard, preevent_product_unit_attributes:
+      [:event_id, :name, :description, :price, :min_purchasable, :max_purchasable, :initial_amount, :step])
   end
 end

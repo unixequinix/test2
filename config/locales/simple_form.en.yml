@@ -183,6 +183,16 @@ en:
           step: 'Incremental Step'
         edit:
           <<: *placeholder_online_product
+      preevent_product_unit:
+        new: &placeholder_online_product
+          name: 'Choose a descriptive name'
+          description: 'Event credits details'
+          price: 'Credit price'
+          max_purchasable: 'Max units per order in number'
+          initial_amount: 'Initial Amount in number'
+          step: 'Incremental Step'
+        edit:
+          <<: *placeholder_online_product
       entitlement:
         new: &placeholder_entitlement
           name: 'Choose a name for entitlement'
