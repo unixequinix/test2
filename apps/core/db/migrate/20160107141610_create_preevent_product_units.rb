@@ -1,6 +1,8 @@
 class CreatePreeventProductUnits < ActiveRecord::Migration
   class Credit < ActiveRecord::Base
     has_one :online_product, as: :purchasable, dependent: :destroy
+    has_one :preevent_product_unit, as: :purchasable, dependent: :destroy
+    accepts_nested_attributes_for :preevent_product_unit, allow_destroy: true
   end
 
   def change
@@ -17,11 +19,11 @@ class CreatePreeventProductUnits < ActiveRecord::Migration
       t.datetime :deleted_at, index: true
       t.timestamps null: false
     end
-    move_credits_to_preevent_product_units
+    add_preevent_product_units_to_credits
   end
 
-  def move_credits_to_preevent_product_units
-    list_preevent_product_unit = Credit.all.map do |credit|
+  def add_preevent_product_units_to_credits
+    Credit.all.each do |credit|
       ppu = PreeventProductUnit.new(
         name: credit.online_product.name,
         description: credit.online_product.description,
@@ -30,9 +32,8 @@ class CreatePreeventProductUnits < ActiveRecord::Migration
         step: credit.online_product.step,
         max_purchasable: credit.online_product.max_purchasable
       )
-      Credit.new(standard: credit.standard, preevent_product_unit: ppu)
+      credit.update(preevent_product_unit: ppu)
     end
-    CredentialAssignment.import(list_preevent_product_unit)
-    puts "Credits Imported √"
+    puts "Credits Migrated √"
   end
 end

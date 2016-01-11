@@ -62,6 +62,7 @@ class Admins::EventsController < Admins::BaseController
                                   :start_date, :end_date, :description, :support_email, :style, :logo,
                                   :background_type, :background, :features, :locales, :payment_service,
                                   :refund_services, :gtag_registration, :info, :disclaimer, :host_country,
-                                  :currency, :registration_parameters, :agreed_event_condition_message)
+                                  :currency, :registration_parameters, :agreed_event_condition_message,
+                                  :ticket_assignation)
   end
 end

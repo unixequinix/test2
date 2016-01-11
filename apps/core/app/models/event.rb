@@ -32,6 +32,7 @@
 #  host_country            :string           default("US"), not null
 #  locales                 :integer          default(1), not null
 #  refund_services         :integer          default(0), not null
+#  ticket_assignation      :boolean          default(TRUE), not null
 #
 
 class Event < ActiveRecord::Base
@@ -239,6 +240,7 @@ class Event < ActiveRecord::Base
       background_type: background_type,
       features: features,
       refund_services: refund_services,
+      ticket_assignation: ticket_assignation,
       gtag_registration: gtag_registration,
       payment_service: payment_service,
       host_country: host_country,
