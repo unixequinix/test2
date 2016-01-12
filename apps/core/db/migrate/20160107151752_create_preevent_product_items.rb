@@ -1,7 +1,7 @@
-class CreatePreeventProductCombos < ActiveRecord::Migration
+class CreatePreeventProductItems < ActiveRecord::Migration
   def change
-    create_table :preevent_product_combos do |t|
-      t.integer :preevent_product_unit_id
+    create_table :preevent_product_items do |t|
+      t.integer :preevent_item_id
       t.integer :preevent_product_id
       t.integer :amount
 

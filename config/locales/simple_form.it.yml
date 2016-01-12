@@ -170,8 +170,8 @@ it:
           agreed_event_condition_message: 'Adds the condition you want the user accepts when registering'
         edit:
           <<: *placeholder_event
-      online_product:
-        new: &placeholder_online_product
+      preevent_item:
+        new: &placeholder_preevent_item
           name: 'Choose a descriptive name'
           description: 'Event credits details'
           price: 'Credit price'
@@ -180,7 +180,7 @@ it:
           initial_amount: 'Initial Amount in number'
           step: 'Incremental Step'
         edit:
-          <<: *placeholder_online_product
+          <<: *placeholder_preevent_item
       entitlement:
         new: &placeholder_entitlement
           name: 'Choose a name for entitlement'

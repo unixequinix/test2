@@ -58,7 +58,7 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
       :event_id,
       :name,
       :online,
-      preevent_product_unit_ids: []
+      preevent_item_ids: []
     )
   end
 end

@@ -5,7 +5,7 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
 
   def new
     @voucher = Voucher.new
-    @voucher.build_preevent_product_unit
+    @voucher.build_preevent_item
   end
 
   def create
@@ -49,20 +49,21 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
       fetcher: @fetcher.vouchers,
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [:preevent_product_unit],
+      include_for_all_items: [:preevent_item],
       context: view_context
     )
   end
 
   def permitted_params
     params.require(:voucher).permit(:counter,
-      preevent_product_unit_attributes: [
+      preevent_item_attributes: [
         :event_id,
         :name,
         :description,
         :initial_amount,
         :price,
         :step,
+        :min_purchasable,
         :max_purchasable
       ]
     )

@@ -1,0 +1,21 @@
+# == Schema Information
+#
+# Table name: preevent_product_items
+#
+#  id                  :integer          not null, primary key
+#  preevent_item_id    :integer
+#  preevent_product_id :integer
+#  amount              :integer
+#  deleted_at          :datetime
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#
+
+class PreeventProductItem < ActiveRecord::Base
+  acts_as_paranoid
+  belongs_to :preevent_item
+  belongs_to :preevent_product
+
+  accepts_nested_attributes_for :preevent_item
+
+end

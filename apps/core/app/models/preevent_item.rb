@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: preevent_product_units
+# Table name: preevent_items
 #
 #  id               :integer          not null, primary key
 #  purchasable_id   :integer          not null
@@ -12,12 +12,13 @@
 #  price            :decimal(, )
 #  step             :integer
 #  max_purchasable  :integer
+#  min_purchasable  :integer
 #  deleted_at       :datetime
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #
 
-class PreeventProductUnit < ActiveRecord::Base
+class PreeventItem < ActiveRecord::Base
   acts_as_paranoid
   belongs_to :purchasable, polymorphic: true, touch: true
   belongs_to :event

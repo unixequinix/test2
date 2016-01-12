@@ -171,8 +171,8 @@ es:
           agreed_event_condition_message: 'Añade la condición que quieres que el usuario acepte cuando se registre'
         edit:
           <<: *placeholder_event
-      online_product:
-        new: &placeholder_online_product
+      preevent_item:
+        new: &placeholder_preevent_item
           name: 'Elige un nombre descriptivo'
           description: 'Detalles de créditos del evento'
           price: 'Precio del Crédito'
@@ -181,7 +181,7 @@ es:
           initial_amount: 'Cantidad inicial en número'
           step: 'Escala incremental'
         edit:
-          <<: *placeholder_online_product
+          <<: *placeholder_preevent_item
       entitlement:
         new: &placeholder_entitlement
           name: 'Elige un nombre para el Derecho'

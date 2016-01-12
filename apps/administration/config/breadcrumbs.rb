@@ -125,7 +125,7 @@ crumb :admins_event_credits do |event|
 end
 
 crumb :admins_event_credit do |event, credit|
-  link credit.preevent_product_unit.name, edit_admins_event_credit_path(event, credit)
+  link credit.preevent_item.name, edit_admins_event_credit_path(event, credit)
   parent :admins_event_credits, event
 end
 
@@ -142,7 +142,7 @@ crumb :admins_event_vouchers do |event|
 end
 
 crumb :admins_event_voucher do |event, voucher|
-  link voucher.preevent_product_unit.name, edit_admins_event_voucher_path(event, voucher)
+  link voucher.preevent_item.name, edit_admins_event_voucher_path(event, voucher)
   parent :admins_event_vouchers, event
 end
 
@@ -159,7 +159,7 @@ crumb :admins_event_credential_types do |event|
 end
 
 crumb :admins_event_credential_type do |event, credential_type|
-  link credential_type.preevent_product_unit.name, edit_admins_event_credential_type_path(event, credential_type)
+  link credential_type.preevent_item.name, edit_admins_event_credential_type_path(event, credential_type)
   parent :admins_event_credential_types, event
 end
 

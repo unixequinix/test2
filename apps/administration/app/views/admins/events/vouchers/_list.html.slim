@@ -2,25 +2,25 @@
 table.vouchers
   thead
     tr
-      th = t('admin.preevent_product_unit.name')
-      th = t('admin.preevent_product_unit.description')
-      th = t('admin.preevent_product_unit.initial_amount')
-      th = t('admin.preevent_product_unit.price')
-      th = t('admin.preevent_product_unit.step')
-      th = t('admin.preevent_product_unit.max_purchasable')
-      th = t('admin.preevent_product_unit.min_purchasable')
+      th = t('admin.preevent_item.name')
+      th = t('admin.preevent_item.description')
+      th = t('admin.preevent_item.initial_amount')
+      th = t('admin.preevent_item.price')
+      th = t('admin.preevent_item.step')
+      th = t('admin.preevent_item.max_purchasable')
+      th = t('admin.preevent_item.min_purchasable')
       th = t('admin.voucher.counter')
       th.table-actions-field = t('admin.defaults.actions')
   tbody
     - vouchers.each do |voucher|
       tr
-        td data-label=t('admin.preevent_product_unit.name') = link_to(voucher.preevent_product_unit.name, edit_admins_event_voucher_path(current_event, voucher))
-        td data-label=t('admin.preevent_product_unit.description') = voucher.preevent_product_unit.description
-        td data-label=t('admin.preevent_product_unit.initial_amount') = voucher.preevent_product_unit.initial_amount
-        td data-label=t('admin.preevent_product_unit.price') = voucher.preevent_product_unit.price
-        td data-label=t('admin.preevent_product_unit.step') = voucher.preevent_product_unit.step
-        td data-label=t('admin.preevent_product_unit.max_purchasable') = voucher.preevent_product_unit.max_purchasable
-        td data-label=t('admin.preevent_product_unit.min_purchasable') = voucher.preevent_product_unit.min_purchasable
+        td data-label=t('admin.preevent_item.name') = link_to(voucher.preevent_item.name, edit_admins_event_voucher_path(current_event, voucher))
+        td data-label=t('admin.preevent_item.description') = voucher.preevent_item.description
+        td data-label=t('admin.preevent_item.initial_amount') = voucher.preevent_item.initial_amount
+        td data-label=t('admin.preevent_item.price') = voucher.preevent_item.price
+        td data-label=t('admin.preevent_item.step') = voucher.preevent_item.step
+        td data-label=t('admin.preevent_item.max_purchasable') = voucher.preevent_item.max_purchasable
+        td data-label=t('admin.preevent_item.min_purchasable') = voucher.preevent_item.min_purchasable
         td data-label=t('admin.vouchers.counter') = voucher.counter
         td.table-actions-field
           = render 'admins/events/vouchers/actions', voucher: voucher unless current_event.started?

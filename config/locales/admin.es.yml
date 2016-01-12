@@ -170,7 +170,7 @@ es:
       name: "Nombre"
       online: "Online"
       number_product_items: "Número de items"
-    preevent_product_unit:
+    preevent_item:
       name: "Name"
       description: "Descripción"
       initial_amount: "Cantidad Inicial"

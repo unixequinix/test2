@@ -309,17 +309,18 @@ ActiveRecord::Schema.define(version: 20160110040404) do
     t.datetime "updated_at",         null: false
   end
 
-  create_table "preevent_product_units", force: :cascade do |t|
+  create_table "preevent_items", force: :cascade do |t|
     t.integer  "purchasable_id",   null: false
     t.string   "purchasable_type", null: false
-    t.integer  "event_id",         index: {name: "fk__preevent_product_units_event_id"}, foreign_key: {references: "events", name: "fk_preevent_product_units_event_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "event_id",         index: {name: "fk__preevent_items_event_id"}, foreign_key: {references: "events", name: "fk_preevent_items_event_id", on_update: :no_action, on_delete: :no_action}
     t.string   "name"
     t.text     "description"
     t.integer  "initial_amount"
     t.decimal  "price"
     t.integer  "step"
     t.integer  "max_purchasable"
-    t.datetime "deleted_at",       index: {name: "index_preevent_product_units_on_deleted_at"}
+    t.integer  "min_purchasable"
+    t.datetime "deleted_at",       index: {name: "index_preevent_items_on_deleted_at"}
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end
@@ -327,19 +328,19 @@ ActiveRecord::Schema.define(version: 20160110040404) do
   create_table "preevent_products", force: :cascade do |t|
     t.integer  "event_id",   index: {name: "fk__preevent_products_event_id"}, foreign_key: {references: "events", name: "fk_preevent_products_event_id", on_update: :no_action, on_delete: :no_action}
     t.string   "name"
-    t.boolean  "online"
+    t.boolean  "online",     default: false, null: false
     t.datetime "deleted_at", index: {name: "index_preevent_products_on_deleted_at"}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "preevent_product_combos", force: :cascade do |t|
-    t.integer  "preevent_product_unit_id", index: {name: "fk__preevent_product_combos_preevent_product_unit_id"}, foreign_key: {references: "preevent_product_units", name: "fk_preevent_product_combos_preevent_product_unit_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "preevent_product_id",      index: {name: "fk__preevent_product_combos_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "fk_preevent_product_combos_preevent_product_id", on_update: :no_action, on_delete: :no_action}
+  create_table "preevent_product_items", force: :cascade do |t|
+    t.integer  "preevent_item_id",    index: {name: "fk__preevent_product_items_preevent_item_id"}, foreign_key: {references: "preevent_items", name: "fk_preevent_product_items_preevent_item_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "preevent_product_id", index: {name: "fk__preevent_product_items_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "fk_preevent_product_items_preevent_product_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "amount"
-    t.datetime "deleted_at",               index: {name: "index_preevent_product_combos_on_deleted_at"}
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "deleted_at",          index: {name: "index_preevent_product_items_on_deleted_at"}
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
   create_table "refunds", force: :cascade do |t|

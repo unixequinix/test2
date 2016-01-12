@@ -168,7 +168,7 @@ th:
       name: "Name"
       online: "Online"
       number_product_items: "Número de items"
-    preevent_product_unit:
+    preevent_item:
       name: "Name"
       description: "Description"
       initial_amount: "Initial Amount"

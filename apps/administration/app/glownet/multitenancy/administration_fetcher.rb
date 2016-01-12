@@ -13,7 +13,7 @@ class Multitenancy::AdministrationFetcher
   end
 
   def credits
-    Credit.joins(:preevent_product_unit).where(preevent_product_units: { event_id: @event.id })
+    Credit.joins(:preevent_item).where(preevent_items: { event_id: @event.id })
   end
 
   def customers
@@ -37,11 +37,11 @@ class Multitenancy::AdministrationFetcher
   end
 
   def vouchers
-    Voucher.joins(:preevent_product_unit).where(preevent_product_units: { event_id: @event.id })
+    Voucher.joins(:preevent_item).where(preevent_items: { event_id: @event.id })
   end
 
   def credential_types
-    CredentialType.joins(:preevent_product_unit).where(preevent_product_units: { event_id: @event.id })
+    CredentialType.joins(:preevent_item).where(preevent_items: { event_id: @event.id })
   end
 
   def preevent_products

@@ -11,7 +11,7 @@ table.preevent_products
       tr
         td data-label=t('admin.preevent_product.name') = link_to(preevent_product.name, edit_admins_event_preevent_product_path(current_event, preevent_product))
         td data-label=t('admin.preevent_product.online') = preevent_product.online
-        td data-label=t('admin.preevent_product.number_product_items') = preevent_product.preevent_product_units.count
+        td data-label=t('admin.preevent_product.number_product_items') = preevent_product.preevent_items.count
         td.table-actions-field
           = render 'admins/events/preevent_products/actions', preevent_product: preevent_product unless current_event.started?
 

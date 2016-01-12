@@ -5,7 +5,7 @@ class Admins::Events::CredentialTypesController < Admins::Events::BaseController
 
   def new
     @credential_type = CredentialType.new
-    @credential_type.build_preevent_product_unit
+    @credential_type.build_preevent_item
   end
 
   def create
@@ -49,20 +49,21 @@ class Admins::Events::CredentialTypesController < Admins::Events::BaseController
       fetcher: @fetcher.credential_types,
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [:preevent_product_unit],
+      include_for_all_items: [:preevent_item],
       context: view_context
     )
   end
 
   def permitted_params
     params.require(:credential_type).permit(:position,
-      preevent_product_unit_attributes: [
+      preevent_item_attributes: [
         :event_id,
         :name,
         :description,
         :initial_amount,
         :price,
         :step,
+        :min_purchasable,
         :max_purchasable
       ]
     )
