@@ -14,8 +14,9 @@
 class PreeventProduct < ActiveRecord::Base
   acts_as_paranoid
 
-  has_many :tickets
   belongs_to :event
+  has_many :tickets
+  has_many :ticket_type_credentials
   has_many :preevent_product_items
   has_many :preevent_items, through: :preevent_product_items, class_name: 'PreeventItem'
 

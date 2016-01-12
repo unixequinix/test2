@@ -5,6 +5,9 @@ class CreatePreeventItems < ActiveRecord::Migration
     accepts_nested_attributes_for :preevent_item, allow_destroy: true
   end
 
+  class Entitlement < ActiveRecord::Base
+  end
+
   def change
     create_table :preevent_items do |t|
       t.references :purchasable, polymorphic: true, null: false
@@ -21,11 +24,12 @@ class CreatePreeventItems < ActiveRecord::Migration
       t.timestamps null: false
     end
     add_preevent_items_to_credits
+
   end
 
   def add_preevent_items_to_credits
     Credit.all.each do |credit|
-      ppu = PreeventItem.new(
+      preevent_item = PreeventItem.new(
         name: credit.online_product.name,
         description: credit.online_product.description,
         initial_amount: credit.online_product.initial_amount,
@@ -34,7 +38,7 @@ class CreatePreeventItems < ActiveRecord::Migration
         max_purchasable: credit.online_product.max_purchasable,
         min_purchasable: credit.online_product.min_purchasable
       )
-      credit.update(preevent_item: ppu)
+      credit.update(preevent_item: preevent_item)
     end
     puts "Credits Migrated √"
   end

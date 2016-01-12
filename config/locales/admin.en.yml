@@ -183,6 +183,10 @@ en:
       counter: "Counter"
     credential_types:
       position: "Position"
+    companies_ticket_types:
+      name: "Name"
+      company: "Company"
+      number_products: "Number of Products"
     entitlements:
       name: "Name"
     ticket_types:

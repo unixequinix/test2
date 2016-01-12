@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160110040404) do
+ActiveRecord::Schema.define(version: 20160111061011) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -154,6 +154,15 @@ ActiveRecord::Schema.define(version: 20160110040404) do
     t.text     "body"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+  end
+
+  create_table "companies_ticket_types", force: :cascade do |t|
+    t.integer  "event_id",   index: {name: "fk__companies_ticket_types_event_id"}, foreign_key: {references: "events", name: "fk_companies_ticket_types_event_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "name"
+    t.string   "company"
+    t.datetime "deleted_at", index: {name: "index_companies_ticket_types_on_deleted_at"}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "credential_assignments", force: :cascade do |t|
@@ -354,6 +363,14 @@ ActiveRecord::Schema.define(version: 20160110040404) do
     t.string   "gateway_transaction_number"
     t.string   "payment_solution"
     t.string   "status"
+  end
+
+  create_table "ticket_type_credentials", force: :cascade do |t|
+    t.integer  "companies_ticket_type_id", index: {name: "fk__ticket_type_credentials_companies_ticket_type_id"}, foreign_key: {references: "companies_ticket_types", name: "fk_ticket_type_credentials_companies_ticket_type_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "preevent_product_id",      index: {name: "fk__ticket_type_credentials_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "fk_ticket_type_credentials_preevent_product_id", on_update: :no_action, on_delete: :no_action}
+    t.datetime "deleted_at",               index: {name: "index_ticket_type_credentials_on_deleted_at"}
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "tickets", force: :cascade do |t|

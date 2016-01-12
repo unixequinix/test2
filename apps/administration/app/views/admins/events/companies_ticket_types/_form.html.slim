@@ -1,0 +1,8 @@
+= simple_form_for [:admins, current_event, companies_ticket_type] do |f|
+  .wrapper-negative-space
+    = f.input :name
+    = f.input :company, placeholder: true
+    = f.association :preevent_products, collection: PreeventProduct.all
+    = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
+
+    = f.button :submit, class: "btn btn-primary"
