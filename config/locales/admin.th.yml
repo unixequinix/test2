@@ -175,6 +175,7 @@ th:
       price: "Price"
       step: "Step"
       max_purchasable: "Max Purchasable"
+      min_purchasable: "Min Purchasable"
     vouchers:
       id: "Id"
       counter: "Counter"

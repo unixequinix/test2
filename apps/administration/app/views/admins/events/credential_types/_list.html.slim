@@ -8,6 +8,7 @@ table.credential_types
       th = t('admin.preevent_product_unit.price')
       th = t('admin.preevent_product_unit.step')
       th = t('admin.preevent_product_unit.max_purchasable')
+      th = t('admin.preevent_product_unit.min_purchasable')
       th = t('admin.credential_type.position')
       th.table-actions-field = t('admin.defaults.actions')
   tbody
@@ -18,7 +19,8 @@ table.credential_types
         td data-label=t('admin.preevent_product_unit.initial_amount') = credential_type.preevent_product_unit.initial_amount
         td data-label=t('admin.preevent_product_unit.price') = credential_type.preevent_product_unit.price
         td data-label=t('admin.preevent_product_unit.step') = credential_type.preevent_product_unit.step
-        td data-label=t('admin.preevent_product_unit.step') = credential_type.preevent_product_unit.max_purchasable
+        td data-label=t('admin.preevent_product_unit.max_purchasable') = credential_type.preevent_product_unit.max_purchasable
+        td data-label=t('admin.preevent_product_unit.min_purchasable') = credential_type.preevent_product_unit.min_purchasable
         td data-label=t('admin.credential_types.position') = credential_type.position
         td.table-actions-field
           = render 'admins/events/credential_types/actions', credential_type: credential_type unless current_event.started?

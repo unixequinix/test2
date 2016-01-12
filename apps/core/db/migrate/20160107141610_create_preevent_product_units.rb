@@ -15,6 +15,7 @@ class CreatePreeventProductUnits < ActiveRecord::Migration
       t.decimal :price
       t.integer :step
       t.integer :max_purchasable
+      t.integer :min_purchasable
 
       t.datetime :deleted_at, index: true
       t.timestamps null: false
@@ -31,6 +32,7 @@ class CreatePreeventProductUnits < ActiveRecord::Migration
         price: credit.online_product.price,
         step: credit.online_product.step,
         max_purchasable: credit.online_product.max_purchasable
+        min_purchasable: credit.online_product.min_purchasable
       )
       credit.update(preevent_product_unit: ppu)
     end

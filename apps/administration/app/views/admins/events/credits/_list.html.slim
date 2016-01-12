@@ -8,6 +8,7 @@ table.credits
       th = t('admin.preevent_product_unit.price')
       th = t('admin.preevent_product_unit.step')
       th = t('admin.preevent_product_unit.max_purchasable')
+      th = t('admin.preevent_product_unit.min_purchasable')
       th = t('admin.credit.standard')
       th.table-actions-field = t('admin.defaults.actions')
   tbody
@@ -18,7 +19,8 @@ table.credits
         td data-label=t('admin.preevent_product_unit.initial_amount') = credit.preevent_product_unit.initial_amount
         td data-label=t('admin.preevent_product_unit.price') = credit.preevent_product_unit.price
         td data-label=t('admin.preevent_product_unit.step') = credit.preevent_product_unit.step
-        td data-label=t('admin.preevent_product_unit.step') = credit.preevent_product_unit.max_purchasable
+        td data-label=t('admin.preevent_product_unit.max_purchasable') = credit.preevent_product_unit.max_purchasable
+        td data-label=t('admin.preevent_product_unit.min_purchasable') = credit.preevent_product_unit.min_purchasable
         td data-label=t('admin.credits.standard') = credit.standard
         td.table-actions-field
           = render 'admins/events/credits/actions', credit: credit unless current_event.started?

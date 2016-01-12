@@ -177,6 +177,7 @@ es:
       price: "Precio"
       step: "Escala"
       max_purchasable: "Máximo Comprable"
+      min_purchasable: "Mínimo Comprable"
     vouchers:
       id: "Id"
       counter: "Contador"
