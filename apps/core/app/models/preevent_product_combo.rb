@@ -15,4 +15,7 @@ class PreeventProductCombo < ActiveRecord::Base
   acts_as_paranoid
   belongs_to :preevent_product_unit
   belongs_to :preevent_product
+
+  accepts_nested_attributes_for :preevent_product_unit
+
 end

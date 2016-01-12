@@ -35,7 +35,7 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
   end
 
   def destroy
-    @voucher = Voucher.find(params[:id])
+    @voucher = @fetcher.vouchers.find(params[:id])
     @voucher.destroy!
     flash[:notice] = I18n.t("alerts.destroyed")
     redirect_to admins_event_vouchers_url

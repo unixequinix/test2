@@ -163,14 +163,23 @@ th:
     admins:
       email: "Email"
     credits:
+      standard: "Standard"
+    preevent_product:
+      name: "Name"
+      online: "Online"
+      number_product_items: "Número de items"
+    preevent_product_unit:
       name: "Name"
       description: "Description"
-      standard_credit: "Standard Credit"
-      price: "Price"
-      min_purchasable: "Min purchasable"
-      max_purchasable: "Max purchasable"
       initial_amount: "Initial Amount"
+      price: "Price"
       step: "Step"
+      max_purchasable: "Max Purchasable"
+    vouchers:
+      id: "Id"
+      counter: "Counter"
+    credential_types:
+      position: "Position"
     entitlements:
       name: "Name"
     ticket_types:

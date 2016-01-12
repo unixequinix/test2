@@ -166,6 +166,10 @@ es:
       email: "Email"
     credits:
       standard: "Estándar"
+    preevent_product:
+      name: "Nombre"
+      online: "Online"
+      number_product_items: "Número de items"
     preevent_product_unit:
       name: "Name"
       description: "Descripción"

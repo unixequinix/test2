@@ -168,6 +168,22 @@ crumb :new_admins_event_credential_type do |event|
   parent :admins_event_credential_types, event
 end
 
+## PreeventProduct
+
+crumb :admins_event_preevent_products do |event|
+  link t("breadcrumbs.preevent_products"), admins_event_preevent_products_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_preevent_product do |event, preevent_product|
+  link preevent_product.name, edit_admins_event_preevent_product_path(event, preevent_product)
+  parent :admins_event_preevent_products, event
+end
+
+crumb :new_admins_event_preevent_product do |event|
+  link t("breadcrumbs.new_preevent_product")
+  parent :admins_event_preevent_products, event
+end
 
 ## Customers
 

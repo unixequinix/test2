@@ -44,6 +44,10 @@ class Multitenancy::AdministrationFetcher
     CredentialType.joins(:preevent_product_unit).where(preevent_product_units: { event_id: @event.id })
   end
 
+  def preevent_products
+    PreeventProduct.where(event_id: @event.id)
+  end
+
   private
 
   def admin?

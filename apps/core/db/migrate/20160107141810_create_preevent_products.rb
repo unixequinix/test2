@@ -3,7 +3,7 @@ class CreatePreeventProducts < ActiveRecord::Migration
     create_table :preevent_products do |t|
       t.integer :event_id
       t.string :name
-      t.boolean :online
+      t.boolean :online, default: false, null: false
 
       t.datetime :deleted_at, index: true
       t.timestamps null: false

@@ -16,6 +16,6 @@ class Voucher < ActiveRecord::Base
   accepts_nested_attributes_for :preevent_product_unit, allow_destroy: true
 
   # Validations
-  validates :counter, presence: true
-  validates :preevent_product_unit, presence: true
+  validates :preevent_product_unit, :counter, presence: true
+
 end

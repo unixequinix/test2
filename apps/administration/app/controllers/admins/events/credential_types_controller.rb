@@ -35,7 +35,7 @@ class Admins::Events::CredentialTypesController < Admins::Events::BaseController
   end
 
   def destroy
-    @credential_type = CredentialType.find(params[:id])
+    @credential_type = @fetcher.credential_types.find(params[:id])
     @credential_type.destroy!
     flash[:notice] = I18n.t("alerts.destroyed")
     redirect_to admins_event_credential_types_url
