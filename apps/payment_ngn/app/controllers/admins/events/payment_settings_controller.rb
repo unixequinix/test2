@@ -7,9 +7,9 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
   def new
     @event = Event.friendly.find(params[:event_id])
     stripe_id = @fetcher.event_parameters.find_by(
-                  parameter: Parameter.where(group: @event.payment_service,
-                                              category: "payment",
-                                              name: "stripe_account_id"))
+      parameter: Parameter.where(group: @event.payment_service,
+                                 category: "payment",
+                                 name: "stripe_account_id"))
     @parameters = Parameter.where(group: @event.payment_service, category: "payment")
     @payment_settings_form = ("#{@event.payment_service.camelize}PaymentSettingsForm").constantize.new
   end

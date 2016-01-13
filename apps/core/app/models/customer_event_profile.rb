@@ -22,36 +22,36 @@ class CustomerEventProfile < ActiveRecord::Base
   has_many :refunds, through: :claims
   has_many :credit_logs
   has_many :credit_purchased_logs,
-    ->{ where(transaction_type: CreditLog::CREDITS_PURCHASE) },
-    class_name: 'CreditLog'
+           -> { where(transaction_type: CreditLog::CREDITS_PURCHASE) },
+           class_name: "CreditLog"
   has_many :credential_assignments
 
   # credential_assignments_tickets
   has_many :ticket_assignments,
-    -> { where(credentiable_type: "Ticket") },
-    class_name: "CredentialAssignment", dependent: :destroy
+           -> { where(credentiable_type: "Ticket") },
+           class_name: "CredentialAssignment", dependent: :destroy
 
   # credential_assignments_gtags
   has_many :gtag_assignment,
-    -> { where(credentiable_type: "Gtag") },
-    class_name: "CredentialAssignment", dependent: :destroy
+           -> { where(credentiable_type: "Gtag") },
+           class_name: "CredentialAssignment", dependent: :destroy
 
   # credential_assignments_assigned
   has_many :active_assignments,
-    -> { where(aasm_state: :assigned) }, class_name: "CredentialAssignment"
+           -> { where(aasm_state: :assigned) }, class_name: "CredentialAssignment"
 
   # credential_assignments_tickets_assigned
   has_many :active_tickets_assignment,
-    -> { where(aasm_state: :assigned, credentiable_type: "Ticket") },
-    class_name: "CredentialAssignment"
+           -> { where(aasm_state: :assigned, credentiable_type: "Ticket") },
+           class_name: "CredentialAssignment"
 
   # credential_assignments_gtag_assigned
   has_one :active_gtag_assignment,
-    -> { where(aasm_state: :assigned, credentiable_type: "Gtag") },
-    class_name: "CredentialAssignment"
+          -> { where(aasm_state: :assigned, credentiable_type: "Gtag") },
+          class_name: "CredentialAssignment"
 
   has_one :completed_claim,
-    ->{ where(aasm_state: :completed) }, class_name: "Claim"
+          -> { where(aasm_state: :completed) }, class_name: "Claim"
 
   # Validations
   validates :customer, :event, presence: true
@@ -59,7 +59,7 @@ class CustomerEventProfile < ActiveRecord::Base
   # Scopes
   scope :for_event, -> (event) { where(event: event) }
   scope :with_gtag,
-    -> (event) { joins(:gtag_registrations).where(event: event, gtag_registrations: { aasm_state: :assigned } ) }
+        -> (event) { joins(:gtag_registrations).where(event: event, gtag_registrations: { aasm_state: :assigned }) }
 
   def customer
     Customer.unscoped { super }

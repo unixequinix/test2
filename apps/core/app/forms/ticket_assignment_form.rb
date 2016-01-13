@@ -18,9 +18,9 @@ class TicketAssignmentForm
       end
     else
       errors.add(:ticket_assignment,
-        I18n.t('alerts.admissions',
-        companies: TicketType.companies(current_event).join(', '))
-      )
+                 I18n.t("alerts.admissions",
+                        companies: TicketType.companies(current_event).join(", "))
+                )
       false
     end
   end
@@ -36,5 +36,4 @@ class TicketAssignmentForm
       amount: ticket.ticket_type.credit
     ) if ticket.ticket_type.credit.present?
   end
-
 end

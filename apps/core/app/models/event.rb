@@ -188,7 +188,7 @@ class Event < ActiveRecord::Base
     fee = refund_fee(refund_service)
     minimun = refund_minimun(refund_service)
     standard_price = standard_credit_price
-    self.gtag_assignments
+    gtag_assignments
       .joins(:gtag, gtag: :gtag_credit_log)
       .where(aasm_state: :assigned)
       .where("((amount * #{standard_price}) - #{fee}) >= #{minimun}")
@@ -199,7 +199,7 @@ class Event < ActiveRecord::Base
   def total_refundable_gtags(refund_service)
     fee = refund_fee(refund_service)
     minimun = refund_minimun(refund_service)
-    self.gtag_assignments
+    gtag_assignments
       .joins(:gtag, gtag: :gtag_credit_log)
       .where(aasm_state: :assigned)
       .where("((amount * #{standard_credit_price}) - #{fee}) >= #{minimun}")

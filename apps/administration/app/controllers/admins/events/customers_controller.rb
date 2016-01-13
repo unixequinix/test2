@@ -12,9 +12,9 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
     @customer = @fetcher.customers.with_deleted.includes(
       :customer_event_profile,
       customer_event_profile: [:ticket_assignments,
-        :active_gtag_assignment,
-        credential_assignments: :credentiable ]
-      ).find(params[:id])
+                               :active_gtag_assignment,
+                               credential_assignments: :credentiable]
+    ).find(params[:id])
   end
 
   def resend_confirmation
@@ -31,9 +31,9 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
       context: view_context,
       include_for_all_items: [:customer_event_profile, customer_event_profile:
         [:active_gtag_assignment,
-          active_assignments: :credentiable
+         active_assignments: :credentiable
         ]
-      ]
+                             ]
     )
   end
 end

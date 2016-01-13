@@ -11,13 +11,13 @@ class Events::BankAccountClaimsController < Events::ClaimsController
       @claim.start_claim!
       # TODO Remove hardcoded message text
       if RefundService.new(@claim, current_event)
-          .create(params = {
-            amount: @claim.gtag.refundable_amount_after_fee(service_type),
-            currency: current_event.currency,
-            message: "Created manual bank account refund",
-            payment_solution: "manual",
-            status: "PENDING"
-          })
+         .create(params = {
+                   amount: @claim.gtag.refundable_amount_after_fee(service_type),
+                   currency: current_event.currency,
+                   message: "Created manual bank account refund",
+                   payment_solution: "manual",
+                   status: "PENDING"
+                 })
         redirect_to success_event_refunds_url(current_event)
       else
         redirect_to error_event_refunds_url(current_event)

@@ -1,13 +1,12 @@
 class Events::TicketAssignmentsController < Events::BaseController
-
   def new
     @ticket_assignment_form = TicketAssignmentForm.new
   end
 
   def create
     @ticket_assignment_form = TicketAssignmentForm.new(ticket_assignment_parameters)
-    if(@ticket_assignment_form.save(Ticket.where(event: current_event), current_customer_event_profile, current_event))
-      flash[:notice] = I18n.t('alerts.created')
+    if @ticket_assignment_form.save(Ticket.where(event: current_event), current_customer_event_profile, current_event)
+      flash[:notice] = I18n.t("alerts.created")
       redirect_to event_url(current_event)
     else
       flash[:error] = @ticket_assignment_form.errors.full_messages.join
@@ -28,5 +27,4 @@ class Events::TicketAssignmentsController < Events::BaseController
   def ticket_assignment_parameters
     params.require(:ticket_assignment_form).permit(:number)
   end
-
 end
