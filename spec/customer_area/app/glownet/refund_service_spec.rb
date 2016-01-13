@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe RefundService, type: :service do
+RSpec.describe RefundService, type: :domain_logic do
   describe "notify" do
     it "should initialize the claim and event attributes" do
       claim = build(:claim)

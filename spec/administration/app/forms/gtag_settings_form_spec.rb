@@ -1,5 +1,5 @@
 require "rails_helper"
 
-RSpec.describe GtagSettingsForm, type: :model do
+RSpec.describe GtagSettingsForm, type: :form do
 
 end

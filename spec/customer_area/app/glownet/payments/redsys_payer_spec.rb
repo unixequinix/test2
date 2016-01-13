@@ -1,5 +1,5 @@
 require "rails_helper"
 
-RSpec.describe Payments::RedsysPayer, type: :service do
+RSpec.describe Payments::RedsysPayer, type: :domain_logic do
 
 end

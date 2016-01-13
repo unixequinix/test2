@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe EpgCheckout, type: :service do
+RSpec.describe EpgCheckout, type: :domain_logic do
   before(:all) do
     event = create(:event, refund_services: 2)
     Seeder::SeedLoader.load_default_event_parameters(event)

@@ -1,5 +1,5 @@
 require "rails_helper"
 
-RSpec.describe Multitenancy::AdministrationFetcher, type: :feature do
+RSpec.describe Multitenancy::AdministrationFetcher, type: :domain_logic do
 
 end
