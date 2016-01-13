@@ -6,16 +6,16 @@ RSpec.feature "Refund for Bank account", type: :feature do
       load_event
       load_customer
       load_gtag
-      to_login
+      login_as(@customer, scope: :customer)
     end
 
     describe "a customer" do
       it "should be able claim and get the credits into his bank account" do
         visit "/#{@event_creator.event.slug}/bank_account_claims/new"
         within("form") do
-          fill_in(("bank_account_claim_form_swift"), with: "BSABESBB")
-          fill_in(("bank_account_claim_form_iban"), with: "ES6200810575700001135015")
-          check "bank_account_claim_form_agreed_on_claim"
+          fill_in(("euro_bank_account_claim_form_swift"), with: "BSABESBB")
+          fill_in(("euro_bank_account_claim_form_iban"), with: "ES6200810575700001135015")
+          check "euro_bank_account_claim_form_agreed_on_claim"
         end
         click_button(t("claims.button"))
         expect(current_path).to eq("/#{@event_creator.event.slug}/refunds/success")
@@ -43,9 +43,5 @@ RSpec.feature "Refund for Bank account", type: :feature do
                                                     host_country: "GB").to_hash_parameters)
     @event_creator.save
     @event = @event_creator.event
-  end
-
-  def to_login
-    login_as(@customer, scope: :customer)
   end
 end

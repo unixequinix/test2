@@ -7,18 +7,19 @@ ENV['RAILS_ENV'] ||= 'test'
 
 SimpleCov.start do
   add_group "Models", "app/models"
-  add_group "Services", "app/glownet"
+  add_group "Domain Logic", "app/glownet"
   add_group "Forms", "app/forms"
+  add_group "Validators", "app/validators"
   add_group "Presenters", "app/presenters"
+  add_group "Libraires", "lib"
   add_group "Helpers", "app/helpers"
   add_group "Controllers", "app/controllers"
-  add_group "Serializers", "app/serializers"
   add_group "Mailers", "app/mailers"
-  add_group "Views", "app/views"
 
   add_filter "/spec/"
   add_filter "/config/"
   add_filter "/vendor/"
+  add_filter "/i18n/"
 end
 
 require File.expand_path('../../config/environment', __FILE__)
@@ -76,6 +77,7 @@ RSpec.configure do |config|
   # Helper specs: type: :helper
   # Mailer specs: type: :mailer
   # Routing specs: type: :routing
+  # Service specs: tyoe: :services
   config.infer_spec_type_from_file_location!
 
   # Add stuff to make devise work
@@ -108,7 +110,6 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
-
     Warden.test_reset!
   end
 
