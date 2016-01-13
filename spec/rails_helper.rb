@@ -47,9 +47,16 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
 
+
+# Factories are stored by engine in this project
+BootInquirer.each_active_app do |app|
+  FactoryGirl.definition_file_paths << "#{Rails.root}/spec/#{app.gem_name}/factories/"
+end
+FactoryGirl.definition_file_paths << "#{Rails.root}/spec/core/factories/"
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  #config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
