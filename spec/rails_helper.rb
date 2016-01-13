@@ -67,7 +67,15 @@ RSpec.configure do |config|
   #     end
   #
   # The different available types are documented in the features, such as in
-  # https://relishapp.com/rspec/rspec-rails/docs
+  # 
+  # Model specs: type: :model
+  # Controller specs: type: :controller
+  # Request specs: type: :request
+  # Feature specs: type: :feature
+  # View specs: type: :view
+  # Helper specs: type: :helper
+  # Mailer specs: type: :mailer
+  # Routing specs: type: :routing
   config.infer_spec_type_from_file_location!
 
   # Add stuff to make devise work
