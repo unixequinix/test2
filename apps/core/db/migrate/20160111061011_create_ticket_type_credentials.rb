@@ -42,7 +42,7 @@ class CreateTicketTypeCredentials < ActiveRecord::Migration
     end
   end
 
-  def old_tables_destruction
+  def destroy_old_tables
     drop_table :entitlement_ticket_types
     drop_table :entitlements
   end

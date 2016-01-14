@@ -29,7 +29,6 @@ class Ticket < ActiveRecord::Base
   has_many :customer_event_profiles, through: :credential_assignments
   has_one :assigned_customer_event_profile, -> { where(
     credential_assignments: { aasm_state: :assigned } ) }, class_name: 'CustomerEventProfile'
-  belongs_to :ticket_type
   belongs_to :preevent_product
 
   # TODO Remove comments from tickets
