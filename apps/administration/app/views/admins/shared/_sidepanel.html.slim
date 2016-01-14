@@ -26,12 +26,6 @@ aside#main-menu
 
     h3.aside-title = t("admin.aside.setup")
 
-    li.aside-list = link_to admins_event_tickets_path(event) do
-      = fa_icon "ticket"
-      = t("admin.aside.tickets")
-    li.aside-list = link_to admins_event_gtags_path(event) do
-      = fa_icon "bookmark"
-      = t("admin.aside.gtag")
     li.aside-list = link_to admins_event_credits_path(event)
       = fa_icon "database"
       = t("admin.aside.credits")
@@ -47,6 +41,12 @@ aside#main-menu
     li.aside-list = link_to admins_event_company_ticket_types_path(event)
       = fa_icon "bullseye"
       = t("admin.aside.company_ticket_types")
+    li.aside-list = link_to admins_event_tickets_path(event) do
+      = fa_icon "ticket"
+      = t("admin.aside.tickets")
+    li.aside-list = link_to admins_event_gtags_path(event) do
+      = fa_icon "bookmark"
+      = t("admin.aside.gtag")
 
     h3.aside-title = t("admin.aside.crm")
 
