@@ -15,7 +15,6 @@
 class OrderItem < ActiveRecord::Base
   # Associations
   belongs_to :order
-  belongs_to :online_product
   belongs_to :preevent_item
 
   # Validations

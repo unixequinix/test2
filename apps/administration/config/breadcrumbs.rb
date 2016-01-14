@@ -49,39 +49,6 @@ crumb :admins_event_gtag_settings do |event|
   parent :admins_event, event
 end
 
-## Entitlements
-
-crumb :admins_event_entitlements do |event|
-  link t("breadcrumbs.entitlements"), admins_event_entitlements_path(event)
-  parent :admins_event, event
-end
-
-crumb :admins_event_entitlement do |event, entitlement|
-  link entitlement.name, edit_admins_event_entitlement_path(event, entitlement)
-  parent :admins_event_entitlements, event
-end
-
-crumb :new_admins_event_entitlement do |event|
-  link t("breadcrumbs.new_entitlement")
-  parent :admins_event_entitlements, event
-end
-
-## TicketsTypes
-
-crumb :admins_event_ticket_types do |event|
-  link t("breadcrumbs.ticket_types"), admins_event_ticket_types_path(event)
-  parent :admins_event, event
-end
-
-crumb :admins_event_ticket_type do |event, ticket_type|
-  link ticket_type.name, edit_admins_event_ticket_type_path(event, ticket_type)
-  parent :admins_event_ticket_types, event
-end
-
-crumb :new_admins_event_ticket_type do |event|
-  link t("breadcrumbs.new_ticket_type")
-  parent :admins_event_ticket_types, event
-end
 
 ## Tickets
 

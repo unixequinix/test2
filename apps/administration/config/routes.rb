@@ -30,7 +30,6 @@ Rails.application.routes.draw do
             delete :destroy_multiple
           end
         end
-        resources :entitlements, except: :show
         resources :ticket_types, except: :show
         resources :tickets do
           resources :comments, module: :tickets
@@ -40,7 +39,6 @@ Rails.application.routes.draw do
           end
         end
         resources :gtag_assignments, only: [:destroy]
-        resources :entitlements, except: :show
         resources :ticket_types, except: :show
         resources :tickets do
           resources :comments, module: :tickets

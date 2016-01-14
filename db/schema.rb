@@ -240,22 +240,6 @@ ActiveRecord::Schema.define(version: 20160114135400) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "online_products", force: :cascade do |t|
-    t.string   "name",             null: false
-    t.string   "description",      null: false
-    t.decimal  "price",            precision: 8, scale: 2, null: false
-    t.integer  "purchasable_id",   null: false
-    t.string   "purchasable_type", null: false
-    t.integer  "min_purchasable"
-    t.integer  "max_purchasable"
-    t.integer  "initial_amount"
-    t.integer  "step"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.datetime "deleted_at",       index: {name: "index_online_products_on_deleted_at"}
-    t.integer  "event_id",         null: false, index: {name: "index_online_products_on_event_id"}, foreign_key: {references: "events", name: "online_products_event_id_fkey", on_update: :no_action, on_delete: :no_action}
-  end
-
   create_table "orders", force: :cascade do |t|
     t.string   "number",                    null: false, index: {name: "index_orders_on_number", unique: true}
     t.string   "aasm_state",                null: false
@@ -282,13 +266,12 @@ ActiveRecord::Schema.define(version: 20160114135400) do
   end
 
   create_table "order_items", force: :cascade do |t|
-    t.integer  "order_id",          null: false, index: {name: "fk__order_items_order_id"}, foreign_key: {references: "orders", name: "fk_order_items_order_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "online_product_id", null: false, index: {name: "fk__order_items_online_product_id"}, foreign_key: {references: "online_products", name: "fk_order_items_online_product_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "order_id",         null: false, index: {name: "fk__order_items_order_id"}, foreign_key: {references: "orders", name: "fk_order_items_order_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "amount"
-    t.decimal  "total",             precision: 8, scale: 2, null: false
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-    t.integer  "preevent_item_id",  index: {name: "fk__order_items_preevent_item_id"}, foreign_key: {references: "preevent_items", name: "order_items_preevent_item_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.decimal  "total",            precision: 8, scale: 2, null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.integer  "preevent_item_id", index: {name: "fk__order_items_preevent_item_id"}, foreign_key: {references: "preevent_items", name: "order_items_preevent_item_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "payments", force: :cascade do |t|
