@@ -2,7 +2,7 @@
   .wrapper-negative-space
     = f.input :name
     = f.input :company, placeholder: true
-    = f.association :preevent_products, collection: PreeventProduct.all
+    = f.association :preevent_products, collection: @preevent_products_collection
     = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
 
     = f.button :submit, class: "btn btn-primary"

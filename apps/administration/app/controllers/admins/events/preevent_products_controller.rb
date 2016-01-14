@@ -5,6 +5,7 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
 
   def new
     @preevent_product = PreeventProduct.new
+    @preevent_items_collection = @fetcher.preevent_items
   end
 
   def create
@@ -20,6 +21,7 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
 
   def edit
     @preevent_product = @fetcher.preevent_products.find(params[:id])
+    @preevent_items_collection = @fetcher.preevent_items
   end
 
   def update

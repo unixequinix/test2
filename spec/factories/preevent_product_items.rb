@@ -5,7 +5,7 @@
 #  id                  :integer          not null, primary key
 #  preevent_item_id    :integer
 #  preevent_product_id :integer
-#  amount              :integer
+#  amount              :decimal(8, 2)    default(0.0), not null
 #  deleted_at          :datetime
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null

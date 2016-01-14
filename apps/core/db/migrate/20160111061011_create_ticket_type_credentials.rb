@@ -27,6 +27,14 @@ class CreateTicketTypeCredentials < ActiveRecord::Migration
         preevent_product_items_attributes: [{amount: ticket_type.credit || 0}],
         event_id: ticket_type.event_id
       )
+
+      companies_ticket_types = CompaniesTicketType.create(
+        name: ticket_type.name,
+        company: ticket_type.company,
+        preevent_products: [preevent_product],
+        event_id: ticket_type.event_id
+      )
+
       ticket_type.tickets.each do |ticket|
         ticket.update_attribute(:preevent_product_id, preevent_product.id)
       end

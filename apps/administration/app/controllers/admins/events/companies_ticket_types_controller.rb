@@ -5,6 +5,7 @@ class Admins::Events::CompaniesTicketTypesController < Admins::Events::BaseContr
 
   def new
     @companies_ticket_type = CompaniesTicketType.new
+    @preevent_products_collection = @fetcher.preevent_products
   end
 
   def create
@@ -20,6 +21,7 @@ class Admins::Events::CompaniesTicketTypesController < Admins::Events::BaseContr
 
   def edit
     @companies_ticket_type = @fetcher.companies_ticket_types.find(params[:id])
+    @preevent_products_collection = @fetcher.preevent_products
   end
 
   def update
