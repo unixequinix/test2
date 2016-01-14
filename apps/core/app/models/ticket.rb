@@ -3,7 +3,6 @@
 # Table name: tickets
 #
 #  id                  :integer          not null, primary key
-#  ticket_type_id      :integer          not null
 #  number              :string
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
@@ -35,7 +34,6 @@ class Ticket < ActiveRecord::Base
   #has_many :comments, as: :commentable
 
   # Validations
-  validates :number, :ticket_type, presence: true
   validates :number, uniqueness: true
 
   scope :selected_data, lambda  { |event_id|

@@ -347,19 +347,7 @@ ActiveRecord::Schema.define(version: 20160114135400) do
     t.datetime "updated_at",             null: false
   end
 
-  create_table "ticket_types", force: :cascade do |t|
-    t.string   "name",            null: false
-    t.string   "company",         null: false
-    t.decimal  "credit",          precision: 8, scale: 2, default: 0.0, null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.datetime "deleted_at",      index: {name: "index_ticket_types_on_deleted_at"}
-    t.string   "simplified_name"
-    t.integer  "event_id",        null: false, index: {name: "index_ticket_types_on_event_id"}, foreign_key: {references: "events", name: "ticket_types_event_id_fkey", on_update: :no_action, on_delete: :no_action}
-  end
-
   create_table "tickets", force: :cascade do |t|
-    t.integer  "ticket_type_id",      null: false, index: {name: "fk__tickets_ticket_type_id"}, foreign_key: {references: "ticket_types", name: "fk_tickets_ticket_type_id", on_update: :no_action, on_delete: :no_action}
     t.string   "number",              index: {name: "index_tickets_on_number", unique: true}
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
