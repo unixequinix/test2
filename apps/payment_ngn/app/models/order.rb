@@ -18,6 +18,8 @@ class Order < ActiveRecord::Base
   belongs_to :customer_event_profile
   has_many :order_items
   has_many :payments
+  has_many :order_items
+  has_many :preevent_items, through: :order_items, class_name: 'PreeventItem'
 
   # Validations
   validates :customer_event_profile, :order_items, :number, :aasm_state, presence: true

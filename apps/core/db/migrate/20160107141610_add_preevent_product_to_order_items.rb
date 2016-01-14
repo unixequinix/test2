@@ -1,4 +1,4 @@
-class CreatePreeventItems < ActiveRecord::Migration
+class AddPreeventProductToOrderItems < ActiveRecord::Migration
   class OnlineProduct < ActiveRecord::Base
     belongs_to :event
     belongs_to :purchasable, polymorphic: true, touch: true
@@ -10,24 +10,18 @@ class CreatePreeventItems < ActiveRecord::Migration
     has_one :preevent_item, as: :purchasable, dependent: :destroy
   end
 
+  class OrderItem < ActiveRecord::Base
+    belongs_to :order
+    belongs_to :online_product
+    belongs_to :preevent_item
+  end
+
   class Entitlement < ActiveRecord::Base
   end
 
   def change
-    create_table :preevent_items do |t|
-      t.references :purchasable, polymorphic: true, null: false
-      t.integer :event_id
-      t.string :name
-      t.text :description
-      t.integer :initial_amount
-      t.decimal :price
-      t.integer :step
-      t.integer :max_purchasable
-      t.integer :min_purchasable
+    add_column :order_items, :preevent_item_id, :integer
 
-      t.datetime :deleted_at, index: true
-      t.timestamps null: false
-    end
     add_preevent_items_to_credits
     migrate_entitlements_to_preevent_items
   end
@@ -36,6 +30,7 @@ class CreatePreeventItems < ActiveRecord::Migration
     OnlineProduct.all.each do |online_product|
       if online_product.purchasable_type == "Credit"
         credit = online_product.purchasable
+        order_items_ids = online_product.order_items.pluck(:id)
         preevent_item = PreeventItem.new(
           name: online_product.name,
           description: online_product.description,
@@ -44,9 +39,11 @@ class CreatePreeventItems < ActiveRecord::Migration
           step: online_product.step,
           max_purchasable: online_product.max_purchasable,
           min_purchasable: online_product.min_purchasable,
+          order_item_ids: order_items_ids,
           event_id: online_product.event_id
         )
         credit.update(preevent_item: preevent_item)
+
       end
     end
     puts "Credits Migrated √"

@@ -22,6 +22,12 @@ class PreeventItem < ActiveRecord::Base
   acts_as_paranoid
   belongs_to :purchasable, polymorphic: true, touch: true
   belongs_to :event
+  has_many :preevent_product_items
+  has_many :preevent_products, through: :preevent_product_items, class_name: 'PreeventProduct'
+  has_many :order_items
+  has_many :orders, through: :order_items, class_name: 'Order'
+
+  accepts_nested_attributes_for :order_items
 
   # Validations
   validates :name, presence: true

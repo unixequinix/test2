@@ -9,12 +9,14 @@
 #  total             :decimal(8, 2)    not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  preevent_item_id  :integer
 #
 
 class OrderItem < ActiveRecord::Base
   # Associations
   belongs_to :order
   belongs_to :online_product
+  belongs_to :preevent_item
 
   # Validations
   validates :amount, numericality: { only_integer: true, less_than_or_equal_to: 500 }

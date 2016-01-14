@@ -9,6 +9,7 @@
 #  total             :decimal(8, 2)    not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  preevent_item_id  :integer
 #
 
 FactoryGirl.define do

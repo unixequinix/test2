@@ -1,4 +1,19 @@
 class CreateTicketTypeCredentials < ActiveRecord::Migration
+  class TicketType < ActiveRecord::Base
+    belongs_to :event
+    has_many :tickets, dependent: :restrict_with_error
+    has_many :entitlement_ticket_types, dependent: :destroy
+    has_many :entitlements, through: :entitlement_ticket_types
+  end
+
+  class EntitlementTicketType < ActiveRecord::Base
+    belongs_to :entitlement
+    belongs_to :ticket_type
+  end
+
+  class Entitlement < ActiveRecord::Base
+  end
+
   def change
     create_table :ticket_type_credentials do |t|
       t.integer :company_ticket_type_id
@@ -13,8 +28,12 @@ class CreateTicketTypeCredentials < ActiveRecord::Migration
 
   def migrate_ticket_types
     TicketType.all.each do |ticket_type|
-      credit = PreeventItem.where(purchasable_type: "Credit", event_id: ticket_type.event_id).pluck(:id)
+      credit = PreeventItem.where(
+        purchasable_type: "Credit",
+        event_id: ticket_type.event_id
+      ).pluck(:id)
       entitlements_names_list = ticket_type.entitlements.pluck(:name)
+
       credential_types_ids = PreeventItem.where(
         name: entitlements_names_list,
         purchasable_type: "CredentialType",
@@ -38,12 +57,7 @@ class CreateTicketTypeCredentials < ActiveRecord::Migration
       ticket_type.tickets.each do |ticket|
         ticket.update_attribute(:preevent_product_id, preevent_product.id)
       end
-      puts "TicketTypes Migrated √"
     end
-  end
-
-  def destroy_old_tables
-    drop_table :entitlement_ticket_types
-    drop_table :entitlements
+    puts "TicketTypes Migrated √"
   end
 end
