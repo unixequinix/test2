@@ -374,15 +374,18 @@ ActiveRecord::Schema.define(version: 20160111061011) do
   end
 
   create_table "tickets", force: :cascade do |t|
-    t.integer  "ticket_type_id",    null: false, index: {name: "fk__tickets_ticket_type_id"}, foreign_key: {references: "ticket_types", name: "fk_tickets_ticket_type_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "number",            index: {name: "index_tickets_on_number", unique: true}
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-    t.datetime "deleted_at",        index: {name: "index_tickets_on_deleted_at"}
+    t.integer  "ticket_type_id",      null: false, index: {name: "fk__tickets_ticket_type_id"}, foreign_key: {references: "ticket_types", name: "fk_tickets_ticket_type_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "number",              index: {name: "index_tickets_on_number", unique: true}
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.datetime "deleted_at",          index: {name: "index_tickets_on_deleted_at"}
     t.string   "purchaser_email"
     t.string   "purchaser_name"
     t.string   "purchaser_surname"
-    t.integer  "event_id",          null: false, index: {name: "index_tickets_on_event_id"}, foreign_key: {references: "events", name: "tickets_event_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.integer  "event_id",            null: false, index: {name: "index_tickets_on_event_id"}, foreign_key: {references: "events", name: "tickets_event_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.string   "barcode"
+    t.boolean  "credential_redeemed", default: false, null: false
+    t.integer  "preevent_product_id", index: {name: "fk__tickets_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "tickets_preevent_product_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "vouchers", force: :cascade do |t|
