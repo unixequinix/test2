@@ -156,11 +156,11 @@ ActiveRecord::Schema.define(version: 20160111061011) do
     t.datetime "updated_at",       null: false
   end
 
-  create_table "companies_ticket_types", force: :cascade do |t|
-    t.integer  "event_id",   index: {name: "fk__companies_ticket_types_event_id"}, foreign_key: {references: "events", name: "fk_companies_ticket_types_event_id", on_update: :no_action, on_delete: :no_action}
+  create_table "company_ticket_types", force: :cascade do |t|
+    t.integer  "event_id",   index: {name: "fk__company_ticket_types_event_id"}, foreign_key: {references: "events", name: "fk_company_ticket_types_event_id", on_update: :no_action, on_delete: :no_action}
     t.string   "name"
     t.string   "company"
-    t.datetime "deleted_at", index: {name: "index_companies_ticket_types_on_deleted_at"}
+    t.datetime "deleted_at", index: {name: "index_company_ticket_types_on_deleted_at"}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -366,7 +366,7 @@ ActiveRecord::Schema.define(version: 20160111061011) do
   end
 
   create_table "ticket_type_credentials", force: :cascade do |t|
-    t.integer  "companies_ticket_type_id", index: {name: "fk__ticket_type_credentials_companies_ticket_type_id"}, foreign_key: {references: "companies_ticket_types", name: "fk_ticket_type_credentials_companies_ticket_type_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "company_ticket_type_id", index: {name: "fk__ticket_type_credentials_company_ticket_type_id"}, foreign_key: {references: "company_ticket_types", name: "fk_ticket_type_credentials_company_ticket_type_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "preevent_product_id",      index: {name: "fk__ticket_type_credentials_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "fk_ticket_type_credentials_preevent_product_id", on_update: :no_action, on_delete: :no_action}
     t.datetime "deleted_at",               index: {name: "index_ticket_type_credentials_on_deleted_at"}
     t.datetime "created_at",               null: false

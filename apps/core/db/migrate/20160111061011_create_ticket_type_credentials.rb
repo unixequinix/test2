@@ -1,7 +1,7 @@
 class CreateTicketTypeCredentials < ActiveRecord::Migration
   def change
     create_table :ticket_type_credentials do |t|
-      t.integer :companies_ticket_type_id
+      t.integer :company_ticket_type_id
       t.integer :preevent_product_id
 
       t.datetime :deleted_at, index: true
@@ -28,7 +28,7 @@ class CreateTicketTypeCredentials < ActiveRecord::Migration
         event_id: ticket_type.event_id
       )
 
-      companies_ticket_types = CompaniesTicketType.create(
+      company_ticket_types = CompanyTicketType.create(
         name: ticket_type.simplified_name || ticket_type.name,
         company: ticket_type.company,
         preevent_products: [preevent_product],

@@ -185,7 +185,7 @@ it:
       position: "Position"
     entitlements:
       name: "Name"
-    companies_ticket_types:
+    company_ticket_types:
       name: "Name"
       company: "Company"
       number_products: "Number of Products"

@@ -1,6 +1,6 @@
-class CreateCompaniesTicketTypes < ActiveRecord::Migration
+class CreateCompanyTicketTypes < ActiveRecord::Migration
   def change
-    create_table :companies_ticket_types do |t|
+    create_table :company_ticket_types do |t|
       t.integer :event_id
       t.string :name
       t.string :company

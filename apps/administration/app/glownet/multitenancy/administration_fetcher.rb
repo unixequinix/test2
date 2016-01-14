@@ -52,8 +52,8 @@ class Multitenancy::AdministrationFetcher
     PreeventItem.where(event_id: @event.id)
   end
 
-  def companies_ticket_types
-    CompaniesTicketType.where(event_id: @event.id)
+  def company_ticket_types
+    CompanyTicketType.where(event_id: @event.id)
   end
 
   private

@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: companies_ticket_types
+# Table name: company_ticket_types
 #
 #  id         :integer          not null, primary key
 #  event_id   :integer
@@ -11,7 +11,7 @@
 #  updated_at :datetime         not null
 #
 
-class CompaniesTicketType < ActiveRecord::Base
+class CompanyTicketType < ActiveRecord::Base
   acts_as_paranoid
 
   belongs_to :event

@@ -183,7 +183,7 @@ es:
       counter: "Contador"
     credential_types:
       position: "Posición"
-    companies_ticket_types:
+    company_ticket_types:
       name: "Nombre"
       company: "Compañía"
       number_products: "Number de Productos"

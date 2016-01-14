@@ -185,21 +185,21 @@ crumb :new_admins_event_preevent_product do |event|
   parent :admins_event_preevent_products, event
 end
 
-## CompaniesTicketType
+## CompanyTicketType
 
-crumb :admins_event_companies_ticket_types do |event|
-  link t("breadcrumbs.companies_ticket_types"), admins_event_companies_ticket_types_path(event)
+crumb :admins_event_company_ticket_types do |event|
+  link t("breadcrumbs.company_ticket_types"), admins_event_company_ticket_types_path(event)
   parent :admins_event, event
 end
 
-crumb :admins_event_companies_ticket_type do |event, companies_ticket_type|
-  link companies_ticket_type.name, edit_admins_event_companies_ticket_type_path(event, companies_ticket_type)
-  parent :admins_event_companies_ticket_types, event
+crumb :admins_event_company_ticket_type do |event, company_ticket_type|
+  link company_ticket_type.name, edit_admins_event_company_ticket_type_path(event, company_ticket_type)
+  parent :admins_event_company_ticket_types, event
 end
 
-crumb :new_admins_event_companies_ticket_type do |event|
-  link t("breadcrumbs.new_companies_ticket_type")
-  parent :admins_event_companies_ticket_types, event
+crumb :new_admins_event_company_ticket_type do |event|
+  link t("breadcrumbs.new_company_ticket_type")
+  parent :admins_event_company_ticket_types, event
 end
 
 ## Customers
