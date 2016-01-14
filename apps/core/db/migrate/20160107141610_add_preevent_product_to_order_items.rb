@@ -50,7 +50,7 @@ class AddPreeventProductToOrderItems < ActiveRecord::Migration
   end
 
   def migrate_entitlements_to_preevent_items
-    credentials_list = Entitlement.all.map do |entitlement|
+    Entitlement.all.map do |entitlement|
       preevent_item = PreeventItem.new(
         name: entitlement.name,
         description: "Entitlement description",
@@ -61,9 +61,8 @@ class AddPreeventProductToOrderItems < ActiveRecord::Migration
         min_purchasable: 1,
         event_id: entitlement.event_id
       )
-      CredentialType.new(preevent_item: preevent_item, position: 1)
+      CredentialType.create(preevent_item: preevent_item, position: 1)
     end
-    CredentialType.import(credentials_list)
     puts "Entitlements Migrated √"
   end
 end
