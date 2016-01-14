@@ -24,5 +24,4 @@ table.credits
         td data-label=t('admin.credits.standard') = credit.standard
         td.table-actions-field
           = render 'admins/events/credits/actions', credit: credit unless current_event.started?
-
 = paginate credits

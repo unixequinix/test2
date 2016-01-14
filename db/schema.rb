@@ -346,7 +346,7 @@ ActiveRecord::Schema.define(version: 20160111061011) do
   create_table "preevent_product_items", force: :cascade do |t|
     t.integer  "preevent_item_id",    index: {name: "fk__preevent_product_items_preevent_item_id"}, foreign_key: {references: "preevent_items", name: "fk_preevent_product_items_preevent_item_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "preevent_product_id", index: {name: "fk__preevent_product_items_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "fk_preevent_product_items_preevent_product_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "amount"
+    t.decimal  "amount",              precision: 8, scale: 2, default: 0.0, null: false
     t.datetime "deleted_at",          index: {name: "index_preevent_product_items_on_deleted_at"}
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
