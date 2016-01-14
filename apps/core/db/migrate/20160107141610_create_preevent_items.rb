@@ -10,6 +10,9 @@ class CreatePreeventItems < ActiveRecord::Migration
     has_one :preevent_item, as: :purchasable, dependent: :destroy
   end
 
+  class Entitlement < ActiveRecord::Base
+  end
+
   def change
     create_table :preevent_items do |t|
       t.references :purchasable, polymorphic: true, null: false
@@ -50,7 +53,7 @@ class CreatePreeventItems < ActiveRecord::Migration
   end
 
   def migrate_entitlements_to_preevent_items
-    Entitlement.all.each do |entitlement|
+    credentials_list = Entitlement.all.map do |entitlement|
       preevent_item = PreeventItem.new(
         name: entitlement.name,
         description: "Entitlement description",
@@ -61,8 +64,9 @@ class CreatePreeventItems < ActiveRecord::Migration
         min_purchasable: 1,
         event_id: entitlement.event_id
       )
-      credential_type = CredentialType.create(preevent_item: preevent_item, position: 1)
+      CredentialType.new(preevent_item: preevent_item, position: 1)
     end
+    CredentialType.import(credentials_list)
     puts "Entitlements Migrated √"
   end
 end

@@ -38,6 +38,12 @@ class CreateTicketTypeCredentials < ActiveRecord::Migration
       ticket_type.tickets.each do |ticket|
         ticket.update_attribute(:preevent_product_id, preevent_product.id)
       end
+      puts "TicketTypes Migrated √"
     end
+  end
+
+  def old_tables_destruction
+    drop_table :entitlement_ticket_types
+    drop_table :entitlements
   end
 end

@@ -20,10 +20,6 @@ class TicketType < ActiveRecord::Base
   # Associations
   belongs_to :event
   has_many :tickets, dependent: :restrict_with_error
-  has_many :entitlement_ticket_types, dependent: :destroy
-  has_many :entitlements, through: :entitlement_ticket_types
-
-  accepts_nested_attributes_for :entitlements
 
   # Validations
   validates :name, :company, :credit, presence: true
