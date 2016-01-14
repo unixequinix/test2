@@ -95,8 +95,8 @@ class Event < ActiveRecord::Base
   has_many :credential_assignments, through: :tickets, as: :tickets_assignments
   has_many :credential_assignments, through: :gtags, as: :gtags_assignments
 
-  has_many :online_products
-  has_many :credits, through: :online_products, source: :purchasable, source_type: "Credit"
+  has_many :preevent_items
+  has_many :credits, through: :preevent_items, source: :purchasable, source_type: "Credit"
 
   extend FriendlyId
   friendly_id :name, use: :slugged
