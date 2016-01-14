@@ -1,4 +1,3 @@
-
 class CreatePreeventItems < ActiveRecord::Migration
   class OnlineProduct < ActiveRecord::Base
     belongs_to :event

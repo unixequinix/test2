@@ -22,14 +22,14 @@ class CreateTicketTypeCredentials < ActiveRecord::Migration
       ).pluck(:id)
 
       preevent_product = PreeventProduct.create(
-        name: ticket_type.simplified_name || ticket_type.company,
+        name: ticket_type.name,
         preevent_item_ids: credential_types_ids + credit,
         preevent_product_items_attributes: [{amount: ticket_type.credit || 0}],
         event_id: ticket_type.event_id
       )
 
       companies_ticket_types = CompaniesTicketType.create(
-        name: ticket_type.name,
+        name: ticket_type.simplified_name || ticket_type.name,
         company: ticket_type.company,
         preevent_products: [preevent_product],
         event_id: ticket_type.event_id
