@@ -53,6 +53,8 @@ class Event < ActiveRecord::Base
 
   PAYMENT_SERVICES = [REDSYS, STRIPE]
   REFUND_SERVICES = [:bank_account, :epg, :tipalti]
+  
+  FEATURES = [:top_ups, :refunds]
 
   include FlagShihTzu
 
