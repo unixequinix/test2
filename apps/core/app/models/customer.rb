@@ -117,21 +117,19 @@ class Customer < ActiveRecord::Base
   end
 
   def birthdate_is_date?
-    if birthdate.is_a?(ActiveSupport::TimeWithZone)
-      true
-    else
-      errors.add(:birthdate,
-                 I18n.t('activemodel.errors.models.customer.attributes.birthdate.invalid'))
-      false
-    end
+    return true if birthdate.is_a?(ActiveSupport::TimeWithZone)
+    errors.add(:birthdate,
+               I18n.t('activemodel.errors.models.customer.attributes.birthdate.invalid'))
+    false
   end
 
   def enough_age?
     minimum_age = 12
-    return if (Date.today.midnight - minimum_age.years >= birthdate.midnight)
+    return true if (Date.today.midnight - minimum_age.years >= birthdate.midnight)
     errors.add(:birthdate,
                I18n.t('activemodel.errors.models.customer.attributes.birthdate.too_young',
                       age: minimum_age))
+    false
   end
 
   def generate_token(column)

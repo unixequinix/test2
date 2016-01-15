@@ -43,6 +43,7 @@ class EventParameter < ActiveRecord::Base
   def value_type
     validator = Parameter::DATA_TYPES[parameter.data_type][:validator]
     return unless validator
-    errors.add(:value, "errors.parameters.incorrect_type.#{parameter.data_type}") unless value =~ validator
+    return unless value =~ validator
+    errors.add(:value, "errors.parameters.incorrect_type.#{parameter.data_type}") 
   end
 end
