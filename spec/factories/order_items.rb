@@ -2,14 +2,13 @@
 #
 # Table name: order_items
 #
-#  id                :integer          not null, primary key
-#  order_id          :integer          not null
-#  online_product_id :integer          not null
-#  amount            :integer
-#  total             :decimal(8, 2)    not null
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  preevent_item_id  :integer
+#  id               :integer          not null, primary key
+#  order_id         :integer          not null
+#  amount           :integer
+#  total            :decimal(8, 2)    not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  preevent_item_id :integer
 #
 
 FactoryGirl.define do

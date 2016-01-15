@@ -3,7 +3,7 @@
 # Table name: preevent_products
 #
 #  id         :integer          not null, primary key
-#  event_id   :integer
+#  event_id   :integer          not null
 #  name       :string
 #  online     :boolean          default(FALSE), not null
 #  deleted_at :datetime

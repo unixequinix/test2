@@ -14,7 +14,6 @@ namespace :db do
     puts 'Creating fake data'
     puts '----------------------------------------'
     make_events
-    make_ticket_types
     make_tickets
     make_gtags
     make_customers
@@ -34,21 +33,6 @@ namespace :db do
     YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", "events.yml")).each do |data|
       event = EventCreator.new(name: data['name'], location: data['location'], start_date: data['start_date'], end_date: data['end_date'], description: data['description'], currency: data['currency'], host_country: data['host_country'], support_email: data['support_email'], features: data['features'])
       event.save
-    end
-  end
-
-  def make_ticket_types
-    puts 'Create ticket types'
-    puts '----------------------------------------'
-    TicketType.destroy_all
-    Event.all.each do |event|
-      YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'ticket_types.yml')).each do |data|
-        ticket_type = TicketType.new(event_id: event.id, name: data['name'], company: data['company'], credit: data['credit'])
-        data['entitlements'].each do |entitlement|
-          ticket_type.entitlements << Entitlement.find_by(name: entitlement['name'])
-        end
-        ticket_type.save!
-      end
     end
   end
 

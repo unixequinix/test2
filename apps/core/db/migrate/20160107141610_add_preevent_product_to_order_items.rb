@@ -30,7 +30,6 @@ class AddPreeventProductToOrderItems < ActiveRecord::Migration
     OnlineProduct.all.each do |online_product|
       if online_product.purchasable_type == "Credit"
         credit = online_product.purchasable
-        order_items_ids = online_product.order_items.pluck(:id)
         preevent_item = PreeventItem.new(
           name: online_product.name,
           description: online_product.description,
@@ -39,7 +38,6 @@ class AddPreeventProductToOrderItems < ActiveRecord::Migration
           step: online_product.step,
           max_purchasable: online_product.max_purchasable,
           min_purchasable: online_product.min_purchasable,
-          order_item_ids: order_items_ids,
           event_id: online_product.event_id
         )
         credit.update(preevent_item: preevent_item)

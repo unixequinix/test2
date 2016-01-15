@@ -4,14 +4,12 @@ table.company_ticket_types
     tr
       th = t('admin.company_ticket_types.name')
       th = t('admin.company_ticket_types.company')
-      th = t('admin.company_ticket_types.number_products')
       th.table-actions-field = t('admin.defaults.actions')
   tbody
     - company_ticket_types.each do |company_ticket_type|
       tr
         td data-label=t('admin.company_ticket_types.name') = link_to(company_ticket_type.name, edit_admins_event_company_ticket_type_path(current_event, company_ticket_type))
-        td data-label=t('admin.company_ticket_types.company') = company_ticket_type.company
-        td data-label=t('admin.company_ticket_types.number_products') = company_ticket_type.preevent_products.count
+        td data-label=t('admin.company_ticket_types.company') = company_ticket_type.company.name
         td.table-actions-field
           = render 'admins/events/company_ticket_types/actions', company_ticket_type: company_ticket_type unless current_event.started?
 

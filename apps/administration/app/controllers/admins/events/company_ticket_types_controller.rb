@@ -6,6 +6,7 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
   def new
     @company_ticket_type = CompanyTicketType.new
     @preevent_products_collection = @fetcher.preevent_products
+    @companies_collection = Company.all
   end
 
   def create
@@ -22,6 +23,7 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
   def edit
     @company_ticket_type = @fetcher.company_ticket_types.find(params[:id])
     @preevent_products_collection = @fetcher.preevent_products
+    @companies_collection = Company.all
   end
 
   def update
@@ -51,7 +53,7 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
       search_query: params[:q],
       page: params[:page],
       context: view_context,
-      include_for_all_items: []
+      include_for_all_items: [:company]
     )
   end
 
