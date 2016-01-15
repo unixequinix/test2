@@ -10,5 +10,5 @@
 
 class Company < ActiveRecord::Base
   has_many :company_ticket_types
-  has_many :tickets
+  belongs_to :event
 end

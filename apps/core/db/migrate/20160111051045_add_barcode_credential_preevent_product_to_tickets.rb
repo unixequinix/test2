@@ -56,7 +56,7 @@ class AddBarcodeCredentialPreeventProductToTickets < ActiveRecord::Migration
         event_id: ticket_type.event_id
       )
 
-      company = Company.find_or_create_by(name: ticket_type.company)
+      company = Company.find_or_create_by(name: ticket_type.company, event_id: ticket_type.event_id)
       company_ticket_type = CompanyTicketType.create(
         name: ticket_type.simplified_name || ticket_type.name,
         company: company,

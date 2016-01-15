@@ -157,6 +157,7 @@ ActiveRecord::Schema.define(version: 20160114135400) do
   end
 
   create_table "companies", force: :cascade do |t|
+    t.integer  "event_id",   null: false, index: {name: "fk__companies_event_id"}, foreign_key: {references: "events", name: "fk_companies_event_id", on_update: :no_action, on_delete: :no_action}
     t.string   "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
