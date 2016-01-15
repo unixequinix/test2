@@ -36,6 +36,7 @@
 #
 
 class Customer < ActiveRecord::Base
+  include Trackable
   acts_as_paranoid
   default_scope { order('email') }
 
@@ -65,18 +66,6 @@ class Customer < ActiveRecord::Base
   def confirm!
     self.confirmation_token = nil
     self.confirmed_at = Time.now.utc
-    save!
-  end
-
-  def update_tracked_fields!(request)
-    self.last_sign_in_at = current_sign_in_at || Time.now.utc
-    self.current_sign_in_at = Time.now.utc
-
-    self.last_sign_in_ip = current_sign_in_ip || request.env['REMOTE_ADDR']
-    self.current_sign_in_ip = request.env['REMOTE_ADDR']
-
-    self.sign_in_count ||= 0
-    self.sign_in_count += 1
     save!
   end
 
