@@ -14,9 +14,9 @@ class CreditLog < ActiveRecord::Base
   # Associations
   belongs_to :customer_event_profile
 
-  TICKET_ASSIGNMENT  = "ticket_assignment"
-  TICKET_UNASSIGNMENT  = "ticket_unassignment"
-  CREDITS_PURCHASE  = "credits_purchase"
+  TICKET_ASSIGNMENT  = 'ticket_assignment'
+  TICKET_UNASSIGNMENT  = 'ticket_unassignment'
+  CREDITS_PURCHASE  = 'credits_purchase'
 
   # Type of the invoices
   TRANSACTION_TYPES = [TICKET_ASSIGNMENT, TICKET_UNASSIGNMENT, CREDITS_PURCHASE]

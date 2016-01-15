@@ -12,15 +12,15 @@ class Events::GtagRegistrationsController < Events::BaseController
     if !gtag.nil?
       @gtag_registration = current_customer_event_profile.gtag_registrations.build(gtag: gtag)
       if @gtag_registration.save
-        flash[:notice] = I18n.t("alerts.created")
+        flash[:notice] = I18n.t('alerts.created')
         GtagMailer.assigned_email(@gtag_registration).deliver_later
         redirect_to event_url(current_event)
       else
-        flash[:error] = @gtag_registration.errors.full_messages.join(". ")
+        flash[:error] = @gtag_registration.errors.full_messages.join('. ')
         render :new
       end
     else
-      flash[:error] = I18n.t("alerts.gtag")
+      flash[:error] = I18n.t('alerts.gtag')
       render :new
     end
   end
@@ -28,7 +28,7 @@ class Events::GtagRegistrationsController < Events::BaseController
   def destroy
     @gtag_registration = GtagRegistration.find(params[:id])
     @gtag_registration.unassign!
-    flash[:notice] = I18n.t("alerts.unassigned")
+    flash[:notice] = I18n.t('alerts.unassigned')
     GtagMailer.unassigned_email(@gtag_registration).deliver_later
     redirect_to event_url(current_event)
   end
@@ -36,15 +36,13 @@ class Events::GtagRegistrationsController < Events::BaseController
   private
 
   def check_event_status!
-    unless current_event.gtag_registration?
-      flash.now[:error] = I18n.t("alerts.error")
-      redirect_to event_url(current_event)
-    end
+    return if current_event.gtag_registration?
+    flash.now[:error] = I18n.t('alerts.error')
+    redirect_to event_url(current_event)
   end
 
   def check_has_not_gtag_registration!
-    unless current_customer_event_profile.assigned_gtag_registration.nil?
-      redirect_to event_url(current_event), flash: { error: I18n.t("alerts.already_assigned") }
-    end
+    return if current_customer_event_profile.assigned_gtag_registration.nil?
+    redirect_to event_url(current_event), flash: { error: I18n.t('alerts.already_assigned') }
   end
 end

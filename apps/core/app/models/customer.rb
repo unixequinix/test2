@@ -37,11 +37,11 @@
 
 class Customer < ActiveRecord::Base
   acts_as_paranoid
-  default_scope { order("email") }
+  default_scope { order('email') }
 
   # Genders
-  MALE = "male"
-  FEMALE = "female"
+  MALE = 'male'
+  FEMALE = 'female'
 
   GENDERS = [MALE, FEMALE]
 
@@ -73,7 +73,7 @@ class Customer < ActiveRecord::Base
     self.last_sign_in_at     = old_current || new_current
     self.current_sign_in_at  = new_current
 
-    old_current, new_current = current_sign_in_ip, request.env["REMOTE_ADDR"]
+    old_current, new_current = current_sign_in_ip, request.env['REMOTE_ADDR']
     self.last_sign_in_ip     = old_current || new_current
     self.current_sign_in_ip  = new_current
 
@@ -103,14 +103,13 @@ class Customer < ActiveRecord::Base
   end
 
   def self.gender_selector
-    GENDERS.map { |f| [I18n.t("gender." + f), f] }
+    GENDERS.map { |f| [I18n.t('gender.' + f), f] }
   end
 
   private
 
   def self.find_for_authentication(warden_conditions)
-    where(email: warden_conditions[:email],
-          event_id: warden_conditions[:event_id]).first
+    where(email: warden_conditions[:email], event_id: warden_conditions[:event_id]).first
   end
 
   def valid_birthday?
@@ -118,32 +117,27 @@ class Customer < ActiveRecord::Base
   end
 
   def birthdate_is_date?
-    unless birthdate.is_a?(ActiveSupport::TimeWithZone)
-      errors.add(
-        :birthdate,
-        I18n.t("activemodel.errors.models.customer.attributes.birthdate.invalid")
-      )
-      false
-    else
+    if birthdate.is_a?(ActiveSupport::TimeWithZone)
       true
+    else
+      errors.add(:birthdate,
+                 I18n.t('activemodel.errors.models.customer.attributes.birthdate.invalid'))
+      false
     end
   end
 
   def enough_age?
     minimum_age = 12
-    unless (Date.today.midnight - minimum_age.years >= birthdate.midnight)
-      errors.add(
-        :birthdate,
-        I18n.t("activemodel.errors.models.customer.attributes.birthdate.too_young",
-               age: minimum_age
-              )
-      )
-    end
+    return if (Date.today.midnight - minimum_age.years >= birthdate.midnight)
+    errors.add(:birthdate,
+               I18n.t('activemodel.errors.models.customer.attributes.birthdate.too_young',
+                      age: minimum_age))
   end
 
   def generate_token(column)
-    begin
+    loop do
       self[column] = SecureRandom.urlsafe_base64
-    end while Customer.exists?(column => self[column])
+      break unless Customer.exists?(column => self[column])
+    end
   end
 end

@@ -12,7 +12,7 @@
 
 .wrapper-negative-space
   = render "admins/events/gtags/report", gtags: @list_model_presenter.get_all_items
-  - if @list_model_presenter.is_there_any?
+  - if @list_model_presenter.there_any?
     = render 'admins/events/gtags/list', gtags: @list_model_presenter.get_all_items
   - else
     = render @list_model_presenter.no_items_for_presentation

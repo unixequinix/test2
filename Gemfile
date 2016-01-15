@@ -94,6 +94,7 @@ group :development do
   gem 'hirb', '~> 0.7.3' #  Improve ripl(irb)'s default inspect output
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', '~> 0.4.1', group: :doc
+  gem 'guard-rubocop'
 end
 
 group :development, :darwin do
@@ -124,7 +125,7 @@ group :development, :test, :staging do
   gem 'rubocop', '~>0.30.1', require: false # Code quality https://github.com/bbatsov/rubocop
   gem 'rubocop-checkstyle_formatter', require: false
   gem 'simplecov', '~> 0.10.0', require: false # Code quality https://github.com/colszowka/simplecov
-  gem 'flay'
+  gem 'flay', require: false
 end
 
 group :test do

@@ -10,7 +10,7 @@
 #  customer_event_profile_id :integer          not null
 #
 
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe GtagRegistration, type: :model do
 end

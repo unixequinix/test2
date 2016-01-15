@@ -3,7 +3,7 @@ class Admins::Events::CommentsController < Admins::Events::BaseController
     @comment = @commentable.comments.build(permitted_params)
     @comment.admin = current_admin
     @comment.save
-    redirect_to [:admins, current_event, @commentable], notice: I18n.t("alerts.created")
+    redirect_to [:admins, current_event, @commentable], notice: I18n.t('alerts.created')
   end
 
   private

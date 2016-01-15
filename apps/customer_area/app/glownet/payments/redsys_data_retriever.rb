@@ -5,7 +5,11 @@ class Payments::RedsysDataRetriever
   def initialize(event, order)
     @current_event = event
     @order = order
-    @payment_parameters = Parameter.joins(:event_parameters).where(category: "payment", group: @current_event.payment_service, event_parameters: { event: event }).select("parameters.name, event_parameters.*")
+    @payment_parameters = Parameter.joins(:event_parameters)
+                                   .where(category: 'payment',
+                                          group: @current_event.payment_service,
+                                          event_parameters: { event: event })
+                                   .select('parameters.name, event_parameters.*')
   end
 
   def amount
@@ -13,35 +17,35 @@ class Payments::RedsysDataRetriever
   end
 
   def form
-    get_value_of_parameter("form")
+    get_value_of_parameter('form')
   end
 
   def name
-    get_value_of_parameter("name")
+    get_value_of_parameter('name')
   end
 
   def code
-    get_value_of_parameter("code")
+    get_value_of_parameter('code')
   end
 
   def terminal
-    get_value_of_parameter("terminal")
+    get_value_of_parameter('terminal')
   end
 
   def currency
-    get_value_of_parameter("currency")
+    get_value_of_parameter('currency')
   end
 
   def transaction_type
-    get_value_of_parameter("transaction_type")
+    get_value_of_parameter('transaction_type')
   end
 
   def password
-    get_value_of_parameter("password")
+    get_value_of_parameter('password')
   end
 
   def pay_methods
-    "0"
+    '0'
   end
 
   def product_description

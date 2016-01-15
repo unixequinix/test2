@@ -5,7 +5,7 @@
     = t('admin.actions.search')
 
 .wrapper-negative-space
-  - if @list_model_presenter.is_there_any?
+  - if @list_model_presenter.there_any?
     = render 'admins/events/orders/list',
       orders: @list_model_presenter.get_all_items
   - else

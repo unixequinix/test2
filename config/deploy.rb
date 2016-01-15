@@ -1,10 +1,10 @@
 # config valid only for current version of Capistrano
-lock "3.4.0"
+lock '3.4.0'
 
-set :application, "glownet_web"
-set :repo_url, "git@gitlab.dev.glownet.com:acidtango/glownet_web.git"
+set :application, 'glownet_web'
+set :repo_url, 'git@gitlab.dev.glownet.com:acidtango/glownet_web.git'
 set :bundle_without, [:darwin, :development, :test]
-set :deploy_to, "~/glownet_web"
+set :deploy_to, '~/glownet_web'
 
 # Default value for :scm is :git
 # set :scm, :git
@@ -31,9 +31,9 @@ set :linked_dirs, %w(log store tmp/pids tmp/cache tmp/sockets vendor/bundle publ
 # set :keep_releases, 5
 
 set :sidekiq_default_hooks, true
-set :sidekiq_pid, File.join(shared_path, "tmp", "pids", "sidekiq.pid")
+set :sidekiq_pid, File.join(shared_path, 'tmp', 'pids', 'sidekiq.pid')
 set :sidekiq_env, fetch(:rack_env, fetch(:rails_env, fetch(:stage)))
-set :sidekiq_log, File.join(shared_path, "log", "sidekiq.log")
+set :sidekiq_log, File.join(shared_path, 'log', 'sidekiq.log')
 # set :sidekiq_options, nil
 # set :sidekiq_require, nil
 # set :sidekiq_tag, nil
@@ -50,18 +50,18 @@ set :pty, false
 set :whenever_identifier, -> { "#{fetch(:application)}_#{fetch(:stage)}" }
 
 namespace :deploy do
-  desc "Restart database"
+  desc 'Restart database'
   task :restart_db do
     on roles(:app), in: :sequence, wait: 5 do
-      execute :rake, "db:migrate"
+      execute :rake, 'db:migrate'
     end
   end
 
-  desc "Restart application"
+  desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
       # Your restart mechanism here, for example:
-      execute :touch, release_path.join("tmp/restart.txt")
+      execute :touch, release_path.join('tmp/restart.txt')
       # execute "service apache2 restart"
     end
   end

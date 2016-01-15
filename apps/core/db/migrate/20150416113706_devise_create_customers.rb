@@ -2,10 +2,10 @@ class DeviseCreateCustomers < ActiveRecord::Migration
   def change
     create_table(:customers) do |t|
       ## Database authenticatable
-      t.string :email,              null: false, default: "", index: { unique: true }
-      t.string :name,               null: false, default: ""
-      t.string :surname,            null: false, default: ""
-      t.string :encrypted_password, null: false, default: ""
+      t.string :email,              null: false, default: '', index: { unique: true }
+      t.string :name,               null: false, default: ''
+      t.string :surname,            null: false, default: ''
+      t.string :encrypted_password, null: false, default: ''
 
       ## Recoverable
       t.string :reset_password_token, index: { unique: true }

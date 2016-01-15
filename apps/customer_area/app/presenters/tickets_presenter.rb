@@ -4,7 +4,7 @@ class TicketsPresenter < BasePresenter
   end
 
   def path
-    "events/events/tickets"
+    'events/events/tickets'
   end
 
   def event_started?
@@ -13,9 +13,9 @@ class TicketsPresenter < BasePresenter
 
   def call_to_action
     if event_started?
-      I18n.t("dashboard.admissions.call_to_action_started")
+      I18n.t('dashboard.admissions.call_to_action_started')
     else
-      I18n.t("dashboard.admissions.call_to_action")
+      I18n.t('dashboard.admissions.call_to_action')
     end
   end
 end

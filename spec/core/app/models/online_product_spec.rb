@@ -18,7 +18,7 @@
 #  event_id         :integer          not null
 #
 
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe OnlineProduct, type: :model do
   it { is_expected.to validate_presence_of(:name) }
@@ -29,7 +29,7 @@ RSpec.describe OnlineProduct, type: :model do
   it { is_expected.to validate_presence_of(:initial_amount) }
   it { is_expected.to validate_presence_of(:step) }
 
-  it "returns the price formated. It returns the price truncated if the decimal is .0, if it is not, it returns the number without any change" do
+  it 'returns the price formated. It returns the price truncated if the decimal is .0, if it is not, it returns the number without any change' do
     online_product = build(:online_product, price: 1.0)
     expect(online_product.rounded_price).to eq(1)
 

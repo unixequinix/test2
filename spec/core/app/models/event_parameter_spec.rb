@@ -10,11 +10,11 @@
 #  updated_at   :datetime         not null
 #
 
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe EventParameter, type: :model do
-  describe "for_category" do
-    it "should return the event and the parameters for a category" do
+  describe 'for_category' do
+    it 'should return the event and the parameters for a category' do
       event_parameter = create(:event_parameter)
       category = event_parameter.parameter.category
       event = event_parameter.event

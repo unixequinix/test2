@@ -5,21 +5,23 @@ require 'capybara/rspec'
 
 ENV['RAILS_ENV'] ||= 'test'
 
-SimpleCov.start do
-  add_group "Models", "app/models"
-  add_group "Domain Logic", "app/glownet"
-  add_group "Forms", "app/forms"
-  add_group "Validators", "app/validators"
-  add_group "Presenters", "app/presenters"
-  add_group "Libraires", "lib"
-  add_group "Helpers", "app/helpers"
-  add_group "Controllers", "app/controllers"
-  add_group "Mailers", "app/mailers"
+unless ARGV.any? {|e| e =~ /guard-rspec/ }
+  SimpleCov.start do
+    add_group "Models", "app/models"
+    add_group "Domain Logic", "app/glownet"
+    add_group "Forms", "app/forms"
+    add_group "Validators", "app/validators"
+    add_group "Presenters", "app/presenters"
+    add_group "Libraires", "lib"
+    add_group "Helpers", "app/helpers"
+    add_group "Controllers", "app/controllers"
+    add_group "Mailers", "app/mailers"
 
-  add_filter "/spec/"
-  add_filter "/config/"
-  add_filter "/vendor/"
-  add_filter "/i18n/"
+    add_filter "/spec/"
+    add_filter "/config/"
+    add_filter "/vendor/"
+    add_filter "/i18n/"
+  end
 end
 
 require File.expand_path('../../config/environment', __FILE__)

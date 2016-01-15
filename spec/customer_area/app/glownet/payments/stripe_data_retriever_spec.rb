@@ -1,5 +1,4 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe Payments::StripeDataRetriever, type: :domain_logic do
-
 end

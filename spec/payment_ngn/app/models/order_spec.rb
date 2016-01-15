@@ -11,7 +11,7 @@
 #  customer_event_profile_id :integer
 #
 
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe Order, type: :model do
   it { is_expected.to validate_presence_of(:customer_event_profile) }
@@ -24,24 +24,24 @@ RSpec.describe Order, type: :model do
     @order = create(:order, customer_event_profile: @customer_event_profile)
   end
 
-  describe "total" do
-    it "returns the total of all the items in the order" do
+  describe 'total' do
+    it 'returns the total of all the items in the order' do
       expect(@order.total).to eq(59.85)
     end
   end
 
-  describe "generate_order_number!" do
-    it "should create a new order number" do
+  describe 'generate_order_number!' do
+    it 'should create a new order number' do
       @order.generate_order_number!
-      day = Date.today.strftime("%y%m%d")
+      day = Date.today.strftime('%y%m%d')
 
       expect(@order.number).to start_with(day)
       expect(@order.number).to match(/^[a-f0-9]*$/)
     end
   end
 
-  describe "complete_order" do
-    it "should store the time when an order is completed" do
+  describe 'complete_order' do
+    it 'should store the time when an order is completed' do
       time_before = @order.completed_at.to_i
       @order.start_payment
       @order.complete
@@ -51,8 +51,8 @@ RSpec.describe Order, type: :model do
     end
   end
 
-  describe "credits_total" do
-    it "should return the total amount of credits available" do
+  describe 'credits_total' do
+    it 'should return the total amount of credits available' do
       event = @customer_event_profile.event
       op = create(:online_product, event: event)
       5.times do

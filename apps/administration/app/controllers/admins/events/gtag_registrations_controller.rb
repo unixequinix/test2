@@ -10,15 +10,15 @@ class Admins::Events::GtagRegistrationsController < Admins::Events::CheckinBaseC
     if !gtag.nil?
       @gtag_registration = current_customer_event_profile.gtag_registrations.build(gtag: gtag)
       if @gtag_registration.save
-        flash[:notice] = I18n.t("alerts.created")
+        flash[:notice] = I18n.t('alerts.created')
         GtagMailer.assigned_email(@gtag_registration).deliver_later
         redirect_to admins_event_customer_url(current_event, @customer)
       else
-        flash[:error] = @gtag_registration.errors.full_messages.join(". ")
+        flash[:error] = @gtag_registration.errors.full_messages.join('. ')
         render :new
       end
     else
-      flash[:error] = I18n.t("alerts.gtag")
+      flash[:error] = I18n.t('alerts.gtag')
       render :new
     end
   end
@@ -27,7 +27,7 @@ class Admins::Events::GtagRegistrationsController < Admins::Events::CheckinBaseC
     @gtag_registration = GtagRegistration.find(params[:id])
     @customer_event_profile = @gtag_registration.customer_event_profile
     @gtag_registration.unassign!
-    flash[:notice] = I18n.t("alerts.unassigned")
+    flash[:notice] = I18n.t('alerts.unassigned')
     GtagMailer.unassigned_email(@gtag_registration).deliver_later
     redirect_to admins_event_customer_url(current_event, @customer_event_profile.customer)
   end

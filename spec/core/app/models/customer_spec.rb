@@ -33,27 +33,27 @@
 #  event_id               :integer          not null
 #
 
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe Customer, type: :model do
   it { is_expected.to validate_presence_of(:email) }
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_presence_of(:surname) }
 
-  context "with a new customer" do
+  context 'with a new customer' do
     before do
       @customer = create(:customer)
     end
 
-    describe "the phone" do
-      it "is not required" do
-        customer = Customer.new(phone: "+34660660660")
+    describe 'the phone' do
+      it 'is not required' do
+        customer = Customer.new(phone: '+34660660660')
         customer.valid?
         expect(customer.errors[:phone]).to eq([])
       end
     end
 
-    describe "the email" do
+    describe 'the email' do
       %w(customer.foo.com customer@test _@test.).each do |wrong_mail|
         it "is invalid if resembles #{wrong_mail}" do
           @customer.email = wrong_mail

@@ -21,7 +21,7 @@
 
 FactoryGirl.define do
   factory :payment do
-    amount "9.99"
+    amount '9.99'
     order
     terminal { Faker::Lorem.word }
     transaction_type { Faker::Lorem.word }

@@ -14,7 +14,7 @@ class RefundService
                         payment_solution: params[:payment_solution],
                         status: params[:status])
     refund.save!
-    if refund.status == "SUCCESS" || refund.status == "PENDING"
+    if refund.status == 'SUCCESS' || refund.status == 'PENDING'
       @claim.complete!
       send_mail_for(@claim)
     else

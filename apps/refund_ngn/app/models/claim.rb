@@ -20,9 +20,9 @@ class Claim < ActiveRecord::Base
   default_scope { order(created_at: :desc) }
 
   # Service Types
-  BANK_ACCOUNT = "bank_account"
-  EASY_PAYMENT_GATEWAY = "epg"
-  TIPALTI = "tipalti"
+  BANK_ACCOUNT = 'bank_account'
+  EASY_PAYMENT_GATEWAY = 'epg'
+  TIPALTI = 'tipalti'
 
   REFUND_SERVICES = [BANK_ACCOUNT, EASY_PAYMENT_GATEWAY, TIPALTI]
 
@@ -33,19 +33,18 @@ class Claim < ActiveRecord::Base
   belongs_to :gtag
 
   # Validations
-  validates :customer_event_profile, :gtag, :service_type, :number, :total,
-            :aasm_state, presence: true
+  validates_presence_of :customer_event_profile, :gtag, :service_type, :number, :total, :aasm_state
 
   # Scopes
   scope :query_for_csv, lambda  { |aasm_state, event|
-    joins(:customer_event_profile, :gtag, :refund,
-          customer_event_profile: :customer)
+    joins(:customer_event_profile, :gtag, :refund, customer_event_profile: :customer)
       .includes(:claim_parameters, claim_parameters: :parameter)
       .where(aasm_state: aasm_state)
       .where(customer_event_profiles: { event_id: event.id })
       .select("claims.id, customers.name, customers.surname, customers.email,
             gtags.tag_uid, gtags.tag_serial_number, refunds.amount,
-            claims.service_type").order(:id)
+            claims.service_type")
+      .order(:id)
   }
 
   # State machine
@@ -71,8 +70,8 @@ class Claim < ActiveRecord::Base
   end
 
   def generate_claim_number!
-    time_hex = Time.now.strftime("%H%M%L").to_i.to_s(16)
-    day = Date.today.strftime("%y%m%d")
+    time_hex = Time.now.strftime('%H%M%L').to_i.to_s(16)
+    day = Date.today.strftime('%y%m%d')
     self.number = "#{day}#{time_hex}"
   end
 

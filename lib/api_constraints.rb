@@ -6,6 +6,6 @@ class ApiConstraints
 
   def matches?(req)
     @default ||
-      req.headers["Accept"].include?("application/glownet_web.v#{@version}")
+      req.headers['Accept'].include?("application/glownet_web.v#{@version}")
   end
 end

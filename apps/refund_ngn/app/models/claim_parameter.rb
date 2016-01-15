@@ -41,9 +41,8 @@ class ClaimParameter < ActiveRecord::Base
   private
 
   def value_type
-    validator = Parameter::DATA_TYPES["string"][:validator]
-    if validator
-      errors.add(:value, "errors.parameters.incorrect_type.#{parameter.data_type}") unless value =~ validator
-    end
+    validator = Parameter::DATA_TYPES['string'][:validator]
+    return unless validator
+    errors.add(:value, "errors.parameters.incorrect_type.#{parameter.data_type}") unless value =~ validator
   end
 end

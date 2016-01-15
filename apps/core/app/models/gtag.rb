@@ -12,9 +12,9 @@
 #
 
 class Gtag < ActiveRecord::Base
-  STANDARD = "standard"
-  CARD  = "card"
-  SIMPLE = "simple"
+  STANDARD = 'standard'
+  CARD  = 'card'
+  SIMPLE = 'simple'
 
   # Type of the gtags
   FORMATS = [STANDARD, CARD, SIMPLE]
@@ -26,13 +26,13 @@ class Gtag < ActiveRecord::Base
   # Associations
   belongs_to :event
   has_many :gtag_registrations, dependent: :restrict_with_error
-  has_one :assigned_gtag_registration, -> { where(aasm_state: :assigned) }, class_name: "GtagRegistration"
+  has_one :assigned_gtag_registration, -> { where(aasm_state: :assigned) }, class_name: 'GtagRegistration'
   has_many :customer_event_profiles, through: :gtag_registrations
-  has_one :assigned_customer_event_profile, -> { where(gtag_registrations: { aasm_state: :assigned }) }, class_name: "CustomerEventProfile"
+  has_one :assigned_customer_event_profile, -> { where(gtag_registrations: { aasm_state: :assigned }) }, class_name: 'CustomerEventProfile'
   has_one :gtag_credit_log
   has_one :refund
   has_many :claims
-  has_one :completed_claim, -> { where(aasm_state: :completed) }, class_name: "Claim"
+  has_one :completed_claim, -> { where(aasm_state: :completed) }, class_name: 'Claim'
   has_many :comments, as: :commentable
 
   accepts_nested_attributes_for :gtag_credit_log, allow_destroy: true
@@ -43,8 +43,8 @@ class Gtag < ActiveRecord::Base
 
   # Scope
   scope :selected_data, lambda  { |event_id|
-    joins("LEFT OUTER JOIN gtag_credit_logs ON gtag_credit_logs.gtag_id = gtags.id")
-      .select("gtags.*, gtag_credit_logs.amount")
+    joins('LEFT OUTER JOIN gtag_credit_logs ON gtag_credit_logs.gtag_id = gtags.id')
+      .select('gtags.*, gtag_credit_logs.amount')
       .where(event: event_id)
   }
 

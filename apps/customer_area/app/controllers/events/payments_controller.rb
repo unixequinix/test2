@@ -4,10 +4,9 @@ class Events::PaymentsController < Events::BaseController
   skip_before_action :check_has_ticket!, only: [:create]
 
   def create
-    payer = ("Payments::#{current_event.payment_service.camelize}Payer")
-            .constantize.new
+    payer = ("Payments::#{current_event.payment_service.camelize}Payer").constantize.new
     payer.start(params)
-    eval(payer.action_after_payment)
+    eval(payer.action_after_payment) # TODO: This is a seruious security risk, need to be changed
   end
 
   def success

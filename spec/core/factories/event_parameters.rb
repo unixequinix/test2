@@ -21,10 +21,8 @@ FactoryGirl.define do
     after :build do |event_parameter, evaluator|
       unless evaluator.parameter_id
         case evaluator.position_of_value
-          when 0 then event_parameter.parameter = Parameter.find_by(data_type: "string")
-          # (data_type: "string", category: "payment")
-          when 1 then event_parameter.parameter = Parameter.find_by(data_type: "currency")
-          # (data_type: "currency", category: "data_type")
+        when 0 then event_parameter.parameter = Parameter.find_by(data_type: 'string')
+        when 1 then event_parameter.parameter = Parameter.find_by(data_type: 'currency')
         end
       end
     end

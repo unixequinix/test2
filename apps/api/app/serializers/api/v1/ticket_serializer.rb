@@ -8,7 +8,7 @@ module Api
       def customer_assignation_history
         object.customer_event_profiles.map do |customer_event_profile|
           "#{customer_event_profile.customer.name} #{customer_event_profile.customer.surname} <#{customer_event_profile.customer.email}>"
-        end.join(", ")
+        end.join(', ')
       end
 
       def assigned
@@ -16,7 +16,7 @@ module Api
       end
 
       def created_at
-        object.created_at.in_time_zone.strftime("%y-%m-%d %H:%M:%S") if object.created_at
+        object.created_at.in_time_zone.strftime('%y-%m-%d %H:%M:%S') if object.created_at
       end
     end
   end

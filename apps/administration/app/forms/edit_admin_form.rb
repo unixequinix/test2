@@ -24,13 +24,13 @@ class EditAdminForm < Reform::Form
 
   def current_password_same_as_password
     errors[:current_password] <<
-      I18n.t("auth.failure.invalid_current_password") unless
+      I18n.t('auth.failure.invalid_current_password') unless
       Authentication::Encryptor.compare(model.encrypted_password, current_password)
   end
 
   def email_uniqueness
     errors[:email] <<
-      I18n.t("activerecord.errors.models.customer.attributes.email.taken") if
+      I18n.t('activerecord.errors.models.customer.attributes.email.taken') if
       email != model.email && Admin.exists?(email: email)
   end
 end

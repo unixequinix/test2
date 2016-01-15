@@ -1,5 +1,5 @@
-require "admin_constraints"
-require "sidekiq/web"
+require 'admin_constraints'
+require 'sidekiq/web'
 
 Rails.application.routes.draw do
   ## Resources
@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   namespace :admins do
     resources :locale do
       member do
-        get "change"
+        get 'change'
       end
     end
     resources :admins, except: :show do
@@ -20,7 +20,7 @@ Rails.application.routes.draw do
         post :remove_logo
         post :remove_background
       end
-      scope module: "events" do
+      scope module: 'events' do
         resources :admissions, only: [:destroy]
         resource :gtag_settings, only: [:show, :edit, :update]
         resources :gtags do
@@ -69,9 +69,9 @@ Rails.application.routes.draw do
       end
     end
     constraints AdminConstraints.new(scope: :admin) do
-      mount Sidekiq::Web, at: "/sidekiq"
+      mount Sidekiq::Web, at: '/sidekiq'
     end
   end
 
-  get "admins", to: "admins/events#index", as: :admin_root
+  get 'admins', to: 'admins/events#index', as: :admin_root
 end
