@@ -11,10 +11,10 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
   def create
     @voucher = Voucher.new(permitted_params)
     if @voucher.save
-      flash[:notice] = I18n.t("alerts.created")
+      flash[:notice] = I18n.t('alerts.created')
       redirect_to admins_event_vouchers_url
     else
-      flash[:error] = @voucher.errors.full_messages.join(". ")
+      flash[:error] = @voucher.errors.full_messages.join('. ')
       render :new
     end
   end
@@ -26,10 +26,10 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
   def update
     @voucher = @fetcher.vouchers.find(params[:id])
     if @voucher.update(permitted_params)
-      flash[:notice] = I18n.t("alerts.updated")
+      flash[:notice] = I18n.t('alerts.updated')
       redirect_to admins_event_vouchers_url
     else
-      flash[:error] = @voucher.errors.full_messages.join(". ")
+      flash[:error] = @voucher.errors.full_messages.join('. ')
       render :edit
     end
   end
@@ -37,7 +37,7 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
   def destroy
     @voucher = @fetcher.vouchers.find(params[:id])
     @voucher.destroy!
-    flash[:notice] = I18n.t("alerts.destroyed")
+    flash[:notice] = I18n.t('alerts.destroyed')
     redirect_to admins_event_vouchers_url
   end
 
@@ -45,7 +45,7 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
-      model_name: "Voucher".constantize.model_name,
+      model_name: 'Voucher'.constantize.model_name,
       fetcher: @fetcher.vouchers,
       search_query: params[:q],
       page: params[:page],
@@ -56,16 +56,16 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
 
   def permitted_params
     params.require(:voucher).permit(:counter,
-      preevent_item_attributes: [
-        :event_id,
-        :name,
-        :description,
-        :initial_amount,
-        :price,
-        :step,
-        :min_purchasable,
-        :max_purchasable
-      ]
-    )
+                                    preevent_item_attributes: [
+                                      :event_id,
+                                      :name,
+                                      :description,
+                                      :initial_amount,
+                                      :price,
+                                      :step,
+                                      :min_purchasable,
+                                      :max_purchasable
+                                    ]
+                                   )
   end
 end

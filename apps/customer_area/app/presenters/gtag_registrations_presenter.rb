@@ -4,7 +4,7 @@ class GtagRegistrationsPresenter < BasePresenter
   end
 
   def path
-    @gtag_assignment.present? ? "gtag_registrations" : "new_gtag_registrations"
+    @gtag_assignment.present? ? 'gtag_registrations' : 'new_gtag_registrations'
   end
 
   def gtag_registrations_enabled?

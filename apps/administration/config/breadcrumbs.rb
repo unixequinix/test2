@@ -103,7 +103,7 @@ end
 ## Vouchers
 
 crumb :admins_event_vouchers do |event|
-  link t("breadcrumbs.vouchers"), admins_event_vouchers_path(event)
+  link t('breadcrumbs.vouchers'), admins_event_vouchers_path(event)
   parent :admins_event, event
 end
 
@@ -113,14 +113,14 @@ crumb :admins_event_voucher do |event, voucher|
 end
 
 crumb :new_admins_event_voucher do |event|
-  link t("breadcrumbs.new_voucher")
+  link t('breadcrumbs.new_voucher')
   parent :admins_event_vouchers, event
 end
 
 ## CredentialTypes
 
 crumb :admins_event_credential_types do |event|
-  link t("breadcrumbs.credential_types"), admins_event_credential_types_path(event)
+  link t('breadcrumbs.credential_types'), admins_event_credential_types_path(event)
   parent :admins_event, event
 end
 
@@ -130,14 +130,14 @@ crumb :admins_event_credential_type do |event, credential_type|
 end
 
 crumb :new_admins_event_credential_type do |event|
-  link t("breadcrumbs.new_credential_type")
+  link t('breadcrumbs.new_credential_type')
   parent :admins_event_credential_types, event
 end
 
 ## PreeventProduct
 
 crumb :admins_event_preevent_products do |event|
-  link t("breadcrumbs.preevent_products"), admins_event_preevent_products_path(event)
+  link t('breadcrumbs.preevent_products'), admins_event_preevent_products_path(event)
   parent :admins_event, event
 end
 
@@ -147,14 +147,14 @@ crumb :admins_event_preevent_product do |event, preevent_product|
 end
 
 crumb :new_admins_event_preevent_product do |event|
-  link t("breadcrumbs.new_preevent_product")
+  link t('breadcrumbs.new_preevent_product')
   parent :admins_event_preevent_products, event
 end
 
 ## CompanyTicketType
 
 crumb :admins_event_company_ticket_types do |event|
-  link t("breadcrumbs.company_ticket_types"), admins_event_company_ticket_types_path(event)
+  link t('breadcrumbs.company_ticket_types'), admins_event_company_ticket_types_path(event)
   parent :admins_event, event
 end
 
@@ -164,7 +164,7 @@ crumb :admins_event_company_ticket_type do |event, company_ticket_type|
 end
 
 crumb :new_admins_event_company_ticket_type do |event|
-  link t("breadcrumbs.new_company_ticket_type")
+  link t('breadcrumbs.new_company_ticket_type')
   parent :admins_event_company_ticket_types, event
 end
 

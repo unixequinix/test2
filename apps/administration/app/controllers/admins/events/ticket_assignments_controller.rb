@@ -9,7 +9,7 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::CheckinBaseC
     @customer = current_customer
 
     if @ticket_assignment_form.save(@fetcher.tickets, current_customer_event_profile, current_event)
-      flash[:notice] = I18n.t("alerts.created")
+      flash[:notice] = I18n.t('alerts.created')
       redirect_to admins_event_customer_url(current_event, @customer)
     else
       flash[:error] = @ticket_assignment_form.errors.full_messages.join
@@ -23,13 +23,12 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::CheckinBaseC
     credential_assignment.unassign!
     ticket = credential_assignment.credentiable
 
-    credit_log = CreditLog.create(
-      customer_event_profile: customer_event_profile,
-      transaction_type: CreditLog::TICKET_UNASSIGNMENT,
-      amount: -ticket.ticket_type.credit
-    ) if ticket.ticket_type.credit.present?
-
-    flash[:notice] = I18n.t("alerts.unassigned")
+    if ticket.ticket_type.credit.present?
+      CreditLog.create(customer_event_profile: customer_event_profile,
+                       transaction_type: CreditLog::TICKET_UNASSIGNMENT,
+                       amount: -ticket.ticket_type.credit)
+    end
+    flash[:notice] = I18n.t('alerts.unassigned')
     redirect_to admins_event_customer_url(current_event, customer_event_profile.customer)
   end
 

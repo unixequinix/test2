@@ -18,5 +18,4 @@ class CredentialType < ActiveRecord::Base
   # Validations
   validates :position, presence: true
   validates :preevent_item, presence: true
-
 end

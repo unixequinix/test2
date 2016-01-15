@@ -17,5 +17,4 @@ class Voucher < ActiveRecord::Base
 
   # Validations
   validates :preevent_item, :counter, presence: true
-
 end

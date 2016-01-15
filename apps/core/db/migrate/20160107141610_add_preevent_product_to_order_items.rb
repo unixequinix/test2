@@ -28,30 +28,28 @@ class AddPreeventProductToOrderItems < ActiveRecord::Migration
 
   def add_preevent_items_to_credits
     OnlineProduct.all.each do |online_product|
-      if online_product.purchasable_type == "Credit"
-        credit = online_product.purchasable
-        preevent_item = PreeventItem.new(
-          name: online_product.name,
-          description: online_product.description,
-          initial_amount: online_product.initial_amount,
-          price: online_product.price,
-          step: online_product.step,
-          max_purchasable: online_product.max_purchasable,
-          min_purchasable: online_product.min_purchasable,
-          event_id: online_product.event_id
-        )
-        credit.update(preevent_item: preevent_item)
-
-      end
+      next unless online_product.purchasable_type == 'Credit'
+      credit = online_product.purchasable
+      preevent_item = PreeventItem.new(
+        name: online_product.name,
+        description: online_product.description,
+        initial_amount: online_product.initial_amount,
+        price: online_product.price,
+        step: online_product.step,
+        max_purchasable: online_product.max_purchasable,
+        min_purchasable: online_product.min_purchasable,
+        event_id: online_product.event_id
+      )
+      credit.update(preevent_item: preevent_item)
     end
-    puts "Credits Migrated √"
+    puts 'Credits Migrated √'
   end
 
   def migrate_entitlements_to_preevent_items
     Entitlement.all.map do |entitlement|
       preevent_item = PreeventItem.new(
         name: entitlement.name,
-        description: "Entitlement description",
+        description: 'Entitlement description',
         initial_amount: 0,
         price: 1,
         step: 1,
@@ -61,6 +59,6 @@ class AddPreeventProductToOrderItems < ActiveRecord::Migration
       )
       CredentialType.create(preevent_item: preevent_item, position: 1)
     end
-    puts "Entitlements Migrated √"
+    puts 'Entitlements Migrated √'
   end
 end

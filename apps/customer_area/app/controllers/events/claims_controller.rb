@@ -28,10 +28,9 @@ class Events::ClaimsController < Events::BaseController
 
   def enough_credits!
     @gtag = current_customer_event_profile.active_gtag_assignment.credentiable
-    unless @gtag.refundable?(service_type)
-      flash.now[:error] = I18n.t("alerts.quantity_not_refundable")
-      redirect_to event_url(current_event)
-    end
+    return if @gtag.refundable?(service_type)
+    flash.now[:error] = I18n.t('alerts.quantity_not_refundable')
+    redirect_to event_url(current_event)
   end
 
   def generate_claim

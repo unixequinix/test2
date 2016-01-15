@@ -17,11 +17,11 @@ FactoryGirl.define do
     customer_event_profile
 
     trait :assigned do
-      aasm_state "assigned"
+      aasm_state 'assigned'
     end
 
     trait :unassigned do
-      aasm_state "unassigned"
+      aasm_state 'unassigned'
     end
 
     trait :gtag_credential do
