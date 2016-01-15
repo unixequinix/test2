@@ -22,7 +22,7 @@ class GtagAssignmentForm
         false
       end
     else
-      errors.add(:ticket_assignment, I18n.t('alerts.gtag'))
+      errors.add(:ticket_assignment, I18n.t("alerts.gtag"))
     end
   end
 

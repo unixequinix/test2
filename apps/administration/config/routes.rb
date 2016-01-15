@@ -20,7 +20,7 @@ Rails.application.routes.draw do
         post :remove_logo
         post :remove_background
       end
-      scope module: 'events' do
+      scope module: "events" do
         resources :ticket_assignments, only: [:destroy]
         resource :gtag_settings, only: [:show, :edit, :update]
         resources :gtags do

@@ -23,7 +23,7 @@ class CreateCredentialAssignments < ActiveRecord::Migration
     move_records_to_credential_assignments("#{self.class.name}::Admission", "ticket")
     move_records_to_credential_assignments("#{self.class.name}::GtagRegistration", "gtag")
 
-    if(CredentialAssignment.count == Admission.count + GtagRegistration.count)
+    if (CredentialAssignment.count == Admission.count + GtagRegistration.count)
       drop_table :admissions
       drop_table :gtag_registrations
     end
@@ -41,5 +41,4 @@ class CreateCredentialAssignments < ActiveRecord::Migration
     CredentialAssignment.import(list_credential_assignments)
     puts "#{klass} Imported √"
   end
-
 end

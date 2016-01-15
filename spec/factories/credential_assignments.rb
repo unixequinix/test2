@@ -14,15 +14,14 @@
 
 FactoryGirl.define do
   factory :credential_assignment do
-
     customer_event_profile
 
     trait :assigned do
-       aasm_state "assigned"
+      aasm_state "assigned"
     end
 
     trait :unassigned do
-       aasm_state "unassigned"
+      aasm_state "unassigned"
     end
 
     trait :gtag_credential do
@@ -32,7 +31,6 @@ FactoryGirl.define do
     trait :ticket_credential do
       association :credentiable, factory: :ticket
     end
-
 
     factory :credential_assignment_g_a, traits: [:gtag_credential, :assigned]
     factory :credential_assignment_g_u, traits: [:gtag_credential, :assigned]
