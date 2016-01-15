@@ -43,7 +43,6 @@ namespace :db do
     Event.all.each do |event|
       YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'tickets.yml')).each do |data|
         ticket = Ticket.new(event_id: event.id, number: data['number'])
-        ticket.ticket_type = TicketType.find_by(name: data['ticket_type'])
         ticket.save!
       end
     end
