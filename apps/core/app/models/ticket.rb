@@ -14,7 +14,6 @@
 #  barcode                :string
 #  credential_redeemed    :boolean          default(FALSE), not null
 #  company_ticket_type_id :integer
-#  company_id             :integer
 #
 
 class Ticket < ActiveRecord::Base
