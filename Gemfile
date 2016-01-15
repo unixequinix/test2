@@ -115,6 +115,8 @@ group :development, :test do
   gem 'meta_request', '~> 0.3.4' # for rails_panel chrome extension
   gem 'spring', '~> 1.3.5' # App preloader. https://github.com/rails/spring
   gem 'rspec-rails', '~> 3.2.1'
+  gem 'rspec-mocks'
+  gem 'rspec-activemodel-mocks'
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'guard-rspec', '~> 4.5.0', require: false
   gem 'spring-commands-rspec', '~> 1.0.4'
