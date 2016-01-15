@@ -23,18 +23,20 @@ class Events::RefundsController < Events::BaseController
   end
 
   def tipalti_success
-    if @claim = Claim.where(customer_event_profile_id: params[:customerID],
-                            service_type: "tipalti", aasm_state: :in_progress).order(id: :desc).first
-      RefundService.new(@claim, current_event)
-        .create(amount: @claim.gtag.refundable_amount_after_fee("tipalti"),
-                currency: I18n.t("currency_symbol"),
-                message: "Created tipalti refund",
-                payment_solution: "tipalti",
-                status: "SUCCESS")
-      redirect_to success_event_refunds_url(current_event)
-    else
-      redirect_to error_event_refunds_url(current_event)
-    end
+    @claim = Claim.where(customer_event_profile_id: params[:customerID],
+                         service_type: 'tipalti',
+                         aasm_state: :in_progress)
+                   .order(id: :desc).first
+
+    redirect_to error_event_refunds_url(current_event) && return unless @claim
+
+    RefundService.new(@claim, current_event)
+      .create(amount: @claim.gtag.refundable_amount_after_fee('tipalti'),
+              currency: I18n.t('currency_symbol'),
+              message: 'Created tipalti refund',
+              payment_solution: 'tipalti',
+              status: 'SUCCESS')
+    redirect_to success_event_refunds_url(current_event)
   end
 
   def success

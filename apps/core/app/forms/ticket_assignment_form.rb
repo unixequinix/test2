@@ -13,13 +13,13 @@ class TicketAssignmentForm
         persist!(ticket, current_customer_event_profile)
         true
       else
-        errors.add(:ticket_assignment, full_messages.join(". "))
+        errors.add(:ticket_assignment, full_messages.join('. '))
         false
       end
     else
       errors.add(:ticket_assignment,
-                 I18n.t("alerts.admissions",
-                        companies: TicketType.companies(current_event).join(", "))
+                 I18n.t('alerts.admissions',
+                        companies: TicketType.companies(current_event).join(', '))
                 )
       false
     end
@@ -30,10 +30,9 @@ class TicketAssignmentForm
   def persist!(ticket, current_customer_event_profile)
     current_customer_event_profile.save
     current_customer_event_profile.credential_assignments.create(credentiable: ticket)
-    credit_log = CreditLog.create(
-      customer_event_profile: current_customer_event_profile,
-      transaction_type: CreditLog::TICKET_ASSIGNMENT,
-      amount: ticket.ticket_type.credit
-    ) if ticket.ticket_type.credit.present?
+    return unless ticket.ticket_type.credit.present?
+    CreditLog.create(customer_event_profile: current_customer_event_profile,
+                     transaction_type: CreditLog::TICKET_ASSIGNMENT,
+                     amount: ticket.ticket_type.credit)
   end
 end

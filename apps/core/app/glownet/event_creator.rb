@@ -34,17 +34,17 @@ class EventCreator
   end
 
   def standard_credit
-    YAML.load_file(Rails.root.join("db", "seeds", "standard_credits.yml")).each do |data|
-      credit = Credit.new(standard: data["standard"])
+    YAML.load_file(Rails.root.join('db', 'seeds', 'standard_credits.yml')).each do |data|
+      credit = Credit.new(standard: data['standard'])
       credit.preevent_item = PreeventItem.new(
         event_id: @event.id,
-        name: data["name"],
-        description: data["description"],
-        price: data["price"],
-        max_purchasable: data["max_purchasable"],
-        min_purchasable: data["min_purchasable"],
-        initial_amount: data["initial_amount"],
-        step: data["step"]
+        name: data['name'],
+        description: data['description'],
+        price: data['price'],
+        max_purchasable: data['max_purchasable'],
+        min_purchasable: data['min_purchasable'],
+        initial_amount: data['initial_amount'],
+        step: data['step']
       )
       credit.save!
     end

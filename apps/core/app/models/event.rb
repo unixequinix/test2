@@ -85,7 +85,7 @@ class Event < ActiveRecord::Base
   has_many :credential_assignments, through: :gtags, as: :gtags_assignments
 
   has_many :preevent_items
-  has_many :credits, through: :preevent_items, source: :purchasable, source_type: "Credit"
+  has_many :credits, through: :preevent_items, source: :purchasable, source_type: 'Credit'
 
   extend FriendlyId
   friendly_id :name, use: :slugged
@@ -163,38 +163,7 @@ class Event < ActiveRecord::Base
   end
 
   def selected_locales_formated
-    selected_locales.map { |key| key.to_s.gsub("_lang", "") }
-  end
-
-  def to_hash_parameters # method for testing
-    { name: name,
-      aasm_state: aasm_state,
-      slug: slug,
-      location: location,
-      start_date: start_date,
-      end_date: end_date,
-      description: description,
-      support_email: support_email,
-      style: style,
-      logo_file_name: logo_file_name,
-      logo_content_type: logo_content_type,
-      logo_file_size: logo_file_size,
-      logo_updated_at: logo_updated_at,
-      background_file_name: background_file_name,
-      background_content_type: background_content_type,
-      background_file_size: background_file_size,
-      background_updated_at: background_updated_at,
-      url: url,
-      background_type: background_type,
-      features: features,
-      refund_services: refund_services,
-      ticket_assignation: ticket_assignation,
-      gtag_registration: gtag_registration,
-      payment_service: payment_service,
-      host_country: host_country,
-      currency: currency,
-      locales: locales,
-      registration_parameters: registration_parameters }
+    selected_locales.map { |key| key.to_s.gsub('_lang', '') }
   end
 
   def refund_fee(refund_service)

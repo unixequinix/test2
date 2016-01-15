@@ -17,5 +17,4 @@ class PreeventProductItem < ActiveRecord::Base
   belongs_to :preevent_product
 
   accepts_nested_attributes_for :preevent_item
-
 end

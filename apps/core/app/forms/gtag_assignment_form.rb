@@ -18,11 +18,11 @@ class GtagAssignmentForm
         persist!(current_customer_event_profile, gtag)
         true
       else
-        errors.add(:ticket_assignment, full_messages.join(". "))
+        errors.add(:ticket_assignment, full_messages.join('. '))
         false
       end
     else
-      errors.add(:ticket_assignment, I18n.t("alerts.gtag"))
+      errors.add(:ticket_assignment, I18n.t('alerts.gtag'))
     end
   end
 
