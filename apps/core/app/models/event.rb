@@ -37,28 +37,31 @@
 
 class Event < ActiveRecord::Base
   nilify_blanks
-  translates :info, :disclaimer, :refund_success_message, :mass_email_claim_notification, :refund_disclaimer, :bank_account_disclaimer, :gtag_assignation_notification, :gtag_form_disclaimer, :gtag_name, :agreed_event_condition_message, fallbacks_for_empty_translations: true
+  translates :info, :disclaimer, :refund_success_message, :mass_email_claim_notification,
+             :refund_disclaimer, :bank_account_disclaimer, :gtag_assignation_notification,
+             :gtag_form_disclaimer, :gtag_name, :agreed_event_condition_message,
+             fallbacks_for_empty_translations: true
 
   # Background Types
-  BACKGROUND_FIXED = "fixed"
-  BACKGROUND_REPEAT = "repeat"
-
+  BACKGROUND_FIXED = 'fixed'
+  BACKGROUND_REPEAT = 'repeat'
   BACKGROUND_TYPES = [BACKGROUND_FIXED, BACKGROUND_REPEAT]
 
   # Payment Services
-  REDSYS = "redsys"
-  STRIPE = "stripe"
-
+  REDSYS = 'redsys'
+  STRIPE = 'stripe'
   PAYMENT_SERVICES = [REDSYS, STRIPE]
+
+  # TODO: check if these constants should live here or in a view helper
+  REFUND_SERVICES = [:bank_account, :epg, :tipalti]
+  FEATURES = [:top_ups, :refunds]
+  LOCALES = [:en_lang, :es_lang, :it_lang, :th_lang]
+  REGISTRATION_PARAMETERS = [:phone, :address, :city, :country, :postcode, :gender, :birthdate, :agreed_event_condition]
 
   include FlagShihTzu
 
-  has_flags 1 => :top_ups,
-            2 => :refunds,
-            column: "features"
-
-  FEATURES = [:top_ups, :refunds]
-
+  has_flags 1 => :top_ups, 2 => :refunds, column: 'features'
+  has_flags 1 => :bank_account, 2 => :epg, 3 => :tipalti, column: 'refund_services'
   has_flags 1 => :phone,
             2 => :address,
             3 => :city,
@@ -67,24 +70,9 @@ class Event < ActiveRecord::Base
             6 => :gender,
             7 => :birthdate,
             8 => :agreed_event_condition,
-            column: "registration_parameters"
+            column: 'registration_parameters'
 
-  REGISTRATION_PARAMETERS = [:phone, :address, :city, :country, :postcode, :gender, :birthdate, :agreed_event_condition]
-
-  has_flags 1 => :bank_account,
-            2 => :epg,
-            3 => :tipalti,
-            column: "refund_services"
-
-  REFUND_SERVICES = [:bank_account, :epg, :tipalti]
-
-  has_flags 1 => :en_lang,
-            2 => :es_lang,
-            3 => :it_lang,
-            4 => :th_lang,
-            column: "locales"
-
-  LOCALES = [:en_lang, :es_lang, :it_lang, :th_lang]
+  has_flags 1 => :en_lang, 2 => :es_lang, 3 => :it_lang, 4 => :th_lang, column: 'locales'
 
   # Associations
   has_many :customer_event_profiles
@@ -105,15 +93,12 @@ class Event < ActiveRecord::Base
   has_attached_file :logo,
                     path: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:filename",
                     url: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:basename.:extension",
-                    default_url: ":default_event_image_url"
+                    default_url: ':default_event_image_url'
 
   has_attached_file :background,
                     path: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:filename",
                     url: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:basename.:extension",
-                    default_url: ":default_event_background_url"
-
-  # Association
-  has_many :event_parameters
+                    default_url: ':default_event_background_url'
 
   # Validations
   validates :name, :support_email, presence: true
@@ -122,54 +107,18 @@ class Event < ActiveRecord::Base
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
 
   # State machine
-  include AASM
-
-  aasm do
-    state :created, initial: true
-    state :launched
-    state :started
-    state :finished
-    state :claiming_started
-    state :closed
-
-    event :launch do
-      transitions from: :created, to: :launched
-    end
-
-    event :start do
-      transitions from: :launched, to: :started
-    end
-
-    event :finish do
-      transitions from: :started, to: :finished
-    end
-
-    event :start_claim do
-      transitions from: :finished, to: :claiming_started
-    end
-
-    event :close do
-      transitions from: :claiming_started, to: :closed
-    end
-
-    event :reboot do
-      transitions from: :closed, to: :created
-    end
-  end
-
-  # Methods
-  # -------------------------------------------------------
+  include EventState
 
   def self.background_types_selector
-    BACKGROUND_TYPES.map { |f| [I18n.t("admin.event.background_types." + f.to_s), f] }
+    BACKGROUND_TYPES.map { |f| [I18n.t('admin.event.background_types.' + f.to_s), f] }
   end
 
   def self.payment_services_selector
-    PAYMENT_SERVICES.map { |f| [I18n.t("admin.event.payment_services." + f.to_s), f] }
+    PAYMENT_SERVICES.map { |f| [I18n.t('admin.event.payment_services.' + f.to_s), f] }
   end
 
   def self.refund_services_selector
-    REFUND_SERVICES.map { |f| [I18n.t("admin.event.refund_services." + f.to_s), f] }
+    REFUND_SERVICES.map { |f| [I18n.t('admin.event.refund_services.' + f.to_s), f] }
   end
 
   def standard_credit
@@ -210,7 +159,7 @@ class Event < ActiveRecord::Base
   # TODO: Improve with decorators
   def get_parameter(category, group, name)
     parameter = Parameter.find_by(category: category, group: group, name: name)
-    event_parameter = EventParameter.find_by(event_id: id, parameter_id: parameter.id).value
+    EventParameter.find_by(event_id: id, parameter_id: parameter.id).value
   end
 
   def selected_locales_formated
@@ -249,11 +198,11 @@ class Event < ActiveRecord::Base
   end
 
   def refund_fee(refund_service)
-    get_parameter("refund", refund_service, "fee")
+    get_parameter('refund', refund_service, 'fee')
   end
 
   def refund_minimun(refund_service)
-    get_parameter("refund", refund_service, "minimum")
+    get_parameter('refund', refund_service, 'minimum')
   end
 
   def gtag_assignment?

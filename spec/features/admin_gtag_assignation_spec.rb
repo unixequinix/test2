@@ -1,4 +1,4 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.feature "Admin Gtag assignation", type: :feature do
   context "with account signed in" do

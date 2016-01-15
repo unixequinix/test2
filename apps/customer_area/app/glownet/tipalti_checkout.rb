@@ -1,19 +1,16 @@
 class TipaltiCheckout
   def initialize(claim)
     @claim = claim
-    tps = EventParameter.select(:value, "parameters.name")
+    tps = EventParameter.select(:value, 'parameters.name')
           .joins(:parameter).where(
             event_id: @claim.customer_event_profile.event_id,
-            parameters: { category: "refund", group: "tipalti" }
+            parameters: { category: 'refund', group: 'tipalti' }
           )
     @tipalti_values = Hash[tps.map { |tp| [tp.name.to_sym, tp.value] }]
   end
 
   def url
-    base_url = @tipalti_values[:url] +
-               "?" +
-               create_value +
-               "&hashkey=" + crypt(create_value)
+    "#{@tipalti_values[:url]}?#{create_value}&hashkey=#{crypt(create_value)}"
   end
 
   def create_value
@@ -23,12 +20,12 @@ class TipaltiCheckout
     value += "&last=#{@claim.customer_event_profile.customer.surname.gsub(valid_characters, '')}"
     value += "&first=#{@claim.customer_event_profile.customer.name.gsub(valid_characters, '')}"
     value += "&ts=#{Time.now.to_i}"
-    value += "&payer=#{@tipalti_values[:payer]}"
+    value + "&payer=#{@tipalti_values[:payer]}"
   end
 
   def crypt(value)
-    sha256 = OpenSSL::Digest.new("sha256")
+    sha256 = OpenSSL::Digest.new('sha256')
     result = OpenSSL::HMAC.digest(sha256, @tipalti_values[:secret_key], value)
-    result.each_byte.map { |b| b.to_s(16).rjust(2, "0") }.join
+    result.each_byte.map { |b| b.to_s(16).rjust(2, '0') }.join
   end
 end

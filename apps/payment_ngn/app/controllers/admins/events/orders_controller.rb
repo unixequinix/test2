@@ -16,7 +16,7 @@ class Admins::Events::OrdersController < Admins::Events::PaymentsBaseController
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
-      model_name: "Order".constantize.model_name,
+      model_name: 'Order'.constantize.model_name,
       fetcher: @fetcher.orders,
       search_query: params[:q],
       page: params[:page],

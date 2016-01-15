@@ -1,5 +1,5 @@
 class Admins::BaseController < ApplicationController
-  layout "admin"
+  layout 'admin'
   protect_from_forgery
   before_action :ensure_admin
   before_action :set_locale
@@ -12,7 +12,7 @@ class Admins::BaseController < ApplicationController
   end
 
   def warden
-    request.env["warden"]
+    request.env['warden']
   end
 
   def authenticate_admin!
@@ -24,10 +24,9 @@ class Admins::BaseController < ApplicationController
   end
 
   def ensure_admin
-    unless admin_signed_in?
-      logout_admin!
-      return false
-    end
+    return if admin_signed_in?
+    logout_admin!
+    false
   end
 
   def admin_signed_in?
@@ -35,9 +34,9 @@ class Admins::BaseController < ApplicationController
   end
 
   def current_admin
-    @current_admin ||= Admin.find(warden.user(:admin)["id"]) unless
+    @current_admin ||= Admin.find(warden.user(:admin)['id']) unless
         !warden.authenticated?(:admin) ||
-        Admin.where(id: warden.user(:admin)["id"]).empty?
+        Admin.where(id: warden.user(:admin)['id']).empty?
   end
 
   private

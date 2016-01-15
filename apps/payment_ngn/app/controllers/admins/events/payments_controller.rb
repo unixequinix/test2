@@ -20,7 +20,7 @@ class Admins::Events::PaymentsController < Admins::Events::PaymentsBaseControlle
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
-      model_name: "Payment".constantize.model_name,
+      model_name: 'Payment'.constantize.model_name,
       fetcher: @fetcher.payments,
       search_query: params[:q],
       page: params[:page],

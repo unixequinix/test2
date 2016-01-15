@@ -4,7 +4,7 @@ class CreditsPresenter < BasePresenter
   end
 
   def path
-    "events/events/credits"
+    'events/events/credits'
   end
 
   def customer_total_credits
@@ -17,9 +17,13 @@ class CreditsPresenter < BasePresenter
 
   def call_to_action
     if event_started?
-      I18n.t("dashboard.credits.call_to_action_started")
+      I18n.t('dashboard.credits.call_to_action_started')
     else
-      @ticket_assignments.any? ? I18n.t("dashboard.credits.call_to_action") : I18n.t("dashboard.credits.call_to_action_no_admission_html").html_safe
+      if @ticket_assignments.any?
+        I18n.t("dashboard.credits.call_to_action")
+      else
+        I18n.t("dashboard.credits.call_to_action_no_admission_html").html_safe
+      end
     end
   end
 end

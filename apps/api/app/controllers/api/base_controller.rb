@@ -20,7 +20,7 @@ class Api::BaseController < ApplicationController
 
   def restrict_access_with_http
     authenticate_or_request_with_http_basic do |email, token|
-      admin = Admin.find_for_database_authentication(email: email)
+      admin = Admin.find_by(email: email)
       admin.valid_token?(token)
     end
   end

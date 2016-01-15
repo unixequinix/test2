@@ -3,6 +3,6 @@ class AddBackgroundTypeToEvent < ActiveRecord::Migration
   end
 
   def change
-    add_column :events, :background_type, :string, default: "fixed"
+    add_column :events, :background_type, :string, default: 'fixed'
   end
 end

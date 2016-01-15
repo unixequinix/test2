@@ -47,11 +47,11 @@ module Api
       end
 
       def refund_status
-        object.claims.any? ? get_refund_status : "NOT TRIGGERED"
+        object.claims.any? ? get_refund_status : 'NOT TRIGGERED'
       end
 
       def get_refund_status
-        object.claims.any? && object.completed_claim.nil? ? "NOT FINISHED" : object.completed_claim.refund.status
+        object.claims.any? && object.completed_claim.nil? ? 'NOT FINISHED' : object.completed_claim.refund.status
       end
     end
   end

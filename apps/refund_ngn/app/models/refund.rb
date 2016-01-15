@@ -27,7 +27,7 @@ class Refund < ActiveRecord::Base
   scope :selected_data, lambda  { |event_id|
     joins(:claim, claim:
       [:customer_event_profile, { customer_event_profile: :customer }])
-      .select("refunds.*, claims.number, customers.email")
+      .select('refunds.*, claims.number, customers.email')
       .where(customer_event_profiles: { event_id: event_id })
   }
 end

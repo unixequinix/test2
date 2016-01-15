@@ -1,5 +1,5 @@
 class Admins::Events::PaymentsBaseController < ::Admins::Events::BaseController
-  layout "admin_event"
+  layout 'admin_event'
   before_filter :set_i18n_globals
   before_filter :enable_fetcher
 

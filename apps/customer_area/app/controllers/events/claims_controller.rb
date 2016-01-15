@@ -8,25 +8,22 @@ class Events::ClaimsController < Events::BaseController
   private
 
   def check_event_status!
-    unless current_event.claiming_started?
-      flash.now[:error] = I18n.t("alerts.error")
-      redirect_to event_url(current_event)
-    end
+    return if current_event.claiming_started?
+    flash.now[:error] = I18n.t('alerts.error')
+    redirect_to event_url(current_event)
   end
 
   def check_has_not_claims!
-    if current_customer_event_profile.completed_claim
-      flash.now[:error] = I18n.t("alerts.claim_complete")
-      redirect_to event_url(current_event)
-    end
+    return unless current_customer_event_profile.completed_claim
+    flash.now[:error] = I18n.t('alerts.claim_complete')
+    redirect_to event_url(current_event)
   end
 
   def require_permission!
     @claim = Claim.find(params[form_name][:claim_id])
-    if current_customer_event_profile != @claim.customer_event_profile || @claim.completed?
-      flash.now[:error] = I18n.t("alerts.claim_complete")
-      redirect_to event_url(current_event)
-    end
+    return unless current_customer_event_profile != @claim.customer_event_profile || @claim.completed?
+    flash.now[:error] = I18n.t('alerts.claim_complete')
+    redirect_to event_url(current_event)
   end
 
   def enough_credits!

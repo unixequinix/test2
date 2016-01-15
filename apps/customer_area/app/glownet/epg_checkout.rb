@@ -4,34 +4,29 @@ class EpgCheckout
   def initialize(claim, epg_claim_form)
     @claim = claim
     @epg_claim_form = epg_claim_form
-    eps = EventParameter.select(:value, "parameters.name")
-          .joins(:parameter).where(
-            event_id: claim.customer_event_profile.event_id,
-            parameters: { category: "refund", group: "epg" }
-          )
+    eps = EventParameter.select(:value, 'parameters.name')
+                        .joins(:parameter)
+                        .where(event_id: claim.customer_event_profile.event_id,
+                               parameters: { category: 'refund', group: 'epg' })
     @epg_values = Hash[eps.map { |ep| [ep.name.to_sym, ep.value] }]
   end
 
   def url
     value = create_value
     md5key = @epg_values[:md5key]
-    sha256ParamsIntegrityCheck = Digest::SHA256.hexdigest(value)
-
+    sha256_params_integrity_check = Digest::SHA256.hexdigest(value)
     encrypted = crypt(value, md5key)
-    encryptedValue = encrypted
-
-    parameters = {
-      "merchantId" => @epg_values[:merchant_id],
-      "encrypted" => encryptedValue,
-      "integrityCheck" => sha256ParamsIntegrityCheck
-    }
+    encrypted_value = encrypted
+    parameters = { merchantId: @epg_values[:merchant_id],
+                   encrypted: encrypted_value,
+                   integrityCheck: sha256_params_integrity_check }
     uri = URI.parse(@epg_values[:url])
     uri.query = URI.encode_www_form(parameters)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     request = Net::HTTP::Post.new(uri.request_uri)
-    response = http.request(request).body
+    http.request(request).body
   end
 
   private
@@ -67,6 +62,6 @@ class EpgCheckout
     value += "&paymentSolution=#{@epg_values[:payment_solution]}"
     value += "&successURL=#{success_event_refunds_url(@claim.customer_event_profile.event)}"
     value += "&errorURL=#{error_event_refunds_url(@claim.customer_event_profile.event)}"
-    value += "&statusURL=#{event_refunds_url(@claim.customer_event_profile.event)}"
+    value + "&statusURL=#{event_refunds_url(@claim.customer_event_profile.event)}"
   end
 end

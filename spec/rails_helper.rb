@@ -5,20 +5,23 @@ require 'capybara/rspec'
 
 ENV['RAILS_ENV'] ||= 'test'
 
-SimpleCov.start do
-  add_group "Models", "app/models"
-  add_group "Services", "app/glownet"
-  add_group "Forms", "app/forms"
-  add_group "Presenters", "app/presenters"
-  add_group "Helpers", "app/helpers"
-  add_group "Controllers", "app/controllers"
-  add_group "Serializers", "app/serializers"
-  add_group "Mailers", "app/mailers"
-  add_group "Views", "app/views"
+unless ARGV.any? {|e| e =~ /guard-rspec/ }
+  SimpleCov.start do
+    add_group "Models", "app/models"
+    add_group "Domain Logic", "app/glownet"
+    add_group "Forms", "app/forms"
+    add_group "Validators", "app/validators"
+    add_group "Presenters", "app/presenters"
+    add_group "Libraires", "lib"
+    add_group "Helpers", "app/helpers"
+    add_group "Controllers", "app/controllers"
+    add_group "Mailers", "app/mailers"
 
-  add_filter "/spec/"
-  add_filter "/config/"
-  add_filter "/vendor/"
+    add_filter "/spec/"
+    add_filter "/config/"
+    add_filter "/vendor/"
+    add_filter "/i18n/"
+  end
 end
 
 require File.expand_path('../../config/environment', __FILE__)
@@ -48,7 +51,7 @@ ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  #config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
@@ -67,7 +70,16 @@ RSpec.configure do |config|
   #     end
   #
   # The different available types are documented in the features, such as in
-  # https://relishapp.com/rspec/rspec-rails/docs
+  # 
+  # Model specs: type: :model
+  # Controller specs: type: :controller
+  # Request specs: type: :request
+  # Feature specs: type: :feature
+  # View specs: type: :view
+  # Helper specs: type: :helper
+  # Mailer specs: type: :mailer
+  # Routing specs: type: :routing
+  # Service specs: tyoe: :services
   config.infer_spec_type_from_file_location!
 
   # Add stuff to make devise work
@@ -100,7 +112,6 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
-
     Warden.test_reset!
   end
 

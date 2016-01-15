@@ -1,3 +1,3 @@
 class Admins::ExceptionsController < ExceptionsController
-  layout "exception"
+  layout 'exception'
 end
