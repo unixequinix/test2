@@ -69,13 +69,11 @@ class Customer < ActiveRecord::Base
   end
 
   def update_tracked_fields!(request)
-    old_current, new_current = current_sign_in_at, Time.now.utc
-    self.last_sign_in_at     = old_current || new_current
-    self.current_sign_in_at  = new_current
+    self.last_sign_in_at = current_sign_in_at || Time.now.utc
+    self.current_sign_in_at = Time.now.utc
 
-    old_current, new_current = current_sign_in_ip, request.env['REMOTE_ADDR']
-    self.last_sign_in_ip     = old_current || new_current
-    self.current_sign_in_ip  = new_current
+    self.last_sign_in_ip = current_sign_in_ip || request.env['REMOTE_ADDR']
+    self.current_sign_in_ip = request.env['REMOTE_ADDR']
 
     self.sign_in_count ||= 0
     self.sign_in_count += 1
@@ -110,28 +108,6 @@ class Customer < ActiveRecord::Base
 
   def self.find_for_authentication(warden_conditions)
     where(email: warden_conditions[:email], event_id: warden_conditions[:event_id]).first
-  end
-
-  def valid_birthday?
-    birthdate_is_date? && enough_age?
-  end
-
-  def birthdate_is_date?
-    if birthdate.is_a?(ActiveSupport::TimeWithZone)
-      true
-    else
-      errors.add(:birthdate,
-                 I18n.t('activemodel.errors.models.customer.attributes.birthdate.invalid'))
-      false
-    end
-  end
-
-  def enough_age?
-    minimum_age = 12
-    return if (Date.today.midnight - minimum_age.years >= birthdate.midnight)
-    errors.add(:birthdate,
-               I18n.t('activemodel.errors.models.customer.attributes.birthdate.too_young',
-                      age: minimum_age))
   end
 
   def generate_token(column)
