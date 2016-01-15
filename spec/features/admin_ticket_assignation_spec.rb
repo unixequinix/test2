@@ -1,38 +1,20 @@
 require 'rails_helper'
 
-<<<<<<< HEAD
 RSpec.feature "Admin Ticket assignation", type: :feature do
   context "with account signed in" do
     describe "an admin " do
       before :each do
       @event_creator = EventCreator.new(build(:event, gtag_registration: true).to_hash_parameters)
-=======
-RSpec.feature 'Admin Ticket assignation', type: :feature do
-  context 'with account signed in' do
-    before :all do
-      @event_creator = EventCreator.new(build(:event, gtag_registration: true).attributes)
->>>>>>> cleaning
       @event_creator.save
       @event = @event_creator.event
       @customer = create(:customer, event: @event, confirmation_token: nil, confirmed_at: Time.now)
 
       admin = create(:admin)
       login_as(admin, scope: :admin)
-<<<<<<< HEAD
         @ticket = create(:ticket, event: @event)
       end
 
       it "should be able to assign a valid ticket" do
-=======
-    end
-
-    describe 'an admin ' do
-      before :each do
-        @ticket = create(:ticket, event: @event)
-      end
-
-      it 'should be able to assign a ticket' do
->>>>>>> cleaning
         visit "/admins/events/#{@event_creator.event.slug}/customers"
         within("[data-label='Email']") do
           click_link('a')
