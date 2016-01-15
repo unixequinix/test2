@@ -52,7 +52,7 @@ class Event < ActiveRecord::Base
   PAYMENT_SERVICES = [REDSYS, STRIPE]
 
   # TODO: check if these constants should live here or in a view helper
-  REFUND_SERVICES = [:bank_account, :epg, :tipalti]  
+  REFUND_SERVICES = [:bank_account, :epg, :tipalti]
   FEATURES = [:top_ups, :refunds]
   LOCALES = [:en_lang, :es_lang, :it_lang, :th_lang]
   REGISTRATION_PARAMETERS = [:phone, :address, :city, :country, :postcode, :gender, :birthdate, :agreed_event_condition]
