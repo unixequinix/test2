@@ -5,10 +5,9 @@ class EpgCheckout
     @claim = claim
     @epg_claim_form = epg_claim_form
     eps = EventParameter.select(:value, 'parameters.name')
-          .joins(:parameter).where(
-            event_id: claim.customer_event_profile.event_id,
-            parameters: { category: 'refund', group: 'epg' }
-          )
+                        .joins(:parameter)
+                        .where(event_id: claim.customer_event_profile.event_id,
+                               parameters: { category: 'refund', group: 'epg' })
     @epg_values = Hash[eps.map { |ep| [ep.name.to_sym, ep.value] }]
   end
 
@@ -18,12 +17,9 @@ class EpgCheckout
     sha256_params_integrity_check = Digest::SHA256.hexdigest(value)
     encrypted = crypt(value, md5key)
     encrypted_value = encrypted
-
-    parameters = {
-      'merchantId' => @epg_values[:merchant_id],
-      'encrypted' => encrypted_value,
-      'integrityCheck' => sha256_params_integrity_check
-    }
+    parameters = { merchantId: @epg_values[:merchant_id],
+                   encrypted: encrypted_value,
+                   integrityCheck: sha256_params_integrity_check }
     uri = URI.parse(@epg_values[:url])
     uri.query = URI.encode_www_form(parameters)
     http = Net::HTTP.new(uri.host, uri.port)

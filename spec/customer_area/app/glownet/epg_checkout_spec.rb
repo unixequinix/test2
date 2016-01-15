@@ -10,10 +10,14 @@ RSpec.describe EpgCheckout, type: :domain_logic do
     create(:online_product, event: event, price: 20)
     create(:credit, standard: true)
     claim = CustomerEventProfile.find_by(event: event).claims.first
-    epg_claim_form = EpgClaimForm.new(country_code: 'ES', state: 'Madrid',
-                                      city: 'Madrid', post_code: '28004', phone: +34_660_556_776,
-                                      address: 'C/Conde Romanones', claim_id: claim.id, agreed_on_claim: true)
-
+    epg_claim_form = EpgClaimForm.new(country_code: 'ES',
+                                      state: 'Madrid',
+                                      city: 'Madrid',
+                                      post_code: '28004',
+                                      phone: +34_660_556_776,
+                                      address: 'C/Conde Romanones',
+                                      claim_id: claim.id,
+                                      agreed_on_claim: true)
     @epg_checkout_service = EpgCheckout.new(claim, epg_claim_form)
   end
 
@@ -27,9 +31,8 @@ RSpec.describe EpgCheckout, type: :domain_logic do
 
   describe 'the url method' do
     it 'should return a valid url for epg' do
-      url = @epg_checkout_service.url
-      uri = URI.parse(url)
-      expect(%w(http https).include?(uri.scheme)).to be(true)
+      uri = URI.parse(@epg_checkout_service.url)
+      expect(%w(http https)).to include(uri.scheme)
     end
   end
 end

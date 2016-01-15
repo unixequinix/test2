@@ -12,6 +12,6 @@
 
 .wrapper-negative-space
   - if @list_model_presenter.there_any?
-    = render 'admins/events/tickets/list', tickets: @list_model_presenter.get_all_items
+    = render 'admins/events/tickets/list', tickets: @list_model_presenter.all_items
   - else
     = render @list_model_presenter.no_items_for_presentation

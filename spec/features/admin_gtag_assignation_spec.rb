@@ -19,9 +19,7 @@ RSpec.feature 'Admin Gtag assignation', type: :feature do
 
       it 'should be able to assign a gtag' do
         visit "/admins/events/#{@event.slug}/customers"
-        within("[data-label='Email']") do
-          click_link('a')
-        end
+        within("[data-label='Email']") { click_link('a') }
         find('a', text: t('admin.actions.assign_gtag')).click
         fill_in(t('gtag_registrations.placeholders.standard.line_1'), with: @gtag.tag_serial_number)
         fill_in(t('gtag_registrations.placeholders.standard.line_2'), with: @gtag.tag_uid)
