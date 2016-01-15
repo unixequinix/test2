@@ -55,6 +55,8 @@ class Event < ActiveRecord::Base
   REFUND_SERVICES = [:bank_account, :epg, :tipalti]
   
   FEATURES = [:top_ups, :refunds]
+  
+  LOCALES = [:en_lang, :es_lang, :it_lang, :th_lang]
 
   include FlagShihTzu
 
