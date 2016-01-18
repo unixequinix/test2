@@ -1,0 +1,14 @@
+-
+  name: "VIP Access"
+  amount: 1.0
+  item: 2
+
+-
+  name: "Beer pack"
+  amount: 2.0
+  item: 3
+
+-
+  name: "Water pack"
+  amount: 5.0
+  item: 4
