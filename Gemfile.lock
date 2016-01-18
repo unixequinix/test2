@@ -18,6 +18,12 @@ PATH
       rails (~> 4.2.1)
 
 PATH
+  remote: apps/company
+  specs:
+    company (0.0.1)
+      rails (~> 4.2.1)
+
+PATH
   remote: apps/core
   specs:
     core (0.0.1)
@@ -592,6 +598,7 @@ DEPENDENCIES
   capistrano-rbenv (~> 2.0.3)
   capistrano-sidekiq (~> 0.5.3)
   capybara (~> 2.4.4)
+  company!
   core!
   country_select (~> 2.2.0)
   customer_area!
