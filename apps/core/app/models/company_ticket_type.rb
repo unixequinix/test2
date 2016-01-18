@@ -19,4 +19,10 @@ class CompanyTicketType < ActiveRecord::Base
   belongs_to :event
   belongs_to :preevent_product
   belongs_to :company
+
+  validates :name, :company, :credit, presence: true
+
+  def self.form_selector(event)
+    where(event: event).map { |company_tt| [company_tt.name, company_tt.id] }
+  end
 end

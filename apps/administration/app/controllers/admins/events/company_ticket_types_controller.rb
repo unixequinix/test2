@@ -60,8 +60,8 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
   def permitted_params
     params.require(:company_ticket_type).permit(
       :event_id,
+      :company_id,
       :name,
-      :company,
       preevent_product_ids: []
     )
   end

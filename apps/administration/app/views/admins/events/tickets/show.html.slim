@@ -17,12 +17,10 @@
       dd = @ticket.id
       dt = t("admin.tickets.number")
       dd = @ticket.number
-      dt = t("admin.tickets.ticket_type")
-      dd = @ticket.ticket_type.name unless @ticket.ticket_type.nil?
-      dt = t("admin.tickets.ticket_type_simplified")
-      dd = @ticket.ticket_type.simplified_name unless @ticket.ticket_type.nil?
-      dt = t("admin.ticket_types.company")
-      dd = @ticket.ticket_type.company unless @ticket.ticket_type.nil?
+      dt = t("admin.tickets.company_ticket_type")
+      dd = @ticket.company_ticket_type.name unless @ticket.company_ticket_type.nil?
+      dt = t("admin.company_ticket_types.company")
+      dd = @ticket.company_ticket_type.company.name unless @ticket.company_ticket_type.nil?
       dt = t("admin.purchasers.name")
       dd = @ticket.purchaser_name
       dt = t("admin.purchasers.surname")

@@ -198,7 +198,7 @@ th:
     tickets:
       id: "Id"
       number: "Number"
-      ticket_type: "Ticket type"
+      company_ticket_type: "Company ticket type"
       ticket_type_simplified: "Simplified Ticket type"
       customer: "Assigned customer"
       created_at: "Created at"

@@ -200,7 +200,7 @@ es:
     tickets:
       id: "Id"
       number: "Número"
-      ticket_type: "Tipo de Ticket"
+      company_ticket_type: "Tipo de ticket de compañía"
       ticket_type_simplified: "Tipo de Ticket Simplificado"
       customer: "Cliente asignado"
       created_at: "Creado el"
