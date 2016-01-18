@@ -31,7 +31,6 @@ def event_to_hash_parameters(event) # method for testing
     background_type: event.background_type,
     features: event.features,
     refund_services: event.refund_services,
-    gtag_registration: event.gtag_registration,
     payment_service: event.payment_service,
     host_country: event.host_country,
     currency: event.currency,

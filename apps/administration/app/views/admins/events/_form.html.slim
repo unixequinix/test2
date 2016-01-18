@@ -26,7 +26,6 @@
     = f.input :locales, as: :hidden
 
     = f.input :ticket_assignation, as: :radio_buttons
-    = f.input :gtag_registration, as: :radio_buttons
     = f.input :host_country
     = f.input :currency
     = f.input :payment_service, collection: Event.payment_services_selector, include_blank: false

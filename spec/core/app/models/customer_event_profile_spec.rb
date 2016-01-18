@@ -156,8 +156,6 @@ RSpec.describe CustomerEventProfile, type: :model do
     it 'should return the amount of credits' do
       customer_event_profile = create(:customer_event_profile)
       gtag_credit_log = create(:gtag_credit_log, amount: 15)
-      gtag = gtag_credit_log.gtag
-      create(:gtag_registration, customer_event_profile: customer_event_profile, gtag: gtag)
       expect(customer_event_profile.refundable_credits).to eq(15)
     end
   end

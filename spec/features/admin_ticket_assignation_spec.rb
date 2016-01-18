@@ -4,7 +4,7 @@ RSpec.feature 'Admin Ticket assignation', type: :feature do
   context 'with account signed in' do
     describe 'an admin ' do
       before :each do
-        @event_creator = EventCreator.new(build(:event, gtag_registration: true).to_hash_parameters)
+        @event_creator = EventCreator.new(build(:event).to_hash_parameters)
         @event_creator.save
         @event = @event_creator.event
         @customer = create(:customer, event: @event, confirmation_token: nil, confirmed_at: Time.now)

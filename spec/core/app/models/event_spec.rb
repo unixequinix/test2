@@ -42,13 +42,12 @@ RSpec.describe Event, type: :model do
     event_creator.save
     @event = event_creator.event
     customer = create(:customer, event: @event, confirmation_token: nil, confirmed_at: Time.now)
-    customer_event_profile = create(:customer_event_profile, event: @event, customer: customer)
+    create(:customer_event_profile, event: @event, customer: customer)
     gtag = create(:gtag, event: @event)
     create(:gtag_credit_log, gtag: gtag)
     create(:gtag_credit_log, gtag: gtag)
     gtag2 = create(:gtag, event: @event)
     create(:gtag_credit_log, gtag: gtag2)
-    create(:gtag_registration, gtag: gtag, customer_event_profile: customer_event_profile)
   end
 
   it 'should return the credits available for that event' do
