@@ -1,3 +1,3 @@
-module Company
+module CompanyApi
   VERSION = '0.0.1'
 end
