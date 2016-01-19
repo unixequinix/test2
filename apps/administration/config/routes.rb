@@ -48,6 +48,7 @@ Rails.application.routes.draw do
             delete :destroy_multiple
           end
         end
+        resources :companies, except: :show
         resources :credits, except: :show
         resources :vouchers, except: :show
         resources :credential_types, except: :show

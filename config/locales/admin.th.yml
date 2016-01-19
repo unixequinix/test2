@@ -1,5 +1,7 @@
 th:
   admin:
+    companies:
+      name: "Name"
     actions:
       new: "New"
       back: "Back"
@@ -156,6 +158,7 @@ th:
       sign_out: "Sign out"
       setup: "Setup"
       crm: "CRM"
+      companies: "Companies"
     dashboard:
       change_state: "Change state?"
       api_access: "API access"

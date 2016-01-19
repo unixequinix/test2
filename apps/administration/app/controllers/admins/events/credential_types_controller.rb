@@ -9,7 +9,7 @@ class Admins::Events::CredentialTypesController < Admins::Events::BaseController
   end
 
   def create
-    @credential_type = CredentialType.new(permitted_params, position: next_val)
+    @credential_type = CredentialType.new(permitted_params.merge({position: 1}))
     if @credential_type.save
       flash[:notice] = I18n.t('alerts.created')
       redirect_to admins_event_credential_types_url

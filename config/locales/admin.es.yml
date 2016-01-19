@@ -1,5 +1,7 @@
 es:
   admin:
+    companies:
+      name: "Nombre"
     actions:
       new: "Nuevo"
       back: "Atrás"
@@ -158,6 +160,7 @@ es:
       crm: "CRM"
       vouchers: "Cupones"
       credential_types: "Tipos de Credenciales"
+      companies: "Compañías"
     dashboard:
       change_state: "Cambiar de Estado?"
       api_access: "Acceso API"

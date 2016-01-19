@@ -151,6 +151,23 @@ crumb :new_admins_event_preevent_product do |event|
   parent :admins_event_preevent_products, event
 end
 
+## Company
+
+crumb :admins_event_companies do |event|
+  link t('breadcrumbs.companies'), admins_event_companies_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_company do |event, company|
+  link company.name, edit_admins_event_company_path(event, company)
+  parent :admins_event_companies, event
+end
+
+crumb :new_admins_event_company do |event|
+  link t('breadcrumbs.new_company')
+  parent :admins_event_companies, event
+end
+
 ## CompanyTicketType
 
 crumb :admins_event_company_ticket_types do |event|

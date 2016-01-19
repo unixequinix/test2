@@ -3,7 +3,8 @@
 # Table name: credential_types
 #
 #  id         :integer          not null, primary key
-#  position   :integer          default(0), not null
+#  position   :integer          not null
+#  counter    :integer          default(1)
 #  deleted_at :datetime
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
