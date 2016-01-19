@@ -1,0 +1,4 @@
+en:
+  company_api:
+    not_found: "Ticket #%{ticket_id} not found or doesn't belong to your company."
+    bad_request: ""
