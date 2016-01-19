@@ -1,4 +1,0 @@
-es:
-  company_api:
-    not_found: "El ticket #%{ticket_id} no ha sido encontrado o no pertenece a su compañia."
-    bad_request: ""

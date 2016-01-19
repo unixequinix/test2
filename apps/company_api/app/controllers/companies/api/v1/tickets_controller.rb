@@ -19,7 +19,7 @@ module Companies
             render json: @ticket
           else
             render status: :not_found,
-              json: { error: I18n.t("company_api.not_found", ticket_id: params[:id]) }
+              json: { error: I18n.t("company_api.tickets.not_found", ticket_id: params[:id]) }
           end
         end
       end
