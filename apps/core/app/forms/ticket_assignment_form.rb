@@ -30,9 +30,7 @@ class TicketAssignmentForm
   def persist!(ticket, current_customer_event_profile)
     current_customer_event_profile.save
     current_customer_event_profile.credential_assignments.create(credentiable: ticket)
-    # return unless ticket.credential_ticket_type.credit.present?
-    # CreditLog.create(customer_event_profile: current_customer_event_profile,
-    #                 transaction_type: CreditLog::TICKET_ASSIGNMENT,
-    #                 amount: ticket.credential_ticket_type.credit)
+    return unless ticket.company_ticket_type.preevent_product.preevent_product_items.joins(:preevent_item).where(preevent_items: {purchasable_type: "Credit"}).present?
+    CreditLog.create(customer_event_profile: current_customer_event_profile,transaction_type: CreditLog::TICKET_ASSIGNMENT,amount: ticket.company_ticket_type.preevent_product.preevent_product_items.joins(:preevent_item).where(preevent_items: {purchasable_type: "Credit"}).sum(:amount))
   end
 end
