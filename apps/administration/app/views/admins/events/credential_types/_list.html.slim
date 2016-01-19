@@ -10,6 +10,7 @@ table.credential_types
       th = t('admin.preevent_item.max_purchasable')
       th = t('admin.preevent_item.min_purchasable')
       th = t('admin.credential_type.position')
+      th = t('admin.credential_type.counter')
       th.table-actions-field = t('admin.defaults.actions')
   tbody
     - credential_types.each do |credential_type|
@@ -22,6 +23,7 @@ table.credential_types
         td data-label=t('admin.preevent_item.max_purchasable') = credential_type.preevent_item.max_purchasable
         td data-label=t('admin.preevent_item.min_purchasable') = credential_type.preevent_item.min_purchasable
         td data-label=t('admin.credential_types.position') = credential_type.position
+        td data-label=t('admin.credential_types.counter') = credential_type.counter
         td.table-actions-field
           = render 'admins/events/credential_types/actions', credential_type: credential_type unless current_event.started?
 

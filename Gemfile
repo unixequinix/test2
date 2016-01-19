@@ -69,6 +69,9 @@ gem 'stripe'
 # Flags
 gem 'flag_shih_tzu', '~>0.3.13'
 
+# Lists
+gem 'acts_as_list'
+
 # Architectural
 gem 'virtus', '~> 1.0.5'
 gem 'reform', '~> 2.0.5'

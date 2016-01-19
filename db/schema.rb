@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(version: 20160114135400) do
     t.string   "url"
     t.string   "background_type",         default: "fixed"
     t.integer  "features",                default: 0,                     null: false
-    t.boolean  "gtag_registration",       default: true,                  null: false
+    t.boolean  "gtag_assignation",        default: true,                  null: false
     t.string   "payment_service",         default: "redsys"
     t.integer  "registration_parameters", default: 0,                     null: false
     t.string   "currency",                default: "USD",                 null: false
@@ -194,7 +194,8 @@ ActiveRecord::Schema.define(version: 20160114135400) do
   end
 
   create_table "credential_types", force: :cascade do |t|
-    t.integer  "position",   default: 0, null: false
+    t.integer  "position",   null: false
+    t.integer  "counter",    default: 1
     t.datetime "deleted_at", index: {name: "index_credential_types_on_deleted_at"}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -332,7 +333,7 @@ ActiveRecord::Schema.define(version: 20160114135400) do
   end
 
   create_table "tickets", force: :cascade do |t|
-    t.string   "number",                 index: {name: "index_tickets_on_number", unique: true}
+    t.string   "code",                   index: {name: "index_tickets_on_code", unique: true}
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.datetime "deleted_at",             index: {name: "index_tickets_on_deleted_at"}
@@ -340,7 +341,6 @@ ActiveRecord::Schema.define(version: 20160114135400) do
     t.string   "purchaser_name"
     t.string   "purchaser_surname"
     t.integer  "event_id",               null: false, index: {name: "index_tickets_on_event_id"}, foreign_key: {references: "events", name: "tickets_event_id_fkey", on_update: :no_action, on_delete: :no_action}
-    t.string   "barcode"
     t.boolean  "credential_redeemed",    default: false, null: false
     t.integer  "company_ticket_type_id", index: {name: "fk__tickets_company_ticket_type_id"}, foreign_key: {references: "company_ticket_types", name: "tickets_company_ticket_type_id_fkey", on_update: :no_action, on_delete: :no_action}
   end

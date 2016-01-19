@@ -37,7 +37,7 @@ class Ticket < ActiveRecord::Base
   # has_many :comments, as: :commentable
 
   # Validations
-  validates :number, uniqueness: true
+  validates :code, uniqueness: true
 
   scope :selected_data, lambda  { |event_id|
     joins('LEFT OUTER JOIN admissions ON admissions.ticket_id = tickets.id AND admissions.deleted_at IS NULL')

@@ -1,0 +1,26 @@
+- unless presenter.customer_has_refund?
+  .wrapper-field.form-inputs
+      .dashboard-field.dashboard-field-info
+        h3
+          = fa_icon "ticket"
+          = t('dashboard.gtag_registration.title')
+        h3.highlight
+          = presenter.gtag_tag_uid
+      - if presenter.gtag_assignments_enabled?
+        .dashboard-field.dashboard-field-action
+          h3 = t('dashboard.gtag_registration.call_to_action', gtag: presenter.gtag_name)
+          = link_to t('dashboard.gtag_registration.button'), event_gtag_assignment_path(current_event, presenter.gtag_assignment), method: :delete, class: "btn btn-dashboard"
+
+.wrapper-field.centered
+  .form-inputs
+    h3.claim = t('dashboard.wait_refund_disclaimer.claim')
+    h3 = t('dashboard.wait_refund_disclaimer.description')
+    h3 = t('dashboard.wait_refund_disclaimer.description2')
+    = link_to href="#{presenter.event_url}", target: '_blank', class: 'btn btn-action btn-action-back' do
+      = t('actions.check_news')
+
+.wrapper-field.centered
+  .form-inputs
+    h3 = t('dashboard.more_gtags.description', gtag: presenter.gtag_name)
+    = link_to event_logout_path(current_event), method: :delete, class: "btn btn-action btn-action-back" do
+      = t("actions.logout")

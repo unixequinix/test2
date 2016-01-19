@@ -27,6 +27,7 @@ class AddBarcodeCredentialPreeventProductToTickets < ActiveRecord::Migration
   def change
     add_column :tickets, :credential_redeemed, :boolean, null: false, default: false
     add_column :tickets, :company_ticket_type_id, :integer
+    rename_column :tickets, :number, :code
 
     migrate_ticket_types
   end
@@ -47,15 +48,15 @@ class AddBarcodeCredentialPreeventProductToTickets < ActiveRecord::Migration
       preevent_product = PreeventProduct.create(
         name: ticket_type.name,
         preevent_item_ids: credential_types_ids + credits_ids,
-        preevent_product_items_attributes: [{ amount: ticket_type.credit || 0 }],
+        preevent_product_items_attributes: [{ amount: ticket_type.credit || 1 }],
         order_item_ids: order_items_ids, event_id: ticket_type.event_id)
 
       company = Company.find_or_create_by(name: ticket_type.company, event_id: ticket_type.event_id)
-      company_ticket_type = CompanyTicketType.create(
+      company_ticket_type = CompanyTicketType.new(
         name: ticket_type.simplified_name || ticket_type.name,
         company: company, preevent_product: preevent_product, event_id: ticket_type.event_id)
 
-      ticket_type.tickets.each do |ticket|
+      ticket_type.tickets.each_with_index do |ticket, ind|
         ticket.update_attributes(company_ticket_type: company_ticket_type)
       end
     end

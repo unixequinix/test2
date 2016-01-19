@@ -23,27 +23,27 @@
   .container-show
     h3
       = fa_icon "table"
-      = t("admin.gtags.gtag_registration")
+      = t("admin.gtags.gtag_assignation")
     table.subtable.claim-subtable
       thead
         tr
-          th = t("admin.gtag_registrations.customer.email")
-          th = t("admin.gtag_registrations.customer.complete_name")
-          th = t("admin.gtag_registrations.aasm_state")
-          th = t("admin.gtag_registrations.created_at")
-          th = t("admin.gtag_registrations.updated_at")
+          th = t("admin.gtag_assignations.customer.email")
+          th = t("admin.gtag_assignations.customer.complete_name")
+          th = t("admin.gtag_assignations.aasm_state")
+          th = t("admin.gtag_assignations.created_at")
+          th = t("admin.gtag_assignations.updated_at")
           th = t("admin.defaults.actions")
       tbody
         - @gtag.credential_assignments.each do |credential_assignment|
           tr
-            td = link_to gtag_registration.customer_event_profile.customer.email, admins_event_customer_path(current_event, gtag_registration.customer_event_profile.customer) unless gtag_registration.nil? || gtag_registration.customer_event_profile.customer.nil?
-            td = "#{gtag_registration.customer_event_profile.customer.name} #{gtag_registration.customer_event_profile.customer.surname}" unless gtag_registration.nil? || gtag_registration.customer_event_profile.customer.nil?
-            td = t("admin.gtag_registrations.states.#{gtag_registration.aasm_state}")
-            td = gtag_registration.created_at.strftime("%y-%m-%d %H:%M:%S")
-            td = gtag_registration.updated_at.strftime("%y-%m-%d %H:%M:%S")
+            td = link_to credential_assignment.customer_event_profile.customer.email, admins_event_customer_path(current_event, credential_assignment.customer_event_profile.customer) unless credential_assignment.nil? || credential_assignment.customer_event_profile.customer.nil?
+            td = "#{credential_assignment.customer_event_profile.customer.name} #{credential_assignment.customer_event_profile.customer.surname}" unless credential_assignment.nil? || credential_assignment.customer_event_profile.customer.nil?
+            td = t("admin.credential_assignments.states.#{credential_assignment.aasm_state}")
+            td = credential_assignment.created_at.strftime("%y-%m-%d %H:%M:%S")
+            td = credential_assignment.updated_at.strftime("%y-%m-%d %H:%M:%S")
             td.table-actions-field
               ul
-                - if gtag_registration.assigned?
+                - if credential_assignment.assigned?
                   li.table-action.action-delete
-                    = link_to admins_event_gtag_registration_path(current_event, gtag_registration), method: :delete, data: { confirm: t("admin.confirm.delete") } do
+                    = link_to admins_event_credential_assignment_path(current_event, credential_assignment), method: :delete, data: { confirm: t("admin.confirm.delete") } do
                       = fa_icon "ban"

@@ -175,6 +175,6 @@ class Event < ActiveRecord::Base
   end
 
   def gtag_assignment?
-    gtag_registration?
+    gtag_assignation
   end
 end

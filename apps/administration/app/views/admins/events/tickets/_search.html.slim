@@ -4,7 +4,7 @@ p.menu-header
 
 = search_form_for q, url: search_admins_event_tickets_path, html: { novalidate: true, class: "searchForm" }  do |f|
   .container-search
-    = f.input :number_cont, label: t("admin.tickets.search.number"), placeholder: t("admin.tickets.search.number")
+    = f.input :code_cont, label: t("admin.tickets.search.code"), placeholder: t("admin.tickets.search.code")
     = f.input :assigned_ticket_credential_customer_event_profile_customer_email_cont, label: t("admin.tickets.search.customer"), placeholder: t("admin.tickets.search.customer")
     = f.input :purchaser_email_cont, label: t("admin.tickets.search.purchaser_email"), placeholder: t("admin.tickets.search.purchaser_email")
     .custom-select

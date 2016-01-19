@@ -183,6 +183,7 @@ es:
       counter: "Contador"
     credential_types:
       position: "Posición"
+      counter: "Contador"
     company_ticket_types:
       name: "Nombre"
       company: "Compañía"
@@ -199,7 +200,7 @@ es:
       import: "Importar tipos de ticket (Seleccionar un fichero CSV separado por comas)"
     tickets:
       id: "Id"
-      number: "Número"
+      code: "Código"
       company_ticket_type: "Tipo de ticket de compañía"
       ticket_type_simplified: "Tipo de Ticket Simplificado"
       customer: "Cliente asignado"
@@ -237,7 +238,7 @@ es:
       created_at: "Creado el"
       updated_at: "Actualizado el"
       total: "Créditos Totales"
-      gtag_registration: "Registros del Gtag"
+      gtag_assignation: "Asignaciones del Gtag"
       import: "Importar GTags (Seleccionar un fichero CSV separado por comas)"
       import_credits: "Importar Creditos (Seleccionar un fichero CSV separado por comas)"
       search:
@@ -250,7 +251,7 @@ es:
         total_credits: "Créditos totales en el sistema"
         total_refundable_money: "Dinero devolver (menos comisiones)"
         total_refundable_gtags: "Gtags con crédito a devolver"
-    gtag_registrations:
+    gtag_assignations:
       tag: "Tag UID"
       serial: "Tag Número Serial"
       customer:

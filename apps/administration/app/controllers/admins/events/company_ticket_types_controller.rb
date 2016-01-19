@@ -62,7 +62,7 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
       :event_id,
       :company_id,
       :name,
-      preevent_product_ids: []
+      :preevent_product_id
     )
   end
 end

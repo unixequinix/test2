@@ -85,7 +85,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   def permitted_params
     params.require(:ticket).permit(
       :event_id,
-      :number,
+      :code,
       :company_ticket_type_id,
       :purchaser_name,
       :purchaser_surname,

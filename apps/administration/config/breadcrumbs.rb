@@ -57,7 +57,7 @@ crumb :admins_event_tickets do |event|
 end
 
 crumb :admins_event_ticket do |event, ticket|
-  link ticket.number, edit_admins_event_ticket_path(event, ticket)
+  link ticket.code, edit_admins_event_ticket_path(event, ticket)
   parent :admins_event_tickets, event
 end
 

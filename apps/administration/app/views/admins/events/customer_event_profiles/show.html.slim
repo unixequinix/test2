@@ -24,7 +24,7 @@
         - @customer_event_profile.active_tickets_assignment.each do |ticket_assigned|
           dt = t ("admin.customers.tickets")
           dd
-            = link_to ticket_assigned.credentiable.number, edit_admins_event_ticket_path(current_event, ticket_assigned.credentiable)
+            = link_to ticket_assigned.credentiable.code, edit_admins_event_ticket_path(current_event, ticket_assigned.credentiable)
             = " - #{ticket_assigned.credentiable.company_ticket_type.name}"
       - else
         dt = t ("admin.customers.tickets")
@@ -88,7 +88,7 @@
         tbody
           - @customer_event_profile.ticket_assignments.each do |admission|
             tr
-              td = link_to "#{admission.credentiable.number}", edit_admins_event_ticket_path(current_event, admission.credentiable)
+              td = link_to "#{admission.credentiable.code}", edit_admins_event_ticket_path(current_event, admission.credentiable)
               td = t("admin.admissions.states.#{admission.aasm_state}")
               td = admission.created_at.strftime("%y-%m-%d %H:%M:%S")
     - if !@customer_event_profile.credit_logs.empty?

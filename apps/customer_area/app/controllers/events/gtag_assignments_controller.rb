@@ -1,6 +1,6 @@
 class Events::GtagAssignmentsController < Events::BaseController
   before_action :check_event_status!
-  before_action :check_has_not_gtag_registration!, only: [:new, :create]
+  before_action :check_has_not_gtag_assignment!, only: [:new, :create]
 
   def new
     @gtag_assignment_presenter = GtagAssignmentPresenter.new(current_event: current_event)
@@ -29,12 +29,12 @@ class Events::GtagAssignmentsController < Events::BaseController
   private
 
   def check_event_status!
-    return if current_event.gtag_registration?
+    return if current_event.gtag_assignment?
     flash.now[:error] = I18n.t('alerts.error')
     redirect_to event_url(current_event)
   end
 
-  def check_has_not_gtag_registration!
+  def check_has_not_gtag_assignment!
     return if current_customer_event_profile.active_gtag_assignment.nil?
     redirect_to event_url(current_event), flash: { error: I18n.t('alerts.already_assigned') }
   end
