@@ -25,6 +25,7 @@ module Companies
 
         def create
           @ticket = Ticket.new(ticket_params)
+          @ticket.event_id = current_event
 
           if @ticket.save
             render status: :created, json: Companies::Api::V1::TicketSerializer.new(@ticket)
@@ -53,12 +54,12 @@ module Companies
         private
 
         def ticket_params
-          params.require(:ticket).permit(:purchaser_email)
-                .merge(purchaser_name: params[:ticket][:purchaser_first_name],
-                       purchaser_surname: params[:ticket][:purchaser_last_name],
-                       number: params[:ticket][:ticket_reference],
-                       company_ticket_type_id: params[:ticket][:ticket_type_id],
-                       event_id: current_event)
+          params[:ticket][:number] = params[:ticket][:ticket_reference]
+          params[:company_ticket_type_id] = params[:ticket][:ticket_type_id]
+
+          params.require(:ticket)
+                .permit(:purchaser_email, :purchaser_name,
+                        :purchaser_surname, :number, :company_ticket_type_id)
         end
       end
     end

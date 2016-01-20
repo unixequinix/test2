@@ -28,6 +28,8 @@ module Companies
 
         def create
           @ticket_type = CompanyTicketType.new(ticket_type_params)
+          @ticket_type.event_id = current_event
+          @ticket_type.company_id = Company.find_by_name(company_name).id
 
           if @ticket_type.save
             render status: :created, json: Companies::Api::V1::TicketTypeSerializer.new(@ticket_type)
@@ -56,8 +58,7 @@ module Companies
         private
 
         def ticket_type_params
-          params.require(:ticket_type).permit(:name, :internal_ticket_type)
-                .merge(event_id: current_event, company: Company.find_by_name(company_name))
+          params.require(:ticket_type).permit(:name, :company_ticket_type_ref)
         end
       end
     end
