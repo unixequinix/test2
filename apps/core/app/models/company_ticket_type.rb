@@ -20,6 +20,5 @@ class CompanyTicketType < ActiveRecord::Base
   belongs_to :preevent_product
   belongs_to :company
 
-  # TODO: Add validation to internal_ticket_type
-  validates :name, presence: true
+  validates :internal_ticket_type, :name, presence: true
 end
