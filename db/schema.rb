@@ -164,12 +164,16 @@ ActiveRecord::Schema.define(version: 20160114135400) do
   end
 
   create_table "preevent_products", force: :cascade do |t|
-    t.integer  "event_id",   null: false, index: {name: "fk__preevent_products_event_id"}, foreign_key: {references: "events", name: "fk_preevent_products_event_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "event_id",        null: false, index: {name: "fk__preevent_products_event_id"}, foreign_key: {references: "events", name: "fk_preevent_products_event_id", on_update: :no_action, on_delete: :no_action}
     t.string   "name"
-    t.boolean  "online",     default: false, null: false
-    t.datetime "deleted_at", index: {name: "index_preevent_products_on_deleted_at"}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.boolean  "online",          default: false, null: false
+    t.integer  "initial_amount"
+    t.integer  "step"
+    t.integer  "max_purchasable"
+    t.integer  "min_purchasable"
+    t.datetime "deleted_at",      index: {name: "index_preevent_products_on_deleted_at"}
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "company_ticket_types", force: :cascade do |t|
@@ -268,29 +272,13 @@ ActiveRecord::Schema.define(version: 20160114135400) do
     t.integer  "customer_event_profile_id", index: {name: "index_orders_on_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "orders_customer_event_profile_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
-  create_table "preevent_items", force: :cascade do |t|
-    t.integer  "purchasable_id",   null: false
-    t.string   "purchasable_type", null: false
-    t.integer  "event_id",         index: {name: "fk__preevent_items_event_id"}, foreign_key: {references: "events", name: "fk_preevent_items_event_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "name"
-    t.text     "description"
-    t.integer  "initial_amount"
-    t.decimal  "price"
-    t.integer  "step"
-    t.integer  "max_purchasable"
-    t.integer  "min_purchasable"
-    t.datetime "deleted_at",       index: {name: "index_preevent_items_on_deleted_at"}
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-  end
-
   create_table "order_items", force: :cascade do |t|
-    t.integer  "order_id",         null: false, index: {name: "fk__order_items_order_id"}, foreign_key: {references: "orders", name: "fk_order_items_order_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "order_id",            null: false, index: {name: "fk__order_items_order_id"}, foreign_key: {references: "orders", name: "fk_order_items_order_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "amount"
-    t.decimal  "total",            precision: 8, scale: 2, null: false
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.integer  "preevent_item_id", index: {name: "fk__order_items_preevent_item_id"}, foreign_key: {references: "preevent_items", name: "order_items_preevent_item_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.decimal  "total",               precision: 8, scale: 2, null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.integer  "preevent_product_id", index: {name: "fk__order_items_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "order_items_preevent_product_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "payments", force: :cascade do |t|
@@ -308,6 +296,18 @@ ActiveRecord::Schema.define(version: 20160114135400) do
     t.datetime "paid_at"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+  end
+
+  create_table "preevent_items", force: :cascade do |t|
+    t.integer  "purchasable_id",   null: false
+    t.string   "purchasable_type", null: false
+    t.integer  "event_id",         index: {name: "fk__preevent_items_event_id"}, foreign_key: {references: "events", name: "fk_preevent_items_event_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "name"
+    t.text     "description"
+    t.decimal  "price"
+    t.datetime "deleted_at",       index: {name: "index_preevent_items_on_deleted_at"}
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "preevent_product_items", force: :cascade do |t|

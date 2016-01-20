@@ -8,11 +8,7 @@
 #  event_id         :integer
 #  name             :string
 #  description      :text
-#  initial_amount   :integer
 #  price            :decimal(, )
-#  step             :integer
-#  max_purchasable  :integer
-#  min_purchasable  :integer
 #  deleted_at       :datetime
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
@@ -27,4 +23,8 @@ class PreeventItem < ActiveRecord::Base
 
   # Validations
   validates :name, presence: true
+
+  def rounded_price
+    price.round == price ? price.floor : price
+  end
 end

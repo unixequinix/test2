@@ -24,13 +24,13 @@ class CheckoutForm
     Credit.all.each do |credit|
       amount = params[:credits]["#{credit.id}"].to_i
       if !amount.nil? && amount > 0
-        @order.order_items << OrderItem.new(online_product_id: credit.online_product.id, amount: amount, total: amount * credit.online_product.rounded_price)
+        @order.order_items << OrderItem.new(
+          preevent_product_id: credit.preevent_product.id,
+          amount: amount,
+          total: amount * credit.preevent_product.rounded_price
+        )
       end
     end
-    if @order.save
-      true
-    else
-      false
-    end
+    @order.save ? true : false
   end
 end
