@@ -36,6 +36,20 @@ module Companies
           end
         end
 
+        def update
+          @ticket = Ticket.includes(:company_ticket_type, company_ticket_type: [:company])
+              .find_by(id: params[:id], event_id: current_event, companies: { name: company_name })
+
+          if @ticket.update(ticket_params)
+            render json: Companies::Api::V1::TicketSerializer.new(@ticket)
+          else
+            render status: :bad_request, json: {
+              message: I18n.t("company_api.tickets.bad_request"),
+              errors: @ticket.errors
+            }
+          end
+        end
+
         private
 
         def ticket_params
