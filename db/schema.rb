@@ -171,6 +171,7 @@ ActiveRecord::Schema.define(version: 20160114135400) do
     t.integer  "step"
     t.integer  "max_purchasable"
     t.integer  "min_purchasable"
+    t.decimal  "price"
     t.datetime "deleted_at",      index: {name: "index_preevent_products_on_deleted_at"}
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
@@ -304,7 +305,6 @@ ActiveRecord::Schema.define(version: 20160114135400) do
     t.integer  "event_id",         index: {name: "fk__preevent_items_event_id"}, foreign_key: {references: "events", name: "fk_preevent_items_event_id", on_update: :no_action, on_delete: :no_action}
     t.string   "name"
     t.text     "description"
-    t.decimal  "price"
     t.datetime "deleted_at",       index: {name: "index_preevent_items_on_deleted_at"}
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false

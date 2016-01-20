@@ -173,14 +173,14 @@ it:
       name: "Name"
       online: "Online"
       number_product_items: "Número de items"
-    preevent_item:
-      name: "Name"
-      description: "Description"
       initial_amount: "Initial Amount"
       price: "Price"
       step: "Step"
       max_purchasable: "Max Purchasable"
       min_purchasable: "Min Purchasable"
+    preevent_item:
+      name: "Name"
+      description: "Description"
     vouchers:
       id: "Id"
       counter: "Counter"

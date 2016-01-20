@@ -173,14 +173,14 @@ es:
       name: "Nombre"
       online: "Online"
       number_product_items: "Número de items"
-    preevent_item:
-      name: "Name"
-      description: "Descripción"
       initial_amount: "Cantidad Inicial"
       price: "Precio"
       step: "Escala"
       max_purchasable: "Máximo Comprable"
       min_purchasable: "Mínimo Comprable"
+    preevent_item:
+      name: "Name"
+      description: "Descripción"
     vouchers:
       id: "Id"
       counter: "Contador"
