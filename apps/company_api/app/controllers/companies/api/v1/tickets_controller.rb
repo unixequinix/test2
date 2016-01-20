@@ -22,6 +22,30 @@ module Companies
               json: { error: I18n.t("company_api.tickets.not_found", ticket_id: params[:id]) }
           end
         end
+
+        def create
+          @ticket = Ticket.new(ticket_params)
+
+          if @ticket.save
+            render status: :created, json: Companies::Api::V1::TicketSerializer.new(@ticket)
+          else
+            render status: :bad_request, json: {
+              message: I18n.t("company_api.tickets.bad_request"),
+              errors: @ticket.errors
+            }
+          end
+        end
+
+        private
+
+        def ticket_params
+          params.require(:ticket).permit(:purchaser_email)
+                .merge(purchaser_name: params[:ticket][:purchaser_first_name],
+                       purchaser_surname: params[:ticket][:purchaser_last_name],
+                       number: params[:ticket][:ticket_reference],
+                       company_ticket_type_id: params[:ticket][:ticket_type_id],
+                       event_id: current_event)
+        end
       end
     end
   end
