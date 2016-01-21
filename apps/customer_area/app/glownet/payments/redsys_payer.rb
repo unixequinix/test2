@@ -5,7 +5,7 @@ class Payments::RedsysPayer
 
   def notify_payment(params)
     event = Event.friendly.find(params[:event_id])
-    merchant_code = EventParameter.find_by(event_id: event.id, parameter_id: Parameter.find_by(category: 'payment', group: 'redsys', name: 'code')).value
+    merchant_code = EventParameter.find_by(event_id: event.id, parameter_id: Parameter.find_by(category: "payment", group: "redsys", name: "code")).value
     return unless params[:Ds_Order] && params[:Ds_MerchantCode] == merchant_code
 
     response = params[:Ds_Response]
@@ -34,7 +34,7 @@ class Payments::RedsysPayer
 
   def action_after_payment
     # this method will be evaluated in the controller
-    'render nothing: true'
+    "render nothing: true"
   end
 
   private

@@ -18,17 +18,17 @@
 #  updated_at             :datetime         not null
 #
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Admin, type: :model do
   it { is_expected.to validate_presence_of(:email) }
 
-  context 'with a new admin' do
+  context "with a new admin" do
     before do
       @admin = build(:admin)
     end
 
-    describe 'the email' do
+    describe "the email" do
       %w(admin.foo.com admin@test _@test.).each do |wrong_mail|
         it "is invalid if resembles #{wrong_mail}" do
           @admin.email = wrong_mail
@@ -37,17 +37,17 @@ RSpec.describe Admin, type: :model do
       end
     end
 
-    describe 'a new token' do
-      it 'is set' do
+    describe "a new token" do
+      it "is set" do
         admin = create(:admin)
         expect(admin.access_token).not_to be_nil
       end
     end
   end
 
-  context 'with an existing admin' do
-    describe 'the token' do
-      it 'can be validated' do
+  context "with an existing admin" do
+    describe "the token" do
+      it "can be validated" do
         admin = create(:admin)
         token = admin.access_token
         expect(admin.valid_token?(token)).to eq(true)

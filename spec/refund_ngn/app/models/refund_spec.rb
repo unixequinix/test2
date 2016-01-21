@@ -15,12 +15,12 @@
 #  status                     :string
 #
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Refund, type: :model do
   it { is_expected.to validate_presence_of(:claim) }
   it { is_expected.to validate_presence_of(:amount) }
-  it 'should set the data for the exportation' do
+  it "should set the data for the exportation" do
     refund = create(:refund)
     claim = refund.claim
     gtag = claim.gtag

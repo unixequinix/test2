@@ -24,10 +24,10 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
   def create
     @gtag = Gtag.new(permitted_params)
     if @gtag.save
-      flash[:notice] = I18n.t('alerts.created')
+      flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_gtags_url
     else
-      flash[:error] = @gtag.errors.full_messages.join('. ')
+      flash[:error] = @gtag.errors.full_messages.join(". ")
       render :new
     end
   end
@@ -40,10 +40,10 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
   def update
     @gtag = @fetcher.gtags.find(params[:id])
     if @gtag.update(permitted_params)
-      flash[:notice] = I18n.t('alerts.updated')
+      flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_gtag_url(current_event, @gtag)
     else
-      flash[:error] = @gtag.errors.full_messages.join('. ')
+      flash[:error] = @gtag.errors.full_messages.join(". ")
       render :edit
     end
   end
@@ -51,10 +51,10 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
   def destroy
     @gtag = @fetcher.gtags.find(params[:id])
     if @gtag.destroy
-      flash[:notice] = I18n.t('alerts.destroyed')
+      flash[:notice] = I18n.t("alerts.destroyed")
       redirect_to admins_event_gtags_url
     else
-      flash[:error] = @gtag.errors.full_messages.join('. ')
+      flash[:error] = @gtag.errors.full_messages.join(". ")
       redirect_to admins_event_gtags_url
     end
   end
@@ -63,7 +63,7 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
     gtags = params[:gtags]
     if gtags
       @fetcher.gtags.where(id: gtags.keys).each do |gtag|
-        flash[:error] = gtag.errors.full_messages.join('. ') unless gtag.destroy
+        flash[:error] = gtag.errors.full_messages.join(". ") unless gtag.destroy
       end
     end
     redirect_to admins_event_gtags_url
@@ -73,7 +73,7 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
-      model_name: 'Gtag'.constantize.model_name,
+      model_name: "Gtag".constantize.model_name,
       fetcher: @fetcher.gtags,
       search_query: params[:q],
       page: params[:page],

@@ -1,14 +1,14 @@
 class ExceptionsController < ApplicationController
-  layout 'exception'
+  layout "exception"
 
   def show
-    @exception = env['action_dispatch.exception']
+    @exception = env["action_dispatch.exception"]
     @status_code = ActionDispatch::ExceptionWrapper.new(env, @exception).status_code
     @rescue_response = ActionDispatch::ExceptionWrapper.rescue_responses[@exception.class.name]
 
     respond_to do |format|
       format.html { render :show, status: @status_code, layout: !request.xhr? }
-      format.xml  { render xml: details, root: 'error', status: @status_code }
+      format.xml  { render xml: details, root: "error", status: @status_code }
       format.json { render json: { error: details }, status: @status_code }
     end
   end

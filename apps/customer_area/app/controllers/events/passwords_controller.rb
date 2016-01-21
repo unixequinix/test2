@@ -1,5 +1,5 @@
 class Events::PasswordsController < Events::BaseController
-  layout 'event'
+  layout "event"
   skip_before_filter :authenticate_customer!
 
   def new
@@ -11,11 +11,11 @@ class Events::PasswordsController < Events::BaseController
     if !@customer.nil?
       @customer.init_password_token!
       CustomerMailer.reset_password_instructions_email(@customer).deliver_later
-      flash[:notice] = I18n.t('auth.passwords.send_instructions')
+      flash[:notice] = I18n.t("auth.passwords.send_instructions")
       redirect_to after_sending_reset_password_instructions_path
     else
       @customer = Customer.new
-      flash.now[:error] = I18n.t('auth.failure.invalid', authentication_keys: 'email')
+      flash.now[:error] = I18n.t("auth.failure.invalid", authentication_keys: "email")
       render :new
     end
   end
@@ -25,7 +25,7 @@ class Events::PasswordsController < Events::BaseController
     if !@customer.nil?
       @reset_password_form = ResetPasswordForm.new(@customer)
     else
-      flash[:error] = I18n.t('errors.messages.expired')
+      flash[:error] = I18n.t("errors.messages.expired")
       redirect_to customer_root_url(current_event)
     end
   end
@@ -34,9 +34,9 @@ class Events::PasswordsController < Events::BaseController
     customer = Customer.find_by(reset_password_token: permitted_params[:reset_password_token])
     @reset_password_form = ResetPasswordForm.new(customer)
     if @reset_password_form.reset_password_sent_at < 2.hours.ago
-      redirect_to edit_event_passwords_path(current_event), alert: I18n.t('errors.messages.expired')
+      redirect_to edit_event_passwords_path(current_event), alert: I18n.t("errors.messages.expired")
     elsif @reset_password_form.validate(permitted_params) && @reset_password_form.save
-      redirect_to customer_root_url(current_event), notice: I18n.t('auth.passwords.updated')
+      redirect_to customer_root_url(current_event), notice: I18n.t("auth.passwords.updated")
     else
       render :edit
     end

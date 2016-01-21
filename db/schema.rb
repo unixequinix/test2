@@ -178,14 +178,14 @@ ActiveRecord::Schema.define(version: 20160114135400) do
   end
 
   create_table "company_ticket_types", force: :cascade do |t|
-    t.integer  "company_id",          index: {name: "fk__company_ticket_types_company_id"}, foreign_key: {references: "companies", name: "fk_company_ticket_types_company_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "preevent_product_id", index: {name: "fk__company_ticket_types_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "fk_company_ticket_types_preevent_product_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "event_id",            index: {name: "fk__company_ticket_types_event_id"}, foreign_key: {references: "events", name: "fk_company_ticket_types_event_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "company_id",              index: {name: "fk__company_ticket_types_company_id"}, foreign_key: {references: "companies", name: "fk_company_ticket_types_company_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "preevent_product_id",     index: {name: "fk__company_ticket_types_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "fk_company_ticket_types_preevent_product_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "event_id",                index: {name: "fk__company_ticket_types_event_id"}, foreign_key: {references: "events", name: "fk_company_ticket_types_event_id", on_update: :no_action, on_delete: :no_action}
     t.string   "name"
-    t.string   "code"
-    t.datetime "deleted_at",          index: {name: "index_company_ticket_types_on_deleted_at"}
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.string   "company_ticket_type_ref"
+    t.datetime "deleted_at",              index: {name: "index_company_ticket_types_on_deleted_at"}
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "credential_assignments", force: :cascade do |t|
@@ -200,7 +200,6 @@ ActiveRecord::Schema.define(version: 20160114135400) do
 
   create_table "credential_types", force: :cascade do |t|
     t.integer  "position",   null: false
-    t.integer  "counter",    default: 1
     t.datetime "deleted_at", index: {name: "index_credential_types_on_deleted_at"}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -338,8 +337,8 @@ ActiveRecord::Schema.define(version: 20160114135400) do
     t.datetime "updated_at",             null: false
     t.datetime "deleted_at",             index: {name: "index_tickets_on_deleted_at"}
     t.string   "purchaser_email"
-    t.string   "purchaser_name"
-    t.string   "purchaser_surname"
+    t.string   "purchaser_first_name"
+    t.string   "purchaser_last_name"
     t.integer  "event_id",               null: false, index: {name: "index_tickets_on_event_id"}, foreign_key: {references: "events", name: "tickets_event_id_fkey", on_update: :no_action, on_delete: :no_action}
     t.boolean  "credential_redeemed",    default: false, null: false
     t.integer  "company_ticket_type_id", index: {name: "fk__tickets_company_ticket_type_id"}, foreign_key: {references: "company_ticket_types", name: "tickets_company_ticket_type_id_fkey", on_update: :no_action, on_delete: :no_action}

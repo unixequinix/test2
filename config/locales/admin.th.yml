@@ -184,7 +184,6 @@ th:
       counter: "Counter"
     credential_types:
       position: "Position"
-      counter: "Counter"
     entitlements:
       name: "Name"
     company_ticket_types:

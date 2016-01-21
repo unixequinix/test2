@@ -4,10 +4,10 @@ class EpgCheckout
   def initialize(claim, epg_claim_form)
     @claim = claim
     @epg_claim_form = epg_claim_form
-    eps = EventParameter.select(:value, 'parameters.name')
+    eps = EventParameter.select(:value, "parameters.name")
                         .joins(:parameter)
                         .where(event_id: claim.customer_event_profile.event_id,
-                               parameters: { category: 'refund', group: 'epg' })
+                               parameters: { category: "refund", group: "epg" })
     @epg_values = Hash[eps.map { |ep| [ep.name.to_sym, ep.value] }]
   end
 

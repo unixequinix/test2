@@ -10,6 +10,7 @@
 #  step            :integer
 #  max_purchasable :integer
 #  min_purchasable :integer
+#  price           :decimal(, )
 #  deleted_at      :datetime
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null

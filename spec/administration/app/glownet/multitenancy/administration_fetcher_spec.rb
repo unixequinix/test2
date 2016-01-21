@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Multitenancy::AdministrationFetcher, type: :domain_logic do
 end

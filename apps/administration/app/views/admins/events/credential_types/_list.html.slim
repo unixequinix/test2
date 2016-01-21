@@ -5,7 +5,6 @@ table.credential_types
       th = t('admin.preevent_item.name')
       th = t('admin.preevent_item.description')
       th = t('admin.credential_type.position')
-      th = t('admin.credential_type.counter')
       th.table-actions-field = t('admin.defaults.actions')
   tbody
     - credential_types.each do |credential_type|
@@ -13,7 +12,6 @@ table.credential_types
         td data-label=t('admin.preevent_item.name') = link_to(credential_type.preevent_item.name, edit_admins_event_credential_type_path(current_event, credential_type))
         td data-label=t('admin.preevent_item.description') = credential_type.preevent_item.description
         td data-label=t('admin.credential_types.position') = credential_type.position
-        td data-label=t('admin.credential_types.counter') = credential_type.counter
         td.table-actions-field
           = render 'admins/events/credential_types/actions', credential_type: credential_type unless current_event.started?
 

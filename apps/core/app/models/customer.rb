@@ -38,11 +38,11 @@
 class Customer < ActiveRecord::Base
   include Trackable
   acts_as_paranoid
-  default_scope { order('email') }
+  default_scope { order("email") }
 
   # Genders
-  MALE = 'male'
-  FEMALE = 'female'
+  MALE = "male"
+  FEMALE = "female"
 
   GENDERS = [MALE, FEMALE]
 
@@ -90,7 +90,7 @@ class Customer < ActiveRecord::Base
   end
 
   def self.gender_selector
-    GENDERS.map { |f| [I18n.t('gender.' + f), f] }
+    GENDERS.map { |f| [I18n.t("gender." + f), f] }
   end
 
   private

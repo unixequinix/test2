@@ -22,9 +22,9 @@
       dt = t("admin.company_ticket_types.company")
       dd = @ticket.company_ticket_type.company.name unless @ticket.company_ticket_type.nil?
       dt = t("admin.purchasers.name")
-      dd = @ticket.purchaser_name
+      dd = @ticket.purchaser_first_name
       dt = t("admin.purchasers.surname")
-      dd = @ticket.purchaser_surname
+      dd = @ticket.purchaser_last_name
       dt = t("admin.purchasers.email")
       dd = @ticket.purchaser_email
       dt = t("admin.tickets.created_at")

@@ -8,7 +8,6 @@
 #  event_id         :integer
 #  name             :string
 #  description      :text
-#  price            :decimal(, )
 #  deleted_at       :datetime
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
@@ -19,7 +18,7 @@ class PreeventItem < ActiveRecord::Base
   belongs_to :purchasable, polymorphic: true, touch: true
   belongs_to :event
   has_many :preevent_product_items
-  has_many :preevent_products, through: :preevent_product_items, class_name: 'PreeventProduct'
+  has_many :preevent_products, through: :preevent_product_items, class_name: "PreeventProduct"
 
   # Validations
   validates :name, presence: true

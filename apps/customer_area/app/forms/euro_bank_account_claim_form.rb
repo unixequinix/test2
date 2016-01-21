@@ -34,7 +34,7 @@ class EuroBankAccountClaimForm
 
   def persist!
     form_attributes.each do |attribute|
-      parameter = Parameter.find_by(category: 'claim', group: 'bank_account', name: attribute.to_s)
+      parameter = Parameter.find_by(category: "claim", group: "bank_account", name: attribute.to_s)
       ClaimParameter.create!(
         value: attributes[parameter.name.to_sym],
         claim_id: claim_id, parameter_id: parameter.id)
@@ -43,6 +43,6 @@ class EuroBankAccountClaimForm
 
   def sepa_validatable?
     # TODO: Create boolean casting in Parameter or EventParameter class
-    Claim.find(claim_id).customer_event_profile.event.get_parameter('refund', 'bank_account', 'validate_sepa') == 'true'
+    Claim.find(claim_id).customer_event_profile.event.get_parameter("refund", "bank_account", "validate_sepa") == "true"
   end
 end

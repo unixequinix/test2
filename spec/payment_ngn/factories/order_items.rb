@@ -14,7 +14,7 @@
 FactoryGirl.define do
   factory :order_item do
     amount 9
-    total '9.99'
+    total "9.99"
     order
   end
 end

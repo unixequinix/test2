@@ -186,7 +186,6 @@ es:
       counter: "Contador"
     credential_types:
       position: "Posición"
-      counter: "Contador"
     company_ticket_types:
       name: "Nombre"
       company: "Compañía"

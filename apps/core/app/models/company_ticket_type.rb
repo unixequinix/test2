@@ -2,15 +2,15 @@
 #
 # Table name: company_ticket_types
 #
-#  id                  :integer          not null, primary key
-#  company_id          :integer
-#  preevent_product_id :integer
-#  event_id            :integer
-#  name                :string
-#  code                :string
-#  deleted_at          :datetime
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
+#  id                      :integer          not null, primary key
+#  company_id              :integer
+#  preevent_product_id     :integer
+#  event_id                :integer
+#  name                    :string
+#  company_ticket_type_ref :string
+#  deleted_at              :datetime
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
 #
 
 class CompanyTicketType < ActiveRecord::Base

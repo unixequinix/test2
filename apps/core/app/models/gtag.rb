@@ -12,9 +12,9 @@
 #
 
 class Gtag < ActiveRecord::Base
-  STANDARD = 'standard'
-  CARD  = 'card'
-  SIMPLE = 'simple'
+  STANDARD = "standard"
+  CARD  = "card"
+  SIMPLE = "simple"
 
   # Type of the gtags
   FORMATS = [STANDARD, CARD, SIMPLE]
@@ -25,13 +25,13 @@ class Gtag < ActiveRecord::Base
 
   # Associations
   belongs_to :event
-  has_one :assigned_gtag_credential, -> { where(aasm_state: :assigned) }, as: :credentiable, class_name: 'CredentialAssignment'
+  has_one :assigned_gtag_credential, -> { where(aasm_state: :assigned) }, as: :credentiable, class_name: "CredentialAssignment"
   has_many :customer_event_profiles, through: :credential_assignments
-  has_one :assigned_customer_event_profile, -> { where(credential_assignments: { aasm_state: :assigned }) }, class_name: 'CredentialAssignment'
+  has_one :assigned_customer_event_profile, -> { where(credential_assignments: { aasm_state: :assigned }) }, class_name: "CredentialAssignment"
   has_one :gtag_credit_log
   has_one :refund
   has_many :claims
-  has_one :completed_claim, -> { where(aasm_state: :completed) }, class_name: 'Claim'
+  has_one :completed_claim, -> { where(aasm_state: :completed) }, class_name: "Claim"
   has_many :comments, as: :commentable
   has_many :credential_assignments, as: :credentiable, dependent: :destroy
 
@@ -43,8 +43,8 @@ class Gtag < ActiveRecord::Base
 
   # Scope
   scope :selected_data, lambda  { |event_id|
-    joins('LEFT OUTER JOIN gtag_credit_logs ON gtag_credit_logs.gtag_id = gtags.id')
-      .select('gtags.*, gtag_credit_logs.amount')
+    joins("LEFT OUTER JOIN gtag_credit_logs ON gtag_credit_logs.gtag_id = gtags.id")
+      .select("gtags.*, gtag_credit_logs.amount")
       .where(event: event_id)
   }
 

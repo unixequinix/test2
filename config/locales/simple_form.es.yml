@@ -94,8 +94,8 @@ es:
       ticket:
         new: &label_ticket
           number: "Número"
-          purchaser_name: "Nombre Comprador"
-          purchaser_surname: "Apellido Comprador"
+          purchaser_first_name: "Nombre Comprador"
+          purchaser_last_name: "Apellido Comprador"
           purchaser_email: "Email Comprador"
         edit:
           <<: *label_ticket
@@ -199,8 +199,8 @@ es:
       ticket:
         new: &placeholder_ticket
           number: "Número de Ticket"
-          purchaser_name: ""
-          purchaser_surname: ""
+          purchaser_first_name: ""
+          purchaser_last_name: ""
           purchaser_email: ""
         edit:
           <<: *placeholder_ticket

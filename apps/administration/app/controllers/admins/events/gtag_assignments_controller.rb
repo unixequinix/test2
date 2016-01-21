@@ -9,7 +9,7 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::CheckinBaseCon
     @customer = @fetcher.customers.with_deleted.find(params[:customer_id])
 
     if @gtag_assignment_form.save(@fetcher.gtags, current_customer_event_profile)
-      flash[:notice] = I18n.t('alerts.created')
+      flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_customer_url(current_event, @customer)
     else
       flash[:error] = @gtag_assignment_form.errors.full_messages.join
@@ -23,7 +23,7 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::CheckinBaseCon
     @credential_assignment.unassign!
     @credential_assignment.credentiable
 
-    flash[:notice] = I18n.t('alerts.unassigned')
+    flash[:notice] = I18n.t("alerts.unassigned")
     GtagMailer.unassigned_email(@credential_assignment).deliver_later
 
     redirect_to admins_event_customer_url(current_event, customer_event_profile.customer)

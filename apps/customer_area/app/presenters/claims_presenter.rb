@@ -4,13 +4,13 @@ class ClaimsPresenter < BasePresenter
   end
 
   def path
-    @gtag_registration.present? ? 'claims' :
-                                  'claims_none'
+    @gtag_registration.present? ? "claims" :
+                                  "claims_none"
   end
 
   def refunds_title
-    completed_claim? ? I18n.t('dashboard.refunds.title') :
-                      I18n.t('dashboard.without_refunds.title')
+    completed_claim? ? I18n.t("dashboard.refunds.title") :
+                      I18n.t("dashboard.without_refunds.title")
   end
 
   def refund_services
@@ -22,7 +22,7 @@ class ClaimsPresenter < BasePresenter
   end
 
   def action_name(refund_service)
-    @event.get_parameter('refund', refund_service, 'action_name')
+    @event.get_parameter("refund", refund_service, "action_name")
   end
 
   def refundable?(refund_service)
@@ -39,23 +39,23 @@ class ClaimsPresenter < BasePresenter
 
   def call_to_action
     if any_refundable_method?
-      completed_claim? ? I18n.t('dashboard.refunds.call_to_action') : I18n.t('dashboard.without_refunds.call_to_action')
+      completed_claim? ? I18n.t("dashboard.refunds.call_to_action") : I18n.t("dashboard.without_refunds.call_to_action")
     else
-      I18n.t('dashboard.not_refundable.call_to_action')
+      I18n.t("dashboard.not_refundable.call_to_action")
     end
   end
 
   def refund_actions
-    actions = ''
-    return '' unless any_refundable_method? && !completed_claim?
+    actions = ""
+    return "" unless any_refundable_method? && !completed_claim?
 
     refund_services.each do |refund_service|
       not_refundable = !refundable?(refund_service)
-      class_definition = 'btn btn-refund-method'
+      class_definition = "btn btn-refund-method"
 
       if not_refundable
-        class_definition << ' btn-blocked'
-        actions << context.content_tag('a',
+        class_definition << " btn-blocked"
+        actions << context.content_tag("a",
                                        action_name(refund_service),
                                        class: class_definition,
                                        disabled: not_refundable)
