@@ -18,11 +18,11 @@ class GtagAssignmentForm
         persist!(current_customer_event_profile, gtag)
         true
       else
-        errors.add(:ticket_assignment, full_messages.join('. '))
+        errors.add(:ticket_assignment, full_messages.join(". "))
         false
       end
     else
-      errors.add(:ticket_assignment, I18n.t('alerts.gtag'))
+      errors.add(:ticket_assignment, I18n.t("alerts.gtag"))
     end
   end
 
@@ -30,7 +30,7 @@ class GtagAssignmentForm
 
   def persist!(current_customer_event_profile, gtag)
     current_customer_event_profile.save
-    @gtag_registration = current_customer_event_profile.gtag_assignment.create(credentiable: gtag)
-    GtagMailer.assigned_email(@gtag_registration.credentiable).deliver_later
+    @gtag_assignation = current_customer_event_profile.gtag_assignment.create(credentiable: gtag)
+    GtagMailer.assigned_email(@gtag_assignation.credentiable).deliver_later
   end
 end

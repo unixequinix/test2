@@ -4,19 +4,19 @@ class Events::CheckoutsController < Events::BaseController
 
   def new
     @checkout_form = CheckoutForm.new(current_customer_event_profile)
-    @credits = Credit.joins(:online_product)
-               .where(online_products: { event_id: current_event.id }).includes(:online_product)
+    @credits = Credit.joins(preevent_item: :preevent_products)
+              .where(preevent_products: { event_id: current_event.id })
   end
 
   def create
     @checkout_form = CheckoutForm.new(current_customer_event_profile)
-    @credits = Credit.joins(:online_product)
-               .where(online_products: { event_id: current_event.id }).includes(:online_product)
+    @credits = Credit.joins(preevent_item: :preevent_products)
+              .where(preevent_products: { event_id: current_event.id })
     if @checkout_form.submit(params[:checkout_form])
-      flash[:notice] = I18n.t('alerts.created')
+      flash[:notice] = I18n.t("alerts.created")
       redirect_to event_order_url(current_event, @checkout_form.order)
     else
-      flash[:error] = I18n.t('alerts.checkout', limit: 500)
+      flash[:error] = I18n.t("alerts.checkout", limit: 500)
       render :new
     end
   end

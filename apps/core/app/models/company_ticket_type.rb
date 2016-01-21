@@ -2,15 +2,15 @@
 #
 # Table name: company_ticket_types
 #
-#  id                  :integer          not null, primary key
-#  company_id          :integer
-#  preevent_product_id :integer
-#  event_id            :integer
-#  name                :string
-#  code                :string
-#  deleted_at          :datetime
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
+#  id                      :integer          not null, primary key
+#  company_id              :integer
+#  preevent_product_id     :integer
+#  event_id                :integer
+#  name                    :string
+#  company_ticket_type_ref :string
+#  deleted_at              :datetime
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
 #
 
 class CompanyTicketType < ActiveRecord::Base
@@ -20,5 +20,11 @@ class CompanyTicketType < ActiveRecord::Base
   belongs_to :preevent_product
   belongs_to :company
 
-  validates :name, presence: true
+  validates :name, :company, presence: true
+
+  scope :companies, -> (event) { joins(:company).where(event: event).pluck("companies.name").uniq }
+
+  def self.form_selector(event)
+    where(event: event).map { |company_tt| [company_tt.name, company_tt.id] }
+  end
 end

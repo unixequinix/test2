@@ -3,9 +3,9 @@
     .dashboard-field.dashboard-field-info
       h3
         = fa_icon 'ticket'
-        = t('dashboard.admissions.header', ticket_type: ticket_assignment.credentiable.ticket_type.name)
+        = t('dashboard.admissions.header', company_ticket_type: ticket_assignment.credentiable.company_ticket_type.name)
       h3.highlight
-        =  ticket_assignment.credentiable.number
+        =  ticket_assignment.credentiable.code
     .dashboard-field.dashboard-field-action
       - if presenter.event_started?
         h3 = t('dashboard.admissions.call_to_action_started')

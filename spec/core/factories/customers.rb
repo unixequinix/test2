@@ -41,7 +41,7 @@ FactoryGirl.define do
     surname { Faker::Name.last_name }
     email { Faker::Internet.email }
     agreed_on_registration true
-    encrypted_password Authentication::Encryptor.digest('password')
+    encrypted_password Authentication::Encryptor.digest("password")
     phone { Faker::PhoneNumber.phone_number }
     country { Faker::Address.country_code }
     gender { %w(male female).sample }

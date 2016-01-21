@@ -18,8 +18,7 @@ class Order < ActiveRecord::Base
   belongs_to :customer_event_profile
   has_many :order_items
   has_many :payments
-  has_many :order_items
-  has_many :preevent_products, through: :order_items, class_name: 'PreeventProduct'
+  has_many :preevent_products, through: :order_items, class_name: "PreeventProduct"
 
   # Validations
   validates :customer_event_profile, :order_items, :number, :aasm_state, presence: true
@@ -46,17 +45,17 @@ class Order < ActiveRecord::Base
   end
 
   def total_stripe_formated
-    total_formated = format('%.2f', total)
-    total_formated.gsub('.', '')
+    total_formated = format("%.2f", total)
+    total_formated.gsub(".", "")
   end
 
   def credits_total
-    order_items.joins(:online_product).where(online_products: { purchasable_type: 'Credit', event_id: customer_event_profile.event.id }).sum(:amount)
+    order_items.joins(:online_product).where(online_products: { purchasable_type: "Credit", event_id: customer_event_profile.event.id }).sum(:amount)
   end
 
   def generate_order_number!
-    time_hex = Time.now.strftime('%H%M%L').to_i.to_s(16)
-    day = Date.today.strftime('%y%m%d')
+    time_hex = Time.now.strftime("%H%M%L").to_i.to_s(16)
+    day = Date.today.strftime("%y%m%d")
     self.number = "#{day}#{time_hex}"
     save
   end

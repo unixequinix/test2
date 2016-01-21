@@ -20,9 +20,9 @@ class Claim < ActiveRecord::Base
   default_scope { order(created_at: :desc) }
 
   # Service Types
-  BANK_ACCOUNT = 'bank_account'
-  EASY_PAYMENT_GATEWAY = 'epg'
-  TIPALTI = 'tipalti'
+  BANK_ACCOUNT = "bank_account"
+  EASY_PAYMENT_GATEWAY = "epg"
+  TIPALTI = "tipalti"
 
   REFUND_SERVICES = [BANK_ACCOUNT, EASY_PAYMENT_GATEWAY, TIPALTI]
 
@@ -70,8 +70,8 @@ class Claim < ActiveRecord::Base
   end
 
   def generate_claim_number!
-    time_hex = Time.now.strftime('%H%M%L').to_i.to_s(16)
-    day = Date.today.strftime('%y%m%d')
+    time_hex = Time.now.strftime("%H%M%L").to_i.to_s(16)
+    day = Date.today.strftime("%y%m%d")
     self.number = "#{day}#{time_hex}"
   end
 

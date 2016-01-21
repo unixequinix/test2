@@ -24,8 +24,8 @@
         - @customer_event_profile.active_tickets_assignment.each do |ticket_assigned|
           dt = t ("admin.customers.tickets")
           dd
-            = link_to ticket_assigned.credentiable.number, edit_admins_event_ticket_path(current_event, ticket_assigned.credentiable)
-            = " - #{ticket_assigned.credentiable.ticket_type.name}"
+            = link_to ticket_assigned.credentiable.code, edit_admins_event_ticket_path(current_event, ticket_assigned.credentiable)
+            = " - #{ticket_assigned.credentiable.company_ticket_type.name}"
       - else
         dt = t ("admin.customers.tickets")
         dd = t ("admin.defaults.empty_tickets")
@@ -74,7 +74,7 @@
       dd = @customer_event_profile.customer.deleted_at.strftime("%y-%m-%d %H:%M:%S") unless @customer_event_profile.customer.deleted_at.nil?
 
   .container-show
-    - if !@customer_event_profile.tickets_assignment.empty?
+    - if !@customer_event_profile.ticket_assignments.empty?
       h3
         = fa_icon "table"
         = t ("admin.customers.admissions")
@@ -86,9 +86,9 @@
             th = t("admin.customers.created_at")
 
         tbody
-          - @customer_event_profile.tickets_assignment.each do |admission|
+          - @customer_event_profile.ticket_assignments.each do |admission|
             tr
-              td = link_to "#{admission.credentiable.number}", edit_admins_event_ticket_path(current_event, admission.credentiable)
+              td = link_to "#{admission.credentiable.code}", edit_admins_event_ticket_path(current_event, admission.credentiable)
               td = t("admin.admissions.states.#{admission.aasm_state}")
               td = admission.created_at.strftime("%y-%m-%d %H:%M:%S")
     - if !@customer_event_profile.credit_logs.empty?
@@ -126,7 +126,7 @@
               td data-label=t("admin.orders.created") = order.created_at.strftime("%y-%m-%d %H:%M:%S")
               td data-label=t("admin.orders.completed") = order.completed_at.strftime("%y-%m-%d %H:%M:%S") unless order.completed_at.nil?
 
-    - if !@customer_event_profile.credential_assignments_gtags.empty?
+    - if !@customer_event_profile.gtag_assignment.empty?
       h3
         = fa_icon "table"
         = t ("admin.customers.gtag_registrations")

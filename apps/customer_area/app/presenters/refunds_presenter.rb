@@ -4,7 +4,7 @@ class RefundsPresenter < BasePresenter
   end
 
   def path
-    @event.closed? ? 'refunds_closed' : 'refunds'
+    @event.closed? ? "refunds_closed" : "refunds"
   end
 
   def gtag_credit_amount
@@ -12,6 +12,6 @@ class RefundsPresenter < BasePresenter
   end
 
   def call_to_action
-    I18n.t('dashboard.refunds.call_to_action', date: formatted_date)
+    I18n.t("dashboard.refunds.call_to_action", date: formatted_date)
   end
 end

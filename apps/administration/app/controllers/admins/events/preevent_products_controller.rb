@@ -11,10 +11,10 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
   def create
     @preevent_product = PreeventProduct.new(permitted_params)
     if @preevent_product.save
-      flash[:notice] = I18n.t('alerts.created')
+      flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_preevent_products_url
     else
-      flash[:error] = @preevent_product.errors.full_messages.join('. ')
+      flash[:error] = @preevent_product.errors.full_messages.join(". ")
       render :new
     end
   end
@@ -27,10 +27,10 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
   def update
     @preevent_product = @fetcher.preevent_products.find(params[:id])
     if @preevent_product.update(permitted_params)
-      flash[:notice] = I18n.t('alerts.updated')
+      flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_preevent_products_url
     else
-      flash[:error] = @preevent_product.errors.full_messages.join('. ')
+      flash[:error] = @preevent_product.errors.full_messages.join(". ")
       render :edit
     end
   end
@@ -38,7 +38,7 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
   def destroy
     @preevent_product = @fetcher.preevent_products.find(params[:id])
     @preevent_product.destroy!
-    flash[:notice] = I18n.t('alerts.destroyed')
+    flash[:notice] = I18n.t("alerts.destroyed")
     redirect_to admins_event_preevent_products_url
   end
 
@@ -46,7 +46,7 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
-      model_name: 'PreeventProduct'.constantize.model_name,
+      model_name: "PreeventProduct".constantize.model_name,
       fetcher: @fetcher.preevent_products,
       search_query: params[:q],
       page: params[:page],
@@ -60,6 +60,12 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
       :event_id,
       :name,
       :online,
+      :description,
+      :price,
+      :min_purchasable,
+      :max_purchasable,
+      :initial_amount,
+      :step,
       preevent_item_ids: []
     )
   end

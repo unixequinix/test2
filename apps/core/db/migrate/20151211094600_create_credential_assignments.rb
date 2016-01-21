@@ -20,8 +20,8 @@ class CreateCredentialAssignments < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    move_records_to_credential_assignments("#{self.class.name}::Admission", 'ticket')
-    move_records_to_credential_assignments("#{self.class.name}::GtagRegistration", 'gtag')
+    move_records_to_credential_assignments("#{self.class.name}::Admission", "ticket")
+    move_records_to_credential_assignments("#{self.class.name}::GtagRegistration", "gtag")
 
     return unless (CredentialAssignment.count == Admission.count + GtagRegistration.count)
     drop_table :admissions

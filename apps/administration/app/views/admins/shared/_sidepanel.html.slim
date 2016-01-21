@@ -26,6 +26,9 @@ aside#main-menu
 
     h3.aside-title = t("admin.aside.setup")
 
+    li.aside-list = link_to admins_event_companies_path(event)
+      = fa_icon "building"
+      = t("admin.aside.companies")
     li.aside-list = link_to admins_event_credits_path(event)
       = fa_icon "database"
       = t("admin.aside.credits")

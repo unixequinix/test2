@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.feature 'Payment', type: :domain_logic do
+RSpec.feature "Payment", type: :domain_logic do
 end

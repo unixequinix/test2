@@ -10,7 +10,7 @@ class Admins::AdminsController < Admins::BaseController
   def create
     @admin_form = NewAdminForm.new(Admin.new)
     if @admin_form.validate(permitted_params) && @admin_form.save
-      flash[:notice] = I18n.t('alerts.created')
+      flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_admins_url
     else
       render :new
@@ -24,7 +24,7 @@ class Admins::AdminsController < Admins::BaseController
   def update
     @admin_form = EditAdminForm.new(Admin.find(params[:id]))
     if @admin_form.validate(permitted_params) && @admin_form.save
-      flash[:notice] = I18n.t('alerts.updated')
+      flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_admins_url
     else
       render :edit
@@ -34,10 +34,10 @@ class Admins::AdminsController < Admins::BaseController
   def destroy
     @admin = Admin.find(params[:id])
     if @admin.destroy
-      flash[:notice] = I18n.t('alerts.destroyed')
+      flash[:notice] = I18n.t("alerts.destroyed")
       redirect_to admins_admins_url
     else
-      flash[:error] = @admin.errors.full_messages.join('. ')
+      flash[:error] = @admin.errors.full_messages.join(". ")
       redirect_to admins_admins_url
     end
   end

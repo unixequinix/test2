@@ -23,10 +23,10 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   def create
     @ticket = Ticket.new(permitted_params)
     if @ticket.save
-      flash[:notice] = I18n.t('alerts.created')
+      flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_tickets_url
     else
-      flash[:error] = I18n.t('alerts.error')
+      flash[:error] = I18n.t("alerts.error")
       render :new
     end
   end
@@ -38,10 +38,10 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   def update
     @ticket = @fetcher.tickets.find(params[:id])
     if @ticket.update(permitted_params)
-      flash[:notice] = I18n.t('alerts.updated')
+      flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_ticket_url(current_event, @ticket)
     else
-      flash[:error] = I18n.t('alerts.error')
+      flash[:error] = I18n.t("alerts.error")
       render :edit
     end
   end
@@ -49,10 +49,10 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   def destroy
     @ticket = @fetcher.tickets.find(params[:id])
     if @ticket.destroy
-      flash[:notice] = I18n.t('alerts.destroyed')
+      flash[:notice] = I18n.t("alerts.destroyed")
       redirect_to admins_event_tickets_url
     else
-      flash[:error] = @ticket.errors.full_messages.join('. ')
+      flash[:error] = @ticket.errors.full_messages.join(". ")
       redirect_to admins_event_tickets_url
     end
   end
@@ -62,7 +62,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
 
     if tickets
       @fetcher.tickets.where(id: tickets.keys).each do |ticket|
-        flash[:error] = ticket.errors.full_messages.join('. ') unless ticket.destroy
+        flash[:error] = ticket.errors.full_messages.join(". ") unless ticket.destroy
       end
     end
 
@@ -73,11 +73,11 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
-      model_name: 'Ticket'.constantize.model_name,
+      model_name: "Ticket".constantize.model_name,
       fetcher: @fetcher.tickets,
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [:ticket_type, :assigned_ticket_credential],
+      include_for_all_items: [:company_ticket_type, :assigned_ticket_credential],
       context: view_context
     )
   end
@@ -85,10 +85,10 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   def permitted_params
     params.require(:ticket).permit(
       :event_id,
-      :number,
-      :ticket_type_id,
-      :purchaser_name,
-      :purchaser_surname,
+      :code,
+      :company_ticket_type_id,
+      :purchaser_first_name,
+      :purchaser_last_name,
       :purchaser_email)
   end
 end

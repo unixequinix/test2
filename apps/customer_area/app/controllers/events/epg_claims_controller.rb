@@ -8,7 +8,7 @@ class Events::EpgClaimsController < Events::ClaimsController
     @epg_claim_form = EpgClaimForm.new(permitted_params)
     @claim = Claim.find(permitted_params[:claim_id])
     if @epg_claim_form.save
-      flash[:notice] = I18n.t('alerts.created')
+      flash[:notice] = I18n.t("alerts.created")
       @claim.start_claim!
       redirect_to EpgCheckout.new(@claim, @epg_claim_form).url
     else

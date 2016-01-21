@@ -24,42 +24,85 @@ class AddBarcodeCredentialPreeventProductToTickets < ActiveRecord::Migration
     has_many :order_items
   end
 
+  class OrderItem < ActiveRecord::Base
+    belongs_to :order
+    belongs_to :online_product
+    belongs_to :preevent_product
+  end
+
   def change
-    add_column :tickets, :barcode, :string
     add_column :tickets, :credential_redeemed, :boolean, null: false, default: false
     add_column :tickets, :company_ticket_type_id, :integer
+    rename_column :tickets, :number, :code
+    rename_column :tickets, :purchaser_name, :purchaser_first_name
+    rename_column :tickets, :purchaser_surname, :purchaser_last_name
 
     migrate_ticket_types
   end
 
   def migrate_ticket_types
     TicketType.all.each do |ticket_type|
-      credits_ids = PreeventItem.where(purchasable_type: 'Credit',
-                                       event_id: ticket_type.event_id)
-                                .pluck(:id)
+      preevent_items_ids = PreeventItem.where(purchasable_type: "Credit", event_id: 1).pluck(:id)
+      credits_ids = PreeventItem.where(purchasable_type: "Credit",
+                                       event_id: 1).pluck(:purchasable_id)
 
       entitlements_names_list = ticket_type.entitlements.pluck(:name)
       credential_types_ids = PreeventItem.where(name: entitlements_names_list,
-                                                purchasable_type: 'CredentialType',
-                                                event_id: ticket_type.event_id)
-                                         .pluck(:id)
+                                                purchasable_type: "CredentialType",
+                                                event_id: ticket_type.event_id).pluck(:id)
+      order_items = OrderItem.joins(:online_product).where(online_products: { purchasable_id: credits_ids })
+      preevent_product = build_preevent_product(ticket_type, credential_types_ids, preevent_items_ids, order_items)
 
-      order_items_ids = Credit.find(credits_ids).select { |o| o.online_product.id if o.online_product }
-      preevent_product = PreeventProduct.create(
-        name: ticket_type.name,
-        preevent_item_ids: credential_types_ids + credits_ids,
-        preevent_product_items_attributes: [{ amount: ticket_type.credit || 0 }],
-        order_item_ids: order_items_ids, event_id: ticket_type.event_id)
+      attach_purchase_parameters(order_items, preevent_product)
+      preevent_product.save
 
       company = Company.find_or_create_by(name: ticket_type.company, event_id: ticket_type.event_id)
-      company_ticket_type = CompanyTicketType.create(
-        name: ticket_type.simplified_name || ticket_type.name,
-        company: company, preevent_product: preevent_product, event_id: ticket_type.event_id)
+      company_ticket_type = build_company_ticket_type(ticket_type, company, preevent_product)
 
-      ticket_type.tickets.each do |ticket|
-        ticket.update_attributes(company_ticket_type: company_ticket_type)
-      end
+      update_company_ticket_type_in_tickets(ticket_type, company_ticket_type)
     end
-    puts 'TicketTypes Migrated √'
+    puts "TicketTypes Migrated √"
+  end
+
+  private
+
+  def build_preevent_product(ticket_type, credential_types_ids, preevent_items_ids, order_items)
+    PreeventProduct.new(
+      name: ticket_type.name,
+      preevent_item_ids: credential_types_ids + preevent_items_ids,
+      preevent_product_items_attributes: [{ amount: ticket_type.credit || 1 }],
+      order_item_ids: order_items.pluck(:id),
+      event_id: ticket_type.event_id,
+      initial_amount: 1,
+      step: 1,
+      max_purchasable: 100,
+      min_purchasable: 1,
+      price: 1
+    )
+  end
+
+  def attach_purchase_parameters(order_items, preevent_product)
+    return unless order_items.first
+    preevent_product.update_attributes(
+      initial_amount: order_items.first.online_product.initial_amount,
+      step: order_items.first.online_product.step,
+      max_purchasable: order_items.first.online_product.max_purchasable,
+      min_purchasable: order_items.first.online_product.min_purchasable,
+      price: order_items.first.online_product.price
+    )
+  end
+
+  def update_company_ticket_type_in_tickets(ticket_type, company_ticket_type)
+    ticket_type.tickets do |ticket|
+      ticket.update_attributes(company_ticket_type: company_ticket_type)
+    end
+  end
+
+  def build_company_ticket_type(ticket_type, company, preevent_product)
+    CompanyTicketType.new(
+      name: ticket_type.simplified_name || ticket_type.name,
+      company: company,
+      preevent_product: preevent_product,
+      event_id: ticket_type.event_id)
   end
 end

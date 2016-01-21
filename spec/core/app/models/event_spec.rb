@@ -31,7 +31,7 @@
 #  registration_parameters :integer          default(0), not null
 #
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Event, type: :model do
   it { is_expected.to validate_presence_of(:name) }
@@ -50,31 +50,31 @@ RSpec.describe Event, type: :model do
     create(:gtag_credit_log, gtag: gtag2)
   end
 
-  it 'should return the credits available for that event' do
+  it "should return the credits available for that event" do
     expect(@event.total_credits.to_f).to be(29.97)
   end
 
-  it 'should return the amount of money that can be refunded for epg' do
+  it "should return the amount of money that can be refunded for epg" do
     expect(@event.total_refundable_money(Claim::EASY_PAYMENT_GATEWAY).to_f).to be(19.98)
   end
 
-  it 'should return the amount of money that can be refunded for bank account' do
+  it "should return the amount of money that can be refunded for bank account" do
     expect(@event.total_refundable_money(Claim::BANK_ACCOUNT).to_f).to be(19.98)
   end
 
-  it 'should return the amount of money that can be refunded for tipalti' do
+  it "should return the amount of money that can be refunded for tipalti" do
     expect(@event.total_refundable_money(Claim::TIPALTI).to_f).to be(19.98)
   end
 
-  it 'should return the amount of money that can be refunded for epg' do
+  it "should return the amount of money that can be refunded for epg" do
     expect(@event.total_refundable_gtags(Claim::EASY_PAYMENT_GATEWAY)).to be(2)
   end
 
-  it 'should return the amount of money that can be refunded for bank account' do
+  it "should return the amount of money that can be refunded for bank account" do
     expect(@event.total_refundable_gtags(Claim::BANK_ACCOUNT)).to be(2)
   end
 
-  it 'should return the amount of money that can be refunded for tipalti' do
+  it "should return the amount of money that can be refunded for tipalti" do
     expect(@event.total_refundable_gtags(Claim::TIPALTI)).to be(2)
   end
 end

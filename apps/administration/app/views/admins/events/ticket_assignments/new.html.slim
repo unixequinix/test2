@@ -6,5 +6,5 @@
   .wrapper-negative-space
     .input
       = f.label t('admin.admissions.ticket')
-      = f.text_field :number, placeholder: t('admissions.placeholders.ticket_number')
+      = f.text_field :code, placeholder: t('admissions.placeholders.ticket_code')
     = f.submit t('gtag_registrations.button'), class: "btn btn-primary"

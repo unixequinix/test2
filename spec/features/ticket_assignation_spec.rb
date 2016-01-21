@@ -1,11 +1,11 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.feature 'Ticket assignation', type: :feature do
-  context 'with account signed in' do
+RSpec.feature "Ticket assignation", type: :feature do
+  context "with account signed in" do
     before :all do
       @event_creator = EventCreator.new(build(:event,
                                               features: 3,
-                                              aasm_state: 'launched').attributes)
+                                              aasm_state: "launched").attributes)
       @event_creator.save
       @event = @event_creator.event
       @customer = build(:customer,
@@ -17,7 +17,7 @@ RSpec.feature 'Ticket assignation', type: :feature do
       login_as(@customer, scope: :customer)
     end
 
-    describe 'a customer ' do
+    describe "a customer " do
       before :each do
         @ticket = create(:ticket,
                          event: @event,
@@ -26,12 +26,12 @@ RSpec.feature 'Ticket assignation', type: :feature do
                          purchaser_surname: @customer.surname)
       end
 
-      it 'should be able to assign a ticket' do
+      it "should be able to assign a ticket" do
         visit "/#{@event_creator.event.slug}/ticket_assignments/new"
-        within('form') do
-          fill_in(t('admissions.placeholders.ticket_number'), with: @ticket.number)
+        within("form") do
+          fill_in(t("admissions.placeholders.ticket_number"), with: @ticket.number)
         end
-        click_button(t('admissions.button'))
+        click_button(t("admissions.button"))
         expect(current_path).to eq("/#{@event_creator.event.slug}")
         expect(page.body).to include(@ticket.number)
       end

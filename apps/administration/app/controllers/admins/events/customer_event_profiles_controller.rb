@@ -19,7 +19,7 @@ class Admins::Events::CustomerEventProfilesController < Admins::Events::BaseCont
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
-      model_name: 'CustomerEventProfile'.constantize.model_name,
+      model_name: "CustomerEventProfile".constantize.model_name,
       fetcher: @fetcher.customer_event_profiles,
       search_query: params[:q],
       page: params[:page],

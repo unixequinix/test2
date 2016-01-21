@@ -19,11 +19,11 @@ FactoryGirl.define do
   factory :refund do
     claim
     amount 9.98
-    currency 'dummy'
-    message 'dummy'
-    operation_type 'dummy'
-    gateway_transaction_number 'dummy'
-    payment_solution 'dummy'
-    status 'dummy'
+    currency "dummy"
+    message "dummy"
+    operation_type "dummy"
+    gateway_transaction_number "dummy"
+    payment_solution "dummy"
+    status "dummy"
   end
 end

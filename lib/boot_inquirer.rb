@@ -60,7 +60,7 @@ class BootInquirer
     end
 
     def boot_flag
-      @boot_flag ||= ENV['ENGINE_BOOT']
+      @boot_flag ||= ENV["ENGINE_BOOT"]
     end
 
     def negate?
@@ -87,7 +87,7 @@ class BootInquirer
 
     def engine
       module_name = gem_name.classify
-      module_name << 'c' if gem_name[-1] == 'c'
+      module_name << "c" if gem_name[-1] == "c"
       module_name.constantize.const_get(:Engine)
     end
   end

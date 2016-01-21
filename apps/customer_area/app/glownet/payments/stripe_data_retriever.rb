@@ -5,35 +5,35 @@ class Payments::StripeDataRetriever
   def initialize(event, order)
     @current_event = event
     @order = order
-    @payment_parameters = Parameter.joins(:event_parameters).where(category: 'payment', group: @current_event.payment_service, event_parameters: { event: event }).select('parameters.name, event_parameters.*')
+    @payment_parameters = Parameter.joins(:event_parameters).where(category: "payment", group: @current_event.payment_service, event_parameters: { event: event }).select("parameters.name, event_parameters.*")
   end
 
   def name
-    get_value_of_parameter('name')
+    get_value_of_parameter("name")
   end
 
   def stripe_account_id
-    get_value_of_parameter('stripe_account_id')
+    get_value_of_parameter("stripe_account_id")
   end
 
   def email
-    get_value_of_parameter('email')
+    get_value_of_parameter("email")
   end
 
   def country
-    get_value_of_parameter('country')
+    get_value_of_parameter("country")
   end
 
   def platform_secret_key
-    get_value_of_parameter('platform_secret_key')
+    get_value_of_parameter("platform_secret_key")
   end
 
   def account_secret_key
-    get_value_of_parameter('account_secret_key')
+    get_value_of_parameter("account_secret_key")
   end
 
   def account_publishable_key
-    get_value_of_parameter('account_publishable_key')
+    get_value_of_parameter("account_publishable_key")
   end
 
   private

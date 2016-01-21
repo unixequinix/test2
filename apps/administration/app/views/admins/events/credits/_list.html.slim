@@ -4,11 +4,6 @@ table.credits
     tr
       th = t('admin.preevent_item.name')
       th = t('admin.preevent_item.description')
-      th = t('admin.preevent_item.initial_amount')
-      th = t('admin.preevent_item.price')
-      th = t('admin.preevent_item.step')
-      th = t('admin.preevent_item.max_purchasable')
-      th = t('admin.preevent_item.min_purchasable')
       th = t('admin.credit.standard')
       th.table-actions-field = t('admin.defaults.actions')
   tbody
@@ -16,11 +11,6 @@ table.credits
       tr
         td data-label=t('admin.preevent_item.name') = link_to(credit.preevent_item.name, edit_admins_event_credit_path(current_event, credit))
         td data-label=t('admin.preevent_item.description') = credit.preevent_item.description
-        td data-label=t('admin.preevent_item.initial_amount') = credit.preevent_item.initial_amount
-        td data-label=t('admin.preevent_item.price') = credit.preevent_item.price
-        td data-label=t('admin.preevent_item.step') = credit.preevent_item.step
-        td data-label=t('admin.preevent_item.max_purchasable') = credit.preevent_item.max_purchasable
-        td data-label=t('admin.preevent_item.min_purchasable') = credit.preevent_item.min_purchasable
         td data-label=t('admin.credits.standard') = credit.standard
         td.table-actions-field
           = render 'admins/events/credits/actions', credit: credit unless current_event.started?
