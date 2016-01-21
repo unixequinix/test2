@@ -1,6 +1,6 @@
 class GtagAssignmentsPresenter < BasePresenter
   def can_render?
-    @event.gtag_assignation?
+    @event.gtag_assignment?
   end
 
   def path
