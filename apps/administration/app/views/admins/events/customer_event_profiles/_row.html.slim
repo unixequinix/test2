@@ -4,7 +4,7 @@ td data-label=t("admin.customers.surname") = customer_event_profile.customer.sur
 - if customer_event_profile.active_tickets_assignment
   td
     - customer_event_profile.active_tickets_assignment.each do |assigned_ticket|
-      = link_to assigned_ticket.credentiable.number, edit_admins_event_ticket_path(current_event, assigned_ticket.credentiable)
+      = link_to assigned_ticket.credentiable.code, edit_admins_event_ticket_path(current_event, assigned_ticket.credentiable)
 - else
   td data-label=t("admin.customers.tickets") = t("admin.defaults.empty_tickets")
 td data-label=t("admin.customers.credits") = customer_event_profile.credit_logs.sum(:amount)

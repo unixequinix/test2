@@ -22,11 +22,10 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::CheckinBaseC
     customer_event_profile = credential_assignment.customer_event_profile
     credential_assignment.unassign!
     ticket = credential_assignment.credentiable
-
-    if ticket.ticket_type.credit.present?
+    if ticket.credential_ticket_type.credit.present?
       CreditLog.create(customer_event_profile: customer_event_profile,
                        transaction_type: CreditLog::TICKET_UNASSIGNMENT,
-                       amount: -ticket.ticket_type.credit)
+                       amount: -ticket.credential_ticket_type.credit)
     end
     flash[:notice] = I18n.t("alerts.unassigned")
     redirect_to admins_event_customer_url(current_event, customer_event_profile.customer)
@@ -35,7 +34,7 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::CheckinBaseC
   private
 
   def ticket_assignment_parameters
-    params.require(:ticket_assignment_form).permit(:number)
+    params.require(:ticket_assignment_form).permit(:code)
   end
 
   def current_customer

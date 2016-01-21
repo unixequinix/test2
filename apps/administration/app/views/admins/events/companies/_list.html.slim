@@ -1,0 +1,14 @@
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @list_model_presenter.current_items, total: @list_model_presenter.count)
+table.companies
+  thead
+    tr
+      th = t('admin.companies.name')
+      th.table-actions-field = t('admin.defaults.actions')
+  tbody
+    - companies.each do |company|
+      tr
+        td data-label=t('admin.companies.name') = link_to(company.name, edit_admins_event_company_path(current_event, company))
+        td.table-actions-field
+          = render 'admins/events/companies/actions', company: company unless current_event.started?
+
+= paginate companies

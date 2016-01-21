@@ -20,7 +20,7 @@ class AddPreeventProductToOrderItems < ActiveRecord::Migration
   end
 
   def change
-    add_column :order_items, :preevent_item_id, :integer
+    add_column :order_items, :preevent_product_id, :integer
 
     add_preevent_items_to_credits
     migrate_entitlements_to_preevent_items
@@ -33,11 +33,6 @@ class AddPreeventProductToOrderItems < ActiveRecord::Migration
       preevent_item = PreeventItem.new(
         name: online_product.name,
         description: online_product.description,
-        initial_amount: online_product.initial_amount,
-        price: online_product.price,
-        step: online_product.step,
-        max_purchasable: online_product.max_purchasable,
-        min_purchasable: online_product.min_purchasable,
         event_id: online_product.event_id
       )
       credit.update(preevent_item: preevent_item)
@@ -50,11 +45,6 @@ class AddPreeventProductToOrderItems < ActiveRecord::Migration
       preevent_item = PreeventItem.new(
         name: entitlement.name,
         description: "Entitlement description",
-        initial_amount: 0,
-        price: 1,
-        step: 1,
-        max_purchasable: 50,
-        min_purchasable: 1,
         event_id: entitlement.event_id
       )
       CredentialType.create(preevent_item: preevent_item, position: 1)

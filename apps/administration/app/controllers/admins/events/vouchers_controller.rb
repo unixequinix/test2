@@ -59,12 +59,7 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
                                     preevent_item_attributes: [
                                       :event_id,
                                       :name,
-                                      :description,
-                                      :initial_amount,
-                                      :price,
-                                      :step,
-                                      :min_purchasable,
-                                      :max_purchasable
+                                      :description
                                     ]
                                    )
   end

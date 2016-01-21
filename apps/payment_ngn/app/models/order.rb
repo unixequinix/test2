@@ -18,7 +18,6 @@ class Order < ActiveRecord::Base
   belongs_to :customer_event_profile
   has_many :order_items
   has_many :payments
-  has_many :order_items
   has_many :preevent_products, through: :order_items, class_name: "PreeventProduct"
 
   # Validations

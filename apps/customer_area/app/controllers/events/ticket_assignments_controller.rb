@@ -17,7 +17,12 @@ class Events::TicketAssignmentsController < Events::BaseController
   def destroy
     @ticket_assignment = CredentialAssignment.find(params[:id])
     @ticket_assignment.unassign!
-    @credit_log = CreditLog.create(customer_event_profile_id: current_customer_event_profile.id, transaction_type: CreditLog::TICKET_UNASSIGNMENT, amount: -@ticket_assignment.credentiable.ticket_type.credit) unless @ticket_assignment.credentiable.ticket_type.credit.nil?
+
+    @credit_log = CreditLog.create(
+      customer_event_profile_id: current_customer_event_profile.id,
+      transaction_type: CreditLog::TICKET_UNASSIGNMENT,
+      amount: -preevent_product_items_credits.sum(:amount)
+    ) unless preevent_product_items_credits.blank?
     flash[:notice] = I18n.t("alerts.unassigned")
     redirect_to event_url(current_event)
   end
@@ -25,6 +30,14 @@ class Events::TicketAssignmentsController < Events::BaseController
   private
 
   def ticket_assignment_parameters
-    params.require(:ticket_assignment_form).permit(:number)
+    params.require(:ticket_assignment_form).permit(:code)
+  end
+
+  def preevent_product_items_credits
+    @ticket_assignment.credentiable
+      .company_ticket_type.preevent_product
+      .preevent_product_items
+      .joins(:preevent_item)
+      .where(preevent_items: { purchasable_type: "Credit" })
   end
 end

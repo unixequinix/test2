@@ -93,8 +93,8 @@ th:
       ticket:
         new: &label_ticket
           number: "ชื่อ"
-          purchaser_name: "ชื่อผู้ซื้อ"
-          purchaser_surname: "นามสกุลผู้ซื้อ"
+          purchaser_first_name: "ชื่อผู้ซื้อ"
+          purchaser_last_name: "นามสกุลผู้ซื้อ"
           purchaser_email: "อีเมลผู้ซื้อ"
         edit:
           <<: *label_ticket
@@ -200,8 +200,8 @@ th:
       ticket:
         new: &placeholder_ticket
           number: "หมายเลขบัตร"
-          purchaser_name: ""
-          purchaser_surname: ""
+          purchaser_first_name: ""
+          purchaser_last_name: ""
           purchaser_email: ""
         edit:
           <<: *placeholder_ticket

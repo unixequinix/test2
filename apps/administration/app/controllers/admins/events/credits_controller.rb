@@ -59,12 +59,7 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
                                    preevent_item_attributes: [
                                      :event_id,
                                      :name,
-                                     :description,
-                                     :price,
-                                     :min_purchasable,
-                                     :max_purchasable,
-                                     :initial_amount,
-                                     :step
+                                     :description
                                    ]
                                   )
   end

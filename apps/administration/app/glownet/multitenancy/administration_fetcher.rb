@@ -8,6 +8,10 @@ class Multitenancy::AdministrationFetcher
     CompanyTicketType.where(event_id: @event.id)
   end
 
+  def companies
+    Company.where(event_id: @event.id)
+  end
+
   def credential_types
     CredentialType.joins(:preevent_item).where(preevent_items: { event_id: @event.id })
   end

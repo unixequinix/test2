@@ -2,6 +2,11 @@
   .wrapper-negative-space
     = f.input :name
     = f.input :online, as: :radio_buttons, placeholder: true
+    = f.input :initial_amount, placeholder: true
+    = f.input :price, placeholder: true
+    = f.input :step, placeholder: true
+    = f.input :min_purchasable, placeholder: true
+    = f.input :max_purchasable, placeholder: true
     = f.association :preevent_items, collection: @preevent_items_collection
     = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
 

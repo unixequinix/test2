@@ -42,7 +42,7 @@ namespace :db do
     Ticket.destroy_all
     Event.all.each do |event|
       YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'tickets.yml')).each do |data|
-        ticket = Ticket.new(event_id: event.id, number: data['number'])
+        ticket = Ticket.new(event_id: event.id, code: data['code'])
         ticket.save!
       end
     end
@@ -54,7 +54,11 @@ namespace :db do
     Gtag.destroy_all
     Event.all.each do |event|
       YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'gtags.yml')).each do |data|
-        gtag = Gtag.new(event_id: event.id, tag_serial_number: data['tag_serial_number'], tag_uid: data['tag_uid'])
+        gtag = Gtag.new(
+          event_id: event.id,
+          tag_serial_number: data['tag_serial_number'],
+          tag_uid: data['tag_uid']
+        )
         gtag.save!
       end
     end

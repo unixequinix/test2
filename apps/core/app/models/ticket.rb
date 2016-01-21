@@ -3,15 +3,14 @@
 # Table name: tickets
 #
 #  id                     :integer          not null, primary key
-#  number                 :string
+#  code                   :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  deleted_at             :datetime
 #  purchaser_email        :string
-#  purchaser_name         :string
-#  purchaser_surname      :string
+#  purchaser_first_name   :string
+#  purchaser_last_name    :string
 #  event_id               :integer          not null
-#  barcode                :string
 #  credential_redeemed    :boolean          default(FALSE), not null
 #  company_ticket_type_id :integer
 #
@@ -37,7 +36,7 @@ class Ticket < ActiveRecord::Base
   # has_many :comments, as: :commentable
 
   # Validations
-  validates :number, uniqueness: true
+  validates :code, uniqueness: true
 
   scope :selected_data, lambda  { |event_id|
     joins("LEFT OUTER JOIN admissions ON admissions.ticket_id = tickets.id AND admissions.deleted_at IS NULL")

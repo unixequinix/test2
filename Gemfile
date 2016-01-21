@@ -70,6 +70,9 @@ gem 'braintree', '~>2.57.0'
 # Flags
 gem 'flag_shih_tzu', '~>0.3.13'
 
+# Lists
+gem 'acts_as_list'
+
 # Architectural
 gem 'virtus', '~> 1.0.5'
 gem 'reform', '~> 2.0.5'
@@ -120,6 +123,7 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'guard-rspec', '~> 4.5.0', require: false
   gem 'spring-commands-rspec', '~> 1.0.4'
+  gem 'pry-rails'
 end
 
 group :development, :test, :staging do

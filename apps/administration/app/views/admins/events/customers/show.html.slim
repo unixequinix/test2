@@ -28,7 +28,7 @@
           - @customer.customer_event_profile.active_tickets_assignment.each do |credentiable_ticket|
             dt = t ("admin.customers.tickets")
             dd
-              = link_to credentiable_ticket.credentiable.number, edit_admins_event_ticket_path(current_event, credentiable_ticket.credentiable)
+              = link_to credentiable_ticket.credentiable.code, edit_admins_event_ticket_path(current_event, credentiable_ticket.credentiable)
               = " - #{credentiable_ticket.credentiable_type}"
               = link_to admins_event_ticket_assignment_path(current_event, credentiable_ticket.id), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
                 = fa_icon "trash"
@@ -99,7 +99,7 @@
           tbody
             - @customer.customer_event_profile.ticket_assignments.each do |admission|
               tr
-                td = link_to "#{admission.credentiable.number}", edit_admins_event_ticket_path(current_event, admission.credentiable)
+                td = link_to "#{admission.credentiable.code}", edit_admins_event_ticket_path(current_event, admission.credentiable)
                 td = t("admin.admissions.states.#{admission.aasm_state}")
                 td = admission.created_at.strftime("%y-%m-%d %H:%M:%S")
 

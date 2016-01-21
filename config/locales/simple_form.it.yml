@@ -86,8 +86,8 @@ it:
       ticket:
         new: &label_ticket
           number: "Numero"
-          purchaser_name: "Nome del Cliente"
-          purchaser_surname: "Cognome del Cliente"
+          purchaser_first_name: "Nome del Cliente"
+          purchaser_last_name: "Cognome del Cliente"
           purchaser_email: "Email del Cliente"
         edit:
           <<: *label_ticket
@@ -198,8 +198,8 @@ it:
       ticket:
         new: &placeholder_ticket
           number: "Ticket number"
-          purchaser_name: ""
-          purchaser_surname: ""
+          purchaser_first_name: ""
+          purchaser_last_name: ""
           purchaser_email: ""
         edit:
           <<: *placeholder_ticket

@@ -57,7 +57,7 @@ crumb :admins_event_tickets do |event|
 end
 
 crumb :admins_event_ticket do |event, ticket|
-  link ticket.number, edit_admins_event_ticket_path(event, ticket)
+  link ticket.code, edit_admins_event_ticket_path(event, ticket)
   parent :admins_event_tickets, event
 end
 
@@ -149,6 +149,23 @@ end
 crumb :new_admins_event_preevent_product do |event|
   link t("breadcrumbs.new_preevent_product")
   parent :admins_event_preevent_products, event
+end
+
+## Company
+
+crumb :admins_event_companies do |event|
+  link t("breadcrumbs.companies"), admins_event_companies_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_company do |event, company|
+  link company.name, edit_admins_event_company_path(event, company)
+  parent :admins_event_companies, event
+end
+
+crumb :new_admins_event_company do |event|
+  link t("breadcrumbs.new_company")
+  parent :admins_event_companies, event
 end
 
 ## CompanyTicketType

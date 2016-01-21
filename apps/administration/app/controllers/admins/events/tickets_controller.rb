@@ -77,7 +77,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
       fetcher: @fetcher.tickets,
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [:ticket_type, :assigned_ticket_credential],
+      include_for_all_items: [:company_ticket_type, :assigned_ticket_credential],
       context: view_context
     )
   end
@@ -85,10 +85,10 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   def permitted_params
     params.require(:ticket).permit(
       :event_id,
-      :number,
-      :ticket_type_id,
-      :purchaser_name,
-      :purchaser_surname,
+      :code,
+      :company_ticket_type_id,
+      :purchaser_first_name,
+      :purchaser_last_name,
       :purchaser_email)
   end
 end

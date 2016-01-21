@@ -60,6 +60,12 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
       :event_id,
       :name,
       :online,
+      :description,
+      :price,
+      :min_purchasable,
+      :max_purchasable,
+      :initial_amount,
+      :step,
       preevent_item_ids: []
     )
   end
