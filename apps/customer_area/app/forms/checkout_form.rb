@@ -6,8 +6,8 @@ class CheckoutForm
     @order = Order.new
   end
 
-  def submit(params)
-    if persist(params)
+  def submit(params, preevent_products_fetched)
+    if persist(params, preevent_products_fetched)
       true
     else
       false
@@ -18,16 +18,16 @@ class CheckoutForm
 
   private
 
-  def persist(params)
+  def persist(params, preevent_products_fetched)
     @order.customer_event_profile = @customer_event_profile
     @order.generate_order_number!
-    Credit.all.each do |credit|
-      amount = params[:credits]["#{credit.id}"].to_i
+    preevent_products_fetched.find(params[:preevent_products].keys).each do |preevent_product|
+      amount = params[:preevent_products][preevent_product.id.to_s].to_i
       next unless !amount.nil? && amount > 0
       @order.order_items << OrderItem.new(
-        preevent_product_id: credit.preevent_product.id,
+        preevent_product_id: preevent_product.id,
         amount: amount,
-        total: amount * credit.preevent_product.rounded_price
+        total: amount * preevent_product.rounded_price
       )
     end
     @order.save ? true : false
