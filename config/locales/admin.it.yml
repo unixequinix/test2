@@ -192,6 +192,7 @@ it:
       name: "Name"
       company: "Company"
       number_products: "Number of Products"
+      company_ticket_type_ref: "Reference"
     ticket_types:
       id: "Id"
       name: "Name"
