@@ -54,12 +54,12 @@ module Companies
         private
 
         def ticket_params
-          params[:ticket][:number] = params[:ticket][:ticket_reference]
-          params[:company_ticket_type_id] = params[:ticket][:ticket_type_id]
+          params[:ticket][:code] = params[:ticket][:ticket_reference]
+          params[:ticket][:company_ticket_type_id] = params[:ticket][:ticket_type_id]
 
           params.require(:ticket)
-                .permit(:purchaser_email, :purchaser_name,
-                        :purchaser_surname, :number, :company_ticket_type_id)
+                .permit(:purchaser_email, :purchaser_first_name,
+                        :purchaser_last_name, :code, :company_ticket_type_id)
         end
       end
     end
