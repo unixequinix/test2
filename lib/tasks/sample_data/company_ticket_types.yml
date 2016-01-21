@@ -1,17 +1,17 @@
 -
-  code: "AA1"
+  company_ticket_type_ref: "AA1"
   name: "Free beer ticket!"
   company_id: 1
   product_id: 2
 
 -
-  code: "AA2"
+  company_ticket_type_ref: "AA2"
   name: "VIP Ticket"
   company_id: 1
   product_id: 1
 
 -
-  code: "BB1"
+  company_ticket_type_ref: "BB1"
   name: "Beer with friends!"
   company_id: 2
   product_id: 2

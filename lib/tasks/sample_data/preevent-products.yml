@@ -1,0 +1,20 @@
+-
+  name: "VIP Access"
+  min_purchasable: 1
+  max_purchasable: 1
+  price: 10
+  step: 1
+
+-
+  name: "Beer pack"
+  min_purchasable: 1
+  max_purchasable: 200
+  price: 5
+  step: 1
+
+-
+  name: "Water pack"
+  min_purchasable: 1
+  max_purchasable: 200
+  price: 2
+  step: 1
