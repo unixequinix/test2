@@ -64,7 +64,8 @@ gem 'country_select', '~> 2.2.0'
 gem 'phony_rails', '~> 0.12.8'
 
 # Payments Infrastructures
-gem 'stripe'
+gem 'stripe', '~>1.31.0'
+gem 'braintree', '~>2.57.0'
 
 # Flags
 gem 'flag_shih_tzu', '~>0.3.13'
