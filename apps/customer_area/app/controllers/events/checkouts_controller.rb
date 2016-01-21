@@ -4,7 +4,7 @@ class Events::CheckoutsController < Events::BaseController
 
   def new
     @checkout_form = CheckoutForm.new(current_customer_event_profile)
-    @preevent_products = PreeventProduct.where(event_id: current_event.id)
+    @preevent_products = CheckoutBuilder.new(current_event.id).preevent_products_sortered
   end
 
   def create

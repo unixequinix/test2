@@ -51,7 +51,7 @@ class Order < ActiveRecord::Base
 
   def credits_total
     order_items.joins(preevent_product: [:preevent_items, :preevent_product_items])
-      .where(preevent_items: {purchasable_type: "Credit"})
+      .where(preevent_items: { purchasable_type: "Credit" })
       .uniq(:id)
       .pluck("preevent_product_items.amount * order_items.amount")
       .reduce(:+)
