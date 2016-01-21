@@ -36,8 +36,8 @@ class ListModelPresenter
   end
 
   def no_items_for_presentation
-    path = 'admins/events/shared/'
-    search_query.nil? ? path + 'no_records' : path + 'no_results'
+    path = "admins/events/shared/"
+    search_query.nil? ? path + "no_records" : path + "no_results"
   end
 
   def there_any?

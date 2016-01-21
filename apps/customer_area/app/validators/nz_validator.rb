@@ -1,6 +1,6 @@
 class NzValidator < ActiveModel::Validator
   def validate(record)
-    bank_account = record.number.gsub(/[\s-]/, '').strip
+    bank_account = record.number.gsub(/[\s-]/, "").strip
     bank_id = bank_account[0..1]
     branch_id = bank_account[2..5]
     account_number = bank_account[6..12]

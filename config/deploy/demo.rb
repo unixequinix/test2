@@ -1,5 +1,5 @@
-set :branch, 'development'
-set :rails_env, 'demo'
+set :branch, "development"
+set :rails_env, "demo"
 
 # Link certification folder
 set :linked_dirs, fetch(:linked_dirs) + %w(certs)
@@ -20,7 +20,7 @@ set :linked_dirs, fetch(:linked_dirs) + %w(certs)
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server 'gspot-demo.glownet.com', user: 'ubuntu', roles: %w(web app db)
+server "gspot-demo.glownet.com", user: "ubuntu", roles: %w(web app db)
 
 # Custom SSH Options
 # ==================
@@ -37,7 +37,7 @@ server 'gspot-demo.glownet.com', user: 'ubuntu', roles: %w(web app db)
 
 set :default_run_options,   pty: true
 
-set :ssh_options,   keys: [ENV['GSPOT_STAGING_CERT']],
+set :ssh_options,   keys: [ENV["GSPOT_STAGING_CERT"]],
                     forward_agent: true,
                     auth_methods: %w(publickey)
 

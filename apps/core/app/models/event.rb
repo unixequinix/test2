@@ -43,13 +43,13 @@ class Event < ActiveRecord::Base
              fallbacks_for_empty_translations: true
 
   # Background Types
-  BACKGROUND_FIXED = 'fixed'
-  BACKGROUND_REPEAT = 'repeat'
+  BACKGROUND_FIXED = "fixed"
+  BACKGROUND_REPEAT = "repeat"
   BACKGROUND_TYPES = [BACKGROUND_FIXED, BACKGROUND_REPEAT]
 
   # Payment Services
-  REDSYS = 'redsys'
-  STRIPE = 'stripe'
+  REDSYS = "redsys"
+  STRIPE = "stripe"
   PAYMENT_SERVICES = [REDSYS, STRIPE]
 
   # TODO: check if these constants should live here or in a view helper
@@ -60,8 +60,8 @@ class Event < ActiveRecord::Base
 
   include FlagShihTzu
 
-  has_flags 1 => :top_ups, 2 => :refunds, column: 'features'
-  has_flags 1 => :bank_account, 2 => :epg, 3 => :tipalti, column: 'refund_services'
+  has_flags 1 => :top_ups, 2 => :refunds, column: "features"
+  has_flags 1 => :bank_account, 2 => :epg, 3 => :tipalti, column: "refund_services"
   has_flags 1 => :phone,
             2 => :address,
             3 => :city,
@@ -70,9 +70,9 @@ class Event < ActiveRecord::Base
             6 => :gender,
             7 => :birthdate,
             8 => :agreed_event_condition,
-            column: 'registration_parameters'
+            column: "registration_parameters"
 
-  has_flags 1 => :en_lang, 2 => :es_lang, 3 => :it_lang, 4 => :th_lang, column: 'locales'
+  has_flags 1 => :en_lang, 2 => :es_lang, 3 => :it_lang, 4 => :th_lang, column: "locales"
 
   # Associations
   has_many :customer_event_profiles
@@ -85,7 +85,7 @@ class Event < ActiveRecord::Base
   has_many :credential_assignments, through: :gtags, as: :gtags_assignments
 
   has_many :preevent_items
-  has_many :credits, through: :preevent_items, source: :purchasable, source_type: 'Credit'
+  has_many :credits, through: :preevent_items, source: :purchasable, source_type: "Credit"
 
   extend FriendlyId
   friendly_id :name, use: :slugged
@@ -93,12 +93,12 @@ class Event < ActiveRecord::Base
   has_attached_file :logo,
                     path: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:filename",
                     url: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:basename.:extension",
-                    default_url: ':default_event_image_url'
+                    default_url: ":default_event_image_url"
 
   has_attached_file :background,
                     path: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:filename",
                     url: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:basename.:extension",
-                    default_url: ':default_event_background_url'
+                    default_url: ":default_event_background_url"
 
   # Validations
   validates :name, :support_email, presence: true
@@ -110,15 +110,15 @@ class Event < ActiveRecord::Base
   include EventState
 
   def self.background_types_selector
-    BACKGROUND_TYPES.map { |f| [I18n.t('admin.event.background_types.' + f.to_s), f] }
+    BACKGROUND_TYPES.map { |f| [I18n.t("admin.event.background_types." + f.to_s), f] }
   end
 
   def self.payment_services_selector
-    PAYMENT_SERVICES.map { |f| [I18n.t('admin.event.payment_services.' + f.to_s), f] }
+    PAYMENT_SERVICES.map { |f| [I18n.t("admin.event.payment_services." + f.to_s), f] }
   end
 
   def self.refund_services_selector
-    REFUND_SERVICES.map { |f| [I18n.t('admin.event.refund_services.' + f.to_s), f] }
+    REFUND_SERVICES.map { |f| [I18n.t("admin.event.refund_services." + f.to_s), f] }
   end
 
   def standard_credit
@@ -163,15 +163,15 @@ class Event < ActiveRecord::Base
   end
 
   def selected_locales_formated
-    selected_locales.map { |key| key.to_s.gsub('_lang', '') }
+    selected_locales.map { |key| key.to_s.gsub("_lang", "") }
   end
 
   def refund_fee(refund_service)
-    get_parameter('refund', refund_service, 'fee')
+    get_parameter("refund", refund_service, "fee")
   end
 
   def refund_minimun(refund_service)
-    get_parameter('refund', refund_service, 'minimum')
+    get_parameter("refund", refund_service, "minimum")
   end
 
   def gtag_assignment?

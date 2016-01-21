@@ -31,7 +31,7 @@ class BankAccountRefundSettingsForm
   private
 
   def persist!
-    Parameter.where(category: 'refund', group: 'bank_account').each do |parameter|
+    Parameter.where(category: "refund", group: "bank_account").each do |parameter|
       eps = EventParameter.find_by(event_id: event_id, parameter_id: parameter.id)
       eps.nil? ? EventParameter.create!(value: attributes[parameter.name.to_sym], event_id: event_id, parameter_id: parameter.id) : eps.update(value: attributes[parameter.name.to_sym])
     end

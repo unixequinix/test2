@@ -11,7 +11,7 @@
 #  updated_at        :datetime         not null
 #
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe OrderItem, type: :model do
   it do

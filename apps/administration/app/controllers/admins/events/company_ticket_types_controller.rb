@@ -12,10 +12,10 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
   def create
     @company_ticket_type = CompanyTicketType.new(permitted_params)
     if @company_ticket_type.save
-      flash[:notice] = I18n.t('alerts.created')
+      flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_company_ticket_types_url
     else
-      flash[:error] = @company_ticket_type.errors.full_messages.join('. ')
+      flash[:error] = @company_ticket_type.errors.full_messages.join(". ")
       render :new
     end
   end
@@ -29,10 +29,10 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
   def update
     @company_ticket_type = @fetcher.company_ticket_types.find(params[:id])
     if @company_ticket_type.update(permitted_params)
-      flash[:notice] = I18n.t('alerts.updated')
+      flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_company_ticket_types_url
     else
-      flash[:error] = @company_ticket_type.errors.full_messages.join('. ')
+      flash[:error] = @company_ticket_type.errors.full_messages.join(". ")
       render :edit
     end
   end
@@ -40,7 +40,7 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
   def destroy
     @company_ticket_type = @fetcher.company_ticket_types.find(params[:id])
     @company_ticket_type.destroy!
-    flash[:notice] = I18n.t('alerts.destroyed')
+    flash[:notice] = I18n.t("alerts.destroyed")
     redirect_to admins_event_company_ticket_types_url
   end
 
@@ -48,7 +48,7 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
-      model_name: 'CompanyTicketType'.constantize.model_name,
+      model_name: "CompanyTicketType".constantize.model_name,
       fetcher: @fetcher.company_ticket_types,
       search_query: params[:q],
       page: params[:page],

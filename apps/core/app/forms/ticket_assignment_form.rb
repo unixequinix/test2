@@ -13,13 +13,13 @@ class TicketAssignmentForm
         persist!(ticket, current_customer_event_profile)
         true
       else
-        errors.add(:ticket_assignment, full_messages.join('. '))
+        errors.add(:ticket_assignment, full_messages.join(". "))
         false
       end
     else
       errors.add(:ticket_assignment,
-                 I18n.t('alerts.admissions',
-                        companies: TicketType.companies(current_event).join(', '))
+                 I18n.t("alerts.admissions",
+                        companies: TicketType.companies(current_event).join(", "))
                 )
       false
     end

@@ -36,7 +36,7 @@ class NewProfileForm < Reform::Form
 
   def email_uniqueness
     errors[:email] <<
-      I18n.t('activerecord.errors.models.customer.attributes.email.taken') if
+      I18n.t("activerecord.errors.models.customer.attributes.email.taken") if
       Customer.exists?(email: email, event_id: event_id, deleted_at: nil)
   end
 end

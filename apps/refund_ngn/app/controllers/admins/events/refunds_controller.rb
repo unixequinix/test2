@@ -19,10 +19,10 @@ class Admins::Events::RefundsController < Admins::Events::RefundsBaseController
   def update
     @refund = @fetcher.refunds.find(params[:id])
     if @refund.update(permitted_params)
-      flash[:notice] = I18n.t('alerts.updated')
+      flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_refund_url(@refund)
     else
-      flash[:error] = I18n.t('alerts.error')
+      flash[:error] = I18n.t("alerts.error")
       redirect_to admins_refund_url(@refund)
     end
   end
@@ -31,7 +31,7 @@ class Admins::Events::RefundsController < Admins::Events::RefundsBaseController
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
-      model_name: 'Refund'.constantize.model_name,
+      model_name: "Refund".constantize.model_name,
       fetcher: @fetcher.refunds,
       search_query: params[:q],
       page: params[:page],

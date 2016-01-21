@@ -10,14 +10,14 @@
 #  deleted_at  :datetime
 #
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe CustomerEventProfile, type: :model do
   it { is_expected.to validate_presence_of(:customer) }
   it { is_expected.to validate_presence_of(:event) }
 
-  describe 'total_credits method' do
-    it 'should return the number of credits rounded' do
+  describe "total_credits method" do
+    it "should return the number of credits rounded" do
       credit_log = create(:credit_log, amount: 9)
       customer_event_profile = credit_log.customer_event_profile
       expect(customer_event_profile.total_credits).to be(9)
@@ -36,31 +36,31 @@ RSpec.describe CustomerEventProfile, type: :model do
     end
   end
 
-  describe 'ticket_credits method' do
-    it 'should return the amount of credits rounded' do
+  describe "ticket_credits method" do
+    it "should return the amount of credits rounded" do
       customer_event_profile = create(:customer_event_profile)
 
       create(
         :credit_log,
         customer_event_profile: customer_event_profile,
-        transaction_type: 'ticket_assignment',
+        transaction_type: "ticket_assignment",
         amount: 1.2)
       create(
         :credit_log,
         customer_event_profile: customer_event_profile,
-        transaction_type: 'ticket_assignment',
+        transaction_type: "ticket_assignment",
         amount: 2.5)
       expect(customer_event_profile.ticket_credits).to be(3)
     end
 
-    it 'should return the total amount of credits' do
+    it "should return the total amount of credits" do
       customer_event_profile = create(:customer_event_profile)
 
       5.times do |time|
         create(
           :credit_log,
           customer_event_profile: customer_event_profile,
-          transaction_type: 'ticket_assignment',
+          transaction_type: "ticket_assignment",
           amount: time)
       end
 
@@ -75,7 +75,7 @@ RSpec.describe CustomerEventProfile, type: :model do
         create(
           :credit_log,
           customer_event_profile: customer_event_profile,
-          transaction_type: 'ticket_assignment',
+          transaction_type: "ticket_assignment",
           amount: time)
       end
 
@@ -83,7 +83,7 @@ RSpec.describe CustomerEventProfile, type: :model do
         create(
           :credit_log,
           customer_event_profile: customer_event_profile,
-          transaction_type: 'credits_purchase',
+          transaction_type: "credits_purchase",
           amount: time)
       end
 
@@ -91,31 +91,31 @@ RSpec.describe CustomerEventProfile, type: :model do
     end
   end
 
-  describe 'purchased_credits method' do
-    it 'should return the amount of credits rounded' do
+  describe "purchased_credits method" do
+    it "should return the amount of credits rounded" do
       customer_event_profile = create(:customer_event_profile)
 
       create(
         :credit_log,
         customer_event_profile: customer_event_profile,
-        transaction_type: 'credits_purchase',
+        transaction_type: "credits_purchase",
         amount: 1.7)
       create(
         :credit_log,
         customer_event_profile: customer_event_profile,
-        transaction_type: 'credits_purchase',
+        transaction_type: "credits_purchase",
         amount: 2.7)
       expect(customer_event_profile.purchased_credits).to be(4)
     end
 
-    it 'should return the amount of purchased credits' do
+    it "should return the amount of purchased credits" do
       customer_event_profile = create(:customer_event_profile)
 
       5.times do |time|
         create(
           :credit_log,
           customer_event_profile: customer_event_profile,
-          transaction_type: 'credits_purchase',
+          transaction_type: "credits_purchase",
           amount: time)
       end
 
@@ -130,7 +130,7 @@ RSpec.describe CustomerEventProfile, type: :model do
         create(
           :credit_log,
           customer_event_profile: customer_event_profile,
-          transaction_type: 'ticket_assignment',
+          transaction_type: "ticket_assignment",
           amount: time)
       end
 
@@ -138,7 +138,7 @@ RSpec.describe CustomerEventProfile, type: :model do
         create(
           :credit_log,
           customer_event_profile: customer_event_profile,
-          transaction_type: 'credits_purchase',
+          transaction_type: "credits_purchase",
           amount: time)
       end
 
@@ -146,14 +146,14 @@ RSpec.describe CustomerEventProfile, type: :model do
     end
   end
 
-  describe 'refundable_credits method' do
-    it 'should return nil if assigned_gtag_registration is nil' do
+  describe "refundable_credits method" do
+    it "should return nil if assigned_gtag_registration is nil" do
       customer_event_profile = create(:customer_event_profile)
 
       expect(customer_event_profile.refundable_credits).to be_nil
     end
 
-    it 'should return the amount of credits' do
+    it "should return the amount of credits" do
       customer_event_profile = create(:customer_event_profile)
       create(:gtag_credit_log, amount: 15)
       expect(customer_event_profile.refundable_credits).to eq(15)

@@ -1,8 +1,8 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.feature 'Admin Gtag assignation', type: :feature do
-  context 'with account signed in' do
-    describe 'an admin ' do
+RSpec.feature "Admin Gtag assignation", type: :feature do
+  context "with account signed in" do
+    describe "an admin " do
       before :each do
         @event_creator = EventCreator.new(event_to_hash_parameters(build(:event)))
         @event_creator.save
@@ -14,27 +14,27 @@ RSpec.feature 'Admin Gtag assignation', type: :feature do
         @gtag = create(:gtag, event: @event)
       end
 
-      it 'should be able to assign a valid gtag' do
+      it "should be able to assign a valid gtag" do
         visit "/admins/events/#{@event_creator.event.slug}/customers"
         within("[data-label='Email']") do
-          click_link('a')
+          click_link("a")
         end
-        find('a', text: t('admin.actions.assign_gtag')).click
-        fill_in(t('gtag_registrations.placeholders.standard.line_1'), with: @gtag.tag_serial_number)
-        fill_in(t('gtag_registrations.placeholders.standard.line_2'), with: @gtag.tag_uid)
-        click_on(t('gtag_registrations.button'))
+        find("a", text: t("admin.actions.assign_gtag")).click
+        fill_in(t("gtag_registrations.placeholders.standard.line_1"), with: @gtag.tag_serial_number)
+        fill_in(t("gtag_registrations.placeholders.standard.line_2"), with: @gtag.tag_uid)
+        click_on(t("gtag_registrations.button"))
         expect(page.body).to include(@gtag.tag_uid)
       end
 
       it "shouldn't be able to assign an invalid gtag" do
         visit "/admins/events/#{@event_creator.event.slug}/customers"
         within("[data-label='Email']") do
-          click_link('a')
+          click_link("a")
         end
-        find('a', text: t('admin.actions.assign_gtag')).click
-        fill_in(t('gtag_registrations.placeholders.standard.line_1'), with: 'invalid serial number')
-        fill_in(t('gtag_registrations.placeholders.standard.line_2'), with: 'invalid uid')
-        click_on(t('gtag_registrations.button'))
+        find("a", text: t("admin.actions.assign_gtag")).click
+        fill_in(t("gtag_registrations.placeholders.standard.line_1"), with: "invalid serial number")
+        fill_in(t("gtag_registrations.placeholders.standard.line_2"), with: "invalid uid")
+        click_on(t("gtag_registrations.button"))
         expect(page.body).not_to include(@gtag.tag_uid)
       end
     end

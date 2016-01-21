@@ -8,5 +8,5 @@ RSpec.configure do |config|
     ensure
       DatabaseCleaner.clean
     end
-  end if ENV['LINT']
+  end if ENV["LINT"]
 end

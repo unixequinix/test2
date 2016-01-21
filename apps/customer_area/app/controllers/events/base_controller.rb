@@ -1,5 +1,5 @@
 class Events::BaseController < ApplicationController
-  layout 'event'
+  layout "event"
   protect_from_forgery
   before_action :ensure_customer
   before_action :set_locale
@@ -14,7 +14,7 @@ class Events::BaseController < ApplicationController
   end
 
   def warden
-    request.env['warden']
+    request.env["warden"]
   end
 
   def authenticate_customer!
@@ -38,9 +38,9 @@ class Events::BaseController < ApplicationController
 
   def current_customer
     @current_customer ||=
-      Customer.find(warden.user(:customer)['id']) unless
+      Customer.find(warden.user(:customer)["id"]) unless
       warden.user(:customer).nil? ||
-      Customer.where(id: warden.user(:customer)['id']).empty?
+      Customer.where(id: warden.user(:customer)["id"]).empty?
   end
 
   def current_customer_event_profile

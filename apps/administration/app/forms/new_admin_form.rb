@@ -21,7 +21,7 @@ class NewAdminForm < Reform::Form
 
   def email_uniqueness
     errors[:email] <<
-      I18n.t('activerecord.errors.models.customer.attributes.email.taken') if
+      I18n.t("activerecord.errors.models.customer.attributes.email.taken") if
       Admin.exists?(email: email)
   end
 end

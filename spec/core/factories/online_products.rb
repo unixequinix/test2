@@ -24,10 +24,10 @@ FactoryGirl.define do
     description { Faker::Lorem.sentence }
     event
     price { Faker::Number.decimal(2) }
-    min_purchasable '1'
-    max_purchasable '10'
-    initial_amount '20'
-    step '1'
+    min_purchasable "1"
+    max_purchasable "10"
+    initial_amount "20"
+    step "1"
     purchasable { |op| op.association(:credit) }
   end
 end

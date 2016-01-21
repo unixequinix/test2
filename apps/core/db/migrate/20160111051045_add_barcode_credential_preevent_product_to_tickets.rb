@@ -34,13 +34,13 @@ class AddBarcodeCredentialPreeventProductToTickets < ActiveRecord::Migration
 
   def migrate_ticket_types
     TicketType.all.each do |ticket_type|
-      credits_ids = PreeventItem.where(purchasable_type: 'Credit',
+      credits_ids = PreeventItem.where(purchasable_type: "Credit",
                                        event_id: ticket_type.event_id)
                                 .pluck(:id)
 
       entitlements_names_list = ticket_type.entitlements.pluck(:name)
       credential_types_ids = PreeventItem.where(name: entitlements_names_list,
-                                                purchasable_type: 'CredentialType',
+                                                purchasable_type: "CredentialType",
                                                 event_id: ticket_type.event_id)
                                          .pluck(:id)
 
@@ -60,6 +60,6 @@ class AddBarcodeCredentialPreeventProductToTickets < ActiveRecord::Migration
         ticket.update_attributes(company_ticket_type: company_ticket_type)
       end
     end
-    puts 'TicketTypes Migrated √'
+    puts "TicketTypes Migrated √"
   end
 end

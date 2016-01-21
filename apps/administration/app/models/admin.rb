@@ -17,7 +17,7 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
-require 'bcrypt'
+require "bcrypt"
 
 class Admin < ActiveRecord::Base
   include BCrypt
