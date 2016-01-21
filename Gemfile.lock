@@ -29,6 +29,12 @@ PATH
       rails (~> 4.2.1)
 
 PATH
+  remote: apps/logging
+  specs:
+    logging (0.0.1)
+      rails (~> 4.2.1)
+
+PATH
   remote: apps/payment_ngn
   specs:
     payment_ngn (0.0.1)
@@ -625,6 +631,7 @@ DEPENDENCIES
   jquery-ui-rails (~> 4.2.0)
   kaminari (~> 0.16.3)
   launchy
+  logging!
   meta_request (~> 0.3.4)
   metamagic (~> 3.1.7)
   neat (~> 1.7.2)
