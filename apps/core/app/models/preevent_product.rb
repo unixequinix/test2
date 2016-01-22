@@ -35,4 +35,35 @@ class PreeventProduct < ActiveRecord::Base
   def rounded_price
     price.round == price ? price.floor : price
   end
+
+  def self.online_preevent_products_sortered(current_event)
+    preevent_products = where(event_id: current_event.id)
+    @sortered_products_storage = Hash[keys_sortered.map { |key| [key, []] }]
+
+    preevent_products.each do |preevent_product|
+      next unless preevent_product.online
+      category = is_a_pack?(preevent_product) ? "Pack" : nil
+      add_product_to_storage(preevent_product, category)
+    end
+    @sortered_products_storage.values.flatten
+  end
+
+  private
+
+  def self.keys_sortered
+    %w(Credit Voucher CredentialType Pack)
+  end
+
+  def self.add_product_to_storage(preevent_product, new_category)
+    category = new_category || get_product_category(preevent_product)
+    @sortered_products_storage[category] << preevent_product
+  end
+
+  def self.get_product_category(preevent_product)
+    preevent_product.preevent_items.first.purchasable_type
+  end
+
+  def self.is_a_pack?(preevent_product)
+    preevent_product.preevent_items.count > 1
+  end
 end
