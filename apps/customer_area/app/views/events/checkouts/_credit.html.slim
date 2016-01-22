@@ -1,0 +1,24 @@
+.product-amount
+  = fa_icon "minus-circle", class: "amount-button",
+    data: { id: "#{preevent_product.id}",
+      price: "#{preevent_product.price}",
+      operation: "minus",
+      step: "#{preevent_product.step}" }
+  = number_field_tag "checkout_form[preevent_products][#{preevent_product.id}]", "#{preevent_product.initial_amount}", autocomplete: :off,
+    min: "#{preevent_product.min_purchasable}",
+    max: "#{preevent_product.max_purchasable}",
+    step: "#{preevent_product.step}",
+    id: "amount-input-#{preevent_product.id}",
+    class: "amount-input",
+    data: { id: "#{preevent_product.id}", price: "#{preevent_product.price}" }
+  = fa_icon "plus-circle",
+    class: "amount-button",
+    data: { id: "#{preevent_product.id}",
+      price: "#{preevent_product.price}",
+      operation: "plus",
+      step: "#{preevent_product.step}" }
+.checkout-total
+  h3 = t('checkout.total')
+  .top-up-amount [data-id="#{preevent_product.id}"]
+    span [id="amount-total-#{preevent_product.id}"] #{(preevent_product.rounded_price * preevent_product.initial_amount)}
+    span #{current_event.currency}

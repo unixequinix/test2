@@ -1,9 +1,16 @@
 -
-  name: Credits
-  description: This is the standard token unit
-  price: 1
-  standard: true
-  min_purchasable: 5
-  max_purchasable: 50
-  initial_amount: 5
-  step: 5
+  preevent_product:
+    name: Standard Credit
+    price: 1
+    min_purchasable: 0
+    max_purchasable: 50
+    initial_amount: 1
+    step: 5
+    online: true
+  preevent_item:
+    name: Credit Item
+    description: This is the standard token unit
+  credit:
+    standard: true
+  preevent_product_item:
+    amount: 1
