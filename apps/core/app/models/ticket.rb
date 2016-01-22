@@ -31,6 +31,7 @@ class Ticket < ActiveRecord::Base
           -> { where(credential_assignments: { aasm_state: :assigned }) },
           class_name: "CustomerEventProfile"
   belongs_to :company_ticket_type
+  has_one :ticket_blacklist
 
   # TODO: Remove comments from tickets
   # has_many :comments, as: :commentable
@@ -44,5 +45,10 @@ class Ticket < ActiveRecord::Base
       .joins("LEFT OUTER JOIN customers ON customers.id = customer_event_profiles.customer_id AND customers.deleted_at IS NULL")
       .select("tickets.*, customers.email, customers.name, customers.surname")
       .where(event: event_id)
+  }
+
+  scope :search_by_company_and_event, -> (company, event) {
+    includes(:company_ticket_type, company_ticket_type: [:company])
+      .where(event: event, companies: { name: company })
   }
 end

@@ -3,8 +3,7 @@ module Companies
     module V1
       class TicketTypesController < Companies::Api::BaseController
         def index
-          @ticket_types = CompanyTicketType.includes(:company)
-              .where(event: current_event, companies: { name: current_company.name })
+          @ticket_types = CompanyTicketType.search_by_company_and_event(current_company.name, current_event)
 
           render json: {
             event_id: current_event.id,
@@ -15,8 +14,8 @@ module Companies
         end
 
         def show
-          @ticket_type = CompanyTicketType.includes(:company)
-              .find_by(id: params[:id], event: current_event, companies: { name: current_company.name })
+          @ticket_type = CompanyTicketType.search_by_company_and_event(current_company.name, current_event)
+                                          .find_by(id: params[:id])
 
           if @ticket_type
             render json: Companies::Api::V1::TicketTypeSerializer.new(@ticket_type)
