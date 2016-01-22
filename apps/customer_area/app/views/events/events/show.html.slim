@@ -2,3 +2,22 @@
 
 - @dashboard.each_presenter do |presenter|
   = render presenter.path, presenter: presenter if presenter.can_render?
+
+
+form#checkout action="/checkout" method="post"
+  #payment-form
+  input type="submit" value=("Pay $10")
+
+javascript:
+  function setupBT() {
+    var clientToken = "#{@client_token}";
+    braintree.setup(clientToken, 'dropin', {
+      container: 'payment-form'
+    });
+  }
+
+  if (window.addEventListener)
+    window.addEventListener("load", setupBT, false);
+  else if (window.attachEvent)
+    window.attachEvent("onload", setupBT);
+  else window.onload = setupBT;
