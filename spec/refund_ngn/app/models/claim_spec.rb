@@ -29,11 +29,10 @@ RSpec.describe Claim, type: :model do
                      aasm_state: :completed,
                      customer_event_profile: customer_event_profile,
                      gtag: gtag,
-                     service_type: "bank_account"
-                    )
-      refund = create(:refund, claim: claim)
+                     service_type: "bank_account")
       parameter = Parameter.find_by(name: "iban", category: "claim", group: "bank_account")
-      claim_parameter = create(:claim_parameter, claim: claim, parameter: parameter)
+      create(:claim_parameter, claim: claim, parameter: parameter)
+      create(:refund, claim: claim)
       claims, headers, extra_columns = Claim.selected_data(:completed, gtag.event)
       expect(claims.size).to eq(1)
       expect(headers).to eq(["iban"])

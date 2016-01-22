@@ -10,10 +10,7 @@ class TipaltiCheckout
   end
 
   def url
-    base_url = @tipalti_values[:url] +
-               "?" +
-               create_value +
-               "&hashkey=" + crypt(create_value)
+    "#{@tipalti_values[:url]}?#{create_value}&hashkey=#{crypt(create_value)}"
   end
 
   def create_value
@@ -23,7 +20,7 @@ class TipaltiCheckout
     value += "&last=#{@claim.customer_event_profile.customer.surname.gsub(valid_characters, '')}"
     value += "&first=#{@claim.customer_event_profile.customer.name.gsub(valid_characters, '')}"
     value += "&ts=#{Time.now.to_i}"
-    value += "&payer=#{@tipalti_values[:payer]}"
+    value + "&payer=#{@tipalti_values[:payer]}"
   end
 
   def crypt(value)

@@ -83,14 +83,16 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    acts_as_list (0.7.2)
+      activerecord (>= 3.0)
     addressable (2.3.8)
     annotate (2.6.10)
       activerecord (>= 3.2, <= 4.3)
       rake (~> 10.4)
     arel (6.0.0)
-    ast (2.0.0)
-    astrolabe (1.3.0)
-      parser (>= 2.2.0.pre.3, < 3.0)
+    ast (2.2.0)
+    astrolabe (1.3.1)
+      parser (~> 2.2)
     aws-sdk (2.1.0)
       aws-sdk-resources (= 2.1.0)
     aws-sdk-core (2.1.0)
@@ -114,6 +116,8 @@ GEM
     bourbon (4.2.2)
       sass (~> 3.4)
       thor
+    braintree (2.57.0)
+      builder (>= 2.0.0)
     builder (3.2.2)
     bullet (4.14.4)
       activesupport (>= 3.0.0)
@@ -201,9 +205,6 @@ GEM
     flay (2.6.1)
       ruby_parser (~> 3.0)
       sexp_processor (~> 4.0)
-    flog (4.3.2)
-      ruby_parser (~> 3.1, > 3.1.0)
-      sexp_processor (~> 4.4)
     font-awesome-rails (4.3.0.0)
       railties (>= 3.2, < 5.0)
     foreman (0.78.0)
@@ -232,6 +233,9 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
+    guard-rubocop (1.2.0)
+      guard (~> 2.0)
+      rubocop (~> 0.20)
     hirb (0.7.3)
     hitimes (1.2.3)
     http-cookie (1.0.2)
@@ -309,8 +313,8 @@ GEM
       mime-types
     paranoia (2.1.2)
       activerecord (~> 4.0)
-    parser (2.2.2.1)
-      ast (>= 1.1, < 3.0)
+    parser (2.3.0.0)
+      ast (~> 2.2)
     pg (0.18.1)
     phony (2.14.7)
     phony_rails (0.12.8)
@@ -319,7 +323,7 @@ GEM
       phony (~> 2.12)
     polyamorous (1.2.0)
       activerecord (>= 3.0)
-    powerpack (0.1.0)
+    powerpack (0.1.1)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -397,6 +401,10 @@ GEM
       rspec-core (~> 3.2.0)
       rspec-expectations (~> 3.2.0)
       rspec-mocks (~> 3.2.0)
+    rspec-activemodel-mocks (1.0.2)
+      activemodel (>= 3.0)
+      activesupport (>= 3.0)
+      rspec-mocks (>= 2.99, < 4.0)
     rspec-core (3.2.3)
       rspec-support (~> 3.2.0)
     rspec-expectations (3.2.1)
@@ -551,6 +559,7 @@ GEM
     unf_ext (0.0.7.1)
     unicode_utils (1.4.0)
     uniform_notifier (1.8.0)
+    validate_nz_bank_acc (0.0.3)
     valuable (0.9.9)
     virtus (1.0.5)
       axiom-types (~> 0.1)
@@ -572,6 +581,7 @@ DEPENDENCIES
   aasm (~> 4.1.0)
   active_model_serializers (~> 0.9.3)
   activerecord-import (~> 0.8.0)
+  acts_as_list
   administration!
   annotate (~> 2.6.10)
   api!
@@ -581,6 +591,7 @@ DEPENDENCIES
   better_errors (~> 2.1.1)
   binding_of_caller (~> 0.7.2)
   bourbon (~> 4.2.2)
+  braintree (~> 2.57.0)
   bullet (~> 4.14.4)
   byebug (~> 4.0.5)
   capistrano
@@ -597,14 +608,14 @@ DEPENDENCIES
   factory_girl_rails (~> 4.5.0)
   faker (~> 1.4.3)
   flag_shih_tzu (~> 0.3.13)
-  flay (>= 2.6.1)
-  flog (>= 4.3.2)
+  flay
   font-awesome-rails (~> 4.3.0.0)
   foreman (~> 0.78.0)
   friendly_id (~> 5.1.0)
   globalize (~> 5.0.1)
   gretel (~> 3.0.8)
   guard-rspec (~> 4.5.0)
+  guard-rubocop
   hirb (~> 0.7.3)
   i18n-globals!
   iban-tools (~> 1.0.0)
@@ -624,7 +635,7 @@ DEPENDENCIES
   payment_ngn!
   pg (~> 0.18.1)
   phony_rails (~> 0.12.8)
-  pry-rails (~> 0.3.4)
+  pry-rails
   quiet_assets (~> 1.1.0)
   rack-cors
   railroady (~> 1.4.1)
@@ -635,6 +646,8 @@ DEPENDENCIES
   reform (~> 2.0.5)
   refund_ngn!
   roo (~> 2.0.0beta1)
+  rspec-activemodel-mocks
+  rspec-mocks
   rspec-rails (~> 3.2.1)
   rubocop (~> 0.30.1)
   rubocop-checkstyle_formatter
@@ -650,10 +663,11 @@ DEPENDENCIES
   slim (~> 3.0.3)
   spring (~> 1.3.5)
   spring-commands-rspec (~> 1.0.4)
-  stripe
+  stripe (~> 1.31.0)
   therubyracer (~> 0.12.2)
   turbolinks (~> 2.5.3)
   uglifier (~> 2.7.1)
+  validate_nz_bank_acc (~> 0.0.3)
   virtus (~> 1.0.5)
   warden (~> 1.2.3)
   whenever (~> 0.9.4)

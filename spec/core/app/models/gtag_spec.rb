@@ -34,7 +34,7 @@ RSpec.describe Gtag, type: :model do
     it "should return the money that can be refunded" do
       credit = create(:credit)
       gtag = create(:gtag, event: credit.online_product.event)
-      gtag_credit_log = create(:gtag_credit_log, amount: 9.99, gtag: gtag)
+      create(:gtag_credit_log, amount: 9.99, gtag: gtag)
       price = credit.online_product.price
       expect(gtag.refundable_amount).to eq(price * 9.99)
     end

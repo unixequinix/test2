@@ -32,7 +32,7 @@ class Admins::EventsController < Admins::BaseController
 
   def update
     @event = Event.friendly.find(params[:id])
-    if @event.update(permitted_params)
+    if @event.update_attributes(permitted_params)
       flash[:notice] = I18n.t("alerts.updated")
       @event.slug = nil
       @event.save!
@@ -61,7 +61,8 @@ class Admins::EventsController < Admins::BaseController
     params.require(:event).permit(:aasm_state, :name, :url, :location,
                                   :start_date, :end_date, :description, :support_email, :style, :logo,
                                   :background_type, :background, :features, :locales, :payment_service,
-                                  :refund_services, :gtag_registration, :info, :disclaimer, :host_country,
-                                  :currency, :registration_parameters, :agreed_event_condition_message)
+                                  :refund_services, :info, :disclaimer, :host_country, :gtag_assignation,
+                                  :currency, :registration_parameters, :agreed_event_condition_message,
+                                  :ticket_assignation)
   end
 end

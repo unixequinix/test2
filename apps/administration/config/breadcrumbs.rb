@@ -49,40 +49,6 @@ crumb :admins_event_gtag_settings do |event|
   parent :admins_event, event
 end
 
-## Entitlements
-
-crumb :admins_event_entitlements do |event|
-  link t("breadcrumbs.entitlements"), admins_event_entitlements_path(event)
-  parent :admins_event, event
-end
-
-crumb :admins_event_entitlement do |event, entitlement|
-  link entitlement.name, edit_admins_event_entitlement_path(event, entitlement)
-  parent :admins_event_entitlements, event
-end
-
-crumb :new_admins_event_entitlement do |event|
-  link t("breadcrumbs.new_entitlement")
-  parent :admins_event_entitlements, event
-end
-
-## TicketsTypes
-
-crumb :admins_event_ticket_types do |event|
-  link t("breadcrumbs.ticket_types"), admins_event_ticket_types_path(event)
-  parent :admins_event, event
-end
-
-crumb :admins_event_ticket_type do |event, ticket_type|
-  link ticket_type.name, edit_admins_event_ticket_type_path(event, ticket_type)
-  parent :admins_event_ticket_types, event
-end
-
-crumb :new_admins_event_ticket_type do |event|
-  link t("breadcrumbs.new_ticket_type")
-  parent :admins_event_ticket_types, event
-end
-
 ## Tickets
 
 crumb :admins_event_tickets do |event|
@@ -91,7 +57,7 @@ crumb :admins_event_tickets do |event|
 end
 
 crumb :admins_event_ticket do |event, ticket|
-  link ticket.number, edit_admins_event_ticket_path(event, ticket)
+  link ticket.code, edit_admins_event_ticket_path(event, ticket)
   parent :admins_event_tickets, event
 end
 
@@ -125,13 +91,98 @@ crumb :admins_event_credits do |event|
 end
 
 crumb :admins_event_credit do |event, credit|
-  link credit.online_product.name, edit_admins_event_credit_path(event, credit)
+  link credit.preevent_item.name, edit_admins_event_credit_path(event, credit)
   parent :admins_event_credits, event
 end
 
 crumb :new_admins_event_credit do |event|
   link t("breadcrumbs.new_credit_type")
   parent :admins_event_credits, event
+end
+
+## Vouchers
+
+crumb :admins_event_vouchers do |event|
+  link t("breadcrumbs.vouchers"), admins_event_vouchers_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_voucher do |event, voucher|
+  link voucher.preevent_item.name, edit_admins_event_voucher_path(event, voucher)
+  parent :admins_event_vouchers, event
+end
+
+crumb :new_admins_event_voucher do |event|
+  link t("breadcrumbs.new_voucher")
+  parent :admins_event_vouchers, event
+end
+
+## CredentialTypes
+
+crumb :admins_event_credential_types do |event|
+  link t("breadcrumbs.credential_types"), admins_event_credential_types_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_credential_type do |event, credential_type|
+  link credential_type.preevent_item.name, edit_admins_event_credential_type_path(event, credential_type)
+  parent :admins_event_credential_types, event
+end
+
+crumb :new_admins_event_credential_type do |event|
+  link t("breadcrumbs.new_credential_type")
+  parent :admins_event_credential_types, event
+end
+
+## PreeventProduct
+
+crumb :admins_event_preevent_products do |event|
+  link t("breadcrumbs.preevent_products"), admins_event_preevent_products_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_preevent_product do |event, preevent_product|
+  link preevent_product.name, edit_admins_event_preevent_product_path(event, preevent_product)
+  parent :admins_event_preevent_products, event
+end
+
+crumb :new_admins_event_preevent_product do |event|
+  link t("breadcrumbs.new_preevent_product")
+  parent :admins_event_preevent_products, event
+end
+
+## Company
+
+crumb :admins_event_companies do |event|
+  link t("breadcrumbs.companies"), admins_event_companies_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_company do |event, company|
+  link company.name, edit_admins_event_company_path(event, company)
+  parent :admins_event_companies, event
+end
+
+crumb :new_admins_event_company do |event|
+  link t("breadcrumbs.new_company")
+  parent :admins_event_companies, event
+end
+
+## CompanyTicketType
+
+crumb :admins_event_company_ticket_types do |event|
+  link t("breadcrumbs.company_ticket_types"), admins_event_company_ticket_types_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_company_ticket_type do |event, company_ticket_type|
+  link company_ticket_type.name, edit_admins_event_company_ticket_type_path(event, company_ticket_type)
+  parent :admins_event_company_ticket_types, event
+end
+
+crumb :new_admins_event_company_ticket_type do |event|
+  link t("breadcrumbs.new_company_ticket_type")
+  parent :admins_event_company_ticket_types, event
 end
 
 ## Customers

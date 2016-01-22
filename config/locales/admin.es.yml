@@ -1,5 +1,7 @@
 es:
   admin:
+    companies:
+      name: "Nombre"
     actions:
       new: "Nuevo"
       back: "Atrás"
@@ -156,6 +158,9 @@ es:
       sign_out: "Cerrar Sesión"
       setup: "Setup"
       crm: "CRM"
+      vouchers: "Cupones"
+      credential_types: "Tipos de Credenciales"
+      companies: "Compañías"
     dashboard:
       change_state: "Cambiar de Estado?"
       api_access: "Acceso API"
@@ -163,14 +168,29 @@ es:
     admins:
       email: "Email"
     credits:
+      standard: "Estándar"
+    preevent_product:
       name: "Nombre"
-      description: "Descripción"
-      standard_credit: "Crédito Estándar"
-      price: "Precio"
-      min_purchasable: "Mínimo comprable"
-      max_purchasable: "Máximo comprable"
+      online: "Online"
+      number_product_items: "Número de items"
       initial_amount: "Cantidad Inicial"
+      price: "Precio"
       step: "Escala"
+      max_purchasable: "Máximo Comprable"
+      min_purchasable: "Mínimo Comprable"
+    preevent_item:
+      name: "Name"
+      description: "Descripción"
+    vouchers:
+      id: "Id"
+      counter: "Contador"
+    credential_types:
+      position: "Posición"
+    company_ticket_types:
+      name: "Nombre"
+      company: "Compañía"
+      number_products: "Number de Productos"
+      company_ticket_type_ref: "Referencia"
     entitlements:
       name: "Nombre"
     ticket_types:
@@ -183,8 +203,8 @@ es:
       import: "Importar tipos de ticket (Seleccionar un fichero CSV separado por comas)"
     tickets:
       id: "Id"
-      number: "Número"
-      ticket_type: "Tipo de Ticket"
+      code: "Código"
+      company_ticket_type: "Tipo de ticket de compañía"
       ticket_type_simplified: "Tipo de Ticket Simplificado"
       customer: "Cliente asignado"
       created_at: "Creado el"
@@ -221,7 +241,7 @@ es:
       created_at: "Creado el"
       updated_at: "Actualizado el"
       total: "Créditos Totales"
-      gtag_registration: "Registros del Gtag"
+      gtag_assignation: "Asignaciones del Gtag"
       import: "Importar GTags (Seleccionar un fichero CSV separado por comas)"
       import_credits: "Importar Creditos (Seleccionar un fichero CSV separado por comas)"
       search:
@@ -234,7 +254,7 @@ es:
         total_credits: "Créditos totales en el sistema"
         total_refundable_money: "Dinero devolver (menos comisiones)"
         total_refundable_gtags: "Gtags con crédito a devolver"
-    gtag_registrations:
+    gtag_assignations:
       tag: "Tag UID"
       serial: "Tag Número Serial"
       customer:

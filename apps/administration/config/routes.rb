@@ -20,8 +20,9 @@ Rails.application.routes.draw do
         post :remove_logo
         post :remove_background
       end
+
       scope module: "events" do
-        resources :admissions, only: [:destroy]
+        resources :ticket_assignments, only: [:destroy]
         resource :gtag_settings, only: [:show, :edit, :update]
         resources :gtags do
           resources :comments, module: :gtags
@@ -30,7 +31,6 @@ Rails.application.routes.draw do
             delete :destroy_multiple
           end
         end
-        resources :entitlements, except: :show
         resources :ticket_types, except: :show
         resources :tickets do
           resources :comments, module: :tickets
@@ -39,8 +39,7 @@ Rails.application.routes.draw do
             delete :destroy_multiple
           end
         end
-        resources :gtag_registrations, only: [:destroy]
-        resources :entitlements, except: :show
+        resources :gtag_assignments, only: [:destroy]
         resources :ticket_types, except: :show
         resources :tickets do
           resources :comments, module: :tickets
@@ -49,11 +48,15 @@ Rails.application.routes.draw do
             delete :destroy_multiple
           end
         end
+        resources :companies, except: :show
         resources :credits, except: :show
-        resources :gtag_registrations, only: [:destroy]
+        resources :vouchers, except: :show
+        resources :credential_types, except: :show
+        resources :preevent_products, except: :show
+        resources :company_ticket_types, except: :show
         resources :customers, except: [:new, :create, :edit, :update] do
-          resources :admissions, only: [:new, :create]
-          resources :gtag_registrations, only: [:new, :create]
+          resources :ticket_assignments, only: [:new, :create]
+          resources :gtag_assignments, only: [:new, :create]
           collection do
             get :search
           end

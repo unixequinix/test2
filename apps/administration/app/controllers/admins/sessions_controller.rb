@@ -18,7 +18,7 @@ class Admins::SessionsController < Admins::BaseController
   end
 
   def destroy
-    admin = current_admin
+    @admin = current_admin
     logout_admin!
     redirect_to after_sign_out_path
   end

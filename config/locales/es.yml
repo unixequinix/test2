@@ -48,7 +48,7 @@ es:
         bsb: "BSB"
         account_holder: "Nombre del propietario"
         bank_name: "Nombre del banco"
-        number: "Número de cuenta"
+        number: "Número de cuenta (00 0000 0000000 000)"
       thailand_bank_account_claim_form:
         bsb: "BSB"
         account_holder: "Nombre del propietario (Thai)"
@@ -62,13 +62,16 @@ es:
         other: 'Administradores'
       claim:
         one: 'Reclamación'
-        other: 'Reclamaciónes'
+        other: 'Reclamaciones'
       credit:
         one: 'Crédito'
         other: 'Créditos'
       customer:
         one: 'Cliente'
         other: 'Clientes'
+      customer_event_profile:
+        one: 'Perfil de evento'
+        other: 'Perfiles de evento'
       entitlement:
         one: 'Derecho'
         other: 'Derechos'

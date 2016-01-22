@@ -47,19 +47,22 @@ class ClaimsPresenter < BasePresenter
 
   def refund_actions
     actions = ""
-    if any_refundable_method? && !completed_claim?
-      refund_services.each do |refund_service|
-        not_refundable = !refundable?(refund_service)
-        class_definition = "btn btn-refund-method"
-        class_definition << " btn-blocked" if not_refundable
-        actions <<
-          (not_refundable ?
-            context.content_tag("a", action_name(refund_service),
-                                class: class_definition,
-                                disabled: not_refundable) :
-            context.link_to(action_name(refund_service),
-                            context.send("new_event_#{refund_service}_claim_path", @event),
-                            class: class_definition))
+    return "" unless any_refundable_method? && !completed_claim?
+
+    refund_services.each do |refund_service|
+      not_refundable = !refundable?(refund_service)
+      class_definition = "btn btn-refund-method"
+
+      if not_refundable
+        class_definition << " btn-blocked"
+        actions << context.content_tag("a",
+                                       action_name(refund_service),
+                                       class: class_definition,
+                                       disabled: not_refundable)
+      else
+        actions << context.link_to(action_name(refund_service),
+                                   context.send("new_event_#{refund_service}_claim_path", @event),
+                                   class: class_definition)
       end
     end
     actions

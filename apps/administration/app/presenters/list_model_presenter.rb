@@ -1,7 +1,7 @@
 class ListModelPresenter
   attr_accessor :all, :q, :page, :search_query, :model_name
 
-  # TODO - Make it lighter. Too many arguments for the initializer
+  # TODO: Make it lighter. Too many arguments for the initializer
   def initialize(attributes = {})
     @all = attributes[:fetcher]
     @page = attributes[:page]
@@ -15,7 +15,7 @@ class ListModelPresenter
     @q = all.order(:id).search(search_query)
   end
 
-  def get_all_items
+  def all_items
     q.result(distinct: true)
       .page(page)
       .includes(@include_for_all_items)
@@ -25,8 +25,8 @@ class ListModelPresenter
     @page ||= 1
     items_per_page = @model_name.name.constantize.page.count
 
-    from = set_first_record(items_per_page)
-    to = set_last_record(items_per_page)
+    from = first_record(items_per_page)
+    to = last_record(items_per_page)
 
     "#{from}-#{to}"
   end
@@ -40,8 +40,8 @@ class ListModelPresenter
     search_query.nil? ? path + "no_records" : path + "no_results"
   end
 
-  def is_there_any?
-    get_all_items.present?
+  def there_any?
+    all_items.present?
   end
 
   def can_create_items?
@@ -50,11 +50,11 @@ class ListModelPresenter
 
   private
 
-  def set_first_record(items_per_page)
+  def first_record(items_per_page)
     (items_per_page * (@page.to_i - 1)) + 1
   end
 
-  def set_last_record(items_per_page)
+  def last_record(items_per_page)
     last = items_per_page * @page.to_i
     count < last ? count : last
   end

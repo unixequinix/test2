@@ -35,3 +35,6 @@ th:
     new_claim: "New claims"
     refunds: "Refunds"
     new_refund: "New refund"
+    vouchers: "Vouchers"
+    credential_types: "Credential types"
+    companies: "Companies"

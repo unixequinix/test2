@@ -14,8 +14,6 @@ namespace :db do
     puts 'Creating fake data'
     puts '----------------------------------------'
     make_events
-    make_entitlements
-    make_ticket_types
     make_tickets
     make_gtags
     make_customers
@@ -38,41 +36,13 @@ namespace :db do
     end
   end
 
-
-  def make_entitlements
-    puts 'Create entitlements'
-    puts '----------------------------------------'
-    Entitlement.destroy_all
-    Event.all.each do |event|
-      YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'entitlements.yml')).each do |data|
-        Entitlement.create!(event_id: event.id, name: data['name'])
-      end
-    end
-  end
-
-  def make_ticket_types
-    puts 'Create ticket types'
-    puts '----------------------------------------'
-    TicketType.destroy_all
-    Event.all.each do |event|
-      YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'ticket_types.yml')).each do |data|
-        ticket_type = TicketType.new(event_id: event.id, name: data['name'], company: data['company'], credit: data['credit'])
-        data['entitlements'].each do |entitlement|
-          ticket_type.entitlements << Entitlement.find_by(name: entitlement['name'])
-        end
-        ticket_type.save!
-      end
-    end
-  end
-
   def make_tickets
     puts 'Create tickets'
     puts '----------------------------------------'
     Ticket.destroy_all
     Event.all.each do |event|
       YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'tickets.yml')).each do |data|
-        ticket = Ticket.new(event_id: event.id, number: data['number'])
-        ticket.ticket_type = TicketType.find_by(name: data['ticket_type'])
+        ticket = Ticket.new(event_id: event.id, code: data['code'])
         ticket.save!
       end
     end
@@ -84,7 +54,11 @@ namespace :db do
     Gtag.destroy_all
     Event.all.each do |event|
       YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'gtags.yml')).each do |data|
-        gtag = Gtag.new(event_id: event.id, tag_serial_number: data['tag_serial_number'], tag_uid: data['tag_uid'])
+        gtag = Gtag.new(
+          event_id: event.id,
+          tag_serial_number: data['tag_serial_number'],
+          tag_uid: data['tag_uid']
+        )
         gtag.save!
       end
     end

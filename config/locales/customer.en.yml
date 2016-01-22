@@ -32,7 +32,7 @@ en:
   dashboard:
     title: "My dashboard"
     admissions:
-      header: "Ticket %{ticket_type}"
+      header: "Ticket %{company_ticket_type}"
       call_to_action: "Do you want to remove this ticket?"
       call_to_action_started: "The event just started so you cannot change the ticket"
       success: "Ticket successfully activated!"
@@ -97,7 +97,7 @@ en:
     call_to_action: "Activate your Event Ticket!"
     button: "Activate"
     placeholders:
-      ticket_number: "Event Ticket Barcode Number"
+      ticket_code: "Event Ticket Code Number"
   checkout:
     title: "Top-up"
     description: "After you buy online credits here, they will automatically be applied to your %{gtag} once you enter the event."

@@ -7,7 +7,7 @@ class AccountManager::Stripe
     Stripe.api_key = platform_secret_key
     @account = build_account(params)
     account_parameters = extract_account_parameters
-    # TODO next lines are to manage legal parameters
+    # TODO: next lines are to manage legal parameters
     # attach_legal_parameters(params, request)
     # legal_parameters = extract_legal_parameters
 
@@ -68,12 +68,10 @@ class AccountManager::Stripe
 
   def persist!(new_params, event_id)
     Parameter.where(category: "payment", group: "stripe", name: new_params.keys).each do |parameter|
-      unless new_params[parameter.name.to_sym].nil?
-        ep = EventParameter.find_by(event_id: event_id, parameter_id: parameter.id)
-        ep.nil? ?
-        EventParameter.create!(value: new_params[parameter.name.to_sym], event_id: event_id, parameter_id: parameter.id) :
-        ep.update(value: new_params[parameter.name.to_sym])
-      end
+      next if new_params[parameter.name.to_sym].nil?
+      ep = EventParameter.find_or_create_by(event_id: event_id, parameter_id: parameter.id)
+      ep.value = new_params[parameter.name.to_sym]
+      ep.save!
     end
   end
 end

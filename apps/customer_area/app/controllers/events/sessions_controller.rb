@@ -35,7 +35,7 @@ class Events::SessionsController < Events::BaseController
   end
 
   def destroy
-    customer = current_customer
+    @customer = current_customer
     logout_customer!
     redirect_to after_sign_out_path
   end

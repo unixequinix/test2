@@ -1,5 +1,6 @@
 class Payments::StripePayer
   attr_reader :action_after_payment
+
   def initialize
     @action_after_payment = ""
   end
@@ -21,21 +22,14 @@ class Payments::StripePayer
     amount = order.total_stripe_formated
     Stripe.api_key = Rails.application.secrets.stripe_platform_secret
     begin
-      #       # Charging directly
-      #       charge = Stripe::Charge.create({
-      #         amount: amount, # amount in cents, again
-      #         currency: event.currency,
-      #         source: token,
-      #         description: "Payment of #{amount} #{event.currency}"
-      #       }, { stripe_account: get_event_parameter_value(event, "stripe_account_id") } )
-      #  Charging through the platform
-      charge = Stripe::Charge.create(amount: amount, # amount in cents, again
-                                     currency: event.currency,
-                                     source: token,
-                                     description: "Payment of #{amount} #{event.currency}",
-                                     destination: get_event_parameter_value(event, "stripe_account_id"))
+      charge = Stripe::Charge.create(
+        amount: amount, # amount in cents, again
+        currency: event.currency,
+        source: token,
+        description: "Payment of #{amount} #{event.currency}",
+        destination: get_event_parameter_value(event, "stripe_account_id"))
 
-    rescue Stripe::CardError => e
+    rescue Stripe::CardError
       # The card has been declined
       charge = nil
     end
@@ -43,22 +37,21 @@ class Payments::StripePayer
   end
 
   def notify_payment(params, charge)
-    if charge.status == "succeeded"
-      order = Order.find(params[:order_id])
-      credit_log = CreditLog.create(customer_event_profile_id: order.customer_event_profile.id, transaction_type: CreditLog::CREDITS_PURCHASE, amount: order.credits_total)
-      payment = Payment.new(
-        order: order,
-        amount: (charge.amount.to_f / 100), # last two digits are decimals,
-        merchant_code: charge.balance_transaction,
-        currency: charge.currency,
-        paid_at: Time.at(charge.created),
-        response_code: charge,
-        success: true
-      )
-      payment.save!
-      order.complete!
-      send_mail_for(order, Event.friendly.find(params[:event_id]))
-    end
+    return unless charge.status == "succeeded"
+    order = Order.find(params[:order_id])
+    CreditLog.create(customer_event_profile_id: order.customer_event_profile.id, transaction_type: CreditLog::CREDITS_PURCHASE, amount: order.credits_total)
+    payment = Payment.new(
+      order: order,
+      amount: (charge.amount.to_f / 100), # last two digits are decimals,
+      merchant_code: charge.balance_transaction,
+      currency: charge.currency,
+      paid_at: Time.at(charge.created),
+      response_code: charge,
+      success: true
+    )
+    payment.save!
+    order.complete!
+    send_mail_for(order, Event.friendly.find(params[:event_id]))
   end
 
   private

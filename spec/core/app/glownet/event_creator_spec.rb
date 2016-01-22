@@ -1,7 +1,7 @@
 
 require "rails_helper"
 
-RSpec.describe EventCreator, type: :service do
+RSpec.describe EventCreator, type: :domain_logic do
   describe "new instance of EventCreator" do
     it "should initialize the params and event attributes" do
       event_creator = EventCreator.new(

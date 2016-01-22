@@ -93,8 +93,8 @@ th:
       ticket:
         new: &label_ticket
           number: "ชื่อ"
-          purchaser_name: "ชื่อผู้ซื้อ"
-          purchaser_surname: "นามสกุลผู้ซื้อ"
+          purchaser_first_name: "ชื่อผู้ซื้อ"
+          purchaser_last_name: "นามสกุลผู้ซื้อ"
           purchaser_email: "อีเมลผู้ซื้อ"
         edit:
           <<: *label_ticket
@@ -172,8 +172,8 @@ th:
           agreed_event_condition_message: 'ใส่เงื่อนไขที่คุณต้องการให้ผู้ใช้ทำการยอมรับตอนสมัครใช้บริการ'
         edit:
           <<: *placeholder_event
-      online_product:
-        new: &placeholder_online_product
+      preevent_item:
+        new: &placeholder_preevent_item
           name: 'Event´s name. Include year is a good idea'
           support_email: 'อีเมลช่วยเหลือ'
           url: 'เว็บไซด์ของงาน'
@@ -182,7 +182,7 @@ th:
           style: '/*ใส่ CSS*/'
           agreed_event_condition_message: 'ใส่เงื่อนไขที่คุณต้องการให้ผู้ใช้ทำการยอมรับตอนสมัครใช้บริการ'
         edit:
-          <<: *placeholder_event
+          <<: *placeholder_preevent_item
       entitlement:
         new: &placeholder_entitlement
           name: 'ชื่อของผู้มีสิทธิ์'
@@ -200,8 +200,8 @@ th:
       ticket:
         new: &placeholder_ticket
           number: "หมายเลขบัตร"
-          purchaser_name: ""
-          purchaser_surname: ""
+          purchaser_first_name: ""
+          purchaser_last_name: ""
           purchaser_email: ""
         edit:
           <<: *placeholder_ticket

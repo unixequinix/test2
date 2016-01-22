@@ -1,0 +1,33 @@
+<<<<<<< HEAD
+- presenter.admissions.each do |admission|
+  h3
+    = t('dashboard.admissions.header', ticket_type: admission.ticket.ticket_type.name)
+  h3
+    =  admission.ticket.number
+  - if presenter.event_started?
+    h3 = t('dashboard.admissions.call_to_action_started')
+  - else
+    = fa_icon "check"
+    h3 = t('dashboard.admissions.success')
+    p = t('dashboard.admissions.call_to_action')
+    = link_to t('dashboard.admissions.button'), event_admission_path(current_event, admission), data: { confirm: (t("confirm.remove_ticket") if current_customer_event_profile.purchased_credits > 0) }, method: :delete, class: "btn"
+=======
+- presenter.ticket_assignments.each do |ticket_assignment|
+  .wrapper-field.form-inputs
+    .dashboard-field.dashboard-field-info
+      h3
+        = fa_icon 'ticket'
+        = t('dashboard.admissions.header', company_ticket_type: ticket_assignment.credentiable.company_ticket_type.name)
+      h3.highlight
+        =  ticket_assignment.credentiable.code
+    .dashboard-field.dashboard-field-action
+      - if presenter.event_started?
+        h3 = t('dashboard.admissions.call_to_action_started')
+      - else
+        .wrapper-success-dashboard
+          = fa_icon "check"
+          h3 = t('dashboard.admissions.success')
+        .wrapper-action
+          p = t('dashboard.admissions.call_to_action')
+          = link_to t('dashboard.admissions.button'), event_ticket_assignment_path(current_event, ticket_assignment), data: { confirm: (t("confirm.remove_ticket") if current_customer_event_profile.purchased_credits > 0) }, method: :delete, class: "btn"
+>>>>>>> preevent_product_structure_implementation

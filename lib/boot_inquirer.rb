@@ -47,7 +47,7 @@ class BootInquirer
 
     def method_missing(method_name, *args)
       if method_name.to_s =~ /(.+)\?$/
-        app = apps.detect { |app| app.gem_name == Regexp.last_match(1) }
+        app = apps.detect { |application| application.gem_name == Regexp.last_match(1) }
         if app
           app.enabled?
         else
@@ -68,8 +68,7 @@ class BootInquirer
 
     def boot_flag?(flag)
       return true if boot_flag.nil?
-
-      default_value = !!boot_flag.to_s.index(flag)
+      default_value = boot_flag.to_s.index(flag) ? true : false
       negate? ? !default_value : default_value
     end
   end

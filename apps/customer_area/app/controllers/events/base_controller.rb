@@ -27,10 +27,9 @@ class Events::BaseController < ApplicationController
   end
 
   def ensure_customer
-    unless customer_signed_in?
-      logout_customer!
-      return false
-    end
+    return if customer_signed_in?
+    logout_customer!
+    false
   end
 
   def customer_signed_in?
@@ -74,11 +73,11 @@ class Events::BaseController < ApplicationController
 
   def check_has_ticket!
     redirect_to event_url(current_event) unless
-      current_customer_event_profile.assigned_admissions
+      current_customer_event_profile.active_tickets_assignment
   end
 
   def check_has_gtag!
     redirect_to event_url(current_event) unless
-      current_customer_event_profile.assigned_gtag_registration
+      current_customer_event_profile.active_gtag_assignment
   end
 end

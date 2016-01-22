@@ -2,27 +2,16 @@
 table.credits
   thead
     tr
-      th = t('admin.credits.name')
-      th = t('admin.credits.description')
-      th = t('admin.credits.standard_credit')
-      th = t('admin.credits.price')
-      th = t('admin.credits.min_purchasable')
-      th = t('admin.credits.max_purchasable')
-      th = t('admin.credits.initial_amount')
-      th = t('admin.credits.step')
+      th = t('admin.preevent_item.name')
+      th = t('admin.preevent_item.description')
+      th = t('admin.credit.standard')
       th.table-actions-field = t('admin.defaults.actions')
   tbody
     - credits.each do |credit|
       tr
-        td data-label=t('admin.credits.name') = link_to credit.online_product.name, edit_admins_event_credit_path(current_event, credit)
-        td data-label=t('admin.credits.description') = credit.online_product.description
-        td data-label=t('admin.credits.standard_credit') = credit.standard
-        td data-label=t('admin.credits.price') = credit.online_product.price unless credit.online_product.nil?
-        td data-label=t('admin.credits.min_purchasable') = credit.online_product.min_purchasable
-        td data-label=t('admin.credits.max_purchasable') = credit.online_product.max_purchasable
-        td data-label=t('admin.credits.initial_amount') = credit.online_product.initial_amount
-        td data-label=t('admin.credits.step') = credit.online_product.step
+        td data-label=t('admin.preevent_item.name') = link_to(credit.preevent_item.name, edit_admins_event_credit_path(current_event, credit))
+        td data-label=t('admin.preevent_item.description') = credit.preevent_item.description
+        td data-label=t('admin.credits.standard') = credit.standard
         td.table-actions-field
           = render 'admins/events/credits/actions', credit: credit unless current_event.started?
-
 = paginate credits

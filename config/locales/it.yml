@@ -48,9 +48,9 @@ it:
         bsb: "BSB"
         account_holder: "Account holder's name"
         bank_name: "Bank name"
-        number: "Account number"
+        number: "Account number (00 0000 0000000 000)"
       thailand_bank_account_claim_form:
-        bsb: "BSB"
+        bsb: "BSB (000000)"
         account_holder: "Account holder's name (Thai)"
         account_holder_translation: "Account holder's name (English)"
         bank_name: "Bank name"
@@ -69,6 +69,9 @@ it:
       customer:
         one: 'customer'
         other: 'customers'
+      customer_event_profile:
+        one: 'customer event profile'
+        other: 'customer event profiles'
       entitlement:
         one: 'entitlement'
         other: 'entitlements'

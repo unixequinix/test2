@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Csv::CsvExporter do
+RSpec.describe Csv::CsvExporter, type: :domain_logic do
   context "With many Claims in the DB" do
     before :all do
       gtag_odd = create(:gtag, tag_uid: "4OBXCHS2FT", tag_serial_number: "MIUE4Z2HNT")
