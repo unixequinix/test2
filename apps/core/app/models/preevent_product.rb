@@ -48,8 +48,6 @@ class PreeventProduct < ActiveRecord::Base
     @sortered_products_storage.values.flatten
   end
 
-  private
-
   def self.keys_sortered
     %w(Credit Voucher CredentialType Pack)
   end
