@@ -3,23 +3,23 @@ class Events::OrdersController < Events::BaseController
   before_action :require_permission!
 
   def show
-    @order = Order.includes(order_items: :online_product).find(params[:id])
+    @order = Order.includes(order_items: :preevent_product).find(params[:id])
   end
 
   def update
-    actual_order = Order.find(params[:id])
-    if actual_order.in_progress?
+    current_order = Order.find(params[:id])
+    if current_order.in_progress?
       @order = current_customer_event_profile.orders.build
-      actual_order.order_items.each do |order_item|
+      current_order.order_items.each do |order_item|
         @order.order_items << OrderItem.new(
-          online_product_id: order_item.online_product.id,
+          preevent_product_id: order_item.preevent_product.id,
           amount: order_item.amount,
           total: order_item.total)
       end
       @order.generate_order_number!
       @order.save
     else
-      @order = actual_order
+      @order = current_order
     end
     @form_data = ("Payments::#{current_event.payment_service.camelize}DataRetriever").constantize.new(current_event, @order)
     @order.start_payment!

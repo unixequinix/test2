@@ -23,7 +23,6 @@ class Events::TicketAssignmentsController < Events::BaseController
       transaction_type: CreditLog::TICKET_UNASSIGNMENT,
       amount: -preevent_product_items_credits.sum(:amount)
     ) unless preevent_product_items_credits.blank?
-
     flash[:notice] = I18n.t("alerts.unassigned")
     redirect_to event_url(current_event)
   end
