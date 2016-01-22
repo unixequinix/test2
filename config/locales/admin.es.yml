@@ -190,6 +190,7 @@ es:
       name: "Nombre"
       company: "Compañía"
       number_products: "Number de Productos"
+      company_ticket_type_ref: "Referencia"
     entitlements:
       name: "Nombre"
     ticket_types:

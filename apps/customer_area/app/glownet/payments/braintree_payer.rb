@@ -1,11 +1,10 @@
 class Payments::BraintreePayer
-
   def initialize
   end
 
-  def start(params)
+  def start
   end
 
-  def charge(params)
+  def charge
   end
 end

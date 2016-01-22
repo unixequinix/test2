@@ -1,5 +1,4 @@
 class EuroBankAccountClaimForm < BankAccountClaimForm
-
   attribute :iban, String
   attribute :swift, String
 

@@ -22,8 +22,4 @@ class PreeventItem < ActiveRecord::Base
 
   # Validations
   validates :name, presence: true
-
-  def rounded_price
-    price.round == price ? price.floor : price
-  end
 end

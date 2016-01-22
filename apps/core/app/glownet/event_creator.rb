@@ -45,11 +45,11 @@ class EventCreator
         event_id: @event.id,
         name: "Creditaker",
         online: true,
-        initial_amount: 0,
+        initial_amount: 1,
         step: 1,
-        max_purchasable: 1,
-        min_purchasable: 20,
-        price: 10
+        min_purchasable: 1,
+        max_purchasable: 20,
+        price: 1
       )
     end
   end

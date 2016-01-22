@@ -12,7 +12,6 @@ class Payments::RedsysPayer
     success = response =~ /00[0-9][0-9]|0900/
     amount = params[:Ds_Amount].to_f / 100 # last two digits are decimals
     return unless success
-
     order = Order.find_by(number: params[:Ds_Order])
     CreditLog.create(customer_event_profile_id: order.customer_event_profile.id, transaction_type: CreditLog::CREDITS_PURCHASE, amount: order.credits_total)
     payment = Payment.new(

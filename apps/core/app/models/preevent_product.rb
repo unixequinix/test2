@@ -31,4 +31,8 @@ class PreeventProduct < ActiveRecord::Base
   accepts_nested_attributes_for :preevent_product_items, allow_destroy: true
 
   validates :event_id, :name, presence: true
+
+  def rounded_price
+    price.round == price ? price.floor : price
+  end
 end
