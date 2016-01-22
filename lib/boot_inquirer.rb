@@ -15,11 +15,12 @@
 
 class BootInquirer
   APPS = {
-    "u" => "customer_area",
-    "o" => "payment_ngn",
-    "r" => "refund_ngn",
-    "a" => "administration",
-    "p" => "api"
+    'u' => 'customer_area',
+    'o' => 'payment_ngn',
+    'r' => 'refund_ngn',
+    'a' => 'administration',
+    'p' => 'api',
+    'm' => 'company_api'
   }
 
   class << self
