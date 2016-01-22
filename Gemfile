@@ -73,6 +73,9 @@ gem 'flag_shih_tzu', '~>0.3.13'
 # Lists
 gem 'acts_as_list'
 
+# Relations counter
+gem 'counter_culture', '~> 0.1.33'
+
 # Architectural
 gem 'virtus', '~> 1.0.5'
 gem 'reform', '~> 2.0.5'
