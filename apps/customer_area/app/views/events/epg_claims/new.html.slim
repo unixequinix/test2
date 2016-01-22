@@ -1,22 +1,14 @@
-.wrapper-field.form-inputs
+= render 'events/claims/claim_details', claim: @claim
 
-  = render 'events/claims/claim_details', claim: @claim
-
-  .refund-form
-    .form-inputs
-      = simple_form_for @epg_claim_form, url: event_epg_claims_path(current_event) do |f|
-        = f.input :phone, autofocus: true
-        = f.input :address, autofocus: true
-        = f.input :city, autofocus: true
-        = f.input :state, autofocus: true
-        = f.input :post_code, autofocus: true
-        = f.input :country_code, autofocus: true, priority: t('country_iso_priority')
-        = f.input :claim_id, as: :hidden, input_html: { value: @claim.id }
-        .accept-terms
-          = f.input :agreed_on_claim, as: :boolean, label: ("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), event_terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), event_privacy_policy_url, target: '_blank'}").html_safe
-
-        .wrapper-secure-payment
-          = render 'events/shared/ssl_cert_seal'
-        p.bank-page-alert.small = t('claims.redirect')
-        .container-order-buttons
-          = f.button :submit, t('claims.button'), class: "btn btn-top"
+= simple_form_for @epg_claim_form, url: event_epg_claims_path(current_event) do |f|
+  = f.input :phone, autofocus: true
+  = f.input :address, autofocus: true
+  = f.input :city, autofocus: true
+  = f.input :state, autofocus: true
+  = f.input :post_code, autofocus: true
+  = f.input :country_code, autofocus: true, priority: t('country_iso_priority')
+  = f.input :claim_id, as: :hidden, input_html: { value: @claim.id }
+  = f.input :agreed_on_claim, as: :boolean, label: ("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), event_terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), event_privacy_policy_url, target: '_blank'}").html_safe
+  = render 'events/shared/ssl_cert_seal'
+  = t('claims.redirect')
+  = f.button :submit, t('claims.button'), class: "btn"

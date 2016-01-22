@@ -47,65 +47,13 @@ body {
 
 // _____ HEADER ______
 
-header {
-  position: relative;
-  display: block;
-  height: modules(2);
-  background-color: $glwnt_header;
-  box-shadow: inset 0px -1px 0px 0px $black;
-}
-
-/*Container for the title, date and location event*/
-
-.container-sub-header {
-  position: relative;
-  width: 100%;
-  border-radius: 3px;
-  text-align: center;
-
-  @include min-screen($bp3) {
-    @include outer-container;
-    background-color: transparent;
-    margin: modules(1) auto 0;
-    text-align: left;
-  }
-
-  i {
-    display: inline-block;
-    padding-right: modules(0.5);
-  }
-}
-
-.wrapper-date {
-  margin: modules(0.5) modules(0.5) 0;
-  text-align: left;
-  border-radius: 3px;
-
-  @include min-screen($bp3) {
-    @include span-columns(6);
-    margin: 0 0 modules(1);
-    padding: 0;
-  }
-
-  h2 {
-    @include mscale($base-font-size);
-    margin-bottom: 0;
-
-    @include min-screen($bp3) {
-      @include mscale($double_text);
-      margin-bottom: modules(0.25);
-    }
-  }
-
-  h3 {
-    @include mscale($base-font-size);
-    display: block;
-    margin-bottom: 0;
-    color: $white;
-  }
-
-  a:hover { opacity: 0.5; }
-}
+//header {
+//  position: relative;
+//  display: block;
+//  height: modules(2);
+//  background-color: $glwnt_header;
+//  box-shadow: inset 0px -1px 0px 0px $black;
+//}
 
 .logo {
   overflow: hidden;
@@ -141,52 +89,6 @@ header {
       max-height: modules(5);
       padding: 0;
     }
-  }
-}
-
-.container-login-map {
-  position: relative;
-
-  @include min-screen($bp4) {
-    @include span-columns(8);
-  }
-
-  h2 {
-    @include mscale($triple_text);
-    font-weight: bold;
-  }
-
-  ul {
-    margin: 0;
-
-    @include min-screen($bp3) { margin-bottom: modules(2); }
-  }
-
-  li {
-    position: relative;
-    vertical-align: top;
-    padding-left: modules(1);
-
-    &:before {
-      @include mscale($triple_text);
-      position: absolute;
-      top: 0;
-      left: 0;
-      display: inline-block;
-      content: "·";
-      margin-right: modules(0.25);
-      vertical-align: top;
-      line-height: modules(0.5);
-    }
-  }
-
-  i {
-    display: inline-block;
-    padding-right: modules(0.5);
-  }
-
-  .btn{
-    float: right;
   }
 }
 
@@ -231,121 +133,13 @@ nav {
 
 // _____ LOGIN _______
 
-.claim {
-  @include mscale($triple_text);
-  font-weight: bold;
-}
-
 // _____ DAHSBOARDS _____
 
-.highlight {
-  @include mscale($half_text);
-  display: block;
-  text-align: center;
-  font-weight: bold;
-
-
-  @include min-screen($bp2) {
-    @include mscale($triple_text);
-  }
-
-  @include min-screen($bp4) {
-    @include mscale($highlight-tittle);
-    position: absolute;
-    bottom: modules(1);
-    left: 0;
-    line-height: 0;
-  }
-}
 // _____ COLORS ______
-
-.customer-section-header {
-  width: 100%;
-  margin-bottom: 0;
-  padding: modules(0.25) modules(0.5);
-}
-
-.single-option-header {
-  margin-bottom: 0;
-
-  @include min-screen($bp3) {
-    @include span-columns(8);
-  }
-}
-
-.accept-terms a { color: $default; }
 
 // _____ BUTTONS ______
 
 .btn {
-  @include transition(opacity 83ms linear);
-  @include appearance(none);
-  overflow: hidden;
-  display: inline-block;
-  width: 100%;
-  margin: modules(1) 0 0;
-  padding: modules(0.5);
-  border: 1px solid transparent;
-  border-radius: 3px;
-  font-weight: bold;
-  text-align: center;
-  cursor: pointer;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-
-  @include min-screen($bp4) {
-    width: modules(12);
-    margin: 0;
-    padding: modules(0.5);
-    line-height: 0.75;
-  }
-
-  &:hover { opacity: 0.7; }
-}
-
-.btn-top        { margin-top: 0; }
-.btn-full-width { width :100%; }
-.btn-action-activate { margin-top: modules(1); }
-
-.btn-dashboard {
-  display: block; margin: 0 auto;
-  margin-top: modules(1);
-
-  @include min-screen($bp4) {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
-}
-
-.btn-refund-method {
-  margin-bottom: modules(0.5);
-
-  &.btn-blocked {
-    opacity: 0.4;
-    cursor: default;
-
-    &:hover { opacity: 0.4; }
-  }
-}
-
-.wrapper-success-dashboard {
-  .fa {
-    color: green;
-  }
-}
-
-.wrapper-action {
-  display: block; margin: 0 auto;
-  margin-top: modules(1);
-
-  @include min-screen($bp4) {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
 }
 
 // _______ ORDER ________

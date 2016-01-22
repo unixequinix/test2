@@ -44,29 +44,6 @@
 
 // ______ STYLES ______
 
-.wrapper-fit {
-  margin: modules(0.5) modules(0.5) modules(1);
-  padding: modules(1);
-  border-radius: 3px;
-  border: 1px solid rgba(150, 150, 150, 0.5);
-  background-color: $white;
-
-  @include min-screen($bp3) {
-    width: 45%;
-    margin: modules(2) auto;
-    padding: modules(1) modules(2);
-  }
-}
-
-.wristband-image {
-  width: 75%;
-  margin-bottom: modules(0.5);
-}
-
-.bar-code {
-  width: 100%;
-  height: auto;
-}
 
 .wrapper-product-info {
   display: block;
@@ -89,6 +66,8 @@
   }
 }
 
+
+// *$* *$* *$* *$* *$* DONT REMOVE THE CHECKOUTS CREDITS BUTTON *$* *$* *$* *$* *$* *$* *$*
 .product-title, .product-amount {
   display: inline-block;
   vertical-align: middle;
@@ -128,6 +107,8 @@
     padding-left: modules(0.5);
   }
 }
+
+// *$* *$* *$* *$* *$* *$* *$* *$* *$* *$* *$* *$* *$* *$* *$* *$*
 
 .wrapper-payment-error { padding: modules(1) 0; }
 

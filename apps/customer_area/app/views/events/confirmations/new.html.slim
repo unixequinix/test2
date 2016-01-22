@@ -1,13 +1,10 @@
 = simple_form_for @customer, url: event_confirmations_path(current_event), method: :post do |f|
   = f.error_notification
-  .wrapper-field
-    h3.customer-section-header
-      = t('auth.confirmations.title')
+  h3
+    = t('auth.confirmations.title')
     = f.full_error :confirmation_token
-    .form-inputs
-      = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
-      = f.input :email, required: true, autofocus: true
-      .container-button.align-right
-        = f.button :submit, t('auth.confirmations.button'), class: "btn btn-top"
+    = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
+    = f.input :email, required: true, autofocus: true
+    = f.button :submit, t('auth.confirmations.button')
 = render "events/shared/links"
 

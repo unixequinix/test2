@@ -4,103 +4,103 @@
 
 \* ------------------------------------------------------- */
 
-$nav-size: $base-font-size*2;
-
-// HTML base styles
-
-nav li {
-  text-transform: uppercase;
-  opacity: 0.8;
-
-  &:hover { opacity: 1; }
-}
-// -------------------------------------------------------
-
-.nav-logo {
-  float: left;
-  height: modules(2);
-  width: auto;
-
-  img { width: auto; height: 100%; }
-  &:hover { opacity: 0.5; }
-}
-
-.nav-item {
-  display: none;
-  vertical-align: middle;
-  width: auto;
-  height: modules(2);
-  padding: modules(0.5) modules(0.5);
-  font-weight: bold;
-  cursor: pointer;
-
-  @include min-screen($bp2) {
-    display: inline-block;
-  }
-}
-
-.nav-end-session {
-  display: inline-block;
-  vertical-align: top;
-  padding: 0;
-
-  a {
-    @include transition(padding 183ms linear);
-    display: inline-block;
-    vertical-align: top;
-    height: modules(2);
-    padding: modules(0.5) modules(1);
-    background-color: $red;
-    box-shadow: inset 1px 0px 0px 0px $black;
-    color: darken($red, 30%);
-    text-shadow: 0px 1px 1px lighten($red, 18%);
-    font-weight: bold;
-    text-align: center;
-    cursor: pointer;
-
-    &:hover {
-      color: darken($red, 35%);
-      padding: modules(0.5) modules(1.5);
-      background-color: darken($red,8%);
-    }
-  }
-}
-
-// _______ MOBILE _______
-.mobile-trigger {
-  width: modules(3);
-  float: right;
-  padding: modules(0.5);
-  cursor: pointer;
-  color: $white;
-
-  i {  }
-}
-
-.mobile-list {
-  display: none;
-
-  li {
-    display: block;
-    width: 100%;
-    background-color: lighten($glwnt_header,5%);
-    box-shadow: inset 0px -1px 0px 0px $glwnt_header;
-
-    a {
-      overflow: hidden;
-      display: block;
-      width: 100%;
-      height: 100%;
-      padding: modules(0.5);
-    }
-  }
-
-  &.opened {
-    display: block;
-    position: absolute;
-    top: modules(2);
-    left: 0;
-    right: 0;
-    z-index: 7;
-  }
-}
+//$nav-size: $base-font-size*2;
+//
+//// HTML base styles
+//
+//nav li {
+//  text-transform: uppercase;
+//  opacity: 0.8;
+//
+//  &:hover { opacity: 1; }
+//}
+//// -------------------------------------------------------
+//
+//.nav-logo {
+//  float: left;
+//  height: modules(2);
+//  width: auto;
+//
+//  img { width: auto; height: 100%; }
+//  &:hover { opacity: 0.5; }
+//}
+//
+//.nav-item {
+//  display: none;
+//  vertical-align: middle;
+//  width: auto;
+//  height: modules(2);
+//  padding: modules(0.5) modules(0.5);
+//  font-weight: bold;
+//  cursor: pointer;
+//
+//  @include min-screen($bp2) {
+//    display: inline-block;
+//  }
+//}
+//
+//.nav-end-session {
+//  display: inline-block;
+//  vertical-align: top;
+//  padding: 0;
+//
+//  a {
+//    @include transition(padding 183ms linear);
+//    display: inline-block;
+//    vertical-align: top;
+//    height: modules(2);
+//    padding: modules(0.5) modules(1);
+//    background-color: $red;
+//    box-shadow: inset 1px 0px 0px 0px $black;
+//    color: darken($red, 30%);
+//    text-shadow: 0px 1px 1px lighten($red, 18%);
+//    font-weight: bold;
+//    text-align: center;
+//    cursor: pointer;
+//
+//    &:hover {
+//      color: darken($red, 35%);
+//      padding: modules(0.5) modules(1.5);
+//      background-color: darken($red,8%);
+//    }
+//  }
+//}
+//
+//// _______ MOBILE _______
+//.mobile-trigger {
+//  width: modules(3);
+//  float: right;
+//  padding: modules(0.5);
+//  cursor: pointer;
+//  color: $white;
+//
+//  i {  }
+//}
+//
+//.mobile-list {
+//  display: none;
+//
+//  li {
+//    display: block;
+//    width: 100%;
+//    background-color: lighten($glwnt_header,5%);
+//    box-shadow: inset 0px -1px 0px 0px $glwnt_header;
+//
+//    a {
+//      overflow: hidden;
+//      display: block;
+//      width: 100%;
+//      height: 100%;
+//      padding: modules(0.5);
+//    }
+//  }
+//
+//  &.opened {
+//    display: block;
+//    position: absolute;
+//    top: modules(2);
+//    left: 0;
+//    right: 0;
+//    z-index: 7;
+//  }
+//}
