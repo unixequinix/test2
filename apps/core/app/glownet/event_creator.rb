@@ -40,7 +40,12 @@ class EventCreator
         name: data["preevent_item"]["name"],
         description: data["preevent_item"]["description"]
       )
-      Credit.create(standard: data["credit"]["standard"], preevent_item: preevent_item)
+      Credit.create(
+        standard: data["credit"]["standard"],
+        value: data["credit"]["value"],
+        currency: data["credit"]["currency"],
+        preevent_item: preevent_item
+      )
       PreeventProduct.create(
         event_id: @event.id,
         preevent_item_ids: [preevent_item.id],

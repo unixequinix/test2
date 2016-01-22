@@ -12,5 +12,7 @@
     description: This is the standard token unit
   credit:
     standard: true
+    value: 1
+    currency: EUR
   preevent_product_item:
     amount: 1
