@@ -4,16 +4,16 @@ module Companies
       class TicketsController < Companies::Api::BaseController
         def index
           @tickets = Ticket.includes(:company_ticket_type, company_ticket_type: [:company])
-                           .where(event_id: current_event, companies: { name: company_name })
+                           .where(event: current_event, companies: { name: current_company.name })
           render json: {
-            event_id: current_event,
+            event_id: current_event.id,
             tickets: @tickets.map { |ticket| Companies::Api::V1::TicketSerializer.new(ticket) }
           }
         end
 
         def show
           @ticket = Ticket.includes(:company_ticket_type, company_ticket_type: [:company])
-              .find_by(id: params[:id], event_id: current_event, companies: { name: company_name })
+              .find_by(id: params[:id], event: current_event, companies: { name: current_company.name })
 
           if @ticket
             render json: @ticket
@@ -25,7 +25,7 @@ module Companies
 
         def create
           @ticket = Ticket.new(ticket_params)
-          @ticket.event_id = current_event
+          @ticket.event = current_event
 
           if @ticket.save
             render status: :created, json: Companies::Api::V1::TicketSerializer.new(@ticket)
@@ -39,7 +39,7 @@ module Companies
 
         def update
           @ticket = Ticket.includes(:company_ticket_type, company_ticket_type: [:company])
-              .find_by(id: params[:id], event_id: current_event, companies: { name: company_name })
+              .find_by(id: params[:id], event: current_event, companies: { name: current_company.name })
 
           if @ticket.update(ticket_params)
             render json: Companies::Api::V1::TicketSerializer.new(@ticket)

@@ -33,6 +33,7 @@
 #  locales                 :integer          default(1), not null
 #  refund_services         :integer          default(0), not null
 #  ticket_assignation      :boolean          default(TRUE), not null
+#  token                   :string           not null
 #
 
 class Event < ActiveRecord::Base
@@ -99,6 +100,9 @@ class Event < ActiveRecord::Base
                     path: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:filename",
                     url: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:basename.:extension",
                     default_url: ":default_event_background_url"
+
+  # Hooks
+  before_create :generate_token
 
   # Validations
   validates :name, :support_email, presence: true
@@ -176,5 +180,14 @@ class Event < ActiveRecord::Base
 
   def gtag_assignment?
     gtag_assignation
+  end
+
+  private
+
+  def generate_token
+    loop do
+      self.token = SecureRandom.hex
+      break unless self.class.exists?(token: token)
+    end
   end
 end

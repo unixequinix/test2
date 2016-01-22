@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160114135400) do
+ActiveRecord::Schema.define(version: 20160122085723) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 20160114135400) do
     t.integer  "locales",                 default: 1,                     null: false
     t.integer  "refund_services",         default: 0,                     null: false
     t.boolean  "ticket_assignation",      default: true,                  null: false
+    t.string   "token",                   null: false
   end
 
   create_table "customers", force: :cascade do |t|
