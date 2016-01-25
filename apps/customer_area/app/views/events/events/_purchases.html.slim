@@ -4,6 +4,4 @@
       = fa_icon 'money'
       = t('dashboard.purchases.header')
     - presenter.purchases.each do |order|
-      h4.order = "ID: #{order.id} - Number: #{order.number}"
-      - order.preevent_products.each do |product|
-        .order_name = "#{product.name}"
+      h4.order = "#{order.total_amount} - #{PreeventProduct.find(order.preevent_product_id).name}"
