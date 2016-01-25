@@ -7,9 +7,9 @@ module Companies
 
           render json: {
             event_id: current_event.id,
-            ticket_types: @ticket_types.map { |ticket_type|
+            ticket_types: @ticket_types.map do |ticket_type|
               Companies::Api::V1::TicketTypeSerializer.new(ticket_type)
-            }
+            end
           }
         end
 
@@ -21,7 +21,7 @@ module Companies
             render json: Companies::Api::V1::TicketTypeSerializer.new(@ticket_type)
           else
             render status: :not_found,
-              json: { error: I18n.t("company_api.ticket_type.not_found", ticket_type_id: params[:id]) }
+                   json: { error: I18n.t("company_api.ticket_type.not_found", ticket_type_id: params[:id]) }
           end
         end
 

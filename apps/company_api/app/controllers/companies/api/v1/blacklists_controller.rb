@@ -18,10 +18,8 @@ module Companies
           if @ticket.save
             render json: @ticket
           else
-            render status: :bad_request, json: {
-              message: I18n.t("company_api.tickets.bad_request"),
-              errors: @ticket.errors
-            }
+            render status: :bad_request,
+                   json: { message: I18n.t("company_api.tickets.bad_request"), errors: @ticket.errors }
           end
         end
 
@@ -31,9 +29,7 @@ module Companies
                           .find_by(code: params[:id])
                           .ticket_blacklist
 
-          if @ticket.destroy
-            render status: :no_content, json: :no_content
-          end
+          render status: :no_content, json: :no_content if @ticket.destroy
         end
 
         private
