@@ -1,7 +1,7 @@
 module Companies
   module Api
     module V1
-      class TicketTypesController < Companies::Api::BaseController
+      class TicketTypesController < Companies::Api::V1::BaseController
         def index
           @ticket_types = CompanyTicketType.search_by_company_and_event(current_company.name, current_event)
 

@@ -5,11 +5,8 @@ Rails.application.routes.draw do
   namespace :companies do
     namespace :api, defaults: { format: 'json' } do
       namespace :v1 do
-        resources :tickets, only: [:index, :show, :create, :update] do
-          collection do
-            get 'blacklist' => 'blacklists#index'
-          end
-        end
+        resources :blacklists, path:'tickets/blacklist', only: [:index, :create, :destroy]
+        resources :tickets, only: [:index, :show, :create, :update]
         resources :ticket_types, only: [:index, :show, :create, :update]
       end
     end

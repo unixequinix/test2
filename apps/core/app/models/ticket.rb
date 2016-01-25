@@ -51,4 +51,8 @@ class Ticket < ActiveRecord::Base
     includes(:company_ticket_type, company_ticket_type: [:company])
       .where(event: event, companies: { name: company })
   }
+
+  scope :blacklisted, -> {
+    Ticket.joins(:ticket_blacklist)
+  }
 end

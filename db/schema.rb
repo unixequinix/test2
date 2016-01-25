@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160122085723) do
+ActiveRecord::Schema.define(version: 20160122092559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -313,7 +313,7 @@ ActiveRecord::Schema.define(version: 20160122085723) do
   create_table "preevent_product_items", force: :cascade do |t|
     t.integer  "preevent_item_id",    index: {name: "fk__preevent_product_items_preevent_item_id"}, foreign_key: {references: "preevent_items", name: "fk_preevent_product_items_preevent_item_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "preevent_product_id", index: {name: "fk__preevent_product_items_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "fk_preevent_product_items_preevent_product_id", on_update: :no_action, on_delete: :no_action}
-    t.decimal  "amount",              precision: 8, scale: 2, default: 0.0, null: false
+    t.decimal  "amount",              precision: 8, scale: 2, default: 1.0, null: false
     t.datetime "deleted_at",          index: {name: "index_preevent_product_items_on_deleted_at"}
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
@@ -343,6 +343,12 @@ ActiveRecord::Schema.define(version: 20160122085723) do
     t.integer  "event_id",               null: false, index: {name: "index_tickets_on_event_id"}, foreign_key: {references: "events", name: "tickets_event_id_fkey", on_update: :no_action, on_delete: :no_action}
     t.boolean  "credential_redeemed",    default: false, null: false
     t.integer  "company_ticket_type_id", index: {name: "fk__tickets_company_ticket_type_id"}, foreign_key: {references: "company_ticket_types", name: "tickets_company_ticket_type_id_fkey", on_update: :no_action, on_delete: :no_action}
+  end
+
+  create_table "ticket_blacklists", force: :cascade do |t|
+    t.integer  "ticket_id",  index: {name: "index_ticket_blacklists_on_ticket_id"}, foreign_key: {references: "tickets", name: "fk_ticket_blacklists_ticket_id", on_update: :no_action, on_delete: :no_action}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "vouchers", force: :cascade do |t|
