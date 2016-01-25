@@ -1,0 +1,9 @@
+.wrapper-field.form-inputs
+  .dashboard-field.dashboard-field-info
+    h3
+      = fa_icon 'money'
+      = t('dashboard.purchases.header')
+    - presenter.purchases.each do |order|
+      h4.order = "ID: #{order.id} - Number: #{order.number}"
+      - order.preevent_products.each do |product|
+        .order_name = "#{product.name}"
