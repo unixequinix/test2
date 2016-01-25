@@ -1,6 +1,7 @@
-= image_tag "img-bar-code.png"
-h3 = t('admissions.call_to_action')
-p = t('admissions.description')
-= form_for @ticket_assignment_form, url: event_ticket_assignments_path(current_event)  do |f|
-  = f.text_field :code, placeholder: t('admissions.placeholders.ticket_code')
-  = submit_tag t('admissions.button'), class: "btn"
+.wrapper-module.wrapper-module-centered
+  = image_tag "img-bar-code.png"
+  h3 = t('admissions.call_to_action')
+  p = t('admissions.description')
+  = form_for @ticket_assignment_form, url: event_ticket_assignments_path(current_event)  do |f|
+    = f.text_field :code, placeholder: t('admissions.placeholders.ticket_code')
+    = submit_tag t('admissions.button'), class: "btn"

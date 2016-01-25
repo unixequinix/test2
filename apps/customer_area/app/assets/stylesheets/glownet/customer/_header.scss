@@ -12,10 +12,25 @@ header {
   padding: modules(0.5) 0;
   z-index: 3;
 
-  a { color: $nuclear; }
+  h1 {
+    display: none;
+
+    @include min-screen($bp3) {
+      @include mscale($base_font_size*1.25);
+      display: inline-block;
+      vertical-align: top;
+      width: auto;
+      padding: 0 modules(0.5);
+    }
+  }
 }
 
 nav {
+  display: inline-block;
+  width: auto;
+  float: right;
+
+  ul { text-align: right; }
 
   li {
     display: inline-block;

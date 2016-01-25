@@ -24,10 +24,11 @@ html, body {
   @include min-screen($bp3) { @include sticky-footer(modules(2)); }
 }
 
-h1 { margin: 0; }
+h1 {
+  margin: 0;
+}
 
 h3 {
-  @include mscale($base_font_size*5);
   text-transform: uppercase;
 }
 

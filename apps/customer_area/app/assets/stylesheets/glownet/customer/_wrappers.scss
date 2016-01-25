@@ -73,4 +73,28 @@
   &:last-child { box-shadow: none; }
 }
 
+.wrapper-module-centered {
+  h3, p, img {
+    padding: 0;
+    text-align: center;
+  }
+}
+
+.img-ticket {
+  display: block;
+  width: 90%;
+  margin: 0 auto modules(1);
+
+  @include min-screen($bp3) {
+    max-width: modules(20);
+  }
+}
+
+.img-gtag {
+  display: block;
+  width: 90%;
+  margin: 0 auto modules(1);
+  max-width: modules(10);
+}
+
 

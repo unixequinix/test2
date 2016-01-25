@@ -6,10 +6,12 @@
 
 body                                { background-color: transparent; }
 header                              { background-color: transparent; }
+header a                            { color: $snow; }
 
 nav ul                              { }
 nav ul a                            { color: $snow; }
 nav ul a:hover                      { }
+header h1                                  { color: $snow; }
 h3                                  { color: $snow; }
 
 .hint                               { color: $default; }
