@@ -31,7 +31,7 @@ class Ticket < ActiveRecord::Base
           -> { where(credential_assignments: { aasm_state: :assigned }) },
           class_name: "CustomerEventProfile"
   belongs_to :company_ticket_type
-  has_one :ticket_blacklist
+  has_one :banned_ticket
 
   # TODO: Remove comments from tickets
   # has_many :comments, as: :commentable
@@ -52,7 +52,7 @@ class Ticket < ActiveRecord::Base
       .where(event: event, companies: { name: company })
   }
 
-  scope :blacklisted, lambda {
-    Ticket.joins(:ticket_blacklist)
+  scope :banned, lambda {
+    Ticket.joins(:banned_ticket)
   }
 end
