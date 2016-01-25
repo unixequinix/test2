@@ -1,5 +1,5 @@
 class Events::BaseController < ApplicationController
-  layout "event"
+  layout "customer"
   protect_from_forgery
   before_action :ensure_customer
   before_action :set_locale

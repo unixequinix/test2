@@ -1,7 +1,6 @@
-.wrapper-fit
-  p = t('checkout.description')
-  = form_tag event_checkouts_path(current_event), method: :post do |f|
-    - @checkout_presenter.preevent_products.each do |preevent_product|
-        h3.product-title = preevent_product.name
-        = render @checkout_presenter.draw_product(preevent_product), preevent_product: preevent_product
-    = button_tag t('checkout.button'), class: "btn btn-top btn-full-width"
+p = t('checkout.description')
+= form_tag event_checkouts_path(current_event), method: :post do |f|
+  - @checkout_presenter.preevent_products.each do |preevent_product|
+      h3 = preevent_product.name
+      = render @checkout_presenter.draw_product(preevent_product), preevent_product: preevent_product
+  = button_tag t('checkout.button'), class: "btn"

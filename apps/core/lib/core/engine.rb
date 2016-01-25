@@ -19,8 +19,6 @@ module Core
     end
 
     initializer "core.asset_precompile_paths" do |app|
-      app.config.assets.precompile += ["application.scss"]
-      app.config.assets.precompile += ["application.js"]
       app.config.assets.precompile += ["welcome_admin.scss"]
       app.config.assets.precompile += ["admin.scss"]
       app.config.assets.precompile += ["admin.js"]

@@ -8,9 +8,8 @@ body                      { background-color: transparent; }
 body                      { color: $color_text; }
 header                    { background-color: transparent; }
 
-nav                       { box-shadow: inset 0px 0px 1px 0px $color_text; }
-nav ul                    { color: $snow; }
-nav ul a                  { }
+nav ul                    { }
+nav ul a                  { color: $snow; }
 nav ul a:hover            { }
 
 .hint                     { color: $default; }

@@ -1,0 +1,19 @@
+/* ------------------------------------------------------- *\
+
+  Base stylesheet for common elments
+
+\* ------------------------------------------------------- */
+
+header {
+  padding: modules(0.5) 0;
+  a { color: $nuclear; }
+}
+
+nav {
+
+  li {
+    display: inline-block;
+    width: auto;
+    padding: 0 modules(0.5);
+  }
+}

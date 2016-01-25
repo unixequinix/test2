@@ -10,10 +10,8 @@
 .wrapper-main {
   position: relative;
 
-  @include min-screen($bp2) { padding: modules(0.5); }
-
-  @include min-screen($bp4) {
-    @include outer-container;
+  @include min-screen($bp2) {
+    @include outer-container(50%);
   }
 }
 

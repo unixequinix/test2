@@ -1,20 +1,19 @@
-.wrapper-field.form-inputs
-  p = t('orders.description')
-  table.table-order
-    tr.table-head
-      th = t('orders.products')
-      th
-      th = t('orders.price')
-    - @order.order_items.each do |order_item|
-      tr
-        td [colspan="2"] #{pluralize(order_item.amount, order_item.preevent_product.name)}
-        td.table-amount #{order_item.total}
+p = t('orders.description')
+table.table-order
+  tr.table-head
+    th = t('orders.products')
+    th
+    th = t('orders.price')
+  - @order.order_items.each do |order_item|
     tr
-      td [colspan="2"] #{pluralize(order_item.amount, order_item.online_product.name)}
-      td #{order_item.total}
+      td [colspan="2"] #{pluralize(order_item.amount, order_item.preevent_product.name)}
+      td.table-amount #{order_item.total}
   tr
-    td [colspan="2"] = t('orders.total')
-    td [colspan="3"] #{@order.total} #{current_event.currency}
+    td [colspan="2"] #{pluralize(order_item.amount, order_item.online_product.name)}
+    td #{order_item.total}
+tr
+  td [colspan="2"] = t('orders.total')
+  td [colspan="3"] #{@order.total} #{current_event.currency}
 = t('orders.vat')
 = render 'events/shared/ssl_cert_seal'
 = fa_icon "cc-visa"
