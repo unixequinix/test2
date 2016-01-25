@@ -4,24 +4,32 @@
 
 \* ------------------------------------------------------- */
 
-body                      { background-color: transparent; }
-body                      { color: $color_text; }
-header                    { background-color: transparent; }
+body                                { background-color: transparent; }
+header                              { background-color: transparent; }
 
-nav ul                    { }
-nav ul a                  { color: $snow; }
-nav ul a:hover            { }
-h3                        { color: $snow; }
+nav ul                              { }
+nav ul a                            { color: $snow; }
+nav ul a:hover                      { }
+h3                                  { color: $snow; }
 
-.hint                     { color: $default; }
+.hint                               { color: $default; }
 
-.btn                      { }
-.btn                      { }
+.btn                                { }
+.btn                                { }
+.btn-dashboard                      { box-shadow: inset 0px 0px 0px 3px rgba(255,255,255,1); }
+.btn-dashboard                      { color: $snow; }
+.btn-dashboard                      { background-color: $snow; }
+.btn-dashboard                      { color: $magenta; }
+.btn-dashboard:after                { box-shadow: 0 0 0 2px $snow; }
 
-.wrapper-main { background-color: rgba(255,255,255,0.5); }
+.container-event-column             { background-color: rgba(255,255,255,0.45); }
+.container-event-column             { box-shadow: inset 0px 0px 0px 1px rgba(255,255,255,0.4); }
+.container-event-column h3          { color: $snow; }
 
+
+.wrapper-module                     { box-shadow: inset 0px -1px 0px 0px $snow; }
 .amount-button            { }
 
-.table-order tr:nth-child(even) { background-color: $air_gray; }
-.table-order tr:nth-child(odd)  { background-color: $snow; }
+.table-order tr:nth-child(even)     { background-color: $air_gray; }
+.table-order tr:nth-child(odd)      { background-color: $snow; }
 

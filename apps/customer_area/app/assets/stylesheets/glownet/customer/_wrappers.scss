@@ -3,17 +3,37 @@
 // Base application styles
 //
 // -------------------------------------------------------
+
+// The whole screen container
 .container-main {
   min-height: 100%;
 }
 
 .wrapper-main {
   position: relative;
+}
+
+.container-event-logo {
+  padding: modules(2) 0;
+}
+
+// The centered container that contains all the account info
+
+.container-event-column  {
+  position: relative;
   height: 100vh;
 
-  @include min-screen($bp2) {
-    @include outer-container(50%);
-    padding: modules(0.5);
+  @include min-screen($bp3) {
+    @include outer-container(45%);
+    height: auto;
+    border-radius: $radius;
+    margin-bottom: modules(4);
+  }
+
+  h3 {
+    padding-right: modules(5);
+
+    @include min-screen($bp3) { padding-right: modules(7); }
   }
 }
 
@@ -40,3 +60,17 @@
     padding: 0;
   }
 }
+
+// Each section inside the main column
+
+.wrapper-module {
+  position: relative;
+  overflow: hidden;
+  padding: modules(0.5);
+
+  @include min-screen($bp3) { padding: modules(1); }
+
+  &:last-child { box-shadow: none; }
+}
+
+

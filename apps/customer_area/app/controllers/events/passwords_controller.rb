@@ -1,5 +1,4 @@
 class Events::PasswordsController < Events::BaseController
-  layout "event"
   skip_before_filter :authenticate_customer!
 
   def new

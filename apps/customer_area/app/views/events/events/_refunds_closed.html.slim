@@ -1,6 +1,4 @@
-h3
-  = fa_icon 'money'
-  = t('dashboard.refunds.title')
-h3
-  = presenter.gtag_credit_amount
-h3 = presenter.call_to_action
+.wrapper-module
+  h3 = t('dashboard.refunds.title')
+  p = presenter.gtag_credit_amount
+  p = presenter.call_to_action

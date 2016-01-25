@@ -5,3 +5,46 @@
 \* ------------------------------------------------------- */
 
 // Container for dashboard info for ticket and credit
+
+.btn-dashboard {
+  @include transition(background 200ms ease-in-out, opacity 200ms ease-in-out, color 200ms ease-in-out);
+    position: absolute;
+    top: modules(0.5);
+    right: modules(0.5);
+    display: inline-block;
+    max-width: modules(6);
+    padding: modules(0.25) modules(1);
+    border-radius: 25px;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    z-index: 1;
+
+  @include min-screen($bp3) {
+    top: modules(1.35);
+    right: modules(1);
+  }
+
+  &:hover {
+    &:after {
+      @include transform(scale(1));
+      opacity: 1;
+    }
+  }
+
+  &:after {
+    @include box-sizing(content-box);
+    @include transition(transform 200ms ease-in-out, opacity 200ms ease-in-out);
+    @include transform(scale(1.2));
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 25px;
+    content:'';
+    top: -5px;
+    left: -5px;
+    padding: 5px;
+    opacity: 0;
+  }
+}
