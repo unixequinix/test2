@@ -9,123 +9,34 @@
 
 .wrapper-main {
   position: relative;
+  height: 100vh;
 
   @include min-screen($bp2) {
     @include outer-container(50%);
+    padding: modules(0.5);
   }
 }
 
-// Basic style for each container
-
-.wrapper-empty { padding: modules(1); }
-
-.sub-claim {
-  margin-bottom: 0;
-  text-transform: uppercase;
-  letter-spacing: modules(0.15);
-}
-
-.container-login-form {
-  position: relative;
-
-  @include min-screen($bp4) {
-    @include span-columns(4);
-  }
-
-  label {
-    padding-bottom: modules(1);
-  }
-}
-
-// Basic wrapper for single options like cancel account etc
-.wrapper-single-option {
-
-  .btn {
-    vertical-align: middle;
-
-    @include min-screen($bp3) { float: right; }
-  }
-
-  p {
-    vertical-align: middle;
-    margin: 0;
-    padding: 0;
-
-    @include min-screen($bp3) {
-      @include span-columns(8);
-    }
-  }
-}
-
-.form-inputs {
+.logo {
   overflow: hidden;
-  padding: modules(1);
-}
-
-// _____ ALIGN TO CENTER ALL ______
-
-.centered {
+  display: block;
   text-align: center;
-  padding: modules(0.5);
-
-  h3 {
-    display: block;
-    text-align: center;
-  }
-}
-
-.align-right { text-align: right; }
-
-.copy-text {
-  clear: both;
-  width: 100%;
-  padding-top: modules(0.5);
-  box-shadow: inset 0px 1px 0px 0px rgba(0, 0, 0, 0.2);
-
-  p { margin: 0; }
-}
-
-.wrapper-terms {
-  padding: modules(2);
-
-  @include min-screen($bp3) {
-    padding: modules(2) 0;
-  }
-
-  h2, h3, p, a, span  { line-height: 160%; }
-  h3 { padding: modules(1) 0 0; }
+  margin-bottom: 0;
 
   a {
-    padding: 0 modules(0.15);
-    color: $pinkMagenta;
+    @include transition(opacity 150ms ease-in);
+    overflow: hidden;
+    display: inline;
+    width: auto;
+    cursor: pointer;
 
-    &:hover { text-decoration: underline; }
+    &:hover { opacity: 0.5; }
   }
 
-  li { list-style-type: none; }
-
-  table {
-    width: 100%;
-
-    th {
-      padding: modules(0.5);
-      color: $white;
-      background-color: $pinkMagenta;
-    }
-
-    td {
-      padding: modules(0.25);
-      border: 1px solid $color_text;
-    }
+  img {
+    display: inline-block;
+    width: auto;
+    max-height: modules(7);
+    padding: 0;
   }
 }
-
-.container-button {
-  width: 100%;
-  margin-top: modules(1);
-  padding-top: modules(1);
-  text-align: right;
-
-  @include min-screen($bp3) { margin-top: 0; }
-}
-
