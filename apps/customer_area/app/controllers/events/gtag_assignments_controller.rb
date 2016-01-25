@@ -29,7 +29,7 @@ class Events::GtagAssignmentsController < Events::BaseController
   private
 
   def check_event_status!
-    return if current_event.gtag_assignment?
+    return if current_event.gtag_assignation?
     flash.now[:error] = I18n.t("alerts.error")
     redirect_to event_url(current_event)
   end

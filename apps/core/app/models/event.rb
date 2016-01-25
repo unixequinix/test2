@@ -178,10 +178,6 @@ class Event < ActiveRecord::Base
     get_parameter("refund", refund_service, "minimum")
   end
 
-  def gtag_assignment?
-    gtag_assignation
-  end
-
   private
 
   def generate_token

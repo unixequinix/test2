@@ -4,7 +4,7 @@
     price: 1
     min_purchasable: 0
     max_purchasable: 50
-    initial_amount: 1
+    initial_amount: 0
     step: 5
     online: true
   preevent_item:

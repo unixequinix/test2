@@ -14,7 +14,6 @@ class EventCreator
     default_event_translations
   end
 
-  private
 
   def default_event_parameters
     Seeder::SeedLoader.load_default_event_parameters(@event)
