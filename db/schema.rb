@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160126101635) do
+ActiveRecord::Schema.define(version: 20160126122004) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,53 @@ ActiveRecord::Schema.define(version: 20160126101635) do
     t.integer  "refund_services",         default: 0,                     null: false
     t.boolean  "ticket_assignation",      default: true,                  null: false
     t.string   "token",                   null: false
+  end
+
+  create_table "customers", force: :cascade do |t|
+    t.string   "email",                  default: "",    null: false, index: {name: "index_customers_on_email_and_event_id", with: ["event_id"], unique: true}
+    t.string   "name",                   default: "",    null: false
+    t.string   "surname",                default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
+    t.string   "reset_password_token",   index: {name: "index_customers_on_reset_password_token", unique: true}
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,     null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet     "current_sign_in_ip"
+    t.inet     "last_sign_in_ip"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.datetime "deleted_at",             index: {name: "index_customers_on_deleted_at"}
+    t.boolean  "agreed_on_registration", default: false
+    t.string   "phone"
+    t.string   "postcode"
+    t.string   "address"
+    t.string   "city"
+    t.string   "country"
+    t.string   "gender"
+    t.datetime "birthdate"
+    t.integer  "event_id",               null: false, index: {name: "fk__customers_event_id"}, foreign_key: {references: "events", name: "customers_event_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.boolean  "agreed_event_condition", default: false
+    t.string   "remember_token",         index: {name: "index_customers_on_remember_token", unique: true}
+  end
+
+  create_table "customer_event_profiles", force: :cascade do |t|
+    t.integer  "customer_id", null: false, index: {name: "fk__customer_event_profiles_customer_id"}, foreign_key: {references: "customers", name: "fk_customer_event_profiles_customer_id", on_update: :no_action, on_delete: :no_action}
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "event_id",    null: false, index: {name: "index_customer_event_profiles_on_event_id"}, foreign_key: {references: "events", name: "customer_event_profiles_event_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.datetime "deleted_at",  index: {name: "index_customer_event_profiles_on_deleted_at"}
+  end
+
+  create_table "banned_customer_event_profiles", force: :cascade do |t|
+    t.integer  "customer_event_profile_id", index: {name: "fk__banned_customer_event_profiles_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_banned_customer_event_profiles_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "gtags", force: :cascade do |t|
@@ -130,47 +177,6 @@ ActiveRecord::Schema.define(version: 20160126101635) do
     t.integer  "ticket_id",  index: {name: "index_banned_tickets_on_ticket_id"}, foreign_key: {references: "tickets", name: "fk_banned_tickets_ticket_id", on_update: :no_action, on_delete: :no_action}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "customers", force: :cascade do |t|
-    t.string   "email",                  default: "",    null: false, index: {name: "index_customers_on_email_and_event_id", with: ["event_id"], unique: true}
-    t.string   "name",                   default: "",    null: false
-    t.string   "surname",                default: "",    null: false
-    t.string   "encrypted_password",     default: "",    null: false
-    t.string   "reset_password_token",   index: {name: "index_customers_on_reset_password_token", unique: true}
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,     null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.inet     "current_sign_in_ip"
-    t.inet     "last_sign_in_ip"
-    t.string   "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.datetime "deleted_at",             index: {name: "index_customers_on_deleted_at"}
-    t.boolean  "agreed_on_registration", default: false
-    t.string   "phone"
-    t.string   "postcode"
-    t.string   "address"
-    t.string   "city"
-    t.string   "country"
-    t.string   "gender"
-    t.datetime "birthdate"
-    t.integer  "event_id",               null: false, index: {name: "fk__customers_event_id"}, foreign_key: {references: "events", name: "customers_event_id_fkey", on_update: :no_action, on_delete: :no_action}
-    t.boolean  "agreed_event_condition", default: false
-    t.string   "remember_token",         index: {name: "index_customers_on_remember_token", unique: true}
-  end
-
-  create_table "customer_event_profiles", force: :cascade do |t|
-    t.integer  "customer_id", null: false, index: {name: "fk__customer_event_profiles_customer_id"}, foreign_key: {references: "customers", name: "fk_customer_event_profiles_customer_id", on_update: :no_action, on_delete: :no_action}
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.integer  "event_id",    null: false, index: {name: "index_customer_event_profiles_on_event_id"}, foreign_key: {references: "events", name: "customer_event_profiles_event_id_fkey", on_update: :no_action, on_delete: :no_action}
-    t.datetime "deleted_at",  index: {name: "index_customer_event_profiles_on_deleted_at"}
   end
 
   create_table "claims", force: :cascade do |t|
