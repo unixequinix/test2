@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160125150453) do
+ActiveRecord::Schema.define(version: 20160126101635) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,21 @@ ActiveRecord::Schema.define(version: 20160125150453) do
     t.integer  "refund_services",         default: 0,                     null: false
     t.boolean  "ticket_assignation",      default: true,                  null: false
     t.string   "token",                   null: false
+  end
+
+  create_table "gtags", force: :cascade do |t|
+    t.string   "tag_uid",           null: false, index: {name: "index_gtags_on_tag_uid_and_event_id", with: ["event_id"], unique: true}
+    t.string   "tag_serial_number", null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.datetime "deleted_at",        index: {name: "index_gtags_on_deleted_at"}
+    t.integer  "event_id",          null: false, index: {name: "index_gtags_on_event_id"}, foreign_key: {references: "events", name: "gtags_event_id_fkey", on_update: :no_action, on_delete: :no_action}
+  end
+
+  create_table "banned_gtags", force: :cascade do |t|
+    t.integer  "gtag_id",    index: {name: "index_banned_gtags_on_gtag_id"}, foreign_key: {references: "gtags", name: "fk_banned_gtags_gtag_id", on_update: :no_action, on_delete: :no_action}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "companies", force: :cascade do |t|
@@ -156,15 +171,6 @@ ActiveRecord::Schema.define(version: 20160125150453) do
     t.datetime "updated_at",  null: false
     t.integer  "event_id",    null: false, index: {name: "index_customer_event_profiles_on_event_id"}, foreign_key: {references: "events", name: "customer_event_profiles_event_id_fkey", on_update: :no_action, on_delete: :no_action}
     t.datetime "deleted_at",  index: {name: "index_customer_event_profiles_on_deleted_at"}
-  end
-
-  create_table "gtags", force: :cascade do |t|
-    t.string   "tag_uid",           null: false, index: {name: "index_gtags_on_tag_uid_and_event_id", with: ["event_id"], unique: true}
-    t.string   "tag_serial_number", null: false
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-    t.datetime "deleted_at",        index: {name: "index_gtags_on_deleted_at"}
-    t.integer  "event_id",          null: false, index: {name: "index_gtags_on_event_id"}, foreign_key: {references: "events", name: "gtags_event_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "claims", force: :cascade do |t|
