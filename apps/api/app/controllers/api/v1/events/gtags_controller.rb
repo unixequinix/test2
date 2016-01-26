@@ -5,20 +5,14 @@ module Api
         def index
           @gtags = Gtag.includes(:credential_assignments)
                        .where(event_id: current_event.id)
-                       
+
           render json: @gtags, each_serializer: Api::V1::GtagSerializer
         end
 
         def show
-          @ticket = Ticket.includes(:company_ticket_type, :credential_assignments)
+          @gtag = Gtag.includes(:credential_assignments)
                            .find_by(event_id: current_event.id, id: params[:id])
-          render json: @ticket, serializer: Api::V1::TicketSerializer
-        end
-
-        def reference
-          @ticket = Ticket.includes(:company_ticket_type, :credential_assignments)
-                           .find_by(event_id: current_event.id, code: params[:id])
-          render json: @ticket, serializer: Api::V1::TicketSerializer
+          render json: @gtag, serializer: Api::V1::GtagSerializer
         end
       end
     end
