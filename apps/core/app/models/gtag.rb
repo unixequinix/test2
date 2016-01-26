@@ -34,6 +34,7 @@ class Gtag < ActiveRecord::Base
   has_one :completed_claim, -> { where(aasm_state: :completed) }, class_name: "Claim"
   has_many :comments, as: :commentable
   has_many :credential_assignments, as: :credentiable, dependent: :destroy
+  has_one :banned_gtag
 
   accepts_nested_attributes_for :gtag_credit_log, allow_destroy: true
 
@@ -46,6 +47,10 @@ class Gtag < ActiveRecord::Base
     joins("LEFT OUTER JOIN gtag_credit_logs ON gtag_credit_logs.gtag_id = gtags.id")
       .select("gtags.*, gtag_credit_logs.amount")
       .where(event: event_id)
+  }
+
+  scope :banned, lambda {
+    joins(:banned_gtag)
   }
 
   def refundable_amount
