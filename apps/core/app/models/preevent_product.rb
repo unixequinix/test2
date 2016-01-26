@@ -51,7 +51,7 @@ class PreeventProduct < ActiveRecord::Base
 
     preevent_products.each do |preevent_product|
       next unless preevent_product.online
-      category = is_a_pack?(preevent_product) ? "Pack" : nil
+      category = preevent_product.is_a_pack? ? "Pack" : nil
       add_product_to_storage(preevent_product, category)
     end
     @sortered_products_storage.values.flatten
@@ -62,15 +62,15 @@ class PreeventProduct < ActiveRecord::Base
   end
 
   def self.add_product_to_storage(preevent_product, new_category)
-    category = new_category || get_product_category(preevent_product)
+    category = new_category || preevent_product.get_product_category
     @sortered_products_storage[category] << preevent_product
   end
 
-  def self.get_product_category(preevent_product)
-    preevent_product.preevent_items.first.purchasable_type
+  def get_product_category
+    preevent_items.first.purchasable_type
   end
 
-  def self.is_a_pack?(preevent_product)
-    preevent_product.preevent_items.count > 1
+  def is_a_pack?
+    preevent_items.count > 1
   end
 end
