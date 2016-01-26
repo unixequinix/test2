@@ -10,7 +10,8 @@
     - if presenter.event_started?
       p = t('dashboard.admissions.call_to_action_started')
     - else
-      = fa_icon "check"
-      p = t('dashboard.admissions.success')
+      .wrapper-success
+        = fa_icon "check"
+        p = t('dashboard.admissions.success')
       p = t('dashboard.admissions.call_to_action')
-      = link_to t('dashboard.admissions.button'), event_ticket_assignment_path(current_event, ticket_assignment), data: { confirm: (t("confirm.remove_ticket") if current_customer_event_profile.purchased_credits > 0) }, method: :delete, class: "btn btn-dashboard"
+      = link_to t('dashboard.admissions.button'), event_ticket_assignment_path(current_event, ticket_assignment), data: { confirm: (t("confirm.remove_ticket") if current_customer_event_profile.purchased_credits > 0) }, method: :delete, class: "btn btn-action btn-action-dashboard"

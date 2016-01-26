@@ -154,3 +154,23 @@ $light_red: lighten($red, 8%);
     text-align: right;
   }
 }
+
+
+.wrapper-success {
+  display: inline-block;
+  width: auto;
+  overflow: hidden;
+  background-color: $greenSpotify;
+  border-radius: 25px;
+  padding: 0 modules(0.5);
+  text-align: center;
+
+  p,i {
+    display: inline-block;
+    margin-bottom: 0;
+    width: auto;
+    color: $nuclear;
+  }
+
+  i { padding-right: modules(0.25); }
+}

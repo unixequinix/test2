@@ -3,4 +3,12 @@
   p.panel-amount-number = presenter.customer_total_credits
   p.center-text = presenter.call_to_action
   - if presenter.ticket_assignments_present? && !presenter.event_started?
-    = link_to t('dashboard.credits.button'), new_event_checkout_path(current_event), class: "btn btn-dashboard"
+    = link_to t('dashboard.credits.button'), new_event_checkout_path(current_event), class: "btn btn-action btn-action-dashboard"
+    p.id-number BE5223D7
+    = link_to t('dashboard.credits.button'), new_event_checkout_path(current_event), class: "btn btn-action btn-action-secondary"
+    .wrapper-pay-pal.center-text
+      p.highlight-text Take advantage!
+      p Sync your account with PayPal and avoid top up queues!
+      = link_to new_event_checkout_path(current_event), class: "btn btn-action-add-paypal" do
+        = fa_icon "paypal"
+        = t('dashboard.credits.button')
