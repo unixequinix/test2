@@ -53,12 +53,15 @@ class CustomerEventProfile < ActiveRecord::Base
   has_one :completed_claim,
           -> { where(aasm_state: :completed) }, class_name: "Claim"
 
+  has_one :banned_customer_event_profile
+
   # Validations
   validates :customer, :event, presence: true
 
   # Scopes
   scope :for_event, -> (event) { where(event: event) }
   scope :with_gtag, -> (event) { joins(:gtag_registrations).where(event: event, gtag_registrations: { aasm_state: :assigned }) }
+  scope :banned, -> { joins(:banned_customer_event_profile) }
 
   def customer
     Customer.unscoped { super }

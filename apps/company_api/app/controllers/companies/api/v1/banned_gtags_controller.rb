@@ -14,6 +14,12 @@ module Companies
         def create
           @banned_gtag = BannedGtag.new(banned_gtag_params)
 
+          cep_id = CredentialAssignment.find_by(credentiable_id: banned_gtag_params[:gtag_id],
+                                                credentiable_type: "Gtag")
+                                       .select(:customer_event_profile_id).customer_event_profile_id
+
+          BannedCustomerEventProfile.new(cep_id) unless assignment.nil?
+
           if @banned_gtag.save
             render status: :created, json: @banned_gtag
           else

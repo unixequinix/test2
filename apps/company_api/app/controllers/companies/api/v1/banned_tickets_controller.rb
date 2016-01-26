@@ -15,11 +15,18 @@ module Companies
         def create
           @banned_ticket = BannedTicket.new(banned_ticket_params)
 
+          cep_id = CredentialAssignment.find_by(credentiable_id: banned_ticket_params[:ticket_id],
+                                                credentiable_type: "Ticket")
+                                       .select(:customer_event_profile_id).customer_event_profile_id
+
+          BannedCustomerEventProfile.new(cep_id) unless assignment.nil?
+
           if @banned_ticket.save
             render status: :created, json: @banned_ticket
           else
             render status: :bad_request,
-                   json: { message: I18n.t("company_api.tickets.bad_request"), errors: @banned_ticket.errors }
+                   json: { message: I18n.t("company_api.tickets.bad_request"),
+                           errors: @banned_ticket.errors }
           end
         end
 
