@@ -23,6 +23,10 @@ aside#main-menu
     li.aside-list = link_to admins_event_refund_settings_path(event) do
       = fa_icon "reply"
       = t("admin.aside.refund_settings")
+    li.aside-list = link_to admins_event_logs_path(event) do
+      = fa_icon "logs"
+      = t("admin.aside.logs")
+
 
     h3.aside-title = t("admin.aside.setup")
 

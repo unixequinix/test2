@@ -1,0 +1,3 @@
+class CredentialLog < EventLog
+
+end

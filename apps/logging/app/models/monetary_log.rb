@@ -1,0 +1,3 @@
+class MonetaryLog < EventLog
+
+end
