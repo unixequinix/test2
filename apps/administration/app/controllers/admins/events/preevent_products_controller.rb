@@ -11,7 +11,8 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
   def create
     @preevent_product = PreeventProduct.new(permitted_params)
     if @preevent_product.save
-      @preevent_product.preevent_items_counter(permitted_params[:preevent_item_ids].reject!(&:empty?))
+      add_amount_to_preevent_items(params[:preevent_product][:preevent_product_items_attributes])
+      update_preevent_items_counter(permitted_params[:preevent_item_ids])
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_preevent_products_url
     else
@@ -29,7 +30,7 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
   def update
     @preevent_product = @fetcher.preevent_products.find(params[:id])
     if @preevent_product.update(permitted_params)
-      @preevent_product.preevent_items_counter(permitted_params[:preevent_item_ids].reject!(&:empty?))
+      update_preevent_items_counter(permitted_params[:preevent_item_ids])
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_preevent_products_url
     else
@@ -48,6 +49,16 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
 
   private
 
+  def update_preevent_items_counter(preevent_item_ids)
+    @preevent_product.preevent_items_counter(preevent_item_ids.reject!(&:empty?))
+  end
+
+  def add_amount_to_preevent_items(preevent_product_items_attributes)
+    preevent_product_items_attributes.each do |id, amount|
+      ppi = PreeventProductItem.find_by(preevent_product_id: @preevent_product.id, preevent_item_id: id.to_i)
+      ppi.update_attribute(:amount, amount.to_i) if amount.present?
+    end
+  end
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "PreeventProduct".constantize.model_name,

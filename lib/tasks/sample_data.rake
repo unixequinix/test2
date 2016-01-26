@@ -101,8 +101,7 @@ namespace :db do
           initial_amount: data['initial_amount'],
           online: data['online']
         )
-
-        product.save!
+        product.save!(validate: false)
       end
     end
   end
