@@ -111,11 +111,14 @@ namespace :db do
     puts '----------------------------------------'
     Event.all.each do |event|
       YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'preevent-product-items.yml')).each do |data|
+        preevent_product = PreeventProduct.find(data['product'])
+        preevent_item = PreeventItem.find(data['item'])
         PreeventProductItem.create!(
           amount: data['amount'],
-          preevent_product: PreeventProduct.find(data['product']),
-          preevent_item: PreeventItem.find(data['item'])
+          preevent_product: preevent_product,
+          preevent_item: preevent_item
         )
+        preevent_product.preevent_items_counter
       end
     end
   end
@@ -125,7 +128,6 @@ namespace :db do
     puts '----------------------------------------'
     Event.all.each do |event|
       YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'company_ticket_types.yml')).each do |data|
-
         ticket = CompanyTicketType.new(
           company_ticket_type_ref: data['company_ticket_type_ref'],
           name: data['name'],

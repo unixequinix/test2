@@ -38,8 +38,10 @@ class PreeventProduct < ActiveRecord::Base
     price.round == price ? price.floor : price
   end
 
-  def preevent_items_counter(preevent_item_ids)
-    update_attribute(:preevent_items_count, preevent_item_ids.count) if preevent_item_ids
+  def preevent_items_counter(preevent_item_ids=nil)
+    preevent_item_ids ?
+      update_attribute(:preevent_items_count, preevent_item_ids.count) :
+      update_attribute(:preevent_items_count, preevent_items.count)
   end
 
   def preevent_items_counter_decrement

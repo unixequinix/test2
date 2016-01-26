@@ -8,9 +8,6 @@
     = f.input :min_purchasable, placeholder: true
     = f.input :max_purchasable, placeholder: true
     = f.association :preevent_items, collection: @preevent_items_collection
-    - @preevent_items_collection.each do |preevent_item|
-      = text_field_tag "preevent_product[preevent_product_items_attributes][#{preevent_item.id}]"
-    end
     = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
 
     = f.button :submit, class: "btn btn-primary"
