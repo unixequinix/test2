@@ -32,6 +32,7 @@ class PreeventProduct < ActiveRecord::Base
   accepts_nested_attributes_for :preevent_product_items, allow_destroy: true
 
   validates :event_id, :name, presence: true
+  validates :preevent_items, length: { minimum: 1 }
 
   def rounded_price
     price.round == price ? price.floor : price
@@ -51,8 +52,7 @@ class PreeventProduct < ActiveRecord::Base
 
     preevent_products.each do |preevent_product|
       next unless preevent_product.online
-      category = preevent_product.is_a_pack? ? "Pack" : nil
-      add_product_to_storage(preevent_product, category)
+      add_product_to_storage(preevent_product)
     end
     @sortered_products_storage.values.flatten
   end
@@ -61,16 +61,21 @@ class PreeventProduct < ActiveRecord::Base
     %w(Credit Voucher CredentialType Pack)
   end
 
-  def self.add_product_to_storage(preevent_product, new_category)
-    category = new_category || preevent_product.get_product_category
+  def self.add_product_to_storage(preevent_product)
+    category = preevent_product.get_product_category
     @sortered_products_storage[category] << preevent_product
   end
 
   def get_product_category
-    preevent_items.first.purchasable_type
+    is_a_pack? ? "Pack" : preevent_items.first.purchasable_type
   end
 
   def is_a_pack?
-    preevent_items.count > 1
+    preevent_items_count > 1
+  end
+
+  def is_immutable?
+    preevent_items_count == 1 &&
+    get_product_category == "Credit"
   end
 end

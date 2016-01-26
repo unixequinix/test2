@@ -45,7 +45,11 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
   private
 
   def update_preevent_products
-    @voucher.preevent_item.preevent_products.each { |pp| pp.preevent_items_counter_decrement }
+    @voucher.preevent_item.preevent_products.each do |pp|
+      pp.preevent_items_counter_decrement
+      binding.pry
+      pp.destroy if pp.preevent_items_count <= 0
+    end
   end
 
   def set_presenter

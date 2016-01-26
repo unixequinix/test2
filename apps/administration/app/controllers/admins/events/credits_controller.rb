@@ -45,7 +45,11 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
   private
 
   def update_preevent_products
-    @credit.preevent_item.preevent_products.each { |pp| pp.preevent_items_counter_decrement }
+    @credit.preevent_item.preevent_products.each do |pp|
+      pp.preevent_items_counter_decrement
+      binding.pry
+      pp.destroy if pp.preevent_items_count <= 0
+    end
   end
 
   def set_presenter
