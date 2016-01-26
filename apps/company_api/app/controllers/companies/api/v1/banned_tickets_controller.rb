@@ -19,7 +19,7 @@ module Companies
             render status: :created, json: @banned_ticket
           else
             render status: :bad_request,
-                   json: { message: I18n.t("company_api.tickets.bad_request"), errors: @ticket.errors }
+                   json: { message: I18n.t("company_api.tickets.bad_request"), errors: @banned_ticket.errors }
           end
         end
 
@@ -27,18 +27,16 @@ module Companies
           @banned_ticket = BannedTicket.includes(:ticket)
                                        .find_by(tickets: { code: params[:id], event_id: current_event.id })
 
-          if @banned_ticket.present? && @banned_ticket.destroy
-            render status: :no_content, json: :no_content
-          else
-            render status: :not_found,
-                   json: { message: I18n.t("company_api.tickets.not_found", ticket_id: params[:id]) }
-          end
+          render(status: :not_found, json: :not_found) && return if @banned_ticket.nil?
+          render(status: :internal_server_error, json: :internal_server_error) && return unless @banned_ticket.destroy
+          render(status: :no_content, json: :no_content)
         end
 
         private
 
         def banned_ticket_params
-          params[:banned_ticket][:ticket_id] = Ticket.find_by(code: params[:banned_ticket][:ticket_reference]).id
+          ticket_id = Ticket.find_by(code: params[:banned_ticket][:ticket_reference]).select(:id).id
+          params[:banned_ticket][:ticket_id] = ticket_id
           params.require(:banned_ticket).permit(:ticket_id)
         end
       end
