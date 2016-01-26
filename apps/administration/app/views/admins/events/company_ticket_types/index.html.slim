@@ -5,7 +5,7 @@
     = t('admin.actions.new')
 
 .wrapper-negative-space
-  - if @list_model_presenter.is_there_any?
+  - if @list_model_presenter.there_any?
     = render 'admins/events/company_ticket_types/list', company_ticket_types: @list_model_presenter.get_all_items
   - else
     = render @list_model_presenter.no_items_for_presentation
