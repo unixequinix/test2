@@ -2,20 +2,19 @@
 #
 # Table name: preevent_products
 #
-#  id                           :integer          not null, primary key
-#  event_id                     :integer          not null
-#  name                         :string
-#  online                       :boolean          default(FALSE), not null
-#  initial_amount               :integer
-#  step                         :integer
-#  max_purchasable              :integer
-#  min_purchasable              :integer
-#  price                        :decimal(, )
-#  deleted_at                   :datetime
-#  created_at                   :datetime         not null
-#  updated_at                   :datetime         not null
-#  preevent_items_count         :integer          default(0), not null
-#  preevent_product_items_count :integer          default(0), not null
+#  id                   :integer          not null, primary key
+#  event_id             :integer          not null
+#  name                 :string
+#  online               :boolean          default(FALSE), not null
+#  initial_amount       :integer
+#  step                 :integer
+#  max_purchasable      :integer
+#  min_purchasable      :integer
+#  price                :decimal(, )
+#  deleted_at           :datetime
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  preevent_items_count :integer          default(0), not null
 #
 
 class PreeventProduct < ActiveRecord::Base
@@ -23,7 +22,7 @@ class PreeventProduct < ActiveRecord::Base
 
   belongs_to :event
   has_many :company_ticket_types
-  has_many :preevent_product_items
+  has_many :preevent_product_items, dependent: :destroy
   has_many :preevent_items, through: :preevent_product_items, class_name: "PreeventItem"
   has_many :order_items
   has_many :orders, through: :order_items, class_name: "Order"
@@ -36,6 +35,14 @@ class PreeventProduct < ActiveRecord::Base
 
   def rounded_price
     price.round == price ? price.floor : price
+  end
+
+  def preevent_items_counter(preevent_item_ids)
+    update_attribute(:preevent_items_count, preevent_item_ids.count) if preevent_item_ids
+  end
+
+  def preevent_items_counter_decrement
+    update_attribute(:preevent_items_count, preevent_items_count - 1)
   end
 
   def self.online_preevent_products_sortered(current_event)

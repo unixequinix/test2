@@ -36,12 +36,17 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
 
   def destroy
     @voucher = @fetcher.vouchers.find(params[:id])
+    update_preevent_products
     @voucher.destroy!
     flash[:notice] = I18n.t("alerts.destroyed")
     redirect_to admins_event_vouchers_url
   end
 
   private
+
+  def update_preevent_products
+    @voucher.preevent_item.preevent_products.each { |pp| pp.preevent_items_counter_decrement }
+  end
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(

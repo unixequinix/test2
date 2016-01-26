@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160122153742) do
+ActiveRecord::Schema.define(version: 20160124092559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -165,19 +165,18 @@ ActiveRecord::Schema.define(version: 20160122153742) do
   end
 
   create_table "preevent_products", force: :cascade do |t|
-    t.integer  "event_id",                     null: false, index: {name: "fk__preevent_products_event_id"}, foreign_key: {references: "events", name: "fk_preevent_products_event_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "event_id",             null: false, index: {name: "fk__preevent_products_event_id"}, foreign_key: {references: "events", name: "fk_preevent_products_event_id", on_update: :no_action, on_delete: :no_action}
     t.string   "name"
-    t.boolean  "online",                       default: false, null: false
+    t.boolean  "online",               default: false, null: false
     t.integer  "initial_amount"
     t.integer  "step"
     t.integer  "max_purchasable"
     t.integer  "min_purchasable"
     t.decimal  "price"
-    t.datetime "deleted_at",                   index: {name: "index_preevent_products_on_deleted_at"}
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.integer  "preevent_items_count",         default: 0,     null: false
-    t.integer  "preevent_product_items_count", default: 0,     null: false
+    t.datetime "deleted_at",           index: {name: "index_preevent_products_on_deleted_at"}
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.integer  "preevent_items_count", default: 0,     null: false
   end
 
   create_table "company_ticket_types", force: :cascade do |t|
