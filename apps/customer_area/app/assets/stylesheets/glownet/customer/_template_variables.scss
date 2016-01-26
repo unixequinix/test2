@@ -28,6 +28,9 @@ h3                                  { color: $snow; }
 .container-event-column             { box-shadow: inset 0px 0px 0px 1px rgba(255,255,255,0.4); }
 .container-event-column h3          { color: $snow; }
 
+.customer-ticket i                  { background-color: $snow; }
+.customer-ticket                    { color: $color_text; }
+
 
 .wrapper-module                     { box-shadow: inset 0px -1px 0px 0px $snow; }
 .amount-button            { }

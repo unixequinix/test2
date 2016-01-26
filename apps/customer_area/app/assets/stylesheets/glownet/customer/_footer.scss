@@ -11,6 +11,8 @@ footer {
   box-shadow: inset 0px 1px 0px 0px $black;
   text-align: center;
 
+  .small { @include mscale($base_font_size*0.85); }
+
   @include min-screen($bp3) {
     padding: modules(0.5);
     text-align: left;

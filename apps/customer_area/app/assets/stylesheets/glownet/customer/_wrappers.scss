@@ -32,6 +32,7 @@
 
   h3 {
     padding-right: modules(5);
+    font-weight: 900;
 
     @include min-screen($bp3) { padding-right: modules(7); }
   }
