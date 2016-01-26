@@ -33,24 +33,22 @@ module Companies
           if @ticket_type.save
             render status: :created, json: Companies::Api::V1::TicketTypeSerializer.new(@ticket_type)
           else
-            render status: :bad_request, json: {
-              message: I18n.t("company_api.ticket_type.bad_request"),
-              errors: @ticket_type.errors
-            }
+            render status: :bad_request,
+                   json: { message: I18n.t("company_api.ticket_type.bad_request"),
+                           errors: @ticket_type.errors }
           end
         end
 
         def update
           @ticket_type = CompanyTicketType.includes(:company)
-            .find_by(id: params[:id], event: current_event, companies: { name: current_company.name })
+              .find_by(id: params[:id], event: current_event, companies: { name: current_company.name })
 
           if @ticket_type.update(ticket_type_params)
             render json: Companies::Api::V1::TicketTypeSerializer.new(@ticket_type)
           else
-            render status: :bad_request, json: {
-              message: I18n.t("company_api.ticket_type.bad_request"),
-              errors: @ticket_type.errors
-            }
+            render status: :bad_request,
+                   json: { message: I18n.t("company_api.ticket_type.bad_request"),
+                           errors: @ticket_type.errors }
           end
         end
 

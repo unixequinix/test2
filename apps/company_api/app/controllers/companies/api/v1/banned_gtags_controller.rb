@@ -24,7 +24,8 @@ module Companies
             render status: :created, json: @banned_gtag
           else
             render status: :bad_request,
-                   json: { message: I18n.t("company_api.gtags.bad_request"), errors: @banned_gtag.errors }
+                   json: { message: I18n.t("company_api.gtags.bad_request"),
+                           errors: @banned_gtag.errors }
           end
         end
 
@@ -40,7 +41,7 @@ module Companies
         private
 
         def banned_gtag_params
-          gtag_id = Gtag.find_by(tag_uid: params[:banned_gtag][:tag_uid]).select(:id).
+          gtag_id = Gtag.find_by(tag_uid: params[:banned_gtag][:tag_uid]).select(:id).id
           params[:banned_gtag][:gtag_id] = gtag_id
           params.require(:banned_gtag).permit(:gtag_id)
         end
