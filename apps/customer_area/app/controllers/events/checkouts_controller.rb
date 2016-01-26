@@ -3,14 +3,14 @@ class Events::CheckoutsController < Events::BaseController
   before_action :check_has_ticket!
 
   def new
-    @checkout_form = CheckoutForm.new(current_customer_event_profile)
-    @preevent_products = CheckoutBuilder.new(current_event.id).preevent_products_sortered
+    @checkout_presenter = CheckoutsPresenter.new(current_event)
   end
 
   def create
+    @checkout_presenter = CheckoutsPresenter.new(current_event)
     @checkout_form = CheckoutForm.new(current_customer_event_profile)
-    @preevent_products = PreeventProduct.where(event_id: current_event.id)
-    if @checkout_form.submit(params[:checkout_form], @preevent_products)
+
+    if @checkout_form.submit(params[:checkout_form], @checkout_presenter.preevent_products)
       flash[:notice] = I18n.t("alerts.created")
       redirect_to event_order_url(current_event, @checkout_form.order)
     else
