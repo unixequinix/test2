@@ -1,0 +1,53 @@
+/* ------------------------------------------------------- *\
+
+  Styles for the ticket modules
+
+\* ------------------------------------------------------- */
+
+.customer-tickets-list {
+
+  a {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    color: $color_text;
+
+    &:hover {
+
+      i {
+        right: modules(1);
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.customer-ticket {
+  position: relative;
+  padding: modules(0.25) 0;
+
+  i {
+    @include transition(opacity 180ms ease-in-out, right 150ms ease-in-out);
+    position: absolute;
+    display: block;
+    top: 25%;
+    right: modules(-1.5);
+    width: modules(1.5);
+    height: modules(1.5);
+    padding-top: modules(0.45);
+    border-radius: 50px;
+    background-color: $nuclear;
+    text-align: center;
+    opacity: 0;
+  }
+}
+
+.ticket-name {
+  margin-bottom: modules(0.25);
+}
+
+.ticket-id {
+  margin-bottom: modules(0.25);
+  font-weight: bold;
+}

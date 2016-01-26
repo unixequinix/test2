@@ -18,11 +18,11 @@ h3                                  { color: $snow; }
 
 .btn                                { }
 .btn                                { }
-.btn-dashboard                      { box-shadow: inset 0px 0px 0px 3px rgba(255,255,255,1); }
-.btn-dashboard                      { color: $snow; }
-.btn-dashboard                      { background-color: $snow; }
-.btn-dashboard                      { color: $magenta; }
-.btn-dashboard:after                { box-shadow: 0 0 0 2px $snow; }
+.btn                                { box-shadow: inset 0px 0px 0px 3px rgba(255,255,255,1); }
+.btn                                { color: $snow; }
+.btn                                { background-color: $snow; }
+.btn                                { color: $magenta; }
+.btn:after                          { box-shadow: 0 0 0 2px $snow; }
 
 .container-event-column             { background-color: rgba(255,255,255,0.45); }
 .container-event-column             { box-shadow: inset 0px 0px 0px 1px rgba(255,255,255,0.4); }

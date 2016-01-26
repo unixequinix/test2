@@ -1,5 +1,5 @@
 .wrapper-module.wrapper-module-centered
-  = image_tag "img-bar-code.png"
+  = image_tag "img-bar-code.png", class: "img-ticket"
   h3 = t('admissions.call_to_action')
   p = t('admissions.description')
   = form_for @ticket_assignment_form, url: event_ticket_assignments_path(current_event)  do |f|

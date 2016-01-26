@@ -11,10 +11,10 @@
 //Variables
 
 $label-size: $base-font-size;
+$credit-size: $base-font-size*1.75;
 $radius: 3px;
-//$button-size: $base-font-size*2.25;
-//$section-title: $base-font-size*4;
 //
+
 // HTML base styles
 
 html, body {
@@ -28,10 +28,6 @@ h1 {
   margin: 0;
 }
 
-h3 {
-  text-transform: uppercase;
-}
-
 ul {
   list-style: none;
   margin: 0;
@@ -43,4 +39,44 @@ p { line-height: 170%; }
 a {
   text-decoration: none;
 }
+
+// Custom texts sizes
+
+.panel-amount-number {
+  @include mscale($credit-size);
+  margin-bottom: 0;
+  font-weight: bold;
+}
+
+// Refs to text alignment
+
+.wrapper-module-centered {
+  h3, p, img {
+    padding: 0;
+    text-align: center;
+  }
+}
+
+.img-ticket {
+  display: block;
+  width: 90%;
+  margin: 0 auto modules(1);
+
+  @include min-screen($bp3) {
+    max-width: modules(20);
+  }
+}
+
+.img-gtag {
+  display: block;
+  width: 90%;
+  margin: 0 auto modules(1);
+  max-width: modules(10);
+}
+
+.center-text {
+  text-align: center;
+}
+
+// -------------------------------------------------------
 
