@@ -73,7 +73,7 @@ namespace :redshift do
     ).exec <<-EOS
       COPY events
       FROM 's3://#{bucket.name}/#{manifest_filename}'
-      CREDENTIALS 'aws_access_key_id=#{Rails.application.secrets.aws_access_key_id};aws_secret_access_key=#{Rails.application.secrets.aws_secret_access_key}'
+      CREDENTIALS 'aws_access_key_id=#{Rails.application.secrets.s3_access_key_id};aws_secret_access_key=#{Rails.application.secrets.s3_secret_access_key}'
       CSV
       DELIMITER ';'
       TIMEFORMAT 'YYYY-MM-DD HH24:MI:SS'
