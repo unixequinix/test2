@@ -14,7 +14,6 @@ class EventCreator
     default_event_translations
   end
 
-
   def default_event_parameters
     Seeder::SeedLoader.load_default_event_parameters(@event)
   end
@@ -34,29 +33,43 @@ class EventCreator
 
   def standard_credit
     YAML.load_file(Rails.root.join("db", "seeds", "standard_credits.yml")).each do |data|
-      preevent_item = PreeventItem.new(
-        event_id: @event.id,
-        name: data["preevent_item"]["name"],
-        description: data["preevent_item"]["description"]
-      )
-      Credit.create(
-        standard: data["credit"]["standard"],
-        value: data["credit"]["value"],
-        currency: data["credit"]["currency"],
-        preevent_item: preevent_item
-      )
-      PreeventProduct.create(
-        event_id: @event.id,
-        preevent_item_ids: [preevent_item.id],
-        preevent_product_items_attributes: [{ amount: data["preevent_product_item"]["amount"] }],
-        name: data["preevent_product"]["name"],
-        online: data["preevent_product"]["online"],
-        initial_amount: data["preevent_product"]["initial_amount"],
-        step: data["preevent_product"]["step"],
-        min_purchasable: data["preevent_product"]["min_purchasable"],
-        max_purchasable: data["preevent_product"]["max_purchasable"],
-        price: data["preevent_product"]["price"]
-      )
+      preevent_item = build_preevent_item(data["preevent_item"])
+      create_credit(data["credit"], preevent_item)
+      create_preevent_product(data["preevent_product"], data["preevent_product_item"], preevent_item)
     end
+  end
+
+  private
+
+  def build_preevent_item(preevent_item_data)
+    PreeventItem.new(
+      event_id: @event.id,
+      name: preevent_item_data["name"],
+      description: preevent_item_data["description"]
+    )
+  end
+
+  def create_credit(credit_data, preevent_item)
+    Credit.create(
+      standard: credit_data["standard"],
+      value: credit_data["value"],
+      currency: credit_data["currency"],
+      preevent_item: preevent_item
+    )
+  end
+
+  def create_preevent_product(preevent_product_data, preevent_product_item_data, preevent_item)
+    PreeventProduct.create(
+      event_id: @event.id,
+      preevent_item_ids: [preevent_item.id],
+      preevent_product_items_attributes: [{ amount: preevent_product_item_data["amount"] }],
+      name: preevent_product_data["name"],
+      online: preevent_product_data["online"],
+      initial_amount: preevent_product_data["initial_amount"],
+      step: preevent_product_data["step"],
+      min_purchasable: preevent_product_data["min_purchasable"],
+      max_purchasable: preevent_product_data["max_purchasable"],
+      price: preevent_product_data["price"]
+    )
   end
 end

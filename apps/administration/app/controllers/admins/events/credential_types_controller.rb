@@ -47,7 +47,6 @@ class Admins::Events::CredentialTypesController < Admins::Events::BaseController
   def update_preevent_products
     @credential_type.preevent_item.preevent_products.each do |pp|
       pp.preevent_items_counter_decrement
-      binding.pry
       pp.destroy if pp.preevent_items_count <= 0
     end
   end

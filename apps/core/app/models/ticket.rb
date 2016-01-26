@@ -39,7 +39,7 @@ class Ticket < ActiveRecord::Base
   # Validations
   validates :code, uniqueness: true
 
-  scope :selected_data, lambda  { |event_id|
+  scope :selected_data, lambda { |event_id|
     joins("LEFT OUTER JOIN admissions ON admissions.ticket_id = tickets.id AND admissions.deleted_at IS NULL")
       .joins("LEFT OUTER JOIN customer_event_profiles ON customer_event_profiles.id = admissions.customer_event_profile_id AND customer_event_profiles.deleted_at IS NULL")
       .joins("LEFT OUTER JOIN customers ON customers.id = customer_event_profiles.customer_id AND customers.deleted_at IS NULL")
@@ -47,7 +47,7 @@ class Ticket < ActiveRecord::Base
       .where(event: event_id)
   }
 
-  scope :search_by_company_and_event, -> (company, event) {
+  scope :search_by_company_and_event, lambda(company, event) {
     includes(:company_ticket_type, company_ticket_type: [:company])
       .where(event: event, companies: { name: company })
   }

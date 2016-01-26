@@ -1,6 +1,6 @@
 class Dashboard
   attr_accessor :context, :customer_event_profile, :ticket_assignments, :gtag_assignment,
-    :completed_claim, :event, :purchases
+                :completed_claim, :event, :purchases
 
   def initialize(customer_event_profile, context)
     @context = context
