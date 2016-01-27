@@ -31,7 +31,8 @@ module Companies
             render status: :created, json: Companies::Api::V1::TicketSerializer.new(@ticket)
           else
             render status: :bad_request,
-                   json: { message: I18n.t("company_api.tickets.bad_request"), errors: @ticket.errors }
+                   json: { message: I18n.t("company_api.tickets.bad_request"),
+                           errors: @ticket.errors }
           end
         end
 
@@ -45,7 +46,8 @@ module Companies
             render json: Companies::Api::V1::TicketSerializer.new(@ticket)
           else
             render status: :bad_request,
-                   json: { message: I18n.t("company_api.tickets.bad_request"), errors: @ticket.errors }
+                   json: { message: I18n.t("company_api.tickets.bad_request"),
+                           errors: @ticket.errors }
           end
         end
 

@@ -20,6 +20,9 @@ AllCops:
 Documentation:
   Enabled: false
 
+Metrics/LineLength:
+  Max: 100
+
 Style/StringLiterals:
   EnforcedStyle: double_quotes
   SupportedStyles:
@@ -31,4 +34,3 @@ Style/ClassAndModuleChildren:
   SupportedStyles:
     - nested
     - compact
-

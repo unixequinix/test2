@@ -2,7 +2,8 @@ module Api
   module V1
     class CustomerEventProfileSerializer < Api::V1::BaseSerializer
       attributes :id, :name, :surname, :email, :orders
-      has_many :credential_assignments, root: :credentials, serializer: Api::V1::CredentialAssignmentSerializer
+      has_many :credential_assignments, root: :credentials,
+                                        serializer: Api::V1::CredentialAssignmentSerializer
 
       def name
         object.customer.name

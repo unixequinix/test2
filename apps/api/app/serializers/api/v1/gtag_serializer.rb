@@ -6,7 +6,8 @@ module Api
 
       def attributes(*args)
         hash = super
-        hash[:preevent_product_id] = object.preevent_product_id if object.preevent_product_id.present?
+        hash[:company_ticket_type_id] = object.company_ticket_type_id if
+          object.company_ticket_type_id.present?
         hash[:customer_uid] = customer_uid if object.credential_assignments.first
         hash
       end

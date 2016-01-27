@@ -8,7 +8,9 @@ module Companies
 
           render json: {
             event_id: current_event.id,
-            banned_tickets: @banned_tickets.map { |ticket| Companies::Api::V1::TicketSerializer.new(ticket) }
+            banned_tickets: @banned_tickets.map do |ticket|
+              Companies::Api::V1::TicketSerializer.new(ticket)
+            end
           }
         end
 
@@ -32,7 +34,8 @@ module Companies
 
         def destroy
           @banned_ticket = BannedTicket.includes(:ticket)
-                                       .find_by(tickets: { code: params[:id], event_id: current_event.id })
+                                       .find_by(tickets: { code: params[:id],
+                                                           event_id: current_event.id })
 
           render(status: :not_found, json: :not_found) && return if @banned_ticket.nil?
           render(status: :internal_server_error, json: :internal_server_error) && return unless @banned_ticket.destroy

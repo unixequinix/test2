@@ -15,7 +15,7 @@ Rails.application.routes.draw do
           resources :orders, only: [:index]
           resources :preevent_products, only: [:index]
           resources :tickets, only: [:index, :show]
-          get '/tickets/reference/:id', to: 'tickets#reference'
+          get "/tickets/reference/:id", to: "tickets#reference"
           resources :refunds, only: [:index]
         end
       end
