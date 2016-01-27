@@ -1,7 +1,7 @@
 class CreatePreeventProducts < ActiveRecord::Migration
   def change
     create_table :preevent_products do |t|
-      t.integer :event_id, null: false
+      t.integer :event_id, null: false, index: true
       t.string :name
       t.boolean :online, default: false, null: false
       t.integer :initial_amount
