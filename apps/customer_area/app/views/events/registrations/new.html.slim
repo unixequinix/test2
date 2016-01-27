@@ -3,9 +3,10 @@
     = f.error_notification
     h3 = t('registration.new.title')
     = t('registration.new.info')
-    p
-      = fa_icon "exclamation-circle"
-      = t('registration.new.description')
+    .wrapper-required-fields
+      p
+        = fa_icon "exclamation-circle"
+        = t('registration.new.description')
     = f.input :event_id, as: :hidden, input_html: { value: current_event.id, class: 'session-input' }
     = f.input :email, autofocus: true, input_html: { class: 'session-input' }
     = f.input :name, autofocus: true, input_html: { class: 'session-input' }

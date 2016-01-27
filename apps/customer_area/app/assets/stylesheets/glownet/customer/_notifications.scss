@@ -155,7 +155,6 @@ $light_red: lighten($red, 8%);
   }
 }
 
-
 .wrapper-success {
   display: inline-block;
   width: auto;
@@ -173,4 +172,31 @@ $light_red: lighten($red, 8%);
   }
 
   i { padding-right: modules(0.25); }
+}
+
+.wrapper-required-fields {
+  display: block;
+  overflow: hidden;
+  padding-top: modules(1);
+
+  p {
+    clear: both;
+    display: inline-block;
+    width: auto;
+    overflow: hidden;
+    background-color: $amber;
+    border-radius: 25px;
+    padding: 0 modules(0.5);
+    color: $nuclear;
+    text-align: center;
+
+    i {
+      display: inline-block;
+      margin-bottom: 0;
+      width: auto;
+      color: $nuclear;
+    }
+
+    i { padding-right: modules(0.25); }
+  }
 }
