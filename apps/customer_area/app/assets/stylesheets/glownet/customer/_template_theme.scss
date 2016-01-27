@@ -21,7 +21,6 @@ $succes:              #00CD00;
 
 //SIZES:
 $disclaimer:             $base_font_size*0.78;
-$quarter_text:           $base_font_size*1.25;
 $half_text:              $base_font_size*1.5;
 $double_text:            $base-font-size*2;
 $triple_text:            $base-font-size*3;
@@ -43,73 +42,7 @@ body {
   @include min-screen($bp6) { background-size: 100% 100%; }
 }
 
-
-// _____ HEADER ______
-
-//header {
-//  position: relative;
-//  display: block;
-//  height: modules(2);
-//  background-color: $glwnt_header;
-//  box-shadow: inset 0px -1px 0px 0px $black;
-//}
-
-
-.disclaimer-list {
-  padding: 0 modules(0.5);
-  text-align: center;
-
-  @include min-screen($bp4) {
-    padding: 0;
-    text-align: left;
-  }
-
-  li {
-    @include mscale($disclaimer);
-    margin: 0;
-    padding: 0;
-
-    &:before { display: none; }
-  }
-
-  p { @include mscale($disclaimer); }
-
-  a {
-    @include mscale($disclaimer);
-    padding: 0 modules(0.15);
-    color: $default;
-
-    &:hover { text-decoration: underline; }
-  }
-}
-
-// _____ NAVIGATION ______
-
-// _____ LOGIN _______
-
-// _____ DAHSBOARDS _____
-
-// _____ COLORS ______
-
-// _____ BUTTONS ______
-
-.btn {
-}
-
 // _______ ORDER ________
-
-.amount-button {
-  @include user-select(none);
-  width: auto;
-  padding: 0 modules(0.5);
-  cursor: pointer;
-
-  &:first-child { text-align: left; padding-left: 0; }
-  &:last-child { text-align: right; padding-right: 0; }
-
-  &:hover { opacity: 0.5; }
-}
-
 .table-order {
   width: 100%;
   padding-top: modules(1);

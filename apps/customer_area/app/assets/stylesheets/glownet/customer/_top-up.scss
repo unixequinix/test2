@@ -34,7 +34,6 @@
 
 // ______ TABLE ______
 
-.table-amount { width: 10%; text-align: center; }
 
 .table-total {
   padding: modules(0.5);
@@ -45,47 +44,59 @@
 // ______ STYLES ______
 
 
-.wrapper-product-info {
-  display: block;
-  overflow: hidden;
-  width: 100%;
-  margin-bottom: modules(1);
-  padding-bottom: modules(1);
-  box-shadow: inset 0px -1px 0px 0px $black;
-  text-align: center;
 
-  @include min-screen($bp3) { text-align: left; }
+//  CHECKOUTS CREDITS BUTTON
 
-  h3 { margin-bottom: 0; }
-
-  input {
-    display: inline-block;
-    float: none;
-    width: modules(6);
-    margin: 0 modules(0.5);
-  }
-}
-
-
-// *$* *$* *$* *$* *$* DONT REMOVE THE CHECKOUTS CREDITS BUTTON *$* *$* *$* *$* *$* *$* *$*
-.product-title, .product-amount {
+.product-amount {
   display: inline-block;
   vertical-align: middle;
 }
 
-.product-title { width:40%; }
+.minus-button, .amount-input, .plus-button {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.minus-button,
+.plus-button   { width: 25%; }
+.minus-button  { text-align: left; }
+.plus-button   { text-align: right; }
+
+.amount-input {
+  @include appearance(none);
+  @include mscale($triple_text);
+  width: 50%;
+  margin: 0 auto modules(1);
+  float: none;
+  background-color: transparent;
+  border: none;
+  font-weight: bold;
+  text-align: center;
+
+  &:focus { outline: none; }
+}
+
+.amount-button {
+  @include transition(opacity 83ms linear);
+  @include user-select(none);
+  cursor: pointer;
+  display: block;
+  width: modules(2.5);
+  height: modules(2.5);
+  box-shadow: inset 0px 0px 0px 1px $color_text;
+  padding-top: modules(0.75);
+  border-radius: 50px;
+  text-align: center;
+
+  &:hover { opacity: 0.5; }
+}
+
+
 
 .product-amount {
   @include mscale($half_text);
-  width:60%; text-align: right;
-
-  input {
-    display: inline-block ;
-    width: 35%;
-    margin: 0 auto modules(1);
-    float: none;
-    text-align: center;
-  }
+  width: 100%;
+  text-align: center;
 }
 
 .checkout-total {
@@ -107,6 +118,7 @@
     padding-left: modules(0.5);
   }
 }
+
 
 // *$* *$* *$* *$* *$* *$* *$* *$* *$* *$* *$* *$* *$* *$* *$* *$*
 

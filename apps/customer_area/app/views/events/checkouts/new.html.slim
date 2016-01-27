@@ -1,6 +1,18 @@
-p = t('checkout.description')
-= form_tag event_checkouts_path(current_event), method: :post do |f|
-  - @checkout_presenter.preevent_products.each do |preevent_product|
-      h3 = preevent_product.name
+.wrapper-module-text
+  p.center-text = t('checkout.description')
+.wrapper-module.store-module
+  = form_tag event_checkouts_path(current_event), method: :post do |f|
+    - @checkout_presenter.preevent_products.each do |preevent_product|
+      p.store-module-title = preevent_product.name
       = render @checkout_presenter.draw_product(preevent_product), preevent_product: preevent_product
-  = button_tag t('checkout.button'), class: "btn"
+    = button_tag t('checkout.button'), class: "btn btn-action btn-action-primary"
+
+.wrapper-module.store-module
+  p.store-module-title ACCESSOS
+  ul.customer-tickets-list
+    li.customer-ticket
+      p.ticket-name Nombre del producto
+      p.ticket-id 83€
+      select
+        option 1
+        option 2

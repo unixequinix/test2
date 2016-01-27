@@ -4,6 +4,8 @@
 
 \* ------------------------------------------------------- */
 
+$quarter_text:           $base_font_size*1.25;
+
 // --- --- Styles for the ticket modules
 
 .customer-tickets-list {
@@ -62,6 +64,18 @@
 
   @include min-screen($bp3) { padding-top: modules(0.25); }
 
+}
+
+//                STORE
+
+.store-module {
+
+}
+
+.store-module-title {
+  @include mscale($quarter_text);
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
 

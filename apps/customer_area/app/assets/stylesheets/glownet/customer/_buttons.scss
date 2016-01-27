@@ -20,6 +20,16 @@
   font-weight: bold;
 }
 
+.btn-action-primary {
+  @include transition(background 200ms ease-in-out, color 200ms ease-in-out, color 200ms ease-in-out);
+  width: 100%;
+  display: inline-block;
+  vertical-align: top;
+  float: right;
+  margin: modules(1) 0;
+  background-color: transparent;
+}
+
 // Centered button inside the column
 
 .btn-action-secondary {
@@ -33,12 +43,14 @@
 
 .btn-action-dashboard {
   position: absolute;
-  top: modules(0.5);
+  top: modules(0.75);
   right: modules(0.5);
   display: inline-block;
   max-width: modules(6);
   border-radius: 25px;
   z-index: 1;
+
+  @include min-screen($bp3) { top: modules(0.5); }
 
   &:hover {
     &:after {
