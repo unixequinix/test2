@@ -1,1 +1,41 @@
-foo MAMAM
+- @logs.each do |type, logs|
+  h2 = type.humanize
+  table.preevent_products
+    thead
+      tr
+        th ID
+        th Event
+        th Transaction type
+        th Device Created At
+        th Ticket
+        th Customer Tag UID
+        th Operator Tag UID
+        th Station
+        th Device ID
+        th Device UID
+        th Preevent Product
+        th Customer
+        th Payment Method
+        th Amount
+        th Status Code
+        th Status Message
+
+      tbody
+        - logs.each do |log|
+          tr
+            td = log.id
+            td = log.event_id
+            td = log.transaction_type
+            td = log.device_created_at
+            td = log.ticket_id
+            td = log.customer_tag_uid
+            td = log.operator_tag_uid
+            td = log.station_id
+            td = log.device_id
+            td = log.device_uid
+            td = log.preevent_product_id
+            td = log.customer_event_profile_id
+            td = log.payment_method
+            td = log.amount
+            td = log.status_code
+            td = log.status_message

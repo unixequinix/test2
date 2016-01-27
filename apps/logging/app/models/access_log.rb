@@ -1,3 +1,2 @@
 class AccessLog < EventLog
-
 end

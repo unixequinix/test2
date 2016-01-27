@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  resources :logs
+  get 'events/:event_id/logs', to: 'event_logs#index', as: "logs"
 end

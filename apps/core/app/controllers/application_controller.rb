@@ -21,6 +21,7 @@ class ApplicationController < ActionController::Base
   # Mobile recognition and view configuration
 
   def check_for_mobile
+    puts "Checking for mobile"
     session[:mobile_override] = (params[:mobile] == "1") ? "1" : "0"
     prepare_for_mobile if mobile_device?
   end

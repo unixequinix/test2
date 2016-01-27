@@ -16,6 +16,7 @@ RSpec.describe EventLog, type: :model do
     it "should save the record" do
       result = EventLog.write "access_log", {}
       expect(result).not_to be_new_record
+      expect(result).to be_a_kind_of(AccessLog)
     end
 
     it "should be able to delay the job" do

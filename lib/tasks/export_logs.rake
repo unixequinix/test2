@@ -24,21 +24,8 @@ namespace :redshift do
       # If the batches do not divide evenly, the last batch should only contain the remainder number of elements
       events = events.slice(0..remainder - 1) if !remainder.zero? and batch.eql? num_batches
 
-      # create csv file from models
-      filename = "events_#{events.first.id}_to_#{events.last.id}.gz"
-      file = Tempfile.new(filename)
-      Zlib::GzipWriter.open(file) do |gz|
-        csv_string = CSV.generate("", {col_sep: ";", quote_char: '"'}) do |csv|
-          events.each do |event|
-            csv << event.to_csv
-            progressbar.increment
-          end
-        end
-        gz.write csv_string
-      end
+      # create csv file from models and uploads the event csv file to s3
 
-      # Uploads the event csv file to s3
-      bucket.object(filename).upload_file(file.path)
 
       # Add objects to arrays to process them all later alltogether
       ids += events.map(&:id)
@@ -88,4 +75,20 @@ namespace :redshift do
     puts "All Done!"
   end
 
+end
+
+def zip events
+  filename = "events_#{events.first.id}_to_#{events.last.id}.gz"
+  file = Tempfile.new(filename)
+  Zlib::GzipWriter.open(file) do |gz|
+    csv_string = CSV.generate("", {col_sep: ";", quote_char: '"'}) do |csv|
+      events.each do |event|
+        csv << event.to_csv
+        progressbar.increment
+      end
+    end
+    gz.write csv_string
+  end
+
+  bucket.object(filename).upload_file(file.path)
 end
