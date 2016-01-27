@@ -59,6 +59,7 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
       ppi.update_attribute(:amount, amount.to_i) if amount.present?
     end
   end
+
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "PreeventProduct".constantize.model_name,
