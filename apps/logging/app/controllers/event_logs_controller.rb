@@ -3,7 +3,6 @@ class EventLogsController < ApplicationController
 
   before_filter :fetch_current_event
 
-
   def index
     @logs = EventLog.all.group_by(&:type)
   end

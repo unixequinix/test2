@@ -1,5 +1,5 @@
 - @logs.each do |type, logs|
-  h2 = type.humanize
+  h2 = type.underscore.humanize.pluralize
   table.preevent_products
     thead
       tr
