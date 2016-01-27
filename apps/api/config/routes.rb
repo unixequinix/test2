@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :events, only: [:index]  do
         scope module: "events" do
-          resources :customer_event_profiles, only: [:index]
+          resources :customers, only: [:index, :show]
           resources :gtags, only: [:index, :show]
           resources :orders, only: [:index]
           resources :tickets, only: [:index, :show]
