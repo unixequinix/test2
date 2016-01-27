@@ -1,7 +1,9 @@
-= simple_form_for @customer, url: event_passwords_path(current_event), method: :post do |f|
-  = f.error_notification
-  h3 = t('passwords.new.title')
-  = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
-  = f.input :email, required: true, autofocus: true
-  = f.button :submit, t('passwords.new.button')
-= render "events/shared/links"
+.wrapper-session
+  = simple_form_for @customer, url: event_passwords_path(current_event), method: :post do |f|
+    = f.error_notification
+    h3.center-text = t('passwords.new.title')
+    = f.input :event_id, as: :hidden, input_html: { value: current_event.id }, input_html: { class: 'session-input' }
+    = f.input :email, required: true, autofocus: true, input_html: { class: 'session-input' }
+    = f.button :submit, t('passwords.new.button'), class: "btn  btn-action btn-action-enter"
+  .sessions-shared-login
+    = render "events/shared/links"
