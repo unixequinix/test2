@@ -130,7 +130,7 @@ class Event < ActiveRecord::Base
   end
 
   def standard_credit_price
-    standard_credit.online_product.rounded_price
+    PreeventProduct.find(credits.standard_credit_preevent_product).rounded_price
   end
 
   def total_credits
@@ -176,10 +176,6 @@ class Event < ActiveRecord::Base
 
   def refund_minimun(refund_service)
     get_parameter("refund", refund_service, "minimum")
-  end
-
-  def gtag_assignment?
-    gtag_assignation
   end
 
   private

@@ -1,6 +1,6 @@
 class GtagAssignmentsPresenter < BasePresenter
   def can_render?
-    @event.gtag_assignment?
+    @event.gtag_assignation?
   end
 
   def path
@@ -9,7 +9,7 @@ class GtagAssignmentsPresenter < BasePresenter
   end
 
   def gtag_assignments_enabled?
-    @event.gtag_assignment?
+    @event.gtag_assignation?
   end
 
   def customer_has_refund?

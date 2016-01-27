@@ -10,7 +10,6 @@ class AccountManager::Stripe
     # TODO: next lines are to manage legal parameters
     # attach_legal_parameters(params, request)
     # legal_parameters = extract_legal_parameters
-
     persist!(account_parameters, params[:event_id])
     # persist!(legal_parameters, params[:event_id])
   end

@@ -1,5 +1,5 @@
 class BasePresenter
-  attr_accessor :context, :customer_event_profile, :gtag_assignment, :refund, :event, :ticket_assignments
+  attr_accessor :context, :customer_event_profile, :gtag_assignment, :refund, :event, :ticket_assignments, :purchases
 
   def initialize(dashboard, context)
     @context = context
@@ -8,6 +8,7 @@ class BasePresenter
     @ticket_assignments = dashboard.ticket_assignments
     @completed_claim = dashboard.completed_claim
     @gtag_assignment = dashboard.gtag_assignment
+    @purchases = dashboard.purchases
   end
 
   def event_url
