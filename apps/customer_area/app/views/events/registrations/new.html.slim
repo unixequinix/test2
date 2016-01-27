@@ -1,25 +1,27 @@
-= simple_form_for @new_profile_form, url: event_registrations_path(current_event), method: :post do |f|
-  = f.error_notification
-  h3 = t('registration.new.title')
-  = t('registration.new.info')
-  p
-    = fa_icon "exclamation-circle"
-    = t('registration.new.description')
-  = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
-  = f.input :email, autofocus: true
-  = f.input :name, autofocus: true
-  = f.input :surname, autofocus: true
-  = f.input :password
-  = f.input :phone if(current_event.phone?)
-  = f.input :address if(current_event.address?)
-  = f.input :city if(current_event.city?)
-  = f.input :country if(current_event.country?)
-  = f.input :postcode if(current_event.postcode?)
-  = f.input :gender, collection: Customer.gender_selector, include_blank: false if(current_event.gender?)
-  = f.input :birthdate, as: :date, start_year: 1950,
-    end_year: Date.today.year - 12,
-    order: [:day, :month, :year] if(current_event.birthdate?)
-  = f.input :agreed_event_condition, as: :boolean, label: "#{current_event.agreed_event_condition_message}" if(current_event.agreed_event_condition?)
-  = f.input :agreed_on_registration, as: :boolean, label: ("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), event_terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), event_privacy_policy_url, target: '_blank'}").html_safe
-  = f.button :submit, t('registration.new.button')
+.wrapper-session
+  = simple_form_for @new_profile_form, url: event_registrations_path(current_event), method: :post do |f|
+    = f.error_notification
+    h3 = t('registration.new.title')
+    = t('registration.new.info')
+    p
+      = fa_icon "exclamation-circle"
+      = t('registration.new.description')
+    = f.input :event_id, as: :hidden, input_html: { value: current_event.id, class: 'session-input' }
+    = f.input :email, autofocus: true, input_html: { class: 'session-input' }
+    = f.input :name, autofocus: true, input_html: { class: 'session-input' }
+    = f.input :surname, autofocus: true, input_html: { class: 'session-input' }
+    = f.input :phone, input_html: { class: 'session-input' } if(current_event.phone?)
+    = f.input :address, input_html: { class: 'session-input' } if(current_event.address?)
+    = f.input :city, input_html: { class: 'session-input' } if(current_event.city?)
+    = f.input :country, input_html: { class: 'session-select' } if(current_event.country?)
+    = f.input :postcode, input_html: { class: 'session-input' } if(current_event.postcode?)
+    = f.input :gender, collection: Customer.gender_selector, include_blank: false, input_html: { class: 'session-select' } if(current_event.gender?)
+    = f.input :birthdate, as: :date, start_year: 1950,
+      end_year: Date.today.year - 12,
+      order: [:day, :month, :year] if(current_event.birthdate?)
+    = f.input :agreed_event_condition, as: :boolean, label: "#{current_event.agreed_event_condition_message}", input_html: { class: 'session-remember-me' } if(current_event.agreed_event_condition?)
+    = f.input :password, input_html: { class: 'session-input' }
+    .session-accept-terms
+      = f.input :agreed_on_registration, as: :boolean, label: ("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), event_terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), event_privacy_policy_url, target: '_blank'}").html_safe
+    = f.button :submit, t('registration.new.button'), class: "btn  btn-action btn-action-enter"
 

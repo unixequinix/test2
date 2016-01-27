@@ -14,19 +14,40 @@ nav ul a:hover                      { }
 header h1                           { color: $snow; }
 h3                                  { color: $snow; }
 
-.wrapper-login label                { color: $snow; }
+.wrapper-session label              { color: $snow; }
 
 .hint                               { color: $default; }
 
 .btn-action                         { }
 //.btn-action                       { box-shadow: inset 0px 0px 0px 3px rgba(255,255,255,1); }
 .btn-action                         { color: $snow; }
+
+.btn-action-register                { box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1); }
+.btn-action-register:hover          { background-color: $snow; }
+.btn-action-register:hover          { color: $magenta; }
+.btn-action-register:focus          { background-color: $snow; }
+.btn-action-register:focus          { color: $magenta; }
+
+.btn-action-enter                   { background-color: $snow; }
+.btn-action-enter                   { color: $magenta; }
+.btn-action-enter:hover             { background-color: transparent; }
+.btn-action-enter:hover             { color: $nuclear; }
+.btn-action-enter:hover             { box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1); }
+.btn-action-enter:focus             { background-color: transparent; }
+.btn-action-enter:focus             { color: $nuclear; }
+.btn-action-enter:focus             { box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1); }
+
 .btn-action-primary                 { box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1); }
 .btn-action-primary:hover           { color: $magenta; }
 .btn-action-primary:hover           { background-color: $snow; }
+
 .btn-action-secondary               { background-color: $snow; }
 .btn-action-secondary               { color: $magenta; }
 .btn-action-secondary:hover         { color: lighten($magenta,13%); }
+
+.customer_remember_me label         { color: $color_text; }
+.customer_agreed_on_registration label  { color: $color_text; }
+.customer_agreed_on_registration a  { color: $snow; }
 
 //.btn-action                                { }
 //.btn-action                                { }

@@ -7,13 +7,25 @@
 
 // Login wrapper
 
-.wrapper-login {
+.wrapper-session {
+  position: relative;
   padding: modules(1);
-
 
   label {
     font-weight: bold;
     text-transform: uppercase;
+  }
+
+  select {
+    @include linear-gradient($air_gray, $graySilver);
+    height: modules(2);
+    background-color: $air_gray;
+
+
+    &:focus {
+      outline: none;
+      border: 1px solid $nuclear;
+    }
   }
 }
 
@@ -26,18 +38,18 @@
   display: block;
   width: 100%;
   margin-bottom: modules(1);
-  padding: modules(0.5) modules(2.25);
+  padding: modules(0.5);
   box-shadow: none;
   border: none;
   border-radius: $radius;
-  background-color: $grayTimberwolf;
+  background-color: $air_gray;
   border: 1px solid #E8EEEF;
   box-shadow: 0px 1px 1px #999 inset;
-  color: $nuclear;
+  color: $color_text;
 
   &:focus {
     outline: none;
-    box-shadow: 0px 0px 0px 1px rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,1);
     opacity: 1;
   }
 
@@ -45,6 +57,104 @@
     -webkit-box-shadow: 0 0 0px 1000px $nuclear inset;
     -webkit-text-fill-color: $nuclear;
   }
+}
+
+.session-select {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: modules(2);
+  margin-bottom: modules(1);
+  padding: modules(0.5);
+  box-shadow: none;
+  border: none;
+  border-radius: $radius;
+
+  &:focus {
+    outline: none;
+    border: 1px solid rgba(255,255,255,1);
+    opacity: 1;
+  }
+}
+
+// ------- REMEMBER ME -------
+
+.sessions-shared-login, {
+  text-align: center;
+
+  a {
+    color: $color_text;
+    display: block;
+
+    figure {
+      display: inline-block;
+      padding-right: modules(0.25);
+    }
+
+    &:hover, &:focus {
+      outline: none;
+      text-decoration: underline;
+    }
+  }
+}
+
+.customer_remember_me {
+  margin-bottom: modules(1);
+  text-align: center;
+
+  input { margin-right: modules(0.25); }
+
+  label {
+    color: $color_text;
+    font-weight: normal;
+    text-transform: none;
+  }
+
+  a {
+    font-weight: bold;
+
+    &:hover { font-decoration: underline; }
+  }
+}
+
+// -------- ACCEPT TERMS -------
+
+.session-accept-terms {
+  text-align: center;
+  text-transform: none;
+
+  label { text-transform: none; }
+
+  a {
+    color: $color_text;
+
+    &:hover, &:focus {
+      outline: none;
+      text-decoration: underline;
+    }
+  }
+}
+
+.customer_agreed_on_registration {
+  margin-bottom: modules(1);
+  text-align: center;
+
+  input { margin-right: modules(0.25); }
+
+  label {
+    color: $color_text;
+    font-weight: normal;
+    text-transform: none;
+  }
+
+  a:hover { font-decoration: underline; }
+}
+
+.disclaimer-list {
+  @include mscale($small_text);
+  padding: modules(1.5) 0 0;
+
+  li { padding-top: modules(0.25); }
 }
 
 // ---------------------------------------------------------------------------------------------

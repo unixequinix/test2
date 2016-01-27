@@ -20,6 +20,34 @@
   font-weight: bold;
 }
 
+
+.btn-action-register {
+  @include transition(background 200ms ease-in-out, color 200ms ease-in-out, color 200ms ease-in-out);
+  position: absolute;
+  top: modules(0.5);
+  right: modules(0.5);
+  width: modules(5);
+  display: block;
+  vertical-align: top;
+  height: modules(2);
+  padding-top: modules(0.5);
+  border-radius: $radius;
+
+  &:focus { outline: none; }
+}
+
+.btn-action-enter {
+  @include transition(background 200ms ease-in-out, color 200ms ease-in-out, color 200ms ease-in-out);
+  width: 100%;
+  display: inline-block;
+  vertical-align: top;
+  height: modules(2);
+  margin:  0 auto modules(1);
+  background-color: transparent;
+
+  &:focus { outline: none; }
+}
+
 .btn-action-primary {
   @include transition(background 200ms ease-in-out, color 200ms ease-in-out, color 200ms ease-in-out);
   width: 100%;

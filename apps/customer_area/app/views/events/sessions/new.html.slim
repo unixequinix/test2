@@ -3,17 +3,22 @@
 = render "events/sessions/password_sent_message" if @password_sent
 = render "events/sessions/confirmation_sent_message" if @confirmation_sent
 
-.wrapper-login
+.wrapper-session
   h3 = t('sessions.new.description')
   = raw current_event.info
-  = link_to t('links.buttons.sign_up'), event_signin_path(current_event)
-  //.disclaimer-list
+  = link_to t('links.buttons.sign_up'), event_signin_path(current_event), class: "btn btn-action btn-action-register"
   = raw current_event.disclaimer
-  h3 Login
+  h3 Login2
   = simple_form_for @customer_login_form, url: event_sessions_path(current_event), method: :post do |f|
     = f.input :event_id, as: :hidden, input_html: { value: current_event.id, class: 'session-input' }
-    = f.input :email, input_html: {class: 'session-input'}
-    = f.input :password, input_html: {class: 'session-input'}
-    = f.input :remember_me, as: :boolean, input_html: {class: 'session-input'}
-    = f.button :submit, t('sessions.new.button')
-  = render "events/shared/links"
+    = f.input :email, input_html: { class: 'session-input' }
+    = f.input :password, input_html: { class: 'session-input' }
+    = f.input :remember_me, as: :boolean, input_html: { class: 'session-remember-me' }
+    = f.button :submit, t('sessions.new.button'), class: "btn  btn-action btn-action-enter"
+  .sessions-shared-login
+    = render "events/shared/links"
+
+  ul.disclaimer-list
+    li Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque sint cum rerum quidem tempore voluptate, esse laborum aspernatur, blanditiis nulla ipsum adipisci ab sunt saepe tempora. Magni vitae, rerum nobis.
+    li Dos
+    li Tres

@@ -6,11 +6,16 @@
 
 abbr { display: none; }
 
-label {
-  display: block;
-}
+label { display: block; }
 
 select {
+}
+
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  @include appearance(none);
+  border: 1px solid transparent;
 }
 
 input[type=text],
