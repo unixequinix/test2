@@ -13,12 +13,12 @@
   display: block;
   margin: 0 auto modules(1);
   width: modules(4);
+  height: modules(2);
   padding: modules(0.25) modules(0.5);
   border-radius: 25px;
   text-transform: uppercase;
   text-align: center;
 }
-
 
 .btn-action-register {
   @include transition(background 200ms ease-in-out, color 200ms ease-in-out, color 200ms ease-in-out);
@@ -62,6 +62,7 @@
 
 .btn-action-secondary {
   max-width: modules(12);
+  height: auto;
   display: inline-block;
   vertical-align: top;
   float: right;
@@ -75,6 +76,7 @@
   right: modules(0.5);
   display: inline-block;
   max-width: modules(6);
+  height: auto;
   border-radius: 25px;
   z-index: 1;
   font-weight: bold;
@@ -113,6 +115,7 @@
 .btn-action-add-paypal {
   @include transition(background-color 200ms ease-in-out);
   width: 100%;
+  height: auto;
   margin-bottom: 0;
   background-color: $paypal;
   color: $nuclear;

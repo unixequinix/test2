@@ -4,12 +4,13 @@
 //
 // -------------------------------------------------------
 
-
 // Login wrapper
 
 .wrapper-session {
   position: relative;
   padding: modules(1);
+
+  h3 { text-transform: uppercase; }
 
   label {
     font-weight: bold;
@@ -18,9 +19,9 @@
 
   select {
     @include linear-gradient($air_gray, $graySilver);
+    margin-bottom: 0;
     height: modules(2);
     background-color: $air_gray;
-
 
     &:focus {
       outline: none;
@@ -29,7 +30,7 @@
   }
 }
 
-// Inputs
+// Inputs and selects
 
 .session-input {
   @include appearance(none);
@@ -99,10 +100,11 @@
 }
 
 .customer_remember_me {
-  margin-bottom: modules(1);
   text-align: center;
 
-  input { margin-right: modules(0.25); }
+  input {
+    margin-right: modules(0.25);
+  }
 
   label {
     color: $color_text;
@@ -149,6 +151,8 @@
 
   a:hover { font-decoration: underline; }
 }
+
+// -------- DISCLAIMER -------
 
 .disclaimer-list {
   @include mscale($small_text);

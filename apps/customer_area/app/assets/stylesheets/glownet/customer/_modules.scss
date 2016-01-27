@@ -46,15 +46,6 @@ $quarter_text:           $base_font_size*1.25;
   }
 }
 
-.ticket-name {
-  margin-bottom: modules(0.25);
-}
-
-.ticket-id {
-  margin-bottom: modules(0.25);
-  font-weight: bold;
-}
-
 // --- --- Styles for the gtag/ticket id
 
 .id-number {
@@ -63,13 +54,12 @@ $quarter_text:           $base_font_size*1.25;
   padding-top: modules(0.25);
 
   @include min-screen($bp3) { padding-top: modules(0.25); }
-
 }
 
 //                STORE
 
 .store-module {
-
+  padding-bottom: 0;
 }
 
 .store-module-title {

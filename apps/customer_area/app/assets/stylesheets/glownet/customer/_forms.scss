@@ -9,6 +9,7 @@ abbr { display: none; }
 label { display: block; }
 
 select {
+  margin-bottom: modules(1);
 }
 
 input[type="button"],
@@ -27,6 +28,7 @@ input[type=tel],
 input[type=search],
 textarea {
   @include appearance(none);
+  margin-bottom: 0;
   border: 1px solid transparent;
 }
 
@@ -34,4 +36,9 @@ button {
   @include appearance(none);
   width: 100%;
   border: 1px solid transparent;
+}
+
+
+.input {
+  padding-bottom: modules(1);
 }
