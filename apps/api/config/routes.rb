@@ -11,6 +11,7 @@ Rails.application.routes.draw do
           resources :customers, only: [:index, :show]
           resources :gtags, only: [:index, :show]
           resources :orders, only: [:index]
+          resources :preevent_products, only: [:index]
           resources :tickets, only: [:index, :show]
           get '/tickets/reference/:id', to: 'tickets#reference'
           resources :refunds, only: [:index]
