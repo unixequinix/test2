@@ -184,9 +184,10 @@ $light_red: lighten($red, 8%);
     display: inline-block;
     width: auto;
     overflow: hidden;
-    background-color: $amber;
+    margin-bottom: 0;
     border-radius: 25px;
     padding: 0 modules(0.5);
+    background-color: $amber;
     color: $nuclear;
     text-align: center;
 
