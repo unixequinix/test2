@@ -50,7 +50,7 @@ class Gtag < ActiveRecord::Base
 
   def refundable_amount
     current_event = event
-    standard_credit_price = current_event.standard_credit.online_product.rounded_price
+    standard_credit_price = current_event.standard_credit_price
     credit_amount = 0
     credit_amount = gtag_credit_log.amount unless gtag_credit_log.nil?
     credit_amount * standard_credit_price

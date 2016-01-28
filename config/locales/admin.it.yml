@@ -169,6 +169,7 @@ it:
       email: "Email"
     credits:
       standard: "Standard"
+      currency: "Currency"
     preevent_product:
       name: "Name"
       online: "Online"

@@ -33,6 +33,7 @@
 #  locales                 :integer          default(1), not null
 #  refund_services         :integer          default(0), not null
 #  ticket_assignation      :boolean          default(TRUE), not null
+#  token                   :string           not null
 #
 
 class Event < ActiveRecord::Base
@@ -100,6 +101,9 @@ class Event < ActiveRecord::Base
                     url: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:basename.:extension",
                     default_url: ":default_event_background_url"
 
+  # Hooks
+  before_create :generate_token
+
   # Validations
   validates :name, :support_email, presence: true
   validates :name, uniqueness: true
@@ -126,7 +130,7 @@ class Event < ActiveRecord::Base
   end
 
   def standard_credit_price
-    standard_credit.online_product.rounded_price
+    PreeventProduct.find(credits.standard_credit_preevent_product).rounded_price
   end
 
   def total_credits
@@ -174,7 +178,12 @@ class Event < ActiveRecord::Base
     get_parameter("refund", refund_service, "minimum")
   end
 
-  def gtag_assignment?
-    gtag_assignation
+  private
+
+  def generate_token
+    loop do
+      self.token = SecureRandom.hex
+      break unless self.class.exists?(token: token)
+    end
   end
 end

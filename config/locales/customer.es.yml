@@ -42,6 +42,8 @@ es:
       call_to_action: "Solo activa los tickets que vayas a utilizar"
       description: "NO actives los tickets de tus amigos en tu cuenta."
       button: "Activar Ticket"
+    purchases:
+      header: "Tus compras"
     credits:
       header: "Tu Balance de créditos"
       call_to_action: "Para evitar colas, recarga tu %{gtag} ahora para todas tus compras dentro del evento"

@@ -41,6 +41,8 @@ en:
       call_to_action: "Only activate the ticket(s) which you will be using YOURSELF"
       description: "Do NOT activate your friend's tickets under your account."
       button: "Activate Ticket"
+    purchases:
+      header: "Your purchases"
     credits:
       header: "Your Online Credit Balance"
       call_to_action: "To avoid queues, top-up your %{gtag} now for all your event purchases"
