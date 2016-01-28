@@ -1,7 +1,5 @@
-.wrapper-field.form-inputs
-  .dashboard-field.dashboard-field-info
-    h3
-      = fa_icon 'money'
-      = t('dashboard.purchases.header')
-    - presenter.purchases.each do |order|
-      h4.order = "#{order.total_amount} - #{PreeventProduct.find(order.preevent_product_id).name}"
+.wrapper-module
+  h3
+    = t('dashboard.purchases.header')
+  - presenter.purchases.each do |order|
+    h4.order = "#{order.total_amount} - #{PreeventProduct.find(order.preevent_product_id).name}"

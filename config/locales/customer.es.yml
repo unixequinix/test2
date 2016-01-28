@@ -45,8 +45,7 @@ es:
     purchases:
       header: "Tus compras"
     credits:
-      header: "Tu Balance de créditos"
-      call_to_action: "Para evitar colas, recarga tu %{gtag} ahora para todas tus compras dentro del evento"
+      header: "Tus créditos"
       call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"
       call_to_action_no_admission_html: "Para poder recargar online,<br>deberás activar un Ticket primero"
       button: "Recarga"

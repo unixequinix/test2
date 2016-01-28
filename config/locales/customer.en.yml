@@ -44,8 +44,7 @@ en:
     purchases:
       header: "Your purchases"
     credits:
-      header: "Your Online Credit Balance"
-      call_to_action: "To avoid queues, top-up your %{gtag} now for all your event purchases"
+      header: "Your credits"
       call_to_action_started: "The event just started so you cannot topup anymore"
       call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Event Ticket first"
       button: "Top-up"
