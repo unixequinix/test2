@@ -4,13 +4,9 @@ class Companies::BaseController < ApplicationController
   before_action :restrict_access_with_http
   serialization_scope :view_context
 
-  def current_event
-    @current_event
-  end
+  attr_reader :current_event
 
-  def current_company
-    @current_company
-  end
+  attr_reader :current_company
 
   def restrict_access_with_http
     authenticate_or_request_with_http_basic do |company, token|

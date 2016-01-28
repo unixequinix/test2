@@ -24,7 +24,7 @@ class CompanyTicketType < ActiveRecord::Base
 
   scope :companies, -> (event) { joins(:company).where(event: event).pluck("companies.name").uniq }
 
-  scope :search_by_company_and_event, -> (company, event) {
+  scope :search_by_company_and_event, lambda  { |company, event|
     joins(:company).where(event: event, companies: { name: company })
   }
 
