@@ -3,16 +3,15 @@ class NzBankAccountClaimForm
   include Virtus.model
 
   attribute :number, String
-  attribute :bank_name, String
   attribute :account_holder, String
   attribute :claim_id, Integer
   attribute :agreed_on_claim, Boolean
 
   validates_presence_of :number
-  validates_presence_of :bank_name
   validates_presence_of :account_holder
   validates_presence_of :claim_id
   validates_presence_of :agreed_on_claim
+  validates_with NzValidator
 
   def save
     if valid?
