@@ -1,4 +1,4 @@
 # desc "Explaining what the task does"
-# task :logging do
+# task :transactions do
 #   # Task goes here
 # end

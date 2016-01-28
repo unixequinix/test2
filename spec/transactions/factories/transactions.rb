@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :event_transaction do
+  factory :transaction do
 
     type "Transaction"
     event

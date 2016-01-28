@@ -29,12 +29,6 @@ PATH
       rails (~> 4.2.1)
 
 PATH
-  remote: apps/logging
-  specs:
-    logging (0.0.1)
-      rails (~> 4.2.1)
-
-PATH
   remote: apps/payment_ngn
   specs:
     payment_ngn (0.0.1)
@@ -44,6 +38,12 @@ PATH
   remote: apps/refund_ngn
   specs:
     refund_ngn (0.0.1)
+      rails (~> 4.2.1)
+
+PATH
+  remote: apps/transactions
+  specs:
+    transactions (0.0.1)
       rails (~> 4.2.1)
 
 GEM
@@ -642,7 +642,6 @@ DEPENDENCIES
   jquery-ui-rails (~> 4.2.0)
   kaminari (~> 0.16.3)
   launchy
-  logging!
   meta_request (~> 0.3.4)
   metamagic (~> 3.1.7)
   neat (~> 1.7.2)
@@ -685,6 +684,7 @@ DEPENDENCIES
   spring-commands-rspec (~> 1.0.4)
   stripe (~> 1.31.0)
   therubyracer (~> 0.12.2)
+  transactions!
   turbolinks (~> 2.5.3)
   uglifier (~> 2.7.1)
   validate_nz_bank_acc (~> 0.0.3)

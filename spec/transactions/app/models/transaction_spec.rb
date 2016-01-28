@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Transaction, type: :model do
-  let(:transaction) { build(:event_transaction) }
+  let(:transaction) { build(:transaction) }
 
   context "writing" do
     it "should create an appropiate class of transaction depending on type" do
