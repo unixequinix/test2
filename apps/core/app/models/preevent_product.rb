@@ -32,16 +32,15 @@ class PreeventProduct < ActiveRecord::Base
   accepts_nested_attributes_for :preevent_product_items, allow_destroy: true
 
   validates :event_id, :name, presence: true
-  validates :preevent_items, length: { minimum: 1 }
+  validates :preevent_product_items, length: { minimum: 1 }
 
   def rounded_price
     price.round == price ? price.floor : price
   end
 
-  def preevent_items_counter(preevent_item_ids=nil)
-    preevent_item_ids ?
-      update_attribute(:preevent_items_count, preevent_item_ids.count) :
-      update_attribute(:preevent_items_count, preevent_items.count)
+  def preevent_items_counter(preevent_item_ids = nil)
+    return update_attribute(:preevent_items_count, preevent_item_ids.count) if preevent_item_ids
+    update_attribute(:preevent_items_count, preevent_items.count)
   end
 
   def preevent_items_counter_decrement
