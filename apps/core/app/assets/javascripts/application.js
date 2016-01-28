@@ -11,3 +11,5 @@
 //= require vendor/fastclick
 //= require vendor/fastclick_load
 //= require vendor/jquery.cookiebar
+
+//= require nested_form_fields

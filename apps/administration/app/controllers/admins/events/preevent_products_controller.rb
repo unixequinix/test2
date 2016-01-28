@@ -10,8 +10,9 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
 
   def create
     @preevent_product = PreeventProduct.new(permitted_params)
+    binding.pry
     if @preevent_product.save
-      add_amount_to_preevent_items(params[:preevent_product][:preevent_product_items_attributes])
+      binding.pry
       update_preevent_items_counter(permitted_params[:preevent_item_ids])
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_preevent_products_url
@@ -59,6 +60,7 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
       ppi.update_attribute(:amount, amount.to_i) if amount.present?
     end
   end
+
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "PreeventProduct".constantize.model_name,
@@ -81,7 +83,7 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
       :max_purchasable,
       :initial_amount,
       :step,
-      preevent_item_ids: []
+      preevent_product_items_attributes: [:preevent_item_id, :amount]
     )
   end
 end
