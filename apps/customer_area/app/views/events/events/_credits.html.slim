@@ -1,7 +1,6 @@
 .wrapper-module
   h3 = t('dashboard.credits.header')
   p.panel-amount-number = presenter.customer_total_credits
-
   - if presenter.ticket_assignments_present? && !presenter.event_started?
     = link_to t('dashboard.credits.button'), new_event_checkout_path(current_event), class: "btn btn-action btn-action-dashboard"
     p.id-number BE5223D7
