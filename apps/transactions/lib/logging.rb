@@ -1,4 +1,4 @@
 require "transactions/engine"
 
-module Logging
+module Transactions
 end

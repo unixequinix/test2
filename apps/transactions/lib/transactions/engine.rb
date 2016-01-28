@@ -1,4 +1,4 @@
-module Logging
+module Transactions
   class Engine < ::Rails::Engine
     initializer 'model_core.factories', after: 'factory_girl.set_factory_paths' do
       if defined?(FactoryGirl)
