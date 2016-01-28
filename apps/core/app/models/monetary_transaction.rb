@@ -24,4 +24,9 @@
 #
 
 class MonetaryTransaction < Transaction
+  after_create :do_stuff
+
+  def do_stuff
+
+  end
 end
