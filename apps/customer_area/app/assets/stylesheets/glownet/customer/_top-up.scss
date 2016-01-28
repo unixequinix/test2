@@ -46,6 +46,12 @@
   display: inline-block;
   vertical-align: middle;
 
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
   input[type=number] {
     @include appearance(none);
     padding: 0;

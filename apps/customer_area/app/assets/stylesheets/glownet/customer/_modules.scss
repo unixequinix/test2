@@ -64,6 +64,7 @@ $quarter_text:           $base_font_size*1.25;
 
 .store-module-title {
   @include mscale($quarter_text);
+  margin-bottom: modules(0.5);
   font-weight: bold;
   text-transform: uppercase;
 }

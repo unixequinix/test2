@@ -74,7 +74,10 @@
 
   @include min-screen($bp3) { padding: modules(1); }
 
-  h3 { text-transform: uppercase; }
+  h3 {
+    text-transform: uppercase;
+    margin-bottom: modules(0.5);
+  }
 
   input[type=text],
   input[type=password],

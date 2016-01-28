@@ -40,7 +40,7 @@ en:
     without_admissions:
       call_to_action: "Only activate the ticket(s) which you will be using YOURSELF"
       description: "Do NOT activate your friend's tickets under your account."
-      button: "Activate Ticket"
+      button: "Add more"
     purchases:
       header: "Your purchases"
     credits:
@@ -76,8 +76,8 @@ en:
       description: "The refunds period is finished, If you have any question contact support."
     gtag_registration:
       title: "Your %{gtag} number:"
-      call_to_action: "Put a wrong %{gtag} by mistake?"
-      button: "Erase and restart the process"
+      call_to_action: "Edit"
+      button: "Change"
     gtag_after_refund:
       description: "Your refund is in process"
     without_refunds:

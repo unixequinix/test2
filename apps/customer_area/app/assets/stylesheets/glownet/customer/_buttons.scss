@@ -37,9 +37,9 @@
 
 .btn-action-enter {
   @include transition(background 200ms ease-in-out, color 200ms ease-in-out, color 200ms ease-in-out);
-  width: 100%;
-  display: inline-block;
+  display: block;
   vertical-align: top;
+  width: modules(10);
   height: modules(2);
   margin:  0 auto modules(1);
   background-color: transparent;
@@ -73,9 +73,9 @@
 .btn-action-dashboard {
   position: absolute;
   top: modules(0.75);
-  right: modules(0.5);
+  right: modules(0.25);
   display: inline-block;
-  max-width: modules(6);
+  width: modules(5);
   height: auto;
   border-radius: 25px;
   z-index: 1;
@@ -112,6 +112,14 @@
   }
 }
 
+.btn-action-empty-state {
+  display: block;
+  max-width: modules(9);
+  width: auto;
+  height: auto;
+  margin: 0 auto;
+}
+
 .btn-action-add-paypal {
   @include transition(background-color 200ms ease-in-out);
   width: 100%;
@@ -130,6 +138,14 @@
   &:hover { background-color: lighten($paypal,7%); }
 
   @include min-screen($bp3) { width: modules(12); }
+}
+
+.btn-action-back {
+  position: fixed;
+  bottom: modules(1);
+  right: modules(0.5);
+  height: auto;
+  z-index: 5;
 }
 
 // ---------------------------------------------------------------------------------------------

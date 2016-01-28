@@ -8,7 +8,6 @@
   = raw current_event.info
   = link_to t('links.buttons.sign_up'), event_signin_path(current_event), class: "btn btn-action btn-action-register"
   = raw current_event.disclaimer
-  h3 Login2
   = simple_form_for @customer_login_form, url: event_sessions_path(current_event), method: :post do |f|
     = f.input :event_id, as: :hidden, input_html: { value: current_event.id, class: 'session-input' }
     = f.input :email, input_html: { class: 'session-input' }

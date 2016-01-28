@@ -41,6 +41,14 @@ h3                                  { color: $snow; }
 .btn-action-primary:hover           { color: $magenta; }
 .btn-action-primary:hover           { background-color: $snow; }
 
+.btn-action-empty-state             { box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1); }
+.btn-action-empty-state:hover       { background-color: $snow; }
+.btn-action-empty-state:hover       { color: $magenta; }
+
+.btn-action-back                    { box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1); }
+.btn-action-back:hover              { background-color: $snow; }
+.btn-action-back:hover              { color: $magenta; }
+
 .btn-action-secondary               { background-color: $snow; }
 .btn-action-secondary               { color: $magenta; }
 .btn-action-secondary:hover         { color: lighten($magenta,13%); }
@@ -72,6 +80,8 @@ h3                                  { color: $snow; }
 
 
 .wrapper-module                     { box-shadow: inset 0px -1px 0px 0px $snow; }
+.wrapper-module-centered            { box-shadow: inset 0px -1px 0px 0px $snow; }
+
 .store-module-title                 { color: $snow; }
 .amount-button            { }
 

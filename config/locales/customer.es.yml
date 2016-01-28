@@ -41,7 +41,7 @@ es:
     without_admissions:
       call_to_action: "Solo activa los tickets que vayas a utilizar"
       description: "NO actives los tickets de tus amigos en tu cuenta."
-      button: "Activar Ticket"
+      button: "Añadir"
     purchases:
       header: "Tus compras"
     credits:
@@ -78,7 +78,7 @@ es:
     gtag_registration:
       title: "Tu número de %{gtag}:"
       call_to_action: "¿Introdujiste una incorrecta por error?"
-      button: "Borrala y reinicia el proceso"
+      button: "Cambiar"
     gtag_after_refund:
       description: "Tu devolución está en proceso"
     without_refunds:
