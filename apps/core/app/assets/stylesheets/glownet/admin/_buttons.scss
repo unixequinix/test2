@@ -154,3 +154,27 @@
   }
 }
 
+// Preevent products buttons
+
+.btn-remove-fields {
+  position: absolute;
+  display: inline-block;
+  width: modules(1.5);
+  height: modules(1.5);
+  top: modules(0.5);
+  right: modules(0.5);
+  padding-top: modules(0.25);
+  border-radius: 50px;
+  z-index: 1;
+  text-align: center;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: $grey;
+
+  &:hover {
+    color: $red;
+    background-color: lighten($red, 40%);
+  }
+
+}
+

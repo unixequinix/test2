@@ -1,6 +1,7 @@
-fieldset
+fieldset.wrapper-preevent-product
   = f.association :preevent_item, collection: @preevent_items_collection, :prompt => 'Choose an existing widget'
   = f.input :amount
   = f.hidden_field :_destroy
-  = link_to "remove", '#', class: "remove_fields"
+  = link_to '#', class: "btn-remove-fields" do
+    = fa_icon "times"
 
