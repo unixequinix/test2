@@ -11,7 +11,11 @@
 
     = f.simple_fields_for :preevent_product_items do |preevent_product_item|
       = render 'preevent_product_item_fields', f: preevent_product_item
+<<<<<<< HEAD
+    = link_to_add_fields(fa_icon("plus"), f, :preevent_product_items)
+=======
     = link_to_add_fields("Add item", f, :preevent_product_items)
+>>>>>>> mm-preevent-products-form
 
     = f.button :submit, class: "btn btn-primary"
 
