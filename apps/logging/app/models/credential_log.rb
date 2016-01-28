@@ -1,3 +1,0 @@
-class CredentialLog < EventLog
-
-end

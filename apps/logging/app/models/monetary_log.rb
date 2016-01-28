@@ -1,3 +1,0 @@
-class MonetaryLog < EventLog
-
-end

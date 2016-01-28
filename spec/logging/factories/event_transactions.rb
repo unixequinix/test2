@@ -1,5 +1,7 @@
 FactoryGirl.define do
-  factory :credential_log do
+  factory :event_transaction do
+
+    type "EventTransaction"
     event
     transaction_type { Faker::Lorem.word }
     device_created_at { Time.now }
@@ -7,7 +9,7 @@ FactoryGirl.define do
     operator_tag_uid { Faker::Lorem.word }
     device_uid { Faker::Lorem.word }
     customer_event_profile
-    payment_method { Faker::Lorem.word }
+    payment_method { %w(bank_account epg).sample }
     amount { Faker::Number.decimal(2) }
     status_code "0"
     status_message "OK"

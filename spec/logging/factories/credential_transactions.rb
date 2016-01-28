@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :access_log do
+  factory :credential_transaction do
     event
     transaction_type { Faker::Lorem.word }
     device_created_at { Time.now }
