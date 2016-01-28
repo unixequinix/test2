@@ -4,7 +4,6 @@ header
     ul
       li
         = link_to event_url(current_event) do
-          = fa_icon "home"
           = t('header.menu')
       li
         = link_to href="#{current_event.url}", target: "_blank" do

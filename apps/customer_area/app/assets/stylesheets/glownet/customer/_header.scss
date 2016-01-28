@@ -33,6 +33,7 @@ nav {
   ul { text-align: right; }
 
   li {
+    @include transition(background-color 130ms ease-in-out);
     display: inline-block;
     width: auto;
     padding: 0 modules(0.5);
