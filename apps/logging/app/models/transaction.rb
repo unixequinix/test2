@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: event_transactions
+# Table name: transactions
 #
 #  id                        :integer          not null, primary key
 #  type                      :string           not null
@@ -23,7 +23,7 @@
 #  updated_at                :datetime         not null
 #
 
-class EventTransaction < ActiveRecord::Base
+class Transaction < ActiveRecord::Base
   belongs_to :event
   belongs_to :customer_event_profile
 

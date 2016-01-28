@@ -5,7 +5,7 @@ namespace :redshift do
     # Parse input arguments and initialize variables
     ARGV.each { |a| task a.to_sym do ; end }
     start_index = ARGV[3].to_i
-    end_index = ARGV[2].to_i.zero? ? EventTransaction.count : ARGV[3].to_i
+    end_index = ARGV[2].to_i.zero? ? Transaction.count : ARGV[3].to_i
     batch_size = ARGV[3].to_i.zero? ? 10000 : ARGV[3].to_i
     size = end_index - start_index
     num_batches = (size.to_f / batch_size.to_f).ceil
@@ -15,7 +15,7 @@ namespace :redshift do
     ids = []
 
     puts "Creating CSV files and uploading"
-    EventTransaction.find_in_batches(start: start_index, batch_size: batch_size).with_index  do |events, batch|
+    Transaction.find_in_batches(start: start_index, batch_size: batch_size).with_index  do |events, batch|
       batch += 1
       break if batch > num_batches
 
@@ -39,7 +39,7 @@ namespace :redshift do
 
     puts "Deleting events in redshift that will be overwritten..."
     ActiveRecord::Base.establish_connection(:redshift)
-    EventTransaction.where(id: ids).delete_all
+    Transaction.where(id: ids).delete_all
     puts "Done"
 
     puts "Creating and uploading manifest file..."

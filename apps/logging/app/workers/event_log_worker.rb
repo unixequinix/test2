@@ -1,4 +1,4 @@
-class EventTransactionWorker
+class TransactionWorker
   include Sidekiq::Worker
   def perform(name, count)
     name.capitalize

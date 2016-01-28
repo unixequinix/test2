@@ -1,10 +1,10 @@
-class EventTransactionsController < ApplicationController
+class TransactionsController < ApplicationController
   layout "admin_event"
 
   before_filter :fetch_current_event
 
   def index
-    @logs = EventTransaction.all.group_by(&:type)
+    @logs = Transaction.all.group_by(&:type)
   end
 
   private

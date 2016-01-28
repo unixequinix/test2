@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :event_transaction do
 
-    type "EventTransaction"
+    type "Transaction"
     event
     transaction_type { Faker::Lorem.word }
     device_created_at { Time.now }

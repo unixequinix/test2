@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: event_transactions
+# Table name: transactions
 #
 #  id                        :integer          not null, primary key
 #  type                      :string           not null
@@ -23,6 +23,5 @@
 #  updated_at                :datetime         not null
 #
 
-class MonetaryTransaction < EventTransaction
-
+class MonetaryTransaction < Transaction
 end
