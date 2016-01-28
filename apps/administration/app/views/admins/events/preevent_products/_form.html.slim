@@ -11,7 +11,7 @@
 
     = f.simple_fields_for :preevent_product_items do |preevent_product_item|
       = render 'preevent_product_item_fields', f: preevent_product_item
-    = link_to_add_fields("Add Temazo", f, :preevent_product_items)
+    = link_to_add_fields("Add item", f, :preevent_product_items)
 
     = f.button :submit, class: "btn btn-primary"
 
