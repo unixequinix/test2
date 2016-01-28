@@ -40,12 +40,6 @@ PATH
     refund_ngn (0.0.1)
       rails (~> 4.2.1)
 
-PATH
-  remote: apps/transaction
-  specs:
-    transaction (0.0.1)
-      rails (~> 4.2.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -684,7 +678,6 @@ DEPENDENCIES
   spring-commands-rspec (~> 1.0.4)
   stripe (~> 1.31.0)
   therubyracer (~> 0.12.2)
-  transaction!
   turbolinks (~> 2.5.3)
   uglifier (~> 2.7.1)
   validate_nz_bank_acc (~> 0.0.3)

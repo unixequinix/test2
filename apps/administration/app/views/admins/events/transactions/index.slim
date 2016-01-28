@@ -1,0 +1,41 @@
+- @transactions.each do |type, transactions|
+  h2 = type.underscore.humanize.pluralize
+  table.preevent_products
+    thead
+      tr
+        th ID
+        th Event
+        th Transaction type
+        th Device Created At
+        th Ticket
+        th Customer Tag UID
+        th Operator Tag UID
+        th Station
+        th Device ID
+        th Device UID
+        th Preevent Product
+        th Customer
+        th Payment Method
+        th Amount
+        th Status Code
+        th Status Message
+
+      tbody
+        - transactions.each do |transaction|
+          tr
+            td = transaction.id
+            td = transaction.event_id
+            td = transaction.transaction_type
+            td = transaction.device_created_at
+            td = transaction.ticket_id
+            td = transaction.customer_tag_uid
+            td = transaction.operator_tag_uid
+            td = transaction.station_id
+            td = transaction.device_id
+            td = transaction.device_uid
+            td = transaction.preevent_product_id
+            td = transaction.customer_event_profile_id
+            td = transaction.payment_method
+            td = transaction.amount
+            td = transaction.status_code
+            td = transaction.status_message
