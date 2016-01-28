@@ -4,11 +4,11 @@ class Multitenancy::RefundFetcher
   end
 
   def tickets
-    Ticket.where(event: @event).all
+    Ticket.where(event: @event)
   end
 
   def gtags
-    Gtag.where(event: @event).all
+    Gtag.where(event: @event)
   end
 
   def claims

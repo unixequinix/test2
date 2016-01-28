@@ -80,6 +80,7 @@ class Event < ActiveRecord::Base
   has_many :tickets
   has_many :gtags
   has_many :companies
+  has_many :transactions
 
   has_many :credential_assignments, through: :tickets, as: :tickets_assignments
   has_many :credential_assignments, through: :gtags, as: :gtags_assignments

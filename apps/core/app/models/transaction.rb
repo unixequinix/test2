@@ -24,8 +24,12 @@
 #
 
 class Transaction < ActiveRecord::Base
-  belongs_to :event
   belongs_to :customer_event_profile
+  belongs_to :preevent_product
+  belongs_to :event
+  belongs_to :ticket
+  belongs_to :station
+  belongs_to :device
 
   def self.write(type, atts)
     klass = type.camelcase.constantize

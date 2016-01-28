@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe Transaction, type: :model do
   let(:transaction) { build(:transaction) }
 
+  it "is expected to be valid" do
+    expect(transaction).to be_valid
+  end
+
   context "writing" do
     it "should create an appropiate class of transaction depending on type" do
       expect(Transaction.write "access_transaction", {}).to be_a_kind_of(AccessTransaction)
