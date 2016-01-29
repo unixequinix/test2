@@ -11,7 +11,7 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
   def create
     @preevent_product = PreeventProduct.new(permitted_params)
     if @preevent_product.save
-      update_preevent_items_counter(permitted_params[:preevent_item_ids])
+      update_preevent_items_counter
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_preevent_products_url
     else
@@ -28,8 +28,8 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
 
   def update
     @preevent_product = @fetcher.preevent_products.find(params[:id])
-    if @preevent_product.update(permitted_params)
-      update_preevent_items_counter(permitted_params[:preevent_item_ids])
+    if !deletes_last_preevent_item?(permitted_params) && @preevent_product.update(permitted_params)
+      update_preevent_items_counter
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_preevent_products_url
     else
@@ -48,8 +48,8 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
 
   private
 
-  def update_preevent_items_counter(preevent_item_ids)
-    @preevent_product.preevent_items_counter(preevent_item_ids.reject!(&:empty?))
+  def update_preevent_items_counter(preevent_item_ids=nil)
+    @preevent_product.preevent_items_counter(preevent_item_ids)
   end
 
   def add_amount_to_preevent_items(preevent_product_items_attributes)
@@ -81,7 +81,12 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
       :max_purchasable,
       :initial_amount,
       :step,
-      preevent_product_items_attributes: [:preevent_item_id, :amount]
+      preevent_product_items_attributes: [:id, :preevent_item_id, :amount, :_destroy]
     )
+  end
+
+  def deletes_last_preevent_item?(permitted_params)
+    permitted_params[:preevent_product_items_attributes].count == 1 &&
+    permitted_params[:preevent_product_items_attributes].map{|k,v| v["_destroy"]}.first == "1"
   end
 end

@@ -1,4 +1,4 @@
-require 'company_api/engine'
+require "company_api/engine"
 
 module CompanyApi
 end

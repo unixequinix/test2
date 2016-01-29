@@ -10,4 +10,8 @@
 
 //= require vendor/fastclick
 //= require vendor/fastclick_load
+<<<<<<< HEAD
 //= require vendor/jquery.cookiebar
+=======
+//= require vendor/jquery.cookiebar
+>>>>>>> preevent_product_structure_implementation
