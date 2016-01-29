@@ -61,6 +61,7 @@ es:
       payment_services:
         redsys: 'Redsys'
         stripe: 'Stripe'
+        braintree: 'Braintree'
       refund_services:
         bank_account: 'Cuenta bancaria'
         epg: 'Easy payment gateway'

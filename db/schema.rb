@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160114135400) do
+ActiveRecord::Schema.define(version: 20160126131723) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -279,6 +279,15 @@ ActiveRecord::Schema.define(version: 20160114135400) do
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
     t.integer  "preevent_product_id", index: {name: "fk__order_items_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "order_items_preevent_product_id_fkey", on_update: :no_action, on_delete: :no_action}
+  end
+
+  create_table "payment_gateway_customers", force: :cascade do |t|
+    t.integer  "customer_event_profile_id", index: {name: "fk__payment_gateway_customers_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_payment_gateway_customers_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "token",                     index: {name: "index_payment_gateway_customers_on_token_and_gateway_type", with: ["gateway_type"], unique: true}
+    t.string   "gateway_type",              index: {name: "index_payment_gateway_customers_on_gateway_type"}
+    t.datetime "deleted_at",                index: {name: "index_payment_gateway_customers_on_deleted_at"}
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "payments", force: :cascade do |t|

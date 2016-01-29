@@ -1,6 +1,7 @@
 $('#paymentForm').html('<%= j(render "#{current_event.payment_service}_payment_form").html_safe %>');
 $('.container-order-buttons input[type="submit"]').hide();
 
+
 if( $("#stripe-payment-form").length > 0 ) {
   var stripeResponseHandler = function(status, response) {
     var $form = $('#stripe-payment-form');
@@ -23,5 +24,12 @@ if( $("#stripe-payment-form").length > 0 ) {
     Stripe.setPublishableKey($("#stripe-payment-form").data("p-key"));
     Stripe.card.createToken($form, stripeResponseHandler);
     return false;
+  });
+}
+
+if( $("#braintree-payment-form").length > 0 ) {
+  var clientToken = '<%= "#{@form_data.client_token}" %>';
+  braintree.setup(clientToken, "dropin", {
+    container: "dropin"
   });
 }

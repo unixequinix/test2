@@ -50,7 +50,8 @@ class Event < ActiveRecord::Base
   # Payment Services
   REDSYS = "redsys"
   STRIPE = "stripe"
-  PAYMENT_SERVICES = [REDSYS, STRIPE]
+  BRAINTREE = "braintree"
+  PAYMENT_SERVICES = [REDSYS, STRIPE, BRAINTREE]
 
   # TODO: check if these constants should live here or in a view helper
   REFUND_SERVICES = [:bank_account, :epg, :tipalti]

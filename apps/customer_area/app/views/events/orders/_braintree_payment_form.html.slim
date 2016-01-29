@@ -1,0 +1,5 @@
+.wrapper-inside
+  = form_tag event_order_payments_path(@form_data.current_event, @form_data.order), method: :post, id: "braintree-payment-form"
+    #dropin
+    .actions
+      = submit_tag t('orders.stripe.button'), class: "btn"

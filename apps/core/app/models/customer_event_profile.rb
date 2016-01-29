@@ -53,12 +53,16 @@ class CustomerEventProfile < ActiveRecord::Base
   has_one :completed_claim,
           -> { where(aasm_state: :completed) }, class_name: "Claim"
 
+  has_many :payment_gateway_customers
+
   # Validations
   validates :customer, :event, presence: true
 
   # Scopes
   scope :for_event, -> (event) { where(event: event) }
-  scope :with_gtag, -> (event) { joins(:gtag_registrations).where(event: event, gtag_registrations: { aasm_state: :assigned }) }
+  scope :with_gtag, -> (event) { joins(:gtag_registrations)
+                                 .where(event: event,
+                                        gtag_registrations: { aasm_state: :assigned }) }
 
   def customer
     Customer.unscoped { super }
