@@ -37,7 +37,6 @@ $light_red: lighten($red, 8%);
     font-weight: bold;
   }
 
-
   &:before {
     @include mscale($base_font_size*1.5);
     content: "✖";

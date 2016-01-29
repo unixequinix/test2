@@ -11,6 +11,8 @@ $quarter_text:           $base_font_size*1.25;
 .customer-tickets-list {
 
   a {
+    @include transition(opacity 180ms ease-in-out);
+    position: relative;
     display: block;
     overflow: hidden;
     width: 100%;
@@ -18,8 +20,11 @@ $quarter_text:           $base_font_size*1.25;
     color: $color_text;
 
     &:hover {
+      opacity: 0.7;
 
       i {
+        position: absolute;
+        top: 25%;
         right: modules(0.5);
         opacity: 1;
       }
@@ -36,13 +41,7 @@ $quarter_text:           $base_font_size*1.25;
     position: absolute;
     display: block;
     top: 25%;
-    right: modules(-1.5);
-    width: modules(1.5);
-    height: modules(1.5);
-    padding-top: modules(0.45);
-    border-radius: 50px;
-    text-align: center;
-    opacity: 0;
+    right: 0;
   }
 }
 

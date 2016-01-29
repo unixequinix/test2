@@ -20,7 +20,7 @@ h3                                  { color: $snow; }
 
 .btn-action                         { }
 //.btn-action                       { box-shadow: inset 0px 0px 0px 3px rgba(255,255,255,1); }
-.btn-action                         { color: $snow; }
+//.btn-action                         { color: $snow; }
 
 .btn-action-register                { box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1); }
 .btn-action-register:hover          { background-color: $snow; }
@@ -49,24 +49,24 @@ h3                                  { color: $snow; }
 .btn-action-back:hover              { background-color: $snow; }
 .btn-action-back:hover              { color: $magenta; }
 
-.btn-action-secondary               { background-color: $snow; }
-.btn-action-secondary               { color: $magenta; }
-.btn-action-secondary:hover         { color: lighten($magenta,13%); }
+//.btn-action-secondary               { background-color: $snow; }
+//.btn-action-secondary               { color: $magenta; }
+//.btn-action-secondary:hover         { color: lighten($magenta,13%); }
 
 .customer_remember_me label         { color: $color_text; }
 .customer_agreed_on_registration label  { color: $color_text; }
 .customer_agreed_on_registration a  { color: $snow; }
 
-//.btn-action                                { }
-//.btn-action                                { }
-//.btn-action                                { box-shadow: inset 0px 0px 0px 3px rgba(255,255,255,1); }
-//.btn-action                                { color: $snow; }
-//.btn-action                                { background-color: $snow; }
-//.btn-action                                { color: $magenta; }
-//.btn-action-secondary                      { background-color: transparent; }
-//.btn-action-secondary                      { color: $snow; }
-//.btn-action-secondary:hover                { background-color: $snow; }
-//.btn-action-secondary:hover                { color: $magenta; }
+.btn-action                                { }
+.btn-action                                { }
+.btn-action                                { box-shadow: inset 0px 0px 0px 1px rgba(255,255,255,1); }
+.btn-action                                { color: $snow; }
+.btn-action                                { background-color: $snow; }
+.btn-action                                { color: $magenta; }
+.btn-action-secondary                      { background-color: transparent; }
+.btn-action-secondary                      { color: $snow; }
+.btn-action-secondary:hover                { background-color: $snow; }
+.btn-action-secondary:hover                { color: $magenta; }
 
 
 .btn:after                          { box-shadow: 0 0 0 2px $snow; }
@@ -75,8 +75,7 @@ h3                                  { color: $snow; }
 .container-event-column             { box-shadow: inset 0px 0px 0px 1px rgba(255,255,255,0.4); }
 .container-event-column h3          { color: $snow; }
 
-.customer-ticket i                  { background-color: $snow; }
-.customer-ticket                    { color: $color_text; }
+
 
 
 .wrapper-module                     { box-shadow: inset 0px -1px 0px 0px $snow; }
