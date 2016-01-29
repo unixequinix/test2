@@ -42,29 +42,5 @@ body {
   @include min-screen($bp6) { background-size: 100% 100%; }
 }
 
-// _______ ORDER ________
-.table-order {
-  width: 100%;
-  padding-top: modules(1);
-  text-align: left;
-
-  th {
-    padding: 0 0 modules(0.5);
-
-    &:last-child{ text-align: center; }
-  }
-
-  tr {
-
-    &.table-head {
-      background-color: transparent;
-    }
-  }
-
-  td {
-    box-shadow: inset 0px 1px 0px 0px $color_text;
-    padding: modules(0.25);
-  }
-}
 
 // ---------------------------------------------------------------------------------------------

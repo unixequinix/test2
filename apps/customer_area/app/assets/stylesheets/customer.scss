@@ -11,17 +11,18 @@
 @import "glownet/customer/base";
 @import "glownet/customer/wrappers";
 @import "glownet/customer/header";
+@import "glownet/customer/template_theme";
 
 @import "glownet/customer/modules";
 @import "glownet/customer/buttons";
 @import "glownet/customer/sessions";
-
+@import "glownet/customer/checkout";
 
 @import "glownet/customer/notifications";
 @import "glownet/customer/exceptions";
 @import "glownet/customer/forms";
 @import "glownet/customer/payments";
-@import "glownet/customer/template_theme";
+
 @import "glownet/customer/template_variables";
 @import "glownet/customer/top-up";
 @import "glownet/customer/footer";

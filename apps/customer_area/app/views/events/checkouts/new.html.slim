@@ -1,6 +1,5 @@
-.wrapper-module-text
-  p.center-text = t('checkout.description')
 .wrapper-module.store-module
+  p.center-text = t('checkout.description')
   p.store-module-title grupo
   = form_tag event_checkouts_path(current_event), method: :post do |f|
     - @checkout_presenter.preevent_products.each do |preevent_product|

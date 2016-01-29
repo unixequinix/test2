@@ -78,14 +78,16 @@
 
 .amount-input {
   @include appearance(none);
-  @include mscale($triple_text);
+  @include mscale($double_text);
   width: 50%;
-  margin: 0 auto modules(1);
+  margin: 0 auto;
   float: none;
   background-color: transparent;
   border: none;
   font-weight: bold;
   text-align: center;
+
+  @include min-screen($bp3) { @include mscale($triple_text); }
 
   &:focus { outline: none; }
 }
@@ -95,12 +97,18 @@
   @include user-select(none);
   cursor: pointer;
   display: block;
-  width: modules(2.5);
-  height: modules(2.5);
+  width: modules(1.75);
+  height: modules(1.75);
   box-shadow: inset 0px 0px 0px 1px $color_text;
-  padding-top: modules(0.75);
+  padding-top: modules(0.45);
   border-radius: 50px;
   text-align: center;
+
+  @include min-screen($bp2) {
+    padding-top: modules(0.75);
+    width: modules(2.5);
+    height: modules(2.5);
+  }
 
   &:hover { opacity: 0.5; }
 }

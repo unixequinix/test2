@@ -138,6 +138,20 @@
   @include min-screen($bp3) { width: modules(12); }
 }
 
+.btn-action-pay {
+  width: modules(6);
+  height: modules(2);
+  margin-right: modules(0.5);
+
+  &:last-child { margin-right: 0; }
+}
+
+.btn-action-pay-paypal {
+  background-color: $paypal;
+  color: $nuclear;
+  float: left;
+}
+
 .btn-action-back {
   position: fixed;
   bottom: modules(1);

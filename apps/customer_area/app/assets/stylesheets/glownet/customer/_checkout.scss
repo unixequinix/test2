@@ -1,0 +1,80 @@
+/* ------------------------------------------------------- *\
+
+  Tables and checkout styles
+
+\* ------------------------------------------------------- */
+
+
+.wrapper-payments-methods {
+  text-align: right;
+
+  i {
+    @include mscale($quarter_text);
+    display: inline-block;
+    padding-right: modules(0.5);
+
+    &:last-child { padding-right: 0; }
+  }
+}
+
+// _______ ORDER ________
+
+.table-order {
+  width: 100%;
+  margin-bottom: modules(1);
+  padding-top: modules(1);
+  text-align: left;
+
+  th {
+    display: none;
+    padding: 0 0 modules(0.5);
+
+    &:last-child{ text-align: right; }
+  }
+
+  tr {
+
+    &.table-head {
+      background-color: transparent;
+    }
+
+    td:last-child{
+      text-align: right;
+      font-weight: 700;
+    }
+  }
+
+  td {
+    border-bottom: 1px dotted $light_grey;
+    padding: modules(0.5) 0;
+  }
+}
+
+.total-amount {
+  text-transform: uppercase;
+
+  td {
+    @include mscale($half_text);
+    vertical-align: top;
+    border-bottom: none;
+    font-weight: bold;
+  }
+}
+
+.vat-text {
+  @include mscale($disclaimer);
+  display: block;
+  font-weight: normal;
+  text-transform: none;
+}
+
+ .wrapper-seal {
+  padding: modules(1);
+  clear: both;
+  text-align: center;
+
+  img {
+    width: auto;
+    height: modules(1.5);
+  }
+}
