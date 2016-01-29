@@ -3,27 +3,26 @@
 # Table name: tickets
 #
 #  id                     :integer          not null, primary key
-#  number                 :string
+#  code                   :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  deleted_at             :datetime
 #  purchaser_email        :string
-#  purchaser_name         :string
-#  purchaser_surname      :string
+#  purchaser_first_name   :string
+#  purchaser_last_name    :string
 #  event_id               :integer          not null
-#  barcode                :string
 #  credential_redeemed    :boolean          default(FALSE), not null
-#  company_ticket_type_id :integer
-#  company_id             :integer
+#  company_ticket_type_id :integer          not null
 #
 
 FactoryGirl.define do
   factory :ticket do
-    number { Faker::Number.number(10) }
-    ticket_type
+    code { Faker::Number.number(10) }
     purchaser_email { Faker::Internet.email }
-    purchaser_name { Faker::Name.first_name }
-    purchaser_surname { Faker::Name.last_name }
-    event
+    purchaser_first_name { Faker::Name.first_name }
+    purchaser_last_name { Faker::Name.last_name }
+    event_id 1
+    credential_redeemed { [true, false].sample }
+    company_ticket_type
   end
 end
