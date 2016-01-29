@@ -30,7 +30,7 @@ class PreeventProduct < ActiveRecord::Base
   accepts_nested_attributes_for :preevent_items
   accepts_nested_attributes_for :order_items
   accepts_nested_attributes_for :preevent_product_items,
-                                  allow_destroy: true
+                                allow_destroy: true
 
   validates :event_id, :name, presence: true
   validates :preevent_product_items, length: { minimum: 1 }

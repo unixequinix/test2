@@ -12,4 +12,8 @@
 require "rails_helper"
 
 RSpec.describe Credit, type: :model do
+  it "should return the price of the preevent_product attached to the standard credit" do
+    credit = create(:credit)
+    expect(@event.total_credits.to_f).to be(29.97)
+  end
 end

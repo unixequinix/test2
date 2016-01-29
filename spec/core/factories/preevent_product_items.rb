@@ -16,11 +16,8 @@
 #  updated_at           :datetime         not null
 #  preevent_items_count :integer          default(0), not null
 #
-
 FactoryGirl.define do
-  factory :preevent_product do
-    name { Faker::Number.between(1, 20) }
-    online { [true, false].sample }
-    event
+  factory :preevent_product_item do
+    amount { Faker::Number.between(1, 20) }
   end
 end
