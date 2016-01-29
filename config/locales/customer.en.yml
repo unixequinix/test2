@@ -64,6 +64,7 @@ en:
       claim: "There was an error on your refund"
       description: "Try to go back to your dashboard and claim again."
     without_gtags:
+      add : "Add your id number"
       title: "Credits left?"
       description: "Assign your %{gtag} to start the refund process. Only one %{gtag} can be activated per account."
       button: "Assign %{gtag}"

@@ -69,6 +69,7 @@ es:
       description: "Introduce tu %{gtag} para empezar el proceso de devolución. Sólo una %{gtag} puede ser activada por cuenta."
       button: "Introducir %{gtag}"
     without_gtags_disabled:
+      add : "Añade tu id"
       claim: "El tiempo para solicitar tu devolución de créditos en tu %{gtag} ha terminado"
       description: "Si has contactado al soporte con alguna pregunta previamente,"
       description2: "no te preocupes, te ayudaremos con tu devolución."
