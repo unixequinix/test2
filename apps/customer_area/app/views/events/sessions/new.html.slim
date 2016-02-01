@@ -7,7 +7,7 @@
 
 .container-event-column
   .wrapper-session
-    h3 = t('sessions.new.description')
+    h3.center-text = t('sessions.new.description')
     = raw current_event.info
     = raw current_event.disclaimer
     = simple_form_for @customer_login_form, url: event_sessions_path(current_event), method: :post do |f|

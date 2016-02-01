@@ -1,6 +1,6 @@
 header.header-mobile
   h1.mobile-event-name
-    = link_to href="#{current_event.url}", target: "_blank" do
+    = link_to event_url(current_event) do
       = current_event.name
 
   = fa_icon "cog", class: "mobile-trigger"

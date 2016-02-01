@@ -4,7 +4,7 @@
   .wrapper-session
     = simple_form_for @new_profile_form, url: event_registrations_path(current_event), method: :post do |f|
       = f.error_notification
-      h3 = t('registration.new.title')
+      h3.center-text = t('registration.new.title')
       = t('registration.new.info')
       .wrapper-required-fields
         p
