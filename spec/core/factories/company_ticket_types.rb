@@ -15,10 +15,10 @@
 
 FactoryGirl.define do
   factory :company_ticket_type do
-    event_id 1
+    event
     name { Faker::Name.first_name }
     company_ticket_type_ref { Faker::Number.number(5) }
     company
-    preevent_product { build :preevent_product, :full }
+    preevent_product { build :preevent_product, :full, event: event }
   end
 end

@@ -12,7 +12,7 @@
 
 FactoryGirl.define do
   factory :company do
-    event_id 1
+    event
     name { Faker::Company.name }
   end
 end
