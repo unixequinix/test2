@@ -61,8 +61,8 @@ class EventCreator
   def create_preevent_product(preevent_product_data, preevent_product_item_data, preevent_item)
     PreeventProduct.create(
       event_id: @event.id,
-      preevent_item_ids: [preevent_item.id],
-      preevent_product_items_attributes: [{ amount: preevent_product_item_data["amount"] }],
+      preevent_product_items_attributes: [
+        { preevent_item_id: preevent_item.id, amount: preevent_product_item_data["amount"] }],
       name: preevent_product_data["name"],
       online: preevent_product_data["online"],
       initial_amount: preevent_product_data["initial_amount"],
