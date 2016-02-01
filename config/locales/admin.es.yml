@@ -48,6 +48,10 @@ es:
         image: "Imágenes"
         custom: "Personalización"
         optional_form_parameters: "Parámetros opcionales de formulario"
+        security: "Seguridad"
+        parameters: "Parámetros"
+        limits: "Límites"
+        nfc: "NFC"
       states:
         created: 'No publicado'
         launched: 'Pre-evento'
@@ -80,6 +84,14 @@ es:
       form:
         format: 'Formato'
         name: 'Nombre'
+    device_settings:
+      form:
+        currency: "Símbolo de la moneda"
+        min_version_apk: "Versión mínima del APK"
+        maximum_wb_balance: "Balance máximo de la pulsera"
+        uid_reverse: "UID Reverse"
+        private_zone_password: "Contraseña de la zona privada"
+        public_key_a: "Contraseña del Gtag"
     payment_settings:
       redsys:
         name: 'Nombre'

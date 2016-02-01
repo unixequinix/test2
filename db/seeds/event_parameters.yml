@@ -1,4 +1,37 @@
 -
+  name: device
+  groups:
+    -
+      name: parameters
+      parameters:
+        -
+          name: currency
+          data_type: string
+        -
+          name: min_version_apk
+          data_type: string
+    -
+      name: security
+      parameters:
+        -
+          name: private_zone_password
+          data_type: string
+    -
+      name: limits
+      parameters:
+        -
+          name: maximum_wb_balance
+          data_type: integer
+    -
+      name: nfc
+      parameters:
+        -
+          name: uid_reverse
+          data_type: boolean
+        -
+          name: public_key_a
+          data_type: string
+-
   name: gtag
   groups:
     -

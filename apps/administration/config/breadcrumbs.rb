@@ -49,6 +49,13 @@ crumb :admins_event_gtag_settings do |event|
   parent :admins_event, event
 end
 
+## Device Settings
+
+crumb :admins_event_device_settings do |event|
+  link t("breadcrumbs.device_settings"), admin_root_path
+  parent :admins_event, event
+end
+
 ## Tickets
 
 crumb :admins_event_tickets do |event|

@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       end
 
       scope module: "events" do
+        resource :device_settings, only: [:show, :edit, :update]
         resources :ticket_assignments, only: [:destroy]
         resource :gtag_settings, only: [:show, :edit, :update]
         resources :gtags do

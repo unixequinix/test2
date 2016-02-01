@@ -72,7 +72,11 @@ aside#main-menu
       = fa_icon "reply"
       = t("admin.aside.refunds")
 
+    h3.aside-title = t("admin.aside.devices")
+
+    li.aside-list = link_to admins_event_device_settings_path(event) do
+      = fa_icon "cogs"
+      = t("admin.aside.device_settings")
+
     li.mobile-sign-out
       = link_to t("admin.aside.sign_out"), admins_sessions_path, method: :delete
-
-

@@ -1,0 +1,34 @@
+= simple_form_for @device_settings_form, url: admins_event_device_settings_path(@event), method: :patch do |f|
+  fieldset
+    h3.section-header
+      = fa_icon "info-circle"
+      = t("admin.event.fieldests.parameters")
+
+    = f.input :currency
+    = f.input :min_version_apk
+    = f.input :event_id, as: :hidden, input_html: { value: @event.id }
+
+  fieldset
+    h3.section-header
+      = fa_icon "server"
+      = t("admin.event.fieldests.limits")
+
+    = f.input :maximum_wb_balance
+
+  fieldset
+    h3.section-header
+      = fa_icon "lock"
+      = t("admin.event.fieldests.security")
+
+    = f.input :private_zone_password, as: :string
+
+  fieldset
+    h3.section-header
+      = fa_icon "rss"
+      = t("admin.event.fieldests.nfc")
+
+    = f.input :uid_reverse, as: :radio_buttons
+    = f.input :public_key_a
+
+  .wrapper-negative-space
+    = f.button :submit, t('admin.actions.update'), class: "btn btn-primary"
