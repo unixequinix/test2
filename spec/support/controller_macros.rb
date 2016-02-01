@@ -6,4 +6,12 @@ module ControllerMacros
   def login_admin
     login_as(:admin)
   end
+
+  def http_login
+    @admin = FactoryGirl.create(:admin)
+    email = @admin.email
+    access_token = @admin.access_token
+    request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic
+                                          .encode_credentials(email, access_token)
+  end
 end
