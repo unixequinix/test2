@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :events, only: [:index]  do
         scope module: "events" do
+          resources :parameters, only: [:index]
           resources :banned_tickets, path: "tickets/banned", only: [:index]
           resources :banned_gtags, path: "gtags/banned", only: [:index]
           resources :customers, only: [:index, :show]
