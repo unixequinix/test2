@@ -1,4 +1,5 @@
 .wrapper-module-centered
+  = image_tag "img-closed-event.png", class: "event-state-image"
   h3 = t('dashboard.without_gtags_claiming_started.claim')
   p = t('dashboard.without_gtags_claiming_started.description')
   = link_to href="#{presenter.event_url}", target: '_blank', class: 'btn btn-action btn-action-back' do

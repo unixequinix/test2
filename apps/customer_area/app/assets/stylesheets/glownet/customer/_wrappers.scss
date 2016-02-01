@@ -69,7 +69,7 @@
   position: relative;
 
   @include min-screen($bp4) {
-    margin-top: 10%;
+    margin-top: modules(3);
   }
 }
 
@@ -78,6 +78,7 @@
 .wrapper-module, .wrapper-module-centered {
   position: relative;
   overflow: hidden;
+  width: 100%;
   padding: modules(1) modules(0.5);
 
   @include min-screen($bp3) { padding: modules(1); }
