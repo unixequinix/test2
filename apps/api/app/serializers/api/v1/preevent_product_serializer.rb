@@ -9,7 +9,8 @@ module Api
       end
 
       def credits
-        20
+        selected = object.preevent_product_items.select{ |item| item.preevent_item.purchasable_type == "Credit" }
+        selected.map(&:amount).inject(:+)
       end
     end
   end
