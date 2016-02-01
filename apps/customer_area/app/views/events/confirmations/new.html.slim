@@ -1,12 +1,13 @@
-.wrapper-session
-  = simple_form_for @customer, url: event_confirmations_path(current_event), method: :post do |f|
-    = f.error_notification
-    h3.center-text
-      = t('auth.confirmations.title')
-    = f.full_error :confirmation_token
-    = f.input :event_id, as: :hidden, input_html: { value: current_event.id }, input_html: { class: 'session-input' }
-    = f.input :email, required: true, autofocus: true, input_html: { class: 'session-input' }
-    = f.button :submit, t('auth.confirmations.button'), class: "btn  btn-action btn-action-enter"
-  .sessions-shared-login
-    = render "events/shared/links"
+.container-event-column
+  .wrapper-session
+    = simple_form_for @customer, url: event_confirmations_path(current_event), method: :post do |f|
+      = f.error_notification
+      h3.center-text
+        = t('auth.confirmations.title')
+      = f.full_error :confirmation_token
+      = f.input :event_id, as: :hidden, input_html: { value: current_event.id }, input_html: { class: 'session-input' }
+      = f.input :email, required: true, autofocus: true, input_html: { class: 'session-input' }
+      = f.button :submit, t('auth.confirmations.button'), class: "btn  btn-action btn-action-enter"
+    .sessions-shared-login
+      = render "events/shared/links"
 
