@@ -1,6 +1,4 @@
-class UnauthorizedController < ActionController::Metal
-  include ActionController::UrlFor
-  include ActionController::Redirecting
+class UnauthorizedController < ActionController::Base
   include Rails.application.routes.url_helpers
   include Rails.application.routes.mounted_helpers
 
@@ -17,13 +15,14 @@ class UnauthorizedController < ActionController::Metal
       flash.alert = I18n.t(message)
     end
 
-    redirect
+    handle_response
   end
 
   private
 
-  def redirect
-    redirect_to send("scope_#{scope}_url")
+  def handle_response
+    redirect_to(send("scope_#{scope}_url")) && return if scope.present?
+    render(status: :unauthorized, json: :unauthorized)
   end
 
   def scope_customer_url
