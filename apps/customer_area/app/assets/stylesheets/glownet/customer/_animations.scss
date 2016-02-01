@@ -1,0 +1,16 @@
+/* ------------------------------------------------------- *\
+
+  Animations
+
+\* ------------------------------------------------------- */
+
+// Button apperar from the left to highlight to the user where is the back button
+
+@keyframes showBack {
+  0% {
+    left: modules(-4);
+  }
+  100% {
+    left: modules(0.5);
+  }
+}

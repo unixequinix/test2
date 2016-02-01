@@ -22,8 +22,11 @@ h3                                  { color: $snow; }
 //.btn-action                       { box-shadow: inset 0px 0px 0px 3px rgba(255,255,255,1); }
 //.btn-action                         { color: $snow; }
 
-.btn-action-register                { box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1); }
-.btn-action-register:hover          { background-color: $snow; }
+.btn-action-register,
+.btn-action-back                    { box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1); }
+.btn-action-back                    { color: $snow; }
+.btn-action-register:hover,
+.btn-action-back:hover              { background-color: $snow; }
 .btn-action-register:hover          { color: $magenta; }
 .btn-action-register:focus          { background-color: $snow; }
 .btn-action-register:focus          { color: $magenta; }

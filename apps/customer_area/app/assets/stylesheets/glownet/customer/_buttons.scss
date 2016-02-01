@@ -153,12 +153,26 @@
 }
 
 .btn-action-back {
-  position: fixed;
-  bottom: modules(1);
-  right: modules(0.5);
+  position: relative;
+  margin: modules(2) auto;
   height: auto;
   z-index: 5;
+
+  @include min-screen($bp3) {
+    @include animation(showBack 300ms ease-in-out);
+    position: fixed;
+    top: modules(2);
+    left: modules(0.5);
+    margin: 0 0 modules(1);
+  }
+
+  i {
+    display: inline-block;
+    width: auto;
+    padding-right: modules(0.25);
+  }
 }
+
 
 // ---------------------------------------------------------------------------------------------
 

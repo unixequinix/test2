@@ -65,6 +65,14 @@
   h3 { font-weight: bold; }
 }
 
+.container-customer-app-view {
+  position: relative;
+
+  @include min-screen($bp4) {
+    margin-top: 10%;
+  }
+}
+
 // Each section inside the main column
 
 .wrapper-module, .wrapper-module-centered {
@@ -130,11 +138,11 @@
   text-align: center;
 
   @include min-screen($bp4) { padding: modules(1) modules(2); }
-  @include min-screen($bp5) { padding: modules(1) modules(4); }
+  @include min-screen($bp5) { padding: modules(1) modules(3); }
+  @include min-screen($bp6) { padding: modules(1) modules(4); }
 
   .highlight-text { padding-bottom: modules(1); }
 }
-
 
 .wrapper-pay-pal {
   clear: both;
