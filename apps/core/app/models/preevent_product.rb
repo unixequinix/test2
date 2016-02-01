@@ -32,8 +32,10 @@ class PreeventProduct < ActiveRecord::Base
   accepts_nested_attributes_for :preevent_product_items,
                                 allow_destroy: true
 
-  validates :event_id, :name, presence: true
+  validates :event_id, :name, :initial_amount, :step,
+  :max_purchasable, :min_purchasable, :price, presence: true
   validates :preevent_product_items, length: { minimum: 1 }
+  validates :price, numericality: { greater_than_or_equal_to: 0 }
 
   def rounded_price
     price.round == price ? price.floor : price
@@ -78,6 +80,7 @@ class PreeventProduct < ActiveRecord::Base
 
   def is_immutable?
     preevent_items_count == 1 &&
-    get_product_category == "Credit"
+    get_product_category == "Credit" &&
+    preevent_items.first.purchasable.standard
   end
 end
