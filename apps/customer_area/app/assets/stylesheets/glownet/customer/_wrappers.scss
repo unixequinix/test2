@@ -129,7 +129,8 @@
 .wrapper-module-centered {
   text-align: center;
 
-  @include min-screen($bp3) { padding: modules(1) modules(4); }
+  @include min-screen($bp4) { padding: modules(1) modules(2); }
+  @include min-screen($bp5) { padding: modules(1) modules(4); }
 
   .highlight-text { padding-bottom: modules(1); }
 }
