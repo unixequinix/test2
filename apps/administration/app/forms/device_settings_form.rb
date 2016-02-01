@@ -6,7 +6,7 @@ class DeviceSettingsForm
   attribute :min_version_apk, String
   attribute :private_zone_password, String
   attribute :maximum_wb_balance, Integer
-  attribute :uid_reverse, Boolean
+  attribute :uid_reverse, String
   attribute :public_key_a, String
   attribute :event_id, Integer
 
