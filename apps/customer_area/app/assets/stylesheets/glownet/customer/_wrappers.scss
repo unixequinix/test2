@@ -121,6 +121,17 @@
     }
   }
 
+  select {
+    @include linear-gradient($air_gray, $graySilver);
+    height: modules(2);
+    background-color: $air_gray;
+
+    &:focus {
+      outline: none;
+      border: 1px solid $nuclear;
+    }
+  }
+
   &:last-child { box-shadow: none; }
 }
 

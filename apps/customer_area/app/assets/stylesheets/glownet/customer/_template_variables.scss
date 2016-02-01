@@ -5,27 +5,29 @@
 \* ------------------------------------------------------- */
 
 body                                { background-color: transparent; }
-header                              { background-color: transparent; }
-header a                            { color: $snow; }
+.header-desktop                     { background-color: transparent; }
+.header-desktop a                   { color: $snow !important; }
+.header-mobile                      { background-color: $snow; }
 
-nav ul                              { }
-nav ul a                            { color: $snow; }
-nav i                               { color: $snow; }
-nav i:hover                         { color: $snow; }
-nav ul a:hover                      { }
-header h1                           { color: $snow; }
+.header-desktop h1                  { color: $snow; }
+.mobile-event-name                   { color: $color_text; }
+
+.header-desktop nav ul a            { color: $snow; }
+.header-desktop nav i               { color: $snow; }
+.header-desktop nav i:hover         { color: $snow; }
+.header-desktop h1                  { color: $snow; }
+
 h3                                  { color: $snow; }
 
-.wrapper-session label              { color: $snow; }
+label                               { color: $snow; }
 
 .btn-action                         { }
 //.btn-action                       { box-shadow: inset 0px 0px 0px 3px rgba(255,255,255,1); }
 //.btn-action                         { color: $snow; }
 
-.btn-action-register,
-.btn-action-back                    { box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1); }
-.btn-action-back                    { color: $snow; }
-.btn-action-register:hover,
+.btn-action-register                { box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1); }
+.btn-action-register:hover          { color: $snow; }
+
 .btn-action-back:hover              { background-color: $snow; }
 .btn-action-register:hover          { color: $magenta; }
 .btn-action-register:focus          { background-color: $snow; }
@@ -49,8 +51,11 @@ h3                                  { color: $snow; }
 .btn-action-empty-state:hover       { color: $magenta; }
 
 .btn-action-back                    { box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1); }
-.btn-action-back:hover              { background-color: $snow; }
-.btn-action-back:hover              { color: $magenta; }
+.btn-action-back                    { color: $snow; }
+.btn-action-back:hover,
+.btn-action-back:focus              { background-color: $snow; }
+.btn-action-back:hover,
+.btn-action-back:focus              { color: $magenta; }
 
 //.btn-action-secondary               { background-color: $snow; }
 //.btn-action-secondary               { color: $magenta; }

@@ -2,8 +2,8 @@
 //= require jquery_ujs
 //= require turbolinks
 
-//= require customer/top-up-buttons
 //= require customer/nav-mobile
+//= require customer/top-up-buttons
 //= require customer/stripe
 
 //= require vendor/fastclick

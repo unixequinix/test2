@@ -13,5 +13,4 @@
   = select_tag :exp_month, options_for_select(Date::MONTHNAMES.compact.each_with_index.map { |name,i| ["#{i+1} - #{name}", i+1] }), include_blank: false, "data-stripe" => "exp-month", class: "span2"
   = select_tag :exp_year, options_for_select((Date.today.year..(Date.today.year+10)).to_a), include_blank: false, "data-stripe" => "exp-year", class: "span1"
   = hidden_field_tag :order_id, @form_data.order.id
-  .actions
-    = submit_tag t('orders.stripe.button'), class: "btn btn-action btn-action-secondary"
+  = submit_tag t('orders.stripe.button'), class: "btn btn-action btn-action-primary"

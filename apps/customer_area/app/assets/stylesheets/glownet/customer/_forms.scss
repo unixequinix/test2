@@ -6,7 +6,11 @@
 
 abbr { display: none; }
 
-label { display: block; }
+label {
+  display: block;
+  font-weight: bold;
+  text-transform: uppercase;
+}
 
 select {
   margin-bottom: modules(1);
@@ -37,7 +41,6 @@ button {
   width: 100%;
   border: 1px solid transparent;
 }
-
 
 .input {
   padding-bottom: modules(1);

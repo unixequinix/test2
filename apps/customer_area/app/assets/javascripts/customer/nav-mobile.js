@@ -1,8 +1,13 @@
-function navMobile() {
-  $('.mobile-trigger').on('click', function(){
-      $('.mobile-list').toggleClass('opened')
+function showNavMobile() {
+  var trigger = $(".mobile-trigger");
+
+  trigger.on("click", function(event){
+    $('#mobile-options').toggleClass('open-nav');
   });
 };
 
-$(document).on('page:load', navMobile);
-$(document).ready(navMobile);
+$(document).on('page:load', showNavMobile);
+$(document).ready(showNavMobile);
+
+
+

@@ -18,6 +18,8 @@
   border-radius: 25px;
   text-transform: uppercase;
   text-align: center;
+
+  &:focus { outline: none; }
 }
 
 .btn-action-register {
@@ -173,6 +175,20 @@
   }
 }
 
+.btn-remove-ticket {
+  display: inline-block;
+  padding: modules(0.5) 0;
+  color: $red;
+  font-weight: bold;
+  text-align: left;
+
+  i {
+    display: inline-block;
+    width: auto;
+    padding-right: modules(0.25);
+  }
+
+  &:hover { text-decoration: underline; }
+}
 
 // ---------------------------------------------------------------------------------------------
-

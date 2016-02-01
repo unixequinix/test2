@@ -94,5 +94,15 @@ a {
   font-style: italic;
 }
 
+.ticket-detail-module {
+  padding: modules(0.5) 0;
+
+  li {
+    font-weight: bold;
+  }
+
+  border-bottom: 1px dotted $color_text;
+}
+
 // ---------------------------------------------------------------------------------------------
 
