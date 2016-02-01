@@ -21,7 +21,7 @@ FactoryGirl.define do
     purchaser_email { Faker::Internet.email }
     purchaser_first_name { Faker::Name.first_name }
     purchaser_last_name { Faker::Name.last_name }
-    event_id 1
+    event
     credential_redeemed { [true, false].sample }
     company_ticket_type
   end

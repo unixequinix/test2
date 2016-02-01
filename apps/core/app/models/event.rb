@@ -130,7 +130,7 @@ class Event < ActiveRecord::Base
   end
 
   def standard_credit_price
-    PreeventProduct.find(credits.standard_credit_preevent_product).rounded_price
+    PreeventProduct.find(credits.standard_credit_preevent_product(event_id: id)).rounded_price
   end
 
   def total_credits

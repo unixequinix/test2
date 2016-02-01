@@ -13,7 +13,7 @@
 
 FactoryGirl.define do
   factory :preevent_product do
-    event_id 1
+    event
     name { Faker::Name.last_name }
     online { [true, false].sample }
     initial_amount 0
@@ -26,7 +26,7 @@ FactoryGirl.define do
       after(:build) do |preevent_product|
         preevent_product.preevent_product_items << build(:preevent_product_item,
                                                          preevent_product: preevent_product,
-                                                         preevent_item: build(:preevent_item_credit))
+                                                         preevent_item: build(:preevent_item_credit, event: preevent_product.event))
       end
     end
 
@@ -34,7 +34,7 @@ FactoryGirl.define do
       after(:build) do |preevent_product|
         preevent_product.preevent_product_items << build(:preevent_product_item,
                                                          preevent_product: preevent_product,
-                                                         preevent_item: build(:preevent_item_credential))
+                                                         preevent_item: build(:preevent_item_credential, event: preevent_product.event))
       end
     end
 
@@ -42,7 +42,7 @@ FactoryGirl.define do
       after(:build) do |preevent_product|
         preevent_product.preevent_product_items << build(:preevent_product_item,
                                                          preevent_product: preevent_product,
-                                                         preevent_item: build(:preevent_item_standard_credit))
+                                                         preevent_item: build(:preevent_item_standard_credit, event: preevent_product.event))
       end
     end
 
@@ -50,8 +50,12 @@ FactoryGirl.define do
       after(:build) do |preevent_product|
         preevent_product.preevent_product_items << build(:preevent_product_item,
                                                          preevent_product: preevent_product,
-                                                         preevent_item: build(:preevent_item_voucher))
+                                                         preevent_item: build(:preevent_item_voucher, event: preevent_product.event))
       end
+    end
+
+    after(:create) do |preevent_product|
+      preevent_product.preevent_items_counter
     end
 
     trait :full do

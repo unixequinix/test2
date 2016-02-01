@@ -15,7 +15,7 @@
 
 FactoryGirl.define do
   factory :preevent_item do
-    event_id 1
+    event
     name { Faker::Lorem.word }
     description { Faker::Lorem.sentence }
 
