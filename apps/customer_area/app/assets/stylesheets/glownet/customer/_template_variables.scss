@@ -9,11 +9,14 @@ body                                { background-color: transparent; }
 // Mobile header
 .header-mobile                      { background-color: $snow; }
 .mobile-event-name                  { color: $color_text; }
+.header-mobile i                    { color: $color_text; }
+
 
 // H header
 .header-desktop                     { background-color: transparent; }
 .header-desktop a                   { color: $snow; }
-.header-desktop nav ul a, i         { color: $snow; }
+.header-desktop nav ul a            { color: $snow; }
+.header-desktop nav ul i            { color: $snow; }
 .header-desktop h1                  { color: $snow; }
 
 h3, label                           { color: $snow; }
