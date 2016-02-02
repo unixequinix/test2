@@ -11,13 +11,12 @@ body                                { background-color: transparent; }
 .mobile-event-name                  { color: $color_text; }
 .header-mobile i                    { color: $color_text; }
 
-
 // H header
 .header-desktop                     { background-color: transparent; }
 .header-desktop a                   { color: $snow; }
 .header-desktop nav ul a            { color: $snow; }
 .header-desktop nav ul i            { color: $snow; }
-.header-desktop h1                  { color: $snow; }
+.header-desktop h1 a                { color: $snow; }
 
 h3, label                           { color: $snow; }
 .container-event-column h3          { color: $snow; }
@@ -51,16 +50,6 @@ h3, label                           { color: $snow; }
 
 .btn:after                          { box-shadow: 0 0 0 2px $snow; }
 
-.btn-action-enter                   { background-color: $snow; }
-.btn-action-enter                   { color: $magenta; }
-
-.btn-action-enter:hover,
-.btn-action-enter:focus             { background-color: transparent; }
-.btn-action-enter:hover,
-.btn-action-enter:focus             { color: $nuclear; }
-.btn-action-enter:hover,
-.btn-action-enter:focus             { box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1); }
-
 .btn-action-primary                 { box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1); }
 .btn-action-primary:hover           { color: $magenta; }
 .btn-action-primary:hover           { background-color: $snow; }
@@ -69,16 +58,12 @@ h3, label                           { color: $snow; }
 .btn-action-empty-state:hover       { background-color: $snow; }
 .btn-action-empty-state:hover       { color: $magenta; }
 
-.btn-action-back                    { box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1); }
-.btn-action-back                    { color: $snow; }
-.btn-action-back:hover,
-.btn-action-back:focus              { background-color: $snow; }
-.btn-action-back:hover,
-.btn-action-back:focus              { color: $magenta; }
-
 // Login and sign up styles
 .customer_remember_me label             { color: $color_text; }
 .customer_agreed_on_registration label  { color: $color_text; }
 .customer_agreed_on_registration a      { color: $snow; }
+
+.separator, .wrapper-breadcrumbs a             { color: $snow; }
+.current-breadcrumb                { box-shadow: inset 0px 0px 0px 1px rgba(255,255,255,1); }
 
 // ---------------------------------------------------------------------------------------------

@@ -1,5 +1,3 @@
-= link_to t('links.buttons.login'), event_login_path(current_event), class: "btn btn-action btn-action-register"
-
 .container-event-column
   .wrapper-session
     = simple_form_for @new_profile_form, url: event_registrations_path(current_event), method: :post do |f|
@@ -27,5 +25,7 @@
       = f.input :password, input_html: { class: 'session-input' }
       .session-accept-terms
         = f.input :agreed_on_registration, as: :boolean, label: ("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), event_terms_of_use_url,   target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), event_privacy_policy_url, target: '_blank'}").html_safe
-      = f.button :submit, t('registration.new.button'), class: "btn  btn-action btn-action-enter"
+      = f.button :submit, t('registration.new.button'), class: "btn  btn-action btn-action-primary"
+      .sessions-shared-login
+        = link_to t('links.buttons.login'), event_login_path(current_event)
 

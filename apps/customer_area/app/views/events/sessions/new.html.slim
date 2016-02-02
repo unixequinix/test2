@@ -3,8 +3,6 @@
 = render "events/sessions/password_sent_message" if @password_sent
 = render "events/sessions/confirmation_sent_message" if @confirmation_sent
 
-= link_to t('links.buttons.sign_up'), event_signin_path(current_event), class: "btn btn-action btn-action-register"
-
 .container-event-column
   .wrapper-session
     h3.center-text = t('sessions.new.description')
@@ -15,7 +13,8 @@
       = f.input :email, input_html: { class: 'session-input' }
       = f.input :password, input_html: { class: 'session-input' }
       = f.input :remember_me, as: :boolean, input_html: { class: 'session-remember-me' }
-      = f.button :submit, t('sessions.new.button'), class: "btn  btn-action btn-action-enter"
+      = link_to t('links.buttons.join'), event_signin_path(current_event), class: "btn btn-action btn-action-register"
+      = f.button :submit, t('sessions.new.button'), class: "btn  btn-action btn-action-secondary btn-action-enter"
     .sessions-shared-login
       = render "events/shared/links"
     ul.disclaimer-list

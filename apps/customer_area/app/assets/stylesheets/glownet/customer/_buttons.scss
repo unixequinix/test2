@@ -6,7 +6,6 @@
 
 // Container for dashboard info for ticket and credit
 
-
 .btn {
   @include transition(background 200ms ease-in-out, opacity 200ms ease-in-out, color 200ms ease-in-out);
   position: relative;
@@ -24,15 +23,13 @@
 
 .btn-action-register {
   @include transition(background 200ms ease-in-out, color 200ms ease-in-out, color 200ms ease-in-out);
-  position: absolute;
-  top: modules(0.5);
-  right: modules(0.5);
-  width: modules(5);
-  display: block;
+  width: 45%;
+  display: inline-block;
   vertical-align: top;
   height: modules(2);
+  margin-right: 5%;
   padding-top: modules(0.5);
-  border-radius: $radius;
+  border-radius: 50px;
 
   &:focus { outline: none; }
 }
@@ -41,9 +38,9 @@
   @include transition(background 200ms ease-in-out, color 200ms ease-in-out, color 200ms ease-in-out);
   display: block;
   vertical-align: top;
-  width: modules(12);
-  height: modules(2);
-  margin:  0 auto modules(1);
+  width: 45%;
+  margin-left: 5%;
+  height: modules(2) !important;
   background-color: transparent;
 
   &:focus { outline: none; }

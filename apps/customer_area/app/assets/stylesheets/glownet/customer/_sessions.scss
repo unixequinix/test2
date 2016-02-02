@@ -81,6 +81,8 @@
 // ------- REMEMBER ME -------
 
 .sessions-shared-login, {
+  clear: both;
+  padding-bottom: modules(1);
   text-align: center;
 
   a {
@@ -97,7 +99,6 @@
       text-decoration: underline;
     }
   }
-
   .highlight-text { padding-bottom: modules(1); }
 }
 
@@ -140,7 +141,6 @@
 }
 
 .customer_agreed_on_registration {
-  margin-bottom: modules(1);
   text-align: center;
 
   input { margin-right: modules(0.25); }
@@ -158,9 +158,6 @@
 
 .disclaimer-list {
   @include mscale($small_text);
-  padding: modules(1.5) 0 0;
-
-  li { padding-top: modules(0.25); }
 }
 
 // ---------------------------------------------------------------------------------------------

@@ -26,7 +26,4 @@ html [lang=I18n.locale]
       #mainWrapper.wrapper-main
         .container-event-column.container-customer-app-view
           == yield
-        = link_to event_url(current_event), class: "btn btn-action-back" do
-          = fa_icon "home"
-          = t('header.menu')
     = render 'events/shared/footer'

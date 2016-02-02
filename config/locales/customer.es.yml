@@ -29,6 +29,7 @@ es:
     buttons:
       sign_in: 'Inicia Sesión'
       sign_up: 'Registrar'
+      join: 'Únete'
   dashboard:
     title: "My dashboard"
     admissions:

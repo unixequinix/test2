@@ -76,7 +76,7 @@
   position: relative;
 
   @include min-screen($bp4) {
-    margin-top: modules(3);
+    margin-top: 10%;
   }
 }
 
@@ -168,5 +168,22 @@
   padding: modules(2) 0 modules(1);
   border-top: 1px dashed $color_text;
 }
+
+// /\/\/\/\/\/\/\ BREADCRUMBS /\/\/\/\/\/\/\/\
+
+.wrapper-breadcrumbs {
+  display: none;
+  vertical-align: middle;
+  padding-top: modules(0.10);
+
+  a {
+    padding: 0 modules(0.25);
+    border-radius: $radius;
+  }
+
+  @include min-screen($bp3) { display: inline-block; }
+}
+
+.separator { padding: 0 modules(0.25); }
 
 // ---------------------------------------------------------------------------------------------
