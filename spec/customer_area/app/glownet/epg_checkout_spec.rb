@@ -7,8 +7,8 @@ RSpec.describe EpgCheckout, type: :domain_logic do
     cep = create(:customer_event_profile, event: event)
     gtag = create(:gtag, event: event)
     create(:claim, customer_event_profile: cep, gtag: gtag)
-    create(:online_product, event: event, price: 20)
-    create(:credit, standard: true)
+    create(:preevent_product, :full, event: event, price: 20)
+    create(:preevent_product, :standard_credit_product, event: event)
     claim = CustomerEventProfile.find_by(event: event).claims.first
     epg_claim_form = EpgClaimForm.new(country_code: "ES",
                                       state: "Madrid",
