@@ -66,7 +66,7 @@ RSpec.describe PreeventProduct, type: :model do
   end
 
   it "should return an array with the order of the categories that will be used in customer area" do
-    expect(PreeventProduct.keys_sortered).to eq(["Credit", "Voucher", "CredentialType", "Pack"])
+    expect(PreeventProduct.keys_sortered).to eq(%w(Credit Voucher CredentialType Pack))
   end
 
   it "should return a category depending on its preevent items" do

@@ -58,7 +58,7 @@ class CustomerEventProfile < ActiveRecord::Base
 
   # Scopes
   scope :for_event, -> (event) { where(event: event) }
-  scope :with_gtag, -> (event) { joins(:gtag_registrations).where(event: event, gtag_registrations: { aasm_state: :assigned }) }
+  scope :with_gtag, -> (event) { joins(:credential_assignments).where(event: event, credential_assignments: { credentiable_type: "Gtag", aasm_state: :assigned }) }
 
   def customer
     Customer.unscoped { super }
