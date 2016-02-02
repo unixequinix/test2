@@ -14,6 +14,6 @@
 
 FactoryGirl.define do
   factory :preevent_product_item do
-    amount { Faker::Number.between(1, 20) }
+    amount 5
   end
 end

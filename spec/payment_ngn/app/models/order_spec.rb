@@ -54,12 +54,12 @@ RSpec.describe Order, type: :model do
   describe "credits_total" do
     it "should return the total amount of credits available" do
       event = @customer_event_profile.event
-      op = create(:online_product, event: event)
       5.times do
-        create(:order_item, online_product: op, order: @order)
+        pp = create(:preevent_product, :full, event: event)
+        create(:order_item, preevent_product: pp, order: @order)
       end
       # 45 is 9*5. amount set in order_items.rb
-      expect(@order.credits_total).to be(45)
+      expect(@order.credits_total).to eq(45*5)
     end
   end
 end
