@@ -4,6 +4,7 @@ function topUpButton() {
 
     $(function() {
       FastClick.attach(document.body);
+      calculateTotalCheckout();
     });
 
     $('.amount-button').on('click',function(){
@@ -19,6 +20,7 @@ function topUpButton() {
         input.val(amount);
         total.text((amount * price));
       }
+      calculateTotalCheckout();
     });
 
     $('.amount-input').on('change',function(){
@@ -27,7 +29,18 @@ function topUpButton() {
       var amount = $(this).val();
       var total = $('#amount-total-' + inputId);
       total.text((amount * price));
+
+      calculateTotalCheckout();
     });
+
+    function calculateTotalCheckout () {
+      var calculatedTotal = 0;
+      $('.amount-input').each(function(idx, element) {
+       var product = $(element);
+       calculatedTotal += product.data('price') * product.val();
+      })
+      $('#amount-total-checkout').text(calculatedTotal);
+    }
   }
 };
 
