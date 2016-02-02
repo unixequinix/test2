@@ -20,10 +20,8 @@ RSpec.describe Credit, type: :model do
     end
 
     it "should return the standard credit of the event" do
-      query = Credit.standard_credit_preevent_product(@event)
-      credit = query.first
+      credit = @event.standard_credit
       expect(credit.class.name).to eq("Credit")
-      expect(query.count).to be(1)
       expect(credit.standard).to be(true)
     end
   end

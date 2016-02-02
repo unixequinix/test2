@@ -59,7 +59,7 @@ RSpec.describe Order, type: :model do
         create(:order_item, preevent_product: pp, order: @order)
       end
       # 45 is 9*5. amount set in order_items.rb
-      expect(@order.credits_total).to eq(45*5)
+      expect(@order.credits_total).to eq(45 * 5)
     end
   end
 end

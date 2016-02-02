@@ -11,7 +11,6 @@
 #  updated_at          :datetime         not null
 #
 
-
 FactoryGirl.define do
   factory :preevent_product_item do
     amount 5

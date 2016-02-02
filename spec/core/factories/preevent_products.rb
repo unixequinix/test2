@@ -17,7 +17,6 @@
 #  preevent_items_count :integer          default(0), not null
 #
 
-
 FactoryGirl.define do
   factory :preevent_product do
     event
