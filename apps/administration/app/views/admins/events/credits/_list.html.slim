@@ -4,6 +4,7 @@ table.credits
     tr
       th = t('admin.preevent_item.name')
       th = t('admin.preevent_item.description')
+      th = t('admin.credits.value')
       th = t('admin.credits.currency')
       th = t('admin.credits.standard')
       th.table-actions-field = t('admin.defaults.actions')
@@ -12,6 +13,7 @@ table.credits
       tr
         td data-label=t('admin.preevent_item.name') = link_to(credit.preevent_item.name, edit_admins_event_credit_path(current_event, credit))
         td data-label=t('admin.preevent_item.description') = credit.preevent_item.description
+        td data-label=t('admin.credits.value') = credit.value
         td data-label=t('admin.credits.currency') = credit.currency
         td data-label=t('admin.credits.standard') = credit.standard
         td.table-actions-field

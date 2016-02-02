@@ -20,12 +20,17 @@ class Credit < ActiveRecord::Base
   scope :standard_credit_preevent_product, lambda { |event|
     joins(preevent_item: :preevent_products)
     .where(standard: true,
-             preevent_items: { purchasable_type: "Credit", event_id: event.id},
-             preevent_products: { preevent_items_count: 1, event_id: event.id})
+           preevent_items: { purchasable_type: "Credit", event_id: event.id },
+           preevent_products: { preevent_items_count: 1, event_id: event.id })
   }
+  scope :standard_credit, -> { find_by(standard: true) }
 
   scope :with_gtag, -> (event) { joins(:gtag_registrations).where(event: event, gtag_registrations: { aasm_state: :assigned }) }
 
   # Validations
   validates :preevent_item, presence: true
+
+  def rounded_value
+    value.round == value ? value.floor : value
+  end
 end

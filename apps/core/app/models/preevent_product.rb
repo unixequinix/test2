@@ -33,7 +33,7 @@ class PreeventProduct < ActiveRecord::Base
                                 allow_destroy: true
 
   validates :event_id, :name, :initial_amount, :step,
-  :max_purchasable, :min_purchasable, :price, presence: true
+            :max_purchasable, :min_purchasable, :price, presence: true
   validates :preevent_product_items, length: { minimum: 1 }
   validates :price, numericality: { greater_than_or_equal_to: 0 }
 

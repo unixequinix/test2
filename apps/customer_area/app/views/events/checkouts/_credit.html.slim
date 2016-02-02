@@ -20,7 +20,7 @@
         price: "#{preevent_product.price}",
         operation: "plus",
       step: "#{preevent_product.step}" }
-.checkout-total
+.credit-total
   h3 = t('checkout.total')
   .top-up-amount [data-id="#{preevent_product.id}"]
     span [id="amount-total-#{preevent_product.id}"] #{(preevent_product.rounded_price * preevent_product.initial_amount)}

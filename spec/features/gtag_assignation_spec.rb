@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.feature "Gtag assignation", type: :feature do
   context "with account signed in" do
     before :all do
-      event_parameters = event_to_hash_parameters(build(:event, gtag_registration: true))
+      event_parameters = event_to_hash_parameters(build(:event, gtag_assignation: true))
       @event_creator = EventCreator.new(event_parameters)
       @event_creator.save
       @event = @event_creator.event

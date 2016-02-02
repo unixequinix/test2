@@ -126,11 +126,11 @@ class Event < ActiveRecord::Base
   end
 
   def standard_credit
-    credits.find_by(standard: true)
+    credits.standard_credit
   end
 
   def standard_credit_price
-    PreeventProduct.find(credits.standard_credit_preevent_product(self)).rounded_price
+    credits.standard_credit.rounded_value
   end
 
   def total_credits
@@ -141,8 +141,7 @@ class Event < ActiveRecord::Base
     fee = refund_fee(refund_service)
     minimun = refund_minimun(refund_service)
     standard_price = standard_credit_price
-    gtags
-      .joins(:credential_assignments, :gtag_credit_log)
+    gtags.joins(:credential_assignments, :gtag_credit_log)
       .where("credential_assignments.aasm_state = 'assigned'")
       .where("((amount * #{standard_price}) - #{fee}) >= #{minimun}")
       .where("((amount * #{standard_price}) - #{fee}) > 0")
@@ -152,8 +151,7 @@ class Event < ActiveRecord::Base
   def total_refundable_gtags(refund_service)
     fee = refund_fee(refund_service)
     minimun = refund_minimun(refund_service)
-    gtags
-      .joins(:credential_assignments, :gtag_credit_log)
+    gtags.joins(:credential_assignments, :gtag_credit_log)
       .where("credential_assignments.aasm_state = 'assigned'")
       .where("((amount * #{standard_credit_price}) - #{fee}) >= #{minimun}")
       .where("((amount * #{standard_credit_price}) - #{fee}) > 0")

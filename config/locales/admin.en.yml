@@ -170,6 +170,7 @@ en:
     credits:
       standard: "Standard"
       currency: "Currency"
+      value: "Value"
     preevent_product:
       name: "Name"
       online: "Online"
