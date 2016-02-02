@@ -10,7 +10,10 @@
   position: relative;
   padding: modules(1);
 
-  h3 { text-transform: uppercase; }
+  h3 {
+    margin-bottom: 0;
+    text-transform: uppercase;
+  }
 
   label {
     font-weight: bold;
