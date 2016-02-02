@@ -31,13 +31,21 @@ class Transaction < ActiveRecord::Base
   belongs_to :station
   belongs_to :device
 
-  def self.write(type, atts)
-    klass = type.camelcase.constantize
-    klass.create atts
+  validates_presence_of :transaction_type
+
+  def self.write(transaction_category, atts)
+    klass = "#{transaction_category}_transaction".camelcase.constantize
+    instance = klass.create! atts
+    klass.delay.execute_actions instance.id
+    instance
   end
 
-  def self.delay_write(type, atts)
-    klass = type.camelcase.constantize
-    klass.delay.create atts
+  def self.execute_actions(id)
+    instance = find(id)
+    klass = instance.type.camelcase.constantize
+    transaction do
+      actions = [klass::SUBSCRIPTIONS[instance.transaction_type.to_sym]].flatten
+      actions.each { |action| instance.method(action).call }
+    end
   end
 end
