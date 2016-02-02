@@ -98,8 +98,13 @@
       vertical-align: top;
       width: auto;
       padding: 0 modules(0.5);
+    }
 
-      a:hover { opacity: 0.6; }
+    a {
+      &:hover, &:focus {
+       outline: none;
+       opacity: 0.6;
+      }
     }
   }
 }

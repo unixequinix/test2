@@ -184,4 +184,13 @@
 
 .separator { padding: 0 modules(0.25); }
 
+// /\/\/\/\/\/\/\ TERMS AND CONDITIONS /\/\/\/\/\/\/\/\
+
+.wrapper-terms {
+  padding: modules(1);
+
+  h3 { margin-top: modules(1); }
+  h2, h3 { @include mscale($base_font_size); }
+}
+
 // ---------------------------------------------------------------------------------------------
