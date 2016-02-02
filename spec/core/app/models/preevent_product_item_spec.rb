@@ -11,10 +11,8 @@
 #  updated_at          :datetime         not null
 #
 
-class PreeventProductItem < ActiveRecord::Base
-  acts_as_paranoid
-  belongs_to :preevent_item
-  belongs_to :preevent_product
 
-  accepts_nested_attributes_for :preevent_item
+require "rails_helper"
+
+RSpec.describe PreeventProductItem, type: :model do
 end

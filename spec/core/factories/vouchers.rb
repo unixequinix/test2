@@ -12,8 +12,9 @@
 FactoryGirl.define do
   factory :voucher do
     counter { Faker::Number.between(1, 20) }
-    after :build do |voucher|
-      voucher.preevent_item.build(:preevent_item, purchasable: voucher)
+
+    after(:build) do |voucher|
+      voucher.preevent_item ||= build(:preevent_item_voucher, purchasable: voucher)
     end
   end
 end
