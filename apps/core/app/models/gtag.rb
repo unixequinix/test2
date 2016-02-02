@@ -37,6 +37,7 @@ class Gtag < ActiveRecord::Base
   has_many :comments, as: :commentable
   has_many :credential_assignments, as: :credentiable, dependent: :destroy
   has_one :banned_gtag
+  belongs_to :company_ticket_type
 
   accepts_nested_attributes_for :gtag_credit_log, allow_destroy: true
 

@@ -149,13 +149,15 @@ RSpec.describe CustomerEventProfile, type: :model do
   describe "refundable_credits method" do
     it "should return nil if assigned_gtag_registration is nil" do
       customer_event_profile = create(:customer_event_profile)
-
       expect(customer_event_profile.refundable_credits).to be_nil
     end
 
     it "should return the amount of credits" do
-      customer_event_profile = create(:customer_event_profile)
-      create(:gtag_credit_log, amount: 15)
+      event = create(:event)
+      gtag = create(:gtag, event: event)
+      gtag_credit_log = create(:gtag_credit_log, amount: 15, gtag: gtag)
+      customer_event_profile = create(:customer_event_profile, event: event)
+      credential_assignment = create(:credential_assignment, credentiable: gtag, customer_event_profile: customer_event_profile, aasm_state: "assigned")
       expect(customer_event_profile.refundable_credits).to eq(15)
     end
   end
