@@ -82,8 +82,8 @@ class Event < ActiveRecord::Base
   has_many :gtags
   has_many :companies
 
-  has_many :credential_assignments, through: :tickets, as: :tickets_assignments
-  has_many :credential_assignments, through: :gtags, as: :gtags_assignments
+  has_many :tickets_assignments, through: :tickets, source: :credential_assignments, class_name: "CredentialAssignment"
+  has_many :gtags_assignments, through: :gtags,  source: :credential_assignments, class_name: "CredentialAssignment"
 
   has_many :preevent_items
   has_many :credits, through: :preevent_items, source: :purchasable, source_type: "Credit"
@@ -130,7 +130,7 @@ class Event < ActiveRecord::Base
   end
 
   def standard_credit_price
-    PreeventProduct.find(credits.standard_credit_preevent_product(event_id: id)).rounded_price
+    PreeventProduct.find(credits.standard_credit_preevent_product(self)).rounded_price
   end
 
   def total_credits
@@ -141,9 +141,9 @@ class Event < ActiveRecord::Base
     fee = refund_fee(refund_service)
     minimun = refund_minimun(refund_service)
     standard_price = standard_credit_price
-    gtag_assignments
-      .joins(:gtag, gtag: :gtag_credit_log)
-      .where(aasm_state: :assigned)
+    gtags
+      .joins(:credential_assignments, :gtag_credit_log)
+      .where("credential_assignments.aasm_state = 'assigned'")
       .where("((amount * #{standard_price}) - #{fee}) >= #{minimun}")
       .where("((amount * #{standard_price}) - #{fee}) > 0")
       .sum("(amount * #{standard_price}) - #{fee}")
@@ -152,9 +152,9 @@ class Event < ActiveRecord::Base
   def total_refundable_gtags(refund_service)
     fee = refund_fee(refund_service)
     minimun = refund_minimun(refund_service)
-    gtag_assignments
-      .joins(:gtag, gtag: :gtag_credit_log)
-      .where(aasm_state: :assigned)
+    gtags
+      .joins(:credential_assignments, :gtag_credit_log)
+      .where("credential_assignments.aasm_state = 'assigned'")
       .where("((amount * #{standard_credit_price}) - #{fee}) >= #{minimun}")
       .where("((amount * #{standard_credit_price}) - #{fee}) > 0")
       .count

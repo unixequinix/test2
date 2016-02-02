@@ -26,7 +26,7 @@
 #  background_type         :string           default("fixed")
 #  features                :integer          default(0), not null
 #  refund_service          :string           default("bank_account")
-#  gtag_registration       :boolean          default(TRUE), not null
+#  gtag_assignation        :boolean          default(TRUE), not null
 #  payment_service         :string           default("redsys")
 #  registration_parameters :integer          default(0), not null
 #
@@ -38,15 +38,17 @@ RSpec.describe Event, type: :model do
   it { is_expected.to validate_presence_of(:support_email) }
 
   before(:all) do
-    event_creator = EventCreator.new(build(:event, gtag_registration: true).attributes)
+    event_creator = EventCreator.new(build(:event, gtag_assignation: true).attributes)
     event_creator.save
     @event = event_creator.event
     customer = create(:customer, event: @event, confirmation_token: nil, confirmed_at: Time.now)
     create(:customer_event_profile, event: @event, customer: customer)
     gtag = create(:gtag, event: @event)
+    create(:credential_assignment, aasm_state: "assigned", credentiable: gtag, customer_event_profile: customer.customer_event_profile)
     create(:gtag_credit_log, gtag: gtag)
     create(:gtag_credit_log, gtag: gtag)
     gtag2 = create(:gtag, event: @event)
+    create(:credential_assignment, aasm_state: "unassigned", credentiable: gtag2, customer_event_profile: customer.customer_event_profile)
     create(:gtag_credit_log, gtag: gtag2)
   end
 
