@@ -7,14 +7,23 @@
 footer {
   position: relative;
   overflow: hidden;
+  padding-top: modules(1);
   background-color: $glwnt_header;
   box-shadow: inset 0px 1px 0px 0px $black;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.2);
   text-align: center;
 
-  @include min-screen($bp3) { text-align: left;  }
+  @include min-screen($bp3) {
+    padding-top: 0;
+    color: rgba(255,255,255,0.5);
+    text-align: left;
+  }
 
-  h3, a { color: rgba(255,255,255,0.7); }
+  h3, a {
+    color: rgba(255,255,255,0.3);
+
+    @include min-screen($bp3) { color: rgba(255,255,255,0.5); }
+  }
 }
 
 .footer-nav {
@@ -28,14 +37,17 @@ footer {
   }
 
   ul {
-    display: inline-block;
-    vertical-align: top;
-    width: auto;
+    display: block;
+     &:nth-child(2n) { padding-top: modules(1); }
 
-    @include min-screen($bp1) {
+    @include min-screen($bp3) {
+      display: inline-block;
+      vertical-align: top;
+      width: auto;
       padding-right: modules(2);
 
       &:last-child { padding-right: 0; }
+      &:nth-child(2n) { padding-top: 0; }
     }
   }
 
@@ -67,7 +79,7 @@ footer {
   position: relative;
   display: inline-block;
   width: auto;
-  padding-top: modules(1);
+  padding: modules(2) 0 0;
   text-align: center;
 
   @include min-screen($bp3) {
@@ -93,8 +105,4 @@ footer {
   &:hover { color: rgba(255,255,255,0.2); }
 }
 
-.footer-separator {
-  display: inline-block;
-
-  &:before{ content: "|"; }
-}
+.footer-separator:before { content: "|"; }

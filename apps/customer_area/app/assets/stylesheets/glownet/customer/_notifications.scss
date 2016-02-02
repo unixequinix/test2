@@ -11,7 +11,6 @@ $light_red: lighten($red, 8%);
 }
 
 .msg-for-alert, .msg-for-error {
-  @include background(linear-gradient($light_red, $red) left repeat);
   position: fixed;
   top: modules(1);
   left: modules(1);
@@ -19,9 +18,9 @@ $light_red: lighten($red, 8%);
   margin: modules(0.5);
   padding: modules(0.5);
   border-radius: 3px;
-  background-color: $red;
-  border: 1px solid $red;
-  color: $white;
+  background-color: $nuclear;
+  box-shadow: 0px 0px 0px 2px $red;
+  color: $red;
   text-align: center;
   z-index: 3;
 
@@ -31,26 +30,8 @@ $light_red: lighten($red, 8%);
   }
 
   p {
-     @include mscale($base_font_size*1.15);
+    @include mscale($base_font_size*1.15);
     margin: 0;
-    display: block;
-    font-weight: bold;
-  }
-
-  &:before {
-    @include mscale($base_font_size*1.5);
-    content: "✖";
-    display: block;
-    width: modules(1.5);
-    height: modules(1.5);
-    margin: 0 auto;
-    padding-top: modules(0.15);
-    vertical-align: top;
-    border-radius:25px;
-    background-color: transparent;
-    border: 3px solid $white;
-    color: $white;
-    text-align: center;
   }
 }
 
@@ -105,52 +86,39 @@ $light_red: lighten($red, 8%);
 .msg-for-info { }
 
 .error_notification {
-  @include mscale($base_font_size*1.25);
-  @include background(linear-gradient($light_red, $red) left repeat);
   position: relative;
-  margin: modules(0.5);
-  padding: modules(0.5);
-  border-radius: 3px;
+  padding: modules(0.25);
+  border-radius: 50px;
   background-color: $red;
-  color: $white;
+  box-shadow: inset 0px 0px 0px 1px darken($red,20%);
+  color: $nuclear;
   text-align: center;
-  font-weight: bold;
   z-index: 3;
 
   @include min-screen($bp2) {
     margin: modules(1) 0 0;
   }
-
-  &:before {
-    @include mscale($base_font_size*1.5);
-    content: "✖";
-    display: block;
-    width: modules(1.5);
-    height: modules(1.5);
-    margin: 0 auto;
-    padding-top: modules(0.25);
-    vertical-align: top;
-    border-radius:25px;
-    background-color: transparent;
-    box-shadow: inset 0px 0px 0px 3px $white;
-    color: $white;
-    text-align: center;
-  }
 }
 
 .error {
   position: relative;
-  left: 0;
-  color: $red;
-  font-weight: bold;
+  padding: 0 modules(0.5);
+  background-color: $red;
+  border-radius: $radius;
+  color: $nuclear;
 
-  @include min-screen($bp3) {
-    position: absolute;
+  &:before {
     display: block;
-    width: 100%;
-    bottom: 0;
-    right: 0;
-    text-align: right;
+    position: absolute;
+    top: -5px;
+    left: 7px;
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid $red;
+
   }
 }
 

@@ -1,13 +1,13 @@
 .container-event-column
   .wrapper-session
     = simple_form_for @new_profile_form, url: event_registrations_path(current_event), method: :post do |f|
-      = f.error_notification
       h3.center-text = t('registration.new.title')
       = t('registration.new.info')
       .wrapper-required-fields
         p
           = fa_icon "exclamation-circle"
           = t('registration.new.description')
+      = f.error_notification
       = f.input :event_id, as: :hidden, input_html: { value: current_event.id, class: 'session-input' }
       = f.input :email, autofocus: true, input_html: { class: 'session-input' }
       = f.input :name, autofocus: true, input_html: { class: 'session-input' }

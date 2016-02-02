@@ -33,7 +33,6 @@ input[type=search],
 textarea {
   @include appearance(none);
   margin-bottom: 0;
-  border: 1px solid transparent;
 }
 
 button {
