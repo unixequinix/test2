@@ -20,10 +20,11 @@ $radius:            3px;
 // HTML base styles
 
 html, body {
+  @include sticky-footer(modules(12));
   position: relative;
   height: 100%;
 
-  @include min-screen($bp3) { @include sticky-footer(modules(2)); }
+  @include min-screen($bp3) { @include sticky-footer(modules(8)); }
 }
 
 h1 {

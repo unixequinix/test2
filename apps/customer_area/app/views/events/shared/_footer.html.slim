@@ -1,18 +1,16 @@
 footer
-  = mail_to current_event.support_email, subject: t('event.subject_support', event: current_event.name), class: "footer-support small" do
-    = fa_icon "question-circle"
-    = t('footer.support')
-
-
-  = link_to href="http://glownet.com/", target: "_blank", class: "copy small" do
-    = t('footer.copyright')
-    span.footer-year = Date.current.year
-  .nav-footer
-    ul.wrapper-conditions
-      li.condition-link
-        = link_to t("footer.privacy"), event_privacy_policy_url(current_event), target: '_blank', class: "copy small"
-      li.condition-link
-        = link_to t("footer.use"), event_terms_of_use_url(current_event), target: '_blank', class: "copy small"
+  nav.footer-nav
+    ul
+      h3 Terms and conditions
+      li
+        = link_to t("footer.privacy"), event_privacy_policy_url(current_event), target: '_blank'
+      li
+        = link_to t("footer.use"), event_terms_of_use_url(current_event), target: '_blank'
+    ul
+      h3 = t('footer.support')
+      li
+        = mail_to current_event.support_email, subject: t('event.subject_support', event: current_event.name) do
+          | support@glownet.com
 
     ul.container-language
       - locales = current_event.selected_locales_formated
@@ -22,3 +20,7 @@ footer
             = link_to t("event.locales.#{locale}"), change_event_locale_path(current_event, "#{locale}"), title: t("event.locales.#{locale}"), class: "language-item #{(' selected' if session[:locale] == "#{locale}")}"
           - if (index + 1 < current_event.selected_locales.length)
             li.footer-separator
+  .wrapper-copy
+    = link_to href="http://glownet.com/", target: "_blank" do
+      = t('footer.copyright')
+      = Date.current.year

@@ -5,106 +5,76 @@
 \* ------------------------------------------------------- */
 
 footer {
+  position: relative;
   overflow: hidden;
-  padding:  modules(1) modules(0.5);
   background-color: $glwnt_header;
   box-shadow: inset 0px 1px 0px 0px $black;
+  color: rgba(255,255,255,0.5);
   text-align: center;
 
-  .small { @include mscale($small_text); }
+  @include min-screen($bp3) { text-align: left;  }
 
-  @include min-screen($bp3) {
-    padding: modules(0.5);
-    text-align: left;
-  }
-
-  i {
-    display: inline-block;
-    padding-right: modules(0.25);
-    color: $white;
-    text-shadow: 0px 1px 2px #555;
-  }
-
-  .selected { color: $footer_text; text-shadow: none; }
+  h3, a { color: rgba(255,255,255,0.7); }
 }
 
-.nav-footer {
+.footer-nav {
   display: block;
-  float: right;
-  width: 100%;
-  text-align: center;
+  padding: modules(1);
 
-  @include min-screen($bp3) {
+  h3 {
+    @include mscale($base_font_size);
+    margin-bottom: modules(0.5);
+    text-transform: uppercase;
+  }
+
+  ul {
     display: inline-block;
+    vertical-align: top;
     width: auto;
-    text-align: left;
-  }
-}
 
-.wrapper-conditions {
-  display: inline-block;
-  width: auto;
-  padding-top: modules(1);
-  text-align: center;
+    @include min-screen($bp1) {
+      padding-right: modules(2);
 
-
-  @include min-screen($bp3) {
-    display: inline;
-    padding-top: 0;
-    text-align: right;
-  }
-}
-
-.condition-link {
-  display: inline-block;
-  width: auto;
-  padding: 0 modules(0.25);
-
-   @include min-screen($bp1) {
-
-    &:last-child:after {
-      content: "/";
-      display: inline;
-      padding-left: modules(0.25);
-      font-weight: bold;
+      &:last-child { padding-right: 0; }
     }
   }
-}
 
-.copy {
-  margin: 0;
-  color: $footer_text;
-  text-transform: uppercase;
-  font-weight: bold;
-  letter-spacing: 1px;
-  opacity: 0.8;
+  a {
+    text-decoration: underline;
 
-  &:hover { color: $pinkMagenta; }
-}
-
-.footer-year { padding-left: modules(0.25); }
-
-.footer-support {
-  display: block;
-  color: $footer_text;
-  text-transform: uppercase;
-  font-weight: bold;
-  opacity: 0.8;
-
-  @include min-screen($bp1) {
-    display: inline-block;
-    padding-right: modules(0.5);
+    &:hover { text-decoration: none; }
   }
 
-  i { color: $footer_text; }
+  .selected {
+    color: $pinkMagenta;
+    font-weight: bold;
+  }
 }
+
+.wrapper-copy {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: modules(0.5);
+  background-color: darken($glwnt_header,7%);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+// /\/\/\/\/\/\/\/\/\ LANGUAGE SELECT /\/\/\/\/\/\/\/\/\/\/\
 
 .container-language {
   position: relative;
   display: inline-block;
+  width: auto;
   padding-top: modules(1);
+  text-align: center;
 
-  @include min-screen($bp1) { width: auto; padding: 0; }
+  @include min-screen($bp3) {
+    float: right;
+    padding: 0;
+    text-align: right;
+  }
 
   li {
     display: inline-block;
@@ -113,23 +83,18 @@ footer {
     font-weight: bold;
     cursor: pointer;
   }
+
+  a { text-decoration: none; }
 }
 
 .language-item {
-  color: $black;
-  text-shadow: 0px 1px 2px #555;
+  font-weight: 300;
 
-  &:hover { color: $pinkMagenta; text-shadow: none; }
+  &:hover { color: rgba(255,255,255,0.2); }
 }
 
 .footer-separator {
   display: inline-block;
 
-  &:before{
-    content: "|";
-    display: block;
-    border-radius: 5px;
-    color: $black;
-    text-shadow: 0px 2px 2px #555;
-  }
+  &:before{ content: "|"; }
 }
