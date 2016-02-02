@@ -48,6 +48,7 @@ class Customer < ActiveRecord::Base
 
   # Associations
   has_one :customer_event_profile
+
   belongs_to :event
 
   # Validations

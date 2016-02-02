@@ -9,9 +9,7 @@
 #  updated_at :datetime         not null
 #
 
-class Company < ActiveRecord::Base
-  has_many :company_ticket_types
-  has_one :mondonger, -> (object){ where("name = ?", object.yeah)},  :class_name => 'CompanyTicketType'
+require "rails_helper"
 
-  belongs_to :event
+RSpec.describe Company, type: :model do
 end

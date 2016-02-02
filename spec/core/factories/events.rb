@@ -25,7 +25,7 @@
 #  url                     :string
 #  background_type         :string           default("fixed")
 #  features                :integer          default(0), not null
-#  gtag_registration       :boolean          default(TRUE), not null
+#  gtag_assignation        :boolean          default(TRUE), not null
 #  payment_service         :string           default("redsys")
 #  registration_parameters :integer          default(0), not null
 #  currency                :string           default("USD"), not null
@@ -33,6 +33,7 @@
 #  locales                 :integer          default(1), not null
 #  refund_services         :integer          default(0), not null
 #  ticket_assignation      :boolean          default(TRUE), not null
+#  token                   :string           not null
 #
 
 FactoryGirl.define do

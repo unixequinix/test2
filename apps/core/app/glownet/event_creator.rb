@@ -59,7 +59,7 @@ class EventCreator
   end
 
   def create_preevent_product(preevent_product_data, preevent_product_item_data, preevent_item)
-    PreeventProduct.create(
+    preevent_product = PreeventProduct.create(
       event_id: @event.id,
       preevent_product_items_attributes: [
         { preevent_item_id: preevent_item.id, amount: preevent_product_item_data["amount"] }],
@@ -71,5 +71,6 @@ class EventCreator
       max_purchasable: preevent_product_data["max_purchasable"],
       price: preevent_product_data["price"]
     )
+    preevent_product.preevent_items_counter
   end
 end
