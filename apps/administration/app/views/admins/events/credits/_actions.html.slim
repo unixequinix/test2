@@ -2,5 +2,5 @@ ul
   - unless credit.standard
     li.table-action.action-delete = link_to admins_event_credit_path(current_event, credit), method: :delete, data: { confirm: t('admin.confirm.delete') } do
       = fa_icon "trash"
-  li.table-action.action-edit = link_to edit_admins_event_credit_path(current_event, credit) do
-    = fa_icon "edit"
+    li.table-action.action-edit = link_to edit_admins_event_credit_path(current_event, credit) do
+      = fa_icon "edit"
