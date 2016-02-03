@@ -1,3 +1,4 @@
+= render 'events/shared/header'
 .container-event-column
   .wrapper-session
     = simple_form_for @edit_profile_form, url: event_registrations_path(current_event), method: :patch do |f|
@@ -9,11 +10,11 @@
       = f.input :surname, required: true, autofocus: true, input_html: { class: 'session-input' }
       = f.input :current_password, autocomplete: "off", input_html: { class: 'session-input' }
       = f.input :password, autocomplete: "off", hint: t('registration.edit.password_hint'), required: false, input_html: { class: 'session-input' }
-      = f.input :phone, input_html: { class: 'session-input' } if(current_event.phone?)
-      = f.input :address, input_html: { class: 'session-input' } if(current_event.address?)
-      = f.input :city, input_html: { class: 'session-input' } if(current_event.city?)
-      = f.input :country, input_html: { class: 'session-input' } if(current_event.country?)
-      = f.input :postcode, input_html: { class: 'session-input' } if(current_event.postcode?)
+      = f.input :phone, placeholder: t("sessions.placeholder.phone"), input_html: { class: 'session-input' } if(current_event.phone?)
+      = f.input :address, placeholder: t("sessions.placeholder.address"), input_html: { class: 'session-input' } if(current_event.address?)
+      = f.input :city, placeholder: t("sessions.placeholder.city"), input_html: { class: 'session-input' } if(current_event.city?)
+      = f.input :postcode, placeholder: t("sessions.placeholder.post"), input_html: { class: 'session-input' } if(current_event.postcode?)
+      = f.input :country,  input_html: { class: 'session-select' } if(current_event.country?)
       = f.input :gender, collection: Customer.gender_selector, include_blank: false, input_html: { class: 'session-input' } if(current_event.gender?)
       = f.input :birthdate, as: :date, start_year: 1950,
             end_year: Date.today.year - 12,
