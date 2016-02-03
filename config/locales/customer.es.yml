@@ -216,6 +216,16 @@ es:
       description: 'Así es como funciona'
       button: 'Inicia Sesión'
       copy: '¿Qué ventajas tiene?'
+    placeholder:
+      email: 'ej. nickname@mail.com'
+      password: 'ej. ● ● ● ● ● ●'
+      name: 'ej. Richard'
+      last_name: 'ej. Hendricks'
+      phone: 'ej. 111 22 33 44'
+      address: 'ej. C/ Pied Piper'
+      city: 'ej. Madrid'
+      post: 'ej. 28012'
+
   cancel:
     title: 'Cancelar cuenta'
     unhappy: '¡Queremos saber que ha ocurrido, envíanos un correo!'

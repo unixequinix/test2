@@ -221,6 +221,15 @@ en:
       description: 'This is how it works'
       button: 'Log in'
       copy: 'What are the advantages?'
+    placeholder:
+      email: 'e.g. nickname@mail.com'
+      password: 'e.g. ● ● ● ● ● ●'
+      name: 'e.g. Richard'
+      last_name: 'e.g. Hendricks'
+      phone: 'e.g. 111 22 33 44'
+      address: 'e.g. 1 Pied Piper'
+      city: 'e.g. Madrid'
+      post: 'e.g. 28012'
   cancel:
     title: 'Cancel my account'
     unhappy: 'Write us an email, we want to know what happened!'
