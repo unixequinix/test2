@@ -1,9 +1,5 @@
-
-
 FactoryGirl.define do
   factory :preevent_product do
-    name { Faker::Number.between(1, 20) }
-    online { [true, false].sample }
     event
     name { Faker::Name.last_name }
     initial_amount 0
@@ -57,6 +53,11 @@ FactoryGirl.define do
       credit_product
       credential_product
       voucher_product
+    end
+
+    after(:build) do |preevent_product|
+      return unless preevent_product.preevent_items.count.zero?
+      preevent_product.preevent_product_items << build(:preevent_product_item)
     end
   end
 end

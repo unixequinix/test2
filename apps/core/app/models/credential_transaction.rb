@@ -55,43 +55,42 @@ class CredentialTransaction < Transaction
   end
 
   def create_ticket_credential_assignment
-    find ticket
-    create CredentialAssignment and
-      assign ticket (polymorphic on credentiable)
-      assign customer event profile
+    # find ticket
+    # create CredentialAssignment and
+    #   assign ticket (polymorphic on credentiable)
+    #   assign customer event profile
   end
 
   def create_customer_event_profile
-    create customer event profile (event association only)
+    # create customer event profile (event association only)
   end
 
   def create_gtag
-    create Gtag
-    assign customer_tag_uid
-    assign tag serial number () # TODO: we have to send it, it is not currently being sent
-    assign event
+    # create Gtag
+    # assign customer_tag_uid
+    # assign event
   end
 
   def create_gtag_credential_assignment
-    find gtag
-    create CredentialAssignment and
-      assign gtag (polymorphic on credentiable)
-      assign customer event profile
+    # find gtag
+    # create CredentialAssignment and
+    #   assign gtag (polymorphic on credentiable)
+    #   assign customer event profile
+  end
+
+  def redeem_gtag
+    # find gtag
+    # mark credential_redeemed as true
+  end
+
+  def redeem_ticket
+    # find ticket
+    # mark credential_redeemed as true
   end
 
   def create_customer_order; end
 
   def redeem_customer_order; end
-
-  def redeem_gtag
-    find gtag
-    mark credential_redeemed as true
-  end
-
-  def redeem_ticket
-    find ticket
-    mark credential_redeemed as true
-  end
 
   def initialize_balance; end
 

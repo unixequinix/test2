@@ -11,11 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20160128135106) do
-=======
-ActiveRecord::Schema.define(version: 20160127124459) do
->>>>>>> preevent_product_structure_implementation
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
