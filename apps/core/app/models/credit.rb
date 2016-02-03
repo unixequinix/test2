@@ -35,9 +35,11 @@ class Credit < ActiveRecord::Base
 
   def only_one_standard_credit
     return unless standard?
-
-    if Credit.standard_credit.present?
-      errors.add(:standard, 'cannot exist another standard credit')
+    event_id = preevent_item.event_id
+    event_standard_credit = Credit.joins(:preevent_item)
+                            .find_by(standard: true, preevent_items: { event_id: event_id })
+    if event_standard_credit.present?
+      errors.add(:standard, I18n.t("errors.messages.max_standard_credits"))
     end
   end
 
