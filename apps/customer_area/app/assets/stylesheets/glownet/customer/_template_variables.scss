@@ -33,40 +33,40 @@ h3, label                           { color: $snow; }
 .store-module,
 .wrapper-module-centered            { box-shadow: inset 0px -1px 0px 0px $snow; }
 
-//Buttons
-.btn-action                         { box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1); }
-.btn-action                         { background-color: $snow; }
-.btn-action                         { color: $magenta; }
+// /\/\/\/\/\/\/\/\ Buttons /\/\/\/\/\/\/\
+.btn-action,
+.btn-action-register,
+.btn-action-primary,
+.btn-action-empty-state             { box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1); }
 
-.btn-action-register                { box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1); }
+.btn-action-secondary,
 .btn-action-register:hover          { color: $snow; }
-.btn-action-register:hover          { color: $magenta; }
-.btn-action-register:focus          { background-color: $snow; }
+
+.btn-action,
+.btn-action-register:hover,
+.btn-action-secondary:hover,
+.btn-action-primary:hover,
+.btn-action-empty-state:hover,
 .btn-action-register:focus          { color: $magenta; }
 
-.btn-action-secondary               { background-color: transparent; }
-.btn-action-secondary:hover         { background-color: $snow; }
-.btn-action-secondary               { color: $snow; }
-.btn-action-secondary:hover         { color: $magenta; }
-
-.btn:after                          { box-shadow: 0 0 0 2px $snow; }
-
-.btn-action-primary                 { box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1); }
-.btn-action-primary:hover           { color: $magenta; }
+.btn-action,
+.btn-action-register:focus,
+.btn-action-secondary:hover,
+.btn-action-empty-state:hover,
 .btn-action-primary:hover           { background-color: $snow; }
 
-.btn-action-empty-state             { box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1); }
-.btn-action-empty-state:hover       { background-color: $snow; }
-.btn-action-empty-state:hover       { color: $magenta; }
 
-// Login and sign up styles
+.btn-action-secondary               { background-color: transparent; }
+.btn:after                          { box-shadow: 0 0 0 2px $snow; }
+
+// /\/\/\/\/\/\/\/\ Login and sign up styles /\/\/\/\/\/\/\/\/\/\
+
 .customer_remember_me label             { color: $color_text; }
 .customer_agreed_on_registration label  { color: $color_text; }
 .customer_agreed_on_registration a      { color: $snow; }
 
-.separator, .wrapper-breadcrumbs a             { color: $snow; }
+.separator, .wrapper-breadcrumbs a      { color: $snow; }
 .current-breadcrumb                { box-shadow: inset 0px 0px 0px 1px rgba(255,255,255,1); }
-
 
 .wrapper-terms h2,
 .wrapper-terms h3,

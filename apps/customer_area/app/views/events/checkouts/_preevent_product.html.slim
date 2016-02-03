@@ -2,8 +2,18 @@
   h3.store-module-title = preevent_product.name
   .container-customer-product
     .wrapper-customer-product
-      p.product-name = preevent_product.name
-      p.highlight-text 83€
+      span.product-name = preevent_product.name
+      span.highlight-text 83€
+    .wrapper-customer-amount
+      = select_tag "checkout_form[preevent_products][#{preevent_product.id}]",
+        options_for_select((preevent_product.min_purchasable..preevent_product.max_purchasable).step(preevent_product.step).to_a),
+        id: "amount-input-#{preevent_product.id}",
+        class: "amount-input",
+        data: { id: "#{preevent_product.id}", price: "#{preevent_product.price}" }
+  .container-customer-product
+    .wrapper-customer-product
+      span.product-name = preevent_product.name
+      span.highlight-text 83€
     .wrapper-customer-amount
       = select_tag "checkout_form[preevent_products][#{preevent_product.id}]",
         options_for_select((preevent_product.min_purchasable..preevent_product.max_purchasable).step(preevent_product.step).to_a),
