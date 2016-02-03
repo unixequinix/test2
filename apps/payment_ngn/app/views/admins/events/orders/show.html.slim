@@ -34,12 +34,15 @@
         - @order.order_items.each do |order_item|
           tr
             td = order_item.amount
-            td = order_item.online_product.price
+            td = order_item.preevent_product.price
             td = order_item.total
-            td = order_item.online_product.name
-            td = order_item.online_product.description
-            td = order_item.online_product.purchasable_type
-
+            td = order_item.preevent_product.name
+            td
+              - order_item.preevent_product.preevent_items.each do |preevent_item|
+                div = preevent_item.description
+            td
+              - order_item.preevent_product.preevent_items.each do |preevent_item|
+                div = preevent_item.purchasable_type
 
     - if !@order.payments.empty?
         h3

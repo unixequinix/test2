@@ -25,7 +25,7 @@
 #  url                     :string
 #  background_type         :string           default("fixed")
 #  features                :integer          default(0), not null
-#  gtag_registration       :boolean          default(TRUE), not null
+#  gtag_assignation        :boolean          default(TRUE), not null
 #  payment_service         :string           default("redsys")
 #  registration_parameters :integer          default(0), not null
 #  currency                :string           default("USD"), not null
@@ -33,6 +33,7 @@
 #  locales                 :integer          default(1), not null
 #  refund_services         :integer          default(0), not null
 #  ticket_assignation      :boolean          default(TRUE), not null
+#  token                   :string           not null
 #
 
 FactoryGirl.define do
@@ -55,5 +56,12 @@ FactoryGirl.define do
     info { Faker::Lorem.words(2).join }
     mass_email_claim_notification { Faker::Lorem.words(2).join }
     refund_success_message { Faker::Lorem.words(2).join }
+    refund_services 0
+
+    trait :refund_services do
+      refund_services 2
+    end
+
+    factory :event_with_refund_services, traits: [:refund_services]
   end
 end

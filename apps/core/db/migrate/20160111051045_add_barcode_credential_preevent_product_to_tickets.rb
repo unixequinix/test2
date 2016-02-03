@@ -32,7 +32,7 @@ class AddBarcodeCredentialPreeventProductToTickets < ActiveRecord::Migration
 
   def change
     add_column :tickets, :credential_redeemed, :boolean, null: false, default: false
-    add_column :tickets, :company_ticket_type_id, :integer
+    add_column :tickets, :company_ticket_type_id, :integer, null: false
     rename_column :tickets, :number, :code
     rename_column :tickets, :purchaser_name, :purchaser_first_name
     rename_column :tickets, :purchaser_surname, :purchaser_last_name

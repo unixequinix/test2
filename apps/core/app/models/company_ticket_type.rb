@@ -24,6 +24,10 @@ class CompanyTicketType < ActiveRecord::Base
 
   scope :companies, -> (event) { joins(:company).where(event: event).pluck("companies.name").uniq }
 
+  scope :search_by_company_and_event, lambda  { |company, event|
+    joins(:company).where(event: event, companies: { name: company })
+  }
+
   def self.form_selector(event)
     where(event: event).map { |company_tt| [company_tt.name, company_tt.id] }
   end

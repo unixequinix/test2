@@ -32,11 +32,27 @@ RSpec.describe Gtag, type: :model do
 
   describe "refundable_amount" do
     it "should return the money that can be refunded" do
-      credit = create(:credit)
-      gtag = create(:gtag, event: credit.online_product.event)
+      event = create(:event)
+      create(:preevent_product, :standard_credit_product, event: event)
+      gtag = create(:gtag, event: event)
       create(:gtag_credit_log, amount: 9.99, gtag: gtag)
-      price = credit.online_product.price
+      price = event.standard_credit_price
       expect(gtag.refundable_amount).to eq(price * 9.99)
+    end
+  end
+
+  describe "any_refundable_method?" do
+    it "should return true if the current event has a refund serice activated" do
+      event = create(:event_with_refund_services)
+      create(:preevent_product, :standard_credit_product, event: event)
+      Seeder::SeedLoader.load_default_event_parameters(event)
+      gtag = create(:gtag, event: event)
+      create(:gtag_credit_log, amount: 9.99, gtag: gtag)
+      expect(gtag.any_refundable_method?).to be(true)
+
+      event.update_attribute(:refund_services, 0)
+      expect(gtag.any_refundable_method?).to be(false)
+
     end
   end
 end

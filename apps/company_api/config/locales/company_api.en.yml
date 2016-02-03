@@ -1,0 +1,8 @@
+en:
+  company_api:
+    tickets:
+      not_found: "Couldn't find a Ticket with 'id'=%{ticket_id}"
+      bad_request: "Bad request"
+    ticket_types:
+      not_found: "Couldn't find a Ticket Type with 'id'=%{ticket_id}"
+      bad_request: "Bad request"

@@ -1,165 +1,165 @@
 -
   code: 11ticket11
-  ticket_type: ticket_type_1
+  company_ticket_type_id: 1
 -
   code: 12ticket12
-  ticket_type: ticket_type_2
+  company_ticket_type_id: 1
 -
   code: 13ticket13
-  ticket_type: ticket_type_3
+  company_ticket_type_id: 2
 -
   code: 14ticket14
-  ticket_type: ticket_type_4
+  company_ticket_type_id: 2
 -
   code: 15ticket15
-  ticket_type: ticket_type_5
+  company_ticket_type_id: 1
 -
   code: 16ticket16
-  ticket_type: ticket_type_6
+  company_ticket_type_id: 1
 -
   code: 17ticket17
-  ticket_type: ticket_type_7
+  company_ticket_type_id: 3
 -
   code: 18ticket18
-  ticket_type: ticket_type_1
+  company_ticket_type_id: 1
 -
   code: 19ticket19
-  ticket_type: ticket_type_2
+  company_ticket_type_id: 3
 -
   code: 20ticket20
-  ticket_type: ticket_type_3
+  company_ticket_type_id: 1
 -
   code: 21ticket21
-  ticket_type: ticket_type_4
+  company_ticket_type_id: 1
 -
   code: 22ticket22
-  ticket_type: ticket_type_5
+  company_ticket_type_id: 3
 -
   code: 23ticket23
-  ticket_type: ticket_type_6
+  company_ticket_type_id: 1
 -
   code: 24ticket24
-  ticket_type: ticket_type_7
+  company_ticket_type_id: 1
 -
   code: 25ticket25
-  ticket_type: ticket_type_1
+  company_ticket_type_id: 3
 -
   code: 26ticket26
-  ticket_type: ticket_type_2
+  company_ticket_type_id: 3
 -
   code: 27ticket27
-  ticket_type: ticket_type_3
+  company_ticket_type_id: 1
 -
   code: 28ticket28
-  ticket_type: ticket_type_4
+  company_ticket_type_id: 1
 -
   code: 29ticket29
-  ticket_type: ticket_type_5
+  company_ticket_type_id: 3
 -
   code: 30ticket30
-  ticket_type: ticket_type_6
+  company_ticket_type_id: 1
 -
   code: 31ticket31
-  ticket_type: ticket_type_7
+  company_ticket_type_id: 1
 -
   code: 32ticket32
-  ticket_type: ticket_type_1
+  company_ticket_type_id: 2
 -
   code: 33ticket33
-  ticket_type: ticket_type_1
+  company_ticket_type_id: 1
 -
   code: 34ticket34
-  ticket_type: ticket_type_2
+  company_ticket_type_id: 1
 -
   code: 35ticket35
-  ticket_type: ticket_type_3
+  company_ticket_type_id: 1
 -
   code: 36ticket36
-  ticket_type: ticket_type_4
+  company_ticket_type_id: 2
 -
   code: 37ticket37
-  ticket_type: ticket_type_5
+  company_ticket_type_id: 2
 -
   code: 38ticket38
-  ticket_type: ticket_type_6
+  company_ticket_type_id: 1
 -
   code: 39ticket39
-  ticket_type: ticket_type_7
+  company_ticket_type_id: 1
 -
   code: 40ticket40
-  ticket_type: ticket_type_1
+  company_ticket_type_id: 1
 -
   code: 41ticket41
-  ticket_type: ticket_type_2
+  company_ticket_type_id: 1
 -
   code: 42ticket42
-  ticket_type: ticket_type_3
+  company_ticket_type_id: 1
 -
   code: 43ticket43
-  ticket_type: ticket_type_4
+  company_ticket_type_id: 1
 -
   code: 44ticket44
-  ticket_type: ticket_type_5
+  company_ticket_type_id: 1
 -
   code: 45ticket45
-  ticket_type: ticket_type_6
+  company_ticket_type_id: 3
 -
   code: 46ticket46
-  ticket_type: ticket_type_7
+  company_ticket_type_id: 2
 -
   code: 47ticket47
-  ticket_type: ticket_type_1
+  company_ticket_type_id: 3
 -
   code: 48ticket48
-  ticket_type: ticket_type_2
+  company_ticket_type_id: 1
 -
   code: 49ticket49
-  ticket_type: ticket_type_3
+  company_ticket_type_id: 1
 -
   code: 50ticket50
-  ticket_type: ticket_type_4
+  company_ticket_type_id: 3
 -
   code: 51ticket51
-  ticket_type: ticket_type_5
+  company_ticket_type_id: 1
 -
   code: 52ticket52
-  ticket_type: ticket_type_6
+  company_ticket_type_id: 2
 -
   code: 53ticket53
-  ticket_type: ticket_type_7
+  company_ticket_type_id: 1
 -
   code: 54ticket54
-  ticket_type: ticket_type_3
+  company_ticket_type_id: 1
 -
   code: 55ticket55
-  ticket_type: ticket_type_4
+  company_ticket_type_id: 1
 -
   code: 56ticket56
-  ticket_type: ticket_type_5
+  company_ticket_type_id: 1
 -
   code: 57ticket57
-  ticket_type: ticket_type_6
+  company_ticket_type_id: 2
 -
   code: 58ticket58
-  ticket_type: ticket_type_7
+  company_ticket_type_id: 1
 -
   code: 59ticket59
-  ticket_type: ticket_type_1
+  company_ticket_type_id: 2
 -
   code: 60ticket60
-  ticket_type: ticket_type_2
+  company_ticket_type_id: 1
 -
   code: 61ticket61
-  ticket_type: ticket_type_3
+  company_ticket_type_id: 3
 -
   code: 62ticket62
-  ticket_type: ticket_type_4
+  company_ticket_type_id: 1
 -
   code: 63ticket63
-  ticket_type: ticket_type_5
+  company_ticket_type_id: 1
 -
   code: 64ticket64
-  ticket_type: ticket_type_6
+  company_ticket_type_id: 1
 -
   code: 65ticket65
-  ticket_type: ticket_type_7
+  company_ticket_type_id: 3

@@ -12,5 +12,9 @@
 FactoryGirl.define do
   factory :credential_type do
     position { Faker::Number.between(1, 20) }
+
+    after(:build) do |credential_type|
+      credential_type.preevent_item ||= build(:preevent_item_credential, purchasable: credential_type)
+    end
   end
 end

@@ -170,6 +170,8 @@ es:
       email: "Email"
     credits:
       standard: "Estándar"
+      currency: "Divisa"
+      value: "Valor"
     preevent_product:
       name: "Nombre"
       online: "Online"

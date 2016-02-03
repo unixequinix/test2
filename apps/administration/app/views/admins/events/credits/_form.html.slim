@@ -4,6 +4,8 @@
       = ppu.input :event_id, as: :hidden, input_html: { value: current_event.id }
       = ppu.input :name, placeholder: true
       = ppu.input :description, placeholder: true
+    = f.input :value, placeholder: true
+    = f.input :currency, placeholder: true
     = f.input :standard, as: :radio_buttons, placeholder: true
 
     = f.button :submit, class: "btn btn-primary"

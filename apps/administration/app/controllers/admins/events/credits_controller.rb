@@ -36,12 +36,20 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
 
   def destroy
     @credit = @fetcher.credits.find(params[:id])
+    update_preevent_products
     @credit.destroy!
     flash[:notice] = I18n.t("alerts.destroyed")
     redirect_to admins_event_credits_url
   end
 
   private
+
+  def update_preevent_products
+    @credit.preevent_item.preevent_products.each do |pp|
+      pp.preevent_items_counter_decrement
+      pp.destroy if pp.preevent_items_count <= 0
+    end
+  end
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
@@ -56,6 +64,7 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
 
   def permitted_params
     params.require(:credit).permit(:standard,
+                                   :currency,
                                    preevent_item_attributes: [
                                      :event_id,
                                      :name,

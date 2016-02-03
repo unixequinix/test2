@@ -40,7 +40,7 @@ class Events::ClaimsController < Events::BaseController
     @claim.minimum = current_event.refund_minimun(service_type)
     @claim.customer_event_profile = current_customer_event_profile
     @claim.gtag = current_customer_event_profile.active_gtag_assignment.credentiable
-    @claim.total = current_customer_event_profile.active_gtag_assignment.credentiable.gtag_credit_log.amount * current_event.standard_credit.online_product.rounded_price
+    @claim.total = current_customer_event_profile.active_gtag_assignment.credentiable.gtag_credit_log.amount * current_event.standard_credit_price
     @claim.generate_claim_number!
     @claim.save!
     @claim
