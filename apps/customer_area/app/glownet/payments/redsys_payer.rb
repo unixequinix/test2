@@ -25,7 +25,8 @@ class Payments::RedsysPayer
       merchant_code: params[:Ds_MerchantCode],
       amount: amount,
       terminal: params[:Ds_Terminal],
-      success: true)
+      success: true,
+      payment_type: 'redsys')
     payment.save!
     order.complete!
     send_mail_for(order, event)

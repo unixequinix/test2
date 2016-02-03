@@ -10,10 +10,10 @@ class Payments::BraintreeDataRetriever
                                           group: @current_event.payment_service,
                                           event_parameters: { event: event })
                                    .select("parameters.name, event_parameters.*")
-    Braintree::Configuration.environment  = :sandbox
-    Braintree::Configuration.merchant_id   = 'ggtbw7zbswh382kw'
-    Braintree::Configuration.public_key   = 'xgbtvr7dnsgddgpq'
-    Braintree::Configuration.private_key  = '2d008acc70e917328fd6161ffa92c021'
+    Braintree::Configuration.environment  = enviroment
+    Braintree::Configuration.merchant_id = merchant_id
+    Braintree::Configuration.public_key = public_key
+    Braintree::Configuration.private_key = private_key
     @client_token = generate_client_token
   end
 
@@ -21,13 +21,28 @@ class Payments::BraintreeDataRetriever
 
   def generate_client_token
     customer_event_profile = order.customer_event_profile
-    gateway_customer =
-      customer_event_profile.payment_gateway_customers.find_by(gateway_type: Event::BRAINTREE)
+    gateway_customer = customer_event_profile.gateway_customer(Event::BRAINTREE)
     if gateway_customer
       Braintree::ClientToken.generate(customer_id: gateway_customer.token)
     else
       Braintree::ClientToken.generate
     end
+  end
+
+  def enviroment
+    get_value_of_parameter("enviroment")
+  end
+
+  def merchant_id
+    get_value_of_parameter("merchant_id")
+  end
+
+  def public_key
+    get_value_of_parameter("public_key")
+  end
+
+  def private_key
+    get_value_of_parameter("private_key")
   end
 
   def get_value_of_parameter(parameter)

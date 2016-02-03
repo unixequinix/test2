@@ -46,6 +46,21 @@
         -
           name: stripe_account_id
           value: unassigned
+    -
+      name: braintree
+      values:
+        -
+          name: environment
+          value: sandbox
+        -
+          name: merchant_id
+          value: ggtbw7zbswh382kw
+        -
+          name: public_key
+          value: xgbtvr7dnsgddgpq
+        -
+          name: private_key
+          value: 2d008acc70e917328fd6161ffa92c021
 -
   category: refund
   groups:

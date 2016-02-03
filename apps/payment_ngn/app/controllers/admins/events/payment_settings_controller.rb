@@ -11,14 +11,12 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
     @fetcher.event_parameters.find_by(parameter: Parameter.where(group: @event.payment_service,
                                                                  category: "payment",
                                                                  name: "stripe_account_id"))
-    @parameters = Parameter.where(group: @event.payment_service, category: "payment")
     @payment_settings_form = ("#{@event.payment_service.camelize}PaymentSettingsForm")
                              .constantize.new
   end
 
   def create
     @event = Event.friendly.find(params[:event_id])
-    @parameters = Parameter.where(group: @event.payment_service, category: "payment")
     @payment_settings_form = ("#{@event.payment_service.camelize}PaymentSettingsForm")
                              .constantize.new(permitted_params)
     if @payment_settings_form.save(params, request)
@@ -33,7 +31,6 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
 
   def edit
     @event = Event.friendly.find(params[:event_id])
-    @parameters = Parameter.where(group: @event.payment_service, category: "payment")
     event_parameters = @fetcher.event_parameters.where(parameters: { group: @event.payment_service,
                                                                      category: "payment" })
                                                 .joins(:parameter)
@@ -46,7 +43,6 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
 
   def update
     @event = Event.friendly.find(params[:event_id])
-    @parameters = Parameter.where(group: @event.payment_service, category: "payment")
     @payment_settings_form = ("#{@event.payment_service.camelize}PaymentSettingsForm")
                              .constantize.new(permitted_params)
     if @payment_settings_form.update

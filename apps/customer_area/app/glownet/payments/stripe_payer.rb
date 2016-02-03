@@ -46,8 +46,10 @@ class Payments::StripePayer
       merchant_code: charge.balance_transaction,
       currency: charge.currency,
       paid_at: Time.at(charge.created),
-      response_code: charge,
-      success: true
+      response_code: charge.status,
+      last4: charge.source.last4,
+      success: true,
+      payment_type: 'stripe'
     )
     payment.save!
     order.complete!

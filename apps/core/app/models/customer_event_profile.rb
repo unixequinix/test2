@@ -83,4 +83,8 @@ class CustomerEventProfile < ActiveRecord::Base
   def refundable_credits
     assigned_gtag_registration.gtag.gtag_credit_log.amount unless assigned_gtag_registration.nil? || assigned_gtag_registration.gtag.gtag_credit_log.nil?
   end
+
+  def gateway_customer(gateway)
+    self.payment_gateway_customers.find_by(gateway_type: gateway)
+  end
 end

@@ -82,6 +82,21 @@
         -
           name: tos_acceptance_ip
           data_type: string
+    -
+      name: braintree
+      parameters:
+        -
+          name: environment
+          data_type: string
+        -
+          name: merchant_id
+          data_type: string
+        -
+          name: public_key
+          data_type: string
+        -
+          name: private_key
+          data_type: string
 -
   name: refund
   groups:
