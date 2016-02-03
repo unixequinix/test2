@@ -1,11 +1,14 @@
-.container-customer-product
-  .wrapper-customer-product
-    p.product-name = preevent_product.name
-    p.highlight-text 83€
-  .wrapper-customer-amount
-    = select_tag "checkout_form[preevent_products][#{preevent_product.id}]",
-      options_for_select((preevent_product.min_purchasable..preevent_product.max_purchasable).step(preevent_product.step).to_a),
-      id: "amount-input-#{preevent_product.id}",
-      class: "xxx",
-      data: { id: "#{preevent_product.id}", price: "#{preevent_product.price}" }
+.wrapper-module
+  h3.store-module-title = preevent_product.name
+  .container-customer-product
+    .wrapper-customer-product
+      p.product-name = preevent_product.name
+      p.highlight-text 83€
+    .wrapper-customer-amount
+      = select_tag "checkout_form[preevent_products][#{preevent_product.id}]",
+        options_for_select((preevent_product.min_purchasable..preevent_product.max_purchasable).step(preevent_product.step).to_a),
+        id: "amount-input-#{preevent_product.id}",
+        class: "amount-input",
+        data: { id: "#{preevent_product.id}", price: "#{preevent_product.price}" }
+
 

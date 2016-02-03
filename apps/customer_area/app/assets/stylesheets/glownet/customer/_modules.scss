@@ -55,17 +55,27 @@ $quarter_text:           $base_font_size*1.25;
   @include min-screen($bp3) { padding-top: modules(0.25); }
 }
 
-//                STORE
+///\/\/\/\/\/\ STORE /\/\/\/\/\/\
+
+.wrapper-store-module {
+  padding: modules(0.5) modules(1);
+
+  h3 { text-transform: uppercase; }
+  p { margin-bottom: 0; }
+}
 
 .store-module {
-  padding-bottom: 0;
+  padding: modules(0.5) modules(0.5) 0;
 
   h3 { padding-right: 0; }
+
+  .container-customer-product {
+    &:first-child { padding-top: 0;}
+  }
 }
 
 .store-module-title {
   @include mscale($quarter_text);
-  margin-bottom: modules(0.5);
   font-weight: bold;
   text-transform: uppercase;
 }

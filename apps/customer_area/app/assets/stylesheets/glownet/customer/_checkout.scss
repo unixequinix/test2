@@ -77,3 +77,18 @@
     height: modules(1.5);
   }
 }
+
+.checkout-title, .checkout-amount {
+  @include mscale($double_text);
+  display: inline-block;
+  vertical-align: middle;
+  width: auto;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.checkout-amount {
+  float: right;
+  span { @include mscale($double_text); }
+}
+

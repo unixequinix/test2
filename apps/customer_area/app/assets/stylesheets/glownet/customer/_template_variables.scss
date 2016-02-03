@@ -29,7 +29,8 @@ h3, label                           { color: $snow; }
 .store-module-title                 { color: $snow; }
 
 // Wrapper module styles
-.wrapper-module                     { box-shadow: inset 0px -1px 0px 0px $snow; }
+.wrapper-module,
+.store-module,
 .wrapper-module-centered            { box-shadow: inset 0px -1px 0px 0px $snow; }
 
 //Buttons

@@ -45,6 +45,7 @@
 .product-amount {
   display: inline-block;
   vertical-align: middle;
+  padding-bottom: modules(1);
 
   input[type=number]::-webkit-inner-spin-button,
   input[type=number]::-webkit-outer-spin-button {
@@ -76,9 +77,10 @@
 .minus-button  { text-align: left; }
 .plus-button   { text-align: right; }
 
-.amount-input {
+.wrapper-credits-total {
   @include appearance(none);
   @include mscale($double_text);
+  display: inline-block;
   width: 50%;
   margin: 0 auto;
   float: none;
@@ -88,8 +90,19 @@
   text-align: center;
 
   @include min-screen($bp3) { @include mscale($triple_text); }
-
+  input { margin-bottom: 0; }
+  .amount-input { text-align: center; }
   &:focus { outline: none; }
+}
+
+.top-up-amount {
+  @include mscale($label_size);
+  font-weight: bold;
+  text-align: center;
+
+  span {
+    padding-left: modules(0.10);
+  }
 }
 
 .amount-button {
@@ -126,16 +139,6 @@
   h3, .top-up-amount {
     display: inline-block;
     width: 50%;
-  }
-}
-
-.top-up-amount {
-  @include mscale($label_size);
-  font-weight: bold;
-  text-align: right;
-
-  span {
-    padding-left: modules(0.5);
   }
 }
 
@@ -200,11 +203,17 @@
 
 .container-customer-product {
   border-bottom: 1px dashed $color_text;
-  padding: modules(1) 0 0;
+  margin-bottom: modules(1);
+
+  &:first-child {
+    padding-top: 0;
+  }
 
   &:last-child {
     border-bottom: none;
-    padding-bottom: 0;
+    margin: 0;
+
+    select { margin-bottom: 0; }
   }
 }
 
