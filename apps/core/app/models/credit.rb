@@ -29,6 +29,17 @@ class Credit < ActiveRecord::Base
 
   # Validations
   validates :preevent_item, presence: true
+  validate :only_one_standard_credit
+
+  protected
+
+  def only_one_standard_credit
+    return unless standard?
+
+    if Credit.standard_credit.present?
+      errors.add(:standard, 'cannot exist another standard credit')
+    end
+  end
 
   def rounded_value
     value.round == value ? value.floor : value

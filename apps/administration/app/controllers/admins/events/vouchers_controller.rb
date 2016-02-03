@@ -25,7 +25,8 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
 
   def update
     @voucher = @fetcher.vouchers.find(params[:id])
-    if @voucher.update(permitted_params)
+    binding.pry
+    if @voucher.update_attributes(permitted_params)
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_vouchers_url
     else
@@ -57,6 +58,7 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
   def permitted_params
     params.require(:voucher).permit(:counter,
                                     preevent_item_attributes: [
+                                      :id,
                                       :event_id,
                                       :name,
                                       :description

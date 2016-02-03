@@ -58,10 +58,11 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
     params.require(:credit).permit(:standard,
                                    :currency,
                                    preevent_item_attributes: [
-                                     :event_id,
-                                     :name,
-                                     :description
-                                   ]
+                                      :id,
+                                      :event_id,
+                                      :name,
+                                      :description
+                                    ]
                                   )
   end
 end

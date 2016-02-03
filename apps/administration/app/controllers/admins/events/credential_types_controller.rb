@@ -56,10 +56,11 @@ class Admins::Events::CredentialTypesController < Admins::Events::BaseController
 
   def permitted_params
     params.require(:credential_type).permit(:counter,
-                                            preevent_item_attributes: [
-                                              :event_id,
-                                              :name
-                                            ]
-                                           )
+                                              preevent_item_attributes: [
+                                                :id,
+                                                :event_id,
+                                                :name
+                                              ]
+                                            )
   end
 end
