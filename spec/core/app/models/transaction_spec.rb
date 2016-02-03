@@ -34,5 +34,9 @@ RSpec.describe Transaction, type: :model do
       Transaction.execute_actions(transaction.id)
     end
   end
+  
+  context "invalid params" do
+    
+  end
 end
 

@@ -54,6 +54,7 @@ class CustomerEventProfile < ActiveRecord::Base
           -> { where(aasm_state: :completed) }, class_name: "Claim"
 
   # Validations
+  # TODO: Cannot validate customer since transactions allow for cust_evnt_profile.customer to be nil
   validates :customer, :event, presence: true
 
   # Scopes

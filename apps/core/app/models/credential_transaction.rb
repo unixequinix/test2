@@ -25,15 +25,14 @@
 
 class CredentialTransaction < Transaction
   SUBSCRIPTIONS = {
-    encoded_ticket_scan: [:create_ticket,
-                          :assign_company_ticket_type],
-    ticket_checkin: [:create_ticket_credential_assignment,
-                     :create_customer_event_profile,
+    encoded_ticket_scan: :create_ticket,
+    ticket_checkin: [:create_customer_event_profile,
+                     :create_ticket_credential_assignment,
                      :create_gtag,
                      :create_gtag_credential_assignment,
                      :create_customer_order,
                      :redeem_customer_order,
-                     :redeem_gtag],
+                     :redeem_ticket],
     gtag_checkin: [:create_ticket_credential_assignment,
                    :create_customer_event_profile,
                    :create_customer_order,
@@ -51,23 +50,48 @@ class CredentialTransaction < Transaction
                     :generate_monetray_transaction,
                     :redeem_customer_order] }
 
-  def create_ticket; end
+  def create_ticket
+    Ticket.create! code: ticket_code, event: event, company_ticket_type: company_ticket_type
+  end
 
-  def assign_company_ticket_type; end
+  def create_ticket_credential_assignment
+    find ticket
+    create CredentialAssignment and
+      assign ticket (polymorphic on credentiable)
+      assign customer event profile
+  end
 
-  def create_ticket_credential_assignment; end
+  def create_customer_event_profile
+    create customer event profile (event association only)
+  end
 
-  def create_customer_event_profile; end
+  def create_gtag
+    create Gtag
+    assign customer_tag_uid
+    assign tag serial number () # TODO: we have to send it, it is not currently being sent
+    assign event
+  end
 
-  def create_gtag; end
-
-  def create_gtag_credential_assignment; end
+  def create_gtag_credential_assignment
+    find gtag
+    create CredentialAssignment and
+      assign gtag (polymorphic on credentiable)
+      assign customer event profile
+  end
 
   def create_customer_order; end
 
   def redeem_customer_order; end
 
-  def redeem_gtag; end
+  def redeem_gtag
+    find gtag
+    mark credential_redeemed as true
+  end
+
+  def redeem_ticket
+    find ticket
+    mark credential_redeemed as true
+  end
 
   def initialize_balance; end
 

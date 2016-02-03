@@ -35,7 +35,7 @@ class Transaction < ActiveRecord::Base
 
   def self.write(transaction_category, atts)
     klass = "#{transaction_category}_transaction".camelcase.constantize
-    instance = klass.create! atts
+    instance = klass.create!(atts)
     klass.delay.execute_actions instance.id
     instance
   end
