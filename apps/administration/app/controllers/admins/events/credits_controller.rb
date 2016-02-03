@@ -14,7 +14,7 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_credits_url
     else
-      flash[:error] = @credit.errors.full_messages.join(". ")
+      flash.now[:error] = @credit.errors.full_messages.join(". ")
       render :new
     end
   end
@@ -29,16 +29,21 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_credits_url
     else
-      flash[:error] = @credit.errors.full_messages.join(". ")
+      flash.now[:error] = @credit.errors.full_messages.join(". ")
       render :edit
     end
   end
 
   def destroy
     @credit = @fetcher.credits.find(params[:id])
-    @credit.destroy!
-    flash[:notice] = I18n.t("alerts.destroyed")
-    redirect_to admins_event_credits_url
+    if @credit.destroy
+      flash[:notice] = I18n.t("alerts.destroyed")
+      redirect_to admins_event_credits_url
+    else
+      flash.now[:error] = I18n.t("errors.messages.preevent_item_dependent")
+      set_presenter
+      render :index
+    end
   end
 
   private

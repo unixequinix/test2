@@ -14,7 +14,7 @@ class Admins::Events::CredentialTypesController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_credential_types_url
     else
-      flash[:error] = @credential_type.errors.full_messages.join(". ")
+      flash.now[:error] = @credential_type.errors.full_messages.join(". ")
       render :new
     end
   end
@@ -29,16 +29,21 @@ class Admins::Events::CredentialTypesController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_credential_types_url
     else
-      flash[:error] = @credential_type.errors.full_messages.join(". ")
+      flash.now[:error] = @credential_type.errors.full_messages.join(". ")
       render :edit
     end
   end
 
   def destroy
     @credential_type = @fetcher.credential_types.find(params[:id])
-    @credential_type.destroy!
-    flash[:notice] = I18n.t("alerts.destroyed")
-    redirect_to admins_event_credential_types_url
+    if @credential_type.destroy
+      flash[:notice] = I18n.t("alerts.destroyed")
+      redirect_to admins_event_credential_types_url
+    else
+      flash.now[:error] = I18n.t("errors.messages.preevent_item_dependent")
+      set_presenter
+      render :index
+    end
   end
 
   private
