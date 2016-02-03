@@ -12,7 +12,7 @@ class CheckoutsPresenter
   end
 
   def is_unitary_credit(preevent_product)
-    preevent_product.preevent_items.count == 1 &&
+    preevent_product.preevent_items_count == 1 &&
     preevent_product.preevent_items.first.purchasable_type == "Credit"
   end
 

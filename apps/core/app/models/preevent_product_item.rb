@@ -13,8 +13,9 @@
 
 class PreeventProductItem < ActiveRecord::Base
   acts_as_paranoid
+  belongs_to :preevent_product, counter_cache: :preevent_items_count
   belongs_to :preevent_item
-  belongs_to :preevent_product
 
   accepts_nested_attributes_for :preevent_item
+
 end

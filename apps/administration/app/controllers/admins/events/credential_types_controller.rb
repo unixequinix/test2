@@ -36,20 +36,12 @@ class Admins::Events::CredentialTypesController < Admins::Events::BaseController
 
   def destroy
     @credential_type = @fetcher.credential_types.find(params[:id])
-    update_preevent_products
     @credential_type.destroy!
     flash[:notice] = I18n.t("alerts.destroyed")
     redirect_to admins_event_credential_types_url
   end
 
   private
-
-  def update_preevent_products
-    @credential_type.preevent_item.preevent_products.each do |pp|
-      pp.preevent_items_counter_decrement
-      pp.destroy if pp.preevent_items_count <= 0
-    end
-  end
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(

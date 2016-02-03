@@ -118,7 +118,6 @@ namespace :db do
           preevent_product: preevent_product,
           preevent_item: preevent_item
         )
-        preevent_product.preevent_items_counter
       end
     end
   end
