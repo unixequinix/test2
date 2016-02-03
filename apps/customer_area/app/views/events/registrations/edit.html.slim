@@ -18,4 +18,4 @@
       = f.input :birthdate, as: :date, start_year: 1950,
             end_year: Date.today.year - 12,
             order: [:day, :month, :year] if(current_event.birthdate?)
-      = f.button :submit, t('registration.edit.button'),  class: "btn  btn-action btn-action-enter"
+      = f.button :submit, t('registration.edit.button'),  class: "btn  btn-action btn-action-primary"
