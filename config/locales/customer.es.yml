@@ -218,7 +218,7 @@ es:
       copy: '¿Qué ventajas tiene?'
     placeholder:
       email: 'ej. nickname@mail.com'
-      password: 'ej. ● ● ● ● ● ●'
+      password: 'ej. · · · · · ·'
       name: 'ej. Richard'
       last_name: 'ej. Hendricks'
       phone: 'ej. 111 22 33 44'
