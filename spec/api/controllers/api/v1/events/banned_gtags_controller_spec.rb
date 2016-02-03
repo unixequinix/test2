@@ -3,13 +3,7 @@ require "rails_helper"
 RSpec.describe Api::V1::Events::BannedGtagsController, :type => :controller do
   describe "GET index" do
     before do
-      @event = FactoryGirl.create :event
-      @gtag1 = FactoryGirl.create :gtag, event: @event
-      @gtag2 = FactoryGirl.create :gtag, event: @event
-      @gtag3 = FactoryGirl.create :gtag, event: @event
-      FactoryGirl.create :banned_gtag, gtag: @gtag1
-      FactoryGirl.create :banned_gtag, gtag: @gtag2
-      FactoryGirl.create :banned_gtag, gtag: @gtag3
+      create(:event, :with_banned_gtags)
     end
 
     context "with authentication" do
