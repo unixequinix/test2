@@ -30,6 +30,7 @@ en:
       sign_in: 'Log in'
       sign_up: 'Register'
       join: 'Join'
+      back: 'Back to home'
   dashboard:
     title: "My dashboard"
     admissions:

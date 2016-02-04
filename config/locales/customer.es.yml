@@ -30,6 +30,7 @@ es:
       sign_in: 'Inicia Sesión'
       sign_up: 'Registrar'
       join: 'Únete'
+      back: 'Volver a la home'
   dashboard:
     title: "My dashboard"
     admissions:

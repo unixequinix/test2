@@ -5,5 +5,4 @@ p.success-message
 = render 'events/events/credits', presenter: @presenter
 
 .wrapper-module
-  = link_to event_url(current_event), class: "btn btn-action btn-action-empty-state" do
-    | back to home
+  = link_to t('links.buttons.back'), event_url(current_event), class: "btn btn-action btn-action-empty-state"

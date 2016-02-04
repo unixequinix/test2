@@ -1,5 +1,9 @@
-.wrapper-module
+.wrapper-module-centered
   h3
     = t('dashboard.purchases.header')
-  - presenter.purchases.each do |order|
-    h4.order = "#{order.total_amount} - #{PreeventProduct.find(order.preevent_product_id).name}"
+  ul.container-purchase-order
+    - presenter.purchases.each do |order|
+      li
+        .wrapper-purchase-order
+          span.purchase-amount = "#{order.total_amount}"
+          span #{PreeventProduct.find(order.preevent_product_id).name}

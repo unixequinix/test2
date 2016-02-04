@@ -4,7 +4,25 @@
 //
 // -------------------------------------------------------
 
+// /\/\/\/\/\/\/\ BREADCRUMBS /\/\/\/\/\/\/\/\
+
+.wrapper-breadcrumbs {
+  display: none;
+  vertical-align: middle;
+  padding-top: modules(0.10);
+
+  a {
+    padding: 0 modules(0.25);
+    border-radius: $radius;
+  }
+
+  @include min-screen($bp3) { display: inline-block; }
+}
+
+.separator { padding: 0 modules(0.25); }
+
 // The whole screen container
+
 .container-main {
   overflow: hidden;
   height: auto;
@@ -122,22 +140,46 @@
   border-top: 1px dashed $color_text;
 }
 
-// /\/\/\/\/\/\/\ BREADCRUMBS /\/\/\/\/\/\/\/\
+// /\/\/\/\/\/\/\ PURCHASES /\/\/\/\/\/\/\/\
 
-.wrapper-breadcrumbs {
-  display: none;
-  vertical-align: middle;
-  padding-top: modules(0.10);
+.container-purchase-order {
+  padding-top: modules(1);
+  overflow: hidden;
+  position: relative;
+  text-align: center;
 
-  a {
-    padding: 0 modules(0.25);
-    border-radius: $radius;
+  li {
+    //display: inline-block;
+    width: auto;
+    //margin-right: modules(0.5);
   }
 
-  @include min-screen($bp3) { display: inline-block; }
+  &:before {
+    display: block;
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    content: "";
+    width: 1px;
+    height: 100%;
+    background-color: $nuclear;
+  }
 }
 
-.separator { padding: 0 modules(0.25); }
+.wrapper-purchase-order {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  width: auto;
+  margin-bottom: modules(1);
+  border-radius: 50px;
+  padding: 0 modules(0.5);
+  box-shadow: inset 0px 0px 0px 1px $nuclear;
+  background-color: $nuclear;
+  color: $magenta;
+}
+
+.purchase-amount { padding-right: modules(0.15); }
 
 // /\/\/\/\/\/\/\ TERMS AND CONDITIONS /\/\/\/\/\/\/\/\
 
