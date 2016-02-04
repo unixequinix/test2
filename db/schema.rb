@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 20160203132002) do
     t.integer  "locales",                 default: 1,                     null: false
     t.integer  "refund_services",         default: 0,                     null: false
     t.boolean  "ticket_assignation",      default: true,                  null: false
-    t.string   "token",                   null: false
+    t.string   "token"
   end
 
   create_table "customers", force: :cascade do |t|
@@ -123,10 +123,10 @@ ActiveRecord::Schema.define(version: 20160203132002) do
     t.integer  "max_purchasable"
     t.integer  "min_purchasable"
     t.decimal  "price"
+    t.integer  "preevent_items_count", default: 0,     null: false
     t.datetime "deleted_at",           index: {name: "index_preevent_products_on_deleted_at"}
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
-    t.integer  "preevent_items_count", default: 0,     null: false
   end
 
   create_table "company_ticket_types", force: :cascade do |t|
@@ -223,7 +223,7 @@ ActiveRecord::Schema.define(version: 20160203132002) do
     t.datetime "updated_at", null: false
     t.datetime "deleted_at", index: {name: "index_credits_on_deleted_at"}
     t.decimal  "value",      precision: 8, scale: 2, default: 1.0,   null: false
-    t.string   "currency",   null: false
+    t.string   "currency"
   end
 
   create_table "event_parameters", force: :cascade do |t|
@@ -316,12 +316,13 @@ ActiveRecord::Schema.define(version: 20160203132002) do
   end
 
   create_table "preevent_product_items", force: :cascade do |t|
-    t.integer  "preevent_item_id",    index: {name: "fk__preevent_product_items_preevent_item_id"}, foreign_key: {references: "preevent_items", name: "fk_preevent_product_items_preevent_item_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "preevent_product_id", index: {name: "fk__preevent_product_items_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "fk_preevent_product_items_preevent_product_id", on_update: :no_action, on_delete: :no_action}
-    t.decimal  "amount",              precision: 8, scale: 2, default: 1.0, null: false
-    t.datetime "deleted_at",          index: {name: "index_preevent_product_items_on_deleted_at"}
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.integer  "preevent_item_id",     index: {name: "fk__preevent_product_items_preevent_item_id"}, foreign_key: {references: "preevent_items", name: "fk_preevent_product_items_preevent_item_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "preevent_product_id",  index: {name: "fk__preevent_product_items_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "fk_preevent_product_items_preevent_product_id", on_update: :no_action, on_delete: :no_action}
+    t.decimal  "amount",               precision: 8, scale: 2, default: 1.0, null: false
+    t.integer  "preevent_items_count", default: 0,   null: false
+    t.datetime "deleted_at",           index: {name: "index_preevent_product_items_on_deleted_at"}
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
   create_table "refunds", force: :cascade do |t|
@@ -347,7 +348,7 @@ ActiveRecord::Schema.define(version: 20160203132002) do
     t.string   "purchaser_last_name"
     t.integer  "event_id",               null: false, index: {name: "index_tickets_on_event_id"}, foreign_key: {references: "events", name: "tickets_event_id_fkey", on_update: :no_action, on_delete: :no_action}
     t.boolean  "credential_redeemed",    default: false, null: false
-    t.integer  "company_ticket_type_id", null: false, index: {name: "fk__tickets_company_ticket_type_id"}, foreign_key: {references: "company_ticket_types", name: "tickets_company_ticket_type_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.integer  "company_ticket_type_id", index: {name: "fk__tickets_company_ticket_type_id"}, foreign_key: {references: "company_ticket_types", name: "tickets_company_ticket_type_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "ticket_blacklists", force: :cascade do |t|
