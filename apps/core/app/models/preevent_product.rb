@@ -42,10 +42,10 @@ class PreeventProduct < ActiveRecord::Base
   end
 
   def self.online_preevent_products_sortered(current_event)
-    online_preevent_products_hash_sortered(current_event).values.flatten
+    online_preevent_products_hash_sorted(current_event).values.flatten
   end
 
-  def self.online_preevent_products_hash_sortered(current_event)
+  def self.online_preevent_products_hash_sorted(current_event)
     preevent_products = where(event_id: current_event.id)
     @sortered_products_storage = Hash[keys_sortered.map { |key| [key, []] }]
 
