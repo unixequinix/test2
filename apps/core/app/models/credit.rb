@@ -36,9 +36,8 @@ class Credit < ActiveRecord::Base
     event_id = preevent_item.event_id
     event_standard_credit = Credit.joins(:preevent_item)
                             .find_by(standard: true, preevent_items: { event_id: event_id })
-    if event_standard_credit.present?
-      errors.add(:standard, I18n.t("errors.messages.max_standard_credits"))
-    end
+    errors.add(:standard,
+               I18n.t("errors.messages.max_standard_credits")) if event_standard_credit.present?
   end
 
   def rounded_value

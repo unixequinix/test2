@@ -62,7 +62,6 @@ class AddBarcodeCredentialPreeventProductToTickets < ActiveRecord::Migration
       company = Company.find_or_create_by(name: ticket_type.company, event_id: ticket_type.event_id)
       company_ticket_type = create_company_ticket_type(ticket_type, company, preevent_product)
       update_company_ticket_type_in_tickets(ticket_type, company_ticket_type)
-
     end
     puts "TicketTypes Migrated √"
   end
@@ -73,11 +72,11 @@ class AddBarcodeCredentialPreeventProductToTickets < ActiveRecord::Migration
     amount = 1
     preevent_items_array = (credential_types_ids + preevent_items_ids).map do |preevent_item_id|
       amount = ticket_type.credit if PreeventItem.find(preevent_item_id).purchasable_type == "Credit"
-      {preevent_item_id: preevent_item_id, amount: amount}
+      { preevent_item_id: preevent_item_id, amount: amount }
     end
     PreeventProduct.new(
       name: ticket_type.name,
-      preevent_product_items_attributes:preevent_items_array,
+      preevent_product_items_attributes: preevent_items_array,
       order_item_ids: order_items.pluck(:id),
       event_id: ticket_type.event_id,
       initial_amount: 1,
