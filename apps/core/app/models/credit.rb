@@ -8,7 +8,7 @@
 #  updated_at :datetime         not null
 #  deleted_at :datetime
 #  value      :decimal(8, 2)    default(1.0), not null
-#  currency   :string           not null
+#  currency   :string
 #
 
 class Credit < ActiveRecord::Base
@@ -29,6 +29,16 @@ class Credit < ActiveRecord::Base
 
   # Validations
   validates :preevent_item, presence: true
+  validate :only_one_standard_credit
+
+  def only_one_standard_credit
+    return unless standard?
+    event_id = preevent_item.event_id
+    event_standard_credit = Credit.joins(:preevent_item)
+                            .find_by(standard: true, preevent_items: { event_id: event_id })
+    errors.add(:standard,
+               I18n.t("errors.messages.max_standard_credits")) if event_standard_credit.present?
+  end
 
   def rounded_value
     value.round == value ? value.floor : value

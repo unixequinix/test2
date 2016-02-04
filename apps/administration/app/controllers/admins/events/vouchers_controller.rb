@@ -14,7 +14,7 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_vouchers_url
     else
-      flash[:error] = @voucher.errors.full_messages.join(". ")
+      flash.now[:error] = @voucher.errors.full_messages.join(". ")
       render :new
     end
   end
@@ -25,31 +25,28 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
 
   def update
     @voucher = @fetcher.vouchers.find(params[:id])
-    if @voucher.update(permitted_params)
+    if @voucher.update_attributes(permitted_params)
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_vouchers_url
     else
-      flash[:error] = @voucher.errors.full_messages.join(". ")
+      flash.now[:error] = @voucher.errors.full_messages.join(". ")
       render :edit
     end
   end
 
   def destroy
     @voucher = @fetcher.vouchers.find(params[:id])
-    update_preevent_products
-    @voucher.destroy!
-    flash[:notice] = I18n.t("alerts.destroyed")
-    redirect_to admins_event_vouchers_url
+    if @voucher.destroy
+      flash[:notice] = I18n.t("alerts.destroyed")
+      redirect_to admins_event_vouchers_url
+    else
+      flash.now[:error] = I18n.t("errors.messages.preevent_item_dependent")
+      set_presenter
+      render :index
+    end
   end
 
   private
-
-  def update_preevent_products
-    @voucher.preevent_item.preevent_products.each do |pp|
-      pp.preevent_items_counter_decrement
-      pp.destroy if pp.preevent_items_count <= 0
-    end
-  end
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
@@ -63,8 +60,8 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:voucher).permit(:counter,
-                                    preevent_item_attributes: [
+    params.require(:voucher).permit(preevent_item_attributes: [
+                                      :id,
                                       :event_id,
                                       :name,
                                       :description

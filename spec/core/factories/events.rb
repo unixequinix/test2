@@ -56,5 +56,12 @@ FactoryGirl.define do
     info { Faker::Lorem.words(2).join }
     mass_email_claim_notification { Faker::Lorem.words(2).join }
     refund_success_message { Faker::Lorem.words(2).join }
+    refund_services 0
+
+    trait :refund_services do
+      refund_services 2
+    end
+
+    factory :event_with_refund_services, traits: [:refund_services]
   end
 end

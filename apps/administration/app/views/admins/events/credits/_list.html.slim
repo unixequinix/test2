@@ -11,7 +11,7 @@ table.credits
   tbody
     - credits.each do |credit|
       tr
-        td data-label=t('admin.preevent_item.name') = link_to(credit.preevent_item.name, edit_admins_event_credit_path(current_event, credit))
+        td data-label=t('admin.preevent_item.name') = link_to_unless(credit.standard?, credit.preevent_item.name, edit_admins_event_credit_path(current_event, credit))
         td data-label=t('admin.preevent_item.description') = credit.preevent_item.description
         td data-label=t('admin.credits.value') = credit.value
         td data-label=t('admin.credits.currency') = credit.currency

@@ -20,7 +20,7 @@ $radius:            3px;
 // HTML base styles
 
 html, body {
-  @include sticky-footer(modules(17));
+  @include sticky-footer(modules(16));
   position: relative;
   height: 100%;
 

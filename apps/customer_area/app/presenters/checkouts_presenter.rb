@@ -3,7 +3,7 @@ class CheckoutsPresenter
 
   def initialize(current_event)
     @event = current_event
-    @preevent_products = PreeventProduct.online_preevent_products_sortered(current_event)
+    @preevent_products = PreeventProduct.online_preevent_products_hash_sortered(current_event)
   end
 
   def draw_product(preevent_product)
@@ -12,7 +12,7 @@ class CheckoutsPresenter
   end
 
   def is_unitary_credit(preevent_product)
-    preevent_product.preevent_items.count == 1 &&
+    preevent_product.preevent_items_count == 1 &&
     preevent_product.preevent_items.first.purchasable_type == "Credit"
   end
 

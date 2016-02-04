@@ -61,6 +61,13 @@
   &:hover { opacity: 0.6; }
 }
 
+.btn-action-checkout {
+  width: 100%;
+  display: block;
+  float: none;
+  margin: modules(1.5) 0;
+}
+
 // Centered button inside the column
 
 .btn-action-secondary {
