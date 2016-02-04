@@ -47,7 +47,7 @@ class AddPreeventProductToOrderItems < ActiveRecord::Migration
         description: "Entitlement description",
         event_id: entitlement.event_id
       )
-      CredentialType.create(preevent_item: preevent_item, position: 1)
+      CredentialType.create(preevent_item: preevent_item)
     end
     puts "Entitlements Migrated √"
   end

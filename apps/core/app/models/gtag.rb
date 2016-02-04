@@ -72,12 +72,7 @@ class Gtag < ActiveRecord::Base
   end
 
   def any_refundable_method?
-    refundable = false
-    current_event = event
-    current_event.selected_refund_services.each do |refund_service|
-      refundable = refundable?(refund_service)
-    end
-    refundable
+    event.selected_refund_services.any? { |refund_service| refundable?(refund_service) }
   end
 
   private

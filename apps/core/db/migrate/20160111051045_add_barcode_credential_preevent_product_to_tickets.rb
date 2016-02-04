@@ -32,12 +32,15 @@ class AddBarcodeCredentialPreeventProductToTickets < ActiveRecord::Migration
 
   def change
     add_column :tickets, :credential_redeemed, :boolean, null: false, default: false
-    add_column :tickets, :company_ticket_type_id, :integer, null: false
+    add_column :tickets, :company_ticket_type_id, :integer
     rename_column :tickets, :number, :code
     rename_column :tickets, :purchaser_name, :purchaser_first_name
     rename_column :tickets, :purchaser_surname, :purchaser_last_name
 
     migrate_ticket_types
+
+    # TODO: Impossible without default company id for deleted items(paranoid)
+    #  change_column :tickets, :company_ticket_type_id, :integer, null: false
   end
 
   def migrate_ticket_types
@@ -51,14 +54,13 @@ class AddBarcodeCredentialPreeventProductToTickets < ActiveRecord::Migration
                                                 purchasable_type: "CredentialType",
                                                 event_id: ticket_type.event_id).pluck(:id)
       order_items = OrderItem.joins(:online_product).where(online_products: { purchasable_id: credits_ids })
-      preevent_product = build_preevent_product(ticket_type, credential_types_ids, preevent_items_ids, order_items)
 
+      preevent_product = build_preevent_product(ticket_type, credential_types_ids, preevent_items_ids, order_items)
       attach_purchase_parameters(order_items, preevent_product)
       preevent_product.save
 
       company = Company.find_or_create_by(name: ticket_type.company, event_id: ticket_type.event_id)
-      company_ticket_type = build_company_ticket_type(ticket_type, company, preevent_product)
-
+      company_ticket_type = create_company_ticket_type(ticket_type, company, preevent_product)
       update_company_ticket_type_in_tickets(ticket_type, company_ticket_type)
     end
     puts "TicketTypes Migrated √"
@@ -67,10 +69,14 @@ class AddBarcodeCredentialPreeventProductToTickets < ActiveRecord::Migration
   private
 
   def build_preevent_product(ticket_type, credential_types_ids, preevent_items_ids, order_items)
+    amount = 1
+    preevent_items_array = (credential_types_ids + preevent_items_ids).map do |preevent_item_id|
+      amount = ticket_type.credit if PreeventItem.find(preevent_item_id).purchasable_type == "Credit"
+      { preevent_item_id: preevent_item_id, amount: amount }
+    end
     PreeventProduct.new(
       name: ticket_type.name,
-      preevent_item_ids: credential_types_ids + preevent_items_ids,
-      preevent_product_items_attributes: [{ amount: ticket_type.credit || 1 }],
+      preevent_product_items_attributes: preevent_items_array,
       order_item_ids: order_items.pluck(:id),
       event_id: ticket_type.event_id,
       initial_amount: 1,
@@ -93,13 +99,13 @@ class AddBarcodeCredentialPreeventProductToTickets < ActiveRecord::Migration
   end
 
   def update_company_ticket_type_in_tickets(ticket_type, company_ticket_type)
-    ticket_type.tickets do |ticket|
-      ticket.update_attributes(company_ticket_type: company_ticket_type)
+    ticket_type.tickets.each do |ticket|
+      ticket.update_attribute(:company_ticket_type, company_ticket_type)
     end
   end
 
-  def build_company_ticket_type(ticket_type, company, preevent_product)
-    CompanyTicketType.new(
+  def create_company_ticket_type(ticket_type, company, preevent_product)
+    CompanyTicketType.create(
       name: ticket_type.simplified_name || ticket_type.name,
       company: company,
       preevent_product: preevent_product,
