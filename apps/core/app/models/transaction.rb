@@ -35,6 +35,7 @@ class Transaction < ActiveRecord::Base
 
   def self.write(transaction_category, atts)
     klass = "#{transaction_category}_transaction".camelcase.constantize
+    atts = klass.pre_process(atts)
     instance = klass.create!(atts)
     klass.delay.execute_actions instance.id
     instance
@@ -47,5 +48,9 @@ class Transaction < ActiveRecord::Base
       actions = [klass::SUBSCRIPTIONS[instance.transaction_type.to_sym]].flatten
       actions.each { |action| instance.method(action).call }
     end
+  end
+
+  def self.pre_process(atts)
+    atts.symbolize_keys
   end
 end

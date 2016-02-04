@@ -50,42 +50,59 @@ class CredentialTransaction < Transaction
                     :generate_monetray_transaction,
                     :redeem_customer_order] }
 
-  def create_ticket
-    Ticket.create! code: ticket_code, event: event, company_ticket_type: company_ticket_type
+  def self.pre_process(atts)
+    atts[:company_ticket_type_id] = decode_ticket_code
   end
 
-  def create_ticket_credential_assignment
-    # find ticket
-    # create CredentialAssignment and
-    #   assign ticket (polymorphic on credentiable)
-    #   assign customer event profile
+  def create_ticket
+    # create Ticket with:
+    # => ticket_code
+    # => event
+    # => company_ticket_type (retreieved from decoding ticket_code#last and searching for company_code within companies table)
+    Ticket.create! code: ticket_code,
+                   event: event,
+                   company_ticket_type: company_ticket_type
   end
 
   def create_customer_event_profile
-    # create customer event profile (event association only)
+    # create CustomerEventProfile with:
+    # => event
+    CustoemrEventProfile.create!(event: event)
+  end
+
+  def create_ticket_credential_assignment
+    # create CredentialAssignment with:
+    # => assign ticket (polymorphic on credentiable)
+    # => assign customer event profile
+
+    CredentialAssignment.create! credentiable: ticket,
+                                 customer_event_profile: customer_event_profile
   end
 
   def create_gtag
-    # create Gtag
-    # assign customer_tag_uid
-    # assign event
+    # create Gtag with:
+    # => customer_tag_uid
+    # => event
+    Gtag.create!(tag_uid: customer_tag_uid, event: event)
   end
 
   def create_gtag_credential_assignment
-    # find gtag
-    # create CredentialAssignment and
-    #   assign gtag (polymorphic on credentiable)
-    #   assign customer event profile
+    # create CredentialAssignment with:
+    # => assign gtag (polymorphic on credentiable)
+    # => assign customer event profile
+    CredentialAssignment.create! credentiable: Gtag.find_by(event: event, tag_uid: customer_tag_uid),
+                                 customer_event_profile: customer_event_profile
   end
 
   def redeem_gtag
     # find gtag
     # mark credential_redeemed as true
+    Gtag.find_by(event: event, tag_uid: customer_tag_uid).update!(credential_redeemed: true)
   end
 
   def redeem_ticket
-    # find ticket
-    # mark credential_redeemed as true
+    # mark credential_redeemed as true on Ticket
+    ticket.update!(credential_redeemed: true)
   end
 
   def create_customer_order; end
