@@ -60,12 +60,9 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:voucher).permit(preevent_item_attributes: [
-                                      :id,
-                                      :event_id,
-                                      :name,
-                                      :description
-                                    ]
-                                   )
+    params.require(:voucher).permit(preevent_item_attributes: [:id,
+                                                               :event_id,
+                                                               :name,
+                                                               :description])
   end
 end
