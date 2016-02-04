@@ -20,14 +20,12 @@ class Admins::Events::GtagKeysController < Admins::Events::BaseController
   end
 
   def update
-    # TODO: ASK ALEJANDRO
-    @event = Event.friendly.find(params[:event_id])
     @gtag_type = gtag_type
     @gtag_keys_form = "#{gtag_type}_form".classify.constantize.new(permitted_params)
 
     if @gtag_keys_form.save
       flash[:notice] = I18n.t("alerts.updated")
-      redirect_to admins_event_gtag_keys_url(@event)
+      redirect_to admins_event_gtag_keys_url(current_event)
     else
       flash[:error] = I18n.t("alerts.error")
       render :edit
