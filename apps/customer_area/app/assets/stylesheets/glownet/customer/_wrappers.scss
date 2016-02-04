@@ -143,16 +143,10 @@
 // /\/\/\/\/\/\/\ PURCHASES /\/\/\/\/\/\/\/\
 
 .container-purchase-order {
-  padding-top: modules(1);
   overflow: hidden;
   position: relative;
+  margin-bottom: modules(1);
   text-align: center;
-
-  li {
-    //display: inline-block;
-    width: auto;
-    //margin-right: modules(0.5);
-  }
 
   &:before {
     display: block;
@@ -177,6 +171,23 @@
   box-shadow: inset 0px 0px 0px 1px $nuclear;
   background-color: $nuclear;
   color: $magenta;
+}
+
+.hint-purchase {
+  @include mscale($small_text);
+  position: relative;
+  display: block;
+  width: modules(3);
+  height: modules(1.5);
+  margin: 0 auto modules(2);
+  border-radius: 50px;
+  padding-top: modules(0.5);
+  //box-shadow: inset 0px 0px 0px 1px $nuclear;
+  background-color: $nuclear;
+  color: $magenta;
+  text-transform: uppercase;
+
+  &:last-child { margin: modules(1) auto 0; }
 }
 
 .purchase-amount { padding-right: modules(0.15); }
