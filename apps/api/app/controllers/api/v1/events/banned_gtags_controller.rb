@@ -3,7 +3,7 @@ module Api
     module Events
       class BannedGtagsController < Api::V1::Events::BaseController
         def index
-          @banned_gtags = Gtag.banned.where(event_id: current_event.id)
+          @banned_gtags = Gtag.banned.where(event: current_event)
           render json: @banned_gtags, each_serializer: Api::V1::BannedGtagSerializer
         end
       end

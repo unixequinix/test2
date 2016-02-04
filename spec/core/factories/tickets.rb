@@ -24,5 +24,11 @@ FactoryGirl.define do
     event
     credential_redeemed { [true, false].sample }
     company_ticket_type
+
+    trait :banned do
+      after(:create) do |ticket|
+        create(:banned_ticket, ticket: ticket)
+      end
+    end
   end
 end

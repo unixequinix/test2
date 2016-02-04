@@ -56,14 +56,5 @@ FactoryGirl.define do
     info { Faker::Lorem.words(2).join }
     mass_email_claim_notification { Faker::Lorem.words(2).join }
     refund_success_message { Faker::Lorem.words(2).join }
-
-    trait :with_banned_gtags do
-      after(:build) do |event|
-        5.times do
-          gtag = build(:gtag, event: event)
-          build(:banned_gtag, gtag: gtag)
-        end
-      end
-    end
   end
 end

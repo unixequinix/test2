@@ -1,11 +1,11 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::Events::BannedGtagsController, :type => :controller do
+RSpec.describe Api::V1::Events::BannedTicketsController, :type => :controller do
   describe "GET index" do
     before do
       @event = create :event
       10.times do
-        create(:gtag, :banned, event: @event)
+        create(:ticket, :banned, event: @event)
       end
     end
 
@@ -20,13 +20,13 @@ RSpec.describe Api::V1::Events::BannedGtagsController, :type => :controller do
         expect(response.status).to eq 200
       end
 
-      it "returns all the banned gtags" do
+      it "returns all the banned tickets" do
         get :index, event_id: @event.id
 
         body = JSON.parse(response.body)
-        banned_gtags = body.map { |m| m["tag_uid"] }
+        banned_tickets = body.map { |m| m["reference"] }
 
-        expect(banned_gtags).to match_array(Gtag.banned.map(&:tag_uid))
+        expect(banned_tickets).to match_array(Ticket.banned.map(&:code))
       end
     end
     context "without authentication" do

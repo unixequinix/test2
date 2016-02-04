@@ -12,6 +12,8 @@ module Api
         def show
           @gtag = Gtag.includes(:credential_assignments)
                            .find_by(event_id: current_event.id, id: params[:id])
+
+          render(status: :not_found, json: :not_found) && return if @gtag.nil?
           render json: @gtag, serializer: Api::V1::GtagSerializer
         end
       end

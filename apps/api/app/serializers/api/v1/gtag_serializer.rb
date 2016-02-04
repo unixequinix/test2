@@ -15,10 +15,6 @@ module Api
       def customer_uid
         object.credential_assignments.first.customer_event_profile_id
       end
-
-      def reference
-        object.code
-      end
     end
   end
 end
