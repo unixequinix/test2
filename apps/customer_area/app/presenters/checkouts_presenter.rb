@@ -3,7 +3,7 @@ class CheckoutsPresenter
 
   def initialize(current_event)
     @event = current_event
-    @preevent_products = PreeventProduct.online_preevent_products_sortered(current_event)
+    @preevent_products = PreeventProduct.online_preevent_products_hash_sortered(current_event)
   end
 
   def draw_product(preevent_product)
