@@ -51,7 +51,7 @@ class CredentialTransaction < Transaction
                     :redeem_customer_order] }
 
   def self.pre_process(atts)
-    atts[:company_ticket_type_id] = decode_ticket_code
+    atts.each { |key, value| atts[key] = value.upcase if key.to_s.end_with?("uid") }
   end
 
   def create_ticket
@@ -67,7 +67,7 @@ class CredentialTransaction < Transaction
   def create_customer_event_profile
     # create CustomerEventProfile with:
     # => event
-    CustoemrEventProfile.create!(event: event)
+    CustomerEventProfile.create!(event: event)
   end
 
   def create_ticket_credential_assignment
@@ -75,7 +75,8 @@ class CredentialTransaction < Transaction
     # => assign ticket (polymorphic on credentiable)
     # => assign customer event profile
 
-    CredentialAssignment.create! credentiable: ticket,
+    CredentialAssignment.create! event: event,
+                                 credentiable: ticket,
                                  customer_event_profile: customer_event_profile
   end
 
@@ -90,7 +91,8 @@ class CredentialTransaction < Transaction
     # create CredentialAssignment with:
     # => assign gtag (polymorphic on credentiable)
     # => assign customer event profile
-    CredentialAssignment.create! credentiable: Gtag.find_by(event: event, tag_uid: customer_tag_uid),
+    CredentialAssignment.create! event: event,
+                                 credentiable: Gtag.find_by(event: event, tag_uid: customer_tag_uid),
                                  customer_event_profile: customer_event_profile
   end
 
