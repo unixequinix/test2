@@ -8,7 +8,7 @@
 #  updated_at :datetime         not null
 #  deleted_at :datetime
 #  value      :decimal(8, 2)    default(1.0), not null
-#  currency   :string           not null
+#  currency   :string
 #
 
 class Credit < ActiveRecord::Base

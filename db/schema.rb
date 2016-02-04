@@ -203,10 +203,10 @@ ActiveRecord::Schema.define(version: 20160203132002) do
   end
 
   create_table "credential_types", force: :cascade do |t|
-    t.integer  "position",   null: false
-    t.datetime "deleted_at", index: {name: "index_credential_types_on_deleted_at"}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "memory_position", null: false
+    t.datetime "deleted_at",      index: {name: "index_credential_types_on_deleted_at"}
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "credit_logs", force: :cascade do |t|
@@ -358,7 +358,6 @@ ActiveRecord::Schema.define(version: 20160203132002) do
   end
 
   create_table "vouchers", force: :cascade do |t|
-    t.integer  "counter",    default: 0, null: false
     t.datetime "deleted_at", index: {name: "index_vouchers_on_deleted_at"}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

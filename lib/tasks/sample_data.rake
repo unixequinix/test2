@@ -78,9 +78,6 @@ namespace :db do
           }
         )
 
-        item.counter = data['counter'] if data['purchasable_type'] == 'Voucher'
-        item.position = data['position'] if data['purchasable_type'] == 'CredentialType'
-
         item.save!
       end
     end
