@@ -31,8 +31,6 @@ class Credit < ActiveRecord::Base
   validates :preevent_item, presence: true
   validate :only_one_standard_credit
 
-  protected
-
   def only_one_standard_credit
     return unless standard?
     event_id = preevent_item.event_id

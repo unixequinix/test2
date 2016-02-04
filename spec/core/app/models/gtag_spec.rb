@@ -52,7 +52,6 @@ RSpec.describe Gtag, type: :model do
 
       event.update_attribute(:refund_services, 0)
       expect(gtag.any_refundable_method?).to be(false)
-
     end
   end
 end
