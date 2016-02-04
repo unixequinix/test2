@@ -59,6 +59,9 @@ class Event < ActiveRecord::Base
   LOCALES = [:en_lang, :es_lang, :it_lang, :th_lang]
   REGISTRATION_PARAMETERS = [:phone, :address, :city, :country, :postcode, :gender, :birthdate, :agreed_event_condition]
 
+  #
+  GTAG_TYPES = [:mifare_classic, :ultralight_ev1]
+
   include FlagShihTzu
 
   has_flags 1 => :top_ups, 2 => :refunds, column: "features"
@@ -112,6 +115,10 @@ class Event < ActiveRecord::Base
 
   # State machine
   include EventState
+
+  def self.gtag_type_selector
+    GTAG_TYPES.map { |f| [I18n.t("admin.gtag_settings.form." + f.to_s), f] }
+  end
 
   def self.background_types_selector
     BACKGROUND_TYPES.map { |f| [I18n.t("admin.event.background_types." + f.to_s), f] }

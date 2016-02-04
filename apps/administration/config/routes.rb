@@ -25,6 +25,7 @@ Rails.application.routes.draw do
         resource :device_settings, only: [:show, :edit, :update]
         resources :ticket_assignments, only: [:destroy]
         resource :gtag_settings, only: [:show, :edit, :update]
+        resource :gtag_keys, only: [:show, :edit, :update]
         resources :gtags do
           resources :comments, module: :gtags
           collection do

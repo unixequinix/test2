@@ -5,12 +5,16 @@ class GtagSettingsForm
   attribute :format, String
   attribute :event_id, Integer
   attribute :gtag_name, String
+  attribute :gtag_type, String
+  attribute :maximum_gtag_balance, String
   attribute :gtag_form_disclaimer
   attribute :gtag_assignation_notification
 
   validates_presence_of :format
   validates_presence_of :event_id
   validates_presence_of :gtag_name
+  validates_presence_of :gtag_type
+  validates_presence_of :maximum_gtag_balance
   validates_presence_of :gtag_form_disclaimer
   validates_presence_of :gtag_assignation_notification
 

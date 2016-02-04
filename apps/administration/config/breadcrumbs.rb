@@ -48,6 +48,12 @@ crumb :admins_event_gtag_settings do |event|
   link t("breadcrumbs.gtag_settings"), admin_root_path
   parent :admins_event, event
 end
+## Gtag Keys
+
+crumb :admins_event_gtag_keys do |event|
+  link t("breadcrumbs.gtag_keys"), admin_root_path
+  parent :admins_event, event
+end
 
 ## Device Settings
 

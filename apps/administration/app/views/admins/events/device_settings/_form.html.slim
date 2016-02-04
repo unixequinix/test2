@@ -4,7 +4,6 @@
       = fa_icon "info-circle"
       = t("admin.event.fieldests.parameters")
 
-    = f.input :currency
     = f.input :min_version_apk
     = f.input :event_id, as: :hidden, input_html: { value: @event.id }
 
@@ -13,7 +12,7 @@
       = fa_icon "server"
       = t("admin.event.fieldests.limits")
 
-    = f.input :maximum_wb_balance
+    = f.input :maximum_gtag_balance
 
   fieldset
     h3.section-header
@@ -28,7 +27,6 @@
       = t("admin.event.fieldests.nfc")
 
     = f.input :uid_reverse, as: :radio_buttons
-    = f.input :public_key_a
 
   .wrapper-negative-space
     = f.button :submit, t('admin.actions.update'), class: "btn btn-primary"
