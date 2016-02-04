@@ -6,19 +6,22 @@
 
 body                                { background-color: transparent; }
 
-// Mobile header
-.header-mobile                      { background-color: $snow; }
-.mobile-event-name                  { color: $color_text; }
+// /\/\/\/\/\/\/\/\ Mobile header /\/\/\/\/\/\/\/\
+
+.mobile-event-name,
 .header-mobile i                    { color: $color_text; }
+.header-mobile                      { background-color: $snow; }
 
-// H header
-.header-desktop                     { background-color: transparent; }
-.header-desktop a                   { color: $snow; }
-.header-desktop nav ul a            { color: $snow; }
-.header-desktop nav ul i            { color: $snow; }
+// /\/\/\/\/\/\/\/\ Desktop header /\/\/\/\/\/\/\/\
+.header-desktop a,
+.header-desktop nav ul a,
+.header-desktop nav ul i,
 .header-desktop h1 a                { color: $snow; }
+.header-desktop                     { background-color: transparent; }
 
-h3, label                           { color: $snow; }
+// /\/\/\/\/\/\/\/\ Main content /\/\/\/\/\/\/\/\
+
+h3, label,
 .container-event-column h3          { color: $snow; }
 
 // Main wrapper background color and border
@@ -52,23 +55,31 @@ h3, label                           { color: $snow; }
 .btn-action-empty-state:hover,
 .btn-action-primary:hover           { background-color: $snow; }
 
-
-.btn-action-enter                   { color: $snow; }
-
 .btn-action-secondary,
-.btn-action-register:hover          { color: $snow; }
+.btn-action-register:hover,
+.btn-action-enter                   { color: $snow; }
 
 .btn-action-secondary               { background-color: transparent; }
 .btn:after                          { box-shadow: 0 0 0 2px $snow; }
 
+// /\/\/\/\/\/\/\/\ PURCHASES TREE /\/\/\/\/\/\/\/\/\/\
+
+.wrapper-purchase-order,
+.hint-purchase,
+.container-purchase-order:before,
+.purchase-list-item:before          { background-color: $snow; }
+
+.wrapper-purchase-order,
+.hint-purchase                      { color: $magenta; }
+
 // /\/\/\/\/\/\/\/\ Login and sign up styles /\/\/\/\/\/\/\/\/\/\
 
-.customer_remember_me label             { color: $color_text; }
+.customer_remember_me label,
 .customer_agreed_on_registration label  { color: $color_text; }
-.customer_agreed_on_registration a      { color: $snow; }
-
+.customer_agreed_on_registration a,
 .separator, .wrapper-breadcrumbs a      { color: $snow; }
-.current-breadcrumb                { box-shadow: inset 0px 0px 0px 1px rgba(255,255,255,1); }
+
+.current-breadcrumb                     { box-shadow: inset 0px 0px 0px 1px rgba(255,255,255,1); }
 
 .wrapper-terms h2,
 .wrapper-terms h3,

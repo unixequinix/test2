@@ -77,7 +77,7 @@
 
 .header-desktop {
   display: none;
-  max-height: 0;
+  height: modules(2);
 
   @include min-screen($bp3) {
     display: block;

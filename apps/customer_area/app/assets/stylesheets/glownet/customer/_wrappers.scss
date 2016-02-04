@@ -37,7 +37,10 @@
 .container-event-logo {
   padding: 0;
 
-  @include min-screen($bp3) { padding: 0; }
+  @include min-screen($bp3) {
+    margin-top: modules(2);
+    padding: 0;
+  }
 }
 
 .logo {
@@ -147,6 +150,10 @@
   position: relative;
   margin-bottom: modules(1);
   text-align: center;
+}
+
+.show {
+  display: block !important;
 
   &:before {
     display: block;
@@ -156,7 +163,36 @@
     content: "";
     width: 1px;
     height: 100%;
-    background-color: $nuclear;
+  }
+}
+
+.purchase-list-item {
+  clear: both;
+  position: relative;
+  width: 50%;
+  padding: 0 modules(0.75);
+
+  &:before {
+    position: absolute;
+    top: modules(0.25);
+    display: block;
+    content: "";
+    width: modules(0.5);
+    height: modules(0.5);
+    border-radius: 50px;
+  }
+
+  &:nth-child(even) {
+    text-align: right;
+
+    &:before { right: modules(-0.25); }
+  }
+
+  &:nth-child(odd) {
+    float: right;
+    text-align: left;
+
+    &:before { left: modules(-0.25); }
   }
 }
 
@@ -168,26 +204,23 @@
   margin-bottom: modules(1);
   border-radius: 50px;
   padding: 0 modules(0.5);
-  box-shadow: inset 0px 0px 0px 1px $nuclear;
-  background-color: $nuclear;
-  color: $magenta;
 }
 
 .hint-purchase {
   @include mscale($small_text);
   position: relative;
-  display: block;
-  width: modules(3);
+  display: none;
+  width: modules(2.5);
   height: modules(1.5);
-  margin: 0 auto modules(2);
+  margin: 0 auto modules(3);
   border-radius: 50px;
   padding-top: modules(0.5);
-  //box-shadow: inset 0px 0px 0px 1px $nuclear;
-  background-color: $nuclear;
-  color: $magenta;
   text-transform: uppercase;
 
-  &:last-child { margin: modules(1) auto 0; }
+  &:last-child {
+    clear: both;
+    margin: modules(4) auto 0;
+  }
 }
 
 .purchase-amount { padding-right: modules(0.15); }
