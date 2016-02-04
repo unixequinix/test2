@@ -22,7 +22,7 @@
 }
 
 .btn-action-register {
-  @include transition(background 200ms ease-in-out, color 200ms ease-in-out, color 200ms ease-in-out, opacity 200ms ease-in-out);
+  @include transition(background 200ms ease-in-out, color 200ms ease-in-out, opacity 200ms ease-in-out);
   width: 45%;
   display: inline-block;
   vertical-align: top;
@@ -38,7 +38,7 @@
 }
 
 .btn-action-enter {
-  @include transition(background 200ms ease-in-out, color 200ms ease-in-out, color 200ms ease-in-out);
+  @include transition(background 200ms ease-in-out, color 200ms ease-in-out);
   display: block;
   vertical-align: top;
   width: 45%;
@@ -50,7 +50,7 @@
 }
 
 .btn-action-primary {
-  @include transition(background 200ms ease-in-out, color 200ms ease-in-out, color 200ms ease-in-out, opacity 200ms ease-in-out);
+  @include transition(background 200ms ease-in-out, color 200ms ease-in-out, opacity 200ms ease-in-out);
   width: 100%;
   display: inline-block;
   vertical-align: top;
@@ -115,11 +115,17 @@
 }
 
 .btn-action-empty-state {
+  @include transition(opacity 200ms ease-in-out);
   display: block;
   max-width: modules(9);
   width: auto;
   height: auto;
   margin: 0 auto;
+
+  &:focus, &:hover {
+    opacity: 0.6;
+    outline: none;
+  }
 }
 
 .btn-action-add-paypal {
