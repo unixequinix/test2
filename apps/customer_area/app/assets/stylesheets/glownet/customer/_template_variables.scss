@@ -6,20 +6,20 @@
 
 body                                { background-color: transparent; }
 
-// /\/\/\/\/\/\/\/\ Mobile header /\/\/\/\/\/\/\/\
+// Mobile header
 
 .mobile-event-name,
 .header-mobile i                    { color: $color_text; }
 .header-mobile                      { background-color: $snow; }
 
-// /\/\/\/\/\/\/\/\ Desktop header /\/\/\/\/\/\/\/\
+// Desktop header
 .header-desktop a,
 .header-desktop nav ul a,
 .header-desktop nav ul i,
 .header-desktop h1 a                { color: $snow; }
 .header-desktop                     { background-color: transparent; }
 
-// /\/\/\/\/\/\/\/\ Main content /\/\/\/\/\/\/\/\
+// Main content
 
 h3, label,
 .container-event-column h3          { color: $snow; }
@@ -36,7 +36,7 @@ h3, label,
 .store-module,
 .wrapper-module-centered            { box-shadow: inset 0px -1px 0px 0px $snow; }
 
-// /\/\/\/\/\/\/\/\ Buttons /\/\/\/\/\/\/\
+// Buttons
 .btn-action,
 .btn-action-register,
 .btn-action-primary,
@@ -62,7 +62,7 @@ h3, label,
 .btn-action-secondary               { background-color: transparent; }
 .btn:after                          { box-shadow: 0 0 0 2px $snow; }
 
-// /\/\/\/\/\/\/\/\ PURCHASES TREE /\/\/\/\/\/\/\/\/\/\
+// PURCHASES TREE
 
 .wrapper-purchase-order,
 .hint-purchase,
@@ -72,7 +72,7 @@ h3, label,
 .wrapper-purchase-order,
 .hint-purchase                      { color: $magenta; }
 
-// /\/\/\/\/\/\/\/\ Login and sign up styles /\/\/\/\/\/\/\/\/\/\
+// Login and sign up styles
 
 .customer_remember_me label,
 .customer_agreed_on_registration label  { color: $color_text; }
