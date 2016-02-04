@@ -41,16 +41,11 @@ class PreeventProduct < ActiveRecord::Base
     price.round == price ? price.floor : price
   end
 
-  def preevent_items_counter(preevent_item_ids = nil)
-    return update_attribute(:preevent_items_count, preevent_item_ids.count) if preevent_item_ids
-    update_attribute(:preevent_items_count, preevent_items.count)
-  end
-
-  def preevent_items_counter_decrement
-    update_attribute(:preevent_items_count, preevent_items_count - 1)
-  end
-
   def self.online_preevent_products_sortered(current_event)
+    online_preevent_products_hash_sortered(current_event).values.flatten
+  end
+
+  def self.online_preevent_products_hash_sortered(current_event)
     preevent_products = where(event_id: current_event.id)
     @sortered_products_storage = Hash[keys_sortered.map { |key| [key, []] }]
 
@@ -58,7 +53,7 @@ class PreeventProduct < ActiveRecord::Base
       next unless preevent_product.online
       add_product_to_storage(preevent_product)
     end
-    @sortered_products_storage.values.flatten
+    @sortered_products_storage
   end
 
   def self.keys_sortered

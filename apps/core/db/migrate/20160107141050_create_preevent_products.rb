@@ -9,6 +9,7 @@ class CreatePreeventProducts < ActiveRecord::Migration
       t.integer :max_purchasable
       t.integer :min_purchasable
       t.decimal :price
+      t.integer :preevent_items_count, default: 0, null: false
 
       t.datetime :deleted_at, index: true
       t.timestamps null: false

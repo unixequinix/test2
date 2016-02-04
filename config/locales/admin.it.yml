@@ -186,9 +186,8 @@ it:
       description: "Description"
     vouchers:
       id: "Id"
-      counter: "Counter"
     credential_types:
-      position: "Position"
+      memory_position: "Position"
     entitlements:
       name: "Name"
     company_ticket_types:

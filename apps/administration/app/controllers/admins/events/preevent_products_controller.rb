@@ -11,7 +11,6 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
   def create
     @preevent_product = PreeventProduct.new(permitted_params)
     if @preevent_product.save
-      update_preevent_items_counter
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_preevent_products_url
     else
@@ -29,7 +28,6 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
   def update
     @preevent_product = @fetcher.preevent_products.find(params[:id])
     if !deletes_last_preevent_item?(permitted_params) && @preevent_product.update(permitted_params)
-      update_preevent_items_counter
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_preevent_products_url
     else
@@ -47,10 +45,6 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
   end
 
   private
-
-  def update_preevent_items_counter(preevent_item_ids = nil)
-    @preevent_product.preevent_items_counter(preevent_item_ids)
-  end
 
   def add_amount_to_preevent_items(preevent_product_items_attributes)
     preevent_product_items_attributes.each do |id, amount|

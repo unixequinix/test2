@@ -186,9 +186,8 @@ es:
       description: "Descripción"
     vouchers:
       id: "Id"
-      counter: "Contador"
     credential_types:
-      position: "Posición"
+      memory_position: "Posición"
     company_ticket_types:
       name: "Nombre"
       company: "Compañía"
