@@ -38,26 +38,22 @@ h3, label,
 
 // Buttons
 .btn-action,
-.btn-action-register,
 .btn-action-primary,
 .btn-action-empty-state             { box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1); }
 
 .btn-action,
-.btn-action-register:hover,
+.btn-action-enter,
+.btn-action-register,
 .btn-action-secondary:hover,
-.btn-action-primary:hover,
-.btn-action-empty-state:hover,
-.btn-action-register:focus          { color: $magenta; }
+.btn-action-primary:hover            { color: $magenta; }
 
 .btn-action,
-.btn-action-register:focus,
+.btn-action-enter,
 .btn-action-secondary:hover,
 .btn-action-empty-state:hover,
 .btn-action-primary:hover           { background-color: $snow; }
 
-.btn-action-secondary,
-.btn-action-register:hover,
-.btn-action-enter                   { color: $snow; }
+.btn-action-secondary               { color: $snow; }
 
 .btn-action-secondary               { background-color: transparent; }
 .btn:after                          { box-shadow: 0 0 0 2px $snow; }
@@ -65,6 +61,7 @@ h3, label,
 // PURCHASES TREE
 
 .wrapper-purchase-order,
+.btn-action-register,
 .hint-purchase,
 .container-purchase-order:before,
 .purchase-list-item:before          { background-color: $snow; }
@@ -75,6 +72,7 @@ h3, label,
 // Login and sign up styles
 
 .customer_remember_me label,
+.sessions-shared-login a,
 .customer_agreed_on_registration label  { color: $color_text; }
 .customer_agreed_on_registration a,
 .separator, .wrapper-breadcrumbs a      { color: $snow; }

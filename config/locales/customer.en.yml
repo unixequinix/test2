@@ -27,8 +27,8 @@ en:
     forgot: 'Forgot your password?'
     resend_confirmation: "Didn't receive confirmation e-mail?"
     buttons:
-      sign_in: 'Log in'
-      sign_up: 'Register'
+      sign_in: 'Login'
+      sign_up: 'Sign up'
       join: 'Join'
       back: 'Back to home'
   dashboard:
@@ -205,9 +205,8 @@ en:
       password_confirmation: "Confirm your new password"
   registration:
     new:
-      title: 'Sign up'
+      title: 'Get started'
       info: 'Please enter your correct personal details below so that we can provide you with secure and convenient service.'
-      description: 'All the fields in this form are required.'
       button: 'Sign up'
       details: "Please provide your personal details as a event visitor. This will allow us to give you a secure and personalized service"
     edit:

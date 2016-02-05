@@ -64,15 +64,22 @@
 }
 
 // ------- REMEMBER ME -------
+.required {
+  label:before {
+    content: "*";
+    display: inline-block;
+    padding-right: modules(0.25);
+  }
+}
 
-.sessions-shared-login, {
+.sessions-shared-login {
   clear: both;
   padding-bottom: modules(1);
   text-align: center;
 
   a {
-    color: $color_text;
     display: block;
+    text-decoration: underline;
 
     figure {
       display: inline-block;
@@ -81,7 +88,7 @@
 
     &:hover, &:focus {
       outline: none;
-      text-decoration: underline;
+      text-decoration: none;
     }
   }
   .highlight-text { padding-bottom: modules(1); }

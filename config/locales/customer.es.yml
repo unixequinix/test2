@@ -202,7 +202,6 @@ es:
     new:
       title: 'Regístrate'
       info: 'Por favor introduce tus detalles personales para que podamos ofrecerte un servicio seguro y conveniente.'
-      description: 'Todos los campos son obligatorios.'
       button: 'Regístrate'
       details: 'Por favor introduce tus datos personales. Esto permitirá proporcionarte un servicio más seguro y personalizado'
     edit:

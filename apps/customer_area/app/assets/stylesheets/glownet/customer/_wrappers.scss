@@ -43,6 +43,12 @@
   }
 }
 
+.sessions, .confirmations, .new, .passwords {
+  @include min-screen($bp3) {
+    .container-event-logo { margin-top: 0; }
+  }
+}
+
 .logo {
   @include mscale($base_font_size);
   overflow: hidden;
@@ -72,13 +78,13 @@
     margin: 0 auto;
     padding: 0;
 
-    @include min-screen($bp3) { max-height: modules(6); }
+    @include min-screen($bp3) { max-height: modules(5); }
   }
 }
 
 // The centered container that contains all the account info
 
-.container-event-column  {
+.container-event-column {
   position: relative;
 
   @include min-screen($bp4) {

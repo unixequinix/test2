@@ -53,17 +53,28 @@ input[type=search] {
   color: $color_text;
 
   &:focus {
-    @include transition(box-shadow 300ms ease-in-out, background-color 150ms ease-in-out);
     outline: none;
-    box-shadow: 0px 1px 1px #999 inset, 0px 0px 0px 1px darken($air_gray,40%);
-    background-color: darken($air_gray,10%);
+    box-shadow: 0px 0px 1px 1px #999 inset, 0px 0px 6px 2px lighten($grey, 27%);
+    background-color: darken($air_gray,5%);
     opacity: 1;
   }
 }
 
-input:placeholder-shown {
-  font-style: italic;
+input:placeholder-shown { font-style: italic; }
+
+.wrapper-session-login {
+  position: relative;
+
+  input { padding: modules(0.5) modules(0.5) modules(0.5) modules(1.5); }
+
+  i {
+    position: absolute;
+    top: modules(1.55);
+    left: modules(0.5);
+    opacity: 0.6;
+  }
 }
+
 
 button {
   @include appearance(none);

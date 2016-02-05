@@ -200,7 +200,6 @@ it:
     new:
       title: 'Iscriviti'
       info: 'Inserisci correttamente i tuoi dati personali in modo da poter fornire un servizio sicuro e conveniente.'
-      description: 'Tutti i campi in questo modulo sono necessari.'
       button: 'Iscriviti'
       details: "Per favore inserire i tuoi dettagli personali in modo che possiamo darti un servizio sicuro e personalizzato"
     edit:

@@ -23,13 +23,14 @@
 
 .btn-action-register {
   @include transition(background 200ms ease-in-out, color 200ms ease-in-out, opacity 200ms ease-in-out);
-  width: 45%;
-  display: inline-block;
-  vertical-align: top;
+  position: fixed;
+  top: modules(0.5);
+  right: modules(0.5);
+  display: block;
+  max-width: modules(6);
   height: modules(2);
-  margin-right: 5%;
   padding-top: modules(0.5);
-  border-radius: 50px;
+  border-radius: 3px;
 
   &:focus, &:hover {
     opacity: 0.6;
@@ -38,15 +39,16 @@
 }
 
 .btn-action-enter {
-  @include transition(background 200ms ease-in-out, color 200ms ease-in-out);
+  @include transition(opacity 200ms ease-in-out);
   display: block;
-  vertical-align: top;
   width: 45%;
-  margin-left: 5%;
+  margin: 0 auto modules(1);
   height: modules(2) !important;
-  background-color: transparent;
 
-  &:focus { outline: none; }
+  &:focus, &:hover {
+    opacity: 0.6;
+    outline: none;
+  }
 }
 
 .btn-action-primary {
