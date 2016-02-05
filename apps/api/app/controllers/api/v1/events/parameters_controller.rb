@@ -4,15 +4,15 @@ module Api
       class ParametersController < Api::V1::Events::BaseController
         def index
           @gtag_type = EventParameter.with_event(current_event)
-                        .where(parameters: { category: "gtag", group: "form", name: "gtag_type" })
-                        
-          @gtag_params = EventParameter.with_event(current_event)
-                          .where(parameters: { category: "gtag", group: @gtag_type.first.value })
+                        .find_by(parameters: { category: "gtag", group: "form", name: "gtag_type" })
 
-          @device_params = EventParameter.with_event(current_event)
-                            .where(parameters: { category: "device" })
+          @parameters = EventParameter.with_event(current_event)
+                          .joins(:parameter)
+                          .where("(parameters.category = 'device') OR
+                                  (parameters.category = 'gtag'
+                                    AND parameters.group = '#{@gtag_type.value}')")
 
-          result = @device_params + @gtag_type + @gtag_params
+          result =  @parameters << @gtag_type
           render json: result, each_serializer: Api::V1::ParameterSerializer
         end
       end
