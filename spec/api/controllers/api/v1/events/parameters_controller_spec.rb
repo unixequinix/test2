@@ -5,10 +5,13 @@ RSpec.describe Api::V1::Events::ParametersController, :type => :controller do
     before do
       @event = create(:event)
       create(:event_parameter, event: @event,
-                               parameter: Parameter.find_by(id: 1), value: "asd123")
+                               parameter: Parameter.find_by(category: "device",
+                                                            name: "min_version_apk"),
+                               value: "asd123")
 
       create(:event_parameter, event: @event,
-                               parameter: Parameter.find_by(id: 9), value: "mifare_classic")
+                               parameter: Parameter.find_by(category: "gtag", name: "gtag_type"),
+                               value: "mifare_classic")
     end
 
     context "with authentication" do
