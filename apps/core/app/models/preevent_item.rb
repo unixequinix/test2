@@ -15,7 +15,6 @@
 
 class PreeventItem < ActiveRecord::Base
   acts_as_paranoid
-  acts_as_list column: :position, scope: [:preevent_item]
   has_many :preevent_product_items, dependent: :restrict_with_error
   has_many :preevent_products, through: :preevent_product_items, class_name: "PreeventProduct"
   belongs_to :purchasable, polymorphic: true, touch: true
