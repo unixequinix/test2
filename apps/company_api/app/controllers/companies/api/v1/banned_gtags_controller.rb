@@ -7,7 +7,7 @@ module Companies
 
           render json: {
             event_id: current_event.id,
-            banned_gtags: @banned_gtags.map { |gtag| Companies::Api::V1::GtagSerializer.new(gtag) }
+            blacklisted_gtags: @banned_gtags.map { |gtag| Companies::Api::V1::GtagSerializer.new(gtag) }
           }
         end
 

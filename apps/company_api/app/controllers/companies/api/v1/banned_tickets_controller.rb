@@ -8,7 +8,7 @@ module Companies
 
           render json: {
             event_id: current_event.id,
-            banned_tickets: @banned_tickets.map do |ticket|
+            blacklisted_tickets: @banned_tickets.map do |ticket|
               Companies::Api::V1::TicketSerializer.new(ticket)
             end
           }
