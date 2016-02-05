@@ -82,6 +82,7 @@ es:
       title: "Tu número de %{gtag}:"
       call_to_action: "¿Introdujiste una incorrecta por error?"
       button: "Cambiar"
+      hint: "Has introducido una pulsera por error? Bórrala y reinicia el proceso"
     gtag_after_refund:
       description: "Tu devolución está en proceso"
     without_refunds:

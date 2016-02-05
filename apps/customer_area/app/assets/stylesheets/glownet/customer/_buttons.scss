@@ -19,6 +19,12 @@
   text-align: center;
 
   &:focus { outline: none; }
+  &:hover {
+    .hint {
+      top: modules(1.75);
+      opacity: 1;
+    }
+  }
 }
 
 .btn-action-register {

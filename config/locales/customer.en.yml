@@ -81,6 +81,7 @@ en:
       title: "Your %{gtag} number:"
       call_to_action: "Edit"
       button: "Change"
+      hint: "Put a wrong wristband by mistake? Erase and restart the process"
     gtag_after_refund:
       description: "Your refund is in process"
     without_refunds:
