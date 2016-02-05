@@ -110,7 +110,7 @@
 
 .wrapper-module, .wrapper-module-centered {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   width: 100%;
   padding: modules(1) modules(0.5);
 
@@ -168,12 +168,19 @@
 
 .purchase-amount {
   display: inline-block;
-  width: modules(1.25);
+  width: auto;
   height: modules(1.25);
   margin-right: modules(0.5);
-  padding-top: modules(0.15);
+  padding: modules(0.15) modules(0.5) 0 modules(0.5);
   text-align: center;
   border-radius: $radius;
+
+  &:before {
+    font-family: 'Fontawesome';
+    display: inline-block;
+    content: "\f007";
+    padding-right: modules(0.25);
+  }
 }
 
 // /\/\/\/\/\/\/\ TERMS AND CONDITIONS /\/\/\/\/\/\/\/\

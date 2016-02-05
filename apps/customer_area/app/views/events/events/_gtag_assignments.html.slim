@@ -2,7 +2,9 @@
   - unless presenter.customer_has_refund?
     h3 = t('dashboard.gtag_registration.title')
     p.id-number = presenter.gtag_tag_uid
-    = link_to t('dashboard.gtag_registration.button'), event_gtag_assignment_path(current_event, presenter.gtag_assignment), method: :delete, class: "btn btn-action btn-action-secondary"
+    = link_to event_gtag_assignment_path(current_event, presenter.gtag_assignment), method: :delete, class: "btn btn-action btn-action-secondary" do
+        = t('dashboard.gtag_registration.button')
+        span.hint  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam at esse eum. Veniam ipsa soluta vitae, excepturi voluptas repellat! Minus provident dolore animi odit mollitia ad, error molestiae magni ipsam?
     - if presenter.gtag_assignments_enabled?
       //h3 = t('dashboard.gtag_registration.call_to_action', gtag: presenter.gtag_name)
       //.wrapper-pay-pal.center-text

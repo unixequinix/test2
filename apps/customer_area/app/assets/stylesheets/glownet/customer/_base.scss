@@ -111,5 +111,29 @@ a {
   margin-bottom: modules(0.5);
 }
 
+.hint {
+  position: absolute;
+  top: modules(1.75);
+  left: 0;
+  width: 100%;
+  border-radius: $radius;
+  background-color: $color_text;
+  color: $nuclear;
+  text-transform: none;
+  font-style: normal;
+
+  &:before {
+    display: block;
+    position: absolute;
+    top: -6px;
+    left: 45%;
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid $color_text;
+  }
+}
 // ---------------------------------------------------------------------------------------------
 
