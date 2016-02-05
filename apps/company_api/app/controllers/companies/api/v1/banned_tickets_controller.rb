@@ -45,9 +45,9 @@ module Companies
         private
 
         def banned_ticket_params
-          ticket_id = Ticket.select(:id).find_by(code: params[:ticket_blacklist][:ticket_reference]).id
-          params[:ticket_blacklist][:ticket_id] = ticket_id
-          params.require(:ticket_blacklist).permit(:ticket_id)
+          ticket_id = Ticket.select(:id).find_by(code: params[:tickets_blacklist][:ticket_reference]).id
+          params[:tickets_blacklist][:ticket_id] = ticket_id
+          params.require(:tickets_blacklist).permit(:ticket_id)
         end
       end
     end

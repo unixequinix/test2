@@ -41,9 +41,9 @@ module Companies
         private
 
         def banned_gtag_params
-          gtag_id = Gtag.select(:id).find_by(tag_uid: params[:gtag_blacklist][:tag_uid]).id
-          params[:gtag_blacklist][:gtag_id] = gtag_id
-          params.require(:gtag_blacklist).permit(:gtag_id)
+          gtag_id = Gtag.select(:id).find_by(tag_uid: params[:gtags_blacklist][:tag_uid]).id
+          params[:gtags_blacklist][:gtag_id] = gtag_id
+          params.require(:gtags_blacklist).permit(:gtag_id)
         end
       end
     end
