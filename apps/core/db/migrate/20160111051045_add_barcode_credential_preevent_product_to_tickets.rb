@@ -40,7 +40,7 @@ class AddBarcodeCredentialPreeventProductToTickets < ActiveRecord::Migration
     migrate_ticket_types
 
     # TODO: Impossible without default company id for deleted items(paranoid)
-    #  change_column :tickets, :company_ticket_type_id, :integer, null: false
+    # change_column :tickets, :company_ticket_type_id, :integer, null: false
   end
 
   def migrate_ticket_types
