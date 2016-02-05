@@ -34,7 +34,7 @@ FactoryGirl.define do
 
     factory :credential_assignment_g_a, traits: [:gtag_credential, :assigned]
     factory :credential_assignment_g_u, traits: [:gtag_credential, :unassigned]
-    factory :credential_assignment_t_a, traits: [:ticket_credential, :unassigned]
-    factory :credential_assignment_t_u, traits: [:ticket_credential, :assigned]
+    factory :credential_assignment_t_a, traits: [:ticket_credential, :assigned]
+    factory :credential_assignment_t_u, traits: [:ticket_credential, :unassigned]
   end
 end

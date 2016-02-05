@@ -11,11 +11,11 @@
 
 class CredentialType < ActiveRecord::Base
   acts_as_paranoid
-  acts_as_list column: :memory_position
 
   has_one :preevent_item, as: :purchasable, dependent: :destroy
   accepts_nested_attributes_for :preevent_item, allow_destroy: true
 
   # Validations
   validates :preevent_item, presence: true
+
 end

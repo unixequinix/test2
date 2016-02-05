@@ -94,11 +94,11 @@ class Customer < ActiveRecord::Base
     GENDERS.map { |f| [I18n.t("gender." + f), f] }
   end
 
-  private
-
   def self.find_for_authentication(warden_conditions)
     where(email: warden_conditions[:email], event_id: warden_conditions[:event_id]).first
   end
+
+  private
 
   def generate_token(column)
     loop do
