@@ -49,7 +49,7 @@ RSpec.describe PreeventProduct, type: :model do
 
     sortered_array = PreeventProduct.online_preevent_products_sortered(@event)
     expect(sortered_array.count).to eq(7)
-    expect(sortered_array[0].preevent_items_count).to eq(1)
+    expect(sortered_array[0].preevent_items_count).to eq(2)
     expect(sortered_array[0].get_product_category).to eq("Credit")
     expect(sortered_array[1].preevent_items_count).to eq(1)
     expect(sortered_array[1].get_product_category).to eq("Voucher")
