@@ -22,18 +22,18 @@ RSpec.feature "Ticket assignation", type: :feature do
         @ticket = create(:ticket,
                          event: @event,
                          purchaser_email: @customer.email,
-                         purchaser_name: @customer.name,
-                         purchaser_surname: @customer.surname)
+                         purchaser_first_name: @customer.name,
+                         purchaser_last_name: @customer.surname)
       end
 
       it "should be able to assign a ticket" do
         visit "/#{@event_creator.event.slug}/ticket_assignments/new"
         within("form") do
-          fill_in(t("admissions.placeholders.ticket_number"), with: @ticket.number)
+          fill_in(t("admissions.placeholders.ticket_code"), with: @ticket.code)
         end
         click_button(t("admissions.button"))
         expect(current_path).to eq("/#{@event_creator.event.slug}")
-        expect(page.body).to include(@ticket.number)
+        expect(page.body).to include(@ticket.code)
       end
     end
   end

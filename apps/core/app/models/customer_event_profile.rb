@@ -3,7 +3,7 @@
 # Table name: customer_event_profiles
 #
 #  id          :integer          not null, primary key
-#  customer_id :integer          not null
+#  customer_id :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  event_id    :integer          not null
@@ -60,7 +60,7 @@ class CustomerEventProfile < ActiveRecord::Base
 
   # Scopes
   scope :for_event, -> (event) { where(event: event) }
-  scope :with_gtag, -> (event) { joins(:gtag_registrations).where(event: event, gtag_registrations: { aasm_state: :assigned }) }
+  scope :with_gtag, -> (event) { joins(:credential_assignments).where(event: event, credential_assignments: { credentiable_type: "Gtag", aasm_state: :assigned }) }
   scope :banned, -> { joins(:banned_customer_event_profile) }
 
   def customer

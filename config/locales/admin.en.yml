@@ -184,6 +184,7 @@ en:
     credits:
       standard: "Standard"
       currency: "Currency"
+      value: "Value"
     preevent_product:
       name: "Name"
       online: "Online"
@@ -198,9 +199,8 @@ en:
       description: "Description"
     vouchers:
       id: "Id"
-      counter: "Counter"
     credential_types:
-      position: "Position"
+      memory_position: "Position"
     company_ticket_types:
       name: "Name"
       company: "Company"

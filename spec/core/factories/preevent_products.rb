@@ -17,7 +17,6 @@
 #  preevent_items_count :integer          default(0), not null
 #
 
-
 FactoryGirl.define do
   factory :preevent_product do
     event
@@ -63,10 +62,6 @@ FactoryGirl.define do
 
     trait :not_online do
       online false
-    end
-
-    after(:create) do |preevent_product|
-      preevent_product.preevent_items_counter
     end
 
     trait :full do

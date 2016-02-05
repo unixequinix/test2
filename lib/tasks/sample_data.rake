@@ -80,9 +80,6 @@ namespace :db do
           }
         )
 
-        item.counter = data['counter'] if data['purchasable_type'] == 'Voucher'
-        item.position = data['position'] if data['purchasable_type'] == 'CredentialType'
-
         item.save!
       end
     end
@@ -120,7 +117,6 @@ namespace :db do
           preevent_product: preevent_product,
           preevent_item: preevent_item
         )
-        preevent_product.preevent_items_counter
       end
     end
   end

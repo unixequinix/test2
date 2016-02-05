@@ -4,7 +4,7 @@ RSpec.feature "Admin Ticket assignation", type: :feature do
   context "with account signed in" do
     describe "an admin " do
       before :each do
-        @event_creator = EventCreator.new(build(:event).to_hash_parameters)
+        @event_creator = EventCreator.new(event_to_hash_parameters(build(:event)))
         @event_creator.save
         @event = @event_creator.event
         @customer = create(:customer, event: @event, confirmation_token: nil, confirmed_at: Time.now)
@@ -20,9 +20,9 @@ RSpec.feature "Admin Ticket assignation", type: :feature do
           click_link("a")
         end
         find("a", text: t("admin.actions.assign_ticket")).click
-        fill_in("Event Ticket Barcode Number", with: @ticket.number)
+        fill_in("Event Ticket Code Number", with: @ticket.code)
         click_on(t("gtag_registrations.button"))
-        expect(page.body).to include(@ticket.number)
+        expect(page.body).to include(@ticket.code)
       end
 
       it "shouldn't be able to assign an invalid ticket" do
@@ -31,9 +31,9 @@ RSpec.feature "Admin Ticket assignation", type: :feature do
           click_link("a")
         end
         find("a", text: t("admin.actions.assign_ticket")).click
-        fill_in("Event Ticket Barcode Number", with: "invalid number")
+        fill_in("Event Ticket Code Number", with: "invalid number")
         click_on(t("gtag_registrations.button"))
-        expect(page.body).not_to include(@ticket.number)
+        expect(page.body).not_to include(@ticket.code)
       end
     end
   end

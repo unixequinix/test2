@@ -184,6 +184,7 @@ es:
     credits:
       standard: "Estándar"
       currency: "Divisa"
+      value: "Valor"
     preevent_product:
       name: "Nombre"
       online: "Online"
@@ -198,9 +199,8 @@ es:
       description: "Descripción"
     vouchers:
       id: "Id"
-      counter: "Contador"
     credential_types:
-      position: "Posición"
+      memory_position: "Posición"
     company_ticket_types:
       name: "Nombre"
       company: "Compañía"

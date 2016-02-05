@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160127124459) do
+ActiveRecord::Schema.define(version: 20160203132002) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 20160127124459) do
     t.integer  "locales",                 default: 1,                     null: false
     t.integer  "refund_services",         default: 0,                     null: false
     t.boolean  "ticket_assignation",      default: true,                  null: false
-    t.string   "token",                   null: false
+    t.string   "token"
   end
 
   create_table "customers", force: :cascade do |t|
@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(version: 20160127124459) do
   end
 
   create_table "customer_event_profiles", force: :cascade do |t|
-    t.integer  "customer_id", null: false, index: {name: "fk__customer_event_profiles_customer_id"}, foreign_key: {references: "customers", name: "fk_customer_event_profiles_customer_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "customer_id", index: {name: "fk__customer_event_profiles_customer_id"}, foreign_key: {references: "customers", name: "customer_event_profiles_customer_id_fkey", on_update: :no_action, on_delete: :no_action}
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "event_id",    null: false, index: {name: "index_customer_event_profiles_on_event_id"}, foreign_key: {references: "events", name: "customer_event_profiles_event_id_fkey", on_update: :no_action, on_delete: :no_action}
@@ -129,10 +129,10 @@ ActiveRecord::Schema.define(version: 20160127124459) do
     t.integer  "max_purchasable"
     t.integer  "min_purchasable"
     t.decimal  "price"
+    t.integer  "preevent_items_count", default: 0,     null: false
     t.datetime "deleted_at",           index: {name: "index_preevent_products_on_deleted_at"}
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
-    t.integer  "preevent_items_count", default: 0,     null: false
   end
 
   create_table "company_ticket_types", force: :cascade do |t|
@@ -234,10 +234,10 @@ ActiveRecord::Schema.define(version: 20160127124459) do
   end
 
   create_table "credential_types", force: :cascade do |t|
-    t.integer  "position",   null: false
-    t.datetime "deleted_at", index: {name: "index_credential_types_on_deleted_at"}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "memory_position", null: false
+    t.datetime "deleted_at",      index: {name: "index_credential_types_on_deleted_at"}
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "credit_logs", force: :cascade do |t|
@@ -254,7 +254,7 @@ ActiveRecord::Schema.define(version: 20160127124459) do
     t.datetime "updated_at", null: false
     t.datetime "deleted_at", index: {name: "index_credits_on_deleted_at"}
     t.decimal  "value",      precision: 8, scale: 2, default: 1.0,   null: false
-    t.string   "currency",   null: false
+    t.string   "currency"
   end
 
   create_table "event_parameters", force: :cascade do |t|
@@ -347,12 +347,13 @@ ActiveRecord::Schema.define(version: 20160127124459) do
   end
 
   create_table "preevent_product_items", force: :cascade do |t|
-    t.integer  "preevent_item_id",    index: {name: "fk__preevent_product_items_preevent_item_id"}, foreign_key: {references: "preevent_items", name: "fk_preevent_product_items_preevent_item_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "preevent_product_id", index: {name: "fk__preevent_product_items_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "fk_preevent_product_items_preevent_product_id", on_update: :no_action, on_delete: :no_action}
-    t.decimal  "amount",              precision: 8, scale: 2, default: 1.0, null: false
-    t.datetime "deleted_at",          index: {name: "index_preevent_product_items_on_deleted_at"}
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.integer  "preevent_item_id",     index: {name: "fk__preevent_product_items_preevent_item_id"}, foreign_key: {references: "preevent_items", name: "fk_preevent_product_items_preevent_item_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "preevent_product_id",  index: {name: "fk__preevent_product_items_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "fk_preevent_product_items_preevent_product_id", on_update: :no_action, on_delete: :no_action}
+    t.decimal  "amount",               precision: 8, scale: 2, default: 1.0, null: false
+    t.integer  "preevent_items_count", default: 0,   null: false
+    t.datetime "deleted_at",           index: {name: "index_preevent_product_items_on_deleted_at"}
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
   create_table "refunds", force: :cascade do |t|
@@ -369,7 +370,6 @@ ActiveRecord::Schema.define(version: 20160127124459) do
   end
 
   create_table "vouchers", force: :cascade do |t|
-    t.integer  "counter",    default: 0, null: false
     t.datetime "deleted_at", index: {name: "index_vouchers_on_deleted_at"}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
