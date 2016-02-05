@@ -107,6 +107,7 @@ en:
     description: "After you buy online credits here, they will automatically be applied to your %{gtag} once you enter the event."
     total: "Total"
     button: "Confirm Order"
+    store: " store"
   orders:
     title: "Confirm Top-up"
     description: "Please, review your order and proceed to payment."

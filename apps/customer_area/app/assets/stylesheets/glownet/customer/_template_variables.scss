@@ -4,7 +4,7 @@
 
 \* ------------------------------------------------------- */
 
-body                                { background-color: transparent; }
+body                                { background-color: #e2e2e2; }
 
 // Mobile header
 
@@ -45,29 +45,20 @@ h3, label,
 .btn-action-enter,
 .btn-action-register,
 .btn-action-secondary:hover,
-.btn-action-primary:hover            { color: $magenta; }
+.btn-action-primary:hover,
+.purchase-amount                    { color: $magenta; }
 
 .btn-action,
 .btn-action-enter,
 .btn-action-secondary:hover,
 .btn-action-empty-state:hover,
-.btn-action-primary:hover           { background-color: $snow; }
+.btn-action-primary:hover,
+.purchase-amount                    { background-color: $snow; }
 
 .btn-action-secondary               { color: $snow; }
 
 .btn-action-secondary               { background-color: transparent; }
 .btn:after                          { box-shadow: 0 0 0 2px $snow; }
-
-// PURCHASES TREE
-
-.wrapper-purchase-order,
-.btn-action-register,
-.hint-purchase,
-.container-purchase-order:before,
-.purchase-list-item:before          { background-color: $snow; }
-
-.wrapper-purchase-order,
-.hint-purchase                      { color: $magenta; }
 
 // Login and sign up styles
 

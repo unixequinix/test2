@@ -3,7 +3,6 @@
 //= require turbolinks
 
 //= require customer/nav-mobile
-//= require customer/show-purchases
 //= require customer/top-up-buttons
 //= require customer/stripe
 

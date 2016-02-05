@@ -1,5 +1,7 @@
 .wrapper-store-module
-  h3.center-text Store
+  h3.center-text
+    = current_event.name
+    = t('checkout.store')
   p = t('checkout.description')
 
 = form_tag event_checkouts_path(current_event), method: :post do |f|

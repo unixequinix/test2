@@ -108,6 +108,7 @@ es:
     description: "Los créditos que compras aquí serán añadidos automáticamente a tu %{gtag} al entrar al evento."
     total: "Total"
     button: "Confirmar Orden"
+    store: " tienda"
   orders:
     title: "Confirmar Recarga"
     description: "Por favor, revisa tu órden y procede a realizar el pago."

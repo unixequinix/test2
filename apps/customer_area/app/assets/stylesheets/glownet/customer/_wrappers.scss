@@ -38,7 +38,8 @@
   padding: 0;
 
   @include min-screen($bp3) {
-    margin-top: modules(2);
+    width: 40%;
+    margin: modules(2) auto 0;
     padding: 0;
   }
 }
@@ -154,82 +155,26 @@
 .container-purchase-order {
   overflow: hidden;
   position: relative;
+  padding-top: modules(1);
   margin-bottom: modules(1);
-  text-align: center;
-}
-
-.show {
-  display: block !important;
-
-  &:before {
-    display: block;
-    position: absolute;
-    left: 50%;
-    right: 50%;
-    content: "";
-    width: 1px;
-    height: 100%;
-  }
-}
-
-.purchase-list-item {
-  clear: both;
-  position: relative;
-  width: 50%;
-  padding: 0 modules(0.75);
-
-  &:before {
-    position: absolute;
-    top: modules(0.25);
-    display: block;
-    content: "";
-    width: modules(0.5);
-    height: modules(0.5);
-    border-radius: 50px;
-  }
-
-  &:nth-child(even) {
-    text-align: right;
-
-    &:before { right: modules(-0.25); }
-  }
-
-  &:nth-child(odd) {
-    float: right;
-    text-align: left;
-
-    &:before { left: modules(-0.25); }
-  }
+  text-align: left;
 }
 
 .wrapper-purchase-order {
-  position: relative;
-  overflow: hidden;
-  display: inline-block;
-  width: auto;
   margin-bottom: modules(1);
-  border-radius: 50px;
-  padding: 0 modules(0.5);
+
+  li { color: $color_text; }
 }
 
-.hint-purchase {
-  @include mscale($small_text);
-  position: relative;
-  display: none;
-  width: modules(2.5);
-  height: modules(1.5);
-  margin: 0 auto modules(3);
-  border-radius: 50px;
-  padding-top: modules(0.5);
-  text-transform: uppercase;
-
-  &:last-child {
-    clear: both;
-    margin: modules(4) auto 0;
-  }
+.purchase-amount {
+  display: inline-block;
+  width: modules(1.25);
+  height: modules(1.25);
+  margin-right: modules(0.5);
+  padding-top: modules(0.15);
+  text-align: center;
+  border-radius: $radius;
 }
-
-.purchase-amount { padding-right: modules(0.15); }
 
 // /\/\/\/\/\/\/\ TERMS AND CONDITIONS /\/\/\/\/\/\/\/\
 
