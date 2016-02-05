@@ -17,11 +17,11 @@ module Companies
         def create
           @banned_ticket = BannedTicket.new(banned_ticket_params)
 
-          cep_id = CredentialAssignment.find_by(credentiable_id: banned_ticket_params[:ticket_id],
+          assign = CredentialAssignment.find_by(credentiable_id: banned_ticket_params[:ticket_id],
                                                 credentiable_type: "Ticket")
-                                       .select(:customer_event_profile_id).customer_event_profile_id
 
-          BannedCustomerEventProfile.new(cep_id) unless assignment.nil?
+
+          BannedCustomerEventProfile.new(assign.customer_event_profile_id) unless assign.nil?
 
           if @banned_ticket.save
             render status: :created, json: @banned_ticket
@@ -45,9 +45,9 @@ module Companies
         private
 
         def banned_ticket_params
-          ticket_id = Ticket.find_by(code: params[:banned_ticket][:ticket_reference]).select(:id).id
-          params[:banned_ticket][:ticket_id] = ticket_id
-          params.require(:banned_ticket).permit(:ticket_id)
+          ticket_id = Ticket.select(:id).find_by(code: params[:ticket_blacklist][:ticket_reference]).id
+          params[:ticket_blacklist][:ticket_id] = ticket_id
+          params.require(:ticket_blacklist).permit(:ticket_id)
         end
       end
     end

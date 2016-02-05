@@ -14,11 +14,10 @@ module Companies
         def create
           @banned_gtag = BannedGtag.new(banned_gtag_params)
 
-          cep_id = CredentialAssignment.find_by(credentiable_id: banned_gtag_params[:gtag_id],
+          assign = CredentialAssignment.find_by(credentiable_id: banned_gtag_params[:gtag_id],
                                                 credentiable_type: "Gtag")
-                                       .select(:customer_event_profile_id).customer_event_profile_id
 
-          BannedCustomerEventProfile.new(cep_id) unless assignment.nil?
+          BannedCustomerEventProfile.new(assign.customer_event_profile_id) unless assign.nil?
 
           if @banned_gtag.save
             render status: :created, json: @banned_gtag
@@ -42,9 +41,9 @@ module Companies
         private
 
         def banned_gtag_params
-          gtag_id = Gtag.find_by(tag_uid: params[:banned_gtag][:tag_uid]).select(:id).id
-          params[:banned_gtag][:gtag_id] = gtag_id
-          params.require(:banned_gtag).permit(:gtag_id)
+          gtag_id = Gtag.select(:id).find_by(tag_uid: params[:gtag_blacklist][:tag_uid]).id
+          params[:gtag_blacklist][:gtag_id] = gtag_id
+          params.require(:gtag_blacklist).permit(:gtag_id)
         end
       end
     end
