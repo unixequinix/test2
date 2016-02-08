@@ -1,16 +1,13 @@
 require "rails_helper"
 
-RSpec.describe Companies::Api::V1::BannedTicketsController, :type => :controller do
+RSpec.describe Companies::Api::V1::BannedGtagsController, :type => :controller do
   before(:all) do
     @event = create(:event)
     @company1 = create(:company, event: @event)
     @company2 = create(:company, event: @event)
 
-    @ticket_type1 = create(:company_ticket_type, event: @event, company: @company1)
-    @ticket_type2 = create(:company_ticket_type, event: @event, company: @company2)
-
-    5.times { create(:ticket, :banned, event: @event, company_ticket_type: @ticket_type1) }
-    5.times { create(:ticket, :banned, event: @event, company_ticket_type: @ticket_type2) }
+    5.times { create(:gtag, :banned, event: @event, company_ticket_type: @ticket_type1) }
+    5.times { create(:gtag, :banned, event: @event, company_ticket_type: @ticket_type2) }
   end
   describe "GET index" do
 
@@ -25,15 +22,15 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, :type => :controller
         expect(response.status).to eq(200)
       end
 
-      it "returns only the banned tickets for that company" do
+      it "returns only the banned gtags for that company" do
         get :index, event_id: @event.id
 
         body = JSON.parse(response.body)
-        tickets = body["blacklisted_tickets"].map { |m| m["ticket_reference"] }
+        tickets = body["blacklisted_gtags"].map { |m| m["tag_uid"] }
 
-        expect(tickets).to match_array(Ticket.search_by_company_and_event(@company1.name, @event)
-                                             .banned
-                                             .map(&:code))
+        expect(tickets).to match_array(Gtag.search_by_company_and_event(@company1.name, @event)
+                                           .banned
+                                           .map(&:tag_uid))
       end
     end
 
@@ -54,31 +51,31 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, :type => :controller
 
       context "when the request is valid" do
         before(:each) do
-          @ticket = create(:ticket, event: @event, company_ticket_type: @ticket_type1)
+          @gtag = create(:gtag, event: @event, company_ticket_type: @ticket_type1)
         end
 
-        it "increases the banned tickets in the database by 1" do
+        it "increases the banned gtags in the database by 1" do
           expect {
-            post :create, tickets_blacklist: { ticket_reference: @ticket.code }
-          }.to change(BannedTicket, :count).by(1)
+            post :create, gtags_blacklist: { tag_uid: @gtag.tag_uid }
+          }.to change(BannedGtag, :count).by(1)
         end
 
         it "returns a 201 status code" do
-          post :create, tickets_blacklist: { ticket_reference: @ticket.code }
+          post :create, gtags_blacklist: { tag_uid: @gtag.tag_uid }
           expect(response.status).to eq(201)
         end
 
-        it "returns the banned ticket" do
-          post :create, tickets_blacklist: { ticket_reference: @ticket.code }
+        it "returns the banned gtag" do
+          post :create, gtags_blacklist: { tag_uid: @gtag.tag_uid }
 
           body = JSON.parse(response.body)
-          expect(body["ticket_reference"]).to eq(Ticket.banned.last.code)
+          expect(body["tag_uid"]).to eq(Gtag.banned.last.tag_uid)
         end
       end
 
       context "when the request is invalid" do
         it "returns a 400 status code" do
-          post :create, tickets_blacklist: { with: "Invalid request" }
+          post :create, gtags_blacklist: { with: "Invalid request" }
           expect(response.status).to eq(400)
         end
       end
@@ -86,7 +83,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, :type => :controller
 
     context "when not authenticated" do
       it "returns a 401 status code" do
-        post :create, tickets_blacklist: { with: "Some data" }
+        post :create, gtags_blacklist: { with: "Some data" }
         expect(response.status).to eq(401)
       end
     end
@@ -94,7 +91,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, :type => :controller
 
   describe "DELETE destroy" do
     before(:each) do
-      @ticket = create(:ticket, :banned, code: "Glownet", event: @event, company_ticket_type: @ticket_type1)
+      @gtag = create(:gtag, :banned, tag_uid: "Glownet", event: @event, company_ticket_type: @ticket_type1)
     end
 
     context "when authenticated" do
@@ -105,12 +102,12 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, :type => :controller
       context "when the request is valid" do
 
         it "removes the ticket from the banned table" do
-          delete :destroy, id: @ticket.code
-          expect(Ticket.banned.last.code).not_to eq("Glownet")
+          delete :destroy, id: @gtag.tag_uid
+          expect(Gtag.banned.last.tag_uid).not_to eq("Glownet")
         end
 
         it "returns a 204 code status" do
-          put :destroy, id: @ticket.code
+          put :destroy, id: @gtag.tag_uid
           expect(response.status).to eq(204)
         end
       end
@@ -125,7 +122,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, :type => :controller
 
     context "when not authenticated" do
       it "returns a 401 status code" do
-        put :destroy, id: Ticket.banned.last.code, ticket: { without: "Authenticate" }
+        put :destroy, id: Gtag.banned.last.tag_uid, ticket: { without: "Authenticate" }
         expect(response.status).to eq(401)
       end
     end

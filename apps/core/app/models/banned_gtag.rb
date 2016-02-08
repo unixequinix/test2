@@ -11,4 +11,5 @@
 class BannedGtag < ActiveRecord::Base
   belongs_to :gtag
   validates :gtag_id, uniqueness: true
+  validates :gtag_id, presence: true
 end

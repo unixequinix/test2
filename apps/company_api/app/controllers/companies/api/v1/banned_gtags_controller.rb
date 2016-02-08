@@ -3,7 +3,8 @@ module Companies
     module V1
       class BannedGtagsController < Companies::Api::V1::BaseController
         def index
-          @banned_gtags = Gtag.banned.where(event: current_event)
+          @banned_gtags = Gtag.banned
+                              .search_by_company_and_event(current_company.name, current_event)
 
           render json: {
             event_id: current_event.id,
@@ -20,7 +21,8 @@ module Companies
           BannedCustomerEventProfile.new(assign.customer_event_profile_id) unless assign.nil?
 
           if @banned_gtag.save
-            render status: :created, json: @banned_gtag
+            render status: :created, json: @banned_gtag.gtag,
+                                     serializer: Companies::Api::V1::GtagSerializer
           else
             render status: :bad_request,
                    json: { message: I18n.t("company_api.gtags.bad_request"),
@@ -41,8 +43,8 @@ module Companies
         private
 
         def banned_gtag_params
-          gtag_id = Gtag.select(:id).find_by(tag_uid: params[:gtags_blacklist][:tag_uid]).id
-          params[:gtags_blacklist][:gtag_id] = gtag_id
+          gtag_id = Gtag.select(:id).find_by(tag_uid: params[:gtags_blacklist][:tag_uid])
+          params[:gtags_blacklist][:gtag_id] = gtag_id.id if gtag_id.present?
           params.require(:gtags_blacklist).permit(:gtag_id)
         end
       end
