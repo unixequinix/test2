@@ -89,13 +89,11 @@
   position: relative;
 
   @include min-screen($bp4) {
-    @include outer-container(40%);
+    @include outer-container(modules(23));
     height: auto;
     border-radius: $radius;
     margin-bottom: modules(4);
   }
-
-  h3 { font-weight: bold; }
 }
 
 .container-customer-app-view {
@@ -108,7 +106,7 @@
 
 // Each section inside the main column
 
-.wrapper-module, .wrapper-module-centered {
+.wrapper-module, .wrapper-module-centered, .wrapper-module-restriction {
   position: relative;
   overflow: visible;
   width: 100%;
@@ -142,6 +140,13 @@
   @include min-screen($bp6) { padding: modules(1) modules(4); }
 
   .highlight-text { padding-bottom: modules(1); }
+}
+
+.wrapper-module-restriction {
+  padding: modules(2) modules(0.5);
+  text-align: center;
+
+  @include min-screen($bp4) { padding: modules(2) }
 }
 
 .wrapper-pay-pal {

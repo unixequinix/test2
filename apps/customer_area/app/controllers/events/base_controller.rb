@@ -49,6 +49,10 @@ class Events::BaseController < ApplicationController
   end
   helper_method :current_customer_event_profile
 
+  def prepare_for_mobile
+    prepend_view_path Rails.root + "apps" + "customer_area" + "app" + "views_mobile"
+  end
+
   private
 
   def fetch_current_event
