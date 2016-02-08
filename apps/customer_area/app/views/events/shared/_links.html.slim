@@ -7,6 +7,7 @@
   = link_to new_event_passwords_path(current_event) do
     = t('links.forgot')
 
-- if controller_name != 'confirmations'
-  = link_to new_event_confirmations_path(current_event) do
-    = t('links.resend_confirmation')
+// TODO Remove this from locales
+//- if controller_name != 'confirmations'
+//  = link_to new_event_confirmations_path(current_event) do
+//    = t('links.resend_confirmation')
