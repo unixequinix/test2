@@ -1,0 +1,19 @@
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @list_model_presenter.current_items, total: @list_model_presenter.count)
+table.customer_orders
+  thead
+    tr
+      th = "id"
+      th = "counter"
+      th = "state"
+      th = "customer_event_profile"
+      th = "preevent_product"
+  tbody
+    - customer_orders.each do |customer_order|
+      tr
+        td data-label="id" = admins_event_customer_customer_order_path(current_event, customer_order)
+        td data-label="state" = customer_order.aasm_state
+        td data-label="counter" = customer_order.counter
+        td data-label="customer_event_profile" = customer_order.customer_event_profile.id
+        td data-label="preevent_product" = customer_order.preevent_product.name
+
+= paginate customer_orders
