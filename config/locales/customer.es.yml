@@ -28,7 +28,7 @@ es:
     resend_confirmation: "¿No has recibido el email de confirmación?"
     buttons:
       sign_in: 'Inicia Sesión'
-      sign_up: 'Registrar'
+      sign_up: 'Crear cuenta'
       join: 'Únete'
       back: 'Volver a la home'
   dashboard:

@@ -51,6 +51,13 @@
   }
 }
 
+.wrapper-create-account {
+  display: block;
+  text-align: center;
+
+  @include min-screen($bp3) { display: none; }
+}
+
 .logo {
   @include mscale($base_font_size);
   overflow: hidden;

@@ -95,7 +95,10 @@
 }
 
 .customer_remember_me {
+  display: none;
   text-align: center;
+
+  @include min-screen($bp3) { display: block; }
 
   input {
     margin-right: modules(0.25);
