@@ -24,7 +24,8 @@ module Companies
           BannedCustomerEventProfile.new(assign.customer_event_profile_id) unless assign.nil?
 
           if @banned_ticket.save
-            render status: :created, json: @banned_ticket
+            render status: :created, json: @banned_ticket.ticket,
+                                     serializer: Companies::Api::V1::TicketSerializer
           else
             render status: :bad_request,
                    json: { message: I18n.t("company_api.tickets.bad_request"),
@@ -45,8 +46,9 @@ module Companies
         private
 
         def banned_ticket_params
-          ticket_id = Ticket.select(:id).find_by(code: params[:tickets_blacklist][:ticket_reference]).id
-          params[:tickets_blacklist][:ticket_id] = ticket_id
+          ticket = Ticket.select(:id).find_by(code: params[:tickets_blacklist][:ticket_reference])
+
+          params[:tickets_blacklist][:ticket_id] = ticket.id if ticket.present?
           params.require(:tickets_blacklist).permit(:ticket_id)
         end
       end

@@ -11,4 +11,5 @@
 class BannedTicket < ActiveRecord::Base
   belongs_to :ticket
   validates :ticket_id, uniqueness: true
+  validates :ticket_id, presence: true
 end
