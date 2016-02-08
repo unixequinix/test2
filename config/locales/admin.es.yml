@@ -152,6 +152,7 @@ es:
       customers: "Clientes"
       customer_event_profiles: "Perfiles de evento"
       orders: "Órdenes"
+      customer_orders: "Órdenes de clientes"
       payments: "Pagos"
       claims: "Peticiones"
       refunds: "Devoluciones"

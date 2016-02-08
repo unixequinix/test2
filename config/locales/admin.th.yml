@@ -152,6 +152,7 @@ th:
       customers: "Customers"
       customer_event_profiles: "Customer event profiles"
       orders: "Orders"
+      customer_orders: "Customer orders"
       payments: "Payments"
       claims: "Claims"
       refunds: "Refunds"
