@@ -6,15 +6,11 @@ header.header-mobile
     = fa_icon "cog"
   nav#mobile-options.mobile-options
     ul
-      li
-        = fa_icon "envelope"
-        = mail_to current_event.support_email, t('header.help'), subject: t('event.subject_support', event: current_event.name)
+      li = mail_to current_event.support_email, t('header.help'), subject: t('event.subject_support', event: current_event.name)
       - if customer_signed_in?
         li
           = link_to edit_event_registrations_path(current_event, current_customer) do
-            = fa_icon "user"
             = current_customer.name
         li
           = link_to event_logout_path(current_event), method: :delete do
-            = fa_icon "sign-out"
             = t('header.logout')

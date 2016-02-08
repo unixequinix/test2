@@ -17,10 +17,8 @@
   }
 
   .open-nav {
-    @include transition(all 350ms ease-in-out);
-    overflow: visible;
+    @include transition(right 350ms ease-in-out, opacity 350ms ease-in-out, width 350ms ease-in-out);
     right: 0;
-    height: 100%;
     width: 100%;
     z-index: 8;
     opacity: 1;
@@ -45,14 +43,14 @@
 }
 
 .mobile-options {
-  @include transition(all 350ms ease-in-out);
+  @include transition(right 350ms ease-in-out, opacity 350ms ease-in-out, width 350ms ease-in-out);
   overflow: hidden;
-  display: block;
   position: absolute;
+  top: 0;
+  display: block;
   height: 100%;
   right: -100%;
-  top: 0;
-  width: 100%;
+  width: 0%;
   background-color: $color_text;
   z-index: 5;
   opacity: 0;
@@ -70,26 +68,6 @@
     font-weight: bold;
     text-transform: uppercase;
     opacity: 0;
-
-    i {
-      display: none;
-      width: auto;
-      padding-right: modules(0.25);
-    }
-  }
-
-  &:before {
-    display: block;
-    position: absolute;
-    top: -6px;
-    right: 7px;
-    content: "";
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid $color_text;
-    z-index: 90;
   }
 }
 
