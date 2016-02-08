@@ -86,14 +86,18 @@
 // The centered container that contains all the account info
 
 .container-event-column {
+  overflow: hidden;
   position: relative;
+  width: 100%;
 
   @include min-screen($bp4) {
-    @include outer-container(modules(23));
+    @include outer-container(40%);
     height: auto;
     border-radius: $radius;
     margin-bottom: modules(4);
   }
+
+  @include min-screen($bp6) { max-width: modules(23); }
 }
 
 .container-customer-app-view {

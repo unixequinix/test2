@@ -20,11 +20,17 @@ $radius:            3px;
 // HTML base styles
 
 html, body {
-  @include sticky-footer(modules(16));
   position: relative;
   height: 100%;
 
   @include min-screen($bp3) { @include sticky-footer(modules(8)); }
+}
+
+.unscrollable-view {
+  position: relative !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
+  overflow: hidden !important;
 }
 
 h1 {

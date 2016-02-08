@@ -2,7 +2,8 @@ header.header-mobile
   h1.mobile-event-name
     = link_to event_url(current_event) do
       = current_event.name
-  = fa_icon "cog", class: "mobile-trigger"
+  #mobile-trigger.mobile-trigger
+    = fa_icon "cog"
   nav#mobile-options.mobile-options
     ul
       li

@@ -65,11 +65,12 @@ input:placeholder-shown { font-style: italic; }
 .wrapper-session-login {
   position: relative;
 
+  label { display: none; }
   input { padding: modules(0.5) modules(0.5) modules(0.5) modules(1.5); }
 
   i {
     position: absolute;
-    top: modules(1.55);
+    top: modules(0.65);
     left: modules(0.5);
     opacity: 0.6;
   }

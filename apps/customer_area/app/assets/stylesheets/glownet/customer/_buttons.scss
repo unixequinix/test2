@@ -37,6 +37,7 @@
   height: modules(2);
   padding-top: modules(0.5);
   border-radius: 3px;
+  z-index: 10;
 
   &:focus, &:hover {
     opacity: 0.6;
