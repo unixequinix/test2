@@ -34,8 +34,6 @@ RSpec.describe CredentialType, type: :model do
 
       second_credential_type.destroy
 
-      binding.pry
-
       expect(CredentialType.find(third_credential_type.id).memory_position).to eq(2)
       expect(CredentialType.find(fourth_credential_type.id).memory_position).to eq(3)
     end

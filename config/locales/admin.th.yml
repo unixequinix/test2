@@ -160,6 +160,8 @@ th:
       setup: "Setup"
       crm: "CRM"
       companies: "Companies"
+      preevent_products: "Preevent products"
+      company_ticket_types: "Company ticket types"
     dashboard:
       change_state: "Change state?"
       api_access: "API access"
@@ -354,6 +356,11 @@ th:
       payments: "Payments"
       search:
         number: "Number"
+    customer_orders:
+      counter: "Counter"
+      state: "Estado"
+      customer_event_profile: "Customer event profiles"
+      preevent_product: "Preevent product"
     payments:
       id: "Id"
       order_id: "Order Id"

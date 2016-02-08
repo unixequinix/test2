@@ -17,7 +17,7 @@ class Admins::Events::CustomerOrdersController < Admins::Events::PaymentsBaseCon
       search_query: params[:q],
       page: params[:page],
       include_for_all_items:
-        [],
+        [:preevent_product, :customer_event_profile, customer_event_profile: :customer],
       context: view_context
     )
   end

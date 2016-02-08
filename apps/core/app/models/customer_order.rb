@@ -3,7 +3,6 @@
 # Table name: customer_orders
 #
 #  id                        :integer          not null, primary key
-#  event_id                  :integer          not null
 #  preevent_product_id       :integer          not null
 #  customer_event_profile_id :integer          not null
 #  counter                   :integer
@@ -22,7 +21,7 @@ class CustomerOrder < ActiveRecord::Base
   belongs_to :customer_event_profile
 
   # Validations
-  validates :state, presence: true
+  validates :aasm_state, presence: true
 
 
   include AASM

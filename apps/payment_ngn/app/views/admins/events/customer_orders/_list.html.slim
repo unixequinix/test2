@@ -2,18 +2,15 @@
 table.customer_orders
   thead
     tr
-      th = "id"
-      th = "counter"
-      th = "state"
-      th = "customer_event_profile"
-      th = "preevent_product"
+      th = t("admin.customer_orders.customer_event_profile")
+      th = t("admin.customer_orders.preevent_product")
+      th = t("admin.customer_orders.counter")
+      th = t("admin.customer_orders.state")
   tbody
     - customer_orders.each do |customer_order|
       tr
-        td data-label="id" = admins_event_customer_customer_order_path(current_event, customer_order)
-        td data-label="state" = customer_order.aasm_state
-        td data-label="counter" = customer_order.counter
-        td data-label="customer_event_profile" = customer_order.customer_event_profile.id
-        td data-label="preevent_product" = customer_order.preevent_product.name
-
+        td data-label=t("admin.customer_orders.customer_event_profile") = link_to customer_order.customer_event_profile.customer.email, admins_event_customer_event_profile_path(current_event, customer_order.customer_event_profile.id)
+        td data-label=t("admin.customer_orders.preevent_product") = customer_order.preevent_product.name
+        td data-label=t("admin.customer_orders.counter") = customer_order.counter
+        td data-label=t("admin.customer_orders.state") = customer_order.aasm_state
 = paginate customer_orders
