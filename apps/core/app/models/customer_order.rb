@@ -15,10 +15,9 @@
 
 class CustomerOrder < ActiveRecord::Base
   acts_as_paranoid
-  acts_as_list column: :counter, scope: :event_id
+  acts_as_list column: :counter, scope: :customer_event_profile_id
 
   # Associations
-  belongs_to :event
   belongs_to :preevent_product
   belongs_to :customer_event_profile
 
