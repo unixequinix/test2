@@ -358,6 +358,7 @@ es:
       search:
         number: "Número"
     customer_orders:
+      id: "Id"
       counter: "Contador"
       state: "Estado"
       customer_event_profile: "Perfil de cliente"

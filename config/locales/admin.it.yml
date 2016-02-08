@@ -358,6 +358,7 @@ it:
       search:
         number: "Number"
     customer_orders:
+      id: "Id"
       counter: "Counter"
       state: "Estado"
       customer_event_profile: "Customer event profiles"
