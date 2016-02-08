@@ -19,7 +19,7 @@ class Credit < ActiveRecord::Base
   accepts_nested_attributes_for :preevent_item, allow_destroy: true
   scope :standard_credit_preevent_product, lambda { |event|
     joins(preevent_item: :preevent_products)
-    .where(standard: true,
+    .find_by(standard: true,
            preevent_items: { purchasable_type: "Credit", event_id: event.id },
            preevent_products: { preevent_items_count: 1, event_id: event.id })
   }
@@ -31,6 +31,12 @@ class Credit < ActiveRecord::Base
   validates :preevent_item, presence: true
   validate :only_one_standard_credit
 
+  def rounded_value
+    value.round == value ? value.floor : value
+  end
+
+  private
+
   def only_one_standard_credit
     return unless standard?
     event_id = preevent_item.event_id
@@ -38,9 +44,5 @@ class Credit < ActiveRecord::Base
                             .find_by(standard: true, preevent_items: { event_id: event_id })
     errors.add(:standard,
                I18n.t("errors.messages.max_standard_credits")) if event_standard_credit.present?
-  end
-
-  def rounded_value
-    value.round == value ? value.floor : value
   end
 end
