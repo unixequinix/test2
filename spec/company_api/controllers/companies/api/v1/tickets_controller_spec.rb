@@ -172,8 +172,16 @@ RSpec.describe Companies::Api::V1::TicketsController, :type => :controller do
 
       context "when the request is invalid" do
         it "returns a 400 status code" do
-          put :update, id: @ticket, ticket: { with: "Invalid params" }
+          put :update, id: @ticket, ticket: { ticket_reference: nil,
+                                              purchaser_email: "newemail@glownet.com" }
           expect(response.status).to eq(400)
+        end
+
+        it "doesn't change ticket's attributes" do
+          put :update, id: @ticket, ticket: { ticket_reference: nil,
+                                              purchaser_email: "newemail@glownet.com" }
+          @ticket.reload
+          expect(@ticket.purchaser_email).not_to eq("newemail@glownet.com")
         end
       end
     end
