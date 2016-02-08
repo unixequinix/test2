@@ -11,7 +11,8 @@ RSpec.describe Api::V1::Events::GtagsController, :type => :controller do
   describe "GET index" do
     context "with authentication" do
       before(:each) do
-        http_login
+        @admin = FactoryGirl.create(:admin)
+        http_login(@admin.email, @admin.access_token)
       end
 
       context "if gtag doesn't exist" do
@@ -38,7 +39,7 @@ RSpec.describe Api::V1::Events::GtagsController, :type => :controller do
         end
       end
     end
-    
+
     context "without authentication" do
       it "has a 401 status code" do
         get :index, event_id: Event.last.id
@@ -51,7 +52,8 @@ RSpec.describe Api::V1::Events::GtagsController, :type => :controller do
   describe "GET show" do
     context "with authentication" do
       before(:each) do
-        http_login
+        @admin = FactoryGirl.create(:admin)
+        http_login(@admin.email, @admin.access_token)
         get :show, event_id: @event.id, id: Gtag.last.id
       end
 

@@ -16,7 +16,8 @@ RSpec.describe Api::V1::Events::ParametersController, :type => :controller do
 
     context "with authentication" do
       before(:each) do
-        http_login
+        @admin = FactoryGirl.create(:admin)
+        http_login(@admin.email, @admin.access_token)
       end
 
       it "has a 200 status code" do

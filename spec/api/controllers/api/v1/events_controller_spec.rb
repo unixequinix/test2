@@ -6,12 +6,14 @@ RSpec.describe Api::V1::EventsController, :type => :controller do
       before(:each) do
         FactoryGirl.create :event, name: "Sonar Barcelona"
         FactoryGirl.create :event, name: "Comic Con Dubai"
-        http_login
+        
+        @admin = FactoryGirl.create(:admin)
+        http_login(@admin.email, @admin.access_token)
       end
 
       it "has a 200 status code" do
         get :index
-        
+
         expect(response.status).to eq 200
       end
 

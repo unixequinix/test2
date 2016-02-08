@@ -11,7 +11,8 @@ RSpec.describe Api::V1::Events::TicketsController, :type => :controller do
   describe "GET index" do
     context "with authentication" do
       before(:each) do
-        http_login
+        @admin = FactoryGirl.create(:admin)
+        http_login(@admin.email, @admin.access_token)
       end
 
       it "has a 200 status code" do
@@ -41,7 +42,8 @@ RSpec.describe Api::V1::Events::TicketsController, :type => :controller do
   describe "GET show" do
     context "with authentication" do
       before(:each) do
-        http_login
+        @admin = FactoryGirl.create(:admin)
+        http_login(@admin.email, @admin.access_token)
       end
 
       context "if ticket doesn't exist" do
@@ -79,7 +81,8 @@ RSpec.describe Api::V1::Events::TicketsController, :type => :controller do
   describe "GET reference" do
     context "with authentication" do
       before(:each) do
-        http_login
+        @admin = FactoryGirl.create(:admin)
+        http_login(@admin.email, @admin.access_token)
       end
 
       context "if ticket doesn't exist" do
