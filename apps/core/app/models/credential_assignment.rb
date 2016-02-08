@@ -44,7 +44,6 @@ class CredentialAssignment < ActiveRecord::Base
   private
 
   def credentiable_belongs_to_current_event
-    binding.pry
     errors.add(credentiable_type, I18n.t("errors.messages.not_belong_to_event")) unless credentiable.event == customer_event_profile.event
   end
 end
