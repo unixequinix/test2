@@ -1,8 +1,2 @@
-module Companies
-  module Api
-    module V1
-      class BaseSerializer < ActiveModel::Serializer
-      end
-    end
-  end
+class Companies::Api::V1::BaseSerializer < ActiveModel::Serializer
 end

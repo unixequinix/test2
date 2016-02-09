@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::Events::ParametersController, :type => :controller do
+RSpec.describe Api::V1::Events::ParametersController, type: :controller do
   describe "GET index" do
     before do
       @event = create(:event)
