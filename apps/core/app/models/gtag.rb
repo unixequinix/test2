@@ -41,6 +41,7 @@ class Gtag < ActiveRecord::Base
   belongs_to :company_ticket_type
 
   accepts_nested_attributes_for :gtag_credit_log, allow_destroy: true
+  accepts_nested_attributes_for :purchaser, allow_destroy: true
 
   # Validations
   validates_uniqueness_of :tag_uid, scope: :event_id
