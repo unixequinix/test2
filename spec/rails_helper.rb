@@ -16,6 +16,7 @@ unless ARGV.any? {|e| e =~ /guard-rspec/ }
     add_group "Helpers", "app/helpers"
     add_group "Controllers", "app/controllers"
     add_group "Mailers", "app/mailers"
+    add_group "Serializers", "app/serializers"
 
     add_filter "/spec/"
     add_filter "/config/"
@@ -70,7 +71,7 @@ RSpec.configure do |config|
   #     end
   #
   # The different available types are documented in the features, such as in
-  # 
+  #
   # Model specs: type: :model
   # Controller specs: type: :controller
   # Request specs: type: :request

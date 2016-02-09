@@ -32,6 +32,11 @@ class Multitenancy::AdministrationFetcher
     EventParameter.where(event_id: @event.id)
   end
 
+  def device_general_parameters
+    EventParameter.where(event_id: @event.id, parameters: { category: "device", group: "general" })
+                  .includes(:parameter)
+  end
+
   def gtags
     Gtag.where(event: @event)
   end

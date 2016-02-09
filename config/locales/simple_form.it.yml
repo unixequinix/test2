@@ -114,6 +114,14 @@ it:
           name: "Name"
           gtag_assignation_notification: "Gtag  assignation notification"
           gtag_form_disclaimer: "Gtag assignation form disclaimer"
+      device_settings_form:
+        edit:
+          currency: "Currency Symbol"
+          min_version_apk: "Minimum APK version"
+          maximum_wb_balance: "Maximum wristband balance"
+          uid_reverse: "UID Reverse"
+          private_zone_password: "Private Zone Password"
+          public_key_a: "Tag Password"
       redsys_payment_settings_form:
         edit:
           name: 'Name'

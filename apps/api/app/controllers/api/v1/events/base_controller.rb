@@ -5,11 +5,6 @@ module Api
         helper_method :current_event
         before_action :fetch_current_event
 
-        def index
-          @customer_event_profiles = CustomerEventProfile.where(event_id: current_event.id)
-          render json: Api::V1::EventCustomersSerializer.new(@customer_event_profiles, root: false)
-        end
-
         def current_event
           @current_event || Event.new
         end

@@ -120,6 +120,14 @@ es:
         edit:
           format: "Formato"
           name: "Nombre"
+      device_settings_form:
+        edit:
+          currency: "Símbolo de la moneda"
+          min_version_apk: "Versión mínima del APK"
+          maximum_wb_balance: "Balance máximo de la pulsera"
+          uid_reverse: "UID Reverse"
+          private_zone_password: "Contraseña de la zona privada"
+          public_key_a: "Contraseña del Gtag"
       redsys_payment_settings_form:
         edit:
           name: 'Nombre'
