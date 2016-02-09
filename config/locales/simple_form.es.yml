@@ -93,10 +93,7 @@ es:
           <<: *label_ticket_type
       ticket:
         new: &label_ticket
-          number: "Número"
-          purchaser_first_name: "Nombre Comprador"
-          purchaser_last_name: "Apellido Comprador"
-          purchaser_email: "Email Comprador"
+          code: "Número"
         edit:
           <<: *label_ticket
       gtag:
@@ -106,6 +103,14 @@ es:
           gtag_credit_log: "Bingo"
         edit:
           <<: *label_gtag
+      purchaser:
+        new: &label_purchaser
+          first_name: "Nombre"
+          last_name: "Apellido"
+          email: "Email"
+          gtag_delivery_address: "Dirección de envío"
+        edit:
+          <<: *label_purchaser
       gtag_credit_log:
         new: &label_gtag_credit_log
           amount: "Cantidad"
@@ -206,10 +211,7 @@ es:
           <<: *placeholder_ticket_type
       ticket:
         new: &placeholder_ticket
-          number: "Número de Ticket"
-          purchaser_first_name: ""
-          purchaser_last_name: ""
-          purchaser_email: ""
+          code: "Número de Ticket"
         edit:
           <<: *placeholder_ticket
       gtag:
@@ -218,6 +220,14 @@ es:
           tag_uid: "Número de la segunda línea de la %{gtag}"
         edit:
           <<: *placeholder_gtag
+      purchaser:
+        new: &placeholder_purchaser
+          first_name: "Nombre del comprador"
+          last_name: "Apellido del comprador"
+          email: "Email del comprador"
+          gtag_delivery_address: "Dirección de envío de la %{gtag}"
+        edit:
+          <<: *placeholder_purchaser
       gtag_credit_log:
         new: &placeholder_gtag_credit_log
           amount: "Cantidad disponible"
