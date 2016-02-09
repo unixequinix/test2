@@ -228,7 +228,7 @@ en:
       created_at: "Created at"
       admission: "Tickets registrations"
       search:
-        number: "Ticket barcode number"
+        code: "Ticket barcode number"
         customer: "Assigned customer email"
         purchaser_email: "Purchaser Email"
         type: "Type"
