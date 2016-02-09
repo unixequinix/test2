@@ -94,7 +94,9 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, :type => :controller
 
   describe "DELETE destroy" do
     before(:each) do
-      @ticket = create(:ticket, :banned, code: "Glownet", event: @event, company_ticket_type: @ticket_type1)
+      @ticket = create(:ticket, :banned, code: "Glownet",
+                                         event: @event,
+                                         company_ticket_type: @ticket_type1)
     end
 
     context "when authenticated" do
