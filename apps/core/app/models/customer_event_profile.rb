@@ -3,7 +3,7 @@
 # Table name: customer_event_profiles
 #
 #  id          :integer          not null, primary key
-#  customer_id :integer          not null
+#  customer_id :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  event_id    :integer          not null

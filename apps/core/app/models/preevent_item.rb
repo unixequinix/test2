@@ -15,10 +15,10 @@
 
 class PreeventItem < ActiveRecord::Base
   acts_as_paranoid
+  has_many :preevent_product_items, dependent: :restrict_with_error
+  has_many :preevent_products, through: :preevent_product_items, class_name: "PreeventProduct"
   belongs_to :purchasable, polymorphic: true, touch: true
   belongs_to :event
-  has_many :preevent_product_items, dependent: :destroy
-  has_many :preevent_products, through: :preevent_product_items, class_name: "PreeventProduct"
 
   # Validations
   validates :name, presence: true

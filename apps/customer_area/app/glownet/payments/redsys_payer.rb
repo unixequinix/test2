@@ -1,9 +1,9 @@
 class Payments::RedsysPayer
-  def start(params)
-    notify_payment(params)
+  def start(params, customer_order_creator)
+    notify_payment(params, customer_order_creator)
   end
 
-  def notify_payment(params)
+  def notify_payment(params, customer_order_creator)
     event = Event.friendly.find(params[:event_id])
     merchant_code = EventParameter.find_by(event_id: event.id, parameter_id: Parameter.find_by(category: "payment", group: "redsys", name: "code")).value
     return unless params[:Ds_Order] && params[:Ds_MerchantCode] == merchant_code
@@ -29,6 +29,7 @@ class Payments::RedsysPayer
       payment_type: 'redsys')
     payment.save!
     order.complete!
+    customer_order_creator.save(order)
     send_mail_for(order, event)
   end
 

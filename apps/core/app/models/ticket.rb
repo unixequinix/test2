@@ -12,7 +12,7 @@
 #  purchaser_last_name    :string
 #  event_id               :integer          not null
 #  credential_redeemed    :boolean          default(FALSE), not null
-#  company_ticket_type_id :integer          not null
+#  company_ticket_type_id :integer
 #
 
 class Ticket < ActiveRecord::Base

@@ -2,14 +2,11 @@
   description: "Acces to the vip zone"
   name: "VIP Access"
   purchasable_type: "CredentialType"
-  position: 1
 -
   description: "Beer pack"
   name: "Beer pack"
   purchasable_type: "Voucher"
-  counter: 5
 -
   description: "Water"
   name: "Water"
   purchasable_type: "Voucher"
-  counter: 2

@@ -3,7 +3,6 @@
 # Table name: vouchers
 #
 #  id         :integer          not null, primary key
-#  counter    :integer          default(0), not null
 #  deleted_at :datetime
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -16,5 +15,5 @@ class Voucher < ActiveRecord::Base
   accepts_nested_attributes_for :preevent_item, allow_destroy: true
 
   # Validations
-  validates :preevent_item, :counter, presence: true
+  validates :preevent_item, presence: true
 end

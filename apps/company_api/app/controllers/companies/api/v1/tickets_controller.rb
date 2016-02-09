@@ -13,7 +13,7 @@ module Companies
 
         def show
           @ticket = Ticket.search_by_company_and_event(current_company.name, current_event)
-                          .find_by(id: params[:id])
+                    .find_by(id: params[:id])
 
           if @ticket
             render json: @ticket
@@ -39,7 +39,7 @@ module Companies
 
         def update
           @ticket = Ticket.includes(:company_ticket_type, company_ticket_type: [:company])
-              .find_by(id: params[:id], event: current_event, companies: { name: current_company.name })
+                    .find_by(id: params[:id], event: current_event, companies: { name: current_company.name })
 
           if @ticket.update(ticket_params)
             render json: Companies::Api::V1::TicketSerializer.new(@ticket)

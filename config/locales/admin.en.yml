@@ -153,6 +153,7 @@ en:
       customers: "Customers"
       customer_event_profiles: "Customer event profiles"
       orders: "Orders"
+      customer_orders: "Customer orders"
       payments: "Payments"
       claims: "Claims"
       refunds: "Refunds"
@@ -162,6 +163,8 @@ en:
       vouchers: "Vouchers"
       credential_types: "Credential Types"
       companies: "Companies"
+      preevent_products: "Preevent products"
+      company_ticket_types: "Company ticket types"
     dashboard:
       change_state: "Change state?"
       api_access: "API access"
@@ -186,9 +189,8 @@ en:
       description: "Description"
     vouchers:
       id: "Id"
-      counter: "Counter"
     credential_types:
-      position: "Position"
+      memory_position: "Position"
     company_ticket_types:
       name: "Name"
       company: "Company"
@@ -357,6 +359,12 @@ en:
       payments: "Payments"
       search:
         number: "Number"
+    customer_orders:
+      id: "Id"
+      counter: "Counter"
+      state: "Estado"
+      customer_event_profile: "Customer event profiles"
+      preevent_product: "Preevent product"
     payments:
       id: "Id"
       order_id: "Order Id"

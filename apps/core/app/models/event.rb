@@ -33,7 +33,7 @@
 #  locales                 :integer          default(1), not null
 #  refund_services         :integer          default(0), not null
 #  ticket_assignation      :boolean          default(TRUE), not null
-#  token                   :string           not null
+#  token                   :string
 #
 
 class Event < ActiveRecord::Base
@@ -120,10 +120,6 @@ class Event < ActiveRecord::Base
 
   def self.payment_services_selector
     PAYMENT_SERVICES.map { |f| [I18n.t("admin.event.payment_services." + f.to_s), f] }
-  end
-
-  def self.refund_services_selector
-    REFUND_SERVICES.map { |f| [I18n.t("admin.event.refund_services." + f.to_s), f] }
   end
 
   def standard_credit

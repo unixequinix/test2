@@ -64,10 +64,6 @@ FactoryGirl.define do
       online false
     end
 
-    after(:create) do |preevent_product|
-      preevent_product.preevent_items_counter
-    end
-
     trait :full do
       credit_product
       credential_product
