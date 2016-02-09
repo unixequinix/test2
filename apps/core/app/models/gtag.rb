@@ -27,9 +27,14 @@ class Gtag < ActiveRecord::Base
 
   # Associations
   belongs_to :event
-  has_one :assigned_gtag_credential, -> { where(aasm_state: :assigned) }, as: :credentiable, class_name: "CredentialAssignment"
+  has_one :assigned_gtag_credential,
+          -> { where(aasm_state: :assigned) },
+          as: :credentiable,
+          class_name: "CredentialAssignment"
   has_many :customer_event_profiles, through: :credential_assignments
-  has_one :assigned_customer_event_profile, -> { where(credential_assignments: { aasm_state: :assigned }) }, class_name: "CredentialAssignment"
+  has_one :assigned_customer_event_profile,
+          -> { where(credential_assignments: { aasm_state: :assigned }) },
+          class_name: "CredentialAssignment"
   has_one :gtag_credit_log
   has_one :refund
   has_many :claims
@@ -77,8 +82,10 @@ class Gtag < ActiveRecord::Base
 
   def refundable?(refund_service)
     current_event = event
-    minimum = current_event.refund_minimun(refund_service)
-    !gtag_credit_log.nil? && (refundable_amount_after_fee(refund_service) >= minimum.to_f && refundable_amount_after_fee(refund_service) >= 0)
+    minimum = current_event.refund_minimun(refund_service).to_f
+    !gtag_credit_log.nil? &&
+      (refundable_amount_after_fee(refund_service) >= minimum &&
+      refundable_amount_after_fee(refund_service) >= 0)
   end
 
   def any_refundable_method?

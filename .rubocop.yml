@@ -1,5 +1,3 @@
-
-
 AllCops:
   Exclude:
     - 'db/**/*'
@@ -16,6 +14,7 @@ AllCops:
     - '**/*.gemspec'
     - '**/Gemfile'
     - '**/i18n/**/*'
+    - 'apps/core/db/migrate/*'
 
 Documentation:
   Enabled: false
@@ -30,7 +29,10 @@ Style/StringLiterals:
     - double_quotes
 
 Style/ClassAndModuleChildren:
-  EnforcedStyle: compact
-  SupportedStyles:
-    - nested
-    - compact
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 20
+
+Metrics/MethodLength:
+  Max: 15

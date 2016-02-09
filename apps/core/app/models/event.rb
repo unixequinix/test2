@@ -57,7 +57,14 @@ class Event < ActiveRecord::Base
   REFUND_SERVICES = [:bank_account, :epg, :tipalti]
   FEATURES = [:top_ups, :refunds]
   LOCALES = [:en_lang, :es_lang, :it_lang, :th_lang]
-  REGISTRATION_PARAMETERS = [:phone, :address, :city, :country, :postcode, :gender, :birthdate, :agreed_event_condition]
+  REGISTRATION_PARAMETERS = [:phone,
+                             :address,
+                             :city,
+                             :country,
+                             :postcode,
+                             :gender,
+                             :birthdate,
+                             :agreed_event_condition]
 
   #
   GTAG_TYPES = [:mifare_classic, :ultralight_ev1]
@@ -85,8 +92,12 @@ class Event < ActiveRecord::Base
   has_many :gtags
   has_many :companies
 
-  has_many :tickets_assignments, through: :tickets, source: :credential_assignments, class_name: "CredentialAssignment"
-  has_many :gtags_assignments, through: :gtags,  source: :credential_assignments, class_name: "CredentialAssignment"
+  has_many :tickets_assignments, through: :tickets,
+                                 source: :credential_assignments,
+                                 class_name: "CredentialAssignment"
+  has_many :gtags_assignments, through: :gtags,
+                               source: :credential_assignments,
+                               class_name: "CredentialAssignment"
 
   has_many :preevent_items
   has_many :credits, through: :preevent_items, source: :purchasable, source_type: "Credit"
@@ -95,14 +106,14 @@ class Event < ActiveRecord::Base
   friendly_id :name, use: :slugged
 
   has_attached_file :logo,
-                    path: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:filename",
-                    url: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:basename.:extension",
-                    default_url: ":default_event_image_url"
+    path: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:filename",
+    url: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:basename.:extension",
+    default_url: ":default_event_image_url"
 
   has_attached_file :background,
-                    path: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:filename",
-                    url: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:basename.:extension",
-                    default_url: ":default_event_background_url"
+    path: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:filename",
+    url: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:basename.:extension",
+    default_url: ":default_event_background_url"
 
   # Hooks
   before_create :generate_token
@@ -153,10 +164,9 @@ class Event < ActiveRecord::Base
 
   def total_refundable_gtags(refund_service)
     fee = refund_fee(refund_service)
-    minimun = refund_minimun(refund_service)
     gtags.joins(:credential_assignments, :gtag_credit_log)
       .where("credential_assignments.aasm_state = 'assigned'")
-      .where("((amount * #{standard_credit_price}) - #{fee}) >= #{minimun}")
+      .where("((amount * #{standard_credit_price}) - #{fee}) >= #{refund_minimun(refund_service)}")
       .where("((amount * #{standard_credit_price}) - #{fee}) > 0")
       .count
   end
@@ -164,7 +174,7 @@ class Event < ActiveRecord::Base
   # TODO: Improve with decorators
   def get_parameter(category, group, name)
     parameter = Parameter.find_by(category: category, group: group, name: name)
-    EventParameter.find_by(event_id: id, parameter_id: parameter.id).value
+    EventParameter.find_by(event_id: id, parameter: parameter).value
   end
 
   def selected_locales_formated

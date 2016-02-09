@@ -50,19 +50,19 @@ RSpec.describe PreeventProduct, type: :model do
     sortered_array = PreeventProduct.online_preevent_products_sortered(@event)
     expect(sortered_array.count).to eq(7)
     expect(sortered_array[0].preevent_items_count).to eq(1)
-    expect(sortered_array[0].get_product_category).to eq("Credit")
+    expect(sortered_array[0].product_category).to eq("Credit")
     expect(sortered_array[1].preevent_items_count).to eq(1)
-    expect(sortered_array[1].get_product_category).to eq("Voucher")
+    expect(sortered_array[1].product_category).to eq("Voucher")
     expect(sortered_array[2].preevent_items_count).to eq(1)
-    expect(sortered_array[2].get_product_category).to eq("Voucher")
+    expect(sortered_array[2].product_category).to eq("Voucher")
     expect(sortered_array[3].preevent_items_count).to eq(1)
-    expect(sortered_array[3].get_product_category).to eq("CredentialType")
+    expect(sortered_array[3].product_category).to eq("CredentialType")
     expect(sortered_array[4].preevent_items_count).to eq(2)
-    expect(sortered_array[4].get_product_category).to eq("Pack")
+    expect(sortered_array[4].product_category).to eq("Pack")
     expect(sortered_array[5].preevent_items_count).to eq(3)
-    expect(sortered_array[5].get_product_category).to eq("Pack")
+    expect(sortered_array[5].product_category).to eq("Pack")
     expect(sortered_array[6].preevent_items_count).to eq(3)
-    expect(sortered_array[6].get_product_category).to eq("Pack")
+    expect(sortered_array[6].product_category).to eq("Pack")
   end
 
   it "should return an array with the order of the categories that will be used in customer area" do
@@ -71,19 +71,10 @@ RSpec.describe PreeventProduct, type: :model do
 
   it "should return a category depending on its preevent items" do
     @event = create(:event)
-    expect(create(:preevent_product, :credit_product, event: @event).get_product_category).to eq("Credit")
-    expect(create(:preevent_product, :credential_product, event: @event).get_product_category).to eq("CredentialType")
-    expect(create(:preevent_product, :voucher_product, event: @event).get_product_category).to eq("Voucher")
-    expect(create(:preevent_product, :full, event: @event).get_product_category).to eq("Pack")
-  end
-
-  it "should return true if it has more than one preevent_item" do
-    @event = create(:event)
-    product_right = create(:preevent_product, :full, event: @event)
-    product_wrong = create(:preevent_product, :credential_product, event: @event)
-
-    expect(product_right.is_a_pack?).to be(true)
-    expect(product_wrong.is_a_pack?).to be(false)
+    expect(create(:preevent_product, :credit_product, event: @event).product_category).to eq("Credit")
+    expect(create(:preevent_product, :credential_product, event: @event).product_category).to eq("CredentialType")
+    expect(create(:preevent_product, :voucher_product, event: @event).product_category).to eq("Voucher")
+    expect(create(:preevent_product, :full, event: @event).product_category).to eq("Pack")
   end
 
   it "should return true if it can't be modified because of its content" do
@@ -91,7 +82,7 @@ RSpec.describe PreeventProduct, type: :model do
     product_right = create(:preevent_product, :standard_credit_product, event: @event)
     product_wrong = create(:preevent_product, :credit_product, event: @event)
 
-    expect(product_right.is_immutable?).to be(true)
-    expect(product_wrong.is_immutable?).to be(false)
+    expect(product_right.immutable?).to be(true)
+    expect(product_wrong.immutable?).to be(false)
   end
 end
