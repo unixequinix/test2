@@ -1,9 +1,9 @@
 class CheckoutsPresenter
-  attr_reader :preevent_products
+  attr_reader :preevent_products_hash
 
   def initialize(current_event)
     @event = current_event
-    @preevent_products = PreeventProduct.online_preevent_products_hash_sorted(current_event)
+    @preevent_products_hash = PreeventProduct.online_preevent_products_hash_sorted(current_event)
   end
 
   def draw_product(preevent_product)
@@ -22,5 +22,9 @@ class CheckoutsPresenter
 
   def standard_partial
     "preevent_product"
+  end
+
+  def preevent_products
+    preevent_products = @preevent_products_hash.values.flatten
   end
 end

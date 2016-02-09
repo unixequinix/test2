@@ -122,10 +122,6 @@ class Event < ActiveRecord::Base
     PAYMENT_SERVICES.map { |f| [I18n.t("admin.event.payment_services." + f.to_s), f] }
   end
 
-  def self.refund_services_selector
-    REFUND_SERVICES.map { |f| [I18n.t("admin.event.refund_services." + f.to_s), f] }
-  end
-
   def standard_credit
     credits.standard_credit
   end
