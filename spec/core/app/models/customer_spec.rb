@@ -211,7 +211,7 @@ RSpec.describe Customer, type: :model do
   context ".gender_selector" do
     it "returns a valid array of genders for an html selector" do
       I18n.locale = :en
-      expect(Customer.gender_selector).to eq([["Male", "male"], ["Female", "female"]])
+      expect(Customer.gender_selector).to eq([%w( Male male ), %w( Female female )])
     end
   end
 end

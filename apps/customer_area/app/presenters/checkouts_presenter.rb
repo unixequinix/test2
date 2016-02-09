@@ -25,6 +25,6 @@ class CheckoutsPresenter
   end
 
   def preevent_products
-    preevent_products = @preevent_products_hash.values.flatten
+    @preevent_products_hash.values.flatten
   end
 end

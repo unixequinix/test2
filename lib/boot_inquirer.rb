@@ -87,7 +87,7 @@ class BootInquirer
     end
 
     def engine
-      module_name = gem_name.classify
+      module_name = gem_name.camelcase
       module_name << "c" if gem_name[-1] == "c"
       module_name.constantize.const_get(:Engine)
     end
