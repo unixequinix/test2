@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160208124402) do
+ActiveRecord::Schema.define(version: 20160209125347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -364,6 +364,18 @@ ActiveRecord::Schema.define(version: 20160208124402) do
     t.datetime "deleted_at",           index: {name: "index_preevent_product_items_on_deleted_at"}
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+  end
+
+  create_table "purchasers", force: :cascade do |t|
+    t.integer  "credentiable_id",       null: false
+    t.string   "credentiable_type",     null: false
+    t.string   "first_name",            null: false
+    t.string   "last_name",             null: false
+    t.string   "email",                 null: false
+    t.string   "gtag_delivery_address"
+    t.datetime "deleted_at",            index: {name: "index_purchasers_on_deleted_at"}
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
   create_table "refunds", force: :cascade do |t|
