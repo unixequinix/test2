@@ -13,7 +13,7 @@ module Companies
 
         def show
           @ticket = Ticket.search_by_company_and_event(current_company.name, current_event)
-                          .find_by(id: params[:id])
+                    .find_by(id: params[:id])
 
           if @ticket
             render json: @ticket

@@ -166,6 +166,7 @@ es:
       customers: "Clientes"
       customer_event_profiles: "Perfiles de evento"
       orders: "Órdenes"
+      customer_orders: "Órdenes de clientes"
       payments: "Pagos"
       claims: "Peticiones"
       refunds: "Devoluciones"
@@ -175,6 +176,8 @@ es:
       vouchers: "Cupones"
       credential_types: "Tipos de Credenciales"
       companies: "Compañías"
+      preevent_products: "Productos de preventa"
+      company_ticket_types: "Tipo de tickets de compañia"
     dashboard:
       change_state: "Cambiar de Estado?"
       api_access: "Acceso API"
@@ -368,6 +371,12 @@ es:
       payments: "Pagos"
       search:
         number: "Número"
+    customer_orders:
+      id: "Id"
+      counter: "Contador"
+      state: "Estado"
+      customer_event_profile: "Perfil de cliente"
+      preevent_product: "Producto de preventa"
     payments:
       id: "Id"
       order_id: "Order Id"

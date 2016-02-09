@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160203132002) do
+ActiveRecord::Schema.define(version: 20160208124402) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -255,6 +255,16 @@ ActiveRecord::Schema.define(version: 20160203132002) do
     t.datetime "deleted_at", index: {name: "index_credits_on_deleted_at"}
     t.decimal  "value",      precision: 8, scale: 2, default: 1.0,   null: false
     t.string   "currency"
+  end
+
+  create_table "customer_orders", force: :cascade do |t|
+    t.integer  "preevent_product_id",       null: false, index: {name: "fk__customer_orders_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "fk_customer_orders_preevent_product_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "customer_event_profile_id", null: false, index: {name: "fk__customer_orders_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_customer_orders_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "counter"
+    t.string   "aasm_state",                default: "unredeemed", null: false
+    t.datetime "deleted_at",                index: {name: "index_customer_orders_on_deleted_at"}
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "event_parameters", force: :cascade do |t|
