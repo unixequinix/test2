@@ -31,7 +31,7 @@ class EventParameter < ActiveRecord::Base
              parameters.data_type as data_type")
   }
 
-  scope :with_event, lambda { |event| includes(:parameter).where(event: event) }
+  scope :with_event, ->(event) { includes(:parameter).where(event: event) }
 
   # Methods
   # -------------------------------------------------------
