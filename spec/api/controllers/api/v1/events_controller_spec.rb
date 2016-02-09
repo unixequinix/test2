@@ -1,12 +1,12 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::EventsController, :type => :controller do
+RSpec.describe Api::V1::EventsController, type: :controller do
   describe "GET index" do
     context "with authentication" do
       before(:each) do
         FactoryGirl.create :event, name: "Sonar Barcelona"
         FactoryGirl.create :event, name: "Comic Con Dubai"
-        
+
         @admin = FactoryGirl.create(:admin)
         http_login(@admin.email, @admin.access_token)
       end
@@ -24,7 +24,7 @@ RSpec.describe Api::V1::EventsController, :type => :controller do
         event_names = body.map { |m| m["name"] }
 
         expect(event_names).to match_array(["Sonar Barcelona",
-                                             "Comic Con Dubai"])
+                                            "Comic Con Dubai"])
       end
     end
     context "without authentication" do

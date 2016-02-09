@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Companies::Api::V1::TicketsController, :type => :controller do
+RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
   before(:all) do
     @event = create(:event)
     @ticket_type1 = create(:company_ticket_type, event: @event,
@@ -13,7 +13,6 @@ RSpec.describe Companies::Api::V1::TicketsController, :type => :controller do
   end
 
   describe "GET index" do
-
     context "when authenticated" do
       before(:each) do
         @company = Company.last.name
@@ -104,9 +103,9 @@ RSpec.describe Companies::Api::V1::TicketsController, :type => :controller do
         end
 
         it "increases the tickets in the database by 1" do
-          expect {
+          expect do
             post :create, ticket: @params
-          }.to change(Ticket,:count).by(1)
+          end.to change(Ticket, :count).by(1)
         end
 
         it "returns a 201 status code" do
@@ -148,7 +147,7 @@ RSpec.describe Companies::Api::V1::TicketsController, :type => :controller do
 
       context "when the request is valid" do
         before(:each) do
-          @params = { ticket_reference: "n3wt1cketr3fer3nc3"}
+          @params = { ticket_reference: "n3wt1cketr3fer3nc3" }
         end
 
         it "changes ticket's attributes" do

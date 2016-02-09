@@ -1,10 +1,6 @@
-module Api
-  module V1
-    class EventsController < Api::BaseController
-      def index
-        @events = Event.all
-        render json: @events
-      end
-    end
+class Api::V1::EventsController < Api::BaseController
+  def index
+    @events = Event.all
+    render json: @events
   end
 end
