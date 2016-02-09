@@ -2,18 +2,19 @@
 #
 # Table name: preevent_products
 #
-#  id              :integer          not null, primary key
-#  event_id        :integer          not null
-#  name            :string
-#  online          :boolean          default(FALSE), not null
-#  initial_amount  :integer
-#  step            :integer
-#  max_purchasable :integer
-#  min_purchasable :integer
-#  price           :decimal(, )
-#  deleted_at      :datetime
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id                   :integer          not null, primary key
+#  event_id             :integer          not null
+#  name                 :string
+#  online               :boolean          default(FALSE), not null
+#  initial_amount       :integer
+#  step                 :integer
+#  max_purchasable      :integer
+#  min_purchasable      :integer
+#  price                :decimal(, )
+#  deleted_at           :datetime
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  preevent_items_count :integer          default(0), not null
 #
 
 class PreeventProduct < ActiveRecord::Base
@@ -21,19 +22,32 @@ class PreeventProduct < ActiveRecord::Base
 
   belongs_to :event
   has_many :company_ticket_types
-  has_many :preevent_product_items
+  has_many :preevent_product_items, dependent: :destroy
   has_many :preevent_items, through: :preevent_product_items, class_name: "PreeventItem"
   has_many :order_items
   has_many :orders, through: :order_items, class_name: "Order"
 
   accepts_nested_attributes_for :preevent_items
   accepts_nested_attributes_for :order_items
-  accepts_nested_attributes_for :preevent_product_items, allow_destroy: true
+  accepts_nested_attributes_for :preevent_product_items,
+                                allow_destroy: true
 
-  validates :event_id, :name, presence: true
+  validates :event_id, :name, :initial_amount, :step,
+            :max_purchasable, :min_purchasable, :price, presence: true
+  validates :preevent_product_items, length: { minimum: 1 }
+  validates :price, numericality: { greater_than_or_equal_to: 0 }
 
   def rounded_price
     price.round == price ? price.floor : price
+  end
+
+  def preevent_items_counter(preevent_item_ids = nil)
+    return update_attribute(:preevent_items_count, preevent_item_ids.count) if preevent_item_ids
+    update_attribute(:preevent_items_count, preevent_items.count)
+  end
+
+  def preevent_items_counter_decrement
+    update_attribute(:preevent_items_count, preevent_items_count - 1)
   end
 
   def self.online_preevent_products_sortered(current_event)
@@ -42,8 +56,7 @@ class PreeventProduct < ActiveRecord::Base
 
     preevent_products.each do |preevent_product|
       next unless preevent_product.online
-      category = is_a_pack?(preevent_product) ? "Pack" : nil
-      add_product_to_storage(preevent_product, category)
+      add_product_to_storage(preevent_product)
     end
     @sortered_products_storage.values.flatten
   end
@@ -52,16 +65,22 @@ class PreeventProduct < ActiveRecord::Base
     %w(Credit Voucher CredentialType Pack)
   end
 
-  def self.add_product_to_storage(preevent_product, new_category)
-    category = new_category || get_product_category(preevent_product)
+  def self.add_product_to_storage(preevent_product)
+    category = preevent_product.get_product_category
     @sortered_products_storage[category] << preevent_product
   end
 
-  def self.get_product_category(preevent_product)
-    preevent_product.preevent_items.first.purchasable_type
+  def get_product_category
+    is_a_pack? ? "Pack" : preevent_items.first.purchasable_type
   end
 
-  def self.is_a_pack?(preevent_product)
-    preevent_product.preevent_items.count > 1
+  def is_a_pack?
+    preevent_items_count > 1
+  end
+
+  def is_immutable?
+    preevent_items_count == 1 &&
+    get_product_category == "Credit" &&
+    preevent_items.first.purchasable.standard
   end
 end

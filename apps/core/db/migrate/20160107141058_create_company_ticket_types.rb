@@ -3,7 +3,7 @@ class CreateCompanyTicketTypes < ActiveRecord::Migration
     create_table :company_ticket_types do |t|
       t.integer :company_id
       t.integer :preevent_product_id
-      t.integer :event_id
+      t.integer :event_id, index: true
       t.string :name
       t.string :company_ticket_type_ref
 

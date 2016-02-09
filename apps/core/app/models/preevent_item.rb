@@ -17,7 +17,7 @@ class PreeventItem < ActiveRecord::Base
   acts_as_paranoid
   belongs_to :purchasable, polymorphic: true, touch: true
   belongs_to :event
-  has_many :preevent_product_items
+  has_many :preevent_product_items, dependent: :destroy
   has_many :preevent_products, through: :preevent_product_items, class_name: "PreeventProduct"
 
   # Validations

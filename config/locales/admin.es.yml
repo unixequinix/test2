@@ -170,6 +170,8 @@ es:
       email: "Email"
     credits:
       standard: "Estándar"
+      currency: "Divisa"
+      value: "Valor"
     preevent_product:
       name: "Nombre"
       online: "Online"
@@ -360,6 +362,7 @@ es:
       amount: "Cantidad"
       transaction_type: "Tipo de Transacción"
       card_country: "País de Tarjeta"
+      last4: "Últimos 4 dígitos"
       response_code: "Código de Respuesta"
       authorization_code: "Código de Autorización"
       currency: "Moneda"

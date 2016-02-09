@@ -11,10 +11,7 @@
 #  updated_at          :datetime         not null
 #
 
-FactoryGirl.define do
-  factory :preevent_product_item do
-    amount { Faker::Number.between(1, 20) }
-    preevent_item
-    preevent_product
-  end
+require "rails_helper"
+
+RSpec.describe PreeventProductItem, type: :model do
 end

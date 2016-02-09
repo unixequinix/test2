@@ -21,7 +21,7 @@ table.preevent_products
         td data-label=t('admin.preevent_product.step') = preevent_product.step
         td data-label=t('admin.preevent_product.max_purchasable') = preevent_product.max_purchasable
         td data-label=t('admin.preevent_product.min_purchasable') = preevent_product.min_purchasable
-        td data-label=t('admin.preevent_product.number_product_items') = preevent_product.preevent_items.count
+        td data-label=t('admin.preevent_product.number_product_items') = preevent_product.preevent_items_count
         td.table-actions-field
           = render 'admins/events/preevent_products/actions', preevent_product: preevent_product unless current_event.started?
 

@@ -41,13 +41,16 @@ class Payments::StripePayer
     order = Order.find(params[:order_id])
     CreditLog.create(customer_event_profile_id: order.customer_event_profile.id, transaction_type: CreditLog::CREDITS_PURCHASE, amount: order.credits_total)
     payment = Payment.new(
-      order: order,
-      amount: (charge.amount.to_f / 100), # last two digits are decimals,
-      merchant_code: charge.balance_transaction,
-      currency: charge.currency,
+      transaction_type: charge.source.object,
+      card_country: charge.source.country,
       paid_at: Time.at(charge.created),
-      response_code: charge.status,
       last4: charge.source.last4,
+      order: order,
+      response_code: charge.status,
+      authorization_code: charge.balance_transaction,
+      currency: charge.currency,
+      merchant_code: charge.balance_transaction,
+      amount: (charge.amount.to_f / 100), # last two digits are decimals,
       success: true,
       payment_type: 'stripe'
     )

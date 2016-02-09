@@ -170,6 +170,8 @@ en:
       email: "Email"
     credits:
       standard: "Standard"
+      currency: "Currency"
+      value: "Value"
     preevent_product:
       name: "Name"
       online: "Online"
@@ -361,6 +363,7 @@ en:
       amount: "Amount"
       transaction_type: "Transaction type"
       card_country: "Card country"
+      last4: "Card last digits"
       response_code: "Response code"
       authorization_code: "Authorization code"
       currency: "Currency"

@@ -3,3 +3,11 @@
     #dropin
     .actions
       = submit_tag t('orders.stripe.button'), class: "btn"
+
+javascript:
+  if( $("#braintree-payment-form").length > 0 ) {
+    var clientToken = '<%= "#{@form_data.client_token}" %>';
+    braintree.setup(clientToken, "dropin", {
+      container: "dropin"
+    });
+  }
