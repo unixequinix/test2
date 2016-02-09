@@ -22,7 +22,7 @@ class Ticket < ActiveRecord::Base
   # Associations
   belongs_to :event
   has_many :credential_assignments, as: :credentiable, dependent: :destroy
-  has_many :purchasers, as: :credentiable, dependent: :destroy
+  has_one :purchaser, as: :credentiable, dependent: :destroy
   has_one :assigned_ticket_credential,
           -> { where(aasm_state: :assigned) },
           as: :credentiable,

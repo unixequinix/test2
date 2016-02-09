@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160209125347) do
+ActiveRecord::Schema.define(version: 20160209133631) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -168,9 +168,6 @@ ActiveRecord::Schema.define(version: 20160209125347) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.datetime "deleted_at",             index: {name: "index_tickets_on_deleted_at"}
-    t.string   "purchaser_email"
-    t.string   "purchaser_first_name"
-    t.string   "purchaser_last_name"
     t.integer  "event_id",               null: false, index: {name: "index_tickets_on_event_id"}, foreign_key: {references: "events", name: "tickets_event_id_fkey", on_update: :no_action, on_delete: :no_action}
     t.boolean  "credential_redeemed",    default: false, null: false
     t.integer  "company_ticket_type_id", index: {name: "fk__tickets_company_ticket_type_id"}, foreign_key: {references: "company_ticket_types", name: "tickets_company_ticket_type_id_fkey", on_update: :no_action, on_delete: :no_action}
@@ -369,9 +366,9 @@ ActiveRecord::Schema.define(version: 20160209125347) do
   create_table "purchasers", force: :cascade do |t|
     t.integer  "credentiable_id",       null: false
     t.string   "credentiable_type",     null: false
-    t.string   "first_name",            null: false
-    t.string   "last_name",             null: false
-    t.string   "email",                 null: false
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email"
     t.string   "gtag_delivery_address"
     t.datetime "deleted_at",            index: {name: "index_purchasers_on_deleted_at"}
     t.datetime "created_at",            null: false

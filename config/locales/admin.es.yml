@@ -247,9 +247,10 @@ es:
         assigned: "Asignación actual"
         unassigned: "Asignación previa"
     purchasers:
-      name: "Nombre comprador"
-      surname: "Apellido comprador"
+      first_name: "Nombre comprador"
+      last_name: "Apellido comprador"
       email: "Email comprador"
+      gtag_delivery_address: "Dirección de envio de Gtag"
     gtags:
       id: "Id"
       tag: "Tag UID"

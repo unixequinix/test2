@@ -245,9 +245,10 @@ th:
         assigned: "Is assigned now"
         unassigned: "Previous assignation"
     purchasers:
-      name: "Purchaser Name"
-      surname: "Purchaser Surname"
+      first_name: "Purchaser Name"
+      last_name: "Purchaser Surname"
       email: "Purchaser Email"
+      gtag_delivery_address: "Gtag Delivery Address"
     gtags:
       id: "Id"
       tag: "Tag UID"

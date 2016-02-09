@@ -77,7 +77,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
       fetcher: @fetcher.tickets,
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [:company_ticket_type, :assigned_ticket_credential],
+      include_for_all_items: [:company_ticket_type, :assigned_ticket_credential, :purchaser],
       context: view_context
     )
   end
