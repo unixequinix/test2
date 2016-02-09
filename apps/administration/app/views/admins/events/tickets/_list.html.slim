@@ -18,9 +18,9 @@
             = check_box_tag "tickets[#{ticket.id}]", 1
           td data-label=t("admin.tickets.id") = ticket.id
           td data-label=t("admin.tickets.code") = link_to ticket.code, admins_event_ticket_path(current_event, ticket)
-          td data-label=t("admin.tickets.company_ticket_type") = ticket.company_ticket_type.name unless ticket.company_ticket_type.nil?
-          td data-label=t("admin.tickets.customer") = link_to ticket.assigned_ticket_credential.customer_event_profile.customer.email, admins_event_customer_path(current_event, ticket.assigned_ticket_credential.customer_event_profile.customer) unless ticket.assigned_ticket_credential.nil?
-          td data-label=t("admin.purchasers.email") = ticket.purchaser.email
+          td data-label=t("admin.tickets.company_ticket_type") = ticket.company_ticket_type.name if ticket.company_ticket_type.present?
+          td data-label=t("admin.tickets.customer") = link_to ticket.assigned_ticket_credential.customer_event_profile.customer.email, admins_event_customer_path(current_event, ticket.assigned_ticket_credential.customer_event_profile.customer) if ticket.assigned_ticket_credential.present?
+          td data-label=t("admin.purchasers.email") = ticket.purchaser.email if ticket.purchaser && ticket.purchaser.email.present?
           td.table-actions-field
             = render 'admins/events/tickets/actions', ticket: ticket unless current_event.started?
   .container-pagination

@@ -34,6 +34,8 @@ class Ticket < ActiveRecord::Base
   belongs_to :company_ticket_type
   has_one :banned_ticket
 
+  accepts_nested_attributes_for :purchaser
+
   # TODO: Remove comments from tickets
   # has_many :comments, as: :commentable
 
