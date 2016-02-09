@@ -97,7 +97,7 @@ class CredentialTransaction < Transaction
   end
 
   def redeem_gtag
-    # find gtag
+    # find gtag by tag_UID
     # mark credential_redeemed as true
     Gtag.find_by(event: event, tag_uid: customer_tag_uid).update!(credential_redeemed: true)
   end
