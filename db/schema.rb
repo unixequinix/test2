@@ -390,7 +390,7 @@ ActiveRecord::Schema.define(version: 20160203132002) do
   end
 
   create_table "vouchers", force: :cascade do |t|
-    t.datetime "deleted_at", index: { name: "index_vouchers_on_deleted_at" }
+    t.datetime "deleted_at", index: {name: "index_vouchers_on_deleted_at"}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

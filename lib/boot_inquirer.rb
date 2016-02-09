@@ -20,7 +20,8 @@ class BootInquirer
     "r" => "refund_ngn",
     "a" => "administration",
     "p" => "api",
-    "m" => "company_api"
+    "m" => "company_api",
+    "t" => "transactions"
   }
 
   class << self
