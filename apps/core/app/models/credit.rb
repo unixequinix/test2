@@ -27,6 +27,10 @@ class Credit < ActiveRecord::Base
 
   scope :with_gtag, -> (event) { joins(:gtag_registrations).where(event: event, gtag_registrations: { aasm_state: :assigned }) }
 
+  scope :for_event, lambda { |event|
+    includes(:preevent_item).where(preevent_items: { event_id: event.id })
+  }
+
   # Validations
   validates :preevent_item, presence: true
   validate :only_one_standard_credit

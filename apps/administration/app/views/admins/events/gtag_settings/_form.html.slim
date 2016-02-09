@@ -5,7 +5,16 @@
       = t("admin.event.fieldests.info")
     = f.input :format, as: :select, collection: @gtag_settings_form.gtag_formats, include_blank: false
     = f.input :gtag_name
+
     = f.input :event_id, as: :hidden, input_html: { value: @event.id }
+
+  fieldset
+    h3.section-header
+      = fa_icon "cogs"
+      = t("admin.event.fieldests.device")
+
+    = f.input :gtag_type, as: :select, collection: Event.gtag_type_selector, include_blank: false
+    = f.input :maximum_gtag_balance
 
   fieldset
     h3.section-header

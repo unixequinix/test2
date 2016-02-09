@@ -48,6 +48,10 @@ es:
         image: "Imágenes"
         custom: "Personalización"
         optional_form_parameters: "Parámetros opcionales de formulario"
+        security: "Seguridad"
+        parameters: "Parámetros"
+        limits: "Límites"
+        nfc: "NFC"
       states:
         created: 'No publicado'
         launched: 'Pre-evento'
@@ -80,6 +84,16 @@ es:
       form:
         format: 'Formato'
         name: 'Nombre'
+        mifare_classic: "Mifare Classic"
+        ultralight_ev1: "Ultralight EV1"
+    device_settings:
+      form:
+        currency: "Símbolo de la moneda"
+        min_version_apk: "Versión mínima del APK"
+        maximum_wb_balance: "Balance máximo de la pulsera"
+        uid_reverse: "UID Reverse"
+        private_zone_password: "Contraseña de la zona privada"
+        public_key_a: "Contraseña del Gtag"
     payment_settings:
       redsys:
         name: 'Nombre'
@@ -153,6 +167,7 @@ es:
       customers: "Clientes"
       customer_event_profiles: "Perfiles de evento"
       orders: "Órdenes"
+      customer_orders: "Órdenes de clientes"
       payments: "Pagos"
       claims: "Peticiones"
       refunds: "Devoluciones"
@@ -162,6 +177,8 @@ es:
       vouchers: "Cupones"
       credential_types: "Tipos de Credenciales"
       companies: "Compañías"
+      preevent_products: "Productos de preventa"
+      company_ticket_types: "Tipo de tickets de compañia"
     dashboard:
       change_state: "Cambiar de Estado?"
       api_access: "Acceso API"
@@ -355,6 +372,12 @@ es:
       payments: "Pagos"
       search:
         number: "Número"
+    customer_orders:
+      id: "Id"
+      counter: "Contador"
+      state: "Estado"
+      customer_event_profile: "Perfil de cliente"
+      preevent_product: "Producto de preventa"
     payments:
       id: "Id"
       order_id: "Order Id"

@@ -8,7 +8,7 @@ gem 'rails', '4.2.1'
 gem 'pg', '~> 0.18.1'
 gem 'schema_plus', '~> 2.0.0.pre12'
 gem 'paranoia', '~> 2.0'
-gem 'activerecord-import', '~> 0.8.0'
+gem 'activerecord-import', '~> 0.11.0'
 gem 'nilify_blanks', '~>1.2.1'
 gem 'activerecord4-redshift-adapter'
 gem 'aws-sdk-rails' # needed for redshift

@@ -29,6 +29,8 @@ it:
     new_customer_event_profile_gtag_registration: "Assigning Gtag"
     orders: "Orders"
     new_order: "New order"
+    customer_orders: "Customer orders"
+    new_customer_order: "New customer order"
     payments: "Payments"
     new_payment: "New payment"
     claims: "Claims"

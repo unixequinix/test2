@@ -81,6 +81,6 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
 
   def deletes_last_preevent_item?(permitted_params)
     permitted_params[:preevent_product_items_attributes].count == 1 &&
-    permitted_params[:preevent_product_items_attributes].map { |_k, v| v["_destroy"] }.first == "1"
+      permitted_params[:preevent_product_items_attributes].map { |_k, v| v["_destroy"] }.first == "1"
   end
 end

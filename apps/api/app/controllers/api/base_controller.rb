@@ -7,21 +7,10 @@ class Api::BaseController < ApplicationController
 
   private
 
-  def restrict_access
-    authenticate_or_request_with_http_token do |token, options|
-      email = options.blank? ? nil : options[:email]
-      @admin = email && Admin.find_by(email: email)
-      # It's used to avoid Timing attacks
-      # http://codahale.com/a-lesson-in-timing-attacks/
-      @admin && ActiveSupport::SecurityUtils.secure_compare(
-        @admin.access_token, token)
-    end
-  end
-
   def restrict_access_with_http
     authenticate_or_request_with_http_basic do |email, token|
       admin = Admin.find_by(email: email)
-      admin.valid_token?(token)
+      admin && admin.valid_token?(token)
     end
   end
 end

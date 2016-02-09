@@ -87,7 +87,7 @@ GEM
       activemodel (= 4.2.1)
       activesupport (= 4.2.1)
       arel (~> 6.0)
-    activerecord-import (0.8.0)
+    activerecord-import (0.11.0)
       activerecord (>= 3.0)
     activerecord4-redshift-adapter (0.2.1)
       activerecord (~> 4.2.0)
@@ -599,7 +599,7 @@ PLATFORMS
 DEPENDENCIES
   aasm (~> 4.1.0)
   active_model_serializers (~> 0.9.3)
-  activerecord-import (~> 0.8.0)
+  activerecord-import (~> 0.11.0)
   activerecord4-redshift-adapter
   acts_as_list
   administration!
