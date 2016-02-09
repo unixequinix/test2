@@ -5,13 +5,13 @@ class Payments::StripePayer
     @action_after_payment = ""
   end
 
-  def start(params, customer_order_builder)
-    @customer_order_builder = customer_order_builder
+  def start(params, customer_order_creator)
+    @customer_order_creator = customer_order_creator
     charge_object = charge(params)
     if charge_object
       notify_payment(params, charge_object)
       @action_after_payment = "redirect_to(success_event_order_payments_path)"
-      customer_order_builder.save(Order.find(params[:order_id]))
+      customer_order_creator.save(Order.find(params[:order_id]))
     else
       @action_after_payment = "redirect_to(error_event_order_payments_path)"
     end

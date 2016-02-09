@@ -28,18 +28,15 @@ class CredentialType < ActiveRecord::Base
 
   def last_position
     CredentialType.joins(:preevent_item)
-      .where(preevent_items: { event_id: preevent_item.event_id})
+      .where(preevent_items: { event_id: preevent_item.event_id })
       .order("memory_position DESC")
       .first.try(:memory_position).try(:+, 1) || 1
   end
 
   def calculate_memory_position
-    event_id = preevent_item.event_id
-    position = self.memory_position
     CredentialType.joins(:preevent_item)
-      .where(preevent_items: { event_id: event_id})
-      .where("memory_position > ?", position)
+      .where(preevent_items: { event_id: preevent_item.event_id })
+      .where("memory_position > ?", memory_position)
       .each { |ct| CredentialType.decrement_counter(:memory_position, ct.id) }
   end
-
 end

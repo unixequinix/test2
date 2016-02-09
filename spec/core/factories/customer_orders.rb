@@ -20,4 +20,3 @@ FactoryGirl.define do
     state "unredeemed"
   end
 end
-

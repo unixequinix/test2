@@ -40,6 +40,6 @@ class TicketAssignmentForm
 
   def preevent_product_items_credits(ticket)
     ticket.company_ticket_type.preevent_product.preevent_product_items
-    .joins(:preevent_item).where(preevent_items: { purchasable_type: "Credit" })
+      .joins(:preevent_item).where(preevent_items: { purchasable_type: "Credit" })
   end
 end

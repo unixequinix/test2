@@ -1,4 +1,4 @@
-class Payments::CustomerOrderBuilder
+class CustomerOrderCreator
   def save(order)
     order.order_items.each do |order_item|
       CustomerOrder.create(

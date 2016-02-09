@@ -75,7 +75,7 @@ class PreeventProduct < ActiveRecord::Base
 
   def is_immutable?
     preevent_items_count == 1 &&
-    get_product_category == "Credit" &&
-    preevent_items.first.purchasable.standard
+      get_product_category == "Credit" &&
+      preevent_items.first.purchasable.standard
   end
 end

@@ -23,7 +23,6 @@ class CustomerOrder < ActiveRecord::Base
   # Validations
   validates :aasm_state, presence: true
 
-
   include AASM
   aasm do
     state :unredeemed, initial: true
