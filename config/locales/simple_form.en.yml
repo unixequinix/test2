@@ -93,8 +93,8 @@ en:
       ticket:
         new: &label_ticket
           number: "Number"
-          purchaser_name: "Purchaser Name"
-          purchaser_surname: "Purchaser Surname"
+          purchaser_first_name: "Purchaser Name"
+          purchaser_last_name: "Purchaser Surname"
           purchaser_email: "Purchaser Email"
         edit:
           <<: *label_ticket
@@ -172,8 +172,8 @@ en:
           agreed_event_condition_message: 'Adds the condition you want the user accepts when registering'
         edit:
           <<: *placeholder_event
-      online_product:
-        new: &placeholder_online_product
+      preevent_item:
+        new: &placeholder_preevent_item
           name: 'Choose a descriptive name'
           description: 'Event credits details'
           price: 'Credit price'
@@ -182,7 +182,7 @@ en:
           initial_amount: 'Initial Amount in number'
           step: 'Incremental Step'
         edit:
-          <<: *placeholder_online_product
+          <<: *placeholder_preevent_item
       entitlement:
         new: &placeholder_entitlement
           name: 'Choose a name for entitlement'
@@ -200,8 +200,8 @@ en:
       ticket:
         new: &placeholder_ticket
           number: "Ticket number"
-          purchaser_name: ""
-          purchaser_surname: ""
+          purchaser_first_name: ""
+          purchaser_last_name: ""
           purchaser_email: ""
         edit:
           <<: *placeholder_ticket

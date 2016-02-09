@@ -1,0 +1,8 @@
+= simple_form_for [:admins, current_event, voucher] do |f|
+  .wrapper-negative-space
+    = f.simple_fields_for :preevent_item do |ppu|
+      = ppu.input :event_id, as: :hidden, input_html: { value: current_event.id }
+      = ppu.input :name, placeholder: true
+      = ppu.input :description, placeholder: true
+
+    = f.button :submit, class: "btn btn-primary"

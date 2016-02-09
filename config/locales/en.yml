@@ -18,13 +18,11 @@ en:
       models:
         customer:
           attributes:
+            phone:
+              improbable_phone: "It's not a valid phone number. Check that country matches the phone number."
             birthdate:
               invalid: "It's not a valid date"
               too_young: "Must be older than %{age} years old"
-        epg_claim_form:
-          attributes:
-            phone:
-              improbable_phone: "It's not a valid phone number. Check that country matches the phone number."
         epg_claim_form:
           attributes:
             phone:
@@ -52,7 +50,7 @@ en:
         bank_name: "Bank name"
         number: "Account number (00 0000 0000000 000)"
       thailand_bank_account_claim_form:
-        bsb: "BSB"
+        bsb: "BSB (000000)"
         account_holder: "Account holder's name (Thai)"
         account_holder_translation: "Account holder's name (English)"
         bank_name: "Bank name"
@@ -71,6 +69,9 @@ en:
       customer:
         one: 'customer'
         other: 'customers'
+      customer_event_profile:
+        one: 'customer event profile'
+        other: 'customer event profiles'
       entitlement:
         one: 'entitlement'
         other: 'entitlements'

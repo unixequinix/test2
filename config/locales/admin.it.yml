@@ -1,5 +1,7 @@
 it:
   admin:
+    companies:
+      name: "Name"
     actions:
       new: "New"
       back: "Back"
@@ -150,12 +152,18 @@ it:
       customers: "Customers"
       customer_event_profiles: "Customer event profiles"
       orders: "Orders"
+      customer_orders: "Customer orders"
       payments: "Payments"
       claims: "Claims"
       refunds: "Refunds"
       sign_out: "Sign out"
       setup: "Setup"
       crm: "CRM"
+      vouchers: "Vouchers"
+      credential_types: "Credential Types"
+      companies: "Companies"
+      preevent_products: "Preevent products"
+      company_ticket_types: "Company ticket types"
     dashboard:
       change_state: "Change state?"
       api_access: "API access"
@@ -163,16 +171,32 @@ it:
     admins:
       email: "Email"
     credits:
+      standard: "Standard"
+      currency: "Currency"
+      value: "Value"
+    preevent_product:
+      name: "Name"
+      online: "Online"
+      number_product_items: "Número de items"
+      initial_amount: "Initial Amount"
+      price: "Price"
+      step: "Step"
+      max_purchasable: "Max Purchasable"
+      min_purchasable: "Min Purchasable"
+    preevent_item:
       name: "Name"
       description: "Description"
-      standard_credit: "Standard Credit"
-      price: "Price"
-      min_purchasable: "Min purchasable"
-      max_purchasable: "Max purchasable"
-      initial_amount: "Initial Amount"
-      step: "Step"
+    vouchers:
+      id: "Id"
+    credential_types:
+      memory_position: "Position"
     entitlements:
       name: "Name"
+    company_ticket_types:
+      name: "Name"
+      company: "Company"
+      number_products: "Number of Products"
+      company_ticket_type_ref: "Reference"
     ticket_types:
       id: "Id"
       name: "Name"
@@ -183,8 +207,8 @@ it:
       import: "Import ticket types (Select a CSV file comma separated)"
     tickets:
       id: "Id"
-      number: "Number"
-      ticket_type: "Ticket type"
+      code: "Code"
+      company_ticket_type: "Company ticket type"
       ticket_type_simplified: "Simplified Ticket type"
       customer: "Assigned customer"
       created_at: "Created at"
@@ -221,7 +245,7 @@ it:
       created_at: "Created at"
       updated_at: "Updated at"
       total: "Total Credits"
-      gtag_registration: "Gtag registrations"
+      gtag_assignation: "Gtag assignations"
       import: "Import GTags (Select a CSV file comma separated)"
       import_credits: "Import Credits (Select a CSV file comma separated)"
       search:
@@ -234,7 +258,7 @@ it:
         total_credits: "Total Credits in the System"
         total_refundable_money: "Total Money To Refund (after fee)"
         total_refundable_gtags: "Number of gTags to Refund"
-    gtag_registrations:
+    gtag_assignations:
       tag: "Tag UID"
       serial: "Tag Serial Number"
       customer:
@@ -333,6 +357,12 @@ it:
       payments: "Payments"
       search:
         number: "Number"
+    customer_orders:
+      id: "Id"
+      counter: "Counter"
+      state: "Estado"
+      customer_event_profile: "Customer event profiles"
+      preevent_product: "Preevent product"
     payments:
       id: "Id"
       order_id: "Order Id"

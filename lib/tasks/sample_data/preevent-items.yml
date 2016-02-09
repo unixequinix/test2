@@ -1,0 +1,12 @@
+-
+  description: "Acces to the vip zone"
+  name: "VIP Access"
+  purchasable_type: "CredentialType"
+-
+  description: "Beer pack"
+  name: "Beer pack"
+  purchasable_type: "Voucher"
+-
+  description: "Water"
+  name: "Water"
+  purchasable_type: "Voucher"

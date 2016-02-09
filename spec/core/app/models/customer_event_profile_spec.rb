@@ -16,6 +16,20 @@ RSpec.describe CustomerEventProfile, type: :model do
   it { is_expected.to validate_presence_of(:customer) }
   it { is_expected.to validate_presence_of(:event) }
 
+  context "The relation" do
+    describe "active_assignments" do
+      it "should return the gtags and tickets assigned" do
+        customer_event_profile = create(:customer_event_profile)
+        create(:credential_assignment_g_a, customer_event_profile: customer_event_profile)
+        create(:credential_assignment_g_u, customer_event_profile: customer_event_profile)
+        create(:credential_assignment_t_a, customer_event_profile: customer_event_profile)
+        create(:credential_assignment_t_u, customer_event_profile: customer_event_profile)
+
+        expect(customer_event_profile.active_assignments.count).to be(2)
+      end
+    end
+  end
+
   describe "total_credits method" do
     it "should return the number of credits rounded" do
       credit_log = create(:credit_log, amount: 9)
@@ -39,7 +53,6 @@ RSpec.describe CustomerEventProfile, type: :model do
   describe "ticket_credits method" do
     it "should return the amount of credits rounded" do
       customer_event_profile = create(:customer_event_profile)
-
       create(
         :credit_log,
         customer_event_profile: customer_event_profile,
@@ -149,16 +162,15 @@ RSpec.describe CustomerEventProfile, type: :model do
   describe "refundable_credits method" do
     it "should return nil if assigned_gtag_registration is nil" do
       customer_event_profile = create(:customer_event_profile)
-
       expect(customer_event_profile.refundable_credits).to be_nil
     end
 
     it "should return the amount of credits" do
-      customer_event_profile = create(:customer_event_profile)
-      gtag_credit_log = create(:gtag_credit_log, amount: 15)
-      gtag = gtag_credit_log.gtag
-      gtag_registration = create(:gtag_registration, customer_event_profile: customer_event_profile, gtag: gtag)
-
+      event = create(:event)
+      gtag = create(:gtag, event: event)
+      create(:gtag_credit_log, amount: 15, gtag: gtag)
+      customer_event_profile = create(:customer_event_profile, event: event)
+      create(:credential_assignment, credentiable: gtag, customer_event_profile: customer_event_profile, aasm_state: "assigned")
       expect(customer_event_profile.refundable_credits).to eq(15)
     end
   end

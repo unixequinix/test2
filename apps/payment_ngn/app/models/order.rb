@@ -18,6 +18,7 @@ class Order < ActiveRecord::Base
   belongs_to :customer_event_profile
   has_many :order_items
   has_many :payments
+  has_many :preevent_products, through: :order_items, class_name: "PreeventProduct"
 
   # Validations
   validates :customer_event_profile, :order_items, :number, :aasm_state, presence: true
@@ -44,12 +45,16 @@ class Order < ActiveRecord::Base
   end
 
   def total_stripe_formated
-    total_formated = sprintf "%.2f", total
+    total_formated = format("%.2f", total)
     total_formated.gsub(".", "")
   end
 
   def credits_total
-    order_items.joins(:online_product).where(online_products: { purchasable_type: "Credit", event_id: customer_event_profile.event.id }).sum(:amount)
+    order_items.joins(preevent_product: [:preevent_items, :preevent_product_items])
+      .select("preevent_product_items.amount * order_items.amount as multiplication", "id")
+      .where(preevent_items: { purchasable_type: "Credit" })
+      .uniq(:id)
+      .reduce(0) { |a, e| a + e.multiplication }
   end
 
   def generate_order_number!

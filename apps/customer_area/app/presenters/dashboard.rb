@@ -1,14 +1,17 @@
 class Dashboard
-  attr_accessor :context, :customer_event_profile, :admissions, :gtag_registration, :completed_claim, :event
+  attr_accessor :context, :customer_event_profile, :ticket_assignments, :gtag_assignment,
+                :completed_claim, :event, :purchases
 
   def initialize(customer_event_profile, context)
     @context = context
     @customer_event_profile = customer_event_profile
     @event = customer_event_profile.event
-    @admissions = customer_event_profile.assigned_admissions
-                  .includes(:ticket, ticket: :ticket_type)
-    @gtag_registration = customer_event_profile.assigned_gtag_registration
+    @ticket_assignments = customer_event_profile.active_tickets_assignment
+                          .includes(:credentiable, credentiable: :company_ticket_type)
+    @gtag_assignment = customer_event_profile.active_gtag_assignment
     @completed_claim = customer_event_profile.completed_claim
+    @purchases = customer_event_profile.orders.unscoped.joins(:order_items).where(aasm_state: "completed").select("order_items.preevent_product_id as preevent_product_id", "sum(order_items.amount) as total_amount").group(:preevent_product_id).includes(:preevent_products)
+
     @presenters = []
   end
 

@@ -40,10 +40,9 @@ class Events::ConfirmationsController < Events::BaseController
   private
 
   def redirect_if_token_empty!
-    unless params.key?(:token)
-      flash.alert = t("confirmations.token.empty")
-      redirect_to(:root) && return
-    end
+    return if params.key?(:token)
+    flash.alert = t("confirmations.token.empty")
+    redirect_to(:root) && return
   end
 
   def after_sending_confirmation_instructions_path

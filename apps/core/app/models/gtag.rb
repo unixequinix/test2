@@ -2,13 +2,15 @@
 #
 # Table name: gtags
 #
-#  id                :integer          not null, primary key
-#  tag_uid           :string           not null
-#  tag_serial_number :string           not null
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  deleted_at        :datetime
-#  event_id          :integer          not null
+#  id                     :integer          not null, primary key
+#  tag_uid                :string           not null
+#  tag_serial_number      :string           not null
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  deleted_at             :datetime
+#  event_id               :integer          not null
+#  credential_redeemed    :boolean          default(FALSE), not null
+#  company_ticket_type_id :integer
 #
 
 class Gtag < ActiveRecord::Base
@@ -25,15 +27,16 @@ class Gtag < ActiveRecord::Base
 
   # Associations
   belongs_to :event
-  has_many :gtag_registrations, dependent: :restrict_with_error
-  has_one :assigned_gtag_registration, -> { where(aasm_state: :assigned) }, class_name: "GtagRegistration"
-  has_many :customer_event_profiles, through: :gtag_registrations
-  has_one :assigned_customer_event_profile, -> { where(gtag_registrations: { aasm_state: :assigned }) }, class_name: "CustomerEventProfile"
+  has_one :assigned_gtag_credential, -> { where(aasm_state: :assigned) }, as: :credentiable, class_name: "CredentialAssignment"
+  has_many :customer_event_profiles, through: :credential_assignments
+  has_one :assigned_customer_event_profile, -> { where(credential_assignments: { aasm_state: :assigned }) }, class_name: "CredentialAssignment"
   has_one :gtag_credit_log
   has_one :refund
   has_many :claims
   has_one :completed_claim, -> { where(aasm_state: :completed) }, class_name: "Claim"
   has_many :comments, as: :commentable
+  has_many :credential_assignments, as: :credentiable, dependent: :destroy
+  belongs_to :company_ticket_type
 
   accepts_nested_attributes_for :gtag_credit_log, allow_destroy: true
 
@@ -50,7 +53,7 @@ class Gtag < ActiveRecord::Base
 
   def refundable_amount
     current_event = event
-    standard_credit_price = current_event.standard_credit.online_product.rounded_price
+    standard_credit_price = current_event.standard_credit_price
     credit_amount = 0
     credit_amount = gtag_credit_log.amount unless gtag_credit_log.nil?
     credit_amount * standard_credit_price
@@ -69,12 +72,7 @@ class Gtag < ActiveRecord::Base
   end
 
   def any_refundable_method?
-    refundable = false
-    current_event = event
-    current_event.selected_refund_services.each do |refund_service|
-      refundable = refundable?(refund_service)
-    end
-    refundable
+    event.selected_refund_services.any? { |refund_service| refundable?(refund_service) }
   end
 
   private

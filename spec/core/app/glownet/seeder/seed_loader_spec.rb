@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Seeder::SeedLoader, type: :service do
+RSpec.describe Seeder::SeedLoader, type: :domain_logic do
   describe "load_default_event_parameters" do
     it "stores in the DB all the default values for an event" do
       event = create(:event)

@@ -18,13 +18,11 @@ th:
       models:
         customer:
           attributes:
+            phone:
+              improbable_phone: "หมายเลขโทรศัพท์ไม่ถูกต้อง กรุณาเช็คว่าคุณเลือกประเทศถูกต้อง"
             birthdate:
               invalid: "วันที่ไม่ถูกต้อง"
               too_young: "ต้องอายุมากกว่า %{age} ปี"
-        epg_claim_form:
-          attributes:
-            phone:
-              improbable_phone: "หมายเลขโทรศัพท์ไม่ถูกต้อง กรุณาเช็คว่าคุณเลือกประเทศถูกต้อง"
         epg_claim_form:
           attributes:
             phone:
@@ -52,7 +50,7 @@ th:
         bank_name: "Bank name"
         number: "Account number (00 0000 0000000 000)"
       thailand_bank_account_claim_form:
-        bsb: "BSB"
+        bsb: "BSB (000000)"
         account_holder: "Account holder's name (Thai)"
         account_holder_translation: "Account holder's name (English)"
         bank_name: "Bank name"
@@ -71,6 +69,9 @@ th:
       customer:
         one: 'ลูกค้า'
         other: 'ลูกค้าอื่นๆ'
+      customer_event_profile:
+        one: 'customer event profile'
+        other: 'customer event profiles'
       entitlement:
         one: 'การมีสิทธิ์'
         other: 'การมีสิทธิ์'

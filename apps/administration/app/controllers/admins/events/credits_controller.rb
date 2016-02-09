@@ -5,7 +5,7 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
 
   def new
     @credit = Credit.new
-    @credit.build_online_product
+    @credit.build_preevent_item
   end
 
   def create
@@ -14,7 +14,7 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_credits_url
     else
-      flash[:error] = @credit.errors.full_messages.join(". ")
+      flash.now[:error] = @credit.errors.full_messages.join(". ")
       render :new
     end
   end
@@ -29,16 +29,21 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_credits_url
     else
-      flash[:error] = @credit.errors.full_messages.join(". ")
+      flash.now[:error] = @credit.errors.full_messages.join(". ")
       render :edit
     end
   end
 
   def destroy
     @credit = @fetcher.credits.find(params[:id])
-    @credit.destroy!
-    flash[:notice] = I18n.t("alerts.destroyed")
-    redirect_to admins_event_credits_url
+    if @credit.destroy
+      flash[:notice] = I18n.t("alerts.destroyed")
+      redirect_to admins_event_credits_url
+    else
+      flash.now[:error] = I18n.t("errors.messages.preevent_item_dependent")
+      set_presenter
+      render :index
+    end
   end
 
   private
@@ -49,12 +54,20 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
       fetcher: @fetcher.credits,
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [:online_product],
+      include_for_all_items: [:preevent_item],
       context: view_context
     )
   end
 
   def permitted_params
-    params.require(:credit).permit(online_product_attributes: [:event_id, :name, :description, :price, :min_purchasable, :max_purchasable, :initial_amount, :step])
+    params.require(:credit).permit(:standard,
+                                   :currency,
+                                   preevent_item_attributes: [
+                                     :id,
+                                     :event_id,
+                                     :name,
+                                     :description
+                                   ]
+                                  )
   end
 end

@@ -8,7 +8,7 @@
     = t('admin.actions.search')
 
 .wrapper-negative-space
-  - if @list_model_presenter.is_there_any?
-    = render 'admins/events/refunds/list', refunds: @list_model_presenter.get_all_items
+  - if @list_model_presenter.there_any?
+    = render 'admins/events/refunds/list', refunds: @list_model_presenter.all_items
   - else
     = render @list_model_presenter.no_items_for_presentation

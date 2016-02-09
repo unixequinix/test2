@@ -1,16 +1,21 @@
+
+
 AllCops:
   Exclude:
     - 'db/**/*'
     - 'spec/spec_helper.rb'
     - 'spec/rails_helper.rb'
-    - 'config/initializers/*'
-    - 'config/environments/*'
+    - 'config/initializers/**/*'
+    - 'config/environments/**/*'
     - 'config/application.rb'
     - 'bin/*'
-    - 'Guardfile'
-    - 'Rakefile'
-    - 'lib/tasks/*'
+    - '**/Guardfile'
+    - '**/Rakefile'
+    - 'lib/tasks/**/*'
     - 'lib/api_error_log.rb'
+    - '**/*.gemspec'
+    - '**/Gemfile'
+    - '**/i18n/**/*'
 
 Documentation:
   Enabled: false
@@ -26,3 +31,4 @@ Style/ClassAndModuleChildren:
   SupportedStyles:
     - nested
     - compact
+

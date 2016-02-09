@@ -1,0 +1,7 @@
+- breadcrumb :admins_event_credential_type, current_event, @credential_type
+- provide :actions do
+  = link_to admins_event_credential_types_path, class: "btn btn-action btn-action-back small" do
+    = fa_icon 'arrow-circle-left'
+    = t('admin.actions.back')
+
+= render "form", credential_type: @credential_type

@@ -4,10 +4,10 @@ class CustomerRememberMeStrategy < ::Warden::Strategies::Base
   end
 
   def authenticate!
-    if token = request.cookies["remember_token"]
-      if customer = Customer.find_by(remember_token: token)
-        success!(customer)
-      end
-    end
+    token = request.cookies["remember_token"]
+    return unless token
+    customer = Customer.find_by(remember_token: token)
+    return unless customer
+    success!(customer)
   end
 end

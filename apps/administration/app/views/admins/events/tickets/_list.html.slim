@@ -6,9 +6,8 @@
         th.select-all
           = check_box_tag "select-all", 1
         th = t("admin.tickets.id")
-        th = t("admin.tickets.number")
-        th = t("admin.tickets.ticket_type")
-        th = t("admin.tickets.ticket_type_simplified")
+        th = t("admin.tickets.code")
+        th = t("admin.tickets.company_ticket_type")
         th = t("admin.tickets.customer")
         th = t("admin.purchasers.email")
         th.table-actions-field = t("admin.defaults.actions")
@@ -18,10 +17,9 @@
           td.select-all data-label = t("admin.defaults.all")
             = check_box_tag "tickets[#{ticket.id}]", 1
           td data-label=t("admin.tickets.id") = ticket.id
-          td data-label=t("admin.tickets.number") = link_to ticket.number, admins_event_ticket_path(current_event, ticket)
-          td data-label=t("admin.tickets.ticket_type") = ticket.ticket_type.name unless ticket.ticket_type.nil?
-          td data-label=t("admin.tickets.ticket_type_simplified") = ticket.ticket_type.simplified_name unless ticket.ticket_type.nil?
-          td data-label=t("admin.tickets.customer") = link_to ticket.assigned_admission.customer_event_profile.customer.email, admins_event_customer_path(current_event, ticket.assigned_admission.customer_event_profile.customer) unless ticket.assigned_admission.nil?
+          td data-label=t("admin.tickets.code") = link_to ticket.code, admins_event_ticket_path(current_event, ticket)
+          td data-label=t("admin.tickets.company_ticket_type") = ticket.company_ticket_type.name unless ticket.company_ticket_type.nil?
+          td data-label=t("admin.tickets.customer") = link_to ticket.assigned_ticket_credential.customer_event_profile.customer.email, admins_event_customer_path(current_event, ticket.assigned_ticket_credential.customer_event_profile.customer) unless ticket.assigned_ticket_credential.nil?
           td data-label=t("admin.purchasers.email") = ticket.purchaser_email
           td.table-actions-field
             = render 'admins/events/tickets/actions', ticket: ticket unless current_event.started?

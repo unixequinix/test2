@@ -3,6 +3,11 @@ class Multitenancy::PaymentFetcher
     @event = event
   end
 
+  def customer_orders
+    CustomerOrder.joins(:customer_event_profile)
+      .where(customer_event_profiles: { event_id: @event.id })
+  end
+
   def orders
     Order.joins(:customer_event_profile)
       .where(customer_event_profiles: { event_id: @event.id })

@@ -1,6 +1,6 @@
 namespace :generate do
   desc "Generate ERD diagram"
-    task :erd_diagram, [] => [:environment] do |t, args|
+  task :erd_diagram, [] => [:environment] do |t, args|
     require 'rails_erd/diagram/graphviz'
     Rails.application.eager_load!
     options = {}

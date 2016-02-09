@@ -33,7 +33,7 @@ es:
     title: "My dashboard"
     admissions:
       header: "Tu número de Ticket"
-      header: "Ticket %{ticket_type}"
+      header: "Ticket %{company_ticket_type}"
       call_to_action: "¿Quiéres borrar el ticket?"
       call_to_action_started: "El evento ya ha comenzado, no puedes cambiar tu ticket"
       success: "¡Ticket activado con éxito!"
@@ -42,6 +42,8 @@ es:
       call_to_action: "Solo activa los tickets que vayas a utilizar"
       description: "NO actives los tickets de tus amigos en tu cuenta."
       button: "Activar Ticket"
+    purchases:
+      header: "Tus compras"
     credits:
       header: "Tu Balance de créditos"
       call_to_action: "Para evitar colas, recarga tu %{gtag} ahora para todas tus compras dentro del evento"
@@ -98,7 +100,7 @@ es:
     call_to_action: "¡Activa tu Ticket del Evento!"
     button: "Activar"
     placeholders:
-      ticket_number: "Número de Ticket"
+      ticket_code: "Código de Ticket"
   checkout:
     title: "Recarga"
     description: "Los créditos que compras aquí serán añadidos automáticamente a tu %{gtag} al entrar al evento."

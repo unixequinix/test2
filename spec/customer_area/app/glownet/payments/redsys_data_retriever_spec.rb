@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Payments::RedsysDataRetriever, type: :service do
+RSpec.describe Payments::RedsysDataRetriever, type: :domain_logic do
   before(:all) do
     order = create(:order, number: "2678434012")
     customer_event_profile = order.customer_event_profile

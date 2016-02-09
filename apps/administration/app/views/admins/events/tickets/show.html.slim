@@ -15,18 +15,16 @@
     dl
       dt = t("admin.tickets.id")
       dd = @ticket.id
-      dt = t("admin.tickets.number")
-      dd = @ticket.number
-      dt = t("admin.tickets.ticket_type")
-      dd = @ticket.ticket_type.name unless @ticket.ticket_type.nil?
-      dt = t("admin.tickets.ticket_type_simplified")
-      dd = @ticket.ticket_type.simplified_name unless @ticket.ticket_type.nil?
-      dt = t("admin.ticket_types.company")
-      dd = @ticket.ticket_type.company unless @ticket.ticket_type.nil?
+      dt = t("admin.tickets.code")
+      dd = @ticket.code
+      dt = t("admin.tickets.company_ticket_type")
+      dd = @ticket.company_ticket_type.name unless @ticket.company_ticket_type.nil?
+      dt = t("admin.company_ticket_types.company")
+      dd = @ticket.company_ticket_type.company.name unless @ticket.company_ticket_type.nil?
       dt = t("admin.purchasers.name")
-      dd = @ticket.purchaser_name
+      dd = @ticket.purchaser_first_name
       dt = t("admin.purchasers.surname")
-      dd = @ticket.purchaser_surname
+      dd = @ticket.purchaser_last_name
       dt = t("admin.purchasers.email")
       dd = @ticket.purchaser_email
       dt = t("admin.tickets.created_at")
@@ -48,7 +46,7 @@
           th = t("admin.admissions.updated_at")
           th = t("admin.defaults.actions")
       tbody
-        - @ticket.admissions.each do |admission|
+        - @ticket.credential_assignments.each do |admission|
           tr
             td = link_to admission.customer_event_profile.customer.email, admins_event_customer_path(current_event, admission.customer_event_profile.customer) unless admission.nil?
             td = "#{admission.customer_event_profile.customer.name} #{admission.customer_event_profile.customer.surname}"
@@ -59,5 +57,5 @@
               ul
                 - if admission.assigned?
                   li.table-action.action-delete
-                    = link_to admins_event_admission_path(current_event, admission), method: :delete, data: { confirm: t("admin.confirm.delete") } do
+                    = link_to admins_event_ticket_assignment_path(current_event, admission), method: :delete, data: { confirm: t("admin.confirm.delete") } do
                       = fa_icon "ban"

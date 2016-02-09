@@ -4,20 +4,19 @@ class Events::PaymentsController < Events::BaseController
   skip_before_action :check_has_ticket!, only: [:create]
 
   def create
-    payer = ("Payments::#{current_event.payment_service.camelize}Payer")
-            .constantize.new
-    payer.start(params)
-    eval(payer.action_after_payment)
+    payer = ("Payments::#{current_event.payment_service.camelize}Payer").constantize.new
+    payer.start(params, CustomerOrderCreator.new)
+    eval(payer.action_after_payment) # TODO: This is a seruious security risk, need to be changed
   end
 
   def success
-    @admissions = current_customer_event_profile.assigned_admissions
+    @admissions = current_customer_event_profile.active_tickets_assignment
     @dashboard = Dashboard.new(current_customer_event_profile, view_context)
     @presenter = CreditsPresenter.new(@dashboard, view_context)
   end
 
   def error
-    @admissions = current_customer_event_profile.assigned_admissions
+    @admissions = current_customer_event_profile.active_tickets_assignment
     @dashboard = Dashboard.new(current_customer_event_profile, view_context)
     @presenter = CreditsPresenter.new(@dashboard, view_context)
   end

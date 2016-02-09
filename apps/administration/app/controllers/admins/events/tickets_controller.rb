@@ -13,7 +13,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   end
 
   def show
-    @ticket = @fetcher.tickets.includes(admissions: [:customer_event_profile, customer_event_profile: :customer]).find(params[:id])
+    @ticket = @fetcher.tickets.includes(credential_assignments: [:customer_event_profile, customer_event_profile: :customer]).find(params[:id])
   end
 
   def new
@@ -58,13 +58,14 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   end
 
   def destroy_multiple
-    if tickets = params[:tickets]
+    tickets = params[:tickets]
+
+    if tickets
       @fetcher.tickets.where(id: tickets.keys).each do |ticket|
-        unless ticket.destroy
-          flash[:error] = ticket.errors.full_messages.join(". ")
-        end
+        flash[:error] = ticket.errors.full_messages.join(". ") unless ticket.destroy
       end
     end
+
     redirect_to admins_event_tickets_url
   end
 
@@ -76,12 +77,18 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
       fetcher: @fetcher.tickets,
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [:ticket_type, :assigned_admission],
+      include_for_all_items: [:company_ticket_type, :assigned_ticket_credential],
       context: view_context
     )
   end
 
   def permitted_params
-    params.require(:ticket).permit(:event_id, :number, :ticket_type_id, :purchaser_name, :purchaser_surname, :purchaser_email)
+    params.require(:ticket).permit(
+      :event_id,
+      :code,
+      :company_ticket_type_id,
+      :purchaser_first_name,
+      :purchaser_last_name,
+      :purchaser_email)
   end
 end

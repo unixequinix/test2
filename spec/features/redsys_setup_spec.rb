@@ -29,7 +29,7 @@ RSpec.feature "Redsys Setup", type: :feature do
       end
 
       it "fills and save the redsys payment settings" do
-        event = create(:event, payment_service: Event::REDSYS)
+        event = create(:event, payment_service: "redsys")
         visit "/admins/events/#{event.slug}/payment_settings/edit"
         within("#new_redsys_payment_settings_form") do
           fill_in(t("#{@form_i18n}.name"), with: "Live Nation Esp SAU")

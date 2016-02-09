@@ -24,10 +24,9 @@ class Admins::BaseController < ApplicationController
   end
 
   def ensure_admin
-    unless admin_signed_in?
-      logout_admin!
-      return false
-    end
+    return if admin_signed_in?
+    logout_admin!
+    false
   end
 
   def admin_signed_in?

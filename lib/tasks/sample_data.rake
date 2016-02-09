@@ -14,8 +14,11 @@ namespace :db do
     puts 'Creating fake data'
     puts '----------------------------------------'
     make_events
-    make_entitlements
-    make_ticket_types
+    make_companies
+    make_preevent_items
+    make_preevent_products
+    make_preevent_product_items
+    make_company_ticket_types
     make_tickets
     make_gtags
     make_customers
@@ -38,41 +41,96 @@ namespace :db do
     end
   end
 
-
-  def make_entitlements
-    puts 'Create entitlements'
-    puts '----------------------------------------'
-    Entitlement.destroy_all
-    Event.all.each do |event|
-      YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'entitlements.yml')).each do |data|
-        Entitlement.create!(event_id: event.id, name: data['name'])
-      end
-    end
-  end
-
-  def make_ticket_types
-    puts 'Create ticket types'
-    puts '----------------------------------------'
-    TicketType.destroy_all
-    Event.all.each do |event|
-      YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'ticket_types.yml')).each do |data|
-        ticket_type = TicketType.new(event_id: event.id, name: data['name'], company: data['company'], credit: data['credit'])
-        data['entitlements'].each do |entitlement|
-          ticket_type.entitlements << Entitlement.find_by(name: entitlement['name'])
-        end
-        ticket_type.save!
-      end
-    end
-  end
-
   def make_tickets
     puts 'Create tickets'
     puts '----------------------------------------'
     Ticket.destroy_all
     Event.all.each do |event|
       YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'tickets.yml')).each do |data|
-        ticket = Ticket.new(event_id: event.id, number: data['number'])
-        ticket.ticket_type = TicketType.find_by(name: data['ticket_type'])
+        ticket = Ticket.new(event_id: event.id, code: data['code'], company_ticket_type_id: data['company_ticket_type_id'])
+        ticket.save!
+      end
+    end
+  end
+
+  def make_companies
+    puts 'Create companies'
+    puts '----------------------------------------'
+    Event.all.each do |event|
+      YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'companies.yml')).each do |data|
+        company = Company.new(event_id: event.id, name: data['name'])
+        company.save!
+      end
+    end
+  end
+
+  def make_preevent_items
+    puts 'Create preevent items'
+    puts '----------------------------------------'
+    Event.all.each do |event|
+      YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'preevent-items.yml')).each do |data|
+
+        item = data['purchasable_type'].constantize.new(
+          preevent_item_attributes: {
+            event_id: event.id,
+            name: data['name'],
+            description: data['description']
+          }
+        )
+
+        item.save!
+      end
+    end
+  end
+
+  def make_preevent_products
+    puts 'Create preevent products'
+    puts '----------------------------------------'
+    Event.all.each do |event|
+      YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'preevent-products.yml')).each do |data|
+        product = PreeventProduct.new(
+          event_id: event.id,
+          name: data['name'],
+          min_purchasable: data['min_purchasable'],
+          max_purchasable: data['max_purchasable'],
+          price: data['price'],
+          step: data['step'],
+          initial_amount: data['initial_amount'],
+          online: data['online']
+        )
+        product.save!(validate: false)
+      end
+    end
+  end
+
+  def make_preevent_product_items
+    puts 'Create preevent product items'
+    puts '----------------------------------------'
+    Event.all.each do |event|
+      YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'preevent-product-items.yml')).each do |data|
+        preevent_product = PreeventProduct.find(data['product'])
+        preevent_item = PreeventItem.find(data['item'])
+        PreeventProductItem.create!(
+          amount: data['amount'],
+          preevent_product: preevent_product,
+          preevent_item: preevent_item
+        )
+      end
+    end
+  end
+
+  def make_company_ticket_types
+    puts 'Create company ticket types'
+    puts '----------------------------------------'
+    Event.all.each do |event|
+      YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'company_ticket_types.yml')).each do |data|
+        ticket = CompanyTicketType.new(
+          company_ticket_type_ref: data['company_ticket_type_ref'],
+          name: data['name'],
+          event_id: event.id,
+          company_id: data['company_id'],
+          preevent_product_id: data['product_id']
+        )
         ticket.save!
       end
     end
@@ -84,7 +142,11 @@ namespace :db do
     Gtag.destroy_all
     Event.all.each do |event|
       YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'gtags.yml')).each do |data|
-        gtag = Gtag.new(event_id: event.id, tag_serial_number: data['tag_serial_number'], tag_uid: data['tag_uid'])
+        gtag = Gtag.new(
+          event_id: event.id,
+          tag_serial_number: data['tag_serial_number'],
+          tag_uid: data['tag_uid']
+        )
         gtag.save!
       end
     end
