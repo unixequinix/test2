@@ -43,25 +43,6 @@ class Event < ActiveRecord::Base
              :gtag_form_disclaimer, :gtag_name, :agreed_event_condition_message,
              fallbacks_for_empty_translations: true
 
-  # Background Types
-  BACKGROUND_FIXED = "fixed"
-  BACKGROUND_REPEAT = "repeat"
-  BACKGROUND_TYPES = [BACKGROUND_FIXED, BACKGROUND_REPEAT]
-
-  # Payment Services
-  REDSYS = "redsys"
-  STRIPE = "stripe"
-  PAYMENT_SERVICES = [REDSYS, STRIPE]
-
-  # TODO: check if these constants should live here or in a view helper
-  REFUND_SERVICES = [:bank_account, :epg, :tipalti]
-  FEATURES = [:top_ups, :refunds]
-  LOCALES = [:en_lang, :es_lang, :it_lang, :th_lang]
-  REGISTRATION_PARAMETERS = [:phone, :address, :city, :country, :postcode, :gender,
-                             :birthdate, :agreed_event_condition]
-
-  GTAG_TYPES = [:mifare_classic, :ultralight_ev1]
-
   include FlagShihTzu
 
   has_flags 1 => :top_ups, 2 => :refunds, column: "features"
@@ -112,20 +93,6 @@ class Event < ActiveRecord::Base
   # State machine
   include EventState
 
-  # TODO: this all goes in decorators
-  def self.gtag_type_selector
-    GTAG_TYPES.map { |f| [I18n.t("admin.gtag_settings.form." + f.to_s), f] }
-  end
-
-  def self.background_types_selector
-    BACKGROUND_TYPES.map { |f| [I18n.t("admin.event.background_types." + f.to_s), f] }
-  end
-
-  def self.payment_services_selector
-    PAYMENT_SERVICES.map { |f| [I18n.t("admin.event.payment_services." + f.to_s), f] }
-  end
-  # TODO: until here
-
   def standard_credit_price
     credits.standard_credit.rounded_value
   end
@@ -142,7 +109,6 @@ class Event < ActiveRecord::Base
     gtag_query(refund_minimun(refund_service)).count
   end
 
-  # TODO: Improve with decorators
   def get_parameter(category, group, name)
     event_parameters.includes(:parameter)
       .find_by(parameters: { category: category, group: group, name: name })
