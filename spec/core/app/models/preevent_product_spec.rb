@@ -28,7 +28,7 @@ RSpec.describe PreeventProduct, type: :model do
   it { is_expected.to validate_presence_of(:min_purchasable) }
   it { is_expected.to validate_numericality_of(:price) }
 
-  it "should return the price rounded" do
+  it "returns the price rounded" do
     first_product = create(:preevent_product, :full, price: 10)
     second_product = create(:preevent_product, :full, price: 10.0)
     third_product = create(:preevent_product, :full, price: 10.5)
@@ -37,7 +37,7 @@ RSpec.describe PreeventProduct, type: :model do
     expect(third_product.rounded_price).to eq(10.5)
   end
 
-  it "should return an array with all the elements for the client view sorted this way: [C V CT P]" do
+  it "returns an array with all the elements for the client view sorted this way: [C V CT P]" do
     @event = create(:event)
     create(:preevent_product, :standard_credit_product, event: @event)
     create(:preevent_product, :credential_product, event: @event)
@@ -65,19 +65,23 @@ RSpec.describe PreeventProduct, type: :model do
     expect(sortered_array[6].product_category).to eq("Pack")
   end
 
-  it "should return an array with the order of the categories that will be used in customer area" do
+  it "returns an array with the order of the categories that will be used in customer area" do
     expect(PreeventProduct.keys_sortered).to eq(%w(Credit Voucher CredentialType Pack))
   end
 
-  it "should return a category depending on its preevent items" do
+  it "returns a category depending on its preevent items" do
     @event = create(:event)
-    expect(create(:preevent_product, :credit_product, event: @event).product_category).to eq("Credit")
-    expect(create(:preevent_product, :credential_product, event: @event).product_category).to eq("CredentialType")
-    expect(create(:preevent_product, :voucher_product, event: @event).product_category).to eq("Voucher")
-    expect(create(:preevent_product, :full, event: @event).product_category).to eq("Pack")
+    category = create(:preevent_product, :credit_product, event: @event).product_category
+    expect(category).to eq("Credit")
+    category = create(:preevent_product, :credential_product, event: @event).product_category
+    expect(category).to eq("CredentialType")
+    category = create(:preevent_product, :voucher_product, event: @event).product_category
+    expect(category).to eq("Voucher")
+    category = create(:preevent_product, :full, event: @event).product_category
+    expect(category).to eq("Pack")
   end
 
-  it "should return true if it can't be modified because of its content" do
+  it "returns true if it can't be modified because of its content" do
     @event = create(:event)
     product_right = create(:preevent_product, :standard_credit_product, event: @event)
     product_wrong = create(:preevent_product, :credit_product, event: @event)
