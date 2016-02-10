@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::Events::TicketsController, :type => :controller do
+RSpec.describe Api::V1::Events::TicketsController, type: :controller do
   before do
     @event = create :event
     10.times do

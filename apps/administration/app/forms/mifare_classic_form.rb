@@ -12,7 +12,6 @@ class MifareClassicForm
   validates_presence_of :mifare_classic_private_key_b
   validates_presence_of :event_id
 
-
   def save
     if valid?
       persist!

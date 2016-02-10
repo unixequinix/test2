@@ -4,11 +4,11 @@ module Api
       class ParametersController < Api::V1::Events::BaseController
         def index
           @gtag_type = EventParameter.with_event(current_event)
-                        .find_by(parameters: { category: "gtag", group: "form", name: "gtag_type" })
+                       .find_by(parameters: { category: "gtag", group: "form", name: "gtag_type" })
 
           @parameters = EventParameter.with_event(current_event)
-                          .joins(:parameter)
-                          .where("(parameters.category = 'device') OR
+                        .joins(:parameter)
+                        .where("(parameters.category = 'device') OR
                                   (parameters.category = 'gtag'
                                     AND parameters.group = '#{@gtag_type.value}')")
 
