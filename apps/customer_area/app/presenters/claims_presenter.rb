@@ -4,7 +4,7 @@ class ClaimsPresenter < BasePresenter
   end
 
   def path
-    @gtag_registration.present? ? "claims" :
+    @gtag_assignment.present? ? "claims" :
                                   "claims_none"
   end
 
@@ -26,15 +26,15 @@ class ClaimsPresenter < BasePresenter
   end
 
   def refundable?(refund_service)
-    @gtag_registration.gtag.refundable?(refund_service)
+    @gtag_assignment.credentiable.refundable?(refund_service)
   end
 
   def any_refundable_method?
-    @gtag_registration.gtag.any_refundable_method?
+    @gtag_assignment.credentiable.any_refundable_method?
   end
 
   def gtag_credit_amount
-    "#{@gtag_registration.gtag.refundable_amount} #{@event.currency}"
+    "#{@gtag_assignment.credentiable.refundable_amount} #{@event.currency}"
   end
 
   def call_to_action

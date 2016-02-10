@@ -31,8 +31,7 @@ class Admins::Events::GtagSettingsController < Admins::Events::BaseController
       @event.gtag_form_disclaimer = permitted_params[:gtag_form_disclaimer]
       @event.gtag_assignation_notification = permitted_params[:gtag_assignation_notification]
       @event.save
-      flash[:notice] = I18n.t("alerts.updated")
-      redirect_to admins_event_gtag_settings_url(@event)
+      redirect_to admins_event_gtag_settings_url(@event), notice: I18n.t("alerts.updated")
     else
       flash[:error] = I18n.t("alerts.error")
       render :edit

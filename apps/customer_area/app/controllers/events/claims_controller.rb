@@ -35,6 +35,7 @@ class Events::ClaimsController < Events::BaseController
   end
 
   def generate_claim
+    binding.pry
     @claim = Claim.create!(
       service_type: service_type,
       fee: current_event.refund_fee(service_type),
