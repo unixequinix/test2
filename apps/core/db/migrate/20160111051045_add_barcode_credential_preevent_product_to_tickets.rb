@@ -53,9 +53,11 @@ class AddBarcodeCredentialPreeventProductToTickets < ActiveRecord::Migration
       credential_types_ids = PreeventItem.where(name: entitlements_names_list,
                                                 purchasable_type: "CredentialType",
                                                 event_id: ticket_type.event_id).pluck(:id)
-      order_items = OrderItem.joins(:online_product).where(online_products: { purchasable_id: credits_ids })
+      order_items = OrderItem.joins(:online_product)
+                             .where(online_products: { purchasable_id: credits_ids })
 
-      preevent_product = build_preevent_product(ticket_type, credential_types_ids, preevent_items_ids, order_items)
+      preevent_product = build_preevent_product(ticket_type, credential_types_ids,
+                                                preevent_items_ids, order_items)
       attach_purchase_parameters(order_items, preevent_product)
       preevent_product.save
 
