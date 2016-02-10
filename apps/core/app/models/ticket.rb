@@ -61,4 +61,12 @@ class Ticket < ActiveRecord::Base
   scope :banned, lambda {
     Ticket.joins(:banned_ticket)
   }
+
+  def preevent_product_items_credits
+    company_ticket_type
+      .preevent_product
+      .preevent_product_items
+      .joins(:preevent_item)
+      .where(preevent_items: { purchasable_type: "Credit" })
+  end
 end

@@ -68,6 +68,7 @@ class EpgCheckout
   end
 
   def validate_characters(str)
+    valid_characters = /[^0-9A-Za-zñÑ\-,'"ªº]/
     str.gsub(valid_characters, " ")
   end
 end
