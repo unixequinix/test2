@@ -23,7 +23,6 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
   end
 
   def create
-    binding.pry
     @gtag = Gtag.new(permitted_params)
     if @gtag.save
       flash[:notice] = I18n.t("alerts.created")

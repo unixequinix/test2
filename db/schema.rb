@@ -258,7 +258,7 @@ ActiveRecord::Schema.define(version: 20160209133631) do
     t.integer  "preevent_product_id",       null: false, index: {name: "fk__customer_orders_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "fk_customer_orders_preevent_product_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "customer_event_profile_id", null: false, index: {name: "fk__customer_orders_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_customer_orders_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "counter"
-    t.string   "aasm_state",                default: "unredeemed", null: false
+    t.boolean  "redeemed",                  default: false, null: false
     t.datetime "deleted_at",                index: {name: "index_customer_orders_on_deleted_at"}
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false

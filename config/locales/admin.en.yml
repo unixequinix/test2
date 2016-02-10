@@ -376,7 +376,7 @@ en:
     customer_orders:
       id: "Id"
       counter: "Counter"
-      state: "Estado"
+      redeemed: "Redeemed"
       customer_event_profile: "Customer event profiles"
       preevent_product: "Preevent product"
     payments:
