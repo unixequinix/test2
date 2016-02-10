@@ -23,7 +23,6 @@ class TipaltiCheckout
       ts: Time.now.to_i,
       payer: @tipalti_values[:payer]
     }.to_param
-
   end
 
   def crypt(value)

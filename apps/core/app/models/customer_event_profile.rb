@@ -60,11 +60,11 @@ class CustomerEventProfile < ActiveRecord::Base
 
   # Scopes
   scope :for_event, -> (event) { where(event: event) }
-  scope :with_gtag, lambda do |event|
-    joins(:credential_assignments).where(event: event,
-                                         credential_assignments: { credentiable_type: "Gtag",
-                                                                   aasm_state: :assigned })
-  end
+  scope :with_gtag, lambda { |event|
+    joins(:credential_assignments)
+      .where(event: event,
+             credential_assignments: { credentiable_type: "Gtag", aasm_state: :assigned })
+  }
   scope :banned, -> { joins(:banned_customer_event_profile) }
 
   def customer

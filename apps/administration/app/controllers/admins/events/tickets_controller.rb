@@ -13,7 +13,10 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   end
 
   def show
-    @ticket = @fetcher.tickets.includes(credential_assignments: [:customer_event_profile, customer_event_profile: :customer]).find(params[:id])
+    @ticket = @fetcher.tickets
+              .includes(credential_assignments: [:customer_event_profile,
+                                                 customer_event_profile: :customer])
+              .find(params[:id])
   end
 
   def new

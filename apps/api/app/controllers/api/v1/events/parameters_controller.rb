@@ -8,7 +8,6 @@ class Api::V1::Events::ParametersController < Api::V1::Events::BaseController
                   .where("(parameters.category = 'device') OR
                             (parameters.category = 'gtag'
                               AND parameters.group = '#{@gtag_type.value}')")
-
     result =  @parameters << @gtag_type
     render json: result, each_serializer: Api::V1::ParameterSerializer
   end

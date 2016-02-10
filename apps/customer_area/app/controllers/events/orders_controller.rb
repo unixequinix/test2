@@ -1,5 +1,4 @@
 class Events::OrdersController < Events::BaseController
-  before_action :set_order, only: [:update]
   before_action :check_has_ticket!
   before_action :require_permission!
 
@@ -27,11 +26,8 @@ class Events::OrdersController < Events::BaseController
 
   private
 
-  def set_order
-    @order = Order.find(params[:id])
-  end
-
   def require_permission!
+    @order = Order.find(params[:id])
     return unless current_customer_event_profile !=
                   @order.customer_event_profile || @order.completed? || @order.expired?
     flash.now[:error] = I18n.t("alerts.order_complete") if @order.completed?

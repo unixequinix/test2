@@ -14,7 +14,6 @@ AllCops:
     - '**/*.gemspec'
     - '**/Gemfile'
     - '**/i18n/**/*'
-    - 'apps/core/db/migrate/*'
 
 Documentation:
   Enabled: false
