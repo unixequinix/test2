@@ -4,8 +4,9 @@ class Api::V1::GtagSerializer < Api::V1::BaseSerializer
 
   def attributes(*args)
     hash = super
-    hash[:company_ticket_type_id] = object.company_ticket_type_id if
-      object.company_ticket_type_id.present?
+    t_type = object.company_ticket_type
+    id = t_type && t_type.preevent_product_id
+    hash[:preevent_product_id] = id if id
     hash[:customer_uid] = customer_uid if object.credential_assignments.first
     hash
   end
