@@ -16,11 +16,14 @@ class TipaltiCheckout
   def create_value
     valid_characters = /[^0-9A-Za-z]/
 
-    value = "idap=#{@claim.customer_event_profile.id}"
-    value += "&last=#{@claim.customer_event_profile.customer.surname.gsub(valid_characters, '')}"
-    value += "&first=#{@claim.customer_event_profile.customer.name.gsub(valid_characters, '')}"
-    value += "&ts=#{Time.now.to_i}"
-    value + "&payer=#{@tipalti_values[:payer]}"
+    {
+      idap: @claim.customer_event_profile.id,
+      last: @claim.customer_event_profile.customer.surname.gsub(valid_characters, ""),
+      first: @claim.customer_event_profile.customer.name.gsub(valid_characters, ""),
+      ts: Time.now.to_i,
+      payer: @tipalti_values[:payer]
+    }.to_param
+
   end
 
   def crypt(value)

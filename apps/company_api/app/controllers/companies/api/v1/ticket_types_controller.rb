@@ -40,7 +40,8 @@ class Companies::Api::V1::TicketTypesController < Companies::Api::V1::BaseContro
 
   def update
     @ticket_type = CompanyTicketType.includes(:company)
-                   .find_by(id: params[:id], event: current_event,
+                   .find_by(id: params[:id],
+                            event: current_event,
                             companies: { name: current_company.name })
 
     if @ticket_type.update(ticket_type_params)
