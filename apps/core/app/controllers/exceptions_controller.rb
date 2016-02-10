@@ -17,9 +17,13 @@ class ExceptionsController < ApplicationController
 
   def details
     @details ||= {}.tap do |h|
-      I18n.with_options scope: [:exception, :show, @rescue_response], exception_name: @exception.class.name, exception_message: @exception.message do |i18n|
-        h[:name]    = i18n.t "#{@exception.class.name.underscore}.title", default: i18n.t(:title, default: @exception.class.name)
-        h[:message] = i18n.t "#{@exception.class.name.underscore}.description", default: i18n.t(:description, default: @exception.message)
+      I18n.with_options(scope: [:exception, :show, @rescue_response],
+                        exception_name: @exception.class.name,
+                        exception_message: @exception.message) do |i18n|
+        h[:name] = i18n.t "#{@exception.class.name.underscore}.title",
+                          default: i18n.t(:title, default: @exception.class.name)
+        h[:message] = i18n.t "#{@exception.class.name.underscore}.description",
+                             default: i18n.t(:description, default: @exception.message)
       end
     end
   end

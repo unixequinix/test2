@@ -2,7 +2,7 @@ class Admins::BaseController < ApplicationController
   layout "admin"
   protect_from_forgery
   before_action :ensure_admin
-  before_action :set_locale
+  before_action :write_locale_to_session
   before_action :authenticate_admin!
   helper_method :warden, :admin_signed_in?, :current_admin
   helper_method :current_event
@@ -41,7 +41,7 @@ class Admins::BaseController < ApplicationController
 
   private
 
-  def set_locale
+  def write_locale_to_session
     super(I18n.available_locales)
   end
 end
