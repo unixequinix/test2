@@ -24,7 +24,9 @@ Rails.application.routes.draw do
       get "terms_of_use", to: "static_pages#terms_of_use"
       resources :orders, only: [:show, :update] do
         # TODO: Check security in this action
-        # resources :payments, only: [:create], constraints: lambda{|request|request.env['HTTP_X_REAL_IP'].match(Rails.application.secrets.merchant_ip)}
+        # resources :payments, only: [:create],
+        # =>                   constraints: lambda{|request|
+        # =>  request.env['HTTP_X_REAL_IP'].match(Rails.application.secrets.merchant_ip)}
         resources :payments, only: [:new, :create] do
           collection do
             get "success"
@@ -33,7 +35,9 @@ Rails.application.routes.draw do
         end
       end
       # TODO: Check security in this action
-      # resources :refunds, only: [:create], constraints: lambda{|request|request.env['HTTP_X_REAL_IP'].match(Rails.application.secrets.merchant_ip)}
+      # resources :refunds, only: [:create],
+      # =>                  constraints: lambda{ |request|
+      # =>  equest.env['HTTP_X_REAL_IP'].match(Rails.application.secrets.merchant_ip)}
       resources :refunds, only: [:create] do
         collection do
           get "success"

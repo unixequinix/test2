@@ -39,7 +39,8 @@ class ClaimsPresenter < BasePresenter
 
   def call_to_action
     if any_refundable_method?
-      completed_claim? ? I18n.t("dashboard.refunds.call_to_action") : I18n.t("dashboard.without_refunds.call_to_action")
+      I18n.t("dashboard.refunds.call_to_action") && return if completed_claim?
+      I18n.t("dashboard.without_refunds.call_to_action")
     else
       I18n.t("dashboard.not_refundable.call_to_action")
     end
@@ -50,15 +51,12 @@ class ClaimsPresenter < BasePresenter
     return "" unless any_refundable_method? && !completed_claim?
 
     refund_services.each do |refund_service|
-      not_refundable = !refundable?(refund_service)
       class_definition = "btn btn-refund-method"
 
-      if not_refundable
+      if !refundable?(refund_service)
         class_definition << " btn-blocked"
-        actions << context.content_tag("a",
-                                       action_name(refund_service),
-                                       class: class_definition,
-                                       disabled: not_refundable)
+        actions << context.content_tag("a", action_name(refund_service),
+                                       class: class_definition, disabled: not_refundable)
       else
         actions << context.link_to(action_name(refund_service),
                                    context.send("new_event_#{refund_service}_claim_path", @event),
