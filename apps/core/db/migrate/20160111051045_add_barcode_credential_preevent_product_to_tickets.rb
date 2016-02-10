@@ -43,6 +43,7 @@ class AddBarcodeCredentialPreeventProductToTickets < ActiveRecord::Migration
     # change_column :tickets, :company_ticket_type_id, :integer, null: false
   end
 
+  # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
   def migrate_ticket_types
     TicketType.all.each do |ticket_type|
       preevent_items_ids = PreeventItem.where(purchasable_type: "Credit", event_id: 1).pluck(:id)
@@ -54,7 +55,7 @@ class AddBarcodeCredentialPreeventProductToTickets < ActiveRecord::Migration
                                                 purchasable_type: "CredentialType",
                                                 event_id: ticket_type.event_id).pluck(:id)
       order_items = OrderItem.joins(:online_product)
-                             .where(online_products: { purchasable_id: credits_ids })
+                    .where(online_products: { purchasable_id: credits_ids })
 
       preevent_product = build_preevent_product(ticket_type, credential_types_ids,
                                                 preevent_items_ids, order_items)
@@ -67,13 +68,16 @@ class AddBarcodeCredentialPreeventProductToTickets < ActiveRecord::Migration
     end
     puts "TicketTypes Migrated √"
   end
+  # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 
   private
 
+  # rubocop:disable Metrics/MethodLength
   def build_preevent_product(ticket_type, credential_types_ids, preevent_items_ids, order_items)
     amount = 1
     preevent_items_array = (credential_types_ids + preevent_items_ids).map do |preevent_item_id|
-      amount = ticket_type.credit if PreeventItem.find(preevent_item_id).purchasable_type == "Credit"
+      amount = ticket_type.credit if
+        PreeventItem.find(preevent_item_id).purchasable_type == "Credit"
       { preevent_item_id: preevent_item_id, amount: amount }
     end
     PreeventProduct.new(
@@ -88,6 +92,7 @@ class AddBarcodeCredentialPreeventProductToTickets < ActiveRecord::Migration
       price: 1
     )
   end
+  # rubocop:enable Metrics/MethodLength
 
   def attach_purchase_parameters(order_items, preevent_product)
     return unless order_items.first
