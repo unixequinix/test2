@@ -58,11 +58,11 @@ class Admins::EventsController < Admins::BaseController
   end
 
   def permitted_params
-    params.require(:event).permit(:aasm_state, :name, :url, :location,
-                                  :start_date, :end_date, :description, :support_email, :style, :logo,
-                                  :background_type, :background, :features, :locales, :payment_service,
-                                  :refund_services, :info, :disclaimer, :host_country, :gtag_assignation,
-                                  :currency, :registration_parameters, :agreed_event_condition_message,
-                                  :ticket_assignation)
+    params.require(:event)
+      .permit(:aasm_state, :name, :url, :location, :start_date, :end_date, :description,
+              :support_email, :style, :logo, :background_type, :background, :features, :locales,
+              :payment_service, :refund_services, :info, :disclaimer, :host_country,
+              :gtag_assignation, :currency, :registration_parameters,
+              :agreed_event_condition_message, :ticket_assignation)
   end
 end

@@ -53,7 +53,6 @@ class AccountManager::Stripe
 
   def attach_legal_parameters(params, request)
     parameters = params[:stripe_payment_settings_form]
-
     @account.legal_entity.first_name = parameters[:legal_first_name]
     @account.legal_entity.last_name = parameters[:legal_last_name]
     @account.legal_entity.dob.day = Date.parse(parameters[:legal_dob]).day
