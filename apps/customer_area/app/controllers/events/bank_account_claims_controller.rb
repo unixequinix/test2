@@ -7,9 +7,7 @@ class Events::BankAccountClaimsController < Events::ClaimsController
   def create
     @bank_account_claim_form = ("#{area.camelize}BankAccountClaimForm")
                                .constantize.new(permitted_params)
-
     @claim = Claim.find(permitted_params[:claim_id])
-
     render(:new) && return unless @bank_account_claim_form.save
 
     @claim.start_claim!

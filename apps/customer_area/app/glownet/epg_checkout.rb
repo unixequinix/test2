@@ -68,6 +68,8 @@ class EpgCheckout
       statusURL: event_refunds_url(profile.event)
     }.to_param
   end
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   def validate_characters(str)
     str.gsub(valid_characters, " ")
