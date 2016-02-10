@@ -288,8 +288,8 @@ en:
     customers:
       delete: "Deleted"
       email: "Email"
-      name: "Name"
-      surname: "Surname"
+      name: "First name"
+      surname: "Last name"
       confirmed_at: "Confirmed at"
       confirmation_sent_at: "Confirmation sent at"
       tickets: "Tickets"

@@ -19,11 +19,14 @@ FactoryGirl.define do
     first_name { Faker::Name.first_name }
     last_name {Faker::Name.last_name }
     email { Faker::Internet.email }
-    gtag_delivery_address { Faker::Address.street_address + " " +
-                            Faker::Address.secondary_address + " " +
-                            Faker::Address.postcode + " " +
-                            Faker::Address.city
-                          }
+
+    trait :with_gtag_delivery_address do
+      gtag_delivery_address { Faker::Address.street_address + " " +
+                              Faker::Address.secondary_address + " " +
+                              Faker::Address.postcode + " " +
+                              Faker::Address.city
+                            }
+    end
     trait :gtag_credential do
       association :credentiable, factory: :gtag
     end
@@ -32,7 +35,7 @@ FactoryGirl.define do
       association :credentiable, factory: :ticket
     end
 
-    factory :purchaser_gtag, traits: [:gtag_credential]
+    factory :purchaser_gtag, traits: [:gtag_credential, :with_gtag_delivery_address]
     factory :purchaser_ticket, traits: [:ticket_credential]
   end
 end
