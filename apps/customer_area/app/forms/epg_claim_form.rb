@@ -42,8 +42,8 @@ class EpgClaimForm
   def persist!
     self.phone = phone.phony_normalized(country_code: country_code)
     Parameter.where(category: "claim", group: "epg").each do |parameter|
-      cp = ClaimParameter.find_by(claim_id: claim_id, parameter_id: parameter.id)
-      cp.nil? ? ClaimParameter.create!(value: attributes[parameter.name.to_sym], claim_id: claim_id, parameter_id: parameter.id) : cp.update(value: attributes[parameter.name.to_sym])
+      cp = ClaimParameter.find_or_create_by(claim_id: claim_id, parameter_id: parameter.id)
+      cp.update(value: attributes[parameter.name.to_sym])
     end
   end
 end

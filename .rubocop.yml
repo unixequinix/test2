@@ -39,4 +39,3 @@ Metrics/MethodLength:
 
 Lint/RequireParentheses:
   Enabled: true
-

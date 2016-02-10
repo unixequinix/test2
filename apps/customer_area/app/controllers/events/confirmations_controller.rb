@@ -9,19 +9,15 @@ class Events::ConfirmationsController < Events::BaseController
   def create
     @customer = Customer.find_by(email: permitted_params[:email], event: current_event)
 
-    if !@customer.nil?
-      if @customer.confirmed_at.nil?
-        CustomerMailer.confirmation_instructions_email(@customer).deliver_later
-        @customer.update(confirmation_sent_at: Time.now.utc)
-        flash[:notice] = t("auth.confirmations.send_instructions")
-        redirect_to after_sending_confirmation_instructions_path
-      else
-        flash.now[:error] = I18n.t("errors.messages.already_confirmed")
-        redirect_to event_login_path(current_event, confirmed: true)
-      end
-    else
-      event_login_path(current_event, confirmed: true)
-    end
+    event_login_path(current_event, confirmed: true) && return if @customer.present?
+    redirect_to event_login_path(current_event, confirmed: true),
+                error: I18n.t("errors.messages.already_confirmed") &&
+                  return unless @customer.confirmed_at.present?
+
+    CustomerMailer.confirmation_instructions_email(@customer).deliver_later
+    @customer.update(confirmation_sent_at: Time.now.utc)
+    redirect_to after_sending_confirmation_instructions_path,
+                notice: t("auth.confirmations.send_instructions")
   end
 
   def show
