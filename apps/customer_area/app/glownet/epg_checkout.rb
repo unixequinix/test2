@@ -38,6 +38,8 @@ class EpgCheckout
     Base64.encode64(result)
   end
 
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def create_value
     profile = @claim.customer_event_profile
     customer = profile.customer

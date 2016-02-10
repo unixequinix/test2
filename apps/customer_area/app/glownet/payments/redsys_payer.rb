@@ -5,10 +5,7 @@ class Payments::RedsysPayer
 
   def notify_payment(params, customer_order_creator)
     event = Event.friendly.find(params[:event_id])
-    merchant_code = EventParameter.find_by(event_id: event.id,
-                                           parameter_id: Parameter.find_by(category: "payment",
-                                                                           group: "redsys",
-                                                                           name: "code")).value
+    merchant_code = event.get_parameter("payment", "redsys", "code")
     return unless params[:Ds_Order] && params[:Ds_MerchantCode] == merchant_code
 
     response = params[:Ds_Response]
@@ -19,7 +16,6 @@ class Payments::RedsysPayer
 
     create_log(order)
     create_payment(order, amount)
-
     order.complete!
     customer_order_creator.save(order)
     send_mail_for(order, event)
@@ -37,7 +33,7 @@ class Payments::RedsysPayer
   end
 
   def create_log(order)
-    CreditLog.create(customer_event_profile_id: order.customer_event_profile.id,
+    CreditLog.create(customer_event_profile: order.customer_event_profile,
                      transaction_type: CreditLog::CREDITS_PURCHASE,
                      amount: order.credits_total)
   end
