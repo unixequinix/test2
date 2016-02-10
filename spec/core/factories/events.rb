@@ -48,7 +48,7 @@ FactoryGirl.define do
     url { Faker::Internet.url }
     currency { "GBP" }
     host_country { "GB" }
-    background_type { Event::BACKGROUND_TYPES.sample }
+    background_type { EventDecorator::BACKGROUND_TYPES.sample }
     disclaimer { Faker::Lorem.words(2).join }
     gtag_assignation_notification { Faker::Lorem.words(2).join }
     gtag_form_disclaimer { Faker::Lorem.words(2).join }

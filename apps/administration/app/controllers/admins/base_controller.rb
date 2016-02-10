@@ -8,7 +8,7 @@ class Admins::BaseController < ApplicationController
   helper_method :current_event
 
   def current_event
-    @current_event || Event.new
+    @current_event.decorate || Event.new.decorate
   end
 
   def warden

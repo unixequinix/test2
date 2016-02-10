@@ -4,8 +4,7 @@ class GtagAssignmentsPresenter < BasePresenter
   end
 
   def path
-    @gtag_assignment.present? ? "gtag_assignments" :
-                                  "new_gtag_assignments"
+    @gtag_assignment.present? ? "gtag_assignments" : "new_gtag_assignments"
   end
 
   def gtag_assignments_enabled?

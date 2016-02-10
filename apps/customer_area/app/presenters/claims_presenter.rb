@@ -4,13 +4,11 @@ class ClaimsPresenter < BasePresenter
   end
 
   def path
-    @gtag_assignment.present? ? "claims" :
-                                  "claims_none"
+    @gtag_assignment.present? ? "claims" : "claims_none"
   end
 
   def refunds_title
-    completed_claim? ? I18n.t("dashboard.refunds.title") :
-                      I18n.t("dashboard.without_refunds.title")
+    completed_claim? ? I18n.t("dashboard.refunds.title") : I18n.t("dashboard.without_refunds.title")
   end
 
   def refund_services

@@ -38,6 +38,8 @@ class EpgCheckout
     Base64.encode64(result)
   end
 
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def create_value
     profile = @claim.customer_event_profile
     customer = profile.customer
@@ -66,6 +68,8 @@ class EpgCheckout
       statusURL: event_refunds_url(profile.event)
     }.to_param
   end
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   def validate_characters(str)
     valid_characters = /[^0-9A-Za-zñÑ\-,'"ªº]/
