@@ -19,15 +19,13 @@ class Payments::StripePayer
 
   def charge(params)
     event = Event.friendly.find(params[:event_id])
-    token = params[:stripeToken]
-    order = Order.find(params[:order_id])
-    amount = order.total_stripe_formated
+    amount = Order.find(params[:order_id]).total_stripe_formated
     Stripe.api_key = Rails.application.secrets.stripe_platform_secret
     begin
       charge = Stripe::Charge.create(
         amount: amount, # amount in cents, again
         currency: event.currency,
-        source: token,
+        source: params[:stripeToken],
         description: "Payment of #{amount} #{event.currency}",
         destination: get_event_parameter_value(event, "stripe_account_id"))
 

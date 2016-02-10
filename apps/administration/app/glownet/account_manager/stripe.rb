@@ -41,26 +41,31 @@ class AccountManager::Stripe
   end
 
   def extract_legal_parameters
+    entity = @account.legal_entity
+    tos = @account.tos_acceptance
     {
-      legal_first_name: @account.legal_entity.first_name,
-      legal_last_name: @account.legal_entity.last_name,
-      legal_dob: "#{@account.legal_entity.dob.day}/#{@account.legal_entity.dob.month}/#{@account.legal_entity.dob.year}",
-      legal_type: @account.legal_entity.type,
-      tos_acceptance_date: @account.tos_acceptance.date,
-      tos_acceptance_ip: @account.tos_acceptance.ip
+      legal_first_name: entity.first_name,
+      legal_last_name: entity.last_name,
+      legal_dob: "#{entity.dob.day}/#{entity.dob.month}/#{entity.dob.year}",
+      legal_type: entity.type,
+      tos_acceptance_date: tos.date,
+      tos_acceptance_ip: tos.ip
     }
   end
 
   def attach_legal_parameters(params, request)
     parameters = params[:stripe_payment_settings_form]
-    @account.legal_entity.first_name = parameters[:legal_first_name]
-    @account.legal_entity.last_name = parameters[:legal_last_name]
-    @account.legal_entity.dob.day = Date.parse(parameters[:legal_dob]).day
-    @account.legal_entity.dob.month = Date.parse(parameters[:legal_dob]).month
-    @account.legal_entity.dob.year = Date.parse(parameters[:legal_dob]).year
-    @account.legal_entity.type = parameters[:legal_type]
-    @account.tos_acceptance.ip = request.remote_ip
-    @account.tos_acceptance.date = Time.now.to_i
+    entity = @account.legal_entity
+    tos = @account.tos_acceptance
+
+    entity.first_name = parameters[:legal_first_name]
+    entity.last_name = parameters[:legal_last_name]
+    entity.dob.day = Date.parse(parameters[:legal_dob]).day
+    entity.dob.month = Date.parse(parameters[:legal_dob]).month
+    entity.dob.year = Date.parse(parameters[:legal_dob]).year
+    entity.type = parameters[:legal_type]
+    tos.ip = request.remote_ip
+    tos.date = Time.now.to_i
     @account.save
   end
 

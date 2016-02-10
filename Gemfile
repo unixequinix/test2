@@ -56,6 +56,9 @@ gem 'kaminari', '~>0.16.3'
 # Search
 gem 'ransack', '~> 1.6.6'
 
+# Decorators
+gem 'draper', '~> 2.0'
+
 # Form normalizers
 gem 'iban-tools', '~>1.0.0'
 gem 'iso-swift', '~>0.0.2'
