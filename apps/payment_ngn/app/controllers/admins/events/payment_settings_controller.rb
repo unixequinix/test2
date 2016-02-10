@@ -23,8 +23,7 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
                              .constantize.new(permitted_params)
     if @payment_settings_form.save(params, request)
       @event.save
-      flash[:notice] = I18n.t("alerts.updated")
-      redirect_to admins_event_payment_settings_url(@event)
+      redirect_to admins_event_payment_settings_url(@event), notice: I18n.t("alerts.updated")
     else
       flash[:error] = I18n.t("alerts.error")
       render :edit
@@ -51,8 +50,7 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
                              .constantize.new(permitted_params)
     if @payment_settings_form.update
       @event.save
-      flash[:notice] = I18n.t("alerts.updated")
-      redirect_to admins_event_payment_settings_url(@event)
+      redirect_to admins_event_payment_settings_url(@event), notice: I18n.t("alerts.updated")
     else
       flash[:error] = I18n.t("alerts.error")
       render :edit

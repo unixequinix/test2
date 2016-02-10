@@ -21,7 +21,8 @@ class Events::ClaimsController < Events::BaseController
 
   def require_permission!
     @claim = Claim.find(params[form_name][:claim_id])
-    return unless current_customer_event_profile != @claim.customer_event_profile || @claim.completed?
+    return unless current_customer_event_profile !=
+                  @claim.customer_event_profile || @claim.completed?
     flash.now[:error] = I18n.t("alerts.claim_complete")
     redirect_to event_url(current_event)
   end
@@ -34,15 +35,16 @@ class Events::ClaimsController < Events::BaseController
   end
 
   def generate_claim
-    @claim = Claim.new
-    @claim.service_type = service_type
-    @claim.fee = current_event.refund_fee(service_type)
-    @claim.minimum = current_event.refund_minimun(service_type)
-    @claim.customer_event_profile = current_customer_event_profile
-    @claim.gtag = current_customer_event_profile.active_gtag_assignment.credentiable
-    @claim.total = current_customer_event_profile.active_gtag_assignment.credentiable.gtag_credit_log.amount * current_event.standard_credit_price
+    binding.pry
+    @claim = Claim.create!(
+      service_type: service_type,
+      fee: current_event.refund_fee(service_type),
+      minimum: current_event.refund_minimun(service_type),
+      customer_event_profile: current_customer_event_profile,
+      gtag: current_customer_event_profile.active_gtag_assignment.credentiable,
+      total: current_customer_event_profile.active_gtag_assignment
+              .credentiable.gtag_credit_log.amount * current_event.standard_credit_price)
     @claim.generate_claim_number!
-    @claim.save!
     @claim
   end
 end

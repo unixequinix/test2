@@ -8,7 +8,6 @@ class UltralightEv1Form
   validates_presence_of :ultralight_ev1_private_key
   validates_presence_of :event_id
 
-
   def save
     if valid?
       persist!

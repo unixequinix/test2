@@ -13,7 +13,8 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
   end
 
   def show
-    @gtag = @fetcher.gtags.includes(credential_assignments: :customer_event_profile).find(params[:id])
+    @gtag = @fetcher.gtags.includes(credential_assignments: :customer_event_profile)
+            .find(params[:id])
   end
 
   def new

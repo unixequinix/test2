@@ -14,7 +14,7 @@ table.preevent_products
   tbody
     - preevent_products.each do |preevent_product|
       tr
-        td data-label=t('admin.preevent_product.name') = link_to_unless(preevent_product.is_immutable? ,preevent_product.name, edit_admins_event_preevent_product_path(current_event, preevent_product))
+        td data-label=t('admin.preevent_product.name') = link_to_unless(preevent_product.immutable? ,preevent_product.name, edit_admins_event_preevent_product_path(current_event, preevent_product))
         td data-label=t('admin.preevent_product.online') = preevent_product.online
         td data-label=t('admin.preevent_product.initial_amount') = preevent_product.initial_amount
         td data-label=t('admin.preevent_product.price') = preevent_product.price

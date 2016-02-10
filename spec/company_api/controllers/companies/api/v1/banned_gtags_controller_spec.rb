@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Companies::Api::V1::BannedGtagsController, :type => :controller do
+RSpec.describe Companies::Api::V1::BannedGtagsController, type: :controller do
   before(:all) do
     @event = create(:event)
     @company1 = create(:company, event: @event)
@@ -10,7 +10,6 @@ RSpec.describe Companies::Api::V1::BannedGtagsController, :type => :controller d
     5.times { create(:gtag, :banned, event: @event, company_ticket_type: @ticket_type2) }
   end
   describe "GET index" do
-
     context "when authenticated" do
       before(:each) do
         http_login(@company1.name, @event.token)
@@ -55,9 +54,9 @@ RSpec.describe Companies::Api::V1::BannedGtagsController, :type => :controller d
         end
 
         it "increases the banned gtags in the database by 1" do
-          expect {
+          expect do
             post :create, gtags_blacklist: { tag_uid: @gtag.tag_uid }
-          }.to change(BannedGtag, :count).by(1)
+          end.to change(BannedGtag, :count).by(1)
         end
 
         it "returns a 201 status code" do
@@ -91,7 +90,11 @@ RSpec.describe Companies::Api::V1::BannedGtagsController, :type => :controller d
 
   describe "DELETE destroy" do
     before(:each) do
-      @gtag = create(:gtag, :banned, tag_uid: "Glownet", event: @event, company_ticket_type: @ticket_type1)
+      @gtag = create(:gtag,
+                     :banned,
+                     tag_uid: "Glownet",
+                     event: @event,
+                     company_ticket_type: @ticket_type1)
     end
 
     context "when authenticated" do
@@ -100,7 +103,6 @@ RSpec.describe Companies::Api::V1::BannedGtagsController, :type => :controller d
       end
 
       context "when the request is valid" do
-
         it "removes the ticket from the banned table" do
           delete :destroy, id: @gtag.tag_uid
           expect(Gtag.banned.last.tag_uid).not_to eq("Glownet")

@@ -60,7 +60,11 @@ class CustomerEventProfile < ActiveRecord::Base
 
   # Scopes
   scope :for_event, -> (event) { where(event: event) }
-  scope :with_gtag, -> (event) { joins(:credential_assignments).where(event: event, credential_assignments: { credentiable_type: "Gtag", aasm_state: :assigned }) }
+  scope :with_gtag, lambda { |event|
+    joins(:credential_assignments)
+      .where(event: event,
+             credential_assignments: { credentiable_type: "Gtag", aasm_state: :assigned })
+  }
   scope :banned, -> { joins(:banned_customer_event_profile) }
 
   def customer
@@ -80,6 +84,8 @@ class CustomerEventProfile < ActiveRecord::Base
   end
 
   def refundable_credits
-    active_gtag_assignment.credentiable.gtag_credit_log.amount unless active_gtag_assignment.nil? || active_gtag_assignment.credentiable.gtag_credit_log.nil?
+    no_log = active_gtag_assignment.credentiable.gtag_credit_log.nil?
+    no_assignment = active_gtag_assignment.nil?
+    active_gtag_assignment.credentiable.gtag_credit_log.amount unless no_assignment || no_log
   end
 end
