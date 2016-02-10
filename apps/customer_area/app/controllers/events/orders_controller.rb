@@ -1,5 +1,5 @@
 class Events::OrdersController < Events::BaseController
-  before_action :set_order, only: [:show]
+  before_action :set_order, only: [:update]
   before_action :check_has_ticket!
   before_action :require_permission!
 
