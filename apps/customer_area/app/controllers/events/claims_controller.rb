@@ -35,16 +35,17 @@ class Events::ClaimsController < Events::BaseController
   end
 
   def generate_claim
-    binding.pry
-    @claim = Claim.create!(
+    @claim = Claim.new(
       service_type: service_type,
       fee: current_event.refund_fee(service_type),
       minimum: current_event.refund_minimun(service_type),
       customer_event_profile: current_customer_event_profile,
       gtag: current_customer_event_profile.active_gtag_assignment.credentiable,
-      total: current_customer_event_profile.active_gtag_assignment
+      total: (current_customer_event_profile.active_gtag_assignment
               .credentiable.gtag_credit_log.amount * current_event.standard_credit_price)
+    )
     @claim.generate_claim_number!
+    @claim.save!
     @claim
   end
 end
