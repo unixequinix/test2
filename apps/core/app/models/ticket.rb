@@ -56,4 +56,10 @@ class Ticket < ActiveRecord::Base
   scope :banned, lambda {
     Ticket.joins(:banned_ticket)
   }
+
+  def ban!
+    assignment = CredentialAssignment.find_by(credentiable_id: id, credentiable_type: "Ticket")
+    BannedCustomerEventProfile.new(assign.customer_event_profile_id) unless assignment.nil?
+    BannedTicket.create!(ticket_id: id)
+  end
 end

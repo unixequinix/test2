@@ -61,6 +61,12 @@ class Gtag < ActiveRecord::Base
     joins(:banned_gtag)
   }
 
+  def ban!
+    assignment = CredentialAssignment.find_by(credentiable_id: id, credentiable_type: "Gtag")
+    BannedCustomerEventProfile.new(assign.customer_event_profile_id) unless assignment.nil?
+    BannedGtag.create!(gtag_id: id)
+  end
+
   def refundable_amount
     current_event = event
     standard_credit_price = current_event.standard_credit_price
