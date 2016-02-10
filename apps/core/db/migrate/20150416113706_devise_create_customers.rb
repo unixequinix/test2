@@ -1,4 +1,5 @@
 class DeviseCreateCustomers < ActiveRecord::Migration
+  # rubocop:disable Metrics/MethodLength
   def change
     create_table(:customers) do |t|
       ## Database authenticatable
@@ -30,4 +31,5 @@ class DeviseCreateCustomers < ActiveRecord::Migration
       t.timestamps null: false
     end
   end
+  # rubocop:enable Metrics/MethodLength
 end
