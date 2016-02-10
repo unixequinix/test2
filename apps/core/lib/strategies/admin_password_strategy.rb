@@ -7,12 +7,11 @@ class AdminPasswordStrategy < ::Warden::Strategies::Base
 
   def authenticate!
     admin = Admin.find_by_email(params["admin"].fetch("email"))
-    if admin.nil? ||
-       !Authentication::Encryptor.compare(admin.encrypted_password, params["admin"].fetch("password"))
-      fail!(message: "errors.messages.unauthorized")
-    else
-      admin.update_tracked_fields!(request)
-      success!(admin)
-    end
+    password_ok = !Authentication::Encryptor.compare(admin.encrypted_password,
+                                                     params["admin"].fetch("password"))
+
+    fail!(message: "errors.messages.unauthorized") && return if admin.nil? || password_ok
+    admin.update_tracked_fields!(request)
+    success!(admin)
   end
 end

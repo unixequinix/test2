@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
 
   # Get locale from user's browser and set it, unless it's present in session.
   # Use default otherwise.
-  def set_locale(available_locales)
+  def write_locale_to_sessionle_to_session(available_locales)
     extracted_locale =  session[:locale] ||
                         extract_locale_from_accept_language_header ||
                         I18n.default_locale

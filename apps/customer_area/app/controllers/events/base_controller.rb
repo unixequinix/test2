@@ -2,7 +2,7 @@ class Events::BaseController < ApplicationController
   layout "event"
   protect_from_forgery
   before_action :ensure_customer
-  before_action :set_locale
+  before_action :write_locale_to_session
   before_filter :set_i18n_globals
   helper_method :current_event
   before_action :fetch_current_event
@@ -58,7 +58,7 @@ class Events::BaseController < ApplicationController
     @current_event
   end
 
-  def set_locale
+  def write_locale_to_session
     super(current_event.selected_locales_formated)
   end
 

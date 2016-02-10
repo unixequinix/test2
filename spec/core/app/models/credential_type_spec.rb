@@ -17,7 +17,7 @@ RSpec.describe CredentialType, type: :model do
       expect(third_credential_type.memory_position).to eq(2)
     end
 
-    it "should rearrange the memory position of the existing credential types when one is deleted" do
+    it "rearranges the memory position of the existing credential types when one is deleted" do
       event = create(:event)
 
       first_credential_type = create(:preevent_item_credential, event: event).purchasable

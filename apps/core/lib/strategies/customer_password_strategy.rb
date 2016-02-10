@@ -7,13 +7,13 @@ class CustomerPasswordStrategy < ::Warden::Strategies::Base
   def authenticate!
     customer = Customer.find_by(email: params["customer"].fetch("email"),
                                 event_id: params["customer"].fetch("event_id"))
-    if customer.nil? || !Authentication::Encryptor.compare(customer.encrypted_password, params["customer"].fetch("password"))
-      fail!(message: "errors.messages.unauthorized")
-    elsif customer.confirmed_at.nil?
-      fail!(message: "errors.messages.unconfirmed")
-    else
-      customer.update_tracked_fields!(request)
-      success!(customer)
-    end
+    password_not_ok = !Authentication::Encryptor.compare(customer.encrypted_password,
+                                                     params["customer"].fetch("password"))
+
+    fail!(message: "errors.messages.unauthorized") && return if customer.nil? || password_not_ok
+    fail!(message: "errors.messages.unconfirmed") && return if customer.confirmed_at.nil?
+
+    customer.update_tracked_fields!(request)
+    success!(customer)
   end
 end

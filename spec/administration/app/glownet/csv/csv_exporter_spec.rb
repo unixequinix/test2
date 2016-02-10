@@ -3,23 +3,41 @@ require "rails_helper"
 RSpec.describe Csv::CsvExporter, type: :domain_logic do
   context "With many Claims in the DB" do
     before :all do
-      gtag_odd = create(:gtag, tag_uid: "4OBXCHS2FT", tag_serial_number: "MIUE4Z2HNT")
-      gtag_even = create(:gtag, tag_uid: "5OBXCHS2FT", tag_serial_number: "MOUE4Z2HNT", event: gtag_odd.event)
-      event = gtag_odd.event
-      customer_odd = create(:customer, event: event, name: "Diana Mayorga Zamora  ", surname: "Carmona", email: "gustavo.orosco@garibay.es")
-      customer_even = create(:customer, event: event, name: "Paco Lopez Jones", surname: "Ojeda", email: "paco.ojeda@eresmas.es")
-      customer_event_profile_odd = create(:customer_event_profile, event: event, customer: customer_odd)
-      customer_event_profile_even = create(:customer_event_profile, event: event, customer: customer_even)
-      (1..5).each do |time|
-        if time.odd?
-          claim = Claim.create(id: time, number: "15102511a6e5" + time.to_s, aasm_state: "completed", completed_at: Date.yesterday, total: 233, created_at: Date.yesterday - 1.day, updated_at: Date.yesterday, gtag_id: gtag_odd.id, service_type: "bank_account ", fee: 10.5, minimum: 0, customer_event_profile_id: customer_event_profile_odd.id)
-        else
-          claim = Claim.create(id: time, number: "15102511a6e5" + time.to_s, aasm_state: "completed", completed_at: Date.yesterday, total: 233, created_at: Date.yesterday - 1.day, updated_at: Date.yesterday, gtag_id: gtag_even.id, service_type: "bank_account", fee: 10.5, minimum: 0, customer_event_profile_id: customer_event_profile_even.id)
-        end
+      tag_odd = create(:gtag, tag_uid: "4OBXCHS2FT", tag_serial_number: "MIUE4Z2HNT")
+      event = tag_odd.event
+
+      customer_odd = create(:customer,
+                            event: event,
+                            name: "Diana Mayorga Zamora  ",
+                            surname: "Carmona",
+                            email: "gustavo.orosco@garibay.es")
+      customer_even = create(:customer,
+                             event: event,
+                             name: "Paco Lopez Jones",
+                             surname: "Ojeda",
+                             email: "paco.ojeda@eresmas.es")
+      profile_odd = create(:customer_event_profile, event: event, customer: customer_odd)
+      profile_even = create(:customer_event_profile, event: event, customer: customer_even)
+
+      (1..5).each do |index|
+        claim = Claim.create(id: index,
+                             number: "15102511a6e5" + index.to_s,
+                             aasm_state: "completed",
+                             completed_at: Date.yesterday,
+                             total: 233,
+                             created_at: Date.yesterday - 1.day,
+                             updated_at: Date.yesterday,
+                             gtag_id: tag_odd.id,
+                             service_type: "bank_account ",
+                             fee: 10.5,
+                             minimum: 0,
+                             customer_event_profile: index.odd? ? profile_odd : profile_even)
+
         create(:refund, claim: claim)
-        p = Parameter.find_by(name: "iban", data_type: "string", category: "claim", group: "bank_account")
+        params = { data_type: "string", category: "claim", group: "bank_account" }
+        p = Parameter.find_by({ name: "iban" }.merge(params))
         create(:claim_parameter, parameter: p, claim: claim, value: "UNCRITM1MN9")
-        p = Parameter.find_by(name: "swift", data_type: "string", category: "claim", group: "bank_account")
+        p = Parameter.find_by({ name: "swift" }.merge(params))
         create(:claim_parameter, parameter: p, claim: claim, value: "IT26U0200802487000005011003")
       end
       @csv_file = Csv::CsvExporter.to_csv(Claim.selected_data(:completed, event))
@@ -31,9 +49,19 @@ RSpec.describe Csv::CsvExporter, type: :domain_logic do
       end
 
       it "should be able to export to a file" do
-        csv_expected = "id,service_type,name,surname,email,tag_uid,tag_serial_number,amount,iban,swift\n1,bank_account ,Diana Mayorga Zamora  ,Carmona,gustavo.orosco@garibay.es,4OBXCHS2FT,MIUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n2,bank_account,Paco Lopez Jones,Ojeda,paco.ojeda@eresmas.es,5OBXCHS2FT,MOUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n3,bank_account ,Diana Mayorga Zamora  ,Carmona,gustavo.orosco@garibay.es,4OBXCHS2FT,MIUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n4,bank_account,Paco Lopez Jones,Ojeda,paco.ojeda@eresmas.es,5OBXCHS2FT,MOUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n5,bank_account ,Diana Mayorga Zamora  ,Carmona,gustavo.orosco@garibay.es,4OBXCHS2FT,MIUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n"
+        csv = "id,service_type,name,surname,email,tag_uid,tag_serial_number,amount,iban,swift\n
+               1,bank_account,Diana Mayorga Zamora  ,Carmona,gustavo.orosco@garibay.es,
+               4OBXCHS2FT,MIUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n
+               2,bank_account,Paco Lopez Jones,Ojeda,paco.ojeda@eresmas.es,
+               5OBXCHS2FT,MOUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n
+               3,bank_account,Diana Mayorga Zamora  ,Carmona,gustavo.orosco@garibay.es,
+               4OBXCHS2FT,MIUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n
+               4,bank_account,Paco Lopez Jones,Ojeda,paco.ojeda@eresmas.es,
+               5OBXCHS2FT,MOUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n
+               5,bank_account,Diana Mayorga Zamora  ,Carmona,gustavo.orosco@garibay.es,
+               4OBXCHS2FT,MIUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n"
 
-        expect(@csv_file).to eq(csv_expected)
+        expect(@csv_file).to eq(csv)
       end
     end
   end
@@ -41,20 +69,24 @@ RSpec.describe Csv::CsvExporter, type: :domain_logic do
   context "With many Refunds in the DB" do
     before :each do
       DatabaseCleaner.clean_with :truncation
-
       claim = create(:claim, id: 100)
-      Refund.create(id: 100, created_at: "Tue, 27 Oct 2015 15:34:23 CET +01:00",
-                    updated_at: "Tue, 27 Oct 2015 15:34:23 CET +01:00", claim_id: claim.id,
-                    amount: 10, currency: "eur", message: "dummy", operation_type: "payment",
-                    gateway_transaction_number: "epg", payment_solution: "dummy", status: "completed")
-      Refund.create(id: 200, created_at: "Tue, 27 Oct 2015 15:34:23 CET +01:00",
-                    updated_at: "Tue, 27 Oct 2015 15:34:23 CET +01:00", claim_id: claim.id,
-                    amount: 10, currency: "eur", message: "dummy", operation_type: "payment",
-                    gateway_transaction_number: "epg", payment_solution: "dummy", status: "completed")
-      Refund.create(id: 300, created_at: "Tue, 27 Oct 2015 15:34:23 CET +01:00",
-                    updated_at: "Tue, 27 Oct 2015 15:34:23 CET +01:00", claim_id: claim.id,
-                    amount: 10, currency: "eur", message: "dummy", operation_type: "payment",
-                    gateway_transaction_number: "epg", payment_solution: "dummy", status: "completed")
+
+      params = {
+        created_at: "Tue, 27 Oct 2015 15:34:23 CET +01:00",
+        updated_at: "Tue, 27 Oct 2015 15:34:23 CET +01:00",
+        claim_id: claim.id,
+        amount: 10,
+        currency: "eur",
+        message: "dummy",
+        operation_type: "payment",
+        gateway_transaction_number: "epg",
+        payment_solution: "dummy",
+        status: "completed"
+      }
+
+      Refund.create({ id: 100 }.merge(params))
+      Refund.create({ id: 200 }.merge(params))
+      Refund.create({ id: 300 }.merge(params))
 
       @csv_file = Csv::CsvExporter.to_csv(Refund.all)
     end
@@ -70,9 +102,16 @@ RSpec.describe Csv::CsvExporter, type: :domain_logic do
       end
 
       it "should be able to export to a file" do
-        csv_expected = "id,created_at,updated_at,claim_id,amount,currency,message,operation_type,gateway_transaction_number,payment_solution,status\n100,2015-10-27 15:34:23 +0100,2015-10-27 15:34:23 +0100,100,10.0,eur,dummy,payment,epg,dummy,completed\n200,2015-10-27 15:34:23 +0100,2015-10-27 15:34:23 +0100,100,10.0,eur,dummy,payment,epg,dummy,completed\n300,2015-10-27 15:34:23 +0100,2015-10-27 15:34:23 +0100,100,10.0,eur,dummy,payment,epg,dummy,completed\n"
+        csv = "id,created_at,updated_at,claim_id,amount,currency,message,operation_type,
+               gateway_transaction_number,payment_solution,status\n
+               100,2015-10-27 15:34:23 +0100,2015-10-27 15:34:23 +0100,100,10.0,eur,dummy,payment,
+               epg,dummy,completed\n
+               200,2015-10-27 15:34:23 +0100,2015-10-27 15:34:23 +0100,100,10.0,eur,dummy,payment,
+               epg,dummy,completed\n
+               300,2015-10-27 15:34:23 +0100,2015-10-27 15:34:23 +0100,100,10.0,eur,dummy,payment,
+               epg,dummy,completed\n"
 
-        expect(@csv_file).to eq(csv_expected)
+        expect(@csv_file).to eq(csv)
       end
     end
   end
