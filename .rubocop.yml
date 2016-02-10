@@ -35,3 +35,6 @@ Metrics/AbcSize:
 
 Metrics/MethodLength:
   Max: 15
+
+Lint/RequireParentheses:
+  Enabled: true

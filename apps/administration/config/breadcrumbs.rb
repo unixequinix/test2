@@ -138,7 +138,8 @@ crumb :admins_event_credential_types do |event|
 end
 
 crumb :admins_event_credential_type do |event, credential_type|
-  link credential_type.preevent_item.name, edit_admins_event_credential_type_path(event, credential_type)
+  link credential_type.preevent_item.name,
+    edit_admins_event_credential_type_path(event, credential_type)
   parent :admins_event_credential_types, event
 end
 
@@ -189,7 +190,8 @@ crumb :admins_event_company_ticket_types do |event|
 end
 
 crumb :admins_event_company_ticket_type do |event, company_ticket_type|
-  link company_ticket_type.name, edit_admins_event_company_ticket_type_path(event, company_ticket_type)
+  link company_ticket_type.name,
+    edit_admins_event_company_ticket_type_path(event, company_ticket_type)
   parent :admins_event_company_ticket_types, event
 end
 
