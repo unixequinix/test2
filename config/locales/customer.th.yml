@@ -153,6 +153,8 @@ th:
     info:
       line_1: 'Only numbers from "0" to "9"'
       line_2: 'Symbols allowed: "0" - "9" and "A, B, C, D, E, F"'
+  ticket_assignations:
+    button: "Aceptar"
   refund:
     title: "ทำการขอรับเงินคืน"
     description: "กรุณาใส่ข้อมูลบัญชีธนาคารของคุณเพื่อทำการขอรับเงินคืน"

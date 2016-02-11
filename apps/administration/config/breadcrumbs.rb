@@ -203,12 +203,12 @@ end
 ## Customers
 
 crumb :admins_event_customers do |event|
-  link t("breadcrumbs.customer"), admins_event_customers_path(event)
+  link t("breadcrumbs.customers"), admins_event_customers_path(event)
   parent :admins_event, event
 end
 
 crumb :admins_event_customer do |event, customer|
-  link customer.name, admins_event_customer_path(event, customer)
+  link customer.name + " " + customer.surname, admins_event_customer_path(event, customer)
   parent :admins_event_customers, event
 end
 
@@ -235,7 +235,8 @@ crumb :admins_event_customer_event_profiles do |event|
 end
 
 crumb :admins_event_customer_event_profile do |event, customer_event_profile|
-  link customer_event_profile.id, admins_event_customer_path(event, customer_event_profile)
+  link customer_event_profile.customer.name + " " + customer_event_profile.customer.surname,
+       admins_event_customer_path(event, customer_event_profile)
   parent :admins_event_customer_event_profiles, event
 end
 

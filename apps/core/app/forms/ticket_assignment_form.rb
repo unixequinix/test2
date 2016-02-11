@@ -27,6 +27,6 @@ class TicketAssignmentForm
       transaction_type: CreditLog::TICKET_ASSIGNMENT,
       amount: ticket.preevent_product_items_credits.sum(:amount)
     ) if ticket.preevent_product_items_credits.present?
-    return customer_event_profile
+    customer_event_profile
   end
 end

@@ -19,7 +19,7 @@ th:
     new_gtag: "New tag"
     credits: "Credits"
     new_credit: "New credit"
-    customers: "Customer"
+    customers: "Customers"
     new_customer: "New customer"
     new_customer_admission: "Assigning Ticket"
     new_customer_gtag_registration: "Assigning Gtag"

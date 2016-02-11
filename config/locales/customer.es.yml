@@ -155,6 +155,8 @@ es:
     info:
       line_1: 'Sólo números del "0" al "9"'
       line_2: 'Símbolos permitidos: "0" - "9" y "A, B, C, D, E, F"'
+  ticket_assignations:
+    button: "Aceptar"
   refund:
     title: "Pide tu devolución"
     description: "Necesitamos tu cuenta de banco para completar tu devolución."
