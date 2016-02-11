@@ -132,7 +132,7 @@ th:
     button: "การคืนเงิน"
     button_iupay: "IUPAY"
     refund: "กรุณาตรวจสอบรายละเอียดของเครดิตของคุณก่อนทำการติดต่อขอรับเงินคืน"
-  gtag_registrations:
+  gtag_assignations:
     title: "ระบุ %{gtag}"
     description:
       standard: "เพื่อจะทำการขอรับเงินคืน กรุณาระบุหมายเลขบน %{gtag} ของคุณ หมายเลขจะมี 2 บรรทัด"

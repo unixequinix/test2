@@ -134,7 +134,7 @@ es:
     redirect: "Serás redirigido a la pasarela de pago del banco."
     button: "Reembolsar"
     refund: "Por favor, revisa que los créditos a devolver son correctos"
-  gtag_registrations:
+  gtag_assignations:
     title: "Introducir %{gtag}"
     description:
       standard: "Para proceder, debes introducir tu %{gtag} colocando los números que aparecen en tu %{gtag}. Tu %{gtag} debe tener 2 líneas de números."
