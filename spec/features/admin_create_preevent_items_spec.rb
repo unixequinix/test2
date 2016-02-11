@@ -33,8 +33,8 @@ RSpec.feature "Admin create preevent items", type: :feature do
       within(".action-bar-btns") do
         click_link(t("admin.actions.new"))
       end
-      fill_in(t('admin.preevent_item.name'), with: "A name")
-      fill_in(t('admin.preevent_item.description'), with: "An interesting description")
+      fill_in(t("admin.preevent_item.name"), with: "A name")
+      fill_in(t("admin.preevent_item.description"), with: "An interesting description")
       click_on((t("helpers.submit.create", model: "Credential type")))
       expect(page.body).to include(t("alerts.created"))
     end
@@ -44,11 +44,10 @@ RSpec.feature "Admin create preevent items", type: :feature do
       within(".action-bar-btns") do
         click_link(t("admin.actions.new"))
       end
-      fill_in(t('admin.preevent_item.name'), with: "A name")
-      fill_in(t('admin.preevent_item.description'), with: "An interesting description")
+      fill_in(t("admin.preevent_item.name"), with: "A name")
+      fill_in(t("admin.preevent_item.description"), with: "An interesting description")
       click_on((t("helpers.submit.create", model: "Voucher")))
       expect(page.body).to include(t("alerts.created"))
     end
   end
 end
-

@@ -61,7 +61,7 @@ class EventCreator
     params = data.map { |name| [name, product_data[name]] }.to_h
     params.merge!(event: @event,
                   preevent_product_items_attributes: [{ preevent_item: item,
-                                               amount: product_item_data["amount"] }])
+                                                        amount: product_item_data["amount"] }])
     PreeventProduct.create(params)
   end
 end
