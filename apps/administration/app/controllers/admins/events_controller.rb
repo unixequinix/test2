@@ -32,11 +32,11 @@ class Admins::EventsController < Admins::BaseController
 
   def update
     @current_event = Event.friendly.find(params[:id])
-    if @event.update_attributes(permitted_params)
+    if @current_event.update_attributes(permitted_params)
       flash[:notice] = I18n.t("alerts.updated")
       @current_event.slug = nil
       @current_event.save!
-      redirect_to admins_event_url(@event)
+      redirect_to admins_event_url(@current_event)
     else
       flash[:error] = I18n.t("alerts.error")
       render :edit
