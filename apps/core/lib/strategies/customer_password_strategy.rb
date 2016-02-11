@@ -4,7 +4,6 @@ class CustomerPasswordStrategy < ::Warden::Strategies::Base
   end
 
   def authenticate!
-
     customer = Customer.find_by(email: c_attr("email"), event_id: c_attr("event_id"))
     not_ok = !Authentication::Encryptor.compare(customer.encrypted_password, c_attr("password"))
 
@@ -21,5 +20,3 @@ class CustomerPasswordStrategy < ::Warden::Strategies::Base
     params.fetch("customer", {})[attr_name]
   end
 end
-
-

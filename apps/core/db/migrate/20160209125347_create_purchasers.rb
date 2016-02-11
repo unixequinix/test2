@@ -1,5 +1,4 @@
 class CreatePurchasers < ActiveRecord::Migration
-
   class Ticket < ActiveRecord::Base
   end
 
@@ -19,7 +18,7 @@ class CreatePurchasers < ActiveRecord::Migration
 
   def migrate_tickets
     purchasers = Ticket.all.map do |ticket|
-      if(ticket.purchaser_first_name.present? || ticket.purchaser_email.present?)
+      if ticket.purchaser_first_name.present? || ticket.purchaser_email.present?
         Purchaser.new(
           first_name: ticket.purchaser_first_name,
           last_name: ticket.purchaser_last_name,
