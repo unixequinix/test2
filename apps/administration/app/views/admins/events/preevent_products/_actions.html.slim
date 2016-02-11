@@ -1,4 +1,4 @@
-- unless preevent_product.is_immutable?
+- unless preevent_product.immutable?
   ul
     li.table-action.action-delete = link_to admins_event_preevent_product_path(current_event, preevent_product), method: :delete, data: { confirm: t('admin.confirm.delete') } do
       = fa_icon "trash"

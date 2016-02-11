@@ -17,15 +17,19 @@ class Credit < ActiveRecord::Base
   # Associations
   has_one :preevent_item, as: :purchasable, dependent: :destroy
   accepts_nested_attributes_for :preevent_item, allow_destroy: true
+
   scope :standard_credit_preevent_product, lambda { |event|
     joins(preevent_item: :preevent_products)
     .find_by(standard: true,
              preevent_items: { purchasable_type: "Credit", event_id: event.id },
              preevent_products: { preevent_items_count: 1, event_id: event.id })
   }
+
   scope :standard_credit, -> { find_by(standard: true) }
 
-  scope :with_gtag, -> (event) { joins(:gtag_registrations).where(event: event, gtag_registrations: { aasm_state: :assigned }) }
+  scope :with_gtag, lambda { |event|
+    joins(:gtag_registrations).where(event: event, gtag_registrations: { aasm_state: :assigned })
+  }
 
   scope :for_event, lambda { |event|
     includes(:preevent_item).where(preevent_items: { event_id: event.id })

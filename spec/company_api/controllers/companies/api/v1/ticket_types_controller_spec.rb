@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Companies::Api::V1::TicketTypesController, :type => :controller do
+RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
   before(:all) do
     @event = create(:event)
     @company1 = create(:company, event: @event)
@@ -11,7 +11,6 @@ RSpec.describe Companies::Api::V1::TicketTypesController, :type => :controller d
   end
 
   describe "GET index" do
-
     context "when authenticated" do
       before(:each) do
         http_login(@company1.name, @event.token)
@@ -30,7 +29,7 @@ RSpec.describe Companies::Api::V1::TicketTypesController, :type => :controller d
         ticket_types = body["ticket_types"].map { |m| m["name"] }
 
         expect(ticket_types).to match_array(CompanyTicketType.search_by_company_and_event(
-                                                                @company1.name, @event).map(&:name))
+          @company1.name, @event).map(&:name))
       end
     end
 
@@ -89,11 +88,10 @@ RSpec.describe Companies::Api::V1::TicketTypesController, :type => :controller d
       end
 
       context "when the request is valid" do
-
         it "increases the tickets in the database by 1" do
-          expect {
+          expect do
             post :create, ticket_type: attributes_for(:company_ticket_type)
-          }.to change(CompanyTicketType,:count).by(1)
+          end.to change(CompanyTicketType, :count).by(1)
         end
 
         it "returns a 201 status code" do
@@ -135,7 +133,7 @@ RSpec.describe Companies::Api::V1::TicketTypesController, :type => :controller d
 
       context "when the request is valid" do
         before(:each) do
-          @params = { name: "New ticket type"}
+          @params = { name: "New ticket type" }
         end
 
         it "changes ticket type's attributes" do

@@ -19,7 +19,8 @@ class CredentialAssignment < ActiveRecord::Base
 
   # Validations
   validates :customer_event_profile, :credentiable, :aasm_state, presence: true
-  validates :credentiable_id, uniqueness: { scope: :credentiable_type, conditions: -> { where(aasm_state: :assigned) } }
+  validates :credentiable_id, uniqueness: { scope: :credentiable_type,
+                                            conditions: -> { where(aasm_state: :assigned) } }
   # validate :credentiable_belongs_to_current_event
 
   # State machine
@@ -45,6 +46,7 @@ class CredentialAssignment < ActiveRecord::Base
   private
 
   def credentiable_belongs_to_current_event
-    errors.add(credentiable_type, I18n.t("errors.messages.not_belong_to_event")) unless credentiable.event == customer_event_profile.event
+    same_event = credentiable.event == customer_event_profile.event
+    errors.add(credentiable_type, I18n.t("errors.messages.not_belong_to_event")) unless same_event
   end
 end

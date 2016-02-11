@@ -45,5 +45,5 @@
               ul
                 - if credential_assignment.assigned?
                   li.table-action.action-delete
-                    = link_to admins_event_credential_assignment_path(current_event, credential_assignment), method: :delete, data: { confirm: t("admin.confirm.delete") } do
+                    = link_to admins_event_gtag_assignment_path(current_event, credential_assignment), method: :delete, data: { confirm: t("admin.confirm.delete") } do
                       = fa_icon "ban"

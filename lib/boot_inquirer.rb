@@ -9,7 +9,8 @@
 #   ~> ENGINE_BOOT=-m bundle exec rails c
 #   => will boot all engines except marketing
 #
-# The boot flag characters are not necessarily the first letter of each engine name, so check this file if you're using boot flags.
+# The boot flag characters are not necessarily the first letter of each engine name,
+# so check this file if you're using boot flags.
 #
 # When Rails.env is "test" all boot flags are assumed to be present, no matter what you provide.
 

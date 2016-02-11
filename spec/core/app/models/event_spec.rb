@@ -44,11 +44,17 @@ RSpec.describe Event, type: :model do
     customer = create(:customer, event: @event, confirmation_token: nil, confirmed_at: Time.now)
     create(:customer_event_profile, event: @event, customer: customer)
     gtag = create(:gtag, event: @event)
-    create(:credential_assignment, aasm_state: "assigned", credentiable: gtag, customer_event_profile: customer.customer_event_profile)
+    create(:credential_assignment,
+           aasm_state: "assigned",
+           credentiable: gtag,
+           customer_event_profile: customer.customer_event_profile)
     create(:gtag_credit_log, gtag: gtag)
     create(:gtag_credit_log, gtag: gtag)
     gtag2 = create(:gtag, event: @event)
-    create(:credential_assignment, aasm_state: "unassigned", credentiable: gtag2, customer_event_profile: customer.customer_event_profile)
+    create(:credential_assignment,
+           aasm_state: "unassigned",
+           credentiable: gtag2,
+           customer_event_profile: customer.customer_event_profile)
     create(:gtag_credit_log, gtag: gtag2)
   end
 

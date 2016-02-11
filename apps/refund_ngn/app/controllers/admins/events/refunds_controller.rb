@@ -36,7 +36,8 @@ class Admins::Events::RefundsController < Admins::Events::RefundsBaseController
       search_query: params[:q],
       page: params[:page],
       context: view_context,
-      include_for_all_items: [:claim, claim: [:customer_event_profile, customer_event_profile: :customer]]
+      include_for_all_items: [:claim,
+                              claim: [:customer_event_profile, customer_event_profile: :customer]]
     )
   end
 

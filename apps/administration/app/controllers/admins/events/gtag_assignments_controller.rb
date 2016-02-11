@@ -9,8 +9,8 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::CheckinBaseCon
     @customer = @fetcher.customers.with_deleted.find(params[:customer_id])
 
     if @gtag_assignment_form.save(@fetcher.gtags, current_customer_event_profile)
-      flash[:notice] = I18n.t("alerts.created")
-      redirect_to admins_event_customer_url(current_event, @customer)
+      redirect_to admins_event_customer_url(current_event, @customer),
+                  notice: I18n.t("alerts.created")
     else
       flash[:error] = @gtag_assignment_form.errors.full_messages.join
       render :new

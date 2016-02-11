@@ -1,6 +1,2 @@
-module Api
-  module V1
-    class BaseSerializer < ActiveModel::Serializer
-    end
-  end
+class Api::V1::BaseSerializer < ActiveModel::Serializer
 end

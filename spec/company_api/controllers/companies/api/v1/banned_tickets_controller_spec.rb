@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Companies::Api::V1::BannedTicketsController, :type => :controller do
+RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
   before(:all) do
     @event = create(:event)
     @company1 = create(:company, event: @event)
@@ -13,7 +13,6 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, :type => :controller
     5.times { create(:ticket, :banned, event: @event, company_ticket_type: @ticket_type2) }
   end
   describe "GET index" do
-
     context "when authenticated" do
       before(:each) do
         http_login(@company1.name, @event.token)
@@ -58,9 +57,9 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, :type => :controller
         end
 
         it "increases the banned tickets in the database by 1" do
-          expect {
+          expect do
             post :create, tickets_blacklist: { ticket_reference: @ticket.code }
-          }.to change(BannedTicket, :count).by(1)
+          end.to change(BannedTicket, :count).by(1)
         end
 
         it "returns a 201 status code" do
@@ -105,7 +104,6 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, :type => :controller
       end
 
       context "when the request is valid" do
-
         it "removes the ticket from the banned table" do
           delete :destroy, id: @ticket.code
           expect(Ticket.banned.last.code).not_to eq("Glownet")

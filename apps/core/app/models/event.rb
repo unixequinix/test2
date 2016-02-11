@@ -43,67 +43,44 @@ class Event < ActiveRecord::Base
              :gtag_form_disclaimer, :gtag_name, :agreed_event_condition_message,
              fallbacks_for_empty_translations: true
 
-  # Background Types
-  BACKGROUND_FIXED = "fixed"
-  BACKGROUND_REPEAT = "repeat"
-  BACKGROUND_TYPES = [BACKGROUND_FIXED, BACKGROUND_REPEAT]
-
-  # Payment Services
-  REDSYS = "redsys"
-  STRIPE = "stripe"
-  PAYMENT_SERVICES = [REDSYS, STRIPE]
-
-  # TODO: check if these constants should live here or in a view helper
-  REFUND_SERVICES = [:bank_account, :epg, :tipalti]
-  FEATURES = [:top_ups, :refunds]
-  LOCALES = [:en_lang, :es_lang, :it_lang, :th_lang]
-  REGISTRATION_PARAMETERS = [:phone, :address, :city, :country, :postcode, :gender, :birthdate, :agreed_event_condition]
-
-  #
-  GTAG_TYPES = [:mifare_classic, :ultralight_ev1]
-
   include FlagShihTzu
 
   has_flags 1 => :top_ups, 2 => :refunds, column: "features"
   has_flags 1 => :bank_account, 2 => :epg, 3 => :tipalti, column: "refund_services"
-  has_flags 1 => :phone,
-            2 => :address,
-            3 => :city,
-            4 => :country,
-            5 => :postcode,
-            6 => :gender,
-            7 => :birthdate,
-            8 => :agreed_event_condition,
-            column: "registration_parameters"
-
+  has_flags 1 => :phone, 2 => :address, 3 => :city, 4 => :country, 5 => :postcode, 6 => :gender,
+            7 => :birthdate, 8 => :agreed_event_condition, column: "registration_parameters"
   has_flags 1 => :en_lang, 2 => :es_lang, 3 => :it_lang, 4 => :th_lang, column: "locales"
 
   # Associations
   has_many :customer_event_profiles
+  has_many :event_parameters
+  has_many :parameters, through: :event_parameters
   has_many :customers
   has_many :tickets
   has_many :gtags
   has_many :companies
   has_many :transactions
-
-  has_many :tickets_assignments, through: :tickets, source: :credential_assignments, class_name: "CredentialAssignment"
-  has_many :gtags_assignments, through: :gtags,  source: :credential_assignments, class_name: "CredentialAssignment"
-
   has_many :preevent_items
   has_many :credits, through: :preevent_items, source: :purchasable, source_type: "Credit"
+  has_many :tickets_assignments, through: :tickets, source: :credential_assignments,
+                                 class_name: "CredentialAssignment"
+  has_many :gtags_assignments, through: :gtags, source: :credential_assignments,
+                               class_name: "CredentialAssignment"
 
   extend FriendlyId
   friendly_id :name, use: :slugged
 
-  has_attached_file :logo,
-                    path: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:filename",
-                    url: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:basename.:extension",
-                    default_url: ":default_event_image_url"
+  has_attached_file(
+    :logo,
+    path: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:filename",
+    url: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:basename.:extension",
+    default_url: ":default_event_image_url")
 
-  has_attached_file :background,
-                    path: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:filename",
-                    url: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:basename.:extension",
-                    default_url: ":default_event_background_url"
+  has_attached_file(
+    :background,
+    path: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:filename",
+    url: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:basename.:extension",
+    default_url: ":default_event_background_url")
 
   # Hooks
   before_create :generate_token
@@ -117,24 +94,8 @@ class Event < ActiveRecord::Base
   # State machine
   include EventState
 
-  def self.gtag_type_selector
-    GTAG_TYPES.map { |f| [I18n.t("admin.gtag_settings.form." + f.to_s), f] }
-  end
-
-  def self.background_types_selector
-    BACKGROUND_TYPES.map { |f| [I18n.t("admin.event.background_types." + f.to_s), f] }
-  end
-
-  def self.payment_services_selector
-    PAYMENT_SERVICES.map { |f| [I18n.t("admin.event.payment_services." + f.to_s), f] }
-  end
-
-  def standard_credit
-    credits.standard_credit
-  end
-
   def standard_credit_price
-    credits.standard_credit.rounded_value
+    credits.standard_credit.value
   end
 
   def total_credits
@@ -142,30 +103,17 @@ class Event < ActiveRecord::Base
   end
 
   def total_refundable_money(refund_service)
-    fee = refund_fee(refund_service)
-    minimun = refund_minimun(refund_service)
-    standard_price = standard_credit_price
-    gtags.joins(:credential_assignments, :gtag_credit_log)
-      .where("credential_assignments.aasm_state = 'assigned'")
-      .where("((amount * #{standard_price}) - #{fee}) >= #{minimun}")
-      .where("((amount * #{standard_price}) - #{fee}) > 0")
-      .sum("(amount * #{standard_price}) - #{fee}")
+    gtag_query(refund_minimun(refund_service)).sum("(amount * #{standard_credit_price}) - #{fee}")
   end
 
   def total_refundable_gtags(refund_service)
-    fee = refund_fee(refund_service)
-    minimun = refund_minimun(refund_service)
-    gtags.joins(:credential_assignments, :gtag_credit_log)
-      .where("credential_assignments.aasm_state = 'assigned'")
-      .where("((amount * #{standard_credit_price}) - #{fee}) >= #{minimun}")
-      .where("((amount * #{standard_credit_price}) - #{fee}) > 0")
-      .count
+    gtag_query(refund_minimun(refund_service)).count
   end
 
-  # TODO: Improve with decorators
   def get_parameter(category, group, name)
-    parameter = Parameter.find_by(category: category, group: group, name: name)
-    EventParameter.find_by(event_id: id, parameter_id: parameter.id).value
+    event_parameters.includes(:parameter)
+      .find_by(parameters: { category: category, group: group, name: name })
+      .value
   end
 
   def selected_locales_formated
@@ -181,6 +129,14 @@ class Event < ActiveRecord::Base
   end
 
   private
+
+  def gtag_query(min)
+    fee = refund_fee(refund_service)
+    gtags.joins(:credential_assignments, :gtag_credit_log)
+      .where("credential_assignments.aasm_state = 'assigned'")
+      .where("((amount * #{standard_price}) - #{fee}) >= #{min}")
+      .where("((amount * #{standard_price}) - #{fee}) > 0")
+  end
 
   def generate_token
     loop do
