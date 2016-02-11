@@ -20,7 +20,6 @@ class Events::TicketAssignmentsController < Events::BaseController
     @ticket_assignment = CredentialAssignment.find(params[:id])
     @ticket_assignment.unassign!
     ticket = @ticket_assignment.credentiable
-
     @credit_log = CreditLog.create(
       customer_event_profile_id: current_customer_event_profile.id,
       transaction_type: CreditLog::TICKET_UNASSIGNMENT,
