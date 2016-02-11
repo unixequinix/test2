@@ -16,7 +16,7 @@ FactoryGirl.define do
     status_message "OK"
   end
 
-  factory :monetary_transaction, parent: :transaction, class: 'MonetaryTransaction'
-  factory :credential_transaction, parent: :transaction, class: 'CredentialTransaction'
-  factory :access_transaction, parent: :transaction, class: 'AccessTransaction'
+  factory :monetary_transaction, parent: :transaction, class: "MonetaryTransaction"
+  factory :credential_transaction, parent: :transaction, class: "CredentialTransaction"
+  factory :access_transaction, parent: :transaction, class: "AccessTransaction"
 end

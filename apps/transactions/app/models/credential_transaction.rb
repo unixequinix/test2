@@ -58,7 +58,9 @@ class CredentialTransaction < Transaction
     # create Ticket with:
     # => ticket_code
     # => event
-    # => company_ticket_type (retreieved from decoding ticket_code#last and searching for company_code within companies table)
+    # => company_ticket_type (
+    # => retreieved from decoding ticket_code#last and searching for
+    #    company_code within companies table)
     Ticket.create! code: ticket_code,
                    event: event,
                    company_ticket_type: company_ticket_type
@@ -91,8 +93,9 @@ class CredentialTransaction < Transaction
     # create CredentialAssignment with:
     # => assign gtag (polymorphic on credentiable)
     # => assign customer event profile
+    gtag = Gtag.find_by(event: event, tag_uid: customer_tag_uid)
     CredentialAssignment.create! event: event,
-                                 credentiable: Gtag.find_by(event: event, tag_uid: customer_tag_uid),
+                                 credentiable: gtag,
                                  customer_event_profile: customer_event_profile
   end
 
@@ -114,5 +117,4 @@ class CredentialTransaction < Transaction
   def initialize_balance; end
 
   def generate_monetray_transaction; end
-
 end
