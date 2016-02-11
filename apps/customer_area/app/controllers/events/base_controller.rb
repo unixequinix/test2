@@ -51,6 +51,11 @@ class Events::BaseController < ApplicationController
 
   private
 
+  def fetch_current_event
+    id = params[:event_id] || params[:id]
+    return false unless id
+    @current_event = Event.find_by_slug(id) || Event.find(id) if id
+  end
 
   def write_locale_to_session
     super(current_event.selected_locales_formated)
