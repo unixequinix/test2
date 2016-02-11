@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160208124402) do
+ActiveRecord::Schema.define(version: 20160209133631) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -168,9 +168,6 @@ ActiveRecord::Schema.define(version: 20160208124402) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.datetime "deleted_at",             index: {name: "index_tickets_on_deleted_at"}
-    t.string   "purchaser_email"
-    t.string   "purchaser_first_name"
-    t.string   "purchaser_last_name"
     t.integer  "event_id",               null: false, index: {name: "index_tickets_on_event_id"}, foreign_key: {references: "events", name: "tickets_event_id_fkey", on_update: :no_action, on_delete: :no_action}
     t.boolean  "credential_redeemed",    default: false, null: false
     t.integer  "company_ticket_type_id", index: {name: "fk__tickets_company_ticket_type_id"}, foreign_key: {references: "company_ticket_types", name: "tickets_company_ticket_type_id_fkey", on_update: :no_action, on_delete: :no_action}
@@ -261,7 +258,7 @@ ActiveRecord::Schema.define(version: 20160208124402) do
     t.integer  "preevent_product_id",       null: false, index: {name: "fk__customer_orders_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "fk_customer_orders_preevent_product_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "customer_event_profile_id", null: false, index: {name: "fk__customer_orders_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_customer_orders_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "counter"
-    t.string   "aasm_state",                default: "unredeemed", null: false
+    t.boolean  "redeemed",                  default: false, null: false
     t.datetime "deleted_at",                index: {name: "index_customer_orders_on_deleted_at"}
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
@@ -369,6 +366,18 @@ ActiveRecord::Schema.define(version: 20160208124402) do
     t.datetime "deleted_at",           index: {name: "index_preevent_product_items_on_deleted_at"}
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+  end
+
+  create_table "purchasers", force: :cascade do |t|
+    t.integer  "credentiable_id",       null: false
+    t.string   "credentiable_type",     null: false
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email"
+    t.string   "gtag_delivery_address"
+    t.datetime "deleted_at",            index: {name: "index_purchasers_on_deleted_at"}
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
   create_table "refunds", force: :cascade do |t|

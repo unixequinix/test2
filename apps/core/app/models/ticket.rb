@@ -7,9 +7,6 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  deleted_at             :datetime
-#  purchaser_email        :string
-#  purchaser_first_name   :string
-#  purchaser_last_name    :string
 #  event_id               :integer          not null
 #  credential_redeemed    :boolean          default(FALSE), not null
 #  company_ticket_type_id :integer
@@ -22,6 +19,7 @@ class Ticket < ActiveRecord::Base
   # Associations
   belongs_to :event
   has_many :credential_assignments, as: :credentiable, dependent: :destroy
+  has_one :purchaser, as: :credentiable, dependent: :destroy
   has_one :assigned_ticket_credential,
           -> { where(aasm_state: :assigned) },
           as: :credentiable,
@@ -32,6 +30,8 @@ class Ticket < ActiveRecord::Base
           class_name: "CustomerEventProfile"
   belongs_to :company_ticket_type
   has_one :banned_ticket
+
+  accepts_nested_attributes_for :purchaser, allow_destroy: true
 
   # TODO: Remove comments from tickets
   # has_many :comments, as: :commentable
@@ -61,4 +61,12 @@ class Ticket < ActiveRecord::Base
   scope :banned, lambda {
     Ticket.joins(:banned_ticket)
   }
+
+  def preevent_product_items_credits
+    company_ticket_type
+      .preevent_product
+      .preevent_product_items
+      .joins(:preevent_item)
+      .where(preevent_items: { purchasable_type: "Credit" })
+  end
 end

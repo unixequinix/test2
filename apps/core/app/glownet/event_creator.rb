@@ -56,13 +56,12 @@ class EventCreator
                   preevent_item: preevent_item)
   end
 
-  def create_product(product_data, product_item_data, item)
-    data = %w( name online initial_amount step min_purchasabel max_purchasable price )
+  def create_preevent_product(product_data, product_item_data, item)
+    data = %w( name online initial_amount step min_purchasable max_purchasable price )
     params = data.map { |name| [name, product_data[name]] }.to_h
-    params.merge! event: @event,
-                  product_items_attributes: [{ item: item,
-                                               amount: product_item_data["amount"] }]
-
+    params.merge!(event: @event,
+                  preevent_product_items_attributes: [{ preevent_item: item,
+                                               amount: product_item_data["amount"] }])
     PreeventProduct.create(params)
   end
 end

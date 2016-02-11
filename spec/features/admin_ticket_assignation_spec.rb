@@ -13,8 +13,8 @@ RSpec.feature "Admin Ticket assignation", type: :feature do
                            confirmed_at: Time.now)
 
         admin = create(:admin)
-        login_as(admin, scope: :admin)
         @ticket = create(:ticket, event: @event)
+        login_as(admin, scope: :admin)
       end
 
       it "should be able to assign a valid ticket" do

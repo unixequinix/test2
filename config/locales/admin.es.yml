@@ -229,7 +229,7 @@ es:
       created_at: "Creado el"
       admission: "Registros de tickets"
       search:
-        number: "Ticket barcode number"
+        code: "Ticket barcode number"
         customer: "Email cliente asignado"
         purchaser_email: "Email comprador"
         type: "Tipo"
@@ -248,9 +248,10 @@ es:
         assigned: "Asignación actual"
         unassigned: "Asignación previa"
     purchasers:
-      name: "Nombre comprador"
-      surname: "Apellido comprador"
+      first_name: "Nombre comprador"
+      last_name: "Apellido comprador"
       email: "Email comprador"
+      gtag_delivery_address: "Dirección de envio de Gtag"
     gtags:
       id: "Id"
       tag: "Tag UID"
@@ -375,7 +376,7 @@ es:
     customer_orders:
       id: "Id"
       counter: "Contador"
-      state: "Estado"
+      redeemed: "Canjeado"
       customer_event_profile: "Perfil de cliente"
       preevent_product: "Producto de preventa"
     payments:

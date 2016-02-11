@@ -41,10 +41,12 @@ class Gtag < ActiveRecord::Base
   has_one :completed_claim, -> { where(aasm_state: :completed) }, class_name: "Claim"
   has_many :comments, as: :commentable
   has_many :credential_assignments, as: :credentiable, dependent: :destroy
+  has_one :purchaser, as: :credentiable, dependent: :destroy
   has_one :banned_gtag
   belongs_to :company_ticket_type
 
   accepts_nested_attributes_for :gtag_credit_log, allow_destroy: true
+  accepts_nested_attributes_for :purchaser, allow_destroy: true
 
   # Validations
   validates_uniqueness_of :tag_uid, scope: :event_id

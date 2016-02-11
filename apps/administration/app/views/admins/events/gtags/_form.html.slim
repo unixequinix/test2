@@ -3,6 +3,11 @@
     = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
     = f.input :tag_serial_number, placeholder: true
     = f.input :tag_uid, placeholder: true
+    = f.simple_fields_for :purchaser do |purchaser|
+      = purchaser.input :first_name
+      = purchaser.input :last_name
+      = purchaser.input :email
+      = purchaser.input :gtag_delivery_address
     = f.simple_fields_for :gtag_credit_log do |gcl|
       = gcl.input :amount, placeholder: true
     = f.button :submit, class: "btn btn-primary"

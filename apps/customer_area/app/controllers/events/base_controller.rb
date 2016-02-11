@@ -5,13 +5,10 @@ class Events::BaseController < ApplicationController
   before_action :ensure_customer
   before_action :write_locale_to_session
   before_filter :set_i18n_globals
+  helper_method :current_event
   before_action :authenticate_customer!
   helper_method :current_event
   helper_method :warden, :customer_signed_in?, :current_customer
-
-  def current_event
-    @current_event.decorate || Event.new.decorate
-  end
 
   def warden
     request.env["warden"]

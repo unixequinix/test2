@@ -13,7 +13,7 @@ FactoryGirl.define do
       after(:build) do |product|
         credit = build(:preevent_item_credit, event: product.event)
         product.preevent_product_items << build(:preevent_product_item,
-                                                reevent_product: product,
+                                                preevent_product: product,
                                                 preevent_item: credit)
       end
     end
