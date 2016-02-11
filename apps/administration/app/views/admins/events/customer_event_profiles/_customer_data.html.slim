@@ -1,0 +1,200 @@
+.wrapper-negative-space
+  .container-show
+    dl
+      // TODO Manu: find a better design
+      - if customer_event_profile.customer.deleted?
+        dt.deleted-field = t ("admin.customers.deleted")
+        dd
+
+      dt = t ("admin.customers.email")
+      dd = customer_event_profile.customer.email
+
+      dt = t ("admin.customers.name")
+      dd = customer_event_profile.customer.name
+
+      dt = t ("admin.customers.surname")
+      dd = customer_event_profile.customer.surname
+
+      - if customer_event_profile.active_tickets_assignment
+        - customer_event_profile.active_tickets_assignment.each do |ticket_assigned|
+          dt = t ("admin.customers.tickets")
+          dd
+            = link_to ticket_assigned.credentiable.code, edit_admins_event_ticket_path(current_event, ticket_assigned.credentiable)
+            = " - #{ticket_assigned.credentiable.company_ticket_type.name}"
+            = link_to admins_event_ticket_assignment_path(current_event, ticket_assigned.id), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
+                = fa_icon "trash"
+      - else
+        dt = t ("admin.customers.tickets")
+        dd = t ("admin.defaults.empty_tickets")
+
+      dt = t ("admin.customers.credits")
+      dd = customer_event_profile.credit_logs.sum(:amount)
+
+      - if !customer_event_profile.active_gtag_assignment.nil?
+        dt = t ("admin.customers.gtags")
+        dd
+          = link_to "#{customer_event_profile.active_gtag_assignment.credentiable.tag_serial_number} #{customer_event_profile.active_gtag_assignment.credentiable.tag_uid}", edit_admins_event_gtag_path(current_event, customer_event_profile.active_gtag_assignment.credentiable)
+          = link_to admins_event_gtag_assignment_path(current_event, customer_event_profile.active_gtag_assignment), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
+              = fa_icon "trash"
+        dt = t("admin.customers.gtag_credits")
+        dd = customer_event_profile.active_gtag_assignment.credentiable.gtag_credit_log.amount unless customer_event_profile.active_gtag_assignment.credentiable.gtag_credit_log.nil?
+      - else
+        dt = t ("admin.customers.gtags")
+        dd = t ("admin.defaults.empty_gtags")
+        dt = t("admin.customers.gtag_credits")
+        dt 0.0
+
+      dt = t ("admin.customers.confirmed_at")
+      dd = customer_event_profile.customer.confirmed_at.strftime("%y-%m-%d %H:%M:%S") unless customer_event_profile.customer.confirmed_at.nil?
+
+      dt = t("admin.customers.confirmation_sent_at")
+      dd = customer_event_profile.customer.confirmation_sent_at.strftime("%y-%m-%d %H:%M:%S") unless customer_event_profile.customer.confirmation_sent_at.nil?
+
+
+      dt = t ("admin.customers.sign")
+      dd = customer_event_profile.customer.sign_in_count
+
+      dt = t ("admin.customers.current_sign")
+      dd = customer_event_profile.customer.current_sign_in_at
+
+      dt = t ("admin.customers.last_sign")
+      dd = customer_event_profile.customer.last_sign_in_at
+
+      dt = t ("admin.customers.current_sign_ip")
+      dd = customer_event_profile.customer.current_sign_in_ip
+
+      dt = t ("admin.customers.last_sign_ip")
+      dd = customer_event_profile.customer.last_sign_in_ip
+
+      dt = t ("admin.customers.unconfirmed")
+      dd = customer_event_profile.customer.unconfirmed_email
+
+      dt = t ("admin.customers.deleted_at")
+      dd = customer_event_profile.customer.deleted_at.strftime("%y-%m-%d %H:%M:%S") unless customer_event_profile.customer.deleted_at.nil?
+
+      dt = t ("admin.customers.agreed_event_condition")
+      dd = customer_event_profile.customer.agreed_event_condition
+
+  .container-show
+    - if !customer_event_profile.ticket_assignments.empty?
+      h3
+        = fa_icon "table"
+        = t ("admin.customers.admissions")
+      table.subtable.customer-show-subtable
+        thead
+          tr
+            th = t("admin.customers.ticket")
+            th = t("admin.customers.state")
+            th = t("admin.customers.created_at")
+
+        tbody
+          - customer_event_profile.ticket_assignments.each do |admission|
+            tr
+              td = link_to "#{admission.credentiable.code}", edit_admins_event_ticket_path(current_event, admission.credentiable)
+              td = t("admin.admissions.states.#{admission.aasm_state}")
+              td = admission.created_at.strftime("%y-%m-%d %H:%M:%S")
+    - if !customer_event_profile.credit_logs.empty?
+      h3
+        = fa_icon "table"
+        = t ("admin.customers.creadit_logs")
+      table.subtable.customer-show-subtable
+        thead
+          tr
+            th = t("admin.customers.transactions_type")
+            th = t("admin.customers.amount")
+
+        tbody
+          - customer_event_profile.credit_logs.each do |credit_log|
+            tr
+              td = credit_log.transaction_type
+              td = credit_log.amount
+
+    - if !customer_event_profile.orders.empty?
+      h3
+        = fa_icon "table"
+        = t ("admin.customers.orders")
+      table.orders
+        thead
+          tr
+            th = t("admin.orders.number")
+            th = t("admin.orders.state")
+            th = t("admin.orders.created")
+            th = t("admin.orders.completed")
+        tbody
+          - customer_event_profile.orders.each do |order|
+            tr
+              td data-label=t("admin.orders.number") = link_to order.number, admins_event_order_path(current_event, order)
+              td data-label=t("admin.orders.state") = order.aasm_state
+              td data-label=t("admin.orders.created") = order.created_at.strftime("%y-%m-%d %H:%M:%S")
+              td data-label=t("admin.orders.completed") = order.completed_at.strftime("%y-%m-%d %H:%M:%S") unless order.completed_at.nil?
+
+    - if !customer_event_profile.gtag_assignment.empty?
+      h3
+        = fa_icon "table"
+        = t ("admin.customers.gtag_registrations")
+      table.subtable.customer-show-subtable
+        thead
+          tr
+            th = t("admin.customers.gtag")
+            th = t("admin.customers.state")
+            th = t("admin.customers.created_at")
+        tbody
+          - customer_event_profile.gtag_assignment.each do |credential_gtag|
+            tr
+              td = link_to "#{credential_gtag.credentiable.tag_serial_number} #{credential_gtag.credentiable.tag_uid}", edit_admins_event_gtag_path(current_event, credential_gtag.credentiable)
+              td = t("admin.gtag_registrations.states.#{credential_gtag.aasm_state}")
+              td = credential_gtag.created_at.strftime("%y-%m-%d %H:%M:%S")
+
+    - if !customer_event_profile.claims.empty?
+      h3
+        = fa_icon "table"
+        = t ("admin.customers.claims")
+      table.subtable.customer-show-subtable
+        thead
+          tr
+            th = t("admin.claims.number")
+            th = t("admin.claims.state")
+            th = t("admin.claims.total")
+            th = t("admin.claims.service_type")
+            th = t("admin.claims.created")
+            th = t("admin.claims.completed")
+            th = t("admin.defaults.actions")
+        tbody
+          - customer_event_profile.claims.each do |claim|
+            tr
+              td data-label=t("admin.claims.number") = link_to claim.number, admins_event_claim_path(current_event, claim)
+              td data-label=t("admin.claims.state") = claim.aasm_state
+              td data-label=t("admin.claims.total") = claim.total
+              td data-label=t("admin.claims.service_type") = claim.service_type
+              td data-label=t("admin.claims.created") = claim.created_at.strftime("%y-%m-%d %H:%M:%S")
+              td data-label=t("admin.claims.completed") = claim.completed_at.strftime("%y-%m-%d %H:%M:%S") unless claim.completed_at.nil?
+              td.table-actions-field
+                ul
+                  - if claim.completed?
+                    li.table-action.action-delete
+                      = link_to admins_event_claim_path(current_event, claim, claim: { aasm_state: :cancelled }), method: :patch, data: { confirm: t("admin.confirm.delete") } do
+                        = fa_icon "ban"
+
+    - if !customer_event_profile.completed_claim.nil?
+      h3
+        = fa_icon "table"
+        = t ("admin.customers.refund")
+      table.refunds
+        thead
+          tr
+            th = t("admin.refunds.id")
+            th = t('admin.refunds.amount')
+            th = t('admin.refunds.currency')
+            th = t('admin.refunds.gateway_transaction_number')
+            th = t('admin.refunds.payment_solution')
+            th = t('admin.refunds.status')
+            th = t('admin.refunds.created_at')
+        tbody
+          tr
+            td data-label=t("admin.refunds.id") = link_to (customer_event_profile.completed_claim.refund.id), admins_event_refund_path(current_event, customer_event_profile.completed_claim.refund)
+            td data-label=t('admin.refunds.amount') = customer_event_profile.completed_claim.refund.amount
+            td data-label=t('admin.refunds.currency') = customer_event_profile.completed_claim.refund.currency
+            td data-label=t('admin.refunds.gateway_transaction_number') = customer_event_profile.completed_claim.refund.gateway_transaction_number
+            td data-label=t('admin.refunds.payment_solution') = customer_event_profile.completed_claim.refund.payment_solution
+            td data-label=t('admin.refunds.status') = customer_event_profile.completed_claim.refund.status
+            td data-label=t('admin.refunds.created_at') = customer_event_profile.completed_claim.refund.created_at.strftime("%y-%m-%d %H:%M:%S")

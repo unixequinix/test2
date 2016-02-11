@@ -1,4 +1,4 @@
 ul
-  - if customer.confirmed_at.nil?
+  - if customer.confirmed_at.blank?
     li.table-action.action-delete = link_to resend_confirmation_admins_event_customer_path(event: current_event, id: customer), method: :post, remote: true, data: { confirm: t("admin.confirm.delete") } do
       = fa_icon "send"
