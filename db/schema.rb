@@ -264,6 +264,11 @@ ActiveRecord::Schema.define(version: 20160209133631) do
     t.datetime "updated_at",                null: false
   end
 
+  create_table "devices", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "event_parameters", force: :cascade do |t|
     t.string   "value",        default: "", null: false
     t.integer  "event_id",     null: false, index: {name: "index_event_parameters_on_event_id"}, foreign_key: {references: "events", name: "fk_event_parameters_event_id", on_update: :no_action, on_delete: :no_action}
@@ -386,6 +391,33 @@ ActiveRecord::Schema.define(version: 20160209133631) do
     t.string   "gateway_transaction_number"
     t.string   "payment_solution"
     t.string   "status"
+  end
+
+  create_table "stations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "name"
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.string   "type",                      null: false
+    t.integer  "event_id",                  index: {name: "fk__transactions_event_id"}, foreign_key: {references: "events", name: "fk_transactions_event_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "transaction_type"
+    t.datetime "device_created_at"
+    t.integer  "ticket_id",                 index: {name: "fk__transactions_ticket_id"}, foreign_key: {references: "tickets", name: "fk_transactions_ticket_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "customer_tag_uid"
+    t.string   "operator_tag_uid"
+    t.integer  "station_id",                index: {name: "fk__transactions_station_id"}, foreign_key: {references: "stations", name: "fk_transactions_station_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "device_id",                 index: {name: "fk__transactions_device_id"}, foreign_key: {references: "devices", name: "fk_transactions_device_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "device_uid"
+    t.integer  "preevent_product_id",       index: {name: "fk__transactions_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "fk_transactions_preevent_product_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "customer_event_profile_id", index: {name: "fk__transactions_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_transactions_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "payment_method"
+    t.float    "amount",                    default: 0.0
+    t.string   "status_code"
+    t.string   "status_message"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "vouchers", force: :cascade do |t|

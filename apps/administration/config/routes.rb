@@ -50,6 +50,7 @@ Rails.application.routes.draw do
             delete :destroy_multiple
           end
         end
+        resources :transactions, only: [:index]
         resources :companies, except: :show
         resources :credits, except: :show
         resources :vouchers, except: :show

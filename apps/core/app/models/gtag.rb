@@ -50,7 +50,7 @@ class Gtag < ActiveRecord::Base
 
   # Validations
   validates_uniqueness_of :tag_uid, scope: :event_id
-  validates :tag_uid, :tag_serial_number, presence: true
+  validates :tag_uid, presence: true
 
   # Scope
   scope :selected_data, lambda  { |event_id|

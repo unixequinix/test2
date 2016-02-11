@@ -152,6 +152,7 @@ it:
     confirm:
       delete: "Are you sure?"
     aside:
+      logs: "Logs"
       access: "Access"
       event: "Event"
       details: "Details"

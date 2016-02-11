@@ -1,8 +1,11 @@
 header
   .menu-trigger
     = image_tag ("admin-panel-logo.png")
+    h3.aside-title.first = t("admin.aside.access")
 
   .container-language
+    = link_to t("admin.aside.admins"), admins_admins_path, class: "language-item"
+    span |
     - if I18n.available_locales.length > 1
       - I18n.available_locales.each_with_index do |locale, index|
         = link_to t("event.locales.#{locale}"), change_admins_locale_path("#{locale}"), title: t("event.locales.#{locale}"), class: "language-item #{(' selected' if session[:locale] == "#{locale}")}"

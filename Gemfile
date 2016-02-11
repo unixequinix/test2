@@ -10,6 +10,8 @@ gem 'schema_plus', '~> 2.0.0.pre12'
 gem 'paranoia', '~> 2.0'
 gem 'activerecord-import', '~> 0.11.0'
 gem 'nilify_blanks', '~>1.2.1'
+gem 'activerecord4-redshift-adapter'
+gem 'aws-sdk-rails' # needed for redshift
 
 # Assets
 gem 'jquery-rails', '~> 4.0.3'
@@ -102,6 +104,7 @@ group :development do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', '~> 0.4.1', group: :doc
   gem 'guard-rubocop'
+  gem 'ruby-progressbar'
 end
 
 group :development, :darwin do
@@ -143,6 +146,7 @@ group :test do
   gem 'launchy'
   gem 'shoulda-matchers', '~> 2.8.0', require: false
   gem 'database_cleaner', '~> 1.4.1'
+  gem 'rspec-sidekiq'
 end
 
 group :production, :staging, :demo, :refunds do

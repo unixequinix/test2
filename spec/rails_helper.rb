@@ -89,6 +89,15 @@ RSpec.configure do |config|
   config.include ParametersMacros, type: :feature
   config.include Warden::Test::Helpers
 
+
+  config.expect_with :rspec do |expectations|
+    expectations.include_chain_clauses_in_custom_matcher_descriptions = true
+  end
+
+  config.mock_with :rspec do |mocks|
+    mocks.verify_partial_doubles = true
+  end
+
   # Database cleaner
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
@@ -110,6 +119,7 @@ RSpec.configure do |config|
 
   config.before(:each) do
     DatabaseCleaner.start
+    Sidekiq::Worker.clear_all
   end
 
   config.after(:each) do
