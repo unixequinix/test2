@@ -56,7 +56,7 @@ class CustomerEventProfile < ActiveRecord::Base
   has_one :banned_customer_event_profile
 
   # Validations
-  validates :customer, :event, presence: true
+  validates :event, presence: true
 
   # Scopes
   scope :for_event, -> (event) { where(event: event) }

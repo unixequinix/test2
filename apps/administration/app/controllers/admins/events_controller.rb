@@ -4,8 +4,7 @@ class Admins::EventsController < Admins::BaseController
   end
 
   def show
-    @current_event = Event.friendly.find(params[:id])
-    render layout: "admin_event"
+    @event = Event.friendly.find(params[:id])
   end
 
   def new
@@ -26,8 +25,7 @@ class Admins::EventsController < Admins::BaseController
   end
 
   def edit
-    @current_event = Event.friendly.find(params[:id])
-    render layout: "admin_event"
+    @event = Event.friendly.find(params[:id])
   end
 
   def update

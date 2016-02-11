@@ -253,3 +253,10 @@ crumb :new_admins_event_customer_event_profile_gtag_registration do |event, cust
   link t("breadcrumbs.new_customer_event_profile_gtag_registration")
   parent :admins_event_customer_event_profiles, event, customer_event_profile
 end
+
+## Transactions
+
+crumb :admins_event_transactions do |event|
+  link "Transactions", admins_event_transactions_path(event)
+  parent :admins_event, event
+end

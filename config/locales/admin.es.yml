@@ -152,6 +152,7 @@ es:
     confirm:
       delete: "Estás seguro?"
     aside:
+      logs: "Logs"
       access: "Acceso"
       event: "Evento"
       details: "Detalles"

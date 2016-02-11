@@ -1,22 +1,3 @@
-# == Schema Information
-#
-# Table name: preevent_products
-#
-#  id                   :integer          not null, primary key
-#  event_id             :integer          not null
-#  name                 :string
-#  online               :boolean          default(FALSE), not null
-#  initial_amount       :integer
-#  step                 :integer
-#  max_purchasable      :integer
-#  min_purchasable      :integer
-#  price                :decimal(, )
-#  deleted_at           :datetime
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#  preevent_items_count :integer          default(0), not null
-#
-
 FactoryGirl.define do
   factory :preevent_product do
     event
@@ -72,6 +53,11 @@ FactoryGirl.define do
       credit_product
       credential_product
       voucher_product
+    end
+
+    after(:build) do |preevent_product|
+      return unless preevent_product.preevent_items.count.zero?
+      preevent_product.preevent_product_items << build(:preevent_product_item)
     end
   end
 end

@@ -5,11 +5,6 @@ class Admins::BaseController < ApplicationController
   before_action :write_locale_to_session
   before_action :authenticate_admin!
   helper_method :warden, :admin_signed_in?, :current_admin
-  helper_method :current_event
-
-  def current_event
-    @current_event.decorate || Event.new.decorate
-  end
 
   def warden
     request.env["warden"]

@@ -13,7 +13,7 @@ html [lang=I18n.locale]
     .wrapper-main
       #notifications
         = render 'notifications'
-      = render 'admins/shared/sidepanel', event: current_event
+      = render 'admins/shared/sidepanel', event: @current_event
       .container-main.container-event
         = render 'admins/shared/header'
         = render 'admins/shared/action_bar'
