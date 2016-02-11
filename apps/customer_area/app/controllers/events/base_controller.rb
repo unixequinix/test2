@@ -9,10 +9,6 @@ class Events::BaseController < ApplicationController
   before_action :authenticate_customer!
   helper_method :warden, :customer_signed_in?, :current_customer
 
-  def current_event
-    @current_event.decorate || Event.new.decorate
-  end
-
   def warden
     request.env["warden"]
   end
@@ -50,12 +46,6 @@ class Events::BaseController < ApplicationController
   helper_method :current_customer_event_profile
 
   private
-
-  def fetch_current_event
-    id = params[:event_id] || params[:id]
-    return false unless id
-    @current_event = Event.find_by_slug(id) || Event.find(id) if id
-  end
 
   def write_locale_to_session
     super(current_event.selected_locales_formated)
