@@ -5,17 +5,7 @@ class Admins::Events::BaseController < Admins::BaseController
   before_filter :enable_fetcher
   helper_method :current_event
 
-  def current_event
-    @current_event.decorate || Event.new.decorate
-  end
-
   private
-
-  def fetch_current_event
-    id = params[:event_id] || params[:id]
-    return false unless id
-    @current_event = Event.find_by_slug(id) || Event.find(id) if id
-  end
 
   def enable_fetcher
     @fetcher = Multitenancy::AdministrationFetcher.new(current_event)

@@ -7,7 +7,6 @@ class Events::BaseController < ApplicationController
   before_filter :set_i18n_globals
   helper_method :current_event
   before_action :authenticate_customer!
-  helper_method :current_event
   helper_method :warden, :customer_signed_in?, :current_customer
 
   def warden
@@ -47,7 +46,6 @@ class Events::BaseController < ApplicationController
   helper_method :current_customer_event_profile
 
   private
-
 
   def write_locale_to_session
     super(current_event.selected_locales_formated)

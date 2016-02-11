@@ -76,6 +76,27 @@ header {
   }
 }
 
+.container-preferences {
+  height: modules(2);
+  padding: modules(0.25) modules(3) modules(0.25) modules(0.25);
+  text-align: left;
+
+  span {
+    display: none;
+    padding: modules(0.25);
+    color: $dark_blue;
+
+    @include min-screen($bp3){ display: inline-block; vertical-align: top; padding-top: 0; }
+  }
+
+  .selected {
+    color: $white;
+    text-shadow: none;
+
+    &:hover { color: $white; }
+  }
+}
+
 .language-item  {
   @include transition(color 150ms linear);
   display: none;

@@ -11,7 +11,7 @@ class Events::GtagAssignmentsController < Events::BaseController
 
     unless @gtag_assignment_form.save(Gtag.where(event: current_event),
                                       current_customer_event_profile)
-      flash[:error] = @gtag_assignment_form.errors.full_messages.join
+      flash.now[:error] = @gtag_assignment_form.errors.full_messages.join
       @gtag_assignment_presenter = GtagAssignmentPresenter.new(current_event: current_event)
       render :new
     end
@@ -32,8 +32,7 @@ class Events::GtagAssignmentsController < Events::BaseController
 
   def check_event_status!
     return if current_event.gtag_assignation?
-    flash.now[:error] = I18n.t("alerts.error")
-    redirect_to event_url(current_event)
+    redirect_to event_url(current_event), flash: { error: I18n.t("alerts.error") }
   end
 
   def check_has_not_gtag_assignment!

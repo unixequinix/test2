@@ -134,7 +134,7 @@ en:
     button: "Refund"
     button_iupay: "IUPAY"
     refund: "Please, review your credits to proceed refund"
-  gtag_registrations:
+  gtag_assignations:
     title: "Assign %{gtag}"
     description:
       standard: "In order to proceed assign the number as appears in your %{gtag}. The number consists of 2 lines."

@@ -17,7 +17,6 @@
 #  paid_at            :datetime
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  last4              :string
 #
 
 class Payment < ActiveRecord::Base

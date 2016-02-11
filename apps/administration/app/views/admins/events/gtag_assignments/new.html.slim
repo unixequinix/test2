@@ -6,9 +6,9 @@
   .wrapper-negative-space
     = f.hidden_field :customer_id, value: @customer.id
     .input
-      = f.label t('admin.gtag_registrations.serial')
-      = f.text_field :tag_serial_number, placeholder: t('gtag_registrations.placeholders.standard.line_1')
+      = f.label t('admin.gtag_assignations.serial')
+      = f.text_field :tag_serial_number, placeholder: t('gtag_assignations.placeholders.standard.line_1')
     .input
-      = f.label t('admin.gtag_registrations.tag')
-      = f.text_field :tag_uid, placeholder: t('gtag_registrations.placeholders.standard.line_2')
-    = f.submit t('gtag_registrations.button'), class: "btn btn-primary"
+      = f.label t('admin.gtag_assignations.tag')
+      = f.text_field :tag_uid, placeholder: t('gtag_assignations.placeholders.standard.line_2')
+    = f.submit t('gtag_assignations.button'), class: "btn btn-primary"
