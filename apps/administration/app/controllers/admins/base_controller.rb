@@ -5,10 +5,16 @@ class Admins::BaseController < ApplicationController
   before_action :write_locale_to_session
   before_action :authenticate_admin!
   helper_method :warden, :admin_signed_in?, :current_admin
+  before_action :fetch_current_event
   helper_method :current_event
 
   def current_event
     @current_event.decorate || Event.new.decorate
+  end
+
+  def fetch_current_event
+    id = params[:id]
+    @current_event = Event.find_by_slug(id) || Event.find(id) if id
   end
 
   def warden
