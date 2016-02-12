@@ -302,7 +302,7 @@ es:
       creadit_logs: "Compras de creditos"
       orders: "Ordenes"
       payments: "Pagos"
-      gtag_registrations: "Registro de Gtags"
+      gtag_assignments: "Registro de Gtags"
       completed_claim: "Peticiones de devolución completadas"
       refund: "Refund"
       claims: "Peticiones de devolución"
@@ -328,7 +328,7 @@ es:
         email: "Email"
         confirmed: "¿Confirmado?"
         tickets: "¿Tickets?"
-        gtag_registrations: "¿Gtags?"
+        gtag_assignments: "¿Gtags?"
         credits_purchased: "¿Créditos Comprados?"
     claims:
       number: "Número"
