@@ -95,7 +95,7 @@ class Event < ActiveRecord::Base
   include EventState
 
   def standard_credit_price
-    credits.standard_credit.value
+    standard_credit.value
   end
 
   def total_credits
