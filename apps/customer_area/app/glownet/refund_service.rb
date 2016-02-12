@@ -5,7 +5,6 @@ class RefundService
   end
 
   def create(params)
-    binding.pry
     refund = Refund.new(claim_id: @claim.id, amount: params[:amount], currency: params[:currency],
                         message: params[:message], operation_type: params[:operation_type],
                         gateway_transaction_number: params[:gateway_transaction_number],
