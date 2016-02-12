@@ -29,10 +29,6 @@ class Credit < ActiveRecord::Base
     joins(:preevent_item).where(standard: true, preevent_items: { event_id: event.id })
   }
 
-  scope :with_gtag, lambda { |event|
-    joins(:gtag_registrations).where(event: event, gtag_registrations: { aasm_state: :assigned })
-  }
-
   scope :for_event, lambda { |event|
     includes(:preevent_item).where(preevent_items: { event_id: event.id })
   }
