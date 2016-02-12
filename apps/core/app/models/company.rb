@@ -11,9 +11,5 @@
 
 class Company < ActiveRecord::Base
   has_many :company_ticket_types
-  has_one :mondonger,
-          -> (object) { where("name = ?", object.yeah) },
-          class_name: "CompanyTicketType"
-
   belongs_to :event
 end

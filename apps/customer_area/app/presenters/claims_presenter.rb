@@ -48,25 +48,25 @@ class ClaimsPresenter < BasePresenter
   end
 
   def refund_snippets
-    refund_services.each do |refund_service|
-      method("snippet_#{refund_status}").call(refund_service)
+    actions = ""
+    if any_refundable_method?
+      refund_services.each do |refund_service|
+        refundable = refundable?(refund_service) ? "refundable" : "not_refundable"
+        actions << method("snippet_#{refundable}").call(refund_service)
+      end
     end
-    nil
-  end
-
-  def snippet_without_refunds
-  end
-
-  def snippet_refunds(refund_service)
-    context.link_to(action_name(refund_service),
-                            context.send("new_event_#{refund_service}_claim_path", @event),
-                            class: "btn btn-refund-method")
+    actions
   end
 
   def snippet_not_refundable(refund_service)
     context.content_tag("a", action_name(refund_service),
-                                class: "btn btn-refund-method btn-blocked",
-                                disabled: !refundable?(refund_service))
+                        class: "btn btn-refund-method btn-blocked",
+                        disabled: !refundable?(refund_service))
   end
 
+  def snippet_refundable(refund_service)
+    context.link_to(action_name(refund_service),
+                    context.send("new_event_#{refund_service}_claim_path", @event),
+                    class: "btn btn-refund-method")
+  end
 end
