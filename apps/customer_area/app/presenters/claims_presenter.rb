@@ -49,7 +49,7 @@ class ClaimsPresenter < BasePresenter
 
   def refund_snippets
     actions = ""
-    if any_refundable_method?
+    if any_refundable_method? && !completed_claim?
       refund_services.each do |refund_service|
         refundable = refundable?(refund_service) ? "refundable" : "not_refundable"
         actions << method("snippet_#{refundable}").call(refund_service)
