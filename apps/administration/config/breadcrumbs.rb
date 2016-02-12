@@ -222,8 +222,8 @@ crumb :new_admins_event_customer_admission do |event, customer|
   parent :admins_event_customers, event, customer
 end
 
-crumb :new_admins_event_customer_gtag_registration do |event, customer|
-  link t("breadcrumbs.new_customer_gtag_registration")
+crumb :new_admins_event_customer_gtag_assignation do |event, customer|
+  link t("breadcrumbs.new_customer_gtag_assignation")
   parent :admins_event_customers, event, customer
 end
 
@@ -243,16 +243,6 @@ end
 crumb :new_admins_event_customer_event_profile do |event|
   link t("breadcrumbs.new_customer_event_profile")
   parent :admins_event_customer_event_profiles, event
-end
-
-crumb :new_admins_event_customer_event_profile_admission do |event, customer_event_profile|
-  link t("breadcrumbs.new_customer_event_profile_admission")
-  parent :admins_event_customer_event_profiles, event, customer_event_profile
-end
-
-crumb :new_admins_event_customer_event_profile_gtag_registration do |event, customer_event_profile|
-  link t("breadcrumbs.new_customer_event_profile_gtag_registration")
-  parent :admins_event_customer_event_profiles, event, customer_event_profile
 end
 
 ## Transactions
