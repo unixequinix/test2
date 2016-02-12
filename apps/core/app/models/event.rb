@@ -103,11 +103,12 @@ class Event < ActiveRecord::Base
   end
 
   def total_refundable_money(refund_service)
-    gtag_query(refund_minimun(refund_service)).sum("(amount * #{standard_credit_price}) - #{fee}")
+    fee = refund_fee(refund_service)
+    gtag_query(refund_service).sum("(amount * #{standard_credit_price}) - #{fee}")
   end
 
   def total_refundable_gtags(refund_service)
-    gtag_query(refund_minimun(refund_service)).count
+    gtag_query(refund_service).count
   end
 
   def get_parameter(category, group, name)
@@ -130,12 +131,13 @@ class Event < ActiveRecord::Base
 
   private
 
-  def gtag_query(min)
+  def gtag_query(refund_service)
     fee = refund_fee(refund_service)
+    min = refund_minimun(refund_service)
     gtags.joins(:credential_assignments, :gtag_credit_log)
       .where("credential_assignments.aasm_state = 'assigned'")
-      .where("((amount * #{standard_price}) - #{fee}) >= #{min}")
-      .where("((amount * #{standard_price}) - #{fee}) > 0")
+      .where("((amount * #{standard_credit_price}) - #{fee}) >= #{min}")
+      .where("((amount * #{standard_credit_price}) - #{fee}) > 0")
   end
 
   def generate_token
