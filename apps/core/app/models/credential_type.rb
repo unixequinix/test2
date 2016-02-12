@@ -23,7 +23,7 @@ class CredentialType < ActiveRecord::Base
   private
 
   def set_memory_position
-    self.memory_position = last_position
+    self.memory_position = last_position if id.nil?
   end
 
   def last_position
