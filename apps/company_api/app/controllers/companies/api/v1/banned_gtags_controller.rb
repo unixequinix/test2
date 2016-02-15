@@ -10,20 +10,13 @@ class Companies::Api::V1::BannedGtagsController < Companies::Api::V1::BaseContro
   end
 
   def create
-    @banned_gtag = BannedGtag.new(banned_gtag_params)
+    @gtag = Gtag.find_by(tag_uid: params[:gtags_blacklist][:tag_uid])
 
-    assign = CredentialAssignment.find_by(credentiable_id: banned_gtag_params[:gtag_id],
-                                          credentiable_type: "Gtag")
+    render(status: :bad_request,
+           json: { message: I18n.t("company_api.gtags.bad_request") }) && return unless @gtag
 
-    BannedCustomerEventProfile.new(assign.customer_event_profile_id) unless assign.nil?
-
-    if @banned_gtag.save
-      render status: :created, json: @banned_gtag.gtag,
-             serializer: Companies::Api::V1::GtagSerializer
-    else
-      render status: :bad_request, json: { message: I18n.t("company_api.gtags.bad_request"),
-                                           errors: @banned_gtag.errors }
-    end
+    @gtag.ban!
+    render(status: :created, json: @gtag, serializer: Companies::Api::V1::GtagSerializer)
   end
 
   def destroy
@@ -35,13 +28,5 @@ class Companies::Api::V1::BannedGtagsController < Companies::Api::V1::BaseContro
     render(status: :internal_server_error, json: :internal_server_error) &&
       return unless @banned_gtag.destroy
     render(status: :no_content, json: :no_content)
-  end
-
-  private
-
-  def banned_gtag_params
-    gtag_id = Gtag.select(:id).find_by(tag_uid: params[:gtags_blacklist][:tag_uid])
-    params[:gtags_blacklist][:gtag_id] = gtag_id.id if gtag_id.present?
-    params.require(:gtags_blacklist).permit(:gtag_id)
   end
 end

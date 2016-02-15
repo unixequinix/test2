@@ -4,7 +4,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
   before do
     @event = create :event
     10.times do
-      create(:ticket, event: @event)
+      create(:ticket, :with_purchaser, event: @event)
     end
   end
 

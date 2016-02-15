@@ -54,13 +54,19 @@ class Ticket < ActiveRecord::Base
   }
 
   scope :search_by_company_and_event, lambda { |company, event|
-    includes(:company_ticket_type, company_ticket_type: [:company])
+    includes(:purchaser, :company_ticket_type, company_ticket_type: [:company])
       .where(event: event, companies: { name: company })
   }
 
   scope :banned, lambda {
     Ticket.joins(:banned_ticket)
   }
+
+  def ban!
+    assignment = CredentialAssignment.find_by(credentiable_id: id, credentiable_type: "Ticket")
+    BannedCustomerEventProfile.new(assign.customer_event_profile_id) unless assignment.nil?
+    BannedTicket.create!(ticket_id: id)
+  end
 
   def preevent_product_items_credits
     company_ticket_type
