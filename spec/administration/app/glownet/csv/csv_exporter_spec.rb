@@ -53,18 +53,17 @@ RSpec.describe Csv::CsvExporter, type: :domain_logic do
         expect(number_of_records_in_csv(@csv_file)).to be(Claim.count)
       end
       it "should be able to export to a file" do
-        header = "id,service_type,name,surname,email,tag_uid,tag_serial_number,amount,iban,swift\n"
-        first_line = "1,bank_account,Diana Mayorga Zamora  ,Carmona,gustavo.orosco@garibay.es,
-                      4OBXCHS2FT,MIUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n"
-        second_line = "2,bank_account,Paco Lopez Jones,Ojeda,paco.ojeda@eresmas.es,
-                      5OBXCHS2FT,MOUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n"
-        third_line = "3,bank_account,Diana Mayorga Zamora  ,Carmona,gustavo.orosco@garibay.es,
-                      4OBXCHS2FT,MIUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n"
-        fourth_line = "4,bank_account,Paco Lopez Jones,Ojeda,paco.ojeda@eresmas.es,5OBXCHS2FT,
-                      MOUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n"
-        fifth_line = "5,bank_account,Diana Mayorga Zamora  ,Carmona,gustavo.orosco@garibay.es,
-                      4OBXCHS2FT,MIUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n"
-        csv = header << first_line << second_line << third_line << fourth_line << fifth_line
+        csv = "id,service_type,name,surname,email,tag_uid,tag_serial_number,amount,iban,swift\n" <<
+              "1,bank_account,Diana Mayorga Zamora  ,Carmona,gustavo.orosco@garibay.es," <<
+                "4OBXCHS2FT,MIUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n" <<
+              "2,bank_account,Paco Lopez Jones,Ojeda,paco.ojeda@eresmas.es," <<
+                "5OBXCHS2FT,MOUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n" <<
+              "3,bank_account,Diana Mayorga Zamora  ,Carmona,gustavo.orosco@garibay.es," <<
+                "4OBXCHS2FT,MIUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n" <<
+              "4,bank_account,Paco Lopez Jones,Ojeda,paco.ojeda@eresmas.es,5OBXCHS2FT," <<
+                "MOUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n" <<
+              "5,bank_account,Diana Mayorga Zamora  ,Carmona,gustavo.orosco@garibay.es," <<
+                "4OBXCHS2FT,MIUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n"
         expect(@csv_file).to eq(csv)
       end
     end
