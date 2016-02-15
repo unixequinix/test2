@@ -7,7 +7,7 @@ RSpec.describe Transaction, type: :model do
 
   context ".write" do
     let(:klass) { MonetaryTransaction }
-    let(:atts) { { transaction_type: "refund", amount: 2.2 } }
+    let(:atts) { { transaction_type: "refund", customer_tag_uid: "TEST12345"} }
     subject(:result) { Transaction.write("monetary", atts) }
 
     it { is_expected.to be_a_kind_of(klass) }
@@ -19,7 +19,7 @@ RSpec.describe Transaction, type: :model do
     end
 
     it "writes the parameters passed" do
-      expect(result.amount).to eq(2.2)
+      expect(result.customer_tag_uid).to eq("TEST12345")
     end
 
     it "should call asynchronously .execute_actions" do
