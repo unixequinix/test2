@@ -1,4 +1,4 @@
-set :branch, "development"
+set :branch, "purchasers_infrastructure"
 set :rails_env, "sandbox"
 
 # Link certification folder
