@@ -60,13 +60,19 @@ class Gtag < ActiveRecord::Base
   }
 
   scope :search_by_company_and_event, lambda { |company, event|
-    includes(:company_ticket_type, company_ticket_type: [:company])
+    includes(:purchaser, :company_ticket_type, company_ticket_type: [:company])
       .where(event: event, companies: { name: company })
   }
 
   scope :banned, lambda {
     joins(:banned_gtag)
   }
+
+  def ban!
+    assignment = CredentialAssignment.find_by(credentiable_id: id, credentiable_type: "Gtag")
+    BannedCustomerEventProfile.new(assign.customer_event_profile_id) unless assignment.nil?
+    BannedGtag.create!(gtag_id: id)
+  end
 
   def refundable_amount
     current_event = event
@@ -97,7 +103,7 @@ class Gtag < ActiveRecord::Base
   private
 
   def upcase_gtag!
-    tag_uid.upcase!
-    tag_serial_number.upcase!
+    tag_uid.upcase! if tag_uid
+    tag_serial_number.upcase! if tag_serial_number
   end
 end
