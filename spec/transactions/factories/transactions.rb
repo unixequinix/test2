@@ -4,7 +4,6 @@ FactoryGirl.define do
     station
     device
     customer_event_profile
-    preevent_product
     transaction_type { Faker::Lorem.word }
     device_created_at { Time.now }
     customer_tag_uid { Faker::Lorem.word }
