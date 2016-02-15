@@ -24,7 +24,8 @@ RSpec.feature "Admin Ticket assignation", type: :feature do
         end
         find("a", text: t("admin.actions.assign_ticket")).click
         fill_in("Event Ticket Code Number", with: @ticket.code)
-        click_on(t("gtag_registrations.button"))
+        I18n.locale = :es
+        click_on(t("gtag_assignations.button"))
         expect(page.body).to include(@ticket.code)
       end
 
@@ -35,7 +36,8 @@ RSpec.feature "Admin Ticket assignation", type: :feature do
         end
         find("a", text: t("admin.actions.assign_ticket")).click
         fill_in("Event Ticket Code Number", with: "invalid number")
-        click_on(t("gtag_registrations.button"))
+        I18n.locale = :es
+        click_on(t("gtag_assignations.button"))
         expect(page.body).not_to include(@ticket.code)
       end
     end

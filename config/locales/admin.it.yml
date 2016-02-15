@@ -286,6 +286,7 @@ it:
       states:
         assigned: "Is assigned now"
         unassigned: "Previous assignation"
+      button: "Accetto"
     customers:
       delete: "Deleted"
       email: "Email"

@@ -286,6 +286,7 @@ es:
       states:
         assigned: "Asignación actual"
         unassigned: "Asignación previa"
+      button: "Aceptar"
     customers:
       delete: "Borrado"
       email: "Email"
