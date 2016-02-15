@@ -20,7 +20,7 @@ require "rails_helper"
 
 RSpec.describe Claim, type: :model do
   describe "Claim.selected_data" do
-    it "should prepare the rows with the default columns and the extra columns for a csv exportation" do
+    it "prepares the rows with the default columns and the extra columns for a csv exportation" do
       gtag = create(:gtag)
       event = gtag.event
       customer = create(:customer, event: event)

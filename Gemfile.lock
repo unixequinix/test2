@@ -46,6 +46,12 @@ PATH
     refund_ngn (0.0.1)
       rails (~> 4.2.1)
 
+PATH
+  remote: apps/transactions
+  specs:
+    transactions (0.0.1)
+      rails (~> 4.2.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -83,6 +89,9 @@ GEM
       arel (~> 6.0)
     activerecord-import (0.11.0)
       activerecord (>= 3.0)
+    activerecord4-redshift-adapter (0.2.1)
+      activerecord (~> 4.2.0)
+      pg
     activesupport (4.2.1)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
@@ -103,6 +112,9 @@ GEM
       aws-sdk-resources (= 2.1.0)
     aws-sdk-core (2.1.0)
       jmespath (~> 1.0)
+    aws-sdk-rails (1.0.0)
+      aws-sdk-resources (~> 2)
+      rails (>= 3)
     aws-sdk-resources (2.1.0)
       aws-sdk-core (= 2.1.0)
     aws-sdk-v1 (1.64.0)
@@ -153,6 +165,8 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-slow_finder_errors (0.1.2)
+      capybara (~> 2.0)
     celluloid (0.16.0)
       timers (~> 4.0.0)
     childprocess (0.5.7)
@@ -161,6 +175,7 @@ GEM
     chronic (0.10.2)
     climate_control (0.0.3)
       activesupport (>= 3.0)
+    cliver (0.3.2)
     cocaine (0.5.7)
       climate_control (>= 0.0.3, < 1.0)
     coderay (1.1.0)
@@ -196,6 +211,11 @@ GEM
     docile (1.1.5)
     domain_name (0.5.25)
       unf (>= 0.0.5, < 1.0.0)
+    draper (2.1.0)
+      actionpack (>= 3.0)
+      activemodel (>= 3.0)
+      activesupport (>= 3.0)
+      request_store (~> 1.0)
     equalizer (0.0.11)
     erubis (2.7.0)
     execjs (2.5.2)
@@ -327,6 +347,11 @@ GEM
       activesupport (>= 3.0)
       countries (~> 0.8, >= 0.8.2)
       phony (~> 2.12)
+    poltergeist (1.9.0)
+      capybara (~> 2.1)
+      cliver (~> 0.3.1)
+      multi_json (~> 1.0)
+      websocket-driver (>= 0.2.0)
     polyamorous (1.2.0)
       activerecord (>= 3.0)
     powerpack (0.1.1)
@@ -377,7 +402,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rainbow (2.0.0)
-    rake (10.4.2)
+    rake (10.5.0)
     ransack (1.6.6)
       actionpack (>= 3.0)
       activerecord (>= 3.0)
@@ -396,6 +421,7 @@ GEM
       uber (~> 0.0.11)
     representable (2.3.0)
       uber (~> 0.0.7)
+    request_store (1.3.0)
     rest-client (1.8.0)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
@@ -427,6 +453,9 @@ GEM
       rspec-expectations (~> 3.2.0)
       rspec-mocks (~> 3.2.0)
       rspec-support (~> 3.2.0)
+    rspec-sidekiq (2.2.0)
+      rspec (~> 3.0, >= 3.0.0)
+      sidekiq (>= 2.4.0)
     rspec-support (3.2.2)
     rubocop (0.30.1)
       astrolabe (~> 1.3)
@@ -575,6 +604,9 @@ GEM
     warden (1.2.3)
       rack (>= 1.0)
     websocket (1.2.2)
+    websocket-driver (0.6.3)
+      websocket-extensions (>= 0.1.0)
+    websocket-extensions (0.1.2)
     whenever (0.9.4)
       chronic (>= 0.6.3)
     xpath (2.0.0)
@@ -587,11 +619,13 @@ DEPENDENCIES
   aasm (~> 4.1.0)
   active_model_serializers (~> 0.9.3)
   activerecord-import (~> 0.11.0)
+  activerecord4-redshift-adapter
   acts_as_list
   administration!
   annotate (~> 2.6.10)
   api!
   aws-sdk (~> 2)
+  aws-sdk-rails
   aws-sdk-v1
   bcrypt (~> 3.1.10)
   better_errors (~> 2.1.1)
@@ -606,12 +640,14 @@ DEPENDENCIES
   capistrano-rbenv (~> 2.0.3)
   capistrano-sidekiq (~> 0.5.3)
   capybara (~> 2.4.4)
+  capybara-slow_finder_errors
   company_api!
   core!
   country_select (~> 2.2.0)
   customer_area!
   dalli (~> 2.7.4)
   database_cleaner (~> 1.4.1)
+  draper (~> 2.0)
   factory_girl_rails (~> 4.5.0)
   faker (~> 1.4.3)
   flag_shih_tzu (~> 0.3.13)
@@ -642,6 +678,7 @@ DEPENDENCIES
   payment_ngn!
   pg (~> 0.18.1)
   phony_rails (~> 0.12.8)
+  poltergeist
   pry-rails
   quiet_assets (~> 1.1.0)
   rack-cors
@@ -656,8 +693,10 @@ DEPENDENCIES
   rspec-activemodel-mocks
   rspec-mocks
   rspec-rails (~> 3.2.1)
+  rspec-sidekiq
   rubocop (~> 0.30.1)
   rubocop-checkstyle_formatter
+  ruby-progressbar
   sass-rails (~> 5.0.3)
   schema_plus (~> 2.0.0.pre12)
   sdoc (~> 0.4.1)
@@ -672,6 +711,7 @@ DEPENDENCIES
   spring-commands-rspec (~> 1.0.4)
   stripe (~> 1.31.0)
   therubyracer (~> 0.12.2)
+  transactions!
   turbolinks (~> 2.5.3)
   uglifier (~> 2.7.1)
   validate_nz_bank_acc (~> 0.0.3)

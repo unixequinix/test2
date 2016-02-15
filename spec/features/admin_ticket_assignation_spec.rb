@@ -7,11 +7,14 @@ RSpec.feature "Admin Ticket assignation", type: :feature do
         @event_creator = EventCreator.new(event_to_hash_parameters(build(:event)))
         @event_creator.save
         @event = @event_creator.event
-        @customer = create(:customer, event: @event, confirmation_token: nil, confirmed_at: Time.now)
+        @customer = create(:customer,
+                           event: @event,
+                           confirmation_token: nil,
+                           confirmed_at: Time.now)
 
         admin = create(:admin)
-        login_as(admin, scope: :admin)
         @ticket = create(:ticket, event: @event)
+        login_as(admin, scope: :admin)
       end
 
       it "should be able to assign a valid ticket" do

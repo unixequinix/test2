@@ -13,7 +13,7 @@
       = fa_icon "cogs"
       = t("admin.event.fieldests.device")
 
-    = f.input :gtag_type, as: :select, collection: Event.gtag_type_selector, include_blank: false
+    = f.input :gtag_type, as: :select, collection: EventDecorator.gtag_type_selector, include_blank: false
     = f.input :maximum_gtag_balance
 
   fieldset

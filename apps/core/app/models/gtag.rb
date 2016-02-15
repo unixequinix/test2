@@ -27,23 +27,30 @@ class Gtag < ActiveRecord::Base
 
   # Associations
   belongs_to :event
-  has_one :assigned_gtag_credential, -> { where(aasm_state: :assigned) }, as: :credentiable, class_name: "CredentialAssignment"
+  has_one :assigned_gtag_credential,
+          -> { where(aasm_state: :assigned) },
+          as: :credentiable,
+          class_name: "CredentialAssignment"
   has_many :customer_event_profiles, through: :credential_assignments
-  has_one :assigned_customer_event_profile, -> { where(credential_assignments: { aasm_state: :assigned }) }, class_name: "CredentialAssignment"
+  has_one :assigned_customer_event_profile,
+          -> { where(credential_assignments: { aasm_state: :assigned }) },
+          class_name: "CredentialAssignment"
   has_one :gtag_credit_log
   has_one :refund
   has_many :claims
   has_one :completed_claim, -> { where(aasm_state: :completed) }, class_name: "Claim"
   has_many :comments, as: :commentable
   has_many :credential_assignments, as: :credentiable, dependent: :destroy
+  has_one :purchaser, as: :credentiable, dependent: :destroy
   has_one :banned_gtag
   belongs_to :company_ticket_type
 
   accepts_nested_attributes_for :gtag_credit_log, allow_destroy: true
+  accepts_nested_attributes_for :purchaser, allow_destroy: true
 
   # Validations
   validates_uniqueness_of :tag_uid, scope: :event_id
-  validates :tag_uid, :tag_serial_number, presence: true
+  validates :tag_uid, presence: true
 
   # Scope
   scope :selected_data, lambda  { |event_id|
@@ -83,8 +90,10 @@ class Gtag < ActiveRecord::Base
 
   def refundable?(refund_service)
     current_event = event
-    minimum = current_event.refund_minimun(refund_service)
-    !gtag_credit_log.nil? && (refundable_amount_after_fee(refund_service) >= minimum.to_f && refundable_amount_after_fee(refund_service) >= 0)
+    minimum = current_event.refund_minimun(refund_service).to_f
+    !gtag_credit_log.nil? &&
+      (refundable_amount_after_fee(refund_service) >= minimum &&
+      refundable_amount_after_fee(refund_service) >= 0)
   end
 
   def any_refundable_method?

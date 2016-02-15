@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
 
   # Get locale from user's browser and set it, unless it's present in session.
   # Use default otherwise.
-  def set_locale(available_locales)
+  def write_locale_to_session(available_locales)
     extracted_locale =  session[:locale] ||
                         extract_locale_from_accept_language_header ||
                         I18n.default_locale
@@ -37,5 +37,17 @@ class ApplicationController < ActionController::Base
   def user_agent_mobile?
     # Note: we treat ipad as non mobile
     request.user_agent =~ (/(iPhone|iPod|Android|webOS|Mobile|iPad)/)
+  end
+
+  def current_event
+    @current_event.decorate || Event.new.decorate
+  end
+
+  private
+
+  def fetch_current_event
+    id = params[:event_id] || params[:id]
+    return false unless id
+    @current_event = Event.find_by_slug(id) || Event.find(id) if id
   end
 end

@@ -9,7 +9,8 @@
 #   ~> ENGINE_BOOT=-m bundle exec rails c
 #   => will boot all engines except marketing
 #
-# The boot flag characters are not necessarily the first letter of each engine name, so check this file if you're using boot flags.
+# The boot flag characters are not necessarily the first letter of each engine name,
+# so check this file if you're using boot flags.
 #
 # When Rails.env is "test" all boot flags are assumed to be present, no matter what you provide.
 
@@ -20,7 +21,8 @@ class BootInquirer
     "r" => "refund_ngn",
     "a" => "administration",
     "p" => "api",
-    "m" => "company_api"
+    "m" => "company_api",
+    "t" => "transactions"
   }
 
   class << self
@@ -86,7 +88,7 @@ class BootInquirer
     end
 
     def engine
-      module_name = gem_name.classify
+      module_name = gem_name.camelcase
       module_name << "c" if gem_name[-1] == "c"
       module_name.constantize.const_get(:Engine)
     end

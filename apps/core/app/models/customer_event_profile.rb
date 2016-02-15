@@ -56,11 +56,15 @@ class CustomerEventProfile < ActiveRecord::Base
   has_one :banned_customer_event_profile
 
   # Validations
-  validates :customer, :event, presence: true
+  validates :event, presence: true
 
   # Scopes
   scope :for_event, -> (event) { where(event: event) }
-  scope :with_gtag, -> (event) { joins(:credential_assignments).where(event: event, credential_assignments: { credentiable_type: "Gtag", aasm_state: :assigned }) }
+  scope :with_gtag, lambda { |event|
+    joins(:credential_assignments)
+      .where(event: event,
+             credential_assignments: { credentiable_type: "Gtag", aasm_state: :assigned })
+  }
   scope :banned, -> { joins(:banned_customer_event_profile) }
 
   def customer
@@ -77,9 +81,5 @@ class CustomerEventProfile < ActiveRecord::Base
 
   def purchased_credits
     credit_logs.where(transaction_type: CreditLog::CREDITS_PURCHASE).sum(:amount).floor
-  end
-
-  def refundable_credits
-    active_gtag_assignment.credentiable.gtag_credit_log.amount unless active_gtag_assignment.nil? || active_gtag_assignment.credentiable.gtag_credit_log.nil?
   end
 end

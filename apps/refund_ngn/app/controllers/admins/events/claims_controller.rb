@@ -4,7 +4,9 @@ class Admins::Events::ClaimsController < Admins::Events::RefundsBaseController
   def index
     respond_to do |format|
       format.html
-      format.csv { send_data(Csv::CsvExporter.to_csv(Claim.selected_data(:completed, current_event))) }
+      format.csv do
+        send_data(Csv::CsvExporter.to_csv(Claim.selected_data(:completed, current_event)))
+      end
     end
   end
 
@@ -18,12 +20,13 @@ class Admins::Events::ClaimsController < Admins::Events::RefundsBaseController
 
   def update
     @claim = @fetcher.claims.find(params[:id])
+    customer_event_profile = @claim.customer_event_profile
     if @claim.update(permitted_params)
-      flash[:notice] = I18n.t("alerts.updated")
-      redirect_to admins_event_customer_url(current_event, @claim.customer_event_profile.customer)
+      redirect_to admins_event_customer_event_profile_url(current_event, customer_event_profile),
+                  notice: I18n.t("alerts.updated")
     else
-      flash[:error] = @claim.errors.full_messages.join(". ")
-      redirect_to admins_event_customer_event_profile_url(current_event, @claim.customer_event_profile.customer)
+      redirect_to admins_event_customer_event_profile_url(current_event, customer_event_profile),
+                  error: @claim.errors.full_messages.join(". ")
     end
   end
 

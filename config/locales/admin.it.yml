@@ -152,6 +152,7 @@ it:
     confirm:
       delete: "Are you sure?"
     aside:
+      logs: "Logs"
       access: "Access"
       event: "Event"
       details: "Details"
@@ -228,7 +229,7 @@ it:
       created_at: "Created at"
       admission: "Tickets registrations"
       search:
-        number: "Ticket barcode number"
+        code: "Ticket barcode number"
         customer: "Assigned customer email"
         purchaser_email: "Purchaser Email"
         type: "Type"
@@ -247,9 +248,10 @@ it:
         assigned: "Is assigned now"
         unassigned: "Previous assignation"
     purchasers:
-      name: "Purchaser Name"
-      surname: "Purchaser Surname"
+      first_name: "Purchaser Name"
+      last_name: "Purchaser Surname"
       email: "Purchaser Email"
+      gtag_delivery_address: "Gtag Delivery Address"
     gtags:
       id: "Id"
       tag: "Tag UID"
@@ -287,8 +289,8 @@ it:
     customers:
       delete: "Deleted"
       email: "Email"
-      name: "Name"
-      surname: "Surname"
+      name: "First name"
+      surname: "Last name"
       confirmed_at: "Confirmed at"
       confirmation_sent_at: "Confirmation sent at"
       tickets: "Tickets"
@@ -300,7 +302,7 @@ it:
       creadit_logs: "Credits logs"
       orders: "Orders"
       payments: "Payments"
-      gtag_registrations: "Gtag registrations"
+      gtag_assignments: "Gtag registrations"
       completed_claim: "Completed claims"
       refund: "Refund"
       claims: "Claims"
@@ -326,7 +328,7 @@ it:
         email: "Type email"
         confirmed: "Confirmed?"
         tickets: "Tickets?"
-        gtag_registrations: "Gtags?"
+        gtag_assignments: "Gtags?"
         credits_purchased: "Credits Purchased?"
     claims:
       number: "Number"
@@ -374,7 +376,7 @@ it:
     customer_orders:
       id: "Id"
       counter: "Counter"
-      state: "Estado"
+      redeemed: "Redeemed"
       customer_event_profile: "Customer event profiles"
       preevent_product: "Preevent product"
     payments:

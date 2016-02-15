@@ -20,7 +20,7 @@
 
 FactoryGirl.define do
   factory :admin do
-    email { Faker::Internet.email }
+    sequence(:email) { |n| "Admin#{n}@glownet.com" }
     encrypted_password Authentication::Encryptor.digest("password")
   end
 end

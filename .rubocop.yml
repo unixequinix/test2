@@ -30,5 +30,11 @@ Style/StringLiterals:
 Style/ClassAndModuleChildren:
   Enabled: false
 
+Metrics/AbcSize:
+  Max: 23
+
+Metrics/MethodLength:
+  Max: 15
+
 Lint/RequireParentheses:
   Enabled: true

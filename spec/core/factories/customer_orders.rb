@@ -17,6 +17,6 @@ FactoryGirl.define do
   factory :customer_order do
     customer_event_profile
     preevent_product
-    state "unredeemed"
+    redeemed false
   end
 end

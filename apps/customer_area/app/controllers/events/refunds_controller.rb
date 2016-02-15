@@ -4,20 +4,19 @@ class Events::RefundsController < Events::BaseController
   skip_before_action :check_has_gtag!, only: [:create, :tipalti_success]
 
   def create
-    response = Nokogiri::XML(request.body.read)
-    operations = response.xpath("//payfrex-response/operations/operation")
-    operations.each do |operation|
-      operation_hash = Hash.from_xml(operation.to_s)
-      @claim = Claim.find_by(number: operation_hash["operation"]["merchantTransactionId"])
+    Nokogiri::XML(request.body.read).xpath("//payfrex-response/operations/operation").each do |op|
+      op_hash = Hash.from_xml(op.to_s)["operation"]
+      @claim = Claim.find_by(number: op_hash["merchantTransactionId"])
       next unless @claim
+
       RefundService.new(@claim, current_event)
-        .create(amount: operation_hash["operation"]["amount"],
-                currency: operation_hash["operation"]["currency"],
-                message: operation_hash["operation"]["message"],
-                operation_type: operation_hash["operation"]["operationType"],
-                gateway_transaction_number: operation_hash["operation"]["payFrexTransactionId"],
-                payment_solution: operation_hash["operation"]["paymentSolution"],
-                status: operation_hash["operation"]["status"])
+        .create(amount: op_hash["amount"],
+                currency: op_hash["currency"],
+                message: op_hash["message"],
+                operation_type: op_hash["operationType"],
+                gateway_transaction_number: op_hash["payFrexTransactionId"],
+                payment_solution: op_hash["paymentSolution"],
+                status: op_hash["status"])
     end
     render nothing: true
   end
@@ -32,10 +31,9 @@ class Events::RefundsController < Events::BaseController
 
     RefundService.new(@claim, current_event)
       .create(amount: @claim.gtag.refundable_amount_after_fee("tipalti"),
-              currency: I18n.t("currency_symbol"),
-              message: "Created tipalti refund",
-              payment_solution: "tipalti",
-              status: "SUCCESS")
+              currency: I18n.t("currency_symbol"), message: "Created tipalti refund",
+              payment_solution: "tipalti", status: "SUCCESS")
+
     redirect_to success_event_refunds_url(current_event)
   end
 

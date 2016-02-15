@@ -90,7 +90,11 @@ RSpec.describe Companies::Api::V1::BannedGtagsController, type: :controller do
 
   describe "DELETE destroy" do
     before(:each) do
-      @gtag = create(:gtag, :banned, tag_uid: "Glownet", event: @event, company_ticket_type: @ticket_type1)
+      @gtag = create(:gtag,
+                     :banned,
+                     tag_uid: "Glownet",
+                     event: @event,
+                     company_ticket_type: @ticket_type1)
     end
 
     context "when authenticated" do

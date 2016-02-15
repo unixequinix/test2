@@ -1,6 +1,7 @@
 class AddGtagParametersToEvents < ActiveRecord::Migration
   class Event < ActiveRecord::Base
-    translates :info, :disclaimer, :refund_success_message, :mass_email_claim_notification, :gtag_assignation_notification, :gtag_form_disclaimer, :gtag_name
+    translates :info, :disclaimer, :refund_success_message, :mass_email_claim_notification,
+               :gtag_assignation_notification, :gtag_form_disclaimer, :gtag_name
   end
 
   def up
