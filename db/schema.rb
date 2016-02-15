@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160211171541) do
+ActiveRecord::Schema.define(version: 20160212111658) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -153,7 +153,7 @@ ActiveRecord::Schema.define(version: 20160211171541) do
 
   create_table "gtags", force: :cascade do |t|
     t.string   "tag_uid",                null: false, index: {name: "index_gtags_on_tag_uid_and_event_id", with: ["event_id"], unique: true}
-    t.string   "tag_serial_number",      null: false
+    t.string   "tag_serial_number"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.datetime "deleted_at",             index: {name: "index_gtags_on_deleted_at"}
@@ -263,7 +263,7 @@ ActiveRecord::Schema.define(version: 20160211171541) do
     t.integer  "preevent_product_id",       null: false, index: {name: "fk__customer_orders_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "fk_customer_orders_preevent_product_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "customer_event_profile_id", null: false, index: {name: "fk__customer_orders_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_customer_orders_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "counter"
-    t.string   "aasm_state",                default: "unredeemed", null: false
+    t.boolean  "redeemed",                  default: false, null: false
     t.datetime "deleted_at",                index: {name: "index_customer_orders_on_deleted_at"}
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false

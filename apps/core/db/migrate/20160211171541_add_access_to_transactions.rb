@@ -1,7 +1,7 @@
 class AddAccessToTransactions < ActiveRecord::Migration
   def change
     create_table :access_entitlements do |t|
-      t.timestamps
+      t.timestamps null: false
     end
 
     add_reference :transactions, :access_entitlement, index: true, foreign_key: true
