@@ -18,15 +18,14 @@ class CreatePurchasers < ActiveRecord::Migration
 
   def migrate_tickets
     purchasers = Ticket.all.map do |ticket|
-      if ticket.purchaser_first_name.present? || ticket.purchaser_email.present?
-        Purchaser.new(
-          first_name: ticket.purchaser_first_name,
-          last_name: ticket.purchaser_last_name,
-          email: ticket.purchaser_email,
-          credentiable_id: ticket.id,
-          credentiable_type: "Ticket"
-        )
-      end
+      next if ticket.purchaser_first_name.blank? || ticket.purchaser_email.blank?
+      Purchaser.new(
+        first_name: ticket.purchaser_first_name,
+        last_name: ticket.purchaser_last_name,
+        email: ticket.purchaser_email,
+        credentiable_id: ticket.id,
+        credentiable_type: "Ticket"
+      )
     end
     Purchaser.import(purchasers.compact)
   end

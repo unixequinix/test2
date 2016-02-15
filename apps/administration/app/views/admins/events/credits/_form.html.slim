@@ -6,6 +6,6 @@
       = ppu.input :description, placeholder: true
     = f.input :value, placeholder: true
     = f.input :currency, placeholder: true
-    = f.input :standard, as: :radio_buttons, placeholder: true
+    = f.input :standard, as: :hidden, input_html: { value: credit.standard }
 
     = f.button :submit, class: "btn btn-primary"

@@ -165,6 +165,8 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-slow_finder_errors (0.1.2)
+      capybara (~> 2.0)
     celluloid (0.16.0)
       timers (~> 4.0.0)
     childprocess (0.5.7)
@@ -173,6 +175,7 @@ GEM
     chronic (0.10.2)
     climate_control (0.0.3)
       activesupport (>= 3.0)
+    cliver (0.3.2)
     cocaine (0.5.7)
       climate_control (>= 0.0.3, < 1.0)
     coderay (1.1.0)
@@ -344,6 +347,11 @@ GEM
       activesupport (>= 3.0)
       countries (~> 0.8, >= 0.8.2)
       phony (~> 2.12)
+    poltergeist (1.9.0)
+      capybara (~> 2.1)
+      cliver (~> 0.3.1)
+      multi_json (~> 1.0)
+      websocket-driver (>= 0.2.0)
     polyamorous (1.2.0)
       activerecord (>= 3.0)
     powerpack (0.1.1)
@@ -596,6 +604,9 @@ GEM
     warden (1.2.3)
       rack (>= 1.0)
     websocket (1.2.2)
+    websocket-driver (0.6.3)
+      websocket-extensions (>= 0.1.0)
+    websocket-extensions (0.1.2)
     whenever (0.9.4)
       chronic (>= 0.6.3)
     xpath (2.0.0)
@@ -629,6 +640,7 @@ DEPENDENCIES
   capistrano-rbenv (~> 2.0.3)
   capistrano-sidekiq (~> 0.5.3)
   capybara (~> 2.4.4)
+  capybara-slow_finder_errors
   company_api!
   core!
   country_select (~> 2.2.0)
@@ -666,6 +678,7 @@ DEPENDENCIES
   payment_ngn!
   pg (~> 0.18.1)
   phony_rails (~> 0.12.8)
+  poltergeist
   pry-rails
   quiet_assets (~> 1.1.0)
   rack-cors

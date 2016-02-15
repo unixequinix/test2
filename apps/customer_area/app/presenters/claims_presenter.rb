@@ -35,32 +35,38 @@ class ClaimsPresenter < BasePresenter
     "#{@gtag_assignment.credentiable.refundable_amount} #{@event.currency}"
   end
 
-  def call_to_action
+  def refund_status
     if any_refundable_method?
-      I18n.t("dashboard.refunds.call_to_action") && return if completed_claim?
-      I18n.t("dashboard.without_refunds.call_to_action")
+      completed_claim? ? "refunds" : "without_refunds"
     else
-      I18n.t("dashboard.not_refundable.call_to_action")
+      "not_refundable"
     end
   end
 
-  def refund_actions
+  def call_to_action
+    I18n.t("dashboard.#{refund_status}.call_to_action")
+  end
+
+  def refund_snippets
     actions = ""
-    return "" unless any_refundable_method? && !completed_claim?
-
-    refund_services.each do |refund_service|
-      class_definition = "btn btn-refund-method"
-
-      if !refundable?(refund_service)
-        class_definition << " btn-blocked"
-        actions << context.content_tag("a", action_name(refund_service),
-                                       class: class_definition, disabled: not_refundable)
-      else
-        actions << context.link_to(action_name(refund_service),
-                                   context.send("new_event_#{refund_service}_claim_path", @event),
-                                   class: class_definition)
+    if any_refundable_method? && !completed_claim?
+      refund_services.each do |refund_service|
+        refundable = refundable?(refund_service) ? "refundable" : "not_refundable"
+        actions << method("snippet_#{refundable}").call(refund_service)
       end
     end
     actions
+  end
+
+  def snippet_not_refundable(refund_service)
+    context.content_tag("a", action_name(refund_service),
+                        class: "btn btn-refund-method btn-blocked",
+                        disabled: !refundable?(refund_service))
+  end
+
+  def snippet_refundable(refund_service)
+    context.link_to(action_name(refund_service),
+                    context.send("new_event_#{refund_service}_claim_path", @event),
+                    class: "btn btn-refund-method")
   end
 end

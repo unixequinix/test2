@@ -38,12 +38,12 @@ RSpec.feature "Refund for Bank account", type: :feature do
   def load_gtag
     @gtag = create(:gtag, event: @event)
     create(:gtag_credit_log, gtag: @gtag, amount: 30)
-    @gtag_registration = create(:credential_assignment_g_a,
+    @gtag_assignment = create(:credential_assignment_g_a,
                                 credentiable: @gtag,
                                 customer_event_profile: CustomerEventProfile.first
                                )
-    @gtag_registration.credentiable.event = @event
-    @gtag_registration.save
+    @gtag_assignment.credentiable.event = @event
+    @gtag_assignment.save
   end
 
   def load_event
