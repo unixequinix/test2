@@ -54,10 +54,5 @@ FactoryGirl.define do
       credential_product
       voucher_product
     end
-
-    after(:build) do |preevent_product|
-      return unless preevent_product.preevent_items.count.zero?
-      preevent_product.preevent_product_items << build(:preevent_product_item)
-    end
   end
 end

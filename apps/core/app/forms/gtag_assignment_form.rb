@@ -21,7 +21,6 @@ class GtagAssignmentForm
   def persist!(profile, gtag)
     profile.save
     @gtag_assignation = profile.gtag_assignment.create(credentiable: gtag)
-    binding.pry
     GtagMailer.assigned_email(@gtag_assignation).deliver_later
   end
 end
