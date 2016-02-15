@@ -11,10 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160209133631) do
+ActiveRecord::Schema.define(version: 20160211171541) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "access_entitlements", force: :cascade do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  default: "", null: false, index: {name: "index_admins_on_email", unique: true}
@@ -258,7 +263,7 @@ ActiveRecord::Schema.define(version: 20160209133631) do
     t.integer  "preevent_product_id",       null: false, index: {name: "fk__customer_orders_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "fk_customer_orders_preevent_product_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "customer_event_profile_id", null: false, index: {name: "fk__customer_orders_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_customer_orders_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "counter"
-    t.boolean  "redeemed",                  default: false, null: false
+    t.string   "aasm_state",                default: "unredeemed", null: false
     t.datetime "deleted_at",                index: {name: "index_customer_orders_on_deleted_at"}
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
@@ -413,11 +418,19 @@ ActiveRecord::Schema.define(version: 20160209133631) do
     t.integer  "preevent_product_id",       index: {name: "fk__transactions_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "fk_transactions_preevent_product_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "customer_event_profile_id", index: {name: "fk__transactions_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_transactions_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
     t.string   "payment_method"
-    t.float    "amount",                    default: 0.0
     t.string   "status_code"
     t.string   "status_message"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.integer  "credits"
+    t.integer  "credits_refundable"
+    t.integer  "value_credit"
+    t.string   "payment_gateway"
+    t.integer  "final_balance"
+    t.integer  "final_refundable_balance"
+    t.integer  "access_entitlement_id",     index: {name: "index_transactions_on_access_entitlement_id"}, foreign_key: {references: "access_entitlements", name: "transactions_access_entitlement_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.integer  "direction"
+    t.integer  "access_entitlement_value"
   end
 
   create_table "vouchers", force: :cascade do |t|
