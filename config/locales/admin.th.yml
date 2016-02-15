@@ -284,6 +284,7 @@ th:
       states:
         assigned: "Is assigned now"
         unassigned: "Previous assignation"
+      button: "ตกลง"
     customers:
       delete: "Deleted"
       email: "Email"
