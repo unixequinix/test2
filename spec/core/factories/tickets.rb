@@ -24,13 +24,14 @@ FactoryGirl.define do
 
     trait :banned do
       after(:create) do |ticket|
+        create(:purchaser, credentiable: ticket)
         create(:banned_ticket, ticket: ticket)
       end
     end
 
     trait :with_purchaser do
       after(:build) do |ticket|
-        create :purchaser, credentiable: ticket
+        create(:purchaser, credentiable: ticket)
       end
     end
   end

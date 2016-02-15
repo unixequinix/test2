@@ -54,7 +54,7 @@ class Ticket < ActiveRecord::Base
   }
 
   scope :search_by_company_and_event, lambda { |company, event|
-    includes(:company_ticket_type, company_ticket_type: [:company])
+    includes(:purchaser, :company_ticket_type, company_ticket_type: [:company])
       .where(event: event, companies: { name: company })
   }
 

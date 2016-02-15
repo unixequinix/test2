@@ -16,6 +16,7 @@ class Api::V1::PreeventProductSerializer < Api::V1::BaseSerializer
   end
 
   def credits
+    binding.pry
     selected = object.preevent_product_items.select do |item|
       item.preevent_item.purchasable_type == "Credit"
     end

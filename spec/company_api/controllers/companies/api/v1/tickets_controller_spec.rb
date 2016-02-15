@@ -8,8 +8,8 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
     @ticket_type2 = create(:company_ticket_type, event: @event,
                                                  company: create(:company, event: @event))
 
-    5.times { create(:ticket, event: @event, company_ticket_type: @ticket_type1) }
-    5.times { create(:ticket, event: @event, company_ticket_type: @ticket_type2) }
+    5.times { create(:ticket, :with_purchaser, event: @event, company_ticket_type: @ticket_type1) }
+    5.times { create(:ticket, :with_purchaser, event: @event, company_ticket_type: @ticket_type2) }
   end
 
   describe "GET index" do
@@ -118,6 +118,7 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
 
           body = JSON.parse(response.body)
           expect(body["ticket_reference"]).to eq(Ticket.last.code)
+          expect(body["purchaser_email"]).to eq(Ticket.last.purchaser.email)
         end
       end
 
@@ -147,13 +148,14 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
 
       context "when the request is valid" do
         before(:each) do
-          @params = { ticket_reference: "n3wt1cketr3fer3nc3" }
+          @params = { ticket_reference: "n3wt1cketr3fer3nc3", purchaser_email: "updated@email.com" }
         end
 
         it "changes ticket's attributes" do
           put :update, id: @ticket, ticket: @params
           @ticket.reload
           expect(@ticket.code).to eq("n3wt1cketr3fer3nc3")
+          expect(@ticket.purchaser.email).to eq("updated@email.com")
         end
 
         it "returns a 200 code status" do
@@ -180,7 +182,7 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
           put :update, id: @ticket, ticket: { ticket_reference: nil,
                                               purchaser_email: "newemail@glownet.com" }
           @ticket.reload
-          expect(@ticket.purchaser_email).not_to eq("newemail@glownet.com")
+          expect(@ticket.purchaser.email).not_to eq("newemail@glownet.com")
         end
       end
     end
