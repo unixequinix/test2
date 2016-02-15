@@ -80,9 +80,10 @@ class Claim < ActiveRecord::Base
     headers = []
     extra_columns = {}
     claims.each_with_index do |claim, index|
-      extra_columns[index + 1] = claim.claim_parameters.each_with_object({}) do |claim_parameter, acum|
+      extra_columns[index + 1] = claim.claim_parameters.reduce({}) do |acum, claim_parameter|
         headers |= [claim_parameter.parameter.name]
         acum[claim_parameter.parameter.name] = claim_parameter.value
+        acum
       end
     end
     [claims, headers, extra_columns]
