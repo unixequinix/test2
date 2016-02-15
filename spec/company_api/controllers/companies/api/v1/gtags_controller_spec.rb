@@ -96,10 +96,12 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
           @params = {
             tag_uid: "t4gu1d",
             tag_serial_number: "t4gs3rialnumb3r",
-            purchaser_first_name: "Glownet",
-            purchaser_last_name: "Glownet",
-            purchaser_email: "hi@glownet.com",
-            ticket_type_id: CompanyTicketType.last.id
+            ticket_type_id: CompanyTicketType.last.id,
+            purchaser_attributes: {
+              first_name: "Glownet",
+              last_name: "Glownet",
+              email: "hi@glownet.com"
+            }
           }
         end
 
@@ -148,24 +150,25 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
       end
 
       context "when the request is valid" do
-        before(:each) do
-          @params = { tag_uid: "n3wtagU1d", purchaser_email: "updated@email.com" }
-        end
+        let(:params) {
+          { tag_uid: "n3wtagU1d", purchaser_attributes: { email: "updated@email.com" } }
+        }
 
         it "changes ticket's attributes" do
-          put :update, id: @gtag, gtag: @params
+          put :update, id: @gtag, gtag: params
           @gtag.reload
+
           expect(@gtag.tag_uid).to eq("n3wtagU1d".upcase)
           expect(@gtag.purchaser.email).to eq("updated@email.com")
         end
 
         it "returns a 200 code status" do
-          put :update, id: @gtag, gtag: @params
+          put :update, id: @gtag, gtag: params
           expect(response.status).to eq(200)
         end
 
         it "returns the updated ticket" do
-          put :update, id: @gtag, gtag: @params
+          put :update, id: @gtag, gtag: params
           body = JSON.parse(response.body)
           @gtag.reload
           expect(body["tag_uid"]).to eq(@gtag.tag_uid)
@@ -173,15 +176,17 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
       end
 
       context "when the request is invalid" do
+        let(:params) {
+          { tag_uid: nil, purchaser_attributes: { email: "updated@email.com" } }
+        }
+
         it "returns a 400 status code" do
-          put :update, id: @gtag, gtag: { tag_uid: nil,
-                                          tag_serial_number: "3405sdf234293" }
+          put :update, id: @gtag, gtag: params
           expect(response.status).to eq(400)
         end
 
         it "doesn't change ticket's attributes" do
-          put :update, id: @gtag, gtag: { tag_uid: nil,
-                                              tag_serial_number: "3405sdf234293" }
+          put :update, id: @gtag, gtag: params
           @gtag.reload
           expect(@gtag.tag_serial_number).not_to eq("3405sdf234293")
         end
