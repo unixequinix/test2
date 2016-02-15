@@ -30,7 +30,6 @@ RSpec.feature "Gtag assignation", type: :feature do
           fill_in(t(line2), with: @gtag.tag_uid)
         end
         click_button(t("gtag_assignations.button"))
-        save_and_open_page
         expect(current_path).to eq("/#{@event_creator.event.slug}")
       end
     end
