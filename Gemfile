@@ -143,10 +143,12 @@ end
 group :test do
   gem 'capybara', '~> 2.4.4'
   gem 'selenium-webdriver'
+  gem 'poltergeist'
   gem 'launchy'
   gem 'shoulda-matchers', '~> 2.8.0', require: false
   gem 'database_cleaner', '~> 1.4.1'
   gem 'rspec-sidekiq'
+  gem 'capybara-slow_finder_errors'
 end
 
 group :production, :staging, :demo, :refunds do
