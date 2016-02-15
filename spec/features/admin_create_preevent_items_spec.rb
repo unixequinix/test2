@@ -21,9 +21,6 @@ RSpec.feature "Admin create preevent items", type: :feature do
       fill_in(t("admin.preevent_item.description"), with: "An interesting description")
       fill_in(t("admin.credits.value"), with: "10")
       fill_in(t("admin.credits.currency"), with: "EUR")
-      within(".credit_standard") do
-        choose("No")
-      end
       click_on((t("helpers.submit.create", model: "credit")))
       expect(page.body).to include(t("alerts.created"))
     end
