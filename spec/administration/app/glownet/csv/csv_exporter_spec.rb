@@ -6,7 +6,7 @@ RSpec.describe Csv::CsvExporter, type: :domain_logic do
     before :all do
       tag_odd = create(:gtag, tag_uid: "4OBXCHS2FT", tag_serial_number: "MIUE4Z2HNT")
       tag_even = create(:gtag, tag_uid: "5OBXCHS2FT", tag_serial_number: "MOUE4Z2HNT",
-                        event: tag_odd.event)
+                               event: tag_odd.event)
       event = tag_odd.event
 
       customer_odd = create(:customer,
@@ -95,13 +95,13 @@ RSpec.describe Csv::CsvExporter, type: :domain_logic do
         expect(number_of_records_in_csv(@csv_file)).to be(Refund.count)
       end
       it "should be able to export to a file" do
-        csv = "id,created_at,updated_at,claim_id,amount,currency,message,operation_type," +
-              "gateway_transaction_number,payment_solution,status\n"+
-              "100,2015-10-27 15:34:23 +0100,2015-10-27 15:34:23 +0100,100,10.0,eur,dummy,payment,"+
-              "epg,dummy,completed\n"+
-              "200,2015-10-27 15:34:23 +0100,2015-10-27 15:34:23 +0100,100,10.0,eur,dummy,payment,"+
-              "epg,dummy,completed\n"+
-              "300,2015-10-27 15:34:23 +0100,2015-10-27 15:34:23 +0100,100,10.0,eur,dummy,payment,"+
+        csv = "id,created_at,updated_at,claim_id,amount,currency,message,operation_type," \
+              "gateway_transaction_number,payment_solution,status\n"\
+              "100,2015-10-27 15:34:23 +0100,2015-10-27 15:34:23 +0100,100,10.0,eur,dummy,payment,"\
+              "epg,dummy,completed\n"\
+              "200,2015-10-27 15:34:23 +0100,2015-10-27 15:34:23 +0100,100,10.0,eur,dummy,payment,"\
+              "epg,dummy,completed\n"\
+              "300,2015-10-27 15:34:23 +0100,2015-10-27 15:34:23 +0100,100,10.0,eur,dummy,payment,"\
               "epg,dummy,completed\n"
 
         expect(@csv_file).to eq(csv)
