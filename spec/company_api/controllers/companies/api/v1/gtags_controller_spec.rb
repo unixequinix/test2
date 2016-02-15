@@ -181,7 +181,7 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
 
         it "doesn't change ticket's attributes" do
           put :update, id: @gtag, gtag: { tag_uid: nil,
-                                              tag_serial_number: "3405sdf234293" }
+                                          tag_serial_number: "3405sdf234293" }
           @gtag.reload
           expect(@gtag.tag_serial_number).not_to eq("3405sdf234293")
         end
