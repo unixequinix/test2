@@ -21,11 +21,7 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
   end
 
   def create
-    @ticket = Ticket.new(ticket_params)
-    @ticket.event = current_event
-    @ticket.build_purchaser(email: params[:ticket][:purchaser_email],
-                            first_name: params[:ticket][:purchaser_first_name],
-                            last_name: params[:ticket][:purchaser_last_name])
+    @ticket = Ticket.new(ticket_params.merge(event: current_event))
 
     if @ticket.save
       render status: :created, json: Companies::Api::V1::TicketSerializer.new(@ticket)
@@ -40,7 +36,10 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
     @ticket = Ticket.search_by_company_and_event(current_company.name, current_event)
               .find_by(id: params[:id])
 
-    if @ticket.update(ticket_params) && update_purchaser(@ticket)
+    update_params = ticket_params
+    update_params[:purchaser_attributes].merge!(id: @ticket.purchaser.id)
+
+    if @ticket.update(update_params)
       render json: Companies::Api::V1::TicketSerializer.new(@ticket)
     else
       render status: :bad_request, json: { message: I18n.t("company_api.tickets.bad_request"),
@@ -52,14 +51,11 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
 
   def ticket_params
     params[:ticket][:code] = params[:ticket][:ticket_reference]
-    params[:ticket][:company_ticket_type_id] = params[:ticket][:ticket_type_id]
+    params[:ticket][:company_ticket_type_id] = params[:ticket][:ticket_type_id] if
+      params[:ticket][:ticket_type_id]
 
-    params.require(:ticket).permit(:code, :company_ticket_type_id)
-  end
-
-  def update_purchaser(ticket)
-    ticket.purchaser.update(email: params[:ticket][:purchaser_email],
-                            first_name: params[:ticket][:purchaser_first_name],
-                            last_name: params[:ticket][:purchaser_last_name])
+    params.require(:ticket).permit(:code,
+                                   :company_ticket_type_id,
+                                   purchaser_attributes: [:id, :first_name, :last_name, :email])
   end
 end
