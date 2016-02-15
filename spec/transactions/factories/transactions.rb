@@ -19,7 +19,6 @@ FactoryGirl.define do
     payment_gateway { [nil, "braintree", "stripe"].sample }
     final_balance { Faker::Number.number(10) }
     final_refundable_balance { Faker::Number.number(10) }
-    access_entitlement
     direction { Faker::Number.number(2) }
     access_entitlement_value { Faker::Number.number(10) }
   end

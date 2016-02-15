@@ -7,7 +7,7 @@ RSpec.describe Transaction, type: :model do
 
   context ".write" do
     let(:klass) { MonetaryTransaction }
-    let(:atts) { { transaction_type: "refund", customer_tag_uid: "TEST12345"} }
+    let(:atts) { { transaction_type: "refund", customer_tag_uid: "TEST12345" } }
     subject(:result) { Transaction.write("monetary", atts) }
 
     it { is_expected.to be_a_kind_of(klass) }
