@@ -23,13 +23,16 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
   def create
     @ticket = Ticket.new(ticket_params.merge(event: current_event))
 
-    if @ticket.save
-      render status: :created, json: Companies::Api::V1::TicketSerializer.new(@ticket)
-    else
-      render status: :bad_request,
-             json: { message: I18n.t("company_api.tickets.bad_request"),
-                     errors: @ticket.errors }
-    end
+    render(status: :bad_request,
+           json: {
+             error: I18n.t("company_api.tickets.ticket_type_error")
+           }) && return unless validate_ticket_type!
+
+    render(status: :bad_request,
+           json: { message: I18n.t("company_api.gtags.bad_request"),
+                   errors: @ticket.errors }) && return unless @ticket.save
+
+    render status: :created, json: Companies::Api::V1::TicketSerializer.new(@ticket)
   end
 
   def update
@@ -37,14 +40,19 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
               .find_by(id: params[:id])
 
     update_params = ticket_params
-    update_params[:purchaser_attributes].merge!(id: @ticket.purchaser.id)
+    purchaser_attributes = update_params[:purchaser_attributes]
+    purchaser_attributes.merge!(id: @ticket.purchaser.id) if purchaser_attributes
 
-    if @ticket.update(update_params)
-      render json: Companies::Api::V1::TicketSerializer.new(@ticket)
-    else
-      render status: :bad_request, json: { message: I18n.t("company_api.tickets.bad_request"),
-                                           errors: @ticket.errors }
-    end
+    render(status: :bad_request,
+           json: {
+             error: I18n.t("company_api.tickets.ticket_type_error")
+           }) && return unless validate_ticket_type!
+
+    render(status: :bad_request,
+           json: { message: I18n.t("company_api.tickets.bad_request"),
+                   errors: @ticket.errors }) && return unless @ticket.update(update_params)
+
+    render json: Companies::Api::V1::TicketSerializer.new(@ticket)
   end
 
   private

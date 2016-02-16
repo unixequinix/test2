@@ -23,13 +23,16 @@ class Companies::Api::V1::GtagsController < Companies::Api::V1::BaseController
   def create
     @gtag = Gtag.new(gtag_params.merge(event: current_event))
 
-    if @gtag.save
-      render status: :created, json: Companies::Api::V1::GtagSerializer.new(@gtag)
-    else
-      render status: :bad_request,
-             json: { message: I18n.t("company_api.gtags.bad_request"),
-                     errors: @gtag.errors }
-    end
+    render(status: :bad_request,
+           json: {
+             error: I18n.t("company_api.gtags.ticket_type_error")
+           }) && return unless validate_gtag_type!
+
+    render(status: :bad_request,
+           json: { message: I18n.t("company_api.gtags.bad_request"),
+                   errors: @gtag.errors }) && return unless @gtag.save
+
+    render status: :created, json: Companies::Api::V1::GtagSerializer.new(@gtag)
   end
 
   def update
@@ -37,14 +40,19 @@ class Companies::Api::V1::GtagsController < Companies::Api::V1::BaseController
             .find_by(id: params[:id])
 
     update_params = gtag_params
-    update_params[:purchaser_attributes].merge!(id: @gtag.purchaser.id)
+    purchaser_attributes = update_params[:purchaser_attributes]
+    purchaser_attributes.merge!(id: @gtag.purchaser.id) if purchaser_attributes
 
-    if @gtag.update(update_params)
-      render json: Companies::Api::V1::GtagSerializer.new(@gtag)
-    else
-      render status: :bad_request, json: { message: I18n.t("company_api.gtags.bad_request"),
-                                           errors: @gtag.errors }
-    end
+    render(status: :bad_request,
+           json: {
+             error: I18n.t("company_api.gtags.ticket_type_error")
+           }) && return unless validate_gtag_type!
+
+    render(status: :bad_request,
+           json: { message: I18n.t("company_api.gtags.bad_request"),
+                   errors: @gtag.errors }) && return unless @gtag.update(update_params)
+
+    render json: Companies::Api::V1::GtagSerializer.new(@gtag)
   end
 
   private

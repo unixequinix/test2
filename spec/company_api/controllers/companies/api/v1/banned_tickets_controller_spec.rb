@@ -81,7 +81,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
       context "when the request is invalid" do
         it "returns a 400 status code" do
           post :create, tickets_blacklist: { with: "Invalid request" }
-          expect(response.status).to eq(400)
+          expect(response.status).to eq(404)
         end
       end
     end

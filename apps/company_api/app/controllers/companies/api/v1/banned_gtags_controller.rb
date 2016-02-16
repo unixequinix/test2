@@ -10,9 +10,10 @@ class Companies::Api::V1::BannedGtagsController < Companies::Api::V1::BaseContro
   end
 
   def create
-    @gtag = Gtag.find_by(tag_uid: params[:gtags_blacklist][:tag_uid])
+    @gtag = Gtag.search_by_company_and_event(current_company.name, current_event)
+            .find_by(tag_uid: params[:gtags_blacklist][:tag_uid])
 
-    render(status: :bad_request,
+    render(status: :not_found,
            json: { message: I18n.t("company_api.gtags.bad_request") }) && return unless @gtag
 
     @gtag.ban!

@@ -12,10 +12,11 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
   end
 
   def create
-    @ticket = Ticket.find_by(code: params[:tickets_blacklist][:ticket_reference])
+    @ticket = Ticket.search_by_company_and_event(current_company.name, current_event)
+              .find_by(code: params[:tickets_blacklist][:ticket_reference])
 
-    render(status: :bad_request,
-           json: { message: I18n.t("company_api.tickets.bad_request") }) && return unless @ticket
+    render(status: :not_found,
+           json: { message: I18n.t("company_api.tickets.not_found") }) && return unless @ticket
 
     @ticket.ban!
     render(status: :created,
