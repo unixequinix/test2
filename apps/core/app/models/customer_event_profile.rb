@@ -56,7 +56,7 @@ class CustomerEventProfile < ActiveRecord::Base
   has_one :banned_customer_event_profile
 
   # Validations
-  validates :customer, :event, presence: true
+  validates :event, presence: true
 
   # Scopes
   scope :for_event, -> (event) { where(event: event) }
@@ -81,11 +81,5 @@ class CustomerEventProfile < ActiveRecord::Base
 
   def purchased_credits
     credit_logs.where(transaction_type: CreditLog::CREDITS_PURCHASE).sum(:amount).floor
-  end
-
-  def refundable_credits
-    no_log = active_gtag_assignment.credentiable.gtag_credit_log.nil?
-    no_assignment = active_gtag_assignment.nil?
-    active_gtag_assignment.credentiable.gtag_credit_log.amount unless no_assignment || no_log
   end
 end

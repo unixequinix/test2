@@ -29,11 +29,8 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
       search_query: params[:q],
       page: params[:page],
       context: view_context,
-      include_for_all_items: [:customer_event_profile, customer_event_profile:
-        [:active_gtag_assignment,
-         active_assignments: :credentiable
-        ]
-                             ]
-    )
+      include_for_all_items: [:customer_event_profile,
+                              customer_event_profile: [:active_gtag_assignment,
+                                                       active_assignments: :credentiable]])
   end
 end

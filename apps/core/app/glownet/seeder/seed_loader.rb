@@ -19,13 +19,11 @@ class Seeder::SeedLoader
     create_parameters "event_parameters.yml"
   end
 
-  def create_claim_parameters
+  def self.create_claim_parameters
     create_parameters "claim_parameters.yml"
   end
 
-  private
-
-  def create_parameters(file)
+  def self.create_parameters(file)
     YAML.load_file(Rails.root.join("db", "seeds", file)).each do |category|
       category["groups"].each do |group|
         group["parameters"].each do |parameter|
@@ -39,7 +37,7 @@ class Seeder::SeedLoader
     end
   end
 
-  def try_to_save(obj)
+  def self.try_to_save(obj)
     obj.save!
   rescue
     Rails.logger.warn "Already exists"

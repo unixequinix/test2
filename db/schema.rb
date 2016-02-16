@@ -11,10 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160208124402) do
+ActiveRecord::Schema.define(version: 20160216123700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "access_entitlements", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  default: "", null: false, index: {name: "index_admins_on_email", unique: true}
@@ -118,6 +123,8 @@ ActiveRecord::Schema.define(version: 20160208124402) do
     t.string   "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "token"
+    t.datetime "deleted_at", index: {name: "index_companies_on_deleted_at"}
   end
 
   create_table "preevent_products", force: :cascade do |t|
@@ -148,7 +155,7 @@ ActiveRecord::Schema.define(version: 20160208124402) do
 
   create_table "gtags", force: :cascade do |t|
     t.string   "tag_uid",                null: false, index: {name: "index_gtags_on_tag_uid_and_event_id", with: ["event_id"], unique: true}
-    t.string   "tag_serial_number",      null: false
+    t.string   "tag_serial_number"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.datetime "deleted_at",             index: {name: "index_gtags_on_deleted_at"}
@@ -168,9 +175,6 @@ ActiveRecord::Schema.define(version: 20160208124402) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.datetime "deleted_at",             index: {name: "index_tickets_on_deleted_at"}
-    t.string   "purchaser_email"
-    t.string   "purchaser_first_name"
-    t.string   "purchaser_last_name"
     t.integer  "event_id",               null: false, index: {name: "index_tickets_on_event_id"}, foreign_key: {references: "events", name: "tickets_event_id_fkey", on_update: :no_action, on_delete: :no_action}
     t.boolean  "credential_redeemed",    default: false, null: false
     t.integer  "company_ticket_type_id", index: {name: "fk__tickets_company_ticket_type_id"}, foreign_key: {references: "company_ticket_types", name: "tickets_company_ticket_type_id_fkey", on_update: :no_action, on_delete: :no_action}
@@ -267,6 +271,11 @@ ActiveRecord::Schema.define(version: 20160208124402) do
     t.datetime "updated_at",                null: false
   end
 
+  create_table "devices", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "event_parameters", force: :cascade do |t|
     t.string   "value",        default: "", null: false
     t.integer  "event_id",     null: false, index: {name: "index_event_parameters_on_event_id"}, foreign_key: {references: "events", name: "fk_event_parameters_event_id", on_update: :no_action, on_delete: :no_action}
@@ -328,6 +337,15 @@ ActiveRecord::Schema.define(version: 20160208124402) do
     t.integer  "preevent_product_id", index: {name: "fk__order_items_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "order_items_preevent_product_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
+  create_table "payment_gateway_customers", force: :cascade do |t|
+    t.integer  "customer_event_profile_id", index: {name: "fk__payment_gateway_customers_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_payment_gateway_customers_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "token",                     index: {name: "index_payment_gateway_customers_on_token_and_gateway_type", with: ["gateway_type"], unique: true}
+    t.string   "gateway_type",              index: {name: "index_payment_gateway_customers_on_gateway_type"}
+    t.datetime "deleted_at",                index: {name: "index_payment_gateway_customers_on_deleted_at"}
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
   create_table "payments", force: :cascade do |t|
     t.integer  "order_id",           null: false, index: {name: "fk__payments_order_id"}, foreign_key: {references: "orders", name: "fk_payments_order_id", on_update: :no_action, on_delete: :no_action}
     t.decimal  "amount",             precision: 8, scale: 2, null: false
@@ -343,6 +361,7 @@ ActiveRecord::Schema.define(version: 20160208124402) do
     t.datetime "paid_at"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.string   "last4"
   end
 
   create_table "preevent_items", force: :cascade do |t|
@@ -366,6 +385,18 @@ ActiveRecord::Schema.define(version: 20160208124402) do
     t.datetime "updated_at",           null: false
   end
 
+  create_table "purchasers", force: :cascade do |t|
+    t.integer  "credentiable_id",       null: false
+    t.string   "credentiable_type",     null: false
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email"
+    t.string   "gtag_delivery_address"
+    t.datetime "deleted_at",            index: {name: "index_purchasers_on_deleted_at"}
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
   create_table "refunds", force: :cascade do |t|
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
@@ -377,6 +408,47 @@ ActiveRecord::Schema.define(version: 20160208124402) do
     t.string   "gateway_transaction_number"
     t.string   "payment_solution"
     t.string   "status"
+  end
+
+  create_table "stations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "name"
+  end
+
+  create_table "ticket_blacklists", force: :cascade do |t|
+    t.integer  "ticket_id",  index: {name: "index_ticket_blacklists_on_ticket_id"}, foreign_key: {references: "tickets", name: "fk_ticket_blacklists_ticket_id", on_update: :no_action, on_delete: :no_action}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.string   "type",                      null: false
+    t.integer  "event_id",                  index: {name: "fk__transactions_event_id"}, foreign_key: {references: "events", name: "fk_transactions_event_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "transaction_type"
+    t.datetime "device_created_at"
+    t.integer  "ticket_id",                 index: {name: "fk__transactions_ticket_id"}, foreign_key: {references: "tickets", name: "fk_transactions_ticket_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "customer_tag_uid"
+    t.string   "operator_tag_uid"
+    t.integer  "station_id",                index: {name: "fk__transactions_station_id"}, foreign_key: {references: "stations", name: "fk_transactions_station_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "device_id",                 index: {name: "fk__transactions_device_id"}, foreign_key: {references: "devices", name: "fk_transactions_device_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "device_uid"
+    t.integer  "preevent_product_id",       index: {name: "fk__transactions_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "fk_transactions_preevent_product_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "customer_event_profile_id", index: {name: "fk__transactions_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_transactions_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "payment_method"
+    t.string   "status_code"
+    t.string   "status_message"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.integer  "credits"
+    t.integer  "credits_refundable"
+    t.integer  "value_credit"
+    t.string   "payment_gateway"
+    t.integer  "final_balance"
+    t.integer  "final_refundable_balance"
+    t.integer  "access_entitlement_id",     index: {name: "index_transactions_on_access_entitlement_id"}, foreign_key: {references: "access_entitlements", name: "transactions_access_entitlement_id_fkey", on_update: :no_action, on_delete: :no_action}
+    t.integer  "direction"
+    t.integer  "access_entitlement_value"
   end
 
   create_table "vouchers", force: :cascade do |t|

@@ -2,6 +2,7 @@
 require 'simplecov'
 require 'spec_helper'
 require 'capybara/rspec'
+require 'capybara/poltergeist'
 
 ENV['RAILS_ENV'] ||= 'test'
 
@@ -49,6 +50,7 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
+Capybara.javascript_driver = :poltergeist
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -89,6 +91,15 @@ RSpec.configure do |config|
   config.include ParametersMacros, type: :feature
   config.include Warden::Test::Helpers
 
+
+  config.expect_with :rspec do |expectations|
+    expectations.include_chain_clauses_in_custom_matcher_descriptions = true
+  end
+
+  config.mock_with :rspec do |mocks|
+    mocks.verify_partial_doubles = true
+  end
+
   # Database cleaner
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
@@ -100,16 +111,13 @@ RSpec.configure do |config|
     Seeder::SeedLoader.create_claim_parameters
   end
 
-  config.before(:each) do
-    DatabaseCleaner.strategy = :transaction
-  end
-
   config.before(:each, js: true) do
     DatabaseCleaner.strategy = :truncation
   end
 
   config.before(:each) do
     DatabaseCleaner.start
+    Sidekiq::Worker.clear_all
   end
 
   config.after(:each) do

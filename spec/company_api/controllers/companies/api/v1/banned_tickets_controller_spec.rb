@@ -15,7 +15,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
   describe "GET index" do
     context "when authenticated" do
       before(:each) do
-        http_login(@company1.name, @event.token)
+        http_login(@event.token, @company1.token)
       end
 
       it "returns 200 status code" do
@@ -48,12 +48,15 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
   describe "POST create" do
     context "when authenticated" do
       before(:each) do
-        http_login(@company1.name, @event.token)
+        http_login(@event.token, @company1.token)
       end
 
       context "when the request is valid" do
         before(:each) do
-          @ticket = create(:ticket, event: @event, company_ticket_type: @ticket_type1)
+          @ticket = create(:ticket,
+                           :with_purchaser,
+                           event: @event,
+                           company_ticket_type: @ticket_type1)
         end
 
         it "increases the banned tickets in the database by 1" do
@@ -100,7 +103,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
 
     context "when authenticated" do
       before(:each) do
-        http_login(@company1.name, @event.token)
+        http_login(@event.token, @company1.token)
       end
 
       context "when the request is valid" do

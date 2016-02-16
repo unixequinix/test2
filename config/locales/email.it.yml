@@ -46,8 +46,8 @@ it:
         mail_link: "Cambia il mio password"
       gtag:
         assigned:
-          title: 'La richiesta per il tuo rimborso è stata confermata con successo!'
-          subject: 'Hai richiesto per il tuo rimborso con successo!'
+          title: '%{gtag} assigned'
+          subject: '%{gtag} assigned'
           greet: 'Ciao %{name}!'
           mail_body: 'Hai assegnato un %{gtag} con il id:'
           mail_link: 'Fra 5-10 giorni lavorativi, appena i tuoi crediti saranno pronti per il rimborso, riceverai da noi un email.'

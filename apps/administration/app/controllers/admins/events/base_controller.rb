@@ -3,15 +3,9 @@ class Admins::Events::BaseController < Admins::BaseController
   before_action :fetch_current_event
   before_filter :set_i18n_globals
   before_filter :enable_fetcher
+  helper_method :current_event
 
   private
-
-  def fetch_current_event
-    id = params[:event_id] || params[:id]
-    @current_event = Event.find_by_slug(id) || Event.find(id) if id
-    fail ActiveRecord::RecordNotFound if @current_event.nil?
-    @current_event
-  end
 
   def enable_fetcher
     @fetcher = Multitenancy::AdministrationFetcher.new(current_event)

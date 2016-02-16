@@ -25,6 +25,7 @@ class CredentialAssignment < ActiveRecord::Base
 
   # State machine
   include AASM
+
   aasm do
     state :assigned, initial: true
     state :unassigned

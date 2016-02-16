@@ -4,7 +4,7 @@
 #
 #  id                     :integer          not null, primary key
 #  tag_uid                :string           not null
-#  tag_serial_number      :string           not null
+#  tag_serial_number      :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  deleted_at             :datetime
@@ -41,14 +41,16 @@ class Gtag < ActiveRecord::Base
   has_one :completed_claim, -> { where(aasm_state: :completed) }, class_name: "Claim"
   has_many :comments, as: :commentable
   has_many :credential_assignments, as: :credentiable, dependent: :destroy
+  has_one :purchaser, as: :credentiable, dependent: :destroy
   has_one :banned_gtag
   belongs_to :company_ticket_type
 
   accepts_nested_attributes_for :gtag_credit_log, allow_destroy: true
+  accepts_nested_attributes_for :purchaser, allow_destroy: true
 
   # Validations
   validates_uniqueness_of :tag_uid, scope: :event_id
-  validates :tag_uid, :tag_serial_number, presence: true
+  validates :tag_uid, presence: true
 
   # Scope
   scope :selected_data, lambda  { |event_id|
@@ -58,13 +60,19 @@ class Gtag < ActiveRecord::Base
   }
 
   scope :search_by_company_and_event, lambda { |company, event|
-    includes(:company_ticket_type, company_ticket_type: [:company])
+    includes(:purchaser, company_ticket_type: [:company])
       .where(event: event, companies: { name: company })
   }
 
   scope :banned, lambda {
     joins(:banned_gtag)
   }
+
+  def ban!
+    assignment = CredentialAssignment.find_by(credentiable_id: id, credentiable_type: "Gtag")
+    BannedCustomerEventProfile.new(assign.customer_event_profile_id) unless assignment.nil?
+    BannedGtag.create!(gtag_id: id)
+  end
 
   def refundable_amount
     current_event = event
@@ -95,7 +103,7 @@ class Gtag < ActiveRecord::Base
   private
 
   def upcase_gtag!
-    tag_uid.upcase!
-    tag_serial_number.upcase!
+    tag_uid.upcase! if tag_uid
+    tag_serial_number.upcase! if tag_serial_number
   end
 end

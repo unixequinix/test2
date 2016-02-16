@@ -3,7 +3,14 @@
     = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
     = f.input :company_ticket_type_id, as: :select, collection: CompanyTicketType.form_selector(current_event), include_blank: false, placeholder: true
     = f.input :code, placeholder: true
-    = f.input :purchaser_first_name, placeholder: true
-    = f.input :purchaser_last_name, placeholder: true
-    = f.input :purchaser_email, placeholder: true
+    = f.simple_fields_for :purchaser do |purchaser|
+      = purchaser.input :first_name
+      = purchaser.input :last_name
+      = purchaser.input :email
     = f.button :submit, class: "btn btn-primary"
+
+
+
+
+
+

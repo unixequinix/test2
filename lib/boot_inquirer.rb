@@ -21,7 +21,8 @@ class BootInquirer
     "r" => "refund_ngn",
     "a" => "administration",
     "p" => "api",
-    "m" => "company_api"
+    "m" => "company_api",
+    "t" => "transactions"
   }
 
   class << self
@@ -87,7 +88,7 @@ class BootInquirer
     end
 
     def engine
-      module_name = gem_name.classify
+      module_name = gem_name.camelcase
       module_name << "c" if gem_name[-1] == "c"
       module_name.constantize.const_get(:Engine)
     end

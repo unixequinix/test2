@@ -8,15 +8,15 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
     @ticket_type2 = create(:company_ticket_type, event: @event,
                                                  company: create(:company, event: @event))
 
-    5.times { create(:ticket, event: @event, company_ticket_type: @ticket_type1) }
-    5.times { create(:ticket, event: @event, company_ticket_type: @ticket_type2) }
+    5.times { create(:ticket, :with_purchaser, event: @event, company_ticket_type: @ticket_type1) }
+    5.times { create(:ticket, :with_purchaser, event: @event, company_ticket_type: @ticket_type2) }
   end
 
   describe "GET index" do
     context "when authenticated" do
       before(:each) do
-        @company = Company.last.name
-        http_login(@company, @event.token)
+        @company = Company.last
+        http_login(@event.token, @company.token)
       end
 
       it "returns 200 status code" do
@@ -31,7 +31,7 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
         body = JSON.parse(response.body)
         tickets = body["tickets"].map { |m| m["ticket_reference"] }
 
-        expect(tickets).to match_array(Ticket.search_by_company_and_event(@company, @event)
+        expect(tickets).to match_array(Ticket.search_by_company_and_event(@company.name, @event)
                                              .map(&:code))
       end
     end
@@ -48,8 +48,8 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
   describe "GET show" do
     context "when authenticated" do
       before(:each) do
-        @company = Company.last.name
-        http_login(@company, @event.token)
+        @company = Company.last
+        http_login(@event.token, @company.token)
       end
 
       context "when the ticket belongs to the company" do
@@ -87,37 +87,40 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
   describe "POST create" do
     context "when authenticated" do
       before(:each) do
-        @company = Company.last.name
-        http_login(@company, @event.token)
+        @company = Company.last
+        http_login(@event.token, @company.token)
       end
 
       context "when the request is valid" do
-        before(:each) do
-          @params = {
+        let(:params) do
+          {
             ticket_reference: "t1ck3tt3st",
-            purchaser_first_name: "Glownet",
-            purchaser_last_name: "Glownet",
-            purchaser_email: "hi@glownet.com",
-            ticket_type_id: CompanyTicketType.last.id
+            ticket_type_id: CompanyTicketType.last.id,
+            purchaser_attributes: {
+              first_name: "Glownet",
+              last_name: "Glownet",
+              email: "hi@glownet.com"
+            }
           }
         end
 
         it "increases the tickets in the database by 1" do
           expect do
-            post :create, ticket: @params
+            post :create, ticket: params
           end.to change(Ticket, :count).by(1)
         end
 
         it "returns a 201 status code" do
-          post :create, ticket: @params
+          post :create, ticket: params
           expect(response.status).to eq(201)
         end
 
         it "returns the created ticket" do
-          post :create, ticket: @params
+          post :create, ticket: params
 
           body = JSON.parse(response.body)
           expect(body["ticket_reference"]).to eq(Ticket.last.code)
+          expect(body["purchaser_email"]).to eq(Ticket.last.purchaser.email)
         end
       end
 
@@ -140,29 +143,31 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
   describe "PATCH update" do
     context "when authenticated" do
       before(:each) do
-        @company = Company.last.name
+        @company = Company.last
         @ticket = Ticket.last
-        http_login(@company, @event.token)
+        http_login(@event.token, @company.token)
       end
 
       context "when the request is valid" do
-        before(:each) do
-          @params = { ticket_reference: "n3wt1cketr3fer3nc3" }
+        let(:params) do
+          { ticket_reference: "n3wt1cketr3fer3nc3",
+            purchaser_attributes: { email: "updated@email.com" } }
         end
 
         it "changes ticket's attributes" do
-          put :update, id: @ticket, ticket: @params
+          put :update, id: @ticket, ticket: params
           @ticket.reload
           expect(@ticket.code).to eq("n3wt1cketr3fer3nc3")
+          expect(@ticket.purchaser.email).to eq("updated@email.com")
         end
 
         it "returns a 200 code status" do
-          put :update, id: @ticket, ticket: @params
+          put :update, id: @ticket, ticket: params
           expect(response.status).to eq(200)
         end
 
         it "returns the updated ticket" do
-          put :update, id: @ticket, ticket: @params
+          put :update, id: @ticket, ticket: params
           body = JSON.parse(response.body)
           @ticket.reload
           expect(body["ticket_reference"]).to eq(@ticket.code)
@@ -170,17 +175,20 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
       end
 
       context "when the request is invalid" do
+        let(:params) do
+          { ticket_reference: nil,
+            purchaser_attributes: { email: "newemail@glownet.com" } }
+        end
+
         it "returns a 400 status code" do
-          put :update, id: @ticket, ticket: { ticket_reference: nil,
-                                              purchaser_email: "newemail@glownet.com" }
+          put :update, id: @ticket, ticket: params
           expect(response.status).to eq(400)
         end
 
         it "doesn't change ticket's attributes" do
-          put :update, id: @ticket, ticket: { ticket_reference: nil,
-                                              purchaser_email: "newemail@glownet.com" }
+          put :update, id: @ticket, ticket: params
           @ticket.reload
-          expect(@ticket.purchaser_email).not_to eq("newemail@glownet.com")
+          expect(@ticket.purchaser.email).not_to eq("newemail@glownet.com")
         end
       end
     end

@@ -15,7 +15,7 @@ class Payments::RedsysPayer
     order = Order.find_by(number: params[:Ds_Order])
 
     create_log(order)
-    create_payment(order, amount)
+    create_payment(order, amount, params)
     order.complete!
     customer_order_creator.save(order)
     send_mail_for(order, event)
@@ -38,11 +38,11 @@ class Payments::RedsysPayer
                      amount: order.credits_total)
   end
 
-  def create_payment(order, amount)
+  def create_payment(order, amount, params)
     Payment.create!(transaction_type: params[:Ds_TransactionType],
                     card_country: params[:Ds_Card_Country],
                     paid_at: "#{params[:Ds_Date]}, #{params[:Ds_Hour]}",
-                    order: order, response_code: response,
+                    order: order, response_code: params[:Ds_Response],
                     authorization_code: params[:Ds_AuthorisationCode],
                     currency: params[:Ds_Currency], merchant_code: params[:Ds_MerchantCode],
                     amount: amount, terminal: params[:Ds_Terminal], success: true)
