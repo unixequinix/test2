@@ -7,8 +7,8 @@ module ControllerMacros
     login_as(:admin)
   end
 
-  def http_login(user, access_token)
+  def http_login(event_token, company_token)
     request.env["HTTP_AUTHORIZATION"] = ActionController::HttpAuthentication::Basic
-                                        .encode_credentials(user, access_token)
+                                        .encode_credentials(event_token, company_token)
   end
 end
