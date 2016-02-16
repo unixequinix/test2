@@ -17,7 +17,7 @@
 
 FactoryGirl.define do
   factory :ticket do
-    code { Faker::Number.number(10) }
+    code { rand(10) }
     event
     credential_redeemed { [true, false].sample }
     company_ticket_type

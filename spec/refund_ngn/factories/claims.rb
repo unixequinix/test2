@@ -19,7 +19,7 @@
 FactoryGirl.define do
   factory :claim do
     customer_event_profile
-    number { Faker::Number.number(10) }
+    number { rand(10) }
     total 9.98
     gtag
     service_type(%w(bank_account epg).sample)

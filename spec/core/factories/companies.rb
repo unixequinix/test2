@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :company do
     event
-    name { Faker::Company.name }
+    name { "Company name #{rand(100)}" }
   end
 end

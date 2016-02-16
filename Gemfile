@@ -135,7 +135,6 @@ group :development, :test do
 end
 
 group :development, :test, :staging do
-  gem 'faker', '~> 1.4.3'
   gem 'rubocop', '~>0.30.1', require: false # Code quality https://github.com/bbatsov/rubocop
   gem 'rubocop-checkstyle_formatter', require: false
   gem 'simplecov', '~> 0.10.0', require: false # Code quality https://github.com/colszowka/simplecov

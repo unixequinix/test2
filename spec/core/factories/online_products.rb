@@ -20,10 +20,10 @@
 
 FactoryGirl.define do
   factory :online_product do
-    name { Faker::Lorem.word }
-    description { Faker::Lorem.sentence }
+    name { "word #{rand(100)}" }
+    description { "Some really long sentence that makes no sense" }
     event
-    price { Faker::Number.decimal(2) }
+    price { rand(100.00) }
     min_purchasable "1"
     max_purchasable "10"
     initial_amount "20"

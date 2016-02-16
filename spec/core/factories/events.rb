@@ -38,24 +38,24 @@
 
 FactoryGirl.define do
   factory :event do
-    name { Faker::Lorem.words(2).join + Faker::Code.ean }
-    location { Faker::Address.street_address }
+    name { ["word #{rand(10)}", "word #{rand(10)}"].join + "EAN1234567#{rand(1000)}" }
+    location { "#{rand(100)} some street" }
     start_date { Time.now }
     end_date { Time.now + 2.days }
-    description { Faker::Lorem.paragraph }
+    description { "This paragraph is something special" }
     support_email "valid@email.com"
     style "html{color:white;}"
-    url { Faker::Internet.url }
+    url { "http://somedomain#{rand(100)}.example.com" }
     currency { "GBP" }
     host_country { "GB" }
     background_type { EventDecorator::BACKGROUND_TYPES.sample }
-    disclaimer { Faker::Lorem.words(2).join }
-    gtag_assignation_notification { Faker::Lorem.words(2).join }
-    gtag_form_disclaimer { Faker::Lorem.words(2).join }
-    gtag_name { Faker::Lorem.words(2).join }
-    info { Faker::Lorem.words(2).join }
-    mass_email_claim_notification { Faker::Lorem.words(2).join }
-    refund_success_message { Faker::Lorem.words(2).join }
+    disclaimer { ["word #{rand(10)}", "word #{rand(10)}"].join }
+    gtag_assignation_notification { ["word #{rand(10)}", "word #{rand(10)}"].join }
+    gtag_form_disclaimer { ["word #{rand(10)}", "word #{rand(10)}"].join }
+    gtag_name { ["word #{rand(10)}", "word #{rand(10)}"].join }
+    info { ["word #{rand(10)}", "word #{rand(10)}"].join }
+    mass_email_claim_notification { ["word #{rand(10)}", "word #{rand(10)}"].join }
+    refund_success_message { ["word #{rand(10)}", "word #{rand(10)}"].join }
     refund_services 0
 
     trait :refund_services do

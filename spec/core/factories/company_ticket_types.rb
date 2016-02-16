@@ -16,8 +16,8 @@
 FactoryGirl.define do
   factory :company_ticket_type do
     event
-    name { Faker::Name.first_name }
-    company_ticket_type_ref { Faker::Number.number(5) }
+    name { "Name #{rand(100)}" }
+    company_ticket_type_ref { rand(5) }
     company
     preevent_product { build :preevent_product, :full, event: event }
   end

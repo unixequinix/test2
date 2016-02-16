@@ -18,6 +18,6 @@ FactoryGirl.define do
     data_type { %w(string currency integer).sample }
     category { %w(gtag refund claim).sample }
     group { %w(bank_account epg).sample }
-    description { Faker::Lorem.words(2).join }
+    description { ["word #{rand(10)}", "word #{rand(10)}"].join }
   end
 end

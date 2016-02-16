@@ -37,16 +37,16 @@
 
 FactoryGirl.define do
   factory :customer do
-    name { Faker::Name.name }
-    surname { Faker::Name.last_name }
-    email { Faker::Internet.email }
+    name { "Some name #{rand(100)}" }
+    surname { "Some name #{rand(100)}" }
+    email { "email@somedomain#{rand(100)}.com" }
     agreed_on_registration true
     encrypted_password Authentication::Encryptor.digest("password")
-    phone { Faker::PhoneNumber.phone_number }
-    country { Faker::Address.country_code }
+    phone { "1-800-#{rand(100)}" }
+    country { %w( EN ES TH IT ).sample }
     gender { %w(male female).sample }
-    birthdate { Faker::Date.between(70.years.ago, 13.years.ago) }
-    postcode { Faker::Address.postcode }
+    birthdate { (13..70).to_a.sample.years.ago }
+    postcode { "12345" }
     agreed_event_condition { [true, false].sample }
     event
     after(:build) do |customer|
