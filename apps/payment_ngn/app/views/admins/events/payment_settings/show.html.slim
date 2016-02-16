@@ -1,6 +1,6 @@
 - breadcrumb :admins_event_payment_settings, @event
 - provide :actions do
-  - if @event.payment_service == Event::STRIPE
+  - if @event.payment_service == EventDecorator::STRIPE
     = link_to new_admins_event_payment_settings_path, class: "btn btn-action btn-action-edit small" do
       = fa_icon 'check-square-o'
       = 'Activar Cuenta'

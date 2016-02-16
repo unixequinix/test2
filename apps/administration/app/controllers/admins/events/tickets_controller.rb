@@ -21,6 +21,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
 
   def new
     @ticket = Ticket.new
+    @ticket.build_purchaser
   end
 
   def create
@@ -29,7 +30,8 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_tickets_url
     else
-      flash[:error] = I18n.t("alerts.error")
+      @ticket.build_purchaser
+      flash.now[:error] = I18n.t("alerts.error")
       render :new
     end
   end
@@ -44,7 +46,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_ticket_url(current_event, @ticket)
     else
-      flash[:error] = I18n.t("alerts.error")
+      flash.now[:error] = I18n.t("alerts.error")
       render :edit
     end
   end
@@ -62,13 +64,11 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
 
   def destroy_multiple
     tickets = params[:tickets]
-
     if tickets
       @fetcher.tickets.where(id: tickets.keys).each do |ticket|
         flash[:error] = ticket.errors.full_messages.join(". ") unless ticket.destroy
       end
     end
-
     redirect_to admins_event_tickets_url
   end
 
@@ -80,7 +80,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
       fetcher: @fetcher.tickets,
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [:company_ticket_type, :assigned_ticket_credential],
+      include_for_all_items: [:company_ticket_type, :assigned_ticket_credential, :purchaser],
       context: view_context
     )
   end
@@ -90,8 +90,6 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
       :event_id,
       :code,
       :company_ticket_type_id,
-      :purchaser_first_name,
-      :purchaser_last_name,
-      :purchaser_email)
+      purchaser_attributes: [:id, :first_name, :last_name, :email])
   end
 end

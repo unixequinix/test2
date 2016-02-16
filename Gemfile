@@ -1,3 +1,5 @@
+Encoding.default_external = Encoding::UTF_8
+Encoding.default_internal = Encoding::UTF_8
 require File.dirname(__FILE__) + '/lib/boot_inquirer'
 
 source 'https://rubygems.org'
@@ -10,6 +12,8 @@ gem 'schema_plus', '~> 2.0.0.pre12'
 gem 'paranoia', '~> 2.0'
 gem 'activerecord-import', '~> 0.11.0'
 gem 'nilify_blanks', '~>1.2.1'
+gem 'activerecord4-redshift-adapter'
+gem 'aws-sdk-rails' # needed for redshift
 
 # Assets
 gem 'jquery-rails', '~> 4.0.3'
@@ -102,6 +106,7 @@ group :development do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', '~> 0.4.1', group: :doc
   gem 'guard-rubocop'
+  gem 'ruby-progressbar'
 end
 
 group :development, :darwin do
@@ -126,6 +131,7 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'guard-rspec', '~> 4.5.0', require: false
   gem 'spring-commands-rspec', '~> 1.0.4'
+  gem 'pry-rails'
 end
 
 group :development, :test, :staging do
@@ -138,10 +144,13 @@ end
 
 group :test do
   gem 'capybara', '~> 2.4.4'
+  gem 'capybara-slow_finder_errors'
   gem 'selenium-webdriver'
+  gem 'poltergeist'
   gem 'launchy'
   gem 'shoulda-matchers', '~> 2.8.0', require: false
   gem 'database_cleaner', '~> 1.4.1'
+  gem 'rspec-sidekiq'
 end
 
 group :production, :staging, :demo, :refunds do

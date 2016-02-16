@@ -17,6 +17,6 @@ class CustomerPasswordStrategy < ::Warden::Strategies::Base
   private
 
   def c_attr(attr_name)
-    params["customer"].fetch(attr_name)
+    params.fetch("customer", {})[attr_name]
   end
 end

@@ -6,7 +6,7 @@ class Events::PaymentsController < Events::BaseController
   def create
     payer = ("Payments::#{current_event.payment_service.camelize}Payer").constantize.new
     payer.start(params, CustomerOrderCreator.new)
-    method(payer.action_after_payment).call
+    eval(payer.action_after_payment)
   end
 
   def success

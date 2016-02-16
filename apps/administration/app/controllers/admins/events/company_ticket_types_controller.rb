@@ -6,16 +6,17 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
   def new
     @company_ticket_type = CompanyTicketType.new
     @preevent_products_collection = @fetcher.preevent_products
-    @companies_collection = Company.all
+    @companies_collection = @fetcher.companies
   end
 
   def create
     @company_ticket_type = CompanyTicketType.new(permitted_params)
+    @preevent_products_collection = @fetcher.preevent_products
+    @companies_collection = @fetcher.companies
     if @company_ticket_type.save
-      flash[:notice] = I18n.t("alerts.created")
-      redirect_to admins_event_company_ticket_types_url
+      redirect_to admins_event_company_ticket_types_url, notice: I18n.t("alerts.created")
     else
-      flash[:error] = @company_ticket_type.errors.full_messages.join(". ")
+      flash.now[:error] = @company_ticket_type.errors.full_messages.join(". ")
       render :new
     end
   end
@@ -23,16 +24,17 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
   def edit
     @company_ticket_type = @fetcher.company_ticket_types.find(params[:id])
     @preevent_products_collection = @fetcher.preevent_products
-    @companies_collection = Company.all
+    @companies_collection = @fetcher.companies
   end
 
   def update
     @company_ticket_type = @fetcher.company_ticket_types.find(params[:id])
+    @preevent_products_collection = @fetcher.preevent_products
+    @companies_collection = @fetcher.companies
     if @company_ticket_type.update(permitted_params)
-      flash[:notice] = I18n.t("alerts.updated")
-      redirect_to admins_event_company_ticket_types_url
+      redirect_to admins_event_company_ticket_types_url, notice: I18n.t("alerts.updated")
     else
-      flash[:error] = @company_ticket_type.errors.full_messages.join(". ")
+      flash.now[:error] = @company_ticket_type.errors.full_messages.join(". ")
       render :edit
     end
   end

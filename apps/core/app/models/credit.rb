@@ -25,10 +25,8 @@ class Credit < ActiveRecord::Base
                preevent_products: { preevent_items_count: 1, event_id: event.id })
   }
 
-  scope :standard_credit, -> { find_by(standard: true) }
-
-  scope :with_gtag, lambda { |event|
-    joins(:gtag_registrations).where(event: event, gtag_registrations: { aasm_state: :assigned })
+  scope :standard, lambda { |event|
+    joins(:preevent_item).where(standard: true, preevent_items: { event_id: event.id })
   }
 
   scope :for_event, lambda { |event|
@@ -36,7 +34,7 @@ class Credit < ActiveRecord::Base
   }
 
   # Validations
-  validates :preevent_item, presence: true
+  validates :preevent_item, :currency, :value, presence: true
   validate :only_one_standard_credit
 
   def rounded_value
@@ -47,10 +45,9 @@ class Credit < ActiveRecord::Base
 
   def only_one_standard_credit
     return unless standard?
-    event_id = preevent_item.event_id
-    event_standard_credit = Credit.joins(:preevent_item)
-                            .find_by(standard: true, preevent_items: { event_id: event_id })
+    matches = Credit.standard(preevent_item.event)
+    matches = matches.where("credits.id != ?", id) if persisted?
     errors.add(:standard,
-               I18n.t("errors.messages.max_standard_credits")) if event_standard_credit.present?
+               I18n.t("errors.messages.max_standard_credits")) if matches.exists?
   end
 end

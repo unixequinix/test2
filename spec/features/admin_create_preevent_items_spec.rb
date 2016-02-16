@@ -14,15 +14,36 @@ RSpec.feature "Admin create preevent items", type: :feature do
     end
     it "should be able to create a credit" do
       visit "/admins/events/#{@event_creator.event.slug}/credits"
-      click_link(t("admin.actions.new"))
+      within(".action-bar-btns") do
+        click_link(t("admin.actions.new"))
+      end
       fill_in(t("admin.preevent_item.name"), with: "A name")
       fill_in(t("admin.preevent_item.description"), with: "An interesting description")
       fill_in(t("admin.credits.value"), with: "10")
       fill_in(t("admin.credits.currency"), with: "EUR")
-      within(".credit_standard") do
-        choose("No")
-      end
       click_on((t("helpers.submit.create", model: "credit")))
+      expect(page.body).to include(t("alerts.created"))
+    end
+
+    it "should be able to create a credential type" do
+      visit "/admins/events/#{@event_creator.event.slug}/credential_types"
+      within(".action-bar-btns") do
+        click_link(t("admin.actions.new"))
+      end
+      fill_in(t("admin.preevent_item.name"), with: "A name")
+      fill_in(t("admin.preevent_item.description"), with: "An interesting description")
+      click_on((t("helpers.submit.create", model: "Credential type")))
+      expect(page.body).to include(t("alerts.created"))
+    end
+
+    it "should be able to create a voucher" do
+      visit "/admins/events/#{@event_creator.event.slug}/vouchers"
+      within(".action-bar-btns") do
+        click_link(t("admin.actions.new"))
+      end
+      fill_in(t("admin.preevent_item.name"), with: "A name")
+      fill_in(t("admin.preevent_item.description"), with: "An interesting description")
+      click_on((t("helpers.submit.create", model: "Voucher")))
       expect(page.body).to include(t("alerts.created"))
     end
   end

@@ -11,6 +11,7 @@ Rails.application.routes.draw do
           resources :parameters, only: [:index]
           resources :banned_tickets, path: "tickets/banned", only: [:index]
           resources :banned_gtags, path: "gtags/banned", only: [:index]
+          resources :company_ticket_types, only: [:index]
           resources :customers, only: [:index, :show]
           resources :credits, only: [:index]
           resources :gtags, only: [:index, :show]

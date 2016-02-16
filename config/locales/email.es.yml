@@ -46,8 +46,8 @@ es:
         mail_link: "Cambiar mi contraseña"
       gtag:
         assigned:
-          title: '¡Has solicitado tu devolución con éxito!'
-          subject: '¡Has solicitado tu devolución con éxito!'
+          title: '¡Gtag asignado!'
+          subject: '¡Gtag asignado!'
           greet: '¡Hola %{name}!'
           mail_body: 'Has introducido una %{gtag} con el siguiente identificador:'
           mail_link: 'Te enviaremos otro mail entre 5 y 15 días laborables cuando tus créditos estén listos para ser reembolsados.'

@@ -2,6 +2,7 @@ es:
   admin:
     companies:
       name: "Nombre"
+      token: "Token de la compañia"
     actions:
       new: "Nuevo"
       back: "Atrás"
@@ -18,6 +19,7 @@ es:
       update: "Actualizar"
     event:
       name: 'Nombre'
+      token: "Token del evento"
       slug: 'Identificador'
       url: 'Url del evento'
       support_email: 'Email de soporte'
@@ -152,6 +154,7 @@ es:
     confirm:
       delete: "Estás seguro?"
     aside:
+      logs: "Logs"
       access: "Acceso"
       event: "Evento"
       details: "Detalles"
@@ -228,7 +231,7 @@ es:
       created_at: "Creado el"
       admission: "Registros de tickets"
       search:
-        number: "Ticket barcode number"
+        code: "Ticket barcode number"
         customer: "Email cliente asignado"
         purchaser_email: "Email comprador"
         type: "Tipo"
@@ -247,9 +250,10 @@ es:
         assigned: "Asignación actual"
         unassigned: "Asignación previa"
     purchasers:
-      name: "Nombre comprador"
-      surname: "Apellido comprador"
+      first_name: "Nombre comprador"
+      last_name: "Apellido comprador"
       email: "Email comprador"
+      gtag_delivery_address: "Dirección de envio de Gtag"
     gtags:
       id: "Id"
       tag: "Tag UID"
@@ -284,6 +288,7 @@ es:
       states:
         assigned: "Asignación actual"
         unassigned: "Asignación previa"
+      button: "Aceptar"
     customers:
       delete: "Borrado"
       email: "Email"
@@ -300,7 +305,7 @@ es:
       creadit_logs: "Compras de creditos"
       orders: "Ordenes"
       payments: "Pagos"
-      gtag_registrations: "Registro de Gtags"
+      gtag_assignments: "Registro de Gtags"
       completed_claim: "Peticiones de devolución completadas"
       refund: "Refund"
       claims: "Peticiones de devolución"
@@ -326,7 +331,7 @@ es:
         email: "Email"
         confirmed: "¿Confirmado?"
         tickets: "¿Tickets?"
-        gtag_registrations: "¿Gtags?"
+        gtag_assignments: "¿Gtags?"
         credits_purchased: "¿Créditos Comprados?"
     claims:
       number: "Número"
@@ -374,7 +379,7 @@ es:
     customer_orders:
       id: "Id"
       counter: "Contador"
-      state: "Estado"
+      redeemed: "Canjeado"
       customer_event_profile: "Perfil de cliente"
       preevent_product: "Producto de preventa"
     payments:

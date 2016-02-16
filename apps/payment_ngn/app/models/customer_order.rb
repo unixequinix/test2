@@ -6,7 +6,7 @@
 #  preevent_product_id       :integer          not null
 #  customer_event_profile_id :integer          not null
 #  counter                   :integer
-#  aasm_state                :string           default("unredeemed"), not null
+#  redeemed                  :boolean          default(FALSE), not null
 #  deleted_at                :datetime
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
@@ -21,19 +21,5 @@ class CustomerOrder < ActiveRecord::Base
   belongs_to :customer_event_profile
 
   # Validations
-  validates :aasm_state, presence: true
-
-  include AASM
-  aasm do
-    state :unredeemed, initial: true
-    state :redeemed
-
-    event :redeem do
-      transitions from: :unredeemed, to: :redeemed
-    end
-
-    event :unredeem do
-      transitions from: :redeemed, to: :unredeemed
-    end
-  end
+  validates :preevent_product_id, :customer_event_profile_id, presence: true
 end

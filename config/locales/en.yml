@@ -91,8 +91,6 @@ en:
         one: 'ticket'
         other: 'tickets'
     errors:
-      messages:
-        record_invalid: 'Campo no valido'
       models:
         customer:
           attributes:

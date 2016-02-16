@@ -12,21 +12,15 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
   end
 
   def create
-    @banned_ticket = BannedTicket.new(banned_ticket_params)
+    @ticket = Ticket.find_by(code: params[:tickets_blacklist][:ticket_reference])
 
-    assign = CredentialAssignment.find_by(credentiable_id: banned_ticket_params[:ticket_id],
-                                          credentiable_type: "Ticket")
+    render(status: :bad_request,
+           json: { message: I18n.t("company_api.tickets.bad_request") }) && return unless @ticket
 
-    BannedCustomerEventProfile.new(assign.customer_event_profile_id) unless assign.nil?
-
-    if @banned_ticket.save
-      render status: :created, json: @banned_ticket.ticket,
-             serializer: Companies::Api::V1::TicketSerializer
-    else
-      render status: :bad_request,
-             json: { message: I18n.t("company_api.tickets.bad_request"),
-                     errors: @banned_ticket.errors }
-    end
+    @ticket.ban!
+    render(status: :created,
+           json: @ticket,
+           serializer: Companies::Api::V1::TicketSerializer)
   end
 
   def destroy
@@ -38,14 +32,5 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
     render(status: :internal_server_error, json: :internal_server_error) &&
       return unless @banned_ticket.destroy
     render(status: :no_content, json: :no_content)
-  end
-
-  private
-
-  def banned_ticket_params
-    ticket = Ticket.select(:id).find_by(code: params[:tickets_blacklist][:ticket_reference])
-
-    params[:tickets_blacklist][:ticket_id] = ticket.id if ticket.present?
-    params.require(:tickets_blacklist).permit(:ticket_id)
   end
 end

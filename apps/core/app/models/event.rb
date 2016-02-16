@@ -59,6 +59,7 @@ class Event < ActiveRecord::Base
   has_many :tickets
   has_many :gtags
   has_many :companies
+  has_many :transactions
   has_many :preevent_items
   has_many :credits, through: :preevent_items, source: :purchasable, source_type: "Credit"
   has_many :tickets_assignments, through: :tickets, source: :credential_assignments,
@@ -94,7 +95,7 @@ class Event < ActiveRecord::Base
   include EventState
 
   def standard_credit_price
-    credits.standard_credit.value
+    credits.find_by(standard: true).value
   end
 
   def total_credits
@@ -102,11 +103,12 @@ class Event < ActiveRecord::Base
   end
 
   def total_refundable_money(refund_service)
-    gtag_query(refund_minimun(refund_service)).sum("(amount * #{standard_credit_price}) - #{fee}")
+    fee = refund_fee(refund_service)
+    gtag_query(refund_service).sum("(amount * #{standard_credit_price}) - #{fee}")
   end
 
   def total_refundable_gtags(refund_service)
-    gtag_query(refund_minimun(refund_service)).count
+    gtag_query(refund_service).count
   end
 
   def get_parameter(category, group, name)
@@ -129,17 +131,18 @@ class Event < ActiveRecord::Base
 
   private
 
-  def gtag_query(min)
+  def gtag_query(refund_service)
     fee = refund_fee(refund_service)
+    min = refund_minimun(refund_service)
     gtags.joins(:credential_assignments, :gtag_credit_log)
       .where("credential_assignments.aasm_state = 'assigned'")
-      .where("((amount * #{standard_price}) - #{fee}) >= #{min}")
-      .where("((amount * #{standard_price}) - #{fee}) > 0")
+      .where("((amount * #{standard_credit_price}) - #{fee}) >= #{min}")
+      .where("((amount * #{standard_credit_price}) - #{fee}) > 0")
   end
 
   def generate_token
     loop do
-      self.token = SecureRandom.hex
+      self.token = SecureRandom.hex(6).upcase
       break unless self.class.exists?(token: token)
     end
   end
