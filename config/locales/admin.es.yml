@@ -2,6 +2,7 @@ es:
   admin:
     companies:
       name: "Nombre"
+      token: "Token de la compañia"
     actions:
       new: "Nuevo"
       back: "Atrás"
@@ -18,6 +19,7 @@ es:
       update: "Actualizar"
     event:
       name: 'Nombre'
+      token: "Token del evento"
       slug: 'Identificador'
       url: 'Url del evento'
       support_email: 'Email de soporte'
@@ -286,6 +288,7 @@ es:
       states:
         assigned: "Asignación actual"
         unassigned: "Asignación previa"
+      button: "Aceptar"
     customers:
       delete: "Borrado"
       email: "Email"

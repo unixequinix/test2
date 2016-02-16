@@ -13,7 +13,7 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
   describe "GET index" do
     context "when authenticated" do
       before(:each) do
-        http_login(@company1.name, @event.token)
+        http_login(@event.token, @company1.token)
       end
 
       it "returns 200 status code" do
@@ -45,7 +45,7 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
   describe "GET show" do
     context "when authenticated" do
       before(:each) do
-        http_login(@company1.name, @event.token)
+        http_login(@event.token, @company1.token)
       end
 
       context "when the ticket type belongs to the company" do
@@ -84,7 +84,7 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
     context "when authenticated" do
       before(:each) do
         @company = Company.last.name
-        http_login(@company1.name, @event.token)
+        http_login(@event.token, @company1.token)
       end
 
       context "when the request is valid" do
@@ -128,7 +128,7 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
       before(:each) do
         @company = Company.last.name
         @ticket_type = CompanyTicketType.first
-        http_login(@company1.name, @event.token)
+        http_login(@event.token, @company1.token)
       end
 
       context "when the request is valid" do

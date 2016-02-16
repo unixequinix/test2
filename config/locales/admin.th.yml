@@ -2,6 +2,7 @@ th:
   admin:
     companies:
       name: "Name"
+      token: "Company token"
     actions:
       new: "New"
       back: "Back"
@@ -18,6 +19,7 @@ th:
       update: "Update"
     event:
       name: 'Name'
+      token: "Event token"
       slug: 'Slug'
       url: 'Event url'
       support_email: 'Support email'
@@ -284,6 +286,7 @@ th:
       states:
         assigned: "Is assigned now"
         unassigned: "Previous assignation"
+      button: "ตกลง"
     customers:
       delete: "Deleted"
       email: "Email"

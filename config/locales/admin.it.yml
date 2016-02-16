@@ -2,6 +2,7 @@ it:
   admin:
     companies:
       name: "Name"
+      token: "Company token"
     actions:
       new: "New"
       back: "Back"
@@ -18,6 +19,7 @@ it:
       update: "Update"
     event:
       name: 'Name'
+      token: "Event token"
       slug: 'Slug'
       url: 'Event url'
       support_email: 'Support email'
@@ -286,6 +288,7 @@ it:
       states:
         assigned: "Is assigned now"
         unassigned: "Previous assignation"
+      button: "Accetto"
     customers:
       delete: "Deleted"
       email: "Email"

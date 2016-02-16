@@ -21,11 +21,7 @@ class Companies::Api::V1::GtagsController < Companies::Api::V1::BaseController
   end
 
   def create
-    @gtag = Gtag.new(gtag_params)
-    @gtag.event = current_event
-    @gtag.build_purchaser(email: params[:gtag][:purchaser_email],
-                          first_name: params[:gtag][:purchaser_first_name],
-                          last_name: params[:gtag][:purchaser_last_name])
+    @gtag = Gtag.new(gtag_params.merge(event: current_event))
 
     if @gtag.save
       render status: :created, json: Companies::Api::V1::GtagSerializer.new(@gtag)
@@ -40,7 +36,10 @@ class Companies::Api::V1::GtagsController < Companies::Api::V1::BaseController
     @gtag = Gtag.search_by_company_and_event(current_company.name, current_event)
             .find_by(id: params[:id])
 
-    if @gtag.update(gtag_params) && update_purchaser(@gtag)
+    update_params = gtag_params
+    update_params[:purchaser_attributes].merge!(id: @gtag.purchaser.id)
+
+    if @gtag.update(update_params)
       render json: Companies::Api::V1::GtagSerializer.new(@gtag)
     else
       render status: :bad_request, json: { message: I18n.t("company_api.gtags.bad_request"),
@@ -51,13 +50,12 @@ class Companies::Api::V1::GtagsController < Companies::Api::V1::BaseController
   private
 
   def gtag_params
-    params[:gtag][:company_ticket_type_id] = params[:gtag][:ticket_type_id]
-    params.require(:gtag).permit(:tag_serial_number, :tag_uid)
-  end
+    ticket_type = params[:gtag][:ticket_type_id]
+    params[:gtag][:company_ticket_type_id] = ticket_type if ticket_type
 
-  def update_purchaser(gtag)
-    gtag.purchaser.update(email: params[:gtag][:purchaser_email],
-                          first_name: params[:gtag][:purchaser_first_name],
-                          last_name: params[:gtag][:purchaser_last_name])
+    params.require(:gtag).permit(:tag_serial_number,
+                                 :tag_uid,
+                                 :company_ticket_type_id,
+                                 purchaser_attributes: [:id, :first_name, :last_name, :email])
   end
 end
