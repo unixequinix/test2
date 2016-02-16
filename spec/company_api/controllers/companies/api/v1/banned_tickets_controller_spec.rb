@@ -15,7 +15,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
   describe "GET index" do
     context "when authenticated" do
       before(:each) do
-        http_login(@company1.name, @event.token)
+        http_login(@event.token, @company1.token)
       end
 
       it "returns 200 status code" do
@@ -48,7 +48,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
   describe "POST create" do
     context "when authenticated" do
       before(:each) do
-        http_login(@company1.name, @event.token)
+        http_login(@event.token, @company1.token)
       end
 
       context "when the request is valid" do
@@ -103,7 +103,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
 
     context "when authenticated" do
       before(:each) do
-        http_login(@company1.name, @event.token)
+        http_login(@event.token, @company1.token)
       end
 
       context "when the request is valid" do

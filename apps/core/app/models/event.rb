@@ -142,7 +142,7 @@ class Event < ActiveRecord::Base
 
   def generate_token
     loop do
-      self.token = SecureRandom.hex
+      self.token = SecureRandom.hex(6).upcase
       break unless self.class.exists?(token: token)
     end
   end

@@ -15,8 +15,8 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
   describe "GET index" do
     context "when authenticated" do
       before(:each) do
-        @company = Company.last.name
-        http_login(@company, @event.token)
+        @company = Company.last
+        http_login(@event.token, @company.token)
       end
 
       it "returns 200 status code" do
@@ -31,7 +31,7 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
         body = JSON.parse(response.body)
         tickets = body["tickets"].map { |m| m["ticket_reference"] }
 
-        expect(tickets).to match_array(Ticket.search_by_company_and_event(@company, @event)
+        expect(tickets).to match_array(Ticket.search_by_company_and_event(@company.name, @event)
                                              .map(&:code))
       end
     end
@@ -48,8 +48,8 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
   describe "GET show" do
     context "when authenticated" do
       before(:each) do
-        @company = Company.last.name
-        http_login(@company, @event.token)
+        @company = Company.last
+        http_login(@event.token, @company.token)
       end
 
       context "when the ticket belongs to the company" do
@@ -87,8 +87,8 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
   describe "POST create" do
     context "when authenticated" do
       before(:each) do
-        @company = Company.last.name
-        http_login(@company, @event.token)
+        @company = Company.last
+        http_login(@event.token, @company.token)
       end
 
       context "when the request is valid" do
@@ -143,9 +143,9 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
   describe "PATCH update" do
     context "when authenticated" do
       before(:each) do
-        @company = Company.last.name
+        @company = Company.last
         @ticket = Ticket.last
-        http_login(@company, @event.token)
+        http_login(@event.token, @company.token)
       end
 
       context "when the request is valid" do

@@ -15,8 +15,8 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
   describe "GET index" do
     context "when authenticated" do
       before(:each) do
-        @company = Company.last.name
-        http_login(@company, @event.token)
+        @company = Company.last
+        http_login(@event.token, @company.token)
       end
 
       it "returns 200 status code" do
@@ -30,7 +30,7 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
 
         body = JSON.parse(response.body)
         gtags = body["gtags"].map { |m| m["tag_uid"] }
-        expect(gtags).to match_array(Gtag.search_by_company_and_event(@company, @event)
+        expect(gtags).to match_array(Gtag.search_by_company_and_event(@company.name, @event)
                                          .map(&:tag_uid))
       end
     end
@@ -47,8 +47,8 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
   describe "GET show" do
     context "when authenticated" do
       before(:each) do
-        @company = Company.last.name
-        http_login(@company, @event.token)
+        @company = Company.last
+        http_login(@event.token, @company.token)
       end
 
       context "when the ticket belongs to the company" do
@@ -87,8 +87,8 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
   describe "POST create" do
     context "when authenticated" do
       before(:each) do
-        @company = Company.last.name
-        http_login(@company, @event.token)
+        @company = Company.last
+        http_login(@event.token, @company.token)
       end
 
       context "when the request is valid" do
@@ -144,9 +144,9 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
   describe "PATCH update" do
     context "when authenticated" do
       before(:each) do
-        @company = Company.last.name
+        @company = Company.last
         @gtag = Gtag.last
-        http_login(@company, @event.token)
+        http_login(@event.token, @company.token)
       end
 
       context "when the request is valid" do
