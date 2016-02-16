@@ -150,9 +150,9 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
       end
 
       context "when the request is valid" do
-        let(:params) {
+        let(:params) do
           { tag_uid: "n3wtagU1d", purchaser_attributes: { email: "updated@email.com" } }
-        }
+        end
 
         it "changes ticket's attributes" do
           put :update, id: @gtag, gtag: params
@@ -176,9 +176,9 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
       end
 
       context "when the request is invalid" do
-        let(:params) {
+        let(:params) do
           { tag_uid: nil, purchaser_attributes: { email: "updated@email.com" } }
-        }
+        end
 
         it "returns a 400 status code" do
           put :update, id: @gtag, gtag: params

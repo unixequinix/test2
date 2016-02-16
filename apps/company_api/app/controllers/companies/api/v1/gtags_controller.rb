@@ -55,10 +55,8 @@ class Companies::Api::V1::GtagsController < Companies::Api::V1::BaseController
   private
 
   def gtag_params
-
     ticket_type = params[:gtag][:ticket_type_id]
     params[:gtag][:company_ticket_type_id] = ticket_type if ticket_type
-
 
     params.require(:gtag).permit(:tag_serial_number,
                                  :tag_uid,
