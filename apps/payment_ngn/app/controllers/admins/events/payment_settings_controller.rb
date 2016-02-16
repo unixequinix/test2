@@ -3,7 +3,7 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
     @event = Event.friendly.find(params[:event_id])
     @event_parameters = @fetcher.event_parameters.where(parameters: { group: @event.payment_service,
                                                                       category: "payment" })
-                                                 .includes(:parameter)
+                        .includes(:parameter)
   end
 
   def new
@@ -23,8 +23,7 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
                              .constantize.new(permitted_params)
     if @payment_settings_form.save(params, request)
       @event.save
-      flash[:notice] = I18n.t("alerts.updated")
-      redirect_to admins_event_payment_settings_url(@event)
+      redirect_to admins_event_payment_settings_url(@event), notice: I18n.t("alerts.updated")
     else
       flash[:error] = I18n.t("alerts.error")
       render :edit
@@ -36,9 +35,9 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
     @parameters = Parameter.where(group: @event.payment_service, category: "payment")
     event_parameters = @fetcher.event_parameters.where(parameters: { group: @event.payment_service,
                                                                      category: "payment" })
-                                                .joins(:parameter)
-                                                .select("parameters.name, event_parameters.value")
-                                                .as_json
+                       .joins(:parameter)
+                       .select("parameters.name, event_parameters.value")
+                       .as_json
     total = event_parameters.reduce({}) { |a, e| a.merge(e["name"] => e["value"]) }
     @payment_settings_form = ("#{@event.payment_service.camelize}PaymentSettingsForm")
                              .constantize.new(total)
@@ -51,8 +50,7 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
                              .constantize.new(permitted_params)
     if @payment_settings_form.update
       @event.save
-      flash[:notice] = I18n.t("alerts.updated")
-      redirect_to admins_event_payment_settings_url(@event)
+      redirect_to admins_event_payment_settings_url(@event), notice: I18n.t("alerts.updated")
     else
       flash[:error] = I18n.t("alerts.error")
       render :edit
@@ -63,7 +61,7 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
 
   def permitted_params
     params_names = Parameter.where(group: current_event.payment_service, category: "payment")
-                            .map(&:name)
+                   .map(&:name)
     params_names << :event_id
     params.require("#{current_event.payment_service}_payment_settings_form").permit(params_names)
   end

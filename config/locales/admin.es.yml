@@ -48,6 +48,10 @@ es:
         image: "Imágenes"
         custom: "Personalización"
         optional_form_parameters: "Parámetros opcionales de formulario"
+        security: "Seguridad"
+        parameters: "Parámetros"
+        limits: "Límites"
+        nfc: "NFC"
       states:
         created: 'No publicado'
         launched: 'Pre-evento'
@@ -80,6 +84,16 @@ es:
       form:
         format: 'Formato'
         name: 'Nombre'
+        mifare_classic: "Mifare Classic"
+        ultralight_ev1: "Ultralight EV1"
+    device_settings:
+      form:
+        currency: "Símbolo de la moneda"
+        min_version_apk: "Versión mínima del APK"
+        maximum_wb_balance: "Balance máximo de la pulsera"
+        uid_reverse: "UID Reverse"
+        private_zone_password: "Contraseña de la zona privada"
+        public_key_a: "Contraseña del Gtag"
     payment_settings:
       redsys:
         name: 'Nombre'
@@ -138,6 +152,7 @@ es:
     confirm:
       delete: "Estás seguro?"
     aside:
+      logs: "Logs"
       access: "Acceso"
       event: "Evento"
       details: "Detalles"
@@ -152,6 +167,7 @@ es:
       customers: "Clientes"
       customer_event_profiles: "Perfiles de evento"
       orders: "Órdenes"
+      customer_orders: "Órdenes de clientes"
       payments: "Pagos"
       claims: "Peticiones"
       refunds: "Devoluciones"
@@ -161,6 +177,8 @@ es:
       vouchers: "Cupones"
       credential_types: "Tipos de Credenciales"
       companies: "Compañías"
+      preevent_products: "Productos de preventa"
+      company_ticket_types: "Tipo de tickets de compañia"
     dashboard:
       change_state: "Cambiar de Estado?"
       api_access: "Acceso API"
@@ -211,7 +229,7 @@ es:
       created_at: "Creado el"
       admission: "Registros de tickets"
       search:
-        number: "Ticket barcode number"
+        code: "Ticket barcode number"
         customer: "Email cliente asignado"
         purchaser_email: "Email comprador"
         type: "Tipo"
@@ -230,9 +248,10 @@ es:
         assigned: "Asignación actual"
         unassigned: "Asignación previa"
     purchasers:
-      name: "Nombre comprador"
-      surname: "Apellido comprador"
+      first_name: "Nombre comprador"
+      last_name: "Apellido comprador"
       email: "Email comprador"
+      gtag_delivery_address: "Dirección de envio de Gtag"
     gtags:
       id: "Id"
       tag: "Tag UID"
@@ -267,6 +286,7 @@ es:
       states:
         assigned: "Asignación actual"
         unassigned: "Asignación previa"
+      button: "Aceptar"
     customers:
       delete: "Borrado"
       email: "Email"
@@ -283,7 +303,7 @@ es:
       creadit_logs: "Compras de creditos"
       orders: "Ordenes"
       payments: "Pagos"
-      gtag_registrations: "Registro de Gtags"
+      gtag_assignments: "Registro de Gtags"
       completed_claim: "Peticiones de devolución completadas"
       refund: "Refund"
       claims: "Peticiones de devolución"
@@ -309,7 +329,7 @@ es:
         email: "Email"
         confirmed: "¿Confirmado?"
         tickets: "¿Tickets?"
-        gtag_registrations: "¿Gtags?"
+        gtag_assignments: "¿Gtags?"
         credits_purchased: "¿Créditos Comprados?"
     claims:
       number: "Número"
@@ -354,6 +374,12 @@ es:
       payments: "Pagos"
       search:
         number: "Número"
+    customer_orders:
+      id: "Id"
+      counter: "Contador"
+      redeemed: "Canjeado"
+      customer_event_profile: "Perfil de cliente"
+      preevent_product: "Producto de preventa"
     payments:
       id: "Id"
       order_id: "Order Id"

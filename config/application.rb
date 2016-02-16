@@ -59,7 +59,7 @@ module GlownetWeb
     # Custom exception handling
     config.exceptions_app = ->(env) {
       params = env["action_dispatch.request.parameters"]
-      namespace = params["controller"].split('/')[0].capitalize
+      namespace = params["controller"].split('/')[0].capitalize if params
       controller = namespace.nil? ? "ExceptionsController" : "#{namespace}::ExceptionsController"
       controller.constantize.action(:show).call(env)
     }

@@ -2,6 +2,7 @@
 require 'simplecov'
 require 'spec_helper'
 require 'capybara/rspec'
+require 'capybara/poltergeist'
 
 ENV['RAILS_ENV'] ||= 'test'
 
@@ -16,6 +17,7 @@ unless ARGV.any? {|e| e =~ /guard-rspec/ }
     add_group "Helpers", "app/helpers"
     add_group "Controllers", "app/controllers"
     add_group "Mailers", "app/mailers"
+    add_group "Serializers", "app/serializers"
 
     add_filter "/spec/"
     add_filter "/config/"
@@ -48,6 +50,7 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
+Capybara.javascript_driver = :poltergeist
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -70,7 +73,7 @@ RSpec.configure do |config|
   #     end
   #
   # The different available types are documented in the features, such as in
-  # 
+  #
   # Model specs: type: :model
   # Controller specs: type: :controller
   # Request specs: type: :request
@@ -87,6 +90,15 @@ RSpec.configure do |config|
   config.include I18nMacros, type: :feature
   config.include ParametersMacros, type: :feature
   config.include Warden::Test::Helpers
+
+
+  config.expect_with :rspec do |expectations|
+    expectations.include_chain_clauses_in_custom_matcher_descriptions = true
+  end
+
+  config.mock_with :rspec do |mocks|
+    mocks.verify_partial_doubles = true
+  end
 
   # Database cleaner
   config.before(:suite) do
@@ -109,6 +121,7 @@ RSpec.configure do |config|
 
   config.before(:each) do
     DatabaseCleaner.start
+    Sidekiq::Worker.clear_all
   end
 
   config.after(:each) do

@@ -134,7 +134,7 @@ it:
     button: "Rimborso"
     button_iupay: "IUPAY"
     refund: "Verifica i tuoi crediti prima di richiedere il tuo rimborso"
-  gtag_registrations:
+  gtag_assignations:
     title: "Registra la tua Paycard"
     description:
       standard: "Per poter procedere inserisci i due codici così come appaiano sul retro della tua Paycard."
@@ -155,6 +155,8 @@ it:
     info:
       line_1: 'Solo numero da "0" a "9"'
       line_2: 'Simboli ammessi: "0" - "9" e "A, B, C, D, E, F"'
+  ticket_assignations:
+    button: "Aceptar"
   refund:
     title: "Richiedi rimborso"
     description: "Abbiamo bisogno dei tuoi dati bancari per poter completare la richiesta."

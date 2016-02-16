@@ -1,4 +1,20 @@
 -
+  category: device
+  groups:
+    -
+      name: general
+      values:
+        -
+          name: min_version_apk
+          value: "1.0"
+        -
+          name: private_zone_password
+          value: "Glown3t1sth3Futur3"
+        -
+          name: uid_reverse
+          value: true
+
+-
   category: payment
   groups:
     -
@@ -128,8 +144,32 @@
   category: gtag
   groups:
     -
+      name: ultralight_ev1
+      values:
+        -
+          name: ultralight_ev1_private_key
+          value: "9200as2d92323dsfdfiu2894234"
+    -
+      name: mifare_classic
+      values:
+        -
+          name: mifare_classic_public_key
+          value: "9200as2d92323dsfdfiu2894234"
+        -
+          name: mifare_classic_private_key_a
+          value: "9200as2d92323dsfdfiu2894234"
+        -
+          name: mifare_classic_private_key_b
+          value: "9200as2d92323dsfdfiu2894234"
+    -
       name: form
       values:
+        -
+          name: maximum_gtag_balance
+          value: 50
+        -
+          name: gtag_type
+          value: "mifare_classic"
         -
           name: format
           value: standard

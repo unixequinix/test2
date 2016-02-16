@@ -9,7 +9,7 @@
       label
         = t("admin.event.features")
       .controls.no-box-shadow
-        - Event::FEATURES.each_with_index do |feature, index|
+        - EventDecorator::FEATURES.each_with_index do |feature, index|
           span.checkbox
             = check_box_tag t("admin.event.features_options.#{feature}"), event.flag_mapping["features"][feature], (:checked if event.flag_enabled?(feature)), id: "#{feature}-feature", class: "flag-selector", data: {"checkbox-group" => "features"}
             label.collection_check_boxes for="#{feature}-feature" = t("admin.event.features_options.#{feature}")
@@ -19,7 +19,7 @@
       label
         = t("admin.event.locales")
       .controls
-        - Event::LOCALES.each_with_index do |locale, index|
+        - EventDecorator::LOCALES.each_with_index do |locale, index|
           span.checkbox
             = check_box_tag "locales", event.flag_mapping["locales"][locale], (:checked if event.flag_enabled?(locale)), id: "#{locale}-locale", class: "flag-selector", data: {"checkbox-group" => "locales"}
             label.collection_check_boxes for="#{locale}-locale" = t("admin.event.locales_options.#{locale}")
@@ -28,12 +28,12 @@
     = f.input :ticket_assignation, as: :radio_buttons
     = f.input :host_country
     = f.input :currency
-    = f.input :payment_service, collection: Event.payment_services_selector, include_blank: false
+    = f.input :payment_service, collection: EventDecorator.payment_services_selector, include_blank: false
     #refund-services
       label
         = t("admin.event.refund_service")
       .controls
-        - Event::REFUND_SERVICES.each_with_index do |refund_service, index|
+        - EventDecorator::REFUND_SERVICES.each_with_index do |refund_service, index|
           span.checkbox
             = check_box_tag t("admin.event.refund_services.#{refund_service}"), event.flag_mapping["refund_services"][refund_service], (:checked if event.flag_enabled?(refund_service)), id: "#{refund_service}-refund-service", class: "flag-selector", data: {"checkbox-group" => "refund_services"}
             label.collection_check_boxes for="#{refund_service}-refund-service" = t("admin.event.refund_services.#{refund_service}")
@@ -67,14 +67,14 @@
       label
         = t('admin.event.images.profile')
       .container-image-preview
-        = image_tag current_event.logo.url unless current_event.logo.blank?
-    = f.input :background_type, collection: Event.background_types_selector, include_blank: false
+        = image_tag event.logo.url unless event.logo.blank?
+    = f.input :background_type, collection: EventDecorator.background_types_selector, include_blank: false
     = f.input :background
     .edit-event-image
       label
         = t('admin.event.images.background')
       .container-image-preview
-        = image_tag current_event.background.url unless current_event.background.blank?
+        = image_tag event.background.url unless event.background.blank?
 
   fieldset
     h3.section-header
@@ -84,7 +84,7 @@
       label
         = t("admin.event.features")
       .controls
-        - Event::REGISTRATION_PARAMETERS.each do |parameter|
+        - EventDecorator::REGISTRATION_PARAMETERS.each do |parameter|
           span.checkbox
             = check_box_tag "reg_form_param", event.flag_mapping["registration_parameters"][parameter], (:checked if event.flag_enabled?(parameter)), id: "#{parameter}-parameter", class: "flag-selector", data: {"checkbox-group" => "registration_parameters"}
             label.collection_check_boxes for="#{parameter}-parameter" = t("admin.event.features_options.#{parameter}")

@@ -22,8 +22,10 @@ Rails.application.routes.draw do
       end
 
       scope module: "events" do
+        resource :device_settings, only: [:show, :edit, :update]
         resources :ticket_assignments, only: [:destroy]
         resource :gtag_settings, only: [:show, :edit, :update]
+        resource :gtag_keys, only: [:show, :edit, :update]
         resources :gtags do
           resources :comments, module: :gtags
           collection do
@@ -48,6 +50,7 @@ Rails.application.routes.draw do
             delete :destroy_multiple
           end
         end
+        resources :transactions, only: [:index]
         resources :companies, except: :show
         resources :credits, except: :show
         resources :vouchers, except: :show

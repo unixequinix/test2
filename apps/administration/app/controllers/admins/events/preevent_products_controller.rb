@@ -48,7 +48,8 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
 
   def add_amount_to_preevent_items(preevent_product_items_attributes)
     preevent_product_items_attributes.each do |id, amount|
-      ppi = PreeventProductItem.find_by(preevent_product_id: @preevent_product.id, preevent_item_id: id.to_i)
+      ppi = PreeventProductItem.find_by(preevent_product_id: @preevent_product.id,
+                                        preevent_item_id: id.to_i)
       ppi.update_attribute(:amount, amount.to_i) if amount.present?
     end
   end
@@ -81,6 +82,7 @@ class Admins::Events::PreeventProductsController < Admins::Events::BaseControlle
 
   def deletes_last_preevent_item?(permitted_params)
     permitted_params[:preevent_product_items_attributes].count == 1 &&
-    permitted_params[:preevent_product_items_attributes].map { |_k, v| v["_destroy"] }.first == "1"
+      permitted_params[:preevent_product_items_attributes].map { |_k, v| v["_destroy"] }
+        .first == "1"
   end
 end

@@ -61,21 +61,17 @@ class PreeventProduct < ActiveRecord::Base
   end
 
   def self.add_product_to_storage(preevent_product)
-    category = preevent_product.get_product_category
+    category = preevent_product.product_category
     @sortered_products_storage[category] << preevent_product
   end
 
-  def get_product_category
-    is_a_pack? ? "Pack" : preevent_items.first.purchasable_type
+  def product_category
+    preevent_items_count > 1 ? "Pack" : preevent_items.first.purchasable_type
   end
 
-  def is_a_pack?
-    preevent_items_count > 1
-  end
-
-  def is_immutable?
+  def immutable?
     preevent_items_count == 1 &&
-    get_product_category == "Credit" &&
-    preevent_items.first.purchasable.standard
+      product_category == "Credit" &&
+      preevent_items.first.purchasable.standard
   end
 end

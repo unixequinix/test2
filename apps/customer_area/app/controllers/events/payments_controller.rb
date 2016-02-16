@@ -5,8 +5,8 @@ class Events::PaymentsController < Events::BaseController
 
   def create
     payer = ("Payments::#{current_event.payment_service.camelize}Payer").constantize.new
-    payer.start(params)
-    eval(payer.action_after_payment) # TODO: This is a seruious security risk, need to be changed
+    payer.start(params, CustomerOrderCreator.new)
+    eval(payer.action_after_payment)
   end
 
   def success

@@ -6,10 +6,10 @@ class Payments::RedsysDataRetriever
     @current_event = event
     @order = order
     @payment_parameters = Parameter.joins(:event_parameters)
-                                   .where(category: "payment",
-                                          group: @current_event.payment_service,
-                                          event_parameters: { event: event })
-                                   .select("parameters.name, event_parameters.*")
+                          .where(category: "payment",
+                                 group: @current_event.payment_service,
+                                 event_parameters: { event: event })
+                          .select("parameters.name, event_parameters.*")
   end
 
   def amount

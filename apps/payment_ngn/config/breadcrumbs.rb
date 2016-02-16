@@ -5,6 +5,23 @@ crumb :admins_event_payment_settings do |event|
   parent :admins_event, event
 end
 
+## CustomerOrders
+
+crumb :admins_event_customer_orders do |event|
+  link t("breadcrumbs.customer_order"), admins_event_customer_orders_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_customer_order do |event, customer_order|
+  link customer_order.number, admins_event_customer_order_path(event, customer_order)
+  parent :admins_event_customer_orders, event
+end
+
+crumb :new_admins_event_customer_order do |event|
+  link t("breadcrumbs.new_customer_order_type")
+  parent :admins_event_customer_orders, event
+end
+
 ## Orders
 
 crumb :admins_event_orders do |event|

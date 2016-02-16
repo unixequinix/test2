@@ -8,8 +8,10 @@ gem 'rails', '4.2.1'
 gem 'pg', '~> 0.18.1'
 gem 'schema_plus', '~> 2.0.0.pre12'
 gem 'paranoia', '~> 2.0'
-gem 'activerecord-import', '~> 0.8.0'
+gem 'activerecord-import', '~> 0.11.0'
 gem 'nilify_blanks', '~>1.2.1'
+gem 'activerecord4-redshift-adapter'
+gem 'aws-sdk-rails' # needed for redshift
 
 # Assets
 gem 'jquery-rails', '~> 4.0.3'
@@ -56,6 +58,9 @@ gem 'kaminari', '~>0.16.3'
 # Search
 gem 'ransack', '~> 1.6.6'
 
+# Decorators
+gem 'draper', '~> 2.0'
+
 # Form normalizers
 gem 'iban-tools', '~>1.0.0'
 gem 'iso-swift', '~>0.0.2'
@@ -99,6 +104,7 @@ group :development do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', '~> 0.4.1', group: :doc
   gem 'guard-rubocop'
+  gem 'ruby-progressbar'
 end
 
 group :development, :darwin do
@@ -137,9 +143,12 @@ end
 group :test do
   gem 'capybara', '~> 2.4.4'
   gem 'selenium-webdriver'
+  gem 'poltergeist'
   gem 'launchy'
   gem 'shoulda-matchers', '~> 2.8.0', require: false
   gem 'database_cleaner', '~> 1.4.1'
+  gem 'rspec-sidekiq'
+  gem 'capybara-slow_finder_errors'
 end
 
 group :production, :staging, :demo, :refunds do

@@ -3,11 +3,6 @@ aside#main-menu
     = link_to admin_root_path
       = image_tag ("admin-panel-logo.png")
   ul
-    h3.aside-title.first = t("admin.aside.access")
-
-    li.aside-list = link_to admins_admins_path do
-      = fa_icon "user"
-      = t("admin.aside.admins")
 
     h3.aside-title = t("admin.aside.event")
 
@@ -17,12 +12,19 @@ aside#main-menu
     li.aside-list = link_to admins_event_gtag_settings_path(event) do
       = fa_icon "bookmark"
       = t("admin.aside.gtag_settings")
+    li.aside-list = link_to admins_event_gtag_keys_path(event) do
+      = fa_icon "key"
+      = t("admin.aside.gtag_keys")
     li.aside-list = link_to admins_event_payment_settings_path(event) do
       = fa_icon "money"
       = t("admin.aside.payment_settings")
     li.aside-list = link_to admins_event_refund_settings_path(event) do
       = fa_icon "reply"
       = t("admin.aside.refund_settings")
+    li.aside-list = link_to admins_event_transactions_path(event) do
+      = fa_icon "list"
+      | Transactions
+
 
     h3.aside-title = t("admin.aside.setup")
 
@@ -62,6 +64,9 @@ aside#main-menu
     li.aside-list = link_to admins_event_orders_path(event) do
       = fa_icon "list"
       = t("admin.aside.orders")
+    li.aside-list = link_to admins_event_customer_orders_path(event) do
+      = fa_icon "shopping-cart"
+      = t("admin.aside.customer_orders")
     li.aside-list = link_to admins_event_payments_path(event)
       = fa_icon "money"
       = t("admin.aside.payments")
@@ -72,7 +77,11 @@ aside#main-menu
       = fa_icon "reply"
       = t("admin.aside.refunds")
 
+    h3.aside-title = t("admin.aside.devices")
+
+    li.aside-list = link_to admins_event_device_settings_path(event) do
+      = fa_icon "cogs"
+      = t("admin.aside.device_settings")
+
     li.mobile-sign-out
       = link_to t("admin.aside.sign_out"), admins_sessions_path, method: :delete
-
-

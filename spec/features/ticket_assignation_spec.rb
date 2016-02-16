@@ -19,11 +19,7 @@ RSpec.feature "Ticket assignation", type: :feature do
 
     describe "a customer " do
       before :each do
-        @ticket = create(:ticket,
-                         event: @event,
-                         purchaser_email: @customer.email,
-                         purchaser_first_name: @customer.name,
-                         purchaser_last_name: @customer.surname)
+        @ticket = create(:ticket, :with_purchaser, event: @event)
       end
 
       it "should be able to assign a ticket" do

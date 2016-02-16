@@ -1,0 +1,12 @@
+= simple_form_for @gtag_keys_form, url: admins_event_gtag_keys_path(@event), method: :patch do |f|
+  fieldset
+    h3.section-header
+      = fa_icon "key"
+      = t("admin.event.fieldests.keys")
+
+    = f.input :ultralight_ev1_private_key
+
+    = f.input :event_id, as: :hidden, input_html: { value: @event.id }
+
+  .wrapper-negative-space
+    = f.button :submit, t('admin.actions.update'), class: "btn btn-primary"

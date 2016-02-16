@@ -138,7 +138,7 @@ es:
     redirect: "Serás redirigido a la pasarela de pago del banco."
     button: "Reembolsar"
     refund: "Por favor, revisa que los créditos a devolver son correctos"
-  gtag_registrations:
+  gtag_assignations:
     title: "Introducir %{gtag}"
     description:
       standard: "Para proceder, debes introducir tu %{gtag} colocando los números que aparecen en tu %{gtag}. Tu %{gtag} debe tener 2 líneas de números."
@@ -159,6 +159,8 @@ es:
     info:
       line_1: 'Sólo números del "0" al "9"'
       line_2: 'Símbolos permitidos: "0" - "9" y "A, B, C, D, E, F"'
+  ticket_assignations:
+    button: "Aceptar"
   refund:
     title: "Pide tu devolución"
     description: "Necesitamos tu cuenta de banco para completar tu devolución."

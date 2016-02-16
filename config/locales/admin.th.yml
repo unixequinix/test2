@@ -48,6 +48,10 @@ th:
         image: "Images"
         custom: "Custom styles"
         optional_form_parameters: "Optional form parameters"
+        security: "Security"
+        parameters: "Parameters"
+        limits: "Limits"
+        nfc: "NFC"
       states:
         created: 'Not published'
         launched: 'Pre-event'
@@ -80,6 +84,16 @@ th:
       form:
         format: 'Format'
         name: 'Name'
+        mifare_classic: "Mifare Classic"
+        ultralight_ev1: "Ultralight EV1"
+    device_settings:
+      form:
+        currency: "Currency Symbol"
+        min_version_apk: "Minimum APK version"
+        maximum_wb_balance: "Maximum wristband balance"
+        uid_reverse: "UID Reverse"
+        private_zone_password: "Private Zone Password"
+        public_key_a: "Tag Password"
     payment_settings:
       redsys:
         name: 'Name'
@@ -138,6 +152,7 @@ th:
     confirm:
       delete: "Are you sure?"
     aside:
+      logs: "Logs"
       access: "Access"
       event: "Event"
       details: "Details"
@@ -152,6 +167,7 @@ th:
       customers: "Customers"
       customer_event_profiles: "Customer event profiles"
       orders: "Orders"
+      customer_orders: "Customer orders"
       payments: "Payments"
       claims: "Claims"
       refunds: "Refunds"
@@ -159,6 +175,8 @@ th:
       setup: "Setup"
       crm: "CRM"
       companies: "Companies"
+      preevent_products: "Preevent products"
+      company_ticket_types: "Company ticket types"
     dashboard:
       change_state: "Change state?"
       api_access: "API access"
@@ -209,7 +227,7 @@ th:
       created_at: "Created at"
       admission: "Tickets registrations"
       search:
-        number: "Ticket barcode number"
+        code: "Ticket barcode number"
         customer: "Assigned customer email"
         purchaser_email: "Purchaser Email"
         type: "Type"
@@ -228,9 +246,10 @@ th:
         assigned: "Is assigned now"
         unassigned: "Previous assignation"
     purchasers:
-      name: "Purchaser Name"
-      surname: "Purchaser Surname"
+      first_name: "Purchaser Name"
+      last_name: "Purchaser Surname"
       email: "Purchaser Email"
+      gtag_delivery_address: "Gtag Delivery Address"
     gtags:
       id: "Id"
       tag: "Tag UID"
@@ -265,11 +284,12 @@ th:
       states:
         assigned: "Is assigned now"
         unassigned: "Previous assignation"
+      button: "ตกลง"
     customers:
       delete: "Deleted"
       email: "Email"
-      name: "Name"
-      surname: "Surname"
+      name: "First name"
+      surname: "Last name"
       confirmed_at: "Confirmed at"
       confirmation_sent_at: "Confirmation sent at"
       tickets: "Tickets"
@@ -281,7 +301,7 @@ th:
       creadit_logs: "Credits logs"
       orders: "Orders"
       payments: "Payments"
-      gtag_registrations: "Gtag registrations"
+      gtag_assignments: "Gtag registrations"
       completed_claim: "Completed claims"
       refund: "Refund"
       claims: "Claims"
@@ -307,7 +327,7 @@ th:
         email: "Type email"
         confirmed: "Confirmed?"
         tickets: "Tickets?"
-        gtag_registrations: "Gtags?"
+        gtag_assignments: "Gtags?"
         credits_purchased: "Credits Purchased?"
     claims:
       claim_number: "Claim number"
@@ -353,6 +373,12 @@ th:
       payments: "Payments"
       search:
         number: "Number"
+    customer_orders:
+      id: "Id"
+      counter: "Counter"
+      redeemed: "Redeemed"
+      customer_event_profile: "Customer event profiles"
+      preevent_product: "Preevent product"
     payments:
       id: "Id"
       order_id: "Order Id"

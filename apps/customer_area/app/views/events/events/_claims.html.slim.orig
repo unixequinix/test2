@@ -1,0 +1,27 @@
+h3
+  = fa_icon 'ticket'
+  = t('dashboard.gtag_registration.title')
+h3
+  = presenter.gtag_tag_uid
+h3
+  = fa_icon 'money'
+  = presenter.refunds_title
+h3 = presenter.gtag_credit_amount
+h3 = presenter.call_to_action
+
+<<<<<<< HEAD
+= raw presenter.refund_actions
+= raw presenter.refund_disclaimer
+=======
+.wrapper-field.form-inputs.wrapper-claims-btns
+  .dashboard-field.dashboard-field-claims
+    h3
+      = fa_icon 'money'
+      = presenter.refunds_title
+    h3.highlight
+      = presenter.gtag_credit_amount
+  .dashboard-field.claims-field
+    h3.refunds-method-title = presenter.call_to_action
+    = raw presenter.refund_snippets
+.disclaimer-list = raw presenter.refund_disclaimer
+>>>>>>> purchasers_infrastructure

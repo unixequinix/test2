@@ -22,6 +22,8 @@ namespace :db do
     make_tickets
     make_gtags
     make_customers
+    make_customer_event_profiles
+    make_credential_assignments
   end
 
   def make_admins
@@ -174,4 +176,27 @@ namespace :db do
       event_id: 1)
   end
 
+  def make_customer_event_profiles
+    puts 'Create customer event profiles'
+    puts '----------------------------------------'
+    CustomerEventProfile.destroy_all
+    CustomerEventProfile.create(customer_id: 1, event_id: 1)
+    CustomerEventProfile.create(customer_id: 2, event_id: 1)
+  end
+
+  def make_credential_assignments
+    puts 'Create credential assignments'
+    puts '----------------------------------------'
+    CredentialAssignment.destroy_all
+    CredentialAssignment.create(
+      aasm_state: "assigned",
+      credentiable_id: 10,
+      credentiable_type: "Ticket",
+      customer_event_profile_id: 1)
+    CredentialAssignment.create(
+      aasm_state: "assigned",
+      credentiable_id: 5,
+      credentiable_type: "Gtag",
+      customer_event_profile_id: 2)
+  end
 end

@@ -1,17 +1,13 @@
 class Events::BaseController < ApplicationController
   layout "customer"
   protect_from_forgery
+  before_action :fetch_current_event
   before_action :ensure_customer
-  before_action :set_locale
+  before_action :write_locale_to_session
   before_filter :set_i18n_globals
   helper_method :current_event
-  before_action :fetch_current_event
   before_action :authenticate_customer!
   helper_method :warden, :customer_signed_in?, :current_customer
-
-  def current_event
-    @current_event || Event.new
-  end
 
   def warden
     request.env["warden"]
@@ -55,14 +51,7 @@ class Events::BaseController < ApplicationController
 
   private
 
-  def fetch_current_event
-    id = params[:event_id] || params[:id]
-    @current_event = Event.find_by_slug(id) if id
-    fail ActiveRecord::RecordNotFound if @current_event.nil?
-    @current_event
-  end
-
-  def set_locale
+  def write_locale_to_session
     super(current_event.selected_locales_formated)
   end
 
