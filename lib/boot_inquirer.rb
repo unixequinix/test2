@@ -19,10 +19,7 @@ class BootInquirer
     "u" => "customer_area",
     "o" => "payment_ngn",
     "r" => "refund_ngn",
-    "a" => "administration",
-    "p" => "api",
-    "m" => "company_api",
-    "t" => "transactions"
+    "a" => "administration"
   }
 
   class << self
