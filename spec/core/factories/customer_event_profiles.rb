@@ -12,7 +12,10 @@
 
 FactoryGirl.define do
   factory :customer_event_profile do
-    customer
     event
+    after(:build) do |customer_event_profile|
+      customer_event_profile.customer ||= build(:customer,
+                                                customer_event_profile: customer_event_profile)
+    end
   end
 end

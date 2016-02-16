@@ -25,6 +25,6 @@ class RefundService
   end
 
   def send_mail_for(_claim)
-    ClaimMailer.completed_email(@claim, @event).deliver_later
+    ClaimMailer.completed_email(@claim, @event.object).deliver_later
   end
 end
