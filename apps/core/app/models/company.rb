@@ -11,7 +11,7 @@
 #
 
 class Company < ActiveRecord::Base
-  has_many :company_ticket_types
+  has_many :company_ticket_types, dependent: :restrict_with_error
   belongs_to :event
 
   # Hooks
