@@ -12,6 +12,18 @@ PATH
       rails (~> 4.2.1)
 
 PATH
+  remote: apps/api
+  specs:
+    api (0.0.1)
+      rails (~> 4.2.1)
+
+PATH
+  remote: apps/company_api
+  specs:
+    company_api (0.0.1)
+      rails (~> 4.2.1)
+
+PATH
   remote: apps/core
   specs:
     core (0.0.1)
@@ -32,6 +44,12 @@ PATH
   remote: apps/refund_ngn
   specs:
     refund_ngn (0.0.1)
+      rails (~> 4.2.1)
+
+PATH
+  remote: apps/transactions
+  specs:
+    transactions (0.0.1)
       rails (~> 4.2.1)
 
 GEM
@@ -605,6 +623,7 @@ DEPENDENCIES
   acts_as_list
   administration!
   annotate (~> 2.6.10)
+  api!
   aws-sdk (~> 2)
   aws-sdk-rails
   aws-sdk-v1
@@ -622,6 +641,7 @@ DEPENDENCIES
   capistrano-sidekiq (~> 0.5.3)
   capybara (~> 2.4.4)
   capybara-slow_finder_errors
+  company_api!
   core!
   country_select (~> 2.2.0)
   customer_area!
@@ -691,6 +711,7 @@ DEPENDENCIES
   spring-commands-rspec (~> 1.0.4)
   stripe (~> 1.31.0)
   therubyracer (~> 0.12.2)
+  transactions!
   turbolinks (~> 2.5.3)
   uglifier (~> 2.7.1)
   validate_nz_bank_acc (~> 0.0.3)
