@@ -4,11 +4,7 @@ RSpec.feature "Ticket assignation", type: :feature do
   context "with account signed in" do
     before :all do
       @event = build(:event, features: 3, aasm_state: "launched")
-      @customer = build(:customer,
-                        event: @event,
-                        confirmation_token: nil,
-                        confirmed_at: Time.now)
-
+      @customer = build(:customer, event: @event)
       create(:customer_event_profile, customer: @customer, event: @event)
       login_as(@customer, scope: :customer)
     end

@@ -39,9 +39,11 @@ FactoryGirl.define do
   factory :customer do
     name { "Some name #{rand(100)}" }
     surname { "Some name #{rand(100)}" }
-    email { Faker::Internet.email }
+    email { "seth#{rand(100)}@swift.name" }
     agreed_on_registration true
     encrypted_password Authentication::Encryptor.digest("password")
+    confirmation_token nil
+    confirmed_at { Time.now }
     phone { "1-800-#{rand(100)}" }
     country { %w( EN ES TH IT ).sample }
     gender { %w(male female).sample }

@@ -26,12 +26,7 @@ RSpec.feature "Refund for Bank account", type: :feature do
   private
 
   def load_customer
-    @customer = build(
-      :customer,
-      event: @event,
-      confirmation_token: nil,
-      confirmed_at: Time.now
-    )
+    @customer = build(:customer, event: @event)
     create(:customer_event_profile, customer: @customer, event: @event)
   end
 

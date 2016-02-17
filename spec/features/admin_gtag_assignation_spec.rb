@@ -4,7 +4,7 @@ RSpec.feature "Admin Gtag assignation", type: :feature do
   context "with an admin signed in" do
     before :each do
       @event = create(:event)
-      @customer = create(:customer, event: @event, confirmation_token: nil, confirmed_at: Time.now)
+      @customer = create(:customer, event: @event)
       @gtag = create(:gtag, event: @event)
       admin = create(:admin)
       login_as(admin, scope: :admin)
