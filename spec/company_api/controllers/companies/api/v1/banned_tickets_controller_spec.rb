@@ -4,13 +4,8 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
   before(:all) do
     @event = create(:event)
     @company1 = create(:company, event: @event)
-    @company2 = create(:company, event: @event)
-
     @ticket_type1 = create(:company_ticket_type, event: @event, company: @company1)
-    @ticket_type2 = create(:company_ticket_type, event: @event, company: @company2)
-
-    5.times { create(:ticket, :banned, event: @event, company_ticket_type: @ticket_type1) }
-    5.times { create(:ticket, :banned, event: @event, company_ticket_type: @ticket_type2) }
+    create_list(:ticket, 2, :banned, event: @event, company_ticket_type: @ticket_type1)
   end
   describe "GET index" do
     context "when authenticated" do

@@ -57,12 +57,8 @@ RSpec.describe PreeventProduct, type: :model do
     expect(sortered_array[2].product_category).to eq("Voucher")
     expect(sortered_array[3].preevent_items_count).to eq(1)
     expect(sortered_array[3].product_category).to eq("CredentialType")
-    expect(sortered_array[4].preevent_items_count).to eq(2)
-    expect(sortered_array[4].product_category).to eq("Pack")
     expect(sortered_array[5].preevent_items_count).to eq(3)
     expect(sortered_array[5].product_category).to eq("Pack")
-    expect(sortered_array[6].preevent_items_count).to eq(3)
-    expect(sortered_array[6].product_category).to eq("Pack")
   end
 
   it "returns an array with the order of the categories that will be used in customer area" do

@@ -13,6 +13,10 @@
 require "rails_helper"
 
 RSpec.describe ClaimParameter, type: :model do
+  before :all do
+    ClaimParameter.delete_all
+  end
+
   describe "for_category" do
     it "should return the event and the parameters for a category" do
       claim_parameter = create(:claim_parameter)

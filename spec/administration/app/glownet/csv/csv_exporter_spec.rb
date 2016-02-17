@@ -4,6 +4,9 @@ require "rails_helper"
 RSpec.describe Csv::CsvExporter, type: :domain_logic do
   context "With many Claims in the DB" do
     before :all do
+      ClaimParameter.destroy_all
+      Refund.destroy_all
+      Claim.destroy_all
       tag_odd = create(:gtag, tag_uid: "4OBXCHS2FT", tag_serial_number: "MIUE4Z2HNT")
       tag_even = create(:gtag, tag_uid: "5OBXCHS2FT", tag_serial_number: "MOUE4Z2HNT",
                                event: tag_odd.event)

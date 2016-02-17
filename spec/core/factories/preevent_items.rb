@@ -16,8 +16,8 @@
 FactoryGirl.define do
   factory :preevent_item do
     event
-    name { Faker::Lorem.word }
-    description { Faker::Lorem.sentence }
+    name { "word #{rand(100)}" }
+    description { "Some really long sentence that makes no sense" }
 
     trait :credit_item do
       after(:build) do |preevent_item|

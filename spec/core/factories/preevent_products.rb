@@ -1,13 +1,13 @@
 FactoryGirl.define do
   factory :preevent_product do
     event
-    name { Faker::Name.last_name }
+    name { "Random name #{rand(100)}" }
     initial_amount 0
     online true
-    step { Faker::Number.between(1, 5) }
-    max_purchasable { 10 * Faker::Number.between(2, 5) }
-    min_purchasable { Faker::Number.between(1, 5) }
-    price { Faker::Commerce.price }
+    step { rand(5) }
+    max_purchasable { rand(50) }
+    min_purchasable { rand(5) }
+    price { rand(10.30) }
 
     trait :credit_product do
       after(:build) do |product|
