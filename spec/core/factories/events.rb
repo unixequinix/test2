@@ -38,7 +38,7 @@
 
 FactoryGirl.define do
   factory :event do
-    name { ["word #{rand(10)}", "word #{rand(10)}"].join + "EAN1234567#{rand(1000)}" }
+    name { "Festival #{SecureRandom.urlsafe_base64}" }
     location { "#{rand(100)} some street" }
     start_date { Time.now }
     end_date { Time.now + 2.days }

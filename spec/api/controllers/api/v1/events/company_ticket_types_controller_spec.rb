@@ -25,7 +25,7 @@ RSpec.describe Api::V1::Events::CompanyTicketTypesController, type: :controller 
         body = JSON.parse(response.body)
         ticket_types = body.map { |m| m["name"] }
 
-        expect(ticket_types).to match_array(CompanyTicketType.all.map(&:name))
+        expect(ticket_types).to match_array(CompanyTicketType.where(event: event).map(&:name))
         expect(body.first.keys.sort).to contain_exactly("company_id", "company_name",
                                                         "company_ticket_type_ref", "id", "name",
                                                         "preevent_product_id")

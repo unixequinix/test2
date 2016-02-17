@@ -34,7 +34,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
           body = JSON.parse(response.body)
           gtags = body.map { |m| m["tag_uid"] }
 
-          expect(gtags).to match_array(Gtag.all.map(&:tag_uid))
+          expect(gtags).to match_array(@event.gtags.map(&:tag_uid))
         end
       end
     end

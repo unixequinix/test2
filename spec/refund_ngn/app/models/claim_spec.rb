@@ -19,6 +19,12 @@
 require "rails_helper"
 
 RSpec.describe Claim, type: :model do
+  before :each do
+    ClaimParameter.destroy_all
+    Refund.destroy_all
+    Claim.destroy_all
+  end
+
   describe "Claim.selected_data" do
     it "prepares the rows with the default columns and the extra columns for a csv exportation" do
       gtag = create(:gtag)

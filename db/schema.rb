@@ -265,7 +265,7 @@ ActiveRecord::Schema.define(version: 20160216123700) do
     t.integer  "preevent_product_id",       null: false, index: {name: "fk__customer_orders_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "fk_customer_orders_preevent_product_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "customer_event_profile_id", null: false, index: {name: "fk__customer_orders_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_customer_orders_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "counter"
-    t.string   "aasm_state",                default: "unredeemed", null: false
+    t.boolean  "redeemed",                  default: false, null: false
     t.datetime "deleted_at",                index: {name: "index_customer_orders_on_deleted_at"}
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
@@ -337,15 +337,6 @@ ActiveRecord::Schema.define(version: 20160216123700) do
     t.integer  "preevent_product_id", index: {name: "fk__order_items_preevent_product_id"}, foreign_key: {references: "preevent_products", name: "order_items_preevent_product_id_fkey", on_update: :no_action, on_delete: :no_action}
   end
 
-  create_table "payment_gateway_customers", force: :cascade do |t|
-    t.integer  "customer_event_profile_id", index: {name: "fk__payment_gateway_customers_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_payment_gateway_customers_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "token",                     index: {name: "index_payment_gateway_customers_on_token_and_gateway_type", with: ["gateway_type"], unique: true}
-    t.string   "gateway_type",              index: {name: "index_payment_gateway_customers_on_gateway_type"}
-    t.datetime "deleted_at",                index: {name: "index_payment_gateway_customers_on_deleted_at"}
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-  end
-
   create_table "payments", force: :cascade do |t|
     t.integer  "order_id",           null: false, index: {name: "fk__payments_order_id"}, foreign_key: {references: "orders", name: "fk_payments_order_id", on_update: :no_action, on_delete: :no_action}
     t.decimal  "amount",             precision: 8, scale: 2, null: false
@@ -361,7 +352,6 @@ ActiveRecord::Schema.define(version: 20160216123700) do
     t.datetime "paid_at"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
-    t.string   "last4"
   end
 
   create_table "preevent_items", force: :cascade do |t|
@@ -414,12 +404,6 @@ ActiveRecord::Schema.define(version: 20160216123700) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "name"
-  end
-
-  create_table "ticket_blacklists", force: :cascade do |t|
-    t.integer  "ticket_id",  index: {name: "index_ticket_blacklists_on_ticket_id"}, foreign_key: {references: "tickets", name: "fk_ticket_blacklists_ticket_id", on_update: :no_action, on_delete: :no_action}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "transactions", force: :cascade do |t|

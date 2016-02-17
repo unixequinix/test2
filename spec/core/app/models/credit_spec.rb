@@ -17,7 +17,6 @@ RSpec.describe Credit, type: :model do
       it "should return the product with the standard credit of the event" do
         event = create(:event)
         preevent_product = create(:preevent_product, :standard_credit_product, event: event)
-        create(:preevent_product, :full)
         expect(Credit.standard_credit_preevent_product(event).id).to eq(preevent_product.id)
       end
     end

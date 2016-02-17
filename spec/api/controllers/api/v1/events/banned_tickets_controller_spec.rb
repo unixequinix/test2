@@ -6,7 +6,7 @@ RSpec.describe Api::V1::Events::BannedTicketsController, type: :controller do
     let(:admin) { create(:admin) }
 
     before do
-      create_list(:ticket, 2, :banned, event: event)
+      @tickets = create_list(:ticket, 2, :banned, event: event)
     end
 
     context "with authentication" do
@@ -27,7 +27,7 @@ RSpec.describe Api::V1::Events::BannedTicketsController, type: :controller do
         body = JSON.parse(response.body)
         banned_tickets = body.map { |m| m["reference"] }
 
-        expect(banned_tickets).to match_array(Ticket.banned.map(&:code))
+        @tickets.each { |ticket|  expect(banned_tickets).to include(ticket.code) }
       end
     end
     context "without authentication" do

@@ -4,14 +4,15 @@ RSpec.describe Api::V1::Events::ParametersController, type: :controller do
   describe "GET index" do
     before do
       @event = create(:event)
-      create(:event_parameter, event: @event,
-                               parameter: Parameter.find_by(category: "device",
-                                                            name: "min_version_apk"),
-                               value: "asd123")
+      @param1 = create(:event_parameter,
+                       event: @event,
+                       value: "asd123",
+                       parameter: Parameter.find_by(category: "device", name: "min_version_apk"))
 
-      create(:event_parameter, event: @event,
-                               parameter: Parameter.find_by(category: "gtag", name: "gtag_type"),
-                               value: "mifare_classic")
+      @param2 = create(:event_parameter,
+                       event: @event,
+                       parameter: Parameter.find_by(category: "gtag", name: "gtag_type"),
+                       value: "mifare_classic")
     end
 
     context "with authentication" do
@@ -32,7 +33,8 @@ RSpec.describe Api::V1::Events::ParametersController, type: :controller do
         body = JSON.parse(response.body)
         parameters = body.map { |m| m["value"] }
 
-        expect(parameters).to match_array(EventParameter.all.map(&:value))
+        expect(parameters).to include(@param1.value)
+        expect(parameters).to include(@param2.value)
       end
     end
     context "without authentication" do

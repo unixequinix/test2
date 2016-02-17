@@ -23,25 +23,19 @@ RSpec.describe CompanyTicketType, type: :model do
     before(:all) do
       @company = create(:company)
       @event = @company.event
-      create(:company_ticket_type, company: @company, event: @event, name: "Jaquan", id: 1)
-      create(:company_ticket_type, company: @company, event: @event, name: "Hilario", id: 2)
-      create(:company_ticket_type, company: @company, event: @event, name: "Lloyd", id: 3)
-      create(:company_ticket_type, company: @company, event: @event, name: "Francis", id: 4)
-      create(:company_ticket_type, company: @company, event: @event, name: "Ronny", id: 5)
+      @j = create(:company_ticket_type, company: @company, event: @event, name: "Jaquan")
+      @h = create(:company_ticket_type, company: @company, event: @event, name: "Hilario")
     end
 
     it "returns all the company ticket types thant belongs to a company of a particular event" do
       query = CompanyTicketType.search_by_company_and_event(@company.name, @event)
-      expect(query.count).to eq(5)
+      expect(query.count).to eq(2)
     end
     it "returns the data in the proper format for select inputs" do
       query = CompanyTicketType.form_selector(@event)
       expect(query).to eq([
-        ["Jaquan", 1],
-        ["Hilario", 2],
-        ["Lloyd", 3],
-        ["Francis", 4],
-        ["Ronny", 5]
+        ["Jaquan", @j.id],
+        ["Hilario", @h.id]
       ])
     end
   end

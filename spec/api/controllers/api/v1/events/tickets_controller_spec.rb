@@ -25,7 +25,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         body = JSON.parse(response.body)
         tickets = body.map { |m| m["reference"] }
 
-        expect(tickets).to match_array(Ticket.all.map(&:code))
+        event.tickets.map(&:code).each { |code|  expect(tickets).to include(code) }
       end
     end
     context "without authentication" do

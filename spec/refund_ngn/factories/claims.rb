@@ -19,9 +19,10 @@
 FactoryGirl.define do
   factory :claim do
     customer_event_profile
-    number { rand(10) }
+    number { rand(10_000_000) }
     total 9.98
     gtag
+    aasm_state { %w(started in_progress completed cancelled).sample }
     service_type(%w(bank_account epg).sample)
   end
 end
