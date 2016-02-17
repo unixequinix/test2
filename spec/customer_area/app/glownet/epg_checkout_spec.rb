@@ -2,6 +2,9 @@ require "rails_helper"
 
 RSpec.describe EpgCheckout, type: :domain_logic do
   before(:all) do
+    ClaimParameter.destroy_all
+    Refund.destroy_all
+    Claim.destroy_all
     event = create(:event, refund_services: 2)
     Seeder::SeedLoader.load_default_event_parameters(event)
     cep = create(:customer_event_profile, event: event)

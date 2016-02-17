@@ -19,10 +19,4 @@ require "rails_helper"
 
 RSpec.describe Ticket, type: :model do
   it { is_expected.to validate_presence_of(:code) }
-
-  it do
-    ticket = FactoryGirl.build(:ticket)
-
-    expect(ticket.valid?).to be(true)
-  end
 end

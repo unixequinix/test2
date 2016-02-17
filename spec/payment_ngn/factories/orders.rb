@@ -13,7 +13,7 @@
 
 FactoryGirl.define do
   factory :order do
-    number { Faker::Number.number(10) }
+    number { rand(10) }
     customer_event_profile
 
     after :build do |order, _evaluator|

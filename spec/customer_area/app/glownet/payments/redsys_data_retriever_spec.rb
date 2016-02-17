@@ -2,7 +2,8 @@ require "rails_helper"
 
 RSpec.describe Payments::RedsysDataRetriever, type: :domain_logic do
   before(:all) do
-    order = create(:order, number: "2678434012")
+    @number = rand(10_000_000)
+    order = create(:order, number: @number)
     customer_event_profile = order.customer_event_profile
     event = customer_event_profile.event
     Seeder::SeedLoader.load_default_event_parameters(event)
@@ -99,12 +100,12 @@ RSpec.describe Payments::RedsysDataRetriever, type: :domain_logic do
     it "returns the message for the redsys system" do
       message = ""
       message += "5985"
-      message += "2678434012"
+      message += @number.to_s
       message += "126327360"
       message += "978"
       message += "0"
       message += Rails.application.secrets.host_url + "/"
-      message += @redsys_data_retriever.current_event.name
+      message += @redsys_data_retriever.current_event.slug
       message += "/orders/#{@redsys_data_retriever.order.id}"
       message += "/payments"
       message += "qwertyasdf0123456789"

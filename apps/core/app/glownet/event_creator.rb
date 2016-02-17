@@ -12,6 +12,7 @@ class EventCreator
     standard_credit
     default_event_parameters
     default_event_translations
+    @event
   end
 
   def default_event_parameters

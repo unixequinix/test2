@@ -4,10 +4,7 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
   before(:all) do
     @event = create(:event)
     @company1 = create(:company, event: @event)
-    @company2 = create(:company, event: @event)
-
-    5.times { create(:company_ticket_type, event: @event, company: @company1) }
-    5.times { create(:company_ticket_type, event: @event, company: @company2) }
+    @ticket_type = create(:company_ticket_type, event: @event, company: @company1)
   end
 
   describe "GET index" do
@@ -28,8 +25,8 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
         body = JSON.parse(response.body)
         ticket_types = body["ticket_types"].map { |m| m["name"] }
 
-        expect(ticket_types).to match_array(CompanyTicketType.search_by_company_and_event(
-          @company1.name, @event).map(&:name))
+        result = CompanyTicketType.where(company: @company1, event: @event).map(&:name)
+        expect(ticket_types).to match_array(result)
       end
     end
 
@@ -50,7 +47,7 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
 
       context "when the ticket type belongs to the company" do
         before(:each) do
-          get :show, event_id: @event.id, id: CompanyTicketType.first.id
+          get :show, event_id: @event.id, id: @ticket_type.id
         end
 
         it "returns a 200 status code" do
@@ -59,13 +56,13 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
 
         it "returns the correct ticket" do
           body = JSON.parse(response.body)
-          expect(body["name"]).to eq(CompanyTicketType.first.name)
+          expect(body["name"]).to eq(@ticket_type.name)
         end
       end
 
       context "when the ticket type doesn't belong to the company" do
         it "returns a 404 status code" do
-          get :show, event_id: @event.id, id: CompanyTicketType.last.id
+          get :show, event_id: @event.id, id: create(:company_ticket_type)
           expect(response.status).to eq(404)
         end
       end
@@ -73,7 +70,7 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
 
     context "when not authenticated" do
       it "returns a 401 status code" do
-        get :show, event_id: @event.id, id: CompanyTicketType.first.id
+        get :show, event_id: @event.id, id: @ticket_type.id
 
         expect(response.status).to eq(401)
       end
@@ -83,7 +80,6 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
   describe "POST create" do
     context "when authenticated" do
       before(:each) do
-        @company = Company.last.name
         http_login(@event.token, @company1.token)
       end
 
@@ -100,10 +96,11 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
         end
 
         it "returns the created ticket type" do
-          post :create, ticket_type: attributes_for(:company_ticket_type)
+          atts = attributes_for(:company_ticket_type)
+          post :create, ticket_type: atts
 
           body = JSON.parse(response.body)
-          expect(body["name"]).to eq(CompanyTicketType.last.name)
+          expect(body["name"]).to eq(atts[:name])
         end
       end
 
@@ -126,8 +123,6 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
   describe "PATCH update" do
     context "when authenticated" do
       before(:each) do
-        @company = Company.last.name
-        @ticket_type = CompanyTicketType.first
         http_login(@event.token, @company1.token)
       end
 
@@ -173,7 +168,7 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
 
     context "when not authenticated" do
       it "returns a 401 status code" do
-        put :update, id: CompanyTicketType.first, ticket_type: { name: "AA123" }
+        put :update, id: @ticket_type, ticket_type: { name: "AA123" }
         expect(response.status).to eq(401)
       end
     end

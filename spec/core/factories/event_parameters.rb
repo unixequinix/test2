@@ -15,7 +15,7 @@ FactoryGirl.define do
     transient do
       position_of_value [0, 1].sample
     end
-    value { [Faker::Lorem.word, Faker::Number.decimal(2)][position_of_value] }
+    value { ["word #{rand(100)}", rand(100.00)][position_of_value] }
     event
 
     after :build do |event_parameter, evaluator|

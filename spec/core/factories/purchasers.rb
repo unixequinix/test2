@@ -16,16 +16,13 @@
 
 FactoryGirl.define do
   factory :purchaser do
-    first_name { Faker::Name.first_name }
-    last_name { Faker::Name.last_name }
-    email { Faker::Internet.email }
+    first_name { "Name #{rand(100)}" }
+    last_name { "Some name #{rand(100)}" }
+    email { "someemail@somedomain#{rand(100)}.com" }
 
     trait :with_gtag_delivery_address do
       gtag_delivery_address do
-        Faker::Address.street_address + " " +
-          Faker::Address.secondary_address + " " +
-          Faker::Address.postcode + " " +
-          Faker::Address.city
+        "#{rand(100)} some street, #{rand(1000)}, country"
       end
     end
     trait :gtag_credential do

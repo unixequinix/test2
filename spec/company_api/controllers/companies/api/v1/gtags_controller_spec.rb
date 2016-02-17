@@ -3,13 +3,9 @@ require "rails_helper"
 RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
   before(:all) do
     @event = create(:event)
-    @ticket_type1 = create(:company_ticket_type, event: @event,
-                                                 company: create(:company, event: @event))
-    @ticket_type2 = create(:company_ticket_type, event: @event,
-                                                 company: create(:company, event: @event))
-
-    5.times { create(:gtag, :with_purchaser, event: @event, company_ticket_type: @ticket_type1) }
-    5.times { create(:gtag, :with_purchaser, event: @event, company_ticket_type: @ticket_type2) }
+    company = create(:company, event: @event)
+    @ticket_type1 = create(:company_ticket_type, event: @event, company: company)
+    create_list(:gtag, 2, :with_purchaser, event: @event, company_ticket_type: @ticket_type1)
   end
 
   describe "GET index" do

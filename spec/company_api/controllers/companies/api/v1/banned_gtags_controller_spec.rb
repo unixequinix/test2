@@ -4,11 +4,10 @@ RSpec.describe Companies::Api::V1::BannedGtagsController, type: :controller do
   before(:all) do
     @event = create(:event)
     @company1 = create(:company, event: @event)
-    @company2 = create(:company, event: @event)
 
-    5.times { create(:gtag, :banned, event: @event, company_ticket_type: @ticket_type1) }
-    5.times { create(:gtag, :banned, event: @event, company_ticket_type: @ticket_type2) }
+    create_list(:gtag, 2, :banned, event: @event, company_ticket_type: @ticket_type1)
   end
+
   describe "GET index" do
     context "when authenticated" do
       before(:each) do

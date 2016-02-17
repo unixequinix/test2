@@ -11,6 +11,7 @@ RSpec.feature "Admin Gtag assignation", type: :feature do
       admin = create(:admin)
       login_as(admin, scope: :admin)
     end
+
     it "should be able to assign a valid gtag" do
       visit "/admins/events/#{@event_creator.event.slug}/customers"
       click_link(@customer.email)
