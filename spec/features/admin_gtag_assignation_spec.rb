@@ -1,6 +1,7 @@
 require "rails_helper"
 
 RSpec.feature "Admin Gtag assignation", type: :feature do
+
   context "with an admin signed in" do
     before :each do
       @event = create(:event)
@@ -9,6 +10,7 @@ RSpec.feature "Admin Gtag assignation", type: :feature do
       admin = create(:admin)
       login_as(admin, scope: :admin)
     end
+
     it "should be able to assign a valid gtag" do
       visit "/admins/events/#{@event.slug}/customers"
       click_link(@customer.email)
