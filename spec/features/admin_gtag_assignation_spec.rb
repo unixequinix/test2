@@ -1,7 +1,6 @@
 require "rails_helper"
 
 RSpec.feature "Admin Gtag assignation", type: :feature do
-
   context "with an admin signed in" do
     before :each do
       @event = create(:event)
