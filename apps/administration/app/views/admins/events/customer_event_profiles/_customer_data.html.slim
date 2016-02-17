@@ -175,7 +175,7 @@
                       = link_to admins_event_claim_path(current_event, claim, claim: { aasm_state: :cancelled }), method: :patch, data: { confirm: t("admin.confirm.delete") } do
                         = fa_icon "ban"
 
-    - if !customer_event_profile.completed_claim.nil?
+    - if customer_event_profile.completed_claim.present?
       h3
         = fa_icon "table"
         = t ("admin.customers.refund")
@@ -198,3 +198,9 @@
             td data-label=t('admin.refunds.payment_solution') = customer_event_profile.completed_claim.refund.payment_solution
             td data-label=t('admin.refunds.status') = customer_event_profile.completed_claim.refund.status
             td data-label=t('admin.refunds.created_at') = customer_event_profile.completed_claim.refund.created_at.strftime("%y-%m-%d %H:%M:%S")
+
+    - if customer_event_profile.customer_orders.present?
+        h3
+          = fa_icon "table"
+          = t ("admin.customers.customer_orders")
+        = render('admins/events/customer_orders/list_table', customer_orders: customer_event_profile.customer_orders)

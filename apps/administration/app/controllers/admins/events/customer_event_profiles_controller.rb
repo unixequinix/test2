@@ -13,7 +13,8 @@ class Admins::Events::CustomerEventProfilesController < Admins::Events::BaseCont
       @fetcher.customer_event_profiles.with_deleted
       .includes(:active_tickets_assignment,
                 :active_gtag_assignment,
-                credential_assignments: :credentiable)
+                credential_assignments: :credentiable,
+                customer_orders: :preevent_product)
       .find(params[:id])
   end
 

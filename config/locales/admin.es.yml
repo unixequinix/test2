@@ -307,6 +307,7 @@ es:
       payments: "Pagos"
       gtag_assignments: "Registro de Gtags"
       completed_claim: "Peticiones de devolución completadas"
+      customer_orders: "Órdenes de cliente"
       refund: "Refund"
       claims: "Peticiones de devolución"
       gtag_credits: "Créditos Gtag"
