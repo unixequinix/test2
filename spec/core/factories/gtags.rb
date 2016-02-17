@@ -17,7 +17,7 @@ FactoryGirl.define do
   factory :gtag do
     event
     tag_uid { "ERTYUJHB#{rand(100)}GH#{rand(100)}" }
-    tag_serial_number { rand(10000) }
+    tag_serial_number { rand(10_000) }
     credential_redeemed { [true, false].sample }
     company_ticket_type
 

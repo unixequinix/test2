@@ -17,7 +17,7 @@
 
 FactoryGirl.define do
   factory :ticket do
-    code { rand(10) }
+    code { "#{SecureRandom.urlsafe_base64}#{rand(1000)}" }
     event
     credential_redeemed { [true, false].sample }
     company_ticket_type
@@ -30,7 +30,7 @@ FactoryGirl.define do
     end
 
     trait :with_purchaser do
-      after(:build) do |ticket|
+      after(:create) do |ticket|
         create(:purchaser, credentiable: ticket)
       end
     end

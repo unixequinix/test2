@@ -13,12 +13,6 @@ require "rails_helper"
 
 RSpec.describe Credit, type: :model do
   describe "Credit" do
-    before(:all) do
-      @event = create(:event)
-      create(:preevent_product, :standard_credit_product, event: @event, price: 2)
-      create(:preevent_product, :standard_credit_product, price: 5)
-    end
-
     describe ".standard_credit_preevent_product" do
       it "should return the product with the standard credit of the event" do
         event = create(:event)

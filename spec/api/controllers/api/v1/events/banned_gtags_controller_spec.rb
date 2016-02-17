@@ -1,18 +1,17 @@
 require "rails_helper"
 
 RSpec.describe Api::V1::Events::BannedGtagsController, type: :controller do
+  let(:admin) { create(:admin) }
+
   describe "GET index" do
     before do
       @event = create :event
-      10.times do
-        create(:gtag, :banned, event: @event)
-      end
+      create_list(:gtag, 2, :banned, event: @event)
     end
 
     context "with authentication" do
       before(:each) do
-        @admin = FactoryGirl.create(:admin)
-        http_login(@admin.email, @admin.access_token)
+        http_login(admin.email, admin.access_token)
       end
 
       it "has a 200 status code" do

@@ -3,13 +3,9 @@ require "rails_helper"
 RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
   before(:all) do
     @event = create(:event)
-    @ticket_type1 = create(:company_ticket_type, event: @event,
-                                                 company: create(:company, event: @event))
-    @ticket_type2 = create(:company_ticket_type, event: @event,
-                                                 company: create(:company, event: @event))
-
-    5.times { create(:ticket, :with_purchaser, event: @event, company_ticket_type: @ticket_type1) }
-    5.times { create(:ticket, :with_purchaser, event: @event, company_ticket_type: @ticket_type2) }
+    company = create(:company, event: @event)
+    @ticket_type1 = create(:company_ticket_type, event: @event, company: company)
+    create_list(:ticket, 2, :with_purchaser, event: @event, company_ticket_type: @ticket_type1)
   end
 
   describe "GET index" do
@@ -69,7 +65,7 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
 
       context "when the ticket doesn't belong to the company" do
         it "returns a 404 status code" do
-          get :show, event_id: @event.id, id: Ticket.first.id
+          get :show, event_id: @event.id, id: create(:ticket)
           expect(response.status).to eq(404)
         end
       end

@@ -23,8 +23,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         body = JSON.parse(response.body)
         event_names = body.map { |m| m["name"] }
 
-        expect(event_names).to match_array(["Sonar Barcelona",
-                                            "Comic Con Dubai"])
+        expect(event_names).to match_array(["Sonar Barcelona", "Comic Con Dubai"])
       end
     end
     context "without authentication" do

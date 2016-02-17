@@ -2,17 +2,17 @@ require "rails_helper"
 
 RSpec.describe Api::V1::Events::BannedTicketsController, type: :controller do
   describe "GET index" do
+    let(:event) { build(:event) }
+    let(:admin) { create(:admin) }
+
     before do
-      @event = create :event
-      10.times do
-        create(:ticket, :banned, event: @event)
-      end
+      create_list(:ticket, 2, :banned, event: event)
     end
 
     context "with authentication" do
       before(:each) do
-        @admin = FactoryGirl.create(:admin)
-        http_login(@admin.email, @admin.access_token)
+        admin = FactoryGirl.create(:admin)
+        http_login(admin.email, admin.access_token)
       end
 
       it "has a 200 status code" do
@@ -22,7 +22,7 @@ RSpec.describe Api::V1::Events::BannedTicketsController, type: :controller do
       end
 
       it "returns all the banned tickets" do
-        get :index, event_id: @event.id
+        get :index, event_id: event.id
 
         body = JSON.parse(response.body)
         banned_tickets = body.map { |m| m["reference"] }

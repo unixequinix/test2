@@ -20,8 +20,9 @@ require "rails_helper"
 RSpec.describe Refund, type: :model do
   it { is_expected.to validate_presence_of(:claim) }
   it { is_expected.to validate_presence_of(:amount) }
+
   it "should set the data for the exportation" do
-    refund = create(:refund)
+    refund = build(:refund)
     claim = refund.claim
     gtag = claim.gtag
     event = gtag.event_id

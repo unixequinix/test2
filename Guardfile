@@ -33,7 +33,7 @@
 #  * 'just' rspec: 'rspec'
 
 # dont do coverages when running guard
-guard :rspec, cmd: "bundle exec rspec" do
+guard :rspec, cmd: "zeus rspec" do
   require "guard/rspec/dsl"
   dsl = Guard::RSpec::Dsl.new(self)
 

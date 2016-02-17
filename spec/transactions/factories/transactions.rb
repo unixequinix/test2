@@ -1,8 +1,5 @@
 FactoryGirl.define do
   factory :transaction, class: "Transaction" do
-    event
-    station
-    device
     customer_event_profile
     transaction_type { "word #{rand(100)}" }
     device_created_at { Time.now }

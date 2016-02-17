@@ -104,7 +104,7 @@ RSpec.describe Payments::RedsysDataRetriever, type: :domain_logic do
       message += "978"
       message += "0"
       message += Rails.application.secrets.host_url + "/"
-      message += @redsys_data_retriever.current_event.name
+      message += @redsys_data_retriever.current_event.slug
       message += "/orders/#{@redsys_data_retriever.order.id}"
       message += "/payments"
       message += "qwertyasdf0123456789"

@@ -39,7 +39,7 @@ FactoryGirl.define do
   factory :customer do
     name { "Some name #{rand(100)}" }
     surname { "Some name #{rand(100)}" }
-    email { "email@somedomain#{rand(100)}.com" }
+    email { "random_email_#{rand(1000)}@somedomain.com" }
     agreed_on_registration true
     encrypted_password Authentication::Encryptor.digest("password")
     phone { "1-800-#{rand(100)}" }

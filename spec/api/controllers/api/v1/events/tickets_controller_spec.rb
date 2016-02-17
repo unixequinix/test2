@@ -1,28 +1,26 @@
 require "rails_helper"
 
 RSpec.describe Api::V1::Events::TicketsController, type: :controller do
+  let(:event) { build(:event) }
+  let(:admin) { create(:admin) }
+
   before do
-    @event = create :event
-    10.times do
-      create(:ticket, :with_purchaser, event: @event)
-    end
+    create_list(:ticket, 2, :with_purchaser, event: event)
   end
 
   describe "GET index" do
     context "with authentication" do
       before(:each) do
-        @admin = FactoryGirl.create(:admin)
-        http_login(@admin.email, @admin.access_token)
+        http_login(admin.email, admin.access_token)
       end
 
       it "has a 200 status code" do
         get :index, event_id: Event.last.id
-
         expect(response.status).to eq 200
       end
 
       it "returns all the tickets" do
-        get :index, event_id: @event.id
+        get :index, event_id: event.id
 
         body = JSON.parse(response.body)
         tickets = body.map { |m| m["reference"] }
@@ -33,7 +31,6 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
     context "without authentication" do
       it "has a 401 status code" do
         get :index, event_id: Event.last.id
-
         expect(response.status).to eq 401
       end
     end
@@ -42,20 +39,19 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
   describe "GET show" do
     context "with authentication" do
       before(:each) do
-        @admin = FactoryGirl.create(:admin)
-        http_login(@admin.email, @admin.access_token)
+        http_login(admin.email, admin.access_token)
       end
 
       context "if ticket doesn't exist" do
         it "has a 404 status code" do
-          get :show, event_id: @event.id, id: 999
+          get :show, event_id: event.id, id: 999
           expect(response.status).to eq 404
         end
       end
 
       context "if ticket exists" do
         before(:each) do
-          get :show, event_id: @event.id, id: Ticket.last.id
+          get :show, event_id: event.id, id: Ticket.last.id
         end
 
         it "has a 200 status code" do
@@ -72,7 +68,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
     end
     context "without authentication" do
       it "has a 401 status code" do
-        get :show, event_id: @event.id, id: Ticket.last.id
+        get :show, event_id: event.id, id: Ticket.last.id
         expect(response.status).to eq 401
       end
     end
@@ -81,20 +77,19 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
   describe "GET reference" do
     context "with authentication" do
       before(:each) do
-        @admin = FactoryGirl.create(:admin)
-        http_login(@admin.email, @admin.access_token)
+        http_login(admin.email, admin.access_token)
       end
 
       context "if ticket doesn't exist" do
         it "has a 404 status code" do
-          get :reference, event_id: @event.id, id: "IdDoesntExist"
+          get :reference, event_id: event.id, id: "IdDoesntExist"
           expect(response.status).to eq 404
         end
       end
 
       context "if ticket exists" do
         before(:each) do
-          get :reference, event_id: @event.id, id: Ticket.last.code
+          get :reference, event_id: event.id, id: Ticket.last.code
         end
 
         it "has a 200 status code" do
@@ -111,7 +106,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
     end
     context "without authentication" do
       it "has a 401 status code" do
-        get :reference, event_id: @event.id, id: Ticket.last.id
+        get :reference, event_id: event.id, id: Ticket.last.id
         expect(response.status).to eq 401
       end
     end

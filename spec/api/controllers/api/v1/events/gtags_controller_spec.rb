@@ -1,18 +1,17 @@
 require "rails_helper"
 
 RSpec.describe Api::V1::Events::GtagsController, type: :controller do
+  let(:admin) { create(:admin) }
+
   before do
     @event = create :event
-    10.times do
-      create(:gtag, event: @event)
-    end
+    create_list(:gtag, 2, event: @event)
   end
 
   describe "GET index" do
     context "with authentication" do
       before(:each) do
-        @admin = FactoryGirl.create(:admin)
-        http_login(@admin.email, @admin.access_token)
+        http_login(admin.email, admin.access_token)
       end
 
       context "if gtag doesn't exist" do
@@ -52,8 +51,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
   describe "GET show" do
     context "with authentication" do
       before(:each) do
-        @admin = FactoryGirl.create(:admin)
-        http_login(@admin.email, @admin.access_token)
+        http_login(admin.email, admin.access_token)
         get :show, event_id: @event.id, id: Gtag.last.id
       end
 

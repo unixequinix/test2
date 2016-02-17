@@ -1,7 +1,8 @@
 require "rails_helper"
 
 RSpec.describe CredentialTransaction, type: :model do
-  let(:transaction) { build(:credential_transaction) }
+  let(:event) { build(:event) }
+  let(:transaction) { build(:credential_transaction, event: event) }
 
   it "expects to define methods for each subscribed action" do
     transaction.class::SUBSCRIPTIONS.values.flatten.each do |action|
@@ -39,7 +40,7 @@ RSpec.describe CredentialTransaction, type: :model do
 
     it "creates credential assignments with gtags" do
       tag_uid = "testestest"
-      gtag = FactoryGirl.create(:gtag, tag_uid: tag_uid, event: transaction.event)
+      gtag = create(:gtag, tag_uid: tag_uid, event: transaction.event)
       params = { event: transaction.event,
                  credentiable: gtag,
                  customer_event_profile: transaction.customer_event_profile }
