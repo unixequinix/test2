@@ -4,22 +4,13 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
   before(:all) do
     @event = create(:event)
     @customer1 = create(:customer_event_profile, event: @event)
-    @customer2 = create(:customer_event_profile, event: @event)
 
     create(:credential_assignment_g_a, customer_event_profile: @customer1)
-    create(:credential_assignment_g_a, customer_event_profile: @customer2)
 
-    5.times do
-      create(:customer_order,
-             customer_event_profile: @customer1,
-             preevent_product: create(:preevent_product, :credit_product))
-    end
-
-    5.times do
-      create(:customer_order,
-             customer_event_profile: @customer2,
-             preevent_product: create(:preevent_product, :credit_product))
-    end
+    create_list(:customer_order,
+                5,
+                customer_event_profile: @customer1,
+                preevent_product: create(:preevent_product, :credit_product))
   end
 
   describe "GET index" do
@@ -40,8 +31,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
 
         body = JSON.parse(response.body)
         customers = body.map { |m| m["id"] }
-
-        expect(customers).to match_array(CustomerEventProfile.all.map(&:id))
+        expect(customers).to match_array(CustomerEventProfile.for_event(@event).map(&:id))
       end
 
       it "should include the orders" do
