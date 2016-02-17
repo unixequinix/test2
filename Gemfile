@@ -1,3 +1,5 @@
+Encoding.default_external = Encoding::UTF_8
+Encoding.default_internal = Encoding::UTF_8
 require File.dirname(__FILE__) + '/lib/boot_inquirer'
 
 source 'https://rubygems.org'
@@ -142,13 +144,13 @@ end
 
 group :test do
   gem 'capybara', '~> 2.4.4'
+  gem 'capybara-slow_finder_errors'
   gem 'selenium-webdriver'
   gem 'poltergeist'
   gem 'launchy'
   gem 'shoulda-matchers', '~> 2.8.0', require: false
   gem 'database_cleaner', '~> 1.4.1'
   gem 'rspec-sidekiq'
-  gem 'capybara-slow_finder_errors'
 end
 
 group :production, :staging, :demo, :refunds do
