@@ -1,12 +1,6 @@
 require "rails_helper"
 
 RSpec.feature "Refund for Bank account", type: :feature do
-  before :all do
-    ClaimParameter.delete_all
-    Refund.delete_all
-    Claim.delete_all
-    Seeder::SeedLoader.create_claim_parameters
-  end
 
   context "with account signed in" do
     before :all do
