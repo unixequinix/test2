@@ -139,6 +139,7 @@ group :development, :test, :staging do
   gem 'rubocop-checkstyle_formatter', require: false
   gem 'simplecov', '~> 0.10.0', require: false # Code quality https://github.com/colszowka/simplecov
   gem 'flay', require: false
+  gem 'faker'
 end
 
 group :test do
