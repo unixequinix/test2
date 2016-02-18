@@ -4,75 +4,83 @@
 
 \* ------------------------------------------------------- */
 
-body                                { background-color: #e2e2e2; }
-
 // Mobile header
-
 .mobile-event-name,
 .header-mobile a,
-.header-mobile i                    { color: $color_text; }
-.header-mobile                      { background-color: $snow; }
-
-// Desktop header
-.header-desktop a,
-.header-desktop nav ul a,
-.header-desktop nav ul i,
-.header-desktop h1 a                { color: $snow; }
-.header-desktop                     { background-color: transparent; }
-
-// Main content
-
-h3, label,
-.container-event-column h3          { color: $snow; }
-
-// Main wrapper background color and border
-.container-event-column             { background-color: rgba(255,255,255,0.45); }
-.container-event-column             { box-shadow: inset 0px 0px 0px 1px rgba(255,255,255,0.4); }
-
-// Store modules
-.store-module-title                 { color: $snow; }
-
-// Wrapper module styles
-.wrapper-module,
-.store-module,
-.wrapper-module-centered            { box-shadow: inset 0px -1px 0px 0px $snow; }
-
+.header-mobile h1,
+.header-mobile i,
 // Buttons
-.btn-action,
-.btn-action-primary,
-.btn-action-empty-state             { box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,1); }
-
 .btn-action,
 .btn-action-enter,
 .btn-action-register,
 .btn-action-secondary:hover,
-.btn-action-primary:hover,
-.purchase-amount                    { color: $magenta; }
+.btn-action-primary:hover
+{ color: $snow; }
 
+//HEADER
+.header-desktop a,
+.header-desktop nav ul a,
+.header-desktop nav ul i,
+.header-desktop h1 a,
+//DEFAULT
+h3, label,
+//MODULES
+.container-event-column h3,
+.store-module-title,
+//BUTTONS
+.btn-action-secondary,
+.btn-action-register-desktop,
+.btn-action-register,
+.btn-action-register-mobile,
+//LOGIN-REGISTER
+.wrapper-terms h2,
+.wrapper-terms h3,
+.wrapper-terms a,
+.customer_agreed_on_registration a,
+.separator, .wrapper-breadcrumbs a
+{ color: $magenta; }
+
+//HEADER-MOBILE
+.header-mobile,
+//BUTTONS
 .btn-action,
 .btn-action-enter,
 .btn-action-secondary:hover,
 .btn-action-empty-state:hover,
-.btn-action-primary:hover,
-.purchase-amount                    { background-color: $snow; }
+.purchase-amount:before,
+.btn-action-primary:hover
+{ background-color: $magenta; }
 
-.btn-action-secondary               { color: $snow; }
+// Wrapper module styles
+.wrapper-module,
+.store-module,
+.wrapper-module-centered
+{ box-shadow: inset 0px -1px 0px 0px $light_grey; }
 
-.btn-action-secondary               { background-color: transparent; }
-.btn:after                          { box-shadow: 0 0 0 2px $snow; }
+// Buttons
+.btn-action,
+.btn-action-primary,
+.btn-action-register-desktop,
+.btn-action-register-mobile,
+.btn-action-register,
+.btn-action-empty-state
+{ box-shadow: inset 0px 0px 0px 2px $magenta; }
+
 
 // Login and sign up styles
 
 .customer_remember_me label,
 .sessions-shared-login a,
-.customer_agreed_on_registration label  { color: $color_text; }
-.customer_agreed_on_registration a,
-.separator, .wrapper-breadcrumbs a      { color: $snow; }
+.customer_agreed_on_registration label
+{ color: $color_text; }
 
-.current-breadcrumb                     { box-shadow: inset 0px 0px 0px 1px rgba(255,255,255,1); }
+body                                 { background-color: #e2e2e2; }
+// Main wrapper background color and border
+.container-event-column              { background-color: rgba(255,255,255,0.45); }
+.container-event-column              { box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); }
+.btn-action-secondary                { background-color: transparent; }
+.btn:after                           { box-shadow: 0 0 0 2px $magenta; }
+.current-breadcrumb                  { box-shadow: inset 0px 0px 0px 1px $magenta; }
 
-.wrapper-terms h2,
-.wrapper-terms h3,
-.wrapper-terms a                   { color: $snow; }
 
 // ---------------------------------------------------------------------------------------------
