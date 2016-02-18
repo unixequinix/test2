@@ -12,15 +12,14 @@ class MonetaryTransactionCreator
 
   def save
     calculate_balances
-    if(@monetary_transaction.valid?)
-      @monetary_transaction.save
-    end
+    @monetary_transaction.save if @monetary_transaction.valid?
   end
 
   def calculate_balances
     balances = MonetaryTransaction
-      .select("sum(amount) as final_balance, sum(refundable_amount) as final_refundable_balance")
-      .where(customer_event_profile: @monetary_transaction.customer_event_profile)[0]
+               .select("sum(amount) as final_balance,
+                        sum(refundable_amount) as final_refundable_balance")
+               .where(customer_event_profile: @monetary_transaction.customer_event_profile)[0]
     @monetary_transaction.final_balance =
       balances.final_balance.to_i + @monetary_transaction.amount
     @monetary_transaction.final_refundable_balance =
