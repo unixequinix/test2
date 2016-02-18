@@ -9,7 +9,7 @@ class Events::RefundsController < Events::BaseController
       @claim = Claim.find_by(number: op_hash["merchantTransactionId"])
       next unless @claim
 
-      RefundService.new(@claim, current_event)
+      RefundService.new(@claim)
         .create(amount: op_hash["amount"],
                 currency: op_hash["currency"],
                 message: op_hash["message"],
@@ -29,7 +29,7 @@ class Events::RefundsController < Events::BaseController
 
     redirect_to error_event_refunds_url(current_event) && return unless @claim
 
-    RefundService.new(@claim, current_event)
+    RefundService.new(@claim)
       .create(amount: @claim.gtag.refundable_amount_after_fee("tipalti"),
               currency: I18n.t("currency_symbol"), message: "Created tipalti refund",
               payment_solution: "tipalti", status: "SUCCESS")

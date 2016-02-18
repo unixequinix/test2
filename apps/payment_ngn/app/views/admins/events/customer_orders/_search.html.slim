@@ -2,7 +2,6 @@ p.menu-header
   = fa_icon "search"
   = t("admin.defaults.search")
 
-
 = search_form_for q, url: search_admins_event_customer_orders_path,
   html: { novalidate: true, class: "searchForm" }  do |f|
   .container-search

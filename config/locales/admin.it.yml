@@ -307,6 +307,7 @@ it:
       payments: "Payments"
       gtag_assignments: "Gtag registrations"
       completed_claim: "Completed claims"
+      customer_orders: "Customer orders"
       refund: "Refund"
       claims: "Claims"
       gtag_credits: "Gtag Credits"

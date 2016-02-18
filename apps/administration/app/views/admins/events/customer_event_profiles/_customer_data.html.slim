@@ -175,7 +175,7 @@
                       = link_to admins_event_claim_path(current_event, claim, claim: { aasm_state: :cancelled }), method: :patch, data: { confirm: t("admin.confirm.delete") } do
                         = fa_icon "ban"
 
-    - if !customer_event_profile.completed_claim.nil?
+    - if customer_event_profile.completed_claim.present?
       h3
         = fa_icon "table"
         = t ("admin.customers.refund")
@@ -198,3 +198,34 @@
             td data-label=t('admin.refunds.payment_solution') = customer_event_profile.completed_claim.refund.payment_solution
             td data-label=t('admin.refunds.status') = customer_event_profile.completed_claim.refund.status
             td data-label=t('admin.refunds.created_at') = customer_event_profile.completed_claim.refund.created_at.strftime("%y-%m-%d %H:%M:%S")
+
+    - if customer_event_profile.monetary_transactions.present?
+      h3
+        = fa_icon "table"
+        = t "Monetary Transactions"
+      table.refunds
+        thead
+          tr
+            th = "amount"
+            th = "refundable_amount"
+            th = "value_credit"
+            th = "payment_method"
+            th = "transaction_source"
+            th = "final_balance"
+            th = "final_refundable_balance"
+        tbody
+          - customer_event_profile.monetary_transactions.each do |monetary_transaction|
+            tr
+              td data-label="amount" = monetary_transaction.amount
+              td data-label="refundable_amount" = monetary_transaction.refundable_amount
+              td data-label="value_credit" = monetary_transaction.value_credit
+              td data-label="payment_method" = monetary_transaction.payment_method
+              td data-label="transaction_source" = monetary_transaction.transaction_source
+              td data-label="final_balance" = monetary_transaction.final_balance
+              td data-label="final_refundable_balance" = monetary_transaction.final_refundable_balance
+
+    - if customer_event_profile.customer_orders.present?
+        h3
+          = fa_icon "table"
+          = t ("admin.customers.customer_orders")
+        = render('admins/events/customer_orders/list_table', customer_orders: customer_event_profile.customer_orders)

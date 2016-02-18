@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160216123700) do
+ActiveRecord::Schema.define(version: 20160217173345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -317,6 +317,20 @@ ActiveRecord::Schema.define(version: 20160216123700) do
     t.decimal  "amount",     precision: 8, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "monetary_transactions", force: :cascade do |t|
+    t.integer  "customer_event_profile_id", null: false, index: {name: "fk__monetary_transactions_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_monetary_transactions_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
+    t.decimal  "amount",                    null: false
+    t.decimal  "refundable_amount",         null: false
+    t.decimal  "final_balance",             null: false
+    t.decimal  "final_refundable_balance",  null: false
+    t.decimal  "value_credit",              null: false
+    t.string   "payment_method",            null: false
+    t.string   "transaction_source",        null: false
+    t.datetime "deleted_at",                index: {name: "index_monetary_transactions_on_deleted_at"}
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "orders", force: :cascade do |t|
