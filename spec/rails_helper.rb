@@ -111,10 +111,6 @@ RSpec.configure do |config|
     Seeder::SeedLoader.create_claim_parameters
   end
 
-  config.before(:each) do
-    DatabaseCleaner.strategy = :transaction
-  end
-
   config.before(:each, js: true) do
     DatabaseCleaner.strategy = :truncation
   end

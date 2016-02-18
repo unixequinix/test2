@@ -15,8 +15,8 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
   describe "GET index" do
     context "when authenticated" do
       before(:each) do
-        @company = Company.last.name
-        http_login(@company, @event.token)
+        @company = Company.last
+        http_login(@event.token, @company.token)
       end
 
       it "returns 200 status code" do
@@ -31,7 +31,7 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
         body = JSON.parse(response.body)
         tickets = body["tickets"].map { |m| m["ticket_reference"] }
 
-        expect(tickets).to match_array(Ticket.search_by_company_and_event(@company, @event)
+        expect(tickets).to match_array(Ticket.search_by_company_and_event(@company.name, @event)
                                              .map(&:code))
       end
     end
@@ -48,8 +48,8 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
   describe "GET show" do
     context "when authenticated" do
       before(:each) do
-        @company = Company.last.name
-        http_login(@company, @event.token)
+        @company = Company.last
+        http_login(@event.token, @company.token)
       end
 
       context "when the ticket belongs to the company" do
@@ -87,12 +87,12 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
   describe "POST create" do
     context "when authenticated" do
       before(:each) do
-        @company = Company.last.name
-        http_login(@company, @event.token)
+        @company = Company.last
+        http_login(@event.token, @company.token)
       end
 
       context "when the request is valid" do
-        let(:params) {
+        let(:params) do
           {
             ticket_reference: "t1ck3tt3st",
             ticket_type_id: CompanyTicketType.last.id,
@@ -102,7 +102,7 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
               email: "hi@glownet.com"
             }
           }
-        }
+        end
 
         it "increases the tickets in the database by 1" do
           expect do
@@ -143,16 +143,16 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
   describe "PATCH update" do
     context "when authenticated" do
       before(:each) do
-        @company = Company.last.name
+        @company = Company.last
         @ticket = Ticket.last
-        http_login(@company, @event.token)
+        http_login(@event.token, @company.token)
       end
 
       context "when the request is valid" do
-        let(:params) {
+        let(:params) do
           { ticket_reference: "n3wt1cketr3fer3nc3",
-            purchaser_attributes: {email: "updated@email.com" } }
-        }
+            purchaser_attributes: { email: "updated@email.com" } }
+        end
 
         it "changes ticket's attributes" do
           put :update, id: @ticket, ticket: params
@@ -175,10 +175,10 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
       end
 
       context "when the request is invalid" do
-        let(:params) {
+        let(:params) do
           { ticket_reference: nil,
-            purchaser_attributes: {email: "newemail@glownet.com" } }
-        }
+            purchaser_attributes: { email: "newemail@glownet.com" } }
+        end
 
         it "returns a 400 status code" do
           put :update, id: @ticket, ticket: params

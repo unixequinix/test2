@@ -36,29 +36,22 @@ class Companies::Api::V1::GtagsController < Companies::Api::V1::BaseController
     @gtag = Gtag.search_by_company_and_event(current_company.name, current_event)
             .find_by(id: params[:id])
 
-    def update
-      @gtag = Gtag.search_by_company_and_event(current_company.name, current_event)
-              .find_by(id: params[:id])
+    update_params = gtag_params
+    update_params[:purchaser_attributes].merge!(id: @gtag.purchaser.id)
 
-      update_params = gtag_params
-      update_params[:purchaser_attributes].merge!(id: @gtag.purchaser.id)
-
-      if @gtag.update(update_params)
-        render json: Companies::Api::V1::GtagSerializer.new(@gtag)
-      else
-        render status: :bad_request, json: { message: I18n.t("company_api.gtags.bad_request"),
-                                             errors: @gtag.errors }
-      end
+    if @gtag.update(update_params)
+      render json: Companies::Api::V1::GtagSerializer.new(@gtag)
+    else
+      render status: :bad_request, json: { message: I18n.t("company_api.gtags.bad_request"),
+                                           errors: @gtag.errors }
     end
   end
 
   private
 
   def gtag_params
-
     ticket_type = params[:gtag][:ticket_type_id]
     params[:gtag][:company_ticket_type_id] = ticket_type if ticket_type
-
 
     params.require(:gtag).permit(:tag_serial_number,
                                  :tag_uid,
