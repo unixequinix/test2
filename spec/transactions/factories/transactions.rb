@@ -5,8 +5,8 @@ FactoryGirl.define do
   factory :monetary_transaction do
     transaction_type { "word #{rand(100)}" }
     device_created_at { Time.now }
-    customer_tag_uid { "word #{rand(100)}" }
-    operator_tag_uid { "word #{rand(100)}" }
+    customer_tag_uid { SecureRandom.urlsafe_base64.upcase }
+    operator_tag_uid { SecureRandom.urlsafe_base64.upcase }
     device_uid { "word #{rand(100)}" }
     status_code "0"
     status_message "OK"
@@ -22,8 +22,8 @@ FactoryGirl.define do
   factory :credential_transaction do
     transaction_type { "word #{rand(100)}" }
     device_created_at { Time.now }
-    customer_tag_uid { "word #{rand(100)}" }
-    operator_tag_uid { "word #{rand(100)}" }
+    customer_tag_uid { SecureRandom.urlsafe_base64.upcase }
+    operator_tag_uid { SecureRandom.urlsafe_base64.upcase }
     device_uid { "word #{rand(100)}" }
     status_code "0"
     status_message "OK"
@@ -32,8 +32,8 @@ FactoryGirl.define do
   factory :access_transaction do
     transaction_type { "word #{rand(100)}" }
     device_created_at { Time.now }
-    customer_tag_uid { "word #{rand(100)}" }
-    operator_tag_uid { "word #{rand(100)}" }
+    customer_tag_uid { SecureRandom.urlsafe_base64.upcase }
+    operator_tag_uid { SecureRandom.urlsafe_base64.upcase }
     device_uid { "word #{rand(100)}" }
     status_code "0"
     status_message "OK"

@@ -1,5 +1,4 @@
-class OrderRedemptor
-
+class OrderRedemptor < ActiveJob::Base
   def perform
     ActiveRecord.transaction do
       # TODO: create_customer_order

@@ -1,6 +1,7 @@
-class OrderCreator
+class OrderCreator < ActiveJob::Base
+  def perform(transaction_id)
+    t = CredentialTransaction.find(transaction_id)
 
-  def perform
     ActiveRecord.transaction do
       # TODO: initialize_balance
       # TODO: generate_monetray_transaction

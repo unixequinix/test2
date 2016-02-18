@@ -93,10 +93,12 @@ RSpec.configure do |config|
 
 
   Warden.test_mode!
+  Sidekiq::Testing.inline!
 
   config.before(:suite) do
     Seeder::SeedLoader.create_event_parameters
     Seeder::SeedLoader.create_claim_parameters
+    Sidekiq::Worker.clear_all
   end
 
   config.expect_with :rspec do |expectations|
