@@ -24,7 +24,10 @@ RSpec.describe Api::V1::Events::PreeventProductsController, type: :controller do
         body = JSON.parse(response.body)
         parameters = body.map { |m| m["name"] }
 
-        expect(parameters).to match_array(PreeventProduct.all.map(&:name))
+        expect(parameters).to match_array(@event.preevent_items
+                                                .map(&:preevent_products)
+                                                .flatten
+                                                .map(&:name))
       end
     end
 

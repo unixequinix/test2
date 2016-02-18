@@ -33,7 +33,7 @@
 #  * 'just' rspec: 'rspec'
 
 # dont do coverages when running guard
-guard :rspec, cmd: "bundle exec rspec" do
+guard :rspec, cmd: "rspec" do
   require "guard/rspec/dsl"
   dsl = Guard::RSpec::Dsl.new(self)
 
@@ -77,7 +77,7 @@ guard :rspec, cmd: "bundle exec rspec" do
   end
 end
 
-guard :rubocop, notification: :failed, all_on_start: true do
+guard :rubocop, notification: :failed, all_on_start: false do
   watch(%r{.+\.rb$})
   watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
 end

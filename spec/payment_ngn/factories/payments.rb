@@ -23,15 +23,15 @@ FactoryGirl.define do
   factory :payment do
     amount "9.99"
     order
-    terminal { Faker::Lorem.word }
-    transaction_type { Faker::Lorem.word }
-    card_country { Faker::Lorem.word }
-    response_code { Faker::Number.number(10) }
-    authorization_code { Faker::Number.number(10) }
-    currency { Faker::Lorem.word }
-    merchant_code { Faker::Lorem.word }
+    terminal { "word #{rand(100)}" }
+    transaction_type { "word #{rand(100)}" }
+    card_country { "word #{rand(100)}" }
+    response_code { rand(10) }
+    authorization_code { rand(10) }
+    currency { "word #{rand(100)}" }
+    merchant_code { "word #{rand(100)}" }
     success true
-    payment_type { Faker::Lorem.word }
+    payment_type { "word #{rand(100)}" }
     paid_at { Time.now }
   end
 end
