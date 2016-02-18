@@ -31,7 +31,9 @@
 #  access_entitlement_value  :integer
 #
 
-class MonetaryTransaction < Transaction
+class MonetaryTransaction < ActiveRecord::Base
+  belongs_to :transaction_parameter
+
   SUBSCRIPTIONS = {
     topup: :rise_balance,
     fee: :decrease_balance,

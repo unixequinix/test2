@@ -31,5 +31,8 @@
 #  access_entitlement_value  :integer
 #
 
-class AccessTransaction < Transaction
+class AccessTransaction < ActiveRecord::Base
+  belongs_to :transaction_parameter
+  belongs_to :access_entitlement
+
 end

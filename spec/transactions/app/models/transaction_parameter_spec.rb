@@ -1,7 +1,7 @@
 require "rails_helper"
 
-RSpec.describe Transaction, type: :model do
-  let(:transaction) { build(:transaction) }
+RSpec.describe TransactionParameter, type: :model do
+  let(:transaction_parameter) { build(:transaction) }
 
   it { is_expected.to validate_presence_of(:transaction_type) }
 

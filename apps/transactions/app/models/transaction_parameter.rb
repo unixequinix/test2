@@ -32,10 +32,8 @@
 #
 
 class Transaction < ActiveRecord::Base
-  belongs_to :customer_event_profile
-  belongs_to :preevent_product
   belongs_to :event
-  belongs_to :ticket
+  belongs_to :customer_event_profile
   belongs_to :station
   belongs_to :device
 

@@ -31,7 +31,11 @@
 #  access_entitlement_value  :integer
 #
 
-class CredentialTransaction < Transaction
+class CredentialTransaction < ActiveRecord::Base
+  belongs_to :transaction_parameter
+  belongs_to :preevent_product
+  belongs_to :ticket
+
   SUBSCRIPTIONS = {
     encoded_ticket_scan: :create_ticket,
     ticket_checkin: [:create_customer_event_profile,
