@@ -4,7 +4,7 @@ RSpec.describe CredentialTransaction, type: :model do
   let(:event) { build(:event) }
   let(:transaction) { build(:credential_transaction, event: event) }
 
-  it "expects to define methods for each subscribed action" do
+  it "expects to define methods for each subscription action" do
     transaction.class::SUBSCRIPTIONS.values.flatten.each do |action|
       expect(transaction).to respond_to(action)
     end

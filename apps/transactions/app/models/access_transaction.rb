@@ -32,7 +32,11 @@
 #
 
 class AccessTransaction < ActiveRecord::Base
-  belongs_to :transaction_parameter
+  belongs_to :event
+  belongs_to :station
+  belongs_to :device
+  belongs_to :customer_event_profile
   belongs_to :access_entitlement
 
+  SUBSCRIPTIONS = {}
 end

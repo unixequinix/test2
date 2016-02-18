@@ -1,4 +1,5 @@
 class AddColumnsToTransactions < ActiveRecord::Migration
+  # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
   def change
     add_column :monetary_transactions, :event_id, :integer
     add_column :monetary_transactions, :transaction_type, :string

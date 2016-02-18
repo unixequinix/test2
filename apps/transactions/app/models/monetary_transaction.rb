@@ -32,7 +32,10 @@
 #
 
 class MonetaryTransaction < ActiveRecord::Base
-  belongs_to :transaction_parameter
+  belongs_to :event
+  belongs_to :station
+  belongs_to :device
+  belongs_to :customer_event_profile
 
   SUBSCRIPTIONS = {
     topup: :rise_balance,

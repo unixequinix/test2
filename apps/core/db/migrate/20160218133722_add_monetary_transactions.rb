@@ -1,4 +1,5 @@
 class AddMonetaryTransactions < ActiveRecord::Migration
+  # rubocop:disable Metrics/MethodLength
   def change
     create_table :monetary_transactions do |t|
       t.references :transaction
