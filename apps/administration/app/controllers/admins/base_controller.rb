@@ -36,7 +36,6 @@ class Admins::BaseController < ApplicationController
 
   def prepare_for_mobile
     prepend_view_path Rails.root + "apps" + "administration" + "app" + "views_mobile"
-    binding.pry
   end
 
   private
