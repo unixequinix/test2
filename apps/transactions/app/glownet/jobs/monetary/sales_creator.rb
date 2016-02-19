@@ -1,5 +1,5 @@
 class Jobs::Monetary::SalesCreator < Jobs::Base
-  TYPES = %w( sale  )
+  TYPES = %w( sale )
 
   def perform(transaction_id, _atts = {})
     ActiveRecord::Base.transaction do
