@@ -6,8 +6,9 @@ RSpec.describe Jobs::Base, type: :job do
 
   it "creates transactions based on transaction_category" do
     number = rand(1000)
-    worker.write("monetary", params.merge(status_code: number))
-    expect(MonetaryTransaction.where(payment_gateway: "fooo", status_code: number)).not_to be_empty
+    p = params.merge(status_code: number)
+    worker.write("monetary", p)
+    expect(MonetaryTransaction.where(p)).not_to be_empty
   end
 
   it "executes the job defined by transaction_type" do
@@ -26,6 +27,19 @@ RSpec.describe Jobs::Base, type: :job do
                    ticket: ticket,
                    customer_tag_uid: "TESTING" }
         expect { worker.write("credential", params) }.not_to raise_error
+      end
+    end
+  end
+
+  context "writes for monetary transactions" do
+    let(:event) { create(:event) }
+
+    it "works as a run for all transactions in line" do
+      %w( topup fee refund sale sale_refund ).each do |type|
+        params = { transaction_type: type,
+                   event: event,
+                   customer_tag_uid: "TESTING" }
+        expect { worker.write("monetary", params) }.not_to raise_error
       end
     end
   end

@@ -1,10 +1,9 @@
 class Jobs::Credential::TicketChecker < Jobs::Base
   TYPES = %w( ticket_checkin )
 
-  def perform(transaction_id)
-    t = CredentialTransaction.find(transaction_id)
-
+  def perform(transaction_id, atts = {})
     ActiveRecord::Base.transaction do
+      t = CredentialTransaction.find(transaction_id)
       # TODO: find or create ticket
       # TODO: assign company ticket type
       # TODO: find or create ticket credential assignment
@@ -14,6 +13,6 @@ class Jobs::Credential::TicketChecker < Jobs::Base
       tag.credential_assignments.create!(customer_event_profile: profile)
     end
 
-    Jobs::Credential::OrderCreator.perform_later(transaction_id)
+    Jobs::Credential::OrderCreator.perform_later(transaction_id, atts)
   end
 end

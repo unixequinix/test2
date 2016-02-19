@@ -38,7 +38,4 @@ class CredentialTransaction < ActiveRecord::Base
   belongs_to :customer_event_profile
   belongs_to :preevent_product
   belongs_to :ticket
-
-  SUBSCRIPTIONS = { encoded_ticket_scan: :create_ticket,
-                    encoded_ticket_assignment: [:create_ticket] }
 end

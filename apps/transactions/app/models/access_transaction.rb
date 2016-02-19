@@ -37,6 +37,4 @@ class AccessTransaction < ActiveRecord::Base
   belongs_to :device
   belongs_to :customer_event_profile
   belongs_to :access_entitlement
-
-  SUBSCRIPTIONS = {}
 end

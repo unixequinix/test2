@@ -3,7 +3,7 @@ class Jobs::Base < ActiveJob::Base
     klass = "#{category}_transaction".classify.constantize
     obj = klass.create!(atts)
     workers = descendants.select { |w| w::TYPES.include? atts[:transaction_type] }
-    workers.each { |worker|  worker.perform_later(obj.id) }
+    workers.each { |worker|  worker.perform_later(obj.id, atts) }
   end
 
   def self.inherited(klass)

@@ -36,22 +36,4 @@ class MonetaryTransaction < ActiveRecord::Base
   belongs_to :station
   belongs_to :device
   belongs_to :customer_event_profile
-
-  SUBSCRIPTIONS = {
-    topup: :rise_balance,
-    fee: :decrease_balance,
-    refund: :decrease_balance,
-    sale: [:decrease_balance, :create_sales],
-    sale_refund: :rise_balance,
-    credential_topup: :rise_balance,
-    credential_refund: :decrease_balance,
-    online_topup: :rise_balance,
-    auto_topup: :rise_balance,
-    online_refund: :decrease_balance }
-
-  def decrease_balance; end
-
-  def rise_balance; end
-
-  def create_sales; end
 end

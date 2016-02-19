@@ -7,7 +7,7 @@ RSpec.describe Jobs::Credential::TicketChecker, type: :job do
   let(:worker) { Jobs::Credential::TicketChecker }
 
   before :each do
-    allow(CredentialTransaction).to receive(:find).with(transaction.id).and_return(transaction)
+    allow(CredentialTransaction).to receive(:find).and_return(transaction)
   end
 
   describe "error handling" do
