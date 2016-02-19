@@ -97,7 +97,7 @@ class Gtag < ActiveRecord::Base
   end
 
   def any_refundable_method?
-    event.selected_refund_services.any? { |refund_service| refundable?(refund_service) }
+    event.selected_refund_services.any? { |service| refundable?(service) }
   end
 
   private
