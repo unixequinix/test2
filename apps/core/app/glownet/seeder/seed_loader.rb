@@ -1,4 +1,13 @@
 class Seeder::SeedLoader
+  def self.load_param(event, atts)
+    params = Parameter.where(atts)
+    params = FactoryGirl.create(:parameter, atts) if params.empty?
+    params.each do |p|
+      value = Parameter.default_value_for(p.data_type)
+      FactoryGirl.create(:event_parameter, event: event, parameter: p, value: value)
+    end
+  end
+
   def self.load_default_event_parameters(event)
     file = "default_event_parameters.yml"
     YAML.load_file(
