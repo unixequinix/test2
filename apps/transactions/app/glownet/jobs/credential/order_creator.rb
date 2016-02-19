@@ -1,4 +1,4 @@
-class Jobs::OrderCreator < ActiveJob::Base
+class Jobs::Credential::OrderCreator < Jobs::Base
   def perform(transaction_id)
     t = CredentialTransaction.find(transaction_id)
 

@@ -1,4 +1,4 @@
-class Jobs::GtagChecker < ActiveJob::Base
+class Jobs::Credential::GtagChecker < Jobs::Base
   def perform(transaction_id)
     t = CredentialTransaction.find(transaction_id)
 

@@ -1,4 +1,4 @@
-class Jobs::OrderRedemptor < ActiveJob::Base
+class Jobs::Credential::OrderRedemptor < Jobs::Base
   def perform
     ActiveRecord.transaction do
       # TODO: create_customer_order

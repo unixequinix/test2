@@ -1,10 +1,10 @@
 require "rails_helper"
 
-RSpec.describe Jobs::Accreditator, type: :job do
+RSpec.describe Jobs::Credential::Accreditator, type: :job do
   let(:event) { create(:event) }
   let(:ticket) { build(:ticket) }
   let(:transaction) { create(:credential_transaction, event: event, ticket: ticket) }
-  let(:worker) { Jobs::TicketChecker }
+  let(:worker) { Jobs::Credential::TicketChecker }
 
   before :each do
     allow(CredentialTransaction).to receive(:find).with(transaction.id).and_return(transaction)

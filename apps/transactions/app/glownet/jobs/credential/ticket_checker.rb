@@ -1,4 +1,4 @@
-class Jobs::TicketChecker < ActiveJob::Base
+class Jobs::Credential::TicketChecker < Jobs::Base
   def perform(transaction_id)
     t = CredentialTransaction.find(transaction_id)
     ActiveRecord::Base.transaction do
