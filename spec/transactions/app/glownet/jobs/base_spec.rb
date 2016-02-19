@@ -1,19 +1,26 @@
 require "rails_helper"
 
 RSpec.describe Jobs::Base, type: :job do
-  let(:worker) { Jobs::Base }
+  let(:base) { Jobs::Base }
   let(:params) { { transaction_type: "sale", payment_gateway: "fooo" } }
 
   it "creates transactions based on transaction_category" do
     number = rand(1000)
     p = params.merge(status_code: number)
-    worker.write("monetary", p)
+    base.write("monetary", p)
     expect(MonetaryTransaction.where(p)).not_to be_empty
   end
 
   it "executes the job defined by transaction_type" do
     expect(Jobs::Monetary::BalanceDecreaser).to receive(:perform_later)
-    worker.write("monetary", params)
+    base.write("monetary", params)
+  end
+
+  it "saves transaction even if jobs fail" do
+    Jobs::Credential::TicketChecker.inspect # making sure it is loaded into object space
+    params = { transaction_type: "ticket_checkin", status_code: "test code" }
+    expect { base.write("credential", params) }.to raise_error
+    expect(CredentialTransaction.where(params)).not_to be_empty
   end
 
   context "writes for credential transactions" do
@@ -26,7 +33,7 @@ RSpec.describe Jobs::Base, type: :job do
                    event: event,
                    ticket: ticket,
                    customer_tag_uid: "TESTING" }
-        expect { worker.write("credential", params) }.not_to raise_error
+        expect { base.write("credential", params) }.not_to raise_error
       end
     end
   end
@@ -39,7 +46,7 @@ RSpec.describe Jobs::Base, type: :job do
         params = { transaction_type: type,
                    event: event,
                    customer_tag_uid: "TESTING" }
-        expect { worker.write("monetary", params) }.not_to raise_error
+        expect { base.write("monetary", params) }.not_to raise_error
       end
     end
   end
