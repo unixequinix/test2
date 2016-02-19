@@ -1,9 +1,10 @@
 class Jobs::Base < ActiveJob::Base
   def self.write(category, atts)
     klass = "#{category}_transaction".classify.constantize
-    obj = klass.create!(atts)
+    obj = klass.create(atts)
     workers = descendants.select { |w| w::TYPES.include? atts[:transaction_type] }
     workers.each { |worker|  worker.perform_later(obj.id, atts) }
+    obj
   end
 
   def self.inherited(klass)
