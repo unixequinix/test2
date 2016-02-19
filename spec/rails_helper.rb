@@ -91,7 +91,6 @@ RSpec.configure do |config|
   config.include ParametersMacros, type: :feature
   config.include Warden::Test::Helpers
 
-
   Warden.test_mode!
   Sidekiq::Testing.inline!
 

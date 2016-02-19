@@ -1,11 +1,13 @@
 class Jobs::Credential::OrderCreator < Jobs::Base
+  TYPES = []
+
   def perform(transaction_id)
     t = CredentialTransaction.find(transaction_id)
+    t.inspect
 
-    ActiveRecord.transaction do
-      # TODO: initialize_balance
-      # TODO: generate_monetray_transaction
-      # TODO: redeem_customer_order
+    ActiveRecord::Base.transaction do
+      # TODO: create_customer_order
+      # TODO: Marked as redeemed customer order in case was created
     end
   end
 end
