@@ -1,6 +1,9 @@
 class Companies::Api::V1::BaseController < Companies::BaseController
-  before_action :restrict_access_with_http
   attr_reader :current_event, :current_company
+  before_action :restrict_access_with_http
+  before_filter :enable_fetcher
+
+  private
 
   def restrict_access_with_http
     authenticate_or_request_with_http_basic do |event_token, company_token|
@@ -8,6 +11,10 @@ class Companies::Api::V1::BaseController < Companies::BaseController
       @current_company = Company.find_by(token: company_token, event: @current_event)
       @current_event && @current_company
     end
+  end
+
+  def enable_fetcher
+    @fetcher = Multitenancy::CompanyFetcher.new(current_event, current_company)
   end
 
   def validate_ticket_type!

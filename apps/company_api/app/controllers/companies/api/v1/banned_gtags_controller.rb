@@ -1,7 +1,6 @@
 class Companies::Api::V1::BannedGtagsController < Companies::Api::V1::BaseController
   def index
-    @banned_gtags = Gtag.banned
-                    .search_by_company_and_event(current_company.name, current_event)
+    @banned_gtags = @fetcher.banned_gtags
 
     render json: {
       event_id: current_event.id,
@@ -10,8 +9,7 @@ class Companies::Api::V1::BannedGtagsController < Companies::Api::V1::BaseContro
   end
 
   def create
-    @gtag = Gtag.search_by_company_and_event(current_company.name, current_event)
-            .find_by(tag_uid: params[:gtags_blacklist][:tag_uid])
+    @gtag = @fetcher.gtags.find_by(tag_uid: params[:gtags_blacklist][:tag_uid])
 
     render(status: :not_found,
            json: { message: I18n.t("company_api.gtags.bad_request") }) && return unless @gtag
