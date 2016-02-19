@@ -1,6 +1,11 @@
 class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
   def index
-    @tickets = Ticket.search_by_company_and_event(current_company.name, current_event)
+    @tickets = @fetcher.tickets
+               .joins("FULL OUTER JOIN purchasers
+                       ON purchasers.credentiable_id = tickets.id
+                       AND purchasers.credentiable_type = 'Ticket'
+                       AND purchasers.deleted_at IS NULL")
+               .includes(:purchaser)
 
     render json: {
       event_id: current_event.id,
@@ -9,8 +14,7 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
   end
 
   def show
-    @ticket = Ticket.search_by_company_and_event(current_company.name, current_event)
-              .find_by(id: params[:id])
+    @ticket = @fetcher.tickets.find_by(id: params[:id])
 
     if @ticket
       render json: @ticket
@@ -29,15 +33,14 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
            }) && return unless validate_ticket_type!
 
     render(status: :bad_request,
-           json: { message: I18n.t("company_api.gtags.bad_request"),
+           json: { message: I18n.t("company_api.tickets.bad_request"),
                    errors: @ticket.errors }) && return unless @ticket.save
 
     render status: :created, json: Companies::Api::V1::TicketSerializer.new(@ticket)
   end
 
   def update
-    @ticket = Ticket.search_by_company_and_event(current_company.name, current_event)
-              .find_by(id: params[:id])
+    @ticket = @fetcher.tickets.find_by(id: params[:id])
 
     update_params = ticket_params
     purchaser_attributes = update_params[:purchaser_attributes]

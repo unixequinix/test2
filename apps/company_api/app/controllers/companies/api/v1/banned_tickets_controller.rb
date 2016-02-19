@@ -1,7 +1,6 @@
 class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseController
   def index
-    @banned_tickets = Ticket.banned
-                      .search_by_company_and_event(current_company.name, current_event)
+    @banned_tickets = @fetcher.banned_tickets
 
     render json: {
       event_id: current_event.id,
@@ -12,8 +11,7 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
   end
 
   def create
-    @ticket = Ticket.search_by_company_and_event(current_company.name, current_event)
-              .find_by(code: params[:tickets_blacklist][:ticket_reference])
+    @ticket = @fetcher.tickets.find_by(code: params[:tickets_blacklist][:ticket_reference])
 
     render(status: :not_found,
            json: { message: I18n.t("company_api.tickets.not_found") }) && return unless @ticket
@@ -26,7 +24,7 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
 
   def destroy
     @banned_ticket = BannedTicket.includes(:ticket)
-                     .find_by(tickets: { code: params[:id],
+                     .find_by(tickets: { code: ,
                                          event_id: current_event.id })
 
     render(status: :not_found, json: :not_found) && return if @banned_ticket.nil?
