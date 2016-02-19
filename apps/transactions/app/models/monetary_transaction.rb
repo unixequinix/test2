@@ -30,4 +30,8 @@ class MonetaryTransaction < ActiveRecord::Base
   belongs_to :station
   belongs_to :device
   belongs_to :customer_event_profile
+  has_many :line_items
+  has_many :transaction_sale_items
+
+  accepts_nested_attributes_for :transaction_sale_items
 end

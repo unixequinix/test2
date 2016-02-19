@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160218142133) do
+ActiveRecord::Schema.define(version: 20160219103916) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -385,6 +385,9 @@ ActiveRecord::Schema.define(version: 20160218142133) do
     t.datetime "updated_at"
   end
 
+  create_table "onsite_products", force: :cascade do |t|
+  end
+
   create_table "orders", force: :cascade do |t|
     t.string   "number",                    null: false, index: {name: "index_orders_on_number", unique: true}
     t.string   "aasm_state",                null: false
@@ -464,6 +467,13 @@ ActiveRecord::Schema.define(version: 20160218142133) do
     t.string   "gateway_transaction_number"
     t.string   "payment_solution"
     t.string   "status"
+  end
+
+  create_table "transaction_sale_items", force: :cascade do |t|
+    t.integer "onsite_product_id",       index: {name: "fk__transaction_sale_items_onsite_product_id"}, foreign_key: {references: "onsite_products", name: "fk_transaction_sale_items_onsite_product_id", on_update: :no_action, on_delete: :no_action}
+    t.integer "quantity"
+    t.float   "total_price_paid"
+    t.integer "monetary_transaction_id", index: {name: "fk__transaction_sale_items_monetary_transaction_id"}, foreign_key: {references: "monetary_transactions", name: "fk_transaction_sale_items_monetary_transaction_id", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "vouchers", force: :cascade do |t|
