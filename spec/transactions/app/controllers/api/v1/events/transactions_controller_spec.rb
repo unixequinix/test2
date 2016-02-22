@@ -1,28 +1,40 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
-  let(:params) {
-    { event_id: 1,
-      customer_tag_uid: 324,
-      transaction_category: "credential",
-      transaction_type: "ticket_checkin",
-      operator_tag_uid: "A54DSF8SD3JS0",
-      station_id: 34,
-      device_id: 23,
-      device_uid: 2353,
-      device_created_at: "2016-02-05 11:13:39 +0100",
-      ticket_code: "0034854TYS9QSD4992",
-      customer_event_profile_id: 23,
-      status_code: 1,
-      status_message: "Ticket already check-in 0034854TYS9QSD4992" }
-  }
+RSpec.describe Transactions::Api::V1::TransactionsController, type: :controller do
+  let(:params) do
+    [
+      {
+        event_id: "1",
+        customer_tag_uid: "324",
+        transaction_category: "credential",
+        transaction_type: "ticket_checkin",
+        operator_tag_uid: "A54DSF8SD3JS0",
+        station_id: "34",
+        device_uid: "2353",
+        device_created_at: "2016-02-05 11:13:39 +0100",
+        ticket_code: "0034854TYS9QSD4992",
+        customer_event_profile_id: "23",
+        status_code: "1",
+        status_message: "Ticket already check-in 0034854TYS9QSD4992"
+      }
+    ]
+  end
 
-  before do
-    @event = create :event
+  let(:event) { create(:event) }
+
+  before :each do
+    @admin = FactoryGirl.create(:admin)
+    http_login(@admin.email, @admin.access_token)
   end
 
   describe "POST create" do
-    it "should send the category" do
+    it "should remove transaction_category and ticket_code from params" do
+      transaction = CredentialTransaction.new
+      new_params = params.first.clone
+      new_params.delete(:transaction_category)
+      new_params.delete(:ticket_code)
+      expect(Jobs::Base).to receive(:write).with("credential", new_params).and_return(transaction)
+      post(:create, _json: params)
     end
 
     it "should send the attributes"
