@@ -1,4 +1,6 @@
 class CustomerCreditCreator
+  attr_reader :customer_credit
+
   def initialize(attributes)
     @customer_credit = CustomerCredit.new(
       customer_event_profile: attributes[:customer_event_profile],

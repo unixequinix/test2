@@ -28,7 +28,7 @@
         dd = t ("admin.defaults.empty_tickets")
 
       dt = t ("admin.customers.credits")
-      dd = customer_event_profile.credit_logs.sum(:amount)
+      dd = customer_event_profile.customer_credits.sum(:amount)
 
       - if !customer_event_profile.active_gtag_assignment.nil?
         dt = t ("admin.customers.gtags")
@@ -93,7 +93,7 @@
               td = link_to "#{admission.credentiable.code}", edit_admins_event_ticket_path(current_event, admission.credentiable)
               td = t("admin.admissions.states.#{admission.aasm_state}")
               td = admission.created_at.strftime("%y-%m-%d %H:%M:%S")
-    - if !customer_event_profile.credit_logs.empty?
+    - if !customer_event_profile.customer_credits.empty?
       h3
         = fa_icon "table"
         = t ("admin.customers.creadit_logs")
@@ -104,10 +104,10 @@
             th = t("admin.customers.amount")
 
         tbody
-          - customer_event_profile.credit_logs.each do |credit_log|
+          - customer_event_profile.customer_credits.each do |customer_credit|
             tr
-              td = credit_log.transaction_type
-              td = credit_log.amount
+              td = customer_credit.transaction_source
+              td = customer_credit.amount
 
     - if !customer_event_profile.orders.empty?
       h3

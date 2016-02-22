@@ -36,8 +36,8 @@ class Payments::RedsysDataRetriever
     get_value_of_parameter("currency")
   end
 
-  def transaction_type
-    get_value_of_parameter("transaction_type")
+  def transaction_source
+    get_value_of_parameter("transacttransaction_sourceion_type")
   end
 
   def password

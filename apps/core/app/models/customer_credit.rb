@@ -23,4 +23,11 @@ class CustomerCredit < ActiveRecord::Base
   validates_presence_of :payment_method, :transaction_source, :customer_event_profile
   validates_numericality_of :amount, :refundable_amount, :value_credit
   validates_numericality_of :final_balance, :final_refundable_balance, greater_than_or_equal_to: 0
+
+  TICKET_ASSIGNMENT  = "ticket_assignment"
+  TICKET_UNASSIGNMENT  = "ticket_unassignment"
+  CREDITS_PURCHASE  = "credits_purchase"
+
+  # Type of the invoices
+  TRANSACTION_TYPES = [TICKET_ASSIGNMENT, TICKET_UNASSIGNMENT, CREDITS_PURCHASE]
 end
