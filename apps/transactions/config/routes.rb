@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  resources :tests, only: [:create]
-
   ## API
   ## ------------------------------
   namespace :api, defaults: { format: "json" } do
