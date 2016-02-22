@@ -27,4 +27,6 @@ class CredentialTransaction < ActiveRecord::Base
   belongs_to :customer_event_profile
   belongs_to :preevent_product
   belongs_to :ticket
+
+  validates_presence_of :transaction_type
 end

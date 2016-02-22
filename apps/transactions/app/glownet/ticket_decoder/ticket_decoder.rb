@@ -1,5 +1,5 @@
 class TicketDecoder
-  def self.permorm(code)
+  def self.permorm(_code)
     # TODO: Talk to Jake and Jesus
   end
 end
