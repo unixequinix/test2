@@ -33,5 +33,7 @@ class MonetaryTransaction < ActiveRecord::Base
   has_many :line_items
   has_many :transaction_sale_items
 
+  validates_presence_of :transaction_type
+
   accepts_nested_attributes_for :transaction_sale_items
 end

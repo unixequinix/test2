@@ -1,7 +1,4 @@
 FactoryGirl.define do
-  factory :transaction_parameter do
-  end
-
   factory :monetary_transaction do
     transaction_type { "word #{rand(100)}" }
     device_created_at { Time.now }

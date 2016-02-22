@@ -50,4 +50,11 @@ class ApplicationController < ActionController::Base
     return false unless id
     @current_event = Event.find_by_slug(id) || Event.find(id) if id
   end
+
+  def restrict_access_with_http
+    authenticate_or_request_with_http_basic do |email, token|
+      admin = Admin.find_by(email: email)
+      admin && admin.valid_token?(token)
+    end
+  end
 end
