@@ -24,7 +24,9 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
   describe "POST create" do
     it "should send the category" do
     end
+
     it "should send the attributes"
+
     it "shouldn't have the category in the attributes"
 
     context "when the request is VALID" do
