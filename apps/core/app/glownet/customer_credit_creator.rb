@@ -1,6 +1,6 @@
-class MonetaryTransactionCreator
+class CustomerCreditCreator
   def initialize(attributes)
-    @monetary_transaction = MonetaryTransaction.new(
+    @customer_credit = CustomerCredit.new(
       customer_event_profile: attributes[:customer_event_profile],
       payment_method: attributes[:payment_method],
       transaction_source: attributes[:transaction_source],
@@ -12,19 +12,19 @@ class MonetaryTransactionCreator
 
   def save
     calculate_balances
-    if(@monetary_transaction.valid?)
-      @monetary_transaction.save
+    if(@customer_credit.valid?)
+      @customer_credit.save
     end
   end
 
   def calculate_balances
-    balances = MonetaryTransaction
+    balances = CustomerCredit
       .select("sum(amount) as final_balance, sum(refundable_amount) as final_refundable_balance")
-      .where(customer_event_profile: @monetary_transaction.customer_event_profile)[0]
-    @monetary_transaction.final_balance =
-      balances.final_balance.to_i + @monetary_transaction.amount
-    @monetary_transaction.final_refundable_balance =
-      balances.final_refundable_balance.to_i + @monetary_transaction.refundable_amount
+      .where(customer_event_profile: @customer_credit.customer_event_profile)[0]
+    @customer_credit.final_balance =
+      balances.final_balance.to_i + @customer_credit.amount
+    @customer_credit.final_refundable_balance =
+      balances.final_refundable_balance.to_i + @customer_credit.refundable_amount
   end
 
   def credit_value(event)

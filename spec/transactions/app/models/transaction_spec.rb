@@ -6,7 +6,7 @@ RSpec.describe Transaction, type: :model do
   it { is_expected.to validate_presence_of(:transaction_type) }
 
   context ".write" do
-    let(:klass) { MonetaryTransaction }
+    let(:klass) { CustomerCredit }
     let(:atts) { { transaction_type: "refund", customer_tag_uid: "TEST12345" } }
     subject(:result) { Transaction.write("monetary", atts) }
 
@@ -28,14 +28,14 @@ RSpec.describe Transaction, type: :model do
   end
 
   context ".execute_actions" do
-    let(:transaction) { MonetaryTransaction.create transaction_type: "refund" }
+    let(:transaction) { CustomerCredit.create transaction_type: "refund" }
 
     before :each do
       allow(Transaction).to receive(:find) { transaction }
     end
 
     it "calls the subcribed methods on the appropiate instance" do
-      actions = [MonetaryTransaction::SUBSCRIPTIONS[:refund]].flatten
+      actions = [CustomerCredit::SUBSCRIPTIONS[:refund]].flatten
       actions.each { |action| expect(transaction).to receive(action) }
       Transaction.execute_actions(transaction.id)
     end

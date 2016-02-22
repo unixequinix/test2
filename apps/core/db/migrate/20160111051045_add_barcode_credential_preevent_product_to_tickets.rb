@@ -61,7 +61,6 @@ class AddBarcodeCredentialPreeventProductToTickets < ActiveRecord::Migration
                                                 preevent_items_ids, order_items)
       attach_purchase_parameters(order_items, preevent_product)
       preevent_product.save
-
       company = Company.find_or_create_by(name: ticket_type.company, event_id: ticket_type.event_id)
       company_ticket_type = create_company_ticket_type(ticket_type, company, preevent_product)
       update_company_ticket_type_in_tickets(ticket_type, company_ticket_type)
