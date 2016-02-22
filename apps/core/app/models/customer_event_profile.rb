@@ -21,6 +21,7 @@ class CustomerEventProfile < ActiveRecord::Base
   has_many :claims
   has_many :refunds, through: :claims
   has_many :credit_logs
+  has_many :customer_orders
   has_many :credit_purchased_logs,
            -> { where(transaction_type: CreditLog::CREDITS_PURCHASE) },
            class_name: "CreditLog"

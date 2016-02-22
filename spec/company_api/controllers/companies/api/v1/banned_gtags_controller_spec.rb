@@ -4,7 +4,7 @@ RSpec.describe Companies::Api::V1::BannedGtagsController, type: :controller do
   before(:all) do
     @event = create(:event)
     @company1 = create(:company, event: @event)
-
+    @ticket_type1 = create(:company_ticket_type, event: @event, company: @company1)
     create_list(:gtag, 2, :banned, event: @event, company_ticket_type: @ticket_type1)
   end
 
@@ -74,7 +74,7 @@ RSpec.describe Companies::Api::V1::BannedGtagsController, type: :controller do
       context "when the request is invalid" do
         it "returns a 400 status code" do
           post :create, gtags_blacklist: { with: "Invalid request" }
-          expect(response.status).to eq(400)
+          expect(response.status).to eq(404)
         end
       end
     end

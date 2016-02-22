@@ -13,6 +13,7 @@
 
 class Company < ActiveRecord::Base
   acts_as_paranoid
+
   has_many :company_ticket_types, dependent: :restrict_with_error
   belongs_to :event
 
