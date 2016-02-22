@@ -1,5 +1,5 @@
 class Events::ConfirmationsController < Events::BaseController
-  layout "event"
+  layout "welcome_customer"
   skip_before_filter :authenticate_customer!
 
   def new

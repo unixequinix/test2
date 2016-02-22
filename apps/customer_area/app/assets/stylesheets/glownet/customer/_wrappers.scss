@@ -1,0 +1,213 @@
+// -------------------------------------------------------
+//
+// Base application styles
+//
+// -------------------------------------------------------
+
+// /\/\/\/\/\/\/\ BREADCRUMBS /\/\/\/\/\/\/\/\
+
+.wrapper-breadcrumbs {
+  display: none;
+  vertical-align: middle;
+  padding-top: modules(0.10);
+
+  a {
+    padding: 0 modules(0.25);
+    border-radius: $radius;
+  }
+
+  @include min-screen($bp3) { display: inline-block; }
+}
+
+.separator { padding: 0 modules(0.25); }
+
+// The whole screen container
+
+.container-main {
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+
+  @include min-screen($bp3) { min-height: 100%; }
+}
+
+.wrapper-main { position: relative; }
+
+// Event logo styles
+
+.container-event-logo {
+  padding: 0;
+
+  @include min-screen($bp3) {
+    width: 40%;
+    margin: modules(2) auto 0;
+    padding: 0;
+  }
+}
+
+.sessions, .confirmations, .new, .passwords {
+  @include min-screen($bp3) {
+    .container-event-logo { margin-top: 0; }
+  }
+}
+
+.wrapper-create-account {
+  display: block;
+  text-align: center;
+
+  @include min-screen($bp3) { display: none; }
+}
+
+.logo {
+  @include mscale($base_font_size);
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  text-align: center;
+
+  a {
+    @include transition(opacity 150ms ease-in);
+    overflow: hidden;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: modules(0.5) 0;
+    cursor: pointer;
+
+    @include min-screen($bp3) { padding: modules(1.5) 0; }
+
+    &:hover, &:focus { outline: none; opacity: 0.7; }
+  }
+
+  img {
+    display: inline-block;
+    width: auto;
+    max-height: modules(4);
+    margin: 0 auto;
+    padding: 0;
+
+    @include min-screen($bp3) { max-height: modules(5); }
+  }
+}
+
+// The centered container that contains all the account info
+
+.container-event-column {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+
+  @include min-screen($bp4) {
+    @include outer-container(40%);
+    height: auto;
+    border-radius: $radius;
+    margin-bottom: modules(4);
+  }
+
+  @include min-screen($bp6) { max-width: modules(23); }
+}
+
+.container-customer-app-view {
+  position: relative;
+
+  @include min-screen($bp4) {
+    margin-top: 10%;
+  }
+}
+
+// Each section inside the main column
+
+.wrapper-module, .wrapper-module-centered, .wrapper-module-restriction {
+  position: relative;
+  overflow: visible;
+  width: 100%;
+  padding: modules(1) modules(0.5);
+
+  @include min-screen($bp3) { padding: modules(1); }
+
+  h3 {
+    text-transform: uppercase;
+    margin-bottom: modules(0.5);
+  }
+
+  &:last-child { box-shadow: none; }
+}
+
+.wrapper-module {
+
+  h3 {
+    padding-right: modules(5);
+    text-transform: uppercase;
+
+    @include min-screen($bp3) { padding-right: modules(7); }
+  }
+}
+
+.wrapper-module-centered {
+  text-align: center;
+
+  @include min-screen($bp4) { padding: modules(1) modules(2); }
+  @include min-screen($bp5) { padding: modules(1) modules(3); }
+  @include min-screen($bp6) { padding: modules(1) modules(4); }
+
+  .highlight-text { padding-bottom: modules(1); }
+}
+
+.wrapper-module-restriction {
+  padding: modules(2) modules(0.5);
+  text-align: center;
+
+  @include min-screen($bp4) { padding: modules(2) }
+}
+
+.wrapper-pay-pal {
+  clear: both;
+  padding: modules(2) 0 modules(1);
+  border-top: 1px dashed $color_text;
+}
+
+// /\/\/\/\/\/\/\ PURCHASES /\/\/\/\/\/\/\/\
+
+.container-purchase-order {
+  overflow: hidden;
+  position: relative;
+  padding-top: modules(1);
+  margin-bottom: modules(1);
+  text-align: left;
+}
+
+.wrapper-purchase-order {
+  margin-bottom: modules(1);
+
+  li { color: $color_text; }
+}
+
+.purchase-amount {
+  @include mscale($base_font_size*1.75);
+  display: inline-block;
+  padding-right: modules(0.25);
+  font-weight: bold;
+
+  &:before {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    width: modules(0.35);
+    height: modules(0.35);
+    margin-right: modules(0.25);
+    border-radius: 50px;
+    padding-right: modules(0.25);
+  }
+}
+
+// /\/\/\/\/\/\/\ TERMS AND CONDITIONS /\/\/\/\/\/\/\/\
+
+.wrapper-terms {
+  padding: modules(1);
+
+  h3 { margin-top: modules(1); }
+  h2, h3 { @include mscale($base_font_size); }
+}
+
+// ---------------------------------------------------------------------------------------------

@@ -1,0 +1,139 @@
+/* ------------------------------------------------------- *\
+
+  Base stylesheet for common elments
+
+\* ------------------------------------------------------- */
+
+.header-mobile {
+  display: block;
+
+  h1 {
+    @include mscale($base_font_size);
+    display: inline-block;
+    vertical-align: top;
+    width: auto;
+    margin-bottom: 0;
+    padding: modules(0.5);
+  }
+
+  .open-nav {
+    @include transition(right 350ms ease-in-out, opacity 350ms ease-in-out, width 350ms ease-in-out);
+    right: 0;
+    width: 100%;
+    z-index: 8;
+    opacity: 1;
+
+    a { opacity: 1; }
+  }
+}
+
+.mobile-trigger {
+  @include mscale($base_font_size*2);
+  position: absolute;
+  top: 0;
+  right: modules(0.5);
+  display: inline-block;
+  vertical-align: top;
+  width: auto;
+  cursor: pointer;
+  font-weight: 500;
+  z-index: 9;
+
+  &:hover { opacity: 0.7; }
+}
+
+.mobile-options {
+  @include transition(right 350ms ease-in-out, opacity 350ms ease-in-out, width 350ms ease-in-out);
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  display: block;
+  height: 100%;
+  right: -100%;
+  width: 0%;
+  background-color: $color_text;
+  z-index: 5;
+  opacity: 0;
+
+  ul { margin-top: 30%; }
+
+  a {
+    @include transition(opacity 500ms ease-in-out);
+    @include mscale($base_font_size*2);
+    padding: modules(0.5);
+    text-align: center;
+    display: block;
+    width: 100%;
+    color: $nuclear;
+    font-weight: bold;
+    text-transform: uppercase;
+    opacity: 0;
+  }
+}
+
+.header-desktop {
+  display: none;
+  height: modules(2);
+
+  @include min-screen($bp3) {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: modules(0.5) 0;
+    z-index: 3;
+  }
+
+  h1 {
+    display: none;
+
+    @include min-screen($bp3) {
+      @include mscale($base_font_size*1.25);
+      display: inline-block;
+      vertical-align: top;
+      width: auto;
+      padding: 0 modules(0.5);
+    }
+
+    a {
+      &:hover, &:focus {
+       outline: none;
+       opacity: 0.6;
+      }
+    }
+  }
+}
+
+.header-nav {
+  display: inline-block;
+  width: auto;
+  float: right;
+
+  ul { text-align: right; }
+
+  li {
+    @include transition(background-color 130ms ease-in-out);
+    display: inline-block;
+    width: auto;
+    padding: 0 modules(0.5);
+
+    i {
+      display: inline-block;
+      width: auto;
+      padding-right: modules(0.25);
+    }
+  }
+
+  a {
+    padding: 0 modules(0.25);
+    border-radius: $radius;
+
+    &:hover, &:focus {
+      outline: none;
+      background-color: rgba(255,255,255,0.33);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------------------------
