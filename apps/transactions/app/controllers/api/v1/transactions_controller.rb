@@ -1,4 +1,4 @@
-class Transactions::Api::V1::TransactionsController < ApplicationController
+class Api::V1::TransactionsController < ApplicationController
   protect_from_forgery with: :null_session
 
   before_action :restrict_access_with_http

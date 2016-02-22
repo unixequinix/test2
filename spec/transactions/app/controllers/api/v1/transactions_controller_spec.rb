@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Transactions::Api::V1::TransactionsController, type: :controller do
+RSpec.describe Api::V1::TransactionsController, type: :controller do
   let(:event) { create(:event) }
   let(:transaction) { CredentialTransaction.new }
   let(:params) do
