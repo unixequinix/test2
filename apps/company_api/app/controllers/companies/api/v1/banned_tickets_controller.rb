@@ -24,7 +24,7 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
 
   def destroy
     @banned_ticket = BannedTicket.includes(:ticket)
-                     .find_by(tickets: { code: ,
+                     .find_by(tickets: { code: params[:id],
                                          event_id: current_event.id })
 
     render(status: :not_found, json: :not_found) && return if @banned_ticket.nil?
