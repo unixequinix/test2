@@ -1,14 +1,11 @@
-class Api::V1::TransactionsController < ApplicationController
+class Api::V1::Events::TransactionsController < ApplicationController
   protect_from_forgery with: :null_session
-
   before_action :restrict_access_with_http
-
   serialization_scope :view_context
 
   def create
     all_valid = permitted_params[:_json].map do |transaction_params|
-      category, atts = pre_process(transaction_params)
-      Jobs::Base.write(category, atts).valid?
+      Jobs::Base.write(transaction_params).valid?
     end
 
     render(status: 400, json: :bad_request) && return unless all_valid.all?
@@ -16,13 +13,6 @@ class Api::V1::TransactionsController < ApplicationController
   end
 
   private
-
-  def pre_process(atts)
-    category = atts.delete(:transaction_category)
-    atts.delete(:ticket_code)
-
-    [category, atts]
-  end
 
   # rubocop:disable Metrics/MethodLength
   def permitted_params
@@ -51,4 +41,5 @@ class Api::V1::TransactionsController < ApplicationController
                           :ticket_code,
                           :preevent_product_id])
   end
+  # rubocop:enable Metrics/MethodLength
 end
