@@ -287,6 +287,14 @@ th:
         assigned: "Is assigned now"
         unassigned: "Previous assignation"
       button: "ตกลง"
+    customer_credits:
+      amount: "Amount"
+      refundable_amount: "Refundable amount"
+      value_credit: "value credit"
+      payment_method: "Payment method"
+      transaction_source: "Transaction source"
+      final_balance: "Final balance"
+      final_refundable_balance: "Final refundable balance"
     customers:
       delete: "Deleted"
       email: "Email"
@@ -308,6 +316,7 @@ th:
       customer_orders: "Customer orders"
       refund: "Refund"
       claims: "Claims"
+      customer_credits: "Customer credits"
       gtag_credits: "Gtag Credits"
       tickets: "Tickets"
       credits: "Credits"

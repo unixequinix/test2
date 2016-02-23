@@ -289,6 +289,14 @@ en:
         assigned: "Is assigned now"
         unassigned: "Previous assignation"
       button: "Accept"
+    customer_credits:
+      amount: "Amount"
+      refundable_amount: "Refundable amount"
+      value_credit: "value credit"
+      payment_method: "Payment method"
+      transaction_source: "Transaction source"
+      final_balance: "Final balance"
+      final_refundable_balance: "Final refundable balance"
     customers:
       delete: "Deleted"
       email: "Email"
@@ -309,6 +317,7 @@ en:
       completed_claim: "Completed claims"
       customer_orders: "Customer orders"
       refund: "Refund"
+      customer_credits: "Customer credits"
       claims: "Claims"
       gtag_credits: "Gtag Credits"
       tickets: "Tickets"

@@ -289,6 +289,14 @@ es:
         assigned: "Asignación actual"
         unassigned: "Asignación previa"
       button: "Aceptar"
+    customer_credits:
+      amount: "Candidad"
+      refundable_amount: "Cantidad reembolsable"
+      value_credit: "Valor del crédito"
+      payment_method: "Método de pago"
+      transaction_source: "Fuente de la transacción"
+      final_balance: "Balance final"
+      final_refundable_balance: "Balance final reembolsable"
     customers:
       delete: "Borrado"
       email: "Email"
@@ -309,6 +317,7 @@ es:
       completed_claim: "Peticiones de devolución completadas"
       customer_orders: "Órdenes de cliente"
       refund: "Refund"
+      customer_credits: "Créditos de cliente"
       claims: "Peticiones de devolución"
       gtag_credits: "Créditos Gtag"
       tickets: "Tickets"
