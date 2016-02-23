@@ -3,8 +3,12 @@ require "rails_helper"
 RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
   before(:all) do
     @event = create(:event)
-    @company1 = create(:company, event: @event)
-    @company2 = create(:company, event: @event)
+
+    @company1 = create(:company)
+    @company2 = create(:company)
+
+    create(:company_event_agreement, event: @event, company: @company1)
+    create(:company_event_agreement, event: @event, company: @company2)
 
     5.times { create(:company_ticket_type, event: @event, company: @company1) }
     5.times { create(:company_ticket_type, event: @event, company: @company2) }
@@ -13,7 +17,7 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
   describe "GET index" do
     context "when authenticated" do
       before(:each) do
-        http_login(@event.token, @company1.token)
+        http_login(@event.token, @company1.access_token)
       end
 
       it "returns 200 status code" do
@@ -45,7 +49,7 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
   describe "GET show" do
     context "when authenticated" do
       before(:each) do
-        http_login(@event.token, @company1.token)
+        http_login(@event.token, @company1.access_token)
       end
 
       context "when the ticket type belongs to the company" do
@@ -84,7 +88,7 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
     context "when authenticated" do
       before(:each) do
         @company = Company.last.name
-        http_login(@event.token, @company1.token)
+        http_login(@event.token, @company1.access_token)
       end
 
       context "when the request is valid" do
@@ -128,7 +132,7 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
       before(:each) do
         @company = Company.last.name
         @ticket_type = CompanyTicketType.first
-        http_login(@event.token, @company1.token)
+        http_login(@event.token, @company1.access_token)
       end
 
       context "when the request is valid" do
