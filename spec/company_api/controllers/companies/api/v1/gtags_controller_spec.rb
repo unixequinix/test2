@@ -3,16 +3,19 @@ require "rails_helper"
 RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
   before(:all) do
     @event = create(:event)
-    company = create(:company, event: @event)
-    @ticket_type1 = create(:company_ticket_type, event: @event, company: company)
-    create_list(:gtag, 2, :with_purchaser, event: @event, company_ticket_type: @ticket_type1)
+
+    company = create(:company)
+    ticket_type = create(:company_ticket_type, event: @event, company: company)
+
+    create(:company_event_agreement, event: @event, company: company)
+    create_list(:gtag, 2, :with_purchaser, event: @event, company_ticket_type: ticket_type)
   end
 
   describe "GET index" do
     context "when authenticated" do
       before(:each) do
         @company = Company.last
-        http_login(@event.token, @company.token)
+        http_login(@event.token, @company.access_token)
       end
 
       it "returns 200 status code" do
@@ -44,7 +47,7 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
     context "when authenticated" do
       before(:each) do
         @company = Company.last
-        http_login(@event.token, @company.token)
+        http_login(@event.token, @company.access_token)
       end
 
       context "when the ticket belongs to the company" do
@@ -84,7 +87,7 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
     context "when authenticated" do
       before(:each) do
         @company = Company.last
-        http_login(@event.token, @company.token)
+        http_login(@event.token, @company.access_token)
       end
 
       context "when the request is valid" do
@@ -142,7 +145,7 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
       before(:each) do
         @company = Company.last
         @gtag = Gtag.last
-        http_login(@event.token, @company.token)
+        http_login(@event.token, @company.access_token)
       end
 
       context "when the request is valid" do

@@ -1,0 +1,21 @@
+# == Schema Information
+#
+# Table name: company_event_agreements
+#
+#  id         :integer          not null, primary key
+#  company_id :integer          not null
+#  event_id   :integer          not null
+#  name       :string
+#  deleted_at :datetime
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+class CompanyEventAgreement < ActiveRecord::Base
+  acts_as_paranoid
+  belongs_to :company
+  belongs_to :event
+
+  # Validations
+  validates :company_id, :event_id, presence: true
+end

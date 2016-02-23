@@ -3,14 +3,15 @@ require "rails_helper"
 RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
   before(:all) do
     @event = create(:event)
-    @company1 = create(:company, event: @event)
-    @ticket_type = create(:company_ticket_type, event: @event, company: @company1)
+    company = create(:company)
+    create(:company_event_agreement, event: @event, company: company)
+    @ticket_type = create(:company_ticket_type, event: @event, company: company)
   end
 
   describe "GET index" do
     context "when authenticated" do
       before(:each) do
-        http_login(@event.token, @company1.token)
+        http_login(@event.token, @company1.access_token)
       end
 
       it "returns 200 status code" do
@@ -42,7 +43,7 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
   describe "GET show" do
     context "when authenticated" do
       before(:each) do
-        http_login(@event.token, @company1.token)
+        http_login(@event.token, @company1.access_token)
       end
 
       context "when the ticket type belongs to the company" do
@@ -80,7 +81,12 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
   describe "POST create" do
     context "when authenticated" do
       before(:each) do
+<<<<<<< HEAD
         http_login(@event.token, @company1.token)
+=======
+        @company = Company.last.name
+        http_login(@event.token, @company1.access_token)
+>>>>>>> temporal_api
       end
 
       context "when the request is valid" do
@@ -123,7 +129,13 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
   describe "PATCH update" do
     context "when authenticated" do
       before(:each) do
+<<<<<<< HEAD
         http_login(@event.token, @company1.token)
+=======
+        @company = Company.last.name
+        @ticket_type = CompanyTicketType.first
+        http_login(@event.token, @company1.access_token)
+>>>>>>> temporal_api
       end
 
       context "when the request is valid" do

@@ -2,32 +2,33 @@
 #
 # Table name: companies
 #
-#  id         :integer          not null, primary key
-#  event_id   :integer          not null
-#  name       :string           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  token      :string
-#  deleted_at :datetime
+#  id           :integer          not null, primary key
+#  name         :string           not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  access_token :string
+#  deleted_at   :datetime
 #
 
 class Company < ActiveRecord::Base
   acts_as_paranoid
 
   has_many :company_ticket_types, dependent: :restrict_with_error
-  belongs_to :event
+  has_many :company_event_agreements
+  has_many :events, through: :company_event_agreements
 
   # Hooks
-  before_create :generate_token
+  before_create :generate_access_token
 
   # Validations
-  validates :name, :event_id, presence: true
-  validates_uniqueness_of :name, scope: :event_id
+  validates :name, presence: true
 
-  def generate_token
+  private
+
+  def generate_access_token
     loop do
-      self.token = SecureRandom.hex
-      break unless self.class.exists?(token: token)
+      self.access_token = SecureRandom.hex
+      break unless self.class.exists?(access_token: access_token)
     end
   end
 end

@@ -3,15 +3,18 @@ require "rails_helper"
 RSpec.describe Companies::Api::V1::BannedGtagsController, type: :controller do
   before(:all) do
     @event = create(:event)
-    @company1 = create(:company, event: @event)
-    @ticket_type1 = create(:company_ticket_type, event: @event, company: @company1)
-    create_list(:gtag, 2, :banned, event: @event, company_ticket_type: @ticket_type1)
+
+    company = create(:company)
+    ticket_type = create(:company_ticket_type, event: @event, company: company)
+
+    create(:company_event_agreement, event: @event, company: company)
+    create_list(:gtag, 2, :banned, event: @event, company_ticket_type: ticket_type)
   end
 
   describe "GET index" do
     context "when authenticated" do
       before(:each) do
-        http_login(@event.token, @company1.token)
+        http_login(@event.token, @company1.access_token)
       end
 
       it "returns 200 status code" do
@@ -44,7 +47,7 @@ RSpec.describe Companies::Api::V1::BannedGtagsController, type: :controller do
   describe "POST create" do
     context "when authenticated" do
       before(:each) do
-        http_login(@event.token, @company1.token)
+        http_login(@event.token, @company1.access_token)
       end
 
       context "when the request is valid" do
@@ -98,7 +101,7 @@ RSpec.describe Companies::Api::V1::BannedGtagsController, type: :controller do
 
     context "when authenticated" do
       before(:each) do
-        http_login(@event.token, @company1.token)
+        http_login(@event.token, @company1.access_token)
       end
 
       context "when the request is valid" do
