@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160223141132) do
+ActiveRecord::Schema.define(version: 20160224122200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -338,13 +338,14 @@ ActiveRecord::Schema.define(version: 20160223141132) do
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
-    t.integer  "sluggable_id",   null: false
-    t.string   "sluggable_type", null: false
-    t.string   "slug",           null: false, index: {name: "index_friendly_id_slugs_on_slug", unique: true}
+    t.string   "slug",           null: false, index: {name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", with: ["sluggable_type", "scope"], unique: true}
+    t.integer  "sluggable_id",   null: false, index: {name: "index_friendly_id_slugs_on_sluggable_id"}
+    t.string   "sluggable_type", limit: 50, index: {name: "index_friendly_id_slugs_on_sluggable_type"}
     t.string   "scope"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end
+  add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
 
   create_table "orders", force: :cascade do |t|
     t.string   "number",                    null: false, index: {name: "index_orders_on_number", unique: true}
@@ -449,6 +450,22 @@ ActiveRecord::Schema.define(version: 20160223141132) do
     t.datetime "deleted_at",      index: {name: "index_stations_on_deleted_at"}
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+  end
+
+  create_table "station_catalog_items", force: :cascade do |t|
+    t.integer  "station_id",      null: false, index: {name: "fk__station_catalog_items_station_id"}, foreign_key: {references: "stations", name: "fk_station_catalog_items_station_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "catalog_item_id", null: false, index: {name: "fk__station_catalog_items_catalog_item_id"}, foreign_key: {references: "catalog_items", name: "fk_station_catalog_items_catalog_item_id", on_update: :no_action, on_delete: :no_action}
+    t.float    "price",           null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "station_parameters", force: :cascade do |t|
+    t.integer  "station_id",               null: false, index: {name: "fk__station_parameters_station_id"}, foreign_key: {references: "stations", name: "fk_station_parameters_station_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "station_parametable_id",   null: false
+    t.string   "station_parametable_type", null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
 end
