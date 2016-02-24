@@ -2,12 +2,11 @@
 #
 # Table name: companies
 #
-#  id           :integer          not null, primary key
-#  name         :string           not null
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  access_token :string
-#  deleted_at   :datetime
+#  id         :integer          not null, primary key
+#  event_id   :integer          not null
+#  name       :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 class Company < ActiveRecord::Base

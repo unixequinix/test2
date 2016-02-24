@@ -33,7 +33,6 @@
 #  locales                 :integer          default(1), not null
 #  refund_services         :integer          default(0), not null
 #  ticket_assignation      :boolean          default(TRUE), not null
-#  token                   :string
 #
 
 class Event < ActiveRecord::Base

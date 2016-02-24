@@ -1,10 +1,6 @@
 class CreteCredentialLogs < ActiveRecord::Migration
   # rubocop:disable Metrics/MethodLength
   def change
-    create_table :stations do |t|
-      t.timestamps null: false
-    end
-
     create_table :devices do |t|
       t.timestamps null: false
     end
