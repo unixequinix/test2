@@ -10,11 +10,13 @@ Rails.application.routes.draw do
         get "change"
       end
     end
+
     resources :admins, except: :show do
       collection do
         resource :sessions, only: [:new, :create, :destroy]
       end
     end
+
     resources :events, only: [:index, :show, :new, :create, :edit, :update] do
       member do
         post :remove_logo
@@ -26,6 +28,7 @@ Rails.application.routes.draw do
         resources :ticket_assignments, only: [:destroy]
         resource :gtag_settings, only: [:show, :edit, :update]
         resource :gtag_keys, only: [:show, :edit, :update]
+
         resources :gtags do
           resources :comments, module: :gtags
           collection do
@@ -33,6 +36,7 @@ Rails.application.routes.draw do
             delete :destroy_multiple
           end
         end
+
         resources :ticket_types, except: :show
         resources :tickets do
           resources :comments, module: :tickets
@@ -41,6 +45,7 @@ Rails.application.routes.draw do
             delete :destroy_multiple
           end
         end
+
         resources :gtag_assignments, only: [:destroy]
         resources :ticket_types, except: :show
         resources :tickets do
@@ -50,7 +55,7 @@ Rails.application.routes.draw do
             delete :destroy_multiple
           end
         end
-        resources :transactions, only: [:index]
+
         resources :companies, except: :show
         resources :credits, except: :show
         resources :vouchers, except: :show
@@ -67,6 +72,7 @@ Rails.application.routes.draw do
             post :resend_confirmation
           end
         end
+
         resources :customer_event_profiles, except: [:new, :create, :edit, :update] do
           collection do
             get :search
