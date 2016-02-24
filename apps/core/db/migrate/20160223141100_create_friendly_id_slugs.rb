@@ -1,8 +1,8 @@
 class CreateFriendlyIdSlugs < ActiveRecord::Migration
   def change
     create_table :friendly_id_slugs do |t|
-      t.references :sluggable, polymorphic: true, null: false
-      t.integer :sluggable_id,   null: false, foreign_key: false
+      t.string :slug, null: false
+      t.integer :sluggable_id, null: false, foreign_key: false
       t.string :sluggable_type, limit: 50
       t.string :scope
 
