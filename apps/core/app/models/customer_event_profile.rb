@@ -56,6 +56,8 @@ class CustomerEventProfile < ActiveRecord::Base
 
   has_one :banned_customer_event_profile
 
+  has_one :current_balance, -> { order(created_at: :asc) }, class_name: "CustomerCredit"
+
   # Validations
   validates :event, presence: true
 

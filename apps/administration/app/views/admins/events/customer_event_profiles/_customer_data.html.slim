@@ -36,13 +36,9 @@
           = link_to "#{customer_event_profile.active_gtag_assignment.credentiable.tag_serial_number} #{customer_event_profile.active_gtag_assignment.credentiable.tag_uid}", edit_admins_event_gtag_path(current_event, customer_event_profile.active_gtag_assignment.credentiable)
           = link_to admins_event_gtag_assignment_path(current_event, customer_event_profile.active_gtag_assignment), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "delete-image" do
               = fa_icon "trash"
-        dt = t("admin.customers.gtag_credits")
-        dd = customer_event_profile.active_gtag_assignment.credentiable.gtag_credit_log.amount unless customer_event_profile.active_gtag_assignment.credentiable.gtag_credit_log.nil?
       - else
         dt = t ("admin.customers.gtags")
         dd = t ("admin.defaults.empty_gtags")
-        dt = t("admin.customers.gtag_credits")
-        dt 0.0
 
       dt = t ("admin.customers.confirmed_at")
       dd = customer_event_profile.customer.confirmed_at.strftime("%y-%m-%d %H:%M:%S") unless customer_event_profile.customer.confirmed_at.nil?

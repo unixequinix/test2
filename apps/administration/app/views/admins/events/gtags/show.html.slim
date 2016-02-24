@@ -13,8 +13,6 @@
       dd = @gtag.tag_serial_number
       dt = t("admin.gtags.tag")
       dd = @gtag.tag_uid
-      dt = t("admin.gtags.total")
-      dd = @gtag.gtag_credit_log.amount if @gtag.gtag_credit_log.present?
 
       = render("purchaser", gtag: @gtag) if @gtag.purchaser.present?
 

@@ -99,7 +99,7 @@ class Event < ActiveRecord::Base
   end
 
   def total_credits
-    gtags.joins(:gtag_credit_log).sum(:amount)
+    customer_event_profiles.joins(:current_balance).sum(:amount)
   end
 
   def total_refundable_money(refund_service)

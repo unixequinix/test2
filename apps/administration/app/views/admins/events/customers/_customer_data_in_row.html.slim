@@ -11,7 +11,5 @@ td data-label=t("admin.customers.credits") = customer.customer_event_profile.cus
   td = link_to "#{customer.customer_event_profile.active_gtag_assignment.credentiable.tag_uid}",
     edit_admins_event_gtag_path(current_event,
     customer.customer_event_profile.active_gtag_assignment.credentiable)
-  td data-label=t("admin.customers.gtag_credits") = customer.customer_event_profile.active_gtag_assignment.credentiable.gtag_credit_log.amount if customer.customer_event_profile.active_gtag_assignment.credentiable.gtag_credit_log.present?
 - else
   td data-label=t("admin.customers.gtags") = t("admin.defaults.empty_gtags")
-  td data-label=t("admin.customers.gtag_credits") 0.0

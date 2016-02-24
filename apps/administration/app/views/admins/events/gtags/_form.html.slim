@@ -8,6 +8,4 @@
       = purchaser.input :last_name
       = purchaser.input :email
       = purchaser.input :gtag_delivery_address
-    = f.simple_fields_for :gtag_credit_log do |gcl|
-      = gcl.input :amount, placeholder: true
     = f.button :submit, class: "btn btn-primary"
