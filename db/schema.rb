@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160223175600) do
+ActiveRecord::Schema.define(version: 20160224124900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,10 +96,25 @@ ActiveRecord::Schema.define(version: 20160223175600) do
     t.datetime "deleted_at",  index: {name: "index_customer_event_profiles_on_deleted_at"}
   end
 
-  create_table "stations", force: :cascade do |t|
+  create_table "station_groups", force: :cascade do |t|
+    t.string   "name",       null: false, index: {name: "index_station_groups_on_name"}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string   "name"
+  end
+
+  create_table "station_types", force: :cascade do |t|
+    t.string   "name",             null: false, index: {name: "index_station_types_on_name"}
+    t.integer  "station_group_id", null: false, index: {name: "fk__station_types_station_group_id"}, foreign_key: {references: "station_groups", name: "fk_station_types_station_group_id", on_update: :no_action, on_delete: :no_action}
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  create_table "stations", force: :cascade do |t|
+    t.string   "name",            null: false
+    t.integer  "event_id",        null: false, index: {name: "fk__stations_event_id"}, foreign_key: {references: "events", name: "fk_stations_event_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "station_type_id", null: false, index: {name: "fk__stations_station_type_id"}, foreign_key: {references: "station_types", name: "fk_stations_station_type_id", on_update: :no_action, on_delete: :no_action}
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "access_transactions", force: :cascade do |t|
@@ -525,6 +540,22 @@ ActiveRecord::Schema.define(version: 20160223175600) do
     t.string   "gateway_transaction_number"
     t.string   "payment_solution"
     t.string   "status"
+  end
+
+  create_table "station_catalog_items", force: :cascade do |t|
+    t.integer  "station_id",      null: false, index: {name: "fk__station_catalog_items_station_id"}, foreign_key: {references: "stations", name: "fk_station_catalog_items_station_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "catalog_item_id", null: false, index: {name: "fk__station_catalog_items_catalog_item_id"}, foreign_key: {references: "catalog_items", name: "fk_station_catalog_items_catalog_item_id", on_update: :no_action, on_delete: :no_action}
+    t.float    "price",           null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "station_parameters", force: :cascade do |t|
+    t.integer  "station_id",               null: false, index: {name: "fk__station_parameters_station_id"}, foreign_key: {references: "stations", name: "fk_station_parameters_station_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "station_parametable_id",   null: false
+    t.string   "station_parametable_type", null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "transaction_sale_items", force: :cascade do |t|
