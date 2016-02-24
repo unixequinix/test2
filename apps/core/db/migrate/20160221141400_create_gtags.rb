@@ -2,7 +2,7 @@ class CreateGtags < ActiveRecord::Migration
   def change
     create_table :gtags do |t|
       t.references :event, null: false
-      t.references :company_ticket_type_id
+      t.references :company_ticket_type, null: false
       t.string :tag_serial_number
       t.string :tag_uid, null: false
       t.boolean :credential_redeemed, default: false, null: false

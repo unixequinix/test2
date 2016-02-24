@@ -6,5 +6,6 @@ class CreateCustomerEventProfiles < ActiveRecord::Migration
 
       t.datetime :deleted_at, index: true
       t.timestamps null: false
+    end
   end
 end
