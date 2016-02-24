@@ -3,7 +3,7 @@ class CreateClaims < ActiveRecord::Migration
     create_table :claims do |t|
       t.references  :customer_event_profile
       t.references :gtag
-      t.string :number, null: false, index: true, unique: true
+      t.string :number, null: false, index: { unique: true }
       t.string :aasm_state, null: false
       t.decimal :total, precision: 8, scale: 2, null: false
       t.string :service_type
