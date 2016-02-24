@@ -14,6 +14,7 @@ namespace :db do
     puts '----------------------------------------'
     make_events
     make_companies
+    make_company_event_agreements
     make_preevent_items
     make_preevent_products
     make_preevent_product_items
@@ -59,8 +60,16 @@ namespace :db do
     puts '----------------------------------------'
     Event.all.each do |event|
       YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'companies.yml')).each do |data|
-        company = Company.new(event_id: event.id, name: data['name'])
-        company.save!
+        Company.create!(name: data['name'])
+      end
+    end
+  end
+  def make_company_event_agreements
+    puts 'Create company event agreements'
+    puts '----------------------------------------'
+    Event.all.each do |event|
+      Company.all.each do |company|
+        CompanyEventAgreement.create!(event: event, company: company)
       end
     end
   end
@@ -129,7 +138,7 @@ namespace :db do
           company_ticket_type_ref: data['company_ticket_type_ref'],
           name: data['name'],
           event_id: event.id,
-          company_id: data['company_id'],
+          company_event_agreement_id: data['company_event_agreement_id'],
           preevent_product_id: data['product_id']
         )
         ticket.save!

@@ -3,14 +3,16 @@ require "rails_helper"
 RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
   before(:all) do
     @event = create(:event)
-    @company1 = create(:company, event: @event)
-    @ticket_type1 = create(:company_ticket_type, event: @event, company: @company1)
-    create_list(:ticket, 2, :banned, event: @event, company_ticket_type: @ticket_type1)
+    @company = create(:company)
+    @agreement = create(:company_event_agreement, event: @event, company: @company)
+    @ticket_type = create(:company_ticket_type, event: @event, company_event_agreement: @agreement)
+
+    create_list(:ticket, 2, :banned, event: @event, company_ticket_type: @ticket_type)
   end
   describe "GET index" do
     context "when authenticated" do
       before(:each) do
-        http_login(@event.token, @company1.token)
+        http_login(@event.token, @company.access_token)
       end
 
       it "returns 200 status code" do
@@ -25,9 +27,12 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
         body = JSON.parse(response.body)
         tickets = body["blacklisted_tickets"].map { |m| m["ticket_reference"] }
 
-        expect(tickets).to match_array(Ticket.search_by_company_and_event(@company1.name, @event)
-                                             .banned
-                                             .map(&:code))
+        db_tickets = Ticket.banned
+                      .joins(company_ticket_type: :company_event_agreement)
+                      .where(event: @event, company_event_agreements: { id: @agreement.id })
+
+
+        expect(tickets).to match_array(db_tickets.map(&:code))
       end
     end
 
@@ -43,7 +48,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
   describe "POST create" do
     context "when authenticated" do
       before(:each) do
-        http_login(@event.token, @company1.token)
+        http_login(@event.token, @company.access_token)
       end
 
       context "when the request is valid" do
@@ -51,7 +56,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
           @ticket = create(:ticket,
                            :with_purchaser,
                            event: @event,
-                           company_ticket_type: @ticket_type1)
+                           company_ticket_type: @ticket_type)
         end
 
         it "increases the banned tickets in the database by 1" do
@@ -76,7 +81,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
       context "when the request is invalid" do
         it "returns a 400 status code" do
           post :create, tickets_blacklist: { with: "Invalid request" }
-          expect(response.status).to eq(400)
+          expect(response.status).to eq(404)
         end
       end
     end
@@ -93,12 +98,12 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
     before(:each) do
       @ticket = create(:ticket, :banned, code: "Glownet",
                                          event: @event,
-                                         company_ticket_type: @ticket_type1)
+                                         company_ticket_type: @ticket_type)
     end
 
     context "when authenticated" do
       before(:each) do
-        http_login(@event.token, @company1.token)
+        http_login(@event.token, @company.access_token)
       end
 
       context "when the request is valid" do

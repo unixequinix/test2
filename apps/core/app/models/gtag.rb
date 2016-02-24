@@ -49,6 +49,7 @@ class Gtag < ActiveRecord::Base
   # Validations
   validates_uniqueness_of :tag_uid, scope: :event_id
   validates :tag_uid, presence: true
+  validates :company_ticket_type, presence: true
 
   # Scope
   scope :selected_data, lambda  { |event_id|
@@ -58,7 +59,7 @@ class Gtag < ActiveRecord::Base
   }
 
   scope :search_by_company_and_event, lambda { |company, event|
-    includes(:purchaser, company_ticket_type: [:company])
+    includes(:purchaser, :company_ticket_type, company_ticket_type: [:company])
       .where(event: event, companies: { name: company })
   }
 
@@ -98,7 +99,7 @@ class Gtag < ActiveRecord::Base
   end
 
   def any_refundable_method?
-    event.selected_refund_services.any? { |refund_service| refundable?(refund_service) }
+    event.selected_refund_services.any? { |service| refundable?(service) }
   end
 
   private

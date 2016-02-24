@@ -18,7 +18,7 @@ FactoryGirl.define do
     event
     name { "Name #{rand(100)}" }
     company_ticket_type_ref { rand(5) }
-    company
+    company_event_agreement
     preevent_product { build :preevent_product, :full, event: event }
   end
 end

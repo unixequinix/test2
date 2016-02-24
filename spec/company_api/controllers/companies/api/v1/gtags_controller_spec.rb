@@ -3,16 +3,17 @@ require "rails_helper"
 RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
   before(:all) do
     @event = create(:event)
-    company = create(:company, event: @event)
-    @ticket_type1 = create(:company_ticket_type, event: @event, company: company)
-    create_list(:gtag, 2, :with_purchaser, event: @event, company_ticket_type: @ticket_type1)
+    @company = create(:company)
+    @agreement = create(:company_event_agreement, event: @event, company: @company)
+    @ticket_type = create(:company_ticket_type, event: @event, company_event_agreement: @agreement)
+
+    create_list(:gtag, 2, :with_purchaser, event: @event, company_ticket_type: @ticket_type)
   end
 
   describe "GET index" do
     context "when authenticated" do
       before(:each) do
-        @company = Company.last
-        http_login(@event.token, @company.token)
+        http_login(@event.token, @company.access_token)
       end
 
       it "returns 200 status code" do
@@ -26,8 +27,11 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
 
         body = JSON.parse(response.body)
         gtags = body["gtags"].map { |m| m["tag_uid"] }
-        expect(gtags).to match_array(Gtag.search_by_company_and_event(@company.name, @event)
-                                         .map(&:tag_uid))
+        db_gtags = Gtag.joins(company_ticket_type: :company_event_agreement)
+                    .where(event: @event, company_event_agreements: { id: @agreement.id })
+
+
+        expect(gtags).to match_array(db_gtags.map(&:tag_uid))
       end
     end
 
@@ -43,8 +47,7 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
   describe "GET show" do
     context "when authenticated" do
       before(:each) do
-        @company = Company.last
-        http_login(@event.token, @company.token)
+        http_login(@event.token, @company.access_token)
       end
 
       context "when the ticket belongs to the company" do
@@ -83,8 +86,7 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
   describe "POST create" do
     context "when authenticated" do
       before(:each) do
-        @company = Company.last
-        http_login(@event.token, @company.token)
+        http_login(@event.token, @company.access_token)
       end
 
       context "when the request is valid" do
@@ -140,9 +142,8 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
   describe "PATCH update" do
     context "when authenticated" do
       before(:each) do
-        @company = Company.last
         @gtag = Gtag.last
-        http_login(@event.token, @company.token)
+        http_login(@event.token, @company.access_token)
       end
 
       context "when the request is valid" do
