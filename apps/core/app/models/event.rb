@@ -134,7 +134,7 @@ class Event < ActiveRecord::Base
   def gtag_query(refund_service)
     fee = refund_fee(refund_service)
     min = refund_minimun(refund_service)
-    gtags.joins(:credential_assignments, :gtag_credit_log)
+    gtags.joins(:credential_assignments)
       .where("credential_assignments.aasm_state = 'assigned'")
       .where("((amount * #{standard_credit_price}) - #{fee}) >= #{min}")
       .where("((amount * #{standard_credit_price}) - #{fee}) > 0")
