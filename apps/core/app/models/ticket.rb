@@ -73,6 +73,7 @@ class Ticket < ActiveRecord::Base
       .preevent_product
       .preevent_product_items
       .joins(:preevent_item)
-      .where(preevent_items: { purchasable_type: "Credit" })
+      .where(preevent_items: { purchasable_type: "Credit" }) if company_ticket_type
+      .preevent_product
   end
 end
