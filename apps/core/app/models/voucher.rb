@@ -13,6 +13,7 @@ class Voucher < ActiveRecord::Base
 
   has_one :catalog_item, as: :catalogable, dependent: :destroy
   accepts_nested_attributes_for :catalog_item, allow_destroy: true
+  has_and_belongs_to_many :products
 
   # Validations
   validates :catalog_item, presence: true
