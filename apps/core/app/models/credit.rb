@@ -15,8 +15,8 @@ class Credit < ActiveRecord::Base
   acts_as_paranoid
 
   # Associations
-  has_one :preevent_item, as: :purchasable, dependent: :destroy
-  accepts_nested_attributes_for :preevent_item, allow_destroy: true
+  has_one :catalog_item, as: :catalogable, dependent: :destroy
+  accepts_nested_attributes_for :catalog_item, allow_destroy: true
 
   scope :standard_credit_preevent_product, lambda { |event|
     joins(preevent_item: :preevent_products)
@@ -30,11 +30,11 @@ class Credit < ActiveRecord::Base
   }
 
   scope :for_event, lambda { |event|
-    includes(:preevent_item).where(preevent_items: { event_id: event.id })
+    includes(:catalog_items).where(catalog_items: { event: event })
   }
 
   # Validations
-  validates :preevent_item, :currency, :value, presence: true
+  validates :catalog_item, :currency, :value, presence: true
   validate :only_one_standard_credit
 
   def rounded_value
