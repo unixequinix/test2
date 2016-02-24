@@ -3,14 +3,14 @@
 # Table name: gtags
 #
 #  id                     :integer          not null, primary key
-#  tag_uid                :string           not null
+#  event_id               :integer          not null
+#  company_ticket_type_id :integer          not null
 #  tag_serial_number      :string
+#  tag_uid                :string           not null
+#  credential_redeemed    :boolean          default(FALSE), not null
+#  deleted_at             :datetime
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  deleted_at             :datetime
-#  event_id               :integer          not null
-#  credential_redeemed    :boolean          default(FALSE), not null
-#  company_ticket_type_id :integer
 #
 
 class Gtag < ActiveRecord::Base

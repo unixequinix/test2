@@ -2,13 +2,14 @@
 #
 # Table name: order_items
 #
-#  id                  :integer          not null, primary key
-#  order_id            :integer          not null
-#  amount              :integer
-#  total               :decimal(8, 2)    not null
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  preevent_product_id :integer
+#  id              :integer          not null, primary key
+#  order_id        :integer          not null
+#  catalog_item_id :integer          not null
+#  amount          :integer
+#  total           :decimal(8, 2)    not null
+#  deleted_at      :datetime
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 
 class OrderItem < ActiveRecord::Base

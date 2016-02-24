@@ -4,8 +4,8 @@
 #
 #  id           :integer          not null, primary key
 #  value        :string           default(""), not null
-#  event_id     :integer          not null
-#  parameter_id :integer          not null
+#  event_id     :integer
+#  parameter_id :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #

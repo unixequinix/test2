@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: products
+#
+#  id         :integer          not null, primary key
+#  name       :string
+#  is_alcohol :boolean
+#  deleted_at :datetime
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class Product < ActiveRecord::Base
   acts_as_paranoid
 

@@ -4,6 +4,7 @@
 #
 #  id                        :integer          not null, primary key
 #  customer_event_profile_id :integer
+#  deleted_at                :datetime
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
 #
