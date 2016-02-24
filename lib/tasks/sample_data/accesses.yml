@@ -1,0 +1,13 @@
+
+-
+  name: "Regular Pass"
+  initial_amount: 0
+  step: 1
+  min_purchasable: 0
+  max_purchasable: 200
+-
+  name: "VIP Pass"
+  initial_amount: 0
+  step: 1
+  min_purchasable: 0
+  max_purchasable: 200
