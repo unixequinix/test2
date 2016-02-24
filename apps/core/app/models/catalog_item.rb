@@ -23,6 +23,5 @@ class CatalogItem < ActiveRecord::Base
   belongs_to :event
   belongs_to :catalogable, polymorphic: true, touch: true
 
-
   validates :name, :initial_amount, :step, :max_purchasable, :min_purchasable, presence: true
 end

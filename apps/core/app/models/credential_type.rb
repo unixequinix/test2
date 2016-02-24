@@ -15,6 +15,7 @@ class CredentialType < ActiveRecord::Base
   after_destroy :calculate_memory_position
 
   has_one :catalog_item, as: :purchasable, dependent: :destroy
+  has_many :company_ticket_types
   accepts_nested_attributes_for :catalog_item, allow_destroy: true
 
   # Validations
