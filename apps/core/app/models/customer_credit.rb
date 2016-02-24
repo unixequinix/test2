@@ -3,17 +3,26 @@
 # Table name: customer_credits
 #
 #  id                        :integer          not null, primary key
-#  customer_event_profile_id :integer          not null
-#  amount                    :decimal(, )      not null
-#  refundable_amount         :decimal(, )      not null
-#  final_balance             :decimal(, )      not null
-#  final_refundable_balance  :decimal(, )      not null
-#  value_credit              :decimal(, )      not null
-#  payment_method            :string           not null
-#  transaction_source        :string           not null
-#  deleted_at                :datetime
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
+#  credits                   :integer
+#  credits_refundable        :integer
+#  value_credit              :integer
+#  payment_gateway           :string
+#  payment_method            :string
+#  final_balance             :integer
+#  final_refundable_balance  :integer
+#  event_id                  :integer
+#  transaction_type          :string
+#  device_created_at         :datetime
+#  customer_tag_uid          :string
+#  operator_tag_uid          :string
+#  station_id                :integer
+#  device_id                 :integer
+#  device_uid                :integer
+#  customer_event_profile_id :integer
+#  status_code               :string
+#  status_message            :string
+#  created_at                :datetime
+#  updated_at                :datetime
 #
 
 class CustomerCredit < ActiveRecord::Base

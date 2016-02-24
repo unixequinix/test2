@@ -14,7 +14,10 @@ RSpec.describe RefundService, type: :domain_logic do
 
   describe "create" do
     it "should initialize the claim and event attributes" do
-      claim = create(:claim, aasm_state: "in_progress")
+      gtag = create(:gtag, event: event)
+      claim = create(:claim, aasm_state: "in_progress", gtag: gtag)
+      create(:preevent_item_standard_credit, event: event)
+      Seeder::SeedLoader.load_param(event, category: "refund")
       refund_service = RefundService.new(claim)
       refund_service_pending = refund_service.create(amount: "23.00",
                                                      currency: "EUR",
