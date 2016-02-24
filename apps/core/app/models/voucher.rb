@@ -11,9 +11,9 @@
 class Voucher < ActiveRecord::Base
   acts_as_paranoid
 
-  has_one :preevent_item, as: :purchasable, dependent: :destroy
-  accepts_nested_attributes_for :preevent_item, allow_destroy: true
+  has_one :catalog_item, as: :catalogable, dependent: :destroy
+  accepts_nested_attributes_for :catalog_item, allow_destroy: true
 
   # Validations
-  validates :preevent_item, presence: true
+  validates :catalog_item, presence: true
 end

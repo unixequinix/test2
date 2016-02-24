@@ -14,7 +14,7 @@
 class OrderItem < ActiveRecord::Base
   # Associations
   belongs_to :order
-  belongs_to :preevent_product
+  belongs_to :catalog_item
 
   # Validations
   validates :amount, numericality: { only_integer: true, less_than_or_equal_to: 500 }

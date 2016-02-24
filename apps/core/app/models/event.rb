@@ -61,8 +61,8 @@ class Event < ActiveRecord::Base
   has_many :company_event_agreements
   has_many :companies, through: :company_event_agreements
   has_many :transactions
-  has_many :preevent_items
-  has_many :credits, through: :preevent_items, source: :purchasable, source_type: "Credit"
+  has_many :catalog_items
+  has_many :credits, through: :catalog_items, source: :catalogable, source_type: "Credit"
   has_many :tickets_assignments, through: :tickets, source: :credential_assignments,
                                  class_name: "CredentialAssignment"
   has_many :gtags_assignments, through: :gtags, source: :credential_assignments,
