@@ -11,4 +11,5 @@
 class Access < ActiveRecord::Base
   has_one :catalog_item, as: :catalogable, dependent: :destroy
   has_one :entitlement, as: :entitlementable, dependent: :destroy
+  accepts_nested_attributes_for :catalog_item, allow_destroy: true
 end
