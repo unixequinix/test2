@@ -15,7 +15,7 @@ namespace :db do
     make_events
     make_companies
     make_company_event_agreements
-    make_credits
+    #make_credits
     make_accesses
     make_company_ticket_types
     make_tickets
