@@ -438,6 +438,7 @@ ActiveRecord::Schema.define(version: 20160224122200) do
   create_table "station_types", force: :cascade do |t|
     t.integer  "station_group_id", null: false, index: {name: "fk__station_types_station_group_id"}, foreign_key: {references: "station_groups", name: "fk_station_types_station_group_id", on_update: :no_action, on_delete: :no_action}
     t.string   "name",             null: false, index: {name: "index_station_types_on_name"}
+    t.text     "description"
     t.datetime "deleted_at",       index: {name: "index_station_types_on_deleted_at"}
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false

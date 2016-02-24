@@ -14,3 +14,11 @@ puts "Create Claim parameters"
 puts "----------------------------------------"
 
 Seeder::SeedLoader.create_claim_parameters
+
+# Stations
+# ------------------------------
+
+puts "Create Stations"
+puts "----------------------------------------"
+
+Seeder::SeedLoader.create_stations

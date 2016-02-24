@@ -1,0 +1,6 @@
+-
+  name: online
+  types:
+    -
+      name: customer_portal
+      description: "The customer portal"
