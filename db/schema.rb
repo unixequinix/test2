@@ -517,6 +517,17 @@ ActiveRecord::Schema.define(version: 20160224124900) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "vouchers", force: :cascade do |t|
+    t.datetime "deleted_at", index: {name: "index_vouchers_on_deleted_at"}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "products_vouchers", force: :cascade do |t|
+    t.integer "product_id", index: {name: "index_products_vouchers_on_product_id"}, foreign_key: {references: "products", name: "fk_products_vouchers_product_id", on_update: :no_action, on_delete: :no_action}
+    t.integer "voucher_id", index: {name: "index_products_vouchers_on_voucher_id"}, foreign_key: {references: "vouchers", name: "fk_products_vouchers_voucher_id", on_update: :no_action, on_delete: :no_action}
+  end
+
   create_table "purchasers", force: :cascade do |t|
     t.integer  "credentiable_id",       null: false
     t.string   "credentiable_type",     null: false
@@ -563,12 +574,6 @@ ActiveRecord::Schema.define(version: 20160224124900) do
     t.integer "quantity"
     t.float   "total_price_paid"
     t.integer "monetary_transaction_id", index: {name: "fk__transaction_sale_items_monetary_transaction_id"}, foreign_key: {references: "monetary_transactions", name: "fk_transaction_sale_items_monetary_transaction_id", on_update: :no_action, on_delete: :no_action}
-  end
-
-  create_table "vouchers", force: :cascade do |t|
-    t.datetime "deleted_at", index: {name: "index_vouchers_on_deleted_at"}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
 end
