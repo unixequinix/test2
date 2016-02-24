@@ -13,6 +13,4 @@
 
 class Station < ActiveRecord::Base
   belongs_to :station_type
-  has_many :operator_permisions
-  has_many :operators, through: :operator_permisions, class_name: "Operator"
 end
