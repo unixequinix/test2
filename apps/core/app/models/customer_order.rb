@@ -3,8 +3,8 @@
 # Table name: customer_orders
 #
 #  id                        :integer          not null, primary key
-#  preevent_product_id       :integer          not null
-#  customer_event_profile_id :integer          not null
+#  customer_event_profile_id :integer
+#  catalog_item_id           :integer
 #  counter                   :integer
 #  redeemed                  :boolean          default(FALSE), not null
 #  deleted_at                :datetime

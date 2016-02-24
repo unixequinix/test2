@@ -202,11 +202,11 @@ ActiveRecord::Schema.define(version: 20160224122200) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "catalog_items_packs", force: :cascade do |t|
-    t.integer  "pack_id",         null: false, index: {name: "index_catalog_items_packs_on_pack_id"}, foreign_key: {references: "packs", name: "fk_catalog_items_packs_pack_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "catalog_item_id", null: false, index: {name: "index_catalog_items_packs_on_catalog_item_id"}, foreign_key: {references: "catalog_items", name: "fk_catalog_items_packs_catalog_item_id", on_update: :no_action, on_delete: :no_action}
+  create_table "catalog_item_packs", force: :cascade do |t|
+    t.integer  "pack_id",         null: false, index: {name: "index_catalog_item_packs_on_pack_id"}, foreign_key: {references: "packs", name: "fk_catalog_item_packs_pack_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "catalog_item_id", null: false, index: {name: "index_catalog_item_packs_on_catalog_item_id"}, foreign_key: {references: "catalog_items", name: "fk_catalog_item_packs_catalog_item_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "amount"
-    t.datetime "deleted_at",      index: {name: "index_catalog_items_packs_on_deleted_at"}
+    t.datetime "deleted_at",      index: {name: "index_catalog_item_packs_on_deleted_at"}
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end

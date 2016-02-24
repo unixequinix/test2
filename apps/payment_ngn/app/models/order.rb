@@ -5,10 +5,11 @@
 #  id                        :integer          not null, primary key
 #  number                    :string           not null
 #  aasm_state                :string           not null
+#  customer_event_profile_id :integer
 #  completed_at              :datetime
+#  deleted_at                :datetime
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
-#  customer_event_profile_id :integer
 #
 
 class Order < ActiveRecord::Base

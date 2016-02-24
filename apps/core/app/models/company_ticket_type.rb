@@ -3,21 +3,20 @@
 # Table name: company_ticket_types
 #
 #  id                         :integer          not null, primary key
-#  preevent_product_id        :integer
 #  event_id                   :integer
+#  company_event_agreement_id :integer
 #  name                       :string
 #  company_ticket_type_ref    :string
 #  deleted_at                 :datetime
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null
-#  company_event_agreement_id :integer
 #
 
 class CompanyTicketType < ActiveRecord::Base
   acts_as_paranoid
 
   belongs_to :event
-  belongs_to :preevent_product
+  belongs_to :catalog_item
   belongs_to :company_event_agreement
 
   validates :name, :company_event_agreement, presence: true
