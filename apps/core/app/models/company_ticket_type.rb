@@ -16,8 +16,9 @@ class CompanyTicketType < ActiveRecord::Base
   acts_as_paranoid
 
   belongs_to :event
-  belongs_to :catalog_item
+  belongs_to :credential_type
   belongs_to :company_event_agreement
+
 
   validates :name, :company_event_agreement, presence: true
 
