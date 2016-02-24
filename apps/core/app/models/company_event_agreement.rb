@@ -15,6 +15,7 @@ class CompanyEventAgreement < ActiveRecord::Base
   acts_as_paranoid
   belongs_to :company
   belongs_to :event
+  has_many :company_ticket_types
 
   # Validations
   validates :company_id, :event_id, presence: true

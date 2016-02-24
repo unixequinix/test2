@@ -3,12 +3,11 @@ require "rails_helper"
 RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
   before(:all) do
     @event = create(:event)
+    @company = create(:company)
+    @agreement = create(:company_event_agreement, event: @event, company: @company)
+    ticket_type = create(:company_ticket_type, event: @event, company_event_agreement: @agreement)
 
-    company = create(:company)
-    create(:company_event_agreement, event: @event, company: company)
-
-    @ticket_type1 = create(:company_ticket_type, event: @event, company: company)
-    create_list(:ticket, 2, :with_purchaser, event: @event, company_ticket_type: @ticket_type1)
+    create_list(:ticket, 2, :with_purchaser, event: @event, company_ticket_type: ticket_type)
   end
 
   describe "GET index" do
@@ -30,8 +29,11 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
         body = JSON.parse(response.body)
         tickets = body["tickets"].map { |m| m["ticket_reference"] }
 
-        expect(tickets).to match_array(Ticket.search_by_company_and_event(@company.name, @event)
-                                             .map(&:code))
+        db_tickets = Ticket.joins(company_ticket_type: :company_event_agreement)
+                    .where(event: @event, company_event_agreements: { id: @agreement.id })
+
+
+        expect(tickets).to match_array(db_tickets.map(&:code))
       end
     end
 
