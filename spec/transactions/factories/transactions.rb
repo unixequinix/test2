@@ -40,8 +40,4 @@ FactoryGirl.define do
     direction { rand(2) }
     access_entitlement_value { rand(10) }
   end
-
-  factory :monetary_transaction, parent: :transaction, class: "CustomerCredit"
-  factory :credential_transaction, parent: :transaction, class: "CredentialTransaction"
-  factory :access_transaction, parent: :transaction, class: "AccessTransaction"
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160217173345) do
+ActiveRecord::Schema.define(version: 20160223175600) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,6 +126,11 @@ ActiveRecord::Schema.define(version: 20160217173345) do
     t.datetime "updated_at"
   end
 
+  create_table "accesses", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  default: "", null: false, index: {name: "index_admins_on_email", unique: true}
     t.string   "encrypted_password",     default: "", null: false
@@ -222,6 +227,34 @@ ActiveRecord::Schema.define(version: 20160217173345) do
     t.integer  "ticket_id",  index: {name: "index_banned_tickets_on_ticket_id"}, foreign_key: {references: "tickets", name: "fk_banned_tickets_ticket_id", on_update: :no_action, on_delete: :no_action}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "catalog_items", force: :cascade do |t|
+    t.integer  "event_id",         null: false, index: {name: "index_catalog_items_on_event_id"}, foreign_key: {references: "events", name: "fk_catalog_items_event_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "catalogable_id",   null: false
+    t.string   "catalogable_type", null: false
+    t.string   "name"
+    t.text     "description"
+    t.integer  "initial_amount"
+    t.integer  "step"
+    t.integer  "max_purchasable"
+    t.integer  "min_purchasable"
+    t.datetime "deleted_at",       index: {name: "index_catalog_items_on_deleted_at"}
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  create_table "packs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "catalog_items_packs", force: :cascade do |t|
+    t.integer  "pack_id",         null: false, index: {name: "index_catalog_items_packs_on_pack_id"}, foreign_key: {references: "packs", name: "fk_catalog_items_packs_pack_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "catalog_item_id", null: false, index: {name: "index_catalog_items_packs_on_catalog_item_id"}, foreign_key: {references: "catalog_items", name: "fk_catalog_items_packs_catalog_item_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "amount"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "claims", force: :cascade do |t|
@@ -461,6 +494,14 @@ ActiveRecord::Schema.define(version: 20160217173345) do
     t.datetime "deleted_at",           index: {name: "index_preevent_product_items_on_deleted_at"}
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string   "name"
+    t.boolean  "is_alcohol"
+    t.datetime "deleted_at", index: {name: "index_products_on_deleted_at"}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "purchasers", force: :cascade do |t|
