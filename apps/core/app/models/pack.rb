@@ -14,4 +14,5 @@ class Pack < ActiveRecord::Base
   has_one :catalog_item, as: :catalogable, dependent: :destroy
   has_many :pack_catalog_items
   accepts_nested_attributes_for :catalog_item, allow_destroy: true
+  accepts_nested_attributes_for :pack_catalog_items, allow_destroy: true
 end
