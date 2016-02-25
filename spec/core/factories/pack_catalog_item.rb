@@ -1,4 +1,4 @@
 FactoryGirl.define do
-  factory :catalog_item_pack do
+  factory :pack_catalog_item do
   end
 end

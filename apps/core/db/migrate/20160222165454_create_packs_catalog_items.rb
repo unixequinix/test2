@@ -1,6 +1,6 @@
-class CreateCatalogItemPacks < ActiveRecord::Migration
+class CreatePacksCatalogItems < ActiveRecord::Migration
   def change
-    create_table :catalog_item_packs do |t|
+    create_table :packs_catalog_items do |t|
       t.references :pack, null: false, index: true
       t.references  :catalog_item, null: false, index: true
       t.integer  :amount

@@ -11,7 +11,7 @@
 #  updated_at      :datetime         not null
 #
 
-class CatalogItemPack < ActiveRecord::Base
+class PackCatalogItem < ActiveRecord::Base
   acts_as_paranoid
 
   belongs_to :pack

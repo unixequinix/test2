@@ -4,6 +4,8 @@
   step: 1
   min_purchasable: 0
   max_purchasable: 200
+  pack_catalog_item: 0
+
 -
   name: "VIP Pass"
   initial_amount: 0

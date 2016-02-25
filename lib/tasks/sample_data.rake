@@ -113,8 +113,7 @@ namespace :db do
     puts '----------------------------------------'
     Event.all.each do |event|
       YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'company_ticket_types.yml')).each do |data|
-        @credential_type = CredentialType.create!(memory_position: 2, catalog_item: CatalogItem.first)
-        binding.pry
+        @credential_type = CredentialType.create!(catalog_item: CatalogItem.first)
         CompanyTicketType.create!(company_ticket_type_ref: data['company_ticket_type_ref'],
                                   name: data['name'],
                                   event: event,
