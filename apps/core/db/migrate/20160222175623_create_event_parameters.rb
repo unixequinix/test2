@@ -2,8 +2,8 @@ class CreateEventParameters < ActiveRecord::Migration
   def change
     create_table :event_parameters do |t|
       t.string :value, default: "", null: false
-      t.references :event
-      t.references :parameter
+      t.references :event, null: false
+      t.references :parameter, null: false
 
       t.timestamps null: false
     end

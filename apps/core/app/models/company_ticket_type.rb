@@ -3,8 +3,9 @@
 # Table name: company_ticket_types
 #
 #  id                         :integer          not null, primary key
-#  event_id                   :integer
-#  company_event_agreement_id :integer
+#  event_id                   :integer          not null
+#  company_event_agreement_id :integer          not null
+#  credential_type_id         :integer          not null
 #  name                       :string
 #  company_ticket_type_ref    :string
 #  deleted_at                 :datetime

@@ -3,7 +3,7 @@
 # Table name: customers
 #
 #  id                     :integer          not null, primary key
-#  event_id               :integer
+#  event_id               :integer          not null
 #  email                  :string           default(""), not null
 #  name                   :string           default(""), not null
 #  surname                :string           default(""), not null

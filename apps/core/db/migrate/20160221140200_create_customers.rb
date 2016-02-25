@@ -1,7 +1,7 @@
 class CreateCustomers < ActiveRecord::Migration
   def change
     create_table :customers do |t|
-      t.references :event
+      t.references :event, null: false
       t.string :email, null: false, default: "", index: { unique: true }
       t.string :name, default: "", null: false
       t.string :surname, default: "", null: false

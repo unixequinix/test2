@@ -3,6 +3,7 @@
 # Table name: credential_types
 #
 #  id              :integer          not null, primary key
+#  catalog_item_id :integer          not null
 #  memory_position :integer          not null
 #  deleted_at      :datetime
 #  created_at      :datetime         not null
@@ -14,9 +15,8 @@ class CredentialType < ActiveRecord::Base
   before_save :set_memory_position
   after_destroy :calculate_memory_position
 
-  has_one :catalog_item, as: :purchasable, dependent: :destroy
+  belongs_to :catalog_item
   has_many :company_ticket_types
-  accepts_nested_attributes_for :catalog_item, allow_destroy: true
 
   # Validations
   validates :catalog_item, presence: true

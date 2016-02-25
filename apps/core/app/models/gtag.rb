@@ -4,7 +4,7 @@
 #
 #  id                     :integer          not null, primary key
 #  event_id               :integer          not null
-#  company_ticket_type_id :integer          not null
+#  company_ticket_type_id :integer
 #  tag_serial_number      :string
 #  tag_uid                :string           not null
 #  credential_redeemed    :boolean          default(FALSE), not null
