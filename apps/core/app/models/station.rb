@@ -12,5 +12,6 @@
 #
 
 class Station < ActiveRecord::Base
+  belongs_to :event
   belongs_to :station_type
 end

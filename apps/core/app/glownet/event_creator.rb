@@ -10,6 +10,7 @@ class EventCreator
     @event = Event.new(@params)
     @event.save
     standard_credit
+    customer_portal_station
     default_event_parameters
     default_event_translations
     @event
@@ -46,5 +47,9 @@ class EventCreator
 
 
     end
+  end
+
+  def customer_portal_station
+    Station.create!(event: @event, name: "customer_portal", station_type_id: 1)
   end
 end
