@@ -12,6 +12,6 @@ class Pack < ActiveRecord::Base
   acts_as_paranoid
 
   has_one :catalog_item, as: :catalogable, dependent: :destroy
-  has_many :packs_catalog_items
+  has_many :pack_catalog_items
   accepts_nested_attributes_for :catalog_item, allow_destroy: true
 end

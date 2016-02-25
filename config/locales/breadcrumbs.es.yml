@@ -40,5 +40,8 @@ es:
     refunds: "Devoluciones"
     new_refund: "Nueva devolución"
     vouchers: "Cupones"
+    new_voucher: "Nuevo cupón"
+    packs: "Pack"
+    new_pack: "Nuevo pack"
     credential_types: "Tipos de credenciales"
     companies: "Compañías"

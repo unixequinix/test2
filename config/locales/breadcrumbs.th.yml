@@ -40,5 +40,8 @@ th:
     refunds: "Refunds"
     new_refund: "New refund"
     vouchers: "Vouchers"
+    new_voucher: "New vouchers"
+    packs: "Packs"
+    new_pack: "New pack"
     credential_types: "Credential types"
     companies: "Companies"

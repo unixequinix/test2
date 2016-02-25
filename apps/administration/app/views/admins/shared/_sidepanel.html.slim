@@ -41,6 +41,9 @@ aside#main-menu
     li.aside-list = link_to admins_event_vouchers_path(event)
       = fa_icon "tag"
       = t("admin.aside.vouchers")
+    li.aside-list = link_to admins_event_packs_path(event)
+      = fa_icon "tag"
+      = t("admin.aside.packs")
     li.aside-list = link_to admins_event_credential_types_path(event)
       = fa_icon "certificate"
       = t("admin.aside.credential_types")

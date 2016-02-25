@@ -60,6 +60,7 @@ Rails.application.routes.draw do
         resources :accesses, except: :show
         resources :credits, except: :show
         resources :vouchers, except: :show
+        resources :packs, except: :show
         resources :credential_types, except: :show
         resources :company_ticket_types, except: :show
         resources :customers, except: [:new, :create, :edit, :update] do

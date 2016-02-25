@@ -49,6 +49,10 @@ class Multitenancy::AdministrationFetcher
     Gtag.where(event: @event)
   end
 
+  def packs
+    Pack.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
+  end
+
   def tickets
     Ticket.where(event: @event)
   end

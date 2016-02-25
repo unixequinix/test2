@@ -147,6 +147,23 @@ crumb :new_admins_event_voucher do |event|
   parent :admins_event_vouchers, event
 end
 
+## Packs
+
+crumb :admins_event_packs do |event|
+  link t("breadcrumbs.packs"), admins_event_packs_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_pack do |event, pack|
+  link pack.catalog_item.name, edit_admins_event_pack_path(event, pack)
+  parent :admins_event_packs, event
+end
+
+crumb :new_admins_event_pack do |event|
+  link t("breadcrumbs.new_pack")
+  parent :admins_event_packs, event
+end
+
 ## CredentialTypes
 
 crumb :admins_event_credential_types do |event|
