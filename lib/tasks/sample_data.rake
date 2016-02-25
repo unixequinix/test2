@@ -17,6 +17,7 @@ namespace :db do
     make_company_event_agreements
     #make_credits
     make_accesses
+    make_packs
     make_company_ticket_types
     make_tickets
     make_gtags
@@ -104,6 +105,26 @@ namespace :db do
                                                   min_purchasable: data['min_purchasable'],
                                                   max_purchasable: data['max_purchasable'],
                                                   initial_amount: data['initial_amount'] } )
+      end
+    end
+  end
+
+  def make_packs
+    puts 'Create packs'
+    puts '----------------------------------------'
+    Event.all.each do |event|
+      YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'packs.yml')).each do |data|
+        @pack = Pack.create!(catalog_item_attributes: { event: event,
+                                                        name: data["name"],
+                                                        step: data["step"],
+                                                        min_purchasable: data["min_purchasable"],
+                                                        max_purchasable: data["max_purchasable"],
+                                                        initial_amount: data["initial_amount"] })
+        data['pack_catalog_item'].map do |item|
+          PackCatalogItem.create!(pack: @pack,
+                                  catalog_item_id: item['catalog_item_id'],
+                                  amount: item['amount'])
+        end
       end
     end
   end
