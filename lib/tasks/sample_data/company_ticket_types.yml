@@ -2,16 +2,13 @@
   company_ticket_type_ref: "AA1"
   name: "Free beer ticket!"
   company_event_agreement_id: 1
-  product_id: 2
 
 -
   company_ticket_type_ref: "AA2"
   name: "VIP Ticket"
   company_event_agreement_id: 1
-  product_id: 1
 
 -
   company_ticket_type_ref: "BB1"
   name: "Beer with friends!"
   company_event_agreement_id: 2
-  product_id: 2

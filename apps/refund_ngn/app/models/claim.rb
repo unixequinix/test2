@@ -3,8 +3,8 @@
 # Table name: claims
 #
 #  id                        :integer          not null, primary key
-#  customer_event_profile_id :integer
-#  gtag_id                   :integer
+#  customer_event_profile_id :integer          not null
+#  gtag_id                   :integer          not null
 #  number                    :string           not null
 #  aasm_state                :string           not null
 #  total                     :decimal(8, 2)    not null
