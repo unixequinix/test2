@@ -4,6 +4,10 @@ class Multitenancy::AdministrationFetcher
     @event = event
   end
 
+  def accesses
+    Access.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
+  end
+
   def catalog_items
     CatalogItem.where(event_id: @event.id)
   end

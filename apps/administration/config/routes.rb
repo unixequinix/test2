@@ -57,6 +57,7 @@ Rails.application.routes.draw do
         end
 
         resources :companies, except: :show
+        resources :accesses, except: :show
         resources :credits, except: :show
         resources :vouchers, except: :show
         resources :credential_types, except: :show

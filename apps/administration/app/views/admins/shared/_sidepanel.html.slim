@@ -32,6 +32,9 @@ aside#main-menu
     li.aside-list = link_to admins_event_companies_path(event)
       = fa_icon "building"
       = t("admin.aside.companies")
+    li.aside-list = link_to admins_event_accesses_path(event)
+      = fa_icon "database"
+      = t("admin.aside.accesses")
     li.aside-list = link_to admins_event_credits_path(event)
       = fa_icon "database"
       = t("admin.aside.credits")

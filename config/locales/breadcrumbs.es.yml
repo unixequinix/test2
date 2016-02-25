@@ -17,6 +17,8 @@ es:
     new_ticket: "Nuevo Ticket"
     gtags: "Gtags"
     new_gtag: "Nuevo Tag"
+    accesses: "Accesos"
+    new_access: "Nuevo acceso"
     credits: "Créditos"
     new_credit: "Nuevo crédito"
     customers: "Clientes"

@@ -92,8 +92,25 @@ crumb :admins_event_gtag do |event, gtag|
 end
 
 crumb :new_admins_event_gtag do |event|
-  link t("breadcrumbs.new_gtag_type")
+  link t("breadcrumbs.new_gtag")
   parent :admins_event_gtags, event
+end
+
+## Accesses
+
+crumb :admins_event_accesses do |event|
+  link t("breadcrumbs.accesses"), admins_event_accesses_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_access do |event, access|
+  link access.catalog_item.name, edit_admins_event_access_path(event, access)
+  parent :admins_event_accesses, event
+end
+
+crumb :new_admins_event_access do |event|
+  link t("breadcrumbs.new_access")
+  parent :admins_event_accesses, event
 end
 
 ## Credits
@@ -109,7 +126,7 @@ crumb :admins_event_credit do |event, credit|
 end
 
 crumb :new_admins_event_credit do |event|
-  link t("breadcrumbs.new_credit_type")
+  link t("breadcrumbs.new_credit")
   parent :admins_event_credits, event
 end
 
