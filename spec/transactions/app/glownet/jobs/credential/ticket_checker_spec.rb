@@ -2,9 +2,16 @@ require "rails_helper"
 
 RSpec.describe Jobs::Credential::TicketChecker, type: :job do
   let(:event) { create(:event) }
-  let(:ticket) { create(:ticket) }
+  let(:ticket) { create(:ticket, code: "TICKET_CODE") }
   let(:transaction) { create(:credential_transaction, event: event, ticket: ticket) }
   let(:worker) { Jobs::Credential::TicketChecker }
+  let(:atts) do
+    {
+      ticket_code: "TICKET_CODE",
+      event_id: event.id,
+      transaction_id: transaction.id
+    }
+  end
 
   before :each do
     allow(CredentialTransaction).to receive(:find).and_return(transaction)
@@ -13,14 +20,14 @@ RSpec.describe Jobs::Credential::TicketChecker, type: :job do
   describe "error handling" do
     it "should not perform any changes if any error is raised" do
       transaction.update! ticket: nil # force the error
-      expect { worker.perform_later(transaction.id) }.to raise_error
+      expect { worker.perform_later(transaction.id, atts) }.to raise_error
       expect(transaction.reload.customer_event_profile).to be_nil
     end
   end
 
   context "asynchronously" do
     before :each do
-      worker.perform_later(transaction.id)
+      worker.perform_later(atts)
     end
 
     it "creates a customer event profile" do
