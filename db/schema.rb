@@ -205,21 +205,6 @@ ActiveRecord::Schema.define(version: 20160224122200) do
     t.datetime "deleted_at", index: {name: "index_banned_tickets_on_deleted_at"}
   end
 
-  create_table "packs", force: :cascade do |t|
-    t.datetime "deleted_at", index: {name: "index_packs_on_deleted_at"}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "catalog_item_packs", force: :cascade do |t|
-    t.integer  "pack_id",         null: false, index: {name: "index_catalog_item_packs_on_pack_id"}, foreign_key: {references: "packs", name: "fk_catalog_item_packs_pack_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "catalog_item_id", null: false, index: {name: "index_catalog_item_packs_on_catalog_item_id"}, foreign_key: {references: "catalog_items", name: "fk_catalog_item_packs_catalog_item_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "amount"
-    t.datetime "deleted_at",      index: {name: "index_catalog_item_packs_on_deleted_at"}
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
   create_table "claims", force: :cascade do |t|
     t.integer  "customer_event_profile_id", null: false, index: {name: "fk__claims_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_claims_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "gtag_id",                   null: false, index: {name: "fk__claims_gtag_id"}, foreign_key: {references: "gtags", name: "fk_claims_gtag_id", on_update: :no_action, on_delete: :no_action}
@@ -365,6 +350,21 @@ ActiveRecord::Schema.define(version: 20160224122200) do
     t.integer  "amount"
     t.decimal  "total",           precision: 8, scale: 2, null: false
     t.datetime "deleted_at",      index: {name: "index_order_items_on_deleted_at"}
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "packs", force: :cascade do |t|
+    t.datetime "deleted_at", index: {name: "index_packs_on_deleted_at"}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "packs_catalog_items", force: :cascade do |t|
+    t.integer  "pack_id",         null: false, index: {name: "index_packs_catalog_items_on_pack_id"}, foreign_key: {references: "packs", name: "fk_packs_catalog_items_pack_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "catalog_item_id", null: false, index: {name: "index_packs_catalog_items_on_catalog_item_id"}, foreign_key: {references: "catalog_items", name: "fk_packs_catalog_items_catalog_item_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "amount"
+    t.datetime "deleted_at",      index: {name: "index_packs_catalog_items_on_deleted_at"}
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
