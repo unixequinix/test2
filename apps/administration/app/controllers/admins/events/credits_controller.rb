@@ -5,7 +5,7 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
 
   def new
     @credit = Credit.new
-    @credit.build_preevent_item
+    @credit.build_catalog_item
   end
 
   def create
@@ -36,14 +36,9 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
 
   def destroy
     @credit = @fetcher.credits.find(params[:id])
-    if @credit.destroy
-      flash[:notice] = I18n.t("alerts.destroyed")
-      redirect_to admins_event_credits_url
-    else
-      flash.now[:error] = I18n.t("errors.messages.preevent_item_dependent")
-      set_presenter
-      render :index
-    end
+    @credit.destroy
+    flash[:notice] = I18n.t("alerts.destroyed")
+    redirect_to admins_event_credits_url
   end
 
   private
@@ -54,7 +49,7 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
       fetcher: @fetcher.credits,
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [:preevent_item],
+      include_for_all_items: [:catalog_item],
       context: view_context
     )
   end
@@ -63,11 +58,15 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
     params.require(:credit).permit(:standard,
                                    :currency,
                                    :value,
-                                   preevent_item_attributes: [
+                                   catalog_item_attributes: [
                                      :id,
                                      :event_id,
                                      :name,
-                                     :description
+                                     :description,
+                                     :initial_amount,
+                                     :step,
+                                     :max_purchasable,
+                                     :min_purchasable
                                    ]
                                   )
   end

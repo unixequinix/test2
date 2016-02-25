@@ -195,14 +195,14 @@ es:
       name: "Nombre"
       online: "Online"
       number_product_items: "Número de items"
-      initial_amount: "Cantidad Inicial"
       price: "Precio"
+    catalog_item:
+      name: "Nombre"
+      description: "Descripción"
       step: "Escala"
+      initial_amount: "Cantidad Inicial"
       max_purchasable: "Máximo Comprable"
       min_purchasable: "Mínimo Comprable"
-    preevent_item:
-      name: "Name"
-      description: "Descripción"
     vouchers:
       id: "Id"
     credential_types:

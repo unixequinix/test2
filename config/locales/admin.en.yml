@@ -200,9 +200,13 @@ en:
       step: "Step"
       max_purchasable: "Max Purchasable"
       min_purchasable: "Min Purchasable"
-    preevent_item:
+    catalog_item:
       name: "Name"
       description: "Description"
+      step: "Step"
+      initial_amount: "Initial Amount"
+      max_purchasable: "Max Purchasable"
+      min_purchasable: "Min Purchasable"
     vouchers:
       id: "Id"
     credential_types:
