@@ -1,5 +1,5 @@
 class Events::ConfirmationsController < Events::BaseController
-  layout "event"
+  layout "welcome_customer"
   skip_before_filter :authenticate_customer!
 
   def new
@@ -9,11 +9,10 @@ class Events::ConfirmationsController < Events::BaseController
   def create
     @customer = Customer.find_by(email: permitted_params[:email], event: current_event)
 
-    event_login_path(current_event, confirmed: true) && return if @customer.present?
+    event_login_path(current_event, confirmed: true) && return if @customer.blank?
     redirect_to event_login_path(current_event, confirmed: true),
                 error: I18n.t("errors.messages.already_confirmed") &&
-                  return unless @customer.confirmed_at.present?
-
+                  return if @customer.confirmed_at.present?
     CustomerMailer.confirmation_instructions_email(@customer).deliver_later
     @customer.update(confirmation_sent_at: Time.now.utc)
     redirect_to after_sending_confirmation_instructions_path,

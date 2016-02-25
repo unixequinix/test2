@@ -14,5 +14,10 @@ module CustomerArea
           File.expand_path("#{Rails.root}/spec/customer_area/factories", __FILE__)
       end
     end
+
+    initializer "customer_area.asset_precompile_paths" do |app|
+      app.config.assets.precompile += ["customer.scss"]
+      app.config.assets.precompile += ["customer.js"]
+    end
   end
 end

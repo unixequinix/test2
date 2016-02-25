@@ -1,0 +1,29 @@
+-
+  name: "Super Pass"
+  initial_amount: 0
+  step: 1
+  min_purchasable: 0
+  max_purchasable: 200
+  pack_catalog_item:
+    -
+      amount: 30
+      catalog_item_id: 1
+    -
+      amount: 1
+      catalog_item_id: 2
+    -
+      amount: 1
+      catalog_item_id: 3
+-
+  name: "VIP Pass"
+  initial_amount: 0
+  step: 1
+  min_purchasable: 0
+  max_purchasable: 200
+  pack_catalog_item:
+    -
+      amount: 1
+      catalog_item_id: 2
+    -
+      amount: 1
+      catalog_item_id: 3

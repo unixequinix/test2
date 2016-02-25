@@ -32,6 +32,7 @@ class Seeder::SeedLoader
     create_parameters "claim_parameters.yml"
   end
 
+
   def self.create_parameters(file)
     YAML.load_file(Rails.root.join("db", "seeds", file)).each do |category|
       category["groups"].each do |group|
@@ -42,6 +43,18 @@ class Seeder::SeedLoader
                                     data_type: parameter["data_type"],
                                     description: "")
         end
+      end
+    end
+  end
+
+  def self.create_stations
+    StationType.destroy_all
+    StationGroup.destroy_all
+
+    YAML.load_file(Rails.root.join("db", "seeds", "stations.yml")).each do |group|
+      @station_group = StationGroup.create!(name: group["name"])
+      group["types"].each do |type|
+        @station_group.station_types.create!(name: type["name"], description: type["name"])
       end
     end
   end

@@ -13,7 +13,8 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
       :customer_event_profile,
       customer_event_profile: [:ticket_assignments,
                                :active_gtag_assignment,
-                               credential_assignments: :credentiable]
+                               credential_assignments: :credentiable,
+                               customer_orders: :preevent_product]
     ).find(params[:id])
   end
 

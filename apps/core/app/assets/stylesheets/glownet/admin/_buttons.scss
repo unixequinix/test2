@@ -154,3 +154,46 @@
   }
 }
 
+// Preevent products buttons
+
+.btn-remove-fields {
+  @include transition(background-color 150ms linear);
+  position: absolute;
+  display: inline-block;
+  width: modules(1.5);
+  height: modules(1.5);
+  top: modules(0.5);
+  right: modules(0.5);
+  padding-top: modules(0.25);
+  border-radius: 50px;
+  color: $grey;
+  text-align: center;
+  text-transform: uppercase;
+  z-index: 1;
+  cursor: pointer;
+
+  &:hover {
+    color: $red;
+    background-color: lighten($red, 40%);
+  }
+}
+
+.add_fields {
+  @include transition(background-color 150ms linear, padding 150ms linear);
+  display: inline-block;
+  padding: modules(0.5) modules(0.5);
+  border-radius: 3px;
+  background-color: transparent;
+  box-shadow: inset 0px 0px 0px 1px lighten($grey, 10%);
+  color: $grey;
+  text-align: center;
+  text-transform: uppercase;
+  z-index: 1;
+  cursor: pointer;
+
+  &:hover {
+    padding: modules(0.5) modules(1.5);
+    background-color: lighten($grey, 45%);
+  }
+}
+

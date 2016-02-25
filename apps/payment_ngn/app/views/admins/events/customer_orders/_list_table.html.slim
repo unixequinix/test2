@@ -1,0 +1,16 @@
+table.customer_orders
+  thead
+    tr
+      th = t("admin.customer_orders.id")
+      th = t("admin.customer_orders.customer_event_profile")
+      th = t("admin.customer_orders.preevent_product")
+      th = t("admin.customer_orders.counter")
+      th = t("admin.customer_orders.redeemed")
+  tbody
+    - customer_orders.each do |customer_order|
+      tr
+        td data-label=t("admin.customer_orders.id") = customer_order.id
+        td data-label=t("admin.customer_orders.customer_event_profile") = link_to customer_order.customer_event_profile.customer.email, admins_event_customer_event_profile_path(current_event, customer_order.customer_event_profile.id)
+        td data-label=t("admin.customer_orders.preevent_product") = customer_order.preevent_product.name
+        td data-label=t("admin.customer_orders.counter") = customer_order.counter
+        td data-label=t("admin.customer_orders.redeemed") = customer_order.redeemed

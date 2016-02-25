@@ -21,28 +21,24 @@
           dd
             = link_to ticket_assigned.credentiable.code, edit_admins_event_ticket_path(current_event, ticket_assigned.credentiable)
             = " - #{ticket_assigned.credentiable.company_ticket_type.name}"
-            = link_to admins_event_ticket_assignment_path(current_event, ticket_assigned.id), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
+            = link_to admins_event_ticket_assignment_path(current_event, ticket_assigned.id), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "delete-image" do
                 = fa_icon "trash"
       - else
         dt = t ("admin.customers.tickets")
         dd = t ("admin.defaults.empty_tickets")
 
       dt = t ("admin.customers.credits")
-      dd = customer_event_profile.credit_logs.sum(:amount)
+      dd = customer_event_profile.customer_credits.sum(:amount)
 
       - if !customer_event_profile.active_gtag_assignment.nil?
         dt = t ("admin.customers.gtags")
         dd
           = link_to "#{customer_event_profile.active_gtag_assignment.credentiable.tag_serial_number} #{customer_event_profile.active_gtag_assignment.credentiable.tag_uid}", edit_admins_event_gtag_path(current_event, customer_event_profile.active_gtag_assignment.credentiable)
-          = link_to admins_event_gtag_assignment_path(current_event, customer_event_profile.active_gtag_assignment), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
+          = link_to admins_event_gtag_assignment_path(current_event, customer_event_profile.active_gtag_assignment), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "delete-image" do
               = fa_icon "trash"
-        dt = t("admin.customers.gtag_credits")
-        dd = customer_event_profile.active_gtag_assignment.credentiable.gtag_credit_log.amount unless customer_event_profile.active_gtag_assignment.credentiable.gtag_credit_log.nil?
       - else
         dt = t ("admin.customers.gtags")
         dd = t ("admin.defaults.empty_gtags")
-        dt = t("admin.customers.gtag_credits")
-        dt 0.0
 
       dt = t ("admin.customers.confirmed_at")
       dd = customer_event_profile.customer.confirmed_at.strftime("%y-%m-%d %H:%M:%S") unless customer_event_profile.customer.confirmed_at.nil?
@@ -93,7 +89,7 @@
               td = link_to "#{admission.credentiable.code}", edit_admins_event_ticket_path(current_event, admission.credentiable)
               td = t("admin.admissions.states.#{admission.aasm_state}")
               td = admission.created_at.strftime("%y-%m-%d %H:%M:%S")
-    - if !customer_event_profile.credit_logs.empty?
+    - if !customer_event_profile.customer_credits.empty?
       h3
         = fa_icon "table"
         = t ("admin.customers.creadit_logs")
@@ -104,10 +100,10 @@
             th = t("admin.customers.amount")
 
         tbody
-          - customer_event_profile.credit_logs.each do |credit_log|
+          - customer_event_profile.customer_credits.each do |customer_credit|
             tr
-              td = credit_log.transaction_type
-              td = credit_log.amount
+              td = customer_credit.transaction_source
+              td = customer_credit.amount
 
     - if !customer_event_profile.orders.empty?
       h3
@@ -175,7 +171,7 @@
                       = link_to admins_event_claim_path(current_event, claim, claim: { aasm_state: :cancelled }), method: :patch, data: { confirm: t("admin.confirm.delete") } do
                         = fa_icon "ban"
 
-    - if !customer_event_profile.completed_claim.nil?
+    - if customer_event_profile.completed_claim.present?
       h3
         = fa_icon "table"
         = t ("admin.customers.refund")
@@ -183,18 +179,51 @@
         thead
           tr
             th = t("admin.refunds.id")
-            th = t('admin.refunds.amount')
-            th = t('admin.refunds.currency')
-            th = t('admin.refunds.gateway_transaction_number')
-            th = t('admin.refunds.payment_solution')
-            th = t('admin.refunds.status')
-            th = t('admin.refunds.created_at')
+            th = t("admin.refunds.amount")
+            th = t("admin.refunds.currency")
+            th = t("admin.refunds.gateway_transaction_number")
+            th = t("admin.refunds.payment_solution")
+            th = t("admin.refunds.status")
+            th = t("admin.refunds.created_at")
         tbody
           tr
             td data-label=t("admin.refunds.id") = link_to (customer_event_profile.completed_claim.refund.id), admins_event_refund_path(current_event, customer_event_profile.completed_claim.refund)
-            td data-label=t('admin.refunds.amount') = customer_event_profile.completed_claim.refund.amount
-            td data-label=t('admin.refunds.currency') = customer_event_profile.completed_claim.refund.currency
-            td data-label=t('admin.refunds.gateway_transaction_number') = customer_event_profile.completed_claim.refund.gateway_transaction_number
-            td data-label=t('admin.refunds.payment_solution') = customer_event_profile.completed_claim.refund.payment_solution
-            td data-label=t('admin.refunds.status') = customer_event_profile.completed_claim.refund.status
-            td data-label=t('admin.refunds.created_at') = customer_event_profile.completed_claim.refund.created_at.strftime("%y-%m-%d %H:%M:%S")
+            td data-label=t("admin.refunds.amount") = customer_event_profile.completed_claim.refund.amount
+            td data-label=t("admin.refunds.currency") = customer_event_profile.completed_claim.refund.currency
+            td data-label=t("admin.refunds.gateway_transaction_number") = customer_event_profile.completed_claim.refund.gateway_transaction_number
+            td data-label=t("admin.refunds.payment_solution") = customer_event_profile.completed_claim.refund.payment_solution
+            td data-label=t("admin.refunds.status") = customer_event_profile.completed_claim.refund.status
+            td data-label=t("admin.refunds.created_at") = customer_event_profile.completed_claim.refund.created_at.strftime("%y-%m-%d %H:%M:%S")
+
+    - if customer_event_profile.customer_credits.present?
+      h3
+        = fa_icon "table"
+        = t ("admin.customers.customer_credits")
+      table.refunds
+        thead
+          tr
+            th = t("admin.customer_credits.id")
+            th = t("admin.customer_credits.amount")
+            th = t("admin.customer_credits.refundable_amount")
+            th = t("admin.customer_credits.value_credit")
+            th = t("admin.customer_credits.payment_method")
+            th = t("admin.customer_credits.transaction_source")
+            th = t("admin.customer_credits.final_balance")
+            th = t("admin.customer_credits.final_refundable_balance")
+        tbody
+          - customer_event_profile.customer_credits.order(created_at: :asc).each_with_index do |customer_credit, index|
+            tr
+              td data-label="id" = index +1
+              td data-label="amount" = customer_credit.amount
+              td data-label="refundable_amount" = customer_credit.refundable_amount
+              td data-label="value_credit" = customer_credit.value_credit
+              td data-label="payment_method" = customer_credit.payment_method
+              td data-label="transaction_source" = customer_credit.transaction_source
+              td data-label="final_balance" = customer_credit.final_balance
+              td data-label="final_refundable_balance" = customer_credit.final_refundable_balance
+
+    - if customer_event_profile.customer_orders.present?
+        h3
+          = fa_icon "table"
+          = t ("admin.customers.customer_orders")
+        = render("admins/events/customer_orders/list_table", customer_orders: customer_event_profile.customer_orders)

@@ -4,6 +4,14 @@ class Multitenancy::AdministrationFetcher
     @event = event
   end
 
+  def accesses
+    Access.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
+  end
+
+  def catalog_items
+    CatalogItem.where(event_id: @event.id)
+  end
+
   def company_ticket_types
     CompanyTicketType.where(event_id: @event.id)
   end
@@ -13,11 +21,11 @@ class Multitenancy::AdministrationFetcher
   end
 
   def credential_types
-    CredentialType.joins(:preevent_item).where(preevent_items: { event_id: @event.id })
+    CredentialType.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
   def credits
-    Credit.joins(:preevent_item).where(preevent_items: { event_id: @event.id })
+    Credit.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
   def customers
@@ -41,12 +49,8 @@ class Multitenancy::AdministrationFetcher
     Gtag.where(event: @event)
   end
 
-  def preevent_items
-    PreeventItem.where(event_id: @event.id)
-  end
-
-  def preevent_products
-    PreeventProduct.where(event_id: @event.id)
+  def packs
+    Pack.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
   def tickets
@@ -54,7 +58,7 @@ class Multitenancy::AdministrationFetcher
   end
 
   def vouchers
-    Voucher.joins(:preevent_item).where(preevent_items: { event_id: @event.id })
+    Voucher.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
   private

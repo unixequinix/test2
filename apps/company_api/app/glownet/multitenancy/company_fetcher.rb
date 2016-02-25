@@ -1,21 +1,21 @@
 class Multitenancy::CompanyFetcher
-  def initialize(event, company)
+  def initialize(event, agreement)
     @event = event
-    @company = company
+    @agreement = agreement
   end
 
   def company_ticket_types
-    CompanyTicketType.where(event: @event)
+    CompanyTicketType.where(event: @event, company_event_agreement: @agreement.id)
   end
 
   def gtags
-    Gtag.joins(:company_ticket_type, company_ticket_type: :company)
-      .where(event: @event, companies: { name: @company.name })
+    Gtag.joins(company_ticket_type: :company_event_agreement)
+      .where(event: @event, company_event_agreements: { id: @agreement.id })
   end
 
   def tickets
-    Ticket.joins(:company_ticket_type, company_ticket_type: :company)
-      .where(event: @event, companies: { name: @company.name })
+    Ticket.joins(company_ticket_type: :company_event_agreement)
+      .where(event: @event, company_event_agreements: { id: @agreement.id })
   end
 
   def banned_tickets

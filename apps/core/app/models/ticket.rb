@@ -3,13 +3,13 @@
 # Table name: tickets
 #
 #  id                     :integer          not null, primary key
+#  event_id               :integer          not null
+#  company_ticket_type_id :integer          not null
 #  code                   :string
+#  credential_redeemed    :boolean          default(FALSE), not null
+#  deleted_at             :datetime
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  deleted_at             :datetime
-#  event_id               :integer          not null
-#  credential_redeemed    :boolean          default(FALSE), not null
-#  company_ticket_type_id :integer
 #
 
 class Ticket < ActiveRecord::Base
@@ -74,6 +74,7 @@ class Ticket < ActiveRecord::Base
       .preevent_product
       .preevent_product_items
       .joins(:preevent_item)
-      .where(preevent_items: { purchasable_type: "Credit" })
+      .where(preevent_items: { catalogable_type: "Credit" }) if company_ticket_type
+      .preevent_product
   end
 end

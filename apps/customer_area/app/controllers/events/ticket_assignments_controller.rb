@@ -20,11 +20,11 @@ class Events::TicketAssignmentsController < Events::BaseController
     @ticket_assignment = CredentialAssignment.find(params[:id])
     @ticket_assignment.unassign!
     ticket = @ticket_assignment.credentiable
-    @credit_log = CreditLog.create(
-      customer_event_profile_id: current_customer_event_profile.id,
-      transaction_type: CreditLog::TICKET_UNASSIGNMENT,
-      amount: -ticket.preevent_product_items_credits.sum(:amount)
-    ) unless ticket.preevent_product_items_credits.blank?
+    @credit_log = CustomerCreditOnlineCreator.new(customer_event_profile: customer_event_profile,
+                                    transaction_source: CustomerCredit::TICKET_UNASSIGNMENT,
+                                    payment_method: "none",
+                                    amount: -ticket.preevent_product_items_credits.sum(:amount)
+                                  ).save if ticket.preevent_product_items_credits.present?
     flash[:notice] = I18n.t("alerts.unassigned")
     redirect_to event_url(current_event)
   end

@@ -1,17 +1,3 @@
-.container-sub-header
-  .wrapper-date
-    h2
-      = link_to event_url(current_event) do
-        = current_event.name
-    h3
-      = fa_icon "calendar"
-      | #{t('date.formats.custom', day: current_event.start_date.day, month: t('date.month_names')[current_event.start_date.month])} - #{t('date.formats.custom', day: current_event.end_date.day, month: t('date.month_names')[current_event.end_date.month])}
-    h3
-      = fa_icon "map-marker"
-      | #{current_event.location}
-
-  h1.logo
-    = link_to event_url(current_event) do
-      = image_tag current_event.logo.url unless current_event.logo.blank?
-
-.sub-header-separator
+h2.logo
+  = link_to event_url(current_event) do
+    = image_tag current_event.logo.url unless current_event.logo.blank?

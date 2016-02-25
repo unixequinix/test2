@@ -3,14 +3,14 @@
 # Table name: gtags
 #
 #  id                     :integer          not null, primary key
-#  tag_uid                :string           not null
+#  event_id               :integer          not null
+#  company_ticket_type_id :integer
 #  tag_serial_number      :string
+#  tag_uid                :string           not null
+#  credential_redeemed    :boolean          default(FALSE), not null
+#  deleted_at             :datetime
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  deleted_at             :datetime
-#  event_id               :integer          not null
-#  credential_redeemed    :boolean          default(FALSE), not null
-#  company_ticket_type_id :integer
 #
 
 class Gtag < ActiveRecord::Base
@@ -35,7 +35,6 @@ class Gtag < ActiveRecord::Base
   has_one :assigned_customer_event_profile,
           -> { where(credential_assignments: { aasm_state: :assigned }) },
           class_name: "CredentialAssignment"
-  has_one :gtag_credit_log
   has_one :refund
   has_many :claims
   has_one :completed_claim, -> { where(aasm_state: :completed) }, class_name: "Claim"
@@ -45,13 +44,11 @@ class Gtag < ActiveRecord::Base
   has_one :banned_gtag
   belongs_to :company_ticket_type
 
-  accepts_nested_attributes_for :gtag_credit_log, allow_destroy: true
   accepts_nested_attributes_for :purchaser, allow_destroy: true
 
   # Validations
   validates_uniqueness_of :tag_uid, scope: :event_id
   validates :tag_uid, presence: true
-  validates :company_ticket_type, presence: true
 
   # Scope
   scope :selected_data, lambda  { |event_id|
@@ -77,9 +74,10 @@ class Gtag < ActiveRecord::Base
 
   def refundable_amount
     current_event = event
+    balance = current_customer_event_profile.current_balance
     standard_credit_price = current_event.standard_credit_price
     credit_amount = 0
-    credit_amount = gtag_credit_log.amount unless gtag_credit_log.nil?
+    credit_amount = balance.refundable_amount if balance.present?
     credit_amount * standard_credit_price
   end
 
@@ -91,8 +89,10 @@ class Gtag < ActiveRecord::Base
 
   def refundable?(refund_service)
     current_event = event
+    balance = current_customer_event_profile.current_balance
+
     minimum = current_event.refund_minimun(refund_service).to_f
-    !gtag_credit_log.nil? &&
+    balance.present? &&
       (refundable_amount_after_fee(refund_service) >= minimum &&
       refundable_amount_after_fee(refund_service) >= 0)
   end

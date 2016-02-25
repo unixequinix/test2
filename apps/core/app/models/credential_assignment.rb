@@ -3,7 +3,7 @@
 # Table name: credential_assignments
 #
 #  id                        :integer          not null, primary key
-#  customer_event_profile_id :integer          not null
+#  customer_event_profile_id :integer
 #  credentiable_id           :integer          not null
 #  credentiable_type         :string           not null
 #  aasm_state                :string

@@ -198,9 +198,13 @@ th:
       step: "Step"
       max_purchasable: "Max Purchasable"
       min_purchasable: "Min Purchasable"
-    preevent_item:
+    catalog_item:
       name: "Name"
       description: "Description"
+      step: "Step"
+      initial_amount: "Initial Amount"
+      max_purchasable: "Max Purchasable"
+      min_purchasable: "Min Purchasable"
     vouchers:
       id: "Id"
     credential_types:
@@ -287,6 +291,14 @@ th:
         assigned: "Is assigned now"
         unassigned: "Previous assignation"
       button: "ตกลง"
+    customer_credits:
+      amount: "Amount"
+      refundable_amount: "Refundable amount"
+      value_credit: "value credit"
+      payment_method: "Payment method"
+      transaction_source: "Transaction source"
+      final_balance: "Final balance"
+      final_refundable_balance: "Final refundable balance"
     customers:
       delete: "Deleted"
       email: "Email"
@@ -305,8 +317,10 @@ th:
       payments: "Payments"
       gtag_assignments: "Gtag registrations"
       completed_claim: "Completed claims"
+      customer_orders: "Customer orders"
       refund: "Refund"
       claims: "Claims"
+      customer_credits: "Customer credits"
       gtag_credits: "Gtag Credits"
       tickets: "Tickets"
       credits: "Credits"

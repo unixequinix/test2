@@ -5,10 +5,11 @@
 #  id                        :integer          not null, primary key
 #  number                    :string           not null
 #  aasm_state                :string           not null
+#  customer_event_profile_id :integer
 #  completed_at              :datetime
+#  deleted_at                :datetime
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
-#  customer_event_profile_id :integer
 #
 
 class Order < ActiveRecord::Base
@@ -18,7 +19,7 @@ class Order < ActiveRecord::Base
   belongs_to :customer_event_profile
   has_many :order_items
   has_many :payments
-  has_many :preevent_products, through: :order_items, class_name: "PreeventProduct"
+  has_many :catalog_items, through: :order_items, class_name: "CatalogItem"
 
   # Validations
   validates :customer_event_profile, :order_items, :number, :aasm_state, presence: true

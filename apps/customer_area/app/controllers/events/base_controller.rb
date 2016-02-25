@@ -1,5 +1,5 @@
 class Events::BaseController < ApplicationController
-  layout "event"
+  layout "customer"
   protect_from_forgery
   before_action :fetch_current_event
   before_action :ensure_customer
@@ -44,6 +44,10 @@ class Events::BaseController < ApplicationController
       CustomerEventProfile.new(customer: current_customer, event: current_event)
   end
   helper_method :current_customer_event_profile
+
+  def prepare_for_mobile
+    prepend_view_path Rails.root + "apps" + "customer_area" + "app" + "views_mobile"
+  end
 
   private
 

@@ -92,8 +92,25 @@ crumb :admins_event_gtag do |event, gtag|
 end
 
 crumb :new_admins_event_gtag do |event|
-  link t("breadcrumbs.new_gtag_type")
+  link t("breadcrumbs.new_gtag")
   parent :admins_event_gtags, event
+end
+
+## Accesses
+
+crumb :admins_event_accesses do |event|
+  link t("breadcrumbs.accesses"), admins_event_accesses_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_access do |event, access|
+  link access.catalog_item.name, edit_admins_event_access_path(event, access)
+  parent :admins_event_accesses, event
+end
+
+crumb :new_admins_event_access do |event|
+  link t("breadcrumbs.new_access")
+  parent :admins_event_accesses, event
 end
 
 ## Credits
@@ -104,12 +121,12 @@ crumb :admins_event_credits do |event|
 end
 
 crumb :admins_event_credit do |event, credit|
-  link credit.preevent_item.name, edit_admins_event_credit_path(event, credit)
+  link credit.catalog_item.name, edit_admins_event_credit_path(event, credit)
   parent :admins_event_credits, event
 end
 
 crumb :new_admins_event_credit do |event|
-  link t("breadcrumbs.new_credit_type")
+  link t("breadcrumbs.new_credit")
   parent :admins_event_credits, event
 end
 
@@ -128,6 +145,23 @@ end
 crumb :new_admins_event_voucher do |event|
   link t("breadcrumbs.new_voucher")
   parent :admins_event_vouchers, event
+end
+
+## Packs
+
+crumb :admins_event_packs do |event|
+  link t("breadcrumbs.packs"), admins_event_packs_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_pack do |event, pack|
+  link pack.catalog_item.name, edit_admins_event_pack_path(event, pack)
+  parent :admins_event_packs, event
+end
+
+crumb :new_admins_event_pack do |event|
+  link t("breadcrumbs.new_pack")
+  parent :admins_event_packs, event
 end
 
 ## CredentialTypes

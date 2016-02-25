@@ -1,5 +1,9 @@
-.wrapper-field.form-inputs
-  p = t('orders.description')
+.wrapper-module
+  p.center-text = t('orders.description')
+  .wrapper-payments-methods
+    = fa_icon "cc-visa"
+    = fa_icon "cc-mastercard"
+    = fa_icon "cc-amex"
   table.table-order
     tr.table-head
       th = t('orders.products')
@@ -9,19 +13,20 @@
       tr
         td [colspan="2"] #{pluralize(order_item.amount, order_item.preevent_product.name)}
         td.table-amount #{order_item.total}
-    tr
-      td.table-total [colspan="2"] = t('orders.total')
-      td.table-total.table-amount [colspan="3"] #{@order.total} #{current_event.currency}
+      //tr
+      //  td [colspan="2"] #{pluralize(order_item.amount, order_item.online_product.name)}
+      //  td #{order_item.total}
+    tr.total-amount
+      td [colspan="2"]
+        = t('orders.total')
+        .vat-text = t('orders.vat')
+      td [colspan="3"] #{@order.total} #{current_event.currency}
 
-  .wrapper-secure-payment
-    p.small = t('orders.vat')
+  p = t('orders.redirect')
+  = button_to t('orders.button'), event_order_path(current_event, @order), method: :patch, remote: true, class: "btn btn-action btn-action-secondary btn-action-pay"
+  = button_to t('orders.button'), event_order_path(current_event, @order), method: :patch, remote: true, class: "btn btn-action-pay btn-action-pay-paypal"
+
+  .wrapper-seal
     = render 'events/shared/ssl_cert_seal'
-    .wrapper-ccs
-      = fa_icon "cc-visa", class: "icon-ccs"
-      = fa_icon "cc-mastercard", class: "icon-ccs"
-      = fa_icon "cc-amex", class: "icon-ccs"
-  p.bank-page-alert.small = t('orders.redirect')
-  .container-order-buttons
-    = button_to t('orders.button'), event_order_path(current_event, @order), method: :patch, remote: true, class: "btn btn-top"
 
-#paymentForm class="wrapper-field form-inputs"
+  #paymentForm class="wrapper-field form-inputs"

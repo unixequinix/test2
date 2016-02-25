@@ -57,10 +57,11 @@ Rails.application.routes.draw do
         end
 
         resources :companies, except: :show
+        resources :accesses, except: :show
         resources :credits, except: :show
         resources :vouchers, except: :show
+        resources :packs, except: :show
         resources :credential_types, except: :show
-        resources :preevent_products, except: :show
         resources :company_ticket_types, except: :show
         resources :customers, except: [:new, :create, :edit, :update] do
           resources :ticket_assignments, only: [:new, :create]
