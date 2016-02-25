@@ -39,5 +39,6 @@ es:
       odd: "debe ser impar"
       even: "debe ser par"
       not_belong_to_event: "no pertenece a este evento"
+      catalog_item_dependent: "Imposible eliminar item, ya que está inlcuido en al menos un pack"
       company_ticket_type_dependent: "Imposible eliminar la compañia, tiene tipos de ticket asignados"
       max_standard_credits: "Sólo un crédito estándar por evento"

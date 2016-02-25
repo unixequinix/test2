@@ -167,7 +167,7 @@ crumb :admins_event_vouchers do |event|
 end
 
 crumb :admins_event_voucher do |event, voucher|
-  link voucher.preevent_item.name, edit_admins_event_voucher_path(event, voucher)
+  link voucher.catalog_item.name, edit_admins_event_voucher_path(event, voucher)
   parent :admins_event_vouchers, event
 end
 

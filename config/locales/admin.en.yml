@@ -222,6 +222,8 @@ en:
       min_purchasable: "Min Purchasable"
     vouchers:
       id: "Id"
+    pack:
+      number_catalog_items: "Number of items"
     credential_types:
       memory_position: "Position"
     company_ticket_types:

@@ -40,7 +40,7 @@ class Admins::Events::CredentialTypesController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.destroyed")
       redirect_to admins_event_credential_types_url
     else
-      flash.now[:error] = I18n.t("errors.messages.preevent_item_dependent")
+      flash.now[:error] = I18n.t("errors.messages.catalog_item_dependent")
       set_presenter
       render :index
     end
