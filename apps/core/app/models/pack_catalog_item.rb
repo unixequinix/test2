@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: catalog_item_packs
+# Table name: pack_catalog_items
 #
 #  id              :integer          not null, primary key
 #  pack_id         :integer          not null
