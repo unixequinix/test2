@@ -36,9 +36,14 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
 
   def destroy
     @access = @fetcher.accesses.find(params[:id])
-    @access.destroy
-    flash[:notice] = I18n.t("alerts.destroyed")
-    redirect_to admins_event_accesses_url
+    if @access.destroy
+      flash[:notice] = I18n.t("alerts.destroyed")
+      redirect_to admins_event_accesses_url
+    else
+      flash.now[:error] = I18n.t("errors.messages.preevent_item_dependent")
+      set_presenter
+      render :index
+    end
   end
 
   private

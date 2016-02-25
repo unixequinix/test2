@@ -36,9 +36,14 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
 
   def destroy
     @credit = @fetcher.credits.find(params[:id])
-    @credit.destroy
-    flash[:notice] = I18n.t("alerts.destroyed")
-    redirect_to admins_event_credits_url
+    if @credit.destroy
+      flash[:notice] = I18n.t("alerts.destroyed")
+      redirect_to admins_event_credits_url
+    else
+      flash.now[:error] = I18n.t("errors.messages.preevent_item_dependent")
+      set_presenter
+      render :index
+    end
   end
 
   private

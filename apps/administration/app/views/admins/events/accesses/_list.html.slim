@@ -12,7 +12,7 @@ table.accesses
   tbody
     - accesses.each do |access|
       tr
-        td data-label=t('admin.catalog_item.name') = access.catalog_item.name
+        td data-label=t('admin.catalog_item.name') = link_to(access.catalog_item.name, edit_admins_event_access_path(current_event, access))
         td data-label=t('admin.catalog_item.description') = access.catalog_item.description
         td data-label=t('admin.catalog_item.step') = access.catalog_item.step
         td data-label=t('admin.catalog_item.initial_amount') = access.catalog_item.initial_amount
