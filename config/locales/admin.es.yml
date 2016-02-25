@@ -1,5 +1,18 @@
 es:
   admin:
+    stations:
+      name: "Nombre"
+      type: "Tipo"
+      group: "Grupo"
+      items: "Productos"
+      station_types:
+        customer_portal: "Portal de cliente"
+        pos: "Punto de ventas"
+        topup: "Recargas"
+        refunds: "Devoluciónes"
+        box_office: "Oficina de venta"
+      station_groups:
+        online: "Online"
     companies:
       name: "Nombre"
       token: "Token de la compañia"

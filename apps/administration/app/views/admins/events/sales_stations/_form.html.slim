@@ -1,0 +1,11 @@
+= simple_form_for @sales_stations_form,
+    url: admins_event_sales_station_path(current_event, @station),
+    method: :patch do |f|
+
+  .wrapper-negative-space
+    = f.input :price
+    = f.input :catalog_item_id, products: CatalogItem.all.map(&:name), input_html: { multiple: true }
+
+    = f.input :station_id, as: :hidden, input_html: { value: @station.id }
+
+    = f.button :submit, t('admin.actions.update'), class: "btn btn-primary"

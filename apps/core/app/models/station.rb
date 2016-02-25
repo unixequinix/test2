@@ -14,4 +14,10 @@
 class Station < ActiveRecord::Base
   belongs_to :event
   belongs_to :station_type
+  has_many :station_parameters, as: :station_parametable, dependent: :destroy
+
+  validates :station_type, presence: true
+
+  SALES_STATIONS = [:customer_portal, :pos, :box_office]
+  TOPUP_STATIONS = [:topup]
 end
