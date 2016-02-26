@@ -18,5 +18,5 @@ class CompanyEventAgreement < ActiveRecord::Base
   has_many :company_ticket_types
 
   # Validations
-  validates :company_id, :event_id, presence: true
+  validates :company, :event, presence: true
 end

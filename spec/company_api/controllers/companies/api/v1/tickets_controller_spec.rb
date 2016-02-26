@@ -30,8 +30,7 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
         tickets = body["tickets"].map { |m| m["ticket_reference"] }
 
         db_tickets = Ticket.joins(company_ticket_type: :company_event_agreement)
-                    .where(event: @event, company_event_agreements: { id: @agreement.id })
-
+                     .where(event: @event, company_event_agreements: { id: @agreement.id })
 
         expect(tickets).to match_array(db_tickets.map(&:code))
       end

@@ -49,7 +49,6 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
           expect(response.status).to eq(400)
         end
       end
-
     end
   end
 end

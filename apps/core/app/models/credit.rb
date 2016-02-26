@@ -22,7 +22,6 @@ class Credit < ActiveRecord::Base
     joins(:catalog_item).where(standard: true, catalog_items: { event_id: event.id })
   }
 
-
   # Validations
   validates :catalog_item, :currency, :value, presence: true
   validate :only_one_standard_credit

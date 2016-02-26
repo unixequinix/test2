@@ -14,4 +14,11 @@ class Pack < ActiveRecord::Base
   has_one :catalog_item, as: :catalogable, dependent: :destroy
   has_many :pack_catalog_items
   accepts_nested_attributes_for :catalog_item, allow_destroy: true
+
+  def credits
+    pack_catalog_items
+      .joins(:catalog_item)
+      .where(catalog_items: { catalogable_type: "Credit" })
+      .sum(:amount)
+  end
 end

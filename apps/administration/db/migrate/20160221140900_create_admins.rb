@@ -1,7 +1,7 @@
 class CreateAdmins < ActiveRecord::Migration
   def change
     create_table :admins do |t|
-      t.string :email, default: "", null: false, index: { unique: true}
+      t.string :email, default: "", null: false, index: { unique: true }
       t.string :encrypted_password, default: "", null: false
       t.string :access_token, null: false
       t.string :reset_password_token, index: { unique: true }

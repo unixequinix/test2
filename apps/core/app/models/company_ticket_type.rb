@@ -20,10 +20,12 @@ class CompanyTicketType < ActiveRecord::Base
   belongs_to :credential_type
   belongs_to :company_event_agreement
 
-
   validates :name, :company_event_agreement, presence: true
+  validates :company_ticket_type_ref, uniqueness: { scope: :company_event_agreement }
 
-  scope :companies, -> (event) { joins(:company).where(event: event).pluck("companies.name").uniq }
+  scope :companies, -> (event) { joins(company_event_agreement: :company)
+                                 .where(company_event_agreements: { event_id: Event.first.id })
+                                 .pluck("companies.name").uniq }
 
   def self.form_selector(event)
     where(event: event).map { |company_tt| [company_tt.name, company_tt.id] }

@@ -21,6 +21,10 @@ class CredentialType < ActiveRecord::Base
   # Validations
   validates :catalog_item, presence: true
 
+  def credits
+    catalog_item.catalogable_type == "Pack" ? catalog_item.catalogable.credits : 0
+  end
+
   private
 
   def set_memory_position

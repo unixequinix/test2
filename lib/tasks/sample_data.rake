@@ -18,6 +18,7 @@ namespace :db do
     #make_credits
     make_accesses
     make_packs
+    make_portal_station
     make_company_ticket_types
     make_tickets
     make_gtags
@@ -79,7 +80,6 @@ namespace :db do
     puts '----------------------------------------'
     Event.all.each do |event|
       YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'credits.yml')).each do |data|
-
         Credit.create!(standard: data["standard"],
                        currency: data["currency"],
                        value: data["value"],
@@ -98,7 +98,6 @@ namespace :db do
     puts '----------------------------------------'
     Event.all.each do |event|
       YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'accesses.yml')).each do |data|
-
         Access.create!(catalog_item_attributes: { event_id: event.id,
                                                   name: data['name'],
                                                   step: data['step'],
@@ -125,6 +124,26 @@ namespace :db do
                                   catalog_item_id: item['catalog_item_id'],
                                   amount: item['amount'])
         end
+      end
+    end
+  end
+
+  def make_portal_station
+    puts 'Create portal station'
+    puts '----------------------------------------'
+    Event.all.each do |event|
+      YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'stations.yml')).each do |data|
+        Station.create!(name: data["name"],
+                        station_type: StationType.find(name: data['station_type'])
+                        event: event,
+                        station_parameters_attributes: {
+                          station_catalog_items_attributes: { price: data["name"],
+                                                              catalog_item_id: data["step"]
+                                                            }})
+        end
+
+
+        {station_parameters_attributes: { station_catalog_items_attributes: { price: 1, catalog_item_id: 6 }}}
       end
     end
   end

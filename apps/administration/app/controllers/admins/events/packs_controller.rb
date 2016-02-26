@@ -54,17 +54,17 @@ class Admins::Events::PacksController < Admins::Events::BaseController
     )
   end
 
-def permitted_params
+  def permitted_params
     params.require(:pack).permit(catalog_item_attributes: [
-                                                           :id,
-                                                           :event_id,
-                                                           :name,
-                                                           :description,
-                                                           :initial_amount,
-                                                           :step,
-                                                           :max_purchasable,
-                                                           :min_purchasable
-                                                          ]
-                                                        )
-  end
+      :id,
+      :event_id,
+      :name,
+      :description,
+      :initial_amount,
+      :step,
+      :max_purchasable,
+      :min_purchasable
+    ]
+                                )
+    end
 end
