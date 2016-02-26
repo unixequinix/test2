@@ -3,7 +3,7 @@
   .wrapper-negative-space
     = f.simple_fields_for :station_catalog_items do |station_catalog_item|
       = render 'station_catalog_item_fields', f: station_catalog_item
-    = link_to_add_fields("Add item", f, :station_catalog_item)
+    = link_to_add_fields("Add item", f, :station_catalog_items)
 
     = f.button :submit, class: "btn btn-primary"
 
