@@ -13,7 +13,7 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_accesses_url
     else
-      flash.now[:error] = @access.errors.full_messages.join(". ")
+      flash.now[:error] = @access_form.errors.full_messages.join(". ")
       render :new
     end
   end

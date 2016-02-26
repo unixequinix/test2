@@ -1,15 +1,15 @@
-= simple_form_for [:admins, current_event, credit] do |f|
+= simple_form_for @credit_form, url: admins_event_credits_path(current_event) do |f|
   .wrapper-negative-space
-    = f.simple_fields_for :catalog_item do |catalog_item|
-      = catalog_item.input :name, placeholder: true
-      = catalog_item.input :description, placeholder: true
-      = catalog_item.input :event_id, as: :hidden, input_html: { value: current_event.id }
-      = catalog_item.input :step, placeholder: true
-      = catalog_item.input :initial_amount, placeholder: true
-      = catalog_item.input :max_purchasable, placeholder: true
-      = catalog_item.input :min_purchasable, placeholder: true
+    = f.input :name, placeholder: true
+    = f.input :description, placeholder: true
+    = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
+    = f.input :step, placeholder: true
+    = f.input :initial_amount, placeholder: true
+    = f.input :max_purchasable, placeholder: true
+    = f.input :min_purchasable, placeholder: true
     = f.input :value, placeholder: true
     = f.input :currency, placeholder: true
-    = f.input :standard, as: :hidden, input_html: { value: credit.standard }
+    = f.input :standard, as: :hidden, input_html: { value: credit_form.standard }
+    = f.input :create_credential_type, as: :radio_buttons
 
     = f.button :submit, class: "btn btn-primary"

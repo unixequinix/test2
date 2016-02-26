@@ -1,6 +1,6 @@
-class AccessForm < CredentiableForm
+class PackForm <CredentiableForm
   def save
-    @access = Access.new(catalog_item_attributes: { name: name,
+    @pack = Pack.new(catalog_item_attributes: { name: name,
                                                    description: description,
                                                    step: step,
                                                    initial_amount: initial_amount,
@@ -20,7 +20,7 @@ class AccessForm < CredentiableForm
   private
 
   def persist!
-    @access.catalog_item.credential_type = CredentialType.new if create_credential_type
-    @access.save
+    @pack.catalog_item.credential_type = CredentialType.new if create_credential_type
+    @pack.save
   end
 end

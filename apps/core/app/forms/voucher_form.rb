@@ -1,6 +1,6 @@
-class AccessForm < CredentiableForm
+class VoucherForm < CredentiableForm
   def save
-    @access = Access.new(catalog_item_attributes: { name: name,
+    @voucher = Voucher.new(catalog_item_attributes: { name: name,
                                                    description: description,
                                                    step: step,
                                                    initial_amount: initial_amount,
@@ -20,7 +20,7 @@ class AccessForm < CredentiableForm
   private
 
   def persist!
-    @access.catalog_item.credential_type = CredentialType.new if create_credential_type
-    @access.save
+    @voucher.catalog_item.credential_type = CredentialType.new if create_credential_type
+    @voucher.save
   end
 end
