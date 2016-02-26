@@ -22,6 +22,26 @@ crumb :new_admins_admin do
   parent :admins_admins
 end
 
+## Companies
+
+crumb :admins_companies do
+  link t("breadcrumbs.companies"), admins_companies_path
+end
+
+crumb :admins_company do |company|
+  link company.name, admins_company_path(company)
+  parent :admins_companies
+end
+crumb :edit_admins_company do |company|
+  link company.name, edit_admins_company_path(company)
+  parent :admins_companies
+end
+
+crumb :new_admins_company do
+  link t("breadcrumbs.new_company")
+  parent :admins_companies
+end
+
 ## Dashboards
 
 crumb :admins_root do

@@ -13,15 +13,20 @@
 class Company < ActiveRecord::Base
   acts_as_paranoid
 
-  has_many :company_ticket_types, dependent: :restrict_with_error
   has_many :company_event_agreements
-  has_many :events, through: :company_event_agreements
+  has_many :events, through: :company_event_agreements, dependent: :restrict_with_error
 
   # Hooks
   before_create :generate_access_token
 
   # Validations
   validates :name, presence: true
+
+  def unassigned_events
+    Event.joins("LEFT JOIN company_event_agreements
+                 ON events.id = company_event_agreements.event_id")
+         .where(company_event_agreements: { company_id: nil})
+  end
 
   private
 
