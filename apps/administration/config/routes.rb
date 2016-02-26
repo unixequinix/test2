@@ -11,6 +11,12 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :companies do
+      scope module: "companies" do
+        resources :company_event_agreements, only: [:index, :new, :create, :destroy]
+      end
+    end
+
     resources :admins, except: :show do
       collection do
         resource :sessions, only: [:new, :create, :destroy]
@@ -81,8 +87,12 @@ Rails.application.routes.draw do
             delete :destroy_credential
           end
         end
-        resources :stations
-        resources :sales_stations
+        resources :stations do
+          resources :station_catalog_items,
+                    only: [:index, :create, :destroy],
+                    module: :stations
+        end
+        resources :sale_stations, only: [:index]
         resources :credential_types, except: :show
         resources :company_ticket_types, except: :show
         resources :customers, except: [:new, :create, :edit, :update] do

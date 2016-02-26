@@ -22,6 +22,26 @@ crumb :new_admins_admin do
   parent :admins_admins
 end
 
+## Companies
+
+crumb :admins_companies do
+  link t("breadcrumbs.companies"), admins_companies_path
+end
+
+crumb :admins_company do |company|
+  link company.name, admins_company_path(company)
+  parent :admins_companies
+end
+crumb :edit_admins_company do |company|
+  link company.name, edit_admins_company_path(company)
+  parent :admins_companies
+end
+
+crumb :new_admins_company do
+  link t("breadcrumbs.new_company")
+  parent :admins_companies
+end
+
 ## Dashboards
 
 crumb :admins_root do
@@ -115,14 +135,21 @@ end
 
 ## Sales Stations
 
-crumb :admins_event_sales_stations do |event|
-  link t("breadcrumbs.sales_stations"), admins_event_sales_stations_path(event)
+crumb :admins_event_sale_stations do |event|
+  link t("breadcrumbs.sale_stations"), admins_event_sale_stations_path(event)
   parent :admins_event, event
 end
 
 crumb :admins_event_sales_station do |event, station|
   link station.name, edit_admins_event_sales_station_path(event, station)
-  parent :admins_event_sales_stations, event
+  parent :admins_event_sale_stations, event
+end
+
+## Station Catalog Products
+
+crumb :admins_event_sale_station_station_catalog_items do |event, station|
+  link t("breadcrumbs.station_catalog_products"), admins_event_sale_stations_path(event)
+  parent :admins_event_sale_stations, event
 end
 
 ## Accesses

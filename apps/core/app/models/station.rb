@@ -24,6 +24,6 @@ class Station < ActiveRecord::Base
 
   validates :station_type, presence: true
 
-  SALES_STATIONS = [:customer_portal, :pos, :box_office]
+  SALE_STATIONS = [:customer_portal, :pos, :box_office]
   TOPUP_STATIONS = [:topup]
 end

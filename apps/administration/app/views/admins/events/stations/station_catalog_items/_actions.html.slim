@@ -1,0 +1,3 @@
+ul
+  li.table-action.action-delete = link_to admins_event_station_station_catalog_item_path(current_event, @station, station_catalog_item), method: :delete, data: { confirm: t('admin.confirm.delete') } do
+    = fa_icon "trash"
