@@ -4,16 +4,17 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
   end
 
   def new
-    @access_form = AccessForm.new
+    @access = Access.new
+    @access.build_catalog_item
   end
 
   def create
-    @access_form = AccessForm.new(permitted_params)
-    if @access_form.save
+    @access = Access.new(permitted_params)
+    if @access.save
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_accesses_url
     else
-      flash.now[:error] = @access_form.errors.full_messages.join(". ")
+      flash.now[:error] = @access.errors.full_messages.join(". ")
       render :new
     end
   end
@@ -59,15 +60,16 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:access_form).permit(
-      :create_credential_type,
-      :event_id,
-      :name,
-      :description,
-      :initial_amount,
-      :step,
-      :max_purchasable,
-      :min_purchasable,
-   )
+    params.require(:access).permit(catalog_item_attributes: [
+                                                             :id,
+                                                             :event_id,
+                                                             :name,
+                                                             :description,
+                                                             :initial_amount,
+                                                             :step,
+                                                             :max_purchasable,
+                                                             :min_purchasable
+                                                            ]
+                                                          )
   end
 end
