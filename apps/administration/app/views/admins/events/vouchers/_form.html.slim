@@ -1,12 +1,12 @@
-= simple_form_for @voucher_form, url: admins_event_vouchers_path(current_event) do |f|
+= simple_form_for [:admins, current_event, voucher] do |f|
   .wrapper-negative-space
-    = f.input :name, placeholder: true
-    = f.input :description, placeholder: true
-    = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
-    = f.input :step, placeholder: true
-    = f.input :initial_amount, placeholder: true
-    = f.input :max_purchasable, placeholder: true
-    = f.input :min_purchasable, placeholder: true
-    = f.input :create_credential_type, as: :radio_buttons
+    = f.simple_fields_for :catalog_item do |catalog_item|
+      = catalog_item.input :name, placeholder: true
+      = catalog_item.input :description, placeholder: true
+      = catalog_item.input :event_id, as: :hidden, input_html: { value: current_event.id }
+      = catalog_item.input :step, placeholder: true
+      = catalog_item.input :initial_amount, placeholder: true
+      = catalog_item.input :max_purchasable, placeholder: true
+      = catalog_item.input :min_purchasable, placeholder: true
 
     = f.button :submit, class: "btn btn-primary"

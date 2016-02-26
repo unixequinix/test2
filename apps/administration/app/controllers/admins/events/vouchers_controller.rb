@@ -4,16 +4,17 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
   end
 
   def new
-    @voucher_form = VoucherForm.new
+    @voucher = Voucher.new
+    @voucher.build_catalog_item
   end
 
   def create
-    @voucher_form = VoucherForm.new(permitted_params)
-    if @voucher_form.save
+    @voucher = Voucher.new(permitted_params)
+    if @voucher.save
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_vouchers_url
     else
-      flash.now[:error] = @voucher_form.errors.full_messages.join(". ")
+      flash.now[:error] = @voucher.errors.full_messages.join(". ")
       render :new
     end
   end
@@ -59,15 +60,16 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:voucher_form).permit(
-      :create_credential_type,
+    params.require(:voucher).permit(catalog_item_attributes: [
+      :id,
       :event_id,
       :name,
       :description,
       :initial_amount,
       :step,
       :max_purchasable,
-      :min_purchasable,
-   )
+      :min_purchasable
+    ]
+                                   )
   end
 end

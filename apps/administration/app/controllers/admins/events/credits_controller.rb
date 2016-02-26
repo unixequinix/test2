@@ -4,16 +4,17 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
   end
 
   def new
-    @credit_form = CreditForm.new
+    @credit = Credit.new
+    @credit.build_catalog_item
   end
 
   def create
-    @credit_form = CreditForm.new(permitted_params)
-    if @credit_form.save
+    @credit = Credit.new(permitted_params)
+    if @credit.save
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_credits_url
     else
-      flash.now[:error] = @credit_form.errors.full_messages.join(". ")
+      flash.now[:error] = @credit.errors.full_messages.join(". ")
       render :new
     end
   end
@@ -59,18 +60,19 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:credit_form).permit(
-      :standard,
-      :currency,
-      :value,
-      :create_credential_type,
-      :event_id,
-      :name,
-      :description,
-      :initial_amount,
-      :step,
-      :max_purchasable,
-      :min_purchasable
-   )
+    params.require(:credit).permit(:standard,
+                                   :currency,
+                                   :value,
+                                   catalog_item_attributes: [
+                                     :id,
+                                     :event_id,
+                                     :name,
+                                     :description,
+                                     :initial_amount,
+                                     :step,
+                                     :max_purchasable,
+                                     :min_purchasable
+                                   ]
+                                  )
   end
 end
