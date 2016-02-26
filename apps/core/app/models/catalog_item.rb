@@ -24,6 +24,22 @@ class CatalogItem < ActiveRecord::Base
   belongs_to :catalogable, polymorphic: true, touch: true
   has_many :pack_catalog_items, dependent: :restrict_with_error
   has_one :credential_type
-
   validates :name, :initial_amount, :step, :max_purchasable, :min_purchasable, presence: true
+
+  scope :only_credentiables, -> {
+    combination = where(catalogable_type: CatalogItem::CREDENTIABLE_TYPES).includes(:credential_type) +
+                  where(catalogable_type: "Pack", catalogable_id: Pack.credentiable_packs).includes(:credential_type)
+    combination.uniq.reduce([]) do |a,it|
+                                  a << it if it.credential_type.blank?
+                                  a
+                                end
+  }
+
+  # Credentiable Types
+  CREDIT = "Credit"
+  ACCESS = "Access"
+  VOUCHER = "Voucher"
+
+  CREDENTIABLE_TYPES = [CREDIT, ACCESS, VOUCHER]
+
 end

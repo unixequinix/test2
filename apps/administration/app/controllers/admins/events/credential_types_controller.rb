@@ -5,7 +5,11 @@ class Admins::Events::CredentialTypesController < Admins::Events::BaseController
 
   def new
     @credential_type = CredentialType.new
-    @catalog_items_collection = @fetcher.catalog_items.where(catalogable_type: "Access")
+    @catalog_items_collection = @fetcher.catalog_items.only_credentiables
+      .reduce(Hash.new { |h, k| h[k] = [] } ) do |acum, item|
+                                                  acum[item.catalogable_type] << item
+                                                  acum
+                                              end
   end
 
   def create
@@ -14,7 +18,7 @@ class Admins::Events::CredentialTypesController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_credential_types_url
     else
-      @catalog_items_collection = @fetcher.catalog_items.where(catalogable_type: "Access")
+      @catalog_items_collection = @fetcher.catalog_items.only_credentiables
       flash.now[:error] = @credential_type.errors.full_messages.join(". ")
       render :new
     end
@@ -22,7 +26,7 @@ class Admins::Events::CredentialTypesController < Admins::Events::BaseController
 
   def edit
     @credential_type = @fetcher.credential_types.find(params[:id])
-    @catalog_items_collection = @fetcher.catalog_items.where(catalogable_type: "Access")
+    @catalog_items_collection = @fetcher.catalog_items.only_credentiables
   end
 
   def update
@@ -31,7 +35,7 @@ class Admins::Events::CredentialTypesController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_credential_types_url
     else
-      @catalog_items_collection = @fetcher.catalog_items.where(catalogable_type: "Access")
+      @catalog_items_collection = @fetcher.catalog_items.only_credentiables
       flash.now[:error] = @credential_type.errors.full_messages.join(". ")
       render :edit
     end

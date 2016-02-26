@@ -1,5 +1,9 @@
 = simple_form_for [:admins, current_event, credential_type] do |f|
   .wrapper-negative-space
-    = f.association :catalog_item, collection: @catalog_items_collection, include_blank: false
+    select name="credential_type[catalog_item_id]" id="credential_type_catalog_item_id"
+      - @catalog_items_collection.each do |key, value|
+        optgroup label=key
+        - value.each do |item|
+          option value=item.id "#{item.name}"
 
     = f.button :submit, class: "btn btn-primary"
