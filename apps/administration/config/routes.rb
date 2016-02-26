@@ -60,7 +60,12 @@ Rails.application.routes.draw do
         resources :accesses, except: :show
         resources :credits, except: :show
         resources :vouchers, except: :show
-        resources :packs, except: :show
+        resources :packs, except: :show do
+          member do
+            get :create_credential
+            delete :destroy_credential
+          end
+        end
         resources :credential_types, except: :show
         resources :company_ticket_types, except: :show
         resources :customers, except: [:new, :create, :edit, :update] do

@@ -45,6 +45,19 @@ class Admins::Events::PacksController < Admins::Events::BaseController
     redirect_to admins_event_packs_url
   end
 
+  def create_credential
+    pack = @fetcher.packs.find(params[:id])
+    pack.catalog_item.create_credential_type if pack.catalog_item.credential_type.blank?
+    redirect_to admins_event_packs_url
+  end
+
+  def destroy_credential
+
+    pack = @fetcher.packs.find(params[:id])
+    pack.catalog_item.credential_type.destroy if pack.catalog_item.credential_type.present?
+    redirect_to admins_event_packs_url
+  end
+
   private
 
   def set_presenter

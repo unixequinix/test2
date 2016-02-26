@@ -1,4 +1,5 @@
 class PackForm <CredentiableForm
+
   def save
     @pack = Pack.new(catalog_item_attributes: { name: name,
                                                    description: description,
