@@ -4,3 +4,12 @@
     -
       name: customer_portal
       description: "The customer portal"
+    -
+      name: pos
+      description: "Point of sales"
+    -
+      name: topup
+      description: "Top up"
+    -
+      name: refunds
+      description: "Refunds"

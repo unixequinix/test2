@@ -24,9 +24,9 @@ class TicketAssignmentForm
     customer_event_profile.credential_assignments.create(credentiable: ticket)
     CustomerCreditCreator.new(customer_event_profile: customer_event_profile,
                               transaction_source: CustomerCredit::TICKET_ASSIGNMENT,
-                              amount: ticket.preevent_product_items_credits.sum(:amount),
+                              amount: ticket.credits,
                               payment_method: "none"
-                             ).save if ticket.preevent_product_items_credits.present?
+                             ).save if ticket.credits.present?
     customer_event_profile
   end
 end

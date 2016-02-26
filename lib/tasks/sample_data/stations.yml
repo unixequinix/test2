@@ -1,0 +1,31 @@
+-
+  name: 'Customer Portal'
+  station_type: customer_portal
+  station_catalog_items:
+    # Credits
+    -
+      price: 1
+      catalog_item: 1
+    # Accesses
+    -
+      price: 10
+      catalog_item: 2
+    -
+      price: 20
+      catalog_item: 3
+    -
+      price: 30
+      catalog_item: 4
+    -
+      price: 40
+      catalog_item: 5
+    # Packs
+    -
+      price: 50
+      catalog_item: 6
+    -
+      price: 60
+      catalog_item: 7
+    -
+      price: 70
+      catalog_item: 8

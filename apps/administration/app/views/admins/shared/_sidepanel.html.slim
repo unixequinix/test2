@@ -57,6 +57,15 @@ aside#main-menu
       = fa_icon "bookmark"
       = t("admin.aside.gtag")
 
+    h3.aside-title = t("admin.aside.stations")
+
+    li.aside-list = link_to admins_event_stations_path(event)
+      = fa_icon "map-marker"
+      = t("admin.aside.stations")
+    li.aside-list = link_to admins_event_sales_stations_path(event)
+      = fa_icon "map-marker"
+      = t("admin.aside.sales_stations")
+
     h3.aside-title = t("admin.aside.crm")
 
     li.aside-list = link_to admins_event_customers_path(event) do

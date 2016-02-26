@@ -81,6 +81,8 @@ Rails.application.routes.draw do
             delete :destroy_credential
           end
         end
+        resources :stations
+        resources :sales_stations
         resources :credential_types, except: :show
         resources :company_ticket_types, except: :show
         resources :customers, except: [:new, :create, :edit, :update] do

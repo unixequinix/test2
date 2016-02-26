@@ -96,6 +96,35 @@ crumb :new_admins_event_gtag do |event|
   parent :admins_event_gtags, event
 end
 
+## Stations
+
+crumb :admins_event_stations do |event|
+  link t("breadcrumbs.stations"), admins_event_stations_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_station do |event, station|
+  link station.name, edit_admins_event_station_path(event, station)
+  parent :admins_event_stations, event
+end
+
+crumb :new_admins_event_station do |event|
+  link t("breadcrumbs.new_station")
+  parent :admins_event_stations, event
+end
+
+## Sales Stations
+
+crumb :admins_event_sales_stations do |event|
+  link t("breadcrumbs.sales_stations"), admins_event_sales_stations_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_sales_station do |event, station|
+  link station.name, edit_admins_event_sales_station_path(event, station)
+  parent :admins_event_sales_stations, event
+end
+
 ## Accesses
 
 crumb :admins_event_accesses do |event|

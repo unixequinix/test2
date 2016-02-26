@@ -21,11 +21,11 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::CheckinBaseC
     customer_event_profile = credential_assignment.customer_event_profile
     credential_assignment.unassign!
     ticket = credential_assignment.credentiable
-    if ticket.preevent_product_items_credits.present?
+    if ticket.credits.present?
       CustomerCreditCreator.new(customer_event_profile: customer_event_profile,
                                 transaction_source: CustomerCredit::TICKET_UNASSIGNMENT,
                                 payment_method: "none",
-                                amount: -ticket.preevent_product_items_credits.sum(:amount)
+                                amount: -ticket.credits
                                ).save
     end
     flash[:notice] = I18n.t("alerts.unassigned")

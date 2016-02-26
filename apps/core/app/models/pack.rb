@@ -22,5 +22,14 @@ class Pack < ActiveRecord::Base
   #Scope
 
   scope :credentiable_packs, -> { joins(:catalog_items_included)
-                                  .where(catalog_items: { catalogable_type: CatalogItem::CREDENTIABLE_TYPES}) }
+                                  .where(catalog_items: {
+                                         catalogable_type: CatalogItem::CREDENTIABLE_TYPES})
+                                }
+
+  def credits
+    pack_catalog_items
+      .joins(:catalog_item)
+      .where(catalog_items: { catalogable_type: "Credit" })
+      .sum(:amount)
+  end
 end
