@@ -1,9 +1,9 @@
 = simple_form_for [:admins, current_event, station], url: admins_event_sales_station_path(current_event, station) do |f|
 
   .wrapper-negative-space
-    = f.simple_fields_for :station_parameters_attributes do |station_parameter|
-      = render 'station_parameter_fields', f: station_parameter
-    = link_to_add_fields("Add item", f, :station_parameters)
+    = f.simple_fields_for :station_catalog_items do |station_catalog_item|
+      = render 'station_catalog_item_fields', f: station_catalog_item
+    = link_to_add_fields("Add item", f, :station_catalog_item)
 
     = f.button :submit, class: "btn btn-primary"
 
