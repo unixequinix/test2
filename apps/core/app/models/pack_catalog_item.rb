@@ -14,7 +14,7 @@
 class PackCatalogItem < ActiveRecord::Base
   acts_as_paranoid
 
-  belongs_to :pack
+  belongs_to :pack, counter_cache: :catalog_items_count
   belongs_to :catalog_item
 
   validates :amount, presence: true

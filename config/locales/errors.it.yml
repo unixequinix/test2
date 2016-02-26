@@ -39,5 +39,6 @@ it:
       odd: "deve essere dispari"
       even: "deve essere pari"
       not_belong_to_event: "doesn't belong to this event"
+      catalog_item_dependent: "Impossible to delete item, it is included in a pack"
       company_ticket_type_dependent: "Impossible to delete the company, it has ticket types associated"
       max_standard_credits: "Only one standard credit per event"

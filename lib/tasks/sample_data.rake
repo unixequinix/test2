@@ -18,13 +18,20 @@ namespace :db do
     #make_credits
     make_accesses
     make_packs
-    make_portal_station
     make_company_ticket_types
     make_tickets
     make_gtags
     make_customers
     make_customer_event_profiles
     make_credential_assignments
+  end
+
+  desc 'Create stations'
+  task stations: :environment do
+    puts '----------------------------------------'
+    puts 'Creating fake data'
+    puts '----------------------------------------'
+    make_portal_station
   end
 
   def make_admins
@@ -133,17 +140,16 @@ namespace :db do
     puts '----------------------------------------'
     Event.all.each do |event|
       YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'stations.yml')).each do |data|
-        Station.create!(name: data["name"],
-                        station_type: StationType.find(name: data['station_type'])
-                        event: event,
-                        station_parameters_attributes: {
-                          station_catalog_items_attributes: { price: data["name"],
-                                                              catalog_item_id: data["step"]
-                                                            }})
+        @station = Station.create!(name: data["name"],
+                        station_type: StationType.find_by(name: data['station_type']),
+                        event: event)
+        data['station_catalog_items'].each do |station_catalog_item|
+          StationCatalogItem.create!(
+              price: station_catalog_item["price"],
+              catalog_item: CatalogItem.find(station_catalog_item['catalog_item']),
+              station_parameter_attributes: { station: @station }
+          )
         end
-
-
-        {station_parameters_attributes: { station_catalog_items_attributes: { price: 1, catalog_item_id: 6 }}}
       end
     end
   end

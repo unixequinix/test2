@@ -1,5 +1,18 @@
 en:
   admin:
+    stations:
+      name: "Name"
+      type: "Type"
+      group: "Group"
+      items: "Products"
+      station_types:
+        customer_portal: "Customer Portal"
+        pos: "Point of sales"
+        topup: "Top Up"
+        refunds: "Refunds"
+        box_office: "Box Office"
+      station_groups:
+        online: "Online"
     companies:
       name: "Name"
       token: "Company token"
@@ -209,6 +222,8 @@ en:
       min_purchasable: "Min Purchasable"
     vouchers:
       id: "Id"
+    pack:
+      number_catalog_items: "Number of items"
     credential_types:
       memory_position: "Position"
     company_ticket_types:

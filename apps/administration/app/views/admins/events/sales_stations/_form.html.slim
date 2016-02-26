@@ -1,0 +1,30 @@
+= simple_form_for [:admins, current_event, station], url: admins_event_sales_station_path(current_event, station) do |f|
+
+  .wrapper-negative-space
+    = f.simple_fields_for :station_parameters_attributes do |station_parameter|
+      = render 'station_parameter_fields', f: station_parameter
+    = link_to_add_fields("Add item", f, :station_parameters)
+
+    = f.button :submit, class: "btn btn-primary"
+
+javascript:
+
+  var ready;
+
+  ready = function() {
+    $('form').on('click', '.btn-remove-fields', function(event) {
+      $(this).prev('input[type=hidden]').val('1');
+      $(this).closest('fieldset').hide();
+      return event.preventDefault();
+    });
+    return $('form').on('click', '.add_fields', function(event) {
+      var regexp, time;
+      time = new Date().getTime();
+      regexp = new RegExp($(this).data('id'), 'g');
+      $(this).before($(this).data('fields').replace(regexp, time));
+      return event.preventDefault();
+    });
+  };
+
+  $(document).ready(ready);
+  $(document).on('page:load', ready);
