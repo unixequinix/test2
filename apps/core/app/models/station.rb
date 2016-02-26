@@ -15,9 +15,7 @@ class Station < ActiveRecord::Base
   belongs_to :event
   belongs_to :station_type
 
-  has_many :station_parameters, as: :station_parametable, dependent: :destroy
-  has_many :station_catalog_items, through: :station_parameters
-  accepts_nested_attributes_for :station_parameters, allow_destroy: true
+  has_many :station_parameters, as: :station_parametable
 
   validates :station_type, presence: true
 
