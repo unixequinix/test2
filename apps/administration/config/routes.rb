@@ -11,6 +11,12 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :companies do
+      scope module: "companies" do
+        resources :company_event_agreements, only: [:index, :new, :create, :destroy]
+      end
+    end
+
     resources :admins, except: :show do
       collection do
         resource :sessions, only: [:new, :create, :destroy]

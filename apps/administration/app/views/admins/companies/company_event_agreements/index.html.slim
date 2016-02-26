@@ -1,0 +1,9 @@
+- breadcrumb :admins_companies
+
+= render "form", company: @company, agreement: @agreement
+
+.wrapper-negative-space
+  - unless @agreements.empty?
+    = render "admins/companies/company_event_agreements/list",
+             agreements: @agreements,
+             company: @company
