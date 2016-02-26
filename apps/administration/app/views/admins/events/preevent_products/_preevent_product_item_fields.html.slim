@@ -1,7 +1,0 @@
-fieldset.wrapper-preevent-product
-  = f.association :preevent_item, collection: @preevent_items_collection, include_blank: false
-  = f.input :amount
-  = f.hidden_field :_destroy
-  = link_to '#', class: "btn-remove-fields" do
-    = fa_icon "times"
-

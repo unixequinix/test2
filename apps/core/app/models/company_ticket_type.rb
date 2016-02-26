@@ -20,7 +20,6 @@ class CompanyTicketType < ActiveRecord::Base
   belongs_to :credential_type
   belongs_to :company_event_agreement
 
-
   validates :name, :company_event_agreement, presence: true
 
   scope :companies, -> (event) { joins(:company).where(event: event).pluck("companies.name").uniq }

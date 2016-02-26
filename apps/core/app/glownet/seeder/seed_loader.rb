@@ -32,7 +32,6 @@ class Seeder::SeedLoader
     create_parameters "claim_parameters.yml"
   end
 
-
   def self.create_parameters(file)
     YAML.load_file(Rails.root.join("db", "seeds", file)).each do |category|
       category["groups"].each do |group|

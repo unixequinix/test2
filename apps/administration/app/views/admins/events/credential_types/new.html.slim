@@ -1,7 +1,7 @@
-- breadcrumb :new_admins_event_access, current_event
+- breadcrumb :new_admins_event_credential_type, current_event
 - provide :actions do
-  = link_to admins_event_accesses_path, class: "btn btn-action btn-action-back small" do
+  = link_to admins_event_credential_types_path, class: "btn btn-action btn-action-back small" do
     = fa_icon 'arrow-circle-left'
     = t('actions.back')
 
-= render "form", access: @access
+= render "form", credential_type: @credential_type

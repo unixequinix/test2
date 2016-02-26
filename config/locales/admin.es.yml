@@ -203,16 +203,18 @@ es:
       initial_amount: "Cantidad Inicial"
       max_purchasable: "Máximo Comprable"
       min_purchasable: "Mínimo Comprable"
+      catalogable_type: "Tipo"
     vouchers:
       id: "Id"
     pack:
       number_catalog_items: "Número de items"
-    credential_types:
-      memory_position: "Posición"
+    credential_type:
+      id: "Id"
+      memory_position: "Posición en memoria"
     company_ticket_types:
       name: "Nombre"
       company: "Compañía"
-      number_products: "Number de Productos"
+      number_products: "Número de Productos"
       company_ticket_type_ref: "Referencia"
     entitlements:
       name: "Nombre"

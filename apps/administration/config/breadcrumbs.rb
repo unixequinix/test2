@@ -172,7 +172,7 @@ crumb :admins_event_credential_types do |event|
 end
 
 crumb :admins_event_credential_type do |event, credential_type|
-  link credential_type.preevent_item.name,
+  link credential_type.catalog_item.name,
        edit_admins_event_credential_type_path(event, credential_type)
   parent :admins_event_credential_types, event
 end
