@@ -46,6 +46,18 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
     end
   end
 
+  def create_credential
+    voucher = @fetcher.vouchers.find(params[:id])
+    voucher.catalog_item.create_credential_type if voucher.catalog_item.credential_type.blank?
+    redirect_to admins_event_vouchers_url
+  end
+
+  def destroy_credential
+    voucher = @fetcher.vouchers.find(params[:id])
+    voucher.catalog_item.credential_type.destroy if voucher.catalog_item.credential_type.present?
+    redirect_to admins_event_vouchers_url
+  end
+
   private
 
   def set_presenter

@@ -52,7 +52,6 @@ class Admins::Events::PacksController < Admins::Events::BaseController
   end
 
   def destroy_credential
-
     pack = @fetcher.packs.find(params[:id])
     pack.catalog_item.credential_type.destroy if pack.catalog_item.credential_type.present?
     redirect_to admins_event_packs_url
