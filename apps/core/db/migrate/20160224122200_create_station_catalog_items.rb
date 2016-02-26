@@ -4,6 +4,7 @@ class CreateStationCatalogItems < ActiveRecord::Migration
       t.integer :catalog_item_id, null: false
       t.float :price, null: false
 
+      t.datetime :deleted_at
       t.timestamps null: false
     end
   end

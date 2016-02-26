@@ -431,6 +431,14 @@ ActiveRecord::Schema.define(version: 20160224122200) do
     t.datetime "updated_at",                 null: false
   end
 
+  create_table "station_catalog_items", force: :cascade do |t|
+    t.integer  "catalog_item_id", null: false, index: {name: "fk__station_catalog_items_catalog_item_id"}, foreign_key: {references: "catalog_items", name: "fk_station_catalog_items_catalog_item_id", on_update: :no_action, on_delete: :no_action}
+    t.float    "price",           null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
   create_table "station_groups", force: :cascade do |t|
     t.string   "name",       null: false, index: {name: "index_station_groups_on_name"}
     t.datetime "deleted_at", index: {name: "index_station_groups_on_deleted_at"}
@@ -452,14 +460,6 @@ ActiveRecord::Schema.define(version: 20160224122200) do
     t.integer  "station_type_id", null: false, index: {name: "fk__stations_station_type_id"}, foreign_key: {references: "station_types", name: "fk_stations_station_type_id", on_update: :no_action, on_delete: :no_action}
     t.string   "name",            null: false
     t.datetime "deleted_at",      index: {name: "index_stations_on_deleted_at"}
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  create_table "station_catalog_items", force: :cascade do |t|
-    t.integer  "station_id",      null: false, index: {name: "fk__station_catalog_items_station_id"}, foreign_key: {references: "stations", name: "fk_station_catalog_items_station_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "catalog_item_id", null: false, index: {name: "fk__station_catalog_items_catalog_item_id"}, foreign_key: {references: "catalog_items", name: "fk_station_catalog_items_catalog_item_id", on_update: :no_action, on_delete: :no_action}
-    t.float    "price",           null: false
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end

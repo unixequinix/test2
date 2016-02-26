@@ -3,9 +3,9 @@
 # Table name: station_catalog_items
 #
 #  id              :integer          not null, primary key
-#  station_id      :integer          not null
 #  catalog_item_id :integer          not null
 #  price           :float            not null
+#  deleted_at      :datetime
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #

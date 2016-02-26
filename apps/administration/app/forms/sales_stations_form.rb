@@ -2,13 +2,9 @@ class SalesStationsForm
   include ActiveModel::Model
   include Virtus.model
 
-  attribute :station_id, Integer
-  attribute :catalog_item_id, Integer
-  attribute :price, Float
+  attribute :station_catalog_items
 
-  validates_presence_of :station_id
-  validates_presence_of :catalog_item_id
-  validates_presence_of :price
+
 
   def save
     if valid?
@@ -22,10 +18,12 @@ class SalesStationsForm
   private
 
   def persist!
-    StationCatalogItem.new(
-      catalog_item_id: catalog_item_id,
-      price: price,
-      station_parameters_attributes: { station_id: station_id }
-    )
+    attributes.each do |attribute|
+      StationCatalogItem.new(
+        price: attribute[:price],
+        catalog_item_id: attribute[:catalog_item_id],
+        station_parameter_attributes: { station_id: attribute[:station_id] }
+      )
+    end
   end
 end

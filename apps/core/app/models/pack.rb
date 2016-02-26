@@ -2,10 +2,11 @@
 #
 # Table name: packs
 #
-#  id         :integer          not null, primary key
-#  deleted_at :datetime
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id                  :integer          not null, primary key
+#  catalog_items_count :integer          default(0), not null
+#  deleted_at          :datetime
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
 #
 
 class Pack < ActiveRecord::Base

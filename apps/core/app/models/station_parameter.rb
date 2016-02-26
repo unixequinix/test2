@@ -14,6 +14,8 @@ class StationParameter < ActiveRecord::Base
   # Associations
   belongs_to :station
   belongs_to :station_parametable, polymorphic: true, touch: true
+  has_one :station_catalog_item, as: :station_parametable, dependent: :destroy
+  accepts_nested_attributes_for :station_catalog_item, allow_destroy: true
 
   # Validations
   validates :station, presence: true

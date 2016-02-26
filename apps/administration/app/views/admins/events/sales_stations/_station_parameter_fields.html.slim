@@ -1,0 +1,9 @@
+fieldset.wrapper-preevent-product
+  = f.input :event_id, as: :hidden, input_html: { value: @station.id }
+  = f.simple_fields_for :station_catalog_items_attributes do |station_catalog_item|
+    = station_catalog_item.input :price
+    = station_catalog_item.input :catalog_item_id, collection: CatalogItem.all
+  = f.hidden_field :_destroy
+  = link_to '#', class: "btn-remove-fields" do
+    = fa_icon "times"
+

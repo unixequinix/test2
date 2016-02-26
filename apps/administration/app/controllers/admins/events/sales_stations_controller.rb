@@ -9,11 +9,11 @@ class Admins::Events::SalesStationsController < Admins::Events::BaseController
 
   def edit
     @station = @fetcher.sales_stations.find_by(id: params[:id])
-    @sales_stations_form = SalesStationsForm.new
   end
 
   def update
     @station = @fetcher.sales_stations.find(params[:id])
+    binding.pry
     if @station.update(permitted_params)
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_stations_url
@@ -44,6 +44,11 @@ class Admins::Events::SalesStationsController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:station).permit(:name, :event_id, :station_type_id)
+    params.require(:station).permit(
+      station_parameters_attributes: [ :id,
+                                        station_catalog_item_attributes: [ :id,
+                                                                            :price,
+                                                                            :catalog_item_id ]]
+    )
   end
 end
