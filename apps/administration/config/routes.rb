@@ -61,8 +61,12 @@ Rails.application.routes.draw do
         resources :credits, except: :show
         resources :vouchers, except: :show
         resources :packs, except: :show
-        resources :stations
-        resources :sales_stations
+        resources :stations do
+          resources :station_catalog_items,
+                    only: [:index, :create, :destroy],
+                    module: :stations
+        end
+        resources :sale_stations, only: [:index]
         resources :credential_types, except: :show
         resources :company_ticket_types, except: :show
         resources :customers, except: [:new, :create, :edit, :update] do

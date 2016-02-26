@@ -57,9 +57,13 @@ class Multitenancy::AdministrationFetcher
     Station.where(event: @event)
   end
 
-  def sales_stations
+  def sale_stations
     Station.joins(:station_type)
-      .where(event: @event, station_types: { name: Station::SALES_STATIONS })
+      .where(event: @event, station_types: { name: Station::SALE_STATIONS })
+  end
+
+  def station_catalog_items
+    StationCatalogItem.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
   def tickets

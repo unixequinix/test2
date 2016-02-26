@@ -115,14 +115,21 @@ end
 
 ## Sales Stations
 
-crumb :admins_event_sales_stations do |event|
-  link t("breadcrumbs.sales_stations"), admins_event_sales_stations_path(event)
+crumb :admins_event_sale_stations do |event|
+  link t("breadcrumbs.sale_stations"), admins_event_sale_stations_path(event)
   parent :admins_event, event
 end
 
 crumb :admins_event_sales_station do |event, station|
   link station.name, edit_admins_event_sales_station_path(event, station)
-  parent :admins_event_sales_stations, event
+  parent :admins_event_sale_stations, event
+end
+
+## Station Catalog Products
+
+crumb :admins_event_sale_station_station_catalog_items do |event, station|
+  link t("breadcrumbs.station_catalog_products"), admins_event_sale_stations_path(event)
+  parent :admins_event_sale_stations, event
 end
 
 ## Accesses

@@ -45,3 +45,7 @@ es:
     new_pack: "Nuevo pack"
     credential_types: "Tipos de credenciales"
     companies: "Compañías"
+    stations: "Estaciones"
+    new_station: "Nueva Estación"
+    sale_stations: "Estaciones de venta"
+    station_catalog_products: "Productos de la estación"
