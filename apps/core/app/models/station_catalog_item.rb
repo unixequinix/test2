@@ -13,7 +13,7 @@
 class StationCatalogItem < ActiveRecord::Base
   acts_as_paranoid
 
-  has_one :catalog_item
+  belongs_to :catalog_item
   has_one :station_parameter, as: :station_parametable, dependent: :destroy
   accepts_nested_attributes_for :station_parameter, allow_destroy: true
 

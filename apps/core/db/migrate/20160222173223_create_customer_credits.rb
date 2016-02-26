@@ -2,6 +2,8 @@ class CreateCustomerCredits < ActiveRecord::Migration
   def change
     create_table :customer_credits do |t|
       t.references :customer_event_profile, null: false
+      t.string :transaction_source, null: false
+      t.string :payment_method, null: false
       t.decimal :amount, null: false
       t.decimal :refundable_amount, null: false
       t.decimal :final_balance, null: false

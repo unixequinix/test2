@@ -23,6 +23,7 @@ class CatalogItem < ActiveRecord::Base
   belongs_to :event
   belongs_to :catalogable, polymorphic: true, touch: true
   has_many :pack_catalog_items, dependent: :restrict_with_error
+  has_many :station_catalog_items, dependent: :restrict_with_error
 
   validates :name, :initial_amount, :step, :max_purchasable, :min_purchasable, presence: true
 end

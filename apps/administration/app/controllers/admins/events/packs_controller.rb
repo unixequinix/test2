@@ -58,23 +58,20 @@ class Admins::Events::PacksController < Admins::Events::BaseController
     )
   end
 
-def permitted_params
-    params.require(:pack).permit(catalog_item_attributes: [
-                                                           :id,
-                                                           :event_id,
-                                                           :name,
-                                                           :description,
-                                                           :initial_amount,
-                                                           :step,
-                                                           :max_purchasable,
-                                                           :min_purchasable
+  def permitted_params
+    params.require(:pack).permit(catalog_item_attributes: [ :id,
+                                                            :event_id,
+                                                            :name,
+                                                            :description,
+                                                            :initial_amount,
+                                                            :step,
+                                                            :max_purchasable,
+                                                            :min_purchasable
                                                           ],
-                                 pack_catalog_items_attributes: [
-                                  :id,
-                                  :catalog_item_id,
-                                  :amount,
-                                  :_destroy
-                                 ]
-                                )
-  end
+                                 pack_catalog_items_attributes: [ :id,
+                                                                 :catalog_item_id,
+                                                                 :amount,
+                                                                 :_destroy
+                                 ])
+    end
 end

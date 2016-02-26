@@ -165,7 +165,7 @@ ActiveRecord::Schema.define(version: 20160224122200) do
     t.integer  "company_event_agreement_id", null: false, index: {name: "fk__company_ticket_types_company_event_agreement_id"}, foreign_key: {references: "company_event_agreements", name: "fk_company_ticket_types_company_event_agreement_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "credential_type_id",         null: false, index: {name: "fk__company_ticket_types_credential_type_id"}, foreign_key: {references: "credential_types", name: "fk_company_ticket_types_credential_type_id", on_update: :no_action, on_delete: :no_action}
     t.string   "name"
-    t.string   "company_ticket_type_ref"
+    t.string   "company_ticket_type_ref",    index: {name: "company_ref_event_agreement_index", with: ["company_event_agreement_id"], unique: true}
     t.datetime "deleted_at",                 index: {name: "index_company_ticket_types_on_deleted_at"}
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
@@ -268,6 +268,8 @@ ActiveRecord::Schema.define(version: 20160224122200) do
 
   create_table "customer_credits", force: :cascade do |t|
     t.integer  "customer_event_profile_id", null: false, index: {name: "fk__customer_credits_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_customer_credits_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "transaction_source",        null: false
+    t.string   "payment_method",            null: false
     t.decimal  "amount",                    null: false
     t.decimal  "refundable_amount",         null: false
     t.decimal  "final_balance",             null: false
@@ -291,8 +293,9 @@ ActiveRecord::Schema.define(version: 20160224122200) do
   create_table "entitlements", force: :cascade do |t|
     t.integer  "entitlementable_id",   null: false
     t.string   "entitlementable_type", null: false
-    t.integer  "memory_position"
-    t.boolean  "unlimited"
+    t.integer  "memory_position",      null: false
+    t.string   "type",                 default: "simple", null: false
+    t.boolean  "unlimited",            default: false,    null: false
     t.datetime "deleted_at",           index: {name: "index_entitlements_on_deleted_at"}
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false

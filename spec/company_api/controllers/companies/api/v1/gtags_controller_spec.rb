@@ -28,8 +28,7 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
         body = JSON.parse(response.body)
         gtags = body["gtags"].map { |m| m["tag_uid"] }
         db_gtags = Gtag.joins(company_ticket_type: :company_event_agreement)
-                    .where(event: @event, company_event_agreements: { id: @agreement.id })
-
+                   .where(event: @event, company_event_agreements: { id: @agreement.id })
 
         expect(gtags).to match_array(db_gtags.map(&:tag_uid))
       end
