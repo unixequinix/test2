@@ -22,15 +22,15 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
   end
 
   def edit
-    @company_ticket_type = @fetcher.company_ticket_types.find(params[:id])
-    @preevent_products_collection = @fetcher.preevent_products
-    @companies_collection = @fetcher.companies
+    @company_ticket_type = @fetcher.company_ticket_types.includes(company_event_agreement: [:company]).find(params[:id])
+    @credential_types_collection = @fetcher.credential_types
+    @company_event_agreement_collection = @fetcher.company_event_agreements
   end
 
   def update
     @company_ticket_type = @fetcher.company_ticket_types.find(params[:id])
-    @preevent_products_collection = @fetcher.preevent_products
-    @companies_collection = @fetcher.companies
+    @credential_types_collection = @fetcher.credential_types
+    @company_event_agreement_collection = @fetcher.company_event_agreements
     if @company_ticket_type.update(permitted_params)
       redirect_to admins_event_company_ticket_types_url, notice: I18n.t("alerts.updated")
     else
@@ -55,8 +55,7 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
       search_query: params[:q],
       page: params[:page],
       context: view_context,
-      include_for_all_items: []
-    )
+      include_for_all_items: [:company])
   end
 
   def permitted_params
@@ -66,7 +65,7 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
       :name,
       :company_code,
       :credential_type_id,
-      :company_event_aggrement_id
+      :company_event_agreement_id
     )
   end
 end

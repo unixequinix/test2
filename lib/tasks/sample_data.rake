@@ -179,9 +179,9 @@ namespace :db do
     puts 'Create company ticket types'
     puts '----------------------------------------'
     Event.all.each do |event|
-      YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'company_ticket_types.yml')).each do |data|
-        @credential_type = CredentialType.create!(catalog_item: CatalogItem.first)
-        CompanyTicketType.create!(company_ticket_type_ref: data['company_ticket_type_ref'],
+      YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'company_ticket_types.yml')).each_with_index do |data, index|
+        @credential_type = CredentialType.create!(catalog_item: CatalogItem.find(index+1))
+        CompanyTicketType.create!(company_code: data['company_code'],
                                   name: data['name'],
                                   event: event,
                                   company_event_agreement_id: data['company_event_agreement_id'],

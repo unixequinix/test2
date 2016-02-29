@@ -5,9 +5,10 @@
     = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
     = f.association :credential_type,
       collection: @credential_types_collection,
-      label_method: lambda { |ct| "#{ct.catalog_item.name}" },
+      label_method: lambda { |ct| "#{ct.catalog_item.name}" }
     = f.association :company_event_agreement,
       collection: @company_event_agreement_collection,
+      label_method: lambda { |cea| "#{cea.company.name}" },
       include_blank: false
 
     = f.button :submit, class: "btn btn-primary"

@@ -3,7 +3,7 @@ class CreateCompanyTicketTypes < ActiveRecord::Migration
     create_table :company_ticket_types do |t|
       t.references :event, null: false
       t.references :company_event_agreement, null: false
-      t.references :credential_type, null: false
+      t.references :credential_type
       t.string :name
       t.string :company_code
 

@@ -47,15 +47,15 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
   end
 
   def create_credential
-    credits = @fetcher.creditss.find(params[:id])
+    credits = @fetcher.credits.find(params[:id])
     credits.catalog_item.create_credential_type if credits.catalog_item.credential_type.blank?
-    redirect_to admins_event_creditss_url
+    redirect_to admins_event_credits_url
   end
 
   def destroy_credential
-    credits = @fetcher.creditss.find(params[:id])
+    credits = @fetcher.credits.find(params[:id])
     credits.catalog_item.credential_type.destroy if credits.catalog_item.credential_type.present?
-    redirect_to admins_event_creditss_url
+    redirect_to admins_event_credits_url
   end
 
   private

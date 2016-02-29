@@ -5,7 +5,7 @@
 #  id                         :integer          not null, primary key
 #  event_id                   :integer          not null
 #  company_event_agreement_id :integer          not null
-#  credential_type_id         :integer          not null
+#  credential_type_id         :integer
 #  name                       :string
 #  company_code               :string
 #  deleted_at                 :datetime
@@ -20,8 +20,8 @@ class CompanyTicketType < ActiveRecord::Base
   belongs_to :credential_type
   belongs_to :company_event_agreement
 
-  validates :name, :code, presence: true
-  validates :code, uniqueness: { scope: :company_event_agreement }
+  validates :name, :company_code, presence: true
+  validates :company_code, uniqueness: { scope: :company_event_agreement }
 
   scope :companies, lambda  { |_event|
     joins(company_event_agreement: :company)
