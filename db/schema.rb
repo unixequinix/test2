@@ -131,7 +131,7 @@ ActiveRecord::Schema.define(version: 20160224122200) do
   create_table "company_event_agreements", force: :cascade do |t|
     t.integer  "company_id", null: false, index: {name: "fk__company_event_agreements_company_id"}, foreign_key: {references: "companies", name: "fk_company_event_agreements_company_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "event_id",   null: false, index: {name: "fk__company_event_agreements_event_id"}, foreign_key: {references: "events", name: "fk_company_event_agreements_event_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "name"
+    t.string   "aasm_state"
     t.datetime "deleted_at", index: {name: "index_company_event_agreements_on_deleted_at"}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
