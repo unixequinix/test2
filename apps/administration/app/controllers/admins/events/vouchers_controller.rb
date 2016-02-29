@@ -87,8 +87,6 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
                                       :id,
                                       :entitlement_type,
                                       :unlimited,
-                                      :event_id
-                                    ]
-                                   )
+                                      :event_id])
   end
 end

@@ -79,8 +79,6 @@ ActiveRecord::Schema.define(version: 20160224122200) do
     t.string   "surname",                default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token",   index: {name: "index_customers_on_reset_password_token", unique: true}
-    t.string   "confirmation_token"
-    t.string   "unconfirmed_email"
     t.string   "phone"
     t.string   "postcode"
     t.string   "address"
@@ -97,8 +95,6 @@ ActiveRecord::Schema.define(version: 20160224122200) do
     t.datetime "remember_created_at"
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
     t.datetime "birthdate"
     t.datetime "deleted_at",             index: {name: "index_customers_on_deleted_at"}
     t.datetime "created_at",             null: false

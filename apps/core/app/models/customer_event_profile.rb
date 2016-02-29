@@ -79,10 +79,12 @@ class CustomerEventProfile < ActiveRecord::Base
   end
 
   def ticket_credits
-    customer_credits.where.not(transaction_source: CustomerCredit::CREDITS_PURCHASE).sum(:amount).floor
+    customer_credits.where.not(transaction_source: CustomerCredit::CREDITS_PURCHASE)
+      .sum(:amount).floor
   end
 
   def purchased_credits
-    customer_credits.where(transaction_source: CustomerCredit::CREDITS_PURCHASE).sum(:amount).floor
+    customer_credits.where(transaction_source: CustomerCredit::CREDITS_PURCHASE)
+      .sum(:amount).floor
   end
 end

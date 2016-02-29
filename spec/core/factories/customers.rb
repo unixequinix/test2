@@ -15,10 +15,6 @@
 #  last_sign_in_at        :datetime
 #  current_sign_in_ip     :inet
 #  last_sign_in_ip        :inet
-#  confirmation_token     :string
-#  confirmed_at           :datetime
-#  confirmation_sent_at   :datetime
-#  unconfirmed_email      :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  deleted_at             :datetime
@@ -42,8 +38,6 @@ FactoryGirl.define do
     email { "seth#{rand(100)}@swift.name" }
     agreed_on_registration true
     encrypted_password Authentication::Encryptor.digest("password")
-    confirmation_token nil
-    confirmed_at { Time.now }
     phone { "1-800-#{rand(100)}" }
     country { %w( EN ES TH IT ).sample }
     gender { %w(male female).sample }
