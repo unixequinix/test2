@@ -215,7 +215,6 @@ namespace :db do
       encrypted_password: Authentication::Encryptor.digest("password"),
       name: 'Alejandro',
       surname: 'González Núñez',
-      confirmed_at: '2015-04-21 13:39:18.381529',
       agreed_on_registration: true,
       event_id: 1)
     Customer.create(
@@ -223,7 +222,6 @@ namespace :db do
       encrypted_password: Authentication::Encryptor.digest("password"),
       name: 'Pedro',
       surname: 'De La Rosa',
-      confirmed_at: '2015-04-21 13:39:18.381529',
       agreed_on_registration: true,
       event_id: 1)
   end

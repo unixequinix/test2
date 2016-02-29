@@ -13,7 +13,6 @@ class Admins::Events::SalesStationsController < Admins::Events::BaseController
 
   def update
     @station = @fetcher.sales_stations.find(params[:id])
-    binding.pry
     if @station.update(permitted_params)
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_stations_url

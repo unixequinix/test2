@@ -18,11 +18,6 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
     ).find(params[:id])
   end
 
-  def resend_confirmation
-    @customer = @fetcher.customers.find(params[:id])
-    CustomerMailer.confirmation_instructions_email(@customer).deliver_later
-  end
-
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Customer".constantize.model_name,

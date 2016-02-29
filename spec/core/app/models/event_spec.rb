@@ -41,7 +41,7 @@ RSpec.describe Event, type: :model do
     event_creator = EventCreator.new(build(:event, gtag_assignation: true).attributes)
     event_creator.save
     @event = event_creator.event
-    customer = create(:customer, event: @event, confirmation_token: nil, confirmed_at: Time.now)
+    customer = create(:customer, event: @event)
     create(:customer_event_profile, event: @event, customer: customer)
     gtag = create(:gtag, event: @event)
     create(:credential_assignment,

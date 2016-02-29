@@ -1,4 +1,5 @@
 class CreateEvents < ActiveRecord::Migration
+  # rubocop:disable all
   def change
     create_table :events do |t|
       t.string :name, null: false
@@ -34,4 +35,5 @@ class CreateEvents < ActiveRecord::Migration
       t.timestamps null: false
     end
   end
+  # rubocop:enable all
 end

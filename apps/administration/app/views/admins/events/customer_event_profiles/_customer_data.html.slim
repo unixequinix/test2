@@ -40,13 +40,6 @@
         dt = t ("admin.customers.gtags")
         dd = t ("admin.defaults.empty_gtags")
 
-      dt = t ("admin.customers.confirmed_at")
-      dd = customer_event_profile.customer.confirmed_at.strftime("%y-%m-%d %H:%M:%S") unless customer_event_profile.customer.confirmed_at.nil?
-
-      dt = t("admin.customers.confirmation_sent_at")
-      dd = customer_event_profile.customer.confirmation_sent_at.strftime("%y-%m-%d %H:%M:%S") unless customer_event_profile.customer.confirmation_sent_at.nil?
-
-
       dt = t ("admin.customers.sign")
       dd = customer_event_profile.customer.sign_in_count
 
@@ -61,9 +54,6 @@
 
       dt = t ("admin.customers.last_sign_ip")
       dd = customer_event_profile.customer.last_sign_in_ip
-
-      dt = t ("admin.customers.unconfirmed")
-      dd = customer_event_profile.customer.unconfirmed_email
 
       dt = t ("admin.customers.deleted_at")
       dd = customer_event_profile.customer.deleted_at.strftime("%y-%m-%d %H:%M:%S") unless customer_event_profile.customer.deleted_at.nil?

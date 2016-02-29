@@ -19,7 +19,8 @@ class CustomerCreditCreator
 
   def calculate_balances
     balances = CustomerCredit
-               .select("sum(amount) as final_balance, sum(refundable_amount) as final_refundable_balance")
+               .select("sum(amount) as final_balance,
+                        sum(refundable_amount) as final_refundable_balance")
                .where(customer_event_profile: @customer_credit.customer_event_profile)[0]
     @customer_credit.final_balance =
       balances.final_balance.to_i + @customer_credit.amount

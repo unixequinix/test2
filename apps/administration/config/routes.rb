@@ -106,9 +106,6 @@ Rails.application.routes.draw do
           collection do
             get :search
           end
-          member do
-            post :resend_confirmation
-          end
         end
 
         resources :customer_event_profiles, except: [:new, :create, :edit, :update] do

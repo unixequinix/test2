@@ -1,4 +1,5 @@
 class CreateCustomers < ActiveRecord::Migration
+  # rubocop:disable all
   def change
     create_table :customers do |t|
       t.references :event, null: false
@@ -7,8 +8,6 @@ class CreateCustomers < ActiveRecord::Migration
       t.string :surname, default: "", null: false
       t.string :encrypted_password, default: "",    null: false
       t.string :reset_password_token, index: { unique: true }
-      t.string :confirmation_token
-      t.string :unconfirmed_email
       t.string :phone
       t.string :postcode
       t.string :address
@@ -25,12 +24,11 @@ class CreateCustomers < ActiveRecord::Migration
       t.datetime :remember_created_at
       t.datetime :current_sign_in_at
       t.datetime :last_sign_in_at
-      t.datetime :confirmed_at
-      t.datetime :confirmation_sent_at
       t.datetime :birthdate
 
       t.datetime :deleted_at, index: true
       t.timestamps null: false
     end
   end
+  # rubocop:enable all
 end
