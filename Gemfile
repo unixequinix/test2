@@ -29,6 +29,7 @@ gem 'aws-sdk', '~> 2'
 # Authentication
 gem 'bcrypt', '~> 3.1.10'
 gem 'warden', '~> 1.2.3'
+gem 'recaptcha', require: 'recaptcha/rails'
 
 # Design
 gem 'bourbon', '~> 4.2.2'

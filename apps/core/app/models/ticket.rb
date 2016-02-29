@@ -69,12 +69,7 @@ class Ticket < ActiveRecord::Base
     BannedTicket.create!(ticket_id: id)
   end
 
-  def preevent_product_items_credits
-    company_ticket_type
-      .preevent_product
-      .preevent_product_items
-      .joins(:preevent_item)
-      .where(preevent_items: { catalogable_type: "Credit" }) if company_ticket_type
-      .preevent_product
+  def credits
+    company_ticket_type.credential_type.credits if company_ticket_type.credential_type
   end
 end

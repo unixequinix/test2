@@ -2,16 +2,19 @@
 table.credential_types
   thead
     tr
-      th = t('admin.preevent_item.name')
-      th = t('admin.preevent_item.description')
+      th = t('admin.credential_type.id')
+      th = t('admin.catalog_item.name')
+      th = t('admin.catalog_item.catalogable_type')
       th = t('admin.credential_type.memory_position')
       th.table-actions-field = t('admin.defaults.actions')
   tbody
     - credential_types.each do |credential_type|
       tr
-        td data-label=t('admin.preevent_item.name') = link_to(credential_type.preevent_item.name, edit_admins_event_credential_type_path(current_event, credential_type))
-        td data-label=t('admin.preevent_item.description') = credential_type.preevent_item.description
-        td data-label=t('admin.credential_types.memory_position') = credential_type.memory_position
+        td data-label=t('admin.credential_type.id') = link_to(credential_type.id,
+          edit_admins_event_credential_type_path(current_event, credential_type))
+        td data-label=t('admin.catalog_item.name') = credential_type.catalog_item.name
+        td data-label=t('admin.catalog_item.catalogable_type') = credential_type.catalog_item.catalogable_type
+        td data-label=t('admin.credential_type.memory_position') = credential_type.memory_position
         td.table-actions-field
           = render 'admins/events/credential_types/actions', credential_type: credential_type unless current_event.started?
 

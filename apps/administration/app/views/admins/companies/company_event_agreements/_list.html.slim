@@ -1,0 +1,10 @@
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: agreements.count, total: @agreements.count)
+table
+  thead
+    tr
+      th = t('admin.events.name')
+      th.table-actions-field = t('admin.defaults.actions')
+  tbody
+    - agreements.each do |agreement|
+      = render "row", agreement: agreement, company: company
+= paginate agreements

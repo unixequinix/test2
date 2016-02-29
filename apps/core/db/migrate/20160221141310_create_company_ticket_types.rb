@@ -10,5 +10,8 @@ class CreateCompanyTicketTypes < ActiveRecord::Migration
       t.datetime :deleted_at, index: true
       t.timestamps null: false
     end
+    add_index :company_ticket_types,
+              [:company_ticket_type_ref, :company_event_agreement_id],
+              unique: true, name: "company_ref_event_agreement_index"
   end
 end

@@ -4,6 +4,8 @@
 #
 #  id                        :integer          not null, primary key
 #  customer_event_profile_id :integer          not null
+#  transaction_source        :string           not null
+#  payment_method            :string           not null
 #  amount                    :decimal(, )      not null
 #  refundable_amount         :decimal(, )      not null
 #  final_balance             :decimal(, )      not null

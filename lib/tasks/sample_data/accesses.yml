@@ -4,21 +4,29 @@
   step: 1
   min_purchasable: 0
   max_purchasable: 200
+  unlimited: "false"
+  entitlement_type: "simple"
 -
   name: "VIP Pass"
   initial_amount: 0
   step: 1
   min_purchasable: 0
   max_purchasable: 200
+  unlimited: "false"
+  entitlement_type: "double"
 -
   name: "Friday Pass"
   initial_amount: 0
   step: 1
   min_purchasable: 0
   max_purchasable: 200
+  unlimited: "false"
+  entitlement_type: "simple"
 -
   name: "Saturday Pass"
   initial_amount: 0
   step: 1
   min_purchasable: 0
   max_purchasable: 200
+  unlimited: "false"
+  entitlement_type: "double"

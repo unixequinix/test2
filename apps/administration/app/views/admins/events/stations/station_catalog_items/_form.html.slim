@@ -1,0 +1,8 @@
+= simple_form_for [:admins, current_event, @station, station_catalog_item], remote: true do |f|
+  .wrapper-negative-space
+    = f.input :price
+    = f.input :catalog_item_id, collection: @catalog_items
+    = f.simple_fields_for :station_parameters_attritbutes do |sp|
+      = sp.input :station_id, as: :hidden, input_html: { value: @station.id }
+
+    = f.button :submit, class: "btn btn-primary"

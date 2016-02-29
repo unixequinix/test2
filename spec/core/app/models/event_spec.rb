@@ -41,7 +41,7 @@ RSpec.describe Event, type: :model do
     event_creator = EventCreator.new(build(:event, gtag_assignation: true).attributes)
     event_creator.save
     @event = event_creator.event
-    customer = create(:customer, event: @event, confirmation_token: nil, confirmed_at: Time.now)
+    customer = create(:customer, event: @event)
     create(:customer_event_profile, event: @event, customer: customer)
     gtag = create(:gtag, event: @event)
     create(:credential_assignment,
@@ -49,16 +49,16 @@ RSpec.describe Event, type: :model do
            credentiable: gtag,
            customer_event_profile: customer.customer_event_profile)
     create(:customer_credit_online,
-            customer_event_profile: customer.customer_event_profile, amount: 9.99)
+           customer_event_profile: customer.customer_event_profile, amount: 9.99)
     create(:customer_credit_online,
-            customer_event_profile: customer.customer_event_profile, amount: 9.99)
+           customer_event_profile: customer.customer_event_profile, amount: 9.99)
     gtag2 = create(:gtag, event: @event)
     create(:credential_assignment,
            aasm_state: "unassigned",
            credentiable: gtag2,
            customer_event_profile: customer.customer_event_profile)
     create(:customer_credit_online,
-            customer_event_profile: customer.customer_event_profile, amount: 9.99)
+           customer_event_profile: customer.customer_event_profile, amount: 9.99)
   end
 
   it "should return the credits available for that event" do

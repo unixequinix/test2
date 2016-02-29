@@ -1,5 +1,22 @@
 it:
   admin:
+    stations:
+      name: "Name"
+      type: "Type"
+      group: "Group"
+      items: "Products"
+      station_types:
+        customer_portal: "Customer Portal"
+        pos: "Point of sales"
+        topup: "Top Up"
+        refunds: "Refunds"
+        box_office: "Box Office"
+      station_groups:
+        online: "Online"
+      station_catalog_item:
+        name: "Name"
+        description: "Description"
+        price: "Price"
     companies:
       name: "Name"
       token: "Company token"
@@ -191,11 +208,6 @@ it:
       standard: "Standard"
       currency: "Currency"
       value: "Value"
-    preevent_product:
-      name: "Name"
-      online: "Online"
-      number_product_items: "Número de items"
-      price: "Price"
     catalog_item:
       name: "Name"
       description: "Description"
@@ -203,12 +215,18 @@ it:
       initial_amount: "Initial Amount"
       max_purchasable: "Max Purchasable"
       min_purchasable: "Min Purchasable"
+      catalogable_type: "Type"
     vouchers:
       id: "Id"
-    credential_types:
-      memory_position: "Position"
-    entitlements:
-      name: "Name"
+    pack:
+      number_catalog_items: "Number of items"
+    credential_type:
+      id: "Id"
+      memory_position: "Posición en memoria"
+    entitlement:
+      unlimited: "Unlimited"
+      entitlement_type: "Entitlement type"
+      memory_position: "Memory position"
     company_ticket_types:
       name: "Name"
       company: "Company"
@@ -302,8 +320,6 @@ it:
       email: "Email"
       name: "First name"
       surname: "Last name"
-      confirmed_at: "Confirmed at"
-      confirmation_sent_at: "Confirmation sent at"
       tickets: "Tickets"
       ticket: "Ticket"
       gtags: "Gtags"
@@ -329,7 +345,6 @@ it:
       current_sign_ip: "Current sign in ip"
       agreed_event_condition: "Event condition agreed"
       last_sign_ip: "Last sign in ip"
-      unconfirmed: "Unconfirmed email"
       transactions: "Transactions"
       transactions_type: "Transactions type"
       created_at: "Created at"

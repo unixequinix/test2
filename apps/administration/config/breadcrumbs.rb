@@ -22,6 +22,33 @@ crumb :new_admins_admin do
   parent :admins_admins
 end
 
+## Companies
+
+crumb :admins_companies do
+  link t("breadcrumbs.companies"), admins_companies_path
+end
+
+crumb :admins_company do |company|
+  link company.name, admins_company_path(company)
+  parent :admins_companies
+end
+crumb :edit_admins_company do |company|
+  link company.name, edit_admins_company_path(company)
+  parent :admins_companies
+end
+
+crumb :new_admins_company do
+  link t("breadcrumbs.new_company")
+  parent :admins_companies
+end
+
+## Company Event Agreements
+
+crumb :admins_company_company_event_agreement do |company|
+  link company.name, admins_company_company_event_agreements_path(company)
+  parent :admins_companies
+end
+
 ## Dashboards
 
 crumb :admins_root do
@@ -96,6 +123,41 @@ crumb :new_admins_event_gtag do |event|
   parent :admins_event_gtags, event
 end
 
+## Stations
+
+crumb :admins_event_stations do |event|
+  link t("breadcrumbs.stations"), admins_event_stations_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_station do |event, station|
+  link station.name, edit_admins_event_station_path(event, station)
+  parent :admins_event_stations, event
+end
+
+crumb :new_admins_event_station do |event|
+  link t("breadcrumbs.new_station")
+  parent :admins_event_stations, event
+end
+
+## Sales Stations
+
+crumb :admins_event_sale_stations do |event|
+  link t("breadcrumbs.sale_stations"), admins_event_sale_stations_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_sale_station do |event, station|
+  link station.name, admins_event_sale_stations_path(event, station)
+  parent :admins_event_sale_stations, event
+end
+
+## Station Catalog Items
+
+crumb :admins_event_sale_station_station_catalog_items do |event, station|
+  parent :admins_event_sale_station, event, station
+end
+
 ## Accesses
 
 crumb :admins_event_accesses do |event|
@@ -138,7 +200,7 @@ crumb :admins_event_vouchers do |event|
 end
 
 crumb :admins_event_voucher do |event, voucher|
-  link voucher.preevent_item.name, edit_admins_event_voucher_path(event, voucher)
+  link voucher.catalog_item.name, edit_admins_event_voucher_path(event, voucher)
   parent :admins_event_vouchers, event
 end
 
@@ -197,23 +259,6 @@ end
 crumb :new_admins_event_preevent_product do |event|
   link t("breadcrumbs.new_preevent_product")
   parent :admins_event_preevent_products, event
-end
-
-## Company
-
-crumb :admins_event_companies do |event|
-  link t("breadcrumbs.companies"), admins_event_companies_path(event)
-  parent :admins_event, event
-end
-
-crumb :admins_event_company do |event, company|
-  link company.name, edit_admins_event_company_path(event, company)
-  parent :admins_event_companies, event
-end
-
-crumb :new_admins_event_company do |event|
-  link t("breadcrumbs.new_company")
-  parent :admins_event_companies, event
 end
 
 ## CompanyTicketType

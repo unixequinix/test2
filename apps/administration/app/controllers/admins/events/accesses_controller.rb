@@ -6,6 +6,7 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
   def new
     @access = Access.new
     @access.build_catalog_item
+    @access.build_entitlement
   end
 
   def create
@@ -36,8 +37,25 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
 
   def destroy
     @access = @fetcher.accesses.find(params[:id])
-    @access.destroy
-    flash[:notice] = I18n.t("alerts.destroyed")
+    if @access.destroy
+      flash[:notice] = I18n.t("alerts.destroyed")
+      redirect_to admins_event_accesses_url
+    else
+      flash.now[:error] = I18n.t("errors.messages.catalog_item_dependent")
+      set_presenter
+      render :index
+    end
+  end
+
+  def create_credential
+    access = @fetcher.accesses.find(params[:id])
+    access.catalog_item.create_credential_type if access.catalog_item.credential_type.blank?
+    redirect_to admins_event_accesses_url
+  end
+
+  def destroy_credential
+    access = @fetcher.accesses.find(params[:id])
+    access.catalog_item.credential_type.destroy if access.catalog_item.credential_type.present?
     redirect_to admins_event_accesses_url
   end
 
@@ -49,22 +67,26 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
       fetcher: @fetcher.accesses,
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [:catalog_item],
+      include_for_all_items: [:catalog_item, :entitlement],
       context: view_context
     )
   end
 
   def permitted_params
     params.require(:access).permit(catalog_item_attributes: [
-                                                             :id,
-                                                             :event_id,
-                                                             :name,
-                                                             :description,
-                                                             :initial_amount,
-                                                             :step,
-                                                             :max_purchasable,
-                                                             :min_purchasable
-                                                            ]
-                                                          )
+      :id,
+      :event_id,
+      :name,
+      :description,
+      :initial_amount,
+      :step,
+      :max_purchasable,
+      :min_purchasable
+    ],
+                                   entitlement_attributes: [
+                                     :id,
+                                     :entitlement_type,
+                                     :unlimited,
+                                     :event_id])
   end
 end

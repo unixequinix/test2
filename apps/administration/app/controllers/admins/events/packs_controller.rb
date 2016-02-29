@@ -6,6 +6,7 @@ class Admins::Events::PacksController < Admins::Events::BaseController
   def new
     @pack = Pack.new
     @pack.build_catalog_item
+    @catalog_items_collection = @fetcher.catalog_items.where.not(catalogable_type: "Pack")
   end
 
   def create
@@ -14,13 +15,15 @@ class Admins::Events::PacksController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_packs_url
     else
-      flash[:error] = @pack.errors.full_messages.join(". ")
+      @catalog_items_collection = @fetcher.catalog_items.where.not(catalogable_type: "Pack")
+      flash.now[:error] = @pack.errors.full_messages.join(". ")
       render :new
     end
   end
 
   def edit
     @pack = @fetcher.packs.find(params[:id])
+    @catalog_items_collection = @fetcher.catalog_items.where.not(catalogable_type: "Pack")
   end
 
   def update
@@ -29,7 +32,8 @@ class Admins::Events::PacksController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_packs_url
     else
-      flash[:error] = @pack.errors.full_messages.join(". ")
+      @catalog_items_collection = @fetcher.catalog_items.where.not(catalogable_type: "Pack")
+      flash.now[:error] = @pack.errors.full_messages.join(". ")
       render :edit
     end
   end
@@ -38,6 +42,18 @@ class Admins::Events::PacksController < Admins::Events::BaseController
     @pack = @fetcher.packs.find(params[:id])
     @pack.destroy!
     flash[:notice] = I18n.t("alerts.destroyed")
+    redirect_to admins_event_packs_url
+  end
+
+  def create_credential
+    pack = @fetcher.packs.find(params[:id])
+    pack.catalog_item.create_credential_type if pack.catalog_item.credential_type.blank?
+    redirect_to admins_event_packs_url
+  end
+
+  def destroy_credential
+    pack = @fetcher.packs.find(params[:id])
+    pack.catalog_item.credential_type.destroy if pack.catalog_item.credential_type.present?
     redirect_to admins_event_packs_url
   end
 
@@ -54,9 +70,8 @@ class Admins::Events::PacksController < Admins::Events::BaseController
     )
   end
 
-def permitted_params
-    params.require(:pack).permit(catalog_item_attributes: [
-                                                           :id,
+  def permitted_params
+    params.require(:pack).permit(catalog_item_attributes: [:id,
                                                            :event_id,
                                                            :name,
                                                            :description,
@@ -64,7 +79,11 @@ def permitted_params
                                                            :step,
                                                            :max_purchasable,
                                                            :min_purchasable
-                                                          ]
-                                                        )
+                                                          ],
+                                 pack_catalog_items_attributes: [:id,
+                                                                 :catalog_item_id,
+                                                                 :amount,
+                                                                 :_destroy
+                                                                ])
   end
 end

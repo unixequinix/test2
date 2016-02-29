@@ -11,6 +11,17 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :companies do
+      scope module: "companies" do
+        resources :company_event_agreements, only: [:index, :new, :create] do
+          member do
+            get :grant_agreement
+            delete :revoke_agreement
+          end
+        end
+      end
+    end
+
     resources :admins, except: :show do
       collection do
         resource :sessions, only: [:new, :create, :destroy]
@@ -57,10 +68,36 @@ Rails.application.routes.draw do
         end
 
         resources :companies, except: :show
-        resources :accesses, except: :show
-        resources :credits, except: :show
-        resources :vouchers, except: :show
-        resources :packs, except: :show
+        resources :accesses, except: :show do
+          member do
+            get :create_credential
+            delete :destroy_credential
+          end
+        end
+        resources :credits, except: :show do
+          member do
+            get :create_credential
+            delete :destroy_credential
+          end
+        end
+        resources :vouchers, except: :show do
+          member do
+            get :create_credential
+            delete :destroy_credential
+          end
+        end
+        resources :packs, except: :show do
+          member do
+            get :create_credential
+            delete :destroy_credential
+          end
+        end
+        resources :stations do
+          resources :station_catalog_items,
+                    only: [:index, :create, :destroy],
+                    module: :stations
+        end
+        resources :sale_stations, only: [:index]
         resources :credential_types, except: :show
         resources :company_ticket_types, except: :show
         resources :customers, except: [:new, :create, :edit, :update] do
@@ -68,9 +105,6 @@ Rails.application.routes.draw do
           resources :gtag_assignments, only: [:new, :create]
           collection do
             get :search
-          end
-          member do
-            post :resend_confirmation
           end
         end
 

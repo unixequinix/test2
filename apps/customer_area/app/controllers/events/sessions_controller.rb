@@ -4,9 +4,7 @@ class Events::SessionsController < Events::BaseController
 
   def new
     @sign_up = params[:sign_up]
-    @confirmed = params[:confirmed]
     @password_sent = params[:password_sent]
-    @confirmation_sent = params[:confirmation_sent]
     @customer_login_form = CustomerLoginForm.new(Customer.new)
     redirect_to customer_root_path(current_event) if customer_signed_in?
   end

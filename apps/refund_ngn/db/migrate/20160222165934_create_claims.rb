@@ -1,7 +1,7 @@
 class CreateClaims < ActiveRecord::Migration
   def change
     create_table :claims do |t|
-      t.references  :customer_event_profile, null: false
+      t.references :customer_event_profile, null: false
       t.references :gtag, null: false
       t.string :number, null: false, index: { unique: true }
       t.string :aasm_state, null: false

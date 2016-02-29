@@ -9,8 +9,8 @@ class Companies::Api::V1::BaseController < Companies::BaseController
     authenticate_or_request_with_http_basic do |event_token, company_token|
       @current_event = Event.find_by(token: event_token)
       @agreement = @current_event.company_event_agreements
-                                         .includes(:company)
-                                         .find_by(companies: { access_token: company_token })
+                   .includes(:company)
+                   .find_by(companies: { access_token: company_token })
       @current_event && @agreement
     end
   end

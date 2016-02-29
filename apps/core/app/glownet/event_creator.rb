@@ -35,21 +35,19 @@ class EventCreator
 
   def standard_credit
     YAML.load_file(Rails.root.join("db", "seeds", "standard_credits.yml")).each do |data|
-       Credit.create!(standard: data["standard"],
-                      currency: data["currency"],
-                      value: data["value"],
-                      catalog_item_attributes: { event_id: @event.id,
-                                                 name: data['name'],
-                                                 step: data['step'],
-                                                 min_purchasable: data['min_purchasable'],
-                                                 max_purchasable: data['max_purchasable'],
-                                                 initial_amount: data['initial_amount'] } )
-
-
+      Credit.create!(standard: data["standard"],
+                     currency: data["currency"],
+                     value: data["value"],
+                     catalog_item_attributes: { event_id: @event.id,
+                                                name: data["name"],
+                                                step: data["step"],
+                                                min_purchasable: data["min_purchasable"],
+                                                max_purchasable: data["max_purchasable"],
+                                                initial_amount: data["initial_amount"] })
     end
   end
 
   def customer_portal_station
-    Station.create!(event: @event, name: "customer_portal", station_type_id: 1)
+    Station.create!(event: @event, name: "Customer Portal", station_type_id: 1)
   end
 end

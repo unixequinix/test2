@@ -34,10 +34,10 @@ class Payments::RedsysPayer
 
   def create_log(order)
     CustomerCreditOnlineCreator.new(customer_event_profile: order.customer_event_profile,
-                                transaction_source: CustomerCredit::CREDITS_PURCHASE,
-                                payment_method: "none",
-                                amount: order.credits_total
-                              ).save
+                                    transaction_source: CustomerCredit::CREDITS_PURCHASE,
+                                    payment_method: "none",
+                                    amount: order.credits_total
+                                   ).save
   end
 
   def create_payment(order, amount, params)

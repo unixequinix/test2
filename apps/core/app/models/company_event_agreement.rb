@@ -5,18 +5,34 @@
 #  id         :integer          not null, primary key
 #  company_id :integer          not null
 #  event_id   :integer          not null
-#  name       :string
+#  aasm_state :string
 #  deleted_at :datetime
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
 class CompanyEventAgreement < ActiveRecord::Base
-  acts_as_paranoid
   belongs_to :company
   belongs_to :event
-  has_many :company_ticket_types
+  has_many :company_ticket_types, dependent: :restrict_with_error
+
+  # State machine
+  include AASM
+
+  aasm do
+    state :granted, initial: true
+    state :revoked
+
+    event :grant do
+      transitions from: :revoked, to: :granted
+    end
+
+    event :revoke do
+      transitions from: :granted, to: :revoked
+    end
+  end
 
   # Validations
-  validates :company_id, :event_id, presence: true
+  validates :company, :event, presence: true
+  validates :event, uniqueness: { scope: :company }
 end

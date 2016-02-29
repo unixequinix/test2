@@ -64,7 +64,7 @@ class Payments::StripePayer
                                     amount: order.credits_total,
                                     payment_method: "none",
                                     money_payed: order.total
-                                  ).save
+                                   ).save
   end
 
   def create_payment(order, charge)

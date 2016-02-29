@@ -13,15 +13,20 @@
 class Company < ActiveRecord::Base
   acts_as_paranoid
 
-  has_many :company_ticket_types, dependent: :restrict_with_error
   has_many :company_event_agreements
-  has_many :events, through: :company_event_agreements
+  has_many :events, through: :company_event_agreements, dependent: :restrict_with_error
 
   # Hooks
   before_create :generate_access_token
 
   # Validations
   validates :name, presence: true
+
+  def unassigned_events
+    Event.where("id NOT IN (SELECT event_id
+                   FROM company_event_agreements
+                   WHERE company_id = #{id})")
+  end
 
   private
 

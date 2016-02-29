@@ -1,5 +1,22 @@
 es:
   admin:
+    stations:
+      name: "Nombre"
+      type: "Tipo"
+      group: "Grupo"
+      items: "Productos"
+      station_types:
+        customer_portal: "Portal de cliente"
+        pos: "Punto de ventas"
+        topup: "Recargas"
+        refunds: "Devoluciónes"
+        box_office: "Oficina de venta"
+      station_groups:
+        online: "Online"
+      station_catalog_item:
+        name: "Nombre"
+        description: "Descripción"
+        price: "Precio"
     companies:
       name: "Nombre"
       token: "Token de la compañia"
@@ -191,11 +208,6 @@ es:
       standard: "Estándar"
       currency: "Divisa"
       value: "Valor"
-    preevent_product:
-      name: "Nombre"
-      online: "Online"
-      number_product_items: "Número de items"
-      price: "Precio"
     catalog_item:
       name: "Nombre"
       description: "Descripción"
@@ -203,17 +215,23 @@ es:
       initial_amount: "Cantidad Inicial"
       max_purchasable: "Máximo Comprable"
       min_purchasable: "Mínimo Comprable"
+      catalogable_type: "Tipo"
     vouchers:
       id: "Id"
-    credential_types:
-      memory_position: "Posición"
+    pack:
+      number_catalog_items: "Número de items"
+    credential_type:
+      id: "Id"
+      memory_position: "Posición en memoria"
     company_ticket_types:
       name: "Nombre"
       company: "Compañía"
-      number_products: "Number de Productos"
+      number_products: "Número de Productos"
       company_ticket_type_ref: "Referencia"
-    entitlements:
-      name: "Nombre"
+    entitlement:
+      unlimited: "Ilimitado"
+      entitlement_type: "Tipo"
+      memory_position: "Posición en memoria"
     ticket_types:
       id: "Id"
       name: "Nombre"
@@ -302,8 +320,6 @@ es:
       email: "Email"
       name: "Nombre"
       surname: "Apellidos"
-      confirmed_at: "Confirmado el"
-      confirmation_sent_at: "Confimación enviada"
       tickets: "Tickets"
       ticket: "Ticket"
       gtags: "Gtags"
@@ -329,7 +345,6 @@ es:
       current_sign_ip: "Inicio de Sesión Actual en IP"
       agreed_event_condition: "Condición del evento aceptada"
       last_sign_ip: "Último Inicio de Sesión en IP"
-      unconfirmed: "Email sin confirmar"
       transactions: "Transacciones"
       transactions_type: "Tipos de Transacciones"
       created_at: "Creado el"
