@@ -12,11 +12,9 @@
 #
 
 class CompanyEventAgreement < ActiveRecord::Base
-  acts_as_paranoid
   belongs_to :company
   belongs_to :event
   has_many :company_ticket_types, dependent: :restrict_with_error
-
 
   # Validations
   validates :company, :event, presence: true

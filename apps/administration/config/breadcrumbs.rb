@@ -42,6 +42,19 @@ crumb :new_admins_company do
   parent :admins_companies
 end
 
+## Company Event Agreements
+
+crumb :admins_company_company_event_agreements do |company|
+  link t("breadcrumbs.company_event_agreements"),
+       admins_company_company_event_agreements_path(company)
+  parent :admins_companies
+end
+
+crumb :admins_company_company_event_agreement do |company|
+  link company[:company].name, admins_company_company_event_agreements_path(company)
+  parent :admins_companies
+end
+
 ## Dashboards
 
 crumb :admins_root do
@@ -135,21 +148,14 @@ end
 
 ## Sales Stations
 
-crumb :admins_event_sale_stations do |event|
-  link t("breadcrumbs.sale_stations"), admins_event_sale_stations_path(event)
+crumb :admins_event_sales_stations do |event|
+  link t("breadcrumbs.sales_stations"), admins_event_sales_stations_path(event)
   parent :admins_event, event
 end
 
 crumb :admins_event_sales_station do |event, station|
   link station.name, edit_admins_event_sales_station_path(event, station)
-  parent :admins_event_sale_stations, event
-end
-
-## Station Catalog Products
-
-crumb :admins_event_sale_station_station_catalog_items do |event, station|
-  link t("breadcrumbs.station_catalog_products"), admins_event_sale_stations_path(event)
-  parent :admins_event_sale_stations, event
+  parent :admins_event_sales_stations, event
 end
 
 ## Accesses
@@ -228,7 +234,7 @@ crumb :admins_event_credential_types do |event|
 end
 
 crumb :admins_event_credential_type do |event, credential_type|
-  link credential_type.catalog_item.name,
+  link credential_type.preevent_item.name,
        edit_admins_event_credential_type_path(event, credential_type)
   parent :admins_event_credential_types, event
 end
@@ -253,23 +259,6 @@ end
 crumb :new_admins_event_preevent_product do |event|
   link t("breadcrumbs.new_preevent_product")
   parent :admins_event_preevent_products, event
-end
-
-## Company
-
-crumb :admins_event_companies do |event|
-  link t("breadcrumbs.companies"), admins_event_companies_path(event)
-  parent :admins_event, event
-end
-
-crumb :admins_event_company do |event, company|
-  link company.name, edit_admins_event_company_path(event, company)
-  parent :admins_event_companies, event
-end
-
-crumb :new_admins_event_company do |event|
-  link t("breadcrumbs.new_company")
-  parent :admins_event_companies, event
 end
 
 ## CompanyTicketType

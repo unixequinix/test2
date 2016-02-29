@@ -6,7 +6,7 @@ class Admins::CompaniesController < Admins::BaseController
   end
 
   def new
-    @company = Company.new()
+    @company = Company.new
   end
 
   def show
