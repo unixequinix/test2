@@ -43,4 +43,20 @@ class CatalogItem < ActiveRecord::Base
   VOUCHER = "Voucher"
 
   CREDENTIABLE_TYPES = [CREDIT, ACCESS, VOUCHER]
+
+ def self.catalog_items_sortered(current_event)
+    catalog_items_hash_sorted(current_event).values.flatten
+  end
+
+  def self.catalog_items_hash_sorted(current_event)
+    catalog_items = where(event_id: current_event.id)
+    catalog_items.reduce(Hash[keys_sortered.map { |key| [key, []] }]) do |acum, catalog_item|
+      acum[catalog_item.catalogable_type] << catalog_item
+      acum
+    end
+  end
+
+  def self.keys_sortered
+    %w(Credit Voucher Access Pack)
+  end
 end

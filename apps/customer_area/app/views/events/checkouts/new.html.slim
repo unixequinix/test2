@@ -4,10 +4,11 @@
     = t('checkout.store')
   p = t('checkout.description')
 = form_tag event_checkouts_path(current_event), method: :post do |f|
-  - @checkout_presenter.preevent_products_hash.each do |category, preevent_products|
-    - preevent_products.each do |preevent_product|
+  - @checkout_presenter.catalog_items_hash.each do |category, catalog_items|
+    - binding.pry
+    - catalog_items.each do |catalog_item|
         h3.store-module-title = category.pluralize
-        = render @checkout_presenter.draw_product(preevent_product), preevent_product: preevent_product
+        = render @checkout_presenter.draw_product(catalog_item), catalog_item: catalog_item
   .wrapper-store-module
     .checkout-total
       p.checkout-title = t('checkout.total')
