@@ -25,7 +25,7 @@
 #  device_uid                :string
 #
 
-class MonetaryTransaction < ActiveRecord::Base
+class MoneyTransaction < ActiveRecord::Base
   belongs_to :event
   belongs_to :station
   belongs_to :device

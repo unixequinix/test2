@@ -1,11 +1,10 @@
 # == Schema Information
 #
-# Table name: access_transactions
+# Table name: credential_transactions
 #
 #  id                        :integer          not null, primary key
-#  direction                 :integer
-#  access_entitlement_id     :integer
-#  access_entitlement_value  :integer
+#  ticket_id                 :integer
+#  preevent_product_id       :integer
 #  event_id                  :integer
 #  transaction_type          :string
 #  device_created_at         :datetime
@@ -21,12 +20,10 @@
 #  device_uid                :string
 #
 
-class AccessTransaction < ActiveRecord::Base
+class CreditTransaction < ActiveRecord::Base
   belongs_to :event
   belongs_to :station
-  belongs_to :device
   belongs_to :customer_event_profile
-  belongs_to :access_entitlement
 
   validates_presence_of :transaction_type
 end

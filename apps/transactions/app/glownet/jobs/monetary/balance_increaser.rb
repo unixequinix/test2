@@ -3,7 +3,7 @@ class Jobs::Monetary::BalanceIncreaser < Jobs::Base
 
   def perform(transaction_id, _atts = {})
     ActiveRecord::Base.transaction do
-      MonetaryTransaction.find(transaction_id)
+      MoneyTransaction.find(transaction_id)
       # TODO: increase_balance
     end
   end
