@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :monetary_transaction do
+  factory :money_transaction do
     transaction_type { "word #{rand(100)}" }
     device_created_at { Time.now }
     customer_tag_uid { SecureRandom.urlsafe_base64.upcase }
