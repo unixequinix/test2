@@ -414,6 +414,8 @@ GEM
       ffi (>= 0.5.0)
     rdoc (4.2.0)
       json (~> 1.4)
+    recaptcha (1.1.0)
+      json
     redis (3.2.2)
     ref (2.0.0)
     reform (2.0.5)
@@ -687,6 +689,7 @@ DEPENDENCIES
   rails-erd (~> 1.4.4)
   ransack (~> 1.6.6)
   rb-fsevent
+  recaptcha
   reform (~> 2.0.5)
   refund_ngn!
   roo (~> 2.0.0beta1)
@@ -720,4 +723,4 @@ DEPENDENCIES
   whenever (~> 0.9.4)
 
 BUNDLED WITH
-   1.10.6
+   1.11.2

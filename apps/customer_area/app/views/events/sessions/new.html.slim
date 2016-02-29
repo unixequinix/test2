@@ -6,8 +6,6 @@
   .wrapper-session
     h3.center-text Welcome!
     //= t('sessions.new.description')
-    = raw current_event.info
-    = raw current_event.disclaimer
     = simple_form_for @customer_login_form, url: event_sessions_path(current_event), method: :post do |f|
       = f.input :event_id, as: :hidden, input_html: { value: current_event.id, class: 'session-input' }
       .wrapper-session-login
@@ -24,6 +22,8 @@
     .sessions-shared-login
       = render "events/shared/links"
     ul.disclaimer-list
-      li Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque sint cum rerum quidem tempore voluptate, esse laborum aspernatur, blanditiis nulla  ipsum adipisci ab sunt saepe tempora. Magni vitae, rerum nobis.
-      li Dos
-      li Tres
+      li = raw current_event.info
+
+// TODO: Talk to Manu to add the styles
+.container-disclaimer
+  = raw current_event.disclaimer
