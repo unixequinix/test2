@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = Transactions::VERSION
   s.authors     = ["Jake"]
   s.email       = ["jake@glownet.com"]
-  s.homepage    = "www.glownet.com"
+  s.homepage    = "http://www.glownet.com"
   s.summary     = "Summary of Transactions."
   s.description = "Description of Transactions."
   s.license     = "MIT"

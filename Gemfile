@@ -135,6 +135,7 @@ group :development, :test do
   gem 'spring-commands-rspec', '~> 1.0.4'
   gem 'pry-rails'
   gem 'guard-rubycritic'
+  gem 'terminal-notifier-guard'
 end
 
 group :development, :test, :staging do
