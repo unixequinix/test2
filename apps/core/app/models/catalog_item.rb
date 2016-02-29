@@ -33,9 +33,8 @@ class CatalogItem < ActiveRecord::Base
                   .includes(:credential_type) +
                   where(catalogable_type: "Pack", catalogable_id: Pack.credentiable_packs)
                   .includes(:credential_type)
-    combination.uniq.reduce([]) do |a, it|
+    combination.uniq.each_with_object([]) do |it, a|
       a << it if it.credential_type.blank?
-      a
     end
   }
 
@@ -45,4 +44,32 @@ class CatalogItem < ActiveRecord::Base
   VOUCHER = "Voucher"
 
   CREDENTIABLE_TYPES = [CREDIT, ACCESS, VOUCHER]
+
+  def self.sorted
+    hash_sorted.values.flatten
+  end
+
+  def self.hash_sorted(keys_sorted)
+    hash = Hash[keys_sorted.map { |key| [key, []] }]
+    build_hash(hash)
+    remove_empty_categories(hash)
+    sort_by_price(hash)
+  end
+
+  def self.remove_empty_categories(hash)
+    hash.delete_if { |k, v| v.blank? }
+  end
+
+  def self.build_hash(hash)
+    all.each_with_object(hash) do |catalog_item, acum|
+      acum[catalog_item.catalogable_type] << catalog_item
+    end
+  end
+
+  def self.sort_by_price(hash)
+    hash.each do |k,v|
+      v.sort! {|x,y| x.price <=> y.price }
+    end
+  end
+
 end
