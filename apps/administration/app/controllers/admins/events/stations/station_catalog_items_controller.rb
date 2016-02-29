@@ -1,5 +1,4 @@
 class Admins::Events::Stations::StationCatalogItemsController < Admins::Events::BaseController
-
   def index
     @station = @fetcher.sale_stations.find_by(id: params[:station_id])
     @catalog_items = @fetcher.catalog_items
@@ -32,7 +31,7 @@ class Admins::Events::Stations::StationCatalogItemsController < Admins::Events::
 
   def permitted_params
     params.require(:station_catalog_item)
-          .permit(:id, :price, :catalog_item_id, station_parameter_attributes: [ :id, :station_id ])
+      .permit(:id, :price, :catalog_item_id, station_parameter_attributes: [:id, :station_id])
   end
 
   def set_presenter

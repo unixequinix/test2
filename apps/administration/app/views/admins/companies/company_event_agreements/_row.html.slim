@@ -1,9 +1,4 @@
 tr
   td data-label=t('admin.event.name') = agreement.event.name
   td.table-actions-field
-    ul
-      li.table-action.action-delete
-        = link_to admins_company_company_event_agreement_path(company, agreement),
-                  method: :delete,
-                  data: { confirm: t('admin.confirm.delete') } do
-          = fa_icon "trash"
+    = render "actions", company: company, agreement: agreement

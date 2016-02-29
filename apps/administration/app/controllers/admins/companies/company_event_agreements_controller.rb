@@ -1,5 +1,4 @@
 class Admins::Companies::CompanyEventAgreementsController < Admins::BaseController
-
   def index
     @company = Company.find_by(id: params[:company_id])
     @agreements = @company.company_event_agreements.includes(:event).page(params[:page]).per(10)
@@ -9,10 +8,6 @@ class Admins::Companies::CompanyEventAgreementsController < Admins::BaseControll
   def create
     @company = Company.find_by(id: params[:company_id])
     @agreement = @company.company_event_agreements.create!(permitted_params)
-
-    respond_to do |f|
-      f.js { render layout: false, content_type: 'text/javascript' }
-    end
   end
 
   def destroy
