@@ -26,4 +26,10 @@ class Station < ActiveRecord::Base
 
   SALE_STATIONS = [:customer_portal, :pos, :box_office]
   TOPUP_STATIONS = [:topup]
+
+  def unassigned_station_catalog_items
+    StationCatalogItem.where("id NOT IN (SELECT event_id
+                   FROM company_event_agreements
+                   WHERE company_id = #{id})")
+  end
 end
