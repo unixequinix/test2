@@ -17,6 +17,7 @@ namespace :db do
     make_company_event_agreements
     #make_credits
     make_accesses
+    make_vouchers
     make_packs
     make_company_ticket_types
     make_tickets
@@ -28,7 +29,6 @@ namespace :db do
 
   desc 'Create stations'
   task stations: :environment do
-    puts '----------------------------------------'
     puts 'Creating fake data'
     puts '----------------------------------------'
     make_portal_station
@@ -110,7 +110,28 @@ namespace :db do
                                                   step: data['step'],
                                                   min_purchasable: data['min_purchasable'],
                                                   max_purchasable: data['max_purchasable'],
-                                                  initial_amount: data['initial_amount'] } )
+                                                  initial_amount: data['initial_amount'] },
+                       entitlement_attributes: { event_id: event.id,
+                                                      unlimited: data['unlimited'],
+                                                      entitlement_type: data['entitlement_type'] } )
+      end
+    end
+  end
+
+  def make_vouchers
+    puts 'Create vouchers'
+    puts '----------------------------------------'
+    Event.all.each do |event|
+      YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'vouchers.yml')).each do |data|
+        Voucher.create!(catalog_item_attributes: { event_id: event.id,
+                                                  name: data['name'],
+                                                  step: data['step'],
+                                                  min_purchasable: data['min_purchasable'],
+                                                  max_purchasable: data['max_purchasable'],
+                                                  initial_amount: data['initial_amount'] },
+                       entitlement_attributes: { event_id: event.id,
+                                                      unlimited: data['unlimited'],
+                                                      entitlement_type: data['entitlement_type'] } )
       end
     end
   end

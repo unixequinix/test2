@@ -204,11 +204,6 @@ it:
       standard: "Standard"
       currency: "Currency"
       value: "Value"
-    preevent_product:
-      name: "Name"
-      online: "Online"
-      number_product_items: "Número de items"
-      price: "Price"
     catalog_item:
       name: "Name"
       description: "Description"
@@ -224,8 +219,10 @@ it:
     credential_type:
       id: "Id"
       memory_position: "Posición en memoria"
-    entitlements:
-      name: "Name"
+    entitlement:
+      unlimited: "Unlimited"
+      entitlement_type: "Entitlement type"
+      memory_position: "Memory position"
     company_ticket_types:
       name: "Name"
       company: "Company"
