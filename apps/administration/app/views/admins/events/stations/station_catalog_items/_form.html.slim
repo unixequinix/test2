@@ -1,4 +1,4 @@
-= simple_form_for [:admins, current_event, @station, station_catalog_item] do |f|
+= simple_form_for [:admins, current_event, @station, station_catalog_item], remote: true do |f|
   .wrapper-negative-space
     = f.input :price
     = f.input :catalog_item_id, collection: @catalog_items

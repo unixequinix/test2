@@ -2,15 +2,12 @@
 table.station_catalog_items
   thead
     tr
-      th = t('admin.catalog_item.name')
-      th = t('admin.catalog_item.description')
+      th = t('admin.stations.station_catalog_item.name')
+      th = t('admin.stations.station_catalog_item.price')
+      th = t('admin.stations.station_catalog_item.description')
       th.table-actions-field = t('admin.defaults.actions')
   tbody
     - station_catalog_items.each do |station_catalog_item|
-      tr
-        td data-label=t('admin.catalog_item.name') = station_catalog_item.catalog_item.name
-        td data-label=t('admin.catalog_item.description') = station_catalog_item.catalog_item.description
-        td.table-actions-field
-          = render 'admins/events/stations/station_catalog_items/actions', station_catalog_item: station_catalog_item unless current_event.started?
+      = render "row", station_catalog_item: station_catalog_item
 = paginate station_catalog_items
 

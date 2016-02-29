@@ -13,6 +13,10 @@ th:
         box_office: "Box Office"
       station_groups:
         online: "Online"
+      station_catalog_item:
+        name: "Name"
+        description: "Description"
+        price: "Price"
     companies:
       name: "Name"
       token: "Company token"

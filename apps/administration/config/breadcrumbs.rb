@@ -44,14 +44,8 @@ end
 
 ## Company Event Agreements
 
-crumb :admins_company_company_event_agreements do |company|
-  link t("breadcrumbs.company_event_agreements"),
-       admins_company_company_event_agreements_path(company)
-  parent :admins_companies
-end
-
 crumb :admins_company_company_event_agreement do |company|
-  link company[:company].name, admins_company_company_event_agreements_path(company)
+  link company.name, admins_company_company_event_agreements_path(company)
   parent :admins_companies
 end
 
@@ -148,14 +142,20 @@ end
 
 ## Sales Stations
 
-crumb :admins_event_sales_stations do |event|
-  link t("breadcrumbs.sales_stations"), admins_event_sales_stations_path(event)
+crumb :admins_event_sale_stations do |event|
+  link t("breadcrumbs.sale_stations"), admins_event_sale_stations_path(event)
   parent :admins_event, event
 end
 
-crumb :admins_event_sales_station do |event, station|
-  link station.name, edit_admins_event_sales_station_path(event, station)
-  parent :admins_event_sales_stations, event
+crumb :admins_event_sale_station do |event, station|
+  link station.name, admins_event_sale_stations_path(event, station)
+  parent :admins_event_sale_stations, event
+end
+
+## Station Catalog Items
+
+crumb :admins_event_sale_station_station_catalog_items do |event, station|
+  parent :admins_event_sale_station, event, station
 end
 
 ## Accesses

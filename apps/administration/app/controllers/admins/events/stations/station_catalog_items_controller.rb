@@ -9,14 +9,7 @@ class Admins::Events::Stations::StationCatalogItemsController < Admins::Events::
   def create
     @station = @fetcher.sale_stations.find_by(id: params[:station_id])
     @catalog_items = @fetcher.catalog_items
-    @station_catalog_item = StationCatalogItem.new
-    if @station_catalog_item.create(permitted_params)
-      flash[:notice] = I18n.t("alerts.updated")
-      redirect_to edit_admins_event_sales_station_url
-    else
-      flash.now[:error] = @station.errors.full_messages.join(". ")
-      render :edit
-    end
+    @station_catalog_item = StationCatalogItem.create!(permitted_params)
   end
 
   def destroy
