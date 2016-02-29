@@ -83,12 +83,12 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
       :max_purchasable,
       :min_purchasable
     ],
-      entitlement_attributes: [
-        :id,
-        :entitlement_type,
-        :unlimited,
-        :event_id
-      ]
-    )
+                                    entitlement_attributes: [
+                                      :id,
+                                      :entitlement_type,
+                                      :unlimited,
+                                      :event_id
+                                    ]
+                                   )
   end
 end
