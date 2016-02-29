@@ -13,6 +13,10 @@ es:
         box_office: "Oficina de venta"
       station_groups:
         online: "Online"
+      station_catalog_item:
+        name: "Nombre"
+        description: "Descripción"
+        price: "Precio"
     companies:
       name: "Nombre"
       token: "Token de la compañia"
