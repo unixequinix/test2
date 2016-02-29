@@ -6,6 +6,7 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
   def new
     @voucher = Voucher.new
     @voucher.build_catalog_item
+    @voucher.build_entitlement
   end
 
   def create
@@ -66,7 +67,7 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
       fetcher: @fetcher.vouchers,
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [],
+      include_for_all_items: [:catalog_item, :entitlement],
       context: view_context
     )
   end
@@ -81,7 +82,13 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
       :step,
       :max_purchasable,
       :min_purchasable
-    ]
-                                   )
+    ],
+      entitlement_attributes: [
+        :id,
+        :entitlement_type,
+        :unlimited,
+        :event_id
+      ]
+    )
   end
 end

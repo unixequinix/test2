@@ -208,11 +208,6 @@ es:
       standard: "Estándar"
       currency: "Divisa"
       value: "Valor"
-    preevent_product:
-      name: "Nombre"
-      online: "Online"
-      number_product_items: "Número de items"
-      price: "Precio"
     catalog_item:
       name: "Nombre"
       description: "Descripción"
@@ -233,8 +228,10 @@ es:
       company: "Compañía"
       number_products: "Número de Productos"
       company_ticket_type_ref: "Referencia"
-    entitlements:
-      name: "Nombre"
+    entitlement:
+      unlimited: "Ilimitado"
+      entitlement_type: "Tipo"
+      memory_position: "Posición en memoria"
     ticket_types:
       id: "Id"
       name: "Nombre"

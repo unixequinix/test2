@@ -206,15 +206,6 @@ th:
       standard: "Standard"
       currency: "Currency"
       value: "Value"
-    preevent_product:
-      name: "Name"
-      online: "Online"
-      number_product_items: "Número de items"
-      initial_amount: "Initial Amount"
-      price: "Price"
-      step: "Step"
-      max_purchasable: "Max Purchasable"
-      min_purchasable: "Min Purchasable"
     catalog_item:
       name: "Name"
       description: "Description"
@@ -230,8 +221,10 @@ th:
     credential_type:
       id: "Id"
       memory_position: "Posición en memoria"
-    entitlements:
-      name: "Name"
+    entitlement:
+      unlimited: "Unlimited"
+      entitlement_type: "Entitlement type"
+      memory_position: "Memory position"
     company_ticket_types:
       name: "Name"
       company: "Company"
