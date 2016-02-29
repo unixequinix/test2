@@ -3,10 +3,14 @@
     = f.simple_fields_for :catalog_item do |catalog_item|
       = catalog_item.input :name, placeholder: true
       = catalog_item.input :description, placeholder: true
-      = catalog_item.input :event_id, as: :hidden, input_html: { value: current_event.id }
       = catalog_item.input :step, placeholder: true
       = catalog_item.input :initial_amount, placeholder: true
       = catalog_item.input :max_purchasable, placeholder: true
       = catalog_item.input :min_purchasable, placeholder: true
+      = catalog_item.input :event_id, as: :hidden, input_html: { value: current_event.id }
+    = f.simple_fields_for :entitlement do |entitlement|
+      = entitlement.input :unlimited, as: :radio_buttons, default: false
+      = entitlement.input :entitlement_type, collection: Entitlement::TYPES, include_blank: false
+      = entitlement.input :event_id, as: :hidden, input_html: { value: current_event.id }
 
     = f.button :submit, class: "btn btn-primary"

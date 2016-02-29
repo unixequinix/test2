@@ -293,8 +293,9 @@ ActiveRecord::Schema.define(version: 20160224122200) do
   create_table "entitlements", force: :cascade do |t|
     t.integer  "entitlementable_id",   null: false
     t.string   "entitlementable_type", null: false
+    t.integer  "event_id",             null: false, index: {name: "fk__entitlements_event_id"}, foreign_key: {references: "events", name: "fk_entitlements_event_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "memory_position",      null: false
-    t.string   "type",                 default: "simple", null: false
+    t.string   "entitlement_type",     default: "simple", null: false
     t.boolean  "unlimited",            default: false,    null: false
     t.datetime "deleted_at",           index: {name: "index_entitlements_on_deleted_at"}
     t.datetime "created_at",           null: false

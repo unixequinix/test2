@@ -6,6 +6,7 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
   def new
     @access = Access.new
     @access.build_catalog_item
+    @access.build_entitlement
   end
 
   def create
@@ -66,22 +67,29 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
       fetcher: @fetcher.accesses,
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [:catalog_item],
+      include_for_all_items: [:catalog_item, :entitlement],
       context: view_context
     )
   end
 
   def permitted_params
-    params.require(:access).permit(catalog_item_attributes: [
-      :id,
-      :event_id,
-      :name,
-      :description,
-      :initial_amount,
-      :step,
-      :max_purchasable,
-      :min_purchasable
-    ]
-                                  )
+    params.require(:access).permit(
+      catalog_item_attributes: [
+        :id,
+        :event_id,
+        :name,
+        :description,
+        :initial_amount,
+        :step,
+        :max_purchasable,
+        :min_purchasable
+      ],
+      entitlement_attributes: [
+        :id,
+        :entitlement_type,
+        :unlimited,
+        :event_id
+      ]
+    )
   end
 end
