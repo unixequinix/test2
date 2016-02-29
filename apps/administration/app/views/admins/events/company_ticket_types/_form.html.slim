@@ -1,9 +1,13 @@
 = simple_form_for [:admins, current_event, company_ticket_type] do |f|
   .wrapper-negative-space
     = f.input :name
-    = f.input :company_ticket_type_ref
-    = f.association :company, placeholder: true, collection: @companies_collection
-    = f.association :preevent_product, collection: @preevent_products_collection
+    = f.input :company_code
     = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
+    = f.association :credential_type,
+      collection: @credential_types_collection,
+      label_method: lambda { |ct| "#{ct.catalog_item.name}" },
+    = f.association :company_event_agreement,
+      collection: @company_event_agreement_collection,
+      include_blank: false
 
     = f.button :submit, class: "btn btn-primary"
