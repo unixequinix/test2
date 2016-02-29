@@ -23,9 +23,9 @@ class Company < ActiveRecord::Base
   validates :name, presence: true
 
   def unassigned_events
-    Event.joins("LEFT JOIN company_event_agreements
-                 ON events.id = company_event_agreements.event_id")
-         .where(company_event_agreements: { company_id: nil})
+    Event.where("id NOT IN (SELECT event_id
+                   FROM company_event_agreements
+                   WHERE company_id = #{id})")
   end
 
   private

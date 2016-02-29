@@ -4,8 +4,6 @@ class SalesStationsForm
 
   attribute :station_catalog_items
 
-
-
   def save
     if valid?
       persist!

@@ -19,12 +19,13 @@ class Pack < ActiveRecord::Base
   has_many :catalog_items_included, through: :pack_catalog_items, source: :catalog_item
   accepts_nested_attributes_for :pack_catalog_items, allow_destroy: true
 
-  #Scope
+  # Scope
 
-  scope :credentiable_packs, -> { joins(:catalog_items_included)
-                                  .where(catalog_items: {
-                                         catalogable_type: CatalogItem::CREDENTIABLE_TYPES})
-                                }
+  scope :credentiable_packs, lambda {
+    joins(:catalog_items_included)
+      .where(catalog_items: {
+               catalogable_type: CatalogItem::CREDENTIABLE_TYPES })
+  }
 
   def credits
     pack_catalog_items

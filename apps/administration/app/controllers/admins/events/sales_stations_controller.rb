@@ -45,11 +45,11 @@ class Admins::Events::SalesStationsController < Admins::Events::BaseController
 
   def permitted_params
     params.require(:station).permit(:id, station_catalog_items: [
-                                      :id,
-                                      :price,
-                                      :catalog_item_id,
-                                      :_destroy
-                                    ]
-    )
+      :id,
+      :price,
+      :catalog_item_id,
+      :_destroy
+    ]
+                                   )
   end
 end

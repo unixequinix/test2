@@ -12,6 +12,6 @@ class CreateCompanyTicketTypes < ActiveRecord::Migration
     end
     add_index :company_ticket_types,
               [:company_ticket_type_ref, :company_event_agreement_id],
-              unique: true, name: 'company_ref_event_agreement_index'
+              unique: true, name: "company_ref_event_agreement_index"
   end
 end

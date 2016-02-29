@@ -1,5 +1,4 @@
 class Admins::Companies::CompanyEventAgreementsController < Admins::BaseController
-
   def index
     @company = Company.find_by(id: params[:company_id])
     @agreements = @company.company_event_agreements.includes(:event).page(params[:page]).per(10)
