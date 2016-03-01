@@ -4,12 +4,12 @@ class CheckoutsPresenter
   def initialize(current_event)
     @event = current_event
     @catalog_items = StationCatalogItem.joins(:station_parameter)
-                                      .where(station_parameters: {
-                                             id: StationParameter.joins(:station)
-                                                                 .where(stations: {
-                                                                        name: "Customer Portal",
-                                                                        event_id: current_event } )
-                                      })
+                     .where(station_parameters: {
+                              id: StationParameter.joins(:station)
+                                                  .where(stations: {
+                                                           name: "Customer Portal",
+                                                           event_id: current_event })
+                            })
     binding.pry
     @catalog_items_hash = CatalogItem.catalog_items_hash_sorted(current_event)
   end
@@ -20,7 +20,7 @@ class CheckoutsPresenter
   end
 
   def unitary_credit?(catalog_item)
-      catalog_item.catalogable_type == "Credit"
+    catalog_item.catalogable_type == "Credit"
   end
 
   def credit_partial

@@ -4,7 +4,7 @@
   - presenter.ticket_assignments.each do |ticket_assignment|
     ul.customer-tickets-list
       li.customer-ticket
-        = link_to '#'
+        = link_to event_credential_type_path(current_event, ticket_assignment)
           p.ticket-name = t('dashboard.admissions.header', company_ticket_type: ticket_assignment.credentiable.company_ticket_type.name)
           p.ticket-id =  ticket_assignment.credentiable.code
           = fa_icon "angle-right"

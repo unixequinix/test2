@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       resources :ticket_assignments, only: [:new, :create, :destroy]
       resources :gtag_assignments, only: [:new, :create, :destroy]
       resources :checkouts, only: [:new, :create]
+      resources :credential_types, only: [:show]
       get "privacy_policy", to: "static_pages#privacy_policy"
       get "terms_of_use", to: "static_pages#terms_of_use"
       resources :orders, only: [:show, :update] do
