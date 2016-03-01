@@ -17,7 +17,7 @@
 class Entitlement < ActiveRecord::Base
   acts_as_paranoid
   belongs_to :entitlementable, polymorphic: true, touch: true
-  belongs_to :access, -> { where(entitlement: {entitlementable_type: 'Access'}) }, foreign_key: 'entitlementable_id'
+  belongs_to :access, -> { where(entitlement: { entitlementable_type: "Access" }) }, foreign_key: "entitlementable_id"
   before_save :set_memory_position
   validates :entitlement_type, presence: true
   validates_inclusion_of :unlimited, in: [true, false]

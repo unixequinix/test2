@@ -93,9 +93,7 @@ Rails.application.routes.draw do
           end
         end
         resources :stations do
-          resources :station_catalog_items,
-                    only: [:index, :create, :destroy],
-                    module: :stations
+          resources :station_catalog_items, only: [:index, :create, :destroy], module: :stations
         end
         resources :sale_stations, only: [:index]
         resources :credential_types, except: :show
