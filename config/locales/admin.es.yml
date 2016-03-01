@@ -23,7 +23,11 @@ es:
         gtag_recycler: "Reciclaje de Gtags"
         envelope_linker: "Envelope Linker"
       station_groups:
-        online: "Online"
+        access: "Acceso"
+        monetary: "Monetaria"
+        glownet: "Glownet"
+        event_management: "Administración del evento"
+        touchpoint: "Touchpoint"
       station_catalog_item:
         name: "Nombre"
         description: "Descripción"
