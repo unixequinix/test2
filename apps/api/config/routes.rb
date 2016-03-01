@@ -16,6 +16,7 @@ Rails.application.routes.draw do
           resources :customers, only: [:index, :show]
           resources :gtags, only: [:index, :show]
           resources :orders, only: :index
+          resources :packs, only: :index
           resources :parameters, only: :index
           resources :preevent_products, only: :index
           resources :refunds, only: :index

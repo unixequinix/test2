@@ -3,7 +3,7 @@ class Api::V1::AccessSerializer < Api::V1::BaseSerializer
 
   def attributes(*args)
     hash = super
-    description = item_description if item_description
+    hash[:description] = item_description if item_description
     hash
   end
 

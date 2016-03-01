@@ -7,20 +7,8 @@ class Multitenancy::ApiFetcher
     Access.joins(:catalog_item, :entitlement).where(catalog_items: { event_id: @event.id })
   end
 
-  def catalog_items
-    CatalogItem.where(event: @event)
-  end
-
-  def company_event_agreements
-    CompanyEventAgreement.where(event: @event)
-  end
-
   def company_ticket_types
     CompanyTicketType.where(event: @event)
-  end
-
-  def companies
-    Company.where(event: @event)
   end
 
   def credential_types
@@ -53,7 +41,8 @@ class Multitenancy::ApiFetcher
   end
 
   def packs
-    Pack.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
+    Pack.includes(:catalog_item, pack_catalog_items: :catalog_item)
+    .where(catalog_items: { event_id: @event.id })
   end
 
   def stations
