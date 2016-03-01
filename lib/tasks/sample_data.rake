@@ -31,6 +31,7 @@ namespace :db do
   task stations: :environment do
     puts 'Creating fake data'
     puts '----------------------------------------'
+    make_portal_station
   end
 
   def make_admins
@@ -150,6 +151,25 @@ namespace :db do
           PackCatalogItem.create!(pack: @pack,
                                   catalog_item_id: item['catalog_item_id'],
                                   amount: item['amount'])
+        end
+      end
+    end
+  end
+
+  def make_portal_station
+    puts 'Create portal station'
+    puts '----------------------------------------'
+    Event.all.each do |event|
+      YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'stations.yml')).each do |data|
+        @station = Station.find_by(
+                        station_type: StationType.find_by(name: data['station_type']),
+                        event: event)
+        data['station_catalog_items'].each do |station_catalog_item|
+          StationCatalogItem.create!(
+              price: station_catalog_item["price"],
+              catalog_item: CatalogItem.find(station_catalog_item['catalog_item']),
+              station_parameter_attributes: { station: @station }
+          )
         end
       end
     end
