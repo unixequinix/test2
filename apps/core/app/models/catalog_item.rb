@@ -23,8 +23,8 @@ class CatalogItem < ActiveRecord::Base
   belongs_to :event
   belongs_to :catalogable, polymorphic: true, touch: true
   has_many :pack_catalog_items, dependent: :restrict_with_error
-  has_one :credential_type
   has_many :station_catalog_items, dependent: :restrict_with_error
+  has_one :credential_type
 
   validates :name, :initial_amount, :step, :max_purchasable, :min_purchasable, presence: true
 
@@ -57,7 +57,7 @@ class CatalogItem < ActiveRecord::Base
   end
 
   def self.remove_empty_categories(hash)
-    hash.delete_if { |k, v| v.blank? }
+    hash.delete_if { |_k, v| v.blank? }
   end
 
   def self.build_hash(hash)
@@ -67,9 +67,8 @@ class CatalogItem < ActiveRecord::Base
   end
 
   def self.sort_by_price(hash)
-    hash.each do |k,v|
-      v.sort! {|x,y| x.price <=> y.price }
+    hash.each do |_k, v|
+      v.sort! { |x, y| x.price <=> y.price }
     end
   end
-
 end

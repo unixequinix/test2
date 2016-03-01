@@ -5,13 +5,13 @@ class CheckoutsPresenter
     @event = current_event
     @catalog_items =
       CatalogItem.joins(:station_catalog_items, station_catalog_items: :station_parameter)
-                 .select("catalog_items.*, station_catalog_items.price")
-                 .where(station_parameters:
+      .select("catalog_items.*, station_catalog_items.price")
+      .where(station_parameters:
                        { id: StationParameter.joins(station: :station_type)
                                              .where(
                                                stations: { event_id: current_event },
                                                station_types: { name: "customer_portal" }
-                                              )})
+                                             ) })
     @catalog_items_hash = @catalog_items.hash_sorted(keys_sorted)
   end
 
