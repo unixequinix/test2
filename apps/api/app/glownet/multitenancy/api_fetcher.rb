@@ -8,7 +8,8 @@ class Multitenancy::ApiFetcher
   end
 
   def company_ticket_types
-    CompanyTicketType.where(event: @event)
+    CompanyTicketType.includes(:credential_type, company_event_agreement: :company)
+                     .where(event: @event)
   end
 
   def credential_types
