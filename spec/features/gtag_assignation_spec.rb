@@ -7,10 +7,10 @@ RSpec.feature "Gtag assignation", type: :feature do
       @event_creator = EventCreator.new(event_parameters)
       @event_creator.save
       @event = @event_creator.event
-      ep = EventParameter.find_by(event: Event.first, parameter: 1)
+      ep = EventParameter.find_by(event: @event, parameter: 1)
       ep.value = "standard"
       @gtag_format = "standard" if ep.save
-      @customer = build(:customer, event: @event, confirmation_token: nil, confirmed_at: Time.now)
+      @customer = build(:customer, event: @event)
       create(:customer_event_profile, customer: @customer, event: @event)
 
       login_as(@customer, scope: :customer)
@@ -24,10 +24,12 @@ RSpec.feature "Gtag assignation", type: :feature do
       it "should be able to assign a gtag" do
         visit "/#{@event_creator.event.slug}/gtag_assignments/new"
         within("form") do
-          fill_in(t("gtag_registrations.placeholders.#{@gtag_format}.line_1"), with: @gtag.tag_serial_number)
-          fill_in(t("gtag_registrations.placeholders.#{@gtag_format}.line_2"), with: @gtag.tag_uid)
+          line1 = "gtag_assignations.placeholders.#{@gtag_format}.line_1"
+          line2 = "gtag_assignations.placeholders.#{@gtag_format}.line_2"
+          fill_in(t(line1), with: @gtag.tag_serial_number)
+          fill_in(t(line2), with: @gtag.tag_uid)
         end
-        click_button(t("gtag_registrations.button"))
+        click_button(t("gtag_assignations.button"))
         expect(current_path).to eq("/#{@event_creator.event.slug}")
       end
     end

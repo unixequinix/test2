@@ -1,9 +1,48 @@
 -
+  name: device
+  groups:
+    -
+      name: general
+      parameters:
+        -
+          name: min_version_apk
+          data_type: string
+        -
+          name: private_zone_password
+          data_type: string
+        -
+          name: uid_reverse
+          data_type: boolean
+-
   name: gtag
   groups:
     -
+      name: ultralight_ev1
+      parameters:
+        -
+          name: ultralight_ev1_private_key
+          data_type: string
+    -
+      name: mifare_classic
+      parameters:
+        -
+          name: mifare_classic_public_key
+          data_type: string
+        -
+          name: mifare_classic_private_key_a
+          data_type: string
+        -
+          name: mifare_classic_private_key_b
+          data_type: string
+    -
       name: form
       parameters:
+        -
+          name: maximum_gtag_balance
+          data_type: integer
+        -
+          name: gtag_type
+          data_type: string
         -
           name: format
           data_type: string

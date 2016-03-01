@@ -5,7 +5,8 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
 
   def new
     @voucher = Voucher.new
-    @voucher.build_preevent_item
+    @voucher.build_catalog_item
+    @voucher.build_entitlement
   end
 
   def create
@@ -40,10 +41,22 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.destroyed")
       redirect_to admins_event_vouchers_url
     else
-      flash.now[:error] = I18n.t("errors.messages.preevent_item_dependent")
+      flash.now[:error] = I18n.t("errors.messages.catalog_item_dependent")
       set_presenter
       render :index
     end
+  end
+
+  def create_credential
+    voucher = @fetcher.vouchers.find(params[:id])
+    voucher.catalog_item.create_credential_type if voucher.catalog_item.credential_type.blank?
+    redirect_to admins_event_vouchers_url
+  end
+
+  def destroy_credential
+    voucher = @fetcher.vouchers.find(params[:id])
+    voucher.catalog_item.credential_type.destroy if voucher.catalog_item.credential_type.present?
+    redirect_to admins_event_vouchers_url
   end
 
   private
@@ -54,15 +67,26 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
       fetcher: @fetcher.vouchers,
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [:preevent_item],
+      include_for_all_items: [:catalog_item, :entitlement],
       context: view_context
     )
   end
 
   def permitted_params
-    params.require(:voucher).permit(preevent_item_attributes: [:id,
-                                                               :event_id,
-                                                               :name,
-                                                               :description])
+    params.require(:voucher).permit(catalog_item_attributes: [
+      :id,
+      :event_id,
+      :name,
+      :description,
+      :initial_amount,
+      :step,
+      :max_purchasable,
+      :min_purchasable
+    ],
+                                    entitlement_attributes: [
+                                      :id,
+                                      :entitlement_type,
+                                      :unlimited,
+                                      :event_id])
   end
 end

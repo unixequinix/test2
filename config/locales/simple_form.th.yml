@@ -92,10 +92,7 @@ th:
           <<: *label_ticket_type
       ticket:
         new: &label_ticket
-          number: "ชื่อ"
-          purchaser_first_name: "ชื่อผู้ซื้อ"
-          purchaser_last_name: "นามสกุลผู้ซื้อ"
-          purchaser_email: "อีเมลผู้ซื้อ"
+          code: "ชื่อ"
         edit:
           <<: *label_ticket
       gtag:
@@ -105,6 +102,14 @@ th:
           gtag_credit_log: "Bingo"
         edit:
           <<: *label_gtag
+      purchaser:
+        new: &label_purchaser
+          first_name: "First name"
+          last_name: "Last name"
+          email: "Email"
+          gtag_delivery_address: "Delivery address"
+        edit:
+          <<: *label_purchaser
       gtag_credit_log:
         new: &label_gtag
           amount: "จำนวน"
@@ -121,6 +126,14 @@ th:
           name: "ชื่อ"
           gtag_assignation_notification: "การแจ้งสถานะของ Gtag"
           gtag_form_disclaimer: "Gtag assignation form disclaimer"
+      device_settings_form:
+        edit:
+          currency: "Currency Symbol"
+          min_version_apk: "Minimum APK version"
+          maximum_wb_balance: "Maximum wristband balance"
+          uid_reverse: "UID Reverse"
+          private_zone_password: "Private Zone Password"
+          public_key_a: "Tag Password"
       redsys_payment_settings_form:
         edit:
           name: 'ชื่อ'
@@ -199,10 +212,7 @@ th:
           <<: *placeholder_ticket_type
       ticket:
         new: &placeholder_ticket
-          number: "หมายเลขบัตร"
-          purchaser_first_name: ""
-          purchaser_last_name: ""
-          purchaser_email: ""
+          code: "หมายเลขบัตร"
         edit:
           <<: *placeholder_ticket
       gtag:
@@ -211,6 +221,14 @@ th:
           tag_uid: "หมายเลขบรรทัดที่สอง %{gtag}"
         edit:
           <<: *placeholder_gtag
+      purchaser:
+        new: &placeholder_purchaser
+          first_name: "Purchaser's first name"
+          last_name: "Purchaser's last name"
+          email: "Purchaser's email"
+          gtag_delivery_address: "%{gtag} delivery address"
+        edit:
+          <<: *placeholder_purchaser
       gtag_credit_log:
         new: &placeholder_gtag
           amount: "จำนวนคงเหลือ"

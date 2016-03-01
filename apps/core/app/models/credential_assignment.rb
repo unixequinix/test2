@@ -3,7 +3,7 @@
 # Table name: credential_assignments
 #
 #  id                        :integer          not null, primary key
-#  customer_event_profile_id :integer          not null
+#  customer_event_profile_id :integer
 #  credentiable_id           :integer          not null
 #  credentiable_type         :string           not null
 #  aasm_state                :string
@@ -19,11 +19,13 @@ class CredentialAssignment < ActiveRecord::Base
 
   # Validations
   validates :customer_event_profile, :credentiable, :aasm_state, presence: true
-  validates :credentiable_id, uniqueness: { scope: :credentiable_type, conditions: -> { where(aasm_state: :assigned) } }
-  #  validate :credentiable_belongs_to_current_event
+  validates :credentiable_id, uniqueness: { scope: :credentiable_type,
+                                            conditions: -> { where(aasm_state: :assigned) } }
+  # validate :credentiable_belongs_to_current_event
 
   # State machine
   include AASM
+
   aasm do
     state :assigned, initial: true
     state :unassigned
@@ -44,6 +46,7 @@ class CredentialAssignment < ActiveRecord::Base
   private
 
   def credentiable_belongs_to_current_event
-    errors.add(credentiable_type, I18n.t("errors.messages.not_belong_to_event")) unless credentiable.event == customer_event_profile.event
+    same_event = credentiable.event == customer_event_profile.event
+    errors.add(credentiable_type, I18n.t("errors.messages.not_belong_to_event")) unless same_event
   end
 end

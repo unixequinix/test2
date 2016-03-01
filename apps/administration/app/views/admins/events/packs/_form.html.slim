@@ -1,0 +1,38 @@
+= simple_form_for [:admins, current_event, pack] do |f|
+  .wrapper-negative-space
+    = f.simple_fields_for :catalog_item do |catalog_item|
+      = catalog_item.input :name, placeholder: true
+      = catalog_item.input :description, placeholder: true
+      = catalog_item.input :event_id, as: :hidden, input_html: { value: current_event.id }
+      = catalog_item.input :step, placeholder: true
+      = catalog_item.input :initial_amount, placeholder: true
+      = catalog_item.input :max_purchasable, placeholder: true
+      = catalog_item.input :min_purchasable, placeholder: true
+
+      = f.simple_fields_for :pack_catalog_items do |pack_catalog_item|
+        = render 'pack_catalog_item_fields', f: pack_catalog_item
+      = link_to_add_fields("Add item", f, :pack_catalog_items)
+
+    = f.button :submit, class: "btn btn-primary"
+
+javascript:
+
+  var ready;
+
+  ready = function() {
+    $('form').on('click', '.btn-remove-fields', function(event) {
+      $(this).prev('input[type=hidden]').val('1');
+      $(this).closest('fieldset').hide();
+      return event.preventDefault();
+    });
+    return $('form').on('click', '.add_fields', function(event) {
+      var regexp, time;
+      time = new Date().getTime();
+      regexp = new RegExp($(this).data('id'), 'g');
+      $(this).before($(this).data('fields').replace(regexp, time));
+      return event.preventDefault();
+    });
+  };
+
+  $(document).ready(ready);
+  $(document).on('page:load', ready);

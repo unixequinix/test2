@@ -5,34 +5,37 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
 
   def new
     @company_ticket_type = CompanyTicketType.new
-    @preevent_products_collection = @fetcher.preevent_products
-    @companies_collection = Company.all
+    @credential_types_collection = @fetcher.credential_types
+    @company_event_agreement_collection = @fetcher.company_event_agreements
   end
 
   def create
     @company_ticket_type = CompanyTicketType.new(permitted_params)
+    @credential_types_collection = @fetcher.credential_types
+    @company_event_agreement_collection = @fetcher.company_event_agreements
     if @company_ticket_type.save
-      flash[:notice] = I18n.t("alerts.created")
-      redirect_to admins_event_company_ticket_types_url
+      redirect_to admins_event_company_ticket_types_url, notice: I18n.t("alerts.created")
     else
-      flash[:error] = @company_ticket_type.errors.full_messages.join(". ")
+      flash.now[:error] = @company_ticket_type.errors.full_messages.join(". ")
       render :new
     end
   end
 
   def edit
-    @company_ticket_type = @fetcher.company_ticket_types.find(params[:id])
-    @preevent_products_collection = @fetcher.preevent_products
-    @companies_collection = Company.all
+    @company_ticket_type =
+      @fetcher.company_ticket_types.includes(company_event_agreement: [:company]).find(params[:id])
+    @credential_types_collection = @fetcher.credential_types
+    @company_event_agreement_collection = @fetcher.company_event_agreements
   end
 
   def update
     @company_ticket_type = @fetcher.company_ticket_types.find(params[:id])
+    @credential_types_collection = @fetcher.credential_types
+    @company_event_agreement_collection = @fetcher.company_event_agreements
     if @company_ticket_type.update(permitted_params)
-      flash[:notice] = I18n.t("alerts.updated")
-      redirect_to admins_event_company_ticket_types_url
+      redirect_to admins_event_company_ticket_types_url, notice: I18n.t("alerts.updated")
     else
-      flash[:error] = @company_ticket_type.errors.full_messages.join(". ")
+      flash.now[:error] = @company_ticket_type.errors.full_messages.join(". ")
       render :edit
     end
   end
@@ -53,8 +56,7 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
       search_query: params[:q],
       page: params[:page],
       context: view_context,
-      include_for_all_items: [:company]
-    )
+      include_for_all_items: [:company])
   end
 
   def permitted_params
@@ -62,8 +64,9 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
       :event_id,
       :company_id,
       :name,
-      :company_ticket_type_ref,
-      :preevent_product_id
+      :company_code,
+      :credential_type_id,
+      :company_event_agreement_id
     )
   end
 end

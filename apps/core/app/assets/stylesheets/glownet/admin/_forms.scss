@@ -21,6 +21,14 @@ fieldset {
   }
 }
 
+.wrapper-preevent-product {
+  position: relative;
+  border: 1px solid $graySilver;
+  border-radius: 3px;
+  margin-bottom: modules(1);
+  padding: modules(0.5);
+}
+
 label {
   display: block;
   padding-bottom: modules(1);

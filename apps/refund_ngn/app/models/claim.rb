@@ -3,17 +3,18 @@
 # Table name: claims
 #
 #  id                        :integer          not null, primary key
+#  customer_event_profile_id :integer          not null
+#  gtag_id                   :integer          not null
 #  number                    :string           not null
 #  aasm_state                :string           not null
-#  completed_at              :datetime
 #  total                     :decimal(8, 2)    not null
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
-#  gtag_id                   :integer
 #  service_type              :string
 #  fee                       :decimal(8, 2)    default(0.0)
 #  minimum                   :decimal(8, 2)    default(0.0)
-#  customer_event_profile_id :integer
+#  completed_at              :datetime
+#  deleted_at                :datetime
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
 #
 
 class Claim < ActiveRecord::Base
@@ -80,10 +81,10 @@ class Claim < ActiveRecord::Base
     headers = []
     extra_columns = {}
     claims.each_with_index do |claim, index|
-      extra_columns[index + 1] = claim.claim_parameters.reduce({}) do |acum, claim_parameter|
+      extra_columns[index + 1] =
+      claim.claim_parameters.each_with_object({}) do |claim_parameter, acum|
         headers |= [claim_parameter.parameter.name]
         acum[claim_parameter.parameter.name] = claim_parameter.value
-        acum
       end
     end
     [claims, headers, extra_columns]

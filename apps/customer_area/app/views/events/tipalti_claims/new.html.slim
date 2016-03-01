@@ -1,9 +1,6 @@
-.wrapper-field.form-inputs
+= render 'events/claims/claim_details', claim: @claim
 
-  = render 'events/claims/claim_details', claim: @claim
-
-.wrapper-field.form-inputs
-  iframe id="tipaltiIframe" class="tipalti" frameBorder=0 src=@url
+iframe id="tipaltiIframe" class="tipalti" frameBorder=0 src=@url
 
 javascript:
   tipaltiHandler = function (evt) {

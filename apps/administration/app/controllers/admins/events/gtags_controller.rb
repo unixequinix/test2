@@ -13,12 +13,13 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
   end
 
   def show
-    @gtag = @fetcher.gtags.includes(credential_assignments: :customer_event_profile).find(params[:id])
+    @gtag = @fetcher.gtags.includes(credential_assignments: { customer_event_profile: :customer })
+            .find(params[:id])
   end
 
   def new
     @gtag = Gtag.new
-    @gtag.build_gtag_credit_log
+    @gtag.build_purchaser
   end
 
   def create
@@ -27,14 +28,13 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_gtags_url
     else
-      flash[:error] = @gtag.errors.full_messages.join(". ")
+      flash.now[:error] = @gtag.errors.full_messages.join(". ")
       render :new
     end
   end
 
   def edit
     @gtag = @fetcher.gtags.find(params[:id])
-    @gtag.build_gtag_credit_log unless @gtag.gtag_credit_log
   end
 
   def update
@@ -43,7 +43,7 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_gtag_url(current_event, @gtag)
     else
-      flash[:error] = @gtag.errors.full_messages.join(". ")
+      flash.now[:error] = @gtag.errors.full_messages.join(". ")
       render :edit
     end
   end
@@ -77,7 +77,7 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
       fetcher: @fetcher.gtags,
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [:assigned_gtag_credential, :gtag_credit_log],
+      include_for_all_items: [:assigned_gtag_credential],
       context: view_context
     )
   end
@@ -87,6 +87,6 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
       :event_id,
       :tag_uid,
       :tag_serial_number,
-      gtag_credit_log_attributes: [:id, :gtag_id, :amount, :_destroy])
+      purchaser_attributes: [:id, :first_name, :last_name, :email, :gtag_delivery_address])
   end
 end

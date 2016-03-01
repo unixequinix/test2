@@ -14,7 +14,7 @@
 FactoryGirl.define do
   factory :credit do |_param|
     standard false
-    value { Faker::Number.decimal(2) }
+    value { rand(100.00) }
     currency { %w(EUR GBP).sample }
 
     trait :standard do

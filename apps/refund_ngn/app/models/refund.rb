@@ -3,9 +3,7 @@
 # Table name: refunds
 #
 #  id                         :integer          not null, primary key
-#  created_at                 :datetime         not null
-#  updated_at                 :datetime         not null
-#  claim_id                   :integer
+#  claim_id                   :integer          not null
 #  amount                     :decimal(8, 2)    not null
 #  currency                   :string
 #  message                    :string
@@ -13,6 +11,8 @@
 #  gateway_transaction_number :string
 #  payment_solution           :string
 #  status                     :string
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
 #
 
 class Refund < ActiveRecord::Base

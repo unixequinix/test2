@@ -38,24 +38,24 @@
 
 FactoryGirl.define do
   factory :event do
-    name { Faker::Lorem.words(2).join + Faker::Code.ean }
-    location { Faker::Address.street_address }
+    name { "Festival #{SecureRandom.urlsafe_base64}" }
+    location { "#{rand(100)} some street" }
     start_date { Time.now }
     end_date { Time.now + 2.days }
-    description { Faker::Lorem.paragraph }
+    description "This paragraph is something special"
     support_email "valid@email.com"
     style "html{color:white;}"
-    url { Faker::Internet.url }
-    currency { "GBP" }
-    host_country { "GB" }
-    background_type { Event::BACKGROUND_TYPES.sample }
-    disclaimer { Faker::Lorem.words(2).join }
-    gtag_assignation_notification { Faker::Lorem.words(2).join }
-    gtag_form_disclaimer { Faker::Lorem.words(2).join }
-    gtag_name { Faker::Lorem.words(2).join }
-    info { Faker::Lorem.words(2).join }
-    mass_email_claim_notification { Faker::Lorem.words(2).join }
-    refund_success_message { Faker::Lorem.words(2).join }
+    url { "somedomain#{rand(100)}.example.com" }
+    currency "GBP"
+    host_country "GB"
+    background_type { EventDecorator::BACKGROUND_TYPES.sample }
+    disclaimer "Some Disclaimer"
+    gtag_assignation_notification "Some gtag assignation notification"
+    gtag_form_disclaimer "Some gtag form notification"
+    gtag_name "Some gtag name"
+    info "more info about the festival"
+    mass_email_claim_notification "We are sending you email"
+    refund_success_message "your refund has been successfull"
     refund_services 0
 
     trait :refund_services do

@@ -19,15 +19,13 @@ class Payments::StripePayer
 
   def charge(params)
     event = Event.friendly.find(params[:event_id])
-    token = params[:stripeToken]
-    order = Order.find(params[:order_id])
-    amount = order.total_stripe_formated
+    amount = Order.find(params[:order_id]).total_stripe_formated
     Stripe.api_key = Rails.application.secrets.stripe_platform_secret
     begin
       charge = Stripe::Charge.create(
         amount: amount, # amount in cents, again
         currency: event.currency,
-        source: token,
+        source: params[:stripeToken],
         description: "Payment of #{amount} #{event.currency}",
         destination: get_event_parameter_value(event, "stripe_account_id"))
 
@@ -41,22 +39,8 @@ class Payments::StripePayer
   def notify_payment(params, charge)
     return unless charge.status == "succeeded"
     order = Order.find(params[:order_id])
-    CreditLog.create(customer_event_profile_id: order.customer_event_profile.id, transaction_type: CreditLog::CREDITS_PURCHASE, amount: order.credits_total)
-    payment = Payment.new(
-      transaction_type: charge.source.object,
-      card_country: charge.source.country,
-      paid_at: Time.at(charge.created),
-      last4: charge.source.last4,
-      order: order,
-      response_code: charge.status,
-      authorization_code: charge.balance_transaction,
-      currency: charge.currency,
-      merchant_code: charge.balance_transaction,
-      amount: (charge.amount.to_f / 100), # last two digits are decimals,
-      success: true,
-      payment_type: 'stripe'
-    )
-    payment.save!
+    create_log(order)
+    create_payment(order, charge)
     order.complete!
     send_mail_for(order, Event.friendly.find(params[:event_id]))
   end
@@ -68,6 +52,33 @@ class Payments::StripePayer
   end
 
   def get_event_parameter_value(event, name)
-    EventParameter.find_by(event_id: event.id, parameter: Parameter.where(category: "payment", group: "stripe", name: name)).value
+    EventParameter.find_by(event_id: event.id,
+                           parameter: Parameter.where(category: "payment",
+                                                      group: "stripe",
+                                                      name: name)).value
+  end
+
+  def create_log(order)
+    CustomerCreditOnlineCreator.new(customer_event_profile: order.customer_event_profile,
+                                    transaction_source: CustomerCredit::CREDITS_PURCHASE,
+                                    amount: order.credits_total,
+                                    payment_method: "none",
+                                    money_payed: order.total
+                                   ).save
+  end
+
+  def create_payment(order, charge)
+    Payment.create!(transaction_type: charge.source.object,
+                    card_country: charge.source.country,
+                    paid_at: Time.at(charge.created),
+                    last4: charge.source.last4,
+                    order: order,
+                    response_code: charge.status,
+                    authorization_code: charge.balance_transaction,
+                    currency: charge.currency,
+                    merchant_code: charge.balance_transaction,
+                    amount: (charge.amount.to_f / 100), # last two digits are decimals,
+                    success: true,
+                    payment_type: 'stripe')
   end
 end

@@ -44,6 +44,7 @@ module GlownetWeb
     config.assets.precompile += %w[welcome_admin.css]
     config.assets.precompile += %w[admin.css admin.js]
     config.assets.precompile += %w[admin_mobile.css admin_mobile.js]
+    config.assets.precompile += %w[customer.css customer.js]
 
     config.paperclip_defaults = {
       storage: :s3,
@@ -58,7 +59,7 @@ module GlownetWeb
     # Custom exception handling
     config.exceptions_app = ->(env) {
       params = env["action_dispatch.request.parameters"]
-      namespace = params["controller"].split('/')[0].capitalize
+      namespace = params["controller"].split('/')[0].capitalize if params
       controller = namespace.nil? ? "ExceptionsController" : "#{namespace}::ExceptionsController"
       controller.constantize.action(:show).call(env)
     }

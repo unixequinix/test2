@@ -1,0 +1,11 @@
+ul
+  li.table-action.action-delete = link_to admins_event_pack_path(current_event, pack), method: :delete, data: { confirm: t('admin.confirm.delete') } do
+    = fa_icon "trash"
+  li.table-action.action-edit = link_to edit_admins_event_pack_path(current_event, pack) do
+    = fa_icon "edit"
+  - if pack.catalog_item.credential_type.present?
+      li.table-action.action-add_credential = link_to destroy_credential_admins_event_pack_path(current_event, pack), method: :delete, title: "Destroy Credential Type" do
+        = fa_icon "circle"
+  - else
+      li.table-action.action-add_credential = link_to create_credential_admins_event_pack_path(current_event, pack), title: "Create Credentia Type" do
+        = fa_icon "circle-thin"

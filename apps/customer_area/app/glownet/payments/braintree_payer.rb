@@ -50,26 +50,17 @@ class Payments::BraintreePayer
 
   def notify_payment(params, charge)
     transaction = charge.transaction
-    asdfasdf
     return unless transaction.status == "authorized"
     order = Order.find(params[:order_id])
-    customer_event_profile = order.customer_event_profile
-    CreditLog.create(customer_event_profile_id: order.customer_event_profile.id, transaction_type: CreditLog::CREDITS_PURCHASE, amount: order.credits_total)
-    binding.pry
-    payment = Payment.new(
-      order: order,
-      amount: (transaction.amount.to_f / 100), # last two digits are decimals,
-      merchant_code: transaction.id,
-      currency: order.customer_event_profile.event.currency,
-      paid_at: Time.at(transaction.created_at),
-      response_code: transaction,
-      success: true,
-      payment_type: 'braintree'
-    )
-    payment.save!
+    create_log(order)
+    create_payment(order, charge)
     order.complete!
-    customer_event_profile.gateway_customer(Event::BRAINTREE).update(token: transaction.customer_details.id)
+    # Create vault
+    customer_event_profile = order.customer_event_profile
+    customer_event_profile.gateway_customer(Event::BRAINTREE)
+                          .update(token: transaction.customer_details.id)
     customer_event_profile.save
+
     send_mail_for(order, Event.friendly.find(params[:event_id]))
   end
 
@@ -80,6 +71,34 @@ class Payments::BraintreePayer
   end
 
   def get_event_parameter_value(event, name)
-    EventParameter.find_by(event_id: event.id, parameter: Parameter.where(category: "payment", group: "braintree", name: name)).value
+    EventParameter.find_by(event_id: event.id,
+                           parameter: Parameter.where(category: "payment",
+                                                      group: "braintree",
+                                                      name: name)).value
+  end
+
+  def create_log(order)
+    CustomerCreditOnlineCreator.new(customer_event_profile: order.customer_event_profile,
+                                    transaction_source: CustomerCredit::CREDITS_PURCHASE,
+                                    amount: order.credits_total,
+                                    payment_method: "none",
+                                    money_payed: order.total
+                                   ).save
+  end
+
+  def create_payment(order, charge)
+    Payment.create!(transaction_type: transaction.payment_instrument_type,
+                    card_country: transaction.credit_card_details.country_of_issuance,
+                    paid_at: Time.at(transaction.created_at),
+                    last4: transaction.credit_card_details.last_4,
+                    order: order,
+                    response_code: transaction.processor_response_code,
+                    authorization_code: charge.balance_transaction,
+                    currency: order.customer_event_profile.event.currency,
+                    merchant_code: transaction.id,
+                    amount: (transaction.amount.to_f / 100), # last two digits are decimals,
+                    success: true,
+                    payment_type: 'braintree')
+
   end
 end

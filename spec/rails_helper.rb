@@ -2,6 +2,7 @@
 require 'simplecov'
 require 'spec_helper'
 require 'capybara/rspec'
+require 'capybara/poltergeist'
 
 ENV['RAILS_ENV'] ||= 'test'
 
@@ -16,6 +17,7 @@ unless ARGV.any? {|e| e =~ /guard-rspec/ }
     add_group "Helpers", "app/helpers"
     add_group "Controllers", "app/controllers"
     add_group "Mailers", "app/mailers"
+    add_group "Serializers", "app/serializers"
 
     add_filter "/spec/"
     add_filter "/config/"
@@ -48,6 +50,7 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
+Capybara.javascript_driver = :poltergeist
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -70,7 +73,7 @@ RSpec.configure do |config|
   #     end
   #
   # The different available types are documented in the features, such as in
-  # 
+  #
   # Model specs: type: :model
   # Controller specs: type: :controller
   # Request specs: type: :request
@@ -88,37 +91,21 @@ RSpec.configure do |config|
   config.include ParametersMacros, type: :feature
   config.include Warden::Test::Helpers
 
-  # Database cleaner
-  config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation)
-    Warden.test_mode!
-  end
+  Warden.test_mode!
+  Sidekiq::Testing.inline!
 
   config.before(:suite) do
     Seeder::SeedLoader.create_event_parameters
     Seeder::SeedLoader.create_claim_parameters
+    Sidekiq::Worker.clear_all
   end
 
-  config.before(:each) do
-    DatabaseCleaner.strategy = :transaction
+  config.expect_with :rspec do |expectations|
+    expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
 
-  config.before(:each, js: true) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.start
-  end
-
-  config.after(:each) do
-    Warden.test_reset!
-  end
-
-  config.after(:all) do
-    DatabaseCleaner.clean_with(:truncation)
-    Seeder::SeedLoader.create_event_parameters
-    Seeder::SeedLoader.create_claim_parameters
+  config.mock_with :rspec do |mocks|
+    mocks.verify_partial_doubles = true
   end
 
 end

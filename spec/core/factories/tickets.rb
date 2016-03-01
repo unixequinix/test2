@@ -17,12 +17,22 @@
 
 FactoryGirl.define do
   factory :ticket do
-    code { Faker::Number.number(10) }
-    purchaser_email { Faker::Internet.email }
-    purchaser_first_name { Faker::Name.first_name }
-    purchaser_last_name { Faker::Name.last_name }
+    code { "#{SecureRandom.urlsafe_base64}#{rand(1000)}" }
     event
     credential_redeemed { [true, false].sample }
     company_ticket_type
+
+    trait :banned do
+      after(:create) do |ticket|
+        create(:purchaser, credentiable: ticket)
+        create(:banned_ticket, ticket: ticket)
+      end
+    end
+
+    trait :with_purchaser do
+      after(:create) do |ticket|
+        create(:purchaser, credentiable: ticket)
+      end
+    end
   end
 end

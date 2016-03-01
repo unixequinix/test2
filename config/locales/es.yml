@@ -90,9 +90,22 @@ es:
       ticket:
         one: 'Ticket'
         other: 'Tickets'
+      company:
+        one: 'Companía'
+        other: 'Compañias'
+      pack:
+        one: 'Pack'
+        other: 'Packs'
+      credential_type:
+        one: 'Tipos de credencia'
+        other: 'Tipos de credencia'
+      company_ticket_type:
+        one: 'Tipo de ticket de compañía'
+        other: 'Tipos de ticket de compañía'
+      voucher:
+        one: 'Cupón'
+        other: 'Cupones'
     errors:
-      messages:
-        record_invalid: 'Registro no válido'
       models:
         customer:
           attributes:

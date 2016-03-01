@@ -1,7 +1,25 @@
 it:
   admin:
+    stations:
+      name: "Name"
+      type: "Type"
+      group: "Group"
+      items: "Products"
+      station_types:
+        customer_portal: "Customer Portal"
+        pos: "Point of sales"
+        topup: "Top Up"
+        refunds: "Refunds"
+        box_office: "Box Office"
+      station_groups:
+        online: "Online"
+      station_catalog_item:
+        name: "Name"
+        description: "Description"
+        price: "Price"
     companies:
       name: "Name"
+      token: "Company token"
     actions:
       new: "New"
       back: "Back"
@@ -18,6 +36,7 @@ it:
       update: "Update"
     event:
       name: 'Name'
+      token: "Event token"
       slug: 'Slug'
       url: 'Event url'
       support_email: 'Support email'
@@ -48,6 +67,10 @@ it:
         image: "Images"
         custom: "Custom styles"
         optional_form_parameters: "Optional form parameters"
+        security: "Security"
+        parameters: "Parameters"
+        limits: "Limits"
+        nfc: "NFC"
       states:
         created: 'Not published'
         launched: 'Pre-event'
@@ -81,6 +104,16 @@ it:
       form:
         format: 'Format'
         name: 'Name'
+        mifare_classic: "Mifare Classic"
+        ultralight_ev1: "Ultralight EV1"
+    device_settings:
+      form:
+        currency: "Currency Symbol"
+        min_version_apk: "Minimum APK version"
+        maximum_wb_balance: "Maximum wristband balance"
+        uid_reverse: "UID Reverse"
+        private_zone_password: "Private Zone Password"
+        public_key_a: "Tag Password"
     payment_settings:
       redsys:
         name: 'Name'
@@ -139,6 +172,7 @@ it:
     confirm:
       delete: "Are you sure?"
     aside:
+      logs: "Logs"
       access: "Access"
       event: "Event"
       details: "Details"
@@ -175,29 +209,28 @@ it:
       standard: "Standard"
       currency: "Currency"
       value: "Value"
-    preevent_product:
-      name: "Name"
-      online: "Online"
-      number_product_items: "Número de items"
-      initial_amount: "Initial Amount"
-      price: "Price"
-      step: "Step"
-      max_purchasable: "Max Purchasable"
-      min_purchasable: "Min Purchasable"
-    preevent_item:
+    catalog_item:
       name: "Name"
       description: "Description"
+      step: "Step"
+      initial_amount: "Initial Amount"
+      max_purchasable: "Max Purchasable"
+      min_purchasable: "Min Purchasable"
+      catalogable_type: "Type"
     vouchers:
       id: "Id"
-    credential_types:
-      memory_position: "Position"
-    entitlements:
-      name: "Name"
+    pack:
+      number_catalog_items: "Number of items"
+    credential_type:
+      id: "Id"
+      memory_position: "Posición en memoria"
+    entitlement:
+      unlimited: "Unlimited"
+      entitlement_type: "Entitlement type"
+      memory_position: "Memory position"
     company_ticket_types:
       name: "Name"
-      company: "Company"
-      number_products: "Number of Products"
-      company_ticket_type_ref: "Reference"
+      company_code: "Company code"
     ticket_types:
       id: "Id"
       name: "Name"
@@ -215,7 +248,7 @@ it:
       created_at: "Created at"
       admission: "Tickets registrations"
       search:
-        number: "Ticket barcode number"
+        code: "Ticket barcode number"
         customer: "Assigned customer email"
         purchaser_email: "Purchaser Email"
         type: "Type"
@@ -234,9 +267,10 @@ it:
         assigned: "Is assigned now"
         unassigned: "Previous assignation"
     purchasers:
-      name: "Purchaser Name"
-      surname: "Purchaser Surname"
+      first_name: "Purchaser Name"
+      last_name: "Purchaser Surname"
       email: "Purchaser Email"
+      gtag_delivery_address: "Gtag Delivery Address"
     gtags:
       id: "Id"
       tag: "Tag UID"
@@ -271,13 +305,20 @@ it:
       states:
         assigned: "Is assigned now"
         unassigned: "Previous assignation"
+      button: "Accetto"
+    customer_credits:
+      amount: "Amount"
+      refundable_amount: "Refundable amount"
+      value_credit: "value credit"
+      payment_method: "Payment method"
+      transaction_source: "Transaction source"
+      final_balance: "Final balance"
+      final_refundable_balance: "Final refundable balance"
     customers:
       delete: "Deleted"
       email: "Email"
-      name: "Name"
-      surname: "Surname"
-      confirmed_at: "Confirmed at"
-      confirmation_sent_at: "Confirmation sent at"
+      name: "First name"
+      surname: "Last name"
       tickets: "Tickets"
       ticket: "Ticket"
       gtags: "Gtags"
@@ -287,10 +328,12 @@ it:
       creadit_logs: "Credits logs"
       orders: "Orders"
       payments: "Payments"
-      gtag_registrations: "Gtag registrations"
+      gtag_assignments: "Gtag registrations"
       completed_claim: "Completed claims"
+      customer_orders: "Customer orders"
       refund: "Refund"
       claims: "Claims"
+      customer_credits: "Customer credits"
       gtag_credits: "Gtag Credits"
       tickets: "Tickets"
       credits: "Credits"
@@ -301,7 +344,6 @@ it:
       current_sign_ip: "Current sign in ip"
       agreed_event_condition: "Event condition agreed"
       last_sign_ip: "Last sign in ip"
-      unconfirmed: "Unconfirmed email"
       transactions: "Transactions"
       transactions_type: "Transactions type"
       created_at: "Created at"
@@ -313,7 +355,7 @@ it:
         email: "Type email"
         confirmed: "Confirmed?"
         tickets: "Tickets?"
-        gtag_registrations: "Gtags?"
+        gtag_assignments: "Gtags?"
         credits_purchased: "Credits Purchased?"
     claims:
       number: "Number"
@@ -361,7 +403,7 @@ it:
     customer_orders:
       id: "Id"
       counter: "Counter"
-      state: "Estado"
+      redeemed: "Redeemed"
       customer_event_profile: "Customer event profiles"
       preevent_product: "Preevent product"
     payments:

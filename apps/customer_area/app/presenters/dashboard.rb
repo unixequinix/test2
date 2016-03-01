@@ -10,7 +10,11 @@ class Dashboard
                           .includes(:credentiable, credentiable: :company_ticket_type)
     @gtag_assignment = customer_event_profile.active_gtag_assignment
     @completed_claim = customer_event_profile.completed_claim
-    @purchases = customer_event_profile.orders.unscoped.joins(:order_items).where(aasm_state: "completed").select("order_items.preevent_product_id as preevent_product_id", "sum(order_items.amount) as total_amount").group(:preevent_product_id).includes(:preevent_products)
+    @purchases = customer_event_profile
+                 .orders.unscoped.joins(:order_items).where(aasm_state: "completed")
+                 .select("order_items.catalog_item_id as catalog_item_id",
+                         "sum(order_items.amount) as total_amount")
+                 .group(:catalog_item_id).includes(:catalog_items)
 
     @presenters = []
   end

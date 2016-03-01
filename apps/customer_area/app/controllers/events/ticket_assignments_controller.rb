@@ -5,7 +5,9 @@ class Events::TicketAssignmentsController < Events::BaseController
 
   def create
     @ticket_assignment_form = TicketAssignmentForm.new(ticket_assignment_parameters)
-    if @ticket_assignment_form.save(Ticket.where(event: current_event), current_customer_event_profile, current_event)
+    if @ticket_assignment_form.save(Ticket.where(event: current_event),
+                                    current_customer_event_profile,
+                                    current_event)
       flash[:notice] = I18n.t("alerts.created")
       redirect_to event_url(current_event)
     else
@@ -17,12 +19,13 @@ class Events::TicketAssignmentsController < Events::BaseController
   def destroy
     @ticket_assignment = CredentialAssignment.find(params[:id])
     @ticket_assignment.unassign!
-
-    @credit_log = CreditLog.create(
-      customer_event_profile_id: current_customer_event_profile.id,
-      transaction_type: CreditLog::TICKET_UNASSIGNMENT,
-      amount: -preevent_product_items_credits.sum(:amount)
-    ) unless preevent_product_items_credits.blank?
+    ticket = @ticket_assignment.credentiable
+    @credit_log =
+      CustomerCreditOnlineCreator.new(customer_event_profile: customer_event_profile,
+                                      transaction_source: CustomerCredit::TICKET_UNASSIGNMENT,
+                                      payment_method: "none",
+                                      amount: -ticket.credits
+                                     ).save if ticket.credits.present?
     flash[:notice] = I18n.t("alerts.unassigned")
     redirect_to event_url(current_event)
   end
@@ -31,13 +34,5 @@ class Events::TicketAssignmentsController < Events::BaseController
 
   def ticket_assignment_parameters
     params.require(:ticket_assignment_form).permit(:code)
-  end
-
-  def preevent_product_items_credits
-    @ticket_assignment.credentiable
-      .company_ticket_type.preevent_product
-      .preevent_product_items
-      .joins(:preevent_item)
-      .where(preevent_items: { purchasable_type: "Credit" })
   end
 end

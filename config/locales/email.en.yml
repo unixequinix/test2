@@ -46,8 +46,8 @@ en:
         mail_link: "Change my password"
       gtag:
         assigned:
-          title: 'You have successfullCreatey applied for your refund!'
-          subject: 'You have successfully applied for your refund!'
+          title: '%{gtag} assigned'
+          subject: '%{gtag} assigned'
           greet: 'Hello %{name}!'
           mail_body: 'You assigned a %{gtag} with the id:'
         unassigned:

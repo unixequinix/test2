@@ -18,6 +18,9 @@ AllCops:
 Documentation:
   Enabled: false
 
+Metrics/LineLength:
+  Max: 100
+
 Style/StringLiterals:
   EnforcedStyle: double_quotes
   SupportedStyles:
@@ -25,8 +28,13 @@ Style/StringLiterals:
     - double_quotes
 
 Style/ClassAndModuleChildren:
-  EnforcedStyle: compact
-  SupportedStyles:
-    - nested
-    - compact
+  Enabled: false
 
+Metrics/AbcSize:
+  Max: 23
+
+Metrics/MethodLength:
+  Max: 15
+
+Lint/RequireParentheses:
+  Enabled: true

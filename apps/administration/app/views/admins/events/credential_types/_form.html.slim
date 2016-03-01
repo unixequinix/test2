@@ -1,8 +1,15 @@
 = simple_form_for [:admins, current_event, credential_type] do |f|
   .wrapper-negative-space
-    = f.simple_fields_for :preevent_item do |ppu|
-      = ppu.input :event_id, as: :hidden, input_html: { value: current_event.id }
-      = ppu.input :name, placeholder: true
-      = ppu.input :description, placeholder: true
+    .input.select.required.credential_type_catalog_item
+      label.select.required for="credential_type_catalog_item_id"
+        | Catalog item
+        abbr title="required"  *
+      select name="credential_type[catalog_item_id]" id="credential_type_catalog_item_id"
+        option disabled="" selected="" value=""  Select your option
+        - @catalog_items_collection.each do |key, value|
+          optgroup label=key
+          - value.each do |item|
+            option value=item.id #{item.name}
 
-    = f.button :submit, class: "btn btn-primary"
+      = f.button :submit, class: "btn btn-primary"
+

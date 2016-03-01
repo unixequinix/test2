@@ -2,12 +2,6 @@
 
 it:
   auth:
-    confirmations:
-      title: "Rinviare istruzioni di conferma"
-      confirmed: "Il tuo email è stata confermata. Fai login per continuare."
-      send_instructions: "Tra pochi minuti riceverai un email con le istruzioni su come confermare il tuo indirizzo email."
-      send_paranoid_instructions: "Se il tuo indirizzo email già esiste nel nostro database, riceverai tra pochi minuti un email con le istruzioni su come confermare il tuo indirizzo email."
-      button: "Rinviare"
     failure:
       already_authenticated: "Hai già effettuato l'accesso."
       inactive: "Il tuo account non è ancora stato attivato."
@@ -17,11 +11,8 @@ it:
       not_found_in_database: "Invalido %{authentication_keys} o password."
       timeout: "La sessione è scaduta. Accedi nuovamente per continuare."
       unauthenticated: "È neccessario accedere o registrarsi prima di poter continuare."
-      unconfirmed: "Bisogna confermare il indirizzo email per poter continuare."
       invalid_current_password: "invalido password"
     mailer:
-      confirmation_instructions:
-        subject: "Istruzioni di conferma"
       reset_password_instructions:
         subject: "Ripristina le istruzioni di password"
       unlock_instructions:
@@ -40,7 +31,6 @@ it:
       signed_up: "Benvenuto! Ti sei registrato con successo"
       signed_up_but_inactive: "Ti sei registrato con successo. Tuttavia, non siamo riusciti a farti entrare nel sistema perché il tuo account non è ancora stato attivato."
       signed_up_but_locked: "Ti sei registrato con successo. Tuttavia, non siamo riusciti a farti entrare nel sistema perché il tuo account è bloccato"
-      signed_up_but_unconfirmed: "Un messaggio con un link di conferma è stato inviato al tuo email. Clicca sul link per attivare il tuo account."
       update_needs_confirmation: "Il tuo account è stato aggiornato però dobbiamo verificare il tuo nuovo indirizzo email. Controlla la tua email e segui il link per confermare il tuo nuovo indirizzo email."
       updated: "Il tuo account è stato aggiornato."
     sessions:
@@ -54,9 +44,6 @@ it:
   errors:
     messages:
       unauthorized: "Credenziali non valide"
-      already_confirmed: "è giá stato confermato, prova fare log-in."
-      unconfirmed: "Bisogna confermare il indirizzo email per poter continuare."
-      confirmation_period_expired: "deve essere confermato entro %{period}, richiedine uno nuovo"
       expired: "è scaduto, richiedi uno nuovo"
       not_found: "non trovato"
       not_locked: "non è stato bloccato"

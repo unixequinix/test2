@@ -10,7 +10,7 @@ class Events::CheckoutsController < Events::BaseController
     @checkout_presenter = CheckoutsPresenter.new(current_event)
     @checkout_form = CheckoutForm.new(current_customer_event_profile)
 
-    if @checkout_form.submit(params[:checkout_form], @checkout_presenter.preevent_products)
+    if @checkout_form.submit(params[:checkout_form], @checkout_presenter.catalog_items)
       flash[:notice] = I18n.t("alerts.created")
       redirect_to event_order_url(current_event, @checkout_form.order)
     else

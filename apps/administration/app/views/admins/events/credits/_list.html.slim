@@ -2,8 +2,12 @@
 table.credits
   thead
     tr
-      th = t('admin.preevent_item.name')
-      th = t('admin.preevent_item.description')
+      th = t('admin.catalog_item.name')
+      th = t('admin.catalog_item.description')
+      th = t('admin.catalog_item.step')
+      th = t('admin.catalog_item.initial_amount')
+      th = t('admin.catalog_item.max_purchasable')
+      th = t('admin.catalog_item.min_purchasable')
       th = t('admin.credits.value')
       th = t('admin.credits.currency')
       th = t('admin.credits.standard')
@@ -11,8 +15,12 @@ table.credits
   tbody
     - credits.each do |credit|
       tr
-        td data-label=t('admin.preevent_item.name') = link_to_unless(credit.standard?, credit.preevent_item.name, edit_admins_event_credit_path(current_event, credit))
-        td data-label=t('admin.preevent_item.description') = credit.preevent_item.description
+        td data-label=t('admin.catalog_item.name') = link_to_unless(credit.standard?, credit.catalog_item.name, edit_admins_event_credit_path(current_event, credit))
+        td data-label=t('admin.catalog_item.description') = credit.catalog_item.description
+        td data-label=t('admin.catalog_item.step') = credit.catalog_item.step
+        td data-label=t('admin.catalog_item.initial_amount') = credit.catalog_item.initial_amount
+        td data-label=t('admin.catalog_item.max_purchasable') = credit.catalog_item.max_purchasable
+        td data-label=t('admin.catalog_item.min_purchasable') = credit.catalog_item.min_purchasable
         td data-label=t('admin.credits.value') = credit.value
         td data-label=t('admin.credits.currency') = credit.currency
         td data-label=t('admin.credits.standard') = credit.standard

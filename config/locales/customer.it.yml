@@ -44,7 +44,7 @@ it:
     purchases:
       header: "Your purchases"
     credits:
-      header: "Your Online Credit Balance"
+      header: "Your credits"
       call_to_action: "To avoid queues, top-up your wristband now for all your event purchases"
       call_to_action_started: "The event just started so you cannot topup anymore"
       call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Event Ticket first"
@@ -134,7 +134,7 @@ it:
     button: "Rimborso"
     button_iupay: "IUPAY"
     refund: "Verifica i tuoi crediti prima di richiedere il tuo rimborso"
-  gtag_registrations:
+  gtag_assignations:
     title: "Registra la tua Paycard"
     description:
       standard: "Per poter procedere inserisci i due codici così come appaiano sul retro della tua Paycard."
@@ -155,6 +155,8 @@ it:
     info:
       line_1: 'Solo numero da "0" a "9"'
       line_2: 'Simboli ammessi: "0" - "9" e "A, B, C, D, E, F"'
+  ticket_assignations:
+    button: "Aceptar"
   refund:
     title: "Richiedi rimborso"
     description: "Abbiamo bisogno dei tuoi dati bancari per poter completare la richiesta."
@@ -200,7 +202,6 @@ it:
     new:
       title: 'Iscriviti'
       info: 'Inserisci correttamente i tuoi dati personali in modo da poter fornire un servizio sicuro e conveniente.'
-      description: 'Tutti i campi in questo modulo sono necessari.'
       button: 'Iscriviti'
       details: "Per favore inserire i tuoi dettagli personali in modo che possiamo darti un servizio sicuro e personalizzato"
     edit:
