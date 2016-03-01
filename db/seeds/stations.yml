@@ -78,3 +78,11 @@
       name: envelope_linker
       description: "Envelope linker"
       enviorment: device
+-
+  name: touchpoint
+  icon_slug: touchpoint
+  types:
+    -
+      name: touchpoint
+      description: "Touchpoint"
+      enviorment: device
