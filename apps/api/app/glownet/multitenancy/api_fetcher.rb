@@ -12,7 +12,7 @@ class Multitenancy::ApiFetcher
   end
 
   def credential_types
-    CredentialType.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
+    CredentialType.includes(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
   def credits
