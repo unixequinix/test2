@@ -1,7 +1,6 @@
 class Companies::Api::V1::TicketTypesController < Companies::Api::V1::BaseController
   def index
-    @ticket_types = CompanyTicketType.search_by_company_and_event(current_company.name,
-                                                                  current_event)
+    @ticket_types = @fetcher.company_ticket_types
 
     render json: {
       event_id: current_event.id,
@@ -12,8 +11,7 @@ class Companies::Api::V1::TicketTypesController < Companies::Api::V1::BaseContro
   end
 
   def show
-    @ticket_type = CompanyTicketType.search_by_company_and_event(
-      current_company.name, current_event).find_by(id: params[:id])
+    @ticket_type = @fetcher.company_ticket_types.find_by(id: params[:id])
 
     if @ticket_type
       render json: Companies::Api::V1::TicketTypeSerializer.new(@ticket_type)
@@ -26,9 +24,8 @@ class Companies::Api::V1::TicketTypesController < Companies::Api::V1::BaseContro
   end
 
   def create
-    @ticket_type = CompanyTicketType.new(ticket_type_params)
+    @ticket_type = agreement.company_ticket_types.build(ticket_type_params)
     @ticket_type.event = current_event
-    @ticket_type.company = current_company
 
     if @ticket_type.save
       render status: :created, json: Companies::Api::V1::TicketTypeSerializer.new(@ticket_type)
@@ -39,10 +36,7 @@ class Companies::Api::V1::TicketTypesController < Companies::Api::V1::BaseContro
   end
 
   def update
-    @ticket_type = CompanyTicketType.includes(:company)
-                   .find_by(id: params[:id],
-                            event: current_event,
-                            companies: { name: current_company.name })
+    @ticket_type = @fetcher.company_ticket_types.find_by(id: params[:id])
 
     if @ticket_type.update(ticket_type_params)
       render json: Companies::Api::V1::TicketTypeSerializer.new(@ticket_type)

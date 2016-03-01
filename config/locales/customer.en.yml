@@ -27,8 +27,10 @@ en:
     forgot: 'Forgot your password?'
     resend_confirmation: "Didn't receive confirmation e-mail?"
     buttons:
-      sign_in: 'Log in'
-      sign_up: 'Register'
+      sign_in: 'Login'
+      sign_up: 'Create account'
+      join: 'Join'
+      back: 'Back to home'
   dashboard:
     title: "My dashboard"
     admissions:
@@ -40,12 +42,11 @@ en:
     without_admissions:
       call_to_action: "Only activate the ticket(s) which you will be using YOURSELF"
       description: "Do NOT activate your friend's tickets under your account."
-      button: "Activate Ticket"
+      button: "Add more"
     purchases:
       header: "Your purchases"
     credits:
-      header: "Your Online Credit Balance"
-      call_to_action: "To avoid queues, top-up your %{gtag} now for all your event purchases"
+      header: "Your credits"
       call_to_action_started: "The event just started so you cannot topup anymore"
       call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Event Ticket first"
       button: "Top-up"
@@ -65,6 +66,7 @@ en:
       claim: "There was an error on your refund"
       description: "Try to go back to your dashboard and claim again."
     without_gtags:
+      add : "Add your id number"
       title: "Credits left?"
       description: "Assign your %{gtag} to start the refund process. Only one %{gtag} can be activated per account."
       button: "Assign %{gtag}"
@@ -77,8 +79,9 @@ en:
       description: "The refunds period is finished, If you have any question contact support."
     gtag_registration:
       title: "Your %{gtag} number:"
-      call_to_action: "Put a wrong %{gtag} by mistake?"
-      button: "Erase and restart the process"
+      call_to_action: "Edit"
+      button: "Change"
+      hint: "Put a wrong wristband by mistake? Erase and restart the process"
     gtag_after_refund:
       description: "Your refund is in process"
     without_refunds:
@@ -105,6 +108,7 @@ en:
     description: "After you buy online credits here, they will automatically be applied to your %{gtag} once you enter the event."
     total: "Total"
     button: "Confirm Order"
+    store: " store"
   orders:
     title: "Confirm Top-up"
     description: "Please, review your order and proceed to payment."
@@ -205,9 +209,8 @@ en:
       password_confirmation: "Confirm your new password"
   registration:
     new:
-      title: 'Sign up'
+      title: 'Get started'
       info: 'Please enter your correct personal details below so that we can provide you with secure and convenient service.'
-      description: 'All the fields in this form are required.'
       button: 'Sign up'
       details: "Please provide your personal details as a event visitor. This will allow us to give you a secure and personalized service"
     edit:
@@ -222,6 +225,15 @@ en:
       description: 'This is how it works'
       button: 'Log in'
       copy: 'What are the advantages?'
+    placeholder:
+      email: 'e.g. nickname@mail.com'
+      password: 'e.g. · · · · · ·'
+      name: 'e.g. Richard'
+      last_name: 'e.g. Hendricks'
+      phone: 'e.g. 111 22 33 44'
+      address: 'e.g. 1 Pied Piper'
+      city: 'e.g. Madrid'
+      post: 'e.g. 28012'
   cancel:
     title: 'Cancel my account'
     unhappy: 'Write us an email, we want to know what happened!'

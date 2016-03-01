@@ -1,23 +1,26 @@
-header
-  nav
+header.header-desktop
+  h1
+    = link_to event_url(current_event) do
+      = current_event.name
+  .wrapper-breadcrumbs
+    a Home
+    span.separator >
+    a.current-breadcrumb Store
+  nav.header-nav
     ul
-      li.nav-logo
-        = link_to href="http://www.glownet.com", target:"_blank"
-          = image_tag 'admin-logo.png'
-      li.nav-item
-        = link_to event_url(current_event), class: "nav-link" do
-          = t('header.menu')
-      li.nav-item
-        = link_to href="#{current_event.url}", target: "_blank", class:"nav-link" do
-          = current_event.name
-      li.nav-item
-        = mail_to current_event.support_email, t('header.help'), subject: t('event.subject_support', event: current_event.name), class: "nav-link"
+      li
+        = fa_icon "envelope"
+        = mail_to current_event.support_email, t('header.help'), subject: t('event.subject_support', event: current_event.name)
 
       - if customer_signed_in?
-        li.nav-item
-          = link_to edit_event_registrations_path(current_event, current_customer), class:"nav-link" do
+        li
+          = link_to edit_event_registrations_path(current_event, current_customer) do
+            = fa_icon "user"
             = current_customer.name
 
-        li.nav-end-session
+        li
           = link_to event_logout_path(current_event), method: :delete do
             = fa_icon "sign-out"
+            = t('header.logout')
+
+

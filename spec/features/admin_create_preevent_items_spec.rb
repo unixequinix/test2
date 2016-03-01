@@ -3,17 +3,13 @@ require "rails_helper"
 RSpec.feature "Admin create preevent items", type: :feature do
   context "with an admin signed in" do
     before :each do
-      @event_creator = EventCreator.new(event_to_hash_parameters(build(:event)))
-      @event_creator.save
-      @event = @event_creator.event
-      @customer = create(:customer, event: @event, confirmation_token: nil, confirmed_at: Time.now)
-
+      @event = create(:event)
       admin = create(:admin)
       login_as(admin, scope: :admin)
-      @gtag = create(:gtag, event: @event)
     end
+
     it "should be able to create a credit" do
-      visit "/admins/events/#{@event_creator.event.slug}/credits"
+      visit "/admins/events/#{@event.slug}/credits"
       within(".action-bar-btns") do
         click_link(t("admin.actions.new"))
       end
@@ -26,7 +22,7 @@ RSpec.feature "Admin create preevent items", type: :feature do
     end
 
     it "should be able to create a credential type" do
-      visit "/admins/events/#{@event_creator.event.slug}/credential_types"
+      visit "/admins/events/#{@event.slug}/credential_types"
       within(".action-bar-btns") do
         click_link(t("admin.actions.new"))
       end
@@ -37,7 +33,7 @@ RSpec.feature "Admin create preevent items", type: :feature do
     end
 
     it "should be able to create a voucher" do
-      visit "/admins/events/#{@event_creator.event.slug}/vouchers"
+      visit "/admins/events/#{@event.slug}/vouchers"
       within(".action-bar-btns") do
         click_link(t("admin.actions.new"))
       end

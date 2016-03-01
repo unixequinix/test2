@@ -10,8 +10,10 @@ class EventCreator
     @event = Event.new(@params)
     @event.save
     standard_credit
+    customer_portal_station
     default_event_parameters
     default_event_translations
+    @event
   end
 
   def default_event_parameters
@@ -33,35 +35,19 @@ class EventCreator
 
   def standard_credit
     YAML.load_file(Rails.root.join("db", "seeds", "standard_credits.yml")).each do |data|
-      preevent_item = build_preevent_item(data["preevent_item"])
-      create_credit(data["credit"], preevent_item)
-      create_preevent_product(data["preevent_product"],
-                              data["preevent_product_item"],
-                              preevent_item)
+      Credit.create!(standard: data["standard"],
+                     currency: data["currency"],
+                     value: data["value"],
+                     catalog_item_attributes: { event_id: @event.id,
+                                                name: data["name"],
+                                                step: data["step"],
+                                                min_purchasable: data["min_purchasable"],
+                                                max_purchasable: data["max_purchasable"],
+                                                initial_amount: data["initial_amount"] })
     end
   end
 
-  private
-
-  def build_preevent_item(preevent_item_data)
-    PreeventItem.new(event_id: @event.id,
-                     name: preevent_item_data["name"],
-                     description: preevent_item_data["description"])
-  end
-
-  def create_credit(credit_data, preevent_item)
-    Credit.create(standard: credit_data["standard"],
-                  value: credit_data["value"],
-                  currency: credit_data["currency"],
-                  preevent_item: preevent_item)
-  end
-
-  def create_preevent_product(product_data, product_item_data, item)
-    data = %w( name online initial_amount step min_purchasable max_purchasable price )
-    params = data.map { |name| [name, product_data[name]] }.to_h
-    params.merge!(event: @event,
-                  preevent_product_items_attributes: [{ preevent_item: item,
-                                                        amount: product_item_data["amount"] }])
-    PreeventProduct.create(params)
+  def customer_portal_station
+    Station.create!(event: @event, name: "Customer Portal", station_type_id: 1)
   end
 end

@@ -59,8 +59,12 @@ class Payments::StripePayer
   end
 
   def create_log(order)
-    CreditLog.create(customer_event_profile_id: order.customer_event_profile.id,
-                     transaction_type: CreditLog::CREDITS_PURCHASE, amount: order.credits_total)
+    CustomerCreditOnlineCreator.new(customer_event_profile: order.customer_event_profile,
+                                    transaction_source: CustomerCredit::CREDITS_PURCHASE,
+                                    amount: order.credits_total,
+                                    payment_method: "none",
+                                    money_payed: order.total
+                                   ).save
   end
 
   def create_payment(order, charge)

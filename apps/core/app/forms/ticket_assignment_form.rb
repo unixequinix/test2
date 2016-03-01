@@ -22,11 +22,11 @@ class TicketAssignmentForm
   def persist!(ticket, customer_event_profile)
     customer_event_profile.save
     customer_event_profile.credential_assignments.create(credentiable: ticket)
-    CreditLog.create(
-      customer_event_profile: customer_event_profile,
-      transaction_type: CreditLog::TICKET_ASSIGNMENT,
-      amount: ticket.preevent_product_items_credits.sum(:amount)
-    ) if ticket.preevent_product_items_credits.present?
+    CustomerCreditCreator.new(customer_event_profile: customer_event_profile,
+                              transaction_source: CustomerCredit::TICKET_ASSIGNMENT,
+                              amount: ticket.credits,
+                              payment_method: "none"
+                             ).save if ticket.credits.present?
     customer_event_profile
   end
 end

@@ -7,10 +7,10 @@ RSpec.feature "Gtag assignation", type: :feature do
       @event_creator = EventCreator.new(event_parameters)
       @event_creator.save
       @event = @event_creator.event
-      ep = EventParameter.find_by(event: Event.first, parameter: 1)
+      ep = EventParameter.find_by(event: @event, parameter: 1)
       ep.value = "standard"
       @gtag_format = "standard" if ep.save
-      @customer = build(:customer, event: @event, confirmation_token: nil, confirmed_at: Time.now)
+      @customer = build(:customer, event: @event)
       create(:customer_event_profile, customer: @customer, event: @event)
 
       login_as(@customer, scope: :customer)

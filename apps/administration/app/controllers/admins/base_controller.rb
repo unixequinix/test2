@@ -34,6 +34,10 @@ class Admins::BaseController < ApplicationController
         Admin.where(id: warden.user(:admin)["id"]).empty?
   end
 
+  def prepare_for_mobile
+    prepend_view_path Rails.root + "apps" + "administration" + "app" + "views_mobile"
+  end
+
   private
 
   def write_locale_to_session

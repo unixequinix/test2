@@ -19,7 +19,6 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
 
   def new
     @gtag = Gtag.new
-    @gtag.build_gtag_credit_log
     @gtag.build_purchaser
   end
 
@@ -36,7 +35,6 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
 
   def edit
     @gtag = @fetcher.gtags.find(params[:id])
-    @gtag.build_gtag_credit_log unless @gtag.gtag_credit_log
   end
 
   def update
@@ -79,7 +77,7 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
       fetcher: @fetcher.gtags,
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [:assigned_gtag_credential, :gtag_credit_log],
+      include_for_all_items: [:assigned_gtag_credential],
       context: view_context
     )
   end
@@ -89,7 +87,6 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
       :event_id,
       :tag_uid,
       :tag_serial_number,
-      gtag_credit_log_attributes: [:id, :gtag_id, :amount, :_destroy],
       purchaser_attributes: [:id, :first_name, :last_name, :email, :gtag_delivery_address])
   end
 end

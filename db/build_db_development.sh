@@ -15,6 +15,7 @@ bin/rake RAILS_ENV=development db:seed
 echo 'Populate'
 bin/rake RAILS_ENV=development db:create_admin_access
 bin/rake RAILS_ENV=development db:populate
+bin/rake RAILS_ENV=development db:stations
 
 echo 'Test Database config'
 bin/rake RAILS_ENV=test db:drop

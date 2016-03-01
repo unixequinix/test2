@@ -13,13 +13,9 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
       :customer_event_profile,
       customer_event_profile: [:ticket_assignments,
                                :active_gtag_assignment,
-                               credential_assignments: :credentiable]
+                               credential_assignments: :credentiable,
+                               customer_orders: :preevent_product]
     ).find(params[:id])
-  end
-
-  def resend_confirmation
-    @customer = @fetcher.customers.find(params[:id])
-    CustomerMailer.confirmation_instructions_email(@customer).deliver_later
   end
 
   def set_presenter

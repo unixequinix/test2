@@ -1,0 +1,23 @@
+.wrapper-module
+  h3= @presenter.credentiable_name
+  ul
+    li.ticket-detail-module
+      ul
+        = @presenter.credentiable_type
+        = @presenter.credentiable_code
+    li.ticket-detail-module
+      ul
+        label Products
+        - @presenter.products.each do |product|
+          li= product.name
+
+  = link_to customer_root_path, class: "btn btn-remove-ticket" do
+    = fa_icon "chevron-left"
+    | Back
+
+  = link_to event_ticket_assignment_path(current_event, @presenter.assignment),
+            class: "btn btn-remove-ticket pull-right",
+            data: { confirm: (t("confirm.remove_ticket")) },
+            method: :delete do
+    = fa_icon "trash"
+    | Remove

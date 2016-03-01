@@ -1,24 +1,26 @@
-.product-amount
-  = fa_icon "minus-circle", class: "amount-button",
-    data: { id: "#{preevent_product.id}",
-      price: "#{preevent_product.price}",
-      operation: "minus",
-      step: "#{preevent_product.step}" }
-  = number_field_tag "checkout_form[preevent_products][#{preevent_product.id}]", "#{preevent_product.initial_amount}", autocomplete: :off,
-    min: "#{preevent_product.min_purchasable}",
-    max: "#{preevent_product.max_purchasable}",
-    step: "#{preevent_product.step}",
-    id: "amount-input-#{preevent_product.id}",
-    class: "amount-input",
-    data: { id: "#{preevent_product.id}", price: "#{preevent_product.price}" }
-  = fa_icon "plus-circle",
-    class: "amount-button",
-    data: { id: "#{preevent_product.id}",
-      price: "#{preevent_product.price}",
-      operation: "plus",
-      step: "#{preevent_product.step}" }
-.credit-total
-  h3 = t('checkout.total')
-  .top-up-amount [data-id="#{preevent_product.id}"]
-    span [id="amount-total-#{preevent_product.id}"] #{(preevent_product.rounded_price * preevent_product.initial_amount)}
-    span #{current_event.currency}
+.store-module
+  .product-amount
+    .minus-button
+      = fa_icon "minus", class: "amount-button",
+        data: { id: "#{catalog_item.id}",
+          price: "#{catalog_item.price}",
+          operation: "minus",
+          step: "#{catalog_item.step}" }
+    .wrapper-credits-total
+      = number_field_tag "checkout_form[catalog_items][#{catalog_item.id}]", "#{catalog_item.initial_amount}", autocomplete: :off,
+        min: "#{catalog_item.min_purchasable}",
+        max: "#{catalog_item.max_purchasable}",
+        step: "#{catalog_item.step}",
+        id: "amount-input-#{catalog_item.id}",
+        class: "amount-input",
+        data: { id: "#{catalog_item.id}", price: "#{catalog_item.price}" }
+      .top-up-amount [data-id="#{catalog_item.id}"]
+        span [id="amount-total-#{catalog_item.id}"] #{(catalog_item.price * catalog_item.initial_amount)}
+        span #{current_event.currency}
+    .plus-button
+      = fa_icon "plus",
+        class: "amount-button",
+        data: { id: "#{catalog_item.id}",
+          price: "#{catalog_item.price}",
+          operation: "plus",
+          step: "#{catalog_item.step}" }

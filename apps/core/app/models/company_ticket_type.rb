@@ -2,30 +2,31 @@
 #
 # Table name: company_ticket_types
 #
-#  id                      :integer          not null, primary key
-#  company_id              :integer
-#  preevent_product_id     :integer
-#  event_id                :integer
-#  name                    :string
-#  company_ticket_type_ref :string
-#  deleted_at              :datetime
-#  created_at              :datetime         not null
-#  updated_at              :datetime         not null
+#  id                         :integer          not null, primary key
+#  event_id                   :integer          not null
+#  company_event_agreement_id :integer          not null
+#  credential_type_id         :integer
+#  name                       :string
+#  company_code               :string
+#  deleted_at                 :datetime
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
 #
 
 class CompanyTicketType < ActiveRecord::Base
   acts_as_paranoid
 
   belongs_to :event
-  belongs_to :preevent_product
-  belongs_to :company
+  belongs_to :credential_type
+  belongs_to :company_event_agreement
 
-  validates :name, :company, presence: true
+  validates :name, :company_code, presence: true
+  validates :company_code, uniqueness: { scope: :company_event_agreement }
 
-  scope :companies, -> (event) { joins(:company).where(event: event).pluck("companies.name").uniq }
-
-  scope :search_by_company_and_event, lambda { |company, event|
-    joins(:company).where(event: event, companies: { name: company })
+  scope :companies, lambda  { |_event|
+    joins(company_event_agreement: :company)
+      .where(company_event_agreements: { event_id: Event.first.id })
+      .pluck("companies.name").uniq
   }
 
   def self.form_selector(event)

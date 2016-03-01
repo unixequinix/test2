@@ -44,7 +44,7 @@ it:
     purchases:
       header: "Your purchases"
     credits:
-      header: "Your Online Credit Balance"
+      header: "Your credits"
       call_to_action: "To avoid queues, top-up your wristband now for all your event purchases"
       call_to_action_started: "The event just started so you cannot topup anymore"
       call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Event Ticket first"
@@ -202,7 +202,6 @@ it:
     new:
       title: 'Iscriviti'
       info: 'Inserisci correttamente i tuoi dati personali in modo da poter fornire un servizio sicuro e conveniente.'
-      description: 'Tutti i campi in questo modulo sono necessari.'
       button: 'Iscriviti'
       details: "Per favore inserire i tuoi dettagli personali in modo che possiamo darti un servizio sicuro e personalizzato"
     edit:

@@ -15,6 +15,7 @@ class Api::V1::PreeventProductSerializer < Api::V1::BaseSerializer
     selected.map(&:id)
   end
 
+  # INFO: Right now it's the sum of all the Credits, ignoring Credit Types.
   def credits
     selected = object.preevent_product_items.select do |item|
       item.preevent_item.purchasable_type == "Credit"

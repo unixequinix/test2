@@ -8,7 +8,6 @@ class CustomerPasswordStrategy < ::Warden::Strategies::Base
     not_ok = !Authentication::Encryptor.compare(customer.encrypted_password, c_attr("password"))
 
     fail!(message: "errors.messages.unauthorized") && return if customer.nil? || not_ok
-    fail!(message: "errors.messages.unconfirmed") && return if customer.confirmed_at.nil?
 
     customer.update_tracked_fields!(request)
     success!(customer)

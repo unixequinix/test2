@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Api::V1::Events::CreditsController, type: :controller do
   before(:all) do
     @event = create(:event)
-    5.times { create(:preevent_item_credit, event: @event) }
+    create_list(:preevent_item_credit, 2, event: @event)
   end
 
   describe "GET index" do

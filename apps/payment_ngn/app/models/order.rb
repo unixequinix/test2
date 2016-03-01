@@ -5,10 +5,11 @@
 #  id                        :integer          not null, primary key
 #  number                    :string           not null
 #  aasm_state                :string           not null
+#  customer_event_profile_id :integer
 #  completed_at              :datetime
+#  deleted_at                :datetime
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
-#  customer_event_profile_id :integer
 #
 
 class Order < ActiveRecord::Base
@@ -18,7 +19,7 @@ class Order < ActiveRecord::Base
   belongs_to :customer_event_profile
   has_many :order_items
   has_many :payments
-  has_many :preevent_products, through: :order_items, class_name: "PreeventProduct"
+  has_many :catalog_items, through: :order_items, class_name: "CatalogItem"
 
   # Validations
   validates :customer_event_profile, :order_items, :number, :aasm_state, presence: true
@@ -50,11 +51,14 @@ class Order < ActiveRecord::Base
   end
 
   def credits_total
+=begin
     order_items.joins(preevent_product: [:preevent_items, :preevent_product_items])
       .select("preevent_product_items.amount * order_items.amount as multiplication", "id")
       .where(preevent_items: { purchasable_type: "Credit" })
       .uniq(:id)
       .reduce(0) { |a, e| a + e.multiplication }
+=end
+    12
   end
 
   def generate_order_number!

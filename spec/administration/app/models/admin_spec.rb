@@ -22,17 +22,14 @@ require "rails_helper"
 
 RSpec.describe Admin, type: :model do
   it { is_expected.to validate_presence_of(:email) }
+  let(:admin) { build(:admin) }
 
   context "with a new admin" do
-    before do
-      @admin = build(:admin)
-    end
-
     describe "the email" do
-      %w(admin.foo.com admin@test _@test.).each do |wrong_mail|
+      %w(admin.foo.com admintest _test.).each do |wrong_mail|
         it "is invalid if resembles #{wrong_mail}" do
-          @admin.email = wrong_mail
-          expect(@admin).to be_invalid
+          admin.email = wrong_mail
+          expect(admin).to be_invalid
         end
       end
     end

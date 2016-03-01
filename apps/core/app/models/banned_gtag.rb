@@ -3,7 +3,7 @@
 # Table name: banned_gtags
 #
 #  id         :integer          not null, primary key
-#  gtag_id    :integer
+#  gtag_id    :integer          not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

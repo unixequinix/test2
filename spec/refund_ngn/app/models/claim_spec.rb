@@ -19,10 +19,18 @@
 require "rails_helper"
 
 RSpec.describe Claim, type: :model do
+  let(:event) { build(:event) }
+
+  before :each do
+    ClaimParameter.destroy_all
+    Refund.destroy_all
+    Claim.destroy_all
+    Seeder::SeedLoader.load_param(event, category: "refund")
+  end
+
   describe "Claim.selected_data" do
     it "prepares the rows with the default columns and the extra columns for a csv exportation" do
-      gtag = create(:gtag)
-      event = gtag.event
+      gtag = create(:gtag, event: event)
       customer = create(:customer, event: event)
       customer_event_profile = create(:customer_event_profile, customer: customer, event: event)
       claim = create(:claim,

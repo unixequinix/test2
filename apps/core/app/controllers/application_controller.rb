@@ -26,7 +26,6 @@ class ApplicationController < ActionController::Base
   end
 
   def prepare_for_mobile
-    prepend_view_path Rails.root + "app" + "views_mobile"
   end
 
   def mobile_device?
@@ -49,5 +48,12 @@ class ApplicationController < ActionController::Base
     id = params[:event_id] || params[:id]
     return false unless id
     @current_event = Event.find_by_slug(id) || Event.find(id) if id
+  end
+
+  def restrict_access_with_http
+    authenticate_or_request_with_http_basic do |email, token|
+      admin = Admin.find_by(email: email)
+      admin && admin.valid_token?(token)
+    end
   end
 end

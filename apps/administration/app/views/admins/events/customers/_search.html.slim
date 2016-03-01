@@ -10,7 +10,5 @@ p.menu-header
     = f.input :customer_event_profile_active_tickets_assignment_id_not_null, as: :select, label: t("admin.customers.search.tickets")
     = f.input :customer_event_profile_active_gtag_assignment_id_not_null, as: :select, label: t("admin.customers.search.gtag_assignments")
     = f.input :customer_event_profile_credit_purchased_logs_id_not_null, as: :select, label: t("admin.customers.search.credits_purchased")
-    = f.input :confirmed_at_not_null, as: :select, label: t("admin.customers.search.confirmed")
 
     = f.submit class: "btn btn-secondary"
-

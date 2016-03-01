@@ -91,6 +91,14 @@ RSpec.configure do |config|
   config.include ParametersMacros, type: :feature
   config.include Warden::Test::Helpers
 
+  Warden.test_mode!
+  Sidekiq::Testing.inline!
+
+  config.before(:suite) do
+    Seeder::SeedLoader.create_event_parameters
+    Seeder::SeedLoader.create_claim_parameters
+    Sidekiq::Worker.clear_all
+  end
 
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
@@ -98,36 +106,6 @@ RSpec.configure do |config|
 
   config.mock_with :rspec do |mocks|
     mocks.verify_partial_doubles = true
-  end
-
-  # Database cleaner
-  config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation)
-    Warden.test_mode!
-  end
-
-  config.before(:suite) do
-    Seeder::SeedLoader.create_event_parameters
-    Seeder::SeedLoader.create_claim_parameters
-  end
-
-  config.before(:each, js: true) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.start
-    Sidekiq::Worker.clear_all
-  end
-
-  config.after(:each) do
-    Warden.test_reset!
-  end
-
-  config.after(:all) do
-    DatabaseCleaner.clean_with(:truncation)
-    Seeder::SeedLoader.create_event_parameters
-    Seeder::SeedLoader.create_claim_parameters
   end
 
 end

@@ -58,10 +58,11 @@ class Event < ActiveRecord::Base
   has_many :customers
   has_many :tickets
   has_many :gtags
-  has_many :companies
+  has_many :company_event_agreements
+  has_many :companies, through: :company_event_agreements
   has_many :transactions
-  has_many :preevent_items
-  has_many :credits, through: :preevent_items, source: :purchasable, source_type: "Credit"
+  has_many :catalog_items
+  has_many :credits, through: :catalog_items, source: :catalogable, source_type: "Credit"
   has_many :tickets_assignments, through: :tickets, source: :credential_assignments,
                                  class_name: "CredentialAssignment"
   has_many :gtags_assignments, through: :gtags, source: :credential_assignments,
@@ -99,7 +100,7 @@ class Event < ActiveRecord::Base
   end
 
   def total_credits
-    gtags.joins(:gtag_credit_log).sum(:amount)
+    customer_event_profiles.joins(:current_balance).sum(:amount)
   end
 
   def total_refundable_money(refund_service)
@@ -134,7 +135,7 @@ class Event < ActiveRecord::Base
   def gtag_query(refund_service)
     fee = refund_fee(refund_service)
     min = refund_minimun(refund_service)
-    gtags.joins(:credential_assignments, :gtag_credit_log)
+    gtags.joins(:credential_assignments)
       .where("credential_assignments.aasm_state = 'assigned'")
       .where("((amount * #{standard_credit_price}) - #{fee}) >= #{min}")
       .where("((amount * #{standard_credit_price}) - #{fee}) > 0")

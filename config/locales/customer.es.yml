@@ -28,7 +28,9 @@ es:
     resend_confirmation: "¿No has recibido el email de confirmación?"
     buttons:
       sign_in: 'Inicia Sesión'
-      sign_up: 'Registrar'
+      sign_up: 'Crear cuenta'
+      join: 'Únete'
+      back: 'Volver a la home'
   dashboard:
     title: "My dashboard"
     admissions:
@@ -41,12 +43,11 @@ es:
     without_admissions:
       call_to_action: "Solo activa los tickets que vayas a utilizar"
       description: "NO actives los tickets de tus amigos en tu cuenta."
-      button: "Activar Ticket"
+      button: "Añadir"
     purchases:
       header: "Tus compras"
     credits:
-      header: "Tu Balance de créditos"
-      call_to_action: "Para evitar colas, recarga tu %{gtag} ahora para todas tus compras dentro del evento"
+      header: "Tus créditos"
       call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"
       call_to_action_no_admission_html: "Para poder recargar online,<br>deberás activar un Ticket primero"
       button: "Recarga"
@@ -70,6 +71,7 @@ es:
       description: "Introduce tu %{gtag} para empezar el proceso de devolución. Sólo una %{gtag} puede ser activada por cuenta."
       button: "Introducir %{gtag}"
     without_gtags_disabled:
+      add : "Añade tu id"
       claim: "El tiempo para solicitar tu devolución de créditos en tu %{gtag} ha terminado"
       description: "Si has contactado al soporte con alguna pregunta previamente,"
       description2: "no te preocupes, te ayudaremos con tu devolución."
@@ -79,7 +81,8 @@ es:
     gtag_registration:
       title: "Tu número de %{gtag}:"
       call_to_action: "¿Introdujiste una incorrecta por error?"
-      button: "Borrala y reinicia el proceso"
+      button: "Cambiar"
+      hint: "Has introducido una pulsera por error? Bórrala y reinicia el proceso"
     gtag_after_refund:
       description: "Tu devolución está en proceso"
     without_refunds:
@@ -106,6 +109,7 @@ es:
     description: "Los créditos que compras aquí serán añadidos automáticamente a tu %{gtag} al entrar al evento."
     total: "Total"
     button: "Confirmar Orden"
+    store: " tienda"
   orders:
     title: "Confirmar Recarga"
     description: "Por favor, revisa tu órden y procede a realizar el pago."
@@ -202,7 +206,6 @@ es:
     new:
       title: 'Regístrate'
       info: 'Por favor introduce tus detalles personales para que podamos ofrecerte un servicio seguro y conveniente.'
-      description: 'Todos los campos son obligatorios.'
       button: 'Regístrate'
       details: 'Por favor introduce tus datos personales. Esto permitirá proporcionarte un servicio más seguro y personalizado'
     edit:
@@ -217,6 +220,16 @@ es:
       description: 'Así es como funciona'
       button: 'Inicia Sesión'
       copy: '¿Qué ventajas tiene?'
+    placeholder:
+      email: 'ej. nickname@mail.com'
+      password: 'ej. · · · · · ·'
+      name: 'ej. Richard'
+      last_name: 'ej. Hendricks'
+      phone: 'ej. 111 22 33 44'
+      address: 'ej. C/ Pied Piper'
+      city: 'ej. Madrid'
+      post: 'ej. 28012'
+
   cancel:
     title: 'Cancelar cuenta'
     unhappy: '¡Queremos saber que ha ocurrido, envíanos un correo!'

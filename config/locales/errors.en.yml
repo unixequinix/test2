@@ -39,6 +39,6 @@ en:
       odd: "must be odd"
       even: "must be even"
       not_belong_to_event: "doesn't belong to this event"
-      preevent_item_dependent: "Impossible to delete preevent item, it is included in a preevent product"
+      catalog_item_dependent: "Impossible to delete item, it is included in a pack"
       company_ticket_type_dependent: "Impossible to delete the company, it has ticket types associated"
       max_standard_credits: "Only one standard credit per event"

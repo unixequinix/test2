@@ -3,16 +3,8 @@ require "rails_helper"
 RSpec.feature "Ticket assignation", type: :feature do
   context "with account signed in" do
     before :all do
-      @event_creator = EventCreator.new(build(:event,
-                                              features: 3,
-                                              aasm_state: "launched").attributes)
-      @event_creator.save
-      @event = @event_creator.event
-      @customer = build(:customer,
-                        event: @event,
-                        confirmation_token: nil,
-                        confirmed_at: Time.now)
-
+      @event = build(:event, features: 3, aasm_state: "launched")
+      @customer = build(:customer, event: @event)
       create(:customer_event_profile, customer: @customer, event: @event)
       login_as(@customer, scope: :customer)
     end
@@ -23,12 +15,12 @@ RSpec.feature "Ticket assignation", type: :feature do
       end
 
       it "should be able to assign a ticket" do
-        visit "/#{@event_creator.event.slug}/ticket_assignments/new"
+        visit "/#{@event.slug}/ticket_assignments/new"
         within("form") do
           fill_in(t("admissions.placeholders.ticket_code"), with: @ticket.code)
         end
         click_button(t("admissions.button"))
-        expect(current_path).to eq("/#{@event_creator.event.slug}")
+        expect(current_path).to eq("/#{@event.slug}")
         expect(page.body).to include(@ticket.code)
       end
     end

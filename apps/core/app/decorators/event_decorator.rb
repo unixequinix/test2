@@ -38,4 +38,10 @@ class EventDecorator < Draper::Decorator
   def self.gtag_type_selector
     GTAG_TYPES.map { |f| [I18n.t("admin.gtag_settings.form." + f.to_s), f] }
   end
+
+  def self.station_type_selector
+    StationType.where.not(name: "customer_portal").map do |f|
+      [I18n.t("admin.stations.station_types." + f.name), f.id]
+    end
+  end
 end

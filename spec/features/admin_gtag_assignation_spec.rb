@@ -6,11 +6,12 @@ RSpec.feature "Admin Gtag assignation", type: :feature do
       @event_creator = EventCreator.new(event_to_hash_parameters(build(:event)))
       @event_creator.save
       @event = @event_creator.event
-      @customer = create(:customer, event: @event, confirmation_token: nil, confirmed_at: Time.now)
+      @customer = create(:customer, event: @event)
       @gtag = create(:gtag, event: @event)
       admin = create(:admin)
       login_as(admin, scope: :admin)
     end
+
     it "should be able to assign a valid gtag" do
       visit "/admins/events/#{@event_creator.event.slug}/customers"
       click_link(@customer.email)

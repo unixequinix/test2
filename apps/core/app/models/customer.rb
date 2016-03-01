@@ -3,36 +3,32 @@
 # Table name: customers
 #
 #  id                     :integer          not null, primary key
+#  event_id               :integer          not null
 #  email                  :string           default(""), not null
 #  name                   :string           default(""), not null
 #  surname                :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  reset_password_token   :string
-#  reset_password_sent_at :datetime
-#  remember_created_at    :datetime
-#  sign_in_count          :integer          default(0), not null
-#  current_sign_in_at     :datetime
-#  last_sign_in_at        :datetime
-#  current_sign_in_ip     :inet
-#  last_sign_in_ip        :inet
-#  confirmation_token     :string
-#  confirmed_at           :datetime
-#  confirmation_sent_at   :datetime
-#  unconfirmed_email      :string
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  deleted_at             :datetime
-#  agreed_on_registration :boolean          default(FALSE)
 #  phone                  :string
 #  postcode               :string
 #  address                :string
 #  city                   :string
 #  country                :string
 #  gender                 :string
-#  birthdate              :datetime
-#  event_id               :integer          not null
-#  agreed_event_condition :boolean          default(FALSE)
 #  remember_token         :string
+#  sign_in_count          :integer          default(0), not null
+#  agreed_on_registration :boolean          default(FALSE)
+#  agreed_event_condition :boolean          default(FALSE)
+#  last_sign_in_ip        :inet
+#  current_sign_in_ip     :inet
+#  reset_password_sent_at :datetime
+#  remember_created_at    :datetime
+#  current_sign_in_at     :datetime
+#  last_sign_in_at        :datetime
+#  birthdate              :datetime
+#  deleted_at             :datetime
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
 #
 
 class Customer < ActiveRecord::Base
@@ -58,21 +54,8 @@ class Customer < ActiveRecord::Base
 
   validates_uniqueness_of :email, scope: [:event_id], conditions: -> { where(deleted_at: nil) }
 
-  # Hooks
-  before_create :init_confirmation_token
-
   # Methods
   # -------------------------------------------------------
-
-  def confirm!
-    self.confirmation_token = nil
-    self.confirmed_at = Time.now.utc
-    save!
-  end
-
-  def init_confirmation_token
-    generate_token(:confirmation_token)
-  end
 
   def init_password_token!
     generate_token(:reset_password_token)

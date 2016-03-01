@@ -1,4 +1,13 @@
 class Seeder::SeedLoader
+  def self.load_param(event, atts)
+    params = Parameter.where(atts)
+    params = FactoryGirl.create(:parameter, atts) if params.empty?
+    params.each do |p|
+      value = Parameter.default_value_for(p.data_type)
+      FactoryGirl.create(:event_parameter, event: event, parameter: p, value: value)
+    end
+  end
+
   def self.load_default_event_parameters(event)
     file = "default_event_parameters.yml"
     YAML.load_file(
@@ -33,6 +42,18 @@ class Seeder::SeedLoader
                                     data_type: parameter["data_type"],
                                     description: "")
         end
+      end
+    end
+  end
+
+  def self.create_stations
+    StationType.destroy_all
+    StationGroup.destroy_all
+
+    YAML.load_file(Rails.root.join("db", "seeds", "stations.yml")).each do |group|
+      @station_group = StationGroup.create!(name: group["name"])
+      group["types"].each do |type|
+        @station_group.station_types.create!(name: type["name"], description: type["name"])
       end
     end
   end
