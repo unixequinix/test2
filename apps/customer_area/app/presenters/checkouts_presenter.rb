@@ -21,7 +21,7 @@ class CheckoutsPresenter
   end
 
   def unitary_credit?(catalog_item)
-      catalog_item.catalogable_type == "Credit"
+    catalog_item.catalogable_type == "Credit"
   end
 
   def credit_partial
@@ -40,4 +40,3 @@ class CheckoutsPresenter
     %w(Credit Voucher Access Pack)
   end
 end
-
