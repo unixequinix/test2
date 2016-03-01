@@ -15,7 +15,7 @@
         class: "amount-input",
         data: { id: "#{catalog_item.id}", price: "#{catalog_item.price}" }
       .top-up-amount [data-id="#{catalog_item.id}"]
-        span [id="amount-total-#{catalog_item.id}"] #{(catalog_item.rounded_price * catalog_item.initial_amount)}
+        span [id="amount-total-#{catalog_item.id}"] #{(catalog_item.price * catalog_item.initial_amount)}
         span #{current_event.currency}
     .plus-button
       = fa_icon "plus",

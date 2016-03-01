@@ -3,15 +3,16 @@ class CheckoutsPresenter
 
   def initialize(current_event)
     @event = current_event
-    @catalog_items = StationCatalogItem.joins(:station_parameter)
-                     .where(station_parameters: {
-                              id: StationParameter.joins(:station)
-                                                  .where(stations: {
-                                                           name: "Customer Portal",
-                                                           event_id: current_event })
-                            })
-    binding.pry
-    @catalog_items_hash = CatalogItem.catalog_items_hash_sorted(current_event)
+    @catalog_items =
+      CatalogItem.joins(:station_catalog_items, station_catalog_items: :station_parameter)
+                 .select("catalog_items.*, station_catalog_items.price")
+                 .where(station_parameters:
+                       { id: StationParameter.joins(station: :station_type)
+                                             .where(
+                                               stations: { event_id: current_event },
+                                               station_types: { name: "customer_portal" }
+                                              )})
+    @catalog_items_hash = @catalog_items.hash_sorted(keys_sorted)
   end
 
   def draw_product(catalog_item)
@@ -33,5 +34,9 @@ class CheckoutsPresenter
 
   def catalog_items
     @catalog_items_hash.values.flatten
+  end
+
+  def keys_sorted
+    %w(Credit Voucher Access Pack)
   end
 end
