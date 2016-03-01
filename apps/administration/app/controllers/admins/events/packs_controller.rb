@@ -85,5 +85,5 @@ class Admins::Events::PacksController < Admins::Events::BaseController
                                                                  :amount,
                                                                  :_destroy
                                                                 ])
-    end
+  end
 end

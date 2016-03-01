@@ -48,6 +48,6 @@ class EventCreator
   end
 
   def customer_portal_station
-    Station.create!(event: @event, name: "customer_portal", station_type_id: 1)
+    Station.create!(event: @event, name: "Customer Portal", station_type_id: 1)
   end
 end

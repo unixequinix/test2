@@ -79,8 +79,6 @@ ActiveRecord::Schema.define(version: 20160224122200) do
     t.string   "surname",                default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token",   index: {name: "index_customers_on_reset_password_token", unique: true}
-    t.string   "confirmation_token"
-    t.string   "unconfirmed_email"
     t.string   "phone"
     t.string   "postcode"
     t.string   "address"
@@ -97,8 +95,6 @@ ActiveRecord::Schema.define(version: 20160224122200) do
     t.datetime "remember_created_at"
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
     t.datetime "birthdate"
     t.datetime "deleted_at",             index: {name: "index_customers_on_deleted_at"}
     t.datetime "created_at",             null: false
@@ -163,9 +159,9 @@ ActiveRecord::Schema.define(version: 20160224122200) do
   create_table "company_ticket_types", force: :cascade do |t|
     t.integer  "event_id",                   null: false, index: {name: "fk__company_ticket_types_event_id"}, foreign_key: {references: "events", name: "fk_company_ticket_types_event_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "company_event_agreement_id", null: false, index: {name: "fk__company_ticket_types_company_event_agreement_id"}, foreign_key: {references: "company_event_agreements", name: "fk_company_ticket_types_company_event_agreement_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "credential_type_id",         null: false, index: {name: "fk__company_ticket_types_credential_type_id"}, foreign_key: {references: "credential_types", name: "fk_company_ticket_types_credential_type_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "credential_type_id",         index: {name: "fk__company_ticket_types_credential_type_id"}, foreign_key: {references: "credential_types", name: "fk_company_ticket_types_credential_type_id", on_update: :no_action, on_delete: :no_action}
     t.string   "name"
-    t.string   "company_ticket_type_ref",    index: {name: "company_ref_event_agreement_index", with: ["company_event_agreement_id"], unique: true}
+    t.string   "company_code",               index: {name: "company_ref_event_agreement_index", with: ["company_event_agreement_id"], unique: true}
     t.datetime "deleted_at",                 index: {name: "index_company_ticket_types_on_deleted_at"}
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false

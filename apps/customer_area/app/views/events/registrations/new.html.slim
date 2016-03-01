@@ -22,5 +22,5 @@
       //= f.input :agreed_event_condition, as: :boolean, label: "#{current_event.agreed_event_condition_message}", input_html: { class: 'session-remember-me' } if( current_event.agreed_event_condition?)
       .session-accept-terms
         = f.input :agreed_on_registration, as: :boolean, label: ("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), event_terms_of_use_url,   target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), event_privacy_policy_url, target: '_blank'}").html_safe
+      = recaptcha_tags
       = f.button :submit, t('registration.new.button'), class: "btn  btn-action btn-action-primary"
-

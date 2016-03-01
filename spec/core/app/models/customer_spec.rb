@@ -15,10 +15,6 @@
 #  last_sign_in_at        :datetime
 #  current_sign_in_ip     :inet
 #  last_sign_in_ip        :inet
-#  confirmation_token     :string
-#  confirmed_at           :datetime
-#  confirmation_sent_at   :datetime
-#  unconfirmed_email      :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  deleted_at             :datetime
@@ -41,21 +37,6 @@ RSpec.describe Customer, type: :model do
   it { is_expected.to validate_presence_of(:email) }
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_presence_of(:surname) }
-
-  context ".confirm!" do
-    let(:customer) { create(:customer) }
-    before :each do
-      customer.confirm!
-    end
-
-    it "should set the confirmation token to nil" do
-      expect(customer.confirmation_token).to be_nil
-    end
-
-    it "should set the confirmed_at with a date" do
-      expect(customer.confirmed_at).to be_kind_of(Time)
-    end
-  end
 
   context ".update_tracked_fields" do
     let(:request) { double(:request) }
@@ -178,13 +159,6 @@ RSpec.describe Customer, type: :model do
   end
 
   context "with a new customer" do
-    describe "confirmation token" do
-      it "should be initialised" do
-        customer.save
-        expect(customer.confirmation_token).not_to be_blank
-      end
-    end
-
     describe "the phone" do
       it "is not required" do
         customer = Customer.new(phone: "+34660660660")

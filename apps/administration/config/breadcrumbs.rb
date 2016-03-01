@@ -44,14 +44,8 @@ end
 
 ## Company Event Agreements
 
-crumb :admins_company_company_event_agreements do |company|
-  link t("breadcrumbs.company_event_agreements"),
-       admins_company_company_event_agreements_path(company)
-  parent :admins_companies
-end
-
 crumb :admins_company_company_event_agreement do |company|
-  link company[:company].name, admins_company_company_event_agreements_path(company)
+  link company.name, admins_company_company_event_agreements_path(company)
   parent :admins_companies
 end
 

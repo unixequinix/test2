@@ -225,9 +225,7 @@ es:
       memory_position: "Posición en memoria"
     company_ticket_types:
       name: "Nombre"
-      company: "Compañía"
-      number_products: "Número de Productos"
-      company_ticket_type_ref: "Referencia"
+      company_code: "Código de la compañía"
     entitlement:
       unlimited: "Ilimitado"
       entitlement_type: "Tipo"
@@ -320,8 +318,6 @@ es:
       email: "Email"
       name: "Nombre"
       surname: "Apellidos"
-      confirmed_at: "Confirmado el"
-      confirmation_sent_at: "Confimación enviada"
       tickets: "Tickets"
       ticket: "Ticket"
       gtags: "Gtags"
@@ -347,7 +343,6 @@ es:
       current_sign_ip: "Inicio de Sesión Actual en IP"
       agreed_event_condition: "Condición del evento aceptada"
       last_sign_ip: "Último Inicio de Sesión en IP"
-      unconfirmed: "Email sin confirmar"
       transactions: "Transacciones"
       transactions_type: "Tipos de Transacciones"
       created_at: "Creado el"

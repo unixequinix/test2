@@ -45,7 +45,13 @@ FactoryGirl.define do
     end
 
     after :build do |customer_credit|
-      customer_credit.final_balance = CustomerCredit.select("sum(amount) as final_balance, sum(refundable_amount) as final_refundable_balance").where(customer_event_profile: customer_credit.customer_event_profile)[0].final_balance.to_i
+      final_balance = CustomerCredit.select("sum(amount) as final_balance,
+                                             sum(refundable_amount) as final_refundable_balance")
+                      .where(customer_event_profile: customer_credit.customer_event_profile)[0]
+                      .final_balance
+                      .to_i
+
+      customer_credit.final_balance = final_balance
       customer_credit.final_refundable_balance = CustomerCredit
         .select("sum(amount) as final_balance, sum(refundable_amount) as final_refundable_balance")
         .where(customer_event_profile: customer_credit.customer_event_profile)[0]

@@ -20,7 +20,7 @@
       dt = t("admin.tickets.company_ticket_type")
       dd = @ticket.company_ticket_type.name unless @ticket.company_ticket_type.nil?
       dt = t("admin.company_ticket_types.company")
-      dd = @ticket.company_ticket_type.company.name unless @ticket.company_ticket_type.nil?
+      dd = @ticket.company_ticket_type.company_event_agreement.company.name unless @ticket.company_ticket_type.nil?
 
       = render("purchaser", ticket: @ticket) if @ticket.purchaser.present?
 

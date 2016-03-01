@@ -13,13 +13,13 @@ Rails.application.routes.draw do
         collection do
           resource :registrations, only: [:new, :create, :edit, :update]
           resource :sessions, only: [:new, :create, :destroy]
-          resource :confirmations, only: [:new, :create, :show]
           resource :passwords, only: [:new, :create, :edit, :update]
         end
       end
       resources :ticket_assignments, only: [:new, :create, :destroy]
       resources :gtag_assignments, only: [:new, :create, :destroy]
       resources :checkouts, only: [:new, :create]
+      resources :credential_types, only: [:show]
       get "privacy_policy", to: "static_pages#privacy_policy"
       get "terms_of_use", to: "static_pages#terms_of_use"
       resources :orders, only: [:show, :update] do
