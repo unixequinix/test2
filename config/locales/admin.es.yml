@@ -1,5 +1,9 @@
 es:
   admin:
+    agreements:
+      status: "Estado"
+      granted: "Aceptado"
+      revoked: "Revocado"
     stations:
       name: "Nombre"
       type: "Tipo"
