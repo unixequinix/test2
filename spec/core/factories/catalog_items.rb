@@ -7,7 +7,6 @@ FactoryGirl.define do
     step { rand(5) }
     max_purchasable { rand(50) }
     min_purchasable { rand(5) }
-    price { rand(10.30) }
 
     trait :with_credit do
       after(:build) do |catalog_item|
