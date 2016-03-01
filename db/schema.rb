@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160224122200) do
+ActiveRecord::Schema.define(version: 20160301103700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -280,7 +280,6 @@ ActiveRecord::Schema.define(version: 20160224122200) do
     t.integer  "customer_event_profile_id", null: false, index: {name: "fk__customer_orders_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_customer_orders_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "catalog_item_id",           null: false, index: {name: "fk__customer_orders_catalog_item_id"}, foreign_key: {references: "catalog_items", name: "fk_customer_orders_catalog_item_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "counter"
-    t.boolean  "redeemed",                  default: false, null: false
     t.datetime "deleted_at",                index: {name: "index_customer_orders_on_deleted_at"}
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
@@ -333,6 +332,15 @@ ActiveRecord::Schema.define(version: 20160224122200) do
     t.datetime "updated_at",     null: false
   end
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
+
+  create_table "online_orders", force: :cascade do |t|
+    t.integer  "customer_order_id", null: false, index: {name: "fk__online_orders_customer_order_id"}, foreign_key: {references: "customer_orders", name: "fk_online_orders_customer_order_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "counter"
+    t.boolean  "redeemed"
+    t.datetime "deleted_at",        index: {name: "index_online_orders_on_deleted_at"}
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
 
   create_table "orders", force: :cascade do |t|
     t.string   "number",                    null: false, index: {name: "index_orders_on_number", unique: true}

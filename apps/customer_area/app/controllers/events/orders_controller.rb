@@ -3,7 +3,7 @@ class Events::OrdersController < Events::BaseController
   before_action :require_permission!
 
   def show
-    @order = Order.includes(order_items: :preevent_product).find(params[:id])
+    @order = Order.includes(order_items: :catalog_item).find(params[:id])
   end
 
   def update
@@ -11,7 +11,7 @@ class Events::OrdersController < Events::BaseController
     if current_order.in_progress?
       @order = current_customer_event_profile.orders.build
       current_order.order_items.each do |order_item|
-        @order.order_items << OrderItem.new(preevent_product_id: order_item.preevent_product.id,
+        @order.order_items << OrderItem.new(catalog_item_id: order_item.catalog_item.id,
                                             amount: order_item.amount, total: order_item.total)
       end
       @order.generate_order_number!
