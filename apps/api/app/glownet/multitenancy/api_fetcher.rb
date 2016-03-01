@@ -4,7 +4,7 @@ class Multitenancy::ApiFetcher
   end
 
   def accesses
-    Access.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
+    Access.joins(:catalog_item, :entitlement).where(catalog_items: { event_id: @event.id })
   end
 
   def catalog_items
@@ -75,15 +75,5 @@ class Multitenancy::ApiFetcher
 
   def vouchers
     Voucher.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
-  end
-
-  private
-
-  def admin?
-    @user.is_admin?
-  end
-
-  def manager?
-    @user.is_manager?
   end
 end
