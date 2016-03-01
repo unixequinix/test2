@@ -22,7 +22,8 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
   end
 
   def edit
-    @company_ticket_type = @fetcher.company_ticket_types.includes(company_event_agreement: [:company]).find(params[:id])
+    @company_ticket_type =
+      @fetcher.company_ticket_types.includes(company_event_agreement: [:company]).find(params[:id])
     @credential_types_collection = @fetcher.credential_types
     @company_event_agreement_collection = @fetcher.company_event_agreements
   end
