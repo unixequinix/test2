@@ -60,7 +60,7 @@ class Multitenancy::ApiFetcher
   end
 
   def tickets
-    Ticket.where(event: @event)
+    Ticket.includes(:credential_assignments, :company_ticket_type).where(event: @event)
   end
 
   def vouchers
