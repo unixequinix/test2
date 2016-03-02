@@ -81,8 +81,3 @@ guard :rubocop, notification: :failed, all_on_start: false do
   watch(%r{.+\.rb$})
   watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
 end
-
-guard "rubycritic" do
-  watch(%r{^app/(.+)\.rb$})
-  watch(%r{^lib/(.+)\.rb$})
-end
