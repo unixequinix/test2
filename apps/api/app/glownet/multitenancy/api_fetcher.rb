@@ -20,12 +20,8 @@ class Multitenancy::ApiFetcher
     Credit.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
-  def customers
-    Customer.where(event: @event)
-  end
-
   def customer_event_profiles
-    CustomerEventProfile.where(event: @event)
+    CustomerEventProfile.includes(:customer, :credential_assignments, :orders).where(event: @event)
   end
 
   def event_parameters
