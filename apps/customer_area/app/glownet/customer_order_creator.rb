@@ -4,7 +4,7 @@ class CustomerOrderCreator
       order_item.amount.times do
         CustomerOrder.create(
           customer_event_profile: order.customer_event_profile,
-          preevent_product: order_item.preevent_product)
+          catalog_item: order_item.catalog_item)
       end
     end
   end

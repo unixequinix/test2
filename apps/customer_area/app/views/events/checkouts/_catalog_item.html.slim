@@ -1,0 +1,12 @@
+.wrapper-module
+  .container-customer-product
+    .wrapper-customer-product
+      p.product-name = catalog_item.name
+      p.highlight-text = "#{catalog_item.price}"
+    .wrapper-customer-amount
+      = select_tag "checkout_form[catalog_items][#{catalog_item.id}]",
+        options_for_select((catalog_item.min_purchasable..catalog_item.max_purchasable).step(catalog_item.step).to_a),
+        id: "amount-input-#{catalog_item.id}",
+        class: "amount-input",
+        data: { id: "#{catalog_item.id}", price: "#{catalog_item.price}" }
+

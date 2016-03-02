@@ -159,9 +159,9 @@ ActiveRecord::Schema.define(version: 20160229175159) do
   create_table "company_ticket_types", force: :cascade do |t|
     t.integer  "event_id",                   null: false, index: {name: "fk__company_ticket_types_event_id"}, foreign_key: {references: "events", name: "fk_company_ticket_types_event_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "company_event_agreement_id", null: false, index: {name: "fk__company_ticket_types_company_event_agreement_id"}, foreign_key: {references: "company_event_agreements", name: "fk_company_ticket_types_company_event_agreement_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "credential_type_id",         null: false, index: {name: "fk__company_ticket_types_credential_type_id"}, foreign_key: {references: "credential_types", name: "fk_company_ticket_types_credential_type_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "credential_type_id",         index: {name: "fk__company_ticket_types_credential_type_id"}, foreign_key: {references: "credential_types", name: "fk_company_ticket_types_credential_type_id", on_update: :no_action, on_delete: :no_action}
     t.string   "name"
-    t.string   "company_ticket_type_ref",    index: {name: "company_ref_event_agreement_index", with: ["company_event_agreement_id"], unique: true}
+    t.string   "company_code",               index: {name: "company_ref_event_agreement_index", with: ["company_event_agreement_id"], unique: true}
     t.datetime "deleted_at",                 index: {name: "index_company_ticket_types_on_deleted_at"}
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
@@ -325,7 +325,6 @@ ActiveRecord::Schema.define(version: 20160229175159) do
     t.integer  "customer_event_profile_id", null: false, index: {name: "fk__customer_orders_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_customer_orders_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "catalog_item_id",           null: false, index: {name: "fk__customer_orders_catalog_item_id"}, foreign_key: {references: "catalog_items", name: "fk_customer_orders_catalog_item_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "counter"
-    t.boolean  "redeemed",                  default: false, null: false
     t.datetime "deleted_at",                index: {name: "index_customer_orders_on_deleted_at"}
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
@@ -399,6 +398,15 @@ ActiveRecord::Schema.define(version: 20160229175159) do
     t.integer  "customer_event_profile_id", index: {name: "index_money_transactions_on_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_money_transactions_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "status_code"
     t.string   "status_message"
+  end
+
+  create_table "online_orders", force: :cascade do |t|
+    t.integer  "customer_order_id", null: false, index: {name: "fk__online_orders_customer_order_id"}, foreign_key: {references: "customer_orders", name: "fk_online_orders_customer_order_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "counter"
+    t.boolean  "redeemed"
+    t.datetime "deleted_at",        index: {name: "index_online_orders_on_deleted_at"}
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   create_table "orders", force: :cascade do |t|

@@ -12,6 +12,10 @@ class Multitenancy::AdministrationFetcher
     CatalogItem.where(event: @event)
   end
 
+  def company_event_agreements
+    CompanyEventAgreement.where(event: @event)
+  end
+
   def company_ticket_types
     CompanyTicketType.where(event: @event)
   end

@@ -225,9 +225,7 @@ en:
       memory_position: "Memory position"
     company_ticket_types:
       name: "Name"
-      company: "Company"
-      number_products: "Number of Products"
-      company_ticket_type_ref: "Reference"
+      company_code: "Company code"
     entitlement:
       unlimited: "Unlimited"
       entitlement_type: "Entitlement type"

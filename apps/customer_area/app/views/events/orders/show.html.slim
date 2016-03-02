@@ -11,7 +11,7 @@
       th = t('orders.price')
     - @order.order_items.each do |order_item|
       tr
-        td [colspan="2"] #{pluralize(order_item.amount, order_item.preevent_product.name)}
+        td [colspan="2"] #{pluralize(order_item.amount, order_item.catalog_item.name)}
         td.table-amount #{order_item.total}
       //tr
       //  td [colspan="2"] #{pluralize(order_item.amount, order_item.online_product.name)}
