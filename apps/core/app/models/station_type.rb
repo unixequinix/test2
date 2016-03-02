@@ -4,7 +4,6 @@
 #
 #  id               :integer          not null, primary key
 #  station_group_id :integer          not null
-#  uid              :integer          not null
 #  name             :string           not null
 #  enviorment       :string           not null
 #  description      :text

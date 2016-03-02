@@ -12,7 +12,7 @@
 FactoryGirl.define do
   factory :credential_type do
     after(:build) do |credential|
-      credential.preevent_item ||= build(:preevent_item_credential, purchasable: credential)
+      credential.catalog_item ||= build(:catalog_item, [:with_access, :with_credit].sample)
     end
   end
 end

@@ -1,4 +1,4 @@
-class Jobs::Credential::OrderCreator < Jobs::Base
+class Jobs::Credential::OrderCreator < Jobs::Credential::Base
   TYPES = []
 
   def perform(transaction_id, _atts = {})

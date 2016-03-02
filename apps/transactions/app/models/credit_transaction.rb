@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: credential_transactions
+# Table name: credit_transactions
 #
 #  id                        :integer          not null, primary key
 #  event_id                  :integer
@@ -13,15 +13,18 @@
 #  device_uid                :string
 #  device_db_index           :integer
 #  device_created_at         :datetime
-#  ticket_id                 :integer
+#  credits                   :float
+#  credits_refundable        :float
+#  credit_value              :float
+#  final_balance             :float
+#  final_refundable_balance  :float
 #  customer_event_profile_id :integer
 #  status_code               :integer
 #  status_message            :string
 #
 
-class CredentialTransaction < ActiveRecord::Base
+class CreditTransaction < ActiveRecord::Base
   belongs_to :event
-  belongs_to :ticket
   belongs_to :station
   belongs_to :customer_event_profile
 

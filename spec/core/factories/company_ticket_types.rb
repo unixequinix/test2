@@ -19,5 +19,6 @@ FactoryGirl.define do
     name { "Name #{rand(100)}" }
     company_code { rand(5) }
     company_event_agreement
+    credential_type
   end
 end

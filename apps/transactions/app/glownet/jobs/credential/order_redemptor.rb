@@ -1,4 +1,4 @@
-class Jobs::Credential::OrderRedemptor < Jobs::Base
+class Jobs::Credential::OrderRedemptor < Jobs::Credential::Base
   TYPES = %w( order_redemption )
 
   def perform(transaction_id, _atts = {})
