@@ -255,6 +255,7 @@ ActiveRecord::Schema.define(version: 20160301103700) do
 
   create_table "station_groups", force: :cascade do |t|
     t.string   "name",       null: false, index: {name: "index_station_groups_on_name"}
+    t.string   "icon_slug",  null: false
     t.datetime "deleted_at", index: {name: "index_station_groups_on_deleted_at"}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -263,6 +264,7 @@ ActiveRecord::Schema.define(version: 20160301103700) do
   create_table "station_types", force: :cascade do |t|
     t.integer  "station_group_id", null: false, index: {name: "fk__station_types_station_group_id"}, foreign_key: {references: "station_groups", name: "fk_station_types_station_group_id", on_update: :no_action, on_delete: :no_action}
     t.string   "name",             null: false, index: {name: "index_station_types_on_name"}
+    t.string   "enviorment",       null: false
     t.text     "description"
     t.datetime "deleted_at",       index: {name: "index_station_types_on_deleted_at"}
     t.datetime "created_at",       null: false
@@ -296,6 +298,24 @@ ActiveRecord::Schema.define(version: 20160301103700) do
   end
 
   create_table "credit_transactions", force: :cascade do |t|
+    t.integer  "event_id",                  index: {name: "index_credit_transactions_on_event_id"}, foreign_key: {references: "events", name: "fk_credit_transactions_event_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "transaction_origin"
+    t.string   "transaction_category"
+    t.string   "transaction_type"
+    t.string   "customer_tag_uid"
+    t.string   "operator_tag_uid"
+    t.integer  "station_id",                index: {name: "index_credit_transactions_on_station_id"}, foreign_key: {references: "stations", name: "fk_credit_transactions_station_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "device_uid"
+    t.integer  "device_db_index"
+    t.datetime "device_created_at"
+    t.float    "credits"
+    t.float    "credits_refundable"
+    t.float    "credit_value"
+    t.float    "final_balance"
+    t.float    "final_refundable_balance"
+    t.integer  "customer_event_profile_id", index: {name: "index_credit_transactions_on_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_credit_transactions_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "status_code"
+    t.string   "status_message"
   end
 
   create_table "credits", force: :cascade do |t|

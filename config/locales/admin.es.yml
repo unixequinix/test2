@@ -1,5 +1,9 @@
 es:
   admin:
+    agreements:
+      status: "Estado"
+      granted: "Aceptado"
+      revoked: "Revocado"
     stations:
       name: "Nombre"
       type: "Tipo"
@@ -7,12 +11,27 @@ es:
       items: "Productos"
       station_types:
         customer_portal: "Portal de cliente"
-        pos: "Punto de ventas"
-        topup: "Recargas"
-        refunds: "Devoluciónes"
+        point_of_sales: "Punto de ventas"
+        top_up_refund: "Recargas / Devoluciones"
         box_office: "Oficina de venta"
+        check_in: "Acceso"
+        dummy_check_in: "Acceso Dummy"
+        staff_accreditation: "Acreditación del personal"
+        access_control: "Control de Acceso"
+        incident_report: "Reporte de incidentes"
+        exhibitor: "Exibitor"
+        customer_service: "Soporte al consumidor"
+        operator_permissions: "Permisos de operador"
+        payout_top_up: "Payout top up"
+        hospitality_top_up: "Hospitality top up"
+        gtag_recycler: "Reciclaje de Gtags"
+        envelope_linker: "Envelope Linker"
       station_groups:
-        online: "Online"
+        access: "Acceso"
+        monetary: "Monetaria"
+        glownet: "Glownet"
+        event_management: "Administración del evento"
+        touchpoint: "Touchpoint"
       station_catalog_item:
         name: "Nombre"
         description: "Descripción"

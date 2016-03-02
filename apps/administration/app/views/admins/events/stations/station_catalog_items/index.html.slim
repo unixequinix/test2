@@ -3,7 +3,4 @@
 = render "form", station_catalog_item: @station_catalog_item
 
 .wrapper-negative-space
-  - if @list_model_presenter.there_any?
-    = render 'admins/events/stations/station_catalog_items/list', station_catalog_items: @list_model_presenter.all_items
-  - else
-    = render @list_model_presenter.no_items_for_presentation
+  = render 'admins/events/stations/station_catalog_items/list', station_catalog_items: @list_model_presenter.all_items

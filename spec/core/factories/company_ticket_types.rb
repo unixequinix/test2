@@ -17,7 +17,7 @@ FactoryGirl.define do
   factory :company_ticket_type do
     event
     name { "Name #{rand(100)}" }
-    company_ticket_type_ref { rand(5) }
+    company_code { rand(5) }
     company_event_agreement
     credential_type
   end
