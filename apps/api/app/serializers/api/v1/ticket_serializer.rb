@@ -1,9 +1,10 @@
 class Api::V1::TicketSerializer < Api::V1::BaseSerializer
-  attributes :id, :credential_type_id, :reference, :credential_redeemed
+  attributes :id, :reference, :credential_redeemed
 
   def attributes(*args)
     hash = super
     hash[:customer_id] = customer_id if customer_id
+    hash[:credential_type_id] = credential_type_id if credential_type_id
     hash
   end
 
