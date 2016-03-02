@@ -62,6 +62,10 @@ class Multitenancy::ApiFetcher
   def tickets
     Ticket.includes(:credential_assignments, :company_ticket_type).where(event: @event)
   end
+  
+  def banned_tickets
+    Ticket.banned.where(event: @event)
+  end
 
   def vouchers
     Voucher.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
