@@ -6,27 +6,22 @@
       name: check_in
       description: "Check In"
       enviorment: device
-      uid: 1
     -
       name: box_office
       description: "Box Office"
       enviorment: device
-      uid: 2
     -
       name: customer_portal
       description: "Customer Portal"
       enviorment: portal
-      uid: 3
     -
       name: staff_accreditation
       description: "Staff Accreditation"
       enviorment: device
-      uid: 4
     -
       name: access_control
       description: "Access Control"
       enviorment: device
-      uid: 5
 -
   name: monetary
   icon_slug: monetary
@@ -35,12 +30,10 @@
       name: point_of_sales
       description: "Point of Sales"
       enviorment: device
-      uid: 6
     -
       name: top_up_refund
       description: "Top Up / Refund"
       enviorment: device
-      uid: 7
 -
   name: event_management
   icon_slug: event_management
@@ -49,32 +42,26 @@
       name: incident_report
       description: "Incident Report"
       enviorment: device
-      uid: 8
     -
       name: exhibitor
       description: "Exhibitor"
       enviorment: device
-      uid: 9
     -
       name: customer_service
       description: "Customer service"
       enviorment: device
-      uid: 10
     -
       name: operator_permissions
       description: "Operator permissions"
       enviorment: device
-      uid: 11
     -
       name: payout_top_up
       description: "Payout top up"
       enviorment: device
-      uid: 12
     -
       name: hospitality_top_up
       description: "Hospitality top up"
       enviorment: device
-      uid: 13
 -
   name: glownet
   icon_slug: glownet
@@ -83,17 +70,14 @@
       name: dummy_check_in
       description: "Dummy check-in"
       enviorment: device
-      uid: 14
     -
       name: gtag_recycler
       description: "GTag recycler"
       enviorment: device
-      uid: 15
     -
       name: envelope_linker
       description: "Envelope linker"
       enviorment: device
-      uid: 16
 -
   name: touchpoint
   icon_slug: touchpoint
@@ -102,4 +86,3 @@
       name: touchpoint
       description: "Touchpoint"
       enviorment: device
-      uid: 17

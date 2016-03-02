@@ -2,7 +2,6 @@ class CreateStationTypes < ActiveRecord::Migration
   def change
     create_table :station_types do |t|
       t.references :station_group, null: false
-      t.integer :uid, null: false
       t.string :name, index: true, null: false
       t.string :enviorment, null: false
       t.text :description
