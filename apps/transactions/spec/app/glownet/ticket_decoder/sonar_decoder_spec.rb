@@ -1,4 +1,4 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe TicketDecoder::SonarDecoder, type: :domain_logic do
   describe ".perform" do

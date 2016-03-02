@@ -1,4 +1,4 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
   let(:event) { create(:event) }

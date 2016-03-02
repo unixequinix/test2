@@ -1,8 +1,8 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Jobs::Credential::GtagChecker, type: :job do
   let(:event) { create(:event) }
-  let(:ticket) { build(:ticket) }
+  let(:ticket) { create(:ticket) }
   let(:transaction) { create(:credential_transaction, event: event, ticket: ticket) }
   let(:worker) { Jobs::Credential::TicketChecker }
 

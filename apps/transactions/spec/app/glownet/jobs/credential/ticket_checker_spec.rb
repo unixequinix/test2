@@ -1,4 +1,4 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Jobs::Credential::TicketChecker, type: :job do
   let(:event) { create(:event) }
