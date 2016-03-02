@@ -449,6 +449,7 @@ ActiveRecord::Schema.define(version: 20160301103700) do
 
   create_table "station_groups", force: :cascade do |t|
     t.string   "name",       null: false, index: {name: "index_station_groups_on_name"}
+    t.string   "icon_slug",  null: false
     t.datetime "deleted_at", index: {name: "index_station_groups_on_deleted_at"}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -456,7 +457,9 @@ ActiveRecord::Schema.define(version: 20160301103700) do
 
   create_table "station_types", force: :cascade do |t|
     t.integer  "station_group_id", null: false, index: {name: "fk__station_types_station_group_id"}, foreign_key: {references: "station_groups", name: "fk_station_types_station_group_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "uid",              null: false
     t.string   "name",             null: false, index: {name: "index_station_types_on_name"}
+    t.string   "enviorment",       null: false
     t.text     "description"
     t.datetime "deleted_at",       index: {name: "index_station_types_on_deleted_at"}
     t.datetime "created_at",       null: false

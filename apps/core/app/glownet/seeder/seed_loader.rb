@@ -51,9 +51,12 @@ class Seeder::SeedLoader
     StationGroup.destroy_all
 
     YAML.load_file(Rails.root.join("db", "seeds", "stations.yml")).each do |group|
-      @station_group = StationGroup.create!(name: group["name"])
+      @station_group = StationGroup.create!(name: group["name"], icon_slug: group["icon_slug"])
       group["types"].each do |type|
-        @station_group.station_types.create!(name: type["name"], description: type["name"])
+        @station_group.station_types.create!(name: type["name"],
+                                             description: type["description"],
+                                             uid: type["uid"],
+                                             enviorment: type["enviorment"])
       end
     end
   end
