@@ -5,7 +5,7 @@ class Jobs::Base < ActiveJob::Base
     obj_atts = atts.dup.keep_if { |k, _| column_names.include? k.to_s }
     obj = klass.find_or_create(obj_atts)
     workers = descendants.select { |w| w::TYPES.include? atts[:transaction_type] }
-    workers.each { |worker|  worker.perform_later(atts) }
+    workers.each { |worker|  worker.perform_later(atts.merge(transaction_id: obj.id)) }
     obj
   end
 

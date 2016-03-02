@@ -14,8 +14,7 @@ Gem::Specification.new do |s|
   s.description = "Description of Transactions."
   s.license     = "MIT"
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
-  s.test_files = Dir["spec/**/*"]
+  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc", "spec/factories/**/*"]
 
   s.add_dependency "rails", "~> 4.2.1"
   s.add_development_dependency 'rspec-rails'

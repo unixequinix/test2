@@ -19,8 +19,6 @@ class Jobs::Credential::TicketChecker < Jobs::Credential::Base
   private
 
   def pre_process(atts)
-    # TODO: assign company ticket type for non sonar
-    atts[:company_ticket_type_id] = 1
     atts
   end
 end

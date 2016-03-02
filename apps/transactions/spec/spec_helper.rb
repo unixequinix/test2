@@ -8,7 +8,8 @@ require "factory_girl_rails"
 Rails.backtrace_cleaner.remove_silencers!
 
 # Load support files
-Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
+dir = File.dirname(__FILE__)
+Dir["#{dir}/support/**/*.rb", "#{dir}/factories/**/*.rb"].each { |f| require f }
 
 RSpec.configure do |config|
   config.mock_with :rspec

@@ -21,6 +21,7 @@
 
 class CredentialTransaction < ActiveRecord::Base
   belongs_to :event
+  belongs_to :ticket
   belongs_to :station
   belongs_to :customer_event_profile
 
