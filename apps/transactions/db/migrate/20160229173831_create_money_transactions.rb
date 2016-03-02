@@ -1,4 +1,5 @@
 class CreateMoneyTransactions < ActiveRecord::Migration
+  # rubocop:disable Metrics/MethodLength
   def change
     create_table :money_transactions do |t|
       t.references :event, index: true, foreign_key: true

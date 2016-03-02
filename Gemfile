@@ -134,7 +134,6 @@ group :development, :test do
   gem 'guard-rspec', '~> 4.5.0', require: false
   gem 'spring-commands-rspec', '~> 1.0.4'
   gem 'pry-rails'
-  gem 'guard-rubycritic'
   gem 'terminal-notifier-guard'
 end
 

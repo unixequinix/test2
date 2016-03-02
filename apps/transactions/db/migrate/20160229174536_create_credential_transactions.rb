@@ -1,4 +1,5 @@
 class CreateCredentialTransactions < ActiveRecord::Migration
+  # rubocop:disable Metrics/MethodLength
   def change
     create_table :credential_transactions do |t|
       t.references :event, index: true, foreign_key: true

@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe Jobs::Base, type: :job do
   let(:base) { Jobs::Base }
-  let(:params) { { transaction_category: "monetary", transaction_type: "sale", credits: 30 } }
+  let(:params) { { transaction_category: "money", transaction_type: "sale", credits: 30 } }
 
   it "creates transactions based on transaction_category" do
     number = rand(1000)
@@ -12,7 +12,7 @@ RSpec.describe Jobs::Base, type: :job do
   end
 
   it "executes the job defined by transaction_type" do
-    expect(Jobs::Monetary::BalanceDecreaser).to receive(:perform_later)
+    expect(Jobs::Money::BalanceDecreaser).to receive(:perform_later)
     base.write(params)
   end
 
@@ -50,12 +50,12 @@ RSpec.describe Jobs::Base, type: :job do
     end
   end
 
-  context "writes for monetary transactions" do
+  context "writes for money transactions" do
     let(:event) { create(:event) }
 
     it "works as a run for all transactions in line" do
       %w( topup fee refund sale sale_refund ).each do |type|
-        params = { transaction_category: "monetary",
+        params = { transaction_category: "money",
                    transaction_type: type,
                    event_id: event.id,
                    customer_tag_uid: "TESTING" }

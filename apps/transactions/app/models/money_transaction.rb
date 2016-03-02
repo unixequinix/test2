@@ -1,28 +1,27 @@
 # == Schema Information
 #
-# Table name: monetary_transactions
+# Table name: money_transactions
 #
 #  id                        :integer          not null, primary key
-#  credits                   :integer
-#  credits_refundable        :integer
-#  value_credit              :integer
-#  payment_gateway           :string
-#  payment_method            :string
-#  final_balance             :integer
-#  final_refundable_balance  :integer
 #  event_id                  :integer
+#  transaction_origin        :string
+#  transaction_category      :string
 #  transaction_type          :string
-#  device_created_at         :datetime
 #  customer_tag_uid          :string
 #  operator_tag_uid          :string
 #  station_id                :integer
-#  device_db_index           :integer
-#  customer_event_profile_id :integer
-#  status_code               :string
-#  status_message            :string
-#  created_at                :datetime
-#  updated_at                :datetime
 #  device_uid                :string
+#  device_db_index           :integer
+#  device_created_at         :datetime
+#  catalogable_id            :integer
+#  catalogable_type          :string
+#  items_amount              :integer
+#  price                     :float
+#  payment_method            :string
+#  payment_gateway           :string
+#  customer_event_profile_id :integer
+#  status_code               :integer
+#  status_message            :string
 #
 
 class MoneyTransaction < ActiveRecord::Base
