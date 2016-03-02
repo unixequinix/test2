@@ -41,6 +41,10 @@ class Multitenancy::ApiFetcher
     Gtag.includes(:credential_assignments, :company_ticket_type).where(event: @event)
   end
 
+  def banned_gtags
+    Gtag.banned.where(event: @event)
+  end
+
   def packs
     Pack.includes(:catalog_item, pack_catalog_items: :catalog_item)
     .where(catalog_items: { event_id: @event.id })
