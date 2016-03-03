@@ -279,7 +279,7 @@ ActiveRecord::Schema.define(version: 20160301103700) do
   create_table "customer_orders", force: :cascade do |t|
     t.integer  "customer_event_profile_id", null: false, index: {name: "fk__customer_orders_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_customer_orders_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "catalog_item_id",           null: false, index: {name: "fk__customer_orders_catalog_item_id"}, foreign_key: {references: "catalog_items", name: "fk_customer_orders_catalog_item_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "counter"
+    t.integer  "amount"
     t.datetime "deleted_at",                index: {name: "index_customer_orders_on_deleted_at"}
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false

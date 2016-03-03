@@ -13,6 +13,8 @@
 
 class OnlineOrder < ActiveRecord::Base
   acts_as_paranoid
+  # TODO add counter functionality
+  # acts_as_list column: :counter, scope: :customer_event_profile_id
 
   # Associations
   belongs_to :customer_order

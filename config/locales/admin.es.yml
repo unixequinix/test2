@@ -401,10 +401,9 @@ es:
         number: "Número"
     customer_orders:
       id: "Id"
-      counter: "Contador"
-      redeemed: "Canjeado"
+      amount: "Cantidad"
       customer_event_profile: "Perfil de cliente"
-      preevent_product: "Producto de preventa"
+      catalog_item: "Producto del catálogo"
     payments:
       id: "Id"
       order_id: "Order Id"
