@@ -14,7 +14,7 @@
   width: modules(4);
   height: modules(2);
   padding: modules(0.25) modules(0.5);
-  border-radius: 25px;
+  border-radius: 3px;
   text-transform: uppercase;
   text-align: center;
 
@@ -63,7 +63,7 @@
   margin: 0 auto modules(1);
   height: modules(2) !important;
 
-  @include min-screen($bp3) { width: 45%; }
+  //@include min-screen($bp3) { width: 45%; }
 
   &:focus, &:hover {
     opacity: 0.6;

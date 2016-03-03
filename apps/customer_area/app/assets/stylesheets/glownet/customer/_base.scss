@@ -23,7 +23,7 @@ html, body {
   position: relative;
   height: 100%;
 
-  @include min-screen($bp3) { @include sticky-footer(modules(8)); }
+  @include min-screen($bp3) { @include sticky-footer(modules(4)); }
 }
 
 .unscrollable-view {
