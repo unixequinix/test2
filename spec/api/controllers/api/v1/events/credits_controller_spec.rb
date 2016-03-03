@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Api::V1::Events::CreditsController, type: :controller do
   before(:all) do
     @event = create(:event)
-    create_list(:preevent_item_credit, 2, event: @event)
+    create_list(:credit_catalog_item, 2, event: @event)
   end
 
   describe "GET index" do
@@ -24,8 +24,7 @@ RSpec.describe Api::V1::Events::CreditsController, type: :controller do
 
         body = JSON.parse(response.body)
         credits = body.map { |m| m["currency"] }
-
-        expect(credits).to match_array(Credit.for_event(@event).map(&:currency))
+        expect(credits).to match_array(Credit.all.map(&:currency))
       end
     end
     context "without authentication" do

@@ -50,6 +50,9 @@ class Companies::Api::V1::TicketTypesController < Companies::Api::V1::BaseContro
   private
 
   def ticket_type_params
-    params.require(:ticket_type).permit(:name, :company_ticket_type_ref)
+    ticket_type_ref = params[:ticket_type][:company_ticket_type_ref]
+    params[:ticket_type][:company_code] = ticket_type_ref if ticket_type_ref
+
+    params.require(:ticket_type).permit(:name, :company_code)
   end
 end

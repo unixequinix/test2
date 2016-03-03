@@ -16,5 +16,9 @@ FactoryGirl.define do
     amount 9
     total "9.99"
     order
+
+    after(:build) do |order_item|
+      order_item.catalog_item ||= build(:credit_catalog_item)
+    end
   end
 end

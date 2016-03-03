@@ -28,7 +28,7 @@ RSpec.describe Api::V1::Events::CompanyTicketTypesController, type: :controller 
         expect(ticket_types).to match_array(CompanyTicketType.where(event: event).map(&:name))
         expect(body.first.keys.sort).to contain_exactly("company_id", "company_name",
                                                         "company_ticket_type_ref", "id", "name",
-                                                        "preevent_product_id")
+                                                        "catalog_item_id")
       end
     end
     context "without authentication" do

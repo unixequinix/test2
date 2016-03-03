@@ -129,23 +129,21 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
       end
 
       context "when the request is valid" do
-        before(:each) do
-          @params = { name: "New ticket type" }
-        end
+        let(:new_params) { { name: "New ticket type" } }
 
         it "changes ticket type's attributes" do
-          put :update, id: @ticket_type, ticket_type: @params
+          put :update, id: @ticket_type, ticket_type: new_params
           @ticket_type.reload
           expect(@ticket_type.name).to eq("New ticket type")
         end
 
         it "returns a 200 code status" do
-          put :update, id: @ticket_type, ticket_type: @params
+          put :update, id: @ticket_type, ticket_type: new_params
           expect(response.status).to eq(200)
         end
 
         it "returns the updated ticket" do
-          put :update, id: @ticket_type, ticket_type: @params
+          put :update, id: @ticket_type, ticket_type: new_params
           body = JSON.parse(response.body)
           @ticket_type.reload
           expect(body["name"]).to eq(@ticket_type.name)
@@ -163,7 +161,7 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
           put :update, id: @ticket_type,
                        ticket_type: { name: nil, company_ticket_type_ref: "AA123" }
           @ticket_type.reload
-          expect(@ticket_type.company_ticket_type_ref).not_to eq("AA123")
+          expect(@ticket_type.company_code).not_to eq("AA123")
         end
       end
     end

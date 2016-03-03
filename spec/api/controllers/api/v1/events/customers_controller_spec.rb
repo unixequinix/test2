@@ -10,7 +10,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
     create_list(:customer_order,
                 5,
                 customer_event_profile: @customer1,
-                preevent_product: create(:preevent_product, :credit_product))
+                catalog_item: create(:catalog_item, :with_access))
   end
 
   describe "GET index" do
