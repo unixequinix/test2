@@ -6,6 +6,8 @@ class Payments::StripePayer
   end
 
   def start(params, customer_order_creator)
+    @order = Order.find(params[:order_id]
+    @order.start_payment!
     @customer_order_creator = customer_order_creator
     charge_object = charge(params)
     if charge_object
@@ -38,11 +40,10 @@ class Payments::StripePayer
 
   def notify_payment(params, charge)
     return unless charge.status == "succeeded"
-    order = Order.find(params[:order_id])
-    create_log(order)
-    create_payment(order, charge)
-    order.complete!
-    send_mail_for(order, Event.friendly.find(params[:event_id]))
+    create_log(@order)
+    create_payment(@order, charge)
+    @order.complete!
+    send_mail_for(@order, Event.friendly.find(params[:event_id]))
   end
 
   private
@@ -59,7 +60,11 @@ class Payments::StripePayer
   end
 
   def create_log(order)
-    CustomerCreditOnlineCreator.new(customer_event_profile: order.customer_event_profile,transaction_source: CustomerCredit::CREDITS_PURCHASE,amount: order.credits_total,payment_method: "none",money_payed: order.total).save
+    CustomerCreditOnlineCreator.new(customer_event_profile: order.customer_event_profile,
+                                    transaction_source: CustomerCredit::CREDITS_PURCHASE,
+                                    amount: order.credits_total,
+                                    payment_method: "none",
+                                    money_payed: order.total).save
   end
 
   def create_payment(order, charge)
@@ -72,7 +77,7 @@ class Payments::StripePayer
                     authorization_code: charge.balance_transaction,
                     currency: charge.currency,
                     merchant_code: charge.balance_transaction,
-                    amount: (charge.amount.to_f / 100), # last two digits are decimals,
+                    amount: charge.amount.to_f / 100,
                     success: true,
                     payment_type: "stripe")
   end
