@@ -103,6 +103,7 @@ th:
       payment_services:
         redsys: 'Redsys'
         stripe: 'Stripe'
+        braintree: 'Braintree'
       refund_services:
         bank_account: 'Bank account'
         epg: 'Easy payment gateway'
@@ -419,16 +420,16 @@ th:
         number: "Number"
     customer_orders:
       id: "Id"
-      counter: "Counter"
-      redeemed: "Redeemed"
+      amount: "Amount"
       customer_event_profile: "Customer event profiles"
-      preevent_product: "Preevent product"
+      catalog_item: "Catalog item"
     payments:
       id: "Id"
       order_id: "Order Id"
       amount: "Amount"
       transaction_type: "Transaction type"
       card_country: "Card country"
+      last4: "Card last digits"
       response_code: "Response code"
       authorization_code: "Authorization code"
       currency: "Currency"

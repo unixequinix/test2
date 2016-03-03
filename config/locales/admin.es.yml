@@ -103,6 +103,7 @@ es:
       payment_services:
         redsys: 'Redsys'
         stripe: 'Stripe'
+        braintree: 'Braintree'
       refund_services:
         bank_account: 'Cuenta bancaria'
         epg: 'Easy payment gateway'
@@ -420,16 +421,16 @@ es:
         number: "Número"
     customer_orders:
       id: "Id"
-      counter: "Contador"
-      redeemed: "Canjeado"
+      amount: "Cantidad"
       customer_event_profile: "Perfil de cliente"
-      preevent_product: "Producto de preventa"
+      catalog_item: "Producto del catálogo"
     payments:
       id: "Id"
       order_id: "Order Id"
       amount: "Cantidad"
       transaction_type: "Tipo de Transacción"
       card_country: "País de Tarjeta"
+      last4: "Últimos 4 dígitos"
       response_code: "Código de Respuesta"
       authorization_code: "Código de Autorización"
       currency: "Moneda"

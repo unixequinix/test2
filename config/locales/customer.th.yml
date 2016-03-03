@@ -112,7 +112,7 @@ th:
     total: "ทั้งหมด"
     vat: "รวม VAT แล้ว"
     redirect: "ระบบกำลังจะพาคุณไปที่หน้าสำหรับการชำระเงิน"
-    button: "ขั้นตอนต่อไป"
+    button: "ชำระเงิน"
     button_iupay: "IUPAY"
     stripe:
       card_number: "หมายเลขบัตร"

@@ -6,9 +6,8 @@ class Admins::Events::CredentialTypesController < Admins::Events::BaseController
   def new
     @credential_type = CredentialType.new
     @catalog_items_collection = @fetcher.catalog_items.only_credentiables
-                                .reduce(Hash.new { |h, k| h[k] = [] }) do |acum, item|
+                                .each_with_object(Hash.new { |h, k| h[k] = [] }) do |item, acum|
       acum[item.catalogable_type] << item
-      acum
     end
   end
 

@@ -5,7 +5,7 @@
 #  id                        :integer          not null, primary key
 #  customer_event_profile_id :integer          not null
 #  catalog_item_id           :integer          not null
-#  counter                   :integer
+#  amount                    :integer
 #  deleted_at                :datetime
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
@@ -13,7 +13,6 @@
 
 class CustomerOrder < ActiveRecord::Base
   acts_as_paranoid
-  acts_as_list column: :counter, scope: :customer_event_profile_id
 
   # Associations
   belongs_to :catalog_item

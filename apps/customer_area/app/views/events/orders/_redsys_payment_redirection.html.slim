@@ -1,0 +1,4 @@
+p = t('orders.redirect')
+= button_to t('orders.button'), event_order_path(@order_presenter.event, @order_presenter.order), method: :patch, remote: true, class: "btn"
+
+#paymentForm class="wrapper-field form-inputs"
