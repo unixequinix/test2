@@ -24,6 +24,8 @@ class CatalogItem < ActiveRecord::Base
   belongs_to :catalogable, polymorphic: true, touch: true
   has_many :pack_catalog_items, dependent: :restrict_with_error
   has_many :station_catalog_items, dependent: :restrict_with_error
+  has_many :order_items
+  has_many :orders, through: :order_items, class_name: "Order"
   has_one :credential_type
 
   validates :name, :initial_amount, :step, :max_purchasable, :min_purchasable, presence: true
@@ -44,6 +46,17 @@ class CatalogItem < ActiveRecord::Base
   VOUCHER = "Voucher"
 
   CREDENTIABLE_TYPES = [CREDIT, ACCESS, VOUCHER]
+
+  def self.with_prices(event)
+    joins(:station_catalog_items, station_catalog_items: :station_parameter)
+      .select("catalog_items.*, station_catalog_items.price")
+      .where(station_parameters:
+                       { id: StationParameter.joins(station: :station_type)
+                                             .where(
+                                               stations: { event_id: event },
+                                               station_types: { name: "customer_portal" }
+                                             ) })
+  end
 
   def self.sorted
     hash_sorted.values.flatten
