@@ -96,6 +96,9 @@ gem 'whenever', '~> 0.9.4', require: false
 gem 'globalize', '~> 5.0.1'
 gem 'i18n-globals', git: 'https://github.com/sebastianzillessen/i18n-globals.git'
 
+# bundle exec rake doc:rails generates the API under doc/api.
+gem 'sdoc', '~> 0.4.1', group: :doc
+
 group :development do
   gem 'foreman', '~> 0.78.0'
   gem 'annotate', '~> 2.6.10'
@@ -104,8 +107,6 @@ group :development do
   gem 'railroady', '~> 1.4.1' # Controller diagrams (ERD)
   gem 'quiet_assets', '~> 1.1.0'
   gem 'hirb', '~> 0.7.3' #  Improve ripl(irb)'s default inspect output
-  # bundle exec rake doc:rails generates the API under doc/api.
-  gem 'sdoc', '~> 0.4.1', group: :doc
   gem 'guard-rubocop'
   gem 'ruby-progressbar'
 end
@@ -133,6 +134,7 @@ group :development, :test do
   gem 'guard-rspec', '~> 4.5.0', require: false
   gem 'spring-commands-rspec', '~> 1.0.4'
   gem 'pry-rails'
+  gem 'terminal-notifier-guard'
 end
 
 group :development, :test, :staging do
@@ -140,7 +142,6 @@ group :development, :test, :staging do
   gem 'rubocop', '~>0.30.1', require: false # Code quality https://github.com/bbatsov/rubocop
   gem 'rubocop-checkstyle_formatter', require: false
   gem 'simplecov', '~> 0.10.0', require: false # Code quality https://github.com/colszowka/simplecov
-  gem 'flay', require: false
 end
 
 group :test do

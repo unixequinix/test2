@@ -1,4 +1,4 @@
-class Jobs::Credential::GtagChecker < Jobs::Base
+class Jobs::Credential::GtagChecker < Jobs::Credential::Base
   TYPES = %w( gtag_checkin )
 
   def perform(transaction_id, atts = {})
