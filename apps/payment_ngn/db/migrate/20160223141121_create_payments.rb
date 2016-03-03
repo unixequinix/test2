@@ -1,4 +1,5 @@
 class CreatePayments < ActiveRecord::Migration
+  # rubocop:disable all
   def change
     create_table :payments do |t|
       t.references :order, null: false
@@ -11,10 +12,12 @@ class CreatePayments < ActiveRecord::Migration
       t.string :currency
       t.string :merchant_code
       t.string :payment_type
+      t.string :last4
       t.boolean :success
 
       t.datetime :paid_at
       t.timestamps null: false
     end
   end
+  # rubocop:enable all
 end

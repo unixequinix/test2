@@ -119,7 +119,7 @@ es:
     total: "Total"
     vat: "IVA Incluido"
     redirect: "Serás redirigido a la pasarela de pago del banco."
-    button: "Siguiente"
+    button: "Pagar"
     button_iupay: "IUPAY"
     stripe:
       card_number: "Número de tarjeta"

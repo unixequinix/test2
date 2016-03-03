@@ -63,8 +63,17 @@ class Payments::StripePayer
   end
 
   def create_payment(order, charge)
-    Payment.create!(order: order, amount: (charge.amount.to_f / 100), # last 2 digits decimals
-                    merchant_code: charge.balance_transaction, currency: charge.currency,
-                    paid_at: Time.at(charge.created), response_code: charge, success: true)
+    Payment.create!(transaction_type: charge.source.object,
+                    card_country: charge.source.country,
+                    paid_at: Time.at(charge.created),
+                    last4: charge.source.last4,
+                    order: order,
+                    response_code: charge.status,
+                    authorization_code: charge.balance_transaction,
+                    currency: charge.currency,
+                    merchant_code: charge.balance_transaction,
+                    amount: (charge.amount.to_f / 100), # last two digits are decimals,
+                    success: true,
+                    payment_type: "stripe")
   end
 end

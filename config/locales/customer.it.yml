@@ -114,7 +114,7 @@ it:
     total: "Total"
     vat: "VAT Included"
     redirect: "You will be redirected to the bank’s payment gateway."
-    button: "Next"
+    button: "Pay"
     button_iupay: "IUPAY"
     stripe:
       card_number: "Card number"

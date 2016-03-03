@@ -42,9 +42,9 @@ class Claim < ActiveRecord::Base
       .includes(:claim_parameters, claim_parameters: :parameter)
       .where(aasm_state: aasm_state)
       .where(customer_event_profiles: { event_id: event.id })
-      .select("claims.id, customers.name, customers.surname, customers.email,
-            gtags.tag_uid, gtags.tag_serial_number, refunds.amount,
-            claims.service_type")
+      .select("claims.id, customer_event_profiles.id as customer_event_profile, customers.name,
+            customers.surname, customers.email, gtags.tag_uid, gtags.tag_serial_number,
+            refunds.amount, claims.service_type")
       .order(:id)
   }
 

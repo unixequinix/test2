@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160301103700) do
+ActiveRecord::Schema.define(version: 20160301112023) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -378,6 +378,15 @@ ActiveRecord::Schema.define(version: 20160301103700) do
     t.datetime "updated_at",      null: false
   end
 
+  create_table "payment_gateway_customers", force: :cascade do |t|
+    t.integer  "customer_event_profile_id", index: {name: "fk__payment_gateway_customers_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_payment_gateway_customers_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "token",                     index: {name: "index_payment_gateway_customers_on_token_and_gateway_type", with: ["gateway_type"], unique: true}
+    t.string   "gateway_type",              index: {name: "index_payment_gateway_customers_on_gateway_type"}
+    t.datetime "deleted_at",                index: {name: "index_payment_gateway_customers_on_deleted_at"}
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
   create_table "payments", force: :cascade do |t|
     t.integer  "order_id",           null: false, index: {name: "fk__payments_order_id"}, foreign_key: {references: "orders", name: "fk_payments_order_id", on_update: :no_action, on_delete: :no_action}
     t.decimal  "amount",             precision: 8, scale: 2, null: false
@@ -389,6 +398,7 @@ ActiveRecord::Schema.define(version: 20160301103700) do
     t.string   "currency"
     t.string   "merchant_code"
     t.string   "payment_type"
+    t.string   "last4"
     t.boolean  "success"
     t.datetime "paid_at"
     t.datetime "created_at",         null: false

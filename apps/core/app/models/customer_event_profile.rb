@@ -26,37 +26,30 @@ class CustomerEventProfile < ActiveRecord::Base
            -> { where(transaction_source: CustomerCredit::CREDITS_PURCHASE) },
            class_name: "CustomerCredit"
   has_many :credential_assignments
-
   # credential_assignments_tickets
   has_many :ticket_assignments,
            -> { where(credentiable_type: "Ticket") },
            class_name: "CredentialAssignment", dependent: :destroy
-
   # credential_assignments_gtags
   has_many :gtag_assignment,
            -> { where(credentiable_type: "Gtag") },
            class_name: "CredentialAssignment", dependent: :destroy
-
   # credential_assignments_assigned
   has_many :active_assignments,
            -> { where(aasm_state: :assigned) }, class_name: "CredentialAssignment"
-
   # credential_assignments_tickets_assigned
   has_many :active_tickets_assignment,
            -> { where(aasm_state: :assigned, credentiable_type: "Ticket") },
            class_name: "CredentialAssignment"
-
   # credential_assignments_gtag_assigned
   has_one :active_gtag_assignment,
           -> { where(aasm_state: :assigned, credentiable_type: "Gtag") },
           class_name: "CredentialAssignment"
-
   has_one :completed_claim,
           -> { where(aasm_state: :completed) }, class_name: "Claim"
-
   has_one :banned_customer_event_profile
-
   has_one :current_balance, -> { order(created_at: :asc) }, class_name: "CustomerCredit"
+  has_many :payment_gateway_customers
 
   # Validations
   validates :event, presence: true
@@ -86,5 +79,9 @@ class CustomerEventProfile < ActiveRecord::Base
   def purchased_credits
     customer_credits.where(transaction_source: CustomerCredit::CREDITS_PURCHASE)
       .sum(:amount).floor
+  end
+
+  def gateway_customer(gateway)
+    payment_gateway_customers.find_by(gateway_type: gateway)
   end
 end
