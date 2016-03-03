@@ -18,14 +18,21 @@ class OrderItem < ActiveRecord::Base
   belongs_to :catalog_item
 
   def credits_included
-    catalog_item = CatalogItem.find(catalog_item_id)
     if catalog_item.catalogable_type == "Pack"
-      catalog_item.catalogable.credits * amount
+      pack_credits
     elsif catalog_item.catalogable_type == "Credit"
-      amount
+      single_credits
     else
       0
     end
+  end
+
+  def pack_credits
+    catalog_item.catalogable.credits * amount
+  end
+
+  def single_credits
+    amount
   end
 
   # Validations
