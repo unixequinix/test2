@@ -6,7 +6,7 @@ class CustomerCreditCreator
       customer_event_profile: attributes[:customer_event_profile],
       payment_method: attributes[:payment_method],
       transaction_source: attributes[:transaction_source],
-      value_credit: credit_value(attributes[:customer_event_profile].event),
+      credit_value: get_credit_value(attributes[:customer_event_profile].event),
       amount: attributes[:amount],
       refundable_amount: attributes[:amount]
     )
@@ -28,7 +28,7 @@ class CustomerCreditCreator
       balances.final_refundable_balance.to_i + @customer_credit.refundable_amount
   end
 
-  def credit_value(event)
+  def get_credit_value(event)
     event.standard_credit_price
   end
 end

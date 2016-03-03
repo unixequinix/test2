@@ -8,7 +8,7 @@
 #  refundable_amount         :decimal(, )      not null
 #  final_balance             :decimal(, )      not null
 #  final_refundable_balance  :decimal(, )      not null
-#  value_credit              :decimal(, )      not null
+#  credit_value              :decimal(, )      not null
 #  payment_method            :string           not null
 #  transaction_source         :string           not null
 #  deleted_at                :datetime

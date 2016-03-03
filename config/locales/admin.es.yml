@@ -313,7 +313,7 @@ es:
     customer_credits:
       amount: "Candidad"
       refundable_amount: "Cantidad reembolsable"
-      value_credit: "Valor del crédito"
+      credit_value: "Valor del crédito"
       payment_method: "Método de pago"
       transaction_source: "Fuente de la transacción"
       final_balance: "Balance final"

@@ -270,7 +270,7 @@ ActiveRecord::Schema.define(version: 20160301112023) do
     t.decimal  "refundable_amount",         null: false
     t.decimal  "final_balance",             null: false
     t.decimal  "final_refundable_balance",  null: false
-    t.decimal  "value_credit",              null: false
+    t.decimal  "credit_value",              null: false
     t.datetime "deleted_at",                index: {name: "index_customer_credits_on_deleted_at"}
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
