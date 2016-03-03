@@ -90,6 +90,7 @@ class Payments::BraintreePayer
                                    ).save
   end
 
+  # rubocop:disable all
   def create_payment(order, charge)
     Payment.create!(transaction_type: transaction.payment_instrument_type,
                     card_country: transaction.credit_card_details.country_of_issuance,
@@ -104,4 +105,5 @@ class Payments::BraintreePayer
                     success: true,
                     payment_type: "braintree")
   end
+  # rubocop:enable all
 end

@@ -6,7 +6,7 @@ class Payments::StripePayer
   end
 
   def start(params, customer_order_creator)
-    @order = Order.find(params[:order_id]
+    @order = Order.find(params[:order_id])
     @order.start_payment!
     @customer_order_creator = customer_order_creator
     charge_object = charge(params)
