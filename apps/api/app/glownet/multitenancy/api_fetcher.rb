@@ -34,7 +34,7 @@ class Multitenancy::ApiFetcher
   end
 
   def gtags
-    Gtag.includes(:credential_assignments, :company_ticket_type).where(event: @event)
+    Gtag.includes(:credential_assignments, :company_ticket_type, :purchaser).where(event: @event)
   end
 
   def banned_gtags
@@ -60,7 +60,7 @@ class Multitenancy::ApiFetcher
   end
 
   def tickets
-    Ticket.includes(:credential_assignments, :company_ticket_type).where(event: @event)
+    Ticket.includes(:credential_assignments, :company_ticket_type, :purchaser).where(event: @event)
   end
 
   def banned_tickets
