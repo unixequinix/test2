@@ -13,8 +13,19 @@ RSpec.describe Jobs::Credit::BalanceUpdater, type: :job do
     end
   end
 
-  it "updates the balance of a customer" do
-    params = { transaction_category: "credit", transaction_type: "sale", amount: 30 }
+  it "updates the balance of a customer when correct values are supplied" do
+    params = {
+      transaction_category: "credit",
+      transaction_type: "sale",
+      amount: 30,
+      payment_method: "cash",
+      transaction_origin: "device",
+      customer_event_profile_id: create(:customer_event_profile).id,
+      refundable_amount: 1.2,
+      value_credit: 2,
+      final_balance: 100,
+      final_refundable_balance: 20
+    }
     expect { base.write(params) } .to change { CustomerCredit.count }
   end
 end

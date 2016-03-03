@@ -28,9 +28,9 @@ RSpec.describe Jobs::Base, type: :job do
   end
   context "creating transactions" do
     it "ignores attributes not present in table" do
-      p = params.merge(foo: "not valid")
-      obj = base.write(p)
-      expect(obj.errors.full_messages).to be_empty
+      allow(Jobs::Credit::BalanceUpdater).to receive(:perform_later)
+      obj = base.write(params.merge(foo: "not valid"))
+      expect(obj).not_to be_new_record
     end
 
     it "works even if jobs fail" do
