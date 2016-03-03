@@ -5,8 +5,8 @@
   -
     catalog_item_id: 1
     amount: 3
-    total: 50
+    total: 3
   -
     catalog_item_id: 2
     amount: 2
-    total: 34
+    total: 20

@@ -256,7 +256,7 @@ namespace :db do
     puts '----------------------------------------'
     CustomerEventProfile.all.each do |customer_event_profile|
       YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'orders.yml')).each do |data|
-        @order = Order.new(number: 5 * "#{customer_event_profile.id}#{data['number']}",
+        @order = Order.new(number: "#{customer_event_profile.id}#{data['number']}" * 4,
                            aasm_state: data['aasm_state'],
                            customer_event_profile: customer_event_profile)
         @order.order_items << data['order_items'].map do |order_item|

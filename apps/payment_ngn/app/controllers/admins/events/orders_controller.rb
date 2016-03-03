@@ -9,7 +9,7 @@ class Admins::Events::OrdersController < Admins::Events::PaymentsBaseController
   end
 
   def show
-    @order = @fetcher.orders.includes(preevent_products: :preevent_items).find(params[:id])
+    @order = @fetcher.orders.includes(catalog_items: :event).find(params[:id])
   end
 
   private

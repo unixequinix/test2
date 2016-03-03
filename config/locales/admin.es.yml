@@ -397,7 +397,7 @@ es:
       amount: "Cantidad"
       product_price: "Precio del Producto"
       total: "Total"
-      product_name: "Nomebre del Producto"
+      product_name: "Producto"
       product_description: "Descripción del Producto"
       product_type: "Tipo de Producto"
       order_item: "Items de Órdenes"
