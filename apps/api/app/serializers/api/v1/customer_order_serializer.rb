@@ -6,6 +6,6 @@ class Api::V1::CustomerOrderSerializer < Api::V1::BaseSerializer
   end
 
   def product
-    object.preevent_product_id
+    object.catalog_item_id
   end
 end

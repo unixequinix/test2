@@ -1,18 +1,24 @@
-class Jobs::Credential::TicketChecker < Jobs::Base
+class Jobs::Credential::TicketChecker < Jobs::Credential::Base
   TYPES = %w( ticket_checkin )
 
-  def perform(transaction_id, atts = {})
+  def perform(atts)
+    atts = pre_process(atts)
     ActiveRecord::Base.transaction do
-      t = CredentialTransaction.find(transaction_id)
-      # TODO: find or create ticket
-      # TODO: assign company ticket type
-      # TODO: find or create ticket credential assignment
+      t = CredentialTransaction.find(atts[:transaction_id])
+      ticket = assign_ticket(t, atts)
+      profile = assign_profile(t, atts)
+      tag = assign_gtag(t, atts)
+      assign_gtag_credential(tag, profile)
+      assign_ticket_credential(ticket, profile)
       t.ticket.update!(credential_redeemed: true)
-      profile = t.create_customer_event_profile!(event: t.event)
-      tag = t.event.gtags.create!(tag_uid: t.customer_tag_uid)
-      tag.credential_assignments.create!(customer_event_profile: profile)
     end
 
     Jobs::Credential::OrderCreator.perform_later(transaction_id, atts)
+  end
+
+  private
+
+  def pre_process(atts)
+    atts
   end
 end

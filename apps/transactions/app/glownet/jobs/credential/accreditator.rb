@@ -1,4 +1,4 @@
-class Jobs::Credential::Accreditator < Jobs::Base
+class Jobs::Credential::Accreditator < Jobs::Credential::Base
   TYPES = %w( accreditation )
 
   def perform(transaction_id, atts = {})
