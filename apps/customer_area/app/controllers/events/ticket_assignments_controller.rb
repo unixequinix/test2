@@ -22,7 +22,7 @@ class Events::TicketAssignmentsController < Events::BaseController
     ticket = @ticket_assignment.credentiable
     @credit_log =
       CustomerCreditOnlineCreator.new(customer_event_profile: customer_event_profile,
-                                      transaction_source: CustomerCredit::TICKET_UNASSIGNMENT,
+                                      transaction_origin: CustomerCredit::TICKET_UNASSIGNMENT,
                                       payment_method: "none",
                                       amount: -ticket.credits
                                      ).save if ticket.credits.present?
