@@ -1,0 +1,12 @@
+-
+  number: 1
+  aasm_state: "completed"
+  order_items:
+  -
+    catalog_item_id: 1
+    amount: 3
+    total: 50
+  -
+    catalog_item_id: 2
+    amount: 2
+    total: 34
