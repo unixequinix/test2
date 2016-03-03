@@ -16,6 +16,16 @@ RSpec.describe Jobs::Base, type: :job do
     base.write(params)
   end
 
+  describe "descendants" do
+    it "must b loaded with environment" do
+      expect(base.descendants).not_to be_empty
+    end
+
+    it "do not include Base clases" do
+      Jobs::Credential::Base.inspect # make 100% sure it is loaded into memory
+      expect(base.descendants).not_to include(Jobs::Credential::Base)
+    end
+  end
   context "creating transactions" do
     it "ignores attributes not present in table" do
       p = params.merge(foo: "not valid")
@@ -24,13 +34,10 @@ RSpec.describe Jobs::Base, type: :job do
     end
 
     it "works even if jobs fail" do
-      Jobs::Credential::TicketChecker.inspect # making sure it is loaded into object space
-      params = { transaction_category: "credential",
-                 transaction_type: "ticket_checkin",
-                 status_code: "test code" }
+      allow(Jobs::Credit::BalanceUpdater).to receive(:perform_later).and_raise(Exception)
       expect { base.write(params) }.to raise_error
-      params.delete(:transaction_category)
-      expect(CredentialTransaction.where(params)).not_to be_empty
+      params.delete(:transaction_id)
+      expect(CreditTransaction.where(params)).not_to be_empty
     end
   end
 end
