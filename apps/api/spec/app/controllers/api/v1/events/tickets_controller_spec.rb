@@ -1,8 +1,8 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Api::V1::Events::TicketsController, type: :controller do
   let(:event) { build(:event) }
-  let(:admin) { create(:admin) }
+  let(:admin) { Admin.first || create(:admin) }
 
   before do
     create_list(:ticket, 2, :with_purchaser, event: event)

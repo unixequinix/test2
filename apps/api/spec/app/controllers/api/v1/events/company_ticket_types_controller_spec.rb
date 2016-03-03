@@ -1,8 +1,8 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Api::V1::Events::CompanyTicketTypesController, type: :controller do
   let(:event) { build(:event) }
-  let(:admin) { create(:admin) }
+  let(:admin) { Admin.first || create(:admin) }
 
   before do
     create_list(:company_ticket_type, 2, event: event)

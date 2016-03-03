@@ -9,7 +9,7 @@ class Multitenancy::ApiFetcher
 
   def company_ticket_types
     CompanyTicketType.includes(:credential_type, company_event_agreement: :company)
-                     .where(event: @event)
+      .where(event: @event)
   end
 
   def credential_types
@@ -43,7 +43,7 @@ class Multitenancy::ApiFetcher
 
   def packs
     Pack.includes(:catalog_item, pack_catalog_items: :catalog_item)
-    .where(catalog_items: { event_id: @event.id })
+      .where(catalog_items: { event_id: @event.id })
   end
 
   def stations

@@ -1,7 +1,7 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Api::V1::Events::GtagsController, type: :controller do
-  let(:admin) { create(:admin) }
+  let(:admin) { Admin.first || create(:admin) }
 
   before do
     @event = create :event

@@ -7,10 +7,10 @@ class Api::Engine < ::Rails::Engine
     end
   end
 
-  initializer "model_core.factories", after: "factory_girl.set_factory_paths" do
-    if defined?(FactoryGirl)
-      FactoryGirl.definition_file_paths <<
-        File.expand_path("#{Rails.root}/spec/api/factories", __FILE__)
-    end
+  config.generators do |g|
+    g.test_framework :rspec, fixture: false
+    g.fixture_replacement :factory_girl, dir: "spec/factories"
+    g.assets false
+    g.helper false
   end
 end
