@@ -82,6 +82,6 @@ class CustomerEventProfile < ActiveRecord::Base
   end
 
   def gateway_customer(gateway)
-    self.payment_gateway_customers.find_by(gateway_type: gateway)
+    payment_gateway_customers.find_by(gateway_type: gateway)
   end
 end

@@ -51,6 +51,6 @@ class Payments::RedsysPayer
                     amount: amount,
                     terminal: params[:Ds_Terminal],
                     success: true,
-                    payment_type: 'redsys')
+                    payment_type: "redsys")
   end
 end

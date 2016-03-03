@@ -36,7 +36,7 @@ class StripePaymentSettingsForm
   end
 
   def main_parameters
-    self.attributes.keys.reject{ |value| value == :event_id }
+    attributes.keys.reject { |value| value == :event_id }
   end
 
   private

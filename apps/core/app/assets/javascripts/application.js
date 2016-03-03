@@ -4,8 +4,6 @@
 
 //= require customer/top-up-buttons
 //= require customer/nav-mobile
-//= require customer/stripe
-//= require customer/braintree
 
 //= require admin/header
 

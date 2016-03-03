@@ -79,6 +79,6 @@ class Payments::StripePayer
                     merchant_code: charge.balance_transaction,
                     amount: (charge.amount.to_f / 100), # last two digits are decimals,
                     success: true,
-                    payment_type: 'stripe')
+                    payment_type: "stripe")
   end
 end

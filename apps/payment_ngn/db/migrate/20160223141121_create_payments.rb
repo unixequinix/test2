@@ -1,4 +1,5 @@
 class CreatePayments < ActiveRecord::Migration
+  # rubocop:disable all
   def change
     create_table :payments do |t|
       t.references :order, null: false
@@ -18,4 +19,5 @@ class CreatePayments < ActiveRecord::Migration
       t.timestamps null: false
     end
   end
+  # rubocop:enable all
 end

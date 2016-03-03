@@ -58,7 +58,7 @@ class Payments::BraintreePayer
     # Create vault
     customer_event_profile = order.customer_event_profile
     customer_event_profile.gateway_customer(Event::BRAINTREE)
-                          .update(token: transaction.customer_details.id)
+      .update(token: transaction.customer_details.id)
     customer_event_profile.save
 
     send_mail_for(order, Event.friendly.find(params[:event_id]))
@@ -98,7 +98,6 @@ class Payments::BraintreePayer
                     merchant_code: transaction.id,
                     amount: (transaction.amount.to_f / 100), # last two digits are decimals,
                     success: true,
-                    payment_type: 'braintree')
-
+                    payment_type: "braintree")
   end
 end

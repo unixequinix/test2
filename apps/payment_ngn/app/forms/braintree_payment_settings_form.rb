@@ -2,7 +2,6 @@ class BraintreePaymentSettingsForm
   include ActiveModel::Model
   include Virtus.model
 
-
   attribute :environment, String
   attribute :merchant_id, String
   attribute :public_key, String
@@ -15,7 +14,7 @@ class BraintreePaymentSettingsForm
   validates_presence_of :private_key
   validates_presence_of :event_id
 
-  def save(params, request)
+  def save(_params, _request)
     if valid?
       persist!
       true
@@ -34,7 +33,7 @@ class BraintreePaymentSettingsForm
   end
 
   def main_parameters
-    self.attributes.keys.reject{ |value| value == :event_id }
+    attributes.keys.reject { |value| value == :event_id }
   end
 
   private

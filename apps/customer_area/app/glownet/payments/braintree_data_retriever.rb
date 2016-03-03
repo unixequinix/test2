@@ -6,11 +6,11 @@ class Payments::BraintreeDataRetriever
     @current_event = event
     @order = order
     @payment_parameters = Parameter.joins(:event_parameters)
-                                   .where(category: "payment",
-                                          group: @current_event.payment_service,
-                                          event_parameters: { event: event })
-                                   .select("parameters.name, event_parameters.*")
-    Braintree::Configuration.environment  = enviroment
+                          .where(category: "payment",
+                                 group: @current_event.payment_service,
+                                 event_parameters: { event: event })
+                          .select("parameters.name, event_parameters.*")
+    Braintree::Configuration.environment  = environment
     Braintree::Configuration.merchant_id = merchant_id
     Braintree::Configuration.public_key = public_key
     Braintree::Configuration.private_key = private_key
@@ -21,7 +21,7 @@ class Payments::BraintreeDataRetriever
 
   def generate_client_token
     customer_event_profile = order.customer_event_profile
-    gateway_customer = customer_event_profile.gateway_customer(Event::BRAINTREE)
+    gateway_customer = customer_event_profile.gateway_customer(EventDecorator::BRAINTREE)
     if gateway_customer
       Braintree::ClientToken.generate(customer_id: gateway_customer.token)
     else
@@ -29,8 +29,8 @@ class Payments::BraintreeDataRetriever
     end
   end
 
-  def enviroment
-    get_value_of_parameter("enviroment")
+  def environment
+    get_value_of_parameter("environment")
   end
 
   def merchant_id

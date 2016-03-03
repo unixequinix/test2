@@ -12,8 +12,7 @@
 #
 
 class PaymentGatewayCustomer < ActiveRecord::Base
-
   belongs_to :customer_event_profile
 
-  validates :customer_event_profile_id, uniqueness: {scope: :gateway_type}
+  validates :customer_event_profile_id, uniqueness: { scope: :gateway_type }
 end

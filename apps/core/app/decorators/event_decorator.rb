@@ -10,7 +10,8 @@ class EventDecorator < Draper::Decorator
   # Payment Services
   REDSYS = "redsys"
   STRIPE = "stripe"
-  PAYMENT_SERVICES = [REDSYS, STRIPE]
+  BRAINTREE = "braintree"
+  PAYMENT_SERVICES = [REDSYS, STRIPE, BRAINTREE]
 
   # Background Types
   BACKGROUND_FIXED = "fixed"
