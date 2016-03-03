@@ -13,7 +13,6 @@ class Payments::RedsysPayer
     amount = params[:Ds_Amount].to_f / 100 # last two digits are decimals
     return unless success
     order = Order.find_by(number: params[:Ds_Order])
-
     create_log(order)
     create_payment(order, amount, params)
     order.complete!
@@ -44,9 +43,14 @@ class Payments::RedsysPayer
     Payment.create!(transaction_type: params[:Ds_TransactionType],
                     card_country: params[:Ds_Card_Country],
                     paid_at: "#{params[:Ds_Date]}, #{params[:Ds_Hour]}",
-                    order: order, response_code: params[:Ds_Response],
+                    order: order,
+                    response_code: response,
                     authorization_code: params[:Ds_AuthorisationCode],
-                    currency: params[:Ds_Currency], merchant_code: params[:Ds_MerchantCode],
-                    amount: amount, terminal: params[:Ds_Terminal], success: true)
+                    currency: params[:Ds_Currency],
+                    merchant_code: params[:Ds_MerchantCode],
+                    amount: amount,
+                    terminal: params[:Ds_Terminal],
+                    success: true,
+                    payment_type: "redsys")
   end
 end

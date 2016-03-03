@@ -42,6 +42,10 @@ class RedsysPaymentSettingsForm
     end
   end
 
+  def main_parameters
+    attributes.keys.reject { |value| value == :event_id }
+  end
+
   private
 
   def persist!

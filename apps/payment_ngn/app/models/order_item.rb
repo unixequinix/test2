@@ -17,6 +17,17 @@ class OrderItem < ActiveRecord::Base
   belongs_to :order
   belongs_to :catalog_item
 
+  def credits_included
+    catalog_item = CatalogItem.find(catalog_item_id)
+    if catalog_item.catalogable_type == "Pack"
+      catalog_item.catalogable.credits * amount
+    elsif catalog_item.catalogable_type == "Credit"
+      amount
+    else
+      0
+    end
+  end
+
   # Validations
   validates :amount, numericality: { only_integer: true, less_than_or_equal_to: 500 }
 end

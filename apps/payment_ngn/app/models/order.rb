@@ -51,11 +51,7 @@ class Order < ActiveRecord::Base
   end
 
   def credits_total
-    order_items.joins(preevent_product: [:preevent_items, :preevent_product_items])
-      .select("preevent_product_items.amount * order_items.amount as multiplication", "id")
-      .where(preevent_items: { purchasable_type: "Credit" })
-      .uniq(:id)
-      .reduce(0) { |a, e| a + e.multiplication }
+    order_items.to_a.sum(&:credits_included)
   end
 
   def generate_order_number!

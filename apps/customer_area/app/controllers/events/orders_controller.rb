@@ -3,7 +3,10 @@ class Events::OrdersController < Events::BaseController
   before_action :require_permission!
 
   def show
-    @order = Order.includes(order_items: :catalog_item).find(params[:id])
+    order = Order.includes(order_items: :catalog_item).find(params[:id])
+    @order_presenter =
+      ("Orders::#{current_event.payment_service.camelize}Presenter").constantize
+      .new(current_event, order)
   end
 
   def update
