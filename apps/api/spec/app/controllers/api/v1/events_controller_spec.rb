@@ -1,14 +1,15 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Api::V1::EventsController, type: :controller do
+  let(:admin) { Admin.first || FactoryGirl.create(:admin) }
+
   describe "GET index" do
     context "with authentication" do
       before(:each) do
         FactoryGirl.create :event, name: "Sonar Barcelona"
         FactoryGirl.create :event, name: "Comic Con Dubai"
 
-        @admin = FactoryGirl.create(:admin)
-        http_login(@admin.email, @admin.access_token)
+        http_login(admin.email, admin.access_token)
       end
 
       it "has a 200 status code" do

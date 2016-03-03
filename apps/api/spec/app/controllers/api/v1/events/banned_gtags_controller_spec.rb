@@ -1,17 +1,16 @@
-require "rails_helper"
+require "spec_helper"
 
-RSpec.describe Api::V1::Events::BannedTicketsController, type: :controller do
+RSpec.describe Api::V1::Events::BannedGtagsController, type: :controller do
+  let(:admin) { Admin.first || create(:admin) }
+
   describe "GET index" do
-    let(:event) { build(:event) }
-    let(:admin) { create(:admin) }
-
     before do
-      @tickets = create_list(:ticket, 2, :banned, event: event)
+      @event = create :event
+      @gtags = create_list(:gtag, 2, :banned, event: @event)
     end
 
     context "with authentication" do
       before(:each) do
-        admin = FactoryGirl.create(:admin)
         http_login(admin.email, admin.access_token)
       end
 
@@ -21,13 +20,13 @@ RSpec.describe Api::V1::Events::BannedTicketsController, type: :controller do
         expect(response.status).to eq 200
       end
 
-      it "returns all the banned tickets" do
-        get :index, event_id: event.id
+      it "returns all the banned gtags" do
+        get :index, event_id: @event.id
 
         body = JSON.parse(response.body)
-        banned_tickets = body.map { |m| m["reference"] }
+        banned_gtags = body.map { |m| m["tag_uid"] }
 
-        @tickets.each { |ticket|  expect(banned_tickets).to include(ticket.code) }
+        @gtags.each { |gtag|  expect(banned_gtags).to include(gtag.tag_uid) }
       end
     end
     context "without authentication" do

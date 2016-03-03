@@ -1,6 +1,8 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Api::V1::Events::CustomersController, type: :controller do
+  let(:admin) { Admin.first || FactoryGirl.create(:admin) }
+
   before(:all) do
     @event = create(:event)
     @customer1 = create(:customer_event_profile, event: @event)
@@ -16,8 +18,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
   describe "GET index" do
     context "with authentication" do
       before(:each) do
-        @admin = FactoryGirl.create(:admin)
-        http_login(@admin.email, @admin.access_token)
+        http_login(admin.email, admin.access_token)
       end
 
       it "has a 200 status code" do

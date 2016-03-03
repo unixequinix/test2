@@ -7,15 +7,16 @@ require "api/version"
 Gem::Specification.new do |s|
   s.name        = "api"
   s.version     = Api::VERSION
-  s.authors     = ["Quino"]
-  s.email       = ["quino@acidtango.com"]
-  # s.homepage    = "TODO"
-  s.summary     = "Summary of Checkin."
-  s.description = "Description of Checkin."
+  s.authors     = ["Rubén"]
+  s.email       = ["ruben@glownet.com"]
+  s.homepage    = "http://www.glownet.com"
+  s.summary     = "Summary of Api."
+  s.description = "Description of Api."
   s.license     = "MIT"
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
-  s.test_files = Dir["spec/**/*"]
+  s.files = Dir["{app,config,db,lib}/**/*", "README.rdoc", "spec/factories/**/*"]
 
   s.add_dependency "rails", "~> 4.2.1"
+  s.add_development_dependency 'rspec-rails'
+  s.add_development_dependency 'factory_girl_rails'
 end
