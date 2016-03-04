@@ -348,6 +348,7 @@ en:
       creadit_logs: "Credits logs"
       orders: "Orders"
       payments: "Payments"
+      payments_activated: "Payments activated"
       gtag_assignments: "Gtag registrations"
       completed_claim: "Completed claims"
       customer_orders: "Customer orders"

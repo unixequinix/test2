@@ -1,7 +1,6 @@
 .container-show
   - root = "admins/events/customer_event_profiles/sections/"
   = render(root + "purchases_information", customer_event_profile: customer_event_profile) if customer_event_profile.purchases.present?
-  = render(root + "payments_information", customer_event_profile: customer_event_profile)
   = render(root + "ticket_assignments", customer_event_profile: customer_event_profile) if customer_event_profile.ticket_assignments.any?
   = render(root + "orders", customer_event_profile: customer_event_profile) if customer_event_profile.orders.any?
   = render(root + "gtag_assignments", customer_event_profile: customer_event_profile) if customer_event_profile.gtag_assignment.any?

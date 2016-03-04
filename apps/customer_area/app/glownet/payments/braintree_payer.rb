@@ -70,8 +70,8 @@ class Payments::BraintreePayer
   def create_vault(order, transaction)
     customer_event_profile = order.customer_event_profile
     customer_event_profile.payment_gateway_customers
-                          .find_or_create_by(gateway_type: EventDecorator::BRAINTREE)
-                          .update(token: transaction.customer_details.id)
+      .find_or_create_by(gateway_type: EventDecorator::BRAINTREE)
+      .update(token: transaction.customer_details.id)
     customer_event_profile.save
   end
 
