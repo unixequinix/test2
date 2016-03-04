@@ -8,7 +8,7 @@ class CreateCustomerCredits < ActiveRecord::Migration
       t.decimal :refundable_amount, precision: 8, scale: 2, default: 1.0, null: false
       t.decimal :final_balance, precision: 8, scale: 2, default: 1.0, null: false
       t.decimal :final_refundable_balance, precision: 8, scale: 2, default: 1.0, null: false
-      t.decimal :value_credit, precision: 8, scale: 2, default: 1.0, null: false
+      t.decimal :credit_value, precision: 8, scale: 2, default: 1.0, null: false
 
       t.datetime :deleted_at, index: true
       t.timestamps null: false

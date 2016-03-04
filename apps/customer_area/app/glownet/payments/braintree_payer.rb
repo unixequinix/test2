@@ -13,9 +13,8 @@ class Payments::BraintreePayer
     @customer_order_creator = customer_order_creator
     charge_object = charge(params)
     if charge_object.success?
-      notify_payment(params, charge_object)
+      notify_payment(charge_object)
       @action_after_payment = success_event_order_synchronous_payments_path(@event, @order)
-      customer_order_creator.save(@order)
     else
       @action_after_payment = error_event_order_synchronous_payments_path(@event, @order)
     end
@@ -49,6 +48,7 @@ class Payments::BraintreePayer
     return unless transaction.status == "authorized"
     create_log(@order)
     create_payment(@order, charge)
+    @customer_order_creator.save(@order)
     @order.complete!
     create_vault(@order, transaction)
     send_mail_for(@order, @event)
@@ -102,7 +102,7 @@ class Payments::BraintreePayer
                     last4: transaction.credit_card_details.last_4,
                     order: order,
                     response_code: transaction.processor_response_code,
-                    authorization_code: charge.balance_transaction,
+                    authorization_code: transaction.processor_authorization_code,
                     currency: order.customer_event_profile.event.currency,
                     merchant_code: transaction.id,
                     amount: transaction.amount.to_f / 100,

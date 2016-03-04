@@ -1,5 +1,4 @@
 class OrderManager
-
   def initialize(current_order)
     @current_order = current_order
   end

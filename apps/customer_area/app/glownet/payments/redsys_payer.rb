@@ -39,7 +39,7 @@ class Payments::RedsysPayer
                     card_country: params[:Ds_Card_Country],
                     paid_at: "#{params[:Ds_Date]}, #{params[:Ds_Hour]}",
                     order: order,
-                    response_code: response,
+                    response_code: params[:Ds_Response],
                     authorization_code: params[:Ds_AuthorisationCode],
                     currency: params[:Ds_Currency],
                     merchant_code: params[:Ds_MerchantCode],

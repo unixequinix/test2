@@ -10,7 +10,7 @@
 #  refundable_amount         :decimal(8, 2)    default(1.0), not null
 #  final_balance             :decimal(8, 2)    default(1.0), not null
 #  final_refundable_balance  :decimal(8, 2)    default(1.0), not null
-#  value_credit              :decimal(8, 2)    default(1.0), not null
+#  credit_value              :decimal(8, 2)    default(1.0), not null
 #  deleted_at                :datetime
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
@@ -21,7 +21,7 @@ class CustomerCredit < ActiveRecord::Base
   belongs_to :customer_event_profile
 
   validates_presence_of :payment_method, :transaction_origin, :customer_event_profile
-  validates_numericality_of :amount, :refundable_amount, :value_credit
+  validates_numericality_of :amount, :refundable_amount, :credit_value
   validates_numericality_of :final_balance, :final_refundable_balance, greater_than_or_equal_to: 0
 
   TICKET_ASSIGNMENT  = "ticket_assignment"

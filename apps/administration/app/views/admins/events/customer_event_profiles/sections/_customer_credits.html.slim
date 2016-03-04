@@ -9,7 +9,7 @@ table.refunds
       th = t("admin.customer_credits.refundable_amount")
       th = t("admin.customer_credits.credit_value")
       th = t("admin.customer_credits.payment_method")
-      th = t("admin.customer_credits.transaction_source")
+      th = t("admin.customer_credits.transaction_origin")
       th = t("admin.customer_credits.final_balance")
       th = t("admin.customer_credits.final_refundable_balance")
   tbody
@@ -20,6 +20,6 @@ table.refunds
         td data-label="refundable_amount" = customer_credit.refundable_amount
         td data-label="credit_value" = customer_credit.credit_value
         td data-label="payment_method" = customer_credit.payment_method
-        td data-label="transaction_source" = customer_credit.transaction_source
+        td data-label="transaction_origin" = customer_credit.transaction_origin
         td data-label="final_balance" = customer_credit.final_balance
         td data-label="final_refundable_balance" = customer_credit.final_refundable_balance

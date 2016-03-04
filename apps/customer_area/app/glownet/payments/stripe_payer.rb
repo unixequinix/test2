@@ -13,9 +13,8 @@ class Payments::StripePayer
     @customer_order_creator = customer_order_creator
     charge_object = charge(params)
     if charge_object
-      notify_payment(params, charge_object)
+      notify_payment(charge_object)
       @action_after_payment = success_event_order_synchronous_payments_path(@event, @order)
-      customer_order_creator.save(@order)
     else
       @action_after_payment = error_event_order_synchronous_payments_path(@event, @order)
     end
@@ -43,6 +42,7 @@ class Payments::StripePayer
     return unless charge.status == "succeeded"
     create_log(@order)
     create_payment(@order, charge)
+    @customer_order_creator.save(@order)
     @order.complete!
     send_mail_for(@order, @event)
   end
