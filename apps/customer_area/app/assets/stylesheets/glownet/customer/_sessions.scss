@@ -59,13 +59,14 @@
 }
 
 // ------- REMEMBER ME -------
-//.required {
-//  label:before {
-//    content: "*";
-//    display: inline-block;
-//    padding-right: modules(0.25);
-//  }
-//}
+.required {
+  label:before {
+    content: "*";
+    display: inline-block;
+    padding-right: modules(0.25);
+    font-weight: bold;
+  }
+}
 
 .sessions-shared-login {
   clear: both;
