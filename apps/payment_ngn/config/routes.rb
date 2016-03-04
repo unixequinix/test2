@@ -19,11 +19,6 @@ Rails.application.routes.draw do
             get :search
           end
         end
-        resources :customer_orders, except: [:new, :create, :edit, :update] do
-          collection do
-            get :search
-          end
-        end
         resources :payments, except: [:new, :create, :edit, :update] do
           collection do
             get :search

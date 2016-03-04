@@ -11,7 +11,6 @@ class Payments::StripePayer
     if charge_object
       notify_payment(params, charge_object)
       @action_after_payment = "redirect_to(success_event_order_payments_path)"
-      customer_order_creator.save(Order.find(params[:order_id]))
     else
       @action_after_payment = "redirect_to(error_event_order_payments_path)"
     end
@@ -41,6 +40,7 @@ class Payments::StripePayer
     order = Order.find(params[:order_id])
     create_log(order)
     create_payment(order, charge)
+    @customer_order_creator.save(Order.find(params[:order_id]))
     order.complete!
     send_mail_for(order, Event.friendly.find(params[:event_id]))
   end

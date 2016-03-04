@@ -21,7 +21,7 @@ class CustomerCredit < ActiveRecord::Base
   belongs_to :customer_event_profile
 
   validates_presence_of :payment_method, :transaction_origin, :customer_event_profile
-  validates_numericality_of :amount, :refundable_amount, :value_credit
+  validates_numericality_of :amount, :refundable_amount, :credit_value
   validates_numericality_of :final_balance, :final_refundable_balance, greater_than_or_equal_to: 0
 
   TICKET_ASSIGNMENT  = "ticket_assignment"
