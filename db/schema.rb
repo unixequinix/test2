@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160301112023) do
+ActiveRecord::Schema.define(version: 20160303145513) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -329,13 +329,13 @@ ActiveRecord::Schema.define(version: 20160301112023) do
 
   create_table "customer_credits", force: :cascade do |t|
     t.integer  "customer_event_profile_id", null: false, index: {name: "fk__customer_credits_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_customer_credits_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "transaction_source",        null: false
+    t.string   "transaction_origin",        null: false
     t.string   "payment_method",            null: false
     t.decimal  "amount",                    null: false
     t.decimal  "refundable_amount",         null: false
     t.decimal  "final_balance",             null: false
     t.decimal  "final_refundable_balance",  null: false
-    t.decimal  "value_credit",              null: false
+    t.decimal  "credit_value",              null: false
     t.datetime "deleted_at",                index: {name: "index_customer_credits_on_deleted_at"}
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
