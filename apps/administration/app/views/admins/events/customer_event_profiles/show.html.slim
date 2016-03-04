@@ -5,5 +5,5 @@
     = t('actions.back')
 .wrapper-negative-space
   = render("credentials_information", customer_event_profile: @customer_event_profile)
-  = render("payments_information", customer_event_profile: @customer_event_profile)
+  = render("payments_information", customer_event_profile: @customer_event_profile) if @customer_event_profile.payment_gateway_customers.any?
   = render("customer_event_profile_data", customer_event_profile: @customer_event_profile)

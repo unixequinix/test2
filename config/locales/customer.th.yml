@@ -47,6 +47,7 @@ th:
       call_to_action_started: "ไม่สามารถเติมเงินผ่านระบบออนไลน์ได้ เนื่องจากงานได้เริ่มแล้ว"
       call_to_action_no_admission_html: "เติมเงินผ่านระบบออนไลน์ <br>กรุณาใส่บัตรเข้างานในระบบก่อน"
       button: "เติมเงิน"
+    add_credentials: "Add a ticket or a gtag first"
     event_refunds:
       claim: "งานยังไม่จบ"
       description: "กรุณาทำการขอรับเงินคืนอีกครั้งหลังงานเลิก"
