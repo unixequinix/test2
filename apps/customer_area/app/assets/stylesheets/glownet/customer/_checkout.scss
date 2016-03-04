@@ -18,6 +18,12 @@
 
 // _______ ORDER ________
 
+.wrapper-inside {
+  label {
+    position: auto !important;
+  }
+}
+
 .table-order {
   width: 100%;
   margin-bottom: modules(1);
@@ -44,7 +50,7 @@
   }
 
   td {
-    border-bottom: 1px dotted $light_grey;
+    box-shadow: inset 0px -1px 0px lighten($light_grey,17%);
     padding: modules(0.5) 0;
   }
 }
@@ -55,7 +61,7 @@
   td {
     @include mscale($half_text);
     vertical-align: top;
-    border-bottom: none;
+    box-shadow: none;
     font-weight: bold;
   }
 }

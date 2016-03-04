@@ -10,19 +10,19 @@ abbr { display: none; }
 
 form { overflow: hidden; }
 
-label {
-  @include transition(color 123ms linear, top 123ms linear);
-  display: block;
-  position: absolute;
-  top: modules(1.5);
-  z-index: 20;
-  color: $grey;
-}
-
-.to-be-label {
-
-  top: modules(0.5);
-}
+//label {
+//  @include transition(color 123ms linear, top 123ms linear);
+//  display: block;
+//  position: absolute;
+//  top: modules(1.5);
+//  z-index: 20;
+//  color: $grey;
+//}
+//
+//.to-be-label {
+//
+//  top: modules(0.5);
+//}
 
 select {
   @include linear-gradient($air_gray, $graySilver);
