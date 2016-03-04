@@ -22,7 +22,7 @@ class Api::V1::Events::TransactionsController < ApplicationController
                           :access_entitlement_value,
                           :credits,
                           :credits_refundable,
-                          :value_credit,
+                          :credit_value,
                           :payment_gateway,
                           :payment_method,
                           :final_balance,

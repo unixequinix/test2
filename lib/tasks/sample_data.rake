@@ -113,8 +113,8 @@ namespace :db do
                                                   max_purchasable: data['max_purchasable'],
                                                   initial_amount: data['initial_amount'] },
                        entitlement_attributes: { event_id: event.id,
-                                                      unlimited: data['unlimited'],
-                                                      entitlement_type: data['entitlement_type'] } )
+                                                      infinite: data['infinite'],
+                                                      memory_length: data['memory_length'] } )
       end
     end
   end
@@ -131,8 +131,8 @@ namespace :db do
                                                   max_purchasable: data['max_purchasable'],
                                                   initial_amount: data['initial_amount'] },
                        entitlement_attributes: { event_id: event.id,
-                                                      unlimited: data['unlimited'],
-                                                      entitlement_type: data['entitlement_type'] } )
+                                                      infinite: data['infinite'],
+                                                      memory_length: data['memory_length'] } )
       end
     end
   end
