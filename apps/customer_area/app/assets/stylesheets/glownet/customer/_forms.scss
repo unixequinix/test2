@@ -6,7 +6,9 @@
 
 abbr { display: none; }
 
-.input { position: relative; overflow: hidden; padding: modules(1) 0; }
+.input { position: relative; overflow: hidden; }
+
+form { overflow: hidden; }
 
 label {
   @include transition(color 123ms linear, top 123ms linear);
@@ -70,7 +72,7 @@ input[type=search] {
 .country, .customer_birthdate, .customer_gender {
   label {
     position: relative !important;
-    top: modules(0.5);
+    top: modules(1);
   }
 
   select { margin: modules(1.5) 0 0; }
