@@ -331,11 +331,11 @@ ActiveRecord::Schema.define(version: 20160303145513) do
     t.integer  "customer_event_profile_id", null: false, index: {name: "fk__customer_credits_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_customer_credits_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
     t.string   "transaction_origin",        null: false
     t.string   "payment_method",            null: false
-    t.decimal  "amount",                    null: false
-    t.decimal  "refundable_amount",         null: false
-    t.decimal  "final_balance",             null: false
-    t.decimal  "final_refundable_balance",  null: false
-    t.decimal  "value_credit",              null: false
+    t.decimal  "amount",                    precision: 8, scale: 2, default: 1.0, null: false
+    t.decimal  "refundable_amount",         precision: 8, scale: 2, default: 1.0, null: false
+    t.decimal  "final_balance",             precision: 8, scale: 2, default: 1.0, null: false
+    t.decimal  "final_refundable_balance",  precision: 8, scale: 2, default: 1.0, null: false
+    t.decimal  "value_credit",              precision: 8, scale: 2, default: 1.0, null: false
     t.datetime "deleted_at",                index: {name: "index_customer_credits_on_deleted_at"}
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false

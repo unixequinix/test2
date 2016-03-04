@@ -1,0 +1,22 @@
+h3
+  = fa_icon "table"
+  = t ("admin.customers.refund")
+table.refunds
+  thead
+    tr
+      th = t("admin.refunds.id")
+      th = t("admin.refunds.amount")
+      th = t("admin.refunds.currency")
+      th = t("admin.refunds.gateway_transaction_number")
+      th = t("admin.refunds.payment_solution")
+      th = t("admin.refunds.status")
+      th = t("admin.refunds.created_at")
+  tbody
+    tr
+      td data-label=t("admin.refunds.id") = link_to (customer_event_profile.completed_claim.refund.id), admins_event_refund_path(current_event, customer_event_profile.completed_claim.refund)
+      td data-label=t("admin.refunds.amount") = customer_event_profile.completed_claim.refund.amount
+      td data-label=t("admin.refunds.currency") = customer_event_profile.completed_claim.refund.currency
+      td data-label=t("admin.refunds.gateway_transaction_number") = customer_event_profile.completed_claim.refund.gateway_transaction_number
+      td data-label=t("admin.refunds.payment_solution") = customer_event_profile.completed_claim.refund.payment_solution
+      td data-label=t("admin.refunds.status") = customer_event_profile.completed_claim.refund.status
+      td data-label=t("admin.refunds.created_at") = customer_event_profile.completed_claim.refund.created_at.strftime("%y-%m-%d %H:%M:%S")
