@@ -428,6 +428,7 @@ es:
     online_orders:
       id: "Id"
       redeemed: "Canjeado"
+      customer_order_id: "Id ordén de cliente"
     payments:
       id: "Id"
       order_id: "Order Id"

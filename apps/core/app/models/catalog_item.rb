@@ -41,16 +41,15 @@ class CatalogItem < ActiveRecord::Base
   }
 
   scope :with_prices, lambda { |event|
-     joins(:station_catalog_items, station_catalog_items: :station_parameter)
+    joins(:station_catalog_items, station_catalog_items: :station_parameter)
       .select("catalog_items.*, station_catalog_items.price")
       .where(station_parameters:
-                       { id: StationParameter.joins(station: :station_type)
-                                             .where(
-                                               stations: { event_id: event },
-                                               station_types: { name: "customer_portal" }
-                                             ) })
+                      { id: StationParameter.joins(station: :station_type)
+                                            .where(
+                                              stations: { event_id: event },
+                                              station_types: { name: "customer_portal" }
+                                            ) })
   }
-
 
   # Credentiable Types
   CREDIT = "Credit"

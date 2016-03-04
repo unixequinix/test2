@@ -429,6 +429,7 @@ en:
     online_orders:
       id: "Id"
       redeemed: "Redeemed"
+      customer_order_id: "Customer order id"
     payments:
       id: "Id"
       order_id: "Order Id"
