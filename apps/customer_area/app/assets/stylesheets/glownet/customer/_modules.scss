@@ -42,7 +42,7 @@ $quarter_text:           $base_font_size*1.25;
     position: absolute;
     display: block;
     top: 25%;
-    right: 0;
+    right: modules(0.25);
   }
 
    &:last-child {box-shadow: none; }
