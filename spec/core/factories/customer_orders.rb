@@ -16,7 +16,6 @@
 FactoryGirl.define do
   factory :customer_order do
     customer_event_profile
-    preevent_product
-    redeemed false
+    catalog_item
   end
 end

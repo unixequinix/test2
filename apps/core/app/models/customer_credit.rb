@@ -4,7 +4,7 @@
 #
 #  id                        :integer          not null, primary key
 #  customer_event_profile_id :integer          not null
-#  transaction_source        :string           not null
+#  transaction_origin        :string           not null
 #  payment_method            :string           not null
 #  amount                    :decimal(, )      not null
 #  refundable_amount         :decimal(, )      not null
@@ -20,8 +20,8 @@ class CustomerCredit < ActiveRecord::Base
   acts_as_paranoid
   belongs_to :customer_event_profile
 
-  validates_presence_of :payment_method, :transaction_source, :customer_event_profile
-  validates_numericality_of :amount, :refundable_amount, :credit_value
+  validates_presence_of :payment_method, :transaction_origin, :customer_event_profile
+  validates_numericality_of :amount, :refundable_amount, :value_credit
   validates_numericality_of :final_balance, :final_refundable_balance, greater_than_or_equal_to: 0
 
   TICKET_ASSIGNMENT  = "ticket_assignment"

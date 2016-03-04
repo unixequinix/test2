@@ -5,8 +5,8 @@ class CustomerCreditCreator
     @customer_credit = CustomerCredit.new(
       customer_event_profile: attributes[:customer_event_profile],
       payment_method: attributes[:payment_method],
-      transaction_source: attributes[:transaction_source],
       credit_value: get_credit_value(attributes[:customer_event_profile].event),
+      transaction_origin: attributes[:transaction_origin],
       amount: attributes[:amount],
       refundable_amount: attributes[:amount]
     )

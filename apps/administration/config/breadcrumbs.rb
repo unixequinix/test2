@@ -323,10 +323,3 @@ crumb :new_admins_event_customer_event_profile do |event|
   link t("breadcrumbs.new_customer_event_profile")
   parent :admins_event_customer_event_profiles, event
 end
-
-## Transactions
-
-crumb :admins_event_transactions do |event|
-  link "Transactions", admins_event_transactions_path(event)
-  parent :admins_event, event
-end

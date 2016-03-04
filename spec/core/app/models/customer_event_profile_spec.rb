@@ -41,32 +41,32 @@ RSpec.describe CustomerEventProfile, type: :model do
     it "should return the amount of credits rounded" do
       create(:customer_credit_online,
              customer_event_profile: customer_event_profile,
-             transaction_source: "ticket_assignment")
+             transaction_origin: "ticket_assignment")
       create(:customer_credit_online,
              customer_event_profile: customer_event_profile,
-             transaction_source: "ticket_assignment")
+             transaction_origin: "ticket_assignment")
       expect(customer_event_profile.ticket_credits).to be(40)
     end
 
     it "should return the total amount of credits" do
       create_list(:customer_credit_online, 2,
                   customer_event_profile: customer_event_profile,
-                  transaction_source: "ticket_assignment",
+                  transaction_origin: "ticket_assignment",
                   amount: 10)
 
       expect(customer_event_profile.ticket_credits).to be(20)
     end
 
     it "should return the total amount of credits,
-      only if the transaction_source is ticket_assignment" do
+      only if the transaction_origin is ticket_assignment" do
       create_list(:customer_credit_online, 3,
                   customer_event_profile: customer_event_profile,
-                  transaction_source: "ticket_assignment",
+                  transaction_origin: "ticket_assignment",
                   amount: 1)
 
       create_list(:customer_credit_online, 3,
                   customer_event_profile: customer_event_profile,
-                  transaction_source: "credits_purchase",
+                  transaction_origin: "credits_purchase",
                   amount: 1)
 
       expect(customer_event_profile.ticket_credits).to be(3)
@@ -77,11 +77,11 @@ RSpec.describe CustomerEventProfile, type: :model do
     it "should return the amount of credits rounded" do
       create(:customer_credit_online,
              customer_event_profile: customer_event_profile,
-             transaction_source: "credits_purchase",
+             transaction_origin: "credits_purchase",
              amount: 1.7)
       create(:customer_credit_online,
              customer_event_profile: customer_event_profile,
-             transaction_source: "credits_purchase",
+             transaction_origin: "credits_purchase",
              amount: 2.7)
       expect(customer_event_profile.purchased_credits).to be(4)
     end
@@ -89,22 +89,22 @@ RSpec.describe CustomerEventProfile, type: :model do
     it "should return the amount of purchased credits" do
       create_list(:customer_credit_online, 2,
                   customer_event_profile: customer_event_profile,
-                  transaction_source: "credits_purchase",
+                  transaction_origin: "credits_purchase",
                   amount: 5)
 
       expect(customer_event_profile.purchased_credits).to be(10)
     end
 
     it "should return the total amount of credits,
-      only if the transaction_source is credits_purchase" do
+      only if the transaction_origin is credits_purchase" do
       create_list(:customer_credit_online, 3,
                   customer_event_profile: customer_event_profile,
-                  transaction_source: "ticket_assignment",
+                  transaction_origin: "ticket_assignment",
                   amount: 1)
 
       create_list(:customer_credit_online, 2,
                   customer_event_profile: customer_event_profile,
-                  transaction_source: "credits_purchase",
+                  transaction_origin: "credits_purchase",
                   amount: 1)
 
       expect(customer_event_profile.purchased_credits).to be(2)

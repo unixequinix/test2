@@ -1,6 +1,5 @@
 class Api::V1::Events::CreditsController < Api::V1::Events::BaseController
   def index
-    @credits = Credit.for_event(current_event)
-    render json: @credits
+    render json: @fetcher.credits, each_serializer: Api::V1::CreditSerializer
   end
 end
