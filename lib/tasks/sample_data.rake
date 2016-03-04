@@ -25,6 +25,7 @@ namespace :db do
     make_customers
     make_customer_event_profiles
     make_credential_assignments
+    make_orders
   end
 
   desc 'Create stations'
@@ -248,5 +249,23 @@ namespace :db do
       credentiable_id: 5,
       credentiable_type: "Gtag",
       customer_event_profile_id: 2)
+  end
+
+  def make_orders
+    puts 'Create orders'
+    puts '----------------------------------------'
+    CustomerEventProfile.all.each do |customer_event_profile|
+      YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'orders.yml')).each do |data|
+        @order = Order.new(number: "#{customer_event_profile.id}#{data['number']}" * 4,
+                           aasm_state: data['aasm_state'],
+                           customer_event_profile: customer_event_profile)
+        @order.order_items << data['order_items'].map do |order_item|
+                                  OrderItem.new(catalog_item_id: order_item['catalog_item_id'],
+                                    amount: order_item['amount'],
+                                    total: order_item['total'])
+                              end
+        @order.save
+      end
+    end
   end
 end

@@ -22,6 +22,9 @@ class CustomerEventProfile < ActiveRecord::Base
   has_many :refunds, through: :claims
   has_many :customer_orders
   has_many :customer_credits
+  has_many :completed_claims,
+           -> { where.not(claims: {completed_at: nil})},
+           class_name: "Claim"
   has_many :credit_purchased_logs,
            -> { where(transaction_origin: CustomerCredit::CREDITS_PURCHASE) },
            class_name: "CustomerCredit"

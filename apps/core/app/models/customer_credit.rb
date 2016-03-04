@@ -10,7 +10,7 @@
 #  refundable_amount         :decimal(, )      not null
 #  final_balance             :decimal(, )      not null
 #  final_refundable_balance  :decimal(, )      not null
-#  value_credit              :decimal(, )      not null
+#  credit_value              :decimal(, )      not null
 #  deleted_at                :datetime
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
