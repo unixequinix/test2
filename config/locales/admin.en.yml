@@ -328,9 +328,9 @@ en:
     customer_credits:
       amount: "Amount"
       refundable_amount: "Refundable amount"
-      value_credit: "value credit"
+      credit_value: "value credit"
       payment_method: "Payment method"
-      transaction_source: "Transaction source"
+      transaction_origin: "Transaction source"
       final_balance: "Final balance"
       final_refundable_balance: "Final refundable balance"
     customers:
@@ -352,6 +352,7 @@ en:
       customer_orders: "Customer orders"
       refund: "Refund"
       customer_credits: "Customer credits"
+      online_orders: "Online orders"
       claims: "Claims"
       gtag_credits: "Gtag Credits"
       tickets: "Tickets"

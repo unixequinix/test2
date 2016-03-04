@@ -40,15 +40,8 @@ class CatalogItem < ActiveRecord::Base
     end
   }
 
-  # Credentiable Types
-  CREDIT = "Credit"
-  ACCESS = "Access"
-  VOUCHER = "Voucher"
-
-  CREDENTIABLE_TYPES = [CREDIT, ACCESS, VOUCHER]
-
-  def self.with_prices(event)
-    joins(:station_catalog_items, station_catalog_items: :station_parameter)
+  scope :with_prices, lambda { |event|
+     joins(:station_catalog_items, station_catalog_items: :station_parameter)
       .select("catalog_items.*, station_catalog_items.price")
       .where(station_parameters:
                        { id: StationParameter.joins(station: :station_type)
@@ -56,6 +49,25 @@ class CatalogItem < ActiveRecord::Base
                                                stations: { event_id: event },
                                                station_types: { name: "customer_portal" }
                                              ) })
+  }
+
+
+  # Credentiable Types
+  CREDIT = "Credit"
+  ACCESS = "Access"
+  VOUCHER = "Voucher"
+
+  CREDENTIABLE_TYPES = [CREDIT, ACCESS, VOUCHER]
+
+  def price
+    station_catalog_items.joins(:station_parameter)
+      .select("station_catalog_items.price")
+      .where(station_parameters:
+                       { id: StationParameter.joins(station: :station_type)
+                                             .where(
+                                               stations: { event_id: event },
+                                               station_types: { name: "customer_portal" }
+                                             ) }).first.price
   end
 
   def self.sorted
