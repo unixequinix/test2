@@ -27,7 +27,13 @@ Rails.application.routes.draw do
         # resources :payments, only: [:create],
         # =>                   constraints: lambda{|request|
         # =>  request.env['HTTP_X_REAL_IP'].match(Rails.application.secrets.merchant_ip)}
-        resources :payments, only: [:new, :create] do
+        resources :synchronous_payments, only: [:new, :create] do
+          collection do
+            get "success"
+            get "error"
+          end
+        end
+        resources :asynchronous_payments, only: [:new, :create] do
           collection do
             get "success"
             get "error"
