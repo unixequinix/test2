@@ -341,6 +341,7 @@ th:
       gtags: "Gtags"
       gtag: "Gtag"
       state: "State"
+      purchases: "Purchases"
       admissions: "Ticket registrations"
       creadit_logs: "Credits logs"
       orders: "Orders"

@@ -344,6 +344,7 @@ es:
       gtag: "Gtag"
       state: "Estado"
       admissions: "Registro de Tickets"
+      purchases: "Compras"
       creadit_logs: "Compras de creditos"
       orders: "Ordenes"
       payments: "Pagos"
