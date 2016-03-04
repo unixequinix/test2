@@ -16,7 +16,7 @@
     border-radius: $radius;
   }
 
-  @include min-screen($bp3) { display: inline-block; }
+  //@include min-screen($bp3) { display: inline-block; }
 }
 
 .separator { padding: 0 modules(0.25); }
@@ -94,7 +94,7 @@
 // The centered container that contains all the account info
 
 .container-event-column {
-  overflow: hidden;
+  overflow: visible;
   position: relative;
   width: 100%;
 
@@ -111,7 +111,7 @@
 .container-customer-app-view {
   position: relative;
 
-  @include min-screen($bp4) {
+  @include min-screen($bp2) {
     margin-top: 10%;
   }
 }

@@ -6,10 +6,20 @@
 
 abbr { display: none; }
 
+.input { position: relative; overflow: hidden; }
+
 label {
+  @include transition(color 123ms linear, top 123ms linear);
   display: block;
-  font-weight: bold;
-  text-transform: uppercase;
+  position: absolute;
+  top: modules(1.5);
+  z-index: 20;
+  color: $grey;
+}
+
+.to-be-label {
+
+  top: modules(0.5);
 }
 
 select {
@@ -43,46 +53,36 @@ input[type=search] {
   position: relative;
   display: block;
   width: 100%;
-  margin-bottom: modules(1);
-  padding: modules(0.5);
-  box-shadow: none;
+  margin: modules(1) 0;
+  padding: modules(0.5) 0;
   border: none;
-  border-radius: $radius;
-  background-color: $air_gray;
-  box-shadow: 0px 1px 1px #999 inset;
+  box-shadow: 0px -1px 0px 0px #999 inset;
   color: $color_text;
 
   &:focus {
     outline: none;
     box-shadow: 0px 0px 1px 1px #999 inset, 0px 0px 6px 2px lighten($grey, 27%);
-    background-color: darken($air_gray,5%);
+    background-color: transparent;
     opacity: 1;
   }
 }
-
-input:placeholder-shown { font-style: italic; }
 
 .wrapper-session-login {
   position: relative;
 
   label { display: none; }
-  input { padding: modules(0.5) modules(0.5) modules(0.5) modules(1.5); }
+  input { padding: modules(0.5) modules(0.5) modules(0.5) modules(1); }
 
   i {
     position: absolute;
-    top: modules(0.65);
-    left: modules(0.5);
+    top: modules(1.6);
+    left: 0;
     opacity: 0.6;
   }
 }
-
 
 button {
   @include appearance(none);
   width: 100%;
   border: 1px solid transparent;
-}
-
-.input {
-  padding-bottom: modules(1);
 }
