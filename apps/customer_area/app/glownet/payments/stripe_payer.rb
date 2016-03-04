@@ -39,7 +39,7 @@ class Payments::StripePayer
     charge
   end
 
-  def notify_payment(params, charge)
+  def notify_payment(charge)
     return unless charge.status == "succeeded"
     create_log(@order)
     create_payment(@order, charge)
@@ -62,7 +62,7 @@ class Payments::StripePayer
 
   def create_log(order)
     CustomerCreditOnlineCreator.new(customer_event_profile: order.customer_event_profile,
-                                    transaction_source: CustomerCredit::CREDITS_PURCHASE,
+                                    transaction_origin: CustomerCredit::CREDITS_PURCHASE,
                                     amount: order.credits_total,
                                     payment_method: "none",
                                     money_payed: order.total).save

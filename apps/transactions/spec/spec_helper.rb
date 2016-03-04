@@ -9,13 +9,14 @@ Rails.backtrace_cleaner.remove_silencers!
 
 # Load support files
 dir = File.dirname(__FILE__)
-Dir["#{dir}/support/**/*.rb", "#{dir}/factories/**/*.rb"].each { |f| require f }
+Dir["#{dir}/support/*.rb"].each { |f| require f }
+Dir["#{dir}/factories/*.rb"].each { |f| require f }
 
 RSpec.configure do |config|
   config.mock_with :rspec
   config.use_transactional_fixtures = true
   config.infer_base_class_for_anonymous_controllers = false
-  config.order = "random"
+  # config.order = "random"
 
   # Use color in STDOUT
   config.color = true
@@ -23,8 +24,8 @@ RSpec.configure do |config|
   # Use color not only in STDOUT but also in pagers and files
   config.tty = true
 
-  # Use the specified formatter
-  config.formatter = :progress # :documentation
+  # Use a custom formatter
+  # config.formatter = :progress # :documentation
 
   # Sidekiq runs jobs immediatelly
   Sidekiq::Testing.inline!

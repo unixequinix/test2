@@ -23,7 +23,7 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::CheckinBaseC
     ticket = credential_assignment.credentiable
     if ticket.credits.present?
       CustomerCreditCreator.new(customer_event_profile: customer_event_profile,
-                                transaction_source: CustomerCredit::TICKET_UNASSIGNMENT,
+                                transaction_origin: CustomerCredit::TICKET_UNASSIGNMENT,
                                 payment_method: "none",
                                 amount: -ticket.credits
                                ).save
