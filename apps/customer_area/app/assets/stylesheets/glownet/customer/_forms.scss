@@ -20,8 +20,8 @@ label {
 }
 
 .to-be-label {
-
   top: modules(0.5);
+  z-index: 3;
 }
 
 select {
@@ -92,6 +92,7 @@ input[type=search] {
     top: modules(1.6);
     left: 0;
     opacity: 0.6;
+    z-index: 3;
   }
 }
 

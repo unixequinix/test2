@@ -60,7 +60,7 @@
   @include transition(opacity 200ms ease-in-out);
   display: block;
   width: 100%;
-  margin: modules(1) 0;
+  margin: modules(1) auto;
   height: modules(2) !important;
 
   @include min-screen($bp3) { width: 45%; }
