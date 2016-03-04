@@ -20,11 +20,6 @@ class Payments::RedsysPayer
     send_mail_for(order, event)
   end
 
-  def action_after_payment
-    # this method will be evaluated in the controller
-    "render nothing: true"
-  end
-
   private
 
   def send_mail_for(order, event)
@@ -44,7 +39,7 @@ class Payments::RedsysPayer
                     card_country: params[:Ds_Card_Country],
                     paid_at: "#{params[:Ds_Date]}, #{params[:Ds_Hour]}",
                     order: order,
-                    response_code: response,
+                    response_code: params[:Ds_Response],
                     authorization_code: params[:Ds_AuthorisationCode],
                     currency: params[:Ds_Currency],
                     merchant_code: params[:Ds_MerchantCode],

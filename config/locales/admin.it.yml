@@ -244,8 +244,8 @@ it:
       id: "Id"
       memory_position: "Posición en memoria"
     entitlement:
-      unlimited: "Unlimited"
-      entitlement_type: "Entitlement type"
+      infinite: "Infinite"
+      memory_length: "Entitlement type"
       memory_position: "Memory position"
     company_ticket_types:
       name: "Name"
@@ -425,6 +425,9 @@ it:
       amount: "Amount"
       customer_event_profile: "Customer event profiles"
       catalog_item: "Catalog item"
+    online_orders:
+      id: "Id"
+      redeemed: "Redeemed"
     payments:
       id: "Id"
       order_id: "Order Id"
