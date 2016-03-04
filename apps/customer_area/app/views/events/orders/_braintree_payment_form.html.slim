@@ -4,10 +4,40 @@
     .actions
       = submit_tag t('orders.button'), class: "btn"
 
+
+
+form#my-sample-form action="/" method="post"
+      label for="card-number"  Card Number
+      #card-number
+      label for="cvv"  CVV
+      #cvv
+      label for="expiration-date"  Expiration Date
+      #expiration-date
+      input type="submit" value="Pay" /
+    script src="https://js.braintreegateway.com/js/braintree-2.21.0.min.js"
+
+javascript:
+
+
+
+
+
 javascript:
   if( $("#braintree-payment-form").length > 0 ) {
     var clientToken = '#{@order_presenter.form_data.client_token}';
-    braintree.setup(clientToken, "dropin", {
+    braintree.setup(clientToken, "custom", {
       container: "dropin"
+      id: "my-sample-form",
+      hostedFields: {
+        number: {
+          selector: "#card-number"
+        },
+        cvv: {
+          selector: "#cvv"
+        },
+        expirationDate: {
+          selector: "#expiration-date"
+        }
+      }
     });
   }
