@@ -1,0 +1,8 @@
+p.success-message
+  = fa_icon "check-circle"
+  = t('payment.success.description')
+
+= render 'events/events/credits', presenter: @presenter
+
+.wrapper-module
+  = link_to t('links.buttons.back'), event_url(current_event), class: "btn btn-action btn-action-empty-state"

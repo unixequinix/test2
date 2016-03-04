@@ -10,18 +10,7 @@ class Events::OrdersController < Events::BaseController
   end
 
   def update
-    current_order = Order.find(params[:id])
-    if current_order.in_progress?
-      @order = current_customer_event_profile.orders.build
-      current_order.order_items.each do |order_item|
-        @order.order_items << OrderItem.new(catalog_item_id: order_item.catalog_item.id,
-                                            amount: order_item.amount, total: order_item.total)
-      end
-      @order.generate_order_number!
-      @order.save
-    else
-      @order = current_order
-    end
+    @order = OrderManager.new(Order.find(params[:id])).sanitize_order
     @form_data = ("Payments::#{current_event.payment_service.camelize}DataRetriever")
                  .constantize.new(current_event, @order)
     @order.start_payment!

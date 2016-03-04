@@ -54,19 +54,20 @@ class AccountManager::Stripe
   end
 
   def attach_legal_parameters(params, request)
-    parameters = params[:stripe_payment_settings_form]
-    entity = @account.legal_entity
+    legal_entity(@account.legal_entity, params[:stripe_payment_settings_form])
     tos = @account.tos_acceptance
-
-    entity.first_name = parameters[:legal_first_name]
-    entity.last_name = parameters[:legal_last_name]
-    entity.dob.day = Date.parse(parameters[:legal_dob]).day
-    entity.dob.month = Date.parse(parameters[:legal_dob]).month
-    entity.dob.year = Date.parse(parameters[:legal_dob]).year
-    entity.type = parameters[:legal_type]
     tos.ip = request.remote_ip
     tos.date = Time.now.to_i
     @account.save
+  end
+
+  def legal_entity(entity, params)
+    entity.first_name = params[:legal_first_name]
+    entity.last_name = params[:legal_last_name]
+    entity.dob.day = Date.parse(params[:legal_dob]).day
+    entity.dob.month = Date.parse(params[:legal_dob]).month
+    entity.dob.year = Date.parse(params[:legal_dob]).year
+    entity.type = params[:legal_type]
   end
 
   def persist!(new_params, event_id)
