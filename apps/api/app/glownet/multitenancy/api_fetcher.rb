@@ -41,6 +41,10 @@ class Multitenancy::ApiFetcher
     Gtag.banned.where(event: @event)
   end
 
+  def products
+    Products.includes(:catalog_item).where(catalog_items: { event_id: @event.id })
+  end
+
   def packs
     Pack.includes(:catalog_item, pack_catalog_items: :catalog_item)
       .where(catalog_items: { event_id: @event.id })
