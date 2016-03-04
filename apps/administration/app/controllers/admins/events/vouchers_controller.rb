@@ -85,8 +85,8 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
     ],
                                     entitlement_attributes: [
                                       :id,
-                                      :entitlement_type,
-                                      :unlimited,
+                                      :memory_length,
+                                      :infinite,
                                       :event_id])
   end
 end

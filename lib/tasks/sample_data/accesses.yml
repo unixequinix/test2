@@ -4,29 +4,29 @@
   step: 1
   min_purchasable: 0
   max_purchasable: 200
-  unlimited: "false"
-  entitlement_type: "simple"
+  infinite: "false"
+  memory_length: "simple"
 -
   name: "VIP Pass"
   initial_amount: 0
   step: 1
   min_purchasable: 0
   max_purchasable: 200
-  unlimited: "false"
-  entitlement_type: "double"
+  infinite: "false"
+  memory_length: "double"
 -
   name: "Friday Pass"
   initial_amount: 0
   step: 1
   min_purchasable: 0
   max_purchasable: 200
-  unlimited: "false"
-  entitlement_type: "simple"
+  infinite: "false"
+  memory_length: "simple"
 -
   name: "Saturday Pass"
   initial_amount: 0
   step: 1
   min_purchasable: 0
   max_purchasable: 200
-  unlimited: "false"
-  entitlement_type: "double"
+  infinite: "false"
+  memory_length: "double"

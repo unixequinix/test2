@@ -9,7 +9,7 @@ FactoryGirl.define do
     status_message "OK"
     credits { rand(10) }
     credits_refundable { rand(10) }
-    value_credit { rand(10) }
+    credit_value { rand(10) }
     payment_gateway { [nil, "braintree", "stripe"].sample }
     payment_method { %w(bank_account epg).sample }
     final_balance { rand(10) }

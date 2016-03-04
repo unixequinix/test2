@@ -4,21 +4,21 @@
   step: 1
   min_purchasable: 0
   max_purchasable: 50
-  unlimited: "false"
-  entitlement_type: "simple"
+  infinite: "false"
+  memory_length: "simple"
 -
   name: "Voucher B"
   initial_amount: 0
   step: 1
   min_purchasable: 0
   max_purchasable: 50
-  unlimited: "false"
-  entitlement_type: "double"
+  infinite: "false"
+  memory_length: "double"
 -
   name: "Voucher C"
   initial_amount: 0
   step: 1
   min_purchasable: 0
   max_purchasable: 50
-  unlimited: "false"
-  entitlement_type: "simple"
+  infinite: "false"
+  memory_length: "simple"

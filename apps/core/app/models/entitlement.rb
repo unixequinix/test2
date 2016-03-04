@@ -7,8 +7,8 @@
 #  entitlementable_type :string           not null
 #  event_id             :integer          not null
 #  memory_position      :integer          not null
-#  entitlement_type     :string           default("simple"), not null
-#  unlimited            :boolean          default(FALSE), not null
+#  memory_length        :string           default("simple"), not null
+#  infinite             :boolean          default(FALSE), not null
 #  deleted_at           :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
@@ -20,8 +20,8 @@ class Entitlement < ActiveRecord::Base
   belongs_to :access, -> { where(entitlement: { entitlementable_type: "Access" }) },
              foreign_key: "entitlementable_id"
   before_save :set_memory_position
-  validates :entitlement_type, presence: true
-  validates_inclusion_of :unlimited, in: [true, false]
+  validates :memory_length, presence: true
+  validates_inclusion_of :infinite, in: [true, false]
 
   after_destroy :calculate_memory_position
 

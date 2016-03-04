@@ -1,0 +1,3 @@
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count:@list_model_presenter.current_items, total: @list_model_presenter.count)
+= render("list_table", online_orders: online_orders)
+= paginate online_orders
