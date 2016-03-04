@@ -116,10 +116,18 @@
 // -------- ACCEPT TERMS -------
 
 .session-accept-terms {
+  overflow: hidden;
+  display: block;
+  padding: modules(1) 0 0;
   text-align: center;
   text-transform: none;
 
-  label { text-transform: none; }
+  .input { overflow: visible; }
+
+  label {
+    position: relative !important;
+    top: 0;
+  }
 
   a {
     color: $color_text;
