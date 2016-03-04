@@ -52,7 +52,6 @@
   }
 
   td {
-    //box-shadow: inset 0px -1px 0px lighten($light_grey,17%);
     padding: modules(0.25) 0;
     color: $grey;
   }
@@ -66,7 +65,6 @@
     vertical-align: top;
     padding: modules(0.5) 0;
     color: $color_text;
-    //box-shadow: inset 0px 1px 0px 0px lighten($light_grey,17%);
     font-weight: bold;
   }
 }

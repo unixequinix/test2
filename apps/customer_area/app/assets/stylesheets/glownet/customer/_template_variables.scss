@@ -32,6 +32,7 @@ h3, .to-be-label, .credential-types label,
 .btn-action-register-desktop,
 .btn-action-register,
 .btn-action-register-mobile,
+.btn-action-back,
 //LOGIN-REGISTER
 .wrapper-terms h2,
 .wrapper-terms h3,
@@ -47,7 +48,6 @@ h3, .to-be-label, .credential-types label,
 .btn-action-enter,
 .btn-action-secondary:hover,
 .btn-action-empty-state:hover,
-.purchase-amount:before,
 .btn-action-primary:hover
 { background-color: $magenta; }
 
@@ -62,6 +62,7 @@ h3, .to-be-label, .credential-types label,
 .btn-action-register-desktop,
 .btn-action-register-mobile,
 .btn-action-register,
+.btn-action-back,
 .btn-action-empty-state
 { box-shadow: inset 0px 0px 0px 2px $magenta; }
 
