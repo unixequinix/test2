@@ -1,19 +1,23 @@
 class Payments::BraintreePayer
+  include Rails.application.routes.url_helpers
   attr_reader :action_after_payment
 
   def initialize
     @action_after_payment = ""
   end
 
-  def start(params)
+  def start(params, customer_order_creator)
+    @event = Event.friendly.find(params[:event_id])
     @order = Order.find(params[:order_id])
     @order.start_payment!
+    @customer_order_creator = customer_order_creator
     charge_object = charge(params)
     if charge_object.success?
       notify_payment(params, charge_object)
-      @action_after_payment = "redirect_to(success_event_order_payments_path)"
+      @action_after_payment = success_event_order_synchronous_payments_path(@event, @order)
+      customer_order_creator.save(@order)
     else
-      @action_after_payment = "redirect_to(error_event_order_payments_path)"
+      @action_after_payment = error_event_order_synchronous_payments_path(@event, @order)
     end
   end
 
@@ -47,7 +51,7 @@ class Payments::BraintreePayer
     create_payment(@order, charge)
     @order.complete!
     create_vault(@order, transaction)
-    send_mail_for(@order, Event.friendly.find(params[:event_id]))
+    send_mail_for(@order, @event)
   end
 
   private
@@ -90,8 +94,8 @@ class Payments::BraintreePayer
                                    ).save
   end
 
-  # rubocop:disable all
   def create_payment(order, charge)
+    transaction = charge.transaction
     Payment.create!(transaction_type: transaction.payment_instrument_type,
                     card_country: transaction.credit_card_details.country_of_issuance,
                     paid_at: Time.at(transaction.created_at),
@@ -105,5 +109,4 @@ class Payments::BraintreePayer
                     success: true,
                     payment_type: "braintree")
   end
-  # rubocop:enable all
 end

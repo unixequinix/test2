@@ -20,11 +20,6 @@ class Payments::RedsysPayer
     send_mail_for(order, event)
   end
 
-  def action_after_payment
-    # this method will be evaluated in the controller
-    "render nothing: true"
-  end
-
   private
 
   def send_mail_for(order, event)
