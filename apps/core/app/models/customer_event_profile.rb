@@ -86,7 +86,7 @@ class CustomerEventProfile < ActiveRecord::Base
   end
 
   def purchases
-    catalog_items = orders.unscoped.joins(order_items: :catalog_item)
+    yep = orders.unscoped.joins(order_items: :catalog_item)
       .where(aasm_state: "completed", customer_event_profile_id: id)
       .select("order_items.catalog_item_id as catalog_item_id",
               "catalog_items.name as product_name",
@@ -94,20 +94,7 @@ class CustomerEventProfile < ActiveRecord::Base
               "sum(order_items.amount) as total_amount")
       .group(:catalog_item_id, :name, :catalogable_type).includes(:catalog_items)
 
-    hash = Hash[keys_sorted.map { |key| [key, []] }]
-    catalog_items.each_with_object(hash) do |catalog_item, acum|
-      acum[catalog_item.catalogable_type] << catalog_item if keys_sorted.include? catalog_item.catalogable_type
-    end
-    hash.delete_if {|k,v| v.empty? }
-
-    hash.each do |_k, v|
-      v.sort! { |x, y| x.total_amount <=> y.total_amount }
-    end
-
-  end
-
-  def keys_sorted
-    %w(Voucher Access)
+    OrderSorter.new(yep).sort
   end
 
   def gateway_customer(gateway)
