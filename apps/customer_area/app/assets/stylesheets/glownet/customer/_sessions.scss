@@ -15,11 +15,6 @@
     text-transform: uppercase;
   }
 
-  label {
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-
   input[type=text],
   input[type=password],
   input[type=email],
@@ -69,6 +64,7 @@
     content: "*";
     display: inline-block;
     padding-right: modules(0.25);
+    font-weight: bold;
   }
 }
 
@@ -120,10 +116,18 @@
 // -------- ACCEPT TERMS -------
 
 .session-accept-terms {
+  overflow: hidden;
+  display: block;
+  padding: modules(1) 0 0;
   text-align: center;
   text-transform: none;
 
-  label { text-transform: none; }
+  .input { overflow: visible; }
+
+  label {
+    position: relative !important;
+    top: 0;
+  }
 
   a {
     color: $color_text;

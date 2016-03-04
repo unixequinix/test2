@@ -1,10 +1,8 @@
 .wrapper-module
-  p.center-text = t('orders.description')
-  .wrapper-payments-methods
-    = fa_icon "cc-visa"
-    = fa_icon "cc-mastercard"
-    = fa_icon "cc-amex"
+  p.center-text.hint-review = t('orders.description')
+  p.hint-text Order review
   table.table-order
+    caption
     tr.table-head
       th = t('orders.products')
       th
@@ -18,6 +16,10 @@
         = t('orders.total')
         .vat-text = t('orders.vat')
       td [colspan="3"] #{@order.total} #{current_event.currency}
+  .wrapper-payments-methods
+    = fa_icon "cc-visa"
+    = fa_icon "cc-mastercard"
+    = fa_icon "cc-amex"
 
   = render @order_presenter.path
 
