@@ -338,6 +338,7 @@ it:
       refund: "Refund"
       claims: "Claims"
       customer_credits: "Customer credits"
+      online_orders: "Online orders"
       gtag_credits: "Gtag Credits"
       tickets: "Tickets"
       credits: "Credits"

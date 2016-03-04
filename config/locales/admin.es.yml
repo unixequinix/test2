@@ -337,6 +337,7 @@ es:
       customer_orders: "Órdenes de cliente"
       refund: "Refund"
       customer_credits: "Créditos de cliente"
+      online_orders: "Órdenes online"
       claims: "Peticiones de devolución"
       gtag_credits: "Créditos Gtag"
       tickets: "Tickets"
