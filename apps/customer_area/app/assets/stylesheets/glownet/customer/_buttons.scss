@@ -14,7 +14,7 @@
   width: modules(4);
   height: modules(2);
   padding: modules(0.25) modules(0.5);
-  border-radius: 25px;
+  border-radius: 3px;
   text-transform: uppercase;
   text-align: center;
 
@@ -60,7 +60,7 @@
   @include transition(opacity 200ms ease-in-out);
   display: block;
   width: 100%;
-  margin: 0 auto modules(1);
+  margin: modules(2) auto modules(1);
   height: modules(2) !important;
 
   @include min-screen($bp3) { width: 45%; }
@@ -193,6 +193,7 @@
 
 .btn-action-back {
   position: relative;
+  display: block;
   margin: modules(2) auto;
   height: auto;
   z-index: 5;
@@ -202,6 +203,8 @@
     position: fixed;
     top: modules(2);
     left: modules(0.5);
+    right: auto;
+    border-radius: 50px;
     margin: 0 0 modules(1);
   }
 
@@ -211,6 +214,14 @@
     padding-right: modules(0.25);
   }
 }
+
+@keyframes showBack {
+    0%   { left: -100px;}
+    100% { left: modules(0.5); }
+}
+
+
+
 
 .btn-remove-ticket {
   display: inline-block;

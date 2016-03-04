@@ -1,14 +1,29 @@
-#paymentForm {
-  .payment-errors {
-    overflow: hidden;
-    margin: modules(1) 0;
-    border-radius: 50px;
-    background-color: $red;
-    color: $nuclear;
-    text-align: center;
-  }
+/* ------------------------------------------------------- *\
 
-  #exp_year { margin-left: modules(0.5); }
+  Payments styles
+
+\* ------------------------------------------------------- */
+
+.controls, .control-group {
+  overflow: hidden;
+  position: relative;
+}
+
+.controls {
+  input[type=text] { margin: modules(0.5) 0; }
+  label { top: modules(1); }
+  .to-be-label { top: 0; }
+}
+
+.expiration-label {
+  position: relative;
+  top: 0;
+  margin-bottom: modules(0.5);
+}
+
+.payment-expiration-year, .payment-expiration-month { color: $grey !important; }
+.payment-expiration-year {
+  margin-right: modules(0.5);
 }
 
 .tipalti {
@@ -16,3 +31,11 @@
   height: modules(2);
 }
 
+.payment-errors {
+  overflow: hidden;
+  margin: 0 modules(1) 0;
+  border-radius: 50px;
+  background-color: $red;
+  color: $nuclear;
+  text-align: center;
+}
