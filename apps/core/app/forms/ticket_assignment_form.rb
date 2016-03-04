@@ -23,7 +23,7 @@ class TicketAssignmentForm
     customer_event_profile.save
     customer_event_profile.credential_assignments.create(credentiable: ticket)
     CustomerCreditCreator.new(customer_event_profile: customer_event_profile,
-                              transaction_source: CustomerCredit::TICKET_ASSIGNMENT,
+                              transaction_origin: CustomerCredit::TICKET_ASSIGNMENT,
                               amount: ticket.credits,
                               payment_method: "none"
                              ).save if ticket.credits.present?

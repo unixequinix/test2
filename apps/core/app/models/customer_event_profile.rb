@@ -23,7 +23,7 @@ class CustomerEventProfile < ActiveRecord::Base
   has_many :customer_orders
   has_many :customer_credits
   has_many :credit_purchased_logs,
-           -> { where(transaction_source: CustomerCredit::CREDITS_PURCHASE) },
+           -> { where(transaction_origin: CustomerCredit::CREDITS_PURCHASE) },
            class_name: "CustomerCredit"
   has_many :credential_assignments
   # credential_assignments_tickets
@@ -72,12 +72,12 @@ class CustomerEventProfile < ActiveRecord::Base
   end
 
   def ticket_credits
-    customer_credits.where.not(transaction_source: CustomerCredit::CREDITS_PURCHASE)
+    customer_credits.where.not(transaction_origin: CustomerCredit::CREDITS_PURCHASE)
       .sum(:amount).floor
   end
 
   def purchased_credits
-    customer_credits.where(transaction_source: CustomerCredit::CREDITS_PURCHASE)
+    customer_credits.where(transaction_origin: CustomerCredit::CREDITS_PURCHASE)
       .sum(:amount).floor
   end
 

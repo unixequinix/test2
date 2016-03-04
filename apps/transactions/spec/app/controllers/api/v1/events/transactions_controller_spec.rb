@@ -1,6 +1,8 @@
 require "spec_helper"
 
 RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
+  include ControllerMacros
+
   let(:event) { create(:event) }
   let(:transaction) { CredentialTransaction.new }
   let(:params) do

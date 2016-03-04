@@ -330,7 +330,7 @@ it:
       refundable_amount: "Refundable amount"
       value_credit: "value credit"
       payment_method: "Payment method"
-      transaction_source: "Transaction source"
+      transaction_origin: "Transaction source"
       final_balance: "Final balance"
       final_refundable_balance: "Final refundable balance"
     customers:
