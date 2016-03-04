@@ -1,4 +1,4 @@
-= link_to t('links.buttons.login'), event_login_path(current_event), class: "btn btn-action-register"
+= link_to t('links.buttons.login'), event_login_path(current_event), class: "btn btn-action-register btn-action-register-desktop"
 .container-event-column
   .wrapper-session
     = simple_form_for @new_profile_form, url: event_registrations_path(current_event), method: :post do |f|
@@ -26,5 +26,6 @@
       = f.button :submit, t('registration.new.button'), class: "btn btn-action-enter"
 
     .wrapper-create-account
-      p.center-text.italic-text — or —
+      p.center-text.italic-text
+        = t('registration.new.or')
       = link_to t('links.buttons.login'), event_login_path(current_event), class: "btn btn-action-register btn-action-register-mobile"
