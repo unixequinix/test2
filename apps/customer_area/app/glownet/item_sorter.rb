@@ -1,7 +1,7 @@
 class ItemSorter
   def initialize(items)
     @items = items
-    @hash = Hash[@keys.map { |key| [key, []] }]
+    @hash = build_hash_of_arrays
   end
 
   def build_hash
@@ -18,6 +18,10 @@ class ItemSorter
     @hash.each do |_k, v|
       v.sort! { |x, y| x.send(criteria) <=> y.send(criteria)}
     end
+  end
+
+  def build_hash_of_arrays
+    Hash[@keys.map { |key| [key, []] }]
   end
 
 end

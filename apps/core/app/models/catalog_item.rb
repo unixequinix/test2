@@ -73,26 +73,8 @@ class CatalogItem < ActiveRecord::Base
     hash_sorted.values.flatten
   end
 
-  def self.hash_sorted(keys_sorted)
-    hash = Hash[keys_sorted.map { |key| [key, []] }]
-    build_hash(hash)
-    remove_empty_categories(hash)
-    sort_by_price(hash)
+  def self.hash_sorted
+    CatalogItemSorter.new(all).sort
   end
 
-  def self.remove_empty_categories(hash)
-    hash.delete_if { |_k, v| v.blank? }
-  end
-
-  def self.build_hash(hash)
-    all.each_with_object(hash) do |catalog_item, acum|
-      acum[catalog_item.catalogable_type] << catalog_item
-    end
-  end
-
-  def self.sort_by_price(hash)
-    hash.each do |_k, v|
-      v.sort! { |x, y| x.price <=> y.price }
-    end
-  end
 end
