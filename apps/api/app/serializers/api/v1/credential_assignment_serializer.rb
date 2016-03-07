@@ -6,6 +6,6 @@ class Api::V1::CredentialAssignmentSerializer < Api::V1::BaseSerializer
   end
 
   def type
-    object.credentiable_type
+    object.credentiable_type.downcase
   end
 end

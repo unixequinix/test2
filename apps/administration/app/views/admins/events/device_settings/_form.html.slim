@@ -6,6 +6,14 @@
 
     = f.input :min_version_apk
     = f.input :event_id, as: :hidden, input_html: { value: @event.id }
+    
+  fieldset
+    h3.section-header
+      = fa_icon "info-circle"
+      = t("admin.event.fieldests.api")
+
+    = f.input :enable_api_pagination, as: :radio_buttons
+    = f.input :api_records_per_page
 
   fieldset
     h3.section-header

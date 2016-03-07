@@ -1,6 +1,8 @@
 class Multitenancy::ApiFetcher
   def initialize(event)
     @event = event
+    @pagination_enabled = @event.get_parameter("device", "general", "enable_api_pagination")
+    @per_page = @event.get_parameter("device", "general", "api_records_per_page")
   end
 
   def accesses
@@ -64,7 +66,8 @@ class Multitenancy::ApiFetcher
   end
 
   def tickets
-    Ticket.includes(:credential_assignments, :company_ticket_type, :purchaser).where(event: @event)
+    Ticket.includes(:credential_assignments, :company_ticket_type, :purchaser)
+      .where(event: @event)
   end
 
   def banned_tickets
