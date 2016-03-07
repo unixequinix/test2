@@ -1,6 +1,8 @@
 class Multitenancy::ApiFetcher
   def initialize(event)
     @event = event
+    @pagination_enabled = @event.get_parameter("device", "general", "enable_api_pagination")
+    @per_page = @event.get_parameter("device", "general", "api_records_per_page")
   end
 
   def accesses
@@ -34,11 +36,15 @@ class Multitenancy::ApiFetcher
   end
 
   def gtags
-    Gtag.includes(:credential_assignments, :company_ticket_type).where(event: @event)
+    Gtag.includes(:credential_assignments, :company_ticket_type, :purchaser).where(event: @event)
   end
 
   def banned_gtags
     Gtag.banned.where(event: @event)
+  end
+
+  def products
+    Product.includes(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
   def packs
@@ -47,7 +53,7 @@ class Multitenancy::ApiFetcher
   end
 
   def stations
-    Station.where(event: @event)
+    StationGroup.joins(:station_types, station_types: :stations).all
   end
 
   def sale_stations
@@ -60,7 +66,8 @@ class Multitenancy::ApiFetcher
   end
 
   def tickets
-    Ticket.includes(:credential_assignments, :company_ticket_type).where(event: @event)
+    Ticket.includes(:credential_assignments, :company_ticket_type, :purchaser)
+      .where(event: @event)
   end
 
   def banned_tickets
@@ -68,6 +75,6 @@ class Multitenancy::ApiFetcher
   end
 
   def vouchers
-    Voucher.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
+    Voucher.includes(:catalog_item, :entitlement).where(catalog_items: { event_id: @event.id })
   end
 end

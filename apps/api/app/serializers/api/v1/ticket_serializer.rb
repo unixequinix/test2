@@ -3,7 +3,15 @@ class Api::V1::TicketSerializer < Api::V1::BaseSerializer
 
   def attributes(*args)
     hash = super
-    hash[:customer_id] = customer_id if customer_id
+
+    if customer_id
+      hash[:customer_id] = customer_id
+    else
+      hash[:purchaser_first_name] = purchaser_first_name if purchaser_first_name
+      hash[:purchaser_last_name] = purchaser_last_name if purchaser_last_name
+      hash[:purchaser_email] = purchaser_email if purchaser_email
+    end
+
     hash[:credential_type_id] = credential_type_id if credential_type_id
     hash
   end
@@ -20,5 +28,17 @@ class Api::V1::TicketSerializer < Api::V1::BaseSerializer
 
   def reference
     object.code
+  end
+
+  def purchaser_first_name
+    object.purchaser && object.purchaser.first_name
+  end
+
+  def purchaser_last_name
+    object.purchaser && object.purchaser.last_name
+  end
+
+  def purchaser_email
+    object.purchaser && object.purchaser.email
   end
 end

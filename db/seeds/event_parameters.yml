@@ -13,6 +13,12 @@
         -
           name: uid_reverse
           data_type: boolean
+        -
+          name: enable_api_pagination
+          data_type: boolean
+        -
+          name: api_records_per_page
+          data_type: integer
 -
   name: gtag
   groups:

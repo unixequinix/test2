@@ -11,8 +11,8 @@ class Api::V1::CustomerEventProfileSerializer < Api::V1::BaseSerializer
     customer = object.customer
 
     if customer
-      hash[:name] = customer.name if customer.name
-      hash[:surname] = customer.surname if customer.surname
+      hash[:first_name] = customer.first_name if customer.first_name
+      hash[:last_name] = customer.last_name if customer.last_name
       hash[:email] = customer.email if customer.email
     end
 
