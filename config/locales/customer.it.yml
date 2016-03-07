@@ -211,6 +211,7 @@ it:
       current_password_hint: "abbiamo bisogno della tua password corrente in modo di poter confermare i cambiamenti"
       waiting_confirmation: 'In attesa della conferma per:'
       button: 'Aggiornare'
+      or: '- or -'
   sessions:
     new:
       title: 'Log in'

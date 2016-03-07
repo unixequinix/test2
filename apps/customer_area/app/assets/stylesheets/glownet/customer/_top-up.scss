@@ -45,7 +45,6 @@
 .product-amount {
   display: inline-block;
   vertical-align: middle;
-  padding-bottom: modules(1);
 
   input[type=number]::-webkit-inner-spin-button,
   input[type=number]::-webkit-outer-spin-button {
@@ -90,7 +89,7 @@
   text-align: center;
 
   @include min-screen($bp3) { @include mscale($triple_text); }
-  input { margin-bottom: 0; }
+  input { margin: 0; }
   .amount-input { text-align: center; }
   &:focus { outline: none; }
 }
@@ -202,18 +201,17 @@
 // --------- PRODUCTS ----------
 
 .container-customer-product {
-  border-bottom: 1px dashed $color_text;
-  margin-bottom: modules(1);
+  padding: modules(0.5) 0;
+  box-shadow: inset 0px -1px 0px 0px lighten($light_grey,17%);
 
   &:first-child {
     padding-top: 0;
   }
 
   &:last-child {
-    border-bottom: none;
     margin: 0;
-
-    select { margin-bottom: 0; }
+    padding-bottom: 0;
+    box-shadow: none;
   }
 }
 
@@ -225,19 +223,17 @@
 .wrapper-customer-product { width: 80%; }
 
 .wrapper-customer-amount {
+  @include linear-gradient($air_gray, $graySilver);
+  display: inline-block;
+  vertical-align: top;
   width: 20%;
+  height: modules(1.5);
+  margin-bottom: 0;
+  background-color: $air_gray;
   text-align: right;
 
-  select {
-    @include linear-gradient($air_gray, $graySilver);
-    width: 100%;
-    height: modules(1.5);
-    text-align: right;
-    background-color: $air_gray;
-
-    &:focus {
-      outline: none;
-      border: 1px solid $nuclear;
-    }
+  &:focus {
+    outline: none;
+    border: 1px solid $nuclear;
   }
 }
