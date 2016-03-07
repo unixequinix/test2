@@ -76,5 +76,4 @@ class CatalogItem < ActiveRecord::Base
   def self.hash_sorted
     Sorters::CatalogItemSorter.new(all).sort
   end
-
 end

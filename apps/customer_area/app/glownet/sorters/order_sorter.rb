@@ -1,5 +1,4 @@
 class Sorters::OrderSorter < Sorters::ItemSorter
-
   def initialize(items)
     @keys = %w(Voucher Access)
     @hash = build_hash_of_arrays
@@ -46,7 +45,7 @@ class Sorters::OrderSorter < Sorters::ItemSorter
 
   def pack_catalog_items(pack_reference)
     PackCatalogItem.where(
-        pack_id: CatalogItem.find(pack_reference.catalog_item_id).catalogable_id)
+      pack_id: CatalogItem.find(pack_reference.catalog_item_id).catalogable_id)
   end
 
   def update_sorting_hash(catalog_item, item_amount)
