@@ -1,5 +1,4 @@
-class CatalogItemSorter < ItemSorter
-
+class Sorters::CatalogItemSorter < Sorters::ItemSorter
   def initialize(items)
     @keys = %w(Credit Voucher Access Pack)
     super(items)

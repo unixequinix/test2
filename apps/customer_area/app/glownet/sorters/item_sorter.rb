@@ -1,4 +1,4 @@
-class ItemSorter
+class Sorters::ItemSorter
   def initialize(items)
     @items = items
     @hash = build_hash_of_arrays

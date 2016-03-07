@@ -1,4 +1,4 @@
-class FakeCatalogItem
+class Sorters::FakeCatalogItem
   include ActiveModel::Model
   include Virtus.model
 

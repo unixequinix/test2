@@ -94,7 +94,7 @@ class CustomerEventProfile < ActiveRecord::Base
               "sum(order_items.amount) as total_amount")
       .group(:catalog_item_id, :name, :catalogable_type).includes(:catalog_items)
 
-    OrderSorter.new(yep).disaggregated_sort
+    Sorters::OrderSorter.new(yep).disaggregated_sort
   end
 
   def gateway_customer(gateway)
