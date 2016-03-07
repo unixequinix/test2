@@ -1,9 +1,10 @@
 .wrapper-module
-  h3
-    = t('dashboard.purchases.header')
   ul.container-purchase-order
-    - presenter.purchases.each do |order|
-      li
-        .wrapper-purchase-order
-          span.purchase-amount = "#{order.total_amount}"
-          span #{CatalogItem.find(order.catalog_item_id).name}
+    - presenter.purchases.each do |category, purchases|
+      h3
+        = "#{category.pluralize}"
+      - purchases.each do |purchased_order|
+        li
+          .wrapper-purchase-order
+            span.purchase-amount = "#{purchased_order.total_amount}"
+            span = "#{purchased_order.product_name}"

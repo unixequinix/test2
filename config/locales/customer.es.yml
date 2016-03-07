@@ -51,6 +51,7 @@ es:
       call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"
       call_to_action_no_admission_html: "Para poder recargar online,<br>deberás activar un Ticket primero"
       button: "Recarga"
+    add_credentials: "Añade primero un ticket o gtag"
     event_refunds:
       claim: "El evento aún no ha acabado"
       description: "Vuelve pronto para poder reclamar tus créditos"

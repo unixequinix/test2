@@ -49,6 +49,7 @@ it:
       call_to_action_started: "The event just started so you cannot topup anymore"
       call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Event Ticket first"
       button: "Top-up"
+    add_credentials: "Add a ticket or a gtag first"
     event_refunds:
       claim: "L'evento non è ancora finito"
       description: "Torna presto per richiedere per un rimborso"
