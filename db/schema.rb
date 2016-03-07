@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160303145513) do
+ActiveRecord::Schema.define(version: 20160307115732) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -550,6 +550,14 @@ ActiveRecord::Schema.define(version: 20160303145513) do
     t.string   "station_parametable_type", null: false
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+  end
+
+  create_table "transaction_items", force: :cascade do |t|
+    t.integer "catalogable_id"
+    t.string  "catalogable_type"
+    t.integer "quantity"
+    t.float   "amount"
+    t.integer "credit_transaction_id", index: {name: "fk__transaction_items_credit_transaction_id"}, foreign_key: {references: "credit_transactions", name: "fk_transaction_items_credit_transaction_id", on_update: :no_action, on_delete: :no_action}
   end
 
 end
