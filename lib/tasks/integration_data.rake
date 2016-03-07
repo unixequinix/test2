@@ -31,7 +31,6 @@ namespace :db do
     #DatabaseCleaner.clean_with(:truncation)
 
     Benchmark.benchmark(CAPTION, 25, FORMAT, "TOTAL:") do |x|
-      Faker::Config.locale = :es
       total = []
       data.each do |f|
         total << x.report(f) { eval("create_#{f.underscore}") }
