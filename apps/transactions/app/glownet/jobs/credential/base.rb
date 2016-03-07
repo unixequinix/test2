@@ -26,4 +26,8 @@ class Jobs::Credential::Base < Jobs::Base
     return if ticket.assigned_ticket_credential
     ticket.create_assigned_ticket_credential!(customer_event_profile: profile)
   end
+
+  def mark_redeemed(obj)
+    obj.update!(credential_redeemed: true)
+  end
 end

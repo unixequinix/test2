@@ -11,7 +11,7 @@ class Jobs::Credential::TicketChecker < Jobs::Credential::Base
       assign_ticket_credential(ticket, profile)
       gtag = assign_gtag(t, atts)
       assign_gtag_credential(gtag, profile)
-      ticket.update!(credential_redeemed: true)
+      mark_redeemed(ticket)
     end
   end
 end

@@ -7,7 +7,7 @@ class Jobs::Credential::GtagChecker < Jobs::Credential::Base
       profile = assign_profile(transaction, atts)
       gtag = assign_gtag(transaction, atts)
       assign_gtag_credential(gtag, profile)
-      gtag.update!(credential_redeemed: true)
+      mark_redeemed(gtag)
     end
   end
 end
