@@ -1,4 +1,5 @@
 class Payments::StripePayer
+  include Rails.application.routes.url_helpers
   attr_reader :action_after_payment
 
   def initialize
@@ -6,28 +7,29 @@ class Payments::StripePayer
   end
 
   def start(params, customer_order_creator)
+    @event = Event.friendly.find(params[:event_id])
+    @order = Order.find(params[:order_id])
+    @order.start_payment!
     @customer_order_creator = customer_order_creator
     charge_object = charge(params)
     if charge_object
-      notify_payment(params, charge_object)
-      @action_after_payment = "redirect_to(success_event_order_payments_path)"
-      customer_order_creator.save(Order.find(params[:order_id]))
+      notify_payment(charge_object)
+      @action_after_payment = success_event_order_synchronous_payments_path(@event, @order)
     else
-      @action_after_payment = "redirect_to(error_event_order_payments_path)"
+      @action_after_payment = error_event_order_synchronous_payments_path(@event, @order)
     end
   end
 
   def charge(params)
-    event = Event.friendly.find(params[:event_id])
     amount = Order.find(params[:order_id]).total_stripe_formated
     Stripe.api_key = Rails.application.secrets.stripe_platform_secret
     begin
       charge = Stripe::Charge.create(
         amount: amount, # amount in cents, again
-        currency: event.currency,
+        currency: @event.currency,
         source: params[:stripeToken],
-        description: "Payment of #{amount} #{event.currency}",
-        destination: get_event_parameter_value(event, "stripe_account_id"))
+        description: "Payment of #{amount} #{@event.currency}",
+        destination: get_event_parameter_value(@event, "stripe_account_id"))
 
     rescue Stripe::CardError
       # The card has been declined
@@ -36,13 +38,13 @@ class Payments::StripePayer
     charge
   end
 
-  def notify_payment(params, charge)
+  def notify_payment(charge)
     return unless charge.status == "succeeded"
-    order = Order.find(params[:order_id])
-    create_log(order)
-    create_payment(order, charge)
-    order.complete!
-    send_mail_for(order, Event.friendly.find(params[:event_id]))
+    create_log(@order)
+    create_payment(@order, charge)
+    @customer_order_creator.save(@order)
+    @order.complete!
+    send_mail_for(@order, @event)
   end
 
   private
@@ -59,7 +61,11 @@ class Payments::StripePayer
   end
 
   def create_log(order)
-    CustomerCreditOnlineCreator.new(customer_event_profile: order.customer_event_profile, transaction_source: CustomerCredit::CREDITS_PURCHASE, amount: order.credits_total, payment_method: "none", money_payed: order.total).save
+    CustomerCreditOnlineCreator.new(customer_event_profile: order.customer_event_profile,
+                                    transaction_origin: CustomerCredit::CREDITS_PURCHASE,
+                                    amount: order.credits_total,
+                                    payment_method: "none",
+                                    money_payed: order.total).save
   end
 
   def create_payment(order, charge)
@@ -72,7 +78,7 @@ class Payments::StripePayer
                     authorization_code: charge.balance_transaction,
                     currency: charge.currency,
                     merchant_code: charge.balance_transaction,
-                    amount: (charge.amount.to_f / 100), # last two digits are decimals,
+                    amount: charge.amount.to_f / 100,
                     success: true,
                     payment_type: "stripe")
   end

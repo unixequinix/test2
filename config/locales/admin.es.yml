@@ -247,8 +247,8 @@ es:
       name: "Nombre"
       company_code: "Código de la compañía"
     entitlement:
-      unlimited: "Ilimitado"
-      entitlement_type: "Tipo"
+      infinite: "Ilimitado"
+      memory_length: "Tipo"
       memory_position: "Posición en memoria"
     ticket_types:
       id: "Id"
@@ -328,9 +328,9 @@ es:
     customer_credits:
       amount: "Candidad"
       refundable_amount: "Cantidad reembolsable"
-      value_credit: "Valor del crédito"
+      credit_value: "Valor del crédito"
       payment_method: "Método de pago"
-      transaction_source: "Fuente de la transacción"
+      transaction_origin: "Fuente de la transacción"
       final_balance: "Balance final"
       final_refundable_balance: "Balance final reembolsable"
     customers:
@@ -352,6 +352,7 @@ es:
       customer_orders: "Órdenes de cliente"
       refund: "Refund"
       customer_credits: "Créditos de cliente"
+      online_orders: "Órdenes online"
       claims: "Peticiones de devolución"
       gtag_credits: "Créditos Gtag"
       tickets: "Tickets"
@@ -412,7 +413,7 @@ es:
       amount: "Cantidad"
       product_price: "Precio del Producto"
       total: "Total"
-      product_name: "Nomebre del Producto"
+      product_name: "Producto"
       product_description: "Descripción del Producto"
       product_type: "Tipo de Producto"
       order_item: "Items de Órdenes"
@@ -424,6 +425,9 @@ es:
       amount: "Cantidad"
       customer_event_profile: "Perfil de cliente"
       catalog_item: "Producto del catálogo"
+    online_orders:
+      id: "Id"
+      redeemed: "Canjeado"
     payments:
       id: "Id"
       order_id: "Order Id"

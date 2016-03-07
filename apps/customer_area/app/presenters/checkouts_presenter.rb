@@ -12,6 +12,7 @@ class CheckoutsPresenter
                                                stations: { event_id: current_event },
                                                station_types: { name: "customer_portal" }
                                              ) })
+      .includes(:event)
     @catalog_items_hash = @catalog_items.hash_sorted(keys_sorted)
   end
 

@@ -1,8 +1,8 @@
 .wrapper-inside
-  = form_tag event_order_payments_path(@order_presenter.event, @order_presenter.order), method: :post, id: "braintree-payment-form"
+  = form_tag event_order_synchronous_payments_path(@order_presenter.event, @order_presenter.order), method: :post, id: "braintree-payment-form"
     #dropin
     .actions
-      = submit_tag t('orders.button'), class: "btn"
+      = submit_tag t('orders.button'), class: "btn btn-action btn-action-primary"
 
 javascript:
   if( $("#braintree-payment-form").length > 0 ) {

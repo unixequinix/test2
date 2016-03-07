@@ -27,12 +27,7 @@
 class MoneyTransaction < ActiveRecord::Base
   belongs_to :event
   belongs_to :station
-  belongs_to :device
   belongs_to :customer_event_profile
-  has_many :line_items
-  has_many :transaction_sale_items
 
   validates_presence_of :transaction_type
-
-  accepts_nested_attributes_for :transaction_sale_items
 end

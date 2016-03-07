@@ -23,7 +23,7 @@
 .header-desktop nav ul i,
 .header-desktop h1 a,
 //DEFAULT
-h3, label,
+h3, .to-be-label, .credential-types label,
 //MODULES
 .container-event-column h3,
 .store-module-title,
@@ -32,6 +32,7 @@ h3, label,
 .btn-action-register-desktop,
 .btn-action-register,
 .btn-action-register-mobile,
+.btn-action-back,
 //LOGIN-REGISTER
 .wrapper-terms h2,
 .wrapper-terms h3,
@@ -47,13 +48,11 @@ h3, label,
 .btn-action-enter,
 .btn-action-secondary:hover,
 .btn-action-empty-state:hover,
-.purchase-amount:before,
 .btn-action-primary:hover
 { background-color: $magenta; }
 
 // Wrapper module styles
 .wrapper-module,
-.store-module,
 .wrapper-module-centered
 { box-shadow: inset 0px -1px 0px 0px $light_grey; }
 
@@ -63,6 +62,7 @@ h3, label,
 .btn-action-register-desktop,
 .btn-action-register-mobile,
 .btn-action-register,
+.btn-action-back,
 .btn-action-empty-state
 { box-shadow: inset 0px 0px 0px 2px $magenta; }
 
@@ -76,11 +76,21 @@ h3, label,
 
 body                                 { background-color: #e2e2e2; }
 // Main wrapper background color and border
-.container-event-column              { background-color: rgba(255,255,255,0.45); }
+.container-event-column              { background-color: rgba(255,255,255,1); }
 .container-event-column              { box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); }
 .btn-action-secondary                { background-color: transparent; }
 .btn:after                           { box-shadow: 0 0 0 2px $magenta; }
 .current-breadcrumb                  { box-shadow: inset 0px 0px 0px 1px $magenta; }
+
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=number],
+input[type=url],
+input[type=tel],
+input[type=search] { &:focus { box-shadow: 0px -1px 0px 0px $magenta inset; } }
+
+footer { background-color: transparent; }
 
 
 // ---------------------------------------------------------------------------------------------

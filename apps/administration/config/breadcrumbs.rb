@@ -314,7 +314,7 @@ crumb :admins_event_customer_event_profiles do |event|
 end
 
 crumb :admins_event_customer_event_profile do |event, customer_event_profile|
-  link customer_event_profile.customer.name + " " + customer_event_profile.customer.surname,
+  link customer_event_profile.id,
        admins_event_customer_path(event, customer_event_profile)
   parent :admins_event_customer_event_profiles, event
 end

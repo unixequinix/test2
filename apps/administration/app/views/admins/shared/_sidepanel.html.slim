@@ -69,9 +69,6 @@ aside#main-menu
     li.aside-list = link_to admins_event_orders_path(event) do
       = fa_icon "list"
       = t("admin.aside.orders")
-    li.aside-list = link_to admins_event_customer_orders_path(event) do
-      = fa_icon "shopping-cart"
-      = t("admin.aside.customer_orders")
     li.aside-list = link_to admins_event_payments_path(event)
       = fa_icon "money"
       = t("admin.aside.payments")

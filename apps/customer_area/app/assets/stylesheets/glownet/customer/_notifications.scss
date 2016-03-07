@@ -58,26 +58,23 @@ $light_red: lighten($red, 8%);
   }
 }
 
-.msg-for-success {
-}
-
 .success-message {
   margin: modules(0.5);
   padding: modules(0.5);
-  background-color: lighten($green, 38%);
+  background-color: $app_success;
   border: 1px solid rgba(150, 150, 150, 0.3);
   border-radius: 3px;
-  color: darken($green, 20%);
+  color: $nuclear;
   text-align: center;
-  font-weight: bold;
 
   @include min-screen($bp3) {
-    margin: modules(1) 0 0;
+    max-width: 40%;
+    margin: modules(1) auto;
   }
 
   i {
     @include mscale($base_font_size*1.25);
-    color: darken($green, 20%);
+    color: $nuclear;
     margin-bottom: modules(0.25);
     display: block;
   }

@@ -3,5 +3,7 @@
   = link_to admins_event_customer_event_profiles_path(current_event), class: "btn btn-action btn-action-back small" do
     = fa_icon "arrow-circle-left"
     = t('actions.back')
-
-= render("customer_data", customer_event_profile: @customer_event_profile)
+.wrapper-negative-space
+  = render("admins/events/customer_event_profiles/purchases_information",
+      customer_event_profile: @customer_event_profile)
+  = render("customer_event_profile_data", customer_event_profile: @customer_event_profile)

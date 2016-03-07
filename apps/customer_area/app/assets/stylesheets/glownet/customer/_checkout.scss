@@ -5,7 +5,16 @@
 \* ------------------------------------------------------- */
 
 .wrapper-payments-methods {
-  text-align: right;
+  text-align: center;
+  padding-bottom: modules(1);
+
+  @include min-screen($bp3) {
+    position: absolute;
+    top: modules(4.5);
+    right: modules(1);
+    padding-bottom: 0;
+    text-align: right;
+  }
 
   i {
     @include mscale($quarter_text);
@@ -21,8 +30,8 @@
 .table-order {
   width: 100%;
   margin-bottom: modules(1);
-  padding-top: modules(1);
   text-align: left;
+  border-collapse: collapse;
 
   th {
     display: none;
@@ -39,13 +48,12 @@
 
     td:last-child{
       text-align: right;
-      font-weight: 700;
     }
   }
 
   td {
-    border-bottom: 1px dotted $light_grey;
-    padding: modules(0.5) 0;
+    padding: modules(0.25) 0;
+    color: $grey;
   }
 }
 
@@ -55,7 +63,8 @@
   td {
     @include mscale($half_text);
     vertical-align: top;
-    border-bottom: none;
+    padding: modules(0.5) 0;
+    color: $color_text;
     font-weight: bold;
   }
 }
@@ -63,7 +72,8 @@
 .vat-text {
   @include mscale($disclaimer);
   display: block;
-  font-weight: normal;
+  color: $grey;
+  font-weight: bold;
   text-transform: none;
 }
 
@@ -91,4 +101,3 @@
   float: right;
   span { @include mscale($double_text); }
 }
-

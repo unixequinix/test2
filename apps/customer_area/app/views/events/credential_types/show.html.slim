@@ -1,4 +1,4 @@
-.wrapper-module
+.wrapper-module.credential-types
   h3= @presenter.credentiable_name
   ul
     li.ticket-detail-module
@@ -11,7 +11,7 @@
         - @presenter.products.each do |product|
           li= product.name
 
-  = link_to customer_root_path, class: "btn btn-remove-ticket" do
+  = link_to customer_root_path, class: "btn btn-action-back" do
     = fa_icon "chevron-left"
     | Back
 

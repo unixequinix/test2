@@ -1,0 +1,36 @@
+.container-show
+  dl
+    // TODO Manu: find a better design
+    - if customer.deleted?
+      dt.deleted-field = t ("admin.customers.deleted")
+      dd
+
+    dt = t ("admin.customers.email")
+    dd = customer.email
+
+    dt = t ("admin.customers.name")
+    dd = customer.name
+
+    dt = t ("admin.customers.surname")
+    dd = customer.surname
+
+    dt = t ("admin.customers.sign")
+    dd = customer.sign_in_count
+
+    dt = t ("admin.customers.current_sign")
+    dd = customer.current_sign_in_at
+
+    dt = t ("admin.customers.last_sign")
+    dd = customer.last_sign_in_at
+
+    dt = t ("admin.customers.current_sign_ip")
+    dd = customer.current_sign_in_ip
+
+    dt = t ("admin.customers.last_sign_ip")
+    dd = customer.last_sign_in_ip
+
+    dt = t ("admin.customers.deleted_at")
+    dd = customer.deleted_at.strftime("%y-%m-%d %H:%M:%S") unless customer.deleted_at.nil?
+
+    dt = t ("admin.customers.agreed_event_condition")
+    dd = customer.agreed_event_condition
