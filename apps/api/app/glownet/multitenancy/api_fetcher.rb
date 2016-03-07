@@ -45,10 +45,6 @@ class Multitenancy::ApiFetcher
     Product.includes(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
-  def vouchers
-    Voucher.includes(:catalog_item).where(catalog_items: { event_id: @event.id })
-  end
-
   def packs
     Pack.includes(:catalog_item, pack_catalog_items: :catalog_item)
       .where(catalog_items: { event_id: @event.id })
@@ -76,6 +72,6 @@ class Multitenancy::ApiFetcher
   end
 
   def vouchers
-    Voucher.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
+    Voucher.includes(:catalog_item, :entitlement).where(catalog_items: { event_id: @event.id })
   end
 end
