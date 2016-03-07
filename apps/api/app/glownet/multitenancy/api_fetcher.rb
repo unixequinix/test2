@@ -51,7 +51,7 @@ class Multitenancy::ApiFetcher
   end
 
   def stations
-    Station.where(event: @event)
+    StationGroup.joins(:station_types, station_types: :stations).all
   end
 
   def sale_stations
