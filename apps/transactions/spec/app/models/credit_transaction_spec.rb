@@ -5,6 +5,6 @@ RSpec.describe CreditTransaction, type: :model do
     items = [{ amount: 25 }, { quantity: 9 }, { amount: 11 }]
     expect do
       CreditTransaction.create!(transaction_type: "sale", transaction_items_attributes: items)
-    end.to change(TransactionItem, :count).by(items.size)
+    end.to change(SaleItem, :count).by(items.size)
   end
 end

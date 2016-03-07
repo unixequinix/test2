@@ -4,7 +4,7 @@ class Jobs::Base < ActiveJob::Base
     obj_atts = extract_attributes(klass, atts)
     obj = klass.find_by(atts.slice(:device_id, :device_db_index)) || klass.create(obj_atts)
     atts[:transaction_id] = obj.id
-    workers = descendants.select { |w| w::SUBSCRIPTIONS.include? atts[:transaction_type] }
+    workers = descendants.select { |worker| worker::SUBSCRIPTIONS.include? atts[:transaction_type] }
     workers.each { |worker|  worker.perform_later(atts) }
     obj
   end
@@ -20,6 +20,6 @@ class Jobs::Base < ActiveJob::Base
 
   def self.extract_attributes(klass, atts)
     column_names = klass.column_names
-    atts.dup.keep_if { |k, _| column_names.include? k.to_s }
+    atts.dup.keep_if { |key, _| column_names.include? key.to_s }
   end
 end

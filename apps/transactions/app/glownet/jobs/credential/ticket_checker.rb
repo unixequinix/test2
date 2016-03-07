@@ -5,7 +5,7 @@ class Jobs::Credential::TicketChecker < Jobs::Credential::Base
     # TODO: Get company_ticket_type from TicketDecoder::SonarDecoder and/or ticket_id
 
     ActiveRecord::Base.transaction do
-      t = Credentialtransaction.find(atts[:transaction_id])
+      t = CredentialTransaction.find(atts[:transaction_id])
       profile = assign_profile(t, atts)
       ticket = assign_ticket(t, atts)
       assign_ticket_credential(ticket, profile)

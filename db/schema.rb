@@ -536,6 +536,14 @@ ActiveRecord::Schema.define(version: 20160307115732) do
     t.datetime "updated_at",                 null: false
   end
 
+  create_table "sale_items", force: :cascade do |t|
+    t.integer "catalogable_id"
+    t.string  "catalogable_type"
+    t.integer "quantity"
+    t.float   "amount"
+    t.integer "credit_transaction_id", index: {name: "fk__sale_items_credit_transaction_id"}, foreign_key: {references: "credit_transactions", name: "fk_sale_items_credit_transaction_id", on_update: :no_action, on_delete: :no_action}
+  end
+
   create_table "station_catalog_items", force: :cascade do |t|
     t.integer  "catalog_item_id", null: false, index: {name: "fk__station_catalog_items_catalog_item_id"}, foreign_key: {references: "catalog_items", name: "fk_station_catalog_items_catalog_item_id", on_update: :no_action, on_delete: :no_action}
     t.float    "price",           null: false
@@ -550,14 +558,6 @@ ActiveRecord::Schema.define(version: 20160307115732) do
     t.string   "station_parametable_type", null: false
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
-  end
-
-  create_table "transaction_items", force: :cascade do |t|
-    t.integer "catalogable_id"
-    t.string  "catalogable_type"
-    t.integer "quantity"
-    t.float   "amount"
-    t.integer "credit_transaction_id", index: {name: "fk__transaction_items_credit_transaction_id"}, foreign_key: {references: "credit_transactions", name: "fk_transaction_items_credit_transaction_id", on_update: :no_action, on_delete: :no_action}
   end
 
 end
