@@ -1,5 +1,5 @@
-class Api::V1::ProductsSerializer < Api::V1::BaseSerializer
-  attributes :id, :name, :is_alcohol
+class Api::V1::VouchersSerializer < Api::V1::BaseSerializer
+  attributes :id, :name
 
   def attributes(*args)
     hash = super

@@ -42,7 +42,11 @@ class Multitenancy::ApiFetcher
   end
 
   def products
-    Products.includes(:catalog_item).where(catalog_items: { event_id: @event.id })
+    Product.includes(:catalog_item).where(catalog_items: { event_id: @event.id })
+  end
+
+  def vouchers
+    Voucher.includes(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
   def packs
