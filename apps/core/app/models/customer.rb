@@ -5,8 +5,8 @@
 #  id                     :integer          not null, primary key
 #  event_id               :integer          not null
 #  email                  :string           default(""), not null
-#  name                   :string           default(""), not null
-#  surname                :string           default(""), not null
+#  first_name             :string           default(""), not null
+#  last_name              :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  reset_password_token   :string
 #  phone                  :string
@@ -49,7 +49,7 @@ class Customer < ActiveRecord::Base
 
   # Validations
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
-  validates :email, :name, :surname, :encrypted_password, presence: true
+  validates :email, :first_name, :last_name, :encrypted_password, presence: true
   validates :agreed_on_registration, acceptance: { accept: true }
 
   validates_uniqueness_of :email, scope: [:event_id], conditions: -> { where(deleted_at: nil) }

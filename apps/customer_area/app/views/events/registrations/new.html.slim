@@ -8,8 +8,8 @@
       = f.input :event_id, as: :hidden, input_html: { value: current_event.id, class: 'session-input' }
       = f.input :email, autofocus: true, input_html: { class: 'session-input' }
       = f.input :password, input_html: { class: 'session-input' }
-      = f.input :name, autofocus: true, input_html: { class: 'session-input' }
-      = f.input :surname, autofocus: true, input_html: { class: 'session-input' }
+      = f.input :first_name, autofocus: true, input_html: { class: 'session-input' }
+      = f.input :last_name, autofocus: true, input_html: { class: 'session-input' }
       = f.input :phone, input_html: { class: 'session-input' } if(current_event.phone?)
       = f.input :address, input_html: { class: 'session-input' } if(current_event.address?)
       = f.input :city, input_html: { class: 'session-input' } if(current_event.city?)

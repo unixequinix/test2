@@ -101,6 +101,7 @@ th:
         fixed: 'Fixed'
         repeat: 'Repeat'
       payment_services:
+        paypal: 'Paypal'
         redsys: 'Redsys'
         stripe: 'Stripe'
         braintree: 'Braintree'
@@ -284,8 +285,8 @@ th:
         assigned: "Is assigned now"
         unassigned: "Previous assignation"
     purchasers:
-      first_name: "Purchaser Name"
-      last_name: "Purchaser Surname"
+      first_name: "Purchaser First name"
+      last_name: "Purchaser Last name"
       email: "Purchaser Email"
       gtag_delivery_address: "Gtag Delivery Address"
     gtags:
@@ -334,8 +335,8 @@ th:
     customers:
       delete: "Deleted"
       email: "Email"
-      name: "First name"
-      surname: "Last name"
+      first_name: "First name"
+      last_name: "Last name"
       tickets: "Tickets"
       ticket: "Ticket"
       gtags: "Gtags"
@@ -369,8 +370,8 @@ th:
       deleted_at: "Deleted at"
       amount: "Amount"
       search:
-        name: "Type name"
-        surname: "Type surname"
+        first_name: "Type first name"
+        last_name: "Type last name"
         email: "Type email"
         confirmed: "Confirmed?"
         tickets: "Tickets?"
