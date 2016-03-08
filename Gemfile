@@ -131,14 +131,15 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.2.1'
   gem 'rspec-mocks'
   gem 'rspec-activemodel-mocks'
-  gem 'factory_girl_rails', '~> 4.5.0'
   gem 'guard-rspec', '~> 4.5.0', require: false
   gem 'spring-commands-rspec', '~> 1.0.4'
   gem 'pry-rails'
   gem 'terminal-notifier-guard'
 end
 
-gem 'factory_girl_rails', '~> 4.5.0', group: :integration
+group :development, :test, :integration do
+  gem 'factory_girl_rails', '~> 4.5.0'
+end
 
 group :development, :test, :staging do
   gem 'faker', '~> 1.4.3'

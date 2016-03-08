@@ -1,7 +1,10 @@
 class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
   def index
-    @tickets = @fetcher.tickets.page(params[:page]).per(1000)
-    render json: @tickets, each_serializer: Api::V1::TicketSerializer
+    tickets = @fetcher.tickets.page(params[:page]).per(10000)
+    json = cache ["v1", "tickets", "#{params[:page] || 0}"] do
+     render_to_string json: tickets, each_serializer: Api::V1::TicketSerializer
+    end
+    render json: json
   end
 
   def show
