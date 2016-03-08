@@ -26,7 +26,7 @@ namespace :db do
     @credential_types = 20
     @company_ticket_types = 20
     @tickets = 10000
-    @gtags =  1200 # Less than customers is prefered
+    @gtags =  5000 # Less than customers is prefered
 
     Benchmark.benchmark(CAPTION, 25, FORMAT, "TOTAL:") do |x|
       total = []
