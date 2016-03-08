@@ -50,9 +50,9 @@ namespace :db do
 
     @customers.times do |index|
       customers.push({ event_id: event.id,
-        name: "Customer #{index}",
-        surname: "Glownet",
-        email: "customer#{index}_#{event.id}@example.com",
+        first_name: "Customer #{index}",
+        last_name: "Glownet",
+        email: "customer#{index}#{DateTime.now.to_s(:number)}@example.com",
         agreed_on_registration: [true, false].sample,
         phone: "512 2301 440",
         country: "ES",
@@ -129,7 +129,7 @@ namespace :db do
                           company_event_agreement_id: rand(1..CompanyEventAgreement.count),
                           credential_type_id: rand(1..CredentialType.count),
                           name: "Company Ticket Type #{rand(100)}",
-                          company_code: "#{index}AB#{rand(1000)}"})
+                          company_code: "#{index}AT#{DateTime.now.to_s(:number)}"})
     end
     CompanyTicketType.bulk_insert_in_batches(ticket_types,
                                              batch_size: 50000,
@@ -146,7 +146,7 @@ namespace :db do
     @tickets.times do |index|
       tickets.push({ event_id: event.id,
                      company_ticket_type_id: rand(1..agreements_count),
-                     code: "AA#{index}ZZ#{rand(1000)}BB#{rand(500)}",
+                     code: "#{index}AT#{DateTime.now.to_s(:number)}",
                      credential_redeemed: [true, false].sample })
     end
     Ticket.bulk_insert_in_batches(tickets, batch_size: 50000, delay: 0, validate: false)
@@ -178,8 +178,8 @@ namespace :db do
     @gtags.times do |index|
       gtags.push({ event_id: event.id,
                    company_ticket_type_id: rand(1..agreements_count),
-                   tag_serial_number: "RTW#{rand(100)}ASD",
-                   tag_uid: "#{index}ZXA#{rand(1000)}",
+                   tag_serial_number: "SERIAL#{index}AT#{DateTime.now.to_s(:number)}",
+                   tag_uid: "UID#{index}AT#{DateTime.now.to_s(:number)}",
                    credential_redeemed: [true, false].sample })
     end
     Gtag.bulk_insert_in_batches(gtags, batch_size: 50000, delay: 0, validate: false)
