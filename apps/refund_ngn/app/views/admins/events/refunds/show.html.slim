@@ -8,7 +8,7 @@
       dt = t("admin.refund.amount")
       dd = @refund.claim.customer_event_profile.current_balance.nil? ? 0.0 : @refund.claim.customer_event_profile.current_balance.refundable_amount
       dt = t("admin.refund.customer_name")
-      dd = link_to "#{@refund.claim.customer_event_profile.customer.name} #{@refund.claim.customer_event_profile.customer.surname}", admins_event_customer_path(current_event, @refund.claim.customer_event_profile.customer) unless @refund.claim.customer_event_profile.customer.nil?
+      dd = link_to "#{@refund.claim.customer_event_profile.customer.first_name} #{@refund.claim.customer_event_profile.customer.last_name}", admins_event_customer_path(current_event, @refund.claim.customer_event_profile.customer) unless @refund.claim.customer_event_profile.customer.nil?
       dt = t("admin.refunds.customer_email")
       dd = @refund.claim.customer_event_profile.customer.email unless @refund.claim.customer_event_profile.customer.nil?
       dt =t('admin.refunds.created_at')

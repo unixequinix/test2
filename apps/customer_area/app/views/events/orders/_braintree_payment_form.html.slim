@@ -1,42 +1,44 @@
 .wrapper-inside
-  = form_tag event_order_synchronous_payments_path(@order_presenter.event, @order_presenter.order), method: :post, id: "braintree-payment-form"
-    #dropin
-    .actions
-      = submit_tag t('orders.button'), class: "btn btn-action btn-action-primary"
-
-
-
-form#my-sample-form action="/" method="post"
-      label for="card-number"  Card Number
-      #card-number
-      label for="cvv"  CVV
-      #cvv
-      label for="expiration-date"  Expiration Date
-      #expiration-date
-      input type="submit" value="Pay" /
-    script src="https://js.braintreegateway.com/js/braintree-2.21.0.min.js"
-
-javascript:
-
-
-
-
+  p.hint-text Card info
+  = form_tag event_order_synchronous_payments_path(@order_presenter.event, @order_presenter.order), method: :post, id: "braintree-payment-form", class: "basic-grey"
+    #paypal-container
+    .payment-errors
+    .control-group
+      .controls
+        = label_tag :card_number, t('orders.stripe.card_number'), required: true
+        #card_number
+      .controls
+        = label_tag :card_verification, t('orders.stripe.card_code_verification'), required: true
+        #card_verification
+      = label_tag :expiration_date, t('orders.stripe.card_expiration_date'), required: true, class: "expiration-label"
+      #expiration_date
+      .actions
+        = submit_tag t('orders.button'), class: "btn btn-action btn-action-primary"
 
 javascript:
   if( $("#braintree-payment-form").length > 0 ) {
     var clientToken = '#{@order_presenter.form_data.client_token}';
     braintree.setup(clientToken, "custom", {
-      container: "dropin"
-      id: "my-sample-form",
+      id: "braintree-payment-form",
       hostedFields: {
         number: {
-          selector: "#card-number"
+          selector: "#card_number"
         },
         cvv: {
-          selector: "#cvv"
+          selector: "#card_verification"
         },
         expirationDate: {
-          selector: "#expiration-date"
+          selector: "#expiration_date"
+        }
+      },
+      paypal: {
+        container: "paypal-container",
+      },
+      onFieldEvent: function (payload) {
+        $cardNumberContainer.removeClass('visa master-card discover jcb american-expres diners-club maestro');
+
+        if (payload.card) {
+          $cardNumberContainer.addClass(card.type);
         }
       }
     });

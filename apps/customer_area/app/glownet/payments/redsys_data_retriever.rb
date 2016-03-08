@@ -53,7 +53,7 @@ class Payments::RedsysDataRetriever
   end
 
   def client_name
-    @order.customer_event_profile.customer.name
+    @order.customer_event_profile.customer.first_name
   end
 
   def notification_url

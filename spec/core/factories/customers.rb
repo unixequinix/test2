@@ -4,8 +4,8 @@
 #
 #  id                     :integer          not null, primary key
 #  email                  :string           default(""), not null
-#  name                   :string           default(""), not null
-#  surname                :string           default(""), not null
+#  first_name              :string           default(""), not null
+#  last_name              :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  reset_password_token   :string
 #  reset_password_sent_at :datetime
@@ -33,8 +33,8 @@
 
 FactoryGirl.define do
   factory :customer do
-    name { "Some name #{rand(100)}" }
-    surname { "Some name #{rand(100)}" }
+    first_name { "Some name #{rand(100)}" }
+    last_name { "Some name #{rand(100)}" }
     email { "seth#{rand(100)}@swift.name" }
     agreed_on_registration true
     encrypted_password Authentication::Encryptor.digest("password")

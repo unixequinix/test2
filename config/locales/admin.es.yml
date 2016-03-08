@@ -101,6 +101,7 @@ es:
         fixed: 'Fijo'
         repeat: 'Repetir'
       payment_services:
+        paypal: 'Paypal'
         redsys: 'Redsys'
         stripe: 'Stripe'
         braintree: 'Braintree'
@@ -336,8 +337,8 @@ es:
     customers:
       delete: "Borrado"
       email: "Email"
-      name: "Nombre"
-      surname: "Apellidos"
+      first_name: "Nombre"
+      last_name: "Apellidos"
       tickets: "Tickets"
       ticket: "Ticket"
       gtags: "Gtags"
@@ -370,8 +371,8 @@ es:
       deleted_at: "Borrado el"
       amount: "Cantidad"
       search:
-        name: "Nombre"
-        surname: "Apellido"
+        first_name: "Nombre"
+        last_name: "Apellido"
         email: "Email"
         confirmed: "¿Confirmado?"
         tickets: "¿Tickets?"

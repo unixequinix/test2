@@ -4,8 +4,8 @@ class CreateCustomers < ActiveRecord::Migration
     create_table :customers do |t|
       t.references :event, null: false
       t.string :email, null: false, default: "", index: { unique: true }
-      t.string :name, default: "", null: false
-      t.string :surname, default: "", null: false
+      t.string :first_name, default: "", null: false
+      t.string :last_name, default: "", null: false
       t.string :encrypted_password, default: "",    null: false
       t.string :reset_password_token, index: { unique: true }
       t.string :phone

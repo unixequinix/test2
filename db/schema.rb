@@ -52,7 +52,6 @@ ActiveRecord::Schema.define(version: 20160303145513) do
     t.string   "background_type",         default: "fixed"
     t.string   "currency",                default: "USD",                 null: false
     t.string   "host_country",            default: "US",                  null: false
-    t.string   "payment_service",         default: "redsys"
     t.string   "token"
     t.text     "description"
     t.text     "style"
@@ -61,6 +60,7 @@ ActiveRecord::Schema.define(version: 20160303145513) do
     t.integer  "features",                default: 0,                     null: false
     t.integer  "registration_parameters", default: 0,                     null: false
     t.integer  "locales",                 default: 1,                     null: false
+    t.integer  "payment_services",        default: 0,                     null: false
     t.integer  "refund_services",         default: 0,                     null: false
     t.boolean  "gtag_assignation",        default: true,                  null: false
     t.boolean  "ticket_assignation",      default: true,                  null: false
@@ -75,8 +75,8 @@ ActiveRecord::Schema.define(version: 20160303145513) do
   create_table "customers", force: :cascade do |t|
     t.integer  "event_id",               null: false, index: {name: "fk__customers_event_id"}, foreign_key: {references: "events", name: "fk_customers_event_id", on_update: :no_action, on_delete: :no_action}
     t.string   "email",                  default: "",    null: false, index: {name: "index_customers_on_email", unique: true}
-    t.string   "name",                   default: "",    null: false
-    t.string   "surname",                default: "",    null: false
+    t.string   "first_name",             default: "",    null: false
+    t.string   "last_name",              default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token",   index: {name: "index_customers_on_reset_password_token", unique: true}
     t.string   "phone"

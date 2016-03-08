@@ -11,8 +11,8 @@ class OrderMailer < ApplicationMailer
   def config_parameters(order, event)
     headers["X-No-Spam"] = "True"
     headers["In-Reply-To"] = event.support_email
-    first_name = order.customer_event_profile.customer.name
-    last_name = order.customer_event_profile.customer.surname
+    first_name = order.customer_event_profile.customer.first_name
+    last_name = order.customer_event_profile.customer.last_name
     @name = [first_name, last_name].join(" ")
     @order = order
     @event = event

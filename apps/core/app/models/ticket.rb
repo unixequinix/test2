@@ -50,7 +50,7 @@ class Ticket < ActiveRecord::Base
       .joins("LEFT OUTER JOIN customers
               ON customers.id = customer_event_profiles.customer_id
               AND customers.deleted_at IS NULL")
-      .select("tickets.*, customers.email, customers.name, customers.surname")
+      .select("tickets.*, customers.email, customers.first_name, customers.last_name")
       .where(event: event_id)
   }
 

@@ -58,8 +58,8 @@ class Payments::BraintreePayer
 
   def vault_options(sale_options, customer)
     sale_options[:customer] = {
-      first_name: customer.name,
-      last_name: customer.surname,
+      first_name: customer.first_name,
+      last_name: customer.last_name,
       email: customer.email
     }
     sale_options[:options] = {

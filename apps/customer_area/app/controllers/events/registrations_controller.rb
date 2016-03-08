@@ -43,8 +43,8 @@ class Events::RegistrationsController < Events::BaseController
   end
 
   def permitted_params
-    params.require(:customer).permit(:event_id, :email, :name,
-                                     :surname, :phone, :address, :city, :country, :postcode,
+    params.require(:customer).permit(:event_id, :email, :first_name,
+                                     :last_name, :phone, :address, :city, :country, :postcode,
                                      :gender, :birthdate, :password, :current_password,
                                      :agreed_on_registration, :agreed_event_condition)
   end

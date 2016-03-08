@@ -4,8 +4,8 @@
 #
 #  id                     :integer          not null, primary key
 #  email                  :string           default(""), not null
-#  name                   :string           default(""), not null
-#  surname                :string           default(""), not null
+#  first_name             :string           default(""), not null
+#  last_name              :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  reset_password_token   :string
 #  reset_password_sent_at :datetime
@@ -35,8 +35,8 @@ RSpec.describe Customer, type: :model do
   let(:customer) { build(:customer) }
 
   it { is_expected.to validate_presence_of(:email) }
-  it { is_expected.to validate_presence_of(:name) }
-  it { is_expected.to validate_presence_of(:surname) }
+  it { is_expected.to validate_presence_of(:first_name) }
+  it { is_expected.to validate_presence_of(:last_name) }
 
   context ".update_tracked_fields" do
     let(:request) { double(:request) }

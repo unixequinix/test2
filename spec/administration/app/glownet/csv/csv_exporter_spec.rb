@@ -14,13 +14,13 @@ RSpec.describe Csv::CsvExporter, type: :domain_logic do
 
       customer_odd = create(:customer,
                             event: event,
-                            name: "Diana Mayorga Zamora  ",
-                            surname: "Carmona",
+                            first_name: "Diana Mayorga Zamora  ",
+                            last_name: "Carmona",
                             email: "gustavo.orosco@garibay.es")
       customer_even = create(:customer,
                              event: event,
-                             name: "Paco Lopez Jones",
-                             surname: "Ojeda",
+                             first_name: "Paco Lopez Jones",
+                             last_name: "Ojeda",
                              email: "paco.ojeda@eresmas.es")
       profile_odd = create(:customer_event_profile, event: event, customer: customer_odd)
       profile_even = create(:customer_event_profile, event: event, customer: customer_even)
@@ -56,7 +56,7 @@ RSpec.describe Csv::CsvExporter, type: :domain_logic do
         expect(number_of_records_in_csv(@csv_file)).to be(Claim.count)
       end
       it "should be able to export to a file" do
-        csv = "id,service_type,name,surname,email,tag_uid,tag_serial_number,amount,iban,swift\n" \
+        csv = "id,service_type,first_name,last_name,email,tag_uid,tag_serial_number,amount,iban,swift\n" \
               "1,bank_account,Diana Mayorga Zamora  ,Carmona,gustavo.orosco@garibay.es," \
                 "4OBXCHS2FT,MIUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n" \
               "2,bank_account,Paco Lopez Jones,Ojeda,paco.ojeda@eresmas.es," \
