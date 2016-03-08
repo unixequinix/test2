@@ -52,8 +52,8 @@ es:
       customer:
         new: &label_customer
           email: 'Email'
-          name: 'Nombre'
-          surname: 'Apellidos'
+          first_name: 'Nombre'
+          last_name: 'Apellidos'
           current_password: 'Contraseña actual'
           password: 'Contraseña'
           phone: 'Número de Teléfono'

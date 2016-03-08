@@ -19,12 +19,12 @@ class Api::V1::CustomerEventProfileSerializer < Api::V1::BaseSerializer
     hash
   end
 
-  def name
-    object.customer.name
+  def first_name
+    object.customer.first_name
   end
 
-  def surname
-    object.customer.surname
+  def last_name
+    object.customer.last_name
   end
 
   def email

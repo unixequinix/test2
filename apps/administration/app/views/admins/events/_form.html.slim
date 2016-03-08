@@ -28,7 +28,17 @@
     = f.input :ticket_assignation, as: :radio_buttons
     = f.input :host_country
     = f.input :currency
-    = f.input :payment_service, collection: EventDecorator.payment_services_selector, include_blank: false
+
+    #payment-services
+      label
+        = t("admin.event.payment_service")
+      .controls
+        - EventDecorator::PAYMENT_SERVICES.each_with_index do |payment_service, index|
+          span.checkbox
+            = check_box_tag t("admin.event.payment_services.#{payment_service}"), event.flag_mapping["payment_services"][payment_service], (:checked if event.flag_enabled?(payment_service)), id: "#{payment_service}-payment-service", class: "flag-selector", data: {"checkbox-group" => "payment_services"}
+            label.collection_check_boxes for="#{payment_service}-payment-service" = t("admin.event.payment_services.#{payment_service}")
+    = f.input :payment_services, as: :hidden
+
     #refund-services
       label
         = t("admin.event.refund_service")

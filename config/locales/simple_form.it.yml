@@ -50,8 +50,8 @@ it:
       customer:
         new: &label_customer
           email: 'Email'
-          name: 'Nome'
-          surname: 'Cognome'
+          first_name: 'Nome'
+          last_name: 'Cognome'
           password: 'Password Attuale'
           password: 'Password'
           password_confirmation: 'Conferma Password'
