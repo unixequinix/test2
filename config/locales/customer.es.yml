@@ -51,6 +51,7 @@ es:
       call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"
       call_to_action_no_admission_html: "Para poder recargar online,<br>deberás activar un Ticket primero"
       button: "Recarga"
+      ticket_first: "Añade un ticket o pulsera primero"
     event_refunds:
       claim: "El evento aún no ha acabado"
       description: "Vuelve pronto para poder reclamar tus créditos"
@@ -79,7 +80,7 @@ es:
       claim: "Lo sentimos"
       description: "Ya ha pasado el periodo de devolución, ponte en contacto con soporte si tienes alguna duda."
     gtag_registration:
-      title: "Tu número de %{gtag}:"
+      title: "Tu %{gtag}:"
       call_to_action: "¿Introdujiste una incorrecta por error?"
       button: "Cambiar"
       hint: "Has introducido una pulsera por error? Bórrala y reinicia el proceso"
@@ -238,4 +239,4 @@ es:
     use: "Condiciones de uso"
     privacy: "Política de privacidad"
     copyright: "© Copyright Glownet"
-    support: 'Support'
+    support: 'Soporte'

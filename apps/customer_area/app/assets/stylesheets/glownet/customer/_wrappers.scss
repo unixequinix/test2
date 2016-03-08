@@ -36,11 +36,13 @@
 // Event logo styles
 
 .container-event-logo {
+  display: none;
   padding: 0;
 
   @include min-screen($bp3) {
+    display: block;
     width: 40%;
-    margin: modules(2) auto 0;
+    margin: 0 auto;
     padding: 0;
   }
 }
@@ -140,7 +142,7 @@
     padding-right: modules(5);
     text-transform: uppercase;
 
-    @include min-screen($bp3) { padding-right: modules(7); }
+    @include min-screen($bp3) { padding-right: 0; }
   }
 }
 

@@ -1,6 +1,13 @@
 .wrapper-module
   h3 = t('dashboard.credits.header')
   p.panel-amount-number = presenter.customer_total_credits
-  p Add a ticket first
+  //p.center-text
+  //  = fa_icon "info-circle"
+  //  = t('dashboard.credits.ticket_first')
   - if presenter.ticket_assignments_present? && !presenter.event_started?
     = link_to t('dashboard.credits.button'), new_event_checkout_path(current_event), class: "btn btn-action btn-action-dashboard"
+  ul.refundable-conversion-list.center-text
+    p.refundable-text.center-text.bold-text Refundable:
+    li.bold-text 120t
+    span |
+    li 300€
