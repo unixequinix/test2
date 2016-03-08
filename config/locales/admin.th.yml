@@ -341,10 +341,12 @@ th:
       gtags: "Gtags"
       gtag: "Gtag"
       state: "State"
+      purchases: "Purchases"
       admissions: "Ticket registrations"
       creadit_logs: "Credits logs"
       orders: "Orders"
       payments: "Payments"
+      payments_activated: "Payments activated"
       gtag_assignments: "Gtag registrations"
       completed_claim: "Completed claims"
       refund: "Refund"
@@ -426,6 +428,7 @@ th:
     online_orders:
       id: "Id"
       redeemed: "Redeemed"
+      customer_order_id: "Customer order id"
     payments:
       id: "Id"
       order_id: "Order Id"

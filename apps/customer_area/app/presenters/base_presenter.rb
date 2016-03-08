@@ -20,8 +20,8 @@ class BasePresenter
     @completed_claim.present?
   end
 
-  def ticket_assignments_present?
-    @ticket_assignments.any?
+  def credential_present?
+    @ticket_assignments.present? || @gtag_assignment.present?
   end
 
   def gtag_tag_uid
