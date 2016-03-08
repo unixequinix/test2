@@ -19,8 +19,9 @@ table.packs
         td data-label=t('admin.catalog_item.initial_amount') = pack.catalog_item.initial_amount
         td data-label=t('admin.catalog_item.max_purchasable') = pack.catalog_item.max_purchasable
         td data-label=t('admin.catalog_item.min_purchasable') = pack.catalog_item.min_purchasable
-        td data-label=t('admin.pack.number_catalog_items') = pack.catalog_items_count
+        td data-label=t('admin.pack.number_catalog_items')
+          = pack.catalog_items_count
+          = "·" if pack.credits_pack?
         td.table-actions-field
           = render 'admins/events/packs/actions', pack: pack unless current_event.started?
 = paginate packs
-

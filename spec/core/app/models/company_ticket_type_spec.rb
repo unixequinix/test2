@@ -17,17 +17,20 @@ require "rails_helper"
 
 RSpec.describe CompanyTicketType, type: :model do
   it { is_expected.to validate_presence_of(:name) }
-  it { is_expected.to validate_presence_of(:company) }
+  it { is_expected.to validate_presence_of(:company_code) }
 
   describe "CompanyTicketType" do
     before(:all) do
-      @company = create(:company)
-      @event = @company.event
-      @j = create(:company_ticket_type, company: @company, event: @event, name: "Jaquan")
-      @h = create(:company_ticket_type, company: @company, event: @event, name: "Hilario")
+      @company_event_agreement = create(:company_event_agreement)
+      @company = @company_event_agreement.company
+      @event = @company_event_agreement.event
+      @j = create(:company_ticket_type,
+        company_event_agreement: @company_event_agreement, event: @event, name: "Jaquan")
+      @h = create(:company_ticket_type,
+        company_event_agreement: @company_event_agreement, event: @event, name: "Hilario")
     end
 
-    it "returns all the company ticket types thant belongs to a company of a particular event" do
+    it "returns all the company ticket types that belongs to a company of a particular event" do
       query = CompanyTicketType.search_by_company_and_event(@company.name, @event)
       expect(query.count).to eq(2)
     end

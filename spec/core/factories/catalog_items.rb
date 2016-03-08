@@ -38,6 +38,12 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_credential_type do
+      after(:build) do |catalog_item|
+        build(:credential_type, catalog_item: catalog_item)
+      end
+    end
+
     factory :credit_catalog_item, traits: [:with_credit]
     factory :standard_credit_catalog_item, traits: [:with_standard_credit]
     factory :access_catalog_item, traits: [:with_access]

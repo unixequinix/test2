@@ -11,7 +11,7 @@ class Events::TicketAssignmentsController < Events::BaseController
       flash[:notice] = I18n.t("alerts.created")
       redirect_to event_url(current_event)
     else
-      flash[:error] = @ticket_assignment_form.errors.full_messages.join
+      flash.now[:error] = @ticket_assignment_form.errors.full_messages.join
       render :new
     end
   end
@@ -21,7 +21,7 @@ class Events::TicketAssignmentsController < Events::BaseController
     @ticket_assignment.unassign!
     ticket = @ticket_assignment.credentiable
     @credit_log =
-      CustomerCreditOnlineCreator.new(customer_event_profile: customer_event_profile,
+      CustomerCreditTicketCreator.new(customer_event_profile: current_customer_event_profile,
                                       transaction_origin: CustomerCredit::TICKET_UNASSIGNMENT,
                                       payment_method: "none",
                                       amount: -ticket.credits

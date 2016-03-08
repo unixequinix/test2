@@ -29,6 +29,11 @@ class CompanyTicketType < ActiveRecord::Base
       .pluck("companies.name").uniq
   }
 
+  def self.search_by_company_and_event(company_name, event)
+    CompanyTicketType.joins(company_event_agreement: :company)
+                     .where(companies: {name: company_name}, event: event)
+  end
+
   def self.form_selector(event)
     where(event: event).map { |company_tt| [company_tt.name, company_tt.id] }
   end
