@@ -13,6 +13,12 @@
         -
           name: uid_reverse
           value: true
+        -
+          name: enable_api_pagination
+          value: true
+        -
+          name: api_records_per_page
+          value: 10000
 
 -
   category: payment

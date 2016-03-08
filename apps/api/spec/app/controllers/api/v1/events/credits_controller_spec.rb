@@ -4,7 +4,7 @@ RSpec.describe Api::V1::Events::CreditsController, type: :controller do
   let(:event) { create(:event) }
   let(:admin) { Admin.first || create(:admin) }
   let(:db_credits) do
-    Credit.joins(:catalog_item).where(catalog_items: { event_id: event.id }) .pluck(:id)
+    Credit.joins(:catalog_item).where(catalog_items: { event_id: event.id }).pluck(:id)
   end
 
   describe "GET index" do

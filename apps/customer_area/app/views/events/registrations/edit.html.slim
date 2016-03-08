@@ -8,8 +8,8 @@
       h3.center-text = t('registration.edit.title')
       = f.input :event_id, as: :hidden, input_html: { value: current_event.id }, input_html: { class: 'session-input' }
       = f.input :email, required: true, autofocus: true, input_html: { class: 'session-input' }
-      = f.input :name, required: true, autofocus: true, input_html: { class: 'session-input' }
-      = f.input :surname, required: true, autofocus: true, input_html: { class: 'session-input' }
+      = f.input :first_names, required: true, autofocus: true, input_html: { class: 'session-input' }
+      = f.input :last_name, required: true, autofocus: true, input_html: { class: 'session-input' }
       = f.input :current_password, autocomplete: "off", input_html: { class: 'session-input' }
       = f.input :password, autocomplete: "off", hint: t('registration.edit.password_hint'), required: false, input_html: { class: 'session-input' }
       = f.input :phone, input_html: { class: 'session-input' } if(current_event.phone?)

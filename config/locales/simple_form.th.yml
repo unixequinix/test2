@@ -51,8 +51,8 @@ th:
       customer:
         new: &label_customer
           email: 'อีเมลl'
-          name: 'ชื่อ'
-          surname: 'นามสกุล'
+          first_name: 'ชื่อ'
+          last_name: 'นามสกุล'
           password: 'รหัสผ่านปัจจุบัน'
           password: 'รหัสผ่าน'
           password_confirmation: 'ยืนยันรหัสผ่าน'

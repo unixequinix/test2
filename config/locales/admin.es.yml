@@ -101,6 +101,7 @@ es:
         fixed: 'Fijo'
         repeat: 'Repetir'
       payment_services:
+        paypal: 'Paypal'
         redsys: 'Redsys'
         stripe: 'Stripe'
         braintree: 'Braintree'
@@ -336,17 +337,19 @@ es:
     customers:
       delete: "Borrado"
       email: "Email"
-      name: "Nombre"
-      surname: "Apellidos"
+      first_name: "Nombre"
+      last_name: "Apellidos"
       tickets: "Tickets"
       ticket: "Ticket"
       gtags: "Gtags"
       gtag: "Gtag"
       state: "Estado"
       admissions: "Registro de Tickets"
+      purchases: "Compras"
       creadit_logs: "Compras de creditos"
       orders: "Ordenes"
       payments: "Pagos"
+      payments_activated: "Pagos activados"
       gtag_assignments: "Registro de Gtags"
       completed_claim: "Peticiones de devolución completadas"
       customer_orders: "Órdenes de cliente"
@@ -370,8 +373,8 @@ es:
       deleted_at: "Borrado el"
       amount: "Cantidad"
       search:
-        name: "Nombre"
-        surname: "Apellido"
+        first_name: "Nombre"
+        last_name: "Apellido"
         email: "Email"
         confirmed: "¿Confirmado?"
         tickets: "¿Tickets?"
@@ -428,6 +431,7 @@ es:
     online_orders:
       id: "Id"
       redeemed: "Canjeado"
+      customer_order_id: "Id ordén de cliente"
     payments:
       id: "Id"
       order_id: "Order Id"

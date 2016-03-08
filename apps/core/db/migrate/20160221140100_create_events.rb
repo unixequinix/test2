@@ -15,7 +15,6 @@ class CreateEvents < ActiveRecord::Migration
       t.string :background_type, default: "fixed"
       t.string :currency, default: "USD", null: false
       t.string :host_country, default: "US", null: false
-      t.string :payment_service, default: "redsys"
       t.string :token
       t.text :description
       t.text :style
@@ -24,6 +23,7 @@ class CreateEvents < ActiveRecord::Migration
       t.integer :features, default: 0, null: false
       t.integer :registration_parameters, default: 0, null: false
       t.integer :locales, default: 1, null: false
+      t.integer :payment_services, default: 0, null: false
       t.integer :refund_services, default: 0, null: false
       t.boolean :gtag_assignation, default: true, null: false
       t.boolean :ticket_assignation, default: true, null: false

@@ -17,7 +17,7 @@ class GtagMailer < ApplicationMailer
 
   def config_parameters(gtag_assignment)
     customer = gtag_assignment.customer_event_profile.customer
-    @name = "#{customer.name} #{customer.surname}"
+    @name = "#{customer.first_name} #{customer.last_name}"
     @gtag = gtag_assignment.credentiable
     @event = gtag_assignment.customer_event_profile.event
     headers["In-Reply-To"] = @event.support_email

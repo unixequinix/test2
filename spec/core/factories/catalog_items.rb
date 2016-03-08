@@ -14,6 +14,12 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_pack do
+      after(:build) do |catalog_item|
+        catalog_item.catalogable ||= build(:pack, catalog_item: catalog_item)
+      end
+    end
+
     trait :with_standard_credit do
       after(:build) do |catalog_item|
         catalog_item.catalogable ||= build(:standard_credit, catalog_item: catalog_item)

@@ -18,8 +18,8 @@ class TipaltiCheckout
 
     {
       idap: @claim.customer_event_profile.id,
-      last: @claim.customer_event_profile.customer.surname.gsub(valid_characters, ""),
-      first: @claim.customer_event_profile.customer.name.gsub(valid_characters, ""),
+      last: @claim.customer_event_profile.customer.last_name.gsub(valid_characters, ""),
+      first: @claim.customer_event_profile.customer.first_name.gsub(valid_characters, ""),
       ts: Time.now.to_i,
       payer: @tipalti_values[:payer]
     }.to_param
