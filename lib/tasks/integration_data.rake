@@ -21,11 +21,11 @@ namespace :db do
   task integration_data: :environment do
 
     @companies = 3
-    @customers = 10000
+    @customers = 200000
     @accesses = 20
     @credential_types = 20
     @company_ticket_types = 20
-    @tickets = 10000
+    @tickets = 200000
     @gtags =  5000 # Less than customers is prefered
 
     Benchmark.benchmark(CAPTION, 25, FORMAT, "TOTAL:") do |x|

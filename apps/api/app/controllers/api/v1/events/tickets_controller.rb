@@ -1,8 +1,6 @@
 class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
   def index
-    @tickets = Paginator::ApiPaginator.paginate(@fetcher.tickets, params[:page])
-
-    render json: @tickets, each_serializer: Api::V1::TicketSerializer
+    render json: @fetcher.tickets, each_serializer: Api::V1::TicketSerializer
   end
 
   def show
