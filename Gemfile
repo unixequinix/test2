@@ -138,6 +138,8 @@ group :development, :test do
   gem 'terminal-notifier-guard'
 end
 
+gem 'factory_girl_rails', '~> 4.5.0', group: :integration
+
 group :development, :test, :staging do
   gem 'faker', '~> 1.4.3'
   gem 'rubocop', '~>0.30.1', require: false # Code quality https://github.com/bbatsov/rubocop
