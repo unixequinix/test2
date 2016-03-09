@@ -13,9 +13,9 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
 
   def create
     @company_ticket_type = CompanyTicketType.new(permitted_params)
-    @credential_types_collection = @fetcher.credential_types.includes(:catalog_item,
-                                                                      company_ticket_types: [
-                                                                company_event_agreement: :company])
+    @credential_types_collection =
+      @fetcher.credential_types.includes(:catalog_item,
+                                         company_ticket_types: [company_event_agreement: :company])
     @company_event_agreement_collection = @fetcher.company_event_agreements
     if @company_ticket_type.save
       redirect_to admins_event_company_ticket_types_url, notice: I18n.t("alerts.created")

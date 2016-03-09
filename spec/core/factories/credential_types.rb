@@ -12,6 +12,6 @@
 
 FactoryGirl.define do
   factory :credential_type do
-   catalog_item
+    catalog_item
   end
 end

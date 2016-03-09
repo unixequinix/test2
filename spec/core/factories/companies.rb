@@ -7,6 +7,5 @@ FactoryGirl.define do
         company.company_event_agreements << build(:company_event_agreement)
       end
     end
-
   end
 end

@@ -25,9 +25,9 @@ RSpec.describe CompanyTicketType, type: :model do
       @company = @company_event_agreement.company
       @event = @company_event_agreement.event
       @j = create(:company_ticket_type,
-        company_event_agreement: @company_event_agreement, event: @event, name: "Jaquan")
+                  company_event_agreement: @company_event_agreement, event: @event, name: "Jaquan")
       @h = create(:company_ticket_type,
-        company_event_agreement: @company_event_agreement, event: @event, name: "Hilario")
+                  company_event_agreement: @company_event_agreement, event: @event, name: "Hilario")
     end
 
     it "returns all the company ticket types that belongs to a company of a particular event" do

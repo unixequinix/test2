@@ -15,9 +15,6 @@ class CustomerOrderTicketCreator
   end
 
   def delete(ticket)
-    ticket.assigned_ticket_credential.customer_orders do |customer_order|
-      binding.pry
-      customer_order.delete
-    end
+    ticket.assigned_ticket_credential.customer_orders(&:delete)
   end
 end

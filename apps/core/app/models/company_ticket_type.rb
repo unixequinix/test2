@@ -31,7 +31,7 @@ class CompanyTicketType < ActiveRecord::Base
 
   def self.search_by_company_and_event(company_name, event)
     CompanyTicketType.joins(company_event_agreement: :company)
-                     .where(companies: {name: company_name}, event: event)
+      .where(companies: { name: company_name }, event: event)
   end
 
   def self.form_selector(event)
