@@ -193,7 +193,7 @@ en:
       delete: "Are you sure?"
     aside:
       logs: "Logs"
-      access: "Access"
+      accesses: "Accesses"
       event: "Event"
       details: "Details"
       gtag_settings: "Gtag Settings"

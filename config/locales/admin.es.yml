@@ -193,7 +193,7 @@ es:
       delete: "Estás seguro?"
     aside:
       logs: "Logs"
-      access: "Acceso"
+      accesses: "Accesos"
       event: "Evento"
       details: "Detalles"
       gtag_settings: "Configuración de gtags"
