@@ -1,4 +1,6 @@
-= render 'events/shared/header'
+= link_to event_logout_path(current_event), method: :delete, class: "btn btn-action btn-action-end-session" do
+  = fa_icon "sign-out"
+  = t('header.logout')
 .container-event-column
   .wrapper-session
     = simple_form_for @edit_profile_form, url: event_registrations_path(current_event), method: :patch do |f|
@@ -6,7 +8,7 @@
       h3.center-text = t('registration.edit.title')
       = f.input :event_id, as: :hidden, input_html: { value: current_event.id }, input_html: { class: 'session-input' }
       = f.input :email, required: true, autofocus: true, input_html: { class: 'session-input' }
-      = f.input :first_names, required: true, autofocus: true, input_html: { class: 'session-input' }
+      = f.input :first_name, required: true, autofocus: true, input_html: { class: 'session-input' }
       = f.input :last_name, required: true, autofocus: true, input_html: { class: 'session-input' }
       = f.input :current_password, autocomplete: "off", input_html: { class: 'session-input' }
       = f.input :password, autocomplete: "off", hint: t('registration.edit.password_hint'), required: false, input_html: { class: 'session-input' }

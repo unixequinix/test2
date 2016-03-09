@@ -23,6 +23,8 @@ html [lang=I18n.locale]
     .container-main
       = render 'events/shared/header'
       #mainWrapper.wrapper-main
-        .container-event-column.container-customer-app-view
+        .container-event-logo
+          = render 'events/shared/sub_header'
+        .container-event-column
           == yield
     = render 'events/shared/footer'

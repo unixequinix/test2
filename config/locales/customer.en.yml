@@ -50,7 +50,7 @@ en:
       call_to_action_started: "The event just started so you cannot topup anymore"
       call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Event Ticket first"
       button: "Top-up"
-    add_credentials: "Add a ticket or a gtag first"
+      ticket_first: "Add a ticket or wristband first"
     event_refunds:
       claim: "Event hasn't finished yet"
       description: "Come back soon to apply for your credits refund"
@@ -79,7 +79,7 @@ en:
       claim: "Sorry"
       description: "The refunds period is finished, If you have any question contact support."
     gtag_registration:
-      title: "Your %{gtag} number:"
+      title: "Your %{gtag}:"
       call_to_action: "Edit"
       button: "Change"
       hint: "Put a wrong wristband by mistake? Erase and restart the process"
