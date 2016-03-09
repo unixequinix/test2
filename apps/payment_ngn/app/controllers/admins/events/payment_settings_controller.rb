@@ -1,24 +1,26 @@
 class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
-  def show
+  def index
     @event = Event.friendly.find(params[:event_id])
-    @event_parameters = @fetcher.event_parameters.where(parameters: { group: @event.payment_service,
-                                                                      category: "payment" })
-                        .includes(:parameter)
+    @payment_parameters = @fetcher.event_parameters.where(
+      parameters: {
+        group: @event.selected_payment_services.map(&:to_s),
+        category: "payment" }).includes(:parameter)
   end
 
+  # TODO Move this method out from this controller
   def new
     @event = Event.friendly.find(params[:event_id])
-    @fetcher.event_parameters.find_by(parameter: Parameter.where(group: @event.payment_service,
+    @fetcher.event_parameters.find_by(parameter: Parameter.where(group: "stripe",
                                                                  category: "payment",
                                                                  name: "stripe_account_id"))
-    @payment_settings_form = ("#{@event.payment_service.camelize}PaymentSettingsForm")
-                             .constantize.new
+    @payment_settings_form = StripePaymentSettingsForm.new
   end
 
+  # TODO Move this method out from this controller
   def create
     @event = Event.friendly.find(params[:event_id])
-    @payment_settings_form = ("#{@event.payment_service.camelize}PaymentSettingsForm")
-                             .constantize.new(permitted_params)
+    @payment_service = "stripe"
+    @payment_settings_form = StripePaymentSettingsForm.new(permitted_params)
     if @payment_settings_form.save(params, request)
       @event.save
       redirect_to admins_event_payment_settings_url(@event), notice: I18n.t("alerts.updated")
@@ -30,19 +32,21 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
 
   def edit
     @event = Event.friendly.find(params[:event_id])
-    event_parameters = @fetcher.event_parameters.where(parameters: { group: @event.payment_service,
-                                                                     category: "payment" })
+    @payment_service = params[:id]
+    event_parameters = @fetcher.event_parameters
+                       .where(parameters: { group: @payment_service, category: "payment" })
                        .joins(:parameter)
                        .select("parameters.name, event_parameters.value")
                        .as_json
     total = event_parameters.reduce({}) { |a, e| a.merge(e["name"] => e["value"]) }
-    @payment_settings_form = ("#{@event.payment_service.camelize}PaymentSettingsForm")
+    @payment_settings_form = ("#{@payment_service.camelize}PaymentSettingsForm")
                              .constantize.new(total)
   end
 
   def update
     @event = Event.friendly.find(params[:event_id])
-    @payment_settings_form = ("#{@event.payment_service.camelize}PaymentSettingsForm")
+    @payment_service = params[:id]
+    @payment_settings_form = ("#{@payment_service.camelize}PaymentSettingsForm")
                              .constantize.new(permitted_params)
     if @payment_settings_form.update
       @event.save
@@ -56,9 +60,9 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
   private
 
   def permitted_params
-    params_names = Parameter.where(group: current_event.payment_service, category: "payment")
+    params_names = Parameter.where(group: @payment_service, category: "payment")
                    .map(&:name)
     params_names << :event_id
-    params.require("#{current_event.payment_service}_payment_settings_form").permit(params_names)
+    params.require("#{@payment_service}_payment_settings_form").permit(params_names)
   end
 end
