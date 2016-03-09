@@ -6,7 +6,7 @@ class EventDecorator < Draper::Decorator
   PAYPAL = :paypal
   STRIPE = :stripe
   BRAINTREE = :braintree
-  PAYMENT_SERVICES = [STRIPE, PAYPAL, STRIPE, BRAINTREE]
+  PAYMENT_SERVICES = [STRIPE, PAYPAL, REDSYS, BRAINTREE]
 
   REFUND_SERVICES = [:bank_account, :epg, :tipalti]
   FEATURES = [:top_ups, :refunds]

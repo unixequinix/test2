@@ -14,9 +14,11 @@ class Payments::BraintreePayer
     charge_object = charge(params)
     if charge_object.success?
       notify_payment(charge_object)
-      @action_after_payment = success_event_order_synchronous_payments_path(@event, @order)
+      @action_after_payment =
+        success_event_order_payment_service_synchronous_payments_path(@event, @order, 'braintree')
     else
-      @action_after_payment = error_event_order_synchronous_payments_path(@event, @order)
+      @action_after_payment =
+        error_event_order_payment_service_synchronous_payments_path(@event, @order, 'braintree')
     end
   end
 
