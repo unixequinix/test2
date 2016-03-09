@@ -85,11 +85,13 @@ header { position: relative; }
     display: block;
     width: 40%;
     margin: 0 auto;
+    padding-bottom: modules(2);
     z-index: 3;
   }
 
   h1 {
     display: none;
+    margin-bottom: 0;
 
     @include min-screen($bp3) {
       @include mscale($base_font_size*1.25);
