@@ -1,0 +1,6 @@
+- breadcrumb :admins_event_payment_settings, @event
+.wrapper-negative-space
+
+  .container-refunds
+    - @event.selected_payment_services.each do |payment_service|
+      = render "admins/events/payment_settings/payment_method", payment_service: payment_service
