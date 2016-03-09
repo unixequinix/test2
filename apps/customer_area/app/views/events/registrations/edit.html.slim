@@ -22,6 +22,4 @@
   .wrapper-module
     p.center-text
       = t('sessions.end.close_title')
-    = link_to event_logout_path(current_event), method: :delete, class: "btn btn-action btn-action-empty-state" do
-      = fa_icon "sign-out"
-      = t('header.logout')
+    = link_to t('header.logout'), event_logout_path(current_event), method: :delete, class: "btn btn-action btn-action-empty-state"

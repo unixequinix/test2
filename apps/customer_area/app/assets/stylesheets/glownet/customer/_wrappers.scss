@@ -73,7 +73,7 @@
   text-align: center;
 
   a {
-    @include transition(opacity 150ms ease-in);x
+    @include transition(opacity 150ms ease-in);
     overflow: hidden;
     display: block;
     width: 100%;
