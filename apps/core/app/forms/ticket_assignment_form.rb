@@ -27,6 +27,7 @@ class TicketAssignmentForm
                                     amount: ticket.credits,
                                     payment_method: "none"
                                    ).save if ticket.credits.present?
+    CustomerOrderTicketCreator.new.save(ticket)
     customer_event_profile
   end
 end

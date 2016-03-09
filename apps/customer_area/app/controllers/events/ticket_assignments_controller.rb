@@ -18,8 +18,9 @@ class Events::TicketAssignmentsController < Events::BaseController
 
   def destroy
     @ticket_assignment = CredentialAssignment.find(params[:id])
-    @ticket_assignment.unassign!
     ticket = @ticket_assignment.credentiable
+    CustomerOrderTicketCreator.new.delete(ticket)
+    @ticket_assignment.unassign!
     @credit_log =
       CustomerCreditTicketCreator.new(customer_event_profile: current_customer_event_profile,
                                       transaction_origin: CustomerCredit::TICKET_UNASSIGNMENT,

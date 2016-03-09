@@ -5,6 +5,7 @@ table.customer_orders
       th = t("admin.customer_orders.customer_event_profile")
       th = t("admin.customer_orders.catalog_item")
       th = t("admin.customer_orders.amount")
+      th = t("admin.customer_orders.origin")
   tbody
     - customer_orders.each do |customer_order|
       tr
@@ -12,3 +13,4 @@ table.customer_orders
         td data-label=t("admin.customer_orders.customer_event_profile") = link_to customer_order.customer_event_profile.customer.email, admins_event_customer_event_profile_path(current_event, customer_order.customer_event_profile.id)
         td data-label=t("admin.customer_orders.catalog_item") = customer_order.catalog_item.name
         td data-label=t("admin.customer_orders.amount") = customer_order.amount
+        td data-label=t("admin.customer_orders.origin") = customer_order.origin

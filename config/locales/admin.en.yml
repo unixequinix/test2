@@ -428,6 +428,7 @@ en:
       amount: "Amount"
       customer_event_profile: "Customer event profiles"
       catalog_item: "Catalog item"
+      origin: "Origin"
     online_orders:
       id: "Id"
       redeemed: "Redeemed"

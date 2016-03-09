@@ -427,6 +427,7 @@ es:
       amount: "Cantidad"
       customer_event_profile: "Perfil de cliente"
       catalog_item: "Producto del catálogo"
+      origin: "Origen"
     online_orders:
       id: "Id"
       redeemed: "Canjeado"

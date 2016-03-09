@@ -63,6 +63,10 @@ class Ticket < ActiveRecord::Base
     Ticket.joins(:banned_ticket)
   }
 
+  def pack_catalog_items_included
+    company_ticket_type.credential_type.catalog_item.catalogable.pack_catalog_items
+  end
+
   def ban!
     assignment = CredentialAssignment.find_by(credentiable_id: id, credentiable_type: "Ticket")
     BannedCustomerEventProfile.new(assign.customer_event_profile_id) unless assignment.nil?
