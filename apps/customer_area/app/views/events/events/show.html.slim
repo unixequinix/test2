@@ -1,5 +1,4 @@
-.container-event-column
-  = render @dashboard.partial unless @dashboard.empty?
+= render @dashboard.partial unless @dashboard.empty?
 
-  - @dashboard.each_presenter do |presenter|
-    = render presenter.path, presenter: presenter if presenter.can_render?
+- @dashboard.each_presenter do |presenter|
+  = render presenter.path, presenter: presenter if presenter.can_render?
