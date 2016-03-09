@@ -22,11 +22,12 @@ class TicketAssignmentForm
   def persist!(ticket, customer_event_profile)
     customer_event_profile.save
     customer_event_profile.credential_assignments.create(credentiable: ticket)
-    CustomerCreditCreator.new(customer_event_profile: customer_event_profile,
-                              transaction_origin: CustomerCredit::TICKET_ASSIGNMENT,
-                              amount: ticket.credits,
-                              payment_method: "none"
-                             ).save if ticket.credits.present?
+    CustomerCreditTicketCreator.new(customer_event_profile: customer_event_profile,
+                                    transaction_origin: CustomerCredit::TICKET_ASSIGNMENT,
+                                    amount: ticket.credits,
+                                    payment_method: "none"
+                                   ).save if ticket.credits.present?
+    CustomerOrderTicketCreator.new.save(ticket)
     customer_event_profile
   end
 end

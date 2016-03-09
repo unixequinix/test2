@@ -16,6 +16,7 @@ class CredentialAssignment < ActiveRecord::Base
   acts_as_paranoid
   belongs_to :customer_event_profile
   belongs_to :credentiable, polymorphic: true, touch: true
+  has_and_belongs_to_many :customer_orders, join_table: :c_assignments_c_orders
 
   # Validations
   validates :customer_event_profile, :credentiable, :aasm_state, presence: true
