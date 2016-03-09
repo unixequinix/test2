@@ -1,5 +1,5 @@
 class Paginator::ApiPaginator
   def self.paginate(arr, page)
-    Kaminari.paginate_array(arr).page(page).per(10000)
+    Kaminari.paginate_array(arr).page(page).per(10_000)
   end
 end

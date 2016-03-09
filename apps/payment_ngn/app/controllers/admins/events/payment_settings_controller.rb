@@ -7,7 +7,7 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
         category: "payment" }).includes(:parameter)
   end
 
-  # TODO Move this method out from this controller
+  # TODO: Move this method out from this controller
   def new
     @event = Event.friendly.find(params[:event_id])
     @fetcher.event_parameters.find_by(parameter: Parameter.where(group: "stripe",
@@ -16,7 +16,7 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
     @payment_settings_form = StripePaymentSettingsForm.new
   end
 
-  # TODO Move this method out from this controller
+  # TODO: Move this method out from this controller
   def create
     @event = Event.friendly.find(params[:event_id])
     @payment_service = "stripe"

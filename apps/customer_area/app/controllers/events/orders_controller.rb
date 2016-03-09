@@ -8,7 +8,7 @@ class Events::OrdersController < Events::BaseController
     current_event.selected_payment_services.each do |payment_service|
       @order_presenters <<
         ("Orders::#{payment_service.to_s.camelize}Presenter").constantize
-        .new(current_event, order)
+          .new(current_event, order)
     end
   end
 
