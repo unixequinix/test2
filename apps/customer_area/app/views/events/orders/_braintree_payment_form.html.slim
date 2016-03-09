@@ -1,6 +1,6 @@
 .wrapper-inside
   p.hint-text Card info
-  = form_tag event_order_synchronous_payments_path(@order_presenter.event, @order_presenter.order), method: :post, id: "braintree-payment-form", class: "basic-grey"
+  = form_tag event_order_synchronous_payments_path(order_presenter.event, order_presenter.order), method: :post, id: "braintree-payment-form", class: "basic-grey"
     #paypal-container
     .payment-errors
     .control-group
@@ -17,7 +17,7 @@
 
 javascript:
   if( $("#braintree-payment-form").length > 0 ) {
-    var clientToken = '#{@order_presenter.form_data.client_token}';
+    var clientToken = '#{order_presenter.form_data.client_token}';
     braintree.setup(clientToken, "custom", {
       id: "braintree-payment-form",
       hostedFields: {
