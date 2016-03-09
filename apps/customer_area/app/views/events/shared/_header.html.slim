@@ -8,9 +8,9 @@ header.header-desktop
     a.current-breadcrumb Store
   nav.header-nav
     ul
-      li
-        = fa_icon "envelope"
-        = mail_to current_event.support_email, t('header.help'), subject: t('event.subject_support', event: current_event.name)
+      //li
+      //  = fa_icon "envelope"
+      //  = mail_to current_event.support_email, t('header.help'), subject: t('event.subject_support', event: current_event.name)
 
       - if customer_signed_in?
         li
@@ -18,9 +18,7 @@ header.header-desktop
             = fa_icon "user"
             = current_customer.first_name
 
-        li
-          = link_to event_logout_path(current_event), method: :delete do
-            = fa_icon "sign-out"
-            = t('header.logout')
+
+
 
 

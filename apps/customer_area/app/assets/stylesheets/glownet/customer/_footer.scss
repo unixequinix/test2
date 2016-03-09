@@ -30,10 +30,25 @@ footer {
   li {
     display: inline-block;
     width: auto;
-    padding: 0 modules(0.5);
+    vertical-align: top;
+    padding: 0 modules(0.25);
     font-weight: bold;
     cursor: pointer;
     font-weight: bold;
+  }
+}
+
+.terms-list {
+  width: 100%;
+
+  li {
+    display: block;
+
+    @include min-screen($bp3) {
+    display: inline-block;
+    vertical-align: top;
+    width: auto;
+    }
   }
 }
 

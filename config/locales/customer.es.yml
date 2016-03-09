@@ -80,7 +80,7 @@ es:
       claim: "Lo sentimos"
       description: "Ya ha pasado el periodo de devolución, ponte en contacto con soporte si tienes alguna duda."
     gtag_registration:
-      title: "Tu número de %{gtag}:"
+      title: "Tu %{gtag}:"
       call_to_action: "¿Introdujiste una incorrecta por error?"
       button: "Cambiar"
       hint: "Has introducido una pulsera por error? Bórrala y reinicia el proceso"
@@ -239,4 +239,4 @@ es:
     use: "Condiciones de uso"
     privacy: "Política de privacidad"
     copyright: "© Copyright Glownet"
-    support: 'Support'
+    support: 'Soporte'

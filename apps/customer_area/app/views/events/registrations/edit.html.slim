@@ -1,4 +1,6 @@
-= render 'events/shared/header'
+= link_to event_logout_path(current_event), method: :delete, class: "btn btn-action btn-action-end-session" do
+  = fa_icon "sign-out"
+  = t('header.logout')
 .container-event-column
   .wrapper-session
     = simple_form_for @edit_profile_form, url: event_registrations_path(current_event), method: :patch do |f|
