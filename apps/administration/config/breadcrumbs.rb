@@ -287,7 +287,7 @@ crumb :admins_event_customers do |event|
 end
 
 crumb :admins_event_customer do |event, customer|
-  link customer.name + " " + customer.surname, admins_event_customer_path(event, customer)
+  link customer.first_name + " " + customer.last_name, admins_event_customer_path(event, customer)
   parent :admins_event_customers, event
 end
 

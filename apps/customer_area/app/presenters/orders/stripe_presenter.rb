@@ -13,4 +13,8 @@ class Orders::StripePresenter
   def form_data
     Payments::StripeDataRetriever.new(@event, @order)
   end
+
+  def payment_service
+    "stripe"
+  end
 end

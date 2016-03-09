@@ -214,15 +214,15 @@ namespace :db do
     Customer.create(
       email: 'customer@test.com',
       encrypted_password: Authentication::Encryptor.digest("password"),
-      name: 'Alejandro',
-      surname: 'González Núñez',
+      first_name: 'Alejandro',
+      last_name: 'González Núñez',
       agreed_on_registration: true,
       event_id: 1)
     Customer.create(
       email: 'customer2@test.com',
       encrypted_password: Authentication::Encryptor.digest("password"),
-      name: 'Pedro',
-      surname: 'De La Rosa',
+      first_name: 'Pedro',
+      last_name: 'De La Rosa',
       agreed_on_registration: true,
       event_id: 1)
   end

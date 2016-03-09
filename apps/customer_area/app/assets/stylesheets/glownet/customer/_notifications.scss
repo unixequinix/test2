@@ -80,6 +80,12 @@ $light_red: lighten($red, 8%);
   }
 }
 
+.full-width {
+  max-width: 100%;
+  margin: 0;
+  border-radius: none;
+}
+
 .msg-for-info { }
 
 .error_notification {

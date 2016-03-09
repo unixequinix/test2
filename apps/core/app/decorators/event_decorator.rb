@@ -1,17 +1,18 @@
 class EventDecorator < Draper::Decorator
   delegate_all
 
+  # Payment services
+  REDSYS = :redsys
+  PAYPAL = :paypal
+  STRIPE = :stripe
+  BRAINTREE = :braintree
+  PAYMENT_SERVICES = [STRIPE, PAYPAL, REDSYS, BRAINTREE]
+
   REFUND_SERVICES = [:bank_account, :epg, :tipalti]
   FEATURES = [:top_ups, :refunds]
   LOCALES = [:en_lang, :es_lang, :it_lang, :th_lang]
   REGISTRATION_PARAMETERS = [:phone, :address, :city, :country, :postcode, :gender,
                              :birthdate, :agreed_event_condition]
-
-  # Payment Services
-  REDSYS = "redsys"
-  STRIPE = "stripe"
-  BRAINTREE = "braintree"
-  PAYMENT_SERVICES = [REDSYS, STRIPE, BRAINTREE]
 
   # Background Types
   BACKGROUND_FIXED = "fixed"

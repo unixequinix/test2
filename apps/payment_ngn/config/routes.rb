@@ -14,6 +14,7 @@ Rails.application.routes.draw do
         post :remove_background
       end
       scope module: "events" do
+        resources :payment_settings, only: [:index, :new, :create, :edit, :update]
         resources :orders, except: [:new, :create, :edit, :update] do
           collection do
             get :search
@@ -24,7 +25,6 @@ Rails.application.routes.draw do
             get :search
           end
         end
-        resource :payment_settings, only: [:show, :new, :create, :edit, :update]
       end
     end
   end

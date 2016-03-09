@@ -12,7 +12,7 @@
 
 $small_text:        $base_font_size*0.75;
 $label-size:        $base-font-size;
-$credit-size:       $base-font-size*1.75;
+$credit-size:       $base-font-size*5;
 
 $radius:            3px;
 //
@@ -54,19 +54,31 @@ a {
 .panel-amount-number {
   @include mscale($credit-size);
   margin-bottom: 0;
-  font-weight: bold;
+  font-weight: lighter;
+  text-align: center;
+  color: $color_text;
+
+  &:after {
+    display: inline-block;
+    content: "t";
+  }
+}
+
+.refundable-conversion-list {
+
+  p { display: inline-block; }
+
+  li {
+    display: inline-block;
+    width: auto;
+    margin: 0;
+    padding: modules(0.25);
+  }
 }
 
 // Refs to text alignment
 
-.ticket-name, .product-name {
-  margin-bottom: modules(0.25);
-}
-
-.ticket-id {
-  margin-bottom: modules(0.25);
-  font-weight: bold;
-}
+.ticket-id { font-weight: bold; }
 
 .img-ticket {
   display: block;
@@ -74,7 +86,7 @@ a {
   margin: 0 auto modules(1);
 
   @include min-screen($bp3) {
-    margin: modules(1) auto;
+    margin: modules(1) auto 0;
     max-width: modules(13);
     height: auto;
   }
@@ -87,8 +99,14 @@ a {
   max-width: modules(10);
 }
 
-.center-text { text-align: center; }
+.center-text {
+  text-align: center;
+
+  i { padding-right: modules(0.25); }
+}
 .italic-text { font-style: italic; }
+.bold-text { font-weight: bold; }
+.refundable-text { margin-bottom: 0; }
 
 .highlight-text {
   font-weight: bold;
@@ -161,6 +179,13 @@ a {
       border-bottom: 7px solid $color_text;
     }
   }
+}
+
+.wristband-hint {
+  margin-bottom: 0;
+  text-align: left;
+
+  i { padding-right: modules(0.25); }
 }
 // ---------------------------------------------------------------------------------------------
 

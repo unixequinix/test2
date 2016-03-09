@@ -14,9 +14,11 @@ class Payments::BraintreePayer
     charge_object = charge(params)
     if charge_object.success?
       notify_payment(charge_object)
-      @action_after_payment = success_event_order_synchronous_payments_path(@event, @order)
+      @action_after_payment =
+        success_event_order_payment_service_synchronous_payments_path(@event, @order, 'braintree')
     else
-      @action_after_payment = error_event_order_synchronous_payments_path(@event, @order)
+      @action_after_payment =
+        error_event_order_payment_service_synchronous_payments_path(@event, @order, 'braintree')
     end
   end
 
@@ -58,8 +60,8 @@ class Payments::BraintreePayer
 
   def vault_options(sale_options, customer)
     sale_options[:customer] = {
-      first_name: customer.name,
-      last_name: customer.surname,
+      first_name: customer.first_name,
+      last_name: customer.last_name,
       email: customer.email
     }
     sale_options[:options] = {

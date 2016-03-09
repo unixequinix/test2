@@ -13,7 +13,7 @@ class CustomerMailer < ApplicationMailer
 
   def config_parameters(customer)
     headers["X-No-Spam"] = "True"
-    @name = customer.name + " " + customer.surname
+    @name = customer.first_name + " " + customer.last_name
     @event = customer.event
   end
 end

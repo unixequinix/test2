@@ -6,7 +6,7 @@ function showNavMobile() {
       close               = $('.mobile-options');
 
   trigger.on("click", function(event){
-    triggerIcon.toggleClass('fa-cog fa-times');
+    triggerIcon.toggleClass('fa-times');
     target.toggleClass('open-nav');
     unscrollableContent.toggleClass('unscrollable-view');
   });
@@ -14,7 +14,7 @@ function showNavMobile() {
   close.on("click", function() {
     target.removeClass('open-nav');
     unscrollableContent.removeClass('unscrollable-view');
-    triggerIcon.toggleClass('fa-cog fa-times');
+    triggerIcon.toggleClass('fa-times');
   });
 };
 

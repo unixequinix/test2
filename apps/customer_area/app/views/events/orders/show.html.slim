@@ -21,7 +21,8 @@
     = fa_icon "cc-mastercard"
     = fa_icon "cc-amex"
 
-  = render @order_presenter.path
+  - @order_presenters.each do |order_presenter|
+    = render order_presenter.path, order_presenter: order_presenter
 
   .wrapper-seal
     = render 'events/shared/ssl_cert_seal'

@@ -20,9 +20,10 @@ Rails.application.routes.draw do
           resources :packs, only: :index
           resources :parameters, only: :index
           resources :preevent_products, only: :index
-          resources :refunds, only: :index
+          resources :stations, only: :index
           resources :tickets, only: [:index, :show]
           get "/tickets/reference/:id", to: "tickets#reference"
+          resources :vouchers, only: :index
         end
       end
     end
