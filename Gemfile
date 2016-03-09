@@ -41,7 +41,7 @@ gem 'font-awesome-rails', '~> 4.3.0.0'
 
 # JSON APIs
 gem 'jbuilder', '~> 2.2.13'
-gem 'active_model_serializers', '~> 0.9.3'
+gem 'active_model_serializers', git: "https://github.com/rails-api/active_model_serializers.git"
 gem 'rack-cors', require: 'rack/cors'
 
 # Turbolinks

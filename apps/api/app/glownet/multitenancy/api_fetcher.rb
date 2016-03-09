@@ -66,7 +66,7 @@ class Multitenancy::ApiFetcher
   end
 
   def tickets
-    Ticket.select(:id, :code, :credential_redeemed, :company_ticket_type_id)
+    Ticket.select(:id, :code, :credential_redeemed, :company_ticket_type_id, :updated_at)
       .includes(:credential_assignments, :company_ticket_type, :purchaser)
       .where(event: @event)
   end
