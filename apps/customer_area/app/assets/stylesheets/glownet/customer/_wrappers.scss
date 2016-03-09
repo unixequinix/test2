@@ -150,6 +150,14 @@
   }
 }
 
+.container-method {
+  overflow: hidden;
+  max-height: 0;
+  padding:0;
+}
+
+.show-container { max-height: 80rem; }
+
 .wrapper-module-centered {
   text-align: center;
 
