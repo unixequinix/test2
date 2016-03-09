@@ -38,6 +38,10 @@ RSpec.describe Event, type: :model do
   it { is_expected.to validate_presence_of(:support_email) }
 
   before(:all) do
+    station_group = StationGroup.create!(name: "access", icon_slug: "access")
+    station_group.station_types.create!(name: "customer_portal",
+                                        description: "Customer Portal",
+                                        enviorment: "portal")
     event_creator = EventCreator.new(build(:event, gtag_assignation: true).attributes)
     event_creator.save
     @event = event_creator.event
