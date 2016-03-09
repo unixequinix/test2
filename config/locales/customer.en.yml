@@ -236,6 +236,8 @@ en:
       address: 'e.g. 1 Pied Piper'
       city: 'e.g. Madrid'
       post: 'e.g. 28012'
+    end:
+      close_title: "Do you want to end session?"
   cancel:
     title: 'Cancel my account'
     unhappy: 'Write us an email, we want to know what happened!'

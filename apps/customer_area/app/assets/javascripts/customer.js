@@ -7,6 +7,7 @@
 //= require customer/stripe
 //= require customer/braintree
 //= require customer/placeholder-to-label
+//= require customer/show-payment-method
 
 
 //= require vendor/fastclick

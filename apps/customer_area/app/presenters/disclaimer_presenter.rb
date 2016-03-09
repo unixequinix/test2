@@ -1,9 +1,9 @@
 class DisclaimerPresenter < BasePresenter
   def can_render?
-    true
+    @event.created? || @event.closed?
   end
 
   def path
-    @event.created? ? "created_disclaimer" : "created_disclaimer"
+    @event.created? ? "created_disclaimer" : "closed_disclaimer"
   end
 end

@@ -53,6 +53,10 @@
   }
 }
 
+.container-welcome-logo {
+  margin-top: modules(2);
+}
+
 .wrapper-create-account {
   display: block;
   text-align: center;
@@ -74,10 +78,7 @@
     display: block;
     width: 100%;
     height: 100%;
-    padding: modules(0.5) 0;
     cursor: pointer;
-
-    @include min-screen($bp3) { padding: modules(0.5) 0 modules(1.5); }
 
     &:hover, &:focus { outline: none; opacity: 0.7; }
   }
@@ -87,9 +88,12 @@
     width: auto;
     max-height: modules(4);
     margin: 0 auto;
-    padding: 0;
+    padding: modules(0.5) 0;
 
-    @include min-screen($bp3) { max-height: modules(5); }
+    @include min-screen($bp3) {
+      max-height: modules(5);
+      padding: modules(0.5) 0 modules(1);
+    }
   }
 }
 
@@ -145,6 +149,14 @@
     @include min-screen($bp3) { padding-right: 0; }
   }
 }
+
+.container-method {
+  overflow: hidden;
+  max-height: 0;
+  padding:0;
+}
+
+.show-container { max-height: 80rem; }
 
 .wrapper-module-centered {
   text-align: center;
