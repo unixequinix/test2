@@ -222,6 +222,8 @@ th:
       description: 'วิธีใช้งาน'
       button: 'Log in'
       copy: 'ข้อไดเปรียบ?'
+    end:
+      close_title: "Do you want to end session?"
   cancel:
     title: 'ยกเลิกบัญชีการใช้งาน'
     unhappy: 'เพื่อให้เราทำการปรับปรุง กรุณาส่งอีเมลหาเราเพื่อแจ้งเหตุผลของการเลิกใช้บริการ'

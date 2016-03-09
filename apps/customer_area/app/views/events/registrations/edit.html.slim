@@ -1,8 +1,5 @@
-= link_to event_logout_path(current_event), method: :delete, class: "btn btn-action btn-action-end-session" do
-  = fa_icon "sign-out"
-  = t('header.logout')
 .container-event-column
-  .wrapper-session
+  .wrapper-session.wrapper-module
     = simple_form_for @edit_profile_form, url: event_registrations_path(current_event), method: :patch do |f|
       = f.error_notification
       h3.center-text = t('registration.edit.title')
@@ -21,4 +18,10 @@
       = f.input :birthdate, as: :date, start_year: 1950,
             end_year: Date.today.year - 12,
             order: [:day, :month, :year] if(current_event.birthdate?)
-      = f.button :submit, t('registration.edit.button'),  class: "btn  btn-action btn-action-primary"
+      = f.button :submit, t('registration.edit.button'),  class: "btn btn-action btn-edit-profile"
+  .wrapper-module
+    p.center-text
+      = t('sessions.end.close_title')
+    = link_to event_logout_path(current_event), method: :delete, class: "btn btn-action btn-action-empty-state" do
+      = fa_icon "sign-out"
+      = t('header.logout')

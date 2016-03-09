@@ -231,7 +231,8 @@ es:
       address: 'ej. C/ Pied Piper'
       city: 'ej. Madrid'
       post: 'ej. 28012'
-
+    end:
+      close_title: "¿Quieres finalizar la sesión?"
   cancel:
     title: 'Cancelar cuenta'
     unhappy: '¡Queremos saber que ha ocurrido, envíanos un correo!'
