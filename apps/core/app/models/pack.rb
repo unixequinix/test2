@@ -33,4 +33,9 @@ class Pack < ActiveRecord::Base
       .where(catalog_items: { catalogable_type: "Credit" })
       .sum(:amount)
   end
+
+  def credits_pack?
+    number_catalog_credit_items = catalog_items_included.where(catalogable_type: "Credit").count
+    number_catalog_credit_items > 0 && number_catalog_credit_items == catalog_items_count
+  end
 end

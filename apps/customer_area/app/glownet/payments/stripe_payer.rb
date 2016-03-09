@@ -15,10 +15,10 @@ class Payments::StripePayer
     if charge_object
       notify_payment(charge_object)
       @action_after_payment =
-        success_event_order_payment_service_synchronous_payments_path(@event, @order, 'stripe')
+        success_event_order_payment_service_synchronous_payments_path(@event, @order, "stripe")
     else
       @action_after_payment =
-        error_event_order_payment_service_synchronous_payments_path(@event, @order, 'stripe')
+        error_event_order_payment_service_synchronous_payments_path(@event, @order, "stripe")
     end
   end
 
@@ -63,11 +63,12 @@ class Payments::StripePayer
   end
 
   def create_log(order)
-    CustomerCreditOnlineCreator.new(customer_event_profile: order.customer_event_profile,
-                                    transaction_origin: CustomerCredit::CREDITS_PURCHASE,
-                                    amount: order.credits_total,
-                                    payment_method: "none",
-                                    money_payed: order.total).save
+    order.order_items.each do |order_item|
+      CustomerCreditCreator.new(customer_event_profile: order.customer_event_profile,
+                                transaction_origin: CustomerCredit::CREDITS_PURCHASE,
+                                payment_method: "none",
+                                order_item: order_item).save if order_item.credits?
+    end
   end
 
   def create_payment(order, charge)

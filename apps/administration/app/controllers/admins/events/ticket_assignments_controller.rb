@@ -21,13 +21,11 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::CheckinBaseC
     customer_event_profile = credential_assignment.customer_event_profile
     credential_assignment.unassign!
     ticket = credential_assignment.credentiable
-    if ticket.credits.present?
-      CustomerCreditCreator.new(customer_event_profile: customer_event_profile,
-                                transaction_origin: CustomerCredit::TICKET_UNASSIGNMENT,
-                                payment_method: "none",
-                                amount: -ticket.credits
-                               ).save
-    end
+    CustomerCreditTicketCreator.new(customer_event_profile: customer_event_profile,
+                                    transaction_origin: CustomerCredit::TICKET_ASSIGNMENT,
+                                    amount: -ticket.credits,
+                                    payment_method: "none"
+                                   ).save if ticket.credits.present?
     flash[:notice] = I18n.t("alerts.unassigned")
     redirect_to admins_event_customer_url(current_event, customer_event_profile.customer)
   end

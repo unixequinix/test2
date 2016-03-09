@@ -35,6 +35,11 @@ class OrderItem < ActiveRecord::Base
     amount
   end
 
+  def credits?
+    catalog_item.catalogable_type == "Credit" ||
+      catalog_item.catalogable_type == "Pack" && catalog_item.catalogable.credits > 0
+  end
+
   # Validations
   validates :amount, numericality: { only_integer: true, less_than_or_equal_to: 500 }
 end
