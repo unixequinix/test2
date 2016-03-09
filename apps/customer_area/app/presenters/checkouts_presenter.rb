@@ -13,7 +13,7 @@ class CheckoutsPresenter
                                                station_types: { name: "customer_portal" }
                                              ) })
       .includes(:event)
-    @catalog_items_hash = @catalog_items.hash_sorted(keys_sorted)
+    @catalog_items_hash = @catalog_items.hash_sorted
   end
 
   def draw_product(catalog_item)
@@ -35,9 +35,5 @@ class CheckoutsPresenter
 
   def catalog_items
     @catalog_items_hash.values.flatten
-  end
-
-  def keys_sorted
-    %w(Credit Voucher Access Pack)
   end
 end

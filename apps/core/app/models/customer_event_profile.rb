@@ -85,6 +85,18 @@ class CustomerEventProfile < ActiveRecord::Base
       .sum(:amount).floor
   end
 
+  def purchases
+    yep = orders.unscoped.joins(order_items: :catalog_item)
+          .where(aasm_state: "completed", customer_event_profile_id: id)
+          .select("order_items.catalog_item_id as catalog_item_id",
+                  "catalog_items.name as product_name",
+                  "catalog_items.catalogable_type as catalogable_type",
+                  "sum(order_items.amount) as total_amount")
+          .group(:catalog_item_id, :name, :catalogable_type).includes(:catalog_items)
+
+    Sorters::OrderSorter.new(yep).disaggregated_sort
+  end
+
   def gateway_customer(gateway)
     payment_gateway_customers.find_by(gateway_type: gateway)
   end

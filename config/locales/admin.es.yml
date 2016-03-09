@@ -345,9 +345,11 @@ es:
       gtag: "Gtag"
       state: "Estado"
       admissions: "Registro de Tickets"
+      purchases: "Compras"
       creadit_logs: "Compras de creditos"
       orders: "Ordenes"
       payments: "Pagos"
+      payments_activated: "Pagos activados"
       gtag_assignments: "Registro de Gtags"
       completed_claim: "Peticiones de devolución completadas"
       customer_orders: "Órdenes de cliente"
@@ -429,6 +431,7 @@ es:
     online_orders:
       id: "Id"
       redeemed: "Canjeado"
+      customer_order_id: "Id ordén de cliente"
     payments:
       id: "Id"
       order_id: "Order Id"

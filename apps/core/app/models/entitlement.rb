@@ -19,6 +19,7 @@ class Entitlement < ActiveRecord::Base
   belongs_to :entitlementable, polymorphic: true, touch: true
   belongs_to :access, -> { where(entitlement: { entitlementable_type: "Access" }) },
              foreign_key: "entitlementable_id"
+  belongs_to :event
   before_save :set_memory_position
   validates :memory_length, presence: true
   validates_inclusion_of :infinite, in: [true, false]

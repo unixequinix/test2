@@ -1,19 +1,17 @@
 require "spec_helper"
 
-RSpec.describe Api::V1::Events::CredentialTypesController, type: :controller do
+RSpec.describe Api::V1::Events::AccessesController, type: :controller do
   let(:event) { create(:event) }
   let(:admin) { Admin.first || create(:admin) }
-  let(:db_credential_types) do
-    CredentialType.joins(:catalog_item).where(catalog_items: { event_id: event.id }).pluck(:id)
+  let(:db_products) do
+    Product.joins(:catalog_item).where(catalog_items: { event_id: event.id }).pluck(:id)
   end
 
   describe "GET index" do
     context "with authentication" do
       before(:each) do
         http_login(admin.email, admin.access_token)
-        create_list(:credential_type,
-                    5,
-                    catalog_item: create(:catalog_item, :with_access, event: event))
+        create(:catalog_item, :with_product, event: event)
       end
 
       it "has a 200 status code" do
@@ -22,12 +20,13 @@ RSpec.describe Api::V1::Events::CredentialTypesController, type: :controller do
         expect(response.status).to eq 200
       end
 
-      it "returns all the credential types" do
+      it "returns all the products" do
         get :index, event_id: event.id
 
         body = JSON.parse(response.body)
-        credential_types = body.map { |m| m["id"] }
-        expect(credential_types).to eq(db_credential_types)
+        products = body.map { |m| m["id"] }
+
+        expect(products).to eq(db_products)
       end
     end
     context "without authentication" do

@@ -6,10 +6,14 @@ class DeviceSettingsForm
   attribute :private_zone_password, String
   attribute :uid_reverse, String
   attribute :event_id, Integer
+  attribute :enable_api_pagination, Boolean
+  attribute :api_records_per_page, Integer
 
   validates_presence_of :min_version_apk
   validates_presence_of :private_zone_password
   validates_presence_of :event_id
+  validates_presence_of :enable_api_pagination
+  validates_presence_of :api_records_per_page
 
   def save
     if valid?
