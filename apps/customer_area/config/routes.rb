@@ -23,20 +23,22 @@ Rails.application.routes.draw do
       get "privacy_policy", to: "static_pages#privacy_policy"
       get "terms_of_use", to: "static_pages#terms_of_use"
       resources :orders, only: [:show, :update] do
-        # TODO: Check security in this action
-        # resources :payments, only: [:create],
-        # =>                   constraints: lambda{|request|
-        # =>  request.env['HTTP_X_REAL_IP'].match(Rails.application.secrets.merchant_ip)}
-        resources :synchronous_payments, only: [:new, :create] do
-          collection do
-            get "success"
-            get "error"
+        resources :payment_services, only: [] do
+          # TODO: Check security in this action
+          # resources :payments, only: [:create],
+          # =>                   constraints: lambda{|request|
+          # =>  request.env['HTTP_X_REAL_IP'].match(Rails.application.secrets.merchant_ip)}
+          resources :synchronous_payments, only: [:new, :create] do
+            collection do
+              get "success"
+              get "error"
+            end
           end
-        end
-        resources :asynchronous_payments, only: [:new, :create] do
-          collection do
-            get "success"
-            get "error"
+          resources :asynchronous_payments, only: [:new, :create] do
+            collection do
+              get "success"
+              get "error"
+            end
           end
         end
       end

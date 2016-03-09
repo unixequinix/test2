@@ -14,9 +14,11 @@ class Payments::StripePayer
     charge_object = charge(params)
     if charge_object
       notify_payment(charge_object)
-      @action_after_payment = success_event_order_synchronous_payments_path(@event, @order)
+      @action_after_payment =
+        success_event_order_payment_service_synchronous_payments_path(@event, @order, 'stripe')
     else
-      @action_after_payment = error_event_order_synchronous_payments_path(@event, @order)
+      @action_after_payment =
+        error_event_order_payment_service_synchronous_payments_path(@event, @order, 'stripe')
     end
   end
 
