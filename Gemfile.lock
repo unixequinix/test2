@@ -251,6 +251,10 @@ GEM
       pry (>= 0.9.12)
       shellany (~> 0.0)
       thor (>= 0.18.1)
+    guard-bundler (2.1.0)
+      bundler (~> 1.0)
+      guard (~> 2.2)
+      guard-compat (~> 1.1)
     guard-compat (1.2.1)
     guard-rspec (4.5.0)
       guard (~> 2.1)
@@ -653,6 +657,7 @@ DEPENDENCIES
   friendly_id (~> 5.1.0)
   globalize (~> 5.0.1)
   gretel (~> 3.0.8)
+  guard-bundler
   guard-rspec (~> 4.5.0)
   guard-rubocop
   hirb (~> 0.7.3)
@@ -716,3 +721,6 @@ DEPENDENCIES
   virtus (~> 1.0.5)
   warden (~> 1.2.3)
   whenever (~> 0.9.4)
+
+BUNDLED WITH
+   1.11.2

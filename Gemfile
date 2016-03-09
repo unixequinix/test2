@@ -135,6 +135,7 @@ group :development, :test do
   gem 'spring-commands-rspec', '~> 1.0.4'
   gem 'pry-rails'
   gem 'terminal-notifier-guard'
+  gem 'guard-bundler', require: false
 end
 
 group :development, :test, :staging do
