@@ -71,10 +71,13 @@ class Multitenancy::ApiFetcher
               ON purchasers.credentiable_id = tickets.id
               AND purchasers.credentiable_type = 'Ticket'
               AND purchasers.deleted_at IS NULL")
-      .select("tickets.id, tickets.code, tickets.credential_redeemed,
+      .select("tickets.id, tickets.code as reference, tickets.credential_redeemed,
                tickets.company_ticket_type_id, tickets.updated_at,
-               credential_assignments.customer_event_profile_id,
-               company_ticket_types.credential_type_id")
+               credential_assignments.customer_event_profile_id as customer_id,
+               company_ticket_types.credential_type_id as credential_type_id,
+               purchasers.first_name as purchaser_first_name,
+               purchasers.last_name as purchaser_last_name,
+               purchasers.email as purchaser_email")
       .where(event: @event)
   end
 
