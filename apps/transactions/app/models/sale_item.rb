@@ -3,8 +3,7 @@
 # Table name: sale_items
 #
 #  id                    :integer          not null, primary key
-#  catalogable_id        :integer
-#  catalogable_type      :string
+#  product_id            :integer
 #  quantity              :integer
 #  amount                :float
 #  credit_transaction_id :integer
