@@ -66,8 +66,15 @@ class Multitenancy::ApiFetcher
   end
 
   def tickets
-    Ticket.select(:id, :code, :credential_redeemed, :company_ticket_type_id, :updated_at)
-      .includes(:credential_assignments, :company_ticket_type, :purchaser)
+    Ticket.joins(:credential_assignments, :company_ticket_type)
+      .joins("FULL OUTER JOIN purchasers
+              ON purchasers.credentiable_id = tickets.id
+              AND purchasers.credentiable_type = 'Ticket'
+              AND purchasers.deleted_at IS NULL")
+      .select("tickets.id, tickets.code, tickets.credential_redeemed,
+               tickets.company_ticket_type_id, tickets.updated_at,
+               credential_assignments.customer_event_profile_id,
+               company_ticket_types.credential_type_id")
       .where(event: @event)
   end
 
