@@ -14,20 +14,16 @@ class TicketAssignmentForm
     end
 
     errors.add(:ticket_assignment, full_messages.join(". ")) && return unless valid?
-    persist!(ticket, current_customer_event_profile)
+    persist!(ticket, current_customer_event_profile, CustomerCreditTicketCreator.new, CustomerOrderTicketCreator.new)
   end
 
   private
 
-  def persist!(ticket, customer_event_profile)
+  def persist!(ticket, customer_event_profile, customer_credit_creator, customer_order_creator)
     customer_event_profile.save
     customer_event_profile.credential_assignments.create(credentiable: ticket)
-    CustomerCreditTicketCreator.new(customer_event_profile: customer_event_profile,
-                                    transaction_origin: CustomerCredit::TICKET_ASSIGNMENT,
-                                    amount: ticket.credits,
-                                    payment_method: "none"
-                                   ).save if ticket.credits.present?
-    CustomerOrderTicketCreator.new.save(ticket)
+    customer_credit_creator.assign(ticket) if ticket.credits.present?
+    customer_order_creator.save(ticket)
     customer_event_profile
   end
 end

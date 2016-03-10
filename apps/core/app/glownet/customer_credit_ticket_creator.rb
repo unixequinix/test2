@@ -1,18 +1,28 @@
 class CustomerCreditTicketCreator
   attr_reader :customer_credit
 
-  def initialize(attributes)
+  def assign(ticket)
     @customer_credit = CustomerCredit.new(
-      customer_event_profile: attributes[:customer_event_profile],
-      transaction_origin: attributes[:transaction_origin],
-      payment_method: attributes[:payment_method],
-      credit_value: get_credit_value(attributes[:customer_event_profile].event),
-      amount: attributes[:amount],
-      refundable_amount: attributes[:amount]
+      customer_event_profile: ticket.assigned_customer_event_profile,
+      transaction_origin: CustomerCredit::TICKET_ASSIGNMENT,
+      payment_method: "none",
+      credit_value: get_credit_value(ticket.assigned_customer_event_profile.event),
+      amount: ticket.credits,
+      refundable_amount: ticket.credits
     )
+    calculate_balances
+    @customer_credit.save if @customer_credit.valid?
   end
 
-  def save
+  def unassign(ticket)
+    @customer_credit = CustomerCredit.new(
+      customer_event_profile: ticket.assigned_customer_event_profile,
+      transaction_origin: CustomerCredit::TICKET_UNASSIGNMENT,
+      payment_method: "none",
+      credit_value: get_credit_value(ticket.assigned_customer_event_profile.event),
+      amount: -ticket.credits,
+      refundable_amount: -ticket.credits
+    )
     calculate_balances
     @customer_credit.save if @customer_credit.valid?
   end
@@ -32,3 +42,4 @@ class CustomerCreditTicketCreator
     event.standard_credit_price
   end
 end
+

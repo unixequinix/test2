@@ -27,7 +27,8 @@ class Ticket < ActiveRecord::Base
   has_many :customer_event_profiles, through: :credential_assignments
   has_one :assigned_customer_event_profile,
           -> { where(credential_assignments: { aasm_state: :assigned }) },
-          class_name: "CustomerEventProfile"
+          through: :assigned_ticket_credential,
+          source: :customer_event_profile
   belongs_to :company_ticket_type
   has_one :banned_ticket
 
