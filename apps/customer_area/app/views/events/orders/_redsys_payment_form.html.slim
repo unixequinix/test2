@@ -14,8 +14,8 @@
       = hidden_field_tag :Ds_Merchant_Titular, @form_data.client_name
       = hidden_field_tag :Ds_Merchant_PayMethods, @form_data.pay_methods
       = hidden_field_tag :Ds_Merchant_MerchantURL, @form_data.notification_url
-      = hidden_field_tag :Ds_Merchant_UrlOK, success_event_order_payment_service_asynchronous_payments_path(current_event, @order, 'redsys')
-      = hidden_field_tag :Ds_Merchant_UrlKO, error_event_order_payment_service_asynchronous_payments_path(current_event, @order, 'redsys')
+      = hidden_field_tag :Ds_Merchant_UrlOK, success_event_order_payment_service_asynchronous_payments_url(current_event, @order, 'redsys')
+      = hidden_field_tag :Ds_Merchant_UrlKO, error_event_order_payment_service_asynchronous_payments_url(current_event, @order, 'redsys')
 
     javascript:
       $('#gateway_load').submit();

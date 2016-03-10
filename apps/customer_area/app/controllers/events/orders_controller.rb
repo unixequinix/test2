@@ -13,8 +13,9 @@ class Events::OrdersController < Events::BaseController
   end
 
   def update
+    @payment_service = params[:payment_service]
     @order = OrderManager.new(Order.find(params[:id])).sanitize_order
-    @form_data = ("Payments::#{current_event.payment_service.camelize}DataRetriever")
+    @form_data = ("Payments::#{@payment_service.camelize}DataRetriever")
                  .constantize.new(current_event, @order)
     @order.start_payment!
   end
