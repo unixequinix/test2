@@ -26,15 +26,6 @@ class Payments::RedsysPayer
     OrderMailer.completed_email(order, event).deliver_later
   end
 
-  def create_log(order)
-    order.order_items.each do |order_item|
-      CustomerCreditOrderCreator.new(customer_event_profile: order.customer_event_profile,
-                                transaction_origin: CustomerCredit::CREDITS_PURCHASE,
-                                payment_method: "none",
-                                order_item: order_item).save if order_item.credits?
-    end
-  end
-
   def create_payment(order, amount, params)
     Payment.create!(transaction_type: params[:Ds_TransactionType],
                     card_country: params[:Ds_Card_Country],

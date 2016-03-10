@@ -10,7 +10,7 @@ class Dashboard
                           .includes(:credentiable, credentiable: :company_ticket_type)
     @gtag_assignment = customer_event_profile.active_gtag_assignment
     @completed_claim = customer_event_profile.completed_claim
-    @purchases = customer_event_profile.sorted_purchases
+    @purchases = customer_event_profile.sorted_purchases(format: :hash)
     @presenters = []
   end
 
