@@ -1,8 +1,10 @@
 class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
   def index
-    @tickets = @fetcher.sql_tickets
+    json = cache ["v1", "tickets"] do
+      @tickets = @fetcher.sql_tickets
+    end
 
-    render json: @tickets
+    render json: json
   end
 
   def show
