@@ -122,6 +122,11 @@ es:
     redirect: "Serás redirigido a la pasarela de pago del banco."
     button: "Pagar"
     button_iupay: "IUPAY"
+    card_info: "Información de tarjeta"
+    order_review: "Resumen de compra"
+    payment: "Método de pago"
+    credit_card: "Tarjeta de crédito"
+    pay_pal: "Pay Pal"
     stripe:
       card_number: "Número de tarjeta"
       card_code_verification: "Código de verificación (CCV)"

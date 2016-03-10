@@ -251,4 +251,62 @@
   &:hover { text-decoration: underline; }
 }
 
+// Buttons for the order checkout payments
+.container-payment-buttons {
+  width: 100%;
+
+}
+
+.btn-payment-trigger {
+  @include transition(opacity 180ms linear);
+  display: inline-block;
+  width: 48%;
+  height: modules(4);
+  margin: modules(0.5) modules(0.5) modules(0.5) 0;
+  border-radius: $radius;
+  background-color: lighten($light_grey,23%);
+  color: $grey;
+  text-align: center;
+  cursor: pointer;
+
+  p { margin-bottom: 0; }
+
+  i {
+    @include mscale($half_text);
+    padding-top: modules(1.25);
+  }
+
+  &:hover { opacity: 0.7; }
+
+  &:nth-child(odd) {
+    clear: both;
+    margin-right: 0;
+  }
+
+  &:last-child(even) {
+    margin-right: 0;
+  }
+
+  &.button-selected {
+    background-color: lighten($amber,7%);
+    color: $nuclear;
+    box-shadow: none;
+  }
+}
+
+#braintree-paypal-button {
+  margin-bottom: modules(1);
+}
+
+#braintree-paypal-loggedin {
+  margin-bottom: modules(1) !important;
+  padding: modules(0.5) 0;
+  background-position: 0 50% !important;
+}
+
+#bt-pp-cancel { width: auto; }
+#bt-pp-name { margin-left: 0 !important; }
+
+
+
 // ---------------------------------------------------------------------------------------------

@@ -112,6 +112,14 @@
   }
 
   @include min-screen($bp6) { max-width: modules(23); }
+
+  .success-message {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+
+  }
 }
 
 .container-customer-app-view {
@@ -151,12 +159,16 @@
 }
 
 .container-method {
+  @include transition(max-height 180ms ease-in-out, opacity 220ms ease-in-out);
   overflow: hidden;
   max-height: 0;
   padding:0;
+  opacity: 0;
+
+  &.show-container { max-height: 80rem; opacity: 1; }
 }
 
-.show-container { max-height: 80rem; }
+
 
 .wrapper-module-centered {
   text-align: center;
@@ -186,6 +198,12 @@
 .container-purchase-order {
   overflow: hidden;
   position: relative;
+
+  h3 {
+    margin: modules(0.5) 0;
+
+    &:first-child { margin-top: 0; }
+  }
 }
 
 .wrapper-purchase-order {
@@ -194,21 +212,8 @@
 }
 
 .purchase-amount {
-//  @include mscale($base_font_size*1.75);
-//  display: inline-block;
   padding-right: modules(0.25);
   font-weight: bold;
-//
-//  &:before {
-//    content: "";
-//    display: inline-block;
-//    vertical-align: middle;
-//    width: modules(0.35);
-//    height: modules(0.35);
-//    margin-right: modules(0.25);
-//    border-radius: 50px;
-//    padding-right: modules(0.25);
-//  }
 }
 
 // /\/\/\/\/\/\/\ TERMS AND CONDITIONS /\/\/\/\/\/\/\/\
