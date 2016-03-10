@@ -57,7 +57,7 @@ class Payments::RedsysDataRetriever
   end
 
   def notification_url
-    event_order_asynchronous_payments_url(@current_event, @order)
+    event_order_payment_service_asynchronous_payments_url(@current_event, @order, 'redsys')
   end
 
   def message
