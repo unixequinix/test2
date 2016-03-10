@@ -1,8 +1,8 @@
 class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
   def index
-    @tickets = @fetcher.tickets.page(params[:page]).per(10000)
+    @tickets = @fetcher.sql_tickets
 
-    render json: @tickets, each_serializer: Api::V1::TicketSerializer
+    render json: @tickets
   end
 
   def show
