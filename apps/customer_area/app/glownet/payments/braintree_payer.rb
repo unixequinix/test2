@@ -14,9 +14,11 @@ class Payments::BraintreePayer
     charge_object = charge(params)
     if charge_object.success?
       notify_payment(charge_object)
-      @action_after_payment = success_event_order_synchronous_payments_path(@event, @order)
+      @action_after_payment =
+        success_event_order_payment_service_synchronous_payments_path(@event, @order, "braintree")
     else
-      @action_after_payment = error_event_order_synchronous_payments_path(@event, @order)
+      @action_after_payment =
+        error_event_order_payment_service_synchronous_payments_path(@event, @order, "braintree")
     end
   end
 
@@ -58,8 +60,8 @@ class Payments::BraintreePayer
 
   def vault_options(sale_options, customer)
     sale_options[:customer] = {
-      first_name: customer.name,
-      last_name: customer.surname,
+      first_name: customer.first_name,
+      last_name: customer.last_name,
       email: customer.email
     }
     sale_options[:options] = {
@@ -70,8 +72,8 @@ class Payments::BraintreePayer
   def create_vault(order, transaction)
     customer_event_profile = order.customer_event_profile
     customer_event_profile.payment_gateway_customers
-                          .find_or_create_by(gateway_type: EventDecorator::BRAINTREE)
-                          .update(token: transaction.customer_details.id)
+      .find_or_create_by(gateway_type: EventDecorator::BRAINTREE)
+      .update(token: transaction.customer_details.id)
     customer_event_profile.save
   end
 
@@ -87,12 +89,12 @@ class Payments::BraintreePayer
   end
 
   def create_log(order)
-    CustomerCreditOnlineCreator.new(customer_event_profile: order.customer_event_profile,
-                                    transaction_origin: CustomerCredit::CREDITS_PURCHASE,
-                                    amount: order.credits_total,
-                                    payment_method: "none",
-                                    money_payed: order.total
-                                   ).save
+    order.order_items.each do |order_item|
+      CustomerCreditCreator.new(customer_event_profile: order.customer_event_profile,
+                                transaction_origin: CustomerCredit::CREDITS_PURCHASE,
+                                payment_method: "none",
+                                order_item: order_item).save if order_item.credits?
+    end
   end
 
   def create_payment(order, charge)

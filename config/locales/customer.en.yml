@@ -50,6 +50,7 @@ en:
       call_to_action_started: "The event just started so you cannot topup anymore"
       call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Event Ticket first"
       button: "Top-up"
+      ticket_first: "Add a ticket or wristband first"
     event_refunds:
       claim: "Event hasn't finished yet"
       description: "Come back soon to apply for your credits refund"
@@ -78,7 +79,7 @@ en:
       claim: "Sorry"
       description: "The refunds period is finished, If you have any question contact support."
     gtag_registration:
-      title: "Your %{gtag} number:"
+      title: "Your %{gtag}:"
       call_to_action: "Edit"
       button: "Change"
       hint: "Put a wrong wristband by mistake? Erase and restart the process"
@@ -235,6 +236,8 @@ en:
       address: 'e.g. 1 Pied Piper'
       city: 'e.g. Madrid'
       post: 'e.g. 28012'
+    end:
+      close_title: "Do you want to end session?"
   cancel:
     title: 'Cancel my account'
     unhappy: 'Write us an email, we want to know what happened!'

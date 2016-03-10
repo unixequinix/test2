@@ -3,6 +3,7 @@ class CreateCustomerOrders < ActiveRecord::Migration
     create_table :customer_orders do |t|
       t.references :customer_event_profile, null: false
       t.references :catalog_item, null: false
+      t.string :origin
       t.integer :amount
 
       t.datetime :deleted_at, index: true

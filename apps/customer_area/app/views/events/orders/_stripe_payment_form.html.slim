@@ -1,43 +1,44 @@
-.wrapper-inside
-  p.hint-text Card info
-  = form_tag event_order_payments_path(@order_presenter.event, @order_presenter.order), id: "stripe-payment-form", class: "basic-grey", :"data-p-key" => Rails.application.secrets.stripe_platform_publishable
-    .payment-errors
-    .control-group
-      .controls
-        = label_tag t('orders.stripe.card_number'), nil, required: true
-        = text_field_tag :card_number, nil, class: "input-block-level", "data-stripe" => "number"
-      .controls
-        = label_tag t('orders.stripe.card_code_verification'), nil, required: true
-        = text_field_tag :card_verification, nil, class: "input-block-level", "data-stripe" => "cvc"
-      = label_tag t('orders.stripe.card_expiration_date'), nil, required: true, class: "expiration-label"
-      = select_tag :exp_month, options_for_select(Date::MONTHNAMES.compact.each_with_index.map { |name,i| ["#{i+1} - #{name}", i+1] }), include_blank: false, "data-stripe" => "exp-month", class: "payment-expiration-year"
-      = select_tag :exp_year, options_for_select((Date.today.year..(Date.today.year+10)).to_a), include_blank: false, "data-stripe" => "exp-year", class: "payment-expiration-month"
-      = hidden_field_tag :order_id, @order_presenter.order.id
-      .actions
-        = submit_tag t('orders.button'), class: "btn btn-action btn-action-primary"
+.container-method [id="method-stripe"]
+  .wrapper-module
+    p.hint-text Card info
+    = form_tag event_order_payment_service_synchronous_payments_path(order_presenter.event, order_presenter.order, order_presenter.payment_service), id: "stripe-payment-form", class: "basic-grey", :"data-p-key" => Rails.application.secrets.stripe_platform_publishable
+      .payment-errors
+      .control-group
+        .controls
+          = label_tag t('orders.stripe.card_number'), nil, required: true
+          = text_field_tag :card_number, nil, class: "input-block-level", "data-stripe" => "number"
+        .controls
+          = label_tag t('orders.stripe.card_code_verification'), nil, required: true
+          = text_field_tag :card_verification, nil, class: "input-block-level", "data-stripe" => "cvc"
+        = label_tag t('orders.stripe.card_expiration_date'), nil, required: true, class: "expiration-label"
+        = select_tag :exp_month, options_for_select(Date::MONTHNAMES.compact.each_with_index.map { |name,i| ["#{i+1} - #{name}", i+1] }), include_blank: false, "data-stripe" => "exp-month", class: "payment-expiration-year"
+        = select_tag :exp_year, options_for_select((Date.today.year..(Date.today.year+10)).to_a), include_blank: false, "data-stripe" => "exp-year", class: "payment-expiration-month"
+        = hidden_field_tag :order_id, order_presenter.order.id
+        .actions
+          = submit_tag t('orders.button'), class: "btn btn-action btn-action-primary"
 
-javascript:
-  if( $("#stripe-payment-form").length > 0 ) {
-    var stripeResponseHandler = function(status, response) {
-      var $form = $('#stripe-payment-form');
-      if (response.error) {
-        $form.find('.payment-errors').text(response.error.message);
-        $form.find("input[type=submit]").prop('disabled', false);
-      }
-      else {
-        var token = response.id;
-        $form.append($('<input type="hidden" name="stripeToken" />').val(token));
-        $form.get(0).submit();
-      }
-    };
+  javascript:
+    if( $("#stripe-payment-form").length > 0 ) {
+      var stripeResponseHandler = function(status, response) {
+        var $form = $('#stripe-payment-form');
+        if (response.error) {
+          $form.find('.payment-errors').text(response.error.message);
+          $form.find("input[type=submit]").prop('disabled', false);
+        }
+        else {
+          var token = response.id;
+          $form.append($('<input type="hidden" name="stripeToken" />').val(token));
+          $form.get(0).submit();
+        }
+      };
 
-    $("#stripe-payment-form").on("submit", function(event) {
-      event.stopPropagation();
-      event.preventDefault();
-      var $form = $(this);
-      $form.find("input[type=submit]").prop("disabled", true);
-      Stripe.setPublishableKey($("#stripe-payment-form").data("p-key"));
-      Stripe.card.createToken($form, stripeResponseHandler);
-      return false;
-    });
-  }
+      $("#stripe-payment-form").on("submit", function(event) {
+        event.stopPropagation();
+        event.preventDefault();
+        var $form = $(this);
+        $form.find("input[type=submit]").prop("disabled", true);
+        Stripe.setPublishableKey($("#stripe-payment-form").data("p-key"));
+        Stripe.card.createToken($form, stripeResponseHandler);
+        return false;
+      });
+    }

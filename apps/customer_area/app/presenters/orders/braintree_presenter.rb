@@ -13,4 +13,8 @@ class Orders::BraintreePresenter
   def form_data
     Payments::BraintreeDataRetriever.new(@event, @order)
   end
+
+  def payment_service
+    "braintree"
+  end
 end

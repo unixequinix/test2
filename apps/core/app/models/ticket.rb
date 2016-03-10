@@ -50,7 +50,7 @@ class Ticket < ActiveRecord::Base
       .joins("LEFT OUTER JOIN customers
               ON customers.id = customer_event_profiles.customer_id
               AND customers.deleted_at IS NULL")
-      .select("tickets.*, customers.email, customers.name, customers.surname")
+      .select("tickets.*, customers.email, customers.first_name, customers.last_name")
       .where(event: event_id)
   }
 
@@ -62,6 +62,10 @@ class Ticket < ActiveRecord::Base
   scope :banned, lambda {
     Ticket.joins(:banned_ticket)
   }
+
+  def pack_catalog_items_included
+    company_ticket_type.credential_type.catalog_item.catalogable.pack_catalog_items
+  end
 
   def ban!
     assignment = CredentialAssignment.find_by(credentiable_id: id, credentiable_type: "Ticket")

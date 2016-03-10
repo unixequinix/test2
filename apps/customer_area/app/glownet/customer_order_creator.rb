@@ -4,7 +4,8 @@ class CustomerOrderCreator
       customer_order = CustomerOrder.create(
         customer_event_profile: order.customer_event_profile,
         amount: order_item.amount,
-        catalog_item: order_item.catalog_item)
+        catalog_item: order_item.catalog_item,
+        origin: CustomerOrder::PURCHASE)
       OnlineOrder.create(
         redeemed: false,
         customer_order: customer_order

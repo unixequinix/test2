@@ -3,8 +3,8 @@ class EditProfileForm < Reform::Form
 
   property :event_id, on: :customer
   property :email, on: :customer
-  property :name, on: :customer
-  property :surname, on: :customer
+  property :first_name, on: :customer
+  property :last_name, on: :customer
   property :phone, on: :customer
   property :address, on: :customer
   property :city, on: :customer
@@ -17,7 +17,7 @@ class EditProfileForm < Reform::Form
   property :current_password, virtual: true
 
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
-  validates :event_id, :email, :name, :surname, :current_password, presence: true
+  validates :event_id, :email, :first_name, :last_name, :current_password, presence: true
   # :phone, :address, :city, :country, :postcode, :gender, :birthdate
   validate :current_password_same_as_password
   validate :email_uniqueness

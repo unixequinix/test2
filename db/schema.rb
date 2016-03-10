@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160307115732) do
+ActiveRecord::Schema.define(version: 20160308185753) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,7 +52,6 @@ ActiveRecord::Schema.define(version: 20160307115732) do
     t.string   "background_type",         default: "fixed"
     t.string   "currency",                default: "USD",                 null: false
     t.string   "host_country",            default: "US",                  null: false
-    t.string   "payment_service",         default: "redsys"
     t.string   "token"
     t.text     "description"
     t.text     "style"
@@ -61,6 +60,7 @@ ActiveRecord::Schema.define(version: 20160307115732) do
     t.integer  "features",                default: 0,                     null: false
     t.integer  "registration_parameters", default: 0,                     null: false
     t.integer  "locales",                 default: 1,                     null: false
+    t.integer  "payment_services",        default: 0,                     null: false
     t.integer  "refund_services",         default: 0,                     null: false
     t.boolean  "gtag_assignation",        default: true,                  null: false
     t.boolean  "ticket_assignation",      default: true,                  null: false
@@ -75,8 +75,8 @@ ActiveRecord::Schema.define(version: 20160307115732) do
   create_table "customers", force: :cascade do |t|
     t.integer  "event_id",               null: false, index: {name: "fk__customers_event_id"}, foreign_key: {references: "events", name: "fk_customers_event_id", on_update: :no_action, on_delete: :no_action}
     t.string   "email",                  default: "",    null: false, index: {name: "index_customers_on_email", unique: true}
-    t.string   "name",                   default: "",    null: false
-    t.string   "surname",                default: "",    null: false
+    t.string   "first_name",             default: "",    null: false
+    t.string   "last_name",              default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token",   index: {name: "index_customers_on_reset_password_token", unique: true}
     t.string   "phone"
@@ -201,6 +201,31 @@ ActiveRecord::Schema.define(version: 20160307115732) do
     t.datetime "deleted_at", index: {name: "index_banned_tickets_on_deleted_at"}
   end
 
+  create_table "credential_assignments", force: :cascade do |t|
+    t.integer  "customer_event_profile_id", index: {name: "fk__credential_assignments_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_credential_assignments_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "credentiable_id",           null: false
+    t.string   "credentiable_type",         null: false
+    t.string   "aasm_state"
+    t.datetime "deleted_at",                index: {name: "index_credential_assignments_on_deleted_at"}
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  create_table "customer_orders", force: :cascade do |t|
+    t.integer  "customer_event_profile_id", null: false, index: {name: "fk__customer_orders_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_customer_orders_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
+    t.integer  "catalog_item_id",           null: false, index: {name: "fk__customer_orders_catalog_item_id"}, foreign_key: {references: "catalog_items", name: "fk_customer_orders_catalog_item_id", on_update: :no_action, on_delete: :no_action}
+    t.string   "origin"
+    t.integer  "amount"
+    t.datetime "deleted_at",                index: {name: "index_customer_orders_on_deleted_at"}
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  create_table "c_assignments_c_orders", force: :cascade do |t|
+    t.integer "credential_assignment_id", index: {name: "index_c_assignments_c_orders_on_credential_assignment_id"}, foreign_key: {references: "credential_assignments", name: "fk_c_assignments_c_orders_credential_assignment_id", on_update: :no_action, on_delete: :no_action}
+    t.integer "customer_order_id",        index: {name: "index_c_assignments_c_orders_on_customer_order_id"}, foreign_key: {references: "customer_orders", name: "fk_c_assignments_c_orders_customer_order_id", on_update: :no_action, on_delete: :no_action}
+  end
+
   create_table "claims", force: :cascade do |t|
     t.integer  "customer_event_profile_id", null: false, index: {name: "fk__claims_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_claims_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "gtag_id",                   null: false, index: {name: "fk__claims_gtag_id"}, foreign_key: {references: "gtags", name: "fk_claims_gtag_id", on_update: :no_action, on_delete: :no_action}
@@ -241,16 +266,6 @@ ActiveRecord::Schema.define(version: 20160307115732) do
     t.text     "body"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-  end
-
-  create_table "credential_assignments", force: :cascade do |t|
-    t.integer  "customer_event_profile_id", index: {name: "fk__credential_assignments_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_credential_assignments_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "credentiable_id",           null: false
-    t.string   "credentiable_type",         null: false
-    t.string   "aasm_state"
-    t.datetime "deleted_at",                index: {name: "index_credential_assignments_on_deleted_at"}
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
   end
 
   create_table "station_groups", force: :cascade do |t|
@@ -337,15 +352,6 @@ ActiveRecord::Schema.define(version: 20160307115732) do
     t.decimal  "final_refundable_balance",  precision: 8, scale: 2, default: 1.0, null: false
     t.decimal  "credit_value",              precision: 8, scale: 2, default: 1.0, null: false
     t.datetime "deleted_at",                index: {name: "index_customer_credits_on_deleted_at"}
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-  end
-
-  create_table "customer_orders", force: :cascade do |t|
-    t.integer  "customer_event_profile_id", null: false, index: {name: "fk__customer_orders_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_customer_orders_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "catalog_item_id",           null: false, index: {name: "fk__customer_orders_catalog_item_id"}, foreign_key: {references: "catalog_items", name: "fk_customer_orders_catalog_item_id", on_update: :no_action, on_delete: :no_action}
-    t.integer  "amount"
-    t.datetime "deleted_at",                index: {name: "index_customer_orders_on_deleted_at"}
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
   end

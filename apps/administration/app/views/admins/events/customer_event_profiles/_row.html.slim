@@ -1,6 +1,6 @@
 td data-label=t("admin.customers.email") = link_to customer_event_profile.customer.email, admins_event_customer_event_profile_path(current_event, customer_event_profile), class: (customer_event_profile.deleted? ? "deleted-field" : "")
-td data-label=t("admin.customers.name") = customer_event_profile.customer.name
-td data-label=t("admin.customers.surname") = customer_event_profile.customer.surname
+td data-label=t("admin.customers.first_name") = customer_event_profile.customer.first_name
+td data-label=t("admin.customers.last_name") = customer_event_profile.customer.last_name
 - if customer_event_profile.active_tickets_assignment
   td
     - customer_event_profile.active_tickets_assignment.each do |assigned_ticket|

@@ -5,35 +5,35 @@
 #  id                      :integer          not null, primary key
 #  name                    :string           not null
 #  aasm_state              :string
-#  created_at              :datetime         not null
-#  updated_at              :datetime         not null
 #  slug                    :string           not null
 #  location                :string
-#  start_date              :datetime
-#  end_date                :datetime
-#  description             :text
 #  support_email           :string           default("support@glownet.com"), not null
-#  style                   :text
 #  logo_file_name          :string
 #  logo_content_type       :string
-#  logo_file_size          :integer
-#  logo_updated_at         :datetime
 #  background_file_name    :string
 #  background_content_type :string
-#  background_file_size    :integer
-#  background_updated_at   :datetime
 #  url                     :string
 #  background_type         :string           default("fixed")
-#  features                :integer          default(0), not null
-#  gtag_assignation        :boolean          default(TRUE), not null
-#  payment_service         :string           default("redsys")
-#  registration_parameters :integer          default(0), not null
 #  currency                :string           default("USD"), not null
 #  host_country            :string           default("US"), not null
-#  locales                 :integer          default(1), not null
-#  refund_services         :integer          default(0), not null
-#  ticket_assignation      :boolean          default(TRUE), not null
 #  token                   :string
+#  description             :text
+#  style                   :text
+#  logo_file_size          :integer
+#  background_file_size    :integer
+#  features                :integer          default(0), not null
+#  registration_parameters :integer          default(0), not null
+#  locales                 :integer          default(1), not null
+#  payment_services        :integer          default(0), not null
+#  refund_services         :integer          default(0), not null
+#  gtag_assignation        :boolean          default(TRUE), not null
+#  ticket_assignation      :boolean          default(TRUE), not null
+#  logo_updated_at         :datetime
+#  background_updated_at   :datetime
+#  start_date              :datetime
+#  end_date                :datetime
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
 #
 
 class Event < ActiveRecord::Base
@@ -46,6 +46,7 @@ class Event < ActiveRecord::Base
   include FlagShihTzu
 
   has_flags 1 => :top_ups, 2 => :refunds, column: "features"
+  has_flags 1 => :redsys, 2 => :paypal, 3 => :braintree, 4 => :stripe, column: "payment_services"
   has_flags 1 => :bank_account, 2 => :epg, 3 => :tipalti, column: "refund_services"
   has_flags 1 => :phone, 2 => :address, 3 => :city, 4 => :country, 5 => :postcode, 6 => :gender,
             7 => :birthdate, 8 => :agreed_event_condition, column: "registration_parameters"

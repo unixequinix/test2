@@ -1,5 +1,5 @@
 class Api::V1::VouchersSerializer < Api::V1::BaseSerializer
-  attributes :id, :name
+  attributes :id, :name, :position, :infinite
 
   def attributes(*args)
     hash = super
@@ -13,5 +13,13 @@ class Api::V1::VouchersSerializer < Api::V1::BaseSerializer
 
   def name
     object.catalog_item.name
+  end
+
+  def infinite
+    object.entitlement.infinite
+  end
+
+  def position
+    object.entitlement.memory_position
   end
 end

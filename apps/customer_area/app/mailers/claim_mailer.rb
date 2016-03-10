@@ -18,7 +18,7 @@ class ClaimMailer < ApplicationMailer
 
   def config_parameters(customer, event)
     headers["X-No-Spam"] = "True"
-    @name = customer.name + " " + customer.surname
+    @name = customer.first_name + " " + customer.last_name
     @event = event
     I18n.config.globals[:gtag] = @event.gtag_name
   end

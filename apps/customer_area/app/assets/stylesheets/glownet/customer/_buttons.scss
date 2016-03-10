@@ -48,6 +48,34 @@
   }
 }
 
+.btn-action-end-session {
+  @include transition(background 200ms ease-in-out, color 200ms ease-in-out, opacity 200ms ease-in-out);
+  display: none;
+  min-width: modules(7);
+  height: modules(2);
+  padding-top: modules(0.5);
+  border-radius: 3px;
+  z-index: 10;
+
+  @include min-screen($bp3) {
+    position: fixed;
+    top: modules(0.5);
+    right: modules(0.5);
+    display: block;
+  }
+
+  &:focus, &:hover {
+    opacity: 0.6;
+    outline: none;
+  }
+}
+
+.btn-edit-profile {
+  clear: both;
+  width: 100%;
+  margin: modules(2) auto modules(0.75);
+}
+
 .btn-action-register-desktop {
   display: none;
 
@@ -98,6 +126,7 @@
   display: inline-block;
   vertical-align: top;
   float: right;
+  border-radius: 50px;
 }
 
 // Floating button inside column
@@ -105,7 +134,7 @@
 .btn-action-dashboard {
   position: absolute;
   top: modules(0.75);
-  right: modules(0.20);
+  right: modules(0.5);
   display: inline-block;
   width: modules(4.5);
   height: auto;
@@ -194,19 +223,9 @@
 .btn-action-back {
   position: relative;
   display: block;
-  margin: modules(2) auto;
+  margin: modules(1) auto;
   height: auto;
   z-index: 5;
-
-  @include min-screen($bp3) {
-    @include animation(showBack 300ms ease-in-out);
-    position: fixed;
-    top: modules(2);
-    left: modules(0.5);
-    right: auto;
-    border-radius: 50px;
-    margin: 0 0 modules(1);
-  }
 
   i {
     display: inline-block;
@@ -215,17 +234,10 @@
   }
 }
 
-@keyframes showBack {
-    0%   { left: -100px;}
-    100% { left: modules(0.5); }
-}
-
-
-
-
 .btn-remove-ticket {
   display: inline-block;
-  padding: modules(0.5) 0;
+  margin: modules(0.5) 0 0;
+  padding: modules(0.5) modules(0.5) modules(0.5) 0;
   color: $red;
   font-weight: bold;
   text-align: left;

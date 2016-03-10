@@ -1,6 +1,5 @@
 doctype html
 html [lang=I18n.locale]
-
   head
     title = current_event.name
     meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
@@ -24,7 +23,7 @@ html [lang=I18n.locale]
       = render 'notifications'
     .container-main
       #mainWrapper.wrapper-main
-        .container-event-logo
+        .container-welcome-logo
           = render 'events/shared/sub_header'
         == yield
     = render 'events/shared/footer'

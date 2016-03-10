@@ -7,7 +7,7 @@ class Payments::RedsysDataRetriever
     @order = order
     @payment_parameters = Parameter.joins(:event_parameters)
                           .where(category: "payment",
-                                 group: @current_event.payment_service,
+                                 group: "redsys",
                                  event_parameters: { event: event })
                           .select("parameters.name, event_parameters.*")
   end
@@ -53,7 +53,7 @@ class Payments::RedsysDataRetriever
   end
 
   def client_name
-    @order.customer_event_profile.customer.name
+    @order.customer_event_profile.customer.first_name
   end
 
   def notification_url

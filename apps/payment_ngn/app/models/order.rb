@@ -50,8 +50,14 @@ class Order < ActiveRecord::Base
     total_formated.gsub(".", "")
   end
 
-  def credits_total
+  def total_credits
     order_items.to_a.sum(&:credits_included)
+  end
+
+  def total_refundable_credits
+    order_items.joins(:catalog_item)
+      .where.not(catalog_items: { catalogable_type: "Pack" })
+      .to_a.sum(&:credits_included)
   end
 
   def generate_order_number!
