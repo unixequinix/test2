@@ -79,6 +79,7 @@
 .wrapper-credits-total {
   @include appearance(none);
   @include mscale($double_text);
+  overflow: hidden;
   display: inline-block;
   width: 50%;
   margin: 0 auto;
@@ -90,7 +91,13 @@
 
   @include min-screen($bp3) { @include mscale($triple_text); }
   input { margin: 0; }
-  .amount-input { text-align: center; }
+
+  .amount-input {
+    margin-top: modules(-0.25);
+    text-align: center;
+
+    @include min-screen($bp3) { margin-top: modules(-0.5); }
+  }
   &:focus { outline: none; }
 }
 
@@ -124,6 +131,8 @@
 
   &:hover { opacity: 0.5; }
 }
+
+.product-name { margin-bottom: modules(0.25); }
 
 .product-amount {
   @include mscale($half_text);

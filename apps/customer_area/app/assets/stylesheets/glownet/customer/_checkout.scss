@@ -54,6 +54,7 @@
   td {
     padding: modules(0.25) 0;
     color: $grey;
+    border-bottom: 1px solid $form_gray;
   }
 }
 
@@ -66,6 +67,7 @@
     padding: modules(0.5) 0;
     color: $color_text;
     font-weight: bold;
+    border-bottom: none;
   }
 }
 
