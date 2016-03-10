@@ -1,5 +1,5 @@
 .wrapper-module
-  p.center-text.hint-review = t('orders.description')
+  //p.center-text.hint-review = t('orders.description')
   p.hint-text Order review
   table.table-order
     caption
@@ -16,15 +16,16 @@
         = t('orders.total')
         .vat-text = t('orders.vat')
       td [colspan="3"] #{@order.total} #{current_event.currency}
-  .wrapper-payments-methods
-    = fa_icon "cc-visa"
-    = fa_icon "cc-mastercard"
-    = fa_icon "cc-amex"
 
-.wrapper-module
-  .payment-trigger [data-target="redsys"] Redsys
-  .payment-trigger [data-target="braintree"] Braintree
-  .payment-trigger [data-target="stripe"] Stripe
+  .container-payment-buttons
+    p.hint-text Payment method
+    .btn-payment-trigger [data-target="redsys"]
+      span = fa_icon "credit-card"
+    .btn-payment-trigger [data-target="braintree"]
+      span = fa_icon "credit-card"
+    .btn-payment-trigger [data-target="stripe"]
+      span = fa_icon "credit-card"
+
 
 - @order_presenters.each do |order_presenter|
   = render order_presenter.path, order_presenter: order_presenter

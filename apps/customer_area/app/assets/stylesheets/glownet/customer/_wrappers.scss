@@ -151,12 +151,16 @@
 }
 
 .container-method {
+  @include transition(max-height 180ms ease-in-out, opacity 220ms ease-in-out);
   overflow: hidden;
   max-height: 0;
   padding:0;
+  opacity: 0;
+
+  &.show-container { max-height: 80rem; opacity: 1; }
 }
 
-.show-container { max-height: 80rem; }
+
 
 .wrapper-module-centered {
   text-align: center;
