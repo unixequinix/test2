@@ -7,7 +7,7 @@ class Orders::PaypalPresenter
   end
 
   def path
-    "events/orders/braintree_payment_form"
+    "events/orders/paypal_payment_form"
   end
 
   def form_data
