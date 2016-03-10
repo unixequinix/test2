@@ -1,13 +1,15 @@
 .container-method [id="method-paypal"]
   .wrapper-module
-    p.hint-text Card info
+    p.hint-text
+      = t('orders.card_info')
     = form_tag event_order_payment_service_synchronous_payments_path(order_presenter.event, order_presenter.order, order_presenter.payment_service), method: :post, id: "braintree-payment-form", class: "basic-grey"
       #paypal-container
       .payment-errors
       .control-group
         .controls
-          = label_tag :autotopup_amount, t('orders.paypal.autotopup_amount'), required: true
-          #autotopup_amount
+          = check_box_tag 'accept'
+          = select_tag :autotopup_amount, options_for_select(Date::MONTHNAMES.compact.each_with_index.map { |name,i| ["#{i+1} - #{name}", i+1] }), include_blank: false, "data-stripe" => "exp-month", class: "payment-expiration-year"
+
         .actions
           = submit_tag t('orders.button'), class: "btn btn-action btn-action-primary"
 

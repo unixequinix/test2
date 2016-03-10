@@ -259,44 +259,42 @@
 }
 
 .btn-payment-trigger {
+  @include transition(opacity 180ms linear);
   display: inline-block;
-  width: 49%;
-  margin-right: 2%;
-  padding: modules(1) modules(0.5) 0 modules(0.5);
-  text-align:center;
+  width: 48%;
+  height: modules(4);
+  margin: modules(0.5) modules(0.5) modules(0.5) 0;
+  border-radius: $radius;
+  background-color: lighten($light_grey,23%);
+  color: $grey;
+  text-align: center;
+  cursor: pointer;
 
-  span {
-    @include transition(opacity 180ms linear);
-    display: block;
-    width: 100%;
-    height: 100%;
-    padding-bottom: modules(0.5);
-    border-radius: $radius;
-    background-color: lighten($light_grey,23%);
-    color: $grey;
-    cursor: pointer;
+  p { margin-bottom: 0; }
 
-    i {
-      @include mscale($half_text);
-      padding-top: modules(1);
-    }
-
-    &:hover { opacity: 0.7; }
+  i {
+    @include mscale($half_text);
+    padding-top: modules(1.25);
   }
 
-  .button-selected {
+  &:hover { opacity: 0.7; }
+
+  &:nth-child(odd) {
+    clear: both;
+    margin-right: 0;
+  }
+
+  &:last-child(even) {
+    margin-right: 0;
+  }
+
+  &.button-selected {
     background-color: lighten($amber,7%);
     color: $nuclear;
     box-shadow: none;
   }
-
-  &:nth-child(1n) { padding-left: 0; }
-  &:nth-child(3n) {
-    clear: both;
-    margin-right: 0;
-    padding-right: 0;
-  }
-
 }
+
+
 
 // ---------------------------------------------------------------------------------------------

@@ -1,6 +1,5 @@
 function placeholderToLabel() {
-  var target = $('input').not('input[type=submit]');
-
+  var target = $("input");
 
   target.each(function() {
     if( this.value ) {

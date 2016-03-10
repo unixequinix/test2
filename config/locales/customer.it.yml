@@ -117,6 +117,11 @@ it:
     redirect: "You will be redirected to the bank’s payment gateway."
     button: "Pay"
     button_iupay: "IUPAY"
+    card_info: "Card Info"
+    order_review: "Order review"
+    payment: "Payment method"
+    credit_card: "Credit card"
+    pay_pal: "Pay Pal"
     stripe:
       card_number: "Card number"
       card_code_verification: "Card code verification (CCV)"
