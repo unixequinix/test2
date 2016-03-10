@@ -9,7 +9,6 @@
 //= require customer/placeholder-to-label
 //= require customer/show-payment-method
 
-
 //= require vendor/fastclick
 //= require vendor/fastclick_load
 //= require vendor/jquery.cookiebar

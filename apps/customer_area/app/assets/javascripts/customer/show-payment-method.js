@@ -1,19 +1,19 @@
 function showPaymentMethod() {
-  var trigger = $(".payment-trigger"),
-      html = $("html")
+  var trigger = $(".btn-payment-trigger"),
+      html = $("html"),
       body = $("body");
 
+  //$(".container-method").find('input').css("background-color", "red");
+
   trigger.on("click", function(event) {
-    event.preventDefault();
-    event.stopPropagation();
     var target = this.dataset.target;
 
-    console.log(target);
-    $(".container-method").removeClass("show-container");
-    $("#method-" + target).toggleClass("show-container");
+    $(".container-method").find('input').focus();
+    $("#method-" + target).toggleClass("show-container").siblings(".container-method").removeClass("show-container");
+    $(this).toggleClass("button-selected").siblings().removeClass("button-selected");
   });
+
 };
 
 $(document).on("page:load", showPaymentMethod);
 $(document).ready(showPaymentMethod);
-
