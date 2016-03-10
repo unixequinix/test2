@@ -255,7 +255,6 @@
 .container-payment-buttons {
   width: 100%;
 
-  .hint-text { margin-bottom: 0; }
 }
 
 .btn-payment-trigger {
@@ -294,6 +293,19 @@
     box-shadow: none;
   }
 }
+
+#braintree-paypal-button {
+  margin-bottom: modules(1);
+}
+
+#braintree-paypal-loggedin {
+  margin-bottom: modules(1) !important;
+  padding: modules(0.5) 0;
+  background-position: 0 50% !important;
+}
+
+#bt-pp-cancel { width: auto; }
+#bt-pp-name { margin-left: 0 !important; }
 
 
 

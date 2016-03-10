@@ -9,6 +9,7 @@ function showPaymentMethod() {
     $("#method-" + target).toggleClass("show-container").siblings(".container-method").removeClass("show-container");
     $(this).toggleClass("button-selected").siblings().removeClass("button-selected");
   });
+
 };
 
 $(document).on("page:load", showPaymentMethod);
