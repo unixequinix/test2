@@ -1,6 +1,6 @@
 class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
   def index
-    json = cache ["v1", "tickets"] do
+    json = Rails.cache.fetch("v1/tickets", expires_in: 12.hours) do
       @tickets = @fetcher.sql_tickets
     end
 
