@@ -20,11 +20,17 @@
   .container-payment-buttons
     p.hint-text Payment method
     .btn-payment-trigger [data-target="redsys"]
-      span = fa_icon "credit-card"
+      span
+        = fa_icon "credit-card"
+        = t('orders.credit-card')
     .btn-payment-trigger [data-target="braintree"]
-      span = fa_icon "credit-card"
+      span
+        = fa_icon "credit-card"
+        = t('orders.credit-card')
     .btn-payment-trigger [data-target="stripe"]
-      span = fa_icon "credit-card"
+      span
+        = fa_icon "credit-card"
+        = t('orders.credit-card')
 
 
 - @order_presenters.each do |order_presenter|
