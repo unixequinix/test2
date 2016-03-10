@@ -17,11 +17,14 @@
         .vat-text = t('orders.vat')
       td [colspan="3"] #{@order.total} #{current_event.currency}
 
-.wrapper-module
-  .payment-trigger [data-target="paypal"] Paypal
-  .payment-trigger [data-target="redsys"] Redsys
-  .payment-trigger [data-target="braintree"] Braintree
-  .payment-trigger [data-target="stripe"] Stripe
+  .container-payment-buttons
+    p.hint-text Payment method
+    .btn-payment-trigger [data-target="redsys"]
+      span = fa_icon "credit-card"
+    .btn-payment-trigger [data-target="braintree"]
+      span = fa_icon "credit-card"
+    .btn-payment-trigger [data-target="stripe"]
+      span = fa_icon "credit-card"
 
 
 - @order_presenters.each do |order_presenter|
