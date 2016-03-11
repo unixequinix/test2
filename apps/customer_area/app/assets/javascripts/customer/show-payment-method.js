@@ -1,15 +1,22 @@
 function showPaymentMethod() {
+  //var tempScrollTop = $(window).scrollTop();
   var triggers = $(".btn-payment-trigger");
 
   triggers.on("click", function(event) {
     var target = this.dataset.target;
 
-    $(this).toggleClass("button-selected");
+    // // TODO Remove animate!!!
+    //$('html, body').animate({
+    //    scrollTop: $('.container-method').offset().top - 20
+    //}, 'slow');
+    //$(".container-method").find('input').focus();
 
     triggers.not(this).removeClass("button-selected");
-
     $("#method-" + target).toggleClass("show-container").siblings(".container-method").removeClass("show-container");
   });
+
+  //$(window).scrollTop(tempScrollTop);
+
 };
 
 $(document).on("page:load", showPaymentMethod);
