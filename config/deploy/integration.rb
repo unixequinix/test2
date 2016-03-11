@@ -22,8 +22,10 @@ set :linked_dirs, fetch(:linked_dirs) + %w(certs)
 
 server "gspot-dev.glownet.com", user: "ubuntu", roles: %w(web app db)
 
-set :puma_threads,    [4, 16]
-set :puma_workers,    0
+set :puma_threads, [4, 16]
+set :puma_workers, 0
+
+set :deploy_to, "/home/ubuntu/glownet_web/"
 
 # Custom SSH Options
 # ==================
