@@ -131,6 +131,10 @@ en:
       card_code_verification: "Card code verification (CCV)"
       card_expiration_date: "Card expiration date"
       button: "Pay"
+    paypal:
+      sync_title: "Sync with Pay Pal to perform payment"
+      sync_copy: "Never without credit!"
+      sync_description: "Make direct top ups in your event purchases. Select how much you want to top up in case you spent your credit in the event and avoid queues. Your wristband will be always ready to go."
   claims:
     title: "Confirm Refund"
     description: "Please, review your order and proceed to payment."
