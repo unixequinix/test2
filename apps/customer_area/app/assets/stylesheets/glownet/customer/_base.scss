@@ -55,7 +55,6 @@ a {
   @include mscale($credit-size);
   margin-bottom: 0;
   font-weight: lighter;
-  text-align: center;
   color: $color_text;
 
   &:after {

@@ -90,23 +90,20 @@ $light_red: lighten($red, 8%);
 
 .error_notification {
   position: relative;
-  padding: modules(0.25);
-  border-radius: 50px;
+  padding: modules(1);
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
   background-color: $red;
-  box-shadow: inset 0px 0px 0px 1px darken($red,20%);
   color: $nuclear;
   text-align: center;
   z-index: 3;
 
-  @include min-screen($bp2) {
-    margin: modules(1) 0 0;
-  }
+  p { margin: 0; font-weight: bold; }
 }
 
 .error {
   position: relative;
   padding: 0 modules(0.5);
-  background-color: $red;
   border-radius: $radius;
   color: $nuclear;
 

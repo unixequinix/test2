@@ -6,7 +6,7 @@
   //  = t('dashboard.credits.ticket_first')
   - if presenter.credential_present? && !presenter.event_started?
     = link_to t('dashboard.credits.button'), new_event_checkout_path(current_event), class: "btn btn-action btn-action-dashboard"
-  ul.refundable-conversion-list.center-text
+  ul.refundable-conversion-list
     p.refundable-text.center-text.bold-text Refundable:
     li.bold-text 120t
     span |

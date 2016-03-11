@@ -109,6 +109,7 @@
   background-color: transparent;
 
   &:hover { opacity: 0.6; }
+  .to-be-label { top: 0; }
 }
 
 .btn-action-checkout {
@@ -250,5 +251,90 @@
 
   &:hover { text-decoration: underline; }
 }
+
+// Buttons for the order checkout payments
+.container-payment-buttons {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+
+  li {
+    display: table-cell;
+    vertical-align: top;
+    width: auto;
+    max-width: 24%;
+    height: modules(4);
+    padding-right: modules(0.5);
+    width: auto;
+
+    &:nth-child(3n) { padding: 0 modules(0.25) 0 0; }
+    &:last-child { padding: 0 0 0 modules(0.25); }
+  }
+
+}
+
+.btn-payment-trigger {
+  @include transition(opacity 180ms linear);
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  padding: modules(0.25);
+  border-radius: $radius;
+  background-color: lighten($light_grey,23%);
+  color: $grey;
+  text-align: center;
+  cursor: pointer;
+
+  p {
+    @include mscale($base_font_size*0.75);
+    margin-bottom: 0;
+  }
+
+  i {
+    @include mscale($half_text);
+    padding-top: modules(0.5);
+  }
+
+  &:hover { opacity: 0.7; }
+
+  &.button-selected {
+    background-color: lighten($amber,7%);
+    color: $nuclear;
+    box-shadow: none;
+  }
+}
+
+
+// TODO Refactor: Use this function only on mobile
+.payment-anhor-desktop {
+  display: none;
+
+  @include min-screen($bp3) { display: block; }
+}
+
+.payment-anhor-mobile {
+  display: block;
+
+  @include min-screen($bp3) { display: none; }
+}
+
+// ENDS
+
+#braintree-paypal-button {
+  margin: 0 auto modules(2);
+
+  @include min-screen($bp3) {margin: 0 auto modules(1); }
+}
+
+#braintree-paypal-loggedin {
+  margin-bottom: modules(1) !important;
+  padding: modules(0.5) 0;
+  background-position: 0 50% !important;
+}
+
+#bt-pp-cancel { width: auto; }
+#bt-pp-name { margin-left: 0 !important; }
+
+
 
 // ---------------------------------------------------------------------------------------------

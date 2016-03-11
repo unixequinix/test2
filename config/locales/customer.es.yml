@@ -122,11 +122,20 @@ es:
     redirect: "Serás redirigido a la pasarela de pago del banco."
     button: "Pagar"
     button_iupay: "IUPAY"
+    card_info: "Información de tarjeta"
+    order_review: "Resumen de compra"
+    payment: "Método de pago"
+    credit_card: "Tarjeta de crédito"
+    pay_pal: "Pay Pal"
     stripe:
       card_number: "Número de tarjeta"
       card_code_verification: "Código de verificación (CCV)"
       card_expiration_date: "Fecha de expiración"
       button: "Pagar"
+    paypal:
+      sync_title: "Regístarte en PayPal para completar el pago"
+      sync_copy: "Crédito asegurado"
+      sync_description: "Recarga de forma directa tu pulsera. Selecciona el crédito que quieres recargar en caso de gastar todos tus créditos y evita colas innecesarias. Tu pulsera siempre estará lista y portegida."
   claims:
     title: "Confirmar Reembolso"
     description: "Por favor, revisa tu órden y procede a realizar el pago."
