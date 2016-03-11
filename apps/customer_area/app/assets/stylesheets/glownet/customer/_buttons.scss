@@ -261,12 +261,14 @@
   li {
     display: table-cell;
     vertical-align: top;
+    width: auto;
+    max-width: 24%;
     height: modules(4);
-    padding: modules(0.25);
+    padding-right: modules(0.5);
     width: auto;
 
-    &:first-child { padding-left: 0; }
-    &:last-child { padding-right: 0; }
+    &:nth-child(3n) { padding: 0 modules(0.25) 0 0; }
+    &:last-child { padding: 0 0 0 modules(0.25); }
   }
 
 }
@@ -290,9 +292,7 @@
 
   i {
     @include mscale($half_text);
-    padding-top: modules(0.15);
-
-    @include min-screen($bp3) { padding-top: modules(0.25); }
+    padding-top: modules(0.5);
   }
 
   &:hover { opacity: 0.7; }
