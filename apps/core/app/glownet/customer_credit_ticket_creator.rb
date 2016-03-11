@@ -7,9 +7,9 @@ class CustomerCreditTicketCreator
         customer_event_profile: ticket.assigned_customer_event_profile,
         transaction_origin: CustomerCredit::TICKET_ASSIGNMENT,
         payment_method: "none",
-        credit_value: credit_item.catalogable.value,
-        amount: credit_item.sum,
-        refundable_amount: credit_item.sum
+        credit_value: credit_item.value,
+        amount: credit_item.total_amount,
+        refundable_amount: credit_item.total_amount
       )
       calculate_balances
       @customer_credit.save if @customer_credit.valid?
@@ -22,9 +22,9 @@ class CustomerCreditTicketCreator
         customer_event_profile: ticket.assigned_customer_event_profile,
         transaction_origin: CustomerCredit::TICKET_UNASSIGNMENT,
         payment_method: "none",
-        credit_value: credit_item.catalogable.value,
-        amount: -credit_item.sum,
-        refundable_amount: -credit_item.sum
+        credit_value: credit_item.value,
+        amount: -credit_item.total_amount,
+        refundable_amount: -credit_item.total_amount
       )
       calculate_balances
       @customer_credit.save if @customer_credit.valid?

@@ -28,16 +28,38 @@ class Pack < ActiveRecord::Base
   }
 
   def credits
-    catalog_items_included
-      .joins(:pack_catalog_items)
-      .includes(:catalogable)
-      .select("catalog_items.*", "sum(pack_catalog_items.amount)")
-      .where(catalog_items: { catalogable_type: "Credit" })
-      .group("catalog_items.name", "catalog_items.id")
+    items_and_amount = open_all.each_with_object([]) do |catalog_item, acum|
+      amount = catalog_item.pack_catalog_items.where(pack_id: self.id).sum(:amount)
+      acum << Sorters::FakeCatalogItem.new(
+                             catalog_item_id: catalog_item.id,
+                             catalogable_id: catalog_item.catalogable_id,
+                             catalogable_type: catalog_item.catalogable_type,
+                             product_name: catalog_item.name,
+                             value: catalog_item.catalogable.value,
+                             total_amount: amount
+                            ) if catalog_item.catalogable_type == "Credit"
+    end
+    items_and_amount.uniq(&:catalog_item_id)
   end
 
   def credits_pack?
-    number_catalog_credit_items = catalog_items_included.where(catalogable_type: "Credit").count
-    number_catalog_credit_items > 0 && number_catalog_credit_items == catalog_items_count
+    number_catalog_items = open_all.size
+    number_catalog_credit_items = open_all.select do |catalog_item|
+      catalog_item.catalogable_type == "Credit"
+    end.size
+    number_catalog_credit_items > 0 && number_catalog_credit_items == number_catalog_items
+  end
+
+  def open_all(*category)
+    items = catalog_items_included.each_with_object([]) do |catalog_item, result|
+      result.push
+      if catalog_item.catalogable_type == "Pack"
+        item_found = catalog_item.catalogable.open_all
+        result.push(item_found) if item_found
+      else
+        result.push(catalog_item) if category.include?(catalog_item.catalogable_type) || category.blank?
+      end
+    end
+    items.flatten
   end
 end

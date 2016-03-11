@@ -19,8 +19,9 @@ class CustomerCreditOrderCreator
       end
 
       if order_item.valid_pack?
-        if order_item.only_credits_pack?
-          order_item.credits.each do |credit_item|
+        pack = order.catalog_item.catalogable
+        if pack.credits_pack?
+          pack.credits.each do |credit_item|
             @customer_credit = CustomerCredit.new(
               customer_event_profile: order.customer_event_profile,
               transaction_origin: CustomerCredit::CREDITS_PURCHASE,
@@ -33,7 +34,7 @@ class CustomerCreditOrderCreator
             @customer_credit.save if @customer_credit.valid?
           end
         else
-          order_item.credits.each do |credit_item|
+          pack.credits.each do |credit_item|
             @customer_credit = CustomerCredit.new(
               customer_event_profile: order.customer_event_profile,
               transaction_origin: CustomerCredit::CREDITS_PURCHASE,
