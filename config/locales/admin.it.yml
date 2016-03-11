@@ -428,6 +428,7 @@ it:
       amount: "Amount"
       customer_event_profile: "Customer event profiles"
       catalog_item: "Catalog item"
+      online_order: "Online order"
       origin: "Origin"
     online_orders:
       id: "Id"

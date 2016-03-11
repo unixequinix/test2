@@ -87,12 +87,11 @@ class CustomerEventProfile < ActiveRecord::Base
 
   def refundable_credits_amount
     customer_credit = customer_credits.order(created_at: :desc).first
-    customer_credit.present? ? customer_credit.final_balance : 0
+    customer_credit.present? ? customer_credit.final_refundable_balance : 0
   end
 
   def refundable_money_amount
-    customer_credit = customer_credits.order(created_at: :desc).first
-    customer_credit.present? ? customer_credit.final_refundable_balance : 0
+    refundable_credits_amount * event.standard_credit_price
   end
 
   def purchases

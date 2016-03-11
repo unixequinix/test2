@@ -429,6 +429,7 @@ es:
       customer_event_profile: "Perfil de cliente"
       catalog_item: "Producto del catálogo"
       origin: "Origen"
+      online_order: "Órden online"
     online_orders:
       id: "Id"
       redeemed: "Canjeado"
