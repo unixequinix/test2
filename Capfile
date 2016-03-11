@@ -5,7 +5,7 @@ require "capistrano/setup"
 require "capistrano/deploy"
 require "capistrano/rails"
 require "capistrano/sidekiq"
-require 'capistrano/puma'
+# require 'capistrano/puma'
 
 require "whenever/capistrano"
 
