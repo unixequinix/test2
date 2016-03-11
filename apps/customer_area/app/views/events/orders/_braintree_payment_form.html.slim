@@ -22,8 +22,8 @@
           #expiration_year [selector="yes"]
         .actions
           = submit_tag t('orders.button'), class: "btn btn-action btn-action-primary"
-
-    = render 'events/shared/ssl_cert_seal'
+    .wrapper-seal
+      = render 'events/shared/ssl_cert_seal'
 javascript:
   if( $("#braintree-payment-form").length > 0 ) {
     var clientToken = '#{order_presenter.form_data.client_token}';

@@ -12,9 +12,10 @@
         .wrapper-acceppt-paypal-terms
           = check_box_tag 'accept'
           = label_tag "Allow you cxcxxc top up"
-
         .actions
           = submit_tag t('orders.button'), class: "btn btn-action btn-action-primary"
+    .wrapper-seal
+      = render 'events/shared/ssl_cert_seal'
 
 javascript:
   if( $("#braintree-payment-form").length > 0 ) {

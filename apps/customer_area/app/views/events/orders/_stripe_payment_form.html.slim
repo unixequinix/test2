@@ -21,6 +21,8 @@
         = hidden_field_tag :order_id, order_presenter.order.id
         .actions
           = submit_tag t('orders.button'), class: "btn btn-action btn-action-primary"
+    .wrapper-seal
+      = render 'events/shared/ssl_cert_seal'
 
   javascript:
     if( $("#stripe-payment-form").length > 0 ) {
