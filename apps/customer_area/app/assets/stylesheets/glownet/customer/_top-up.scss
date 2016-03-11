@@ -90,7 +90,17 @@
   text-align: center;
 
   @include min-screen($bp3) { @include mscale($triple_text); }
-  input { margin: 0; }
+  input {margin: 0; }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance:textfield;
+  }
 
   .amount-input {
     margin-top: modules(-0.25);

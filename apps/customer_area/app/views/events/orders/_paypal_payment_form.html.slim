@@ -8,12 +8,14 @@
       .control-group
         p.hint-text Auto top up config
         p Select amount you want to top up
-        = select_tag :autotopup_amount, options_for_select(Date::MONTHNAMES.compact.each_with_index.map { |name,i| ["#{i+1} - #{name}", i+1] }), include_blank: false, "data-stripe" => "exp-month", class: "payment-expiration-year"
+        = select_tag :autotopup_amount, options_for_select([20, 40, 50, 100]), include_blank: false, "data-stripe" => "exp-month", class: "payment-expiration-year"
         .wrapper-acceppt-paypal-terms
-          = check_box_tag 'accept'
-          = label_tag "Allow you cxcxxc top up"
+          = check_box_tag "accept"
+          = label_tag "accept", "#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), event_terms_of_use_url,   target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), event_privacy_policy_url, target: '_blank'}".html_safe
         .actions
           = submit_tag t('orders.button'), class: "btn btn-action btn-action-primary"
+    //.wrapper-seal
+    //  = render 'events/shared/ssl_cert_seal'
 
 javascript:
   if( $("#paypal-payment-form").length > 0 ) {

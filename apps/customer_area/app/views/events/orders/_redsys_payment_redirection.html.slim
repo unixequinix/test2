@@ -2,5 +2,7 @@
   .wrapper-module
     p.hint-redirect.center-text = t('orders.redirect')
     = button_to t('orders.button'), event_order_path(order_presenter.event, order_presenter.order, payment_service: order_presenter.payment_service), method: :patch, remote: true, class: "btn btn-action btn-action-primary"
+    //.wrapper-seal
+    //  = render 'events/shared/ssl_cert_seal'
 
     #paymentForm class="wrapper-field form-inputs"

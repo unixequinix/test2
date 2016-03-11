@@ -54,7 +54,9 @@
 }
 
 .container-welcome-logo {
-  margin-top: modules(2);
+  margin: modules(1) auto;
+
+  @include min-screen($bp3) { margin: modules(2) auto modules(1); }
 }
 
 .wrapper-create-account {

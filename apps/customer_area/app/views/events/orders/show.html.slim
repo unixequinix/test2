@@ -18,21 +18,25 @@
         .vat-text = t('orders.vat')
       td [colspan="3"] #{@order.total} #{current_event.currency}
 
+  p.hint-text
+    = t('orders.payment')
   ul.container-payment-buttons
-    p.hint-text
-      = t('orders.payment')
-    li.btn-payment-trigger [data-target="paypal"]
-      = fa_icon "paypal"
-      p = t('orders.pay_pal')
-    li.btn-payment-trigger [data-target="redsys"]
-      = fa_icon "credit-card"
-      p = t('orders.credit_card')
-    li.btn-payment-trigger [data-target="braintree"]
-      = fa_icon "credit-card"
-      p = t('orders.credit_card')
-    li.btn-payment-trigger [data-target="stripe"]
-      = fa_icon "credit-card"
-      p = t('orders.credit_card')
+    li
+      .btn-payment-trigger [data-target="paypal"]
+        = fa_icon "paypal"
+        p = t('orders.pay_pal')
+    li
+      .btn-payment-trigger [data-target="redsys"]
+        = fa_icon "credit-card"
+        p = t('orders.credit_card')
+    li
+      .btn-payment-trigger [data-target="braintree"]
+        = fa_icon "credit-card"
+        p = t('orders.credit_card')
+    li
+      .btn-payment-trigger [data-target="stripe"]
+        = fa_icon "credit-card"
+        p = t('orders.credit_card')
 
 
 
