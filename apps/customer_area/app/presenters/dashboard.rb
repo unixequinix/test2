@@ -14,10 +14,6 @@ class Dashboard
     @presenters = []
   end
 
-  def empty?
-    @event.created?
-  end
-
   def partial
     "events/events/states/event_#{@event.aasm_state}"
   end

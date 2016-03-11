@@ -80,4 +80,21 @@ $quarter_text:           $base_font_size*1.25;
   text-transform: uppercase;
 }
 
+// Pay Pal experience
+
+.wrapper-acceppt-paypal-terms {
+
+  label, input { display: inline !important; width: auto; }
+
+  label {
+    position: relative;
+    display: inline-block;
+    top: 0;
+    padding-left: modules(0.25);
+    color: $color_text;
+
+    .to-be-label { position: relative; }
+  }
+}
+
 // ---------------------------------------------------------------------------------------------

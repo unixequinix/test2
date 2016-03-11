@@ -115,6 +115,11 @@ th:
     redirect: "ระบบกำลังจะพาคุณไปที่หน้าสำหรับการชำระเงิน"
     button: "ชำระเงิน"
     button_iupay: "IUPAY"
+    card_info: "Card Info"
+    order_review: "Order review"
+    payment: "Payment method"
+    credit_card: "Credit card"
+    pay_pal: "Pay Pal"
     stripe:
       card_number: "หมายเลขบัตร"
       card_code_verification: "หมายเลขตรวจสอบยืนยันบัตร (CCV)"
@@ -222,6 +227,8 @@ th:
       description: 'วิธีใช้งาน'
       button: 'Log in'
       copy: 'ข้อไดเปรียบ?'
+    end:
+      close_title: "Do you want to end session?"
   cancel:
     title: 'ยกเลิกบัญชีการใช้งาน'
     unhappy: 'เพื่อให้เราทำการปรับปรุง กรุณาส่งอีเมลหาเราเพื่อแจ้งเหตุผลของการเลิกใช้บริการ'
