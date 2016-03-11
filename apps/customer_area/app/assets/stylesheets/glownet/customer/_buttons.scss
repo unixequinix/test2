@@ -304,8 +304,26 @@
   }
 }
 
+
+// TODO Refactor: Use this function only on mobile
+.payment-anhor-desktop {
+  display: none;
+
+  @include min-screen($bp3) { display: block; }
+}
+
+.payment-anhor-mobile {
+  display: block;
+
+  @include min-screen($bp3) { display: none; }
+}
+
+// ENDS
+
 #braintree-paypal-button {
-  margin-bottom: modules(1);
+  margin: 0 auto modules(2);
+
+  @include min-screen($bp3) {margin: 0 auto modules(1); }
 }
 
 #braintree-paypal-loggedin {

@@ -1,21 +1,20 @@
 .container-method [id="method-paypal"]
   .wrapper-module
-    p.hint-text Sync with Pay Pal
-    p Pay Pal account Synchronization allow you to ..
+    p.hint-text.center-text Sync with Pay Pal to perform payment
     = form_tag event_order_payment_service_synchronous_payments_path(order_presenter.event, order_presenter.order, order_presenter.payment_service), method: :post, id: "paypal-payment-form", class: "basic-grey"
       #paypal-container
-      .payment-errors
-      .control-group
-        p.hint-text Auto top up config
-        p Select amount you want to top up
-        = select_tag :autotopup_amount, options_for_select([20, 40, 50, 100]), include_blank: false, "data-stripe" => "exp-month", class: "payment-expiration-year"
-        .wrapper-acceppt-paypal-terms
-          = check_box_tag "accept"
-          = label_tag "accept", "#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), event_terms_of_use_url,   target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), event_privacy_policy_url, target: '_blank'}".html_safe
-        .actions
-          = submit_tag t('orders.button'), class: "btn btn-action btn-action-primary"
-    //.wrapper-seal
-    //  = render 'events/shared/ssl_cert_seal'
+      .container-auto-topup.center-text
+        .payment-errors
+        h3.center-text Never without credit!
+        = image_tag "img-closed-event.png", class: "event-state-image"
+        p Make direct top ups in your event purchases. Select how much you want to top up in case you spent your credit in the event and avoid queues. Your wristband will be always ready to go.
+        .control-group
+          = select_tag :autotopup_amount, options_for_select([20, 40, 50, 100]), include_blank: false, "data-stripe" => "exp-month", class: " payment-expiration-year"
+          .wrapper-acceppt-paypal-terms
+            = check_box_tag "accept"
+            = label_tag "accept", "#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), event_terms_of_use_url,   target: '_blank'} #{ t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), event_privacy_policy_url, target: '_blank'}".html_safe
+          .actions
+            = submit_tag t('orders.button'), class: "btn btn-action btn-action-primary"
 
 javascript:
   if( $("#paypal-payment-form").length > 0 ) {

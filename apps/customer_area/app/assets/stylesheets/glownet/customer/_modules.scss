@@ -83,7 +83,8 @@ $quarter_text:           $base_font_size*1.25;
 // Pay Pal experience
 
 .wrapper-acceppt-paypal-terms {
-  padding-bottom: modules(1);
+
+  label, input { display: inline !important; width: auto; }
 
   label {
     position: relative;
@@ -94,8 +95,6 @@ $quarter_text:           $base_font_size*1.25;
 
     .to-be-label { position: relative; }
   }
-
-  select { width: 100%; }
 }
 
 // ---------------------------------------------------------------------------------------------
