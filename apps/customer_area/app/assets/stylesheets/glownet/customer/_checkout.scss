@@ -5,9 +5,6 @@
 \* ------------------------------------------------------- */
 
 .wrapper-payments-methods {
-  text-align: center;
-  padding-bottom: modules(1);
-
   @include min-screen($bp3) {
     position: absolute;
     top: modules(0.75);
