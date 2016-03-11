@@ -5,17 +5,47 @@ class CustomerCreditOrderCreator
     order.order_items.each do |order_item|
       @order_item =  order_item
       @event = order.customer_event_profile.event
-      if order_item.credits?
+      if order_item.single_credits?
         @customer_credit = CustomerCredit.new(
           customer_event_profile: order.customer_event_profile,
           transaction_origin: CustomerCredit::CREDITS_PURCHASE,
           payment_method: "none",
           credit_value: get_credit_value(@event),
-          amount: @order_item.credits_included,
+          amount: @order_item.amount,
           refundable_amount: calculate_refundable_amount
         )
         calculate_balances
         @customer_credit.save if @customer_credit.valid?
+      end
+
+      if order_item.valid_pack?
+        if order_item.only_credits_pack?
+          order_item.credits.each do |credit_item|
+            @customer_credit = CustomerCredit.new(
+              customer_event_profile: order.customer_event_profile,
+              transaction_origin: CustomerCredit::CREDITS_PURCHASE,
+              payment_method: "none",
+              credit_value: credit_item.catalogable.value,
+              amount: credit_item.sum * @order_item.amount,
+              refundable_amount: credit_item.sum * @order_item.amount
+            )
+            calculate_balances
+            @customer_credit.save if @customer_credit.valid?
+          end
+        else
+          order_item.credits.each do |credit_item|
+            @customer_credit = CustomerCredit.new(
+              customer_event_profile: order.customer_event_profile,
+              transaction_origin: CustomerCredit::CREDITS_PURCHASE,
+              payment_method: "none",
+              credit_value: credit_item.catalogable.value,
+              amount: credit_item.sum * @order_item.amount,
+              refundable_amount: 0
+            )
+            calculate_balances
+            @customer_credit.save if @customer_credit.valid?
+          end
+        end
       end
     end
   end

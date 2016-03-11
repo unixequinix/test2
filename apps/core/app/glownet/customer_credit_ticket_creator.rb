@@ -2,29 +2,33 @@ class CustomerCreditTicketCreator
   attr_reader :customer_credit
 
   def assign(ticket)
-    @customer_credit = CustomerCredit.new(
-      customer_event_profile: ticket.assigned_customer_event_profile,
-      transaction_origin: CustomerCredit::TICKET_ASSIGNMENT,
-      payment_method: "none",
-      credit_value: get_credit_value(ticket.assigned_customer_event_profile.event),
-      amount: ticket.credits,
-      refundable_amount: ticket.credits
-    )
-    calculate_balances
-    @customer_credit.save if @customer_credit.valid?
+    ticket.credits.each do |credit_item|
+      @customer_credit = CustomerCredit.new(
+        customer_event_profile: ticket.assigned_customer_event_profile,
+        transaction_origin: CustomerCredit::TICKET_ASSIGNMENT,
+        payment_method: "none",
+        credit_value: credit_item.catalogable.value,
+        amount: credit_item.sum,
+        refundable_amount: credit_item.sum
+      )
+      calculate_balances
+      @customer_credit.save if @customer_credit.valid?
+    end
   end
 
   def unassign(ticket)
-    @customer_credit = CustomerCredit.new(
-      customer_event_profile: ticket.assigned_customer_event_profile,
-      transaction_origin: CustomerCredit::TICKET_UNASSIGNMENT,
-      payment_method: "none",
-      credit_value: get_credit_value(ticket.assigned_customer_event_profile.event),
-      amount: -ticket.credits,
-      refundable_amount: -ticket.credits
-    )
-    calculate_balances
-    @customer_credit.save if @customer_credit.valid?
+    ticket.credits.each do |credit_item|
+      @customer_credit = CustomerCredit.new(
+        customer_event_profile: ticket.assigned_customer_event_profile,
+        transaction_origin: CustomerCredit::TICKET_UNASSIGNMENT,
+        payment_method: "none",
+        credit_value: credit_item.catalogable.value,
+        amount: -credit_item.sum,
+        refundable_amount: -credit_item.sum
+      )
+      calculate_balances
+      @customer_credit.save if @customer_credit.valid?
+    end
   end
 
   def calculate_balances
@@ -36,10 +40,6 @@ class CustomerCreditTicketCreator
       balances.final_balance.to_i + @customer_credit.amount
     @customer_credit.final_refundable_balance =
       balances.final_refundable_balance.to_i + @customer_credit.refundable_amount
-  end
-
-  def get_credit_value(event)
-    event.standard_credit_price
   end
 end
 

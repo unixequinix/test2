@@ -28,10 +28,12 @@ class Pack < ActiveRecord::Base
   }
 
   def credits
-    pack_catalog_items
-      .joins(:catalog_item)
+    catalog_items_included
+      .joins(:pack_catalog_items)
+      .includes(:catalogable)
+      .select("catalog_items.*", "sum(pack_catalog_items.amount)")
       .where(catalog_items: { catalogable_type: "Credit" })
-      .sum(:amount)
+      .group("catalog_items.name", "catalog_items.id")
   end
 
   def credits_pack?
