@@ -4,7 +4,7 @@ require File.dirname(__FILE__) + '/lib/boot_inquirer'
 
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.1'
+gem 'rails', '4.2.6'
 
 # Database
 gem 'pg', '~> 0.18.1'
