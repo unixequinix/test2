@@ -167,10 +167,26 @@
   padding:0;
   opacity: 0;
 
+  h3 {
+    margin-bottom: modules(2);
+    padding-right: 0;
+
+    @include min-screen($bp3) { margin-bottom: modules(1); }
+  }
+
   &.show-container { max-height: 80rem; opacity: 1; }
 }
 
+.container-auto-topup {
+  position: relative;
 
+  p { line-height: 1.5; }
+
+  select {
+    width: 40%;
+    margin: 0 auto modules(1);
+  }
+}
 
 .wrapper-module-centered {
   text-align: center;
@@ -217,6 +233,25 @@
   padding-right: modules(0.25);
   font-weight: bold;
 }
+
+
+// Pay Pal auto top up
+.container-auto-top-up {
+  overflow: hidden;
+}
+
+.wrapper-topup-info, .wrapper-topup-amount {
+  display: inline-block;
+  vertical-align:top;
+  padding: modules(0.5);
+}
+
+.wrapper-topup-info   { width: 65%; }
+.wrapper-topup-amount {
+  width: 35%;
+  select { width: 100%; }
+}
+
 
 // /\/\/\/\/\/\/\ TERMS AND CONDITIONS /\/\/\/\/\/\/\/\
 

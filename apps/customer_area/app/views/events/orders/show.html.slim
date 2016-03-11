@@ -18,7 +18,9 @@
         .vat-text = t('orders.vat')
       td [colspan="3"] #{@order.total} #{current_event.currency}
 
-  p.hint-text
+  p#payment-acnhor.payment-anhor-mobile.hint-text
+    = t('orders.payment')
+  p.payment-anhor-desktop.hint-text
     = t('orders.payment')
   ul.container-payment-buttons
     li
