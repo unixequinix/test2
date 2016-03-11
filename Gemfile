@@ -126,6 +126,7 @@ group :development, :test do
   gem 'capistrano-rbenv', '~> 2.0.3'
   gem 'capistrano-bundler', '~> 1.1.2'
   gem 'capistrano-sidekiq', '~> 0.5.3'
+  gem 'capistrano3-puma', require: false
   gem 'better_errors', '~> 2.1.1'
   gem 'binding_of_caller', '~> 0.7.2' # extra features for better_errors
   gem 'meta_request', '~> 0.3.4' # for rails_panel chrome extension
@@ -138,6 +139,8 @@ group :development, :test do
   gem 'pry-rails'
   gem 'terminal-notifier-guard'
 end
+
+gem 'puma', group: :integration
 
 group :development, :test, :integration do
   gem 'factory_girl_rails', '~> 4.5.0'
