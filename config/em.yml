@@ -1,0 +1,123 @@
+common: &common
+  devise_secret_key: '309f306006453056bdae31abc4a4a808f58d4b53082b141f4419edd67c22dc37b12a9522c513e29e119b12de09744b4e659876a01fabd51a4e23391f49b94f01'
+  devise_pepper: 'b337316a4cecbfb5819d571a4044e4b907669763225e339b1e48b45de4a1f1c62a99cc7f544caa477e892ab38faabb15b6e222edbbacb6616a1fcd77816ecf6c'
+  host: 'edbe665.ngrok.com'
+  host_url: 'https://edbe665.ngrok.com'
+  devise_mail_sender: 'no-reply@glownet.com'
+  from_email: 'Glownet <no-reply@glownet.com>'
+
+  google_analytics: UA-63172076-1
+  recaptcha_public_key: '6LfrhBoTAAAAAFfR3PeeDfUcfSoAnPJiW7dTx2CA'
+  recaptcha_private_key: '6LfrhBoTAAAAAMZ5kYZ3gsOWAPZam_kqz_dHkc2x'
+  # Mailcatcher
+  # smtp_address: 'localhost'
+  # smtp_port: '1025'
+  # smtp_domain: 'localhost'
+  # smtp_username: ''
+  # smtp_password: ''
+  # smtp_authentication: 'plain'
+  # smtp_enable_starttls_auto: 'false'
+  # smtp_openssl_verify_mode: 'none'
+
+  # Mail Mandril
+  smtp_address: 'smtp.mandrillapp.com'
+  smtp_port: '587'
+  smtp_domain: 'smtp.mandrillapp.com'
+  smtp_username: 'online@glownet.com'
+  smtp_password: 'KVQfmPDxhItIa24vcyVIcw'
+  smtp_authentication: 'plain'
+  smtp_enable_starttls_auto: 'true'
+  smtp_openssl_verify_mode: 'none'
+
+  # S3 Setup
+  s3_access_key_id: AKIAIL654VBC5SNPWQSA
+  s3_secret_access_key: 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
+  s3_bucket: gspotdevelopment
+  s3_images_folder: glownet
+  s3_region: s3-eu-west-1
+  s3_hostname: s3-eu-west-1.amazonaws.com
+
+  # Redis
+  redis_server: redis://localhost:6379
+  redis_client: redis://localhost:6379
+
+  # Stripe
+  stripe_platform_secret: sk_test_5uDobG1KW9DqfXoDxo1d5sia
+  stripe_platform_publishable: pk_test_QrP8QfSkmjzG4NbPpwYXTFuP
+
+  memcache_url: glow-cache-cluster.8dmdnu.cfg.use1.cache.amazonaws.com:11211
+
+development:
+  <<: *common
+  recaptcha_public_key: '6LfrhBoTAAAAAFfR3PeeDfUcfSoAnPJiW7dTx2CA'
+  recaptcha_private_key: '6LfrhBoTAAAAAMZ5kYZ3gsOWAPZam_kqz_dHkc2x'
+  secret_key_base: 705edc18cbe323507eab47c93c15c4810a68d8d8604f228e77923191a580f93e50354a2b7c481272091d6f06169a18d3c58abcfb5de317311a35506ea73e9146
+
+test:
+  <<: *common
+  recaptcha_public_key: '6LfrhBoTAAAAAFfR3PeeDfUcfSoAnPJiW7dTx2CA'
+  recaptcha_private_key: '6LfrhBoTAAAAAMZ5kYZ3gsOWAPZam_kqz_dHkc2x'
+  secret_key_base: e4c8d127839bbc3fcd529244e8ece3fa81cedad487431fdd12f3761c1949feef7e33c7b5ccc424d6bc1c56594523a4a07198522f776542dddc356fbb109d680d
+
+demo:
+  <<: *common
+  s3_access_key_id: AKIAJT53ZX4FDV5IG7WQ
+  s3_secret_access_key: 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
+  s3_bucket: gspot-demo
+  s3_images_folder: gspot
+  host: 'gspot-demo.glownet.com'
+  host_url: 'https://gspot-demo.glownet.com'
+  recaptcha_public_key: '6LfrhBoTAAAAAFfR3PeeDfUcfSoAnPJiW7dTx2CA'
+  recaptcha_private_key: '6LfrhBoTAAAAAMZ5kYZ3gsOWAPZam_kqz_dHkc2x'
+  secret_key_base: 705edc18cbe323507eab47c93c15c4810a68d8d8604f228e77923191a580f93e50354a2b7c481272091d6f06169a18d3c58abcfb5de317311a35506ea73e9146
+
+integration:
+  <<: *common
+  s3_access_key_id: AKIAJT53ZX4FDV5IG7WQ
+  s3_secret_access_key: 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
+  s3_bucket: gspot-integration
+  s3_images_folder: gspot
+  host: 'gspot-dev.glownet.com'
+  host_url: 'https://glownet-dev.glownet.com'
+  recaptcha_public_key: '6LfrhBoTAAAAAFfR3PeeDfUcfSoAnPJiW7dTx2CA'
+  recaptcha_private_key: '6LfrhBoTAAAAAMZ5kYZ3gsOWAPZam_kqz_dHkc2x'
+  secret_key_base: 705edc18cbe323507eab47c93c15c4810a68d8d8604f228e77923191a580f93e50354a2b7c481272091d6f06169a18d3c58abcfb5de317311a35506ea73e9146
+
+sandbox:
+  <<: *common
+  s3_access_key_id: AKIAJT53ZX4FDV5IG7WQ
+  s3_secret_access_key: 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
+  s3_bucket: gspot-sandbox
+  s3_images_folder: gspot
+  host: 'sandbox.glownet.com'
+  host_url: 'https://sandbox.glownet.com'
+  recaptcha_public_key: '6LfrhBoTAAAAAFfR3PeeDfUcfSoAnPJiW7dTx2CA'
+  recaptcha_private_key: '6LfrhBoTAAAAAMZ5kYZ3gsOWAPZam_kqz_dHkc2x'
+  secret_key_base: 705edc18cbe323507eab47c93c15c4810a68d8d8604f228e77923191a580f93e50354a2b7c481272091d6f06169a18d3c58abcfb5de317311a35506ea73e9146
+
+staging:
+  <<: *common
+  s3_access_key_id: AKIAJT53ZX4FDV5IG7WQ
+  s3_secret_access_key: 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
+  s3_bucket: gspot-staging
+  s3_images_folder: gspot
+  host: 'gspot-test.glownet.com'
+  host_url: 'https://glownet-test.glownet.com'
+  recaptcha_public_key: '6LfrhBoTAAAAAFfR3PeeDfUcfSoAnPJiW7dTx2CA'
+  recaptcha_private_key: '6LfrhBoTAAAAAMZ5kYZ3gsOWAPZam_kqz_dHkc2x'
+  secret_key_base: 705edc18cbe323507eab47c93c15c4810a68d8d8604f228e77923191a580f93e50354a2b7c481272091d6f06169a18d3c58abcfb5de317311a35506ea73e9146
+
+production:
+  <<: *common
+  stripe_platform_secret: sk_live_T2xRUbsV2EYkfma911GL0vdo
+  stripe_platform_publishable: pk_live_ByRgSPhr4VzjCKieobpvK0AU
+  google_analytics: UA-63172076-2
+  s3_access_key_id: AKIAJT53ZX4FDV5IG7WQ
+  s3_secret_access_key: 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
+  s3_bucket: gspot-production
+  s3_images_folder: gspot
+  host: 'gspot.glownet.com'
+  host_url: 'https://gspot.glownet.com'
+  recaptcha_public_key: '6LfrhBoTAAAAAFfR3PeeDfUcfSoAnPJiW7dTx2CA'
+  recaptcha_private_key: '6LfrhBoTAAAAAMZ5kYZ3gsOWAPZam_kqz_dHkc2x'
+  secret_key_base: 50122ce33be49ce8b9ef1457cd8c208a052203b0fa0db6d9f38dfc252d92bfb54176a8d8f8560384cdfed3f5ff7c05b38a92d5313f2d60e9b3a3e4328539d219
