@@ -3,8 +3,6 @@ function showPaymentMethod() {
       html = $("html"),
       body = $("body");
 
-  //$(".container-method").find('input').css("background-color", "red");
-
   trigger.on("click", function(event) {
     var target = this.dataset.target;
 
