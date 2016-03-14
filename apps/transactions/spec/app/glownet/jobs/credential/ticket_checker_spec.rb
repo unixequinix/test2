@@ -16,7 +16,8 @@ RSpec.describe Jobs::Credential::TicketChecker, type: :job do
 
   it "marks ticket redeemed" do
     worker.perform_later(atts)
-    transaction.reload # because change happens in the DB, not the actual instance.
+    # because change happens in the DB, to another instance. We have to reload the object.
+    transaction.reload
     expect(transaction.ticket).to be_credential_redeemed
   end
 end
