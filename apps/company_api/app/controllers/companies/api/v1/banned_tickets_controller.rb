@@ -11,13 +11,13 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
   end
 
   def create
-    @ticket = @fetcher.tickets
-                      .find_or_create_by!(code: params[:tickets_blacklist][:ticket_reference])
+    t_code = params[:tickets_blacklist][:ticket_reference]
+    t_type = TicketDecoder::SonarDecoder.perform(t_code)
 
+    @ticket = @fetcher.tickets.find_or_create_by!(code: t_code, company_ticket_type_id: t_type)
     @ticket.ban!
-    render(status: :created,
-           json: @ticket,
-           serializer: Companies::Api::V1::BannedTicketSerializer)
+    
+    render(status: :created, json: @ticket, serializer: Companies::Api::V1::BannedTicketSerializer)
   end
 
   def destroy
