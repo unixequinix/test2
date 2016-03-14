@@ -93,8 +93,8 @@
     padding: modules(0.5) 0;
 
     @include min-screen($bp3) {
-      max-height: modules(5);
-      padding: modules(0.5) 0 modules(1);
+      max-height: modules(6);
+      padding: 0 0 modules(1);
     }
   }
 }
