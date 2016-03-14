@@ -1,4 +1,6 @@
 class TicketDecoder::SonarDecoder
+  PREFIX = "2016"
+
   def self.perform(ticket_code)
     ticket_number = decode(ticket_code)
     return nil unless verify_prefix(ticket_number)
@@ -6,7 +8,7 @@ class TicketDecoder::SonarDecoder
   end
 
   def self.decode(ticket_code)
-    ticket_code.slice!(0)
+    ticket_code = ticket_code[1..-1]
     ticket_code = [reverse_hex(ticket_code)].pack("H*")
     cipher = OpenSSL::Cipher.new("BF-CBC").decrypt
     key = Rails.application.secrets.ticket_config_1
@@ -23,7 +25,7 @@ class TicketDecoder::SonarDecoder
   end
 
   def self.verify_prefix(code)
-    code.to_s.starts_with? "2016"
+    code.to_s.starts_with? PREFIX
   end
 
   def self.reverse_hex(data)
