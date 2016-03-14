@@ -78,33 +78,14 @@ header { position: relative; }
 
 .header-desktop {
   display: none;
-  height: modules(1);
-  margin-bottom: 0;
 
   @include min-screen($bp3) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
     display: block;
     z-index: 3;
-  }
-
-  h1 {
-    display: none;
-    margin-bottom: 0;
-
-    @include min-screen($bp3) {
-      @include mscale($base_font_size*1.25);
-      display: block;
-      vertical-align: top;
-      width: auto;
-      width: modules(4);
-      padding: modules(0.5) modules(0.5) modules(0.5) 0;
-    }
-
-    a {
-      &:hover, &:focus {
-       outline: none;
-       opacity: 0.6;
-      }
-    }
   }
 }
 
@@ -112,13 +93,6 @@ header { position: relative; }
   display: inline-block;
   width: auto;
   float: right;
-
-  ul {
-    position: fixed;
-    top: 0;
-    right: 0;
-    text-align: right;
-  }
 
   li {
     @include mscale($base_font_size*1.2);

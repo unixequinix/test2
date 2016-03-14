@@ -66,7 +66,7 @@ it:
       claim: "C'è stato un errore con il tuo rimborso"
       description: "Torna indietro e riprova."
     without_gtags:
-      title: "Crediti residui?"
+      title: "Registra %{gtag}"
       description: "Registra la tua Paycard per avviare il processo di rimborso. Si può registrare solo una Paycard per ogni account."
       button: "Registra la tua Paycard"
     without_gtags_disabled:
@@ -93,6 +93,9 @@ it:
       title: "Il tuo credito:"
       call_to_action: "La tua richiesta per un rimborso è stata effettuata con successo. Tra poco riceverai il trasferimento"
       button: "Modifica conto bancario"
+    event_started:
+      title: "Ultamating details!"
+      description: "We are finishing event configuration to bring you a great experience. Please, come back after an hours and see what we have made for you."
   admissions:
     title: "Ticket Activation"
     description: "Please enter the number that is printed on your event ticket just below the barcode."
