@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails-api/active_model_serializers.git
-  revision: bbebeab3488517ad6e885efc5772e69e52828266
+  revision: d61b01f085cf6a8c14e2427987cbab0e06503d99
   specs:
     active_model_serializers (0.10.0.rc4)
       actionpack (>= 4.0)
@@ -515,7 +515,7 @@ GEM
     schema_plus_enums (0.1.1)
       activerecord (~> 4.2)
       schema_plus_core (~> 0.2, >= 0.2.1)
-    schema_plus_foreign_keys (0.1.2)
+    schema_plus_foreign_keys (0.1.3)
       activerecord (~> 4.2)
       schema_plus_core (~> 0.5)
       valuable
