@@ -22,10 +22,10 @@ RSpec.describe Jobs::Credit::BalanceUpdater, type: :job do
       transaction_origin: "device",
       customer_event_profile_id: create(:customer_event_profile).id,
       refundable_amount: 1.2,
-      credit_value: 2,
+      value_credit: 2,
       final_balance: 100,
       final_refundable_balance: 20
     }
-    expect { base.write(params) } .to change { CustomerCredit.count }
+    expect { base.write(params) }.to change(CustomerCredit, :count).by(1)
   end
 end

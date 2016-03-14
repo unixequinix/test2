@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160308185753) do
+ActiveRecord::Schema.define(version: 20160314140554) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -310,6 +310,7 @@ ActiveRecord::Schema.define(version: 20160308185753) do
     t.integer  "customer_event_profile_id", index: {name: "index_credential_transactions_on_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_credential_transactions_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "status_code"
     t.string   "status_message"
+    t.string   "ticket_code"
   end
 
   create_table "credit_transactions", force: :cascade do |t|
@@ -540,6 +541,13 @@ ActiveRecord::Schema.define(version: 20160308185753) do
     t.string   "status"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+  end
+
+  create_table "sale_items", force: :cascade do |t|
+    t.integer "product_id"
+    t.integer "quantity"
+    t.float   "amount"
+    t.integer "credit_transaction_id", index: {name: "fk__sale_items_credit_transaction_id"}, foreign_key: {references: "credit_transactions", name: "fk_sale_items_credit_transaction_id", on_update: :no_action, on_delete: :no_action}
   end
 
   create_table "station_catalog_items", force: :cascade do |t|
