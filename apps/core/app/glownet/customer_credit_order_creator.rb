@@ -22,7 +22,7 @@ class CustomerCreditOrderCreator
         pack = order_item.catalog_item.catalogable
         if pack.credits_pack?
           pack.credits.each do |credit_item|
-              @customer_credit = CustomerCredit.new(
+            @customer_credit = CustomerCredit.new(
               customer_event_profile: order.customer_event_profile,
               transaction_origin: CustomerCredit::CREDITS_PURCHASE,
               payment_method: "none",

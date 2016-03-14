@@ -32,8 +32,8 @@ class Gtag < ActiveRecord::Base
           as: :credentiable,
           class_name: "CredentialAssignment"
   has_one :assigned_customer_event_profile,
-            through: :assigned_gtag_credential,
-            source: :customer_event_profile
+          through: :assigned_gtag_credential,
+          source: :customer_event_profile
   has_many :customer_event_profiles, through: :credential_assignments
   has_one :refund
   has_many :claims

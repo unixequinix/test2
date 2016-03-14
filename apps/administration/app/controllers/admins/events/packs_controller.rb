@@ -68,7 +68,6 @@ class Admins::Events::PacksController < Admins::Events::BaseController
       context: view_context,
       include_for_all_items: [catalog_items_included: :catalogable]
     )
-
   end
 
   def permitted_params

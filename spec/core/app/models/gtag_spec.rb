@@ -32,9 +32,9 @@ RSpec.describe Gtag, type: :model do
   context "refunding: " do
     before :each do
       create(:customer_credit_online,
-              amount: 10,
-              refundable_amount: 10,
-              customer_event_profile: gtag.assigned_customer_event_profile)
+             amount: 10,
+             refundable_amount: 10,
+             customer_event_profile: gtag.assigned_customer_event_profile)
       create(:standard_credit_catalog_item, event: event)
       event.update_attribute(:refund_services, 2)
       Seeder::SeedLoader.load_param(event, category: "refund")
