@@ -37,6 +37,33 @@ class Multitenancy::ApiFetcher
     Gtag.includes(:credential_assignments, :company_ticket_type, :purchaser).where(event: @event)
   end
 
+  def sql_gtags
+    sql = <<-SQL
+      SELECT array_to_json(array_agg(row_to_json(g)))
+      FROM (
+        SELECT gtags.id, gtags.tag_uid, gtags.tag_serial_number, gtags.credential_redeemed,
+               credential_assignments.customer_event_profile_id as customer_id,
+               company_ticket_types.credential_type_id as credential_type_id ,
+               purchasers.first_name as purchaser_first_name,
+               purchasers.last_name as purchaser_last_name,
+               purchasers.email as purchaser_email
+        FROM tickets
+        FULL OUTER JOIN purchasers
+          ON purchasers.credentiable_id = gtags.id
+          AND purchasers.credentiable_type = 'Gtag'
+          AND purchasers.deleted_at IS NULL
+        FULL OUTER JOIN credential_assignments
+          ON credential_assignments.credentiable_id = gtags.id
+          AND credential_assignments.credentiable_type = 'Gtag'
+          AND credential_assignments.deleted_at IS NULL
+        INNER JOIN company_ticket_types
+          ON company_ticket_types.id = tickets.company_ticket_type_id
+          AND company_ticket_types.deleted_at IS NULL
+      ) g
+    SQL
+    ActiveRecord::Base.connection.select_value(sql)
+  end
+
   def banned_gtags
     Gtag.banned.where(event: @event)
   end
@@ -60,40 +87,7 @@ class Multitenancy::ApiFetcher
   end
 
   def station_catalog_items
-
     StationCatalogItem.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
-  end
-
-  def tickets
-    Ticket.joins(:credential_assignments, :company_ticket_type)
-      .joins("FULL OUTER JOIN purchasers
-              ON purchasers.credentiable_id = tickets.id
-              AND purchasers.credentiable_type = 'Ticket'
-              AND purchasers.deleted_at IS NULL")
-      .select("tickets.id, tickets.code as reference, tickets.credential_redeemed,
-               tickets.company_ticket_type_id, tickets.updated_at,
-               credential_assignments.customer_event_profile_id as customer_id,
-               company_ticket_types.credential_type_id as credential_type_id ,
-               purchasers.first_name as purchaser_first_name,
-               purchasers.last_name as purchaser_last_name,
-               purchasers.email as purchaser_email")
-      .where(event: @event)
-  end
-
-  def t_tickets
-    Ticket.joins(:credential_assignments, :company_ticket_type)
-      .joins("FULL OUTER JOIN purchasers
-              ON purchasers.credentiable_id = tickets.id
-              AND purchasers.credentiable_type = 'Ticket'
-              AND purchasers.deleted_at IS NULL")
-      .select("tickets.id, tickets.code as reference, tickets.credential_redeemed,
-               tickets.company_ticket_type_id, tickets.updated_at,
-               credential_assignments.customer_event_profile_id as customer_id,
-               company_ticket_types.credential_type_id as credential_type_id ,
-               purchasers.first_name as purchaser_first_name,
-               purchasers.last_name as purchaser_last_name,
-               purchasers.email as purchaser_email")
-      .where(event: @event)
   end
 
   def sql_tickets
@@ -125,7 +119,7 @@ class Multitenancy::ApiFetcher
   end
 
   def banned_tickets
-    Ticket.banned.where(event: @event)
+    @event.tickets.banned
   end
 
   def vouchers

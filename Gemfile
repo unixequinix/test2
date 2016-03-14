@@ -2,6 +2,7 @@ Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
 require File.dirname(__FILE__) + '/lib/boot_inquirer'
 
+ruby '2.3.0'
 source 'https://rubygems.org'
 
 gem 'rails', '4.2.6'
