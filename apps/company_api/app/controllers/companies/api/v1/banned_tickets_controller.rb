@@ -5,21 +5,19 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
     render json: {
       event_id: current_event.id,
       blacklisted_tickets: @banned_tickets.map do |ticket|
-        Companies::Api::V1::TicketSerializer.new(ticket)
+        Companies::Api::V1::BannedTicketSerializer.new(ticket)
       end
     }
   end
 
   def create
-    @ticket = @fetcher.tickets.find_by(code: params[:tickets_blacklist][:ticket_reference])
-
-    render(status: :not_found,
-           json: { message: I18n.t("company_api.tickets.not_found") }) && return unless @ticket
+    @ticket = @fetcher.tickets
+                      .find_or_create_by!(code: params[:tickets_blacklist][:ticket_reference])
 
     @ticket.ban!
     render(status: :created,
            json: @ticket,
-           serializer: Companies::Api::V1::TicketSerializer)
+           serializer: Companies::Api::V1::BannedTicketSerializer)
   end
 
   def destroy

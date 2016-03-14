@@ -5,9 +5,9 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
     @event = create(:event)
     @company = create(:company)
     @agreement = create(:company_event_agreement, event: @event, company: @company)
-    ticket_type = create(:company_ticket_type, event: @event, company_event_agreement: @agreement)
+    @ticket_type = create(:company_ticket_type, event: @event, company_event_agreement: @agreement)
 
-    create_list(:ticket, 2, :with_purchaser, event: @event, company_ticket_type: ticket_type)
+    create_list(:ticket, 2, :with_purchaser, event: @event, company_ticket_type: @ticket_type)
   end
 
   describe "GET index" do

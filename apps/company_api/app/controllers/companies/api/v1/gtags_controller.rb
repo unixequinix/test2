@@ -17,7 +17,7 @@ class Companies::Api::V1::GtagsController < Companies::Api::V1::BaseController
     @gtag = @fetcher.gtags.find_by(id: params[:id])
 
     if @gtag
-      render json: @gtag
+      render json: @gtag, serializer: Companies::Api::V1::GtagSerializer
     else
       render status: :not_found,
              json: { error: I18n.t("company_api.gtags.not_found", gtag_id: params[:id]) }

@@ -12,6 +12,6 @@
 
 FactoryGirl.define do
   factory :credential_type do
-    catalog_item
+    catalog_item { create(:catalog_item, :with_credit) }
   end
 end
