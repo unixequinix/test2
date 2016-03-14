@@ -600,7 +600,7 @@ ActiveRecord::Schema.define(version: 20160314140554) do
     t.integer "product_id"
     t.integer "quantity"
     t.float   "amount"
-    t.integer "credit_transaction_id", index: {name: "fk__sale_items_credit_transaction_id"}, foreign_key: {references: "credit_transactions", name: "fk_sale_items_credit_transaction_id", on_update: :no_action, on_delete: :no_action}
+    t.integer "credit_transaction_id"
   end
 
   create_table "station_catalog_items", force: :cascade do |t|
