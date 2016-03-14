@@ -4,7 +4,7 @@ RSpec.describe Jobs::Credential::Base, type: :job do
   let(:event) { create(:event) }
   let(:transaction) { create(:credential_transaction, event: event) }
   let(:gtag) { create(:gtag, event: event) }
-  let(:ticket) { create(:ticket, event: event) }
+  let(:ticket) { create(:ticket, event: event, credential_redeemed: false) }
   let(:profile) { create(:customer_event_profile, event: event) }
   let(:worker) { Jobs::Credential::Base.new }
   let(:atts) do

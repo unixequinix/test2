@@ -4,6 +4,11 @@ RSpec.describe TicketDecoder::SonarDecoder, type: :domain_logic do
   let(:decoder) { TicketDecoder::SonarDecoder }
   let(:ticket_code) { "TC8B106BA990BDC56" }
 
+  it "doesnt modify the original code variable" do
+    decoder.decode(ticket_code)
+    expect(ticket_code).to eq("TC8B106BA990BDC56")
+  end
+
   it ".decode returns the ticket barcode decoded" do
     expect(decoder.decode(ticket_code)).to eq(201_608_504_201_012)
   end

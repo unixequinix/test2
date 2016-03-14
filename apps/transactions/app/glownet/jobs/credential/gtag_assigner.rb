@@ -1,5 +1,5 @@
 class Jobs::Credential::GtagAssigner < Jobs::Credential::Base
-  TYPES = %w( gtag_assignment )
+  TYPES = %w( gtag_assignment gtag_unassignment ticket_assignment ticket_unassignment )
 
   def perform(atts)
     ActiveRecord::Base.transaction do
