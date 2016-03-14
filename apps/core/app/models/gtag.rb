@@ -28,13 +28,13 @@ class Gtag < ActiveRecord::Base
   # Associations
   belongs_to :event
   has_one :assigned_gtag_credential,
-          -> { where(aasm_state: :assigned) },
+          -> { where(credential_assignments: { aasm_state: :assigned }) },
           as: :credentiable,
           class_name: "CredentialAssignment"
-  has_many :customer_event_profiles, through: :credential_assignments
   has_one :assigned_customer_event_profile,
-          -> { where(credential_assignments: { aasm_state: :assigned }) },
-          class_name: "CredentialAssignment"
+            through: :assigned_gtag_credential,
+            source: :customer_event_profile
+  has_many :customer_event_profiles, through: :credential_assignments
   has_one :refund
   has_many :claims
   has_one :completed_claim, -> { where(aasm_state: :completed) }, class_name: "Claim"
@@ -73,25 +73,22 @@ class Gtag < ActiveRecord::Base
   end
 
   def refundable_amount
-    current_event = event
-    balance = current_customer_event_profile.current_balance
-    standard_credit_price = current_event.standard_credit_price
+    balance = assigned_customer_event_profile.current_balance
+    standard_credit_price = event.standard_credit_price
     credit_amount = 0
     credit_amount = balance.refundable_amount if balance.present?
     credit_amount * standard_credit_price
   end
 
   def refundable_amount_after_fee(refund_service)
-    current_event = event
-    fee = current_event.refund_fee(refund_service)
+    fee = event.refund_fee(refund_service)
     refundable_amount - fee.to_f
   end
 
   def refundable?(refund_service)
-    current_event = event
-    balance = current_customer_event_profile.current_balance
+    balance = assigned_customer_event_profile.current_balance
 
-    minimum = current_event.refund_minimun(refund_service).to_f
+    minimum = event.refund_minimun(refund_service).to_f
     balance.present? &&
       (refundable_amount_after_fee(refund_service) >= minimum &&
       refundable_amount_after_fee(refund_service) >= 0)

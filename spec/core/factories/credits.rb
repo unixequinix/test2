@@ -14,11 +14,12 @@
 FactoryGirl.define do
   factory :credit do |_param|
     standard false
-    value { rand(100.00) }
+    value { rand(1..10) }
     currency { %w(EUR GBP).sample }
 
     trait :standard do
       standard true
+      value 1
     end
 
     after(:build) do |credit|

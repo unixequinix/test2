@@ -30,6 +30,7 @@ class Pack < ActiveRecord::Base
   def credits
     items_and_amount = open_all("Credit").each_with_object([]) do |catalog_item, acum|
       acum << catalog_item
+      # => TODO: remove if works
       #       acum << Sorters::FakeCatalogItem.new(
       #                              catalog_item_id: catalog_item.id,
       #                              catalogable_id: catalog_item.catalogable_id,

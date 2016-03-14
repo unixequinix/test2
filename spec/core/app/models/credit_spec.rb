@@ -13,11 +13,18 @@ require "rails_helper"
 
 RSpec.describe Credit, type: :model do
   describe "Credit" do
-    describe ".standard_credit_preevent_product" do
-      it "should return the product with the standard credit of the event" do
+    describe ".only_one_standard_credit" do
+      it "should validate if an event has one and only one standard credit" do
         event = create(:event)
-        preevent_product = create(:preevent_product, :standard_credit_product, event: event)
-        expect(Credit.standard_credit_preevent_product(event).id).to eq(preevent_product.id)
+        catalog_item = create(:standard_credit_catalog_item, event: event)
+        catalog_item.valid?
+        expect(event.catalog_items.where(catalogable_type: "Credit").count).to eq(1)
+      end
+    end
+    describe ".rounded_value" do
+      it "should return value rounded" do
+        credit = create(:credit, value: 1)
+        expect(credit.value).to eq(1.0)
       end
     end
   end
