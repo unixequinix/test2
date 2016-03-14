@@ -16,6 +16,7 @@ RSpec.describe Jobs::Credential::TicketChecker, type: :job do
 
   it "marks ticket redeemed" do
     worker.perform_later(atts)
+    transaction.reload # because change happens in the DB, not the actual instance.
     expect(transaction.ticket).to be_credential_redeemed
   end
 end
