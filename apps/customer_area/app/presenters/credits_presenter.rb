@@ -15,6 +15,14 @@ class CreditsPresenter < BasePresenter
     @event.started?
   end
 
+  def refundable_credits
+    @customer_event_profile.refundable_credits_amount
+  end
+
+  def refundable_money
+    @customer_event_profile.refundable_money_amount
+  end
+
   def call_to_action
     if event_started?
       I18n.t("dashboard.credits.call_to_action_started")

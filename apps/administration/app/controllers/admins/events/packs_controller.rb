@@ -6,7 +6,7 @@ class Admins::Events::PacksController < Admins::Events::BaseController
   def new
     @pack = Pack.new
     @pack.build_catalog_item
-    @catalog_items_collection = @fetcher.catalog_items.where.not(catalogable_type: "Pack")
+    @catalog_items_collection = @fetcher.catalog_items
   end
 
   def create
@@ -15,7 +15,7 @@ class Admins::Events::PacksController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_packs_url
     else
-      @catalog_items_collection = @fetcher.catalog_items.where.not(catalogable_type: "Pack")
+      @catalog_items_collection = @fetcher.catalog_items
       flash.now[:error] = @pack.errors.full_messages.join(". ")
       render :new
     end
@@ -23,7 +23,7 @@ class Admins::Events::PacksController < Admins::Events::BaseController
 
   def edit
     @pack = @fetcher.packs.find(params[:id])
-    @catalog_items_collection = @fetcher.catalog_items.where.not(catalogable_type: "Pack")
+    @catalog_items_collection = @fetcher.catalog_items
   end
 
   def update
@@ -32,7 +32,7 @@ class Admins::Events::PacksController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_packs_url
     else
-      @catalog_items_collection = @fetcher.catalog_items.where.not(catalogable_type: "Pack")
+      @catalog_items_collection = @fetcher.catalog_items
       flash.now[:error] = @pack.errors.full_messages.join(". ")
       render :edit
     end
@@ -66,7 +66,7 @@ class Admins::Events::PacksController < Admins::Events::BaseController
       search_query: params[:q],
       page: params[:page],
       context: view_context,
-      include_for_all_items: [:catalog_item]
+      include_for_all_items: [catalog_items_included: :catalogable]
     )
   end
 

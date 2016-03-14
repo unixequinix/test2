@@ -24,10 +24,6 @@
 #  status_message            :string
 #
 
-class MoneyTransaction < ActiveRecord::Base
-  belongs_to :event
-  belongs_to :station
-  belongs_to :customer_event_profile
-
-  validates_presence_of :transaction_type
+class MoneyTransaction < Transaction
+  belongs_to :catalogable, polymorphic: true
 end

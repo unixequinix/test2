@@ -14,7 +14,7 @@ class Admins::Events::CustomerEventProfilesController < Admins::Events::BaseCont
       .includes(:active_tickets_assignment,
                 :active_gtag_assignment,
                 credential_assignments: :credentiable,
-                customer_orders: [:catalog_item, online_order: :customer_order])
+                customer_orders: [:catalog_item, :online_order])
       .find(params[:id])
   end
 

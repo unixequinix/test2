@@ -27,7 +27,7 @@ th:
         gtag_recycler: "Gtag Recycler"
         envelope_linker: "Envelope Linker"
       station_groups:
-        access: "Access"
+        accesses: "Accesses"
         monetary: "Monetary"
         glownet: "Glownet"
         event_management: "Event management"
@@ -427,6 +427,7 @@ th:
       customer_event_profile: "Customer event profiles"
       catalog_item: "Catalog item"
       origin: "Origin"
+      online_order: "Online order"
     online_orders:
       id: "Id"
       redeemed: "Redeemed"
