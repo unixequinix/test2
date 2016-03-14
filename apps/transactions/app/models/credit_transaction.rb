@@ -23,10 +23,8 @@
 #  status_message            :string
 #
 
-class CreditTransaction < ActiveRecord::Base
-  belongs_to :event
-  belongs_to :station
-  belongs_to :customer_event_profile
+class CreditTransaction < Transaction
+  has_many :sale_items
 
-  validates_presence_of :transaction_type
+  accepts_nested_attributes_for :sale_items
 end

@@ -19,11 +19,6 @@
 #  status_message            :string
 #
 
-class CredentialTransaction < ActiveRecord::Base
-  belongs_to :event
+class CredentialTransaction < Transaction
   belongs_to :ticket
-  belongs_to :station
-  belongs_to :customer_event_profile
-
-  validates_presence_of :transaction_type
 end
