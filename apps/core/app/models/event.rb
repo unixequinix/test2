@@ -105,8 +105,7 @@ class Event < ActiveRecord::Base
   end
 
   def total_refundable_money(refund_service)
-    fee = refund_fee(refund_service)
-    gtag_query(refund_service).sum("(amount * #{standard_credit_price}) - #{fee}")
+    customer_event_profiles.joins(:current_balance).sum(:refundable_amount)
   end
 
   def total_refundable_gtags(refund_service)

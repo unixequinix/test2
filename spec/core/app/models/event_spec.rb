@@ -53,16 +53,16 @@ RSpec.describe Event, type: :model do
            credentiable: gtag,
            customer_event_profile: customer.customer_event_profile)
     create(:customer_credit_online,
-           customer_event_profile: customer.customer_event_profile, amount: 9.99)
+           customer_event_profile: customer.customer_event_profile, amount: 9.99, refundable_amount: 9.99)
     create(:customer_credit_online,
-           customer_event_profile: customer.customer_event_profile, amount: 9.99)
+           customer_event_profile: customer.customer_event_profile, amount: 9.99, refundable_amount: 9.99)
     gtag2 = create(:gtag, event: @event)
     create(:credential_assignment,
            aasm_state: "unassigned",
            credentiable: gtag2,
            customer_event_profile: customer.customer_event_profile)
     create(:customer_credit_online,
-           customer_event_profile: customer.customer_event_profile, amount: 9.99)
+           customer_event_profile: customer.customer_event_profile, amount: 9.99, refundable_amount: 9.99)
   end
 
   it "should return the credits available for that event" do
@@ -70,15 +70,15 @@ RSpec.describe Event, type: :model do
   end
 
   it "should return the amount of money that can be refunded for epg" do
-    expect(@event.total_refundable_money(Claim::EASY_PAYMENT_GATEWAY).to_f).to be(19.98)
+    expect(@event.total_refundable_money(Claim::EASY_PAYMENT_GATEWAY).to_f).to be(29.97)
   end
 
   it "should return the amount of money that can be refunded for bank account" do
-    expect(@event.total_refundable_money(Claim::BANK_ACCOUNT).to_f).to be(19.98)
+    expect(@event.total_refundable_money(Claim::BANK_ACCOUNT).to_f).to be(29.97)
   end
 
   it "should return the amount of money that can be refunded for tipalti" do
-    expect(@event.total_refundable_money(Claim::TIPALTI).to_f).to be(19.98)
+    expect(@event.total_refundable_money(Claim::TIPALTI).to_f).to be(29.97)
   end
 
   it "should return the amount of money that can be refunded for epg" do
