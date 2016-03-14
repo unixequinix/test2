@@ -28,18 +28,20 @@ class Pack < ActiveRecord::Base
   }
 
   def credits
-    items_and_amount = open_all.each_with_object([]) do |catalog_item, acum|
-      amount = catalog_item.pack_catalog_items.where(pack_id: self.id).sum(:amount)
+    items_and_amount = open_all("Credit").each_with_object([]) do |catalog_item, acum|
+      acum << catalog_item
+=begin
       acum << Sorters::FakeCatalogItem.new(
                              catalog_item_id: catalog_item.id,
                              catalogable_id: catalog_item.catalogable_id,
                              catalogable_type: catalog_item.catalogable_type,
                              product_name: catalog_item.name,
-                             value: catalog_item.catalogable.value,
-                             total_amount: amount
+                             value: catalog_item.value,
+                             total_amount: catalog_item.amount
                             ) if catalog_item.catalogable_type == "Credit"
+=end
     end
-    items_and_amount.uniq(&:catalog_item_id)
+    items_and_amount.uniq(&:id)
   end
 
   def credits_pack?
@@ -52,14 +54,24 @@ class Pack < ActiveRecord::Base
 
   def open_all(*category)
     items = catalog_items_included.each_with_object([]) do |catalog_item, result|
-      result.push
       if catalog_item.catalogable_type == "Pack"
         item_found = catalog_item.catalogable.open_all
         result.push(item_found) if item_found
       else
-        result.push(catalog_item) if category.include?(catalog_item.catalogable_type) || category.blank?
+        result.push(building(catalog_item)) if category.include?(catalog_item.catalogable_type) || category.blank?
       end
     end
     items.flatten
+  end
+
+  def building(catalog_item)
+    OpenStruct.new(id: catalog_item.id,
+                   catalogable_id: catalog_item.catalogable_id,
+                   catalogable_type: catalog_item.catalogable_type,
+                   name: catalog_item.name,
+                   value: catalog_item.catalogable_type == "Credit" && catalog_item.catalogable.value,
+                   amount: catalog_item.pack_catalog_items
+                            .where(pack_id: id)
+                            .sum(:amount))
   end
 end
