@@ -1,12 +1,11 @@
 class Sorters::PurchasesSorter < Sorters::ItemSorter
-
   # Formats
   LIST = :list
   HASH = :hash
 
   FORMATS = [LIST, HASH]
 
-  def initialize(items, keys=nil)
+  def initialize(items, keys = nil)
     @keys = keys || %w(Voucher Access)
     @hash = build_hash_of_arrays
     @items = items.map do |item|
@@ -19,7 +18,7 @@ class Sorters::PurchasesSorter < Sorters::ItemSorter
     end
   end
 
-  def sort(format: , itemized: true)
+  def sort(format:, itemized: true)
     format = FORMATS.include?(format) ? format : HASH
     build_hash
     itemize_packs if itemized

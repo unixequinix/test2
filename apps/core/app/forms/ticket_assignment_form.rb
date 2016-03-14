@@ -14,7 +14,10 @@ class TicketAssignmentForm
     end
 
     errors.add(:ticket_assignment, full_messages.join(". ")) && return unless valid?
-    persist!(ticket, current_customer_event_profile, CustomerCreditTicketCreator.new, CustomerOrderTicketCreator.new)
+    persist!(ticket,
+             current_customer_event_profile,
+             CustomerCreditTicketCreator.new,
+             CustomerOrderTicketCreator.new)
   end
 
   private

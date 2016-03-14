@@ -66,8 +66,9 @@ class Admins::Events::PacksController < Admins::Events::BaseController
       search_query: params[:q],
       page: params[:page],
       context: view_context,
-      include_for_all_items: [:catalog_item]
+      include_for_all_items: [catalog_items_included: :catalogable]
     )
+
   end
 
   def permitted_params

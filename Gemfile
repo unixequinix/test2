@@ -4,11 +4,11 @@ require File.dirname(__FILE__) + '/lib/boot_inquirer'
 
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.1'
+gem 'rails', '4.2.6'
+gem 'sprockets-rails', '2.3.3'
 
 # Database
 gem 'pg', '~> 0.18.1'
-gem 'schema_plus', '~> 2.0.0.pre12'
 gem 'paranoia', '~> 2.0'
 gem 'activerecord-import', '~> 0.11.0'
 gem "active_record_bulk_insert"

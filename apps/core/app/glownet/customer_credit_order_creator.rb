@@ -10,9 +10,9 @@ class CustomerCreditOrderCreator
           customer_event_profile: order.customer_event_profile,
           transaction_origin: CustomerCredit::CREDITS_PURCHASE,
           payment_method: "none",
-          credit_value: get_credit_value,
+          credit_value: @order_item.catalog_item.catalogable.value,
           amount: @order_item.amount,
-          refundable_amount: calculate_refundable_amount
+          refundable_amount: @order_item.amount
         )
         calculate_balances
         @customer_credit.save if @customer_credit.valid?
@@ -52,7 +52,7 @@ class CustomerCreditOrderCreator
   end
 
   def calculate_refundable_amount
-    pack_with_unrefundable_credits? ? 0 : @order_item.total / get_credit_value
+    pack_with_unrefundable_credits? ? 0 : @order_item.total / get_credit_value * @order_item.amount
   end
 
   def calculate_balances

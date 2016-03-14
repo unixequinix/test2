@@ -42,4 +42,3 @@ class CustomerCreditTicketCreator
       balances.final_refundable_balance.to_i + @customer_credit.refundable_amount
   end
 end
-

@@ -96,15 +96,15 @@ class CustomerEventProfile < ActiveRecord::Base
 
   def purchases
     customer_orders.joins(:catalog_item)
-                               .select("sum(customer_orders.amount) as total_amount,
+      .select("sum(customer_orders.amount) as total_amount,
                                         catalog_items.name,
                                         catalog_items.catalogable_type,
                                         catalog_items.catalogable_id"
-                                      )
-                               .group("catalog_items.name,
+             )
+      .group("catalog_items.name,
                                        catalog_items.catalogable_type,
                                        catalog_items.catalogable_id"
-                                      )
+            )
   end
 
   def sorted_purchases(**params)

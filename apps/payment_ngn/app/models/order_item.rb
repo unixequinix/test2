@@ -17,7 +17,6 @@ class OrderItem < ActiveRecord::Base
   belongs_to :order
   belongs_to :catalog_item
 
-
   def single_credits?
     catalog_item.catalogable_type == "Credit"
   end
@@ -29,7 +28,6 @@ class OrderItem < ActiveRecord::Base
   def credits
     catalog_item.catalogable.credits
   end
-
 
   # Validations
   validates :amount, numericality: { only_integer: true, less_than_or_equal_to: 500 }

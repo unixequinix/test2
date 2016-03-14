@@ -9,9 +9,7 @@ class Sorters::FakeCatalogItem
   attribute :total_amount, Integer
   attribute :value, Decimal
 
-
   def eql?(other)
     @catalog_item_id == other.catalog_item_id
   end
-
 end
