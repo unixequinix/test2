@@ -1,6 +1,5 @@
 doctype html
 html [lang=I18n.locale]
-
   head
     title = current_event.name
     meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
@@ -9,7 +8,6 @@ html [lang=I18n.locale]
 
     = javascript_include_tag 'customer', 'data-turbolinks-track' => true
     = stylesheet_link_tag    'customer', media: 'all', 'data-turbolinks-track' => true
-    script src="https://js.stripe.com/v2/" type="text/javascript"
     script src="https://www.google.com/recaptcha/api.js" type="text/javascript"
     = csrf_meta_tags
 
@@ -24,7 +22,7 @@ html [lang=I18n.locale]
       = render 'notifications'
     .container-main
       #mainWrapper.wrapper-main
-        .container-event-logo
+        .container-welcome-logo
           = render 'events/shared/sub_header'
         == yield
     = render 'events/shared/footer'

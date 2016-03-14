@@ -5,12 +5,9 @@
 \* ------------------------------------------------------- */
 
 .wrapper-payments-methods {
-  text-align: center;
-  padding-bottom: modules(1);
-
   @include min-screen($bp3) {
     position: absolute;
-    top: modules(4.5);
+    top: modules(0.75);
     right: modules(1);
     padding-bottom: 0;
     text-align: right;
@@ -54,6 +51,7 @@
   td {
     padding: modules(0.25) 0;
     color: $grey;
+    border-bottom: 1px solid $form_gray;
   }
 }
 
@@ -66,6 +64,7 @@
     padding: modules(0.5) 0;
     color: $color_text;
     font-weight: bold;
+    border-bottom: none;
   }
 }
 
@@ -77,8 +76,8 @@
   text-transform: none;
 }
 
- .wrapper-seal {
-  padding: modules(1);
+.wrapper-seal {
+  padding-bottom: modules(0.5);
   clear: both;
   text-align: center;
 

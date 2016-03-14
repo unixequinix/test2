@@ -3,7 +3,7 @@ header.header-mobile
     = link_to event_url(current_event) do
       = current_event.name
   #mobile-trigger.mobile-trigger
-    = fa_icon "cog"
+    = fa_icon "user"
   nav#mobile-options.mobile-options
     ul
       li = mail_to current_event.support_email, t('header.help'), subject: t('event.subject_support', event: current_event.name)
@@ -11,6 +11,6 @@ header.header-mobile
         li
           = link_to edit_event_registrations_path(current_event, current_customer) do
             = current_customer.first_name
-        li
-          = link_to event_logout_path(current_event), method: :delete do
-            = t('header.logout')
+        //li
+        //  = link_to event_logout_path(current_event), method: :delete do
+        //    = t('header.logout')

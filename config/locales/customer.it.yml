@@ -49,7 +49,7 @@ it:
       call_to_action_started: "The event just started so you cannot topup anymore"
       call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Event Ticket first"
       button: "Top-up"
-    add_credentials: "Add a ticket or a gtag first"
+      ticket_first: "Add a ticket first"
     event_refunds:
       claim: "L'evento non è ancora finito"
       description: "Torna presto per richiedere per un rimborso"
@@ -117,6 +117,11 @@ it:
     redirect: "You will be redirected to the bank’s payment gateway."
     button: "Pay"
     button_iupay: "IUPAY"
+    card_info: "Card Info"
+    order_review: "Order review"
+    payment: "Payment method"
+    credit_card: "Credit card"
+    pay_pal: "Pay Pal"
     stripe:
       card_number: "Card number"
       card_code_verification: "Card code verification (CCV)"
@@ -218,6 +223,8 @@ it:
       description: 'Ecco come funziona'
       button: 'Log in'
       copy: 'Quali sono i vantaggi?'
+    end:
+      close_title: "Do you want to end session?"
   cancel:
     title: 'Cancellare il mio account'
     unhappy: "Scrivici un email, vogliamo sapere cos'è successo!"

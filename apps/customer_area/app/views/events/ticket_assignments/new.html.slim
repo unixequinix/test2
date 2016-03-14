@@ -2,7 +2,7 @@
   h3 = t('admissions.call_to_action')
   p = t('admissions.description')
   = image_tag "img-bar-code.png", class: "img-ticket"
-  p.highlight-text   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo sed dicta quos quo libero necessitatibus neque consequatur nihil, ipsa?
+  //p.highlight-text Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo sed dicta quos quo libero necessitatibus neque consequatur nihil, ipsa?
   = form_for @ticket_assignment_form, url: event_ticket_assignments_path(current_event) do |f|
     = f.text_field :code, placeholder: t('admissions.placeholders.ticket_code')
     = submit_tag t('admissions.button'), class: "btn btn-action btn-action-primary"

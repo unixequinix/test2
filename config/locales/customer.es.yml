@@ -80,7 +80,7 @@ es:
       claim: "Lo sentimos"
       description: "Ya ha pasado el periodo de devolución, ponte en contacto con soporte si tienes alguna duda."
     gtag_registration:
-      title: "Tu número de %{gtag}:"
+      title: "Tu %{gtag}:"
       call_to_action: "¿Introdujiste una incorrecta por error?"
       button: "Cambiar"
       hint: "Has introducido una pulsera por error? Bórrala y reinicia el proceso"
@@ -122,11 +122,20 @@ es:
     redirect: "Serás redirigido a la pasarela de pago del banco."
     button: "Pagar"
     button_iupay: "IUPAY"
+    card_info: "Información de tarjeta"
+    order_review: "Resumen de compra"
+    payment: "Método de pago"
+    credit_card: "Tarjeta de crédito"
+    pay_pal: "Pay Pal"
     stripe:
       card_number: "Número de tarjeta"
       card_code_verification: "Código de verificación (CCV)"
       card_expiration_date: "Fecha de expiración"
       button: "Pagar"
+    paypal:
+      sync_title: "Regístarte en PayPal para completar el pago"
+      sync_copy: "Crédito asegurado"
+      sync_description: "Recarga de forma directa tu pulsera. Selecciona el crédito que quieres recargar en caso de gastar todos tus créditos y evita colas innecesarias. Tu pulsera siempre estará lista y portegida."
   claims:
     title: "Confirmar Reembolso"
     description: "Por favor, revisa tu órden y procede a realizar el pago."
@@ -231,7 +240,8 @@ es:
       address: 'ej. C/ Pied Piper'
       city: 'ej. Madrid'
       post: 'ej. 28012'
-
+    end:
+      close_title: "¿Quieres finalizar la sesión?"
   cancel:
     title: 'Cancelar cuenta'
     unhappy: '¡Queremos saber que ha ocurrido, envíanos un correo!'
@@ -239,4 +249,4 @@ es:
     use: "Condiciones de uso"
     privacy: "Política de privacidad"
     copyright: "© Copyright Glownet"
-    support: 'Support'
+    support: 'Soporte'

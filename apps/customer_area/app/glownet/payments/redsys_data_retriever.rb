@@ -7,7 +7,7 @@ class Payments::RedsysDataRetriever
     @order = order
     @payment_parameters = Parameter.joins(:event_parameters)
                           .where(category: "payment",
-                                 group: @current_event.payment_service,
+                                 group: "redsys",
                                  event_parameters: { event: event })
                           .select("parameters.name, event_parameters.*")
   end
@@ -57,7 +57,7 @@ class Payments::RedsysDataRetriever
   end
 
   def notification_url
-    event_order_asynchronous_payments_url(@current_event, @order)
+    event_order_payment_service_asynchronous_payments_url(@current_event, @order, 'redsys')
   end
 
   def message

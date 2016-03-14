@@ -1,6 +1,7 @@
 .wrapper-module
-  p.center-text.hint-review = t('orders.description')
-  p.hint-text Order review
+  //p.center-text.hint-review = t('orders.description')
+  p.hint-text
+    = t('orders.order_review')
   table.table-order
     caption
     tr.table-head
@@ -16,13 +17,31 @@
         = t('orders.total')
         .vat-text = t('orders.vat')
       td [colspan="3"] #{@order.total} #{current_event.currency}
-  .wrapper-payments-methods
-    = fa_icon "cc-visa"
-    = fa_icon "cc-mastercard"
-    = fa_icon "cc-amex"
 
-  = render @order_presenter.path
+  p#payment-acnhor.payment-anhor-mobile.hint-text
+    = t('orders.payment')
+  p.payment-anhor-desktop.hint-text
+    = t('orders.payment')
+  ul.container-payment-buttons
+    li
+      .btn-payment-trigger [data-target="paypal"]
+        = fa_icon "paypal"
+        p = t('orders.pay_pal')
+    li
+      .btn-payment-trigger [data-target="redsys"]
+        = fa_icon "credit-card"
+        p = t('orders.credit_card')
+    li
+      .btn-payment-trigger [data-target="braintree"]
+        = fa_icon "credit-card"
+        p = t('orders.credit_card')
+    li
+      .btn-payment-trigger [data-target="stripe"]
+        = fa_icon "credit-card"
+        p = t('orders.credit_card')
 
-  .wrapper-seal
-    = render 'events/shared/ssl_cert_seal'
+
+
+- @order_presenters.each do |order_presenter|
+  = render order_presenter.path, order_presenter: order_presenter
 

@@ -1,9 +1,3 @@
-/* ------------------------------------------------------- *\
-
- Customize inline variables
-
-\* ------------------------------------------------------- */
-
 // Mobile header
 .mobile-event-name,
 .header-mobile a,
@@ -14,7 +8,8 @@
 .btn-action-enter,
 .btn-action-register,
 .btn-action-secondary:hover,
-.btn-action-primary:hover
+.btn-action-primary:hover,
+input[type=submit],
 { color: $snow; }
 
 //HEADER
@@ -38,7 +33,7 @@ h3, .to-be-label, .credential-types label,
 .wrapper-terms h3,
 .wrapper-terms a,
 .customer_agreed_on_registration a,
-.separator, .wrapper-breadcrumbs a
+.separator, .wrapper-acceppt-paypal-terms a
 { color: $magenta; }
 
 //HEADER-MOBILE
@@ -66,7 +61,6 @@ h3, .to-be-label, .credential-types label,
 .btn-action-empty-state
 { box-shadow: inset 0px 0px 0px 2px $magenta; }
 
-
 // Login and sign up styles
 
 .customer_remember_me label,
@@ -88,7 +82,7 @@ input[type=email],
 input[type=number],
 input[type=url],
 input[type=tel],
-input[type=search] { &:focus { box-shadow: 0px -1px 0px 0px $magenta inset; } }
+input[type=search] { &:focus { border-bottom: 1px solid $magenta; } }
 
 footer { background-color: transparent; }
 

@@ -4,14 +4,18 @@ class Events::OrdersController < Events::BaseController
 
   def show
     order = Order.includes(order_items: :catalog_item).find(params[:id])
-    @order_presenter =
-      ("Orders::#{current_event.payment_service.camelize}Presenter").constantize
-      .new(current_event, order)
+    @order_presenters = []
+    current_event.selected_payment_services.each do |payment_service|
+      @order_presenters <<
+        ("Orders::#{payment_service.to_s.camelize}Presenter").constantize
+          .new(current_event, order)
+    end
   end
 
   def update
+    @payment_service = params[:payment_service]
     @order = OrderManager.new(Order.find(params[:id])).sanitize_order
-    @form_data = ("Payments::#{current_event.payment_service.camelize}DataRetriever")
+    @form_data = ("Payments::#{@payment_service.camelize}DataRetriever")
                  .constantize.new(current_event, @order)
     @order.start_payment!
   end

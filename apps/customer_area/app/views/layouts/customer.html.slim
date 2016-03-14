@@ -8,7 +8,8 @@ html [lang=I18n.locale]
 
     = javascript_include_tag 'customer', 'data-turbolinks-track' => true
     = stylesheet_link_tag    'customer', media: 'all', 'data-turbolinks-track' => true
-    script src="https://js.stripe.com/v2/" type="text/javascript"
+    script src="https://js.stripe.com/v2" type="text/javascript"
+    script src="https://www.google.com/recaptcha/api.js" type="text/javascript"
     = csrf_meta_tags
 
     = content_tag :style, current_event.style, type: "text/css"
@@ -23,6 +24,8 @@ html [lang=I18n.locale]
     .container-main
       = render 'events/shared/header'
       #mainWrapper.wrapper-main
-        .container-event-column.container-customer-app-view
+        .container-event-logo
+          = render 'events/shared/sub_header'
+        .container-event-column
           == yield
     = render 'events/shared/footer'

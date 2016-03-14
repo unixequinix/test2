@@ -7,7 +7,7 @@ class Payments::StripeDataRetriever
     @order = order
     @payment_parameters = Parameter.joins(:event_parameters)
                           .where(category: "payment",
-                                 group: @current_event.payment_service,
+                                 group: "stripe",
                                  event_parameters: { event: event })
                           .select("parameters.name, event_parameters.*")
   end
