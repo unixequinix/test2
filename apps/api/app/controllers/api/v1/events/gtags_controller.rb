@@ -1,11 +1,10 @@
 class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
   def index
     # TODO: Cache should refresh if there are changes
-    json = Rails.cache.fetch("v1/gtags", expires_in: 12.hours) do
-      @gtags = @fetcher.sql_gtags
-    end
+    # json = Rails.cache.fetch("v1/gtags", expires_in: 12.hours) do
+    @gtags = @fetcher.sql_gtags
 
-    render json: json
+    render json: @gtags
   end
 
   def show

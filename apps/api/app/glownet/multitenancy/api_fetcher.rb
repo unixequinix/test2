@@ -1,4 +1,4 @@
-class Multitenancy::ApiFetcher
+class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
   def initialize(event)
     @event = event
   end
@@ -37,7 +37,7 @@ class Multitenancy::ApiFetcher
     Gtag.includes(:credential_assignments, :company_ticket_type, :purchaser).where(event: @event)
   end
 
-  def sql_gtags
+  def sql_gtags # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
       SELECT array_to_json(array_agg(row_to_json(g)))
       FROM (
@@ -47,7 +47,7 @@ class Multitenancy::ApiFetcher
                purchasers.first_name as purchaser_first_name,
                purchasers.last_name as purchaser_last_name,
                purchasers.email as purchaser_email
-        FROM tickets
+        FROM gtags
         FULL OUTER JOIN purchasers
           ON purchasers.credentiable_id = gtags.id
           AND purchasers.credentiable_type = 'Gtag'
@@ -57,8 +57,9 @@ class Multitenancy::ApiFetcher
           AND credential_assignments.credentiable_type = 'Gtag'
           AND credential_assignments.deleted_at IS NULL
         INNER JOIN company_ticket_types
-          ON company_ticket_types.id = tickets.company_ticket_type_id
+          ON company_ticket_types.id = gtags.company_ticket_type_id
           AND company_ticket_types.deleted_at IS NULL
+        WHERE gtags.event_id = #{@event.id}
       ) g
     SQL
     ActiveRecord::Base.connection.select_value(sql)
@@ -66,10 +67,6 @@ class Multitenancy::ApiFetcher
 
   def banned_gtags
     Gtag.banned.where(event: @event)
-  end
-
-  def products
-    Product.includes(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
   def packs
@@ -90,7 +87,7 @@ class Multitenancy::ApiFetcher
     StationCatalogItem.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
-  def sql_tickets
+  def sql_tickets # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
       SELECT array_to_json(array_agg(row_to_json(t)))
       FROM (
@@ -113,8 +110,10 @@ class Multitenancy::ApiFetcher
         INNER JOIN company_ticket_types
           ON company_ticket_types.id = tickets.company_ticket_type_id
           AND company_ticket_types.deleted_at IS NULL
+        WHERE tickets.event_id = #{@event.id}
       ) t
     SQL
+
     ActiveRecord::Base.connection.select_value(sql)
   end
 
