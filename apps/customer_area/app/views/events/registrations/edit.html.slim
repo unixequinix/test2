@@ -1,3 +1,8 @@
+.header-nav
+  ul
+    li
+      = link_to event_url(current_event), class: "btn-desktop-profile" do
+        = fa_icon "home"
 .container-event-column
   .wrapper-session.wrapper-module
     = simple_form_for @edit_profile_form, url: event_registrations_path(current_event), method: :patch do |f|

@@ -100,13 +100,15 @@
 }
 
 // The centered container that contains all the account info
-
 .container-event-column {
   overflow: visible;
   position: relative;
   width: 100%;
 
   @include min-screen($bp4) {
+    @include animation(loadFadeIn);
+    @include animation-duration(300ms);
+    @include animation-timing-function(linear);
     @include outer-container(40%);
     height: auto;
     border-radius: $radius;
@@ -120,7 +122,6 @@
     border-top-right-radius: 3px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
-
   }
 }
 

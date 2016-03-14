@@ -123,8 +123,8 @@ header { position: relative; }
   li {
     @include mscale($base_font_size*1.2);
     position: relative;
-    display: block;
-    width: modules(3);
+    display: inline-block;
+    width: modules(2.5);
     height: modules(2.75);
     padding: modules(0.25);
   }
