@@ -18,7 +18,6 @@ RSpec.describe EventCreator, type: :domain_logic do
 
     it "should persist the event object in the db" do
       Seeder::SeedLoader.create_stations
-      binding.pry
       event_creator = EventCreator.new(
         name: "test", location: "test",
         start_date: Date.yesterday, end_date: Date.today,
