@@ -17,6 +17,7 @@ RSpec.describe Jobs::Base, type: :job do
   end
 
   it "executes the job defined by transaction_type" do
+    expect(Jobs::Credit::BalanceUpdater).to receive(:perform_later).once.with(params)
     base.write(params)
   end
 
