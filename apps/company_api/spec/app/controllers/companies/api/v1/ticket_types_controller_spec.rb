@@ -58,7 +58,7 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
 
         it "returns the correct ticket type" do
           body = JSON.parse(response.body)
-          expect(body["name"]).to eq(@ticket_type.name)
+          expect(body["name"]).to eq(CompanyTicketType.find(@ticket_type.id).name)
         end
       end
 
