@@ -5,7 +5,7 @@ RSpec.describe Jobs::Base, type: :job do
   let(:params) { { transaction_category: "credit", transaction_type: "sale", credits: 30 } }
 
   before(:each) do
-    # Dont care about the BalanceUpdater, so i mock its behaviour so that it doesnt bother the tests
+    # Dont care about the BalanceUpdater, so I mock the behaviour
     allow(Jobs::Credit::BalanceUpdater).to receive(:perform_later)
   end
 
