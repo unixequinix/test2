@@ -1,4 +1,4 @@
-set :branch, "development"
+set :branch, "sample_data"
 set :rails_env, "integration"
 
 # Link certification folder
@@ -21,6 +21,11 @@ set :linked_dirs, fetch(:linked_dirs) + %w(certs)
 # used to set extended properties on the server.
 
 server "gspot-dev.glownet.com", user: "ubuntu", roles: %w(web app db)
+
+# set :puma_threads, [1, 10]
+# set :puma_workers, 1
+#
+# set :deploy_to, "/home/ubuntu/glownet_web/"
 
 # Custom SSH Options
 # ==================
@@ -53,3 +58,39 @@ set :ssh_options,   keys: [ENV["GSPOT_STAGING_CERT"]],
 #     auth_methods: %w(publickey password)
 #     # password: 'please use keys'
 #   }
+
+# namespace :puma do
+#   desc 'Create Directories for Puma Pids and Socket'
+#   task :make_dirs do
+#     on roles(:app) do
+#       execute "mkdir #{shared_path}/tmp/sockets -p"
+#       execute "mkdir #{shared_path}/tmp/pids -p"
+#     end
+#   end
+#
+#   before :start, :make_dirs
+# end
+#
+# namespace :deploy do
+#   desc 'Initial Deploy'
+#   task :initial do
+#     on roles(:app) do
+#       before 'deploy:restart', 'puma:start'
+#       invoke 'deploy'
+#     end
+#   end
+#
+#   desc 'Restart application'
+#   task :restart do
+#     on roles(:app), in: :sequence, wait: 5 do
+#       invoke 'puma:restart'
+#     end
+#   end
+#
+#   after  :finishing,    :cleanup
+#   after  :finishing,    :restart
+# end
+
+# ps aux | grep puma    # Get puma pid
+# kill -s SIGUSR2 pid   # Restart puma
+# kill -s SIGTERM pid   # Stop puma
