@@ -177,6 +177,14 @@
   }
 }
 
+.module-refunds {
+  .panel-amount-number {
+    margin-bottom: modules(1);
+
+    &:after { content: ""; }
+  }
+}
+
 .container-method {
   @include transition(max-height 180ms ease-in-out, opacity 220ms ease-in-out);
   overflow: hidden;
@@ -251,7 +259,6 @@
   font-weight: bold;
 }
 
-
 // Pay Pal auto top up
 .container-auto-top-up {
   overflow: hidden;
@@ -275,7 +282,7 @@
   table-layout: fixed;
   width: 100%;
 
-  li {
+  li, a {
     display: table-cell;
     vertical-align: top;
     width: auto;
@@ -288,8 +295,6 @@
     &:last-child { padding: 0 0 0 modules(0.25); }
   }
 }
-
-
 
 // /\/\/\/\/\/\/\ TERMS AND CONDITIONS /\/\/\/\/\/\/\/\
 

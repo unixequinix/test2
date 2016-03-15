@@ -60,13 +60,13 @@ class ClaimsPresenter < BasePresenter
 
   def snippet_not_refundable(refund_service)
     context.content_tag("a", action_name(refund_service),
-                        class: "btn btn-refund-method btn-blocked",
+                        class: "btn-payment-trigger",
                         disabled: !refundable?(refund_service))
   end
 
   def snippet_refundable(refund_service)
     context.link_to(action_name(refund_service),
                     context.send("new_event_#{refund_service}_claim_path", @event),
-                    class: "btn btn-refund-method")
+                    class: "btn-payment-trigger")
   end
 end

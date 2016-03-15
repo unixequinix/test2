@@ -200,6 +200,7 @@ es:
       title: 'Pago realizado'
       description: 'Gracias por tu compra. El pago ha sido realizado. Recibirás un email de confirmación de tu compra.'
   refund:
+    refund_method: "Método de devolución"
     error:
       title: 'Transacción fallida'
       call_to_action: 'Contáctanos:'

@@ -191,6 +191,7 @@ th:
       email: 'ลืมรหัสผ่าน?'
       password: 'ส่งขั้นตอนในการตั้งรหัสผ่านมาให้ฉัน'
   refund:
+    refund_method: "Refund method"
     error:
       title: 'ทำรายการไม่สำเร็จ'
       call_to_action: 'ติดต่อเรา:'

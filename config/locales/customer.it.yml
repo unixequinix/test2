@@ -191,6 +191,7 @@ it:
       title: 'Il pagamento è stato eseguito'
       description: 'Grazie per il tuo ordine. Il tuo pagamento è stato effettuato. Riceverai una conferma email del tuo ordine.'
   refund:
+    refund_method: "Refund method"
     error:
       title: 'Errore'
       call_to_action: 'Contattaci:'
