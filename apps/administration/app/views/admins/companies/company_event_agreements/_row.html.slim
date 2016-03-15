@@ -1,5 +1,6 @@
 tr
   td data-label=t('admin.event.name') = agreement.event.name
   td data-label=t('admin.agreements.status') = t("admin.agreements.#{agreement.aasm.current_state}")
+  td data-label=t('admin.event.token') = agreement.event.token
   td.table-actions-field
     = render "actions", company: company, agreement: agreement
