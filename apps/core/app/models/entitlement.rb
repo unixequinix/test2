@@ -31,20 +31,20 @@ class Entitlement < ActiveRecord::Base
   DOUBLE = "double"
 
   TYPES = [SIMPLE, DOUBLE]
+  SHIFT = { "simple" => 1, "double" => 2 }
 
   def set_memory_position
     self.memory_position = last_position if id.nil?
   end
 
   def last_position
-    Entitlement.where(event_id: event_id)
-      .order("memory_position DESC")
-      .first.try(:memory_position).try(:+, 1) || 1
-  end
+    last_entitlement = Entitlement.where(event_id: event_id).order("memory_position DESC").first
+    last_entitlement.present? ? last_entitlement.memory_position + SHIFT[last_entitlement.memory_length] : 1
+ end
 
   def calculate_memory_position
     Entitlement.where(event_id: event_id)
       .where("memory_position > ?", memory_position)
-      .each { |entitlement| Entitlement.decrement_counter(:memory_position, entitlement.id) }
+      .each { |entitlement| entitlement.decrement!(:memory_position, SHIFT[memory_length]) }
   end
 end

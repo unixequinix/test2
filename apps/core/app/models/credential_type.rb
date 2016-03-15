@@ -28,14 +28,14 @@ class CredentialType < ActiveRecord::Base
   private
 
   def set_memory_position
-    self.memory_position = last_position if id.nil?
+    self.memory_position = last_position + 1 if id.nil?
   end
 
   def last_position
     CredentialType.joins(:catalog_item)
       .where(catalog_items: { event_id: catalog_item.event_id })
       .order("memory_position DESC")
-      .first.try(:memory_position).try(:+, 1) || 1
+      .first.try(:memory_position) || 0
   end
 
   def calculate_memory_position

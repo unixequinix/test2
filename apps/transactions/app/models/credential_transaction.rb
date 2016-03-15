@@ -17,6 +17,7 @@
 #  customer_event_profile_id :integer
 #  status_code               :integer
 #  status_message            :string
+#  ticket_code               :string
 #
 
 class CredentialTransaction < Transaction
