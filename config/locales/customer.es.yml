@@ -230,6 +230,13 @@ es:
       waiting_confirmation: 'En espera de confirmarción de:'
       button: 'Actualizar'
   sessions:
+    welcome: 'Welcome!'
+    create_account:
+      title: 'No tienes cuanta aún?'
+      link: 'Crea una gratis!'
+    log_in:
+      title: 'Ya tienes cuenta?'
+      link: 'Inicia sesión'
     new:
       title: 'Inicia Sesión'
       description: 'Así es como funciona'

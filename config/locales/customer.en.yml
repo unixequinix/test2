@@ -234,6 +234,13 @@ en:
       waiting_confirmation: 'Currently waiting confirmation for:'
       button: 'Update'
   sessions:
+    welcome: 'Welcome!'
+    create_account:
+      title: 'Don´t you have an account?'
+      link: 'Get a free one!'
+    log_in:
+      title: 'Already have an account?'
+      link: 'Log in here'
     new:
       title: 'Log in'
       description: 'This is how it works'
