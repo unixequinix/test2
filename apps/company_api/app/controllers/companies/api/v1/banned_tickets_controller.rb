@@ -15,10 +15,12 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
 
     render(status: :bad_request, json: :bad_request) && return unless t_code
 
-    ctt = TicketDecoder::SonarDecoder.perform(t_code)
+    ctt = CompanyTicketType.find_by_id(TicketDecoder::SonarDecoder.perform(t_code))
+
+    render(status: :not_found, json: "Ticket Type not found") && return unless ctt
 
     @ticket = @fetcher.tickets.find_by_code(t_code)
-    @ticket ||= @fetcher.tickets.create!(company_ticket_type_id: ctt, code: t_code)
+    @ticket ||= @fetcher.tickets.create!(company_ticket_type: ctt, code: t_code)
     @ticket.ban!
 
     render(status: :created, json: @ticket, serializer: Companies::Api::V1::BannedTicketSerializer)
