@@ -56,17 +56,17 @@ RSpec.describe Csv::CsvExporter, type: :domain_logic do
         expect(number_of_records_in_csv(@csv_file)).to be(Claim.count)
       end
       it "should be able to export to a file" do
-        csv = "id,service_type,first_name,last_name,email,tag_uid,tag_serial_number,amount,iban," \
+        csv = "id,service_type,customer_event_profile,first_name,last_name,email,tag_uid,tag_serial_number,amount,iban," \
               "swift\n" \
-              "1,bank_account,Diana Mayorga Zamora  ,Carmona,gustavo.orosco@garibay.es," \
+              "1,bank_account,3,Diana Mayorga Zamora  ,Carmona,gustavo.orosco@garibay.es," \
                 "4OBXCHS2FT,MIUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n" \
-              "2,bank_account,Paco Lopez Jones,Ojeda,paco.ojeda@eresmas.es," \
+              "2,bank_account,4,Paco Lopez Jones,Ojeda,paco.ojeda@eresmas.es," \
                 "5OBXCHS2FT,MOUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n" \
-              "3,bank_account,Diana Mayorga Zamora  ,Carmona,gustavo.orosco@garibay.es," \
+              "3,bank_account,3,Diana Mayorga Zamora  ,Carmona,gustavo.orosco@garibay.es," \
                 "4OBXCHS2FT,MIUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n" \
-              "4,bank_account,Paco Lopez Jones,Ojeda,paco.ojeda@eresmas.es,5OBXCHS2FT," \
+              "4,bank_account,4,Paco Lopez Jones,Ojeda,paco.ojeda@eresmas.es,5OBXCHS2FT," \
                 "MOUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n" \
-              "5,bank_account,Diana Mayorga Zamora  ,Carmona,gustavo.orosco@garibay.es," \
+              "5,bank_account,3,Diana Mayorga Zamora  ,Carmona,gustavo.orosco@garibay.es," \
                 "4OBXCHS2FT,MIUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n"
         expect(@csv_file).to eq(csv)
       end
@@ -108,14 +108,14 @@ RSpec.describe Csv::CsvExporter, type: :domain_logic do
         expect(number_of_records_in_csv(@csv_file)).to be(Refund.count)
       end
       it "should be able to export to a file" do
-        csv = "id,created_at,updated_at,claim_id,amount,currency,message,operation_type," \
-              "gateway_transaction_number,payment_solution,status\n"\
-              "100,2015-10-27 15:34:23 +0100,2015-10-27 15:34:23 +0100,100,10.0,eur,dummy,payment,"\
-              "epg,dummy,completed\n"\
-              "200,2015-10-27 15:34:23 +0100,2015-10-27 15:34:23 +0100,100,10.0,eur,dummy,payment,"\
-              "epg,dummy,completed\n"\
-              "300,2015-10-27 15:34:23 +0100,2015-10-27 15:34:23 +0100,100,10.0,eur,dummy,payment,"\
-              "epg,dummy,completed\n"
+        csv = "id,claim_id,amount,currency,message,operation_type," \
+              "gateway_transaction_number,payment_solution,status,created_at,updated_at\n"\
+              "100,100,10.0,eur,dummy,payment,epg,dummy,completed,"\
+              "2015-10-27 15:34:23 +0100,2015-10-27 15:34:23 +0100\n"\
+              "200,100,10.0,eur,dummy,payment,epg,dummy,completed,"\
+              "2015-10-27 15:34:23 +0100,2015-10-27 15:34:23 +0100\n"\
+              "300,100,10.0,eur,dummy,payment,epg,dummy,completed,"\
+              "2015-10-27 15:34:23 +0100,2015-10-27 15:34:23 +0100\n"
 
         expect(@csv_file).to eq(csv)
       end
