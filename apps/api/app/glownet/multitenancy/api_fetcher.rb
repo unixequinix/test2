@@ -20,8 +20,64 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
     Credit.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
-  def customer_event_profiles
-    CustomerEventProfile.includes(:customer, :credential_assignments, :orders).where(event: @event)
+  def sql_customer_event_profiles # rubocop:disable Metrics/MethodLength
+    sql = <<-SQL
+      SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(cep))))
+      FROM (
+        SELECT id,
+        (
+          SELECT first_name  FROM purchasers
+          INNER JOIN credential_assignments
+            ON credential_assignments.customer_event_profile_id = customer_event_profiles.id
+            AND credential_assignments.deleted_at IS NULL
+          LIMIT(1)
+        ),
+        (
+          SELECT last_name FROM purchasers
+          INNER JOIN credential_assignments
+            ON credential_assignments.customer_event_profile_id = customer_event_profiles.id
+            AND credential_assignments.deleted_at IS NULL
+          LIMIT(1)
+        ),
+        (
+          SELECT email FROM purchasers
+          INNER JOIN credential_assignments
+            ON credential_assignments.customer_event_profile_id = customer_event_profiles.id
+            AND credential_assignments.deleted_at IS NULL
+          LIMIT(1)
+        ),
+        (
+          SELECT array_to_json(array_agg(row_to_json(cr)))
+          from (
+            SELECT credentiable_id as id, credentiable_type as type
+            FROM credential_assignments
+            WHERE customer_event_profile_id = customer_event_profiles.id
+              AND deleted_at IS NULL
+          ) cr
+        ) as credentials,
+        (
+          SELECT array_to_json(array_agg(row_to_json(o)))
+          from (
+            SELECT counter as online_order_counter, customer_orders.amount,
+              customer_orders.catalog_item_id as catalogable_id,
+              catalog_items.catalogable_type as catalogable_type
+            FROM online_orders
+            INNER JOIN customer_orders
+              ON customer_orders.customer_event_profile_id = customer_event_profiles.id
+              AND customer_orders.deleted_at IS NULL
+            INNER JOIN catalog_items
+              ON catalog_items.id = customer_orders.catalog_item_id
+              AND catalog_items.deleted_at IS NULL
+            WHERE online_orders.customer_order_id = customer_orders.id
+              AND online_orders.deleted_at IS NULL
+              AND online_orders.redeemed IS false
+          ) o
+        ) as orders
+        FROM customer_event_profiles
+        WHERE customer_event_profiles.event_id = #{@event.id}
+      ) cep
+    SQL
+    ActiveRecord::Base.connection.select_value(sql)
   end
 
   def event_parameters
@@ -39,7 +95,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
 
   def sql_gtags # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
-      SELECT array_to_json(array_agg(row_to_json(g)))
+      SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(g))))
       FROM (
         SELECT gtags.id, gtags.tag_uid, gtags.tag_serial_number, gtags.credential_redeemed,
                credential_assignments.customer_event_profile_id as customer_id,
@@ -89,7 +145,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
 
   def sql_tickets # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
-      SELECT array_to_json(array_agg(row_to_json(t)))
+      SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(t))))
       FROM (
         SELECT tickets.id, tickets.code as reference, tickets.credential_redeemed,
                tickets.company_ticket_type_id, tickets.updated_at,

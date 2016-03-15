@@ -3,7 +3,6 @@ class Api::V1::CustomerEventProfileSerializer < Api::V1::BaseSerializer
   has_many :credential_assignments, key: :credentials,
                                     serializer: Api::V1::CredentialAssignmentSerializer
 
-  # TODO: Needs to be reviewed after we add sample data
   has_many :customer_orders, key: :orders, serializer: Api::V1::CustomerOrderSerializer
 
   def attributes(*args)

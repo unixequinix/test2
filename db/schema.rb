@@ -204,7 +204,7 @@ ActiveRecord::Schema.define(version: 20160308185753) do
   create_table "credential_assignments", force: :cascade do |t|
     t.integer  "customer_event_profile_id", index: {name: "fk__credential_assignments_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_credential_assignments_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "credentiable_id",           null: false
-    t.string   "credentiable_type",         null: false
+    t.string   "credentiable_type",         null: false, index: {name: "fk__credential_assignments_credentiable_id", with: ["credentiable_id"]}
     t.string   "aasm_state"
     t.datetime "deleted_at",                index: {name: "index_credential_assignments_on_deleted_at"}
     t.datetime "created_at",                null: false
