@@ -15,7 +15,7 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
 
     render(status: :bad_request, json: :bad_request) && return unless t_code
 
-    ctt = CompanyTicketType.find_by_id(TicketDecoder::SonarDecoder.perform(t_code))
+    ctt = CompanyTicketType.find_by_company_code(TicketDecoder::SonarDecoder.perform(t_code))
 
     render(status: :not_found, json: { error: "Ticket Type not found" }) && return unless ctt
 
