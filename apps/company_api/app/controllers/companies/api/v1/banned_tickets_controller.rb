@@ -26,7 +26,9 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
       @ticket = @fetcher.tickets.find_or_create_by(company_ticket_type: ctt, code: t_code)
     end
 
+    @ticket.restore if @ticket.deleted?
     @ticket.ban!
+
     render(status: :created, json: @ticket, serializer: Companies::Api::V1::BannedTicketSerializer)
   end
 
