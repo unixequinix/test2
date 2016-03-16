@@ -16,10 +16,13 @@ FactoryGirl.define do
     number { rand(10) }
     customer_event_profile
 
-    after :build do |order, _evaluator|
-      3.times do
-        order.order_items << build(:order_item, order: order, total: 19.95)
+    trait :with_different_items do
+      after :build do |order|
+        order.order_items << build(:order_item, :with_access, order: order, amount: 10, total: 20)
+        order.order_items << build(:order_item, :with_voucher, order: order, amount: 10, total: 40)
+        order.order_items << build(:order_item, :with_voucher, order: order, amount: 10, total: 60)
       end
     end
+
   end
 end

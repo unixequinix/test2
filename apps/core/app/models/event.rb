@@ -61,7 +61,11 @@ class Event < ActiveRecord::Base
   has_many :companies, through: :company_event_agreements
   has_many :transactions
   has_many :catalog_items
-  has_many :credits, through: :catalog_items, source: :catalogable, source_type: "Credit"
+  has_many :credits, through: :catalog_items, source: :catalogable, source_type: "Credit" do
+    def standard
+      find_by(standard: true)
+    end
+  end
   has_many :tickets
   has_many :tickets_assignments, through: :tickets, source: :credential_assignments,
                                  class_name: "CredentialAssignment"
@@ -97,7 +101,7 @@ class Event < ActiveRecord::Base
   include EventState
 
   def standard_credit_price
-    credits.find_by(standard: true).value
+    credits.standard.value
   end
 
   def total_credits

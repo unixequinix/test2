@@ -51,6 +51,8 @@ class CustomerCreditOrderCreator
     end
   end
 
+  private
+
   def calculate_refundable_amount
     pack_with_unrefundable_credits? ? 0 : @order_item.total / get_credit_value * @order_item.amount
   end
