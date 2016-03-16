@@ -6,9 +6,9 @@ namespace :db do
     "Events",
     "Customers",
     "CustomerEventProfiles",
-    #"Credits",
     "Accesses",
     "CredentialTypes",
+    "Packs",
     "Companies",
     "CompanyTicketTypes",
     "Tickets",
@@ -21,12 +21,13 @@ namespace :db do
   task integration_data: :environment do
 
     @companies = 3
-    @customers = 200000
+    @customers = 50
     @accesses = 20
     @credential_types = 20
+    @packs = 10
     @company_ticket_types = 20
-    @tickets = 200000
-    @gtags =  5000 # Less than customers is prefered
+    @tickets = 50
+    @gtags =  40 # Less than customers is prefered
 
     Benchmark.benchmark(CAPTION, 25, FORMAT, "TOTAL:") do |x|
       total = []
@@ -78,19 +79,6 @@ namespace :db do
                                                 validate: false)
   end
 
-  def create_credits
-    event = Event.last
-    Credit.create!(standard: true,
-                   currency: "EUR",
-                   value: 1,
-                   catalog_item_attributes: { event_id: event.id,
-                                              name: "Standard Credit",
-                                              step: 1,
-                                              min_purchasable: 1,
-                                              max_purchasable: 10000,
-                                              initial_amount: 0 })
-  end
-
   def create_accesses
     event = Event.last
     @accesses.times do |index|
@@ -106,6 +94,22 @@ namespace :db do
                        memory_length: 1,
                        memory_position: 3 })
     end
+  end
+
+  def create_packs
+    event = Event.last
+    @packs.times do |index|
+      pack = Pack.create!(catalog_item_attributes: { event_id: event.id,
+                                                     name: "Pack #{index}",
+                                                     step: rand(5),
+                                                     min_purchasable: 1,
+                                                     max_purchasable: rand(100),
+                                                     initial_amount: 0 })
+     pack.pack_catalog_items
+         .build(catalog_item_id: rand(1..CatalogItem.count), amount: rand(50))
+         .save
+    end
+
   end
 
   def create_credential_types

@@ -15,7 +15,6 @@ namespace :db do
     make_events
     make_companies
     make_company_event_agreements
-    #make_credits
     make_accesses
     make_vouchers
     make_packs
@@ -39,7 +38,8 @@ namespace :db do
     puts "Create admins"
     puts "----------------------------------------"
     Admin.destroy_all
-    Admin.create(email: 'admin@test.com', encrypted_password: Authentication::Encryptor.digest("password"))
+    Admin.create(email: 'admin@test.com',
+                 encrypted_password: Authentication::Encryptor.digest("password"))
   end
 
   def make_events
@@ -47,7 +47,15 @@ namespace :db do
     puts "----------------------------------------"
     Event.destroy_all
     YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", "events.yml")).each do |data|
-      event = EventCreator.new(name: data['name'], location: data['location'], start_date: data['start_date'], end_date: data['end_date'], description: data['description'], currency: data['currency'], host_country: data['host_country'], support_email: data['support_email'], features: data['features'])
+      event = EventCreator.new(name: data['name'],
+                               location: data['location'],
+                               start_date: data['start_date'],
+                               end_date: data['end_date'],
+                               description: data['description'],
+                               currency: data['currency'],
+                               host_country: data['host_country'],
+                               support_email: data['support_email'],
+                               features: data['features'])
       event.save
     end
   end
@@ -58,7 +66,9 @@ namespace :db do
     Ticket.destroy_all
     Event.all.each do |event|
       YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'tickets.yml')).each do |data|
-        ticket = Ticket.new(event_id: event.id, code: data['code'], company_ticket_type_id: data['company_ticket_type_id'])
+        ticket = Ticket.new(event_id: event.id,
+                            code: data['code'],
+                            company_ticket_type_id: data['company_ticket_type_id'])
         ticket.save!
       end
     end
@@ -79,24 +89,6 @@ namespace :db do
     Event.all.each do |event|
       Company.all.each do |company|
         CompanyEventAgreement.create!(event: event, company: company)
-      end
-    end
-  end
-
-  def make_credits
-    puts 'Create credits'
-    puts '----------------------------------------'
-    Event.all.each do |event|
-      YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'credits.yml')).each do |data|
-        Credit.create!(standard: data["standard"],
-                       currency: data["currency"],
-                       value: data["value"],
-                       catalog_item_attributes: { event_id: event.id,
-                                                  name: data['name'],
-                                                  step: data['step'],
-                                                  min_purchasable: data['min_purchasable'],
-                                                  max_purchasable: data['max_purchasable'],
-                                                  initial_amount: data['initial_amount'] } )
       end
     end
   end
