@@ -1,22 +1,19 @@
 header.header-desktop
-  h1
-    = link_to event_url(current_event) do
-      = current_event.name
   .wrapper-breadcrumbs
     a Home
     span.separator >
     a.current-breadcrumb Store
   nav.header-nav
     ul
-      //li
-      //  = fa_icon "envelope"
-      //  = mail_to current_event.support_email, t('header.help'), subject: t('event.subject_support', event: current_event.name)
-
       - if customer_signed_in?
         li
-          = link_to edit_event_registrations_path(current_event, current_customer) do
+          = link_to event_url(current_event), class: "btn-desktop-profile" do
+            = fa_icon "home"
+        li
+          = link_to edit_event_registrations_path(current_event, current_customer), class: "btn-desktop-profile" do
             = fa_icon "user"
-            = current_customer.first_name
+            //= current_customer.first_name
+
 
 
 

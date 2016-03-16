@@ -8,4 +8,3 @@
   = render(root + "completed_claims", customer_event_profile: customer_event_profile) if customer_event_profile.completed_claims.any?
   = render(root + "orders", customer_event_profile: customer_event_profile) if customer_event_profile.orders.any?
   = render(root + "customer_orders", customer_event_profile: customer_event_profile) if customer_event_profile.customer_orders.any?
-  = render(root + "online_orders", customer_event_profile: customer_event_profile) if customer_event_profile.online_orders.any?

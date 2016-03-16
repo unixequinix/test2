@@ -7,7 +7,7 @@ table.orders
       th = t("admin.catalog_item.name")
       th = t("admin.orders.total")
   tbody
-    - customer_event_profile.purchases.each do |purchased_order|
+    - customer_event_profile.sorted_purchases(format: :list).each do |purchased_order|
       tr
         td data-label=t("admin.catalog_item.name") = "#{purchased_order.product_name}"
         td data-label=t("admin.orders.total") = "#{purchased_order.total_amount}"

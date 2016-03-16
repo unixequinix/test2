@@ -17,27 +17,16 @@ class OrderItem < ActiveRecord::Base
   belongs_to :order
   belongs_to :catalog_item
 
-  def credits_included
-    if catalog_item.catalogable_type == "Pack"
-      pack_credits
-    elsif catalog_item.catalogable_type == "Credit"
-      single_credits
-    else
-      0
-    end
+  def single_credits?
+    catalog_item.catalogable_type == "Credit"
   end
 
-  def pack_credits
-    catalog_item.catalogable.credits * amount
+  def valid_pack?
+    catalog_item.catalogable_type == "Pack" && catalog_item.catalogable.credits.any?
   end
 
-  def single_credits
-    amount
-  end
-
-  def credits?
-    catalog_item.catalogable_type == "Credit" ||
-      catalog_item.catalogable_type == "Pack" && catalog_item.catalogable.credits > 0
+  def credits
+    catalog_item.catalogable.credits
   end
 
   # Validations

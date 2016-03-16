@@ -5,7 +5,8 @@ class CustomerOrderTicketCreator
         customer_event_profile: ticket.assigned_ticket_credential.customer_event_profile,
         amount: pack_catalog_item.amount,
         catalog_item_id: pack_catalog_item.catalog_item_id,
-        origin: CustomerOrder::TICKET_ASSIGNMENT)
+        origin: CustomerOrder::TICKET_ASSIGNMENT
+      )
       customer_order.credential_assignments << ticket.assigned_ticket_credential
       OnlineOrder.create(
         redeemed: false,
@@ -15,6 +16,6 @@ class CustomerOrderTicketCreator
   end
 
   def delete(ticket)
-    ticket.assigned_ticket_credential.customer_orders(&:delete)
+    ticket.assigned_ticket_credential.customer_orders.each(&:destroy)
   end
 end

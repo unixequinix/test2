@@ -68,9 +68,10 @@ es:
       claim: "Ha habido un error en tu devolución"
       description: "Vuelve a tu panel e inténtalo de nuevo."
     without_gtags:
+      add : "Asigna tu %{gtag}"
       title: "¿Te quedan créditos?"
-      description: "Introduce tu %{gtag} para empezar el proceso de devolución. Sólo una %{gtag} puede ser activada por cuenta."
-      button: "Introducir %{gtag}"
+      description: "Rcuerda, sólo un %{gtag} por cuenta."
+      button: "Introducir"
     without_gtags_disabled:
       add : "Añade tu id"
       claim: "El tiempo para solicitar tu devolución de créditos en tu %{gtag} ha terminado"
@@ -80,7 +81,7 @@ es:
       claim: "Lo sentimos"
       description: "Ya ha pasado el periodo de devolución, ponte en contacto con soporte si tienes alguna duda."
     gtag_registration:
-      title: "Tu %{gtag}:"
+      title: "Tu %{gtag}"
       call_to_action: "¿Introdujiste una incorrecta por error?"
       button: "Cambiar"
       hint: "Has introducido una pulsera por error? Bórrala y reinicia el proceso"
@@ -97,6 +98,9 @@ es:
       title: "Tus créditos restantes:"
       call_to_action: "Reembolso realizado con éxito, pronto se realizará su transferencia"
       button: "Modificar cuenta"
+    event_started:
+      title: "Últimos detalles!"
+      description: "Estamos trabajano en los últimos detalles del evento para que tu experiencia sea la mejor posible. Por favor, vuelve en unas horas y mira lo que hemos preparado oara ti."
   admissions:
     title: "Activación del Ticket"
     description: "Por favor, introduce el código impreso debajo del código de barras en tu ticket del evento."
@@ -135,7 +139,7 @@ es:
     paypal:
       sync_title: "Regístarte en PayPal para completar el pago"
       sync_copy: "Crédito asegurado"
-      sync_description: "Recarga de forma directa tu pulsera. Selecciona el crédito que quieres recargar en caso de gastar todos tus créditos y evita colas innecesarias. Tu pulsera siempre estará lista y portegida."
+      sync_description: "Recarga de forma directa tu pulsera. Selecciona el crédito que quieres recargar en caso de gastar todos tus créditos y evita colas innecesarias. Tu pulsera siempre estará lista y protegida."
   claims:
     title: "Confirmar Reembolso"
     description: "Por favor, revisa tu órden y procede a realizar el pago."
@@ -196,6 +200,7 @@ es:
       title: 'Pago realizado'
       description: 'Gracias por tu compra. El pago ha sido realizado. Recibirás un email de confirmación de tu compra.'
   refund:
+    refund_method: "Método de devolución"
     error:
       title: 'Transacción fallida'
       call_to_action: 'Contáctanos:'
@@ -226,6 +231,13 @@ es:
       waiting_confirmation: 'En espera de confirmarción de:'
       button: 'Actualizar'
   sessions:
+    welcome: 'Welcome!'
+    create_account:
+      title: 'No tienes cuanta aún?'
+      link: 'Crea una gratis!'
+    log_in:
+      title: 'Ya tienes cuenta?'
+      link: 'Inicia sesión'
     new:
       title: 'Inicia Sesión'
       description: 'Así es como funciona'

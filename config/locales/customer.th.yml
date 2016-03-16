@@ -191,6 +191,7 @@ th:
       email: 'ลืมรหัสผ่าน?'
       password: 'ส่งขั้นตอนในการตั้งรหัสผ่านมาให้ฉัน'
   refund:
+    refund_method: "Refund method"
     error:
       title: 'ทำรายการไม่สำเร็จ'
       call_to_action: 'ติดต่อเรา:'
@@ -222,6 +223,13 @@ th:
       waiting_confirmation: 'กำลังรอการยืนยัน:'
       button: 'อัพเดท'
   sessions:
+    welcome: 'Welcome!'
+    create_account:
+      title: 'Don´t you have an account?'
+      link: 'Get a free one!'
+    log_in:
+      title: 'Already have an account?'
+      link: 'Log in here'
     new:
       title: 'เข้าระบบ'
       description: 'วิธีใช้งาน'
