@@ -78,19 +78,6 @@ namespace :db do
                                                 validate: false)
   end
 
-  def create_credits
-    event = Event.last
-    Credit.create!(standard: true,
-                   currency: "EUR",
-                   value: 1,
-                   catalog_item_attributes: { event_id: event.id,
-                                              name: "Standard Credit",
-                                              step: 1,
-                                              min_purchasable: 1,
-                                              max_purchasable: 10000,
-                                              initial_amount: 0 })
-  end
-
   def create_accesses
     event = Event.last
     @accesses.times do |index|

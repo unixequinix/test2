@@ -22,7 +22,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
 
   def sql_customer_event_profiles # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
-      SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(cep))))
+      SELECT array_to_json(array_agg(row_to_json(cep)))
       FROM (
         SELECT id,
         (
@@ -95,7 +95,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
 
   def sql_gtags # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
-      SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(g))))
+      SELECT array_to_json(array_agg(row_to_json(g)))
       FROM (
         SELECT gtags.id, gtags.tag_uid, gtags.tag_serial_number, gtags.credential_redeemed,
                credential_assignments.customer_event_profile_id as customer_id,
@@ -145,7 +145,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
 
   def sql_tickets # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
-      SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(t))))
+      SELECT array_to_json(array_agg(row_to_json(t)))
       FROM (
         SELECT tickets.id, tickets.code as reference, tickets.credential_redeemed,
                tickets.company_ticket_type_id, tickets.updated_at,
