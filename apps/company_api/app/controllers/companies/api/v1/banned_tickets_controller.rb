@@ -11,7 +11,7 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
   end
 
   def create
-    t_code = params[:tickets_blacklist][:ticket_reference]
+    t_code = params[:tickets_blacklist] && params[:tickets_blacklist][:ticket_reference]
 
     render(status: :bad_request, json: :bad_request) && return unless t_code
 
@@ -21,8 +21,9 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
 
     @ticket = @fetcher.tickets.find_by_code(t_code)
     @ticket ||= @fetcher.tickets.create!(company_ticket_type: ctt, code: t_code)
-    @ticket.ban!
 
+    render(status: :conflict, json: { error: "Ticket already in the blacklist."}) &&
+      return unless @ticket.ban!
     render(status: :created, json: @ticket, serializer: Companies::Api::V1::BannedTicketSerializer)
   end
 
