@@ -43,7 +43,7 @@ class Pack < ActiveRecord::Base
     items_and_amount.uniq(&:id)
   end
 
-  def credits_pack?
+  def only_credits_pack?
     number_catalog_items = open_all.size
     number_catalog_credit_items = open_all.select do |catalog_item|
       catalog_item.catalogable_type == "Credit"

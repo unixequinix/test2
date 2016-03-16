@@ -21,7 +21,7 @@ table.packs
         td data-label=t('admin.catalog_item.min_purchasable') = pack.catalog_item.min_purchasable
         td data-label=t('admin.pack.number_catalog_items')
           = pack.catalog_items_count
-          = "·" if pack.credits_pack?
+          = "·" if pack.only_credits_pack?
         td.table-actions-field
           = render 'admins/events/packs/actions', pack: pack unless current_event.started?
 = paginate packs
