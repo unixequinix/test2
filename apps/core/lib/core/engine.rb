@@ -8,6 +8,10 @@ module Core
       end
     end
 
+    initializer "fixing json parse errors" do |app|
+      app.config.middleware.insert_before ActionDispatch::ParamsParser, "CatchJsonParseErrors"
+    end
+
     initializer "fixing Warden's position in the Rack stack" do |app|
       app.config.middleware.insert_after ActionDispatch::Flash, Warden::Manager do |config|
         config.failure_app = UnauthorizedController
