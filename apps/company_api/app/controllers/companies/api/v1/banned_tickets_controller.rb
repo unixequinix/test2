@@ -12,18 +12,21 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
 
   def create
     t_code = params[:tickets_blacklist] && params[:tickets_blacklist][:ticket_reference]
-
     render(status: :bad_request, json: :bad_request) && return unless t_code
 
-    ctt = CompanyTicketType.find_by_company_code(TicketDecoder::SonarDecoder.perform(t_code))
-
-    render(status: :not_found, json: { error: "Ticket Type not found" }) && return unless ctt
-
     @ticket = @fetcher.tickets.find_by_code(t_code)
-    @ticket ||= @fetcher.tickets.create!(company_ticket_type: ctt, code: t_code)
 
-    render(status: :conflict, json: { error: "Ticket already in the blacklist."}) &&
-      return unless @ticket.ban!
+    unless @ticket
+      decoded = TicketDecoder::SonarDecoder.perform(t_code)
+      render(status: :not_found, json: { error: "Ticket not found" }) && return unless decoded
+
+      ctt = CompanyTicketType.find_by_company_code(decoded)
+      render(status: :not_found, json: { error: "Ticket Type not found" }) && return unless ctt
+
+      @ticket = @fetcher.tickets.find_or_create_by(company_ticket_type: ctt, code: t_code)
+    end
+
+    @ticket.ban!
     render(status: :created, json: @ticket, serializer: Companies::Api::V1::BannedTicketSerializer)
   end
 
