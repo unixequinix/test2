@@ -63,6 +63,8 @@ class Pack < ActiveRecord::Base
     items.flatten
   end
 
+  private
+
   def building(catalog_item)
     OpenStruct.new(id: catalog_item.id,
                    catalogable_id: catalog_item.catalogable_id,
