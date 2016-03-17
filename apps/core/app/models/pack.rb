@@ -28,19 +28,7 @@ class Pack < ActiveRecord::Base
   }
 
   def credits
-    items_and_amount = open_all("Credit").each_with_object([]) do |catalog_item, acum|
-      acum << catalog_item
-      # => TODO: remove if works
-      #       acum << Sorters::FakeCatalogItem.new(
-      #                              catalog_item_id: catalog_item.id,
-      #                              catalogable_id: catalog_item.catalogable_id,
-      #                              catalogable_type: catalog_item.catalogable_type,
-      #                              product_name: catalog_item.name,
-      #                              value: catalog_item.value,
-      #                              total_amount: catalog_item.amount
-      #                             ) if catalog_item.catalogable_type == "Credit"
-    end
-    items_and_amount.uniq(&:id)
+    open_all("Credit").uniq(&:catalog_item_id)
   end
 
   def only_credits_pack?
@@ -55,6 +43,8 @@ class Pack < ActiveRecord::Base
     items = catalog_items_included.each_with_object([]) do |catalog_item, result|
       if catalog_item.catalogable_type == "Pack"
         item_found = catalog_item.catalogable.open_all
+        parent_pack_amount = catalog_item.pack_catalog_items.where(pack_id: id).first.amount
+        item_found.first.total_amount *= parent_pack_amount
         result.push(item_found) if item_found
       else
         result.push(building(catalog_item)) if category.include?(catalog_item.catalogable_type) || category.blank?
@@ -63,13 +53,11 @@ class Pack < ActiveRecord::Base
     items.flatten
   end
 
-  private
-
   def building(catalog_item)
-    OpenStruct.new(id: catalog_item.id,
+    Sorters::FakeCatalogItem.new(catalog_item_id: catalog_item.id,
                    catalogable_id: catalog_item.catalogable_id,
                    catalogable_type: catalog_item.catalogable_type,
-                   name: catalog_item.name,
+                   product_name: catalog_item.name,
                    value: catalog_item.catalogable_type == "Credit" && catalog_item.catalogable.value,
                    total_amount: catalog_item.pack_catalog_items
                             .where(pack_id: id)
