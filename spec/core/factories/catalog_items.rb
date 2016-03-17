@@ -55,6 +55,6 @@ FactoryGirl.define do
     factory :access_catalog_item, traits: [:with_access]
     factory :voucher_catalog_item, traits: [:with_voucher]
     factory :product_catalog_item, traits: [:with_onsite_catalog_item]
-    factory :full_catalog_item, traits: [:with_standard_credit, :with_access, :with_voucher]
+    factory :full_catalog_item, traits: [:with_credit, :with_access, :with_voucher]
   end
 end
