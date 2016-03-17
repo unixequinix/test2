@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160314140554) do
+ActiveRecord::Schema.define(version: 20160317093916) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -136,7 +136,7 @@ ActiveRecord::Schema.define(version: 20160314140554) do
   create_table "catalog_items", force: :cascade do |t|
     t.integer  "event_id",         null: false, index: {name: "index_catalog_items_on_event_id"}, foreign_key: {references: "events", name: "fk_catalog_items_event_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "catalogable_id",   null: false
-    t.string   "catalogable_type", null: false
+    t.string   "catalogable_type", null: false, index: {name: "fk__catalog_items_catalogable_id", with: ["catalogable_id"]}
     t.string   "name"
     t.text     "description"
     t.integer  "initial_amount"
@@ -187,12 +187,13 @@ ActiveRecord::Schema.define(version: 20160314140554) do
   create_table "tickets", force: :cascade do |t|
     t.integer  "event_id",               null: false, index: {name: "fk__tickets_event_id"}, foreign_key: {references: "events", name: "fk_tickets_event_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "company_ticket_type_id", null: false, index: {name: "fk__tickets_company_ticket_type_id"}, foreign_key: {references: "company_ticket_types", name: "fk_tickets_company_ticket_type_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "code",                   index: {name: "index_tickets_on_code", unique: true}
+    t.string   "code"
     t.boolean  "credential_redeemed",    default: false, null: false
     t.datetime "deleted_at",             index: {name: "index_tickets_on_deleted_at"}
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
+  add_index "tickets", ["deleted_at", "code", "event_id"], name: "index_tickets_on_deleted_at_and_code_and_event_id", unique: true
 
   create_table "banned_tickets", force: :cascade do |t|
     t.integer  "ticket_id",  null: false, index: {name: "fk__banned_tickets_ticket_id"}, foreign_key: {references: "tickets", name: "fk_banned_tickets_ticket_id", on_update: :no_action, on_delete: :no_action}
@@ -204,7 +205,7 @@ ActiveRecord::Schema.define(version: 20160314140554) do
   create_table "credential_assignments", force: :cascade do |t|
     t.integer  "customer_event_profile_id", index: {name: "fk__credential_assignments_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_credential_assignments_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "credentiable_id",           null: false
-    t.string   "credentiable_type",         null: false
+    t.string   "credentiable_type",         null: false, index: {name: "fk__credential_assignments_credentiable_id", with: ["credentiable_id"]}
     t.string   "aasm_state"
     t.datetime "deleted_at",                index: {name: "index_credential_assignments_on_deleted_at"}
     t.datetime "created_at",                null: false
@@ -261,7 +262,7 @@ ActiveRecord::Schema.define(version: 20160314140554) do
 
   create_table "comments", force: :cascade do |t|
     t.integer  "commentable_id",   null: false
-    t.string   "commentable_type", null: false
+    t.string   "commentable_type", null: false, index: {name: "fk__comments_commentable_id", with: ["commentable_id"]}
     t.integer  "admin_id",         null: false, index: {name: "fk__comments_admin_id"}, foreign_key: {references: "admins", name: "fk_comments_admin_id", on_update: :no_action, on_delete: :no_action}
     t.text     "body"
     t.datetime "created_at",       null: false
@@ -359,7 +360,7 @@ ActiveRecord::Schema.define(version: 20160314140554) do
 
   create_table "entitlements", force: :cascade do |t|
     t.integer  "entitlementable_id",   null: false
-    t.string   "entitlementable_type", null: false
+    t.string   "entitlementable_type", null: false, index: {name: "fk__entitlements_entitlementable_id", with: ["entitlementable_id"]}
     t.integer  "event_id",             null: false, index: {name: "fk__entitlements_event_id"}, foreign_key: {references: "events", name: "fk_entitlements_event_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "memory_position",      null: false
     t.string   "memory_length",        default: "simple", null: false
@@ -520,7 +521,7 @@ ActiveRecord::Schema.define(version: 20160314140554) do
 
   create_table "purchasers", force: :cascade do |t|
     t.integer  "credentiable_id",       null: false
-    t.string   "credentiable_type",     null: false
+    t.string   "credentiable_type",     null: false, index: {name: "fk__purchasers_credentiable_id", with: ["credentiable_id"]}
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
@@ -561,7 +562,7 @@ ActiveRecord::Schema.define(version: 20160314140554) do
   create_table "station_parameters", force: :cascade do |t|
     t.integer  "station_id",               null: false, index: {name: "fk__station_parameters_station_id"}, foreign_key: {references: "stations", name: "fk_station_parameters_station_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "station_parametable_id",   null: false
-    t.string   "station_parametable_type", null: false
+    t.string   "station_parametable_type", null: false, index: {name: "fk__station_parameters_station_parametable_id", with: ["station_parametable_id"]}
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
   end
