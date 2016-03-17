@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160308185753) do
+ActiveRecord::Schema.define(version: 20160317093916) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -187,12 +187,13 @@ ActiveRecord::Schema.define(version: 20160308185753) do
   create_table "tickets", force: :cascade do |t|
     t.integer  "event_id",               null: false, index: {name: "fk__tickets_event_id"}, foreign_key: {references: "events", name: "fk_tickets_event_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "company_ticket_type_id", null: false, index: {name: "fk__tickets_company_ticket_type_id"}, foreign_key: {references: "company_ticket_types", name: "fk_tickets_company_ticket_type_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "code",                   index: {name: "index_tickets_on_code", unique: true}
+    t.string   "code"
     t.boolean  "credential_redeemed",    default: false, null: false
     t.datetime "deleted_at",             index: {name: "index_tickets_on_deleted_at"}
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
+  add_index "tickets", ["deleted_at", "code", "event_id"], name: "index_tickets_on_deleted_at_and_code_and_event_id", unique: true
 
   create_table "banned_tickets", force: :cascade do |t|
     t.integer  "ticket_id",  null: false, index: {name: "fk__banned_tickets_ticket_id"}, foreign_key: {references: "tickets", name: "fk_banned_tickets_ticket_id", on_update: :no_action, on_delete: :no_action}
