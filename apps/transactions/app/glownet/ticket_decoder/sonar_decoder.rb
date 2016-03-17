@@ -2,6 +2,7 @@ class TicketDecoder::SonarDecoder
   PREFIX = "2016"
 
   def self.perform(ticket_code)
+    return nil if ticket_code.blank?
     ticket_number = decode(ticket_code)
     return nil unless verify_prefix(ticket_number)
     ticket_number.to_s[-3..-1].to_i

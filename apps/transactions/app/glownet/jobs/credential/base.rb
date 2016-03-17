@@ -17,9 +17,11 @@ class Jobs::Credential::Base < Jobs::Base
 
   def assign_ticket(transaction, atts)
     transaction.ticket ||
-      transaction.create_ticket!(event_id: atts[:event_id],
-                                 code: atts[:ticket_code],
-                                 company_ticket_type_id: atts[:company_ticket_type])
+      transaction.create_ticket!(
+        event_id: atts[:event_id],
+        code: atts[:ticket_code],
+        company_ticket_type_id: TicketDecoder::SonarDecoder.perform(atts[:ticket_code])
+      )
   end
 
   def assign_ticket_credential(ticket, profile)

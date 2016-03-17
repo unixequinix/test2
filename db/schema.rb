@@ -311,6 +311,7 @@ ActiveRecord::Schema.define(version: 20160317093916) do
     t.integer  "customer_event_profile_id", index: {name: "index_credential_transactions_on_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_credential_transactions_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "status_code"
     t.string   "status_message"
+    t.string   "ticket_code"
   end
 
   create_table "credit_transactions", force: :cascade do |t|

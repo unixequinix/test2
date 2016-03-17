@@ -5,13 +5,15 @@ RSpec.describe Jobs::Credential::Base, type: :job do
   let(:transaction) { create(:credential_transaction, event: event) }
   let(:gtag) { create(:gtag, event: event) }
   let(:ticket) { create(:ticket, event: event, credential_redeemed: false) }
+  let(:ticket_code) { "TC8B106BA990BDC56" }
   let(:profile) { create(:customer_event_profile, event: event) }
   let(:worker) { Jobs::Credential::Base.new }
   let(:atts) do
     {
       event_id: event.id,
       transaction_id: transaction.id,
-      customer_tag_uid: transaction.customer_tag_uid
+      customer_tag_uid: transaction.customer_tag_uid,
+      ticket_code: ticket_code
     }
   end
 
@@ -58,6 +60,23 @@ RSpec.describe Jobs::Credential::Base, type: :job do
       expect do
         worker.assign_gtag_credential(gtag, profile)
       end.not_to change(gtag, :assigned_gtag_credential)
+    end
+  end
+
+  describe ".assign_ticket" do
+    it "creates a ticket for the transaction event passed" do
+      create(:company_ticket_type, id: TicketDecoder::SonarDecoder.perform(ticket_code))
+      expect do
+        worker.assign_ticket(transaction, atts)
+      end.to change(transaction.event.tickets, :count).by(1)
+    end
+
+    it "leaves the ticket if already present" do
+      ctt = create(:company_ticket_type, id: TicketDecoder::SonarDecoder.perform(ticket_code))
+      transaction.create_ticket!(event: event, code: ticket_code, company_ticket_type: ctt)
+      expect do
+        worker.assign_ticket(transaction, atts)
+      end.not_to change(transaction.event.tickets, :count)
     end
   end
 
