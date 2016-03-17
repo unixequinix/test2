@@ -16,7 +16,6 @@ class Multitenancy::CompanyFetcher
 
   def tickets
     @event.tickets
-      .with_deleted
       .joins(company_ticket_type: :company_event_agreement)
       .where(company_ticket_types: { company_event_agreement_id: @agreement.id })
   end
