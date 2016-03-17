@@ -20,7 +20,7 @@ class CustomerCreditOrderCreator
               payment_method: "none",
               credit_value: credit_item.value,
               amount: credit_item.total_amount * order_item.amount,
-              refundable_amount: order_item.total / credit_item.value * order_item.amount
+              refundable_amount: order_item.total / credit_item.value
             )
           end
         else

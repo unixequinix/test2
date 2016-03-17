@@ -52,7 +52,7 @@ class CustomerEventProfile < ActiveRecord::Base
   has_one :completed_claim,
           -> { where(aasm_state: :completed) }, class_name: "Claim"
   has_one :banned_customer_event_profile
-  has_one :current_balance, -> { order(created_at: :asc) }, class_name: "CustomerCredit"
+  has_one :current_balance, -> { order(created_at: :desc) }, class_name: "CustomerCredit"
   has_many :payment_gateway_customers
 
   # Validations
