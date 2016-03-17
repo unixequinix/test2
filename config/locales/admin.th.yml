@@ -231,9 +231,9 @@ th:
       name: "Name"
       description: "Description"
       step: "Step"
-      initial_amount: "Initial Amount"
-      max_purchasable: "Max Purchasable"
-      min_purchasable: "Min Purchasable"
+      initial_amount: "Initial amount"
+      max_purchasable: "Max purchasable"
+      min_purchasable: "Min purchasable"
       catalogable_type: "Type"
     vouchers:
       id: "Id"

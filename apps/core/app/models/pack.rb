@@ -47,20 +47,20 @@ class Pack < ActiveRecord::Base
         item_found.first.total_amount *= parent_pack_amount
         result.push(item_found) if item_found
       else
-        result.push(building(catalog_item)) if category.include?(catalog_item.catalogable_type) || category.blank?
+        result.push(build_catalog_item(catalog_item)) if category.include?(catalog_item.catalogable_type) || category.blank?
       end
     end
     items.flatten
   end
 
-  def building(catalog_item)
-    Sorters::FakeCatalogItem.new(catalog_item_id: catalog_item.id,
-                   catalogable_id: catalog_item.catalogable_id,
-                   catalogable_type: catalog_item.catalogable_type,
-                   product_name: catalog_item.name,
-                   value: catalog_item.catalogable_type == "Credit" && catalog_item.catalogable.value,
-                   total_amount: catalog_item.pack_catalog_items
-                            .where(pack_id: id)
-                            .sum(:amount))
+  def build_catalog_item(catalog_item)
+    Sorters::FakeCatalogItem.new(
+      catalog_item_id: catalog_item.id,
+      catalogable_id: catalog_item.catalogable_id,
+      catalogable_type: catalog_item.catalogable_type,
+      product_name: catalog_item.name,
+      value: catalog_item.catalogable_type == "Credit" && catalog_item.catalogable.value,
+      total_amount: catalog_item.pack_catalog_items.where(pack_id: id).sum(:amount)
+    )
   end
 end

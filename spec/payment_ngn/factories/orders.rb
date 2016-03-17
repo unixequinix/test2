@@ -29,6 +29,6 @@ FactoryGirl.define do
         order.order_items << build(:order_item, :with_credit, order: order, amount: 10, total: 20)
       end
     end
-
+    factory :order_with_items, traits: [:with_different_items]
   end
 end

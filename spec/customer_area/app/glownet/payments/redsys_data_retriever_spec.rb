@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Payments::RedsysDataRetriever, type: :domain_logic do
   before(:all) do
     @number = rand(10_000_000)
-    order = create(:order, number: @number)
+    order = create(:order_with_items, number: @number)
     customer_event_profile = order.customer_event_profile
     event = customer_event_profile.event
     Seeder::SeedLoader.load_default_event_parameters(event)
