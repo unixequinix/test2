@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160314140554) do
+ActiveRecord::Schema.define(version: 20160317093916) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,7 +173,7 @@ ActiveRecord::Schema.define(version: 20160314140554) do
     t.datetime "updated_at",                null: false
   end
 
-  add_index "credential_assignments", ["deleted_at"], name: "index_credential_assignments_on_deleted_at", using: :btree
+  add_index "credential_assignments", ["credentiable_type", "aasm_state"], name: "index_c_assignments_on_c_type_and_state", unique: true, using: :btree
 
   create_table "credential_transactions", force: :cascade do |t|
     t.integer  "event_id"
@@ -311,8 +311,8 @@ ActiveRecord::Schema.define(version: 20160314140554) do
     t.datetime "updated_at",                             null: false
   end
 
+  add_index "customers", ["deleted_at", "email", "event_id"], name: "index_customers_on_deleted_at_and_email_and_event_id", unique: true, using: :btree
   add_index "customers", ["deleted_at"], name: "index_customers_on_deleted_at", using: :btree
-  add_index "customers", ["email"], name: "index_customers_on_email", unique: true, using: :btree
   add_index "customers", ["remember_token"], name: "index_customers_on_remember_token", unique: true, using: :btree
   add_index "customers", ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true, using: :btree
 
@@ -420,8 +420,8 @@ ActiveRecord::Schema.define(version: 20160314140554) do
     t.datetime "updated_at",                             null: false
   end
 
+  add_index "gtags", ["deleted_at", "tag_uid", "event_id"], name: "index_gtags_on_deleted_at_and_tag_uid_and_event_id", unique: true, using: :btree
   add_index "gtags", ["deleted_at"], name: "index_gtags_on_deleted_at", using: :btree
-  add_index "gtags", ["tag_uid", "event_id"], name: "index_gtags_on_tag_uid_and_event_id", unique: true, using: :btree
 
   create_table "money_transactions", force: :cascade do |t|
     t.integer  "event_id"
@@ -664,7 +664,7 @@ ActiveRecord::Schema.define(version: 20160314140554) do
     t.datetime "updated_at",                             null: false
   end
 
-  add_index "tickets", ["code"], name: "index_tickets_on_code", unique: true, using: :btree
+  add_index "tickets", ["deleted_at", "code", "event_id"], name: "index_tickets_on_deleted_at_and_code_and_event_id", unique: true, using: :btree
   add_index "tickets", ["deleted_at"], name: "index_tickets_on_deleted_at", using: :btree
 
   create_table "vouchers", force: :cascade do |t|
