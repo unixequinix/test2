@@ -16,10 +16,12 @@
           = label_tag :card_verification, t('orders.stripe.card_code_verification'), required: true, class: "expiration-label"
           #card-verification
         .controls
-          = label_tag :expiration_month, t('orders.stripe.card_expiration_month'), required: true, class: "expiration-label"
-          #expiration-month
-          = label_tag :expiration_year, t('orders.stripe.card_expiration_year'), required: true, class: "expiration-label"
-          #expiration-year
+          .expiration-month
+            = label_tag :expiration_month, t('orders.stripe.card_expiration_month'), required: true, class: "expiration-label"
+            #expiration-month
+          .expiration-year
+            = label_tag :expiration_year, t('orders.stripe.card_expiration_year'), required: true, class: "expiration-label"
+            #expiration-year
         .actions
           = submit_tag t('orders.button'), class: "btn btn-action btn-action-primary"
 
@@ -28,14 +30,14 @@ javascript:
     var hostedFieldsStyle = {
       // Style all elements
       'input': {
-        'height': '3rem'
+        'height': '3.35rem'
       },
       'label': {
         'left': '0'
       },
       // Styling element state
       ':focus': {
-        'color': 'blue'
+        'color': '#2c2c2c2'
       },
       '.valid': {
         'color': 'green'

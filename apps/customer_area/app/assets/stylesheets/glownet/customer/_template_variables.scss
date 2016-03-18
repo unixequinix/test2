@@ -79,6 +79,13 @@ body                                 { background-color: #e2e2e2; }
 .btn:after, .btn-desktop-profile:after                           { box-shadow: 0 0 0 2px $magenta; }
 .current-breadcrumb                  { box-shadow: inset 0px 0px 0px 1px $magenta; }
 
+#card-number.braintree-hosted-fields-focused,
+#card-verification.braintree-hosted-fields-focused,
+#expiration-month.braintree-hosted-fields-focused,
+#expiration-year.braintree-hosted-fields-focused {
+  border-color: $magenta;
+}
+
 input[type=text],
 input[type=password],
 input[type=email],
