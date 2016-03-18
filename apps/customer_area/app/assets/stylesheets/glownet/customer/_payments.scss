@@ -9,32 +9,6 @@
   position: relative;
 }
 
-#braintree-payment-form {
-
-}
-
-#card-number {
-  border: 1px solid #333;
-  -webkit-transition: border-color 160ms;
-  transition: border-color 160ms;
-  background-color: yellow;
-}
-
-#card-number.braintree-hosted-fields-focused {
-  border-color: #777;
-  background-color: yellow;
-}
-
-#card-number.braintree-hosted-fields-invalid {
-  border-color: blue;
-  background-color: yellow;
-}
-
-#card-number.braintree-hosted-fields-valid {
-  border-color: red;
-  background-color: yellow;
-}
-
 .controls {
   input[type=text] { margin: modules(0.5) 0; }
   label { top: modules(1); }
@@ -64,4 +38,24 @@
   background-color: $red;
   color: $nuclear;
   text-align: center;
+}
+
+// Braintree
+#card-number, #card-verification, #expiration-month, #expiration-year {
+  border-bottom: 1px solid #999;
+  font-family: 'Roboto', 'Helvetica';
+  font-weight: lighter;
+  font-size: 12px;
+  height: 3rem;
+  .braintree-hosted-fields-focused {
+    border-color: #777;
+  }
+
+  .braintree-hosted-fields-invalid {
+    border-color: tomato;
+  }
+
+  .braintree-hosted-fields-valid {
+    border-color: limegreen;
+  }
 }

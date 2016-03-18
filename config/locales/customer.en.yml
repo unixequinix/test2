@@ -97,8 +97,8 @@ en:
       call_to_action: "Refund successfully claimed, soon you will receive your transfer"
       button: "Modify bank account"
     event_started:
-      title: "Ultamating details!"
-      description: "We are finishing event configuration to bring you a great experience. Please, come back after an hours and see what we have made for you."
+      title: "Ultimating details!"
+      description: "We are finishing event configuration to bring you a great experience. Please, come back later and see what we have made for you."
   admissions:
     title: "Ticket Activation"
     description: "Please enter the code that is printed on your event ticket just below the barcode."
@@ -133,6 +133,12 @@ en:
       card_number: "Card number"
       card_code_verification: "Card code verification (CCV)"
       card_expiration_date: "Card expiration date"
+      button: "Pay"
+    brainter:
+      card_number: "Card number"
+      card_code_verification: "Card code verification (CCV)"
+      card_expiration_month: "Card expiration month"
+      card_expiration_year: "Card expiration year"
       button: "Pay"
     paypal:
       sync_title: "Sync with Pay Pal to perform payment"
