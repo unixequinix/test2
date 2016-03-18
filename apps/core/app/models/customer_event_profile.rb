@@ -110,7 +110,6 @@ class CustomerEventProfile < ActiveRecord::Base
   end
 
   def sorted_purchases(**params)
-    binding.pry
     Sorters::PurchasesSorter.new(purchases).sort(params)
   end
 
