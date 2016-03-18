@@ -1,4 +1,5 @@
 class Api::V1::AccessSerializer < Api::V1::BaseSerializer
+  # TODO: Add memory length
   attributes :id, :name, :infinite, :position
 
   def attributes(*args)

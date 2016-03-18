@@ -78,35 +78,14 @@ header { position: relative; }
 
 .header-desktop {
   display: none;
-  height: modules(2);
-  margin-bottom: 0;
 
   @include min-screen($bp3) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
     display: block;
-    width: 40%;
-    margin: 0 auto;
-    padding-bottom: modules(2);
     z-index: 3;
-  }
-
-  h1 {
-    display: none;
-    margin-bottom: 0;
-
-    @include min-screen($bp3) {
-      @include mscale($base_font_size*1.25);
-      display: inline-block;
-      vertical-align: top;
-      width: auto;
-      padding: modules(0.5) modules(0.5) modules(0.5) 0;
-    }
-
-    a {
-      &:hover, &:focus {
-       outline: none;
-       opacity: 0.6;
-      }
-    }
   }
 }
 
@@ -115,29 +94,13 @@ header { position: relative; }
   width: auto;
   float: right;
 
-  ul { text-align: right; }
-
   li {
-    @include transition(background-color 130ms ease-in-out);
+    @include mscale($base_font_size*1.2);
+    position: relative;
     display: inline-block;
-    width: auto;
-    padding: modules(0.5) 0 modules(0.5) modules(0.5);
-
-    i {
-      display: inline-block;
-      width: auto;
-      padding-right: modules(0.25);
-    }
-  }
-
-  a {
-    padding: 0 modules(0.25);
-    border-radius: $radius;
-
-    &:hover, &:focus {
-      outline: none;
-      background-color: rgba(255,255,255,0.33);
-    }
+    width: modules(2.5);
+    height: modules(2.75);
+    padding: modules(0.25);
   }
 }
 

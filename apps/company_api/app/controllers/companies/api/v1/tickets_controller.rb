@@ -17,7 +17,7 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
     @ticket = @fetcher.tickets.find_by(id: params[:id])
 
     if @ticket
-      render json: @ticket
+      render json: @ticket, serializer: Companies::Api::V1::TicketSerializer
     else
       render status: :not_found,
              json: { error: I18n.t("company_api.tickets.not_found", ticket_id: params[:id]) }

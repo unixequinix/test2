@@ -1,7 +1,7 @@
 require "spec_helper"
 
 RSpec.describe Api::V1::Events::TicketsController, type: :controller do
-  let(:event) { build(:event) }
+  let(:event) { Event.last || create(:event) }
   let(:admin) { Admin.first || create(:admin) }
 
   before do
@@ -15,7 +15,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
       end
 
       it "has a 200 status code" do
-        get :index, event_id: Event.last.id
+        get :index, event_id: event.id
         expect(response.status).to eq 200
       end
 
@@ -44,7 +44,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
       context "if ticket doesn't exist" do
         it "has a 404 status code" do
-          get :show, event_id: event.id, id: 999
+          get :show, event_id: event.id, id: (Ticket.last.id + 10)
           expect(response.status).to eq 404
         end
       end

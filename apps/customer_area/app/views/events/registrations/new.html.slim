@@ -1,9 +1,13 @@
-= link_to t('links.buttons.login'), event_login_path(current_event), class: "btn btn-action-register btn-action-register-desktop"
+//= link_to t('links.buttons.login'), event_login_path(current_event), class: "btn btn-action-register btn-action-register-desktop"
 .container-event-column
   .wrapper-session
     = simple_form_for @new_profile_form, url: event_registrations_path(current_event), method: :post do |f|
       h3.center-text = t('registration.new.title')
-      p.center-text = t('registration.new.info')
+      .wrapper-redirect-sessions.center-text
+        p = t('sessions.log_in.title')
+        = link_to t('sessions.log_in.link'), event_login_path(current_event)
+
+      //p.center-text = t('registration.new.info')
       = f.error_notification
       = f.input :event_id, as: :hidden, input_html: { value: current_event.id, class: 'session-input' }
       = f.input :email, autofocus: true, input_html: { class: 'session-input' }

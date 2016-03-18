@@ -38,7 +38,7 @@ class Ticket < ActiveRecord::Base
   # has_many :comments, as: :commentable
 
   # Validations
-  validates :code, uniqueness: true
+  validates_uniqueness_of :code, scope: :event_id
   validates :code, presence: true
   validates :company_ticket_type, presence: true
 
@@ -75,7 +75,7 @@ class Ticket < ActiveRecord::Base
   def ban!
     assignment = CredentialAssignment.find_by(credentiable_id: id, credentiable_type: "Ticket")
     BannedCustomerEventProfile.new(assign.customer_event_profile_id) unless assignment.nil?
-    BannedTicket.create!(ticket_id: id)
+    BannedTicket.find_or_create_by(ticket_id: id)
   end
 
   def credits

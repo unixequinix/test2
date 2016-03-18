@@ -1,6 +1,8 @@
-= render 'events/claims/claim_details', claim: @claim
+.wrapper-module
+  = render 'events/claims/claim_details', claim: @claim
 
-iframe id="tipaltiIframe" class="tipalti" frameBorder=0 src=@url
+.wrapper-module
+  iframe id="tipaltiIframe" class="tipalti" frameBorder=0 src=@url
 
 javascript:
   tipaltiHandler = function (evt) {

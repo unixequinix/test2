@@ -12,7 +12,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
     create_list(:customer_order,
                 5,
                 customer_event_profile: @customer1,
-                catalog_item: create(:catalog_item, :with_access))
+                catalog_item: create(:catalog_item, :with_access, event: @event))
   end
 
   describe "GET index" do
@@ -33,24 +33,6 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
         body = JSON.parse(response.body)
         customers = body.map { |m| m["id"] }
         expect(customers).to match_array(CustomerEventProfile.for_event(@event).map(&:id))
-      end
-
-      it "should include the orders" do
-        get :index, event_id: @event.id
-
-        body = JSON.parse(response.body)
-
-        expect(body.first).to have_key("orders")
-        expect(body.first["orders"]).not_to be_empty
-      end
-
-      it "should include the credentials" do
-        get :index, event_id: @event.id
-
-        body = JSON.parse(response.body)
-
-        expect(body.first).to have_key("credentials")
-        expect(body.first["credentials"]).not_to be_empty
       end
     end
     context "without authentication" do

@@ -5,27 +5,38 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
     render json: {
       event_id: current_event.id,
       blacklisted_tickets: @banned_tickets.map do |ticket|
-        Companies::Api::V1::TicketSerializer.new(ticket)
+        Companies::Api::V1::BannedTicketSerializer.new(ticket)
       end
     }
   end
 
-  def create
-    @ticket = @fetcher.tickets.find_by(code: params[:tickets_blacklist][:ticket_reference])
+  def create # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    t_code = params[:tickets_blacklist] && params[:tickets_blacklist][:ticket_reference]
+    render(status: :bad_request, json: { error: "Ticket reference is missing." }) &&
+      return unless t_code
 
-    render(status: :not_found,
-           json: { message: I18n.t("company_api.tickets.not_found") }) && return unless @ticket
+    @ticket = @fetcher.tickets.find_by_code(t_code)
+
+    unless @ticket
+      decoded = TicketDecoder::SonarDecoder.perform(t_code)
+      render(status: :notflay_found, json: { error: "Invalid ticket reference." }) &&
+        return unless decoded
+
+      ctt = @fetcher.company_ticket_types.find_by_company_code(decoded)
+      render(status: :not_found, json: { error: "Ticket Type not found." }) &&
+        return unless ctt
+
+      @ticket = @fetcher.tickets.create!(company_ticket_type: ctt, code: t_code)
+    end
 
     @ticket.ban!
-    render(status: :created,
-           json: @ticket,
-           serializer: Companies::Api::V1::TicketSerializer)
+
+    render(status: :created, json: @ticket, serializer: Companies::Api::V1::BannedTicketSerializer)
   end
 
   def destroy
     @banned_ticket = BannedTicket.includes(:ticket)
-                     .find_by(tickets: { code: params[:id],
-                                         event_id: current_event.id })
+                     .find_by(tickets: { code: params[:id], event_id: current_event.id })
 
     render(status: :not_found, json: :not_found) && return if @banned_ticket.nil?
     render(status: :internal_server_error, json: :internal_server_error) &&

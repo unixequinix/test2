@@ -125,6 +125,16 @@ th:
       card_code_verification: "หมายเลขตรวจสอบยืนยันบัตร (CCV)"
       card_expiration_date: "วันหมดอายุของบัตร"
       button: "ชำระเงิน"
+    braintree:
+      card_number: "หมายเลขบัตร"
+      card_code_verification: "หมายเลขตรวจสอบยืนยันบัตร (CCV)"
+      card_expiration_month: "วันหมดอายุของบัตร"
+      card_expiration_year: "วันหมดอายุของบัตร"
+      button: "ชำระเงิน"
+    paypal:
+      sync_title: "Sync with Pay Pal to perform payment"
+      sync_copy: "Never without credit!"
+      sync_description: "Make direct top ups in your event purchases. Select how much you want to top up in case you spent your credit in the event and avoid queues. Your wristband will be always ready to go."
   claims:
     title: "ยืนยันการขอรับเงินคืน"
     description: "กรุณาตรวจสอบรายละเอียดของการขอรับเงินของคุณ และทำการชำระเงิน."
@@ -191,6 +201,7 @@ th:
       email: 'ลืมรหัสผ่าน?'
       password: 'ส่งขั้นตอนในการตั้งรหัสผ่านมาให้ฉัน'
   refund:
+    refund_method: "Refund method"
     error:
       title: 'ทำรายการไม่สำเร็จ'
       call_to_action: 'ติดต่อเรา:'
@@ -222,6 +233,13 @@ th:
       waiting_confirmation: 'กำลังรอการยืนยัน:'
       button: 'อัพเดท'
   sessions:
+    welcome: 'Welcome!'
+    create_account:
+      title: 'Don´t you have an account?'
+      link: 'Get a free one!'
+    log_in:
+      title: 'Already have an account?'
+      link: 'Log in here'
     new:
       title: 'เข้าระบบ'
       description: 'วิธีใช้งาน'

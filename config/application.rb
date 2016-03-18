@@ -32,6 +32,7 @@ module GlownetWeb
     config.i18n.available_locales = [:en, :es, :it, :th]
     config.i18n.fallbacks = true
     config.time_zone = "Madrid"
+    config.encoding = "utf-8"
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
