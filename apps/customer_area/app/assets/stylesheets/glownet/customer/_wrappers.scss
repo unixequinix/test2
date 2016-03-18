@@ -4,6 +4,21 @@
 //
 // -------------------------------------------------------
 
+// Redirect to logn register link
+
+.wrapper-redirect-sessions {
+  padding-top: modules(1);
+
+  p,a { display: inline-block; }
+  p { margin-bottom: modules(0.5); }
+  a {
+    padding-left: modules(0.25);
+    text-decoration: underline;
+
+    &:hover { text-decoration: none; }
+  }
+}
+
 // /\/\/\/\/\/\/\ BREADCRUMBS /\/\/\/\/\/\/\/\
 
 .wrapper-breadcrumbs {
@@ -42,6 +57,7 @@
   @include min-screen($bp3) {
     display: block;
     width: 40%;
+    height: modules(6);
     margin: 0 auto;
     padding: 0;
   }
@@ -93,20 +109,22 @@
     padding: modules(0.5) 0;
 
     @include min-screen($bp3) {
-      max-height: modules(5);
-      padding: modules(0.5) 0 modules(1);
+      max-height: modules(6);
+      padding: modules(1) 0;
     }
   }
 }
 
 // The centered container that contains all the account info
-
 .container-event-column {
   overflow: visible;
   position: relative;
   width: 100%;
 
   @include min-screen($bp4) {
+    @include animation(loadFadeIn);
+    @include animation-duration(300ms);
+    @include animation-timing-function(linear);
     @include outer-container(40%);
     height: auto;
     border-radius: $radius;
@@ -120,7 +138,6 @@
     border-top-right-radius: 3px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
-
   }
 }
 
@@ -157,6 +174,14 @@
     text-transform: uppercase;
 
     @include min-screen($bp3) { padding-right: 0; }
+  }
+}
+
+.module-refunds {
+  .panel-amount-number {
+    margin-bottom: modules(1);
+
+    &:after { content: ""; }
   }
 }
 
@@ -234,7 +259,6 @@
   font-weight: bold;
 }
 
-
 // Pay Pal auto top up
 .container-auto-top-up {
   overflow: hidden;
@@ -252,6 +276,25 @@
   select { width: 100%; }
 }
 
+// Container for order payment method buttons
+.container-payment-buttons {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+
+  li {
+    display: table-cell;
+    vertical-align: top;
+    width: auto;
+    max-width: 24%;
+    height: modules(3.75);
+    padding-right: modules(0.5);
+    width: auto;
+
+    &:nth-child(3n) { padding: 0 modules(0.25) 0 0; }
+    &:last-child { padding: 0 0 0 modules(0.25); }
+  }
+}
 
 // /\/\/\/\/\/\/\ TERMS AND CONDITIONS /\/\/\/\/\/\/\/\
 

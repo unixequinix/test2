@@ -5,18 +5,16 @@ class CatchJsonParseErrors
   end
 
   def call(env)
-    begin
-      @app.call(env)
-    rescue ActionDispatch::ParamsParser::ParseError => error
-      if env['HTTP_ACCEPT'] =~ /application\/json/ || env['CONTENT_TYPE'] =~ /application\/json/
-        error_output = "There was a problem in the JSON you submitted: #{error}"
-        return [
-          400, { "Content-Type" => "application/json" },
-          [ { status: :bad_request, error: error_output }.to_json ]
-        ]
-      else
-        raise error
-      end
+    @app.call(env)
+  rescue ActionDispatch::ParamsParser::ParseError => error
+    if env["HTTP_ACCEPT"] =~ /application\/json/ || env["CONTENT_TYPE"] =~ /application\/json/
+      error_output = "There was a problem in the JSON you submitted: #{error}"
+      return [
+        400, { "Content-Type" => "application/json" },
+        [{ status: :bad_request, error: error_output }.to_json]
+      ]
+    else
+      raise error
     end
   end
 end

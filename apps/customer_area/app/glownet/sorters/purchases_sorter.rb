@@ -1,32 +1,35 @@
-class Sorters::OrderSorter < Sorters::ItemSorter
-  def initialize(items)
-    @keys = %w(Voucher Access)
+class Sorters::PurchasesSorter < Sorters::ItemSorter
+  # Formats
+  LIST = :list
+  HASH = :hash
+
+  FORMATS = [LIST, HASH]
+
+  def initialize(items, keys = nil)
+    @keys = keys || %w(Voucher Access)
     @hash = build_hash_of_arrays
     @items = items.map do |item|
       Sorters::FakeCatalogItem.new(
-        product_name: item.product_name,
+        product_name: item.name,
         catalogable_type: item.catalogable_type,
-        catalog_item_id: item.catalog_item_id,
+        catalog_item_id: item.catalogable_id,
         total_amount: item.total_amount
       )
     end
   end
 
-  def sort
+  def sort(format:, itemized: true)
+    format = FORMATS.include?(format) ? format : HASH
     build_hash
+    itemize_packs if itemized
     remove_empty_categories
-    sort_by_criteria(:total_amount)
+    format == HASH ? sort_by_criteria(:total_amount) : sort_by_criteria(:total_amount).values.flatten
   end
 
-  def disaggregated_sort
-    build_hash
-    disaggregate_packs
-    remove_empty_categories
-    sort_by_criteria(:total_amount)
-  end
+  private
 
-  def disaggregate_packs
-    packs_included_in_order.each do |pack_reference|
+  def itemize_packs
+    packs_included_in_purchase.each do |pack_reference|
       pack_catalog_items(pack_reference).each do |pack_catalog_item|
         catalog_item = CatalogItem.find(pack_catalog_item.catalog_item_id)
         if @keys.include? catalog_item.catalogable_type
@@ -37,9 +40,7 @@ class Sorters::OrderSorter < Sorters::ItemSorter
     end
   end
 
-  private
-
-  def packs_included_in_order
+  def packs_included_in_purchase
     @items.select { |item| item.catalogable_type == "Pack" }
   end
 
