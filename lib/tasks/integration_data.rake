@@ -14,7 +14,8 @@ namespace :db do
     "Tickets",
     "TicketAssignments",
     "Gtags",
-    "GtagAssignments"
+    "GtagAssignments",
+    "BoxOffices"
   ]
 
   desc "Fill database with sample data"
@@ -28,6 +29,7 @@ namespace :db do
     @company_ticket_types = 20
     @tickets = 50
     @gtags =  40 # Less than customers is prefered
+    @box_offices = 5
 
     Benchmark.benchmark(CAPTION, 25, FORMAT, "TOTAL:") do |x|
       total = []
@@ -204,5 +206,19 @@ namespace :db do
                                                 batch_size: 50000,
                                                 delay: 0,
                                                 validate: false)
+  end
+
+  def create_box_offices
+    @box_offices.times do |index|
+      type = StationType.find_by(name: "box_office")
+      station = Station.create!(station_type: type, name: "Box Office #{index}", event: Event.last)
+      40.times do |i|
+        station.station_catalog_items
+                .new(price: rand(1.0...20.0),
+                     catalog_item_id: rand(1..CatalogItem.count),
+                     station_parameter_attributes: { station_id: station.id })
+                .save
+      end
+    end
   end
 end

@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(version: 20160317093916) do
 
   create_table "customers", force: :cascade do |t|
     t.integer  "event_id",               null: false, index: {name: "fk__customers_event_id"}, foreign_key: {references: "events", name: "fk_customers_event_id", on_update: :no_action, on_delete: :no_action}
-    t.string   "email",                  default: "",    null: false, index: {name: "index_customers_on_email", unique: true}
+    t.string   "email",                  default: "",    null: false
     t.string   "first_name",             default: "",    null: false
     t.string   "last_name",              default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 20160317093916) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
+  add_index "customers", ["deleted_at", "email", "event_id"], name: "index_customers_on_deleted_at_and_email_and_event_id", unique: true
 
   create_table "customer_event_profiles", force: :cascade do |t|
     t.integer  "customer_id", index: {name: "fk__customer_event_profiles_customer_id"}, foreign_key: {references: "customers", name: "fk_customer_event_profiles_customer_id", on_update: :no_action, on_delete: :no_action}
@@ -171,12 +172,13 @@ ActiveRecord::Schema.define(version: 20160317093916) do
     t.integer  "event_id",               null: false, index: {name: "fk__gtags_event_id"}, foreign_key: {references: "events", name: "fk_gtags_event_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "company_ticket_type_id", index: {name: "fk__gtags_company_ticket_type_id"}, foreign_key: {references: "company_ticket_types", name: "fk_gtags_company_ticket_type_id", on_update: :no_action, on_delete: :no_action}
     t.string   "tag_serial_number"
-    t.string   "tag_uid",                null: false, index: {name: "index_gtags_on_tag_uid_and_event_id", with: ["event_id"], unique: true}
+    t.string   "tag_uid",                null: false
     t.boolean  "credential_redeemed",    default: false, null: false
     t.datetime "deleted_at",             index: {name: "index_gtags_on_deleted_at"}
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
+  add_index "gtags", ["deleted_at", "tag_uid", "event_id"], name: "index_gtags_on_deleted_at_and_tag_uid_and_event_id", unique: true
 
   create_table "banned_gtags", force: :cascade do |t|
     t.integer  "gtag_id",    null: false, index: {name: "fk__banned_gtags_gtag_id"}, foreign_key: {references: "gtags", name: "fk_banned_gtags_gtag_id", on_update: :no_action, on_delete: :no_action}
@@ -205,12 +207,13 @@ ActiveRecord::Schema.define(version: 20160317093916) do
   create_table "credential_assignments", force: :cascade do |t|
     t.integer  "customer_event_profile_id", index: {name: "fk__credential_assignments_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_credential_assignments_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
     t.integer  "credentiable_id",           null: false
-    t.string   "credentiable_type",         null: false, index: {name: "fk__credential_assignments_credentiable_id", with: ["credentiable_id"]}
+    t.string   "credentiable_type",         null: false, index: {name: "index_c_assignments_on_c_type_and_state", with: ["aasm_state"], unique: true}
     t.string   "aasm_state"
-    t.datetime "deleted_at",                index: {name: "index_credential_assignments_on_deleted_at"}
+    t.datetime "deleted_at"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
   end
+  add_index "credential_assignments", ["credentiable_type", "credentiable_id"], name: "fk__credential_assignments_credentiable_id"
 
   create_table "customer_orders", force: :cascade do |t|
     t.integer  "customer_event_profile_id", null: false, index: {name: "fk__customer_orders_customer_event_profile_id"}, foreign_key: {references: "customer_event_profiles", name: "fk_customer_orders_customer_event_profile_id", on_update: :no_action, on_delete: :no_action}
