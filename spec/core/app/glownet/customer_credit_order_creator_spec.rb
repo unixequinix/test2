@@ -11,10 +11,10 @@ RSpec.describe CustomerCreditOrderCreator, type: :domain_logic do
         order = build(:order)
         access_item = create(:catalog_item, :with_access)
         order.order_items << build(:order_item,
-                                    order: order,
-                                    catalog_item: access_item,
-                                    amount: 2,
-                                    total: 2)
+                                   order: order,
+                                   catalog_item: access_item,
+                                   amount: 2,
+                                   total: 2)
         order.save
 
         coc = CustomerCreditOrderCreator.new
@@ -27,10 +27,10 @@ RSpec.describe CustomerCreditOrderCreator, type: :domain_logic do
         order = build(:order)
         credit = create(:credit, value: 1, currency: "EUR", standard: false)
         order.order_items << build(:order_item,
-                                    order: order,
-                                    catalog_item: credit.catalog_item,
-                                    amount: 2,
-                                    total: 2)
+                                   order: order,
+                                   catalog_item: credit.catalog_item,
+                                   amount: 2,
+                                   total: 2)
         order.save
 
         coc = CustomerCreditOrderCreator.new
@@ -51,17 +51,17 @@ RSpec.describe CustomerCreditOrderCreator, type: :domain_logic do
         order = build(:order)
         credit = create(:credit, value: 1, currency: "EUR", standard: false)
         order.order_items << build(:order_item,
-                                    order: order,
-                                    catalog_item: credit.catalog_item,
-                                    amount: 2,
-                                    total: 2)
+                                   order: order,
+                                   catalog_item: credit.catalog_item,
+                                   amount: 2,
+                                   total: 2)
 
         credit = create(:credit, value: 2, currency: "EUR", standard: false)
         order.order_items << build(:order_item,
-                                    order: order,
-                                    catalog_item: credit.catalog_item,
-                                    amount: 3,
-                                    total: 6)
+                                   order: order,
+                                   catalog_item: credit.catalog_item,
+                                   amount: 3,
+                                   total: 6)
         order.save
 
         coc = CustomerCreditOrderCreator.new
@@ -92,19 +92,19 @@ RSpec.describe CustomerCreditOrderCreator, type: :domain_logic do
         access_item_b = create(:catalog_item, :with_access, event: access_item_a.event)
         catalog_item_with_pack = create(:catalog_item, :with_pack)
         create(:pack_catalog_item,
-                pack: catalog_item_with_pack.catalogable,
-                catalog_item: access_item_a,
-                amount: 4)
+               pack: catalog_item_with_pack.catalogable,
+               catalog_item: access_item_a,
+               amount: 4)
         create(:pack_catalog_item,
-                pack: catalog_item_with_pack.catalogable,
-                catalog_item: access_item_b,
-                amount: 5)
+               pack: catalog_item_with_pack.catalogable,
+               catalog_item: access_item_b,
+               amount: 5)
 
         order.order_items << build(:order_item,
-                                    order: order,
-                                    catalog_item: catalog_item_with_pack,
-                                    amount: 2,
-                                    total: 2)
+                                   order: order,
+                                   catalog_item: catalog_item_with_pack,
+                                   amount: 2,
+                                   total: 2)
         order.save
 
         coc = CustomerCreditOrderCreator.new
@@ -119,19 +119,19 @@ RSpec.describe CustomerCreditOrderCreator, type: :domain_logic do
         credit = create(:credit, value: 2, currency: "EUR", standard: false)
         catalog_item_with_pack = create(:catalog_item, :with_pack)
         create(:pack_catalog_item,
-                pack: catalog_item_with_pack.catalogable,
-                catalog_item: access_item,
-                amount: 4)
+               pack: catalog_item_with_pack.catalogable,
+               catalog_item: access_item,
+               amount: 4)
         create(:pack_catalog_item,
-                pack: catalog_item_with_pack.catalogable,
-                catalog_item: credit.catalog_item,
-                amount: 5)
+               pack: catalog_item_with_pack.catalogable,
+               catalog_item: credit.catalog_item,
+               amount: 5)
 
         order.order_items << build(:order_item,
-                                    order: order,
-                                    catalog_item: catalog_item_with_pack,
-                                    amount: 2,
-                                    total: 15)
+                                   order: order,
+                                   catalog_item: catalog_item_with_pack,
+                                   amount: 2,
+                                   total: 15)
         order.save
 
         coc = CustomerCreditOrderCreator.new
@@ -153,15 +153,15 @@ RSpec.describe CustomerCreditOrderCreator, type: :domain_logic do
         credit = create(:credit, value: 2, currency: "EUR", standard: false)
         catalog_item_with_pack = create(:catalog_item, :with_pack)
         create(:pack_catalog_item,
-                pack: catalog_item_with_pack.catalogable,
-                catalog_item: credit.catalog_item,
-                amount: 5)
+               pack: catalog_item_with_pack.catalogable,
+               catalog_item: credit.catalog_item,
+               amount: 5)
 
         order.order_items << build(:order_item,
-                                    order: order,
-                                    catalog_item: catalog_item_with_pack,
-                                    amount: 4,
-                                    total: 8)
+                                   order: order,
+                                   catalog_item: catalog_item_with_pack,
+                                   amount: 4,
+                                   total: 8)
         order.save
 
         coc = CustomerCreditOrderCreator.new
@@ -185,27 +185,27 @@ RSpec.describe CustomerCreditOrderCreator, type: :domain_logic do
         access_item = create(:catalog_item, :with_access)
         catalog_item_with_pack = create(:catalog_item, :with_pack)
         create(:pack_catalog_item,
-                pack: catalog_item_with_pack.catalogable,
-                catalog_item: credit_a.catalog_item,
-                amount: 5)
+               pack: catalog_item_with_pack.catalogable,
+               catalog_item: credit_a.catalog_item,
+               amount: 5)
 
         order.order_items << build(:order_item,
-                                    order: order,
-                                    catalog_item: catalog_item_with_pack,
-                                    amount: 3,
-                                    total: 24)
+                                   order: order,
+                                   catalog_item: catalog_item_with_pack,
+                                   amount: 3,
+                                   total: 24)
 
         order.order_items << build(:order_item,
-                                    order: order,
-                                    catalog_item: access_item,
-                                    amount: 2,
-                                    total: 4)
+                                   order: order,
+                                   catalog_item: access_item,
+                                   amount: 2,
+                                   total: 4)
 
         order.order_items << build(:order_item,
-                                    order: order,
-                                    catalog_item: credit_b.catalog_item,
-                                    amount: 5,
-                                    total: 15)
+                                   order: order,
+                                   catalog_item: credit_b.catalog_item,
+                                   amount: 5,
+                                   total: 15)
         order.save
 
         coc = CustomerCreditOrderCreator.new
@@ -228,27 +228,27 @@ RSpec.describe CustomerCreditOrderCreator, type: :domain_logic do
         access_item = create(:catalog_item, :with_access)
         catalog_item_with_pack = create(:catalog_item, :with_pack)
         create(:pack_catalog_item,
-                pack: catalog_item_with_pack.catalogable,
-                catalog_item: credit_a.catalog_item,
-                amount: 5)
+               pack: catalog_item_with_pack.catalogable,
+               catalog_item: credit_a.catalog_item,
+               amount: 5)
 
         order.order_items << build(:order_item,
-                                    order: order,
-                                    catalog_item: catalog_item_with_pack,
-                                    amount: 3,
-                                    total: 24)
+                                   order: order,
+                                   catalog_item: catalog_item_with_pack,
+                                   amount: 3,
+                                   total: 24)
 
         order.order_items << build(:order_item,
-                                    order: order,
-                                    catalog_item: access_item,
-                                    amount: 2,
-                                    total: 4)
+                                   order: order,
+                                   catalog_item: access_item,
+                                   amount: 2,
+                                   total: 4)
 
         order.order_items << build(:order_item,
-                                    order: order,
-                                    catalog_item: credit_b.catalog_item,
-                                    amount: 5,
-                                    total: 15)
+                                   order: order,
+                                   catalog_item: credit_b.catalog_item,
+                                   amount: 5,
+                                   total: 15)
         order.save
 
         coc = CustomerCreditOrderCreator.new

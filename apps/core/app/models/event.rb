@@ -109,12 +109,12 @@ class Event < ActiveRecord::Base
     customer_event_profiles.joins(:current_balance).sum(:amount)
   end
 
-  def total_refundable_money(refund_service)
+  def total_refundable_money(_refund_service)
     customer_event_profiles.joins(:current_balance).sum(:refundable_amount)
   end
 
   def total_refundable_gtags(refund_service)
-    #.count returns a hash created by the group method.
+    # .count returns a hash created by the group method.
     gtag_query(refund_service).count.length
   end
 

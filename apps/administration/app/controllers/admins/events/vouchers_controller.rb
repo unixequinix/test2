@@ -75,17 +75,17 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:voucher).permit(product_ids:[],
-    catalog_item_attributes: [
-      :id,
-      :event_id,
-      :name,
-      :description,
-      :initial_amount,
-      :step,
-      :max_purchasable,
-      :min_purchasable
-    ],
+    params.require(:voucher).permit(product_ids: [],
+                                    catalog_item_attributes: [
+                                      :id,
+                                      :event_id,
+                                      :name,
+                                      :description,
+                                      :initial_amount,
+                                      :step,
+                                      :max_purchasable,
+                                      :min_purchasable
+                                    ],
                                     entitlement_attributes: [
                                       :id,
                                       :memory_length,

@@ -61,5 +61,4 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
   def permitted_params
     params.require(:product).permit(:id, :name, :description, :is_alcohol, :event_id)
   end
-
 end

@@ -31,6 +31,3 @@ class CustomerOrder < ActiveRecord::Base
 
   REFUND_SERVICES = [TICKET_ASSIGNMENT, DEVICE, PURCHASE]
 end
-
-
-

@@ -20,8 +20,8 @@ class Station < ActiveRecord::Base
                                    source: :station_parametable,
                                    source_type: "StationCatalogItem"
   has_many :station_products, through: :station_parameters,
-                                   source: :station_parametable,
-                                   source_type: "StationProduct"
+                              source: :station_parametable,
+                              source_type: "StationProduct"
 
   accepts_nested_attributes_for :station_catalog_items, allow_destroy: true
   accepts_nested_attributes_for :station_products, allow_destroy: true

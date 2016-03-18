@@ -16,5 +16,4 @@ class Sorters::CatalogItemSorter < Sorters::ItemSorter
     remove_empty_categories
     format == HASH ? sort_by_criteria(:price) : sort_by_criteria(:price).values.flatten
   end
-
 end

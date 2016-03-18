@@ -18,6 +18,9 @@
 
 class CustomerCredit < ActiveRecord::Base
   acts_as_paranoid
+
+  before_create :set_created_in_origin_at
+
   belongs_to :customer_event_profile
 
   validates_presence_of :payment_method, :transaction_origin, :customer_event_profile
@@ -30,4 +33,10 @@ class CustomerCredit < ActiveRecord::Base
 
   # Type of the invoices
   TRANSACTION_TYPES = [TICKET_ASSIGNMENT, TICKET_UNASSIGNMENT, CREDITS_PURCHASE]
+
+  private
+
+  def set_created_in_origin_at
+    created_in_origin_at = created_at
+  end
 end

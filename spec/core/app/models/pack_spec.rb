@@ -2,27 +2,26 @@ require "rails_helper"
 
 RSpec.describe Pack, type: :model do
   describe ".only_credits_pack?" do
-
- it "should return the credits inside a pack with grouped by their name (credits in packs)" do
+    it "should return the credits inside a pack with grouped by their name (credits in packs)" do
       credit_a = create(:credit, value: 2, currency: "EUR", standard: false)
       catalog_item_with_pack = create(:catalog_item, :with_pack)
       pack_nested = catalog_item_with_pack.catalogable
       create(:pack_catalog_item,
-              pack: pack_nested,
-              catalog_item: credit_a.catalog_item,
-              amount: 30)
+             pack: pack_nested,
+             catalog_item: credit_a.catalog_item,
+             amount: 30)
 
       credit_b = create(:credit, value: 3, currency: "EUR", standard: false)
       catalog_item_with_pack = create(:catalog_item, :with_pack)
       pack = catalog_item_with_pack.catalogable
       create(:pack_catalog_item,
-              pack: pack,
-              catalog_item: credit_b.catalog_item,
-              amount: 40)
+             pack: pack,
+             catalog_item: credit_b.catalog_item,
+             amount: 40)
       create(:pack_catalog_item,
-              pack: pack,
-              catalog_item: pack_nested.catalog_item,
-              amount: 10)
+             pack: pack,
+             catalog_item: pack_nested.catalog_item,
+             amount: 10)
 
       expect(pack.credits.count).to eq(2)
 
@@ -50,9 +49,9 @@ RSpec.describe Pack, type: :model do
       deep_pack = create(:pack, :with_credit)
 
       create(:pack_catalog_item,
-                pack: pack,
-                catalog_item: deep_pack.catalog_item,
-                amount: 5)
+             pack: pack,
+             catalog_item: deep_pack.catalog_item,
+             amount: 5)
 
       expect(pack.only_credits_pack?).to eq(true)
     end
@@ -68,9 +67,9 @@ RSpec.describe Pack, type: :model do
       deep_pack = create(:pack, :with_credit, :with_access)
 
       create(:pack_catalog_item,
-                pack: pack,
-                catalog_item: deep_pack.catalog_item,
-                amount: 5)
+             pack: pack,
+             catalog_item: deep_pack.catalog_item,
+             amount: 5)
 
       expect(pack.only_credits_pack?).to eq(false)
     end
@@ -83,13 +82,13 @@ RSpec.describe Pack, type: :model do
       pack = catalog_item_with_pack.catalogable
 
       create(:pack_catalog_item,
-              pack: pack,
-              catalog_item: credit_a.catalog_item,
-              amount: 30)
+             pack: pack,
+             catalog_item: credit_a.catalog_item,
+             amount: 30)
       create(:pack_catalog_item,
-              pack: pack,
-              catalog_item: credit_a.catalog_item,
-              amount: 40)
+             pack: pack,
+             catalog_item: credit_a.catalog_item,
+             amount: 40)
 
       expect(pack.credits.count).to eq(1)
 
@@ -105,13 +104,13 @@ RSpec.describe Pack, type: :model do
       pack = catalog_item_with_pack.catalogable
 
       create(:pack_catalog_item,
-              pack: pack,
-              catalog_item: credit_a.catalog_item,
-              amount: 30)
+             pack: pack,
+             catalog_item: credit_a.catalog_item,
+             amount: 30)
       create(:pack_catalog_item,
-              pack: pack,
-              catalog_item: credit_b.catalog_item,
-              amount: 40)
+             pack: pack,
+             catalog_item: credit_b.catalog_item,
+             amount: 40)
 
       expect(pack.credits.count).to eq(2)
 
@@ -123,9 +122,5 @@ RSpec.describe Pack, type: :model do
       expect(enriched_second_credit.catalog_item_id).not_to be_nil
       expect(enriched_second_credit.total_amount).to be(40)
     end
-
-
-
   end
 end
-

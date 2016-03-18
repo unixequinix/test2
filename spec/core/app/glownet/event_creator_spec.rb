@@ -15,7 +15,6 @@ RSpec.describe EventCreator, type: :domain_logic do
   end
 
   describe "save method" do
-
     it "should persist the event object in the db" do
       Seeder::SeedLoader.create_stations
       event_creator = EventCreator.new(

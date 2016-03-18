@@ -13,8 +13,8 @@ FactoryGirl.define do
   factory :voucher do
     after(:build) do |voucher|
       voucher.entitlement ||= build(:entitlement,
-                                   entitlementable: voucher,
-                                   event: voucher.catalog_item.event)
+                                    entitlementable: voucher,
+                                    event: voucher.catalog_item.event)
     end
   end
 end
