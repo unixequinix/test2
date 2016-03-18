@@ -1,0 +1,15 @@
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @list_model_presenter.current_items, total: @list_model_presenter.count)
+table.accesses
+  thead
+    tr
+      th = t('admin.stations.name')
+      th = t('admin.stations.items')
+      th.table-actions-field = t('admin.defaults.actions')
+  tbody
+    - stations.each do |station|
+      tr
+        td data-label=t('admin.stations.name')
+          = link_to station.name, admins_event_station_station_products_path(current_event, station)
+        td data-label=t('admin.stations.items') = StationProduct.joins(station_parameter: :station).where(station_parameters: { station_id: station.id } ).count
+        td.table-actions-field = render 'admins/events/point_of_sale_stations/actions', station: station
+= paginate stations

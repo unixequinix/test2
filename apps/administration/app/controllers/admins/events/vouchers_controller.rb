@@ -5,6 +5,7 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
 
   def new
     @voucher = Voucher.new
+    @products_collection = @fetcher.products
     @voucher.build_catalog_item
     @voucher.build_entitlement
   end
@@ -22,6 +23,7 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
 
   def edit
     @voucher = @fetcher.vouchers.find(params[:id])
+    @products_collection = @fetcher.products
   end
 
   def update
@@ -73,7 +75,8 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:voucher).permit(catalog_item_attributes: [
+    params.require(:voucher).permit(product_ids:[],
+    catalog_item_attributes: [
       :id,
       :event_id,
       :name,

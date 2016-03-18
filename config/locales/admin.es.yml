@@ -36,6 +36,10 @@ es:
         name: "Nombre"
         description: "Descripción"
         price: "Precio"
+      station_product:
+        name: "Nombre"
+        description: "Descripción"
+        price: "Precio"
     companies:
       name: "Nombre"
       token: "Token de la compañia"

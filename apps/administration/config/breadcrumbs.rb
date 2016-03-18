@@ -152,9 +152,27 @@ crumb :admins_event_sale_station do |event, station|
   parent :admins_event_sale_stations, event
 end
 
+## Point of Sales Stations
+
+crumb :admins_event_point_of_sale_stations do |event|
+  link t("breadcrumbs.point_of_sale_stations"), admins_event_point_of_sale_stations_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_sale_station do |event, station|
+  link station.name, admins_event_sale_stations_path(event, station)
+  parent :admins_event_sale_stations, event
+end
+
 ## Station Catalog Items
 
 crumb :admins_event_sale_station_station_catalog_items do |event, station|
+  parent :admins_event_sale_station, event, station
+end
+
+## Station Products
+
+crumb :admins_event_sale_station_station_products do |event, station|
   parent :admins_event_sale_station, event, station
 end
 

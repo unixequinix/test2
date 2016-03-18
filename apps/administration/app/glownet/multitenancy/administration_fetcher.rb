@@ -57,6 +57,11 @@ class Multitenancy::AdministrationFetcher
     Pack.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
+  def point_of_sale_stations
+    Station.joins(:station_type)
+      .where(event: @event, station_types: { name: Station::POINT_OF_SALE_STATIONS })
+  end
+
   def products
     Product.where(event: @event)
   end
@@ -72,6 +77,10 @@ class Multitenancy::AdministrationFetcher
 
   def station_catalog_items
     StationCatalogItem.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
+  end
+
+  def station_products
+    StationProduct.joins(:product).where(products: { event_id: @event.id })
   end
 
   def tickets

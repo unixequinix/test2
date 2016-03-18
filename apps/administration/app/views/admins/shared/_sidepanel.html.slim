@@ -60,6 +60,9 @@ aside#main-menu
     li.aside-list = link_to admins_event_sale_stations_path(event)
       = fa_icon "map-marker"
       = t("admin.aside.sale_stations")
+    li.aside-list = link_to admins_event_point_of_sale_stations_path(event)
+      = fa_icon "map-marker"
+      = t("admin.aside.point_of_sale_stations")
 
     h3.aside-title = t("admin.aside.crm")
 

@@ -36,6 +36,10 @@ it:
         name: "Name"
         description: "Description"
         price: "Price"
+      station_product:
+        name: "Name"
+        description: "Description"
+        price: "Price"
     companies:
       name: "Name"
       token: "Company token"
