@@ -2,8 +2,9 @@
 table
   thead
     tr
-      th = t('admin.events.name')
+      th = t('admin.event.name')
       th = t('admin.agreements.status')
+      th = t('admin.event.token')
       th.table-actions-field = t('admin.defaults.actions')
   tbody
     - agreements.each do |agreement|

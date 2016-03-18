@@ -134,7 +134,13 @@ es:
     stripe:
       card_number: "Número de tarjeta"
       card_code_verification: "Código de verificación (CCV)"
-      card_expiration_date: "Fecha de expiración"
+      card_expiration_date: "Fecha de caducidad"
+      button: "Pagar"
+    brainter:
+      card_number: "Número de tarjeta"
+      card_code_verification: "Código de verificación (CCV)"
+      card_expiration_month: "Mes de caducidad"
+      card_expiration_year: "Año de caducidad"
       button: "Pagar"
     paypal:
       sync_title: "Regístarte en PayPal para completar el pago"

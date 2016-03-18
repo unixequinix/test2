@@ -72,7 +72,7 @@ class ClaimsPresenter < BasePresenter
 
   # TODO: check logic
   def each_refundable
-    return [] unless (any_refundable_method? && !completed_claim?)
+    return [] unless any_refundable_method? && !completed_claim?
     refund_services.each do |refund_service|
       refundable = refundable?(refund_service) ? "refundable" : "not_refundable"
       yield method("snippet_#{refundable}").call(refund_service)

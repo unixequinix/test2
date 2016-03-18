@@ -1,4 +1,4 @@
-set :branch, "development"
+set :branch, "sample_data"
 set :rails_env, "integration"
 
 # Link certification folder

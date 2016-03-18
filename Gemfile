@@ -2,6 +2,7 @@ Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
 require File.dirname(__FILE__) + '/lib/boot_inquirer'
 
+ruby '2.3.0'
 source 'https://rubygems.org'
 
 gem 'rails', '4.2.6'
@@ -15,6 +16,8 @@ gem "active_record_bulk_insert"
 gem 'nilify_blanks', '~>1.2.1'
 gem 'activerecord4-redshift-adapter'
 gem 'aws-sdk-rails' # needed for redshift
+gem 'oj'
+gem 'oj_mimic_json'
 
 # Assets
 gem 'jquery-rails', '~> 4.0.3'
@@ -39,7 +42,7 @@ gem 'font-awesome-rails', '~> 4.3.0.0'
 
 # JSON APIs
 gem 'jbuilder', '~> 2.2.13'
-gem 'active_model_serializers', '~> 0.9.3'
+gem 'active_model_serializers', git: "https://github.com/rails-api/active_model_serializers.git"
 gem 'rack-cors', require: 'rack/cors'
 
 # Turbolinks
@@ -73,7 +76,7 @@ gem 'country_select', '~> 2.2.0'
 gem 'phony_rails', '~> 0.12.8'
 
 # Payments Infrastructures
-gem 'stripe', '~>1.31.0'
+gem 'stripe', '~>1.36.1'
 gem 'braintree', '~>2.57.0'
 
 # Flags
@@ -124,6 +127,7 @@ group :development, :test do
   gem 'capistrano-rbenv', '~> 2.0.3'
   gem 'capistrano-bundler', '~> 1.1.2'
   gem 'capistrano-sidekiq', '~> 0.5.3'
+  # gem 'capistrano3-puma', require: false
   gem 'better_errors', '~> 2.1.1'
   gem 'binding_of_caller', '~> 0.7.2' # extra features for better_errors
   gem 'meta_request', '~> 0.3.4' # for rails_panel chrome extension
@@ -131,12 +135,17 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.2.1'
   gem 'rspec-mocks'
   gem 'rspec-activemodel-mocks'
-  gem 'factory_girl_rails', '~> 4.5.0'
   gem 'guard-rspec', '~> 4.5.0', require: false
   gem 'spring-commands-rspec', '~> 1.0.4'
   gem 'pry-rails'
   gem 'terminal-notifier-guard'
   gem 'guard-bundler', require: false
+end
+
+# gem 'puma', group: :integration
+
+group :development, :test, :integration do
+  gem 'factory_girl_rails', '~> 4.5.0'
 end
 
 group :development, :test, :staging do

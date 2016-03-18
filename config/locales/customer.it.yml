@@ -94,8 +94,8 @@ it:
       call_to_action: "La tua richiesta per un rimborso è stata effettuata con successo. Tra poco riceverai il trasferimento"
       button: "Modifica conto bancario"
     event_started:
-      title: "Ultamating details!"
-      description: "We are finishing event configuration to bring you a great experience. Please, come back after an hours and see what we have made for you."
+      title: "Ultimating details!"
+      description: "We are finishing event configuration to bring you a great experience. Please, come back later and see what we have made for you."
   admissions:
     title: "Ticket Activation"
     description: "Please enter the number that is printed on your event ticket just below the barcode."
@@ -130,6 +130,16 @@ it:
       card_code_verification: "Card code verification (CCV)"
       card_expiration_date: "Card expiration date"
       button: "Pay"
+    brainter:
+      card_number: "Card number"
+      card_code_verification: "Card code verification (CCV)"
+      card_expiration_month: "Card expiration date"
+      card_expiration_year: "Card expiration date"
+      button: "Pay"
+    paypal:
+      sync_title: "Sync with Pay Pal to perform payment"
+      sync_copy: "Never without credit!"
+      sync_description: "Make direct top ups in your event purchases. Select how much you want to top up in case you spent your credit in the event and avoid queues. Your wristband will be always ready to go."
   claims:
     title: "Confermare rimborso"
     description: "Si prega di controllare il suo ordine e procedere al pagamento."

@@ -1,18 +1,19 @@
-require "rails_helper"
+require "spec_helper"
 
-RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
+RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
   before(:all) do
     @event = create(:event)
     @company = create(:company)
     @agreement = create(:company_event_agreement, event: @event, company: @company)
     @ticket_type = create(:company_ticket_type, event: @event, company_event_agreement: @agreement)
 
-    create_list(:gtag, 2, :with_purchaser, event: @event, company_ticket_type: @ticket_type)
+    create_list(:ticket, 2, :with_purchaser, event: @event, company_ticket_type: @ticket_type)
   end
 
   describe "GET index" do
     context "when authenticated" do
       before(:each) do
+        @company = Company.last
         http_login(@event.token, @company.access_token)
       end
 
@@ -26,11 +27,12 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
         get :index, event_id: @event.id
 
         body = JSON.parse(response.body)
-        gtags = body["gtags"].map { |m| m["tag_uid"] }
-        db_gtags = Gtag.joins(company_ticket_type: :company_event_agreement)
-                   .where(event: @event, company_event_agreements: { id: @agreement.id })
+        tickets = body["tickets"].map { |m| m["ticket_reference"] }
 
-        expect(gtags).to match_array(db_gtags.map(&:tag_uid))
+        db_tickets = Ticket.joins(company_ticket_type: :company_event_agreement)
+                     .where(event: @event, company_event_agreements: { id: @agreement.id })
+
+        expect(tickets).to match_array(db_tickets.map(&:code))
       end
     end
 
@@ -46,28 +48,28 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
   describe "GET show" do
     context "when authenticated" do
       before(:each) do
+        @company = Company.last
         http_login(@event.token, @company.access_token)
       end
 
       context "when the ticket belongs to the company" do
         before(:each) do
-          get :show, event_id: @event.id, id: Gtag.last.id
+          get :show, event_id: @event.id, id: Ticket.last.id
         end
 
         it "returns a 200 status code" do
           expect(response.status).to eq(200)
         end
 
-        it "returns the correct gtag" do
+        it "returns the correct ticket" do
           body = JSON.parse(response.body)
-          expect(body["tag_uid"]).to eq(Gtag.last.tag_uid)
-          expect(body["purchaser_email"]).to eq(Gtag.last.purchaser.email)
+          expect(body["ticket_reference"]).to eq(Ticket.last.code)
         end
       end
 
       context "when the ticket doesn't belong to the company" do
         it "returns a 404 status code" do
-          get :show, event_id: @event.id, id: 999
+          get :show, event_id: @event.id, id: create(:ticket)
           expect(response.status).to eq(404)
         end
       end
@@ -75,7 +77,7 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
 
     context "when not authenticated" do
       it "returns a 401 status code" do
-        get :show, event_id: @event.id, id: Gtag.last.id
+        get :show, event_id: @event.id, id: Ticket.last.id
 
         expect(response.status).to eq(401)
       end
@@ -85,14 +87,14 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
   describe "POST create" do
     context "when authenticated" do
       before(:each) do
+        @company = Company.last
         http_login(@event.token, @company.access_token)
       end
 
       context "when the request is valid" do
-        before(:each) do
-          @params = {
-            tag_uid: "t4gu1d",
-            tag_serial_number: "t4gs3rialnumb3r",
+        let(:params) do
+          {
+            ticket_reference: "t1ck3tt3st",
             ticket_type_id: CompanyTicketType.last.id,
             purchaser_attributes: {
               first_name: "Glownet",
@@ -104,27 +106,27 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
 
         it "increases the tickets in the database by 1" do
           expect do
-            post :create, gtag: @params
-          end.to change(Gtag, :count).by(1)
+            post :create, ticket: params
+          end.to change(Ticket, :count).by(1)
         end
 
         it "returns a 201 status code" do
-          post :create, gtag: @params
+          post :create, ticket: params
           expect(response.status).to eq(201)
         end
 
         it "returns the created ticket" do
-          post :create, gtag: @params
+          post :create, ticket: params
 
           body = JSON.parse(response.body)
-          expect(body["tag_uid"]).to eq(Gtag.last.tag_uid)
-          expect(body["purchaser_email"]).to eq(Gtag.last.purchaser.email)
+          expect(body["ticket_reference"]).to eq(Ticket.last.code)
+          expect(body["purchaser_email"]).to eq(Ticket.last.purchaser.email)
         end
       end
 
       context "when the request is invalid" do
         it "returns a 400 status code" do
-          post :create, gtag: { with: "Invalid request" }
+          post :create, ticket: { with: "Invalid request" }
           expect(response.status).to eq(400)
         end
       end
@@ -141,57 +143,59 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
   describe "PATCH update" do
     context "when authenticated" do
       before(:each) do
-        @gtag = Gtag.last
+        @company = Company.last
+        @ticket = Ticket.last
         http_login(@event.token, @company.access_token)
       end
 
       context "when the request is valid" do
         let(:params) do
-          { tag_uid: "n3wtagU1d", purchaser_attributes: { email: "updated@email.com" } }
+          { ticket_reference: "n3wt1cketr3fer3nc3",
+            purchaser_attributes: { email: "updated@email.com" } }
         end
 
         it "changes ticket's attributes" do
-          put :update, id: @gtag, gtag: params
-          @gtag.reload
-
-          expect(@gtag.tag_uid).to eq("n3wtagU1d".upcase)
-          expect(@gtag.purchaser.email).to eq("updated@email.com")
+          put :update, id: @ticket, ticket: params
+          @ticket.reload
+          expect(@ticket.code).to eq("n3wt1cketr3fer3nc3")
+          expect(@ticket.purchaser.email).to eq("updated@email.com")
         end
 
         it "returns a 200 code status" do
-          put :update, id: @gtag, gtag: params
+          put :update, id: @ticket, ticket: params
           expect(response.status).to eq(200)
         end
 
         it "returns the updated ticket" do
-          put :update, id: @gtag, gtag: params
+          put :update, id: @ticket, ticket: params
           body = JSON.parse(response.body)
-          @gtag.reload
-          expect(body["tag_uid"]).to eq(@gtag.tag_uid)
+          @ticket.reload
+          expect(body["ticket_reference"]).to eq(@ticket.code)
         end
       end
 
       context "when the request is invalid" do
         let(:params) do
-          { tag_uid: nil, purchaser_attributes: { email: "updated@email.com" } }
+          { ticket_reference: nil,
+            purchaser_attributes: { email: "newemail@glownet.com" } }
         end
 
         it "returns a 400 status code" do
-          put :update, id: @gtag, gtag: params
+          put :update, id: @ticket, ticket: params
           expect(response.status).to eq(400)
         end
 
         it "doesn't change ticket's attributes" do
-          put :update, id: @gtag, gtag: params
-          @gtag.reload
-          expect(@gtag.tag_serial_number).not_to eq("3405sdf234293")
+          put :update, id: @ticket, ticket: params
+          @ticket.reload
+          expect(@ticket.purchaser.email).not_to eq("newemail@glownet.com")
         end
       end
     end
 
     context "when not authenticated" do
       it "returns a 401 status code" do
-        put :update, id: Gtag.last, gtags: { without: "Authenticate" }
+        put :update, id: Ticket.last, ticket: { without: "Authenticate" }
         expect(response.status).to eq(401)
       end
     end

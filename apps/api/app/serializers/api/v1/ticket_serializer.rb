@@ -1,5 +1,5 @@
 class Api::V1::TicketSerializer < Api::V1::BaseSerializer
-  attributes :id, :reference, :credential_redeemed
+  attributes :id, :reference, :credential_redeemed, :credential_type_id
 
   def attributes(*args)
     hash = super
@@ -12,8 +12,11 @@ class Api::V1::TicketSerializer < Api::V1::BaseSerializer
       hash[:purchaser_email] = purchaser_email if purchaser_email
     end
 
-    hash[:credential_type_id] = credential_type_id if credential_type_id
     hash
+  end
+
+  def reference
+    object.code
   end
 
   def credential_type_id
@@ -24,10 +27,6 @@ class Api::V1::TicketSerializer < Api::V1::BaseSerializer
   def customer_id
     cred = object.credential_assignments.first
     cred && cred.customer_event_profile_id
-  end
-
-  def reference
-    object.code
   end
 
   def purchaser_first_name
