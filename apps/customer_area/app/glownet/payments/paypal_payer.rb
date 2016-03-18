@@ -31,7 +31,7 @@ class Payments::PaypalPayer
     charge
   end
 
-  def sale_options(params)
+  def sale_options(_params)
     # token = params[:payment_method_nonce]
     token = Braintree::Test::Nonce::PayPalOneTimePayment
     customer_event_profile = @order.customer_event_profile
