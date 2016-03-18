@@ -4,18 +4,19 @@ class Api::V1::Events::TransactionsController < ApplicationController
   serialization_scope :view_context
 
   def create
+    render(status: :bad_request, json: :bad_request) && return unless permitted_params[:_json]
+
     all_valid = permitted_params[:_json].map do |transaction_params|
       Jobs::Base.write(transaction_params).valid?
     end
 
-    render(status: 400, json: :bad_request) && return unless all_valid.all?
-    render(status: 201, json: :created)
+    render(status: :bad_request, json: :bad_request) && return unless all_valid.all?
+    render(status: :created, json: :created)
   end
 
   private
 
-  # rubocop:disable Metrics/MethodLength
-  def permitted_params
+  def permitted_params # rubocop:disable Metrics/MethodLength
     params.permit(_json: [:transaction_category,
                           :direction,
                           :access_entitlement_id,
@@ -41,5 +42,4 @@ class Api::V1::Events::TransactionsController < ApplicationController
                           :ticket_code,
                           :preevent_product_id])
   end
-  # rubocop:enable Metrics/MethodLength
 end
