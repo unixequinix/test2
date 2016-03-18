@@ -68,6 +68,7 @@ Rails.application.routes.draw do
         end
 
         resources :companies, except: :show
+        resources :products, except: :show
         resources :accesses, except: :show do
           member do
             get :create_credential

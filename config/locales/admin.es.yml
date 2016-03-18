@@ -251,6 +251,11 @@ es:
       infinite: "Ilimitado"
       memory_length: "Tipo"
       memory_position: "Posición en memoria"
+    products:
+      id: "Id"
+      name: "Nombre"
+      description: "Descripción"
+      is_alcohol: "Es alcohol"
     ticket_types:
       id: "Id"
       name: "Nombre"

@@ -47,13 +47,13 @@ class Pack < ActiveRecord::Base
         item_found.first.total_amount *= parent_pack_amount
         result.push(item_found) if item_found
       else
-        result.push(build_catalog_item(catalog_item)) if category.include?(catalog_item.catalogable_type) || category.blank?
+        result.push(build_enriched_catalog_item(catalog_item)) if category.include?(catalog_item.catalogable_type) || category.blank?
       end
     end
     items.flatten
   end
 
-  def build_catalog_item(catalog_item)
+  def build_enriched_catalog_item(catalog_item)
     Sorters::FakeCatalogItem.new(
       catalog_item_id: catalog_item.id,
       catalogable_id: catalog_item.catalogable_id,

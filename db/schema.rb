@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160314140554) do
+ActiveRecord::Schema.define(version: 20160318134600) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -553,10 +553,12 @@ ActiveRecord::Schema.define(version: 20160314140554) do
 
   create_table "products", force: :cascade do |t|
     t.string   "name"
-    t.boolean  "is_alcohol"
+    t.boolean  "is_alcohol",  default: false
     t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.string   "description"
+    t.integer  "event_id"
   end
 
   add_index "products", ["deleted_at"], name: "index_products_on_deleted_at", using: :btree
@@ -628,6 +630,14 @@ ActiveRecord::Schema.define(version: 20160314140554) do
     t.string   "station_parametable_type", null: false
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+  end
+
+  create_table "station_products", force: :cascade do |t|
+    t.integer  "product_id", null: false
+    t.float    "price",      null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "station_types", force: :cascade do |t|

@@ -57,6 +57,10 @@ class Multitenancy::AdministrationFetcher
     Pack.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
+  def products
+    Product.where(event: @event)
+  end
+
   def stations
     Station.where(event: @event)
   end

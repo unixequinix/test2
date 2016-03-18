@@ -60,6 +60,7 @@ class Event < ActiveRecord::Base
   has_many :company_event_agreements
   has_many :companies, through: :company_event_agreements
   has_many :transactions
+  has_many :products
   has_many :catalog_items
   has_many :credits, through: :catalog_items, source: :catalogable, source_type: "Credit" do
     def standard

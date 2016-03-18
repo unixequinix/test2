@@ -239,6 +239,11 @@ th:
       id: "Id"
     pack:
       number_catalog_items: "Number of items"
+    products:
+      id: "Id"
+      name: "Name"
+      description: "Description"
+      is_alcohol: "Is alcohol"
     credential_type:
       id: "Id"
       memory_position: "Posición en memoria"

@@ -239,6 +239,11 @@ en:
       catalogable_type: "Type"
     vouchers:
       id: "Id"
+    products:
+      id: "Id"
+      name: "Name"
+      description: "Description"
+      is_alcohol: "Is alcohol"
     pack:
       number_catalog_items: "Number of items"
     credential_type:

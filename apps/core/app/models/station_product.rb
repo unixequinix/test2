@@ -2,12 +2,12 @@
 #
 # Table name: station_products
 #
-#  id              :integer          not null, primary key
-#  catalog_item_id :integer          not null
-#  price           :float            not null
-#  deleted_at      :datetime
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id         :integer          not null, primary key
+#  product_id :integer          not null
+#  price      :float            not null
+#  deleted_at :datetime
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 class StationProduct < ActiveRecord::Base

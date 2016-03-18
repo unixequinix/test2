@@ -226,6 +226,23 @@ crumb :new_admins_event_pack do |event|
   parent :admins_event_packs, event
 end
 
+## Products
+
+crumb :admins_event_products do |event|
+  link t("breadcrumbs.products"), admins_event_products_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_product do |event, product|
+  link product.name, edit_admins_event_product_path(event, product)
+  parent :admins_event_products, event
+end
+
+crumb :new_admins_event_product do |event|
+  link t("breadcrumbs.new_product")
+  parent :admins_event_products, event
+end
+
 ## CredentialTypes
 
 crumb :admins_event_credential_types do |event|
