@@ -18,9 +18,11 @@ class Api::V1::Events::TransactionsController < ApplicationController
 
   def permitted_params # rubocop:disable Metrics/MethodLength
     params.permit(_json: [:transaction_category,
+                          :transaction_origin,
                           :direction,
                           :access_entitlement_id,
                           :access_entitlement_value,
+                          :amount,
                           :credits,
                           :credits_refundable,
                           :credit_value,

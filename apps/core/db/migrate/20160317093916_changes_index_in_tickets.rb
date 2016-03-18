@@ -10,6 +10,9 @@ class ChangesIndexInTickets < ActiveRecord::Migration
     add_index :customers, [:deleted_at, :email, :event_id], unique: true
 
     remove_index :credential_assignments, :deleted_at
-    add_index :credential_assignments, [:credentiable_type, :aasm_state], unique: true, name: "index_c_assignments_on_c_type_and_state"
+    add_index :credential_assignments,
+              [:credentiable_type, :aasm_state],
+              unique: true,
+              name: "index_c_assignments_on_c_type_and_state"
   end
 end
