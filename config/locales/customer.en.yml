@@ -67,10 +67,10 @@ en:
       claim: "There was an error on your refund"
       description: "Try to go back to your dashboard and claim again."
     without_gtags:
-      add : "Add your id number"
+      add : "Assign %{gtag}"
       title: "Credits left?"
-      description: "Assign your %{gtag} to start the refund process. Only one %{gtag} can be activated per account."
-      button: "Assign %{gtag}"
+      description: "Remember: only one %{gtag} can be activated per account."
+      button: "Assign"
     without_gtags_disabled:
       claim: "The period to apply for a refund of your %{gtag} credits is closed"
       description: "If you have previously contacted us with any support question,"
@@ -79,7 +79,7 @@ en:
       claim: "Sorry"
       description: "The refunds period is finished, If you have any question contact support."
     gtag_registration:
-      title: "Your %{gtag}:"
+      title: "Your %{gtag}"
       call_to_action: "Edit"
       button: "Change"
       hint: "Put a wrong wristband by mistake? Erase and restart the process"
@@ -96,6 +96,9 @@ en:
       title: "Your credits:"
       call_to_action: "Refund successfully claimed, soon you will receive your transfer"
       button: "Modify bank account"
+    event_started:
+      title: "Ultimating details!"
+      description: "We are finishing event configuration to bring you a great experience. Please, come back later and see what we have made for you."
   admissions:
     title: "Ticket Activation"
     description: "Please enter the code that is printed on your event ticket just below the barcode."
@@ -130,6 +133,12 @@ en:
       card_number: "Card number"
       card_code_verification: "Card code verification (CCV)"
       card_expiration_date: "Card expiration date"
+      button: "Pay"
+    brainter:
+      card_number: "Card number"
+      card_code_verification: "Card code verification (CCV)"
+      card_expiration_month: "Card expiration month"
+      card_expiration_year: "Card expiration year"
       button: "Pay"
     paypal:
       sync_title: "Sync with Pay Pal to perform payment"
@@ -201,6 +210,7 @@ en:
       email: 'Forgot your password?'
       password: 'Send me password instructions'
   refund:
+    refund_method: "Refund method"
     error:
       title: 'Transaction failed'
       call_to_action: 'Contact us:'
@@ -231,6 +241,13 @@ en:
       waiting_confirmation: 'Currently waiting confirmation for:'
       button: 'Update'
   sessions:
+    welcome: 'Welcome!'
+    create_account:
+      title: 'Don´t you have an account?'
+      link: 'Get a free one!'
+    log_in:
+      title: 'Already have an account?'
+      link: 'Log in here'
     new:
       title: 'Log in'
       description: 'This is how it works'

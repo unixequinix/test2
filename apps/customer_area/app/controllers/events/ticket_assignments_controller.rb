@@ -17,16 +17,13 @@ class Events::TicketAssignmentsController < Events::BaseController
   end
 
   def destroy
+    customer_order_creator = CustomerOrderTicketCreator.new
+    customer_credit_creator = CustomerCreditTicketCreator.new
     @ticket_assignment = CredentialAssignment.find(params[:id])
     ticket = @ticket_assignment.credentiable
-    CustomerOrderTicketCreator.new.delete(ticket)
+    customer_order_creator.delete(ticket)
+    @credit_log = customer_credit_creator.unassign(ticket) if ticket.credits.present?
     @ticket_assignment.unassign!
-    @credit_log =
-      CustomerCreditTicketCreator.new(customer_event_profile: current_customer_event_profile,
-                                      transaction_origin: CustomerCredit::TICKET_UNASSIGNMENT,
-                                      payment_method: "none",
-                                      amount: -ticket.credits
-                                     ).save if ticket.credits.present?
     flash[:notice] = I18n.t("alerts.unassigned")
     redirect_to event_url(current_event)
   end

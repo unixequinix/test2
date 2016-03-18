@@ -85,18 +85,30 @@ class CustomerEventProfile < ActiveRecord::Base
       .sum(:amount).floor
   end
 
-  def purchases
-    orders.unscoped.joins(order_items: :catalog_item)
-      .where(aasm_state: "completed", customer_event_profile_id: id)
-      .select("order_items.catalog_item_id as catalog_item_id",
-              "catalog_items.name as product_name",
-              "catalog_items.catalogable_type as catalogable_type",
-              "sum(order_items.amount) as total_amount")
-      .group(:catalog_item_id, :name, :catalogable_type).includes(:catalog_items)
+  def refundable_credits_amount
+    customer_credit = customer_credits.order(created_at: :desc).first
+    customer_credit.present? ? customer_credit.final_refundable_balance : 0
   end
 
-  def sorted_purchases
-    Sorters::OrderSorter.new(purchases).disaggregated_sort
+  def refundable_money_amount
+    refundable_credits_amount * event.standard_credit_price
+  end
+
+  def purchases
+    customer_orders.joins(:catalog_item)
+      .select("sum(customer_orders.amount) as total_amount,
+                                        catalog_items.name,
+                                        catalog_items.catalogable_type,
+                                        catalog_items.catalogable_id"
+             )
+      .group("catalog_items.name,
+                                       catalog_items.catalogable_type,
+                                       catalog_items.catalogable_id"
+            )
+  end
+
+  def sorted_purchases(**params)
+    Sorters::PurchasesSorter.new(purchases).sort(params)
   end
 
   def gateway_customer(gateway)

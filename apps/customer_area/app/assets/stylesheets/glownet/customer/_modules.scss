@@ -80,9 +80,10 @@ $quarter_text:           $base_font_size*1.25;
   text-transform: uppercase;
 }
 
-// Pay Pal experience
+// PayPal accept terms in checkout view styles
 
 .wrapper-acceppt-paypal-terms {
+  margin-bottom: modules(1);
 
   label, input { display: inline !important; width: auto; }
 

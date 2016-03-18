@@ -1,19 +1,20 @@
-.wrapper-field.form-inputs
-    .dashboard-field.dashboard-field-info
-      h3
-        = fa_icon 'ticket'
-        = t('dashboard.gtag_registration.title')
-      h3.highlight
-        = presenter.gtag_tag_uid
+.wrapper-module
+  h3 = t('dashboard.gtag_registration.title')
+  p.id-number = presenter.gtag_tag_uid
 
-.wrapper-field.form-inputs.wrapper-claims-btns
-  .dashboard-field.dashboard-field-claims
-    h3
-      = fa_icon 'money'
-      = presenter.refunds_title
-    h3.highlight
-      = presenter.gtag_credit_amount
-  .dashboard-field.claims-field
-    h3.refunds-method-title = presenter.call_to_action
-    = raw presenter.refund_snippets
-.disclaimer-list = raw presenter.refund_disclaimer
+  p#payment-acnhor.payment-anhor-mobile.hint-text
+    = t('refund.refund_method')
+  p.payment-anhor-desktop.hint-text
+    = t('refund.refund_method')
+  / ul.container-payment-buttons
+  /   li = raw presenter.refund_snippets
+  ul.container-payment-buttons
+    - presenter.each_refundable do |link_tag|
+      li
+        .btn-payment-trigger
+          = link_tag
+.wrapper-module.module-refunds
+  h3.center-text = presenter.refunds_title
+  p.panel-amount-number.center-text = presenter.gtag_credit_amount
+  p.center-text = presenter.call_to_action
+  p.center-text = raw presenter.refund_disclaimer

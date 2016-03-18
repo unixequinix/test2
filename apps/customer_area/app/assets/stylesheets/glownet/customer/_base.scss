@@ -142,7 +142,7 @@ a {
 
 .event-state-image {
   width: auto;
-  height: modules(6);
+  height: modules(9);
   margin-bottom: modules(0.5);
 }
 
@@ -186,5 +186,8 @@ a {
 
   i { padding-right: modules(0.25); }
 }
+
+// Tipalti container
+.tipalti { height: 900px !important; }
 // ---------------------------------------------------------------------------------------------
 
