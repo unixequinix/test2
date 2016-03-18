@@ -46,6 +46,9 @@
 }
 
 // Braintree
+#braintree-payment-form {
+  .controls:first-child { margin-top: modules(-0.5); }
+}
 #card-number, #card-verification, #expiration-month, #expiration-year {
   margin-top: 1rem;
   border-bottom: 1px solid #999;
