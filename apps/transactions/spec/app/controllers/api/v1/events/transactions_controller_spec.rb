@@ -41,6 +41,13 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
     end
 
     context "when the request is INVALID" do
+      context "when there are no parameters" do
+        it "returns a 400 status code" do
+          post(:create, event_id: event.id)
+          expect(response.status).to eq(400)
+        end
+      end
+
       context "when required parameters are missing" do
         it "returns a 400 status code" do
           params.first.delete(:event_id)
