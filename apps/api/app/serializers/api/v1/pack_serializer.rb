@@ -21,7 +21,7 @@ class Api::V1::PackSerializer < Api::V1::BaseSerializer
     selected = object.pack_catalog_items.select do |pack_item|
       pack_item.catalog_item.catalogable_type == "Access"
     end
-    selected.map { |a| {id: a.id, amount: a.amount} }
+    selected.map { |a| { id: a.id, amount: a.amount } }
   end
 
   # INFO: Right now it's the sum of all the Credits, ignoring Credit Types.
