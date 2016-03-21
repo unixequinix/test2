@@ -6,7 +6,7 @@ class Api::V1::CredentialTypeSerializer < Api::V1::BaseSerializer
   end
 
   def catalogable_type
-    object.catalog_item.catalogable_type
+    object.catalog_item.catalogable_type.downcase
   end
 
   def position
