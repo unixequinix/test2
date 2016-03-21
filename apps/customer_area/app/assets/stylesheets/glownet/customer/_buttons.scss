@@ -213,7 +213,7 @@
 
   &:hover { background-color: lighten($paypal,7%); }
 
-  @include min-screen($bp3) { width: modules(12); }
+  @include min-screen($bp3) { width: modules(9); }
 }
 
 .btn-action-back {

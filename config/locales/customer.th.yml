@@ -50,6 +50,9 @@ th:
       call_to_action_started: "ไม่สามารถเติมเงินผ่านระบบออนไลน์ได้ เนื่องจากงานได้เริ่มแล้ว"
       call_to_action_no_admission_html: "เติมเงินผ่านระบบออนไลน์ <br>กรุณาใส่บัตรเข้างานในระบบก่อน"
       button: "เติมเงิน"
+    paypal:
+      claim: "Take advantage!"
+      description: "Sync with Paypal and you will be able to make direct top ups."
     add_credentials: "Add a ticket or a gtag first"
     event_refunds:
       claim: "งานยังไม่จบ"
@@ -138,6 +141,7 @@ th:
       sync_title: "Sync with Pay Pal to perform payment"
       sync_copy: "Never without credit!"
       sync_description: "Make direct top ups in your event purchases. Select how much you want to top up in case you spent your credit in the event and avoid queues. Your wristband will be always ready to go."
+      button: "Sync with PayPal"
   claims:
     title: "ยืนยันการขอรับเงินคืน"
     description: "กรุณาตรวจสอบรายละเอียดของการขอรับเงินของคุณ และทำการชำระเงิน."

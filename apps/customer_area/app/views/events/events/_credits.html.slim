@@ -1,4 +1,12 @@
 .wrapper-module-centered
+  h3 =t('dashboard.paypal.claim')
+  p =t('dashboard.paypal.description')
+
+  = link_to "#", class: "btn btn-action-add-paypal" do
+    = fa_icon "paypal"
+    = t('dashboard.paypal.button')
+
+.wrapper-module-centered
   h3 Welcome
   p Please, to start with your event choose an option to register first
   .wrapper-first-login.center-text

@@ -54,6 +54,10 @@ es:
       call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"
       call_to_action_no_admission_html: "Para poder recargar online,<br>deberás activar un Ticket primero"
       button: "Recarga"
+    paypal:
+      claim: "Toma ventaja!"
+      description: "Syncroniza con tu cuenta de Paypal y realiza recargas directas"
+      button: "Ir a PayPal"
     add_credentials: "Añade primero un ticket o gtag"
     event_refunds:
       claim: "El evento aún no ha acabado"

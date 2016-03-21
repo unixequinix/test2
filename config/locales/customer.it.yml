@@ -53,6 +53,10 @@ it:
       call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Event Ticket first"
       button: "Top-up"
       ticket_first: "Add a ticket first"
+    paypal:
+      claim: "Take advantage!"
+      description: "Sync with Paypal and you will be able to make direct top ups."
+      button: "Sync with PayPal"
     event_refunds:
       claim: "L'evento non è ancora finito"
       description: "Torna presto per richiedere per un rimborso"
