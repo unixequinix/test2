@@ -94,7 +94,7 @@ namespace :db do
                        event_id: event.id,
                        infinite: [true, false].sample,
                        memory_length: 1,
-                       memory_position: 3 })
+                       memory_position: rand(1..2) })
     end
   end
 
