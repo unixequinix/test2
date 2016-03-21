@@ -248,6 +248,9 @@ en:
       waiting_confirmation: 'Currently waiting confirmation for:'
       button: 'Update'
   sessions:
+    first_register:
+      welcome: 'Welcome!'
+      description: 'Please, to continue with your event choose what you  want to register first'
     welcome: 'Welcome!'
     create_account:
       title: 'Don´t you have an account?'

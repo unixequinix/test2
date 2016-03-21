@@ -240,6 +240,9 @@ th:
       waiting_confirmation: 'กำลังรอการยืนยัน:'
       button: 'อัพเดท'
   sessions:
+    first_register:
+      welcome: 'Bienvenido!!'
+      description: 'Por favor, seleeciona que quieres registrar para continuar'
     welcome: 'Welcome!'
     create_account:
       title: 'Don´t you have an account?'

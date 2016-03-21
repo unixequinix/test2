@@ -239,6 +239,9 @@ it:
       button: 'Aggiornare'
       or: 'or'
   sessions:
+    first_register:
+      welcome: 'Bienvenido!!'
+      description: 'Por favor, seleeciona que quieres registrar para continuar'
     welcome: 'Welcome!'
     create_account:
       title: 'Don´t you have an account?'

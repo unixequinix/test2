@@ -1,14 +1,13 @@
 .wrapper-module-centered
-  h3 =t('dashboard.paypal.claim')
-  p =t('dashboard.paypal.description')
-
+  h3 = t('dashboard.paypal.claim')
+  p = t('dashboard.paypal.description')
   = link_to "#", class: "btn btn-action-add-paypal" do
     = fa_icon "paypal"
     = t('dashboard.paypal.button')
 
 .wrapper-module-centered
-  h3 Welcome
-  p Please, to start with your event choose an option to register first
+  h3 = t('sessions.first_register.welcome')
+  p = t('sessions.first_register.description')
   .wrapper-first-login.center-text
     = link_to "#", class: "btn btn-action btn-action-secondary btn-action-first-registration" do
       = t('dashboard.first_register.ticket')

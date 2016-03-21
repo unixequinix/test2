@@ -96,14 +96,6 @@
   }
 }
 
-.container-customer-app-view {
-  position: relative;
-
-  @include min-screen($bp2) {
-    margin-top: 10%;
-  }
-}
-
 // Each section inside the main column
 
 .wrapper-module, .wrapper-module-centered, .wrapper-module-restriction {
