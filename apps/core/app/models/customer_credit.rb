@@ -14,6 +14,7 @@
 #  deleted_at                :datetime
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
+#  created_in_origin_at      :datetime
 #
 
 class CustomerCredit < ActiveRecord::Base

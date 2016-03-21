@@ -69,7 +69,7 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
       fetcher: @fetcher.vouchers,
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [:catalog_item, :entitlement],
+      include_for_all_items: [:entitlement, catalog_item: :credential_type],
       context: view_context
     )
   end

@@ -20,6 +20,7 @@ class CredentialType < ActiveRecord::Base
 
   # Validations
   validates :catalog_item, presence: true
+  validate :valid_position
 
   def credits
     catalog_item.catalogable_type == "Pack" ? catalog_item.catalogable.credits : []
@@ -43,5 +44,12 @@ class CredentialType < ActiveRecord::Base
       .where(catalog_items: { event_id: catalog_item.event_id })
       .where("memory_position > ?", memory_position)
       .each { |ct| CredentialType.decrement_counter(:memory_position, ct.id) }
+  end
+
+  def valid_position
+    limit = Gtag.field_by_memory_length(memory_length: memory_length, field: :credential_limit)
+    unless memory_position <= limit
+      errors[:memory_position] << I18n.t("errors.not_enough_space_for_credential")
+    end
   end
 end

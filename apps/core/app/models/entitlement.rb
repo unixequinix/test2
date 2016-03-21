@@ -20,8 +20,9 @@ class Entitlement < ActiveRecord::Base
   belongs_to :access, -> { where(entitlement: { entitlementable_type: "Access" }) },
              foreign_key: "entitlementable_id"
   belongs_to :event
-  before_save :set_memory_position
+  before_validation :set_memory_position
   validates :memory_length, presence: true
+  validate :valid_position
   validates_inclusion_of :infinite, in: [true, false]
 
   after_destroy :calculate_memory_position
@@ -31,20 +32,31 @@ class Entitlement < ActiveRecord::Base
   DOUBLE = "double"
 
   TYPES = [SIMPLE, DOUBLE]
-  SHIFT = { "simple" => 1, "double" => 2 }
+
+  private
 
   def set_memory_position
     self.memory_position = last_position if id.nil?
   end
 
   def last_position
+    shift = Gtag.field_by_memory_length(memory_length: memory_length, field: :shift)
     last_entitlement = Entitlement.where(event_id: event_id).order("memory_position DESC").first
-    last_entitlement.present? ? last_entitlement.memory_position + SHIFT[last_entitlement.memory_length] : 1
- end
+    last_entitlement.present? ? last_entitlement.memory_position + shift : 1
+  end
 
   def calculate_memory_position
+    shift = Gtag.field_by_memory_length(memory_length: memory_length, field: :shift)
     Entitlement.where(event_id: event_id)
       .where("memory_position > ?", memory_position)
-      .each { |entitlement| entitlement.decrement!(:memory_position, SHIFT[memory_length]) }
+      .each { |entitlement| entitlement.decrement!(:memory_position, shift)}
+  end
+
+  def valid_position
+    shift = Gtag.field_by_memory_length(memory_length: memory_length, field: :shift)
+    limit = Gtag.field_by_memory_length(memory_length: memory_length, field: :entitlement_limit)
+    unless memory_position + shift <= limit
+      errors[:memory_position] << I18n.t("errors.not_enough_space_for_entitlement")
+    end
   end
 end
