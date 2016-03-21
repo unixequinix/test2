@@ -4,23 +4,8 @@
 //
 // -------------------------------------------------------
 
-// Redirect to logn register link
 
-.wrapper-redirect-sessions {
-  padding-top: modules(1);
-
-  p,a { display: inline-block; }
-  p { margin-bottom: modules(0.5); }
-  a {
-    padding-left: modules(0.25);
-    text-decoration: underline;
-
-    &:hover { text-decoration: none; }
-  }
-}
-
-// /\/\/\/\/\/\/\ BREADCRUMBS /\/\/\/\/\/\/\/\
-
+// BREADCRUMBS
 .wrapper-breadcrumbs {
   display: none;
   vertical-align: middle;
@@ -34,22 +19,11 @@
   //@include min-screen($bp3) { display: inline-block; }
 }
 
+// Breadcrumbs links separator
 .separator { padding: 0 modules(0.25); }
 
-// The whole screen container
 
-.container-main {
-  overflow: hidden;
-  width: 100%;
-  height: auto;
-
-  @include min-screen($bp3) { min-height: 100%; }
-}
-
-.wrapper-main { position: relative; }
-
-// Event logo styles
-
+// Event logo styles and root link
 .container-event-logo {
   display: none;
   padding: 0;
@@ -61,25 +35,6 @@
     margin: 0 auto;
     padding: 0;
   }
-}
-
-.sessions, .confirmations, .new, .passwords {
-  @include min-screen($bp3) {
-    .container-event-logo { margin-top: 0; }
-  }
-}
-
-.container-welcome-logo {
-  margin: modules(1) auto;
-
-  @include min-screen($bp3) { margin: modules(2) auto modules(1); }
-}
-
-.wrapper-create-account {
-  display: block;
-  text-align: center;
-
-  @include min-screen($bp3) { display: none; }
 }
 
 .logo {
@@ -234,74 +189,6 @@
   clear: both;
   padding: modules(2) 0 modules(1);
   border-top: 1px dashed $color_text;
-}
-
-// /\/\/\/\/\/\/\ PURCHASES /\/\/\/\/\/\/\/\
-
-.container-purchase-order {
-  overflow: hidden;
-  position: relative;
-
-  h3 {
-    margin: modules(0.5) 0;
-
-    &:first-child { margin-top: 0; }
-  }
-}
-
-.wrapper-purchase-order {
-  li { color: $color_text; }
-}
-
-.purchase-amount {
-  padding-right: modules(0.25);
-  font-weight: bold;
-}
-
-// Pay Pal auto top up
-.container-auto-top-up {
-  overflow: hidden;
-}
-
-.wrapper-topup-info, .wrapper-topup-amount {
-  display: inline-block;
-  vertical-align:top;
-  padding: modules(0.5);
-}
-
-.wrapper-topup-info   { width: 65%; }
-.wrapper-topup-amount {
-  width: 35%;
-  select { width: 100%; }
-}
-
-// Container for order payment method buttons
-.container-payment-buttons {
-  display: table;
-  table-layout: fixed;
-  width: 100%;
-
-  li  {
-    display: table-cell;
-    vertical-align: top;
-    width: auto;
-    max-width: 24%;
-    height: modules(3.75);
-    padding-right: modules(0.5);
-    width: auto;
-
-    &:nth-child(3n) { padding: 0 modules(0.25) 0 0; }
-    &:last-child { padding: 0 0 0 modules(0.25); }
-  }
-}
-
-// TERMS AND CONDITIONS
-
-.wrapper-terms {
-  padding: modules(1);
-
-  h3 { margin-top: modules(1); }
-  h2, h3 { @include mscale($base_font_size); }
 }
 
 // ---------------------------------------------------------------------------------------------

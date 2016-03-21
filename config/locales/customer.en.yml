@@ -45,6 +45,9 @@ en:
       button: "Add more"
     purchases:
       header: "Your purchases"
+    first_register:
+      ticket: "Add ticket"
+      wristband: "Add wristband"
     credits:
       header: "Your credits"
       call_to_action_started: "The event just started so you cannot topup anymore"

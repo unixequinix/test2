@@ -1,3 +1,13 @@
+.wrapper-module-centered
+  h3 Welcome
+  p Please, to start with your event choose an option to register first
+  .wrapper-first-login.center-text
+    = link_to "#", class: "btn btn-action btn-action-first-registration" do
+      = t('dashboard.first_register.ticket')
+    span.buttons-separator or
+    = link_to "#", class: "btn btn-action btn-action-first-registration" do
+      = t('dashboard.first_register.wristband')
+
 .wrapper-module
   h3 = t('dashboard.credits.header')
   p.panel-amount-number = presenter.customer_total_credits

@@ -46,6 +46,9 @@ es:
       button: "Añadir"
     purchases:
       header: "Tus compras"
+    first_register:
+      ticket: "Añadir ticket"
+      wristband: "Añadir pulsera"
     credits:
       header: "Tus créditos"
       call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"

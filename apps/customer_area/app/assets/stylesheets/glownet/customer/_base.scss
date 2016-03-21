@@ -26,6 +26,18 @@ html, body {
   @include min-screen($bp3) { @include sticky-footer(modules(4)); }
 }
 
+// The whole screen container
+.container-main {
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+
+  @include min-screen($bp3) { min-height: 100%; }
+}
+
+.wrapper-main { position: relative; }
+
+// Avoid scroll when display aside menu on mobile
 .unscrollable-view {
   position: relative !important;
   min-height: 100% !important;

@@ -347,7 +347,7 @@
 #braintree-paypal-button {
   margin: 0 auto modules(2);
 
-  @include min-screen($bp3) {margin: 0 auto modules(1); }
+  @include min-screen($bp3) { margin: 0 auto modules(1); }
 }
 
 #braintree-paypal-loggedin {
@@ -359,6 +359,35 @@
 #bt-pp-cancel { width: auto; }
 #bt-pp-name { margin-left: 0 !important; }
 
+// First registration buttons
+
+.btn-action-first-registration {
+  display: inline-block;
+  vertical-align: middle;
+  width: modules(5.5);
+  height: auto;
+  border-radius: $radius;
+  padding: modules(0.75);
+  margin: 0 modules(1) 0 0;
+
+  @include min-screen($bp2) {
+    width: modules(6);
+    padding: modules(0.25);
+    margin: 0 modules(0.25) 0 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+    margin-left: modules(1);
+
+    @include min-screen($bp2) { margin-left: modules(0.25); }
+  }
+}
+
+.buttons-separator {
+  display: inline-block;
+  margin-bottom: modules(1);
+}
 
 
 // ---------------------------------------------------------------------------------------------
