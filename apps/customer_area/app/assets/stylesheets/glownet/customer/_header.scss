@@ -79,14 +79,7 @@ header { position: relative; }
 .header-desktop {
   display: none;
 
-  @include min-screen($bp3) {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 100%;
-    display: block;
-    z-index: 3;
-  }
+  @include min-screen($bp3) { display: block; }
 }
 
 .header-nav {

@@ -100,7 +100,7 @@ es:
       button: "Modificar cuenta"
     event_started:
       title: "Últimos detalles!"
-      description: "Estamos trabajano en los últimos detalles del evento para que tu experiencia sea la mejor posible. Por favor, vuelve en unas horas y mira lo que hemos preparado oara ti."
+      description: "Estamos trabajano en los últimos detalles del evento para que tu experiencia sea la mejor posible. Por favor, vuelve en unas horas y mira lo que hemos preparado para ti."
   admissions:
     title: "Activación del Ticket"
     description: "Por favor, introduce el código impreso debajo del código de barras en tu ticket del evento."

@@ -36,6 +36,12 @@
       border: 1px solid $nuclear;
     }
   }
+
+  .error_notification {
+    border-radius: $radius;
+    margin: modules(0.5);
+    padding: modules(0.5);
+  }
 }
 
 // Inputs and selects

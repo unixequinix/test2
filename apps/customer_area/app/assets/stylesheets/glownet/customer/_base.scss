@@ -91,6 +91,16 @@ a {
   }
 }
 
+.preload {
+  @include transition(all 150ms linear);
+  display: block;
+  max-width: modules(13);
+  height: modules(5);
+  margin: 0 auto;
+  border-radius: $radius;
+  background-color: $light_grey;
+}
+
 .img-gtag {
   display: block;
   width: 90%;
@@ -137,7 +147,6 @@ a {
   li {
     font-weight: bold;
   }
-
 }
 
 .event-state-image {
