@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20162103152529) do
+ActiveRecord::Schema.define(version: 20160321151500) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -318,16 +318,15 @@ ActiveRecord::Schema.define(version: 20162103152529) do
   add_index "customers", ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true, using: :btree
 
   create_table "entitlements", force: :cascade do |t|
-    t.integer  "entitlementable_id",                      null: false
-    t.string   "entitlementable_type",                    null: false
-    t.integer  "event_id",                                null: false
-    t.integer  "memory_position",                         null: false
-    t.string   "memory_length",        default: "simple", null: false
-    t.boolean  "infinite",             default: false,    null: false
+    t.integer  "entitlementable_id",                   null: false
+    t.string   "entitlementable_type",                 null: false
+    t.integer  "event_id",                             null: false
+    t.integer  "memory_position",                      null: false
+    t.boolean  "infinite",             default: false, null: false
     t.datetime "deleted_at"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.integer  "memory_length_aux",    default: 1
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.integer  "memory_length",        default: 1
   end
 
   add_index "entitlements", ["deleted_at"], name: "index_entitlements_on_deleted_at", using: :btree

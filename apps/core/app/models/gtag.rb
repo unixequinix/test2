@@ -24,9 +24,13 @@ class Gtag < ActiveRecord::Base
   # Gtag limits
   GTAG_DEFINITIONS = [{ name: "mifare_classic",
                         entitlement_limit: 42,
+                        shift: 1,
+                        memory_length: "simple",
                         credential_limit: 34,},
                       { name: "ultralight_ev1",
                         entitlement_limit: 80,
+                        shift: 2,
+                        memory_length: "double",
                         credential_limit: 40,}
                      ]
 

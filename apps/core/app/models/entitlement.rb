@@ -40,25 +40,23 @@ class Entitlement < ActiveRecord::Base
   end
 
   def last_position
+    shift = Gtag.field_by_memory_length(memory_length: memory_length, field: :shift)
     last_entitlement = Entitlement.where(event_id: event_id).order("memory_position DESC").first
-    last_entitlement.present? ? last_entitlement.memory_position + memory_length : 1
+    last_entitlement.present? ? last_entitlement.memory_position + shift : 1
   end
 
   def calculate_memory_position
+    shift = Gtag.field_by_memory_length(memory_length: memory_length, field: :shift)
     Entitlement.where(event_id: event_id)
       .where("memory_position > ?", memory_position)
-      .each { |entitlement| entitlement.decrement!(:memory_position, memory_length) }
+      .each { |entitlement| entitlement.decrement!(:memory_position, shift)}
   end
 
   def valid_position
-    limit = Gtag.field_by_name(name: gtag_type, field: :entitlement_limit)
-    binding.pry
-    return if self.memory_position + memory_length <= limit
-    errors[:memory_position] << I18n.t("errors.messages.not_enough_space_for_entitlement")
-  end
-
-  def gtag_type
-    EventParameter.joins(:parameter)
-                  .find_by(parameters: { name: "gtag_type" },event_id: event_id).value
+    shift = Gtag.field_by_memory_length(memory_length: memory_length, field: :shift)
+    limit = Gtag.field_by_memory_length(memory_length: memory_length, field: :entitlement_limit)
+    unless memory_position + shift <= limit
+      errors[:memory_position] << I18n.t("errors.not_enough_space_for_entitlement")
+    end
   end
 end
