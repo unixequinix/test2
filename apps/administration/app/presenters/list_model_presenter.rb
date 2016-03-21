@@ -46,7 +46,8 @@ class ListModelPresenter
   end
 
   def can_create_items?
-    @can_create_items != false && @context.respond_to?("new_admins_event_#{@model_name.singular}_path".to_sym)
+    @can_create_items != false &&
+      @context.respond_to?("new_admins_event_#{@model_name.singular}_path".to_sym)
   end
 
   private

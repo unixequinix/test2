@@ -16,7 +16,6 @@ RSpec.describe RefundService, type: :domain_logic do
       gtag = credential_assignment.credentiable
       event = gtag.event
       event.update_attribute(:refund_services, 2)
-      cep = create(:customer_event_profile, event: event)
       claim = create(:claim, aasm_state: "in_progress", gtag: gtag)
       create(:standard_credit_catalog_item, event: event)
       Seeder::SeedLoader.load_param(event, category: "refund")

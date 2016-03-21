@@ -77,7 +77,6 @@ RSpec.describe Pack, type: :model do
   describe ".credits?" do
     it "should return the credits inside a pack with grouped by their name (same credit)" do
       credit_a = create(:credit, value: 2, currency: "EUR", standard: false)
-      access_item = create(:catalog_item, :with_access)
       catalog_item_with_pack = create(:catalog_item, :with_pack)
       pack = catalog_item_with_pack.catalogable
 
@@ -99,7 +98,6 @@ RSpec.describe Pack, type: :model do
     it "should return the credits inside a pack with grouped by their name (different credits)" do
       credit_a = create(:credit, value: 2, currency: "EUR", standard: false)
       credit_b = create(:credit, value: 3, currency: "EUR", standard: false)
-      access_item = create(:catalog_item, :with_access)
       catalog_item_with_pack = create(:catalog_item, :with_pack)
       pack = catalog_item_with_pack.catalogable
 

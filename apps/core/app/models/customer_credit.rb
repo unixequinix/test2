@@ -38,6 +38,6 @@ class CustomerCredit < ActiveRecord::Base
   private
 
   def set_created_in_origin_at
-    created_in_origin_at = created_at
+    self.created_in_origin_at = created_at
   end
 end

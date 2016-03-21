@@ -46,21 +46,19 @@ class GtagSettingsForm
   def enough_space_for_credential
     limit = Gtag.field_by_name name: gtag_type, field: :credential_limit
     last_credential = CredentialType.joins(:catalog_item)
-                                    .where(catalog_items: { event_id: event_id } )
-                                    .order("memory_position DESC").first
+                      .where(catalog_items: { event_id: event_id })
+                      .order("memory_position DESC").first
     last_credential_position = last_credential.present? ? last_credential.memory_position : 0
 
-    unless last_credential_position <= limit
-      errors[:gtag_type] << I18n.t("errors.not_enough_space_for_credential_configuration")
-    end
+    return if last_credential_position <= limit
+    errors[:gtag_type] << I18n.t("errors.messages.not_enough_space_for_credential_configuration")
   end
 
   def enough_space_for_entitlements
     limit = Gtag.field_by_name name: gtag_type, field: :entitlement_limit
     last_entitlement = Entitlement.where(event_id: event_id).order("memory_position DESC").first
     last_entitlement_position = last_entitlement.present? ? last_entitlement.memory_position : 0
-    unless last_entitlement_position <= limit
-      errors[:gtag_type] << I18n.t("errors.not_enough_space_for_entitlement_configuration")
-    end
+    return if last_entitlement_position <= limit
+    errors[:gtag_type] << I18n.t("errors.messages.not_enough_space_for_entitlement_configuration")
   end
 end

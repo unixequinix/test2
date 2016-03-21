@@ -22,17 +22,13 @@ class Gtag < ActiveRecord::Base
   FORMATS = [STANDARD, CARD, SIMPLE]
 
   # Gtag limits
-  GTAG_DEFINITIONS = [ { name: "mifare_classic",
-                         memory_length: "simple",
-                         entitlement_limit: 42,
-                         credential_limit: 34,
-                         shift: 1 },
-                       { name: "ultralight_ev1",
-                         memory_length: "double",
-                         entitlement_limit: 1,
-                         credential_limit: 2,
-                         shift: 2 }
-                      ]
+  GTAG_DEFINITIONS = [{ name: "mifare_classic",
+                        entitlement_limit: 42,
+                        credential_limit: 34,},
+                      { name: "ultralight_ev1",
+                        entitlement_limit: 80,
+                        credential_limit: 40,}
+                     ]
 
   before_validation :upcase_gtag!
   default_scope { order(:id) }
@@ -111,14 +107,14 @@ class Gtag < ActiveRecord::Base
     event.selected_refund_services.any? { |service| refundable?(service) }
   end
 
-  def self.field_by_memory_length(memory_length: , field:)
+  def self.field_by_memory_length(memory_length:, field:)
     found = GTAG_DEFINITIONS.find do |definition|
       definition[:memory_length] == memory_length
     end
     return found[field.to_sym] if found
   end
 
-  def self.field_by_name(name: , field:)
+  def self.field_by_name(name:, field:)
     found = GTAG_DEFINITIONS.find do |definition|
       definition[:name] == name
     end

@@ -143,8 +143,10 @@ class Event < ActiveRecord::Base
     min = refund_minimun(refund_service)
     gtags.joins(credential_assignments: [customer_event_profile: :customer_credits])
       .where("credential_assignments.aasm_state = 'assigned'")
-      .having("sum(customer_credits.credit_value * customer_credits.final_refundable_balance) - #{fee} >= #{min}")
-      .having("sum(customer_credits.credit_value * customer_credits.final_refundable_balance) - #{fee} > 0")
+      .having("sum(customer_credits.credit_value * customer_credits.final_refundable_balance) - " \
+              "#{fee} >= #{min}")
+      .having("sum(customer_credits.credit_value * customer_credits.final_refundable_balance) - " \
+              "#{fee} > 0")
       .group("gtags.id")
   end
 

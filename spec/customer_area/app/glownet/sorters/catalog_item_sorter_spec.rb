@@ -4,21 +4,28 @@ RSpec.describe Sorters::CatalogItemSorter, type: :domain_logic do
   describe "has methods to sort a collection of catalog items" do
     let(:event) { build_stubbed(:event) }
     let(:catalog_items_collection) do
-      catalog_item_collection = [
+      [
         instance_double("CatalogItem", id: 4, event_id: 1, catalogable_id: 3,
-                                       catalogable_type: "Access", name: "Friday Pass", price: 30.0),
+                                       catalogable_type: "Access", name: "Friday Pass",
+                                       price: 30.0),
         instance_double("CatalogItem", id: 8, event_id: 1, catalogable_id: 3,
-                                       catalogable_type: "Voucher", name: "Voucher C", price: 70.0),
+                                       catalogable_type: "Voucher", name: "Voucher C",
+                                       price: 70.0),
         instance_double("CatalogItem", id: 1, event_id: 1, catalogable_id: 1,
-                                       catalogable_type: "Credit", name: "Standard credit", price: 1.0),
+                                       catalogable_type: "Credit", name: "Standard credit",
+                                       price: 1.0),
         instance_double("CatalogItem", id: 12, event_id: 1, catalogable_id: 2,
-                                       catalogable_type: "Credit", name: "Cheap Credit", price: 2.0),
+                                       catalogable_type: "Credit", name: "Cheap Credit",
+                                       price: 2.0),
         instance_double("CatalogItem", id: 3, event_id: 1, catalogable_id: 2,
-                                       catalogable_type: "Access", name: "VIP Pass", price: 20.0),
+                                       catalogable_type: "Access", name: "VIP Pass",
+                                       price: 20.0),
         instance_double("CatalogItem", id: 7, event_id: 1, catalogable_id: 2,
-                                       catalogable_type: "Voucher", name: "Voucher B", price: 60.0),
+                                       catalogable_type: "Voucher", name: "Voucher B",
+                                       price: 60.0),
         instance_double("CatalogItem", id: 13, event_id: 1, catalogable_id: 4,
-                                       catalogable_type: "Pack", name: "paker", price: 2.0)
+                                       catalogable_type: "Pack", name: "paker",
+                                       price: 2.0)
       ]
     end
 
