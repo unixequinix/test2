@@ -43,6 +43,9 @@ it:
       button: "Activate Ticket"
     purchases:
       header: "Your purchases"
+    first_register:
+      ticket: "Add ticket"
+      wristband: "Add wristband"
     credits:
       header: "Your credits"
       call_to_action: "To avoid queues, top-up your wristband now for all your event purchases"
@@ -230,7 +233,7 @@ it:
       current_password_hint: "abbiamo bisogno della tua password corrente in modo di poter confermare i cambiamenti"
       waiting_confirmation: 'In attesa della conferma per:'
       button: 'Aggiornare'
-      or: '- or -'
+      or: 'or'
   sessions:
     welcome: 'Welcome!'
     create_account:

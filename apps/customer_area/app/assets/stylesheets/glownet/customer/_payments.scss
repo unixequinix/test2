@@ -84,3 +84,16 @@
   width: 47.5%;
   margin-left: 2.5%;
  }
+
+ // TODO Refactor: Use this function only on mobile
+.payment-anhor-desktop {
+  display: none;
+
+  @include min-screen($bp3) { display: block; }
+}
+
+.payment-anhor-mobile {
+  display: block;
+
+  @include min-screen($bp3) { display: none; }
+}

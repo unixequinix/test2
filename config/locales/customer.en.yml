@@ -236,7 +236,7 @@ en:
       info: 'Please enter your correct personal details below so that we can provide you with secure and convenient service.'
       button: 'Sign up'
       details: "Please provide your personal details as a event visitor. This will allow us to give you a secure and personalized service"
-      or: '- or -'
+      or: 'or'
     edit:
       title: 'Edit'
       password_hint: "Leave it blank if you don't want to change it"

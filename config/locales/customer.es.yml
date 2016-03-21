@@ -232,7 +232,7 @@ es:
       info: 'Por favor introduce tus detalles personales para que podamos ofrecerte un servicio seguro y conveniente.'
       button: 'Regístrate'
       details: 'Por favor introduce tus datos personales. Esto permitirá proporcionarte un servicio más seguro y personalizado'
-      or: '- o -'
+      or: 'o'
     edit:
       title: 'Editar'
       password_hint: "Déjala en blanco si no la quieres cambiar"
