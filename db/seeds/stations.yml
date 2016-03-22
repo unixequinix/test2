@@ -1,6 +1,6 @@
 -
   name: access
-  icon_slug: access
+  icon_slug: A
   types:
     -
       name: check_in
@@ -24,7 +24,7 @@
       enviorment: device
 -
   name: monetary
-  icon_slug: monetary
+  icon_slug: B
   types:
     -
       name: point_of_sales
@@ -36,7 +36,7 @@
       enviorment: device
 -
   name: event_management
-  icon_slug: event_management
+  icon_slug: D
   types:
     -
       name: incident_report
@@ -64,7 +64,7 @@
       enviorment: device
 -
   name: glownet
-  icon_slug: glownet
+  icon_slug: C
   types:
     -
       name: dummy_check_in
@@ -80,7 +80,7 @@
       enviorment: device
 -
   name: touchpoint
-  icon_slug: touchpoint
+  icon_slug: E
   types:
     -
       name: touchpoint

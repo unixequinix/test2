@@ -108,7 +108,7 @@ namespace :db do
                                                      max_purchasable: rand(100),
                                                      initial_amount: 0 })
      pack.pack_catalog_items
-         .build(catalog_item_id: rand(1..CatalogItem.count), amount: rand(50))
+         .build(catalog_item_id: rand(event.catalog_items.map(&:id)), amount: rand(1..50))
          .save
     end
 
@@ -116,7 +116,7 @@ namespace :db do
 
   def create_credential_types
     @credential_types.times do |index|
-      CredentialType.create!(catalog_item_id: rand(1..CatalogItem.count), memory_position: rand(100))
+      CredentialType.create!(catalog_item_id: rand(event.catalog_items.map(&:id)), memory_position: rand(100))
     end
   end
 
@@ -215,7 +215,7 @@ namespace :db do
       40.times do |i|
         station.station_catalog_items
                 .new(price: rand(1.0...20.0),
-                     catalog_item_id: rand(1..CatalogItem.count),
+                     catalog_item_id: rand(event.catalog_items.map(&:id)),
                      station_parameter_attributes: { station_id: station.id })
                 .save
       end

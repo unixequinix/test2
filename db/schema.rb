@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160321151500) do
+ActiveRecord::Schema.define(version: 20160322161617) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -172,8 +172,6 @@ ActiveRecord::Schema.define(version: 20160321151500) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
   end
-
-  add_index "credential_assignments", ["credentiable_type", "aasm_state"], name: "index_c_assignments_on_c_type_and_state", unique: true, using: :btree
 
   create_table "credential_transactions", force: :cascade do |t|
     t.integer  "event_id"
