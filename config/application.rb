@@ -38,8 +38,8 @@ module GlownetWeb
     config.active_record.raise_in_transactional_callbacks = true
 
     # Add the fonts path
-    config.assets.paths << Rails.root.join('apps', 'core', 'assets')
-    config.assets.paths << Rails.root.join('apps', 'core', 'assets', 'fonts')
+    config.assets.paths << Rails.root.join('apps', 'core', 'app', 'assets')
+    config.assets.paths << Rails.root.join('apps', 'core', 'app', 'assets', 'fonts')
 
     # Precompile additional assets
     config.assets.precompile += %w( .svg .eot .woff .ttf )
