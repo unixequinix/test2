@@ -127,6 +127,7 @@ group :development, :test do
   gem 'capistrano-rbenv', '~> 2.0.3'
   gem 'capistrano-bundler', '~> 1.1.2'
   gem 'capistrano-sidekiq', '~> 0.5.3'
+  gem 'capistrano-faster-assets', '~> 1.0'
   # gem 'capistrano3-puma', require: false
   gem 'better_errors', '~> 2.1.1'
   gem 'binding_of_caller', '~> 0.7.2' # extra features for better_errors
