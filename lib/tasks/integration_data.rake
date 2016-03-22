@@ -99,24 +99,25 @@ namespace :db do
   end
 
   def create_packs
-    event = Event.last
+    @event = Event.last
     @packs.times do |index|
-      pack = Pack.create!(catalog_item_attributes: { event_id: event.id,
+      pack = Pack.create!(catalog_item_attributes: { event_id: @event.id,
                                                      name: "Pack #{index}",
                                                      step: rand(5),
                                                      min_purchasable: 1,
                                                      max_purchasable: rand(100),
                                                      initial_amount: 0 })
      pack.pack_catalog_items
-         .build(catalog_item_id: rand(event.catalog_items.map(&:catalogable_id)), amount: rand(1..50))
+         .build(catalog_item_id: @event.catalog_items.map(&:catalogable_id).sample, amount: rand(1..50))
          .save
     end
 
   end
 
   def create_credential_types
+    @event = Event.last
     @credential_types.times do |index|
-      CredentialType.create!(catalog_item_id: rand(event.catalog_items.map(&:catalogable_id)), memory_position: rand(100))
+      CredentialType.create!(catalog_item_id: @event.catalog_items.map(&:catalogable_id).sample, memory_position: rand(100))
     end
   end
 
@@ -209,13 +210,14 @@ namespace :db do
   end
 
   def create_box_offices
+    @event = Event.last
     @box_offices.times do |index|
       type = StationType.find_by(name: "box_office")
-      station = Station.create!(station_type: type, name: "Box Office #{index}", event: Event.last)
+      station = Station.create!(station_type: type, name: "Box Office #{index}", event: @event)
       40.times do |i|
         station.station_catalog_items
                 .new(price: rand(1.0...20.0),
-                     catalog_item_id: rand(event.catalog_items.map(&:catalogable_id)),
+                     catalog_item_id: @event.catalog_items.map(&:catalogable_id).sample,
                      station_parameter_attributes: { station_id: station.id })
                 .save
       end
