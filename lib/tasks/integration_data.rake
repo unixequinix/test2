@@ -108,7 +108,7 @@ namespace :db do
                                                      max_purchasable: rand(100),
                                                      initial_amount: 0 })
      pack.pack_catalog_items
-         .build(catalog_item_id: rand(1..CatalogItem.count), amount: rand(50))
+         .build(catalog_item_id: rand(1..CatalogItem.count), amount: rand(1..50))
          .save
     end
 
