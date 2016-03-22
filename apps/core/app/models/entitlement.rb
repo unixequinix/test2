@@ -40,8 +40,8 @@ class Entitlement < ActiveRecord::Base
   end
 
   def last_position
-    last_entitlement = Entitlement.where(event_id: event_id).order("memory_position DESC").first
-    last_entitlement.present? ? last_entitlement.memory_position + last_entitlement.memory_length : 1
+    last = Entitlement.where(event_id: event_id).order("memory_position DESC").first
+    last.present? ? last.memory_position + last.memory_length : 1
   end
 
   def calculate_memory_position
@@ -52,12 +52,12 @@ class Entitlement < ActiveRecord::Base
 
   def valid_position
     limit = Gtag.field_by_name(name: gtag_type, field: :entitlement_limit)
-    return if self.memory_position + memory_length <= limit
+    return if memory_position + memory_length <= limit
     errors[:memory_position] << I18n.t("errors.messages.not_enough_space_for_entitlement")
   end
 
   def gtag_type
     EventParameter.joins(:parameter)
-                  .find_by(parameters: { name: "gtag_type" },event_id: event_id).value
+      .find_by(parameters: { name: "gtag_type" }, event_id: event_id).value
   end
 end

@@ -48,12 +48,12 @@ class CredentialType < ActiveRecord::Base
 
   def valid_position
     limit = Gtag.field_by_name(name: gtag_type, field: :credential_limit)
-    return if self.memory_position <= limit
+    return if memory_position <= limit
     errors[:memory_position] << I18n.t("errors.messages.not_enough_space_for_credential")
   end
 
   def gtag_type
     EventParameter.joins(:parameter)
-                  .find_by(parameters: { name: "gtag_type" }, event_id: catalog_item.event_id).value
+      .find_by(parameters: { name: "gtag_type" }, event_id: catalog_item.event_id).value
   end
 end
