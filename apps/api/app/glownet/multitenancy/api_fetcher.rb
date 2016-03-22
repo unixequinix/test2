@@ -148,7 +148,6 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
       SELECT array_to_json(array_agg(row_to_json(t)))
       FROM (
         SELECT tickets.id, tickets.code as reference, tickets.credential_redeemed,
-               tickets.company_ticket_type_id, tickets.updated_at,
                credential_assignments.customer_event_profile_id as customer_id,
                company_ticket_types.credential_type_id as credential_type_id ,
                purchasers.first_name as purchaser_first_name,

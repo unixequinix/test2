@@ -22,14 +22,14 @@ namespace :db do
   task integration_data: :environment do
 
     @companies = 3
-    @customers = 50
-    @accesses = 20
-    @credential_types = 20
-    @packs = 10
+    @customers = 200000
+    @accesses = 1000
+    @credential_types = 500
+    @packs = 150
     @company_ticket_types = 20
-    @tickets = 50
-    @gtags =  40 # Less than customers is prefered
-    @box_offices = 5
+    @tickets = 200000
+    @gtags =  180000 # Less than customers is prefered
+    @box_offices = 10
 
     Benchmark.benchmark(CAPTION, 25, FORMAT, "TOTAL:") do |x|
       total = []
@@ -94,7 +94,7 @@ namespace :db do
                        event_id: event.id,
                        infinite: [true, false].sample,
                        memory_length: 1,
-                       memory_position: 3 })
+                       memory_position: rand(1..2) })
     end
   end
 
