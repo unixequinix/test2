@@ -3,6 +3,7 @@ require "rails_helper"
 RSpec.feature "Admin Gtag assignation", type: :feature do
   context "with an admin signed in" do
     before :each do
+      Seeder::SeedLoader.create_stations
       @event_creator = EventCreator.new(event_to_hash_parameters(build(:event)))
       @event_creator.save
       @event = @event_creator.event

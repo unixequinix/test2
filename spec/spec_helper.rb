@@ -20,9 +20,12 @@ def event_to_hash_parameters(event) # method for testing
     background_type: event.background_type,
     features: event.features,
     refund_services: event.refund_services,
-    payment_service: event.payment_service,
+    payment_services: event.payment_services,
     host_country: event.host_country,
     currency: event.currency,
+    token: event.token,
     locales: event.locales,
+    gtag_assignation: event.gtag_assignation,
+    ticket_assignation: event.ticket_assignation,
     registration_parameters: event.registration_parameters }
 end
