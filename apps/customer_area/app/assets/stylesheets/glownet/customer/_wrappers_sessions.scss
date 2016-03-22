@@ -40,11 +40,5 @@
   h2, h3 { @include mscale($base_font_size); }
 }
 
-// Separator for the buttons in the first log view
-.buttons-separator {
-  display: inline-block;
-  margin-bottom: modules(1);
-}
-
 
 // ···

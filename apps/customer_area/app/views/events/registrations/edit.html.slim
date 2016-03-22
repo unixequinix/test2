@@ -23,8 +23,8 @@
       = f.input :birthdate, as: :date, start_year: 1950,
             end_year: Date.today.year - 12,
             order: [:day, :month, :year] if(current_event.birthdate?)
-      = f.button :submit, t('registration.edit.button'),  class: "btn btn-action btn-edit-profile"
+      = f.button :submit, t('registration.edit.button'),  class: "btn-action btn-edit-profile"
   .wrapper-module
-    p.center-text
+    p.hint-text.center-text
       = t('sessions.end.close_title')
     = link_to t('header.logout'), event_logout_path(current_event), method: :delete, class: "btn btn-action btn-action-empty-state"
