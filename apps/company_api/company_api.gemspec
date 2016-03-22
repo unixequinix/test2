@@ -14,9 +14,7 @@ Gem::Specification.new do |s|
   s.description = "Description of Company Api."
   s.license     = "MIT"
 
-  s.files = Dir["{app,config,db,lib}/**/*", "README.rdoc", "spec/factories/**/*"]
+  s.files = Dir["{app,config,db,lib}/**/*", "README.rdoc"]
 
   s.add_dependency "rails", "~> 4.2.1"
-  s.add_development_dependency 'rspec-rails'
-  s.add_development_dependency 'factory_girl_rails'
 end

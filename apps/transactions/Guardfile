@@ -54,20 +54,10 @@ guard :rspec, cmd: "rspec" do
   dsl.watch_spec_files_for(rails.app_files)
   dsl.watch_spec_files_for(rails.views)
 
-  watch(rails.controllers) do |m|
-    [
-      rspec.spec.("routing/#{m[1]}_routing"),
-      rspec.spec.("controllers/#{m[1]}_controller"),
-      rspec.spec.("acceptance/#{m[1]}")
-    ]
-  end
-
   # Rails config changes
   watch(rails.spec_helper)     { rspec.spec_dir }
-  watch(rails.routes)          { "#{rspec.spec_dir}/routing" }
-  watch(rails.app_controller)  { "#{rspec.spec_dir}/controllers" }
 
-  watch(%r{^app/glownet/(.+).rb$})     { |m| "spec/app/glownet/#{m[1]}_spec.rb" }
+  watch(%r{^app/(.+).rb$})     { |m| "spec/app/#{m[1]}_spec.rb" }
 end
 
 guard :rubocop, cli: '-a', notification: :failed, all_on_start: false do
