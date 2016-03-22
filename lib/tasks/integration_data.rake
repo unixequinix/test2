@@ -22,13 +22,13 @@ namespace :db do
   task integration_data: :environment do
 
     @companies = 3
-    @customers = 200000
-    @accesses = 1000
-    @credential_types = 500
-    @packs = 150
-    @company_ticket_types = 20
-    @tickets = 200000
-    @gtags =  180000 # Less than customers is prefered
+    @customers = 200
+    @accesses = 10
+    @credential_types = 10
+    @packs = 15
+    @company_ticket_types = 15
+    @tickets = 200
+    @gtags =  180 # Less than customers is prefered
     @box_offices = 10
 
     Benchmark.benchmark(CAPTION, 25, FORMAT, "TOTAL:") do |x|
@@ -108,7 +108,7 @@ namespace :db do
                                                      max_purchasable: rand(100),
                                                      initial_amount: 0 })
      pack.pack_catalog_items
-         .build(catalog_item_id: rand(event.catalog_items.map(&:id)), amount: rand(1..50))
+         .build(catalog_item_id: rand(event.catalog_items.map(&:catalogable_id)), amount: rand(1..50))
          .save
     end
 
@@ -116,7 +116,7 @@ namespace :db do
 
   def create_credential_types
     @credential_types.times do |index|
-      CredentialType.create!(catalog_item_id: rand(event.catalog_items.map(&:id)), memory_position: rand(100))
+      CredentialType.create!(catalog_item_id: rand(event.catalog_items.map(&:catalogable_id)), memory_position: rand(100))
     end
   end
 
@@ -215,7 +215,7 @@ namespace :db do
       40.times do |i|
         station.station_catalog_items
                 .new(price: rand(1.0...20.0),
-                     catalog_item_id: rand(event.catalog_items.map(&:id)),
+                     catalog_item_id: rand(event.catalog_items.map(&:catalogable_id)),
                      station_parameter_attributes: { station_id: station.id })
                 .save
       end
