@@ -1,0 +1,139 @@
+require "rails_helper"
+
+RSpec.describe Api::V1::Events::TicketsController, type: :controller do
+  let(:event) { Event.last || create(:event) }
+  let(:admin) { Admin.first || create(:admin) }
+
+  before do
+    @tickets = create_list(:ticket, 2, :with_purchaser, event: event)
+  end
+
+  describe "GET index" do
+    context "with authentication" do
+      before(:each) do
+        http_login(admin.email, admin.access_token)
+      end
+
+      context "when the If-Modified-Since header is sent" do
+        before do
+          @new_ticket = create(:ticket, :with_purchaser, event: event)
+          @new_ticket.update!(updated_at: Time.now + 4.hours)
+
+          request.headers["If-Modified-Since"] = (@new_ticket.updated_at - 2.hours)
+        end
+
+        it "has a 200 status code" do
+          get :index, event_id: event.id
+          expect(response.status).to eq 200
+        end
+
+        it "returns only the modified tickets" do
+          get :index, event_id: event.id
+          tickets = JSON.parse(response.body).map { |m| m["reference"] }
+          expect(tickets).to include(@new_ticket.code)
+        end
+      end
+
+      context "when the If-Modified-Since header isn't sent" do
+        before do
+          create(:ticket, :with_purchaser, event: event)
+        end
+
+        it "has a 304 status code" do
+          get :index, event_id: event.id
+          expect(response.status).to eq 304
+        end
+
+        it "returns the cached tickets" do
+          get :index, event_id: event.id
+          tickets = JSON.parse(response.body).map { |m| m["reference"] }
+          cache_tickets = JSON.parse(Rails.cache.fetch("v1/tickets")).map { |m| m["reference"] }
+
+          create(:ticket, :with_purchaser, event: event)
+          event_tickets = event.tickets.map(&:code)
+
+          expect(tickets).to eq(cache_tickets)
+          expect(tickets).not_to eq(event_tickets)
+        end
+      end
+    end
+    context "without authentication" do
+      it "has a 401 status code" do
+        get :index, event_id: Event.last.id
+        expect(response.status).to eq 401
+      end
+    end
+  end
+
+  describe "GET show" do
+    context "with authentication" do
+      before(:each) do
+        http_login(admin.email, admin.access_token)
+      end
+
+      context "if ticket doesn't exist" do
+        it "has a 404 status code" do
+          get :show, event_id: event.id, id: (Ticket.last.id + 10)
+          expect(response.status).to eq 404
+        end
+      end
+
+      context "if ticket exists" do
+        before(:each) do
+          get :show, event_id: event.id, id: Ticket.last.id
+        end
+
+        it "has a 200 status code" do
+          expect(response.status).to eq 200
+        end
+
+        it "returns the ticket specified" do
+          body = JSON.parse(response.body)
+          expect(body["reference"]).to eq(Ticket.last.code)
+        end
+      end
+    end
+    context "without authentication" do
+      it "has a 401 status code" do
+        get :show, event_id: event.id, id: Ticket.last.id
+        expect(response.status).to eq 401
+      end
+    end
+  end
+
+  describe "GET reference" do
+    context "with authentication" do
+      before(:each) do
+        http_login(admin.email, admin.access_token)
+      end
+
+      context "if ticket doesn't exist" do
+        it "has a 404 status code" do
+          get :reference, event_id: event.id, id: "IdDoesntExist"
+          expect(response.status).to eq 404
+        end
+      end
+
+      context "if ticket exists" do
+        before(:each) do
+          get :reference, event_id: event.id, id: Ticket.last.code
+        end
+
+        it "has a 200 status code" do
+          expect(response.status).to eq 200
+        end
+
+        it "returns the ticket specified" do
+          body = JSON.parse(response.body)
+          expect(body["reference"]).to eq(Ticket.last.code)
+        end
+      end
+    end
+    context "without authentication" do
+      it "has a 401 status code" do
+        get :reference, event_id: event.id, id: Ticket.last.id
+        expect(response.status).to eq 401
+      end
+    end
+  end
+end
