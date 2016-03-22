@@ -12,6 +12,7 @@ class Payments::PaypalPayer
     @order.start_payment!
     charge_object = charge(params)
     if charge_object.success?
+      create_agreement(@order, charge_object, params[:autotopup_amount]) if params[:accept]
       notify_payment(charge_object, customer_order_creator, customer_credit_creator)
       @action_after_payment =
         success_event_order_payment_service_synchronous_payments_path(@event, @order, "braintree")
@@ -31,18 +32,30 @@ class Payments::PaypalPayer
     charge
   end
 
-  def sale_options(_params)
-    # token = params[:payment_method_nonce]
-    token = Braintree::Test::Nonce::PayPalOneTimePayment
+  private
+
+  def sale_options(params)
+    token = params[:payment_method_nonce]
     customer_event_profile = @order.customer_event_profile
     amount = @order.total_stripe_formated
     sale_options = {
       amount: amount,
       payment_method_nonce: token
     }
-    vault_options(sale_options, customer_event_profile.customer) unless
-      customer_event_profile.gateway_customer(EventDecorator::BRAINTREE)
+    vault_options(sale_options, customer_event_profile.customer) if
+      !customer_event_profile.gateway_customer(EventDecorator::PAYPAL)
     sale_options
+  end
+
+  def vault_options(sale_options, customer)
+    sale_options[:customer] = {
+      first_name: customer.first_name,
+      last_name: customer.last_name,
+      email: customer.email
+    }
+    sale_options[:options] = {
+      store_in_vault: true
+    }
   end
 
   def notify_payment(charge, customer_order_creator, customer_credit_creator)
@@ -52,30 +65,16 @@ class Payments::PaypalPayer
     create_payment(@order, charge)
     customer_order_creator.save(@order)
     @order.complete!
-    create_vault(@order, transaction)
     send_mail_for(@order, @event)
   end
 
-  private
-
-  def vault_options(sale_options, customer)
-    sale_options[:customer] = {
-      first_name: customer.first_name,
-      last_name: customer.last_name,
-      email: customer.email
-    }
-    sale_options[:options] = {
-      store_in_vault: true,
-      # TODO: Testing porpouses
-      submit_for_settlement: true
-    }
-  end
-
-  def create_vault(order, transaction)
+  def create_agreement(order, charge_object, autotopup_amount)
     customer_event_profile = order.customer_event_profile
     customer_event_profile.payment_gateway_customers
-      .find_or_create_by(gateway_type: EventDecorator::BRAINTREE)
-      .update(token: transaction.customer_details.id)
+      .find_or_create_by(gateway_type: EventDecorator::PAYPAL)
+      .update(token: charge_object.transaction.customer_details.id,
+              agreement_accepted: true,
+              autotopup_amount: autotopup_amount)
     customer_event_profile.save
   end
 

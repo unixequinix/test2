@@ -31,6 +31,8 @@ class Payments::BraintreePayer
     charge
   end
 
+  private
+
   def sale_options(params)
     token = params[:payment_method_nonce]
     customer_event_profile = @order.customer_event_profile
@@ -39,8 +41,6 @@ class Payments::BraintreePayer
       amount: amount,
       payment_method_nonce: token
     }
-    vault_options(sale_options, customer_event_profile.customer) unless
-      customer_event_profile.gateway_customer(EventDecorator::BRAINTREE)
     sale_options
   end
 
@@ -51,29 +51,7 @@ class Payments::BraintreePayer
     create_payment(@order, charge)
     customer_order_creator.save(@order)
     @order.complete!
-    create_vault(@order, transaction)
     send_mail_for(@order, @event)
-  end
-
-  private
-
-  def vault_options(sale_options, customer)
-    sale_options[:customer] = {
-      first_name: customer.first_name,
-      last_name: customer.last_name,
-      email: customer.email
-    }
-    sale_options[:options] = {
-      store_in_vault: true
-    }
-  end
-
-  def create_vault(order, transaction)
-    customer_event_profile = order.customer_event_profile
-    customer_event_profile.payment_gateway_customers
-      .find_or_create_by(gateway_type: EventDecorator::BRAINTREE)
-      .update(token: transaction.customer_details.id)
-    customer_event_profile.save
   end
 
   def send_mail_for(order, event)

@@ -1,0 +1,9 @@
+.container-auto-topup.center-text
+  h3.center-text = t("orders.paypal.sync_copy")
+  = image_tag "img-open-event.png", class: "event-state-image"
+  p = t("orders.paypal.sync_description")
+  .wrapper-acceppt-paypal-terms
+    = check_box_tag "accept"
+    = label_tag :accept, "#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), event_terms_of_use_url, target: '_blank'} #{ t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'),   event_privacy_policy_url, target: '_blank'}".html_safe
+  .control-group
+  = select_tag :autotopup_amount, options_for_select([20, 40, 50, 100, 150]), include_blank: false
