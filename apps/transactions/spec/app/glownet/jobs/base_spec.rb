@@ -5,7 +5,7 @@ RSpec.describe Jobs::Base, type: :job do
   let(:params) { { transaction_category: "credit", transaction_type: "sale", credits: 30 } }
 
   before(:each) do
-    # Dont care about the BalanceUpdater, so i mock its behaviour so that it doesnt bother the tests
+    # Dont care about the BalanceUpdater, so I mock the behaviour
     allow(Jobs::Credit::BalanceUpdater).to receive(:perform_later)
   end
 
@@ -17,6 +17,7 @@ RSpec.describe Jobs::Base, type: :job do
   end
 
   it "executes the job defined by transaction_type" do
+    expect(Jobs::Credit::BalanceUpdater).to receive(:perform_later).once.with(params)
     base.write(params)
   end
 
@@ -29,7 +30,14 @@ RSpec.describe Jobs::Base, type: :job do
       Jobs::Credential::Base.inspect # make 100% sure it is loaded into memory
       expect(base.descendants).not_to include(Jobs::Credential::Base)
     end
+
+    it "should include the descendants of base classes" do
+      # make 100% sure it is loaded into memory
+      Jobs::Credential::TicketChecker.inspect
+      expect(base.descendants).to include(Jobs::Credential::TicketChecker)
+    end
   end
+
   context "creating transactions" do
     it "ignores attributes not present in table" do
       obj = base.write(params.merge(foo: "not valid"))

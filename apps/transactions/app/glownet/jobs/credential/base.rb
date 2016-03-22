@@ -32,4 +32,8 @@ class Jobs::Credential::Base < Jobs::Base
   def mark_redeemed(obj)
     obj.update!(credential_redeemed: true)
   end
+
+  def self.inherited(klass)
+    superclass.inherited(klass)
+  end
 end
