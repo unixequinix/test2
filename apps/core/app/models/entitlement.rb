@@ -7,11 +7,11 @@
 #  entitlementable_type :string           not null
 #  event_id             :integer          not null
 #  memory_position      :integer          not null
-#  memory_length        :string           default("simple"), not null
 #  infinite             :boolean          default(FALSE), not null
 #  deleted_at           :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  memory_length        :integer          default(1)
 #
 
 class Entitlement < ActiveRecord::Base
@@ -40,23 +40,24 @@ class Entitlement < ActiveRecord::Base
   end
 
   def last_position
-    shift = Gtag.field_by_memory_length(memory_length: memory_length, field: :shift)
     last_entitlement = Entitlement.where(event_id: event_id).order("memory_position DESC").first
-    last_entitlement.present? ? last_entitlement.memory_position + shift : 1
+    last_entitlement.present? ? last_entitlement.memory_position + last_entitlement.memory_length : 1
   end
 
   def calculate_memory_position
-    shift = Gtag.field_by_memory_length(memory_length: memory_length, field: :shift)
     Entitlement.where(event_id: event_id)
       .where("memory_position > ?", memory_position)
-      .each { |entitlement| entitlement.decrement!(:memory_position, shift)}
+      .each { |entitlement| entitlement.decrement!(:memory_position, memory_length) }
   end
 
   def valid_position
-    shift = Gtag.field_by_memory_length(memory_length: memory_length, field: :shift)
-    limit = Gtag.field_by_memory_length(memory_length: memory_length, field: :entitlement_limit)
-    unless memory_position + shift <= limit
-      errors[:memory_position] << I18n.t("errors.not_enough_space_for_entitlement")
-    end
+    limit = Gtag.field_by_name(name: gtag_type, field: :entitlement_limit)
+    return if self.memory_position + memory_length <= limit
+    errors[:memory_position] << I18n.t("errors.messages.not_enough_space_for_entitlement")
+  end
+
+  def gtag_type
+    EventParameter.joins(:parameter)
+                  .find_by(parameters: { name: "gtag_type" },event_id: event_id).value
   end
 end

@@ -258,7 +258,7 @@ en:
       company_code: "Company code"
     entitlement:
       infinite: "Infinite"
-      memory_length: "Entitlement type"
+      memory_length: "Length"
       memory_position: "Memory position"
     ticket_types:
       id: "Id"

@@ -12,7 +12,7 @@
 
 class CredentialType < ActiveRecord::Base
   acts_as_paranoid
-  before_save :set_memory_position
+  before_validation :set_memory_position
   after_destroy :calculate_memory_position
 
   belongs_to :catalog_item
@@ -47,10 +47,13 @@ class CredentialType < ActiveRecord::Base
   end
 
   def valid_position
-    limit =100
-    binding.pry
-    unless memory_position <= limit
-      errors[:memory_position] << I18n.t("errors.not_enough_space_for_credential")
-    end
+    limit = Gtag.field_by_name(name: gtag_type, field: :credential_limit)
+    return if self.memory_position <= limit
+    errors[:memory_position] << I18n.t("errors.messages.not_enough_space_for_credential")
+  end
+
+  def gtag_type
+    EventParameter.joins(:parameter)
+                  .find_by(parameters: { name: "gtag_type" }, event_id: catalog_item.event_id).value
   end
 end

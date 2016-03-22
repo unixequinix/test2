@@ -255,7 +255,7 @@ it:
       memory_position: "Posición en memoria"
     entitlement:
       infinite: "Infinite"
-      memory_length: "Entitlement type"
+      memory_length: "Length"
       memory_position: "Memory position"
     company_ticket_types:
       name: "Name"
