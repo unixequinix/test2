@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
   include ControllerMacros

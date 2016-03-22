@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe Jobs::Base, type: :job do
   let(:base) { Jobs::Base }
