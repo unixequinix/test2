@@ -66,7 +66,7 @@ it:
       claim: "C'è stato un errore con il tuo rimborso"
       description: "Torna indietro e riprova."
     without_gtags:
-      title: "Crediti residui?"
+      title: "Registra %{gtag}"
       description: "Registra la tua Paycard per avviare il processo di rimborso. Si può registrare solo una Paycard per ogni account."
       button: "Registra la tua Paycard"
     without_gtags_disabled:
@@ -93,6 +93,9 @@ it:
       title: "Il tuo credito:"
       call_to_action: "La tua richiesta per un rimborso è stata effettuata con successo. Tra poco riceverai il trasferimento"
       button: "Modifica conto bancario"
+    event_started:
+      title: "Ultimating details!"
+      description: "We are finishing event configuration to bring you a great experience. Please, come back later and see what we have made for you."
   admissions:
     title: "Ticket Activation"
     description: "Please enter the number that is printed on your event ticket just below the barcode."
@@ -127,6 +130,16 @@ it:
       card_code_verification: "Card code verification (CCV)"
       card_expiration_date: "Card expiration date"
       button: "Pay"
+    brainter:
+      card_number: "Card number"
+      card_code_verification: "Card code verification (CCV)"
+      card_expiration_month: "Card expiration date"
+      card_expiration_year: "Card expiration date"
+      button: "Pay"
+    paypal:
+      sync_title: "Sync with Pay Pal to perform payment"
+      sync_copy: "Never without credit!"
+      sync_description: "Make direct top ups in your event purchases. Select how much you want to top up in case you spent your credit in the event and avoid queues. Your wristband will be always ready to go."
   claims:
     title: "Confermare rimborso"
     description: "Si prega di controllare il suo ordine e procedere al pagamento."
@@ -188,6 +201,7 @@ it:
       title: 'Il pagamento è stato eseguito'
       description: 'Grazie per il tuo ordine. Il tuo pagamento è stato effettuato. Riceverai una conferma email del tuo ordine.'
   refund:
+    refund_method: "Refund method"
     error:
       title: 'Errore'
       call_to_action: 'Contattaci:'
@@ -218,6 +232,13 @@ it:
       button: 'Aggiornare'
       or: '- or -'
   sessions:
+    welcome: 'Welcome!'
+    create_account:
+      title: 'Don´t you have an account?'
+      link: 'Get a free one!'
+    log_in:
+      title: 'Already have an account?'
+      link: 'Log in here'
     new:
       title: 'Log in'
       description: 'Ecco come funziona'

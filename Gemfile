@@ -10,7 +10,6 @@ gem 'sprockets-rails', '2.3.3'
 
 # Database
 gem 'pg', '~> 0.18.1'
-gem 'schema_plus', '~> 2.0.0.pre12'
 gem 'paranoia', '~> 2.0'
 gem 'activerecord-import', '~> 0.11.0'
 gem "active_record_bulk_insert"
@@ -77,7 +76,7 @@ gem 'country_select', '~> 2.2.0'
 gem 'phony_rails', '~> 0.12.8'
 
 # Payments Infrastructures
-gem 'stripe', '~>1.31.0'
+gem 'stripe', '~>1.36.1'
 gem 'braintree', '~>2.57.0'
 
 # Flags

@@ -15,8 +15,9 @@
 require "rails_helper"
 
 RSpec.describe Gtag, type: :model do
-  let(:event) { create(:event, refund_services: 2) }
-  let(:gtag) { create(:gtag, event: event) }
+  let(:credential_assignment) { create(:credential_assignment_g_a) }
+  let(:gtag) { credential_assignment.credentiable }
+  let(:event) { gtag.event }
 
   describe "upcase_gtag!" do
     it "sets the tag_uid and tag_serial_number in upcase on validation" do
@@ -30,8 +31,12 @@ RSpec.describe Gtag, type: :model do
 
   context "refunding: " do
     before :each do
-      create(:gtag_credit_log, amount: 9.99, gtag: gtag)
-      create(:preevent_product, :standard_credit_product, event: event)
+      create(:customer_credit_online,
+             amount: 10,
+             refundable_amount: 10,
+             customer_event_profile: gtag.assigned_customer_event_profile)
+      create(:standard_credit_catalog_item, event: event)
+      event.update_attribute(:refund_services, 2)
       Seeder::SeedLoader.load_param(event, category: "refund")
     end
 
@@ -41,7 +46,7 @@ RSpec.describe Gtag, type: :model do
       end
 
       it "returns the money that can be refunded" do
-        expect(gtag.refundable_amount).to eq(event.standard_credit_price * 9.99)
+        expect(gtag.refundable_amount).to eq(event.standard_credit_price * 10)
       end
     end
 

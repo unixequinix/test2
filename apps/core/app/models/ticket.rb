@@ -27,7 +27,8 @@ class Ticket < ActiveRecord::Base
   has_many :customer_event_profiles, through: :credential_assignments
   has_one :assigned_customer_event_profile,
           -> { where(credential_assignments: { aasm_state: :assigned }) },
-          class_name: "CustomerEventProfile"
+          through: :assigned_ticket_credential,
+          source: :customer_event_profile
   belongs_to :company_ticket_type
   has_one :banned_ticket
 
@@ -37,7 +38,7 @@ class Ticket < ActiveRecord::Base
   # has_many :comments, as: :commentable
 
   # Validations
-  validates :code, uniqueness: { scope: :event_id }
+  validates_uniqueness_of :code, scope: :event_id
   validates :code, presence: true
   validates :company_ticket_type, presence: true
 
