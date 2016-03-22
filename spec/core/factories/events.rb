@@ -57,11 +57,17 @@ FactoryGirl.define do
     mass_email_claim_notification "We are sending you email"
     refund_success_message "your refund has been successfull"
     refund_services 0
+    payment_services 0
 
     trait :refund_services do
       refund_services 2
     end
 
+    trait :payment_services do
+      payment_services 3
+    end
+
     factory :event_with_refund_services, traits: [:refund_services]
+    factory :event_with_payment_services, traits: [:payment_services]
   end
 end

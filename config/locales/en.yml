@@ -103,8 +103,8 @@ en:
         one: 'company ticket type'
         other: 'company ticket types'
       voucher:
-        one: 'voucher'
-        other: 'vouchers'
+        one: 'Voucher'
+        other: 'Vouchers'
     errors:
       models:
         customer:

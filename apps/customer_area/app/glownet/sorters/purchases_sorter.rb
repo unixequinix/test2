@@ -23,7 +23,8 @@ class Sorters::PurchasesSorter < Sorters::ItemSorter
     build_hash
     itemize_packs if itemized
     remove_empty_categories
-    format == HASH ? sort_by_criteria(:total_amount) : sort_by_criteria(:total_amount).values.flatten
+    final_collection = sort_by_criteria(:total_amount)
+    format == HASH ? final_collection : final_collection.values.flatten
   end
 
   private

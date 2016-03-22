@@ -20,7 +20,7 @@ RSpec.describe Order, type: :model do
   it { is_expected.to validate_presence_of(:aasm_state) }
 
   let(:customer_event_profile) { create(:customer_event_profile) }
-  let(:order) { create(:order, customer_event_profile: customer_event_profile) }
+  let(:order) { create(:order_with_items, customer_event_profile: customer_event_profile) }
 
   describe "total" do
     it "returns the total of all the items in the order" do
