@@ -9,17 +9,17 @@ class Jobs::Base < ActiveJob::Base
     obj
   end
 
+  def self.extract_attributes(klass, atts)
+    column_names = klass.column_names
+    atts.dup.keep_if { |key, _| column_names.include? key.to_s }
+  end
+
   def self.inherited(klass)
     @descendants ||= []
-    @descendants << klass unless klass.to_s.include? "Base"
+    @descendants += klass.to_s.split("::").last.eql?("Base") ? klass.descendants : [klass]
   end
 
   def self.descendants
     @descendants || []
-  end
-
-  def self.extract_attributes(klass, atts)
-    column_names = klass.column_names
-    atts.dup.keep_if { |key, _| column_names.include? key.to_s }
   end
 end

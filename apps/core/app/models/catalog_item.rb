@@ -70,10 +70,10 @@ class CatalogItem < ActiveRecord::Base
   end
 
   def self.sorted
-    hash_sorted.values.flatten
+    Sorters::CatalogItemSorter.new(all).sort(format: :list)
   end
 
   def self.hash_sorted
-    Sorters::CatalogItemSorter.new(all).sort
+    Sorters::CatalogItemSorter.new(all).sort(format: :hash)
   end
 end

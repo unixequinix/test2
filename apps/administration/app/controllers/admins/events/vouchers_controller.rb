@@ -5,6 +5,7 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
 
   def new
     @voucher = Voucher.new
+    @products_collection = @fetcher.products
     @voucher.build_catalog_item
     @voucher.build_entitlement
   end
@@ -22,6 +23,7 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
 
   def edit
     @voucher = @fetcher.vouchers.find(params[:id])
+    @products_collection = @fetcher.products
   end
 
   def update
@@ -67,26 +69,25 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
       fetcher: @fetcher.vouchers,
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [:catalog_item, :entitlement],
+      include_for_all_items: [:entitlement, catalog_item: :credential_type],
       context: view_context
     )
   end
 
   def permitted_params
-    params.require(:voucher).permit(catalog_item_attributes: [
-      :id,
-      :event_id,
-      :name,
-      :description,
-      :initial_amount,
-      :step,
-      :max_purchasable,
-      :min_purchasable
-    ],
-                                    entitlement_attributes: [
-                                      :id,
-                                      :memory_length,
-                                      :infinite,
-                                      :event_id])
+    params.require(:voucher).permit(product_ids: [],
+                                    catalog_item_attributes: [:id,
+                                                              :event_id,
+                                                              :name,
+                                                              :description,
+                                                              :initial_amount,
+                                                              :step,
+                                                              :max_purchasable,
+                                                              :min_purchasable
+                                                             ],
+                                    entitlement_attributes: [:id,
+                                                             :memory_length,
+                                                             :infinite,
+                                                             :event_id])
   end
 end

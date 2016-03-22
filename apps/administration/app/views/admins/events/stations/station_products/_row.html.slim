@@ -1,0 +1,6 @@
+tr
+  td data-label=t('admin.stations.station_product.name') = station_product.product.name
+  td data-label=t('admin.stations.station_product.price') = station_product.price
+  td data-label=t('admin.stations.station_product.description') = station_product.product.description
+  td.table-actions-field
+    = render 'admins/events/stations/station_products/actions', station_product: station_product unless current_event.started?
