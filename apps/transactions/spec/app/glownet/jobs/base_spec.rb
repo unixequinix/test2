@@ -30,7 +30,14 @@ RSpec.describe Jobs::Base, type: :job do
       Jobs::Credential::Base.inspect # make 100% sure it is loaded into memory
       expect(base.descendants).not_to include(Jobs::Credential::Base)
     end
+
+    it "should include the descendants of base classes" do
+      # make 100% sure it is loaded into memory
+      Jobs::Credential::TicketChecker.inspect
+      expect(base.descendants).to include(Jobs::Credential::TicketChecker)
+    end
   end
+
   context "creating transactions" do
     it "ignores attributes not present in table" do
       obj = base.write(params.merge(foo: "not valid"))
