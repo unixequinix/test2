@@ -162,12 +162,12 @@ namespace :db do
   end
 
   def create_tickets
-    agreements_count = CompanyEventAgreement.where(event: @event).count
+    ticket_types = CompanyTicketType.where(event: @event).pluck(:id)
     tickets = []
 
     @tickets.times do |index|
       tickets.push({ event_id: @event.id,
-                     company_ticket_type_id: rand(1..agreements_count),
+                     company_ticket_type_id: ticket_types.sample,
                      code: "#{index}AT#{DateTime.now.to_s(:number)}",
                      credential_redeemed: [true, false].sample })
     end
@@ -191,12 +191,12 @@ namespace :db do
   end
 
   def create_gtags
-    agreements = CompanyEventAgreement.where(event: @event).pluck(:id)
+    ticket_types = CompanyTicketType.where(event: @event).pluck(:id)
     gtags = []
 
     @gtags.times do |index|
       gtags.push({ event_id: @event.id,
-                   company_ticket_type_id: agreements.sample,
+                   company_ticket_type_id: ticket_types.sample,
                    tag_serial_number: "SERIAL#{index}AT#{DateTime.now.to_s(:number)}",
                    tag_uid: "UID#{index}AT#{DateTime.now.to_s(:number)}",
                    credential_redeemed: [true, false].sample })
