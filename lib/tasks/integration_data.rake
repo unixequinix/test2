@@ -100,6 +100,9 @@ namespace :db do
   end
 
   def create_packs
+    items = @event.catalog_items
+                  .where("catalogable_type = ? OR catalogable_type = ?", "Access", "Credit")
+
     @packs.times do |index|
       pack = Pack.create!(catalog_item_attributes: { event_id: @event.id,
                                                      name: "Pack #{index}",
@@ -107,9 +110,11 @@ namespace :db do
                                                      min_purchasable: 1,
                                                      max_purchasable: rand(100),
                                                      initial_amount: 0 })
-     pack.pack_catalog_items
-         .build(catalog_item_id: @event.catalog_items.map(&:catalogable_id).sample, amount: rand(1..50))
+     items.each do |item|
+       pack.pack_catalog_items
+         .build(catalog_item: item, amount: rand(1..50))
          .save
+       end
     end
 
   end
