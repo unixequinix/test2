@@ -34,6 +34,10 @@ namespace :db do
     @gtags =  180 # Less than customers is prefered
     @box_offices = 10
 
+    name = "Event #{DateTime.now.to_s(:number)}"
+    event_params = FactoryGirl.attributes_for(:event, name: name, slug: name.parameterize)
+    @event = EventCreator.new(event_params).save
+
     Benchmark.benchmark(CAPTION, 25, FORMAT, "TOTAL:") do |x|
       total = []
       data.each do |f|
@@ -45,17 +49,14 @@ namespace :db do
   end
 
   def create_events
-    name = "Event #{DateTime.now.to_s(:number)}"
-    event_params = FactoryGirl.attributes_for(:event, name: name, slug: name.parameterize)
-    EventCreator.new(event_params).save
+
   end
 
   def create_customers
-    event = Event.last
     customers = []
 
     @customers.times do |index|
-      customers.push({ event_id: event.id,
+      customers.push({ event_id: @event.id,
         first_name: "Customer #{index}",
         last_name: "Glownet",
         email: "customer#{index}#{DateTime.now.to_s(:number)}@example.com",
@@ -72,10 +73,9 @@ namespace :db do
   end
 
   def create_customer_event_profiles
-    event = Event.last
     customer_profiles = []
     @customers.times do |index|
-      customer_profiles << { event_id: event.id, customer_id: index + 1 }
+      customer_profiles << { event_id: @event.id, customer_id: index + 1 }
     end
 
     CustomerEventProfile.bulk_insert_in_batches(customer_profiles,
@@ -85,23 +85,22 @@ namespace :db do
   end
 
   def create_accesses
-    event = Event.last
     @accesses.times do |index|
-      Access.create!(catalog_item_attributes: { event_id: event.id,
+      Access.create!(catalog_item_attributes: { event_id: @event.id,
                                                 name: "Access #{index}",
                                                 step: rand(5),
                                                 min_purchasable: 1,
                                                 max_purchasable: rand(100),
                                                 initial_amount: 0 },
                      entitlement_attributes: {
-                       event_id: event.id,
+                       event_id: @event.id,
                        infinite: [true, false].sample,
                        memory_length: 1 })
     end
   end
 
   def create_packs
-    @event = Event.last
+
     @packs.times do |index|
       pack = Pack.create!(catalog_item_attributes: { event_id: @event.id,
                                                      name: "Pack #{index}",
@@ -117,11 +116,10 @@ namespace :db do
   end
 
   def create_products
-    event = Event.last
     products = []
 
     @products.times do |index|
-      products.push({ event_id: event.id,
+      products.push({ event_id: @event.id,
                      name: "Product #{DateTime.now.to_s(:number)}",
                      description: "This is a description",
                      is_alcohol: [true, false].sample })
@@ -130,7 +128,6 @@ namespace :db do
   end
 
   def create_credential_types
-    @event = Event.last
     items = @event.catalog_items.map(&:catalogable_id)
     @credential_types.times do |index|
       CredentialType.create!(catalog_item_id: items[index])
@@ -138,19 +135,17 @@ namespace :db do
   end
 
   def create_companies
-    event = Event.last
     @companies.times do
-      CompanyEventAgreement.create!(event: event, company: FactoryGirl.create(:company))
+      CompanyEventAgreement.create!(event: @event, company: FactoryGirl.create(:company))
     end
   end
 
   def create_company_ticket_types
-    event = Event.last
     credential_types = CredentialType.joins(:company_ticket_types)
-                        .where(company_ticket_types: { event: event }).pluck(:id)
+                        .where(company_ticket_types: { event: @event }).pluck(:id)
     ticket_types = []
     @company_ticket_types.times do |index|
-      ticket_types.push({ event_id: event.id,
+      ticket_types.push({ event_id: @event.id,
                           company_event_agreement_id: @event.company_event_agreements.pluck(:id).sample,
                           credential_type_id: credential_types.sample,
                           name: "Company Ticket Type #{rand(100)}",
@@ -163,13 +158,11 @@ namespace :db do
   end
 
   def create_tickets
-    event = Event.last
-    agreements_count = CompanyEventAgreement.where(event: event).count
-
+    agreements_count = CompanyEventAgreement.where(event: @event).count
     tickets = []
 
     @tickets.times do |index|
-      tickets.push({ event_id: event.id,
+      tickets.push({ event_id: @event.id,
                      company_ticket_type_id: rand(1..agreements_count),
                      code: "#{index}AT#{DateTime.now.to_s(:number)}",
                      credential_redeemed: [true, false].sample })
@@ -178,11 +171,10 @@ namespace :db do
   end
 
   def create_ticket_assignments
-    event = Event.last
-    ceps = CustomerEventProfile.where(event: event).pluck(:id)
+    ceps = CustomerEventProfile.where(event: @event).pluck(:id)
     assignments = []
 
-    Ticket.where(event: event).each do |ticket|
+    Ticket.where(event: @event).each do |ticket|
       assignments.push({ credentiable_id: ticket.id,
                          credentiable_type: "Ticket",
                          customer_event_profile_id: ceps.sample })
@@ -195,13 +187,11 @@ namespace :db do
   end
 
   def create_gtags
-    event = Event.last
-    agreements = CompanyEventAgreement.where(event: event).pluck(:id)
-
+    agreements = CompanyEventAgreement.where(event: @event).pluck(:id)
     gtags = []
 
     @gtags.times do |index|
-      gtags.push({ event_id: event.id,
+      gtags.push({ event_id: @event.id,
                    company_ticket_type_id: agreements.sample,
                    tag_serial_number: "SERIAL#{index}AT#{DateTime.now.to_s(:number)}",
                    tag_uid: "UID#{index}AT#{DateTime.now.to_s(:number)}",
@@ -211,11 +201,10 @@ namespace :db do
   end
 
   def create_gtag_assignments
-    event = Event.last
-    ceps = CustomerEventProfile.where(event: event).pluck(:id)
+    ceps = CustomerEventProfile.where(event: @event).pluck(:id)
     assignments = []
 
-    Gtag.where(event: event).each do |gtag|
+    Gtag.where(event: @event).each do |gtag|
       assignments.push({ credentiable_id: gtag.id,
                          credentiable_type: "Gtag",
                          customer_event_profile_id: ceps.sample })
@@ -228,12 +217,11 @@ namespace :db do
   end
 
   def create_box_offices
-    event = Event.last
     items = @event.catalog_items.pluck(:catalogable_id)
 
     @box_offices.times do |index|
       type = StationType.find_by(name: "box_office")
-      station = Station.create!(station_type: type, name: "Box Office #{index}", event: event)
+      station = Station.create!(station_type: type, name: "Box Office #{index}", event: @event)
       40.times do |i|
         station.station_catalog_items
                 .new(price: rand(1.0...20.0),
@@ -244,12 +232,10 @@ namespace :db do
   end
 
   def create_point_of_sales
-    event = Event.last
-
     @box_offices.times do |index|
       type = StationType.find_by(name: "point_of_sales")
-      station = Station.create!(station_type: type, name: "POS #{index}", event: event)
-      event.products.each do |product|
+      station = Station.create!(station_type: type, name: "POS #{index}", event: @event)
+      @event.products.each do |product|
         station.station_products
           .new(price: rand(1.0...20.0),
                product: product,
