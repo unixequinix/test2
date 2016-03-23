@@ -36,6 +36,10 @@ it:
         name: "Name"
         description: "Description"
         price: "Price"
+      station_product:
+        name: "Name"
+        description: "Description"
+        price: "Price"
     companies:
       name: "Name"
       token: "Company token"
@@ -233,12 +237,17 @@ it:
       name: "Name"
       description: "Description"
       step: "Step"
-      initial_amount: "Initial Amount"
-      max_purchasable: "Max Purchasable"
-      min_purchasable: "Min Purchasable"
+      initial_amount: "Initial amount"
+      max_purchasable: "Max purchasable"
+      min_purchasable: "Min purchasable"
       catalogable_type: "Type"
     vouchers:
       id: "Id"
+    products:
+      id: "Id"
+      name: "Name"
+      description: "Description"
+      is_alcohol: "Is alcohol"
     pack:
       number_catalog_items: "Number of items"
     credential_type:
@@ -246,7 +255,7 @@ it:
       memory_position: "Posición en memoria"
     entitlement:
       infinite: "Infinite"
-      memory_length: "Entitlement type"
+      memory_length: "Length"
       memory_position: "Memory position"
     company_ticket_types:
       name: "Name"

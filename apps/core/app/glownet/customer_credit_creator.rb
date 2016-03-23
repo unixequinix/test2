@@ -1,2 +1,0 @@
-class CustomerCreditCreator
-end

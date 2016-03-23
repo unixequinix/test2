@@ -3,6 +3,7 @@ require "rails_helper"
 RSpec.feature "Refund for Bank account", type: :feature do
   context "with account signed in" do
     before :all do
+      Seeder::SeedLoader.create_stations
       load_event
       load_customer
       load_gtag
@@ -33,11 +34,10 @@ RSpec.feature "Refund for Bank account", type: :feature do
 
   def load_gtag
     @gtag = create(:gtag, event: @event)
-    create(:gtag_credit_log, gtag: @gtag, amount: 30)
+    create(:customer_credit_online, customer_event_profile: CustomerEventProfile.first)
     @gtag_assignment = create(:credential_assignment_g_a,
                               credentiable: @gtag,
                               customer_event_profile: CustomerEventProfile.first)
-    @gtag_assignment.credentiable.event = @event
     @gtag_assignment.save
   end
 

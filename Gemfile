@@ -140,6 +140,7 @@ group :development, :test do
   gem 'guard-rspec', '~> 4.5.0', require: false
   gem 'spring-commands-rspec', '~> 1.0.4'
   gem 'pry-rails'
+  gem "awesome_print", require:"ap"
   gem 'terminal-notifier-guard'
   gem 'guard-bundler', require: false
 end
