@@ -7,7 +7,7 @@ class Jobs::Credential::Base < Jobs::Base
   def assign_gtag(transaction, atts)
     gtags = transaction.event.gtags
     ctt = transaction.ticket.company_ticket_type
-    atts = { tag_uid: atts[:customer_tag_uid], company_ticket_type: ctt }
+    search_atts = { tag_uid: atts[:customer_tag_uid], company_ticket_type: ctt }
     gtags.find_by(atts) || gtags.create!(atts)
   end
 
