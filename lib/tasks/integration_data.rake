@@ -97,7 +97,7 @@ namespace :db do
                        event_id: event.id,
                        infinite: [true, false].sample,
                        memory_length: 1,
-                       memory_position: rand(1..2) })
+                       memory_position: index + 1 })
     end
   end
 
@@ -134,7 +134,7 @@ namespace :db do
     @event = Event.last
     @credential_types.times do |index|
       CredentialType.create!(catalog_item_id: @event.catalog_items.map(&:catalogable_id).sample,
-                             memory_position: rand(100))
+                             memory_position: rand(20))
     end
   end
 
