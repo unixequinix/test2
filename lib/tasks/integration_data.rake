@@ -9,13 +9,15 @@ namespace :db do
     "Accesses",
     "CredentialTypes",
     "Packs",
+    "Products",
     "Companies",
     "CompanyTicketTypes",
     "Tickets",
     "TicketAssignments",
     "Gtags",
     "GtagAssignments",
-    "BoxOffices"
+    "BoxOffices",
+    "PointOfSales"
   ]
 
   desc "Fill database with sample data"
@@ -26,6 +28,7 @@ namespace :db do
     @accesses = 10
     @credential_types = 10
     @packs = 15
+    @products = 15
     @company_ticket_types = 15
     @tickets = 200
     @gtags =  180 # Less than customers is prefered
@@ -112,6 +115,19 @@ namespace :db do
          .save
     end
 
+  end
+
+  def create_products
+    event = Event.last
+    products = []
+
+    @products.times do |index|
+      products.push({ event_id: event.id,
+                     name: "Product #{DateTime.now.to_s(:number)}",
+                     description: "This is a description",
+                     is_alcohol: [true, false].sample })
+    end
+    Product.bulk_insert_in_batches(products, batch_size: 50000, delay: 0, validate: false)
   end
 
   def create_credential_types
@@ -221,8 +237,22 @@ namespace :db do
         station.station_catalog_items
                 .new(price: rand(1.0...20.0),
                      catalog_item_id: @event.catalog_items.map(&:catalogable_id).sample,
-                     station_parameter_attributes: { station_id: station.id })
-                .save
+                     station_parameter_attributes: { station_id: station.id }).save
+      end
+    end
+  end
+
+  def create_point_of_sales
+    event = Event.last
+
+    @box_offices.times do |index|
+      type = StationType.find_by(name: "point_of_sales")
+      station = Station.create!(station_type: type, name: "POS #{index}", event: @event)
+      event.products.each do |product|
+        station.station_products
+          .new(price: rand(1.0...20.0),
+               product: product,
+               station_parameter_attributes: { station_id: station.id }).save
       end
     end
   end
