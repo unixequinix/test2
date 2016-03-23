@@ -145,8 +145,8 @@ namespace :db do
   end
 
   def create_company_ticket_types
-    credential_types = CredentialType.joins(:company_ticket_types)
-                        .where(company_ticket_types: { event: @event }).pluck(:id)
+    credential_types = CredentialType.joins(:catalog_item)
+                        .where(catalog_items: { event_id: @event.id }).pluck(:id)
     ticket_types = []
     @company_ticket_types.times do |index|
       ticket_types.push({ event_id: @event.id,
