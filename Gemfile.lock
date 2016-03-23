@@ -494,6 +494,8 @@ GEM
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
       redis (~> 3.2, >= 3.2.1)
+    sidekiq-failures (0.4.5)
+      sidekiq (>= 2.16.0)
     simple_form (3.1.1)
       actionpack (~> 4.0)
       activemodel (~> 4.0)
@@ -660,6 +662,7 @@ DEPENDENCIES
   selenium-webdriver
   shoulda-matchers (~> 2.8.0)
   sidekiq (~> 4.0.1)
+  sidekiq-failures
   simple_form (~> 3.1.0)
   simplecov (~> 0.10.0)
   sinatra
