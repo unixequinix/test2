@@ -21,7 +21,7 @@ class OrderItem < ActiveRecord::Base
     catalog_item.catalogable_type == "Credit"
   end
 
-  def valid_pack?
+  def pack_with_credits?
     catalog_item.catalogable_type == "Pack" && catalog_item.catalogable.credits.any?
   end
 

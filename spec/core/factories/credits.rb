@@ -23,7 +23,7 @@ FactoryGirl.define do
     end
 
     after(:build) do |credit|
-      credit.catalog_item ||= build(:catalog_item, :with_credit)
+      credit.catalog_item ||= build(:catalog_item)
     end
 
     factory :standard_credit, traits: [:standard]

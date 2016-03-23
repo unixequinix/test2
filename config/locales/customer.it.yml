@@ -123,14 +123,25 @@ it:
     card_info: "Card Info"
     order_review: "Order review"
     payment: "Payment method"
-    credit_card: "Credit card"
-    pay_pal: "Pay Pal"
+    payment-buttons:
+      redsys:
+        name: "Credit card"
+        icon: "credit-card"
+      stripe:
+        name: "Credit card"
+        icon: "credit-card"
+      braintree:
+        name: "Credit card"
+        icon: "credit-card"
+      paypal:
+        name: "Pay Pal"
+        icon: "paypal"
     stripe:
       card_number: "Card number"
       card_code_verification: "Card code verification (CCV)"
       card_expiration_date: "Card expiration date"
       button: "Pay"
-    brainter:
+    braintree:
       card_number: "Card number"
       card_code_verification: "Card code verification (CCV)"
       card_expiration_month: "Card expiration date"

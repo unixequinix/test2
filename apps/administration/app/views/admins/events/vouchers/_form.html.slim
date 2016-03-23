@@ -12,5 +12,7 @@
       = entitlement.input :infinite, as: :radio_buttons, placeholder: false
       = entitlement.input :memory_length, collection: Entitlement::TYPES, include_blank: false
       = entitlement.input :event_id, as: :hidden, input_html: { value: current_event.id }
-
+    = f.collection_check_boxes(:product_ids, @products_collection, :id, :name)
     = f.button :submit, class: "btn btn-primary"
+
+

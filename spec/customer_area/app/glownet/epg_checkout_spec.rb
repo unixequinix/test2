@@ -5,13 +5,14 @@ RSpec.describe EpgCheckout, type: :domain_logic do
     ClaimParameter.destroy_all
     Refund.destroy_all
     Claim.destroy_all
-    event = create(:event, refund_services: 2)
-    Seeder::SeedLoader.load_default_event_parameters(event)
+    credential_assignment = create(:credential_assignment_g_a)
+    gtag = credential_assignment.credentiable
+    event = gtag.event
+    event.update_attribute(:refund_services, 2)
     cep = create(:customer_event_profile, event: event)
-    gtag = create(:gtag, event: event)
+    Seeder::SeedLoader.load_default_event_parameters(event)
     create(:claim, customer_event_profile: cep, gtag: gtag)
-    create(:preevent_product, :full, event: event, price: 20)
-    create(:preevent_product, :standard_credit_product, event: event)
+    create(:full_catalog_item, event: event)
     claim = CustomerEventProfile.find_by(event: event).claims.first
     epg_claim_form = EpgClaimForm.new(country_code: "ES",
                                       state: "Madrid",

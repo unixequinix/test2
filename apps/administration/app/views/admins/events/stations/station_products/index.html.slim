@@ -1,0 +1,6 @@
+- breadcrumb :admins_event_sale_station_station_products, current_event, @station
+
+= render "form", station_product: @station_product
+
+.wrapper-negative-space
+  = render 'admins/events/stations/station_products/list', station_products: @list_model_presenter.all_items

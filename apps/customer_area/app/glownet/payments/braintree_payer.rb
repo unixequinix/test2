@@ -35,7 +35,6 @@ class Payments::BraintreePayer
 
   def sale_options(params)
     token = params[:payment_method_nonce]
-    customer_event_profile = @order.customer_event_profile
     amount = @order.total_stripe_formated
     sale_options = {
       amount: amount,

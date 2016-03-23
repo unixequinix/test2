@@ -42,3 +42,7 @@ es:
       catalog_item_dependent: "Imposible eliminar item, ya que está inlcuido en al menos un pack"
       company_ticket_type_dependent: "Imposible eliminar la compañia, tiene tipos de ticket asignados"
       max_standard_credits: "Sólo un crédito estándar por evento"
+      not_enough_space_for_entitlement: "No hay suficiente espacio para ese entitlement"
+      not_enough_space_for_credential: "No hay suficiente espacio para ese credencial"
+      not_enough_space_for_entitlement_configuration: "No hay suficiente espacio para la configuración de entitlements existente"
+      not_enough_space_for_credential_configuration: "No hay suficiente espacio para la configuración de credenciales existente"

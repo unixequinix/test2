@@ -36,6 +36,10 @@ es:
         name: "Nombre"
         description: "Descripción"
         price: "Precio"
+      station_product:
+        name: "Nombre"
+        description: "Descripción"
+        price: "Precio"
     companies:
       name: "Nombre"
       token: "Token de la compañia"
@@ -249,8 +253,13 @@ es:
       company_code: "Código de la compañía"
     entitlement:
       infinite: "Ilimitado"
-      memory_length: "Tipo"
+      memory_length: "Longitud"
       memory_position: "Posición en memoria"
+    products:
+      id: "Id"
+      name: "Nombre"
+      description: "Descripción"
+      is_alcohol: "Es alcohol"
     ticket_types:
       id: "Id"
       name: "Nombre"

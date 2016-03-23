@@ -5,7 +5,7 @@
   min_purchasable: 0
   max_purchasable: 50
   infinite: "false"
-  memory_length: "simple"
+  memory_length: 1
 -
   name: "Voucher B"
   initial_amount: 0
@@ -13,7 +13,7 @@
   min_purchasable: 0
   max_purchasable: 50
   infinite: "false"
-  memory_length: "double"
+  memory_length: 2
 -
   name: "Voucher C"
   initial_amount: 0
@@ -21,4 +21,4 @@
   min_purchasable: 0
   max_purchasable: 50
   infinite: "false"
-  memory_length: "simple"
+  memory_length: 1

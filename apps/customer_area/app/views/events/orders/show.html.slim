@@ -18,30 +18,21 @@
         .vat-text = t('orders.vat')
       td [colspan="3"] #{@order.total} #{current_event.currency}
 
-  p#payment-acnhor.payment-anhor-mobile.hint-text
-    = t('orders.payment')
-  p.payment-anhor-desktop.hint-text
-    = t('orders.payment')
-  ul.container-payment-buttons
-    li
-      .btn-payment-trigger [data-target="paypal"]
-        = fa_icon "paypal"
-        p = t('orders.pay_pal')
-    li
-      .btn-payment-trigger [data-target="redsys"]
-        = fa_icon "credit-card"
-        p = t('orders.credit_card')
-    li
-      .btn-payment-trigger [data-target="braintree"]
-        = fa_icon "credit-card"
-        p = t('orders.credit_card')
-    li
-      .btn-payment-trigger [data-target="stripe"]
-        = fa_icon "credit-card"
-        p = t('orders.credit_card')
+  - if current_event.selected_payment_services.length > 1
 
+    p#payment-acnhor.payment-anhor-mobile.hint-text
+      = t('orders.payment')
+    p.payment-anhor-desktop.hint-text
+      = t('orders.payment')
 
+    ul.container-payment-buttons
+      - current_event.selected_payment_services.each do |payment_service|
+        li
+          .btn-payment-trigger [data-target="#{payment_service}"]
+            = fa_icon t("orders.payment-buttons.#{payment_service}.icon")
+            p = t("orders.payment-buttons.#{payment_service}.name")
 
 - @order_presenters.each do |order_presenter|
-  = render order_presenter.path, order_presenter: order_presenter
+  .container-method [id="method-#{order_presenter.payment_service}" class=(current_event.selected_payment_services.length > 0 ? "show-container" : "")]
+    = render order_presenter.path, order_presenter: order_presenter
 

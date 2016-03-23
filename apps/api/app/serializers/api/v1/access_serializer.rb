@@ -1,6 +1,5 @@
 class Api::V1::AccessSerializer < Api::V1::BaseSerializer
-  # TODO: Add memory length
-  attributes :id, :name, :infinite, :position
+  attributes :id, :name, :infinite, :position, :memory_length
 
   def attributes(*args)
     hash = super
@@ -22,5 +21,9 @@ class Api::V1::AccessSerializer < Api::V1::BaseSerializer
 
   def position
     object.entitlement.memory_position
+  end
+
+  def memory_length
+    object.entitlement.memory_length.to_i
   end
 end

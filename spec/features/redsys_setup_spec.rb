@@ -3,6 +3,7 @@ require "rails_helper"
 RSpec.feature "Redsys Setup", type: :feature do
   context "with account signed in" do
     before :each do
+      Seeder::SeedLoader.create_stations
       admin = create(:admin)
       login_as(admin, scope: :admin)
     end
@@ -16,7 +17,7 @@ RSpec.feature "Redsys Setup", type: :feature do
         visit "/admins/events/new"
         within("#new_event") do
           fill_in(t("#{@form_i18n}.name"), with: "Test")
-          select("Redsys", from: "event_payment_service")
+          check("Redsys")
         end
         click_button(t("helpers.submit.create", model: "Event"))
         expect(page).to have_text(t("admin.defaults.home"))
@@ -29,8 +30,8 @@ RSpec.feature "Redsys Setup", type: :feature do
       end
 
       it "fills and save the redsys payment settings" do
-        event = create(:event, payment_service: "redsys")
-        visit "/admins/events/#{event.slug}/payment_settings/edit"
+        event = create(:event, payment_services: 2)
+        visit "/admins/events/#{event.slug}/payment_settings/redsys/edit"
         within("#new_redsys_payment_settings_form") do
           fill_in(t("#{@form_i18n}.name"), with: "Live Nation Esp SAU")
           fill_in(t("#{@form_i18n}.code"), with: "126327360")

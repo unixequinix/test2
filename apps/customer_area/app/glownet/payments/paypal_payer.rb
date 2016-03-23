@@ -42,8 +42,8 @@ class Payments::PaypalPayer
       amount: amount,
       payment_method_nonce: token
     }
-    vault_options(sale_options, customer_event_profile.customer) if
-      !customer_event_profile.gateway_customer(EventDecorator::PAYPAL)
+    vault_options(sale_options, customer_event_profile.customer) unless
+      customer_event_profile.gateway_customer(EventDecorator::PAYPAL)
     sale_options
   end
 
