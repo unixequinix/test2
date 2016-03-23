@@ -69,6 +69,6 @@ module GlownetWeb
       end
     end
 
-    config.active_job.queue_adapter = :sidekiq
+    config.active_job.queue_adapter = :inline
   end
 end
