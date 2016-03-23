@@ -7,8 +7,8 @@ class Jobs::Credential::Base < Jobs::Base
   def assign_gtag(transaction, atts)
     gtags = transaction.event.gtags
     ctt = transaction.ticket.company_ticket_type
-    search_atts = { tag_uid: atts[:customer_tag_uid], company_ticket_type: ctt }
-    gtags.find_by_tag_uid(atts[:customer_tag_uid]) || gtags.create!(atts)
+    create_atts = { tag_uid: atts[:customer_tag_uid], company_ticket_type: ctt }
+    gtags.find_by_tag_uid(atts[:customer_tag_uid]) || gtags.create!(create_atts)
   end
 
   def assign_gtag_credential(gtag, profile)
@@ -18,17 +18,19 @@ class Jobs::Credential::Base < Jobs::Base
 
   def assign_ticket(transaction, atts)
     code = atts[:ticket_code]
+    event = transaction.event
+    decoder = TicketDecoder::SonarDecoder
 
     # If ticket is found by code, it is already there, return it.
-    ticket_found = transaction.event.includes(:tickets).find_by(tickets: {code: code})
+    ticket_found = event.tickets.find_by_code(code)
     return ticket_found unless ticket_found.nil?
 
     # Ticket is not found. perhaps is new sonar ticket?
-    ctt = TicketDecoder::SonarDecoder.perform(code)
-    return transaction.event.tickets.create!(code: code, company_ticket_type_id: ctt) if ctt
+    ctt = decoder.valid_code?(code) && decoder.perform(code)
+    return event.tickets.create!(code: code, company_ticket_type_id: ctt) if ctt
 
     # it is not sonar, it is not in DB. The ticket is not valid.
-    raise "Ticket with code #{code} not found and not sonar."
+    fail "Ticket with code #{code} not found and not sonar."
   end
 
   def assign_ticket_credential(ticket, profile)

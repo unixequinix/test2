@@ -16,6 +16,18 @@ RSpec.describe TicketDecoder::SonarDecoder, type: :domain_logic do
     end
   end
 
+  it ".valid_code? returns true if code is valid" do
+    expect(decoder.valid_code? ticket_code).to be_truthy
+  end
+
+  it ".valid_code? returns false if code is not valid" do
+    expect(decoder.valid_code? "FOoBAR123").to be_falsey
+  end
+
+  it ".valid_code? returns false if code is nil" do
+    expect(decoder.valid_code? nil).to be_falsey
+  end
+
   it ".decode returns the ticket barcode decoded" do
     expect(decoder.decode(ticket_code)).to eq(201_608_504_201_012)
   end
