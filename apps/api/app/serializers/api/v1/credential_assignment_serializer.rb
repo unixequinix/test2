@@ -7,5 +7,6 @@ class Api::V1::CredentialAssignmentSerializer < Api::V1::BaseSerializer
 
   def type
     object.credentiable_type.downcase
+    binding.pry
   end
 end

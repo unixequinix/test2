@@ -49,7 +49,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
         (
           SELECT array_to_json(array_agg(row_to_json(cr)))
           from (
-            SELECT credentiable_id as id, credentiable_type as type
+            SELECT credentiable_id as id, LOWER(credentiable_type) as type
             FROM credential_assignments
             WHERE customer_event_profile_id = customer_event_profiles.id
               AND deleted_at IS NULL
@@ -60,7 +60,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           from (
             SELECT counter as online_order_counter, customer_orders.amount,
               customer_orders.catalog_item_id as catalogable_id,
-              catalog_items.catalogable_type as catalogable_type
+              LOWER(catalog_items.catalogable_type) as catalogable_type
             FROM online_orders
             INNER JOIN customer_orders
               ON customer_orders.customer_event_profile_id = customer_event_profiles.id
