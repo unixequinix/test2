@@ -131,7 +131,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
   end
 
   def stations
-    StationGroup.includes(stations: :station_types)
+    StationGroup.includes(stations: :station_type).where(stations: { event_id: @event.id })
   end
 
   def sale_stations

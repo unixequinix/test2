@@ -117,7 +117,8 @@ namespace :db do
   def create_credential_types
     @event = Event.last
     @credential_types.times do |index|
-      CredentialType.create!(catalog_item_id: @event.catalog_items.map(&:catalogable_id).sample, memory_position: rand(100))
+      CredentialType.create!(catalog_item_id: @event.catalog_items.map(&:catalogable_id).sample,
+                             memory_position: rand(100))
     end
   end
 
@@ -130,11 +131,13 @@ namespace :db do
 
   def create_company_ticket_types
     event = Event.last
+    credential_types = CredentialType.joins(:company_ticket_types)
+                        .where(company_ticket_types: { event: event }).pluck(:id)
     ticket_types = []
     @company_ticket_types.times do |index|
       ticket_types.push({ event_id: event.id,
-                          company_event_agreement_id: rand(1..CompanyEventAgreement.count),
-                          credential_type_id: rand(1..CredentialType.count),
+                          company_event_agreement_id: @event.company_event_agreements.pluck(:id).sample,
+                          credential_type_id: credential_types.sample,
                           name: "Company Ticket Type #{rand(100)}",
                           company_code: "#{index}AT#{DateTime.now.to_s(:number)}"})
     end
@@ -161,13 +164,13 @@ namespace :db do
 
   def create_ticket_assignments
     event = Event.last
-    ceps_count = CustomerEventProfile.where(event: event).count
+    ceps = CustomerEventProfile.where(event: event).pluck(:id)
     assignments = []
 
     Ticket.where(event: event).each do |ticket|
       assignments.push({ credentiable_id: ticket.id,
                          credentiable_type: "Ticket",
-                         customer_event_profile_id: rand(1..ceps_count) })
+                         customer_event_profile_id: ceps.sample })
     end
 
     CredentialAssignment.bulk_insert_in_batches(assignments,
@@ -178,13 +181,13 @@ namespace :db do
 
   def create_gtags
     event = Event.last
-    agreements_count = CompanyEventAgreement.where(event: event).count
+    agreements = CompanyEventAgreement.where(event: event).pluck(:id)
 
     gtags = []
 
     @gtags.times do |index|
       gtags.push({ event_id: event.id,
-                   company_ticket_type_id: rand(1..agreements_count),
+                   company_ticket_type_id: agreements.sample,
                    tag_serial_number: "SERIAL#{index}AT#{DateTime.now.to_s(:number)}",
                    tag_uid: "UID#{index}AT#{DateTime.now.to_s(:number)}",
                    credential_redeemed: [true, false].sample })
@@ -194,13 +197,13 @@ namespace :db do
 
   def create_gtag_assignments
     event = Event.last
-    ceps_count = CustomerEventProfile.where(event: event).count
+    ceps = CustomerEventProfile.where(event: event).pluck(:id)
     assignments = []
 
     Gtag.where(event: event).each do |gtag|
       assignments.push({ credentiable_id: gtag.id,
                          credentiable_type: "Gtag",
-                         customer_event_profile_id: rand(1..ceps_count) })
+                         customer_event_profile_id: ceps.sample })
     end
 
     CredentialAssignment.bulk_insert_in_batches(assignments,
