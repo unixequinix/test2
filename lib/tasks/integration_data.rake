@@ -131,8 +131,9 @@ namespace :db do
 
   def create_credential_types
     @event = Event.last
+    items = @event.catalog_items.map(&:catalogable_id)
     @credential_types.times do |index|
-      CredentialType.create!(catalog_item_id: @event.catalog_items.map(&:catalogable_id).sample)
+      CredentialType.create!(catalog_item_id: items[index])
     end
   end
 
@@ -227,14 +228,16 @@ namespace :db do
   end
 
   def create_box_offices
-    @event = Event.last
+    event = Event.last
+    items = @event.catalog_items.pluck(:catalogable_id)
+
     @box_offices.times do |index|
       type = StationType.find_by(name: "box_office")
-      station = Station.create!(station_type: type, name: "Box Office #{index}", event: @event)
+      station = Station.create!(station_type: type, name: "Box Office #{index}", event: event)
       40.times do |i|
         station.station_catalog_items
                 .new(price: rand(1.0...20.0),
-                     catalog_item_id: @event.catalog_items.map(&:catalogable_id).sample,
+                     catalog_item_id: items.sample,
                      station_parameter_attributes: { station_id: station.id }).save
       end
     end
@@ -245,7 +248,7 @@ namespace :db do
 
     @box_offices.times do |index|
       type = StationType.find_by(name: "point_of_sales")
-      station = Station.create!(station_type: type, name: "POS #{index}", event: @event)
+      station = Station.create!(station_type: type, name: "POS #{index}", event: event)
       event.products.each do |product|
         station.station_products
           .new(price: rand(1.0...20.0),
