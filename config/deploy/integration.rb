@@ -1,4 +1,4 @@
-set :branch, "sample_data"
+set :branch, "transactions"
 set :rails_env, "integration"
 
 # Default value for :log_level is :debug

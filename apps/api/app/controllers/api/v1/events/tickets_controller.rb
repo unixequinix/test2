@@ -1,7 +1,7 @@
 class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
   def index
     if request.headers["If-Modified-Since"]
-      date = Time.parse(request.headers["If-Modified-Since"]) + 1
+      date = request.headers["If-Modified-Since"].to_time + 1
       @tickets = current_event.tickets
                  .includes(:company_ticket_type, :credential_assignments, :purchaser)
                  .where("tickets.updated_at > ?", date)

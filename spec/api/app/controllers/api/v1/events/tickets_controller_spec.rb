@@ -14,17 +14,17 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         http_login(admin.email, admin.access_token)
       end
 
+      it "has a 200 status code" do
+        get :index, event_id: event.id
+        expect(response.status).to eq 200
+      end
+
       context "when the If-Modified-Since header is sent" do
         before do
           @new_ticket = create(:ticket, :with_purchaser, event: event)
           @new_ticket.update!(updated_at: Time.now + 4.hours)
 
           request.headers["If-Modified-Since"] = (@new_ticket.updated_at - 2.hours)
-        end
-
-        it "has a 200 status code" do
-          get :index, event_id: event.id
-          expect(response.status).to eq 200
         end
 
         it "returns only the modified tickets" do
@@ -37,11 +37,6 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
       context "when the If-Modified-Since header isn't sent" do
         before do
           create(:ticket, :with_purchaser, event: event)
-        end
-
-        it "has a 304 status code" do
-          get :index, event_id: event.id
-          expect(response.status).to eq 304
         end
 
         it "returns the cached tickets" do
