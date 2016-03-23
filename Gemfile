@@ -92,6 +92,7 @@ gem 'reform', '~> 2.0.5'
 # Asyncronous mailer
 gem 'sinatra', require: false
 gem 'sidekiq', '~> 4.0.1'
+gem 'sidekiq-failures'
 
 # Cron tasks
 gem 'whenever', '~> 0.9.4', require: false
