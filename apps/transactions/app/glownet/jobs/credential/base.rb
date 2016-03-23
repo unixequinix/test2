@@ -17,12 +17,18 @@ class Jobs::Credential::Base < Jobs::Base
   end
 
   def assign_ticket(transaction, atts)
-    transaction.ticket ||
-      transaction.create_ticket!(
-        event_id: atts[:event_id],
-        code: atts[:ticket_code],
-        company_ticket_type_id: TicketDecoder::SonarDecoder.perform(atts[:ticket_code])
-      )
+    code = atts[:ticket_code]
+
+    # If ticket is found by code, it is already there, return it.
+    ticket_found = transaction.event.includes(:tickets).find_by(tickets: {code: code})
+    return ticket_found unless ticket_found.nil?
+
+    # Ticket is not found. perhaps is new sonar ticket?
+    ctt = TicketDecoder::SonarDecoder.perform(code)
+    return transaction.event.tickets.create!(code: code, company_ticket_type_id: ctt) if ctt
+
+    # it is not sonar, it is not in DB. The ticket is not valid.
+    raise "Ticket with code #{code} not found and not sonar."
   end
 
   def assign_ticket_credential(ticket, profile)

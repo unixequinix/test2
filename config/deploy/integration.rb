@@ -1,6 +1,9 @@
 set :branch, "sample_data"
 set :rails_env, "integration"
 
+# Default value for :log_level is :debug
+set :log_level, :info
+
 # Link certification folder
 set :linked_dirs, fetch(:linked_dirs) + %w(certs)
 
@@ -35,10 +38,8 @@ server "integration.glownet.com", user: "ubuntu", roles: %w(web app db)
 #    auth_methods: %w(password)
 #  }
 
-set :default_run_options,   pty: true
-
-set :ssh_options,   forward_agent: true,
-                    auth_methods: %w(publickey)
+set :default_run_options, pty: true
+set :ssh_options, forward_agent: true, auth_methods: %w(publickey)
 
 # And/or per server (overrides global)
 # ------------------------------------
