@@ -21,6 +21,15 @@ class Gtag < ActiveRecord::Base
   # Type of the gtags
   FORMATS = [STANDARD, CARD, SIMPLE]
 
+  # Gtag limits
+  GTAG_DEFINITIONS = [{ name: "mifare_classic",
+                        entitlement_limit: 42,
+                        credential_limit: 34 },
+                      { name: "ultralight_ev1",
+                        entitlement_limit: 80,
+                        credential_limit: 40 }
+                     ]
+
   before_validation :upcase_gtag!
   default_scope { order(:id) }
   acts_as_paranoid
@@ -96,6 +105,20 @@ class Gtag < ActiveRecord::Base
 
   def any_refundable_method?
     event.selected_refund_services.any? { |service| refundable?(service) }
+  end
+
+  def self.field_by_memory_length(memory_length:, field:)
+    found = GTAG_DEFINITIONS.find do |definition|
+      definition[:memory_length] == memory_length
+    end
+    return found[field.to_sym] if found
+  end
+
+  def self.field_by_name(name:, field:)
+    found = GTAG_DEFINITIONS.find do |definition|
+      definition[:name] == name
+    end
+    return found[field.to_sym] if found
   end
 
   private

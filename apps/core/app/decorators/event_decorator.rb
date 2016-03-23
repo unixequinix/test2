@@ -19,7 +19,7 @@ class EventDecorator < Draper::Decorator
   BACKGROUND_REPEAT = "repeat"
   BACKGROUND_TYPES = [BACKGROUND_FIXED, BACKGROUND_REPEAT]
 
-  GTAG_TYPES = [:mifare_classic, :ultralight_ev1]
+  GTAG_TYPES = Gtag::GTAG_DEFINITIONS.map { |definition| definition[:name] }
 
   def background_fixed?
     object.background_type.eql? BACKGROUND_FIXED

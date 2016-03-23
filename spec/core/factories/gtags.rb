@@ -33,11 +33,5 @@ FactoryGirl.define do
         create :purchaser, :with_gtag_delivery_address, credentiable: gtag
       end
     end
-
-    trait :with_credential_assignment do
-      after(:build) do |gtag|
-        create :credential_assignment_g_a, credentiable: gtag
-      end
-    end
   end
 end

@@ -9,6 +9,7 @@ class ListModelPresenter
     @search_query = attributes[:search_query]
     @include_for_all_items = attributes[:include_for_all_items]
     @context = attributes[:context]
+    @can_create_items = attributes[:can_create_items]
   end
 
   def q
@@ -45,7 +46,8 @@ class ListModelPresenter
   end
 
   def can_create_items?
-    @context.respond_to?("new_admins_event_#{@model_name.singular}_path".to_sym)
+    @can_create_items != false &&
+      @context.respond_to?("new_admins_event_#{@model_name.singular}_path".to_sym)
   end
 
   private
