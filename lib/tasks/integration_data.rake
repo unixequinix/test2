@@ -100,7 +100,6 @@ namespace :db do
   end
 
   def create_packs
-
     @packs.times do |index|
       pack = Pack.create!(catalog_item_attributes: { event_id: @event.id,
                                                      name: "Pack #{index}",
@@ -128,9 +127,9 @@ namespace :db do
   end
 
   def create_credential_types
-    items = @event.catalog_items.map(&:catalogable_id)
+    items = @event.catalog_items
     @credential_types.times do |index|
-      CredentialType.create!(catalog_item_id: items[index])
+      CredentialType.create!(catalog_item: items[index])
     end
   end
 
