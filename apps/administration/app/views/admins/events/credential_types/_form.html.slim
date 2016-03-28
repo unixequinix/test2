@@ -1,15 +1,6 @@
 = simple_form_for [:admins, current_event, credential_type] do |f|
   .wrapper-negative-space
-    .input.select.required.credential_type_catalog_item
-      label.select.required for="credential_type_catalog_item_id"
-        | Catalog item
-        abbr title="required"  *
-      select name="credential_type[catalog_item_id]" id="credential_type_catalog_item_id"
-        option disabled="" selected="" value=""  Select your option
-        - @catalog_items_collection.each do |key, value|
-          optgroup label=key
-          - value.each do |item|
-            option value=item.id #{item.name}
-
-      = f.button :submit, class: "btn btn-primary"
+    = f.input :catalog_item_id, as: :select, collection: @fetcher.catalog_items.only_credentiables,
+      include_blank: false, placeholder: true, selected: credential_type.catalog_item_id
+    = f.button :submit, class: "btn btn-primary"
 
