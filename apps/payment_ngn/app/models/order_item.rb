@@ -26,7 +26,7 @@ class OrderItem < ActiveRecord::Base
   end
 
   def credits
-    catalog_item.catalogable.credits
+    (single_credits? || pack_with_credits?) ? catalog_item.catalogable.credits : 0
   end
 
   # Validations

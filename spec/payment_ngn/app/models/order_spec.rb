@@ -24,7 +24,7 @@ RSpec.describe Order, type: :model do
 
   describe "total" do
     it "returns the total of all the items in the order" do
-      expect(order.total).to eq(59.85)
+      expect(order.total).to eq(120.0)
     end
   end
 
@@ -49,15 +49,17 @@ RSpec.describe Order, type: :model do
     end
   end
 
-  describe "credits_total" do
+  describe "total_credits" do
     it "should return the total amount of credits available" do
       event = customer_event_profile.event
+      order.order_items.destroy_all
       2.times do
-        pp = create(:catalog_item, :with_access, event: event)
-        create(:order_item, catalog_item: pp, order: order)
+        pp = create(:catalog_item, :with_credit, event: event)
+        order.order_items << create(:order_item, catalog_item: pp)
       end
       # 45 is 9*5. amount set in order_items.rb
-      expect(order.credits_total).to eq(45 * 2)
+      binding.pry
+      expect(order.total_credits).to eq(45 * 2)
     end
   end
 end

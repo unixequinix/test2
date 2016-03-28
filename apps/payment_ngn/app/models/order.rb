@@ -51,13 +51,13 @@ class Order < ActiveRecord::Base
   end
 
   def total_credits
-    order_items.to_a.sum(&:credits_included)
+    order_items.to_a.sum(&:credits)
   end
 
   def total_refundable_credits
     order_items.joins(:catalog_item)
       .where.not(catalog_items: { catalogable_type: "Pack" })
-      .to_a.sum(&:credits_included)
+      .to_a.sum(&:credits)
   end
 
   def generate_order_number!
