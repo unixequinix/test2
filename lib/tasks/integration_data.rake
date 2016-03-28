@@ -3,7 +3,6 @@ include Benchmark
 
 namespace :db do
   data = [
-    "Events",
     "Customers",
     "CustomerEventProfiles",
     "Accesses",
@@ -46,10 +45,6 @@ namespace :db do
       puts "-----------------------------------------------------------------------"
       [total.inject(:+)]
     end
-  end
-
-  def create_events
-
   end
 
   def create_customers
