@@ -19,7 +19,6 @@ class Jobs::Credential::Base < Jobs::Base
   def assign_ticket(transaction, atts)
     code = atts[:ticket_code]
     event = transaction.event
-    decoder = TicketDecoder::SonarDecoder
 
     # If ticket is found by code, it is already there, assign and return it.
     ticket = event.tickets.find_by_code(code)
@@ -27,7 +26,7 @@ class Jobs::Credential::Base < Jobs::Base
     return ticket if ticket
 
     # Ticket is not found. perhaps is new sonar ticket?
-    ctt = decoder.valid_code?(code) && decoder.perform(code)
+    ctt = TicketDecoder::SonarDecoder.valid_code?(code) && TicketDecoder::SonarDecoder.perform(code)
     return transaction.create_ticket!(event: event, code: code, company_ticket_type_id: ctt) if ctt
 
     # it is not sonar, it is not in DB. The ticket is not valid.

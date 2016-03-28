@@ -1,0 +1,3 @@
+class AccessTransaction < Transaction
+
+end
