@@ -69,6 +69,7 @@ module GlownetWeb
       end
     end
 
-    config.active_job.queue_adapter = :inline
+    # Uncomment below to disable sidequik for all. Put in specific environment if desired.
+    # config.active_job.queue_adapter = :inline
   end
 end

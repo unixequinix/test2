@@ -11,10 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160322161617) do
+ActiveRecord::Schema.define(version: 20160328154440) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "access_transactions", force: :cascade do |t|
+    t.integer "event_id_id"
+    t.string  "transaction_origin"
+    t.string  "customer_tag_uid"
+    t.string  "transaction_type"
+    t.integer "operator_id_id"
+    t.integer "station_id_id"
+    t.integer "device_id_id"
+    t.string  "device_db_index"
+    t.string  "device_created_at"
+    t.integer "customer_event_profile_id_id"
+    t.integer "access_entitlement_id_id"
+    t.string  "direcction"
+    t.string  "final_balance"
+    t.string  "status_code"
+    t.string  "status_message"
+  end
 
   create_table "accesses", force: :cascade do |t|
     t.datetime "deleted_at"
