@@ -55,11 +55,10 @@ RSpec.describe Order, type: :model do
       order.order_items.destroy_all
       2.times do
         pp = create(:catalog_item, :with_credit, event: event)
-        order.order_items << create(:order_item, catalog_item: pp)
+        order.order_items << create(:order_item, catalog_item: pp, order: order)
       end
-      # 45 is 9*5. amount set in order_items.rb
-      binding.pry
-      expect(order.total_credits).to eq(45 * 2)
+      # Amount is set in order_items.rb
+      expect(order.total_credits).to eq(9 * 2)
     end
   end
 end

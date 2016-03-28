@@ -33,6 +33,5 @@ FactoryGirl.define do
         create :purchaser, :with_gtag_delivery_address, credentiable: gtag
       end
     end
-
   end
 end
