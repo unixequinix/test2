@@ -1,5 +1,5 @@
 class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
-  def index
+  def index # rubocop:disable Metrics/AbcSize
     if request.headers["If-Modified-Since"]
       date = request.headers["If-Modified-Since"].to_time + 1
       @tickets = current_event.tickets

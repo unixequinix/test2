@@ -1,8 +1,8 @@
 require "rails_helper"
 
 RSpec.describe Jobs::Credential::TicketChecker, type: :job do
-  let(:event) { first_event }
-  let(:ticket) { create(:ticket, code: "TICKET_CODE") }
+  let(:event) { create(:event) }
+  let(:ticket) { create(:ticket, code: "TICKET_CODE", event: event) }
   let(:transaction) { create(:credential_transaction, event: event, ticket: ticket) }
   let(:worker) { Jobs::Credential::TicketChecker }
   let(:atts) do
@@ -34,7 +34,7 @@ RSpec.describe Jobs::Credential::TicketChecker, type: :job do
       device_uid: "2A:35:34:54",
       device_db_index: rand(100),
       device_created_at: "2016-02-05 11:13:39 +0100",
-      ticket_code: "TC8B106BA990BDC56",
+      ticket_code: "TICKET_CODE",
       customer_event_profile_id: 57_700,
       status_code: 0,
       status_message: "All OK"
