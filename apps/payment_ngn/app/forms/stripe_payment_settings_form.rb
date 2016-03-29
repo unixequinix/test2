@@ -1,7 +1,4 @@
-class StripePaymentSettingsForm
-  include ActiveModel::Model
-  include Virtus.model
-
+class StripePaymentSettingsForm < BaseSettingsForm
   attribute :email, String
   attribute :currency, String
   attribute :country, String
@@ -24,19 +21,6 @@ class StripePaymentSettingsForm
     else
       false
     end
-  end
-
-  def update
-    if valid?
-      persist!
-      true
-    else
-      false
-    end
-  end
-
-  def main_parameters
-    attributes.keys.reject { |value| value == :event_id }
   end
 
   private

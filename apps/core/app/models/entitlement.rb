@@ -58,7 +58,7 @@ class Entitlement < ActiveRecord::Base
 
   def gtag_type
     "ultralight_ev1"
-    #EventParameter.joins(:parameter)
+    # EventParameter.joins(:parameter)
     #  .find_by(parameters: { name: "gtag_type" }, event_id: catalog_item.event_id).value
   end
 end

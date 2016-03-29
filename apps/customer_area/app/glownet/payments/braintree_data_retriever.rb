@@ -21,7 +21,7 @@ class Payments::BraintreeDataRetriever
 
   def generate_client_token
     customer_event_profile = order.customer_event_profile
-    gateway_customer = customer_event_profile.gateway_customer(EventDecorator::BRAINTREE)
+    gateway_customer = customer_event_profile.gateway_customer(EventDecorator::PAYPAL)
     if gateway_customer
       Braintree::ClientToken.generate(customer_id: gateway_customer.token)
     else

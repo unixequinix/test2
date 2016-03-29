@@ -96,6 +96,8 @@ input[type=search] {
     opacity: 0.6;
     z-index: 3;
   }
+
+  .error { background-color: $red; z-index: 6; }
 }
 
 button {
