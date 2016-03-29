@@ -45,9 +45,8 @@ class Order < ActiveRecord::Base
     order_items.sum(:total)
   end
 
-  def total_stripe_formated
+  def total_formated
     total_formated = format("%.2f", total)
-    total_formated.gsub(".", "")
   end
 
   def total_credits

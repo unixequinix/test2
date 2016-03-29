@@ -1,42 +1,31 @@
 class Payments::BraintreePayer
-  include Rails.application.routes.url_helpers
-  attr_reader :action_after_payment
-
-  def initialize
-    @action_after_payment = ""
-  end
-
   def start(params, customer_order_creator, customer_credit_creator)
     @event = Event.friendly.find(params[:event_id])
     @order = Order.find(params[:order_id])
     @order.start_payment!
     charge_object = charge(params)
-    if charge_object.success?
-      notify_payment(charge_object, customer_order_creator, customer_credit_creator)
-      @action_after_payment =
-        success_event_order_payment_service_synchronous_payments_path(@event, @order, "braintree")
-    else
-      @action_after_payment =
-        error_event_order_payment_service_synchronous_payments_path(@event, @order, "braintree")
-    end
+    return charge_object unless charge_object.success?
+    notify_payment(charge_object, customer_order_creator, customer_credit_creator)
+    charge_object
   end
 
   def charge(params)
     begin
-      charge = Braintree::Transaction.sale(sale_options(params))
+      charge = Braintree::Transaction.sale(options(params))
     rescue Braintree::ErrorResult
       # The card has been declined
-      charge = nil
+      charge
     end
     charge
   end
 
   private
 
-  def sale_options(params)
+  def options(params)
     token = params[:payment_method_nonce]
-    amount = @order.total_stripe_formated
+    amount = @order.total_formated
     sale_options = {
+      order_id: @order.number,
       amount: amount,
       payment_method_nonce: token
     }
@@ -75,7 +64,7 @@ class Payments::BraintreePayer
                     authorization_code: transaction.processor_authorization_code,
                     currency: order.customer_event_profile.event.currency,
                     merchant_code: transaction.id,
-                    amount: transaction.amount.to_f / 100,
+                    amount: transaction.amount.to_f,
                     success: true,
                     payment_type: "braintree")
   end

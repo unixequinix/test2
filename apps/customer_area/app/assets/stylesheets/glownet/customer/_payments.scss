@@ -26,6 +26,11 @@
   margin-right: modules(0.5);
 }
 
+.stripe-payment-form {
+  .control-group { padding-top: modules(0.25); }
+  .controls:first-child { margin-top: modules(0.25); }
+}
+
 .tipalti {
   width: 100%;
   height: modules(2);
@@ -33,20 +38,25 @@
 
 .payment-errors {
   overflow: hidden;
-  margin: 0 modules(1) 0;
-  border-radius: 50px;
+  border-radius: $radius;
   background-color: $red;
   color: $nuclear;
+  line-height: 3;
   text-align: center;
 }
 
 // Braintree
+#braintree-payment-form {
+  .controls:first-child { margin-top: modules(-0.5); }
+}
 #card-number, #card-verification, #expiration-month, #expiration-year {
+  margin-top: 1rem;
   border-bottom: 1px solid #999;
   font-family: 'Roboto', 'Helvetica';
   font-weight: lighter;
   font-size: 12px;
   height: 3rem;
+
   .braintree-hosted-fields-focused {
     border-color: #777;
   }
@@ -58,4 +68,32 @@
   .braintree-hosted-fields-valid {
     border-color: limegreen;
   }
+}
+
+.expiration-month, .expiration-year {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.expiration-month {
+  width: 47.5%;
+  margin-right: 2.5%;
+}
+
+.expiration-year {
+  width: 47.5%;
+  margin-left: 2.5%;
+ }
+
+ // TODO Refactor: Use this function only on mobile
+.payment-anhor-desktop {
+  display: none;
+
+  @include min-screen($bp3) { display: block; }
+}
+
+.payment-anhor-mobile {
+  display: block;
+
+  @include min-screen($bp3) { display: none; }
 }

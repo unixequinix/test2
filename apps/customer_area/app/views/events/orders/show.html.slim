@@ -20,19 +20,19 @@
 
   - if current_event.selected_payment_services.length > 1
 
-    p#payment-acnhor.payment-anhor-mobile.hint-text
+    p#payment-anchor.payment-anhor-mobile.hint-text
       = t('orders.payment')
-    p.payment-anhor-desktop.hint-text
+    p.payment-anchor-desktop.hint-text
       = t('orders.payment')
 
     ul.container-payment-buttons
-      - current_event.selected_payment_services.each do |payment_service|
+      - current_event.selected_payment_services.each_with_index do |payment_service, index|
         li
-          .btn-payment-trigger [data-target="#{payment_service}"]
+          .btn-payment-trigger [data-target="#{payment_service}" class=(index == 0 ? "button-selected" : "")]
             = fa_icon t("orders.payment-buttons.#{payment_service}.icon")
             p = t("orders.payment-buttons.#{payment_service}.name")
 
-- @order_presenters.each do |order_presenter|
-  .container-method [id="method-#{order_presenter.payment_service}" class=(current_event.selected_payment_services.length > 0 ? "show-container" : "")]
+- @order_presenters.each_with_index do |order_presenter, index|
+  .container-method [id="method-#{order_presenter.payment_service}" class=(index == 0 ? "show-container" : "")]
     = render order_presenter.path, order_presenter: order_presenter
 

@@ -11,7 +11,9 @@
 
 @import "glownet/customer/base";
 @import "glownet/customer/animations";
-@import "glownet/customer/wrappers";
+@import "glownet/customer/wrappers_sessions";
+@import "glownet/customer/wrappers_application";
+@import "glownet/customer/wrappers_purchases";
 @import "glownet/customer/header";
 @import "glownet/customer/template_theme";
 

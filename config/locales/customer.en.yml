@@ -45,12 +45,19 @@ en:
       button: "Add more"
     purchases:
       header: "Your purchases"
+    first_register:
+      ticket: "Add ticket"
+      wristband: "Add wristband"
     credits:
       header: "Your credits"
       call_to_action_started: "The event just started so you cannot topup anymore"
       call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Event Ticket first"
       button: "Top-up"
       ticket_first: "Add a ticket or wristband first"
+    paypal:
+      claim: "Take advantage!"
+      description: "Sync with Paypal and you will make direct top ups."
+      button: "Sync with PayPal"
     event_refunds:
       claim: "Event hasn't finished yet"
       description: "Come back soon to apply for your credits refund"
@@ -221,7 +228,7 @@ en:
       email: 'Forgot your password?'
       password: 'Send me password instructions'
   refund:
-    refund_method: "Refund method"
+    srefund_method: "Refund method"
     error:
       title: 'Transaction failed'
       call_to_action: 'Contact us:'
@@ -244,14 +251,19 @@ en:
       info: 'Please enter your correct personal details below so that we can provide you with secure and convenient service.'
       button: 'Sign up'
       details: "Please provide your personal details as a event visitor. This will allow us to give you a secure and personalized service"
-      or: '- or -'
+      or: 'or'
     edit:
       title: 'Edit'
       password_hint: "Leave it blank if you don't want to change it"
       current_password_hint: "we need your current password to confirm your changes"
       waiting_confirmation: 'Currently waiting confirmation for:'
       button: 'Update'
+    autotoup_agreement:
+      cancel: 'Do you want to cancel your autotopup agreement?'
   sessions:
+    first_register:
+      welcome: 'Welcome!'
+      description: 'Please, to continue with your event choose what you  want to register first'
     welcome: 'Welcome!'
     create_account:
       title: 'Don´t you have an account?'

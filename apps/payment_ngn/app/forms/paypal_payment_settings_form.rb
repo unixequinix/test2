@@ -1,8 +1,9 @@
-class BraintreePaymentSettingsForm < BaseSettingsForm
+class PaypalPaymentSettingsForm < BaseSettingsForm
   attribute :environment, String
   attribute :merchant_id, String
   attribute :public_key, String
   attribute :private_key, String
+  attribute :autotopup, Boolean
   attribute :event_id, Integer
 
   validates_presence_of :environment

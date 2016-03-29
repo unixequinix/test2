@@ -7,7 +7,8 @@ class Orders::PaypalPresenter
   end
 
   def enable_autotoup_agreement?
-    !@order.customer_event_profile.gateway_customer(EventDecorator::PAYPAL)
+    @event.get_parameter("payment", "braintree", "autotopup") == "true" &&
+      !@order.customer_event_profile.gateway_customer(EventDecorator::PAYPAL)
   end
 
   def path

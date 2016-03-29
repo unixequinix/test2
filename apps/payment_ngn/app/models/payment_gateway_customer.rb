@@ -14,6 +14,7 @@
 #
 
 class PaymentGatewayCustomer < ActiveRecord::Base
+  acts_as_paranoid
   belongs_to :customer_event_profile
 
   validates :customer_event_profile_id, uniqueness: { scope: :gateway_type }

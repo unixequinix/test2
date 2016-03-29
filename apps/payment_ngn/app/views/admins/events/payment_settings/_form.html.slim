@@ -3,7 +3,7 @@ fieldset
     = fa_icon "info-circle"
     = t("admin.event.fieldests.info")
   - @payment_settings_form.main_parameters.each do |parameter|
-    = f.input parameter
+    = f.input parameter, as: @payment_settings_form.class.attribute_type(parameter)
   = f.input :event_id, as: :hidden, input_html: { value: @event.id }
 .wrapper-negative-space
   = f.button :submit, t('admin.actions.update'), class: "btn btn-primary"
