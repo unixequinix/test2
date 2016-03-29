@@ -94,7 +94,7 @@ RSpec.describe Pack, type: :model do
       expect(enriched_credit.catalog_item_id).not_to be_nil
       expect(enriched_credit.total_amount).to be(70)
     end
-    it "should return the credits inside a pack with grouped by their name (different credits)" do
+    it "should return the credits inside a pack grouped by their name (different credits)" do
       credit_a = create(:credit, value: 2, currency: "EUR", standard: false)
       credit_b = create(:credit, value: 3, currency: "EUR", standard: false)
       catalog_item_with_pack = create(:catalog_item, :with_pack)
