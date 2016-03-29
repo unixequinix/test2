@@ -11,7 +11,7 @@ class Events::BankAccountClaimsController < Events::ClaimsController
     render(:new) && return unless @bank_account_claim_form.save
     @claim.start_claim!
     # TODO: Remove hardcoded message text
-    if refund
+    if refund(@claim)
       redirect_to success_event_refunds_url(current_event)
     else
       redirect_to error_event_refunds_url(current_event)

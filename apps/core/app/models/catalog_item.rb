@@ -31,13 +31,9 @@ class CatalogItem < ActiveRecord::Base
   validates :name, :initial_amount, :step, :max_purchasable, :min_purchasable, presence: true
 
   scope :only_credentiables, lambda {
-    combination = where(catalogable_type: CatalogItem::CREDENTIABLE_TYPES)
-                  .includes(:credential_type) +
+    combination = where(catalogable_type: CatalogItem::CREDENTIABLE_TYPES) +
                   where(catalogable_type: "Pack", catalogable_id: Pack.credentiable_packs)
-                  .includes(:credential_type)
-    combination.uniq.each_with_object([]) do |it, a|
-      a << it if it.credential_type.blank?
-    end
+    combination.uniq
   }
 
   scope :with_prices, lambda { |event|

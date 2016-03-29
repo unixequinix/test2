@@ -75,7 +75,7 @@ RSpec.describe Csv::CsvExporter, type: :domain_logic do
 
   context "With many Refunds in the DB" do
     before :each do
-      DatabaseCleaner.clean_with :truncation
+      Refund.destroy_all
       claim = create(:claim, id: 100)
 
       params = {

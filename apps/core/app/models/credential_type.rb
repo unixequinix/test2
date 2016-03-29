@@ -53,8 +53,6 @@ class CredentialType < ActiveRecord::Base
   end
 
   def gtag_type
-    "ultralight_ev1"
-    # EventParameter.joins(:parameter)
-    #  .find_by(parameters: { name: "gtag_type" }, event_id: catalog_item.event_id).value
+    catalog_item.event.get_parameter("gtag", "form", "gtag_type")
   end
 end
