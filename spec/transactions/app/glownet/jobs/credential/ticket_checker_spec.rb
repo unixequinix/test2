@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Jobs::Credential::TicketChecker, type: :job do
-  let(:event) { create(:event) }
+  let(:event) { first_event }
   let(:ticket) { create(:ticket, code: "TICKET_CODE") }
   let(:transaction) { create(:credential_transaction, event: event, ticket: ticket) }
   let(:worker) { Jobs::Credential::TicketChecker }

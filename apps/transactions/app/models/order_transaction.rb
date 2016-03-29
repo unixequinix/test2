@@ -1,26 +1,26 @@
 # == Schema Information
 #
-# Table name: access_transactions
+# Table name: order_transactions
 #
 #  id                           :integer          not null, primary key
 #  event_id_id                  :integer
 #  transaction_origin           :string
-#  customer_tag_uid             :string
+#  transaction_category         :string
 #  transaction_type             :string
-#  operator_id_id               :integer
+#  customer_tag_uid             :string
+#  operator_tag_uid             :string
 #  station_id_id                :integer
-#  device_id_id                 :integer
+#  device_uid                   :string
 #  device_db_index              :integer
 #  device_created_at            :string
+#  customer_order_id_id         :integer
+#  catalog_item_id_id           :integer
 #  customer_event_profile_id_id :integer
-#  access_entitlement_id_id     :integer
-#  direction                    :integer
-#  final_balance                :string
-#  status_code                  :integer
+#  integer                      :string
 #  status_message               :string
 #
 
-class AccessTransaction < Transaction
-  belongs_to :device
-  belongs_to :access_entitlement
+class OrderTransaction < Transaction
+  belongs_to :customer_order
+  belongs_to :catlog_item
 end

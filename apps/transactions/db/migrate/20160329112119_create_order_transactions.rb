@@ -1,20 +1,20 @@
-class CreateAccessTransactions < ActiveRecord::Migration
+class CreateOrderTransactions < ActiveRecord::Migration
   def change # rubocop:disable Metrics/MethodLength
-    create_table :access_transactions do |t|
+    create_table :order_transactions do |t|
       t.references :event_id
       t.string :transaction_origin
-      t.string :customer_tag_uid
+      t.string :transaction_category
       t.string :transaction_type
-      t.references :operator_id
+      t.string :customer_tag_uid
+      t.string :operator_tag_uid
       t.references :station_id
-      t.references :device_id
+      t.string :device_uid
       t.integer :device_db_index
       t.string :device_created_at
+      t.references :customer_order_id
+      t.references :catalog_item_id
       t.references :customer_event_profile_id
-      t.references :access_entitlement_id
-      t.integer :direction
-      t.string :final_balance
-      t.integer :status_code
+      t.string :integer
       t.string :status_message
     end
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160328154440) do
+ActiveRecord::Schema.define(version: 20160329112119) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,13 +24,13 @@ ActiveRecord::Schema.define(version: 20160328154440) do
     t.integer "operator_id_id"
     t.integer "station_id_id"
     t.integer "device_id_id"
-    t.string  "device_db_index"
+    t.integer "device_db_index"
     t.string  "device_created_at"
     t.integer "customer_event_profile_id_id"
     t.integer "access_entitlement_id_id"
-    t.string  "direcction"
+    t.integer "direction"
     t.string  "final_balance"
-    t.string  "status_code"
+    t.integer "status_code"
     t.string  "status_message"
   end
 
@@ -488,6 +488,24 @@ ActiveRecord::Schema.define(version: 20160328154440) do
   end
 
   add_index "order_items", ["deleted_at"], name: "index_order_items_on_deleted_at", using: :btree
+
+  create_table "order_transactions", force: :cascade do |t|
+    t.integer "event_id_id"
+    t.string  "transaction_origin"
+    t.string  "transaction_category"
+    t.string  "transaction_type"
+    t.string  "customer_tag_uid"
+    t.string  "operator_tag_uid"
+    t.integer "station_id_id"
+    t.string  "device_uid"
+    t.integer "device_db_index"
+    t.string  "device_created_at"
+    t.integer "customer_order_id_id"
+    t.integer "catalog_item_id_id"
+    t.integer "customer_event_profile_id_id"
+    t.string  "integer"
+    t.string  "status_message"
+  end
 
   create_table "orders", force: :cascade do |t|
     t.string   "number",                    null: false
