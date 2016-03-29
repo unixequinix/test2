@@ -63,7 +63,7 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
 
   def permitted_params
     params_names =
-      ("#{@payment_service.camelize}PaymentSettingsForm").constantize.attributes.map(&:name)
+      ("#{@payment_service.camelize}PaymentSettingsForm").constantize.attribute_set.map(&:name)
     params.require("#{@payment_service}_payment_settings_form").permit(params_names)
   end
 end

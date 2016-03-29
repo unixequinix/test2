@@ -46,7 +46,7 @@ class Order < ActiveRecord::Base
   end
 
   def total_formated
-    total_formated = format("%.2f", total)
+    format("%.2f", total)
   end
 
   def total_credits

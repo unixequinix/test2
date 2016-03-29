@@ -11,8 +11,7 @@ class Autotopup::PaypalAutoPayer
     return "No agreement accepted" if payment_gateway.nil?
     generate_order(payment_gateway)
     Payments::BraintreeDataRetriever.new(@event, @order)
-    charge_object =
-      pay(event_id: @event.id, order_id: @order.id, customer_id: payment_gateway.token)
+    pay(event_id: @event.id, order_id: @order.id, customer_id: payment_gateway.token)
   end
 
   private
