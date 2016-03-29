@@ -1,28 +1,16 @@
 class Payments::StripePayer
-  include Rails.application.routes.url_helpers
-  attr_reader :action_after_payment
-
-  def initialize
-    @action_after_payment = ""
-  end
-
   def start(params, customer_order_creator, customer_credit_creator)
     @event = Event.friendly.find(params[:event_id])
     @order = Order.find(params[:order_id])
     @order.start_payment!
     charge_object = charge(params)
-    if charge_object
-      notify_payment(charge_object, customer_order_creator, customer_credit_creator)
-      @action_after_payment =
-        success_event_order_payment_service_synchronous_payments_path(@event, @order, "stripe")
-    else
-      @action_after_payment =
-        error_event_order_payment_service_synchronous_payments_path(@event, @order, "stripe")
-    end
+    return charge_object unless charge_object
+    notify_payment(charge_object, customer_order_creator, customer_credit_creator)
+    charge_object
   end
 
   def charge(params)
-    amount = Order.find(params[:order_id]).total_stripe_formated
+    amount = @order.total_formated.gsub(".", "")
     Stripe.api_key = Rails.application.secrets.stripe_platform_secret
     begin
       charge = Stripe::Charge.create(
@@ -34,7 +22,7 @@ class Payments::StripePayer
 
     rescue Stripe::CardError
       # The card has been declined
-      charge = nil
+      charge
     end
     charge
   end
