@@ -25,32 +25,13 @@
       opacity: 1;
     }
   }
+  &:disabled {
+    opacity: 0.7;
+  }
 }
 
 .btn-action-register {
   @include transition(background 200ms ease-in-out, color 200ms ease-in-out, opacity 200ms ease-in-out);
-  min-width: modules(7);
-  height: modules(2);
-  padding-top: modules(0.5);
-  border-radius: 3px;
-  z-index: 10;
-
-  @include min-screen($bp3) {
-    position: fixed;
-    top: modules(0.5);
-    right: modules(0.5);
-    display: block;
-  }
-
-  &:focus, &:hover {
-    opacity: 0.6;
-    outline: none;
-  }
-}
-
-.btn-action-end-session {
-  @include transition(background 200ms ease-in-out, color 200ms ease-in-out, opacity 200ms ease-in-out);
-  display: none;
   min-width: modules(7);
   height: modules(2);
   padding-top: modules(0.5);
@@ -75,14 +56,6 @@
   width: 100%;
   margin: modules(2) auto modules(0.75);
 }
-
-.btn-action-register-desktop {
-  display: none;
-
-  @include min-screen($bp3) { display: block; }
-}
-
-.btn-action-register-mobile { display: block;}
 
 .btn-action-enter {
   @include transition(opacity 200ms ease-in-out);
@@ -243,21 +216,7 @@
 
   &:hover { background-color: lighten($paypal,7%); }
 
-  @include min-screen($bp3) { width: modules(12); }
-}
-
-.btn-action-pay {
-  width: modules(6);
-  height: modules(2);
-  margin-right: modules(0.5);
-
-  &:last-child { margin-right: 0; }
-}
-
-.btn-action-pay-paypal {
-  background-color: $paypal;
-  color: $nuclear;
-  float: left;
+  @include min-screen($bp3) { width: modules(9); }
 }
 
 .btn-action-back {
@@ -328,26 +287,10 @@
   }
 }
 
-
-// TODO Refactor: Use this function only on mobile
-.payment-anhor-desktop {
-  display: none;
-
-  @include min-screen($bp3) { display: block; }
-}
-
-.payment-anhor-mobile {
-  display: block;
-
-  @include min-screen($bp3) { display: none; }
-}
-
-// ENDS
-
 #braintree-paypal-button {
   margin: 0 auto modules(2);
 
-  @include min-screen($bp3) {margin: 0 auto modules(1); }
+  @include min-screen($bp3) { margin: 0 auto modules(1); }
 }
 
 #braintree-paypal-loggedin {
@@ -359,6 +302,38 @@
 #bt-pp-cancel { width: auto; }
 #bt-pp-name { margin-left: 0 !important; }
 
+// First registration buttons
 
+.btn-action-first-registration {
+  display: block;
+  width: 100%;
+  max-width: modules(9);
+  margin: 0 auto;
+  height: auto;
+  border-radius: $radius;
+  padding: modules(0.75);
+  float: none;
+
+  @include min-screen($bp2) {
+    display: inline-block;
+    vertical-align: middle;
+    width: 45%;
+    padding: modules(0.25);
+    margin: 0 modules(0.25) 0 0;
+
+     &:last-child {
+      margin-right: 0;
+      margin-left: modules(0.25);
+    }
+  }
+}
+
+// Separator for the buttons in the first log view
+.buttons-separator {
+  display: inline-block;
+  margin: modules(0.5) auto;
+
+  @include min-screen($bp6) { margin: 0 modules(0.15) modules(1); }
+}
 
 // ---------------------------------------------------------------------------------------------
