@@ -1,9 +1,8 @@
-.wrapper-field.centered
-  .form-inputs
-    h3.claim = t('dashboard.without_gtags_claiming_started.claim')
-    form#merchant-form action="/create-transaction" method="post"
-      #paypal-container
-      input type="submit" value="Submit"
+.wrapper-module-centered
+  h3 = t('dashboard.without_gtags_claiming_started.claim')
+  form#merchant-form action="/create-transaction" method="post"
+    #paypal-container
+    input type="submit" value="Submit"
 
 javascript:
   braintree.setup("CLIENT-TOKEN-FROM-SERVER", "custom", {

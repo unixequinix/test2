@@ -46,11 +46,18 @@ es:
       button: "Añadir"
     purchases:
       header: "Tus compras"
+    first_register:
+      ticket: "Añadir ticket"
+      wristband: "Añadir pulsera"
     credits:
       header: "Tus créditos"
       call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"
       call_to_action_no_admission_html: "Para poder recargar online,<br>deberás activar un Ticket primero"
       button: "Recarga"
+    paypal:
+      claim: "Toma ventaja!"
+      description: "Syncroniza con tu cuenta de Paypal y realiza recargas directas"
+      button: "Ir a PayPal"
     add_credentials: "Añade primero un ticket o gtag"
     event_refunds:
       claim: "El evento aún no ha acabado"
@@ -100,7 +107,7 @@ es:
       button: "Modificar cuenta"
     event_started:
       title: "Últimos detalles!"
-      description: "Estamos trabajano en los últimos detalles del evento para que tu experiencia sea la mejor posible. Por favor, vuelve en unas horas y mira lo que hemos preparado oara ti."
+      description: "Estamos trabajano en los últimos detalles del evento para que tu experiencia sea la mejor posible. Por favor, vuelve en unas horas y mira lo que hemos preparado para ti."
   admissions:
     title: "Activación del Ticket"
     description: "Por favor, introduce el código impreso debajo del código de barras en tu ticket del evento."
@@ -129,14 +136,25 @@ es:
     card_info: "Información de tarjeta"
     order_review: "Resumen de compra"
     payment: "Método de pago"
-    credit_card: "Tarjeta de crédito"
-    pay_pal: "Pay Pal"
+    payment-buttons:
+      redsys:
+        name: "Tarjeta de crédito"
+        icon: "credit-card"
+      stripe:
+        name: "Tarjeta de crédito"
+        icon: "credit-card"
+      braintree:
+        name: "Tarjeta de crédito"
+        icon: "credit-card"
+      paypal:
+        name: "Pay Pal"
+        icon: "paypal"
     stripe:
       card_number: "Número de tarjeta"
       card_code_verification: "Código de verificación (CCV)"
       card_expiration_date: "Fecha de caducidad"
       button: "Pagar"
-    brainter:
+    braintree:
       card_number: "Número de tarjeta"
       card_code_verification: "Código de verificación (CCV)"
       card_expiration_month: "Mes de caducidad"
@@ -229,15 +247,20 @@ es:
       info: 'Por favor introduce tus detalles personales para que podamos ofrecerte un servicio seguro y conveniente.'
       button: 'Regístrate'
       details: 'Por favor introduce tus datos personales. Esto permitirá proporcionarte un servicio más seguro y personalizado'
-      or: '- o -'
+      or: 'o'
     edit:
       title: 'Editar'
       password_hint: "Déjala en blanco si no la quieres cambiar"
       current_password_hint: "Necesitamos tu contraseña para confirmar los cambios realizados."
       waiting_confirmation: 'En espera de confirmarción de:'
       button: 'Actualizar'
+    autotoup_agreement:
+      cancel: '¿Quieres cancelar tu contrato de autorecarga?'
   sessions:
-    welcome: 'Welcome!'
+    first_register:
+      welcome: 'Bienvenido!!'
+      description: 'Por favor, seleeciona que quieres registrar para continuar'
+    welcome: 'Bienvenido!'
     create_account:
       title: 'No tienes cuanta aún?'
       link: 'Crea una gratis!'

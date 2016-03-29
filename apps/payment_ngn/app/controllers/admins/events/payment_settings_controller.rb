@@ -3,7 +3,7 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
     @event = Event.friendly.find(params[:event_id])
     @payment_parameters = @fetcher.event_parameters.where(
       parameters: {
-        group: @event.selected_payment_services.map(&:to_s),
+        group: @event.selected_payment_services.map { |ps| EventDecorator::PAYMENT_PLATFORMS[ps] },
         category: "payment" }).includes(:parameter)
   end
 
@@ -33,8 +33,9 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
   def edit
     @event = Event.friendly.find(params[:event_id])
     @payment_service = params[:id]
+    @payment_platform = EventDecorator::PAYMENT_PLATFORMS[@payment_service.to_sym]
     event_parameters = @fetcher.event_parameters
-                       .where(parameters: { group: @payment_service, category: "payment" })
+                       .where(parameters: { group: @payment_platform, category: "payment" })
                        .joins(:parameter)
                        .select("parameters.name, event_parameters.value")
                        .as_json
@@ -46,6 +47,7 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
   def update
     @event = Event.friendly.find(params[:event_id])
     @payment_service = params[:id]
+    @payment_platform = EventDecorator::PAYMENT_PLATFORMS[@payment_service.to_sym]
     @payment_settings_form = ("#{@payment_service.camelize}PaymentSettingsForm")
                              .constantize.new(permitted_params)
     if @payment_settings_form.update
@@ -60,9 +62,8 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
   private
 
   def permitted_params
-    params_names = Parameter.where(group: @payment_service, category: "payment")
-                   .map(&:name)
-    params_names << :event_id
+    params_names =
+      ("#{@payment_service.camelize}PaymentSettingsForm").constantize.attribute_set.map(&:name)
     params.require("#{@payment_service}_payment_settings_form").permit(params_names)
   end
 end

@@ -1,0 +1,62 @@
+// -------------------------------------------------------
+//
+//  Wrappers for purchases an orders
+//
+// -------------------------------------------------------
+
+.container-purchase-order {
+  overflow: hidden;
+  position: relative;
+
+  h3 {
+    margin: modules(0.5) 0;
+
+    &:first-child { margin-top: 0; }
+  }
+}
+
+.wrapper-purchase-order {
+  li { color: $color_text; }
+}
+
+.purchase-amount {
+  padding-right: modules(0.25);
+  font-weight: bold;
+}
+
+// Pay Pal auto top up
+.container-auto-top-up {
+  overflow: hidden;
+}
+
+.wrapper-topup-info, .wrapper-topup-amount {
+  display: inline-block;
+  vertical-align:top;
+  padding: modules(0.5);
+}
+
+.wrapper-topup-info   { width: 65%; }
+.wrapper-topup-amount {
+  width: 35%;
+  select { width: 100%; }
+}
+
+// Container for order payment method buttons
+.container-payment-buttons {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+
+  li  {
+    display: table-cell;
+    vertical-align: top;
+    width: auto;
+    max-width: 24%;
+    height: modules(3.75);
+    padding-right: modules(0.5);
+    width: auto;
+
+    &:nth-child(3n) { padding: 0 modules(0.25) 0 0; }
+    &:last-child { padding: 0 0 0 modules(0.25); }
+  }
+}
