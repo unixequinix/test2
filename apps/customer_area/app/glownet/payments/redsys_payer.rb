@@ -7,7 +7,6 @@ class Payments::RedsysPayer
     event = Event.friendly.find(params[:event_id])
     merchant_code = event.get_parameter("payment", "redsys", "code")
     return unless params[:Ds_Order] && params[:Ds_MerchantCode] == merchant_code
-
     response = params[:Ds_Response]
     success = response =~ /00[0-9][0-9]|0900/
     amount = params[:Ds_Amount].to_f / 100 # last two digits are decimals

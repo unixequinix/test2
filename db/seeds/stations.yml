@@ -5,23 +5,23 @@
     -
       name: check_in
       description: "Check In"
-      enviorment: device
+      environment: device
     -
       name: box_office
       description: "Box Office"
-      enviorment: device
+      environment: device
     -
       name: customer_portal
       description: "Customer Portal"
-      enviorment: portal
+      environment: portal
     -
       name: staff_accreditation
       description: "Staff Accreditation"
-      enviorment: device
+      environment: device
     -
       name: access_control
       description: "Access Control"
-      enviorment: device
+      environment: device
 -
   name: monetary
   icon_slug: B
@@ -29,11 +29,11 @@
     -
       name: point_of_sales
       description: "Point of Sales"
-      enviorment: device
+      environment: device
     -
       name: top_up_refund
       description: "Top Up / Refund"
-      enviorment: device
+      environment: device
 -
   name: event_management
   icon_slug: D
@@ -41,27 +41,27 @@
     -
       name: incident_report
       description: "Incident Report"
-      enviorment: device
+      environment: device
     -
       name: exhibitor
       description: "Exhibitor"
-      enviorment: device
+      environment: device
     -
       name: customer_service
       description: "Customer service"
-      enviorment: device
+      environment: device
     -
       name: operator_permissions
       description: "Operator permissions"
-      enviorment: device
+      environment: device
     -
       name: payout_top_up
       description: "Payout top up"
-      enviorment: device
+      environment: device
     -
       name: hospitality_top_up
       description: "Hospitality top up"
-      enviorment: device
+      environment: device
 -
   name: glownet
   icon_slug: C
@@ -69,15 +69,15 @@
     -
       name: dummy_check_in
       description: "Dummy check-in"
-      enviorment: device
+      environment: device
     -
       name: gtag_recycler
       description: "GTag recycler"
-      enviorment: device
+      environment: device
     -
       name: envelope_linker
       description: "Envelope linker"
-      enviorment: device
+      environment: device
 -
   name: touchpoint
   icon_slug: E
@@ -85,4 +85,4 @@
     -
       name: touchpoint
       description: "Touchpoint"
-      enviorment: device
+      environment: device

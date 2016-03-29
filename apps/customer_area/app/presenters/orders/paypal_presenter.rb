@@ -6,6 +6,11 @@ class Orders::PaypalPresenter
     @order = order
   end
 
+  def enable_autotoup_agreement?
+    @event.get_parameter("payment", "braintree", "autotopup") == "true" &&
+      !@order.customer_event_profile.gateway_customer(EventDecorator::PAYPAL)
+  end
+
   def path
     "events/orders/paypal_payment_form"
   end

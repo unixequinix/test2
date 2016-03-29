@@ -36,7 +36,11 @@ class Seeder::SeedLoader
     YAML.load_file(Rails.root.join("db", "seeds", file)).each do |category|
       category["groups"].each do |group|
         group["parameters"].each do |parameter|
-          try_to_save Parameter.new(category: category["name"], group: group["name"], name: parameter["name"], data_type: parameter["data_type"], description: "")
+          try_to_save Parameter.new(category: category["name"],
+                                    group: group["name"],
+                                    name: parameter["name"],
+                                    data_type: parameter["data_type"],
+                                    description: "")
         end
       end
     end
@@ -51,7 +55,7 @@ class Seeder::SeedLoader
       group["types"].each do |type|
         @station_group.station_types.create!(name: type["name"],
                                              description: type["description"],
-                                             enviorment: type["enviorment"])
+                                             environment: type["environment"])
       end
     end
   end

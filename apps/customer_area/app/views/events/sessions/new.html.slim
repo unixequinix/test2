@@ -1,7 +1,6 @@
 = render "events/sessions/signed_up_message" if @sign_up
 = render "events/sessions/password_sent_message" if @password_sent
 
-//= link_to t('links.buttons.sign_up'), event_signin_path(current_event), class: "btn btn-action-register btn-action-register-desktop"
 .container-event-column
   .wrapper-session
     h3.center-text = t('sessions.welcome')
@@ -20,9 +19,6 @@
         = fa_icon "key"
       = f.input :remember_me, as: :boolean, input_html: { class: 'session-remember-me' }
       = f.button :submit, t('links.buttons.sign_in'), class: "btn btn-action-enter"
-      .wrapper-create-account
-        p.center-text.italic-text — or —
-        = link_to t('links.buttons.sign_up'), event_signin_path(current_event), class: "btn btn-action-register btn-action-register-mobile"
     .sessions-shared-login
       = render "events/shared/links"
     ul.disclaimer-list

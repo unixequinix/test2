@@ -343,6 +343,8 @@ it:
       transaction_origin: "Transaction source"
       final_balance: "Final balance"
       final_refundable_balance: "Final refundable balance"
+    customer_event_profile:
+      id: "Id"
     customers:
       delete: "Deleted"
       email: "Email"

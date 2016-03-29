@@ -41,7 +41,7 @@ RSpec.describe Event, type: :model do
     station_group = StationGroup.create!(name: "access", icon_slug: "access")
     station_group.station_types.create!(name: "customer_portal",
                                         description: "Customer Portal",
-                                        enviorment: "portal")
+                                        environment: "portal")
     event_creator = EventCreator.new(build(:event, gtag_assignation: true).attributes)
     event_creator.save
     @event = event_creator.event

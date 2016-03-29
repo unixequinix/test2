@@ -43,6 +43,9 @@ it:
       button: "Activate Ticket"
     purchases:
       header: "Your purchases"
+    first_register:
+      ticket: "Add ticket"
+      wristband: "Add wristband"
     credits:
       header: "Your credits"
       call_to_action: "To avoid queues, top-up your wristband now for all your event purchases"
@@ -50,6 +53,10 @@ it:
       call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Event Ticket first"
       button: "Top-up"
       ticket_first: "Add a ticket first"
+    paypal:
+      claim: "Take advantage!"
+      description: "Sync with Paypal and you will be able to make direct top ups."
+      button: "Sync with PayPal"
     event_refunds:
       claim: "L'evento non è ancora finito"
       description: "Torna presto per richiedere per un rimborso"
@@ -123,14 +130,25 @@ it:
     card_info: "Card Info"
     order_review: "Order review"
     payment: "Payment method"
-    credit_card: "Credit card"
-    pay_pal: "Pay Pal"
+    payment-buttons:
+      redsys:
+        name: "Credit card"
+        icon: "credit-card"
+      stripe:
+        name: "Credit card"
+        icon: "credit-card"
+      braintree:
+        name: "Credit card"
+        icon: "credit-card"
+      paypal:
+        name: "Pay Pal"
+        icon: "paypal"
     stripe:
       card_number: "Card number"
       card_code_verification: "Card code verification (CCV)"
       card_expiration_date: "Card expiration date"
       button: "Pay"
-    brainter:
+    braintree:
       card_number: "Card number"
       card_code_verification: "Card code verification (CCV)"
       card_expiration_month: "Card expiration date"
@@ -230,8 +248,13 @@ it:
       current_password_hint: "abbiamo bisogno della tua password corrente in modo di poter confermare i cambiamenti"
       waiting_confirmation: 'In attesa della conferma per:'
       button: 'Aggiornare'
-      or: '- or -'
+      or: 'or'
+    autotoup_agreement:
+      cancel: 'Do you want to cancel your autotopup agreement?'
   sessions:
+    first_register:
+      welcome: 'Bienvenido!!'
+      description: 'Por favor, seleeciona que quieres registrar para continuar'
     welcome: 'Welcome!'
     create_account:
       title: 'Don´t you have an account?'

@@ -45,19 +45,18 @@ class Order < ActiveRecord::Base
     order_items.sum(:total)
   end
 
-  def total_stripe_formated
-    total_formated = format("%.2f", total)
-    total_formated.gsub(".", "")
+  def total_formated
+    format("%.2f", total)
   end
 
   def total_credits
-    order_items.to_a.sum(&:credits_included)
+    order_items.to_a.sum(&:credits)
   end
 
   def total_refundable_credits
     order_items.joins(:catalog_item)
       .where.not(catalog_items: { catalogable_type: "Pack" })
-      .to_a.sum(&:credits_included)
+      .to_a.sum(&:credits)
   end
 
   def generate_order_number!

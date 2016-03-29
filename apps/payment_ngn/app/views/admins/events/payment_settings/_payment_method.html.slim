@@ -3,7 +3,7 @@
     dt
       p.refund-title = t("admin.payment_services.#{payment_service}")
     dd
-    - @payment_parameters.where(parameters: { group: payment_service}).each do |payment_parameter|
+    - @payment_parameters.where(parameters: { group: EventDecorator::PAYMENT_PLATFORMS[payment_service]}).each do |payment_parameter|
       dt = t("admin.payment_settings.#{payment_service}.#{payment_parameter.parameter.name}")
       dd = payment_parameter.value
 
