@@ -3,7 +3,20 @@ class Api::V1::Events::AutoTopUpsController < Api::V1::Events::BaseController
 
   def create
     render(status: :bad_request, json: { error: "Params missing." }) && return unless verify_params!
-    render(status: :created, json: permitted_params)
+
+    customer = Gtag.find_by_tag_uid(permitted_params[:gtag_uid])
+               .credential_assignments
+               .first
+               .customer_event_profile
+
+    method = "Autotopup::#{permitted_params[:payment_method].capitalize}AutoPayer".constantize
+    payment = method.new(customer)
+    payment.start
+
+    binding.pry
+    errors = payment.errors
+    render(status: :unprocessable_entity, json: { errors: errors }) && return if errors
+    render(status: :created, json: { customer_id: customer.id })
   end
 
   private
