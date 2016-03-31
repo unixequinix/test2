@@ -23,7 +23,7 @@ class CredentialType < ActiveRecord::Base
   validate :valid_position
 
   def credits
-    catalog_item.catalogable_type == "Pack" ? catalog_item.catalogable.credits : []
+    return catalog_item.catalogable_type == "Pack" ? catalog_item.catalogable.credits : 0
   end
 
   private
