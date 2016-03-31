@@ -30,7 +30,7 @@ RSpec.describe Api::V1::Events::AccessesController, type: :controller do
           request.headers["If-Modified-Since"] = (@new_access.updated_at - 2.hours)
           get :index, event_id: event.id
           accesses = JSON.parse(response.body).map { |m| m["id"] }
-          expect(accesses).to eq([@new_access.id])
+          expect(accesses).to eq([@new_access.catalogable_id])
         end
       end
 
