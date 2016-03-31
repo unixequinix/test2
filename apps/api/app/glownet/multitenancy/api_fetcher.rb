@@ -20,6 +20,10 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
     Credit.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
+  def customer_event_profiles
+    @event.customer_event_profiles.includes(:customer, :credential_assignments, :orders)
+  end
+
   def sql_customer_event_profiles # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
       SELECT array_to_json(array_agg(row_to_json(cep)))
