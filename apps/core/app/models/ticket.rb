@@ -74,7 +74,8 @@ class Ticket < ActiveRecord::Base
 
   def ban!
     assignment = CredentialAssignment.find_by(credentiable_id: id, credentiable_type: "Ticket")
-    BannedCustomerEventProfile.new(assign.customer_event_profile_id) unless assignment.nil?
+    profile_id = assignment.customer_event_profile_id unless assignment.nil?
+    BannedCustomerEventProfile.new(customer_event_profile_id: profile_id) unless assignment.nil?
     BannedTicket.find_or_create_by(ticket_id: id)
   end
 
