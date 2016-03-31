@@ -60,6 +60,7 @@ PATH
   specs:
     transactions (0.0.1)
       rails (~> 4.2.1)
+      rails-observers
 
 GEM
   remote: https://rubygems.org/
@@ -400,6 +401,8 @@ GEM
       ruby-graphviz (~> 1.2)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
+    rails-observers (0.1.2)
+      activemodel (~> 4.0)
     railties (4.2.6)
       actionpack (= 4.2.6)
       activesupport (= 4.2.6)
