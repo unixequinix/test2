@@ -47,7 +47,8 @@ module GlownetWeb
     config.paperclip_defaults = {
       storage: :s3,
       s3_protocol: :https,
-      s3_credentials: { access_key_id: Rails.application.secrets.s3_access_key_id,
+      s3_credentials: {
+                        access_key_id: Rails.application.secrets.s3_access_key_id,
                         secret_access_key: Rails.application.secrets.s3_secret_access_key,
                         bucket: Rails.application.secrets.s3_bucket,
                         s3_host_name: Rails.application.secrets.s3_hostname
@@ -71,5 +72,7 @@ module GlownetWeb
 
     # Uncomment below to disable sidequik for all. Put in specific environment if desired.
     # config.active_job.queue_adapter = :inline
+
+    config.active_record.observers = :customer_order_observer
   end
 end
