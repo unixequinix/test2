@@ -19,7 +19,7 @@
           td data-label=t("admin.tickets.id") = ticket.id
           td data-label=t("admin.tickets.code") = link_to ticket.code, admins_event_ticket_path(current_event, ticket)
           td data-label=t("admin.tickets.company_ticket_type") = ticket.company_ticket_type.name if ticket.company_ticket_type.present?
-          td data-label=t("admin.tickets.customer") = link_to ticket.assigned_ticket_credential.customer_event_profile.customer.email, admins_event_customer_path(current_event, ticket.assigned_ticket_credential.customer_event_profile.customer) if ticket.assigned_ticket_credential.present? && ticket.purchaser
+          td data-label=t("admin.tickets.customer") = link_to ticket.assigned_ticket_credential.customer_event_profile.customer.email, admins_event_customer_path(current_event, ticket.assigned_ticket_credential.customer_event_profile.customer) if ticket.assigned_ticket_credential.present?
           td data-label=t("admin.purchasers.email") = ticket.purchaser.email if ticket.purchaser
           td.table-actions-field
             = render 'admins/events/tickets/actions', ticket: ticket unless current_event.started?

@@ -22,7 +22,11 @@ class CustomerEventProfile < ActiveRecord::Base
   has_many :refunds, through: :claims
   has_many :customer_orders
   has_many :online_orders, through: :customer_orders
-  has_many :customer_credits
+  has_many :customer_credits do
+    def current
+      order("created_in_origin_at DESC").first
+    end
+  end
   has_many :completed_claims,
            -> { where.not(claims: { completed_at: nil }) },
            class_name: "Claim"
@@ -52,7 +56,6 @@ class CustomerEventProfile < ActiveRecord::Base
   has_one :completed_claim,
           -> { where(aasm_state: :completed) }, class_name: "Claim"
   has_one :banned_customer_event_profile
-  has_one :current_balance, -> { order(created_at: :desc) }, class_name: "CustomerCredit"
   has_many :payment_gateway_customers
 
   # Validations
@@ -71,8 +74,12 @@ class CustomerEventProfile < ActiveRecord::Base
     Customer.unscoped { super }
   end
 
+  def current_balance
+    customer_credits.order(created_in_origin_at: :desc).first
+  end
+
   def total_credits
-    customer_credits.sum(:amount).floor
+    customer_credits.sum(:amount)
   end
 
   def ticket_credits
@@ -86,8 +93,8 @@ class CustomerEventProfile < ActiveRecord::Base
   end
 
   def refundable_credits_amount
-    customer_credit = customer_credits.order(created_at: :desc).first
-    customer_credit.present? ? customer_credit.final_refundable_balance : 0
+    current_balance = customer_credits.current
+    current_balance.present? ? current_balance.final_refundable_balance : 0
   end
 
   def refundable_money_amount
