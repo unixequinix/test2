@@ -33,7 +33,7 @@ RSpec.describe CustomerEventProfile, type: :model do
     it "should return the number of credits rounded" do
       credit_log = create(:customer_credit_online)
       customer_event_profile = credit_log.customer_event_profile
-      expect(customer_event_profile.total_credits).to be(20)
+      expect(customer_event_profile.total_credits).to eq(20)
     end
   end
 
@@ -45,7 +45,7 @@ RSpec.describe CustomerEventProfile, type: :model do
       create(:customer_credit_online,
              customer_event_profile: customer_event_profile,
              transaction_origin: "ticket_assignment")
-      expect(customer_event_profile.ticket_credits).to be(40)
+      expect(customer_event_profile.ticket_credits).to eq(40)
     end
 
     it "should return the total amount of credits" do
@@ -54,7 +54,7 @@ RSpec.describe CustomerEventProfile, type: :model do
                   transaction_origin: "ticket_assignment",
                   amount: 10)
 
-      expect(customer_event_profile.ticket_credits).to be(20)
+      expect(customer_event_profile.ticket_credits).to eq(20)
     end
 
     it "should return the total amount of credits,
@@ -69,7 +69,7 @@ RSpec.describe CustomerEventProfile, type: :model do
                   transaction_origin: "credits_purchase",
                   amount: 1)
 
-      expect(customer_event_profile.ticket_credits).to be(3)
+      expect(customer_event_profile.ticket_credits).to eq(3)
     end
   end
 
@@ -83,7 +83,7 @@ RSpec.describe CustomerEventProfile, type: :model do
              customer_event_profile: customer_event_profile,
              transaction_origin: "credits_purchase",
              amount: 2.7)
-      expect(customer_event_profile.purchased_credits).to be(4)
+      expect(customer_event_profile.purchased_credits).to eq(4)
     end
 
     it "should return the amount of purchased credits" do
@@ -92,7 +92,7 @@ RSpec.describe CustomerEventProfile, type: :model do
                   transaction_origin: "credits_purchase",
                   amount: 5)
 
-      expect(customer_event_profile.purchased_credits).to be(10)
+      expect(customer_event_profile.purchased_credits).to eq(10)
     end
 
     it "should return the total amount of credits,
@@ -107,7 +107,7 @@ RSpec.describe CustomerEventProfile, type: :model do
                   transaction_origin: "credits_purchase",
                   amount: 1)
 
-      expect(customer_event_profile.purchased_credits).to be(2)
+      expect(customer_event_profile.purchased_credits).to eq(2)
     end
   end
 end

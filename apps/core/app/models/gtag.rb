@@ -23,11 +23,11 @@ class Gtag < ActiveRecord::Base
 
   # Gtag limits
   GTAG_DEFINITIONS = [{ name: "mifare_classic",
-                        entitlement_limit: 10,
-                        credential_limit: 10 },
+                        entitlement_limit: 30,
+                        credential_limit: 30 },
                       { name: "ultralight_ev1",
-                        entitlement_limit: 10,
-                        credential_limit: 10 }
+                        entitlement_limit: 40,
+                        credential_limit: 32 }
                      ]
 
   before_validation :upcase_gtag!

@@ -24,7 +24,7 @@ class CreditsPresenter < BasePresenter
   end
 
   def valid_balance?
-   BalanceCalculator.new(@customer_event_profile).valid_balance?
+    BalanceCalculator.new(@customer_event_profile).valid_balance?
   end
 
   def call_to_action
