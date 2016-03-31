@@ -104,6 +104,8 @@ gem 'i18n-globals', git: 'https://github.com/sebastianzillessen/i18n-globals.git
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.1', group: :doc
 
+gem "rails-observers", '~> 0.1.2'
+
 group :development do
   gem 'foreman', '~> 0.78.0'
   gem 'annotate', '~> 2.6.10'

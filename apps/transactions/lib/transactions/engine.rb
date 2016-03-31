@@ -20,5 +20,7 @@ module Transactions
       g.assets false
       g.helper false
     end
+
+    config.active_record.observers = :customer_orders_observer
   end
 end
