@@ -27,7 +27,7 @@ class CustomerOrder < ActiveRecord::Base
   # Origins
   TICKET_ASSIGNMENT = "ticket_assignment"
   DEVICE = "device"
-  PURCHASE = "purchase"
+  PURCHASE = "online_purchase"
 
   REFUND_SERVICES = [TICKET_ASSIGNMENT, DEVICE, PURCHASE]
 end

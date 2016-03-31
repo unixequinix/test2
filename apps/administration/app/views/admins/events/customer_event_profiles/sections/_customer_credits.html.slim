@@ -13,7 +13,7 @@ table.refunds
       th = t("admin.customer_credits.final_balance")
       th = t("admin.customer_credits.final_refundable_balance")
   tbody
-    - customer_event_profile.customer_credits.order(created_at: :asc).each_with_index do |customer_credit, index|
+    - customer_event_profile.customer_credits.order(created_in_origin_at: :asc).each_with_index do |customer_credit, index|
       tr
         td data-label="id" = index +1
         td data-label="amount" = customer_credit.amount
