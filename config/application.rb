@@ -70,9 +70,7 @@ module GlownetWeb
       end
     end
 
-    # Uncomment below to disable sidequik for all. Put in specific environment if desired.
+    # Uncomment below to disable sidekiq for all. Put in specific environment if desired.
     # config.active_job.queue_adapter = :inline
-
-    config.active_record.observers = :customer_order_observer
   end
 end
