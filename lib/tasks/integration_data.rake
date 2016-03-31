@@ -216,16 +216,16 @@ namespace :db do
   end
 
   def create_box_offices
-    items = @event.catalog_items.pluck(:catalogable_id)
+    items = @event.catalog_items.where(catalogable_type: "Access").pluck(:catalogable_id)
 
     @box_offices.times do |index|
       type = StationType.find_by(name: "box_office")
       station = Station.create!(station_type: type, name: "Box Office #{index}", event: @event)
-      40.times do |i|
-        station.station_catalog_items
-                .new(price: rand(1.0...20.0),
-                     catalog_item_id: items.sample,
-                     station_parameter_attributes: { station_id: station.id }).save
+      items.size.times do |i|
+        station.station_catalog_items.new(price: rand(1.0...20.0),
+                                          catalog_item_id: items[i],
+                                          station_parameter_attributes: { station_id: station.id })
+                                     .save
       end
     end
   end
