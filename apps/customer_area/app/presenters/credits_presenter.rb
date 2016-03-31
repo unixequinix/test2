@@ -1,6 +1,6 @@
 class CreditsPresenter < BasePresenter
   def can_render?
-    @event.top_ups?
+    @event.top_ups? && @customer_event_profile.active_credentials?
   end
 
   def path

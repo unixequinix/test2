@@ -71,6 +71,10 @@ class CustomerEventProfile < ActiveRecord::Base
     Customer.unscoped { super }
   end
 
+  def active_credentials?
+    active_tickets_assignment.any? || !active_gtag_assignment.nil?
+  end
+
   def total_credits
     customer_credits.sum(:amount).floor
   end
