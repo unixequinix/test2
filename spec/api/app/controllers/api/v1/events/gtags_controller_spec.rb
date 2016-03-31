@@ -30,7 +30,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
         it "returns only the modified gtags" do
           get :index, event_id: event.id
           gtags = JSON.parse(response.body).map { |m| m["tag_uid"] }
-          expect(gtags).to include(@new_gtag.tag_uid)
+          expect(gtags).to eq([@new_gtag.tag_uid])
         end
       end
 

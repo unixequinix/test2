@@ -30,7 +30,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         it "returns only the modified tickets" do
           get :index, event_id: event.id
           tickets = JSON.parse(response.body).map { |m| m["reference"] }
-          expect(tickets).to include(@new_ticket.code)
+          expect(tickets).to eq([@new_ticket.code])
         end
       end
 
