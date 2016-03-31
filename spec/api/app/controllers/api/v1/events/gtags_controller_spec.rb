@@ -1,11 +1,11 @@
 require "rails_helper"
 
 RSpec.describe Api::V1::Events::GtagsController, type: :controller do
+  let(:event) { Event.last || create(:event) }
   let(:admin) { Admin.first || create(:admin) }
 
   before do
-    @event = create :event
-    create_list(:gtag, 2, event: @event)
+    create_list(:gtag, 2, event: event)
   end
 
   describe "GET index" do
@@ -14,27 +14,43 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
         http_login(admin.email, admin.access_token)
       end
 
-      context "if gtag doesn't exist" do
-        it "has a 404 status code" do
-          get :show, event_id: @event.id, id: 999
-          expect(response.status).to eq 404
+      it "has a 200 status code" do
+        get :index, event_id: event.id
+        expect(response.status).to eq 200
+      end
+
+      context "when the If-Modified-Since header is sent" do
+        before do
+          @new_gtag = create(:gtag, :with_purchaser, event: event)
+          @new_gtag.update!(updated_at: Time.now + 4.hours)
+
+          request.headers["If-Modified-Since"] = (@new_gtag.updated_at - 2.hours)
+        end
+
+        it "returns only the modified gtags" do
+          get :index, event_id: event.id
+          gtags = JSON.parse(response.body).map { |m| m["tag_uid"] }
+          expect(gtags).to include(@new_gtag.tag_uid)
         end
       end
 
-      context "if gtag exists" do
-        it "has a 200 status code" do
-          get :index, event_id: Event.last.id
-
-          expect(response.status).to eq 200
+      context "when the If-Modified-Since header isn't sent" do
+        before do
+          create(:gtag, :with_purchaser, event: event)
         end
 
-        it "returns all the gtags" do
-          get :index, event_id: @event.id
+        it "returns the cached gtags" do
+          get :index, event_id: event.id
+          gtags = JSON.parse(response.body).map { |m| m["tag_uid"] }
+          cache_g = JSON.parse(Rails.cache.fetch("v1/event/#{event.id}/gtags")).map do |m|
+            m["tag_uid"]
+          end
 
-          body = JSON.parse(response.body)
-          gtags = body.map { |m| m["tag_uid"] }
+          create(:gtag, :with_purchaser, event: event)
+          event_gtags = event.gtags.map(&:tag_uid)
 
-          expect(gtags).to match_array(@event.gtags.map(&:tag_uid))
+          expect(gtags).to eq(cache_g)
+          expect(gtags).not_to eq(event_gtags)
         end
       end
     end
@@ -42,7 +58,6 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
     context "without authentication" do
       it "has a 401 status code" do
         get :index, event_id: Event.last.id
-
         expect(response.status).to eq 401
       end
     end
@@ -52,7 +67,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
     context "with authentication" do
       before(:each) do
         http_login(admin.email, admin.access_token)
-        get :show, event_id: @event.id, id: Gtag.last.id
+        get :show, event_id: event.id, id: Gtag.last.id
       end
 
       it "has a 200 status code" do
@@ -63,13 +78,11 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
         body = JSON.parse(response.body)
         expect(body["tag_uid"]).to eq(Gtag.last.tag_uid)
       end
-
-      it "returns the customer_event_profile if it exists"
     end
 
     context "without authentication" do
       it "has a 401 status code" do
-        get :show, event_id: @event.id, id: Gtag.last.id
+        get :show, event_id: event.id, id: Gtag.last.id
         expect(response.status).to eq 401
       end
     end

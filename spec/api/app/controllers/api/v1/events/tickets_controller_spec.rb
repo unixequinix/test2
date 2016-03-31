@@ -5,7 +5,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
   let(:admin) { Admin.first || create(:admin) }
 
   before do
-    @tickets = create_list(:ticket, 2, :with_purchaser, event: event)
+    create_list(:ticket, 2, :with_purchaser, event: event)
   end
 
   describe "GET index" do
@@ -42,7 +42,9 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         it "returns the cached tickets" do
           get :index, event_id: event.id
           tickets = JSON.parse(response.body).map { |m| m["reference"] }
-          cache_tickets = JSON.parse(Rails.cache.fetch("v1/tickets")).map { |m| m["reference"] }
+          cache_tickets = JSON.parse(Rails.cache.fetch("v1/event/#{event.id}/tickets")).map do |m|
+            m["reference"]
+          end
 
           create(:ticket, :with_purchaser, event: event)
           event_tickets = event.tickets.map(&:code)
@@ -52,6 +54,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         end
       end
     end
+
     context "without authentication" do
       it "has a 401 status code" do
         get :index, event_id: Event.last.id
