@@ -25,7 +25,7 @@ Rails.application.configure do
   config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  config.action_controller.asset_host = "assets.glownet.com"
+  config.action_controller.asset_host = "d20gpgevp4t82e.cloudfront.net"
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
