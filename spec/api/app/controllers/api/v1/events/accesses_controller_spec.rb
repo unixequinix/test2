@@ -38,9 +38,7 @@ RSpec.describe Api::V1::Events::AccessesController, type: :controller do
         it "returns all the accesses" do
           get :index, event_id: event.id
           api_accesses = JSON.parse(response.body).map { |m| m["id"] }
-          event_accesses = Access.joins(:catalog_item)
-                           .where(catalog_items: { event_id: event.id }).pluck(:id)
-          expect(api_accesses).to eq(event_accesses)
+          expect(api_accesses).to eq(db_accesses)
         end
       end
     end
