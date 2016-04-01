@@ -238,7 +238,10 @@ namespace :db do
   def create_point_of_sales
     @box_offices.times do |index|
       type = StationType.find_by(name: "point_of_sales")
-      station = Station.create!(station_type: type, name: "POS #{index}", event: @event)
+      brand = %w( Heineken Beer Coke Pepsi Kebab Cream Taco Mexican Burrito Indian Krusty ).sample
+      place = %w( Bar Square Grill Restaurant Burger City Way Paradise World Club House ).sample
+
+      station = Station.create!(station_type: type, name: "#{brand} #{place}", event: @event)
       @event.products.each do |product|
         station.station_products
           .new(price: rand(1.0...20.0),
