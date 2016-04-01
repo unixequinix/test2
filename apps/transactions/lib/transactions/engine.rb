@@ -21,6 +21,6 @@ module Transactions
       g.helper false
     end
 
-    config.active_record.observers = :customer_order_observer
+    config.active_record.observers = :online_order_observer
   end
 end
