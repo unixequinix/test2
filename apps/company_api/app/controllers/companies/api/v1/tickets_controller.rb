@@ -38,7 +38,7 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
     render(status: :created, json: Companies::Api::V1::TicketSerializer.new(@ticket))
   end
 
-  def update
+  def update # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     @ticket = @fetcher.tickets.find_by(id: params[:id])
 
     render(status: :not_found,
