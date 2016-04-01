@@ -1,14 +1,17 @@
 class Autotopup::PaypalAutoPayer
+  attr_reader :errors
+
   def initialize(customer_event_profile)
     @customer_event_profile = customer_event_profile
     @event = customer_event_profile.event
     @order = Order.new
+    @errors = nil
   end
 
   def start
-    payment_gateway =
-      @customer_event_profile.payment_gateway_customers.find_by(gateway_type: "paypal")
-    return "No agreement accepted" if payment_gateway.nil?
+    payment_gateway = @customer_event_profile.payment_gateway_customers
+                      .find_by(gateway_type: "paypal")
+    @errors = { errors: "No agreement accepted" } && return if payment_gateway.nil?
     generate_order(payment_gateway)
     Payments::BraintreeDataRetriever.new(@event, @order)
     pay(event_id: @event.id, order_id: @order.id, customer_id: payment_gateway.token)
@@ -34,6 +37,6 @@ class Autotopup::PaypalAutoPayer
                            CustomerOrderCreator.new,
                            CustomerCreditOrderCreator.new,
                            "auto")
-    charge_object.success? ? "Payment completed" : charge_object.errors.to_json
+    @errors = charge_object.errors.to_json unless charge_object.success?
   end
 end

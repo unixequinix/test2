@@ -107,9 +107,9 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
       end
 
       context "when the request is invalid" do
-        it "returns a 400 status code" do
+        it "returns a 422 status code" do
           post :create, ticket_type: { with: "Invalid attributes" }
-          expect(response.status).to eq(400)
+          expect(response.status).to eq(422)
         end
       end
     end
@@ -151,10 +151,10 @@ RSpec.describe Companies::Api::V1::TicketTypesController, type: :controller do
       end
 
       context "when the request is invalid" do
-        it "returns a 400 status code" do
+        it "returns a 422 status code" do
           put :update, id: @ticket_type,
                        ticket_type: { name: nil, company_ticket_type_ref: "AA123" }
-          expect(response.status).to eq(400)
+          expect(response.status).to eq(422)
         end
 
         it "doesn't change ticket's attributes" do
