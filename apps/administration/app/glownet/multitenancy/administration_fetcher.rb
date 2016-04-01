@@ -13,11 +13,11 @@ class Multitenancy::AdministrationFetcher
   end
 
   def unassigned_catalog_items(station)
-    CatalogItem.unassigned_catalog_items(station)
+    CatalogItem.unassigned_catalog_items(station).where(event: @event)
   end
 
   def unassigned_products(station)
-    Product.unassigned_products(station)
+    Product.unassigned_products(station).where(event: @event)
   end
 
   def company_event_agreements
