@@ -15,6 +15,8 @@
           = link_tag
 .wrapper-module.module-refunds
   h3.center-text = presenter.refunds_title
-  p.panel-amount-number.center-text = presenter.gtag_credit_amount
+  p.panel-amount-number.center-text
+    = presenter.gtag_credit_amount
+    span.currency-symbol
   p.center-text = presenter.call_to_action
   p.center-text = raw presenter.refund_disclaimer

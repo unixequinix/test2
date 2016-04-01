@@ -5,11 +5,14 @@ es:
     cancel: "Cancelar"
     edit: "Editar"
     delete: "Borrar"
+    delete_ticket: "Borrar ticket"
     check_news: "Ir al evento"
     delete_account: "Eliminar tu cuenta"
     logout: "Cerrar sessión"
   confirm:
     remove_ticket: "Tus créditos comprados se asignan a tu cuenta. Si borras tu ticket, tendrás que asignar otro para utilizar esos créditos en el evento."
+    cancel_paypal: "Al cancelar desvicularás tu pulsera de tu cuenta de PayPal."
+    log_out: "¿Quieres finalizar la sesión?"
   header:
     edit: "Editar Pérfil"
     close: "Cerrar sesión"
@@ -257,6 +260,7 @@ es:
       button: 'Actualizar'
     autotoup_agreement:
       cancel: '¿Quieres cancelar tu contrato de autorecarga?'
+      title: 'Cancelar contrato'
   sessions:
     first_register:
       welcome: 'Bienvenido!!'

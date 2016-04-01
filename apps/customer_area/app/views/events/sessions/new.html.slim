@@ -21,9 +21,9 @@
       = f.button :submit, t('links.buttons.sign_in'), class: "btn btn-action-enter"
     .sessions-shared-login
       = render "events/shared/links"
-    ul.disclaimer-list
-      li = raw current_event.info
 
-// TODO: Talk to Manu to add the styles
 .container-disclaimer
-  = raw current_event.disclaimer
+  .wrapper-disclaimer
+    = raw current_event.info
+  .wrapper-disclaimer
+    = raw current_event.disclaimer
