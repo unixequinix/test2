@@ -125,9 +125,9 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
       end
 
       context "when the request is invalid" do
-        it "returns a 400 status code" do
+        it "returns a 422 status code" do
           post :create, ticket: { with: "Invalid request" }
-          expect(response.status).to eq(400)
+          expect(response.status).to eq(422)
         end
       end
     end
@@ -180,9 +180,9 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
             purchaser_attributes: { email: "newemail@glownet.com" } }
         end
 
-        it "returns a 400 status code" do
+        it "returns a 422 status code" do
           put :update, id: @ticket, ticket: params
-          expect(response.status).to eq(400)
+          expect(response.status).to eq(422)
         end
 
         it "doesn't change ticket's attributes" do
