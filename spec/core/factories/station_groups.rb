@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :station_group do
-    name { "#{rand(100)} a name" }
-    icon_slug { "#{rand(100)} slug" }
+    name { %w(access monetary glownet touchpoint event_management).sample }
+    icon_slug { %w(A B C D E).sample }
   end
 end

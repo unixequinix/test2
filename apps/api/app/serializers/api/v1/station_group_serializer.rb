@@ -1,9 +1,8 @@
 class Api::V1::StationGroupSerializer < Api::V1::BaseSerializer
-  attributes :id, :name, :icon_slug
+  attributes :station_group, :icon_slug
   has_many :stations, serializer: Api::V1::StationSerializer
 
-  def attributes(*args)
-    hash = super
-    hash
+  def station_group
+    object.name
   end
 end

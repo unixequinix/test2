@@ -1,13 +1,24 @@
 class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
-  def index
-    response.headers["Last-Modified"] = current_event.tickets.maximum(:updated_at)
-
+  def index # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     if request.headers["If-Modified-Since"]
-      @tickets = current_event.tickets.where("updated_at > ?", request.headers["If-Modified-Since"])
+      date = request.headers["If-Modified-Since"].to_time + 1
+      @tickets = current_event.tickets
+                 .includes(:company_ticket_type, :credential_assignments, :purchaser)
+                 .where("tickets.updated_at > ?", date)
+
+      response.headers["Last-Modified"] = @tickets.maximum(:updated_at).to_s
+
       render(json: @tickets, each_serializer: Api::V1::TicketSerializer)
     else
-      render(status: :not_modified,
-             json: Rails.cache.fetch("v1/tickets", expires_in: 12.hours) { @fetcher.sql_tickets })
+
+      last_updated = Rails.cache.fetch("v1/event/#{current_event.id}/tickets_updated_at",
+                                       expires_in: 12.hours) do
+        current_event.tickets.maximum(:updated_at).to_s
+      end
+
+      response.headers["Last-Modified"] = last_updated
+      render(json: Rails.cache.fetch("v1/event/#{current_event.id}/tickets",
+                                     expires_in: 12.hours) { @fetcher.sql_tickets })
     end
   end
 
