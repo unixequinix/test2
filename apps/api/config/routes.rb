@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       resources :events, only: :index  do
         scope module: "events" do
           resources :accesses, only: :index
+          resources :auto_top_ups, only: :create
           resources :banned_gtags, path: "gtags/banned", only: :index
           resources :banned_tickets, path: "tickets/banned", only: :index
           resources :company_ticket_types, only: :index
