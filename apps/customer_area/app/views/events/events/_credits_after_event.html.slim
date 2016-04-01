@@ -1,9 +1,13 @@
 .wrapper-module
   h3 = t('dashboard.credits.header')
   - if presenter.valid_balance?
-    p.panel-amount-number = presenter.customer_total_credits
+    p.panel-amount-number
+      = presenter.customer_total_credits
+      span.currency-symbol €
     ul.refundable-conversion-list
       p.refundable-text.center-text.bold-text Refundable money:
-      li.bold-text = "#{presenter.refundable_money}€"
+      li
+        = "#{presenter.refundable_money}"
+        span.currency-symbol €
   - else
     span = t('dashboard.credits.calculating_balance')
