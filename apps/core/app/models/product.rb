@@ -27,5 +27,5 @@ class Product < ActiveRecord::Base
            ON station_products.id = station_parameters.station_parametable_id
            AND station_parameters.station_parametable_type = 'StationProduct'
            WHERE station_id = #{product.id})")
-  end
+  }
 end
