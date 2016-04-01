@@ -20,8 +20,8 @@
 class CustomerCredit < ActiveRecord::Base
   acts_as_paranoid
 
-  before_save :calculate_balances
   before_create :set_created_in_origin_at
+  before_save :calculate_balances
 
   belongs_to :customer_event_profile
 
@@ -29,9 +29,9 @@ class CustomerCredit < ActiveRecord::Base
   validates_numericality_of :amount, :refundable_amount, :credit_value
   validates_numericality_of :final_balance, :final_refundable_balance, greater_than_or_equal_to: 0
 
-  TICKET_ASSIGNMENT  = "ticket_assignment"
-  TICKET_UNASSIGNMENT  = "ticket_unassignment"
-  CREDITS_PURCHASE  = "credits_purchase"
+  TICKET_ASSIGNMENT = "ticket_assignment"
+  TICKET_UNASSIGNMENT = "ticket_unassignment"
+  CREDITS_PURCHASE = "credits_purchase"
 
   # Type of the invoices
   TRANSACTION_TYPES = [TICKET_ASSIGNMENT, TICKET_UNASSIGNMENT, CREDITS_PURCHASE]
@@ -43,11 +43,8 @@ class CustomerCredit < ActiveRecord::Base
   end
 
   def calculate_balances
-    balances = CustomerCredit
-               .select("sum(amount) as final_balance,
-                        sum(refundable_amount) as final_refundable_balance")
-               .where(customer_event_profile: customer_event_profile)[0]
-    self.final_balance = balances.final_balance.to_i + amount
-    self.final_refundable_balance = balances.final_refundable_balance.to_i + refundable_amount
+    balances = customer_event_profile.current_balance
+    self.final_balance = balances&.final_balance.to_i + amount
+    self.final_refundable_balance = balances&.final_refundable_balance.to_i + refundable_amount
   end
 end

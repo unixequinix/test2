@@ -1,10 +1,10 @@
 class CreditsPresenter < BasePresenter
   def can_render?
-    @event.top_ups?
+    @event.top_ups? && @customer_event_profile.active_credentials?
   end
 
   def path
-    "events/events/credits"
+    @event.finished? ? "events/events/credits_after_event" : "events/events/credits"
   end
 
   def customer_total_credits
@@ -21,6 +21,10 @@ class CreditsPresenter < BasePresenter
 
   def refundable_money
     @customer_event_profile.refundable_money_amount
+  end
+
+  def valid_balance?
+    BalanceCalculator.new(@customer_event_profile).valid_balance?
   end
 
   def call_to_action
