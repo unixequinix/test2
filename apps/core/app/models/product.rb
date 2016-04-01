@@ -19,4 +19,13 @@ class Product < ActiveRecord::Base
   has_and_belongs_to_many :vouchers
 
   validates :name, :event_id, presence: true
+
+  scope :unassigned_products, lambda { |product|
+    where("id NOT IN (
+           SELECT station_products.product_id FROM station_products
+           INNER JOIN station_parameters
+           ON station_products.id = station_parameters.station_parametable_id
+           AND station_parameters.station_parametable_type = 'StationProduct'
+           WHERE station_id = #{product.id})")
+  end
 end
