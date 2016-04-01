@@ -24,6 +24,24 @@ ActiveRecord::Schema.define(version: 20160331113600) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "access_transactions", force: :cascade do |t|
+    t.integer "event_id_id"
+    t.string  "transaction_origin"
+    t.string  "customer_tag_uid"
+    t.string  "transaction_type"
+    t.integer "operator_id_id"
+    t.integer "station_id_id"
+    t.integer "device_id_id"
+    t.integer "device_db_index"
+    t.string  "device_created_at"
+    t.integer "customer_event_profile_id_id"
+    t.integer "access_entitlement_id_id"
+    t.integer "direction"
+    t.string  "final_balance"
+    t.integer "status_code"
+    t.string  "status_message"
+  end
+
   create_table "accesses", force: :cascade do |t|
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
@@ -478,6 +496,24 @@ ActiveRecord::Schema.define(version: 20160331113600) do
   end
 
   add_index "order_items", ["deleted_at"], name: "index_order_items_on_deleted_at", using: :btree
+
+  create_table "order_transactions", force: :cascade do |t|
+    t.integer "event_id_id"
+    t.string  "transaction_origin"
+    t.string  "transaction_category"
+    t.string  "transaction_type"
+    t.string  "customer_tag_uid"
+    t.string  "operator_tag_uid"
+    t.integer "station_id_id"
+    t.string  "device_uid"
+    t.integer "device_db_index"
+    t.string  "device_created_at"
+    t.integer "customer_order_id_id"
+    t.integer "catalog_item_id_id"
+    t.integer "customer_event_profile_id_id"
+    t.string  "integer"
+    t.string  "status_message"
+  end
 
   create_table "orders", force: :cascade do |t|
     t.string   "number",                    null: false

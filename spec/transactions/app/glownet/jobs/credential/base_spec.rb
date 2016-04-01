@@ -4,10 +4,12 @@ RSpec.describe Jobs::Credential::Base, type: :job do
   let(:event) { create(:event) }
   let(:transaction) { create(:credential_transaction, event: event) }
   let(:gtag) { create(:gtag, event: event) }
-  let(:ticket) { create(:ticket, event: event, credential_redeemed: false) }
   let(:ticket_code) { "TC8B106BA990BDC56" }
+  let(:ticket) { create(:ticket, event: event, credential_redeemed: false, code: ticket_code) }
   let(:profile) { create(:customer_event_profile, event: event) }
   let(:worker) { Jobs::Credential::Base.new }
+  let(:decoder) { TicketDecoder::SonarDecoder }
+  let(:ctt_id) { "99" }
   let(:atts) do
     {
       event_id: event.id,
@@ -16,6 +18,8 @@ RSpec.describe Jobs::Credential::Base, type: :job do
       ticket_code: ticket_code
     }
   end
+
+  before { allow(decoder).to receive(:perform).with(ticket_code).and_return(ctt_id) }
 
   describe ".assign_profile" do
     it "creates a profile for the transaction passed" do
@@ -33,6 +37,8 @@ RSpec.describe Jobs::Credential::Base, type: :job do
   end
 
   describe ".assign_gtag" do
+    before(:each) { transaction.ticket = ticket }
+
     it "creates a gtag for the transaction event passed" do
       expect(event.gtags).to be_empty
       expect do
@@ -64,16 +70,40 @@ RSpec.describe Jobs::Credential::Base, type: :job do
   end
 
   describe ".assign_ticket" do
-    it "creates a ticket for the transaction event passed" do
-      create(:company_ticket_type, id: TicketDecoder::SonarDecoder.perform(ticket_code))
+    before(:each) do
+      @ctt = create(:company_ticket_type, event: event, company_code: ctt_id)
+    end
+
+    it "finds the ticket if present" do
+      t = create(:ticket, event: event, code: ticket_code)
+      expect(decoder).not_to receive(:perform)
+      expect(worker.assign_ticket(transaction, atts)).to eq(t)
+    end
+
+    it "tries to decode the ticket if not present" do
+      expect(decoder).to receive(:perform).and_return(ctt_id)
+      worker.assign_ticket(transaction, atts)
+    end
+
+    it "attaches the correct company_ticket_type based on ticket_code" do
+      allow(TicketDecoder::SonarDecoder).to receive(:perform).and_return(ctt_id)
+      worker.assign_ticket(transaction, atts)
+      expect(transaction.ticket.company_ticket_type).to eq(@ctt)
+    end
+
+    it "raises error if ticket is neither found nor decoded" do
+      atts[:ticket_code] = "NOT_VALID_CODE"
+      expect { worker.assign_ticket(transaction, atts) }.to raise_error
+    end
+
+    it "creates a ticket for the event" do
       expect do
         worker.assign_ticket(transaction, atts)
       end.to change(transaction.event.tickets, :count).by(1)
     end
 
     it "leaves the ticket if already present" do
-      ctt = create(:company_ticket_type, id: TicketDecoder::SonarDecoder.perform(ticket_code))
-      transaction.create_ticket!(event: event, code: ticket_code, company_ticket_type: ctt)
+      transaction.create_ticket!(event: event, code: ticket_code, company_ticket_type: @ctt)
       expect do
         worker.assign_ticket(transaction, atts)
       end.not_to change(transaction.event.tickets, :count)

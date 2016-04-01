@@ -20,6 +20,10 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
     Credit.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
+  def customer_event_profiles
+    @event.customer_event_profiles.includes(:customer, :credential_assignments, :orders)
+  end
+
   def sql_customer_event_profiles # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
       SELECT array_to_json(array_agg(row_to_json(cep)))
@@ -49,7 +53,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
         (
           SELECT array_to_json(array_agg(row_to_json(cr)))
           from (
-            SELECT credentiable_id as id, credentiable_type as type
+            SELECT credentiable_id as id, LOWER(credentiable_type) as type
             FROM credential_assignments
             WHERE customer_event_profile_id = customer_event_profiles.id
               AND deleted_at IS NULL
@@ -60,7 +64,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           from (
             SELECT counter as online_order_counter, customer_orders.amount,
               customer_orders.catalog_item_id as catalogable_id,
-              catalog_items.catalogable_type as catalogable_type
+              LOWER(catalog_items.catalogable_type) as catalogable_type
             FROM online_orders
             INNER JOIN customer_orders
               ON customer_orders.customer_event_profile_id = customer_event_profiles.id
@@ -80,17 +84,13 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
     ActiveRecord::Base.connection.select_value(sql)
   end
 
-  def event_parameters
-    EventParameter.where(event: @event)
-  end
-
   def device_general_parameters
-    EventParameter.where(event: @event, parameters: { category: "device", group: "general" })
+    @event.event_parameters.where(parameters: { category: "device", group: "general" })
       .includes(:parameter)
   end
 
   def gtags
-    Gtag.includes(:credential_assignments, :company_ticket_type, :purchaser).where(event: @event)
+    @event.gtags.includes(:credential_assignments, :company_ticket_type, :purchaser)
   end
 
   def sql_gtags # rubocop:disable Metrics/MethodLength
@@ -122,7 +122,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
   end
 
   def banned_gtags
-    Gtag.banned.where(event: @event)
+    @event.gtags.banned
   end
 
   def packs
@@ -130,8 +130,14 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
       .where(catalog_items: { event_id: @event.id })
   end
 
+  def products
+    @event.products
+  end
+
   def stations
-    StationGroup.joins(:station_types, station_types: :stations).all
+    StationGroup.includes(stations: :station_type)
+      .where(stations: { event_id: @event.id })
+      .where.not(station_types: { name: "customer_portal" })
   end
 
   def sale_stations

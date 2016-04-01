@@ -3,6 +3,6 @@ class Jobs::Credit::BalanceUpdater < Jobs::Base
 
   def perform(atts)
     credit_atts = Jobs::Base.extract_attributes(CustomerCredit, atts)
-    CustomerCredit.create!(credit_atts)
+    CustomerCredit.create!(credit_atts.merge(created_in_origin_at: atts[:device_created_at]))
   end
 end

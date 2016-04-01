@@ -37,9 +37,6 @@ module GlownetWeb
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
-    # Add the fonts path
-    config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
-
     # Precompile additional assets
     config.assets.precompile += %w( .svg .eot .woff .ttf )
     config.assets.precompile += %w[welcome_admin.css]
@@ -50,7 +47,8 @@ module GlownetWeb
     config.paperclip_defaults = {
       storage: :s3,
       s3_protocol: :https,
-      s3_credentials: { access_key_id: Rails.application.secrets.s3_access_key_id,
+      s3_credentials: {
+                        access_key_id: Rails.application.secrets.s3_access_key_id,
                         secret_access_key: Rails.application.secrets.s3_secret_access_key,
                         bucket: Rails.application.secrets.s3_bucket,
                         s3_host_name: Rails.application.secrets.s3_hostname
@@ -72,6 +70,8 @@ module GlownetWeb
       end
     end
 
+    # Uncomment below to disable sidekiq for all. Put in specific environment if desired.
+    # config.active_job.queue_adapter = :inline
     config.active_job.queue_adapter = :sidekiq
   end
 end
