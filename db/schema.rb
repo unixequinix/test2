@@ -11,10 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160322181818) do
+ActiveRecord::Schema.define(version: 20160331191400) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "access_control_gates", force: :cascade do |t|
+    t.integer  "access_id",  null: false
+    t.string   "direction",  null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "accesses", force: :cascade do |t|
     t.datetime "deleted_at"
@@ -246,10 +254,10 @@ ActiveRecord::Schema.define(version: 20160322181818) do
     t.integer  "customer_event_profile_id",                                       null: false
     t.string   "transaction_origin",                                              null: false
     t.string   "payment_method",                                                  null: false
-    t.decimal  "amount",                    precision: 8, scale: 2, default: 1.0, null: false
-    t.decimal  "refundable_amount",         precision: 8, scale: 2, default: 1.0, null: false
-    t.decimal  "final_balance",             precision: 8, scale: 2, default: 1.0, null: false
-    t.decimal  "final_refundable_balance",  precision: 8, scale: 2, default: 1.0, null: false
+    t.decimal  "amount",                    precision: 8, scale: 2, default: 0.0, null: false
+    t.decimal  "refundable_amount",         precision: 8, scale: 2, default: 0.0, null: false
+    t.decimal  "final_balance",             precision: 8, scale: 2, default: 0.0, null: false
+    t.decimal  "final_refundable_balance",  precision: 8, scale: 2, default: 0.0, null: false
     t.decimal  "credit_value",              precision: 8, scale: 2, default: 1.0, null: false
     t.datetime "deleted_at"
     t.datetime "created_at",                                                      null: false
