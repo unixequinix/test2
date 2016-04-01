@@ -74,6 +74,10 @@ class CustomerEventProfile < ActiveRecord::Base
     Customer.unscoped { super }
   end
 
+  def active_credentials?
+    active_tickets_assignment.any? || !active_gtag_assignment.nil?
+  end
+
   def current_balance
     customer_credits.order(created_in_origin_at: :desc).first
   end
