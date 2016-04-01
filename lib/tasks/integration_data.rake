@@ -216,7 +216,9 @@ namespace :db do
   end
 
   def create_box_offices
-    items = @event.catalog_items.where(catalogable_type: "Access").pluck(:catalogable_id)
+    items = @event.catalog_items
+            .where(catalogable_type: %w(Access Credit Pack))
+            .pluck(:catalogable_id)
 
     @box_offices.times do |index|
       type = StationType.find_by(name: "box_office")
