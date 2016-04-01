@@ -84,17 +84,13 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
     ActiveRecord::Base.connection.select_value(sql)
   end
 
-  def event_parameters
-    EventParameter.where(event: @event)
-  end
-
   def device_general_parameters
-    EventParameter.where(event: @event, parameters: { category: "device", group: "general" })
+    @event.event_parameters.where(parameters: { category: "device", group: "general" })
       .includes(:parameter)
   end
 
   def gtags
-    Gtag.includes(:credential_assignments, :company_ticket_type, :purchaser).where(event: @event)
+    @event.gtags.includes(:credential_assignments, :company_ticket_type, :purchaser)
   end
 
   def sql_gtags # rubocop:disable Metrics/MethodLength
@@ -126,7 +122,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
   end
 
   def banned_gtags
-    Gtag.banned.where(event: @event)
+    @event.gtags.banned
   end
 
   def packs
