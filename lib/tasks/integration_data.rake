@@ -16,7 +16,12 @@ namespace :db do
     "Gtags",
     "GtagAssignments",
     "BoxOffices",
-    "PointOfSales"
+    "PointOfSales",
+    "GtagRecycler",
+    "Touchpoint",
+    "IncidentReport",
+    "Topup",
+    "StaffAccreditation"
   ]
 
   desc "Fill database with sample data"
@@ -241,5 +246,30 @@ namespace :db do
                station_parameter_attributes: { station_id: station.id }).save
       end
     end
+  end
+
+  def create_gtag_recycler
+    type = StationType.find_by(name: "gtag_recycler")
+    Station.create!(station_type: type, name: "Gtag Recycler", event: @event)
+  end
+
+  def create_touchpoint
+    type = StationType.find_by(name: "touchpoint")
+    Station.create!(station_type: type, name: "Touchpoint", event: @event)
+  end
+
+  def create_incident_report
+    type = StationType.find_by(name: "incident_report")
+    Station.create!(station_type: type, name: "Incident Report", event: @event)
+  end
+
+  def create_topup
+    type = StationType.find_by(name: "top_up_refund")
+    Station.create!(station_type: type, name: "Topup", event: @event)
+  end
+
+  def create_staff_accreditation
+    type = StationType.find_by(name: "staff_accreditation")
+    Station.create!(station_type: type, name: "Staff Accreditation", event: @event)
   end
 end
