@@ -55,7 +55,7 @@ class Seeder::SeedLoader
       group["types"].each do |type|
         @station_group.station_types.create!(name: type["name"],
                                              description: type["description"],
-                                             enviorment: type["enviorment"])
+                                             environment: type["environment"])
       end
     end
   end

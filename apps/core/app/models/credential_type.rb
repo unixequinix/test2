@@ -23,7 +23,7 @@ class CredentialType < ActiveRecord::Base
   validate :valid_position
 
   def credits
-    catalog_item.catalogable_type == "Pack" ? catalog_item.catalogable.credits : []
+    catalog_item.catalogable_type == "Pack" ? catalog_item.catalogable.credits : 0
   end
 
   private
@@ -53,8 +53,6 @@ class CredentialType < ActiveRecord::Base
   end
 
   def gtag_type
-    "ultralight_ev1"
-    # EventParameter.joins(:parameter)
-    #  .find_by(parameters: { name: "gtag_type" }, event_id: catalog_item.event_id).value
+    catalog_item.event.get_parameter("gtag", "form", "gtag_type")
   end
 end

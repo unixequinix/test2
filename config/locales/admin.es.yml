@@ -343,6 +343,8 @@ es:
       transaction_origin: "Fuente de la transacción"
       final_balance: "Balance final"
       final_refundable_balance: "Balance final reembolsable"
+    customer_event_profile:
+      id: "Id"
     customers:
       delete: "Borrado"
       email: "Email"

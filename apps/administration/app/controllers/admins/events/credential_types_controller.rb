@@ -6,9 +6,6 @@ class Admins::Events::CredentialTypesController < Admins::Events::BaseController
   def new
     @credential_type = CredentialType.new
     @catalog_items_collection = @fetcher.catalog_items.only_credentiables
-                                .each_with_object(Hash.new { |h, k| h[k] = [] }) do |item, acum|
-      acum[item.catalogable_type] << item
-    end
   end
 
   def create
@@ -66,6 +63,6 @@ class Admins::Events::CredentialTypesController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:credential_type).permit(:catalog_item_id)
+    params.require(:credential_type).permit(:id, :catalog_item_id)
   end
 end

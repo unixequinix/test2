@@ -1,6 +1,8 @@
 class RefundsPresenter < BasePresenter
   def can_render?
-    @event.refunds? && (!@event.closed? || completed_claim?)
+    @event.refunds? &&
+      (!@event.closed? || completed_claim?) &&
+      @customer_event_profile.active_credentials?
   end
 
   def path

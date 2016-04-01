@@ -38,7 +38,7 @@ class GtagSettingsForm
 
   def persist!
     Parameter.where(category: "gtag", group: "form").each do |parameter|
-      ep = EventParameter.find_or_cssreate_by(event_id: event_id, parameter_id: parameter.id)
+      ep = EventParameter.find_or_create_by(event_id: event_id, parameter_id: parameter.id)
       ep.update(value: attributes[parameter.name.to_sym])
     end
   end

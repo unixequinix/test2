@@ -66,7 +66,7 @@ RSpec.describe Payments::RedsysDataRetriever, type: :domain_logic do
   describe "amount" do
     it "returns the total amount of all the order items attached to the order" do
       # prices of every item is in the orders.rb file. In after build section
-      expect(@redsys_data_retriever.amount).to eq(5985)
+      expect(@redsys_data_retriever.amount).to eq(12_000)
     end
   end
 
@@ -99,7 +99,7 @@ RSpec.describe Payments::RedsysDataRetriever, type: :domain_logic do
   describe "message" do
     it "returns the message for the redsys system" do
       message = ""
-      message += "5985"
+      message += "12000"
       message += @number.to_s
       message += "126327360"
       message += "978"

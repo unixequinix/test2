@@ -13,6 +13,7 @@ RSpec.describe EpgCheckout, type: :domain_logic do
     Seeder::SeedLoader.load_default_event_parameters(event)
     create(:claim, customer_event_profile: cep, gtag: gtag)
     create(:full_catalog_item, event: event)
+    create(:catalog_item, :with_standard_credit, event: event)
     claim = CustomerEventProfile.find_by(event: event).claims.first
     epg_claim_form = EpgClaimForm.new(country_code: "ES",
                                       state: "Madrid",
