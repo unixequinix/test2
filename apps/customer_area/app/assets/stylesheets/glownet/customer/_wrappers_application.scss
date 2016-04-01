@@ -83,7 +83,7 @@
     @include outer-container(40%);
     height: auto;
     border-radius: $radius;
-    margin-bottom: modules(4);
+    margin-bottom: modules(1);
   }
 
   @include min-screen($bp6) { max-width: modules(23); }

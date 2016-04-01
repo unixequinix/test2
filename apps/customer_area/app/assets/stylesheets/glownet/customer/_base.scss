@@ -66,14 +66,12 @@ a {
 .panel-amount-number {
   @include mscale($credit-size);
   margin-bottom: 0;
-  font-weight: lighter;
   color: $color_text;
-
-  &:after {
-    display: inline-block;
-    content: "t";
-  }
+  line-height: 1;
+  font-weight: lighter;
 }
+
+.currency-symbol { display: inline-block; }
 
 .refundable-conversion-list {
 

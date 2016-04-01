@@ -163,8 +163,30 @@
 
 // -------- DISCLAIMER -------
 
-.disclaimer-list {
+.container-disclaimer {
   @include mscale($small_text);
+  overflow: visible;
+  position: relative;
+  width: 100%;
+  padding: modules(0.5);
+  text-align: center;
+
+  @include min-screen($bp4) {
+    @include animation(loadFadeIn);
+    @include animation-duration(300ms);
+    @include animation-timing-function(linear);
+    @include outer-container(40%);
+    margin-bottom: modules(2);
+    height: auto;
+    border-radius: $radius;
+  }
 }
+
+.wrapper-disclaimer {
+  margin-bottom: modules(0.5);
+
+  &:last-child { margin-bottom: 0; }
+}
+
 
 // ---------------------------------------------------------------------------------------------
