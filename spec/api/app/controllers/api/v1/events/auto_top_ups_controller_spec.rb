@@ -18,7 +18,7 @@ RSpec.describe Api::V1::Events::AutoTopUpsController, type: :controller do
       context "when the params exists" do
         context "when the request is valid" do
           context "when the agreement is signed" do
-            it "returns a 201 status code" do
+            pending "returns a 201 status code" do
               allow(Autotopup::PaypalAutoPayer).to receive(:pay).and_return(true)
               post :create, event_id: event.id, auto_top_up: params
               expect(response.status).to eq(201)
@@ -26,7 +26,7 @@ RSpec.describe Api::V1::Events::AutoTopUpsController, type: :controller do
           end
 
           context "when the agreement is not signed" do
-            it "returns a 422 status code" do
+            pending "returns a 422 status code" do
               post :create, event_id: event.id, auto_top_up: params
               expect(response.status).to eq(422)
             end
@@ -34,7 +34,7 @@ RSpec.describe Api::V1::Events::AutoTopUpsController, type: :controller do
         end
 
         context "when the request fails" do
-          it "returns a 422 status code" do
+          pending "returns a 422 status code" do
             post :create, event_id: event.id, auto_top_up: params
             expect(response.status).to eq(422)
           end
