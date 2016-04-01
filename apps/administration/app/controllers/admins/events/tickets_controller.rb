@@ -82,12 +82,11 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
       fetcher: @fetcher.tickets,
       search_query: params[:q],
       page: params[:page],
+      context: view_context,
       include_for_all_items: [:company_ticket_type,
                               :assigned_ticket_credential,
                               :purchaser,
-                              credential_assignments: :customer_event_profile],
-      context: view_context
-    )
+                              credential_assignments: :customer_event_profile])
   end
 
   def permitted_params

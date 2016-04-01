@@ -14,8 +14,6 @@ gem 'paranoia', '~> 2.0'
 gem 'activerecord-import', '~> 0.11.0'
 gem "active_record_bulk_insert"
 gem 'nilify_blanks', '~>1.2.1'
-gem 'activerecord4-redshift-adapter'
-gem 'aws-sdk-rails' # needed for redshift
 gem 'oj'
 gem 'oj_mimic_json'
 
@@ -92,6 +90,7 @@ gem 'reform', '~> 2.0.5'
 # Asyncronous mailer
 gem 'sinatra', require: false
 gem 'sidekiq', '~> 4.0.1'
+gem 'sidekiq-failures'
 
 # Cron tasks
 gem 'whenever', '~> 0.9.4', require: false
@@ -102,6 +101,8 @@ gem 'i18n-globals', git: 'https://github.com/sebastianzillessen/i18n-globals.git
 
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.1', group: :doc
+
+gem "rails-observers", '~> 0.1.2'
 
 group :development do
   gem 'foreman', '~> 0.78.0'
@@ -127,6 +128,7 @@ group :development, :test do
   gem 'capistrano-rbenv', '~> 2.0.3'
   gem 'capistrano-bundler', '~> 1.1.2'
   gem 'capistrano-sidekiq', '~> 0.5.3'
+  gem 'capistrano-faster-assets', '~> 1.0'
   # gem 'capistrano3-puma', require: false
   gem 'better_errors', '~> 2.1.1'
   gem 'binding_of_caller', '~> 0.7.2' # extra features for better_errors

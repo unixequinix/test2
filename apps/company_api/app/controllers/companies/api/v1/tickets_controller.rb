@@ -19,43 +19,46 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
     if @ticket
       render json: @ticket, serializer: Companies::Api::V1::TicketSerializer
     else
-      render status: :not_found,
-             json: { error: I18n.t("company_api.tickets.not_found", ticket_id: params[:id]) }
+      render(status: :not_found,
+             json: { status: "not_found", error: "Ticket with id #{params[:id]} not found." })
     end
   end
 
   def create
     @ticket = Ticket.new(ticket_params.merge(event: current_event))
 
-    render(status: :bad_request,
-           json: {
-             error: I18n.t("company_api.tickets.ticket_type_error")
-           }) && return unless validate_ticket_type!
+    render(status: :unprocessable_entity,
+           json: { status: "unprocessable_entity", error: "Ticket type not found." }) &&
+      return unless validate_ticket_type!
 
-    render(status: :bad_request,
-           json: { message: I18n.t("company_api.tickets.bad_request"),
-                   errors: @ticket.errors }) && return unless @ticket.save
+    render(status: :unprocessable_entity,
+           json: { status: "unprocessable_entity",
+                   error: @ticket.errors.full_messages }) && return unless @ticket.save
 
-    render status: :created, json: Companies::Api::V1::TicketSerializer.new(@ticket)
+    render(status: :created, json: Companies::Api::V1::TicketSerializer.new(@ticket))
   end
 
-  def update
+  def update # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     @ticket = @fetcher.tickets.find_by(id: params[:id])
+
+    render(status: :not_found,
+           json: { status: "not_found", error: "Ticket with id #{params[:id]} not found." }) &&
+      return unless @ticket
 
     update_params = ticket_params
     purchaser_attributes = update_params[:purchaser_attributes]
     purchaser_attributes.merge!(id: @ticket.purchaser.id) if purchaser_attributes
 
-    render(status: :bad_request,
-           json: {
-             error: I18n.t("company_api.tickets.ticket_type_error")
-           }) && return unless validate_ticket_type!
+    render(status: :unprocessable_entity,
+           json: { status: "unprocessable_entity",
+                   error: "The ticket type doesn't belongs to your company" }) &&
+      return unless validate_ticket_type!
 
-    render(status: :bad_request,
-           json: { message: I18n.t("company_api.tickets.bad_request"),
-                   errors: @ticket.errors }) && return unless @ticket.update(update_params)
+    render(status: :unprocessable_entity,
+           json: { status: "unprocessable_entity", errors: @ticket.errors.full_messages }) &&
+      return unless @ticket.update(update_params)
 
-    render json: Companies::Api::V1::TicketSerializer.new(@ticket)
+    render(json: Companies::Api::V1::TicketSerializer.new(@ticket))
   end
 
   private
