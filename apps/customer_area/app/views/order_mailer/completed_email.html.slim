@@ -392,7 +392,7 @@ html
                     - @order.order_items.each do |order_item|
                       tr style="border: 1px solid #C2C2C2;"
                         //Product quantity
-                        td style="padding: 20px 10px; vertical-align: middle; font-size: 14px; color: #616161; font-style: italic;"  = pluralize(order_item.amount, order_item.preevent_product.name)
+                        td style="padding: 20px 10px; vertical-align: middle; font-size: 14px; color: #616161; font-style: italic;"  = pluralize(order_item.amount, order_item.catalog_item.name)
                          //Product price
                         td style="width: 30%;padding: 20px 20px; vertical-align: middle; color: #616161; font-size: 14px; text-align: right;"  = order_item.total
                     tr

@@ -50,6 +50,7 @@ th:
       call_to_action_started: "ไม่สามารถเติมเงินผ่านระบบออนไลน์ได้ เนื่องจากงานได้เริ่มแล้ว"
       call_to_action_no_admission_html: "เติมเงินผ่านระบบออนไลน์ <br>กรุณาใส่บัตรเข้างานในระบบก่อน"
       button: "เติมเงิน"
+      calculating_balance: "Calculating your balance"
     paypal:
       claim: "Take advantage!"
       description: "Sync with Paypal and you will be able to make direct top ups."
@@ -124,8 +125,19 @@ th:
     card_info: "Card Info"
     order_review: "Order review"
     payment: "Payment method"
-    credit_card: "Credit card"
-    pay_pal: "Pay Pal"
+    payment-buttons:
+      redsys:
+        name: "Credit card"
+        icon: "credit-card"
+      stripe:
+        name: "Credit card"
+        icon: "credit-card"
+      braintree:
+        name: "Credit card"
+        icon: "credit-card"
+      paypal:
+        name: "Pay Pal"
+        icon: "paypal"
     stripe:
       card_number: "หมายเลขบัตร"
       card_code_verification: "หมายเลขตรวจสอบยืนยันบัตร (CCV)"
@@ -239,6 +251,8 @@ th:
       current_password_hint: "กรุณาใส่รหัสผ่านปัจจุบันเพื่อยืนยันการเปลี่ยนแปลง"
       waiting_confirmation: 'กำลังรอการยืนยัน:'
       button: 'อัพเดท'
+    autotoup_agreement:
+      cancel: 'Do you want to cancel your autotopup agreement?'
   sessions:
     first_register:
       welcome: 'Bienvenido!!'

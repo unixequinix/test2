@@ -26,5 +26,9 @@ FactoryGirl.define do
         pack.pack_catalog_items.build(catalog_item: build(:voucher_catalog_item), amount: 2)
       end
     end
+
+    after :build do |pack|
+      pack.catalog_item = build(:catalog_item, catalogable_type: "Pack", catalogable_id: pack.id)
+    end
   end
 end

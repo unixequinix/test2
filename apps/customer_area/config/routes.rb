@@ -16,6 +16,7 @@ Rails.application.routes.draw do
           resource :passwords, only: [:new, :create, :edit, :update]
         end
       end
+      resources :autotopup_agreements, only: [:new, :create, :destroy]
       resources :ticket_assignments, only: [:new, :create, :destroy]
       resources :gtag_assignments, only: [:new, :create, :destroy]
       resources :checkouts, only: [:new, :create]

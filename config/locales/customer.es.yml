@@ -54,6 +54,7 @@ es:
       call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"
       call_to_action_no_admission_html: "Para poder recargar online,<br>deberás activar un Ticket primero"
       button: "Recarga"
+      calculating_balance: "Estamos calculando tu balance"
     paypal:
       claim: "Toma ventaja!"
       description: "Syncroniza con tu cuenta de Paypal y realiza recargas directas"
@@ -136,14 +137,25 @@ es:
     card_info: "Información de tarjeta"
     order_review: "Resumen de compra"
     payment: "Método de pago"
-    credit_card: "Tarjeta de crédito"
-    pay_pal: "Pay Pal"
+    payment-buttons:
+      redsys:
+        name: "Tarjeta de crédito"
+        icon: "credit-card"
+      stripe:
+        name: "Tarjeta de crédito"
+        icon: "credit-card"
+      braintree:
+        name: "Tarjeta de crédito"
+        icon: "credit-card"
+      paypal:
+        name: "Pay Pal"
+        icon: "paypal"
     stripe:
       card_number: "Número de tarjeta"
       card_code_verification: "Código de verificación (CCV)"
       card_expiration_date: "Fecha de caducidad"
       button: "Pagar"
-    brainter:
+    braintree:
       card_number: "Número de tarjeta"
       card_code_verification: "Código de verificación (CCV)"
       card_expiration_month: "Mes de caducidad"
@@ -243,6 +255,8 @@ es:
       current_password_hint: "Necesitamos tu contraseña para confirmar los cambios realizados."
       waiting_confirmation: 'En espera de confirmarción de:'
       button: 'Actualizar'
+    autotoup_agreement:
+      cancel: '¿Quieres cancelar tu contrato de autorecarga?'
   sessions:
     first_register:
       welcome: 'Bienvenido!!'

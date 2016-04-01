@@ -16,6 +16,7 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_vouchers_url
     else
+      @products_collection = @fetcher.products
       flash.now[:error] = @voucher.errors.full_messages.join(". ")
       render :new
     end
@@ -32,6 +33,7 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_vouchers_url
     else
+      @products_collection = @fetcher.products
       flash.now[:error] = @voucher.errors.full_messages.join(". ")
       render :edit
     end

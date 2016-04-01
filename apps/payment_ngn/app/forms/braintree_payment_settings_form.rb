@@ -1,7 +1,4 @@
-class BraintreePaymentSettingsForm
-  include ActiveModel::Model
-  include Virtus.model
-
+class BraintreePaymentSettingsForm < BaseSettingsForm
   attribute :environment, String
   attribute :merchant_id, String
   attribute :public_key, String
@@ -14,34 +11,9 @@ class BraintreePaymentSettingsForm
   validates_presence_of :private_key
   validates_presence_of :event_id
 
-  def save(_params, _request)
-    if valid?
-      persist!
-      true
-    else
-      false
-    end
-  end
-
-  def update
-    if valid?
-      persist!
-      true
-    else
-      false
-    end
-  end
-
-  def main_parameters
-    attributes.keys.reject { |value| value == :event_id }
-  end
-
   private
 
   def persist!
-    Parameter.where(category: "payment", group: "braintree").each do |parameter|
-      ep = EventParameter.find_or_create_by(event_id: event_id, parameter_id: parameter.id)
-      ep.update(value: attributes[parameter.name.to_sym])
-    end
+    persist_parameters(Parameter.where(category: "payment", group: "braintree"))
   end
 end

@@ -1,6 +1,6 @@
 class PurchasesPresenter < BasePresenter
   def can_render?
-    !@event.closed? && @purchases.present?
+    !@event.closed? && @purchases.present? && @customer_event_profile.active_credentials?
   end
 
   def path

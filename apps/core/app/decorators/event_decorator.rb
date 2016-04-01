@@ -2,11 +2,15 @@ class EventDecorator < Draper::Decorator
   delegate_all
 
   # Payment services
-  REDSYS = :redsys
   PAYPAL = :paypal
+  REDSYS = :redsys
   STRIPE = :stripe
   BRAINTREE = :braintree
   PAYMENT_SERVICES = [STRIPE, PAYPAL, REDSYS, BRAINTREE]
+  PAYMENT_PLATFORMS = { paypal: "braintree",
+                        braintree: "braintree",
+                        redsys: "redsys",
+                        stripe: "stripe" }
 
   REFUND_SERVICES = [:bank_account, :epg, :tipalti]
   FEATURES = [:top_ups, :refunds]

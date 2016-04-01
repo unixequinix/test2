@@ -54,6 +54,7 @@ en:
       call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Event Ticket first"
       button: "Top-up"
       ticket_first: "Add a ticket or wristband first"
+      calculating_balance: "Calculating your balance"
     paypal:
       claim: "Take advantage!"
       description: "Sync with Paypal and you will make direct top ups."
@@ -133,15 +134,26 @@ en:
     button: "Pay"
     button_iupay: "IUPAY"
     order_review: "Order review"
-    credit_card: "Credit card"
-    pay_pal: "Pay Pal"
+    payment-buttons:
+      redsys:
+        name: "Credit card"
+        icon: "credit-card"
+      stripe:
+        name: "Credit card"
+        icon: "credit-card"
+      braintree:
+        name: "Credit card"
+        icon: "credit-card"
+      paypal:
+        name: "Pay Pal"
+        icon: "paypal"
     payment: "Payment method"
     stripe:
       card_number: "Card number"
       card_code_verification: "Card code verification (CCV)"
       card_expiration_date: "Card expiration date"
       button: "Pay"
-    brainter:
+    braintree:
       card_number: "Card number"
       card_code_verification: "Card code verification (CCV)"
       card_expiration_month: "Card expiration month"
@@ -247,6 +259,8 @@ en:
       current_password_hint: "we need your current password to confirm your changes"
       waiting_confirmation: 'Currently waiting confirmation for:'
       button: 'Update'
+    autotoup_agreement:
+      cancel: 'Do you want to cancel your autotopup agreement?'
   sessions:
     first_register:
       welcome: 'Welcome!'

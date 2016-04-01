@@ -46,7 +46,7 @@ class Event < ActiveRecord::Base
   include FlagShihTzu
 
   has_flags 1 => :top_ups, 2 => :refunds, column: "features"
-  has_flags 1 => :redsys, 2 => :paypal, 3 => :braintree, 4 => :stripe, column: "payment_services"
+  has_flags 1 => :paypal, 2 => :redsys, 3 => :braintree, 4 => :stripe, column: "payment_services"
   has_flags 1 => :bank_account, 2 => :epg, 3 => :tipalti, column: "refund_services"
   has_flags 1 => :phone, 2 => :address, 3 => :city, 4 => :country, 5 => :postcode, 6 => :gender,
             7 => :birthdate, 8 => :agreed_event_condition, column: "registration_parameters"
@@ -106,11 +106,11 @@ class Event < ActiveRecord::Base
   end
 
   def total_credits
-    customer_event_profiles.joins(:current_balance).sum(:amount)
+    customer_event_profiles.reduce(0) { |a, e| a + e.total_credits }
   end
 
   def total_refundable_money(_refund_service)
-    customer_event_profiles.joins(:current_balance).sum(:refundable_amount)
+    customer_event_profiles.reduce(0) { |a, e| a + e.refundable_money_amount }
   end
 
   def total_refundable_gtags(refund_service)
