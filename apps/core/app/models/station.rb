@@ -31,22 +31,4 @@ class Station < ActiveRecord::Base
   SALE_STATIONS = [:customer_portal, :box_office]
   POINT_OF_SALE_STATIONS = [:point_of_sales]
   TOPUP_STATIONS = [:topup]
-
-  def unassigned_catalog_items
-    CatalogItem.where("id NOT IN (
-                       SELECT station_catalog_items.catalog_item_id FROM station_catalog_items
-                       INNER JOIN station_parameters
-                       ON station_catalog_items.id = station_parameters.station_parametable_id
-                       AND station_parameters.station_parametable_type = 'StationCatalogItem'
-                       WHERE station_id = #{id})")
-  end
-
-  def unassigned_products
-    Product.where("id NOT IN (
-                   SELECT station_products.product_id FROM station_products
-                   INNER JOIN station_parameters
-                   ON station_products.id = station_parameters.station_parametable_id
-                   AND station_parameters.station_parametable_type = 'StationProduct'
-                   WHERE station_id = #{id})")
-  end
 end

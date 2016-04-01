@@ -1,14 +1,14 @@
 class Admins::Events::Stations::StationCatalogItemsController < Admins::Events::BaseController
   def index
-    @station = @fetcher.sale_stations.find_by(id: params[:station_id])
-    @catalog_items = @station.unassigned_catalog_items
+    @station = @fetcher.stations.find_by(id: params[:station_id])
+    @catalog_items = @fetcher.unassigned_catalog_items(@station)
     @station_catalog_item = StationCatalogItem.new
     set_presenter
   end
 
   def create
-    @station = @fetcher.sale_stations.find_by(id: params[:station_id])
-    @catalog_items = @station.unassigned_catalog_items
+    @station = @fetcher.stations.find_by(id: params[:station_id])
+    @catalog_items = @fetcher.unassigned_catalog_items(@station)
     @station_catalog_item = StationCatalogItem.create!(permitted_params)
   end
 
