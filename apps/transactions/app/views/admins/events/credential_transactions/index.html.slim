@@ -1,0 +1,7 @@
+- breadcrumb :admins_event_credential_transactions, current_event
+
+.wrapper-negative-space
+  - if @list_model_presenter.there_any?
+    = render 'admins/events/credential_transactions/list', transactions: @list_model_presenter.all_items
+  - else
+    = render @list_model_presenter.no_items_for_presentation
