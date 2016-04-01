@@ -14,8 +14,6 @@ gem 'paranoia', '~> 2.0'
 gem 'activerecord-import', '~> 0.11.0'
 gem "active_record_bulk_insert"
 gem 'nilify_blanks', '~>1.2.1'
-gem 'activerecord4-redshift-adapter'
-gem 'aws-sdk-rails' # needed for redshift
 gem 'oj'
 gem 'oj_mimic_json'
 

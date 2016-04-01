@@ -9,12 +9,12 @@ class TicketDecoder::SonarDecoder
   end
 
   def self.decode(ticket_code)
-    ticket_code = ticket_code.to_s[1..-1]
-    ticket_code = [reverse_hex(ticket_code)].pack("H*")
+    ticket_code = [reverse_hex(ticket_code.to_s[1..-1])].pack("H*")
     cipher = OpenSSL::Cipher.new("BF-CBC").decrypt
     key = Rails.application.secrets.ticket_config_1
+    key_length = key.length
     cipher.key = key
-    cipher.iv = key.slice((key.length / 2)..key.length)
+    cipher.iv = key.slice((key_length / 2)..key_length)
 
     begin
       decrypted_string = cipher.update(ticket_code) << cipher.final
@@ -22,7 +22,7 @@ class TicketDecoder::SonarDecoder
       return nil
     end
 
-    reverse_hex(decrypted_string.unpack("H*").first).to_i(16)
+    reverse_hex(decrypted_string.unpack("H*").first).to_i(16).to_s
   end
 
   def self.verify_prefix(code)

@@ -29,7 +29,7 @@ RSpec.describe TicketDecoder::SonarDecoder, type: :domain_logic do
   end
 
   it ".decode returns the ticket barcode decoded" do
-    expect(decoder.decode(ticket_code)).to eq(201_608_504_201_012)
+    expect(decoder.decode(ticket_code)).to eq("201608504201012")
   end
 
   it ".perform returns nil if code is not valid" do

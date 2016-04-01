@@ -1,6 +1,4 @@
 class CustomerOrderObserver < ActiveRecord::Observer
-  def after_save(order)
-    atts = { order_id: order.id }
-    Jobs::Base.write(atts)
+  def after_save(_order)
   end
 end

@@ -26,11 +26,13 @@ class Jobs::Credential::Base < Jobs::Base
     return ticket if ticket
 
     # Ticket is not found. perhaps is new sonar ticket?
-    ctt = TicketDecoder::SonarDecoder.valid_code?(code) && TicketDecoder::SonarDecoder.perform(code)
-    return transaction.create_ticket!(event: event, code: code, company_ticket_type_id: ctt) if ctt
+    id = TicketDecoder::SonarDecoder.valid_code?(code) && TicketDecoder::SonarDecoder.perform(code)
 
     # it is not sonar, it is not in DB. The ticket is not valid.
-    fail "Ticket with code #{code} not found and not sonar."
+    fail "Ticket with code #{code} not found and not sonar." unless id
+
+    ctt = event.company_ticket_types.find_by_company_code(id)
+    transaction.create_ticket!(event: event, code: code, company_ticket_type: ctt)
   end
 
   def assign_ticket_credential(ticket, profile)

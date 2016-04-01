@@ -9,7 +9,7 @@ RSpec.describe Jobs::Credential::Base, type: :job do
   let(:profile) { create(:customer_event_profile, event: event) }
   let(:worker) { Jobs::Credential::Base.new }
   let(:decoder) { TicketDecoder::SonarDecoder }
-  let(:ctt_id) { decoder.perform(ticket_code) }
+  let(:ctt_id) { "99" }
   let(:atts) do
     {
       event_id: event.id,
@@ -18,6 +18,8 @@ RSpec.describe Jobs::Credential::Base, type: :job do
       ticket_code: ticket_code
     }
   end
+
+  before { allow(decoder).to receive(:perform).with(ticket_code).and_return(ctt_id) }
 
   describe ".assign_profile" do
     it "creates a profile for the transaction passed" do
@@ -69,7 +71,7 @@ RSpec.describe Jobs::Credential::Base, type: :job do
 
   describe ".assign_ticket" do
     before(:each) do
-      @ctt = create(:company_ticket_type, id: ctt_id)
+      @ctt = create(:company_ticket_type, event: event, company_code: ctt_id)
     end
 
     it "finds the ticket if present" do
@@ -83,8 +85,14 @@ RSpec.describe Jobs::Credential::Base, type: :job do
       worker.assign_ticket(transaction, atts)
     end
 
+    it "attaches the correct company_ticket_type based on ticket_code" do
+      allow(TicketDecoder::SonarDecoder).to receive(:perform).and_return(ctt_id)
+      worker.assign_ticket(transaction, atts)
+      expect(transaction.ticket.company_ticket_type).to eq(@ctt)
+    end
+
     it "raises error if ticket is neither found nor decoded" do
-      atts[:ticket_code] = "FOOBARBAZMEH"
+      atts[:ticket_code] = "NOT_VALID_CODE"
       expect { worker.assign_ticket(transaction, atts) }.to raise_error
     end
 

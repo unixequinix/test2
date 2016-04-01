@@ -97,9 +97,6 @@ GEM
       arel (~> 6.0)
     activerecord-import (0.11.0)
       activerecord (>= 3.0)
-    activerecord4-redshift-adapter (0.2.1)
-      activerecord (~> 4.2.0)
-      pg
     activesupport (4.2.6)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
@@ -121,9 +118,6 @@ GEM
       aws-sdk-resources (= 2.2.27)
     aws-sdk-core (2.2.27)
       jmespath (~> 1.0)
-    aws-sdk-rails (1.0.1)
-      aws-sdk-resources (~> 2)
-      railties (>= 3)
     aws-sdk-resources (2.2.27)
       aws-sdk-core (= 2.2.27)
     aws-sdk-v1 (1.66.0)
@@ -578,14 +572,12 @@ DEPENDENCIES
   active_model_serializers!
   active_record_bulk_insert
   activerecord-import (~> 0.11.0)
-  activerecord4-redshift-adapter
   acts_as_list
   administration!
   annotate (~> 2.6.10)
   api!
   awesome_print
   aws-sdk (~> 2)
-  aws-sdk-rails
   aws-sdk-v1
   bcrypt (~> 3.1.10)
   better_errors (~> 2.1.1)
