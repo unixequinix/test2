@@ -14,4 +14,5 @@ es:
     order_expired: 'Orden expirada. Pasaron más de 15 minutos'
     claim_complete: 'Devolución completada'
     quantity_not_refundable: 'Créditos insuficientes para ser reembolsados'
-    already_assigned: 'Ya tienes uno asignado'
+    gtag_already_assigned: 'Ya tienes uno asignado'
+    ticket_already_assigned: 'Ticket ya asignado'

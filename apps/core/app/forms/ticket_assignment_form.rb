@@ -13,11 +13,15 @@ class TicketAssignmentForm
       errors.add(:ticket_assignment, I18n.t("alerts.admissions", companies: companies)) && return
     end
 
+    if already_assigned?(ticket)
+      errors.add(:ticket_assignment, I18n.t("alerts.ticket_already_assigned")) && return
+    end
+
     errors.add(:ticket_assignment, full_messages.join(". ")) && return unless valid?
     persist!(ticket,
-             current_customer_event_profile,
-             CustomerCreditTicketCreator.new,
-             CustomerOrderTicketCreator.new)
+            current_customer_event_profile,
+            CustomerCreditTicketCreator.new,
+            CustomerOrderTicketCreator.new)
   end
 
   private
@@ -28,5 +32,9 @@ class TicketAssignmentForm
     customer_credit_creator.assign(ticket) if ticket.credits.present?
     customer_order_creator.save(ticket)
     customer_event_profile
+  end
+
+  def already_assigned?(ticket)
+    ticket.assigned_ticket_credential.present?
   end
 end

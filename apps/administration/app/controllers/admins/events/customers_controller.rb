@@ -26,7 +26,8 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
       page: params[:page],
       context: view_context,
       include_for_all_items: [:customer_event_profile,
-                              customer_event_profile: [:active_gtag_assignment,
+                              customer_event_profile: [:active_tickets_assignment,
+                                                       :active_gtag_assignment,
                                                        active_assignments: :credentiable]])
   end
 end

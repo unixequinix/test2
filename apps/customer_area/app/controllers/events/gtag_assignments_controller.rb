@@ -37,7 +37,7 @@ class Events::GtagAssignmentsController < Events::BaseController
 
   def check_has_not_gtag_assignment!
     return if current_customer_event_profile.active_gtag_assignment.nil?
-    redirect_to event_url(current_event), flash: { error: I18n.t("alerts.already_assigned") }
+    redirect_to event_url(current_event), flash: { error: I18n.t("alerts.gtag_already_assigned") }
   end
 
   def gtag_assignment_parameters

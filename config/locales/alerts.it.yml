@@ -14,4 +14,5 @@ it:
     order_expired: 'Ordine scaduto. Ci sono voluti più di 15 minuti'
     claim_complete: 'Richiesta completata'
     quantity_not_refundable: 'Non si può rimborsare questa quantità di crediti'
-    already_assigned: 'Hanno già uno assegnato'
+    gtag_already_assigned: 'Hanno già uno assegnato'
+    ticket_already_assigned: 'Ticket already assigned'

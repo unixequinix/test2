@@ -14,4 +14,5 @@ en:
     order_expired: 'Orden expired. Pasaron más de 15 minutos'
     claim_complete: 'Claim Completed. Spent more than 15 minutes'
     quantity_not_refundable: 'Credits quantity not refundable'
-    already_assigned: 'You have one already assigned'
+    gtag_already_assigned: 'You have one already assigned'
+    ticket_already_assigned: 'Ticket already assigned'
