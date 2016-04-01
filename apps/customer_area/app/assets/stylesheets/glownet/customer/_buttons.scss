@@ -235,6 +235,7 @@
 
 .btn-remove-ticket {
   display: inline-block;
+  width: 100%;
   margin: modules(0.5) 0 0;
   padding: modules(0.5) modules(0.5) modules(0.5) 0;
   color: $red;
@@ -248,6 +249,11 @@
   }
 
   &:hover { text-decoration: underline; }
+}
+
+.remove-centered {
+  text-align: center;
+  margin: 0;
 }
 
 .btn-payment-trigger {
