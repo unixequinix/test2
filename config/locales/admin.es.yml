@@ -1,5 +1,19 @@
 es:
   admin:
+    transactions:
+      id: "ID"
+      transaction_origin: "Origin"
+      transaction_type: "Type"
+      customer_tag_uid: "Customer tag"
+      operator_tag_uid: "Operator tag"
+      station_id: "Station id"
+      device_uid: "Device uid"
+      device_db_index: "Device DB index"
+      device_created_at: "Device created at"
+      customer_event_profile_id: "Customer Event Profile ID"
+      status_code: "Status Code"
+      status_message: "Status Message"
+      ticket_code: "Ticket Code"
     agreements:
       status: "Estado"
       granted: "Aceptado"

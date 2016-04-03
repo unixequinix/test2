@@ -22,5 +22,5 @@
 
 class OrderTransaction < Transaction
   belongs_to :customer_order
-  belongs_to :catlog_item
+  belongs_to :catalog_item
 end

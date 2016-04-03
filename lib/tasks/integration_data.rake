@@ -16,7 +16,12 @@ namespace :db do
     "Gtags",
     "GtagAssignments",
     "BoxOffices",
-    "PointOfSales"
+    "PointOfSales",
+    "GtagRecycler",
+    "Touchpoint",
+    "IncidentReport",
+    "Topup",
+    "StaffAccreditation"
   ]
 
   desc "Fill database with sample data"
@@ -216,9 +221,7 @@ namespace :db do
   end
 
   def create_box_offices
-    items = @event.catalog_items
-            .where(catalogable_type: %w(Access Credit Pack))
-            .pluck(:catalogable_id)
+    items = @event.catalog_items.where(catalogable_type: %w(Access Credit Pack)).pluck(:id)
 
     @box_offices.times do |index|
       type = StationType.find_by(name: "box_office")
@@ -235,7 +238,10 @@ namespace :db do
   def create_point_of_sales
     @box_offices.times do |index|
       type = StationType.find_by(name: "point_of_sales")
-      station = Station.create!(station_type: type, name: "POS #{index}", event: @event)
+      brand = %w( Heineken Beer Coke Pepsi Kebab Cream Taco Mexican Burrito Indian Krusty ).sample
+      place = %w( Bar Square Grill Restaurant Burger City Way Paradise World Club House ).sample
+
+      station = Station.create!(station_type: type, name: "#{brand} #{place}", event: @event)
       @event.products.each do |product|
         station.station_products
           .new(price: rand(1.0...20.0),
@@ -243,5 +249,30 @@ namespace :db do
                station_parameter_attributes: { station_id: station.id }).save
       end
     end
+  end
+
+  def create_gtag_recycler
+    type = StationType.find_by(name: "gtag_recycler")
+    Station.create!(station_type: type, name: "Gtag Recycler", event: @event)
+  end
+
+  def create_touchpoint
+    type = StationType.find_by(name: "touchpoint")
+    Station.create!(station_type: type, name: "Touchpoint", event: @event)
+  end
+
+  def create_incident_report
+    type = StationType.find_by(name: "incident_report")
+    Station.create!(station_type: type, name: "Incident Report", event: @event)
+  end
+
+  def create_topup
+    type = StationType.find_by(name: "top_up_refund")
+    Station.create!(station_type: type, name: "Topup", event: @event)
+  end
+
+  def create_staff_accreditation
+    type = StationType.find_by(name: "staff_accreditation")
+    Station.create!(station_type: type, name: "Staff Accreditation", event: @event)
   end
 end
