@@ -20,7 +20,7 @@ class Admins::Events::Stations::TopupCreditsController < Admins::Events::BaseCon
 
   def set_params
     @station = @fetcher.topup_stations.find_by(id: params[:station_id])
-    @credits = @station.unassigned_credits.map { |c| [c.catalog_item.name, c.id] }
+    @credits = @fetcher.credits.map { |c| [c.catalog_item.name, c.id] }
   end
 
   def permitted_params
@@ -31,7 +31,8 @@ class Admins::Events::Stations::TopupCreditsController < Admins::Events::BaseCon
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "TopupCredit".constantize.model_name,
-      fetcher: @fetcher.topup_credits,
+      fetcher: @fetcher.topup_credits.joins(:station_parameter)
+               .where(station_parameters: { station_id: params[:station_id] }),
       search_query: params[:q],
       page: params[:page],
       include_for_all_items: [:credit],
