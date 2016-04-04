@@ -1,5 +1,5 @@
 class EditAccessTransactions < ActiveRecord::Migration
-  def change
+  def change # rubocop:disable Metrics/MethodLength
     drop_table :access_transactions
     create_table "access_transactions", force: :cascade do |t|
       t.references :event, index: true, foreign_key: true

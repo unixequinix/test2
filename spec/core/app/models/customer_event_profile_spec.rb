@@ -5,13 +5,17 @@ RSpec.describe CustomerEventProfile, type: :model do
   let(:profile) { create(:customer_event_profile) }
 
   context "when dealing with credits" do
-    let(:orders) { create_list(:order_with_payment, 3, customer_event_profile: profile) }
-    let(:payments) { orders.map(&:payments).flatten }
-    before { payments.each { |p| p.update_attributes! amount: 100, order: p.order } }
-
     describe ".online_refundable_money_amount" do
       it "returns the sum of all refundable online money from previous purchases made" do
-        expect(profile.online_refundable_money_amount).to eq(payments.map(&:amount).sum)
+        orders = create_list(:order_with_payment, 3, customer_event_profile: profile)
+        payments = orders.map(&:payments).flatten
+        amount = payments.map(&:amount).sum
+        expect(amount > 0).to be_truthy
+        expect(profile.online_refundable_money_amount).to eq(amount)
+      end
+
+      it "retuns 0 if no purchases are present" do
+        expect(profile.online_refundable_money_amount).to eq(0)
       end
     end
   end
