@@ -32,7 +32,7 @@ class CustomerOrderTicketCreator
 
   def create_customer_order_for_single_credits(ticket)
     customer_order = CustomerOrder.create(
-      customer_event_profile: ticket.assigned_ticket_credential.customer_event_profile,
+      customer_event_profile: ticket.assigned_ticket_credential(true).customer_event_profile,
       amount: 1,
       catalog_item_id: ticket.credential_type_item.id,
       origin: CustomerOrder::TICKET_ASSIGNMENT

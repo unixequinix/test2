@@ -40,7 +40,7 @@ class Ticket < ActiveRecord::Base
   # Validations
   validates_uniqueness_of :code, scope: :event_id
   validates :code, presence: true
-  validates :company_ticket_type, presence: true
+  validates :company_ticket_type_id, presence: true
 
   scope :selected_data, lambda { |event_id|
     joins("LEFT OUTER JOIN admissions ON admissions.ticket_id = tickets.id
