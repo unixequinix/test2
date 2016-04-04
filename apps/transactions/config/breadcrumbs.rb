@@ -18,6 +18,16 @@ crumb :admins_event_credential_transaction do |event, transaction|
   parent :admins_event_credential_transactions, event
 end
 
+crumb :admins_event_credit_transactions do |event|
+  link t("breadcrumbs.credit_transactions"), admins_event_credit_transactions_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_credit_transaction do |event, transaction|
+  link transaction.id, admins_event_credit_transactions_path(event)
+  parent :admins_event_credit_transactions, event
+end
+
 crumb :admins_event_money_transactions do |event|
   link t("breadcrumbs.money_transactions"), admins_event_money_transactions_path(event)
   parent :admins_event, event
