@@ -16,14 +16,14 @@ class Api::V1::StationSerializer < Api::V1::BaseSerializer
     object.station_catalog_items.map do |ci|
       { catalogable_id: ci.catalog_item.catalogable_id,
         catalogable_type: ci.catalog_item.catalogable_type.downcase,
-        price: ci.price }
+        price: ci.price.round(2) }
     end
   end
 
   def products
     object.station_products.map do |sp|
       { product_id: sp.product_id,
-        price: sp.price }
+        price: sp.price.round(2) }
     end
   end
 end
