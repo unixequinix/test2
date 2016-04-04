@@ -46,7 +46,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
       context "when the station is a point of sales" do
         before do
           group = create(:station_group, name: "monetary")
-          type = create(:station_type, name: "pos", station_group: group)
+          type = create(:station_type, name: "point_of_sales", station_group: group)
           @station = create(:station, station_type: type, event: event)
           @station.station_products
             .new(price: rand(1.0...20.0).round(2),
@@ -68,6 +68,33 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
           s_ws_items = s["products"]
           s_db_items = @station.station_products.map do |m|
             { "product_id" => m["product_id"], "price" => m["price"] }
+          end
+          expect(s_ws_items).to eq(s_db_items)
+        end
+      end
+
+      context "when the station is a top_up_refund" do
+        before do
+          create(:standard_credit_catalog_item, event: event)
+          group = create(:station_group, name: "monetary")
+          type = create(:station_type, name: "top_up_refund", station_group: group)
+          @station = create(:station, station_type: type, event: event)
+        end
+
+        it "returns all the pos stations" do
+          get :index, event_id: event.id
+          stations = JSON.parse(response.body).first["stations"].map { |m| m["id"] }
+          expect(stations).to eq([@station.id])
+        end
+
+        it "returns the credits for each station" do
+          get :index, event_id: event.id
+          s = JSON.parse(response.body).first["stations"].first
+          expect(s).to have_key("top_up_credits")
+
+          s_ws_items = s["top_up_credits"]
+          s_db_items = @station.topup_credits.map do |m|
+            { "amount" => m.amount, "price" => (m.credit.value * m.amount).to_f.round(2) }
           end
           expect(s_ws_items).to eq(s_db_items)
         end
