@@ -40,6 +40,7 @@ es:
         hospitality_top_up: "Hospitality top up"
         gtag_recycler: "Reciclaje de Gtags"
         envelope_linker: "Envelope Linker"
+        touchpoint: "Touchpoint"
       station_groups:
         access: "Acceso"
         monetary: "Monetaria"
