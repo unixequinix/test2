@@ -61,6 +61,4 @@ class Station < ActiveRecord::Base
     return unless station_type.name == "top_up_refund"
     topup_credits.create!(amount: 1, credit: event.credits.standard)
   end
-  TOPUP_STATIONS = [:topup]
->>>>>>> development
 end
