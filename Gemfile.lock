@@ -394,8 +394,6 @@ GEM
       ruby-graphviz (~> 1.2)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
-    rails-observers (0.1.2)
-      activemodel (~> 4.0)
     railties (4.2.6)
       actionpack (= 4.2.6)
       activesupport (= 4.2.6)
@@ -640,7 +638,6 @@ DEPENDENCIES
   railroady (~> 1.4.1)
   rails (= 4.2.6)
   rails-erd (~> 1.4.4)
-  rails-observers (~> 0.1.2)
   ransack (~> 1.6.6)
   rb-fsevent
   recaptcha

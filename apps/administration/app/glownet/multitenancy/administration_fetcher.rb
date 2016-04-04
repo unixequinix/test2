@@ -83,12 +83,20 @@ class Multitenancy::AdministrationFetcher
       .where(event: @event, station_types: { name: Station::SALE_STATIONS })
   end
 
+  def topup_stations
+    @event.stations.includes(:station_type).where(station_types: { name: Station::TOPUP_STATIONS })
+  end
+
   def station_catalog_items
     StationCatalogItem.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
   def station_products
     StationProduct.joins(:product).where(products: { event_id: @event.id })
+  end
+
+  def topup_credits
+    TopupCredit.joins(credit: :catalog_item).where("catalog_items.event_id = ?", @event.id)
   end
 
   def tickets
