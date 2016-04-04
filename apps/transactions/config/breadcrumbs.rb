@@ -37,3 +37,13 @@ crumb :admins_event_money_transaction do |event, transaction|
   link transaction.id, admins_event_money_transactions_path(event)
   parent :admins_event_money_transactions, event
 end
+
+crumb :admins_event_order_transactions do |event|
+  link t("breadcrumbs.order_transactions"), admins_event_order_transactions_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_order_transaction do |event, transaction|
+  link transaction.id, admins_event_order_transactions_path(event)
+  parent :admins_event_order_transactions, event
+end
