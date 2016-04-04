@@ -13,7 +13,7 @@
 
 FactoryGirl.define do
   factory :order do
-    number { rand(10) }
+    number { rand(10_000).to_s + rand(10_000).to_s }
     customer_event_profile
 
     trait :with_different_items do
@@ -30,5 +30,12 @@ FactoryGirl.define do
       end
     end
     factory :order_with_items, traits: [:with_different_items]
+
+    trait :with_payment do
+      after :build do |order|
+        order.payments << build(:payment, order: order)
+      end
+    end
+    factory :order_with_payment, traits: [:with_payment, :with_different_items]
   end
 end
