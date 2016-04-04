@@ -1,4 +1,4 @@
-class Payments::BraintreeRefunder
+class Payments::PaypalRefunder
   def start(params)
     @event = Event.friendly.find(params[:event_id])
     @order = Order.find(params[:order_id])

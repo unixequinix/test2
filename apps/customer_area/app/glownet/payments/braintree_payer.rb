@@ -27,7 +27,10 @@ class Payments::BraintreePayer
     sale_options = {
       order_id: @order.number,
       amount: amount,
-      payment_method_nonce: token
+      payment_method_nonce: token,
+      options: {
+        submit_for_settlement: true
+      }
     }
     sale_options
   end

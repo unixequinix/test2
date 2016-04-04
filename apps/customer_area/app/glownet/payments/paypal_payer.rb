@@ -28,7 +28,10 @@ class Payments::PaypalPayer
     amount = @order.total_formated
     sale_options = {
       order_id: @order.number,
-      amount: amount
+      amount: amount,
+      options: {
+        submit_for_settlement: true
+      }
     }
     send("#{@method}_payment_options", sale_options, params)
     vault_options(sale_options, @customer_event_profile.customer) if create_agreement?(params)
