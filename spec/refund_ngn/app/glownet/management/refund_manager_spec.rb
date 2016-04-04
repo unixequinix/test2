@@ -24,7 +24,6 @@ RSpec.describe Management::RefundManager, type: :domain_logic do
   describe ".get_online_payments" do
     let(:orders) { create_list(:order_with_payment, 3, customer_event_profile: profile) }
     let(:payments) { orders.map(&:payments).flatten }
-
     before { payments.each { |p| p.update_attributes! amount: 100, order: p.order } }
 
     it "should include the payents required to start the refund and respective amounts" do

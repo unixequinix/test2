@@ -93,8 +93,7 @@ class CustomerEventProfile < ActiveRecord::Base
   end
 
   def purchased_credits
-    customer_credits.where(transaction_origin: CustomerCredit::CREDITS_PURCHASE)
-      .sum(:amount).floor
+    customer_credits.where(transaction_origin: CustomerCredit::CREDITS_PURCHASE).sum(:amount).floor
   end
 
   def refundable_credits_amount
@@ -109,19 +108,15 @@ class CustomerEventProfile < ActiveRecord::Base
   end
 
   def online_refundable_money_amount
+    payments.map(&:amount).sum
   end
 
   def purchases
-    customer_orders.joins(:catalog_item)
-      .select("sum(customer_orders.amount) as total_amount,
-                                        catalog_items.name,
-                                        catalog_items.catalogable_type,
-                                        catalog_items.catalogable_id"
-             )
-      .group("catalog_items.name,
-                                       catalog_items.catalogable_type,
-                                       catalog_items.catalogable_id"
-            )
+    customer_orders.joins(:catalog_item).select("sum(customer_orders.amount) as total_amount,
+                                                 catalog_items.name,
+                                                 catalog_items.catalogable_type,
+                                                 catalog_items.catalogable_id")
+      .group("catalog_items.name, catalog_items.catalogable_type, catalog_items.catalogable_id")
   end
 
   def sorted_purchases(**params)
