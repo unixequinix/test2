@@ -54,6 +54,11 @@ es:
         name: "Nombre"
         description: "Descripción"
         price: "Precio"
+      topup_credit:
+        amount: "Cantidad"
+        credit: "Credito"
+        credit_value: "Valor del credito"
+        price: "Precio"
     companies:
       name: "Nombre"
       token: "Token de la compañia"

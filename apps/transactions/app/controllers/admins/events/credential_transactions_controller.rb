@@ -3,6 +3,10 @@ class Admins::Events::CredentialTransactionsController < Admins::Events::BaseCon
     set_presenter
   end
 
+  def show
+    @transaction = CredentialTransaction.find(params[:id])
+  end
+
   private
 
   def set_presenter

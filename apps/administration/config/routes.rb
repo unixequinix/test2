@@ -96,9 +96,11 @@ Rails.application.routes.draw do
         resources :stations do
           resources :station_catalog_items, only: [:index, :create, :destroy], module: :stations
           resources :station_products, only: [:index, :create, :destroy], module: :stations
+          resources :topup_credits, only: [:index, :create, :destroy], module: :stations
         end
         resources :sale_stations, only: [:index]
         resources :point_of_sale_stations, only: [:index]
+        resources :topup_stations, only: [:index]
         resources :credential_types, except: :show
         resources :company_ticket_types, except: :show
         resources :customers, except: [:new, :create, :edit, :update] do

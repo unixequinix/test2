@@ -10,6 +10,7 @@ table.transactions
       th = t("admin.transactions.operator_tag_uid")
       th = t("admin.transactions.customer_tag_uid")
       th = t("admin.transactions.status_code")
+      th = t("admin.transactions.more_info")
   tbody
     - transactions.each do |transaction|
       tr
@@ -21,5 +22,8 @@ table.transactions
         td data-label=t("admin.transactions.operator_tag_uid") = transaction.operator_tag_uid
         td data-label=t("admin.transactions.customer_tag_uid") = transaction.customer_tag_uid
         td data-label=t("admin.transactions.status_code") = transaction.status_code
+        td data-label=t("admin.transactions.status_code") = link_to admins_event_credential_transaction_path(current_event, transaction) do
+          = fa_icon 'eye'
+          |  Show
 .container-pagination
   = paginate transactions

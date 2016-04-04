@@ -3,6 +3,10 @@ class Admins::Events::AccessTransactionsController < Admins::Events::BaseControl
     set_presenter
   end
 
+  def show
+    @transaction = AccessTransaction.find(params[:id])
+  end
+
   private
 
   def set_presenter
