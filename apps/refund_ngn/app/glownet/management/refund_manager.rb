@@ -16,7 +16,7 @@ class Management::RefundManager
     [[payment, payment.amount.to_f]] + reduce_payments(payments, amount - payment.amount.to_f)
   end
 
-  def self.execute_payment(arr)
-    arr.each { |p, amount| "#{p.payment_type}Refunder".constantize.new(p, amount).start }
+  def self.execute(arr)
+    arr.each { |p, amount| "#{p.payment_type}Refunder".constantize.start(p, amount) }
   end
 end
