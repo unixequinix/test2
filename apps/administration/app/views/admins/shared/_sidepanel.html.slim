@@ -101,6 +101,10 @@ aside#main-menu
       = fa_icon "list"
       = t("admin.aside.credential_transactions")
     
+    li.aside-list = link_to admins_event_money_transactions_path(event)
+      = fa_icon "list"
+      = t("admin.aside.money_transactions")
+    
 
     li.mobile-sign-out
       = link_to t("admin.aside.sign_out"), admins_sessions_path, method: :delete

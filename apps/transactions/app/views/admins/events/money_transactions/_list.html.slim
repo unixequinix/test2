@@ -1,0 +1,29 @@
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @list_model_presenter.current_items, total: @list_model_presenter.count)
+table.transactions
+  thead
+    tr
+      th = t("admin.transactions.id")
+      th = t("admin.transactions.transaction_origin")
+      th = t("admin.transactions.transaction_type")
+      th = t("admin.transactions.station_id")
+      th = t("admin.transactions.device_uid")
+      th = t("admin.transactions.operator_tag_uid")
+      th = t("admin.transactions.customer_tag_uid")
+      th = t("admin.transactions.status_code")
+      th = t("admin.transactions.more_info")
+  tbody
+    - transactions.each do |transaction|
+        tr
+          td data-label=t("admin.transactions.id") = transaction.id
+          td data-label=t("admin.transactions.transaction_origin") = transaction.transaction_origin
+          td data-label=t("admin.transactions.transaction_type") = transaction.transaction_type
+          td data-label=t("admin.transactions.station_id") = transaction.station_id
+          td data-label=t("admin.transactions.device_uid") = transaction.device_uid
+          td data-label=t("admin.transactions.operator_tag_uid") = transaction.operator_tag_uid
+          td data-label=t("admin.transactions.customer_tag_uid") = transaction.customer_tag_uid
+          td data-label=t("admin.transactions.status_code") = transaction.status_code
+          td data-label=t("admin.transactions.status_code") = link_to admins_event_money_transaction_path(current_event, transaction) do
+            = fa_icon 'eye'
+            |  Show
+.container-pagination
+  = paginate transactions
