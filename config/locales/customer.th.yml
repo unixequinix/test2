@@ -5,11 +5,14 @@ th:
     cancel: "ยกเลิก"
     edit: "แก้ไข"
     delete: "ลบ"
+    delete_account: "Delete your account"
     check_news: "กลับไปที่เว็บไซด์ของงาน"
     delete_account: "ลบบัญชีของคุณ"
     logout: "ออกจากระบบ"
   confirm:
     remove_ticket: "เครดิตที่คุณได้ทำการซื้อไปจะอยู่ในบัญชีผู้ใช้งานนี้ของคุณ หากคุณยกเลิกบัตรเข้างาน คุณจะต้องทำการโอนเครดิตไปยังบัตรอื่นเพื่อที่จะใช้ในงาน"
+    cancel_paypal: "Cancelling you disassociate your wristband from you PayPal account."
+    log_out: "Do you want to end this session?"
   header:
     edit: "แก้ไขบัญชีผู้ใช้งาน"
     close: "ออกจากระบบ"
@@ -253,6 +256,7 @@ th:
       button: 'อัพเดท'
     autotoup_agreement:
       cancel: 'Do you want to cancel your autotopup agreement?'
+      title: 'Cancel agreement'
   sessions:
     first_register:
       welcome: 'Bienvenido!!'

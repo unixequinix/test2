@@ -1,14 +1,14 @@
 class Admins::Events::Stations::StationProductsController < Admins::Events::BaseController
   def index
     @station = @fetcher.point_of_sale_stations.find_by(id: params[:station_id])
-    @products = @station.unassigned_products
+    @products = @fetcher.unassigned_products(@station)
     @station_product = StationProduct.new
     set_presenter
   end
 
   def create
     @station = @fetcher.point_of_sale_stations.find_by(id: params[:station_id])
-    @products = @station.unassigned_products
+    @products = @fetcher.unassigned_products(@station)
     @station_product = StationProduct.create!(permitted_params)
   end
 
