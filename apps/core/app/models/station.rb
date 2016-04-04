@@ -35,7 +35,6 @@ class Station < ActiveRecord::Base
 
   SALE_STATIONS = [:customer_portal, :box_office]
   POINT_OF_SALE_STATIONS = [:point_of_sales]
-<<<<<<< HEAD
   TOPUP_STATIONS = [:top_up_refund]
 
   def unassigned_catalog_items
@@ -62,7 +61,6 @@ class Station < ActiveRecord::Base
     return unless station_type.name == "top_up_refund"
     topup_credits.create!(amount: 1, credit: event.credits.standard)
   end
-=======
   TOPUP_STATIONS = [:topup]
 >>>>>>> development
 end
