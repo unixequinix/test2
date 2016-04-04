@@ -54,6 +54,11 @@ th:
         name: "Name"
         description: "Description"
         price: "Price"
+      topup_credit:
+        amount: "Amount"
+        credit: "Credit"
+        credit_value: "Credit value"
+        price: "Price"
     companies:
       name: "Name"
       token: "Company token"

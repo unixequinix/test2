@@ -1,0 +1,6 @@
+- breadcrumb :admins_event_topup_station_topup_credits, current_event, @station
+
+= render "form", topup_credit: @topup_credit
+
+.wrapper-negative-space
+  = render 'admins/events/stations/topup_credits/list', topup_credits: @list_model_presenter.all_items

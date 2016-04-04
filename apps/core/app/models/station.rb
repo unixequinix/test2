@@ -30,7 +30,7 @@ class Station < ActiveRecord::Base
 
   SALE_STATIONS = [:customer_portal, :box_office]
   POINT_OF_SALE_STATIONS = [:point_of_sales]
-  TOPUP_STATIONS = [:topup]
+  TOPUP_STATIONS = [:top_up_refund]
 
   def unassigned_catalog_items
     CatalogItem.where("id NOT IN (
@@ -47,6 +47,15 @@ class Station < ActiveRecord::Base
                    INNER JOIN station_parameters
                    ON station_products.id = station_parameters.station_parametable_id
                    AND station_parameters.station_parametable_type = 'StationProduct'
+                   WHERE station_id = #{id})")
+  end
+
+  def unassigned_credits
+    Credit.where("id NOT IN (
+                   SELECT topup_credits.credit_id FROM topup_credits
+                   INNER JOIN station_parameters
+                   ON topup_credits.id = station_parameters.station_parametable_id
+                   AND station_parameters.station_parametable_type = 'TopupCredit'
                    WHERE station_id = #{id})")
   end
 end

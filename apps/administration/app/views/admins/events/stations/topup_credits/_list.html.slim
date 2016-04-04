@@ -1,0 +1,13 @@
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @list_model_presenter.current_items, total: @list_model_presenter.count)
+table.topup_credits
+  thead
+    tr
+      th = t('admin.stations.topup_credit.amount')
+      th = t('admin.stations.topup_credit.credit')
+      th = t('admin.stations.topup_credit.credit_value')
+      th = t('admin.stations.topup_credit.price')
+      th.table-actions-field = t('admin.defaults.actions')
+  tbody
+    - topup_credits.each do |topup_credit|
+      = render "row", topup_credit: topup_credit
+= paginate topup_credits

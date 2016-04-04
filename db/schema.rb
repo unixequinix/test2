@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160401175837) do
+ActiveRecord::Schema.define(version: 20160404083756) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -729,6 +729,16 @@ ActiveRecord::Schema.define(version: 20160401175837) do
   add_index "tickets", ["deleted_at", "code", "event_id"], name: "index_tickets_on_deleted_at_and_code_and_event_id", unique: true, using: :btree
   add_index "tickets", ["deleted_at"], name: "index_tickets_on_deleted_at", using: :btree
 
+  create_table "topup_credits", force: :cascade do |t|
+    t.integer  "amount"
+    t.integer  "credit_id"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "topup_credits", ["credit_id"], name: "index_topup_credits_on_credit_id", using: :btree
+
   create_table "vouchers", force: :cascade do |t|
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
@@ -750,4 +760,5 @@ ActiveRecord::Schema.define(version: 20160401175837) do
   add_foreign_key "money_transactions", "customer_event_profiles"
   add_foreign_key "money_transactions", "events"
   add_foreign_key "money_transactions", "stations"
+  add_foreign_key "topup_credits", "credits"
 end
