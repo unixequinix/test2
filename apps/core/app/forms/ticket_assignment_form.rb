@@ -9,13 +9,8 @@ class TicketAssignmentForm
   def save(ticket_fetcher, current_customer_event_profile, current_event)
     ticket = ticket_fetcher.find_by(code: code.strip)
     companies = CompanyTicketType.companies(current_event).join(", ")
-    if ticket.nil?
-      errors.add(:ticket_assignment, I18n.t("alerts.admissions", companies: companies)) && return
-    end
 
-    if already_assigned?(ticket)
-      errors.add(:ticket_assignment, I18n.t("alerts.ticket_already_assigned")) && return
-    end
+    return unless valid_ticket?(ticket, companies)
 
     errors.add(:ticket_assignment, full_messages.join(". ")) && return unless valid?
     persist!(ticket,
@@ -36,5 +31,15 @@ class TicketAssignmentForm
 
   def already_assigned?(ticket)
     ticket.assigned_ticket_credential.present?
+  end
+
+  private
+
+  def valid_ticket?(ticket, companies)
+    errors.add(:ticket_assignment, I18n.t("alerts.admissions", companies: companies)) &&
+      return if ticket.nil?
+    errors.add(:ticket_assignment, I18n.t("alerts.ticket_already_assigned")) &&
+      return if already_assigned?(ticket)
+    true
   end
 end

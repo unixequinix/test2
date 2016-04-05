@@ -21,7 +21,8 @@ require "rails_helper"
 
 RSpec.describe CustomerCredit, type: :model do
   describe ".calculate_balances" do
-    it "should set the balances of the customer credit right before it is saved (amount == refundable_amount)" do
+    it "should set the balances of the customer credit right before it is saved " \
+       "(amount == refundable_amount)" do
       customer_credit = CustomerCredit.new(customer_event_profile_id: 1,
                                            amount: 2,
                                            refundable_amount: 2,
