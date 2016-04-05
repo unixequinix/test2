@@ -1,5 +1,5 @@
-.wrapper-module
-  h3.center-text = t("claims.invalid_claim.title")
-  p.center-text = t("claims.invalid_claim.description")
+.wrapper-module-centered
+  h3 = t("claims.invalid_claim.title")
+  p = t("claims.invalid_claim.description")
   = mail_to current_event.support_email, subject: t('event.subject_support', event: current_event.name), class: "btn btn-action-back" do
     = t("footer.support")
