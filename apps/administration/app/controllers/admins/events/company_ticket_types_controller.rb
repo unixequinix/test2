@@ -60,7 +60,7 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
       search_query: params[:q],
       page: params[:page],
       context: view_context,
-      include_for_all_items: [])
+      include_for_all_items: [:credential_type, credential_type: :catalog_item])
   end
 
   def permitted_params

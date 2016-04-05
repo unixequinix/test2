@@ -1,0 +1,11 @@
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @list_model_presenter.current_items, total: @list_model_presenter.count)
+table.access_control_gates
+  thead
+    tr
+      th = t('admin.stations.access_control_gate.name')
+      th = t('admin.stations.access_control_gate.direction')
+      th.table-actions-field = t('admin.defaults.actions')
+  tbody
+    - access_control_gates.each do |access_control_gate|
+      = render "row", access_control_gate: access_control_gate
+= paginate access_control_gates
