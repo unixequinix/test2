@@ -1,6 +1,4 @@
 class Api::V1::Events::AutoTopUpsController < Api::V1::Events::BaseController
-  skip_before_action :verify_authenticity_token
-
   def create
     uid = params[:auto_top_up][:gtag_uid]
     payment = params[:auto_top_up][:payment_method]
