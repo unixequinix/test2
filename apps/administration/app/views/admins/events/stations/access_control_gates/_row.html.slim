@@ -1,0 +1,5 @@
+tr
+  td data-label=t('admin.stations.access_control_gate.name') = access_control_gate.access.catalog_item.name
+  td data-label=t('admin.stations.access_control_gate.direction') = access_control_gate.direction == "1" ? "In" : "Out"
+  td.table-actions-field
+    = render 'admins/events/stations/access_control_gates/actions', access_control_gate: access_control_gate unless current_event.started?

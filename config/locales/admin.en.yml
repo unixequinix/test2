@@ -60,6 +60,9 @@ en:
         credit: "Credit"
         credit_value: "Credit value"
         price: "Price"
+      access_control_gate:
+        name: "Name"
+        direction: "Direction"
     companies:
       name: "Name"
       token: "Company token"
@@ -79,6 +82,7 @@ en:
       update: "Update"
     event:
       name: 'Name'
+      status: "Status"
       token: "Event token"
       slug: 'Slug'
       url: 'Event url'
@@ -276,6 +280,7 @@ en:
     company_ticket_types:
       name: "Name"
       company_code: "Company code"
+      credential_type: "Credential type"
     entitlement:
       infinite: "Infinite"
       memory_length: "Length"

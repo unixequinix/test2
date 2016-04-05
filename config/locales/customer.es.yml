@@ -188,6 +188,7 @@ es:
       simple: "Para proceder, debes introducir tu %{gtag} colocando los números que aparecen en tu %{gtag}."
     call_to_action: "¡Introduce tu %{gtag} y continúa!"
     button: "Aceptar"
+    back: "Volver"
     placeholders:
       standard:
         line_1: "Línea 1 ej: 12345"

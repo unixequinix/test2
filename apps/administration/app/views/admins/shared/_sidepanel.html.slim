@@ -69,6 +69,9 @@ aside#main-menu
     li.aside-list = link_to admins_event_topup_stations_path(event)
       = fa_icon "money"
       = t("admin.aside.topup_stations")
+    li.aside-list = link_to admins_event_access_control_stations_path(event)
+      = fa_icon "exchange"
+      = t("admin.aside.access_control_stations")
 
     h3.aside-title = t("admin.aside.crm")
 
