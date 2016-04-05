@@ -6,6 +6,7 @@ class Api::V1::StationSerializer < Api::V1::BaseSerializer
     hash[:catalog] = catalog if type == "box_office"
     hash[:products] = products if type == "point_of_sales"
     hash[:top_up_credits] = top_up_credits if type == "top_up_refund"
+    hash[:entitlements] = entitlements if type == "access_control"
     hash
   end
 
@@ -33,5 +34,10 @@ class Api::V1::StationSerializer < Api::V1::BaseSerializer
       { amount: c.amount,
         price: (c.amount * c.credit.value).to_f.round(2) }
     end
+  end
+
+  def entitlements
+    { in: object.access_control_gates.where(direction: "1").pluck(:access_id),
+      out: object.access_control_gates.where(direction: "-1").pluck(:access_id) }
   end
 end
