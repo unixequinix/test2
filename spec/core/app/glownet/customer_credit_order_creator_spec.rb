@@ -126,19 +126,17 @@ RSpec.describe CustomerCreditOrderCreator, type: :domain_logic do
                pack: catalog_item_with_pack.catalogable,
                catalog_item: credit.catalog_item,
                amount: 5)
-
         order.order_items << build(:order_item,
                                    order: order,
                                    catalog_item: catalog_item_with_pack,
                                    amount: 2,
                                    total: 15)
+        order.order_items.first.catalog_item.catalogable.catalog_items_included(true)
         order.save
 
         coc = CustomerCreditOrderCreator.new
         coc.save(order)
-
         expect(CustomerCredit.count).to eq(1)
-
         customer_credit = CustomerCredit.first
         expect(customer_credit.amount).to eq(10.0)
         expect(customer_credit.refundable_amount).to eq(0)
@@ -162,6 +160,7 @@ RSpec.describe CustomerCreditOrderCreator, type: :domain_logic do
                                    catalog_item: catalog_item_with_pack,
                                    amount: 4,
                                    total: 8)
+        order.order_items.first.catalog_item.catalogable.catalog_items_included(true)
         order.save
 
         coc = CustomerCreditOrderCreator.new
@@ -206,6 +205,7 @@ RSpec.describe CustomerCreditOrderCreator, type: :domain_logic do
                                    catalog_item: credit_b.catalog_item,
                                    amount: 5,
                                    total: 15)
+        order.order_items.first.catalog_item.catalogable.catalog_items_included(true)
         order.save
 
         coc = CustomerCreditOrderCreator.new
@@ -249,6 +249,7 @@ RSpec.describe CustomerCreditOrderCreator, type: :domain_logic do
                                    catalog_item: credit_b.catalog_item,
                                    amount: 5,
                                    total: 15)
+        order.order_items.first.catalog_item.catalogable.catalog_items_included(true)
         order.save
 
         coc = CustomerCreditOrderCreator.new

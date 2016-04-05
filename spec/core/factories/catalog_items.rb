@@ -28,7 +28,7 @@ FactoryGirl.define do
 
     trait :with_access do
       after(:build) do |catalog_item|
-        catalog_item.catalogable ||= build(:access, catalog_item: catalog_item)
+        catalog_item.catalogable ||= create(:access, catalog_item: catalog_item)
       end
     end
 

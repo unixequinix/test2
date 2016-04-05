@@ -3,11 +3,11 @@ class Events::CheckoutsController < Events::BaseController
   before_action :check_has_ticket!
 
   def new
-    @checkout_presenter = CheckoutsPresenter.new(current_event)
+    @checkout_presenter = CheckoutsPresenter.new(current_event, current_profile)
   end
 
   def create
-    @checkout_presenter = CheckoutsPresenter.new(current_event)
+    @checkout_presenter = CheckoutsPresenter.new(current_event, current_profile)
     @checkout_form = CheckoutForm.new(current_profile)
 
     if @checkout_form.submit(params[:checkout_form], @checkout_presenter.catalog_items)

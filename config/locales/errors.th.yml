@@ -46,3 +46,5 @@ th:
       not_enough_space_for_credential: "Not enough space in gtag for this credential"
       not_enough_space_for_entitlement_configuration: "Not enough space in gtag for the existing entitlement configuration"
       not_enough_space_for_credential_configuration: "Not enough space in gtag for the existing credential configuration"
+      invalid_max_value_for_infinite: "The max value must be 1 or 0 if you have chosen infinite"
+      invalid_min_value_for_infinite: "The min value must be 1 or 0 if you have chosen infinite"

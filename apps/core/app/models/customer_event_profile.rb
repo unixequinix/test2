@@ -71,6 +71,8 @@ class CustomerEventProfile < ActiveRecord::Base
   }
   scope :banned, -> { joins(:banned_customer_event_profile) }
 
+  include CustomerEventProfileEconomy
+
   def customer
     Customer.unscoped { super }
   end
@@ -79,44 +81,24 @@ class CustomerEventProfile < ActiveRecord::Base
     active_tickets_assignment.any? || !active_gtag_assignment.nil?
   end
 
-  def current_balance
-    customer_credits.order(created_in_origin_at: :desc).first
-  end
-
-  def total_credits
-    customer_credits.sum(:amount)
-  end
-
-  def ticket_credits
-    customer_credits.where.not(transaction_origin: CustomerCredit::CREDITS_PURCHASE)
-      .sum(:amount).floor
-  end
-
-  def purchased_credits
-    customer_credits.where(transaction_origin: CustomerCredit::CREDITS_PURCHASE).sum(:amount).floor
-  end
-
-  def refundable_credits_amount
-    current_balance = customer_credits.current
-    current_balance.present? ? current_balance.final_refundable_balance : 0
-  end
-
-  def refundable_money_amount
-    customer_credits.map do |customer_credit|
-      customer_credit.credit_value * customer_credit.refundable_amount
-    end.sum
-  end
-
-  def online_refundable_money_amount
-    payments.map(&:amount).sum
-  end
-
   def purchases
     customer_orders.joins(:catalog_item).select("sum(customer_orders.amount) as total_amount,
                                                  catalog_items.name,
                                                  catalog_items.catalogable_type,
                                                  catalog_items.catalogable_id")
       .group("catalog_items.name, catalog_items.catalogable_type, catalog_items.catalogable_id")
+  end
+
+  def infinite_entitlements_purchased
+    single_entitlements = customer_orders.select do |customer_order|
+      customer_order.catalog_item.catalogable.try(:entitlement).try(:infinite)
+    end.map(&:catalog_item_id)
+    pack_entitlements = CatalogItem.where(catalogable_id: Pack.joins(:catalog_items_included)
+                                                  .where(catalog_items: { id: single_entitlements })
+                                                  .pluck(:id),
+                                          catalogable_type: "Pack").pluck(:id)
+
+    single_entitlements + pack_entitlements
   end
 
   def sorted_purchases(**params)
