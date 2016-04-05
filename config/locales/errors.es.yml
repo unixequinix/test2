@@ -46,3 +46,5 @@ es:
       not_enough_space_for_credential: "No hay suficiente espacio para ese credencial"
       not_enough_space_for_entitlement_configuration: "No hay suficiente espacio para la configuración de entitlements existente"
       not_enough_space_for_credential_configuration: "No hay suficiente espacio para la configuración de credenciales existente"
+      invalid_max_value_for_infinite: "The max value must be 1 or 0 if you have chosen infinite"
+      invalid_min_value_for_infinite: "The min value must be 1 or 0 if you have chosen infinite"

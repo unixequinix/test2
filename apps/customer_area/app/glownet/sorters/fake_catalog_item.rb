@@ -12,4 +12,13 @@ class Sorters::FakeCatalogItem
   def eql?(other)
     @catalog_item_id == other.catalog_item_id
   end
+
+  def catalogable
+    klass = catalogable_type.constantize
+    klass.find(catalogable_id)
+  end
+
+  def catalog_item
+    CatalogItem.find(catalog_item_id)
+  end
 end
