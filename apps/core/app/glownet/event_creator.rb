@@ -8,7 +8,7 @@ class EventCreator
 
   def save
     @event = Event.new(@params)
-    @event.save
+    @event.save!
     standard_credit
     customer_portal_station
     default_event_parameters

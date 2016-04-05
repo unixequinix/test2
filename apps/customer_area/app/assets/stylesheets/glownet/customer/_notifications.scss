@@ -105,7 +105,6 @@ $light_red: lighten($red, 8%);
   position: relative;
   padding: 0 modules(0.5);
   border-radius: $radius;
-  color: $nuclear;
 
   &:before {
     display: block;

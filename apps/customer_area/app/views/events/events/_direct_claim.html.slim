@@ -1,4 +1,5 @@
-.wrapper-module
-  p.center-text We will refund your money automatically.
+.wrapper-module-centered
+  h3 = t("claims.direct_claim.title")
+  p = t("claims.direct_claim.description")
   = form_tag event_direct_claims_path(event_id: current_event.slug) do
-    = submit_tag "Aqui"
+    = submit_tag t("claims.direct_claim.button"), class: "btn btn-action btn-action-primary"

@@ -34,9 +34,9 @@ class Credit < ActiveRecord::Base
 
   def only_one_standard_credit
     return unless standard?
+    return unless catalog_item.event
     matches = Credit.standard(catalog_item.event)
     matches = matches.where("credits.id != ?", id) if persisted?
-    errors.add(:standard,
-               I18n.t("errors.messages.max_standard_credits")) if matches.exists?
+    errors.add(:standard, I18n.t("errors.messages.max_standard_credits")) if matches.exists?
   end
 end

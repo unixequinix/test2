@@ -170,6 +170,16 @@ th:
     button: "การคืนเงิน"
     button_iupay: "IUPAY"
     refund: "กรุณาตรวจสอบรายละเอียดของเครดิตของคุณก่อนทำการติดต่อขอรับเงินคืน"
+    claim_present:
+      title: "Thank you!"
+      description: "Your claim has been processed correctly and is on the way."
+    no_credit:
+      title: "Sorry"
+      description: "You don't have any refundable credits"
+    direct_claim:
+      title: "Claim for your credits"
+      description: "We will refund your money automatically."
+      button: "Proceed"
   gtag_assignations:
     title: "ระบุ %{gtag}"
     description:
