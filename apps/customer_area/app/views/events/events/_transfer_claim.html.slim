@@ -1,0 +1,14 @@
+.wrapper-module
+  p#payment-acnhor.payment-anhor-mobile.hint-text
+    = t('refund.refund_method')
+  p.payment-anhor-desktop.hint-text
+    = t('refund.refund_method')
+  / ul.container-payment-buttons
+  /   li = raw presenter.refund_snippets
+  ul.container-payment-buttons
+    - presenter.each_refundable do |link_tag|
+      li
+        .btn-payment-trigger
+          = link_tag
+  p.center-text = presenter.call_to_action
+  p.center-text = raw presenter.refund_disclaimer

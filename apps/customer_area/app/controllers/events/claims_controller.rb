@@ -8,7 +8,7 @@ class Events::ClaimsController < Events::BaseController
   private
 
   def check_event_status!
-    return if current_event.claiming_started?
+    return if current_event.finished?
     flash.now[:error] = I18n.t("alerts.error")
     redirect_to event_url(current_event)
   end
