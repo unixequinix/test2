@@ -4,8 +4,7 @@ class Management::RefundManager
   end
 
   def execute
-    return unless refund_method_for(@profile).eql?("direct")
-    online_payments(@profile).map do |payment, amount|
+    online_payments.map do |payment, amount|
       "Payments::#{payment.payment_type.camelcase}Refunder".constantize.new(payment, amount).start
     end
   end

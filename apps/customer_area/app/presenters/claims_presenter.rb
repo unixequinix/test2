@@ -4,11 +4,12 @@ class ClaimsPresenter < BasePresenter
   end
 
   def path
+    profile = @customer_event_profile
     enough_money = profile.refundable_money_amount <= profile.online_refundable_money_amount
     return unless @gtag_assignment.present?
-    return "no_credits" if @customer_event_profile.refundable_money_amount.zero?
-    return "invalid_balance" unless BalanceCalculator.new(@customer_event_profile).valid_balance?
-    return "claim_present" if @customer_event_profile.completed_claim
+    return "no_credits" if profile.refundable_money_amount.zero?
+    return "invalid_balance" unless BalanceCalculator.new(profile).valid_balance?
+    return "claim_present" if profile.completed_claim
     return "direct_claim" if enough_money
     "transfer_claim"
   end
