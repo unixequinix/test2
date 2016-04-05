@@ -9,7 +9,7 @@ class Payments::BraintreeRefunder
     charge_object
   end
 
-  def refund(params, amount)
+  def refund(_params, amount)
     begin
       charge = Braintree::Transaction.refund("j59qrb", amount)
     rescue Braintree::ErrorResult
@@ -32,10 +32,10 @@ class Payments::BraintreeRefunder
     sale_options
   end
 
-  def notify_refund(charge, customer_order_creator, customer_credit_creator)
+  def notify_refund(charge, _customer_order_creator, _customer_credit_creator)
     transaction = charge.transaction
     return unless transaction.status == "authorized"
-    #create_payment(@order, charge)
+    # create_payment(@order, charge)
     @order.complete!
     send_mail_for(@order, @event)
   end

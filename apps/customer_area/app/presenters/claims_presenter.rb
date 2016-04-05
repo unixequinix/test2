@@ -4,16 +4,18 @@ class ClaimsPresenter < BasePresenter
   end
 
   def path
-    refund_method = Management::RefundManager.refund_method_for(@customer_event_profile)
+    enough_money = profile.refundable_money_amount <= profile.online_refundable_money_amount
     return unless @gtag_assignment.present?
     return "no_credits" if @customer_event_profile.refundable_money_amount.zero?
     return "invalid_balance" unless BalanceCalculator.new(@customer_event_profile).valid_balance?
     return "claim_present" if @customer_event_profile.completed_claim
-    "#{refund_method}_claim"
+    return "direct_claim" if enough_money
+    "transfer_claim"
   end
 
   def refunds_title
-    completed_claim? ? I18n.t("dashboard.refunds.title") : I18n.t("dashboard.without_refunds.title")
+    return I18n.t("dashboard.refunds.title") if completed_claim?
+    I18n.t("dashboard.without_refunds.title")
   end
 
   def refund_services
@@ -49,14 +51,11 @@ class ClaimsPresenter < BasePresenter
   end
 
   def refund_snippets
-    actions = ""
-    if any_refundable_method? && !completed_claim?
-      refund_services.each do |refund_service|
-        refundable = refundable?(refund_service) ? "refundable" : "not_refundable"
-        actions << method("snippet_#{refundable}").call(refund_service)
-      end
-    end
-    actions
+    return "" unless any_refundable_method? && !completed_claim?
+    refund_services.map do |refund_service|
+      refundable = refundable?(refund_service) ? "refundable" : "not_refundable"
+      method("snippet_#{refundable}").call(refund_service)
+    end.join
   end
 
   def snippet_not_refundable(refund_service)

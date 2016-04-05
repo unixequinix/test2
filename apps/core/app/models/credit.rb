@@ -36,7 +36,6 @@ class Credit < ActiveRecord::Base
     return unless standard?
     matches = Credit.standard(catalog_item.event)
     matches = matches.where("credits.id != ?", id) if persisted?
-    errors.add(:standard,
-               I18n.t("errors.messages.max_standard_credits")) if matches.exists?
+    errors.add(:standard, I18n.t("errors.messages.max_standard_credits")) if matches.exists?
   end
 end
