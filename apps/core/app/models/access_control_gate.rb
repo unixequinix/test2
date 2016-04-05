@@ -3,8 +3,8 @@
 # Table name: access_control_gates
 #
 #  id         :integer          not null, primary key
-#  direction  :string
-#  access_id  :integer
+#  access_id  :integer          not null
+#  direction  :string           not null
 #  deleted_at :datetime
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

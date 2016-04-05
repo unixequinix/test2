@@ -1,7 +1,7 @@
 class CheckoutsPresenter
-  def initialize(current_event, current_customer_event_profile)
+  def initialize(current_event, current_profile)
     @event = current_event
-    @customer_event_profile = current_customer_event_profile
+    @customer_event_profile = current_profile
     @catalog_items =
       CatalogItem.joins(:station_catalog_items, station_catalog_items: :station_parameter)
       .select("catalog_items.*, station_catalog_items.price")
