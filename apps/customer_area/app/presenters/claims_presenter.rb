@@ -4,11 +4,12 @@ class ClaimsPresenter < BasePresenter
   end
 
   def path
-    claim_method = Management::RefundManager.check(@customer_event_profile, 150)
+    refund_method = Management::RefundManager.refund_method_for(@customer_event_profile)
     return unless @gtag_assignment.present?
     return "no_credits" if @customer_event_profile.refundable_money_amount.zero?
     return "invalid_balance" unless BalanceCalculator.new(@customer_event_profile).valid_balance?
-    return "#{claim_method}_claim"
+    return "claim_present" if @customer_event_profile.completed_claim
+    "#{refund_method}_claim"
   end
 
   def refunds_title

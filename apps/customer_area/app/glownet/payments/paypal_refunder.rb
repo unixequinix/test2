@@ -1,55 +1,22 @@
 class Payments::PaypalRefunder
-  def start(params)
-    @event = Event.friendly.find(params[:event_id])
-    @order = Order.find(params[:order_id])
-    @order.start_payment!
-    charge_object = charge(params)
+  def initialize(payment, amount)
+    @payment = payment
+    @order = payment.order
+    @amount = amount
+  end
+
+  def start
+    charge_object = refund(@payment.merchant_code, @amount)
     return charge_object unless charge_object.success?
-    notify_payment(charge_object, customer_order_creator, customer_credit_creator)
+    create_payment(@order, charge_object)
     charge_object
   end
 
-  def refund(params, amount)
-    begin
-      charge = Braintree::Transaction.refund("j59qrb", amount)
-    rescue Braintree::ErrorResult
-      # The card has been declined
-      charge
-    end
-    charge
+  def refund(transaction, amount)
+    Braintree::Transaction.refund(transaction, amount) rescue nil
   end
 
   private
-
-  def options(params)
-    token = params[:payment_method_nonce]
-    amount = @order.total_formated
-    sale_options = {
-      order_id: @order.number,
-      amount: amount,
-      payment_method_nonce: token
-    }
-    sale_options
-  end
-
-  def notify_refund(charge, customer_order_creator, customer_credit_creator)
-    transaction = charge.transaction
-    return unless transaction.status == "authorized"
-    #create_payment(@order, charge)
-    @order.complete!
-    send_mail_for(@order, @event)
-  end
-
-  def send_mail_for(order, event)
-    OrderMailer.completed_email(order, event).deliver_later
-  end
-
-  def get_event_parameter_value(event, name)
-    EventParameter.find_by(event_id: event.id,
-                           parameter: Parameter.where(category: "payment",
-                                                      group: "braintree",
-                                                      name: name)).value
-  end
 
   def create_payment(order, charge)
     transaction = charge.transaction
@@ -64,6 +31,6 @@ class Payments::PaypalRefunder
                     merchant_code: transaction.id,
                     amount: transaction.amount.to_f,
                     success: true,
-                    payment_type: "braintree")
+                    payment_type: "paypal")
   end
 end

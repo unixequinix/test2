@@ -39,11 +39,11 @@ class Events::BaseController < ApplicationController
       Customer.where(id: warden.user(:customer)["id"]).empty?
   end
 
-  def current_customer_event_profile
+  def current_profile
     current_customer.customer_event_profile ||
       CustomerEventProfile.new(customer: current_customer, event: current_event)
   end
-  helper_method :current_customer_event_profile
+  helper_method :current_profile
 
   def prepare_for_mobile
     prepend_view_path Rails.root + "apps" + "customer_area" + "app" + "views_mobile"
@@ -66,11 +66,11 @@ class Events::BaseController < ApplicationController
 
   def check_has_ticket!
     redirect_to event_url(current_event) unless
-      current_customer_event_profile.active_tickets_assignment
+      current_profile.active_tickets_assignment
   end
 
   def check_has_gtag!
     redirect_to event_url(current_event) unless
-      current_customer_event_profile.active_gtag_assignment
+      current_profile.active_gtag_assignment
   end
 end

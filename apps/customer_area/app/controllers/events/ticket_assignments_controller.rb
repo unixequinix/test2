@@ -6,7 +6,7 @@ class Events::TicketAssignmentsController < Events::BaseController
   def create
     @ticket_assignment_form = TicketAssignmentForm.new(ticket_assignment_parameters)
     if @ticket_assignment_form.save(Ticket.where(event: current_event),
-                                    current_customer_event_profile,
+                                    current_profile,
                                     current_event)
       flash[:notice] = I18n.t("alerts.created")
       redirect_to event_url(current_event)

@@ -21,10 +21,10 @@ class RefundService
 
   def complete_claim
     @claim.complete!
-    send_mail_for(@claim)
+    send_completed_mail
   end
 
-  def send_mail_for(_claim)
+  def send_completed_mail
     ClaimMailer.completed_email(@claim, @event).deliver_later
   end
 end
