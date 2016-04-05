@@ -6,7 +6,7 @@ RSpec.describe Api::V1::Events::AutoTopUpsController, type: :controller do
   let(:cep) { create(:customer_event_profile, event: event) }
   let(:ca) { create(:credential_assignment_g_a, customer_event_profile: cep) }
   let(:tag_uid) { ca.credentiable.tag_uid }
-  let(:params) { { gtag_uid: tag_uid, payment_method: "paypal" } }
+  let(:params) { { gtag_uid: tag_uid, payment_method: "paypal", "order_id": "16032918b57e" } }
   let(:invalid_params) { { uid: "error", method: "error" } }
 
   describe "POST create" do
@@ -18,15 +18,18 @@ RSpec.describe Api::V1::Events::AutoTopUpsController, type: :controller do
       context "when the params exists" do
         context "when the request is valid" do
           context "when the agreement is signed" do
-            pending "returns a 201 status code" do
-              allow(Autotopup::PaypalAutoPayer).to receive(:pay).and_return(true)
+            it "returns a 201 status code" do
+              res = { gtag_uid: tag_uid, credit_amount: 20, money_amount: 40, credit_value: 1 }
+              allow(Autotopup::PaypalAutoPayer).to receive(:start).and_return(res)
               post :create, event_id: event.id, auto_top_up: params
+              body = JSON.parse(response.body)
               expect(response.status).to eq(201)
+              expect(body).to include("gtag_uid", "credit_amount", "money_amount", "credit_value")
             end
           end
 
           context "when the agreement is not signed" do
-            pending "returns a 422 status code" do
+            it "returns a 422 status code" do
               post :create, event_id: event.id, auto_top_up: params
               expect(response.status).to eq(422)
             end
@@ -34,7 +37,7 @@ RSpec.describe Api::V1::Events::AutoTopUpsController, type: :controller do
         end
 
         context "when the request fails" do
-          pending "returns a 422 status code" do
+          it "returns a 422 status code" do
             post :create, event_id: event.id, auto_top_up: params
             expect(response.status).to eq(422)
           end
