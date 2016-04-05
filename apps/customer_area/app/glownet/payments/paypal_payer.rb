@@ -34,7 +34,6 @@ class Payments::PaypalPayer
     send("#{@method}_payment_options", sale_options, params)
     submit_for_settlement(sale_options)
     sale_options
-
   end
 
   def regular_payment_options(sale_options, params)

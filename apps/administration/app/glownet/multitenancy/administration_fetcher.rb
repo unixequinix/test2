@@ -89,7 +89,7 @@ class Multitenancy::AdministrationFetcher
 
   def access_control_stations
     @event.stations.includes(:station_type)
-    .where(station_types: { name: Station::ACCESS_CONTROL_STATIONS })
+      .where(station_types: { name: Station::ACCESS_CONTROL_STATIONS })
   end
 
   def station_catalog_items

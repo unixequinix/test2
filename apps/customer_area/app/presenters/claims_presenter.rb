@@ -8,7 +8,7 @@ class ClaimsPresenter < BasePresenter
     return unless @gtag_assignment.present?
     return "no_credits" if @customer_event_profile.refundable_money_amount.zero?
     return "invalid_balance" unless BalanceCalculator.new(@customer_event_profile).valid_balance?
-    return "#{claim_method}_claim"
+    "#{claim_method}_claim"
   end
 
   def refunds_title
