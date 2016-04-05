@@ -187,6 +187,7 @@ en:
       simple: "In order to proceed assign the number as appears in your %{gtag}."
     call_to_action: "Assign your %{gtag} and go!"
     button: "Accept"
+    back: "Back"
     placeholders:
       standard:
         line_1: "Line 1 e.g: 12345"

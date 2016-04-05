@@ -5,7 +5,7 @@ class Multitenancy::AdministrationFetcher
   end
 
   def accesses
-    Access.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
+    Access.includes(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
   def catalog_items
@@ -87,6 +87,11 @@ class Multitenancy::AdministrationFetcher
     @event.stations.includes(:station_type).where(station_types: { name: Station::TOPUP_STATIONS })
   end
 
+  def access_control_stations
+    @event.stations.includes(:station_type)
+      .where(station_types: { name: Station::ACCESS_CONTROL_STATIONS })
+  end
+
   def station_catalog_items
     StationCatalogItem.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
@@ -97,6 +102,10 @@ class Multitenancy::AdministrationFetcher
 
   def topup_credits
     TopupCredit.joins(credit: :catalog_item).where("catalog_items.event_id = ?", @event.id)
+  end
+
+  def access_control_gates
+    AccessControlGate.joins(access: :catalog_item).where("catalog_items.event_id = ?", @event.id)
   end
 
   def tickets

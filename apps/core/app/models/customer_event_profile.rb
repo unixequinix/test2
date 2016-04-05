@@ -102,9 +102,9 @@ class CustomerEventProfile < ActiveRecord::Base
   end
 
   def refundable_money_amount
-    customer_credits.reduce(0) do |total, customer_credit|
-      total + customer_credit.credit_value * customer_credit.refundable_amount
-    end
+    customer_credits.map do |customer_credit|
+      customer_credit.credit_value * customer_credit.refundable_amount
+    end.sum
   end
 
   def online_refundable_money_amount

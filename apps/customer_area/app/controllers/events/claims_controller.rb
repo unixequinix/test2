@@ -8,27 +8,26 @@ class Events::ClaimsController < Events::BaseController
   private
 
   def check_event_status!
-    return if current_event.claiming_started?
+    return if current_event.finished?
     flash.now[:error] = I18n.t("alerts.error")
     redirect_to event_url(current_event)
   end
 
   def check_has_not_claims!
-    return unless current_customer_event_profile.completed_claim
+    return unless current_profile.completed_claim
     flash.now[:error] = I18n.t("alerts.claim_complete")
     redirect_to event_url(current_event)
   end
 
   def require_permission!
     @claim = Claim.find(params[form_name][:claim_id])
-    return unless current_customer_event_profile !=
-                  @claim.customer_event_profile || @claim.completed?
+    return unless current_profile != @claim.customer_event_profile || @claim.completed?
     flash.now[:error] = I18n.t("alerts.claim_complete")
     redirect_to event_url(current_event)
   end
 
   def enough_credits!
-    @gtag = current_customer_event_profile.active_gtag_assignment.credentiable
+    @gtag = current_profile.active_gtag_assignment.credentiable
     return if @gtag.refundable?(service_type)
     flash.now[:error] = I18n.t("alerts.quantity_not_refundable")
     redirect_to event_url(current_event)
@@ -39,10 +38,9 @@ class Events::ClaimsController < Events::BaseController
       service_type: service_type,
       fee: current_event.refund_fee(service_type),
       minimum: current_event.refund_minimun(service_type),
-      customer_event_profile: current_customer_event_profile,
-      gtag: current_customer_event_profile.active_gtag_assignment.credentiable,
-      total: (current_customer_event_profile.current_balance.refundable_amount *
-        current_event.standard_credit_price)
+      customer_event_profile: current_profile,
+      gtag: current_profile.active_gtag_assignment.credentiable,
+      total: current_profile.refundable_money_amount
     )
     @claim.generate_claim_number!
     @claim.save!

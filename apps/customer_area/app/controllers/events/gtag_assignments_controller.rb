@@ -10,7 +10,7 @@ class Events::GtagAssignmentsController < Events::BaseController
     @gtag_assignment_form = GtagAssignmentForm.new(gtag_assignment_parameters)
 
     unless @gtag_assignment_form.save(Gtag.where(event: current_event),
-                                      current_customer_event_profile)
+                                      current_profile)
       flash.now[:error] = @gtag_assignment_form.errors.full_messages.join
       @gtag_assignment_presenter = GtagAssignmentPresenter.new(current_event: current_event)
       render :new
@@ -36,7 +36,7 @@ class Events::GtagAssignmentsController < Events::BaseController
   end
 
   def check_has_not_gtag_assignment!
-    return if current_customer_event_profile.active_gtag_assignment.nil?
+    return if current_profile.active_gtag_assignment.nil?
     redirect_to event_url(current_event), flash: { error: I18n.t("alerts.already_assigned") }
   end
 

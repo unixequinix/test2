@@ -40,6 +40,7 @@ th:
         hospitality_top_up: "Hospitality top up"
         gtag_recycler: "Gtag Recycler"
         envelope_linker: "Envelope Linker"
+        touchpoint: "Touchpoint"
       station_groups:
         accesses: "Accesses"
         monetary: "Monetary"
@@ -59,6 +60,9 @@ th:
         credit: "Credit"
         credit_value: "Credit value"
         price: "Price"
+      access_control_gate:
+        name: "Name"
+        direction: "Direction"
     companies:
       name: "Name"
       token: "Company token"
@@ -78,6 +82,7 @@ th:
       update: "Update"
     event:
       name: 'Name'
+      status: "Status"
       token: "Event token"
       slug: 'Slug'
       url: 'Event url'
@@ -277,6 +282,7 @@ th:
     company_ticket_types:
       name: "Name"
       company_code: "Company code"
+      credential_type: "Credential type"
     ticket_types:
       id: "Id"
       name: "Name"
