@@ -9,7 +9,6 @@ module EventState
       state :launched
       state :started
       state :finished
-      state :claiming_started
       state :closed
 
       event :launch do
@@ -24,12 +23,8 @@ module EventState
         transitions from: :started, to: :finished
       end
 
-      event :start_claim do
-        transitions from: :finished, to: :claiming_started
-      end
-
       event :close do
-        transitions from: :claiming_started, to: :closed
+        transitions from: :finished, to: :closed
       end
 
       event :reboot do

@@ -1,7 +1,7 @@
 class Management::RefundManager
   def self.check(profile, refund_balance)
-    return "online" if refund_balance.to_f <= profile.online_refundable_money_amount
-    "offline"
+    return "direct" if refund_balance.to_f <= profile.online_refundable_money_amount
+    "transfer"
   end
 
   def self.get_online_payments(profile, amount)

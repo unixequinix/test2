@@ -1,7 +1,4 @@
-class ClaimsPresenter < BasePresenter
-  def can_render?
-    @event.refunds? && @gtag_assignment.present?
-  end
+class Claims::DirectClaimsPresenter
 
   def path
     @gtag_assignment.present? ? "claims" : "claims_none"

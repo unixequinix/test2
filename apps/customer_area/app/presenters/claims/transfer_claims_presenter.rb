@@ -1,6 +1,6 @@
-class ClaimsPresenter < BasePresenter
+class Claims::TransferClaimsPresenter
   def can_render?
-    @event.refunds? && @gtag_assignment.present?
+    @event.refunds?
   end
 
   def path
