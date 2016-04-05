@@ -1,8 +1,10 @@
-p.success-message
+p.success-message.full-width
   = fa_icon "check-circle"
   = t('refund.success.description')
 
-h3.claim = t('dashboard.success_refund_disclaimer.claim')
-h3 = current_event.refund_success_message
-= link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-back" do
-  = t("actions.check_news")
+.wrapper-module-centered
+  h3 = t("claims.claim_present.title")
+  p = t('dashboard.success_refund_disclaimer.claim')
+  p = current_event.refund_success_message
+  = link_to href="#{current_event.url}", target: "_blank", class: "btn btn-action btn-action-empty-state add-bottom" do
+    = t("actions.check_news")

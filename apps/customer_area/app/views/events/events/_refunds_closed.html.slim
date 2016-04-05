@@ -1,4 +1,7 @@
-.wrapper-module
+.wrapper-module-centered
   h3 = t('dashboard.refunds.title')
-  p = presenter.gtag_credit_amount
+  p.panel-amount-number.add-bottom
+    = presenter.gtag_credit_amount
+    span.currency-symbol
   p = presenter.call_to_action
+

@@ -71,7 +71,7 @@ a {
   font-weight: lighter;
 }
 
-.currency-symbol { display: inline-block; }
+.currency-symbol { padding-left: modules(0.10); }
 
 .refundable-conversion-list {
 
