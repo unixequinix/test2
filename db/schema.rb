@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160404083756) do
+ActiveRecord::Schema.define(version: 20160404163040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -505,22 +505,28 @@ ActiveRecord::Schema.define(version: 20160404083756) do
   add_index "order_items", ["deleted_at"], name: "index_order_items_on_deleted_at", using: :btree
 
   create_table "order_transactions", force: :cascade do |t|
-    t.integer "event_id_id"
+    t.integer "event_id"
     t.string  "transaction_origin"
     t.string  "transaction_category"
     t.string  "transaction_type"
     t.string  "customer_tag_uid"
     t.string  "operator_tag_uid"
-    t.integer "station_id_id"
+    t.integer "station_id"
     t.string  "device_uid"
     t.integer "device_db_index"
     t.string  "device_created_at"
-    t.integer "customer_order_id_id"
-    t.integer "catalog_item_id_id"
-    t.integer "customer_event_profile_id_id"
+    t.integer "customer_order_id"
+    t.integer "catalog_item_id"
+    t.integer "customer_event_profile_id"
     t.string  "integer"
     t.string  "status_message"
   end
+
+  add_index "order_transactions", ["catalog_item_id"], name: "index_order_transactions_on_catalog_item_id", using: :btree
+  add_index "order_transactions", ["customer_event_profile_id"], name: "index_order_transactions_on_customer_event_profile_id", using: :btree
+  add_index "order_transactions", ["customer_order_id"], name: "index_order_transactions_on_customer_order_id", using: :btree
+  add_index "order_transactions", ["event_id"], name: "index_order_transactions_on_event_id", using: :btree
+  add_index "order_transactions", ["station_id"], name: "index_order_transactions_on_station_id", using: :btree
 
   create_table "orders", force: :cascade do |t|
     t.string   "number",                    null: false
@@ -760,5 +766,10 @@ ActiveRecord::Schema.define(version: 20160404083756) do
   add_foreign_key "money_transactions", "customer_event_profiles"
   add_foreign_key "money_transactions", "events"
   add_foreign_key "money_transactions", "stations"
+  add_foreign_key "order_transactions", "catalog_items"
+  add_foreign_key "order_transactions", "customer_event_profiles"
+  add_foreign_key "order_transactions", "customer_orders"
+  add_foreign_key "order_transactions", "events"
+  add_foreign_key "order_transactions", "stations"
   add_foreign_key "topup_credits", "credits"
 end

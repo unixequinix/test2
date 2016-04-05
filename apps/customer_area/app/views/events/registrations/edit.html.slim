@@ -3,6 +3,13 @@
     li
       = link_to event_url(current_event), class: "btn-desktop-profile" do
         = fa_icon "home"
+    li
+      = link_to event_logout_path(current_event), method: :delete,
+            class: "btn-desktop-profile",
+            data: { confirm: (t("confirm.log_out")) },
+            method: :delete do
+        = fa_icon "sign-out"
+
 .container-event-column
   .wrapper-session.wrapper-module
     = simple_form_for @edit_profile_form, url: event_registrations_path(current_event), method: :patch do |f|
@@ -26,11 +33,13 @@
       = f.button :submit, t('registration.edit.button'),  class: "btn-action btn-edit-profile"
   - current_customer_event_profile.payment_gateway_customers.each do |payment_gateway_customer|
     .wrapper-module
-      p.hint-text.center-text
-        = t('registration.autotoup_agreement.cancel')
-      = fa_icon 'paypal'
-      = link_to t('actions.cancel'), event_autotopup_agreement_path(current_event, payment_gateway_customer), method: :delete, class: "btn btn-action btn-action-empty-state"
-  .wrapper-module
-    p.hint-text.center-text
-      = t('sessions.end.close_title')
-    = link_to t('header.logout'), event_logout_path(current_event), method: :delete, class: "btn btn-action btn-action-empty-state"
+      p.paypal-agreement-icon = fa_icon 'paypal'
+      p.hint-text.center-text.paypal-text = t('registration.autotoup_agreement.title')
+      p.center-text = t("confirm.cancel_paypal")
+
+      = link_to event_autotopup_agreement_path(current_event, payment_gateway_customer), method: :delete,
+            class: "btn btn-remove-ticket remove-centered",
+            data: { confirm: (t('registration.autotoup_agreement.cancel')) },
+            method: :delete do
+        = fa_icon "trash"
+        = t('actions.cancel')
