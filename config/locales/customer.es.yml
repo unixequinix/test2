@@ -180,6 +180,16 @@ es:
     redirect: "Serás redirigido a la pasarela de pago del banco."
     button: "Reembolsar"
     refund: "Por favor, revisa que los créditos a devolver son correctos"
+    claim_present:
+      title: "Gracias!"
+      description: "Tu petición ha sido procesada y la devolución está siendo procesada."
+    no_credit:
+      title: "Lo sentimos"
+      description: "No tienes crédito para realizar la devolución"
+    direct_claim:
+      title: "Solicta tu devolución"
+      description: "La petición se procesará automáticamente"
+      button: "Solicitar"
   gtag_assignations:
     title: "Introducir %{gtag}"
     description:
