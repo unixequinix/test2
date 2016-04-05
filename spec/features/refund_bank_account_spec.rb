@@ -43,7 +43,7 @@ RSpec.feature "Refund for Bank account", type: :feature do
 
   def load_event
     event = build(:event,
-                  aasm_state: "claiming_started",
+                  aasm_state: "finished",
                   currency: "GBP",
                   host_country: "GB",
                   refund_services: 7)
