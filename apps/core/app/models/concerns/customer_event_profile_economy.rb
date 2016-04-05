@@ -28,4 +28,8 @@ module CustomerEventProfileEconomy
       total + customer_credit.credit_value * customer_credit.refundable_amount
     end
   end
+
+  def online_refundable_money_amount
+    payments.map(&:amount).sum
+  end
 end
