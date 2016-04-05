@@ -8,7 +8,7 @@
           p = t('dashboard.admissions.header', company_ticket_type: ticket_assignment.credentiable.company_ticket_type.name)
           p.ticket-id =  ticket_assignment.credentiable.code
           = fa_icon "angle-right"
-        // = link_to t('dashboard.admissions.button'), event_ticket_assignment_path(current_event, ticket_assignment), data: { confirm: (t("confirm.remove_ticket") if current_customer_event_profile.purchased_credits > 0) }, method: :delete
+        // = link_to t('dashboard.admissions.button'), event_ticket_assignment_path(current_event, ticket_assignment), data: { confirm: (t("confirm.remove_ticket") if current_profile.purchased_credits > 0) }, method: :delete
     - if presenter.event_started?
       p = t('dashboard.admissions.call_to_action_started')
     //- else
@@ -17,4 +17,4 @@
     //  //  p = t('dashboard.admissions.success')
     //  //p = t('dashboard.admissions.call_to_action')
     //  = link_to t('dashboard.without_admissions.button'), new_event_ticket_assignment_path(current_event), class: "btn btn-action btn-action-dashboard"
-    //= link_to t('dashboard.admissions.button'), event_ticket_assignment_path(current_event, ticket_assignment), data: { confirm: (t("confirm.remove_ticket") if current_customer_event_profile.purchased_credits > 0) }, method: :delete, class: "btn btn-action"
+    //= link_to t('dashboard.admissions.button'), event_ticket_assignment_path(current_event, ticket_assignment), data: { confirm: (t("confirm.remove_ticket") if current_profile.purchased_credits > 0) }, method: :delete, class: "btn btn-action"

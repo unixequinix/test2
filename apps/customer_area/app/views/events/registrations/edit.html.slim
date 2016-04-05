@@ -31,7 +31,7 @@
             end_year: Date.today.year - 12,
             order: [:day, :month, :year] if(current_event.birthdate?)
       = f.button :submit, t('registration.edit.button'),  class: "btn-action btn-edit-profile"
-  - current_customer_event_profile.payment_gateway_customers.each do |payment_gateway_customer|
+  - current_profile.payment_gateway_customers.each do |payment_gateway_customer|
     .wrapper-module
       p.paypal-agreement-icon = fa_icon 'paypal'
       p.hint-text.center-text.paypal-text = t('registration.autotoup_agreement.title')

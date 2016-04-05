@@ -1,10 +1,15 @@
 class ClaimsPresenter < BasePresenter
   def can_render?
-    @event.refunds?
+    @event.refunds? && @gtag_assignment.present?
   end
 
   def path
-    @gtag_assignment.present? ? "claims" : "claims_none"
+    refund_method = Management::RefundManager.refund_method_for(@customer_event_profile)
+    return unless @gtag_assignment.present?
+    return "no_credits" if @customer_event_profile.refundable_money_amount.zero?
+    return "invalid_balance" unless BalanceCalculator.new(@customer_event_profile).valid_balance?
+    return "claim_present" if @customer_event_profile.completed_claim
+    "#{refund_method}_claim"
   end
 
   def refunds_title
@@ -29,10 +34,6 @@ class ClaimsPresenter < BasePresenter
 
   def any_refundable_method?
     @gtag_assignment.credentiable.any_refundable_method?
-  end
-
-  def gtag_credit_amount
-    "#{@gtag_assignment.credentiable.refundable_amount} #{@event.currency}"
   end
 
   def refund_status

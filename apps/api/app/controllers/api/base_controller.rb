@@ -11,7 +11,7 @@ class Api::BaseController < ActionController::Metal
   include ActionController::Rendering
   include ActionController::HttpAuthentication::Basic::ControllerMethods
 
-  protect_from_forgery with: :null_session
+  skip_before_action :verify_authenticity_token
   before_action :restrict_access_with_http
 
   serialization_scope :view_context

@@ -7,7 +7,7 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::CheckinBaseC
   def create
     @ticket_assignment_form = TicketAssignmentForm.new(ticket_assignment_parameters)
     @customer = current_customer
-    if @ticket_assignment_form.save(@fetcher.tickets, current_customer_event_profile, current_event)
+    if @ticket_assignment_form.save(@fetcher.tickets, current_profile, current_event)
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_customer_url(current_event, @customer)
     else
@@ -37,7 +37,7 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::CheckinBaseC
     @fetcher.customers.find(params[:customer_id])
   end
 
-  def current_customer_event_profile
+  def current_profile
     current_customer.customer_event_profile ||
       CustomerEventProfile.new(customer: current_customer, event: current_event)
   end

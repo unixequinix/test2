@@ -22,6 +22,7 @@ class CustomerEventProfile < ActiveRecord::Base
   has_many :refunds, through: :claims
   has_many :customer_orders
   has_many :online_orders, through: :customer_orders
+  has_many :payments, through: :orders
   has_many :customer_credits do
     def current
       order("created_in_origin_at DESC").first
@@ -92,8 +93,7 @@ class CustomerEventProfile < ActiveRecord::Base
   end
 
   def purchased_credits
-    customer_credits.where(transaction_origin: CustomerCredit::CREDITS_PURCHASE)
-      .sum(:amount).floor
+    customer_credits.where(transaction_origin: CustomerCredit::CREDITS_PURCHASE).sum(:amount).floor
   end
 
   def refundable_credits_amount
@@ -102,22 +102,21 @@ class CustomerEventProfile < ActiveRecord::Base
   end
 
   def refundable_money_amount
-    customer_credits.reduce(0) do |total, customer_credit|
-      total + customer_credit.credit_value * customer_credit.refundable_amount
-    end
+    customer_credits.map do |customer_credit|
+      customer_credit.credit_value * customer_credit.refundable_amount
+    end.sum
+  end
+
+  def online_refundable_money_amount
+    payments.map(&:amount).sum
   end
 
   def purchases
-    customer_orders.joins(:catalog_item)
-      .select("sum(customer_orders.amount) as total_amount,
-                                        catalog_items.name,
-                                        catalog_items.catalogable_type,
-                                        catalog_items.catalogable_id"
-             )
-      .group("catalog_items.name,
-                                       catalog_items.catalogable_type,
-                                       catalog_items.catalogable_id"
-            )
+    customer_orders.joins(:catalog_item).select("sum(customer_orders.amount) as total_amount,
+                                                 catalog_items.name,
+                                                 catalog_items.catalogable_type,
+                                                 catalog_items.catalogable_id")
+      .group("catalog_items.name, catalog_items.catalogable_type, catalog_items.catalogable_id")
   end
 
   def sorted_purchases(**params)

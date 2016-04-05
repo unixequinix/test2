@@ -21,6 +21,9 @@ aside#main-menu
     li.aside-list = link_to admins_event_refund_settings_path(event) do
       = fa_icon "reply"
       = t("admin.aside.refund_settings")
+    li.aside-list = link_to admins_event_device_settings_path(event) do
+      = fa_icon "cogs"
+      = t("admin.aside.device_settings")
 
     h3.aside-title = t("admin.aside.setup")
 
@@ -58,11 +61,17 @@ aside#main-menu
       = fa_icon "map-marker"
       = t("admin.aside.stations")
     li.aside-list = link_to admins_event_sale_stations_path(event)
-      = fa_icon "map-marker"
+      = fa_icon "database"
       = t("admin.aside.sale_stations")
     li.aside-list = link_to admins_event_point_of_sale_stations_path(event)
-      = fa_icon "map-marker"
+      = fa_icon "money"
       = t("admin.aside.point_of_sale_stations")
+    li.aside-list = link_to admins_event_topup_stations_path(event)
+      = fa_icon "money"
+      = t("admin.aside.topup_stations")
+    li.aside-list = link_to admins_event_access_control_stations_path(event)
+      = fa_icon "exchange"
+      = t("admin.aside.access_control_stations")
 
     h3.aside-title = t("admin.aside.crm")
 
@@ -85,11 +94,24 @@ aside#main-menu
       = fa_icon "reply"
       = t("admin.aside.refunds")
 
-    h3.aside-title = t("admin.aside.devices")
-
-    li.aside-list = link_to admins_event_device_settings_path(event) do
-      = fa_icon "cogs"
-      = t("admin.aside.device_settings")
+    h3.aside-title = t("admin.aside.transactions")
+    
+    li.aside-list = link_to admins_event_access_transactions_path(event)
+      = fa_icon "list"
+      = t("admin.aside.access_transactions")
+    li.aside-list = link_to admins_event_credential_transactions_path(event)
+      = fa_icon "list"
+      = t("admin.aside.credential_transactions")
+    li.aside-list = link_to admins_event_credit_transactions_path(event)
+      = fa_icon "list"
+      = t("admin.aside.credit_transactions")
+    li.aside-list = link_to admins_event_money_transactions_path(event)
+      = fa_icon "list"
+      = t("admin.aside.money_transactions")
+    li.aside-list = link_to admins_event_order_transactions_path(event)
+      = fa_icon "list"
+      = t("admin.aside.order_transactions")
+    
 
     li.mobile-sign-out
       = link_to t("admin.aside.sign_out"), admins_sessions_path, method: :delete

@@ -1,0 +1,11 @@
+- breadcrumb :admins_event_order_transaction, current_event, @transaction
+- provide :actions do
+  = link_to admins_event_order_transactions_path, class: "btn btn-action btn-action-back small" do
+    = fa_icon 'arrow-circle-left'
+    = t('admin.actions.back')
+.wrapper-negative-space
+  .container-show
+    dl
+      - @transaction.attributes.each do |key, value|
+        dt = t("admin.transactions.#{key}")
+        dd = value

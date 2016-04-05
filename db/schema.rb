@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160331113600) do
+ActiveRecord::Schema.define(version: 20160404163040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,22 +25,29 @@ ActiveRecord::Schema.define(version: 20160331113600) do
   end
 
   create_table "access_transactions", force: :cascade do |t|
-    t.integer "event_id_id"
+    t.integer "event_id"
     t.string  "transaction_origin"
     t.string  "customer_tag_uid"
     t.string  "transaction_type"
-    t.integer "operator_id_id"
-    t.integer "station_id_id"
-    t.integer "device_id_id"
+    t.integer "operator_id"
+    t.integer "station_id"
+    t.integer "device_id"
     t.integer "device_db_index"
     t.string  "device_created_at"
-    t.integer "customer_event_profile_id_id"
-    t.integer "access_entitlement_id_id"
+    t.integer "customer_event_profile_id"
+    t.integer "access_entitlement_id"
     t.integer "direction"
     t.string  "final_balance"
     t.integer "status_code"
     t.string  "status_message"
   end
+
+  add_index "access_transactions", ["access_entitlement_id"], name: "index_access_transactions_on_access_entitlement_id", using: :btree
+  add_index "access_transactions", ["customer_event_profile_id"], name: "index_access_transactions_on_customer_event_profile_id", using: :btree
+  add_index "access_transactions", ["device_id"], name: "index_access_transactions_on_device_id", using: :btree
+  add_index "access_transactions", ["event_id"], name: "index_access_transactions_on_event_id", using: :btree
+  add_index "access_transactions", ["operator_id"], name: "index_access_transactions_on_operator_id", using: :btree
+  add_index "access_transactions", ["station_id"], name: "index_access_transactions_on_station_id", using: :btree
 
   create_table "accesses", force: :cascade do |t|
     t.datetime "deleted_at"
@@ -498,22 +505,28 @@ ActiveRecord::Schema.define(version: 20160331113600) do
   add_index "order_items", ["deleted_at"], name: "index_order_items_on_deleted_at", using: :btree
 
   create_table "order_transactions", force: :cascade do |t|
-    t.integer "event_id_id"
+    t.integer "event_id"
     t.string  "transaction_origin"
     t.string  "transaction_category"
     t.string  "transaction_type"
     t.string  "customer_tag_uid"
     t.string  "operator_tag_uid"
-    t.integer "station_id_id"
+    t.integer "station_id"
     t.string  "device_uid"
     t.integer "device_db_index"
     t.string  "device_created_at"
-    t.integer "customer_order_id_id"
-    t.integer "catalog_item_id_id"
-    t.integer "customer_event_profile_id_id"
+    t.integer "customer_order_id"
+    t.integer "catalog_item_id"
+    t.integer "customer_event_profile_id"
     t.string  "integer"
     t.string  "status_message"
   end
+
+  add_index "order_transactions", ["catalog_item_id"], name: "index_order_transactions_on_catalog_item_id", using: :btree
+  add_index "order_transactions", ["customer_event_profile_id"], name: "index_order_transactions_on_customer_event_profile_id", using: :btree
+  add_index "order_transactions", ["customer_order_id"], name: "index_order_transactions_on_customer_order_id", using: :btree
+  add_index "order_transactions", ["event_id"], name: "index_order_transactions_on_event_id", using: :btree
+  add_index "order_transactions", ["station_id"], name: "index_order_transactions_on_station_id", using: :btree
 
   create_table "orders", force: :cascade do |t|
     t.string   "number",                    null: false
@@ -722,6 +735,16 @@ ActiveRecord::Schema.define(version: 20160331113600) do
   add_index "tickets", ["deleted_at", "code", "event_id"], name: "index_tickets_on_deleted_at_and_code_and_event_id", unique: true, using: :btree
   add_index "tickets", ["deleted_at"], name: "index_tickets_on_deleted_at", using: :btree
 
+  create_table "topup_credits", force: :cascade do |t|
+    t.integer  "amount"
+    t.integer  "credit_id"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "topup_credits", ["credit_id"], name: "index_topup_credits_on_credit_id", using: :btree
+
   create_table "vouchers", force: :cascade do |t|
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
@@ -730,6 +753,9 @@ ActiveRecord::Schema.define(version: 20160331113600) do
 
   add_index "vouchers", ["deleted_at"], name: "index_vouchers_on_deleted_at", using: :btree
 
+  add_foreign_key "access_transactions", "customer_event_profiles"
+  add_foreign_key "access_transactions", "events"
+  add_foreign_key "access_transactions", "stations"
   add_foreign_key "credential_transactions", "customer_event_profiles"
   add_foreign_key "credential_transactions", "events"
   add_foreign_key "credential_transactions", "stations"
@@ -740,4 +766,10 @@ ActiveRecord::Schema.define(version: 20160331113600) do
   add_foreign_key "money_transactions", "customer_event_profiles"
   add_foreign_key "money_transactions", "events"
   add_foreign_key "money_transactions", "stations"
+  add_foreign_key "order_transactions", "catalog_items"
+  add_foreign_key "order_transactions", "customer_event_profiles"
+  add_foreign_key "order_transactions", "customer_orders"
+  add_foreign_key "order_transactions", "events"
+  add_foreign_key "order_transactions", "stations"
+  add_foreign_key "topup_credits", "credits"
 end

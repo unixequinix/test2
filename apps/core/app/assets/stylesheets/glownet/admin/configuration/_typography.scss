@@ -5,11 +5,6 @@
 // -------------------------------------------------------
 
 @import "font-awesome";
-// External fonts
-
-// Custom fonts
-@include font-face(Lato, 'lato-regular', normal, $asset-pipeline: true);
-
 
 // Font families
 $serif_family: $georgia;

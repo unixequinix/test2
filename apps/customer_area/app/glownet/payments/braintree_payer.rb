@@ -29,12 +29,13 @@ class Payments::BraintreePayer
       amount: amount,
       payment_method_nonce: token
     }
+    submit_for_settlement(sale_options)
     sale_options
   end
 
   def notify_payment(charge, customer_order_creator, customer_credit_creator)
     transaction = charge.transaction
-    return unless transaction.status == "authorized"
+    return unless transaction.status == "settling"
     customer_credit_creator.save(@order)
     create_payment(@order, charge)
     customer_order_creator.save(@order)
