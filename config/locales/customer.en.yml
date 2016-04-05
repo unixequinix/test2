@@ -179,6 +179,19 @@ en:
     button: "Refund"
     button_iupay: "IUPAY"
     refund: "Please, review your credits to proceed refund"
+    claim_present:
+      title: "Thank you!"
+      description: "Your claim has been processed correctly and is on the way."
+    no_credit:
+      title: "Sorry"
+      description: "You don't have any refundable credits"
+    direct_claim:
+      title: "Claim for your credits"
+      description: "We will refund your money automatically."
+      button: "Proceed"
+    invalid_claim:
+      title: "Working in your refund"
+      description: "Contact us for more information"
   gtag_assignations:
     title: "Assign %{gtag}"
     description:
