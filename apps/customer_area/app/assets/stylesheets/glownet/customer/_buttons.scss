@@ -199,6 +199,8 @@
   }
 }
 
+.add-bottom { margin-bottom: modules(1); }
+
 .btn-action-add-paypal {
   @include transition(background-color 200ms ease-in-out);
   width: 100%;
