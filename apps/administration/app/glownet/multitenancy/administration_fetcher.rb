@@ -5,11 +5,19 @@ class Multitenancy::AdministrationFetcher
   end
 
   def accesses
-    Access.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
+    Access.includes(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
   def catalog_items
     CatalogItem.where(event: @event)
+  end
+
+  def unassigned_catalog_items(station)
+    CatalogItem.unassigned_catalog_items(station).where(event: @event)
+  end
+
+  def unassigned_products(station)
+    Product.unassigned_products(station).where(event: @event)
   end
 
   def company_event_agreements
@@ -75,12 +83,29 @@ class Multitenancy::AdministrationFetcher
       .where(event: @event, station_types: { name: Station::SALE_STATIONS })
   end
 
+  def topup_stations
+    @event.stations.includes(:station_type).where(station_types: { name: Station::TOPUP_STATIONS })
+  end
+
+  def access_control_stations
+    @event.stations.includes(:station_type)
+      .where(station_types: { name: Station::ACCESS_CONTROL_STATIONS })
+  end
+
   def station_catalog_items
     StationCatalogItem.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
   def station_products
     StationProduct.joins(:product).where(products: { event_id: @event.id })
+  end
+
+  def topup_credits
+    TopupCredit.joins(credit: :catalog_item).where("catalog_items.event_id = ?", @event.id)
+  end
+
+  def access_control_gates
+    AccessControlGate.joins(access: :catalog_item).where("catalog_items.event_id = ?", @event.id)
   end
 
   def tickets

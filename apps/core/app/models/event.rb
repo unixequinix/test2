@@ -53,6 +53,7 @@ class Event < ActiveRecord::Base
   has_flags 1 => :en_lang, 2 => :es_lang, 3 => :it_lang, 4 => :th_lang, column: "locales"
 
   # Associations
+  has_many :company_ticket_types
   has_many :customer_event_profiles
   has_many :event_parameters
   has_many :parameters, through: :event_parameters
@@ -61,6 +62,7 @@ class Event < ActiveRecord::Base
   has_many :companies, through: :company_event_agreements
   has_many :transactions
   has_many :products
+  has_many :stations
   has_many :catalog_items
   has_many :credits, through: :catalog_items, source: :catalogable, source_type: "Credit" do
     def standard

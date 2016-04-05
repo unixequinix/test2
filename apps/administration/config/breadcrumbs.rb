@@ -164,6 +164,20 @@ crumb :admins_event_sale_station do |event, station|
   parent :admins_event_sale_stations, event
 end
 
+## Topup Stations
+
+crumb :admins_event_topup_stations do |event|
+  link t("breadcrumbs.topup_stations"), admins_event_topup_stations_path(event)
+  parent :admins_event, event
+end
+
+## Access Control Stations
+
+crumb :admins_event_access_control_stations do |event|
+  link t("breadcrumbs.access_control_stations"), admins_event_access_control_stations_path(event)
+  parent :admins_event, event
+end
+
 ## Station Catalog Items
 
 crumb :admins_event_sale_station_station_catalog_items do |event, station|
@@ -174,6 +188,18 @@ end
 
 crumb :admins_event_sale_station_station_products do |event, station|
   parent :admins_event_sale_station, event, station
+end
+
+## Topup Credits
+
+crumb :admins_event_topup_station_topup_credits do |event, station|
+  parent :admins_event_topup_stations, event, station
+end
+
+## Access Control Gates
+
+crumb :admins_event_access_control_station_access_control_gates do |event, station|
+  parent :admins_event_access_control_stations, event, station
 end
 
 ## Accesses

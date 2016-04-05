@@ -1,6 +1,6 @@
 class RefundNotification
   def notify(event)
-    notify_customers_to(event) if event.claiming_started?
+    notify_customers_to(event) if event.finished?
   end
 
   private

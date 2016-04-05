@@ -6,7 +6,7 @@ class TicketAssignmentForm
 
   validates_presence_of :code
 
-  def save(ticket_fetcher, current_customer_event_profile, current_event)
+  def save(ticket_fetcher, current_profile, current_event)
     ticket = ticket_fetcher.find_by(code: code.strip)
     companies = CompanyTicketType.companies(current_event).join(", ")
 
@@ -14,7 +14,7 @@ class TicketAssignmentForm
 
     errors.add(:ticket_assignment, full_messages.join(". ")) && return unless valid?
     persist!(ticket,
-             current_customer_event_profile,
+             current_profile,
              CustomerCreditTicketCreator.new,
              CustomerOrderTicketCreator.new)
   end

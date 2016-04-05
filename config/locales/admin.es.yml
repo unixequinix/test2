@@ -1,5 +1,19 @@
 es:
   admin:
+    transactions:
+      id: "ID"
+      transaction_origin: "Origin"
+      transaction_type: "Type"
+      customer_tag_uid: "Customer tag"
+      operator_tag_uid: "Operator tag"
+      station_id: "Station id"
+      device_uid: "Device uid"
+      device_db_index: "Device DB index"
+      device_created_at: "Device created at"
+      customer_event_profile_id: "Customer Event Profile ID"
+      status_code: "Status Code"
+      status_message: "Status Message"
+      ticket_code: "Ticket Code"
     agreements:
       status: "Estado"
       granted: "Aceptado"
@@ -26,6 +40,7 @@ es:
         hospitality_top_up: "Hospitality top up"
         gtag_recycler: "Reciclaje de Gtags"
         envelope_linker: "Envelope Linker"
+        touchpoint: "Touchpoint"
       station_groups:
         access: "Acceso"
         monetary: "Monetaria"
@@ -40,6 +55,14 @@ es:
         name: "Nombre"
         description: "Descripción"
         price: "Precio"
+      topup_credit:
+        amount: "Cantidad"
+        credit: "Credito"
+        credit_value: "Valor del credito"
+        price: "Precio"
+      access_control_gate:
+        name: "Nombre"
+        direction: "Dirección"
     companies:
       name: "Nombre"
       token: "Token de la compañia"
@@ -59,6 +82,7 @@ es:
       update: "Actualizar"
     event:
       name: 'Nombre'
+      status: "Estado"
       token: "Token del evento"
       slug: 'Identificador'
       url: 'Url del evento'
@@ -251,6 +275,7 @@ es:
     company_ticket_types:
       name: "Nombre"
       company_code: "Código de la compañía"
+      credential_type: "Tipo de credencial"
     entitlement:
       infinite: "Ilimitado"
       memory_length: "Longitud"

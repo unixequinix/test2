@@ -17,9 +17,7 @@ class Companies::Api::V1::TicketTypesController < Companies::Api::V1::BaseContro
       render json: Companies::Api::V1::TicketTypeSerializer.new(@ticket_type)
     else
       render status: :not_found,
-             json: {
-               error: I18n.t("company_api.ticket_type.not_found", ticket_type_id: params[:id])
-             }
+             json: { status: "not_found", error: "Ticket type with id #{params[:id]} not found." }
     end
   end
 
@@ -30,20 +28,24 @@ class Companies::Api::V1::TicketTypesController < Companies::Api::V1::BaseContro
     if @ticket_type.save
       render status: :created, json: Companies::Api::V1::TicketTypeSerializer.new(@ticket_type)
     else
-      render status: :bad_request, json: { message: I18n.t("company_api.ticket_type.bad_request"),
-                                           errors: @ticket_type.errors }
+      render status: :unprocessable_entity,
+             json: { status: "unprocessable_entity", errors: @ticket_type.errors.full_messages }
     end
   end
 
   def update
     @ticket_type = @fetcher.company_ticket_types.find_by(id: params[:id])
 
-    if @ticket_type.update(ticket_type_params)
-      render json: Companies::Api::V1::TicketTypeSerializer.new(@ticket_type)
+    if @ticket_type
+      if @ticket_type.update(ticket_type_params)
+        render json: Companies::Api::V1::TicketTypeSerializer.new(@ticket_type)
+      else
+        render status: :unprocessable_entity,
+               json: { status: "unprocessable_entity", errors: @ticket_type.errors.full_messages }
+      end
     else
-      render status: :bad_request,
-             json: { message: I18n.t("company_api.ticket_type.bad_request"),
-                     errors: @ticket_type.errors }
+      render status: :not_found,
+             json: { status: "not_found", error: "Ticket type with id #{params[:id]} not found." }
     end
   end
 

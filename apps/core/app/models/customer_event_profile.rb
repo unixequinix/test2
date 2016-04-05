@@ -22,6 +22,7 @@ class CustomerEventProfile < ActiveRecord::Base
   has_many :refunds, through: :claims
   has_many :customer_orders
   has_many :online_orders, through: :customer_orders
+  has_many :payments, through: :orders
   has_many :customer_credits do
     def current
       order("created_in_origin_at DESC").first
@@ -81,16 +82,11 @@ class CustomerEventProfile < ActiveRecord::Base
   end
 
   def purchases
-    customer_orders.joins(:catalog_item)
-      .select("sum(customer_orders.amount) as total_amount,
-                                        catalog_items.name,
-                                        catalog_items.catalogable_type,
-                                        catalog_items.catalogable_id"
-             )
-      .group("catalog_items.name,
-                                       catalog_items.catalogable_type,
-                                       catalog_items.catalogable_id"
-            )
+    customer_orders.joins(:catalog_item).select("sum(customer_orders.amount) as total_amount,
+                                                 catalog_items.name,
+                                                 catalog_items.catalogable_type,
+                                                 catalog_items.catalogable_id")
+      .group("catalog_items.name, catalog_items.catalogable_type, catalog_items.catalogable_id")
   end
 
   def infinite_entitlements_purchased

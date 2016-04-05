@@ -77,7 +77,8 @@ class Gtag < ActiveRecord::Base
 
   def ban!
     assignment = CredentialAssignment.find_by(credentiable_id: id, credentiable_type: "Gtag")
-    BannedCustomerEventProfile.new(assign.customer_event_profile_id) unless assignment.nil?
+    profile_id = assignment.customer_event_profile_id unless assignment.nil?
+    BannedCustomerEventProfile.new(customer_event_profile_id: profile_id) unless assignment.nil?
     BannedGtag.create!(gtag_id: id)
   end
 

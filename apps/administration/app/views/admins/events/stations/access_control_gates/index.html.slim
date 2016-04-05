@@ -1,0 +1,6 @@
+- breadcrumb :admins_event_access_control_station_access_control_gates, current_event, @station
+
+= render "form", access_control_gate: @gate
+
+.wrapper-negative-space
+  = render 'admins/events/stations/access_control_gates/list', access_control_gates: @list_model_presenter.all_items

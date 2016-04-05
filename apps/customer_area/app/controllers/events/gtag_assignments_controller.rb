@@ -8,7 +8,6 @@ class Events::GtagAssignmentsController < Events::BaseController
 
   def create
     @gtag_assignment_form = GtagAssignmentForm.new(gtag_assignment_parameters)
-
     if @gtag_assignment_form.save(Gtag.where(event: current_event),
                                   current_customer_event_profile)
       flash[:notice] = I18n.t("alerts.created")
@@ -36,7 +35,7 @@ class Events::GtagAssignmentsController < Events::BaseController
   end
 
   def check_has_not_gtag_assignment!
-    return if current_customer_event_profile.active_gtag_assignment.nil?
+    return if current_profile.active_gtag_assignment.nil?
     redirect_to event_url(current_event), flash: { error: I18n.t("alerts.gtag_already_assigned") }
   end
 

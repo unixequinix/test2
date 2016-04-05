@@ -57,6 +57,7 @@ Rails.application.routes.draw do
       resources :epg_claims, only: [:new, :create]
       resources :bank_account_claims, only: [:new, :create]
       resources :tipalti_claims, only: [:new]
+      resources :direct_claims, only: [:create]
     end
   end
   get ":event_id", to: "events/events#show", as: :customer_root

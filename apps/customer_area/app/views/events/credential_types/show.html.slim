@@ -12,8 +12,8 @@
             data: { confirm: (t("confirm.remove_ticket")) },
             method: :delete do
     = fa_icon "trash"
-    | Remove
+    = t("actions.delete_ticket")
 
   = link_to customer_root_path, class: "btn btn-action-back" do
     = fa_icon "chevron-left"
-    | Back
+    = t("actions.back")

@@ -5,11 +5,14 @@ en:
     cancel: "Cancel"
     edit: "Edit"
     delete: "Delete"
+    delete_ticket: "Delete ticket"
     check_news: "Back to Event Website"
     delete_account: "Delete your account"
     logout: "Logout"
   confirm:
     remove_ticket: "Your purchased credits are assigned to your account. If you remove your ticket, you will need to assign another one to use those credits in the event."
+    cancel_paypal: "Cancelling you disassociate your wristband from you PayPal account."
+    log_out: "Do you want to end this session?"
   header:
     edit: "Edit Profile"
     close: "Logout"
@@ -184,6 +187,7 @@ en:
       simple: "In order to proceed assign the number as appears in your %{gtag}."
     call_to_action: "Assign your %{gtag} and go!"
     button: "Accept"
+    back: "Back"
     placeholders:
       standard:
         line_1: "Line 1 e.g: 12345"
@@ -260,6 +264,7 @@ en:
       waiting_confirmation: 'Currently waiting confirmation for:'
       button: 'Update'
     autotoup_agreement:
+      title: 'Cancel agreement'
       cancel: 'Do you want to cancel your autotopup agreement?'
   sessions:
     first_register:

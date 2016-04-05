@@ -19,22 +19,21 @@ class Companies::Api::V1::GtagsController < Companies::Api::V1::BaseController
     if @gtag
       render json: @gtag, serializer: Companies::Api::V1::GtagSerializer
     else
-      render status: :not_found,
-             json: { error: I18n.t("company_api.gtags.not_found", gtag_id: params[:id]) }
+      render(status: :not_found,
+             json: { status: "not_found", error: "Gtag with id #{params[:id]} not found." })
     end
   end
 
   def create
     @gtag = Gtag.new(gtag_params.merge(event: current_event))
 
-    render(status: :bad_request,
-           json: {
-             error: I18n.t("company_api.gtags.ticket_type_error")
-           }) && return unless validate_gtag_type!
+    render(status: :unprocessable_entity,
+           json: { status: "unprocessable_entity", error: "Ticket type not found." }) &&
+      return unless validate_gtag_type!
 
-    render(status: :bad_request,
-           json: { message: I18n.t("company_api.gtags.bad_request"),
-                   errors: @gtag.errors }) && return unless @gtag.save
+    render(status: :unprocessable_entity,
+           json: { status: "unprocessable_entity",
+                   error: @gtag.errors.full_messages }) && return unless @gtag.save
 
     render status: :created, json: Companies::Api::V1::GtagSerializer.new(@gtag)
   end
@@ -46,14 +45,14 @@ class Companies::Api::V1::GtagsController < Companies::Api::V1::BaseController
     purchaser_attributes = update_params[:purchaser_attributes]
     purchaser_attributes.merge!(id: @gtag.purchaser.id) if purchaser_attributes
 
-    render(status: :bad_request,
-           json: {
-             error: I18n.t("company_api.gtags.ticket_type_error")
-           }) && return unless validate_gtag_type!
+    render(status: :unprocessable_entity,
+           json: { status: "unprocessable_entity",
+                   error: "The ticket type doesn't belongs to your company" }) &&
+      return unless validate_gtag_type!
 
-    render(status: :bad_request,
-           json: { message: I18n.t("company_api.gtags.bad_request"),
-                   errors: @gtag.errors }) && return unless @gtag.update(update_params)
+    render(status: :unprocessable_entity,
+           json: { status: "unprocessable_entity", errors: @gtag.errors.full_messages }) &&
+      return unless @gtag.update(update_params)
 
     render json: Companies::Api::V1::GtagSerializer.new(@gtag)
   end

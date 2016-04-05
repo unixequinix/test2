@@ -5,13 +5,18 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
   let(:admin) { Admin.first || create(:admin) }
 
   before do
-    @tickets = create_list(:ticket, 2, :with_purchaser, event: event)
+    create_list(:ticket, 2, :with_purchaser, event: event)
   end
 
   describe "GET index" do
     context "with authentication" do
       before(:each) do
         http_login(admin.email, admin.access_token)
+      end
+
+      it "has a 200 status code" do
+        get :index, event_id: event.id
+        expect(response.status).to eq 200
       end
 
       context "when the If-Modified-Since header is sent" do
@@ -22,15 +27,10 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
           request.headers["If-Modified-Since"] = (@new_ticket.updated_at - 2.hours)
         end
 
-        it "has a 200 status code" do
-          get :index, event_id: event.id
-          expect(response.status).to eq 200
-        end
-
         it "returns only the modified tickets" do
           get :index, event_id: event.id
           tickets = JSON.parse(response.body).map { |m| m["reference"] }
-          expect(tickets).to include(@new_ticket.code)
+          expect(tickets).to eq([@new_ticket.code])
         end
       end
 
@@ -39,15 +39,12 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
           create(:ticket, :with_purchaser, event: event)
         end
 
-        it "has a 304 status code" do
-          get :index, event_id: event.id
-          expect(response.status).to eq 304
-        end
-
         it "returns the cached tickets" do
           get :index, event_id: event.id
           tickets = JSON.parse(response.body).map { |m| m["reference"] }
-          cache_tickets = JSON.parse(Rails.cache.fetch("v1/tickets")).map { |m| m["reference"] }
+          cache_tickets = JSON.parse(Rails.cache.fetch("v1/event/#{event.id}/tickets")).map do |m|
+            m["reference"]
+          end
 
           create(:ticket, :with_purchaser, event: event)
           event_tickets = event.tickets.map(&:code)
@@ -57,6 +54,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         end
       end
     end
+
     context "without authentication" do
       it "has a 401 status code" do
         get :index, event_id: Event.last.id

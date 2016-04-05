@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       resources :events, only: :index  do
         scope module: "events" do
           resources :accesses, only: :index
+          resources :auto_top_ups, only: :create
           resources :banned_gtags, path: "gtags/banned", only: :index
           resources :banned_tickets, path: "tickets/banned", only: :index
           resources :company_ticket_types, only: :index
@@ -19,7 +20,7 @@ Rails.application.routes.draw do
           resources :orders, only: :index
           resources :packs, only: :index
           resources :parameters, only: :index
-          resources :preevent_products, only: :index
+          resources :products, only: :index
           resources :stations, only: :index
           resources :tickets, only: [:index, :show]
           get "/tickets/reference/:id", to: "tickets#reference"

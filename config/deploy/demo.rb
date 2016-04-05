@@ -37,9 +37,7 @@ server "gspot-demo.glownet.com", user: "ubuntu", roles: %w(web app db)
 
 set :default_run_options,   pty: true
 
-set :ssh_options,   keys: [ENV["GSPOT_STAGING_CERT"]],
-                    forward_agent: true,
-                    auth_methods: %w(publickey)
+set :ssh_options, forward_agent: true, auth_methods: %w(publickey)
 
 # And/or per server (overrides global)
 # ------------------------------------

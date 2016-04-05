@@ -30,8 +30,9 @@ class Payments::PaypalPayer
       order_id: @order.number,
       amount: amount
     }
-    send("#{@method}_payment_options", sale_options, params)
     vault_options(sale_options, @customer_event_profile.customer) if create_agreement?(params)
+    send("#{@method}_payment_options", sale_options, params)
+    submit_for_settlement(sale_options)
     sale_options
   end
 
@@ -41,6 +42,12 @@ class Payments::PaypalPayer
 
   def auto_payment_options(sale_options, params)
     sale_options[:customer_id] = params[:customer_id]
+  end
+
+  def submit_for_settlement(sale_options)
+    sale_options[:options] = {
+      submit_for_settlement: true
+    }
   end
 
   def vault_options(sale_options, customer)
@@ -56,7 +63,7 @@ class Payments::PaypalPayer
 
   def notify_payment(charge, customer_order_creator, customer_credit_creator)
     transaction = charge.transaction
-    return unless transaction.status == "authorized"
+    return unless transaction.status == "settling"
     create_payment(@order, charge)
     customer_credit_creator.save(@order)
     customer_order_creator.save(@order)
