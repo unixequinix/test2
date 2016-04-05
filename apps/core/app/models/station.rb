@@ -36,6 +36,7 @@ class Station < ActiveRecord::Base
   SALE_STATIONS = [:customer_portal, :box_office]
   POINT_OF_SALE_STATIONS = [:point_of_sales]
   TOPUP_STATIONS = [:top_up_refund]
+  ACCESS_CONTROL_STATIONS = [:access_control]
 
   def unassigned_catalog_items
     CatalogItem.where("id NOT IN (

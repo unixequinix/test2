@@ -60,6 +60,9 @@ es:
         credit: "Credito"
         credit_value: "Valor del credito"
         price: "Precio"
+      access_control_gate:
+        name: "Nombre"
+        direction: "Dirección"
     companies:
       name: "Nombre"
       token: "Token de la compañia"

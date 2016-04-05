@@ -60,6 +60,9 @@ th:
         credit: "Credit"
         credit_value: "Credit value"
         price: "Price"
+      access_control_gate:
+        name: "Name"
+        direction: "Direction"
     companies:
       name: "Name"
       token: "Company token"
