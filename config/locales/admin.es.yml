@@ -82,6 +82,7 @@ es:
       update: "Actualizar"
     event:
       name: 'Nombre'
+      status: "Estado"
       token: "Token del evento"
       slug: 'Identificador'
       url: 'Url del evento'
@@ -274,6 +275,7 @@ es:
     company_ticket_types:
       name: "Nombre"
       company_code: "Código de la compañía"
+      credential_type: "Tipo de credencial"
     entitlement:
       infinite: "Ilimitado"
       memory_length: "Longitud"
