@@ -15,7 +15,7 @@ class UnauthorizedController < ActionController::Base
       flash.alert = I18n.t(message)
     end
 
-    handle_response
+    handle_response || render(status: :unauthorized, json: :unauthorized)
   end
 
   private
