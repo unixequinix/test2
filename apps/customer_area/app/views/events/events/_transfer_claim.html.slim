@@ -1,6 +1,6 @@
 .wrapper-module
   p.hint-text
-    = presenter.call_to_action
+    = t("dashboard.without_refunds.call_to_action")
   ul.customer-tickets-list
     - presenter.each_refundable do |link_tag|
       li.customer-ticket
