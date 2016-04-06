@@ -31,7 +31,7 @@ class CredentialTypesPresenter
                   .includes(:catalog_item)
                   .map(&:catalog_item)
     else
-      @products =  @catalog_item.to_a
+      @products = [catalog_item]
     end
   end
 

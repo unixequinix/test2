@@ -14,11 +14,6 @@ class ClaimsPresenter < BasePresenter
     "transfer_claim"
   end
 
-  def refunds_title
-    return I18n.t("dashboard.refunds.title") if completed_claim?
-    I18n.t("dashboard.without_refunds.title")
-  end
-
   def refund_services
     @event.selected_refund_services
   end
@@ -37,18 +32,6 @@ class ClaimsPresenter < BasePresenter
 
   def any_refundable_method?
     @gtag_assignment.credentiable.any_refundable_method?
-  end
-
-  def refund_status
-    if any_refundable_method?
-      completed_claim? ? "refunds" : "without_refunds"
-    else
-      "not_refundable"
-    end
-  end
-
-  def call_to_action
-    I18n.t("dashboard.#{refund_status}.call_to_action")
   end
 
   def refund_snippets

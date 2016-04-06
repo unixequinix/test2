@@ -7,4 +7,5 @@
   support_email: automated@glownet.com
   host_country: US
   currency: USD
+  token_symbol: t
   features: 3
