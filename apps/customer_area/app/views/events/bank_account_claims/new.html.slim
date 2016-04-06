@@ -1,11 +1,12 @@
-= render 'events/claims/claim_details', claim: @claim
+.wrapper-module
+  = render 'events/claims/claim_details', claim: @claim
 
-= simple_form_for @bank_account_claim_form, url: event_bank_account_claims_path(current_event) do |f|
-  - @bank_account_claim_form.form_attributes.each do |attribute|
-    = f.input attribute, autofocus: true
-  = f.input :claim_id, as: :hidden, input_html: { value: @claim.id }
-  = f.input :agreed_on_claim, as: :boolean, label: ("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), event_terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), event_privacy_policy_url, target: '_blank'}").html_safe
-  = raw current_event.bank_account_disclaimer
-  = render 'events/shared/ssl_cert_seal'
-  = f.button :submit, t('claims.button'), class: "btn"
+  = simple_form_for @bank_account_claim_form, url: event_bank_account_claims_path(current_event) do |f|
+    - @bank_account_claim_form.form_attributes.each do |attribute|
+      = f.input attribute, autofocus: true
+    = f.input :claim_id, as: :hidden, input_html: { value: @claim.id }
+    = f.input :agreed_on_claim, as: :boolean, label: ("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), event_terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), event_privacy_policy_url, target: '_blank'}").html_safe
+    //= render 'events/shared/ssl_cert_seal'
+    = f.button :submit, t('claims.button'), class: "btn btn btn-action btn-action-primary"
+    = raw current_event.bank_account_disclaimer
 
