@@ -4,6 +4,12 @@
 .wrapper-module
   iframe id="tipaltiIframe" class="tipalti" frameBorder=0 src=@url
 
+.wrapper-module
+  = link_to customer_root_path, class: "btn btn-action-back " do
+    = fa_icon "chevron-left"
+    = t("actions.back")
+
+
 javascript:
   tipaltiHandler = function (evt) {
     if (evt.data && evt.data.TipaltiIframeInfo) {

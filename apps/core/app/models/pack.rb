@@ -27,6 +27,9 @@ class Pack < ActiveRecord::Base
                catalogable_type: CatalogItem::CREDENTIABLE_TYPES })
   }
 
+  validate :valid_max_value, if: :infinite_item?
+  validate :valid_min_value, if: :infinite_item?
+
   def credits
     open_all("Credit").uniq(&:catalog_item_id)
   end
@@ -40,7 +43,7 @@ class Pack < ActiveRecord::Base
   end
 
   def open_all(*category)
-    items = catalog_items_included.each_with_object([]) do |catalog_item, result|
+    items = catalog_items_included(true).each_with_object([]) do |catalog_item, result|
       if catalog_item.catalogable_type == "Pack"
         item_found = catalog_item.catalogable.open_all
         parent_pack_amount = catalog_item.pack_catalog_items.where(pack_id: id).first.amount
@@ -63,5 +66,23 @@ class Pack < ActiveRecord::Base
       value: catalog_item.catalogable_type == "Credit" && catalog_item.catalogable.value,
       total_amount: catalog_item.pack_catalog_items.where(pack_id: id).sum(:amount)
     )
+  end
+
+  private
+
+  def infinite_item?
+    open_all.any? do |item|
+      item.catalogable.entitlement.infinite if %w(Access Voucher).include?(item.catalogable_type)
+    end
+  end
+
+  def valid_max_value
+    return if catalog_item.max_purchasable.between?(0, 1)
+    errors[:max_purchasable] << I18n.t("errors.messages.invalid_max_value_for_infinite")
+  end
+
+  def valid_min_value
+    return if catalog_item.min_purchasable.between?(0, 1)
+    errors[:min_purchasable] << I18n.t("errors.messages.invalid_min_value_for_infinite")
   end
 end

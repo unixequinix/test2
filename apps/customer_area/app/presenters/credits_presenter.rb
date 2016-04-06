@@ -23,6 +23,10 @@ class CreditsPresenter < BasePresenter
     @customer_event_profile.refundable_money_amount
   end
 
+  def token_symbol
+    @event.token_symbol
+  end
+
   def valid_balance?
     BalanceCalculator.new(@customer_event_profile).valid_balance?
   end

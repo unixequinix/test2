@@ -53,6 +53,7 @@ namespace :db do
                                end_date: data['end_date'],
                                description: data['description'],
                                currency: data['currency'],
+                               token_symbol: data['token_symbol'],
                                host_country: data['host_country'],
                                support_email: data['support_email'],
                                features: data['features'])

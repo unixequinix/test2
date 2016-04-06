@@ -1,0 +1,5 @@
+li.ticket-detail-module
+  ul
+    label Products
+    - @presenter.products.each do |product|
+      li= product.name

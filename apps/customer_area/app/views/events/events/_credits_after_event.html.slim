@@ -3,11 +3,11 @@
   - if presenter.valid_balance?
     p.panel-amount-number
       = presenter.customer_total_credits
-      span.currency-symbol €
+      span.currency-symbol = presenter.token_symbol
     ul.refundable-conversion-list
       p.refundable-text.center-text.bold-text Refundable money:
       li
         = "#{presenter.refundable_money}"
-        span.currency-symbol €
+        span.currency-symbol = presenter.token_symbol
   - else
     span = t('dashboard.credits.calculating_balance')

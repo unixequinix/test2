@@ -19,11 +19,11 @@ class CredentialType < ActiveRecord::Base
   has_many :company_ticket_types
 
   # Validations
-  validates :catalog_item, presence: true
+  validates :catalog_item_id, presence: true
   validate :valid_position
 
   def credits
-    catalog_item.catalogable_type == "Pack" ? catalog_item.catalogable.credits : 0
+    catalog_item.catalogable_type == "Pack" ? catalog_item.catalogable.credits : []
   end
 
   private
