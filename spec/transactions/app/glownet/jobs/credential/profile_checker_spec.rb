@@ -3,11 +3,26 @@ require "rails_helper"
 RSpec.describe Jobs::Credential::TicketChecker, type: :job do
   let(:event) { create(:event) }
   let(:ticket) { create(:ticket, code: "TICKET_CODE", event: event) }
-  let(:gtag) { create(:gtag, tag_uid: "UID1AT20160321130133", event: event) }
   let(:transaction) { create(:credential_transaction, event: event, ticket: ticket) }
-  let(:worker) { Jobs::Credential::TicketChecker.new }
+  let(:worker) { Jobs::Credential::TicketChecker }
   let(:atts) do
     {
+      ticket_code: "TICKET_CODE",
+      event_id: event.id,
+      transaction_id: transaction.id,
+      customer_tag_uid: transaction.customer_tag_uid
+    }
+  end
+
+  it "marks ticket redeemed" do
+    worker.perform_later(atts)
+    # because change happens in the DB, to another instance. We have to reload the object.
+    transaction.reload
+    expect(transaction.ticket).to be_credential_redeemed
+  end
+
+  it "works for real params" do
+    params = {
       transaction_id: transaction.id,
       event_id: event.id,
       transaction_origin: "device",
@@ -24,33 +39,7 @@ RSpec.describe Jobs::Credential::TicketChecker, type: :job do
       status_code: 0,
       status_message: "All OK"
     }
-  end
 
-  describe "actions include" do
-    after { worker.perform(atts) }
-
-    it "assigns profile" do
-      expect(worker).to receive(:assign_profile)
-    end
-
-    it "assigns a ticket" do
-      expect(worker).to receive(:assign_ticket)
-    end
-
-    it "assigns a ticket credential" do
-      expect(worker).to receive(:assign_ticket_credential)
-    end
-
-    it "assigns a gtag" do
-      expect(worker).to receive(:assign_gtag)
-    end
-
-    it "assigns a ticket credential" do
-      expect(worker).to receive(:assign_gtag_credential)
-    end
-
-    it "marks redeemed" do
-      expect(worker).to receive(:mark_redeeemed)
-    end
+    expect { Jobs::Credential::TicketChecker.new.perform(params) }.not_to raise_error
   end
 end
