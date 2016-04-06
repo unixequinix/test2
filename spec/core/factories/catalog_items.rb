@@ -16,7 +16,7 @@ FactoryGirl.define do
 
     trait :with_pack do
       after(:build) do |catalog_item|
-        catalog_item.catalogable ||= build(:pack, catalog_item: catalog_item)
+        catalog_item.catalogable ||= build(:full_pack, catalog_item: catalog_item)
       end
     end
 
@@ -55,6 +55,7 @@ FactoryGirl.define do
     factory :access_catalog_item, traits: [:with_access]
     factory :voucher_catalog_item, traits: [:with_voucher]
     factory :product_catalog_item, traits: [:with_onsite_catalog_item]
+    factory :pack_item_catalog_item, traits: [:with_pack]
     factory :full_catalog_item, traits: [:with_credit, :with_access, :with_voucher]
   end
 end

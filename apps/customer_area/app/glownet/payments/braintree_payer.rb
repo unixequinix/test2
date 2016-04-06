@@ -33,9 +33,15 @@ class Payments::BraintreePayer
     sale_options
   end
 
+  def submit_for_settlement(sale_options)
+    sale_options[:options] = {
+      submit_for_settlement: true
+    }
+  end
+
   def notify_payment(charge, customer_order_creator, customer_credit_creator)
     transaction = charge.transaction
-    return unless transaction.status == "settling"
+    return unless transaction.status == "submitted_for_settlement"
     customer_credit_creator.save(@order)
     create_payment(@order, charge)
     customer_order_creator.save(@order)
