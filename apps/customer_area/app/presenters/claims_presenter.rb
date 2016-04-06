@@ -34,7 +34,6 @@ class ClaimsPresenter < BasePresenter
     @gtag_assignment.credentiable.any_refundable_method?
   end
 
-
   def refund_snippets
     return "" unless any_refundable_method? && !completed_claim?
     refund_services.map do |refund_service|
