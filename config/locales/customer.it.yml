@@ -50,7 +50,7 @@ it:
       ticket: "Add ticket"
       wristband: "Add wristband"
     credits:
-      header: "Your credits"
+      header: "Your balance"
       call_to_action: "To avoid queues, top-up your wristband now for all your event purchases"
       call_to_action_started: "The event just started so you cannot topup anymore"
       call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Event Ticket first"
@@ -180,9 +180,9 @@ it:
       description: "Your claim has been processed correctly and is on the way."
     no_credit:
       title: "Sorry"
-      description: "You don't have any refundable credits"
+      description: "You don't have any refundable balance"
     direct_claim:
-      title: "Claim for your credits"
+      title: "Claim for your balance"
       description: "We will refund your money automatically."
       button: "Proceed"
   gtag_assignations:
