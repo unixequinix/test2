@@ -1,30 +1,16 @@
 class RefundService
   def initialize(claim)
     @claim = claim
-    @event = @claim.customer_event_profile.event
+    @profile = @claim.customer_event_profile
   end
 
   def create(params)
-    refund = Refund.new(claim_id: @claim.id, amount: params[:amount], currency: params[:currency],
-                        message: params[:message], operation_type: params[:operation_type],
-                        gateway_transaction_number: params[:gateway_transaction_number],
-                        payment_solution: params[:payment_solution], status: params[:status])
-    refund.save!
-    valid_status?(refund) ? complete_claim : false
-  end
-
-  private
-
-  def valid_status?(ref)
-    ref.status == "SUCCESS" || ref.status == "PENDING"
-  end
-
-  def complete_claim
+    params = params.slice(*Refund.column_names.map(&:to_sym))
+    refund = Refund.create!(params.merge(claim_id: @claim.id))
+    status_ok = %w( SUCCESS PENDING ).include? refund.status
+    return false unless status_ok
     @claim.complete!
-    send_completed_mail
-  end
-
-  def send_completed_mail
-    ClaimMailer.completed_email(@claim, @event).deliver_later
+    @profile.refund!
+    ClaimMailer.completed_email(@claim, @profile.event).deliver_later
   end
 end

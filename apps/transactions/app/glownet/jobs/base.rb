@@ -11,8 +11,7 @@ class Jobs::Base < ActiveJob::Base
   end
 
   def self.extract_attributes(klass, atts)
-    column_names = klass.column_names
-    atts.dup.keep_if { |key, _| column_names.include? key.to_s }
+    atts.slice(*klass.column_names.map(&:to_sym))
   end
 
   def self.inherited(klass)
