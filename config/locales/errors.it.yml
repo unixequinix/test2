@@ -10,6 +10,8 @@ it:
       error_404: "Route not found"
       error_500: "Internal Server Error"
     messages:
+      topup_credit_id: "You can only have 1 credit type in each topup"
+      topup_credit_count: "You can't have more than 6 buttons in the topup"
       model_invalid: "Validazione fallita: %{errors}"
       inclusion: "non è inclusa nella lista"
       exclusion: "è riservata"
@@ -47,4 +49,3 @@ it:
       not_enough_space_for_entitlement_configuration: "Not enough space in gtag for the existing entitlement configuration"
       not_enough_space_for_credential_configuration: "Not enough space in gtag for the existing credential configuration"
       invalid_max_value_for_infinite: "The max value must be 1 or 0 if you have chosen infinite"
-      invalid_min_value_for_infinite: "The min value must be 1 or 0 if you have chosen infinite"

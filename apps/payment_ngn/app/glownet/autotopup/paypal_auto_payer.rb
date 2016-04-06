@@ -1,42 +1,29 @@
 class Autotopup::PaypalAutoPayer
-  attr_reader :errors
+  def self.start(tag_uid, order_id) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+    profile = Gtag.find_by_tag_uid(tag_uid).assigned_customer_event_profile
+    event = profile.event
+    credit = event.credits.standard
 
-  def initialize(customer_event_profile)
-    @customer_event_profile = customer_event_profile
-    @event = customer_event_profile.event
-    @order = Order.new
-    @errors = nil
-  end
+    p_gateway = profile.payment_gateway_customers.find_by(gateway_type: "paypal")
+    return { errors: "No agreement accepted" } if p_gateway.nil?
 
-  def start
-    payment_gateway = @customer_event_profile.payment_gateway_customers
-                      .find_by(gateway_type: "paypal")
-    @errors = { errors: "No agreement accepted" } && return if payment_gateway.nil?
-    generate_order(payment_gateway)
-    Payments::BraintreeDataRetriever.new(@event, @order)
-    pay(event_id: @event.id, order_id: @order.id, customer_id: payment_gateway.token)
-  end
+    order = Order.create(customer_event_profile: profile, number: order_id)
+    amount = p_gateway.autotopup_amount
+    value = credit.value
 
-  private
+    order.order_items << OrderItem.new(catalog_item_id: credit.catalog_item.id,
+                                       amount: amount,
+                                       total: amount * value)
 
-  def generate_order(payment_gateway)
-    @order.customer_event_profile = @customer_event_profile
-    @order.generate_order_number!
-    standard_credit = @event.credits.standard
-    @order.order_items << OrderItem.new(
-      catalog_item_id: standard_credit.catalog_item.id,
-      amount: payment_gateway.autotopup_amount,
-      total: payment_gateway.autotopup_amount * standard_credit.value
-    )
-    @order.save
-  end
+    Payments::BraintreeDataRetriever.new(event, order)
 
-  def pay(params)
-    charge_object = Payments::PaypalPayer.new
-                    .start(params,
-                           CustomerOrderCreator.new,
-                           CustomerCreditOrderCreator.new,
-                           "auto")
-    @errors = charge_object.errors.to_json unless charge_object.success?
+    data = { event_id: event.id, order_id: order.id, customer_id: p_gateway.token }
+    charge = Payments::PaypalPayer.new.start(data,
+                                             CustomerOrderCreator.new,
+                                             CustomerCreditOrderCreator.new,
+                                             "auto")
+
+    return { errors: charge.errors.to_json } unless charge.success?
+    { gtag_uid: tag_uid, credit_amount: amount, money_amount: amount * value, credit_value: value }
   end
 end
