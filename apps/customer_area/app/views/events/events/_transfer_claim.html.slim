@@ -1,9 +1,10 @@
 .wrapper-module
   p.hint-text
     = t("dashboard.without_refunds.call_to_action")
-  ul.customer-tickets-list
+  ul.customer-tickets-list.add-bottom
     - presenter.each_refundable do |link_tag|
       li.customer-ticket
         = link_tag
-
-  p = raw presenter.refund_disclaimer
+        = fa_icon "angle-right"
+  .unstyled-wrapper.center-text
+    = raw presenter.refund_disclaimer

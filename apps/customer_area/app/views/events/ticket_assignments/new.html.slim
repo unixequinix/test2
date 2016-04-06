@@ -6,3 +6,7 @@
   = form_for @ticket_assignment_form, url: event_ticket_assignments_path(current_event) do |f|
     = f.text_field :code, placeholder: t('admissions.placeholders.ticket_code')
     = submit_tag t('admissions.button'), class: "btn btn-action btn-action-primary"
+.wrapper-module
+  = link_to customer_root_path, class: "btn btn-action-back" do
+    = fa_icon "chevron-left"
+    = t("actions.back")
