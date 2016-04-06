@@ -23,6 +23,7 @@ class CustomerEventProfile < ActiveRecord::Base
   has_many :customer_orders
   has_many :online_orders, through: :customer_orders
   has_many :payments, through: :orders
+  # TODO: check with current_balance method for duplication
   has_many :customer_credits do
     def current
       order("created_in_origin_at DESC").first
@@ -79,6 +80,7 @@ class CustomerEventProfile < ActiveRecord::Base
     active_tickets_assignment.any? || !active_gtag_assignment.nil?
   end
 
+  # TODO: check with customer_credits.current method for duplication
   def current_balance
     customer_credits.order(created_in_origin_at: :desc).first
   end
@@ -100,6 +102,7 @@ class CustomerEventProfile < ActiveRecord::Base
     current_balance.present? ? current_balance.final_refundable_balance : 0
   end
 
+  # TODO: should this method be here??
   def refundable_money_amount
     customer_credits.map do |customer_credit|
       customer_credit.credit_value * customer_credit.refundable_amount
