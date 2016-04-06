@@ -97,7 +97,6 @@ class CustomerEventProfile < ActiveRecord::Base
   end
 
   def refundable_credits_amount
-    current_balance = customer_credits.current
     current_balance.present? ? current_balance.final_refundable_balance : 0
   end
 
@@ -109,6 +108,15 @@ class CustomerEventProfile < ActiveRecord::Base
 
   def online_refundable_money_amount
     payments.map(&:amount).sum
+  end
+
+  def update_balance_after_refund(refund)
+    neg_amount = (refund.amount * -1)
+    customer_credits.create!(amount: neg_amount,
+                             refundable_amount: neg_amount,
+                             credit_value: event.standard_credit_price,
+                             payment_method: refund.payment_solution,
+                             transaction_origin: "refund")
   end
 
   def purchases

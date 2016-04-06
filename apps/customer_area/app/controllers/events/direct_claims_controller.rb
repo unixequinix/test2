@@ -11,7 +11,7 @@ class Events::DirectClaimsController < Events::ClaimsController
                 message: "Created direct refund",
                 payment_solution: "direct",
                 status: "SUCCESS")
-      redirect_to success_event_refunds_url(current_event) and return
+      redirect_to(success_event_refunds_url(current_event)) && return
     end
 
     redirect_to error_event_refunds_url(current_event)
