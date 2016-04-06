@@ -10,6 +10,8 @@ es:
       error_404: "Ruta no encontrada"
       error_500: "Error interno"
     messages:
+      topup_credit_id: "Sólo puedes tener un tipo de crédito por topup"
+      topup_credit_count: "No puedes tener más de 6 botones en el topup"
       model_invalid: "Validación fallida: %{errors}"
       inclusion: "no está incluida en la lista"
       exclusion: "está reservada"

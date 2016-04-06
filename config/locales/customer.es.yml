@@ -14,7 +14,7 @@ es:
     cancel_paypal: "Al cancelar desvicularás tu pulsera de tu cuenta de PayPal."
     log_out: "¿Quieres finalizar la sesión?"
   header:
-    edit: "Editar Pérfil"
+    edit: "Editar Perfil"
     close: "Cerrar sesión"
     menu: "Home"
     home: "Web del Evento"

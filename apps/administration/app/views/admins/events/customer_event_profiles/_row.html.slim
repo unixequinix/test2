@@ -1,4 +1,4 @@
-td data-label=t("admin.customer_event_profile.id") = customer_event_profile.id
+td data-label=t("admin.customer_event_profile.id") = link_to customer_event_profile.id, admins_event_customer_event_profile_path(current_event, customer_event_profile), class: (customer_event_profile.deleted? ? "deleted-field" : "")
 - if customer_event_profile.customer.present?
   td data-label=t("admin.customers.email") = link_to customer_event_profile.customer.email, admins_event_customer_event_profile_path(current_event, customer_event_profile), class: (customer_event_profile.deleted? ? "deleted-field" : "")
   td data-label=t("admin.customers.first_name") = customer_event_profile.customer.first_name
