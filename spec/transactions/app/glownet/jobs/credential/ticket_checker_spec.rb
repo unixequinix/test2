@@ -4,6 +4,7 @@ RSpec.describe Jobs::Credential::TicketChecker, type: :job do
   let(:event) { create(:event) }
   let(:ticket) { create(:ticket, code: "TICKET_CODE", event: event) }
   let(:gtag) { create(:gtag, tag_uid: "UID1AT20160321130133", event: event) }
+  let(:profile) { create(:customer_event_profile, event: event) }
   let(:transaction) { create(:credential_transaction, event: event, ticket: ticket) }
   let(:worker) { Jobs::Credential::TicketChecker.new }
   let(:atts) do
@@ -30,11 +31,11 @@ RSpec.describe Jobs::Credential::TicketChecker, type: :job do
     after { worker.perform(atts) }
 
     it "assigns profile" do
-      expect(worker).to receive(:assign_profile)
+      expect(worker).to receive(:assign_profile).with(transaction, atts).and_return(profile)
     end
 
     it "assigns a ticket" do
-      expect(worker).to receive(:assign_ticket)
+      expect(worker).to receive(:assign_ticket).with(transaction, atts).and_return(ticket)
     end
 
     it "assigns a ticket credential" do
@@ -42,7 +43,7 @@ RSpec.describe Jobs::Credential::TicketChecker, type: :job do
     end
 
     it "assigns a gtag" do
-      expect(worker).to receive(:assign_gtag)
+      expect(worker).to receive(:assign_gtag).with(transaction, atts).and_return(gtag)
     end
 
     it "assigns a ticket credential" do
@@ -50,7 +51,7 @@ RSpec.describe Jobs::Credential::TicketChecker, type: :job do
     end
 
     it "marks redeemed" do
-      expect(worker).to receive(:mark_redeeemed)
+      expect(worker).to receive(:mark_redeemed)
     end
   end
 end

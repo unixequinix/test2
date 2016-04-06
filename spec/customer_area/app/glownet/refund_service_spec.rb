@@ -4,11 +4,6 @@ RSpec.describe RefundService, type: :domain_logic do
   let(:claim) { create(:claim) }
   subject { RefundService.new(claim) }
 
-  it "should initialize the claim and event attributes" do
-    expect(subject.instance_variable_get(:@claim)).not_to be_nil
-    expect(subject.instance_variable_get(:@event)).not_to be_nil
-  end
-
   describe ".create" do
     let(:params) { { claim_id: claim.id, amount: 19.99, status: "PENDING" } }
     let(:mailer_double) { double("ClaimMailer", deliver: true) }
