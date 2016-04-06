@@ -10,10 +10,10 @@ class UnauthorizedController < ActionController::Base
   end
 
   def respond
-    unless request.get?
-      message = env["warden"].message[:message]
-      flash.alert = I18n.t(message)
-    end
+    # unless request.get?
+    #   message = env["warden"].message[:message]
+    #   flash.alert = I18n.t(message)
+    # end
 
     handle_response || render(status: :unauthorized, json: :unauthorized)
   end
