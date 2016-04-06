@@ -43,3 +43,7 @@
             method: :delete do
         = fa_icon "trash"
         = t('actions.cancel')
+  .wrapper-module
+    = link_to customer_root_path, class: "btn btn-action-back add-bottom" do
+      = fa_icon "chevron-left"
+      = t("actions.back")

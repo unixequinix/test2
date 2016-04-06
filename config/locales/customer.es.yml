@@ -1,4 +1,4 @@
-es:
+cres:
   currency_symbol: EUR
   actions:
     back: "Atrás"
@@ -53,7 +53,7 @@ es:
       ticket: "Añadir ticket"
       wristband: "Añadir pulsera"
     credits:
-      header: "Tus créditos"
+      header: "Tu balance"
       call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"
       call_to_action_no_admission_html: "Para poder recargar online,<br>deberás activar un Ticket primero"
       button: "Recarga"
@@ -65,10 +65,10 @@ es:
     add_credentials: "Añade primero un ticket o gtag"
     event_refunds:
       claim: "El evento aún no ha acabado"
-      description: "Vuelve pronto para poder reclamar tus créditos"
+      description: "Vuelve pronto para poder reclamar tu balance"
     wait_refund_disclaimer:
       claim: "Has solicitado tu devolución con éxito"
-      description: "Te enviaremos un mail entre 5 y 15 días hábiles tan pronto como tus créditos estén listos."
+      description: "Te enviaremos un mail entre 5 y 15 días hábiles tan pronto como tu balance esté listo."
       description2: "Entonces podrás ver tu saldo, introducir tus datos bancarios y recibir el pago."
     more_gtags:
       description: "¿Tienes más %{gtag}s? Regístrate otra vez con un email diferente por cada una."
@@ -80,12 +80,12 @@ es:
       description: "Vuelve a tu panel e inténtalo de nuevo."
     without_gtags:
       add : "Asigna tu %{gtag}"
-      title: "¿Te quedan créditos?"
+      title: "¿Te quedan balance?"
       description: "Rcuerda, sólo un %{gtag} por cuenta."
       button: "Introducir"
     without_gtags_disabled:
       add : "Añade tu id"
-      claim: "El tiempo para solicitar tu devolución de créditos en tu %{gtag} ha terminado"
+      claim: "El tiempo para solicitar tu devolución del balance en tu %{gtag} ha terminado"
       description: "Si has contactado al soporte con alguna pregunta previamente,"
       description2: "no te preocupes, te ayudaremos con tu devolución."
     without_gtags_claiming_started:
@@ -99,14 +99,14 @@ es:
     gtag_after_refund:
       description: "Tu devolución está en proceso"
     without_refunds:
-      title: "Tus créditos restantes:"
+      title: "Tu balance restante:"
       call_to_action: "Proceder a la devolución"
-      button: "Reclama tus créditos"
+      button: "Reclama tu balance"
     not_refundable:
-      title: "Tus créditos restantes:"
-      call_to_action: "Lo sentimos, pero no tienes suficientes creditos para pedir una devolución"
+      title: "Tus balance restante:"
+      call_to_action: "Lo sentimos, pero no tienes suficientes balance para pedir una devolución"
     refunds:
-      title: "Tus créditos restantes:"
+      title: "Tu balance restante:"
       call_to_action: "Reembolso realizado con éxito, pronto se realizará su transferencia"
       button: "Modificar cuenta"
     event_started:
@@ -167,19 +167,19 @@ es:
     paypal:
       sync_title: "Regístarte en PayPal para completar el pago"
       sync_copy: "Crédito asegurado"
-      sync_description: "Recarga de forma directa tu pulsera. Selecciona el crédito que quieres recargar en caso de gastar todos tus créditos y evita colas innecesarias. Tu pulsera siempre estará lista y protegida."
+      sync_description: "Recarga de forma directa tu pulsera. Selecciona el crédito que quieres recargar en caso de gastar todo tu balance y evita colas innecesarias. Tu pulsera siempre estará lista y protegida."
   claims:
     title: "Confirmar Reembolso"
     description: "Por favor, revisa tu órden y procede a realizar el pago."
     products: "Productos"
     amount: "Cantidad"
-    product_description: "Créditos a devolver"
+    product_description: "Balance a devolver"
     fee: "Comisión de devolución"
     total: "Total"
     vat: "IVA Incluido"
     redirect: "Serás redirigido a la pasarela de pago del banco."
     button: "Reembolsar"
-    refund: "Por favor, revisa que los créditos a devolver son correctos"
+    refund: "Por favor, revisa que tu balance a devolver es correcto"
     claim_present:
       title: "Gracias!"
       description: "Tu petición ha sido procesada y la devolución está siendo procesada."
