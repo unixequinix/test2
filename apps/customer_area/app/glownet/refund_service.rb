@@ -2,7 +2,6 @@ class RefundService
   def initialize(claim)
     @claim = claim
     @profile = @claim.customer_event_profile
-    @event = @profile.event
   end
 
   def create(params)
@@ -12,6 +11,6 @@ class RefundService
     return false unless status_ok
     @claim.complete!
     @profile.refund!
-    ClaimMailer.completed_email(@claim, @event).deliver_later
+    ClaimMailer.completed_email(@claim, @profile.event).deliver_later
   end
 end
