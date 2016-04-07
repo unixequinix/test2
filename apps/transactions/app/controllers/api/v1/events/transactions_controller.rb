@@ -10,7 +10,8 @@ class Api::V1::Events::TransactionsController < ApplicationController
       Jobs::Base.write(transaction_params).valid?
     end
 
-    render(status: :bad_request, json: :bad_request) && return unless all_valid.all?
+    render(status: :unprocessable_entity,
+           json: :unprocessable_entity) && return unless all_valid.all?
     render(status: :created, json: :created)
   end
 
