@@ -1,45 +1,21 @@
 class Jobs::Credential::ProfileChecker < Jobs::Credential::Base
   SUBSCRIPTIONS = %w( all )
 
-  def perform(_atts)
+  def perform(atts)
     ActiveRecord::Base.transaction do
-      # if id sent, check that tag_uid it matches one gtag of the profile
-
-      # if nil , check tag_uid is associated to profile, if true
-        # assign profile_id to transactions
-        # else
-        # create profile and assign
+      t = CredentialTransaction.find(atts[:transaction_id])
+      gtag = t.event.gtags.where(tag_uid: atts[:customer_tag_uid]).first
+      profile = gtag&.assigned_customer_event_profile
+      verify_customer_event_profile(atts, profile.id, t.customer_event_profile_id)
+      t.update(customer_event_profile: profile)
+      assign_profile(t, atts)
     end
   end
-end
 
-class Jobs::Credential::ProfileChecker < Jobs::Credential::Base
-  SUBSCRIPTIONS = %w( all )
-
-  def perform(_atts)
-    ActiveRecord::Base.transaction do
-      t = CredentialTransaction.find(atts[:transaction_id]).includes(:event)
-      event = t.event
-      if atts[:customer_event_profile_id].blank?
-        profile = event.gtags
-                       .where(tag_uid: atts[:customer_tag_uid])
-                       .first&.assigned_customer_event_profile
-        if profile
-          transaction.update customer_event_profile: profile
-        else
-          assign_profile(t, atts)
-        end
-      else
-        profile = event.gtags
-                       .where(tag_uid: atts[:customer_tag_uid])
-                       .first&.assigned_customer_event_profile
-        if t.customer_event_profile == profile
-          perfecto
-        else
-          fail "Mismatch between customer_event_profile #{t.customer_event_profile.id} and Gtag uid #{atts[:customer_tag_uid]} with profile id #{profile.id}"
-        end
-      end
-    end
+  def verify_customer_event_profile(atts, tag_profile_id, transaction_profile_id)
+    id_present = atts[:customer_event_profile_id].present?
+    return unless id_present && tag_profile_id != transaction_profile_id
+    fail "Mismatch between customer_event_profile id '#{transaction_profile_id.inspect}' and Gtag
+          uid '#{atts[:customer_tag_uid]}' with assigned profile id '#{tag_profile_id.inspect}'"
   end
 end
-

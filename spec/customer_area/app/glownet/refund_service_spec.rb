@@ -5,7 +5,7 @@ RSpec.describe RefundService, type: :domain_logic do
   subject { RefundService.new(claim) }
 
   describe ".create" do
-    let(:params) { { claim_id: claim.id, amount: 19.99, status: "PENDING" } }
+    let(:params) { { claim_id: claim.id, amount: 19.99, status: "PENDING", payment_solution: "a" } }
     let(:mailer_double) { double("ClaimMailer", deliver: true) }
 
     before do
@@ -40,7 +40,7 @@ RSpec.describe RefundService, type: :domain_logic do
     end
 
     it "updates the profiles balance to reflect the refund" do
-      expect(claim.customer_event_profile).to receive(:refund!)
+      expect(claim.customer_event_profile).to receive(:update_balance_after_refund)
       subject.create(params)
     end
   end

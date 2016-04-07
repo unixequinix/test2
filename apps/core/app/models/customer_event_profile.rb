@@ -10,7 +10,7 @@
 #  deleted_at  :datetime
 #
 
-class CustomerEventProfile < ActiveRecord::Base
+class CustomerEventProfile < ActiveRecord::Base # rubocop:disable ClassLength
   acts_as_paranoid
   default_scope { order(created_at: :desc) }
 
@@ -116,12 +116,12 @@ class CustomerEventProfile < ActiveRecord::Base
   end
 
   def update_balance_after_refund(refund)
-    neg_amount = (refund.amount * -1)
-    customer_credits.create!(amount: neg_amount,
-                             refundable_amount: neg_amount,
-                             credit_value: event.standard_credit_price,
-                             payment_method: refund.payment_solution,
-                             transaction_origin: "refund")
+    neg = (refund.amount * -1)
+    params = {
+      amount: neg, refundable_amount: neg, credit_value: event.standard_credit_price,
+      payment_method: refund.payment_solution, transaction_origin: "refund"
+    }
+    customer_credits.create!(params)
   end
 
   def purchases
