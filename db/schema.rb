@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160404182100) do
+ActiveRecord::Schema.define(version: 20160407155919) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,7 +31,6 @@ ActiveRecord::Schema.define(version: 20160404182100) do
     t.string  "transaction_type"
     t.integer "operator_id"
     t.integer "station_id"
-    t.integer "device_id"
     t.integer "device_db_index"
     t.string  "device_created_at"
     t.integer "customer_event_profile_id"
@@ -40,11 +39,11 @@ ActiveRecord::Schema.define(version: 20160404182100) do
     t.string  "final_balance"
     t.integer "status_code"
     t.string  "status_message"
+    t.string  "device_uid"
   end
 
   add_index "access_transactions", ["access_entitlement_id"], name: "index_access_transactions_on_access_entitlement_id", using: :btree
   add_index "access_transactions", ["customer_event_profile_id"], name: "index_access_transactions_on_customer_event_profile_id", using: :btree
-  add_index "access_transactions", ["device_id"], name: "index_access_transactions_on_device_id", using: :btree
   add_index "access_transactions", ["event_id"], name: "index_access_transactions_on_event_id", using: :btree
   add_index "access_transactions", ["operator_id"], name: "index_access_transactions_on_operator_id", using: :btree
   add_index "access_transactions", ["station_id"], name: "index_access_transactions_on_station_id", using: :btree

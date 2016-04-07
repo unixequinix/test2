@@ -6,9 +6,9 @@ class Jobs::Credential::ProfileChecker < Jobs::Credential::Base
       # if id sent, check that tag_uid it matches one gtag of the profile
 
       # if nil , check tag_uid is associated to profile, if true
-        # assign profile_id to transactions
-        # else
-        # create profile and assign
+      # assign profile_id to transactions
+      # else
+      # create profile and assign
     end
   end
 end
@@ -42,4 +42,3 @@ class Jobs::Credential::ProfileChecker < Jobs::Credential::Base
     end
   end
 end
-
