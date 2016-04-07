@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160407171247) do
+ActiveRecord::Schema.define(version: 20160407181443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -515,13 +515,13 @@ ActiveRecord::Schema.define(version: 20160407171247) do
     t.integer "device_db_index"
     t.string  "device_created_at"
     t.integer "customer_order_id"
-    t.integer "catalog_item_id"
     t.integer "customer_event_profile_id"
     t.string  "status_message"
     t.integer "status_code"
+    t.string  "catalogable_type"
+    t.integer "catalogable_id"
   end
 
-  add_index "order_transactions", ["catalog_item_id"], name: "index_order_transactions_on_catalog_item_id", using: :btree
   add_index "order_transactions", ["customer_event_profile_id"], name: "index_order_transactions_on_customer_event_profile_id", using: :btree
   add_index "order_transactions", ["customer_order_id"], name: "index_order_transactions_on_customer_order_id", using: :btree
   add_index "order_transactions", ["event_id"], name: "index_order_transactions_on_event_id", using: :btree
@@ -765,7 +765,6 @@ ActiveRecord::Schema.define(version: 20160407171247) do
   add_foreign_key "money_transactions", "customer_event_profiles"
   add_foreign_key "money_transactions", "events"
   add_foreign_key "money_transactions", "stations"
-  add_foreign_key "order_transactions", "catalog_items"
   add_foreign_key "order_transactions", "customer_event_profiles"
   add_foreign_key "order_transactions", "customer_orders"
   add_foreign_key "order_transactions", "events"

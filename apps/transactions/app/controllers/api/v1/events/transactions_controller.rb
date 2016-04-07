@@ -27,6 +27,4 @@ class Api::V1::Events::TransactionsController < ApplicationController
     mandatory = "#{category.camelcase}Transaction".constantize.mandatory_fields.map(&:to_sym)
     mandatory - keys
   end
-
-
 end
