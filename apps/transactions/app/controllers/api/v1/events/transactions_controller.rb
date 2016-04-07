@@ -6,7 +6,7 @@ class Api::V1::Events::TransactionsController < ApplicationController
     render(status: :bad_request, json: :bad_request) && return unless params[:_json]
 
     atts_valid = params[:_json].map do |atts|
-      all_required_params?(atts.symbolize_keys!.keys, atts[:transaction_category])
+      all_required_params?(atts.keys.map(&:to_sym), atts[:transaction_category])
     end.flatten.uniq
 
     render(status: :unprocessable_entity, json: {
