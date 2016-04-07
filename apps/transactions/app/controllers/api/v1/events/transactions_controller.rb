@@ -13,7 +13,7 @@ class Api::V1::Events::TransactionsController < ApplicationController
              errors: "missing keys: #{atts_valid.to_sentence}" }) && return unless atts_valid.empty?
 
     jobs_valid = params[:_json].all? do |atts|
-      Jobs::Base.write(atts).valid?
+      Jobs::Base.write(ActiveSupport::HashWithIndifferentAccess.new(atts)).valid?
     end
 
     render(status: :unprocessable_entity, json: "Job not proccessed") && return unless jobs_valid
@@ -27,4 +27,6 @@ class Api::V1::Events::TransactionsController < ApplicationController
     mandatory = "#{category.camelcase}Transaction".constantize.mandatory_fields.map(&:to_sym)
     mandatory - keys
   end
+
+
 end

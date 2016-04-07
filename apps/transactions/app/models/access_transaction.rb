@@ -25,6 +25,6 @@ class AccessTransaction < Transaction
   belongs_to :access_entitlement
 
   def self.mandatory_fields
-    super + %w( access_id direcction final_access_value )
+    super + %w( access_id direction final_access_value )
   end
 end
