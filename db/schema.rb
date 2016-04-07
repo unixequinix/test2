@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160407164646) do
+ActiveRecord::Schema.define(version: 20160407171247) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,16 +33,16 @@ ActiveRecord::Schema.define(version: 20160407164646) do
     t.integer "device_db_index"
     t.string  "device_created_at"
     t.integer "customer_event_profile_id"
-    t.integer "access_entitlement_id"
+    t.integer "access_id"
     t.integer "direction"
-    t.string  "final_balance"
+    t.string  "final_access_value"
     t.integer "status_code"
     t.string  "status_message"
     t.string  "device_uid"
     t.string  "operator_tag_uid"
   end
 
-  add_index "access_transactions", ["access_entitlement_id"], name: "index_access_transactions_on_access_entitlement_id", using: :btree
+  add_index "access_transactions", ["access_id"], name: "index_access_transactions_on_access_id", using: :btree
   add_index "access_transactions", ["customer_event_profile_id"], name: "index_access_transactions_on_customer_event_profile_id", using: :btree
   add_index "access_transactions", ["event_id"], name: "index_access_transactions_on_event_id", using: :btree
   add_index "access_transactions", ["station_id"], name: "index_access_transactions_on_station_id", using: :btree
@@ -658,7 +658,7 @@ ActiveRecord::Schema.define(version: 20160407164646) do
   create_table "sale_items", force: :cascade do |t|
     t.integer "product_id"
     t.integer "quantity"
-    t.float   "amount"
+    t.float   "unit_price"
     t.integer "credit_transaction_id"
   end
 
