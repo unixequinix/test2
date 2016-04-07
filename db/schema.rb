@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160407155919) do
+ActiveRecord::Schema.define(version: 20160407164646) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,7 +29,6 @@ ActiveRecord::Schema.define(version: 20160407155919) do
     t.string  "transaction_origin"
     t.string  "customer_tag_uid"
     t.string  "transaction_type"
-    t.integer "operator_id"
     t.integer "station_id"
     t.integer "device_db_index"
     t.string  "device_created_at"
@@ -40,12 +39,12 @@ ActiveRecord::Schema.define(version: 20160407155919) do
     t.integer "status_code"
     t.string  "status_message"
     t.string  "device_uid"
+    t.string  "operator_tag_uid"
   end
 
   add_index "access_transactions", ["access_entitlement_id"], name: "index_access_transactions_on_access_entitlement_id", using: :btree
   add_index "access_transactions", ["customer_event_profile_id"], name: "index_access_transactions_on_customer_event_profile_id", using: :btree
   add_index "access_transactions", ["event_id"], name: "index_access_transactions_on_event_id", using: :btree
-  add_index "access_transactions", ["operator_id"], name: "index_access_transactions_on_operator_id", using: :btree
   add_index "access_transactions", ["station_id"], name: "index_access_transactions_on_station_id", using: :btree
 
   create_table "accesses", force: :cascade do |t|
@@ -518,8 +517,8 @@ ActiveRecord::Schema.define(version: 20160407155919) do
     t.integer "customer_order_id"
     t.integer "catalog_item_id"
     t.integer "customer_event_profile_id"
-    t.string  "integer"
     t.string  "status_message"
+    t.integer "status_code"
   end
 
   add_index "order_transactions", ["catalog_item_id"], name: "index_order_transactions_on_catalog_item_id", using: :btree
