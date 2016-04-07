@@ -69,6 +69,11 @@ a {
   color: $color_text;
   line-height: 1;
   font-weight: lighter;
+
+  .currency-symbol {
+    @include mscale($base-font-size*2.5);
+    font-weight: 500;
+  }
 }
 
 .currency-symbol { padding-left: modules(0.10); }

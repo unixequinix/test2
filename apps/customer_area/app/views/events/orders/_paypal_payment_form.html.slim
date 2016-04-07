@@ -17,10 +17,10 @@ javascript:
         singleUse: false
       },
       onPaymentMethodReceived: function (obj) {
-        $("#paypal-activated-container").toggle();
+        $("#paypal-activated-container").toggleClass("display-paypal");
       },
       onCancelled: function (obj) {
-        $("#paypal-activated-container").toggle();
+        $("#paypal-activated-container").removeClass("display-paypal");
       }
     });
   }
