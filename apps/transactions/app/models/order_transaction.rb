@@ -23,4 +23,8 @@
 class OrderTransaction < Transaction
   belongs_to :customer_order
   belongs_to :catalog_item
+
+  def self.mandatory_fields
+    super + %w( customer_order_id catalogable_id catalogable_type )
+  end
 end

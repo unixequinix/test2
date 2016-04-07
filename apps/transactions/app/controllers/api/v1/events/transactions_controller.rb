@@ -7,14 +7,23 @@ class Api::V1::Events::TransactionsController < ApplicationController
     render(status: :bad_request, json: :bad_request) && return unless permitted_params[:_json]
 
     all_valid = permitted_params[:_json].map do |transaction_params|
-      Jobs::Base.write(transaction_params).valid?
+      validate_params(transaction_params) && Jobs::Base.write(transaction_params).valid?
     end
 
-    render(status: :bad_request, json: :bad_request) && return unless all_valid.all?
+    render(status: :unprocessable_entity,
+           json: :unprocessable_entity) && return unless all_valid.all?
     render(status: :created, json: :created)
   end
 
   private
+
+  def validate_params(t)
+    cat = t[:transaction_category]
+    return false unless cat
+    t.keys.map do |key|
+      "#{cat.capitalize}Transaction".constantize.mandatory_fields.include?(key)
+    end.all?
+  end
 
   def permitted_params # rubocop:disable Metrics/MethodLength
     params.permit(_json: [:event_id,
