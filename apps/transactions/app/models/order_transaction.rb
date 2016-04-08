@@ -22,9 +22,9 @@
 
 class OrderTransaction < Transaction
   belongs_to :customer_order
-  belongs_to :catalog_item
+  belongs_to :catalogable, polymorphic: true
 
   def self.mandatory_fields
-    super + %w( customer_order_id catalogable_id catalogable_type )
+    super + %w( catalogable_id catalogable_type )
   end
 end
