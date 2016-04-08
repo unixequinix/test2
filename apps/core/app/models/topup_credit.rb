@@ -24,11 +24,10 @@ class TopupCredit < ActiveRecord::Base
 
   def valid_topup_credit
     return unless station_parameter
-    credits = TopupCredit.joins(:station_parameter)
-              .where(station_parameters: { station_id: station_parameter.station_id })
+    credits = Station.find_by(id: station_parameter.station_id).topup_credits
 
-    errors[:credit_count] << I18n.t("errors.messages.topup_credit_count") if credits.count < 6
-    errors[:credit_id] << I18n.t("errors.messages.topup_credit_id") if
+    errors[:credit_count] << I18n.t("errors.messages.topup_credit_count") if credits.count > 6
+    errors[:credit_id] << I18n.t("errors.messages.topup_credit_id") unless
       credits.pluck(:credit_id).include?(credit_id) || credits.empty?
   end
 end
