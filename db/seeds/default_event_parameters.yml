@@ -157,6 +157,15 @@
         -
           name: url
           value: https://ui.sandbox.tipalti.com/Payees/PayeeDashboard.aspx
+    -
+      name: direct
+      values:
+        -
+          name: fee
+          value: 0.0
+        -
+          name: minimum
+          value: 0.0
 -
   category: gtag
   groups:

@@ -24,8 +24,9 @@ class Claim < ActiveRecord::Base
   BANK_ACCOUNT = "bank_account"
   EASY_PAYMENT_GATEWAY = "epg"
   TIPALTI = "tipalti"
+  DIRECT = "direct"
 
-  REFUND_SERVICES = [BANK_ACCOUNT, EASY_PAYMENT_GATEWAY, TIPALTI]
+  REFUND_SERVICES = [BANK_ACCOUNT, EASY_PAYMENT_GATEWAY, TIPALTI, DIRECT]
 
   # Associations
   belongs_to :customer_event_profile

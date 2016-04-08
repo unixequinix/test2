@@ -12,7 +12,7 @@ class EventDecorator < Draper::Decorator
                         redsys: "redsys",
                         stripe: "stripe" }
 
-  REFUND_SERVICES = [:bank_account, :epg, :tipalti]
+  REFUND_SERVICES = [:bank_account, :epg, :tipalti, :direct]
   FEATURES = [:top_ups, :refunds]
   LOCALES = [:en_lang, :es_lang, :it_lang, :th_lang]
   REGISTRATION_PARAMETERS = [:phone, :address, :city, :country, :postcode, :gender,
