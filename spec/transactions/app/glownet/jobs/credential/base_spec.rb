@@ -21,21 +21,6 @@ RSpec.describe Jobs::Credential::Base, type: :job do
 
   before { allow(decoder).to receive(:perform).with(ticket_code).and_return(ctt_id) }
 
-  describe ".assign_profile" do
-    it "creates a profile for the transaction passed" do
-      expect do
-        worker.assign_profile(transaction, atts)
-      end.to change(transaction, :customer_event_profile)
-    end
-
-    it "leaves the profile if already present" do
-      transaction.create_customer_event_profile!(event: event)
-      expect do
-        worker.assign_profile(transaction, atts)
-      end.not_to change(transaction, :customer_event_profile)
-    end
-  end
-
   describe ".assign_gtag" do
     before(:each) { transaction.ticket = ticket }
 

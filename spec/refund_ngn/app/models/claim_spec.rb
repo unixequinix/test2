@@ -20,7 +20,7 @@ require "rails_helper"
 
 RSpec.describe Claim, type: :model do
   let(:event) { build(:event) }
-  let(:claim) { create(:claim) }
+  let(:claim) { create(:claim, aasm_state: "in_progress") }
 
   describe ".complete!" do
     before { claim.start_claim! }
