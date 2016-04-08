@@ -137,6 +137,7 @@ th:
         bank_account: 'Bank account'
         epg: 'Easy payment gateway'
         tipalti: 'Tipalti'
+        direct: 'Payment cancellation refund'
       images:
         profile: "Profile image preview"
         background: "Background image preview"

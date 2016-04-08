@@ -20,6 +20,6 @@ class Events::DirectClaimsController < Events::ClaimsController
   private
 
   def service_type
-    Claim::EASY_PAYMENT_GATEWAY
+    Claim::DIRECT
   end
 end
