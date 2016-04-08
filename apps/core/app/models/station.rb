@@ -9,6 +9,7 @@
 #  deleted_at      :datetime
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  location        :string
 #
 
 class Station < ActiveRecord::Base

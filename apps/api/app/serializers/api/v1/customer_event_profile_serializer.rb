@@ -4,8 +4,6 @@ class Api::V1::CustomerEventProfileSerializer < Api::V1::BaseSerializer
                                     serializer: Api::V1::CredentialAssignmentSerializer
 
   has_many :customer_orders, key: :orders, serializer: Api::V1::CustomerOrderSerializer
-  has_many :payment_gateway_customers, key: :autotopup_gateways,
-                                       serializer: Api::V1::PaymentGatewayCustomerSerializer
 
   def attributes(*args)
     hash = super
@@ -33,6 +31,6 @@ class Api::V1::CustomerEventProfileSerializer < Api::V1::BaseSerializer
   end
 
   def autotopup_gateways
-    object.autotopup_gateways.map(&:gateway_type)
+    object.payment_gateway_customers.map(&:gateway_type)
   end
 end
