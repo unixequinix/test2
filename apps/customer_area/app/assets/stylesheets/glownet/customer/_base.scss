@@ -166,9 +166,12 @@ a {
 
 .event-state-image {
   width: auto;
-  height: modules(9);
   margin-bottom: modules(0.5);
 }
+
+.state-illustration  { height: modules(7); }
+.module-illustration { height: modules(9); }
+
 
 .hint {
   display: none;

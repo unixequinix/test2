@@ -151,7 +151,7 @@ cres:
         name: "Tarjeta de crédito"
         icon: "credit-card"
       paypal:
-        name: "Pay Pal"
+        name: "PayPal"
         icon: "paypal"
     stripe:
       card_number: "Número de tarjeta"

@@ -106,6 +106,7 @@
 
   &.display-paypal {
     overflow: visible;
+    height: auto;
     max-height: modules(40);
     opacity: 1;
   }
