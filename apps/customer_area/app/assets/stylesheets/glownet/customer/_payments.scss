@@ -86,7 +86,7 @@
  }
 
  // TODO Refactor: Use this function only on mobile
-.payment-anhor-desktop {
+.payment-anchor-desktop {
   display: none;
 
   @include min-screen($bp3) { display: block; }

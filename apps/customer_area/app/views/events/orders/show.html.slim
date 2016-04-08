@@ -36,3 +36,7 @@
   .container-method [id="method-#{order_presenter.payment_service}" class=(index == 0 ? "show-container" : "")]
     = render order_presenter.path, order_presenter: order_presenter
 
+.wrapper-module
+  = link_to customer_root_path, class: "btn btn-action-back" do
+    = fa_icon "chevron-left"
+    = t("actions.back")
