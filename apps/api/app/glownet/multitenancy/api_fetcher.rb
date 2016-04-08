@@ -51,12 +51,11 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           LIMIT(1)
         ),
         (
-
-            SELECT array_agg(gateway_type)
-            FROM payment_gateway_customers
-            WHERE customer_event_profile_id = customer_event_profiles.id
-              AND agreement_accepted IS TRUE
-              AND deleted_at IS NULL
+          SELECT array_agg(gateway_type)
+          FROM payment_gateway_customers
+          WHERE customer_event_profile_id = customer_event_profiles.id
+            AND agreement_accepted IS TRUE
+            AND deleted_at IS NULL
         ) as autotopup_gateways,
         (
           SELECT array_to_json(array_agg(row_to_json(cr)))
