@@ -32,6 +32,21 @@ header { position: relative; }
   }
 }
 
+.edit-profile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  @include min-screen($bp3) { display: none; }
+}
+
+.edit-profile-menu-desktop {
+  display: none !important;
+
+  @include min-screen($bp3) { display: block !important; }
+}
+
 .mobile-trigger {
   @include mscale($base_font_size*2);
   position: absolute;

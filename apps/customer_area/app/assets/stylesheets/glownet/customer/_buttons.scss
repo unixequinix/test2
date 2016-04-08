@@ -92,8 +92,6 @@
   margin: modules(1.5) 0;
 }
 
-
-
 // Centered button inside the column
 
 .btn-action-secondary {
@@ -201,8 +199,10 @@
   }
 }
 
-.add-bottom { margin-bottom: modules(1) !important; }
-.adjust-bottom { margin-bottom: modules(2) !important; }
+.add-bottom     { margin-bottom: modules(1) !important; }
+.adjust-bottom  { margin-bottom: modules(2) !important; }
+
+.btn-auto-claim { margin: modules(0.5) auto modules(1); }
 
 .btn-action-add-paypal {
   @include transition(background-color 200ms ease-in-out);
