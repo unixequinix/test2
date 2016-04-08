@@ -14,13 +14,18 @@
 #  device_db_index           :integer
 #  device_created_at         :string
 #  customer_order_id         :integer
-#  catalog_item_id           :integer
 #  customer_event_profile_id :integer
-#  integer                   :string
 #  status_message            :string
+#  status_code               :integer
+#  catalogable_type          :string
+#  catalogable_id            :integer
 #
 
 class OrderTransaction < Transaction
   belongs_to :customer_order
-  belongs_to :catalog_item
+  belongs_to :catalogable, polymorphic: true
+
+  def self.mandatory_fields
+    super + %w( catalogable_id catalogable_type )
+  end
 end

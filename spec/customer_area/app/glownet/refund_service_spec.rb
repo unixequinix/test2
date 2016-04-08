@@ -4,17 +4,13 @@ RSpec.describe RefundService, type: :domain_logic do
   let(:claim) { create(:claim) }
   subject { RefundService.new(claim) }
 
-  it "should initialize the claim and event attributes" do
-    expect(subject.instance_variable_get(:@claim)).not_to be_nil
-    expect(subject.instance_variable_get(:@event)).not_to be_nil
-  end
-
   describe ".create" do
-    let(:params) { { claim_id: claim.id, amount: 19.99, status: "PENDING" } }
+    let(:params) { { claim_id: claim.id, amount: 19.99, status: "PENDING", payment_solution: "a" } }
     let(:mailer_double) { double("ClaimMailer", deliver: true) }
 
     before do
       allow(claim).to receive(:complete!)
+      allow(claim.customer_event_profile.event).to receive(:standard_credit_price).and_return(1)
       allow(mailer_double).to receive(:deliver_later).and_return true
       allow(ClaimMailer).to receive(:completed_email).and_return mailer_double
     end
@@ -44,7 +40,7 @@ RSpec.describe RefundService, type: :domain_logic do
     end
 
     it "updates the profiles balance to reflect the refund" do
-      expect(claim.customer_event_profile).to receive(:refund!)
+      expect(claim.customer_event_profile).to receive(:update_balance_after_refund)
       subject.create(params)
     end
   end

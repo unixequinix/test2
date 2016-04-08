@@ -67,15 +67,16 @@ FactoryGirl.define do
       payment_services 3
     end
 
+    trait :with_standard_credit do |_event|
+    end
+
     after :create do |event|
-      EventParameter.find_or_create_by(event: event,
-                                       value: "mifare_classic",
-                                       parameter: Parameter.find_by(category: "gtag",
-                                                                    group: "form",
-                                                                    name: "gtag_type"))
+      param = Parameter.find_by(category: "gtag", group: "form", name: "gtag_type")
+      EventParameter.find_or_create_by(event: event, value: "mifare_classic", parameter: param)
     end
 
     factory :event_with_refund_services, traits: [:refund_services]
     factory :event_with_payment_services, traits: [:payment_services]
+    factory :event_with_standard_credit, traits: [:with_standard_credit]
   end
 end
