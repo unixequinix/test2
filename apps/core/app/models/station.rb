@@ -26,6 +26,10 @@ class Station < ActiveRecord::Base
                            source: :station_parametable,
                            source_type: "TopupCredit"
 
+  has_many :access_control_gates, through: :station_parameters,
+                                  source: :station_parametable,
+                                  source_type: "AccessControlGate"
+
   accepts_nested_attributes_for :station_catalog_items, allow_destroy: true
   accepts_nested_attributes_for :station_products, allow_destroy: true
 

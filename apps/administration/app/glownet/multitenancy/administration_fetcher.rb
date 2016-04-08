@@ -101,7 +101,9 @@ class Multitenancy::AdministrationFetcher
   end
 
   def topup_credits
-    TopupCredit.joins(credit: :catalog_item).where("catalog_items.event_id = ?", @event.id)
+    TopupCredit.joins(credit: :catalog_item)
+      .where("catalog_items.event_id = ?", @event.id)
+      .order("topup_credits.amount ASC")
   end
 
   def access_control_gates

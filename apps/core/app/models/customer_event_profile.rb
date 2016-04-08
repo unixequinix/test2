@@ -23,6 +23,7 @@ class CustomerEventProfile < ActiveRecord::Base
   has_many :customer_orders
   has_many :online_orders, through: :customer_orders
   has_many :payments, through: :orders
+  # TODO: check with current_balance method for duplication
   has_many :customer_credits do
     def current
       order("created_in_origin_at DESC").first
@@ -79,6 +80,48 @@ class CustomerEventProfile < ActiveRecord::Base
 
   def active_credentials?
     active_tickets_assignment.any? || !active_gtag_assignment.nil?
+  end
+
+  # TODO: check with customer_credits.current method for duplication
+  def current_balance
+    customer_credits.order(created_in_origin_at: :desc).first
+  end
+
+  def total_credits
+    customer_credits.sum(:amount)
+  end
+
+  def ticket_credits
+    customer_credits.where.not(transaction_origin: CustomerCredit::CREDITS_PURCHASE)
+      .sum(:amount).floor
+  end
+
+  def purchased_credits
+    customer_credits.where(transaction_origin: CustomerCredit::CREDITS_PURCHASE).sum(:amount).floor
+  end
+
+  def refundable_credits_amount
+    current_balance.present? ? current_balance.final_refundable_balance : 0
+  end
+
+  # TODO: should this method be here??
+  def refundable_money_amount
+    customer_credits.map do |customer_credit|
+      customer_credit.credit_value * customer_credit.refundable_amount
+    end.sum
+  end
+
+  def online_refundable_money_amount
+    payments.map(&:amount).sum
+  end
+
+  def update_balance_after_refund(refund)
+    neg_amount = (refund.amount * -1)
+    customer_credits.create!(amount: neg_amount,
+                             refundable_amount: neg_amount,
+                             credit_value: event.standard_credit_price,
+                             payment_method: refund.payment_solution,
+                             transaction_origin: "refund")
   end
 
   def purchases

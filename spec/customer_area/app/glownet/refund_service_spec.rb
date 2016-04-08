@@ -1,42 +1,51 @@
 require "rails_helper"
 
 RSpec.describe RefundService, type: :domain_logic do
-  describe "notify" do
-    it "should initialize the claim and event attributes" do
-      claim = build(:claim)
-      refund_service = RefundService.new(claim)
-      expect(refund_service.instance_variable_get(:@claim)).not_to be_nil
-      expect(refund_service.instance_variable_get(:@event)).not_to be_nil
-    end
+  let(:claim) { create(:claim) }
+  subject { RefundService.new(claim) }
+
+  it "should initialize the claim and event attributes" do
+    expect(subject.instance_variable_get(:@claim)).not_to be_nil
+    expect(subject.instance_variable_get(:@event)).not_to be_nil
   end
 
-  describe "create" do
-    it "should initialize the claim and event attributes" do
-      credential_assignment = create(:credential_assignment_g_a)
-      gtag = credential_assignment.credentiable
-      event = gtag.event
-      event.update_attribute(:refund_services, 2)
-      claim = create(:claim, aasm_state: "in_progress", gtag: gtag)
-      create(:standard_credit_catalog_item, event: event)
-      Seeder::SeedLoader.load_param(event, category: "refund")
-      refund_service = RefundService.new(claim)
-      refund_service_pending = refund_service.create(amount: "23.00",
-                                                     currency: "EUR",
-                                                     message: "Transaction pending to credit",
-                                                     operation_type: "CREDIT",
-                                                     gateway_transaction_number: "113745",
-                                                     payment_solution: "pendingtocredit",
-                                                     status: "PENDING")
-      expect(refund_service_pending.class).to eq(ActionMailer::DeliveryJob)
+  describe ".create" do
+    let(:params) { { claim_id: claim.id, amount: 19.99, status: "PENDING" } }
+    let(:mailer_double) { double("ClaimMailer", deliver: true) }
 
-      refund_service_complete = refund_service.create(amount: "23.00",
-                                                      currency: "EUR",
-                                                      message: "Transaction pending to credit",
-                                                      operation_type: "CREDIT",
-                                                      gateway_transaction_number: "113745",
-                                                      payment_solution: "pendingtocredit",
-                                                      status: "COMPLETE")
-      expect(refund_service_complete).to eq(false)
+    before do
+      allow(claim).to receive(:complete!)
+      allow(mailer_double).to receive(:deliver_later).and_return true
+      allow(ClaimMailer).to receive(:completed_email).and_return mailer_double
+    end
+
+    it "creates a refund" do
+      expect { subject.create(params) }.to change { Refund.count }.by(1)
+    end
+
+    it "filters out unwanted parameters" do
+      invalid_params = params.merge(invalid_param: "INVALID")
+      expect { subject.create(invalid_params) }.to change { Refund.count }.by(1)
+    end
+
+    it "should return false if status is not PENDING or SUCCESS" do
+      params[:status] = "INVALID"
+      expect(subject.create(params)).to be_falsey
+    end
+
+    it "marks claim as completed" do
+      expect(claim).to receive(:complete!)
+      subject.create(params)
+    end
+
+    it "notifies the client" do
+      expect(ClaimMailer).to receive(:completed_email).and_return mailer_double
+      subject.create(params)
+    end
+
+    it "updates the profiles balance to reflect the refund" do
+      expect(claim.customer_event_profile).to receive(:refund!)
+      subject.create(params)
     end
   end
 end
