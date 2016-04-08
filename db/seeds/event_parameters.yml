@@ -217,3 +217,12 @@
         -
           name: url
           data_type: string
+    -
+      name: direct
+      parameters:
+        -
+          name: fee
+          data_type: currency
+        -
+          name: minimum
+          data_type: currency
