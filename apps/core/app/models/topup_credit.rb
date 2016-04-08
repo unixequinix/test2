@@ -26,7 +26,7 @@ class TopupCredit < ActiveRecord::Base
     return unless station_parameter
     credits = Station.find_by(id: station_parameter.station_id).topup_credits
 
-    errors[:credit_count] << I18n.t("errors.messages.topup_credit_count") if credits.count > 6
+    errors[:credit_count] << I18n.t("errors.messages.topup_credit_count") if credits.count >= 6
     errors[:credit_id] << I18n.t("errors.messages.topup_credit_id") unless
       credits.pluck(:credit_id).include?(credit_id) || credits.empty?
   end
