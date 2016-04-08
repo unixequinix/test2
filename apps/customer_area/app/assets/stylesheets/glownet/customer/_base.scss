@@ -45,6 +45,17 @@ html, body {
   overflow: hidden !important;
 }
 
+// TODO: Manu, the header in the edit registration view must be included as a mobile layout, not with css.
+.registrations {
+  &.edit {
+    .container-welcome-logo {
+      margin-top: modules(3);
+
+      @include min-screen($bp3) { margin-top: auto; }
+    }
+  }
+}
+
 h1 {
   margin: 0;
 }
@@ -69,6 +80,11 @@ a {
   color: $color_text;
   line-height: 1;
   font-weight: lighter;
+
+  .currency-symbol {
+    @include mscale($base-font-size*2.5);
+    font-weight: 500;
+  }
 }
 
 .currency-symbol { padding-left: modules(0.10); }
@@ -161,9 +177,12 @@ a {
 
 .event-state-image {
   width: auto;
-  height: modules(9);
   margin-bottom: modules(0.5);
 }
+
+.state-illustration  { height: modules(7); }
+.module-illustration { height: modules(9); }
+
 
 .hint {
   display: none;
