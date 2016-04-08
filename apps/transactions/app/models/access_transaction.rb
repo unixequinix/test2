@@ -7,17 +7,17 @@
 #  transaction_origin        :string
 #  customer_tag_uid          :string
 #  transaction_type          :string
-#  operator_id               :integer
 #  station_id                :integer
-#  device_id                 :integer
 #  device_db_index           :integer
 #  device_created_at         :string
 #  customer_event_profile_id :integer
-#  access_entitlement_id     :integer
+#  access_id                 :integer
 #  direction                 :integer
-#  final_balance             :string
+#  final_access_value        :string
 #  status_code               :integer
 #  status_message            :string
+#  device_uid                :string
+#  operator_tag_uid          :string
 #
 
 class AccessTransaction < Transaction
