@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160404182100) do
+ActiveRecord::Schema.define(version: 20160407181443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,24 +29,22 @@ ActiveRecord::Schema.define(version: 20160404182100) do
     t.string  "transaction_origin"
     t.string  "customer_tag_uid"
     t.string  "transaction_type"
-    t.integer "operator_id"
     t.integer "station_id"
-    t.integer "device_id"
     t.integer "device_db_index"
     t.string  "device_created_at"
     t.integer "customer_event_profile_id"
-    t.integer "access_entitlement_id"
+    t.integer "access_id"
     t.integer "direction"
-    t.string  "final_balance"
+    t.string  "final_access_value"
     t.integer "status_code"
     t.string  "status_message"
+    t.string  "device_uid"
+    t.string  "operator_tag_uid"
   end
 
-  add_index "access_transactions", ["access_entitlement_id"], name: "index_access_transactions_on_access_entitlement_id", using: :btree
+  add_index "access_transactions", ["access_id"], name: "index_access_transactions_on_access_id", using: :btree
   add_index "access_transactions", ["customer_event_profile_id"], name: "index_access_transactions_on_customer_event_profile_id", using: :btree
-  add_index "access_transactions", ["device_id"], name: "index_access_transactions_on_device_id", using: :btree
   add_index "access_transactions", ["event_id"], name: "index_access_transactions_on_event_id", using: :btree
-  add_index "access_transactions", ["operator_id"], name: "index_access_transactions_on_operator_id", using: :btree
   add_index "access_transactions", ["station_id"], name: "index_access_transactions_on_station_id", using: :btree
 
   create_table "accesses", force: :cascade do |t|
@@ -517,13 +515,13 @@ ActiveRecord::Schema.define(version: 20160404182100) do
     t.integer "device_db_index"
     t.string  "device_created_at"
     t.integer "customer_order_id"
-    t.integer "catalog_item_id"
     t.integer "customer_event_profile_id"
-    t.string  "integer"
     t.string  "status_message"
+    t.integer "status_code"
+    t.string  "catalogable_type"
+    t.integer "catalogable_id"
   end
 
-  add_index "order_transactions", ["catalog_item_id"], name: "index_order_transactions_on_catalog_item_id", using: :btree
   add_index "order_transactions", ["customer_event_profile_id"], name: "index_order_transactions_on_customer_event_profile_id", using: :btree
   add_index "order_transactions", ["customer_order_id"], name: "index_order_transactions_on_customer_order_id", using: :btree
   add_index "order_transactions", ["event_id"], name: "index_order_transactions_on_event_id", using: :btree
@@ -660,7 +658,7 @@ ActiveRecord::Schema.define(version: 20160404182100) do
   create_table "sale_items", force: :cascade do |t|
     t.integer "product_id"
     t.integer "quantity"
-    t.float   "amount"
+    t.float   "unit_price"
     t.integer "credit_transaction_id"
   end
 
@@ -767,7 +765,6 @@ ActiveRecord::Schema.define(version: 20160404182100) do
   add_foreign_key "money_transactions", "customer_event_profiles"
   add_foreign_key "money_transactions", "events"
   add_foreign_key "money_transactions", "stations"
-  add_foreign_key "order_transactions", "catalog_items"
   add_foreign_key "order_transactions", "customer_event_profiles"
   add_foreign_key "order_transactions", "customer_orders"
   add_foreign_key "order_transactions", "events"

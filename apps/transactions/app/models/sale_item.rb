@@ -5,7 +5,7 @@
 #  id                    :integer          not null, primary key
 #  product_id            :integer
 #  quantity              :integer
-#  amount                :float
+#  unit_price            :float
 #  credit_transaction_id :integer
 #
 

@@ -27,4 +27,8 @@ class CreditTransaction < Transaction
   has_many :sale_items
 
   accepts_nested_attributes_for :sale_items
+
+  def self.mandatory_fields
+    super + %w( credits credits_refundable credit_value final_balance final_refundable_balance )
+  end
 end

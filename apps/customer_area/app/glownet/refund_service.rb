@@ -10,7 +10,7 @@ class RefundService
     status_ok = %w( SUCCESS PENDING ).include? refund.status
     return false unless status_ok
     @claim.complete!
-    @profile.refund!
+    @profile.update_balance_after_refund(refund)
     ClaimMailer.completed_email(@claim, @profile.event).deliver_later
   end
 end
