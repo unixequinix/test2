@@ -45,6 +45,17 @@ html, body {
   overflow: hidden !important;
 }
 
+// TODO: Manu, the header in the edit registration view must be included as a mobile layout, not with css.
+.registrations {
+  &.edit {
+    .container-welcome-logo {
+      margin-top: modules(3);
+
+      @include min-screen($bp3) { margin-top: auto; }
+    }
+  }
+}
+
 h1 {
   margin: 0;
 }

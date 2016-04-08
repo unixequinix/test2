@@ -81,7 +81,7 @@ cres:
     without_gtags:
       add : "Asigna tu %{gtag}"
       title: "¿Te quedan balance?"
-      description: "Rcuerda, sólo un %{gtag} por cuenta."
+      description: "Recuerda, sólo un %{gtag} por cuenta."
       button: "Introducir"
     without_gtags_disabled:
       add : "Añade tu id"

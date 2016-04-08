@@ -75,6 +75,7 @@
   overflow: visible;
   position: relative;
   width: 100%;
+  z-index: 1;
 
   @include min-screen($bp4) {
     @include animation(loadFadeIn);
