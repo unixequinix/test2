@@ -9,6 +9,7 @@
     = f.association :company_event_agreement,
       collection: @company_event_agreement_collection,
       label_method: lambda { |cea| "#{cea.company.name}" },
+      label: "Owner",
       include_blank: false
 
     = f.button :submit, class: "btn btn-primary"
