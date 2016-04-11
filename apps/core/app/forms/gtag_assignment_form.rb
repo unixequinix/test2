@@ -4,9 +4,10 @@ class GtagAssignmentForm
 
   attribute :tag_uid, String
   attribute :tag_serial_number, String
+  attribute :event_id, Integer
 
   validates_presence_of :tag_uid
-  validates_presence_of :tag_serial_number
+  validates_presence_of :tag_serial_number, unless: :simple?
 
   def save(fetcher, profile)
     gtag = fetcher.find_by(tag_uid: tag_uid.strip.upcase,
@@ -17,6 +18,10 @@ class GtagAssignmentForm
   end
 
   private
+
+  def simple?
+    Event.find(event_id).get_parameter("gtag", "form", "format") == "simple"
+  end
 
   def persist!(profile, gtag)
     profile.save
