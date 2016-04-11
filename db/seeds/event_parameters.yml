@@ -23,6 +23,12 @@
           name: ultralight_ev1_private_key
           data_type: string
     -
+      name: ultralight_c
+      parameters:
+        -
+          name: ultralight_c_private_key
+          data_type: string
+    -
       name: mifare_classic
       parameters:
         -
