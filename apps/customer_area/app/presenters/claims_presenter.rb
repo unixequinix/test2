@@ -14,7 +14,7 @@ class ClaimsPresenter < BasePresenter
   end
 
   def refund_services
-    @event.selected_refund_services
+    @event.selected_refund_services.map(&:to_s) & Claim::TRANSFER_REFUND_SERVICES
   end
 
   def refund_disclaimer

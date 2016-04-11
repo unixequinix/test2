@@ -82,6 +82,7 @@ es:
       update: "Actualizar"
     event:
       name: 'Nombre'
+      company_name: 'Nombre de la compañía'
       status: "Estado"
       token: "Token del evento"
       slug: 'Identificador'

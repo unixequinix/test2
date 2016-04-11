@@ -82,6 +82,7 @@ en:
       update: "Update"
     event:
       name: 'Name'
+      company_name: 'Company name'
       status: "Status"
       token: "Event token"
       slug: 'Slug'
