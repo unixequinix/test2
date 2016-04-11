@@ -93,10 +93,12 @@ class CustomerEventProfile < ActiveRecord::Base
     single_entitlements = customer_orders.select do |customer_order|
       customer_order.catalog_item.catalogable.try(:entitlement).try(:infinite)
     end.map(&:catalog_item_id)
-    pack_entitlements = CatalogItem.where(catalogable_id: Pack.joins(:catalog_items_included)
-                                                  .where(catalog_items: { id: single_entitlements })
-                                                  .pluck(:id),
-                                          catalogable_type: "Pack").pluck(:id)
+
+    pack_entitlements = CatalogItem.where(
+                          catalogable_id: Pack.joins(:catalog_items_included)
+                                              .where(catalog_items: { id: single_entitlements }),
+                          catalogable_type: "Pack")
+                          .pluck(:id)
 
     single_entitlements + pack_entitlements
   end

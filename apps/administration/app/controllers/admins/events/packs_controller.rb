@@ -28,7 +28,8 @@ class Admins::Events::PacksController < Admins::Events::BaseController
 
   def update
     @pack = @fetcher.packs.find(params[:id])
-    if @pack.update(permitted_params)
+    @pack.assign_attributes(permitted_params)
+    if @pack.save
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_packs_url
     else
