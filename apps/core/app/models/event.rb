@@ -35,6 +35,7 @@
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  token_symbol            :string
+#  company_name            :string
 #
 
 class Event < ActiveRecord::Base
