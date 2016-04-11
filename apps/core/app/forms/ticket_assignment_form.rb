@@ -34,27 +34,25 @@ class TicketAssignmentForm
   end
 
   def infinite_credential_already_owned?(ticket, current_profile)
-    item_in_ticket(ticket)
-    return(item_in_ticket.catalogable.entitlement.infinite? &&
-      credential_already_owned?(ticket, current_profile)) if %w(Access Voucher)
-      .include?(item_in_ticket.catalogable_type)
-    false
+    all_infinites?(ticket) && owns_all_items?(ticket, current_profile)
   end
 
-  def credential_already_owned?(item_in_ticket, current_profile)
+  def all_infinites?(ticket)
+    items_in_ticket(ticket).all? { |item| item.catalogable.try(:entitlement).try(:infinite?) }
+  end
+
+  def items_in_ticket(ticket)
+    credential_type_item = ticket.credential_type_item
+    if credential_type_item.catalogable_type == "Pack"
+      credential_type_item.catalogable.open_all.map { |i| CatalogItem.find(i.catalog_item_id) }
+    else
+      Array(credential_type_item)
+    end
+  end
+
+  def owns_all_items?(ticket, current_profile)
     items_owned = CatalogItem.where(id: current_profile.customer_orders.map(&:catalog_item_id))
-    items_owned.include? item_in_ticket
-  end
-
-  def owns_all_items?(item_in_ticket, current_profile)
-    items_owned = CatalogItem.where(id: current_profile.customer_orders.map(&:catalog_item_id))
-    (Array(item_in_ticket) - items_owned).empty?
-  end
-
-  def item_in_ticket(ticket)
-    ticket.credential_type_item.catalogable_type == "Pack" ?
-      ticket.credential_type_item.open_all :
-      ticket.credential_type_item
+    (items_in_ticket(ticket) - items_owned).empty?
   end
 
   private
