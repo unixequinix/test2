@@ -176,6 +176,12 @@
           name: ultralight_ev1_private_key
           value: "9200as2d92323dsfdfiu2894234"
     -
+      name: ultralight_c
+      values:
+        -
+          name: ultralight_c_private_key
+          value: "9200as2d92323dsf"
+    -
       name: mifare_classic
       values:
         -

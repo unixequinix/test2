@@ -90,7 +90,7 @@ namespace :db do
                                                 name: "Access #{index}",
                                                 step: rand(5),
                                                 min_purchasable: 1,
-                                                max_purchasable: rand(100),
+                                                max_purchasable: rand(1),
                                                 initial_amount: 0 },
                      entitlement_attributes: {
                        event_id: @event.id,
@@ -108,7 +108,7 @@ namespace :db do
                                                      name: "Pack #{index}",
                                                      step: rand(5),
                                                      min_purchasable: 1,
-                                                     max_purchasable: rand(100),
+                                                     max_purchasable: rand(1),
                                                      initial_amount: 0 })
      items.each do |item|
        pack.pack_catalog_items
