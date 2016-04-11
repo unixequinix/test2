@@ -8,7 +8,6 @@ RSpec.describe Jobs::Credit::BalanceUpdater, type: :job do
     {
       transaction_category: "credit",
       amount: 30,
-      payment_method: "cash",
       transaction_origin: "device",
       refundable_amount: 1.2,
       value_credit: 2,
@@ -43,6 +42,12 @@ RSpec.describe Jobs::Credit::BalanceUpdater, type: :job do
       payment_method: "card"
     }
     expect { base.write(atts) }.to change(CustomerCredit, :count).by(1)
+  end
+
+  it "should include payment method os 'credits'" do
+    params[:customer_event_profile_id] = create(:customer_event_profile).id
+    credit = worker.new.perform(params)
+    expect(credit.payment_method).to eq("credits")
   end
 
   it "updates the balance of a customer when correct values are supplied" do

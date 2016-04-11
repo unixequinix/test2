@@ -27,6 +27,7 @@ en:
       event:
         new: &label_event
           name: 'Name'
+          company_name: 'Company name'
           support_email: 'Support email'
           agreed_event_condition_message: 'Condition message'
           description: 'Description'

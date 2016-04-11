@@ -6,7 +6,6 @@ class GtagAssignmentForm
   attribute :tag_serial_number, String
 
   validates_presence_of :tag_uid
-  validates_presence_of :tag_serial_number
 
   def save(fetcher, profile)
     gtag = fetcher.find_by(tag_uid: tag_uid.strip.upcase,

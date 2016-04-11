@@ -27,6 +27,7 @@ es:
       event:
         new: &label_event
           name: 'Nombre'
+          company_name: 'Nombre de la compañía'
           support_email: 'Email de soporte'
           description: 'Descripción'
           start_date: 'Fecha de inicio'
