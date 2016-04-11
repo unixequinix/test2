@@ -22,6 +22,7 @@ it:
       name: "Name"
       type: "Type"
       group: "Group"
+      location: "Location"
       items: "Products"
       station_types:
         customer_portal: "Customer Portal"
@@ -137,6 +138,7 @@ it:
         bank_account: 'Bank account'
         epg: 'Easy payment gateway'
         tipalti: 'Tipalti'
+        direct: 'Payment cancellation refund'
       images:
         profile: "Profile image preview"
         background: "Background image preview"

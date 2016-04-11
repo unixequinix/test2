@@ -2,6 +2,7 @@
   .wrapper-negative-space
     = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
     = f.input :name, placeholder: true
+    = f.input :location, placeholder: true
     = f.association :station_type, collection: EventDecorator.station_type_selector,
                                    prompt: "Choose a Station Type"
 

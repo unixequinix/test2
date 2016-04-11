@@ -21,6 +21,7 @@ es:
     stations:
       name: "Nombre"
       type: "Tipo"
+      location: "Lugar"
       group: "Grupo"
       items: "Productos"
       station_types:
@@ -137,6 +138,7 @@ es:
         bank_account: 'Cuenta bancaria'
         epg: 'Easy payment gateway'
         tipalti: 'Tipalti'
+        direct: 'Por cancelación de pagos'
       images:
         profile: "Imágen de perfil"
         background: "Imágen de fondo"
