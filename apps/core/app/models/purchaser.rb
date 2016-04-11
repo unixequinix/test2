@@ -17,5 +17,4 @@
 class Purchaser < ActiveRecord::Base
   acts_as_paranoid
   belongs_to :credentiable, polymorphic: true, touch: true
-  validates :first_name, :last_name, :email, presence: true
 end
