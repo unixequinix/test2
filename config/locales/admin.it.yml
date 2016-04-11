@@ -22,6 +22,7 @@ it:
       name: "Name"
       type: "Type"
       group: "Group"
+      location: "Location"
       items: "Products"
       station_types:
         customer_portal: "Customer Portal"
