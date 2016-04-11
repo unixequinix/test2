@@ -272,6 +272,7 @@ cres:
     autotoup_agreement:
       cancel: '¿Quieres cancelar tu contrato de autorecarga?'
       title: 'Cancelar contrato'
+      billing_agreement_description: "Acepto que se me hagan cargos cuando me quedo sin crédito"
   sessions:
     first_register:
       welcome: 'Bienvenido!!'

@@ -279,6 +279,7 @@ en:
     autotoup_agreement:
       title: 'Cancel agreement'
       cancel: 'Do you want to cancel your autotopup agreement?'
+      billing_agreement_description: "I agree in get automated charges when running out of credit"
   sessions:
     first_register:
       welcome: 'Welcome!'

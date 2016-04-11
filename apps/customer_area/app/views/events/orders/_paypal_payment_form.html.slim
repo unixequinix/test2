@@ -11,10 +11,12 @@
 javascript:
   if( $("#paypal-payment-form").length > 0 ) {
     var clientToken = '#{order_presenter.form_data.client_token}';
-    braintree.setup(clientToken, "paypal", {
-      container: "paypal-container",
+    braintree.setup(clientToken, "custom", {
       paypal: {
-        singleUse: false
+        container: "paypal-container",
+        displayName: "#{order_presenter.event.company_name}",
+        singleUse: false,
+        billingAgreementDescription: "#{t('registration.autotoup_agreement.billing_agreement_description')}"
       },
       onPaymentMethodReceived: function (obj) {
         $("#paypal-activated-container").toggleClass("display-paypal");

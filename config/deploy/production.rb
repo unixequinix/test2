@@ -1,6 +1,9 @@
 set :branch, "development"
 set :rails_env, "production"
 
+# Default value for :log_level is :debug
+set :log_level, :info
+
 # Link certification folder
 set :linked_dirs, fetch(:linked_dirs) + %w(certs)
 
@@ -36,7 +39,6 @@ server "gspot.glownet.com", user: "ubuntu", roles: %w(web app db)
 #  }
 
 set :default_run_options,   pty: true
-
 set :ssh_options, forward_agent: true, auth_methods: %w(publickey)
 
 # And/or per server (overrides global)

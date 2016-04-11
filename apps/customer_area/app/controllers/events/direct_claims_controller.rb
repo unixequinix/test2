@@ -1,8 +1,12 @@
 class Events::DirectClaimsController < Events::ClaimsController
-  skip_before_action :require_permission!
+  def new
+    @direct_claim_form = DirectClaimForm.new
+    @claim = generate_claim
+  end
 
   def create
-    @claim = generate_claim
+    @direct_claim_form = DirectClaimForm.new
+    @claim = Claim.find(permitted_params[:claim_id])
     @claim.start_claim!
     if Management::RefundManager.new(current_profile).execute
       RefundService.new(@claim)
@@ -19,7 +23,16 @@ class Events::DirectClaimsController < Events::ClaimsController
 
   private
 
+  def permitted_params
+    params.require(form_name).permit(:claim_id, :event_id,
+                                     :agreed_on_claim)
+  end
+
   def service_type
     Claim::DIRECT
+  end
+
+  def form_name
+    "direct_claim_form"
   end
 end

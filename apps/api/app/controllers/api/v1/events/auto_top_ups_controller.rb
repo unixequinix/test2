@@ -6,7 +6,7 @@ class Api::V1::Events::AutoTopUpsController < Api::V1::Events::BaseController
 
     render(status: :bad_request, json: { error: "params missing" }) && return unless uid && pay && o
 
-    payer = "Autotopup::#{pay.camelize}AutoPayer".constantize.start(uid, o)
+    payer = "Autotopup::#{pay.downcase.camelize}AutoPayer".constantize.start(uid, o)
 
     render(status: :unprocessable_entity, json: payer) && return if payer[:errors]
     render(status: :created, json: payer)
