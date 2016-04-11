@@ -30,7 +30,7 @@ class CustomerEventProfile < ActiveRecord::Base # rubocop:disable ClassLength
     end
   end
 
-  has_many :completed_claims, -> { where("aasm_state == 'completed' AND completed_at != NULL") },
+  has_many :completed_claims, -> { where("aasm_state = 'completed' AND completed_at != NULL") },
            class_name: "Claim"
   has_many :credit_purchased_logs,
            -> { where(transaction_origin: CustomerCredit::CREDITS_PURCHASE) },
