@@ -16,3 +16,4 @@ es:
     quantity_not_refundable: 'Créditos insuficientes para ser reembolsados'
     gtag_already_assigned: 'Ya tienes uno asignado'
     ticket_already_assigned: 'Ticket ya asignado'
+    credential_already_assigned: 'You already have the credential that comes with this ticket'
