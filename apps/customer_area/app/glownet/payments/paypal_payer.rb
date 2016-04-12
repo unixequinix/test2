@@ -30,9 +30,9 @@ class Payments::PaypalPayer
       order_id: @order.number,
       amount: amount
     }
+    submit_for_settlement(sale_options)
     vault_options(sale_options, @customer_event_profile.customer) if create_agreement?(params)
     send("#{@method}_payment_options", sale_options, params)
-    submit_for_settlement(sale_options)
     sale_options
   end
 
@@ -57,6 +57,7 @@ class Payments::PaypalPayer
       email: customer.email
     }
     sale_options[:options] = {
+      submit_for_settlement: true,
       store_in_vault: true
     }
   end
