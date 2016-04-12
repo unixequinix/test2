@@ -4,7 +4,7 @@ RSpec.describe Pack, type: :model do
   describe ".only_credits_pack?" do
     it "should return the credits inside a pack grouped by their name (credits in packs)" do
       credit_a = create(:credit, value: 2, currency: "EUR", standard: false)
-      catalog_item_with_pack = create(:catalog_item, :with_pack)
+      catalog_item_with_pack = create(:catalog_item, :with_empty_pack)
       pack_nested = catalog_item_with_pack.catalogable
       create(:pack_catalog_item,
              pack: pack_nested,
@@ -12,7 +12,7 @@ RSpec.describe Pack, type: :model do
              amount: 30)
 
       credit_b = create(:credit, value: 3, currency: "EUR", standard: false)
-      catalog_item_with_pack = create(:catalog_item, :with_pack)
+      catalog_item_with_pack = create(:catalog_item, :with_empty_pack)
       pack = catalog_item_with_pack.catalogable
       create(:pack_catalog_item,
              pack: pack,
@@ -52,32 +52,31 @@ RSpec.describe Pack, type: :model do
              pack: pack,
              catalog_item: deep_pack.catalog_item,
              amount: 5)
-
       expect(pack.only_credits_pack?).to eq(true)
     end
 
-    it "should return false if it doesn't have any credit inside " do
+    it "should return false if it doesn't have any credit inside (1 item inside) " do
       pack = create(:pack, :with_access)
       expect(pack.only_credits_pack?).to eq(false)
-
+    end
+    it "should return false if it doesn't have any credit inside (2 items inside)" do
       pack = create(:pack, :with_access, :with_credit)
       expect(pack.only_credits_pack?).to eq(false)
+    end
 
+    it "should return false if it doesn't have any credit inside (1 item and 1 pack inside)" do
       pack = create(:pack, :with_credit, :with_credit)
       deep_pack = create(:pack, :with_credit, :with_access)
-
-      create(:pack_catalog_item,
-             pack: pack,
-             catalog_item: deep_pack.catalog_item,
-             amount: 5)
+      pack.pack_catalog_items.create!(catalog_item: deep_pack.catalog_item, amount: 5)
 
       expect(pack.only_credits_pack?).to eq(false)
     end
   end
+
   describe ".credits?" do
     it "should return the credits inside a pack grouped by their name (same credit)" do
       credit_a = create(:credit, value: 2, currency: "EUR", standard: false)
-      catalog_item_with_pack = create(:catalog_item, :with_pack)
+      catalog_item_with_pack = create(:catalog_item, :with_empty_pack)
       pack = catalog_item_with_pack.catalogable
 
       create(:pack_catalog_item,
@@ -98,7 +97,7 @@ RSpec.describe Pack, type: :model do
     it "should return the credits inside a pack grouped by their name (different credits)" do
       credit_a = create(:credit, value: 2, currency: "EUR", standard: false)
       credit_b = create(:credit, value: 3, currency: "EUR", standard: false)
-      catalog_item_with_pack = create(:catalog_item, :with_pack)
+      catalog_item_with_pack = create(:catalog_item, :with_empty_pack)
       pack = catalog_item_with_pack.catalogable
 
       create(:pack_catalog_item,
