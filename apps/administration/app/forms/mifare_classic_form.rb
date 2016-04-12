@@ -18,7 +18,7 @@ class MifareClassicForm
 
   validates :mifare_classic_public_key,
             :mifare_classic_private_key_a,
-            :mifare_classic_private_key_b, format: { with: /\A[0-9A-F]+\z/,
+            :mifare_classic_private_key_b, format: { with: /\A[0-9A-Fa-f]+\z/,
                                                      message: "only allows hexadecimal values" }
 
   def save

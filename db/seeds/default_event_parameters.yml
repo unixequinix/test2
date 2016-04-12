@@ -174,25 +174,25 @@
       values:
         -
           name: ultralight_ev1_private_key
-          value: "9200as2d92323dsfdfiu2894234"
+          value: "8DBC0AB92D717796"
     -
       name: ultralight_c
       values:
         -
           name: ultralight_c_private_key
-          value: "9200as2d92323dsf"
+          value: "8DBC0AB92D717796"
     -
       name: mifare_classic
       values:
         -
           name: mifare_classic_public_key
-          value: "9200as2d92323dsfdfiu2894234"
+          value: "8DBC0AB92D71"
         -
           name: mifare_classic_private_key_a
-          value: "9200as2d92323dsfdfiu2894234"
+          value: "8DBC0AB92D71"
         -
           name: mifare_classic_private_key_b
-          value: "9200as2d92323dsfdfiu2894234"
+          value: "8DBC0AB92D71"
     -
       name: form
       values:
