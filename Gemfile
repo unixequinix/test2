@@ -112,7 +112,6 @@ group :development do
   gem 'hirb', '~> 0.7.3' #  Improve ripl(irb)'s default inspect output
   gem 'guard-rubocop'
   gem 'ruby-progressbar'
-  gem 'rubycritic', require: false
 end
 
 group :development, :darwin do

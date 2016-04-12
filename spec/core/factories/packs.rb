@@ -31,6 +31,13 @@ FactoryGirl.define do
       pack.catalog_item ||= create(:catalog_item, catalogable_type: "Pack", catalogable_id: pack.id)
     end
 
+    trait :empty do |_pack|
+      after :create do |pack|
+        pack.pack_catalog_items.clear
+      end
+    end
+
     factory :full_pack, traits: [:with_access, :with_voucher, :with_credit]
+    factory :empty_pack, traits: [:empty]
   end
 end

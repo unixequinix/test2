@@ -15,7 +15,7 @@ class Pack < ActiveRecord::Base
   has_one :catalog_item, as: :catalogable, dependent: :destroy
   accepts_nested_attributes_for :catalog_item, allow_destroy: true
 
-  has_many :pack_catalog_items, dependent: :destroy
+  has_many :pack_catalog_items, dependent: :destroy, inverse_of: :pack
   has_many :catalog_items_included, through: :pack_catalog_items, source: :catalog_item
   accepts_nested_attributes_for :pack_catalog_items, allow_destroy: true
 
@@ -78,7 +78,9 @@ class Pack < ActiveRecord::Base
   private
 
   def catalog_items_included_without_destruction_marked
-    accepted_ids = pack_catalog_items.map { |e| e.catalog_item.id if !e.marked_for_destruction? }.compact
+    accepted_ids = pack_catalog_items.map do |e|
+      e.catalog_item.id unless e.marked_for_destruction?
+    end.compact
     catalog_items_included(true).where(id: accepted_ids)
   end
 

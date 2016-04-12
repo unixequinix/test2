@@ -66,4 +66,8 @@ class TicketAssignmentForm
       return if infinite_credential_already_owned?(ticket, current_profile)
     true
   end
+
+
 end
+
+

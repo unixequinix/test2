@@ -20,6 +20,12 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_empty_pack do
+      after(:build) do |catalog_item|
+        catalog_item.catalogable ||= build(:empty_pack, catalog_item: catalog_item)
+      end
+    end
+
     trait :with_standard_credit do
       after(:build) do |catalog_item|
         catalog_item.catalogable ||= build(:standard_credit, catalog_item: catalog_item)
@@ -34,7 +40,13 @@ FactoryGirl.define do
 
     trait :with_voucher do
       after(:build) do |catalog_item|
-        catalog_item.catalogable ||= build(:voucher, catalog_item: catalog_item)
+        catalog_item.catalogable ||= build(:voucher, :with_finite_entitlement, catalog_item: catalog_item)
+      end
+    end
+
+    trait :with_voucher_infinite_entitlement do
+      after(:build) do |catalog_item|
+        catalog_item.catalogable ||= build(:voucher, :with_infinite_entitlement, catalog_item: catalog_item)
       end
     end
 
@@ -54,6 +66,7 @@ FactoryGirl.define do
     factory :standard_credit_catalog_item, traits: [:with_standard_credit]
     factory :access_catalog_item, traits: [:with_access]
     factory :voucher_catalog_item, traits: [:with_voucher]
+    factory :voucher_catalog_item_infinite_entitlement, traits: [:with_voucher_infinite_entitlement]
     factory :product_catalog_item, traits: [:with_onsite_catalog_item]
     factory :pack_item_catalog_item, traits: [:with_pack]
     factory :full_catalog_item, traits: [:with_credit, :with_access, :with_voucher]
