@@ -157,6 +157,7 @@ es:
         name: 'Nombre'
         mifare_classic: "Mifare Classic"
         ultralight_ev1: "Ultralight EV1"
+        ultralight_c: "Ultralight C"
     device_settings:
       form:
         currency: "Símbolo de la moneda"
