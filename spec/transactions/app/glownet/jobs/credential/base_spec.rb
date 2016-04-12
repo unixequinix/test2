@@ -42,7 +42,7 @@ RSpec.describe Jobs::Credential::Base, type: :job do
   describe ".assign_gtag_credential" do
     it "creates a credential for the gtag" do
       expect do
-        worker.assign_gtag_credential(gtag, profile)
+        worker.assign_gtag_credential(gtag, profile.id)
       end.to change(gtag, :assigned_gtag_credential)
     end
 
@@ -98,7 +98,7 @@ RSpec.describe Jobs::Credential::Base, type: :job do
   describe ".assign_ticket_credential" do
     it "creates a credential for the ticket" do
       expect do
-        worker.assign_ticket_credential(ticket, profile)
+        worker.assign_ticket_credential(ticket, profile.id)
       end.to change(ticket, :assigned_ticket_credential)
     end
 

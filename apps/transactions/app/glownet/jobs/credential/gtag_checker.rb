@@ -4,9 +4,8 @@ class Jobs::Credential::GtagChecker < Jobs::Credential::Base
   def perform(atts)
     ActiveRecord::Base.transaction do
       transaction = CredentialTransaction.find(atts[:transaction_id])
-      profile = assign_profile(transaction, atts)
       gtag = assign_gtag(transaction, atts)
-      assign_gtag_credential(gtag, profile)
+      assign_gtag_credential(gtag, atts[:customer_event_profile_id])
       mark_redeemed(gtag)
     end
   end

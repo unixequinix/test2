@@ -1,11 +1,13 @@
 require "rails_helper"
 
 RSpec.describe Jobs::Order::CredentialAssigner, type: :job do
+  let(:event) { create(:event) }
   let(:worker) { Jobs::Order::CredentialAssigner }
-  let(:gtag) { create(:gtag, tag_uid: "FOOBARBAZ") }
+  let(:gtag) { create(:gtag, tag_uid: "FOOBARBAZ", event: event) }
   let(:profile) { create(:customer_event_profile) }
   let(:atts) do
     {
+      event_id: event.id,
       customer_tag_uid: gtag.tag_uid,
       customer_event_profile_id: profile.id
     }
