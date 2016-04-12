@@ -141,6 +141,7 @@ group :development, :test do
   gem "awesome_print", require:"ap"
   gem 'terminal-notifier-guard'
   gem 'guard-bundler', require: false
+  gem 'i18n-tasks', '~> 0.9.5'
 end
 
 # gem 'puma', group: :integration
