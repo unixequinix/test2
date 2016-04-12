@@ -40,13 +40,15 @@ FactoryGirl.define do
 
     trait :with_voucher do
       after(:build) do |catalog_item|
-        catalog_item.catalogable ||= build(:voucher, :with_finite_entitlement, catalog_item: catalog_item)
+        catalog_item.catalogable ||= build(:voucher, :with_finite_entitlement,
+                                           catalog_item: catalog_item)
       end
     end
 
     trait :with_voucher_infinite_entitlement do
       after(:build) do |catalog_item|
-        catalog_item.catalogable ||= build(:voucher, :with_infinite_entitlement, catalog_item: catalog_item)
+        catalog_item.catalogable ||= build(:voucher, :with_infinite_entitlement,
+                                           catalog_item: catalog_item)
       end
     end
 

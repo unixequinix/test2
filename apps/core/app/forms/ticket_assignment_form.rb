@@ -58,16 +58,35 @@ class TicketAssignmentForm
   private
 
   def valid_ticket?(ticket, companies, current_profile)
-    errors.add(:ticket_assignment, I18n.t("alerts.admissions", companies: companies)) &&
-      return if ticket.nil?
-    errors.add(:ticket_assignment, I18n.t("alerts.ticket_already_assigned")) &&
-      return if already_assigned?(ticket)
-    errors.add(:ticket_assignment, I18n.t("alerts.credential_already_assigned")) &&
-      return if infinite_credential_already_owned?(ticket, current_profile)
-    true
+    ticket_nil_validation(ticket, companies) &&
+      already_assigned_validation(ticket) &&
+      infinite_credential_already_owned(ticket, current_profile)
   end
 
+  def ticket_nil_validation(ticket, companies)
+    if ticket.nil?
+      errors.add(:ticket_assignment, I18n.t("alerts.admissions", companies: companies))
+      false
+    else
+      true
+    end
+  end
 
+  def already_assigned_validation(ticket)
+    if already_assigned?(ticket)
+      errors.add(:ticket_assignment, I18n.t("alerts.ticket_already_assigned"))
+      false
+    else
+      true
+    end
+  end
+
+  def infinite_credential_already_owned(ticket, current_profile)
+    if infinite_credential_already_owned?(ticket, current_profile)
+      errors.add(:ticket_assignment, I18n.t("alerts.credential_already_assigned"))
+      false
+    else
+      true
+    end
+  end
 end
-
-
