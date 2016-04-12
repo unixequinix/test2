@@ -1,5 +1,5 @@
 class Jobs::Credential::TicketChecker < Jobs::Credential::Base
-  SUBSCRIPTIONS = %w( ticket_checkin )
+  TRIGGERS = %w( ticket_checkin )
 
   def perform(atts)
     ActiveRecord::Base.transaction do

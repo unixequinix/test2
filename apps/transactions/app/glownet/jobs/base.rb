@@ -4,34 +4,18 @@ class Jobs::Base < ActiveJob::Base
   def self.write(atts)
     klass = "#{ atts[:transaction_category] }_transaction".classify.constantize
     obj_atts = extract_attributes(klass, atts)
-    search_atts = atts.slice(*SEARCH_ATTS)
-    obj = klass.find_by(search_atts)
+    obj = klass.find_by(atts.slice(*SEARCH_ATTS))
     return obj if obj
     obj = klass.create(obj_atts)
-    profile = new.assign_profile(obj, obj_atts)
-    atts[:transaction_id] = obj.id
-    atts[:customer_event_profile_id] = profile.id
-    workers = descendants.select { |worker| worker::SUBSCRIPTIONS.include? atts[:transaction_type] }
-    workers.each { |worker|  worker.perform_later(atts) }
+    profile_id = Profile::Checker.for_transaction(obj_atts)
+    obj.update!(customer_event_profile_id: profile_id)
+    atts.merge!(transaction_id: obj.id, customer_event_profile_id: profile_id)
+    descendants.each { |d| d.perform_later(atts) if d::TRIGGERS.include? atts[:transaction_type] }
     obj
   end
 
   def self.extract_attributes(klass, atts)
     atts.slice(*klass.column_names.map(&:to_sym))
-  end
-
-  def assign_profile(transaction, atts)
-    gtag = transaction.event.gtags.find_by(tag_uid: atts[:customer_tag_uid])
-    tag_profile = gtag&.assigned_customer_event_profile
-    trans_profile = transaction.customer_event_profile
-
-    if atts[:customer_event_profile_id].present? && tag_profile != trans_profile
-      fail "Mismatch between customer_event_profile id '#{trans_profile&.id.inspect}' and Gtag
-            uid '#{atts[:customer_tag_uid]}' with assigned profile id '#{tag_profile&.id.inspect}'"
-    end
-
-    transaction.update(customer_event_profile: tag_profile) && (return tag_profile) if tag_profile
-    transaction.create_customer_event_profile!(event_id: atts[:event_id])
   end
 
   def self.inherited(klass)

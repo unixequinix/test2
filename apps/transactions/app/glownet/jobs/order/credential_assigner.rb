@@ -1,5 +1,5 @@
 class Jobs::Order::CredentialAssigner < Jobs::Base
-  SUBSCRIPTIONS = %w( record_purchase )
+  TRIGGERS = %w( record_purchase )
 
   def perform(atts)
     gtag = Gtag.find_by_tag_uid(atts[:customer_tag_uid])

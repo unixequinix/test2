@@ -1,5 +1,5 @@
 class Jobs::Credential::GtagChecker < Jobs::Credential::Base
-  SUBSCRIPTIONS = %w( gtag_checkin )
+  TRIGGERS = %w( gtag_checkin )
 
   def perform(atts)
     ActiveRecord::Base.transaction do
