@@ -1,13 +1,14 @@
 class Api::V1::Events::AutoTopUpsController < Api::V1::Events::BaseController
-  def create
-    uid = params[:auto_top_up][:gtag_uid]
-    payment = params[:auto_top_up][:payment_method]
-    render(status: :bad_request, json: { error: "params missing" }) && return unless uid && payment
+  def create # rubocop:disable Metrics/CyclomaticComplexity
+    uid = params[:gtag_uid]
+    pay = params[:payment_method]
+    o = params[:order_id]
 
-    profile = Gtag.find_by_tag_uid(uid).assigned_customer_event_profile
-    payer = "Autotopup::#{payment.capitalize}AutoPayer".constantize.pay(profile)
+    render(status: :bad_request, json: { error: "params missing" }) && return unless uid && pay && o
 
-    render(status: :unprocessable_entity, json: :no_content) && return unless payer
-    render(status: :created, json: :created)
+    payer = "Autotopup::#{pay.downcase.camelize}AutoPayer".constantize.start(uid, o)
+
+    render(status: :unprocessable_entity, json: payer) && return if payer[:errors]
+    render(status: :created, json: payer)
   end
 end

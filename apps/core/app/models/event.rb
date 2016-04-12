@@ -35,6 +35,7 @@
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  token_symbol            :string           default("t")
+#  company_name            :string
 #
 
 class Event < ActiveRecord::Base
@@ -48,7 +49,7 @@ class Event < ActiveRecord::Base
 
   has_flags 1 => :top_ups, 2 => :refunds, column: "features"
   has_flags 1 => :paypal, 2 => :redsys, 3 => :braintree, 4 => :stripe, column: "payment_services"
-  has_flags 1 => :bank_account, 2 => :epg, 3 => :tipalti, column: "refund_services"
+  has_flags 1 => :bank_account, 2 => :epg, 3 => :tipalti, 4 => :direct, column: "refund_services"
   has_flags 1 => :phone, 2 => :address, 3 => :city, 4 => :country, 5 => :postcode, 6 => :gender,
             7 => :birthdate, 8 => :agreed_event_condition, column: "registration_parameters"
   has_flags 1 => :en_lang, 2 => :es_lang, 3 => :it_lang, 4 => :th_lang, column: "locales"

@@ -139,7 +139,7 @@ th:
         name: "Credit card"
         icon: "credit-card"
       paypal:
-        name: "Pay Pal"
+        name: "PayPal"
         icon: "paypal"
     stripe:
       card_number: "หมายเลขบัตร"
@@ -153,7 +153,7 @@ th:
       card_expiration_year: "วันหมดอายุของบัตร"
       button: "ชำระเงิน"
     paypal:
-      sync_title: "Sync with Pay Pal to perform payment"
+      sync_title: "Sync with PayPal to perform payment"
       sync_copy: "Never without credit!"
       sync_description: "Make direct top ups in your event purchases. Select how much you want to top up in case you spent your credit in the event and avoid queues. Your wristband will be always ready to go."
       button: "Sync with PayPal"
@@ -175,9 +175,9 @@ th:
       description: "Your claim has been processed correctly and is on the way."
     no_credit:
       title: "Sorry"
-      description: "You don't have any refundable credits"
+      description: "You don't have any refundable balance"
     direct_claim:
-      title: "Claim for your credits"
+      title: "Claim for your balance"
       description: "We will refund your money automatically."
       button: "Proceed"
   gtag_assignations:
@@ -267,6 +267,7 @@ th:
     autotoup_agreement:
       cancel: 'Do you want to cancel your autotopup agreement?'
       title: 'Cancel agreement'
+      billing_agreement_description: "I agree in get automated charges when running out of credit"
   sessions:
     first_register:
       welcome: 'Bienvenido!!'

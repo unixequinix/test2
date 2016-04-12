@@ -3,6 +3,7 @@ require "rails_helper"
 RSpec.describe CustomerEventProfile, type: :model do
   it { is_expected.to validate_presence_of(:event) }
   let(:profile) { create(:customer_event_profile) }
+  let(:atts) { { customer_event_profile: profile } }
 
   context "when dealing with credits" do
     describe ".online_refundable_money_amount" do
@@ -21,16 +22,15 @@ RSpec.describe CustomerEventProfile, type: :model do
   end
 
   it "The relation active_assignments returns the gtags and tickets assigned" do
-    create(:credential_assignment_g_a, customer_event_profile: profile)
-    create(:credential_assignment_g_u, customer_event_profile: profile)
-    create(:credential_assignment_t_a, customer_event_profile: profile)
-    create(:credential_assignment_t_u, customer_event_profile: profile)
+    create(:credential_assignment_g_a, atts)
+    create(:credential_assignment_g_u, atts)
+    create(:credential_assignment_t_a, atts)
+    create(:credential_assignment_t_u, atts)
 
     expect(profile.active_assignments.count).to be(2)
   end
 
   context "when dealing with credits, " do
-    let(:atts) { { customer_event_profile: profile } }
     let(:credit_atts) { atts.merge(transaction_origin: "credits_purchase") }
     let(:ticket_atts) { atts.merge(transaction_origin: "ticket_assignment") }
     let(:credit_1) { create(:customer_credit_online, credit_atts) }
@@ -40,6 +40,25 @@ RSpec.describe CustomerEventProfile, type: :model do
       credit_1.update_attribute :amount, 10
       credit_2.update_attribute :amount, 10
       expect(profile.total_credits).to eq(20)
+    end
+
+    describe ".refunding" do
+      let(:refund) { build(:refund, amount: 20, claim: build(:claim, aasm_state: "in_progress")) }
+
+      before { create_list(:customer_credit_online, 2, ticket_atts.merge(amount: 20)) }
+      before { allow(profile.event).to receive(:standard_credit_price).and_return(1) }
+
+      it "reduces refundable_credits_amount by the refund amount" do
+        left_over = profile.refundable_credits_amount - refund.amount
+        profile.update_balance_after_refund(refund)
+        expect(profile.reload.refundable_credits_amount).to eq(left_over)
+      end
+
+      it "reduces total_credits by the refund amount" do
+        left_over = profile.total_credits - refund.amount
+        profile.update_balance_after_refund(refund)
+        expect(profile.reload.total_credits).to eq(left_over)
+      end
     end
 
     describe ".ticket_credits" do

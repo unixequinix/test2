@@ -21,6 +21,7 @@ es:
     stations:
       name: "Nombre"
       type: "Tipo"
+      location: "Lugar"
       group: "Grupo"
       items: "Productos"
       station_types:
@@ -82,6 +83,7 @@ es:
       update: "Actualizar"
     event:
       name: 'Nombre'
+      company_name: 'Nombre de la compañía'
       status: "Estado"
       token: "Token del evento"
       slug: 'Identificador'
@@ -137,6 +139,7 @@ es:
         bank_account: 'Cuenta bancaria'
         epg: 'Easy payment gateway'
         tipalti: 'Tipalti'
+        direct: 'Por cancelación de pagos'
       images:
         profile: "Imágen de perfil"
         background: "Imágen de fondo"

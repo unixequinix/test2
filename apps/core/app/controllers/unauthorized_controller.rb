@@ -10,20 +10,16 @@ class UnauthorizedController < ActionController::Base
   end
 
   def respond
+    render(status: :unauthorized, json: :unauthorized) && return unless scope.present?
+
     unless request.get?
       message = env["warden"].message[:message]
       flash.alert = I18n.t(message)
     end
-
-    handle_response
+    redirect_to(send("scope_#{scope}_url"))
   end
 
   private
-
-  def handle_response
-    redirect_to(send("scope_#{scope}_url")) && return if scope.present?
-    render(status: :unauthorized, json: :unauthorized)
-  end
 
   def scope_customer_url
     event_id = params[:event_id].nil? ? params[:id] : params[:event_id]

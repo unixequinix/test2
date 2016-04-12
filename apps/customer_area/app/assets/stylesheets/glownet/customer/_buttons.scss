@@ -199,7 +199,13 @@
   }
 }
 
-.add-bottom { margin-bottom: modules(1); }
+.add-bottom     { margin-bottom: modules(1) !important; }
+.adjust-bottom  { margin-bottom: modules(2) !important; }
+
+.btn-auto-claim {
+    padding: modules(0.5);
+    margin: modules(0.5) auto modules(1);
+}
 
 .btn-action-add-paypal {
   @include transition(background-color 200ms ease-in-out);

@@ -6,7 +6,7 @@ class Admins::Events::Stations::TopupCreditsController < Admins::Events::BaseCon
   end
 
   def create
-    @topup_credit = TopupCredit.create!(permitted_params)
+    @topup_credit = TopupCredit.new(permitted_params)
   end
 
   def destroy
@@ -20,7 +20,7 @@ class Admins::Events::Stations::TopupCreditsController < Admins::Events::BaseCon
 
   def set_params
     @station = @fetcher.topup_stations.find_by(id: params[:station_id])
-    @credits = @fetcher.credits.map { |c| [c.catalog_item.name, c.id] }
+    @credits = @fetcher.credits.includes(:catalog_item).map { |c| [c.catalog_item.name, c.id] }
   end
 
   def permitted_params

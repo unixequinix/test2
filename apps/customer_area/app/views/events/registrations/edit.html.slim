@@ -1,4 +1,4 @@
-.header-desktop.header-nav
+.header-desktop.header-nav.edit-profile-menu-desktop
   ul
     li
       = link_to event_url(current_event), class: "btn-desktop-profile" do
@@ -9,12 +9,29 @@
             data: { confirm: (t("confirm.log_out")) },
             method: :delete do
         = fa_icon "sign-out"
+header.header-mobile.edit-profile-menu
+  h1.mobile-event-name
+    = link_to event_url(current_event) do
+      = current_event.name
+  #mobile-trigger.mobile-trigger
+    = fa_icon "user"
+  nav#mobile-options.mobile-options
+    ul
+      li = mail_to current_event.support_email, t('header.help'), subject: t('event.subject_support', event: current_event.name)
+      - if customer_signed_in?
+        li
+          = link_to edit_event_registrations_path(current_event, current_customer) do
+            = current_customer.first_name
+        li
+          = link_to event_logout_path(current_event), method: :delete do
+            = t('header.logout')
+// TODO: Manu, Upper headers ^^^ for the edit profile view must be displayed with layouts
 
 .container-event-column
-  .wrapper-session.wrapper-module
+  .wrapper-session.wrapper-module-centered.edit-profile-form
     = simple_form_for @edit_profile_form, url: event_registrations_path(current_event), method: :patch do |f|
       = f.error_notification
-      h3.center-text = t('header.edit')
+      h3 = t('header.edit')
       = f.input :event_id, as: :hidden, input_html: { value: current_event.id }, input_html: { class: 'session-input' }
       = f.input :email, required: true, autofocus: true, input_html: { class: 'session-input' }
       = f.input :first_name, required: true, autofocus: true, input_html: { class: 'session-input' }
@@ -43,3 +60,7 @@
             method: :delete do
         = fa_icon "trash"
         = t('actions.cancel')
+  .wrapper-module
+    = link_to customer_root_path, class: "btn btn-action-back add-bottom" do
+      = fa_icon "chevron-left"
+      = t("actions.back")

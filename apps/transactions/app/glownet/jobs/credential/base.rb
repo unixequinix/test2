@@ -1,9 +1,4 @@
 class Jobs::Credential::Base < Jobs::Base
-  def assign_profile(transaction, atts)
-    transaction.customer_event_profile ||
-      transaction.create_customer_event_profile!(event_id: atts[:event_id])
-  end
-
   def assign_gtag(transaction, atts)
     gtags = transaction.event.gtags
     ctt = transaction.ticket.company_ticket_type

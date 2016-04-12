@@ -21,6 +21,7 @@ en:
     stations:
       name: "Name"
       type: "Type"
+      location: "Location"
       group: "Group"
       items: "Products"
       station_types:
@@ -82,6 +83,7 @@ en:
       update: "Update"
     event:
       name: 'Name'
+      company_name: 'Company name'
       status: "Status"
       token: "Event token"
       slug: 'Slug'
@@ -137,6 +139,7 @@ en:
         bank_account: 'Bank account'
         epg: 'Easy payment gateway'
         tipalti: 'Tipalti'
+        direct: 'Payment cancellation refund'
       images:
         profile: "Profile image preview"
         background: "Background image preview"

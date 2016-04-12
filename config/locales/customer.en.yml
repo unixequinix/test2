@@ -52,7 +52,7 @@ en:
       ticket: "Add ticket"
       wristband: "Add wristband"
     credits:
-      header: "Your credits"
+      header: "Your balance"
       call_to_action_started: "The event just started so you cannot topup anymore"
       call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Event Ticket first"
       button: "Top-up"
@@ -97,14 +97,14 @@ en:
     gtag_after_refund:
       description: "Your refund is in process"
     without_refunds:
-      title: "Your credits:"
+      title: "Your balance:"
       call_to_action: "Proceed to refund"
-      button: "Claim your credits"
+      button: "Claim your balance"
     not_refundable:
-      title: "Your credits:"
+      title: "Your balance:"
       call_to_action: "We are sorry, but you don't have enough credits to be refunded"
     refunds:
-      title: "Your credits:"
+      title: "Your balance:"
       call_to_action: "Refund successfully claimed, soon you will receive your transfer"
       button: "Modify bank account"
     event_started:
@@ -148,7 +148,7 @@ en:
         name: "Credit card"
         icon: "credit-card"
       paypal:
-        name: "Pay Pal"
+        name: "PayPal"
         icon: "paypal"
     payment: "Payment method"
     stripe:
@@ -163,7 +163,7 @@ en:
       card_expiration_year: "Card expiration year"
       button: "Pay"
     paypal:
-      sync_title: "Sync with Pay Pal to perform payment"
+      sync_title: "Sync with PayPal to perform payment"
       sync_copy: "Never without credit!"
       sync_description: "Make direct top ups in your event purchases. Select how much you want to top up in case you spent your credit in the event and avoid queues. Your wristband will be always ready to go."
   claims:
@@ -171,22 +171,22 @@ en:
     description: "Please, review your order and proceed to payment."
     products: "Products"
     amount: "Amount"
-    product_description: "Credits to be refunded"
+    product_description: "Balance to be refunded"
     fee: "Refund fee"
     total: "Total"
     vat: "VAT Included"
     redirect: "You will be redirected to the bank’s payment gateway."
     button: "Refund"
     button_iupay: "IUPAY"
-    refund: "Please, review your credits to proceed refund"
+    refund: "Please, review your balance to proceed refund"
     claim_present:
       title: "Thank you!"
       description: "Your claim has been processed correctly and is on the way."
     no_credit:
       title: "Sorry"
-      description: "You don't have any refundable credits"
+      description: "You don't have any refundable balance"
     direct_claim:
-      title: "Claim for your credits"
+      title: "Claim for your balance"
       description: "We will refund your money automatically."
       button: "Proceed"
     invalid_claim:
@@ -279,6 +279,7 @@ en:
     autotoup_agreement:
       title: 'Cancel agreement'
       cancel: 'Do you want to cancel your autotopup agreement?'
+      billing_agreement_description: "I agree in get automated charges when running out of credit"
   sessions:
     first_register:
       welcome: 'Welcome!'

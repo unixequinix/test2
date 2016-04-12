@@ -99,6 +99,43 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
           expect(s_ws_items).to eq(s_db_items)
         end
       end
+
+      context "when the station is an access_control" do
+        before do
+          access = create(:access_catalog_item, event: event).catalogable
+          group = create(:station_group, name: "access")
+          type = create(:station_type, name: "access_control", station_group: group)
+          @station = create(:station, station_type: type, event: event)
+          @station.access_control_gates
+            .new(direction: "1",
+                 access: access,
+                 station_parameter_attributes: { station_id: @station.id }).save
+          @station.access_control_gates
+            .new(direction: "-1",
+                 access: access,
+                 station_parameter_attributes: { station_id: @station.id }).save
+        end
+
+        it "returns all the access control stations" do
+          get :index, event_id: event.id
+          stations = JSON.parse(response.body).first["stations"].map { |m| m["id"] }
+          expect(stations).to eq([@station.id])
+        end
+
+        it "returns the entitlements for each station" do
+          get :index, event_id: event.id
+          s = JSON.parse(response.body).first["stations"].first
+          expect(s).to have_key("entitlements")
+
+          ws_ent = s["entitlements"]
+          db_ent =  {
+            "in" => @station.access_control_gates.where(direction: "1").pluck(:access_id),
+            "out" => @station.access_control_gates.where(direction: "-1").pluck(:access_id)
+          }
+
+          expect(ws_ent).to eq(db_ent)
+        end
+      end
     end
     context "without authentication" do
       it "has a 401 status code" do

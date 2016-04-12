@@ -6,7 +6,6 @@ class ClaimsPresenter < BasePresenter
   def path
     profile = @customer_event_profile
     enough_money = profile.refundable_money_amount <= profile.online_refundable_money_amount
-    return unless @gtag_assignment.present?
     return "no_credits" if profile.refundable_money_amount.zero?
     return "invalid_balance" unless BalanceCalculator.new(profile).valid_balance?
     return "claim_present" if profile.completed_claim
@@ -14,13 +13,8 @@ class ClaimsPresenter < BasePresenter
     "transfer_claim"
   end
 
-  def refunds_title
-    return I18n.t("dashboard.refunds.title") if completed_claim?
-    I18n.t("dashboard.without_refunds.title")
-  end
-
   def refund_services
-    @event.selected_refund_services
+    @event.selected_refund_services.map(&:to_s) & Claim::TRANSFER_REFUND_SERVICES
   end
 
   def refund_disclaimer
@@ -37,18 +31,6 @@ class ClaimsPresenter < BasePresenter
 
   def any_refundable_method?
     @gtag_assignment.credentiable.any_refundable_method?
-  end
-
-  def refund_status
-    if any_refundable_method?
-      completed_claim? ? "refunds" : "without_refunds"
-    else
-      "not_refundable"
-    end
-  end
-
-  def call_to_action
-    I18n.t("dashboard.#{refund_status}.call_to_action")
   end
 
   def refund_snippets
