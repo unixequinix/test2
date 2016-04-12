@@ -1,4 +1,4 @@
-class Jobs::Order::CredentialAssigner < Jobs::Base
+class Operations::Order::CredentialAssigner < Operations::Base
   TRIGGERS = %w( record_purchase )
 
   def perform(atts)

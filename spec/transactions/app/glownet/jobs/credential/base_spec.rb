@@ -1,13 +1,13 @@
 require "rails_helper"
 
-RSpec.describe Jobs::Credential::Base, type: :job do
+RSpec.describe Operations::Credential::Base, type: :job do
   let(:event) { create(:event) }
   let(:transaction) { create(:credential_transaction, event: event) }
   let(:gtag) { create(:gtag, event: event) }
   let(:ticket_code) { "TC8B106BA990BDC56" }
   let(:ticket) { create(:ticket, event: event, credential_redeemed: false, code: ticket_code) }
   let(:profile) { create(:customer_event_profile, event: event) }
-  let(:worker) { Jobs::Credential::Base.new }
+  let(:worker) { Operations::Credential::Base.new }
   let(:decoder) { TicketDecoder::SonarDecoder }
   let(:ctt_id) { "99" }
   let(:atts) do

@@ -1,4 +1,4 @@
-class Jobs::Credential::GtagChecker < Jobs::Credential::Base
+class Operations::Credential::GtagChecker < Operations::Credential::Base
   TRIGGERS = %w( gtag_checkin )
 
   def perform(atts)

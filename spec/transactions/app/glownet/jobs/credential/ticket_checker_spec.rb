@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Jobs::Credential::TicketChecker, type: :job do
+RSpec.describe Operations::Credential::TicketChecker, type: :job do
   let(:event) { create(:event) }
   let(:ticket) { create(:ticket, code: "TICKET_CODE", event: event) }
   let(:gtag) { create(:gtag, tag_uid: "UID1AT20160321130133", event: event) }
@@ -8,7 +8,7 @@ RSpec.describe Jobs::Credential::TicketChecker, type: :job do
   let(:transaction) do
     create(:credential_transaction, event: event, ticket: ticket, customer_event_profile: profile)
   end
-  let(:worker) { Jobs::Credential::TicketChecker.new }
+  let(:worker) { Operations::Credential::TicketChecker.new }
   let(:atts) do
     {
       transaction_id: transaction.id,

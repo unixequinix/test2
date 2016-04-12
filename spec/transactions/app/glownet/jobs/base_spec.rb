@@ -1,7 +1,7 @@
 require "rails_helper"
 
-RSpec.describe Jobs::Base, type: :job do
-  let(:base) { Jobs::Base }
+RSpec.describe Operations::Base, type: :job do
+  let(:base) { Operations::Base }
   let(:event) { create(:event) }
   let(:params) do
     { transaction_category: "credit", transaction_type: "sale", credits: 30, event_id: event.id }
@@ -9,12 +9,12 @@ RSpec.describe Jobs::Base, type: :job do
 
   before(:each) do
     # make 100% sure they are loaded into memory, inspect ofr rubocop
-    Jobs::Credential::TicketChecker.inspect
-    Jobs::Credential::GtagChecker.inspect
-    Jobs::Credit::BalanceUpdater.inspect
-    Jobs::Order::CredentialAssigner.inspect
+    Operations::Credential::TicketChecker.inspect
+    Operations::Credential::GtagChecker.inspect
+    Operations::Credit::BalanceUpdater.inspect
+    Operations::Order::CredentialAssigner.inspect
     # Dont care about the BalanceUpdater or Porfile::Checker, so I mock the behaviour
-    allow(Jobs::Credit::BalanceUpdater).to receive(:perform_later)
+    allow(Operations::Credit::BalanceUpdater).to receive(:perform_later)
   end
 
   it "creates transactions based on transaction_category" do
@@ -25,7 +25,7 @@ RSpec.describe Jobs::Base, type: :job do
   end
 
   it "executes the job defined by transaction_type" do
-    expect(Jobs::Credit::BalanceUpdater).to receive(:perform_later).once.with(params)
+    expect(Operations::Credit::BalanceUpdater).to receive(:perform_later).once.with(params)
     base.write(params)
   end
 
@@ -35,14 +35,14 @@ RSpec.describe Jobs::Base, type: :job do
     end
 
     it "do not include Base clases" do
-      expect(base.descendants).not_to include(Jobs::Credential::Base)
+      expect(base.descendants).not_to include(Operations::Credential::Base)
     end
 
     it "should include the descendants of base classes" do
-      expect(base.descendants).to include(Jobs::Credential::TicketChecker)
-      expect(base.descendants).to include(Jobs::Credential::GtagChecker)
-      expect(base.descendants).to include(Jobs::Credit::BalanceUpdater)
-      expect(base.descendants).to include(Jobs::Order::CredentialAssigner)
+      expect(base.descendants).to include(Operations::Credential::TicketChecker)
+      expect(base.descendants).to include(Operations::Credential::GtagChecker)
+      expect(base.descendants).to include(Operations::Credit::BalanceUpdater)
+      expect(base.descendants).to include(Operations::Order::CredentialAssigner)
     end
   end
 
@@ -53,7 +53,7 @@ RSpec.describe Jobs::Base, type: :job do
     end
 
     it "works even if jobs fail" do
-      allow(Jobs::Credit::BalanceUpdater).to receive(:perform_later).and_raise(Exception)
+      allow(Operations::Credit::BalanceUpdater).to receive(:perform_later).and_raise(Exception)
       expect { base.write(params) }.to raise_error
       params.delete(:transaction_id)
       params.delete(:customer_event_profile_id)
@@ -63,7 +63,7 @@ RSpec.describe Jobs::Base, type: :job do
 
   context "executing subscriptors" do
     it "should only execute subscriptors if the transaction created is new" do
-      expect(Jobs::Credit::BalanceUpdater).to receive(:perform_later).once
+      expect(Operations::Credit::BalanceUpdater).to receive(:perform_later).once
       transaction = base.write(params)
       atts = transaction.attributes
       base.write(atts.symbolize_keys!.merge(transaction_category: "credit"))

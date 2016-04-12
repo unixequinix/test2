@@ -1,4 +1,4 @@
-class Jobs::Credential::Base < Jobs::Base
+class Operations::Credential::Base < Operations::Base
   def assign_gtag(transaction, atts)
     ctt = transaction.ticket.company_ticket_type
     search_atts = { event_id: atts[:event_id], tag_uid: atts[:customer_tag_uid] }

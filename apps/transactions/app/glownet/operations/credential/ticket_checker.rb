@@ -1,4 +1,4 @@
-class Jobs::Credential::TicketChecker < Jobs::Credential::Base
+class Operations::Credential::TicketChecker < Operations::Credential::Base
   TRIGGERS = %w( ticket_checkin )
 
   def perform(atts)

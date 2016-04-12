@@ -38,7 +38,7 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
   describe "POST create" do
     context "when the request is VALID" do
       it "returns a 201 status code" do
-        expect(Jobs::Base).to receive(:write).and_return(transaction)
+        expect(Operations::Base).to receive(:write).and_return(transaction)
         expect(transaction).to receive(:valid?).and_return(true)
         post(:create, event_id: event.id, _json: params)
         expect(response.status).to eq(201)

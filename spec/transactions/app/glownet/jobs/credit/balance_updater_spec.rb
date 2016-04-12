@@ -1,8 +1,8 @@
 require "rails_helper"
 
-RSpec.describe Jobs::Credit::BalanceUpdater, type: :job do
-  let(:base) { Jobs::Base }
-  let(:worker) { Jobs::Credit::BalanceUpdater }
+RSpec.describe Operations::Credit::BalanceUpdater, type: :job do
+  let(:base) { Operations::Base }
+  let(:worker) { Operations::Credit::BalanceUpdater }
   let(:event) { create(:event) }
   let(:params) do
     {

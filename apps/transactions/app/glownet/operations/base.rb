@@ -1,4 +1,4 @@
-class Jobs::Base < ActiveJob::Base
+class Operations::Base < ActiveJob::Base
   SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at )
 
   def self.write(atts)
