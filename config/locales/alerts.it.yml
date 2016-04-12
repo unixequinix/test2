@@ -16,3 +16,4 @@ it:
     quantity_not_refundable: 'Non si può rimborsare questa quantità di crediti'
     gtag_already_assigned: 'Hanno già uno assegnato'
     ticket_already_assigned: 'Ticket already assigned'
+    credential_already_assigned: 'You already have the credential that comes with this ticket'

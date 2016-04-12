@@ -16,3 +16,4 @@ th:
     quantity_not_refundable: 'จำนวนเครดิตไม่มากพอสำหรับการขอรับเงินคืน'
     gtag_already_assigned: 'คุณมีบัตรอยู่ในระบบแล้ว'
     ticket_already_assigned: 'Ticket already assigned'
+    credential_already_assigned: 'You already have the credential that comes with this ticket'

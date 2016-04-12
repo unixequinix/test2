@@ -11,10 +11,20 @@
 
 FactoryGirl.define do
   factory :voucher do
-    after(:build) do |voucher|
-      voucher.entitlement ||= build(:entitlement,
-                                    entitlementable: voucher,
-                                    event: voucher.catalog_item.event)
+    trait :with_finite_entitlement do
+      after(:build) do |voucher|
+        voucher.entitlement ||= build(:entitlement,
+                                      entitlementable: voucher,
+                                      event: voucher.catalog_item.event)
+      end
+    end
+
+    trait :with_infinite_entitlement do
+      after(:build) do |voucher|
+        voucher.entitlement ||= build(:entitlement, :infinite,
+                                      entitlementable: voucher,
+                                      event: voucher.catalog_item.event)
+      end
     end
   end
 end

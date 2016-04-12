@@ -90,7 +90,7 @@ RSpec.describe CustomerCreditOrderCreator, type: :domain_logic do
         order = build(:order)
         access_item_a = create(:catalog_item, :with_access)
         access_item_b = create(:catalog_item, :with_access, event: access_item_a.event)
-        catalog_item_with_pack = create(:catalog_item, :with_pack)
+        catalog_item_with_pack = create(:catalog_item, :with_empty_pack)
         create(:pack_catalog_item,
                pack: catalog_item_with_pack.catalogable,
                catalog_item: access_item_a,
@@ -109,7 +109,6 @@ RSpec.describe CustomerCreditOrderCreator, type: :domain_logic do
 
         coc = CustomerCreditOrderCreator.new
         coc.save(order)
-
         expect(CustomerCredit.count).to be(0)
       end
 
@@ -117,7 +116,7 @@ RSpec.describe CustomerCreditOrderCreator, type: :domain_logic do
         order = build(:order)
         access_item = create(:catalog_item, :with_access)
         credit = create(:credit, value: 2, currency: "EUR", standard: false)
-        catalog_item_with_pack = create(:catalog_item, :with_pack)
+        catalog_item_with_pack = create(:catalog_item, :with_empty_pack)
         create(:pack_catalog_item,
                pack: catalog_item_with_pack.catalogable,
                catalog_item: access_item,
@@ -149,7 +148,7 @@ RSpec.describe CustomerCreditOrderCreator, type: :domain_logic do
       it "a pack with a single credit" do
         order = build(:order)
         credit = create(:credit, value: 2, currency: "EUR", standard: false)
-        catalog_item_with_pack = create(:catalog_item, :with_pack)
+        catalog_item_with_pack = create(:catalog_item, :with_empty_pack)
         create(:pack_catalog_item,
                pack: catalog_item_with_pack.catalogable,
                catalog_item: credit.catalog_item,
@@ -182,7 +181,7 @@ RSpec.describe CustomerCreditOrderCreator, type: :domain_logic do
         credit_a = create(:credit, value: 2, currency: "EUR", standard: false)
         credit_b = create(:credit, value: 3, currency: "EUR", standard: false)
         access_item = create(:catalog_item, :with_access)
-        catalog_item_with_pack = create(:catalog_item, :with_pack)
+        catalog_item_with_pack = create(:catalog_item, :with_empty_pack)
         create(:pack_catalog_item,
                pack: catalog_item_with_pack.catalogable,
                catalog_item: credit_a.catalog_item,
@@ -226,7 +225,7 @@ RSpec.describe CustomerCreditOrderCreator, type: :domain_logic do
         credit_a = create(:credit, value: 2, currency: "EUR", standard: false)
         credit_b = create(:credit, value: 3, currency: "EUR", standard: false)
         access_item = create(:catalog_item, :with_access)
-        catalog_item_with_pack = create(:catalog_item, :with_pack)
+        catalog_item_with_pack = create(:catalog_item, :with_empty_pack)
         create(:pack_catalog_item,
                pack: catalog_item_with_pack.catalogable,
                catalog_item: credit_a.catalog_item,
