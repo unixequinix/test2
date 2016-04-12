@@ -33,6 +33,15 @@ RSpec.describe Profile::Checker, type: :domain_logic do
     end
 
     describe "without customer_event_profile" do
+      it "without finding the gtag also creates a profile" do
+        atts[:customer_tag_uid] = "NOTTHERE"
+        expect { subject.for_transaction(atts) }.to change(CustomerEventProfile, :count).by(1)
+      end
+
+      it "sends back the newly created id" do
+        expect(subject.for_transaction(atts)).to be_kind_of(Integer)
+      end
+
       it "creates a new profile" do
         expect { subject.for_transaction(atts) }.to change(CustomerEventProfile, :count).by(1)
       end

@@ -17,12 +17,12 @@ RSpec.describe Jobs::Credit::BalanceUpdater, type: :job do
     }
   end
 
-  it "should work for real parameters" do
+  it "works for real parameters" do
     atts = {
       transaction_category: "credit",
       customer_event_profile_id: nil,
       customer_tag_uid: "04C80D6AB63784",
-      device_created_at: "2016-04-08T00:13:34",
+      device_created_at: (Time.now + rand).to_s,
       transaction_type: "sale",
       device_uid: "5C0A5BA2CF43",
       transaction_origin: "onsite",
@@ -44,7 +44,7 @@ RSpec.describe Jobs::Credit::BalanceUpdater, type: :job do
     expect { base.write(atts) }.to change(CustomerCredit, :count).by(1)
   end
 
-  it "should include payment method os 'credits'" do
+  it "includes payment method of 'credits'" do
     params[:customer_event_profile_id] = create(:customer_event_profile).id
     credit = worker.new.perform(params)
     expect(credit.payment_method).to eq("credits")
