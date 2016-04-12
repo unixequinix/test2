@@ -78,9 +78,9 @@ class Multitenancy::AdministrationFetcher
     Station.where(event: @event)
   end
 
-  def sale_stations
+  def accreditation_stations
     Station.joins(:station_type)
-      .where(event: @event, station_types: { name: Station::SALE_STATIONS })
+      .where(event: @event, station_types: { name: Station::ACCREDITATION_STATIONS })
   end
 
   def topup_stations
