@@ -174,13 +174,13 @@
       values:
         -
           name: ultralight_ev1_private_key
-          value: "8DBC0AB92D717796"
+          value: "dd970b4f9d91233d8a04d8c1aa481690"
     -
       name: ultralight_c
       values:
         -
           name: ultralight_c_private_key
-          value: "8DBC0AB92D717796"
+          value: "dd970b4f9d91233d8a04d8c1aa481690"
     -
       name: mifare_classic
       values:

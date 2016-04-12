@@ -8,7 +8,7 @@ class UltralightEv1Form
   validates_presence_of :ultralight_ev1_private_key
   validates_presence_of :event_id
 
-  validates :ultralight_ev1_private_key, length: { is: 16 }
+  validates :ultralight_ev1_private_key, length: { is: 32 }
   validates :ultralight_ev1_private_key, format: { with: /\A[0-9A-Fa-f]+\z/,
                                                    message: "only allows hexadecimal values" }
 

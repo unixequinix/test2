@@ -8,7 +8,7 @@ class UltralightCForm
   validates_presence_of :ultralight_c_private_key
   validates_presence_of :event_id
 
-  validates :ultralight_c_private_key, length: { is: 16 }
+  validates :ultralight_c_private_key, length: { is: 32 }
   validates :ultralight_c_private_key, format: { with: /\A[0-9A-Fa-f]+\z/,
                                                  message: "only allows hexadecimal values" }
 
