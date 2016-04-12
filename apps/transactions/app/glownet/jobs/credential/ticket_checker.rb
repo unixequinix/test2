@@ -4,7 +4,7 @@ class Jobs::Credential::TicketChecker < Jobs::Credential::Base
   def perform(atts)
     ActiveRecord::Base.transaction do
       t = CredentialTransaction.find(atts[:transaction_id])
-      profile = assign_profile(t, atts)
+      profile = t.customer_event_profile
       ticket = assign_ticket(t, atts)
       assign_ticket_credential(ticket, profile)
       gtag = assign_gtag(t, atts)
