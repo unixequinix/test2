@@ -8,14 +8,13 @@ class Autotopup::PaypalAutoPayer
     p_gateway = profile.payment_gateway_customers.find_by(gateway_type: "paypal")
     return { errors: "No agreement accepted" } if p_gateway.nil?
 
-    order = Order.create(customer_event_profile: profile, number: order_id)
+    order = Order.new(customer_event_profile: profile, number: order_id)
     amount = p_gateway.autotopup_amount
     value = credit.value
-
     order.order_items << OrderItem.new(catalog_item_id: credit.catalog_item.id,
                                        amount: amount,
                                        total: amount * value)
-
+    order.save
     Payments::BraintreeDataRetriever.new(event, order)
 
     data = { event_id: event.id, order_id: order.id, customer_id: p_gateway.token }

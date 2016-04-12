@@ -1,7 +1,8 @@
 class GtagAssignmentsPresenter < BasePresenter
   def can_render?
     @event.gtag_assignation? &&
-      @customer_event_profile.active_credentials?
+      ((@event.launched? && @customer_event_profile.active_credentials?) ||
+      !@event.launched?)
   end
 
   def path
