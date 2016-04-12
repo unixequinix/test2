@@ -18,6 +18,9 @@ javascript:
         singleUse: false,
         billingAgreementDescription: "#{t('registration.autotoup_agreement.billing_agreement_description')}"
       },
+      dataCollector: {
+        paypal: true
+      },
       onPaymentMethodReceived: function (obj) {
         $("#paypal-activated-container").toggleClass("display-paypal");
       },
