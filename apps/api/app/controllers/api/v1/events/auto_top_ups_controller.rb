@@ -1,12 +1,12 @@
 class Api::V1::Events::AutoTopUpsController < Api::V1::Events::BaseController
-  def create # rubocop:disable Metrics/CyclomaticComplexity
+  def create # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     uid = params[:gtag_uid]
     pay = params[:payment_method]
     o = params[:order_id]
 
     render(status: :bad_request, json: { error: "params missing" }) && return unless uid && pay && o
     render(status: :bad_request, json: { error: "order_id duplicated" }) &&
-      return unless Order.find_by_number(o)
+      return if Order.find_by_number(o)
 
     payer = "Autotopup::#{pay.downcase.camelize}AutoPayer".constantize.start(uid, o)
 
