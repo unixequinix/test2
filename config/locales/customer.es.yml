@@ -153,6 +153,9 @@ cres:
       paypal:
         name: "PayPal"
         icon: "paypal"
+      paypal_nvp:
+        name: "PayPal"
+        icon: "paypal"
     stripe:
       card_number: "Número de tarjeta"
       card_code_verification: "Código de verificación (CCV)"

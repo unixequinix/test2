@@ -48,7 +48,7 @@ class Event < ActiveRecord::Base
   include FlagShihTzu
 
   has_flags 1 => :top_ups, 2 => :refunds, column: "features"
-  has_flags 1 => :paypal, 2 => :redsys, 3 => :braintree, 4 => :stripe, column: "payment_services"
+  has_flags 1 => :paypal, 2 => :redsys, 3 => :braintree, 4 => :stripe, 5 => :paypal_nvp, column: "payment_services"
   has_flags 1 => :bank_account, 2 => :epg, 3 => :tipalti, 4 => :direct, column: "refund_services"
   has_flags 1 => :phone, 2 => :address, 3 => :city, 4 => :country, 5 => :postcode, 6 => :gender,
             7 => :birthdate, 8 => :agreed_event_condition, column: "registration_parameters"

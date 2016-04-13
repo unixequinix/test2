@@ -1,0 +1,7 @@
+= form_tag @form_data.form, id: 'gateway_load', method: :get do
+  = hidden_field_tag :cmd, @form_data.cmd
+  = hidden_field_tag :token, @form_data.token
+
+javascript:
+  $('#gateway_load').submit();
+

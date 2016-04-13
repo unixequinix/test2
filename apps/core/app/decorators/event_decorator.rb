@@ -3,11 +3,13 @@ class EventDecorator < Draper::Decorator
 
   # Payment services
   PAYPAL = :paypal
+  PAYPAL_NVP = :paypal_nvp
   REDSYS = :redsys
   STRIPE = :stripe
   BRAINTREE = :braintree
-  PAYMENT_SERVICES = [STRIPE, PAYPAL, REDSYS, BRAINTREE]
-  PAYMENT_PLATFORMS = { paypal: "braintree",
+  PAYMENT_SERVICES = [STRIPE, PAYPAL, REDSYS, BRAINTREE, PAYPAL_NVP]
+  PAYMENT_PLATFORMS = { paypal_nvp: "paypal",
+                        paypal: "braintree",
                         braintree: "braintree",
                         redsys: "redsys",
                         stripe: "stripe" }

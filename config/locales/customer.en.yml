@@ -150,6 +150,9 @@ en:
       paypal:
         name: "PayPal"
         icon: "paypal"
+      paypal_nvp:
+        name: "PayPal"
+        icon: "paypal"
     payment: "Payment method"
     stripe:
       card_number: "Card number"

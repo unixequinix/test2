@@ -133,6 +133,7 @@ es:
       payment_services:
         paypal: 'Paypal'
         redsys: 'Redsys'
+        paypal_nvp: 'Paypal NVP'
         stripe: 'Stripe'
         braintree: 'Braintree'
       refund_services:
