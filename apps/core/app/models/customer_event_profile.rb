@@ -126,10 +126,12 @@ class CustomerEventProfile < ActiveRecord::Base # rubocop:disable ClassLength
 
   def purchases
     customer_orders.joins(:catalog_item).select("sum(customer_orders.amount) as total_amount,
+                                                 catalog_items.id,
                                                  catalog_items.name,
                                                  catalog_items.catalogable_type,
                                                  catalog_items.catalogable_id")
-      .group("catalog_items.name, catalog_items.catalogable_type, catalog_items.catalogable_id")
+      .group("catalog_items.name, catalog_items.catalogable_type, "\
+             "catalog_items.catalogable_id, catalog_items.id")
   end
 
   def infinite_entitlements_purchased
