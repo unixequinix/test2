@@ -20,7 +20,7 @@ RSpec.describe Operations::Order::CredentialAssigner, type: :job do
       device_created_at: "2016-04-11T18:20:53",
       device_db_index: 1,
       device_uid: "485A3F720AC4",
-      event_id: 1,
+      event_id: event.id,
       operator_tag_uid: "AAAAAAAAAAAAAA",
       station_id: 2,
       status_code: 0,

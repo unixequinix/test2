@@ -4,7 +4,7 @@ class Payments::PaypalPayer
     @order = Order.find(params[:order_id])
     @customer_event_profile = @order.customer_event_profile
     @gateway = @customer_event_profile.gateway_customer(EventDecorator::PAYPAL)
-    @method = @gateway ? 'auto' : 'regular'
+    @method = @gateway ? "auto" : "regular"
     @order.start_payment!
     charge_object = charge(params)
     return charge_object unless charge_object.success?
@@ -41,7 +41,7 @@ class Payments::PaypalPayer
     sale_options[:payment_method_nonce] = params[:payment_method_nonce]
   end
 
-  def auto_payment_options(sale_options, params)
+  def auto_payment_options(sale_options, _params)
     sale_options[:customer_id] = @gateway.token
   end
 
