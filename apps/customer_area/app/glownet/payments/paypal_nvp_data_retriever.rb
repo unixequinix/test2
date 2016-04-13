@@ -13,10 +13,10 @@ class Payments::PaypalNvpDataRetriever
                                  group: "paypal_nvp",
                                  event_parameters: { event: event })
                           .select("parameters.name, event_parameters.*")
-    @hash_response = post_request
+    @hash_response = post_request_payment_authorization
   end
 
-  def post_request
+  def post_request_payment_authorization
     params = {
       "USER" => user,
       "PWD" => pwd,
@@ -44,6 +44,7 @@ class Payments::PaypalNvpDataRetriever
   end
 
   def token
+    puts("\n\n\n*************\n#{@hash_response["TOKEN"].gsub("%2d", "-")}\n*************\n\n\n")
     @hash_response["TOKEN"].gsub("%2d", "-")
   end
 

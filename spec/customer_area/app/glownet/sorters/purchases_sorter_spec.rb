@@ -19,9 +19,7 @@ RSpec.describe Sorters::PurchasesSorter, type: :domain_logic do
     it "with a pack, .sort should sort its inner items by category and stores it in a hash " do
       create(:customer_order, customer_event_profile: profile,
                               catalog_item: create(:pack_item_catalog_item))
-      binding.pry
       sorted_purchases = Sorters::PurchasesSorter.new(profile.purchases).sort(format: :hash)
-      binding.pry
       expect(sorted_purchases).to be_an_instance_of(Hash)
       expect(sorted_purchases.keys).to eq(%w(Voucher Access))
       expect(sorted_purchases.count).to eq(2)

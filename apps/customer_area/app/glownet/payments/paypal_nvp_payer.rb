@@ -4,14 +4,8 @@ class Payments::PaypalNvpPayer
   end
 
   def notify_payment(params, customer_order_creator, customer_credit_creator)
-    binding.pry
     event = Event.friendly.find(params[:event_id])
-    merchant_code = event.get_parameter("payment", "redsys", "code")
-    return unless params[:Ds_Order] && params[:Ds_MerchantCode] == merchant_code
-    response = params[:Ds_Response]
-    success = response =~ /00[0-9][0-9]|0900/
-    amount = params[:Ds_Amount].to_f / 100 # last two digits are decimals
-    return unless success
+    post_request_billing_agreement
     order = Order.find_by(number: params[:Ds_Order])
     customer_credit_creator.save(order)
     create_payment(order, amount, params)
@@ -21,6 +15,51 @@ class Payments::PaypalNvpPayer
   end
 
   private
+
+  def post_request_billing_agreement
+    billing_token = post_request
+    current_profile = CustomerEventProfile.first
+    Autotopup::PaypalNvpAgreement.create(billing_token, current_profile, 50)
+  end
+
+  def post_request
+    params = {
+      "USER" => user,
+      "PWD" => pwd,
+      "SIGNATURE" => signature,
+      "METHOD" => method,
+      "VERSION" => version,
+      "TOKEN" => token
+    }
+    response = Net::HTTP.post_form(URI.parse("https://api-3t.sandbox.paypal.com/nvp"), params)
+    hash_response = response.body.split("&").map{|it|it.split("=")}.to_h
+    hash_response["BILLINGAGREEMENTID"].gsub("%2d", "-")
+  end
+
+  def user
+    "payments-facilitator_api1.glownet.com"
+  end
+
+  def pwd
+    "GDSHHDFJ7KEBHVRB"
+  end
+
+  def signature
+    "AFcWxV21C7fd0v3bYYYRCpSSRl31A4i6SeDVCt6M9xT2Cg08xXvNmpwK"
+  end
+
+  def method
+    "CreateBillingAgreement"
+  end
+
+  def version
+    86
+  end
+
+  def token
+    print "Write token: "
+    gets.chomp
+  end
 
   def send_mail_for(order, event)
     OrderMailer.completed_email(order, event).deliver_later
