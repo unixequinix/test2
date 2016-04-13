@@ -161,6 +161,9 @@
           name: merchant_id
           data_type: string
         -
+          name: currency
+          data_type: string
+        -
           name: autotopup
           data_type: boolean
 -
