@@ -1,1 +1,5 @@
-$("tbody").prepend("<%=j render('row', topup_credit: @topup_credit) %>");
+<% if @topup_credit.save %>
+  $("tbody").prepend("<%=j render('row', topup_credit: @topup_credit) %>");
+<% else %>
+  alert("<%= @topup_credit.errors.full_messages.join(". ") %>");
+<% end %>

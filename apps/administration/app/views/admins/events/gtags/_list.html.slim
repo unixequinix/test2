@@ -19,7 +19,7 @@
             = check_box_tag "gtags[#{gtag.id}]", 1
           td data-label=t("admin.gtags.id") = link_to gtag.id, admins_event_gtag_path(current_event, gtag)
           td data-label=t("admin.gtags.serial") = gtag.tag_serial_number
-          td data-label=t("admin.gtags.tag") = gtag.tag_uid
+          td data-label=t("admin.gtags.tag") = link_to gtag.tag_uid, admins_event_gtag_path(current_event, gtag)
           // TODO: Urgent refactor. Demeterize!!!!
           td data-label=t("admin.gtags.customer") = link_to gtag.assigned_gtag_credential.customer_event_profile.customer.email, admins_event_customer_path(current_event, gtag.assigned_gtag_credential.customer_event_profile.customer) unless gtag.assigned_gtag_credential.nil? || gtag.assigned_gtag_credential.customer_event_profile.customer.nil?
           td data-label=t("admin.gtags.assigned_at") = gtag.assigned_gtag_credential.created_at.strftime("%y-%m-%d %H:%M:%S") unless gtag.assigned_gtag_credential.nil?

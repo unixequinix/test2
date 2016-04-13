@@ -20,22 +20,33 @@ require "rails_helper"
 
 RSpec.describe Claim, type: :model do
   let(:event) { build(:event) }
+  let(:claim) { create(:claim, aasm_state: "in_progress") }
 
-  before :each do
-    ClaimParameter.destroy_all
-    Refund.destroy_all
-    Claim.destroy_all
-    Seeder::SeedLoader.load_param(event, category: "refund")
+  describe ".complete!" do
+    before { claim.start_claim! }
+
+    it "sets the completed_at time to now" do
+      expect(claim.completed_at).to be_nil
+      claim.complete!
+      expect(claim.completed_at).not_to be_nil
+    end
   end
 
-  describe "Claim.selected_data" do
+  describe ".selected_data" do
+    before :each do
+      ClaimParameter.destroy_all
+      Refund.destroy_all
+      Claim.destroy_all
+      Seeder::SeedLoader.load_param(event, category: "refund")
+    end
+
     it "prepares the rows with the default columns and the extra columns for a csv exportation" do
       gtag = create(:gtag, event: event)
       customer = create(:customer, event: event)
-      customer_event_profile = create(:customer_event_profile, customer: customer, event: event)
+      profile = create(:customer_event_profile, customer: customer, event: event)
       claim = create(:claim,
                      aasm_state: :completed,
-                     customer_event_profile: customer_event_profile,
+                     customer_event_profile: profile,
                      gtag: gtag,
                      service_type: "bank_account")
       parameter = Parameter.find_by(name: "iban", category: "claim", group: "bank_account")

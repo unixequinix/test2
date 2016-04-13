@@ -145,7 +145,7 @@ it:
         name: "Credit card"
         icon: "credit-card"
       paypal:
-        name: "Pay Pal"
+        name: "PayPal"
         icon: "paypal"
     stripe:
       card_number: "Card number"
@@ -159,7 +159,7 @@ it:
       card_expiration_year: "Card expiration date"
       button: "Pay"
     paypal:
-      sync_title: "Sync with Pay Pal to perform payment"
+      sync_title: "Sync with PayPal to perform payment"
       sync_copy: "Never without credit!"
       sync_description: "Make direct top ups in your event purchases. Select how much you want to top up in case you spent your credit in the event and avoid queues. Your wristband will be always ready to go."
   claims:
@@ -266,6 +266,7 @@ it:
     autotoup_agreement:
       cancel: 'Do you want to cancel your autotopup agreement?'
       title: 'Cancel agreement'
+      billing_agreement_description: "I agree in get automated charges when running out of credit"
   sessions:
     first_register:
       welcome: 'Bienvenido!!'

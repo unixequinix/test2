@@ -28,28 +28,15 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
     sql = <<-SQL
       SELECT array_to_json(array_agg(row_to_json(cep)))
       FROM (
-        SELECT id,
+        SELECT customer_event_profiles.id, customers.first_name,
+               customers.last_name, customers.email,
         (
-          SELECT first_name  FROM purchasers
-          INNER JOIN credential_assignments
-            ON credential_assignments.customer_event_profile_id = customer_event_profiles.id
-            AND credential_assignments.deleted_at IS NULL
-          LIMIT(1)
-        ),
-        (
-          SELECT last_name FROM purchasers
-          INNER JOIN credential_assignments
-            ON credential_assignments.customer_event_profile_id = customer_event_profiles.id
-            AND credential_assignments.deleted_at IS NULL
-          LIMIT(1)
-        ),
-        (
-          SELECT email FROM purchasers
-          INNER JOIN credential_assignments
-            ON credential_assignments.customer_event_profile_id = customer_event_profiles.id
-            AND credential_assignments.deleted_at IS NULL
-          LIMIT(1)
-        ),
+          SELECT array_agg(gateway_type)
+          FROM payment_gateway_customers
+          WHERE customer_event_profile_id = customer_event_profiles.id
+            AND agreement_accepted IS TRUE
+            AND deleted_at IS NULL
+        ) as autotopup_gateways,
         (
           SELECT array_to_json(array_agg(row_to_json(cr)))
           from (
@@ -78,6 +65,9 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           ) o
         ) as orders
         FROM customer_event_profiles
+        FULL OUTER JOIN customers
+          ON customers.id = customer_event_profiles.customer_id
+          AND customers.deleted_at IS NULL
         WHERE customer_event_profiles.event_id = #{@event.id}
       ) cep
     SQL
@@ -112,7 +102,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           ON credential_assignments.credentiable_id = gtags.id
           AND credential_assignments.credentiable_type = 'Gtag'
           AND credential_assignments.deleted_at IS NULL
-        INNER JOIN company_ticket_types
+        FULL OUTER JOIN company_ticket_types
           ON company_ticket_types.id = gtags.company_ticket_type_id
           AND company_ticket_types.deleted_at IS NULL
         WHERE gtags.event_id = #{@event.id}
@@ -128,6 +118,15 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
   def packs
     Pack.includes(:catalog_item, pack_catalog_items: :catalog_item)
       .where(catalog_items: { event_id: @event.id })
+  end
+
+  def parameters
+    gtag_type = @event.get_parameter("gtag", "form", "gtag_type")
+
+    @event.event_parameters.joins(:parameter)
+      .where("(parameters.category = 'device') OR
+              (parameters.category = 'gtag' AND parameters.group = '#{gtag_type}' OR
+               parameters.group = 'form' AND parameters.name = 'gtag_type')")
   end
 
   def products

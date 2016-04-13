@@ -1,5 +1,5 @@
 class Api::V1::CustomerEventProfileSerializer < Api::V1::BaseSerializer
-  attributes :id
+  attributes :id, :autotopup_gateways
   has_many :credential_assignments, key: :credentials,
                                     serializer: Api::V1::CredentialAssignmentSerializer
 
@@ -28,5 +28,9 @@ class Api::V1::CustomerEventProfileSerializer < Api::V1::BaseSerializer
 
   def email
     object.customer.email
+  end
+
+  def autotopup_gateways
+    object.payment_gateway_customers.map(&:gateway_type)
   end
 end

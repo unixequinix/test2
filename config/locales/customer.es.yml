@@ -81,7 +81,7 @@ cres:
     without_gtags:
       add : "Asigna tu %{gtag}"
       title: "¿Te quedan balance?"
-      description: "Rcuerda, sólo un %{gtag} por cuenta."
+      description: "Recuerda, sólo un %{gtag} por cuenta."
       button: "Introducir"
     without_gtags_disabled:
       add : "Añade tu id"
@@ -151,7 +151,7 @@ cres:
         name: "Tarjeta de crédito"
         icon: "credit-card"
       paypal:
-        name: "Pay Pal"
+        name: "PayPal"
         icon: "paypal"
     stripe:
       card_number: "Número de tarjeta"
@@ -272,6 +272,7 @@ cres:
     autotoup_agreement:
       cancel: '¿Quieres cancelar tu contrato de autorecarga?'
       title: 'Cancelar contrato'
+      billing_agreement_description: "Acepto que se me hagan cargos cuando me quedo sin crédito"
   sessions:
     first_register:
       welcome: 'Bienvenido!!'

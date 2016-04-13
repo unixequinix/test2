@@ -157,6 +157,15 @@
         -
           name: url
           value: https://ui.sandbox.tipalti.com/Payees/PayeeDashboard.aspx
+    -
+      name: direct
+      values:
+        -
+          name: fee
+          value: 0.0
+        -
+          name: minimum
+          value: 0.0
 -
   category: gtag
   groups:
@@ -166,6 +175,12 @@
         -
           name: ultralight_ev1_private_key
           value: "9200as2d92323dsfdfiu2894234"
+    -
+      name: ultralight_c
+      values:
+        -
+          name: ultralight_c_private_key
+          value: "9200as2d92323dsf"
     -
       name: mifare_classic
       values:

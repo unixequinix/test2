@@ -23,9 +23,9 @@ class CredentialTypesPresenter
   end
 
   def products
-    catalog_item = credentiable.company_ticket_type.credential_type.catalog_item
+    catalog_item = credentiable.company_ticket_type.credential_type&.catalog_item
 
-    if catalog_item.catalogable_type == "Pack"
+    if catalog_item&.catalogable_type == "Pack"
       @products = catalog_item.catalogable
                   .pack_catalog_items
                   .includes(:catalog_item)

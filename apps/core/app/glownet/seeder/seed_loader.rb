@@ -14,11 +14,11 @@ class Seeder::SeedLoader
       Rails.root.join("db", "seeds", file)).each do |data|
       data["groups"].each do |group|
         group["values"].each do |value|
-          try_to_save EventParameter.new(event: event,
-                                         value: value["value"].to_s,
-                                         parameter: Parameter.find_by(category: data["category"],
-                                                                      group: group["name"],
-                                                                      name: value["name"]))
+          EventParameter.find_or_create_by(event: event,
+                                           value: value["value"].to_s,
+                                           parameter: Parameter.find_by(category: data["category"],
+                                                                        group: group["name"],
+                                                                        name: value["name"]))
         end
       end
     end
@@ -36,33 +36,26 @@ class Seeder::SeedLoader
     YAML.load_file(Rails.root.join("db", "seeds", file)).each do |category|
       category["groups"].each do |group|
         group["parameters"].each do |parameter|
-          try_to_save Parameter.new(category: category["name"],
-                                    group: group["name"],
-                                    name: parameter["name"],
-                                    data_type: parameter["data_type"],
-                                    description: "")
+          Parameter.find_or_create_by(category: category["name"],
+                                      group: group["name"],
+                                      name: parameter["name"],
+                                      data_type: parameter["data_type"],
+                                      description: "")
         end
       end
     end
   end
 
   def self.create_stations
-    StationType.destroy_all
-    StationGroup.destroy_all
-
     YAML.load_file(Rails.root.join("db", "seeds", "stations.yml")).each do |group|
-      @station_group = StationGroup.create!(name: group["name"], icon_slug: group["icon_slug"])
+      @station_group = StationGroup.find_or_create_by(name: group["name"],
+                                                      icon_slug: group["icon_slug"])
       group["types"].each do |type|
-        @station_group.station_types.create!(name: type["name"],
-                                             description: type["description"],
-                                             environment: type["environment"])
+        @station_group.station_types
+          .find_or_create_by(name: type["name"],
+                             description: type["description"],
+                             environment: type["environment"])
       end
     end
-  end
-
-  def self.try_to_save(obj)
-    obj.save!
-  rescue
-    Rails.logger.warn "Already exists"
   end
 end
