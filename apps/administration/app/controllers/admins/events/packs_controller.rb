@@ -41,14 +41,9 @@ class Admins::Events::PacksController < Admins::Events::BaseController
 
   def destroy
     @pack = @fetcher.packs.find(params[:id])
-    if @pack.destroy
-      flash[:notice] = I18n.t("alerts.destroyed")
-      redirect_to admins_event_packs_url
-    else
-      flash.now[:error] = @pack.errors
-      set_presenter
-      render :index
-    end
+    @pack.destroy!
+    flash[:notice] = I18n.t("alerts.destroyed")
+    redirect_to admins_event_packs_url
   end
 
   def create_credential
