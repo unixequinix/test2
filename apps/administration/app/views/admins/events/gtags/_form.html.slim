@@ -3,6 +3,7 @@
     = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
     = f.input :tag_uid, placeholder: true
     = f.input :tag_serial_number, placeholder: true
+    = f.input :company_ticket_type_id, as: :select, collection: CompanyTicketType.form_selector(current_event), include_blank: true, placeholder: true
     = f.simple_fields_for :purchaser do |purchaser|
       = purchaser.input :first_name
       = purchaser.input :last_name

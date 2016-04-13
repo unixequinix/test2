@@ -87,6 +87,7 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
       :event_id,
       :tag_uid,
       :tag_serial_number,
+      :company_ticket_type_id,
       purchaser_attributes: [:id, :first_name, :last_name, :email, :gtag_delivery_address])
   end
 end
