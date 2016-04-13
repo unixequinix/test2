@@ -4,7 +4,8 @@ class Orders::PaypalPresenter
   def initialize(event, order)
     @event = event
     @order = order
-    @agreement = @order.customer_event_profile.gateway_customer(EventDecorator::PAYPAL)
+    @customer_event_profile = @order.customer_event_profile
+    @agreement = @customer_event_profile.gateway_customer(EventDecorator::PAYPAL)
   end
 
   def enable_autotoup_agreement?
@@ -17,6 +18,10 @@ class Orders::PaypalPresenter
 
   def path
     "events/orders/paypal_payment_form"
+  end
+
+  def email
+    @customer_event_profile.customer.email
   end
 
   def form_data

@@ -3,6 +3,6 @@ p.center-text = t("orders.paypal.with_agreement_subtitle")
 .wrapper-saved-agreement
   = image_tag "agreement_paypal_logo.png", class: "saved-agreement-logo"
   span.bold-text PayPal
-  span.saved-agreement-mail maik@mail.com
+  span.saved-agreement-mail = order_presenter.email
 .actions
   = submit_tag t('orders.button'), id: "paypal-submit", class: "btn btn-action btn-action-primary"
