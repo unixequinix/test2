@@ -1,82 +1,115 @@
-class Payments::PaypalNvpPayer
+class Payments::PaypalPayer
   def start(params, customer_order_creator, customer_credit_creator)
-    notify_payment(params, customer_order_creator, customer_credit_creator)
+    @event = Event.friendly.find(params[:event_id])
+    @order = Order.find(params[:order_id])
+    @customer_event_profile = @order.customer_event_profile
+    @gateway = @customer_event_profile.gateway_customer(EventDecorator::PAYPAL)
+    @method = @gateway ? 'auto' : 'regular'
+    @order.start_payment!
+    charge_object = charge(params)
+    return charge_object unless charge_object.success?
+    create_agreement(@order, charge_object, params[:autotopup_amount]) if create_agreement?(params)
+    notify_payment(charge_object, customer_order_creator, customer_credit_creator)
+    charge_object
   end
 
-  def notify_payment(params, customer_order_creator, customer_credit_creator)
-    event = Event.friendly.find(params[:event_id])
-    post_request_billing_agreement
-    order = Order.find_by(number: params[:Ds_Order])
-    customer_credit_creator.save(order)
-    create_payment(order, amount, params)
-    order.complete!
-    customer_order_creator.save(order)
-    send_mail_for(order, event)
+  def charge(params)
+    begin
+      charge = Braintree::Transaction.sale(options(params))
+    rescue Braintree::ErrorResult
+      # The card has been declined
+      charge
+    end
+    charge
   end
 
   private
 
-  def post_request_billing_agreement
-    billing_token = post_request
-    current_profile = CustomerEventProfile.first
-    Autotopup::PaypalNvpAgreement.create(billing_token, current_profile, 50)
-  end
-
-  def post_request
-    params = {
-      "USER" => user,
-      "PWD" => pwd,
-      "SIGNATURE" => signature,
-      "METHOD" => method,
-      "VERSION" => version,
-      "TOKEN" => token
+  def options(params)
+    amount = @order.total_formated
+    sale_options = {
+      order_id: @order.number,
+      amount: amount
     }
-    response = Net::HTTP.post_form(URI.parse("https://api-3t.sandbox.paypal.com/nvp"), params)
-    hash_response = response.body.split("&").map{|it|it.split("=")}.to_h
-    hash_response["BILLINGAGREEMENTID"].gsub("%2d", "-")
+    submit_for_settlement(sale_options)
+    vault_options(sale_options, @customer_event_profile.customer) if create_agreement?(params)
+    send("#{@method}_payment_options", sale_options, params)
+    sale_options
   end
 
-  def user
-    "payments-facilitator_api1.glownet.com"
+  def regular_payment_options(sale_options, params)
+    sale_options[:payment_method_nonce] = params[:payment_method_nonce]
   end
 
-  def pwd
-    "GDSHHDFJ7KEBHVRB"
+  def auto_payment_options(sale_options, params)
+    sale_options[:customer_id] = @gateway.token
   end
 
-  def signature
-    "AFcWxV21C7fd0v3bYYYRCpSSRl31A4i6SeDVCt6M9xT2Cg08xXvNmpwK"
+  def submit_for_settlement(sale_options)
+    sale_options[:options] = {
+      submit_for_settlement: true
+    }
   end
 
-  def method
-    "CreateBillingAgreement"
+  def vault_options(sale_options, customer)
+    sale_options[:customer] = {
+      first_name: customer.first_name,
+      last_name: customer.last_name,
+      email: customer.email
+    }
+    sale_options[:options] = {
+      submit_for_settlement: true,
+      store_in_vault: true
+    }
   end
 
-  def version
-    86
+  def notify_payment(charge, customer_order_creator, customer_credit_creator)
+    transaction = charge.transaction
+    return unless transaction.status == "settling"
+    create_payment(@order, charge)
+    customer_credit_creator.save(@order)
+    customer_order_creator.save(@order)
+    @order.complete!
+    send_mail_for(@order, @event)
   end
 
-  def token
-    print "Write token: "
-    gets.chomp
+  def create_agreement(_order, charge_object, autotopup_amount)
+    @customer_event_profile.payment_gateway_customers
+      .find_or_create_by(gateway_type: EventDecorator::PAYPAL)
+      .update(token: charge_object.transaction.customer_details.id,
+              agreement_accepted: true,
+              autotopup_amount: autotopup_amount)
+    @customer_event_profile.save
+  end
+
+  def create_agreement?(params)
+    params[:accept] && !@customer_event_profile.gateway_customer(EventDecorator::PAYPAL)
   end
 
   def send_mail_for(order, event)
     OrderMailer.completed_email(order, event).deliver_later
   end
 
-  def create_payment(order, amount, params)
-    Payment.create!(transaction_type: params[:Ds_TransactionType],
-                    card_country: params[:Ds_Card_Country],
-                    paid_at: "#{params[:Ds_Date]}, #{params[:Ds_Hour]}",
+  def get_event_parameter_value(event, name)
+    EventParameter.find_by(event_id: event.id,
+                           parameter: Parameter.where(category: "payment",
+                                                      group: "braintree",
+                                                      name: name)).value
+  end
+
+  def create_payment(order, charge)
+    transaction = charge.transaction
+    Payment.create!(transaction_type: transaction.payment_instrument_type,
+                    card_country: transaction.credit_card_details.country_of_issuance,
+                    paid_at: Time.at(transaction.created_at),
+                    last4: transaction.credit_card_details.last_4,
                     order: order,
-                    response_code: params[:Ds_Response],
-                    authorization_code: params[:Ds_AuthorisationCode],
-                    currency: params[:Ds_Currency],
-                    merchant_code: params[:Ds_MerchantCode],
-                    amount: amount,
-                    terminal: params[:Ds_Terminal],
+                    response_code: transaction.processor_response_code,
+                    authorization_code: transaction.processor_authorization_code,
+                    currency: @event.currency,
+                    merchant_code: transaction.id,
+                    amount: transaction.amount.to_f,
                     success: true,
-                    payment_type: "redsys")
+                    payment_type: "paypal")
   end
 end

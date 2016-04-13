@@ -95,6 +95,9 @@
           name: merchant_id
           value: M94Y9AM4DBBW4
         -
+          name: currency
+          value: EUR
+        -
           name: autotopup
           value: false
 -

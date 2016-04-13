@@ -44,22 +44,21 @@ class Payments::PaypalNvpDataRetriever
   end
 
   def token
-    puts("\n\n\n*************\n#{@hash_response["TOKEN"].gsub("%2d", "-")}\n*************\n\n\n")
     @hash_response["TOKEN"].gsub("%2d", "-")
   end
 
   private
 
   def user
-    "payments-facilitator_api1.glownet.com"
+    get_value_of_parameter("user")
   end
 
   def pwd
-    "GDSHHDFJ7KEBHVRB"
+    get_value_of_parameter("password")
   end
 
   def signature
-    "AFcWxV21C7fd0v3bYYYRCpSSRl31A4i6SeDVCt6M9xT2Cg08xXvNmpwK"
+    get_value_of_parameter("signature")
   end
 
   def method
@@ -75,11 +74,11 @@ class Payments::PaypalNvpDataRetriever
   end
 
   def amt
-    50
+    (@order.total * 100).floor
   end
 
   def currency_code
-    "USD"
+    get_value_of_parameter("currency")
   end
 
   def billing_type
@@ -87,7 +86,7 @@ class Payments::PaypalNvpDataRetriever
   end
 
   def billing_agreement_description
-    "ClubUsage"
+    I18n.t('registration.autotoup_agreement.billing_agreement_description')
   end
 
   def cancel_url
