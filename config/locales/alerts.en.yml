@@ -16,3 +16,4 @@ en:
     quantity_not_refundable: 'Credits quantity not refundable'
     gtag_already_assigned: 'You have one already assigned'
     ticket_already_assigned: 'Ticket already assigned'
+    credential_already_assigned: 'You already have the credential that comes with this ticket'

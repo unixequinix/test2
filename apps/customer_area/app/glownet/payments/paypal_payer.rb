@@ -1,9 +1,10 @@
 class Payments::PaypalPayer
-  def start(params, customer_order_creator, customer_credit_creator, method = "regular")
+  def start(params, customer_order_creator, customer_credit_creator)
     @event = Event.friendly.find(params[:event_id])
     @order = Order.find(params[:order_id])
-    @method = method
     @customer_event_profile = @order.customer_event_profile
+    @gateway = @customer_event_profile.gateway_customer(EventDecorator::PAYPAL)
+    @method = @gateway ? 'auto' : 'regular'
     @order.start_payment!
     charge_object = charge(params)
     return charge_object unless charge_object.success?
@@ -30,9 +31,9 @@ class Payments::PaypalPayer
       order_id: @order.number,
       amount: amount
     }
+    submit_for_settlement(sale_options)
     vault_options(sale_options, @customer_event_profile.customer) if create_agreement?(params)
     send("#{@method}_payment_options", sale_options, params)
-    submit_for_settlement(sale_options)
     sale_options
   end
 
@@ -41,7 +42,7 @@ class Payments::PaypalPayer
   end
 
   def auto_payment_options(sale_options, params)
-    sale_options[:customer_id] = params[:customer_id]
+    sale_options[:customer_id] = @gateway.token
   end
 
   def submit_for_settlement(sale_options)
@@ -57,6 +58,7 @@ class Payments::PaypalPayer
       email: customer.email
     }
     sale_options[:options] = {
+      submit_for_settlement: true,
       store_in_vault: true
     }
   end
