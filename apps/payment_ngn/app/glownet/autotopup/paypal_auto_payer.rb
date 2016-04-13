@@ -17,11 +17,10 @@ class Autotopup::PaypalAutoPayer
     order.save
     Payments::BraintreeDataRetriever.new(event, order)
 
-    data = { event_id: event.id, order_id: order.id, customer_id: p_gateway.token }
+    data = { event_id: event.id, order_id: order.id }
     charge = Payments::PaypalPayer.new.start(data,
                                              CustomerOrderCreator.new,
-                                             CustomerCreditOrderCreator.new,
-                                             "auto")
+                                             CustomerCreditOrderCreator.new)
 
     return { errors: charge.errors.to_json } unless charge.success?
     { gtag_uid: tag_uid, credit_amount: amount, money_amount: amount * value, credit_value: value }
