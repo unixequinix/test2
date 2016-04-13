@@ -1,3 +1,8 @@
-p.hint-text.center-text = t("orders.paypal.sync_title")
+p.hint-text.center-text = t("orders.paypal.with_agreement_title")
+p.center-text = t("orders.paypal.with_agreement_subtitle")
+.wrapper-saved-agreement
+  = image_tag "agreement_paypal_logo.png", class: "saved-agreement-logo"
+  span.bold-text PayPal
+  span.saved-agreement-mail maik@mail.com
 .actions
   = submit_tag t('orders.button'), id: "paypal-submit", class: "btn btn-action btn-action-primary"
