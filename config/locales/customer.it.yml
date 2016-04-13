@@ -165,6 +165,8 @@ it:
       sync_title: "Sync with PayPal to perform payment"
       sync_copy: "Never without credit!"
       sync_description: "Make direct top ups in your event purchases. Select how much you want to top up in case you spent your credit in the event and avoid queues. Your wristband will be always ready to go."
+      with_agreement_title: "Already sync with PayPal"
+      with_agreement_subtitle: "You can perform direct payments"
   claims:
     title: "Confermare rimborso"
     description: "Si prega di controllare il suo ordine e procedere al pagamento."
