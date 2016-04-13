@@ -1,13 +1,13 @@
 require "rails_helper"
 
-RSpec.describe Jobs::Credential::Base, type: :job do
+RSpec.describe Operations::Credential::Base, type: :job do
   let(:event) { create(:event) }
   let(:transaction) { create(:credential_transaction, event: event) }
   let(:gtag) { create(:gtag, event: event) }
   let(:ticket_code) { "TC8B106BA990BDC56" }
   let(:ticket) { create(:ticket, event: event, credential_redeemed: false, code: ticket_code) }
   let(:profile) { create(:customer_event_profile, event: event) }
-  let(:worker) { Jobs::Credential::Base.new }
+  let(:worker) { Operations::Credential::Base.new }
   let(:decoder) { TicketDecoder::SonarDecoder }
   let(:ctt_id) { "99" }
   let(:atts) do
@@ -42,7 +42,7 @@ RSpec.describe Jobs::Credential::Base, type: :job do
   describe ".assign_gtag_credential" do
     it "creates a credential for the gtag" do
       expect do
-        worker.assign_gtag_credential(gtag, profile)
+        worker.assign_gtag_credential(gtag, profile.id)
       end.to change(gtag, :assigned_gtag_credential)
     end
 
@@ -98,7 +98,7 @@ RSpec.describe Jobs::Credential::Base, type: :job do
   describe ".assign_ticket_credential" do
     it "creates a credential for the ticket" do
       expect do
-        worker.assign_ticket_credential(ticket, profile)
+        worker.assign_ticket_credential(ticket, profile.id)
       end.to change(ticket, :assigned_ticket_credential)
     end
 

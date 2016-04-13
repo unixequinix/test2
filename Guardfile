@@ -32,7 +32,11 @@
 #  * zeus: 'zeus rspec' (requires the server to be started separately)
 #  * 'just' rspec: 'rspec'
 
-# dont do coverages when running guard
+guard :rubocop, cli: '-a', notification: :failed, all_on_start: false do
+  watch(%r{.+\.rb$})
+  watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
+end
+
 guard :rspec, cmd: "rspec" do
   require "guard/rspec/dsl"
   dsl = Guard::RSpec::Dsl.new(self)
@@ -69,10 +73,6 @@ guard :rspec, cmd: "rspec" do
   watch(%r{^apps/(.+).rb$})     { |m| "spec/#{m[1]}_spec.rb" }
 end
 
-guard :rubocop, cli: '-a', notification: :failed, all_on_start: false do
-  watch(%r{.+\.rb$})
-  watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
-end
 
 guard :bundler do
   require 'guard/bundler'

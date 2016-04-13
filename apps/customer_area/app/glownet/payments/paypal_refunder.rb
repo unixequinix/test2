@@ -19,17 +19,17 @@ class Payments::PaypalRefunder
   private
 
   def create_payment(order, charge)
-    transaction = charge.transaction
-    Payment.create!(transaction_type: transaction.payment_instrument_type,
-                    card_country: transaction.credit_card_details.country_of_issuance,
-                    paid_at: Time.at(transaction.created_at),
-                    last4: transaction.credit_card_details.last_4,
+    t = charge.transaction
+    Payment.create!(t_type: t.payment_instrument_type,
+                    card_country: t.credit_card_details.country_of_issuance,
+                    paid_at: Time.at(t.created_at),
+                    last4: t.credit_card_details.last_4,
                     order: order,
-                    response_code: transaction.processor_response_code,
-                    authorization_code: transaction.processor_authorization_code,
+                    response_code: t.processor_response_code,
+                    authorization_code: t.processor_authorization_code,
                     currency: order.customer_event_profile.event.currency,
-                    merchant_code: transaction.id,
-                    amount: transaction.amount.to_f,
+                    merchant_code: t.id,
+                    amount: t.amount.to_f,
                     success: true,
                     payment_type: "paypal")
   end

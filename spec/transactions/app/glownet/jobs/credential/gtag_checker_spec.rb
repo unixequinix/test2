@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Operations::Credential::TicketChecker, type: :job do
+RSpec.describe Operations::Credential::GtagChecker, type: :job do
   let(:event) { create(:event) }
   let(:ticket) { create(:ticket, code: "TICKET_CODE", event: event) }
   let(:gtag) { create(:gtag, tag_uid: "UID1AT20160321130133", event: event) }
@@ -8,7 +8,7 @@ RSpec.describe Operations::Credential::TicketChecker, type: :job do
   let(:transaction) do
     create(:credential_transaction, event: event, ticket: ticket, customer_event_profile: profile)
   end
-  let(:worker) { Operations::Credential::TicketChecker.new }
+  let(:worker) { Operations::Credential::GtagChecker.new }
   let(:atts) do
     {
       transaction_id: transaction.id,
@@ -32,14 +32,6 @@ RSpec.describe Operations::Credential::TicketChecker, type: :job do
   describe "actions include" do
     after  { worker.perform(atts) }
     before { allow(Profile::Checker).to receive(:for_transaction).and_return(profile.id) }
-
-    it "assigns a ticket" do
-      expect(worker).to receive(:assign_ticket).with(transaction, atts).and_return(ticket)
-    end
-
-    it "assigns a ticket credential" do
-      expect(worker).to receive(:assign_ticket_credential)
-    end
 
     it "assigns a gtag" do
       expect(worker).to receive(:assign_gtag).with(transaction, atts).and_return(gtag)
