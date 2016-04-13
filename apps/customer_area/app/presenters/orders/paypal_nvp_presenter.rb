@@ -20,12 +20,12 @@ class Orders::PaypalNvpPresenter
     "events/orders/paypal_nvp_payment_redirection"
   end
 
-  def form_data
-    Payments::PaypalNvpDataRetriever.new(@event, @order)
-  end
-
   def email
     @customer_event_profile.customer.email
+  end
+
+  def form_data
+    Payments::PaypalNvpDataRetriever.new(@event, @order)
   end
 
   def payment_service
