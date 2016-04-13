@@ -4,11 +4,11 @@ RSpec.describe Profile::Checker, type: :domain_logic do
   subject { Profile::Checker }
 
   context ".assign_profile" do
-    let(:event) { create(:event) }
+    let(:event)   { create(:event) }
     let(:tag_uid) { "SOMETAGUID" }
-    let(:ticket) { create(:ticket, code: "TICKET_CODE", event: event) }
+    let(:ticket)  { create(:ticket, code: "TICKET_CODE", event: event) }
     let(:profile) { create(:customer_event_profile, event: event) }
-    let(:gtag) { create(:gtag, tag_uid: tag_uid, event: event) }
+    let(:gtag)    { create(:gtag, tag_uid: tag_uid, event: event) }
     let(:atts) do
       {
         ticket_code: "TICKET_CODE",
