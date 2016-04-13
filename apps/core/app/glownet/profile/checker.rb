@@ -7,4 +7,11 @@ class Profile::Checker
     return tag_profile if tag_profile
     CustomerEventProfile.create!(event_id: atts[:event_id]).id
   end
+
+  def self.for_credentiable(obj, customer)
+    profile = obj.assigned_customer_event_profile
+    return customer.create_customer_event_profile!(event: obj.event) unless profile
+    fail "Credentiable Fraud detected" if profile.customer
+    customer.update!(customer_event_profile: profile)
+  end
 end
