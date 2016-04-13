@@ -121,7 +121,7 @@ it:
             base:
               restrict_dependent_destroy:
                 many: "Non può essere cancellato perchè ci sono biglietti associati"
-        tickets:
+        ticket:
           attributes:
             number:
               taken: 'Numero già presso'

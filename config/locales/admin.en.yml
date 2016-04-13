@@ -249,7 +249,6 @@ en:
       vouchers: "Vouchers"
       credential_types: "Credential Types"
       companies: "Companies"
-      preevent_products: "Preevent products"
       company_ticket_types: "Company ticket types"
     dashboard:
       change_state: "Change state?"

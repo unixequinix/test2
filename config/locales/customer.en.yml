@@ -246,7 +246,7 @@ en:
       email: 'Forgot your password?'
       password: 'Send me password instructions'
   refund:
-    srefund_method: "Refund method"
+    refund_method: "Refund method"
     error:
       title: 'Transaction failed'
       call_to_action: 'Contact us:'
