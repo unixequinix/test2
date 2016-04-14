@@ -93,7 +93,7 @@ it:
     gtag_registration:
       title: "Il numero della tua Paycard:"
       call_to_action: "Registrato una Paycard sbagliata per?"
-      button: "Cambiare"
+      button: "Cancella"
       hint: "Put a wrong wristband by mistake? Erase and restart the process"
     gtag_after_refund:
       description: "Il tuo rimborso è in corso"

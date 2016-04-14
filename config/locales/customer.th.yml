@@ -93,7 +93,7 @@ th:
     gtag_registration:
       title: "หมายเลข %{gtag} ของคุณ"
       call_to_action: "ใส่หมายเลข %{gtag} ผิด?"
-      button: "ลบข้อมูลและทำรายการใหม่"
+      button: "Remove"
       hint: "Put a wrong wristband by mistake? Erase and restart the process"
     gtag_after_refund:
       description: "ระบบกำลังดำเนินการคืนเงินให้กับคุณ"

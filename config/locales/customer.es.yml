@@ -93,7 +93,7 @@ es:
     gtag_registration:
       title: "Tu %{gtag}"
       call_to_action: "¿Introdujiste una incorrecta por error?"
-      button: "Cambiar"
+      button: "Borrar"
       hint: "Has introducido una pulsera por error? Bórrala y reinicia el proceso"
     gtag_after_refund:
       description: "Tu devolución está en proceso"
