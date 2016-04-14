@@ -322,7 +322,7 @@
   display: block;
   width: auto;
   height: modules(2);
-  margin: 0 auto;
+  margin: 0 auto modules(1);
 
   &:hover, &:focus {
     outline: none;
