@@ -139,15 +139,6 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
       .where.not(station_types: { name: "customer_portal" })
   end
 
-  def sale_stations
-    Station.joins(:station_type)
-      .where(event: @event, station_types: { name: Station::SALE_STATIONS })
-  end
-
-  def station_catalog_items
-    StationCatalogItem.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
-  end
-
   def sql_tickets # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
       SELECT array_to_json(array_agg(row_to_json(t)))

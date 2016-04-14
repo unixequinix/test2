@@ -121,7 +121,7 @@ en:
             base:
               restrict_dependent_destroy:
                 many: "Can't be deleted because there are tickets associated"
-        tickets:
+        ticket:
           attributes:
             number:
               taken: 'Number taken'

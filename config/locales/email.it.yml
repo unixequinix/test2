@@ -50,7 +50,6 @@ it:
           subject: '%{gtag} assigned'
           greet: 'Ciao %{name}!'
           mail_body: 'Hai assegnato un %{gtag} con il id:'
-          mail_link: 'Fra 5-10 giorni lavorativi, appena i tuoi crediti saranno pronti per il rimborso, riceverai da noi un email.'
         unassigned:
           title: '%{gtag} cancellato'
           subject: '%{gtag} cancellato'

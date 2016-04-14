@@ -1,7 +1,7 @@
 it:
   simple_form:
-    "si": 'Si'
-    "no": 'No'
+    yes: 'Sì'
+    no: 'No'
     required:
       text: 'richiesto'
       mark: '*'
@@ -53,11 +53,18 @@ it:
           email: 'Email'
           first_name: 'Nome'
           last_name: 'Cognome'
-          password: 'Password Attuale'
+          current_password: 'Password Attuale'
           password: 'Password'
           password_confirmation: 'Conferma Password'
           phone: 'Numero di Telefono'
           remember_me: 'Ricordare'
+          phone: 'Phone Number'
+          address: 'Address'
+          city: 'City'
+          country: 'Country'
+          postcode: 'Post Code'
+          gender: 'Gender'
+          birthdate: 'Birthdate'
           agreed_on_registration: "Ho letto e accetto i termini e le condizioni d'uso"
         edit:
           <<: *label_customer
@@ -159,11 +166,6 @@ it:
           post_code: "Codice Postale"
           phone: "Telefono"
           address: "Indirizzo"
-          city: 'Città'
-          country: 'Country'
-          postcode: 'Nazione'
-          gender: 'Genere'
-          birthdate: 'Data di Nascita'
       bank_account_claim_form:
         new:
           swift_html: "BIC/SWIFT<sup>1</sup>"
@@ -184,17 +186,6 @@ it:
           agreed_event_condition_message: 'Adds the condition you want the user accepts when registering'
         edit:
           <<: *placeholder_event
-      preevent_item:
-        new: &placeholder_preevent_item
-          name: 'Choose a descriptive name'
-          description: 'Event credits details'
-          price: 'Credit price'
-          min_purchasable: 'Min units per order in number'
-          max_purchasable: 'Max units per order in number'
-          initial_amount: 'Initial Amount in number'
-          step: 'Incremental Step'
-        edit:
-          <<: *placeholder_preevent_item
       entitlement:
         new: &placeholder_entitlement
           name: 'Choose a name for entitlement'

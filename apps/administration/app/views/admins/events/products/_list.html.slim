@@ -2,6 +2,7 @@
 table.products
   thead
     tr
+      th = t('admin.products.id')
       th = t('admin.products.name')
       th = t('admin.products.description')
       th = t('admin.products.is_alcohol')
@@ -9,6 +10,7 @@ table.products
   tbody
     - products.each do |product|
       tr
+        td data-label=t('admin.products.id') = product.id
         td data-label=t('admin.products.name') = link_to(product.name, edit_admins_event_product_path(current_event, product))
         td data-label=t('admin.products.description') = product.description
         td data-label=t('admin.products.is_alcohol') = product.is_alcohol

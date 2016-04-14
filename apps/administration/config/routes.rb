@@ -99,7 +99,7 @@ Rails.application.routes.draw do
           resources :topup_credits, only: [:index, :create, :destroy], module: :stations
           resources :access_control_gates, only: [:index, :create, :destroy], module: :stations
         end
-        resources :sale_stations, only: [:index]
+        resources :accreditation_stations, only: [:index]
         resources :point_of_sale_stations, only: [:index]
         resources :topup_stations, only: [:index]
         resources :access_control_stations, only: [:index]

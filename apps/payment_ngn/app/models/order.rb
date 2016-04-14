@@ -22,7 +22,7 @@ class Order < ActiveRecord::Base
   has_many :catalog_items, through: :order_items, class_name: "CatalogItem"
 
   # Validations
-  validates :customer_event_profile, :order_items, :number, :aasm_state, presence: true
+  validates :customer_event_profile, :number, :aasm_state, presence: true
 
   # State machine
   include AASM

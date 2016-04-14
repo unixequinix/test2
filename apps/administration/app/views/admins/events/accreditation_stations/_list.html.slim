@@ -11,5 +11,5 @@ table.accesses
         td data-label=t('admin.stations.name')
           = link_to station.name, admins_event_station_station_catalog_items_path(current_event, station)
         td data-label=t('admin.stations.items') = StationCatalogItem.joins(station_parameter: :station).where(station_parameters: { station_id: station.id } ).count
-        td.table-actions-field = render 'admins/events/sale_stations/actions', station: station
+        td.table-actions-field = render 'admins/events/accreditation_stations/actions', station: station
 = paginate stations

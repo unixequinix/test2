@@ -1,7 +1,7 @@
 en:
   simple_form:
-    "yes": 'Yes'
-    "no": 'No'
+    yes: 'Yes'
+    no: 'No'
     required:
       text: 'required'
       mark: '*'
@@ -54,7 +54,7 @@ en:
           email: 'Email'
           first_name: 'First name'
           last_name: 'Last name'
-          password: 'Current Password'
+          current_password: 'Current Password'
           password: 'Password'
           password_confirmation: 'Password Confirmation'
           remember_me: 'Remember me'
@@ -186,17 +186,6 @@ en:
           agreed_event_condition_message: 'Adds the condition you want the user accepts when registering'
         edit:
           <<: *placeholder_event
-      preevent_item:
-        new: &placeholder_preevent_item
-          name: 'Choose a descriptive name'
-          description: 'Event credits details'
-          price: 'Credit price'
-          min_purchasable: 'Min units per order in number'
-          max_purchasable: 'Max units per order in number'
-          initial_amount: 'Initial Amount in number'
-          step: 'Incremental Step'
-        edit:
-          <<: *placeholder_preevent_item
       entitlement:
         new: &placeholder_entitlement
           name: 'Choose a name for entitlement'

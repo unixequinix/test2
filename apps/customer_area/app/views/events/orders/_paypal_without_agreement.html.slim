@@ -1,0 +1,8 @@
+p.hint-text.center-text = t("orders.paypal.sync_title")
+.payment-errors#paypal-errors
+#paypal-container
+#paypal-activated-container
+  = render 'events/orders/paypal_autotopup' if order_presenter.enable_autotoup_agreement?
+  .actions
+    = submit_tag t('orders.button'), id: "paypal-submit", class: "btn btn-action btn-action-primary"
+

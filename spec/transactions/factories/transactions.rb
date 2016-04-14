@@ -37,4 +37,14 @@ FactoryGirl.define do
     direction { rand(2) }
     access_entitlement_value { rand(10) }
   end
+
+  factory :order_transaction do
+    transaction_type { "word #{rand(100)}" }
+    device_created_at { Time.now }
+    customer_tag_uid { SecureRandom.urlsafe_base64.upcase }
+    operator_tag_uid { SecureRandom.urlsafe_base64.upcase }
+    device_uid { "word #{rand(100)}" }
+    status_code "0"
+    status_message "OK"
+  end
 end

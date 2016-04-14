@@ -1,12 +1,14 @@
 require "rails_helper"
 
-RSpec.describe Jobs::Credential::TicketChecker, type: :job do
+RSpec.describe Operations::Credential::TicketChecker, type: :job do
   let(:event) { create(:event) }
   let(:ticket) { create(:ticket, code: "TICKET_CODE", event: event) }
   let(:gtag) { create(:gtag, tag_uid: "UID1AT20160321130133", event: event) }
   let(:profile) { create(:customer_event_profile, event: event) }
-  let(:transaction) { create(:credential_transaction, event: event, ticket: ticket) }
-  let(:worker) { Jobs::Credential::TicketChecker.new }
+  let(:transaction) do
+    create(:credential_transaction, event: event, ticket: ticket, customer_event_profile: profile)
+  end
+  let(:worker) { Operations::Credential::TicketChecker.new }
   let(:atts) do
     {
       transaction_id: transaction.id,
@@ -21,18 +23,15 @@ RSpec.describe Jobs::Credential::TicketChecker, type: :job do
       device_db_index: rand(100),
       device_created_at: "2016-02-05 11:13:39 +0100",
       ticket_code: "TICKET_CODE",
-      customer_event_profile_id: 57_700,
+      customer_event_profile_id: profile.id,
       status_code: 0,
       status_message: "All OK"
     }
   end
 
   describe "actions include" do
-    after { worker.perform(atts) }
-
-    it "assigns profile" do
-      expect(worker).to receive(:assign_profile).with(transaction, atts).and_return(profile)
-    end
+    after  { worker.perform(atts) }
+    before { allow(Profile::Checker).to receive(:for_transaction).and_return(profile.id) }
 
     it "assigns a ticket" do
       expect(worker).to receive(:assign_ticket).with(transaction, atts).and_return(ticket)

@@ -157,6 +157,7 @@ it:
         name: 'Name'
         mifare_classic: "Mifare Classic"
         ultralight_ev1: "Ultralight EV1"
+        ultralight_c: "Ultralight C"
     device_settings:
       form:
         currency: "Currency Symbol"
@@ -248,7 +249,6 @@ it:
       vouchers: "Vouchers"
       credential_types: "Credential Types"
       companies: "Companies"
-      preevent_products: "Preevent products"
       company_ticket_types: "Company ticket types"
     dashboard:
       change_state: "Change state?"
@@ -391,10 +391,10 @@ it:
       payments_activated: "Payments activated"
       gtag_assignments: "Gtag registrations"
       completed_claim: "Completed claims"
-      customer_orders: "Customer orders"
       refund: "Refund"
       claims: "Claims"
       customer_credits: "Customer credits"
+      customer_orders: "Customer orders"
       online_orders: "Online orders"
       gtag_credits: "Gtag Credits"
       tickets: "Tickets"
@@ -420,6 +420,7 @@ it:
         gtag_assignments: "Gtags?"
         credits_purchased: "Credits Purchased?"
     claims:
+      claim_number: "Claim number"
       number: "Number"
       customer: "Customer"
       state: "State"

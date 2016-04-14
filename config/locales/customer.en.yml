@@ -166,6 +166,8 @@ en:
       sync_title: "Sync with PayPal to perform payment"
       sync_copy: "Never without credit!"
       sync_description: "Make direct top ups in your event purchases. Select how much you want to top up in case you spent your credit in the event and avoid queues. Your wristband will be always ready to go."
+      with_agreement_title: "Already sync with PayPal"
+      with_agreement_subtitle: "You can perform direct payments"
   claims:
     title: "Confirm Refund"
     description: "Please, review your order and proceed to payment."
@@ -246,7 +248,7 @@ en:
       email: 'Forgot your password?'
       password: 'Send me password instructions'
   refund:
-    srefund_method: "Refund method"
+    refund_method: "Refund method"
     error:
       title: 'Transaction failed'
       call_to_action: 'Contact us:'
