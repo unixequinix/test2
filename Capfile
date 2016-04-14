@@ -3,8 +3,8 @@ require "capistrano/setup"
 
 # Include default deployment tasks
 require "capistrano/deploy"
-require "capistrano/sidekiq"
 require "capistrano/rails"
+require "capistrano/sidekiq"
 require "capistrano/rails/assets"
 require "capistrano/faster_assets"
 
