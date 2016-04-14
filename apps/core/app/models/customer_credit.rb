@@ -20,9 +20,6 @@
 class CustomerCredit < ActiveRecord::Base
   acts_as_paranoid
 
-  before_create :set_created_in_origin_at
-  before_save :calculate_balances
-
   belongs_to :customer_event_profile
 
   validates_presence_of :payment_method, :transaction_origin, :customer_event_profile
