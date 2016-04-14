@@ -35,16 +35,4 @@ class CustomerCredit < ActiveRecord::Base
 
   # Type of the invoices
   TRANSACTION_TYPES = [TICKET_ASSIGNMENT, TICKET_UNASSIGNMENT, CREDITS_PURCHASE]
-
-  private
-
-  def set_created_in_origin_at
-    self.created_in_origin_at = created_at
-  end
-
-  def calculate_balances
-    balances = customer_event_profile.current_balance
-    self.final_balance = balances&.final_balance.to_i + amount
-    self.final_refundable_balance = balances&.final_refundable_balance.to_i + refundable_amount
-  end
 end
