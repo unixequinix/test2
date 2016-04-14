@@ -9,7 +9,6 @@ th:
     error: 'ดูรายละเอียดของข้อผิดพลาด'
     checkout: 'คุณสามารถใส่หมายเลขได้ แต่ไม่สามารถใส่จุดทศนิยมหรือเลขที่น้อยกว่า %{limit}'
     admissions:  "บัตรเข้างานไม่ถูกต้อง หากคุณเพิ่งทำการซื้อบัตรในเวลาไม่เกิน 48 ชั่วโมงที่ผ่านมา กรุณาลองใหม่อีกครั้งภายหลัง หมายเหตุ: บัตรเข้างาน %{companies} เท่านั้นที่สามารถใช้งานในระบบได้"
-    gtag: " %{gtag} ไม่ถูกต้อง"
     order_complete: 'รายการสำเร็จ'
     order_expired: 'หมดเวลาทำรายการ'
     claim_complete: 'การเคลมสำเร็จ ใช้เวลามากกว่า 15 นาที'
@@ -17,3 +16,6 @@ th:
     gtag_already_assigned: 'คุณมีบัตรอยู่ในระบบแล้ว'
     ticket_already_assigned: 'Ticket already assigned'
     credential_already_assigned: 'You already have the credential that comes with this ticket'
+    gtag:
+      invalid: "%{gtag} ไม่ถูกต้อง"
+      already_assigned: "This %{gtag} is already assigned"
