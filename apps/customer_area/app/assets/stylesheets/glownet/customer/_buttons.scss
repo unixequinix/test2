@@ -322,7 +322,7 @@
   display: block;
   width: auto;
   height: modules(2);
-  margin: 0 auto;
+  margin: 0 auto modules(1);
 
   &:hover, &:focus {
     outline: none;
@@ -361,6 +361,10 @@
   margin: modules(0.5) auto;
 
   @include min-screen($bp6) { margin: 0 modules(0.15) modules(1); }
+}
+
+.ptptptpt {
+  border-bottom: 1px solid red;
 }
 
 // ---------------------------------------------------------------------------------------------
