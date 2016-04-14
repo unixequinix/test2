@@ -52,6 +52,9 @@ header.header-mobile.edit-profile-menu
     .wrapper-module
       p.paypal-agreement-icon = fa_icon 'paypal'
       p.hint-text.center-text.paypal-text = t('registration.autotoup_agreement.title')
+      p.hint-text.center-text
+        = t('registration.autotoup_agreement.amount')
+        = payment_gateway_customer.autotopup_amount
       p.center-text = t("confirm.cancel_paypal")
 
       = link_to event_autotopup_agreement_path(current_event, payment_gateway_customer), method: :delete,

@@ -280,6 +280,7 @@ th:
     autotoup_agreement:
       cancel: 'Do you want to cancel your autotopup agreement?'
       title: 'Cancel agreement'
+      amount: 'Selected amount: '
       billing_agreement_description: "I agree in get automated charges when running out of credit"
   sessions:
     first_register:
