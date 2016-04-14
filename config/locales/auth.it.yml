@@ -50,6 +50,3 @@ it:
       not_saved:
         one: "1 errore non ha consentito questo %{resource} di essere salvato:"
         other: "%{count} errori hanno evitato questo %{resource} di essere salvato:"
-  unauthorized:
-    admin:
-    user:

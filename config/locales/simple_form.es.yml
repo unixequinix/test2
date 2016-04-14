@@ -1,7 +1,7 @@
 es:
   simple_form:
-    "si": 'Si'
-    "no": 'No'
+    yes: 'Sí'
+    no: 'No'
     required:
       text: 'requerido'
       mark: '*'
@@ -43,8 +43,6 @@ es:
           background: 'Fondo'
           style: 'Estilo'
           agreed_event_condition_message: 'Mensaje de la condición'
-          gtag_assignation_notification: "Notificación al asignar el Gtag"
-          gtag_form_disclaimer: "Texto formulario asignación Gtag"
           refund_disclaimer: "Mensaje general de devolución"
           refund_success_message: "Mensaje de éxito en la devolución"
           mass_email_claim_notification: "Notificación general (petición de devolución)"
@@ -126,6 +124,8 @@ es:
         edit:
           format: "Formato"
           name: "Nombre"
+          gtag_assignation_notification: "Notificación al asignar el Gtag"
+          gtag_form_disclaimer: "Texto formulario asignación Gtag"
       device_settings_form:
         edit:
           currency: "Símbolo de la moneda"
@@ -185,17 +185,6 @@ es:
           agreed_event_condition_message: 'Añade la condición que quieres que el usuario acepte cuando se registre'
         edit:
           <<: *placeholder_event
-      preevent_item:
-        new: &placeholder_preevent_item
-          name: 'Elige un nombre descriptivo'
-          description: 'Detalles de créditos del evento'
-          price: 'Precio del Crédito'
-          min_purchasable: 'Unidad mínima por órden en número'
-          max_purchasable: 'Unidad máxima por órden en número'
-          initial_amount: 'Cantidad inicial en número'
-          step: 'Escala incremental'
-        edit:
-          <<: *placeholder_preevent_item
       entitlement:
         new: &placeholder_entitlement
           name: 'Elige un nombre para el Derecho'

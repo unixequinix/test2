@@ -1,5 +1,9 @@
 require "rails_helper"
 
 RSpec.describe BannedCustomerEventProfile, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:banned_customer_event_profile) { build(:banned_customer_event_profile) }
+
+  it "is expected to be valid" do
+    expect(banned_customer_event_profile).to be_valid
+  end
 end

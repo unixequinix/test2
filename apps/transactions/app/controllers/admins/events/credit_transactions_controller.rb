@@ -12,7 +12,7 @@ class Admins::Events::CreditTransactionsController < Admins::Events::BaseControl
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "CreditTransaction".constantize.model_name,
-      fetcher: CreditTransaction.where(event: current_event),
+      fetcher: CreditTransaction.where(event: current_event).order(id: :desc),
       search_query: params[:q],
       page: params[:page],
       context: view_context

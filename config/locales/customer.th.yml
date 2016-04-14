@@ -5,6 +5,7 @@ th:
     cancel: "ยกเลิก"
     edit: "แก้ไข"
     delete: "ลบ"
+    delete_ticket: "Delete ticket"
     delete_account: "Delete your account"
     check_news: "กลับไปที่เว็บไซด์ของงาน"
     delete_account: "ลบบัญชีของคุณ"
@@ -32,6 +33,8 @@ th:
     buttons:
       sign_in: 'เข้าระบบ'
       sign_up: 'ทำการสมัคร'
+      join: 'Join'
+      back: 'Back to home'
   dashboard:
     title: "หน้าบัญชีผู้ใช้งานของฉัน"
     admissions:
@@ -44,20 +47,22 @@ th:
       call_to_action: "กรุณาใส่บัตรเข้างานที่คุณจะใช้เองเท่านั้นในระบบ"
       description: "ห้ามไม่ให้ใส่บัตรของผู้อื่นเข้าในระบบ"
       button: "ใส่บัตรเข้างานในระบบ"
+    purchases:
+      header: "Your purchases"
     first_register:
       ticket: "Add ticket"
       wristband: "Add wristband"
     credits:
       header: "เครดิตที่ยังคงเหลืออยู่ของคุณ"
-      call_to_action: "เพื่อให้ไม่ต้องเสียเวลาขณะอยู่ที่งาน คุณสามารถเติมเงิน %{gtag} ไว้ล่วงหน้าสำหรับการใช้จ่ายภายในงาน"
       call_to_action_started: "ไม่สามารถเติมเงินผ่านระบบออนไลน์ได้ เนื่องจากงานได้เริ่มแล้ว"
       call_to_action_no_admission_html: "เติมเงินผ่านระบบออนไลน์ <br>กรุณาใส่บัตรเข้างานในระบบก่อน"
       button: "เติมเงิน"
+      ticket_first: "Add a ticket or wristband first"
       calculating_balance: "Calculating your balance"
     paypal:
       claim: "Take advantage!"
-      description: "Sync with Paypal and you will be able to make direct top ups."
-    add_credentials: "Add a ticket or a gtag first"
+      description: "Sync with Paypal and you will make direct top ups."
+      button: "Sync with PayPal"
     event_refunds:
       claim: "งานยังไม่จบ"
       description: "กรุณาทำการขอรับเงินคืนอีกครั้งหลังงานเลิก"
@@ -74,9 +79,10 @@ th:
       claim: "มีข้อผิดพลาดในการขอรับเงินคืน"
       description: "กลับไปที่หน้าบัญชีผู้ใช้งานของคุณ และทำการขอรับเงินคืนอีกครั้ง"
     without_gtags:
-      title: "มีเครดิตเหลืออยู่?"
-      description: "ใ่ส่บัตรเข้างานในระบบ %{gtag} เพื่อทำการขอรับเงินคืน คุณสามารถใส่บัตรเข้างานในระบบได้แค่ใบเดียวต่อหนึ่งบัญชีผู้ใช้งาน"
-      button: "ใส่ในระบบ %{gtag}"
+      add : "Assign %{gtag}"
+      title: "Credits left?"
+      description: "Remember: only one %{gtag} can be activated per account."
+      button: "Assign"
     without_gtags_disabled:
       claim: "หมดเขตของการขอรับเงินคืน"
       description: "หากคุณเคยติดต่อเรา และมีคำถาม"
@@ -88,6 +94,7 @@ th:
       title: "หมายเลข %{gtag} ของคุณ"
       call_to_action: "ใส่หมายเลข %{gtag} ผิด?"
       button: "ลบข้อมูลและทำรายการใหม่"
+      hint: "Put a wrong wristband by mistake? Erase and restart the process"
     gtag_after_refund:
       description: "ระบบกำลังดำเนินการคืนเงินให้กับคุณ"
     without_refunds:
@@ -101,6 +108,9 @@ th:
       title: "เครดิตของคุณ:"
       call_to_action: "การขอรับเงินคืนสำเร็จแล้ว คุณจะได้รับการโอนเงินเร็วๆ นี้"
       button: "แก้ไขบัญชีธนาคารของคุณ"
+    event_started:
+      title: "Ultimating details!"
+      description: "We are finishing event configuration to bring you a great experience. Please, come back later and see what we have made for you."
   admissions:
     title: "การใส่บัตรเข้างานในระบบ"
     description: "กรุณาใส่รหัสหมายเลขที่อยู้ด้านล่างของบาร์โค้ดบนบัตรเข้างานของคุณ"
@@ -114,6 +124,7 @@ th:
     description: "หลังจากที่คุณเติมเงินโดยการซื้อเครดิตออนไลน์ที่นี่แล้ว คุณจะสามารถใช้เงินได้โดยอัตโนมัติผ่าน %{gtag} หลังจากเข้างาน"
     total: "ทั้งหมด"
     button: "ยืนยันการเติมเงิน"
+    store: " store"
   orders:
     title: "ยืนยันการเติมเงิน"
     description: "กรุณาตรวจสอบรายละเอียดของการเติมเงินของคุณ และทำการชำระเงิน."
@@ -156,9 +167,6 @@ th:
       sync_title: "Sync with PayPal to perform payment"
       sync_copy: "Never without credit!"
       sync_description: "Make direct top ups in your event purchases. Select how much you want to top up in case you spent your credit in the event and avoid queues. Your wristband will be always ready to go."
-      button: "Sync with PayPal"
-      with_agreement_title: "Already sync with PayPal"
-      with_agreement_subtitle: "You can perform direct payments"
   claims:
     title: "ยืนยันการขอรับเงินคืน"
     description: "กรุณาตรวจสอบรายละเอียดของการขอรับเงินของคุณ และทำการชำระเงิน."
@@ -182,6 +190,9 @@ th:
       title: "Claim for your balance"
       description: "We will refund your money automatically."
       button: "Proceed"
+    invalid_claim:
+      title: "Working in your refund"
+      description: "Contact us for more information"
   gtag_assignations:
     title: "ระบุ %{gtag}"
     description:
@@ -190,6 +201,7 @@ th:
       simple: "เพื่อจะทำการขอรับเงินคืน กรุณาระบุหมายเลขบน %{gtag} ของคุณ "
     call_to_action: "ระบุ %{gtag} ของคุณ และไปต่อ!"
     button: "ตกลง"
+    back: "Back"
     placeholders:
       standard:
         line_1: "บรรทัดที่ 1 เช่น: 12345"
@@ -256,7 +268,6 @@ th:
     new:
       title: 'สมัครเข้าใช้ระบบ'
       info: 'กรุณาใส่ข้อมูลส่วนตัวของคุณที่ถูกต้อง เพื่อที่จะได้ไม่มีการผิดพลาดในการให้บริการคุณผ่านระบบ'
-      description: 'กรุณาใส่ข้อมูลให้ครบ'
       button: 'สมัครเข้าใช้ระบบ'
       details: "กรุณาใส่ข้อมูลส่วนตัวของคุณและระบุว่าคุณเป็นผู้ร่วมงาน เพื่อที่จะได้ไม่มีการผิดพลาดในการให้บริการคุณผ่านระบบ"
       or: 'or'
@@ -286,6 +297,15 @@ th:
       description: 'วิธีใช้งาน'
       button: 'Log in'
       copy: 'ข้อไดเปรียบ?'
+    placeholder:
+      email: 'e.g. nickname@mail.com'
+      password: 'e.g. · · · · · ·'
+      name: 'e.g. Richard'
+      last_name: 'e.g. Hendricks'
+      phone: 'e.g. 111 22 33 44'
+      address: 'e.g. 1 Pied Piper'
+      city: 'e.g. Madrid'
+      post: 'e.g. 28012'
     end:
       close_title: "Do you want to end session?"
   cancel:

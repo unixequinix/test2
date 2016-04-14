@@ -121,7 +121,7 @@ th:
             base:
               restrict_dependent_destroy:
                 many: "ไม่สามารถยกเลิกได้ เพราะมีการเกี่ยวข้องกับบัตรเข้างานอยู่"
-        tickets:
+        ticket:
           attributes:
             number:
               taken: 'Number taken'

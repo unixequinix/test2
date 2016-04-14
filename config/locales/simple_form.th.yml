@@ -1,7 +1,7 @@
 th:
   simple_form:
-    "yes": 'ใช่'
-    "no": 'ไม่ใช่'
+    yes: 'ใช่'
+    no: 'ไม่ใช่'
     required:
       text: 'จำเป็น'
       mark: '*'
@@ -54,7 +54,7 @@ th:
           email: 'อีเมลl'
           first_name: 'ชื่อ'
           last_name: 'นามสกุล'
-          password: 'รหัสผ่านปัจจุบัน'
+          current_password: 'รหัสผ่านปัจจุบัน'
           password: 'รหัสผ่าน'
           password_confirmation: 'ยืนยันรหัสผ่าน'
           remember_me: 'บันทึกข้อมูลของฉัน'
@@ -173,7 +173,6 @@ th:
       comment:
         new:
           body: "ข้อคิดเห็น"
-
     placeholders:
       event:
         new: &placeholder_event
@@ -186,17 +185,6 @@ th:
           agreed_event_condition_message: 'ใส่เงื่อนไขที่คุณต้องการให้ผู้ใช้ทำการยอมรับตอนสมัครใช้บริการ'
         edit:
           <<: *placeholder_event
-      preevent_item:
-        new: &placeholder_preevent_item
-          name: 'Event´s name. Include year is a good idea'
-          support_email: 'อีเมลช่วยเหลือ'
-          url: 'เว็บไซด์ของงาน'
-          description: 'ใส่ข้อมูลของงานและข้อมูลอื่นๆ ที่คุณคิดว่าสำคัญ'
-          location: 'งานจะเกิดขึ้นที่ไหน?'
-          style: '/*ใส่ CSS*/'
-          agreed_event_condition_message: 'ใส่เงื่อนไขที่คุณต้องการให้ผู้ใช้ทำการยอมรับตอนสมัครใช้บริการ'
-        edit:
-          <<: *placeholder_preevent_item
       entitlement:
         new: &placeholder_entitlement
           name: 'ชื่อของผู้มีสิทธิ์'
