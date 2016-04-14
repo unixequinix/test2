@@ -1,4 +1,4 @@
-class Payments::PaypalPayer
+class Payments::PaypalNvpPayer
   def start(params, customer_order_creator, customer_credit_creator)
     @event = Event.friendly.find(params[:event_id])
     @order = Order.find(params[:order_id])
@@ -14,16 +14,61 @@ class Payments::PaypalPayer
   end
 
   def charge(params)
-    begin
-      charge = Braintree::Transaction.sale(options(params))
-    rescue Braintree::ErrorResult
-      # The card has been declined
-      charge
-    end
-    charge
+    binding.pry
+    get_express_checkout_details(params[:token])
+    charge = do_express_checkout_payment(params[:token], params[:payer_id])
   end
 
   private
+
+  def create_billing_agreement(token)
+    params = {
+      "METHOD" => "CreateBillingAgreement",
+      "USER" => get_value_of_parameter(@event, "user"),
+      "PWD" => get_value_of_parameter(@event, "password"),
+      "SIGNATURE" => get_value_of_parameter(@event, "signature"),
+      "VERSION" => "86",
+      "TOKEN" => token
+    }
+    response = Net::HTTP.post_form(URI.parse("https://api-3t.sandbox.paypal.com/nvp"), params)
+    response.body.split("&").map{|it|it.split("=")}.to_h
+  end
+
+
+  def get_express_checkout_details(token)
+    params = {
+      "METHOD" => "GetExpressCheckoutDetails",
+      "TOKEN" => token
+    }
+    response = Net::HTTP.post_form(URI.parse("https://api-3t.sandbox.paypal.com/nvp"), params)
+    response.body.split("&").map{|it|it.split("=")}.to_h
+  end
+
+  def do_express_checkout_payment(token, payer_id)
+    params = {
+      "METHOD" => "DoExpressCheckoutPayment",
+      "TOKEN" => token,
+      "PAYER_ID" => payer_id
+    }
+    response = Net::HTTP.post_form(URI.parse("https://api-3t.sandbox.paypal.com/nvp"), params)
+    response.body.split("&").map{|it|it.split("=")}.to_h
+  end
+
+  def do_reference_transaction(amount, reference_id)
+    params = {
+      "METHOD" => "DoReferenceTransaction",
+      "USER" => get_value_of_parameter(@event, "user"),
+      "PWD" => get_value_of_parameter(@event, "password"),
+      "SIGNATURE" => get_value_of_parameter(@event, "signature"),
+      "VERSION" => "86",
+      "AMT" => amount,
+      "CURRENCYCODE" => get_value_of_parameter(@event, "currency"),
+      "PAYMENTACTION" => "SALE",
+      "REFERENCEID" => reference_id
+    }
+    response = Net::HTTP.post_form(URI.parse("https://api-3t.sandbox.paypal.com/nvp"), params)
+    response.body.split("&").map{|it|it.split("=")}.to_h
+  end
 
   def options(params)
     amount = @order.total_formated
@@ -35,32 +80,6 @@ class Payments::PaypalPayer
     vault_options(sale_options, @customer_event_profile.customer) if create_agreement?(params)
     send("#{@method}_payment_options", sale_options, params)
     sale_options
-  end
-
-  def regular_payment_options(sale_options, params)
-    sale_options[:payment_method_nonce] = params[:payment_method_nonce]
-  end
-
-  def auto_payment_options(sale_options, params)
-    sale_options[:customer_id] = @gateway.token
-  end
-
-  def submit_for_settlement(sale_options)
-    sale_options[:options] = {
-      submit_for_settlement: true
-    }
-  end
-
-  def vault_options(sale_options, customer)
-    sale_options[:customer] = {
-      first_name: customer.first_name,
-      last_name: customer.last_name,
-      email: customer.email
-    }
-    sale_options[:options] = {
-      submit_for_settlement: true,
-      store_in_vault: true
-    }
   end
 
   def notify_payment(charge, customer_order_creator, customer_credit_creator)
@@ -93,7 +112,7 @@ class Payments::PaypalPayer
   def get_event_parameter_value(event, name)
     EventParameter.find_by(event_id: event.id,
                            parameter: Parameter.where(category: "payment",
-                                                      group: "braintree",
+                                                      group: "paypal_nvp",
                                                       name: name)).value
   end
 

@@ -35,25 +35,6 @@ class Payments::PaypalNvpDataRetriever
     response.body.split("&").map{|it|it.split("=")}.to_h
   end
 
-  def get_express_checkout_details(token)
-    params = {
-      "METHOD" => "GetExpressCheckoutDetails",
-      "TOKEN" => token
-    }
-    response = Net::HTTP.post_form(URI.parse("https://api-3t.sandbox.paypal.com/nvp"), params)
-    response.body.split("&").map{|it|it.split("=")}.to_h
-  end
-
-  def do_express_checkout_payment(token, payer_id)
-    params = {
-      "METHOD" => "DoExpressCheckoutPayment",
-      "TOKEN" => token,
-      "PAYER_ID" => payer_id
-    }
-    response = Net::HTTP.post_form(URI.parse("https://api-3t.sandbox.paypal.com/nvp"), params)
-    response.body.split("&").map{|it|it.split("=")}.to_h
-  end
-
   def form
     "https://www.sandbox.paypal.com/cgi-bin/webscr"
   end
