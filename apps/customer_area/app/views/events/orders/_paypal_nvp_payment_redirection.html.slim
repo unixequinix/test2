@@ -1,4 +1,4 @@
-.wrapper-module
+.wrapper-module.add-bottom-shadow
   p.hint-text.center-text = t("orders.paypal.sync_title")
   = form_tag event_order_path(order_presenter.event, order_presenter.order, payment_service: order_presenter.payment_service), method: :patch, remote: true, id: "paypal-payment-nvp-form"
     = image_submit_tag ("img-paypal-logo.png"), id: "paypal-nvp-submit", class: "paypal-nvp-submit"
