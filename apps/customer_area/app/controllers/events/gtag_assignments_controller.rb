@@ -1,6 +1,7 @@
 class Events::GtagAssignmentsController < Events::BaseController
   before_action :check_event_status!
   before_action :check_has_not_gtag_assignment!, only: [:new, :create]
+  before_action :check_is_valid_status!, only: [:destroy]
 
   def new
     @gtag_assignment_presenter = GtagAssignmentPresenter.new(current_event: current_event)
@@ -37,6 +38,11 @@ class Events::GtagAssignmentsController < Events::BaseController
   def check_has_not_gtag_assignment!
     return if current_profile.active_gtag_assignment.nil?
     redirect_to event_url(current_event), flash: { error: I18n.t("alerts.gtag_already_assigned") }
+  end
+
+  def check_is_valid_status!
+    return if !current_event.started? && !current_event.finished?
+    redirect_to event_url(current_event), flash: { error: I18n.t("alerts.forbidden_gtag_unassignment") }
   end
 
   def gtag_assignment_parameters
