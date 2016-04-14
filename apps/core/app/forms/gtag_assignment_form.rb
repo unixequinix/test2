@@ -11,8 +11,11 @@ class GtagAssignmentForm
 
   def save(fetcher, profile)
     gtag = fetcher.find_by(tag_uid: tag_uid.strip.upcase,
-                           tag_serial_number: tag_serial_number.strip.upcase)
-    errors.add(:gtag_assignment, I18n.t("alerts.gtag")) && return if gtag.nil?
+                           tag_serial_number: tag_serial_number.to_s.strip.upcase)
+
+    errors.add(:gtag_assignment, I18n.t("alerts.gtag.invalid")) && return if gtag.nil?
+    errors.add(:gtag_assignment, I18n.t("alerts.gtag.already_assigned")) &&
+      return if gtag.assigned_customer_event_profile
     errors.add(:gtag_assignment, gtag.errors.full_messages.join(". ")) && return unless valid?
     persist!(profile, gtag)
   end

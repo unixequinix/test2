@@ -9,7 +9,6 @@ es:
     error: 'Revisar errores de formulario'
     checkout: 'Solo se pueden introducir datos numéricos sin decimales e inferiores a %{limit}'
     admissions:  "Ticket no reconocido. Si has realizado tu compra en las últimas 48 horas, intenta de nuevo luego mientras actualizamos tu compra. Si persiste, contacta soporte. Por favor tenga en cuenta que solo las compañías %{companies} están soportadas en este servicio."
-    gtag: "%{gtag} no válida"
     order_complete: 'Orden completada'
     order_expired: 'Orden expirada. Pasaron más de 15 minutos'
     claim_complete: 'Devolución completada'
@@ -17,3 +16,6 @@ es:
     gtag_already_assigned: 'Ya tienes uno asignado'
     ticket_already_assigned: 'Ticket ya asignado'
     credential_already_assigned: 'You already have the credential that comes with this ticket'
+    gtag:
+      invalid: "%{gtag} no válida"
+      already_assigned: "%{gtag} ya ha sido asignada a otro usuario"
