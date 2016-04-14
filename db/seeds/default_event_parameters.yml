@@ -201,7 +201,7 @@
           value: 50
         -
           name: gtag_type
-          value: "mifare_classic"
+          value: "ultralight_c"
         -
           name: format
           value: standard
