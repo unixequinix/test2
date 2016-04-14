@@ -42,7 +42,7 @@ class Events::GtagAssignmentsController < Events::BaseController
 
   def check_is_valid_status!
     return if !current_event.started? && !current_event.finished?
-    redirect_to event_url(current_event), flash: { error: I18n.t("alerts.forbidden_gtag_unassignment") }
+    redirect_to event_url(current_event), flash: { error: I18n.t("alerts.forbidden_gtag_change") }
   end
 
   def gtag_assignment_parameters

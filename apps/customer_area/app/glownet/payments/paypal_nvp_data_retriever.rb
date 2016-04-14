@@ -18,21 +18,15 @@ class Payments::PaypalNvpDataRetriever
 
   def post_request_payment_authorization
     params = {
-      "USER" => user,
-      "PWD" => pwd,
-      "SIGNATURE" => signature,
-      "METHOD" => method,
-      "VERSION" => version,
-      "PAYMENTREQUEST_0_PAYMENTACTION" => payment_action,
-      "PAYMENTREQUEST_0_AMT" => amt,
-      "PAYMENTREQUEST_0_CURRENCYCODE" => currency_code,
+      "USER" => user, "PWD" => pwd, "SIGNATURE" => signature, "METHOD" => method,
+      "VERSION" => version, "PAYMENTREQUEST_0_PAYMENTACTION" => payment_action,
+      "PAYMENTREQUEST_0_AMT" => amt, "PAYMENTREQUEST_0_CURRENCYCODE" => currency_code,
       "L_BILLINGTYPE0" => billing_type,
       "L_BILLINGAGREEMENTDESCRIPTION0" => billing_agreement_description,
-      "cancelUrl" => cancel_url,
-      "returnUrl" => return_url
+      "cancelUrl" => cancel_url, "returnUrl" => return_url
     }
     response = Net::HTTP.post_form(URI.parse("https://api-3t.sandbox.paypal.com/nvp"), params)
-    response.body.split("&").map{|it|it.split("=")}.to_h
+    response.body.split("&").map { |it| it.split("=") }.to_h
   end
 
   def form
@@ -86,7 +80,7 @@ class Payments::PaypalNvpDataRetriever
   end
 
   def billing_agreement_description
-    I18n.t('registration.autotoup_agreement.billing_agreement_description')
+    I18n.t("registration.autotoup_agreement.billing_agreement_description")
   end
 
   def cancel_url
@@ -94,11 +88,11 @@ class Payments::PaypalNvpDataRetriever
   end
 
   def return_url
-    success_event_order_payment_service_synchronous_payments_url(@current_event, @order, "paypal_nvp")
+    success_event_order_payment_service_synchronous_payments_url(@current_event,
+                                                                 @order, "paypal_nvp")
   end
 
   def get_value_of_parameter(parameter)
     @payment_parameters.find { |param| param.name == parameter }.value
   end
 end
-
