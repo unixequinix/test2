@@ -1,4 +1,4 @@
-class Orders::StripePresenter
+class Orders::StripePresenter < Orders::BasePresenter
   attr_accessor :event, :order
 
   def initialize(event, order)

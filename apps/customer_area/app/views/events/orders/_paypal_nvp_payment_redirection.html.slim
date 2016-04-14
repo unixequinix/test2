@@ -1,7 +1,6 @@
 .wrapper-module
-  = form_tag event_order_path(order_presenter.event, order_presenter.order, payment_service: order_presenter.payment_service), method: :patch, remote: true
-    = render "events/orders/paypal_nvp_#{order_presenter.actual_agreement_state}", order_presenter: order_presenter
-  //.wrapper-seal
-  //  = render 'events/shared/ssl_cert_seal'
+  p.hint-text.center-text = t("orders.paypal.sync_title")
+  = form_tag event_order_path(order_presenter.event, order_presenter.order, payment_service: order_presenter.payment_service), method: :patch, remote: true, id: "paypal-payment-nvp-form"
+    = submit_tag nil, id: "paypal-nvp-submit", class: "btn btn-action btn-action-primary"
   #paymentForm class="wrapper-field form-inputs"
 

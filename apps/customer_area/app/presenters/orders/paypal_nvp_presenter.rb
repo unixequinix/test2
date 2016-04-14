@@ -1,11 +1,19 @@
-class Orders::PaypalNvpPresenter
-  attr_accessor :event, :order
+class Orders::PaypalNvpPresenter < Orders::BasePresenter
+  attr_accessor :event, :order, :payer_id, :token
 
   def initialize(event, order)
     @event = event
     @order = order
     @customer_event_profile = @order.customer_event_profile
     @agreement = @customer_event_profile.gateway_customer(EventDecorator::PAYPAL_NVP)
+    @payer_id = ""
+    @token = ""
+  end
+
+  def with_params(params)
+    @payer_id = params[:PayerID]
+    @token = params[:token]
+    self
   end
 
   def enable_autotoup_agreement?
@@ -16,8 +24,13 @@ class Orders::PaypalNvpPresenter
     @agreement ? "with_agreement" : "without_agreement"
   end
 
+  def merchant_id
+    @event.get_parameter("payment", "paypal_nvp", "merchant_id")
+  end
+
   def path
-    "events/orders/paypal_nvp_payment_redirection"
+    partial = @payer_id ? "paypal_nvp_without_agreement" : "paypal_nvp_payment_redirection"
+    "events/orders/#{partial}"
   end
 
   def email

@@ -1,4 +1,4 @@
-class Orders::PaypalPresenter
+class Orders::PaypalPresenter < Orders::BasePresenter
   attr_accessor :event, :order
 
   def initialize(event, order)

@@ -1,4 +1,4 @@
-class Orders::RedsysPresenter
+class Orders::RedsysPresenter < Orders::BasePresenter
   attr_accessor :event, :order
 
   def initialize(event, order)

@@ -1,4 +1,4 @@
-class Orders::BraintreePresenter
+class Orders::BraintreePresenter < Orders::BasePresenter
   attr_accessor :event, :order
 
   def initialize(event, order)

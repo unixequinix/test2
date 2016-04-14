@@ -13,15 +13,15 @@ class Payments::PaypalNvpDataRetriever
                                  group: "paypal_nvp",
                                  event_parameters: { event: event })
                           .select("parameters.name, event_parameters.*")
-    @hash_response = post_request_payment_authorization
+    @hash_response = set_express_checkout
   end
 
-  def post_request_payment_authorization
+  def set_express_checkout
     params = {
       "USER" => user,
       "PWD" => pwd,
       "SIGNATURE" => signature,
-      "METHOD" => method,
+      "METHOD" => "SetExpresscheckout",
       "VERSION" => version,
       "PAYMENTREQUEST_0_PAYMENTACTION" => payment_action,
       "PAYMENTREQUEST_0_AMT" => amt,
@@ -30,6 +30,25 @@ class Payments::PaypalNvpDataRetriever
       "L_BILLINGAGREEMENTDESCRIPTION0" => billing_agreement_description,
       "cancelUrl" => cancel_url,
       "returnUrl" => return_url
+    }
+    response = Net::HTTP.post_form(URI.parse("https://api-3t.sandbox.paypal.com/nvp"), params)
+    response.body.split("&").map{|it|it.split("=")}.to_h
+  end
+
+  def get_express_checkout_details(token)
+    params = {
+      "METHOD" => "GetExpressCheckoutDetails",
+      "TOKEN" => token
+    }
+    response = Net::HTTP.post_form(URI.parse("https://api-3t.sandbox.paypal.com/nvp"), params)
+    response.body.split("&").map{|it|it.split("=")}.to_h
+  end
+
+  def do_express_checkout_payment(token, payer_id)
+    params = {
+      "METHOD" => "DoExpressCheckoutPayment",
+      "TOKEN" => token,
+      "PAYER_ID" => payer_id
     }
     response = Net::HTTP.post_form(URI.parse("https://api-3t.sandbox.paypal.com/nvp"), params)
     response.body.split("&").map{|it|it.split("=")}.to_h
@@ -47,6 +66,10 @@ class Payments::PaypalNvpDataRetriever
     @hash_response["TOKEN"].gsub("%2d", "-")
   end
 
+  def user_details
+    @user_details
+  end
+
   private
 
   def user
@@ -59,10 +82,6 @@ class Payments::PaypalNvpDataRetriever
 
   def signature
     get_value_of_parameter("signature")
-  end
-
-  def method
-    "SetExpressCheckout"
   end
 
   def version
@@ -94,7 +113,7 @@ class Payments::PaypalNvpDataRetriever
   end
 
   def return_url
-    success_event_order_payment_service_synchronous_payments_url(@current_event, @order, "paypal_nvp")
+    event_order_url(current_event, @order)
   end
 
   def get_value_of_parameter(parameter)
