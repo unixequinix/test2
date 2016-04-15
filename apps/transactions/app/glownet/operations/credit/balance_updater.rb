@@ -2,7 +2,7 @@ class Operations::Credit::BalanceUpdater < Operations::Base
   TRIGGERS = %w( sale topup refund fee sale_refund )
 
   def perform(atts)
-    #this is because of disparity of variables between portal and device, remove when fixed
+    # this is because of disparity of variables between portal and device, remove when fixed
     credit_atts[:refundable_amount] = credit_atts[:credits_refundable]
     credit_atts[:amount] = credit_atts[:credits]
     credit_atts = Operations::Base.extract_attributes(CustomerCredit, atts)
