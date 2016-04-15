@@ -1,4 +1,4 @@
-class Orders::RedsysPresenter
+class Orders::RedsysPresenter < Orders::BasePresenter
   attr_accessor :event, :order
 
   def initialize(event, order)
@@ -7,7 +7,7 @@ class Orders::RedsysPresenter
   end
 
   def path
-    "events/orders/redsys_payment_redirection"
+    "events/orders/redsys/payment_form"
   end
 
   def payment_service

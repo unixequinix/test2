@@ -13,7 +13,7 @@ class Admins::Events::Stations::StationCatalogItemsController < Admins::Events::
   end
 
   def destroy
-    @station = @fetcher.sale_stations.find(params[:station_id])
+    @station = @fetcher.accreditation_stations.find(params[:station_id])
     @catalog_items = @station.unassigned_catalog_items
     @station_catalog_item = @fetcher.station_catalog_items.find(params[:id])
     @station_catalog_item.destroy
@@ -31,7 +31,8 @@ class Admins::Events::Stations::StationCatalogItemsController < Admins::Events::
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "StationCatalogItem".constantize.model_name,
-      fetcher: @fetcher.station_catalog_items,
+      fetcher: @fetcher.station_catalog_items.joins(:station_parameter)
+               .where(station_parameters: { station_id: params[:station_id] }),
       search_query: params[:q],
       page: params[:page],
       include_for_all_items: [:catalog_item],

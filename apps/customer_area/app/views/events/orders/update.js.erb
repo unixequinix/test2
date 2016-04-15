@@ -1,1 +1,1 @@
-$('#paymentForm').html('<%= j(render "#{@payment_service}_payment_form").html_safe %>');
+$('#paymentForm').html('<%= j(render "events/orders/#{@payment_service}/payment_redirection").html_safe %>');

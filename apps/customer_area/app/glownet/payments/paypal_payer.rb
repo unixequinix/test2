@@ -8,7 +8,7 @@ class Payments::PaypalPayer
     @order.start_payment!
     charge_object = charge(params)
     return charge_object unless charge_object.success?
-    create_agreement(@order, charge_object, params[:autotopup_amount]) if create_agreement?(params)
+    create_agreement(charge_object, params[:autotopup_amount]) if create_agreement?(params)
     notify_payment(charge_object, customer_order_creator, customer_credit_creator)
     charge_object
   end
@@ -17,7 +17,6 @@ class Payments::PaypalPayer
     begin
       charge = Braintree::Transaction.sale(options(params))
     rescue Braintree::ErrorResult
-      # The card has been declined
       charge
     end
     charge
@@ -64,8 +63,7 @@ class Payments::PaypalPayer
   end
 
   def notify_payment(charge, customer_order_creator, customer_credit_creator)
-    transaction = charge.transaction
-    return unless transaction.status == "settling"
+    return unless charge.transaction.status == "settling"
     create_payment(@order, charge)
     customer_credit_creator.save(@order)
     customer_order_creator.save(@order)
@@ -73,12 +71,14 @@ class Payments::PaypalPayer
     send_mail_for(@order, @event)
   end
 
-  def create_agreement(_order, charge_object, autotopup_amount)
+  def create_agreement(charge_object, autotopup_amount)
+    customer_id = charge_object.transaction.customer_details.id
     @customer_event_profile.payment_gateway_customers
       .find_or_create_by(gateway_type: EventDecorator::PAYPAL)
-      .update(token: charge_object.transaction.customer_details.id,
+      .update(token: customer_id,
               agreement_accepted: true,
-              autotopup_amount: autotopup_amount)
+              autotopup_amount: autotopup_amount,
+              email: Braintree::Customer.find(customer_id).paypal_accounts.first.email)
     @customer_event_profile.save
   end
 

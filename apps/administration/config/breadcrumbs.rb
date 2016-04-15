@@ -159,9 +159,9 @@ crumb :admins_event_point_of_sale_stations do |event|
   parent :admins_event, event
 end
 
-crumb :admins_event_sale_station do |event, station|
-  link station.name, admins_event_sale_stations_path(event, station)
-  parent :admins_event_sale_stations, event
+crumb :admins_event_point_of_sale_station do |event, station|
+  link station.name, admins_event_point_of_sale_stations_path(event, station)
+  parent :admins_event_point_of_sale_stations, event
 end
 
 ## Topup Stations
@@ -186,8 +186,8 @@ end
 
 ## Station Products
 
-crumb :admins_event_sale_station_station_products do |event, station|
-  parent :admins_event_sale_station, event, station
+crumb :admins_event_point_of_sale_station_station_products do |event, station|
+  parent :admins_event_point_of_sale_station, event, station
 end
 
 ## Topup Credits
