@@ -39,7 +39,7 @@ RSpec.describe Operations::Credit::BalanceUpdater, type: :job do
       transaction_origin: "device",
       customer_event_profile_id: profile.id
     }
-    allow(Operations::Base).to receive(:extract_attributes).and_return(hash)
+    allow(Operations::Base).to receive(:column_attributes).and_return(hash)
     worker.new.perform(params)
     expect(hash[:amount]).to eq(params[:credits])
   end
