@@ -3,6 +3,7 @@ require "capistrano/setup"
 
 # Include default deployment tasks
 require "capistrano/deploy"
+# Rails has to be above sidekiq for deploy purposes
 require "capistrano/rails"
 require "capistrano/sidekiq"
 require "capistrano/rails/assets"

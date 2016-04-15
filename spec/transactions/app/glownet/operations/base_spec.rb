@@ -4,7 +4,13 @@ RSpec.describe Operations::Base, type: :job do
   let(:base) { Operations::Base }
   let(:event) { create(:event) }
   let(:params) do
-    { transaction_category: "credit", transaction_type: "sale", credits: 30, event_id: event.id }
+    {
+      transaction_category: "credit",
+      transaction_type: "sale",
+      credits: 30,
+      event_id: event.id,
+      device_created_at: Time.now.to_s
+    }
   end
 
   before(:each) do
@@ -53,10 +59,11 @@ RSpec.describe Operations::Base, type: :job do
     end
 
     it "works even if jobs fail" do
-      allow(Operations::Credit::BalanceUpdater).to receive(:perform_later).and_raise(Exception)
-      expect { base.write(params) }.to raise_error
+      allow(Operations::Credit::BalanceUpdater).to receive(:perform_later).and_raise("Error_1")
+      expect { base.write(params) }.to raise_error("Error_1")
       params.delete(:transaction_id)
       params.delete(:customer_event_profile_id)
+      params.delete(:device_created_at)
       expect(CreditTransaction.where(params)).not_to be_empty
     end
   end
@@ -65,8 +72,9 @@ RSpec.describe Operations::Base, type: :job do
     it "should only execute subscriptors if the transaction created is new" do
       expect(Operations::Credit::BalanceUpdater).to receive(:perform_later).once
       transaction = base.write(params)
-      atts = transaction.attributes
-      base.write(atts.symbolize_keys!.merge(transaction_category: "credit"))
+      at = transaction.attributes.symbolize_keys!
+      at = at.merge(transaction_category: "credit", device_created_at: params[:device_created_at])
+      base.write(at)
     end
   end
 end

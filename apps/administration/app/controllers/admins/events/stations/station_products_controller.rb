@@ -31,7 +31,8 @@ class Admins::Events::Stations::StationProductsController < Admins::Events::Base
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "StationProduct".constantize.model_name,
-      fetcher: @fetcher.station_products,
+      fetcher: @fetcher.station_products.joins(:station_parameter)
+               .where(station_parameters: { station_id: params[:station_id] }),
       search_query: params[:q],
       page: params[:page],
       include_for_all_items: [:product],

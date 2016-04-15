@@ -51,7 +51,7 @@ it:
       header: "Your purchases"
     first_register:
       ticket: "Add ticket"
-      wristband: "Add wristband"
+      gtag: "Add wristband"
     credits:
       header: "Your balance"
       call_to_action_started: "The event just started so you cannot topup anymore"
@@ -93,7 +93,7 @@ it:
     gtag_registration:
       title: "Il numero della tua Paycard:"
       call_to_action: "Registrato una Paycard sbagliata per?"
-      button: "Cambiare"
+      button: "Cancella"
       hint: "Put a wrong wristband by mistake? Erase and restart the process"
     gtag_after_refund:
       description: "Il tuo rimborso è in corso"
@@ -277,11 +277,13 @@ it:
     autotoup_agreement:
       cancel: 'Do you want to cancel your autotopup agreement?'
       title: 'Cancel agreement'
+      amount: 'Selected amount: '
       billing_agreement_description: "I agree in get automated charges when running out of credit"
   sessions:
     first_register:
       welcome: 'Bienvenido!!'
-      description: 'Por favor, seleeciona que quieres registrar para continuar'
+      description_with_credentiable: "Please, to continue with your event choose what you  want to register first"
+      description_without_credentiable: "There's nothing you can do right now, please come back later"
     welcome: 'Welcome!'
     create_account:
       title: 'Don´t you have an account?'

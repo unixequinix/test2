@@ -1,9 +1,10 @@
 class Operations::Base < ActiveJob::Base
-  SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at )
+  SEARCH_ATTS = %w( event_id device_uid device_db_index )
 
   def self.write(atts)
     klass = "#{ atts[:transaction_category] }_transaction".classify.constantize
     obj_atts = extract_attributes(klass, atts)
+    obj_atts[:device_created_at] = Time.zone.parse(atts[:device_created_at])
     obj = klass.find_by(atts.slice(*SEARCH_ATTS))
     return obj if obj
     obj = klass.create(obj_atts)

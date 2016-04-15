@@ -8,8 +8,8 @@ class Events::RegistrationsController < Events::BaseController
 
   def create
     @new_profile_form = NewProfileForm.new(Customer.new)
-    if verify_recaptcha(model: @new_profile_form) &&
-       @new_profile_form.validate(permitted_params) &&
+    if @new_profile_form.validate(permitted_params) &&
+       verify_recaptcha(model: @new_profile_form) &&
        @new_profile_form.save
       flash[:notice] = t("registrations.customer.success")
       redirect_to after_inactive_sign_up_path
