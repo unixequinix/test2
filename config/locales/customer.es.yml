@@ -51,7 +51,7 @@ es:
       header: "Tus compras"
     first_register:
       ticket: "Añadir ticket"
-      wristband: "Añadir pulsera"
+      gtag: "Añadir pulsera"
     credits:
       header: "Tu balance"
       call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"
@@ -282,7 +282,8 @@ es:
   sessions:
     first_register:
       welcome: 'Bienvenido!!'
-      description: 'Por favor, seleeciona que quieres registrar para continuar'
+      description_with_credentiable: 'Por favor, seleeciona que quieres registrar para continuar'
+      description_without_credentiable: "No hay nada que puedas hacer ahora mismo, vuelve más tarde"
     welcome: 'Bienvenido!'
     create_account:
       title: 'No tienes cuanta aún?'

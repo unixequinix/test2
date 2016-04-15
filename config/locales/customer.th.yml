@@ -51,7 +51,7 @@ th:
       header: "Your purchases"
     first_register:
       ticket: "Add ticket"
-      wristband: "Add wristband"
+      gtag: "Add wristband"
     credits:
       header: "เครดิตที่ยังคงเหลืออยู่ของคุณ"
       call_to_action_started: "ไม่สามารถเติมเงินผ่านระบบออนไลน์ได้ เนื่องจากงานได้เริ่มแล้ว"
@@ -167,6 +167,8 @@ th:
       sync_title: "Sync with PayPal to perform payment"
       sync_copy: "Never without credit!"
       sync_description: "Make direct top ups in your event purchases. Select how much you want to top up in case you spent your credit in the event and avoid queues. Your wristband will be always ready to go."
+      with_agreement_title: "Already sync with PayPal"
+      with_agreement_subtitle: "You can perform direct payments"
   claims:
     title: "ยืนยันการขอรับเงินคืน"
     description: "กรุณาตรวจสอบรายละเอียดของการขอรับเงินของคุณ และทำการชำระเงิน."
@@ -285,7 +287,8 @@ th:
   sessions:
     first_register:
       welcome: 'Bienvenido!!'
-      description: 'Por favor, seleeciona que quieres registrar para continuar'
+      description_with_credentiable: "Please, to continue with your event choose what you  want to register first"
+      description_without_credentiable: "There's nothing you can do right now, please come back later"
     welcome: 'Welcome!'
     create_account:
       title: 'Don´t you have an account?'

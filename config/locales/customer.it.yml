@@ -51,7 +51,7 @@ it:
       header: "Your purchases"
     first_register:
       ticket: "Add ticket"
-      wristband: "Add wristband"
+      gtag: "Add wristband"
     credits:
       header: "Your balance"
       call_to_action_started: "The event just started so you cannot topup anymore"
@@ -282,7 +282,8 @@ it:
   sessions:
     first_register:
       welcome: 'Bienvenido!!'
-      description: 'Por favor, seleeciona que quieres registrar para continuar'
+      description_with_credentiable: "Please, to continue with your event choose what you  want to register first"
+      description_without_credentiable: "There's nothing you can do right now, please come back later"
     welcome: 'Welcome!'
     create_account:
       title: 'Don´t you have an account?'
