@@ -14,36 +14,10 @@ RSpec.describe Operations::Credit::BalanceUpdater, type: :job do
       final_refundable_balance: 20,
       event_id: event.id,
       transaction_category: "credit",
-      transaction_origin: "device"
+      transaction_origin: "device",
+      customer_tag_uid: "04C80D6AB63784"
 
     }
-  end
-
-  it "works for real parameters" do
-    atts = {
-      transaction_category: "credit",
-      customer_event_profile_id: nil,
-      customer_tag_uid: "04C80D6AB63784",
-      device_created_at: (Time.now + rand).to_s,
-      transaction_type: "sale",
-      device_uid: "5C0A5BA2CF43",
-      transaction_origin: "onsite",
-      operator_tag_uid: "AAAAAAAAAAAAAA",
-      status_message: nil,
-      status_code: 0,
-      station_id: create(:station).id,
-      event_id: create(:event).id,
-      device_db_index: 11,
-      sale_items: nil,
-      credits: -15.7,
-      final_balance: 0.0,
-      final_refundable_balance: 0.0,
-      credits_refundable: 0.0,
-      credit_value: 0.0,
-      transaction_id: 152,
-      payment_method: "card"
-    }
-    expect { base.write(atts) }.to change(CustomerCredit, :count).by(1)
   end
 
   it "includes payment method of 'credits'" do
