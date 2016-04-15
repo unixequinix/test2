@@ -24,8 +24,6 @@ class Payments::PaypalNvpDataRetriever
     @hash_response["TOKEN"]
   end
 
-  attr_reader :user_details
-
   private
 
   def amount

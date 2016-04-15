@@ -1,4 +1,4 @@
-class BaseSettingsForm
+class BasicSettingsForm
   include ActiveModel::Model
   include Virtus.model
 
