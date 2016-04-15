@@ -24,6 +24,7 @@ class Credit < ActiveRecord::Base
 
   # Validations
   validates :catalog_item, :currency, :value, presence: true
+  validates_numericality_of :value, greater_than: 0
   validate :only_one_standard_credit
 
   def rounded_value

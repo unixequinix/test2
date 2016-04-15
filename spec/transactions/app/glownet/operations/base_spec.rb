@@ -9,7 +9,8 @@ RSpec.describe Operations::Base, type: :job do
       transaction_type: "sale",
       credits: 30,
       event_id: event.id,
-      device_created_at: Time.now.to_s
+      device_created_at: Time.now.to_s,
+      customer_tag_uid: "AAAAA"
     }
   end
 
@@ -24,9 +25,7 @@ RSpec.describe Operations::Base, type: :job do
   end
 
   it "creates transactions based on transaction_category" do
-    number = rand(1000)
-    p = params.merge(status_code: number)
-    obj = base.write(p)
+    obj = base.write(params.merge(status_code: rand(1000)))
     expect(obj.errors.full_messages).to be_empty
   end
 
