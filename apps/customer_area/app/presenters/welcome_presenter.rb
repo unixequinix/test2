@@ -15,7 +15,7 @@ class WelcomePresenter < BasePresenter
     output = "".html_safe
     output += ticket_btn if @event.ticket_assignation?
     output += sep if @event.gtag_assignation? && @event.ticket_assignation?
-    output + gtag_btn if @event.gtag_assignation?
+    output += gtag_btn if @event.gtag_assignation?
   end
 
   def render_description
