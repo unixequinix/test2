@@ -2,9 +2,4 @@
   h3 = t('sessions.first_register.welcome')
   p = t('sessions.first_register.description')
   .wrapper-first-login.center-text
-    = link_to new_event_ticket_assignment_path(current_event), class: "btn btn-action btn-action-secondary btn-action-first-registration" do
-      = t('dashboard.first_register.ticket')
-    span.buttons-separator
-      = t('registration.new.or')
-    = link_to new_event_gtag_assignment_path(current_event), class: "btn btn-action btn-action-secondary btn-action-first-registration" do
-      = t('dashboard.first_register.wristband')
+    = presenter.render_credentiable_links
