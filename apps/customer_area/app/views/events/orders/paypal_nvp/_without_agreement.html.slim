@@ -1,0 +1,7 @@
+#paypalnvp-container
+  = hidden_field_tag :token, order_presenter.token
+  = hidden_field_tag :payer_id, order_presenter.payer_id
+  = render 'events/orders/autotopup' if order_presenter.enable_autotoup_agreement?
+  .actions
+    = submit_tag t('orders.button'), id: "paypal-submit", class: "btn btn-action btn-action-primary"
+

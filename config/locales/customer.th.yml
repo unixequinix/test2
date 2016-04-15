@@ -152,6 +152,9 @@ th:
       paypal:
         name: "PayPal"
         icon: "paypal"
+      paypal_nvp:
+        name: "PayPal"
+        icon: "paypal"
     stripe:
       card_number: "หมายเลขบัตร"
       card_code_verification: "หมายเลขตรวจสอบยืนยันบัตร (CCV)"

@@ -301,6 +301,8 @@
   }
 }
 
+// Paypal buttons
+
 #braintree-paypal-button {
   margin: 0 auto modules(2);
 
@@ -315,6 +317,17 @@
 
 #bt-pp-cancel { width: auto; }
 #bt-pp-name { margin-left: 0 !important; }
+
+.paypal-nvp-submit {
+  display: block;
+  width: auto;
+  height: modules(2);
+  margin: 0 auto modules(1);
+
+  &:hover, &:focus {
+    outline: none;
+  }
+}
 
 // First registration buttons
 
@@ -348,6 +361,10 @@
   margin: modules(0.5) auto;
 
   @include min-screen($bp6) { margin: 0 modules(0.15) modules(1); }
+}
+
+.ptptptpt {
+  border-bottom: 1px solid red;
 }
 
 // ---------------------------------------------------------------------------------------------

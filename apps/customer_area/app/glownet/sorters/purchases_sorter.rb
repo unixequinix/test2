@@ -12,7 +12,8 @@ class Sorters::PurchasesSorter < Sorters::ItemSorter
       Sorters::FakeCatalogItem.new(
         product_name: item.name,
         catalogable_type: item.catalogable_type,
-        catalog_item_id: item.catalogable_id,
+        catalogable_id: item.catalogable_id,
+        catalog_item_id: item.id,
         total_amount: item.total_amount
       )
     end
@@ -46,8 +47,7 @@ class Sorters::PurchasesSorter < Sorters::ItemSorter
   end
 
   def pack_catalog_items(pack_reference)
-    PackCatalogItem.where(
-      pack_id: CatalogItem.find(pack_reference.catalog_item_id).catalogable_id)
+    PackCatalogItem.where(pack_id: CatalogItem.find(pack_reference.catalog_item_id).catalogable_id)
   end
 
   def update_sorting_hash(catalog_item, item_amount)
