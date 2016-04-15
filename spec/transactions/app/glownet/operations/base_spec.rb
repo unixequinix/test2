@@ -1,8 +1,9 @@
 require "rails_helper"
 
 RSpec.describe Operations::Base, type: :job do
-  let(:base) { Operations::Base }
+  let(:base)  { Operations::Base }
   let(:event) { create(:event) }
+  let(:gtag)  { create(:gtag, tag_uid: "AAAAA") }
   let(:params) do
     {
       transaction_category: "credit",
@@ -10,7 +11,7 @@ RSpec.describe Operations::Base, type: :job do
       credits: 30,
       event_id: event.id,
       device_created_at: Time.now.to_s,
-      customer_tag_uid: "AAAAA"
+      customer_tag_uid: gtag.tag_uid
     }
   end
 
