@@ -12,6 +12,15 @@ class MifareClassicForm
   validates_presence_of :mifare_classic_private_key_b
   validates_presence_of :event_id
 
+  validates :mifare_classic_public_key,
+            :mifare_classic_private_key_a,
+            :mifare_classic_private_key_b, length: { is: 12 }
+
+  validates :mifare_classic_public_key,
+            :mifare_classic_private_key_a,
+            :mifare_classic_private_key_b, format: { with: /\A[0-9A-Fa-f]+\z/,
+                                                     message: "only allows hexadecimal values" }
+
   def save
     if valid?
       persist!

@@ -140,16 +140,16 @@ crumb :new_admins_event_station do |event|
   parent :admins_event_stations, event
 end
 
-## Sales Stations
+## Accreditation Stations
 
-crumb :admins_event_sale_stations do |event|
-  link t("breadcrumbs.sale_stations"), admins_event_sale_stations_path(event)
+crumb :admins_event_accreditation_stations do |event|
+  link t("breadcrumbs.accreditation_stations"), admins_event_accreditation_stations_path(event)
   parent :admins_event, event
 end
 
-crumb :admins_event_sale_station do |event, station|
-  link station.name, admins_event_sale_stations_path(event, station)
-  parent :admins_event_sale_stations, event
+crumb :admins_event_accreditation_station do |event, station|
+  link station.name, admins_event_accreditation_stations_path(event, station)
+  parent :admins_event_accreditation_stations, event
 end
 
 ## Point of Sales Stations
@@ -159,9 +159,9 @@ crumb :admins_event_point_of_sale_stations do |event|
   parent :admins_event, event
 end
 
-crumb :admins_event_sale_station do |event, station|
-  link station.name, admins_event_sale_stations_path(event, station)
-  parent :admins_event_sale_stations, event
+crumb :admins_event_point_of_sale_station do |event, station|
+  link station.name, admins_event_point_of_sale_stations_path(event, station)
+  parent :admins_event_point_of_sale_stations, event
 end
 
 ## Topup Stations
@@ -180,14 +180,14 @@ end
 
 ## Station Catalog Items
 
-crumb :admins_event_sale_station_station_catalog_items do |event, station|
-  parent :admins_event_sale_station, event, station
+crumb :admins_event_accreditation_stations_station_catalog_items do |event, station|
+  parent :admins_event_accreditation_station, event, station
 end
 
 ## Station Products
 
-crumb :admins_event_sale_station_station_products do |event, station|
-  parent :admins_event_sale_station, event, station
+crumb :admins_event_point_of_sale_station_station_products do |event, station|
+  parent :admins_event_point_of_sale_station, event, station
 end
 
 ## Topup Credits

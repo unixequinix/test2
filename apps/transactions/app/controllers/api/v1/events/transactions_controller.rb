@@ -27,7 +27,7 @@ class Api::V1::Events::TransactionsController < ApplicationController
   end
 
   def validate_jobs(atts, index)
-    obj = Jobs::Base.write(ActiveSupport::HashWithIndifferentAccess.new(atts))
+    obj = Operations::Base.write(ActiveSupport::HashWithIndifferentAccess.new(atts))
     "#{obj.class.to_s.underscore.humanize} position #{index} not valid" unless obj.valid?
   end
 end

@@ -50,7 +50,7 @@ en:
       header: "Your purchases"
     first_register:
       ticket: "Add ticket"
-      wristband: "Add wristband"
+      gtag: "Add wristband"
     credits:
       header: "Your balance"
       call_to_action_started: "The event just started so you cannot topup anymore"
@@ -92,7 +92,7 @@ en:
     gtag_registration:
       title: "Your %{gtag}"
       call_to_action: "Edit"
-      button: "Change"
+      button: "Remove"
       hint: "Put a wrong wristband by mistake? Erase and restart the process"
     gtag_after_refund:
       description: "Your refund is in process"
@@ -251,7 +251,7 @@ en:
       email: 'Forgot your password?'
       password: 'Send me password instructions'
   refund:
-    srefund_method: "Refund method"
+    refund_method: "Refund method"
     error:
       title: 'Transaction failed'
       call_to_action: 'Contact us:'
@@ -283,12 +283,14 @@ en:
       button: 'Update'
     autotoup_agreement:
       title: 'Cancel agreement'
+      amount: 'Selected amount: '
       cancel: 'Do you want to cancel your autotopup agreement?'
       billing_agreement_description: "I agree in get automated charges when running out of credit"
   sessions:
     first_register:
       welcome: 'Welcome!'
-      description: 'Please, to continue with your event choose what you  want to register first'
+      description_with_credentiable: "Please, to continue with your event choose what you  want to register first"
+      description_without_credentiable: "There's nothing you can do right now, please come back later"
     welcome: 'Welcome!'
     create_account:
       title: 'Don´t you have an account?'

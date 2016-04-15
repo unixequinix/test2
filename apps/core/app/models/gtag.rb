@@ -27,6 +27,9 @@ class Gtag < ActiveRecord::Base
                         credential_limit: 15 },
                       { name: "ultralight_ev1",
                         entitlement_limit: 40,
+                        credential_limit: 32 },
+                      { name: "ultralight_c",
+                        entitlement_limit: 56,
                         credential_limit: 32 }
                      ]
 

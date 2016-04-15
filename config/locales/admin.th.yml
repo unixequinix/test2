@@ -43,7 +43,7 @@ th:
         envelope_linker: "Envelope Linker"
         touchpoint: "Touchpoint"
       station_groups:
-        accesses: "Accesses"
+        access: "Access"
         monetary: "Monetary"
         glownet: "Glownet"
         event_management: "Event management"
@@ -158,6 +158,7 @@ th:
         name: 'Name'
         mifare_classic: "Mifare Classic"
         ultralight_ev1: "Ultralight EV1"
+        ultralight_c: "Ultralight C"
     device_settings:
       form:
         currency: "Currency Symbol"
@@ -225,7 +226,7 @@ th:
       delete: "Are you sure?"
     aside:
       logs: "Logs"
-      access: "Access"
+      accesses: "Accesses"
       event: "Event"
       details: "Details"
       gtag_settings: "Gtag Settings"
@@ -246,8 +247,9 @@ th:
       sign_out: "Sign out"
       setup: "Setup"
       crm: "CRM"
+      vouchers: "Vouchers"
+      credential_types: "Credential Types"
       companies: "Companies"
-      preevent_products: "Preevent products"
       company_ticket_types: "Company ticket types"
     dashboard:
       change_state: "Change state?"
@@ -392,6 +394,7 @@ th:
       completed_claim: "Completed claims"
       refund: "Refund"
       claims: "Claims"
+      customer_orders: "Customer orders"
       customer_credits: "Customer credits"
       online_orders: "Online orders"
       gtag_credits: "Gtag Credits"

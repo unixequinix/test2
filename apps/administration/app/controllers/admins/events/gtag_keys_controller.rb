@@ -20,6 +20,7 @@ class Admins::Events::GtagKeysController < Admins::Events::BaseController
   end
 
   def update
+    @event = current_event
     @gtag_type = gtag_type
     @gtag_keys_form = "#{gtag_type}_form".classify.constantize.new(permitted_params)
 

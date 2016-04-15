@@ -112,7 +112,7 @@ namespace :db do
                                                      initial_amount: 0 })
      items.each do |item|
        pack.pack_catalog_items
-         .build(catalog_item: item, amount: rand(1..50))
+         .build(catalog_item: item, amount: rand(1..7))
          .save
        end
     end

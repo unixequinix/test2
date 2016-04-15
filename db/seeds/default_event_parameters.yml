@@ -12,7 +12,7 @@
           value: "Glown3t1sth3Futur3"
         -
           name: uid_reverse
-          value: true
+          value: false
 -
   category: payment
   groups:
@@ -195,25 +195,25 @@
       values:
         -
           name: ultralight_ev1_private_key
-          value: "9200as2d92323dsfdfiu2894234"
+          value: "dd970b4f9d91233d8a04d8c1aa481690"
     -
       name: ultralight_c
       values:
         -
           name: ultralight_c_private_key
-          value: "9200as2d92323dsf"
+          value: "dd970b4f9d91233d8a04d8c1aa481690"
     -
       name: mifare_classic
       values:
         -
           name: mifare_classic_public_key
-          value: "9200as2d92323dsfdfiu2894234"
+          value: "8DBC0AB92D71"
         -
           name: mifare_classic_private_key_a
-          value: "9200as2d92323dsfdfiu2894234"
+          value: "8DBC0AB92D71"
         -
           name: mifare_classic_private_key_b
-          value: "9200as2d92323dsfdfiu2894234"
+          value: "8DBC0AB92D71"
     -
       name: form
       values:
@@ -222,7 +222,7 @@
           value: 50
         -
           name: gtag_type
-          value: "mifare_classic"
+          value: "ultralight_c"
         -
           name: format
           value: standard

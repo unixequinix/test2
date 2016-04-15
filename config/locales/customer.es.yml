@@ -1,4 +1,4 @@
-cres:
+es:
   currency_symbol: EUR
   actions:
     back: "Atrás"
@@ -51,18 +51,18 @@ cres:
       header: "Tus compras"
     first_register:
       ticket: "Añadir ticket"
-      wristband: "Añadir pulsera"
+      gtag: "Añadir pulsera"
     credits:
       header: "Tu balance"
       call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"
       call_to_action_no_admission_html: "Para poder recargar online,<br>deberás activar un Ticket primero"
       button: "Recarga"
+      ticket_first: "Añade un ticket o pulsera primero"
       calculating_balance: "Estamos calculando tu balance"
     paypal:
       claim: "Toma ventaja!"
       description: "Syncroniza con tu cuenta de Paypal y realiza recargas directas"
       button: "Ir a PayPal"
-    add_credentials: "Añade primero un ticket o gtag"
     event_refunds:
       claim: "El evento aún no ha acabado"
       description: "Vuelve pronto para poder reclamar tu balance"
@@ -84,7 +84,6 @@ cres:
       description: "Recuerda, sólo un %{gtag} por cuenta."
       button: "Introducir"
     without_gtags_disabled:
-      add : "Añade tu id"
       claim: "El tiempo para solicitar tu devolución del balance en tu %{gtag} ha terminado"
       description: "Si has contactado al soporte con alguna pregunta previamente,"
       description2: "no te preocupes, te ayudaremos con tu devolución."
@@ -94,7 +93,7 @@ cres:
     gtag_registration:
       title: "Tu %{gtag}"
       call_to_action: "¿Introdujiste una incorrecta por error?"
-      button: "Cambiar"
+      button: "Borrar"
       hint: "Has introducido una pulsera por error? Bórrala y reinicia el proceso"
     gtag_after_refund:
       description: "Tu devolución está en proceso"
@@ -111,7 +110,7 @@ cres:
       button: "Modificar cuenta"
     event_started:
       title: "Últimos detalles!"
-      description: "Estamos trabajano en los últimos detalles del evento para que tu experiencia sea la mejor posible. Por favor, vuelve en unas horas y mira lo que hemos preparado para ti."
+      description: "Estamos trabajando en los últimos detalles del evento para que tu experiencia sea la mejor posible. Por favor, vuelve en unas horas y mira lo que hemos preparado para ti."
   admissions:
     title: "Activación del Ticket"
     description: "Por favor, introduce el código impreso debajo del código de barras en tu ticket del evento."
@@ -184,6 +183,7 @@ cres:
     vat: "IVA Incluido"
     redirect: "Serás redirigido a la pasarela de pago del banco."
     button: "Reembolsar"
+    button_iupay: "IUPAY"
     refund: "Por favor, revisa que tu balance a devolver es correcto"
     claim_present:
       title: "Gracias!"
@@ -195,6 +195,9 @@ cres:
       title: "Solicta tu devolución"
       description: "La petición se procesará automáticamente"
       button: "Solicitar"
+    invalid_claim:
+      title: "Estamos trabajando en tu devolución"
+      description: "Contáctanos para más información"
   gtag_assignations:
     title: "Introducir %{gtag}"
     description:
@@ -277,11 +280,13 @@ cres:
     autotoup_agreement:
       cancel: '¿Quieres cancelar tu contrato de autorecarga?'
       title: 'Cancelar contrato'
+      amount: 'Cantidad seleccionada: '
       billing_agreement_description: "Acepto que se me hagan cargos cuando me quedo sin crédito"
   sessions:
     first_register:
       welcome: 'Bienvenido!!'
-      description: 'Por favor, seleeciona que quieres registrar para continuar'
+      description_with_credentiable: 'Por favor, seleeciona que quieres registrar para continuar'
+      description_without_credentiable: "No hay nada que puedas hacer ahora mismo, vuelve más tarde"
     welcome: 'Bienvenido!'
     create_account:
       title: 'No tienes cuanta aún?'

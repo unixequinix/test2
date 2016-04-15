@@ -5,6 +5,7 @@ it:
     cancel: "Cancella"
     edit: "Modifica"
     delete: "Rimuovere"
+    delete_ticket: "Delete ticket"
     delete_account: "Delete your account"
     check_news: "Torna al sito del evento"
     delete_account: "Elimina il tuo account"
@@ -32,6 +33,8 @@ it:
     buttons:
       sign_in: 'Log in'
       sign_up: 'Iscriviti'
+      join: 'Join'
+      back: 'Back to home'
   dashboard:
     title: "My dashboard"
     admissions:
@@ -48,10 +51,9 @@ it:
       header: "Your purchases"
     first_register:
       ticket: "Add ticket"
-      wristband: "Add wristband"
+      gtag: "Add wristband"
     credits:
       header: "Your balance"
-      call_to_action: "To avoid queues, top-up your wristband now for all your event purchases"
       call_to_action_started: "The event just started so you cannot topup anymore"
       call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Event Ticket first"
       button: "Top-up"
@@ -59,7 +61,7 @@ it:
       calculating_balance: "Calculating your balance"
     paypal:
       claim: "Take advantage!"
-      description: "Sync with Paypal and you will be able to make direct top ups."
+      description: "Sync with Paypal and you will make direct top ups."
       button: "Sync with PayPal"
     event_refunds:
       claim: "L'evento non è ancora finito"
@@ -77,9 +79,10 @@ it:
       claim: "C'è stato un errore con il tuo rimborso"
       description: "Torna indietro e riprova."
     without_gtags:
-      title: "Registra %{gtag}"
-      description: "Registra la tua Paycard per avviare il processo di rimborso. Si può registrare solo una Paycard per ogni account."
-      button: "Registra la tua Paycard"
+      add : "Registra %{gtag}"
+      title: "Credits left?"
+      description: "Si può registrare solo una %{gtag} per ogni account."
+      button: "Registra"
     without_gtags_disabled:
       claim: "Il periodo per richedere un rimborso dei tuoi crediti residui è chiuso"
       description: "Se ci hai già contattato con qualsiasi domanda,"
@@ -90,7 +93,8 @@ it:
     gtag_registration:
       title: "Il numero della tua Paycard:"
       call_to_action: "Registrato una Paycard sbagliata per?"
-      button: "Cambiare"
+      button: "Cancella"
+      hint: "Put a wrong wristband by mistake? Erase and restart the process"
     gtag_after_refund:
       description: "Il tuo rimborso è in corso"
     without_refunds:
@@ -120,6 +124,7 @@ it:
     description: "After you buy online credits here, they will automatically be applied to your wristband once you enter the event."
     total: "Total"
     button: "Confirm Order"
+    store: " store"
   orders:
     title: "Confirm Top-up"
     description: "Please, review your order and proceed to payment."
@@ -190,6 +195,9 @@ it:
       title: "Claim for your balance"
       description: "We will refund your money automatically."
       button: "Proceed"
+    invalid_claim:
+      title: "Working in your refund"
+      description: "Contact us for more information"
   gtag_assignations:
     title: "Registra la tua Paycard"
     description:
@@ -198,6 +206,7 @@ it:
       simple: "Per poter procedere inserisci il numero così come appaiano sulla %{gtag}."
     call_to_action: "Registra la tua Paycard e inizia!"
     button: "Accetto"
+    back: "Volver"
     placeholders:
       standard:
         line_1: "Codice 1 e.g: 12345"
@@ -261,21 +270,23 @@ it:
       info: 'Inserisci correttamente i tuoi dati personali in modo da poter fornire un servizio sicuro e conveniente.'
       button: 'Iscriviti'
       details: "Per favore inserire i tuoi dettagli personali in modo che possiamo darti un servizio sicuro e personalizzato"
+      or: 'o'
     edit:
       title: 'Modifica'
       password_hint: "Lascialo vuoto se non vuoi cambiarlo"
       current_password_hint: "abbiamo bisogno della tua password corrente in modo di poter confermare i cambiamenti"
       waiting_confirmation: 'In attesa della conferma per:'
       button: 'Aggiornare'
-      or: 'or'
     autotoup_agreement:
       cancel: 'Do you want to cancel your autotopup agreement?'
       title: 'Cancel agreement'
+      amount: 'Selected amount: '
       billing_agreement_description: "I agree in get automated charges when running out of credit"
   sessions:
     first_register:
       welcome: 'Bienvenido!!'
-      description: 'Por favor, seleeciona que quieres registrar para continuar'
+      description_with_credentiable: "Please, to continue with your event choose what you  want to register first"
+      description_without_credentiable: "There's nothing you can do right now, please come back later"
     welcome: 'Welcome!'
     create_account:
       title: 'Don´t you have an account?'
@@ -288,6 +299,15 @@ it:
       description: 'Ecco come funziona'
       button: 'Log in'
       copy: 'Quali sono i vantaggi?'
+    placeholder:
+      email: 'e.g. nickname@mail.com'
+      password: 'e.g. · · · · · ·'
+      name: 'e.g. Richard'
+      last_name: 'e.g. Hendricks'
+      phone: 'e.g. 111 22 33 44'
+      address: 'e.g. 1 Pied Piper'
+      city: 'e.g. Madrid'
+      post: 'e.g. 28012'
     end:
       close_title: "Do you want to end session?"
   cancel:

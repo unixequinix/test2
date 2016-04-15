@@ -17,7 +17,7 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
     #
     #   response.headers["Last-Modified"] = last_updated
     #   render(json: Rails.cache.fetch("v1/event/#{current_event.id}/customers",
-    #                                  expires_in: 12.hours) { @fetcher.sql_customer_event_profiles })
+    #          expires_in: 12.hours) { @fetcher.sql_customer_event_profiles })
     # end
   end
 

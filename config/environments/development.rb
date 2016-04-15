@@ -40,8 +40,8 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.action_mailer.delivery_method = :smtp
-
   config.action_mailer.default_url_options = { host: Rails.application.secrets.host, port: 3000 }
+  config.action_mailer.preview_path = "#{Rails.root}/apps/customer_area/app/mailer_previews"
 
   Rails.application.routes.default_url_options[:host] = Rails.application.secrets.host_url
 

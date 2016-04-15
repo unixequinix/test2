@@ -76,6 +76,7 @@ gem 'phony_rails', '~> 0.12.8'
 # Payments Infrastructures
 gem 'stripe', '~>1.36.1'
 gem 'braintree', '~>2.57.0'
+gem 'paypal-sdk-rest'
 
 # Flags
 gem 'flag_shih_tzu', '~>0.3.13'
@@ -127,7 +128,6 @@ group :development, :test do
   gem 'capistrano-bundler', '~> 1.1.2'
   gem 'capistrano-sidekiq', '~> 0.5.3'
   gem 'capistrano-faster-assets', '~> 1.0'
-  # gem 'capistrano3-puma', require: false
   gem 'better_errors', '~> 2.1.1'
   gem 'binding_of_caller', '~> 0.7.2' # extra features for better_errors
   gem 'meta_request', '~> 0.3.4' # for rails_panel chrome extension
@@ -141,9 +141,8 @@ group :development, :test do
   gem "awesome_print", require:"ap"
   gem 'terminal-notifier-guard'
   gem 'guard-bundler', require: false
+  gem 'i18n-tasks', '~> 0.9.5'
 end
-
-# gem 'puma', group: :integration
 
 group :development, :test, :integration do
   gem 'factory_girl_rails', '~> 4.5.0'

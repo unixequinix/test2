@@ -18,7 +18,7 @@ class TicketDecoder::SonarDecoder
 
     begin
       decrypted_string = cipher.update(ticket_code) << cipher.final
-    rescue
+    rescue OpenSSL::Cipher::CipherError
       return nil
     end
 
@@ -30,6 +30,7 @@ class TicketDecoder::SonarDecoder
   end
 
   def self.valid_code?(code)
+    return false if code.blank?
     verify_prefix(decode(code))
   end
 
