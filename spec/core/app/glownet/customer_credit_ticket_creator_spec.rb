@@ -3,11 +3,16 @@ require "rails_helper"
 RSpec.describe CustomerCreditTicketCreator, type: :domain_logic do
   let(:credential_assignment) { create(:credential_assignment_t_a) }
 
-  describe ".assign" do
-    it "should create a customer credit when a ticket is assigned" do
-      ticket = credential_assignment.credentiable
-      CustomerCreditTicketCreator.new.assign(ticket)
+  context "when assigning" do
+    let(:ticket) { credential_assignment.credentiable }
+    it "creates a customer credit for every ticket credit" do
+      expect do
+        CustomerCreditTicketCreator.new.assign(ticket)
+      end.to change(CustomerCredit, :count).by(ticket.credits.count)
+    end
 
+    it "foo" do
+      CustomerCreditTicketCreator.new.assign(ticket)
       expect(CustomerCredit.all.count).to eq(1)
       customer_credit = CustomerCredit.first
       expect(customer_credit.amount).to eq(2)

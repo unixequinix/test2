@@ -8,13 +8,14 @@ class Events::DirectClaimsController < Events::ClaimsController
     @direct_claim_form = DirectClaimForm.new
     @claim = Claim.find(permitted_params[:claim_id])
     @claim.start_claim!
-    if Management::RefundManager.new(current_profile).execute
-      RefundService.new(@claim)
-        .create(amount: current_profile.refundable_money_amount,
-                currency: current_event.currency,
-                message: "Created direct refund",
-                payment_solution: "direct",
-                status: "SUCCESS")
+    # TODO: This block always runs since RefundManager returns an array. Fix with error handling
+    #       from refunders
+    if Management::RefundManager.new(current_profile, current_profile.refundable_money_amount).execute
+      RefundService.new(@claim).create(amount: current_profile.refundable_money_amount,
+                                       currency: current_event.currency,
+                                       message: "Created direct refund",
+                                       payment_solution: "direct",
+                                       status: "SUCCESS")
       redirect_to(success_event_refunds_url(current_event)) && return
     end
 

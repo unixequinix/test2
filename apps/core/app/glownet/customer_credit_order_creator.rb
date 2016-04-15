@@ -1,4 +1,4 @@
-class CustomerCreditOrderCreator
+class CustomerCreditOrderCreator < CustomerCreditCreator
   def save(order)
     order.order_items.each do |order_item|
       case
@@ -31,13 +31,12 @@ class CustomerCreditOrderCreator
   end
 
   def create_customer_credit_for_pack(order, order_item, credit_item, refundable)
-    CustomerCredit.create(
-      customer_event_profile: order.customer_event_profile,
-      transaction_origin: CustomerCredit::CREDITS_PURCHASE,
-      payment_method: "none",
+    params = {
+      origin: CustomerCredit::CREDITS_PURCHASE,
       credit_value: credit_item.value,
       amount: credit_item.total_amount * order_item.amount,
       refundable_amount: refundable
-    )
+    }
+    create_credit_for(order.customer_event_profile, params)
   end
 end

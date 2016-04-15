@@ -112,7 +112,7 @@ class CustomerEventProfile < ActiveRecord::Base # rubocop:disable ClassLength
   end
 
   def online_refundable_money_amount
-    payments.map(&:amount).sum
+    payments.sum(:amount)
   end
 
   def update_balance_after_refund(refund)
