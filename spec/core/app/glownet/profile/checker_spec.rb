@@ -4,16 +4,10 @@ RSpec.describe Profile::Checker, type: :domain_logic do
   subject { Profile::Checker }
   let(:event)   { create(:event) }
   let(:tag_uid) { "SOMETAGUID" }
-  let(:ticket)  { create(:ticket, code: "TICKET_CODE", event: event) }
+  let(:ticket)  { create(:ticket, code: "CODE", event: event) }
   let(:profile) { create(:customer_event_profile, event: event) }
   let(:gtag)    { create(:gtag, tag_uid: tag_uid, event: event) }
-  let(:atts) do
-    {
-      ticket_code: "TICKET_CODE",
-      event_id: event.id,
-      customer_tag_uid: gtag.tag_uid
-    }
-  end
+  let(:atts)    { { ticket_code: "CODE", event_id: event.id, customer_tag_uid: gtag.tag_uid } }
 
   context ".for_credentiable" do
     let(:customer) { create(:customer, event: event) }
@@ -25,7 +19,6 @@ RSpec.describe Profile::Checker, type: :domain_logic do
       end
 
       it "creates a profile and assigns it" do
-        expect(customer.customer_event_profile).to be_nil
         subject.for_credentiable(gtag, customer)
         expect(customer.customer_event_profile).not_to be_nil
       end
@@ -93,6 +86,11 @@ RSpec.describe Profile::Checker, type: :domain_logic do
         gtag.assigned_customer_event_profile = profile
         expect { @id = subject.for_transaction(atts) }.not_to change(CustomerEventProfile, :count)
         expect(@id).to eq(profile.id)
+      end
+
+      it "assigns the profile created to the gtag" do
+        id = subject.for_transaction(atts)
+        expect(gtag.assigned_customer_event_profile.id).to eq(id)
       end
     end
   end

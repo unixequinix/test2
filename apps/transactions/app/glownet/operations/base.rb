@@ -8,6 +8,7 @@ class Operations::Base < ActiveJob::Base
     obj = klass.find_by(atts.slice(*SEARCH_ATTS))
     return obj if obj
     obj = klass.create(obj_atts)
+    Gtag.find_or_create_by!(tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id])
     profile_id = Profile::Checker.for_transaction(obj_atts)
     obj.update!(customer_event_profile_id: profile_id)
     atts.merge!(transaction_id: obj.id, customer_event_profile_id: profile_id)

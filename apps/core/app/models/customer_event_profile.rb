@@ -72,8 +72,6 @@ class CustomerEventProfile < ActiveRecord::Base # rubocop:disable ClassLength
   }
   scope :banned, -> { joins(:banned_customer_event_profile) }
 
-  include CustomerEventProfileEconomy
-
   def customer
     Customer.unscoped { super }
   end
