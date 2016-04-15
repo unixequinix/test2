@@ -1,4 +1,4 @@
-class Orders::PaypalPresenter
+class Orders::PaypalPresenter < Orders::BasePresenter
   attr_accessor :event, :order
 
   def initialize(event, order)
@@ -17,11 +17,11 @@ class Orders::PaypalPresenter
   end
 
   def path
-    "events/orders/paypal_payment_form"
+    "events/orders/paypal/payment_form"
   end
 
   def email
-    @customer_event_profile.customer.email
+    @agreement.email
   end
 
   def form_data

@@ -79,6 +79,27 @@
         -
           name: autotopup
           value: false
+    -
+      name: paypal_nvp
+      values:
+        -
+          name: user
+          value: paypal-es_api1.glownet.com
+        -
+          name: password
+          value: R4NJQKJ3AR4U5G9F
+        -
+          name: signature
+          value: AFcWxV21C7fd0v3bYYYRCpSSRl31Aol4zIUBUJh2laIsw-RNuxvOYkfJ
+        -
+          name: merchant_id
+          value: M94Y9AM4DBBW4
+        -
+          name: currency
+          value: EUR
+        -
+          name: autotopup
+          value: false
 -
   category: refund
   groups:
