@@ -17,11 +17,11 @@ class Orders::PaypalPresenter < Orders::BasePresenter
   end
 
   def path
-    "events/orders/paypal_payment_form"
+    "events/orders/paypal/payment_form"
   end
 
   def email
-    @customer_event_profile.customer.email
+    @agreement.email
   end
 
   def form_data

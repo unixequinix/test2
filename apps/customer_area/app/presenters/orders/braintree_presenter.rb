@@ -7,7 +7,7 @@ class Orders::BraintreePresenter < Orders::BasePresenter
   end
 
   def path
-    "events/orders/braintree_payment_form"
+    "events/orders/braintree/payment_form"
   end
 
   def form_data

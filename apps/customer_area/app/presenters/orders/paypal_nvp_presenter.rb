@@ -8,6 +8,7 @@ class Orders::PaypalNvpPresenter < Orders::BasePresenter
     @agreement = @customer_event_profile.gateway_customer(EventDecorator::PAYPAL_NVP)
     @payer_id = ""
     @token = ""
+    @email = ""
   end
 
   def with_params(params)
@@ -29,12 +30,12 @@ class Orders::PaypalNvpPresenter < Orders::BasePresenter
   end
 
   def path
-    partial = @payer_id ? "paypal_nvp_without_agreement" : "paypal_nvp_payment_redirection"
-    "events/orders/#{partial}"
+    partial = (@payer_id || @agreement) ? "payment_final" : "payment_form"
+    "events/orders/paypal_nvp/#{partial}"
   end
 
   def email
-    @customer_event_profile.customer.email
+    @agreement.email
   end
 
   def form_data

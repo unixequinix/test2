@@ -16,18 +16,18 @@ class Payments::PaypalNvpRefunder
     refund_transaction(transaction, amount)
   end
 
-  def refund_transaction(transaction, amount)
+  def refund_transaction(transaction, _amount)
     params = {
       "METHOD" => "RefundTransaction",
       "USER" => get_value_of_parameter("user"),
       "PWD" => get_value_of_parameter("password"),
       "SIGNATURE" => get_value_of_parameter("signature"),
       "VERSION" => "86",
-      "TRANSACTIONID" => transaction_ID
+      "TRANSACTIONID" => transaction,
       "REFUNDTYPE" => "Full"
     }
     response = Net::HTTP.post_form(URI.parse("https://api-3t.sandbox.paypal.com/nvp"), params)
-    response.body.split("&").map{|it|it.split("=")}.to_h
+    response.body.split("&").map { |it| it.split("=") }.to_h
   end
 
   private

@@ -7,7 +7,7 @@ class Orders::StripePresenter < Orders::BasePresenter
   end
 
   def path
-    "events/orders/stripe_payment_form"
+    "events/orders/stripe/payment_form"
   end
 
   def form_data

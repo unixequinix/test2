@@ -7,7 +7,7 @@ class Orders::RedsysPresenter < Orders::BasePresenter
   end
 
   def path
-    "events/orders/redsys_payment_redirection"
+    "events/orders/redsys/payment_form"
   end
 
   def payment_service
