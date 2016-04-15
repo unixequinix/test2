@@ -16,7 +16,9 @@ class Operations::Base < ActiveJob::Base
   end
 
   def self.extract_attributes(klass, atts)
-    atts.slice(*klass.column_names.map(&:to_sym))
+    new_atts = atts.slice(*klass.column_names.map(&:to_sym))
+    new_atts.merge(atts[:sale_items_attributes]) if atts[:sale_items_attributes]
+    new_atts
   end
 
   def self.inherited(klass)
