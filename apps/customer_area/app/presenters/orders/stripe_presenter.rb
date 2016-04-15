@@ -1,4 +1,4 @@
-class Orders::StripePresenter
+class Orders::StripePresenter < Orders::BasePresenter
   attr_accessor :event, :order
 
   def initialize(event, order)
@@ -7,7 +7,7 @@ class Orders::StripePresenter
   end
 
   def path
-    "events/orders/stripe_payment_form"
+    "events/orders/stripe/payment_form"
   end
 
   def form_data

@@ -132,6 +132,7 @@ en:
         repeat: 'Repeat'
       payment_services:
         paypal: 'Paypal'
+        paypal_nvp: 'Paypal NVP'
         redsys: 'Redsys'
         stripe: 'Stripe'
         braintree: 'Braintree'

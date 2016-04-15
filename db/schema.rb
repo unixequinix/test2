@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160604131100) do
+ActiveRecord::Schema.define(version: 20160414190323) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -585,6 +585,7 @@ ActiveRecord::Schema.define(version: 20160604131100) do
     t.datetime "updated_at",                                null: false
     t.boolean  "agreement_accepted",        default: false, null: false
     t.integer  "autotopup_amount"
+    t.string   "email"
   end
 
   add_index "payment_gateway_customers", ["deleted_at"], name: "index_payment_gateway_customers_on_deleted_at", using: :btree
