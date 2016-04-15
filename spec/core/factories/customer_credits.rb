@@ -23,6 +23,8 @@ FactoryGirl.define do
     trait :hospitality do
       amount 10
       refundable_amount 0
+      final_refundable_balance 0
+      final_balance 10
       credit_value 1
       payment_method "none"
       transaction_origin "offline"
@@ -31,6 +33,8 @@ FactoryGirl.define do
     trait :online do
       amount 20
       refundable_amount 20
+      final_refundable_balance 20
+      final_balance 20
       credit_value 1
       payment_method { %w(cash card paypal).sample }
       transaction_origin "online"
@@ -39,6 +43,8 @@ FactoryGirl.define do
     trait :onsite do
       amount 15
       refundable_amount 5
+      final_refundable_balance 5
+      final_balance 15
       credit_value 1
       payment_method { %w(cash card paypal).sample }
       transaction_origin "offline"

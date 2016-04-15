@@ -15,6 +15,7 @@ RSpec.describe Operations::Credit::BalanceUpdater, type: :job do
       event_id: event.id,
       transaction_category: "credit",
       transaction_origin: "device"
+
     }
   end
 
@@ -73,6 +74,7 @@ RSpec.describe Operations::Credit::BalanceUpdater, type: :job do
     it "it is a subscriber for the action '#{action}'" do
       expect(worker).to receive(:perform_later).once
       params[:transaction_type] = action
+      params[:device_created_at] = Time.now.to_s
       base.write(params)
     end
   end
