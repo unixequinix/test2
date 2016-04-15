@@ -14,6 +14,33 @@ RSpec.describe Operations::Base, type: :job do
       customer_tag_uid: gtag.tag_uid
     }
   end
+  let(:real_params) do
+    {
+      customer_tag_uid: gtag.tag_uid,
+      device_created_at: Time.now.to_s,
+      transaction_category: "credit",
+      transaction_type: "sale",
+      device_uid: "5C0A5BA2CF43",
+      event_id: event.id,
+      sale_items_attributes: [
+        {
+          product_id: 4,
+          quantity: 1.0,
+          unit_price: 8.31
+        },
+        {
+          product_id: 5,
+          quantity: 1.0,
+          unit_price: 2.72
+        }
+      ],
+      credits: -11.030001,
+      final_balance: 106.950005,
+      final_refundable_balance: 106.950005,
+      credits_refundable: -11.030001,
+      credit_value: 1.0
+    }
+  end
 
   before(:each) do
     # make 100% sure they are loaded into memory, inspect ofr rubocop
@@ -23,6 +50,12 @@ RSpec.describe Operations::Base, type: :job do
     Operations::Order::CredentialAssigner.inspect
     # Dont care about the BalanceUpdater or Porfile::Checker, so I mock the behaviour
     allow(Operations::Credit::BalanceUpdater).to receive(:perform_later)
+  end
+
+  it "saves sale_items for real params" do
+    expect do
+      base.write(real_params)
+    end.to change(SaleItem, :count).by(real_params[:sale_items_attributes].size)
   end
 
   it "creates transactions based on transaction_category" do

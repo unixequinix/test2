@@ -18,7 +18,7 @@ class Operations::Base < ActiveJob::Base
   def self.extract_attributes(klass, atts)
     new_atts = atts.slice(*klass.column_names.map(&:to_sym))
     sale_items = atts[:sale_items_attributes]
-    new_atts.merge(sale_items_attributes: sale_items) if sale_items
+    new_atts.merge!(sale_items_attributes: sale_items) if sale_items
     new_atts
   end
 
