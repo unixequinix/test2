@@ -37,6 +37,6 @@ class CustomerCreditOrderCreator < CustomerCreditCreator
       amount: credit_item.total_amount * order_item.amount,
       refundable_amount: refundable
     }
-    create_credit_for(order.customer_event_profile, params)
+    create_credit(order.customer_event_profile, params)
   end
 end
