@@ -12,7 +12,7 @@ RSpec.describe Profile::Checker, type: :domain_logic do
   context ".for_credentiable" do
     let(:customer) { create(:customer, event: event) }
 
-    context "without customer event profile assigned" do
+    context "when credentiable does't have a profile assigned" do
       before { gtag.update!(assigned_customer_event_profile: nil) }
 
       describe "when customer has a profile" do
@@ -32,47 +32,46 @@ RSpec.describe Profile::Checker, type: :domain_logic do
       end
     end
 
-    context "with customer event profile assigned" do
-      describe "which already has a customer" do
-        before do
-          gtag.update!(assigned_customer_event_profile: profile)
-          expect(profile.customer).not_to be_nil
-        end
+    context "when credentiable has a profile assigned" do
+      before { gtag.update!(assigned_customer_event_profile: profile) }
 
+      describe "which already has a customer" do
         it "fails" do
+          expect(profile.customer).not_to be_nil
           expect { subject.for_credentiable(gtag, customer) }.to raise_error(RuntimeError, /Fraud/)
         end
       end
 
-      describe "which doesnt have a customer" do
-        before do
-          gtag.update!(assigned_customer_event_profile: profile)
-          profile.update!(customer: nil)
-        end
+      describe "which doesn't have a customer," do
+        before { profile.update!(customer: nil) }
 
-        describe "when current customer has already a profile" do
-          let(:profile2) { create(:customer_event_profile, event: event) }
+        describe "when current customer already has a profile" do
+          let(:portal_profile)  { create(:customer_event_profile, event: event) }
+          let(:portal_customer) { portal_profile.customer }
 
           before(:each) do
-            create(:order_transaction, customer_event_profile: profile, event: event)
-
-            subject.for_credentiable(gtag, customer)
-            customer.reload
+            subject.for_credentiable(gtag, portal_customer)
+            [portal_customer, gtag, profile].map(&:reload) # work is done in the back
           end
 
           it "assigns the customer profile to the credentiable" do
-            expect(gtag.assigned_customer_event_profile).to eq(profile2)
-            expect(customer.customer_event_profile).to eq(profile2)
+            expect(gtag.assigned_customer_event_profile).to eq(portal_profile)
           end
 
           it "changes the profile in the associated tables" do
-            expect(transaction.customer_event_profile).to eq(profile2)
+            expect(profile).to be_deleted
+          end
+
+          it "changes the credential assignments from credentiable to customer profile" do
+            expect(portal_profile.credential_assignments).to eq(gtag.credential_assignments)
           end
         end
-        describe "when current customer doesnt have a profile" do
+
+        describe "when current customer doesn't have a profile" do
+          before { customer.update!(customer_event_profile: nil) }
+
           it "assigns credentiable profile to customer" do
             subject.for_credentiable(gtag, customer)
-            customer.reload
             expect(gtag.assigned_customer_event_profile).to eq(profile)
             expect(customer.customer_event_profile).to eq(profile)
           end
