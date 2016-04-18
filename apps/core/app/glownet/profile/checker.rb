@@ -11,22 +11,13 @@ class Profile::Checker
   end
 
   def self.for_credentiable(obj, customer)
-    cred_profile = obj.assigned_customer_event_profile
-    cust_profile = customer.customer_event_profile
+    o_profile = obj.assigned_customer_event_profile
+    c_profile = customer.customer_event_profile
+    profile = c_profile || o_profile || customer.create_customer_event_profile!(event: obj.event)
 
-    fail "Credentiable Fraud detected" if cred_profile&.customer
-
-    if cred_profile.nil?
-      cust_profile ||= customer.create_customer_event_profile!(event: obj.event)
-      return obj.credential_assignments.find_or_create_by!(customer_event_profile: cust_profile)
-    end
-
-    if cust_profile
-      cust_profile.credential_assignments << cred_profile.credential_assignments
-      cred_profile.destroy
-    else
-      customer.update!(customer_event_profile: cred_profile)
-      cred_profile.credential_assignments.find_or_create_by!(credentiable: obj)
-    end
+    fail "Credentiable Fraud detected" if o_profile&.customer
+    o_profile&.destroy if c_profile && o_profile
+    customer.update!(customer_event_profile: profile)
+    profile.credential_assignments.find_or_create_by(credentiable: obj, aasm_state: :assigned)
   end
 end
