@@ -27,8 +27,10 @@ class Gateways::PaypalNvp::Transaction
       "PAYMENTREQUEST_0_CURRENCYCODE" => @currency,
       "L_BILLINGTYPE0" => @billing_type,
       "L_BILLINGAGREEMENTDESCRIPTION0" => @billing_agreement_description,
+      "NOSHIPPING" => 1,
       "cancelUrl" => cancel_url,
-      "returnUrl" => return_url
+      "returnUrl" => return_url,
+
     }
     post(params)
   end
