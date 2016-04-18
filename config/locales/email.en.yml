@@ -23,8 +23,8 @@ en:
           title: '¡You can now refund your credits!'
           subject: '¡You can now refund your credits!'
           greet: 'Hello %{name}!'
-          mail_body: 'You can now refund your credits through the link below.'
-          mail_link: "Login to see your balance and perform the transfer"
+          mail_body: "You can now refund your credits using the link below."
+          mail_link: "Login to see your balance and claim your refund."
         completed:
           title: 'Refund Notification'
           subject: 'Refund Completed'
@@ -42,14 +42,14 @@ en:
       reset_password:
         title: 'Reset password'
         greet: 'Hello %{name}!'
-        mail_body: 'Someone has requested a link to change your password. You can do this through the link below.'
+        mail_body: 'We have received a request to change your password. Click the link below to change it.'
         mail_link: "Change my password"
       gtag:
         assigned:
           title: '%{gtag} assigned'
           subject: '%{gtag} assigned'
           greet: 'Hello %{name}!'
-          mail_body: 'You assigned a %{gtag} with the id:'
+          mail_body: 'You assigned a %{gtag} with ID:'
         unassigned:
           title: '%{gtag} deleted'
           subject: '%{gtag} deleted'

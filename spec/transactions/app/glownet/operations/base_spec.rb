@@ -1,15 +1,44 @@
 require "rails_helper"
 
 RSpec.describe Operations::Base, type: :job do
-  let(:base) { Operations::Base }
+  let(:base)  { Operations::Base }
   let(:event) { create(:event) }
+  let(:gtag)  { create(:gtag, tag_uid: "AAAAA") }
   let(:params) do
     {
       transaction_category: "credit",
       transaction_type: "sale",
       credits: 30,
       event_id: event.id,
-      device_created_at: Time.now.to_s
+      device_created_at: Time.now.to_s,
+      customer_tag_uid: gtag.tag_uid
+    }
+  end
+  let(:real_params) do
+    {
+      customer_tag_uid: gtag.tag_uid,
+      device_created_at: Time.now.to_s,
+      transaction_category: "credit",
+      transaction_type: "sale",
+      device_uid: "5C0A5BA2CF43",
+      event_id: event.id,
+      sale_items_attributes: [
+        {
+          product_id: 4,
+          quantity: 1.0,
+          unit_price: 8.31
+        },
+        {
+          product_id: 5,
+          quantity: 1.0,
+          unit_price: 2.72
+        }
+      ],
+      credits: -11.030001,
+      final_balance: 106.950005,
+      final_refundable_balance: 106.950005,
+      credits_refundable: -11.030001,
+      credit_value: 1.0
     }
   end
 
@@ -23,10 +52,14 @@ RSpec.describe Operations::Base, type: :job do
     allow(Operations::Credit::BalanceUpdater).to receive(:perform_later)
   end
 
+  it "saves sale_items for real params" do
+    expect do
+      base.write(real_params)
+    end.to change(SaleItem, :count).by(real_params[:sale_items_attributes].size)
+  end
+
   it "creates transactions based on transaction_category" do
-    number = rand(1000)
-    p = params.merge(status_code: number)
-    obj = base.write(p)
+    obj = base.write(params.merge(status_code: rand(1000)))
     expect(obj.errors.full_messages).to be_empty
   end
 

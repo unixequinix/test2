@@ -15,7 +15,6 @@ require "rails_helper"
 
 RSpec.describe Order, type: :model do
   it { is_expected.to validate_presence_of(:customer_event_profile) }
-  it { is_expected.to validate_presence_of(:order_items) }
   it { is_expected.to validate_presence_of(:number) }
   it { is_expected.to validate_presence_of(:aasm_state) }
 

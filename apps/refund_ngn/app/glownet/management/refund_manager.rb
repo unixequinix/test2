@@ -1,6 +1,7 @@
 class Management::RefundManager
-  def initialize(profile)
+  def initialize(profile, amount)
     @profile = profile
+    @amount = amount
   end
 
   def execute
@@ -13,7 +14,7 @@ class Management::RefundManager
   def online_payments
     # .to_a because we are going to delete and add and dont want to mess AR relations
     payments = @profile.payments.where(success: true).sort_by { |p| p.amount.to_f }.reverse.to_a
-    reduce_payments(payments, @profile.refundable_money_amount)
+    reduce_payments(payments, @amount)
   end
 
   def reduce_payments(payments, amount)

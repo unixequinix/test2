@@ -30,7 +30,7 @@ RSpec.describe CustomerEventProfile, type: :model do
     expect(profile.active_assignments.count).to be(2)
   end
 
-  context "when dealing with credits, " do
+  context "when dealing with credits," do
     let(:credit_atts) { atts.merge(transaction_origin: "credits_purchase") }
     let(:ticket_atts) { atts.merge(transaction_origin: "ticket_assignment") }
     let(:credit_1) { create(:customer_credit_online, credit_atts) }
@@ -45,13 +45,15 @@ RSpec.describe CustomerEventProfile, type: :model do
     describe ".refunding" do
       let(:refund) { build(:refund, amount: 20, claim: build(:claim, aasm_state: "in_progress")) }
 
-      before { create_list(:customer_credit_online, 2, ticket_atts.merge(amount: 20)) }
-      before { allow(profile.event).to receive(:standard_credit_price).and_return(1) }
+      before do
+        create_list(:customer_credit_online, 2, ticket_atts.merge(amount: 20))
+        allow(profile.event).to receive(:standard_credit_price).and_return(1)
+      end
 
-      it "reduces refundable_credits_amount by the refund amount" do
-        left_over = profile.refundable_credits_amount - refund.amount
+      it "reduces refundable_credits_amount sum by the refund amount" do
+        left_over = profile.customer_credits.sum(:refundable_amount) - refund.amount
         profile.update_balance_after_refund(refund)
-        expect(profile.reload.refundable_credits_amount).to eq(left_over)
+        expect(profile.reload.customer_credits.sum(:refundable_amount)).to eq(left_over)
       end
 
       it "reduces total_credits by the refund amount" do

@@ -10,7 +10,7 @@ class Events::GtagAssignmentsController < Events::BaseController
   def create
     @gtag_assignment_form = GtagAssignmentForm.new(gtag_assignment_parameters)
     if @gtag_assignment_form.save(Gtag.where(event: current_event),
-                                  current_profile)
+                                  current_customer)
       flash[:notice] = I18n.t("alerts.created")
       redirect_to event_url(current_event)
     else

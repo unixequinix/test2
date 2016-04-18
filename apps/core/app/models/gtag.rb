@@ -74,9 +74,7 @@ class Gtag < ActiveRecord::Base
       .where(event: event, companies: { name: company })
   }
 
-  scope :banned, lambda {
-    joins(:banned_gtag)
-  }
+  scope :banned, -> { joins(:banned_gtag) }
 
   def ban!
     assignment = CredentialAssignment.find_by(credentiable_id: id, credentiable_type: "Gtag")
