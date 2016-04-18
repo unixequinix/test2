@@ -45,6 +45,7 @@ class Payments::BraintreePayer
     customer_credit_creator.save(@order)
     create_payment(@order, charge)
     customer_order_creator.save(@order)
+    create_money_transaction(fields)
     @order.complete!
     send_mail_for(@order, @event)
   end
@@ -58,6 +59,32 @@ class Payments::BraintreePayer
                            parameter: Parameter.where(category: "payment",
                                                       group: "braintree",
                                                       name: name)).value
+  end
+
+  def create_money_transaction(fields)
+    binding.pry
+    obj = Operations::Base.portal_write(ActiveSupport::HashWithIndifferentAccess.new(fields))
+    "#{obj.class.to_s.underscore.humanize} position #{index} not valid" unless obj.valid?
+  end
+
+  def fields
+    { event_id: 1,
+      transaction_origin: "Money",
+      transaction_category: "Money",
+      transaction_type: "Money",
+      customer_tag_uid: nil,
+      station_id: 12,
+      catalogable_id: 12,
+      catalogable_type: 12,
+      items_amount: 12,
+      price: 12,
+      payment_method: 12,
+      payment_gateway: 12,
+      customer_event_profile_id: nil,
+      status_code: 12,
+      status_message: 12
+    }
+
   end
 
   def create_payment(order, charge)
