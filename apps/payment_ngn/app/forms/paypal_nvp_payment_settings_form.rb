@@ -3,6 +3,7 @@ class PaypalNvpPaymentSettingsForm < BaseSettingsForm
   attribute :password, String
   attribute :signature, String
   attribute :merchant_id, String
+  attribute :currency, String
   attribute :autotopup, Boolean
   attribute :event_id, Integer
 
@@ -10,6 +11,7 @@ class PaypalNvpPaymentSettingsForm < BaseSettingsForm
   validates_presence_of :password
   validates_presence_of :signature
   validates_presence_of :merchant_id
+  validates_presence_of :currency
   validates_presence_of :event_id
 
   private

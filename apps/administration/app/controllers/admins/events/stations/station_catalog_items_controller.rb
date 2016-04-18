@@ -13,7 +13,7 @@ class Admins::Events::Stations::StationCatalogItemsController < Admins::Events::
   end
 
   def destroy
-    @station = @fetcher.sale_stations.find(params[:station_id])
+    @station = @fetcher.accreditation_stations.find(params[:station_id])
     @catalog_items = @station.unassigned_catalog_items
     @station_catalog_item = @fetcher.station_catalog_items.find(params[:id])
     @station_catalog_item.destroy
