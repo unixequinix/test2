@@ -12,8 +12,9 @@ class Profile::Checker
 
   def self.for_credentiable(obj, customer)
     profile = obj.assigned_customer_event_profile
-    return customer.create_customer_event_profile!(event: obj.event) unless profile
-    fail "Credentiable Fraud detected" if profile.customer
+    fail "Credentiable Fraud detected" if profile&.customer
+    profile ||= customer.create_customer_event_profile!(event: obj.event)
     customer.update!(customer_event_profile: profile)
+    profile.credential_assignments.find_or_create_by!(credentiable: obj)
   end
 end
