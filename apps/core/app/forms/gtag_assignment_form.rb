@@ -9,16 +9,15 @@ class GtagAssignmentForm
   validates_presence_of :tag_uid
   validates_presence_of :tag_serial_number, unless: :simple?
 
-  def save(fetcher, profile) # rubocop: disable Metrics/AbcSize, Metrics/CyclomaticComplexity
+  def save(fetcher, current_customer)
     gtag = fetcher.find_by(tag_uid: tag_uid.strip.upcase,
                            tag_serial_number: tag_serial_number.to_s.strip.upcase)
+    add_error("alerts.gtag.invalid") && return unless gtag
 
-    add_error("alerts.gtag.invalid") && return if gtag.nil?
-    add_error("alerts.gtag.already_assigned") && return if gtag.assigned_customer_event_profile
-    errors.add(:gtag_assignment, gtag.errors.full_messages.join(". ")) && return unless valid?
-    profile.save
-    @gtag_assignation = profile.gtag_assignment.create(credentiable: gtag)
-    GtagMailer.assigned_email(@gtag_assignation).deliver_later
+    assignment = Profile::Checker.for_credentiable(gtag, current_customer)
+    add_error("alerts.gtag.already_assigned") && return unless assignment
+
+    GtagMailer.assigned_email(assignment).deliver_later
   end
 
   private
