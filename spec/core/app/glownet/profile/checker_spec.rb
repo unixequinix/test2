@@ -12,15 +12,23 @@ RSpec.describe Profile::Checker, type: :domain_logic do
   context ".for_credentiable" do
     let(:customer) { create(:customer, event: event) }
 
-    describe "without customer event profile assigned" do
-      before do
-        gtag.update!(assigned_customer_event_profile: nil)
-        customer.update!(customer_event_profile: nil)
+    context "without customer event profile assigned" do
+      before { gtag.update!(assigned_customer_event_profile: nil) }
+
+      describe "when customer has a profile" do
+        it "assings it" do
+          subject.for_credentiable(gtag, customer)
+          expect(customer.customer_event_profile).to eq(customer.customer_event_profile)
+        end
       end
 
-      it "creates a profile and assigns it" do
-        subject.for_credentiable(gtag, customer)
-        expect(customer.customer_event_profile).not_to be_nil
+      describe "when customer doesnt have a profile" do
+        before { customer.update!(customer_event_profile: nil) }
+
+        it "creates a profile and assigns it" do
+          subject.for_credentiable(gtag, customer)
+          expect(customer.customer_event_profile).not_to be_nil
+        end
       end
     end
 
@@ -42,11 +50,32 @@ RSpec.describe Profile::Checker, type: :domain_logic do
           profile.update!(customer: nil)
         end
 
-        it "assigns credentiable profile to customer" do
-          subject.for_credentiable(gtag, customer)
-          customer.reload
-          expect(gtag.assigned_customer_event_profile).to eq(profile)
-          expect(customer.customer_event_profile).to eq(profile)
+        describe "when current customer has already a profile" do
+          let(:profile2) { create(:customer_event_profile, event: event) }
+
+          before(:each) do
+            create(:order_transaction, customer_event_profile: profile, event: event)
+
+            subject.for_credentiable(gtag, customer)
+            customer.reload
+          end
+
+          it "assigns the customer profile to the credentiable" do
+            expect(gtag.assigned_customer_event_profile).to eq(profile2)
+            expect(customer.customer_event_profile).to eq(profile2)
+          end
+
+          it "changes the profile in the associated tables" do
+            expect(transaction.customer_event_profile).to eq(profile2)
+          end
+        end
+        describe "when current customer doesnt have a profile" do
+          it "assigns credentiable profile to customer" do
+            subject.for_credentiable(gtag, customer)
+            customer.reload
+            expect(gtag.assigned_customer_event_profile).to eq(profile)
+            expect(customer.customer_event_profile).to eq(profile)
+          end
         end
       end
     end
