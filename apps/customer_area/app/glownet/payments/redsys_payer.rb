@@ -15,7 +15,7 @@ class Payments::RedsysPayer
     customer_credit_creator.save(order)
     create_payment(order, amount, params)
     order.complete!
-    customer_order_creator.save(order)
+    customer_order_creator.save(order, "card", "redsys")
     send_mail_for(order, event)
   end
 

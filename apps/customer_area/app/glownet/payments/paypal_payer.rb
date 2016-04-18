@@ -66,7 +66,7 @@ class Payments::PaypalPayer
     return unless charge.transaction.status == "settling"
     create_payment(@order, charge)
     customer_credit_creator.save(@order)
-    customer_order_creator.save(@order)
+    customer_order_creator.save(@order, "paypal", "paypal")
     @order.complete!
     send_mail_for(@order, @event)
   end
