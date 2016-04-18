@@ -27,6 +27,7 @@ RSpec.describe Profile::Checker, type: :domain_logic do
 
         it "creates a profile and assigns it" do
           subject.for_credentiable(gtag, customer)
+          customer.reload
           expect(customer.customer_event_profile).not_to be_nil
         end
       end
@@ -51,7 +52,8 @@ RSpec.describe Profile::Checker, type: :domain_logic do
 
           before(:each) do
             subject.for_credentiable(gtag, portal_customer)
-            [portal_customer, gtag, profile].map(&:reload) # work is done in the back
+            # work is done in the back, so reload
+            [portal_customer, gtag, profile, portal_profile].map(&:reload)
           end
 
           it "assigns the customer profile to the credentiable" do
@@ -72,6 +74,7 @@ RSpec.describe Profile::Checker, type: :domain_logic do
 
           it "assigns credentiable profile to customer" do
             subject.for_credentiable(gtag, customer)
+            customer.reload
             expect(gtag.assigned_customer_event_profile).to eq(profile)
             expect(customer.customer_event_profile).to eq(profile)
           end
