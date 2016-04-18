@@ -42,11 +42,3 @@ class CustomerOrderCreator
     }
   end
 end
-
-
-
-
-
-
-
-
