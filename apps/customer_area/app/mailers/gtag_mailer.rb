@@ -22,6 +22,6 @@ class GtagMailer < ApplicationMailer
     @event = gtag_assignment.customer_event_profile.event
     headers["In-Reply-To"] = @event.support_email
     headers["X-No-Spam"] = "True"
-    I18n.config.globals[:gtag] = @event.gtag_name
+    I18n.config.globals[:gtag] = @event.gtag_name.capitalize
   end
 end
