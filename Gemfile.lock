@@ -288,6 +288,8 @@ GEM
     i18n_data (0.7.0)
     iban-tools (1.0.0)
     ice_nine (0.11.2)
+    intercom-rails (0.2.31)
+      activesupport (> 3.0)
     iso-swift (0.0.2)
       countries
     jbuilder (2.2.16)
@@ -640,6 +642,7 @@ DEPENDENCIES
   i18n-globals!
   i18n-tasks (~> 0.9.5)
   iban-tools (~> 1.0.0)
+  intercom-rails
   iso-swift (~> 0.0.2)
   jbuilder (~> 2.2.13)
   jquery-rails (~> 4.0.3)
