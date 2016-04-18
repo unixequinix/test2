@@ -46,13 +46,13 @@ en:
         mail_link: "Change my password"
       gtag:
         assigned:
-          title: '%{gtag} assigned'
-          subject: '%{gtag} assigned'
+          title: '%{gtag} Assigned'
+          subject: '%{gtag} Assigned'
           greet: 'Hello %{name}!'
           mail_body: 'You assigned a %{gtag} with ID:'
         unassigned:
-          title: '%{gtag} deleted'
-          subject: '%{gtag} deleted'
+          title: '%{gtag} Removed'
+          subject: '%{gtag} Removed'
           greet: 'Hello %{name}!'
           mail_body: 'You deleted a %{gtag} with the id:'
           mail_link: 'Check it on the website'

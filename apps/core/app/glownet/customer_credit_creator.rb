@@ -18,4 +18,9 @@ class CustomerCreditCreator
       created_in_origin_at: Time.zone.now
     )
   end
+
+  def calculate_finals(params, credits, amount, refundable_amount)
+    params[:final_balance] = credits.sum(:final_balance) + amount
+    params[:final_refundable_balance] = credits.sum(:final_refundable_balance) + refundable_amount
+  end
 end

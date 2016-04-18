@@ -94,6 +94,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
       :event_id,
       :code,
       :company_ticket_type_id,
+      :credential_redeemed,
       purchaser_attributes: [:id, :first_name, :last_name, :email])
   end
 end

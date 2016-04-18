@@ -27,6 +27,7 @@ gem 'simple_form', '~> 3.1.0'
 gem 'paperclip', '~> 4.2.2'
 gem 'aws-sdk-v1'
 gem 'aws-sdk', '~> 2'
+gem 'intercom-rails'
 
 # Authentication
 gem 'bcrypt', '~> 3.1.10'

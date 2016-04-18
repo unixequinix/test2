@@ -15,6 +15,12 @@ class Operations::Base < ActiveJob::Base
     obj
   end
 
+  def self.portal_write(atts)
+    klass = "#{ atts[:transaction_category] }_transaction".classify.constantize
+    obj_atts = column_attributes(klass, atts)
+    klass.create!(obj_atts)
+  end
+
   def self.column_attributes(klass, atts)
     atts.slice(*klass.column_names.map(&:to_sym))
   end

@@ -12,41 +12,72 @@ RSpec.describe Profile::Checker, type: :domain_logic do
   context ".for_credentiable" do
     let(:customer) { create(:customer, event: event) }
 
-    describe "without customer event profile assigned" do
-      before do
-        gtag.update!(assigned_customer_event_profile: nil)
-        customer.update!(customer_event_profile: nil)
+    context "when credentiable does't have a profile assigned" do
+      before { gtag.update!(assigned_customer_event_profile: nil) }
+
+      describe "when customer has a profile" do
+        it "assings it" do
+          subject.for_credentiable(gtag, customer)
+          expect(customer.customer_event_profile).to eq(customer.customer_event_profile)
+        end
       end
 
-      it "creates a profile and assigns it" do
-        subject.for_credentiable(gtag, customer)
-        expect(customer.customer_event_profile).not_to be_nil
+      describe "when customer doesnt have a profile" do
+        before { customer.update!(customer_event_profile: nil) }
+
+        it "creates a profile and assigns it" do
+          subject.for_credentiable(gtag, customer)
+          customer.reload
+          expect(customer.customer_event_profile).not_to be_nil
+        end
       end
     end
 
-    context "with customer event profile assigned" do
-      describe "which already has a customer" do
-        before do
-          gtag.update!(assigned_customer_event_profile: profile)
-          expect(profile.customer).not_to be_nil
-        end
+    context "when credentiable has a profile assigned" do
+      before { gtag.update!(assigned_customer_event_profile: profile) }
 
+      describe "which already has a customer" do
         it "fails" do
+          expect(profile.customer).not_to be_nil
           expect { subject.for_credentiable(gtag, customer) }.to raise_error(RuntimeError, /Fraud/)
         end
       end
 
-      describe "which doesnt have a customer" do
-        before do
-          gtag.update!(assigned_customer_event_profile: profile)
-          profile.update!(customer: nil)
+      describe "which doesn't have a customer," do
+        before { profile.update!(customer: nil) }
+
+        describe "when current customer already has a profile" do
+          let(:portal_profile)  { create(:customer_event_profile, event: event) }
+          let(:portal_customer) { portal_profile.customer }
+
+          before(:each) do
+            subject.for_credentiable(gtag, portal_customer)
+            # work is done in the back, so reload
+            [portal_customer, gtag, profile, portal_profile].map(&:reload)
+          end
+
+          it "assigns the customer profile to the credentiable" do
+            expect(gtag.assigned_customer_event_profile).to eq(portal_profile)
+          end
+
+          it "changes the profile in the associated tables" do
+            expect(profile).to be_deleted
+          end
+
+          it "changes the credential assignments from credentiable to customer profile" do
+            expect(portal_profile.credential_assignments).to eq(gtag.credential_assignments)
+          end
         end
 
-        it "assigns credentiable profile to customer" do
-          subject.for_credentiable(gtag, customer)
-          customer.reload
-          expect(gtag.assigned_customer_event_profile).to eq(profile)
-          expect(customer.customer_event_profile).to eq(profile)
+        describe "when current customer doesn't have a profile" do
+          before { customer.update!(customer_event_profile: nil) }
+
+          it "assigns credentiable profile to customer" do
+            subject.for_credentiable(gtag, customer)
+            customer.reload
+            expect(gtag.assigned_customer_event_profile).to eq(profile)
+            expect(customer.customer_event_profile).to eq(profile)
+          end
         end
       end
     end

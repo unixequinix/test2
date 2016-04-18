@@ -34,7 +34,7 @@ class Payments::PaypalNvpPayer
     return unless charge["ACK"] == "Success"
     create_payment(@order, charge)
     customer_credit_creator.save(@order)
-    customer_order_creator.save(@order)
+    customer_order_creator.save(@order, "paypal_nvp", "paypal_nvp")
     @order.complete!
     send_mail_for(@order, @event)
   end

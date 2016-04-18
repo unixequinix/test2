@@ -10,7 +10,7 @@ function calculateTotalCheckout () {
 
 function topUpButton() {
 
-  if( $(".product-amount").length > 0 ) {
+  if( $("#checkout-form").length > 0 ) {
 
     $(function() {
       FastClick.attach(document.body);
