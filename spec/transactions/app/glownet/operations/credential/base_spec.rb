@@ -21,24 +21,6 @@ RSpec.describe Operations::Credential::Base, type: :job do
 
   before { allow(decoder).to receive(:perform).with(ticket_code).and_return(ctt_id) }
 
-  describe ".assign_gtag" do
-    before(:each) { transaction.ticket = ticket }
-
-    it "creates a gtag for the transaction event passed" do
-      expect(event.gtags).to be_empty
-      expect do
-        worker.assign_gtag(transaction, atts)
-      end.to change(transaction.event.gtags, :count).by(1)
-    end
-
-    it "leaves the gtag if already present" do
-      event.gtags.create!(tag_uid: atts[:customer_tag_uid])
-      expect do
-        worker.assign_gtag(transaction, atts)
-      end.not_to change(transaction.event.gtags, :count)
-    end
-  end
-
   describe ".assign_gtag_credential" do
     it "creates a credential for the gtag" do
       expect do

@@ -50,7 +50,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           SELECT array_to_json(array_agg(row_to_json(o)))
           from (
             SELECT counter as online_order_counter, customer_orders.amount,
-              customer_orders.catalog_item_id as catalogable_id,
+              catalog_items.catalogable_id as catalogable_id,
               LOWER(catalog_items.catalogable_type) as catalogable_type
             FROM online_orders
             INNER JOIN customer_orders

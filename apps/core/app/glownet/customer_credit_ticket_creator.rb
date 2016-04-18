@@ -1,22 +1,18 @@
-class CustomerCreditTicketCreator
+class CustomerCreditTicketCreator < CustomerCreditCreator
   def assign(ticket)
-    create_customer_credit(ticket, CustomerCredit::TICKET_ASSIGNMENT, 1)
+    loop_credits(ticket, CustomerCredit::TICKET_ASSIGNMENT)
   end
 
   def unassign(ticket)
-    create_customer_credit(ticket, CustomerCredit::TICKET_UNASSIGNMENT, -1)
+    loop_credits(ticket, CustomerCredit::TICKET_UNASSIGNMENT, -1)
   end
 
-  def create_customer_credit(ticket, origin, multiplier)
-    ticket.credits.each do |credit_item|
-      CustomerCredit.create(
-        customer_event_profile: ticket.assigned_customer_event_profile,
-        transaction_origin: origin,
-        payment_method: "none",
-        credit_value: credit_item.value,
-        amount: credit_item.total_amount * multiplier,
-        refundable_amount: credit_item.total_amount * multiplier
-      )
+  private
+
+  def loop_credits(ticket, origin, sign = 1)
+    ticket.credits.each do |credit|
+      params = { amount: (credit.total_amount * sign), origin: origin, credit_value: credit.value }
+      create_credit_for(ticket.assigned_customer_event_profile, params)
     end
   end
 end

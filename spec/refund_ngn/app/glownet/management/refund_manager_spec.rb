@@ -2,7 +2,8 @@ require "rails_helper"
 
 RSpec.describe Management::RefundManager, type: :domain_logic do
   let(:profile) { create(:customer_event_profile) }
-  subject { Management::RefundManager.new(profile) }
+  let(:amount) { profile.refundable_money_amount }
+  subject { Management::RefundManager.new(profile, amount) }
 
   describe ".get_online_payments" do
     let(:orders) { create_list(:order_with_payment, 3, customer_event_profile: profile) }

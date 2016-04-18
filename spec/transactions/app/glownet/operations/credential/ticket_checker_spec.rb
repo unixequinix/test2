@@ -16,7 +16,7 @@ RSpec.describe Operations::Credential::TicketChecker, type: :job do
       transaction_origin: "device",
       transaction_category: "credential",
       transaction_type: "ticket_checkin",
-      customer_tag_uid: "UID1AT20160321130133",
+      customer_tag_uid: gtag.tag_uid,
       operator_tag_uid: "A54DSF8SD3JS0",
       station_id: rand(100),
       device_uid: "2A:35:34:54",
@@ -39,10 +39,6 @@ RSpec.describe Operations::Credential::TicketChecker, type: :job do
 
     it "assigns a ticket credential" do
       expect(worker).to receive(:assign_ticket_credential)
-    end
-
-    it "assigns a gtag" do
-      expect(worker).to receive(:assign_gtag).with(transaction, atts).and_return(gtag)
     end
 
     it "assigns a ticket credential" do

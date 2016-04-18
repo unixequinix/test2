@@ -1,5 +1,6 @@
 class ApplicationMailer < ActionMailer::Base
   include AbstractController::Callbacks
+  layout "customer_mail"
 
   default from: Rails.application.secrets.from_email,
           content_type: "multipart/mixed",
