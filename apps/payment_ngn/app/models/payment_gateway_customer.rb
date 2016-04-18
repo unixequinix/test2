@@ -11,6 +11,7 @@
 #  updated_at                :datetime         not null
 #  agreement_accepted        :boolean          default(FALSE), not null
 #  autotopup_amount          :integer
+#  email                     :string
 #
 
 class PaymentGatewayCustomer < ActiveRecord::Base

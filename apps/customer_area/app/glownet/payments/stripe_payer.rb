@@ -31,7 +31,7 @@ class Payments::StripePayer
     return unless charge.status == "succeeded"
     create_payment(@order, charge)
     customer_credit_creator.save(@order)
-    customer_order_creator.save(@order)
+    customer_order_creator.save(@order, "card", "stripe")
     @order.complete!
     send_mail_for(@order, @event)
   end
