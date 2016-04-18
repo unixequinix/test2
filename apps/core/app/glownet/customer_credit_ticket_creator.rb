@@ -1,10 +1,10 @@
 class CustomerCreditTicketCreator < CustomerCreditCreator
   def assign(ticket)
-    loop_credits(ticket, CustomerCredit::TICKET_ASSIGNMENT)
+    create_customer_credit(ticket, CustomerCredit::TICKET_ASSIGNMENT, 1)
   end
 
   def unassign(ticket)
-    loop_credits(ticket, CustomerCredit::TICKET_UNASSIGNMENT, -1)
+    create_customer_credit(ticket, CustomerCredit::TICKET_UNASSIGNMENT, -1)
   end
 
   private
