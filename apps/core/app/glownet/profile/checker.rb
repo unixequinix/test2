@@ -16,10 +16,9 @@ class Profile::Checker
 
     fail "Credentiable Fraud detected" if cred_profile&.customer
 
-    unless cred_profile
+    if cred_profile.nil?
       cust_profile ||= customer.create_customer_event_profile!(event: obj.event)
-      obj.credential_assignments.find_or_create_by!(customer_event_profile: cust_profile)
-      return
+      return obj.credential_assignments.find_or_create_by!(customer_event_profile: cust_profile)
     end
 
     if cust_profile
