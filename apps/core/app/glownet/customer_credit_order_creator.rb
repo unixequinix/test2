@@ -20,7 +20,6 @@ class CustomerCreditOrderCreator < CustomerCreditCreator
 
   private
 
-
   # TODO: This is temporary workaruond until final release
   def create_customer_credit_for_single_credits(order, order_item)
     params = {
