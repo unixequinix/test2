@@ -25,7 +25,7 @@ class Orders::PaypalPresenter < Orders::BasePresenter
   end
 
   def form_data
-    Payments::BraintreeDataRetriever.new(@event, @order)
+    Payments::PaypalDataRetriever.new(@event, @order)
   end
 
   def payment_service
