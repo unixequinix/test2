@@ -3,6 +3,18 @@ class Payments::PaypalRefunder
     @payment = payment
     @order = payment.order
     @amount = amount
+
+    # TODO: This has to go other place, done during hot fixing ;-)!!!!!
+    @event = @order.customer_event_profile.event
+    @payment_parameters = Parameter.joins(:event_parameters)
+                          .where(category: "payment",
+                                 group: "braintree",
+                                 event_parameters: { event: event })
+                          .select("parameters.name, event_parameters.*")
+    Braintree::Configuration.environment  = environment
+    Braintree::Configuration.merchant_id = merchant_id
+    Braintree::Configuration.public_key = public_key
+    Braintree::Configuration.private_key = private_key
   end
 
   def start

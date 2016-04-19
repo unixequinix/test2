@@ -3,9 +3,8 @@ class Payments::PaypalNvpRefunder
     @payment = payment
     @order = payment.order
     @amount = amount
-
+    @event = @order.customer_event_profile.event
     @paypal_nvp = Gateways::PaypalNvp::Transaction.new(@event)
-      def refund_transaction(transaction, _amount)
   end
 
   def start
@@ -16,7 +15,7 @@ class Payments::PaypalNvpRefunder
   end
 
   def refund(transaction, amount)
-    refund_transaction(transaction, amount)
+    @paypal_nvp.refund_transaction(transaction, amount)
   end
 
   private
