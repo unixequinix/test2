@@ -78,7 +78,7 @@ class Gateways::PaypalNvp::Transaction
     post(params)
   end
 
-  def refund_transaction(transaction, _amount)
+  def refund_transaction(transaction, amount)
     params = {
       "METHOD" => "RefundTransaction",
       "USER" => @user,
@@ -86,7 +86,8 @@ class Gateways::PaypalNvp::Transaction
       "SIGNATURE" => @signature,
       "VERSION" => @version,
       "TRANSACTIONID" => transaction,
-      "REFUNDTYPE" => "Full"
+      "REFUNDTYPE" => "Partial",
+      "AMT" => amount
     }
     post(params)
   end

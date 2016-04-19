@@ -8,7 +8,7 @@ class Payments::PaypalNvpRefunder
   end
 
   def start
-    charge_object = refund(@payment.merchant_code, @amount)
+    charge_object = refund(@.merchant_code, @amount)
     return charge_object unless charge_object.success?
     create_payment(@order, charge_object)
     charge_object
@@ -22,17 +22,17 @@ class Payments::PaypalNvpRefunder
 
   def create_payment(order, charge)
     transaction = charge.transaction
-    Payment.create!(transaction_type: transaction.payment_instrument_type,
-                    card_country: transaction.credit_card_details.country_of_issuance,
-                    paid_at: Time.at(transaction.created_at),
-                    last4: transaction.credit_card_details.last_4,
+
+  def create_payment(order, charge)
+    Payment.create!(transaction_type: charge["PAYMENTINFO_0_TRANSACTIONTYPE"],
+                    paid_at: charge["TIMESTAMP"],
                     order: order,
-                    response_code: transaction.processor_response_code,
-                    authorization_code: transaction.processor_authorization_code,
-                    currency: order.customer_event_profile.event.currency,
-                    merchant_code: transaction.id,
-                    amount: transaction.amount.to_f,
+                    response_code: charge["PAYMENTINFO_0_REASONCODE"],
+                    authorization_code: charge["CORRELATIONID"],
+                    currency: charge["PAYMENTINFO_0_CURRENCYCODE"],
+                    merchant_code: charge["PAYMENTINFO_0_TRANSACTIONID"],
+                    amount: charge["PAYMENTINFO_0_AMT"].to_f,
                     success: true,
-                    payment_type: "paypal")
+                    payment_type: "paypal_nvp")
   end
 end
