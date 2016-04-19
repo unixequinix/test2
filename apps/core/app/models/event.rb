@@ -84,8 +84,9 @@ class Event < ActiveRecord::Base
 
   has_attached_file(
     :logo,
-    path: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:filename",
-    url: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:basename.:extension",
+    path: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:style/:filename",
+    url: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:style/:basename.:extension",
+    styles: { email: "x120" },
     default_url: ":default_event_image_url")
 
   has_attached_file(

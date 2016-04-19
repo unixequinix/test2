@@ -240,7 +240,7 @@ en:
     iban_disclaimer_html: "<sup>2</sup><a href='http://www.business.hsbc.co.uk/1/2/international-business/iban-bic' target='_blank'>What is IBAN and where can I find mine?</a>"
   payment:
     error:
-      title: 'Transaction failed'
+      title: 'Transaction failed. Please try again or contact support!'
       call_to_action: 'Contact us:'
     success:
       title: 'Payment Done'
