@@ -33,8 +33,6 @@ class CustomerCreditOrderCreator < CustomerCreditCreator
     credits = order.customer_event_profile.customer_credits
     calculate_finals(params, credits, order_item.amount, order_item.amount)
 
-    binding.pry
-
     CustomerCredit.create(params)
   end
 
