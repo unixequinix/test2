@@ -64,8 +64,16 @@ class Gtag < ActiveRecord::Base
 
   # Scope
   scope :selected_data, lambda  { |event_id|
-    joins("LEFT OUTER JOIN gtag_credit_logs ON gtag_credit_logs.gtag_id = gtags.id")
-      .select("gtags.*, gtag_credit_logs.amount")
+    joins("LEFT OUTER JOIN credential_assignments
+           ON credential_assignments.credentiable_id = gtags.id
+           AND credential_assignments.credentiable_type = 'Gtag'
+           AND credential_assignments.deleted_at IS NULL
+           LEFT OUTER JOIN customer_orders
+           ON customer_orders.customer_event_profile_id =
+           credential_assignments.customer_event_profile_id
+           AND customer_orders.deleted_at IS NULL")
+      .select("gtags.id, gtags.event_id, gtags.company_ticket_type_id, gtags.tag_serial_number,
+               gtags.tag_uid, gtags.credential_redeemed, customer_orders.amount")
       .where(event: event_id)
   }
 
