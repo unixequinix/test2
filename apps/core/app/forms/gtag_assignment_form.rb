@@ -9,6 +9,8 @@ class GtagAssignmentForm
   validates_presence_of :tag_uid
   validates_presence_of :tag_serial_number, unless: :simple?
 
+  # TODO: to avoid parameter filetring, tag_serial_number should never be included in params
+  # =>    and hence in the form in the first place, simple delete DOM element
   def save(fetcher, current_customer)
     serial = tag_serial_number.to_s.strip.upcase
     uid = tag_uid.strip.upcase
