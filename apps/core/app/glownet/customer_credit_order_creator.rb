@@ -30,8 +30,11 @@ class CustomerCreditOrderCreator < CustomerCreditCreator
       amount: order_item.amount,
       refundable_amount: order_item.amount
     }
-    calculate_finals(params, order.customer_event_profile.customer_credits, order_item.amount,
-      order_item.amount)
+    credits = order.customer_event_profile.customer_credits
+    calculate_finals(params, credits, order_item.amount, order_item.amount)
+
+    binding.pry
+
     CustomerCredit.create(params)
   end
 

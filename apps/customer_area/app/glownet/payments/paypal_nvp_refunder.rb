@@ -8,8 +8,8 @@ class Payments::PaypalNvpRefunder
   end
 
   def start
-    charge_object = refund(@.merchant_code, @amount)
-    return charge_object unless charge_object.success?
+    charge_object = refund(@payment.merchant_code, @amount)
+    return charge_object unless charge_object["ACK"] == "Success"
     create_payment(@order, charge_object)
     charge_object
   end
@@ -21,17 +21,14 @@ class Payments::PaypalNvpRefunder
   private
 
   def create_payment(order, charge)
-    transaction = charge.transaction
-
-  def create_payment(order, charge)
-    Payment.create!(transaction_type: charge["PAYMENTINFO_0_TRANSACTIONTYPE"],
+    Payment.create!(transaction_type: "refund",
                     paid_at: charge["TIMESTAMP"],
                     order: order,
-                    response_code: charge["PAYMENTINFO_0_REASONCODE"],
+                    response_code: charge["REFUNDINFO"],
                     authorization_code: charge["CORRELATIONID"],
-                    currency: charge["PAYMENTINFO_0_CURRENCYCODE"],
-                    merchant_code: charge["PAYMENTINFO_0_TRANSACTIONID"],
-                    amount: charge["PAYMENTINFO_0_AMT"].to_f,
+                    currency: charge["CURRENCYCODE"],
+                    merchant_code: charge["REFUNDTRANSACTIONID"],
+                    amount: charge["TOTALREFUNDEDAMT"].to_f,
                     success: true,
                     payment_type: "paypal_nvp")
   end

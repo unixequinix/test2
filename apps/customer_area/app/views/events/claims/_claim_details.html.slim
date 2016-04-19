@@ -15,4 +15,4 @@ table.table-order
     td [colspan="2"]
       = t('orders.total')
       .vat-text = t('orders.vat')
-    td [colspan="3"] #{claim.gtag.refundable_amount_after_fee(claim.service_type)} #{current_event.currency}
+    td [colspan="3"] #{claim.customer_event_profile.refundable_amount_after_fee(claim.service_type)} #{current_event.currency}
