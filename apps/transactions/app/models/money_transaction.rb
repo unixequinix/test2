@@ -22,6 +22,8 @@
 #  customer_event_profile_id :integer
 #  status_code               :integer
 #  status_message            :string
+#  created_at                :datetime
+#  updated_at                :datetime
 #
 
 class MoneyTransaction < Transaction

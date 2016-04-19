@@ -18,6 +18,8 @@
 #  status_message            :string
 #  device_uid                :string
 #  operator_tag_uid          :string
+#  created_at                :datetime
+#  updated_at                :datetime
 #
 
 class AccessTransaction < Transaction
