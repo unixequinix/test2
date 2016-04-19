@@ -8,7 +8,9 @@ class CreditsPresenter < BasePresenter
   end
 
   def customer_total_credits
-    @customer_event_profile.total_credits
+    # TODO: Check this
+    #@customer_event_profile.total_credits
+    @customer_event_profile.current_balance.final_balance
   end
 
   def event_started?
