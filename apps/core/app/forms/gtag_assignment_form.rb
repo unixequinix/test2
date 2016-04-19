@@ -10,8 +10,10 @@ class GtagAssignmentForm
   validates_presence_of :tag_serial_number, unless: :simple?
 
   def save(fetcher, current_customer)
-    number = tag_serial_number.to_s.strip.upcase
-    gtag = fetcher.find_by(tag_uid: tag_uid.strip.upcase, tag_serial_number: number)
+    serial = tag_serial_number.to_s.strip.upcase
+    uid = tag_uid.strip.upcase
+    atts = { tag_uid: uid, tag_serial_number: serial }.delete_if { |k, v| v.blank? }
+    gtag = fetcher.find_by(atts)
 
     add_error("alerts.gtag.invalid") && return unless gtag
     assignment = Profile::Checker.for_credentiable(gtag, current_customer)
