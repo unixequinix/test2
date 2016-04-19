@@ -8,7 +8,7 @@ table.transactions
       th = t("admin.transactions.device_uid")
       th = t("admin.transactions.customer_tag_uid")
       th = t("admin.transactions.credits")
-      th = t("admin.transactions.refundable_credits")
+      th = t("admin.transactions.credits_refundable")
       th = t("admin.transactions.final_balance")
       th = t("admin.transactions.final_refundable_balance")
       th = t("admin.transactions.more_info")
@@ -21,7 +21,7 @@ table.transactions
           td data-label=t("admin.transactions.device_uid") = transaction.device_uid
           td data-label=t("admin.transactions.customer_tag_uid") = transaction.customer_tag_uid
           td data-label=t("admin.transactions.credits") = transaction.credits
-          td data-label=t("admin.transactions.refundable_credits") = transaction.refundable_credits
+          td data-label=t("admin.transactions.credits_refundable") = transaction.credits_refundable
           td data-label=t("admin.transactions.final_balance") = transaction.final_balance
           td data-label=t("admin.transactions.final_refundable_balance") = transaction.final_refundable_balance
           td data-label=t("admin.transactions.more_info") = link_to admins_event_credit_transaction_path(current_event, transaction) do
