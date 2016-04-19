@@ -37,8 +37,6 @@ class Payments::BraintreeRefunder
     return unless transaction.status == "authorized"
     # create_payment(@order, charge)
     @order.complete!
-    create_transaction
-
     send_mail_for(@order, @event)
   end
 
@@ -67,35 +65,5 @@ class Payments::BraintreeRefunder
                     amount: transaction.amount.to_f,
                     success: true,
                     payment_type: "braintree")
-  end
-
-  def create_transaction
-    @order.order_items.each do |order_item|
-      obj = Operations::Base.portal_write(ActiveSupport::HashWithIndifferentAccess.new(
-        fields(order_item)))
-      "#{obj.class.to_s.underscore.humanize} position #{index} not valid" unless obj.valid?
-    end
-  end
-
-  def fields(order_item)
-    {
-      event_id: @event.id,
-      transaction_origin: "customer_portal",
-      transaction_category: "refund",
-      transaction_type: "refund",
-      customer_tag_uid: @order.customer_event_profile.active_gtag_assignment,
-      station_id: Station.joins(:station_type).find_by(
-        event: order_item.order.customer_event_profile.event_id,
-        station_types: { name: "customer_portal" }).id,
-      catalogable_id: order_item.catalog_item.catalogable_id,
-      catalogable_type: order_item.catalog_item.catalogable_type,
-      items_amount: order_item.amount,
-      price: order_item.total,
-      payment_method: "card",
-      payment_gateway: "braintree",
-      customer_event_profile_id: @order.customer_event_profile.id,
-      status_code: 0,
-      status_message: "OK"
-    }
   end
 end

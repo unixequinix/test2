@@ -18,6 +18,6 @@ class Profile::Checker
     fail "Credentiable Fraud detected" if o_profile&.customer
     o_profile&.destroy if c_profile && o_profile
     customer.update!(customer_event_profile: profile)
-    profile.credential_assignments.find_or_create_by(credentiable: obj)
+    profile.credential_assignments.find_or_create_by(credentiable: obj, aasm_state: "assigned")
   end
 end

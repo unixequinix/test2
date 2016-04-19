@@ -6,6 +6,7 @@ class Events::OrdersController < Events::BaseController
     order = Order.includes(order_items: :catalog_item).find(params[:id])
     @order_presenters = []
     current_event.selected_payment_services.each do |payment_service|
+      binding.pry
       @order_presenters <<
         ("Orders::#{payment_service.to_s.camelize}Presenter").constantize
           .new(current_event, order).with_params(params)
