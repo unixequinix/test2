@@ -18,7 +18,7 @@ it:
       payment_method: "Method"
       price: "Price"
       credits: "Credits"
-      refundable_credits: "Refundable Credits"
+      credits_refundable: "Refundable Credits"
       final_balance: "Final Balance"
       final_refundable_balance: "Final Refundable Balance"
     agreements:
