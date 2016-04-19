@@ -127,6 +127,9 @@
         -
           name: tos_acceptance_ip
           data_type: string
+        -
+          name: application_fee_percent
+          data_type: currency
     -
       name: braintree
       parameters:

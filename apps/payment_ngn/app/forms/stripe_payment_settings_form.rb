@@ -7,11 +7,13 @@ class StripePaymentSettingsForm < BaseSettingsForm
   # attribute :legal_last_name, String
   # attribute :legal_dob, DateTime
   # attribute :legal_type, String
+  attribute :application_fee_percent, Integer
   attribute :event_id, Integer
 
   validates_presence_of :email
   validates_presence_of :currency
   validates_presence_of :country
+  validates_presence_of :application_fee_percent
 
   def save(params, request)
     if valid?

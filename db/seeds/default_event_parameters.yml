@@ -61,6 +61,10 @@
         -
           name: stripe_account_id
           value: unassigned
+        -
+          name: application_fee_percent
+          data_type: 0.0
+
     -
       name: braintree
       values:
