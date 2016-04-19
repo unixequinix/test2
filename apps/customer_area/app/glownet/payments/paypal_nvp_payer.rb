@@ -32,7 +32,7 @@ class Payments::PaypalNvpPayer
 
   def notify_payment(charge, customer_order_creator, customer_credit_creator)
     return unless charge["ACK"] == "Success"
-    create_payment(@order, charge)
+    create_payment(@order, charge, @method)
     customer_credit_creator.save(@order)
     customer_order_creator.save(@order, "paypal_nvp", "paypal_nvp")
     @order.complete!
@@ -64,15 +64,17 @@ class Payments::PaypalNvpPayer
                                                       name: name)).value
   end
 
-  def create_payment(order, charge)
-    Payment.create!(transaction_type: charge["PAYMENTINFO_0_TRANSACTIONTYPE"],
+  def create_payment(order, charge, method)
+    prefix = "PAYMENTINFO_0_" if method == "regular"
+    prefix = "" if method == "auto"
+    Payment.create!(transaction_type: charge["#{prefix}TRANSACTIONTYPE"],
                     paid_at: charge["TIMESTAMP"],
                     order: order,
-                    response_code: charge["PAYMENTINFO_0_REASONCODE"],
+                    response_code: charge["#{prefix}REASONCODE"],
                     authorization_code: charge["CORRELATIONID"],
-                    currency: charge["PAYMENTINFO_0_CURRENCYCODE"],
-                    merchant_code: charge["PAYMENTINFO_0_TRANSACTIONID"],
-                    amount: charge["PAYMENTINFO_0_AMT"].to_f,
+                    currency: charge["#{prefix}CURRENCYCODE"],
+                    merchant_code: charge["#{prefix}TRANSACTIONID"],
+                    amount: charge["#{prefix}AMT"].to_f,
                     success: true,
                     payment_type: "paypal_nvp")
   end

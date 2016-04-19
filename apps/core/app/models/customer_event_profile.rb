@@ -104,9 +104,12 @@ class CustomerEventProfile < ActiveRecord::Base # rubocop:disable ClassLength
 
   # TODO: should this method be here??
   def refundable_money_amount
-    customer_credits.map do |customer_credit|
-      customer_credit.credit_value * customer_credit.refundable_amount
-    end.sum
+    refundable_credits_amount * event.standard_credit_price
+  end
+
+  def refundable_amount_after_fee(refund_service)
+    fee = event.refund_fee(refund_service)
+    refundable_money_amount - fee.to_f
   end
 
   def online_refundable_money_amount

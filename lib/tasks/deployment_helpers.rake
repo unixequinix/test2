@@ -24,7 +24,7 @@ namespace :deploy do
   task :secrets_production do
     %w[secrets database newrelic sidekiq].each do |file|
       file_path = Rails.root.join("config", "#{file}.yml")
-      system "scp -i #{ENV['GSPOT_PRODUCTION_CERT']} #{file_path} ubuntu@#{Rails.application.secrets.host}:/home/ubuntu/glownet_web/shared/config"
+      system "scp #{file_path} ubuntu@#{Rails.application.secrets.host}:/home/ubuntu/glownet_web/shared/config"
     end
   end
 
