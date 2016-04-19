@@ -20,7 +20,7 @@ class StripePaymentSettingsForm < BaseSettingsForm
   validates_presence_of :country
   validates_presence_of :application_fee
 
-  def save(params, request)
+  def save(_params, _request)
     if valid?
       persist!
       true
