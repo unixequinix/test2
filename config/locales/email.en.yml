@@ -54,7 +54,7 @@ en:
           title: '%{gtag} Removed'
           subject: '%{gtag} Removed'
           greet: 'Hello %{name}!'
-          mail_body: 'You deleted a %{gtag} with the id:'
+          mail_body: 'You removed a %{gtag} with the id:'
           mail_link: 'Check it on the website'
     admin:
       reset_password:
