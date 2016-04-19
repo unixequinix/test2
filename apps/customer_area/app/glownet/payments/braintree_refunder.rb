@@ -1,68 +1,35 @@
 class Payments::BraintreeRefunder
-  def start(params)
-    @event = Event.friendly.find(params[:event_id])
-    @order = Order.find(params[:order_id])
-    @order.start_payment!
-    charge_object = charge(params)
+  def initialize(payment, amount)
+    @payment = payment
+    @order = payment.order
+    @amount = amount
+  end
+
+  def start
+    charge_object = refund(@payment.merchant_code, @amount)
     return charge_object unless charge_object.success?
-    notify_payment(charge_object, customer_order_creator, customer_credit_creator)
+    create_payment(@order, charge_object)
     charge_object
   end
 
-  def refund(_params, amount)
-    begin
-      charge = Braintree::Transaction.refund("j59qrb", amount)
-    rescue Braintree::ErrorResult
-      # The card has been declined
-      charge
-    end
-    charge
+  def refund(transaction, amount)
+    Braintree::Transaction.refund(transaction, amount) rescue nil
   end
 
   private
 
-  def options(params)
-    token = params[:payment_method_nonce]
-    amount = @order.total_formated
-    sale_options = {
-      order_id: @order.number,
-      amount: amount,
-      payment_method_nonce: token
-    }
-    sale_options
-  end
-
-  def notify_refund(charge, _customer_order_creator, _customer_credit_creator)
-    transaction = charge.transaction
-    return unless transaction.status == "authorized"
-    # create_payment(@order, charge)
-    @order.complete!
-    send_mail_for(@order, @event)
-  end
-
-  def send_mail_for(order, event)
-    OrderMailer.completed_email(order, event).deliver_later
-  end
-
-  def get_event_parameter_value(event, name)
-    EventParameter.find_by(event_id: event.id,
-                           parameter: Parameter.where(category: "payment",
-                                                      group: "braintree",
-                                                      name: name)).value
-  end
-
   def create_payment(order, charge)
-    transaction = charge.transaction
-    Payment.create!(transaction_type: transaction.payment_instrument_type,
-                    card_country: transaction.credit_card_details.country_of_issuance,
-                    paid_at: Time.at(transaction.created_at),
-                    last4: transaction.credit_card_details.last_4,
+    t = charge.transaction
+    Payment.create!(t_type: t.payment_instrument_type,
+                    card_country: t.credit_card_details.country_of_issuance,
+                    paid_at: Time.at(t.created_at),
+                    last4: t.credit_card_details.last_4,
                     order: order,
-                    response_code: transaction.processor_response_code,
-                    authorization_code: transaction.processor_authorization_code,
+                    response_code: t.processor_response_code,
+                    authorization_code: t.processor_authorization_code,
                     currency: order.customer_event_profile.event.currency,
-                    merchant_code: transaction.id,
-                    amount: transaction.amount.to_f,
+                    merchant_code: t.id,
+                    amount: t.amount.to_f,
                     success: true,
                     payment_type: "braintree")
   end

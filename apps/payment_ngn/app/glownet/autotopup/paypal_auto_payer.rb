@@ -14,7 +14,7 @@ class Autotopup::PaypalAutoPayer
     total = amount * value
     order.order_items.create!(catalog_item: credit.catalog_item, amount: amount, total: total)
 
-    Payments::BraintreeDataRetriever.new(event, order)
+    Payments::PaypalDataRetriever.new(event, order)
 
     data = { event_id: event.id, order_id: order.id }
     charge = Payments::PaypalPayer.new.start(data,

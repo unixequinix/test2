@@ -14,7 +14,7 @@ class GtagAssignmentForm
   def save(fetcher, current_customer)
     serial = tag_serial_number.to_s.strip.upcase
     uid = tag_uid.strip.upcase
-    atts = { tag_uid: uid, tag_serial_number: serial }.delete_if { |k, v| v.blank? }
+    atts = { tag_uid: uid, tag_serial_number: serial }.delete_if { |_k, v| v.blank? }
     gtag = fetcher.find_by(atts)
 
     add_error("alerts.gtag.invalid") && return unless gtag
