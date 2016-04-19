@@ -1,17 +1,12 @@
-class StripePaymentSettingsForm < BaseSettingsForm
+class StripePaymentActivationForm < BaseSettingsForm
   attribute :email, String
   attribute :currency, String
   attribute :country, String
-  attribute :bank_account, String
-  attribute :legal_first_name, String
-  attribute :legal_last_name, String
-  attribute :legal_dob, DateTime
-  attribute :legal_type, String
-  attribute :tos_acceptance_date, String
-  attribute :tos_acceptance_ip, String
-  attribute :stripe_account_id, String
-  attribute :account_secret_key, String
-  attribute :account_publishable_key, String
+  # attribute :bank_account, String
+  # attribute :legal_first_name, String
+  # attribute :legal_last_name, String
+  # attribute :legal_dob, DateTime
+  # attribute :legal_type, String
   attribute :event_id, Integer
   attribute :application_fee, Integer
 
@@ -23,6 +18,7 @@ class StripePaymentSettingsForm < BaseSettingsForm
   def save(params, request)
     if valid?
       persist!
+      AccountManager::Stripe.new.persist_parameters(params, request)
       true
     else
       false
