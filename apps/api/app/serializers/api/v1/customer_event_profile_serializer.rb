@@ -33,6 +33,6 @@ class Api::V1::CustomerEventProfileSerializer < Api::V1::BaseSerializer
 
   def credentials
     object.credential_assignments
-      .where(aasm_state: "assigned").map { |obj| CredentialAssignmentSerializer.new(obj) }
+      .where(aasm_state: "assigned").map { |obj| Api::V1::CredentialAssignmentSerializer.new(obj) }
   end
 end
