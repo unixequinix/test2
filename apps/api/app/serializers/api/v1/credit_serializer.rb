@@ -1,13 +1,7 @@
 class Api::V1::CreditSerializer < Api::V1::BaseSerializer
-  attributes :id, :name, :value, :standard, :currency
+  attributes :id, :name, :description, :value, :standard, :currency
 
-  def attributes(*args)
-    hash = super
-    hash[:description] = item_description if item_description
-    hash
-  end
-
-  def item_description
+  def description
     object.catalog_item.description
   end
 

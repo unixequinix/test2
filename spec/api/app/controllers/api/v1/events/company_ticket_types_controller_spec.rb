@@ -1,10 +1,10 @@
 require "rails_helper"
 
 RSpec.describe Api::V1::Events::CompanyTicketTypesController, type: :controller do
-  let(:event) { Event.first || build(:event) }
-  let(:admin) { Admin.first || create(:admin) }
+  let(:event) { create(:event) }
+  let(:admin) { create(:admin) }
   let(:db_ticket_types) do
-    CompanyTicketType.where(event: event).map(&:id)
+    CompanyTicketType.where(event: event)
   end
 
   before do
@@ -24,6 +24,29 @@ RSpec.describe Api::V1::Events::CompanyTicketTypesController, type: :controller 
         expect(response.status).to eq 200
       end
 
+      it "returns the necessary keys" do
+        get :index, event_id: event.id
+        keys = %w(id name company_id catalog_item_id company_name company_ticket_type_ref)
+        JSON.parse(response.body).map do |access|
+          expect(access.keys).to eq(keys)
+        end
+      end
+
+      it "returns the correct data" do
+        get :index, event_id: event.id
+        JSON.parse(response.body).each_with_index do |ticket_type, index|
+          ticket_types_atts = {
+            id: db_ticket_types[index].id,
+            name: db_ticket_types[index].name,
+            company_id: db_ticket_types[index].company_event_agreement.company.id,
+            catalog_item_id: db_ticket_types[index].credential_type.catalog_item_id,
+            company_name: db_ticket_types[index].company_event_agreement.company.name,
+            company_ticket_type_ref: db_ticket_types[index].company_code
+          }
+          expect(ticket_types_atts.as_json).to eq(ticket_type)
+        end
+      end
+
       context "with the 'If-Modified-Since' header" do
         it "returns only the modified ticket types" do
           request.headers["If-Modified-Since"] = (@new_ticket_type.updated_at - 2.hours)
@@ -37,7 +60,7 @@ RSpec.describe Api::V1::Events::CompanyTicketTypesController, type: :controller 
         it "returns all the ticket types" do
           get :index, event_id: event.id
           api_ticket_types = JSON.parse(response.body).map { |m| m["id"] }
-          expect(api_ticket_types).to eq(db_ticket_types)
+          expect(api_ticket_types).to eq(db_ticket_types.map(&:id))
         end
       end
     end

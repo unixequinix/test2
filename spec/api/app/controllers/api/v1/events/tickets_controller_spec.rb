@@ -1,8 +1,9 @@
 require "rails_helper"
 
 RSpec.describe Api::V1::Events::TicketsController, type: :controller do
-  let(:event) { Event.last || create(:event) }
-  let(:admin) { Admin.first || create(:admin) }
+  let(:event) { create(:event) }
+  let(:admin) { create(:admin) }
+  let(:db_tickets) { Ticket.where(event: event) }
 
   before do
     create_list(:ticket, 2, :with_purchaser, event: event)
@@ -12,45 +13,33 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
     context "with authentication" do
       before(:each) do
         http_login(admin.email, admin.access_token)
+        get :index, event_id: event.id
       end
 
       it "has a 200 status code" do
-        get :index, event_id: event.id
         expect(response.status).to eq 200
       end
-
-      context "when the If-Modified-Since header is sent" do
-        before do
-          @new_ticket = create(:ticket, :with_purchaser, event: event)
-          @new_ticket.update!(updated_at: Time.now + 4.hours)
-
-          request.headers["If-Modified-Since"] = (@new_ticket.updated_at - 2.hours)
-        end
-
-        pending "returns only the modified tickets" do
-          get :index, event_id: event.id
-          tickets = JSON.parse(response.body).map { |m| m["reference"] }
-          expect(tickets).to eq([@new_ticket.code])
+      it "returns the necessary keys" do
+        JSON.parse(response.body).map do |ticket|
+          keys = %w(id reference credential_redeemed credential_type_id purchaser_first_name
+                    purchaser_last_name purchaser_email customer_id)
+          expect(ticket.keys).to eq(keys)
         end
       end
 
-      context "when the If-Modified-Since header isn't sent" do
-        before do
-          create(:ticket, :with_purchaser, event: event)
-        end
-
-        pending "returns the cached tickets" do
-          get :index, event_id: event.id
-          tickets = JSON.parse(response.body).map { |m| m["reference"] }
-          cache_tickets = JSON.parse(Rails.cache.fetch("v1/event/#{event.id}/tickets")).map do |m|
-            m["reference"]
-          end
-
-          create(:ticket, :with_purchaser, event: event)
-          event_tickets = event.tickets.map(&:code)
-
-          expect(tickets).to eq(cache_tickets)
-          expect(tickets).not_to eq(event_tickets)
+      it "returns the correct data" do
+        JSON.parse(response.body).each_with_index do |ticket, index|
+          ticket_atts = {
+            id: db_tickets[index].id,
+            reference: db_tickets[index].code,
+            credential_redeemed: db_tickets[index].credential_redeemed,
+            credential_type_id: db_tickets[index]&.company_ticket_type&.credential_type_id,
+            purchaser_first_name: db_tickets[index]&.purchaser&.first_name,
+            purchaser_last_name: db_tickets[index]&.purchaser&.last_name,
+            purchaser_email: db_tickets[index]&.purchaser&.email,
+            customer_id: db_tickets[index]&.assigned_customer_event_profile&.id
+          }
+          expect(ticket_atts.as_json).to eq(ticket)
         end
       end
     end

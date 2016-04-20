@@ -42,12 +42,13 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           ) as autotopup_gateways,
 
         (
-            SELECT array_to_json(array_agg(row_to_json(cr)))
+          SELECT array_to_json(array_agg(row_to_json(cr)))
           FROM (
             SELECT credentiable_id as id,
             LOWER(credentiable_type) as type
             FROM credential_assignments
             WHERE customer_event_profile_id = customer_event_profiles.id
+              AND aasm_state = 'assigned'
               AND deleted_at IS NULL
           ) cr
         ) as credentials,

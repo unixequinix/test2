@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe Api::V1::Events::AutoTopUpsController, type: :controller do
   let(:event) { create(:event) }
-  let(:admin) { Admin.first || create(:admin) }
+  let(:admin) { create(:admin) }
   let(:cep) { create(:customer_event_profile, event: event) }
   let(:ca) { create(:credential_assignment_g_a, customer_event_profile: cep) }
   let(:tag_uid) { ca.credentiable.tag_uid }
