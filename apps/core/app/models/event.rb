@@ -82,17 +82,19 @@ class Event < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
 
+  S3_FOLDER = Rails.application.secrets.s3_images_folder
+
   has_attached_file(
     :logo,
-    path: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:style/:filename",
-    url: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:style/:basename.:extension",
+    path: "#{S3_FOLDER}/event/:id/logos/:style/:filename",
+    url: "#{S3_FOLDER}/event/:id/logos/:style/:basename.:extension",
     styles: { email: "x120" },
     default_url: ":default_event_image_url")
 
   has_attached_file(
     :background,
-    path: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:filename",
-    url: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:basename.:extension",
+    path: "#{S3_FOLDER}/event/:id/backgrounds/:filename",
+    url: "#{S3_FOLDER}/event/:id/backgrounds/:basename.:extension",
     default_url: ":default_event_background_url")
 
   # Hooks

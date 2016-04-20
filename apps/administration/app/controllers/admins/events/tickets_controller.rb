@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/MethodLength, Metrics/ClassLength, Metrics/ParameterLists
 class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   before_filter :set_presenter, only: [:index, :search]
 
@@ -14,11 +15,8 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
 
   def show
     @ticket = @fetcher.tickets
-              .includes(credential_assignments: [:customer_event_profile,
-                                                 customer_event_profile: :customer],
-                        company_ticket_type: [:company_event_agreement,
-                                              company_event_agreement: :company])
-              .find(params[:id])
+              .includes(credential_assignments: [customer_event_profile: :customer],
+                        company_ticket_type: [company_event_agreement: :company]).find(params[:id])
   end
 
   def new
@@ -74,12 +72,13 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
     redirect_to admins_event_tickets_url
   end
 
-  def import
-    redirect_to(admins_event_tickets_path(current_event), alert: "Seleccione un archivo para importar") and return unless params[:file]
+  def import # rubocop:disable Metrics/AbcSize
+    event = current_event.event
+    alert = "Seleccione un archivo para importar"
+    redirect_to(admins_event_tickets_path(event), alert: alert) && return unless params[:file]
     lines = params[:file][:data].tempfile.map { |line| line.split(",") }
     lines.delete_at(0)
 
-    event = current_event.event
     lines.each do |tt_name, tt_code, c_name, barcode, f_name, l_name, email|
       com = Company.find_by("LOWER(name) = ?", c_name.downcase) || Company.create!(name: c_name)
       agree = com.company_event_agreements.find_or_create_by!(event: event, aasm_state: "granted")
@@ -94,7 +93,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
       Purchaser.find_or_create_by!(p_params)
     end
 
-    redirect_to(admins_event_tickets_path(current_event), notice: "Tickets imported")
+    redirect_to(admins_event_tickets_path(event), notice: "Tickets imported")
   end
 
   private

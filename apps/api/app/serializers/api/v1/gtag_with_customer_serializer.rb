@@ -13,5 +13,4 @@ class Api::V1::GtagWithCustomerSerializer < Api::V1::BaseSerializer
     cred = object.credential_assignments.first
     cred && cred.customer_event_profile_id
   end
-
 end
