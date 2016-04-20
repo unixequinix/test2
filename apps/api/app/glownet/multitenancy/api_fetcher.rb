@@ -101,9 +101,9 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
                    SELECT customer_event_profiles.id as customer_id
                    FROM customer_event_profiles
                    INNER JOIN credential_assignments ON
-                       credential_assignments.credentiable_id = gtags.id
+                       credential_assignments.customer_event_profile_id = customer_event_profiles.id
 
-                   WHERE credential_assignments.customer_event_profile_id = customer_event_profiles.id
+                   WHERE credential_assignments.credentiable_id = gtags.id
                        AND credential_assignments.credentiable_type = 'Gtag'
                        AND credential_assignments.deleted_at IS NULL
                        AND credential_assignments.aasm_state = 'assigned'
@@ -119,6 +119,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
         LEFT OUTER JOIN company_ticket_types
           ON company_ticket_types.id = gtags.company_ticket_type_id
           AND company_ticket_types.deleted_at IS NULL
+
         WHERE gtags.event_id = #{@event.id}
       ) g
     SQL
@@ -169,9 +170,9 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
               SELECT customer_event_profiles.id as customer_id
               FROM customer_event_profiles
               INNER JOIN credential_assignments ON
-                  credential_assignments.credentiable_id = tickets.id
+                  credential_assignments.customer_event_profile_id = customer_event_profiles.id
 
-              WHERE credential_assignments.customer_event_profile_id = customer_event_profiles.id
+              WHERE credential_assignments.credentiable_id = tickets.id
                   AND credential_assignments.credentiable_type = 'Ticket'
                   AND credential_assignments.deleted_at IS NULL
                   AND credential_assignments.aasm_state = 'assigned'
