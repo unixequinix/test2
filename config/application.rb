@@ -69,9 +69,5 @@ module GlownetWeb
         resource '*', headers: :any, methods: [:get, :post, :options]
       end
     end
-
-    # Uncomment below to disable sidekiq for all. Put in specific environment if desired.
-    # config.active_job.queue_adapter = :inline
-    config.active_job.queue_adapter = :sidekiq
   end
 end
