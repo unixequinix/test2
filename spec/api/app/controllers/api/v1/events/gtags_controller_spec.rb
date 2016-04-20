@@ -1,8 +1,8 @@
 require "rails_helper"
 
 RSpec.describe Api::V1::Events::GtagsController, type: :controller do
-  let(:event) { Event.last || create(:event) }
-  let(:admin) { Admin.first || create(:admin) }
+  let(:event) { create(:event) }
+  let(:admin) { create(:admin) }
 
   before do
     create_list(:gtag, 2, event: event)

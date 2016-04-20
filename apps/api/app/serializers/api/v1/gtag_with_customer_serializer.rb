@@ -7,7 +7,9 @@ class Api::V1::GtagWithCustomerSerializer < Api::V1::BaseSerializer
   end
 
   def customer
-    serializer = Api::V1::CustomerEventProfileSerializer.new(object.assigned_customer_event_profile)
+    profile = object.assigned_customer_event_profile
+    return unless profile
+    serializer = Api::V1::CustomerEventProfileSerializer.new(profile)
     ActiveModelSerializers::Adapter::Json.new(serializer).as_json[:customer_event_profile]
   end
 end
