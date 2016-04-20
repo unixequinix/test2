@@ -28,19 +28,24 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
     sql = <<-SQL
       SELECT array_to_json(array_agg(row_to_json(cep)))
       FROM (
-        SELECT customer_event_profiles.id, customers.first_name,
-               customers.last_name, customers.email,
+        SELECT
+          customer_event_profiles.id,
+          customers.first_name,
+          customers.last_name,
+          customers.email,
+          (
+            SELECT array_agg(gateway_type)
+            FROM payment_gateway_customers
+            WHERE customer_event_profile_id = customer_event_profiles.id
+              AND agreement_accepted IS TRUE
+              AND deleted_at IS NULL
+          ) as autotopup_gateways,
+
         (
-          SELECT array_agg(gateway_type)
-          FROM payment_gateway_customers
-          WHERE customer_event_profile_id = customer_event_profiles.id
-            AND agreement_accepted IS TRUE
-            AND deleted_at IS NULL
-        ) as autotopup_gateways,
-        (
-          SELECT array_to_json(array_agg(row_to_json(cr)))
-          from (
-            SELECT credentiable_id as id, LOWER(credentiable_type) as type
+            SELECT array_to_json(array_agg(row_to_json(cr)))
+          FROM (
+            SELECT credentiable_id as id,
+            LOWER(credentiable_type) as type
             FROM credential_assignments
             WHERE customer_event_profile_id = customer_event_profiles.id
               AND deleted_at IS NULL
@@ -93,13 +98,16 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
                purchasers.last_name as purchaser_last_name,
                purchasers.email as purchaser_email,
                (
-                   SELECT id as customer_id
+                   SELECT customer_event_profiles.id as customer_id
                    FROM customer_event_profiles
+                   INNER JOIN credential_assignments ON
+                       credential_assignments.credentiable_id = gtags.id
+
                    WHERE credential_assignments.customer_event_profile_id = customer_event_profiles.id
-                   AND credential_assignments.credentiable_type = 'Gtag'
-                   AND credential_assignments.deleted_at IS NULL
-                   AND credential_assignments.aasm_state = 'assigned'
-                   LIMIT(1)
+                       AND credential_assignments.credentiable_type = 'Gtag'
+                       AND credential_assignments.deleted_at IS NULL
+                       AND credential_assignments.aasm_state = 'assigned'
+                  LIMIT(1)
                )
         FROM gtags
 
@@ -158,13 +166,16 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           purchasers.last_name as purchaser_last_name,
           purchasers.email as purchaser_email,
           (
-              SELECT id as customer_id
+              SELECT customer_event_profiles.id as customer_id
               FROM customer_event_profiles
+              INNER JOIN credential_assignments ON
+                  credential_assignments.credentiable_id = tickets.id
+
               WHERE credential_assignments.customer_event_profile_id = customer_event_profiles.id
-              AND credential_assignments.credentiable_type = 'Ticket'
-              AND credential_assignments.deleted_at IS NULL
-              AND credential_assignments.aasm_state = 'assigned'
-              LIMIT(1)
+                  AND credential_assignments.credentiable_type = 'Ticket'
+                  AND credential_assignments.deleted_at IS NULL
+                  AND credential_assignments.aasm_state = 'assigned'
+             LIMIT(1)
           )
 
         FROM tickets
