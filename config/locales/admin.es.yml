@@ -136,6 +136,8 @@ es:
         paypal_nvp: 'Paypal NVP'
         stripe: 'Stripe'
         braintree: 'Braintree'
+        sofort: 'Sofort'
+        ideal: 'Ideal'
       refund_services:
         bank_account: 'Cuenta bancaria'
         epg: 'Easy payment gateway'
