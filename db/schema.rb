@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160419094350) do
+ActiveRecord::Schema.define(version: 20160420085748) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -193,7 +193,7 @@ ActiveRecord::Schema.define(version: 20160419094350) do
     t.datetime "updated_at",                 null: false
   end
 
-  add_index "company_ticket_types", ["company_code", "company_event_agreement_id"], name: "company_ref_event_agreement_index", unique: true, using: :btree
+  add_index "company_ticket_types", ["company_code", "company_event_agreement_id", "deleted_at"], name: "index_ticket_types_on_company_code_and_agreement_and_deleted_at", unique: true, using: :btree
   add_index "company_ticket_types", ["deleted_at"], name: "index_company_ticket_types_on_deleted_at", using: :btree
 
   create_table "credential_assignments", force: :cascade do |t|
