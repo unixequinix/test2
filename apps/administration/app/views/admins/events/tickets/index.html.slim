@@ -10,8 +10,14 @@
     = fa_icon 'search'
     = t('admin.actions.search')
 
+
+= simple_form_for :file, :url => import_admins_event_tickets_path(current_event.id), :html => {:multipart => true} do |f|
+  = f.file_field :data, label: :import
+  = submit_tag "Go!"
+
 .wrapper-negative-space
   - if @list_model_presenter.there_any?
     = render 'admins/events/tickets/list', tickets: @list_model_presenter.all_items
   - else
     = render @list_model_presenter.no_items_for_presentation
+
