@@ -91,26 +91,24 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
                company_ticket_types.credential_type_id as credential_type_id ,
                purchasers.first_name as purchaser_first_name,
                purchasers.last_name as purchaser_last_name,
-               purchasers.email as purchaser_email
+               purchasers.email as purchaser_email,
                (
-                 SELECT id as customer_id
-                 FROM customer_event_profiles
-                 WHERE credential_assignments.customer_event_profile_id = customer_event_profiles.id
-                 AND credential_assignments.credentiable_type = 'Gtag'
-                 AND credential_assignments.deleted_at IS NULL
-                 AND credential_assignments.aasm_state = 'assigned'
-                 LIMIT(1)
+                   SELECT id as customer_id
+                   FROM customer_event_profiles
+                   WHERE credential_assignments.customer_event_profile_id = customer_event_profiles.id
+                   AND credential_assignments.credentiable_type = 'Gtag'
+                   AND credential_assignments.deleted_at IS NULL
+                   AND credential_assignments.aasm_state = 'assigned'
+                   LIMIT(1)
                )
         FROM gtags
-        FULL OUTER JOIN purchasers
+
+        LEFT OUTER JOIN purchasers
           ON purchasers.credentiable_id = gtags.id
           AND purchasers.credentiable_type = 'Gtag'
           AND purchasers.deleted_at IS NULL
-        FULL OUTER JOIN credential_assignments
-          ON credential_assignments.credentiable_id = gtags.id
-          AND credential_assignments.credentiable_type = 'Gtag'
-          AND credential_assignments.deleted_at IS NULL
-        FULL OUTER JOIN company_ticket_types
+
+        LEFT OUTER JOIN company_ticket_types
           ON company_ticket_types.id = gtags.company_ticket_type_id
           AND company_ticket_types.deleted_at IS NULL
         WHERE gtags.event_id = #{@event.id}
@@ -151,29 +149,31 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
     sql = <<-SQL
       SELECT array_to_json(array_agg(row_to_json(t)))
       FROM (
-        SELECT tickets.id, tickets.code as reference, tickets.credential_redeemed,
-               company_ticket_types.credential_type_id as credential_type_id ,
-               purchasers.first_name as purchaser_first_name,
-               purchasers.last_name as purchaser_last_name,
-               purchasers.email as purchaser_email,
-               (
-                 SELECT id as customer_id
-                 FROM customer_event_profiles
-                 WHERE credential_assignments.customer_event_profile_id = customer_event_profiles.id
-                 AND credential_assignments.credentiable_type = 'Ticket'
-                 AND credential_assignments.deleted_at IS NULL
-                 AND credential_assignments.aasm_state = 'assigned'
-                 LIMIT(1)
-               )
+        SELECT
+          tickets.id,
+          tickets.code as reference,
+          tickets.credential_redeemed,
+          company_ticket_types.credential_type_id as credential_type_id ,
+          purchasers.first_name as purchaser_first_name,
+          purchasers.last_name as purchaser_last_name,
+          purchasers.email as purchaser_email,
+          (
+              SELECT id as customer_id
+              FROM customer_event_profiles
+              WHERE credential_assignments.customer_event_profile_id = customer_event_profiles.id
+              AND credential_assignments.credentiable_type = 'Ticket'
+              AND credential_assignments.deleted_at IS NULL
+              AND credential_assignments.aasm_state = 'assigned'
+              LIMIT(1)
+          )
+
         FROM tickets
-        FULL OUTER JOIN purchasers
+
+        LEFT OUTER JOIN purchasers
           ON purchasers.credentiable_id = tickets.id
           AND purchasers.credentiable_type = 'Ticket'
           AND purchasers.deleted_at IS NULL
-        FULL OUTER JOIN credential_assignments
-          ON credential_assignments.credentiable_id = tickets.id
-          AND credential_assignments.credentiable_type = 'Ticket'
-          AND credential_assignments.deleted_at IS NULL
+
         INNER JOIN company_ticket_types
           ON company_ticket_types.id = tickets.company_ticket_type_id
           AND company_ticket_types.deleted_at IS NULL
