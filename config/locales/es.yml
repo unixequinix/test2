@@ -50,7 +50,7 @@ es:
         bank_name: "Nombre del banco"
         number: "Número de cuenta (00 0000 0000000 000)"
       thailand_bank_account_claim_form:
-        bsb: "BSB"
+        bsb: "BSB (000000)"
         account_holder: "Nombre del propietario (Thai)"
         account_holder_translation: "Nombre del propietario (Inglés)"
         bank_name: "Nombre del banco"
