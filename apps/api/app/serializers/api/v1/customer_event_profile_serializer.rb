@@ -1,8 +1,5 @@
 class Api::V1::CustomerEventProfileSerializer < Api::V1::BaseSerializer
-  attributes :id, :autotopup_gateways
-  has_many :credential_assignments, key: :credentials,
-                                    serializer: Api::V1::CredentialAssignmentSerializer
-
+  attributes :id, :autotopup_gateways, :credentials
   has_many :customer_orders, key: :orders, serializer: Api::V1::CustomerOrderSerializer
 
   def attributes(*args)
@@ -32,5 +29,10 @@ class Api::V1::CustomerEventProfileSerializer < Api::V1::BaseSerializer
 
   def autotopup_gateways
     object.payment_gateway_customers.map(&:gateway_type)
+  end
+
+  def credentials
+    object.credential_assignments
+      .where(aasm_state: "assigned").map { |obj| CredentialAssignmentSerializer.new(obj) }
   end
 end
