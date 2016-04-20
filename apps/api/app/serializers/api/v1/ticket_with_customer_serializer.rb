@@ -12,6 +12,6 @@ class Api::V1::TicketWithCustomerSerializer < Api::V1::BaseSerializer
 
   def customer
     serializer = Api::V1::CustomerEventProfileSerializer.new(object.assigned_customer_event_profile)
-    ActiveModel::Serializer::Adapter::Json.new(serializer).as_json[:customer_event_profile]
+    ActiveModelSerializers::Adapter::Json.new(serializer).as_json[:customer_event_profile]
   end
 end

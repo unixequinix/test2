@@ -1,9 +1,10 @@
 class Operations::Base < ActiveJob::Base
   SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at )
 
-  def self.write(atts) # rubocop:disable Metrics/AbcSize
+  def self.write(atts) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     klass = "#{ atts[:transaction_category] }_transaction".classify.constantize
     obj_atts = column_attributes(klass, atts)
+    status_ok = atts[:status_code].to_i.zero?
 
     created_at = atts[:device_created_at]
     atts[:device_created_at] = Time.zone.parse(created_at).to_s if created_at
@@ -11,6 +12,9 @@ class Operations::Base < ActiveJob::Base
 
     obj = klass.find_by(atts.slice(*SEARCH_ATTS))
     return obj if obj
+
+    portal_write(atts) && return unless status_ok
+
     profile_id = Profile::Checker.for_transaction(obj_atts)
     parse_attributes!(atts, obj_atts, customer_event_profile_id: profile_id)
     obj = klass.create(obj_atts)
