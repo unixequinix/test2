@@ -88,11 +88,19 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
       SELECT array_to_json(array_agg(row_to_json(g)))
       FROM (
         SELECT gtags.id, gtags.tag_uid, gtags.tag_serial_number, gtags.credential_redeemed,
-               credential_assignments.customer_event_profile_id as customer_id,
                company_ticket_types.credential_type_id as credential_type_id ,
                purchasers.first_name as purchaser_first_name,
                purchasers.last_name as purchaser_last_name,
                purchasers.email as purchaser_email
+               (
+                 SELECT id as customer_id
+                 FROM customer_event_profiles
+                 WHERE credential_assignments.customer_event_profile_id = customer_event_profiles.id
+                 AND credential_assignments.credentiable_type = 'Gtag'
+                 AND credential_assignments.deleted_at IS NULL
+                 AND credential_assignments.aasm_state = 'assigned'
+                 LIMIT(1)
+               )
         FROM gtags
         FULL OUTER JOIN purchasers
           ON purchasers.credentiable_id = gtags.id
@@ -144,11 +152,19 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
       SELECT array_to_json(array_agg(row_to_json(t)))
       FROM (
         SELECT tickets.id, tickets.code as reference, tickets.credential_redeemed,
-               credential_assignments.customer_event_profile_id as customer_id,
                company_ticket_types.credential_type_id as credential_type_id ,
                purchasers.first_name as purchaser_first_name,
                purchasers.last_name as purchaser_last_name,
-               purchasers.email as purchaser_email
+               purchasers.email as purchaser_email,
+               (
+                 SELECT id as customer_id
+                 FROM customer_event_profiles
+                 WHERE credential_assignments.customer_event_profile_id = customer_event_profiles.id
+                 AND credential_assignments.credentiable_type = 'Ticket'
+                 AND credential_assignments.deleted_at IS NULL
+                 AND credential_assignments.aasm_state = 'assigned'
+                 LIMIT(1)
+               )
         FROM tickets
         FULL OUTER JOIN purchasers
           ON purchasers.credentiable_id = tickets.id
