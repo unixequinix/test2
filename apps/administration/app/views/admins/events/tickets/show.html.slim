@@ -45,7 +45,7 @@
       tbody
         - @ticket.credential_assignments.each do |admission|
           tr
-            td = link_to admission.customer_event_profile.customer.email, admins_event_customer_path(current_event, admission.customer_event_profile.customer) unless admission.nil?
+            td = link_to admission&.customer_event_profile&.customer&.email, admins_event_customer_path(current_event, admission&.customer_event_profile&.customer) if admission
             td = "#{admission.customer_event_profile.customer.first_name} #{admission.customer_event_profile.customer.last_name}"
             td = t("admin.admissions.states.#{admission.aasm_state}")
             td = admission.created_at.strftime("%y-%m-%d %H:%M:%S")
