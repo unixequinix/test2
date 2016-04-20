@@ -1,4 +1,5 @@
 class Operations::Base < ActiveJob::Base
+  sidekiq_options queue: "transactions", backtrace: true
   SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at )
 
   def self.write(atts) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
