@@ -1,11 +1,15 @@
 class Api::V1::CustomerOrderSerializer < Api::V1::BaseSerializer
-  attributes :online_order_counter, :product, :amount
+  attributes :online_order_counter, :catalogable_id, :catalogable_type, :amount
 
   def online_order_counter
     object.online_order && object.online_order.counter
   end
 
-  def product
+  def catalogable_id
     object.catalog_item.catalogable_id
+  end
+
+  def catalogable_type
+    object.catalog_item.catalogable_type.downcase
   end
 end

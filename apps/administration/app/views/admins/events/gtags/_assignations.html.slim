@@ -13,17 +13,19 @@
         th = t("admin.gtag_assignations.updated_at")
         th = t("admin.defaults.actions")
     tbody
-      - gtag.credential_assignments.each do |credential_assignment|
+      - gtag.credential_assignments.each do |assignment|
+        - profile = assignment&.customer_event_profile
+        - customer = profile&.customer
         tr
-          td = link_to credential_assignment.customer_event_profile.id, admins_event_customer_event_profile_path(current_event, credential_assignment.customer_event_profile)
-          td = link_to credential_assignment.customer_event_profile.customer.email, admins_event_customer_event_profile_path(current_event, credential_assignment.customer_event_profile) unless credential_assignment.nil? || credential_assignment.customer_event_profile.customer.nil?
-          td = "#{credential_assignment.customer_event_profile.customer.first_name} #{credential_assignment.customer_event_profile.customer.last_name}" unless credential_assignment.nil? || credential_assignment.customer_event_profile.customer.nil?
-          td = t("admin.credential_assignments.states.#{credential_assignment.aasm_state}")
-          td = credential_assignment.created_at.strftime("%y-%m-%d %H:%M:%S")
-          td = credential_assignment.updated_at.strftime("%y-%m-%d %H:%M:%S")
+          td = link_to profile.id, admins_event_customer_event_profile_path(current_event, profile)
+          td = link_to customer.email, admins_event_customer_event_profile_path(current_event, profile) unless assignment.nil? || customer.nil?
+          td = "#{customer.first_name} #{customer.last_name}" unless assignment.nil? || customer.nil?
+          td = t("admin.credential_assignments.states.#{assignment.aasm_state}")
+          td = assignment.created_at.strftime("%y-%m-%d %H:%M:%S")
+          td = assignment.updated_at.strftime("%y-%m-%d %H:%M:%S")
           td.table-actions-field
             ul
-              - if credential_assignment.assigned?
+              - if assignment.assigned?
                 li.table-action.action-delete
-                  = link_to admins_event_gtag_assignment_path(current_event, credential_assignment), method: :delete, data: { confirm: t("admin.confirm.delete") } do
+                  = link_to admins_event_gtag_assignment_path(current_event, assignment), method: :delete, data: { confirm: t("admin.confirm.delete") } do
                     = fa_icon "ban"

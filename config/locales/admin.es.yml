@@ -21,6 +21,7 @@ es:
       credits_refundable: "Refundable Credits"
       final_balance: "Final Balance"
       final_refundable_balance: "Final Refundable Balance"
+      more_info: "More info"
     agreements:
       status: "Estado"
       granted: "Aceptado"

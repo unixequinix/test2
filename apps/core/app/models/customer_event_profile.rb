@@ -89,6 +89,10 @@ class CustomerEventProfile < ActiveRecord::Base # rubocop:disable ClassLength
     customer_credits.sum(:amount)
   end
 
+  def total_refundable
+    customer_credits.sum(:refundable_amount)
+  end
+
   def ticket_credits
     customer_credits.where.not(transaction_origin: CustomerCredit::CREDITS_PURCHASE)
       .sum(:amount).floor

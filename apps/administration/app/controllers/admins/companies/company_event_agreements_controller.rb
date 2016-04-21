@@ -10,7 +10,7 @@ class Admins::Companies::CompanyEventAgreementsController < Admins::BaseControll
   end
 
   def create
-    @agreement = @company.company_event_agreements.all.create!(permitted_params)
+    @agreement = @company.company_event_agreements.create!(permitted_params)
   end
 
   def revoke_agreement

@@ -1,0 +1,15 @@
+class Api::V1::GtagWithCustomerSerializer < Api::V1::BaseSerializer
+  attributes :id, :tag_uid, :tag_serial_number, :credential_redeemed, :credential_type_id, :customer
+
+  def credential_type_id
+    ticket_type = object.company_ticket_type
+    ticket_type && ticket_type.credential_type_id
+  end
+
+  def customer
+    profile = object.assigned_customer_event_profile
+    return unless profile
+    serializer = Api::V1::CustomerEventProfileSerializer.new(profile)
+    ActiveModelSerializers::Adapter::Json.new(serializer).as_json[:customer_event_profile]
+  end
+end

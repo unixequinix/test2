@@ -17,7 +17,7 @@ class CreditsPresenter < BasePresenter
   end
 
   def refundable_credits
-    @customer_event_profile.refundable_credits_amount
+    @customer_event_profile.total_refundable
   end
 
   def refundable_money
