@@ -5,7 +5,6 @@ class Events::OrdersController < Events::BaseController
   def show
     order = Order.includes(order_items: :catalog_item).find(params[:id])
     @order_presenters = []
-    $view_context = view_context
     current_event.selected_payment_services.each do |payment_service|
       @order_presenters <<
         ("Orders::#{payment_service.to_s.camelize}Presenter").constantize

@@ -1,6 +1,52 @@
 .wrapper-module
   p.hint-redirect.center-text = t('orders.redirect')
-  = button_to t('orders.button'), event_order_path(order_presenter.event, order_presenter.order, payment_service: order_presenter.payment_service), method: :patch, remote: true, class: "btn btn-action btn-action-primary"
-  //.wrapper-seal
-  //  = render 'events/shared/ssl_cert_seal'
+  = form_tag event_order_payment_service_synchronous_payments_path(order_presenter.event, order_presenter.order, order_presenter.payment_service), id: "ideal-payment-form", class: "basic-grey"
+    .payment-errors#ideal-errors
+    .control-group
+      .controls
+        = label_tag t('orders.ideal.bank_account_iban'), nil, required: true
+        = text_field_tag :bankAccountIban, nil, id: "bankAccountIban", class: "input-block-level"
+      .controls
+        = label_tag t('orders.ideal.bank_bic'), nil, required: true
+        = text_field_tag :bankBic, nil, id: "bankBic", class: "input-block-level"
+      .controls
+        = label_tag t('orders.ideal.account_owner'), nil, required: true
+        = text_field_tag :accountOwner, nil, id: "accountOwner", class: "input-block-level"
+      .actions
+        = submit_tag t('orders.button'), id:"ideal-submit-button", class: "btn btn-action btn-action-primary"
   #paymentForm
+script src=order_presenter.javascript_url type="text/javascript"
+
+javascript:
+  callbackFunction = function(aResponse) {
+    var s = "Response of Wirecard data storage call:\n\n";
+    if (aResponse.getStatus() == 0) {
+      var info = aResponse.getAnonymizedPaymentInformation();
+      if (paymentType == "SEPA-DD") {
+        s += "bankBic: " + info.bankBic + "\n";
+        s += "bankAccountIban: " + info.bankAccountIban + "\n";
+        s += "accountOwner: " + info.accountOwner + "\n";
+      }
+    }
+    else {
+      var errors = aResponse.getErrors();
+      for (e in errors) {
+        s += "Error " + e + ": " + errors[e].message + " (Error Code: " + errors[e].errorCode + ")\n";
+      }
+    }
+    alert(s);
+    
+  }
+  
+  var dataStorage = new WirecardCEE_DataStorage();
+  var paymentInformation = {};
+  var paymentType = "SEPA-DD";
+  
+  $("#ideal-submit-button").on("click", function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    paymentInformation.bankAccountIban = document.getElementById('bankAccountIban').value;
+    paymentInformation.bankBic = document.getElementById('bankBic').value;
+    paymentInformation.accountOwner = document.getElementById('accountOwner').value;
+    dataStorage.storeSepaDdInformation(paymentInformation, callbackFunction);
+  });

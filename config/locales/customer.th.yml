@@ -166,6 +166,10 @@ th:
       card_expiration_month: "วันหมดอายุของบัตร"
       card_expiration_year: "วันหมดอายุของบัตร"
       button: "ชำระเงิน"
+    ideal:
+      bank_account_iban: "IBAN"
+      bank_bic: "BIC"
+      account_owner: "Owner"
     paypal:
       sync_title: "Sync with PayPal to perform payment"
       sync_copy: "Never without credit!"
