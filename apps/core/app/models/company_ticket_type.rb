@@ -16,6 +16,8 @@
 class CompanyTicketType < ActiveRecord::Base
   acts_as_paranoid
 
+  has_many :tickets
+
   belongs_to :event
   belongs_to :credential_type
   belongs_to :company_event_agreement
