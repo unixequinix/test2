@@ -2,7 +2,7 @@ set :branch, "master"
 set :rails_env, "production"
 
 # Default value for :log_level is :debug
-set :log_level, :info
+set :log_level, :debug
 
 # Link certification folder
 set :linked_dirs, fetch(:linked_dirs) + %w(certs)
