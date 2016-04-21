@@ -1,25 +1,28 @@
-/* ------------------------------------------------------- *\
+// -------------------------------------------------------
+//
+// Base stylesheet for common elments
+//
+// -------------------------------------------------------
 
-  Base stylesheet for common elments
-
-\* ------------------------------------------------------- */
-
-*, :after, :before {
+*,
+:after,
+:before {
   box-sizing: border-box;
 }
 
 //Variables
 
-$small_text:        $base_font_size*0.75;
+$small_text:        $base_font_size * 0.75;
 $label-size:        $base-font-size;
-$credit-size:       $base-font-size*5;
+$credit-size:       $base-font-size * 5;
 
 $radius:            3px;
 //
 
 // HTML base styles
 
-html, body {
+html,
+body {
   position: relative;
   height: 100%;
 
@@ -39,10 +42,8 @@ html, body {
 
 // Avoid scroll when display aside menu on mobile
 .unscrollable-view {
-  position: relative !important;
-  min-height: 100% !important;
-  max-height: 100% !important;
-  overflow: hidden !important;
+  overflow: hidden;
+  min-height: 100%;
 }
 
 // TODO: Manu, the header in the edit registration view must be included as a mobile layout, not with css.
@@ -63,7 +64,7 @@ h1 {
 ul {
   list-style: none;
   margin: 0;
-  padding:0;
+  padding: 0;
 }
 
 p { line-height: 170%; }
@@ -82,7 +83,7 @@ a {
   font-weight: lighter;
 
   .currency-symbol {
-    @include mscale($base-font-size*2.5);
+    @include mscale($base-font-size * 2.5);
     font-weight: 500;
   }
 }
@@ -111,9 +112,9 @@ a {
   margin: 0 auto modules(1);
 
   @include min-screen($bp3) {
-    margin: modules(1) auto 0;
     max-width: modules(13);
     height: auto;
+    margin: modules(1) auto 0;
   }
 }
 
@@ -139,18 +140,16 @@ a {
 
   i { padding-right: modules(0.25); }
 }
+
 .italic-text { font-style: italic; }
+
 .bold-text { font-weight: bold; }
+
 .refundable-text { margin-bottom: 0; }
 
 .highlight-text {
   font-weight: bold;
   margin-bottom: 0;
-}
-
-.hint {
-  color: $color_text;
-  font-style: italic;
 }
 
 .hint-text {
@@ -168,11 +167,9 @@ a {
 
 .ticket-detail-module {
   padding: modules(0.5) 0;
-  box-shadow: inset 0px -1px 0px 0px lighten($light_grey,17%);
+  box-shadow: inset 0 -1px 0 0 lighten($light_grey, 17%);
 
-  li {
-    font-weight: bold;
-  }
+  li { font-weight: bold; }
 }
 
 .event-state-image {
@@ -180,23 +177,22 @@ a {
   margin-bottom: modules(0.5);
 }
 
-.state-illustration  { height: modules(7); }
+.state-illustration { height: modules(7); }
 .module-illustration { height: modules(9); }
-
 
 .hint {
   display: none;
 
   @include min-screen($bp3) {
     @include transition(opacity 200ms ease-in-out, top 150ms ease-in-out);
-    @include mscale($base-font-size*0.85);
-    display: block;
+    @include mscale($base-font-size * 0.85);
     position: absolute;
     top: modules(2);
     left: -20%;
+    display: block;
     width: 140%;
-    border-radius: $radius;
     padding: modules(0.15);
+    border-radius: $radius;
     background-color: $dark_grey;
     color: $nuclear;
     text-transform: none;
@@ -204,10 +200,10 @@ a {
     opacity: 0;
 
     &:before {
-      display: block;
       position: absolute;
       top: -6px;
       left: 45%;
+      display: block;
       content: "";
       width: 0;
       height: 0;
@@ -223,15 +219,15 @@ a {
 }
 
 .paypal-agreement-icon {
-  @include mscale($base-font-size*1.5);
+  @include mscale($base-font-size * 1.5);
   display: block;
   width: modules(2);
   height: modules(2);
   margin: 0 auto modules(0.25);
   padding-top: modules(0.5);
   border-radius: 50px;
+  box-shadow: 0 2px 1px $grey;
   background-color: $paypal;
-  box-shadow: 0px 2px 1px $grey;
   color: $nuclear;
   text-align: center;
 }
@@ -245,5 +241,5 @@ a {
 
 // Tipalti container
 .tipalti { height: 900px !important; }
-// ---------------------------------------------------------------------------------------------
 
+// ···

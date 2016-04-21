@@ -9,7 +9,7 @@
     p.wristband-hint
       = fa_icon "info-circle"
       = t('gtag_assignations.info.line_2')
-    = f.text_field :tag_uid, placeholder: t("gtag_assignations.placeholders.#{@gtag_assignment_presenter.gtag_format}.line_2"), class: "inut-add-wristband"
+    = f.text_field :tag_uid, placeholder: t("gtag_assignations.placeholders.#{@gtag_assignment_presenter.gtag_format}.line_2"), wrapper_html: { class: "input-add-wristband" }
     = f.submit t('gtag_assignations.button'), class: "btn btn-action btn-action-primary"
 .wrapper-module
   = link_to customer_root_path, class: "btn btn-action-back" do

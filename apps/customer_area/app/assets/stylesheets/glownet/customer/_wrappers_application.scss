@@ -39,21 +39,22 @@
 
 .logo {
   @include mscale($base_font_size);
-  overflow: hidden;
   display: block;
+  overflow: hidden;
   width: 100%;
   margin-bottom: 0;
   text-align: center;
 
   a {
     @include transition(opacity 150ms ease-in);
-    overflow: hidden;
     display: block;
+    overflow: hidden;
     width: 100%;
     height: 100%;
     cursor: pointer;
 
-    &:hover, &:focus { outline: none; opacity: 0.7; }
+    &:hover,
+    &:focus { outline: none; opacity: 0.7; }
   }
 
   img {
@@ -72,10 +73,10 @@
 
 // The centered container that contains all the account info
 .container-event-column {
-  overflow: visible;
   position: relative;
-  width: 100%;
   z-index: 1;
+  overflow: visible;
+  width: 100%;
 
   @include min-screen($bp4) {
     @include animation(loadFadeIn);
@@ -92,14 +93,16 @@
   .success-message {
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
   }
 }
 
 // Each section inside the main column
 
-.wrapper-module, .wrapper-module-centered, .wrapper-module-restriction {
+.wrapper-module,
+.wrapper-module-centered,
+.wrapper-module-restriction {
   position: relative;
   overflow: visible;
   width: 100%;
@@ -139,7 +142,7 @@
   @include transition(max-height 180ms ease-in-out, opacity 220ms ease-in-out);
   overflow: hidden;
   max-height: 0;
-  padding:0;
+  padding: 0;
   opacity: 0;
 
   h3 {
@@ -183,14 +186,14 @@
   padding: modules(2) modules(0.5);
   text-align: center;
 
-  @include min-screen($bp4) { padding: modules(2) }
+  @include min-screen($bp4) { padding: modules(2); }
 }
 
 // Wrapper with styles for the Payapal agreement saved account
 
 .wrapper-saved-agreement {
   padding: modules(0.75) 0;
-  box-shadow: inset 0px -1px 0px 0px lighten($light_grey, 23%), inset 0px 1px 0px 0px lighten($light_grey, 23%);
+  box-shadow: inset 0 -1px 0 0 lighten($light_grey, 23%), inset 0 1px 0 0 lighten($light_grey, 23%);
   text-align: center;
 
   .bold-text {
@@ -200,20 +203,20 @@
   }
 }
 
-.saved-agreement-logo, .saved-agreement-mail {
+.saved-agreement-logo,
+.saved-agreement-mail {
   display: inline-block;
   vertical-align: middle;
 }
 
 .saved-agreement-logo {
-  height: modules(0.75);
   width: auto;
+  height: modules(0.75);
 }
 
 .saved-agreement-mail {
-  @include mscale($base_font_size*0.9);
+  @include mscale($base_font_size * 0.9);
   color: lighten($grey, 9%);
 }
 
-
-// ---------------------------------------------------------------------------------------------
+// ···

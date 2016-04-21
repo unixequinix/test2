@@ -1,9 +1,10 @@
-scss_files: 'apps/customer_area/assets/stylesheets/'
+scss_files: 'apps/customer_area/app/assets/stylesheets'
 
 exclude:
-  - '../apps/customer_area/assets/stylesheets/vendor/*.*'
-  - '../apps/customer_area/assets/stylesheets/lib/**/*.*'
-
+  - '../apps/customer_area/app/assets/stylesheets/vendor/*.*'
+  - '../apps/customer_area/app/assets/stylesheets/lib/**/*.*'
+  - '../apps/customer_area/app/assets/stylesheets/glownet/customer/configuration/*.*'
+  - '../apps/customer_area/app/assets/stylesheets/glownet/customer/_template_variables.scss'
 linters:
   BorderZero:
     enabled: true
