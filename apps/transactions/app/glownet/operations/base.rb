@@ -15,10 +15,10 @@ class Operations::Base < ActiveJob::Base
     status_ok = atts[:status_code].to_i.zero?
     return portal_write(atts) unless status_ok
 
+    Gtag.find_or_create_by!(tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id])
     profile_id = Profile::Checker.for_transaction(obj_atts)
     parse_attributes!(atts, obj_atts, customer_event_profile_id: profile_id)
     obj = klass.create(obj_atts)
-    Gtag.find_or_create_by!(tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id])
     atts.merge!(transaction_id: obj.id, customer_event_profile_id: profile_id)
     descendants.each { |d| d.perform_later(atts) if d::TRIGGERS.include? atts[:transaction_type] }
     obj
