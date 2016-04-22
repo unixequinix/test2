@@ -6,7 +6,9 @@ class Profile::Checker
     fail "Profile Fraud detected" if trans_profile.present? && tag_profile != trans_profile
     return tag_profile if tag_profile
     profile = CustomerEventProfile.create!(event_id: atts[:event_id])
-    gtag.create_assigned_gtag_credential!(customer_event_profile_id: profile.id)
+    #profile.create_active_gtag_assignment!(credentiable: gtag)
+    #gtag.create_assigned_gtag_credential!(customer_event_profile_id: profile.id)
+    profile.credential_assignments.find_or_create_by!(credentiable: gtag, aasm_state: :assigned)
     profile.id
   end
 
