@@ -14,8 +14,8 @@ class EventDecorator < Draper::Decorator
                         paypal: "braintree",
                         braintree: "braintree",
                         redsys: "redsys",
-                        ideal: "ideal",
-                        sofort: "sofort",
+                        ideal: "wirecard",
+                        sofort: "wirecard",
                         stripe: "stripe" }
 
   REFUND_SERVICES = [:bank_account, :epg, :tipalti, :direct]

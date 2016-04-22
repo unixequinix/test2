@@ -1,7 +1,8 @@
-class IdealPaymentSettingsForm < BaseSettingsForm
+class SofortPaymentSettingsForm < BaseSettingsForm
   attribute :customer_id, String
   attribute :secret_key, String
   attribute :event_id, Integer
+
 
   validates_presence_of :customer_id
   validates_presence_of :secret_key

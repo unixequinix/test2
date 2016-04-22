@@ -101,7 +101,7 @@
           name: autotopup
           value: false
     -
-      name: ideal
+      name: wirecard
       values:
         -
           name: customer_id

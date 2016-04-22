@@ -167,7 +167,7 @@
           name: autotopup
           data_type: boolean
     -
-      name: ideal
+      name: wirecard
       parameters:
         -
           name: customer_id

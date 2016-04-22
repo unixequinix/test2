@@ -15,6 +15,6 @@ class Orders::SofortPresenter < Orders::BasePresenter
   end
 
   def payment_service
-    "braintree"
+    "sofort"
   end
 end

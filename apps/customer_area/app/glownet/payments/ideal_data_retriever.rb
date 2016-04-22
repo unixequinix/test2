@@ -7,7 +7,7 @@ class Payments::IdealDataRetriever < Payments::BaseDataRetriever
     @order = order
     @payment_parameters = Parameter.joins(:event_parameters)
                           .where(category: "payment",
-                                 group: "ideal",
+                                 group: "wirecard",
                                  event_parameters: { event: event })
                           .select("parameters.name, event_parameters.*")
   end
