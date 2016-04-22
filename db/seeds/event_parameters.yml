@@ -166,6 +166,15 @@
         -
           name: autotopup
           data_type: boolean
+    -
+      name: ideal
+      parameters:
+        -
+          name: customer_id
+          data_type: string
+        -
+          name: secret_key
+          data_type: string
 -
   name: refund
   groups:
