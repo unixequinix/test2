@@ -27,12 +27,12 @@ class Operations::Base < ActiveJob::Base
   def self.portal_write(atts)
     klass = "#{ atts[:transaction_category] }_transaction".classify.constantize
     obj_atts = column_attributes(klass, atts)
+    obj_atts.delete_if { |key, value| key.to_s.split("_").last.eq "id" && value.zero? }
     klass.create!(obj_atts)
   end
 
   def self.column_attributes(klass, atts)
     atts.slice(*klass.column_names.map(&:to_sym))
-    atts.delete_if { |key, value| key.to_s.split("_").last.eq "id" && value.zero? }
   end
 
   def self.parse_attributes!(atts, obj_atts, extra_atts = {})
