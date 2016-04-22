@@ -4,12 +4,12 @@ class Api::V1::Events::TransactionsController < ApplicationController
 
   def create # rubocop:disable Metrics/CyclomaticComplexity
     render(status: :bad_request, json: :bad_request) && return unless params[:_json]
-    errors = { atts: [], jobs: [] }
+    errors = { atts: [] }
 
     params[:_json].each_with_index do |atts, index|
       att_errors = validate_params(atts.keys, atts[:transaction_category], index)
       errors[:atts] << att_errors && next if att_errors
-      errors[:jobs] << validate_jobs(atts, index)
+      Operations::Base.perform_later(ActiveSupport::HashWithIndifferentAccess.new(atts))
     end
 
     errors.delete_if { |_, v| v.compact.empty? }
@@ -24,10 +24,5 @@ class Api::V1::Events::TransactionsController < ApplicationController
     mandatory = "#{category.camelcase}Transaction".constantize.mandatory_fields
     missing = (mandatory.map(&:to_sym) - keys.map(&:to_sym)).to_sentence
     "Missing keys for position #{index}: #{missing}" unless missing.blank?
-  end
-
-  def validate_jobs(atts, index)
-    obj = Operations::Base.write(ActiveSupport::HashWithIndifferentAccess.new(atts))
-    "#{obj.class.to_s.underscore.humanize} position #{index} not valid" unless obj.valid?
   end
 end
