@@ -32,7 +32,7 @@ class Operations::Base < ActiveJob::Base
 
   def self.column_attributes(klass, atts)
     atts.slice(*klass.column_names.map(&:to_sym))
-    atts.delete_if { |key, value| key.to_s.split(_).last.eq "id" && value.zero? }
+    atts.delete_if { |key, value| key.to_s.split("_").last.eq "id" && value.zero? }
   end
 
   def self.parse_attributes!(atts, obj_atts, extra_atts = {})
