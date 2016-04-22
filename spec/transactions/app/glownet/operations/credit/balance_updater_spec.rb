@@ -22,13 +22,13 @@ RSpec.describe Operations::Credit::BalanceUpdater, type: :job do
 
   it "includes payment method of 'credits'" do
     params[:customer_event_profile_id] = profile.id
-    credit = worker.new.perform(params)
+    credit = worker.perform_later(params)
     expect(credit.payment_method).to eq("credits")
   end
 
   it "updates the balance of a customer when correct values are supplied" do
     params[:customer_event_profile_id] = profile.id
-    expect { worker.new.perform(params) }.to change(CustomerCredit, :count).by(1)
+    expect { worker.perform_later(params) }.to change(CustomerCredit, :count).by(1)
   end
 
   it "renames credits to amount" do
@@ -40,7 +40,7 @@ RSpec.describe Operations::Credit::BalanceUpdater, type: :job do
       customer_event_profile_id: profile.id
     }
     allow(Operations::Base).to receive(:column_attributes).and_return(hash)
-    worker.new.perform(params)
+    worker.perform_later(params)
     expect(hash[:amount]).to eq(params[:credits])
   end
 
@@ -49,7 +49,7 @@ RSpec.describe Operations::Credit::BalanceUpdater, type: :job do
       expect(worker).to receive(:perform_later).once
       params[:transaction_type] = action
       params[:device_created_at] = Time.now.to_s
-      base.write(params)
+      base.perform_later(params)
     end
   end
 end
