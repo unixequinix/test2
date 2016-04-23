@@ -28,7 +28,7 @@ class Operations::Base < ActiveJob::Base
   def portal_write(atts)
     klass = "#{ atts[:transaction_category] }_transaction".classify.constantize
     obj_atts = column_attributes(klass, atts)
-    obj_atts.delete_if { |key, value| key.to_s.split("_").last.eql? "id" && value.zero? }
+    obj_atts.delete_if { |key, value| key.to_s.split("_").last.eql?("id") && value.zero? }
     klass.create!(obj_atts)
   end
 
