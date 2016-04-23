@@ -1,5 +1,5 @@
 class Operations::Credit::BalanceUpdater < Operations::Base
-  TRIGGERS = %w( sale topup refund fee sale_refund )
+  TRIGGERS = %w( sale topup refund fee sale_refund record_credit )
 
   def perform(atts)
     credit_atts = column_attributes(CustomerCredit, atts)
