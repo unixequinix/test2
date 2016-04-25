@@ -54,10 +54,10 @@
     width: auto;
     max-width: 24%;
     height: modules(3.75);
-    padding-right: modules(0.5);
+    padding-left: modules(0.5);
 
-    &:nth-child(3n) { padding: 0 modules(0.25) 0 0; }
-    &:last-child { padding: 0 0 0 modules(0.25); }
+    &:first-child { padding: 0; }
+    &:nth-child(2n) { padding: 0 0 0 modules(0.5); }
   }
 }
 
