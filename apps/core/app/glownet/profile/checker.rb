@@ -9,8 +9,8 @@ class Profile::Checker
 
     # TODO: THIS IS HOTFIXED. We dont know why, but line 12 duplicates gtags and line 13
     # =>    gives error that credential assignment already exists
-    #profile.create_active_gtag_assignment!(credentiable: gtag)
-    #gtag.create_assigned_gtag_credential!(customer_event_profile_id: profile.id)
+    # profile.create_active_gtag_assignment!(credentiable: gtag)
+    # gtag.create_assigned_gtag_credential!(customer_event_profile_id: profile.id)
     profile.credential_assignments.find_or_create_by!(credentiable: gtag, aasm_state: :assigned)
     profile.id
   end
