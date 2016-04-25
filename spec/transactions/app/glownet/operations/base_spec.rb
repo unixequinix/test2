@@ -56,18 +56,18 @@ RSpec.describe Operations::Base, type: :job do
 
   it "saves sale_items for real params" do
     expect do
-      base.write(real_params)
+      base.perform_later(real_params)
     end.to change(SaleItem, :count).by(real_params[:sale_items_attributes].size)
   end
 
   it "creates transactions based on transaction_category" do
-    obj = base.write(params)
+    obj = base.perform_later(params)
     expect(obj.errors.full_messages).to be_empty
   end
 
   it "executes the job defined by transaction_type" do
     expect(Operations::Credit::BalanceUpdater).to receive(:perform_later).once.with(params)
-    base.write(params)
+    base.perform_later(params)
   end
 
   describe "descendants" do
@@ -89,13 +89,13 @@ RSpec.describe Operations::Base, type: :job do
 
   context "creating transactions" do
     it "ignores attributes not present in table" do
-      obj = base.write(params.merge(foo: "not valid"))
+      obj = base.perform_later(params.merge(foo: "not valid"))
       expect(obj).not_to be_new_record
     end
 
     it "works even if jobs fail" do
       allow(Operations::Credit::BalanceUpdater).to receive(:perform_later).and_raise("Error_1")
-      expect { base.write(params) }.to raise_error("Error_1")
+      expect { base.perform_later(params) }.to raise_error("Error_1")
       params.delete(:transaction_id)
       params.delete(:customer_event_profile_id)
       params.delete(:device_created_at)
@@ -106,10 +106,10 @@ RSpec.describe Operations::Base, type: :job do
   context "executing subscriptors" do
     it "should only execute subscriptors if the transaction created is new" do
       expect(Operations::Credit::BalanceUpdater).to receive(:perform_later).once
-      transaction = base.write(params)
+      transaction = base.perform_later(params)
       at = transaction.attributes.symbolize_keys!
       at = at.merge(transaction_category: "credit", device_created_at: params[:device_created_at])
-      base.write(at)
+      base.perform_later(at)
     end
   end
 end

@@ -15,8 +15,8 @@ class CustomerOrderCreator
   end
 
   def create_money_transaction(order_item, payment_method, payment_gateway)
-    obj = Operations::Base.portal_write(ActiveSupport::HashWithIndifferentAccess.new(
-                                          fields(order_item, payment_method, payment_gateway)))
+    obj = Operations::Base.new.portal_write(ActiveSupport::HashWithIndifferentAccess.new(
+                                              fields(order_item, payment_method, payment_gateway)))
     "#{obj.class.to_s.underscore.humanize} position #{index} not valid" unless obj.valid?
   end
 

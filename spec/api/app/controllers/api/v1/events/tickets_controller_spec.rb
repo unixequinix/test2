@@ -16,7 +16,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         get :index, event_id: event.id
       end
 
-      it "has a 200 status code" do
+      it "returns a 200 status code" do
         expect(response.status).to eq 200
       end
       it "returns the necessary keys" do
@@ -45,44 +45,99 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
     end
 
     context "without authentication" do
-      it "has a 401 status code" do
-        get :index, event_id: Event.last.id
-        expect(response.status).to eq 401
+      it "returns a 401 status code" do
+        get :index, event_id: event.id
+        expect(response.status).to eq(401)
       end
     end
   end
 
   describe "GET show" do
     context "with authentication" do
-      before(:each) do
+      before do
+        @agreement = create(:company_event_agreement, event: event)
+        @access = create(:access_catalog_item, event: event)
+        @credential = create(:credential_type, catalog_item: @access)
+        @ctt = create(:company_ticket_type, company_event_agreement: @agreement,
+                                            event: event,
+                                            credential_type: @credential)
+        @ticket = create(:ticket, event: event, company_ticket_type: @ctt)
+        @ticket2 = create(:ticket, event: event, company_ticket_type: @ctt)
+        @profile = create(:customer_event_profile, event: event)
+        create(:credential_assignment, credentiable: @ticket,
+                                       customer_event_profile: @profile,
+                                       aasm_state: "assigned")
+        create(:credential_assignment, credentiable: @ticket2,
+                                       customer_event_profile: @profile,
+                                       aasm_state: "unassigned")
+        @customer = create(:customer, customer_event_profile: @profile)
+        @order = create(:customer_order, customer_event_profile: @profile, catalog_item: @access)
+        create(:online_order, counter: 1, customer_order: @order, redeemed: false)
+
         http_login(admin.email, admin.access_token)
       end
 
-      context "if ticket doesn't exist" do
-        it "has a 404 status code" do
-          get :show, event_id: event.id, id: (Ticket.last.id + 10)
-          expect(response.status).to eq 404
+      describe "when ticket exists" do
+        before(:each) do
+          get :show, event_id: event.id, id: @ticket.id
+        end
+
+        it "returns a 200 status code" do
+          expect(response.status).to eq(200)
+        end
+
+        it "returns the necessary keys" do
+          ticket = JSON.parse(response.body)
+          ticket_keys = %w(id reference credential_redeemed credential_type_id customer)
+          customer_keys = %w(id autotopup_gateways credentials first_name last_name email orders)
+          order_keys = %w(online_order_counter catalogable_id catalogable_type amount)
+
+          expect(ticket.keys).to eq(ticket_keys)
+          expect(ticket["customer"].keys).to eq(customer_keys)
+          expect(ticket["customer"]["credentials"].map(&:keys).flatten.uniq).to eq(%w(id type))
+          expect(ticket["customer"]["orders"].map(&:keys).flatten.uniq).to eq(order_keys)
+        end
+
+        it "returns the correct data" do
+          customer = @ticket.assigned_customer_event_profile.customer
+          orders = @ticket.assigned_customer_event_profile.customer_orders
+
+          ticket = {
+            id: @ticket.id,
+            reference: @ticket.code,
+            credential_redeemed: @ticket.credential_redeemed,
+            credential_type_id: @ticket.company_ticket_type.credential_type_id,
+            customer: {
+              id:  @ticket.assigned_customer_event_profile.id,
+              autotopup_gateways: [],
+              credentials: [{ id: @ticket.id, type: "ticket" }],
+              first_name: customer.first_name,
+              last_name: customer.last_name,
+              email: customer.email,
+              orders: [{
+                online_order_counter: orders.first.online_order.counter,
+                catalogable_id: orders.first.catalog_item.catalogable_id,
+                catalogable_type: orders.first.catalog_item.catalogable_type.downcase,
+                amount: orders.first.amount
+              }]
+            }
+          }
+
+          expect(JSON.parse(response.body)).to eq(ticket.as_json)
         end
       end
 
-      context "if ticket exists" do
-        before(:each) do
-          get :show, event_id: event.id, id: Ticket.last.id
-        end
-
-        it "has a 200 status code" do
-          expect(response.status).to eq 200
-        end
-
-        it "returns the ticket specified" do
-          body = JSON.parse(response.body)
-          expect(body["reference"]).to eq(Ticket.last.code)
+      describe "when ticket doesn't exist" do
+        it "returns a 404 status code" do
+          get :show, event_id: event.id, id: (db_tickets.last.id + 10)
+          expect(response.status).to eq(404)
         end
       end
     end
+
     context "without authentication" do
-      it "has a 401 status code" do
-        get :show, event_id: event.id, id: Ticket.last.id
+      it "returns a 401 status code" do
+        get :show, event_id: event.id, id: db_tickets.last.id
         expect(response.status).to eq 401
       end
     end
@@ -94,31 +149,23 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         http_login(admin.email, admin.access_token)
       end
 
-      context "if ticket doesn't exist" do
-        it "has a 404 status code" do
+      describe "when ticket doesn't exist" do
+        it "returns a 404 status code" do
           get :reference, event_id: event.id, id: "IdDoesntExist"
           expect(response.status).to eq 404
         end
       end
 
-      context "if ticket exists" do
-        before(:each) do
-          get :reference, event_id: event.id, id: Ticket.last.code
-        end
-
-        it "has a 200 status code" do
+      describe "when ticket exists" do
+        it "returns a 200 status code" do
+          get :reference, event_id: event.id, id: db_tickets.last.code
           expect(response.status).to eq 200
-        end
-
-        it "returns the ticket specified" do
-          body = JSON.parse(response.body)
-          expect(body["reference"]).to eq(Ticket.last.code)
         end
       end
     end
     context "without authentication" do
-      it "has a 401 status code" do
-        get :reference, event_id: event.id, id: Ticket.last.id
+      it "returns a 401 status code" do
+        get :reference, event_id: event.id, id: db_tickets.last.id
         expect(response.status).to eq 401
       end
     end
