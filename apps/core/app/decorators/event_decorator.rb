@@ -9,13 +9,15 @@ class EventDecorator < Draper::Decorator
   BRAINTREE = :braintree
   IDEAL = :ideal
   SOFORT = :sofort
-  PAYMENT_SERVICES = [STRIPE, PAYPAL, REDSYS, BRAINTREE, PAYPAL_NVP, IDEAL, SOFORT]
+  WIRECARD = :wirecard
+  PAYMENT_SERVICES = [STRIPE, PAYPAL, REDSYS, BRAINTREE, PAYPAL_NVP, IDEAL, SOFORT, WIRECARD]
   PAYMENT_PLATFORMS = { paypal_nvp: "paypal_nvp",
                         paypal: "braintree",
                         braintree: "braintree",
                         redsys: "redsys",
                         ideal: "wirecard",
                         sofort: "wirecard",
+                        wirecard: "wirecard",
                         stripe: "stripe" }
 
   REFUND_SERVICES = [:bank_account, :epg, :tipalti, :direct]

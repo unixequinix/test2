@@ -138,6 +138,7 @@ es:
         braintree: 'Braintree'
         sofort: 'Sofort'
         ideal: 'Ideal'
+        wirecard: 'Wirecard'
       refund_services:
         bank_account: 'Cuenta bancaria'
         epg: 'Easy payment gateway'

@@ -11,7 +11,7 @@ class Orders::IdealPresenter < Orders::BasePresenter
   end
 
   def form_data
-    Payments::IdealDataRetriever.new(@event, @order, financial_institution)
+    Payments::IdealDataRetriever.new(@event, @order)
   end
 
   def payment_service
