@@ -77,7 +77,11 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
       fetcher: @fetcher.gtags,
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [assigned_gtag_credential: [customer_event_profile: :customer]],
+      include_for_all_items: [
+        :assigned_customer_event_profile,
+        assigned_gtag_credential: [
+          customer_event_profile: [:customer, active_tickets_assignment: :credentiable]
+        ]],
       context: view_context
     )
   end

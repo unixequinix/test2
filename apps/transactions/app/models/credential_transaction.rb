@@ -18,6 +18,8 @@
 #  status_code               :integer
 #  status_message            :string
 #  ticket_code               :string
+#  created_at                :datetime
+#  updated_at                :datetime
 #
 
 class CredentialTransaction < Transaction

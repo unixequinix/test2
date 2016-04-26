@@ -9,13 +9,21 @@ class GtagAssignmentForm
   validates_presence_of :tag_uid
   validates_presence_of :tag_serial_number, unless: :simple?
 
+  # TODO: to avoid parameter filetring, tag_serial_number should never be included in params
+  # =>    and hence in the form in the first place, simple delete DOM element
   def save(fetcher, current_customer)
-    number = tag_serial_number.to_s.strip.upcase
-    gtag = fetcher.find_by(tag_uid: tag_uid.strip.upcase, tag_serial_number: number)
+    serial = tag_serial_number.to_s.strip.upcase
+    uid = tag_uid.strip.upcase
+    atts = { tag_uid: uid, tag_serial_number: serial }.delete_if { |_k, v| v.blank? }
+    gtag = fetcher.find_by(atts)
 
     add_error("alerts.gtag.invalid") && return unless gtag
-    assignment = Profile::Checker.for_credentiable(gtag, current_customer)
-    add_error("alerts.gtag.already_assigned") && return unless assignment
+
+    begin
+      assignment = Profile::Checker.for_credentiable(gtag, current_customer)
+    rescue RuntimeError
+      return add_error("alerts.gtag.already_assigned")
+    end
 
     GtagMailer.assigned_email(assignment).deliver_later
   end

@@ -5,7 +5,83 @@
     = t('admin.actions.back')
 .wrapper-negative-space
   .container-show
+    h3.section-header
+      = fa_icon "info"
+      = t("admin.transactions.general")
     dl
-      - @transaction.attributes.each do |key, value|
-        dt = t("admin.transactions.#{key}")
-        dd = value
+      dt = t("admin.transactions.id")
+      dd = @transaction.id
+      
+      dt = t("admin.transactions.event")
+      dd = "#{@transaction.event.name} (#{@transaction.event.id})"
+      
+      dt = t("admin.transactions.transaction_origin")
+      dd = @transaction.transaction_origin
+      
+      dt = t("admin.transactions.transaction_type")
+      dd = @transaction.transaction_type
+      
+      dt = t("admin.transactions.status_code")
+      dd = @transaction.status_code
+      
+      dt = t("admin.transactions.status_message")
+      dd = @transaction.status_message
+      
+      dt = t("admin.transactions.created_at")
+      dd = @transaction.created_at
+    br
+    
+    h3.section-header
+      = fa_icon "street-view"
+      = t("admin.transactions.customer")
+    dl
+      dt = t("admin.transactions.customer_tag_uid")
+      dd = link_to @transaction.customer_tag_uid, admins_event_gtag_path(current_event, Gtag.find_by_tag_uid(@transaction.customer_tag_uid))
+      
+      dt = t("admin.transactions.customer_event_profile_id")
+      dd = link_to @transaction.customer_event_profile_id, admins_event_customer_event_profile_path(current_event, CustomerEventProfile.find(@transaction.customer_event_profile_id))
+    br
+    
+    h3.section-header
+      = fa_icon "money"
+      = t("admin.transactions.credits")
+    dl
+      dt = t("admin.transactions.credit_value")
+      dd = @transaction.credit_value
+      
+      dt = t("admin.transactions.credits")
+      dd = @transaction.credits
+      
+      dt = t("admin.transactions.credits_refundable")
+      dd = @transaction.credits_refundable
+      
+      dt = t("admin.transactions.final_balance")
+      dd = @transaction.final_balance
+      
+      dt = t("admin.transactions.final_refundable_balance")
+      dd = @transaction.final_refundable_balance
+    br
+    
+    h3.section-header
+      = fa_icon "map-marker"
+      = t("admin.transactions.station")
+    dl
+      dt = t("admin.transactions.station")
+      dd = @transaction.station.name
+      
+      dt = t("admin.transactions.operator_tag_uid")
+      dd = link_to @transaction.operator_tag_uid, admins_event_gtag_path(current_event.id, Gtag.find_by_tag_uid(@transaction.operator_tag_uid))
+    br
+    
+    h3.section-header
+      = fa_icon "tablet"
+      = t("admin.transactions.device")
+    dl
+      dt = t("admin.transactions.device_uid")
+      dd = @transaction.device_uid
+      
+      dt = t("admin.transactions.device_db_index")
+      dd = @transaction.device_db_index
+      
+      dt = t("admin.transactions.device_created_at")
+      dd = @transaction.device_created_at

@@ -1,6 +1,6 @@
 class CreditsPresenter < BasePresenter
   def can_render?
-    @event.top_ups? && @customer_event_profile.active_credentials?
+    @customer_event_profile.active_credentials?
   end
 
   def path
@@ -8,6 +8,7 @@ class CreditsPresenter < BasePresenter
   end
 
   def customer_total_credits
+    # TODO: Check this
     @customer_event_profile.total_credits
   end
 
@@ -16,7 +17,7 @@ class CreditsPresenter < BasePresenter
   end
 
   def refundable_credits
-    @customer_event_profile.refundable_credits_amount
+    @customer_event_profile.total_refundable
   end
 
   def refundable_money

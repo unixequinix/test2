@@ -15,6 +15,7 @@ class Admins::Events::CreditTransactionsController < Admins::Events::BaseControl
       fetcher: CreditTransaction.where(event: current_event).order(id: :desc),
       search_query: params[:q],
       page: params[:page],
+      include_for_all_items: [:station, :customer_event_profile],
       context: view_context
     )
   end

@@ -28,21 +28,27 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
     sql = <<-SQL
       SELECT array_to_json(array_agg(row_to_json(cep)))
       FROM (
-        SELECT customer_event_profiles.id, customers.first_name,
-               customers.last_name, customers.email,
-        (
-          SELECT array_agg(gateway_type)
-          FROM payment_gateway_customers
-          WHERE customer_event_profile_id = customer_event_profiles.id
-            AND agreement_accepted IS TRUE
-            AND deleted_at IS NULL
-        ) as autotopup_gateways,
+        SELECT
+          customer_event_profiles.id,
+          customers.first_name,
+          customers.last_name,
+          customers.email,
+          (
+            SELECT array_agg(gateway_type)
+            FROM payment_gateway_customers
+            WHERE customer_event_profile_id = customer_event_profiles.id
+              AND agreement_accepted IS TRUE
+              AND deleted_at IS NULL
+          ) as autotopup_gateways,
+
         (
           SELECT array_to_json(array_agg(row_to_json(cr)))
-          from (
-            SELECT credentiable_id as id, LOWER(credentiable_type) as type
+          FROM (
+            SELECT credentiable_id as id,
+            LOWER(credentiable_type) as type
             FROM credential_assignments
             WHERE customer_event_profile_id = customer_event_profiles.id
+              AND aasm_state = 'assigned'
               AND deleted_at IS NULL
           ) cr
         ) as credentials,
@@ -88,23 +94,33 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
       SELECT array_to_json(array_agg(row_to_json(g)))
       FROM (
         SELECT gtags.id, gtags.tag_uid, gtags.tag_serial_number, gtags.credential_redeemed,
-               credential_assignments.customer_event_profile_id as customer_id,
                company_ticket_types.credential_type_id as credential_type_id ,
                purchasers.first_name as purchaser_first_name,
                purchasers.last_name as purchaser_last_name,
-               purchasers.email as purchaser_email
+               purchasers.email as purchaser_email,
+               (
+                   SELECT customer_event_profiles.id as customer_id
+                   FROM customer_event_profiles
+                   INNER JOIN credential_assignments ON
+                       credential_assignments.customer_event_profile_id = customer_event_profiles.id
+
+                   WHERE credential_assignments.credentiable_id = gtags.id
+                       AND credential_assignments.credentiable_type = 'Gtag'
+                       AND credential_assignments.deleted_at IS NULL
+                       AND credential_assignments.aasm_state = 'assigned'
+                  LIMIT(1)
+               )
         FROM gtags
-        FULL OUTER JOIN purchasers
+
+        LEFT OUTER JOIN purchasers
           ON purchasers.credentiable_id = gtags.id
           AND purchasers.credentiable_type = 'Gtag'
           AND purchasers.deleted_at IS NULL
-        FULL OUTER JOIN credential_assignments
-          ON credential_assignments.credentiable_id = gtags.id
-          AND credential_assignments.credentiable_type = 'Gtag'
-          AND credential_assignments.deleted_at IS NULL
-        FULL OUTER JOIN company_ticket_types
+
+        LEFT OUTER JOIN company_ticket_types
           ON company_ticket_types.id = gtags.company_ticket_type_id
           AND company_ticket_types.deleted_at IS NULL
+
         WHERE gtags.event_id = #{@event.id}
       ) g
     SQL
@@ -143,21 +159,34 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
     sql = <<-SQL
       SELECT array_to_json(array_agg(row_to_json(t)))
       FROM (
-        SELECT tickets.id, tickets.code as reference, tickets.credential_redeemed,
-               credential_assignments.customer_event_profile_id as customer_id,
-               company_ticket_types.credential_type_id as credential_type_id ,
-               purchasers.first_name as purchaser_first_name,
-               purchasers.last_name as purchaser_last_name,
-               purchasers.email as purchaser_email
+        SELECT
+          tickets.id,
+          tickets.code as reference,
+          tickets.credential_redeemed,
+          company_ticket_types.credential_type_id as credential_type_id ,
+          purchasers.first_name as purchaser_first_name,
+          purchasers.last_name as purchaser_last_name,
+          purchasers.email as purchaser_email,
+          (
+              SELECT customer_event_profiles.id as customer_id
+              FROM customer_event_profiles
+              INNER JOIN credential_assignments ON
+                  credential_assignments.customer_event_profile_id = customer_event_profiles.id
+
+              WHERE credential_assignments.credentiable_id = tickets.id
+                  AND credential_assignments.credentiable_type = 'Ticket'
+                  AND credential_assignments.deleted_at IS NULL
+                  AND credential_assignments.aasm_state = 'assigned'
+             LIMIT(1)
+          )
+
         FROM tickets
-        FULL OUTER JOIN purchasers
+
+        LEFT OUTER JOIN purchasers
           ON purchasers.credentiable_id = tickets.id
           AND purchasers.credentiable_type = 'Ticket'
           AND purchasers.deleted_at IS NULL
-        FULL OUTER JOIN credential_assignments
-          ON credential_assignments.credentiable_id = tickets.id
-          AND credential_assignments.credentiable_type = 'Ticket'
-          AND credential_assignments.deleted_at IS NULL
+
         INNER JOIN company_ticket_types
           ON company_ticket_types.id = tickets.company_ticket_type_id
           AND company_ticket_types.deleted_at IS NULL

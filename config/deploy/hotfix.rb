@@ -1,5 +1,5 @@
-set :branch, "development"
-set :rails_env, "staging"
+set :branch, "master"
+set :rails_env, "hotfix"
 
 # Default value for :log_level is :debug
 set :log_level, :info
@@ -23,7 +23,7 @@ set :linked_dirs, fetch(:linked_dirs) + %w(certs)
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server "staging.glownet.com", user: "ubuntu", roles: %w(web app db)
+server "hotfix.glownet.com", user: "ubuntu", roles: %w(web app db)
 
 # Custom SSH Options
 # ==================

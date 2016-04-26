@@ -16,8 +16,9 @@ class AccountManager::Stripe
 
   private
 
+  # TODO: Remove dependancy of the view
   def build_account(params)
-    parameters = params[:stripe_payment_settings_form]
+    parameters = params[:stripe_payment_activation_form]
     acc_params = {
       managed: true,
       email: parameters[:email],

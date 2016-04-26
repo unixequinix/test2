@@ -19,6 +19,8 @@
 #  status_code               :integer
 #  catalogable_type          :string
 #  catalogable_id            :integer
+#  created_at                :datetime
+#  updated_at                :datetime
 #
 
 class OrderTransaction < Transaction

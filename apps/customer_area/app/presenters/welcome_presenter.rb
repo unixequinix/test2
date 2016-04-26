@@ -12,10 +12,11 @@ class WelcomePresenter < BasePresenter
     ticket_btn = generate_button("ticket")
     sep = context.content_tag(:span, I18n.t("registration.new.or"), class: "buttons-separator")
 
-    output = "".html_safe
-    output += ticket_btn if @event.ticket_assignation?
-    output += sep if @event.gtag_assignation? && @event.ticket_assignation?
-    output += gtag_btn if @event.gtag_assignation?
+    output = ""
+    output << ticket_btn if @event.ticket_assignation?
+    output << sep if @event.gtag_assignation? && @event.ticket_assignation?
+    output << gtag_btn if @event.gtag_assignation?
+    output.html_safe
   end
 
   def render_description

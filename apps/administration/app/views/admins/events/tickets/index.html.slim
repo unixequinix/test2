@@ -9,6 +9,13 @@
   = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
     = fa_icon 'search'
     = t('admin.actions.search')
+  = simple_form_for :file, url: import_admins_event_tickets_path(current_event.id), html: {style: "display: inline-block;", multipart: true} do |f|  
+    = f.file_field :data, label: :import, style: "width: 180px;"
+    = button_tag(type: 'submit', style: "background: none; border: none; color: #666;") do
+      = fa_icon 'upload'
+
+
+
 
 .wrapper-negative-space
   - if @list_model_presenter.there_any?

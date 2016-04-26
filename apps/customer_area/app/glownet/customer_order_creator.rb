@@ -15,12 +15,12 @@ class CustomerOrderCreator
   end
 
   def create_money_transaction(order_item, payment_method, payment_gateway)
-    obj = Operations::Base.portal_write(ActiveSupport::HashWithIndifferentAccess.new(
-      fields(order_item, payment_method, payment_gateway)))
+    obj = Operations::Base.new.portal_write(ActiveSupport::HashWithIndifferentAccess.new(
+                                              fields(order_item, payment_method, payment_gateway)))
     "#{obj.class.to_s.underscore.humanize} position #{index} not valid" unless obj.valid?
   end
 
-  def fields(order_item, payment_method, payment_gateway)
+  def fields(order_item, payment_method, payment_gateway) # rubocop:disable Metrics/MethodLength
     {
       event_id: order_item.order.customer_event_profile.event_id,
       station_id: Station.joins(:station_type).find_by(

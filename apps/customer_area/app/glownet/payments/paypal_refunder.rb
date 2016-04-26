@@ -3,6 +3,18 @@ class Payments::PaypalRefunder
     @payment = payment
     @order = payment.order
     @amount = amount
+
+    # TODO: This has to go other place, done during hot fixing ;-)!!!!!
+    @event = @order.customer_event_profile.event
+    @payment_parameters = Parameter.joins(:event_parameters)
+                          .where(category: "payment",
+                                 group: "braintree",
+                                 event_parameters: { event: @event })
+                          .select("parameters.name, event_parameters.*")
+    Braintree::Configuration.environment  = environment
+    Braintree::Configuration.merchant_id = merchant_id
+    Braintree::Configuration.public_key = public_key
+    Braintree::Configuration.private_key = private_key
   end
 
   def start
@@ -20,7 +32,7 @@ class Payments::PaypalRefunder
 
   def create_payment(order, charge)
     t = charge.transaction
-    Payment.create!(t_type: t.payment_instrument_type,
+    Payment.create!(transaction_type: t.payment_instrument_type,
                     card_country: t.credit_card_details.country_of_issuance,
                     paid_at: Time.at(t.created_at),
                     last4: t.credit_card_details.last_4,
@@ -32,5 +44,27 @@ class Payments::PaypalRefunder
                     amount: t.amount.to_f,
                     success: true,
                     payment_type: "paypal")
+  end
+
+  # TODO: Remove all these methods from here
+
+  def environment
+    get_value_of_parameter("environment")
+  end
+
+  def merchant_id
+    get_value_of_parameter("merchant_id")
+  end
+
+  def public_key
+    get_value_of_parameter("public_key")
+  end
+
+  def private_key
+    get_value_of_parameter("private_key")
+  end
+
+  def get_value_of_parameter(parameter)
+    @payment_parameters.find { |param| param.name == parameter }.value
   end
 end

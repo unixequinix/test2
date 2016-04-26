@@ -19,21 +19,21 @@ javascript:
     }
     else {
       var token = response.id;
-      $form.append($('<input type="hidden" name="stripe_payment_settings_form[bankAccountToken]" />').val(token));
+      $form.append($('<input type="hidden" name="stripe_payment_activation_form[bankAccountToken]" />').val(token));
       $form.get(0).submit();
     }
   };
 
-  $("#DISABLEDnew_stripe_payment_settings_form").on("submit", function(event) {
+  $("#DISABLEDnew_stripe_payment_activation_form").on("submit", function(event) {
     event.stopPropagation();
     event.preventDefault();
     var $form = $(this);
     $form.find("input[type=submit]").prop("disabled", true);
-    Stripe.setPublishableKey($("#new_stripe_payment_settings_form").data("p-key"));
+    Stripe.setPublishableKey($("#new_stripe_payment_activation_form").data("p-key"));
     Stripe.bankAccount.createToken({
-      country: $('#stripe_payment_settings_form_country').val(),
-      currency: $('#stripe_payment_settings_form_currency').val(),
-      account_number: $('#stripe_payment_settings_form_bank_account').val()
+      country: $('#stripe_payment_activation_form_country').val(),
+      currency: $('#stripe_payment_activation_form_currency').val(),
+      account_number: $('#stripe_payment_activation_form_bank_account').val()
     }, stripeResponseHandler);
     return false;
   });

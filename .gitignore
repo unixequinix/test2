@@ -35,3 +35,5 @@ public/system/*
 coverage
 rubocop
 dump.rdb
+
+.ruby-gemset

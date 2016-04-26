@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160414190323) do
+ActiveRecord::Schema.define(version: 20160420085748) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,21 +25,23 @@ ActiveRecord::Schema.define(version: 20160414190323) do
   end
 
   create_table "access_transactions", force: :cascade do |t|
-    t.integer "event_id"
-    t.string  "transaction_origin"
-    t.string  "customer_tag_uid"
-    t.string  "transaction_type"
-    t.integer "station_id"
-    t.integer "device_db_index"
-    t.string  "device_created_at"
-    t.integer "customer_event_profile_id"
-    t.integer "access_id"
-    t.integer "direction"
-    t.string  "final_access_value"
-    t.integer "status_code"
-    t.string  "status_message"
-    t.string  "device_uid"
-    t.string  "operator_tag_uid"
+    t.integer  "event_id"
+    t.string   "transaction_origin"
+    t.string   "customer_tag_uid"
+    t.string   "transaction_type"
+    t.integer  "station_id"
+    t.integer  "device_db_index"
+    t.string   "device_created_at"
+    t.integer  "customer_event_profile_id"
+    t.integer  "access_id"
+    t.integer  "direction"
+    t.string   "final_access_value"
+    t.integer  "status_code"
+    t.string   "status_message"
+    t.string   "device_uid"
+    t.string   "operator_tag_uid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "access_transactions", ["access_id"], name: "index_access_transactions_on_access_id", using: :btree
@@ -191,7 +193,7 @@ ActiveRecord::Schema.define(version: 20160414190323) do
     t.datetime "updated_at",                 null: false
   end
 
-  add_index "company_ticket_types", ["company_code", "company_event_agreement_id"], name: "company_ref_event_agreement_index", unique: true, using: :btree
+  add_index "company_ticket_types", ["company_code", "company_event_agreement_id", "deleted_at"], name: "index_ticket_types_on_company_code_and_agreement_and_deleted_at", unique: true, using: :btree
   add_index "company_ticket_types", ["deleted_at"], name: "index_company_ticket_types_on_deleted_at", using: :btree
 
   create_table "credential_assignments", force: :cascade do |t|
@@ -220,6 +222,8 @@ ActiveRecord::Schema.define(version: 20160414190323) do
     t.integer  "status_code"
     t.string   "status_message"
     t.string   "ticket_code"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "credential_transactions", ["customer_event_profile_id"], name: "index_credential_transactions_on_customer_event_profile_id", using: :btree
@@ -256,6 +260,8 @@ ActiveRecord::Schema.define(version: 20160414190323) do
     t.integer  "customer_event_profile_id"
     t.integer  "status_code"
     t.string   "status_message"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "credit_transactions", ["customer_event_profile_id"], name: "index_credit_transactions_on_customer_event_profile_id", using: :btree
@@ -475,6 +481,8 @@ ActiveRecord::Schema.define(version: 20160414190323) do
     t.integer  "customer_event_profile_id"
     t.integer  "status_code"
     t.string   "status_message"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "money_transactions", ["customer_event_profile_id"], name: "index_money_transactions_on_customer_event_profile_id", using: :btree
@@ -505,22 +513,24 @@ ActiveRecord::Schema.define(version: 20160414190323) do
   add_index "order_items", ["deleted_at"], name: "index_order_items_on_deleted_at", using: :btree
 
   create_table "order_transactions", force: :cascade do |t|
-    t.integer "event_id"
-    t.string  "transaction_origin"
-    t.string  "transaction_category"
-    t.string  "transaction_type"
-    t.string  "customer_tag_uid"
-    t.string  "operator_tag_uid"
-    t.integer "station_id"
-    t.string  "device_uid"
-    t.integer "device_db_index"
-    t.string  "device_created_at"
-    t.integer "customer_order_id"
-    t.integer "customer_event_profile_id"
-    t.string  "status_message"
-    t.integer "status_code"
-    t.string  "catalogable_type"
-    t.integer "catalogable_id"
+    t.integer  "event_id"
+    t.string   "transaction_origin"
+    t.string   "transaction_category"
+    t.string   "transaction_type"
+    t.string   "customer_tag_uid"
+    t.string   "operator_tag_uid"
+    t.integer  "station_id"
+    t.string   "device_uid"
+    t.integer  "device_db_index"
+    t.string   "device_created_at"
+    t.integer  "customer_order_id"
+    t.integer  "customer_event_profile_id"
+    t.string   "status_message"
+    t.integer  "status_code"
+    t.string   "catalogable_type"
+    t.integer  "catalogable_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "order_transactions", ["customer_event_profile_id"], name: "index_order_transactions_on_customer_event_profile_id", using: :btree

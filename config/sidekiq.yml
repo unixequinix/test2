@@ -1,11 +1,6 @@
 ---
-oncurrency: 5
-idfile: tmp/pids/sidekiq.pid
-staging:
-  oncurrency: 10
-production:
-  oncurrency: 20
+:concurrency: 1
+:pidfile: tmp/pids/sidekiq.pid
 :queues:
   - default
   - mailers
-  - transactions
