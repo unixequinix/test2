@@ -40,6 +40,7 @@ Rails.application.routes.draw do
               get "success"
               post "success"
               get "error"
+              post "error"
             end
           end
         end
