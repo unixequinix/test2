@@ -9,6 +9,7 @@
         th = t("admin.gtags.serial")
         th = t("admin.gtags.tag")
         th = t("admin.gtags.customer")
+        th = t("admin.gtags.tickets")
         th = t("admin.gtags.assigned_at")
         th.table-actions-field = t ("admin.defaults.actions")
 
@@ -21,9 +22,14 @@
           td data-label=t("admin.gtags.id") = link_to gtag.id, admins_event_gtag_path(current_event, gtag)
           td data-label=t("admin.gtags.serial") = gtag.tag_serial_number
           td data-label=t("admin.gtags.tag") = link_to gtag.tag_uid, admins_event_gtag_path(current_event, gtag)
-          // TODO: Urgent refactor. Demeterize!!!!
-          td data-label=t("admin.gtags.customer") = link_to customer.email, admins_event_customer_path(current_event, customer) unless gtag.assigned_gtag_credential.nil? || customer.nil?
-          td data-label=t("admin.gtags.assigned_at") = gtag.assigned_gtag_credential.created_at.strftime("%y-%m-%d %H:%M:%S") unless gtag.assigned_gtag_credential.nil?
+          td data-label=t("admin.gtags.customer")
+            = link_to gtag.assigned_customer_event_profile&.id, admins_event_customer_event_profile_path(current_event, gtag.assigned_customer_event_profile&.id) if gtag.assigned_customer_event_profile
+          td
+            - if gtag.assigned_customer_event_profile&.active_tickets_assignment
+              - gtag.assigned_customer_event_profile&.active_tickets_assignment.each do |assigned_ticket|
+                = link_to assigned_ticket.credentiable.code, edit_admins_event_ticket_path(current_event, assigned_ticket.credentiable)  
+          td data-label=t("admin.gtags.assigned_at")
+            = gtag.assigned_gtag_credential.created_at.strftime("%y-%m-%d %H:%M:%S") unless gtag.assigned_gtag_credential.nil?
           td.table-actions-field
             = render 'admins/events/gtags/actions', gtag: gtag
   .container-pagination
