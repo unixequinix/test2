@@ -1,8 +1,8 @@
 class Payments::IdealDataRetriever < Payments::WirecardBaseDataRetriever
   def with_params(params)
-    @financial_institution = params[:financial_institution]
     @ip = params[:consumer_ip_address]
     @user_agent = params[:consumer_user_agent]
+    @financial_institution = params[:financial_institution]
     self
   end
 

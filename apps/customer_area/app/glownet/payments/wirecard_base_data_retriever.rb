@@ -33,7 +33,7 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
   end
 
   def order_description
-    "Order Number #{@order.id}"
+    "Order Number #{@order.number}"
   end
 
   def success_url
@@ -63,7 +63,7 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
   end
 
   def order_reference
-    @order.id
+    @order.number
   end
 
   def consumer_ip_address
@@ -76,6 +76,10 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
 
   def financial_institution
     @financial_institution
+  end
+
+  def storage_id
+    @storage_id
   end
 
   def secret_key
@@ -96,6 +100,7 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
   def url_for_redirection
     response = Net::HTTP.post_form(URI.parse("https://checkout.wirecard.com/seamless/frontend/init"), post_parameters)
     response_hash = response.body.split("&").map { |it| URI.decode_www_form(it).first }.to_h
+    binding.pry
     response_hash["redirectUrl"]
   end
 
@@ -126,6 +131,8 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
       orderReference: "order_reference",
       consumerIpAddress: "consumer_ip_address",
       consumerUserAgent: "consumer_user_agent",
+      orderIdent: "order_reference",
+      storageId: "storage_id"
     }
   end
 
