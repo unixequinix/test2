@@ -17,4 +17,13 @@ class Orders::WirecardPresenter < Orders::BasePresenter
   def payment_service
     "wirecard"
   end
+
+  def storage_id
+    form_data.data_storage["storageId"]
+  end
+
+  def javascript_url
+    form_data.data_storage["javascriptUrl"]
+  end
+
 end

@@ -31,7 +31,6 @@
           .btn-payment-trigger [data-target="#{payment_service}" class=(index == 0 ? "button-selected" : "")]
             = fa_icon t("orders.payment-buttons.#{payment_service}.icon")
             p = t("orders.payment-buttons.#{payment_service}.name")
-
 - @order_presenters.each_with_index do |order_presenter, index|
   .container-method [id="method-#{order_presenter.payment_service}" class=(index == 0 ? "show-container" : "")]
     = render order_presenter.path, order_presenter: order_presenter

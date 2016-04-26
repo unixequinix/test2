@@ -38,6 +38,7 @@ Rails.application.routes.draw do
           resources :asynchronous_payments, only: [:new, :create] do
             collection do
               get "success"
+              post "success"
               get "error"
             end
           end

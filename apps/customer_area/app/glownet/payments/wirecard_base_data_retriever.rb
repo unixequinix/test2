@@ -37,15 +37,17 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
   end
 
   def success_url
-    event_order_payment_service_asynchronous_payments_url(@current_event, @order, "ideal")
+    success_event_order_payment_service_asynchronous_payments_url(@current_event, @order, "wirecard")
   end
 
   def cancel_url
-    "http://2bad6936.ngrok.io/frontend/cancel_url.php"
+    "http://2bad6936.ngrok.io/frontend/service_url.php"
   end
 
   def failure_url
-    "http://2bad6936.ngrok.io/frontend/failure_url.php"
+    error_event_order_payment_service_asynchronous_payments_url(@current_event,
+                                                                @order.id,
+                                                                "wirecard")
   end
 
   def service_url
@@ -53,7 +55,7 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
   end
 
   def confirm_url
-    "http://2bad6936.ngrok.io/frontend/confirm_url.php"
+    event_order_payment_service_asynchronous_payments_url(@current_event, @order, "wirecard")
   end
 
   def customer_statement
