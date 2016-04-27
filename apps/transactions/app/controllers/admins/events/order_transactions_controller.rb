@@ -15,6 +15,7 @@ class Admins::Events::OrderTransactionsController < Admins::Events::BaseControll
       fetcher: OrderTransaction.where(event: current_event).order(id: :desc),
       search_query: params[:q],
       page: params[:page],
+      include_for_all_items: [:customer_event_profile, :station],
       context: view_context
     )
   end
