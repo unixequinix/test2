@@ -4,7 +4,6 @@ h3
 table.refunds
   thead
     tr
-      th = t("admin.customer_credits.id")
       th = t("admin.customer_credits.amount")
       th = t("admin.customer_credits.refundable_amount")
       th = t("admin.customer_credits.credit_value")
@@ -12,10 +11,10 @@ table.refunds
       th = t("admin.customer_credits.transaction_origin")
       th = t("admin.customer_credits.final_balance")
       th = t("admin.customer_credits.final_refundable_balance")
+      th = t("admin.customer_credits.created_at")
   tbody
-    - customer_event_profile.customer_credits.order(created_in_origin_at: :asc).each_with_index do |customer_credit, index|
+    - customer_event_profile.customer_credits.order(created_in_origin_at: :desc).each do |customer_credit|
       tr
-        td data-label="id" = index +1
         td data-label="amount" = customer_credit.amount
         td data-label="refundable_amount" = customer_credit.refundable_amount
         td data-label="credit_value" = customer_credit.credit_value
@@ -23,3 +22,4 @@ table.refunds
         td data-label="transaction_origin" = customer_credit.transaction_origin
         td data-label="final_balance" = customer_credit.final_balance
         td data-label="final_refundable_balance" = customer_credit.final_refundable_balance
+        td data-label="created_at" = customer_credit.created_in_origin_at.strftime("%y-%m-%d %H:%M:%S")
