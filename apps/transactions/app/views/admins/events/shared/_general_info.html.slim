@@ -18,7 +18,7 @@ dl
   dd = transaction.status_code
   
   dt = t("admin.transactions.status_message")
-  dd = transaction.status_message
+  dd = transaction.status_message || "null"
   
   dt = t("admin.transactions.created_at")
   dd = transaction.created_at
