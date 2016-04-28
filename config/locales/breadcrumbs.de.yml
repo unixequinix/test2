@@ -1,0 +1,50 @@
+de:
+  auth:
+    failure:
+      already_authenticated: "Sie sind bereits angemeldet."
+      inactive: "Ihr Konto ist noch nicht aktiviert."
+      invalid: "Falsche %{authentication_keys} oder Passwort."
+      locked: "Ihr Konto ist gesperrt."
+      last_attempt: "Sie haben einen weiteren Versuch, ehe Ihr Konto gesperrt ist."
+      not_found_in_database: "Ungültige Zugangsberechtigung."
+      timeout: "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an, um fortzufahren."
+      unauthenticated: "Sie müssen sich anmelden oder registrieren, um fortzufahren."
+      invalid_current_password: "Ungültiges Passwort"
+    mailer:
+      reset_password_instructions:
+        subject: "Anleitung zur Passwort-Rücksetzung"
+      unlock_instructions:
+        subject: "Anleitungen zur Entsperrung"
+    omniauth_callbacks:
+      failure: "Konnte Sie nicht authentifizieren aufgrund von %{kind} aus \"%{reason}\"."
+      success: "Erfolgreich authentifizierte mit %{kind} Konto."
+    passwords:
+      no_token: "Sie müssen von einer Email mit Passwortrücksetzung kommen, um Zugang zu dieser Seite zu haben. Wenn dies der Fall ist, stellen Sie bitte sicher, dass Sie die komplette URL eingegeben haben, die Sie erhalten haben."
+      send_instructions: "Sie erhalten eine Email mit Anleitungen, wie Sie in wenigen Minuten Ihr Passwort zurücksetzen können."
+      send_paranoid_instructions: "Wenn sich Ihre Emailadresse in unserer Datenbank befindet, erhalten Sie in wenigen Minuten an diese Emailadresse einen Link zur Passwort-Wiederherstellung."
+      updated: "Ihr Passwort wurde erfolgreich geändert. Sie sind jetzt angemeldet."
+      updated_not_active: "Ihr Passwort wurde erfolgreich geändert."
+    registrations:
+      destroyed: "Auf Wiedersehen! Ihr Konto wurde erfolgreich gelöscht. Wir hoffen Sie kommen bald zurück."
+      signed_up: "Willkommen! Sie haben sich erfolgreich registriert."
+      signed_up_but_inactive: "Sie haben sich erfolgreich registriert. Allerdings konnten wir Sie nicht anmelden, weil Ihr Konto noch nicht aktiviert ist."
+      signed_up_but_locked: "Sie haben sich erfolgreich registriert. Allerdings konnten wir Sie noch nicht anmelden, weil Ihr Konto gesperrt ist."
+      update_needs_confirmation: "Sie haben Ihr Konto erfolgreich aktualisiert. Allerdings müssen wir noch Ihre neue Emailadresse prüfen. Bitte öffnen Sie Ihr Emailkonto und folgen Sie dem von uns übersandten Link zur Bestätigung Ihrer neuen Emailadresse."
+      updated: "Ihr Konto wurde erfolgreich aktualisiert."
+    sessions:
+      signed_in: "Erfolgreich angemeldet."
+      signed_out: "Erfolgreich abgemeldet."
+      already_signed_out: "Erfolgreich angemeldet."
+    unlocks:
+      send_instructions: "Sie erhalten eine Email mit Anleitungen, wie Sie in wenigen Minuten Ihr Konto entsperren können."
+      send_paranoid_instructions: "Wenn Ihr Konto existiert, erhalten Sie eine Email mit Anleitungen, wie Sie Ihr Konto in wenigen Minuten entsperren können."
+      unlocked: "Ihr Konto wurde erfolgreich entsperrt. Um fortzufahren, einfach anmelden."
+  errors:
+    messages:
+      unauthorized: "Ungültiger Berechtigungsnachweis"
+      expired: "ist abgelaufen, bitte neu beantragen"
+      not_found: "nicht gefunden"
+      not_locked: "war nicht gesperrt"
+      not_saved:
+        one: "1 Error hat verhindert, dass diese %{resource} gespeichert werden konnte:"
+        other: "%{count} Error haben verhindert, dass diese %{resource} gespeichert werden konnte:"

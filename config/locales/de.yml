@@ -1,0 +1,142 @@
+de:
+  country_iso_priority: [AT, BE, BG, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, GB]
+  general_company_name: 'Glownet'
+  general_support_email: 'support@glownet.com'
+  gender:
+    male: 'Männlich'
+    female: 'Weiblich'
+  event:
+    subject_support: 'Hilfe benötigt für %{Veranstaltung}'
+    locales:
+      en: 'ENG'
+      es: 'ESP'
+      it: 'ITA'
+      th: 'THA'
+      de: 'GER'
+    gtag_name: 'Armband'
+  activemodel:
+    errors:
+      models:
+        customer:
+          attributes:
+            phone:
+              improbable_phone: "Dies ist keine gültige Telefonnummer. Überprüfen Sie, dass Land und Telefonnummer zusammenpassen."
+            birthdate:
+              invalid: "Dies ist kein gültiges Datum"
+              too_young: "Muss älter als %{Alter} Jahre sein"
+        epg_claim_form:
+          attributes:
+            phone:
+              improbable_phone: "Dies ist keine gültige Telefonnummer. Überprüfen Sie, dass Land und Telefonnummer zusammenpassen."
+        bank_account_claim_form:
+          attributes:
+            swift:
+              invalid: "Dies ist keine gültige BIC/SWIFT"
+            iban:
+              invalid: "Dies ist keine gültige IBAN, geben Sie ein für SEPA gültiges Konto ein"
+    attributes:
+      euro_bank_account_claim_form:
+        swift: "BIC/SWIFT"
+        iban: "IBAN"
+        account_holder: "Name des Kontoinhabers"
+        bank_name: "Name der Bank"
+      aus_bank_account_claim_form:
+        bsb: "BSB"
+        account_holder: "Name des Kontoinhabers "
+        bank_name: "Name der Bank"
+        number: "Kontonummer"
+      nz_bank_account_claim_form:
+        bsb: "BSB"
+        account_holder: "Name des Kontoinhabers"
+        bank_name: "Name der Bank"
+        number: "Kontonummer (00 0000 0000000 000)"
+      thailand_bank_account_claim_form:
+        bsb: "BSB (000000)"
+        account_holder: "Name des Kontoinhabers (Thai)"
+        account_holder_translation: "Name des Kontoinhabers (Englisch)"
+        bank_name: "Name der Bank"
+        number: "Kontonummer"
+  activerecord:
+    models:
+      admin:
+        one: 'Admin'
+        other: 'Admins'
+      claim:
+        one: 'Forderung'
+        other: 'Forderungen'
+      credit:
+        one: 'Guthaben'
+        other: 'Guthaben'
+      customer:
+        one: 'Kunde'
+        other: 'Kunden'
+      customer_event_profile:
+        one: 'Veranstaltungsprofil des Kunden'
+        other: 'Veranstaltungsprofile des Kunden'
+      entitlement:
+        one: 'Berechtigung'
+        other: 'Berechtigungen'
+      gtag:
+        one: 'gtag'
+        other: 'gtags'
+      order:
+        one: 'Bestellung'
+        other: 'Bestellungen'
+      payment:
+        one: 'Zahlung'
+        other: 'Zahlungen'
+      refund:
+        one: 'Erstattung'
+        other: 'Erstattungen'
+      ticket:
+        one: 'Ticket'
+        other: 'Tickets'
+      company:
+        one: 'Firma'
+        other: 'Firmen'
+      pack:
+        one: 'Paket'
+        other: 'Pakete'
+      credential_type:
+        one: 'Anmeldeart'
+        other: 'Anmeldearten'
+      company_ticket_type:
+        one: 'Firmenticket-Typ'
+        other: 'Firmenticket-Typen'
+      voucher:
+        one: 'Gutschein'
+        other: 'Gutscheine'
+    errors:
+      models:
+        customer:
+          attributes:
+            email:
+              taken: 'Email entgegengenommen'
+        entitlement:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: "Kann nicht gelöscht werden, weil Tickettypen angeschlossen sind"
+        ticket_type:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: "Kann nicht gelöscht werden, weil Tickettypen angeschlossen sind"
+        ticket:
+          attributes:
+            number:
+              taken: 'Nummer entgegengenommen'
+            base:
+              restrict_dependent_destroy:
+                many: "Kann nicht gelöscht werden, weil Kunden angeschlossen sind"
+        gtag:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: "Kann nicht gelöscht werden, weil Kunden angeschlossen sind"
+            tag_uid:
+              taken: 'Seriennummer und UID entgegengenommen'
+        admission:
+          attributes:
+            ticket:
+              taken: 'entgegengenommen'

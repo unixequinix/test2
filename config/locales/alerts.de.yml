@@ -1,0 +1,21 @@
+de:
+  alerts:
+    created: "Erfolgreich erstellt"
+    updated: "Erfolgreich aktualisiert"
+    resend: "Erfolgreich wieder gesendet"
+    imported: "Erfolgreich importiert"
+    destroyed: "Erfolgreich entfernt"
+    unassigned: "Erfolgreich nicht zugeteilt"
+    error: "Formfehler prüfen"
+    checkout: "Sie können nur numerische Daten ohne Dezimale und niedriger als %{limit} verwenden"
+    admissions:  "Ticket nicht erkannt. Wenn Sie es innerhalb der vergangenen 48 Stunden erworben haben, versuchen Sie es bitte später wieder, während wir Ihre Kaufinformationen aktualisieren. Andernfalls wenden Sie sich bitte an den Support. Bitte beachten Sie, dass nur %{companies} Tickets für diesen Vor-Veranstaltungsservice unterstützt werden."
+    order_complete: "Bestellung abgeschlossen"
+    order_expired: "Bestellung abgelaufen. Mehr als 15 Minuten vergangen."
+    claim_complete: "Forderung abgeschlossen. Mehr als 15 Minuten vergangen."
+    quantity_not_refundable: "Guthabenmenge nicht erstattungsfähig"
+    gtag_already_assigned: "Sie haben bereits ein gtag angemeldet"
+    ticket_already_assigned: "Ticket bereits angemeldet"
+    credential_already_assigned: "Sie haben bereits die Ansprüche , die mit diesem Ticket verknüpft sind"
+    gtag:
+      invalid: "Die ist kein gültiger %{gtag}"
+      already_assigned: "Dieser %{gtag} ist bereits angemeldet"
