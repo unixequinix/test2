@@ -311,6 +311,7 @@ th:
       memory_length: "Length"
       memory_position: "Memory position"
     company_ticket_types:
+      id: "Id"
       name: "Name"
       company_code: "Company code"
       credential_type: "Credential type"

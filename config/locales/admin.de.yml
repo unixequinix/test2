@@ -306,6 +306,7 @@ de:
       id: "Id"
       memory_position: "Speicherposition"
     company_ticket_types:
+      id: "Id"
       name: "Name"
       company_code: "Firmencode"
       credential_type: "Guthabentyp"
