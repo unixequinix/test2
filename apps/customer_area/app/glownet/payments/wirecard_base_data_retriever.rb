@@ -104,7 +104,6 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
   def url_for_redirection
     response = Net::HTTP.post_form(URI.parse("https://checkout.wirecard.com/seamless/frontend/init"), post_parameters)
     response_hash = response.body.split("&").map { |it| URI.decode_www_form(it).first }.to_h
-    binding.pry
     response_hash["redirectUrl"]
   end
 

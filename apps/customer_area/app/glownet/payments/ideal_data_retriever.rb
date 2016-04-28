@@ -31,6 +31,21 @@ class Payments::IdealDataRetriever < Payments::WirecardBaseDataRetriever
   private
 
   def parameters
-    super.merge( { financialInstitution: "financial_institution" } )
+    {
+      customerId: "customer_id",
+      amount: "amount",
+      currency: "currency",
+      paymentType: "payment_type",
+      language: "language",
+      orderDescription: "order_description",
+      successUrl: "success_url",
+      cancelUrl: "cancel_url",
+      failureUrl: "failure_url",
+      serviceUrl: "service_url",
+      confirmUrl: "confirm_url",
+      consumerUserAgent: "consumer_user_agent",
+      consumerIpAddress: "consumer_ip_address",
+      financialInstitution: "financial_institution"
+    }
   end
 end
