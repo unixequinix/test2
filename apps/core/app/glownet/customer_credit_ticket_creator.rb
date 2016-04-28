@@ -1,10 +1,10 @@
 class CustomerCreditTicketCreator < CustomerCreditCreator
   def assign(ticket)
-    create_customer_credit(ticket, CustomerCredit::TICKET_ASSIGNMENT, 1)
+    create_credit(ticket, CustomerCredit::TICKET_ASSIGNMENT, 1)
   end
 
   def unassign(ticket)
-    create_customer_credit(ticket, CustomerCredit::TICKET_UNASSIGNMENT, -1)
+    create_credit(ticket, CustomerCredit::TICKET_UNASSIGNMENT, -1)
   end
 
   private
