@@ -33,7 +33,7 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
   end
 
   def order_description
-    "Order Number #{@order.number}"
+    "Order Number #{@order.id}"
   end
 
   def success_url
@@ -63,6 +63,10 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
   end
 
   def order_reference
+    @order.id
+  end
+
+  def order_ident
     @order.number
   end
 
@@ -114,25 +118,49 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
     post_parameters
   end
 
+  def auto_deposit
+    "no"
+  end
+
+  def duplicate_request_check
+    "false"
+  end
+
+  def window_name
+    "ventanaker"
+  end
+
+  def shop_id
+    "qmore"
+  end
+
+  def noscript_info_url
+    "http://2bad6936.ngrok.io/frontend/service_url.php"
+  end
+
+
   def parameters
     {
       customerId: "customer_id",
-      language: "language",
-      paymentType: "payment_type",
+      shopId: "shop_id",
       amount: "amount",
       currency: "currency",
+      paymentType: "payment_type",
+      language: "language",
       orderDescription: "order_description",
       successUrl: "success_url",
       cancelUrl: "cancel_url",
       failureUrl: "failure_url",
       serviceUrl: "service_url",
       confirmUrl: "confirm_url",
-      customerStatement: "customer_statement",
-      orderReference: "order_reference",
-      consumerIpAddress: "consumer_ip_address",
       consumerUserAgent: "consumer_user_agent",
-      orderIdent: "order_reference",
-      storageId: "storage_id"
+      consumerIpAddress: "consumer_ip_address",
+      autoDeposit: "auto_deposit",
+      storageId: "storage_id",
+      orderIdent: "order_ident",
+      duplicateRequestCheck: "duplicate_request_check",
+      windowName: "window_name",
+      noscriptInfoUrl: "noscript_info_url"
     }
   end
 

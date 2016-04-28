@@ -11,7 +11,7 @@ class Payments::WirecardDataRetriever < Payments::WirecardBaseDataRetriever
   end
 
   def shop_id
-    "Glownet"
+    "qmore"
   end
 
   def order_ident
@@ -34,13 +34,13 @@ class Payments::WirecardDataRetriever < Payments::WirecardBaseDataRetriever
 
   def post
     key = "B8AKTPWBRMNBV455FG6M2DANE99WU2"
-    data ="D200001seamless#{order_ident}http://2bad6936.ngrok.io/frontend/fallback_return.phpENB8AKTPWBRMNBV455FG6M2DANE99WU2"
+    data ="D200001qmore#{order_ident}http://2bad6936.ngrok.io/frontend/fallback_return.phpENB8AKTPWBRMNBV455FG6M2DANE99WU2"
     digest = OpenSSL::Digest.new('sha512')
     hmac = OpenSSL::HMAC.hexdigest(digest, key, data)
 
     params = {
       customerid: "D200001",
-      shopId: "seamless",
+      shopId: "qmore",
       orderIdent: order_ident,
       returnUrl: "http://2bad6936.ngrok.io/frontend/fallback_return.php",
       language: "EN",
@@ -48,12 +48,12 @@ class Payments::WirecardDataRetriever < Payments::WirecardBaseDataRetriever
     }
 
     response = Net::HTTP.post_form(URI.parse("https://checkout.wirecard.com/seamless/dataStorage/init"), params)
-    binding.pry
     response.body.split("&").map { |it| URI.decode_www_form(it).first }.to_h
   end
 
   def data_storage
-    @response_hash ||= post
+    return @response_hash if @response_hash
+    @response_hash = post
   end
 
 end
