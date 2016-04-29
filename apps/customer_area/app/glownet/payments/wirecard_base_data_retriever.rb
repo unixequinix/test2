@@ -90,6 +90,26 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
     get_value_of_parameter("secret_key")
   end
 
+  def auto_deposit
+    "no"
+  end
+
+  def duplicate_request_check
+    "false"
+  end
+
+  def window_name
+    "ventanaker"
+  end
+
+  def shop_id
+    "qmore"
+  end
+
+  def noscript_info_url
+    "http://2bad6936.ngrok.io/frontend/service_url.php"
+  end
+
   def request_fingerprint_order
     parameters.keys.join(",") + ",requestFingerprintOrder,secret"
   end
@@ -117,25 +137,6 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
     post_parameters
   end
 
-  def auto_deposit
-    "no"
-  end
-
-  def duplicate_request_check
-    "false"
-  end
-
-  def window_name
-    "ventanaker"
-  end
-
-  def shop_id
-    "qmore"
-  end
-
-  def noscript_info_url
-    "http://2bad6936.ngrok.io/frontend/service_url.php"
-  end
 
 
   def parameters

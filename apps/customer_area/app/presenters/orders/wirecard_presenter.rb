@@ -4,14 +4,11 @@ class Orders::WirecardPresenter < Orders::BasePresenter
   def initialize(event, order)
     @event = event
     @order = order
+    @form_data = Payments::WirecardDataRetriever.new(@event, @order)
   end
 
   def path
     "events/orders/wirecard/payment_form"
-  end
-
-  def form_data
-    Payments::WirecardDataRetriever.new(@event, @order)
   end
 
   def payment_service
@@ -19,11 +16,11 @@ class Orders::WirecardPresenter < Orders::BasePresenter
   end
 
   def storage_id
-    form_data.data_storage["storageId"]
+    @form_data.data_storage_id
   end
 
   def javascript_url
-    form_data.data_storage["javascriptUrl"]
+    @form_data.data_storage_javascript_url
   end
 
 end

@@ -1,4 +1,16 @@
 class Payments::WirecardDataRetriever < Payments::WirecardBaseDataRetriever
+  def initialize(event, order)
+    super(event, order)
+    @data_storage = Payments::WirecardDataStorageInitializer.new(
+      customer_id: customer_id,
+      order_ident: order_ident,
+      return_url: return_url,
+      language: language,
+      shop_id: shop_id,
+      secret_key: secret_key
+    ).data_storage
+  end
+
   def with_params(params)
     @ip = params[:consumer_ip_address]
     @user_agent = params[:consumer_user_agent]
@@ -22,38 +34,16 @@ class Payments::WirecardDataRetriever < Payments::WirecardBaseDataRetriever
     "http://2bad6936.ngrok.io/frontend/fallback_return.php"
   end
 
-  def data_storage_params
-    {
-      customerid: "customer_id",
-      shopId: "shop_id",
-      orderIdent: "order_ident",
-      returnUrl: "return_url",
-      language: "language",
-    }
-  end
-
-  def post
-    key = "B8AKTPWBRMNBV455FG6M2DANE99WU2"
-    data ="D200001qmore#{order_ident}http://2bad6936.ngrok.io/frontend/fallback_return.phpENB8AKTPWBRMNBV455FG6M2DANE99WU2"
-    digest = OpenSSL::Digest.new('sha512')
-    hmac = OpenSSL::HMAC.hexdigest(digest, key, data)
-
-    params = {
-      customerid: "D200001",
-      shopId: "qmore",
-      orderIdent: order_ident,
-      returnUrl: "http://2bad6936.ngrok.io/frontend/fallback_return.php",
-      language: "EN",
-      requestFingerprint: hmac
-    }
-
-    response = Net::HTTP.post_form(URI.parse("https://checkout.wirecard.com/seamless/dataStorage/init"), params)
-    response.body.split("&").map { |it| URI.decode_www_form(it).first }.to_h
-  end
-
   def data_storage
-    return @response_hash if @response_hash
-    @response_hash = post
+    @data_storage
+  end
+
+  def data_storage_id
+    @storate_id || @data_storage["storageId"]
+  end
+
+  def data_storage_javascript_url
+    @data_storage["javascriptUrl"]
   end
 
 end
