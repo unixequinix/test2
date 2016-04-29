@@ -13,10 +13,10 @@ table.refunds
       th = t("admin.refunds.created_at")
   tbody
     tr
-      td data-label=t("admin.refunds.id") = link_to (customer_event_profile.completed_claim.refund.id), admins_event_refund_path(current_event, customer_event_profile.completed_claim.refund)
-      td data-label=t("admin.refunds.amount") = customer_event_profile.completed_claim.refund.amount
-      td data-label=t("admin.refunds.currency") = customer_event_profile.completed_claim.refund.currency
-      td data-label=t("admin.refunds.gateway_transaction_number") = customer_event_profile.completed_claim.refund.gateway_transaction_number
-      td data-label=t("admin.refunds.payment_solution") = customer_event_profile.completed_claim.refund.payment_solution
-      td data-label=t("admin.refunds.status") = customer_event_profile.completed_claim.refund.status
-      td data-label=t("admin.refunds.created_at") = customer_event_profile.completed_claim.refund.created_at.strftime("%y-%m-%d %H:%M:%S")
+      td data-label=t("admin.refunds.id") = link_to (refund.id), admins_event_refund_path(current_event, refund)
+      td data-label=t("admin.refunds.amount") = refund.amount
+      td data-label=t("admin.refunds.currency") = refund.currency
+      td data-label=t("admin.refunds.gateway_transaction_number") = refund.gateway_transaction_number
+      td data-label=t("admin.refunds.payment_solution") = refund.payment_solution
+      td data-label=t("admin.refunds.status") = refund.status
+      td data-label=t("admin.refunds.created_at") = refund.created_at.strftime("%y-%m-%d %H:%M:%S")

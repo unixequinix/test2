@@ -12,9 +12,10 @@ class Admins::Events::AccessTransactionsController < Admins::Events::BaseControl
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "AccessTransaction".constantize.model_name,
-      fetcher: AccessTransaction.where(event: current_event).order(id: :desc),
+      fetcher: AccessTransaction.where(event: current_event).order(device_created_at: :desc),
       search_query: params[:q],
       page: params[:page],
+      include_for_all_items: [:customer_event_profile, :station],
       context: view_context
     )
   end

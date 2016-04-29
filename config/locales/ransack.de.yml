@@ -1,13 +1,13 @@
-en:
+de:
   ransack:
     all: "alle"
     and: "und"
-    or: "oder"
-    any: "beliebige"
-    asc: "aufsteigend"
-    desc: "absteigend"
+    any: "jegliche"
+    asc: "ansteigend"
+    attribute: "Zusatz"
     combinator: "Kombinator"
-    attribute: "Attribut"
-    condition: "Bedingung"
-    between: "Zwischen"
-    predicate: "Eigenschaft"
+    condition: "Kondition"
+    desc: "absteigend"
+    or: "oder"
+    between: "zwischen"
+    predicate: "Prädikat"

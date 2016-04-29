@@ -1,0 +1,64 @@
+de:
+  email:
+    customer:
+      our_company: 'Erfahren Sie mehr über Glownet'
+      follow_on_twitter: 'Folgen Sie uns auf Twitter'
+      like_on_facebook: 'Gefällt mir auf Facebook'
+      suscribe_on_you_tube: 'In YouTube abonnieren'
+      communication: "Dies ist eine automatisierte Kommunikation der Veranstaltung %{ Veranstaltungsname }"
+      footer: 'Haben Sie Fragen zum Service? Setzen Sie sich direkt in Verbindung mit %{Support-Name} Support-Abteilung.'
+      footer_copy: 'Copyright Glownet © %{Jahr} Alle Rechte vorbehalten.'
+      order:
+        completed:
+          title: 'Benachrichtigung über eine Bestellung'
+          subject: ‚Bestellung abgeschlossen’
+          order_number: 'Ihre Bestellung'
+          greet: 'Hallo %{Name}!'
+          date: 'Bestelldatum'
+          description: 'Alle Ihre gekauften Online-Guthaben werden automatisch auf Ihr %{gtag} übertragen, sobald Sie die Veranstaltung betreten. Ihr Veranstaltungs %{gtag} ermöglicht Ihnen auf einfache und schnelle Art, für Ihre Speisen, Getränke und sonstigen Käufe zu bezahlen. Es ist die einzige Zahlungsmöglichkeit, die die Händler auf der Veranstaltung akzeptieren.'
+          success: 'Ihre Bestellung wurde entgegengenommen. Details finden Sie nachfolgend.'
+          thanks: 'Danke für Ihren Einkauf.'
+      claim:
+        available_claim:
+          title: 'Sie können Ihr Guthaben jetzt erstattet bekommen!'
+          subject: 'Sie können Ihr Guthaben jetzt erstattet bekommen!'
+          greet: 'Hallo %{Name}!'
+          mail_body: " Sie können Ihr Guthaben jetzt erstattet bekommen, wenn Sie dem nachfolgenden Link folgen."
+          mail_link: "Loggen Sie sich jetzt ein um Ihre Rechnung zu sehen und Ihre Erstattung zu beantragen."
+        completed:
+          title: 'Benachrichtigung über die Erstattung'
+          subject: 'Erstattung abgeschlossen'
+          order_number: 'Nummer der Erstattung'
+          greet: 'Hallo %{Name}!'
+          thanks: 'Danke für die Beantragung der Erstattung! '
+          description: 'Ihr Guthaben wurde angewiesen. In 1-4 Tagen erhalten Sie die Zahlung auf Ihrem Bankkonto gutgeschrieben.'
+          success: 'Hier finden Sie die Einzelheiten zu Ihrer Erstattung:'
+          date: 'Datum der Transaktion'
+      confirmation:
+        title: 'Passwort bestätigen'
+        greet: 'Hallo %{Name}!'
+        mail_body: 'Mit nachfolgendem Link können Sie die Emailadresse für Ihr Konto bestätigen.'
+        mail_link: "Konto bestätigen"
+      reset_password:
+        title: 'Passwort zurücksetzen'
+        greet: 'Hallo %{Name}!'
+        mail_body: 'Wir haben einen Antrag auf Änderung des Passwortes erhalten. Um dies durchzuführen, auf den folgenden Link klicken.'
+        mail_link: "Mein Passwort ändern"
+      gtag:
+        assigned:
+          title: '%{gtag} zugewiesen'
+          subject: '%{gtag} zugewiesen'
+          greet: 'Hallo %{Name}!'
+          mail_body: 'Ihnen wurde ein %{gtag} mit folgender ID zugewiesen:'
+        unassigned:
+          title: '%{gtag} gelöscht'
+          subject: '%{gtag} gelöscht'
+          greet: 'Hallo %{Name}!'
+          mail_body: 'Sie haben ein %{gtag} mit folgender ID gelöscht:'
+          mail_link: 'Auf der Website überprüfen'
+    admin:
+      reset_password:
+        greet: 'Hallo %{Email}!'
+        mail_body: 'Es wurde ein Link zur Änderung Ihres Passwortes angefordert. Mit nachfolgendem Link kann dies durchgeführt werden.'
+        mail_link: "Mein Passwort ändern"
+        mail_ignore: "Wenn Sie dies nicht beantragt haben, ignorieren Sie bitte diese Email. Ihr Passwort wird nicht geändert, es sei denn, Sie nutzen den obigen Link und erstellen ein neues Passwort."

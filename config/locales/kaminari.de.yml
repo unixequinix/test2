@@ -1,18 +1,18 @@
-en:
+de:
   views:
     pagination:
-      first: "« Start"
-      last: Ende »
-      previous: "&lsaquo; Zurück"
-      next: Weiter &rsaquo;
+      first: "&laquo; Erste"
+      last: "Letzte &raquo;"
+      previous: "&lsaquo; Vorangegangene"
+      next: "Nächste &rsaquo;"
       truncate: "&hellip;"
   helpers:
     page_entries_info:
       one_page:
         display_entries:
-          one: Zeige <b>%{count}</b> %{entry_name}
-          other: Zeige <b>alle %{count}</b> %{entry_name}
-          zero: Kein %{entry_name} gefunden
+          zero: "Kein %{Zugangsname} gefunden"
+          one: "Anzeige <b>1</b> %{Zugangsname}"
+          other: "Anzeige <b>all %{Anzahl}</b> %{Zugangsname}"
       more_pages:
-        display_entries: Zeige %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> von insgesamt <b>%{total}</b>
-        display_entries_small: "Zeige %{count} von insgesamt %{total}"
+        display_entries: "Anzeige %{Zugangsname} <b>%{erste}&nbsp;-&nbsp;%{letzte}</b> of <b>%{gesamt}</b> insgesamt"
+        display_entries_small: "Anzeige %{Anzahl} of %{gesamt} insgesamt"

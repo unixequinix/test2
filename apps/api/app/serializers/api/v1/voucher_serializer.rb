@@ -1,4 +1,4 @@
-class Api::V1::VouchersSerializer < Api::V1::BaseSerializer
+class Api::V1::VoucherSerializer < Api::V1::BaseSerializer
   attributes :id, :name, :position, :infinite
 
   def attributes(*args)

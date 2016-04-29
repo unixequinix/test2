@@ -1,10 +1,10 @@
 .container-show
   - root = "admins/events/customer_event_profiles/sections/"
-  = render(root + "purchases_information", customer_event_profile: customer_event_profile) if customer_event_profile.purchases.present?
-  = render(root + "ticket_assignments", customer_event_profile: customer_event_profile) if customer_event_profile.ticket_assignments.any?
-  = render(root + "gtag_assignments", customer_event_profile: customer_event_profile) if customer_event_profile.gtag_assignment.any?
-  = render(root + "customer_credits", customer_event_profile: customer_event_profile) if customer_event_profile.customer_credits.any?
-  = render(root + "claims", customer_event_profile: customer_event_profile) if customer_event_profile.claims.any?
-  = render(root + "completed_claims", customer_event_profile: customer_event_profile) if customer_event_profile.completed_claims.any?
-  = render(root + "orders", customer_event_profile: customer_event_profile) if customer_event_profile.orders.any?
-  = render(root + "customer_orders", customer_event_profile: customer_event_profile) if customer_event_profile.customer_orders.any?
+  = render(root + "purchases_information", customer_event_profile: profile) if profile.purchases.present?
+  = render(root + "ticket_assignments", customer_event_profile: profile) if profile.ticket_assignments.any?
+  = render(root + "gtag_assignments", customer_event_profile: profile) if profile.gtag_assignment.any?
+  = render(root + "customer_credits", customer_event_profile: profile) if profile.customer_credits.any?
+  = render(root + "claims", customer_event_profile: profile) if profile.claims.any?
+  = render(root + "completed_claims", customer_event_profile: profile, refund: profile.completed_claim.refund) if profile.completed_claims.any?
+  = render(root + "orders", customer_event_profile: profile) if profile.orders.any?
+  = render(root + "customer_orders", customer_event_profile: profile) if profile.customer_orders.any?

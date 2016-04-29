@@ -12,23 +12,19 @@ table.transactions
       th = t("admin.transactions.credits_refundable")
       th = t("admin.transactions.final_balance")
       th = t("admin.transactions.final_refundable_balance")
-      th = t("admin.transactions.more_info")
   tbody
     - transactions.each do |transaction|
         tr
-          td data-label=t("admin.transactions.id") = transaction.id
+          td data-label=t("admin.transactions.id") = link_to transaction.id, admins_event_credit_transaction_path(current_event, transaction)
           td data-label=t("admin.transactions.transaction_origin") = transaction.transaction_origin
           td data-label=t("admin.transactions.transaction_type") = transaction.transaction_type
           td data-label=t("admin.transactions.station_id") = transaction.station.name
           td data-label=t("admin.transactions.device_uid") = transaction.device_uid
           td data-label=t("admin.transactions.customer_tag_uid")
-            = link_to transaction.customer_tag_uid, admins_event_customer_event_profile_path(current_event, transaction.customer_event_profile)
+            = link_to transaction.customer_tag_uid, admins_event_customer_event_profile_path(current_event, transaction.customer_event_profile) if transaction.customer_tag_uid
           td data-label=t("admin.transactions.credits") = transaction.credits
           td data-label=t("admin.transactions.credits_refundable") = transaction.credits_refundable
           td data-label=t("admin.transactions.final_balance") = transaction.final_balance
           td data-label=t("admin.transactions.final_refundable_balance") = transaction.final_refundable_balance
-          td data-label=t("admin.transactions.more_info") = link_to admins_event_credit_transaction_path(current_event, transaction) do
-            = fa_icon 'eye'
-            |  Show
 .container-pagination
   = paginate transactions

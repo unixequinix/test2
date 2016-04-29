@@ -114,11 +114,12 @@ class Event < ActiveRecord::Base
   end
 
   def total_credits
-    customer_event_profiles.reduce(0) { |a, e| a + e.total_credits }
+    CustomerCredit.where(customer_event_profile: customer_event_profiles).map(&:amount).sum
   end
 
   def total_refundable_money(_refund_service)
-    customer_event_profiles.reduce(0) { |a, e| a + e.refundable_money_amount }
+    creds = CustomerCredit.where(customer_event_profile: customer_event_profiles)
+    creds.map(&:refundable_amount).sum * standard_credit_price
   end
 
   def total_refundable_gtags(refund_service)
