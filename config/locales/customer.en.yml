@@ -153,6 +153,15 @@ en:
       paypal_nvp:
         name: "PayPal"
         icon: "paypal"
+      ideal:
+        name: "Ideal"
+        icon: "pf-ideal"
+      sofort:
+        name: "Sofort"
+        icon: "pf-sofort"
+      wirecard:
+        name: "Wirecard"
+        icon: "pf-wirecard"
     payment: "Payment method"
     stripe:
       card_number: "Card number"

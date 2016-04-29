@@ -155,7 +155,15 @@ es:
       paypal_nvp:
         name: "PayPal"
         icon: "paypal"
+      sofort:
+        name: "Sofort"
+        icon: ""
+      wirecard:
+        name: "Wirecard"
+        icon: ""
       ideal:
+        name: "Ideal"
+        icon: ""
         bank_account_iban: "IBAN"
         bank_bic: "BIC"
         account_owner: "Propietario"

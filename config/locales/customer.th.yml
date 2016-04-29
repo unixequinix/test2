@@ -155,6 +155,15 @@ th:
       paypal_nvp:
         name: "PayPal"
         icon: "paypal"
+      ideal:
+        name: "Ideal"
+        icon: ""
+      sofort:
+        name: "Sofort"
+        icon: ""
+      wirecard:
+        name: "Wirecard"
+        icon: ""
     stripe:
       card_number: "หมายเลขบัตร"
       card_code_verification: "หมายเลขตรวจสอบยืนยันบัตร (CCV)"
