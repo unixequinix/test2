@@ -155,13 +155,13 @@ en:
         icon: "paypal"
       ideal:
         name: "Ideal"
-        icon: "pf-ideal"
+        icon: "pf pf-ideal"
       sofort:
         name: "Sofort"
-        icon: "pf-sofort"
+        icon: "pf pf-sofort"
       wirecard:
         name: "Wirecard"
-        icon: "pf-wirecard"
+        icon: "pf pf-wirecard"
     payment: "Payment method"
     stripe:
       card_number: "Card number"

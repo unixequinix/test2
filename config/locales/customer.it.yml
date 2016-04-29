@@ -157,13 +157,13 @@ it:
         icon: "paypal"
       ideal:
         name: "Ideal"
-        icon: ""
+        icon: "pf pf-ideal"
       sofort:
         name: "Sofort"
-        icon: ""
+        icon: "pf pf-sofort"
       wirecard:
         name: "Wirecard"
-        icon: ""
+        icon: "pf pf-wirecard"
     stripe:
       card_number: "Card number"
       card_code_verification: "Card code verification (CCV)"

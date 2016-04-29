@@ -157,13 +157,13 @@ es:
         icon: "paypal"
       sofort:
         name: "Sofort"
-        icon: ""
+        icon: "pf pf-ideal"
       wirecard:
         name: "Wirecard"
-        icon: ""
+        icon: "pf pf-sofort"
       ideal:
         name: "Ideal"
-        icon: ""
+        icon: "pf pf-wirecard"
         bank_account_iban: "IBAN"
         bank_bic: "BIC"
         account_owner: "Propietario"
