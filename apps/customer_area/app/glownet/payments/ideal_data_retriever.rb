@@ -15,17 +15,15 @@ class Payments::IdealDataRetriever < Payments::WirecardBaseDataRetriever
   end
 
   def success_url
-    success_event_order_payment_service_asynchronous_payments_url(@current_event, @order, "ideal")
+    super("ideal")
   end
 
   def failure_url
-    error_event_order_payment_service_asynchronous_payments_url(@current_event,
-                                                                @order.id,
-                                                                "ideal")
+    super("ideal")
   end
 
   def confirm_url
-    event_order_payment_service_asynchronous_payments_url(@current_event, @order, "ideal")
+    super("ideal")
   end
 
   private
