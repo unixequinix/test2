@@ -7,7 +7,7 @@ class Api::V1::Events::AutoTopUpsController < Api::V1::Events::BaseController
     render(status: :bad_request, json: { error: "order_id duplicated" }) && return if order
 
     payer = "Autotopup::#{params[:payment_method].downcase.camelize}AutoPayer".constantize
-    payer = payer.start(params[:gtag_uid], params[:order_id])
+    payer = payer.start(params[:gtag_uid], params[:order_id], current_event)
     errors = payer[:errors]
     render(status: :unprocessable_entity, json: errors) && return if errors
 
