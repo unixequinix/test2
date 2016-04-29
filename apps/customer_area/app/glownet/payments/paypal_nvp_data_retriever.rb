@@ -1,4 +1,4 @@
-class Payments::PaypalNvpDataRetriever
+class Payments::PaypalNvpDataRetriever < Payments::BaseDataRetriever
   require "uri"
   require "net/http"
 
