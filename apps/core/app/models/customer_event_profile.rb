@@ -4,10 +4,10 @@
 #
 #  id          :integer          not null, primary key
 #  customer_id :integer
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
 #  event_id    :integer          not null
 #  deleted_at  :datetime
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #
 
 class CustomerEventProfile < ActiveRecord::Base # rubocop:disable ClassLength
@@ -57,7 +57,6 @@ class CustomerEventProfile < ActiveRecord::Base # rubocop:disable ClassLength
           class_name: "CredentialAssignment"
   has_one :completed_claim,
           -> { where(aasm_state: :completed) }, class_name: "Claim"
-  has_one :banned_customer_event_profile
   has_many :payment_gateway_customers
 
   # Validations
@@ -70,7 +69,6 @@ class CustomerEventProfile < ActiveRecord::Base # rubocop:disable ClassLength
       .where(event: event,
              credential_assignments: { credentiable_type: "Gtag", aasm_state: :assigned })
   }
-  scope :banned, -> { joins(:banned_customer_event_profile) }
 
   def customer
     Customer.unscoped { super }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160427092051) do
+ActiveRecord::Schema.define(version: 20160429103637) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,29 +77,29 @@ ActiveRecord::Schema.define(version: 20160427092051) do
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
-  create_table "banned_customer_event_profiles", force: :cascade do |t|
-    t.integer  "customer_event_profile_id", null: false
-    t.datetime "deleted_at"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+  create_table "blacklist_transactions", force: :cascade do |t|
+    t.integer  "event_id"
+    t.string   "transaction_origin"
+    t.string   "transaction_type"
+    t.integer  "station_id"
+    t.integer  "customer_event_profile"
+    t.string   "device_uid"
+    t.integer  "device_db_index"
+    t.string   "device_created_at"
+    t.string   "customer_tag_uid"
+    t.string   "operator_tag_uid"
+    t.integer  "blacklisted_id",         null: false
+    t.string   "blacklisted_type",       null: false
+    t.text     "reason"
+    t.integer  "status_code"
+    t.string   "status_message"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
-  add_index "banned_customer_event_profiles", ["deleted_at"], name: "index_banned_customer_event_profiles_on_deleted_at", using: :btree
-
-  create_table "banned_gtags", force: :cascade do |t|
-    t.integer  "gtag_id",    null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "banned_tickets", force: :cascade do |t|
-    t.integer  "ticket_id",  null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "deleted_at"
-  end
-
-  add_index "banned_tickets", ["deleted_at"], name: "index_banned_tickets_on_deleted_at", using: :btree
+  add_index "blacklist_transactions", ["customer_event_profile"], name: "index_blacklist_transactions_on_customer_event_profile", using: :btree
+  add_index "blacklist_transactions", ["event_id"], name: "index_blacklist_transactions_on_event_id", using: :btree
+  add_index "blacklist_transactions", ["station_id"], name: "index_blacklist_transactions_on_station_id", using: :btree
 
   create_table "c_assignments_c_orders", force: :cascade do |t|
     t.integer "credential_assignment_id"
@@ -301,10 +301,11 @@ ActiveRecord::Schema.define(version: 20160427092051) do
 
   create_table "customer_event_profiles", force: :cascade do |t|
     t.integer  "customer_id"
-    t.integer  "event_id",    null: false
+    t.integer  "event_id",                    null: false
     t.datetime "deleted_at"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.boolean  "blacklist",   default: false
   end
 
   add_index "customer_event_profiles", ["deleted_at"], name: "index_customer_event_profiles_on_deleted_at", using: :btree
@@ -459,6 +460,7 @@ ActiveRecord::Schema.define(version: 20160427092051) do
     t.datetime "deleted_at"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
+    t.boolean  "blacklist",              default: false
   end
 
   add_index "gtags", ["deleted_at", "tag_uid", "event_id"], name: "index_gtags_on_deleted_at_and_tag_uid_and_event_id", unique: true, using: :btree
@@ -747,6 +749,7 @@ ActiveRecord::Schema.define(version: 20160427092051) do
     t.datetime "deleted_at"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
+    t.boolean  "blacklist",              default: false
   end
 
   add_index "tickets", ["deleted_at", "code", "event_id"], name: "index_tickets_on_deleted_at_and_code_and_event_id", unique: true, using: :btree
@@ -773,6 +776,8 @@ ActiveRecord::Schema.define(version: 20160427092051) do
   add_foreign_key "access_transactions", "customer_event_profiles"
   add_foreign_key "access_transactions", "events"
   add_foreign_key "access_transactions", "stations"
+  add_foreign_key "blacklist_transactions", "events"
+  add_foreign_key "blacklist_transactions", "stations"
   add_foreign_key "credential_transactions", "customer_event_profiles"
   add_foreign_key "credential_transactions", "events"
   add_foreign_key "credential_transactions", "stations"
