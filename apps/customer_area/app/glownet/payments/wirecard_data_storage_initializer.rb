@@ -34,7 +34,7 @@ class Payments::WirecardDataStorageInitializer
   end
 
   def data_string
-    data_string = data_storage_params.values.reduce("") { |result, value| result + value }
+    data_string = data_storage_params.values.reduce("") { |result, value| result + value.to_s }
     data_string + @secret_key
   end
 

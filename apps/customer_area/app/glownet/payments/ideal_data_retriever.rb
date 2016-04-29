@@ -1,7 +1,6 @@
 class Payments::IdealDataRetriever < Payments::WirecardBaseDataRetriever
   def with_params(params)
-    @ip = params[:consumer_ip_address]
-    @user_agent = params[:consumer_user_agent]
+    super(params)
     @financial_institution = params[:financial_institution]
     self
   end
@@ -29,21 +28,6 @@ class Payments::IdealDataRetriever < Payments::WirecardBaseDataRetriever
   private
 
   def parameters
-    {
-      customerId: "customer_id",
-      amount: "amount",
-      currency: "currency",
-      paymentType: "payment_type",
-      language: "language",
-      orderDescription: "order_description",
-      successUrl: "success_url",
-      cancelUrl: "cancel_url",
-      failureUrl: "failure_url",
-      serviceUrl: "service_url",
-      confirmUrl: "confirm_url",
-      consumerUserAgent: "consumer_user_agent",
-      consumerIpAddress: "consumer_ip_address",
-      financialInstitution: "financial_institution"
-    }
+   super.merge( { financialInstitution: "financial_institution" } )
   end
 end
