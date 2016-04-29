@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160420085748) do
+ActiveRecord::Schema.define(version: 20160427092051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 20160420085748) do
 
   add_index "access_transactions", ["access_id"], name: "index_access_transactions_on_access_id", using: :btree
   add_index "access_transactions", ["customer_event_profile_id"], name: "index_access_transactions_on_customer_event_profile_id", using: :btree
+  add_index "access_transactions", ["event_id", "device_uid", "device_db_index", "device_created_at"], name: "access_transaction_uniqueness_on_device", unique: true, using: :btree
   add_index "access_transactions", ["event_id"], name: "index_access_transactions_on_event_id", using: :btree
   add_index "access_transactions", ["station_id"], name: "index_access_transactions_on_station_id", using: :btree
 
@@ -227,6 +228,7 @@ ActiveRecord::Schema.define(version: 20160420085748) do
   end
 
   add_index "credential_transactions", ["customer_event_profile_id"], name: "index_credential_transactions_on_customer_event_profile_id", using: :btree
+  add_index "credential_transactions", ["event_id", "device_uid", "device_db_index", "device_created_at"], name: "credential_transaction_uniqueness_on_device", unique: true, using: :btree
   add_index "credential_transactions", ["event_id"], name: "index_credential_transactions_on_event_id", using: :btree
   add_index "credential_transactions", ["station_id"], name: "index_credential_transactions_on_station_id", using: :btree
   add_index "credential_transactions", ["ticket_id"], name: "index_credential_transactions_on_ticket_id", using: :btree
@@ -265,6 +267,7 @@ ActiveRecord::Schema.define(version: 20160420085748) do
   end
 
   add_index "credit_transactions", ["customer_event_profile_id"], name: "index_credit_transactions_on_customer_event_profile_id", using: :btree
+  add_index "credit_transactions", ["event_id", "device_uid", "device_db_index", "device_created_at"], name: "credit_transaction_uniqueness_on_device", unique: true, using: :btree
   add_index "credit_transactions", ["event_id"], name: "index_credit_transactions_on_event_id", using: :btree
   add_index "credit_transactions", ["station_id"], name: "index_credit_transactions_on_station_id", using: :btree
 
@@ -486,6 +489,7 @@ ActiveRecord::Schema.define(version: 20160420085748) do
   end
 
   add_index "money_transactions", ["customer_event_profile_id"], name: "index_money_transactions_on_customer_event_profile_id", using: :btree
+  add_index "money_transactions", ["event_id", "device_uid", "device_db_index", "device_created_at"], name: "money_transaction_uniqueness_on_device", unique: true, using: :btree
   add_index "money_transactions", ["event_id"], name: "index_money_transactions_on_event_id", using: :btree
   add_index "money_transactions", ["station_id"], name: "index_money_transactions_on_station_id", using: :btree
 
@@ -535,6 +539,7 @@ ActiveRecord::Schema.define(version: 20160420085748) do
 
   add_index "order_transactions", ["customer_event_profile_id"], name: "index_order_transactions_on_customer_event_profile_id", using: :btree
   add_index "order_transactions", ["customer_order_id"], name: "index_order_transactions_on_customer_order_id", using: :btree
+  add_index "order_transactions", ["event_id", "device_uid", "device_db_index", "device_created_at"], name: "order_transaction_uniqueness_on_device", unique: true, using: :btree
   add_index "order_transactions", ["event_id"], name: "index_order_transactions_on_event_id", using: :btree
   add_index "order_transactions", ["station_id"], name: "index_order_transactions_on_station_id", using: :btree
 
