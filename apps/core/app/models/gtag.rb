@@ -53,7 +53,6 @@ class Gtag < ActiveRecord::Base
   has_many :comments, as: :commentable
   has_many :credential_assignments, as: :credentiable, dependent: :destroy
   has_one :purchaser, as: :credentiable, dependent: :destroy
-  has_one :banned_gtag
   belongs_to :company_ticket_type
 
   accepts_nested_attributes_for :purchaser, allow_destroy: true
@@ -81,15 +80,6 @@ class Gtag < ActiveRecord::Base
     includes(:purchaser, :company_ticket_type, company_ticket_type: [:company])
       .where(event: event, companies: { name: company })
   }
-
-  scope :banned, -> { joins(:banned_gtag) }
-
-  def ban!
-    assignment = CredentialAssignment.find_by(credentiable_id: id, credentiable_type: "Gtag")
-    profile_id = assignment.customer_event_profile_id unless assignment.nil?
-    BannedCustomerEventProfile.new(customer_event_profile_id: profile_id) unless assignment.nil?
-    BannedGtag.create!(gtag_id: id)
-  end
 
   def refundable_amount
     balance = assigned_customer_event_profile.current_balance

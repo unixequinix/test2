@@ -30,7 +30,6 @@ class Ticket < ActiveRecord::Base
           through: :assigned_ticket_credential,
           source: :customer_event_profile
   belongs_to :company_ticket_type
-  has_one :banned_ticket
 
   accepts_nested_attributes_for :purchaser, allow_destroy: true
 
@@ -60,23 +59,12 @@ class Ticket < ActiveRecord::Base
       .where(event: event, companies: { name: company })
   }
 
-  scope :banned, lambda {
-    Ticket.joins(:banned_ticket)
-  }
-
   def pack_catalog_items_included
     company_ticket_type.credential_type.catalog_item.catalogable.pack_catalog_items
   end
 
   def credential_type_item
     company_ticket_type.credential_type.catalog_item
-  end
-
-  def ban!
-    assignment = CredentialAssignment.find_by(credentiable_id: id, credentiable_type: "Ticket")
-    profile_id = assignment.customer_event_profile_id unless assignment.nil?
-    BannedCustomerEventProfile.new(customer_event_profile_id: profile_id) unless assignment.nil?
-    BannedTicket.find_or_create_by(ticket_id: id)
   end
 
   def credits
