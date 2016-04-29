@@ -17,9 +17,9 @@ class Operations::Base < ActiveJob::Base
 
     Gtag.find_or_create_by!(tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id])
     profile_id = Profile::Checker.for_transaction(obj_atts)
-    parse_attributes!(atts, obj_atts, customer_event_profile_id: profile_id)
+    parse_attributes!(atts, obj_atts, profile_id: profile_id)
     obj = klass.create(obj_atts)
-    atts.merge!(transaction_id: obj.id, customer_event_profile_id: profile_id)
+    atts.merge!(transaction_id: obj.id, profile_id: profile_id)
     children = self.class.descendants
     children.each { |d| d.perform_later(atts) if d::TRIGGERS.include? atts[:transaction_type] }
     obj

@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: customer_event_profiles
+# Table name: profiles
 #
 #  id          :integer          not null, primary key
 #  customer_id :integer
@@ -10,7 +10,7 @@
 #  updated_at  :datetime         not null
 #
 
-class CustomerEventProfile < ActiveRecord::Base # rubocop:disable ClassLength
+class Profile < ActiveRecord::Base # rubocop:disable ClassLength
   acts_as_paranoid
   default_scope { order(created_at: :desc) }
 

@@ -11,7 +11,7 @@ class Api::V1::TicketSerializer < Api::V1::BaseSerializer
   end
 
   def customer_id
-    object&.assigned_customer_event_profile&.id
+    object&.assigned_profile&.id
   end
 
   def purchaser_first_name

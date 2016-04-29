@@ -44,7 +44,7 @@
           th = t("admin.defaults.actions")
       tbody
         - @ticket.credential_assignments.each do |admission|
-          - customer = admission&.customer_event_profile&.customer
+          - customer = admission&.profile&.customer
           tr
             td = link_to customer&.email, admins_event_customer_path(current_event, customer) if customer
             td = "#{customer&.first_name} #{customer&.last_name}"

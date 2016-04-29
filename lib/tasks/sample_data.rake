@@ -22,7 +22,7 @@ namespace :db do
     make_tickets
     make_gtags
     make_customers
-    make_customer_event_profiles
+    make_profiles
     make_credential_assignments
     make_orders
   end
@@ -220,12 +220,12 @@ namespace :db do
       event_id: 1)
   end
 
-  def make_customer_event_profiles
+  def make_profiles
     puts 'Create customer event profiles'
     puts '----------------------------------------'
-    CustomerEventProfile.destroy_all
-    CustomerEventProfile.create(customer_id: 1, event_id: 1)
-    CustomerEventProfile.create(customer_id: 2, event_id: 1)
+    Profile.destroy_all
+    Profile.create(customer_id: 1, event_id: 1)
+    Profile.create(customer_id: 2, event_id: 1)
   end
 
   def make_credential_assignments
@@ -236,22 +236,22 @@ namespace :db do
       aasm_state: "assigned",
       credentiable_id: 10,
       credentiable_type: "Ticket",
-      customer_event_profile_id: 1)
+      profile_id: 1)
     CredentialAssignment.create(
       aasm_state: "assigned",
       credentiable_id: 5,
       credentiable_type: "Gtag",
-      customer_event_profile_id: 2)
+      profile_id: 2)
   end
 
   def make_orders
     puts 'Create orders'
     puts '----------------------------------------'
-    CustomerEventProfile.all.each do |customer_event_profile|
+    Profile.all.each do |profile|
       YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'orders.yml')).each do |data|
-        @order = Order.new(number: "#{customer_event_profile.id}#{data['number']}" * 4,
+        @order = Order.new(number: "#{profile.id}#{data['number']}" * 4,
                            aasm_state: data['aasm_state'],
-                           customer_event_profile: customer_event_profile)
+                           profile: profile)
         @order.order_items << data['order_items'].map do |order_item|
                                   OrderItem.new(catalog_item_id: order_item['catalog_item_id'],
                                     amount: order_item['amount'],

@@ -1,6 +1,6 @@
 class WelcomePresenter < BasePresenter
   def can_render?
-    !(@event.created? || @event.closed?) && !@customer_event_profile.active_credentials?
+    !(@event.created? || @event.closed?) && !@profile.active_credentials?
   end
 
   def path

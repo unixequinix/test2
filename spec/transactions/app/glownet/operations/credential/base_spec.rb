@@ -6,7 +6,7 @@ RSpec.describe Operations::Credential::Base, type: :job do
   let(:gtag) { create(:gtag, event: event) }
   let(:ticket_code) { "TC8B106BA990BDC56" }
   let(:ticket) { create(:ticket, event: event, credential_redeemed: false, code: ticket_code) }
-  let(:profile) { create(:customer_event_profile, event: event) }
+  let(:profile) { create(:profile, event: event) }
   let(:worker) { Operations::Credential::Base.new }
   let(:decoder) { TicketDecoder::SonarDecoder }
   let(:ctt_id) { "99" }
@@ -29,7 +29,7 @@ RSpec.describe Operations::Credential::Base, type: :job do
     end
 
     it "leaves the current assigned_gtag_credential if one present" do
-      gtag.create_assigned_gtag_credential!(customer_event_profile: profile)
+      gtag.create_assigned_gtag_credential!(profile: profile)
       expect do
         worker.assign_gtag_credential(gtag, profile)
       end.not_to change(gtag, :assigned_gtag_credential)
@@ -85,7 +85,7 @@ RSpec.describe Operations::Credential::Base, type: :job do
     end
 
     it "leaves the current assigned_ticket_credential if one present" do
-      ticket.create_assigned_ticket_credential!(customer_event_profile: profile)
+      ticket.create_assigned_ticket_credential!(profile: profile)
       expect do
         worker.assign_ticket_credential(ticket, profile)
       end.not_to change(ticket, :assigned_ticket_credential)

@@ -352,18 +352,18 @@ end
 
 ## Customer event profiles
 
-crumb :admins_event_customer_event_profiles do |event|
-  link t("breadcrumbs.customer_event_profile"), admins_event_customer_event_profiles_path(event)
+crumb :admins_event_profiles do |event|
+  link t("breadcrumbs.profile"), admins_event_profiles_path(event)
   parent :admins_event, event
 end
 
-crumb :admins_event_customer_event_profile do |event, customer_event_profile|
-  link customer_event_profile.id,
-       admins_event_customer_path(event, customer_event_profile)
-  parent :admins_event_customer_event_profiles, event
+crumb :admins_event_profile do |event, profile|
+  link profile.id,
+       admins_event_customer_path(event, profile)
+  parent :admins_event_profiles, event
 end
 
-crumb :new_admins_event_customer_event_profile do |event|
-  link t("breadcrumbs.new_customer_event_profile")
-  parent :admins_event_customer_event_profiles, event
+crumb :new_admins_event_profile do |event|
+  link t("breadcrumbs.new_profile")
+  parent :admins_event_profiles, event
 end

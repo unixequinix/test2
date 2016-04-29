@@ -1,4 +1,4 @@
-class Admins::Events::CustomerEventProfilesController < Admins::Events::BaseController
+class Admins::Events::ProfilesController < Admins::Events::BaseController
   def index
     set_presenter
   end
@@ -9,8 +9,8 @@ class Admins::Events::CustomerEventProfilesController < Admins::Events::BaseCont
   end
 
   def show
-    @customer_event_profile =
-      @fetcher.customer_event_profiles.with_deleted
+    @profile =
+      @fetcher.profiles.with_deleted
       .includes(:active_tickets_assignment,
                 :active_gtag_assignment,
                 credential_assignments: :credentiable,
@@ -20,8 +20,8 @@ class Admins::Events::CustomerEventProfilesController < Admins::Events::BaseCont
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
-      model_name: "CustomerEventProfile".constantize.model_name,
-      fetcher: @fetcher.customer_event_profiles,
+      model_name: "Profile".constantize.model_name,
+      fetcher: @fetcher.profiles,
       search_query: params[:q],
       page: params[:page],
       context: view_context,

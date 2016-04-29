@@ -2,7 +2,7 @@
 table.customers
   thead
     tr
-      th = t("admin.customer_event_profile.id")
+      th = t("admin.profile.id")
       th = t("admin.customers.email")
       th = t("admin.customers.first_name")
       th = t("admin.customers.last_name")
@@ -10,8 +10,8 @@ table.customers
       th = t("admin.customers.credits")
       th = t("admin.customers.gtags")
   tbody
-    - customer_event_profiles.each do |customer_event_profile|
-      tr [id="customer-#{customer_event_profile.id}"]
-        = render 'admins/events/customer_event_profiles/row', customer_event_profile: customer_event_profile
+    - profiles.each do |profile|
+      tr [id="customer-#{profile.id}"]
+        = render 'admins/events/profiles/row', profile: profile
 
-= paginate customer_event_profiles
+= paginate profiles

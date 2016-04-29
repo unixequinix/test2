@@ -27,7 +27,7 @@ class Payments::BraintreeRefunder
                     order: order,
                     response_code: t.processor_response_code,
                     authorization_code: t.processor_authorization_code,
-                    currency: order.customer_event_profile.event.currency,
+                    currency: order.profile.event.currency,
                     merchant_code: t.id,
                     amount: t.amount.to_f,
                     success: true,

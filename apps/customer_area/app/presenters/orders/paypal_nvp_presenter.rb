@@ -4,8 +4,8 @@ class Orders::PaypalNvpPresenter < Orders::BasePresenter
   def initialize(event, order)
     @event = event
     @order = order
-    @customer_event_profile = @order.customer_event_profile
-    @agreement = @customer_event_profile.gateway_customer(EventDecorator::PAYPAL_NVP)
+    @profile = @order.profile
+    @agreement = @profile.gateway_customer(EventDecorator::PAYPAL_NVP)
     @payer_id = ""
     @token = ""
     @email = ""

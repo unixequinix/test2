@@ -3,7 +3,7 @@
 # Table name: payment_gateway_customers
 #
 #  id                        :integer          not null, primary key
-#  customer_event_profile_id :integer
+#  profile_id :integer
 #  token                     :string
 #  gateway_type              :string
 #  deleted_at                :datetime
@@ -16,7 +16,7 @@
 
 class PaymentGatewayCustomer < ActiveRecord::Base
   acts_as_paranoid
-  belongs_to :customer_event_profile
+  belongs_to :profile
 
-  validates :customer_event_profile_id, uniqueness: { scope: :gateway_type }
+  validates :profile_id, uniqueness: { scope: :gateway_type }
 end

@@ -23,7 +23,7 @@ class Api::V1::GtagSerializer < Api::V1::BaseSerializer
 
   def customer_id
     cred = object.credential_assignments.first
-    cred && cred.customer_event_profile_id
+    cred && cred.profile_id
   end
 
   def purchaser_first_name

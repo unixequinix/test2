@@ -1,4 +1,4 @@
-module CustomerEventProfileEconomy
+module ProfileEconomy
   extend ActiveSupport::Concern
   def current_balance
     customer_credits.order(created_in_origin_at: :desc).first

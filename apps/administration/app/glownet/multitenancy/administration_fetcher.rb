@@ -44,8 +44,8 @@ class Multitenancy::AdministrationFetcher
     Customer.where(event: @event)
   end
 
-  def customer_event_profiles
-    CustomerEventProfile.where(event: @event)
+  def profiles
+    Profile.where(event: @event)
   end
 
   def event_parameters

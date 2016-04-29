@@ -19,14 +19,14 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::CheckinBaseCon
 
   def destroy
     @credential_assignment = CredentialAssignment.find(params[:id])
-    customer_event_profile = @credential_assignment.customer_event_profile
+    profile = @credential_assignment.profile
     @credential_assignment.unassign!
     @credential_assignment.credentiable
 
     flash[:notice] = I18n.t("alerts.unassigned")
     GtagMailer.unassigned_email(@credential_assignment).deliver_later
 
-    redirect_to admins_event_customer_url(current_event, customer_event_profile.customer)
+    redirect_to admins_event_customer_url(current_event, profile.customer)
   end
 
   private
@@ -42,7 +42,7 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::CheckinBaseCon
   end
 
   def current_profile
-    current_customer.customer_event_profile ||
-      CustomerEventProfile.new(customer: current_customer, event: current_event)
+    current_customer.profile ||
+      Profile.new(customer: current_customer, event: current_event)
   end
 end

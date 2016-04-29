@@ -5,7 +5,7 @@ RSpec.describe Operations::Blacklist::Blacklister, type: :job do
   let(:event) { create(:event) }
   let(:ticket) { create(:ticket, event: event) }
   let(:gtag) { create(:gtag, event: event) }
-  let(:profile) { create(:customer_event_profile, event: event) }
+  let(:profile) { create(:profile, event: event) }
 
   describe ".perform" do
     it "blacklists an object" do
@@ -30,11 +30,11 @@ RSpec.describe Operations::Blacklist::Blacklister, type: :job do
       params = {
         event_id: event.id,
         blacklisted_id: profile.id,
-        blacklisted_type: "customer_event_profile"
+        blacklisted_type: "profile"
       }
 
-      CredentialAssignment.create!(customer_event_profile: profile, credentiable: gtag)
-      CredentialAssignment.create!(customer_event_profile: profile, credentiable: ticket)
+      CredentialAssignment.create!(profile: profile, credentiable: gtag)
+      CredentialAssignment.create!(profile: profile, credentiable: ticket)
 
       worker.perform_now(params)
 

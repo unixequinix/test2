@@ -3,7 +3,7 @@
 # Table name: customer_orders
 #
 #  id                        :integer          not null, primary key
-#  customer_event_profile_id :integer          not null
+#  profile_id :integer          not null
 #  catalog_item_id           :integer          not null
 #  origin                    :string
 #  amount                    :integer
@@ -14,7 +14,7 @@
 
 FactoryGirl.define do
   factory :customer_order do
-    customer_event_profile
+    profile
     catalog_item
     origin "online_purchase"
     amount { rand(1..50) }

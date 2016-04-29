@@ -1,4 +1,4 @@
-class Api::V1::CustomerEventProfileSerializer < Api::V1::BaseSerializer
+class Api::V1::ProfileSerializer < Api::V1::BaseSerializer
   attributes :id, :autotopup_gateways, :credentials
   has_many :customer_orders, key: :orders, serializer: Api::V1::CustomerOrderSerializer
 

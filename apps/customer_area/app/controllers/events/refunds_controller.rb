@@ -22,7 +22,7 @@ class Events::RefundsController < Events::BaseController
   end
 
   def tipalti_success
-    @claim = Claim.where(customer_event_profile_id: params[:customerID],
+    @claim = Claim.where(profile_id: params[:customerID],
                          service_type: "tipalti",
                          aasm_state: :in_progress)
              .order(id: :desc).first

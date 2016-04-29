@@ -78,9 +78,9 @@ aside#main-menu
     li.aside-list = link_to admins_event_customers_path(event) do
       = fa_icon "users"
       = t("admin.aside.customers")
-    li.aside-list = link_to admins_event_customer_event_profiles_path(event) do
+    li.aside-list = link_to admins_event_profiles_path(event) do
       = fa_icon "street-view"
-      = t("admin.aside.customer_event_profiles")
+      = t("admin.aside.profiles")
     li.aside-list = link_to admins_event_orders_path(event) do
       = fa_icon "list"
       = t("admin.aside.orders")

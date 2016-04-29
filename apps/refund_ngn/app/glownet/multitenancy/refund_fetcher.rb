@@ -12,12 +12,12 @@ class Multitenancy::RefundFetcher
   end
 
   def claims
-    Claim.joins(:customer_event_profile).where(customer_event_profiles: { event_id: @event.id })
+    Claim.joins(:profile).where(profiles: { event_id: @event.id })
   end
 
   def refunds
-    Refund.joins(claim: :customer_event_profile)
-      .where(customer_event_profiles: { event_id: @event.id })
+    Refund.joins(claim: :profile)
+      .where(profiles: { event_id: @event.id })
   end
 
   private

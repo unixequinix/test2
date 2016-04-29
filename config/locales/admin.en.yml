@@ -10,7 +10,7 @@ en:
       device_uid: "Device UID"
       device_db_index: "Device DB index"
       device_created_at: "Device created at"
-      customer_event_profile_id: "Customer Event Profile ID"
+      profile_id: "Customer Event Profile ID"
       status_code: "Status Code"
       status_message: "Status Message"
       ticket_code: "Ticket Code"
@@ -266,7 +266,7 @@ en:
       gtag: "GTags"
       credits: "Credits"
       customers: "Customers"
-      customer_event_profiles: "Customer event profiles"
+      profiles: "Customer event profiles"
       orders: "Orders"
       customer_orders: "Customer orders"
       payments: "Payments"
@@ -401,7 +401,7 @@ en:
       transaction_origin: "Transaction source"
       final_balance: "Final balance"
       final_refundable_balance: "Final refundable balance"
-    customer_event_profile:
+    profile:
       id: "Id"
     customers:
       delete: "Deleted"
@@ -496,7 +496,7 @@ en:
     customer_orders:
       id: "Id"
       amount: "Amount"
-      customer_event_profile: "Customer event profiles"
+      profile: "Customer event profiles"
       catalog_item: "Catalog item"
       origin: "Origin"
       online_order: "Online order"

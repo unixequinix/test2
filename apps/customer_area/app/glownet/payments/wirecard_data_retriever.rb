@@ -49,14 +49,12 @@ class Payments::WirecardDataRetriever < Payments::WirecardBaseDataRetriever
 
   def parameters
     super.merge(
-      {
-        shopId: "shop_id",
-        autoDeposit: "auto_deposit",
-        orderIdent: "order_ident",
-        duplicateRequestCheck: "duplicate_request_check",
-        windowName: "window_name",
-        noscriptInfoUrl: "noscript_info_url"
-      }
+      shopId: "shop_id",
+      autoDeposit: "auto_deposit",
+      orderIdent: "order_ident",
+      duplicateRequestCheck: "duplicate_request_check",
+      windowName: "window_name",
+      noscriptInfoUrl: "noscript_info_url"
     )
   end
 end

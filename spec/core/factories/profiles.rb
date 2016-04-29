@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: customer_event_profiles
+# Table name: profiles
 #
 #  id          :integer          not null, primary key
 #  customer_id :integer          not null
@@ -11,11 +11,11 @@
 #
 
 FactoryGirl.define do
-  factory :customer_event_profile do
+  factory :profile do
     event
-    after(:build) do |customer_event_profile|
-      customer_event_profile.customer ||= build(:customer,
-                                                customer_event_profile: customer_event_profile)
+    after(:build) do |profile|
+      profile.customer ||= build(:customer,
+                                 profile: profile)
     end
   end
 end

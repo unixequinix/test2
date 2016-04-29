@@ -9,7 +9,7 @@ table.subtable.customer-show-subtable
       th = t("admin.customers.created_at")
 
   tbody
-    - customer_event_profile.ticket_assignments.each do |admission|
+    - profile.ticket_assignments.each do |admission|
       tr
         td = link_to "#{admission.credentiable.code}", edit_admins_event_ticket_path(current_event, admission.credentiable)
         td = t("admin.admissions.states.#{admission.aasm_state}")

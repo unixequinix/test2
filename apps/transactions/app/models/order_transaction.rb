@@ -14,7 +14,7 @@
 #  device_db_index           :integer
 #  device_created_at         :string
 #  customer_order_id         :integer
-#  customer_event_profile_id :integer
+#  profile_id :integer
 #  status_message            :string
 #  status_code               :integer
 #  catalogable_type          :string

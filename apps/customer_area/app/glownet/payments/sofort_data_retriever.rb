@@ -14,5 +14,4 @@ class Payments::SofortDataRetriever < Payments::WirecardBaseDataRetriever
   def confirm_url
     super("sofort")
   end
-
 end

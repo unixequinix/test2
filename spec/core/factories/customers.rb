@@ -46,7 +46,7 @@ FactoryGirl.define do
     agreed_event_condition { [true, false].sample }
     event
     after(:build) do |customer|
-      customer.customer_event_profile ||= build(:customer_event_profile, customer: customer)
+      customer.profile ||= build(:profile, customer: customer)
     end
   end
 end

@@ -13,7 +13,7 @@
 #  service_type              :string
 #  fee                       :decimal(8, 2)    default(0.0)
 #  minimum                   :decimal(8, 2)    default(0.0)
-#  customer_event_profile_id :integer
+#  profile_id :integer
 #
 
 require "rails_helper"
@@ -43,10 +43,10 @@ RSpec.describe Claim, type: :model do
     it "prepares the rows with the default columns and the extra columns for a csv exportation" do
       gtag = create(:gtag, event: event)
       customer = create(:customer, event: event)
-      profile = create(:customer_event_profile, customer: customer, event: event)
+      profile = create(:profile, customer: customer, event: event)
       claim = create(:claim,
                      aasm_state: :completed,
-                     customer_event_profile: profile,
+                     profile: profile,
                      gtag: gtag,
                      service_type: "bank_account")
       parameter = Parameter.find_by(name: "iban", category: "claim", group: "bank_account")

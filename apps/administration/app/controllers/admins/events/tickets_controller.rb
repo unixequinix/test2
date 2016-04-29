@@ -15,7 +15,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
 
   def show
     @ticket = @fetcher.tickets
-              .includes(credential_assignments: [customer_event_profile: :customer],
+              .includes(credential_assignments: [profile: :customer],
                         company_ticket_type: [company_event_agreement: :company]).find(params[:id])
   end
 
@@ -108,7 +108,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
       include_for_all_items: [:company_ticket_type,
                               :assigned_ticket_credential,
                               :purchaser,
-                              credential_assignments: :customer_event_profile])
+                              credential_assignments: :profile])
   end
 
   def permitted_params

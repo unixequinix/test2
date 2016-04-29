@@ -32,9 +32,9 @@ dl
   dd 
     = link_to transaction.customer_tag_uid, admins_event_gtag_path(current_event, Gtag.find_by_tag_uid(transaction.customer_tag_uid)) if transaction.customer_tag_uid
   
-  dt = t("admin.transactions.customer_event_profile_id")
+  dt = t("admin.transactions.profile_id")
   dd 
-    = link_to transaction.customer_event_profile_id, admins_event_customer_event_profile_path(current_event, CustomerEventProfile.find(transaction.customer_event_profile_id)) if transaction.customer_event_profile_id
+    = link_to transaction.profile_id, admins_event_profile_path(current_event, Profile.find(transaction.profile_id)) if transaction.profile_id
 br
 
 h3.section-header

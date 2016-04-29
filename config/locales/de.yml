@@ -70,7 +70,7 @@ de:
       customer:
         one: 'Kunde'
         other: 'Kunden'
-      customer_event_profile:
+      profile:
         one: 'Veranstaltungsprofil des Kunden'
         other: 'Veranstaltungsprofile des Kunden'
       entitlement:

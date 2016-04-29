@@ -20,23 +20,23 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
     Credit.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
-  def customer_event_profiles
-    @event.customer_event_profiles.includes(:customer, :credential_assignments, :orders)
+  def profiles
+    @event.profiles.includes(:customer, :credential_assignments, :orders)
   end
 
-  def sql_customer_event_profiles # rubocop:disable Metrics/MethodLength
+  def sql_profiles # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
       SELECT array_to_json(array_agg(row_to_json(cep)))
       FROM (
         SELECT
-          customer_event_profiles.id,
+          profiles.id,
           customers.first_name,
           customers.last_name,
           customers.email,
           (
             SELECT array_agg(gateway_type)
             FROM payment_gateway_customers
-            WHERE customer_event_profile_id = customer_event_profiles.id
+            WHERE profile_id = profiles.id
               AND agreement_accepted IS TRUE
               AND deleted_at IS NULL
           ) as autotopup_gateways,
@@ -47,7 +47,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
             SELECT credentiable_id as id,
             LOWER(credentiable_type) as type
             FROM credential_assignments
-            WHERE customer_event_profile_id = customer_event_profiles.id
+            WHERE profile_id = profiles.id
               AND aasm_state = 'assigned'
               AND deleted_at IS NULL
           ) cr
@@ -60,7 +60,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
               LOWER(catalog_items.catalogable_type) as catalogable_type
             FROM online_orders
             INNER JOIN customer_orders
-              ON customer_orders.customer_event_profile_id = customer_event_profiles.id
+              ON customer_orders.profile_id = profiles.id
               AND customer_orders.deleted_at IS NULL
             INNER JOIN catalog_items
               ON catalog_items.id = customer_orders.catalog_item_id
@@ -70,11 +70,11 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
               AND online_orders.redeemed IS false
           ) o
         ) as orders
-        FROM customer_event_profiles
+        FROM profiles
         FULL OUTER JOIN customers
-          ON customers.id = customer_event_profiles.customer_id
+          ON customers.id = profiles.customer_id
           AND customers.deleted_at IS NULL
-        WHERE customer_event_profiles.event_id = #{@event.id}
+        WHERE profiles.event_id = #{@event.id}
       ) cep
     SQL
     ActiveRecord::Base.connection.select_value(sql)
@@ -99,10 +99,10 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
                purchasers.last_name as purchaser_last_name,
                purchasers.email as purchaser_email,
                (
-                   SELECT customer_event_profiles.id as customer_id
-                   FROM customer_event_profiles
+                   SELECT profiles.id as customer_id
+                   FROM profiles
                    INNER JOIN credential_assignments ON
-                       credential_assignments.customer_event_profile_id = customer_event_profiles.id
+                       credential_assignments.profile_id = profiles.id
 
                    WHERE credential_assignments.credentiable_id = gtags.id
                        AND credential_assignments.credentiable_type = 'Gtag'
@@ -168,10 +168,10 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           purchasers.last_name as purchaser_last_name,
           purchasers.email as purchaser_email,
           (
-              SELECT customer_event_profiles.id as customer_id
-              FROM customer_event_profiles
+              SELECT profiles.id as customer_id
+              FROM profiles
               INNER JOIN credential_assignments ON
-                  credential_assignments.customer_event_profile_id = customer_event_profiles.id
+                  credential_assignments.profile_id = profiles.id
 
               WHERE credential_assignments.credentiable_id = tickets.id
                   AND credential_assignments.credentiable_type = 'Ticket'

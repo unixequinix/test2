@@ -1,14 +1,14 @@
 require "rails_helper"
 
-RSpec.describe CustomerEventProfile, type: :model do
+RSpec.describe Profile, type: :model do
   it { is_expected.to validate_presence_of(:event) }
-  let(:profile) { create(:customer_event_profile) }
-  let(:atts) { { customer_event_profile: profile } }
+  let(:profile) { create(:profile) }
+  let(:atts) { { profile: profile } }
 
   context "when dealing with credits" do
     describe ".online_refundable_money_amount" do
       it "returns the sum of all refundable online money from previous purchases made" do
-        orders = create_list(:order_with_payment, 3, customer_event_profile: profile)
+        orders = create_list(:order_with_payment, 3, profile: profile)
         payments = orders.map(&:payments).flatten
         amount = payments.map(&:amount).sum
         expect(amount > 0).to be_truthy

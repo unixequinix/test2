@@ -37,7 +37,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
             purchaser_first_name: db_tickets[index]&.purchaser&.first_name,
             purchaser_last_name: db_tickets[index]&.purchaser&.last_name,
             purchaser_email: db_tickets[index]&.purchaser&.email,
-            customer_id: db_tickets[index]&.assigned_customer_event_profile&.id
+            customer_id: db_tickets[index]&.assigned_profile&.id
           }
           expect(ticket_atts.as_json).to eq(ticket)
         end
@@ -63,15 +63,15 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
                                             credential_type: @credential)
         @ticket = create(:ticket, event: event, company_ticket_type: @ctt)
         @ticket2 = create(:ticket, event: event, company_ticket_type: @ctt)
-        @profile = create(:customer_event_profile, event: event)
+        @profile = create(:profile, event: event)
         create(:credential_assignment, credentiable: @ticket,
-                                       customer_event_profile: @profile,
+                                       profile: @profile,
                                        aasm_state: "assigned")
         create(:credential_assignment, credentiable: @ticket2,
-                                       customer_event_profile: @profile,
+                                       profile: @profile,
                                        aasm_state: "unassigned")
-        @customer = create(:customer, customer_event_profile: @profile)
-        @order = create(:customer_order, customer_event_profile: @profile, catalog_item: @access)
+        @customer = create(:customer, profile: @profile)
+        @order = create(:customer_order, profile: @profile, catalog_item: @access)
         create(:online_order, counter: 1, customer_order: @order, redeemed: false)
 
         http_login(admin.email, admin.access_token)
@@ -99,8 +99,8 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         end
 
         it "returns the correct data" do
-          customer = @ticket.assigned_customer_event_profile.customer
-          orders = @ticket.assigned_customer_event_profile.customer_orders
+          customer = @ticket.assigned_profile.customer
+          orders = @ticket.assigned_profile.customer_orders
 
           ticket = {
             id: @ticket.id,
@@ -108,7 +108,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
             credential_redeemed: @ticket.credential_redeemed,
             credential_type_id: @ticket.company_ticket_type.credential_type_id,
             customer: {
-              id:  @ticket.assigned_customer_event_profile.id,
+              id:  @ticket.assigned_profile.id,
               autotopup_gateways: [],
               credentials: [{ id: @ticket.id, type: "ticket" }],
               first_name: customer.first_name,

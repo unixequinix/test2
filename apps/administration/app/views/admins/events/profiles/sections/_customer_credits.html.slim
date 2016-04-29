@@ -13,7 +13,7 @@ table.refunds
       th = t("admin.customer_credits.final_refundable_balance")
       th = t("admin.customer_credits.created_at")
   tbody
-    - customer_event_profile.customer_credits.order(created_in_origin_at: :desc).each do |customer_credit|
+    - profile.customer_credits.order(created_in_origin_at: :desc).each do |customer_credit|
       tr
         td data-label="amount" = customer_credit.amount
         td data-label="refundable_amount" = customer_credit.refundable_amount

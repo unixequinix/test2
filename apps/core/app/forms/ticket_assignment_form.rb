@@ -21,12 +21,12 @@ class TicketAssignmentForm
 
   private
 
-  def persist!(ticket, customer_event_profile, customer_credit_creator, customer_order_creator)
-    customer_event_profile.save
-    customer_event_profile.credential_assignments.create(credentiable: ticket)
+  def persist!(ticket, profile, customer_credit_creator, customer_order_creator)
+    profile.save
+    profile.credential_assignments.create(credentiable: ticket)
     customer_credit_creator.assign(ticket) if ticket.credits.present?
     customer_order_creator.save(ticket)
-    customer_event_profile
+    profile
   end
 
   def already_assigned?(ticket)

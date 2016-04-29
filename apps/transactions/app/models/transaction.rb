@@ -3,7 +3,7 @@ class Transaction < ActiveRecord::Base
 
   belongs_to :event
   belongs_to :station
-  belongs_to :customer_event_profile
+  belongs_to :profile
 
   validates_presence_of :transaction_type
 

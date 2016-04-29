@@ -1,6 +1,6 @@
 class TicketActivationsPresenter < BasePresenter
   def can_render?
-    !event_started? && @customer_event_profile.active_credentials?
+    !event_started? && @profile.active_credentials?
   end
 
   def event_started?

@@ -10,7 +10,7 @@ de:
       device_uid: "Gerät uid"
       device_db_index: "Gerät DB Index"
       device_created_at: "Gerät eingerichtet bei"
-      customer_event_profile_id: "Kunden Veranstaltungsprofil ID"
+      profile_id: "Kunden Veranstaltungsprofil ID"
       status_code: "Status Code"
       status_message: "Statusmeldung"
       ticket_code: "Ticket Code"
@@ -262,7 +262,7 @@ de:
       gtag: "GTags"
       credits: "Guthaben"
       customers: "Kunden"
-      customer_event_profiles: "Kunden Veranstaltungsprofile "
+      profiles: "Kunden Veranstaltungsprofile "
       orders: "Bestellungen"
       customer_orders: "Kunden Bestellungen"
       payments: "Zahlungen"
@@ -397,7 +397,7 @@ de:
       transaction_origin: "Transaktionsquelle"
       final_balance: "Schlussrechnung"
       final_refundable_balance: "Endabrechnung für Erstattung"
-    customer_event_profile:
+    profile:
       id: "ID"
     customers:
       delete: "Gelöscht"
@@ -492,7 +492,7 @@ de:
     customer_orders:
       id: "ID"
       amount: "Betrag"
-      customer_event_profile: "Kunden Veranstaltungsprofil"
+      profile: "Kunden Veranstaltungsprofil"
       catalog_item: "Katalogartikel"
       origin: "Quelle"
       online_order: "Online Bestellung"

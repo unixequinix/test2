@@ -69,7 +69,7 @@ es:
       customer:
         one: 'Cliente'
         other: 'Clientes'
-      customer_event_profile:
+      profile:
         one: 'Perfil de evento'
         other: 'Perfiles de evento'
       entitlement:

@@ -12,7 +12,7 @@ table.subtable.customer-show-subtable
       th = t("admin.claims.completed")
       th = t("admin.defaults.actions")
   tbody
-    - customer_event_profile.claims.each do |claim|
+    - profile.claims.each do |claim|
       tr
         td data-label=t("admin.claims.number") = link_to claim.number, admins_event_claim_path(current_event, claim)
         td data-label=t("admin.claims.state") = claim.aasm_state

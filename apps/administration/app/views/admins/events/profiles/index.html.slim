@@ -1,4 +1,4 @@
-- breadcrumb :admins_event_customer_event_profiles, current_event
+- breadcrumb :admins_event_profiles, current_event
 - provide :actions do
   = link_to '#search-menu', class: 'btn btn-action btn-action-search small'  do
     = fa_icon 'search'
@@ -6,6 +6,6 @@
 
 .wrapper-negative-space
   - if @list_model_presenter.there_any?
-    = render 'admins/events/customer_event_profiles/list', customer_event_profiles: @list_model_presenter.all_items
+    = render 'admins/events/profiles/list', profiles: @list_model_presenter.all_items
   - else
     = render @list_model_presenter.no_items_for_presentation

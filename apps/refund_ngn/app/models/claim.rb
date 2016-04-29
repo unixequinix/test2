@@ -3,7 +3,7 @@
 # Table name: claims
 #
 #  id                        :integer          not null, primary key
-#  customer_event_profile_id :integer          not null
+#  profile_id :integer          not null
 #  gtag_id                   :integer          not null
 #  number                    :string           not null
 #  aasm_state                :string           not null
@@ -30,21 +30,21 @@ class Claim < ActiveRecord::Base
   TRANSFER_REFUND_SERVICES = [BANK_ACCOUNT, EASY_PAYMENT_GATEWAY, TIPALTI]
 
   # Associations
-  belongs_to :customer_event_profile
+  belongs_to :profile
   has_one :refund
   has_many :claim_parameters
   belongs_to :gtag
 
   # Validations
-  validates_presence_of :customer_event_profile, :gtag, :service_type, :number, :total, :aasm_state
+  validates_presence_of :profile, :gtag, :service_type, :number, :total, :aasm_state
 
   # Scopes
   scope :query_for_csv, lambda  { |aasm_state, event|
-    joins(:customer_event_profile, :gtag, :refund, customer_event_profile: :customer)
+    joins(:profile, :gtag, :refund, profile: :customer)
       .includes(:claim_parameters, claim_parameters: :parameter)
       .where(aasm_state: aasm_state)
-      .where(customer_event_profiles: { event_id: event.id })
-      .select("claims.id, customer_event_profiles.id as customer_event_profile,
+      .where(profiles: { event_id: event.id })
+      .select("claims.id, profiles.id as profile,
             customers.first_name, customers.last_name, customers.email, gtags.tag_uid,
             gtags.tag_serial_number, refunds.amount, claims.service_type")
       .order(:id)

@@ -8,18 +8,18 @@
 #  completed_at              :datetime
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
-#  customer_event_profile_id :integer
+#  profile_id :integer
 #
 
 require "rails_helper"
 
 RSpec.describe Order, type: :model do
-  it { is_expected.to validate_presence_of(:customer_event_profile) }
+  it { is_expected.to validate_presence_of(:profile) }
   it { is_expected.to validate_presence_of(:number) }
   it { is_expected.to validate_presence_of(:aasm_state) }
 
-  let(:customer_event_profile) { create(:customer_event_profile) }
-  let(:order) { create(:order_with_items, customer_event_profile: customer_event_profile) }
+  let(:profile) { create(:profile) }
+  let(:order) { create(:order_with_items, profile: profile) }
 
   describe "total" do
     it "returns the total of all the items in the order" do
@@ -50,7 +50,7 @@ RSpec.describe Order, type: :model do
 
   describe "total_credits" do
     it "should return the total amount of credits available" do
-      event = customer_event_profile.event
+      event = profile.event
       order.order_items.destroy_all
       2.times do
         pp = create(:catalog_item, :with_credit, event: event)

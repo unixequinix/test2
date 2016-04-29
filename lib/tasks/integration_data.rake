@@ -4,7 +4,7 @@ include Benchmark
 namespace :db do
   data = [
     "Customers",
-    "CustomerEventProfiles",
+    "Profiles",
     "Accesses",
     "CredentialTypes",
     "Packs",
@@ -72,13 +72,13 @@ namespace :db do
     Customer.bulk_insert_in_batches(customers, batch_size: 50000, delay: 0, validate: false)
   end
 
-  def create_customer_event_profiles
+  def create_profiles
     customer_profiles = []
     @customers.times do |index|
       customer_profiles << { event_id: @event.id, customer_id: index + 1 }
     end
 
-    CustomerEventProfile.bulk_insert_in_batches(customer_profiles,
+    Profile.bulk_insert_in_batches(customer_profiles,
                                                 batch_size: 50000,
                                                 delay: 0,
                                                 validate: false)
@@ -175,13 +175,13 @@ namespace :db do
   end
 
   def create_ticket_assignments
-    ceps = CustomerEventProfile.where(event: @event).pluck(:id)
+    ceps = Profile.where(event: @event).pluck(:id)
     assignments = []
 
     Ticket.where(event: @event).each do |ticket|
       assignments.push({ credentiable_id: ticket.id,
                          credentiable_type: "Ticket",
-                         customer_event_profile_id: ceps.sample })
+                         profile_id: ceps.sample })
     end
 
     CredentialAssignment.bulk_insert_in_batches(assignments,
@@ -205,13 +205,13 @@ namespace :db do
   end
 
   def create_gtag_assignments
-    ceps = CustomerEventProfile.where(event: @event).pluck(:id)
+    ceps = Profile.where(event: @event).pluck(:id)
     assignments = []
 
     Gtag.where(event: @event).each do |gtag|
       assignments.push({ credentiable_id: gtag.id,
                          credentiable_type: "Gtag",
-                         customer_event_profile_id: ceps.sample })
+                         profile_id: ceps.sample })
     end
 
     CredentialAssignment.bulk_insert_in_batches(assignments,

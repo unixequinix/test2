@@ -9,7 +9,7 @@
       dt = t("admin.orders.number")
       dd = @order.number
       dt = t("admin.orders.customer")
-      dd = link_to @order.customer_event_profile.customer.email, admins_event_customer_path(current_event, @order.customer_event_profile)
+      dd = link_to @order.profile.customer.email, admins_event_customer_path(current_event, @order.profile)
       dt = t("admin.orders.state")
       dd = @order.aasm_state
       dt = t("admin.orders.created")

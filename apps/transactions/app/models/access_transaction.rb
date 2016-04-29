@@ -10,7 +10,7 @@
 #  station_id                :integer
 #  device_db_index           :integer
 #  device_created_at         :string
-#  customer_event_profile_id :integer
+#  profile_id :integer
 #  access_id                 :integer
 #  direction                 :integer
 #  final_access_value        :string
