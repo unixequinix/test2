@@ -1,13 +1,9 @@
 class Operations::Base < ActiveJob::Base
   SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at )
 
-  def perform(atts) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def perform(atts) # rubocop:disable Metrics/AbcSize
     klass = "#{ atts[:transaction_category] }_transaction".classify.constantize
     obj_atts = column_attributes(klass, atts)
-
-    created_at = atts[:device_created_at]
-    atts[:device_created_at] = Time.zone.parse(created_at).to_s if created_at
-    obj_atts[:device_created_at] = atts[:device_created_at]
 
     obj = klass.find_by(atts.slice(*SEARCH_ATTS))
     return obj if obj

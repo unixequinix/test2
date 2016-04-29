@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160429173318) do
+ActiveRecord::Schema.define(version: 20160429175035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -217,7 +217,7 @@ ActiveRecord::Schema.define(version: 20160429173318) do
     t.integer  "station_id"
     t.string   "device_uid"
     t.integer  "device_db_index"
-    t.datetime "device_created_at"
+    t.string   "device_created_at"
     t.integer  "ticket_id"
     t.integer  "profile_id"
     t.integer  "status_code"
@@ -253,7 +253,7 @@ ActiveRecord::Schema.define(version: 20160429173318) do
     t.integer  "station_id"
     t.string   "device_uid"
     t.integer  "device_db_index"
-    t.datetime "device_created_at"
+    t.string   "device_created_at"
     t.float    "credits"
     t.float    "credits_refundable"
     t.float    "credit_value"
@@ -465,7 +465,7 @@ ActiveRecord::Schema.define(version: 20160429173318) do
     t.integer  "station_id"
     t.string   "device_uid"
     t.integer  "device_db_index"
-    t.datetime "device_created_at"
+    t.string   "device_created_at"
     t.integer  "catalogable_id"
     t.string   "catalogable_type"
     t.integer  "items_amount"
