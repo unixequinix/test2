@@ -128,7 +128,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
   end
 
   def banned_gtags
-    @event.gtags.banned
+    @event.gtags.where(banned: true)
   end
 
   def packs
@@ -198,7 +198,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
   end
 
   def banned_tickets
-    @event.tickets.banned
+    @event.tickets.where(banned: true)
   end
 
   def vouchers
