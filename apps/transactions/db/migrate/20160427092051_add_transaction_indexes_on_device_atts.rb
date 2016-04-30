@@ -1,5 +1,5 @@
 class AddTransactionIndexesOnDeviceAtts < ActiveRecord::Migration
-  def change
+  def change # rubocop:disable Metrics/MethodLength
     add_index :credit_transactions,
               [:event_id, :device_uid, :device_db_index, :device_created_at],
               unique: true,

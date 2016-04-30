@@ -1,5 +1,5 @@
 class Api::V1::Events::AutoTopUpsController < Api::V1::Events::BaseController
-  def create # rubocop:disable Metrics/CyclomaticComplexity
+  def create # rubocop:disable Metrics/CyclomaticComplexity, Metrics/AbcSize
     keys = [:order_id, :gtag_uid, :payment_method].any? { |i| params[i] }
     render(status: :bad_request, json: { error: "params missing" }) && return unless keys
 
