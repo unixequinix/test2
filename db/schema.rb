@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160429175035) do
+ActiveRecord::Schema.define(version: 20160430092856) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,7 +77,7 @@ ActiveRecord::Schema.define(version: 20160429175035) do
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
-  create_table "blacklist_transactions", force: :cascade do |t|
+  create_table "ban_transactions", force: :cascade do |t|
     t.integer  "event_id"
     t.string   "transaction_origin"
     t.string   "transaction_type"
@@ -88,8 +88,8 @@ ActiveRecord::Schema.define(version: 20160429175035) do
     t.string   "device_created_at"
     t.string   "customer_tag_uid"
     t.string   "operator_tag_uid"
-    t.integer  "blacklisted_id",     null: false
-    t.string   "blacklisted_type",   null: false
+    t.integer  "banneable_id",       null: false
+    t.string   "banneable_type",     null: false
     t.text     "reason"
     t.integer  "status_code"
     t.string   "status_message"
@@ -97,9 +97,9 @@ ActiveRecord::Schema.define(version: 20160429175035) do
     t.datetime "updated_at",         null: false
   end
 
-  add_index "blacklist_transactions", ["event_id"], name: "index_blacklist_transactions_on_event_id", using: :btree
-  add_index "blacklist_transactions", ["profile_id"], name: "index_blacklist_transactions_on_profile_id", using: :btree
-  add_index "blacklist_transactions", ["station_id"], name: "index_blacklist_transactions_on_station_id", using: :btree
+  add_index "ban_transactions", ["event_id"], name: "index_ban_transactions_on_event_id", using: :btree
+  add_index "ban_transactions", ["profile_id"], name: "index_ban_transactions_on_profile_id", using: :btree
+  add_index "ban_transactions", ["station_id"], name: "index_ban_transactions_on_station_id", using: :btree
 
   create_table "c_assignments_c_orders", force: :cascade do |t|
     t.integer "credential_assignment_id"
@@ -449,7 +449,7 @@ ActiveRecord::Schema.define(version: 20160429175035) do
     t.datetime "deleted_at"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
-    t.boolean  "blacklist",              default: false
+    t.boolean  "banned",                 default: false
   end
 
   add_index "gtags", ["deleted_at", "tag_uid", "event_id"], name: "index_gtags_on_deleted_at_and_tag_uid_and_event_id", unique: true, using: :btree
@@ -642,7 +642,7 @@ ActiveRecord::Schema.define(version: 20160429175035) do
     t.datetime "deleted_at"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
-    t.boolean  "blacklist",   default: false
+    t.boolean  "banned",      default: false
   end
 
   add_index "profiles", ["deleted_at"], name: "index_profiles_on_deleted_at", using: :btree
@@ -749,7 +749,7 @@ ActiveRecord::Schema.define(version: 20160429175035) do
     t.datetime "deleted_at"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
-    t.boolean  "blacklist",              default: false
+    t.boolean  "banned",                 default: false
   end
 
   add_index "tickets", ["deleted_at", "code", "event_id"], name: "index_tickets_on_deleted_at_and_code_and_event_id", unique: true, using: :btree
@@ -776,8 +776,8 @@ ActiveRecord::Schema.define(version: 20160429175035) do
   add_foreign_key "access_transactions", "events"
   add_foreign_key "access_transactions", "profiles"
   add_foreign_key "access_transactions", "stations"
-  add_foreign_key "blacklist_transactions", "events"
-  add_foreign_key "blacklist_transactions", "stations"
+  add_foreign_key "ban_transactions", "events"
+  add_foreign_key "ban_transactions", "stations"
   add_foreign_key "credential_transactions", "events"
   add_foreign_key "credential_transactions", "profiles"
   add_foreign_key "credential_transactions", "stations"

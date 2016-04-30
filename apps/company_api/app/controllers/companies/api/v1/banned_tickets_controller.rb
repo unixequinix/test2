@@ -5,7 +5,7 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
     render json: {
       event_id: current_event.id,
       blacklisted_tickets: @banned_tickets.map do |ticket|
-        Companies::Api::V1::BannedTicketSerializer.new(ticket)
+        Companies::Api::V1::TicketSerializer.new(ticket)
       end
     }
   end
@@ -19,7 +19,7 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
 
     unless @ticket
       decoded = TicketDecoder::SonarDecoder.perform(t_code)
-      render(status: :notflay_found, json: { error: "Invalid ticket reference." }) &&
+      render(status: :not_found, json: { error: "Invalid ticket reference." }) &&
         return unless decoded
 
       ctt = @fetcher.company_ticket_types.find_by_company_code(decoded)
@@ -29,7 +29,7 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
       @ticket = @fetcher.tickets.create!(company_ticket_type: ctt, code: t_code)
     end
 
-    @ticket.ban!
+    @ticket.update!(blacklist: true)
 
     render(status: :created, json: @ticket, serializer: Companies::Api::V1::BannedTicketSerializer)
   end
