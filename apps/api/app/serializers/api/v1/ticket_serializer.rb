@@ -1,6 +1,6 @@
 class Api::V1::TicketSerializer < Api::V1::BaseSerializer
-  attributes :id, :reference, :credential_redeemed, :credential_type_id, :purchaser_first_name,
-             :purchaser_last_name, :purchaser_email
+  attributes :id, :reference, :credential_redeemed, :credential_type_id, :customer_id,
+             :purchaser_first_name, :purchaser_last_name, :purchaser_email
 
   def reference
     object.code

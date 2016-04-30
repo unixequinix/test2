@@ -30,6 +30,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
       FROM (
         SELECT
           profiles.id,
+          profiles.banned,
           customers.first_name,
           customers.last_name,
           customers.email,
@@ -93,7 +94,11 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
     sql = <<-SQL
       SELECT array_to_json(array_agg(row_to_json(g)))
       FROM (
-        SELECT gtags.id, gtags.tag_uid, gtags.tag_serial_number, gtags.credential_redeemed,
+        SELECT gtags.id,
+               gtags.tag_uid,
+               gtags.tag_serial_number,
+               gtags.credential_redeemed,
+               gtags.banned,
                company_ticket_types.credential_type_id as credential_type_id ,
                purchasers.first_name as purchaser_first_name,
                purchasers.last_name as purchaser_last_name,
@@ -163,7 +168,8 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           tickets.id,
           tickets.code as reference,
           tickets.credential_redeemed,
-          company_ticket_types.credential_type_id as credential_type_id ,
+          tickets.banned,
+          company_ticket_types.credential_type_id as credential_type_id,
           purchasers.first_name as purchaser_first_name,
           purchasers.last_name as purchaser_last_name,
           purchasers.email as purchaser_email,

@@ -1,30 +1,17 @@
 class Api::V1::ProfileSerializer < Api::V1::BaseSerializer
-  attributes :id, :autotopup_gateways, :credentials
+  attributes :id, :banned, :autotopup_gateways, :credentials, :first_name, :last_name, :email
   has_many :customer_orders, key: :orders, serializer: Api::V1::CustomerOrderSerializer
 
-  def attributes(*args)
-    hash = super
-    customer = object.customer
-
-    if customer
-      hash[:first_name] = customer.first_name if customer.first_name
-      hash[:last_name] = customer.last_name if customer.last_name
-      hash[:email] = customer.email if customer.email
-    end
-
-    hash
-  end
-
   def first_name
-    object.customer.first_name
+    object&.customer&.first_name
   end
 
   def last_name
-    object.customer.last_name
+    object&.customer&.last_name
   end
 
   def email
-    object.customer.email
+    object&.customer&.email
   end
 
   def autotopup_gateways

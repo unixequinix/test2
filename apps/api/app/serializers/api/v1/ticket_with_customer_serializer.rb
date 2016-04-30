@@ -1,5 +1,5 @@
 class Api::V1::TicketWithCustomerSerializer < Api::V1::BaseSerializer
-  attributes :id, :reference, :credential_redeemed, :credential_type_id, :customer
+  attributes :id, :reference, :credential_redeemed, :banned, :credential_type_id, :customer
 
   def reference
     object.code
