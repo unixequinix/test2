@@ -1,11 +1,6 @@
 class Companies::Api::V1::GtagsController < Companies::Api::V1::BaseController
   def index
     @gtags = @fetcher.gtags
-             .joins("FULL OUTER JOIN purchasers
-                             ON purchasers.credentiable_id = gtags.id
-                             AND purchasers.credentiable_type = 'Gtag'
-                             AND purchasers.deleted_at IS NULL")
-             .includes(:purchaser)
 
     render json: {
       event_id: current_event.id,

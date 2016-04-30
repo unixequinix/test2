@@ -1,11 +1,6 @@
 class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
   def index
     @tickets = @fetcher.tickets
-               .joins("FULL OUTER JOIN purchasers
-                       ON purchasers.credentiable_id = tickets.id
-                       AND purchasers.credentiable_type = 'Ticket'
-                       AND purchasers.deleted_at IS NULL")
-               .includes(:purchaser)
 
     render json: {
       event_id: current_event.id,
@@ -38,7 +33,7 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
     render(status: :created, json: Companies::Api::V1::TicketSerializer.new(@ticket))
   end
 
-  def bulk_upload # rubocop:disable Metrics/CyclomaticComplexity
+  def bulk_upload # rubocop:disable all
     render(status: :bad_request, json: "tickets key is missing") && return unless params[:tickets]
     errors = { atts: [] }
 
