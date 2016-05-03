@@ -2,19 +2,19 @@
 #
 # Table name: claims
 #
-#  id                        :integer          not null, primary key
-#  profile_id :integer          not null
-#  gtag_id                   :integer          not null
-#  number                    :string           not null
-#  aasm_state                :string           not null
-#  total                     :decimal(8, 2)    not null
-#  service_type              :string
-#  fee                       :decimal(8, 2)    default(0.0)
-#  minimum                   :decimal(8, 2)    default(0.0)
-#  completed_at              :datetime
-#  deleted_at                :datetime
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
+#  id           :integer          not null, primary key
+#  profile_id   :integer          not null
+#  gtag_id      :integer          not null
+#  number       :string           not null
+#  aasm_state   :string           not null
+#  total        :decimal(8, 2)    not null
+#  service_type :string
+#  fee          :decimal(8, 2)    default(0.0)
+#  minimum      :decimal(8, 2)    default(0.0)
+#  completed_at :datetime
+#  deleted_at   :datetime
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 
 class Claim < ActiveRecord::Base

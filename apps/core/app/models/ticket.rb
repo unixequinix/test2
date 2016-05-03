@@ -10,6 +10,7 @@
 #  deleted_at             :datetime
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  banned                 :boolean          default(FALSE)
 #
 
 class Ticket < ActiveRecord::Base
