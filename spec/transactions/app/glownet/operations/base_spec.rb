@@ -97,7 +97,7 @@ RSpec.describe Operations::Base, type: :job do
       allow(Operations::Credit::BalanceUpdater).to receive(:perform_later).and_raise("Error_1")
       expect { base.perform_later(params) }.to raise_error("Error_1")
       params.delete(:transaction_id)
-      params.delete(:customer_event_profile_id)
+      params.delete(:profile_id)
       params.delete(:device_created_at)
       expect(CreditTransaction.where(params)).not_to be_empty
     end

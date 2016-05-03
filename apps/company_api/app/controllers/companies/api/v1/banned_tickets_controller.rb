@@ -1,46 +1,43 @@
 class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseController
   def index
-    @banned_tickets = @fetcher.banned_tickets
-
     render json: {
       event_id: current_event.id,
-      blacklisted_tickets: @banned_tickets.map do |ticket|
-        Companies::Api::V1::BannedTicketSerializer.new(ticket)
+      blacklisted_tickets: @fetcher.banned_tickets.map do |ticket|
+        Companies::Api::V1::TicketSerializer.new(ticket)
       end
     }
   end
 
   def create # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     t_code = params[:tickets_blacklist] && params[:tickets_blacklist][:ticket_reference]
-    render(status: :bad_request, json: { error: "Ticket reference is missing." }) &&
-      return unless t_code
+    render(status: :bad_request,
+           json: { error: "Ticket reference is missing." }) && return unless t_code
 
     @ticket = @fetcher.tickets.find_by_code(t_code)
 
     unless @ticket
-      decoded = TicketDecoder::SonarDecoder.perform(t_code)
-      render(status: :notflay_found, json: { error: "Invalid ticket reference." }) &&
-        return unless decoded
+      dec = TicketDecoder::SonarDecoder.perform(t_code)
+      render(status: :not_found,
+             json: { status: :not_found, error: "Invalid ticket reference." }) && return unless dec
 
-      ctt = @fetcher.company_ticket_types.find_by_company_code(decoded)
-      render(status: :not_found, json: { error: "Ticket Type not found." }) &&
-        return unless ctt
+      ctt = @fetcher.company_ticket_types.find_by_company_code(dec)
+      render(status: :not_found,
+             json: { status: :not_found, error: "Ticket Type not found." }) && return unless ctt
 
       @ticket = @fetcher.tickets.create!(company_ticket_type: ctt, code: t_code)
     end
 
-    @ticket.ban!
+    @ticket.update!(banned: true)
 
-    render(status: :created, json: @ticket, serializer: Companies::Api::V1::BannedTicketSerializer)
+    render(status: :created, json: @ticket, serializer: Companies::Api::V1::TicketSerializer)
   end
 
   def destroy
-    @banned_ticket = BannedTicket.includes(:ticket)
-                     .find_by(tickets: { code: params[:id], event_id: current_event.id })
+    ticket = @fetcher.tickets.find_by_code(params[:id])
+    render(status: :not_found,
+           json: { status: :not_found, message: :not_found }) && return unless ticket
 
-    render(status: :not_found, json: :not_found) && return if @banned_ticket.nil?
-    render(status: :internal_server_error, json: :internal_server_error) &&
-      return unless @banned_ticket.destroy
+    ticket.update!(banned: false)
     render(status: :no_content, json: :no_content)
   end
 end

@@ -5,7 +5,7 @@ en:
     cancel: "Cancel"
     edit: "Edit"
     delete: "Delete"
-    delete_ticket: "Delete ticket"
+    delete_ticket: "Remove ticket"
     check_news: "Back to Event Website"
     delete_account: "Delete your account"
     logout: "Logout"

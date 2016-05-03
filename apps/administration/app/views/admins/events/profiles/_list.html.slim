@@ -1,0 +1,17 @@
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @list_model_presenter.current_items, total: @list_model_presenter.count)
+table.customers
+  thead
+    tr
+      th = t("admin.profile.id")
+      th = t("admin.customers.email")
+      th = t("admin.customers.first_name")
+      th = t("admin.customers.last_name")
+      th = t("admin.customers.tickets")
+      th = t("admin.customers.credits")
+      th = t("admin.customers.gtags")
+  tbody
+    - profiles.each do |profile|
+      tr [id="customer-#{profile.id}"]
+        = render 'admins/events/profiles/row', profile: profile
+
+= paginate profiles

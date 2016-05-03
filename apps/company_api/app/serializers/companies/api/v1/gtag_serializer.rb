@@ -7,14 +7,14 @@ class Companies::Api::V1::GtagSerializer < Companies::Api::V1::BaseSerializer
   end
 
   def purchaser_first_name
-    object.purchaser.first_name
+    object&.purchaser&.first_name
   end
 
   def purchaser_last_name
-    object.purchaser.last_name
+    object&.purchaser&.last_name
   end
 
   def purchaser_email
-    object.purchaser.email
+    object&.purchaser&.email
   end
 end

@@ -20,8 +20,8 @@ class Payments::PaypalDataRetriever
   private
 
   def generate_client_token
-    customer_event_profile = order.customer_event_profile
-    gateway_customer = customer_event_profile.gateway_customer(EventDecorator::PAYPAL)
+    profile = order.profile
+    gateway_customer = profile.gateway_customer(EventDecorator::PAYPAL)
     if gateway_customer
       Braintree::ClientToken.generate(customer_id: gateway_customer.token)
     else

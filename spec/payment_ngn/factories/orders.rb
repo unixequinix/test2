@@ -8,13 +8,13 @@
 #  completed_at              :datetime
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
-#  customer_event_profile_id :integer
+#  profile_id :integer
 #
 
 FactoryGirl.define do
   factory :order do
     number { rand(10_000).to_s + rand(10_000).to_s }
-    customer_event_profile
+    profile
 
     trait :with_different_items do
       after :build do |order|

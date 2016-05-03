@@ -3,8 +3,8 @@ class Payments::PaypalNvpPayer
     @event = Event.friendly.find(params[:event_id])
     @order = Order.find(params[:order_id])
     @paypal_nvp = Gateways::PaypalNvp::Transaction.new(@event)
-    @customer_event_profile = @order.customer_event_profile
-    @gateway = @customer_event_profile.gateway_customer(EventDecorator::PAYPAL_NVP)
+    @profile = @order.profile
+    @gateway = @profile.gateway_customer(EventDecorator::PAYPAL_NVP)
     @method = @gateway ? "auto" : "regular"
     @order.start_payment!
     charge_object = charge(params)
@@ -40,17 +40,17 @@ class Payments::PaypalNvpPayer
   end
 
   def create_agreement(charge_object, autotopup_amount, email)
-    @customer_event_profile.payment_gateway_customers
+    @profile.payment_gateway_customers
       .find_or_create_by(gateway_type: EventDecorator::PAYPAL_NVP)
       .update(token: charge_object["BILLINGAGREEMENTID"],
               agreement_accepted: true,
               autotopup_amount: autotopup_amount,
               email: email)
-    @customer_event_profile.save
+    @profile.save
   end
 
   def create_agreement?(params)
-    params[:accept] && !@customer_event_profile.gateway_customer(EventDecorator::PAYPAL_NVP)
+    params[:accept] && !@profile.gateway_customer(EventDecorator::PAYPAL_NVP)
   end
 
   def send_mail_for(order, event)

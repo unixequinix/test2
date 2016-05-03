@@ -13,12 +13,12 @@
 #  service_type              :string
 #  fee                       :decimal(8, 2)    default(0.0)
 #  minimum                   :decimal(8, 2)    default(0.0)
-#  customer_event_profile_id :integer
+#  profile_id :integer
 #
 
 FactoryGirl.define do
   factory :claim do
-    customer_event_profile
+    profile
     number { rand(10_000_000) }
     total 9.98
     gtag

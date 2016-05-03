@@ -1,6 +1,6 @@
 class BalanceCalculator
-  def initialize(customer_event_profile)
-    @customer_event_profile = customer_event_profile
+  def initialize(profile)
+    @profile = profile
   end
 
   def valid_balance?
@@ -18,10 +18,10 @@ class BalanceCalculator
   end
 
   def current_balance
-    @customer_event_profile.current_balance
+    @profile.current_balance
   end
 
   def customer_credits
-    @customer_event_profile.customer_credits
+    @profile.customer_credits
   end
 end

@@ -6,10 +6,10 @@ class RefundNotification
   private
 
   def notify_customers_to(event)
-    CustomerEventProfile.with_gtag(event).all? { |profile| send_mail_to(profile, event) }
+    Profile.with_gtag(event).all? { |profile| send_mail_to(profile, event) }
   end
 
-  def send_mail_to(customer_event_profile, event)
-    ClaimMailer.notification_email(customer_event_profile, event).deliver_later
+  def send_mail_to(profile, event)
+    ClaimMailer.notification_email(profile, event).deliver_later
   end
 end

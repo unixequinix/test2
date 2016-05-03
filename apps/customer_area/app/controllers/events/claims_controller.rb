@@ -21,7 +21,7 @@ class Events::ClaimsController < Events::BaseController
 
   def require_permission!
     @claim = Claim.find(params[form_name][:claim_id])
-    return unless current_profile != @claim.customer_event_profile || @claim.completed?
+    return unless current_profile != @claim.profile || @claim.completed?
     flash.now[:error] = I18n.t("alerts.claim_complete")
     redirect_to event_url(current_event)
   end
@@ -38,7 +38,7 @@ class Events::ClaimsController < Events::BaseController
       service_type: service_type,
       fee: current_event.refund_fee(service_type),
       minimum: current_event.refund_minimun(service_type),
-      customer_event_profile: current_profile,
+      profile: current_profile,
       gtag: current_profile.active_gtag_assignment.credentiable,
       total: current_profile.refundable_money_amount
     )

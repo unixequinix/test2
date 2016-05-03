@@ -3,8 +3,8 @@ require "rails_helper"
 RSpec.describe Api::V1::Events::AutoTopUpsController, type: :controller do
   let(:event) { create(:event) }
   let(:admin) { create(:admin) }
-  let(:cep) { create(:customer_event_profile, event: event) }
-  let(:ca) { create(:credential_assignment_g_a, customer_event_profile: cep) }
+  let(:cep) { create(:profile, event: event) }
+  let(:ca) { create(:credential_assignment_g_a, profile: cep) }
   let(:tag_uid) { ca.credentiable.tag_uid }
   let(:params) do
     { event_id: event.id, gtag_uid: tag_uid, payment_method: "paypal", "order_id": "16032918b57e" }

@@ -1,7 +1,7 @@
 class Operations::Credential::Base < Operations::Base
   def assign_gtag_credential(gtag, profile_id)
     return if gtag.assigned_gtag_credential
-    gtag.create_assigned_gtag_credential!(customer_event_profile_id: profile_id)
+    gtag.create_assigned_gtag_credential!(profile_id: profile_id)
   end
 
   def assign_ticket(transaction, atts)
@@ -26,7 +26,7 @@ class Operations::Credential::Base < Operations::Base
 
   def assign_ticket_credential(ticket, profile_id)
     return if ticket.assigned_ticket_credential
-    ticket.create_assigned_ticket_credential!(customer_event_profile_id: profile_id)
+    ticket.create_assigned_ticket_credential!(profile_id: profile_id)
   end
 
   def mark_redeemed(obj)

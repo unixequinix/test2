@@ -43,7 +43,7 @@ class Customer < ActiveRecord::Base
   GENDERS = [MALE, FEMALE]
 
   # Associations
-  has_one :customer_event_profile
+  has_one :profile
 
   belongs_to :event
 

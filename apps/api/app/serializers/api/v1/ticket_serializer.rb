@@ -1,6 +1,6 @@
 class Api::V1::TicketSerializer < Api::V1::BaseSerializer
-  attributes :id, :reference, :credential_redeemed, :credential_type_id, :purchaser_first_name,
-             :purchaser_last_name, :purchaser_email
+  attributes :id, :reference, :credential_redeemed, :credential_type_id, :customer_id,
+             :purchaser_first_name, :purchaser_last_name, :purchaser_email
 
   def reference
     object.code
@@ -11,7 +11,7 @@ class Api::V1::TicketSerializer < Api::V1::BaseSerializer
   end
 
   def customer_id
-    object&.assigned_customer_event_profile&.id
+    object&.assigned_profile&.id
   end
 
   def purchaser_first_name

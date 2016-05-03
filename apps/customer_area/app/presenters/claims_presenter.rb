@@ -4,7 +4,7 @@ class ClaimsPresenter < BasePresenter
   end
 
   def path
-    profile = @customer_event_profile
+    profile = @profile
     enough_money = profile.refundable_money_amount <= profile.online_refundable_money_amount
     return "no_credits" if profile.refundable_money_amount.zero?
     return "invalid_balance" unless BalanceCalculator.new(profile).valid_balance?

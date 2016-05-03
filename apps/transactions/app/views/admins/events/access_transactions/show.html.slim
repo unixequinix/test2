@@ -2,7 +2,17 @@
 
 .wrapper-negative-space
   .container-show
+    = render 'admins/events/shared/general_info', transaction: @transaction
+    
+    h3.section-header
+      = fa_icon "exchange"
+      = t("admin.transactions.access")
     dl
-      - @transaction.attributes.each do |key, value|
-        dt = t("admin.transactions.#{key}")
-        dd = value
+      dt = t("admin.transactions.access")
+      dd = link_to @transaction.access.catalog_item.name, edit_admins_event_access_path(current_event, @transaction.access)
+      
+      dt = t("admin.transactions.direction")
+      dd = @transaction.direction
+      
+      dt = t("admin.transactions.final_value")
+      dd = @transaction.final_access_value

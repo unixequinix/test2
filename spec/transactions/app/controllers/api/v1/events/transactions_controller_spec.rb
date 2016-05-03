@@ -18,7 +18,7 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
         device_uid: "2353",
         device_db_index: "2353",
         device_created_at: "2016-02-05 11:13:39 +0100",
-        customer_event_profile_id: "23",
+        profile_id: "23",
         status_code: "1",
         status_message: "Ticket already check-in 0034854TYS9QSD4992",
         credits: 2,
@@ -58,7 +58,7 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
           params.first.delete(:event_id)
           params.first.delete(:station_id)
           params.first.delete(:transaction_type)
-          params.first.delete(:customer_event_profile_id)
+          params.first.delete(:profile_id)
           post(:create, event_id: event.id, _json: params)
           expect(response.status).to eq(422)
         end

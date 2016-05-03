@@ -1,7 +1,7 @@
 td data-label=t("admin.customers.email") = link_to customer.email, admins_event_customer_path(current_event, customer), class: (customer.deleted? ? "deleted-field" : "")
 td data-label=t("admin.customers.first_name") = customer.first_name
 td data-label=t("admin.customers.last_name") = customer.last_name
-- if customer.customer_event_profile
+- if customer.profile
   = render 'admins/events/customers/customer_data_in_row', customer: customer
 - else
   td

@@ -3,7 +3,7 @@
 # Table name: customer_credits
 #
 #  id                        :integer          not null, primary key
-#  customer_event_profile_id :integer          not null
+#  profile_id :integer          not null
 #  amount                    :decimal(, )      not null
 #  refundable_amount         :decimal(, )      not null
 #  final_balance             :decimal(, )      not null
@@ -18,7 +18,7 @@
 
 FactoryGirl.define do
   factory :customer_credit do
-    customer_event_profile
+    profile
 
     trait :hospitality do
       amount 10
@@ -47,14 +47,14 @@ FactoryGirl.define do
     after :build do |customer_credit|
       final_balance = CustomerCredit.select("sum(amount) as final_balance,
                                              sum(refundable_amount) as final_refundable_balance")
-                      .where(customer_event_profile: customer_credit.customer_event_profile)[0]
+                      .where(profile: customer_credit.profile)[0]
                       .final_balance
                       .to_i
 
       customer_credit.final_balance = final_balance
       customer_credit.final_refundable_balance = CustomerCredit
         .select("sum(amount) as final_balance, sum(refundable_amount) as final_refundable_balance")
-        .where(customer_event_profile: customer_credit.customer_event_profile)[0]
+        .where(profile: customer_credit.profile)[0]
         .final_refundable_balance.to_i
     end
 

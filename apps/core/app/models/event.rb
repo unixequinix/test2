@@ -57,7 +57,7 @@ class Event < ActiveRecord::Base
 
   # Associations
   has_many :company_ticket_types
-  has_many :customer_event_profiles
+  has_many :profiles
   has_many :event_parameters
   has_many :parameters, through: :event_parameters
   has_many :customers
@@ -114,11 +114,12 @@ class Event < ActiveRecord::Base
   end
 
   def total_credits
-    customer_event_profiles.reduce(0) { |a, e| a + e.total_credits }
+    CustomerCredit.where(profile: profiles).map(&:amount).sum
   end
 
   def total_refundable_money(_refund_service)
-    customer_event_profiles.reduce(0) { |a, e| a + e.refundable_money_amount }
+    creds = CustomerCredit.where(profile: profiles)
+    creds.map(&:refundable_amount).sum * standard_credit_price
   end
 
   def total_refundable_gtags(refund_service)
@@ -149,7 +150,7 @@ class Event < ActiveRecord::Base
   def gtag_query(refund_service)
     fee = refund_fee(refund_service)
     min = refund_minimun(refund_service)
-    gtags.joins(credential_assignments: [customer_event_profile: :customer_credits])
+    gtags.joins(credential_assignments: [profile: :customer_credits])
       .where("credential_assignments.aasm_state = 'assigned'")
       .having("sum(customer_credits.credit_value * customer_credits.final_refundable_balance) - " \
               "#{fee} >= #{min}")

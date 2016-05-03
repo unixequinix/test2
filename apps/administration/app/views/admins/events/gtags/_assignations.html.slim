@@ -14,11 +14,11 @@
         th = t("admin.defaults.actions")
     tbody
       - gtag.credential_assignments.each do |assignment|
-        - profile = assignment&.customer_event_profile
+        - profile = assignment&.profile
         - customer = profile&.customer
         tr
-          td = link_to profile.id, admins_event_customer_event_profile_path(current_event, profile)
-          td = link_to customer.email, admins_event_customer_event_profile_path(current_event, profile) unless assignment.nil? || customer.nil?
+          td = link_to profile.id, admins_event_profile_path(current_event, profile)
+          td = link_to customer.email, admins_event_profile_path(current_event, profile) unless assignment.nil? || customer.nil?
           td = "#{customer.first_name} #{customer.last_name}" unless assignment.nil? || customer.nil?
           td = t("admin.credential_assignments.states.#{assignment.aasm_state}")
           td = assignment.created_at.strftime("%y-%m-%d %H:%M:%S")

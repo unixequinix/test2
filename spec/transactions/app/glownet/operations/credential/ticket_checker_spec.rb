@@ -4,9 +4,9 @@ RSpec.describe Operations::Credential::TicketChecker, type: :job do
   let(:event) { create(:event) }
   let(:ticket) { create(:ticket, code: "TICKET_CODE", event: event) }
   let(:gtag) { create(:gtag, tag_uid: "UID1AT20160321130133", event: event) }
-  let(:profile) { create(:customer_event_profile, event: event) }
+  let(:profile) { create(:profile, event: event) }
   let(:transaction) do
-    create(:credential_transaction, event: event, ticket: ticket, customer_event_profile: profile)
+    create(:credential_transaction, event: event, ticket: ticket, profile: profile)
   end
   let(:worker) { Operations::Credential::TicketChecker.new }
   let(:atts) do
@@ -23,7 +23,7 @@ RSpec.describe Operations::Credential::TicketChecker, type: :job do
       device_db_index: rand(100),
       device_created_at: "2016-02-05 11:13:39 +0100",
       ticket_code: "TICKET_CODE",
-      customer_event_profile_id: profile.id,
+      profile_id: profile.id,
       status_code: 0,
       status_message: "All OK"
     }
