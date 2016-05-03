@@ -1,6 +1,11 @@
 class Admins::Events::CreditTransactionsController < Admins::Events::BaseController
+  before_filter :set_presenter, only: [:index, :search]
+
   def index
-    set_presenter
+  end
+
+  def search
+    render :index
   end
 
   def show
@@ -12,10 +17,10 @@ class Admins::Events::CreditTransactionsController < Admins::Events::BaseControl
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "CreditTransaction".constantize.model_name,
-      fetcher: CreditTransaction.where(event: current_event).order(id: :desc),
+      fetcher: CreditTransaction.where(event: current_event).order(device_created_at: :desc),
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [:station, :customer_event_profile],
+      include_for_all_items: [:profile, :station],
       context: view_context
     )
   end

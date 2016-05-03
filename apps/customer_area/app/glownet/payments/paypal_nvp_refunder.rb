@@ -3,7 +3,7 @@ class Payments::PaypalNvpRefunder
     @payment = payment
     @order = payment.order
     @amount = amount
-    @event = @order.customer_event_profile.event
+    @event = @order.profile.event
     @paypal_nvp = Gateways::PaypalNvp::Transaction.new(@event)
   end
 

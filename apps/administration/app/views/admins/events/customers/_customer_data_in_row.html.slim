@@ -1,15 +1,15 @@
-- if customer.customer_event_profile.active_tickets_assignment
+- if customer.profile.active_tickets_assignment
   td
-    - customer.customer_event_profile.active_tickets_assignment.each do |assigned_admission|
+    - customer.profile.active_tickets_assignment.each do |assigned_admission|
       = link_to assigned_admission.credentiable.code,
         edit_admins_event_ticket_path(current_event,
         assigned_admission.credentiable)
 - else
   td data-label=t("admin.customers.tickets") = t("admin.defaults.empty_tickets")
-td data-label=t("admin.customers.credits") = customer.customer_event_profile.customer_credits.sum(:amount)
-- if customer.customer_event_profile.active_gtag_assignment.present?
-  td = link_to "#{customer.customer_event_profile.active_gtag_assignment.credentiable.tag_uid}",
+td data-label=t("admin.customers.credits") = customer.profile.customer_credits.sum(:amount)
+- if customer.profile.active_gtag_assignment.present?
+  td = link_to "#{customer.profile.active_gtag_assignment.credentiable.tag_uid}",
     edit_admins_event_gtag_path(current_event,
-    customer.customer_event_profile.active_gtag_assignment.credentiable)
+    customer.profile.active_gtag_assignment.credentiable)
 - else
   td data-label=t("admin.customers.gtags") = t("admin.defaults.empty_gtags")

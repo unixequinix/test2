@@ -40,8 +40,8 @@ class Events::BaseController < ApplicationController
   end
 
   def current_profile
-    current_customer.customer_event_profile ||
-      CustomerEventProfile.new(customer: current_customer, event: current_event)
+    current_customer.profile ||
+      Profile.new(customer: current_customer, event: current_event)
   end
   helper_method :current_profile
 

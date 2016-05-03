@@ -1,7 +1,7 @@
 class RefundService
   def initialize(claim)
     @claim = claim
-    @profile = @claim.customer_event_profile
+    @profile = @claim.profile
   end
 
   def create(params)

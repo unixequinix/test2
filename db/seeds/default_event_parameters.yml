@@ -103,6 +103,15 @@
         -
           name: autotopup
           value: false
+    -
+      name: wirecard
+      values:
+        -
+          name: customer_id
+          value: "D200001"
+        -
+          name: secret_key
+          value: B8AKTPWBRMNBV455FG6M2DANE99WU2
 -
   category: refund
   groups:

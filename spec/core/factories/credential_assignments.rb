@@ -3,7 +3,7 @@
 # Table name: credential_assignments
 #
 #  id                        :integer          not null, primary key
-#  customer_event_profile_id :integer          not null
+#  profile_id :integer          not null
 #  credentiable_id           :integer          not null
 #  credentiable_type         :string           not null
 #  aasm_state                :string
@@ -14,7 +14,7 @@
 
 FactoryGirl.define do
   factory :credential_assignment do
-    customer_event_profile
+    profile
 
     trait :assigned do
       aasm_state "assigned"

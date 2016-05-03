@@ -1,11 +1,6 @@
 class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
   def index
     @tickets = @fetcher.tickets
-               .joins("FULL OUTER JOIN purchasers
-                       ON purchasers.credentiable_id = tickets.id
-                       AND purchasers.credentiable_type = 'Ticket'
-                       AND purchasers.deleted_at IS NULL")
-               .includes(:purchaser)
 
     render json: {
       event_id: current_event.id,
@@ -36,6 +31,33 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
                    error: @ticket.errors.full_messages }) && return unless @ticket.save
 
     render(status: :created, json: Companies::Api::V1::TicketSerializer.new(@ticket))
+  end
+
+  def bulk_upload # rubocop:disable all
+    render(status: :bad_request, json: "tickets key is missing") && return unless params[:tickets]
+    errors = { atts: [] }
+
+    params[:tickets].each do |atts|
+      atts = ActionController::Parameters.new(atts)
+      atts.merge!(code: atts.delete(:ticket_reference),
+                  company_ticket_type_id: atts.delete(:ticket_type_id),
+                  event_id: current_event.id)
+      ticket_atts = atts.permit(:code,
+                                :company_ticket_type_id,
+                                :event_id,
+                                purchaser_attributes: [:id, :first_name, :last_name, :email])
+
+      ticket = Ticket.find_by_code(ticket_atts[:code])
+      ticket ||= Ticket.create(ticket_atts)
+
+      errors[:atts] << { ticket: ticket.code,
+                         errors: ticket.errors.full_messages } && next unless ticket.valid?
+    end
+
+    errors.delete_if { |_, v| v.compact.empty? }
+    render(status: :unprocessable_entity, json: { status: :unprocessable_entity,
+                                                  errors: errors }) && return if errors.any?
+    render(status: :created, json: :created)
   end
 
   def update # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity

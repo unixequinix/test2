@@ -140,6 +140,87 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
     end
   end
 
+  describe "POST bulk_upload" do
+    let(:params) do
+      [{
+        ticket_reference: SecureRandom.hex(16),
+        ticket_type_id: @ticket_type.id,
+        purchaser_attributes: {
+          first_name: "Glownet",
+          last_name: "Glownet",
+          email: "hi@glownet.com"
+        }
+      },
+       {
+         ticket_reference: SecureRandom.hex(16),
+         ticket_type_id: @ticket_type.id,
+         purchaser_attributes: {
+           first_name: "Glownet",
+           last_name: "Glownet",
+           email: "hi@glownet.com"
+         }
+       }]
+    end
+    let(:invalid_params) do
+      [{
+        ticket_reference: SecureRandom.hex(16),
+        purchaser_attributes: {
+          first_name: "Glownet",
+          last_name: "Glownet",
+          email: "hi@glownet.com"
+        }
+      },
+       {
+         ticket_reference: SecureRandom.hex(16),
+         ticket_type_id: @ticket_type.id,
+         purchaser_attributes: {
+           first_name: "Glownet",
+           last_name: "Glownet",
+           email: "hi@glownet.com"
+         }
+       }]
+    end
+    context "when authenticated" do
+      before(:each) do
+        @company = Company.last
+        http_login(@event.token, @company.access_token)
+      end
+
+      context "when the request is valid" do
+        it "increases the tickets in the database by 2" do
+          expect do
+            post :bulk_upload, tickets: params
+          end.to change(Ticket, :count).by(2)
+        end
+
+        it "returns a 201 status code" do
+          post :bulk_upload, tickets: params
+          expect(response.status).to eq(201)
+        end
+      end
+
+      context "when the request is invalid" do
+        it "returns a 422 status code" do
+          post :bulk_upload, tickets: invalid_params
+          expect(response.status).to eq(422)
+        end
+
+        it "returns the array with errors" do
+          post :bulk_upload, tickets: invalid_params
+          body = JSON.parse(response.body)
+          expect(body["errors"]).not_to be_empty
+        end
+      end
+    end
+
+    context "when not authenticated" do
+      it "returns a 401 status code" do
+        post :bulk_upload, tickets: params
+        expect(response.status).to eq(401)
+      end
+    end
+  end
+
   describe "PATCH update" do
     context "when authenticated" do
       before(:each) do

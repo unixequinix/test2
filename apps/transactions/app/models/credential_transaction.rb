@@ -14,7 +14,7 @@
 #  device_db_index           :integer
 #  device_created_at         :datetime
 #  ticket_id                 :integer
-#  customer_event_profile_id :integer
+#  profile_id :integer
 #  status_code               :integer
 #  status_message            :string
 #  ticket_code               :string

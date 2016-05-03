@@ -11,22 +11,18 @@ table.transactions
       th = t("admin.transactions.price")
       th = t("admin.transactions.payment_method")
       th = t("admin.transactions.payment_gateway")
-      th = t("admin.transactions.more_info")
   tbody
     - transactions.each do |transaction|
       tr
-      td data-label=t("admin.transactions.id") = transaction.id
-      td data-label=t("admin.transactions.transaction_origin") = transaction.transaction_origin
-      td data-label=t("admin.transactions.transaction_type") = transaction.transaction_type
-      td data-label=t("admin.transactions.station_id") = transaction.station.name
-      td data-label=t("admin.transactions.device_uid") = transaction.device_uid
-      td data-label=t("admin.transactions.customer_tag_uid")
-        = link_to transaction.customer_tag_uid, admins_event_customer_event_profile_path(current_event, transaction.customer_event_profile)
-      td data-label=t("admin.transactions.price") = transaction.price
-      td data-label=t("admin.transactions.payment_method") = transaction.payment_method
-      td data-label=t("admin.transactions.payment_gateway") = transaction.payment_gateway
-      td data-label=t("admin.transactions.more_info") = link_to admins_event_money_transaction_path(current_event, transaction) do
-        = fa_icon 'eye'
-        |  Show
+        td data-label=t("admin.transactions.id") = link_to transaction.id, admins_event_money_transaction_path(current_event, transaction)
+        td data-label=t("admin.transactions.transaction_origin") = transaction.transaction_origin
+        td data-label=t("admin.transactions.transaction_type") = transaction.transaction_type
+        td data-label=t("admin.transactions.station_id") = transaction.station.name
+        td data-label=t("admin.transactions.device_uid") = transaction.device_uid
+        td data-label=t("admin.transactions.customer_tag_uid")
+          = link_to transaction.customer_tag_uid, admins_event_profile_path(current_event, transaction.profile) if transaction.customer_tag_uid
+        td data-label=t("admin.transactions.price") = transaction.price
+        td data-label=t("admin.transactions.payment_method") = transaction.payment_method
+        td data-label=t("admin.transactions.payment_gateway") = transaction.payment_gateway
 .container-pagination
   = paginate transactions

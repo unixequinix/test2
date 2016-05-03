@@ -43,17 +43,16 @@ class Gtag < ActiveRecord::Base
           -> { where(credential_assignments: { aasm_state: :assigned }) },
           as: :credentiable,
           class_name: "CredentialAssignment"
-  has_one :assigned_customer_event_profile,
+  has_one :assigned_profile,
           through: :assigned_gtag_credential,
-          source: :customer_event_profile
-  has_many :customer_event_profiles, through: :credential_assignments
+          source: :profile
+  has_many :profiles, through: :credential_assignments
   has_one :refund
   has_many :claims
   has_one :completed_claim, -> { where(aasm_state: :completed) }, class_name: "Claim"
   has_many :comments, as: :commentable
   has_many :credential_assignments, as: :credentiable, dependent: :destroy
   has_one :purchaser, as: :credentiable, dependent: :destroy
-  has_one :banned_gtag
   belongs_to :company_ticket_type
 
   accepts_nested_attributes_for :purchaser, allow_destroy: true
@@ -69,8 +68,8 @@ class Gtag < ActiveRecord::Base
            AND credential_assignments.credentiable_type = 'Gtag'
            AND credential_assignments.deleted_at IS NULL
            LEFT OUTER JOIN customer_orders
-           ON customer_orders.customer_event_profile_id =
-           credential_assignments.customer_event_profile_id
+           ON customer_orders.profile_id =
+           credential_assignments.profile_id
            AND customer_orders.deleted_at IS NULL")
       .select("gtags.id, gtags.event_id, gtags.company_ticket_type_id, gtags.tag_serial_number,
                gtags.tag_uid, gtags.credential_redeemed, customer_orders.amount")
@@ -82,17 +81,8 @@ class Gtag < ActiveRecord::Base
       .where(event: event, companies: { name: company })
   }
 
-  scope :banned, -> { joins(:banned_gtag) }
-
-  def ban!
-    assignment = CredentialAssignment.find_by(credentiable_id: id, credentiable_type: "Gtag")
-    profile_id = assignment.customer_event_profile_id unless assignment.nil?
-    BannedCustomerEventProfile.new(customer_event_profile_id: profile_id) unless assignment.nil?
-    BannedGtag.create!(gtag_id: id)
-  end
-
   def refundable_amount
-    balance = assigned_customer_event_profile.current_balance
+    balance = assigned_profile.current_balance
     standard_credit_price = event.standard_credit_price
     credit_amount = 0
     credit_amount = balance.refundable_amount if balance.present?
@@ -105,7 +95,7 @@ class Gtag < ActiveRecord::Base
   end
 
   def refundable?(refund_service)
-    balance = assigned_customer_event_profile.current_balance
+    balance = assigned_profile.current_balance
 
     minimum = event.refund_minimun(refund_service).to_f
     balance.present? &&

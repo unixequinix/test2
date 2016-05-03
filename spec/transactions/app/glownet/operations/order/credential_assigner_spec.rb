@@ -4,16 +4,16 @@ RSpec.describe Operations::Order::CredentialAssigner, type: :job do
   let(:event) { create(:event) }
   let(:worker) { Operations::Order::CredentialAssigner }
   let(:gtag) { create(:gtag, tag_uid: "FOOBARBAZ", event: event) }
-  let(:profile) { create(:customer_event_profile) }
+  let(:profile) { create(:profile) }
   let(:atts) do
     {
       event_id: event.id,
       customer_tag_uid: gtag.tag_uid,
-      customer_event_profile_id: profile.id
+      profile_id: profile.id
     }
   end
 
-  %w( customer_tag_uid customer_event_profile_id ).each do |att|
+  %w( customer_tag_uid profile_id ).each do |att|
     it "requires #{att} as attribute" do
       atts.delete(att.to_sym)
       expect { worker.perform_later(atts) }.to raise_error
@@ -28,7 +28,7 @@ RSpec.describe Operations::Order::CredentialAssigner, type: :job do
   end
 
   it "leaves the current assigned_gtag_credential if one present" do
-    gtag.create_assigned_gtag_credential!(customer_event_profile: profile)
+    gtag.create_assigned_gtag_credential!(profile: profile)
     expect do
       worker.perform_later(atts)
       gtag.reload

@@ -1,6 +1,6 @@
 class CreditsPresenter < BasePresenter
   def can_render?
-    @customer_event_profile.active_credentials?
+    @profile.active_credentials?
   end
 
   def path
@@ -9,7 +9,7 @@ class CreditsPresenter < BasePresenter
 
   def customer_total_credits
     # TODO: Check this
-    @customer_event_profile.total_credits
+    @profile.total_credits
   end
 
   def event_started?
@@ -17,11 +17,11 @@ class CreditsPresenter < BasePresenter
   end
 
   def refundable_credits
-    @customer_event_profile.total_refundable
+    @profile.total_refundable
   end
 
   def refundable_money
-    @customer_event_profile.refundable_money_amount
+    @profile.refundable_money_amount
   end
 
   def token_symbol
@@ -29,7 +29,7 @@ class CreditsPresenter < BasePresenter
   end
 
   def valid_balance?
-    BalanceCalculator.new(@customer_event_profile).valid_balance?
+    BalanceCalculator.new(@profile).valid_balance?
   end
 
   def call_to_action

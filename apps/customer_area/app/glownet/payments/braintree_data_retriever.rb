@@ -1,4 +1,4 @@
-class Payments::BraintreeDataRetriever
+class Payments::BraintreeDataRetriever < Payments::BaseDataRetriever
   include Rails.application.routes.url_helpers
   attr_reader :current_event, :order, :client_token
 

@@ -5,7 +5,7 @@ en:
     cancel: "Cancel"
     edit: "Edit"
     delete: "Delete"
-    delete_ticket: "Delete ticket"
+    delete_ticket: "Remove ticket"
     check_news: "Back to Event Website"
     delete_account: "Delete your account"
     logout: "Logout"
@@ -165,6 +165,10 @@ en:
       card_expiration_month: "Card expiration month"
       card_expiration_year: "Card expiration year"
       button: "Pay"
+    ideal:
+      bank_account_iban: "IBAN"
+      bank_bic: "BIC"
+      account_owner: "Owner"
     paypal:
       sync_title: "Sync with PayPal to perform payment"
       sync_copy: "Never without credit!"

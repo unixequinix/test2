@@ -5,7 +5,7 @@ class Payments::PaypalRefunder
     @amount = amount
 
     # TODO: This has to go other place, done during hot fixing ;-)!!!!!
-    @event = @order.customer_event_profile.event
+    @event = @order.profile.event
     @payment_parameters = Parameter.joins(:event_parameters)
                           .where(category: "payment",
                                  group: "braintree",
@@ -39,7 +39,7 @@ class Payments::PaypalRefunder
                     order: order,
                     response_code: t.processor_response_code,
                     authorization_code: t.processor_authorization_code,
-                    currency: order.customer_event_profile.event.currency,
+                    currency: order.profile.event.currency,
                     merchant_code: t.id,
                     amount: t.amount.to_f,
                     success: true,

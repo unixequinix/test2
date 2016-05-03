@@ -1,0 +1,13 @@
+.wrapper-module
+  p.hint-redirect.center-text = t('orders.redirect')
+  = form_tag event_order_path(order_presenter.event, order_presenter.order), method: :patch, remote: true
+    .payment-errors#ideal-errors
+    .control-group
+      .controls
+        = hidden_field_tag(:payment_service, order_presenter.payment_service)
+        = select_tag(:financial_institution, options_for_select(order_presenter.banks))
+    .actions
+      = submit_tag t('orders.button'), class: "btn btn-action btn-action-primary"
+
+  #paymentForm
+

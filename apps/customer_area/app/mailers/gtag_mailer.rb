@@ -14,10 +14,10 @@ class GtagMailer < ApplicationMailer
   private
 
   def config_parameters(gtag_assignment)
-    @customer = gtag_assignment.customer_event_profile.customer
+    @customer = gtag_assignment.profile.customer
     @name = "#{@customer.first_name} #{@customer.last_name}"
     @gtag = gtag_assignment.credentiable
-    @event = gtag_assignment.customer_event_profile.event
+    @event = gtag_assignment.profile.event
     headers["In-Reply-To"] = @event.support_email
     headers["X-No-Spam"] = "True"
     I18n.config.globals[:gtag] = @event.gtag_name.capitalize

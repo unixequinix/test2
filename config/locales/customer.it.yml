@@ -166,6 +166,10 @@ it:
       card_expiration_month: "Card expiration date"
       card_expiration_year: "Card expiration date"
       button: "Pay"
+    ideal:
+      bank_account_iban: "IBAN"
+      bank_bic: "BIC"
+      account_owner: "Owner"
     paypal:
       sync_title: "Sync with PayPal to perform payment"
       sync_copy: "Never without credit!"

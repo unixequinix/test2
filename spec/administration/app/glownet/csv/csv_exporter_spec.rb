@@ -22,12 +22,12 @@ RSpec.describe Csv::CsvExporter, type: :domain_logic do
                              first_name: "Paco Lopez Jones",
                              last_name: "Ojeda",
                              email: "paco.ojeda@eresmas.es")
-      profile_odd = create(:customer_event_profile, event: event, customer: customer_odd)
-      profile_even = create(:customer_event_profile, event: event, customer: customer_even)
+      profile_odd = create(:profile, event: event, customer: customer_odd)
+      profile_even = create(:profile, event: event, customer: customer_even)
 
       (1..5).each do |index|
         gtag_id = index.odd? ? tag_odd.id : tag_even.id
-        customer_event_profile = index.odd? ? profile_odd : profile_even
+        profile = index.odd? ? profile_odd : profile_even
         claim = Claim.create(id: index,
                              number: "15102511a6e5" + index.to_s,
                              aasm_state: "completed",
@@ -39,7 +39,7 @@ RSpec.describe Csv::CsvExporter, type: :domain_logic do
                              service_type: "bank_account",
                              fee: 10.5,
                              minimum: 0,
-                             customer_event_profile: customer_event_profile)
+                             profile: profile)
 
         create(:refund, claim: claim)
         params = { data_type: "string", category: "claim", group: "bank_account" }
@@ -56,7 +56,7 @@ RSpec.describe Csv::CsvExporter, type: :domain_logic do
         expect(number_of_records_in_csv(@csv_file)).to be(Claim.count)
       end
       it "should be able to export to a file" do
-        csv = "id,service_type,customer_event_profile,first_name," \
+        csv = "id,service_type,profile,first_name," \
               "last_name,email,tag_uid,tag_serial_number,amount,iban,swift\n" \
               "1,bank_account,3,Diana Mayorga Zamora  ,Carmona,gustavo.orosco@garibay.es," \
                 "4OBXCHS2FT,MIUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n" \

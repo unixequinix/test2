@@ -3,87 +3,146 @@ require "rails_helper"
 RSpec.describe Api::V1::Events::GtagsController, type: :controller do
   let(:event) { create(:event) }
   let(:admin) { create(:admin) }
-
-  before do
-    create_list(:gtag, 2, event: event)
-  end
+  let(:db_gtags) { event.gtags }
+  before { create_list(:gtag, 2, event: event) }
 
   describe "GET index" do
     context "with authentication" do
       before(:each) do
         http_login(admin.email, admin.access_token)
-      end
-
-      it "has a 200 status code" do
         get :index, event_id: event.id
-        expect(response.status).to eq 200
       end
 
-      context "when the If-Modified-Since header is sent" do
-        before do
-          @new_gtag = create(:gtag, :with_purchaser, event: event)
-          @new_gtag.update!(updated_at: Time.now + 4.hours)
-
-          request.headers["If-Modified-Since"] = (@new_gtag.updated_at - 2.hours)
-        end
-
-        pending "returns only the modified gtags" do
-          get :index, event_id: event.id
-          gtags = JSON.parse(response.body).map { |m| m["tag_uid"] }
-          expect(gtags).to eq([@new_gtag.tag_uid])
+      it "returns a 200 status code" do
+        expect(response.status).to eq(200)
+      end
+      it "returns the necessary keys" do
+        JSON.parse(response.body).map do |gtag|
+          keys = %w(id tag_uid tag_serial_number credential_redeemed banned credential_type_id
+                    purchaser_first_name purchaser_last_name purchaser_email customer_id)
+          expect(keys).to eq(gtag.keys)
         end
       end
 
-      context "when the If-Modified-Since header isn't sent" do
-        before do
-          create(:gtag, :with_purchaser, event: event)
-        end
-
-        pending "returns the cached gtags" do
-          get :index, event_id: event.id
-          gtags = JSON.parse(response.body).map { |m| m["tag_uid"] }
-          cache_g = JSON.parse(Rails.cache.fetch("v1/event/#{event.id}/gtags")).map do |m|
-            m["tag_uid"]
-          end
-
-          create(:gtag, :with_purchaser, event: event)
-          event_gtags = event.gtags.map(&:tag_uid)
-
-          expect(gtags).to eq(cache_g)
-          expect(gtags).not_to eq(event_gtags)
+      it "returns the correct data" do
+        JSON.parse(response.body).each_with_index do |gtag, index|
+          gtag_atts = {
+            id: db_gtags[index].id,
+            tag_uid: db_gtags[index].tag_uid,
+            tag_serial_number: db_gtags[index].tag_serial_number,
+            credential_redeemed: db_gtags[index].credential_redeemed,
+            credential_type_id: db_gtags[index]&.company_ticket_type&.credential_type_id,
+            banned: db_gtags[index].banned?,
+            purchaser_first_name: db_gtags[index]&.purchaser&.first_name,
+            purchaser_last_name: db_gtags[index]&.purchaser&.last_name,
+            purchaser_email: db_gtags[index]&.purchaser&.email,
+            customer_id: db_gtags[index]&.assigned_profile&.id
+          }
+          expect(gtag).to eq(gtag_atts.as_json)
         end
       end
     end
 
     context "without authentication" do
-      it "has a 401 status code" do
-        get :index, event_id: Event.last.id
-        expect(response.status).to eq 401
+      it "returns a 401 status code" do
+        get :index, event_id: event.id
+        expect(response.status).to eq(401)
       end
     end
   end
 
   describe "GET show" do
     context "with authentication" do
-      before(:each) do
+      before do
+        @agreement = create(:company_event_agreement, event: event)
+        @access = create(:access_catalog_item, event: event)
+        @credential = create(:credential_type, catalog_item: @access)
+        @ctt = create(:company_ticket_type, company_event_agreement: @agreement,
+                                            event: event,
+                                            credential_type: @credential)
+        @gtag = create(:gtag, event: event, company_ticket_type: @ctt)
+        @gtag2 = create(:gtag, event: event, company_ticket_type: @ctt)
+        @profile = create(:profile, event: event)
+        create(:credential_assignment, credentiable: @gtag,
+                                       profile: @profile,
+                                       aasm_state: "assigned")
+        create(:credential_assignment, credentiable: @gtag2,
+                                       profile: @profile,
+                                       aasm_state: "unassigned")
+        @customer = create(:customer, profile: @profile)
+        @order = create(:customer_order, profile: @profile, catalog_item: @access)
+        create(:online_order, counter: 1, customer_order: @order, redeemed: false)
+
         http_login(admin.email, admin.access_token)
-        get :show, event_id: event.id, id: Gtag.last.id
       end
 
-      it "has a 200 status code" do
-        expect(response.status).to eq 200
+      describe "when gtag exists" do
+        before(:each) do
+          get :show, event_id: event.id, id: @gtag.id
+        end
+
+        it "returns a 200 status code" do
+          expect(response.status).to eq(200)
+        end
+
+        it "returns the necessary keys" do
+          gtag = JSON.parse(response.body)
+          gtag_keys = %w(id tag_uid tag_serial_number credential_redeemed banned credential_type_id
+                         customer)
+          customer_keys = %w(id banned autotopup_gateways credentials first_name last_name email
+                             orders)
+          order_keys = %w(online_order_counter catalogable_id catalogable_type amount)
+
+          expect(gtag.keys).to eq(gtag_keys)
+          expect(gtag["customer"].keys).to eq(customer_keys)
+          expect(gtag["customer"]["credentials"].map(&:keys).flatten.uniq).to eq(%w(id type))
+          expect(gtag["customer"]["orders"].map(&:keys).flatten.uniq).to eq(order_keys)
+        end
+
+        it "returns the correct data" do
+          customer = @gtag.assigned_profile.customer
+          orders = @gtag.assigned_profile.customer_orders
+
+          gtag = {
+            id: @gtag.id,
+            tag_uid: @gtag.tag_uid,
+            tag_serial_number: @gtag.tag_serial_number,
+            credential_redeemed: @gtag.credential_redeemed,
+            banned: @gtag.banned,
+            credential_type_id: @gtag.company_ticket_type.credential_type_id,
+            customer: {
+              id:  @gtag.assigned_profile.id,
+              banned: @gtag.assigned_profile.banned?,
+              autotopup_gateways: [],
+              credentials: [{ id: @gtag.id, type: "gtag" }],
+              first_name: customer.first_name,
+              last_name: customer.last_name,
+              email: customer.email,
+              orders: [{
+                online_order_counter: orders.first.online_order.counter,
+                catalogable_id: orders.first.catalog_item.catalogable_id,
+                catalogable_type: orders.first.catalog_item.catalogable_type.downcase,
+                amount: orders.first.amount
+              }]
+            }
+          }
+
+          expect(JSON.parse(response.body)).to eq(gtag.as_json)
+        end
       end
 
-      it "returns the gtag specified" do
-        body = JSON.parse(response.body)
-        expect(body["tag_uid"]).to eq(Gtag.last.tag_uid)
+      describe "when gtag doesn't exist" do
+        it "returns a 404 status code" do
+          get :show, event_id: event.id, id: (db_gtags.last.id + 10)
+          expect(response.status).to eq(404)
+        end
       end
     end
 
     context "without authentication" do
-      it "has a 401 status code" do
-        get :show, event_id: event.id, id: Gtag.last.id
-        expect(response.status).to eq 401
+      it "returns a 401 status code" do
+        get :show, event_id: event.id, id: db_gtags.last.id
+        expect(response.status).to eq(401)
       end
     end
   end

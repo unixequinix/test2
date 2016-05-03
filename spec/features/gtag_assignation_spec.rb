@@ -12,7 +12,7 @@ RSpec.feature "Gtag assignation", type: :feature do
       ep.value = "standard"
       @gtag_format = "standard" if ep.save
       @customer = build(:customer, event: @event)
-      create(:customer_event_profile, customer: @customer, event: @event)
+      create(:profile, customer: @customer, event: @event)
 
       login_as(@customer, scope: :customer)
     end

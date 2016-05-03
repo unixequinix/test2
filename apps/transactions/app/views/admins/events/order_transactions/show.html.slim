@@ -5,7 +5,10 @@
     = t('admin.actions.back')
 .wrapper-negative-space
   .container-show
+    = render 'admins/events/shared/general_info', transaction: @transaction
+    h3.section-header
+      = fa_icon "list"
+      = t("admin.transactions.customer_order")
     dl
-      - @transaction.attributes.each do |key, value|
-        dt = t("admin.transactions.#{key}")
-        dd = value
+      dt = t("admin.transactions.customer_order")
+      dd = @transaction.customer_order_id

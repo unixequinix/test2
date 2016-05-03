@@ -69,7 +69,7 @@ class Payments::BraintreePayer
                     order: order,
                     response_code: transaction.processor_response_code,
                     authorization_code: transaction.processor_authorization_code,
-                    currency: order.customer_event_profile.event.currency,
+                    currency: order.profile.event.currency,
                     merchant_code: transaction.id,
                     amount: transaction.amount.to_f,
                     success: true,

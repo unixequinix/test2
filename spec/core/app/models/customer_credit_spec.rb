@@ -3,7 +3,7 @@
 # Table name: customer_credits
 #
 #  id                        :integer          not null, primary key
-#  customer_event_profile_id :integer          not null
+#  profile_id :integer          not null
 #  transaction_origin        :string           not null
 #  payment_method            :string           not null
 #  amount                    :decimal(8, 2)    default(1.0), not null

@@ -1,13 +1,13 @@
 - breadcrumb :admins_event_customer, current_event, @customer
 - provide :actions do
   = link_to t("admin.actions.assign_ticket"), new_admins_event_customer_ticket_assignment_path(current_event, @customer), class: "btn btn-action btn-action-new small"
-  = link_to t("admin.actions.assign_gtag"), new_admins_event_customer_gtag_assignment_path(current_event, @customer), class: "btn btn-action btn-action-new small" if @customer.customer_event_profile.nil? || (!@customer.customer_event_profile.nil? && !@customer.customer_event_profile.active_gtag_assignment)
+  = link_to t("admin.actions.assign_gtag"), new_admins_event_customer_gtag_assignment_path(current_event, @customer), class: "btn btn-action btn-action-new small" if @customer.profile.nil? || (!@customer.profile.nil? && !@customer.profile.active_gtag_assignment)
   = link_to admins_event_customers_path(current_event), class: "btn btn-action btn-action-back small" do
     = fa_icon "arrow-circle-left"
     = t('actions.back')
 .wrapper-negative-space
   = render("customer_account_information", customer: @customer)
-  = render("admins/events/customer_event_profiles/credentials_information",
-      customer_event_profile: @customer.customer_event_profile) if @customer.customer_event_profile
-  = render("admins/events/customer_event_profiles/customer_event_profile_data",
-    customer_event_profile: @customer.customer_event_profile) if @customer.customer_event_profile
+  = render("admins/events/profiles/credentials_information",
+      profile: @customer.profile) if @customer.profile
+  = render("admins/events/profiles/profile_data",
+    profile: @customer.profile) if @customer.profile
