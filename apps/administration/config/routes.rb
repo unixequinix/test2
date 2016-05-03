@@ -116,6 +116,10 @@ Rails.application.routes.draw do
         end
 
         resources :profiles, except: [:new, :create, :edit, :update] do
+          member do
+            get :ban
+            delete :unban
+          end
           collection do
             get :search
           end

@@ -407,6 +407,7 @@ es:
     profile:
       id: "Id"
     customers:
+      banned: "Baneado"
       delete: "Borrado"
       email: "Email"
       first_name: "Nombre"

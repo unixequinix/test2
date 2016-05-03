@@ -403,6 +403,7 @@ de:
     profile:
       id: "ID"
     customers:
+      banned: "Banned"
       delete: "Gelöscht"
       email: "Email"
       first_name: "Vorname"
