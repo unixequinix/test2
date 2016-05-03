@@ -10,4 +10,5 @@ p.menu-header
     = f.input :active_tickets_assignment_id_not_null, as: :select, label: t("admin.customers.search.tickets")
     = f.input :active_gtag_assignment_id_not_null, as: :select, label: t("admin.customers.search.gtag_assignments")
     = f.input :credit_purchased_logs_id_not_null, as: :select, label: t("admin.customers.search.credits_purchased")
+    = f.input :banned_true, as: :select, label: "Banned?"
     = f.submit class: "btn btn-secondary"
