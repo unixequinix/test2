@@ -5,16 +5,21 @@
     = t('actions.search')
     
 .wrapper-negative-space
-  - @missing.each do |uid, hash|
-    h3 = "Device: #{uid}"
-    table.transactions
-      thead
-        tr
-          th = t("admin.transactions.transaction_category")
-          th = t("admin.transactions.keys")
-      tbody
-        - hash.each do |transaction_type, indexes|
+  - if @missing
+    - @missing.each do |uid, hash|
+      h3 = "Device: #{uid}"
+      table.transactions
+        thead
           tr
-            td data-label=t("admin.transactions.id") = transaction_type
-            td data-label=t("admin.transactions.transaction_origin") = indexes.to_sentence
-    br
+            th = t("admin.transactions.transaction_category")
+            th = t("admin.transactions.keys")
+        tbody
+          - hash.each do |transaction_type, indexes|
+            tr
+              td data-label=t("admin.transactions.id") = transaction_type
+              td data-label=t("admin.transactions.transaction_origin") = indexes.to_sentence
+      br
+  - else
+  .section-title-empty
+    = image_tag "img-empty.png"
+    p = t("admin.defaults.empty_item", item: "Missing Transactions")
