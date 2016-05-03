@@ -15,7 +15,7 @@ class Payments::WirecardDataStorageInitializer
   private
 
   def data_storage_params_with_fingerprint
-    data_storage_params.merge( { requestFingerprint: fingerprint } )
+    data_storage_params.merge(requestFingerprint: fingerprint)
   end
 
   def data_storage_params
@@ -29,13 +29,12 @@ class Payments::WirecardDataStorageInitializer
   end
 
   def fingerprint
-    digest = OpenSSL::Digest.new('sha512')
-    hmac = OpenSSL::HMAC.hexdigest(digest, @secret_key, data_string)
+    digest = OpenSSL::Digest.new("sha512")
+    OpenSSL::HMAC.hexdigest(digest, @secret_key, data_string)
   end
 
   def data_string
-    data_string = data_storage_params.values.reduce("") { |result, value| result + value.to_s }
+    data_string = data_storage_params.values.reduce("") { |a, e| a + e.to_s }
     data_string + @secret_key
   end
-
 end

@@ -22,5 +22,4 @@ class Orders::WirecardPresenter < Orders::BasePresenter
   def javascript_url
     @form_data.data_storage_javascript_url
   end
-
 end

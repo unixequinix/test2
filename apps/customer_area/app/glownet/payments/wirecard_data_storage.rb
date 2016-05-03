@@ -13,16 +13,13 @@ module Payments::WirecardDataStorage
     ).data_storage
   end
 
-
   def with_params(params)
     super(params)
     @storage_id = params[:storage_id]
     self
   end
 
-  def data_storage
-    @data_storage
-  end
+  attr_reader :data_storage
 
   def data_storage_id
     @storate_id || @data_storage["storageId"]
@@ -33,6 +30,6 @@ module Payments::WirecardDataStorage
   end
 
   def parameters
-    super.merge( {  storageId: "data_storage_id" } )
+    super.merge(storageId: "data_storage_id")
   end
 end

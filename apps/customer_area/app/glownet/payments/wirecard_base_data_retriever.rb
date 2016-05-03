@@ -90,14 +90,14 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
   end
 
   def request_fingerprint
-    data = parameters.values.reduce("") { |acum, param| acum + send(param).to_s }
+    data = parameters.values.reduce("") { |a, e| a + send(e).to_s }
     data += request_fingerprint_order + secret_key
-    digest = OpenSSL::Digest.new('sha512')
-    hmac = OpenSSL::HMAC.hexdigest(digest, secret_key, data)
+    digest = OpenSSL::Digest.new("sha512")
+    OpenSSL::HMAC.hexdigest(digest, secret_key, data)
   end
 
   def payment_parameters
-    payment_parameters = Hash.new
+    payment_parameters = {}
     parameters.each { |k, v| payment_parameters[k] = send(v) }
     payment_parameters[:requestFingerprintOrder] = request_fingerprint_order
     payment_parameters[:requestFingerprint] = request_fingerprint
@@ -110,19 +110,11 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
 
   def parameters
     {
-      customerId: "customer_id",
-      amount: "amount",
-      currency: "currency",
-      paymentType: "payment_type",
-      language: "language",
-      orderDescription: "order_description",
-      successUrl: "success_url",
-      cancelUrl: "cancel_url",
-      failureUrl: "failure_url",
-      serviceUrl: "service_url",
-      confirmUrl: "confirm_url",
-      consumerUserAgent: "consumer_user_agent",
-      consumerIpAddress: "consumer_ip_address",
+      customerId: "customer_id", amount: "amount", currency: "currency",
+      paymentType: "payment_type", language: "language", orderDescription: "order_description",
+      successUrl: "success_url", cancelUrl: "cancel_url", failureUrl: "failure_url",
+      serviceUrl: "service_url", confirmUrl: "confirm_url",
+      consumerUserAgent: "consumer_user_agent", consumerIpAddress: "consumer_ip_address"
     }
   end
 end

@@ -9,9 +9,7 @@ class Payments::IdealDataRetriever < Payments::WirecardBaseDataRetriever
     "IDL"
   end
 
-  def financial_institution
-    @financial_institution
-  end
+  attr_reader :financial_institution
 
   def success_url
     super("ideal")
@@ -28,6 +26,6 @@ class Payments::IdealDataRetriever < Payments::WirecardBaseDataRetriever
   private
 
   def parameters
-   super.merge( { financialInstitution: "financial_institution" } )
+    super.merge(financialInstitution: "financial_institution")
   end
 end

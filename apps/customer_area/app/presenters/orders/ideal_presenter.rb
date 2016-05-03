@@ -22,11 +22,11 @@ class Orders::IdealPresenter < Orders::BasePresenter
     [
       ["ABN AMRO Bank", "ABNAMROBANK"],
       ["ASN Bank", "ASNBANK"],
-      ["ING", "INGBANK"],
-      ["knab", "KNAB"],
-      ["Rabobank", "RABOBANK"],
+      %w(ING INGBANK),
+      %w(knab KNAB),
+      %w(Rabobank RABOBANK),
       ["SNS Bank", "SNSBANK"],
-      ["RegioBank", "REGIOBANK"],
+      %w(RegioBank REGIOBANK),
       ["Triodos Bank", "TRIODOSBANK"],
       ["Van Lanschot Bankiers", "VANLANSCHOT"]
     ]
