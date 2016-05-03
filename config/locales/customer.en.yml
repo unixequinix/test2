@@ -160,8 +160,8 @@ en:
         name: "Sofort"
         icon: "pf pf-sofort"
       wirecard:
-        name: "Wirecard"
-        icon: "pf pf-wirecard"
+        name: "Credit card"
+        icon: "credit-card"
     payment: "Payment method"
     stripe:
       card_number: "Card number"

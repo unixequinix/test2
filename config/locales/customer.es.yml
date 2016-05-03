@@ -159,11 +159,11 @@ es:
         name: "Sofort"
         icon: "pf pf-ideal"
       wirecard:
-        name: "Wirecard"
+        name: "Credit card"
         icon: "pf pf-sofort"
       ideal:
         name: "Ideal"
-        icon: "pf pf-wirecard"
+        icon: "credit-card"
         bank_account_iban: "IBAN"
         bank_bic: "BIC"
         account_owner: "Propietario"

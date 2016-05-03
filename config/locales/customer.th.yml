@@ -162,8 +162,8 @@ th:
         name: "Sofort"
         icon: "pf pf-sofort"
       wirecard:
-        name: "Wirecard"
-        icon: "pf pf-wirecard"
+        name: "Credit card"
+        icon: "credit-card"
     stripe:
       card_number: "หมายเลขบัตร"
       card_code_verification: "หมายเลขตรวจสอบยืนยันบัตร (CCV)"
