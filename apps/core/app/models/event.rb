@@ -53,7 +53,7 @@ class Event < ActiveRecord::Base
   has_flags 1 => :bank_account, 2 => :epg, 3 => :tipalti, 4 => :direct, column: "refund_services"
   has_flags 1 => :phone, 2 => :address, 3 => :city, 4 => :country, 5 => :postcode, 6 => :gender,
             7 => :birthdate, 8 => :agreed_event_condition, column: "registration_parameters"
-  has_flags 1 => :en_lang, 2 => :es_lang, 3 => :it_lang, 4 => :th_lang, column: "locales"
+  has_flags 1 => :en_lang, 2 => :es_lang, 3 => :it_lang, 4 => :th_lang, 5 => :de_lang, column: "locales"
 
   # Associations
   has_many :company_ticket_types
