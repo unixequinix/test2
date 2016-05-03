@@ -359,6 +359,8 @@ de:
       id: "ID"
       tag: "Tag UID"
       serial: "Tag Seriennummer"
+      banned: "Banned"
+      tickets: "Tickets"
       customer: "Kunde"
       assigned_at: "Angemeldet bei"
       created_at: "Erstellt bei "

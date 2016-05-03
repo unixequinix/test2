@@ -42,24 +42,19 @@ Rails.application.routes.draw do
 
         resources :gtags do
           resources :comments, module: :gtags
-          collection do
-            get :search
-            delete :destroy_multiple
+          member do
+            get :ban
+            delete :unban
           end
-        end
-
-        resources :ticket_types, except: :show
-        resources :tickets do
-          resources :comments, module: :tickets
           collection do
             get :search
             delete :destroy_multiple
-            post :import
           end
         end
 
         resources :gtag_assignments, only: [:destroy]
         resources :ticket_types, except: :show
+
         resources :tickets do
           resources :comments, module: :tickets
           member do
@@ -69,6 +64,7 @@ Rails.application.routes.draw do
           collection do
             get :search
             delete :destroy_multiple
+            post :import
           end
         end
 

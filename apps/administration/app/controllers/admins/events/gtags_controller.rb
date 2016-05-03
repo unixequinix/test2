@@ -69,6 +69,56 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
     redirect_to admins_event_gtags_url
   end
 
+  def ban
+    gtag = @fetcher.gtags.find(params[:id])
+    gtag.update(banned: true)
+    station = current_event.stations
+              .joins(:station_type)
+              .find_by(station_types: { name: "customer_portal" })
+    atts = {
+      event_id: current_event.id,
+      station_id: station.id,
+      transaction_category: "ban",
+      transaction_origin: "customer_portal",
+      transaction_type: "ban_gtag",
+      banneable_id: gtag.id,
+      banneable_type: "Gtag",
+      reason: "",
+      status_code: 0,
+      status_message: "OK"
+    }
+    Operations::Base.new.portal_write(atts)
+    redirect_to(admins_event_gtags_url)
+  end
+
+  def unban
+    gtag = @fetcher.gtags.find(params[:id])
+
+    if gtag.assigned_profile&.banned?
+      flash[:error] = "Assigned profile is banned, unban it or unassign the gtag first"
+      redirect_to(admins_event_gtags_url)
+    else
+      gtag.update(banned: false)
+      station = current_event.stations
+                .joins(:station_type)
+                .find_by(station_types: { name: "customer_portal" })
+      atts = {
+        event_id: current_event.id,
+        station_id: station.id,
+        transaction_category: "ban",
+        transaction_origin: "customer_portal",
+        transaction_type: "unban_gtag",
+        banneable_id: gtag.id,
+        banneable_type: "Gtag",
+        reason: "",
+        status_code: 0,
+        status_message: "OK"
+      }
+      Operations::Base.new.portal_write(atts)
+      redirect_to(admins_event_gtags_url)
+    end
+  end
+
   private
 
   def set_presenter
@@ -92,6 +142,7 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
       :tag_uid,
       :tag_serial_number,
       :credential_redeemed,
+      :banned,
       :company_ticket_type_id,
       purchaser_attributes: [:id, :first_name, :last_name, :email, :gtag_delivery_address])
   end

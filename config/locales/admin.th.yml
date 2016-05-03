@@ -363,6 +363,8 @@ th:
       id: "Id"
       tag: "Tag UID"
       serial: "Tag Serial Number"
+      banned: "Banned"
+      tickets: "Tickets"
       customer: "Customer"
       assigned_at: "Assigned at"
       created_at: "Created at"
