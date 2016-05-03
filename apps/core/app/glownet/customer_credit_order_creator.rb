@@ -16,8 +16,8 @@ class CustomerCreditOrderCreator < CustomerCreditCreator
   private
 
   def single_customer_credit(order, order_item)
-    CustomerCredit.create(
-      customer_event_profile: order.customer_event_profile,
+    params = {
+      profile: order.profile,
       transaction_origin: CustomerCredit::CREDITS_PURCHASE,
       payment_method: "none",
       credit_value: order_item.catalog_item.catalogable.value,
@@ -29,8 +29,8 @@ class CustomerCreditOrderCreator < CustomerCreditCreator
     CustomerCredit.create(params)
   end
 
-
   def pack_customer_credit(order, order_item, credit_item, refundable)
+    amount = credit_item.total_amount * order_item.amount
     params = {
       profile: order.profile,
       transaction_origin: CustomerCredit::CREDITS_PURCHASE,
