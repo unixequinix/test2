@@ -22,7 +22,7 @@ class EventDecorator < Draper::Decorator
 
   REFUND_SERVICES = [:bank_account, :epg, :tipalti, :direct]
   FEATURES = [:top_ups, :refunds]
-  LOCALES = [:en_lang, :es_lang, :it_lang, :th_lang]
+  LOCALES = [:en_lang, :es_lang, :it_lang, :th_lang, :de_lang]
   REGISTRATION_PARAMETERS = [:phone, :address, :city, :country, :postcode, :gender,
                              :birthdate, :agreed_event_condition]
 

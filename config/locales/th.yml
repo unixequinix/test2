@@ -12,6 +12,7 @@ th:
       es: 'ESP'
       it: 'ITA'
       th: 'THA'
+      de: 'GER'
     gtag_name: 'สายรัดข้อมือ'
   activemodel:
     errors:

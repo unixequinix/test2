@@ -12,6 +12,7 @@ es:
       es: 'ESP'
       it: 'ITA'
       th: 'THA'
+      de: 'GER'
     gtag_name: 'Pulsera'
   activemodel:
     errors:
