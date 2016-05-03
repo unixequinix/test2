@@ -176,6 +176,7 @@ de:
         it_lang: "Italienisch"
         es_lang: "Spanisch"
         th_lang: "Thai"
+        de_lang: "Deustch"
     gtag_settings:
       form:
         format: "Format"

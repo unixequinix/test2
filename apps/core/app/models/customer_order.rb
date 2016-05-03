@@ -2,14 +2,14 @@
 #
 # Table name: customer_orders
 #
-#  id                        :integer          not null, primary key
-#  profile_id :integer          not null
-#  catalog_item_id           :integer          not null
-#  origin                    :string
-#  amount                    :integer
-#  deleted_at                :datetime
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
+#  id              :integer          not null, primary key
+#  profile_id      :integer          not null
+#  catalog_item_id :integer          not null
+#  origin          :string
+#  amount          :integer
+#  deleted_at      :datetime
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 
 class CustomerOrder < ActiveRecord::Base

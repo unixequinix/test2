@@ -180,6 +180,7 @@ it:
         it_lang: "Italiano"
         es_lang: "Spagnolo"
         th_lang: "Thai"
+        de_lang: "German"
     gtag_settings:
       form:
         format: 'Format'

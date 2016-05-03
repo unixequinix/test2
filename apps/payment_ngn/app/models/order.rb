@@ -2,14 +2,14 @@
 #
 # Table name: orders
 #
-#  id                        :integer          not null, primary key
-#  number                    :string           not null
-#  aasm_state                :string           not null
-#  profile_id :integer
-#  completed_at              :datetime
-#  deleted_at                :datetime
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
+#  id           :integer          not null, primary key
+#  number       :string           not null
+#  aasm_state   :string           not null
+#  profile_id   :integer
+#  completed_at :datetime
+#  deleted_at   :datetime
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 
 class Order < ActiveRecord::Base
