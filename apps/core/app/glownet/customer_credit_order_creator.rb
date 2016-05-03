@@ -2,28 +2,22 @@ class CustomerCreditOrderCreator < CustomerCreditCreator
   # TODO: refactor hard
   def save(order)
     order.order_items.each do |order_item|
-      case
-      when order_item.single_credits?
-        @customer_credit = create_customer_credit_for_single_credits(order, order_item)
-      when order_item.pack_with_credits?
-        pack = order_item.catalog_item.catalogable
-        pack.credits.each do |credit_item|
-          refundable = pack.only_credits_pack? ? order_item.total / credit_item.value : 0
-          @customer_credit = create_customer_credit_for_pack(order,
-                                                             order_item,
-                                                             credit_item,
-                                                             refundable)
-        end
+      single_customer_credit(order, order_item) && next if order_item.single_credits?
+      next unless order_item.pack_with_credits?
+
+      pack = order_item.catalog_item.catalogable
+      pack.credits.each do |credit_item|
+        refundable = pack.only_credits_pack? ? order_item.total / credit_item.value : 0
+        pack_customer_credit(order, order_item, credit_item, refundable)
       end
     end
   end
 
   private
 
-  # TODO: This is temporary workaruond until final release
-  def create_customer_credit_for_single_credits(order, order_item)
-    params = {
-      profile: order.profile,
+  def single_customer_credit(order, order_item)
+    CustomerCredit.create(
+      customer_event_profile: order.customer_event_profile,
       transaction_origin: CustomerCredit::CREDITS_PURCHASE,
       payment_method: "none",
       credit_value: order_item.catalog_item.catalogable.value,
@@ -32,12 +26,11 @@ class CustomerCreditOrderCreator < CustomerCreditCreator
     }
     credits = order.profile.customer_credits
     calculate_finals(params, credits, order_item.amount, order_item.amount)
-
     CustomerCredit.create(params)
   end
 
-  def create_customer_credit_for_pack(order, order_item, credit_item, refundable)
-    amount = credit_item.total_amount * order_item.amount
+
+  def pack_customer_credit(order, order_item, credit_item, refundable)
     params = {
       profile: order.profile,
       transaction_origin: CustomerCredit::CREDITS_PURCHASE,
