@@ -3,8 +3,8 @@ class Admins::Events::MissingTransactionsController < Admins::Events::BaseContro
     categories = %w(Credit Money Credential Access Order)
     @missing = {}
 
-    categories.each do |category|
-      trans = "#{category}Transaction".constantize.where(event_id: 4).group_by(&:device_uid)
+    categories.each do |cat|
+      trans = "#{cat}Transaction".constantize.where(event: current_event).group_by(&:device_uid)
       trans.each do |uid, transactions|
        indexes = transactions.map(&:device_db_index).sort
        all_indexes = (1..indexes.last.to_i).to_a
