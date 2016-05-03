@@ -25,6 +25,7 @@ Rails.application.routes.draw do
           resources :tickets, only: [:index, :show]
           get "/tickets/reference/:id", to: "tickets#reference"
           resources :vouchers, only: :index
+          get "/time", to: "time#index"
         end
       end
     end
