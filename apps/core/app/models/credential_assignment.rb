@@ -2,14 +2,14 @@
 #
 # Table name: credential_assignments
 #
-#  id                        :integer          not null, primary key
-#  profile_id :integer
-#  credentiable_id           :integer          not null
-#  credentiable_type         :string           not null
-#  aasm_state                :string
-#  deleted_at                :datetime
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
+#  id                :integer          not null, primary key
+#  profile_id        :integer
+#  credentiable_id   :integer          not null
+#  credentiable_type :string           not null
+#  aasm_state        :string
+#  deleted_at        :datetime
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
 #
 
 class CredentialAssignment < ActiveRecord::Base
