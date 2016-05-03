@@ -14,6 +14,12 @@ Rails.application.routes.draw do
   namespace :admins do
     resources :events, only: [:index, :show, :new, :create, :edit, :update] do
       scope module: "events" do
+        resources :missing_transactions, only: [:index] do
+          collection do
+            get :search
+          end
+        end
+
         resources :access_transactions, only: [:index, :show] do
           collection do
             get :search

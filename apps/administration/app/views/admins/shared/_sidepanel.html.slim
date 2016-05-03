@@ -111,6 +111,9 @@ aside#main-menu
     li.aside-list = link_to admins_event_order_transactions_path(event)
       = fa_icon "list"
       = t("admin.aside.order_transactions")
+    li.aside-list = link_to admins_event_missing_transactions_path(event)
+      = fa_icon "list"
+      = t("admin.aside.missing_transactions")
     
 
     li.mobile-sign-out
