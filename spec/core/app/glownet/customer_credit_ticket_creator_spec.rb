@@ -1,39 +1,56 @@
 require "rails_helper"
 
 RSpec.describe CustomerCreditTicketCreator, type: :domain_logic do
-  let(:credential_assignment) { create(:credential_assignment_t_a) }
+  let(:ticket) { create(:ticket) }
+  let(:profile) { ticket.assigned_customer_event_profile }
+  let(:credit) { Sorters::FakeCatalogItem.new(value: 10, total_amount: 10) }
+  before { allow(ticket).to receive(:credits).and_return([credit]) }
+
+  subject { CustomerCreditTicketCreator.new }
 
   context "when assigning" do
-    let(:ticket) { credential_assignment.credentiable }
     it "creates a customer credit for every ticket credit" do
-      expect do
-        CustomerCreditTicketCreator.new.assign(ticket)
-      end.to change(CustomerCredit, :count).by(ticket.credits.count)
-    end
-
-    it "foo" do
-      CustomerCreditTicketCreator.new.assign(ticket)
-      expect(CustomerCredit.all.count).to eq(1)
-      customer_credit = CustomerCredit.first
-      expect(customer_credit.amount).to eq(2)
-      expect(customer_credit.refundable_amount).to eq(2)
-      expect(customer_credit.final_balance).to eq(2)
-      expect(customer_credit.final_refundable_balance).to eq(2)
+      expect(subject).to receive(:create_credit).exactly(ticket.credits.count).times
+      subject.assign(ticket)
     end
   end
 
-  describe ".unassign" do
-    it "should create a customer credit when a ticket is unassigned" do
-      ticket = credential_assignment.credentiable
-      CustomerCreditTicketCreator.new.assign(ticket)
-      CustomerCreditTicketCreator.new.unassign(ticket)
+  context ".assign" do
+    it "loops through the ticket credits" do
+      origin = CustomerCredit::TICKET_ASSIGNMENT
+      expect(subject).to receive(:loop_credits).once.with(ticket, origin)
+      subject.assign(ticket)
+    end
+  end
 
-      expect(CustomerCredit.all.count).to eq(2)
-      customer_credit = CustomerCredit.order(created_in_origin_at: :asc).last
-      expect(customer_credit.amount).to eq(-2)
-      expect(customer_credit.refundable_amount).to eq(-2)
-      expect(customer_credit.final_balance).to eq(0)
-      expect(customer_credit.final_refundable_balance).to eq(0)
+  context ".unassign" do
+    it "loops through the ticket credits with negative values" do
+      origin = CustomerCredit::TICKET_UNASSIGNMENT
+      expect(subject).to receive(:loop_credits).once.with(ticket, origin, -1)
+      subject.unassign(ticket)
+    end
+  end
+
+  describe ".loop_credits" do
+    it "sends orders to create a customer credit for every ticket credit" do
+      expect(subject).to receive(:create_credit).exactly(ticket.credits.count).times
+      subject.loop_credits(ticket, "origin")
+    end
+
+    it "sets the amount to negative if told so" do
+      expect(subject).to receive(:create_credit).with(profile, hash_including(amount: -10))
+      subject.loop_credits(ticket, "origin", -1)
+    end
+
+    it "sets credit value to that one of credit" do
+      expect(subject).to receive(:create_credit).with(profile, hash_including(credit_value: 10))
+      subject.loop_credits(ticket, "origin")
+    end
+
+    it "sets origin to that of argument" do
+      origin = "somethingweird"
+      expect(subject).to receive(:create_credit).with(profile, hash_including(origin: origin))
+      subject.loop_credits(ticket, origin)
     end
   end
 end
