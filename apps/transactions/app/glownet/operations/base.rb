@@ -2,6 +2,7 @@ class Operations::Base < ActiveJob::Base
   SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at )
 
   def perform(atts) # rubocop:disable Metrics/AbcSize
+    atts[:profile_id] = atts[:customer_event_profile_id]
     klass = "#{ atts[:transaction_category] }_transaction".classify.constantize
     obj_atts = column_attributes(klass, atts)
 
