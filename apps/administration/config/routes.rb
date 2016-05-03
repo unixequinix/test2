@@ -62,6 +62,10 @@ Rails.application.routes.draw do
         resources :ticket_types, except: :show
         resources :tickets do
           resources :comments, module: :tickets
+          member do
+            get :ban
+            delete :unban
+          end
           collection do
             get :search
             delete :destroy_multiple

@@ -329,6 +329,7 @@ th:
     tickets:
       id: "Id"
       code: "Code"
+      banned: "Banned"
       company_ticket_type: "Company ticket type"
       ticket_type_simplified: "Simplified Ticket type"
       customer: "Assigned customer"

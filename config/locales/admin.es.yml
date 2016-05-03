@@ -329,6 +329,7 @@ es:
     tickets:
       id: "Id"
       code: "Código"
+      banned: "Baneado"
       company_ticket_type: "Tipo de ticket de compañía"
       ticket_type_simplified: "Tipo de Ticket Simplificado"
       customer: "Cliente asignado"

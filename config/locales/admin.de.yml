@@ -325,6 +325,7 @@ de:
     tickets:
       id: "ID"
       code: "Code"
+      banned: "Banned"
       company_ticket_type: "Firmenticketart"
       ticket_type_simplified: "Vereinfachte Ticketart"
       customer: "Angemeldeter Kunde"

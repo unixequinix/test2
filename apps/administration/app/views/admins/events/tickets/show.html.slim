@@ -24,6 +24,9 @@
 
       = render("purchaser", ticket: @ticket) if @ticket.purchaser.present?
 
+      dt = t("admin.tickets.banned")
+      dd = @ticket.banned?
+      
       dt = t("admin.tickets.created_at")
       dd = @ticket.created_at.strftime("%y-%m-%d %H:%M:%S")
       dt = t("admin.tickets.updated_at")
