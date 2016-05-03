@@ -11,7 +11,7 @@ class Admins::Events::MissingTransactionsController < Admins::Events::BaseContro
        subset = all_indexes - indexes
        next if subset.empty?
        @missing[uid] = {} unless @missing[uid]
-       @missing[uid][category.downcase] = subset
+       @missing[uid][cat.downcase] = subset
       end
     end
 
