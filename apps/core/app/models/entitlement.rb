@@ -23,11 +23,19 @@ class Entitlement < ActiveRecord::Base
   before_validation :set_memory_position
   validates :memory_length, presence: true
   validate :valid_position?
-  validates_inclusion_of :infinite, in: [true, false]
 
   after_destroy :calculate_memory_position_after_destroy
 
   LENGTH = [1, 2]
+
+  # Modes
+  COUNTER = "counter"
+  PERMANENT = "permanent"
+  STRICT_PERMANENT = "strict_permanent"
+
+  def infinite
+    mode == PERMANENT || mode == STRICT_PERMANENT
+  end
 
   private
 
