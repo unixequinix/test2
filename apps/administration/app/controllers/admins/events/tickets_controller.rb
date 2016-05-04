@@ -96,6 +96,56 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
     redirect_to(admins_event_tickets_path(event), notice: "Tickets imported")
   end
 
+  def ban
+    ticket = @fetcher.tickets.find(params[:id])
+    ticket.update(banned: true)
+    station = current_event.stations
+              .joins(:station_type)
+              .find_by(station_types: { name: "customer_portal" })
+    atts = {
+      event_id: current_event.id,
+      station_id: station.id,
+      transaction_category: "ban",
+      transaction_origin: "customer_portal",
+      transaction_type: "ban_ticket",
+      banneable_id: ticket.id,
+      banneable_type: "Ticket",
+      reason: "",
+      status_code: 0,
+      status_message: "OK"
+    }
+    Operations::Base.new.portal_write(atts)
+    redirect_to(admins_event_tickets_url)
+  end
+
+  def unban
+    ticket = @fetcher.tickets.find(params[:id])
+
+    if ticket.assigned_profile&.banned?
+      flash[:error] = "Assigned profile is banned, unban it or unassign the ticket first"
+      redirect_to(admins_event_tickets_url)
+    else
+      ticket.update(banned: false)
+      station = current_event.stations
+                .joins(:station_type)
+                .find_by(station_types: { name: "customer_portal" })
+      atts = {
+        event_id: current_event.id,
+        station_id: station.id,
+        transaction_category: "ban",
+        transaction_origin: "customer_portal",
+        transaction_type: "unban_ticket",
+        banneable_id: ticket.id,
+        banneable_type: "Ticket",
+        reason: "",
+        status_code: 0,
+        status_message: "OK"
+      }
+      Operations::Base.new.portal_write(atts)
+      redirect_to(admins_event_tickets_url)
+    end
+  end
+
   private
 
   def set_presenter
@@ -107,7 +157,6 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
       context: view_context,
       include_for_all_items: [:company_ticket_type,
                               :assigned_ticket_credential,
-                              :purchaser,
                               credential_assignments: :profile])
   end
 
@@ -117,6 +166,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
       :code,
       :company_ticket_type_id,
       :credential_redeemed,
+      :banned,
       purchaser_attributes: [:id, :first_name, :last_name, :email])
   end
 end

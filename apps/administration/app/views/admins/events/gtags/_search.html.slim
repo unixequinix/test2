@@ -8,5 +8,7 @@ p.menu-header
     = f.input :tag_uid_cont, label: "Tag uid", placeholder: t("admin.gtags.search.tag_uid")
     / TODO: Add translations
     = f.input :credential_assignments_id_not_null, as: :select, label: "With credential?", placeholder: t("admin.gtags.search.tag_serial")
+    = f.input :banned_true, as: :select, label: "Banned?"
+    = f.input :company_ticket_type_id_eq, as: :select, collection:  CompanyTicketType.form_selector(current_event), include_blank: t("admin.tickets.search.type"), label: 'Company Ticket Type'
     = f.input :credential_assignments_aasm_state_eq, label: "Credential status", placeholder: "assigned or unassigned"
     = f.submit class: "btn btn-secondary"

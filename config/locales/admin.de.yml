@@ -326,6 +326,7 @@ de:
     tickets:
       id: "ID"
       code: "Code"
+      banned: "Banned"
       company_ticket_type: "Firmenticketart"
       ticket_type_simplified: "Vereinfachte Ticketart"
       customer: "Angemeldeter Kunde"
@@ -359,6 +360,8 @@ de:
       id: "ID"
       tag: "Tag UID"
       serial: "Tag Seriennummer"
+      banned: "Banned"
+      tickets: "Tickets"
       customer: "Kunde"
       assigned_at: "Angemeldet bei"
       created_at: "Erstellt bei "
@@ -401,6 +404,7 @@ de:
     profile:
       id: "ID"
     customers:
+      banned: "Banned"
       delete: "Gelöscht"
       email: "Email"
       first_name: "Vorname"

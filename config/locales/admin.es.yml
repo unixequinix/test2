@@ -330,6 +330,7 @@ es:
     tickets:
       id: "Id"
       code: "Código"
+      banned: "Baneado"
       company_ticket_type: "Tipo de ticket de compañía"
       ticket_type_simplified: "Tipo de Ticket Simplificado"
       customer: "Cliente asignado"
@@ -363,6 +364,8 @@ es:
       id: "Id"
       tag: "Tag UID"
       serial: "Tag Número Serial"
+      banned: "Baneado"
+      tickets: "Tickets"
       customer: "Cliente"
       assigned_at: "Asignado el"
       created_at: "Creado el"
@@ -405,6 +408,7 @@ es:
     profile:
       id: "Id"
     customers:
+      banned: "Baneado"
       delete: "Borrado"
       email: "Email"
       first_name: "Nombre"

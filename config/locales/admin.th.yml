@@ -330,6 +330,7 @@ th:
     tickets:
       id: "Id"
       code: "Code"
+      banned: "Banned"
       company_ticket_type: "Company ticket type"
       ticket_type_simplified: "Simplified Ticket type"
       customer: "Assigned customer"
@@ -363,6 +364,8 @@ th:
       id: "Id"
       tag: "Tag UID"
       serial: "Tag Serial Number"
+      banned: "Banned"
+      tickets: "Tickets"
       customer: "Customer"
       assigned_at: "Assigned at"
       created_at: "Created at"
@@ -405,6 +408,7 @@ th:
     profile:
       id: "Id"
     customers:
+      banned: "Banned"
       delete: "Deleted"
       email: "Email"
       first_name: "First name"
