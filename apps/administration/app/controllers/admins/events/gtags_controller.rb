@@ -71,7 +71,7 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
 
   def ban
     gtag = @fetcher.gtags.find(params[:id])
-    gtag.update(banned: true)
+    gtag.update!(banned: true)
     station = current_event.stations
               .joins(:station_type)
               .find_by(station_types: { name: "customer_portal" })
