@@ -174,6 +174,6 @@ group :production, :staging, :demo, :refunds do
 end
 
 BootInquirer.each_active_app do |app|
-  gemspec path: 'apps/#{app.gem_name}'
+  gemspec path: "apps/#{app.gem_name}"
 end
 gemspec path: 'apps/core'
