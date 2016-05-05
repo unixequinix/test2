@@ -22,7 +22,7 @@ class GtagAssignmentForm
     begin
       assignment = Profile::Checker.for_credentiable(gtag, current_customer)
     rescue RuntimeError
-      return add_error("alerts.gtag.already_assigned")
+      add_error("alerts.gtag.already_assigned") && return
     end
 
     GtagMailer.assigned_email(assignment).deliver_later
