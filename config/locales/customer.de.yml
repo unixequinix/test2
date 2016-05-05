@@ -285,7 +285,8 @@ de:
   sessions:
     first_register:
       welcome: Willkommen!'
-      description: 'Um mit Ihrer Veranstaltung fortzufahren, wählen Sie bitte aus, was Sie zuerst registrieren möchten'
+      description_with_credentiable: "Please, to continue with your event:"
+      description_without_credentiable: "There's nothing you can do right now, please come back later"
     welcome: 'Willkommen!'
     create_account:
       title: 'Sie haben noch kein Konto?'

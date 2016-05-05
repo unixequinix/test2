@@ -303,7 +303,7 @@ th:
   sessions:
     first_register:
       welcome: 'Bienvenido!!'
-      description_with_credentiable: "Please, to continue with your event choose what you  want to register first"
+      description_with_credentiable: "Please, to continue with your event:"
       description_without_credentiable: "There's nothing you can do right now, please come back later"
     welcome: 'Welcome!'
     create_account:
