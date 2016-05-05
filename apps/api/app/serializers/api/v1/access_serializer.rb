@@ -16,7 +16,7 @@ class Api::V1::AccessSerializer < Api::V1::BaseSerializer
   end
 
   def infinite
-    object.entitlement.infinite
+    object.entitlement.infinite?
   end
 
   def position
