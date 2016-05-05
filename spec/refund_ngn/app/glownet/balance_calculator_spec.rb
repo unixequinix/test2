@@ -2,9 +2,7 @@ require "rails_helper"
 
 RSpec.describe BalanceCalculator, type: :domain_logic do
   describe "It performs the needed operations about balances" do
-    let(:profile) do
-      create(:profile)
-    end
+    let(:profile) { create(:profile) }
 
     let(:balance_calculator) { BalanceCalculator.new(profile) }
 
