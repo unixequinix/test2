@@ -312,7 +312,7 @@ de:
       company_code: "Firmencode"
       credential_type: "Guthabentyp"
     entitlement:
-      mode: "unbegrenzt"
+      mode: "Mode"
       memory_length: "Länge"
       memory_position: "Speicherposition"
     ticket_types:

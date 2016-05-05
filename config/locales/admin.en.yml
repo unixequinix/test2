@@ -315,7 +315,7 @@ en:
       company_code: "Company code"
       credential_type: "Credential type"
     entitlement:
-      mode: "Infinite"
+      mode: "Mode"
       memory_length: "Length"
       memory_position: "Memory position"
     ticket_types:
