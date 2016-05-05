@@ -7,7 +7,8 @@ RSpec.describe Sorters::FakeCatalogItem, type: :domain_logic do
     end
 
     let(:fake_catalog_item_a) do
-      Sorters::FakeCatalogItem.new(catalog_item_id: credit.id, catalogable_id: credit.catalogable_id,
+      Sorters::FakeCatalogItem.new(catalog_item_id: credit.id,
+                                   catalogable_id: credit.catalogable_id,
                                    catalogable_type: "Credit", product_name: "Standard credit",
                                    total_amount: 11, value: nil)
     end
