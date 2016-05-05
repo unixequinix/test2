@@ -6,7 +6,7 @@ module RefundNgn
   require "gretel"
   require "kaminari"
   require "slim"
-  require "font-awesome-sass"
+  require "font-awesome-rails"
   require "simple_form"
   require "aasm"
 end
