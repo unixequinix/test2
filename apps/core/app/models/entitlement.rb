@@ -21,7 +21,7 @@ class Entitlement < ActiveRecord::Base
              foreign_key: "entitlementable_id"
   belongs_to :event
   before_validation :set_memory_position
-  validates :memory_length, presence: true
+  validates :memory_length, :mode, presence: true
   validate :valid_position?
 
   after_destroy :calculate_memory_position_after_destroy
@@ -33,7 +33,9 @@ class Entitlement < ActiveRecord::Base
   PERMANENT = "permanent"
   STRICT_PERMANENT = "strict_permanent"
 
-  def infinite
+  MODES = [COUNTER, PERMANENT, STRICT_PERMANENT]
+
+  def infinite?
     mode == PERMANENT || mode == STRICT_PERMANENT
   end
 
