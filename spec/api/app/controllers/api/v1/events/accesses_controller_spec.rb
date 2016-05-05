@@ -38,7 +38,7 @@ RSpec.describe Api::V1::Events::AccessesController, type: :controller do
           access_atts = {
             id: db_accesses[index].id,
             name: db_accesses[index].catalog_item.name,
-            infinite: db_accesses[index].entitlement.infinite,
+            infinite: db_accesses[index].entitlement.infinite?,
             position: db_accesses[index].entitlement.memory_position,
             memory_length: db_accesses[index].entitlement.memory_length.to_i,
             description: db_accesses[index].catalog_item.description

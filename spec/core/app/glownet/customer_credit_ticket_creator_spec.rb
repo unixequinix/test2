@@ -1,8 +1,8 @@
 require "rails_helper"
 
 RSpec.describe CustomerCreditTicketCreator, type: :domain_logic do
-  let(:ticket) { create(:ticket) }
-  let(:profile) { ticket.assigned_customer_event_profile }
+  let(:ticket) { create(:ticket, :with_purchaser, :assigned) }
+  let(:profile) { ticket.assigned_profile }
   let(:credit) { Sorters::FakeCatalogItem.new(value: 10, total_amount: 10) }
   before { allow(ticket).to receive(:credits).and_return([credit]) }
 
@@ -18,7 +18,7 @@ RSpec.describe CustomerCreditTicketCreator, type: :domain_logic do
   context ".assign" do
     it "loops through the ticket credits" do
       origin = CustomerCredit::TICKET_ASSIGNMENT
-      expect(subject).to receive(:loop_credits).once.with(ticket, origin)
+      expect(subject).to receive(:loop_credits).once.with(ticket, origin, 1)
       subject.assign(ticket)
     end
   end

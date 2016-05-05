@@ -27,5 +27,11 @@ FactoryGirl.define do
         create(:purchaser, credentiable: ticket)
       end
     end
+
+    trait :assigned do
+      after(:create) do |ticket|
+        create(:credential_assignment, :assigned, credentiable: ticket)
+      end
+    end
   end
 end

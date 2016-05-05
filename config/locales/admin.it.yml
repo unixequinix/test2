@@ -311,7 +311,7 @@ it:
       id: "Id"
       memory_position: "Posición en memoria"
     entitlement:
-      infinite: "Infinite"
+      mode: "Mode"
       memory_length: "Length"
       memory_position: "Memory position"
     company_ticket_types:
