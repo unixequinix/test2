@@ -12,6 +12,7 @@ en:
       es: 'ESP'
       it: 'ITA'
       th: 'THA'
+      de: 'GER'
     gtag_name: 'Wristband'
   activemodel:
     errors:

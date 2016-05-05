@@ -7,8 +7,6 @@ class CustomerCreditTicketCreator < CustomerCreditCreator
     loop_credits(ticket, CustomerCredit::TICKET_UNASSIGNMENT, -1)
   end
 
-  private
-
   def loop_credits(ticket, origin, sign = 1)
     ticket.credits.each do |credit|
       params = { amount: (credit.total_amount * sign), origin: origin, credit_value: credit.value }
