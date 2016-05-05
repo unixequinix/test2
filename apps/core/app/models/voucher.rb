@@ -25,7 +25,7 @@ class Voucher < ActiveRecord::Base
   private
 
   def infinite?
-    entitlement.infinite
+    entitlement.infinite?
   end
 
   def valid_max_value

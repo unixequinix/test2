@@ -86,7 +86,7 @@ class Pack < ActiveRecord::Base
 
   def infinite_item?
     open_all.any? do |item|
-      item.catalogable.entitlement.infinite if %w(Access Voucher).include?(item.catalogable_type)
+      item.catalogable.entitlement.infinite? if %w(Access Voucher).include?(item.catalogable_type)
     end
   end
 

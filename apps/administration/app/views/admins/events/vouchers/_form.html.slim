@@ -9,7 +9,7 @@
       = catalog_item.input :min_purchasable, placeholder: true
       = catalog_item.input :event_id, as: :hidden, input_html: { value: current_event.id }
     = f.simple_fields_for :entitlement do |entitlement|
-      = entitlement.input :infinite, as: :radio_buttons, placeholder: false
+      = entitlement.input :mode, collection: Entitlement::MODES, include_blank: false
       = entitlement.input :memory_length, collection: Entitlement::LENGTH, include_blank: false
       = entitlement.input :event_id, as: :hidden, input_html: { value: current_event.id }
     = f.collection_check_boxes(:product_ids, @products_collection, :id, :name)

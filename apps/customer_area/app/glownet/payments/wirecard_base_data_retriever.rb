@@ -47,7 +47,7 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
   end
 
   def cancel_url
-    ""
+    "https://example.com"
   end
 
   def failure_url(method)
@@ -55,7 +55,7 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
   end
 
   def service_url
-    ""
+    "https://example.com"
   end
 
   def confirm_url(method)
