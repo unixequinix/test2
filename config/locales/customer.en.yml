@@ -213,9 +213,9 @@ en:
   gtag_assignations:
     title: "Assign %{gtag}"
     description:
-      standard: "In order to proceed assign the number as appears in your %{gtag}. The number consists of 2 lines."
-      card: "In order to proceed assign the number as appears in your %{gtag}. The number consists of 2 lines."
-      simple: "In order to proceed assign the number as appears in your %{gtag}."
+      standard: "Assign the second row of numbers and letters (green highlighted) of your %{gtag}"
+      card: "Assign the second row of numbers and letters (green highlighted) of your %{gtag}"
+      simple: "Assign the green highlighted numbers as appears in your %{gtag}"
     call_to_action: "Assign your %{gtag} and go!"
     button: "Accept"
     back: "Back"

@@ -132,6 +132,19 @@ button {
 }
 
 .edit-profile-form { form { width: 100%; } }
-.input-add-wristband { input { margin-top: 0; } }
+
+.input-add-wristband {
+  input { margin: modules(0.5) 0 0; }
+}
+
+.wristband-image {
+  height: modules(4.5);
+
+  @include min-screen($bp3) {
+    height: modules(8);
+  }
+}
+
+.disclaimer-gtag-text { margin: modules(0.25) 0; }
 
 // ···
