@@ -213,9 +213,9 @@ es:
   gtag_assignations:
     title: "Introducir %{gtag}"
     description:
-      standard: "Introduce la segunda fila de números y letras (resaltada en verde) de tu %{gtag}"
-      card: "Introduce la segunda fila de números y letras (resaltada en verde) de tu %{gtag}"
-      simple: "Introduce los números resaltados en verde que aparecen en tu %{gtag}."
+      standard: "Introduce la segunda fila de números y letras (resaltada en amarillo) de tu %{gtag}"
+      card: "Introduce la segunda serie de números y letras (resaltada en amarillo) de tu %{gtag}"
+      simple: "Introduce los números y letras resaltados en amarillo que aparecen en tu %{gtag}."
     call_to_action: "¡Introduce tu %{gtag} y continúa!"
     button: "Aceptar"
     back: "Volver"
