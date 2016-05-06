@@ -46,6 +46,14 @@ $border_with_opacity:     rgba(255, 255, 255, 1);
   }
 }
 
+.wrapper-forgot-password {
+  label {
+    top: modules(0.25);
+    color: $grey;
+
+  }
+}
+
 .login-form {
 
   form { overflow: visible; }
