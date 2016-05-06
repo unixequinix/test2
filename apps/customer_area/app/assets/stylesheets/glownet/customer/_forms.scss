@@ -141,7 +141,7 @@ button {
   height: modules(5);
 
   @include min-screen($bp3) {
-    height: modules(7);
+    height: modules(8);
   }
 }
 
