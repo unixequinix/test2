@@ -46,7 +46,7 @@ class Claim < ActiveRecord::Base
       .where(profiles: { event_id: event.id })
       .select("claims.id, profiles.id as profile,
             customers.first_name, customers.last_name, customers.email, gtags.tag_uid,
-            gtags.tag_serial_number, refunds.amount, claims.service_type")
+            refunds.amount, claims.service_type")
       .order(:id)
   }
 

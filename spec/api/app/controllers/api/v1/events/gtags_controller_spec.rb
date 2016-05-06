@@ -18,7 +18,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
       end
       it "returns the necessary keys" do
         JSON.parse(response.body).map do |gtag|
-          keys = %w(id tag_uid tag_serial_number credential_redeemed banned credential_type_id
+          keys = %w(id tag_uid credential_redeemed banned credential_type_id
                     purchaser_first_name purchaser_last_name purchaser_email customer_id)
           expect(keys).to eq(gtag.keys)
         end
@@ -29,7 +29,6 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
           gtag_atts = {
             id: db_gtags[index].id,
             tag_uid: db_gtags[index].tag_uid,
-            tag_serial_number: db_gtags[index].tag_serial_number,
             credential_redeemed: db_gtags[index].credential_redeemed,
             credential_type_id: db_gtags[index]&.company_ticket_type&.credential_type_id,
             banned: db_gtags[index].banned?,
@@ -87,8 +86,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
         it "returns the necessary keys" do
           gtag = JSON.parse(response.body)
-          gtag_keys = %w(id tag_uid tag_serial_number credential_redeemed banned credential_type_id
-                         customer)
+          gtag_keys = %w(id tag_uid credential_redeemed banned credential_type_id customer)
           customer_keys = %w(id banned autotopup_gateways credentials first_name last_name email
                              orders)
           order_keys = %w(online_order_counter catalogable_id catalogable_type amount)
@@ -106,7 +104,6 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
           gtag = {
             id: @gtag.id,
             tag_uid: @gtag.tag_uid,
-            tag_serial_number: @gtag.tag_serial_number,
             credential_redeemed: @gtag.credential_redeemed,
             banned: @gtag.banned,
             credential_type_id: @gtag.company_ticket_type.credential_type_id,

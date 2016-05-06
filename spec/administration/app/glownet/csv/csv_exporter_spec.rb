@@ -7,9 +7,8 @@ RSpec.describe Csv::CsvExporter, type: :domain_logic do
       ClaimParameter.destroy_all
       Refund.destroy_all
       Claim.destroy_all
-      tag_odd = create(:gtag, tag_uid: "4OBXCHS2FT", tag_serial_number: "MIUE4Z2HNT")
-      tag_even = create(:gtag, tag_uid: "5OBXCHS2FT", tag_serial_number: "MOUE4Z2HNT",
-                               event: tag_odd.event)
+      tag_odd = create(:gtag, tag_uid: "4OBXCHS2FT")
+      tag_even = create(:gtag, tag_uid: "5OBXCHS2FT", event: tag_odd.event)
       event = tag_odd.event
 
       customer_odd = create(:customer,
@@ -57,7 +56,7 @@ RSpec.describe Csv::CsvExporter, type: :domain_logic do
       end
       it "should be able to export to a file" do
         csv = "id,service_type,profile,first_name," \
-              "last_name,email,tag_uid,tag_serial_number,amount,iban,swift\n" \
+              "last_name,email,tag_uid,amount,iban,swift\n" \
               "1,bank_account,3,Diana Mayorga Zamora  ,Carmona,gustavo.orosco@garibay.es," \
                 "4OBXCHS2FT,MIUE4Z2HNT,9.98,UNCRITM1MN9,IT26U0200802487000005011003\n" \
               "2,bank_account,4,Paco Lopez Jones,Ojeda,paco.ojeda@eresmas.es," \

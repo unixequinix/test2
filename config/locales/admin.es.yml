@@ -530,7 +530,6 @@ es:
       customer_id: "Customer Id"
       customer_name: "Nombre del cliente"
       customer_email: "Email del cliente"
-      gtag_serial_number: "Número de serie"
       gtag_uid: "UID"
       iban: "Número IBAN"
       swift: "Número BIC/SWIFT"

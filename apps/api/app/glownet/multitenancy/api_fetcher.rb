@@ -96,7 +96,6 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
       FROM (
         SELECT gtags.id,
                gtags.tag_uid,
-               gtags.tag_serial_number,
                gtags.credential_redeemed,
                gtags.banned,
                company_ticket_types.credential_type_id as credential_type_id ,

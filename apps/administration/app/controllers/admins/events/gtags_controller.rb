@@ -140,7 +140,6 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
     params.require(:gtag).permit(
       :event_id,
       :tag_uid,
-      :tag_serial_number,
       :credential_redeemed,
       :banned,
       :company_ticket_type_id,

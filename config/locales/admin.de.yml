@@ -526,7 +526,6 @@ de:
       customer_id: "Kunden ID"
       customer_name: "Name des Kunden"
       customer_email: "Email des Kunden"
-      gtag_serial_number: "Seriennummer"
       gtag_uid: "UID Nummer"
       iban: "IBAN Nummer"
       swift: "BIC/SWIFT Nummer"

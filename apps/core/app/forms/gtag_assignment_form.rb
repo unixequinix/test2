@@ -3,19 +3,13 @@ class GtagAssignmentForm
   include Virtus.model
 
   attribute :tag_uid, String
-  attribute :tag_serial_number, String
   attribute :event_id, Integer
 
   validates_presence_of :tag_uid
-  validates_presence_of :tag_serial_number, unless: :simple?
 
-  # TODO: to avoid parameter filetring, tag_serial_number should never be included in params
-  # =>    and hence in the form in the first place, simple delete DOM element
   def save(fetcher, current_customer)
-    serial = tag_serial_number.to_s.strip.upcase
     uid = tag_uid.strip.upcase
-    atts = { tag_uid: uid, tag_serial_number: serial }.delete_if { |_k, v| v.blank? }
-    gtag = fetcher.find_by(atts)
+    gtag = fetcher.find_by(tag_uid: uid)
 
     add_error("alerts.gtag.invalid") && return unless gtag
 
@@ -32,9 +26,5 @@ class GtagAssignmentForm
 
   def add_error(str)
     errors.add(:gtag_assignment, I18n.t(str))
-  end
-
-  def simple?
-    Event.find(event_id).get_parameter("gtag", "form", "format") == "simple"
   end
 end

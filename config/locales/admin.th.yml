@@ -530,7 +530,6 @@ th:
       customer_id: "Customer Id"
       customer_name: "Customer name"
       customer_email: "Customer email"
-      gtag_serial_number: "Serial number"
       gtag_uid: "UID number"
       iban: "IBAN number"
       swift: "BIC/SWIFT number"

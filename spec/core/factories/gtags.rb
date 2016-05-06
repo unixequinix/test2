@@ -4,7 +4,6 @@
 #
 #  id                     :integer          not null, primary key
 #  tag_uid                :string           not null
-#  tag_serial_number      :string           not null
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  deleted_at             :datetime
@@ -17,7 +16,6 @@ FactoryGirl.define do
   factory :gtag do
     event
     tag_uid { "ERTYUJHB#{rand(100)}GH#{rand(100)}" }
-    tag_serial_number { rand(10_000) }
     credential_redeemed { [true, false].sample }
     company_ticket_type
 
