@@ -16,6 +16,7 @@ de:
     gtag_already_assigned: "Sie haben bereits ein gtag angemeldet"
     ticket_already_assigned: "Ticket bereits angemeldet"
     credential_already_assigned: "Sie haben bereits die Ansprüche , die mit diesem Ticket verknüpft sind"
+    access_only_one_way: 'Only one way per access'
     gtag:
       invalid: "Die ist kein gültiger %{gtag}"
       already_assigned: "Dieser %{gtag} ist bereits angemeldet"
