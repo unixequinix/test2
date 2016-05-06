@@ -633,7 +633,7 @@ DEPENDENCIES
   factory_girl_rails (~> 4.5.0)
   faker (~> 1.4.3)
   flag_shih_tzu (~> 0.3.13)
-  font-awesome-rails
+  font-awesome-rails (~> 4.5.0.1)
   foreman (~> 0.78.0)
   friendly_id (~> 5.1.0)
   globalize (~> 5.0.1)
