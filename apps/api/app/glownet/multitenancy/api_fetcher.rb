@@ -147,7 +147,8 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
     @event.event_parameters.joins(:parameter)
       .where("(parameters.category = 'device') OR
               (parameters.category = 'gtag' AND parameters.group = '#{gtag_type}' OR
-               parameters.group = 'form' AND parameters.name = 'gtag_type')")
+               parameters.group = 'form' AND parameters.name = 'gtag_type' OR
+               parameters.name = 'maximum_gtag_balance')")
   end
 
   def products

@@ -6,11 +6,6 @@ class Profile::Checker
     fail "Profile Fraud detected" if trans_profile.present? && tag_profile != trans_profile
     return tag_profile if tag_profile
     profile = Profile.create!(event_id: atts[:event_id])
-
-    # TODO: THIS IS HOTFIXED. We dont know why, but line 12 duplicates gtags and line 13
-    # =>    gives error that credential assignment already exists
-    # profile.create_active_gtag_assignment!(credentiable: gtag)
-    # gtag.create_assigned_gtag_credential!(profile_id: profile.id)
     profile.credential_assignments.find_or_create_by!(credentiable: gtag, aasm_state: :assigned)
     profile.id
   end

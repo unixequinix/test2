@@ -12,7 +12,7 @@ gem 'sprockets-rails', '2.3.3'
 gem 'pg', '~> 0.18.1'
 gem 'paranoia', '~> 2.0'
 gem 'activerecord-import', '~> 0.11.0'
-gem "active_record_bulk_insert"
+gem 'active_record_bulk_insert'
 gem 'nilify_blanks', '~>1.2.1'
 gem 'oj'
 gem 'oj_mimic_json'
@@ -37,11 +37,11 @@ gem 'recaptcha', require: 'recaptcha/rails'
 # Design
 gem 'bourbon', '~> 4.2.2'
 gem 'neat', '~> 1.7.2'
-gem 'font-awesome-rails', '~> 4.5.0.1'
+gem 'font-awesome-rails'
 
 # JSON APIs
 gem 'jbuilder', '~> 2.2.13'
-gem 'active_model_serializers', git: "https://github.com/rails-api/active_model_serializers.git"
+gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_serializers.git'
 gem 'rack-cors', require: 'rack/cors'
 
 # Turbolinks
@@ -139,7 +139,7 @@ group :development, :test do
   gem 'guard-rspec', '~> 4.5.0', require: false
   gem 'spring-commands-rspec', '~> 1.0.4'
   gem 'pry-rails'
-  gem "awesome_print", require:"ap"
+  gem 'awesome_print', require:'ap'
   gem 'terminal-notifier-guard'
   gem 'guard-bundler', require: false
   gem 'i18n-tasks', '~> 0.9.5'
