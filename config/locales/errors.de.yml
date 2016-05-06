@@ -47,3 +47,4 @@ de:
       not_enough_space_for_credential_configuration: "Nicht genug Platz in gtag für die bestehende Anmeldungskonfiguration"
       invalid_max_value_for_infinite: "Der Maximum-Wert muss 1 oder 0 sein, wenn unendlich gewählt wurde"
       invalid_min_value_for_infinite: "Der Minimum-Wert muss 1 oder 0 sein, wenn unendlich gewählt wurde "
+      greater_than_maximum: "The minimum purchasable can't be greater than maximum purchasable"

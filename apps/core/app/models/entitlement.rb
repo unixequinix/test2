@@ -7,11 +7,11 @@
 #  entitlementable_type :string           not null
 #  event_id             :integer          not null
 #  memory_position      :integer          not null
-#  infinite             :boolean          default(FALSE), not null
 #  deleted_at           :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  memory_length        :integer          default(1)
+#  mode                 :string           default("counter")
 #
 
 class Entitlement < ActiveRecord::Base
