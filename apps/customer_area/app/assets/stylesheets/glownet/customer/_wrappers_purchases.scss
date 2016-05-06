@@ -5,8 +5,8 @@
 // -------------------------------------------------------
 
 .container-purchase-order {
-  overflow: hidden;
   position: relative;
+  overflow: hidden;
 
   h3 {
     margin: modules(0.5) 0;
@@ -29,13 +29,14 @@
   overflow: hidden;
 }
 
-.wrapper-topup-info, .wrapper-topup-amount {
+.wrapper-topup-info,
+.wrapper-topup-amount {
   display: inline-block;
-  vertical-align:top;
+  vertical-align: top;
   padding: modules(0.5);
 }
 
-.wrapper-topup-info   { width: 65%; }
+.wrapper-topup-info { width: 65%; }
 .wrapper-topup-amount {
   width: 35%;
   select { width: 100%; }
@@ -47,17 +48,16 @@
   table-layout: fixed;
   width: 100%;
 
-  li  {
+  li {
     display: table-cell;
     vertical-align: top;
     width: auto;
     max-width: 24%;
     height: modules(3.75);
-    padding-right: modules(0.5);
-    width: auto;
+    padding-left: modules(0.5);
 
-    &:nth-child(3n) { padding: 0 modules(0.25) 0 0; }
-    &:last-child { padding: 0 0 0 modules(0.25); }
+    &:first-child { padding: 0; }
+    &:nth-child(2n) { padding: 0 0 0 modules(0.5); }
   }
 }
 
@@ -67,16 +67,18 @@
   margin-bottom: modules(1);
 
   a {
+    display: block;
     overflow: hidden;
     width: 100%;
     height: 100%;
-    display: block;
     padding: modules(0.5);
     border-radius: 3px;
+    background-color: lighten($light_grey, 17%);
     color: $radius;
-    background-color: lighten($light_grey,17%);
     text-align: center;
 
     &:last-child { margin-bottom: modules(1); }
   }
 }
+
+// ···

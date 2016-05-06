@@ -1,5 +1,5 @@
 .container-event-column
-  .wrapper-session
+  .wrapper-session.wrapper-forgot-password
     = simple_form_for @customer, url: event_passwords_path(current_event), method: :post do |f|
       = f.error_notification
       h3.center-text = t('passwords.new.title')

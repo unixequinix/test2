@@ -1,8 +1,8 @@
-/* ------------------------------------------------------- *\
-
-  Tables and checkout styles
-
-\* ------------------------------------------------------- */
+// -------------------------------------------------------
+//
+// Tables and checkout styles
+//
+// -------------------------------------------------------
 
 .wrapper-payments-methods {
   @include min-screen($bp3) {
@@ -34,7 +34,7 @@
     display: none;
     padding: 0 0 modules(0.5);
 
-    &:last-child{ text-align: right; }
+    &:last-child { text-align: right; }
   }
 
   tr {
@@ -43,7 +43,7 @@
       background-color: transparent;
     }
 
-    td:last-child{
+    td:last-child {
       text-align: right;
     }
   }
@@ -87,7 +87,8 @@
   }
 }
 
-.checkout-title, .checkout-amount {
+.checkout-title,
+.checkout-amount {
   @include mscale($double_text);
   display: inline-block;
   vertical-align: middle;

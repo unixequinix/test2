@@ -37,7 +37,8 @@ gem 'recaptcha', require: 'recaptcha/rails'
 # Design
 gem 'bourbon', '~> 4.2.2'
 gem 'neat', '~> 1.7.2'
-gem 'font-awesome-rails'
+gem 'font-awesome-rails', '~> 4.5.0.1'
+gem 'scss_lint', require: false
 
 # JSON APIs
 gem 'jbuilder', '~> 2.2.13'
