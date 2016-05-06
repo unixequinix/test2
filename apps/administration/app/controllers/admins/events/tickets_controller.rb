@@ -79,7 +79,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
     lines = params[:file][:data].tempfile.map { |line| line.split(",") }
     lines.delete_at(0)
 
-    lines.each do |tt_name, tt_code, c_name, barcode, f_name, l_name, email|
+    lines.each do |tt_name, tt_code, c_name, barcode, f_name, l_name, mail|
       com = Company.find_by("LOWER(name) = ?", c_name.downcase) || Company.create!(name: c_name)
       agree = com.company_event_agreements.find_or_create_by!(event: event, aasm_state: "granted")
 
@@ -89,7 +89,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
       ticket_params = { code: barcode, company_ticket_type: ticket_type, event: event }
       ticket = Ticket.find_or_create_by!(ticket_params)
 
-      p_params = { first_name: f_name, last_name: l_name, email: email&.strip, credentiable: ticket }
+      p_params = { first_name: f_name, last_name: l_name, email: mail&.strip, credentiable: ticket }
       Purchaser.find_or_create_by!(p_params)
     end
 
