@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160504161042) do
+ActiveRecord::Schema.define(version: 20160506110022) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -756,7 +756,7 @@ ActiveRecord::Schema.define(version: 20160504161042) do
   add_index "tickets", ["deleted_at"], name: "index_tickets_on_deleted_at", using: :btree
 
   create_table "topup_credits", force: :cascade do |t|
-    t.integer  "amount"
+    t.float    "amount"
     t.integer  "credit_id"
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
