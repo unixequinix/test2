@@ -124,6 +124,6 @@ class Gtag < ActiveRecord::Base
   private
 
   def upcase_gtag!
-    tag_uid.upcase!
+    tag_uid.upcase! if tag_uid
   end
 end

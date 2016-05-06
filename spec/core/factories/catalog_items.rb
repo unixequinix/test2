@@ -5,8 +5,8 @@ FactoryGirl.define do
     description { "Random name #{rand(100)}" }
     initial_amount 0
     step { rand(5) }
-    max_purchasable { rand(50) }
-    min_purchasable { rand(5) }
+    max_purchasable 1
+    min_purchasable 0
 
     trait :with_credit do
       after(:build) do |catalog_item|

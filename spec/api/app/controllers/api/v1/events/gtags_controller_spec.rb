@@ -130,7 +130,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
       describe "when gtag doesn't exist" do
         it "returns a 404 status code" do
-          get :show, event_id: event.id, id: (db_gtags.last.id + 10)
+          get :show, event_id: event.id, id: (Gtag.last.id + 10)
           expect(response.status).to eq(404)
         end
       end
@@ -138,7 +138,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
     context "without authentication" do
       it "returns a 401 status code" do
-        get :show, event_id: event.id, id: db_gtags.last.id
+        get :show, event_id: event.id, id: Gtag.last.id
         expect(response.status).to eq(401)
       end
     end

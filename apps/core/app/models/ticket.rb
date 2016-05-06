@@ -42,9 +42,8 @@ class Ticket < ActiveRecord::Base
   validates :code, presence: true
   validates :company_ticket_type_id, presence: true
 
-
   scope :selected_data, lambda  { |event_id|
-      select("id, event_id, company_ticket_type_id, code, banned, credential_redeemed")
+    select("id, event_id, company_ticket_type_id, code, banned, credential_redeemed")
       .where(event: event_id)
   }
 

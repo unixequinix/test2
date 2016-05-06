@@ -17,7 +17,7 @@ RSpec.describe Api::V1::Events::PacksController, type: :controller do
       it "has a 200 status code" do
         get :index, event_id: event.id
 
-        expect(response.status).to eq 200
+        expect(response.status).to eq(200)
       end
 
       it "returns all the packs" do
@@ -33,7 +33,7 @@ RSpec.describe Api::V1::Events::PacksController, type: :controller do
       it "has a 401 status code" do
         get :index, event_id: event.id
 
-        expect(response.status).to eq 401
+        expect(response.status).to eq(401)
       end
     end
   end

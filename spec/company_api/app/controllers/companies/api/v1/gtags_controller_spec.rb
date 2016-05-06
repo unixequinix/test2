@@ -171,9 +171,7 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
       end
 
       context "when the request is invalid" do
-        let(:params) do
-          { tag_uid: nil, purchaser_attributes: { email: "updated@email.com" } }
-        end
+        let(:params) { { tag_uid: nil, purchaser_attributes: { email: "updated@email.com" } } }
 
         it "returns a 422 status code" do
           put :update, id: @gtag, gtag: params
