@@ -89,7 +89,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
       ticket_params = { code: barcode, company_ticket_type: ticket_type, event: event }
       ticket = Ticket.find_or_create_by!(ticket_params)
 
-      p_params = { first_name: f_name, last_name: l_name, email: email.strip, credentiable: ticket }
+      p_params = { first_name: f_name, last_name: l_name, email: email&.strip, credentiable: ticket }
       Purchaser.find_or_create_by!(p_params)
     end
 
