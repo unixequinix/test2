@@ -3,7 +3,7 @@
 # Table name: topup_credits
 #
 #  id         :integer          not null, primary key
-#  amount     :integer
+#  amount     :float
 #  credit_id  :integer
 #  deleted_at :datetime
 #  created_at :datetime         not null
