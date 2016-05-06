@@ -21,7 +21,7 @@ class CustomerOrderTicketCreator
 
   def create_customer_order_for_pack(ticket, pack_catalog_item)
     customer_order = CustomerOrder.create(
-      customer_event_profile: ticket.assigned_ticket_credential(true).customer_event_profile,
+      profile: ticket.assigned_ticket_credential(true).profile,
       amount: pack_catalog_item.amount,
       catalog_item_id: pack_catalog_item.catalog_item_id,
       origin: CustomerOrder::TICKET_ASSIGNMENT
@@ -32,7 +32,7 @@ class CustomerOrderTicketCreator
 
   def create_customer_order_for_single_credits(ticket)
     customer_order = CustomerOrder.create(
-      customer_event_profile: ticket.assigned_ticket_credential(true).customer_event_profile,
+      profile: ticket.assigned_ticket_credential(true).profile,
       amount: 1,
       catalog_item_id: ticket.credential_type_item.id,
       origin: CustomerOrder::TICKET_ASSIGNMENT

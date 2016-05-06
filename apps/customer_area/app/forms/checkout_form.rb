@@ -1,8 +1,8 @@
 class CheckoutForm
   include ActiveModel::Model
 
-  def initialize(customer_event_profile)
-    @customer_event_profile = customer_event_profile
+  def initialize(profile)
+    @profile = profile
     @order = Order.new
   end
 
@@ -19,7 +19,7 @@ class CheckoutForm
   private
 
   def persist(params, catalog_items_fetched)
-    @order.customer_event_profile = @customer_event_profile
+    @order.profile = @profile
     @order.generate_order_number!
     catalog_items_fetched.each do |catalog_item|
       amount = params[:catalog_items][catalog_item.id.to_s].to_i

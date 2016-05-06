@@ -4,8 +4,8 @@ class Orders::PaypalPresenter < Orders::BasePresenter
   def initialize(event, order)
     @event = event
     @order = order
-    @customer_event_profile = @order.customer_event_profile
-    @agreement = @customer_event_profile.gateway_customer(EventDecorator::PAYPAL)
+    @profile = @order.profile
+    @agreement = @profile.gateway_customer(EventDecorator::PAYPAL)
   end
 
   def enable_autotoup_agreement?

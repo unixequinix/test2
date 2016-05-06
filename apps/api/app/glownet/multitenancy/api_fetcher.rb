@@ -20,29 +20,36 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
     Credit.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
-  def customer_event_profiles
-    @event.customer_event_profiles.includes(:customer, :credential_assignments, :orders)
+  def profiles
+    @event.profiles.includes(:customer, :credential_assignments, :orders)
   end
 
-  def sql_customer_event_profiles # rubocop:disable Metrics/MethodLength
+  def sql_profiles # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
       SELECT array_to_json(array_agg(row_to_json(cep)))
       FROM (
-        SELECT customer_event_profiles.id, customers.first_name,
-               customers.last_name, customers.email,
-        (
-          SELECT array_agg(gateway_type)
-          FROM payment_gateway_customers
-          WHERE customer_event_profile_id = customer_event_profiles.id
-            AND agreement_accepted IS TRUE
-            AND deleted_at IS NULL
-        ) as autotopup_gateways,
+        SELECT
+          profiles.id,
+          profiles.banned,
+          customers.first_name,
+          customers.last_name,
+          customers.email,
+          (
+            SELECT array_agg(gateway_type)
+            FROM payment_gateway_customers
+            WHERE profile_id = profiles.id
+              AND agreement_accepted IS TRUE
+              AND deleted_at IS NULL
+          ) as autotopup_gateways,
+
         (
           SELECT array_to_json(array_agg(row_to_json(cr)))
-          from (
-            SELECT credentiable_id as id, LOWER(credentiable_type) as type
+          FROM (
+            SELECT credentiable_id as id,
+            LOWER(credentiable_type) as type
             FROM credential_assignments
-            WHERE customer_event_profile_id = customer_event_profiles.id
+            WHERE profile_id = profiles.id
+              AND aasm_state = 'assigned'
               AND deleted_at IS NULL
           ) cr
         ) as credentials,
@@ -54,7 +61,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
               LOWER(catalog_items.catalogable_type) as catalogable_type
             FROM online_orders
             INNER JOIN customer_orders
-              ON customer_orders.customer_event_profile_id = customer_event_profiles.id
+              ON customer_orders.profile_id = profiles.id
               AND customer_orders.deleted_at IS NULL
             INNER JOIN catalog_items
               ON catalog_items.id = customer_orders.catalog_item_id
@@ -64,11 +71,11 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
               AND online_orders.redeemed IS false
           ) o
         ) as orders
-        FROM customer_event_profiles
+        FROM profiles
         FULL OUTER JOIN customers
-          ON customers.id = customer_event_profiles.customer_id
+          ON customers.id = profiles.customer_id
           AND customers.deleted_at IS NULL
-        WHERE customer_event_profiles.event_id = #{@event.id}
+        WHERE profiles.event_id = #{@event.id}
       ) cep
     SQL
     ActiveRecord::Base.connection.select_value(sql)
@@ -87,24 +94,38 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
     sql = <<-SQL
       SELECT array_to_json(array_agg(row_to_json(g)))
       FROM (
-        SELECT gtags.id, gtags.tag_uid, gtags.tag_serial_number, gtags.credential_redeemed,
-               credential_assignments.customer_event_profile_id as customer_id,
+        SELECT gtags.id,
+               gtags.tag_uid,
+               gtags.tag_serial_number,
+               gtags.credential_redeemed,
+               gtags.banned,
                company_ticket_types.credential_type_id as credential_type_id ,
                purchasers.first_name as purchaser_first_name,
                purchasers.last_name as purchaser_last_name,
-               purchasers.email as purchaser_email
+               purchasers.email as purchaser_email,
+               (
+                   SELECT profiles.id as customer_id
+                   FROM profiles
+                   INNER JOIN credential_assignments ON
+                       credential_assignments.profile_id = profiles.id
+
+                   WHERE credential_assignments.credentiable_id = gtags.id
+                       AND credential_assignments.credentiable_type = 'Gtag'
+                       AND credential_assignments.deleted_at IS NULL
+                       AND credential_assignments.aasm_state = 'assigned'
+                  LIMIT(1)
+               )
         FROM gtags
-        FULL OUTER JOIN purchasers
+
+        LEFT OUTER JOIN purchasers
           ON purchasers.credentiable_id = gtags.id
           AND purchasers.credentiable_type = 'Gtag'
           AND purchasers.deleted_at IS NULL
-        FULL OUTER JOIN credential_assignments
-          ON credential_assignments.credentiable_id = gtags.id
-          AND credential_assignments.credentiable_type = 'Gtag'
-          AND credential_assignments.deleted_at IS NULL
-        FULL OUTER JOIN company_ticket_types
+
+        LEFT OUTER JOIN company_ticket_types
           ON company_ticket_types.id = gtags.company_ticket_type_id
           AND company_ticket_types.deleted_at IS NULL
+
         WHERE gtags.event_id = #{@event.id}
       ) g
     SQL
@@ -112,7 +133,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
   end
 
   def banned_gtags
-    @event.gtags.banned
+    @event.gtags.where(banned: true)
   end
 
   def packs
@@ -143,21 +164,35 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
     sql = <<-SQL
       SELECT array_to_json(array_agg(row_to_json(t)))
       FROM (
-        SELECT tickets.id, tickets.code as reference, tickets.credential_redeemed,
-               credential_assignments.customer_event_profile_id as customer_id,
-               company_ticket_types.credential_type_id as credential_type_id ,
-               purchasers.first_name as purchaser_first_name,
-               purchasers.last_name as purchaser_last_name,
-               purchasers.email as purchaser_email
+        SELECT
+          tickets.id,
+          tickets.code as reference,
+          tickets.credential_redeemed,
+          tickets.banned,
+          company_ticket_types.credential_type_id as credential_type_id,
+          purchasers.first_name as purchaser_first_name,
+          purchasers.last_name as purchaser_last_name,
+          purchasers.email as purchaser_email,
+          (
+              SELECT profiles.id as customer_id
+              FROM profiles
+              INNER JOIN credential_assignments ON
+                  credential_assignments.profile_id = profiles.id
+
+              WHERE credential_assignments.credentiable_id = tickets.id
+                  AND credential_assignments.credentiable_type = 'Ticket'
+                  AND credential_assignments.deleted_at IS NULL
+                  AND credential_assignments.aasm_state = 'assigned'
+             LIMIT(1)
+          )
+
         FROM tickets
-        FULL OUTER JOIN purchasers
+
+        LEFT OUTER JOIN purchasers
           ON purchasers.credentiable_id = tickets.id
           AND purchasers.credentiable_type = 'Ticket'
           AND purchasers.deleted_at IS NULL
-        FULL OUTER JOIN credential_assignments
-          ON credential_assignments.credentiable_id = tickets.id
-          AND credential_assignments.credentiable_type = 'Ticket'
-          AND credential_assignments.deleted_at IS NULL
+
         INNER JOIN company_ticket_types
           ON company_ticket_types.id = tickets.company_ticket_type_id
           AND company_ticket_types.deleted_at IS NULL
@@ -169,7 +204,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
   end
 
   def banned_tickets
-    @event.tickets.banned
+    @event.tickets.where(banned: true)
   end
 
   def vouchers

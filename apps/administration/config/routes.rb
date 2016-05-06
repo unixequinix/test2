@@ -54,6 +54,7 @@ Rails.application.routes.draw do
           collection do
             get :search
             delete :destroy_multiple
+            post :import
           end
         end
 
@@ -114,7 +115,7 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :customer_event_profiles, except: [:new, :create, :edit, :update] do
+        resources :profiles, except: [:new, :create, :edit, :update] do
           collection do
             get :search
           end

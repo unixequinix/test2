@@ -43,6 +43,13 @@ select {
   }
 }
 
+.select-full-width {
+  select {
+    width: 100%;
+    margin: modules(1) 0 0;
+  }
+}
+
 input[type="button"],
 input[type="reset"],
 input[type="submit"] {

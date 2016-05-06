@@ -20,12 +20,12 @@ class Admins::Events::ClaimsController < Admins::Events::RefundsBaseController
 
   def update
     @claim = @fetcher.claims.find(params[:id])
-    customer_event_profile = @claim.customer_event_profile
+    profile = @claim.profile
     if @claim.update(permitted_params)
-      redirect_to admins_event_customer_event_profile_url(current_event, customer_event_profile),
+      redirect_to admins_event_profile_url(current_event, profile),
                   notice: I18n.t("alerts.updated")
     else
-      redirect_to admins_event_customer_event_profile_url(current_event, customer_event_profile),
+      redirect_to admins_event_profile_url(current_event, profile),
                   error: @claim.errors.full_messages.join(". ")
     end
   end
@@ -38,8 +38,8 @@ class Admins::Events::ClaimsController < Admins::Events::RefundsBaseController
       fetcher: @fetcher.claims,
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [:customer_event_profile,
-                              customer_event_profile: :customer]
+      include_for_all_items: [:profile,
+                              profile: :customer]
     )
   end
 

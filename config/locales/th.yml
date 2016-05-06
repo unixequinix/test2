@@ -12,6 +12,7 @@ th:
       es: 'ESP'
       it: 'ITA'
       th: 'THA'
+      de: 'GER'
     gtag_name: 'สายรัดข้อมือ'
   activemodel:
     errors:
@@ -69,7 +70,7 @@ th:
       customer:
         one: 'ลูกค้า'
         other: 'ลูกค้าอื่นๆ'
-      customer_event_profile:
+      profile:
         one: 'customer event profile'
         other: 'customer event profiles'
       entitlement:

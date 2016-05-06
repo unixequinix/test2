@@ -4,7 +4,7 @@ RSpec.describe Operations::Credit::BalanceUpdater, type: :job do
   let(:base) { Operations::Base }
   let(:worker) { Operations::Credit::BalanceUpdater }
   let(:event) { create(:event) }
-  let(:profile) { create(:customer_event_profile, event: event) }
+  let(:profile) { create(:profile, event: event) }
   let(:params) do
     {
       credits: 30,
@@ -21,14 +21,14 @@ RSpec.describe Operations::Credit::BalanceUpdater, type: :job do
   end
 
   it "includes payment method of 'credits'" do
-    params[:customer_event_profile_id] = profile.id
-    credit = worker.new.perform(params)
+    params[:profile_id] = profile.id
+    credit = worker.perform_later(params)
     expect(credit.payment_method).to eq("credits")
   end
 
   it "updates the balance of a customer when correct values are supplied" do
-    params[:customer_event_profile_id] = profile.id
-    expect { worker.new.perform(params) }.to change(CustomerCredit, :count).by(1)
+    params[:profile_id] = profile.id
+    expect { worker.perform_later(params) }.to change(CustomerCredit, :count).by(1)
   end
 
   it "renames credits to amount" do
@@ -37,10 +37,10 @@ RSpec.describe Operations::Credit::BalanceUpdater, type: :job do
       final_balance: 30,
       final_refundable_balance: 30,
       transaction_origin: "device",
-      customer_event_profile_id: profile.id
+      profile_id: profile.id
     }
     allow(Operations::Base).to receive(:column_attributes).and_return(hash)
-    worker.new.perform(params)
+    worker.perform_later(params)
     expect(hash[:amount]).to eq(params[:credits])
   end
 
@@ -49,7 +49,7 @@ RSpec.describe Operations::Credit::BalanceUpdater, type: :job do
       expect(worker).to receive(:perform_later).once
       params[:transaction_type] = action
       params[:device_created_at] = Time.now.to_s
-      base.write(params)
+      base.perform_later(params)
     end
   end
 end

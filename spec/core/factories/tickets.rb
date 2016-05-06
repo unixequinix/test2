@@ -17,17 +17,10 @@
 
 FactoryGirl.define do
   factory :ticket do
-    code { "#{SecureRandom.urlsafe_base64}#{rand(1000)}" }
+    code { "#{SecureRandom.hex(8).upcase}#{rand(1000)}" }
     event
     credential_redeemed { [true, false].sample }
     company_ticket_type
-
-    trait :banned do
-      after(:create) do |ticket|
-        create(:purchaser, credentiable: ticket)
-        create(:banned_ticket, ticket: ticket)
-      end
-    end
 
     trait :with_purchaser do
       after(:create) do |ticket|

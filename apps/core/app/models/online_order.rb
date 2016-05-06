@@ -29,16 +29,16 @@ class OnlineOrder < ActiveRecord::Base
   end
 
   def last_position
-    profile = customer_order.customer_event_profile
+    profile = customer_order.profile
     OnlineOrder.joins(:customer_order)
-      .where(customer_orders: { customer_event_profile_id: profile.id })
+      .where(customer_orders: { profile_id: profile.id })
       .order("counter DESC")
       .first.try(:counter) || 0
   end
 
   def calculate_counter
     OnlineOrder.joins(:customer_order)
-      .where(customer_orders: { customer_event_profile: profile })
+      .where(customer_orders: { profile: profile })
       .where("counter > ? ", counter)
       .each { |o_order| OnlineOrder.decrement_counter(:counter, o_order.id) }
   end

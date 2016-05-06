@@ -6,4 +6,7 @@ p.menu-header
   .container-search
     = f.input :tag_serial_number_cont, label: t("admin.gtags.search.tag_serial"), placeholder: t("admin.gtags.search.tag_serial")
     = f.input :tag_uid_cont, label: "Tag uid", placeholder: t("admin.gtags.search.tag_uid")
+    / TODO: Add translations
+    = f.input :credential_assignments_id_not_null, as: :select, label: "With credential?", placeholder: t("admin.gtags.search.tag_serial")
+    = f.input :credential_assignments_aasm_state_eq, label: "Credential status", placeholder: "assigned or unassigned"
     = f.submit class: "btn btn-secondary"

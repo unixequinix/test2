@@ -29,7 +29,7 @@ module GlownetWeb
     # Locale
     I18n.config.enforce_available_locales = true
     config.i18n.default_locale = :en
-    config.i18n.available_locales = [:en, :es, :it, :th]
+    config.i18n.available_locales = [:en, :es, :it, :th, :de]
     config.i18n.fallbacks = true
     config.time_zone = "Madrid"
     config.encoding = "utf-8"
@@ -69,9 +69,5 @@ module GlownetWeb
         resource '*', headers: :any, methods: [:get, :post, :options]
       end
     end
-
-    # Uncomment below to disable sidekiq for all. Put in specific environment if desired.
-    # config.active_job.queue_adapter = :inline
-    config.active_job.queue_adapter = :sidekiq
   end
 end

@@ -19,12 +19,12 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::CheckinBaseC
   def destroy
     customer_credit_creator = CustomerCreditTicketCreator.new
     credential_assignment = CredentialAssignment.find(params[:id])
-    customer_event_profile = credential_assignment.customer_event_profile
+    profile = credential_assignment.profile
     ticket = credential_assignment.credentiable
     @credit_log = customer_credit_creator.unassign(ticket) if ticket.credits.present?
     credential_assignment.unassign!
     flash[:notice] = I18n.t("alerts.unassigned")
-    redirect_to admins_event_customer_url(current_event, customer_event_profile.customer)
+    redirect_to admins_event_customer_url(current_event, profile.customer)
   end
 
   private
@@ -38,7 +38,7 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::CheckinBaseC
   end
 
   def current_profile
-    current_customer.customer_event_profile ||
-      CustomerEventProfile.new(customer: current_customer, event: current_event)
+    current_customer.profile ||
+      Profile.new(customer: current_customer, event: current_event)
   end
 end

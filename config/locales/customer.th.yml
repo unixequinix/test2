@@ -155,6 +155,15 @@ th:
       paypal_nvp:
         name: "PayPal"
         icon: "paypal"
+      ideal:
+        name: "Ideal"
+        icon: "pf pf-ideal"
+      sofort:
+        name: "Sofort"
+        icon: "pf pf-sofort"
+      wirecard:
+        name: "Credit card"
+        icon: "credit-card"
     stripe:
       card_number: "หมายเลขบัตร"
       card_code_verification: "หมายเลขตรวจสอบยืนยันบัตร (CCV)"
@@ -166,6 +175,10 @@ th:
       card_expiration_month: "วันหมดอายุของบัตร"
       card_expiration_year: "วันหมดอายุของบัตร"
       button: "ชำระเงิน"
+    ideal:
+      bank_account_iban: "IBAN"
+      bank_bic: "BIC"
+      account_owner: "Owner"
     paypal:
       sync_title: "Sync with PayPal to perform payment"
       sync_copy: "Never without credit!"

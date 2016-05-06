@@ -5,11 +5,11 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
 
   before(:all) do
     @event = Event.last || create(:event)
-    @customer = create(:customer_event_profile, event: @event)
-    create(:credential_assignment_g_a, customer_event_profile: @customer)
+    @customer = create(:profile, event: @event)
+    create(:credential_assignment_g_a, profile: @customer)
     create_list(:customer_order,
                 5,
-                customer_event_profile: @customer,
+                profile: @customer,
                 catalog_item: create(:catalog_item, :with_access, event: @event))
   end
 
@@ -26,7 +26,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
 
       context "when the If-Modified-Since header is sent" do
         pending "returns only the modified customers" do
-          @new_customer = create(:customer_event_profile, event: @event)
+          @new_customer = create(:profile, event: @event)
           @new_customer.update!(updated_at: Time.now + 4.hours)
 
           request.headers["If-Modified-Since"] = (@new_customer.updated_at - 2.hours)
@@ -38,7 +38,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
 
       context "when the If-Modified-Since header isn't sent" do
         before do
-          create(:customer_event_profile, event: @event)
+          create(:profile, event: @event)
         end
 
         pending "returns the cached customers" do
@@ -48,8 +48,8 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
             m["id"]
           end
 
-          create(:customer_event_profile, event: @event)
-          event_customers = @event.customer_event_profiles.map(&:id)
+          create(:profile, event: @event)
+          event_customers = @event.profiles.map(&:id)
 
           expect(customers).to eq(cache_c)
           expect(customers).not_to eq(event_customers)

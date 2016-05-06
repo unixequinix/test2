@@ -1,0 +1,13 @@
+h3
+  = fa_icon "table"
+  = t ("admin.customers.purchases")
+table.orders
+  thead
+    tr
+      th = t("admin.catalog_item.name")
+      th = t("admin.orders.total")
+  tbody
+    - profile.sorted_purchases(format: :list).each do |purchased_order|
+      tr
+        td data-label=t("admin.catalog_item.name") = "#{purchased_order.product_name}"
+        td data-label=t("admin.orders.total") = "#{purchased_order.total_amount}"

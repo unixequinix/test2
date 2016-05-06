@@ -9,7 +9,7 @@
       dt = t("admin.claims.number")
       dd = @claim.number
       dt = t("admin.claims.customer")
-      dd = link_to @claim.customer_event_profile.customer.email, admins_event_customer_path(current_event, @claim.customer_event_profile.customer) unless @claim.customer_event_profile.nil?
+      dd = link_to @claim.profile.customer.email, admins_event_customer_path(current_event, @claim.profile.customer) unless @claim.profile.nil?
       dt = t("admin.claims.state")
       dd = @claim.aasm_state
       dt = t("admin.claims.total")

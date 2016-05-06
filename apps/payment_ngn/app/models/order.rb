@@ -2,27 +2,27 @@
 #
 # Table name: orders
 #
-#  id                        :integer          not null, primary key
-#  number                    :string           not null
-#  aasm_state                :string           not null
-#  customer_event_profile_id :integer
-#  completed_at              :datetime
-#  deleted_at                :datetime
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
+#  id           :integer          not null, primary key
+#  number       :string           not null
+#  aasm_state   :string           not null
+#  profile_id   :integer
+#  completed_at :datetime
+#  deleted_at   :datetime
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 
 class Order < ActiveRecord::Base
   default_scope { order(created_at: :desc) }
 
   # Associations
-  belongs_to :customer_event_profile
+  belongs_to :profile
   has_many :order_items
   has_many :payments
   has_many :catalog_items, through: :order_items, class_name: "CatalogItem"
 
   # Validations
-  validates :customer_event_profile, :number, :aasm_state, presence: true
+  validates :profile, :number, :aasm_state, presence: true
 
   # State machine
   include AASM

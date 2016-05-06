@@ -120,4 +120,8 @@ $stripe_border:             #999;
   }
 }
 
-// ···
+// Wirecard, sofort, ideal buttons
+.btn-payment-font {
+  font-size: modules(1);
+  padding-top: 0.5rem !important;
+}

@@ -18,8 +18,12 @@ class GtagAssignmentForm
     gtag = fetcher.find_by(atts)
 
     add_error("alerts.gtag.invalid") && return unless gtag
-    assignment = Profile::Checker.for_credentiable(gtag, current_customer)
-    add_error("alerts.gtag.already_assigned") && return unless assignment
+
+    begin
+      assignment = Profile::Checker.for_credentiable(gtag, current_customer)
+    rescue RuntimeError
+      return add_error("alerts.gtag.already_assigned")
+    end
 
     GtagMailer.assigned_email(assignment).deliver_later
   end

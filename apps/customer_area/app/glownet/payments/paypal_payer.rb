@@ -2,8 +2,8 @@ class Payments::PaypalPayer
   def start(params, customer_order_creator, customer_credit_creator)
     @event = Event.friendly.find(params[:event_id])
     @order = Order.find(params[:order_id])
-    @customer_event_profile = @order.customer_event_profile
-    @gateway = @customer_event_profile.gateway_customer(EventDecorator::PAYPAL)
+    @profile = @order.profile
+    @gateway = @profile.gateway_customer(EventDecorator::PAYPAL)
     @method = @gateway ? "auto" : "regular"
     @order.start_payment!
     charge_object = charge(params)
@@ -31,7 +31,7 @@ class Payments::PaypalPayer
       amount: amount
     }
     submit_for_settlement(sale_options)
-    vault_options(sale_options, @customer_event_profile.customer) if create_agreement?(params)
+    vault_options(sale_options, @profile.customer) if create_agreement?(params)
     send("#{@method}_payment_options", sale_options, params)
     sale_options
   end
@@ -73,17 +73,17 @@ class Payments::PaypalPayer
 
   def create_agreement(charge_object, autotopup_amount)
     customer_id = charge_object.transaction.customer_details.id
-    @customer_event_profile.payment_gateway_customers
+    @profile.payment_gateway_customers
       .find_or_create_by(gateway_type: EventDecorator::PAYPAL)
       .update(token: customer_id,
               agreement_accepted: true,
               autotopup_amount: autotopup_amount,
               email: Braintree::Customer.find(customer_id).paypal_accounts.first.email)
-    @customer_event_profile.save
+    @profile.save
   end
 
   def create_agreement?(params)
-    params[:accept] && !@customer_event_profile.gateway_customer(EventDecorator::PAYPAL)
+    params[:accept] && !@profile.gateway_customer(EventDecorator::PAYPAL)
   end
 
   def send_mail_for(order, event)

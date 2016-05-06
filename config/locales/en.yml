@@ -12,6 +12,7 @@ en:
       es: 'ESP'
       it: 'ITA'
       th: 'THA'
+      de: 'GER'
     gtag_name: 'Wristband'
   activemodel:
     errors:
@@ -69,7 +70,7 @@ en:
       customer:
         one: 'customer'
         other: 'customers'
-      customer_event_profile:
+      profile:
         one: 'customer event profile'
         other: 'customer event profiles'
       entitlement:
@@ -134,7 +135,7 @@ en:
               restrict_dependent_destroy:
                 many: "Can't be deleted because there are customers associated"
             tag_uid:
-              taken: 'Serial Number and UID taken'
+              taken: 'Tag UID taken'
         admission:
           attributes:
             ticket:

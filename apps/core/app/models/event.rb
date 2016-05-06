@@ -49,15 +49,15 @@ class Event < ActiveRecord::Base
 
   has_flags 1 => :top_ups, 2 => :refunds, column: "features"
   has_flags 1 => :paypal, 2 => :redsys, 3 => :braintree, 4 => :stripe, 5 => :paypal_nvp,
-            column: "payment_services"
+            6 => :ideal, 7 => :sofort, 8 => :wirecard, column: "payment_services"
   has_flags 1 => :bank_account, 2 => :epg, 3 => :tipalti, 4 => :direct, column: "refund_services"
   has_flags 1 => :phone, 2 => :address, 3 => :city, 4 => :country, 5 => :postcode, 6 => :gender,
             7 => :birthdate, 8 => :agreed_event_condition, column: "registration_parameters"
-  has_flags 1 => :en_lang, 2 => :es_lang, 3 => :it_lang, 4 => :th_lang, column: "locales"
+  has_flags 1 => :en_lang, 2 => :es_lang, 3 => :it_lang, 4 => :th_lang, 5 => :de_lang, column: "locales"
 
   # Associations
   has_many :company_ticket_types
-  has_many :customer_event_profiles
+  has_many :profiles
   has_many :event_parameters
   has_many :parameters, through: :event_parameters
   has_many :customers
@@ -82,17 +82,19 @@ class Event < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
 
+  S3_FOLDER = Rails.application.secrets.s3_images_folder
+
   has_attached_file(
     :logo,
-    path: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:style/:filename",
-    url: "#{Rails.application.secrets.s3_images_folder}/event/:id/logos/:style/:basename.:extension",
+    path: "#{S3_FOLDER}/event/:id/logos/:style/:filename",
+    url: "#{S3_FOLDER}/event/:id/logos/:style/:basename.:extension",
     styles: { email: "x120" },
     default_url: ":default_event_image_url")
 
   has_attached_file(
     :background,
-    path: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:filename",
-    url: "#{Rails.application.secrets.s3_images_folder}/event/:id/backgrounds/:basename.:extension",
+    path: "#{S3_FOLDER}/event/:id/backgrounds/:filename",
+    url: "#{S3_FOLDER}/event/:id/backgrounds/:basename.:extension",
     default_url: ":default_event_background_url")
 
   # Hooks
@@ -112,11 +114,12 @@ class Event < ActiveRecord::Base
   end
 
   def total_credits
-    customer_event_profiles.reduce(0) { |a, e| a + e.total_credits }
+    CustomerCredit.where(profile: profiles).map(&:amount).sum
   end
 
   def total_refundable_money(_refund_service)
-    customer_event_profiles.reduce(0) { |a, e| a + e.refundable_money_amount }
+    creds = CustomerCredit.where(profile: profiles)
+    creds.map(&:refundable_amount).sum * standard_credit_price
   end
 
   def total_refundable_gtags(refund_service)
@@ -147,7 +150,7 @@ class Event < ActiveRecord::Base
   def gtag_query(refund_service)
     fee = refund_fee(refund_service)
     min = refund_minimun(refund_service)
-    gtags.joins(credential_assignments: [customer_event_profile: :customer_credits])
+    gtags.joins(credential_assignments: [profile: :customer_credits])
       .where("credential_assignments.aasm_state = 'assigned'")
       .having("sum(customer_credits.credit_value * customer_credits.final_refundable_balance) - " \
               "#{fee} >= #{min}")

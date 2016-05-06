@@ -10,7 +10,7 @@ RSpec.describe RefundService, type: :domain_logic do
 
     before do
       allow(claim).to receive(:complete!)
-      allow(claim.customer_event_profile.event).to receive(:standard_credit_price).and_return(1)
+      allow(claim.profile.event).to receive(:standard_credit_price).and_return(1)
       allow(mailer_double).to receive(:deliver_later).and_return true
       allow(ClaimMailer).to receive(:completed_email).and_return mailer_double
     end
@@ -40,7 +40,7 @@ RSpec.describe RefundService, type: :domain_logic do
     end
 
     it "updates the profiles balance to reflect the refund" do
-      expect(claim.customer_event_profile).to receive(:update_balance_after_refund)
+      expect(claim.profile).to receive(:update_balance_after_refund)
       subject.create(params)
     end
   end

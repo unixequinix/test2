@@ -7,16 +7,22 @@ class EventDecorator < Draper::Decorator
   REDSYS = :redsys
   STRIPE = :stripe
   BRAINTREE = :braintree
-  PAYMENT_SERVICES = [STRIPE, PAYPAL, REDSYS, BRAINTREE, PAYPAL_NVP]
+  IDEAL = :ideal
+  SOFORT = :sofort
+  WIRECARD = :wirecard
+  PAYMENT_SERVICES = [STRIPE, PAYPAL, REDSYS, BRAINTREE, PAYPAL_NVP, IDEAL, SOFORT, WIRECARD]
   PAYMENT_PLATFORMS = { paypal_nvp: "paypal_nvp",
                         paypal: "braintree",
                         braintree: "braintree",
                         redsys: "redsys",
+                        ideal: "wirecard",
+                        sofort: "wirecard",
+                        wirecard: "wirecard",
                         stripe: "stripe" }
 
   REFUND_SERVICES = [:bank_account, :epg, :tipalti, :direct]
   FEATURES = [:top_ups, :refunds]
-  LOCALES = [:en_lang, :es_lang, :it_lang, :th_lang]
+  LOCALES = [:en_lang, :es_lang, :it_lang, :th_lang, :de_lang]
   REGISTRATION_PARAMETERS = [:phone, :address, :city, :country, :postcode, :gender,
                              :birthdate, :agreed_event_condition]
 

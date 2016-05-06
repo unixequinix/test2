@@ -3,10 +3,6 @@ require "rails_helper"
 RSpec.describe CustomerCreditOrderCreator, type: :domain_logic do
   context "An order with some order items." do
     describe "should be able to create a customer credit for every order item possibility:" do
-      before :each do
-        CustomerCredit.destroy_all
-      end
-
       it "items without credits" do
         order = build(:order)
         access_item = create(:catalog_item, :with_access)
@@ -18,9 +14,7 @@ RSpec.describe CustomerCreditOrderCreator, type: :domain_logic do
         order.save
 
         coc = CustomerCreditOrderCreator.new
-        coc.save(order)
-
-        expect(CustomerCredit.count).to be(0)
+        expect { coc.save(order) }.not_to change(CustomerCredit, :count)
       end
 
       it "one single credit" do

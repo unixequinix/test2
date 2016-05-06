@@ -37,7 +37,7 @@ class Admins::Events::RefundsController < Admins::Events::RefundsBaseController
       page: params[:page],
       context: view_context,
       include_for_all_items: [:claim,
-                              claim: [:customer_event_profile, customer_event_profile: :customer]]
+                              claim: [:profile, profile: :customer]]
     )
   end
 

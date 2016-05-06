@@ -15,8 +15,10 @@ class Events::OrdersController < Events::BaseController
   def update
     @payment_service = params[:payment_service]
     @order = OrderManager.new(Order.find(params[:id])).sanitize_order
+    params[:consumer_ip_address] = request.ip
+    params[:consumer_user_agent] = request.user_agent
     @form_data = ("Payments::#{@payment_service.camelize}DataRetriever")
-                 .constantize.new(current_event, @order)
+                 .constantize.new(current_event, @order).with_params(params)
     @order.start_payment!
   end
 
@@ -25,7 +27,7 @@ class Events::OrdersController < Events::BaseController
   def require_permission!
     @order = Order.find(params[:id])
     return unless current_profile !=
-                  @order.customer_event_profile || @order.completed? || @order.expired?
+                  @order.profile || @order.completed? || @order.expired?
     flash.now[:error] = I18n.t("alerts.order_complete") if @order.completed?
     flash.now[:error] = I18n.t("alerts.order_expired") if @order.expired?
     redirect_to event_url(current_event)

@@ -1,4 +1,4 @@
-class Payments::RedsysDataRetriever
+class Payments::RedsysDataRetriever < Payments::BaseDataRetriever
   include Rails.application.routes.url_helpers
   attr_reader :current_event, :order
 
@@ -53,7 +53,7 @@ class Payments::RedsysDataRetriever
   end
 
   def client_name
-    @order.customer_event_profile.customer.first_name
+    @order.profile.customer.first_name
   end
 
   def notification_url

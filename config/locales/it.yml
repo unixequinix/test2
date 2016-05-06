@@ -12,6 +12,7 @@ it:
       es: 'ESP'
       it: 'ITA'
       th: 'THA'
+      de: 'GER'
     gtag_name: 'PAYCARD'
   activemodel:
     errors:
@@ -69,7 +70,7 @@ it:
       customer:
         one: 'customer'
         other: 'customers'
-      customer_event_profile:
+      profile:
         one: 'customer event profile'
         other: 'customer event profiles'
       entitlement:

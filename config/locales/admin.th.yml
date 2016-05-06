@@ -2,15 +2,15 @@ th:
   admin:
     transactions:
       id: "ID"
-      transaction_origin: "Origin"
-      transaction_type: "Type"
+      transaction_origin: "Transaction Origin"
+      transaction_type: "Transaction Type"
       customer_tag_uid: "Customer tag"
       operator_tag_uid: "Operator tag"
-      station_id: "Station id"
-      device_uid: "Device uid"
+      station_id: "Station ID"
+      device_uid: "Device UID"
       device_db_index: "Device DB index"
       device_created_at: "Device created at"
-      customer_event_profile_id: "Customer Event Profile ID"
+      profile_id: "Customer Event Profile ID"
       status_code: "Status Code"
       status_message: "Status Message"
       ticket_code: "Ticket Code"
@@ -21,6 +21,24 @@ th:
       credits_refundable: "Refundable Credits"
       final_balance: "Final Balance"
       final_refundable_balance: "Final Refundable Balance"
+      product: "Product"
+      quantity: "Quantity"
+      unit_price: "Unit price"
+      total: "Total"
+      credit_value: "Credit Value"
+      station: "Station"
+      event: "Event"
+      device: "Device"
+      customer_order: "Customer Order"
+      access: "Access"
+      direction: "Direction"
+      final_value: "Final Value"
+      credential: "Credential"
+      ticket: "Ticket"
+      money: "Money"
+      catalogable_type: "Catalogable Type"
+      catalogable_id: "Catalogable ID"
+      items_amount: "Items Amount"
     agreements:
       status: "Status"
       granted: "Granted"
@@ -143,6 +161,9 @@ th:
         paypal_nvp: 'Paypal NVP'
         stripe: 'Stripe'
         braintree: 'Braintree'
+        sofort: 'Sofort'
+        ideal: 'Ideal'
+        wirecard: 'Wirecard'
       refund_services:
         bank_account: 'Bank account'
         epg: 'Easy payment gateway'
@@ -159,6 +180,7 @@ th:
         it_lang: "Italian"
         es_lang: "Spanish"
         th_lang: "Thai"
+        de_lang: "German"
     gtag_settings:
       form:
         format: 'Format'
@@ -245,7 +267,7 @@ th:
       gtag: "GTags"
       credits: "Credits"
       customers: "Customers"
-      customer_event_profiles: "Customer event profiles"
+      profiles: "Customer event profiles"
       orders: "Orders"
       customer_orders: "Customer orders"
       payments: "Payments"
@@ -293,6 +315,7 @@ th:
       memory_length: "Length"
       memory_position: "Memory position"
     company_ticket_types:
+      id: "Id"
       name: "Name"
       company_code: "Company code"
       credential_type: "Credential type"
@@ -379,7 +402,7 @@ th:
       transaction_origin: "Transaction source"
       final_balance: "Final balance"
       final_refundable_balance: "Final refundable balance"
-    customer_event_profile:
+    profile:
       id: "Id"
     customers:
       delete: "Deleted"
@@ -474,7 +497,7 @@ th:
     customer_orders:
       id: "Id"
       amount: "Amount"
-      customer_event_profile: "Customer event profiles"
+      profile: "Customer event profiles"
       catalog_item: "Catalog item"
       origin: "Origin"
       online_order: "Online order"
