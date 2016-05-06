@@ -214,9 +214,9 @@ th:
   gtag_assignations:
     title: "ระบุ %{gtag}"
     description:
-      standard: "เพื่อจะทำการขอรับเงินคืน กรุณาระบุหมายเลขบน %{gtag} ของคุณ หมายเลขจะมี 2 บรรทัด"
-      card: "เพื่อจะทำการขอรับเงินคืน กรุณาระบุหมายเลขบน %{gtag} ของคุณ หมายเลขจะมี 2 บรรทัด"
-      simple: "เพื่อจะทำการขอรับเงินคืน กรุณาระบุหมายเลขบน %{gtag} ของคุณ "
+      standard: "Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}"
+      card: "Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}"
+      simple: "Assign the yellow highlighted numbers as appears in your %{gtag}"
     call_to_action: "ระบุ %{gtag} ของคุณ และไปต่อ!"
     button: "ตกลง"
     back: "Back"

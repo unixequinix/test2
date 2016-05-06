@@ -213,9 +213,9 @@ en:
   gtag_assignations:
     title: "Assign %{gtag}"
     description:
-      standard: "Assign the second row of numbers and letters (green highlighted) of your %{gtag}"
-      card: "Assign the second row of numbers and letters (green highlighted) of your %{gtag}"
-      simple: "Assign the green highlighted numbers as appears in your %{gtag}"
+      standard: "Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}"
+      card: "Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}"
+      simple: "Assign the yellow highlighted numbers and letters as appears in your %{gtag}"
     call_to_action: "Assign your %{gtag} and go!"
     button: "Accept"
     back: "Back"

@@ -214,9 +214,9 @@ it:
   gtag_assignations:
     title: "Registra la tua Paycard"
     description:
-      standard: "Per poter procedere inserisci i due codici così come appaiano sul retro della tua Paycard."
-      card: "Per poter procedere inserisci i due codici così come appaiano sul retro della tua Paycard."
-      simple: "Per poter procedere inserisci il numero così come appaiano sulla %{gtag}."
+      standard: "Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}"
+      card: "Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}"
+      simple: "Assign the yellow highlighted numbers as appears in your %{gtag}"
     call_to_action: "Registra la tua Paycard e inizia!"
     button: "Accetto"
     back: "Volver"
