@@ -12,7 +12,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
       before do
         create(:credential_assignment_g_a, profile: profile)
         order = create(:customer_order, profile: profile, catalog_item: item)
-        create(:online_order, customer_order: order)
+        create(:online_order, customer_order: order, redeemed: false)
       end
 
       before(:each) do
