@@ -12,8 +12,8 @@ FactoryGirl.define do
       mode { "permanent" }
     end
 
-    trait :permanent_strict do
-      mode { "permanent_strict" }
+    trait :strict_permanent do
+      mode { "strict_permanent" }
     end
   end
 end
