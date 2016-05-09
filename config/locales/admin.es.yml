@@ -311,7 +311,7 @@ es:
       company_code: "Código de la compañía"
       credential_type: "Tipo de credencial"
     entitlement:
-      infinite: "Ilimitado"
+      mode: "Modo"
       memory_length: "Longitud"
       memory_position: "Posición en memoria"
     products:

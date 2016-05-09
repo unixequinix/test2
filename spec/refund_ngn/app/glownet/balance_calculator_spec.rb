@@ -19,7 +19,6 @@ RSpec.describe BalanceCalculator, type: :domain_logic do
 
     it ".valid_balance? returns true if the balance is valid after the event" do
       create(:customer_credit_online, profile: profile)
-      binding.pry
       expect(balance_calculator.valid_balance?).to eq(true)
     end
   end

@@ -86,7 +86,7 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
                                    entitlement_attributes: [
                                      :id,
                                      :memory_length,
-                                     :infinite,
+                                     :mode,
                                      :event_id])
   end
 end
