@@ -31,12 +31,12 @@ class Entitlement < ActiveRecord::Base
   # Modes
   COUNTER = "counter"
   PERMANENT = "permanent"
-  STRICT_PERMANENT = "strict_permanent"
+  PERMANENT_STRICT = "permanent_strict"
 
-  MODES = [COUNTER, PERMANENT, STRICT_PERMANENT]
+  MODES = [COUNTER, PERMANENT, PERMANENT_STRICT]
 
   def infinite?
-    mode == PERMANENT || mode == STRICT_PERMANENT
+    mode == PERMANENT || mode == PERMANENT_STRICT
   end
 
   private
