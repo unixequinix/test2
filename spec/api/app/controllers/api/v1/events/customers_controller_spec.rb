@@ -1,66 +1,46 @@
 require "rails_helper"
 
 RSpec.describe Api::V1::Events::CustomersController, type: :controller do
-  let(:admin) { Admin.first || FactoryGirl.create(:admin) }
-
-  before(:all) do
-    @event = Event.last || create(:event)
-    @customer = create(:profile, event: @event)
-    create(:credential_assignment_g_a, profile: @customer)
-    create_list(:customer_order,
-                5,
-                profile: @customer,
-                catalog_item: create(:catalog_item, :with_access, event: @event))
-  end
+  let(:event) { create(:event) }
+  let(:admin) { create(:admin) }
+  let(:profile) { create(:profile, event: event) }
+  let(:item) { create(:catalog_item, :with_access, event: event) }
+  let(:db_profiles) { event.profiles }
 
   describe "GET index" do
     context "with authentication" do
+      before do
+        create(:credential_assignment_g_a, profile: profile)
+        order = create(:customer_order, profile: profile, catalog_item: item)
+        create(:online_order, customer_order: order)
+      end
+
       before(:each) do
         http_login(admin.email, admin.access_token)
+        get :index, event_id: event.id
       end
 
-      it "has a 200 status code" do
-        get :index, event_id: @event.id
-        expect(response.status).to eq 200
+      it "returns a 200 status code" do
+        expect(response.status).to eq(200)
       end
 
-      context "when the If-Modified-Since header is sent" do
-        pending "returns only the modified customers" do
-          @new_customer = create(:profile, event: @event)
-          @new_customer.update!(updated_at: Time.zone.now + 4.hours)
+      it "returns the necessary keys" do
+        cus_keys = %w(id banned first_name last_name email autotopup_gateways credentials orders)
+        cre_keys = %w(id type)
+        order_keys = %w(online_order_counter amount catalogable_id catalogable_type)
 
-          request.headers["If-Modified-Since"] = (@new_customer.updated_at - 2.hours)
-
-          get :index, event_id: @event.id
-          expect(JSON.parse(response.body).map { |m| m["id"] }).to eq([@new_customer.id])
-        end
-      end
-
-      context "when the If-Modified-Since header isn't sent" do
-        before do
-          create(:profile, event: @event)
-        end
-
-        pending "returns the cached customers" do
-          get :index, event_id: @event.id
-          customers = JSON.parse(response.body).map { |m| m["id"] }
-          cache_c = JSON.parse(Rails.cache.fetch("v1/event/#{@event.id}/customers")).map do |m|
-            m["id"]
-          end
-
-          create(:profile, event: @event)
-          event_customers = @event.profiles.map(&:id)
-
-          expect(customers).to eq(cache_c)
-          expect(customers).not_to eq(event_customers)
+        JSON.parse(response.body).map do |gtag|
+          expect(gtag.keys).to eq(cus_keys)
+          expect(gtag["credentials"].map(&:keys).flatten.uniq).to eq(cre_keys)
+          expect(gtag["orders"].map(&:keys).flatten.uniq).to eq(order_keys)
         end
       end
     end
 
     context "without authentication" do
       it "has a 401 status code" do
-        get :index, event_id: @event.id
-        expect(response.status).to eq 401
+        get :index, event_id: event.id
+        expect(response.status).to eq(401)
       end
     end
   end
