@@ -12,7 +12,7 @@ RSpec.describe Api::V1::Events::ParametersController, type: :controller do
                        parameter: Parameter.find_by(category: "device", name: "min_version_apk"))
 
       @param2 = EventParameter.find_or_create_by(event: @event,
-                                                 value: "mifare_classic",
+                                                 value: "ultralight_c",
                                                  parameter: Parameter.find_by(category: "gtag",
                                                                               group: "form",
                                                                               name: "gtag_type"))

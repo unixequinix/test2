@@ -197,9 +197,9 @@ de:
   gtag_assignations:
     title: "Anmelden %{gtag}"
     description:
-      standard: "Um fortzufahren, geben Sie bitte die Zahlenfolge Ihres %{gtag} ein. Die Zahlenfolge besteht aus 2 Zeilen."
-      card: "Um fortzufahren, geben Sie bitte die Zahlenfolge Ihres %{gtag} ein. Die Zahlenfolge besteht aus 2 Zeilen."
-      simple: " Um fortzufahren, geben Sie bitte die Zahlenfolge Ihres %{gtag} ein. Die Zahlenfolge besteht aus 2 Zeilen."
+      standard: "Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}"
+      card: "Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}"
+      simple: "Assign the yellow highlighted numbers as appears in your %{gtag}"
     call_to_action: " %{gtag} anmelden und los!"
     button: "Akzeptieren"
     back: "Zurück"
@@ -285,7 +285,8 @@ de:
   sessions:
     first_register:
       welcome: Willkommen!'
-      description: 'Um mit Ihrer Veranstaltung fortzufahren, wählen Sie bitte aus, was Sie zuerst registrieren möchten'
+      description_with_credentiable: "Please, to continue with your event:"
+      description_without_credentiable: "There's nothing you can do right now, please come back later"
     welcome: 'Willkommen!'
     create_account:
       title: 'Sie haben noch kein Konto?'

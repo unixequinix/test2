@@ -4,7 +4,10 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
   let(:event) { create(:event) }
   let(:admin) { create(:admin) }
   let(:db_gtags) { event.gtags }
-  before { create_list(:gtag, 2, event: event) }
+  before do
+    create_list(:gtag, 2, event: event)
+    @deleted_gtag = create(:gtag, :with_purchaser, event: event, deleted_at: Time.now)
+  end
 
   describe "GET index" do
     context "with authentication" do
@@ -18,7 +21,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
       end
       it "returns the necessary keys" do
         JSON.parse(response.body).map do |gtag|
-          keys = %w(id tag_uid tag_serial_number credential_redeemed banned credential_type_id
+          keys = %w(id tag_uid credential_redeemed banned credential_type_id
                     purchaser_first_name purchaser_last_name purchaser_email customer_id)
           expect(keys).to eq(gtag.keys)
         end
@@ -29,7 +32,6 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
           gtag_atts = {
             id: db_gtags[index].id,
             tag_uid: db_gtags[index].tag_uid,
-            tag_serial_number: db_gtags[index].tag_serial_number,
             credential_redeemed: db_gtags[index].credential_redeemed,
             credential_type_id: db_gtags[index]&.company_ticket_type&.credential_type_id,
             banned: db_gtags[index].banned?,
@@ -40,6 +42,11 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
           }
           expect(gtag).to eq(gtag_atts.as_json)
         end
+      end
+
+      it "doesn't returns deleted gtags" do
+        gtags = JSON.parse(response.body).map { |gtag| gtag["id"] }
+        expect(gtags).not_to include(@deleted_gtag.id)
       end
     end
 
@@ -87,8 +94,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
         it "returns the necessary keys" do
           gtag = JSON.parse(response.body)
-          gtag_keys = %w(id tag_uid tag_serial_number credential_redeemed banned credential_type_id
-                         customer)
+          gtag_keys = %w(id tag_uid credential_redeemed banned credential_type_id customer)
           customer_keys = %w(id banned autotopup_gateways credentials first_name last_name email
                              orders)
           order_keys = %w(online_order_counter catalogable_id catalogable_type amount)
@@ -106,7 +112,6 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
           gtag = {
             id: @gtag.id,
             tag_uid: @gtag.tag_uid,
-            tag_serial_number: @gtag.tag_serial_number,
             credential_redeemed: @gtag.credential_redeemed,
             banned: @gtag.banned,
             credential_type_id: @gtag.company_ticket_type.credential_type_id,
@@ -133,7 +138,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
       describe "when gtag doesn't exist" do
         it "returns a 404 status code" do
-          get :show, event_id: event.id, id: (db_gtags.last.id + 10)
+          get :show, event_id: event.id, id: (Gtag.last.id + 10)
           expect(response.status).to eq(404)
         end
       end
@@ -141,7 +146,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
     context "without authentication" do
       it "returns a 401 status code" do
-        get :show, event_id: event.id, id: db_gtags.last.id
+        get :show, event_id: event.id, id: Gtag.last.id
         expect(response.status).to eq(401)
       end
     end

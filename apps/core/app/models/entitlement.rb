@@ -7,11 +7,11 @@
 #  entitlementable_type :string           not null
 #  event_id             :integer          not null
 #  memory_position      :integer          not null
-#  infinite             :boolean          default(FALSE), not null
 #  deleted_at           :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  memory_length        :integer          default(1)
+#  mode                 :string           default("counter")
 #
 
 class Entitlement < ActiveRecord::Base
@@ -21,13 +21,23 @@ class Entitlement < ActiveRecord::Base
              foreign_key: "entitlementable_id"
   belongs_to :event
   before_validation :set_memory_position
-  validates :memory_length, presence: true
+  validates :memory_length, :mode, presence: true
   validate :valid_position?
-  validates_inclusion_of :infinite, in: [true, false]
 
   after_destroy :calculate_memory_position_after_destroy
 
   LENGTH = [1, 2]
+
+  # Modes
+  COUNTER = "counter"
+  PERMANENT = "permanent"
+  PERMANENT_STRICT = "permanent_strict"
+
+  MODES = [COUNTER, PERMANENT, PERMANENT_STRICT]
+
+  def infinite?
+    mode == PERMANENT || mode == PERMANENT_STRICT
+  end
 
   private
 

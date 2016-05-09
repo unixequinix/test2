@@ -1,16 +1,33 @@
 = simple_form_for [:admins, current_event, access] do |f|
   .wrapper-negative-space
-    = f.simple_fields_for :catalog_item do |catalog_item|
-      = catalog_item.input :name, placeholder: true
-      = catalog_item.input :description, placeholder: true
-      = catalog_item.input :step, placeholder: true
-      = catalog_item.input :initial_amount, placeholder: true
-      = catalog_item.input :max_purchasable, placeholder: true
-      = catalog_item.input :min_purchasable, placeholder: true
-      = catalog_item.input :event_id, as: :hidden, input_html: { value: current_event.id }
     = f.simple_fields_for :entitlement do |entitlement|
-      = entitlement.input :infinite, as: :radio_buttons, default: false
-      = entitlement.input :memory_length, collection: Entitlement::LENGTH, include_blank: false
+      = entitlement.input :mode, collection: Entitlement::MODES, include_blank: false, id: "mode_selector"
+      = entitlement.input :memory_length, as: :hidden, input_html: { value: 1 }
       = entitlement.input :event_id, as: :hidden, input_html: { value: current_event.id }
+      
+    = f.simple_fields_for :catalog_item do |catalog_item|
+      = catalog_item.input :name, autofocus: false, placeholder: true
+      = catalog_item.input :description, placeholder: true
+      #shop-fields
+        = catalog_item.input :step, placeholder: true
+        = catalog_item.input :initial_amount, placeholder: true
+        = catalog_item.input :max_purchasable, placeholder: true
+        = catalog_item.input :min_purchasable, placeholder: true
+      = catalog_item.input :event_id, as: :hidden, input_html: { value: current_event.id }
 
     = f.button :submit, class: "btn btn-primary"
+
+javascript:
+  var changeSelect = function() {
+    var value = $("#access_entitlement_attributes_mode").val();
+    
+    if(value === "counter") {
+     $("#shop-fields").show(); 
+    } else {
+     $("#shop-fields").hide(); 
+    }
+  }
+  
+  $("#access_entitlement_attributes_mode").change(changeSelect);
+  $(document).on('page:load', changeSelect);
+  $(document).ready(changeSelect);

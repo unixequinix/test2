@@ -14,22 +14,29 @@ class Access < ActiveRecord::Base
   has_one :credential_type, through: :catalog_item
   accepts_nested_attributes_for :catalog_item, allow_destroy: true
   accepts_nested_attributes_for :entitlement, allow_destroy: true
-  validate :valid_max_value, if: :infinite?
-  validate :valid_min_value, if: :infinite?
+  before_validation :set_infinite_values, if: :infinite?
+  before_save :set_memory_length
+  validate :min_max_congruency
 
   private
 
   def infinite?
-    entitlement.infinite
+    entitlement.infinite?
   end
 
-  def valid_max_value
-    return if catalog_item.max_purchasable.between?(0, 1)
-    errors[:max_purchasable] << I18n.t("errors.messages.invalid_max_value_for_infinite")
+  def set_infinite_values
+    catalog_item.min_purchasable = 0
+    catalog_item.max_purchasable = 1
+    catalog_item.step = 1
+    catalog_item.initial_amount = 0
   end
 
-  def valid_min_value
-    return if catalog_item.min_purchasable.between?(0, 1)
-    errors[:min_purchasable] << I18n.t("errors.messages.invalid_min_value_for_infinite")
+  def set_memory_length
+    entitlement.memory_length = 2 if catalog_item.max_purchasable > 7
+  end
+
+  def min_max_congruency
+    return if catalog_item.min_purchasable <= catalog_item.max_purchasable
+    errors[:min_purchasable] << I18n.t("errors.messages.greater_than_maximum")
   end
 end

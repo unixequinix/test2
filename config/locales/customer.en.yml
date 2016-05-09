@@ -213,9 +213,9 @@ en:
   gtag_assignations:
     title: "Assign %{gtag}"
     description:
-      standard: "In order to proceed assign the number as appears in your %{gtag}. The number consists of 2 lines."
-      card: "In order to proceed assign the number as appears in your %{gtag}. The number consists of 2 lines."
-      simple: "In order to proceed assign the number as appears in your %{gtag}."
+      standard: "Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}"
+      card: "Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}"
+      simple: "Assign the yellow highlighted numbers and letters as appears in your %{gtag}"
     call_to_action: "Assign your %{gtag} and go!"
     button: "Accept"
     back: "Back"
@@ -302,7 +302,7 @@ en:
   sessions:
     first_register:
       welcome: 'Welcome!'
-      description_with_credentiable: "Please, to continue with your event choose what you  want to register first"
+      description_with_credentiable: "Please, to continue with your event:"
       description_without_credentiable: "There's nothing you can do right now, please come back later"
     welcome: 'Welcome!'
     create_account:

@@ -4,19 +4,25 @@
 //
 // -------------------------------------------------------
 
+$form_border:        #999;
+
 abbr { display: none; }
 
-.input { position: relative; overflow: hidden; }
+.input {
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+}
 
 form { overflow: hidden; }
 
 label {
   @include transition(color 123ms linear, top 123ms linear);
-  display: block;
   position: absolute;
   top: modules(1.5);
-  color: $grey;
   z-index: 1;
+  display: block;
+  color: $grey;
 }
 
 .to-be-label {
@@ -59,35 +65,47 @@ input[type=url],
 input[type=tel],
 input[type=search] {
   @include appearance(none);
-  @include placeholder { color: $grey; }
-  overflow: hidden;
   position: relative;
+  z-index: 2;
   display: block;
+  overflow: hidden;
   width: 100%;
   margin: modules(1) 0;
   padding: modules(0.5) 0;
   border: 1px solid transparent;
+  border-bottom: 1px solid $form_border;
   background-color: transparent;
-  border-bottom: 1px solid #999;
-  //box-shadow: 0px -1px 0px 0px #999 inset;
   color: $color_text;
-  z-index: 2;
+
+  @include placeholder { color: $grey; }
 
   &:focus {
     outline: none;
-    //box-shadow: 0px 0px 1px 1px #999 inset, 0px 0px 6px 2px lighten($grey, 27%);
     background-color: transparent;
     opacity: 1;
   }
 }
 
-.country, .customer_birthdate, .customer_gender {
-  label {
-    position: relative !important;
-    top: modules(1);
-  }
+.registration-select {
 
-  select { margin: modules(1.5) 0 0; }
+  label { top: modules(0.75); }
+
+  select {
+    @include linear-gradient($air_gray, $graySilver);
+    position: relative;
+    height: modules(2);
+    margin: modules(2.25) 0 0;
+    border: none;
+    border-radius: $radius;
+    box-shadow: none;
+    background-color: $air_gray;
+    color: $grey;
+
+    &:focus {
+      outline: none;
+      box-shadow: inset 0 0 0 1px $grey;
+    }
+  }
 }
 
 .wrapper-session-login {
@@ -100,11 +118,11 @@ input[type=search] {
     position: absolute;
     top: modules(1.6);
     left: 0;
-    opacity: 0.6;
     z-index: 3;
+    opacity: 0.6;
   }
 
-  .error { background-color: $red; z-index: 6; }
+  .error { z-index: 6; background-color: $red; }
 }
 
 button {
@@ -114,4 +132,20 @@ button {
 }
 
 .edit-profile-form { form { width: 100%; } }
-.inut-add-wristband { margin-top: 0 !important; }
+
+.input-add-wristband {
+  input { margin: modules(0.5) 0 0; }
+}
+
+.wristband-image {
+  height: modules(5);
+  margin: 1rem 0;
+
+  @include min-screen($bp3) {
+    height: modules(8);
+  }
+}
+
+.disclaimer-gtag-text { margin: modules(0.25) 0; }
+
+// ···

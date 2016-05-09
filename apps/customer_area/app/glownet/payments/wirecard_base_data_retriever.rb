@@ -47,7 +47,7 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
   end
 
   def cancel_url
-    "http://2bad6936.ngrok.io/frontend/service_url.php"
+    "https://example.com"
   end
 
   def failure_url(method)
@@ -55,7 +55,7 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
   end
 
   def service_url
-    "http://2bad6936.ngrok.io/frontend/service_url.php"
+    "https://example.com"
   end
 
   def confirm_url(method)

@@ -140,7 +140,7 @@ class Profile < ActiveRecord::Base # rubocop:disable ClassLength
 
   def infinite_entitlements_purchased
     single_entitlements = customer_orders.select do |customer_order|
-      customer_order.catalog_item.catalogable.try(:entitlement).try(:infinite)
+      customer_order.catalog_item.catalogable.try(:entitlement).try(:infinite?)
     end.map(&:catalog_item_id)
 
     pack_entitlements = CatalogItem.where(

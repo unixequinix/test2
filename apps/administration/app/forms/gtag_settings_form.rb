@@ -15,8 +15,6 @@ class GtagSettingsForm
   validates_presence_of :gtag_name
   validates_presence_of :gtag_type
   validates_presence_of :maximum_gtag_balance
-  validates_presence_of :gtag_form_disclaimer
-  validates_presence_of :gtag_assignation_notification
 
   validate :enough_space_for_credential
   validate :enough_space_for_entitlements

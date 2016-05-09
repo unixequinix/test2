@@ -1,18 +1,20 @@
-/* ------------------------------------------------------- *\
+// -------------------------------------------------------
+//
+// Base stylesheet for footer
+//
+// -------------------------------------------------------
 
-  Base stylesheet for footer
-
-\* ------------------------------------------------------- */
+$footer_color:          rgba(255, 255, 255, 0.5);
 
 footer {
   position: relative;
   overflow: hidden;
-  text-align: center;
   padding: modules(2) 0;
+  text-align: center;
 
   @include min-screen($bp3) {
     padding: 0;
-    color: rgba(255,255,255,0.5);
+    color: $footer_color;
   }
 
   a {
@@ -29,12 +31,11 @@ footer {
 
   li {
     display: inline-block;
-    width: auto;
     vertical-align: top;
+    width: auto;
     padding: 0 modules(0.25);
     font-weight: bold;
     cursor: pointer;
-    font-weight: bold;
   }
 }
 
@@ -45,9 +46,9 @@ footer {
     display: block;
 
     @include min-screen($bp3) {
-    display: inline-block;
-    vertical-align: top;
-    width: auto;
+      display: inline-block;
+      vertical-align: top;
+      width: auto;
     }
   }
 }
@@ -57,7 +58,7 @@ footer {
   bottom: 0;
   width: 100%;
   padding: modules(0.5);
-  background-color: darken($glwnt_header,7%);
+  background-color: darken($glwnt_header, 7%);
   text-align: center;
   text-transform: uppercase;
 }
@@ -81,3 +82,5 @@ footer {
   display: block;
   padding-top: modules(0.25);
 }
+
+// ···

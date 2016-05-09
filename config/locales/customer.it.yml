@@ -214,9 +214,9 @@ it:
   gtag_assignations:
     title: "Registra la tua Paycard"
     description:
-      standard: "Per poter procedere inserisci i due codici così come appaiano sul retro della tua Paycard."
-      card: "Per poter procedere inserisci i due codici così come appaiano sul retro della tua Paycard."
-      simple: "Per poter procedere inserisci il numero così come appaiano sulla %{gtag}."
+      standard: "Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}"
+      card: "Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}"
+      simple: "Assign the yellow highlighted numbers as appears in your %{gtag}"
     call_to_action: "Registra la tua Paycard e inizia!"
     button: "Accetto"
     back: "Volver"
@@ -298,7 +298,7 @@ it:
   sessions:
     first_register:
       welcome: 'Bienvenido!!'
-      description_with_credentiable: "Please, to continue with your event choose what you  want to register first"
+      description_with_credentiable: "Please, to continue with your event:"
       description_without_credentiable: "There's nothing you can do right now, please come back later"
     welcome: 'Welcome!'
     create_account:

@@ -75,6 +75,7 @@ de:
         touchpoint: "Touchpoint"
       station_catalog_item:
         name: "Name"
+        type: "Type"
         description: "Beschreibung"
         price: "Preis"
       station_product:
@@ -312,7 +313,7 @@ de:
       company_code: "Firmencode"
       credential_type: "Guthabentyp"
     entitlement:
-      infinite: "unbegrenzt"
+      mode: "Mode"
       memory_length: "Länge"
       memory_position: "Speicherposition"
     ticket_types:
@@ -326,6 +327,7 @@ de:
     tickets:
       id: "ID"
       code: "Code"
+      banned: "Banned"
       company_ticket_type: "Firmenticketart"
       ticket_type_simplified: "Vereinfachte Ticketart"
       customer: "Angemeldeter Kunde"
@@ -359,6 +361,8 @@ de:
       id: "ID"
       tag: "Tag UID"
       serial: "Tag Seriennummer"
+      banned: "Banned"
+      tickets: "Tickets"
       customer: "Kunde"
       assigned_at: "Angemeldet bei"
       created_at: "Erstellt bei "
@@ -401,6 +405,7 @@ de:
     profile:
       id: "ID"
     customers:
+      banned: "Banned"
       delete: "Gelöscht"
       email: "Email"
       first_name: "Vorname"
@@ -522,7 +527,6 @@ de:
       customer_id: "Kunden ID"
       customer_name: "Name des Kunden"
       customer_email: "Email des Kunden"
-      gtag_serial_number: "Seriennummer"
       gtag_uid: "UID Nummer"
       iban: "IBAN Nummer"
       swift: "BIC/SWIFT Nummer"

@@ -58,8 +58,7 @@ class Companies::Api::V1::GtagsController < Companies::Api::V1::BaseController
     ticket_type = params[:gtag][:ticket_type_id]
     params[:gtag][:company_ticket_type_id] = ticket_type if ticket_type
 
-    params.require(:gtag).permit(:tag_serial_number,
-                                 :tag_uid,
+    params.require(:gtag).permit(:tag_uid,
                                  :company_ticket_type_id,
                                  purchaser_attributes: [:id, :first_name, :last_name, :email])
   end

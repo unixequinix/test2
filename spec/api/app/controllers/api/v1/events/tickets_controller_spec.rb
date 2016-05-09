@@ -7,6 +7,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
   before do
     create_list(:ticket, 2, :with_purchaser, event: event)
+    @deleted_ticket = create(:ticket, :with_purchaser, event: event, deleted_at: Time.now)
   end
 
   describe "GET index" do
@@ -42,6 +43,11 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
           }
           expect(ticket).to eq(ticket_atts.as_json)
         end
+      end
+
+      it "doesn't returns deleted tickets" do
+        tickets = JSON.parse(response.body).map { |ticket| ticket["id"] }
+        expect(tickets).not_to include(@deleted_ticket.id)
       end
     end
 
@@ -166,6 +172,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         end
       end
     end
+
     context "without authentication" do
       it "returns a 401 status code" do
         get :reference, event_id: event.id, id: db_tickets.last.id
