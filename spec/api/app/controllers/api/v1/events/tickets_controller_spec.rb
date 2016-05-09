@@ -96,7 +96,8 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
         it "returns the necessary keys" do
           ticket = JSON.parse(response.body)
-          ticket_keys = %w(id reference credential_redeemed banned credential_type_id customer)
+          ticket_keys = %w(id reference credential_redeemed banned credential_type_id customer
+                           purchaser_first_name purchaser_last_name purchaser_email)
           c_keys = %w(id banned autotopup_gateways credentials first_name last_name email orders)
           order_keys = %w(online_order_counter catalogable_id catalogable_type amount)
 
@@ -130,7 +131,10 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
                 catalogable_type: orders.first.catalog_item.catalogable_type.downcase,
                 amount: orders.first.amount
               }]
-            }
+            },
+            purchaser_first_name: @ticket.purchaser&.first_name,
+            purchaser_last_name: @ticket.purchaser&.last_name,
+            purchaser_email: @ticket.purchaser&.email
           }
 
           expect(JSON.parse(response.body)).to eq(ticket.as_json)

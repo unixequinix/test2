@@ -19,6 +19,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
       it "returns a 200 status code" do
         expect(response.status).to eq(200)
       end
+
       it "returns the necessary keys" do
         JSON.parse(response.body).map do |gtag|
           keys = %w(id tag_uid credential_redeemed banned credential_type_id
