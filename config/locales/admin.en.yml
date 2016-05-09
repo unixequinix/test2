@@ -76,6 +76,7 @@ en:
       station_catalog_item:
         name: "Name"
         description: "Description"
+        type: "Type"
         price: "Price"
       station_product:
         name: "Name"

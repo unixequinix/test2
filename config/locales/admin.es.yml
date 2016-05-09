@@ -75,6 +75,7 @@ es:
         touchpoint: "Touchpoint"
       station_catalog_item:
         name: "Nombre"
+        type: "Tipo"
         description: "Descripción"
         price: "Precio"
       station_product:
