@@ -8,7 +8,8 @@ require "capistrano/rails"
 require "capistrano/sidekiq"
 require "capistrano/rails/assets"
 require "capistrano/faster_assets"
-
+require "capistrano/rvm"
+require "capistrano/bundler"
 require "whenever/capistrano"
 
 # Include tasks from other gems included in your Gemfile

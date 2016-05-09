@@ -126,7 +126,7 @@ group :development, :test do
   gem 'byebug', '~> 4.0.5'
   gem 'capistrano'
   gem 'capistrano-rails', '~> 1.1.3'
-  gem 'capistrano-rbenv', '~> 2.0.3'
+  gem 'capistrano-rvm'
   gem 'capistrano-bundler', '~> 1.1.2'
   gem 'capistrano-sidekiq', '~> 0.5.3'
   gem 'capistrano-faster-assets', '~> 1.0'
