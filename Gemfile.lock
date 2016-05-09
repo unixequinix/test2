@@ -325,6 +325,7 @@ GEM
       rails (>= 3.0.0)
     method_source (0.8.2)
     mime-types (2.99.1)
+    mimemagic (0.3.0)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
     multi_json (1.11.2)
@@ -347,11 +348,12 @@ GEM
       shellany (~> 0.0)
     oj (2.14.6)
     oj_mimic_json (1.0.1)
-    paperclip (4.2.4)
+    paperclip (4.3.6)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
       cocaine (~> 0.5.5)
       mime-types
+      mimemagic (= 0.3.0)
     paranoia (2.1.5)
       activerecord (~> 4.0)
     parser (2.3.0.6)
@@ -656,7 +658,7 @@ DEPENDENCIES
   nilify_blanks (~> 1.2.1)
   oj
   oj_mimic_json
-  paperclip (~> 4.2.2)
+  paperclip (~> 4.3.6)
   paranoia (~> 2.0)
   payment_ngn!
   paypal-sdk-rest
