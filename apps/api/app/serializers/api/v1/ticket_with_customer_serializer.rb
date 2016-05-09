@@ -1,5 +1,6 @@
 class Api::V1::TicketWithCustomerSerializer < Api::V1::BaseSerializer
-  attributes :id, :reference, :credential_redeemed, :banned, :credential_type_id, :customer
+  attributes :id, :reference, :credential_redeemed, :banned, :credential_type_id, :customer,
+             :purchaser_first_name, :purchaser_last_name, :purchaser_email
 
   def reference
     object.code
@@ -8,6 +9,18 @@ class Api::V1::TicketWithCustomerSerializer < Api::V1::BaseSerializer
   def credential_type_id
     ticket_type = object.company_ticket_type
     ticket_type && ticket_type.credential_type_id
+  end
+
+  def purchaser_first_name
+    object&.purchaser&.first_name
+  end
+
+  def purchaser_last_name
+    object&.purchaser&.last_name
+  end
+
+  def purchaser_email
+    object&.purchaser&.email
   end
 
   def customer
