@@ -30,7 +30,7 @@ RSpec.describe Order, type: :model do
   describe "generate_order_number!" do
     it "should create a new order number" do
       order.generate_order_number!
-      day = Date.today.strftime("%y%m%d")
+      day = Time.zone.today.strftime("%y%m%d")
 
       expect(order.number).to start_with(day)
       expect(order.number).to match(/^[a-f0-9]*$/)

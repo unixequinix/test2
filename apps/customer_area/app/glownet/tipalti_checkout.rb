@@ -20,7 +20,7 @@ class TipaltiCheckout
       idap: @claim.profile.id,
       last: @claim.profile.customer.last_name.gsub(valid_characters, ""),
       first: @claim.profile.customer.first_name.gsub(valid_characters, ""),
-      ts: Time.now.to_i,
+      ts: Time.zone.now.to_i,
       payer: @tipalti_values[:payer]
     }.to_param
   end

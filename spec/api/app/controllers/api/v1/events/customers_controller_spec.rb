@@ -27,7 +27,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
       context "when the If-Modified-Since header is sent" do
         pending "returns only the modified customers" do
           @new_customer = create(:profile, event: @event)
-          @new_customer.update!(updated_at: Time.now + 4.hours)
+          @new_customer.update!(updated_at: Time.zone.now + 4.hours)
 
           request.headers["If-Modified-Since"] = (@new_customer.updated_at - 2.hours)
 

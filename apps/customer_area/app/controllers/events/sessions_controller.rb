@@ -37,7 +37,7 @@ class Events::SessionsController < Events::BaseController
     customer.init_remember_token!
     token_expiration = customer.remember_me_token_expires_at(2.weeks).to_s
     cookies["remember_token"] = { value: customer.remember_token,
-                                  expires: Time.parse(token_expiration) }
+                                  expires: Time.zone.parse(token_expiration) }
   end
 
   def after_sign_out_path

@@ -7,7 +7,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
   before do
     create_list(:ticket, 2, :with_purchaser, event: event)
-    @deleted_ticket = create(:ticket, :with_purchaser, event: event, deleted_at: Time.now)
+    @deleted_ticket = create(:ticket, :with_purchaser, event: event, deleted_at: Time.zone.now)
   end
 
   describe "GET index" do

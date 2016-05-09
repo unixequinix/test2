@@ -36,7 +36,7 @@ class Payments::PaypalRefunder
     t = charge.transaction
     Payment.create!(transaction_type: t.payment_instrument_type,
                     card_country: t.credit_card_details.country_of_issuance,
-                    paid_at: Time.at(t.created_at),
+                    paid_at: Time.zone.at(t.created_at),
                     last4: t.credit_card_details.last_4,
                     order: order,
                     response_code: t.processor_response_code,

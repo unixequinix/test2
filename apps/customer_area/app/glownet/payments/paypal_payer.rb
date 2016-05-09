@@ -101,7 +101,7 @@ class Payments::PaypalPayer
     transaction = charge.transaction
     Payment.create!(transaction_type: transaction.payment_instrument_type,
                     card_country: transaction.credit_card_details.country_of_issuance,
-                    paid_at: Time.at(transaction.created_at),
+                    paid_at: Time.zone.at(transaction.created_at),
                     last4: transaction.credit_card_details.last_4,
                     order: order,
                     response_code: transaction.processor_response_code,

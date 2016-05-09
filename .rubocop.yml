@@ -45,3 +45,9 @@ Metrics/MethodLength:
 
 Lint/RequireParentheses:
   Enabled: true
+
+Lint/Debugger:
+  Enabled: false
+
+Rails:
+  Enabled: true

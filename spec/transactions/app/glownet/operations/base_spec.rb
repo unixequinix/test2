@@ -10,7 +10,7 @@ RSpec.describe Operations::Base, type: :job do
       transaction_type: "nothing",
       credits: 30,
       event_id: event.id,
-      device_created_at: Time.now.to_s,
+      device_created_at: Time.zone.now.to_s,
       customer_tag_uid: gtag.tag_uid,
       status_code: 0
     }

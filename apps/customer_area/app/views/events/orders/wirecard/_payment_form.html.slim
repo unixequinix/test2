@@ -16,7 +16,7 @@
         = text_field_tag :cc_cardverifycode, nil, class: "input-block-level"
       = label_tag t('orders.stripe.card_expiration_date'), nil, required: true, class: "expiration-label"
       = select_tag :cc_expirationMonth, options_for_select(Date::MONTHNAMES.compact.each_with_index.map { |name,i| ["#{i+1} - #{name}", i+1] }), include_blank: false, class: "payment-expiration-year"
-      = select_tag :cc_expirationYear, options_for_select((Date.today.year..(Date.today.year+10)).to_a), include_blank: false, class: "payment-expiration-month"
+      = select_tag :cc_expirationYear, options_for_select((Time.zone.today.year..(Time.zone.today.year+10)).to_a), include_blank: false, class: "payment-expiration-month"
       = hidden_field_tag :order_id, order_presenter.order.id
       = hidden_field_tag :payment_service, order_presenter.payment_service
       = hidden_field_tag :storage_id, order_presenter.storage_id

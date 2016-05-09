@@ -3,10 +3,10 @@ require "rails_helper"
 RSpec.describe Api::V1::Events::GtagsController, type: :controller do
   let(:event) { create(:event) }
   let(:admin) { create(:admin) }
-  let(:db_gtags) { event.gtags.order(:id).reverse }
+  let(:db_gtags) { event.gtags }
   before do
     create_list(:gtag, 2, event: event)
-    @deleted_gtag = create(:gtag, :with_purchaser, event: event, deleted_at: Time.now)
+    @deleted_gtag = create(:gtag, :with_purchaser, event: event, deleted_at: Time.zone.now)
   end
 
   describe "GET index" do
@@ -28,19 +28,20 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
       end
 
       it "returns the correct data" do
-        JSON.parse(response.body).each_with_index do |gtag, index|
+        JSON.parse(response.body).each_with_index do |list_gtag, index|
+          gtag = db_gtags[index]
           gtag_atts = {
-            id: db_gtags[index].id,
-            tag_uid: db_gtags[index].tag_uid,
-            credential_redeemed: db_gtags[index].credential_redeemed,
-            credential_type_id: db_gtags[index]&.company_ticket_type&.credential_type_id,
-            banned: db_gtags[index].banned?,
-            purchaser_first_name: db_gtags[index]&.purchaser&.first_name,
-            purchaser_last_name: db_gtags[index]&.purchaser&.last_name,
-            purchaser_email: db_gtags[index]&.purchaser&.email,
-            customer_id: db_gtags[index]&.assigned_profile&.id
+            id: gtag.id,
+            tag_uid: gtag.tag_uid,
+            credential_redeemed: gtag.credential_redeemed,
+            credential_type_id: gtag&.company_ticket_type&.credential_type_id,
+            banned: gtag.banned?,
+            purchaser_first_name: gtag&.purchaser&.first_name,
+            purchaser_last_name: gtag&.purchaser&.last_name,
+            purchaser_email: gtag&.purchaser&.email,
+            customer_id: gtag&.assigned_profile&.id
           }
-          expect(gtag).to eq(gtag_atts.as_json)
+          expect(list_gtag).to eq(gtag_atts.as_json)
         end
       end
 

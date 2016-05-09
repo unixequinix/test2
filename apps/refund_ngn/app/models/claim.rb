@@ -73,8 +73,8 @@ class Claim < ActiveRecord::Base
   end
 
   def generate_claim_number!
-    time_hex = Time.now.strftime("%H%M%L").to_i.to_s(16)
-    day = Date.today.strftime("%y%m%d")
+    time_hex = Time.zone.now.strftime("%H%M%L").to_i.to_s(16)
+    day = Time.zone.today.strftime("%y%m%d")
     self.number = "#{day}#{time_hex}"
   end
 
@@ -95,6 +95,6 @@ class Claim < ActiveRecord::Base
   private
 
   def complete_claim
-    update(completed_at: Time.now)
+    update(completed_at: Time.zone.now)
   end
 end

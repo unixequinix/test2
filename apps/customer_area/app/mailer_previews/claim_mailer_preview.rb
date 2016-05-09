@@ -7,7 +7,7 @@ class ClaimMailerPreview < ActionMailer::Preview
     claim = FactoryGirl.create(:claim,
                                profile: profile,
                                gtag: profile.active_gtag_assignment.credentiable)
-    claim.update(completed_at: Time.now)
+    claim.update(completed_at: Time.zone.now)
     ClaimMailer.completed_email(claim, event)
   end
 

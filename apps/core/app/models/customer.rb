@@ -59,13 +59,13 @@ class Customer < ActiveRecord::Base
 
   def init_password_token!
     generate_token(:reset_password_token)
-    self.reset_password_sent_at = Time.now.utc
+    self.reset_password_sent_at = Time.zone.now.utc
     save
   end
 
   def init_remember_token!
     generate_token(:remember_token)
-    self.remember_created_at = Time.now.utc
+    self.remember_created_at = Time.zone.now.utc
     save
   end
 

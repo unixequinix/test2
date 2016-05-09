@@ -40,8 +40,8 @@ FactoryGirl.define do
   factory :event do
     name { "Festival #{SecureRandom.urlsafe_base64}-#{rand(100_000)}" }
     location { "#{rand(100)} some street" }
-    start_date { Time.now }
-    end_date { Time.now + 2.days }
+    start_date { Time.zone.now }
+    end_date { Time.zone.now + 2.days }
     description "This paragraph is something special"
     support_email "valid@email.com"
     style "html{color:white;}"

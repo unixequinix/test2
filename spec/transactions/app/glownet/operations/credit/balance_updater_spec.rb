@@ -53,7 +53,7 @@ RSpec.describe Operations::Credit::BalanceUpdater, type: :job do
     it "it is a subscriber for the action '#{action}'" do
       expect(worker).to receive(:perform_later).once
       params[:transaction_type] = action
-      params[:device_created_at] = Time.now.to_s
+      params[:device_created_at] = Time.zone.now.to_s
       base.perform_later(params)
     end
   end

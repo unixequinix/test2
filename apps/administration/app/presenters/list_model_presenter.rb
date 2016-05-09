@@ -32,9 +32,7 @@ class ListModelPresenter
     "#{from}-#{to}"
   end
 
-  def count
-    all.count
-  end
+  delegate :count, to: :all
 
   def no_items_for_presentation
     path = "admins/events/shared/"

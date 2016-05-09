@@ -53,7 +53,7 @@ class Payments::StripePayer
   def create_payment(order, charge)
     Payment.create!(transaction_type: charge.source.object,
                     card_country: charge.source.country,
-                    paid_at: Time.at(charge.created),
+                    paid_at: Time.zone.at(charge.created),
                     last4: charge.source.last4,
                     order: order,
                     response_code: charge.status,

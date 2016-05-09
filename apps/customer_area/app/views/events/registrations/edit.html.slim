@@ -44,7 +44,7 @@ header.header-mobile.edit-profile-menu
       = f.input :postcode, input_html: { class: 'session-input' } if current_event.postcode?
       = f.input :country, wrapper_html: { class: 'registration-select' }, input_html: { class: 'session-select' } if current_event.country?
       = f.input :gender, wrapper_html: { class: 'registration-select' }, collection: Customer.gender_selector, include_blank: false, input_html: { class: 'session-input' } if current_event.gender?
-      = f.input :birthdate, wrapper_html: { class: 'registration-select' }, as: :date, default: @edit_profile_form.birthdate, start_year: 1950, end_year: Date.today.year - 12, order: [:day, :month, :year] if current_event.birthdate?
+      = f.input :birthdate, wrapper_html: { class: 'registration-select' }, as: :date, default: @edit_profile_form.birthdate, start_year: 1950, end_year: Time.zone.today.year - 12, order: [:day, :month, :year] if current_event.birthdate?
       = f.button :submit, t('registration.edit.button'),  class: "btn-action btn-edit-profile"
   - current_profile.payment_gateway_customers.each do |payment_gateway_customer|
     .wrapper-module
