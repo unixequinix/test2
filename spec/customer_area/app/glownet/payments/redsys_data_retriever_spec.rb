@@ -6,6 +6,7 @@ RSpec.describe Payments::RedsysDataRetriever, type: :domain_logic do
     event = Event.first || create(:event)
     profile = create(:profile, event: event)
     order = create(:order_with_items, number: @number, profile: profile)
+    Seeder::SeedLoader.load_default_event_parameters(event)
     @redsys_data_retriever = Payments::RedsysDataRetriever.new(event, order)
   end
 
