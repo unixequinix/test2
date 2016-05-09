@@ -3,7 +3,7 @@ class Sorters::CatalogItemSorter < Sorters::ItemSorter
   LIST = :list
   HASH = :hash
 
-  FORMATS = [LIST, HASH]
+  FORMATS = [LIST, HASH].freeze
 
   def initialize(items)
     @keys = %w(Credit Voucher Access Pack)

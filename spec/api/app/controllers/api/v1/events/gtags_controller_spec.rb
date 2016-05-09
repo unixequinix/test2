@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Api::V1::Events::GtagsController, type: :controller do
   let(:event) { create(:event) }
   let(:admin) { create(:admin) }
-  let(:db_gtags) { event.gtags }
+  let(:db_gtags) { event.gtags.order(:id).reverse }
   before do
     create_list(:gtag, 2, event: event)
     @deleted_gtag = create(:gtag, :with_purchaser, event: event, deleted_at: Time.now)

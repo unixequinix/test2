@@ -1,4 +1,5 @@
 AllCops:
+  TargetRubyVersion: 2.3
   Exclude:
     - 'db/**/*'
     - 'spec/spec_helper.rb'
@@ -14,6 +15,9 @@ AllCops:
     - '**/*.gemspec'
     - '**/Gemfile'
     - '**/i18n/**/*'
+
+FrozenStringLiteralComment:
+  Enabled: false
 
 Documentation:
   Enabled: false

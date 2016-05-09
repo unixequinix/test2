@@ -9,9 +9,10 @@ class Companies::Api::V1::BaseController < Companies::BaseController
     authenticate_or_request_with_http_basic do |event_token, company_token|
       @current_event = Event.find_by(token: event_token)
 
-      @agreement = @current_event.company_event_agreements
-                                 .includes(:company)
-                                 .find_by(companies: { access_token: company_token }) if @current_event
+      @agreement = @current_event&.company_event_agreements
+                                 &.includes(:company)
+                                 &.find_by(companies: { access_token: company_token })
+
       @current_event && @agreement || render(status: 403, json: :unauthorized)
     end
   end

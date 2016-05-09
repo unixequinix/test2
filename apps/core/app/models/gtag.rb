@@ -14,12 +14,12 @@
 #
 
 class Gtag < ActiveRecord::Base
-  STANDARD = "standard"
-  CARD  = "card"
-  SIMPLE = "simple"
+  STANDARD = "standard".freeze
+  CARD = "card".freeze
+  SIMPLE = "simple".freeze
 
   # Type of the gtags
-  FORMATS = [STANDARD, CARD, SIMPLE]
+  FORMATS = [STANDARD, CARD, SIMPLE].freeze
 
   # Gtag limits
   GTAG_DEFINITIONS = [{ name: "mifare_classic",
@@ -31,7 +31,7 @@ class Gtag < ActiveRecord::Base
                       { name: "ultralight_c",
                         entitlement_limit: 56,
                         credential_limit: 32 }
-                     ]
+                     ].freeze
 
   before_validation :upcase_gtag!
   default_scope { order(:id) }

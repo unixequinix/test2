@@ -15,8 +15,9 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
 
   def show
     @ticket = @fetcher.tickets
-              .includes(credential_assignments: [profile: :customer],
-                        company_ticket_type: [company_event_agreement: :company]).find(params[:id])
+                      .includes(credential_assignments: [profile: :customer],
+                                company_ticket_type: [company_event_agreement: :company])
+                      .find(params[:id])
   end
 
   def new
@@ -55,11 +56,10 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
     @ticket = @fetcher.tickets.find(params[:id])
     if @ticket.destroy
       flash[:notice] = I18n.t("alerts.destroyed")
-      redirect_to admins_event_tickets_url
     else
       flash[:error] = @ticket.errors.full_messages.join(". ")
-      redirect_to admins_event_tickets_url
     end
+    redirect_to admins_event_tickets_url
   end
 
   def destroy_multiple
@@ -100,8 +100,8 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
     ticket = @fetcher.tickets.find(params[:id])
     ticket.update(banned: true)
     station = current_event.stations
-              .joins(:station_type)
-              .find_by(station_types: { name: "customer_portal" })
+                           .joins(:station_type)
+                           .find_by(station_types: { name: "customer_portal" })
     atts = {
       event_id: current_event.id,
       station_id: station.id,
@@ -123,12 +123,11 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
 
     if ticket.assigned_profile&.banned?
       flash[:error] = "Assigned profile is banned, unban it or unassign the ticket first"
-      redirect_to(admins_event_tickets_url)
     else
       ticket.update(banned: false)
       station = current_event.stations
-                .joins(:station_type)
-                .find_by(station_types: { name: "customer_portal" })
+                             .joins(:station_type)
+                             .find_by(station_types: { name: "customer_portal" })
       atts = {
         event_id: current_event.id,
         station_id: station.id,
@@ -142,8 +141,8 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
         status_message: "OK"
       }
       Operations::Base.new.portal_write(atts)
-      redirect_to(admins_event_tickets_url)
     end
+    redirect_to(admins_event_tickets_url)
   end
 
   private

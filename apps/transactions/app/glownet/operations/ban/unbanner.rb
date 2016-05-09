@@ -1,5 +1,5 @@
 class Operations::Ban::Unbanner < Operations::Base
-  TRIGGERS = %w( )
+  TRIGGERS = %w( ).freeze
 
   def perform(atts)
     event = Event.find(atts[:event_id])
