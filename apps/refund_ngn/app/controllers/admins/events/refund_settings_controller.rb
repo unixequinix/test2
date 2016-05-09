@@ -15,7 +15,7 @@ class Admins::Events::RefundSettingsController < Admins::Events::BaseController
     @event = Event.friendly.find(params[:event_id])
     @refund_service = params[:id]
     @parameters = Parameter.where(group: @refund_service, category: "refund")
-    @refund_settings_form = ("#{@refund_service.camelize}RefundSettingsForm").constantize.new
+    @refund_settings_form = "#{@refund_service.camelize}RefundSettingsForm".constantize.new
     event_parameters = @fetcher.event_parameters.where(
       parameters: {
         group: @refund_service,
@@ -29,7 +29,7 @@ class Admins::Events::RefundSettingsController < Admins::Events::BaseController
     @event = Event.friendly.find(params[:event_id])
     @refund_service = params[:id]
     @parameters = Parameter.where(group: @refund_service, category: "refund")
-    @refund_settings_form = ("#{@refund_service.camelize}RefundSettingsForm")
+    @refund_settings_form = "#{@refund_service.camelize}RefundSettingsForm"
                             .constantize.new(permitted_params)
     if @refund_settings_form.save
       @event.save

@@ -38,11 +38,10 @@ class Admins::CompaniesController < Admins::BaseController
   def destroy
     if @company.destroy
       flash[:notice] = I18n.t("alerts.destroyed")
-      redirect_to admins_companies_url
     else
       flash[:error] = @company.errors.full_messages.join(". ")
-      redirect_to admins_companies_url
     end
+    redirect_to admins_companies_url
   end
 
   private

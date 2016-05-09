@@ -35,12 +35,10 @@ class CreditsPresenter < BasePresenter
   def call_to_action
     if event_started?
       I18n.t("dashboard.credits.call_to_action_started")
+    elsif @ticket_assignments.any?
+      I18n.t("dashboard.credits.call_to_action")
     else
-      if @ticket_assignments.any?
-        I18n.t("dashboard.credits.call_to_action")
-      else
-        I18n.t("dashboard.credits.call_to_action_no_admission_html").html_safe
-      end
+      I18n.t("dashboard.credits.call_to_action_no_admission_html").html_safe
     end
   end
 end

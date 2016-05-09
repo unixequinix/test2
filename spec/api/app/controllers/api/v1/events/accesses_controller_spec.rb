@@ -10,8 +10,8 @@ RSpec.describe Api::V1::Events::AccessesController, type: :controller do
   before do
     create(:catalog_item, :with_access, event: event)
     @new_access = create(:catalog_item, :with_access, event: event)
-    @new_access.update!(updated_at: Time.now + 4.hours)
-    @new_access.catalogable.update!(updated_at: Time.now + 4.hours)
+    @new_access.update!(updated_at: Time.zone.now + 4.hours)
+    @new_access.catalogable.update!(updated_at: Time.zone.now + 4.hours)
   end
 
   describe "GET index" do

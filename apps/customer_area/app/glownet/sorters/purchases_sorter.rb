@@ -3,7 +3,7 @@ class Sorters::PurchasesSorter < Sorters::ItemSorter
   LIST = :list
   HASH = :hash
 
-  FORMATS = [LIST, HASH]
+  FORMATS = [LIST, HASH].freeze
 
   def initialize(items, keys = nil)
     @keys = keys || %w(Voucher Access)

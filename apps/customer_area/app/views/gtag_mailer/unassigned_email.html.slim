@@ -64,7 +64,7 @@ center
                         td#footer[valign="top" width="100%"]
                           div[mc:edit="std_footer"]
                             p
-                              = t('email.customer.footer_copy', year: Time.now.year)
+                              = t('email.customer.footer_copy', year: Time.zone.now.year)
                         //td#monkeyRewards[valign="top" width="190"]
                         //  div[mc:edit="monkeyrewards"]
                         //    |  *|IF:REWARDS|* *|HTML:REWARDS|* *|END:IF|*

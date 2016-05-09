@@ -10,6 +10,6 @@ class EuroBankAccountClaimForm < BankAccountClaimForm
   def sepa_validatable?
     # TODO: Create boolean casting in Parameter or EventParameter class
     Claim.find(claim_id).profile.event
-      .get_parameter("refund", "bank_account", "validate_sepa") == "true"
+         .get_parameter("refund", "bank_account", "validate_sepa") == "true"
   end
 end

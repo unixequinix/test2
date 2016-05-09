@@ -1,4 +1,5 @@
 AllCops:
+  TargetRubyVersion: 2.3
   Exclude:
     - 'db/**/*'
     - 'spec/spec_helper.rb'
@@ -15,6 +16,9 @@ AllCops:
     - '**/Gemfile'
     - '**/i18n/**/*'
 
+FrozenStringLiteralComment:
+  Enabled: false
+
 Documentation:
   Enabled: false
 
@@ -30,6 +34,9 @@ Style/StringLiterals:
 Style/ClassAndModuleChildren:
   Enabled: false
 
+Style/MultilineMethodCallIndentation:
+  EnforcedStyle: aligned
+
 Metrics/AbcSize:
   Max: 23
 
@@ -37,4 +44,10 @@ Metrics/MethodLength:
   Max: 15
 
 Lint/RequireParentheses:
+  Enabled: true
+
+Lint/Debugger:
+  Enabled: false
+
+Rails:
   Enabled: true

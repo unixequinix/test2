@@ -63,6 +63,6 @@ class Events::PasswordsController < Events::BaseController
 
   def permitted_params
     params.require(:customer)
-      .permit(:event_id, :email, :password, :password_confirmation, :reset_password_token)
+          .permit(:event_id, :email, :password, :password_confirmation, :reset_password_token)
   end
 end

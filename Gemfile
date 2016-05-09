@@ -2,7 +2,7 @@ Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
 require File.dirname(__FILE__) + '/lib/boot_inquirer'
 
-ruby '2.3.0'
+ruby '2.3.1'
 source 'https://rubygems.org'
 
 gem 'rails', '4.2.6'
@@ -152,7 +152,7 @@ end
 
 group :development, :test, :staging do
   gem 'faker', '~> 1.4.3'
-  gem 'rubocop', '~>0.30.1', require: false # Code quality https://github.com/bbatsov/rubocop
+  gem 'rubocop', require: false # Code quality https://github.com/bbatsov/rubocop
   gem 'rubocop-checkstyle_formatter', require: false
   gem 'simplecov', '~> 0.10.0', require: false # Code quality https://github.com/colszowka/simplecov
 end
@@ -169,9 +169,9 @@ group :test do
 end
 
 group :production, :staging, :demo, :refunds do
-  gem 'therubyracer', '~> 0.12.2', platforms: :ruby
   gem 'dalli', '~> 2.7.4' # Memcached
   gem 'newrelic_rpm', '~> 3.12.0.288'
+  gem 'therubyracer'
 end
 
 BootInquirer.each_active_app do |app|

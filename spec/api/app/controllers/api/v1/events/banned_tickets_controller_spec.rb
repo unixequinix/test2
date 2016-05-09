@@ -18,7 +18,7 @@ RSpec.describe Api::V1::Events::BannedTicketsController, type: :controller do
         get :index, event_id: event.id
         body = JSON.parse(response.body)
         ws_tickets = body.map { |m| m["reference"] }
-        tickets.each { |ticket|  expect(ws_tickets).to include(ticket.code) }
+        tickets.each { |ticket| expect(ws_tickets).to include(ticket.code) }
       end
     end
 

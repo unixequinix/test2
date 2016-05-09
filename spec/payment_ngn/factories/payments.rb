@@ -32,6 +32,6 @@ FactoryGirl.define do
     merchant_code { "word #{rand(100)}" }
     success true
     payment_type { "word #{rand(100)}" }
-    paid_at { Time.now }
+    paid_at { Time.zone.now }
   end
 end

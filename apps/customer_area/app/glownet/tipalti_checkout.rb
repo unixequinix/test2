@@ -2,10 +2,10 @@ class TipaltiCheckout
   def initialize(claim)
     @claim = claim
     tps = EventParameter.select(:value, "parameters.name")
-          .joins(:parameter).where(
-            event_id: @claim.profile.event_id,
-            parameters: { category: "refund", group: "tipalti" }
-          )
+                        .joins(:parameter).where(
+                          event_id: @claim.profile.event_id,
+                          parameters: { category: "refund", group: "tipalti" }
+                        )
     @tipalti_values = Hash[tps.map { |tp| [tp.name.to_sym, tp.value] }]
   end
 
@@ -20,7 +20,7 @@ class TipaltiCheckout
       idap: @claim.profile.id,
       last: @claim.profile.customer.last_name.gsub(valid_characters, ""),
       first: @claim.profile.customer.first_name.gsub(valid_characters, ""),
-      ts: Time.now.to_i,
+      ts: Time.zone.now.to_i,
       payer: @tipalti_values[:payer]
     }.to_param
   end

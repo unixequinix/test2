@@ -24,7 +24,7 @@ class Refund < ActiveRecord::Base
   # Validations
   validates :claim, :amount, presence: true
 
-  scope :selected_data, lambda  { |event_id|
+  scope :selected_data, lambda { |event_id|
     joins(claim: { profile: :customer })
       .select("refunds.*, claims.number, customers.email")
       .where(profiles: { event_id: event_id })

@@ -18,7 +18,7 @@ class Operations::Credential::Base < Operations::Base
     id = decoder.valid_code?(code) && decoder.perform(code)
 
     # it is not sonar, it is not in DB. The ticket is not valid.
-    fail "Ticket with code #{code} not found and not sonar." unless id
+    raise "Ticket with code #{code} not found and not sonar." unless id
 
     ctt = event.company_ticket_types.find_by_company_code(id)
     transaction.create_ticket!(event: event, code: code, company_ticket_type: ctt)

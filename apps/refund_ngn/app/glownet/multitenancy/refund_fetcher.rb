@@ -17,7 +17,7 @@ class Multitenancy::RefundFetcher
 
   def refunds
     Refund.joins(claim: :profile)
-      .where(profiles: { event_id: @event.id })
+          .where(profiles: { event_id: @event.id })
   end
 
   private

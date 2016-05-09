@@ -55,24 +55,24 @@ class Order < ActiveRecord::Base
 
   def total_refundable_credits
     order_items.joins(:catalog_item)
-      .where.not(catalog_items: { catalogable_type: "Pack" })
-      .to_a.sum(&:credits)
+               .where.not(catalog_items: { catalogable_type: "Pack" })
+               .to_a.sum(&:credits)
   end
 
   def generate_order_number!
-    time_hex = Time.now.strftime("%H%M%L").to_i.to_s(16)
-    day = Date.today.strftime("%y%m%d")
+    time_hex = Time.zone.now.strftime("%H%M%L").to_i.to_s(16)
+    day = Time.zone.today.strftime("%y%m%d")
     self.number = "#{day}#{time_hex}"
     save
   end
 
   def expired?
-    Time.now > created_at + 15.minutes
+    Time.zone.now > created_at + 15.minutes
   end
 
   private
 
   def complete_order
-    update(completed_at: Time.now)
+    update(completed_at: Time.zone.now)
   end
 end

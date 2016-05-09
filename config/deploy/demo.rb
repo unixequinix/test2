@@ -38,7 +38,7 @@ server "demo.glownet.com", user: "ubuntu", roles: %w(web app db)
 #    auth_methods: %w(password)
 #  }
 
-set :default_run_options,   pty: true
+set :default_run_options, pty: true
 set :ssh_options, forward_agent: true, auth_methods: %w(publickey)
 
 # And/or per server (overrides global)

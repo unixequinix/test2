@@ -1,7 +1,7 @@
 class EditOrderTransactions < ActiveRecord::Migration
   def change # rubocop:disable Metrics/MethodLength
     drop_table :order_transactions
-    create_table :order_transactions, force: :cascade  do |t|
+    create_table :order_transactions, force: :cascade do |t|
       t.references :event, index: true, foreign_key: true
       t.string :transaction_origin
       t.string :transaction_category

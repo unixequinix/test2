@@ -24,9 +24,7 @@ class BasePresenter
     @ticket_assignments.present? || @gtag_assignment.present?
   end
 
-  def gtag_tag_uid
-    gtag.tag_uid
-  end
+  delegate :tag_uid, to: :gtag, prefix: true
 
   def gtag_refundable_amount
     gtag_assignment.refundable_amount
@@ -39,6 +37,6 @@ class BasePresenter
   end
 
   def formatted_date
-    Time.now.strftime("%Y-%m-%d")
+    Time.zone.now.strftime("%Y-%m-%d")
   end
 end

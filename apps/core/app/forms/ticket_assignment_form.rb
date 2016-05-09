@@ -12,81 +12,35 @@ class TicketAssignmentForm
 
     return unless valid_ticket?(ticket, companies, current_profile)
 
-    errors.add(:ticket_assignment, full_messages.join(". ")) && return unless valid?
-    persist!(ticket,
-             current_profile,
-             CustomerCreditTicketCreator.new,
-             CustomerOrderTicketCreator.new)
+    current_profile.save
+    current_profile.credential_assignments.create(credentiable: ticket)
+    CustomerCreditTicketCreator.new.assign(ticket) if ticket.credits.present?
+    CustomerOrderTicketCreator.new.save(ticket)
+    current_profile
   end
 
   private
 
-  def persist!(ticket, profile, customer_credit_creator, customer_order_creator)
-    profile.save
-    profile.credential_assignments.create(credentiable: ticket)
-    customer_credit_creator.assign(ticket) if ticket.credits.present?
-    customer_order_creator.save(ticket)
-    profile
-  end
-
-  def already_assigned?(ticket)
-    ticket.assigned_ticket_credential.present?
-  end
-
-  def infinite_credential_already_owned?(ticket, current_profile)
-    all_infinites?(ticket) && owns_all_items?(ticket, current_profile)
-  end
-
-  def all_infinites?(ticket)
-    items_in_ticket(ticket).all? { |item| item.catalogable.try(:entitlement).try(:infinite?) }
-  end
-
-  def items_in_ticket(ticket)
-    credential_type_item = ticket.credential_type_item
-    if credential_type_item.catalogable_type == "Pack"
-      credential_type_item.catalogable.open_all.map { |i| CatalogItem.find(i.catalog_item_id) }
-    else
-      Array(credential_type_item)
-    end
-  end
-
-  def owns_all_items?(ticket, current_profile)
-    items_owned = CatalogItem.where(id: current_profile.customer_orders.map(&:catalog_item_id))
-    (items_in_ticket(ticket) - items_owned).empty?
-  end
-
-  private
-
+  # rubocop:disable Metrics/CyclomaticComplexity
   def valid_ticket?(ticket, companies, current_profile)
-    ticket_nil_validation(ticket, companies) &&
-      already_assigned_validation(ticket) &&
-      infinite_credential_already_owned(ticket, current_profile)
+    items = open_pack(ticket)
+    infinites = items.all? { |item| item.catalogable.try(:entitlement)&.infinite? }
+    items_owned = current_profile.customer_orders.map(&:catalog_item)
+
+    add_error("alerts.admissions", companies: companies) if ticket.nil?
+    add_error("alerts.ticket_already_assigned") if ticket.assigned_ticket_credential.present?
+    add_error("alerts.credential_already_assigned") if infinites && (items - items_owned).empty?
+    add_error(full_messages.to_sentence) unless valid?
+    return true unless errors.any?
   end
 
-  def ticket_nil_validation(ticket, companies)
-    if ticket.nil?
-      errors.add(:ticket_assignment, I18n.t("alerts.admissions", companies: companies))
-      false
-    else
-      true
-    end
+  def open_pack(ticket)
+    c_item = ticket.credential_type_item
+    c_item = c_item.catalogable.open_all.map(&:catalog_item) if c_item.catalogable_type == "Pack"
+    [c_item].flatten
   end
 
-  def already_assigned_validation(ticket)
-    if already_assigned?(ticket)
-      errors.add(:ticket_assignment, I18n.t("alerts.ticket_already_assigned"))
-      false
-    else
-      true
-    end
-  end
-
-  def infinite_credential_already_owned(ticket, current_profile)
-    if infinite_credential_already_owned?(ticket, current_profile)
-      errors.add(:ticket_assignment, I18n.t("alerts.credential_already_assigned"))
-      false
-    else
-      true
-    end
+  def add_error(text, atts = {})
+    errors.add(:ticket_assignment, I18n.t(text, atts))
   end
 end

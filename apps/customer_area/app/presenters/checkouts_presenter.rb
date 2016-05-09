@@ -4,15 +4,15 @@ class CheckoutsPresenter
     @profile = current_profile
     @catalog_items =
       CatalogItem.joins(:station_catalog_items, station_catalog_items: :station_parameter)
-      .select("catalog_items.*, station_catalog_items.price")
-      .where.not(id: infinite_entitlements_ids)
-      .where(station_parameters:
+                 .select("catalog_items.*, station_catalog_items.price")
+                 .where.not(id: infinite_entitlements_ids)
+                 .where(station_parameters:
                        { id: StationParameter.joins(station: :station_type)
                                              .where(
                                                stations: { event_id: current_event },
                                                station_types: { name: "customer_portal" }
                                              ) })
-      .includes(:event)
+                 .includes(:event)
   end
 
   def draw_product(catalog_item)

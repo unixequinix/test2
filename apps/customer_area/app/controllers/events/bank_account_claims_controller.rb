@@ -1,11 +1,11 @@
 class Events::BankAccountClaimsController < Events::ClaimsController
   def new
-    @bank_account_claim_form = ("#{area.camelize}BankAccountClaimForm").constantize.new
+    @bank_account_claim_form = "#{area.camelize}BankAccountClaimForm".constantize.new
     @claim = generate_claim
   end
 
   def create
-    @bank_account_claim_form = ("#{area.camelize}BankAccountClaimForm")
+    @bank_account_claim_form = "#{area.camelize}BankAccountClaimForm"
                                .constantize.new(permitted_params)
     @claim = Claim.find(permitted_params[:claim_id])
     render(:new) && return unless @bank_account_claim_form.save
@@ -22,11 +22,11 @@ class Events::BankAccountClaimsController < Events::ClaimsController
 
   def refund(claim)
     RefundService.new(claim)
-      .create(amount: claim.gtag.refundable_amount_after_fee(service_type),
-              currency: current_event.currency,
-              message: "Created manual bank account refund",
-              payment_solution: "manual",
-              status: "PENDING")
+                 .create(amount: claim.gtag.refundable_amount_after_fee(service_type),
+                         currency: current_event.currency,
+                         message: "Created manual bank account refund",
+                         payment_solution: "manual",
+                         status: "PENDING")
   end
 
   def permitted_params

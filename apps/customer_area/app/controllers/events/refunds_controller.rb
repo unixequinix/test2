@@ -10,13 +10,13 @@ class Events::RefundsController < Events::BaseController
       next unless @claim
 
       RefundService.new(@claim)
-        .create(amount: op_hash["amount"],
-                currency: op_hash["currency"],
-                message: op_hash["message"],
-                operation_type: op_hash["operationType"],
-                gateway_transaction_number: op_hash["payFrexTransactionId"],
-                payment_solution: op_hash["paymentSolution"],
-                status: op_hash["status"])
+                   .create(amount: op_hash["amount"],
+                           currency: op_hash["currency"],
+                           message: op_hash["message"],
+                           operation_type: op_hash["operationType"],
+                           gateway_transaction_number: op_hash["payFrexTransactionId"],
+                           payment_solution: op_hash["paymentSolution"],
+                           status: op_hash["status"])
     end
     render nothing: true
   end
@@ -25,14 +25,14 @@ class Events::RefundsController < Events::BaseController
     @claim = Claim.where(profile_id: params[:customerID],
                          service_type: "tipalti",
                          aasm_state: :in_progress)
-             .order(id: :desc).first
+                  .order(id: :desc).first
 
     redirect_to error_event_refunds_url(current_event) && return unless @claim
 
     RefundService.new(@claim)
-      .create(amount: @claim.gtag.refundable_amount_after_fee("tipalti"),
-              currency: I18n.t("currency_symbol"), message: "Created tipalti refund",
-              payment_solution: "tipalti", status: "SUCCESS")
+                 .create(amount: @claim.gtag.refundable_amount_after_fee("tipalti"),
+                         currency: I18n.t("currency_symbol"), message: "Created tipalti refund",
+                         payment_solution: "tipalti", status: "SUCCESS")
 
     redirect_to success_event_refunds_url(current_event)
   end

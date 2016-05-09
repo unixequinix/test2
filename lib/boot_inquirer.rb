@@ -23,7 +23,7 @@ class BootInquirer
     "p" => "api",
     "m" => "company_api",
     "t" => "transactions"
-  }
+  }.freeze
 
   class << self
     def apps
