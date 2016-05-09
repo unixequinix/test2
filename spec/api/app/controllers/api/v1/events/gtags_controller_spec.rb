@@ -28,8 +28,8 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
       end
 
       it "returns the correct data" do
-        JSON.parse(response.body).each_with_index do |list_gtag, index|
-          gtag = db_gtags[index]
+        JSON.parse(response.body).each do |list_gtag|
+          gtag = db_gtags[db_gtags.index { |tag| tag.id == list_gtag["id"] }]
           gtag_atts = {
             id: gtag.id,
             tag_uid: gtag.tag_uid,
@@ -40,8 +40,8 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
             purchaser_last_name: gtag&.purchaser&.last_name,
             purchaser_email: gtag&.purchaser&.email,
             customer_id: gtag&.assigned_profile&.id
-          }
-          expect(list_gtag).to eq(gtag_atts.as_json)
+          }.as_json
+          expect(list_gtag).to eq(gtag_atts)
         end
       end
 
