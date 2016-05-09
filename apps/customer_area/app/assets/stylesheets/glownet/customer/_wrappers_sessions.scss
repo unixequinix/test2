@@ -21,7 +21,9 @@
 .wrapper-redirect-sessions {
   padding-top: modules(1);
 
-  p,a { display: inline-block; }
+  p,
+  a { display: inline-block; }
+
   p { margin-bottom: modules(0.5); }
   a {
     padding-left: modules(0.25);
@@ -37,8 +39,8 @@
   padding: modules(1);
 
   h3 { margin-top: modules(1); }
-  h2, h3 { @include mscale($base_font_size); }
+  h2,
+  h3 { @include mscale($base_font_size); }
 }
-
 
 // ···

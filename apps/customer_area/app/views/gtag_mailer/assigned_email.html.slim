@@ -32,7 +32,7 @@ center
                             h1[style="text-align: center;"] = t('email.customer.gtag.assigned.greet', name: @name)
                             p = t("email.customer.gtag.assigned.mail_body")
                             br
-                            p style="font-weight: bold; font-size: 24px; color: #ff0090;" #{@gtag.tag_serial_number} #{@gtag.tag_uid}
+                            p style="font-weight: bold; font-size: 24px; color: #ff0090;" #{@gtag.tag_uid}
 
                             = raw @event.gtag_assignation_notification
 
@@ -45,11 +45,14 @@ center
                       tr
                         td#footer[valign="top" width="100%"]
                           div[mc:edit="std_footer"]
-                            br
-                            strong
-                              = t('email.customer.footer', support_name: @event.name)
-                            br
-                            = mail_to @event.support_email
+                            p
+                              strong 
+                                = t('email.customer.footer_glownet')
+                                = mail_to "support@glownet.com"
+                            p
+                              strong
+                                = t('email.customer.footer_organizer')
+                                = mail_to @event.support_email
                       tr
                         td#social[colspan="2" valign="middle"]
                           div[mc:edit="std_social"]

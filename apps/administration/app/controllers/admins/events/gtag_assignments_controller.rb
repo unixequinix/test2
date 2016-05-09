@@ -33,7 +33,7 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::CheckinBaseCon
 
   def gtag_assignment_parameters
     params.require(:gtag_assignment_form)
-      .permit(:number, :tag_uid, :tag_serial_number)
+      .permit(:number, :tag_uid)
       .merge(event_id: current_event.id)
   end
 

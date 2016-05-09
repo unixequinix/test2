@@ -76,11 +76,14 @@ center
                       tr
                         td#footer[valign="top" width="100%"]
                           div[mc:edit="std_footer"]
-                            br
-                            strong
-                              = t('email.customer.footer', support_name: @event.name)
-                            br
-                            = mail_to @event.support_email
+                            p
+                              strong 
+                                = t('email.customer.footer_glownet')
+                                = mail_to "support@glownet.com"
+                            p
+                              strong
+                                = t('email.customer.footer_organizer')
+                                = mail_to @event.support_email
                       tr
                         td#social[colspan="2" valign="middle"]
                           div[mc:edit="std_social"]

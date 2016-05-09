@@ -92,7 +92,6 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
         before(:each) do
           @params = {
             tag_uid: "t4gu1d",
-            tag_serial_number: "t4gs3rialnumb3r",
             ticket_type_id: CompanyTicketType.last.id,
             purchaser_attributes: {
               first_name: "Glownet",
@@ -172,19 +171,17 @@ RSpec.describe Companies::Api::V1::GtagsController, type: :controller do
       end
 
       context "when the request is invalid" do
-        let(:params) do
-          { tag_uid: nil, purchaser_attributes: { email: "updated@email.com" } }
-        end
+        let(:params) { { tag_uid: nil, purchaser_attributes: { email: "updated@email.com" } } }
 
         it "returns a 422 status code" do
           put :update, id: @gtag, gtag: params
           expect(response.status).to eq(422)
         end
 
-        it "doesn't change ticket's attributes" do
+        it "doesn't change gtags's attributes" do
           put :update, id: @gtag, gtag: params
           @gtag.reload
-          expect(@gtag.tag_serial_number).not_to eq("3405sdf234293")
+          expect(@gtag.tag_uid).to eq(@gtag.tag_uid)
         end
       end
     end

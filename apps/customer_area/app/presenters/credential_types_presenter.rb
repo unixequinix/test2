@@ -42,6 +42,6 @@ class CredentialTypesPresenter
   end
 
   def gtag_renderer
-    @context.content_tag("li", "#{credentiable.tag_uid} #{credentiable.tag_serial_number}")
+    @context.content_tag("li", credentiable.tag_uid)
   end
 end

@@ -197,7 +197,6 @@ namespace :db do
     @gtags.times do |index|
       gtags.push({ event_id: @event.id,
                    company_ticket_type_id: ticket_types.sample,
-                   tag_serial_number: "SERIAL#{index}AT#{DateTime.now.to_s(:number)}",
                    tag_uid: "UID#{index}AT#{DateTime.now.to_s(:number)}",
                    credential_redeemed: [true, false].sample })
     end

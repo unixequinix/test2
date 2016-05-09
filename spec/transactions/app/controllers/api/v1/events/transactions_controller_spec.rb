@@ -4,6 +4,7 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
   include ControllerMacros
 
   let(:event) { create(:event) }
+  let(:admin) { create(:admin) }
   let(:transaction) { CreditTransaction.new }
   let(:params) do
     [
@@ -30,16 +31,12 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
     ]
   end
 
-  before :each do
-    @admin = FactoryGirl.create(:admin)
-    http_login(@admin.email, @admin.access_token)
-  end
+  before { http_login(admin.email, admin.access_token) }
 
   describe "POST create" do
     context "when the request is VALID" do
       it "returns a 201 status code" do
-        expect(Operations::Base).to receive(:write).and_return(transaction)
-        expect(transaction).to receive(:valid?).and_return(true)
+        expect(Operations::Base).to receive(:perform_later).and_return(transaction)
         post(:create, event_id: event.id, _json: params)
         expect(response.status).to eq(201)
       end

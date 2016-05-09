@@ -6,7 +6,8 @@ es:
       like_on_facebook: 'Dale a me gusta en Facebook'
       suscribe_on_you_tube: 'Suscríbete en YouTube'
       communication: "Este es un mensaje automático de %{event_name}"
-      footer: '¿Alguna duda sobre el servicio? Contácta al departamento de soporte de %{support_name}.'
+      footer_glownet: 'Estaremos encantados de ayudarte con el uso del portal si nos escribes a '
+      footer_organizer: '¿Tienes alguna pregunta para el organizador? Contacta con él en '
       footer_copy: 'Copyright Glownet © %{year} Todos los derechos reservados.'
       order:
         completed:

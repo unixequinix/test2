@@ -1,12 +1,18 @@
-/* ------------------------------------------------------- *\
+// -------------------------------------------------------
+//
+// Payments style
+//
+// -------------------------------------------------------
 
-  Payments styles
+$limegreen:                 #32cd32;
+$tomato:                    #ff6347;
+$braintree_border:          #777;
+$stripe_border:             #999;
 
-\* ------------------------------------------------------- */
-
-.controls, .control-group {
-  overflow: hidden;
+.controls,
+.control-group {
   position: relative;
+  overflow: hidden;
 }
 
 .controls {
@@ -21,10 +27,7 @@
   margin-bottom: modules(0.5);
 }
 
-.payment-expiration-year, .payment-expiration-month { color: $grey !important; }
-.payment-expiration-year {
-  margin-right: modules(0.5);
-}
+.payment-expiration-year { margin-right: modules(0.5); }
 
 .stripe-payment-form {
   .control-group { padding-top: modules(0.25); }
@@ -49,28 +52,33 @@
 #braintree-payment-form {
   .controls:first-child { margin-top: modules(-0.5); }
 }
-#card-number, #card-verification, #expiration-month, #expiration-year {
-  margin-top: 1rem;
-  border-bottom: 1px solid #999;
-  font-family: 'Roboto', 'Helvetica';
-  font-weight: lighter;
-  font-size: 12px;
+
+#card-number,
+#card-verification,
+#expiration-month,
+#expiration-year {
   height: 3rem;
+  margin-top: 1rem;
+  border-bottom: 1px solid $stripe_border;
+  font-family: "Roboto", "Helvetica";
+  font-size: 12px;
+  font-weight: lighter;
 
   .braintree-hosted-fields-focused {
-    border-color: #777;
+    border-color: $braintree_border;
   }
 
   .braintree-hosted-fields-invalid {
-    border-color: tomato;
+    border-color: $tomato;
   }
 
   .braintree-hosted-fields-valid {
-    border-color: limegreen;
+    border-color: $limegreen;
   }
 }
 
-.expiration-month, .expiration-year {
+.expiration-month,
+.expiration-year {
   display: inline-block;
   vertical-align: top;
 }
@@ -99,7 +107,7 @@
 }
 
 #paypal-activated-container {
-  @include transition(max-height 183ms ease-in-out,opacity 183ms ease-in-out );
+  @include transition(max-height 183ms ease-in-out, opacity 183ms ease-in-out);
   overflow: hidden;
   max-height: 0;
   opacity: 0;

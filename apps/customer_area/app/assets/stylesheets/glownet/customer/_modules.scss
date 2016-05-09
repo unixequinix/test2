@@ -1,12 +1,12 @@
-/* ------------------------------------------------------- *\
+// -------------------------------------------------------
+//
+// Styles modules
+//
+// -------------------------------------------------------
 
-  Styles modules
+$quarter_text:           $base_font_size * 1.25;
 
-\* ------------------------------------------------------- */
-
-$quarter_text:           $base_font_size*1.25;
-
-// --- --- Styles for the ticket modules
+// Styles for the ticket modules
 
 .customer-ticket {
   @include transition(box-shadow 180ms ease-in-out, opacity 180ms ease-in-out);
@@ -14,11 +14,12 @@ $quarter_text:           $base_font_size*1.25;
   width: 100%;
   margin: modules(0.5) modules(0.5) modules(0.5) 0;
   border-radius: $radius;
-  box-shadow: inset 0px 0px 0px 1px lighten($light_grey,17%);
+  box-shadow: inset 0 0 0 1px lighten($light_grey, 17%);
   text-align: left;
   cursor: pointer;
 
   p { margin-bottom: 0; }
+
   a {
     display: block;
     width: 100%;
@@ -26,15 +27,16 @@ $quarter_text:           $base_font_size*1.25;
     padding: modules(0.5) modules(1.25) modules(0.5) modules(0.5);
     color: $color_text;
   }
+
   i {
     position: absolute;
-    display: block;
     top: 30%;
     right: modules(0.5);
+    display: block;
   }
 
   &:hover {
-    box-shadow: inset 0px 0px 0px 1px lighten($light_grey,17%), 0px 2px 3px $light_grey;
+    box-shadow: inset 0 0 0 1px lighten($light_grey, 17%), 0 2px 3px $light_grey;
     opacity: 0.7;
   }
 
@@ -46,8 +48,8 @@ $quarter_text:           $base_font_size*1.25;
   h3 { padding-right: 0; }
 
   label {
-    position: relative !important;
-    top: auto;
+    position: relative;
+    top: 0;
   }
 }
 
@@ -61,7 +63,7 @@ $quarter_text:           $base_font_size*1.25;
   @include min-screen($bp3) { padding-top: modules(0.25); }
 }
 
-///\/\/\/\/\/\ STORE /\/\/\/\/\/\
+// STORE
 
 .wrapper-store-module {
   padding: modules(1);
@@ -91,12 +93,13 @@ $quarter_text:           $base_font_size*1.25;
 .wrapper-acceppt-paypal-terms {
   margin-bottom: modules(1);
 
-  label, input { display: inline !important; width: auto; }
+  label,
+  input { display: inline !important; width: auto; }
 
   label {
     position: relative;
-    display: inline-block;
     top: 0;
+    display: inline-block;
     padding-left: modules(0.25);
     color: $color_text;
 
@@ -104,4 +107,4 @@ $quarter_text:           $base_font_size*1.25;
   }
 }
 
-// ---------------------------------------------------------------------------------------------
+// ···

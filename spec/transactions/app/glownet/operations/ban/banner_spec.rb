@@ -9,34 +9,30 @@ RSpec.describe Operations::Ban::Banner, type: :job do
 
   describe ".perform" do
     it "bans an object" do
-      params = { event_id: event.id, banneable_id: ticket.id, banneable_type: "ticket" }
-      worker.perform_now(params)
+      atts = { event_id: event.id, banneable_id: ticket.id, banneable_type: "ticket" }
+      worker.perform_now(atts)
       expect(ticket.reload).to be_banned
     end
 
     it "works with gtags" do
-      params = { event_id: event.id, banneable_id: gtag.id, banneable_type: "gtag" }
-      worker.perform_now(params)
+      atts = { event_id: event.id, banneable_id: gtag.id, banneable_type: "gtag" }
+      worker.perform_now(atts)
       expect(gtag.reload).to be_banned
     end
 
     it "raises an error when bans tickets from a different event" do
       ticket.update(event: create(:event))
-      params = { event_id: event.id, banneable_id: ticket.id, banneable_type: "ticket" }
-      expect { worker.perform_now(params) }.to raise_error(ActiveRecord::RecordNotFound)
+      atts = { event_id: event.id, banneable_id: ticket.id, banneable_type: "ticket" }
+      expect { worker.perform_now(atts) }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     it "bans all the credentials if the object is a customer event profile" do
-      params = {
-        event_id: event.id,
-        banneable_id: profile.id,
-        banneable_type: "profile"
-      }
+      atts = { event_id: event.id, banneable_id: profile.id, banneable_type: "profile" }
 
       CredentialAssignment.create!(profile: profile, credentiable: gtag)
       CredentialAssignment.create!(profile: profile, credentiable: ticket)
 
-      worker.perform_now(params)
+      worker.perform_now(atts)
 
       expect(profile.reload).to be_banned
       expect(gtag.reload).to be_banned

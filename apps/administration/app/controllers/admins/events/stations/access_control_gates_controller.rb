@@ -6,9 +6,14 @@ class Admins::Events::Stations::AccessControlGatesController < Admins::Events::B
   end
 
   def create
-    query = { direction: permitted_params[:direction], access_id: permitted_params[:access_id] }
-    render(nothing: true, status: 200) && return if AccessControlGate.find_by(query)
-    @gate = AccessControlGate.create!(permitted_params)
+    accesses = @station.access_control_gates.map(&:access_id)
+
+    if accesses.include?(permitted_params[:access_id].to_i)
+      flash[:alert] = I18n.t("alerts.access_only_one_way")
+    else
+      @gate = AccessControlGate.create!(permitted_params)
+    end
+    redirect_to admins_event_station_access_control_gates_path(current_event, @station)
   end
 
   def destroy

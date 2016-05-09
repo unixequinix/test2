@@ -3,10 +3,8 @@
 //  Exceptions styling
 //
 // -------------------------------------------------------
-$status_code_text:            $base-font-size*7;
 
-.container-exception {
-}
+$status_code_text:            $base-font-size * 7;
 
 .status-code {
   @include mscale($status_code_text);
@@ -14,3 +12,5 @@ $status_code_text:            $base-font-size*7;
   letter-spacing: 5px;
   font-weight: bold;
 }
+
+// ···

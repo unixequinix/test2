@@ -14,6 +14,9 @@ de:
       th: 'THA'
       de: 'GER'
     gtag_name: 'Armband'
+  events:
+    create:
+      error: "Event couldn't be created, check the errors below"
   activemodel:
     errors:
       models:

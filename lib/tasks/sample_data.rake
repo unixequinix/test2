@@ -16,7 +16,7 @@ namespace :db do
     make_companies
     make_company_event_agreements
     make_accesses
-    make_vouchers
+    # make_vouchers
     make_packs
     make_company_ticket_types
     make_tickets
@@ -106,7 +106,7 @@ namespace :db do
                                                   max_purchasable: data['max_purchasable'],
                                                   initial_amount: data['initial_amount'] },
                        entitlement_attributes: { event_id: event.id,
-                                                      infinite: data['infinite'],
+                                                      mode: data['mode'],
                                                       memory_length: data['memory_length'] } )
       end
     end
@@ -124,7 +124,7 @@ namespace :db do
                                                   max_purchasable: data['max_purchasable'],
                                                   initial_amount: data['initial_amount'] },
                        entitlement_attributes: { event_id: event.id,
-                                                      infinite: data['infinite'],
+                                                      mode: data['mode'],
                                                       memory_length: data['memory_length'] } )
       end
     end
@@ -192,7 +192,6 @@ namespace :db do
       YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'gtags.yml')).each do |data|
         gtag = Gtag.new(
           event_id: event.id,
-          tag_serial_number: data['tag_serial_number'],
           tag_uid: data['tag_uid']
         )
         gtag.save!
