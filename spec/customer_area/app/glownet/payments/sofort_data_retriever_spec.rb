@@ -9,7 +9,7 @@ RSpec.describe Payments::SofortDataRetriever, type: :domain_logic do
     order.profile.event
   end
 
-  let(:sofort_data_retriever) do
+  subject do
     params = {}
     params[:consumer_ip_address] = "192.168.1.1"
     params[:consumer_user_agent] = "chrome"
@@ -17,12 +17,27 @@ RSpec.describe Payments::SofortDataRetriever, type: :domain_logic do
     Payments::SofortDataRetriever.new(event, order).with_params(params)
   end
 
-  context ".url_for_redirection" do
-    it "should return an url needed for redirection when wirecard option is chosen" do
-      binding.pry
-      expect(:sofort_data_retriever).to receive(:url_for_redirection).and_return(14)
-      binding.pry
+  context ".payment_type" do
+    it "should return the payment type for Sofort" do
+      expect(subject.payment_type).to eq("SOFORTUEBERWEISUNG")
+    end
+  end
 
+  context ".success_url" do
+    it "should return the payment type for Sofort" do
+      expect(subject.success_url).include?("payment_services/sofort/asynchronous_payments/success")
+    end
+  end
+
+  context ".failure_url" do
+    it "should return the payment type for Sofort" do
+      expect(subject.failure_url).include?("payment_services/sofort/asynchronous_payments/error")
+    end
+  end
+
+  context ".confirm_url" do
+    it "should return the payment type for Sofort" do
+      expect(subject.confirm_url).include?("payment_services/sofort/asynchronous_payments")
     end
   end
 end
