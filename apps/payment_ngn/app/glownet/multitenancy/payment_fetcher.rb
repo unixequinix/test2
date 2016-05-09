@@ -5,17 +5,17 @@ class Multitenancy::PaymentFetcher
 
   def customer_orders
     CustomerOrder.joins(:profile)
-      .where(profiles: { event_id: @event.id })
+                 .where(profiles: { event_id: @event.id })
   end
 
   def orders
     Order.joins(:profile)
-      .where(profiles: { event_id: @event.id })
+         .where(profiles: { event_id: @event.id })
   end
 
   def payments
     Payment.joins(order: :profile)
-      .where(profiles: { event_id: @event.id })
+           .where(profiles: { event_id: @event.id })
   end
 
   private

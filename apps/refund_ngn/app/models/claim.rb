@@ -21,13 +21,13 @@ class Claim < ActiveRecord::Base
   default_scope { order(created_at: :desc) }
 
   # Service Types
-  BANK_ACCOUNT = "bank_account"
-  EASY_PAYMENT_GATEWAY = "epg"
-  TIPALTI = "tipalti"
-  DIRECT = "direct"
+  BANK_ACCOUNT = "bank_account".freeze
+  EASY_PAYMENT_GATEWAY = "epg".freeze
+  TIPALTI = "tipalti".freeze
+  DIRECT = "direct".freeze
 
-  REFUND_SERVICES = [BANK_ACCOUNT, EASY_PAYMENT_GATEWAY, TIPALTI, DIRECT]
-  TRANSFER_REFUND_SERVICES = [BANK_ACCOUNT, EASY_PAYMENT_GATEWAY, TIPALTI]
+  REFUND_SERVICES = [BANK_ACCOUNT, EASY_PAYMENT_GATEWAY, TIPALTI, DIRECT].freeze
+  TRANSFER_REFUND_SERVICES = [BANK_ACCOUNT, EASY_PAYMENT_GATEWAY, TIPALTI].freeze
 
   # Associations
   belongs_to :profile
@@ -39,7 +39,7 @@ class Claim < ActiveRecord::Base
   validates_presence_of :profile, :gtag, :service_type, :number, :total, :aasm_state
 
   # Scopes
-  scope :query_for_csv, lambda  { |aasm_state, event|
+  scope :query_for_csv, lambda { |aasm_state, event|
     joins(:profile, :gtag, :refund, profile: :customer)
       .includes(:claim_parameters, claim_parameters: :parameter)
       .where(aasm_state: aasm_state)
@@ -84,10 +84,10 @@ class Claim < ActiveRecord::Base
     extra_columns = {}
     claims.each_with_index do |claim, index|
       extra_columns[index + 1] =
-      claim.claim_parameters.each_with_object({}) do |claim_parameter, acum|
-        headers |= [claim_parameter.parameter.name]
-        acum[claim_parameter.parameter.name] = claim_parameter.value
-      end
+        claim.claim_parameters.each_with_object({}) do |claim_parameter, acum|
+          headers |= [claim_parameter.parameter.name]
+          acum[claim_parameter.parameter.name] = claim_parameter.value
+        end
     end
     [claims, headers, extra_columns]
   end

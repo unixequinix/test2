@@ -21,9 +21,9 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
           type = create(:station_type, name: "box_office", station_group: group)
           @station = create(:station, station_type: type, event: event)
           @station.station_catalog_items
-            .new(price: rand(1.0...20.0).round(2),
-                 catalog_item_id: create(:access_catalog_item, event: event).id,
-                 station_parameter_attributes: { station_id: @station.id }).save
+                  .new(price: rand(1.0...20.0).round(2),
+                       catalog_item_id: create(:access_catalog_item, event: event).id,
+                       station_parameter_attributes: { station_id: @station.id }).save
         end
 
         it "returns all the box office stations" do
@@ -49,9 +49,9 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
           type = create(:station_type, name: "point_of_sales", station_group: group)
           @station = create(:station, station_type: type, event: event)
           @station.station_products
-            .new(price: rand(1.0...20.0).round(2),
-                 product: create(:product, event: event),
-                 station_parameter_attributes: { station_id: @station.id }).save
+                  .new(price: rand(1.0...20.0).round(2),
+                       product: create(:product, event: event),
+                       station_parameter_attributes: { station_id: @station.id }).save
         end
 
         it "returns all the pos stations" do
@@ -107,13 +107,13 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
           type = create(:station_type, name: "access_control", station_group: group)
           @station = create(:station, station_type: type, event: event)
           @station.access_control_gates
-            .new(direction: "1",
-                 access: access,
-                 station_parameter_attributes: { station_id: @station.id }).save
+                  .new(direction: "1",
+                       access: access,
+                       station_parameter_attributes: { station_id: @station.id }).save
           @station.access_control_gates
-            .new(direction: "-1",
-                 access: access,
-                 station_parameter_attributes: { station_id: @station.id }).save
+                  .new(direction: "-1",
+                       access: access,
+                       station_parameter_attributes: { station_id: @station.id }).save
         end
 
         it "returns all the access control stations" do

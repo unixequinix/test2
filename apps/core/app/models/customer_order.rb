@@ -25,9 +25,9 @@ class CustomerOrder < ActiveRecord::Base
   validates :catalog_item_id, :profile_id, presence: true
 
   # Origins
-  TICKET_ASSIGNMENT = "ticket_assignment"
-  DEVICE = "device"
-  PURCHASE = "online_purchase"
+  TICKET_ASSIGNMENT = "ticket_assignment".freeze
+  DEVICE = "device".freeze
+  PURCHASE = "online_purchase".freeze
 
-  REFUND_SERVICES = [TICKET_ASSIGNMENT, DEVICE, PURCHASE]
+  REFUND_SERVICES = [TICKET_ASSIGNMENT, DEVICE, PURCHASE].freeze
 end

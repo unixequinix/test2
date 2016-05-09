@@ -24,7 +24,7 @@ class PackCatalogItem < ActiveRecord::Base
 
   def infinite?
     catalog_item.catalogable.entitlement.infinite? if %w(Access Voucher).include?(
-      (catalog_item.catalogable_type))
+      catalog_item.catalogable_type)
   end
 
   def limit_amount

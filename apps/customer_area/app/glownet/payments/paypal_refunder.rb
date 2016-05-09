@@ -7,11 +7,11 @@ class Payments::PaypalRefunder
     # TODO: This has to go other place, done during hot fixing ;-)!!!!!
     @event = @order.profile.event
     @payment_parameters = Parameter.joins(:event_parameters)
-                          .where(category: "payment",
-                                 group: "braintree",
-                                 event_parameters: { event: @event })
-                          .select("parameters.name, event_parameters.*")
-    Braintree::Configuration.environment  = environment
+                                   .where(category: "payment",
+                                          group: "braintree",
+                                          event_parameters: { event: @event })
+                                   .select("parameters.name, event_parameters.*")
+    Braintree::Configuration.environment = environment
     Braintree::Configuration.merchant_id = merchant_id
     Braintree::Configuration.public_key = public_key
     Braintree::Configuration.private_key = private_key
@@ -25,7 +25,9 @@ class Payments::PaypalRefunder
   end
 
   def refund(transaction, amount)
-    Braintree::Transaction.refund(transaction, amount) rescue nil
+    Braintree::Transaction.refund(transaction, amount)
+  rescue
+    nil
   end
 
   private

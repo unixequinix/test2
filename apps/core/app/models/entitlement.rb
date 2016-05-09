@@ -26,14 +26,14 @@ class Entitlement < ActiveRecord::Base
 
   after_destroy :calculate_memory_position_after_destroy
 
-  LENGTH = [1, 2]
+  LENGTH = [1, 2].freeze
 
   # Modes
-  COUNTER = "counter"
-  PERMANENT = "permanent"
-  PERMANENT_STRICT = "permanent_strict"
+  COUNTER = "counter".freeze
+  PERMANENT = "permanent".freeze
+  PERMANENT_STRICT = "permanent_strict".freeze
 
-  MODES = [COUNTER, PERMANENT, PERMANENT_STRICT]
+  MODES = [COUNTER, PERMANENT, PERMANENT_STRICT].freeze
 
   def infinite?
     mode == PERMANENT || mode == PERMANENT_STRICT
@@ -70,8 +70,8 @@ class Entitlement < ActiveRecord::Base
 
   def increment_memory_position(step)
     Entitlement.where(event_id: event_id)
-      .where("memory_position > ?", memory_position)
-      .each { |entitlement| entitlement.increment!(:memory_position, step) }
+               .where("memory_position > ?", memory_position)
+               .each { |entitlement| entitlement.increment!(:memory_position, step) }
   end
 
   def valid_position?

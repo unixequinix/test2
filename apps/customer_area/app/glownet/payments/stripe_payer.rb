@@ -10,7 +10,7 @@ class Payments::StripePayer
   end
 
   def charge(params)
-    amount = @order.total_formated.gsub(".", "")
+    amount = @order.total_formated.delete(".")
     Stripe.api_key = Rails.application.secrets.stripe_platform_secret
     begin
       charge = Stripe::Charge.create(

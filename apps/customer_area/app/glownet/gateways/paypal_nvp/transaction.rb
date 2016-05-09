@@ -1,10 +1,10 @@
 class Gateways::PaypalNvp::Transaction
   def initialize(event)
     @gateway_parameters = Parameter.joins(:event_parameters)
-                          .where(category: "payment",
-                                 group: "paypal_nvp",
-                                 event_parameters: { event: event })
-                          .select("parameters.name, event_parameters.*")
+                                   .where(category: "payment",
+                                          group: "paypal_nvp",
+                                          event_parameters: { event: event })
+                                   .select("parameters.name, event_parameters.*")
     @user = get_value_of_parameter("user")
     @password = get_value_of_parameter("password")
     @signature = get_value_of_parameter("signature")

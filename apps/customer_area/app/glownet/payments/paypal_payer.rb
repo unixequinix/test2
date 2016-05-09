@@ -74,11 +74,11 @@ class Payments::PaypalPayer
   def create_agreement(charge_object, autotopup_amount)
     customer_id = charge_object.transaction.customer_details.id
     @profile.payment_gateway_customers
-      .find_or_create_by(gateway_type: EventDecorator::PAYPAL)
-      .update(token: customer_id,
-              agreement_accepted: true,
-              autotopup_amount: autotopup_amount,
-              email: Braintree::Customer.find(customer_id).paypal_accounts.first.email)
+            .find_or_create_by(gateway_type: EventDecorator::PAYPAL)
+            .update(token: customer_id,
+                    agreement_accepted: true,
+                    autotopup_amount: autotopup_amount,
+                    email: Braintree::Customer.find(customer_id).paypal_accounts.first.email)
     @profile.save
   end
 

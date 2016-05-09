@@ -25,8 +25,8 @@ RSpec.describe Companies::Api::V1::BannedGtagsController, type: :controller do
         gtags = body["blacklisted_gtags"].map { |m| m["tag_uid"] }
 
         db_gtags = event.gtags.where(banned: true)
-                   .joins(company_ticket_type: :company_event_agreement)
-                   .where(company_event_agreements: { id: agreement.id })
+                        .joins(company_ticket_type: :company_event_agreement)
+                        .where(company_event_agreements: { id: agreement.id })
 
         expect(gtags).to match_array(db_gtags.map(&:tag_uid))
       end

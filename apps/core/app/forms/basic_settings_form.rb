@@ -2,8 +2,8 @@ class BasicSettingsForm
   include ActiveModel::Model
   include Virtus.model
 
-  INPUT_FORMATS = { boolean: :radio_buttons, string: :string }
-  INPUT_EXCEPTIONS = [:country]
+  INPUT_FORMATS = { boolean: :radio_buttons, string: :string }.freeze
+  INPUT_EXCEPTIONS = [:country].freeze
 
   def save(_params, _request)
     if valid?

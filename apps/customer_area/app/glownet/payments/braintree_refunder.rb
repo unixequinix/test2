@@ -13,7 +13,9 @@ class Payments::BraintreeRefunder
   end
 
   def refund(transaction, amount)
-    Braintree::Transaction.refund(transaction, amount) rescue nil
+    Braintree::Transaction.refund(transaction, amount)
+  rescue
+    nil
   end
 
   private

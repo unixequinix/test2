@@ -37,10 +37,10 @@ class Customer < ActiveRecord::Base
   default_scope { order("email") }
 
   # Genders
-  MALE = "male"
-  FEMALE = "female"
+  MALE = "male".freeze
+  FEMALE = "female".freeze
 
-  GENDERS = [MALE, FEMALE]
+  GENDERS = [MALE, FEMALE].freeze
 
   # Associations
   has_one :profile

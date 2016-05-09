@@ -32,7 +32,7 @@ class Admins::Events::Stations::AccessControlGatesController < Admins::Events::B
 
   def permitted_params
     params.require(:access_control_gate)
-      .permit(:id, :direction, :access_id, station_parameter_attributes: [:id, :station_id])
+          .permit(:id, :direction, :access_id, station_parameter_attributes: [:id, :station_id])
   end
 
   def set_presenter

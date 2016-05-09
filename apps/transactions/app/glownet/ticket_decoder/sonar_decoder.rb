@@ -1,5 +1,5 @@
 class TicketDecoder::SonarDecoder
-  PREFIX = "2016"
+  PREFIX = "2016".freeze
 
   def self.perform(ticket_code)
     return nil if ticket_code.blank?

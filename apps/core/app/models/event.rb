@@ -121,8 +121,8 @@ class Event < ActiveRecord::Base
 
   def get_parameter(category, group, name)
     event_parameters.includes(:parameter)
-      .find_by(parameters: { category: category, group: group, name: name })
-      .value
+                    .find_by(parameters: { category: category, group: group, name: name })
+                    .value
   end
 
   def selected_locales_formated
@@ -143,12 +143,12 @@ class Event < ActiveRecord::Base
     fee = refund_fee(refund_service)
     min = refund_minimun(refund_service)
     gtags.joins(credential_assignments: [profile: :customer_credits])
-      .where("credential_assignments.aasm_state = 'assigned'")
-      .having("sum(customer_credits.credit_value * customer_credits.final_refundable_balance) - " \
+         .where("credential_assignments.aasm_state = 'assigned'")
+         .having("sum(customer_credits.credit_value * customer_credits.final_refundable_balance) - " \
               "#{fee} >= #{min}")
-      .having("sum(customer_credits.credit_value * customer_credits.final_refundable_balance) - " \
+         .having("sum(customer_credits.credit_value * customer_credits.final_refundable_balance) - " \
               "#{fee} > 0")
-      .group("gtags.id")
+         .group("gtags.id")
   end
 
   def generate_token

@@ -30,6 +30,9 @@ Style/StringLiterals:
 Style/ClassAndModuleChildren:
   Enabled: false
 
+Style/MultilineMethodCallIndentation:
+  EnforcedStyle: aligned
+
 Metrics/AbcSize:
   Max: 23
 

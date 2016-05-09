@@ -6,11 +6,11 @@ class Payments::BraintreeDataRetriever < Payments::BaseDataRetriever
     @current_event = event
     @order = order
     @payment_parameters = Parameter.joins(:event_parameters)
-                          .where(category: "payment",
-                                 group: "braintree",
-                                 event_parameters: { event: event })
-                          .select("parameters.name, event_parameters.*")
-    Braintree::Configuration.environment  = environment
+                                   .where(category: "payment",
+                                          group: "braintree",
+                                          event_parameters: { event: event })
+                                   .select("parameters.name, event_parameters.*")
+    Braintree::Configuration.environment = environment
     Braintree::Configuration.merchant_id = merchant_id
     Braintree::Configuration.public_key = public_key
     Braintree::Configuration.private_key = private_key

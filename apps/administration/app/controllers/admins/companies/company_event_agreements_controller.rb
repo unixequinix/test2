@@ -3,9 +3,9 @@ class Admins::Companies::CompanyEventAgreementsController < Admins::BaseControll
 
   def index
     @agreements = @company.company_event_agreements
-                  .includes(:event)
-                  .page(params[:page])
-                  .per(10)
+                          .includes(:event)
+                          .page(params[:page])
+                          .per(10)
     @agreement = CompanyEventAgreement.new
   end
 

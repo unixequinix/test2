@@ -7,7 +7,7 @@ class Dashboard
     @profile = profile
     @event = profile.event
     @ticket_assignments = profile.active_tickets_assignment
-                          .includes(:credentiable, credentiable: :company_ticket_type)
+                                 .includes(:credentiable, credentiable: :company_ticket_type)
     @gtag_assignment = profile.active_gtag_assignment
     @completed_claim = profile.completed_claim
     @purchases = profile.sorted_purchases(format: :hash)

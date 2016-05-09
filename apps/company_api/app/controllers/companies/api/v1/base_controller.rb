@@ -10,8 +10,8 @@ class Companies::Api::V1::BaseController < Companies::BaseController
       @current_event = Event.find_by(token: event_token)
 
       @agreement = @current_event.company_event_agreements
-                   .includes(:company)
-                   .find_by(companies: { access_token: company_token }) if @current_event
+                                 .includes(:company)
+                                 .find_by(companies: { access_token: company_token }) if @current_event
       @current_event && @agreement || render(status: 403, json: :unauthorized)
     end
   end

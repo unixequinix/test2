@@ -11,11 +11,11 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
   def show
     @profile =
       @fetcher.profiles.with_deleted
-      .includes(:active_tickets_assignment,
-                :active_gtag_assignment,
-                credential_assignments: :credentiable,
-                customer_orders: [:catalog_item, :online_order])
-      .find(params[:id])
+              .includes(:active_tickets_assignment,
+                        :active_gtag_assignment,
+                        credential_assignments: :credentiable,
+                        customer_orders: [:catalog_item, :online_order])
+              .find(params[:id])
   end
 
   def ban
@@ -67,8 +67,8 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
     {
       event_id: current_event.id,
       station_id: current_event.stations
-        .joins(:station_type)
-        .find_by(station_types: { name: "customer_portal" }).id,
+                               .joins(:station_type)
+                               .find_by(station_types: { name: "customer_portal" }).id,
       transaction_category: "ban",
       transaction_origin: "customer_portal",
       transaction_type: "#{t_type}_#{b_type.downcase}",

@@ -7,7 +7,7 @@ class Sorters::ItemSorter
   def build_hash
     @items.each_with_object(@hash) do |catalog_item, acum|
       category = catalog_item.catalogable_type
-      acum[category] << catalog_item  if @keys.include? catalog_item.catalogable_type
+      acum[category] << catalog_item if @keys.include? catalog_item.catalogable_type
     end
   end
 

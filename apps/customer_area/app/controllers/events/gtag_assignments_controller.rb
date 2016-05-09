@@ -46,6 +46,6 @@ class Events::GtagAssignmentsController < Events::BaseController
 
   def gtag_assignment_parameters
     params.require(:gtag_assignment_form)
-      .permit(:number, :tag_uid).merge(event_id: current_event.id)
+          .permit(:number, :tag_uid).merge(event_id: current_event.id)
   end
 end

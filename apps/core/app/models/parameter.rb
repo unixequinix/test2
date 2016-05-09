@@ -18,7 +18,7 @@ class Parameter < ActiveRecord::Base
     "currency" => { default: "0.0", validator: /^\d+(\.\d{2})?/ },
     "integer" => { default: "0", validator: /^\d+/ },
     "boolean" => { default: "false", validator: /true|false/ }
-  }
+  }.freeze
 
   # Associations
   has_many :event_parameters

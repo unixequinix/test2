@@ -55,8 +55,8 @@ class Order < ActiveRecord::Base
 
   def total_refundable_credits
     order_items.joins(:catalog_item)
-      .where.not(catalog_items: { catalogable_type: "Pack" })
-      .to_a.sum(&:credits)
+               .where.not(catalog_items: { catalogable_type: "Pack" })
+               .to_a.sum(&:credits)
   end
 
   def generate_order_number!
