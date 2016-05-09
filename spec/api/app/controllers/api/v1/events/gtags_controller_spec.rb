@@ -4,7 +4,10 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
   let(:event) { create(:event) }
   let(:admin) { create(:admin) }
   let(:db_gtags) { event.gtags }
-  before { create_list(:gtag, 2, event: event) }
+  before do
+    create_list(:gtag, 2, event: event)
+    @deleted_gtag = create(:gtag, :with_purchaser, event: event, deleted_at: Time.now)
+  end
 
   describe "GET index" do
     context "with authentication" do
@@ -39,6 +42,11 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
           }
           expect(gtag).to eq(gtag_atts.as_json)
         end
+      end
+
+      it "doesn't returns deleted gtags" do
+        gtags = JSON.parse(response.body).map { |gtag| gtag["id"] }
+        expect(gtags).not_to include(@deleted_gtag.id)
       end
     end
 
