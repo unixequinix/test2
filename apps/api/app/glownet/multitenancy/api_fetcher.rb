@@ -76,6 +76,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           ON customers.id = profiles.customer_id
           AND customers.deleted_at IS NULL
         WHERE profiles.event_id = #{@event.id}
+        AND profiles.deleted_at IS NULL
       ) cep
     SQL
     ActiveRecord::Base.connection.select_value(sql)
@@ -126,6 +127,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           AND company_ticket_types.deleted_at IS NULL
 
         WHERE gtags.event_id = #{@event.id}
+        AND gtags.deleted_at IS NULL
       ) g
     SQL
     ActiveRecord::Base.connection.select_value(sql)
@@ -197,6 +199,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           ON company_ticket_types.id = tickets.company_ticket_type_id
           AND company_ticket_types.deleted_at IS NULL
         WHERE tickets.event_id = #{@event.id}
+        AND tickets.deleted_at IS NULL
       ) t
     SQL
 
