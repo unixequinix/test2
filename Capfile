@@ -3,14 +3,14 @@ require "capistrano/setup"
 
 # Include default deployment tasks
 require "capistrano/deploy"
-# Rails has to be above sidekiq for deploy purposes
-require "capistrano/rails"
-require "capistrano/sidekiq"
-require "capistrano/rails/assets"
-require "capistrano/faster_assets"
 require "capistrano/rvm"
 require "capistrano/bundler"
+require "capistrano/rails"
+require "capistrano/sidekiq" # Rails has to be above sidekiq for deploy purposes
+require "capistrano/rails/assets"
+require "capistrano/faster_assets"
 require "whenever/capistrano"
+require "capistrano/passenger"
 
 # Include tasks from other gems included in your Gemfile
 #
