@@ -139,6 +139,7 @@ button {
 
 .wristband-image {
   height: modules(5);
+  margin: 1rem 0;
 
   @include min-screen($bp3) {
     height: modules(8);
