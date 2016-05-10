@@ -621,7 +621,6 @@ DEPENDENCIES
   bullet (~> 4.14.4)
   byebug (~> 4.0.5)
   capistrano
-  capistrano-bundler (~> 1.1.2)
   capistrano-faster-assets (~> 1.0)
   capistrano-passenger
   capistrano-rails (~> 1.1.3)
