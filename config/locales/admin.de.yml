@@ -238,6 +238,7 @@ de:
       item_not_found: "Kein %{item} gefunden"
       search: "Suche"
       all: "Auswahl"
+      empty_events: "No events"
     sessions:
       mail: "anwender@domain.com"
       password: "Passwort"

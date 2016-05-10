@@ -1,17 +1,17 @@
 class CustomerOrderCreator
   def save(order, payment_method, payment_gateway)
     order.order_items.each do |order_item|
-      customer_order = CustomerOrder.create(
-        profile: order.profile,
-        amount: order_item.amount,
-        catalog_item: order_item.catalog_item,
-        origin: CustomerOrder::PURCHASE)
+      customer_order = CustomerOrder.create(profile: order.profile,
+                                            amount: order_item.amount,
+                                            catalog_item: order_item.catalog_item,
+                                            origin: CustomerOrder::PURCHASE)
       OnlineOrder.create(redeemed: false, customer_order: customer_order)
       create_money_transaction(order_item, payment_method, payment_gateway)
     end
   end
 
   def create_money_transaction(order_item, payment_method, payment_gateway)
+    # TODO: check
     Operations::Base.new.portal_write(fields(order_item, payment_method, payment_gateway))
   end
 
