@@ -179,6 +179,12 @@ th:
       bank_account_iban: "IBAN"
       bank_bic: "BIC"
       account_owner: "Owner"
+    wirecard:
+      card_number: "หมายเลขบัตร"
+      card_code_verification: "หมายเลขตรวจสอบยืนยันบัตร (CCV)"
+      card_expiration_date: "วันหมดอายุของบัตร"
+      button: "ชำระเงิน"
+      card_holder: "Card Holder"
     paypal:
       sync_title: "Sync with PayPal to perform payment"
       sync_copy: "Never without credit!"

@@ -4,7 +4,7 @@
   step: 1
   min_purchasable: 0
   max_purchasable: 50
-  infinite: "false"
+  mode: "counter"
   memory_length: 1
 -
   name: "Voucher B"
@@ -12,7 +12,7 @@
   step: 1
   min_purchasable: 0
   max_purchasable: 50
-  infinite: "false"
+  mode: "counter"
   memory_length: 2
 -
   name: "Voucher C"
@@ -20,5 +20,5 @@
   step: 1
   min_purchasable: 0
   max_purchasable: 50
-  infinite: "false"
+  mode: "counter"
   memory_length: 1

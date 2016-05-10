@@ -6,7 +6,8 @@ class Payments::WirecardDataRetriever < Payments::WirecardBaseDataRetriever
   end
 
   def shop_id
-    "qmore"
+    environment = get_value_of_parameter("environment")
+    environment == "production" ?  "" :  "qmore"
   end
 
   def order_ident
