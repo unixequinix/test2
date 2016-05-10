@@ -18,8 +18,8 @@ class ListModelPresenter
 
   def all_items
     q.result(distinct: true)
-      .page(page)
-      .includes(@include_for_all_items)
+     .page(page)
+     .includes(@include_for_all_items)
   end
 
   def current_items
@@ -32,9 +32,7 @@ class ListModelPresenter
     "#{from}-#{to}"
   end
 
-  def count
-    all.count
-  end
+  delegate :count, to: :all
 
   def no_items_for_presentation
     path = "admins/events/shared/"

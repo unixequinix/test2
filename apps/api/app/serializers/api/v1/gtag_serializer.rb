@@ -1,5 +1,5 @@
 class Api::V1::GtagSerializer < Api::V1::BaseSerializer
-  attributes :id, :tag_uid, :tag_serial_number, :credential_redeemed, :banned, :credential_type_id,
+  attributes :id, :tag_uid, :credential_redeemed, :banned, :credential_type_id,
              :customer_id, :purchaser_first_name, :purchaser_last_name, :purchaser_email
 
   def credential_type_id

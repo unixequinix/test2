@@ -35,11 +35,10 @@ class Admins::AdminsController < Admins::BaseController
     @admin = Admin.find(params[:id])
     if @admin.destroy
       flash[:notice] = I18n.t("alerts.destroyed")
-      redirect_to admins_admins_url
     else
       flash[:error] = @admin.errors.full_messages.join(". ")
-      redirect_to admins_admins_url
     end
+    redirect_to admins_admins_url
   end
 
   private

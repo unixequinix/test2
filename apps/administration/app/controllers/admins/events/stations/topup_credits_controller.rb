@@ -25,7 +25,7 @@ class Admins::Events::Stations::TopupCreditsController < Admins::Events::BaseCon
 
   def permitted_params
     params.require(:topup_credit)
-      .permit(:id, :amount, :credit_id, station_parameter_attributes: [:id, :station_id])
+          .permit(:id, :amount, :credit_id, station_parameter_attributes: [:id, :station_id])
   end
 
   def set_presenter

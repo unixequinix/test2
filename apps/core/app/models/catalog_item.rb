@@ -58,16 +58,16 @@ class CatalogItem < ActiveRecord::Base
   }
 
   # Credentiable Types
-  CREDIT = "Credit"
-  ACCESS = "Access"
-  VOUCHER = "Voucher"
+  CREDIT = "Credit".freeze
+  ACCESS = "Access".freeze
+  VOUCHER = "Voucher".freeze
 
-  CREDENTIABLE_TYPES = [CREDIT, ACCESS, VOUCHER]
+  CREDENTIABLE_TYPES = [CREDIT, ACCESS, VOUCHER].freeze
 
   def price
     station_catalog_items.joins(:station_parameter)
-      .select("station_catalog_items.price")
-      .where(station_parameters:
+                         .select("station_catalog_items.price")
+                         .where(station_parameters:
                        { id: StationParameter.joins(station: :station_type)
                                              .where(
                                                stations: { event_id: event },

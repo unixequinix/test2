@@ -17,14 +17,13 @@ class Admins::Events::RefundsController < Admins::Events::RefundsBaseController
   end
 
   def update
-    @refund = @fetcher.refunds.find(params[:id])
-    if @refund.update(permitted_params)
+    refund = @fetcher.refunds.find(params[:id])
+    if refund.update(permitted_params)
       flash[:notice] = I18n.t("alerts.updated")
-      redirect_to admins_refund_url(@refund)
     else
       flash[:error] = I18n.t("alerts.error")
-      redirect_to admins_refund_url(@refund)
     end
+    redirect_to admins_refund_url(refund)
   end
 
   private

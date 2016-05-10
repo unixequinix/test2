@@ -1,5 +1,5 @@
 class Operations::Credential::TicketChecker < Operations::Credential::Base
-  TRIGGERS = %w( ticket_checkin )
+  TRIGGERS = %w( ticket_checkin ).freeze
 
   def perform(atts)
     ActiveRecord::Base.transaction do

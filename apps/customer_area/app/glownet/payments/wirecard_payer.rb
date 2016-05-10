@@ -24,7 +24,7 @@ class Payments::WirecardPayer
   def create_payment(order, amount, params)
     Payment.create!(transaction_type: params[:paymentType],
                     card_country: params[:senderBankName],
-                    paid_at: Time.now,
+                    paid_at: Time.zone.now,
                     order: order,
                     response_code: params[:avsResponseMessage],
                     authorization_code: params[:responseFingerprint],

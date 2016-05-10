@@ -18,7 +18,7 @@ RSpec.describe Api::V1::Events::BannedGtagsController, type: :controller do
         get :index, event_id: event.id
         body = JSON.parse(response.body)
         ws_gtags = body.map { |m| m["tag_uid"] }
-        gtags.each { |gtag|  expect(ws_gtags).to include(gtag.tag_uid) }
+        gtags.each { |gtag| expect(ws_gtags).to include(gtag.tag_uid) }
       end
     end
 

@@ -37,9 +37,9 @@ RSpec.describe CompanyTicketType, type: :model do
     it "returns the data in the proper format for select inputs" do
       query = CompanyTicketType.form_selector(@event)
       expect(query).to eq([
-        ["Jaquan", @j.id],
-        ["Hilario", @h.id]
-      ])
+                            ["Jaquan", @j.id],
+                            ["Hilario", @h.id]
+                          ])
     end
   end
 end

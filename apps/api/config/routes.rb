@@ -6,10 +6,11 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: "json" } do
     namespace :v1 do
-      resources :events, only: :index  do
+      resources :events, only: :index do
         scope module: "events" do
           resources :accesses, only: :index
           resources :auto_top_ups, only: :create
+          resources :backups, only: :create
           resources :banned_gtags, path: "gtags/banned", only: :index
           resources :banned_tickets, path: "tickets/banned", only: :index
           resources :company_ticket_types, only: :index
@@ -25,6 +26,7 @@ Rails.application.routes.draw do
           resources :tickets, only: [:index, :show]
           get "/tickets/reference/:id", to: "tickets#reference"
           resources :vouchers, only: :index
+          get "/time", to: "time#index"
         end
       end
     end

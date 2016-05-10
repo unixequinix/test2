@@ -2,7 +2,7 @@
 = render "events/sessions/password_sent_message" if @password_sent
 
 .container-event-column
-  .wrapper-session
+  .wrapper-session.login-form
     h3.center-text = t('sessions.welcome')
     .wrapper-redirect-sessions.center-text
       p = t('sessions.create_account.title')
@@ -17,7 +17,8 @@
       .wrapper-session-login
         = f.input :password, placeholder: t("sessions.placeholder.password"), input_html: { class: 'session-input' }
         = fa_icon "key"
-      = f.input :remember_me, as: :boolean, input_html: { class: 'session-remember-me' }
+      .session-form
+        = f.input :remember_me, as: :boolean, input_html: { class: 'session-remember-me' }
       = f.button :submit, t('links.buttons.sign_in'), class: "btn btn-action-enter"
     .sessions-shared-login
       = render "events/shared/links"

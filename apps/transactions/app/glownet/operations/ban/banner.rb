@@ -1,5 +1,5 @@
 class Operations::Ban::Banner < Operations::Base
-  TRIGGERS = %w( blacklist_gtag blacklist_ticket blacklist_customer )
+  TRIGGERS = %w( blacklist_gtag blacklist_ticket blacklist_customer ).freeze
 
   def perform(atts)
     event = Event.find(atts[:event_id])

@@ -5,7 +5,6 @@
 #  id                     :integer          not null, primary key
 #  event_id               :integer          not null
 #  company_ticket_type_id :integer
-#  tag_serial_number      :string
 #  tag_uid                :string           not null
 #  credential_redeemed    :boolean          default(FALSE), not null
 #  deleted_at             :datetime
@@ -15,12 +14,12 @@
 #
 
 class Gtag < ActiveRecord::Base
-  STANDARD = "standard"
-  CARD  = "card"
-  SIMPLE = "simple"
+  STANDARD = "standard".freeze
+  CARD = "card".freeze
+  SIMPLE = "simple".freeze
 
   # Type of the gtags
-  FORMATS = [STANDARD, CARD, SIMPLE]
+  FORMATS = [STANDARD, CARD, SIMPLE].freeze
 
   # Gtag limits
   GTAG_DEFINITIONS = [{ name: "mifare_classic",
@@ -32,7 +31,7 @@ class Gtag < ActiveRecord::Base
                       { name: "ultralight_c",
                         entitlement_limit: 56,
                         credential_limit: 32 }
-                     ]
+                     ].freeze
 
   before_validation :upcase_gtag!
   default_scope { order(:id) }
@@ -72,8 +71,8 @@ class Gtag < ActiveRecord::Base
            ON customer_orders.profile_id =
            credential_assignments.profile_id
            AND customer_orders.deleted_at IS NULL")
-      .select("gtags.id, gtags.event_id, gtags.company_ticket_type_id, gtags.tag_serial_number,
-               gtags.tag_uid, gtags.credential_redeemed, customer_orders.amount")
+      .select("gtags.id, gtags.event_id, gtags.company_ticket_type_id, gtags.tag_uid,
+               gtags.credential_redeemed, customer_orders.amount")
       .where(event: event_id)
   }
 
@@ -126,6 +125,5 @@ class Gtag < ActiveRecord::Base
 
   def upcase_gtag!
     tag_uid.upcase! if tag_uid
-    tag_serial_number.upcase! if tag_serial_number
   end
 end

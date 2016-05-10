@@ -14,6 +14,9 @@ it:
       th: 'THA'
       de: 'GER'
     gtag_name: 'PAYCARD'
+  events:
+    create:
+      error: "Event couldn't be created, check the errors below"
   activemodel:
     errors:
       models:

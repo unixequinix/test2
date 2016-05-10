@@ -57,9 +57,8 @@ class Pack < ActiveRecord::Base
         parent_pack_amount = catalog_item.pack_catalog_items.where(pack_id: id).first.amount
         item_found.first.total_amount *= parent_pack_amount
         result.push(item_found) if item_found
-      else
-        result.push(build_enriched_catalog_item(catalog_item)) if
-          category.include?(catalog_item.catalogable_type) || category.blank?
+      elsif category.include?(catalog_item.catalogable_type) || category.blank?
+        result.push(build_enriched_catalog_item(catalog_item))
       end
     end.flatten
   end

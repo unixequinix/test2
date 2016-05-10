@@ -9,23 +9,21 @@ RSpec.describe Profile::Checker, type: :domain_logic do
   let(:gtag)    { create(:gtag, tag_uid: tag_uid, event: event) }
   let(:atts)    { { ticket_code: "CODE", event_id: event.id, customer_tag_uid: gtag.tag_uid } }
 
-  context ".for_credentiable" do
+  describe ".for_credentiable" do
     let(:customer) { create(:customer, event: event) }
 
     context "when credentiable does't have a profile assigned" do
       before { gtag.update!(assigned_profile: nil) }
 
-      describe "when customer has a profile" do
-        it "assings it" do
-          subject.for_credentiable(gtag, customer)
-          expect(customer.profile).to eq(customer.profile)
-        end
+      it "and customer does, it assigns it to the credentiable" do
+        subject.for_credentiable(gtag, customer)
+        expect(customer.profile).to eq(customer.profile)
       end
 
-      describe "when customer doesnt have a profile" do
+      context "when customer doesnt have a profile" do
         before { customer.update!(profile: nil) }
 
-        it "creates a profile and assigns it" do
+        it "creates a profile and assigns to customer" do
           subject.for_credentiable(gtag, customer)
           customer.reload
           expect(customer.profile).not_to be_nil
@@ -36,17 +34,15 @@ RSpec.describe Profile::Checker, type: :domain_logic do
     context "when credentiable has a profile assigned" do
       before { gtag.update!(assigned_profile: profile) }
 
-      describe "which already has a customer" do
-        it "fails" do
-          expect(profile.customer).not_to be_nil
-          expect { subject.for_credentiable(gtag, customer) }.to raise_error(RuntimeError, /Fraud/)
-        end
+      it "fails when said profile already has a customer" do
+        expect(profile.customer).not_to be_nil
+        expect { subject.for_credentiable(gtag, customer) }.to raise_error(RuntimeError, /Fraud/)
       end
 
-      describe "which doesn't have a customer," do
+      context "which doesn't have a customer," do
         before { profile.update!(customer: nil) }
 
-        describe "when current customer already has a profile" do
+        context "when current customer already has a profile" do
           let(:portal_profile)  { create(:profile, event: event) }
           let(:portal_customer) { portal_profile.customer }
 
@@ -69,7 +65,7 @@ RSpec.describe Profile::Checker, type: :domain_logic do
           end
         end
 
-        describe "when current customer doesn't have a profile" do
+        context "when current customer doesn't have a profile" do
           before { customer.update!(profile: nil) }
 
           it "assigns credentiable profile to customer" do
@@ -83,8 +79,8 @@ RSpec.describe Profile::Checker, type: :domain_logic do
     end
   end
 
-  context ".for_transaction" do
-    describe "with profile_id" do
+  describe ".for_transaction" do
+    context "with profile_id" do
       before { create(:credential_assignment, credentiable: gtag, profile: profile) }
 
       it "fails if it does not match any gtag profiles for the event" do
@@ -99,12 +95,7 @@ RSpec.describe Profile::Checker, type: :domain_logic do
       end
     end
 
-    describe "without profile" do
-      it "without finding the gtag also creates a profile" do
-        atts[:customer_tag_uid] = "NOTTHERE"
-        expect { subject.for_transaction(atts) }.to change(Profile, :count).by(1)
-      end
-
+    context "without profile" do
       it "sends back the newly created id" do
         expect(subject.for_transaction(atts)).to be_kind_of(Integer)
       end

@@ -114,7 +114,7 @@ crumb :admins_event_gtags do |event|
 end
 
 crumb :admins_event_gtag do |event, gtag|
-  link "#{gtag.tag_serial_number} - #{gtag.tag_uid}", edit_admins_event_gtag_path(event, gtag)
+  link gtag.tag_uid, edit_admins_event_gtag_path(event, gtag)
   parent :admins_event_gtags, event
 end
 

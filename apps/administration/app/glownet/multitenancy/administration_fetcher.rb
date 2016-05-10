@@ -54,7 +54,7 @@ class Multitenancy::AdministrationFetcher
 
   def device_general_parameters
     EventParameter.where(event: @event, parameters: { category: "device", group: "general" })
-      .includes(:parameter)
+                  .includes(:parameter)
   end
 
   def gtags
@@ -67,7 +67,7 @@ class Multitenancy::AdministrationFetcher
 
   def point_of_sale_stations
     Station.joins(:station_type)
-      .where(event: @event, station_types: { name: Station::POINT_OF_SALE_STATIONS })
+           .where(event: @event, station_types: { name: Station::POINT_OF_SALE_STATIONS })
   end
 
   def products
@@ -80,7 +80,7 @@ class Multitenancy::AdministrationFetcher
 
   def accreditation_stations
     Station.joins(:station_type)
-      .where(event: @event, station_types: { name: Station::ACCREDITATION_STATIONS })
+           .where(event: @event, station_types: { name: Station::ACCREDITATION_STATIONS })
   end
 
   def topup_stations
@@ -89,7 +89,7 @@ class Multitenancy::AdministrationFetcher
 
   def access_control_stations
     @event.stations.includes(:station_type)
-      .where(station_types: { name: Station::ACCESS_CONTROL_STATIONS })
+          .where(station_types: { name: Station::ACCESS_CONTROL_STATIONS })
   end
 
   def station_catalog_items
@@ -102,8 +102,8 @@ class Multitenancy::AdministrationFetcher
 
   def topup_credits
     TopupCredit.joins(credit: :catalog_item)
-      .where("catalog_items.event_id = ?", @event.id)
-      .order("topup_credits.amount ASC")
+               .where("catalog_items.event_id = ?", @event.id)
+               .order("topup_credits.amount ASC")
   end
 
   def access_control_gates

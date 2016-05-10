@@ -3,30 +3,30 @@
   initial_amount: 0
   step: 1
   min_purchasable: 0
-  max_purchasable: 200
-  mode: "counter"
+  max_purchasable: 1
+  mode: "permanent"
   memory_length: 1
 -
   name: "VIP Pass"
   initial_amount: 0
   step: 1
   min_purchasable: 0
-  max_purchasable: 200
-  mode: "counter"
-  memory_length: 2
+  max_purchasable: 1
+  mode: "permanent"
+  memory_length: 1
 -
   name: "Friday Pass"
   initial_amount: 0
   step: 1
   min_purchasable: 0
-  max_purchasable: 200
-  mode: "counter"
+  max_purchasable: 1
+  mode: "permanent"
   memory_length: 1
 -
   name: "Saturday Pass"
   initial_amount: 0
   step: 1
   min_purchasable: 0
-  max_purchasable: 200
-  mode: "counter"
-  memory_length: 2
+  max_purchasable: 1
+  mode: "permanent"
+  memory_length: 1

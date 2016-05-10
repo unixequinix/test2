@@ -40,8 +40,8 @@ FactoryGirl.define do
   factory :event do
     name { "Festival #{SecureRandom.urlsafe_base64}-#{rand(100_000)}" }
     location { "#{rand(100)} some street" }
-    start_date { Time.now }
-    end_date { Time.now + 2.days }
+    start_date { Time.zone.now }
+    end_date { Time.zone.now + 2.days }
     description "This paragraph is something special"
     support_email "valid@email.com"
     style "html{color:white;}"
@@ -72,7 +72,7 @@ FactoryGirl.define do
 
     after :create do |event|
       param = Parameter.find_by(category: "gtag", group: "form", name: "gtag_type")
-      EventParameter.find_or_create_by(event: event, value: "mifare_classic", parameter: param)
+      EventParameter.find_or_create_by(event: event, value: "ultralight_c", parameter: param)
     end
 
     factory :event_with_refund_services, traits: [:refund_services]

@@ -15,8 +15,6 @@ class GtagSettingsForm
   validates_presence_of :gtag_name
   validates_presence_of :gtag_type
   validates_presence_of :maximum_gtag_balance
-  validates_presence_of :gtag_form_disclaimer
-  validates_presence_of :gtag_assignation_notification
 
   validate :enough_space_for_credential
   validate :enough_space_for_entitlements
@@ -46,8 +44,8 @@ class GtagSettingsForm
   def enough_space_for_credential
     limit = Gtag.field_by_name name: gtag_type, field: :credential_limit
     last_credential = CredentialType.joins(:catalog_item)
-                      .where(catalog_items: { event_id: event_id })
-                      .order("memory_position DESC").first
+                                    .where(catalog_items: { event_id: event_id })
+                                    .order("memory_position DESC").first
     last_credential_position = last_credential.present? ? last_credential.memory_position : 0
 
     return if last_credential_position <= limit

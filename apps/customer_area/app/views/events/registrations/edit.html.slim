@@ -1,4 +1,4 @@
-.header-desktop.header-nav.edit-profile-menu-desktop
+.header-desktop.header-nav
   ul
     li
       = link_to event_url(current_event), class: "btn-desktop-profile" do
@@ -25,7 +25,7 @@ header.header-mobile.edit-profile-menu
         li
           = link_to event_logout_path(current_event), method: :delete do
             = t('header.logout')
-// TODO: Manu, Upper headers ^^^ for the edit profile view must be displayed with layouts
+// TODO: Manu, Upper headers for the edit profile view must be displayed with layouts
 
 .container-event-column
   .wrapper-session.wrapper-module-centered.edit-profile-form
@@ -42,9 +42,9 @@ header.header-mobile.edit-profile-menu
       = f.input :address, input_html: { class: 'session-input' } if current_event.address?
       = f.input :city, input_html: { class: 'session-input' } if current_event.city?
       = f.input :postcode, input_html: { class: 'session-input' } if current_event.postcode?
-      = f.input :country,  input_html: { class: 'session-select' } if current_event.country?
-      = f.input :gender, collection: Customer.gender_selector, include_blank: false, input_html: { class: 'session-input' } if current_event.gender?
-      = f.input :birthdate, as: :date, default: @edit_profile_form.birthdate, start_year: 1950, end_year: Date.today.year - 12, order: [:day, :month, :year] if current_event.birthdate?
+      = f.input :country, wrapper_html: { class: 'registration-select' }, input_html: { class: 'session-select' } if current_event.country?
+      = f.input :gender, wrapper_html: { class: 'registration-select' }, collection: Customer.gender_selector, include_blank: false, input_html: { class: 'session-input' } if current_event.gender?
+      = f.input :birthdate, wrapper_html: { class: 'registration-select' }, as: :date, default: @edit_profile_form.birthdate, start_year: 1950, end_year: Time.zone.today.year - 12, order: [:day, :month, :year] if current_event.birthdate?
       = f.button :submit, t('registration.edit.button'),  class: "btn-action btn-edit-profile"
   - current_profile.payment_gateway_customers.each do |payment_gateway_customer|
     .wrapper-module

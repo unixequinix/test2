@@ -25,7 +25,7 @@ class Admins::Events::Stations::StationCatalogItemsController < Admins::Events::
 
   def permitted_params
     params.require(:station_catalog_item)
-      .permit(:id, :price, :catalog_item_id, station_parameter_attributes: [:id, :station_id])
+          .permit(:id, :price, :catalog_item_id, station_parameter_attributes: [:id, :station_id])
   end
 
   def set_presenter

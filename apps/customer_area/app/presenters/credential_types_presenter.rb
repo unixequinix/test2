@@ -27,9 +27,9 @@ class CredentialTypesPresenter
 
     if catalog_item&.catalogable_type == "Pack"
       @products = catalog_item.catalogable
-                  .pack_catalog_items
-                  .includes(:catalog_item)
-                  .map(&:catalog_item)
+                              .pack_catalog_items
+                              .includes(:catalog_item)
+                              .map(&:catalog_item)
     else
       @products = [catalog_item]
     end
@@ -42,6 +42,6 @@ class CredentialTypesPresenter
   end
 
   def gtag_renderer
-    @context.content_tag("li", "#{credentiable.tag_uid} #{credentiable.tag_serial_number}")
+    @context.content_tag("li", credentiable.tag_uid)
   end
 end

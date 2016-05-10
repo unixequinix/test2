@@ -7,67 +7,68 @@ RSpec.describe Operations::Base, type: :job do
   let(:params) do
     {
       transaction_category: "credit",
-      transaction_type: "sale",
+      transaction_type: "nothing",
       credits: 30,
       event_id: event.id,
-      device_created_at: Time.now.to_s,
+      device_created_at: Time.zone.now.to_s,
       customer_tag_uid: gtag.tag_uid,
       status_code: 0
     }
   end
 
-  let(:real_params) do
-    {
-      customer_tag_uid: gtag.tag_uid,
-      device_created_at: Time.now.to_s,
-      transaction_category: "credit",
-      transaction_type: "sale",
-      device_uid: "5C0A5BA2CF43",
-      event_id: event.id,
-      sale_items_attributes: [
-        {
-          product_id: 4,
-          quantity: 1.0,
-          unit_price: 8.31
-        },
-        {
-          product_id: 5,
-          quantity: 1.0,
-          unit_price: 2.72
-        }
-      ],
-      credits: -11.030001,
-      final_balance: 106.950005,
-      final_refundable_balance: 106.950005,
-      credits_refundable: -11.030001,
-      credit_value: 1.0
-    }
-  end
-
   before(:each) do
-    # make 100% sure they are loaded into memory, inspect ofr rubocop
+    # make 100% sure they are loaded into memory
+    # inspect caled for rubocops sake
     Operations::Credential::TicketChecker.inspect
     Operations::Credential::GtagChecker.inspect
     Operations::Credit::BalanceUpdater.inspect
     Operations::Order::CredentialAssigner.inspect
     # Dont care about the BalanceUpdater or Porfile::Checker, so I mock the behaviour
-    allow(Operations::Credit::BalanceUpdater).to receive(:perform_later)
+    allow(Operations::Credit::BalanceUpdater).to receive(:perform_now)
   end
 
-  it "saves sale_items for real params" do
-    expect do
-      base.perform_later(real_params)
-    end.to change(SaleItem, :count).by(real_params[:sale_items_attributes].size)
+  it "checks the profile" do
+    expect(Profile::Checker).to receive(:for_transaction).once
+    base.perform_now(params)
+  end
+
+  it "saves sale_items" do
+    sale_items_atts = { sale_items_attributes: [
+      { product_id: 4, quantity: 1.0, unit_price: 8.31 },
+      { product_id: 5, quantity: 1.0, unit_price: 2.72 }] }
+    expect { base.perform_now(params.merge(sale_items_atts)) }.to change(SaleItem, :count).by(2)
   end
 
   it "creates transactions based on transaction_category" do
-    obj = base.perform_later(params)
+    obj = base.perform_now(params)
     expect(obj.errors.full_messages).to be_empty
   end
 
+  context "when tag_uid is present in DB" do
+    before { params[:customer_tag_uid] = gtag.tag_uid }
+
+    it "creates a Gtag if not present in event" do
+      expect { base.perform_now(params) }.to change(Gtag, :count).by(1)
+    end
+
+    it "does not create a Gtag if present in event" do
+      event.gtags << gtag
+      expect { base.perform_now(params) }.not_to change(Gtag, :count)
+    end
+  end
+
+  context "when tag_uid is not present in DB" do
+    before { params[:customer_tag_uid] = "NOT_IN_DB" }
+
+    it "creates a Gtag for the event" do
+      expect { base.perform_now(params) }.to change(Gtag, :count).by(1)
+    end
+  end
+
   it "executes the job defined by transaction_type" do
+    params[:transaction_type] = "sale"
     expect(Operations::Credit::BalanceUpdater).to receive(:perform_later).once.with(params)
-    base.perform_later(params)
+    base.perform_now(params)
   end
 
   describe "descendants" do
@@ -89,13 +90,21 @@ RSpec.describe Operations::Base, type: :job do
 
   context "creating transactions" do
     it "ignores attributes not present in table" do
-      obj = base.perform_later(params.merge(foo: "not valid"))
+      obj = base.perform_now(params.merge(foo: "not valid"))
       expect(obj).not_to be_new_record
     end
 
+    it "passes the correct profile_id" do
+      allow(Profile::Checker).to receive(:for_transaction).and_return(5)
+      args = hash_including(profile_id: 5)
+      expect(CreditTransaction).to receive(:create!).with(args).and_return(CreditTransaction.new)
+      base.perform_now(params)
+    end
+
     it "works even if jobs fail" do
+      params[:transaction_type] = "sale"
       allow(Operations::Credit::BalanceUpdater).to receive(:perform_later).and_raise("Error_1")
-      expect { base.perform_later(params) }.to raise_error("Error_1")
+      expect { base.perform_now(params) }.to raise_error("Error_1")
       params.delete(:transaction_id)
       params.delete(:profile_id)
       params.delete(:device_created_at)
@@ -105,11 +114,12 @@ RSpec.describe Operations::Base, type: :job do
 
   context "executing subscriptors" do
     it "should only execute subscriptors if the transaction created is new" do
+      params[:transaction_type] = "sale"
       expect(Operations::Credit::BalanceUpdater).to receive(:perform_later).once
-      transaction = base.perform_later(params)
+      transaction = base.perform_now(params)
       at = transaction.attributes.symbolize_keys!
       at = at.merge(transaction_category: "credit", device_created_at: params[:device_created_at])
-      base.perform_later(at)
+      base.perform_now(at)
     end
   end
 end

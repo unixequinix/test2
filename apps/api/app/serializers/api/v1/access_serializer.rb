@@ -1,5 +1,5 @@
 class Api::V1::AccessSerializer < Api::V1::BaseSerializer
-  attributes :id, :name, :infinite, :position, :memory_length
+  attributes :id, :name, :mode, :position, :memory_length
 
   def attributes(*args)
     hash = super
@@ -15,8 +15,8 @@ class Api::V1::AccessSerializer < Api::V1::BaseSerializer
     object.catalog_item.name
   end
 
-  def infinite
-    object.entitlement.infinite?
+  def mode
+    object.entitlement.mode
   end
 
   def position

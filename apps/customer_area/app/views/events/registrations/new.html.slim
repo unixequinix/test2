@@ -16,9 +16,12 @@
       = f.input :address, input_html: { class: 'session-input' } if current_event.address?
       = f.input :city, input_html: { class: 'session-input' } if current_event.city?
       = f.input :postcode, input_html: { class: 'session-input' } if current_event.postcode?
-      = f.input :country, input_html: { class: 'session-select' } if current_event.country?
-      = f.input :gender, collection: Customer.gender_selector, include_blank: false if current_event.gender?
-      = f.input :birthdate, as: :date, start_year: 1950, end_year: Date.today.year - 12, order: [:day, :month, :year] if current_event.birthdate?
-      .session-accept-terms = f.input :agreed_on_registration, as: :boolean, label: ("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), event_terms_of_use_url,   target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), event_privacy_policy_url, target: '_blank'}").html_safe
+      // Country select
+      = f.input :country, wrapper_html: { class: 'registration-select' }, input_html: { class: 'session-select' } if current_event.country?
+      // Gender select
+      = f.input :gender, wrapper_html: { class: 'registration-select' }, collection: Customer.gender_selector, include_blank: false if current_event.gender?
+      // Birthday select
+      = f.input :birthdate, wrapper_html: { class: 'registration-select' }, as: :date, start_year: 1950, end_year: Time.zone.today.year - 12, order: [:day, :month, :year] if current_event.birthdate?
+      .session-accept-terms = f.input :agreed_on_registration, as: :boolean, label: ("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), event_terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), event_privacy_policy_url, target: '_blank'}").html_safe, wrapper_html: { class: 'customer-agreed-on-registration' }
       = recaptcha_tags(stoken: false)
       = f.button :submit, t('registration.new.button'), class: "btn btn-action-enter"

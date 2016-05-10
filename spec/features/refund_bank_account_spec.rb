@@ -14,8 +14,8 @@ RSpec.feature "Refund for Bank account", type: :feature do
       it "should be able to claim and get the credits into his bank account" do
         visit "/#{@event_creator.event.slug}/bank_account_claims/new"
         within("form") do
-          fill_in(("euro_bank_account_claim_form_swift"), with: "BSABESBB")
-          fill_in(("euro_bank_account_claim_form_iban"), with: "ES6200810575700001135015")
+          fill_in("euro_bank_account_claim_form_swift", with: "BSABESBB")
+          fill_in("euro_bank_account_claim_form_iban", with: "ES6200810575700001135015")
           check "euro_bank_account_claim_form_agreed_on_claim"
         end
 

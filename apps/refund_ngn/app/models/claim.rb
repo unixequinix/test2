@@ -21,13 +21,13 @@ class Claim < ActiveRecord::Base
   default_scope { order(created_at: :desc) }
 
   # Service Types
-  BANK_ACCOUNT = "bank_account"
-  EASY_PAYMENT_GATEWAY = "epg"
-  TIPALTI = "tipalti"
-  DIRECT = "direct"
+  BANK_ACCOUNT = "bank_account".freeze
+  EASY_PAYMENT_GATEWAY = "epg".freeze
+  TIPALTI = "tipalti".freeze
+  DIRECT = "direct".freeze
 
-  REFUND_SERVICES = [BANK_ACCOUNT, EASY_PAYMENT_GATEWAY, TIPALTI, DIRECT]
-  TRANSFER_REFUND_SERVICES = [BANK_ACCOUNT, EASY_PAYMENT_GATEWAY, TIPALTI]
+  REFUND_SERVICES = [BANK_ACCOUNT, EASY_PAYMENT_GATEWAY, TIPALTI, DIRECT].freeze
+  TRANSFER_REFUND_SERVICES = [BANK_ACCOUNT, EASY_PAYMENT_GATEWAY, TIPALTI].freeze
 
   # Associations
   belongs_to :profile
@@ -39,14 +39,14 @@ class Claim < ActiveRecord::Base
   validates_presence_of :profile, :gtag, :service_type, :number, :total, :aasm_state
 
   # Scopes
-  scope :query_for_csv, lambda  { |aasm_state, event|
+  scope :query_for_csv, lambda { |aasm_state, event|
     joins(:profile, :gtag, :refund, profile: :customer)
       .includes(:claim_parameters, claim_parameters: :parameter)
       .where(aasm_state: aasm_state)
       .where(profiles: { event_id: event.id })
       .select("claims.id, profiles.id as profile,
             customers.first_name, customers.last_name, customers.email, gtags.tag_uid,
-            gtags.tag_serial_number, refunds.amount, claims.service_type")
+            refunds.amount, claims.service_type")
       .order(:id)
   }
 
@@ -73,8 +73,8 @@ class Claim < ActiveRecord::Base
   end
 
   def generate_claim_number!
-    time_hex = Time.now.strftime("%H%M%L").to_i.to_s(16)
-    day = Date.today.strftime("%y%m%d")
+    time_hex = Time.zone.now.strftime("%H%M%L").to_i.to_s(16)
+    day = Time.zone.today.strftime("%y%m%d")
     self.number = "#{day}#{time_hex}"
   end
 
@@ -84,10 +84,10 @@ class Claim < ActiveRecord::Base
     extra_columns = {}
     claims.each_with_index do |claim, index|
       extra_columns[index + 1] =
-      claim.claim_parameters.each_with_object({}) do |claim_parameter, acum|
-        headers |= [claim_parameter.parameter.name]
-        acum[claim_parameter.parameter.name] = claim_parameter.value
-      end
+        claim.claim_parameters.each_with_object({}) do |claim_parameter, acum|
+          headers |= [claim_parameter.parameter.name]
+          acum[claim_parameter.parameter.name] = claim_parameter.value
+        end
     end
     [claims, headers, extra_columns]
   end
@@ -95,6 +95,6 @@ class Claim < ActiveRecord::Base
   private
 
   def complete_claim
-    update(completed_at: Time.now)
+    update(completed_at: Time.zone.now)
   end
 end

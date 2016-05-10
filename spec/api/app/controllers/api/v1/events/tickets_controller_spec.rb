@@ -7,6 +7,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
   before do
     create_list(:ticket, 2, :with_purchaser, event: event)
+    @deleted_ticket = create(:ticket, :with_purchaser, event: event, deleted_at: Time.zone.now)
   end
 
   describe "GET index" do
@@ -28,20 +29,26 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
       end
 
       it "returns the correct data" do
-        JSON.parse(response.body).each_with_index do |ticket, index|
+        JSON.parse(response.body).each do |list_ticket|
+          ticket = db_tickets[db_tickets.index { |t| t.id == list_ticket["id"] }]
           ticket_atts = {
-            id: db_tickets[index].id,
-            reference: db_tickets[index].code,
-            credential_redeemed: db_tickets[index].credential_redeemed,
-            banned: db_tickets[index].banned?,
-            credential_type_id: db_tickets[index]&.company_ticket_type&.credential_type_id,
-            purchaser_first_name: db_tickets[index]&.purchaser&.first_name,
-            purchaser_last_name: db_tickets[index]&.purchaser&.last_name,
-            purchaser_email: db_tickets[index]&.purchaser&.email,
-            customer_id: db_tickets[index]&.assigned_profile&.id
-          }
-          expect(ticket).to eq(ticket_atts.as_json)
+            id: ticket.id,
+            reference: ticket.code,
+            credential_redeemed: ticket.credential_redeemed,
+            banned: ticket.banned?,
+            credential_type_id: ticket&.company_ticket_type&.credential_type_id,
+            purchaser_first_name: ticket&.purchaser&.first_name,
+            purchaser_last_name: ticket&.purchaser&.last_name,
+            purchaser_email: ticket&.purchaser&.email,
+            customer_id: ticket&.assigned_profile&.id
+          }.as_json
+          expect(list_ticket).to eq(ticket_atts)
         end
+      end
+
+      it "doesn't returns deleted tickets" do
+        tickets = JSON.parse(response.body).map { |ticket| ticket["id"] }
+        expect(tickets).not_to include(@deleted_ticket.id)
       end
     end
 
@@ -89,7 +96,8 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
         it "returns the necessary keys" do
           ticket = JSON.parse(response.body)
-          ticket_keys = %w(id reference credential_redeemed banned credential_type_id customer)
+          ticket_keys = %w(id reference credential_redeemed banned credential_type_id customer
+                           purchaser_first_name purchaser_last_name purchaser_email)
           c_keys = %w(id banned autotopup_gateways credentials first_name last_name email orders)
           order_keys = %w(online_order_counter catalogable_id catalogable_type amount)
 
@@ -123,7 +131,10 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
                 catalogable_type: orders.first.catalog_item.catalogable_type.downcase,
                 amount: orders.first.amount
               }]
-            }
+            },
+            purchaser_first_name: @ticket.purchaser&.first_name,
+            purchaser_last_name: @ticket.purchaser&.last_name,
+            purchaser_email: @ticket.purchaser&.email
           }
 
           expect(JSON.parse(response.body)).to eq(ticket.as_json)
@@ -166,6 +177,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         end
       end
     end
+
     context "without authentication" do
       it "returns a 401 status code" do
         get :reference, event_id: event.id, id: db_tickets.last.id

@@ -52,9 +52,9 @@ class Seeder::SeedLoader
                                                       icon_slug: group["icon_slug"])
       group["types"].each do |type|
         @station_group.station_types
-          .find_or_create_by(name: type["name"],
-                             description: type["description"],
-                             environment: type["environment"])
+                      .find_or_create_by(name: type["name"],
+                                         description: type["description"],
+                                         environment: type["environment"])
       end
     end
   end

@@ -35,12 +35,12 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
     @payment_service = params[:id]
     @payment_platform = EventDecorator::PAYMENT_PLATFORMS[@payment_service.to_sym]
     event_parameters = @fetcher.event_parameters
-                       .where(parameters: { group: @payment_platform, category: "payment" })
-                       .joins(:parameter)
-                       .select("parameters.name, event_parameters.value")
-                       .as_json
+                               .where(parameters: { group: @payment_platform, category: "payment" })
+                               .joins(:parameter)
+                               .select("parameters.name, event_parameters.value")
+                               .as_json
     total = event_parameters.reduce({}) { |a, e| a.merge(e["name"] => e["value"]) }
-    @payment_settings_form = ("#{@payment_service.camelize}PaymentSettingsForm")
+    @payment_settings_form = "#{@payment_service.camelize}PaymentSettingsForm"
                              .constantize.new(total)
   end
 
@@ -48,7 +48,7 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
     @event = Event.friendly.find(params[:event_id])
     @payment_service = params[:id]
     @payment_platform = EventDecorator::PAYMENT_PLATFORMS[@payment_service.to_sym]
-    @payment_settings_form = ("#{@payment_service.camelize}PaymentSettingsForm")
+    @payment_settings_form = "#{@payment_service.camelize}PaymentSettingsForm"
                              .constantize.new(settings_params)
     if @payment_settings_form.update
       @event.save
@@ -63,13 +63,13 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
 
   def activation_params
     params_names =
-      ("#{@payment_service.camelize}PaymentActivationForm").constantize.attribute_set.map(&:name)
+      "#{@payment_service.camelize}PaymentActivationForm".constantize.attribute_set.map(&:name)
     params.require("#{@payment_service}_payment_activation_form").permit(params_names)
   end
 
   def settings_params
     params_names =
-      ("#{@payment_service.camelize}PaymentSettingsForm").constantize.attribute_set.map(&:name)
+      "#{@payment_service.camelize}PaymentSettingsForm".constantize.attribute_set.map(&:name)
     params.require("#{@payment_service}_payment_settings_form").permit(params_names)
   end
 end

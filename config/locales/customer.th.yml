@@ -220,9 +220,9 @@ th:
   gtag_assignations:
     title: "ระบุ %{gtag}"
     description:
-      standard: "เพื่อจะทำการขอรับเงินคืน กรุณาระบุหมายเลขบน %{gtag} ของคุณ หมายเลขจะมี 2 บรรทัด"
-      card: "เพื่อจะทำการขอรับเงินคืน กรุณาระบุหมายเลขบน %{gtag} ของคุณ หมายเลขจะมี 2 บรรทัด"
-      simple: "เพื่อจะทำการขอรับเงินคืน กรุณาระบุหมายเลขบน %{gtag} ของคุณ "
+      standard: "Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}"
+      card: "Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}"
+      simple: "Assign the yellow highlighted numbers as appears in your %{gtag}"
     call_to_action: "ระบุ %{gtag} ของคุณ และไปต่อ!"
     button: "ตกลง"
     back: "Back"
@@ -309,7 +309,7 @@ th:
   sessions:
     first_register:
       welcome: 'Bienvenido!!'
-      description_with_credentiable: "Please, to continue with your event choose what you  want to register first"
+      description_with_credentiable: "Please, to continue with your event:"
       description_without_credentiable: "There's nothing you can do right now, please come back later"
     welcome: 'Welcome!'
     create_account:
