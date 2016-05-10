@@ -4,7 +4,7 @@
   step: 1
   min_purchasable: 0
   max_purchasable: 200
-  infinite: "false"
+  mode: "counter"
   memory_length: 1
 -
   name: "VIP Pass"
@@ -12,7 +12,7 @@
   step: 1
   min_purchasable: 0
   max_purchasable: 200
-  infinite: "false"
+  mode: "counter"
   memory_length: 2
 -
   name: "Friday Pass"
@@ -20,7 +20,7 @@
   step: 1
   min_purchasable: 0
   max_purchasable: 200
-  infinite: "false"
+  mode: "counter"
   memory_length: 1
 -
   name: "Saturday Pass"
@@ -28,5 +28,5 @@
   step: 1
   min_purchasable: 0
   max_purchasable: 200
-  infinite: "false"
+  mode: "counter"
   memory_length: 2

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Payments::SofortDataRetriever, type: :domain_logic do
+RSpec.describe Payments::IdealDataRetriever, type: :domain_logic do
   let(:order) do
     create(:order)
   end
@@ -11,32 +11,31 @@ RSpec.describe Payments::SofortDataRetriever, type: :domain_logic do
 
   subject do
     params = {
-      consumer_ip_address: "192.168.1.1" ,
-      consumer_user_agent: "chrome"
+      financial_institution: "Rabobank" ,
     }
     Payments::SofortDataRetriever.new(event, order).with_params(params)
   end
 
   context ".payment_type" do
-    it "should return the payment type for Sofort" do
-      expect(subject.payment_type).to eq("SOFORTUEBERWEISUNG")
+    it "should return the payment type for Ideal" do
+      expect(subject.payment_type).to eq("IDL")
     end
   end
 
   context ".success_url" do
-    it "should return the success url for Sofort" do
+    it "should return the payment type for Sofort" do
       expect(subject.success_url).to include("payment_services/sofort/asynchronous_payments/success")
     end
   end
 
   context ".failure_url" do
-    it "should return the error url for Sofort" do
+    it "should return the payment type for Sofort" do
       expect(subject.failure_url).to include("payment_services/sofort/asynchronous_payments/error")
     end
   end
 
   context ".confirm_url" do
-    it "should return the confirm url for Sofort" do
+    it "should return the payment type for Sofort" do
       expect(subject.confirm_url).to include("payment_services/sofort/asynchronous_payments")
     end
   end
