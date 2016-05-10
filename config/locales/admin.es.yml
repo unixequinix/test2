@@ -242,6 +242,7 @@ es:
       item_not_found: "No se encontraron %{item}"
       search: "Buscar"
       all: "Seleccionar"
+      empty_events: "No hay eventos"
     sessions:
       mail: "user@domain.com"
       password: "password"
