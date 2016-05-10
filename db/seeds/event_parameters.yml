@@ -178,6 +178,9 @@
         -
           name: secret_key
           data_type: string
+        -
+          name: environment
+          data_type: string
 -
   name: refund
   groups:

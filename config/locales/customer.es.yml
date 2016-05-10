@@ -172,6 +172,12 @@ es:
       card_code_verification: "Código de verificación (CCV)"
       card_expiration_date: "Fecha de caducidad"
       button: "Pagar"
+    wirecard:
+      card_number: "Número de tarjeta"
+      card_code_verification: "Código de verificación (CCV)"
+      card_expiration_date: "Fecha de caducidad"
+      card_holder: "Titular"
+      button: "Pagar"
     braintree:
       card_number: "Número de tarjeta"
       card_code_verification: "Código de verificación (CCV)"

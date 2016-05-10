@@ -156,6 +156,12 @@ de:
       card_code_verification: "Kartenprüfnummer (CCV)"
       card_expiration_date: "Ablaufdatum der Karte"
       button: "Bezahlen"
+    wirecard:
+      card_number: "Kartennummer"
+      card_code_verification: "Kartenprüfnummer (CCV)"
+      card_expiration_date: "Ablaufdatum der Karte"
+      card_holder: "Card Holder"
+      button: "Bezahlen"
     braintree:
       card_number: "Kartennummer"
       card_code_verification: "Kartenprüfnummer (CCV)"
