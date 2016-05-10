@@ -11,7 +11,7 @@ RSpec.describe Payments::SofortDataRetriever, type: :domain_logic do
 
   subject do
     params = {
-      consumer_ip_address: "192.168.1.1" ,
+      consumer_ip_address: "192.168.1.1",
       consumer_user_agent: "chrome"
     }
     Payments::SofortDataRetriever.new(event, order).with_params(params)
@@ -25,7 +25,8 @@ RSpec.describe Payments::SofortDataRetriever, type: :domain_logic do
 
   context ".success_url" do
     it "should return the success url for Sofort" do
-      expect(subject.success_url).to include("payment_services/sofort/asynchronous_payments/success")
+      expect(subject.success_url).to include(
+        "payment_services/sofort/asynchronous_payments/success")
     end
   end
 

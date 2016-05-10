@@ -11,7 +11,7 @@ RSpec.describe Payments::IdealDataRetriever, type: :domain_logic do
 
   subject do
     params = {
-      financial_institution: "Rabobank" ,
+      financial_institution: "Rabobank"
     }
     Payments::SofortDataRetriever.new(event, order).with_params(params)
   end
@@ -24,7 +24,8 @@ RSpec.describe Payments::IdealDataRetriever, type: :domain_logic do
 
   context ".success_url" do
     it "should return the payment type for Sofort" do
-      expect(subject.success_url).to include("payment_services/sofort/asynchronous_payments/success")
+      expect(subject.success_url).to include(
+        "payment_services/sofort/asynchronous_payments/success")
     end
   end
 

@@ -1,3 +1,2 @@
 class SofortPaymentSettingsForm < WirecardPaymentSettingsForm
 end
-
