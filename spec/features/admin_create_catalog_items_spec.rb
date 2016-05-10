@@ -36,7 +36,7 @@ RSpec.feature "Admin create catalog items", type: :feature do
       fill_in(t("admin.catalog_item.step"), with: "1")
       fill_in(t("admin.catalog_item.min_purchasable"), with: "0")
       fill_in(t("admin.catalog_item.max_purchasable"), with: "10")
-      click_on((t("helpers.submit.create", model: "Access")))
+      click_on(t("helpers.submit.create", model: "Access"))
       expect(page.body).to include(t("alerts.created"))
     end
 
@@ -51,7 +51,7 @@ RSpec.feature "Admin create catalog items", type: :feature do
       fill_in(t("admin.catalog_item.step"), with: "1")
       fill_in(t("admin.catalog_item.min_purchasable"), with: "0")
       fill_in(t("admin.catalog_item.max_purchasable"), with: "10")
-      click_on((t("helpers.submit.create", model: "Voucher")))
+      click_on(t("helpers.submit.create", model: "Voucher"))
       expect(page.body).to include(t("alerts.created"))
     end
   end

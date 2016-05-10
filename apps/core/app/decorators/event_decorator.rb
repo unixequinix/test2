@@ -10,7 +10,7 @@ class EventDecorator < Draper::Decorator
   IDEAL = :ideal
   SOFORT = :sofort
   WIRECARD = :wirecard
-  PAYMENT_SERVICES = [STRIPE, PAYPAL, REDSYS, BRAINTREE, PAYPAL_NVP, IDEAL, SOFORT, WIRECARD]
+  PAYMENT_SERVICES = [STRIPE, PAYPAL, REDSYS, BRAINTREE, PAYPAL_NVP, IDEAL, SOFORT, WIRECARD].freeze
   PAYMENT_PLATFORMS = { paypal_nvp: "paypal_nvp",
                         paypal: "braintree",
                         braintree: "braintree",
@@ -18,18 +18,18 @@ class EventDecorator < Draper::Decorator
                         ideal: "wirecard",
                         sofort: "wirecard",
                         wirecard: "wirecard",
-                        stripe: "stripe" }
+                        stripe: "stripe" }.freeze
 
-  REFUND_SERVICES = [:bank_account, :epg, :tipalti, :direct]
-  FEATURES = [:top_ups, :refunds]
-  LOCALES = [:en_lang, :es_lang, :it_lang, :th_lang, :de_lang]
+  REFUND_SERVICES = [:bank_account, :epg, :tipalti, :direct].freeze
+  FEATURES = [:top_ups, :refunds].freeze
+  LOCALES = [:en_lang, :es_lang, :it_lang, :th_lang, :de_lang].freeze
   REGISTRATION_PARAMETERS = [:phone, :address, :city, :country, :postcode, :gender,
-                             :birthdate, :agreed_event_condition]
+                             :birthdate, :agreed_event_condition].freeze
 
   # Background Types
-  BACKGROUND_FIXED = "fixed"
-  BACKGROUND_REPEAT = "repeat"
-  BACKGROUND_TYPES = [BACKGROUND_FIXED, BACKGROUND_REPEAT]
+  BACKGROUND_FIXED = "fixed".freeze
+  BACKGROUND_REPEAT = "repeat".freeze
+  BACKGROUND_TYPES = [BACKGROUND_FIXED, BACKGROUND_REPEAT].freeze
 
   GTAG_TYPES = Gtag::GTAG_DEFINITIONS.map { |definition| definition[:name] }
 

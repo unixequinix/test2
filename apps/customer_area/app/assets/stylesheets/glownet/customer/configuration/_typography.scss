@@ -3,15 +3,11 @@
 //  Font configuration
 //
 // -------------------------------------------------------
-
-@import "font-awesome";
 // External fonts
 
 // Custom fonts
-@include font-face(Roboto, 'roboto-black-webfont', bold, $asset-pipeline: true);
-@include font-face(Roboto, 'roboto-regular-webfont', normal, $asset-pipeline: true);
 @include font-face(PaymentFont, 'paymentfont-webfont', normal, $asset-pipeline: true);
-
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900);
 
 // Font families
 $serif_family: $georgia;

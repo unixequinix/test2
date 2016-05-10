@@ -99,7 +99,6 @@ th:
       gtag:
         new: &label_gtag
           tag_uid: "Tag UID"
-          tag_serial_number: "Tag serial number"
           gtag_credit_log: "Bingo"
         edit:
           <<: *label_gtag
@@ -206,7 +205,6 @@ th:
           <<: *placeholder_ticket
       gtag:
         new: &placeholder_gtag
-          tag_serial_number: "หมายเลขบรรทัดแรกของ %{gtag}"
           tag_uid: "หมายเลขบรรทัดที่สอง %{gtag}"
         edit:
           <<: *placeholder_gtag

@@ -6,7 +6,8 @@ it:
       like_on_facebook: 'Mi piace su Facebook'
       suscribe_on_you_tube: 'Abbonati su YouTube'
       communication: "Questo è un messaggio automatico da %{event_name}"
-      footer: 'Qualche dubbio del servizio? Contatta direttamente il servizio di assistenza del %{support_name}.'
+      footer_glownet: 'We are happy to assist you with the use of event portal if you message us at '
+      footer_organizer: 'Have a question for the event organiser? Contact them directly at '
       footer_copy: 'Copyright Glownet © %{year} Tutti i diritti riservati.'
       order:
         completed:

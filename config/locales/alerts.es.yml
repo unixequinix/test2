@@ -16,7 +16,9 @@ es:
     gtag_already_assigned: 'Ya tienes uno asignado'
     forbidden_gtag_change: 'Impossible to unassign gtag when event has started'
     ticket_already_assigned: 'Ticket ya asignado'
+    ticket_doesnt_exist: 'Ticket no existe'
     credential_already_assigned: 'You already have the credential that comes with this ticket'
+    access_only_one_way: 'Sólo una dirección por acceso'
     gtag:
       invalid: "%{gtag} no válida"
       already_assigned: "%{gtag} ya ha sido asignada a otro usuario"

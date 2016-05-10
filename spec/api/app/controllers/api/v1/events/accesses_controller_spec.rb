@@ -10,8 +10,8 @@ RSpec.describe Api::V1::Events::AccessesController, type: :controller do
   before do
     create(:catalog_item, :with_access, event: event)
     @new_access = create(:catalog_item, :with_access, event: event)
-    @new_access.update!(updated_at: Time.now + 4.hours)
-    @new_access.catalogable.update!(updated_at: Time.now + 4.hours)
+    @new_access.update!(updated_at: Time.zone.now + 4.hours)
+    @new_access.catalogable.update!(updated_at: Time.zone.now + 4.hours)
   end
 
   describe "GET index" do
@@ -28,7 +28,7 @@ RSpec.describe Api::V1::Events::AccessesController, type: :controller do
       it "returns the necessary keys" do
         get :index, event_id: event.id
         JSON.parse(response.body).map do |access|
-          expect(access.keys).to eq(%w(id name infinite position memory_length description))
+          expect(access.keys).to eq(%w(id name mode position memory_length description))
         end
       end
 
@@ -38,7 +38,7 @@ RSpec.describe Api::V1::Events::AccessesController, type: :controller do
           access_atts = {
             id: db_accesses[index].id,
             name: db_accesses[index].catalog_item.name,
-            infinite: db_accesses[index].entitlement.infinite,
+            mode: db_accesses[index].entitlement.mode,
             position: db_accesses[index].entitlement.memory_position,
             memory_length: db_accesses[index].entitlement.memory_length.to_i,
             description: db_accesses[index].catalog_item.description

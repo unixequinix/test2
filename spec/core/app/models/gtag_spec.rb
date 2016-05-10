@@ -5,7 +5,6 @@
 #
 #  id                :integer          not null, primary key
 #  tag_uid           :string           not null
-#  tag_serial_number :string           not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  deleted_at        :datetime
@@ -20,12 +19,10 @@ RSpec.describe Gtag, type: :model do
   let(:event) { gtag.event }
 
   describe "upcase_gtag!" do
-    it "sets the tag_uid and tag_serial_number in upcase on validation" do
+    it "sets the tag_uid in upcase on validation" do
       gtag.tag_uid = "abc123abc"
-      gtag.tag_serial_number = "abc123abc"
       gtag.valid?
       expect(gtag.tag_uid =~ /[[:upper:]]+$/).not_to be_nil
-      expect(gtag.tag_serial_number =~ /[[:upper:]]+$/).not_to be_nil
     end
   end
 

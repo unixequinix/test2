@@ -9,7 +9,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
 
   def company_ticket_types
     CompanyTicketType.includes(:credential_type, company_event_agreement: :company)
-      .where(event: @event)
+                     .where(event: @event)
   end
 
   def credential_types
@@ -76,6 +76,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           ON customers.id = profiles.customer_id
           AND customers.deleted_at IS NULL
         WHERE profiles.event_id = #{@event.id}
+        AND profiles.deleted_at IS NULL
       ) cep
     SQL
     ActiveRecord::Base.connection.select_value(sql)
@@ -83,7 +84,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
 
   def device_general_parameters
     @event.event_parameters.where(parameters: { category: "device", group: "general" })
-      .includes(:parameter)
+          .includes(:parameter)
   end
 
   def gtags
@@ -96,7 +97,6 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
       FROM (
         SELECT gtags.id,
                gtags.tag_uid,
-               gtags.tag_serial_number,
                gtags.credential_redeemed,
                gtags.banned,
                company_ticket_types.credential_type_id as credential_type_id ,
@@ -127,6 +127,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           AND company_ticket_types.deleted_at IS NULL
 
         WHERE gtags.event_id = #{@event.id}
+        AND gtags.deleted_at IS NULL
       ) g
     SQL
     ActiveRecord::Base.connection.select_value(sql)
@@ -138,16 +139,17 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
 
   def packs
     Pack.includes(:catalog_item, pack_catalog_items: :catalog_item)
-      .where(catalog_items: { event_id: @event.id })
+        .where(catalog_items: { event_id: @event.id })
   end
 
   def parameters
     gtag_type = @event.get_parameter("gtag", "form", "gtag_type")
 
     @event.event_parameters.joins(:parameter)
-      .where("(parameters.category = 'device') OR
+          .where("(parameters.category = 'device') OR
               (parameters.category = 'gtag' AND parameters.group = '#{gtag_type}' OR
-               parameters.group = 'form' AND parameters.name = 'gtag_type')")
+               parameters.group = 'form' AND parameters.name = 'gtag_type' OR
+               parameters.name = 'maximum_gtag_balance')")
   end
 
   def products
@@ -156,8 +158,8 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
 
   def stations
     StationGroup.includes(stations: :station_type)
-      .where(stations: { event_id: @event.id })
-      .where.not(station_types: { name: "customer_portal" })
+                .where(stations: { event_id: @event.id })
+                .where.not(station_types: { name: "customer_portal" })
   end
 
   def sql_tickets # rubocop:disable Metrics/MethodLength
@@ -197,6 +199,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           ON company_ticket_types.id = tickets.company_ticket_type_id
           AND company_ticket_types.deleted_at IS NULL
         WHERE tickets.event_id = #{@event.id}
+        AND tickets.deleted_at IS NULL
       ) t
     SQL
 

@@ -150,7 +150,7 @@ RSpec.describe Customer, type: :model do
 
   context ".remember_me_token_expires_at" do
     it "returns the sum of the remember_created_at and the expiration_time given" do
-      remember_created_at = Time.now
+      remember_created_at = Time.zone.now
       expiration_time = 2.weeks
       sum = remember_created_at + expiration_time
       customer.remember_created_at = remember_created_at

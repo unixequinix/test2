@@ -95,7 +95,6 @@ de:
       gtag:
         new: &label_gtag
           tag_uid: "Tag UID"
-          tag_serial_number: "Tag Seriennummer"
           gtag_credit_log: "Bingo"
         edit:
           <<: *label_gtag
@@ -203,7 +202,6 @@ de:
           <<: *placeholder_ticket
       gtag:
         new: &placeholder_gtag
-          tag_serial_number: "Erste Zahlenreihe des %{gtag}"
           tag_uid: "Zweite Zahlenreihe des %{gtag}"
         edit:
           <<: *placeholder_gtag

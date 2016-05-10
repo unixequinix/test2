@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
 
   def user_agent_mobile?
     # Note: we treat ipad as non mobile
-    request.user_agent =~ (/(iPhone|iPod|Android|webOS|Mobile|iPad)/)
+    request.user_agent =~ /(iPhone|iPod|Android|webOS|Mobile|iPad)/
   end
 
   def current_event

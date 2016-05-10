@@ -112,6 +112,9 @@
         -
           name: secret_key
           value: B8AKTPWBRMNBV455FG6M2DANE99WU2
+        -
+          name: environment
+          value: demo
 -
   category: refund
   groups:

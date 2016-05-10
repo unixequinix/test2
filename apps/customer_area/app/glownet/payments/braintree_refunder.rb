@@ -13,7 +13,9 @@ class Payments::BraintreeRefunder
   end
 
   def refund(transaction, amount)
-    Braintree::Transaction.refund(transaction, amount) rescue nil
+    Braintree::Transaction.refund(transaction, amount)
+  rescue
+    nil
   end
 
   private
@@ -22,7 +24,7 @@ class Payments::BraintreeRefunder
     t = charge.transaction
     Payment.create!(t_type: t.payment_instrument_type,
                     card_country: t.credit_card_details.country_of_issuance,
-                    paid_at: Time.at(t.created_at),
+                    paid_at: Time.zone.at(t.created_at),
                     last4: t.credit_card_details.last_4,
                     order: order,
                     response_code: t.processor_response_code,

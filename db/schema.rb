@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160430092856) do
+ActiveRecord::Schema.define(version: 20160509131512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -345,16 +345,25 @@ ActiveRecord::Schema.define(version: 20160430092856) do
   add_index "customers", ["remember_token"], name: "index_customers_on_remember_token", unique: true, using: :btree
   add_index "customers", ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true, using: :btree
 
+  create_table "devices", force: :cascade do |t|
+    t.string   "name"
+    t.string   "imei"
+    t.string   "mac"
+    t.string   "serial_number"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
   create_table "entitlements", force: :cascade do |t|
-    t.integer  "entitlementable_id",                   null: false
-    t.string   "entitlementable_type",                 null: false
-    t.integer  "event_id",                             null: false
-    t.integer  "memory_position",                      null: false
-    t.boolean  "infinite",             default: false, null: false
+    t.integer  "entitlementable_id",                       null: false
+    t.string   "entitlementable_type",                     null: false
+    t.integer  "event_id",                                 null: false
+    t.integer  "memory_position",                          null: false
     t.datetime "deleted_at"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.integer  "memory_length",        default: 1
+    t.string   "mode",                 default: "counter"
   end
 
   add_index "entitlements", ["deleted_at"], name: "index_entitlements_on_deleted_at", using: :btree
@@ -443,7 +452,6 @@ ActiveRecord::Schema.define(version: 20160430092856) do
   create_table "gtags", force: :cascade do |t|
     t.integer  "event_id",                               null: false
     t.integer  "company_ticket_type_id"
-    t.string   "tag_serial_number"
     t.string   "tag_uid",                                null: false
     t.boolean  "credential_redeemed",    default: false, null: false
     t.datetime "deleted_at"
@@ -756,7 +764,7 @@ ActiveRecord::Schema.define(version: 20160430092856) do
   add_index "tickets", ["deleted_at"], name: "index_tickets_on_deleted_at", using: :btree
 
   create_table "topup_credits", force: :cascade do |t|
-    t.integer  "amount"
+    t.float    "amount"
     t.integer  "credit_id"
     t.datetime "deleted_at"
     t.datetime "created_at", null: false

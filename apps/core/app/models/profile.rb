@@ -94,7 +94,7 @@ class Profile < ActiveRecord::Base # rubocop:disable ClassLength
 
   def ticket_credits
     customer_credits.where.not(transaction_origin: CustomerCredit::CREDITS_PURCHASE)
-      .sum(:amount).floor
+                    .sum(:amount).floor
   end
 
   def purchased_credits
@@ -134,20 +134,20 @@ class Profile < ActiveRecord::Base # rubocop:disable ClassLength
                                                  catalog_items.name,
                                                  catalog_items.catalogable_type,
                                                  catalog_items.catalogable_id")
-      .group("catalog_items.name, catalog_items.catalogable_type, "\
+                   .group("catalog_items.name, catalog_items.catalogable_type, "\
              "catalog_items.catalogable_id, catalog_items.id")
   end
 
   def infinite_entitlements_purchased
     single_entitlements = customer_orders.select do |customer_order|
-      customer_order.catalog_item.catalogable.try(:entitlement).try(:infinite)
+      customer_order.catalog_item.catalogable.try(:entitlement).try(:infinite?)
     end.map(&:catalog_item_id)
 
     pack_entitlements = CatalogItem.where(
       catalogable_id: Pack.joins(:catalog_items_included)
                           .where(catalog_items: { id: single_entitlements }),
       catalogable_type: "Pack")
-                        .pluck(:id)
+                                   .pluck(:id)
 
     single_entitlements + pack_entitlements
   end

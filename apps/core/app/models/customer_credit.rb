@@ -26,10 +26,10 @@ class CustomerCredit < ActiveRecord::Base
   validates_numericality_of :amount, :refundable_amount, :credit_value
   validates_numericality_of :final_balance, :final_refundable_balance, greater_than_or_equal_to: 0
 
-  TICKET_ASSIGNMENT = "ticket_assignment"
-  TICKET_UNASSIGNMENT = "ticket_unassignment"
-  CREDITS_PURCHASE = "credits_purchase"
+  TICKET_ASSIGNMENT = "ticket_assignment".freeze
+  TICKET_UNASSIGNMENT = "ticket_unassignment".freeze
+  CREDITS_PURCHASE = "credits_purchase".freeze
 
   # Type of the invoices
-  TRANSACTION_TYPES = [TICKET_ASSIGNMENT, TICKET_UNASSIGNMENT, CREDITS_PURCHASE]
+  TRANSACTION_TYPES = [TICKET_ASSIGNMENT, TICKET_UNASSIGNMENT, CREDITS_PURCHASE].freeze
 end

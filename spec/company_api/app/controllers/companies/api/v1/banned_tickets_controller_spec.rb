@@ -25,8 +25,8 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
         tickets = body["blacklisted_tickets"].map { |m| m["ticket_reference"] }
 
         db_tickets = event.tickets.where(banned: true)
-                     .joins(company_ticket_type: :company_event_agreement)
-                     .where(company_event_agreements: { id: agreement.id })
+                          .joins(company_ticket_type: :company_event_agreement)
+                          .where(company_event_agreements: { id: agreement.id })
 
         expect(tickets).to match_array(db_tickets.map(&:code))
       end

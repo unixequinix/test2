@@ -45,15 +45,10 @@ class Event < ActiveRecord::Base
              :gtag_form_disclaimer, :gtag_name, :agreed_event_condition_message,
              fallbacks_for_empty_translations: true
 
-  include FlagShihTzu
-
-  has_flags 1 => :top_ups, 2 => :refunds, column: "features"
-  has_flags 1 => :paypal, 2 => :redsys, 3 => :braintree, 4 => :stripe, 5 => :paypal_nvp,
-            6 => :ideal, 7 => :sofort, 8 => :wirecard, column: "payment_services"
-  has_flags 1 => :bank_account, 2 => :epg, 3 => :tipalti, 4 => :direct, column: "refund_services"
-  has_flags 1 => :phone, 2 => :address, 3 => :city, 4 => :country, 5 => :postcode, 6 => :gender,
-            7 => :birthdate, 8 => :agreed_event_condition, column: "registration_parameters"
-  has_flags 1 => :en_lang, 2 => :es_lang, 3 => :it_lang, 4 => :th_lang, 5 => :de_lang, column: "locales"
+  # State machine
+  include EventState
+  # FlagShihTzu
+  include EventFlags
 
   # Associations
   has_many :company_ticket_types
@@ -106,9 +101,6 @@ class Event < ActiveRecord::Base
   validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
 
-  # State machine
-  include EventState
-
   def standard_credit_price
     credits.standard.value
   end
@@ -129,8 +121,8 @@ class Event < ActiveRecord::Base
 
   def get_parameter(category, group, name)
     event_parameters.includes(:parameter)
-      .find_by(parameters: { category: category, group: group, name: name })
-      .value
+                    .find_by(parameters: { category: category, group: group, name: name })
+                    .value
   end
 
   def selected_locales_formated
@@ -151,12 +143,12 @@ class Event < ActiveRecord::Base
     fee = refund_fee(refund_service)
     min = refund_minimun(refund_service)
     gtags.joins(credential_assignments: [profile: :customer_credits])
-      .where("credential_assignments.aasm_state = 'assigned'")
-      .having("sum(customer_credits.credit_value * customer_credits.final_refundable_balance) - " \
-              "#{fee} >= #{min}")
-      .having("sum(customer_credits.credit_value * customer_credits.final_refundable_balance) - " \
-              "#{fee} > 0")
-      .group("gtags.id")
+         .where("credential_assignments.aasm_state = 'assigned'")
+         .having("sum(customer_credits.credit_value * customer_credits.final_refundable_balance)" \
+              " - #{fee} >= #{min}")
+         .having("sum(customer_credits.credit_value * customer_credits.final_refundable_balance)" \
+              " - #{fee} > 0")
+         .group("gtags.id")
   end
 
   def generate_token

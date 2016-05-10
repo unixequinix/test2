@@ -34,16 +34,16 @@ class CredentialType < ActiveRecord::Base
 
   def last_position
     CredentialType.joins(:catalog_item)
-      .where(catalog_items: { event_id: catalog_item.event_id })
-      .order("memory_position DESC")
-      .first.try(:memory_position) || 0
+                  .where(catalog_items: { event_id: catalog_item.event_id })
+                  .order("memory_position DESC")
+                  .first.try(:memory_position) || 0
   end
 
   def calculate_memory_position
     CredentialType.joins(:catalog_item)
-      .where(catalog_items: { event_id: catalog_item.event_id })
-      .where("memory_position > ?", memory_position)
-      .each { |ct| CredentialType.decrement_counter(:memory_position, ct.id) }
+                  .where(catalog_items: { event_id: catalog_item.event_id })
+                  .where("memory_position > ?", memory_position)
+                  .each { |ct| CredentialType.decrement_counter(:memory_position, ct.id) }
   end
 
   def valid_position

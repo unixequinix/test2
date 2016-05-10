@@ -22,7 +22,7 @@ RSpec.describe Operations::Credit::BalanceUpdater, type: :job do
 
   it "includes payment method of 'credits'" do
     params[:profile_id] = profile.id
-    credit = worker.perform_later(params)
+    credit = worker.perform_now(params)
     expect(credit.payment_method).to eq("credits")
   end
 
@@ -32,23 +32,28 @@ RSpec.describe Operations::Credit::BalanceUpdater, type: :job do
   end
 
   it "renames credits to amount" do
-    hash = {
-      credit_value: 1,
-      final_balance: 30,
-      final_refundable_balance: 30,
-      transaction_origin: "device",
-      profile_id: profile.id
-    }
-    allow(Operations::Base).to receive(:column_attributes).and_return(hash)
-    worker.perform_later(params)
-    expect(hash[:amount]).to eq(params[:credits])
+    atts = hash_including(amount: params[:credits])
+    expect(CustomerCredit).to receive(:create!).with(atts)
+    worker.perform_now(params)
+  end
+
+  it "sets payment_method to 'credits'" do
+    atts = hash_including(payment_method: "credits")
+    expect(CustomerCredit).to receive(:create!).with(atts)
+    worker.perform_now(params)
+  end
+
+  it "renames credits_refundable to refundable_amount" do
+    atts = hash_including(refundable_amount: params[:credits_refundable])
+    expect(CustomerCredit).to receive(:create!).with(atts)
+    worker.perform_now(params)
   end
 
   %w( topup fee refund sale sale_refund ).each_with_index do |action, _index|
     it "it is a subscriber for the action '#{action}'" do
       expect(worker).to receive(:perform_later).once
       params[:transaction_type] = action
-      params[:device_created_at] = Time.now.to_s
+      params[:device_created_at] = Time.zone.now.to_s
       base.perform_later(params)
     end
   end

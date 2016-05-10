@@ -25,7 +25,7 @@ class CompanyTicketType < ActiveRecord::Base
   validates :name, :company_code, :company_event_agreement, presence: true
   validates :company_code, uniqueness: { scope: :company_event_agreement }
 
-  scope :companies, lambda  { |_event|
+  scope :companies, lambda { |_event|
     joins(company_event_agreement: :company)
       .where(company_event_agreements: { event_id: Event.first.id })
       .pluck("companies.name").uniq
@@ -33,7 +33,7 @@ class CompanyTicketType < ActiveRecord::Base
 
   def self.search_by_company_and_event(company_name, event)
     CompanyTicketType.joins(company_event_agreement: :company)
-      .where(companies: { name: company_name }, event: event)
+                     .where(companies: { name: company_name }, event: event)
   end
 
   def self.form_selector(event)

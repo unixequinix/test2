@@ -172,6 +172,12 @@ es:
       card_code_verification: "Código de verificación (CCV)"
       card_expiration_date: "Fecha de caducidad"
       button: "Pagar"
+    wirecard:
+      card_number: "Número de tarjeta"
+      card_code_verification: "Código de verificación (CCV)"
+      card_expiration_date: "Fecha de caducidad"
+      card_holder: "Titular"
+      button: "Pagar"
     braintree:
       card_number: "Número de tarjeta"
       card_code_verification: "Código de verificación (CCV)"
@@ -297,7 +303,7 @@ es:
   sessions:
     first_register:
       welcome: 'Bienvenido!!'
-      description_with_credentiable: 'Por favor, seleeciona que quieres registrar para continuar'
+      description_with_credentiable: 'Por favor, para continuar con el evento:'
       description_without_credentiable: "No hay nada que puedas hacer ahora mismo, vuelve más tarde"
     welcome: 'Bienvenido!'
     create_account:

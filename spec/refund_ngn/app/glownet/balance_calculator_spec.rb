@@ -2,9 +2,7 @@ require "rails_helper"
 
 RSpec.describe BalanceCalculator, type: :domain_logic do
   describe "It performs the needed operations about balances" do
-    let(:profile) do
-      create(:profile)
-    end
+    let(:profile) { create(:profile) }
 
     let(:balance_calculator) { BalanceCalculator.new(profile) }
 
@@ -19,7 +17,6 @@ RSpec.describe BalanceCalculator, type: :domain_logic do
 
     it ".valid_balance? returns true if the balance is valid after the event" do
       create(:customer_credit_online, profile: profile)
-      binding.pry
       expect(balance_calculator.valid_balance?).to eq(true)
     end
   end

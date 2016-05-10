@@ -164,10 +164,11 @@ it:
       wirecard:
         name: "Credit card"
         icon: "credit-card"
-    stripe:
+    wirecard:
       card_number: "Card number"
       card_code_verification: "Card code verification (CCV)"
       card_expiration_date: "Card expiration date"
+      card_holder: "Card Holder"
       button: "Pay"
     braintree:
       card_number: "Card number"
@@ -298,7 +299,7 @@ it:
   sessions:
     first_register:
       welcome: 'Bienvenido!!'
-      description_with_credentiable: "Please, to continue with your event choose what you  want to register first"
+      description_with_credentiable: "Please, to continue with your event:"
       description_without_credentiable: "There's nothing you can do right now, please come back later"
     welcome: 'Welcome!'
     create_account:

@@ -41,11 +41,11 @@ class Payments::PaypalNvpPayer
 
   def create_agreement(charge_object, autotopup_amount, email)
     @profile.payment_gateway_customers
-      .find_or_create_by(gateway_type: EventDecorator::PAYPAL_NVP)
-      .update(token: charge_object["BILLINGAGREEMENTID"],
-              agreement_accepted: true,
-              autotopup_amount: autotopup_amount,
-              email: email)
+            .find_or_create_by(gateway_type: EventDecorator::PAYPAL_NVP)
+            .update(token: charge_object["BILLINGAGREEMENTID"],
+                    agreement_accepted: true,
+                    autotopup_amount: autotopup_amount,
+                    email: email)
     @profile.save
   end
 

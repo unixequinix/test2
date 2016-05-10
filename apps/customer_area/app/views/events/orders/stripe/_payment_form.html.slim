@@ -17,7 +17,7 @@
       = label_tag t('orders.stripe.card_expiration_date'), nil, required: true, class: "expiration-label"
       .wrapper-selects
         = select_tag :exp_month, options_for_select(Date::MONTHNAMES.compact.each_with_index.map { |name,i| ["#{i+1} - #{name}", i+1] }), include_blank: false, "data-stripe" => "exp-month", class: "payment-expiration-year"
-        = select_tag :exp_year, options_for_select((Date.today.year..(Date.today.year+10)).to_a), include_blank: false, "data-stripe" => "exp-year", class: "payment-expiration-month"
+        = select_tag :exp_year, options_for_select((Time.zone.today.year..(Time.zone.today.year+10)).to_a), include_blank: false, "data-stripe" => "exp-year", class: "payment-expiration-month"
       = hidden_field_tag :order_id, order_presenter.order.id
       .actions
         = submit_tag t('orders.button'), class: "btn btn-action btn-action-primary"

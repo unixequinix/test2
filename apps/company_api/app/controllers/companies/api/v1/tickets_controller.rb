@@ -69,7 +69,7 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
 
     update_params = ticket_params
     purchaser_attributes = update_params[:purchaser_attributes]
-    purchaser_attributes.merge!(id: @ticket.purchaser.id) if purchaser_attributes
+    purchaser_attributes[:id] = @ticket.purchaser.id if purchaser_attributes
 
     render(status: :unprocessable_entity,
            json: { status: "unprocessable_entity",

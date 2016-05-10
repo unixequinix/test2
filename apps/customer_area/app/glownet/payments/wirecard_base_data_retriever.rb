@@ -12,10 +12,10 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
     @current_event = event
     @order = order
     @payment_parameters = Parameter.joins(:event_parameters)
-                          .where(category: "payment",
-                                 group: "wirecard",
-                                 event_parameters: { event: event })
-                          .select("parameters.name, event_parameters.*")
+                                   .where(category: "payment",
+                                          group: "wirecard",
+                                          event_parameters: { event: event })
+                                   .select("parameters.name, event_parameters.*")
   end
 
   def customer_id
@@ -47,7 +47,7 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
   end
 
   def cancel_url
-    "http://2bad6936.ngrok.io/frontend/service_url.php"
+    "https://example.com"
   end
 
   def failure_url(method)
@@ -55,7 +55,7 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
   end
 
   def service_url
-    "http://2bad6936.ngrok.io/frontend/service_url.php"
+    "https://example.com"
   end
 
   def confirm_url(method)

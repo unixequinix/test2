@@ -25,9 +25,7 @@ RSpec.feature "Gtag assignation", type: :feature do
       it "should be able to assign a gtag" do
         visit "/#{@event_creator.event.slug}/gtag_assignments/new"
         within("form") do
-          line1 = "gtag_assignations.placeholders.#{@gtag_format}.line_1"
           line2 = "gtag_assignations.placeholders.#{@gtag_format}.line_2"
-          fill_in(t(line1), with: @gtag.tag_serial_number)
           fill_in(t(line2), with: @gtag.tag_uid)
         end
         click_button(t("gtag_assignations.button"))

@@ -10,12 +10,12 @@ module ProfileEconomy
 
   def ticket_credits
     customer_credits.where.not(transaction_origin: CustomerCredit::CREDITS_PURCHASE)
-      .sum(:amount).floor
+                    .sum(:amount).floor
   end
 
   def purchased_credits
     customer_credits.where(transaction_origin: CustomerCredit::CREDITS_PURCHASE)
-      .sum(:amount).floor
+                    .sum(:amount).floor
   end
 
   def refundable_credits_amount

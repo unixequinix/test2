@@ -15,8 +15,9 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
 
   def show
     @ticket = @fetcher.tickets
-              .includes(credential_assignments: [profile: :customer],
-                        company_ticket_type: [company_event_agreement: :company]).find(params[:id])
+                      .includes(credential_assignments: [profile: :customer],
+                                company_ticket_type: [company_event_agreement: :company])
+                      .find(params[:id])
   end
 
   def new
@@ -55,11 +56,10 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
     @ticket = @fetcher.tickets.find(params[:id])
     if @ticket.destroy
       flash[:notice] = I18n.t("alerts.destroyed")
-      redirect_to admins_event_tickets_url
     else
       flash[:error] = @ticket.errors.full_messages.join(". ")
-      redirect_to admins_event_tickets_url
     end
+    redirect_to admins_event_tickets_url
   end
 
   def destroy_multiple
@@ -79,7 +79,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
     lines = params[:file][:data].tempfile.map { |line| line.split(",") }
     lines.delete_at(0)
 
-    lines.each do |tt_name, tt_code, c_name, barcode, f_name, l_name, email|
+    lines.each do |tt_name, tt_code, c_name, barcode, f_name, l_name, mail|
       com = Company.find_by("LOWER(name) = ?", c_name.downcase) || Company.create!(name: c_name)
       agree = com.company_event_agreements.find_or_create_by!(event: event, aasm_state: "granted")
 
@@ -89,11 +89,60 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
       ticket_params = { code: barcode, company_ticket_type: ticket_type, event: event }
       ticket = Ticket.find_or_create_by!(ticket_params)
 
-      p_params = { first_name: f_name, last_name: l_name, email: email.strip, credentiable: ticket }
+      p_params = { first_name: f_name, last_name: l_name, email: mail&.strip, credentiable: ticket }
       Purchaser.find_or_create_by!(p_params)
     end
 
     redirect_to(admins_event_tickets_path(event), notice: "Tickets imported")
+  end
+
+  def ban
+    ticket = @fetcher.tickets.find(params[:id])
+    ticket.update(banned: true)
+    station = current_event.stations
+                           .joins(:station_type)
+                           .find_by(station_types: { name: "customer_portal" })
+    atts = {
+      event_id: current_event.id,
+      station_id: station.id,
+      transaction_category: "ban",
+      transaction_origin: "customer_portal",
+      transaction_type: "ban_ticket",
+      banneable_id: ticket.id,
+      banneable_type: "Ticket",
+      reason: "",
+      status_code: 0,
+      status_message: "OK"
+    }
+    Operations::Base.new.portal_write(atts)
+    redirect_to(admins_event_tickets_url)
+  end
+
+  def unban
+    ticket = @fetcher.tickets.find(params[:id])
+
+    if ticket.assigned_profile&.banned?
+      flash[:error] = "Assigned profile is banned, unban it or unassign the ticket first"
+    else
+      ticket.update(banned: false)
+      station = current_event.stations
+                             .joins(:station_type)
+                             .find_by(station_types: { name: "customer_portal" })
+      atts = {
+        event_id: current_event.id,
+        station_id: station.id,
+        transaction_category: "ban",
+        transaction_origin: "customer_portal",
+        transaction_type: "unban_ticket",
+        banneable_id: ticket.id,
+        banneable_type: "Ticket",
+        reason: "",
+        status_code: 0,
+        status_message: "OK"
+      }
+      Operations::Base.new.portal_write(atts)
+    end
+    redirect_to(admins_event_tickets_url)
   end
 
   private
@@ -107,7 +156,6 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
       context: view_context,
       include_for_all_items: [:company_ticket_type,
                               :assigned_ticket_credential,
-                              :purchaser,
                               credential_assignments: :profile])
   end
 
@@ -117,6 +165,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
       :code,
       :company_ticket_type_id,
       :credential_redeemed,
+      :banned,
       purchaser_attributes: [:id, :first_name, :last_name, :email])
   end
 end

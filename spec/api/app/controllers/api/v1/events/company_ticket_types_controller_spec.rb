@@ -10,7 +10,7 @@ RSpec.describe Api::V1::Events::CompanyTicketTypesController, type: :controller 
   before do
     create_list(:company_ticket_type, 2, event: event)
     @new_ticket_type = create(:company_ticket_type, event: event)
-    @new_ticket_type.update!(updated_at: Time.now + 4.hours)
+    @new_ticket_type.update!(updated_at: Time.zone.now + 4.hours)
   end
 
   describe "GET index" do

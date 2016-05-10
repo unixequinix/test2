@@ -58,7 +58,7 @@ class AccountManager::Stripe
     legal_entity(@account.legal_entity, params[:stripe_payment_settings_form])
     tos = @account.tos_acceptance
     tos.ip = request.remote_ip
-    tos.date = Time.now.to_i
+    tos.date = Time.zone.now.to_i
     @account.save
   end
 

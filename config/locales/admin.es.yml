@@ -75,6 +75,7 @@ es:
         touchpoint: "Touchpoint"
       station_catalog_item:
         name: "Nombre"
+        type: "Tipo"
         description: "Descripción"
         price: "Precio"
       station_product:
@@ -241,6 +242,7 @@ es:
       item_not_found: "No se encontraron %{item}"
       search: "Buscar"
       all: "Seleccionar"
+      empty_events: "No hay eventos"
     sessions:
       mail: "user@domain.com"
       password: "password"
@@ -311,7 +313,7 @@ es:
       company_code: "Código de la compañía"
       credential_type: "Tipo de credencial"
     entitlement:
-      infinite: "Ilimitado"
+      mode: "Modo"
       memory_length: "Longitud"
       memory_position: "Posición en memoria"
     products:
@@ -330,6 +332,7 @@ es:
     tickets:
       id: "Id"
       code: "Código"
+      banned: "Baneado"
       company_ticket_type: "Tipo de ticket de compañía"
       ticket_type_simplified: "Tipo de Ticket Simplificado"
       customer: "Cliente asignado"
@@ -363,6 +366,8 @@ es:
       id: "Id"
       tag: "Tag UID"
       serial: "Tag Número Serial"
+      banned: "Baneado"
+      tickets: "Tickets"
       customer: "Cliente"
       assigned_at: "Asignado el"
       created_at: "Creado el"
@@ -405,6 +410,7 @@ es:
     profile:
       id: "Id"
     customers:
+      banned: "Baneado"
       delete: "Borrado"
       email: "Email"
       first_name: "Nombre"
@@ -526,7 +532,6 @@ es:
       customer_id: "Customer Id"
       customer_name: "Nombre del cliente"
       customer_email: "Email del cliente"
-      gtag_serial_number: "Número de serie"
       gtag_uid: "UID"
       iban: "Número IBAN"
       swift: "Número BIC/SWIFT"

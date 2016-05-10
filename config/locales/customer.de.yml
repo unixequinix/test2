@@ -156,6 +156,12 @@ de:
       card_code_verification: "Kartenprüfnummer (CCV)"
       card_expiration_date: "Ablaufdatum der Karte"
       button: "Bezahlen"
+    wirecard:
+      card_number: "Kartennummer"
+      card_code_verification: "Kartenprüfnummer (CCV)"
+      card_expiration_date: "Ablaufdatum der Karte"
+      card_holder: "Card Holder"
+      button: "Bezahlen"
     braintree:
       card_number: "Kartennummer"
       card_code_verification: "Kartenprüfnummer (CCV)"
@@ -285,7 +291,8 @@ de:
   sessions:
     first_register:
       welcome: Willkommen!'
-      description: 'Um mit Ihrer Veranstaltung fortzufahren, wählen Sie bitte aus, was Sie zuerst registrieren möchten'
+      description_with_credentiable: "Please, to continue with your event:"
+      description_without_credentiable: "There's nothing you can do right now, please come back later"
     welcome: 'Willkommen!'
     create_account:
       title: 'Sie haben noch kein Konto?'

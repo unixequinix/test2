@@ -43,15 +43,7 @@ class Ticket < ActiveRecord::Base
   validates :company_ticket_type_id, presence: true
 
   scope :selected_data, lambda { |event_id|
-    joins("LEFT OUTER JOIN admissions ON admissions.ticket_id = tickets.id
-           AND admissions.deleted_at IS NULL")
-      .joins("LEFT OUTER JOIN profiles
-              ON profiles.id = admissions.profile_id
-              AND profiles.deleted_at IS NULL")
-      .joins("LEFT OUTER JOIN customers
-              ON customers.id = profiles.customer_id
-              AND customers.deleted_at IS NULL")
-      .select("tickets.*, customers.email, customers.first_name, customers.last_name")
+    select("id, event_id, company_ticket_type_id, code, banned, credential_redeemed")
       .where(event: event_id)
   }
 

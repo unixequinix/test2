@@ -38,10 +38,10 @@ class Station < ActiveRecord::Base
 
   after_create :add_basic_credit
 
-  ACCREDITATION_STATIONS = [:customer_portal, :box_office]
-  POINT_OF_SALE_STATIONS = [:point_of_sales]
-  TOPUP_STATIONS = [:top_up_refund]
-  ACCESS_CONTROL_STATIONS = [:access_control]
+  ACCREDITATION_STATIONS = [:customer_portal, :box_office, :staff_accreditation].freeze
+  POINT_OF_SALE_STATIONS = [:point_of_sales].freeze
+  TOPUP_STATIONS = [:top_up_refund].freeze
+  ACCESS_CONTROL_STATIONS = [:access_control].freeze
 
   def unassigned_catalog_items
     CatalogItem.where("id NOT IN (
