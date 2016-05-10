@@ -32,6 +32,11 @@ RSpec.describe Operations::Base, type: :job do
     base.perform_now(params)
   end
 
+  it "creates transactions based on transaction_category" do
+    obj = base.perform_now(params)
+    expect(obj.errors.full_messages).to be_empty
+  end
+
   describe "when passed sale_items in attributes" do
     before do
       params.merge!(sale_items_attributes: [{ product_id: 4, quantity: 1.0, unit_price: 8.31 },
@@ -46,11 +51,6 @@ RSpec.describe Operations::Base, type: :job do
       params[:transaction_category] = "money"
       expect { base.perform_now(params) }.to raise_error(ActiveRecord::UnknownAttributeError)
     end
-  end
-
-  it "creates transactions based on transaction_category" do
-    obj = base.perform_now(params)
-    expect(obj.errors.full_messages).to be_empty
   end
 
   context "when tag_uid is present in DB" do
