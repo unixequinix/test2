@@ -100,7 +100,10 @@ $success_border:   rgba(150, 150, 150, 0.3);
 .error {
   position: relative;
   padding: 0 modules(0.5);
-  border-radius: $radius;
+  background: $red;
+  color: $white;
+  font-weight: bold;
+  z-index: 10;
 
   &:before {
     position: absolute;

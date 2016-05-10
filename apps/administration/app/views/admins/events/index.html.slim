@@ -8,7 +8,7 @@
   - if @events.empty?
     .section-title-empty
       = image_tag "img-empty.png"
-      p = t("admin.defaults.empty_entitlements")
+      p = t("admin.defaults.empty_events")
       = link_to t("actions.new"), new_admins_event_path, class: "btn btn-action btn-action-new"
   - else
     = render "admins/events/list", events: @events
