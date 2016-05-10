@@ -32,11 +32,20 @@ RSpec.describe Operations::Base, type: :job do
     base.perform_now(params)
   end
 
-  it "saves sale_items" do
-    sale_items_atts = { sale_items_attributes: [
-      { product_id: 4, quantity: 1.0, unit_price: 8.31 },
-      { product_id: 5, quantity: 1.0, unit_price: 2.72 }] }
-    expect { base.perform_now(params.merge(sale_items_atts)) }.to change(SaleItem, :count).by(2)
+  describe "when passed sale_items in attributes" do
+    before do
+      params.merge!(sale_items_attributes: [{ product_id: 4, quantity: 1.0, unit_price: 8.31 },
+                                            { product_id: 5, quantity: 1.0, unit_price: 2.72 }])
+    end
+
+    it "saves sale_items" do
+      expect { base.perform_now(params) }.to change(SaleItem, :count).by(2)
+    end
+
+    it "fails if transaction does not accept sale_items" do
+      params[:transaction_category] = "money"
+      expect { base.perform_now(params) }.to raise_error(ActiveRecord::UnknownAttributeError)
+    end
   end
 
   it "creates transactions based on transaction_category" do
