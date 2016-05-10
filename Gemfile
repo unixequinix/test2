@@ -127,6 +127,7 @@ group :development, :test do
   gem 'capistrano'
   gem 'capistrano-rails', '~> 1.1.3'
   gem 'capistrano-rvm'
+  gem 'capistrano-bundler'
   gem 'capistrano-passenger'
   gem 'capistrano-sidekiq', '~> 0.5.3'
   gem 'capistrano-faster-assets', '~> 1.0'
