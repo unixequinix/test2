@@ -99,7 +99,7 @@ $success_border:   rgba(150, 150, 150, 0.3);
 
 .error {
   position: relative;
-  padding: modules(0.5);
+  padding: 0 modules(0.5);
   background: $red;
   color: $white;
   font-weight: bold;
