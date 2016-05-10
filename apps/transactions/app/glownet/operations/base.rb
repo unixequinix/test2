@@ -13,7 +13,8 @@ class Operations::Base < ActiveJob::Base
     profile_id = Profile::Checker.for_transaction(atts)
 
     obj_atts = column_attributes(klass, atts)
-    obj_atts[:sale_items_attributes] = atts[:sale_items_attributes].to_a
+    items = atts[:sale_items_attributes].to_a
+    obj_atts[:sale_items_attributes] = items if items.any?
     obj_atts[:profile_id] = profile_id
     obj = klass.create!(obj_atts)
 
