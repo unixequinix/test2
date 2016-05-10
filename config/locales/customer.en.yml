@@ -168,6 +168,12 @@ en:
       card_code_verification: "Card code verification (CCV)"
       card_expiration_date: "Card expiration date"
       button: "Pay"
+    wirecard:
+      card_number: "Card number"
+      card_code_verification: "Card code verification (CCV)"
+      card_expiration_date: "Card expiration date"
+      card_holder: "Card Holder"
+      button: "Pay"
     braintree:
       card_number: "Card number"
       card_code_verification: "Card code verification (CCV)"
