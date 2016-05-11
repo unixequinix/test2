@@ -1,9 +1,6 @@
 class Admins::Events::CreditTransactionsController < Admins::Events::BaseController
   before_filter :set_presenter, only: [:index, :search]
 
-  def index
-  end
-
   def search
     render :index
   end
