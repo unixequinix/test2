@@ -50,7 +50,7 @@ RSpec.describe Operations::Base, type: :job do
     allow(Operations::Credit::BalanceUpdater).to receive(:perform_now)
   end
 
-  it "should work for real params" do
+  it "works for real params" do
     expect { base.perform_now(real_params) }.not_to raise_error
   end
 
@@ -62,6 +62,22 @@ RSpec.describe Operations::Base, type: :job do
   it "creates transactions based on transaction_category" do
     obj = base.perform_now(params)
     expect(obj.errors.full_messages).to be_empty
+  end
+
+  describe "when sale_items_attributes is blank" do
+    before do
+      expect(CreditTransaction).to receive(:create!).with(hash_not_including(:sale_item_attributes))
+        .and_return(CreditTransaction.new)
+    end
+    after { base.perform_now(params) }
+
+    it "removes sale_item_attributes when empty" do
+      params[:sale_item_attributes] = []
+    end
+
+    it "removes sale_item_attributes when nil" do
+      params[:sale_item_attributes] = nil
+    end
   end
 
   describe "when passed sale_items in attributes" do
