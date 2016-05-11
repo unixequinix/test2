@@ -13,7 +13,7 @@ table.accesses
       th = t('admin.entitlement.memory_position')
       th.table-actions-field = t('admin.defaults.actions')
   tbody
-    - accesses.each do |access|
+    - @accesses.each do |access|
       tr
         td data-label=t('admin.catalog_item.name') = link_to(access.catalog_item.name, edit_admins_event_access_path(current_event, access))
         td data-label=t('admin.catalog_item.description') = access.catalog_item.description
@@ -26,4 +26,4 @@ table.accesses
         td data-label=t('admin.entitlement.memory_position') = access.entitlement.memory_position
         td.table-actions-field
           = render 'admins/events/accesses/actions', access: access unless current_event.started?
-= paginate accesses
+= paginate @accesses
