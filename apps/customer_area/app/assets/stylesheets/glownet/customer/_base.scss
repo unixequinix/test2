@@ -79,7 +79,6 @@ a {
   margin-bottom: 0;
   color: $color_text;
   line-height: 1;
-  font-weight: bold;
 
   .currency-symbol {
     @include mscale($base-font-size * 2.5);
