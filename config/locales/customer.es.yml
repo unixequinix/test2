@@ -307,7 +307,7 @@ es:
       description_without_credentiable: "No hay nada que puedas hacer ahora mismo, vuelve más tarde"
     welcome: 'Bienvenido!'
     create_account:
-      title: 'No tienes cuanta aún?'
+      title: 'No tienes cuenta aún?'
       link: 'Crea una gratis!'
     log_in:
       title: 'Ya tienes cuenta?'

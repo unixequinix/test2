@@ -313,7 +313,7 @@ th:
       description_without_credentiable: "There's nothing you can do right now, please come back later"
     welcome: 'Welcome!'
     create_account:
-      title: 'Don´t you have an account?'
+      title: 'Don´t have an account?'
       link: 'Get a free one!'
     log_in:
       title: 'Already have an account?'
