@@ -18,14 +18,14 @@ class TicketAssignmentForm
       items = open_pack(ticket)
       infinites = items.all? { |item| item.catalogable.try(:entitlement)&.infinite? }
       items_owned = current_profile.customer_orders.map(&:catalog_item)
+      same_items = (items - items_owned).empty?
 
-      add_error("alerts.credential_already_assigned") if infinites && (items - items_owned).empty?
+      add_error("alerts.credential_already_assigned") && return if infinites && same_items
     end
 
-    add_error("alerts.ticket_already_assigned") if ticket.assigned_ticket_credential.present?
-    add_error(full_messages.to_sentence) unless valid?
-
-    return if errors.any?
+    credential = ticket.assigned_ticket_credential
+    add_error("alerts.ticket_already_assigned") && return if credential.present?
+    add_error(full_messages.to_sentence) && return unless valid?
 
     current_profile.save
     current_profile.credential_assignments.create(credentiable: ticket)
