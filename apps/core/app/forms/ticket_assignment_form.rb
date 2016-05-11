@@ -9,7 +9,7 @@ class TicketAssignmentForm
   def save(ticket_fetcher, current_profile, current_event)
     ticket = ticket_fetcher.find_by(code: code.strip)
 
-    add_error("alerts.ticket_doesnt_exist") and return if ticket.blank?
+    add_error("alerts.ticket_doesnt_exist") && return if ticket.blank?
     companies = CompanyTicketType.companies(current_event).join(", ")
 
     return unless valid_ticket?(ticket, companies, current_profile)

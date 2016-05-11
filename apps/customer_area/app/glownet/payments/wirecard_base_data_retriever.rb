@@ -18,10 +18,6 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
                                    .select("parameters.name, event_parameters.*")
   end
 
-  def customer_id
-    get_value_of_parameter("customer_id")
-  end
-
   def amount
     @order.total_formated
   end
@@ -30,31 +26,7 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
     @current_event.currency
   end
 
-  def payment_type
-    "SELECT"
-  end
-
-  def language
-    I18n.locale.to_s
-  end
-
-  def order_description
-    "Order Number #{@order.number}"
-  end
-
-  def success_url(method)
-    success_event_order_payment_service_asynchronous_payments_url(@current_event, @order, method)
-  end
-
   def cancel_url
-    "https://example.com"
-  end
-
-  def failure_url(method)
-    error_event_order_payment_service_asynchronous_payments_url(@current_event, @order.id, method)
-  end
-
-  def service_url
     "https://example.com"
   end
 
@@ -68,6 +40,34 @@ class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
 
   def consumer_ip_address
     @ip
+  end
+
+  def customer_id
+    get_value_of_parameter("customer_id")
+  end
+
+  def failure_url(method)
+    error_event_order_payment_service_asynchronous_payments_url(@current_event, @order.id, method)
+  end
+
+  def order_description
+    "Order Number #{@order.number}"
+  end
+
+  def payment_type
+    "SELECT"
+  end
+
+  def language
+    I18n.locale.to_s
+  end
+
+  def success_url(method)
+    success_event_order_payment_service_asynchronous_payments_url(@current_event, @order, method)
+  end
+
+  def service_url
+    "https://example.com"
   end
 
   def secret_key

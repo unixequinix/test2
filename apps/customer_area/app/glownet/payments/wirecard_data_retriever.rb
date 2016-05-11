@@ -1,8 +1,36 @@
 class Payments::WirecardDataRetriever < Payments::WirecardBaseDataRetriever
   include Payments::WirecardDataStorage
 
+  def auto_deposit
+    "no"
+  end
+
+  def confirm_url
+    super("wirecard")
+  end
+
+  def duplicate_request_check
+    "false"
+  end
+
+  def failure_url
+    super("wirecard")
+  end
+
+  def noscript_info_url
+    "http://2bad6936.ngrok.io/frontend/service_url.php"
+  end
+
+  def order_ident
+    @order.number
+  end
+
   def payment_type
     "CCARD"
+  end
+
+  def return_url
+    "http://2bad6936.ngrok.io/frontend/fallback_return.php"
   end
 
   def shop_id
@@ -10,40 +38,12 @@ class Payments::WirecardDataRetriever < Payments::WirecardBaseDataRetriever
     environment == "production" ? "" : "qmore"
   end
 
-  def order_ident
-    @order.number
-  end
-
-  def auto_deposit
-    "no"
-  end
-
-  def duplicate_request_check
-    "false"
-  end
-
-  def window_name
-    "wirecard-credit-card"
-  end
-
   def success_url
     super("wirecard")
   end
 
-  def failure_url
-    super("wirecard")
-  end
-
-  def confirm_url
-    super("wirecard")
-  end
-
-  def return_url
-    "http://2bad6936.ngrok.io/frontend/fallback_return.php"
-  end
-
-  def noscript_info_url
-    "http://2bad6936.ngrok.io/frontend/service_url.php"
+  def window_name
+    "wirecard-credit-card"
   end
 
   private
