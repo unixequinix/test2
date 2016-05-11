@@ -1,6 +1,8 @@
 class Admins::Events::AccessesController < Admins::Events::BaseController
   def index
-    set_presenter
+    @accesses = @fetcher.accesses
+                        .includes(:entitlement, catalog_item: :credential_type)
+                        .page(params[:page])
   end
 
   def new

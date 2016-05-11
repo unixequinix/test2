@@ -5,7 +5,7 @@
     = t('admin.actions.new')
 
 .wrapper-negative-space
-  - if @list_model_presenter.there_any?
-    = render 'admins/events/accesses/list', accesses: @list_model_presenter.all_items
+  - if @accesses.any?
+    = render "admins/events/accesses/list"
   - else
-    = render @list_model_presenter.no_items_for_presentation
+    = render "admins/events/shared/no_results"
