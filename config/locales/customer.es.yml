@@ -1,4 +1,8 @@
 es:
+  purchases:
+    accesses: "Accesos"
+    packs: "Packs"
+    vouchers: "Cupones"
   currency_symbol: EUR
   actions:
     back: "Atrás"

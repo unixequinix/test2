@@ -1,4 +1,8 @@
 it:
+  purchases:
+    accesses: "Accesses"
+    packs: "Packs"
+    vouchers: "Vouchers"
   currency_symbol: EUR
   actions:
     back: "Torna indietro"
