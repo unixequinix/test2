@@ -7,7 +7,7 @@ class CustomerCreditCreator
     final_balance = credits.sum(:amount) + atts[:amount]
     final_refundable_balance = credits.sum(:refundable_amount) + atts[:refundable_amount]
 
-    profile.customer_credits.create(
+    profile.customer_credits.create!(
       transaction_origin: atts[:transaction_origin],
       payment_method: atts[:payment_method],
       credit_value: atts[:credit_value],
