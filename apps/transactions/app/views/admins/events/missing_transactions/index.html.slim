@@ -5,7 +5,7 @@
     = t('actions.search')
     
 .wrapper-negative-space
-  - if @missing
+  - if @missing.present?
     - @missing.each do |uid, hash|
       h3 = "Device: #{uid}"
       table.transactions

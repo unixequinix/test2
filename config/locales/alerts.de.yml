@@ -7,7 +7,7 @@ de:
     destroyed: "Erfolgreich entfernt"
     unassigned: "Erfolgreich nicht zugeteilt"
     error: "Formfehler prüfen"
-    checkout: "Sie können nur numerische Daten ohne Dezimale und niedriger als %{limit} verwenden"
+    checkout: 'You can only introduce numeric data without decimals, bigger than 0 and lower than %{limit}'
     admissions:  "Ticket nicht erkannt. Wenn Sie es innerhalb der vergangenen 48 Stunden erworben haben, versuchen Sie es bitte später wieder, während wir Ihre Kaufinformationen aktualisieren. Andernfalls wenden Sie sich bitte an den Support. Bitte beachten Sie, dass nur %{companies} Tickets für diesen Vor-Veranstaltungsservice unterstützt werden."
     order_complete: "Bestellung abgeschlossen"
     order_expired: "Bestellung abgelaufen. Mehr als 15 Minuten vergangen."

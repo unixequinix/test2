@@ -42,7 +42,7 @@ class Profile < ActiveRecord::Base # rubocop:disable ClassLength
            -> { where(credentiable_type: "Ticket") },
            class_name: "CredentialAssignment", dependent: :destroy
   # credential_assignments_gtags
-  has_many :gtag_assignment,
+  has_many :gtag_assignments,
            -> { where(credentiable_type: "Gtag") },
            class_name: "CredentialAssignment", dependent: :destroy
   # credential_assignments_assigned
@@ -139,17 +139,14 @@ class Profile < ActiveRecord::Base # rubocop:disable ClassLength
   end
 
   def infinite_entitlements_purchased
-    single_entitlements = customer_orders.select do |customer_order|
+    single = customer_orders.includes(catalog_item: :catalogable).select do |customer_order|
       customer_order.catalog_item.catalogable.try(:entitlement).try(:infinite?)
     end.map(&:catalog_item_id)
 
-    pack_entitlements = CatalogItem.where(
-      catalogable_id: Pack.joins(:catalog_items_included)
-                          .where(catalog_items: { id: single_entitlements }),
-      catalogable_type: "Pack")
-                                   .pluck(:id)
+    packs_ids = Pack.joins(:catalog_items_included).where(catalog_items: { id: single })
+    pack = CatalogItem.where(catalogable_id: packs_ids, catalogable_type: "Pack").pluck(:id)
 
-    single_entitlements + pack_entitlements
+    single + pack
   end
 
   def sorted_purchases(**params)

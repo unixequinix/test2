@@ -9,7 +9,9 @@ class CustomerCreditTicketCreator < CustomerCreditCreator
 
   def loop_credits(ticket, origin, sign = 1)
     ticket.credits.each do |credit|
-      params = { amount: (credit.total_amount * sign), origin: origin, credit_value: credit.value }
+      params = { amount: (credit.total_amount * sign),
+                 transaction_origin: origin,
+                 credit_value: credit.value }
       create_credit(ticket.assigned_profile, params)
     end
   end

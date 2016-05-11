@@ -17,6 +17,8 @@ module EventState
 
       event :start do
         transitions from: :launched, to: :started
+        # TODO: Validates Company Ticket Types
+        # TODO: Validates Device Private Key
       end
 
       event :finish do
