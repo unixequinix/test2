@@ -27,9 +27,7 @@ RSpec.feature "Admin create catalog items", type: :feature do
 
     it "should be able to create an access" do
       visit "/admins/events/#{@event.slug}/accesses"
-      within(".action-bar-btns") do
-        click_link(t("admin.actions.new"))
-      end
+      click_link(t("admin.actions.new"))
       fill_in(t("admin.catalog_item.name"), with: "A name")
       fill_in(t("admin.catalog_item.description"), with: "An interesting description")
       fill_in(t("admin.catalog_item.initial_amount"), with: "0")

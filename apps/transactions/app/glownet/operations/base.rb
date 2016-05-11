@@ -12,8 +12,7 @@ class Operations::Base < ActiveJob::Base
     Gtag.find_or_create_by!(tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id])
     profile_id = Profile::Checker.for_transaction(atts)
 
-    atts.delete(:sale_items_attributes) if atts[:sale_items_attributes].blank?
-    obj_atts = column_attributes(klass, atts, :sale_items_attributes)
+    obj_atts = column_attributes(klass, atts)
     obj_atts[:profile_id] = profile_id
     obj = klass.create!(obj_atts)
 
@@ -29,8 +28,9 @@ class Operations::Base < ActiveJob::Base
     klass.create!(column_attributes(klass, atts))
   end
 
-  def column_attributes(klass, atts, extras = [])
-    columns = [extras].flatten + klass.column_names.map(&:to_sym)
+  def column_attributes(klass, atts)
+    extras = atts[:sale_items_attributes].blank? ? [] : [:sale_items_attributes]
+    columns = klass.column_names.map(&:to_sym) + extras
     atts.slice(*columns)
   end
 
