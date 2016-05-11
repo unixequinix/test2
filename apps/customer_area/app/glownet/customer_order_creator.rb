@@ -25,7 +25,7 @@ class CustomerOrderCreator
       transaction_category: "money",
       transaction_origin: "customer_portal",
       transaction_type: "portal_purchase",
-      customer_tag_uid: order_item.order.profile.active_gtag_assignment,
+      customer_tag_uid: order_item.order.profile.active_gtag_assignment.credentiable.tag_uid,
       catalogable_id: order_item.catalog_item.catalogable_id,
       catalogable_type: order_item.catalog_item.catalogable_type,
       items_amount: order_item.amount,
