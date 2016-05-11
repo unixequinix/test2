@@ -137,6 +137,10 @@ class Event < ActiveRecord::Base
     get_parameter("refund", refund_service, "minimum")
   end
 
+  def only_credits_purchasable?
+    catalog_items.count > 0 && catalog_items.where.not(catalogable_type: "Credit").count == 0
+  end
+
   private
 
   def gtag_query(refund_service)
