@@ -34,7 +34,8 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
   end
 
   def bulk_upload # rubocop:disable all
-    render(status: :bad_request, json: "tickets key is missing") && return unless params[:tickets]
+    render(status: :bad_request, json: { error: "tickets key is missing" }) &&
+      return unless params[:tickets]
     errors = { atts: [] }
 
     params[:tickets].each do |atts|
