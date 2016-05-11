@@ -42,7 +42,7 @@ class Profile < ActiveRecord::Base # rubocop:disable ClassLength
            -> { where(credentiable_type: "Ticket") },
            class_name: "CredentialAssignment", dependent: :destroy
   # credential_assignments_gtags
-  has_many :gtag_assignment,
+  has_many :gtag_assignments,
            -> { where(credentiable_type: "Gtag") },
            class_name: "CredentialAssignment", dependent: :destroy
   # credential_assignments_assigned
