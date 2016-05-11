@@ -1,15 +1,13 @@
-/**
- * PaymentFont Styles 1.1.2
- *
- * @since     2014-09-21
- * @version   2015-04-24
- *
- * @author    Poellmann Alexander Manfred (@AMPoellmann)
- * @copyright Copyright 2015 vendocrat. All Rights Reserved.
- * @link      https://vendocr.at/
- *
- * @license   Font: SIL OFL 1.1, CSS: MIT License
- */
+// PaymentFont Styles 1.1.2
+//
+// @since     2014-09-21
+// @version   2015-04-24
+//
+// @author    Poellmann Alexander Manfred (@AMPoellmann)
+// @copyright Copyright 2015 vendocrat. All Rights Reserved.
+// @link      https://vendocr.at/
+//
+// @license   Font: SIL OFL 1.1, CSS: MIT License
 
 //@font-face {
 //  font-family: 'PaymentFont';
@@ -144,7 +142,8 @@
   content: "\f01b";
 }
 
-.pf-gittip:before, .pf-gratipay:before {
+.pf-gittip:before,
+.pf-gratipay:before {
   content: "\f01c";
 }
 
@@ -412,6 +411,4 @@
   content: "\f05e";
 }
 
-/*
- * Finito!
- */
+// ···

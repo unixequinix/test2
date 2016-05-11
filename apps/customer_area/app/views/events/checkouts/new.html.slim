@@ -5,11 +5,11 @@
   p.center-text = t('checkout.description')
 
 = form_tag event_checkouts_path(current_event), method: :post, id: "checkout-form", class: "wrapper-module form-module" do |f|
-  - @checkout_presenter.catalog_items_hash.each do |category, catalog_items|
+  - @presenter.catalog_items_hash.each do |category, catalog_items|
     .wrapper-module
       h3.store-module-title = category.pluralize
       - catalog_items.each do |catalog_item|
-        = render @checkout_presenter.draw_product(catalog_item), catalog_item: catalog_item
+        = render @presenter.draw_product(catalog_item), catalog_item: catalog_item
   .wrapper-store-module
     .checkout-total
       p.checkout-title = t('checkout.total')

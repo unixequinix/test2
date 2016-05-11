@@ -7,7 +7,7 @@ th:
     destroyed: 'ทำลายสำเร็จ'
     unassigned: 'ยกเลิกสำเร็จ'
     error: 'ดูรายละเอียดของข้อผิดพลาด'
-    checkout: 'คุณสามารถใส่หมายเลขได้ แต่ไม่สามารถใส่จุดทศนิยมหรือเลขที่น้อยกว่า %{limit}'
+    checkout: 'You can only introduce numeric data without decimals, bigger than 0 and lower than %{limit}'
     admissions:  "บัตรเข้างานไม่ถูกต้อง หากคุณเพิ่งทำการซื้อบัตรในเวลาไม่เกิน 48 ชั่วโมงที่ผ่านมา กรุณาลองใหม่อีกครั้งภายหลัง หมายเหตุ: บัตรเข้างาน %{companies} เท่านั้นที่สามารถใช้งานในระบบได้"
     order_complete: 'รายการสำเร็จ'
     order_expired: 'หมดเวลาทำรายการ'
