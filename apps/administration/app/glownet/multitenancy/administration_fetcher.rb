@@ -21,7 +21,7 @@ class Multitenancy::AdministrationFetcher
   end
 
   def company_event_agreements
-    CompanyEventAgreement.where(event: @event)
+    CompanyEventAgreement.where(event: @event).includes(:company)
   end
 
   def company_ticket_types
@@ -33,7 +33,9 @@ class Multitenancy::AdministrationFetcher
   end
 
   def credential_types
-    CredentialType.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
+    CredentialType.joins(:catalog_item)
+                  .where(catalog_items: { event_id: @event.id })
+                  .includes(:catalog_item)
   end
 
   def credits

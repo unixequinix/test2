@@ -1,6 +1,8 @@
 class Admins::Events::MoneyTransactionsController < Admins::Events::BaseController
-  def index
-    set_presenter
+  before_filter :set_presenter, only: [:index, :search]
+
+  def search
+    render :index
   end
 
   def show

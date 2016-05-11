@@ -35,7 +35,6 @@ FactoryGirl.define do
     status_code "0"
     status_message "OK"
     direction { rand(2) }
-    access_entitlement_value { rand(10) }
   end
 
   factory :order_transaction do
