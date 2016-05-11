@@ -1,4 +1,4 @@
-.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @list_model_presenter.current_items, total: @list_model_presenter.count)
+.current-showing = page_entries_info(@packs)
 table.packs
   thead
     tr
@@ -11,7 +11,7 @@ table.packs
       th = t('admin.pack.number_catalog_items')
       th.table-actions-field = t('admin.defaults.actions')
   tbody
-    - packs.each do |pack|
+    - @packs.each do |pack|
       tr
         td data-label=t('admin.catalog_item.name') = link_to(pack.catalog_item.name, edit_admins_event_pack_path(current_event, pack))
         td data-label=t('admin.catalog_item.description') = pack.catalog_item.description
@@ -25,4 +25,4 @@ table.packs
           = "∞" if pack.only_infinite_items_pack?
         td.table-actions-field
           = render 'admins/events/packs/actions', pack: pack unless current_event.started?
-= paginate packs
+= paginate @packs
