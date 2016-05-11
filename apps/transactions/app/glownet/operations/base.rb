@@ -1,7 +1,7 @@
 class Operations::Base < ActiveJob::Base
   SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at ).freeze
 
-  def perform(atts) # rubocop:disable Metrics/AbcSize
+  def perform(atts) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     atts[:profile_id] ||= atts[:customer_event_profile_id]
     klass = "#{atts[:transaction_category]}_transaction".classify.constantize
 
@@ -13,6 +13,7 @@ class Operations::Base < ActiveJob::Base
     profile_id = Profile::Checker.for_transaction(atts)
 
     obj_atts = column_attributes(klass, atts, :sale_items_attributes)
+    obj_atts[:sale_items_attributes] ||= []
     obj_atts[:profile_id] = profile_id
     obj = klass.create!(obj_atts)
 
