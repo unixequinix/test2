@@ -8,4 +8,8 @@
   - if @packs.any?
     = render "admins/events/packs/list"
   - else
-    = render "admins/events/shared/no_results"
+    .section-title-empty
+      = image_tag "img-empty.png"
+      p = t("admin.defaults.item_not_found",
+        item: "Pack"
+      = link_to t("actions.back"),eval("admins_event_packs_path"),class: "btn btn-action btn-action-new"
