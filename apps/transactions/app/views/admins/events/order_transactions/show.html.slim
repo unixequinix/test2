@@ -3,9 +3,10 @@
   = link_to admins_event_order_transactions_path, class: "btn btn-action btn-action-back small" do
     = fa_icon 'arrow-circle-left'
     = t('admin.actions.back')
+
 .wrapper-negative-space
   .container-show
-    = render 'admins/events/shared/general_info', transaction: @transaction
+    = render 'admins/events/shared/general_info'
     h3.section-header
       = fa_icon "list"
       = t("admin.transactions.customer_order")
