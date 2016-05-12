@@ -31,9 +31,10 @@ de:
     - Freitag
     - Samstag
     formats:
-      default: "%d.%m.%Y"
-      long: "%e. %B %Y"
-      short: "%e. %b"
+      default: "%Y-%m-%d"
+      long: "%B %d, %Y"
+      short: "%B %d"
+      custom: "%{month} %{day}"
     month_names:
     -
     - Januar
