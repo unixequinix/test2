@@ -49,7 +49,8 @@ RSpec.describe CustomerCreditTicketCreator, type: :domain_logic do
 
     it "sets origin to that of argument" do
       origin = "somethingweird"
-      expect(subject).to receive(:create_credit).with(profile, hash_including(origin: origin))
+      atts = hash_including(transaction_origin: origin)
+      expect(subject).to receive(:create_credit).with(profile, atts)
       subject.loop_credits(ticket, origin)
     end
   end

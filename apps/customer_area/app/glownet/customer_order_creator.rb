@@ -15,7 +15,8 @@ class CustomerOrderCreator
     Operations::Base.new.portal_write(fields(order_item, payment_method, payment_gateway))
   end
 
-  def fields(order_item, payment_method, payment_gateway) # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+  def fields(order_item, payment_method, payment_gateway)
     station = Station.joins(:station_type)
                      .find_by(event: order_item.order.profile.event_id,
                               station_types: { name: "customer_portal" }).id
