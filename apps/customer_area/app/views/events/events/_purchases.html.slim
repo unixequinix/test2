@@ -2,7 +2,7 @@
   ul.container-purchase-order
     - presenter.purchases.each do |category, purchases|
       h3
-        = "#{category.pluralize}"
+        = t("purchases.#{category.pluralize.downcase}")
       - purchases.each do |purchased_order|
         li
           .wrapper-purchase-order

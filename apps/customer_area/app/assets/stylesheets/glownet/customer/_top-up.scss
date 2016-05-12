@@ -46,7 +46,7 @@
   @include mscale($double_text);
   display: inline-block;
   float: none;
-  overflow: hidden;
+  overflow: visible;
   width: 50%;
   margin: 0 auto;
   border: none;
@@ -67,12 +67,7 @@
     -moz-appearance: textfield;
   }
 
-  .amount-input {
-    margin-top: modules(-0.25);
-    text-align: center;
-
-    @include min-screen($bp3) { margin-top: modules(-0.5); }
-  }
+  .amount-input { text-align: center; }
 
   &:focus { outline: none; }
 }
