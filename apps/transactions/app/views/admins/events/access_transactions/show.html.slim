@@ -1,8 +1,12 @@
 - breadcrumb :admins_event_access_transaction, current_event, @transaction
+- provide :actions do
+  = link_to admins_event_credential_transactions_path, class: "btn btn-action btn-action-back small" do
+    = fa_icon 'arrow-circle-left'
+    = t('admin.actions.back')
 
 .wrapper-negative-space
   .container-show
-    = render 'admins/events/shared/general_info', transaction: @transaction
+    = render 'admins/events/shared/general_info'
     
     h3.section-header
       = fa_icon "exchange"
