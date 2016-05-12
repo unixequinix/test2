@@ -4,7 +4,7 @@ class Events::AutotopupAgreementsController < Events::BaseController
     @order_presenters = []
     current_event.selected_payment_services.each do |payment_service|
       @order_presenters <<
-        "Orders::#{payment_service.to_s.camelize}AgreementPresenter".constantize
+        "Orders::#{payment_service.to_s.camelize}Presenter".constantize
         .new(current_event, @order).with_params(params)
     end
   end
