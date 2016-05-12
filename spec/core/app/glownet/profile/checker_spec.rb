@@ -52,16 +52,17 @@ RSpec.describe Profile::Checker, type: :domain_logic do
             [portal_customer, gtag, profile, portal_profile].map(&:reload)
           end
 
-          it "assigns the customer profile to the credentiable" do
-            expect(gtag.assigned_profile).to eq(portal_profile)
+          it "assigns the credentiable profile to the customer" do
+            expect(gtag.assigned_profile).to eq(profile)
           end
 
           it "changes the profile in the associated tables" do
-            expect(profile).to be_deleted
+            expect(portal_profile).to be_deleted
           end
 
           it "changes the credential assignments from credentiable to customer profile" do
-            expect(portal_profile.credential_assignments).to eq(gtag.credential_assignments)
+            portal_credentials = portal_customer.profile.credential_assignments
+            expect(portal_credentials).to eq(gtag.credential_assignments)
           end
         end
 
