@@ -13,6 +13,12 @@
         -
           name: uid_reverse
           value: false
+        -
+          name: touchpoint_update_online_orders
+          value: false
+        -
+          name: topup_initialize_gtag
+          value: false
 -
   category: payment
   groups:
