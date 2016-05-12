@@ -13,10 +13,10 @@ class Profile::Checker
   def self.for_credentiable(obj, customer)
     o_profile = obj.assigned_profile
     c_profile = customer.profile
-    profile = c_profile || o_profile || customer.create_profile!(event: obj.event)
+    profile = o_profile || c_profile || customer.create_profile!(event: obj.event)
 
     raise "Credentiable Fraud detected" if o_profile&.customer
-    o_profile&.destroy if c_profile && o_profile
+    c_profile&.destroy if c_profile && o_profile
     customer.update!(profile: profile)
     profile.credential_assignments.find_or_create_by!(credentiable: obj, aasm_state: :assigned)
   end
