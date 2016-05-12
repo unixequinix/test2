@@ -1,6 +1,6 @@
 .wrapper-module-centered
   h3 = t('dashboard.paypal.claim')
   p = t('dashboard.paypal.description')
-  = link_to "#", class: "btn btn-action-add-paypal" do
+  = link_to new_event_autotopup_agreement_path(current_event), class: "btn btn-action-add-paypal" do
     = fa_icon "paypal"
     = t('dashboard.paypal.button')

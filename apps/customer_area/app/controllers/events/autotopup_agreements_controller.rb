@@ -1,19 +1,22 @@
 class Events::AutotopupAgreementsController < Events::BaseController
   def new
-    @ticket_assignment_form = TicketAssignmentForm.new
+    @order = autotopup_order
+    @order_presenters = []
+    current_event.selected_payment_services.each do |payment_service|
+      @order_presenters <<
+        "Orders::#{payment_service.to_s.camelize}Presenter".constantize
+        .new(current_event, @order).with_params(params)
+    end
   end
 
-  def create
-    @ticket_assignment_form = TicketAssignmentForm.new(ticket_assignment_parameters)
-    if @ticket_assignment_form.save(Ticket.where(event: current_event),
-                                    current_profile,
-                                    current_event)
-      flash[:notice] = I18n.t("alerts.created")
-      redirect_to event_url(current_event)
-    else
-      flash.now[:error] = @ticket_assignment_form.errors.full_messages.join
-      render :new
-    end
+  def update
+    @payment_service = params[:payment_service]
+    @order = OrderManager.new(Order.find(params[:id])).sanitize_order
+    params[:consumer_ip_address] = request.ip
+    params[:consumer_user_agent] = request.user_agent
+    @form_data = "Payments::#{@payment_service.camelize}DataRetriever"
+                 .constantize.new(current_event, @order).with_params(params)
+    @order.start_payment!
   end
 
   def destroy
@@ -29,7 +32,18 @@ class Events::AutotopupAgreementsController < Events::BaseController
 
   private
 
-  def ticket_assignment_parameters
-    params.require(:ticket_assignment_form).permit(:code)
+  def autotopup_order
+    order = Order.new(profile: current_profile)
+    order.generate_order_number!
+    amount = 0.01
+    catalog_item = current_event.credits.standard.catalog_item
+    order.order_items << OrderItem.new(
+      catalog_item_id: catalog_item.id,
+      amount: amount,
+      total: amount * catalog_item.price
+    )
+    order.save
+    order
   end
+
 end
