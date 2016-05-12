@@ -5,7 +5,7 @@
     - presenter.ticket_assignments.each do |ticket_assignment|
       li.customer-ticket
         = link_to event_credential_type_path(current_event, ticket_assignment)
-          p = t('dashboard.admissions.header', company_ticket_type: ticket_assignment.credentiable.company_ticket_type.name)
+          p = ticket_assignment.credentiable.company_ticket_type.name
           p.ticket-id =  ticket_assignment.credentiable.code
           = fa_icon "angle-right"
         // = link_to t('dashboard.admissions.button'), event_ticket_assignment_path(current_event, ticket_assignment), data: { confirm: (t("confirm.remove_ticket") if current_profile.purchased_credits > 0) }, method: :delete

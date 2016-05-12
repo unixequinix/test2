@@ -35,7 +35,7 @@ class Orders::PaypalNvpPresenter < Orders::BasePresenter
   end
 
   def email
-    @agreement.email
+    @profile.customer.email
   end
 
   def form_data
