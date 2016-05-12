@@ -13,6 +13,12 @@
         -
           name: uid_reverse
           data_type: boolean
+        -
+          name: touchpoint_update_online_orders
+          data_type: boolean
+        -
+          name: topup_initialize_gtag
+          data_type: boolean
 -
   name: gtag
   groups:
