@@ -2,7 +2,7 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
   def index
     @issues = []
 
-    Profile.all.each do |profile|
+    current_event.profiles.each do |profile|
       credits = profile.customer_credits.order(created_in_origin_at: :desc)
       last = credits.first
       amount_sum = credits.map(&:amount).sum
@@ -13,8 +13,8 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
       @issues << { profile: profile,
                    amount_sum: amount_sum,
                    refundable_sum: refundable_sum,
-                   final_balance: last&.final_balance,
-                   final_refundable_balance: last&.final_refundable_balance }
+                   final_balance: last.final_balance,
+                   final_refundable_balance: last.final_refundable_balance }
     end
   end
 end
