@@ -3,6 +3,7 @@ class Operations::Base < ActiveJob::Base
 
   def perform(atts) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     atts[:profile_id] ||= atts[:customer_event_profile_id]
+    atts.delete(:sale_items_attributes) if atts[:sale_items_attributes].blank?
     klass = "#{atts[:transaction_category]}_transaction".classify.constantize
 
     obj = klass.find_by(atts.slice(*SEARCH_ATTS))
@@ -12,7 +13,6 @@ class Operations::Base < ActiveJob::Base
     Gtag.find_or_create_by!(tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id])
     profile_id = Profile::Checker.for_transaction(atts)
 
-    atts.delete(:sale_items_attributes) unless atts[:sale_items_attributes]
     obj_atts = column_attributes(klass, atts)
     obj_atts[:profile_id] = profile_id
     obj = klass.create!(obj_atts)
