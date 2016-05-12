@@ -18,6 +18,8 @@ $credit-size:       $base-font-size * 5;
 
 $radius:            3px;
 
+$light_paypal:      rgba(0, 156, 222, 0.06);
+
 // HTML base styles
 
 html,
@@ -212,22 +214,68 @@ a {
   }
 }
 
-.paypal-text {
-  color: $paypal !important;
+.wrapper-module-agreement {
+  margin: modules(2) 0 0;
+  padding: modules(1) modules(1) modules(2);
+  border-radius: $radius;
+  box-shadow: inset 0 0 1px 0 $paypal;
+  background-color: $light_paypal;
+  text-align: left;
+
+  .hint {
+    top: modules(1) !important;
+    text-align: center;
+    z-index: 3;
+  }
 }
 
-.paypal-agreement-icon {
-  @include mscale($base-font-size * 1.5);
-  display: block;
-  width: modules(2);
-  height: modules(2);
-  margin: 0 auto modules(0.25);
-  padding-top: modules(0.5);
-  border-radius: 50px;
-  box-shadow: 0 2px 1px $grey;
-  background-color: $paypal;
-  color: $nuclear;
-  text-align: center;
+.paypal-agreement-title {
+  @include mscale($base-font-size * 1);
+  margin-bottom: modules(0.5);
+  color: $paypal;
+
+  i { padding-right: modules(0.25); }
+}
+
+.agreement-description,
+.agreement-hint,
+.agreement-amount {
+  color: $grey;
+}
+
+.agreemet-current {
+  display: inline-block;
+  vertical-align: top;
+  width: 100%;
+
+  @include min-screen($bp3) {
+    width: 48%;
+    box-shadow: 1px 0 0 0 $light_grey;
+  }
+}
+
+.agreement-hint {
+  margin-bottom: modules(0.5);
+  font-weight: bold;
+}
+
+.agreement-select {
+  display: inline-block;
+  vertical-align: top;
+  width: 100%;
+  margin: modules(1) 0;
+
+  @include min-screen($bp3) {
+    width: 42%;
+    margin: 0 0 modules(1) 10%;
+  }
+
+  select { width: 100%; }
+}
+
+.agreement-amount {
+  @include mscale($base-font-size * 3);
+  margin-bottom: 0;
 }
 
 .wristband-hint {
