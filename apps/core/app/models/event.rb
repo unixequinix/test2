@@ -138,7 +138,10 @@ class Event < ActiveRecord::Base
   end
 
   def only_credits_purchasable?
-    catalog_items.count > 0 && catalog_items.where.not(catalogable_type: "Credit").count == 0
+    purchasable_items = stations.find_by_name("Customer Portal").station_catalog_items
+    purchasable_items.count > 0 &&
+    purchasable_items.joins(:catalog_item).where.not(
+      catalog_items: { catalogable_type: "Credit" } ).count == 0
   end
 
   private
