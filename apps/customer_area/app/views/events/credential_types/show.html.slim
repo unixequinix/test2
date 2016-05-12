@@ -7,12 +7,12 @@
         = @presenter.credentiable_code
     = render("products") if @presenter.products.any?
 
-  = link_to event_ticket_assignment_path(current_event, @presenter.assignment),
-            class: "btn btn-remove-ticket",
-            data: { confirm: (t("confirm.remove_ticket")) },
-            method: :delete do
-    = fa_icon "trash"
-    = t("actions.delete_ticket")
+  / = link_to event_ticket_assignment_path(current_event, @presenter.assignment),
+  /           class: "btn btn-remove-ticket",
+  /           data: { confirm: (t("confirm.remove_ticket")) },
+  /           method: :delete do
+  /   = fa_icon "trash"
+  /   = t("actions.delete_ticket")
 .wrapper-module
   = link_to customer_root_path, class: "btn btn-action-back" do
     = fa_icon "chevron-left"
