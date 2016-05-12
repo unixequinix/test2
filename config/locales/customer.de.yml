@@ -12,6 +12,7 @@ de:
   confirm:
     remove_ticket: "Ihre erworbenen Guthaben sind auf Ihr Konto übertragen. Wenn Sie Ihr Ticket entfernen, müssen Sie jemand anderen dazu berechtigen, Ihre Guthaben für die Veranstaltung zu verwenden."
     cancel_paypal: "Bei Stornierung wird Ihr Armband von Ihrem Paypal-Konto getrennt."
+    cancel_paypal_agreement: "Cancel agreement"
     log_out: "Möchten Sie diese Sitzung beenden?"
   header:
     edit: "Profil bearbeiten"
@@ -285,9 +286,11 @@ de:
       waiting_confirmation: 'Warten auf Bestätigung für:'
       button: 'Aktualisierung'
     autotoup_agreement:
-      title: 'Vereinbarung stornieren'
+      title: 'Paypal Vereinbarung'
       cancel: 'Möchten Sie Ihre Autotopup Vereinbarung stornieren?'
       billing_agreement_description: "Ich stimme automatisch entstehenden Kosten zu, falls mein Guthaben ausgeht"
+      current_amount: 'Current top up:'
+      new_amount: 'Change your quantity:'
   sessions:
     first_register:
       welcome: Willkommen!'
