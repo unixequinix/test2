@@ -52,7 +52,9 @@ header.header-mobile.edit-profile-menu
             p.hint-text.center-text.paypal-text = t('registration.autotoup_agreement.title')
             p.hint-text.center-text
               = t('registration.autotoup_agreement.amount')
-              = select_tag :autotopup_amount, options_for_select([payment_gateway_customer.autotopup_amount, 20, 40, 50, 100, 150].uniq.sort, payment_gateway_customer.autotopup_amount), include_blank: false
+              = select_tag :autotopup_amount,
+                options_for_select(@edit_profile_form.autotopup_amounts(payment_gateway_customer),
+                @edit_profile_form.current_autotopup_amount(payment_gateway_customer)), include_blank: false
             p.center-text = t("confirm.cancel_paypal")
 
             = link_to event_autotopup_agreement_path(current_event, payment_gateway_customer), method: :delete,

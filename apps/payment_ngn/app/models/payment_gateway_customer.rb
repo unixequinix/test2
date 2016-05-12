@@ -18,5 +18,7 @@ class PaymentGatewayCustomer < ActiveRecord::Base
   acts_as_paranoid
   belongs_to :profile
 
+  AUTOTOPUP_AMOUNTS = [20, 40, 50, 100, 150].freeze
+
   validates :profile_id, uniqueness: { scope: :gateway_type }
 end

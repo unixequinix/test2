@@ -46,4 +46,13 @@ class EditProfileForm < Reform::Form
       email != model.email &&
       Customer.exists?(email: email, event_id: event_id, deleted_at: nil)
   end
+
+  def autotopup_amounts(payment_gateway)
+    amount = current_autotopup_amount(payment_gateway)
+    (PaymentGatewayCustomer::AUTOTOPUP_AMOUNTS + [amount]).uniq.sort
+  end
+
+  def current_autotopup_amount(payment_gateway)
+    payment_gateway.autotopup_amount
+  end
 end
