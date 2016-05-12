@@ -1,0 +1,24 @@
+- breadcrumb :admins_event_credit_inconsistencies, current_event
+    
+.wrapper-negative-space
+  - if @issues
+    table.transactions
+      thead
+        tr
+          th = t("admin.transactions.profile_id")
+          th = t("admin.transactions.credits")
+          th = t("admin.transactions.credits_refundable")
+          th = t("admin.transactions.final_balance")
+          th = t("admin.transactions.final_refundable_balance")
+      tbody
+        - @issues.each do |issue|
+          tr
+            td data-label=t("admin.transactions.id") = link_to issue[:profile].id, admins_event_profile_path(current_event, issue[:profile])
+            td data-label=t("admin.transactions.credits") = issue[:amount_sum]
+            td data-label=t("admin.transactions.credits_refundable") = issue[:refundable_sum]
+            td data-label=t("admin.transactions.final_balance") = issue[:final_balance]
+            td data-label=t("admin.transactions.final_refundable_balance") = issue[:final_refundable_balance]
+  - else
+    .section-title-empty
+      = image_tag "img-empty.png"
+      p = t("admin.defaults.empty_item", item: "Credit Inconsistencies")
