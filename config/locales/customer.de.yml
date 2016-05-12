@@ -37,7 +37,7 @@ de:
   dashboard:
     title: "Meine Übersichtsseite"
     admissions:
-      header: "Ticket %{Firmenticket-Typ}"
+      header: "Ticket %{company_ticket_type}"
       call_to_action: "Wollen Sie dieses Ticket entfernen?"
       call_to_action_started: "Die Veranstaltung hat soeben begonnen. Daher sind Ticketänderungen nicht möglich."
       success: "Ticket erfolgreich aktiviert!"

@@ -10,9 +10,9 @@ de:
     page_entries_info:
       one_page:
         display_entries:
-          zero: "Kein %{Zugangsname} gefunden"
-          one: "Anzeige <b>1</b> %{Zugangsname}"
-          other: "Anzeige <b>all %{Anzahl}</b> %{Zugangsname}"
+          zero: "Kein %{entry_name} gefunden"
+          one: "Anzeige <b>1</b> %{entry_name}"
+          other: "Anzeige <b>all %{count}</b> %{entry_name}"
       more_pages:
-        display_entries: "Anzeige %{Zugangsname} <b>%{erste}&nbsp;-&nbsp;%{letzte}</b> of <b>%{gesamt}</b> insgesamt"
-        display_entries_small: "Anzeige %{Anzahl} of %{gesamt} insgesamt"
+        display_entries: "Anzeige %{entry_name} <b>%{erste}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b> insgesamt"
+        display_entries_small: "Anzeige %{count} of %{total} insgesamt"

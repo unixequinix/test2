@@ -6,7 +6,7 @@ de:
     male: 'Männlich'
     female: 'Weiblich'
   event:
-    subject_support: 'Hilfe benötigt für %{Veranstaltung}'
+    subject_support: 'Hilfe benötigt für %{event}'
     locales:
       en: 'ENG'
       es: 'ESP'
@@ -26,7 +26,7 @@ de:
               improbable_phone: "Dies ist keine gültige Telefonnummer. Überprüfen Sie, dass Land und Telefonnummer zusammenpassen."
             birthdate:
               invalid: "Dies ist kein gültiges Datum"
-              too_young: "Muss älter als %{Alter} Jahre sein"
+              too_young: "Muss älter als %{age} Jahre sein"
         epg_claim_form:
           attributes:
             phone:
