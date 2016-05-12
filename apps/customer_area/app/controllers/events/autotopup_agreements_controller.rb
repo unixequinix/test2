@@ -4,9 +4,19 @@ class Events::AutotopupAgreementsController < Events::BaseController
     @order_presenters = []
     current_event.selected_payment_services.each do |payment_service|
       @order_presenters <<
-        "Orders::#{payment_service.to_s.camelize}Presenter".constantize
+        "Orders::#{payment_service.to_s.camelize}AgreementPresenter".constantize
         .new(current_event, @order).with_params(params)
     end
+  end
+
+  def update
+    @payment_service = params[:payment_service]
+    @order = OrderManager.new(Order.find(params[:id])).sanitize_order
+    params[:consumer_ip_address] = request.ip
+    params[:consumer_user_agent] = request.user_agent
+    @form_data = "Payments::#{@payment_service.camelize}DataRetriever"
+                 .constantize.new(current_event, @order).with_params(params)
+    @order.start_payment!
   end
 
   def destroy
