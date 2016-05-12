@@ -32,7 +32,7 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
     @company_event_agreement_collection = @fetcher.company_event_agreements
   end
 
-  def update
+  def update # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     @company_ticket_type = @fetcher.company_ticket_types.find(params[:id])
     credential_type_id = @company_ticket_type.credential_type_id
 

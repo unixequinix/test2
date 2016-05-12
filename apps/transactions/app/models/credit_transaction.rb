@@ -33,4 +33,8 @@ class CreditTransaction < Transaction
   def self.mandatory_fields
     super + %w( credits credits_refundable credit_value final_balance final_refundable_balance )
   end
+
+  def self.column_names
+    super + %w( sale_items_attributes )
+  end
 end

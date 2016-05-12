@@ -33,6 +33,7 @@ RSpec.describe CompanyTicketType, type: :model do
       query = CompanyTicketType.search_by_company_and_event(@company.name, @event)
       expect(query.count).to eq(2)
     end
+
     it "returns the data in the proper format for select inputs" do
       query = CompanyTicketType.form_selector(@event)
       expect(query).to eq([
