@@ -59,10 +59,6 @@ header.header-mobile.edit-profile-menu
           .agreement-select
             p.agreement-hint = t('registration.autotoup_agreement.new_amount')
             select
-          //p.hint-text
-          //  = t('registration.autotoup_agreement.amount')
-          //  = payment_gateway_customer.autotopup_amount
-          //p = t("confirm.cancel_paypal")
 
           = link_to event_autotopup_agreement_path(current_event, payment_gateway_customer), method: :delete,
                 class: "btn btn-remove-agreement",
