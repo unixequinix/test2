@@ -18,6 +18,6 @@ class Profile::Checker
     raise "Credentiable Fraud detected" if o_profile&.customer
     o_profile&.destroy if c_profile && o_profile
     customer.update!(profile: profile)
-    profile.credential_assignments.find_or_create_by(credentiable: obj, aasm_state: :assigned)
+    profile.credential_assignments.find_or_create_by!(credentiable: obj, aasm_state: :assigned)
   end
 end
