@@ -5,7 +5,10 @@ class TicketAssignmentForm
   attribute :code, String
   validates_presence_of :code
 
-  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/PerceivedComplexity
   def save(ticket_fetcher, current_profile, current_event)
     ticket = ticket_fetcher.find_by(code: code.strip)
 

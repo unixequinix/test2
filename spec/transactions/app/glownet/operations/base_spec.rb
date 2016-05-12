@@ -89,11 +89,6 @@ RSpec.describe Operations::Base, type: :job do
     it "saves sale_items" do
       expect { base.perform_now(params) }.to change(SaleItem, :count).by(2)
     end
-
-    it "fails if transaction does not accept sale_items" do
-      params[:transaction_category] = "money"
-      expect { base.perform_now(params) }.to raise_error(ActiveRecord::UnknownAttributeError)
-    end
   end
 
   context "when tag_uid is present in DB" do

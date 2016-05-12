@@ -6,7 +6,7 @@ class Events::CheckoutsController < Events::BaseController
     @presenter = CheckoutsPresenter.new(current_event, current_profile)
   end
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     @presenter = CheckoutsPresenter.new(current_event, current_profile)
     @checkout_form = CheckoutForm.new(current_profile)
     amount = params[:checkout_form][:catalog_items].values.map(&:to_i).sum
