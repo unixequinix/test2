@@ -17,6 +17,7 @@ th:
   confirm:
     remove_ticket: "เครดิตที่คุณได้ทำการซื้อไปจะอยู่ในบัญชีผู้ใช้งานนี้ของคุณ หากคุณยกเลิกบัตรเข้างาน คุณจะต้องทำการโอนเครดิตไปยังบัตรอื่นเพื่อที่จะใช้ในงาน"
     cancel_paypal: "Cancelling you disassociate your wristband from you PayPal account."
+    cancel_paypal_agreement: "Cancel agreement"
     log_out: "Do you want to end this session?"
   header:
     edit: "แก้ไขบัญชีผู้ใช้งาน"
@@ -307,9 +308,11 @@ th:
       button: 'อัพเดท'
     autotoup_agreement:
       cancel: 'Do you want to cancel your autotopup agreement?'
-      title: 'Cancel agreement'
+      title: 'Paypal agreement'
       amount: 'Selected amount: '
       billing_agreement_description: "I agree in get automated charges when running out of credit"
+      current_amount: 'Current top up:'
+      new_amount: 'Change your quantity:'
   sessions:
     first_register:
       welcome: 'Bienvenido!!'

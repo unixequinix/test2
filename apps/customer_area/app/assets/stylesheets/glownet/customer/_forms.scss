@@ -131,7 +131,12 @@ button {
   border: 1px solid transparent;
 }
 
-.edit-profile-form { form { width: 100%; } }
+.edit-profile-form {
+  form {
+    overflow: visible;
+    width: 100%;
+  }
+}
 
 .input-add-wristband {
   input { margin: modules(0.5) 0 0; }
