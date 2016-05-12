@@ -17,6 +17,7 @@ it:
   confirm:
     remove_ticket: "Your purchased credits are assigned to your account. If you remove your ticket, you will need to assign another one to use those credits in the event."
     cancel_paypal: "Cancelling you disassociate your wristband from you PayPal account."
+    cancel_paypal_agreement: "Cancel agreement"
     log_out: "Do you want to end this session?"
   header:
     edit: "Modifica profilo"
@@ -297,9 +298,11 @@ it:
       button: 'Aggiornare'
     autotoup_agreement:
       cancel: 'Do you want to cancel your autotopup agreement?'
-      title: 'Cancel agreement'
+      title: 'Paypal agreement'
       amount: 'Selected amount: '
       billing_agreement_description: "I agree in get automated charges when running out of credit"
+      current_amount: 'Current top up:'
+      new_amount: 'New top up:'
   sessions:
     first_register:
       welcome: 'Bienvenido!!'

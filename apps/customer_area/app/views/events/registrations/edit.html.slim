@@ -45,22 +45,32 @@ header.header-mobile.edit-profile-menu
       = f.input :country, wrapper_html: { class: 'registration-select' }, input_html: { class: 'session-select' } if current_event.country?
       = f.input :gender, wrapper_html: { class: 'registration-select' }, collection: Customer.gender_selector, include_blank: false, input_html: { class: 'session-input' } if current_event.gender?
       = f.input :birthdate, wrapper_html: { class: 'registration-select' }, as: :date, default: @edit_profile_form.birthdate, start_year: 1950, end_year: Time.zone.today.year - 12, order: [:day, :month, :year] if current_event.birthdate?
-      = f.button :submit, t('registration.edit.button'),  class: "btn-action btn-edit-profile"
-  - current_profile.payment_gateway_customers.each do |payment_gateway_customer|
-    .wrapper-module
-      p.paypal-agreement-icon = fa_icon 'paypal'
-      p.hint-text.center-text.paypal-text = t('registration.autotoup_agreement.title')
-      p.hint-text.center-text
-        = t('registration.autotoup_agreement.amount')
-        = payment_gateway_customer.autotopup_amount
-      p.center-text = t("confirm.cancel_paypal")
+      - current_profile.payment_gateway_customers.each do |payment_gateway_customer|
+        .wrapper-module-agreement
+          p.hint-text.paypal-agreement-title
+            = fa_icon 'paypal'
+            = t('registration.autotoup_agreement.title')
+          p.agreement-description = t("orders.paypal.sync_description")
+          .agreemet-current
+            p.agreement-hint = t('registration.autotoup_agreement.current_amount')
+            p.agreement-amount
+              span 30
+              span.currency-symbol t
+          .agreement-select
+            p.agreement-hint = t('registration.autotoup_agreement.new_amount')
+            select
+          //p.hint-text
+          //  = t('registration.autotoup_agreement.amount')
+          //  = payment_gateway_customer.autotopup_amount
+          //p = t("confirm.cancel_paypal")
 
-      = link_to event_autotopup_agreement_path(current_event, payment_gateway_customer), method: :delete,
-            class: "btn btn-remove-ticket remove-centered",
-            data: { confirm: (t('registration.autotoup_agreement.cancel')) },
-            method: :delete do
-        = fa_icon "trash"
-        = t('actions.cancel')
+          = link_to event_autotopup_agreement_path(current_event, payment_gateway_customer), method: :delete,
+                class: "btn btn-remove-agreement",
+                data: { confirm: (t('registration.autotoup_agreement.cancel')) },
+                method: :delete do
+            = t('confirm.cancel_paypal_agreement')
+            span.hint = t("confirm.cancel_paypal")
+      = f.button :submit, t('registration.edit.button'),  class: "btn-action btn-edit-profile"
   .wrapper-module
     = link_to customer_root_path, class: "btn btn-action-back add-bottom" do
       = fa_icon "chevron-left"

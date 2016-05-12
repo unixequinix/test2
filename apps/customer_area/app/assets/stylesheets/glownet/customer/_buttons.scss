@@ -208,6 +208,21 @@
   &:hover { background-color: lighten($paypal, 7%); }
 }
 
+.btn-remove-agreement {
+  @include mscale($small_text);
+  display: block;
+  float: right;
+  width: auto;
+  height: auto;
+  margin-bottom: 0;
+  padding: 0;
+  color: $paypal;
+  text-decoration: underline;
+  text-align: right;
+
+  &:hover { text-decoration: none; }
+}
+
 .btn-action-back {
   position: relative;
   z-index: 5;

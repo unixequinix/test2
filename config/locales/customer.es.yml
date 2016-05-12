@@ -16,6 +16,7 @@ es:
   confirm:
     remove_ticket: "Tus créditos comprados se asignan a tu cuenta. Si borras tu ticket, tendrás que asignar otro para utilizar esos créditos en el evento."
     cancel_paypal: "Al cancelar desvicularás tu pulsera de tu cuenta de PayPal."
+    cancel_paypal_agreement: "Cancelar acuerdo"
     log_out: "¿Quieres finalizar la sesión?"
   header:
     edit: "Editar Perfil"
@@ -301,8 +302,10 @@ es:
       button: 'Actualizar'
     autotoup_agreement:
       cancel: '¿Quieres cancelar tu contrato de autorecarga?'
-      title: 'Cancelar contrato'
+      title: 'Contrato Paypal'
       amount: 'Cantidad seleccionada: '
+      current_amount: 'Recarga actual:'
+      new_amount: 'Nueva recarga:'
       billing_agreement_description: "Acepto que se me hagan cargos cuando me quedo sin crédito"
   sessions:
     first_register:
