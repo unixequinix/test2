@@ -112,6 +112,9 @@
         -
           name: url
           value: "https://www.sandbox.paypal.com/cgi-bin/webscr"
+        -
+          name: api_url
+          data_type: "https://api-3t.sandbox.paypal.com/nvp"
     -
       name: wirecard
       values:

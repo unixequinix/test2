@@ -178,6 +178,9 @@
         -
           name: url
           data_type: string
+        -
+          name: api_url
+          data_type: string
     -
       name: wirecard
       parameters:
