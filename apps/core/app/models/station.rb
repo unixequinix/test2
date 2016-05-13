@@ -40,7 +40,7 @@ class Station < ActiveRecord::Base
 
   ACCREDITATION_STATIONS = [:customer_portal, :box_office, :staff_accreditation].freeze
   POINT_OF_SALE_STATIONS = [:point_of_sales].freeze
-  TOPUP_STATIONS = [:top_up_refund].freeze
+  TOPUP_STATIONS = [:top_up_refund, :hospitality_top_up].freeze
   ACCESS_CONTROL_STATIONS = [:access_control].freeze
 
   def unassigned_catalog_items
