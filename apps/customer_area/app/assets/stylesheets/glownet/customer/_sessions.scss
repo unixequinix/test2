@@ -202,4 +202,19 @@ $border_with_opacity:     rgba(255, 255, 255, 1);
   &:last-child { margin-bottom: 0; }
 }
 
+.wrapper-captcha {
+  position: relative;
+  padding-bottom: modules(1);
+
+  .to-be-label { color: $nuclear; }
+}
+
+.captcha-error {
+  display: block;
+  width: modules(12.75);
+  margin: 0 auto;
+
+  @include min-screen($bp3) { width: modules(13.5); }
+}
+
 // ···
