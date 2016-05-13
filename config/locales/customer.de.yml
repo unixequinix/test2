@@ -59,9 +59,12 @@ de:
       button: "Top-up"
       ticket_first: "Zuerst ein Ticket oder Armband hinzufügen"
       calculating_balance: "Rechnung wird erstellt"
-    paypal:
+    autotopup:
       claim: "Vorteil nutzen!"
       description: "Synchronisieren Sie mit Paypal, und Sie erhalten direkte Top-ups."
+    paypal:
+      button: "Mit PayPal synchronisieren"
+    paypal_nvp:
       button: "Mit PayPal synchronisieren"
     event_refunds:
       claim: "Die Veranstaltung ist noch nicht zu Ende"

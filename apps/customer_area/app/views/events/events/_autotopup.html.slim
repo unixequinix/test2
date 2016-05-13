@@ -1,6 +1,8 @@
 .wrapper-module-centered
-  h3 = t('dashboard.paypal.claim')
-  p = t('dashboard.paypal.description')
-  = link_to new_event_autotopup_agreement_path(current_event), class: "btn btn-action-add-paypal" do
-    = fa_icon "paypal"
-    = t('dashboard.paypal.button')
+  h3 = t('dashboard.autotopup.claim')
+  p = t('dashboard.autotopup.description')
+  - current_event.autotopup_payment_services.each do |payment_service|
+    = link_to new_event_autotopup_agreement_path(current_event, payment_service: payment_service),
+        class: "btn btn-action-add-paypal" do
+      = icon_to_draw(payment_service)
+      = t("dashboard.#{payment_service.to_s}.button")

@@ -64,9 +64,12 @@ it:
       button: "Top-up"
       ticket_first: "Add a ticket first"
       calculating_balance: "Calculating your balance"
-    paypal:
+    autotopup:
       claim: "Take advantage!"
-      description: "Sync with Paypal and you will make direct top ups."
+      description: "Sync and you will make direct top ups."
+    paypal:
+      button: "Sync with PayPal"
+    paypal_nvp:
       button: "Sync with PayPal"
     event_refunds:
       claim: "L'evento non è ancora finito"
