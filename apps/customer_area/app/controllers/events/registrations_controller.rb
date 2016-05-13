@@ -3,18 +3,16 @@ class Events::RegistrationsController < Events::BaseController
   skip_before_filter :authenticate_customer!, only: [:new, :create]
 
   def new
-    @new_profile_form = NewProfileForm.new(Customer.new)
+    @customer_form = NewProfileForm.new
   end
 
   def create
-    @new_profile_form = NewProfileForm.new(Customer.new)
-    if @new_profile_form.validate(permitted_params) &&
-       verify_recaptcha(model: @new_profile_form) &&
-       @new_profile_form.save
+    @customer_form = NewProfileForm.new(permitted_params)
+
+    if @customer_form.save
       flash[:notice] = t("registrations.customer.success")
       redirect_to after_inactive_sign_up_path
     else
-      @new_profile_form.password =  nil
       render :new
     end
   end
@@ -46,9 +44,10 @@ class Events::RegistrationsController < Events::BaseController
   end
 
   def permitted_params
-    params.require(:customer).permit(:event_id, :email, :first_name,
-                                     :last_name, :phone, :address, :city, :country, :postcode,
-                                     :gender, :birthdate, :password, :current_password,
-                                     :agreed_on_registration, :agreed_event_condition)
+    params.require(:new_profile_form).permit(:event_id, :email, :first_name,
+                                             :last_name, :phone, :address, :city, :country, :postcode,
+                                             :gender, :birthdate, :password, :current_password,
+                                             :agreed_on_registration, :agreed_event_condition)
+          .merge(recaptcha: verify_recaptcha(model: @customer_form))
   end
 end
