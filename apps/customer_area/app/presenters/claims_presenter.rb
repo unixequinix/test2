@@ -9,7 +9,7 @@ class ClaimsPresenter < BasePresenter
     return "no_credits" if profile.refundable_money_amount.zero?
     return "invalid_balance" unless BalanceCalculator.new(profile).valid_balance?
     return "claim_present" if profile.completed_claim
-    return "direct_claim" if enough_money
+    return "direct_claim" if enough_money && @event.direct?
     "transfer_claim"
   end
 
