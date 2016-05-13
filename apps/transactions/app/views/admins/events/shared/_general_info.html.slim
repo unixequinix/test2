@@ -31,7 +31,7 @@ dl
   dt = t("admin.transactions.customer_tag_uid")
   dd 
     - if @gtag
-      = link_to @gtag.customer_tag_uid, admins_event_gtag_path(current_event, @gtag)
+      = link_to @gtag.tag_uid, admins_event_gtag_path(current_event, @gtag)
     - else
       = @transaction.customer_tag_uid
   
