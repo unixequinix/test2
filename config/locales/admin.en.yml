@@ -281,6 +281,13 @@ en:
       credential_types: "Credential Types"
       companies: "Companies"
       company_ticket_types: "Company ticket types"
+      access_transactions: "Access Transactions"
+      credit_transactions: "Credit Transactions"
+      credential_transactions: "Credential Transactions"
+      order_transactions: "Order Transactions"
+      money_transactions: "Money Transactions"
+      missin_transactions: "Missing Transactions"
+      credit_inconsistencies: "Credit inconsistencies"
     dashboard:
       change_state: "Change state?"
       api_access: "API access"
