@@ -175,6 +175,9 @@
         -
           name: autotopup
           data_type: boolean
+        -
+          name: url
+          data_type: string
     -
       name: wirecard
       parameters:

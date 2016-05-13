@@ -13,7 +13,7 @@ class Payments::PaypalNvpDataRetriever < Payments::BaseDataRetriever
   end
 
   def form
-    "https://www.sandbox.paypal.com/cgi-bin/webscr"
+    @current_event.get_parameter("payment", "paypal_nvp", "url")
   end
 
   def cmd

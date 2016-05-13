@@ -109,6 +109,9 @@
         -
           name: autotopup
           value: false
+        -
+          name: url
+          value: "https://www.sandbox.paypal.com/cgi-bin/webscr"
     -
       name: wirecard
       values:
