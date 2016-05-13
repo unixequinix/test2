@@ -79,7 +79,7 @@ class Gateways::PaypalNvp::Transaction
   private
 
   def post(params)
-    response = Net::HTTP.post_form(URI.parse("https://api-3t.sandbox.paypal.com/nvp"), params)
+    response = Net::HTTP.post_form(URI.parse(get_value_of_parameter("api_url")), params)
     response.body.split("&").map { |it| URI.decode_www_form(it).first }.to_h
   end
 
