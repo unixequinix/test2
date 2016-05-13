@@ -9,7 +9,7 @@
 
   / = link_to event_ticket_assignment_path(current_event, @presenter.assignment),
   /           class: "btn btn-remove-ticket",
-  /           data: { confirm: (t("confirm.remove_ticket")) },
+  /           data: { confirm: (t("confirm.remove_ticket") if current_profile.purchased_credits > 0) },
   /           method: :delete do
   /   = fa_icon "trash"
   /   = t("actions.delete_ticket")
