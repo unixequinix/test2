@@ -55,7 +55,7 @@ header.header-mobile.edit-profile-menu
             p.agreement-hint = t('registration.autotoup_agreement.current_amount')
             p.agreement-amount
               span = @edit_profile_form.current_autotopup_amount(payment_gateway_customer)
-              span.currency-symbol t
+              span.currency-symbol = current_event.token_symbol
           .agreement-select
             p.agreement-hint = t('registration.autotoup_agreement.new_amount')
             = select_tag :autotopup_amount,
