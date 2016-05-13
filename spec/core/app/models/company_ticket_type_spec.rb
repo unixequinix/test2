@@ -19,28 +19,39 @@ RSpec.describe CompanyTicketType, type: :model do
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to allow_value("", nil).for(:company_code) }
 
-  describe "CompanyTicketType" do
-    before(:all) do
-      @company_event_agreement = create(:company_event_agreement)
-      @company = @company_event_agreement.company
-      @event = @company_event_agreement.event
-      @j = create(:company_ticket_type,
-                  company_event_agreement: @company_event_agreement, event: @event, name: "Jaquan")
-      @h = create(:company_ticket_type,
-                  company_event_agreement: @company_event_agreement, event: @event, name: "Hilario")
+  let(:event) { create(:event) }
+  let(:agreement) { create(:company_event_agreement, event: event) }
+  let(:ticket_type) do
+    create(:company_ticket_type, company_event_agreement: agreement, event: event, name: "Jaquan")
+  end
+  let(:ticket_type2) do
+    create(:company_ticket_type, company_event_agreement: agreement, event: event, name: "Hilario")
+  end
+
+  it "does not validate uniqueness when company_code is blank" do
+    ticket_type.update! company_code: nil
+    ticket_type2.update! company_code: ""
+    expect(ticket_type).to be_valid
+    expect(ticket_type2).to be_valid
+  end
+
+  describe "CompanyTicketType queries" do
+    before :each do
+      # Initialize to save in DB
+      ticket_type.inspect
+      ticket_type2.inspect
     end
 
     it "returns all the company ticket types that belongs to a company of a particular event" do
-      query = CompanyTicketType.search_by_company_and_event(@company.name, @event)
-      expect(query.count).to eq(2)
+      query = CompanyTicketType.search_by_company_and_event(agreement.company.name, event)
+      expect(query).to include(ticket_type)
+      expect(query).to include(ticket_type2)
     end
 
     it "returns the data in the proper format for select inputs" do
-      query = CompanyTicketType.form_selector(@event)
-      expect(query).to eq([
-                            ["Jaquan", @j.id],
-                            ["Hilario", @h.id]
-                          ])
+      query = CompanyTicketType.form_selector(event)
+      expect(query).to include(["Jaquan", ticket_type.id])
+      expect(query).to include(["Hilario", ticket_type2.id])
     end
   end
 end
