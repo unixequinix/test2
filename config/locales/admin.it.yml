@@ -334,6 +334,7 @@ it:
       code: "Code"
       banned: "Banned"
       company_ticket_type: "Company ticket type"
+      gtags: "Gtags"
       ticket_type_simplified: "Simplified Ticket type"
       customer: "Assigned customer"
       created_at: "Created at"

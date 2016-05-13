@@ -334,6 +334,7 @@ es:
       code: "Código"
       banned: "Baneado"
       company_ticket_type: "Tipo de ticket de compañía"
+      gtags: "Gtags"
       ticket_type_simplified: "Tipo de Ticket Simplificado"
       customer: "Cliente asignado"
       created_at: "Creado el"

@@ -330,6 +330,7 @@ de:
       code: "Code"
       banned: "Banned"
       company_ticket_type: "Firmenticketart"
+      gtags: "Gtags"
       ticket_type_simplified: "Vereinfachte Ticketart"
       customer: "Angemeldeter Kunde"
       created_at: "Erstellt am"
