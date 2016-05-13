@@ -44,9 +44,9 @@ class Events::RegistrationsController < Events::BaseController
   end
 
   def permitted_params
-    params.require(:new_profile_form).permit(:event_id, :email, :first_name,
-                                             :last_name, :phone, :address, :city, :country, :postcode,
-                                             :gender, :birthdate, :password, :current_password,
+    params.require(:new_profile_form).permit(:event_id, :email, :first_name, :last_name, :phone,
+                                             :address, :city, :country, :postcode, :gender,
+                                             :birthdate, :password, :current_password,
                                              :agreed_on_registration, :agreed_event_condition)
           .merge(recaptcha: verify_recaptcha(model: @customer_form))
   end
