@@ -1,4 +1,4 @@
-set :branch, "jake"
+set :branch, "development"
 set :rails_env, "integration"
 
 # Default value for :log_level is :debug
