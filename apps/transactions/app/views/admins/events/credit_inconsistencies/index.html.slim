@@ -1,5 +1,18 @@
 - breadcrumb :admins_event_credit_inconsistencies, current_event
-    
+
+.container-statistics
+  .wrapper-statistics
+    h2 = @issues.size
+    span Count
+
+  .wrapper-statistics
+    h2 = @issues.map { |i| i[:inconsistent_balance] }.sum
+    span Inconsisten Balance
+
+  .wrapper-statistics
+    h2 = @issues.map { |i| i[:inconsistent_refundable_balance] }.sum
+    span Inconsisten Refundable Balance
+
 .wrapper-negative-space
   - if @issues
     table.transactions
@@ -10,6 +23,9 @@
           th = t("admin.transactions.credits_refundable")
           th = t("admin.transactions.final_balance")
           th = t("admin.transactions.final_refundable_balance")
+          th = t("admin.transactions.inconsistent_balance")
+          th = t("admin.transactions.inconsistent_refundable_balance")
+          th = t("admin.transactions.gtag")
       tbody
         - @issues.each do |issue|
           tr
@@ -18,6 +34,10 @@
             td data-label=t("admin.transactions.credits_refundable") = issue[:refundable_sum]
             td data-label=t("admin.transactions.final_balance") = issue[:final_balance]
             td data-label=t("admin.transactions.final_refundable_balance") = issue[:final_refundable_balance]
+            // TODO: Internationalization for these data labels
+            td data-label="inconsistent_balance" = issue[:inconsistent_balance]
+            td data-label="inconsistent_refundable_balance" = issue[:inconsistent_refundable_balance]
+            td data-label="gtag" = issue[:gtag]
   - else
     .section-title-empty
       = image_tag "img-empty.png"
