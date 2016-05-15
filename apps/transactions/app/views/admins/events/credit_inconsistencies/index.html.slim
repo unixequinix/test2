@@ -6,15 +6,15 @@
     span Count
 
   .wrapper-statistics
-    h2 = number_to_currency @issues.map { |i| i[:inconsistent_balance] if i[:inconsistent_balance] > 0 }.compact.sum, unit: "€"
+    h2 = number_to_token @issues.map { |i| i[:inconsistent_balance] if i[:inconsistent_balance] > 0 }.compact.sum
     span Inconsisten Topups
 
   .wrapper-statistics
-    h2 = number_to_currency @issues.map { |i| i[:inconsistent_balance] if i[:inconsistent_balance] < 0 }.compact.sum, unit: "€"
+    h2 = number_to_token @issues.map { |i| i[:inconsistent_balance] if i[:inconsistent_balance] < 0 }.compact.sum
     span Inconsisten Sales
 
   .wrapper-statistics
-    h2 = @issues.map { |i| i[:inconsistent_refundable_balance] }.sum
+    h2 = number_to_token @issues.map { |i| i[:inconsistent_refundable_balance] }.sum
     span Inconsisten Refundable Balance
 
 .wrapper-negative-space
