@@ -38,7 +38,7 @@ es:
       sign_in: 'Inicia Sesión'
       sign_up: 'Crear cuenta'
       join: 'Únete'
-      back: 'Volver a la home'
+      back: 'Inicio'
   dashboard:
     title: "My dashboard"
     admissions:
@@ -64,6 +64,7 @@ es:
       button: "Recarga"
       ticket_first: "Añade un ticket o pulsera primero"
       calculating_balance: "Estamos calculando tu balance"
+      refundable: "Reembonsable"
     paypal:
       claim: "Toma ventaja!"
       description: "Syncroniza con tu cuenta de Paypal y realiza recargas directas"
@@ -192,7 +193,7 @@ es:
     paypal:
       sync_title: "Regístarte en PayPal para completar el pago"
       sync_copy: "Crédito asegurado"
-      sync_description: "You can make automatic top ups in your event purchases. Select how much you want to automatically top up in the case where you spend all your credit during the event. This will help you avoid queues at on site top up stations. Your wristband will always be ready to use!"
+      sync_description: "Puedes realizar recargas automáticas en tus compras. Selecciona la cantidad que quieres recargar automáticamente en el caso de gastar todos tus créditos durante el evento. Esto te ayudará a evitar colas en las estaciones de recarga. ¡Tu pulsera estará siempre lista para su uso!"
       with_agreement_title: "Cuenta sicronizada con PayPal"
       with_agreement_subtitle: "Ahora puedes realizar pagos directamente"
   claims:

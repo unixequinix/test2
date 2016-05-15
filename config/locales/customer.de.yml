@@ -59,6 +59,7 @@ de:
       button: "Top-up"
       ticket_first: "Zuerst ein Ticket oder Armband hinzufügen"
       calculating_balance: "Rechnung wird erstellt"
+      refundable: "Refundable"
     paypal:
       claim: "Vorteil nutzen!"
       description: "Synchronisieren Sie mit Paypal, und Sie erhalten direkte Top-ups."

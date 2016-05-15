@@ -64,6 +64,7 @@ th:
       button: "เติมเงิน"
       ticket_first: "Add a ticket or wristband first"
       calculating_balance: "Calculating your balance"
+      refundable: "Refundable"
     paypal:
       claim: "Take advantage!"
       description: "Sync with Paypal and you will make direct top ups."

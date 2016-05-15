@@ -14,7 +14,7 @@
       = t("admin.event.fieldests.device")
 
     = f.input :gtag_type, as: :select, collection: EventDecorator.gtag_type_selector, include_blank: false
-    = f.input :maximum_gtag_balance
+    = f.input :maximum_gtag_balance, as: :float
 
   fieldset
     h3.section-header

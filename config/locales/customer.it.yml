@@ -64,6 +64,7 @@ it:
       button: "Top-up"
       ticket_first: "Add a ticket first"
       calculating_balance: "Calculating your balance"
+      refundable: "Refundable"
     paypal:
       claim: "Take advantage!"
       description: "Sync with Paypal and you will make direct top ups."
