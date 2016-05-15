@@ -6,8 +6,12 @@
     span Count
 
   .wrapper-statistics
-    h2 = @issues.map { |i| i[:inconsistent_balance] }.sum
-    span Inconsisten Balance
+    h2 = @issues.map { |i| i[:inconsistent_balance] if i[:inconsistent_balance] > 0 }.compact.sum
+    span Inconsisten Topups
+
+  .wrapper-statistics
+    h2 = @issues.map { |i| i[:inconsistent_balance] if i[:inconsistent_balance] < 0 }.compact.sum
+    span Inconsisten Refunds
 
   .wrapper-statistics
     h2 = @issues.map { |i| i[:inconsistent_refundable_balance] }.sum
