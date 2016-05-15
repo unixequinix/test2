@@ -15,8 +15,8 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
                    refundable_sum: refundable_sum,
                    final_balance: last.final_balance,
                    final_refundable_balance: last.final_refundable_balance,
-                   inconsistent_balance: last.final_balance - amount_sum,
-                   inconsistent_refundable_balance: last.final_refundable_balance - refundable_sum,
+                   bad_balance: last.final_balance - amount_sum,
+                   bad_refundable_balance: last.final_refundable_balance - refundable_sum,
                    gtag: profile.active_gtag_assignment&.credentiable.tag_uid }
     end
   end
