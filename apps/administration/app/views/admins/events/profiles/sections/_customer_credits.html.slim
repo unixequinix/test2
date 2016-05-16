@@ -22,4 +22,4 @@ table.refunds
         td data-label="transaction_origin" = customer_credit.transaction_origin
         td data-label="final_balance" = customer_credit.final_balance
         td data-label="final_refundable_balance" = customer_credit.final_refundable_balance
-        td data-label="created_at" = customer_credit.created_in_origin_at.strftime("%y-%m-%d %H:%M:%S")
+        td data-label="created_at" = customer_credit.created_in_origin_at&.strftime("%y-%m-%d %H:%M:%S")
