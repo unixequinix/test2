@@ -188,22 +188,27 @@
   padding: modules(0.5);
 }
 
-.btn-action-add-paypal {
+.btn-action-autptopup {
   @include transition(background-color 200ms ease-in-out);
   width: 100%;
   height: auto;
-  margin-bottom: 0;
-  background-color: $paypal;
-  color: $nuclear;
+  background-color: lighten($light_grey, 23%);
+  color: $grey;
 
-  @include min-screen($bp3) { width: modules(9); }
+  @include min-screen($bp3) { width: modules(11); }
 
   i {
     display: inline-block;
     width: auto;
     padding-right: modules(0.25);
-    color: $nuclear;
   }
+
+  &:hover { background-color: lighten($light_grey, 30%); }
+}
+
+.btn-action-add-paypal {
+  background-color: $paypal;
+  color: $nuclear;
 
   &:hover { background-color: lighten($paypal, 7%); }
 }
