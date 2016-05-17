@@ -3,7 +3,7 @@ class Events::AutotopupAgreementsController < Events::BaseController
     payment_service = params[:payment_service]
     @order = autotopup_order
     @order_presenter = "Orders::#{payment_service.to_s.camelize}Presenter".constantize
-      .new(current_event, @order).with_params(params)
+                                                                          .new(current_event, @order).with_params(params)
   end
 
   def destroy
@@ -18,6 +18,7 @@ class Events::AutotopupAgreementsController < Events::BaseController
   end
 
   private
+
   # TODO: Remove from this controller
   def autotopup_order
     order = Order.new(profile: current_profile)
@@ -32,5 +33,4 @@ class Events::AutotopupAgreementsController < Events::BaseController
     order.save
     order
   end
-
 end
