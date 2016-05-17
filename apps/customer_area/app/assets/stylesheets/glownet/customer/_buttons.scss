@@ -188,6 +188,8 @@
   padding: modules(0.5);
 }
 
+// Auto top up buttons
+
 .btn-action-autptopup {
   @include transition(background-color 200ms ease-in-out);
   width: 100%;
