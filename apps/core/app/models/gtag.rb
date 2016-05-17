@@ -81,12 +81,11 @@ class Gtag < ActiveRecord::Base
       .where(event: event, companies: { name: company })
   }
 
+  # TODO: Right now we're calculating the refundable_amount ourselves, in the future when the
+  # =>    devices fix the writing in wristband problem we will use the final_refundable_balance
+  # =>    of the last customer_credit ordered by gtag_db_index
   def refundable_amount
-    balance = assigned_profile.current_balance
-    standard_credit_price = event.standard_credit_price
-    credit_amount = 0
-    credit_amount = balance.refundable_amount if balance.present?
-    credit_amount * standard_credit_price
+    assigned_profile.customer_credits.map(&:refundable_amount).sum * event.standard_credit_price
   end
 
   def refundable_amount_after_fee(refund_service)
@@ -95,12 +94,9 @@ class Gtag < ActiveRecord::Base
   end
 
   def refundable?(refund_service)
-    balance = assigned_profile.current_balance
-
     minimum = event.refund_minimun(refund_service).to_f
-    balance.present? &&
-      (refundable_amount_after_fee(refund_service) >= minimum &&
-      refundable_amount_after_fee(refund_service) >= 0)
+    amount = refundable_amount_after_fee(refund_service)
+    amount >= minimum && amount >= 0
   end
 
   def any_refundable_method?
