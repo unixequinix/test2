@@ -153,10 +153,11 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
       fetcher: @fetcher.tickets,
       search_query: params[:q],
       page: params[:page],
-      context: view_context,
-      include_for_all_items: [:company_ticket_type,
-                              :assigned_ticket_credential,
-                              credential_assignments: :profile])
+      include_for_all_items: [
+        :assigned_profile,
+        assigned_ticket_credential: [profile: [:customer, active_gtag_assignment: :credentiable]]],
+      context: view_context
+    )
   end
 
   def permitted_params

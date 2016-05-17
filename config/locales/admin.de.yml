@@ -1,6 +1,14 @@
 de:
   admin:
     transactions:
+      categories:
+        access_transaction: "Access Transactions"
+        credit_transaction: "Credit Transactions"
+        credential_transaction: "Credential Transactions"
+        order_transaction: "Order Transactions"
+        money_transaction: "Money Transactions"
+        missin_transaction: "Missing Transactions"
+        credit_inconsistencies: "Credit inconsistencies"
       id: "ID"
       transaction_origin: "Quelle"
       transaction_type: "Typ"
@@ -278,6 +286,13 @@ de:
       credential_types: "Guthabentypen"
       companies: "Firmen"
       company_ticket_types: "Firmenticketarten"
+      access_transactions: "Access Transactions"
+      credit_transactions: "Credit Transactions"
+      credential_transactions: "Credential Transactions"
+      order_transactions: "Order Transactions"
+      money_transactions: "Money Transactions"
+      missin_transactions: "Missing Transactions"
+      credit_inconsistencies: "Credit inconsistencies"
     dashboard:
       change_state: "Status ändern?"
       api_access: "API Zugang"
@@ -330,6 +345,7 @@ de:
       code: "Code"
       banned: "Banned"
       company_ticket_type: "Firmenticketart"
+      gtags: "Gtags"
       ticket_type_simplified: "Vereinfachte Ticketart"
       customer: "Angemeldeter Kunde"
       created_at: "Erstellt am"

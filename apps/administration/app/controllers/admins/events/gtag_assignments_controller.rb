@@ -19,14 +19,12 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::CheckinBaseCon
 
   def destroy
     @credential_assignment = CredentialAssignment.find(params[:id])
-    profile = @credential_assignment.profile
     @credential_assignment.unassign!
     @credential_assignment.credentiable
 
     flash[:notice] = I18n.t("alerts.unassigned")
     GtagMailer.unassigned_email(@credential_assignment).deliver_later
-
-    redirect_to admins_event_customer_url(current_event, profile.customer)
+    redirect_to :back
   end
 
   private
