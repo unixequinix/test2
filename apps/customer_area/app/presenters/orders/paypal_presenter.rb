@@ -20,6 +20,10 @@ class Orders::PaypalPresenter < Orders::BasePresenter
     "events/orders/paypal/payment_form"
   end
 
+  def autotopup_path
+    "events/orders/paypal/autotopup_payment_form"
+  end
+
   def email
     @agreement.email
   end

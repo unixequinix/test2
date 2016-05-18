@@ -65,10 +65,13 @@ es:
       ticket_first: "Añade un ticket o pulsera primero"
       calculating_balance: "Estamos calculando tu balance"
       refundable: "Reembonsable"
-    paypal:
+    autotopup:
       claim: "Toma ventaja!"
       description: "Syncroniza con tu cuenta de Paypal y realiza recargas directas"
-      button: "Ir a PayPal"
+    paypal:
+      button: "Sincroniza con PayPal"
+    paypal_nvp:
+      button: "Sincroniza con PayPal"
     event_refunds:
       claim: "El evento aún no ha acabado"
       description: "Vuelve pronto para poder reclamar tu balance"

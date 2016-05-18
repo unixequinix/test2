@@ -34,6 +34,11 @@ class Orders::PaypalNvpPresenter < Orders::BasePresenter
     "events/orders/paypal_nvp/#{partial}"
   end
 
+  def autotopup_path
+    partial = (@payer_id || @agreement) ? "autotopup_payment_final" : "autotopup_payment_form"
+    "events/orders/paypal_nvp/#{partial}"
+  end
+
   def email
     @profile.customer.email
   end

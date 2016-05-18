@@ -60,17 +60,14 @@ class Events::BaseController < ApplicationController
   end
 
   def check_top_ups_is_active!
-    redirect_to event_url(current_event) unless
-      current_event.top_ups?
+    redirect_to event_url(current_event) unless current_event.top_ups?
   end
 
   def check_has_ticket!
-    redirect_to event_url(current_event) unless
-      current_profile.active_tickets_assignment
+    redirect_to event_url(current_event) unless current_profile.active_tickets_assignment
   end
 
   def check_has_gtag!
-    redirect_to event_url(current_event) unless
-      current_profile.active_gtag_assignment
+    redirect_to event_url(current_event) unless current_profile.active_gtag_assignment
   end
 end

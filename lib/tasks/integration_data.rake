@@ -28,17 +28,17 @@ namespace :db do
   task integration_data: :environment do
 
     @companies = 3
-    @customers = 200
-    @accesses = 10
-    @credential_types = 10
-    @packs = 15
-    @products = 15
-    @company_ticket_types = 15
-    @tickets = 200
-    @gtags =  180 # Less than customers is prefered
-    @box_offices = 10
+    @customers = 60000
+    @accesses = 20
+    @credential_types = 20
+    @packs = 100
+    @products = 100
+    @company_ticket_types = 20
+    @tickets = 200000
+    @gtags =  0 # Less than customers is prefered
+    @box_offices = 2
 
-    name = "Event #{DateTime.zone.now.to_s(:number)}"
+    name = "Event #{Time.zone.now.to_s(:number)}"
     event_params = FactoryGirl.attributes_for(:event, name: name, slug: name.parameterize)
     @event = EventCreator.new(event_params).save
 
@@ -59,7 +59,7 @@ namespace :db do
       customers.push({ event_id: @event.id,
         first_name: "Customer #{index}",
         last_name: "Glownet",
-        email: "customer#{index}#{DateTime.zone.now.to_s(:number)}@example.com",
+        email: "customer#{index}#{Time.zone.now.to_s(:number)}@example.com",
         agreed_on_registration: [true, false].sample,
         phone: "512 2301 440",
         country: "ES",
@@ -88,13 +88,13 @@ namespace :db do
     @accesses.times do |index|
       Access.create!(catalog_item_attributes: { event_id: @event.id,
                                                 name: "Access #{index}",
-                                                step: rand(5),
-                                                min_purchasable: 1,
-                                                max_purchasable: rand(1),
+                                                step: 1,
+                                                min_purchasable: 0,
+                                                max_purchasable: 1,
                                                 initial_amount: 0 },
                      entitlement_attributes: {
                        event_id: @event.id,
-                       infinite: [true, false].sample,
+                       mode: "permanent",
                        memory_length: 1 })
     end
   end
@@ -124,7 +124,7 @@ namespace :db do
 
     @products.times do |index|
       products.push({ event_id: @event.id,
-                     name: "Product #{DateTime.zone.now.to_s(:number)}",
+                     name: "Product #{Time.zone.now.to_s(:number)}",
                      description: "This is a description",
                      is_alcohol: [true, false].sample })
     end
@@ -153,7 +153,7 @@ namespace :db do
                           company_event_agreement_id: @event.company_event_agreements.pluck(:id).sample,
                           credential_type_id: credential_types.sample,
                           name: "Company Ticket Type #{rand(100)}",
-                          company_code: "#{index}AT#{DateTime.zone.now.to_s(:number)}"})
+                          company_code: "#{index}AT#{Time.zone.now.to_s(:number)}"})
     end
     CompanyTicketType.bulk_insert_in_batches(ticket_types,
                                              batch_size: 50000,
@@ -168,7 +168,7 @@ namespace :db do
     @tickets.times do |index|
       tickets.push({ event_id: @event.id,
                      company_ticket_type_id: ticket_types.sample,
-                     code: "#{index}AT#{DateTime.zone.now.to_s(:number)}",
+                     code: "#{index}AT#{Time.zone.now.to_s(:number)}",
                      credential_redeemed: [true, false].sample })
     end
     Ticket.bulk_insert_in_batches(tickets, batch_size: 50000, delay: 0, validate: false)
@@ -197,7 +197,7 @@ namespace :db do
     @gtags.times do |index|
       gtags.push({ event_id: @event.id,
                    company_ticket_type_id: ticket_types.sample,
-                   tag_uid: "UID#{index}AT#{DateTime.zone.now.to_s(:number)}",
+                   tag_uid: "UID#{index}AT#{Time.zone.now.to_s(:number)}",
                    credential_redeemed: [true, false].sample })
     end
     Gtag.bulk_insert_in_batches(gtags, batch_size: 50000, delay: 0, validate: false)

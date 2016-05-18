@@ -16,6 +16,11 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
                 credential_assignments: :credentiable,
                 customer_orders: [:catalog_item, :online_order]]
     ).find(params[:id])
+
+    tag = @customer.profile&.active_gtag_assignment&.credentiable&.tag_uid
+    @credit_transactions = CreditTransaction.where(event: current_event, customer_tag_uid: tag)
+                                            .order(device_created_at: :desc)
+                                            .includes(:station)
   end
 
   def set_presenter
@@ -28,6 +33,7 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
       include_for_all_items: [:profile,
                               profile: [:active_tickets_assignment,
                                         :active_gtag_assignment,
+                                        :payment_gateway_customers,
                                         active_assignments: :credentiable]])
   end
 end

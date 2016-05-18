@@ -16,7 +16,7 @@ Rails.application.routes.draw do
           resource :passwords, only: [:new, :create, :edit, :update]
         end
       end
-      resources :autotopup_agreements, only: [:new, :create, :destroy]
+      resources :autotopup_agreements, only: [:new, :show, :update, :destroy]
       resources :ticket_assignments, only: [:new, :create, :destroy]
       resources :gtag_assignments, only: [:new, :create, :destroy]
       resources :checkouts, only: [:new, :create]
@@ -29,6 +29,20 @@ Rails.application.routes.draw do
           # resources :payments, only: [:create],
           # =>                   constraints: lambda{|request|
           # =>  request.env['HTTP_X_REAL_IP'].match(Rails.application.secrets.merchant_ip)}
+          resources :autotopup_synchronous_payments, only: [:new, :create] do
+            collection do
+              get "success"
+              get "error"
+            end
+          end
+          resources :autotopup_asynchronous_payments, only: [:new, :create] do
+            collection do
+              get "success"
+              post "success"
+              get "error"
+              post "error"
+            end
+          end
           resources :synchronous_payments, only: [:new, :create] do
             collection do
               get "success"

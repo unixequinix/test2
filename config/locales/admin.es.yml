@@ -418,6 +418,8 @@ es:
     profile:
       id: "Id"
     customers:
+      id: "Id"
+      autotopup: "Autorecarga?"
       banned: "Baneado"
       delete: "Borrado"
       email: "Email"

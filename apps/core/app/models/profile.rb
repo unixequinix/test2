@@ -123,7 +123,8 @@ class Profile < ActiveRecord::Base # rubocop:disable ClassLength
     neg = (refund.amount * -1)
     params = {
       amount: neg, refundable_amount: neg, credit_value: event.standard_credit_price,
-      payment_method: refund.payment_solution, transaction_origin: "refund"
+      payment_method: refund.payment_solution, transaction_origin: "refund",
+      created_in_origin_at: Time.zone.now
     }
     customer_credits.create!(params)
   end

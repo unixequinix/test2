@@ -9,8 +9,10 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
       refundable_sum = credits.map(&:refundable_amount).sum
 
       next unless last
-      next if last.final_balance == amount_sum && last.final_refundable_balance == refundable_sum
-
+      next if last.final_balance == amount_sum &&
+              last.final_refundable_balance == refundable_sum &&
+              last.final_balance >= 0 &&
+              last.final_refundable_balance >= 0
       @issues << { profile: profile,
                    amount_sum: amount_sum,
                    refundable_sum: refundable_sum,
@@ -18,7 +20,7 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
                    final_refundable_balance: last.final_refundable_balance,
                    bad_balance: last.final_balance - amount_sum,
                    bad_refundable_balance: last.final_refundable_balance - refundable_sum,
-                   gtag: profile.active_gtag_assignment&.credentiable.tag_uid }
+                   gtag: profile.active_gtag_assignment&.credentiable&.tag_uid }
     end
   end
 end
