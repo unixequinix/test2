@@ -1,5 +1,5 @@
 class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseController
-  def index # rubocop:disable Metrics/AbzSize, Metrics/MethodLength
+  def index # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     @issues = []
 
     current_event.profiles.includes(:customer_credits, :active_gtag_assignment).each do |profile|

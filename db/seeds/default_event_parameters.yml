@@ -18,7 +18,7 @@
           value: false
         -
           name: topup_initialize_gtag
-          value: false
+          value: true
 -
   category: payment
   groups:
