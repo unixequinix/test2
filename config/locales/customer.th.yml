@@ -316,6 +316,8 @@ th:
       billing_agreement_description: "I agree in get automated charges when running out of credit"
       current_amount: 'Current top up:'
       new_amount: 'Change your quantity:'
+      success: 'Account added!'
+      success_description: 'Now you can perform direct auto topups through your account'
   sessions:
     first_register:
       welcome: 'Bienvenido!!'

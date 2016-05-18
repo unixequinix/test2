@@ -14,6 +14,7 @@
 
 $small_text:        $base_font_size * 0.75;
 $label-size:        $base-font-size;
+$paypal-logo-agreement:        $base-font-size * 3;
 $credit-size:       $base-font-size * 5;
 
 $radius:            3px;
@@ -287,5 +288,12 @@ a {
 
 // Tipalti container
 .tipalti { height: 900px !important; }
+
+.paypal-styled {
+  @include mscale($paypal-logo-agreement);
+  display: block;
+  margin-bottom: 0;
+  color: $grey;
+}
 
 // ···
