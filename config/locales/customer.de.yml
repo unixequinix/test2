@@ -294,6 +294,8 @@ de:
       billing_agreement_description: "Ich stimme automatisch entstehenden Kosten zu, falls mein Guthaben ausgeht"
       current_amount: 'Current top up:'
       new_amount: 'Change your quantity:'
+      success: 'Account added!'
+      success_description: 'Now you can perform direct auto topups through your account'
   sessions:
     first_register:
       welcome: Willkommen!'
