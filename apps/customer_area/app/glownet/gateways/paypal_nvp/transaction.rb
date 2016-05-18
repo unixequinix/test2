@@ -71,6 +71,11 @@ class Gateways::PaypalNvp::Transaction
          "AMT" => amount)
   end
 
+  def void_transaction(authorization)
+    post("METHOD" => "DoVoid",
+         "AUTHORIZATIONID" => authorization)
+  end
+
   private
 
   def post(params)
