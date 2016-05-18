@@ -10,8 +10,8 @@ class Operations::Base < ActiveJob::Base
     return obj if obj
     return portal_write(atts) unless atts[:status_code].to_i.zero?
 
-    Gtag.find_or_create_by!(tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id])
-    profile_id = Profile::Checker.for_transaction(atts)
+    gtag = Gtag.find_or_create_by!(tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id])
+    profile_id = Profile::Checker.for_transaction(gtag, atts[:profile_id], atts[:event_id])
 
     obj_atts = column_attributes(klass, atts)
     obj_atts[:profile_id] = profile_id
