@@ -5,9 +5,14 @@ class DeviceSettingsForm
   attribute :min_version_apk, String
   attribute :private_zone_password, String
   attribute :uid_reverse, String
+  attribute :touchpoint_update_online_orders, String
+  attribute :topup_initialize_gtag, String
   attribute :event_id, Integer
 
   validates_presence_of :min_version_apk
+  validates_presence_of :private_zone_password
+  validates_presence_of :touchpoint_update_online_orders
+  validates_presence_of :topup_initialize_gtag
   validates_presence_of :private_zone_password
   validates_presence_of :event_id
 

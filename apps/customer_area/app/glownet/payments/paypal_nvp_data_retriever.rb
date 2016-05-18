@@ -5,15 +5,20 @@ class Payments::PaypalNvpDataRetriever < Payments::BaseDataRetriever
   include Rails.application.routes.url_helpers
   attr_reader :current_event, :order
 
+  def with_params(params)
+    @autotopup_agreement = params[:autotopup_agreement]
+    @hash_response = @paypal_nvp.set_express_checkout(amount, cancel_url, return_url)
+    self
+  end
+
   def initialize(event, order)
     @current_event = event
     @order = order
     @paypal_nvp = Gateways::PaypalNvp::Transaction.new(event)
-    @hash_response = @paypal_nvp.set_express_checkout(amount, cancel_url, return_url)
   end
 
   def form
-    "https://www.sandbox.paypal.com/cgi-bin/webscr"
+    @current_event.get_parameter("payment", "paypal_nvp", "url")
   end
 
   def cmd
@@ -35,6 +40,10 @@ class Payments::PaypalNvpDataRetriever < Payments::BaseDataRetriever
   end
 
   def return_url
-    event_order_url(current_event, @order)
+    return event_order_url(current_event, @order) unless @autotopup_agreement
+    new_event_autotopup_agreement_url(
+      current_event,
+      order_id: @order,
+      payment_service: "paypal_nvp")
   end
 end

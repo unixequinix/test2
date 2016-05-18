@@ -5,7 +5,8 @@ class Api::V1::StationSerializer < Api::V1::BaseSerializer
     hash = super
     hash[:catalog] = catalog if type == "box_office"
     hash[:products] = products if type == "point_of_sales"
-    hash[:top_up_credits] = top_up_credits if type == "top_up_refund"
+    hash[:top_up_credits] = top_up_credits if
+      type == "top_up_refund" || type == "hospitality_top_up"
     hash[:entitlements] = entitlements if type == "access_control"
     hash
   end

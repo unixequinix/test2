@@ -1,6 +1,4 @@
 class Payments::PaypalNvpPayer
-  include Payments::AutomaticRefundable
-
   def start(params, customer_order_creator, customer_credit_creator)
     @event = Event.friendly.find(params[:event_id])
     @order = Order.find(params[:order_id])
@@ -14,7 +12,6 @@ class Payments::PaypalNvpPayer
     email = @paypal_nvp.get_express_checkout_details(params[:token])["EMAIL"]
     create_agreement(charge_object, params, email)
     notify_payment(charge_object, customer_order_creator, customer_credit_creator)
-    automatic_refund if params[:autotopup_payment]
     charge_object
   end
 

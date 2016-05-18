@@ -13,6 +13,12 @@
         -
           name: uid_reverse
           value: false
+        -
+          name: touchpoint_update_online_orders
+          value: false
+        -
+          name: topup_initialize_gtag
+          value: false
 -
   category: payment
   groups:
@@ -103,6 +109,12 @@
         -
           name: autotopup
           value: false
+        -
+          name: url
+          value: "https://www.sandbox.paypal.com/cgi-bin/webscr"
+        -
+          name: api_url
+          data_type: "https://api-3t.sandbox.paypal.com/nvp"
     -
       name: wirecard
       values:

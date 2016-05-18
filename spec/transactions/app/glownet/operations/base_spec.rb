@@ -16,29 +16,6 @@ RSpec.describe Operations::Base, type: :job do
     }
   end
 
-  let(:real_params) do
-    {
-      credit_value: 1.0,
-      credits: 8.059999,
-      final_balance: 35.0,
-      final_refundable_balance: 29.199999,
-      credits_refundable: 8.059999,
-      sale_items_attributes: nil,
-      customer_event_profile_id: "",
-      customer_tag_uid: "0418C86AB63780",
-      device_created_at: "2016-05-10 21:28:06.279",
-      device_db_index: 5,
-      device_uid: "5C0A5B5405C9",
-      event_id: event.id,
-      operator_tag_uid: "04A2330A4F4D80",
-      status_code: 0,
-      status_message: "",
-      transaction_category: "credit",
-      transaction_origin: "onsite",
-      transaction_type: "sale_refund"
-    }
-  end
-
   before(:each) do
     # make 100% sure they are loaded into memory
     # inspect caled for rubocops sake
@@ -48,10 +25,6 @@ RSpec.describe Operations::Base, type: :job do
     Operations::Order::CredentialAssigner.inspect
     # Dont care about the BalanceUpdater or Porfile::Checker, so I mock the behaviour
     allow(Operations::Credit::BalanceUpdater).to receive(:perform_now)
-  end
-
-  it "works for real params" do
-    expect { base.perform_now(real_params) }.not_to raise_error
   end
 
   it "checks the profile" do
@@ -66,10 +39,16 @@ RSpec.describe Operations::Base, type: :job do
 
   describe "when sale_items_attributes is blank" do
     before do
-      expect(CreditTransaction).to receive(:create!).with(hash_not_including(:sale_item_attributes))
-        .and_return(CreditTransaction.new)
+      atts = hash_not_including(:sale_item_attributes)
+      value = CreditTransaction.new
+      expect(CreditTransaction).to receive(:create!).with(atts).and_return(value)
     end
+
     after { base.perform_now(params) }
+
+    it "works when status code is error (other than 0)" do
+      params[:status_code] = 2
+    end
 
     it "removes sale_item_attributes when empty" do
       params[:sale_item_attributes] = []

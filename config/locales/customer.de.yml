@@ -38,7 +38,7 @@ de:
   dashboard:
     title: "Meine Übersichtsseite"
     admissions:
-      header: "Ticket %{Firmenticket-Typ}"
+      header: "Ticket %{company_ticket_type}"
       call_to_action: "Wollen Sie dieses Ticket entfernen?"
       call_to_action_started: "Die Veranstaltung hat soeben begonnen. Daher sind Ticketänderungen nicht möglich."
       success: "Ticket erfolgreich aktiviert!"
@@ -175,7 +175,7 @@ de:
     paypal:
       sync_title: "Mit Paypal synchronisieren, um die Zahlung durchzuführen"
       sync_copy: "Nie ohne Guthaben!"
-      sync_description: "Veranlassen Sie direkte Topups für Ihre Veranstaltungskäufe. Bestimmen Sie, wieviel Sie aufladen wollen, falls Sie Ihr Guthaben auf der Veranstaltung aufgebraucht haben. So umgehen Sie Warteschlangen. Ihr Armband wird immer einsatzbereit sein."
+      sync_description: "You can make automatic top ups in your event purchases. Select how much you want to automatically top up in the case where you spend all your credit during the event. This will help you avoid queues at on site top up stations. Your wristband will always be ready to use!"
       with_agreement_title: "Bereits mit PayPal synchronisiert"
       with_agreement_subtitle: "Sie können direkte Zahlungen durchführen"
   claims:

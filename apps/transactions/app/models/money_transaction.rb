@@ -15,7 +15,7 @@
 #  device_created_at    :string
 #  catalogable_id       :integer
 #  catalogable_type     :string
-#  items_amount         :integer
+#  items_amount         :float
 #  price                :float
 #  payment_method       :string
 #  payment_gateway      :string
