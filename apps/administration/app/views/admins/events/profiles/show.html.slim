@@ -6,4 +6,4 @@
 .wrapper-negative-space
   = render("credentials_information", profile: @profile)
   = render("payments_information", profile: @profile) if @profile.payment_gateway_customers.any?
-  = render("profile_data", profile: @profile)
+  = render("profile_data", profile: @profile, credit_transactions: @credit_transactions)
