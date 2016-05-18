@@ -64,7 +64,7 @@ class Payments::AutotopupPaypalNvpPayer
   end
 
   def send_mail_for(customer)
-    AgreementMailer.completed_email(customer).deliver_later
+    AgreementMailer.accepted_email(customer).deliver_later
   end
 
   def get_event_parameter_value(event, name)
