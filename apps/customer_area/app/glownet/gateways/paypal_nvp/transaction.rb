@@ -17,22 +17,13 @@ class Gateways::PaypalNvp::Transaction
   end
 
   def set_express_checkout(email, amount, cancel_url, return_url)
-    post("USER" => @user,
-         "PWD" => @password,
-         "EMAIL" => email,
-         "SIGNATURE" => @signature,
-         "METHOD" => "SetExpresscheckout",
-         "VERSION" => @version,
-         "HDRIMG" => nil,
-         "BRANDNAME" => @event.name,
-         "PAYMENTREQUEST_0_PAYMENTACTION" => "AUTHORIZATION",
-         "PAYMENTREQUEST_0_AMT" => amount,
-         "PAYMENTREQUEST_0_CURRENCYCODE" => @currency,
+    post("USER" => @user, "PWD" => @password, "EMAIL" => email, "SIGNATURE" => @signature,
+         "METHOD" => "SetExpresscheckout", "VERSION" => @version, "HDRIMG" => nil,
+         "BRANDNAME" => @event.name, "PAYMENTREQUEST_0_PAYMENTACTION" => "AUTHORIZATION",
+         "PAYMENTREQUEST_0_AMT" => amount, "PAYMENTREQUEST_0_CURRENCYCODE" => @currency,
          "L_BILLINGTYPE0" => @billing_type,
          "L_BILLINGAGREEMENTDESCRIPTION0" => @billing_agreement_description,
-         "NOSHIPPING" => 1,
-         "cancelUrl" => cancel_url,
-         "returnUrl" => return_url)
+         "NOSHIPPING" => 1, "cancelUrl" => cancel_url, "returnUrl" => return_url)
   end
 
   def get_express_checkout_details(token)

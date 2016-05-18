@@ -28,7 +28,7 @@ class TicketAssignmentForm
                    items_owned = current_profile.customer_orders.map(&:catalog_item)
                    same_items = (items - items_owned).empty?
                    infinites && same_items
-    end
+                 end
 
     add_error("alerts.credential_already_assigned") && return if t_type_owned || cred_owned
 

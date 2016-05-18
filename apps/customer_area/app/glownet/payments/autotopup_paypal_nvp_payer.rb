@@ -33,11 +33,11 @@ class Payments::AutotopupPaypalNvpPayer
 
   private
 
-  def notify_payment(charge, customer_order_creator, _customer_credit_creator)
+  def notify_payment(charge, _customer_order_creator, _customer_credit_creator)
     return unless charge["ACK"] == "Success"
     @payment = create_payment(@order, charge, @method)
     @order.complete!
-    send_mail_for(@order, @event)
+    send_mail_for(@profile.customer)
   end
 
   def create_agreement(charge_object, params, email)
@@ -63,8 +63,8 @@ class Payments::AutotopupPaypalNvpPayer
     @event.get_parameter("payment", "paypal_nvp", "autotopup") == "true"
   end
 
-  def send_mail_for(order, event)
-    OrderMailer.completed_email(order, event).deliver_later
+  def send_mail_for(customer)
+    AgreementMailer.completed_email(customer).deliver_later
   end
 
   def get_event_parameter_value(event, name)

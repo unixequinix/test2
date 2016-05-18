@@ -50,7 +50,8 @@ class Events::AutotopupAgreementsController < Events::BaseController
 
   def check_autotopup!
     redirect_to event_url(current_event) unless current_event.gtag_assignation? &&
-      current_profile.active_credentials? && current_event.agreement_acceptance? &&
-      current_event.autotopup_payment_services.present?
+                                                current_profile.active_credentials? &&
+                                                current_event.agreement_acceptance? &&
+                                                current_event.autotopup_payment_services.present?
   end
 end

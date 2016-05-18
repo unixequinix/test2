@@ -66,7 +66,7 @@ class Payments::AutotopupPaypalPayer
     return unless charge.transaction.status == "settling"
     @payment = create_payment(@order, charge)
     @order.complete!
-    send_mail_for(@order, @event)
+    send_mail_for(@profile.customer)
   end
 
   def create_agreement(charge_object, autotopup_amount)
@@ -84,8 +84,8 @@ class Payments::AutotopupPaypalPayer
     params[:accept] && !@profile.gateway_customer(EventDecorator::PAYPAL)
   end
 
-  def send_mail_for(order, event)
-    OrderMailer.completed_email(order, event).deliver_later
+  def send_mail_for(customer)
+    AgreementMailer.completed_email(customer).deliver_later
   end
 
   def get_event_parameter_value(event, name)
