@@ -19,7 +19,7 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
 
     tag = @profile.active_gtag_assignment.credentiable.tag_uid
     @credit_transactions = CreditTransaction.where(event: current_event, customer_tag_uid: tag)
-                                            .order(:device_created_at)
+                                            .order(device_created_at: :desc)
   end
 
   def ban
