@@ -37,18 +37,18 @@ class Payments::PaypalPayer
     sale_options
   end
 
+  def submit_for_settlement(sale_options)
+    sale_options[:options] = {
+      submit_for_settlement: true
+    }
+  end
+
   def regular_payment_options(sale_options, params)
     sale_options[:payment_method_nonce] = params[:payment_method_nonce]
   end
 
   def auto_payment_options(sale_options, _params)
     sale_options[:customer_id] = @gateway.token
-  end
-
-  def submit_for_settlement(sale_options)
-    sale_options[:options] = {
-      submit_for_settlement: true
-    }
   end
 
   def vault_options(sale_options, customer)
