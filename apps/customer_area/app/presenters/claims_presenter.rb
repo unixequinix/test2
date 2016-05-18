@@ -8,7 +8,8 @@ class ClaimsPresenter < BasePresenter
     enough_money = profile.refundable_money_amount <= profile.online_refundable_money_amount
     return "no_credits" if profile.refundable_money_amount.zero?
     return "invalid_balance" unless BalanceCalculator.new(profile).valid_balance?
-    return "claim_present" if profile.completed_claim
+    # TODO: Check why completed_claim not working, instead I used profile.refunds.empty?
+    return "claim_present" if !profile.refunds.empty?
     return "direct_claim" if enough_money && @event.direct?
     "transfer_claim"
   end

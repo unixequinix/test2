@@ -1,6 +1,7 @@
 class CreditsPresenter < BasePresenter
   def can_render?
-    @profile.active_credentials?
+    # TODO: Check why completed_claim not working, instead I used profile.refunds.empty?
+    @profile.active_credentials? || !@profile.refunds.empty?
   end
 
   def path
