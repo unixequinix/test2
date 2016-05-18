@@ -1,6 +1,6 @@
 class CreditsPresenter < BasePresenter
   def can_render?
-    @profile.active_credentials? && !@profile.completed_claims
+    @profile.active_credentials? && @profile.completed_claims.empty?
   end
 
   def path
