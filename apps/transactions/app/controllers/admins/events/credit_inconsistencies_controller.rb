@@ -1,5 +1,5 @@
 class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseController
-  def index
+  def index # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     @issues = []
 
     current_event.profiles.includes(:customer_credits, :active_gtag_assignment).each do |profile|
@@ -10,6 +10,7 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
 
       next unless last
       next if last.final_balance == amount_sum && last.final_refundable_balance == refundable_sum
+
       @issues << { profile: profile,
                    amount_sum: amount_sum,
                    refundable_sum: refundable_sum,
