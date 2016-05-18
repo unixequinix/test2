@@ -83,7 +83,7 @@ class Event < ActiveRecord::Base
     :logo,
     path: "#{S3_FOLDER}/event/:id/logos/:style/:filename",
     url: "#{S3_FOLDER}/event/:id/logos/:style/:basename.:extension",
-    styles: { email: "x120" },
+    styles: { email: "x120", paypal: "x50" },
     default_url: ":default_event_image_url")
 
   has_attached_file(
