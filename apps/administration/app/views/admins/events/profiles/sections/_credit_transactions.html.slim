@@ -4,12 +4,10 @@ h3
 table.transactions
   thead
     tr
-      th = t("admin.transactions.id")
-      th = t("admin.transactions.transaction_origin")
       th = t("admin.transactions.transaction_type")
+      th = t("admin.transactions.transaction_origin")
       th = t("admin.transactions.station_id")
       th = t("admin.transactions.device_uid")
-      th = t("admin.transactions.customer_tag_uid")
       th = t("admin.transactions.credits")
       th = t("admin.transactions.credits_refundable")
       th = t("admin.transactions.final_balance")
@@ -18,12 +16,10 @@ table.transactions
   tbody
     - credit_transactions.each do |transaction|
         tr
-          td data-label=t("admin.transactions.id") = link_to transaction.id, admins_event_credit_transaction_path(current_event, transaction)
-          td data-label=t("admin.transactions.transaction_origin") = transaction.transaction_origin
           td data-label=t("admin.transactions.transaction_type") = transaction.transaction_type
+          td data-label=t("admin.transactions.transaction_origin") = transaction.transaction_origin
           td data-label=t("admin.transactions.station_id") = transaction.station.name
           td data-label=t("admin.transactions.device_uid") = transaction.device_uid
-          td data-label=t("admin.transactions.customer_tag_uid") = transaction.customer_tag_uid
           td data-label=t("admin.transactions.credits") = transaction.credits
           td data-label=t("admin.transactions.credits_refundable") = transaction.credits_refundable
           td data-label=t("admin.transactions.final_balance") = transaction.final_balance
