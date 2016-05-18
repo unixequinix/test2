@@ -28,6 +28,10 @@ class CreditsPresenter < BasePresenter
     @event.token_symbol
   end
 
+  def currency_symbol
+    @event.currency_symbol
+  end
+
   def valid_balance?
     BalanceCalculator.new(@profile).valid_balance?
   end
