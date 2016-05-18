@@ -33,7 +33,7 @@ class Payments::AutotopupPaypalNvpPayer
 
   private
 
-  def notify_payment(charge, customer_order_creator, customer_credit_creator)
+  def notify_payment(charge, customer_order_creator, _customer_credit_creator)
     return unless charge["ACK"] == "Success"
     @payment = create_payment(@order, charge, @method)
     customer_order_creator.save(@order, "paypal_nvp", "paypal_nvp")

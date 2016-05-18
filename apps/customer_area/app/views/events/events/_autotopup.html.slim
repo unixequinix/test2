@@ -1,9 +1,6 @@
 .wrapper-module.wrapper-autotopup-methods
   h3 = t('dashboard.autotopup.claim')
   p = t('dashboard.autotopup.description')
-  = link_to "#", class: "btn btn-action-autptopup"
-    = fa_icon "info"
-    = t("dashboard.button")
   // For non PayPal buttons use btn-action-autptopup class only
   - current_event.autotopup_payment_services.each do |payment_service|
     = link_to new_event_autotopup_agreement_path(current_event, payment_service: payment_service),

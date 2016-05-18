@@ -30,7 +30,7 @@ class Payments::AutotopupPaypalPayer
     amount = @order.total_formated
     sale_options = {
       order_id: @order.number,
-      amount: amount
+      amount: amount,
       customer_id: @gateway.token
     }
     submit_for_settlement(sale_options)
@@ -56,7 +56,7 @@ class Payments::AutotopupPaypalPayer
     }
   end
 
-  def notify_payment(charge, customer_order_creator, customer_credit_creator)
+  def notify_payment(charge, _customer_order_creator, _customer_credit_creator)
     return unless charge.transaction.status == "settling"
     @payment = create_payment(@order, charge)
     @order.complete!

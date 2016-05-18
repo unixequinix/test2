@@ -53,13 +53,10 @@ class Payments::PaypalPayer
 
   def vault_options(sale_options, customer)
     sale_options[:customer] = {
-      first_name: customer.first_name,
-      last_name: customer.last_name,
-      email: customer.email
+      first_name: customer.first_name, last_name: customer.last_name, email: customer.email
     }
     sale_options[:options] = {
-      submit_for_settlement: true,
-      store_in_vault: true
+      submit_for_settlement: true, store_in_vault: true
     }
   end
 
