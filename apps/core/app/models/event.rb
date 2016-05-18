@@ -36,6 +36,7 @@
 #  updated_at              :datetime         not null
 #  token_symbol            :string           default("t")
 #  company_name            :string
+#  agreement_acceptance    :boolean          default(FALSE)
 #
 
 class Event < ActiveRecord::Base

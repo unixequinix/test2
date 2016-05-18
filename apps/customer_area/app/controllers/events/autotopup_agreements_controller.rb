@@ -42,7 +42,7 @@ class Events::AutotopupAgreementsController < Events::BaseController
     order.order_items << OrderItem.new(
       catalog_item_id: catalog_item.id,
       amount: 1,
-      total: 0.01
+      total: 1
     )
     order.save
     order
@@ -50,7 +50,8 @@ class Events::AutotopupAgreementsController < Events::BaseController
 
   def check_autotopup!
     redirect_to event_url(current_event) unless current_event.gtag_assignation? &&
-      current_profile.active_credentials? && current_event.agreement_acceptance? &&
-      current_event.autotopup_payment_services.present?
+                                                current_profile.active_credentials? &&
+                                                current_event.agreement_acceptance? &&
+                                                current_event.autotopup_payment_services.present?
   end
 end
