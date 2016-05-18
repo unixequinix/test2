@@ -296,4 +296,11 @@ a {
   color: $grey;
 }
 
+body.synchronous_payments.error,
+body.asynchronous_payments.error,
+body.autotopup_asynchronous_payments.error,
+body.autotopup_synchronous_payments.error {
+  background-color: lighten($red,30%) !important;
+}
+
 // ···
