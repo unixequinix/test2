@@ -1,16 +1,17 @@
-class Payments::PaypalPayer
+class Payments::AutotopupPaypalPayer
+  include Payments::AutomaticRefundable
   # TODO: Refactor method
   def start(params, customer_order_creator, customer_credit_creator)
     @event = Event.friendly.find(params[:event_id])
     @order = Order.find(params[:order_id])
     @profile = @order.profile
     @gateway = @profile.gateway_customer(EventDecorator::PAYPAL)
-    @method = @gateway ? "auto" : "regular"
     @order.start_payment!
     charge_object = charge(params)
     return charge_object unless charge_object.success?
     create_agreement(charge_object, params[:autotopup_amount]) if create_agreement?(params)
     notify_payment(charge_object, customer_order_creator, customer_credit_creator)
+    automatic_refund(@payment, @order.total, params[:payment_service_id])
     charge_object
   end
 
@@ -29,20 +30,12 @@ class Payments::PaypalPayer
     amount = @order.total_formated
     sale_options = {
       order_id: @order.number,
-      amount: amount
+      amount: amount,
+      customer_id: @gateway.token
     }
     submit_for_settlement(sale_options)
     vault_options(sale_options, @profile.customer) if create_agreement?(params)
-    send("#{@method}_payment_options", sale_options, params)
     sale_options
-  end
-
-  def regular_payment_options(sale_options, params)
-    sale_options[:payment_method_nonce] = params[:payment_method_nonce]
-  end
-
-  def auto_payment_options(sale_options, _params)
-    sale_options[:customer_id] = @gateway.token
   end
 
   def submit_for_settlement(sale_options)
@@ -53,18 +46,19 @@ class Payments::PaypalPayer
 
   def vault_options(sale_options, customer)
     sale_options[:customer] = {
-      first_name: customer.first_name, last_name: customer.last_name, email: customer.email
+      first_name: customer.first_name,
+      last_name: customer.last_name,
+      email: customer.email
     }
     sale_options[:options] = {
-      submit_for_settlement: true, store_in_vault: true
+      submit_for_settlement: true,
+      store_in_vault: true
     }
   end
 
-  def notify_payment(charge, customer_order_creator, customer_credit_creator)
+  def notify_payment(charge, _customer_order_creator, _customer_credit_creator)
     return unless charge.transaction.status == "settling"
-    create_payment(@order, charge)
-    customer_credit_creator.save(@order)
-    customer_order_creator.save(@order, "paypal", "paypal")
+    @payment = create_payment(@order, charge)
     @order.complete!
     send_mail_for(@order, @event)
   end

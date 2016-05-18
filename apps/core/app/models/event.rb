@@ -155,7 +155,7 @@ class Event < ActiveRecord::Base
   end
 
   def payment_service_parsed(payment_service)
-      EventDecorator::PAYMENT_PLATFORMS[payment_service]
+    EventDecorator::PAYMENT_PLATFORMS[payment_service]
   end
 
   private

@@ -1,9 +1,22 @@
 class Events::AutotopupAgreementsController < Events::BaseController
   def new
     payment_service = params[:payment_service]
-    @order = autotopup_order
-    @order_presenter = "Orders::#{payment_service.to_s.camelize}Presenter".constantize
-      .new(current_event, @order).with_params(params)
+    @order = Order.find_by_id(params[:order_id]) || autotopup_order
+    @order_presenter =
+      "Orders::#{payment_service.to_s.camelize}Presenter".constantize
+                                                         .new(current_event, @order)
+                                                         .with_params(params)
+  end
+
+  def update
+    @payment_service = params[:payment_service]
+    @order = OrderManager.new(Order.find(params[:id])).sanitize_order
+    params[:consumer_ip_address] = request.ip
+    params[:consumer_user_agent] = request.user_agent
+    params[:autotopup_agreement] = true
+    @form_data = "Payments::#{@payment_service.camelize}DataRetriever"
+                 .constantize.new(current_event, @order).with_params(params)
+    @order.start_payment!
   end
 
   def destroy
@@ -18,11 +31,11 @@ class Events::AutotopupAgreementsController < Events::BaseController
   end
 
   private
+
   # TODO: Remove from this controller
   def autotopup_order
     order = Order.new(profile: current_profile)
     order.generate_order_number!
-    amount = 0.01
     catalog_item = current_event.credits.standard.catalog_item
     order.order_items << OrderItem.new(
       catalog_item_id: catalog_item.id,
@@ -32,5 +45,4 @@ class Events::AutotopupAgreementsController < Events::BaseController
     order.save
     order
   end
-
 end
