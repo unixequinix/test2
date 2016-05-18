@@ -286,9 +286,6 @@ a {
   i { padding-right: modules(0.25); }
 }
 
-// Tipalti container
-.tipalti { height: 900px !important; }
-
 .paypal-styled {
   @include mscale($paypal-logo-agreement);
   display: block;
