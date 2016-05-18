@@ -1,0 +1,9 @@
+.wrapper-module
+  = render("events/orders/order_summary")
+.container-method [id="method-#{@order_presenter.payment_service}" class="show-container"]
+  = render @order_presenter.path, order_presenter: @order_presenter, autotopup_payment: true
+
+.wrapper-module
+  = link_to customer_root_path, class: "btn btn-action-back" do
+    = fa_icon "chevron-left"
+    = t("actions.back")

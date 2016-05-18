@@ -1,5 +1,8 @@
 class Payments::PaypalPayer
+  include Payments::AutomaticRefundable
+  # TODO: Refactor method
   def start(params, customer_order_creator, customer_credit_creator)
+    params[:autotopup_payment]
     @event = Event.friendly.find(params[:event_id])
     @order = Order.find(params[:order_id])
     @profile = @order.profile
@@ -10,6 +13,7 @@ class Payments::PaypalPayer
     return charge_object unless charge_object.success?
     create_agreement(charge_object, params[:autotopup_amount]) if create_agreement?(params)
     notify_payment(charge_object, customer_order_creator, customer_credit_creator)
+    automatic_refund if params[:autotopup_payment]
     charge_object
   end
 
