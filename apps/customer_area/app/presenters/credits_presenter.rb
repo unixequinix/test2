@@ -28,8 +28,8 @@ class CreditsPresenter < BasePresenter
     @event.token_symbol
   end
 
-  def currency_symbol
-    @event.currency_symbol
+  def currency
+    @event.currency
   end
 
   def valid_balance?
