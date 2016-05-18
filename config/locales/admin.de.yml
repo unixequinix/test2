@@ -422,6 +422,8 @@ de:
     profile:
       id: "ID"
     customers:
+      id: "Id"
+      autotopup: "Autotopup?"
       banned: "Banned"
       delete: "Gelöscht"
       email: "Email"

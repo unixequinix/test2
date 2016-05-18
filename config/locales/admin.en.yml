@@ -417,6 +417,8 @@ en:
     profile:
       id: "Id"
     customers:
+      id: "Id"
+      autotopup: "Autotopup?"
       banned: "Banned"
       delete: "Deleted"
       email: "Email"

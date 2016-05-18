@@ -33,6 +33,7 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
       include_for_all_items: [:profile,
                               profile: [:active_tickets_assignment,
                                         :active_gtag_assignment,
+                                        :payment_gateway_customers,
                                         active_assignments: :credentiable]])
   end
 end
