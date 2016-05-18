@@ -7,4 +7,8 @@ module ApplicationHelper
     end
     link_to(name, "#", class: "add_fields", data: { id: id, fields: fields.delete("\n") })
   end
+
+  def number_to_token(number)
+    number_to_currency number, unit: current_event.token_symbol.to_s + " "
+  end
 end

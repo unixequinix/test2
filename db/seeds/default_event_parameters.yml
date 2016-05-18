@@ -18,7 +18,7 @@
           value: false
         -
           name: topup_initialize_gtag
-          value: false
+          value: true
 -
   category: payment
   groups:
@@ -114,7 +114,7 @@
           value: "https://www.sandbox.paypal.com/cgi-bin/webscr"
         -
           name: api_url
-          data_type: "https://api-3t.sandbox.paypal.com/nvp"
+          value: "https://api-3t.sandbox.paypal.com/nvp"
     -
       name: wirecard
       values:

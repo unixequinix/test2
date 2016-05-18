@@ -7,7 +7,8 @@ class Payments::PaypalNvpDataRetriever < Payments::BaseDataRetriever
 
   def with_params(params)
     @autotopup_agreement = params[:autotopup_agreement]
-    @hash_response = @paypal_nvp.set_express_checkout(amount, cancel_url, return_url)
+    email = @order.profile.customer.email
+    @hash_response = @paypal_nvp.set_express_checkout(email, amount, cancel_url, return_url)
     self
   end
 

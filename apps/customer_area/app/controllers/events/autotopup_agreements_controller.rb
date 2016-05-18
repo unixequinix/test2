@@ -1,4 +1,6 @@
 class Events::AutotopupAgreementsController < Events::BaseController
+  before_action :check_autotopup!
+
   def new
     payment_service = params[:payment_service]
     @order = Order.find_by_id(params[:order_id]) || autotopup_order
@@ -44,5 +46,11 @@ class Events::AutotopupAgreementsController < Events::BaseController
     )
     order.save
     order
+  end
+
+  def check_autotopup!
+    redirect_to event_url(current_event) unless current_event.gtag_assignation? &&
+      current_profile.active_credentials? && current_event.agreement_acceptance? &&
+      current_event.autotopup_payment_services.present?
   end
 end

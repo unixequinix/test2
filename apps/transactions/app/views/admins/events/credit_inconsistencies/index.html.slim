@@ -1,6 +1,24 @@
 - breadcrumb :admins_event_credit_inconsistencies, current_event
-    
+
+.container-statistics
+  .wrapper-statistics
+    h2 = number_to_token @issues.map { |i| i[:bad_balance] if i[:bad_balance] > 0 }.compact.sum
+    span Topups
+
+  .wrapper-statistics
+    h2 = number_to_token @issues.map { |i| i[:bad_balance] if i[:bad_balance] < 0 }.compact.sum
+    span Sales
+
+  .wrapper-statistics
+    h2 = number_to_token @issues.map { |i| i[:bad_refundable_balance] if i[:bad_refundable_balance] > 0 }.compact.sum
+    span Refundable Topups
+
+  .wrapper-statistics
+    h2 = number_to_token @issues.map { |i| i[:bad_refundable_balance] if i[:bad_refundable_balance] < 0 }.compact.sum
+    span Refundable Sales
+
 .wrapper-negative-space
+  .current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @issues.size, total: @issues.size)
   - if @issues
     table.transactions
       thead
@@ -10,6 +28,9 @@
           th = t("admin.transactions.credits_refundable")
           th = t("admin.transactions.final_balance")
           th = t("admin.transactions.final_refundable_balance")
+          th = t("admin.transactions.inconsistent_balance")
+          th = t("admin.transactions.inconsistent_refundable_balance")
+          th = t("admin.transactions.gtag")
       tbody
         - @issues.each do |issue|
           tr
@@ -18,6 +39,10 @@
             td data-label=t("admin.transactions.credits_refundable") = issue[:refundable_sum]
             td data-label=t("admin.transactions.final_balance") = issue[:final_balance]
             td data-label=t("admin.transactions.final_refundable_balance") = issue[:final_refundable_balance]
+            // TODO: Internationalization for these data labels
+            td data-label="inconsistent_balance" = issue[:bad_balance]
+            td data-label="inconsistent_refundable_balance" = issue[:bad_refundable_balance]
+            td data-label="gtag" = issue[:gtag]
   - else
     .section-title-empty
       = image_tag "img-empty.png"
