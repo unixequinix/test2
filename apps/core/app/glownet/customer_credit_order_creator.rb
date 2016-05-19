@@ -18,8 +18,7 @@ class CustomerCreditOrderCreator < CustomerCreditCreator
   # TODO: paypal as a payment option is wrong. it should be the payment gateway being used
   def single_customer_credit(order, order_item)
     params = {
-      profile: order.profile,
-      transaction_origin: "online",
+      profile_id: order.profile.id,
       payment_method: "paypal",
       credit_value: order_item.catalog_item.catalogable.value,
       amount: order_item.amount,
@@ -31,7 +30,7 @@ class CustomerCreditOrderCreator < CustomerCreditCreator
 
   def pack_customer_credit(order, order_item, credit_item, refundable)
     params = {
-      profile: order.profile,
+      profile_id: order.profile.id,
       transaction_origin: "online",
       payment_method: "paypal",
       credit_value: credit_item.value,
