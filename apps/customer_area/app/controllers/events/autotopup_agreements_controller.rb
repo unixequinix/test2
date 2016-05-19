@@ -42,7 +42,7 @@ class Events::AutotopupAgreementsController < Events::BaseController
     order.order_items << OrderItem.new(
       catalog_item_id: catalog_item.id,
       amount: 1,
-      total: 1
+      total: 0.01
     )
     order.save
     order
