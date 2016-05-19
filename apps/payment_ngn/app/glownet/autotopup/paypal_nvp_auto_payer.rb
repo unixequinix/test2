@@ -18,7 +18,7 @@ class Autotopup::PaypalNvpAutoPayer
     data = { event_id: event.id, order_id: order.id }
     charge = Payments::PaypalNvpPayer.new.start(data,
                                                 CustomerOrderCreator.new,
-                                                CustomerCreditOrderCreator.new)
+                                                CustomerCreditAutotopupOrderCreator.new)
 
     return { errors: charge.errors.to_json } unless charge["ACK"] == "Success"
     { profile: profile }
