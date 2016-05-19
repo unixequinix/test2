@@ -6,7 +6,7 @@ class ClaimsPresenter < BasePresenter
   def path
     profile = @profile
     enough_money = profile.refundable_money_amount <= profile.online_refundable_money_amount
-    return "claim_present" if !profile.completed_claims.empty?
+    return "claim_present" if profile.completed_claims.present?
     return "no_credits" if profile.refundable_money_amount.zero?
     return "invalid_balance" unless BalanceCalculator.new(profile).valid_balance?
     return "direct_claim" if enough_money && @event.direct?
