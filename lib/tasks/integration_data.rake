@@ -226,7 +226,7 @@ namespace :db do
       type = StationType.find_by(name: "box_office")
       station = Station.create!(station_type: type, name: "Box Office #{index}", event: @event)
       items.size.times do |i|
-        station.station_catalog_items.new(price: rand(1.0...20.0),
+        station.station_catalog_items.new(price: rand(1.0..20.0).round(2),
                                           catalog_item_id: items[i],
                                           station_parameter_attributes: { station_id: station.id })
                                      .save
@@ -243,7 +243,7 @@ namespace :db do
       station = Station.create!(station_type: type, name: "#{brand} #{place}", event: @event)
       @event.products.each do |product|
         station.station_products
-          .new(price: rand(1.0...20.0),
+          .new(price: rand(1.0..20.0).round(2),
                product: product,
                station_parameter_attributes: { station_id: station.id }).save
       end
