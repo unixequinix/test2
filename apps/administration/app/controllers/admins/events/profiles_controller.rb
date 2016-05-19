@@ -70,17 +70,11 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
   def fields(b_id, b_type, t_type, reason = "Banned by #{current_admin.email}")
     {
       event_id: current_event.id,
-      station_id: current_event.stations
-                               .joins(:station_type)
-                               .find_by(station_types: { name: "customer_portal" }).id,
       transaction_category: "ban",
-      transaction_origin: "customer_portal",
       transaction_type: "#{t_type}_#{b_type.downcase}",
       banneable_id: b_id,
       banneable_type: b_type,
-      reason: reason,
-      status_code: 0,
-      status_message: "OK"
+      reason: reason
     }
   end
 end

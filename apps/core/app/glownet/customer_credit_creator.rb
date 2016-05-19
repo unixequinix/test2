@@ -7,16 +7,20 @@ class CustomerCreditCreator
     final_balance = credits.sum(:amount) + atts[:amount]
     final_refundable_balance = credits.sum(:refundable_amount) + atts[:refundable_amount]
 
-    profile.customer_credits.create!(
-      transaction_origin: atts[:transaction_origin],
-      payment_method: atts[:payment_method],
-      credit_value: atts[:credit_value],
-      amount: atts[:amount],
-      refundable_amount: atts[:refundable_amount],
+    fields = {
+      transaction_category: "credit",
+      transaction_type: "testing_transaction",
+      event_id: profile.event.id,
+      credits: atts[:amount],
+      credits_refundable: atts[:refundable_amount],
       final_balance: final_balance,
       final_refundable_balance: final_refundable_balance,
-      created_in_origin_at: Time.zone.now
-    )
+      credit_value: atts[:credit_value],
+      profile_id: profile.id,
+      payment_method: atts[:payment_method]
+    }
+
+    Operations::Base.new.portal_write(fields)
   end
 
   # TODO: check refundable flow and what is being showed and what actions are allowed
