@@ -11,11 +11,11 @@ class CustomerCreditCreator
       transaction_category: "credit",
       transaction_type: "testing_transaction",
       event_id: profile.event.id,
-      credits: atts[:amount],
-      credits_refundable: atts[:refundable_amount],
-      final_balance: final_balance,
-      final_refundable_balance: final_refundable_balance,
-      credit_value: atts[:credit_value],
+      credits: atts[:amount].to_f,
+      credits_refundable: atts[:refundable_amount].to_f,
+      final_balance: final_balance.to_f,
+      final_refundable_balance: final_refundable_balance.to_f,
+      credit_value: atts[:credit_value].to_f,
       profile_id: profile.id,
       payment_method: atts[:payment_method]
     }
