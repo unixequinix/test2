@@ -39,7 +39,7 @@
 #  agreement_acceptance    :boolean          default(FALSE)
 #
 
-class Event < ActiveRecord::Base
+class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   nilify_blanks
   translates :info, :disclaimer, :refund_success_message, :mass_email_claim_notification,
              :refund_disclaimer, :bank_account_disclaimer, :gtag_assignation_notification,
