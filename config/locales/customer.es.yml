@@ -311,6 +311,8 @@ es:
       current_amount: 'Recarga actual:'
       new_amount: 'Cambia la cantidad:'
       billing_agreement_description: "Acepto que se me hagan cargos cuando me quedo sin crédito"
+      success: 'Cuenta añadida!'
+      success_description: 'Ahora puedes realizar recargas automáticas en tu pulsera'
   sessions:
     first_register:
       welcome: 'Bienvenido!!'

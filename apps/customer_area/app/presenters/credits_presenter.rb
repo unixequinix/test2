@@ -1,6 +1,6 @@
 class CreditsPresenter < BasePresenter
   def can_render?
-    @profile.active_credentials?
+    @profile.active_credentials? && @profile.completed_claims.empty?
   end
 
   def path
@@ -26,6 +26,10 @@ class CreditsPresenter < BasePresenter
 
   def token_symbol
     @event.token_symbol
+  end
+
+  def currency
+    @event.currency
   end
 
   def valid_balance?

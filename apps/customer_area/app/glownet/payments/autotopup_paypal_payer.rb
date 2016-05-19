@@ -6,6 +6,7 @@ class Payments::AutotopupPaypalPayer
     @order = Order.find(params[:order_id])
     @profile = @order.profile
     @gateway = @profile.gateway_customer(EventDecorator::PAYPAL)
+    @method = @gateway ? "auto" : "regular"
     @order.start_payment!
     charge_object = charge(params)
     return charge_object unless charge_object.success?
@@ -30,11 +31,11 @@ class Payments::AutotopupPaypalPayer
     amount = @order.total_formated
     sale_options = {
       order_id: @order.number,
-      amount: amount,
-      customer_id: @gateway.token
+      amount: amount
     }
     submit_for_settlement(sale_options)
     vault_options(sale_options, @profile.customer) if create_agreement?(params)
+    send("#{@method}_payment_options", sale_options, params)
     sale_options
   end
 
@@ -44,15 +45,20 @@ class Payments::AutotopupPaypalPayer
     }
   end
 
+  def regular_payment_options(sale_options, params)
+    sale_options[:payment_method_nonce] = params[:payment_method_nonce]
+  end
+
+  def auto_payment_options(sale_options, _params)
+    sale_options[:customer_id] = @gateway.token
+  end
+
   def vault_options(sale_options, customer)
     sale_options[:customer] = {
-      first_name: customer.first_name,
-      last_name: customer.last_name,
-      email: customer.email
+      first_name: customer.first_name, last_name: customer.last_name, email: customer.email
     }
     sale_options[:options] = {
-      submit_for_settlement: true,
-      store_in_vault: true
+      submit_for_settlement: true, store_in_vault: true
     }
   end
 
@@ -60,7 +66,7 @@ class Payments::AutotopupPaypalPayer
     return unless charge.transaction.status == "settling"
     @payment = create_payment(@order, charge)
     @order.complete!
-    send_mail_for(@order, @event)
+    send_mail_for(@profile.customer)
   end
 
   def create_agreement(charge_object, autotopup_amount)
@@ -78,8 +84,8 @@ class Payments::AutotopupPaypalPayer
     params[:accept] && !@profile.gateway_customer(EventDecorator::PAYPAL)
   end
 
-  def send_mail_for(order, event)
-    OrderMailer.completed_email(order, event).deliver_later
+  def send_mail_for(customer)
+    AgreementMailer.accepted_email(customer).deliver_later
   end
 
   def get_event_parameter_value(event, name)
