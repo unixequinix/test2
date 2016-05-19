@@ -15,9 +15,7 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
                                  credential_assignments: :credentiable,
                                  customer_orders: [:catalog_item, :online_order])
                        .find(params[:id])
-
-    tag = @profile.active_gtag_assignment&.credentiable&.tag_uid
-    @credit_transactions = CreditTransaction.where(event: current_event, customer_tag_uid: tag)
+    @credit_transactions = CreditTransaction.where(event: current_event, profile_id: @profile.id)
                                             .order(device_created_at: :desc)
                                             .includes(:station)
   end
