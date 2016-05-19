@@ -18,6 +18,7 @@ Rails.application.routes.draw do
           resources :credits, only: :index
           resources :customers, only: [:index, :show]
           resources :gtags, only: [:index, :show]
+          get "/gtags/uid/:id", to: "gtags#uid"
           resources :orders, only: :index
           resources :packs, only: :index
           resources :parameters, only: :index
