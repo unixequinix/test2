@@ -20,6 +20,8 @@ end
 module GlownetWeb
   class Application < Rails::Application
 
+    config.middleware.use Rack::Deflater
+
     config.eager_load_paths += ["#{config.root}/apps/core/app/models"]
     BootInquirer.each_active_app do |app|
       directory = "#{config.root}/apps/#{app.gem_name}/app/models"

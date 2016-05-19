@@ -11,7 +11,7 @@ class Api::V1::Events::BaseController < Api::BaseController
     obj = @fetcher.method(plural).call
     obj = obj.where("#{plural}.updated_at > ?", modified + 1) if modified
 
-    response.headers["Last-Modified"] = obj.maximum(:updated_at).to_s
+    response.headers["Last-Modified"] = obj.maximum(:updated_at).httpdate
     render(json: obj, each_serializer: "Api::V1::#{entity.camelcase}Serializer".constantize)
   end
 
