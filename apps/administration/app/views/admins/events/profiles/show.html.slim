@@ -4,6 +4,7 @@
     = fa_icon "arrow-circle-left"
     = t('actions.back')
 .wrapper-negative-space
+  = render("admins/events/customers/customer_account_information", customer: @profile.customer) if @profile.customer
   = render("credentials_information", profile: @profile)
   = render("payments_information", profile: @profile) if @profile.payment_gateway_customers.any?
   = render("profile_data", profile: @profile, credit_transactions: @credit_transactions)
