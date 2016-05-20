@@ -3,6 +3,7 @@ class Operations::Base < ActiveJob::Base
 
   def perform(atts) # rubocop:disable Metrics/AbcSize
     atts[:profile_id] ||= atts[:customer_event_profile_id]
+    atts.delete(:station_id) if atts[:station_id].to_i.zero?
     atts.delete(:sale_items_attributes) if atts[:sale_items_attributes].blank?
     klass = "#{atts[:transaction_category]}_transaction".classify.constantize
 
