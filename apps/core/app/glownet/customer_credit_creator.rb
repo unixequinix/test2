@@ -1,15 +1,15 @@
 class CustomerCreditCreator
   def create_credit(profile, *params) # rubocop:disable Metrics/MethodLength
     atts = params.first
-    atts[:refundable_amount] ||= atts[:amount]
     atts[:payment_method] ||= "none"
+    atts[:transaction_type] ||= "create_credit"
     credits = profile.reload.customer_credits
     final_balance = credits.sum(:amount) + atts[:amount]
     final_refundable_balance = credits.sum(:refundable_amount) + atts[:refundable_amount]
 
     fields = {
       transaction_category: "credit",
-      transaction_type: "testing_transaction",
+      transaction_type: atts[:transaction_type],
       event_id: profile.event.id,
       credits: atts[:amount].to_f,
       credits_refundable: atts[:refundable_amount].to_f,

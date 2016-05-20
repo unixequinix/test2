@@ -1,3 +1,4 @@
+# TODO: look at this and make sure it works
 class CustomerCreditTicketCreator < CustomerCreditCreator
   def assign(ticket)
     loop_credits(ticket, CustomerCredit::TICKET_ASSIGNMENT, 1)
