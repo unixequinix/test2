@@ -269,7 +269,7 @@ it:
       gtag: "GTags"
       credits: "Credits"
       customers: "Customers"
-      profiles: "Customer event profiles"
+      profiles: "Profiles"
       orders: "Orders"
       customer_orders: "Customer orders"
       payments: "Payments"
@@ -513,7 +513,7 @@ it:
     customer_orders:
       id: "Id"
       amount: "Amount"
-      profile: "Customer event profiles"
+      profile: "Profiles"
       catalog_item: "Catalog item"
       online_order: "Online order"
       origin: "Origin"
