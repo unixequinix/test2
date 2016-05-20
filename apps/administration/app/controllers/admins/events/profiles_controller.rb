@@ -47,6 +47,13 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
     redirect_to(admins_event_profiles_url)
   end
 
+  def revoke_agreement
+    profile = @fetcher.profiles.find(params[:id])
+    profile.payment_gateway_customers.find(params[:agreement_id]).destroy
+    flash[:notice] = I18n.t("alerts.destroyed")
+    redirect_to(admins_event_profile_path(current_event, profile))
+  end
+
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Profile".constantize.model_name,
