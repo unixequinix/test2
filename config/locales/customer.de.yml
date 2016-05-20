@@ -63,6 +63,7 @@ de:
     autotopup:
       claim: "Vorteil nutzen!"
       description: "Synchronisieren Sie mit Paypal, und Sie erhalten direkte Top-ups."
+      disclaimer: "This amount will be refunded inmediatly after the agreement is accepted"
     paypal:
       button: "Mit PayPal synchronisieren"
     paypal_nvp:

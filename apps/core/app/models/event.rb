@@ -106,6 +106,10 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     credits.standard.value
   end
 
+  def portal_station
+    stations.includes(:station_type).find_by(station_types: { name: "customer_portal" })
+  end
+
   def total_credits
     CustomerCredit.where(profile: profiles).map(&:amount).sum
   end

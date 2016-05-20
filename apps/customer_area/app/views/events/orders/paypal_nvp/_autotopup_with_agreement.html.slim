@@ -1,0 +1,6 @@
+p.hint-text.center-text = t("orders.paypal.with_agreement_title")
+p.center-text = t("orders.paypal.with_agreement_subtitle")
+.wrapper-saved-agreement
+  = image_tag "agreement_paypal_logo.png", class: "saved-agreement-logo"
+  span.bold-text PayPal
+  span.saved-agreement-mail = order_presenter.email

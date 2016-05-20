@@ -7,7 +7,7 @@ class Events::RegistrationsController < Events::BaseController
   end
 
   def create
-    @customer_form = NewProfileForm.new(permitted_params)
+    @customer_form = NewProfileForm.new(new_params)
 
     if @customer_form.save
       flash[:notice] = t("registrations.customer.success")
@@ -23,7 +23,7 @@ class Events::RegistrationsController < Events::BaseController
 
   def update
     @edit_profile_form = EditProfileForm.new(current_customer)
-    if @edit_profile_form.validate(permitted_params) && @edit_profile_form.save
+    if @edit_profile_form.validate(edit_params) && @edit_profile_form.save
       current_customer.profile.payment_gateway_customers
                       .find_by_gateway_type("paypal_nvp")&.update(
                         autotopup_amount: params[:autotopup_amount])
@@ -43,11 +43,18 @@ class Events::RegistrationsController < Events::BaseController
     event_login_path(current_event, sign_up: true)
   end
 
-  def permitted_params
+  def new_params
     params.require(:new_profile_form).permit(:event_id, :email, :first_name, :last_name, :phone,
                                              :address, :city, :country, :postcode, :gender,
                                              :birthdate, :password, :current_password,
                                              :agreed_on_registration, :agreed_event_condition)
           .merge(recaptcha: verify_recaptcha(model: @customer_form))
+  end
+
+  def edit_params
+    params.require(:customer).permit(:event_id, :email, :first_name, :last_name, :phone,
+                                     :address, :city, :country, :postcode, :gender,
+                                     :birthdate, :password, :current_password, :autotopup_amount,
+                                     :agreed_on_registration, :agreed_event_condition)
   end
 end

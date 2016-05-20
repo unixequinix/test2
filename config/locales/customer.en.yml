@@ -67,6 +67,7 @@ en:
     autotopup:
       claim: "Take advantage!"
       description: "Sync and you will make direct top ups."
+      disclaimer: "This amount will be refunded inmediatly after the agreement is accepted"
     paypal:
       button: "Sync with PayPal"
     paypal_nvp:

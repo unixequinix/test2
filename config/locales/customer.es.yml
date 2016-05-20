@@ -64,10 +64,11 @@ es:
       button: "Recarga"
       ticket_first: "Añade un ticket o pulsera primero"
       calculating_balance: "Estamos calculando tu balance"
-      refundable: "Reembonsable"
+      refundable: "Reembolsable"
     autotopup:
       claim: "Toma ventaja!"
       description: "Syncroniza con tu cuenta de Paypal y realiza recargas directas"
+      disclaimer: "Este pago será devuelto inmediatamente después de aceptar el acuerdo"
     paypal:
       button: "Sincroniza con PayPal"
     paypal_nvp:
