@@ -11,4 +11,6 @@
   td data-label=t("admin.customers.gtags") = t("admin.defaults.empty_gtags")
   
 td data-label=t("admin.customers.credits") = customer.profile.customer_credits.sum(:amount)
-td data-label=t("admin.customers.autotopup") = customer.profile.payment_gateway_customers.map(&:gateway_type).to_sentence
+td data-label=t("admin.customers.autotopup")
+  - customer.profile.payment_gateway_customers.each do |g|
+    p = "#{g.gateway_type} : #{g.autotopup_amount}"
