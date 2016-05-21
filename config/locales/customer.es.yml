@@ -201,7 +201,7 @@ es:
       sync_title: "Regístrate en PayPal para completar el pago"
       sync_copy: "Experiencia PayPal"
       sync_description: "Puedes vincular tu cuenta PayPal para realizar recargas automáticas en los puntos de venta, sin esperar cola en los puntos de recarga."
-      sync_final_description: "Selecciona la cantidad que quieres recargar automáticamente en los puntos de venta en el caso de gastar todos tus créditos durante el evento. Esta cantidad NO SE COBRARÁ en este momento."
+      sync_final_description: "Selecciona la cantidad que quieres recargar automáticamente en los puntos de venta. Esta cantidad NO SE COBRARÁ en este momento."
       with_agreement_title: "Cuenta sicronizada con PayPal"
       with_agreement_subtitle: "Ahora puedes realizar pagos directamente"
   claims:

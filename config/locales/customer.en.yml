@@ -201,7 +201,7 @@ en:
       sync_title: "Sync with PayPal to perform payment"
       sync_copy: "Paypal Experience"
       sync_description: "In order to validate your PayPal account, you will be charged 0.01€ which will be refunded automatically."
-      sync_final_description: "Selecciona la cantidad que quieres recargar automáticamente en los puntos de venta en el caso de gastar todos tus créditos durante el evento. Esta cantidad NO SE COBRARÁ en este momento."
+      sync_final_description: "Select the amount you´d like to be automatically topped up at any point of sale. This amount WILL NOT BE CHARGED to your account."
       with_agreement_title: "Already sync with PayPal"
       with_agreement_subtitle: "You can perform direct payments"
   claims:
