@@ -13,6 +13,8 @@ es:
     check_news: "Ir al evento"
     delete_account: "Eliminar tu cuenta"
     logout: "Cerrar sessión"
+    confirm: "Confirmar"
+    finalize: "Finalizar"
   confirm:
     remove_ticket: "Tus créditos comprados se asignan a tu cuenta. Si borras tu ticket, tendrás que asignar otro para utilizar esos créditos en el evento."
     cancel_paypal: "Al cancelar desvicularás tu pulsera de tu cuenta de PayPal."
@@ -67,8 +69,8 @@ es:
       refundable: "Reembolsable"
     autotopup:
       claim: "Toma ventaja!"
-      description: "Syncroniza con tu cuenta de Paypal y realiza recargas directas"
-      disclaimer: "Este pago será devuelto inmediatamente después de aceptar el acuerdo"
+      description: "Sincroniza con tu cuenta de PayPal y realiza recargas automáticas durante el evento."
+      disclaimer: "Para validar tu cuenta PayPal se va a realizar un pago de 0.01€ que será devuelto inmediatamente."
     paypal:
       button: "Sincroniza con PayPal"
     paypal_nvp:
@@ -195,9 +197,11 @@ es:
       card_expiration_year: "Año de caducidad"
       button: "Pagar"
     paypal:
-      sync_title: "Regístarte en PayPal para completar el pago"
-      sync_copy: "Crédito asegurado"
-      sync_description: "Puedes realizar recargas automáticas en tus compras. Selecciona la cantidad que quieres recargar automáticamente en el caso de gastar todos tus créditos durante el evento. Esto te ayudará a evitar colas en las estaciones de recarga. ¡Tu pulsera estará siempre lista para su uso!"
+      charge: "Cargo de verificación"
+      sync_title: "Regístrate en PayPal para completar el pago"
+      sync_copy: "Experiencia PayPal"
+      sync_description: "Puedes vincular tu cuenta PayPal para realizar recargas automáticas en los puntos de venta, sin esperar cola en los puntos de recarga."
+      sync_final_description: "Selecciona la cantidad que quieres recargar automáticamente en los puntos de venta en el caso de gastar todos tus créditos durante el evento. Esta cantidad NO SE COBRARÁ en este momento."
       with_agreement_title: "Cuenta sicronizada con PayPal"
       with_agreement_subtitle: "Ahora puedes realizar pagos directamente"
   claims:
