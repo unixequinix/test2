@@ -4,7 +4,6 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
 
     current_event.profiles.includes(:customer_credits, :active_gtag_assignment).each do |profile|
       credits = profile.customer_credits.order(created_in_origin_at: :desc)
-      profile.transactions
       last = credits.first
       amount_sum = credits.map(&:amount).sum
       refundable_sum = credits.map(&:refundable_amount).sum
