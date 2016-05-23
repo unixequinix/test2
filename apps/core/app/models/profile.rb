@@ -24,6 +24,7 @@ class Profile < ActiveRecord::Base # rubocop:disable ClassLength
   has_many :customer_orders
   has_many :online_orders, through: :customer_orders
   has_many :payments, through: :orders
+  has_many :credit_transactions
   # TODO: check with current_balance method for duplication
   has_many :customer_credits do
     def current

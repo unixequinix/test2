@@ -27,6 +27,7 @@
 
 class CreditTransaction < Transaction
   has_many :sale_items
+  belongs_to :profile
 
   accepts_nested_attributes_for :sale_items
 
