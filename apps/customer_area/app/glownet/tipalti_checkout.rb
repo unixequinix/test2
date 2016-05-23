@@ -22,8 +22,7 @@ class TipaltiCheckout
       first: @claim.profile.customer.first_name.gsub(valid_characters, ""),
       ts: Time.zone.now.to_i,
       payer: @tipalti_values[:payer],
-      redirectTo: 'http://www.google.com'
-
+      redirectTo: success_event_refunds_url(@claim.profile.event)
     }.to_param
   end
 
