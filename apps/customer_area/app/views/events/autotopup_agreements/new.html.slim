@@ -1,5 +1,21 @@
 .wrapper-module
-  = render("events/orders/order_summary")
+  h3.center-text = t("orders.paypal.sync_copy")
+  p = t("orders.paypal.sync_description")
+  table.table-order
+    caption
+    tr.table-head
+      th = t('orders.products')
+      th
+      th = t('orders.price')
+    - @order.order_items.each do |order_item|
+      tr
+        td [colspan="2"] = t("orders.paypal.charge")
+        td.table-amount #{order_item.total}
+    tr.total-amount
+      td [colspan="2"]
+        = t('orders.total')
+        .vat-text = t('orders.vat')
+      td [colspan="3"] #{@order.total_formated} #{current_event.currency}
   p.autotopup-disclaimer.center-text = t('dashboard.autotopup.disclaimer')
 .container-method [id="method-#{@order_presenter.payment_service}" class="show-container"]
   = render @order_presenter.autotopup_path, order_presenter: @order_presenter

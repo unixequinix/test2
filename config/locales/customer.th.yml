@@ -14,6 +14,8 @@ th:
     check_news: "กลับไปที่เว็บไซด์ของงาน"
     delete_account: "ลบบัญชีของคุณ"
     logout: "ออกจากระบบ"
+    confirm: "Confirm"
+    finalize: "Finalize"
   confirm:
     remove_ticket: "เครดิตที่คุณได้ทำการซื้อไปจะอยู่ในบัญชีผู้ใช้งานนี้ของคุณ หากคุณยกเลิกบัตรเข้างาน คุณจะต้องทำการโอนเครดิตไปยังบัตรอื่นเพื่อที่จะใช้ในงาน"
     cancel_paypal: "Cancelling you disassociate your wristband from you PayPal account."
@@ -67,7 +69,7 @@ th:
       refundable: "Refundable"
     autotopup:
       claim: "Take advantage!"
-      description: "Sync and you will make direct top ups."
+      description: "Sync your PayPal account and receive automatic refunds during the event."
       disclaimer: "This amount will be refunded inmediatly after the agreement is accepted"
     paypal:
       button: "Sync with PayPal"
@@ -196,9 +198,11 @@ th:
       button: "ชำระเงิน"
       card_holder: "Card Holder"
     paypal:
+      charge: "Verification charge"
       sync_title: "Sync with PayPal to perform payment"
-      sync_copy: "Never without credit!"
-      sync_description: "You can make automatic top ups in your event purchases. Select how much you want to automatically top up in the case where you spend all your credit during the event. This will help you avoid queues at on site top up stations. Your wristband will always be ready to use!"
+      sync_copy: "Paypal Experience"
+      sync_description: "In order to validate your PayPal account, you will be charged 0.01€ which will be refunded automatically."
+      sync_final_description: "Select the amount you´d like to be automatically topped up at any point of sale. This amount WILL NOT BE CHARGED to your account."
       with_agreement_title: "Already sync with PayPal"
       with_agreement_subtitle: "You can perform direct payments"
   claims:

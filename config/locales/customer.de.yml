@@ -9,6 +9,8 @@ de:
     check_news: "Zurück zur Veranstaltungswebsite"
     delete_account: "Löschen Sie Ihr Konto"
     logout: "Logout"
+    confirm: "Confirm"
+    finalize: "Finalize"
   confirm:
     remove_ticket: "Ihre erworbenen Guthaben sind auf Ihr Konto übertragen. Wenn Sie Ihr Ticket entfernen, müssen Sie jemand anderen dazu berechtigen, Ihre Guthaben für die Veranstaltung zu verwenden."
     cancel_paypal: "Bei Stornierung wird Ihr Armband von Ihrem Paypal-Konto getrennt."
@@ -62,7 +64,7 @@ de:
       refundable: "Refundable"
     autotopup:
       claim: "Vorteil nutzen!"
-      description: "Synchronisieren Sie mit Paypal, und Sie erhalten direkte Top-ups."
+      description: "Sync your PayPal account and receive automatic refunds during the event."
       disclaimer: "This amount will be refunded inmediatly after the agreement is accepted"
     paypal:
       button: "Mit PayPal synchronisieren"
@@ -175,9 +177,11 @@ de:
       card_expiration_year: "Ablaufjahr der Karte"
       button: "Bezahlen"
     paypal:
+      charge: "Verification charge"
       sync_title: "Mit Paypal synchronisieren, um die Zahlung durchzuführen"
-      sync_copy: "Nie ohne Guthaben!"
-      sync_description: "You can make automatic top ups in your event purchases. Select how much you want to automatically top up in the case where you spend all your credit during the event. This will help you avoid queues at on site top up stations. Your wristband will always be ready to use!"
+      sync_copy: "Paypal Experience"
+      sync_description: "In order to validate your PayPal account, you will be charged 0.01€ which will be refunded automatically."
+      sync_final_description: "Select the amount you´d like to be automatically topped up at any point of sale. This amount WILL NOT BE CHARGED to your account."
       with_agreement_title: "Bereits mit PayPal synchronisiert"
       with_agreement_subtitle: "Sie können direkte Zahlungen durchführen"
   claims:

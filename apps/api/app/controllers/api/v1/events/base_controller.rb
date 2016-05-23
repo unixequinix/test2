@@ -1,6 +1,7 @@
 class Api::V1::Events::BaseController < Api::BaseController
   before_action :fetch_current_event
   before_filter :enable_fetcher
+  serialization_scope :current_event
 
   private
 

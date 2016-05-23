@@ -29,9 +29,7 @@ class CustomerCredit < ActiveRecord::Base
   TICKET_ASSIGNMENT = "ticket_assignment".freeze
   TICKET_UNASSIGNMENT = "ticket_unassignment".freeze
   CREDITS_PURCHASE = "credits_purchase".freeze
-  AUTOTOPUP_PURCHASE = "auto_topup".freeze
-  ONLINE_TOPUP = "online_topup".freeze
 
   # Type of the invoices
-  TRANSACTION_TYPES = [TICKET_ASSIGNMENT, TICKET_UNASSIGNMENT, CREDITS_PURCHASE, AUTOTOPUP_PURCHASE, ONLINE_TOPUP].freeze
+  TRANSACTION_TYPES = [TICKET_ASSIGNMENT, TICKET_UNASSIGNMENT, CREDITS_PURCHASE].freeze
 end
