@@ -21,7 +21,8 @@ class TipaltiCheckout
       last: @claim.profile.customer.last_name.gsub(valid_characters, ""),
       first: @claim.profile.customer.first_name.gsub(valid_characters, ""),
       ts: Time.zone.now.to_i,
-      payer: @tipalti_values[:payer]
+      payer: @tipalti_values[:payer],
+      redirectTo: success_event_refunds_url(@claim.profile.event)
     }.to_param
   end
 
