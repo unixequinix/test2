@@ -2,7 +2,7 @@
   = render("events/orders/order_summary")
   p.autotopup-disclaimer.center-text = t('dashboard.autotopup.disclaimer')
 .container-method [id="method-#{@order_presenter.payment_service}" class="show-container"]
-  = render @order_presenter.autotopup_path, order_presenter: @order_presenter
+  = render @order_presenter.path("autotopup"), order_presenter: @order_presenter, autotopup: true
 .wrapper-module
   = link_to customer_root_path, class: "btn btn-action-back" do
     = fa_icon "chevron-left"

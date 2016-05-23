@@ -1,7 +1,7 @@
 class Events::OrdersController < Events::BaseController
-  before_action :check_has_ticket!
-  before_action :require_permission!
-  before_action :require_credential!
+  before_action :check_has_ticket!, only: [:show, :update]
+  before_action :require_permission!, only: [:show, :update]
+  before_action :require_credential!, only: [:show, :update]
 
   def show
     order = Order.includes(order_items: :catalog_item).find(params[:id])
