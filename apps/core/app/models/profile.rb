@@ -31,7 +31,9 @@ class Profile < ActiveRecord::Base # rubocop:disable ClassLength
       order("created_in_origin_at DESC").first
     end
   end
-
+  has_many :gtag_credit_transactions,
+           -> { where.not("transaction_origin = ?", "customer_portal").where("status_code = ? ", 0) },
+           class_name: "CreditTransaction"
   has_many :completed_claims, -> { where("aasm_state = 'completed' AND completed_at IS NOT NULL") },
            class_name: "Claim"
   has_many :credit_purchased_logs,
