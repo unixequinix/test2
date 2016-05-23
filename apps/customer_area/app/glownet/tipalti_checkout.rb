@@ -21,7 +21,9 @@ class TipaltiCheckout
       last: @claim.profile.customer.last_name.gsub(valid_characters, ""),
       first: @claim.profile.customer.first_name.gsub(valid_characters, ""),
       ts: Time.zone.now.to_i,
-      payer: @tipalti_values[:payer]
+      payer: @tipalti_values[:payer],
+      redirectTo: 'http://www.google.com'
+
     }.to_param
   end
 

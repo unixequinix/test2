@@ -4,6 +4,7 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
 
     current_event.profiles.includes(:customer_credits, :active_gtag_assignment).each do |profile|
       credits = profile.customer_credits.order(created_in_origin_at: :desc)
+      profile.transactions
       last = credits.first
       amount_sum = credits.map(&:amount).sum
       refundable_sum = credits.map(&:refundable_amount).sum
@@ -20,6 +21,8 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
                    final_refundable_balance: last.final_refundable_balance,
                    bad_balance: last.final_balance - amount_sum,
                    bad_refundable_balance: last.final_refundable_balance - refundable_sum,
+                   reconciliation_balance: last.final_balance - amount_sum,
+                   reconciliation_balance_refundable_balance: last.final_refundable_balance - refundable_sum,
                    gtag: profile.active_gtag_assignment&.credentiable&.tag_uid }
     end
   end
