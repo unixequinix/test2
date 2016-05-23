@@ -25,7 +25,6 @@ class CustomerCredit < ActiveRecord::Base
 
   validates_presence_of :payment_method, :transaction_origin, :profile
   validates_numericality_of :amount, :refundable_amount, :credit_value
-  #validates_numericality_of :final_balance, :final_refundable_balance, greater_than_or_equal_to: 0
 
   TICKET_ASSIGNMENT = "ticket_assignment".freeze
   TICKET_UNASSIGNMENT = "ticket_unassignment".freeze
