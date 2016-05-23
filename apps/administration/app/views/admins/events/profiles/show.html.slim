@@ -5,24 +5,21 @@
     = t('actions.back')
 .wrapper-negative-space
   h2 =  "#{@profile.customer.first_name} #{@profile.customer.last_name}. #{@profile.customer.email}" if @profile.customer
-
+  = render("credentials_information", profile: @profile)
   .container-statistics
     .wrapper-statistics
-      h2 = number_to_token @profile.customer_credits.sum(&:amount)
+      h2 = number_to_token @profile.customer_credits.sum(:amount)
       span Credits Sum
 
     .wrapper-statistics
-      h2 = number_to_token @profile.customer_credits.sum(&:refundable_amount)
+      h2 = number_to_token @profile.customer_credits.sum(:refundable_amount)
       span R Credits Sum
 
     .wrapper-statistics
-      h2 = number_to_token @credit_transactions.sum(&:credits)
+      h2 = number_to_token @credit_transactions.sum(:credits)
       span Transaction Credits Sum
 
     .wrapper-statistics
-      h2 = number_to_token @credit_transactions.sum(&:refundbale_credits)
+      h2 = number_to_token @credit_transactions.sum(:credits_refundable)
       span R Transactions Credits Sum
-
-
-  = render("credentials_information", profile: @profile)
   = render("profile_data", profile: @profile, credit_transactions: @credit_transactions)
