@@ -19,6 +19,9 @@
         -
           name: topup_initialize_gtag
           value: true
+        -
+          name: cypher_enabled
+          value: false
 -
   category: payment
   groups:
