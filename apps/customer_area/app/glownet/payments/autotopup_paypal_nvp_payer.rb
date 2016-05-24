@@ -7,7 +7,8 @@ class Payments::AutotopupPaypalNvpPayer
     @paypal_nvp = Gateways::PaypalNvp::Transaction.new(@event)
     @profile = @order.profile
     @gateway = @profile.gateway_customer(EventDecorator::PAYPAL_NVP)
-    @method = @gateway ? "auto" : "regular"
+    return if @gateway
+    @method = "regular"
     @order.start_payment!
     charge_object = charge(params)
     return charge_object unless charge_object["ACK"] == "Success"
@@ -19,15 +20,11 @@ class Payments::AutotopupPaypalNvpPayer
 
   def charge(params)
     amount = @order.total_formated
-    send("#{@method}_payment", amount, params)
+    regular_payment(amount, params)
   end
 
   def regular_payment(amount, params)
     @paypal_nvp.do_express_checkout_payment(amount, params[:token], params[:payer_id])
-  end
-
-  def auto_payment(amount, _params)
-    @paypal_nvp.do_reference_transaction(amount, @gateway.token)
   end
 
   private
