@@ -14,7 +14,7 @@ class Events::BaseController < ApplicationController
   end
 
   def authenticate_customer!
-    logout_customer! if customer_signed_in? && current_customer.event != current_event
+    logout_customer! if customer_signed_in? && current_customer&.event != current_event
     warden.authenticate!(scope: :customer)
   end
 
@@ -33,15 +33,12 @@ class Events::BaseController < ApplicationController
   end
 
   def current_customer
-    @current_customer ||=
-      Customer.find(warden.user(:customer)["id"]) unless
-      warden.user(:customer).nil? ||
-      Customer.where(id: warden.user(:customer)["id"]).empty?
+    return nil if warden.user(:customer).nil?
+    Customer.find_by(id: warden.user(:customer)["id"])
   end
 
   def current_profile
-    current_customer.profile ||
-      Profile.new(customer: current_customer, event: current_event)
+    current_customer.profile || Profile.new(customer: current_customer, event: current_event)
   end
   helper_method :current_profile
 

@@ -4,8 +4,8 @@ class CustomerCreditCreator
     atts[:payment_method] ||= "none"
     atts[:transaction_type] ||= "create_credit"
     credits = profile.reload.customer_credits
-    final_balance = credits.sum(:amount) + atts[:amount]
-    final_refundable_balance = credits.sum(:refundable_amount) + atts[:refundable_amount]
+    final_balance = credits.sum(:amount) + atts[:amount].to_f
+    final_refundable_balance = credits.sum(:refundable_amount) + atts[:refundable_amount].to_f
 
     fields = {
       transaction_category: "credit",

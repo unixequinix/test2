@@ -19,6 +19,9 @@
         -
           name: topup_initialize_gtag
           data_type: boolean
+        -
+          name: cypher_enabled
+          data_type: boolean
 -
   name: gtag
   groups:
