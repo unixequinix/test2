@@ -25,12 +25,12 @@ class Orders::PaypalNvpPresenter < Orders::BasePresenter
     @event.get_parameter("payment", "paypal_nvp", "merchant_id")
   end
 
-  def actual_agreement_state(namespace="")
+  def actual_agreement_state(namespace = "")
     namespace += "_" if namespace.present?
     @agreement ? "#{namespace}with_agreement" : "#{namespace}without_agreement"
   end
 
-  def path(namespace="")
+  def path(namespace = "")
     namespace += "_" if namespace.present?
     partial = (@payer_id || @agreement) ? "#{namespace}payment_final" : "#{namespace}payment_form"
     "events/orders/paypal_nvp/#{partial}"

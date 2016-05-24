@@ -59,6 +59,4 @@ class Payments::PaypalNvp::BasePayer
                     success: true,
                     payment_type: "paypal_nvp")
   end
-
-
 end
