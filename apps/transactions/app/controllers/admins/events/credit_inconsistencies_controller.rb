@@ -31,6 +31,7 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
                    inconsistent_balance: last_credit.final_balance - amount_sum_credit,
                    inconsistent_refundable_balance:
                     last_credit.final_refundable_balance - refundable_sum_credit,
+
                    final_transaction_balance: last_transaction.final_balance.to_i,
                    final_transaction_refundable_balance:
                     last_transaction.final_refundable_balance.to_i,
@@ -40,5 +41,6 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
                     last_transaction.final_refundable_balance.to_i - refundable_sum_transaction,
                    gtag: profile.active_gtag_assignment&.credentiable&.tag_uid }
     end
+    @issues.sort_by! { |i| i[:inconsistent_balance] }
   end
 end
