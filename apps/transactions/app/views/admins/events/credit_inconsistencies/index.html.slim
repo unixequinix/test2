@@ -17,7 +17,6 @@
     h2 = number_to_token @issues.map { |i| i[:inconsistent_refundable_balance] if i[:inconsistent_refundable_balance] < 0 }.compact.sum
     span Refundable Sales
 
-.wrapper-negative-space
   .current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @issues.size, total: @issues.size)
   - if @issues
     table.transactions
