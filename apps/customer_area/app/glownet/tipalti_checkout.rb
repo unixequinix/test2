@@ -27,7 +27,7 @@ class TipaltiCheckout
       payer: @tipalti_values[:payer],
       redirectTo: tipalti_success_event_refunds_url(profile.event,
                                                     customerID: profile.id,
-                                                    status: complete)
+                                                    status: "complete")
     }.to_param
   end
 
