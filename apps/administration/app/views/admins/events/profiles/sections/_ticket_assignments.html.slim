@@ -11,6 +11,6 @@ table.subtable.customer-show-subtable
   tbody
     - profile.ticket_assignments.each do |admission|
       tr
-        td = link_to "#{admission.credentiable.code}", edit_admins_event_ticket_path(current_event, admission.credentiable)
+        td = link_to "#{admission.credentiable.code}", admins_event_ticket_path(current_event, admission.credentiable)
         td = t("admin.admissions.states.#{admission.aasm_state}")
         td = admission.created_at.strftime("%y-%m-%d %H:%M:%S")

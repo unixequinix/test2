@@ -1,4 +1,4 @@
-class Payments::BraintreeRefunder
+class Payments::Braintree::Refunder
   def initialize(payment, amount)
     @payment = payment
     @order = payment.order

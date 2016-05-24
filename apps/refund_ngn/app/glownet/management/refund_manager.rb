@@ -6,7 +6,7 @@ class Management::RefundManager
 
   def execute
     online_payments.map do |payment, amount|
-      klass = "Payments::#{payment.payment_type.camelcase}Refunder".constantize
+      klass = "Payments::#{payment.payment_type.camelcase}::Refunder".constantize
       klass.new(payment, amount).start
     end
   end

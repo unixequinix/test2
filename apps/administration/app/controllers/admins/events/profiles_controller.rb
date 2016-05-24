@@ -15,9 +15,11 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
                                  credential_assignments: :credentiable,
                                  customer_orders: [:catalog_item, :online_order])
                        .find(params[:id])
-    @credit_transactions = CreditTransaction.where(event: current_event, profile_id: @profile.id)
-                                            .order(device_created_at: :desc)
-                                            .includes(:station)
+    gtag = @profile.active_gtag_assignment&.credentiable.tag_uid
+    @credit_transactions =
+      CreditTransaction.where(event: current_event, customer_tag_uid: gtag)
+                       .order(device_created_at: :desc)
+                       .includes(:station)
   end
 
   def ban
@@ -45,6 +47,13 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
     Operations::Base.new.portal_write(atts)
 
     redirect_to(admins_event_profiles_url)
+  end
+
+  def revoke_agreement
+    profile = @fetcher.profiles.find(params[:id])
+    profile.payment_gateway_customers.find(params[:agreement_id]).destroy
+    flash[:notice] = I18n.t("alerts.destroyed")
+    redirect_to(admins_event_profile_path(current_event, profile))
   end
 
   def set_presenter

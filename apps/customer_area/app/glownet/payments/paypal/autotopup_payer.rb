@@ -1,4 +1,4 @@
-class Payments::AutotopupPaypalPayer
+class Payments::Paypal::AutotopupPayer
   include Payments::AutomaticRefundable
   # TODO: Refactor method
   def start(params, customer_order_creator, customer_credit_creator)

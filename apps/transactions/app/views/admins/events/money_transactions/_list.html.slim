@@ -10,7 +10,7 @@ table.transactions
       th = t("admin.transactions.customer_tag_uid")
       th = t("admin.transactions.price")
       th = t("admin.transactions.payment_method")
-      th = t("admin.transactions.payment_gateway")
+
   tbody
     - transactions.each do |transaction|
       tr
@@ -27,6 +27,6 @@ table.transactions
             = transaction.customer_tag_uid || transaction.profile_id
         td data-label=t("admin.transactions.price") = transaction.price
         td data-label=t("admin.transactions.payment_method") = transaction.payment_method
-        td data-label=t("admin.transactions.payment_gateway") = transaction.payment_gateway
+
 .container-pagination
   = paginate transactions

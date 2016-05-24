@@ -4,6 +4,7 @@ h3
 table.transactions
   thead
     tr
+      th = "ID"
       th = t("admin.transactions.transaction_type")
       th = t("admin.transactions.transaction_origin")
       th = t("admin.transactions.station_id")
@@ -13,9 +14,11 @@ table.transactions
       th = t("admin.transactions.final_balance")
       th = t("admin.transactions.final_refundable_balance")
       th = "Code"
+
   tbody
     - credit_transactions.each do |transaction|
         tr
+          td = link_to transaction.id, admins_event_credit_transaction_path(current_event, transaction)
           td data-label=t("admin.transactions.transaction_type") = transaction.transaction_type
           td data-label=t("admin.transactions.transaction_origin") = transaction.transaction_origin
           td data-label=t("admin.transactions.station_id") = transaction.station.name

@@ -2,7 +2,7 @@ p.menu-header
   = fa_icon "search"
   = t("admin.defaults.search")
 
-= search_form_for q, url: search_admins_event_credit_transactions_path, html: { novalidate: true, class: "searchForm" }  do |f|
+= search_form_for q, url: search_admins_event_money_transactions_path, html: { novalidate: true, class: "searchForm" }  do |f|
   .container-search
     = f.input :customer_tag_uid_eq, label: t("admin.transactions.customer_tag_uid"), placeholder: t("admin.transactions.customer_tag_uid")
     = f.input :operator_tag_uid_eq, label: t("admin.transactions.operator_tag_uid"), placeholder: t("admin.transactions.operator_tag_uid")

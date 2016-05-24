@@ -1,4 +1,4 @@
-class Payments::WirecardDataStorageInitializer
+class Payments::Wirecard::DataStorageInitializer
   def initialize(**params)
     params.slice!(:customer_id, :shop_id, :order_ident, :return_url, :language, :secret_key)
     params.each { |name, value| instance_variable_set(:"@#{name}", value) }

@@ -1,4 +1,4 @@
-class Payments::PaypalRefunder
+class Payments::Paypal::Refunder
   def initialize(payment, amount)
     @payment = payment
     @order = payment.order

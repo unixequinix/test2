@@ -1,4 +1,4 @@
-class Payments::IdealPayer
+class Payments::Sofort::Payer
   def start(params, customer_order_creator, customer_credit_creator)
     notify_payment(params, customer_order_creator, customer_credit_creator)
   end
@@ -11,7 +11,7 @@ class Payments::IdealPayer
     customer_credit_creator.save(order)
     create_payment(order, amount, params)
     order.complete!
-    customer_order_creator.save(order, "card", "ideal")
+    customer_order_creator.save(order, "card", "sofort")
     send_mail_for(order, event)
   end
 
@@ -23,7 +23,7 @@ class Payments::IdealPayer
 
   def create_payment(order, amount, params)
     Payment.create!(transaction_type: params[:paymentType],
-                    card_country: params[:financialInstitution],
+                    card_country: params[:senderBankName],
                     paid_at: Time.zone.now,
                     order: order,
                     response_code: params[:avsResponseMessage],
@@ -33,6 +33,6 @@ class Payments::IdealPayer
                     amount: amount,
                     terminal: nil,
                     success: true,
-                    payment_type: "ideal")
+                    payment_type: "sofort")
   end
 end

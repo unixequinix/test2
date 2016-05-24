@@ -1,4 +1,4 @@
-class Payments::RedsysPayer
+class Payments::Redsys::Payer
   def start(params, customer_order_creator, customer_credit_creator)
     notify_payment(params, customer_order_creator, customer_credit_creator)
   end

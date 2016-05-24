@@ -1,4 +1,4 @@
-class Payments::SofortDataRetriever < Payments::WirecardBaseDataRetriever
+class Payments::Sofort::DataRetriever < Payments::Wirecard::BaseDataRetriever
   def payment_type
     "SOFORTUEBERWEISUNG"
   end

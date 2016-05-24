@@ -1,4 +1,4 @@
-class Payments::PaypalDataRetriever
+class Payments::Braintree::DataRetriever < Payments::BaseDataRetriever
   include Rails.application.routes.url_helpers
   attr_reader :current_event, :order, :client_token
 
@@ -20,13 +20,7 @@ class Payments::PaypalDataRetriever
   private
 
   def generate_client_token
-    profile = order.profile
-    gateway_customer = profile.gateway_customer(EventDecorator::PAYPAL)
-    if gateway_customer
-      Braintree::ClientToken.generate(customer_id: gateway_customer.token)
-    else
-      Braintree::ClientToken.generate
-    end
+    Braintree::ClientToken.generate
   end
 
   def environment

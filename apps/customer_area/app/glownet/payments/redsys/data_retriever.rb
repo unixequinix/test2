@@ -1,4 +1,4 @@
-class Payments::RedsysDataRetriever < Payments::BaseDataRetriever
+class Payments::Redsys::DataRetriever < Payments::BaseDataRetriever
   include Rails.application.routes.url_helpers
   attr_reader :current_event, :order
 

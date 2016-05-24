@@ -3,6 +3,7 @@ class Operations::Base < ActiveJob::Base
 
   def perform(atts) # rubocop:disable Metrics/AbcSize
     atts[:profile_id] ||= atts[:customer_event_profile_id]
+    atts.delete(:station_id) if atts[:station_id].to_i.zero?
     atts.delete(:sale_items_attributes) if atts[:sale_items_attributes].blank?
     klass = "#{atts[:transaction_category]}_transaction".classify.constantize
 
@@ -38,6 +39,12 @@ class Operations::Base < ActiveJob::Base
       device_created_at: Time.zone.now.strftime("%Y-%m-%d %T.%L"),
       customer_tag_uid: profile.active_gtag_assignment&.credentiable&.tag_uid
     }.merge(atts.symbolize_keys)
+
+    #TODO: Remove when this method is refactored. Now it's needed by sidekiq
+    Operations::Credential::TicketChecker.inspect
+    Operations::Credential::GtagChecker.inspect
+    Operations::Credit::BalanceUpdater.inspect
+    Operations::Order::CredentialAssigner.inspect
 
     klass.create!(column_attributes(klass, final_atts))
     execute_operations(final_atts)

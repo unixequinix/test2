@@ -19,10 +19,10 @@ class CustomerCreditAutotopupOrderCreator < CustomerCreditCreator
   def single_customer_credit(order, order_item)
     params = {
       payment_method: "paypal",
+      transaction_type: "auto_topup",
       credit_value: order_item.catalog_item.catalogable.value,
       amount: order_item.amount,
-      refundable_amount: order_item.amount,
-      transaction_type: CustomerCredit::AUTOTOPUP_PURCHASE
+      refundable_amount: order_item.amount
     }
     create_credit(order.profile, params)
   end
@@ -30,10 +30,10 @@ class CustomerCreditAutotopupOrderCreator < CustomerCreditCreator
   def pack_customer_credit(order, order_item, credit_item, refundable)
     params = {
       payment_method: "paypal",
+      transaction_type: "auto_topup",
       credit_value: credit_item.value,
       amount: credit_item.total_amount * order_item.amount,
-      refundable_amount: refundable,
-      transaction_type: CustomerCredit::AUTOTOPUP_PURCHASE
+      refundable_amount: refundable
     }
     create_credit(order.profile, params)
   end
