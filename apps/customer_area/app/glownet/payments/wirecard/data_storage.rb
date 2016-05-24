@@ -3,7 +3,7 @@ module Payments::Wirecard::DataStorage
 
   def initialize(event, order)
     super(event, order)
-    @data_storage = Payments::WirecardDataStorageInitializer.new(
+    @data_storage = Payments::Wirecard::DataStorageInitializer.new(
       customer_id: customer_id,
       order_ident: order_ident,
       return_url: return_url,

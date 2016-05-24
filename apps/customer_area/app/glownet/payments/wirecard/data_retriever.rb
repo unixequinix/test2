@@ -1,5 +1,5 @@
 class Payments::Wirecard::DataRetriever < Payments::Wirecard::BaseDataRetriever
-  include Payments::WirecardDataStorage
+  include Payments::Wirecard::DataStorage
 
   def payment_type
     "CCARD"

@@ -48,7 +48,7 @@ class Orders::PaypalNvpPresenter < Orders::BasePresenter
   end
 
   def form_data
-    Payments::PaypalNvpDataRetriever.new(@event, @order)
+    Payments::PaypalNvp::DataRetriever.new(@event, @order)
   end
 
   def payment_service

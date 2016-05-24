@@ -16,7 +16,7 @@ class Events::AutotopupAgreementsController < Events::BaseController
     params[:consumer_ip_address] = request.ip
     params[:consumer_user_agent] = request.user_agent
     params[:autotopup_agreement] = true
-    @form_data = "Payments::#{@payment_service.camelize}DataRetriever"
+    @form_data = "Payments::#{@payment_service.camelize}::DataRetriever"
                  .constantize.new(current_event, @order).with_params(params)
     @order.start_payment!
   end
