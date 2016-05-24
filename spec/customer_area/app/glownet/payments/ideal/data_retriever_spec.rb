@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Payments::IdealDataRetriever, type: :domain_logic do
+RSpec.describe Payments::Ideal::DataRetriever, type: :domain_logic do
   let(:order) do
     create(:order)
   end
@@ -13,7 +13,7 @@ RSpec.describe Payments::IdealDataRetriever, type: :domain_logic do
     params = {
       financial_institution: "Rabobank"
     }
-    Payments::IdealDataRetriever.new(event, order).with_params(params)
+    Payments::Ideal::DataRetriever.new(event, order).with_params(params)
   end
 
   context ".payment_type" do

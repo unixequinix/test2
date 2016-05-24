@@ -1,13 +1,13 @@
 require "rails_helper"
 
-RSpec.describe Payments::RedsysDataRetriever, type: :domain_logic do
+RSpec.describe Payments::Redsys::DataRetriever, type: :domain_logic do
   let(:number) { rand(10_000_000) }
   let(:order) { create(:order_with_items, number: number) }
   let(:profile) { order.profile }
   let(:event) { profile.event }
   let(:redsys_data_retriever) do
     Seeder::SeedLoader.load_default_event_parameters(event)
-    Payments::RedsysDataRetriever.new(event, order)
+    Payments::Redsys::DataRetriever.new(event, order)
   end
 
   describe "redsys_data_retriever initializer" do
