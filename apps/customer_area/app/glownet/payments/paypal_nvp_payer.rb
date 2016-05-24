@@ -9,8 +9,7 @@ class Payments::PaypalNvpPayer
     @order.start_payment!
     charge_object = charge(params)
     return charge_object unless charge_object["ACK"] == "Success"
-    email = @paypal_nvp.get_express_checkout_details(params[:token])["EMAIL"]
-    create_agreement(charge_object, params, email)
+    create_agreement(charge_object, params)
     notify_payment(charge_object, customer_order_creator, customer_credit_creator)
     charge_object
   end
@@ -39,8 +38,9 @@ class Payments::PaypalNvpPayer
     send_mail_for(@order, @event)
   end
 
-  def create_agreement(charge_object, params, email)
+  def create_agreement(charge_object, params)
     return if !enabled_autotopup? || !create_agreement?(params)
+    email = @paypal_nvp.get_express_checkout_details(params[:token])["EMAIL"]
     @profile.payment_gateway_customers
             .find_or_create_by(gateway_type: EventDecorator::PAYPAL_NVP)
             .update(token: charge_object["BILLINGAGREEMENTID"],

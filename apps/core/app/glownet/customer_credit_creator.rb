@@ -19,7 +19,6 @@ class CustomerCreditCreator
       profile_id: profile.id,
       payment_method: atts[:payment_method]
     }
-
     Operations::Base.new.portal_write(fields)
   end
 end

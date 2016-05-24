@@ -40,6 +40,12 @@ class Operations::Base < ActiveJob::Base
       customer_tag_uid: profile.active_gtag_assignment&.credentiable&.tag_uid
     }.merge(atts.symbolize_keys)
 
+    #TODO: Remove when this method is refactored. Now it's needed by sidekiq
+    Operations::Credential::TicketChecker.inspect
+    Operations::Credential::GtagChecker.inspect
+    Operations::Credit::BalanceUpdater.inspect
+    Operations::Order::CredentialAssigner.inspect
+
     klass.create!(column_attributes(klass, final_atts))
     execute_operations(final_atts)
   end
