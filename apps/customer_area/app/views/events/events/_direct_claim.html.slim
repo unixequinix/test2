@@ -1,6 +1,6 @@
 .wrapper-module-centered
   h3 = t("claims.direct_claim.title")
   p = t("claims.direct_claim.description")
-  = link_to t("claims.direct_claim.button"), new_event_direct_claim_path(current_event), class: "btn btn-action btn-action-primary btn-auto-claim"
-
-
+  = link_to new_event_direct_claim_path(current_event), class: "btn btn-action-autptopup btn-action-add-paypal" do
+    = icon_to_draw('paypal_nvp')
+    = t('claims.paypal.button')

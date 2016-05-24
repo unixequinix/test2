@@ -230,6 +230,8 @@ es:
     invalid_claim:
       title: "Estamos trabajando en tu devolución"
       description: "Contáctanos para más información"
+    paypal:
+      button: "Reembolsar con PayPal"
   gtag_assignations:
     title: "Introducir %{gtag}"
     description:
