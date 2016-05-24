@@ -1,4 +1,4 @@
-class Payments::WirecardBaseDataRetriever < Payments::BaseDataRetriever
+class Payments::Wirecard::BaseDataRetriever < Payments::BaseDataRetriever
   include Rails.application.routes.url_helpers
   attr_reader :current_event, :order
 

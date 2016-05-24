@@ -1,4 +1,4 @@
-module Payments::WirecardDataStorage
+module Payments::Wirecard::DataStorage
   extend ActiveSupport::Concern
 
   def initialize(event, order)

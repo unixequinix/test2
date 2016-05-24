@@ -1,4 +1,4 @@
-class Payments::StripePayer
+class Payments::Stripe::Payer
   def start(params, customer_order_creator, customer_credit_creator)
     @event = Event.friendly.find(params[:event_id])
     @order = Order.find(params[:order_id])

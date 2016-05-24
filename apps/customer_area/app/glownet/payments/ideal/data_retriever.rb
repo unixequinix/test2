@@ -1,4 +1,4 @@
-class Payments::IdealDataRetriever < Payments::WirecardBaseDataRetriever
+class Payments::Ideal::DataRetriever < Payments::WirecardBaseDataRetriever
   def with_params(params)
     super(params)
     @financial_institution = params[:financial_institution]
