@@ -1,4 +1,4 @@
-class Payments::PaypalNvpRefunder
+class Payments::PaypalNvp::AutotopupRefunder
   def initialize(payment, amount)
     @payment = payment
     @order = payment.order
@@ -15,7 +15,7 @@ class Payments::PaypalNvpRefunder
   end
 
   def refund(transaction, amount)
-    @paypal_nvp.refund_transaction(transaction, amount)
+    @paypal_nvp.void_transaction(transaction, amount)
   end
 
   private

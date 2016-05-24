@@ -1,4 +1,4 @@
-class Payments::PaypalNvpPayer
+class Payments::PaypalNvp::AgreementPayer
   def start(params, customer_order_creator, customer_credit_creator)
     @event = Event.friendly.find(params[:event_id])
     @order = Order.find(params[:order_id])
@@ -9,7 +9,8 @@ class Payments::PaypalNvpPayer
     @order.start_payment!
     charge_object = charge(params)
     return charge_object unless charge_object["ACK"] == "Success"
-    create_agreement(charge_object, params)
+    email = @paypal_nvp.get_express_checkout_details(params[:token])["EMAIL"]
+    create_agreement(charge_object, params[:autotopup_amount], email) if create_agreement?(params)
     notify_payment(charge_object, customer_order_creator, customer_credit_creator)
     charge_object
   end
@@ -38,28 +39,18 @@ class Payments::PaypalNvpPayer
     send_mail_for(@order, @event)
   end
 
-  def create_agreement(charge_object, params)
-    return if !enabled_autotopup? || !create_agreement?(params)
-    email = @paypal_nvp.get_express_checkout_details(params[:token])["EMAIL"]
+  def create_agreement(charge_object, autotopup_amount, email)
     @profile.payment_gateway_customers
             .find_or_create_by(gateway_type: EventDecorator::PAYPAL_NVP)
             .update(token: charge_object["BILLINGAGREEMENTID"],
                     agreement_accepted: true,
-                    autotopup_amount: autotopup_amount(params),
+                    autotopup_amount: autotopup_amount,
                     email: email)
     @profile.save
   end
 
-  def autotopup_amount(params)
-    params[:autotopup_amount] || @order.order_items.first.amount
-  end
-
   def create_agreement?(params)
     params[:accept] && !@profile.gateway_customer(EventDecorator::PAYPAL_NVP)
-  end
-
-  def enabled_autotopup?
-    @event.get_parameter("payment", "paypal_nvp", "autotopup") == "true"
   end
 
   def send_mail_for(order, event)
