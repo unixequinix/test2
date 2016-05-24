@@ -1,4 +1,6 @@
 class TipaltiCheckout
+  include Rails.application.routes.url_helpers
+  
   def initialize(claim)
     @claim = claim
     tps = EventParameter.select(:value, "parameters.name")
