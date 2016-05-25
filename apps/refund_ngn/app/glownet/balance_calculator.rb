@@ -10,11 +10,11 @@ class BalanceCalculator
   end
 
   def total_credits_amount
-    customer_credits.sum(:amount).floor
+    customer_credits.sum(:amount)
   end
 
   def total_refundable_credits_amount
-    customer_credits.sum(:refundable_amount).floor
+    customer_credits.sum(:refundable_amount)
   end
 
   def current_balance

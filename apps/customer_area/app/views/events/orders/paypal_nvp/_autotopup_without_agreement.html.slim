@@ -1,0 +1,5 @@
+#paypalnvp-container
+  = hidden_field_tag :token, order_presenter.token
+  = hidden_field_tag :payer_id, order_presenter.payer_id
+  - if order_presenter.enable_autotoup_agreement?
+      = render 'events/orders/autotopup'

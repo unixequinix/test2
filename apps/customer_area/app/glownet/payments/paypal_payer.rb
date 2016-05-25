@@ -1,4 +1,5 @@
 class Payments::PaypalPayer
+  # TODO: Refactor method
   def start(params, customer_order_creator, customer_credit_creator)
     @event = Event.friendly.find(params[:event_id])
     @order = Order.find(params[:order_id])
@@ -36,6 +37,12 @@ class Payments::PaypalPayer
     sale_options
   end
 
+  def submit_for_settlement(sale_options)
+    sale_options[:options] = {
+      submit_for_settlement: true
+    }
+  end
+
   def regular_payment_options(sale_options, params)
     sale_options[:payment_method_nonce] = params[:payment_method_nonce]
   end
@@ -44,21 +51,12 @@ class Payments::PaypalPayer
     sale_options[:customer_id] = @gateway.token
   end
 
-  def submit_for_settlement(sale_options)
-    sale_options[:options] = {
-      submit_for_settlement: true
-    }
-  end
-
   def vault_options(sale_options, customer)
     sale_options[:customer] = {
-      first_name: customer.first_name,
-      last_name: customer.last_name,
-      email: customer.email
+      first_name: customer.first_name, last_name: customer.last_name, email: customer.email
     }
     sale_options[:options] = {
-      submit_for_settlement: true,
-      store_in_vault: true
+      submit_for_settlement: true, store_in_vault: true
     }
   end
 

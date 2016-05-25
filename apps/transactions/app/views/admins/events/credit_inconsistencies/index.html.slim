@@ -1,6 +1,24 @@
 - breadcrumb :admins_event_credit_inconsistencies, current_event
 
 .wrapper-negative-space
+  .container-statistics
+    .wrapper-statistics
+      h2 = number_to_token @issues.map { |i| i[:inconsistent_balance] if i[:inconsistent_balance] > 0 }.compact.sum
+      span Topups
+
+    .wrapper-statistics
+      h2 = number_to_token @issues.map { |i| i[:inconsistent_balance] if i[:inconsistent_balance] < 0 }.compact.sum
+      span Sales
+
+    .wrapper-statistics
+      h2 = number_to_token @issues.map { |i| i[:inconsistent_refundable_balance] if i[:inconsistent_refundable_balance] > 0 }.compact.sum
+      span Refundable Topups
+
+    .wrapper-statistics
+      h2 = number_to_token @issues.map { |i| i[:inconsistent_refundable_balance] if i[:inconsistent_refundable_balance] < 0 }.compact.sum
+      span Refundable Sales
+
+  .current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @issues.size, total: @issues.size)
   - if @issues
     table.transactions
       thead
@@ -12,18 +30,37 @@
           th = t("admin.transactions.final_refundable_balance")
           th = t("admin.transactions.inconsistent_balance")
           th = t("admin.transactions.inconsistent_refundable_balance")
+
+          th = t("admin.transactions.amount_sum_transaction")
+          th = t("admin.transactions.refundable_sum_transaction")
+
+
+          th = t("admin.transactions.final_transaction_balance")
+          th = t("admin.transactions.final_transaction_refundable_balance")
+          th = t("admin.transactions.inconsistent_transaction_balance")
+          th = t("admin.transactions.inconsistent_transaction_refundable_balance")
           th = t("admin.transactions.gtag")
       tbody
         - @issues.each do |issue|
           tr
             td data-label=t("admin.transactions.id") = link_to issue[:profile].id, admins_event_profile_path(current_event, issue[:profile])
-            td data-label=t("admin.transactions.credits") = issue[:amount_sum]
-            td data-label=t("admin.transactions.credits_refundable") = issue[:refundable_sum]
+            td data-label=t("admin.transactions.credits") = issue[:amount_sum_credit]
+            td data-label=t("admin.transactions.credits_refundable") = issue[:refundable_sum_credit]
             td data-label=t("admin.transactions.final_balance") = issue[:final_balance]
             td data-label=t("admin.transactions.final_refundable_balance") = issue[:final_refundable_balance]
+
+            td data-label=t("admin.transactions.inconsistent_balance") = issue[:inconsistent_balance]
+            td data-label=t("admin.transactions.inconsistent_refundable_balance") = issue[:inconsistent_refundable_balance]
+
             // TODO: Internationalization for these data labels
-            td data-label="inconsistent_balance" = issue[:inconsistent_balance]
-            td data-label="inconsistent_refundable_balance" = issue[:inconsistent_refundable_balance]
+            td data-label="amount_sum_transaction" = issue[:amount_sum_transaction]
+            td data-label="refundable_sum_transaction" = issue[:refundable_sum_transaction]
+
+            td data-label=t("admin.transactions.final_transaction_balance") = issue[:final_transaction_balance]
+            td data-label=t("admin.transactions.final_transaction_refundable_balance") = issue[:final_transaction_refundable_balance]
+            td data-label=t("admin.transactions.inconsistent_transaction_balance") = issue[:inconsistent_transaction_balance]
+            td data-label=t("admin.transactions.inconsistent_transaction_refundable_balance") = issue[:inconsistent_transaction_refundable_balance]
+
             td data-label="gtag" = issue[:gtag]
   - else
     .section-title-empty

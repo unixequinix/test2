@@ -9,13 +9,15 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
   end
 
   def show
-    @profile =
-      @fetcher.profiles.with_deleted
-              .includes(:active_tickets_assignment,
-                        :active_gtag_assignment,
-                        credential_assignments: :credentiable,
-                        customer_orders: [:catalog_item, :online_order])
-              .find(params[:id])
+    @profile = @fetcher.profiles.with_deleted
+                       .includes(:active_tickets_assignment,
+                                 :active_gtag_assignment,
+                                 credential_assignments: :credentiable,
+                                 customer_orders: [:catalog_item, :online_order])
+                       .find(params[:id])
+
+    tag_uid = @profile.active_gtag_assignment.credentiable.tag_uid
+    @credit_transactions = CreditTransaction.with_event(current_event).with_customer_tag(tag_uid)
   end
 
   def ban
@@ -45,6 +47,13 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
     redirect_to(admins_event_profiles_url)
   end
 
+  def revoke_agreement
+    profile = @fetcher.profiles.find(params[:id])
+    profile.payment_gateway_customers.find(params[:agreement_id]).destroy
+    flash[:notice] = I18n.t("alerts.destroyed")
+    redirect_to(admins_event_profile_path(current_event, profile))
+  end
+
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Profile".constantize.model_name,
@@ -66,17 +75,11 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
   def fields(b_id, b_type, t_type, reason = "Banned by #{current_admin.email}")
     {
       event_id: current_event.id,
-      station_id: current_event.stations
-                               .joins(:station_type)
-                               .find_by(station_types: { name: "customer_portal" }).id,
       transaction_category: "ban",
-      transaction_origin: "customer_portal",
       transaction_type: "#{t_type}_#{b_type.downcase}",
       banneable_id: b_id,
       banneable_type: b_type,
-      reason: reason,
-      status_code: 0,
-      status_message: "OK"
+      reason: reason
     }
   end
 end

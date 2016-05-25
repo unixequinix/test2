@@ -350,7 +350,7 @@ crumb :new_admins_event_customer_gtag_assignation do |event, customer|
   parent :admins_event_customers, event, customer
 end
 
-## Customer event profiles
+## Profiles
 
 crumb :admins_event_profiles do |event|
   link t("breadcrumbs.profile"), admins_event_profiles_path(event)

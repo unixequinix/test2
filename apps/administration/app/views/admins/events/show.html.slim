@@ -20,13 +20,9 @@
       dt = t("admin.event.support_email")
       dd = @current_event.support_email
       dt = t("admin.event.features")
-      dd
-        - EventDecorator::FEATURES.each_with_index do |feature, index|
-          = (index > 0 ? ", #{t("admin.event.features_options.#{feature}")}" : t("admin.event.features_options.#{feature}")) if @current_event.flag_enabled?(feature)
+      dd = EventDecorator::FEATURES.map { |feature| t("admin.event.features_options.#{feature}") if @current_event.flag_enabled?(feature) }.reject(&:blank?).to_sentence
       dt = t("admin.event.refund_service")
-      dd
-        - EventDecorator::REFUND_SERVICES.each_with_index do |refund_service, index|
-          = (index > 0 ? ", #{t("admin.event.refund_services.#{refund_service}")}" : t("admin.event.refund_services.#{refund_service}")) if @current_event.flag_enabled?(refund_service)
+      dd = EventDecorator::REFUND_SERVICES.map { |rs| t("admin.event.refund_services.#{rs}") if @current_event.flag_enabled?(rs) }.reject(&:blank?).to_sentence
       dt = t("admin.event.location")
       dd = @current_event.location
       dt = t("admin.event.start_date")

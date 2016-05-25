@@ -119,6 +119,7 @@ Rails.application.routes.draw do
           member do
             get :ban
             delete :unban
+            delete :revoke_agreement
           end
           collection do
             get :search

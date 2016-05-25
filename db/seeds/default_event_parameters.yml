@@ -18,6 +18,9 @@
           value: false
         -
           name: topup_initialize_gtag
+          value: true
+        -
+          name: cypher_enabled
           value: false
 -
   category: payment
@@ -114,7 +117,7 @@
           value: "https://www.sandbox.paypal.com/cgi-bin/webscr"
         -
           name: api_url
-          data_type: "https://api-3t.sandbox.paypal.com/nvp"
+          value: "https://api-3t.sandbox.paypal.com/nvp"
     -
       name: wirecard
       values:
@@ -204,7 +207,7 @@
           value: n6RwV8g/lM7IP51GWqOmcsTmJ9YSu4YpteoYHuXPmymjB1oaIimAC6lm3EUWxBoT
         -
           name: url
-          value: https://ui.sandbox.tipalti.com/Payees/PayeeDashboard.aspx
+          value: https://ui2.tipalti.com/payeedashboard/home
     -
       name: direct
       values:

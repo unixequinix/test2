@@ -8,7 +8,7 @@ class Admins::Events::CreditTransactionsController < Admins::Events::BaseControl
   def show
     @transaction = CreditTransaction.find(params[:id])
     @gtag = Gtag.find_by_tag_uid(@transaction.customer_tag_uid)
-    @profile = Profile.find_by_id(@transaction.profile_id)
+    @profile = @transaction.profile
     @operator = Gtag.find_by_tag_uid(@transaction.operator_tag_uid)
   end
 

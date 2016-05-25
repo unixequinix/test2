@@ -20,6 +20,14 @@ end
 module GlownetWeb
   class Application < Rails::Application
 
+    # Use the IRB console instead of the Pry one
+    console do
+      require 'irb'
+      config.console = IRB
+    end
+
+    config.middleware.use Rack::Deflater
+
     config.eager_load_paths += ["#{config.root}/apps/core/app/models"]
     BootInquirer.each_active_app do |app|
       directory = "#{config.root}/apps/#{app.gem_name}/app/models"

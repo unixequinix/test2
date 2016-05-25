@@ -18,13 +18,13 @@
 #
 
 class CustomerCredit < ActiveRecord::Base
+  default_scope { order(created_in_origin_at: :desc) }
   acts_as_paranoid
 
   belongs_to :profile
 
-  validates_presence_of :payment_method, :transaction_origin, :profile
+  validates_presence_of :payment_method, :transaction_origin, :profile_id
   validates_numericality_of :amount, :refundable_amount, :credit_value
-  validates_numericality_of :final_balance, :final_refundable_balance, greater_than_or_equal_to: 0
 
   TICKET_ASSIGNMENT = "ticket_assignment".freeze
   TICKET_UNASSIGNMENT = "ticket_unassignment".freeze

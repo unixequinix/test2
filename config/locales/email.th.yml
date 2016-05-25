@@ -57,6 +57,12 @@ th:
           greet: 'สวัสดี %{name}!'
           mail_body: 'คุณได้ทำการยกเลิก %{gtag} ที่มี id:'
           mail_link: 'ทำการเช็คที่เว็บไซด์'
+      agreement:
+        accepted:
+          title: 'Paypal Agreement Accepted'
+          subject: 'Paypal Agreement Accepted'
+          greet: 'Hello %{name}!'
+          mail_body: 'You have accepted the PayPal Agreement so you can now do auto-topups!'
     admin:
       reset_password:
         greet: 'สวัสดี %{email}!'

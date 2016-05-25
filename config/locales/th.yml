@@ -75,7 +75,7 @@ th:
         other: 'ลูกค้าอื่นๆ'
       profile:
         one: 'customer event profile'
-        other: 'customer event profiles'
+        other: 'profiles'
       entitlement:
         one: 'การมีสิทธิ์'
         other: 'การมีสิทธิ์'

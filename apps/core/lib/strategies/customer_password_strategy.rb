@@ -1,13 +1,14 @@
 class CustomerPasswordStrategy < ::Warden::Strategies::Base
   def valid?
+    return false if request.get?
     !(c_attr("email").blank? || c_attr("password").blank?)
   end
 
   def authenticate!
     customer = Customer.find_by(email: c_attr("email"), event_id: c_attr("event_id"))
-    not_ok = !Authentication::Encryptor.compare(customer.encrypted_password, c_attr("password"))
+    bad_pass = !Authentication::Encryptor.compare(customer.encrypted_password, c_attr("password"))
 
-    fail!(message: "errors.messages.unauthorized") && return if customer.nil? || not_ok
+    fail!(message: "errors.messages.unauthorized") && return if customer.nil? || bad_pass
 
     customer.update_tracked_fields!(request)
     success!(customer)

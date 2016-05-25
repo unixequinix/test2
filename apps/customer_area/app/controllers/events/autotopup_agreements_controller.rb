@@ -1,19 +1,24 @@
 class Events::AutotopupAgreementsController < Events::BaseController
+  before_action :check_autotopup!
+
   def new
-    @ticket_assignment_form = TicketAssignmentForm.new
+    payment_service = params[:payment_service]
+    @order = Order.find_by_id(params[:order_id]) || autotopup_order
+    @order_presenter =
+      "Orders::#{payment_service.to_s.camelize}Presenter".constantize
+                                                         .new(current_event, @order)
+                                                         .with_params(params)
   end
 
-  def create
-    @ticket_assignment_form = TicketAssignmentForm.new(ticket_assignment_parameters)
-    if @ticket_assignment_form.save(Ticket.where(event: current_event),
-                                    current_profile,
-                                    current_event)
-      flash[:notice] = I18n.t("alerts.created")
-      redirect_to event_url(current_event)
-    else
-      flash.now[:error] = @ticket_assignment_form.errors.full_messages.join
-      render :new
-    end
+  def update
+    @payment_service = params[:payment_service]
+    @order = OrderManager.new(Order.find(params[:id])).sanitize_order
+    params[:consumer_ip_address] = request.ip
+    params[:consumer_user_agent] = request.user_agent
+    params[:autotopup_agreement] = true
+    @form_data = "Payments::#{@payment_service.camelize}DataRetriever"
+                 .constantize.new(current_event, @order).with_params(params)
+    @order.start_payment!
   end
 
   def destroy
@@ -29,7 +34,24 @@ class Events::AutotopupAgreementsController < Events::BaseController
 
   private
 
-  def ticket_assignment_parameters
-    params.require(:ticket_assignment_form).permit(:code)
+  # TODO: Remove from this controller
+  def autotopup_order
+    order = Order.new(profile: current_profile)
+    order.generate_order_number!
+    catalog_item = current_event.credits.standard.catalog_item
+    order.order_items << OrderItem.new(
+      catalog_item_id: catalog_item.id,
+      amount: 1,
+      total: 0.01
+    )
+    order.save
+    order
+  end
+
+  def check_autotopup!
+    redirect_to event_url(current_event) unless current_event.gtag_assignation? &&
+                                                current_profile.active_credentials? &&
+                                                current_event.agreement_acceptance? &&
+                                                current_event.autotopup_payment_services.present?
   end
 end

@@ -20,6 +20,7 @@ class Operations::Credential::Base < Operations::Base
     # it is not sonar, it is not in DB. The ticket is not valid.
     raise "Ticket with code #{code} not found and not sonar." unless id
 
+    # ticket is sonar. so insert it.
     ctt = event.company_ticket_types.find_by_company_code(id)
     transaction.create_ticket!(event: event, code: code, company_ticket_type: ctt)
   end

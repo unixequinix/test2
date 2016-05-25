@@ -1,15 +1,16 @@
 - if customer.profile.active_tickets_assignment
   td
     - customer.profile.active_tickets_assignment.each do |assigned_admission|
-      = link_to assigned_admission.credentiable.code,
-        edit_admins_event_ticket_path(current_event,
-        assigned_admission.credentiable)
+      = link_to assigned_admission.credentiable.code, admins_event_ticket_path(current_event, assigned_admission.credentiable)
 - else
   td data-label=t("admin.customers.tickets") = t("admin.defaults.empty_tickets")
-td data-label=t("admin.customers.credits") = customer.profile.customer_credits.sum(:amount)
+
 - if customer.profile.active_gtag_assignment.present?
-  td = link_to "#{customer.profile.active_gtag_assignment.credentiable.tag_uid}",
-    edit_admins_event_gtag_path(current_event,
-    customer.profile.active_gtag_assignment.credentiable)
+  td = link_to "#{customer.profile.active_gtag_assignment.credentiable.tag_uid}", admins_event_gtag_path(current_event, customer.profile.active_gtag_assignment.credentiable)
 - else
   td data-label=t("admin.customers.gtags") = t("admin.defaults.empty_gtags")
+  
+td data-label=t("admin.customers.credits") = customer.profile.customer_credits.sum(:amount)
+td data-label=t("admin.customers.autotopup")
+  - customer.profile.payment_gateway_customers.each do |g|
+    p = "#{g.gateway_type} : #{g.autotopup_amount}"

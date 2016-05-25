@@ -14,7 +14,7 @@ es:
       invalid_current_password: "contraseña incorrecta"
     mailer:
       reset_password_instructions:
-        subject: "Resetear instrucciones de contraseña."
+        subject: "Solicitud de cambio de contraseña."
       unlock_instructions:
         subject: "Desbloquear instrucciones."
     omniauth_callbacks:

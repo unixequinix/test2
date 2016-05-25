@@ -13,11 +13,9 @@
 javascript:
   tipaltiHandler = function (evt) {
     if (evt.data && evt.data.TipaltiIframeInfo) {
-      console.log(evt);
-      if (evt.data.TipaltiIframeInfo.height)
-        $('#tipaltiIframe').height(evt.data.TipaltiIframeInfo.height);
-      if (evt.data.TipaltiIframeInfo.width)
-        $('#tipaltiIframe').width(evt.data.TipaltiIframeInfo.width);
+      if (evt.data.TipaltiIframeInfo.height){
+        $('#tipaltiIframe').height(evt.data.TipaltiIframeInfo.height + 50);
+      }
     }
   }
 

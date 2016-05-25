@@ -1,11 +1,13 @@
 class Profile::Checker
-  def self.for_transaction(atts)
-    gtag = Gtag.find_by(tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id])
-    tag_profile = gtag&.assigned_profile&.id
-    trans_profile = atts[:profile_id]
-    raise "Profile Fraud detected" if trans_profile.present? && tag_profile != trans_profile
-    return tag_profile if tag_profile
-    profile = Profile.create!(event_id: atts[:event_id])
+  def self.for_transaction(gtag, tr_profile, event_id)
+    tg_profile = gtag.assigned_profile&.id
+    message = "Profile error - Transaction: #{tr_profile.inspect}, Gtag: #{tg_profile.inspect}"
+
+    raise message if tr_profile.present? && tg_profile.present? && tg_profile != tr_profile
+    return tg_profile if tg_profile
+    return tr_profile if tr_profile
+
+    profile = Profile.create!(event_id: event_id)
     profile.credential_assignments.find_or_create_by!(credentiable: gtag, aasm_state: :assigned)
     profile.id
   end

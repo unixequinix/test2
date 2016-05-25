@@ -1,5 +1,6 @@
 class Gateways::PaypalNvp::Transaction
   def initialize(event)
+    @event = event
     @gateway_parameters = Parameter.joins(:event_parameters)
                                    .where(category: "payment",
                                           group: "paypal_nvp",
@@ -15,20 +16,14 @@ class Gateways::PaypalNvp::Transaction
       I18n.t("registration.autotoup_agreement.billing_agreement_description")
   end
 
-  def set_express_checkout(amount, cancel_url, return_url)
-    post("USER" => @user,
-         "PWD" => @password,
-         "SIGNATURE" => @signature,
-         "METHOD" => "SetExpresscheckout",
-         "VERSION" => @version,
-         "PAYMENTREQUEST_0_PAYMENTACTION" => "AUTHORIZATION",
-         "PAYMENTREQUEST_0_AMT" => amount,
-         "PAYMENTREQUEST_0_CURRENCYCODE" => @currency,
+  def set_express_checkout(email, amount, cancel_url, return_url)
+    post("USER" => @user, "PWD" => @password, "EMAIL" => email, "SIGNATURE" => @signature,
+         "METHOD" => "SetExpresscheckout", "VERSION" => @version, "HDRIMG" => nil,
+         "BRANDNAME" => @event.name, "PAYMENTREQUEST_0_PAYMENTACTION" => "AUTHORIZATION",
+         "PAYMENTREQUEST_0_AMT" => amount, "PAYMENTREQUEST_0_CURRENCYCODE" => @currency,
          "L_BILLINGTYPE0" => @billing_type,
          "L_BILLINGAGREEMENTDESCRIPTION0" => @billing_agreement_description,
-         "NOSHIPPING" => 1,
-         "cancelUrl" => cancel_url,
-         "returnUrl" => return_url)
+         "NOSHIPPING" => 1, "cancelUrl" => cancel_url, "returnUrl" => return_url)
   end
 
   def get_express_checkout_details(token)
@@ -74,6 +69,11 @@ class Gateways::PaypalNvp::Transaction
          "TRANSACTIONID" => transaction,
          "REFUNDTYPE" => "Partial",
          "AMT" => amount)
+  end
+
+  def void_transaction(authorization)
+    post("METHOD" => "DoVoid",
+         "AUTHORIZATIONID" => authorization)
   end
 
   private

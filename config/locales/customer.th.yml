@@ -14,9 +14,11 @@ th:
     check_news: "กลับไปที่เว็บไซด์ของงาน"
     delete_account: "ลบบัญชีของคุณ"
     logout: "ออกจากระบบ"
+    confirm: "Confirm"
+    finalize: "Finalize"
   confirm:
     remove_ticket: "เครดิตที่คุณได้ทำการซื้อไปจะอยู่ในบัญชีผู้ใช้งานนี้ของคุณ หากคุณยกเลิกบัตรเข้างาน คุณจะต้องทำการโอนเครดิตไปยังบัตรอื่นเพื่อที่จะใช้ในงาน"
-    cancel_paypal: "Cancelling you disassociate your wristband from you PayPal account."
+    cancel_paypal: "Cancelling you disassociate your %{gtag} from you PayPal account."
     cancel_paypal_agreement: "Cancel agreement"
     log_out: "Do you want to end this session?"
   header:
@@ -56,18 +58,22 @@ th:
       header: "Your purchases"
     first_register:
       ticket: "Add ticket"
-      gtag: "Add wristband"
+      gtag: "Add %{gtag}"
     credits:
       header: "เครดิตที่ยังคงเหลืออยู่ของคุณ"
       call_to_action_started: "ไม่สามารถเติมเงินผ่านระบบออนไลน์ได้ เนื่องจากงานได้เริ่มแล้ว"
       call_to_action_no_admission_html: "เติมเงินผ่านระบบออนไลน์ <br>กรุณาใส่บัตรเข้างานในระบบก่อน"
       button: "เติมเงิน"
-      ticket_first: "Add a ticket or wristband first"
+      ticket_first: "Add a ticket or %{gtag} first"
       calculating_balance: "Calculating your balance"
       refundable: "Refundable"
-    paypal:
+    autotopup:
       claim: "Take advantage!"
-      description: "Sync with Paypal and you will make direct top ups."
+      description: "Sync your PayPal account and receive automatic refunds during the event."
+      disclaimer: "This amount will be refunded inmediatly after the agreement is accepted"
+    paypal:
+      button: "Sync with PayPal"
+    paypal_nvp:
       button: "Sync with PayPal"
     event_refunds:
       claim: "งานยังไม่จบ"
@@ -100,7 +106,7 @@ th:
       title: "หมายเลข %{gtag} ของคุณ"
       call_to_action: "ใส่หมายเลข %{gtag} ผิด?"
       button: "Remove"
-      hint: "Put a wrong wristband by mistake? Erase and restart the process"
+      hint: "Put a wrong %{gtag} by mistake? Erase and restart the process"
     gtag_after_refund:
       description: "ระบบกำลังดำเนินการคืนเงินให้กับคุณ"
     without_refunds:
@@ -192,9 +198,11 @@ th:
       button: "ชำระเงิน"
       card_holder: "Card Holder"
     paypal:
+      charge: "Verification charge"
       sync_title: "Sync with PayPal to perform payment"
-      sync_copy: "Never without credit!"
-      sync_description: "You can make automatic top ups in your event purchases. Select how much you want to automatically top up in the case where you spend all your credit during the event. This will help you avoid queues at on site top up stations. Your wristband will always be ready to use!"
+      sync_copy: "Paypal Experience"
+      sync_description: "In order to validate your PayPal account, you will be charged 0.01€ which will be refunded automatically."
+      sync_final_description: "Select the amount you´d like to be automatically topped up at any point of sale. This amount WILL NOT BE CHARGED to your account."
       with_agreement_title: "Already sync with PayPal"
       with_agreement_subtitle: "You can perform direct payments"
   claims:
@@ -223,6 +231,8 @@ th:
     invalid_claim:
       title: "Working in your refund"
       description: "Contact us for more information"
+    paypal:
+      button: "Refund with PayPal"
   gtag_assignations:
     title: "ระบุ %{gtag}"
     description:
@@ -314,6 +324,8 @@ th:
       billing_agreement_description: "I agree in get automated charges when running out of credit"
       current_amount: 'Current top up:'
       new_amount: 'Change your quantity:'
+      success: 'Account added!'
+      success_description: 'Now you can perform direct auto topups through your account'
   sessions:
     first_register:
       welcome: 'Bienvenido!!'

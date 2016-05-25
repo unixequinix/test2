@@ -7,7 +7,5 @@
     = t('actions.back')
 .wrapper-negative-space
   = render("customer_account_information", customer: @customer)
-  = render("admins/events/profiles/credentials_information",
-      profile: @customer.profile) if @customer.profile
-  = render("admins/events/profiles/profile_data",
-    profile: @customer.profile) if @customer.profile
+  = render("admins/events/profiles/credentials_information", profile: @customer.profile) if @customer.profile
+  = render("admins/events/profiles/profile_data", profile: @customer.profile, credit_transactions: @credit_transactions) if @customer.profile

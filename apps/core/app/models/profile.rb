@@ -24,14 +24,17 @@ class Profile < ActiveRecord::Base # rubocop:disable ClassLength
   has_many :customer_orders
   has_many :online_orders, through: :customer_orders
   has_many :payments, through: :orders
+  has_many :credit_transactions
   # TODO: check with current_balance method for duplication
   has_many :customer_credits do
     def current
       order("created_in_origin_at DESC").first
     end
   end
-
-  has_many :completed_claims, -> { where("aasm_state = 'completed' AND completed_at != NULL") },
+  has_many :gtag_credit_transactions,
+           -> { where.not(transaction_origin: "customer_portal").where(status_code: 0) },
+           class_name: "CreditTransaction"
+  has_many :completed_claims, -> { where("aasm_state = 'completed' AND completed_at IS NOT NULL") },
            class_name: "Claim"
   has_many :credit_purchased_logs,
            -> { where(transaction_origin: CustomerCredit::CREDITS_PURCHASE) },
@@ -123,7 +126,8 @@ class Profile < ActiveRecord::Base # rubocop:disable ClassLength
     neg = (refund.amount * -1)
     params = {
       amount: neg, refundable_amount: neg, credit_value: event.standard_credit_price,
-      payment_method: refund.payment_solution, transaction_origin: "refund"
+      payment_method: refund.payment_solution, transaction_origin: "refund",
+      created_in_origin_at: Time.zone.now
     }
     customer_credits.create!(params)
   end

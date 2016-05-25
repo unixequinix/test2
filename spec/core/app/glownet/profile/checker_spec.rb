@@ -85,35 +85,34 @@ RSpec.describe Profile::Checker, type: :domain_logic do
       before { create(:credential_assignment, credentiable: gtag, profile: profile) }
 
       it "fails if it does not match any gtag profiles for the event" do
-        atts[:profile_id] = 9999
-        expect { subject.for_transaction(atts) }.to raise_error(RuntimeError, /Fraud/)
+        expect { subject.for_transaction(gtag, 0, event.id) }.to raise_error(RuntimeError, /Profil/)
       end
 
       it "returns gtag assigned profile id profile matches that of gtag" do
-        atts[:profile_id] = profile.id
         gtag.assigned_profile = profile
-        expect(subject.for_transaction(atts)).to eq(profile.id)
+        expect(subject.for_transaction(gtag, profile.id, event.id)).to eq(profile.id)
       end
     end
 
-    context "without profile" do
+    context "without profile_id" do
       it "sends back the newly created id" do
-        expect(subject.for_transaction(atts)).to be_kind_of(Integer)
+        expect(subject.for_transaction(gtag, nil, event.id)).to be_kind_of(Integer)
       end
 
       it "creates a new profile" do
-        expect { subject.for_transaction(atts) }.to change(Profile, :count).by(1)
+        expect { subject.for_transaction(gtag, nil, event.id) }.to change(Profile, :count).by(1)
       end
 
       it "returns that of gtag assigned profile if present" do
         gtag.assigned_profile = profile
-        expect { @id = subject.for_transaction(atts) }.not_to change(Profile, :count)
+        expect { @id = subject.for_transaction(gtag, nil, event.id) }.not_to change(Profile, :count)
         expect(@id).to eq(profile.id)
       end
 
       it "assigns the profile created to the gtag" do
-        id = subject.for_transaction(atts)
-        expect(gtag.assigned_profile.id).to eq(id)
+        id = subject.for_transaction(gtag, nil, event.id)
+        expect(id).not_to be_nil
+        expect(gtag.reload.assigned_profile&.id).to eq(id)
       end
     end
   end
