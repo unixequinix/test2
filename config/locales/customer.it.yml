@@ -18,7 +18,7 @@ it:
     finalize: "Finalize"
   confirm:
     remove_ticket: "Your purchased credits are assigned to your account. If you remove your ticket, you will need to assign another one to use those credits in the event."
-    cancel_paypal: "Cancelling you disassociate your wristband from you PayPal account."
+    cancel_paypal: "Cancelling you disassociate your %{gtag} from you PayPal account."
     cancel_paypal_agreement: "Cancel agreement"
     log_out: "Do you want to end this session?"
   header:
@@ -58,7 +58,7 @@ it:
       header: "Your purchases"
     first_register:
       ticket: "Add ticket"
-      gtag: "Add wristband"
+      gtag: "Add %{gtag}"
     credits:
       header: "Your balance"
       call_to_action_started: "The event just started so you cannot topup anymore"
@@ -106,7 +106,7 @@ it:
       title: "Il numero della tua Paycard:"
       call_to_action: "Registrato una Paycard sbagliata per?"
       button: "Cancella"
-      hint: "Put a wrong wristband by mistake? Erase and restart the process"
+      hint: "Put a wrong %{gtag} by mistake? Erase and restart the process"
     gtag_after_refund:
       description: "Il tuo rimborso è in corso"
     without_refunds:
@@ -133,7 +133,7 @@ it:
       ticket_code: "Event Ticket Code Number"
   checkout:
     title: "Top-up"
-    description: "After you buy online credits here, they will automatically be applied to your wristband once you enter the event."
+    description: "After you buy online credits here, they will automatically be applied to your %{gtag} once you enter the event."
     total: "Total"
     button: "Confirm Order"
     store: " store"
