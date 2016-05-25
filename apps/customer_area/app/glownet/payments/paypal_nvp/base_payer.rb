@@ -1,4 +1,12 @@
 class Payments::PaypalNvp::BasePayer
+  def set_parameters(params)
+    @event = Event.friendly.find(params[:event_id])
+    @order = Order.find(params[:order_id])
+    @paypal_nvp = Gateways::PaypalNvp::Transaction.new(@event)
+    @profile = @order.profile
+    @gateway = @profile.gateway_customer(EventDecorator::PAYPAL_NVP)
+  end
+
   def charge(params)
     amount = @order.total_formated
     send("#{@method}_payment", amount, params)

@@ -1,11 +1,12 @@
 class Payments::PaypalNvp::Payer < Payments::PaypalNvp::BasePayer
-  def start(params, customer_order_creator, customer_credit_creator)
-    @event = Event.friendly.find(params[:event_id])
-    @order = Order.find(params[:order_id])
-    @paypal_nvp = Gateways::PaypalNvp::Transaction.new(@event)
-    @profile = @order.profile
-    @gateway = @profile.gateway_customer(EventDecorator::PAYPAL_NVP)
+
+
+  def set_parameters(params)
+    super(params)
     @method = @gateway ? "auto" : "regular"
+  end
+
+  def start(params, customer_order_creator, customer_credit_creator)
     @order.start_payment!
     charge_object = charge(params)
     return charge_object unless charge_object["ACK"] == "Success"

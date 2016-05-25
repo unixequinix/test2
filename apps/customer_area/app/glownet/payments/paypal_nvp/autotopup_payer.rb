@@ -1,14 +1,13 @@
 class Payments::PaypalNvp::AutotopupPayer < Payments::PaypalNvp::BasePayer
   include Payments::AutomaticRefundable
 
-  def start(params, customer_order_creator, customer_credit_creator)
-    @event = Event.friendly.find(params[:event_id])
-    @order = Order.find(params[:order_id])
-    @paypal_nvp = Gateways::PaypalNvp::Transaction.new(@event)
-    @profile = @order.profile
-    @gateway = @profile.gateway_customer(EventDecorator::PAYPAL_NVP)
-    return if @gateway
+  def set_parameters(params)
+    super(params)
     @method = "regular"
+  end
+
+  def start(params, customer_order_creator, customer_credit_creator)
+    return if @gateway
     @order.start_payment!
     charge_object = charge(params)
     return charge_object unless charge_object["ACK"] == "Success"
