@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Payments::SofortDataRetriever, type: :domain_logic do
+RSpec.describe Payments::Sofort::DataRetriever, type: :domain_logic do
   let(:order) do
     create(:order)
   end
@@ -14,7 +14,7 @@ RSpec.describe Payments::SofortDataRetriever, type: :domain_logic do
       consumer_ip_address: "192.168.1.1",
       consumer_user_agent: "chrome"
     }
-    Payments::SofortDataRetriever.new(event, order).with_params(params)
+    Payments::Sofort::DataRetriever.new(event, order).with_params(params)
   end
 
   context ".payment_type" do
