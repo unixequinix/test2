@@ -55,13 +55,13 @@ de:
       ticket: "Ticket hinzufügen"
       wristband: "Armband hinzufügen"
     credits:
-      header: "Ihre Rechnung"
+      header: "Deine Rechnung"
       call_to_action_started: "Die Veranstaltung hat soeben begonnen. Topup ist nicht mehr möglich."
       call_to_action_no_admission_html: "Um Ihr online-Topup zu erhalten,<br>bitte zuerst ein Veranstaltungsticket aktivieren"
       button: "Top-up"
       ticket_first: "Zuerst ein Ticket oder Armband hinzufügen"
       calculating_balance: "Rechnung wird erstellt"
-      refundable: "Refundable"
+      refundable: "Erstattungsfähig"
     autotopup:
       claim: "Vorteil nutzen!"
       description: "Sync your PayPal account and receive automatic refunds during the event."
@@ -120,7 +120,7 @@ de:
       description: "Wir schließen die Veranstaltungskonfiguration gerade ab, um Ihnen ein großartiges Erlebnis zu bieten. Bitte, kommen Sie zu einem späteren Zeitpunkt zurück und schauen Sie sich an, was wir für Sie aufgesetzt haben."
   admissions:
     title: "Ticketaktivierung"
-    description: "Bitte geben Sie den Code Ihres Veranstaltungstickets ein. Sie finden diesen unmittelbar unterhalb des Barcodes."
+    description: "Bitte gib den Code Deines Veranstaltungstickets ein. Du findest diesen unmittelbar unterhalb des Barcodes."
     description2: "Ihr Code sollte mit '4UMoB beginnen.'"
     call_to_action: "Aktivieren Sie Ihr Veranstaltungsticket!"
     button: "Aktivieren"
@@ -128,10 +128,10 @@ de:
       ticket_code: "Veranstaltungsticket Codenummer"
   checkout:
     title: "Top-up"
-    description: "Nachdem Sie hier Online-Guthaben erworben haben, werden diese automatisch auf Ihr %{gtag} übertragen, sobald Sie die Veranstaltung betreten haben."
+    description: "Nachdem Du hier Online-Guthaben erworben hast, werden diese automatisch auf Dein Armband übertragen, sobald Du die Veranstaltung betreten hast."
     total: "Summe"
     button: "Bestellung bestätigen"
-    store: "Geschäft"
+    store: " shop"
   orders:
     title: " Top-up bestätigen"
     description: "Bitte überprüfen Sie Ihre Bestellung und veranlassen Sie die Bezahlung."
@@ -140,7 +140,7 @@ de:
     amount: "Betrag"
     total: "Summe"
     vat: "inklusive MwSt"
-    redirect: "Sie werden zum Zahlungsgateway der Bank weitergeleitet."
+    redirect: "Du wirst zum Zahlungsgateway der Bank weitergeleitet."
     card_info: "Karteninformation"
     button: "Bezahlen"
     button_iupay: "IUPAY"
@@ -193,7 +193,7 @@ de:
     fee: "Erstattungsgebühr"
     total: "Summe"
     vat: "inklusive MwSt"
-    redirect: " Sie werden zum Zahlungsgateway der Bank weitergeleitet."
+    redirect: " Du wirst zum Zahlungsgateway der Bank weitergeleitet."
     button: "Erstattung"
     button_iupay: "IUPAY"
     refund: "Bitte überprüfen Sie Ihr Guthaben, um die Rückerstattung zu veranlassen."
@@ -210,6 +210,8 @@ de:
     invalid_claim:
       title: "Erstattung in Bearbeitung"
       description: "Kontaktieren Sie uns für weitere Informationen"
+    paypal:
+      button: "Refund with PayPal"
   gtag_assignations:
     title: "Anmelden %{gtag}"
     description:
@@ -262,7 +264,7 @@ de:
   sessions:
     new:
       email: 'Passwort vergessen?'
-      password: 'Lassen Sie mir die Passwort-Instruktionen zukommen'
+      password: 'Bitte lass mir die Passwort-Instruktionen zukommen'
   refund:
     refund_method: "Art der Erstattung"
     error:
@@ -274,7 +276,7 @@ de:
   passwords:
     new:
       title: 'Passwort vergessen?'
-      button: 'Lassen Sie mir die Passwort-Instruktionen zukommen'
+      button: 'Bitte lass mir die Passwort-Instruktionen zukommen'
     edit:
       header: 'Neues Passwort'
       title: 'Passwort ändern'
@@ -304,16 +306,16 @@ de:
       success_description: 'Now you can perform direct auto topups through your account'
   sessions:
     first_register:
-      welcome: Willkommen!'
-      description_with_credentiable: "Please, to continue with your event:"
+      welcome: 'Willkommen!'
+      description_with_credentiable: "Um mit Deinem Event fortzufahren, bitte:"
       description_without_credentiable: "There's nothing you can do right now, please come back later"
     welcome: 'Willkommen!'
     create_account:
-      title: 'Sie haben noch kein Konto?'
-      link: 'Erhalten Sie ein kostenfreies!'
+      title: 'Du hast noch kein Festival account?'
+      link: 'Hier erhälst Du ein kostenfreies!'
     log_in:
-      title: 'Sie haben bereits ein Konto?'
-      link: 'Loggen Sie sich hier ein'
+      title: 'Du hast bereits ein Festival account?'
+      link: 'Logge Dich hier ein'
     new:
       title: 'Login'
       description: 'So funktioniert es'

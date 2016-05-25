@@ -5,9 +5,11 @@ class CustomerRememberMeStrategy < ::Warden::Strategies::Base
 
   def authenticate!
     token = request.cookies["remember_token"]
-    return unless token
-    customer = Customer.find_by(remember_token: token)
-    return unless customer
+
+    return if params.blank?
+
+    customer = Customer.find_by(remember_token: token, event_id: params["customer"]["id"])
+    fail!(message: "errors.messages.unauthorized") && return if customer.nil?
     success!(customer)
   end
 end

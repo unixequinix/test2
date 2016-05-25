@@ -224,12 +224,14 @@ es:
       title: "Lo sentimos"
       description: "No tienes crédito para realizar la devolución"
     direct_claim:
-      title: "Solicta tu devolución"
+      title: "Solicita tu devolución"
       description: "La petición se procesará automáticamente"
       button: "Solicitar"
     invalid_claim:
       title: "Estamos trabajando en tu devolución"
       description: "Contáctanos para más información"
+    paypal:
+      button: "Reembolsar con PayPal"
   gtag_assignations:
     title: "Introducir %{gtag}"
     description:
