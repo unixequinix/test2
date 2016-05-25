@@ -1,6 +1,4 @@
 class Payments::PaypalNvp::Payer < Payments::PaypalNvp::BasePayer
-
-
   def set_parameters(params)
     super(params)
     @method = @gateway ? "auto" : "regular"
