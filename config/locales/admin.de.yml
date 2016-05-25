@@ -258,7 +258,7 @@ de:
       password: "Passwort"
     passwords:
       forgotten: "Passwort vergessen?"
-      send_instructions: "'Lassen Sie mir die Passwort-Instruktionen zukommen'"
+      send_instructions: "'Bitte lass mir die Passwort-Instruktionen zukommen'"
       new: "Neues Passwort"
       confirm: "Neues Passwort bestätigen"
       change: "Mein Passwort ändern"
