@@ -9,9 +9,12 @@ de:
     check_news: "Zurück zur Veranstaltungswebsite"
     delete_account: "Löschen Sie Ihr Konto"
     logout: "Logout"
+    confirm: "Confirm"
+    finalize: "Finalize"
   confirm:
     remove_ticket: "Ihre erworbenen Guthaben sind auf Ihr Konto übertragen. Wenn Sie Ihr Ticket entfernen, müssen Sie jemand anderen dazu berechtigen, Ihre Guthaben für die Veranstaltung zu verwenden."
     cancel_paypal: "Bei Stornierung wird Ihr Armband von Ihrem Paypal-Konto getrennt."
+    cancel_paypal_agreement: "Cancel agreement"
     log_out: "Möchten Sie diese Sitzung beenden?"
   header:
     edit: "Profil bearbeiten"
@@ -37,7 +40,7 @@ de:
   dashboard:
     title: "Meine Übersichtsseite"
     admissions:
-      header: "Ticket %{Firmenticket-Typ}"
+      header: "Ticket %{company_ticket_type}"
       call_to_action: "Wollen Sie dieses Ticket entfernen?"
       call_to_action_started: "Die Veranstaltung hat soeben begonnen. Daher sind Ticketänderungen nicht möglich."
       success: "Ticket erfolgreich aktiviert!"
@@ -52,15 +55,20 @@ de:
       ticket: "Ticket hinzufügen"
       wristband: "Armband hinzufügen"
     credits:
-      header: "Ihre Rechnung"
+      header: "Deine Rechnung"
       call_to_action_started: "Die Veranstaltung hat soeben begonnen. Topup ist nicht mehr möglich."
       call_to_action_no_admission_html: "Um Ihr online-Topup zu erhalten,<br>bitte zuerst ein Veranstaltungsticket aktivieren"
       button: "Top-up"
       ticket_first: "Zuerst ein Ticket oder Armband hinzufügen"
       calculating_balance: "Rechnung wird erstellt"
-    paypal:
+      refundable: "Erstattungsfähig"
+    autotopup:
       claim: "Vorteil nutzen!"
-      description: "Synchronisieren Sie mit Paypal, und Sie erhalten direkte Top-ups."
+      description: "Sync your PayPal account and receive automatic refunds during the event."
+      disclaimer: "This amount will be refunded inmediatly after the agreement is accepted"
+    paypal:
+      button: "Mit PayPal synchronisieren"
+    paypal_nvp:
       button: "Mit PayPal synchronisieren"
     event_refunds:
       claim: "Die Veranstaltung ist noch nicht zu Ende"
@@ -112,7 +120,7 @@ de:
       description: "Wir schließen die Veranstaltungskonfiguration gerade ab, um Ihnen ein großartiges Erlebnis zu bieten. Bitte, kommen Sie zu einem späteren Zeitpunkt zurück und schauen Sie sich an, was wir für Sie aufgesetzt haben."
   admissions:
     title: "Ticketaktivierung"
-    description: "Bitte geben Sie den Code Ihres Veranstaltungstickets ein. Sie finden diesen unmittelbar unterhalb des Barcodes."
+    description: "Bitte gib den Code Deines Veranstaltungstickets ein. Du findest diesen unmittelbar unterhalb des Barcodes."
     description2: "Ihr Code sollte mit '4UMoB beginnen.'"
     call_to_action: "Aktivieren Sie Ihr Veranstaltungsticket!"
     button: "Aktivieren"
@@ -120,10 +128,10 @@ de:
       ticket_code: "Veranstaltungsticket Codenummer"
   checkout:
     title: "Top-up"
-    description: "Nachdem Sie hier Online-Guthaben erworben haben, werden diese automatisch auf Ihr %{gtag} übertragen, sobald Sie die Veranstaltung betreten haben."
+    description: "Nachdem Du hier Online-Guthaben erworben hast, werden diese automatisch auf Dein Armband übertragen, sobald Du die Veranstaltung betreten hast."
     total: "Summe"
     button: "Bestellung bestätigen"
-    store: "Geschäft"
+    store: " shop"
   orders:
     title: " Top-up bestätigen"
     description: "Bitte überprüfen Sie Ihre Bestellung und veranlassen Sie die Bezahlung."
@@ -132,7 +140,7 @@ de:
     amount: "Betrag"
     total: "Summe"
     vat: "inklusive MwSt"
-    redirect: "Sie werden zum Zahlungsgateway der Bank weitergeleitet."
+    redirect: "Du wirst zum Zahlungsgateway der Bank weitergeleitet."
     card_info: "Karteninformation"
     button: "Bezahlen"
     button_iupay: "IUPAY"
@@ -169,9 +177,11 @@ de:
       card_expiration_year: "Ablaufjahr der Karte"
       button: "Bezahlen"
     paypal:
+      charge: "Verification charge"
       sync_title: "Mit Paypal synchronisieren, um die Zahlung durchzuführen"
-      sync_copy: "Nie ohne Guthaben!"
-      sync_description: "Veranlassen Sie direkte Topups für Ihre Veranstaltungskäufe. Bestimmen Sie, wieviel Sie aufladen wollen, falls Sie Ihr Guthaben auf der Veranstaltung aufgebraucht haben. So umgehen Sie Warteschlangen. Ihr Armband wird immer einsatzbereit sein."
+      sync_copy: "Paypal Experience"
+      sync_description: "In order to validate your PayPal account, you will be charged 0.01€ which will be refunded automatically."
+      sync_final_description: "Select the amount you´d like to be automatically topped up at any point of sale. This amount WILL NOT BE CHARGED to your account."
       with_agreement_title: "Bereits mit PayPal synchronisiert"
       with_agreement_subtitle: "Sie können direkte Zahlungen durchführen"
   claims:
@@ -183,7 +193,7 @@ de:
     fee: "Erstattungsgebühr"
     total: "Summe"
     vat: "inklusive MwSt"
-    redirect: " Sie werden zum Zahlungsgateway der Bank weitergeleitet."
+    redirect: " Du wirst zum Zahlungsgateway der Bank weitergeleitet."
     button: "Erstattung"
     button_iupay: "IUPAY"
     refund: "Bitte überprüfen Sie Ihr Guthaben, um die Rückerstattung zu veranlassen."
@@ -252,7 +262,7 @@ de:
   sessions:
     new:
       email: 'Passwort vergessen?'
-      password: 'Lassen Sie mir die Passwort-Instruktionen zukommen'
+      password: 'Bitte lass mir die Passwort-Instruktionen zukommen'
   refund:
     refund_method: "Art der Erstattung"
     error:
@@ -264,7 +274,7 @@ de:
   passwords:
     new:
       title: 'Passwort vergessen?'
-      button: 'Lassen Sie mir die Passwort-Instruktionen zukommen'
+      button: 'Bitte lass mir die Passwort-Instruktionen zukommen'
     edit:
       header: 'Neues Passwort'
       title: 'Passwort ändern'
@@ -285,21 +295,25 @@ de:
       waiting_confirmation: 'Warten auf Bestätigung für:'
       button: 'Aktualisierung'
     autotoup_agreement:
-      title: 'Vereinbarung stornieren'
+      title: 'Paypal Vereinbarung'
       cancel: 'Möchten Sie Ihre Autotopup Vereinbarung stornieren?'
       billing_agreement_description: "Ich stimme automatisch entstehenden Kosten zu, falls mein Guthaben ausgeht"
+      current_amount: 'Current top up:'
+      new_amount: 'Change your quantity:'
+      success: 'Account added!'
+      success_description: 'Now you can perform direct auto topups through your account'
   sessions:
     first_register:
-      welcome: Willkommen!'
-      description_with_credentiable: "Please, to continue with your event:"
+      welcome: 'Willkommen!'
+      description_with_credentiable: "Um mit Deinem Event fortzufahren, bitte:"
       description_without_credentiable: "There's nothing you can do right now, please come back later"
     welcome: 'Willkommen!'
     create_account:
-      title: 'Sie haben noch kein Konto?'
-      link: 'Erhalten Sie ein kostenfreies!'
+      title: 'Du hast noch kein Festival account?'
+      link: 'Hier erhälst Du ein kostenfreies!'
     log_in:
-      title: 'Sie haben bereits ein Konto?'
-      link: 'Loggen Sie sich hier ein'
+      title: 'Du hast bereits ein Festival account?'
+      link: 'Logge Dich hier ein'
     new:
       title: 'Login'
       description: 'So funktioniert es'

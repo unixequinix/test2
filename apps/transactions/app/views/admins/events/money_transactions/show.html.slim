@@ -3,17 +3,18 @@
   = link_to admins_event_money_transactions_path, class: "btn btn-action btn-action-back small" do
     = fa_icon 'arrow-circle-left'
     = t('admin.actions.back')
+
 .wrapper-negative-space
   .container-show
-    = render 'admins/events/shared/general_info', transaction: @transaction
-    
+    = render 'admins/events/shared/general_info'
+
     h3.section-header
       = fa_icon "money"
       = t("admin.transactions.money")
     dl
       dt = t("admin.transactions.catalogable_type")
       - catalogable = @transaction.catalogable_type
-      dd = link_to catalogable.capitalize, send("edit_admins_event_#{catalogable}_path", current_event, catalogable.classify.constantize.find(@transaction.catalogable_id))
+      dd = link_to catalogable.capitalize, send("edit_admins_event_#{catalogable.downcase}_path", current_event, catalogable.classify.constantize.find(@transaction.catalogable_id))
 
       dt = t("admin.transactions.catalogable_id")
       dd = @transaction.catalogable_id

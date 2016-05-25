@@ -20,12 +20,16 @@ class Orders::PaypalPresenter < Orders::BasePresenter
     "events/orders/paypal/payment_form"
   end
 
+  def autotopup_path
+    "events/orders/paypal/autotopup_payment_form"
+  end
+
   def email
     @agreement.email
   end
 
   def form_data
-    Payments::PaypalDataRetriever.new(@event, @order)
+    Payments::Paypal::DataRetriever.new(@event, @order)
   end
 
   def payment_service

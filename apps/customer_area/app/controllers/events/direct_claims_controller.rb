@@ -26,8 +26,7 @@ class Events::DirectClaimsController < Events::ClaimsController
   private
 
   def permitted_params
-    params.require(form_name).permit(:claim_id, :event_id,
-                                     :agreed_on_claim)
+    params.require(form_name).permit(:claim_id, :event_id, :agreed_on_claim)
   end
 
   def service_type

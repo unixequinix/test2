@@ -1,23 +1,5 @@
 .wrapper-module
-  //p.center-text.hint-review = t('orders.description')
-  p.hint-text
-    = t('orders.order_review')
-  table.table-order
-    caption
-    tr.table-head
-      th = t('orders.products')
-      th
-      th = t('orders.price')
-    - @order.order_items.each do |order_item|
-      tr
-        td [colspan="2"] #{pluralize(order_item.amount, order_item.catalog_item.name)}
-        td.table-amount #{order_item.total}
-    tr.total-amount
-      td [colspan="2"]
-        = t('orders.total')
-        .vat-text = t('orders.vat')
-      td [colspan="3"] #{@order.total} #{current_event.currency}
-
+  = render("order_summary")
   - if current_event.selected_payment_services.length > 1
 
     p#payment-anchor.payment-anhor-mobile.hint-text
@@ -33,7 +15,7 @@
             p = t("orders.payment-buttons.#{payment_service}.name")
 - @order_presenters.each_with_index do |order_presenter, index|
   .container-method [id="method-#{order_presenter.payment_service}" class=(index == 0 ? "show-container" : "")]
-    = render order_presenter.path, order_presenter: order_presenter
+    = render order_presenter.path, order_presenter: order_presenter, autotopup_payment: true
 
 .wrapper-module
   = link_to customer_root_path, class: "btn btn-action-back" do

@@ -5,7 +5,10 @@
     = t('admin.actions.new')
 
 .wrapper-negative-space
-  - if @list_model_presenter.there_any?
-    = render 'admins/events/accesses/list', accesses: @list_model_presenter.all_items
+  - if @accesses.any?
+    = render "admins/events/accesses/list"
   - else
-    = render @list_model_presenter.no_items_for_presentation
+    .section-title-empty
+      = image_tag "img-empty.png"
+      p = t("admin.defaults.item_not_found", item: "Access")
+      = link_to t("actions.back"),eval("admins_event_accesses_path"),class: "btn btn-action btn-action-new"

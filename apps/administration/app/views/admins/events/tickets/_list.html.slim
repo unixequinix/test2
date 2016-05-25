@@ -7,7 +7,7 @@
           = check_box_tag "select-all", 1
         th = t("admin.tickets.id")
         th = t("admin.tickets.code")
-        th = t("admin.tickets.company_ticket_type")
+        th = t("admin.tickets.gtags")
         th = t("admin.tickets.customer")
         th = t("admin.tickets.banned")
         th.table-actions-field = t("admin.defaults.actions")
@@ -18,7 +18,9 @@
             = check_box_tag "tickets[#{ticket.id}]", 1
           td data-label=t("admin.tickets.id") = ticket.id
           td data-label=t("admin.tickets.code") = link_to ticket.code, admins_event_ticket_path(current_event, ticket)
-          td data-label=t("admin.tickets.company_ticket_type") = ticket.company_ticket_type&.name
+          td data-label=t("admin.tickets.gtags")
+            - if assign = ticket.assigned_profile&.active_gtag_assignment
+              = link_to assign.credentiable.tag_uid, edit_admins_event_gtag_path(current_event, assign.credentiable) 
           td data-label=t("admin.tickets.customer")
             = link_to ticket.assigned_ticket_credential.profile.customer.email, admins_event_customer_path(current_event, ticket.assigned_ticket_credential.profile.customer) if ticket.assigned_ticket_credential&.profile&.customer
           td data-label=t("admin.tickets.banned")

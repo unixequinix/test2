@@ -57,6 +57,12 @@ en:
           greet: 'Hello %{name}!'
           mail_body: 'You removed a %{gtag} with the id:'
           mail_link: 'Check it on the website'
+      agreement:
+        accepted:
+          title: 'Paypal Agreement Accepted'
+          subject: 'Paypal Agreement Accepted'
+          greet: 'Hello %{name}!'
+          mail_body: 'You have accepted the PayPal Agreement so you can now do auto-topups!'
     admin:
       reset_password:
         greet: 'Hello %{email}!'

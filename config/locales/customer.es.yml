@@ -1,4 +1,8 @@
 es:
+  purchases:
+    accesses: "Accesos"
+    packs: "Packs"
+    vouchers: "Cupones"
   currency_symbol: EUR
   actions:
     back: "Atrás"
@@ -9,9 +13,12 @@ es:
     check_news: "Ir al evento"
     delete_account: "Eliminar tu cuenta"
     logout: "Cerrar sessión"
+    confirm: "Confirmar"
+    finalize: "Finalizar"
   confirm:
     remove_ticket: "Tus créditos comprados se asignan a tu cuenta. Si borras tu ticket, tendrás que asignar otro para utilizar esos créditos en el evento."
     cancel_paypal: "Al cancelar desvicularás tu pulsera de tu cuenta de PayPal."
+    cancel_paypal_agreement: "Cancelar acuerdo"
     log_out: "¿Quieres finalizar la sesión?"
   header:
     edit: "Editar Perfil"
@@ -33,7 +40,7 @@ es:
       sign_in: 'Inicia Sesión'
       sign_up: 'Crear cuenta'
       join: 'Únete'
-      back: 'Volver a la home'
+      back: 'Inicio'
   dashboard:
     title: "My dashboard"
     admissions:
@@ -59,10 +66,15 @@ es:
       button: "Recarga"
       ticket_first: "Añade un ticket o pulsera primero"
       calculating_balance: "Estamos calculando tu balance"
-    paypal:
+      refundable: "Reembolsable"
+    autotopup:
       claim: "Toma ventaja!"
-      description: "Syncroniza con tu cuenta de Paypal y realiza recargas directas"
-      button: "Ir a PayPal"
+      description: "Sincroniza con tu cuenta de PayPal y realiza recargas automáticas durante el evento."
+      disclaimer: "Para validar tu cuenta PayPal se va a realizar un pago de 0.01€ que será devuelto inmediatamente."
+    paypal:
+      button: "Sincroniza con PayPal"
+    paypal_nvp:
+      button: "Sincroniza con PayPal"
     event_refunds:
       claim: "El evento aún no ha acabado"
       description: "Vuelve pronto para poder reclamar tu balance"
@@ -185,9 +197,11 @@ es:
       card_expiration_year: "Año de caducidad"
       button: "Pagar"
     paypal:
-      sync_title: "Regístarte en PayPal para completar el pago"
-      sync_copy: "Crédito asegurado"
-      sync_description: "Recarga de forma directa tu pulsera. Selecciona el crédito que quieres recargar en caso de gastar todo tu balance y evita colas innecesarias. Tu pulsera siempre estará lista y protegida."
+      charge: "Cargo de verificación"
+      sync_title: "Regístrate en PayPal para completar el pago"
+      sync_copy: "Experiencia PayPal"
+      sync_description: "Puedes vincular tu cuenta PayPal para realizar recargas automáticas en los puntos de venta, sin esperar cola en los puntos de recarga."
+      sync_final_description: "Selecciona la cantidad que quieres recargar automáticamente en los puntos de venta. Esta cantidad NO SE COBRARÁ en este momento."
       with_agreement_title: "Cuenta sicronizada con PayPal"
       with_agreement_subtitle: "Ahora puedes realizar pagos directamente"
   claims:
@@ -297,9 +311,13 @@ es:
       button: 'Actualizar'
     autotoup_agreement:
       cancel: '¿Quieres cancelar tu contrato de autorecarga?'
-      title: 'Cancelar contrato'
+      title: 'Contrato Paypal'
       amount: 'Cantidad seleccionada: '
+      current_amount: 'Recarga actual:'
+      new_amount: 'Cambia la cantidad:'
       billing_agreement_description: "Acepto que se me hagan cargos cuando me quedo sin crédito"
+      success: 'Cuenta añadida!'
+      success_description: 'Ahora puedes realizar recargas automáticas en tu pulsera'
   sessions:
     first_register:
       welcome: 'Bienvenido!!'
@@ -307,7 +325,7 @@ es:
       description_without_credentiable: "No hay nada que puedas hacer ahora mismo, vuelve más tarde"
     welcome: 'Bienvenido!'
     create_account:
-      title: 'No tienes cuanta aún?'
+      title: 'No tienes cuenta aún?'
       link: 'Crea una gratis!'
     log_in:
       title: 'Ya tienes cuenta?'

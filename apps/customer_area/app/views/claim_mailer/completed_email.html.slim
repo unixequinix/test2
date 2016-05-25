@@ -71,7 +71,7 @@ center
                     table width="100%"
                       tr
                         td style="width: 50; padding: 40px 10px 10px; font-weight: bold; font-size: 14px; vertical-align: middle;"  = t('orders.total')
-                        td style="width: 50; padding: 40px 10px 10px; font-weight: bold; font-size: 14px; vertical-align: middle; text-align: right;" = "#{@claim.gtag.refundable_amount_after_fee(@claim.service_type)} #{@event.currency}"
+                        td style="width: 50; padding: 40px 10px 10px; font-weight: bold; font-size: 14px; vertical-align: middle; text-align: right;" = "#{@claim.total - @claim.fee} #{@event.currency}"
 
           tr
             td[align="center" valign="top"]
@@ -83,7 +83,7 @@ center
                         td#footer[valign="top" width="100%"]
                           div[mc:edit="std_footer"]
                             p
-                              strong 
+                              strong
                                 = t('email.customer.footer_glownet')
                                 = mail_to "support@glownet.com"
                             p

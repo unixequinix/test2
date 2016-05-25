@@ -13,6 +13,15 @@
         -
           name: uid_reverse
           data_type: boolean
+        -
+          name: touchpoint_update_online_orders
+          data_type: boolean
+        -
+          name: topup_initialize_gtag
+          data_type: boolean
+        -
+          name: cypher_enabled
+          data_type: boolean
 -
   name: gtag
   groups:
@@ -169,6 +178,12 @@
         -
           name: autotopup
           data_type: boolean
+        -
+          name: url
+          data_type: string
+        -
+          name: api_url
+          data_type: string
     -
       name: wirecard
       parameters:

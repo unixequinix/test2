@@ -1,4 +1,8 @@
 th:
+  purchases:
+    accesses: "Accesses"
+    packs: "Packs"
+    vouchers: "Vouchers"
   currency_symbol: THA
   actions:
     back: "กลับไป"
@@ -10,9 +14,12 @@ th:
     check_news: "กลับไปที่เว็บไซด์ของงาน"
     delete_account: "ลบบัญชีของคุณ"
     logout: "ออกจากระบบ"
+    confirm: "Confirm"
+    finalize: "Finalize"
   confirm:
     remove_ticket: "เครดิตที่คุณได้ทำการซื้อไปจะอยู่ในบัญชีผู้ใช้งานนี้ของคุณ หากคุณยกเลิกบัตรเข้างาน คุณจะต้องทำการโอนเครดิตไปยังบัตรอื่นเพื่อที่จะใช้ในงาน"
     cancel_paypal: "Cancelling you disassociate your wristband from you PayPal account."
+    cancel_paypal_agreement: "Cancel agreement"
     log_out: "Do you want to end this session?"
   header:
     edit: "แก้ไขบัญชีผู้ใช้งาน"
@@ -59,9 +66,14 @@ th:
       button: "เติมเงิน"
       ticket_first: "Add a ticket or wristband first"
       calculating_balance: "Calculating your balance"
-    paypal:
+      refundable: "Refundable"
+    autotopup:
       claim: "Take advantage!"
-      description: "Sync with Paypal and you will make direct top ups."
+      description: "Sync your PayPal account and receive automatic refunds during the event."
+      disclaimer: "This amount will be refunded inmediatly after the agreement is accepted"
+    paypal:
+      button: "Sync with PayPal"
+    paypal_nvp:
       button: "Sync with PayPal"
     event_refunds:
       claim: "งานยังไม่จบ"
@@ -186,9 +198,11 @@ th:
       button: "ชำระเงิน"
       card_holder: "Card Holder"
     paypal:
+      charge: "Verification charge"
       sync_title: "Sync with PayPal to perform payment"
-      sync_copy: "Never without credit!"
-      sync_description: "Make direct top ups in your event purchases. Select how much you want to top up in case you spent your credit in the event and avoid queues. Your wristband will be always ready to go."
+      sync_copy: "Paypal Experience"
+      sync_description: "In order to validate your PayPal account, you will be charged 0.01€ which will be refunded automatically."
+      sync_final_description: "Select the amount you´d like to be automatically topped up at any point of sale. This amount WILL NOT BE CHARGED to your account."
       with_agreement_title: "Already sync with PayPal"
       with_agreement_subtitle: "You can perform direct payments"
   claims:
@@ -303,9 +317,13 @@ th:
       button: 'อัพเดท'
     autotoup_agreement:
       cancel: 'Do you want to cancel your autotopup agreement?'
-      title: 'Cancel agreement'
+      title: 'Paypal agreement'
       amount: 'Selected amount: '
       billing_agreement_description: "I agree in get automated charges when running out of credit"
+      current_amount: 'Current top up:'
+      new_amount: 'Change your quantity:'
+      success: 'Account added!'
+      success_description: 'Now you can perform direct auto topups through your account'
   sessions:
     first_register:
       welcome: 'Bienvenido!!'
@@ -313,7 +331,7 @@ th:
       description_without_credentiable: "There's nothing you can do right now, please come back later"
     welcome: 'Welcome!'
     create_account:
-      title: 'Don´t you have an account?'
+      title: 'Don´t have an account?'
       link: 'Get a free one!'
     log_in:
       title: 'Already have an account?'

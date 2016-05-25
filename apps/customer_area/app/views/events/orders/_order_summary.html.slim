@@ -1,0 +1,18 @@
+//p.center-text.hint-review = t('orders.description')
+p.hint-text
+  = t('orders.order_review')
+table.table-order
+  caption
+  tr.table-head
+    th = t('orders.products')
+    th
+    th = t('orders.price')
+  - @order.order_items.each do |order_item|
+    tr
+      td [colspan="2"] #{pluralize(order_item.amount, order_item.catalog_item.name)}
+      td.table-amount #{order_item.total}
+  tr.total-amount
+    td [colspan="2"]
+      = t('orders.total')
+      .vat-text = t('orders.vat')
+    td [colspan="3"] #{@order.total_formated} #{current_event.currency}

@@ -36,9 +36,10 @@
 #  updated_at              :datetime         not null
 #  token_symbol            :string           default("t")
 #  company_name            :string
+#  agreement_acceptance    :boolean          default(FALSE)
 #
 
-class Event < ActiveRecord::Base
+class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   nilify_blanks
   translates :info, :disclaimer, :refund_success_message, :mass_email_claim_notification,
              :refund_disclaimer, :bank_account_disclaimer, :gtag_assignation_notification,
@@ -83,7 +84,7 @@ class Event < ActiveRecord::Base
     :logo,
     path: "#{S3_FOLDER}/event/:id/logos/:style/:filename",
     url: "#{S3_FOLDER}/event/:id/logos/:style/:basename.:extension",
-    styles: { email: "x120" },
+    styles: { email: "x120", paypal: "x50" },
     default_url: ":default_event_image_url")
 
   has_attached_file(
@@ -105,6 +106,10 @@ class Event < ActiveRecord::Base
     credits.standard.value
   end
 
+  def portal_station
+    stations.includes(:station_type).find_by(station_types: { name: "customer_portal" })
+  end
+
   def total_credits
     CustomerCredit.where(profile: profiles).map(&:amount).sum
   end
@@ -122,7 +127,7 @@ class Event < ActiveRecord::Base
   def get_parameter(category, group, name)
     event_parameters.includes(:parameter)
                     .find_by(parameters: { category: category, group: group, name: name })
-                    .value
+                    &.value
   end
 
   def selected_locales_formated
@@ -135,6 +140,27 @@ class Event < ActiveRecord::Base
 
   def refund_minimun(refund_service)
     get_parameter("refund", refund_service, "minimum")
+  end
+
+  def only_credits_purchasable?
+    purchasable_items = stations.find_by_name("Customer Portal").station_catalog_items
+    purchasable_items.count > 0 &&
+      purchasable_items.joins(:catalog_item).where.not(
+        catalog_items: { catalogable_type: "Credit" }).count == 0
+  end
+
+  def autotopup_payment_services
+    selected_autotopup_payment_services.select do |payment_service|
+      get_parameter("payment", payment_service_parsed(payment_service), "autotopup") == "true"
+    end
+  end
+
+  def selected_autotopup_payment_services
+    selected_payment_services & EventDecorator::AUTOTOPUP_PAYMENT_SERVICES
+  end
+
+  def payment_service_parsed(payment_service)
+    EventDecorator::PAYMENT_PLATFORMS[payment_service]
   end
 
   private

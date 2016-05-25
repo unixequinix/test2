@@ -24,14 +24,17 @@ class Profile < ActiveRecord::Base # rubocop:disable ClassLength
   has_many :customer_orders
   has_many :online_orders, through: :customer_orders
   has_many :payments, through: :orders
+  has_many :credit_transactions
   # TODO: check with current_balance method for duplication
   has_many :customer_credits do
     def current
       order("created_in_origin_at DESC").first
     end
   end
-
-  has_many :completed_claims, -> { where("aasm_state = 'completed' AND completed_at != NULL") },
+  has_many :gtag_credit_transactions,
+           -> { where.not(transaction_origin: "customer_portal").where(status_code: 0) },
+           class_name: "CreditTransaction"
+  has_many :completed_claims, -> { where("aasm_state = 'completed' AND completed_at IS NOT NULL") },
            class_name: "Claim"
   has_many :credit_purchased_logs,
            -> { where(transaction_origin: CustomerCredit::CREDITS_PURCHASE) },
@@ -42,7 +45,7 @@ class Profile < ActiveRecord::Base # rubocop:disable ClassLength
            -> { where(credentiable_type: "Ticket") },
            class_name: "CredentialAssignment", dependent: :destroy
   # credential_assignments_gtags
-  has_many :gtag_assignment,
+  has_many :gtag_assignments,
            -> { where(credentiable_type: "Gtag") },
            class_name: "CredentialAssignment", dependent: :destroy
   # credential_assignments_assigned
@@ -123,7 +126,8 @@ class Profile < ActiveRecord::Base # rubocop:disable ClassLength
     neg = (refund.amount * -1)
     params = {
       amount: neg, refundable_amount: neg, credit_value: event.standard_credit_price,
-      payment_method: refund.payment_solution, transaction_origin: "refund"
+      payment_method: refund.payment_solution, transaction_origin: "refund",
+      created_in_origin_at: Time.zone.now
     }
     customer_credits.create!(params)
   end
@@ -139,17 +143,14 @@ class Profile < ActiveRecord::Base # rubocop:disable ClassLength
   end
 
   def infinite_entitlements_purchased
-    single_entitlements = customer_orders.select do |customer_order|
+    single = customer_orders.includes(catalog_item: :catalogable).select do |customer_order|
       customer_order.catalog_item.catalogable.try(:entitlement).try(:infinite?)
     end.map(&:catalog_item_id)
 
-    pack_entitlements = CatalogItem.where(
-      catalogable_id: Pack.joins(:catalog_items_included)
-                          .where(catalog_items: { id: single_entitlements }),
-      catalogable_type: "Pack")
-                                   .pluck(:id)
+    packs_ids = Pack.joins(:catalog_items_included).where(catalog_items: { id: single })
+    pack = CatalogItem.where(catalogable_id: packs_ids, catalogable_type: "Pack").pluck(:id)
 
-    single_entitlements + pack_entitlements
+    single + pack
   end
 
   def sorted_purchases(**params)

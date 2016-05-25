@@ -56,6 +56,16 @@ class Customer < ActiveRecord::Base
 
   # Methods
   # -------------------------------------------------------
+  def refund_status
+    return "no_credentials_assigned" unless profile
+    if profile.refundable_money_amount.zero? || !BalanceCalculator.new(profile).valid_balance?
+      "not_eligible"
+    elsif profile.completed_claim
+      "completed"
+    else
+      "not_performed"
+    end
+  end
 
   def init_password_token!
     generate_token(:reset_password_token)

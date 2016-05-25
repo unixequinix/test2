@@ -1,10 +1,12 @@
 .container-show
   - root = "admins/events/profiles/sections/"
-  = render(root + "purchases_information", profile: profile) if profile.purchases.present?
+  = render(root + "payments_information", profile: profile) if profile.payment_gateway_customers.any?
+  = render(root + "purchases_information", profile: profile) if profile.sorted_purchases(format: :list).any?
   = render(root + "ticket_assignments", profile: profile) if profile.ticket_assignments.any?
-  = render(root + "gtag_assignments", profile: profile) if profile.gtag_assignment.any?
+  = render(root + "gtag_assignments", profile: profile) if profile.gtag_assignments.any?
   = render(root + "customer_credits", profile: profile) if profile.customer_credits.any?
+  = render(root + "credit_transactions", credit_transactions: credit_transactions, profile: profile) if credit_transactions.present?
   = render(root + "claims", profile: profile) if profile.claims.any?
-  = render(root + "completed_claims", profile: profile, refund: profile.completed_claim.refund) if profile.completed_claims.any?
+  = render(root + "completed_claims", profile: profile, refund: profile.completed_claim.refund) if profile.completed_claims.present?
   = render(root + "orders", profile: profile) if profile.orders.any?
   = render(root + "customer_orders", profile: profile) if profile.customer_orders.any?

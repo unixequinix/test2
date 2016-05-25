@@ -1,6 +1,9 @@
 class Admins::Events::PacksController < Admins::Events::BaseController
   def index
-    set_presenter
+    @packs = @fetcher.packs.includes(:catalog_items_included,
+                                     catalog_item: :credential_type,
+                                     pack_catalog_items: { catalog_item: :catalogable })
+                     .page(params[:page])
   end
 
   def new

@@ -14,7 +14,7 @@ class Events::BaseController < ApplicationController
   end
 
   def authenticate_customer!
-    logout_customer! if customer_signed_in? && current_customer.event != current_event
+    logout_customer! if customer_signed_in? && current_customer&.event != current_event
     warden.authenticate!(scope: :customer)
   end
 
@@ -33,15 +33,12 @@ class Events::BaseController < ApplicationController
   end
 
   def current_customer
-    @current_customer ||=
-      Customer.find(warden.user(:customer)["id"]) unless
-      warden.user(:customer).nil? ||
-      Customer.where(id: warden.user(:customer)["id"]).empty?
+    return nil if warden.user(:customer).nil?
+    Customer.find_by(id: warden.user(:customer)["id"])
   end
 
   def current_profile
-    current_customer.profile ||
-      Profile.new(customer: current_customer, event: current_event)
+    current_customer.profile || Profile.new(customer: current_customer, event: current_event)
   end
   helper_method :current_profile
 
@@ -60,17 +57,14 @@ class Events::BaseController < ApplicationController
   end
 
   def check_top_ups_is_active!
-    redirect_to event_url(current_event) unless
-      current_event.top_ups?
+    redirect_to event_url(current_event) unless current_event.top_ups?
   end
 
   def check_has_ticket!
-    redirect_to event_url(current_event) unless
-      current_profile.active_tickets_assignment
+    redirect_to event_url(current_event) unless current_profile.active_tickets_assignment
   end
 
   def check_has_gtag!
-    redirect_to event_url(current_event) unless
-      current_profile.active_gtag_assignment
+    redirect_to event_url(current_event) unless current_profile.active_gtag_assignment
   end
 end

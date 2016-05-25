@@ -1,42 +1,50 @@
-class NewProfileForm < Reform::Form
-  include ActiveModel::ModelReflections
+class NewProfileForm
+  include Recaptcha::Verify
+  include ActiveModel::Model
+  include Virtus.model
 
-  property :event_id, on: :customer
-  property :email, on: :customer
-  property :first_name, on: :customer
-  property :last_name, on: :customer
-  property :phone, on: :customer
-  property :address, on: :customer
-  property :city, on: :customer
-  property :country, on: :customer
-  property :postcode, on: :customer
-  property :gender, on: :customer
-  property :birthdate, on: :customer
-  property :agreed_on_registration, on: :customer
-  property :agreed_event_condition, on: :customer
-  property :encrypted_password, on: :customer
-  property :password, virtual: true
+  attribute :event_id, Integer
+  attribute :email, String
+  attribute :first_name, String
+  attribute :last_name, String
+  attribute :phone, String
+  attribute :address, String
+  attribute :city, String
+  attribute :country, String
+  attribute :postcode, String
+  attribute :gender, String
+  attribute :birthdate, Date
+  attribute :agreed_on_registration, Axiom::Types::Boolean
+  attribute :agreed_event_condition, Axiom::Types::Boolean
+  attribute :encrypted_password, String
+  attribute :password, String
 
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
   validates :event_id, :email, :first_name, :last_name, :password, presence: true
   # :phone, :address, :city, :country, :postcode, :gender, :birthdate
-  validates :agreed_on_registration, acceptance: { accept: true }
+  validates_acceptance_of :agreed_on_registration, accept: true
+  validates_acceptance_of :recaptcha, accept: true
   validate :email_uniqueness
 
-  model :customer
-
-  def customer
-    model[:customer]
+  def save
+    if valid?
+      persist!
+      true
+    else
+      self.password = nil
+      false
+    end
   end
 
-  def sync
-    super
-    model.encrypted_password = Authentication::Encryptor.digest(password)
-  end
+  private
 
   def email_uniqueness
-    errors[:email] <<
-      I18n.t("activerecord.errors.models.customer.attributes.email.taken") if
-      Customer.exists?(email: email, event_id: event_id, deleted_at: nil)
+    msg = I18n.t("activerecord.errors.models.customer.attributes.email.taken")
+    errors[:email] << msg if Customer.exists?(email: email, event_id: event_id, deleted_at: nil)
+  end
+
+  def persist!
+    self.encrypted_password = Authentication::Encryptor.digest(attributes.delete(:password))
+    Customer.create!(attributes.except(:password))
   end
 end

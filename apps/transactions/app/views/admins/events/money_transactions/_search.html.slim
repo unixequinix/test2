@@ -2,7 +2,7 @@ p.menu-header
   = fa_icon "search"
   = t("admin.defaults.search")
 
-= search_form_for q, url: search_admins_event_credit_transactions_path, html: { novalidate: true, class: "searchForm" }  do |f|
+= search_form_for q, url: search_admins_event_money_transactions_path, html: { novalidate: true, class: "searchForm" }  do |f|
   .container-search
     = f.input :customer_tag_uid_eq, label: t("admin.transactions.customer_tag_uid"), placeholder: t("admin.transactions.customer_tag_uid")
     = f.input :operator_tag_uid_eq, label: t("admin.transactions.operator_tag_uid"), placeholder: t("admin.transactions.operator_tag_uid")
@@ -10,4 +10,5 @@ p.menu-header
     = f.input :transaction_type_eq, label: t("admin.transactions.transaction_type"), placeholder: t("admin.transactions.transaction_type")
     = f.input :device_uid_eq, label: t("admin.transactions.device_uid"), placeholder: t("admin.transactions.device_uid")
     = f.input :station_name_eq, label: t("admin.transactions.station"), placeholder: t("admin.transactions.station")
+    = f.input :status_code_eq, label: t("admin.transactions.status_code"), placeholder: t("admin.transactions.status_code")
     = f.submit class: "btn btn-secondary"

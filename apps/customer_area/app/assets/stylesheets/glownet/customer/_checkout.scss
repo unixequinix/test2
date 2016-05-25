@@ -101,3 +101,15 @@
   float: right;
   span { @include mscale($double_text); }
 }
+
+.autotopup-disclaimer {
+  margin-bottom: 0;
+  padding: modules(0.5);
+  border-radius: $radius;
+  background-color: lighten($green, 43%);
+  color: darken($green,13%);
+
+  @include min-screen($bp5) { padding: modules(0.5) modules(3); }
+}
+
+// ···

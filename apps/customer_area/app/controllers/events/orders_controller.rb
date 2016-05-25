@@ -1,6 +1,7 @@
 class Events::OrdersController < Events::BaseController
-  before_action :check_has_ticket!
-  before_action :require_permission!
+  before_action :check_has_ticket!, only: [:show, :update]
+  before_action :require_permission!, only: [:show, :update]
+  before_action :require_credential!, only: [:show, :update]
 
   def show
     order = Order.includes(order_items: :catalog_item).find(params[:id])
@@ -17,7 +18,7 @@ class Events::OrdersController < Events::BaseController
     @order = OrderManager.new(Order.find(params[:id])).sanitize_order
     params[:consumer_ip_address] = request.ip
     params[:consumer_user_agent] = request.user_agent
-    @form_data = "Payments::#{@payment_service.camelize}DataRetriever"
+    @form_data = "Payments::#{@payment_service.camelize}::DataRetriever"
                  .constantize.new(current_event, @order).with_params(params)
     @order.start_payment!
   end
@@ -30,6 +31,11 @@ class Events::OrdersController < Events::BaseController
                   @order.profile || @order.completed? || @order.expired?
     flash.now[:error] = I18n.t("alerts.order_complete") if @order.completed?
     flash.now[:error] = I18n.t("alerts.order_expired") if @order.expired?
+    redirect_to event_url(current_event)
+  end
+
+  def require_credential!
+    return if current_profile.active_assignments.present?
     redirect_to event_url(current_event)
   end
 end

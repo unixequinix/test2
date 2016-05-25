@@ -37,6 +37,28 @@ RSpec.describe Operations::Base, type: :job do
     expect(obj.errors.full_messages).to be_empty
   end
 
+  describe "when sale_items_attributes is blank" do
+    before do
+      atts = hash_not_including(:sale_item_attributes)
+      value = CreditTransaction.new
+      expect(CreditTransaction).to receive(:create!).with(atts).and_return(value)
+    end
+
+    after { base.perform_now(params) }
+
+    it "works when status code is error (other than 0)" do
+      params[:status_code] = 2
+    end
+
+    it "removes sale_item_attributes when empty" do
+      params[:sale_item_attributes] = []
+    end
+
+    it "removes sale_item_attributes when nil" do
+      params[:sale_item_attributes] = nil
+    end
+  end
+
   describe "when passed sale_items in attributes" do
     before do
       params.merge!(sale_items_attributes: [{ product_id: 4, quantity: 1.0, unit_price: 8.31 },
@@ -45,11 +67,6 @@ RSpec.describe Operations::Base, type: :job do
 
     it "saves sale_items" do
       expect { base.perform_now(params) }.to change(SaleItem, :count).by(2)
-    end
-
-    it "fails if transaction does not accept sale_items" do
-      params[:transaction_category] = "money"
-      expect { base.perform_now(params) }.to raise_error(ActiveRecord::UnknownAttributeError)
     end
   end
 

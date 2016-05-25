@@ -5,6 +5,9 @@
       = t("admin.event.fieldests.parameters")
 
     = f.input :min_version_apk
+    = f.input :touchpoint_update_online_orders, as: :radio_buttons
+    = f.input :topup_initialize_gtag, as: :radio_buttons
+    = f.input :cypher_enabled, as: :radio_buttons
     = f.input :event_id, as: :hidden, input_html: { value: @event.id }
 
   fieldset

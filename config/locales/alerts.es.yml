@@ -7,7 +7,7 @@ es:
     destroyed: 'Eliminado con éxito'
     unassigned: 'Desactivado con éxito'
     error: 'Revisar errores de formulario'
-    checkout: 'Solo se pueden introducir datos numéricos sin decimales e inferiores a %{limit}'
+    checkout: 'Solo se pueden introducir datos numéricos sin decimales, superiores a 0 e inferiores a %{limit}'
     admissions:  "Ticket no reconocido. Si has realizado tu compra en las últimas 48 horas, intenta de nuevo luego mientras actualizamos tu compra. Si persiste, contacta soporte. Por favor tenga en cuenta que solo las compañías %{companies} están soportadas en este servicio."
     order_complete: 'Orden completada'
     order_expired: 'Orden expirada. Pasaron más de 15 minutos'

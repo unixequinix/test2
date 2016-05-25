@@ -26,11 +26,17 @@
 #
 
 class CreditTransaction < Transaction
+  default_scope { order(device_created_at: :desc) }
   has_many :sale_items
+  belongs_to :profile
 
   accepts_nested_attributes_for :sale_items
 
   def self.mandatory_fields
     super + %w( credits credits_refundable credit_value final_balance final_refundable_balance )
+  end
+
+  def self.column_names
+    super + %w( sale_items_attributes )
   end
 end

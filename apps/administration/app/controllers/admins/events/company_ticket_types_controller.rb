@@ -32,13 +32,25 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
     @company_event_agreement_collection = @fetcher.company_event_agreements
   end
 
-  def update
+  def update # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     @company_ticket_type = @fetcher.company_ticket_types.find(params[:id])
-    @credential_types_collection = @fetcher.credential_types
-    @company_event_agreement_collection = @fetcher.company_event_agreements
+    credential_type_id = @company_ticket_type.credential_type_id
+
     if @company_ticket_type.update(permitted_params)
+      if credential_type_id.blank?
+        tickets = @company_ticket_type.tickets
+                                      .joins(:credential_assignments)
+                                      .where(credential_assignments: { aasm_state: "assigned" })
+        tickets.each do |ticket|
+          CustomerCreditTicketCreator.new.assign(ticket) if ticket.credits.present?
+          CustomerOrderTicketCreator.new.save(ticket)
+        end
+      end
       redirect_to admins_event_company_ticket_types_url, notice: I18n.t("alerts.updated")
     else
+      @credential_types_collection = @fetcher.credential_types
+      @company_event_agreement_collection = @fetcher.company_event_agreements
+
       flash.now[:error] = @company_ticket_type.errors.full_messages.join(". ")
       render :edit
     end

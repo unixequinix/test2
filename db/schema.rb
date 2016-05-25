@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160509131512) do
+ActiveRecord::Schema.define(version: 20160518140306) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -431,6 +431,7 @@ ActiveRecord::Schema.define(version: 20160509131512) do
     t.datetime "updated_at",                                              null: false
     t.string   "token_symbol",            default: "t"
     t.string   "company_name"
+    t.boolean  "agreement_acceptance",    default: false
   end
 
   add_index "events", ["slug"], name: "index_events_on_slug", unique: true, using: :btree
@@ -476,7 +477,7 @@ ActiveRecord::Schema.define(version: 20160509131512) do
     t.string   "device_created_at"
     t.integer  "catalogable_id"
     t.string   "catalogable_type"
-    t.integer  "items_amount"
+    t.float    "items_amount"
     t.float    "price"
     t.string   "payment_method"
     t.string   "payment_gateway"

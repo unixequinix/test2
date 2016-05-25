@@ -1,15 +1,15 @@
 class Admins::Events::CreditTransactionsController < Admins::Events::BaseController
   before_filter :set_presenter, only: [:index, :search]
 
-  def index
-  end
-
   def search
     render :index
   end
 
   def show
     @transaction = CreditTransaction.find(params[:id])
+    @gtag = Gtag.find_by_tag_uid(@transaction.customer_tag_uid)
+    @profile = @transaction.profile
+    @operator = Gtag.find_by_tag_uid(@transaction.operator_tag_uid)
   end
 
   private

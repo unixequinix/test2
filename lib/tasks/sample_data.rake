@@ -220,7 +220,7 @@ namespace :db do
   end
 
   def make_profiles
-    puts 'Create customer event profiles'
+    puts 'Create profiles'
     puts '----------------------------------------'
     Profile.destroy_all
     Profile.create(customer_id: 1, event_id: 1)

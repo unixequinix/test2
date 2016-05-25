@@ -6,16 +6,12 @@ class CustomerOrderCreator
                                             catalog_item: order_item.catalog_item,
                                             origin: CustomerOrder::PURCHASE)
       OnlineOrder.create(redeemed: false, customer_order: customer_order)
-      create_money_transaction(order_item, payment_method, payment_gateway)
+      Operations::Base.new.portal_write(fields(order_item, payment_method, payment_gateway))
     end
   end
 
-  def create_money_transaction(order_item, payment_method, payment_gateway)
-    # TODO: check
-    Operations::Base.new.portal_write(fields(order_item, payment_method, payment_gateway))
-  end
-
-  def fields(order_item, payment_method, payment_gateway) # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/MethodLength
+  def fields(order_item, payment_method, payment_gateway)
     station = Station.joins(:station_type)
                      .find_by(event: order_item.order.profile.event_id,
                               station_types: { name: "customer_portal" }).id
@@ -25,7 +21,7 @@ class CustomerOrderCreator
       transaction_category: "money",
       transaction_origin: "customer_portal",
       transaction_type: "portal_purchase",
-      customer_tag_uid: order_item.order.profile.active_gtag_assignment,
+      customer_tag_uid: order_item.order.profile.active_gtag_assignment&.credentiable&.tag_uid,
       catalogable_id: order_item.catalog_item.catalogable_id,
       catalogable_type: order_item.catalog_item.catalogable_type,
       items_amount: order_item.amount,

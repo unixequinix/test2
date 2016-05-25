@@ -114,6 +114,9 @@ aside#main-menu
     li.aside-list = link_to admins_event_missing_transactions_path(event)
       = fa_icon "list"
       = t("admin.aside.missing_transactions")
+    li.aside-list = link_to admins_event_credit_inconsistencies_path(event)
+      = fa_icon "list"
+      = t("admin.aside.credit_inconsistencies")
     
 
     li.mobile-sign-out
