@@ -16,7 +16,7 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
                                  customer_orders: [:catalog_item, :online_order])
                        .find(params[:id])
 
-    tag_uid = @profile.active_gtag_assignment.credentiable.tag_uid
+    tag_uid = @profile.active_gtag_assignment&.credentiable&.tag_uid
     @credit_transactions = CreditTransaction.with_event(current_event).with_customer_tag(tag_uid)
   end
 
