@@ -139,7 +139,6 @@ group :development, :test do
   gem 'rspec-activemodel-mocks'
   gem 'guard-rspec', '~> 4.5.0', require: false
   gem 'spring-commands-rspec', '~> 1.0.4'
-  gem 'pry-rails'
   gem 'awesome_print', require:'ap'
   gem 'terminal-notifier-guard'
   gem 'guard-bundler', require: false
@@ -147,6 +146,7 @@ group :development, :test do
 end
 
 group :development, :test, :integration do
+  gem 'pry-rails'
   gem 'factory_girl_rails', '~> 4.5.0'
 end
 

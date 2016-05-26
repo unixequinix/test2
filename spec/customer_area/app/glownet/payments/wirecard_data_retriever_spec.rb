@@ -9,13 +9,12 @@ RSpec.describe Payments::Wirecard::DataRetriever, type: :domain_logic do
     order.profile.event
   end
 
-
   subject do
     EventParameter.find_or_create_by(event: event,
-                                    value: "SECRETSECRET",
-                                    parameter: Parameter.find_by(category: "payment",
-                                                                 group: "wirecard",
-                                                                 name: "secret_key"))
+                                     value: "SECRETSECRET",
+                                     parameter: Parameter.find_by(category: "payment",
+                                                                  group: "wirecard",
+                                                                  name: "secret_key"))
     params = {
       consumer_ip_address: "192.168.1.1",
       consumer_user_agent: "chrome"
