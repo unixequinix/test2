@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Payments::WirecardDataRetriever, type: :domain_logic do
+RSpec.describe Payments::Wirecard::DataRetriever, type: :domain_logic do
   let(:order) do
     create(:order)
   end
@@ -20,7 +20,7 @@ RSpec.describe Payments::WirecardDataRetriever, type: :domain_logic do
       consumer_ip_address: "192.168.1.1",
       consumer_user_agent: "chrome"
     }
-    Payments::WirecardDataRetriever.new(event, order).with_params(params)
+    Payments::Wirecard::DataRetriever.new(event, order).with_params(params)
   end
 
   context ".payment_type" do
