@@ -23,7 +23,7 @@ class CustomerCredit < ActiveRecord::Base
 
   belongs_to :profile
 
-  validates_presence_of :payment_method, :transaction_origin, :profile
+  validates_presence_of :payment_method, :transaction_origin, :profile_id
   validates_numericality_of :amount, :refundable_amount, :credit_value
 
   TICKET_ASSIGNMENT = "ticket_assignment".freeze

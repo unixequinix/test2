@@ -18,7 +18,7 @@ th:
     finalize: "Finalize"
   confirm:
     remove_ticket: "เครดิตที่คุณได้ทำการซื้อไปจะอยู่ในบัญชีผู้ใช้งานนี้ของคุณ หากคุณยกเลิกบัตรเข้างาน คุณจะต้องทำการโอนเครดิตไปยังบัตรอื่นเพื่อที่จะใช้ในงาน"
-    cancel_paypal: "Cancelling you disassociate your wristband from you PayPal account."
+    cancel_paypal: "Cancelling you disassociate your %{gtag} from you PayPal account."
     cancel_paypal_agreement: "Cancel agreement"
     log_out: "Do you want to end this session?"
   header:
@@ -58,13 +58,13 @@ th:
       header: "Your purchases"
     first_register:
       ticket: "Add ticket"
-      gtag: "Add wristband"
+      gtag: "Add %{gtag}"
     credits:
       header: "เครดิตที่ยังคงเหลืออยู่ของคุณ"
       call_to_action_started: "ไม่สามารถเติมเงินผ่านระบบออนไลน์ได้ เนื่องจากงานได้เริ่มแล้ว"
       call_to_action_no_admission_html: "เติมเงินผ่านระบบออนไลน์ <br>กรุณาใส่บัตรเข้างานในระบบก่อน"
       button: "เติมเงิน"
-      ticket_first: "Add a ticket or wristband first"
+      ticket_first: "Add a ticket or %{gtag} first"
       calculating_balance: "Calculating your balance"
       refundable: "Refundable"
     autotopup:
@@ -106,7 +106,7 @@ th:
       title: "หมายเลข %{gtag} ของคุณ"
       call_to_action: "ใส่หมายเลข %{gtag} ผิด?"
       button: "Remove"
-      hint: "Put a wrong wristband by mistake? Erase and restart the process"
+      hint: "Put a wrong %{gtag} by mistake? Erase and restart the process"
     gtag_after_refund:
       description: "ระบบกำลังดำเนินการคืนเงินให้กับคุณ"
     without_refunds:
@@ -123,6 +123,8 @@ th:
     event_started:
       title: "Ultimating details!"
       description: "We are finishing event configuration to bring you a great experience. Please, come back later and see what we have made for you."
+    tipalti:
+      disclaimer: "If you don't see the continue button, scroll to the left."
   admissions:
     title: "การใส่บัตรเข้างานในระบบ"
     description: "กรุณาใส่รหัสหมายเลขที่อยู้ด้านล่างของบาร์โค้ดบนบัตรเข้างานของคุณ"
@@ -231,6 +233,8 @@ th:
     invalid_claim:
       title: "Working in your refund"
       description: "Contact us for more information"
+    paypal:
+      button: "Refund with PayPal"
   gtag_assignations:
     title: "ระบุ %{gtag}"
     description:

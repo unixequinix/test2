@@ -13,7 +13,7 @@ de:
     finalize: "Finalize"
   confirm:
     remove_ticket: "Ihre erworbenen Guthaben sind auf Ihr Konto übertragen. Wenn Sie Ihr Ticket entfernen, müssen Sie jemand anderen dazu berechtigen, Ihre Guthaben für die Veranstaltung zu verwenden."
-    cancel_paypal: "Bei Stornierung wird Ihr Armband von Ihrem Paypal-Konto getrennt."
+    cancel_paypal: "Bei Stornierung wird Ihr %{gtag} von Ihrem Paypal-Konto getrennt."
     cancel_paypal_agreement: "Cancel agreement"
     log_out: "Möchten Sie diese Sitzung beenden?"
   header:
@@ -53,13 +53,13 @@ de:
       header: "Ihre Käufe"
     first_register:
       ticket: "Ticket hinzufügen"
-      wristband: "Armband hinzufügen"
+      wristband: "%{gtag} hinzufügen"
     credits:
       header: "Deine Rechnung"
       call_to_action_started: "Die Veranstaltung hat soeben begonnen. Topup ist nicht mehr möglich."
       call_to_action_no_admission_html: "Um Ihr online-Topup zu erhalten,<br>bitte zuerst ein Veranstaltungsticket aktivieren"
       button: "Top-up"
-      ticket_first: "Zuerst ein Ticket oder Armband hinzufügen"
+      ticket_first: "Zuerst ein Ticket oder %{gtag} hinzufügen"
       calculating_balance: "Rechnung wird erstellt"
       refundable: "Erstattungsfähig"
     autotopup:
@@ -101,7 +101,7 @@ de:
       title: "Ihr %{gtag}"
       call_to_action: "Bearbeiten"
       button: "Ändern"
-      hint: "Sie haben versehentlich ein falsches Armband verwendet? Löschen Sie den Vorgang und beginnen Sie erneut"
+      hint: "Sie haben versehentlich ein falsches %{gtag} verwendet? Löschen Sie den Vorgang und beginnen Sie erneut"
     gtag_after_refund:
       description: "Ihre Erstattung wird bearbeitet"
     without_refunds:
@@ -118,6 +118,8 @@ de:
     event_started:
       title: "Letzte Details!"
       description: "Wir schließen die Veranstaltungskonfiguration gerade ab, um Ihnen ein großartiges Erlebnis zu bieten. Bitte, kommen Sie zu einem späteren Zeitpunkt zurück und schauen Sie sich an, was wir für Sie aufgesetzt haben."
+    tipalti:
+      disclaimer: "If you don't see the continue button, scroll to the left."
   admissions:
     title: "Ticketaktivierung"
     description: "Bitte gib den Code Deines Veranstaltungstickets ein. Du findest diesen unmittelbar unterhalb des Barcodes."
@@ -128,7 +130,7 @@ de:
       ticket_code: "Veranstaltungsticket Codenummer"
   checkout:
     title: "Top-up"
-    description: "Nachdem Du hier Online-Guthaben erworben hast, werden diese automatisch auf Dein Armband übertragen, sobald Du die Veranstaltung betreten hast."
+    description: "Nachdem Du hier Online-Guthaben erworben hast, werden diese automatisch auf Dein %{gtag} übertragen, sobald Du die Veranstaltung betreten hast."
     total: "Summe"
     button: "Bestellung bestätigen"
     store: " shop"
@@ -210,6 +212,8 @@ de:
     invalid_claim:
       title: "Erstattung in Bearbeitung"
       description: "Kontaktieren Sie uns für weitere Informationen"
+    paypal:
+      button: "Refund with PayPal"
   gtag_assignations:
     title: "Anmelden %{gtag}"
     description:
