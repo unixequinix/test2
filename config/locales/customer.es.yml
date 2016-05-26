@@ -1,4 +1,13 @@
 es:
+  pdf:
+    type: "Tipo"
+    quantity: "Cantidad"
+    station: "Estación"
+    date: "Fecha"
+    transaction_types:
+      sale: "Venta"
+      topup: "Recarga"
+      refund: "Reembolso"
   purchases:
     accesses: "Accesos"
     packs: "Packs"

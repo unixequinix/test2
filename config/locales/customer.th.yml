@@ -1,4 +1,13 @@
 th:
+  pdf:
+    type: "Type"
+    quantity: "Quantity"
+    station: "Station"
+    date: "Date"
+    transaction_types:
+      sale: "Sale"
+      topup: "Topup"
+      refund: "Refund"
   purchases:
     accesses: "Accesses"
     packs: "Packs"
