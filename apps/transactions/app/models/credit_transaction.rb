@@ -26,7 +26,6 @@
 #
 
 class CreditTransaction < Transaction
-  default_scope { order(device_created_at: :desc) }
   has_many :sale_items
   belongs_to :profile
 
