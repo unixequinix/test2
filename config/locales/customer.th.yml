@@ -123,6 +123,8 @@ th:
     event_started:
       title: "Ultimating details!"
       description: "We are finishing event configuration to bring you a great experience. Please, come back later and see what we have made for you."
+    tipalti:
+      disclaimer: "If you don't see the continue button, scroll to the left."
   admissions:
     title: "การใส่บัตรเข้างานในระบบ"
     description: "กรุณาใส่รหัสหมายเลขที่อยู้ด้านล่างของบาร์โค้ดบนบัตรเข้างานของคุณ"

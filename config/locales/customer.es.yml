@@ -123,6 +123,8 @@ es:
     event_started:
       title: "Últimos detalles!"
       description: "Estamos trabajando en los últimos detalles del evento para que tu experiencia sea la mejor posible. Por favor, vuelve en unas horas y mira lo que hemos preparado para ti."
+    tipalti:
+      disclaimer: "En caso de no ver el botón de continuar, desliza la pantalla hacia la izquierda."
   admissions:
     title: "Activación del Ticket"
     description: "Por favor, introduce el código impreso debajo del código de barras en tu ticket del evento."
