@@ -1,32 +1,52 @@
 class Operations::Base < ActiveJob::Base
   SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at ).freeze
 
-  def perform(atts) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def perform(atts) # rubocop:disable Metrics/AbcSize
     atts[:profile_id] ||= atts[:customer_event_profile_id]
+    atts.delete(:station_id) if atts[:station_id].to_i.zero?
     atts.delete(:sale_items_attributes) if atts[:sale_items_attributes].blank?
     klass = "#{atts[:transaction_category]}_transaction".classify.constantize
 
     obj = klass.find_by(atts.slice(*SEARCH_ATTS))
     return obj if obj
-    return portal_write(atts) unless atts[:status_code].to_i.zero?
+    return klass.create!(column_attributes(klass, atts)) unless atts[:status_code].to_i.zero?
 
     gtag = Gtag.find_or_create_by!(tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id])
     profile_id = Profile::Checker.for_transaction(gtag, atts[:profile_id], atts[:event_id])
+    atts[:profile_id] = profile_id
 
     obj_atts = column_attributes(klass, atts)
-    obj_atts[:profile_id] = profile_id
     obj = klass.create!(obj_atts)
 
     atts[:transaction_id] = obj.id
-    atts[:profile_id] = profile_id
-    children = self.class.descendants
-    children.each { |d| d.perform_later(atts) if d::TRIGGERS.include? atts[:transaction_type] }
+    execute_operations(atts)
     obj
   end
 
   def portal_write(atts)
+    event = Event.find(atts[:event_id])
+    station = event.portal_station
+    profile = Profile.find(atts[:profile_id])
     klass = "#{atts[:transaction_category]}_transaction".classify.constantize
-    klass.create!(column_attributes(klass, atts))
+
+    final_atts = {
+      transaction_origin: "customer_portal",
+      station_id: station.id,
+      status_code: 0,
+      status_message: "OK",
+      device_uid: "portal",
+      device_db_index: klass.where(event: event, station_id: station.id).count + 1,
+      device_created_at: Time.zone.now.strftime("%Y-%m-%d %T.%L"),
+      customer_tag_uid: profile.active_gtag_assignment&.credentiable&.tag_uid
+    }.merge(atts.symbolize_keys)
+
+    klass.create!(column_attributes(klass, final_atts))
+    execute_operations(final_atts)
+  end
+
+  def execute_operations(atts)
+    children = self.class.descendants
+    children.each { |d| d.perform_later(atts) if d::TRIGGERS.include? atts[:transaction_type] }
   end
 
   def column_attributes(klass, atts)

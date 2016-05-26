@@ -104,6 +104,11 @@ gem 'i18n-globals', git: 'https://github.com/sebastianzillessen/i18n-globals.git
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.1', group: :doc
 
+
+# PDF Generation
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
+
 group :development do
   gem 'foreman', '~> 0.78.0'
   gem 'annotate', '~> 2.6.10'

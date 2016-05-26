@@ -8,20 +8,20 @@
 
       = f.error_notification
       = f.input :event_id, as: :hidden, input_html: { value: current_event.id, class: 'session-input' }
-      = f.input :email, autofocus: true, input_html: { class: 'session-input' }
-      = f.input :password, input_html: { class: 'session-input' }
-      = f.input :first_name, autofocus: true, input_html: { class: 'session-input' }
-      = f.input :last_name, autofocus: true, input_html: { class: 'session-input' }
-      = f.input :phone, input_html: { class: 'session-input' } if current_event.phone?
-      = f.input :address, input_html: { class: 'session-input' } if current_event.address?
-      = f.input :city, input_html: { class: 'session-input' } if current_event.city?
-      = f.input :postcode, input_html: { class: 'session-input' } if current_event.postcode?
+      = f.input :email, autofocus: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.email")
+      = f.input :password, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.password")
+      = f.input :first_name, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.first_name")
+      = f.input :last_name, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.last_name")
+      = f.input :phone, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.phone") if current_event.phone?
+      = f.input :address, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.address") if current_event.address?
+      = f.input :city, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.city") if current_event.city?
+      = f.input :postcode, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.postcode") if current_event.postcode?
       // Country select
-      = f.input :country, wrapper_html: { class: 'registration-select' }, input_html: { class: 'session-select' } if current_event.country?
+      = f.input :country, wrapper_html: { class: 'registration-select' }, input_html: { class: 'session-select' }, label: t("simple_form.labels.customer.new.country") if current_event.country?
       // Gender select
-      = f.input :gender, wrapper_html: { class: 'registration-select' }, collection: Customer.gender_selector, include_blank: false if current_event.gender?
+      = f.input :gender, wrapper_html: { class: 'registration-select' }, collection: Customer.gender_selector, include_blank: false, label: t("simple_form.labels.customer.new.gender") if current_event.gender?
       // Birthday select
-      = f.input :birthdate, wrapper_html: { class: 'registration-select' }, as: :date, start_year: 1950, end_year: Time.zone.today.year - 12, order: [:day, :month, :year] if current_event.birthdate?
+      = f.input :birthdate, wrapper_html: { class: 'registration-select' }, as: :date, start_year: 1950, end_year: Time.zone.today.year - 12, order: [:day, :month, :year], label: t("simple_form.labels.customer.new.birthdate") if current_event.birthdate?
       .session-accept-terms = f.input :agreed_event_condition, as: :boolean, checked_value: true, unchecked_value: false, label: "#{current_event.agreed_event_condition_message}", wrapper_html: { class: 'customer-agreed-on-registration' } if current_event.agreed_event_condition?
       .session-accept-terms = f.input :agreed_on_registration, as: :boolean, checked_value: true, unchecked_value: false, label: ("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), event_terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), event_privacy_policy_url, target: '_blank'}").html_safe, wrapper_html: { class: 'customer-agreed-on-registration' }
       .wrapper-captcha

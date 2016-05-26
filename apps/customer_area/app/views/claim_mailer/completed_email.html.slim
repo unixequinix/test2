@@ -31,7 +31,7 @@ center
                           div[mc:edit="std_content00" style="text-align: center;"]
                             h1[style="text-align: center;"] = t('email.customer.claim.completed.greet', name: @name)
                             p = t('email.customer.claim.completed.thanks')
-                            p = @event.refund_success_message
+                            p = raw @event.refund_success_message
                             p = t('email.customer.claim.completed.success')
           tr
             //Order id and date

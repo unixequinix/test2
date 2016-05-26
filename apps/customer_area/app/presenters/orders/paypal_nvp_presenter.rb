@@ -25,6 +25,10 @@ class Orders::PaypalNvpPresenter < Orders::BasePresenter
     @agreement ? "with_agreement" : "without_agreement"
   end
 
+  def autotopup_actual_agreement_state
+    @agreement ? "autotopup_with_agreement" : "autotopup_without_agreement"
+  end
+
   def merchant_id
     @event.get_parameter("payment", "paypal_nvp", "merchant_id")
   end

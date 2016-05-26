@@ -96,7 +96,7 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
                            .find_by(station_types: { name: "customer_portal" })
     Operations::Base.new.portal_write(event_id: current_event.id,
                                       station_id: station.id,
-                                      transaction_category: action,
+                                      transaction_category: "ban",
                                       transaction_origin: "customer_portal",
                                       transaction_type: "#{action}_gtag",
                                       banneable_id: gtag.id,

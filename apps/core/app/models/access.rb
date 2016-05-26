@@ -15,7 +15,7 @@ class Access < ActiveRecord::Base
   accepts_nested_attributes_for :catalog_item, allow_destroy: true
   accepts_nested_attributes_for :entitlement, allow_destroy: true
   before_validation :set_infinite_values, if: :infinite?
-  before_save :set_memory_length
+  before_validation :set_memory_length
   validate :min_max_congruency
 
   private

@@ -1,4 +1,13 @@
 es:
+  pdf:
+    type: "Tipo"
+    quantity: "Cantidad"
+    station: "Estación"
+    date: "Fecha"
+    transaction_types:
+      sale: "Venta"
+      topup: "Recarga"
+      refund: "Reembolso"
   purchases:
     accesses: "Accesos"
     packs: "Packs"
@@ -13,9 +22,11 @@ es:
     check_news: "Ir al evento"
     delete_account: "Eliminar tu cuenta"
     logout: "Cerrar sessión"
+    confirm: "Confirmar"
+    finalize: "Finalizar"
   confirm:
     remove_ticket: "Tus créditos comprados se asignan a tu cuenta. Si borras tu ticket, tendrás que asignar otro para utilizar esos créditos en el evento."
-    cancel_paypal: "Al cancelar desvicularás tu pulsera de tu cuenta de PayPal."
+    cancel_paypal: "Al cancelar desvicularás tu %{gtag} de tu cuenta de PayPal."
     cancel_paypal_agreement: "Cancelar acuerdo"
     log_out: "¿Quieres finalizar la sesión?"
   header:
@@ -56,19 +67,19 @@ es:
       header: "Tus compras"
     first_register:
       ticket: "Añadir ticket"
-      gtag: "Añadir pulsera"
+      gtag: "Añadir %{gtag}"
     credits:
       header: "Tu balance"
       call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"
       call_to_action_no_admission_html: "Para poder recargar online,<br>deberás activar un Ticket primero"
       button: "Recarga"
-      ticket_first: "Añade un ticket o pulsera primero"
+      ticket_first: "Añade un ticket o %{gtag} primero"
       calculating_balance: "Estamos calculando tu balance"
-      refundable: "Reembonsable"
+      refundable: "Reembolsable"
     autotopup:
       claim: "Toma ventaja!"
-      description: "Syncroniza con tu cuenta de Paypal y realiza recargas directas"
-      disclaimer: "Este pago será devuelto inmediatamente después de aceptar el acuerdo"
+      description: "Sincroniza con tu cuenta de PayPal y realiza recargas automáticas durante el evento."
+      disclaimer: "Para validar tu cuenta PayPal se va a realizar un pago de 0.01€ que será devuelto inmediatamente."
     paypal:
       button: "Sincroniza con PayPal"
     paypal_nvp:
@@ -104,7 +115,7 @@ es:
       title: "Tu %{gtag}"
       call_to_action: "¿Introdujiste una incorrecta por error?"
       button: "Borrar"
-      hint: "Has introducido una pulsera por error? Bórrala y reinicia el proceso"
+      hint: "Has introducido una %{gtag} por error? Bórrala y reinicia el proceso"
     gtag_after_refund:
       description: "Tu devolución está en proceso"
     without_refunds:
@@ -121,6 +132,8 @@ es:
     event_started:
       title: "Últimos detalles!"
       description: "Estamos trabajando en los últimos detalles del evento para que tu experiencia sea la mejor posible. Por favor, vuelve en unas horas y mira lo que hemos preparado para ti."
+    tipalti:
+      disclaimer: "En caso de no ver el botón de continuar, desliza la pantalla hacia la izquierda."
   admissions:
     title: "Activación del Ticket"
     description: "Por favor, introduce el código impreso debajo del código de barras en tu ticket del evento."
@@ -195,9 +208,11 @@ es:
       card_expiration_year: "Año de caducidad"
       button: "Pagar"
     paypal:
-      sync_title: "Regístarte en PayPal para completar el pago"
-      sync_copy: "Crédito asegurado"
-      sync_description: "Puedes realizar recargas automáticas en tus compras. Selecciona la cantidad que quieres recargar automáticamente en el caso de gastar todos tus créditos durante el evento. Esto te ayudará a evitar colas en las estaciones de recarga. ¡Tu pulsera estará siempre lista para su uso!"
+      charge: "Cargo de verificación"
+      sync_title: "Regístrate en PayPal para completar el pago"
+      sync_copy: "Experiencia PayPal"
+      sync_description: "Puedes vincular tu cuenta PayPal para realizar recargas automáticas en los puntos de venta, sin esperar cola en los puntos de recarga."
+      sync_final_description: "Selecciona la cantidad que quieres recargar automáticamente en los puntos de venta. Esta cantidad NO SE COBRARÁ en este momento."
       with_agreement_title: "Cuenta sicronizada con PayPal"
       with_agreement_subtitle: "Ahora puedes realizar pagos directamente"
   claims:
@@ -220,12 +235,14 @@ es:
       title: "Lo sentimos"
       description: "No tienes crédito para realizar la devolución"
     direct_claim:
-      title: "Solicta tu devolución"
+      title: "Solicita tu devolución"
       description: "La petición se procesará automáticamente"
       button: "Solicitar"
     invalid_claim:
       title: "Estamos trabajando en tu devolución"
       description: "Contáctanos para más información"
+    paypal:
+      button: "Reembolsar con PayPal"
   gtag_assignations:
     title: "Introducir %{gtag}"
     description:
@@ -313,7 +330,7 @@ es:
       new_amount: 'Cambia la cantidad:'
       billing_agreement_description: "Acepto que se me hagan cargos cuando me quedo sin crédito"
       success: 'Cuenta añadida!'
-      success_description: 'Ahora puedes realizar recargas automáticas en tu pulsera'
+      success_description: 'Ahora puedes realizar recargas automáticas en tu %{gtag}'
   sessions:
     first_register:
       welcome: 'Bienvenido!!'

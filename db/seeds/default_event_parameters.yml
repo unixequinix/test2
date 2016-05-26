@@ -19,6 +19,9 @@
         -
           name: topup_initialize_gtag
           value: true
+        -
+          name: cypher_enabled
+          value: false
 -
   category: payment
   groups:
@@ -204,7 +207,7 @@
           value: n6RwV8g/lM7IP51GWqOmcsTmJ9YSu4YpteoYHuXPmymjB1oaIimAC6lm3EUWxBoT
         -
           name: url
-          value: https://ui.sandbox.tipalti.com/Payees/PayeeDashboard.aspx
+          value: https://ui2.tipalti.com/payeedashboard/home
     -
       name: direct
       values:

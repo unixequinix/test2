@@ -1,0 +1,21 @@
+h3
+  = fa_icon "table"
+  = t ("admin.customers.payment_gateways")
+table.subtable.customer-show-subtable
+  thead
+    tr
+      th = t("admin.customers.payment_gateways.gateway")
+      th = t("admin.customers.payment_gateways.email")
+      th = t("admin.customers.payment_gateways.autotopup_amount")
+      th.table-actions-field  = t("admin.defaults.actions")
+  tbody
+    - profile.payment_gateway_customers.each do |pg|
+      tr
+        td = pg.gateway_type
+        td = pg.email
+        td = pg.autotopup_amount
+        td.table-actions-field
+          ul
+            li.table-action.action-delete
+              = link_to revoke_agreement_admins_event_profile_path(current_event, profile, agreement_id: pg.id), method: :delete, data: { confirm: t("admin.confirm.delete") } do
+                = fa_icon "trash"
