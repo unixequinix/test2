@@ -18,8 +18,8 @@ html
                 span = current_customer.last_name
               p.account-user.user-mail = current_customer.email
             td.wrapper-bill-logo
-              //= image_tag current_event.logo.url, class: "bill-logo" unless current_event.logo.blank?
-              = image_tag("agreement_paypal_logo.png")
+              = image_tag current_event.logo.url, class: "bill-logo" unless current_event.logo.blank?
+              //= image_tag("agreement_paypal_logo.png")
           tr
             table.related-bill
               thead
