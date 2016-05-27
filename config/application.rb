@@ -21,10 +21,10 @@ module GlownetWeb
   class Application < Rails::Application
 
     # Use the IRB console instead of the Pry one
-    console do
-      require 'irb'
-      config.console = IRB
-    end
+    # console do
+    #   require 'irb'
+    #   config.console = IRB
+    # end
 
     config.middleware.use Rack::Deflater
 

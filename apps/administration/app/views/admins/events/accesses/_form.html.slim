@@ -2,9 +2,9 @@
   .wrapper-negative-space
     = f.simple_fields_for :entitlement do |entitlement|
       = entitlement.input :mode, collection: Entitlement::MODES, include_blank: false, id: "mode_selector"
-      = entitlement.input :memory_length, as: :hidden, input_html: { value: 1 }
+      = entitlement.input :memory_length
       = entitlement.input :event_id, as: :hidden, input_html: { value: current_event.id }
-      
+
     = f.simple_fields_for :catalog_item do |catalog_item|
       = catalog_item.input :name, autofocus: false, placeholder: true
       = catalog_item.input :description, placeholder: true
@@ -20,14 +20,14 @@
 javascript:
   var changeSelect = function() {
     var value = $("#access_entitlement_attributes_mode").val();
-    
+
     if(value === "counter") {
-     $("#shop-fields").show(); 
+     $("#shop-fields").show();
     } else {
-     $("#shop-fields").hide(); 
+     $("#shop-fields").hide();
     }
   }
-  
+
   $("#access_entitlement_attributes_mode").change(changeSelect);
   $(document).on('page:load', changeSelect);
   $(document).ready(changeSelect);

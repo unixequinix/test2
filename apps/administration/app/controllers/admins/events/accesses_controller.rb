@@ -44,6 +44,7 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
       redirect_to admins_event_accesses_url
     else
       flash.now[:error] = I18n.t("errors.messages.catalog_item_dependent")
+      binding.pry
       set_presenter
       render :index
     end
