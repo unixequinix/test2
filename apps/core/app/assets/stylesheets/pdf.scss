@@ -1,0 +1,95 @@
+.container-bill {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 48px;
+  font-family: sans-serif;
+  font-size: 11px;
+  color: #666;
+
+  td {
+    vertical-align: top;
+    padding: 10px 0;
+    padding: 12px 0;
+
+    p { margin: 0; }
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 6px 6px 0;
+  }
+}
+
+.table-bill {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.transaction-bill-title {
+  width: 100%;
+  padding: 96px 0;
+  font-size: 14px;
+  font-weight: lighter;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.account-user-name {
+  padding: 0 0 6px;
+  font-weight: bold;
+  font-size: 16px;
+
+  span {
+    &:first-child { padding-right: 6px; }
+  }
+}
+
+.wrapper-bill-user {
+  vertical-align: top;
+}
+
+.wrapper-bill-logo {
+  text-align: right;
+}
+
+.bill-logo {
+  display: inline-block;
+  width: 190px;
+  height: auto;
+}
+
+.related-bill {
+  width: 100%;
+  margin: 30px 0;
+  border-collapse: collapse;
+
+  tr {
+    border-bottom: 1px solid #c2c2c2;
+
+    &:last-child { border-bottom: none; }
+  }
+}
+
+.table-bill-header {
+  padding: 6px 0;
+  font-weight: 400;
+  text-align: left;
+  color: #2c2c2c;
+  text-transform: uppercase;
+}
+
+.transaction-item-amount {
+  text-align: right;
+  color: #333;
+}
+
+.transaction-type-title, .transaction-item-amount {
+  margin: 0;
+  font-weight: bold;
+}
+
+.transactions-total {
+  text-align: right;
+  font-size: 22px;
+}
