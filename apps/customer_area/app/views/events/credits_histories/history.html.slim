@@ -30,7 +30,7 @@ html
                 th.table-bill-header = t("pdf.quantity")
               tbody
 
-// FAKE DATA, DELETE FROM HERE
+                // FAKE DATA, DELETE FROM HERE
 
                 tr.bill-row
                   td.transaction-type-cell
@@ -160,7 +160,7 @@ html
                     p.bill-total-title total:
                     p.bill-total-value 166t
 
-// TO HERE
+                // TO HERE
 
                 - current_customer.profile.pdf_transactions.each do |t|
                   tr.bill-row
