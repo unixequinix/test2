@@ -1,5 +1,6 @@
 en:
   pdf:
+    pdf_title: "Transactions history"
     type: "Type"
     quantity: "Quantity"
     station: "Station"

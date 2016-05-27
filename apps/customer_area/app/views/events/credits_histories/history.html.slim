@@ -8,7 +8,9 @@ html
     #content.container-bill
       table.table-bill
         tr
-          th.transaction-bill-title colspan="4" Transactions history
+          th.transaction-bill-title colspan="4"
+            span = current_event.name
+            span = t("pdf.pdf_title")
         tbody
 
           tr
@@ -19,28 +21,34 @@ html
               p.account-user.user-mail = current_customer.email
             td.wrapper-bill-logo
               = image_tag current_event.logo.url, class: "bill-logo" unless current_event.logo.blank?
-              //= image_tag("agreement_paypal_logo.png")
           tr
             table.related-bill
-              thead
+              thead.bill-row
                 th.table-bill-header = t("pdf.type")
                 th.table-bill-header = t("pdf.station")
                 th.table-bill-header = t("pdf.date")
-                th.table-bill-header.transaction-item-amount = t("pdf.quantity")
+                th.table-bill-header = t("pdf.quantity")
               tbody
-                tr
-                  td
+
+// FAKE DATA, DELETE FROME HERE
+
+                tr.bill-row
+                  td.transaction-type-cell
                     p.transaction-type-title Compra:
                     ul
                       li Birra
                       li Torreznos
                       li Manzanilla
                       li Salmorejo
+                      li Birra Gorda
+                      li Bocata lomo
+                      li Fanta Piñas
+                      li Gazpaxete
                   td Optimus station
                   td 17-12-2016 23:13
-                  td.transaction-item-amount 23€
-                tr
-                  td
+                  td.transaction-item-amount 23t
+                tr.bill-row
+                  td.transaction-type-cell
                     p.transaction-type-title Devolución:
                     ul
                       li Calimoxo
@@ -49,24 +57,123 @@ html
                       li Donuts
                   td Decepticons station
                   td 17-12-2016 23:13
-                  td.transaction-item-amount 120€
-                tr
-                  td
+                  td.transaction-item-amount 120t
+                tr.bill-row
+                  td.transaction-type-cell
+                    p.transaction-type-title Compra:
+                    ul
+                      li Birra
+                      li Torreznos
+                      li Manzanilla
+                      li Salmorejo
+                      li Birra Gorda
+                      li Bocata lomo
+                      li Fanta Piñas
+                      li Gazpaxete
+                  td Optimus station
+                  td 17-12-2016 23:13
+                  td.transaction-item-amount 23t
+                tr.bill-row
+                  td.transaction-type-cell
+                    p.transaction-type-title Devolución:
+                    ul
+                      li Calimoxo
+                      li Pepsi light
+                      li Pepsi light
+                      li Donuts
+                  td Decepticons station
+                  td 17-12-2016 23:13
+                  td.transaction-item-amount 120t
+                tr.bill-row
+                  td.transaction-type-cell
                     p.transaction-type-title Compra:
                     ul
                       li Agüita 50cl
                       li Pizza
                   td Optimus station
                   td 17-12-2016 23:13
-                  td.transaction-item-amount 23€
+                  td.transaction-item-amount 23t
+                tr.bill-row
+                  td.transaction-type-cell
+                    p.transaction-type-title Compra:
+                    ul
+                      li Birra
+                      li Torreznos
+                      li Manzanilla
+                      li Salmorejo
+                  td Optimus station
+                  td 17-12-2016 23:13
+                  td.transaction-item-amount 23t
+                tr.bill-row
+                  td.transaction-type-cell
+                    p.transaction-type-title Devolución:
+                    ul
+                      li Calimoxo
+                      li Pepsi light
+                      li Pepsi light
+                      li Donuts
+                  td Decepticons station
+                  td 17-12-2016 23:13
+                  td.transaction-item-amount 120t
+                tr.bill-row
+                  td.transaction-type-cell
+                    p.transaction-type-title Compra:
+                    ul
+                      li Agüita 50cl
+                      li Pizza
+                  td Optimus station
+                  td 17-12-2016 23:13
+                  td.transaction-item-amount 23t
+                tr.bill-row
+                  td.transaction-type-cell
+                    p.transaction-type-title Compra:
+                    ul
+                      li Birra
+                      li Torreznos
+                      li Manzanilla
+                      li Salmorejo
+                  td Optimus station
+                  td 17-12-2016 23:13
+                  td.transaction-item-amount 23t
+                tr.bill-row
+                  td.transaction-type-cell
+                    p.transaction-type-title Devolución:
+                    ul
+                      li Calimoxo
+                      li Pepsi light
+                      li Pepsi light
+                      li Donuts
+                  td Decepticons station
+                  td 17-12-2016 23:13
+                  td.transaction-item-amount 120t
+                tr.bill-row
+                  td.transaction-type-cell
+                    p.transaction-type-title Compra:
+                    ul
+                      li Agüita 50cl
+                      li Pizza
+                  td Optimus station
+                  td 17-12-2016 23:13
+                  td.transaction-item-amount 23t
                 tr
-                  td.transactions-total.table-bill-header.transaction-item-amount colspan="4"
-                    span TOTAL
-                    span 166€
+                  td.transactions-total colspan="4"
+                    p.bill-total-title total:
+                    p.bill-total-value 166t
+
+// TO HERE
+
                 - current_customer.profile.pdf_transactions.each do |t|
-                  tr
-                    td = t("pdf.transaction_types.#{t.transaction_type}")
+                  tr.bill-row
+                    td.transaction-type-cell
+                      p.transaction-type-title = t("pdf.transaction_types.#{t.transaction_type}")
+                        ul
+                          li
                     td = t.station.name
                     td = t.created_at.strftime("%B %d, %Y")
-                    td = t.credits
+                    td.transaction-item-amount = t.credits
+                // Uncomment to add Total tr
+                //tr
+                //  td.transactions-total colspan="4"
+                //    p.bill-total-title total:
+                //    p.bill-total-value 166t
 

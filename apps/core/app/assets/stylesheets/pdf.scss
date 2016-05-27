@@ -1,15 +1,21 @@
+// -------------------------------------------------------
+//
+// Base stylesheet for transactions history pdf
+//
+// -------------------------------------------------------
+
 .container-bill {
   max-width: 600px;
   margin: 0 auto;
-  padding: 0 48px;
+  padding: 0 2rem;
   font-family: sans-serif;
-  font-size: 11px;
+  font-size: 0.8rem;
   color: #666;
 
   td {
     vertical-align: top;
-    padding: 10px 0;
-    padding: 12px 0;
+    padding: 0.3rem 0;
+    padding: 0.8rem 0;
 
     p { margin: 0; }
   }
@@ -17,7 +23,19 @@
   ul {
     list-style: none;
     margin: 0;
-    padding: 6px 6px 0;
+    padding: 0.3rem 1.5rem 0 0;
+    line-height: 1.4;
+
+    li {
+      display: inline-block;
+      padding: 0 0.3rem 0 0;
+      font-style: italic;
+
+      &:before {
+        content: "·";
+        padding-right: 0.3rem;
+      }
+    }
   }
 }
 
@@ -28,17 +46,29 @@
 
 .transaction-bill-title {
   width: 100%;
-  padding: 96px 0;
-  font-size: 14px;
+  padding: 6rem 0 6rem;
+  font-size: 0.9rem;
   font-weight: lighter;
   text-align: center;
   text-transform: uppercase;
+
+  span {
+
+    &:first-child {
+      padding-right: 6px;
+
+      &:after { content: ":"; }
+    }
+  }
+}
+
+.transaction-type-cell {
+  width: 47%;
 }
 
 .account-user-name {
-  padding: 0 0 6px;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 1.05rem;
 
   span {
     &:first-child { padding-right: 6px; }
@@ -56,27 +86,24 @@
 .bill-logo {
   display: inline-block;
   width: auto;
-  max-height: 110px;
+  max-height: 6.5rem;
 }
 
 .related-bill {
   width: 100%;
-  margin: 30px 0;
+  margin: 1.75rem 0;
   border-collapse: collapse;
-
-  tr {
-    border-bottom: 1px solid #c2c2c2;
-
-    &:last-child { border-bottom: none; }
-  }
 }
 
+.bill-row { border-bottom: 1px solid #c2c2c2; }
+
 .table-bill-header {
-  padding: 6px 0;
-  font-weight: 400;
+  padding: 0.3rem 0;
   text-align: left;
   color: #2c2c2c;
   text-transform: uppercase;
+
+  &:last-child { text-align: right; }
 }
 
 .transaction-item-amount {
@@ -91,5 +118,17 @@
 
 .transactions-total {
   text-align: right;
-  font-size: 22px;
+  color: #2c2c2c;
+  font-weight: bold;
 }
+
+.bill-total-title {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.bill-total-value {
+  font-size: 2.5rem;
+}
+
+// ···
