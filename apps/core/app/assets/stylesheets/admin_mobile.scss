@@ -15,10 +15,10 @@
 @import "glownet/admin/switch";
 
 @import "vendor/mmenu/jquery.mmenu";
+@import "vendor/selectize";
 @import "vendor/mmenu/extensions/jquery.mmenu.positioning";
 @import "glownet/admin/custom_mmenu";
 
 @media print {
   @import "glownet/print";
 }
-
