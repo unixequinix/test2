@@ -1,5 +1,6 @@
 //= require jquery
 //= require jquery_ujs
+//= require best_in_place
 
 //= require vendor/mmenu/jquery.mmenu.min
 

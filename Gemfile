@@ -27,6 +27,7 @@ gem 'simple_form', '~> 3.1.0'
 gem 'paperclip', '~> 4.3.6'
 gem 'aws-sdk-v1'
 gem 'aws-sdk', '~> 2'
+gem 'best_in_place', '~> 3.0.1'
 
 # Authentication
 gem 'bcrypt', '~> 3.1.10'
@@ -104,10 +105,8 @@ gem 'i18n-globals', git: 'https://github.com/sebastianzillessen/i18n-globals.git
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.1', group: :doc
 
-
 # PDF Generation
 gem 'wicked_pdf'
-gem 'wkhtmltopdf-binary'
 
 group :development do
   gem 'foreman', '~> 0.78.0'
