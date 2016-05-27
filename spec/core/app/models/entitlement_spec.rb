@@ -1,10 +1,8 @@
 require "rails_helper"
 
 RSpec.describe Entitlement, type: :model do
-  let(:entitlement) {
-    ci = create(:catalog_item, :with_access)
-    ci.catalogable.entitlement
-  }
+  let(:event) { create(:event) }
+  let(:entitlement) { create(:entitlement, :with_access, event: event) }
 
   it "checks if it is infinite" do
     allow(entitlement).to receive(:mode).and_return("counter")
@@ -19,10 +17,13 @@ RSpec.describe Entitlement, type: :model do
 
   context "before validations" do
     describe ".set_memory_position " do
-      it "adds the right position to a new entitlement" do
-        binding.pry
-        create(:catalog_item, :with_access)
-        expec(Entitlement.new.set_memory_position).to be()
+      it "adds the first memory position to the first entitlement" do
+        expect(entitlement.memory_position).to be(1)
+      end
+
+      it "adds the first memory position to the first entitlement" do
+        create(:entitlement, :with_access, event: event)
+        expect(entitlement.memory_position).to be(1)
       end
     end
   end

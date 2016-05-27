@@ -3,6 +3,36 @@ class Entitlement::PositionManager
     @entitlement = entitlement
   end
 
+  def start(params)
+    @position_creator = Entitlement::PositionCreator.new(@entitlement)
+    @position_updater = Entitlement::PositionUpdater.new(@entitlement)
+    case params[:action]
+    when :save
+      save_memory_position(@position_creator, @position_updater)
+    when :destroy
+      destroy_memory_position(@position_updater)
+    when :validate
+      validate_memory_position
+    end
+  end
+
+  def save_memory_position(position_creator, position_updater)
+    if @entitlement.id.nil?
+      @entitlement.memory_position = position_creator.create_new_position
+    else
+      position_updater.calculate_memory_position_after_update
+    end
+  end
+
+  def destroy_memory_position(position_updater)
+    position_updater.calculate_memory_position_after_destroy
+  end
+
+  def validate_memory_position
+    return if @entitlement.memory_position + @entitlement.memory_length <= limit
+    errors[:memory_position] << I18n.t("errors.messages.not_enough_space_for_entitlement")
+  end
+
   def last_position
     Entitlement.last_element.present? ?
       Entitlement.last_element.memory_position + Entitlement.last_element.memory_length :

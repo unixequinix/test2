@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :entitlement do
     mode { [Entitlement::COUNTER, Entitlement::PERMANENT, Entitlement::PERMANENT_STRICT].sample }
+    event
 
     trait :infinite do
       mode { "permanent" }

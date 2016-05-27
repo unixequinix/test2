@@ -20,11 +20,10 @@ class Entitlement < ActiveRecord::Base
   belongs_to :access, -> { where(entitlement: { entitlementable_type: "Access" }) },
              foreign_key: "entitlementable_id"
   belongs_to :event
-  before_validation :set_memory_position
+  before_validation :position
+  after_destroy :position_after_destroy
+  validate :valid_position
   validates :memory_length, :mode, presence: true
-  validate :valid_position?
-
-  after_destroy :calculate_memory_position_after_destroy
 
   LENGTH = [1, 2].freeze
 
@@ -41,20 +40,15 @@ class Entitlement < ActiveRecord::Base
 
   private
 
-  def set_memory_position
-    if id.nil?
-      self.memory_position = Entitlement::PositionCreator.new(self).create_new_position
-    else
-      Entitlement::PositionUpdater.new(self).calculate_memory_position_after_update
-    end
+  def position
+    Entitlement::PositionManager.new(self).start(action: :save)
   end
 
-  def calculate_memory_position_after_destroy
-    Entitlement::PositionUpdater.new(self).calculate_memory_position_after_destroy
+  def position_after_destroy
+    Entitlement::PositionManager.new(self).start(action: :destroy)
   end
 
-  def valid_position?
-    return if memory_position + memory_length <= Entitlement::PositionManager.new(self).limit
-    errors[:memory_position] << I18n.t("errors.messages.not_enough_space_for_entitlement")
+  def valid_position
+    Entitlement::PositionManager.new(self).start(action: :validate)
   end
 end
