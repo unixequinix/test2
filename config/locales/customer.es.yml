@@ -1,5 +1,6 @@
 es:
   pdf:
+    pdf_title: "Historial de transacciones"
     type: "Tipo"
     quantity: "Cantidad"
     station: "Estación"
