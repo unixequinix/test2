@@ -53,6 +53,9 @@ es:
       back: 'Inicio'
   dashboard:
     title: "My dashboard"
+    credits_history:
+      header: "Historial de transacciones"
+      button: "Descargar transacciones"
     admissions:
       header: "Tu número de Ticket"
       header: "Ticket %{company_ticket_type}"
