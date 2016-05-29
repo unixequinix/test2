@@ -1,5 +1,6 @@
 class Transaction < ActiveRecord::Base
   self.abstract_class = true
+  default_scope { order(device_created_at: :desc) }
 
   belongs_to :event
   belongs_to :station
