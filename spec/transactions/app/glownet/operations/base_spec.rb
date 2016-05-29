@@ -16,6 +16,25 @@ RSpec.describe Operations::Base, type: :job do
     }
   end
 
+  let(:real_atts) do
+    {
+      ticket_code: "GF557E2C37E25045D",
+      customer_event_profile_id: nil,
+      customer_tag_uid: "04D695FA003E80",
+      device_created_at: "2016-05-28 20:41:45.224",
+      device_db_index: 7,
+      device_uid: "352990060777139",
+      event_id: event.id,
+      operator_tag_uid: "AAAAAAAAAAAAAA",
+      station_id: create(:station, event: event).id,
+      status_code: 0,
+      status_message: nil,
+      transaction_category: "credential",
+      transaction_origin: "onsite",
+      transaction_type: "ticket_checkin"
+    }
+  end
+
   before(:each) do
     # make 100% sure they are loaded into memory
     # inspect caled for rubocops sake
@@ -25,6 +44,10 @@ RSpec.describe Operations::Base, type: :job do
     Operations::Order::CredentialAssigner.inspect
     # Dont care about the BalanceUpdater or Porfile::Checker, so I mock the behaviour
     allow(Operations::Credit::BalanceUpdater).to receive(:perform_now)
+  end
+
+  it "should work for real atts" do
+    expect { base.perform_now(real_atts) }.to change(Ticket, :count).by(1)
   end
 
   it "checks the profile" do
