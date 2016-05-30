@@ -24,7 +24,8 @@ class Pack < ActiveRecord::Base
   scope :credentiable_packs, lambda {
     joins(:catalog_items_included)
       .where(catalog_items: {
-               catalogable_type: CatalogItem::CREDENTIABLE_TYPES })
+               catalogable_type: CatalogItem::CREDENTIABLE_TYPES
+             })
   }
 
   validate :valid_max_value, if: :infinite_item?

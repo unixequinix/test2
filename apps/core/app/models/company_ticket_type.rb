@@ -28,7 +28,7 @@ class CompanyTicketType < ActiveRecord::Base
   scope :companies, lambda { |_event|
     joins(company_event_agreement: :company)
       .where(company_event_agreements: { event_id: Event.first.id })
-      .pluck("companies.name").uniq
+      .uniq.pluck("companies.name")
   }
 
   def self.search_by_company_and_event(company_name, event)

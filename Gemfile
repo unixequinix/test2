@@ -27,6 +27,7 @@ gem 'simple_form', '~> 3.1.0'
 gem 'paperclip', '~> 4.3.6'
 gem 'aws-sdk-v1'
 gem 'aws-sdk', '~> 2'
+gem 'best_in_place', '~> 3.0.1'
 
 # Authentication
 gem 'bcrypt', '~> 3.1.10'
@@ -104,6 +105,9 @@ gem 'i18n-globals', git: 'https://github.com/sebastianzillessen/i18n-globals.git
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.1', group: :doc
 
+# PDF Generation
+gem 'wicked_pdf'
+
 group :development do
   gem 'foreman', '~> 0.78.0'
   gem 'annotate', '~> 2.6.10'
@@ -114,6 +118,14 @@ group :development do
   gem 'hirb', '~> 0.7.3' #  Improve ripl(irb)'s default inspect output
   gem 'guard-rubocop'
   gem 'ruby-progressbar'
+  gem 'capistrano'
+  gem 'capistrano-rails', '~> 1.1.3'
+  gem 'capistrano-rvm'
+  gem 'capistrano-bundler'
+  gem 'capistrano-passenger'
+  gem 'capistrano-sidekiq', '~> 0.5.3'
+  gem 'capistrano-faster-assets', '~> 1.0'
+  gem 'capistrano-secrets-yml', '~> 1.0.0'
 end
 
 group :development, :darwin do
@@ -123,13 +135,6 @@ end
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', '~> 4.0.5'
-  gem 'capistrano'
-  gem 'capistrano-rails', '~> 1.1.3'
-  gem 'capistrano-rvm'
-  gem 'capistrano-bundler'
-  gem 'capistrano-passenger'
-  gem 'capistrano-sidekiq', '~> 0.5.3'
-  gem 'capistrano-faster-assets', '~> 1.0'
   gem 'better_errors', '~> 2.1.1'
   gem 'binding_of_caller', '~> 0.7.2' # extra features for better_errors
   gem 'meta_request', '~> 0.3.4' # for rails_panel chrome extension

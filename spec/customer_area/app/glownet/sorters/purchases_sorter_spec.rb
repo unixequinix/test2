@@ -55,7 +55,8 @@ RSpec.describe Sorters::PurchasesSorter, type: :domain_logic do
       expect(sorted_purchases.count).to eq(1)
       expect(sorted_purchases["Voucher"].count).to eq(1)
       expect(sorted_purchases["Voucher"].first.total_amount).to eq(
-        customer_order_a.amount + customer_order_b.amount)
+        customer_order_a.amount + customer_order_b.amount
+      )
     end
   end
 end

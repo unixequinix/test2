@@ -25,7 +25,8 @@ RSpec.describe Payments::Ideal::DataRetriever, type: :domain_logic do
   context ".success_url" do
     it "should return the payment type for Ideal" do
       expect(subject.success_url).to include(
-        "payment_services/ideal/asynchronous_payments/success")
+        "payment_services/ideal/asynchronous_payments/success"
+      )
     end
   end
 

@@ -208,6 +208,8 @@
   &:hover { background-color: lighten($light_grey, 30%); }
 }
 
+.btn-full-width { max-width: modules(11); }
+
 .btn-action-add-paypal {
   background-color: $paypal;
   color: $nuclear;

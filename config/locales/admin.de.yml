@@ -96,6 +96,7 @@ de:
         name: "Name"
         description: "Beschreibung"
         price: "Preis"
+        is_alcohol: "Is alcohol?"
       topup_credit:
         amount: "Betrag"
         credit: "Guthaben"

@@ -1,6 +1,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require best_in_place
 
 //= require vendor/mmenu/jquery.mmenu.min
 
@@ -12,3 +13,4 @@
 
 //= require vendor/fastclick
 //= require vendor/fastclick_load
+//= require vendor/selectize

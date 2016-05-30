@@ -19,7 +19,8 @@ class Payments::Stripe::Payer
         source: params[:stripeToken],
         description: "Payment of #{amount} #{@event.currency}",
         destination: get_event_parameter_value(@event, "stripe_account_id"),
-        application_fee: get_event_parameter_value(@event, "application_fee"))
+        application_fee: get_event_parameter_value(@event, "application_fee")
+      )
 
     rescue Stripe::CardError
       # The card has been declined

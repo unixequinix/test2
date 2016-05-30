@@ -100,6 +100,7 @@ class Multitenancy::AdministrationFetcher
 
   def station_products
     StationProduct.joins(:product).where(products: { event_id: @event.id })
+                  .includes(:station_parameter)
   end
 
   def topup_credits
