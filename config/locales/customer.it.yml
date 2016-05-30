@@ -2,7 +2,7 @@ it:
   pdf:
     pdf_title: "Transactions history"
     type: "Type"
-    quantity: "Quantity"
+    amount: "Amount"
     station: "Station"
     date: "Date"
     transaction_types:
