@@ -35,8 +35,8 @@ de:
   conditions:
     action: 'Ich stimme den'
     conjunction: 'und den'
-    privacy_conditions: 'Nutzungsbedingungen'
-    terms_of_use: 'Datenschutzbedingungen zu'
+    privacy_conditions: 'Nutzungsbedingungen zu'
+    terms_of_use: 'Datenschutzbedingungen'
   links:
     sign_in: 'Haben Sie ein Konto?'
     sign_up: 'Noch nicht registriert?'
