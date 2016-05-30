@@ -14,8 +14,7 @@ class CustomerCreditTicketCreator < CustomerCreditCreator
                  transaction_origin: origin,
                  credit_value: credit.value,
                  refundable_amount: (credit.total_amount * sign),
-                 transaction_type: "ticket_credit"
-               }
+                 transaction_type: "ticket_credit" }
       create_credit(ticket.assigned_profile, params)
     end
   end

@@ -114,7 +114,8 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
       page: params[:page],
       include_for_all_items: [
         :assigned_profile,
-        assigned_gtag_credential: [profile: [:customer, active_tickets_assignment: :credentiable]]],
+        assigned_gtag_credential: [profile: [:customer, active_tickets_assignment: :credentiable]]
+      ],
       context: view_context
     )
   end
@@ -126,6 +127,7 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
       :credential_redeemed,
       :banned,
       :company_ticket_type_id,
-      purchaser_attributes: [:id, :first_name, :last_name, :email, :gtag_delivery_address])
+      purchaser_attributes: [:id, :first_name, :last_name, :email, :gtag_delivery_address]
+    )
   end
 end

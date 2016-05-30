@@ -85,13 +85,15 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     path: "#{S3_FOLDER}/event/:id/logos/:style/:filename",
     url: "#{S3_FOLDER}/event/:id/logos/:style/:basename.:extension",
     styles: { email: "x120", paypal: "x50" },
-    default_url: ":default_event_image_url")
+    default_url: ":default_event_image_url"
+  )
 
   has_attached_file(
     :background,
     path: "#{S3_FOLDER}/event/:id/backgrounds/:filename",
     url: "#{S3_FOLDER}/event/:id/backgrounds/:basename.:extension",
-    default_url: ":default_event_background_url")
+    default_url: ":default_event_background_url"
+  )
 
   # Hooks
   before_create :generate_token
@@ -146,7 +148,8 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     purchasable_items = stations.find_by_name("Customer Portal").station_catalog_items
     purchasable_items.count > 0 &&
       purchasable_items.joins(:catalog_item).where.not(
-        catalog_items: { catalogable_type: "Credit" }).count == 0
+        catalog_items: { catalogable_type: "Credit" }
+      ).count == 0
   end
 
   def autotopup_payment_services

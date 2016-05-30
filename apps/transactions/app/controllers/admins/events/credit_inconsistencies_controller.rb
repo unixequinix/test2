@@ -1,7 +1,7 @@
 class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseController
   def index # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     @issues = []
-    
+
     current_event.profiles.includes(:customer_credits,
                                     :active_gtag_assignment,
                                     :gtag_credit_transactions,
@@ -22,11 +22,13 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
               last_credit.final_balance >= 0 &&
               last_credit.final_refundable_balance >= 0
 
-
       inconsistent_balance = (last_credit.final_balance - amount_sum_credit).round(2)
-      inconsistent_refundable_balance = (last_credit.final_refundable_balance - refundable_sum_credit).round(2)
-      inconsistent_transaction_balance = (last_transaction.final_balance - amount_sum_transaction).round(2)
-      inconsistent_transaction_refundable_balance = (last_transaction.final_refundable_balance - refundable_sum_transaction).round(2)
+      inconsistent_refundable_balance =
+        (last_credit.final_refundable_balance - refundable_sum_credit).round(2)
+      inconsistent_transaction_balance =
+        (last_transaction.final_balance - amount_sum_transaction).round(2)
+      inconsistent_transaction_refundable_balance =
+        (last_transaction.final_refundable_balance - refundable_sum_transaction).round(2)
 
       @issues << {
         profile: profile,
