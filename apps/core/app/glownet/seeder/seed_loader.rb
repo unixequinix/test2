@@ -11,7 +11,8 @@ class Seeder::SeedLoader
   def self.load_default_event_parameters(event)
     file = "default_event_parameters.yml"
     YAML.load_file(
-      Rails.root.join("db", "seeds", file)).each do |data|
+      Rails.root.join("db", "seeds", file)
+    ).each do |data|
       data["groups"].each do |group|
         group["values"].each do |value|
           EventParameter.find_or_create_by(event: event,

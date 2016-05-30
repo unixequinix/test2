@@ -30,7 +30,7 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
           flash[:notice] = I18n.t("alerts.updated")
           redirect_to admins_event_products_url
         end
-        format.json { render :json => @product }
+        format.json { render json: @product }
       end
     else
       respond_to do |format|
@@ -38,7 +38,7 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
           flash.now[:error] = @product.errors.full_messages.join(". ")
           render :edit
         end
-        format.json { render :json => @product }
+        format.json { render json: @product }
       end
     end
   end
