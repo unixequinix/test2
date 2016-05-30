@@ -30,8 +30,7 @@ class Gtag < ActiveRecord::Base
                         credential_limit: 32 },
                       { name: "ultralight_c",
                         entitlement_limit: 56,
-                        credential_limit: 32 }
-                     ].freeze
+                        credential_limit: 32 }].freeze
 
   before_validation :upcase_gtag!
   default_scope { order(:id) }

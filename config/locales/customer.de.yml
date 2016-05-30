@@ -1,8 +1,8 @@
 de:
   pdf:
-    pdf_title: "Transactions history"
+    pdf_title: "Transaction history"
     type: "Type"
-    quantity: "Quantity"
+    amount: "Amount"
     station: "Station"
     date: "Date"
     transaction_types:
@@ -68,7 +68,7 @@ de:
       ticket: "Ticket hinzufügen"
       wristband: "%{gtag} hinzufügen"
     credits:
-      header: "Deine Rechnung"
+      header: "Dein Guthaben"
       call_to_action_started: "Die Veranstaltung hat soeben begonnen. Topup ist nicht mehr möglich."
       call_to_action_no_admission_html: "Um Ihr online-Topup zu erhalten,<br>bitte zuerst ein Veranstaltungsticket aktivieren"
       button: "Top-up"
@@ -274,7 +274,7 @@ de:
       call_to_action: 'Bitte kontaktieren Sie uns:'
     success:
       title: 'Zahlung durchgeführt'
-      description: 'Danke für Ihre Bestellung. Ihre Zahlung wurde erfolgreich durchgeführt. Sie erhalten eine Bestätigungsemail zu Ihrer Bestellung.'
+      description: 'Danke für Ihre Bestellung. Deine Zahlung wurde erfolgreich durchgeführt. Du erhältst eine Bestätigungsemail zu Deiner Bestellung'
 
   sessions:
     new:

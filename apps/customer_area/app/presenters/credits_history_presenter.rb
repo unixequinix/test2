@@ -1,6 +1,6 @@
 class CreditsHistoryPresenter < BasePresenter
   def can_render?
-    false
+    @event.started? || @event.finished? 
   end
 
   def path
