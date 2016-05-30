@@ -4,11 +4,15 @@ class Admins::Events::RefundSettingsController < Admins::Events::BaseController
     @refund_parameters = @fetcher.event_parameters.where(
       parameters: {
         group: @event.selected_refund_services.map(&:to_s),
-        category: "refund" }).includes(:parameter)
+        category: "refund"
+      }
+    ).includes(:parameter)
     @event_parameters = @fetcher.event_parameters.where(
       parameters: {
         group: "refund",
-        category: "event" }).includes(:parameter)
+        category: "event"
+      }
+    ).includes(:parameter)
   end
 
   def edit
@@ -19,7 +23,9 @@ class Admins::Events::RefundSettingsController < Admins::Events::BaseController
     event_parameters = @fetcher.event_parameters.where(
       parameters: {
         group: @refund_service,
-        category: "refund" }).includes(:parameter)
+        category: "refund"
+      }
+    ).includes(:parameter)
     event_parameters.each do |event_parameter|
       @refund_settings_form[event_parameter.parameter.name.to_sym] = event_parameter.value
     end
@@ -82,6 +88,7 @@ class Admins::Events::RefundSettingsController < Admins::Events::BaseController
       :refund_success_message,
       :mass_email_claim_notification,
       :refund_disclaimer,
-      :bank_account_disclaimer)
+      :bank_account_disclaimer
+    )
   end
 end

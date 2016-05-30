@@ -84,7 +84,6 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
                                      :step,
                                      :max_purchasable,
                                      :min_purchasable
-                                   ]
-                                  )
+                                   ])
   end
 end

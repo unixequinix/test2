@@ -26,7 +26,8 @@ RSpec.describe Payments::SofortDataRetriever, type: :domain_logic do
   context ".success_url" do
     it "should return the success url for Sofort" do
       expect(subject.success_url).to include(
-        "payment_services/sofort/asynchronous_payments/success")
+        "payment_services/sofort/asynchronous_payments/success"
+      )
     end
   end
 
