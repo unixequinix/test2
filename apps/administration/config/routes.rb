@@ -95,6 +95,7 @@ Rails.application.routes.draw do
           end
         end
         resources :stations do
+          put :sort, on: :collection
           resources :station_catalog_items, only: [:index, :create, :destroy], module: :stations
           resources :station_products, only: [:index, :update, :create, :destroy], module: :stations
           resources :topup_credits, only: [:index, :create, :destroy], module: :stations
