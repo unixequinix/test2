@@ -34,6 +34,8 @@ class Profile < ActiveRecord::Base # rubocop:disable ClassLength
   has_many :gtag_credit_transactions,
            -> { where.not(transaction_origin: "customer_portal").where(status_code: 0) },
            class_name: "CreditTransaction"
+  has_many :pdf_transactions, -> { where(status_code: 0).includes(:station, sale_items: :product) },
+                              class_name: "CreditTransaction"
   has_many :completed_claims, -> { where("aasm_state = 'completed' AND completed_at IS NOT NULL") },
            class_name: "Claim"
   has_many :credit_purchased_logs,

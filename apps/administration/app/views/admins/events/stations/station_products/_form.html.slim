@@ -1,8 +1,10 @@
 = simple_form_for [:admins, current_event, @station, station_product], remote: true do |f|
   .wrapper-negative-space
     = f.input :price
-    = f.input :product_id, collection: @products
+    = f.input :product_id, collection: @products, wrapper_html: { style: "overflow: inherit;"}
     = f.simple_fields_for :station_parameter_attributes do |sp|
       = sp.input :station_id, as: :hidden, input_html: { value: @station.id }
-
     = f.button :submit, class: "btn btn-primary"
+
+javascript:
+  $('#station_product_product_id').selectize();

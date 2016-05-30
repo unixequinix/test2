@@ -1,4 +1,14 @@
 es:
+  pdf:
+    pdf_title: "Historial de transacciones"
+    type: "Tipo"
+    quantity: "Cantidad"
+    station: "Estación"
+    date: "Fecha"
+    transaction_types:
+      sale: "Venta"
+      topup: "Recarga"
+      refund: "Reembolso"
   purchases:
     accesses: "Accesos"
     packs: "Packs"
@@ -17,7 +27,7 @@ es:
     finalize: "Finalizar"
   confirm:
     remove_ticket: "Tus créditos comprados se asignan a tu cuenta. Si borras tu ticket, tendrás que asignar otro para utilizar esos créditos en el evento."
-    cancel_paypal: "Al cancelar desvicularás tu pulsera de tu cuenta de PayPal."
+    cancel_paypal: "Al cancelar desvicularás tu %{gtag} de tu cuenta de PayPal."
     cancel_paypal_agreement: "Cancelar acuerdo"
     log_out: "¿Quieres finalizar la sesión?"
   header:
@@ -43,6 +53,9 @@ es:
       back: 'Inicio'
   dashboard:
     title: "My dashboard"
+    credits_history:
+      header: "Historial de transacciones"
+      button: "Descargar transacciones"
     admissions:
       header: "Tu número de Ticket"
       header: "Ticket %{company_ticket_type}"
@@ -58,13 +71,13 @@ es:
       header: "Tus compras"
     first_register:
       ticket: "Añadir ticket"
-      gtag: "Añadir pulsera"
+      gtag: "Añadir %{gtag}"
     credits:
       header: "Tu balance"
       call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"
       call_to_action_no_admission_html: "Para poder recargar online,<br>deberás activar un Ticket primero"
       button: "Recarga"
-      ticket_first: "Añade un ticket o pulsera primero"
+      ticket_first: "Añade un ticket o %{gtag} primero"
       calculating_balance: "Estamos calculando tu balance"
       refundable: "Reembolsable"
     autotopup:
@@ -106,7 +119,7 @@ es:
       title: "Tu %{gtag}"
       call_to_action: "¿Introdujiste una incorrecta por error?"
       button: "Borrar"
-      hint: "Has introducido una pulsera por error? Bórrala y reinicia el proceso"
+      hint: "Has introducido una %{gtag} por error? Bórrala y reinicia el proceso"
     gtag_after_refund:
       description: "Tu devolución está en proceso"
     without_refunds:
@@ -123,6 +136,8 @@ es:
     event_started:
       title: "Últimos detalles!"
       description: "Estamos trabajando en los últimos detalles del evento para que tu experiencia sea la mejor posible. Por favor, vuelve en unas horas y mira lo que hemos preparado para ti."
+    tipalti:
+      disclaimer: "En caso de no ver el botón de continuar, desliza la pantalla hacia la izquierda."
   admissions:
     title: "Activación del Ticket"
     description: "Por favor, introduce el código impreso debajo del código de barras en tu ticket del evento."
@@ -319,7 +334,7 @@ es:
       new_amount: 'Cambia la cantidad:'
       billing_agreement_description: "Acepto que se me hagan cargos cuando me quedo sin crédito"
       success: 'Cuenta añadida!'
-      success_description: 'Ahora puedes realizar recargas automáticas en tu pulsera'
+      success_description: 'Ahora puedes realizar recargas automáticas en tu %{gtag}'
   sessions:
     first_register:
       welcome: 'Bienvenido!!'

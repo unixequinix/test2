@@ -1,4 +1,14 @@
 en:
+  pdf:
+    pdf_title: "Transactions history"
+    type: "Type"
+    quantity: "Quantity"
+    station: "Station"
+    date: "Date"
+    transaction_types:
+      sale: "Sale"
+      topup: "Topup"
+      refund: "Refund"
   purchases:
     accesses: "Accesses"
     packs: "Packs"
@@ -17,7 +27,7 @@ en:
     finalize: "Finalize"
   confirm:
     remove_ticket: "Your purchased credits are assigned to your account. If you remove your ticket, you will need to assign another one to use those credits in the event."
-    cancel_paypal: "Cancelling you disassociate your wristband from you PayPal account."
+    cancel_paypal: "Cancelling you disassociate your %{gtag} from you PayPal account."
     cancel_paypal_agreement: "Cancel agreement"
     log_out: "Do you want to end this session?"
   header:
@@ -43,6 +53,9 @@ en:
       back: 'Back to home'
   dashboard:
     title: "My dashboard"
+    credits_history:
+      header: "Transaction history"
+      button: "Download Transactions"
     admissions:
       header: "Ticket %{company_ticket_type}"
       call_to_action: "Do you want to remove this ticket?"
@@ -57,13 +70,13 @@ en:
       header: "Your purchases"
     first_register:
       ticket: "Add ticket"
-      gtag: "Add wristband"
+      gtag: "Add %{gtag}"
     credits:
       header: "Your balance"
       call_to_action_started: "The event just started so you cannot topup anymore"
       call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Event Ticket first"
       button: "Top-up"
-      ticket_first: "Add a ticket or wristband first"
+      ticket_first: "Add a ticket or %{gtag} first"
       calculating_balance: "Calculating your balance"
       refundable: "Refundable"
     autotopup:
@@ -105,7 +118,7 @@ en:
       title: "Your %{gtag}"
       call_to_action: "Edit"
       button: "Remove"
-      hint: "Put a wrong wristband by mistake? Erase and restart the process"
+      hint: "Put a wrong %{gtag} by mistake? Erase and restart the process"
     gtag_after_refund:
       description: "Your refund is in process"
     without_refunds:
@@ -122,6 +135,8 @@ en:
     event_started:
       title: "Ultimating details!"
       description: "We are finishing event configuration to bring you a great experience. Please, come back later and see what we have made for you."
+    tipalti:
+      disclaimer: "If you don't see the continue button, scroll to the left."
   admissions:
     title: "Ticket Activation"
     description: "Please enter the code that is printed on your event ticket just below the barcode."

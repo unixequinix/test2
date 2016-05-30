@@ -88,6 +88,7 @@ es:
         name: "Nombre"
         description: "Descripción"
         price: "Precio"
+        is_alcohol: "¿Es alcohol?"
       topup_credit:
         amount: "Cantidad"
         credit: "Credito"

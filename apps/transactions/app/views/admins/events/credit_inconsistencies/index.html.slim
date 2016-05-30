@@ -48,6 +48,7 @@
             td data-label=t("admin.transactions.credits_refundable") = issue[:refundable_sum_credit]
             td data-label=t("admin.transactions.final_balance") = issue[:final_balance]
             td data-label=t("admin.transactions.final_refundable_balance") = issue[:final_refundable_balance]
+
             td data-label=t("admin.transactions.inconsistent_balance") = issue[:inconsistent_balance]
             td data-label=t("admin.transactions.inconsistent_refundable_balance") = issue[:inconsistent_refundable_balance]
 
@@ -55,12 +56,11 @@
             td data-label="amount_sum_transaction" = issue[:amount_sum_transaction]
             td data-label="refundable_sum_transaction" = issue[:refundable_sum_transaction]
 
-
-
             td data-label=t("admin.transactions.final_transaction_balance") = issue[:final_transaction_balance]
             td data-label=t("admin.transactions.final_transaction_refundable_balance") = issue[:final_transaction_refundable_balance]
             td data-label=t("admin.transactions.inconsistent_transaction_balance") = issue[:inconsistent_transaction_balance]
             td data-label=t("admin.transactions.inconsistent_transaction_refundable_balance") = issue[:inconsistent_transaction_refundable_balance]
+
             td data-label="gtag" = issue[:gtag]
   - else
     .section-title-empty

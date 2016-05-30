@@ -12,6 +12,12 @@ class Admins::Events::Stations::StationProductsController < Admins::Events::Base
     @station_product = StationProduct.create!(permitted_params)
   end
 
+  def update
+    @product = @fetcher.station_products.find(params[:id])
+    @product.update_attributes!(permitted_params)
+    render json: @product
+  end
+
   def destroy
     @station = @fetcher.point_of_sale_stations.find(params[:station_id])
     @products = @station.unassigned_products
