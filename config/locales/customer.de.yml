@@ -33,15 +33,15 @@ de:
     home: "Veranstaltungswebsite"
     help: "Hilfe"
   conditions:
-    action: 'Ich stimme zu'
-    conjunction: 'und'
-    privacy_conditions: 'die Datenschutzbestimmungen'
-    terms_of_use: 'die Nutzungsbestimmungen'
+    action: 'Ich stimme den'
+    conjunction: 'und den'
+    privacy_conditions: 'Nutzungsbedingungen'
+    terms_of_use: 'Datenschutzbedingungen zu'
   links:
     sign_in: 'Haben Sie ein Konto?'
     sign_up: 'Noch nicht registriert?'
     forgot: 'Passwort vergessen?'
-    resend_confirmation: "Sie haben keine Email-Bestätigung erhalten?"
+    resend_confirmation: "Sie haben keinen Email-Bestätigung erhalten?"
     buttons:
       sign_in: 'Login'
       sign_up: 'Konto erstellen'
@@ -106,7 +106,7 @@ de:
     without_gtags_disabled:
       claim: "Der Zeitraum, in der eine Erstattung Ihres %{gtag} Guthabens beantragt werden konnte, ist vorbei."
       description: "Wenn Sie zu einem früheren Zeitpunkt eine Supportanfrage an uns gerichtet haben,"
-      description2: "keine Sorge, wir helfen Ihnen mit Ihrer Erstattung weiter."
+      description2: "keinene Sorge, wir helfen Ihnen mit Ihrer Erstattung weiter."
     without_gtags_claiming_started:
       claim: "Entschuldigung"
       description: "Der Zeitraum für Erstattungen ist vorbei. Bei Fragen wenden Sie sich bitte an den Support."
@@ -123,7 +123,7 @@ de:
       button: "Rechnung anfordern"
     not_refundable:
       title: "Ihre Rechnung:"
-      call_to_action: "Es tut uns leid. Sie haben kein erstattungsfähiges Guthaben."
+      call_to_action: "Es tut uns leid. Sie haben keinen erstattungsfähiges Guthaben."
     refunds:
       title: "Ihre Rechnung:"
       call_to_action: "Erstattung erfolgreich beantragt. Sie erhalten in Kürze Ihre Überweisung."
@@ -217,7 +217,7 @@ de:
       description: "Ihre Forderung wurde korrekt gestellt und ist auf dem Weg."
     no_credit:
       title: "Es tut uns leid"
-      description: "Sie haben kein erstattungsfähiges Guthaben"
+      description: "Sie haben keinen erstattungsfähiges Guthaben"
     direct_claim:
       title: "Anforderung Ihrer Abrechnung"
       description: "Wir werden Ihr Guthaben automatisch zurückerstatten."
@@ -326,10 +326,10 @@ de:
       description_without_credentiable: "There's nothing you can do right now, please come back later"
     welcome: 'Willkommen!'
     create_account:
-      title: 'Du hast noch kein Festival account?'
-      link: 'Hier erhälst Du ein kostenfreies!'
+      title: 'Du hast noch keinen Festival account?'
+      link: 'Hier erhältst Du Einen kostenfreien!'
     log_in:
-      title: 'Du hast bereits ein Festival account?'
+      title: 'Du hast bereits einen Festival account?'
       link: 'Logge Dich hier ein'
     new:
       title: 'Login'

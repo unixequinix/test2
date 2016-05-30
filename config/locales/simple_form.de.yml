@@ -49,7 +49,7 @@ de:
         new: &label_customer
           email: "Email"
           first_name: "Vorname"
-          last_name: "Zuname"
+          last_name: "Nachname"
           current_password: "Aktuelles Passwort"
           password: "Passwort"
           password_confirmation: "Bestätigung des Passworts"
@@ -208,7 +208,7 @@ de:
       purchaser:
         new: &placeholder_purchaser
           first_name: "Vorname des Käufers"
-          last_name: "Zuname des Käufers"
+          last_name: "Nachname des Käufers"
           email: "Emailadresse des Käufers"
           gtag_delivery_address: "%{gtag} Lieferadresse"
         edit:
