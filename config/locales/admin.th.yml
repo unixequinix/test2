@@ -88,6 +88,7 @@ th:
         name: "Name"
         description: "Description"
         price: "Price"
+        is_alcohol: "Is alcohol?"
       topup_credit:
         amount: "Amount"
         credit: "Credit"

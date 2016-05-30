@@ -69,7 +69,7 @@ Rails.application.routes.draw do
         end
 
         resources :companies, except: :show
-        resources :products, except: :show
+        resources :products
         resources :accesses, except: :show do
           member do
             get :create_credential
@@ -96,7 +96,7 @@ Rails.application.routes.draw do
         end
         resources :stations do
           resources :station_catalog_items, only: [:index, :create, :destroy], module: :stations
-          resources :station_products, only: [:index, :create, :destroy], module: :stations
+          resources :station_products, only: [:index, :update, :create, :destroy], module: :stations
           resources :topup_credits, only: [:index, :create, :destroy], module: :stations
           resources :access_control_gates, only: [:index, :create, :destroy], module: :stations
         end

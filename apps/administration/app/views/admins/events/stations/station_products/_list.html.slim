@@ -4,10 +4,10 @@ table.station_products
     tr
       th = t('admin.stations.station_product.name')
       th = t('admin.stations.station_product.price')
+      th = t('admin.stations.station_product.is_alcohol')
       th = t('admin.stations.station_product.description')
       th.table-actions-field = t('admin.defaults.actions')
   tbody
     - station_products.each do |station_product|
       = render "row", station_product: station_product
 = paginate station_products
-

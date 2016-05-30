@@ -1,5 +1,6 @@
 function InputFocus() {
-  $("input:text:visible:first").focus();
+  $(".best_in_place").best_in_place();
+  $("input:visible:first").focus();
 };
 
 $(document).on('page:load', InputFocus);

@@ -11,6 +11,7 @@ require "capistrano/rails/assets"
 require "capistrano/faster_assets"
 require "whenever/capistrano"
 require "capistrano/passenger"
+require 'capistrano/secrets_yml'
 
 # Include tasks from other gems included in your Gemfile
 #

@@ -1,7 +1,9 @@
 //= require jquery
 //= require jquery_ujs
+//= require best_in_place
 
 //= require vendor/mmenu/jquery.mmenu.min
+//= require vendor/selectize
 
 //= require admin/desktop/side_menu
 //= require admin/file_fields
