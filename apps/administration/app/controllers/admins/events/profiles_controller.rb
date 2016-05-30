@@ -43,7 +43,6 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
 
     profile.update(banned: false)
     Operations::Base.new.portal_write(atts)
-
     redirect_to(admins_event_profiles_url)
   end
 

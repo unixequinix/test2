@@ -118,6 +118,14 @@ group :development do
   gem 'hirb', '~> 0.7.3' #  Improve ripl(irb)'s default inspect output
   gem 'guard-rubocop'
   gem 'ruby-progressbar'
+  gem 'capistrano'
+  gem 'capistrano-rails', '~> 1.1.3'
+  gem 'capistrano-rvm'
+  gem 'capistrano-bundler'
+  gem 'capistrano-passenger'
+  gem 'capistrano-sidekiq', '~> 0.5.3'
+  gem 'capistrano-faster-assets', '~> 1.0'
+  gem 'capistrano-secrets-yml', '~> 1.0.0'
 end
 
 group :development, :darwin do
@@ -127,13 +135,6 @@ end
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', '~> 4.0.5'
-  gem 'capistrano'
-  gem 'capistrano-rails', '~> 1.1.3'
-  gem 'capistrano-rvm'
-  gem 'capistrano-bundler'
-  gem 'capistrano-passenger'
-  gem 'capistrano-sidekiq', '~> 0.5.3'
-  gem 'capistrano-faster-assets', '~> 1.0'
   gem 'better_errors', '~> 2.1.1'
   gem 'binding_of_caller', '~> 0.7.2' # extra features for better_errors
   gem 'meta_request', '~> 0.3.4' # for rails_panel chrome extension
