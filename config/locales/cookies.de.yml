@@ -17,7 +17,7 @@ de:
     all_sites_settings_dialog_subtitle: 'Sie können den Cookies für alle Websites zustimmen, die dieses Plugin verwenden.'
     all_sites_settings_dialog_title_b: 'Für alle Websiten'
     all_sites_settings_dialog_title_a: 'Privatsphäre Einstellungen'
-    not_using_cookies: 'Diese Website verwendet keine Cookies.'
+    not_using_cookies: 'Diese Website verwendet keinen Cookies.'
     preference_decline: 'Ich lehne ab'
     preference_consent: 'Ich stimme zu'
     preference_use_global: 'Allgemeine Einstellung verwenden'
