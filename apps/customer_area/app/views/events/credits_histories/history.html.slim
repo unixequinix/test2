@@ -27,7 +27,7 @@ html
                 th.table-bill-header = t("pdf.type")
                 th.table-bill-header = t("pdf.station")
                 th.table-bill-header = t("pdf.date")
-                th.table-bill-header = t("pdf.quantity")
+                th.table-bill-header = t("pdf.amount")
               tbody
                 - current_customer.profile.pdf_transactions.each do |t|
                   tr.bill-row
@@ -37,7 +37,7 @@ html
                         - t.sale_items.each do |item|
                           li = item.product.name
                     td = t.station.name
-                    td = t.created_at.strftime("%B %d, %Y")
+                    td = t.device_created_at.split(" ").first
                     td.transaction-item-amount = t.credits
 
                 tr

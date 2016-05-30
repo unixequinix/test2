@@ -1,6 +1,7 @@
 tr
   td data-label=t('admin.stations.station_catalog_item.name') = station_catalog_item.catalog_item.name
-  td data-label=t('admin.stations.station_catalog_item.price') = station_catalog_item.price
+  td data-label=t('admin.stations.station_catalog_item.price')
+    = best_in_place station_catalog_item, :price, as: :input, url: admins_event_station_station_catalog_item_path(current_event, station_catalog_item.station_parameter.station_id, station_catalog_item)
   td data-label=t('admin.stations.station_catalog_item.type') = station_catalog_item.catalog_item.catalogable_type
   td data-label=t('admin.stations.station_catalog_item.description') = station_catalog_item.catalog_item.description
   td.table-actions-field
