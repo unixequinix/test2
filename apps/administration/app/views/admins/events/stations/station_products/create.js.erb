@@ -1,2 +1,4 @@
-$("tbody").prepend("<%=j render('row', station_product: @station_product) %>");
+$('tbody').prepend("<%=j render('row', station_product: @station_product) %>");
 $("#station_product_product_id option[value='<%= @station_product.product.id %>']").remove();
+$("#station_product_product_id")[0].selectize.clear();
+$("#station_product_price").val("");

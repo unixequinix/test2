@@ -1,4 +1,14 @@
 de:
+  pdf:
+    pdf_title: "Transactions history"
+    type: "Type"
+    quantity: "Quantity"
+    station: "Station"
+    date: "Date"
+    transaction_types:
+      sale: "Sale"
+      topup: "Topup"
+      refund: "Refund"
   currency_symbol: EUR
   actions:
     back: "Zurück"
@@ -39,6 +49,9 @@ de:
       back: 'Zurück zu Home'
   dashboard:
     title: "Meine Übersichtsseite"
+    credits_history:
+      header: "Transaction history"
+      button: "Download Transactions"
     admissions:
       header: "Ticket %{company_ticket_type}"
       call_to_action: "Wollen Sie dieses Ticket entfernen?"
