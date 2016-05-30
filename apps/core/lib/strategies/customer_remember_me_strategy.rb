@@ -10,6 +10,7 @@ class CustomerRememberMeStrategy < ::Warden::Strategies::Base
 
     customer = Customer.find_by(remember_token: token, event_id: params["customer"]["id"])
     fail!(message: "errors.messages.unauthorized") && return if customer.nil?
+
     success!(customer)
   end
 end
