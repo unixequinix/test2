@@ -1,7 +1,0 @@
-tr
-  td data-label=t('admin.stations.topup_credit.amount') = topup_credit.amount
-  td data-label=t('admin.stations.topup_credit.credit') = topup_credit.credit.catalog_item.name
-  td data-label=t('admin.stations.topup_credit.credit_value') = topup_credit.credit.value
-  td data-label=t('admin.stations.topup_credit.price') = topup_credit.credit.value * topup_credit.amount
-  td.table-actions-field
-    = render 'actions', topup_credit: topup_credit unless current_event.started?

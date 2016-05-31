@@ -1,8 +1,0 @@
-= simple_form_for [:admins, current_event, @station, topup_credit], remote: true do |f|
-  .wrapper-negative-space
-    = f.input :amount
-    = f.input :credit_id, collection: @credits, include_blank: "Select the credit"
-    = f.simple_fields_for :station_parameter_attributes do |sp|
-      = sp.input :station_id, as: :hidden, input_html: { value: @station.id }
-
-    = f.button :submit, class: "btn btn-primary"

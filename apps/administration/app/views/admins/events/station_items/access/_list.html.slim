@@ -1,0 +1,15 @@
+table.access_control_gates
+  thead
+    tr
+      th = t('admin.stations.access_control_gate.name')
+      th = t('admin.stations.access_control_gate.direction')
+      th.table-actions-field = t('admin.defaults.actions')
+  tbody
+    - @items.each do |access_control_gate|
+      tr
+        td data-label=t('admin.stations.access_control_gate.name') = access_control_gate.access.catalog_item.name
+        td data-label=t('admin.stations.access_control_gate.direction') = access_control_gate.direction == "1" ? "In" : "Out"
+        td.table-actions-field
+          ul
+            li.table-action.action-delete = link_to "", method: :delete, data: { confirm: t('admin.confirm.delete') } do
+              = fa_icon "trash"

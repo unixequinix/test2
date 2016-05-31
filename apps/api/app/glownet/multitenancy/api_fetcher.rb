@@ -157,9 +157,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
   end
 
   def stations
-    StationGroup.includes(stations: :station_type)
-                .where(stations: { event_id: @event.id })
-                .where.not(station_types: { name: "customer_portal" })
+    Station.where(event: @event).where.not(category: "customer_portal")
   end
 
   def sql_tickets # rubocop:disable Metrics/MethodLength

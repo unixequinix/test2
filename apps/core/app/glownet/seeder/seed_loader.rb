@@ -11,7 +11,8 @@ class Seeder::SeedLoader
   def self.load_default_event_parameters(event)
     file = "default_event_parameters.yml"
     YAML.load_file(
-      Rails.root.join("db", "seeds", file)).each do |data|
+      Rails.root.join("db", "seeds", file)
+    ).each do |data|
       data["groups"].each do |group|
         group["values"].each do |value|
           EventParameter.find_or_create_by(event: event,
@@ -42,19 +43,6 @@ class Seeder::SeedLoader
                                       data_type: parameter["data_type"],
                                       description: "")
         end
-      end
-    end
-  end
-
-  def self.create_stations
-    YAML.load_file(Rails.root.join("db", "seeds", "stations.yml")).each do |group|
-      @station_group = StationGroup.find_or_create_by(name: group["name"],
-                                                      icon_slug: group["icon_slug"])
-      group["types"].each do |type|
-        @station_group.station_types
-                      .find_or_create_by(name: type["name"],
-                                         description: type["description"],
-                                         environment: type["environment"])
       end
     end
   end

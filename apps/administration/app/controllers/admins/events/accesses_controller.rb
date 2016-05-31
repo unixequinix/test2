@@ -87,6 +87,7 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
                                      :id,
                                      :memory_length,
                                      :mode,
-                                     :event_id])
+                                     :event_id
+                                   ])
   end
 end

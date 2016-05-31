@@ -25,8 +25,7 @@ RSpec.describe Sorters::FakeCatalogItem, type: :domain_logic do
                                     total_amount: 1, value: nil),
        Sorters::FakeCatalogItem.new(catalog_item_id: 1, catalogable_id: 1,
                                     catalogable_type: "Credit", product_name: "Standard credit",
-                                    total_amount: 11, value: nil)
-      ]
+                                    total_amount: 11, value: nil)]
     end
 
     it ".eql? should return true if two FaceCatalogItems have the same catalog_item_id" do

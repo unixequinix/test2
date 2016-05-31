@@ -12,7 +12,7 @@ class Api::V1::StationSerializer < Api::V1::BaseSerializer
   end
 
   def type
-    object.station_type.name
+    object.category
   end
 
   def catalog

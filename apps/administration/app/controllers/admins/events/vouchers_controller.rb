@@ -85,8 +85,7 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
                                                               :initial_amount,
                                                               :step,
                                                               :max_purchasable,
-                                                              :min_purchasable
-                                                             ],
+                                                              :min_purchasable],
                                     entitlement_attributes: [:id,
                                                              :memory_length,
                                                              :mode,

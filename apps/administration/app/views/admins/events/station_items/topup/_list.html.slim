@@ -1,0 +1,20 @@
+table.topup_credits
+  thead
+    tr
+      th = t('admin.stations.topup_credit.amount')
+      th = t('admin.stations.topup_credit.credit')
+      th = t('admin.stations.topup_credit.credit_value')
+      th = t('admin.stations.topup_credit.price')
+      th.table-actions-field = t('admin.defaults.actions')
+  tbody
+    - @items.each do |topup_credit|
+      tr
+        td data-label=t('admin.stations.topup_credit.amount') = topup_credit.amount
+        td data-label=t('admin.stations.topup_credit.credit') = topup_credit.credit.catalog_item.name
+        td data-label=t('admin.stations.topup_credit.credit_value') = topup_credit.credit.value
+        td data-label=t('admin.stations.topup_credit.price') = topup_credit.credit.value * topup_credit.amount
+        td.table-actions-field
+          ul
+            li.table-action.action-delete = link_to nil, method: :delete, data: { confirm: t('admin.confirm.delete') } do
+              = fa_icon "trash"
+

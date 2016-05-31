@@ -87,12 +87,10 @@ class Admins::Events::PacksController < Admins::Events::BaseController
                                                            :initial_amount,
                                                            :step,
                                                            :max_purchasable,
-                                                           :min_purchasable
-                                                          ],
+                                                           :min_purchasable],
                                  pack_catalog_items_attributes: [:id,
                                                                  :catalog_item_id,
                                                                  :amount,
-                                                                 :_destroy
-                                                                ])
+                                                                 :_destroy])
   end
 end

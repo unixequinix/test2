@@ -1,17 +1,18 @@
 class Admins::Events::StationsController < Admins::Events::BaseController
   def index
-    set_presenter
+    @group = params[:group]
+    @stations = current_event.stations.where(group: @group)
   end
 
   def new
-    @station = Station.new
+    @station = Station.new(group: params[:group])
+    @group = @station.group
   end
 
   def create
     @station = Station.new(permitted_params)
     if @station.save
-      flash[:notice] = I18n.t("alerts.created")
-      redirect_to admins_event_stations_url
+      redirect_to admins_event_stations_url(current_event, group: @station.group), notice: I18n.t("alerts.created")
     else
       flash.now[:error] = @station.errors.full_messages.join(". ")
       render :new
@@ -19,14 +20,16 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   end
 
   def edit
-    @station = @fetcher.stations.find(params[:id])
+    @station = current_event.stations.find(params[:id])
+    @group = @station.group
   end
 
   def update
-    @station = @fetcher.stations.find(params[:id])
+    @station = current_event.stations.find(params[:id])
+    @group = @station.group
+
     if @station.update(permitted_params)
-      flash[:notice] = I18n.t("alerts.updated")
-      redirect_to admins_event_stations_url
+      redirect_to admins_event_stations_url(current_event, group: @group), notice: I18n.t("alerts.updated")
     else
       flash.now[:error] = @station.errors.full_messages.join(". ")
       render :edit
@@ -34,26 +37,14 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   end
 
   def destroy
-    @station = @fetcher.stations.find(params[:id])
+    @station = current_event.stations.find(params[:id])
     @station.destroy
-    flash[:notice] = I18n.t("alerts.destroyed")
-    redirect_to admins_event_stations_url
+    redirect_to admins_event_stations_url(current_event, group: @station.group), notice: I18n.t("alerts.destroyed")
   end
 
   private
 
-  def set_presenter
-    @list_model_presenter = ListModelPresenter.new(
-      model_name: "Station".constantize.model_name,
-      fetcher: @fetcher.stations,
-      search_query: params[:q],
-      page: params[:page],
-      include_for_all_items: [station_type: [:station_group]],
-      context: view_context
-    )
-  end
-
   def permitted_params
-    params.require(:station).permit(:name, :location, :event_id, :station_type_id)
+    params.require(:station).permit(:name, :location, :event_id, :category, :group)
   end
 end

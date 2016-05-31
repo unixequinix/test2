@@ -91,9 +91,7 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
   private
 
   def write_transaction(action, gtag)
-    station = current_event.stations
-                           .joins(:station_type)
-                           .find_by(station_types: { name: "customer_portal" })
+    station = current_event.stations.find_by(category: "customer_portal")
     Operations::Base.new.portal_write(event_id: current_event.id,
                                       station_id: station.id,
                                       transaction_category: "ban",
@@ -114,7 +112,8 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
       page: params[:page],
       include_for_all_items: [
         :assigned_profile,
-        assigned_gtag_credential: [profile: [:customer, active_tickets_assignment: :credentiable]]],
+        assigned_gtag_credential: [profile: [:customer, active_tickets_assignment: :credentiable]]
+      ],
       context: view_context
     )
   end
@@ -126,6 +125,7 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
       :credential_redeemed,
       :banned,
       :company_ticket_type_id,
-      purchaser_attributes: [:id, :first_name, :last_name, :email, :gtag_delivery_address])
+      purchaser_attributes: [:id, :first_name, :last_name, :email, :gtag_delivery_address]
+    )
   end
 end

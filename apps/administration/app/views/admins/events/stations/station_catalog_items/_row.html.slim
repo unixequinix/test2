@@ -1,7 +1,0 @@
-tr
-  td data-label=t('admin.stations.station_catalog_item.name') = station_catalog_item.catalog_item.name
-  td data-label=t('admin.stations.station_catalog_item.price') = station_catalog_item.price
-  td data-label=t('admin.stations.station_catalog_item.type') = station_catalog_item.catalog_item.catalogable_type
-  td data-label=t('admin.stations.station_catalog_item.description') = station_catalog_item.catalog_item.description
-  td.table-actions-field
-    = render 'admins/events/stations/station_catalog_items/actions', station_catalog_item: station_catalog_item unless current_event.started?

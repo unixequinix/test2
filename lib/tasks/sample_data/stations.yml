@@ -1,6 +1,6 @@
 -
   name: 'Customer Portal'
-  station_type: customer_portal
+  category: customer_portal
   station_catalog_items:
     # Credits
     -
