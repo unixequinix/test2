@@ -10,6 +10,7 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  location        :string
+#  position        :integer
 #
 
 class Station < ActiveRecord::Base
