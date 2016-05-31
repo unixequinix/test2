@@ -55,16 +55,15 @@ class Payments::Wirecard::BaseRefunder
   end
 
   def create_payment(order, charge)
-    Payment.create!(transaction_type: "refund",
-                    paid_at: Time.now,
-                    order: order,
-                    response_code: charge["status"],
-                    authorization_code: charge["creditNumber"],
-                    currency: currency,
-                    merchant_code: customer_id,
-                    amount: amount,
-                    success: true,
-                    payment_type: "paypal_nvp")
+    Payment.new(transaction_type: "refund",
+                paid_at: Time.now,
+                order: order,
+                response_code: charge["status"],
+                authorization_code: charge["creditNumber"],
+                currency: currency,
+                merchant_code: customer_id,
+                amount: amount,
+                success: true)
   end
 
   def refund
