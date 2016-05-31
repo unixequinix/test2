@@ -12,7 +12,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 20160530111154) do
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -698,17 +697,6 @@ ActiveRecord::Schema.define(version: 20160530111154) do
     t.datetime "updated_at",      null: false
   end
 
-  create_table "station_groups", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.string   "icon_slug",  null: false
-    t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "station_groups", ["deleted_at"], name: "index_station_groups_on_deleted_at", using: :btree
-  add_index "station_groups", ["name"], name: "index_station_groups_on_name", using: :btree
-
   create_table "station_parameters", force: :cascade do |t|
     t.integer  "station_id",               null: false
     t.integer  "station_parametable_id",   null: false
@@ -725,28 +713,15 @@ ActiveRecord::Schema.define(version: 20160530111154) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "station_types", force: :cascade do |t|
-    t.integer  "station_group_id", null: false
-    t.string   "name",             null: false
-    t.string   "environment",      null: false
-    t.text     "description"
-    t.datetime "deleted_at"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-  end
-
-  add_index "station_types", ["deleted_at"], name: "index_station_types_on_deleted_at", using: :btree
-  add_index "station_types", ["name"], name: "index_station_types_on_name", using: :btree
-
   create_table "stations", force: :cascade do |t|
-    t.integer  "event_id",        null: false
-    t.integer  "station_type_id", null: false
-    t.string   "name",            null: false
+    t.integer  "event_id",   null: false
+    t.string   "name",       null: false
     t.datetime "deleted_at"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string   "location"
-    t.integer  "position"
+    t.string   "group"
+    t.string   "category"
   end
 
   add_index "stations", ["deleted_at"], name: "index_stations_on_deleted_at", using: :btree

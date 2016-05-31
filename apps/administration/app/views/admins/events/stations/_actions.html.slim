@@ -3,3 +3,5 @@ ul
     = fa_icon "trash"
   li.table-action.action-edit = link_to edit_admins_event_station_path(current_event, station) do
     = fa_icon "edit"
+  li.table-action.action-edit = link_to add_items_admins_event_station_path(current_event, station) do
+    = fa_icon "plus"

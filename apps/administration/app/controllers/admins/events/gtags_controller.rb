@@ -91,9 +91,7 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
   private
 
   def write_transaction(action, gtag)
-    station = current_event.stations
-                           .joins(:station_type)
-                           .find_by(station_types: { name: "customer_portal" })
+    station = current_event.stations.find_by(category: "customer_portal")
     Operations::Base.new.portal_write(event_id: current_event.id,
                                       station_id: station.id,
                                       transaction_category: "ban",

@@ -125,83 +125,30 @@ end
 
 ## Stations
 
-crumb :admins_event_stations do |event|
-  link t("breadcrumbs.stations"), admins_event_stations_path(event)
+crumb :admins_event_stations do |event, group|
+  link t("breadcrumbs.#{group}_stations"), admins_event_stations_path(event, group: group)
   parent :admins_event, event
 end
 
 crumb :admins_event_station do |event, station|
   link station.name, edit_admins_event_station_path(event, station)
-  parent :admins_event_stations, event
+  parent :admins_event_stations, event, station.group
 end
 
-crumb :new_admins_event_station do |event|
+crumb :new_admins_event_station do |event, group|
   link t("breadcrumbs.new_station")
-  parent :admins_event_stations, event
+  parent :admins_event_stations, event, group
 end
 
-## Accreditation Stations
-
-crumb :admins_event_accreditation_stations do |event|
-  link t("breadcrumbs.accreditation_stations"), admins_event_accreditation_stations_path(event)
-  parent :admins_event, event
+crumb :edit_admins_event_station do |event, station|
+  link t("breadcrumbs.edit_station"), edit_admins_event_station_path(event, station)
+  parent :admins_event_stations, event, station.group
 end
 
-crumb :admins_event_accreditation_station do |event, station|
-  link station.name, admins_event_accreditation_stations_path(event, station)
-  parent :admins_event_accreditation_stations, event
+crumb :station_items do |event, station|
+  link t("breadcrumbs.station_items"), admins_event_station_station_items_path(current_event, station)
+  parent :admins_event_station, event, station
 end
-
-## Point of Sales Stations
-
-crumb :admins_event_point_of_sale_stations do |event|
-  link t("breadcrumbs.point_of_sale_stations"), admins_event_point_of_sale_stations_path(event)
-  parent :admins_event, event
-end
-
-crumb :admins_event_point_of_sale_station do |event, station|
-  link station.name, admins_event_point_of_sale_stations_path(event, station)
-  parent :admins_event_point_of_sale_stations, event
-end
-
-## Topup Stations
-
-crumb :admins_event_topup_stations do |event|
-  link t("breadcrumbs.topup_stations"), admins_event_topup_stations_path(event)
-  parent :admins_event, event
-end
-
-## Access Control Stations
-
-crumb :admins_event_access_control_stations do |event|
-  link t("breadcrumbs.access_control_stations"), admins_event_access_control_stations_path(event)
-  parent :admins_event, event
-end
-
-## Station Catalog Items
-
-crumb :admins_event_accreditation_stations_station_catalog_items do |event, station|
-  parent :admins_event_accreditation_station, event, station
-end
-
-## Station Products
-
-crumb :admins_event_point_of_sale_station_station_products do |event, station|
-  parent :admins_event_point_of_sale_station, event, station
-end
-
-## Topup Credits
-
-crumb :admins_event_topup_station_topup_credits do |event, station|
-  parent :admins_event_topup_stations, event, station
-end
-
-## Access Control Gates
-
-crumb :admins_event_access_control_station_access_control_gates do |event, station|
-  parent :admins_event_access_control_stations, event, station
-end
-
 ## Accesses
 
 crumb :admins_event_accesses do |event|

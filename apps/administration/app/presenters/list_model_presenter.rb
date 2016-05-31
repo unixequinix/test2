@@ -35,7 +35,7 @@ class ListModelPresenter
   delegate :count, to: :all
 
   def no_items_for_presentation
-    path = "admins/events/shared/"
+    path = "admins/events/shared/no_results"
     search_query.nil? ? path + "no_records" : path + "no_results"
   end
 

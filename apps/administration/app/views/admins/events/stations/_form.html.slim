@@ -1,9 +1,10 @@
 = simple_form_for [:admins, current_event, station] do |f|
   .wrapper-negative-space
     = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
+    = f.input :group, as: :hidden, input_html: { value: @group }
     = f.input :name, placeholder: true
     = f.input :location, placeholder: true
-    = f.association :station_type, collection: EventDecorator.station_type_selector,
-                                   prompt: "Choose a Station Type"
+    = f.input :category, collection: Station::GROUPS[@group.to_sym].collect{ |g| [g.to_s.humanize, g] }, include_blank: false
+
 
     = f.button :submit, class: "btn btn-primary"

@@ -3,7 +3,6 @@ require "rails_helper"
 RSpec.feature "Redsys Setup", type: :feature do
   context "with account signed in" do
     before :each do
-      Seeder::SeedLoader.create_stations
       admin = create(:admin)
       login_as(admin, scope: :admin)
     end

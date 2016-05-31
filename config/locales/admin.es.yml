@@ -55,7 +55,7 @@ es:
       location: "Lugar"
       group: "Grupo"
       items: "Productos"
-      station_types:
+      categories:
         customer_portal: "Portal de cliente"
         point_of_sales: "Punto de ventas"
         top_up_refund: "Recargas / Devoluciones"

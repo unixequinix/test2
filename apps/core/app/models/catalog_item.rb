@@ -50,11 +50,8 @@ class CatalogItem < ActiveRecord::Base
     joins(:station_catalog_items, station_catalog_items: :station_parameter)
       .select("catalog_items.*, station_catalog_items.price")
       .where(station_parameters:
-                      { id: StationParameter.joins(station: :station_type)
-                                            .where(
-                                              stations: { event_id: event },
-                                              station_types: { name: "customer_portal" }
-                                            ) })
+                      { id: StationParameter.joins(:station)
+                                            .where(stations: { event_id: event, category: "customer_porta;" } ) })
   }
 
   # Credentiable Types
@@ -68,11 +65,9 @@ class CatalogItem < ActiveRecord::Base
     station_catalog_items.joins(:station_parameter)
                          .select("station_catalog_items.price")
                          .where(station_parameters:
-                       { id: StationParameter.joins(station: :station_type)
-                                             .where(
-                                               stations: { event_id: event },
-                                               station_types: { name: "customer_portal" }
-                                             ) }).first.price
+                       { id: StationParameter.joins(:station)
+                                             .where(stations: { event_id: event, category: "customer_portal" }) })
+                                             .first.price
   end
 
   def self.sorted

@@ -38,4 +38,8 @@ rubocop
 dump.rdb
 
 .ruby-gemset
+<<<<<<< HEAD
 .idea/*
+=======
+.idea/*
+>>>>>>> jake

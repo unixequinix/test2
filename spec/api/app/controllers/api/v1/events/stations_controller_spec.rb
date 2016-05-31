@@ -17,9 +17,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
 
       context "when the station is a box office" do
         before do
-          group = create(:station_group, name: "access")
-          type = create(:station_type, name: "box_office", station_group: group)
-          @station = create(:station, station_type: type, event: event)
+          @station = create(:station, event: event, group: "access", category: "box_office")
           @station.station_catalog_items
                   .new(price: rand(1.0...20.0).round(2),
                        catalog_item_id: create(:access_catalog_item, event: event).id,
@@ -45,9 +43,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
 
       context "when the station is a point of sales" do
         before do
-          group = create(:station_group, name: "monetary")
-          type = create(:station_type, name: "point_of_sales", station_group: group)
-          @station = create(:station, station_type: type, event: event)
+          @station = create(:station, category: "point_of_sales", event: event, group: "monetary")
           @station.station_products
                   .new(price: rand(1.0...20.0).round(2),
                        product: create(:product, event: event),
@@ -76,9 +72,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
       context "when the station is a top_up_refund" do
         before do
           create(:standard_credit_catalog_item, event: event)
-          group = create(:station_group, name: "monetary")
-          type = create(:station_type, name: "top_up_refund", station_group: group)
-          @station = create(:station, station_type: type, event: event)
+          @station = create(:station, category: "top_up_refund", event: event, group: "monetary")
         end
 
         it "returns all the pos stations" do
@@ -103,9 +97,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
       context "when the station is an access_control" do
         before do
           access = create(:access_catalog_item, event: event).catalogable
-          group = create(:station_group, name: "access")
-          type = create(:station_type, name: "access_control", station_group: group)
-          @station = create(:station, station_type: type, event: event)
+          @station = create(:station, category: "access_control", group: "access", event: event)
           @station.access_control_gates
                   .new(direction: "1",
                        access: access,

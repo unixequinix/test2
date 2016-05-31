@@ -83,8 +83,6 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
                                      :max_purchasable,
                                      :min_purchasable
                                    ],
-                                   entitlement_attributes: [
-                                     :id, :memory_length, :mode, :event_id
-                                   ])
+                                   entitlement_attributes: [:id, :memory_length, :mode, :event_id])
   end
 end
