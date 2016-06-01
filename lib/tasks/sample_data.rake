@@ -156,7 +156,7 @@ namespace :db do
     Event.all.each do |event|
       YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'stations.yml')).each do |data|
         @station = Station.find_by(
-                        station_type: StationType.find_by(name: data['station_type']),
+                        category: data['category'],
                         event: event)
         data['station_catalog_items'].each do |station_catalog_item|
           StationCatalogItem.create!(

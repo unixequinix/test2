@@ -55,7 +55,7 @@ it:
       group: "Group"
       location: "Location"
       items: "Products"
-      station_types:
+      categories:
         customer_portal: "Customer Portal"
         point_of_sales: "Point of sales"
         top_up_refund: "Top Up / Refund"

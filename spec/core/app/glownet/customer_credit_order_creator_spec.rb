@@ -1,6 +1,9 @@
 require "rails_helper"
 
 RSpec.describe CustomerCreditOrderCreator, type: :domain_logic do
+  before { allow_any_instance_of(Operations::Base).to receive(:perform) .with(any_args) }
+  before { allow_any_instance_of(Operations::Base).to receive(:portal_write) .with(any_args) }
+
   context "An order with some order items." do
     describe "should be able to create a customer credit for every order item possibility:" do
       it "items without credits" do

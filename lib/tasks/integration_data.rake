@@ -223,8 +223,7 @@ namespace :db do
     items = @event.catalog_items.where(catalogable_type: %w(Access Pack)).pluck(:id)
 
     @box_offices.times do |index|
-      type = StationType.find_by(name: "box_office")
-      station = Station.create!(station_type: type, name: "Box Office #{index}", event: @event)
+      station = Station.create!(category: "box_office", name: "Box Office #{index}", event: @event)
       items.size.times do |i|
         station.station_catalog_items.new(price: rand(1.0..20.0).round(2),
                                           catalog_item_id: items[i],
@@ -236,11 +235,10 @@ namespace :db do
 
   def create_point_of_sales
     @box_offices.times do |index|
-      type = StationType.find_by(name: "point_of_sales")
       brand = %w( Heineken Beer Coke Pepsi Kebab Cream Taco Mexican Burrito Indian Krusty ).sample
       place = %w( Bar Square Grill Restaurant Burger City Way Paradise World Club House ).sample
 
-      station = Station.create!(station_type: type, name: "#{brand} #{place}", event: @event)
+      station = Station.create!(category: "point_of_sales", name: "#{brand} #{place}", event: @event)
       @event.products.each do |product|
         station.station_products
           .new(price: rand(1.0..20.0).round(2),
@@ -251,27 +249,22 @@ namespace :db do
   end
 
   def create_gtag_recycler
-    type = StationType.find_by(name: "gtag_recycler")
-    Station.create!(station_type: type, name: "Gtag Recycler", event: @event)
+    Station.create!(station_type: "gtag_recycler", name: "Gtag Recycler", event: @event)
   end
 
   def create_touchpoint
-    type = StationType.find_by(name: "touchpoint")
-    Station.create!(station_type: type, name: "Touchpoint", event: @event)
+    Station.create!(category: "touchpoint", name: "Touchpoint", event: @event)
   end
 
   def create_incident_report
-    type = StationType.find_by(name: "incident_report")
-    Station.create!(station_type: type, name: "Incident Report", event: @event)
+    Station.create!(category: "incident_report", name: "Incident Report", event: @event)
   end
 
   def create_topup
-    type = StationType.find_by(name: "top_up_refund")
-    Station.create!(station_type: type, name: "Topup", event: @event)
+    Station.create!(category: "top_up_refund", name: "Topup", event: @event)
   end
 
   def create_staff_accreditation
-    type = StationType.find_by(name: "staff_accreditation")
-    Station.create!(station_type: type, name: "Staff Accreditation", event: @event)
+    Station.create!(category: "staff_accreditation", name: "Staff Accreditation", event: @event)
   end
 end

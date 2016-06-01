@@ -43,6 +43,7 @@ th:
       not_belong_to_event: "doesn't belong to this event"
       catalog_item_dependent: "Impossible to delete item, it is included in a pack or station"
       station_dependent: "Impossible to delete item, it is included in a station"
+      station_has_associations: "Imposible to delete station. If you don't want to show it, you can disable it"
       company_ticket_type_dependent: "Impossible to delete the company, it has ticket types associated"
       max_standard_credits: "Only one standard credit per event"
       not_enough_space_for_entitlement: "Not enough space in gtag for this entitlement"

@@ -39,6 +39,7 @@ de:
       not_belong_to_event: "gehört nicht zu dieser Veranstaltung"
       catalog_item_dependent: "Bestandteil kann nicht gelöscht werden, ist Teil eines Paketes or Station"
       station_dependent: "Bestandteil kann nicht gelöscht werden, ist Teil eines Station"
+      station_has_associations: "Imposible to delete station. If you don't want to show it, you can disable it"
       company_ticket_type_dependent: "Löschen des Unternehmens nicht möglich, es sind Ticketarten angeschlossen"
       max_standard_credits: "Nur ein Standardguthaben pro Veranstaltung"
       not_enough_space_for_entitlement: "Nicht genug Platz in gtag für diese Berechtigung"

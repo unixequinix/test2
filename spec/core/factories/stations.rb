@@ -1,7 +1,8 @@
 FactoryGirl.define do
   factory :station do
     event
-    station_type
     name { "Station #{rand(100)}" }
+    category { "customer_portal" }
+    group { "access" }
   end
 end

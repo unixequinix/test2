@@ -70,6 +70,7 @@ Rails.application.routes.draw do
 
         resources :companies, except: :show
         resources :products
+        resources :catalog_items, only: :update
         resources :accesses, except: :show do
           member do
             get :create_credential
@@ -95,16 +96,10 @@ Rails.application.routes.draw do
           end
         end
         resources :stations do
-          put :sort, on: :collection
-          resources :station_catalog_items, only: [:index, :update, :create, :destroy], module: :stations
-          resources :station_products, only: [:index, :update, :create, :destroy], module: :stations
-          resources :topup_credits, only: [:index, :create, :destroy], module: :stations
-          resources :access_control_gates, only: [:index, :create, :destroy], module: :stations
+          resources :station_items do
+            put :sort, on: :collection
+          end
         end
-        resources :accreditation_stations, only: [:index]
-        resources :point_of_sale_stations, only: [:index]
-        resources :topup_stations, only: [:index]
-        resources :access_control_stations, only: [:index]
 
         resources :credential_types, except: :show
         resources :company_ticket_types, except: :show

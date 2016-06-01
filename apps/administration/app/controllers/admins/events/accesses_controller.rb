@@ -73,18 +73,10 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:access).permit(catalog_item_attributes: [
-                                     :id,
-                                     :event_id,
-                                     :name,
-                                     :description,
-                                     :initial_amount,
-                                     :step,
-                                     :max_purchasable,
-                                     :min_purchasable
-                                   ],
-                                   entitlement_attributes: [
-                                     :id, :memory_length, :mode, :event_id
-                                   ])
+    ci_atts = [:id, :event_id, :name, :description, :initial_amount,
+               :step, :max_purchasable, :min_purchasable]
+    ent_atts = [:id, :memory_length, :mode, :event_id]
+    params.require(:access).permit(catalog_item_attributes: ci_atts,
+                                   entitlement_attributes: ent_atts)
   end
 end

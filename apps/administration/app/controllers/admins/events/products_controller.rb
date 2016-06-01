@@ -24,22 +24,16 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
 
   def update
     @product = @fetcher.products.find(params[:id])
-    if @product.update_attributes!(permitted_params)
-      respond_to do |format|
-        format.html do
-          flash[:notice] = I18n.t("alerts.updated")
-          redirect_to admins_event_products_url
-        end
-        format.json { render json: @product }
-      end
-    else
-      respond_to do |format|
+    respond_to do |format|
+      if @product.update_attributes!(permitted_params)
+        format.html { redirect_to admins_event_products_url, notice: I18n.t("alerts.updated") }
+      else
         format.html do
           flash.now[:error] = @product.errors.full_messages.join(". ")
           render :edit
         end
-        format.json { render json: @product }
       end
+      format.json { render json: @product }
     end
   end
 

@@ -1,5 +1,5 @@
 class Operations::Base < ActiveJob::Base
-  SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at ).freeze
+  SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at gtag_counter ).freeze
 
   def perform(atts) # rubocop:disable Metrics/AbcSize
     atts[:profile_id] ||= atts[:customer_event_profile_id]
@@ -20,17 +20,18 @@ class Operations::Base < ActiveJob::Base
 
     atts[:transaction_id] = obj.id
     execute_operations(atts)
-    obj
   end
 
-  def portal_write(atts)
+  def portal_write(atts) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     event = Event.find(atts[:event_id])
     station = event.portal_station
     profile = Profile.find(atts[:profile_id])
     klass = "#{atts[:transaction_category]}_transaction".classify.constantize
+    counter = klass.where(profile_id: atts[:profile_id]).count + 1
 
     final_atts = {
       transaction_origin: "customer_portal",
+      counter: counter,
       station_id: station.id,
       status_code: 0,
       status_message: "OK",
@@ -39,12 +40,6 @@ class Operations::Base < ActiveJob::Base
       device_created_at: Time.zone.now.strftime("%Y-%m-%d %T.%L"),
       customer_tag_uid: profile.active_gtag_assignment&.credentiable&.tag_uid
     }.merge(atts.symbolize_keys)
-
-    # TODO: Remove when this method is refactored. Now it's needed by sidekiq
-    Operations::Credential::TicketChecker.inspect
-    Operations::Credential::GtagChecker.inspect
-    Operations::Credit::BalanceUpdater.inspect
-    Operations::Order::CredentialAssigner.inspect
 
     klass.create!(column_attributes(klass, final_atts))
     execute_operations(final_atts)

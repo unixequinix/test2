@@ -12,9 +12,8 @@ class CustomerOrderCreator
 
   # rubocop:disable Metrics/MethodLength
   def fields(order_item, payment_method, payment_gateway)
-    station = Station.joins(:station_type)
-                     .find_by(event: order_item.order.profile.event_id,
-                              station_types: { name: "customer_portal" }).id
+    event = order_item.order.profile.event_id
+    station = Station.find_by(event: event, category: "customer_portal").id
     {
       event_id: order_item.order.profile.event_id,
       station_id: station,

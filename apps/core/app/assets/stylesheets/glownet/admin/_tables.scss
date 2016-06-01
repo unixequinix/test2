@@ -137,6 +137,45 @@ td {
   }
 }
 
+
+// _____ TABLE SORTABLE ______
+
+.table-sortable-field {
+  width: 100%;
+  text-align: center;
+
+  @include min-screen($bp3) { width: 5%; }
+
+
+  i:hover {
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    cursor: grab;
+  }
+}
+
+.sortable-placeholder {
+  border: 1px dashed rgba($blueZurb, .3);
+  background-color: rgba($blueZurb, .2);
+}
+
+.is-alcohol {
+  text-align: left;
+  @include mscale($base-font-size*1.25);
+
+  span {
+    padding: modules(0.1);
+    color: $white;
+    cursor: pointer;
+
+    &:hover { color: $blueZurb; }
+
+    @include min-screen($bp3) {
+      color: $blueZurb;
+    }
+  }
+}
+
 // ______  TABLE ACTIONS _______
 
 .table-sorter-field {
@@ -161,7 +200,8 @@ td {
 
 .table-actions-field {
   width: 100%;
-  padding: 0;
+  padding: 0 1rem 0 0;
+  text-align: right;
 
   @include min-screen($bp3) { width: 15%; }
 
@@ -177,6 +217,7 @@ td {
     display: inline-block;
     width: 50%;
     padding: modules(0.5);
+    margin-left: 5px;
 
     @include min-screen($bp3) {
       width: auto;
@@ -198,6 +239,7 @@ td {
   text-align: left;
 
   a {
+    padding: modules(0.1);
     color: $white;
 
     &:hover { color: $red; }
@@ -214,9 +256,10 @@ td {
 }
 
 .action-edit {
-  text-align: right;
+  text-align: left;
 
   a {
+    padding: modules(0.1);
     color: $white;
 
     &:hover { color: $amber; }
@@ -226,6 +269,26 @@ td {
 
       &:hover, &:focus {
         background-color: lighten($amber,30%);
+        outline: none;
+      }
+    }
+  }
+}
+
+.action-add {
+  text-align: left;
+
+  a {
+    padding: modules(0.1);
+    color: $white;
+
+    &:hover { color: $blueZurb; }
+
+    @include min-screen($bp3) {
+      color: $blueZurb;
+
+      &:hover, &:focus {
+        background-color: lighten($blueZurb,30%);
         outline: none;
       }
     }

@@ -63,7 +63,7 @@ de:
       location: "Ort"
       group: "Gruppe"
       items: "Produkte"
-      station_types:
+      categories:
         customer_portal: "Kundenportal"
         point_of_sales: "Verkaufsstelle"
         top_up_refund: "Top Up / Erstattung"
