@@ -114,27 +114,47 @@ RSpec.describe Operations::Base, type: :job do
   end
 
   context "creating transactions" do
-    it "ignores attributes not present in table" do
-      expect do
-        base.perform_now(params.merge(foo: "not valid"))
-      end.to change(CreditTransaction, :count).by(1)
+    describe "from devices" do
+      it "ignores attributes not present in table" do
+        expect do
+          base.perform_now(params.merge(foo: "not valid"))
+        end.to change(CreditTransaction, :count).by(1)
+      end
+
+      it "passes the correct profile_id" do
+        allow(Profile::Checker).to receive(:for_transaction).and_return(5)
+        args = hash_including(profile_id: 5)
+        expect(CreditTransaction).to receive(:create!).with(args).and_return(CreditTransaction.new)
+        base.perform_now(params)
+      end
+
+      it "works even if jobs fail" do
+        params[:transaction_type] = "sale"
+        allow(Operations::Credit::BalanceUpdater).to receive(:perform_later).and_raise("Error_1")
+        expect { base.perform_now(params) }.to raise_error("Error_1")
+        params.delete(:transaction_id)
+        params.delete(:profile_id)
+        params.delete(:device_created_at)
+        expect(CreditTransaction.where(params)).not_to be_empty
+      end
     end
 
-    it "passes the correct profile_id" do
-      allow(Profile::Checker).to receive(:for_transaction).and_return(5)
-      args = hash_including(profile_id: 5)
-      expect(CreditTransaction).to receive(:create!).with(args).and_return(CreditTransaction.new)
-      base.perform_now(params)
-    end
+    describe "from portal" do
+      before do
+        params[:profile_id] = create(:profile, event: event).id
+        create(:station, category: "customer_portal", event: event)
+      end
 
-    it "works even if jobs fail" do
-      params[:transaction_type] = "sale"
-      allow(Operations::Credit::BalanceUpdater).to receive(:perform_later).and_raise("Error_1")
-      expect { base.perform_now(params) }.to raise_error("Error_1")
-      params.delete(:transaction_id)
-      params.delete(:profile_id)
-      params.delete(:device_created_at)
-      expect(CreditTransaction.where(params)).not_to be_empty
+      it "creates the appropiate transaction" do
+        expect { base.new.portal_write(params) }.to change(CreditTransaction, :count).by(1)
+      end
+
+      it "sets the counter to the number of transactions present for a particular profile" do
+        count = rand(1000)
+        allow(CreditTransaction).to receive(:where).and_return(OpenStruct.new(count: count))
+        base.new.portal_write(params)
+        expect(CreditTransaction.last.counter).to eq(count + 1)
+      end
     end
   end
 

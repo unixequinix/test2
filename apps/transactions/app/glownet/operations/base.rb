@@ -1,5 +1,5 @@
 class Operations::Base < ActiveJob::Base
-  SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at ).freeze
+  SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at gtag_counter ).freeze
 
   def perform(atts) # rubocop:disable Metrics/AbcSize
     atts[:profile_id] ||= atts[:customer_event_profile_id]
@@ -27,9 +27,11 @@ class Operations::Base < ActiveJob::Base
     station = event.portal_station
     profile = Profile.find(atts[:profile_id])
     klass = "#{atts[:transaction_category]}_transaction".classify.constantize
+    counter = klass.where(profile_id: atts[:profile_id]).count + 1
 
     final_atts = {
       transaction_origin: "customer_portal",
+      counter: counter,
       station_id: station.id,
       status_code: 0,
       status_message: "OK",
