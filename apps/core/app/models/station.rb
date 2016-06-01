@@ -38,7 +38,7 @@ class Station < ActiveRecord::Base
 
   ASSOCIATIONS = {
     accreditation:  [:customer_portal, :box_office, :staff_accreditation],
-    pos: [:point_of_sales],
+    pos: [:bar, :vendor],
     topup: [:top_up_refund, :hospitality_top_up],
     access: [:access_control]
   }.freeze

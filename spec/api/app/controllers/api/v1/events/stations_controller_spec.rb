@@ -63,7 +63,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
 
           s_ws_items = s["products"]
           s_db_items = @station.station_products.map do |m|
-            { "product_id" => m["product_id"], "price" => m["price"] }
+            { product_id: m["product_id"], price: m["price"], position: m["position"] }.as_json
           end
           expect(s_ws_items).to eq(s_db_items)
         end
