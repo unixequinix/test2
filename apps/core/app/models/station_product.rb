@@ -12,6 +12,7 @@
 
 class StationProduct < ActiveRecord::Base
   acts_as_paranoid
+  default_scope { order("position ASC") }
 
   belongs_to :product
   has_one :station_parameter, as: :station_parametable, dependent: :destroy

@@ -39,3 +39,4 @@ dump.rdb
 
 .ruby-gemset
 .idea/*
+*.sql

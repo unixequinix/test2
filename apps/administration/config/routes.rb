@@ -70,6 +70,7 @@ Rails.application.routes.draw do
 
         resources :companies, except: :show
         resources :products
+        resources :catalog_items, only: :update
         resources :accesses, except: :show do
           member do
             get :create_credential
@@ -95,7 +96,9 @@ Rails.application.routes.draw do
           end
         end
         resources :stations do
-          resources :station_items
+          resources :station_items do
+            put :sort, on: :collection
+          end
         end
 
         resources :credential_types, except: :show

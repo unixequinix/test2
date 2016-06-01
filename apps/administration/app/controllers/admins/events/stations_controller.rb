@@ -29,12 +29,19 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     @station = current_event.stations.find(params[:id])
     @group = @station.group
 
-    if @station.update(permitted_params)
-      path = admins_event_stations_url(current_event, group: @group)
-      redirect_to path, notice: I18n.t("alerts.updated")
-    else
-      flash.now[:error] = @station.errors.full_messages.join(". ")
-      render :edit
+    respond_to do |format|
+      if @station.update(permitted_params)
+        format.html do
+          path = admins_event_stations_url(current_event, group: @group)
+          redirect_to path, notice: I18n.t("alerts.updated")
+        end
+      else
+        format.html do
+          flash.now[:error] = @station.errors.full_messages.join(". ")
+          render :edit
+        end
+      end
+      format.json { render json: @station }
     end
   end
 

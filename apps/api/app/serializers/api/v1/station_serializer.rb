@@ -5,8 +5,7 @@ class Api::V1::StationSerializer < Api::V1::BaseSerializer
     hash = super
     hash[:catalog] = catalog if type == "box_office"
     hash[:products] = products if type == "point_of_sales"
-    hash[:top_up_credits] = top_up_credits if
-      type == "top_up_refund" || type == "hospitality_top_up"
+    hash[:top_up_credits] = top_up_credits if Station::ASSOCIATIONS[:topup].include?(type.to_sym)
     hash[:entitlements] = entitlements if type == "access_control"
     hash
   end
@@ -26,7 +25,9 @@ class Api::V1::StationSerializer < Api::V1::BaseSerializer
   def products
     object.station_products.map do |sp|
       { product_id: sp.product_id,
-        price: sp.price.round(2) }
+        price: sp.price.round(2),
+        position: sp.position
+      }
     end
   end
 
