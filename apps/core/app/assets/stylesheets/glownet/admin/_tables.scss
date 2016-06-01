@@ -162,11 +162,11 @@ td {
 .is-alcohol {
   text-align: left;
   @include mscale($base-font-size*1.25);
-  cursor: pointer;
 
   span {
     padding: modules(0.1);
     color: $white;
+    cursor: pointer;
 
     &:hover { color: $blueZurb; }
 
