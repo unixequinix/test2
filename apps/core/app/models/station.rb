@@ -15,6 +15,7 @@
 
 class Station < ActiveRecord::Base
   belongs_to :event
+  belongs_to :station_type
 
   has_many :station_parameters
   has_many :station_catalog_items, through: :station_parameters,
