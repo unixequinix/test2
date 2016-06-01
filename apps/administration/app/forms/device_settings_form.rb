@@ -7,6 +7,7 @@ class DeviceSettingsForm
   attribute :uid_reverse, String
   attribute :touchpoint_update_online_orders, String
   attribute :topup_initialize_gtag, String
+  attribute :autotopup_enabled, String
   attribute :cypher_enabled, String
   attribute :event_id, Integer
 
@@ -16,6 +17,7 @@ class DeviceSettingsForm
   validates_presence_of :topup_initialize_gtag
   validates_presence_of :private_zone_password
   validates_presence_of :cypher_enabled
+  validates_presence_of :autotopup_enabled
   validates_presence_of :event_id
 
   def save

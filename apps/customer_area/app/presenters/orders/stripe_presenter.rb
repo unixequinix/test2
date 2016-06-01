@@ -11,7 +11,7 @@ class Orders::StripePresenter < Orders::BasePresenter
   end
 
   def form_data
-    Payments::StripeDataRetriever.new(@event, @order)
+    Payments::Stripe::DataRetriever.new(@event, @order)
   end
 
   def payment_service

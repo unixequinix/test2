@@ -26,7 +26,7 @@ de:
       wrong_length:
         one: "falsche Länge (1 Zeichen vorgesehen)"
         other: "falsche Länge (%{count} Zeichen vorgesehen)"
-      not_a_number: "ist keine Zahl"
+      not_a_number: "ist keinen Zahl"
       not_an_integer: "muss eine ganze Zahl sein"
       greater_than: "muss größer sein als %{count}"
       greater_than_or_equal_to: "muss größer oder gleich sein wie %{count}"
