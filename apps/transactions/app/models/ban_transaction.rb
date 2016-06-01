@@ -20,6 +20,8 @@
 #  status_message     :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  gtag_counter       :integer          default(0)
+#  counter            :integer          default(0)
 #
 
 class BanTransaction < Transaction

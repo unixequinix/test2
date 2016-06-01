@@ -9,14 +9,13 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  location   :string
+#  position   :integer
 #  group      :string
 #  category   :string
 #
 
 class Station < ActiveRecord::Base
   acts_as_paranoid
-  default_scope { order("position ASC") }
-
   belongs_to :event
   belongs_to :station_type
 
