@@ -33,12 +33,11 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
         format.json { render status: :unprocessable_entity, json: @item }
       end
     end
-
   end
 
   def sort
     item_class = params[:item_type]
-    params[:order].each do |key, value|
+    params[:order].each do |_key, value|
       item_class.camelcase.constantize.find(value[:id]).update(position: value[:position])
     end
     render nothing: true
