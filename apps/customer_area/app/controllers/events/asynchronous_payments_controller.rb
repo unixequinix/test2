@@ -6,8 +6,8 @@ class Events::AsynchronousPaymentsController < Events::PaymentsBaseController
 
   def create
     payment_service = params[:payment_service_id]
-    payer = "Payments::#{payment_service.camelize}::Payer".constantize.new
-    payer.start(params, CustomerOrderCreator.new, CustomerCreditOrderCreator.new)
+    payer = "Payments::#{payment_service.camelize}::Payer".constantize.new(params)
+    payer.start(CustomerOrderCreator.new, CustomerCreditOrderCreator.new)
     render nothing: true
   end
 end

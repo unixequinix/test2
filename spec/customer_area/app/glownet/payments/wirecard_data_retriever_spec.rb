@@ -61,13 +61,15 @@ RSpec.describe Payments::Wirecard::DataRetriever, type: :domain_logic do
 
   context ".success_url" do
     it "should return the success_url for Wirecard Credit Card" do
-      expect(subject.success_url).to include("payment_services/wirecard/asynchronous_payments/success")
+      expect(subject.success_url).to
+      include("payment_services/wirecard/asynchronous_payments/success")
     end
   end
 
   context ".failure_url" do
     it "should return the failure_url for Wirecard Credit Card" do
-      expect(subject.failure_url).to include("payment_services/wirecard/asynchronous_payments/error")
+      expect(subject.failure_url).to
+      include("payment_services/wirecard/asynchronous_payments/error")
     end
   end
 

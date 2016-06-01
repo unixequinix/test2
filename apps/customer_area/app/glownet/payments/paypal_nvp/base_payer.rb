@@ -1,19 +1,20 @@
 class Payments::PaypalNvp::BasePayer
-  def set_parameters(params)
+  def initialize(params)
     @event = Event.friendly.find(params[:event_id])
     @order = Order.find(params[:order_id])
     @paypal_nvp = Gateways::PaypalNvp::Transaction.new(@event)
     @profile = @order.profile
     @gateway = @profile.gateway_customer(EventDecorator::PAYPAL_NVP)
+    @params = params
   end
 
-  def charge(params)
+  def charge
     amount = @order.total_formated
-    send("#{@method}_payment", amount, params)
+    send("#{@method}_payment", amount)
   end
 
-  def regular_payment(amount, params)
-    @paypal_nvp.do_express_checkout_payment(amount, params[:token], params[:payer_id])
+  def regular_payment(amount)
+    @paypal_nvp.do_express_checkout_payment(amount, @params[:token], @params[:payer_id])
   end
 
   def auto_payment(amount, _params)
@@ -22,24 +23,24 @@ class Payments::PaypalNvp::BasePayer
 
   private
 
-  def create_agreement(charge_object, params)
-    return if !enabled_autotopup? || !create_agreement?(params)
-    email = @paypal_nvp.get_express_checkout_details(params[:token])["EMAIL"]
+  def create_agreement(charge_object)
+    return if !enabled_autotopup? || !create_agreement?
+    email = @paypal_nvp.get_express_checkout_details(@params[:token])["EMAIL"]
     @profile.payment_gateway_customers
             .find_or_create_by(gateway_type: EventDecorator::PAYPAL_NVP)
             .update(token: charge_object["BILLINGAGREEMENTID"],
                     agreement_accepted: true,
-                    autotopup_amount: autotopup_amount(params),
+                    autotopup_amount: autotopup_amount,
                     email: email)
     @profile.save
   end
 
-  def autotopup_amount(params)
-    params[:autotopup_amount] || @order.order_items.first.amount
+  def autotopup_amount
+    @params[:autotopup_amount] || @order.order_items.first.amount
   end
 
-  def create_agreement?(params)
-    params[:accept] && !@profile.gateway_customer(EventDecorator::PAYPAL_NVP)
+  def create_agreement?
+    @params[:accept] && !@profile.gateway_customer(EventDecorator::PAYPAL_NVP)
   end
 
   def enabled_autotopup?

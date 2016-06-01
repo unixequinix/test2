@@ -1,30 +1,29 @@
 class Payments::PaypalNvp::AgreementPayer
-  def start(params, customer_order_creator, customer_credit_creator)
-    @event = Event.friendly.find(params[:event_id])
-    @order = Order.find(params[:order_id])
-    @paypal_nvp = Gateways::PaypalNvp::Transaction.new(@event)
-    @profile = @order.profile
-    @gateway = @profile.gateway_customer(EventDecorator::PAYPAL_NVP)
+  def initialize(params)
+    super(params)
     @method = @gateway ? "auto" : "regular"
+  end
+
+  def start(customer_order_creator, customer_credit_creator)
     @order.start_payment!
-    charge_object = charge(params)
+    charge_object = charge
     return charge_object unless charge_object["ACK"] == "Success"
-    email = @paypal_nvp.get_express_checkout_details(params[:token])["EMAIL"]
-    create_agreement(charge_object, params[:autotopup_amount], email) if create_agreement?(params)
+    email = @paypal_nvp.get_express_checkout_details(@params[:token])["EMAIL"]
+    create_agreement(charge_object, @params[:autotopup_amount], email) if create_agreement?(@params)
     notify_payment(charge_object, customer_order_creator, customer_credit_creator)
     charge_object
   end
 
-  def charge(params)
+  def charge
     amount = @order.total_formated
-    send("#{@method}_payment", amount, params)
+    send("#{@method}_payment", amount)
   end
 
-  def regular_payment(amount, params)
-    @paypal_nvp.do_express_checkout_payment(amount, params[:token], params[:payer_id])
+  def regular_payment(amount)
+    @paypal_nvp.do_express_checkout_payment(amount, @params[:token], @params[:payer_id])
   end
 
-  def auto_payment(amount, _params)
+  def auto_payment(amount)
     @paypal_nvp.do_reference_transaction(amount, @gateway.token)
   end
 
@@ -49,8 +48,8 @@ class Payments::PaypalNvp::AgreementPayer
     @profile.save
   end
 
-  def create_agreement?(params)
-    params[:accept] && !@profile.gateway_customer(EventDecorator::PAYPAL_NVP)
+  def create_agreement?
+    @params[:accept] && !@profile.gateway_customer(EventDecorator::PAYPAL_NVP)
   end
 
   def send_mail_for(order, event)

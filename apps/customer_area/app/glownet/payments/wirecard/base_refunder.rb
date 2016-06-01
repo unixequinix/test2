@@ -4,10 +4,10 @@ class Payments::Wirecard::BaseRefunder
     @order = payment.order
     @amount = amount
     @payment_parameters = Parameter.joins(:event_parameters)
-                               .where(category: "payment",
-                                      group: "wirecard",
-                                      event_parameters: { event: @order.profile.event })
-                               .select("parameters.name, event_parameters.*")
+                                   .where(category: "payment",
+                                          group: "wirecard",
+                                          event_parameters: { event: @order.profile.event })
+                                   .select("parameters.name, event_parameters.*")
   end
 
   def start
@@ -56,7 +56,7 @@ class Payments::Wirecard::BaseRefunder
 
   def create_payment(order, charge)
     Payment.new(transaction_type: "refund",
-                paid_at: Time.now,
+                paid_at: Time.zone.now,
                 order: order,
                 response_code: charge["status"],
                 authorization_code: charge["creditNumber"],
@@ -71,7 +71,7 @@ class Payments::Wirecard::BaseRefunder
       URI.parse("https://checkout.wirecard.com/seamless/backend/refund"),
       refund_parameters
     )
-    response_hash = response.body.split("&").map { |it| URI.decode_www_form(it).first }.to_h
+    response.body.split("&").map { |it| URI.decode_www_form(it).first }.to_h
   end
 
   def parameters
@@ -98,6 +98,6 @@ class Payments::Wirecard::BaseRefunder
     params.delete(:secret)
     params[:requestFingerprint] = "request_fingerprint"
 
-    params.each_with_object(Hash.new) {|(k, v), result| result[k] = send(v)}
+    params.each_with_object({}) { |(k, v), result| result[k] = send(v) }
   end
 end

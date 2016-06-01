@@ -1,19 +1,19 @@
 class Payments::PaypalNvp::AutotopupPayer < Payments::PaypalNvp::BasePayer
   include Payments::AutomaticRefundable
 
-  def set_parameters(params)
+  def initialize(params)
     super(params)
     @method = "regular"
   end
 
-  def start(params, customer_order_creator, customer_credit_creator)
+  def start(customer_order_creator, customer_credit_creator)
     return if @gateway
     @order.start_payment!
-    charge_object = charge(params)
+    charge_object = charge(@params)
     return charge_object unless charge_object["ACK"] == "Success"
-    return unless create_agreement(charge_object, params)
+    return unless create_agreement(charge_object, @params)
     notify_payment(charge_object, customer_order_creator, customer_credit_creator)
-    automatic_refund(@payment, @order.total, params[:payment_service_id])
+    automatic_refund(@payment, @order.total, @params[:payment_service_id])
     charge_object
   end
 
