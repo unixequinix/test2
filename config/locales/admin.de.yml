@@ -249,8 +249,8 @@ de:
       actions: "Aktionen"
       home: "Home"
       log_in: "Login"
-      empty_item: "Kein %{item}"
-      item_not_found: "Kein %{item} gefunden"
+      empty_item: "Keinen %{item}"
+      item_not_found: "Keinen %{item} gefunden"
       search: "Suche"
       all: "Auswahl"
       empty_events: "No events"
@@ -378,7 +378,7 @@ de:
         unassigned: "Vorherige Anmeldung"
     purchasers:
       first_name: "Käufer Vorname"
-      last_name: "Käufer Zuname"
+      last_name: "Käufer Nachname"
       email: "Käufer Email"
       gtag_delivery_address: "Gtag Lieferadresse"
     gtags:
@@ -435,7 +435,7 @@ de:
       delete: "Gelöscht"
       email: "Email"
       first_name: "Vorname"
-      last_name: "Zuname"
+      last_name: "Nachname"
       tickets: "Tickets"
       ticket: "Ticket"
       gtags: "Gtags"
@@ -471,7 +471,7 @@ de:
       amount: "Betrag"
       search:
         first_name: "Vornamen eingeben"
-        last_name: "Zunamen eingeben"
+        last_name: "Nachnamen eingeben"
         email: "Email eingeben"
         confirmed: "Bestätigt?"
         tickets: "Tickets?"

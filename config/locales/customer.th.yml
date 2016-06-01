@@ -1,6 +1,6 @@
 th:
   pdf:
-    pdf_title: "Transactions history"
+    pdf_title: "Transaction history"
     type: "Type"
     amount: "Amount"
     station: "Station"
