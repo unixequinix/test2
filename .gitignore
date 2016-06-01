@@ -38,4 +38,4 @@ rubocop
 dump.rdb
 
 .ruby-gemset
-.idea/**
+.idea/*.*
