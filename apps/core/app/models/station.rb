@@ -13,6 +13,8 @@
 #
 
 class Station < ActiveRecord::Base
+  default_scope { order("position ASC") }
+
   belongs_to :event
   belongs_to :station_type
 

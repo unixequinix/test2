@@ -30,7 +30,8 @@ class DirectClaimForm
       parameter = Parameter.find_by(category: "claim", group: "direct", name: attribute.to_s)
       ClaimParameter.create!(
         value: attributes[parameter.name.to_sym],
-        claim_id: claim_id, parameter_id: parameter.id)
+        claim_id: claim_id, parameter_id: parameter.id
+      )
     end
   end
 end

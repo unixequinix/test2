@@ -45,6 +45,7 @@ class Payments::PaypalNvpDataRetriever < Payments::BaseDataRetriever
     new_event_autotopup_agreement_url(
       current_event,
       order_id: @order,
-      payment_service: "paypal_nvp")
+      payment_service: "paypal_nvp"
+    )
   end
 end

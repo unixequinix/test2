@@ -34,6 +34,7 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
                               profile: [:active_tickets_assignment,
                                         :active_gtag_assignment,
                                         :payment_gateway_customers,
-                                        active_assignments: :credentiable]])
+                                        active_assignments: :credentiable]]
+    )
   end
 end

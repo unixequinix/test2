@@ -4,7 +4,9 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
     @payment_parameters = @fetcher.event_parameters.where(
       parameters: {
         group: @event.selected_payment_services.map { |ps| EventDecorator::PAYMENT_PLATFORMS[ps] },
-        category: "payment" }).includes(:parameter)
+        category: "payment"
+      }
+    ).includes(:parameter)
   end
 
   # TODO: Move this method out from this controller

@@ -12,6 +12,12 @@ class Admins::Events::Stations::StationCatalogItemsController < Admins::Events::
     @station_catalog_item = StationCatalogItem.create!(permitted_params)
   end
 
+  def update
+    @item = @fetcher.station_catalog_items.find(params[:id])
+    @item.update_attributes!(permitted_params)
+    render json: @item
+  end
+
   def destroy
     @station = @fetcher.accreditation_stations.find(params[:station_id])
     @catalog_items = @station.unassigned_catalog_items

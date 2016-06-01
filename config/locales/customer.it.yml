@@ -1,4 +1,14 @@
 it:
+  pdf:
+    pdf_title: "Transaction history"
+    type: "Type"
+    amount: "Amount"
+    station: "Station"
+    date: "Date"
+    transaction_types:
+      sale: "Sale"
+      topup: "Topup"
+      refund: "Refund"
   purchases:
     accesses: "Accesses"
     packs: "Packs"
@@ -44,6 +54,9 @@ it:
       back: 'Back to home'
   dashboard:
     title: "My dashboard"
+    credits_history:
+      header: "Transaction history"
+      button: "Download Transactions"
     admissions:
       header: "Ticket %{company_ticket_type}"
       call_to_action: "Do you want to remove this ticket?"

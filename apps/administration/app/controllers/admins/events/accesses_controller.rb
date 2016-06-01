@@ -1,8 +1,6 @@
 class Admins::Events::AccessesController < Admins::Events::BaseController
   def index
-    @accesses = @fetcher.accesses
-                        .includes(:entitlement, catalog_item: :credential_type)
-                        .page(params[:page])
+    set_presenter
   end
 
   def new
@@ -86,9 +84,7 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
                                      :min_purchasable
                                    ],
                                    entitlement_attributes: [
-                                     :id,
-                                     :memory_length,
-                                     :mode,
-                                     :event_id])
+                                     :id,:memory_length,:mode,:event_id
+                                   ])
   end
 end

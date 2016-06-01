@@ -12,6 +12,7 @@ class Payments::SofortPayer
     create_payment(order, amount, params)
     order.complete!
     customer_order_creator.save(order, "card", "sofort")
+    I18n.locale = params[:language]
     send_mail_for(order, event)
   end
 

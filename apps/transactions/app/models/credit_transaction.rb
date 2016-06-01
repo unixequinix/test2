@@ -26,7 +26,6 @@
 #
 
 class CreditTransaction < Transaction
-  default_scope { order(device_created_at: :desc) }
   has_many :sale_items
   belongs_to :profile
 
@@ -34,6 +33,8 @@ class CreditTransaction < Transaction
 
   scope :with_event, ->(event) { where(event: event) }
   scope :with_customer_tag, ->(tag_uid) { where(customer_tag_uid: tag_uid) }
+
+  default_scope { order(device_created_at: :desc) }
 
   def self.mandatory_fields
     super + %w( credits credits_refundable credit_value final_balance final_refundable_balance )
