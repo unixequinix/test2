@@ -20,10 +20,9 @@ class Operations::Base < ActiveJob::Base
 
     atts[:transaction_id] = obj.id
     execute_operations(atts)
-    obj
   end
 
-  def portal_write(atts)
+  def portal_write(atts) # rubocop:disable Metrics/MethodLength
     event = Event.find(atts[:event_id])
     station = event.portal_station
     profile = Profile.find(atts[:profile_id])

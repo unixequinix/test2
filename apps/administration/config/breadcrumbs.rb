@@ -146,7 +146,8 @@ crumb :edit_admins_event_station do |event, station|
 end
 
 crumb :station_items do |event, station|
-  link t("breadcrumbs.station_items"), admins_event_station_station_items_path(current_event, station)
+  path = admins_event_station_station_items_path(current_event, station)
+  link t("breadcrumbs.station_items"), path
   parent :admins_event_station, event, station
 end
 ## Accesses

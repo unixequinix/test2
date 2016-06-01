@@ -16,25 +16,6 @@ RSpec.describe Operations::Base, type: :job do
     }
   end
 
-  let(:real_atts) do
-    {
-      ticket_code: "GF557E2C37E25045D",
-      customer_event_profile_id: nil,
-      customer_tag_uid: "04D695FA003E80",
-      device_created_at: "2016-05-28 20:41:45.224",
-      device_db_index: 7,
-      device_uid: "352990060777139",
-      event_id: event.id,
-      operator_tag_uid: "AAAAAAAAAAAAAA",
-      station_id: create(:station, event: event).id,
-      status_code: 0,
-      status_message: nil,
-      transaction_category: "credential",
-      transaction_origin: "onsite",
-      transaction_type: "ticket_checkin"
-    }
-  end
-
   before(:each) do
     # make 100% sure they are loaded into memory
     # inspect caled for rubocops sake
@@ -46,18 +27,13 @@ RSpec.describe Operations::Base, type: :job do
     allow(Operations::Credit::BalanceUpdater).to receive(:perform_now)
   end
 
-  it "should work for real atts" do
-    expect { base.perform_now(real_atts) }.to change(Ticket, :count).by(1)
-  end
-
   it "checks the profile" do
     expect(Profile::Checker).to receive(:for_transaction).once
     base.perform_now(params)
   end
 
   it "creates transactions based on transaction_category" do
-    obj = base.perform_now(params)
-    expect(obj.errors.full_messages).to be_empty
+    expect { base.perform_now(params) }.to change(CreditTransaction, :count).by(1)
   end
 
   describe "when sale_items_attributes is blank" do
@@ -139,8 +115,9 @@ RSpec.describe Operations::Base, type: :job do
 
   context "creating transactions" do
     it "ignores attributes not present in table" do
-      obj = base.perform_now(params.merge(foo: "not valid"))
-      expect(obj).not_to be_new_record
+      expect do
+        base.perform_now(params.merge(foo: "not valid"))
+      end.to change(CreditTransaction, :count).by(1)
     end
 
     it "passes the correct profile_id" do
@@ -165,9 +142,9 @@ RSpec.describe Operations::Base, type: :job do
     it "should only execute subscriptors if the transaction created is new" do
       params[:transaction_type] = "sale"
       expect(Operations::Credit::BalanceUpdater).to receive(:perform_later).once
-      transaction = base.perform_now(params)
-      at = transaction.attributes.symbolize_keys!
-      at = at.merge(transaction_category: "credit", device_created_at: params[:device_created_at])
+      base.perform_now(params)
+      at = params.merge(transaction_category: "credit",
+                        device_created_at: params[:device_created_at])
       base.perform_now(at)
     end
   end

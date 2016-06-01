@@ -12,7 +12,8 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   def create
     @station = Station.new(permitted_params)
     if @station.save
-      redirect_to admins_event_stations_url(current_event, group: @station.group), notice: I18n.t("alerts.created")
+      path = admins_event_stations_url(current_event, group: @station.group)
+      redirect_to path, notice: I18n.t("alerts.created")
     else
       flash.now[:error] = @station.errors.full_messages.join(". ")
       render :new
@@ -29,7 +30,8 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     @group = @station.group
 
     if @station.update(permitted_params)
-      redirect_to admins_event_stations_url(current_event, group: @group), notice: I18n.t("alerts.updated")
+      path = admins_event_stations_url(current_event, group: @group)
+      redirect_to path, notice: I18n.t("alerts.updated")
     else
       flash.now[:error] = @station.errors.full_messages.join(". ")
       render :edit
@@ -39,7 +41,8 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   def destroy
     @station = current_event.stations.find(params[:id])
     @station.destroy
-    redirect_to admins_event_stations_url(current_event, group: @station.group), notice: I18n.t("alerts.destroyed")
+    path = admins_event_stations_url(current_event, group: @station.group)
+    redirect_to path, notice: I18n.t("alerts.destroyed")
   end
 
   private
