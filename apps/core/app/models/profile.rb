@@ -35,7 +35,7 @@ class Profile < ActiveRecord::Base # rubocop:disable ClassLength
            -> { where.not(transaction_origin: "customer_portal").where(status_code: 0) },
            class_name: "CreditTransaction"
   has_many :pdf_transactions,
-           lambda do
+           -> do
              where(status_code: 0)
                .includes(:station, sale_items: :product)
                .reorder("device_created_at asc")
