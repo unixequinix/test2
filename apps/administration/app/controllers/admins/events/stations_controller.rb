@@ -47,9 +47,9 @@ class Admins::Events::StationsController < Admins::Events::BaseController
 
   def destroy
     @station = current_event.stations.find(params[:id])
-    @station.destroy
     path = admins_event_stations_url(current_event, group: @station.group)
-    redirect_to path, notice: I18n.t("alerts.destroyed")
+    redirect_to(path, notice: I18n.t("alerts.destroyed")) && return if @station.destroy
+    redirect_to(path, error: I18n.t("errors.messages.station_dependent"))
   end
 
   def sort

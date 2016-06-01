@@ -14,6 +14,7 @@
 #
 
 class Station < ActiveRecord::Base
+  acts_as_paranoid
   default_scope { order("position ASC") }
 
   belongs_to :event
