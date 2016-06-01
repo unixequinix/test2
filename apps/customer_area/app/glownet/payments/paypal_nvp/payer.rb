@@ -1,14 +1,14 @@
 class Payments::PaypalNvp::Payer < Payments::PaypalNvp::BasePayer
-  def set_parameters(params)
+  def initialize(params)
     super(params)
     @method = @gateway ? "auto" : "regular"
   end
 
-  def start(params, customer_order_creator, customer_credit_creator)
+  def start(customer_order_creator, customer_credit_creator)
     @order.start_payment!
-    charge_object = charge(params)
+    charge_object = charge
     return charge_object unless charge_object["ACK"] == "Success"
-    create_agreement(charge_object, params)
+    create_agreement(charge_object)
     notify_payment(charge_object, customer_order_creator, customer_credit_creator)
     charge_object
   end

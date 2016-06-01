@@ -34,9 +34,8 @@ class Entitlement::PositionManager
   end
 
   def last_position
-    Entitlement.last_element.present? ?
-      Entitlement.last_element.memory_position + Entitlement.last_element.memory_length :
-      1
+    return 1 if Entitlement.last_element.blank?
+    Entitlement.last_element.memory_position + Entitlement.last_element.memory_length
   end
 
   def last_element

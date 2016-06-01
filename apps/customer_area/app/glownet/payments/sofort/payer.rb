@@ -1,18 +1,22 @@
 class Payments::Sofort::Payer
-  def start(params, customer_order_creator, customer_credit_creator)
-    notify_payment(params, customer_order_creator, customer_credit_creator)
+  def initialize(params)
+    @params = params
   end
 
-  def notify_payment(params, customer_order_creator, customer_credit_creator)
-    event = Event.friendly.find(params[:event_id])
-    return unless params[:paymentState] == "SUCCESS"
-    amount = params[:amount].to_f
-    order = Order.find(params[:order_id])
+  def start(customer_order_creator, customer_credit_creator)
+    notify_payment(customer_order_creator, customer_credit_creator)
+  end
+
+  def notify_payment(customer_order_creator, customer_credit_creator)
+    event = Event.friendly.find(@params[:event_id])
+    return unless @params[:paymentState] == "SUCCESS"
+    amount = @params[:amount].to_f
+    order = Order.find(@params[:order_id])
     customer_credit_creator.save(order)
-    create_payment(order, amount, params)
+    create_payment(order, amount)
     order.complete!
     customer_order_creator.save(order, "card", "sofort")
-    I18n.locale = params[:language]
+    I18n.locale = @params[:language]
     send_mail_for(order, event)
   end
 
@@ -22,14 +26,14 @@ class Payments::Sofort::Payer
     OrderMailer.completed_email(order, event).deliver_later
   end
 
-  def create_payment(order, amount, params)
-    Payment.create!(transaction_type: params[:paymentType],
-                    card_country: params[:senderBankName],
+  def create_payment(order, amount)
+    Payment.create!(transaction_type: @params[:paymentType],
+                    card_country: @params[:senderBankName],
                     paid_at: Time.zone.now,
                     order: order,
-                    response_code: params[:avsResponseMessage],
-                    authorization_code: params[:responseFingerprint],
-                    currency: params[:currency],
+                    response_code: @params[:avsResponseMessage],
+                    authorization_code: @params[:responseFingerprint],
+                    currency: @params[:currency],
                     merchant_code: nil,
                     amount: amount,
                     terminal: nil,

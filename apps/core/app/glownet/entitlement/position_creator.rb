@@ -4,8 +4,7 @@ class Entitlement::PositionCreator < Entitlement::PositionManager
   end
 
   def create_new_position
-    last_element.present? ?
-      last_element.memory_position + last_element.memory_length :
-      1
+    return 1 if last_element.blank?
+    last_element.memory_position + last_element.memory_length
   end
 end

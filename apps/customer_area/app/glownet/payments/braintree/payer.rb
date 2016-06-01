@@ -1,17 +1,21 @@
 class Payments::Braintree::Payer
-  def start(params, customer_order_creator, customer_credit_creator)
+  def initialize(params)
     @event = Event.friendly.find(params[:event_id])
     @order = Order.find(params[:order_id])
     @order.start_payment!
-    charge_object = charge(params)
+    @params = params
+  end
+
+  def start(customer_order_creator, customer_credit_creator)
+    charge_object = charge
     return charge_object unless charge_object.success?
     notify_payment(charge_object, customer_order_creator, customer_credit_creator)
     charge_object
   end
 
-  def charge(params)
+  def charge
     begin
-      charge = Braintree::Transaction.sale(options(params))
+      charge = Braintree::Transaction.sale(options)
     rescue Braintree::ErrorResult
       # The card has been declined
       charge
@@ -21,8 +25,8 @@ class Payments::Braintree::Payer
 
   private
 
-  def options(params)
-    token = params[:payment_method_nonce]
+  def options
+    token = @params[:payment_method_nonce]
     amount = @order.total_formated
     sale_options = {
       order_id: @order.number,

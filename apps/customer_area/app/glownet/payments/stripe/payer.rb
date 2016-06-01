@@ -1,22 +1,26 @@
 class Payments::Stripe::Payer
-  def start(params, customer_order_creator, customer_credit_creator)
+  def initialize(params)
     @event = Event.friendly.find(params[:event_id])
     @order = Order.find(params[:order_id])
+    @params = params
+  end
+
+  def start(customer_order_creator, customer_credit_creator)
     @order.start_payment!
-    charge_object = charge(params)
+    charge_object = charge
     return charge_object unless charge_object
     notify_payment(charge_object, customer_order_creator, customer_credit_creator)
     charge_object
   end
 
-  def charge(params)
+  def charge
     amount = @order.total_formated.delete(".")
     Stripe.api_key = Rails.application.secrets.stripe_platform_secret
     begin
       charge = Stripe::Charge.create(
         amount: amount, # amount in cents, again
         currency: @event.currency,
-        source: params[:stripeToken],
+        source: @params[:stripeToken],
         description: "Payment of #{amount} #{@event.currency}",
         destination: get_event_parameter_value(@event, "stripe_account_id"),
         application_fee: get_event_parameter_value(@event, "application_fee")
