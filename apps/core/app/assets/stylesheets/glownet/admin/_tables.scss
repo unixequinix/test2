@@ -159,6 +159,23 @@ td {
   background-color: rgba($blueZurb, .2);
 }
 
+.is-alcohol {
+  text-align: left;
+  @include mscale($base-font-size*1.25);
+  cursor: pointer;
+
+  span {
+    padding: modules(0.1);
+    color: $white;
+
+    &:hover { color: $blueZurb; }
+
+    @include min-screen($bp3) {
+      color: $blueZurb;
+    }
+  }
+}
+
 // ______  TABLE ACTIONS _______
 
 .table-sorter-field {
