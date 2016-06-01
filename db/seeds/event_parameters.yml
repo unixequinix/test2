@@ -22,6 +22,9 @@
         -
           name: cypher_enabled
           data_type: boolean
+        -
+          name: autotopup_enabled
+          data_type: boolean
 -
   name: gtag
   groups:

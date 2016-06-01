@@ -52,6 +52,13 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     redirect_to path, notice: I18n.t("alerts.destroyed")
   end
 
+  def sort
+    params[:order].each do |_key, value|
+      @fetcher.stations.find(value[:id]).update_attribute(:position, value[:position])
+    end
+    render nothing: true
+  end
+
   private
 
   def permitted_params

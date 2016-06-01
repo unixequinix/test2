@@ -11,7 +11,6 @@ class UnauthorizedController < ActionController::Base
 
   def respond
     render(status: :unauthorized, json: :unauthorized) && return unless scope.present?
-
     unless request.get?
       message = env["warden"].message[:message]
       flash.alert = I18n.t(message)

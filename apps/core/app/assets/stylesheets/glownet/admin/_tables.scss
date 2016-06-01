@@ -161,6 +161,26 @@ td {
 
 // ______  TABLE ACTIONS _______
 
+.table-sorter-field {
+  width: 100%;
+  padding: 0;
+  text-align: center;
+
+  @include min-screen($bp3) { width: 5%; }
+
+  span {
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+    cursor: grab;
+  }
+
+  span:click {
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+    cursor: grabbing;;
+  }
+}
+
 .table-actions-field {
   width: 100%;
   padding: 0 1rem 0 0;
