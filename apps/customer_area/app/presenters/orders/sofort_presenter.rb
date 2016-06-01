@@ -11,7 +11,7 @@ class Orders::SofortPresenter < Orders::BasePresenter
   end
 
   def form_data
-    Payments::SofortDataRetriever.new(@event, @order)
+    Payments::Sofort::DataRetriever.new(@event, @order)
   end
 
   def payment_service

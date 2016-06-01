@@ -4,7 +4,7 @@ class Orders::WirecardPresenter < Orders::BasePresenter
   def initialize(event, order)
     @event = event
     @order = order
-    @form_data = Payments::WirecardDataRetriever.new(@event, @order)
+    @form_data = Payments::Wirecard::DataRetriever.new(@event, @order)
   end
 
   def path
