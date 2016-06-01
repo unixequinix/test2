@@ -86,7 +86,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
       describe "when gtag exists" do
         before(:each) do
-          get :show, event_id: event.id, id: @gtag.id
+          get :show, event_id: event.id, id: @gtag.tag_uid
         end
 
         it "returns a 200 status code" do
