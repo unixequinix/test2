@@ -2,7 +2,7 @@
   .wrapper-negative-space
     = f.simple_fields_for :entitlement do |entitlement|
       = entitlement.input :mode, collection: Entitlement::MODES, include_blank: false, id: "mode_selector"
-      = entitlement.input :memory_length
+      = entitlement.input :memory_length, as: :hidden, input_html: { value: 1 }
       = entitlement.input :event_id, as: :hidden, input_html: { value: current_event.id }
 
     = f.simple_fields_for :catalog_item do |catalog_item|

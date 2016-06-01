@@ -32,11 +32,11 @@ class Access < ActiveRecord::Base
   end
 
   def set_memory_length
-    entitlement.memory_length = 2 if catalog_item.max_purchasable > 7
+    entitlement.memory_length = 2 if catalog_item.max_purchasable.to_i > 7
   end
 
   def min_max_congruency
-    return if catalog_item.min_purchasable <= catalog_item.max_purchasable
+    return if catalog_item.min_purchasable.to_i <= catalog_item.max_purchasable.to_i
     errors[:min_purchasable] << I18n.t("errors.messages.greater_than_maximum")
   end
 end
