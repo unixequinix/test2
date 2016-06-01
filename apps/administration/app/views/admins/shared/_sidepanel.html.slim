@@ -58,19 +58,19 @@ aside#main-menu
     h3.aside-title = t("admin.aside.stations")
 
     li.aside-list = link_to admins_event_stations_path(event, group: "access")
-      = fa_icon "database"
+      = fa_icon "exchange"
       = t("admin.aside.access_stations")
     li.aside-list = link_to admins_event_stations_path(event, group: "monetary")
       = fa_icon "money"
       = t("admin.aside.monetary_stations")
     li.aside-list = link_to admins_event_stations_path(event, group: "event_management")
-      = fa_icon "database"
+      = fa_icon "universal-access"
       = t("admin.aside.event_management_stations")
     li.aside-list = link_to admins_event_stations_path(event, group: "glownet")
-      = fa_icon "money"
+      = fa_icon "google"
       = t("admin.aside.glownet_stations")
     li.aside-list = link_to admins_event_stations_path(event, group: "touchpoint")
-      = fa_icon "money"
+      = fa_icon "bullseye"
       = t("admin.aside.touchpoint_stations")
 
     h3.aside-title = t("admin.aside.crm")
