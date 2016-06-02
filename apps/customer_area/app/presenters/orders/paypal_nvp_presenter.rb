@@ -21,25 +21,18 @@ class Orders::PaypalNvpPresenter < Orders::BasePresenter
     @event.get_parameter("payment", "paypal_nvp", "autotopup") == "true" && !@agreement
   end
 
-  def actual_agreement_state
-    @agreement ? "with_agreement" : "without_agreement"
-  end
-
-  def autotopup_actual_agreement_state
-    @agreement ? "autotopup_with_agreement" : "autotopup_without_agreement"
-  end
-
   def merchant_id
     @event.get_parameter("payment", "paypal_nvp", "merchant_id")
   end
 
-  def path
-    partial = (@payer_id || @agreement) ? "payment_final" : "payment_form"
-    "events/orders/paypal_nvp/#{partial}"
+  def actual_agreement_state(namespace = "")
+    namespace += "_" if namespace.present?
+    @agreement ? "#{namespace}with_agreement" : "#{namespace}without_agreement"
   end
 
-  def autotopup_path
-    partial = (@payer_id || @agreement) ? "autotopup_payment_final" : "autotopup_payment_form"
+  def path(namespace = "")
+    namespace += "_" if namespace.present?
+    partial = (@payer_id || @agreement) ? "#{namespace}payment_final" : "#{namespace}payment_form"
     "events/orders/paypal_nvp/#{partial}"
   end
 
@@ -48,7 +41,7 @@ class Orders::PaypalNvpPresenter < Orders::BasePresenter
   end
 
   def form_data
-    Payments::PaypalNvpDataRetriever.new(@event, @order)
+    Payments::PaypalNvp::DataRetriever.new(@event, @order)
   end
 
   def payment_service

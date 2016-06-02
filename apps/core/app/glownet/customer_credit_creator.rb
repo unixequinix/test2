@@ -1,5 +1,5 @@
 class CustomerCreditCreator
-  def create_credit(profile, *params) # rubocop:disable Metrics/MethodLength
+  def create_credit(profile, *params) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     atts = params.first
     atts[:payment_method] ||= "none"
     atts[:transaction_type] ||= "create_credit"
@@ -19,6 +19,8 @@ class CustomerCreditCreator
       profile_id: profile.id,
       payment_method: atts[:payment_method]
     }
+
+    # TODO: Remove when this method is refactored. Now it's needed by sidekiq
     Operations::Credit::BalanceUpdater.inspect
     Operations::Base.new.portal_write(fields)
   end

@@ -9,19 +9,43 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
 
   def create
     item_class = params[:item_type]
-    atts = params.require(item_class).permit(:direction, :access_id, :catalog_item_id, :price, :product_id, :amount, :credit_id, station_parameter_attributes: [:station_id])
-    @topup_credit = item_class.camelcase.constantize.create(atts)
-    redirect_to add_items_admins_event_station_path(current_event, params[:id])
+    atts = params.require(item_class).permit(:direction,
+                                             :access_id,
+                                             :catalog_item_id,
+                                             :price,
+                                             :product_id,
+                                             :amount,
+                                             :credit_id,
+                                             station_parameter_attributes: [:station_id])
+    @item = item_class.camelcase.constantize.create(atts)
+    redirect_to admins_event_station_station_items_path(current_event, params[:station_id])
   end
 
   def update
     item_class = params[:item_type]
     atts = params.require(item_class).permit(:price, :amount)
-    @item = item_class.camelcase.constantize.find(params[:id]).update_attributes(atts)
-    render json: @item
+    @item = item_class.camelcase.constantize.find(params[:id])
+
+    respond_to do |format|
+      if @item.update(atts)
+        format.json { render status: :ok, json: @item }
+      else
+        format.json { render status: :unprocessable_entity, json: @item }
+      end
+    end
+  end
+
+  def sort
+    item_class = params[:item_type]
+    params[:order].each do |_key, value|
+      item_class.camelcase.constantize.find(value[:id]).update(position: value[:position])
+    end
+    render nothing: true
   end
 
   def destroy
-    @station = current_event.stations.find(params[:id])
+    item_class = params[:item_type]
+    @item = item_class.camelcase.constantize.find(params[:id]).destroy
+    redirect_to admins_event_station_station_items_path(current_event, params[:station_id])
   end
 end

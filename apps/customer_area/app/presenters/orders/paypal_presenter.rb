@@ -29,7 +29,7 @@ class Orders::PaypalPresenter < Orders::BasePresenter
   end
 
   def form_data
-    Payments::PaypalDataRetriever.new(@event, @order)
+    Payments::Paypal::DataRetriever.new(@event, @order)
   end
 
   def payment_service

@@ -16,18 +16,22 @@
       tbody
         - @stations.each do |station|
           tr
-            td data-label=t('admin.stations.name') = station.name
-            td data-label=t('admin.stations.type') = t("admin.stations.categories.#{station.category}")
-            td data-label=t('admin.stations.location') = station.location
+            td data-label=t('admin.stations.name')
+              = best_in_place station, :name, url: admins_event_station_path(current_event, station)
+            td data-label=t('admin.stations.type')
+              = t("admin.stations.categories.#{station.category}")
+            td data-label=t('admin.stations.location')
+              = best_in_place station, :location, url: admins_event_station_path(current_event, station)
             td.table-actions-field
               ul
-                li.table-action.action-delete = link_to admins_event_station_path(current_event, station), method: :delete, data: { confirm: t('admin.confirm.delete') } do
-                  = fa_icon "trash"
-                li.table-action.action-edit = link_to edit_admins_event_station_path(current_event, station) do
-                  = fa_icon "edit"
                 - if station.form
-                  li.table-action.action-edit = link_to admins_event_station_station_items_path(current_event, station) do
-                    = fa_icon "plus"
+                  li.table-action.action-add = link_to admins_event_station_station_items_path(current_event, station) do
+                    = fa_icon "list-alt", class: "fa-fw"
+                li.table-action.action-edit = link_to edit_admins_event_station_path(current_event, station) do
+                  = fa_icon "edit", class: "fa-fw"
+                li.table-action.action-delete = link_to admins_event_station_path(current_event, station), method: :delete, data: { confirm: t('admin.confirm.delete') } do
+                  = fa_icon "trash", class: "fa-fw"
+                
   - else
     .section-title-empty
       = image_tag "img-empty.png"

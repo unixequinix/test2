@@ -8,10 +8,12 @@
 #  deleted_at :datetime
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  position   :integer
 #
 
 class StationProduct < ActiveRecord::Base
   acts_as_paranoid
+  default_scope { order("position ASC") }
 
   belongs_to :product
   has_one :station_parameter, as: :station_parametable, dependent: :destroy

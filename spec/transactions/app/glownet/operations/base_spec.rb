@@ -16,25 +16,6 @@ RSpec.describe Operations::Base, type: :job do
     }
   end
 
-  let(:real_atts) do
-    {
-      ticket_code: "GF557E2C37E25045D",
-      customer_event_profile_id: nil,
-      customer_tag_uid: "04D695FA003E80",
-      device_created_at: "2016-05-28 20:41:45.224",
-      device_db_index: 7,
-      device_uid: "352990060777139",
-      event_id: event.id,
-      operator_tag_uid: "AAAAAAAAAAAAAA",
-      station_id: create(:station, event: event).id,
-      status_code: 0,
-      status_message: nil,
-      transaction_category: "credential",
-      transaction_origin: "onsite",
-      transaction_type: "ticket_checkin"
-    }
-  end
-
   before(:each) do
     # make 100% sure they are loaded into memory
     # inspect caled for rubocops sake
@@ -46,18 +27,13 @@ RSpec.describe Operations::Base, type: :job do
     allow(Operations::Credit::BalanceUpdater).to receive(:perform_now)
   end
 
-  it "should work for real atts" do
-    expect { base.perform_now(real_atts) }.to change(Ticket, :count).by(1)
-  end
-
   it "checks the profile" do
     expect(Profile::Checker).to receive(:for_transaction).once
     base.perform_now(params)
   end
 
   it "creates transactions based on transaction_category" do
-    obj = base.perform_now(params)
-    expect(obj.errors.full_messages).to be_empty
+    expect { base.perform_now(params) }.to change(CreditTransaction, :count).by(1)
   end
 
   describe "when sale_items_attributes is blank" do
@@ -138,26 +114,47 @@ RSpec.describe Operations::Base, type: :job do
   end
 
   context "creating transactions" do
-    it "ignores attributes not present in table" do
-      obj = base.perform_now(params.merge(foo: "not valid"))
-      expect(obj).not_to be_new_record
+    describe "from devices" do
+      it "ignores attributes not present in table" do
+        expect do
+          base.perform_now(params.merge(foo: "not valid"))
+        end.to change(CreditTransaction, :count).by(1)
+      end
+
+      it "passes the correct profile_id" do
+        allow(Profile::Checker).to receive(:for_transaction).and_return(5)
+        args = hash_including(profile_id: 5)
+        expect(CreditTransaction).to receive(:create!).with(args).and_return(CreditTransaction.new)
+        base.perform_now(params)
+      end
+
+      it "works even if jobs fail" do
+        params[:transaction_type] = "sale"
+        allow(Operations::Credit::BalanceUpdater).to receive(:perform_later).and_raise("Error_1")
+        expect { base.perform_now(params) }.to raise_error("Error_1")
+        params.delete(:transaction_id)
+        params.delete(:profile_id)
+        params.delete(:device_created_at)
+        expect(CreditTransaction.where(params)).not_to be_empty
+      end
     end
 
-    it "passes the correct profile_id" do
-      allow(Profile::Checker).to receive(:for_transaction).and_return(5)
-      args = hash_including(profile_id: 5)
-      expect(CreditTransaction).to receive(:create!).with(args).and_return(CreditTransaction.new)
-      base.perform_now(params)
-    end
+    describe "from portal" do
+      before do
+        params[:profile_id] = create(:profile, event: event).id
+        create(:station, category: "customer_portal", event: event)
+      end
 
-    it "works even if jobs fail" do
-      params[:transaction_type] = "sale"
-      allow(Operations::Credit::BalanceUpdater).to receive(:perform_later).and_raise("Error_1")
-      expect { base.perform_now(params) }.to raise_error("Error_1")
-      params.delete(:transaction_id)
-      params.delete(:profile_id)
-      params.delete(:device_created_at)
-      expect(CreditTransaction.where(params)).not_to be_empty
+      it "creates the appropiate transaction" do
+        expect { base.new.portal_write(params) }.to change(CreditTransaction, :count).by(1)
+      end
+
+      it "sets the counter to the number of transactions present for a particular profile" do
+        count = rand(1000)
+        allow(CreditTransaction).to receive(:where).and_return(OpenStruct.new(count: count))
+        base.new.portal_write(params)
+        expect(CreditTransaction.last.counter).to eq(count + 1)
+      end
     end
   end
 
@@ -165,9 +162,9 @@ RSpec.describe Operations::Base, type: :job do
     it "should only execute subscriptors if the transaction created is new" do
       params[:transaction_type] = "sale"
       expect(Operations::Credit::BalanceUpdater).to receive(:perform_later).once
-      transaction = base.perform_now(params)
-      at = transaction.attributes.symbolize_keys!
-      at = at.merge(transaction_category: "credit", device_created_at: params[:device_created_at])
+      base.perform_now(params)
+      at = params.merge(transaction_category: "credit",
+                        device_created_at: params[:device_created_at])
       base.perform_now(at)
     end
   end

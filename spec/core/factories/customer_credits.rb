@@ -45,11 +45,13 @@ FactoryGirl.define do
     end
 
     after :create do |customer_credit|
-      final_balance = CustomerCredit.select("sum(amount) as final_balance")
+      final_balance = CustomerCredit.unscoped
+                                    .select("sum(amount) as final_balance")
                                     .find_by(profile: customer_credit.profile).final_balance.to_i
 
       customer_credit.final_balance = final_balance
-      final_refundable = CustomerCredit.select("sum(refundable_amount) as final_refundable_balance")
+      final_refundable = CustomerCredit.unscoped
+                                       .select("sum(refundable_amount) as final_refundable_balance")
                                        .find_by(profile: customer_credit.profile)
                                        .final_refundable_balance.to_i
       customer_credit.final_refundable_balance = final_refundable

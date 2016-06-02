@@ -1,4 +1,17 @@
 class SortStations < ActiveRecord::Migration
+  class StationGroup < ActiveRecord::Base
+    has_many :station_types
+  end
+
+  class StationType < ActiveRecord::Base
+    belongs_to :station_group
+    has_many :stations
+  end
+
+  class Station < ActiveRecord::Base
+    belongs_to :station_type
+  end
+
   def change
     add_column :stations, :group, :string
     add_column :stations, :category, :string

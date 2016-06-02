@@ -1,5 +1,21 @@
 es:
   admin:
+    general:
+      id: "ID"
+      name: "Nombre"
+      description: "Descripción"
+      created_at: "Creado el"
+      updated_at: "Actualizado el"
+    accesses:
+      step: "Steps"
+      initial_amount: "Cantidad inicial"
+      max_purchasable: "Compra máxima"
+      min_purchasable: "Compra mínima"
+      mode: "Modo"
+      modes:
+        permanent: "Permanente"
+        permanent_strict: "Permanente Estricto"
+        counter: "Contador"
     transactions:
       id: "ID"
       transaction_origin: "Origin"
@@ -266,6 +282,7 @@ es:
       logs: "Logs"
       accesses: "Accesos"
       event: "Evento"
+      events: "Eventos"
       details: "Detalles"
       gtag_settings: "Configuración de gtags"
       payment_settings: "Configuración de pagos"

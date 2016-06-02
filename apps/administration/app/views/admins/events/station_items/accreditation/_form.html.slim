@@ -2,8 +2,10 @@
     .wrapper-negative-space
         = hidden_field_tag :item_type, "station_catalog_item"
         = f.input :price
-        = f.input :catalog_item_id, collection: @station.unassigned_catalog_items
+        = f.input :catalog_item_id, collection: @station.unassigned_catalog_items, wrapper_html: { style: "overflow: inherit;"}
         = f.simple_fields_for :station_parameter_attributes do |sp|
           = sp.input :station_id, as: :hidden, input_html: { value: @station.id }
 
         = f.button :submit, class: "btn btn-primary"
+javascript:
+  $('#station_catalog_item_catalog_item_id').selectize();

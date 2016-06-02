@@ -22,7 +22,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
       it "returns the necessary keys" do
         JSON.parse(response.body).map do |gtag|
-          keys = %w(id tag_uid credential_redeemed banned credential_type_id
+          keys = %w(reference credential_redeemed banned credential_type_id
                     purchaser_first_name purchaser_last_name purchaser_email customer_id)
           expect(keys).to eq(gtag.keys)
         end
@@ -30,10 +30,9 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
       it "returns the correct data" do
         JSON.parse(response.body).each do |list_gtag|
-          gtag = db_gtags[db_gtags.index { |tag| tag.id == list_gtag["id"] }]
+          gtag = db_gtags[db_gtags.index { |tag| tag.tag_uid == list_gtag["reference"] }]
           gtag_atts = {
-            id: gtag.id,
-            tag_uid: gtag.tag_uid,
+            reference: gtag.tag_uid,
             credential_redeemed: gtag.credential_redeemed,
             credential_type_id: gtag&.company_ticket_type&.credential_type_id,
             banned: gtag.banned?,
@@ -87,7 +86,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
       describe "when gtag exists" do
         before(:each) do
-          get :show, event_id: event.id, id: @gtag.id
+          get :show, event_id: event.id, id: @gtag.tag_uid
         end
 
         it "returns a 200 status code" do
@@ -96,7 +95,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
         it "returns the necessary keys" do
           gtag = JSON.parse(response.body)
-          gtag_keys = %w(id tag_uid credential_redeemed banned credential_type_id customer)
+          gtag_keys = %w(reference credential_redeemed banned credential_type_id customer)
           customer_keys = %w(id banned autotopup_gateways credentials first_name last_name email
                              orders)
           order_keys = %w(online_order_counter catalogable_id catalogable_type amount)
@@ -112,8 +111,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
           orders = @gtag.assigned_profile.customer_orders
 
           gtag = {
-            id: @gtag.id,
-            tag_uid: @gtag.tag_uid,
+            reference: @gtag.tag_uid,
             credential_redeemed: @gtag.credential_redeemed,
             banned: @gtag.banned,
             credential_type_id: @gtag.company_ticket_type.credential_type_id,

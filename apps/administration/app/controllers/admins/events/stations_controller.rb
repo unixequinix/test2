@@ -12,7 +12,8 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   def create
     @station = Station.new(permitted_params)
     if @station.save
-      redirect_to admins_event_stations_url(current_event, group: @station.group), notice: I18n.t("alerts.created")
+      path = admins_event_stations_url(current_event, group: @station.group)
+      redirect_to path, notice: I18n.t("alerts.created")
     else
       flash.now[:error] = @station.errors.full_messages.join(". ")
       render :new
@@ -24,22 +25,30 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     @group = @station.group
   end
 
-  def update
+  def update # rubocop:disable Metrics/AbcSize
     @station = current_event.stations.find(params[:id])
     @group = @station.group
 
-    if @station.update(permitted_params)
-      redirect_to admins_event_stations_url(current_event, group: @group), notice: I18n.t("alerts.updated")
-    else
-      flash.now[:error] = @station.errors.full_messages.join(". ")
-      render :edit
+    respond_to do |format|
+      if @station.update(permitted_params)
+        format.html do
+          redirect_to admins_event_stations_url(current_event, group: @group), notice: I18n.t("alerts.updated")
+        end
+      else
+        format.html do
+          flash.now[:error] = @station.errors.full_messages.join(". ")
+          render :edit
+        end
+      end
+      format.json { render json: @station }
     end
   end
 
   def destroy
     @station = current_event.stations.find(params[:id])
-    @station.destroy
-    redirect_to admins_event_stations_url(current_event, group: @station.group), notice: I18n.t("alerts.destroyed")
+    path = admins_event_stations_url(current_event, group: @station.group)
+    redirect_to(path, notice: I18n.t("alerts.destroyed")) && return if @station.destroy
+    redirect_to(path, error: I18n.t("errors.messages.station_dependent"))
   end
 
   def sort

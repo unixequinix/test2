@@ -2,12 +2,13 @@ class CheckoutsPresenter
   def initialize(current_event, current_profile)
     @event = current_event
     @profile = current_profile
-    param = StationParameter.joins(:station).where( stations: { event_id: current_event category: "customer_portal"})
+    param = StationParameter.joins(:station).where(stations: { event_id: current_event,
+                                                               category: "customer_portal" })
     @catalog_items =
       CatalogItem.joins(:station_catalog_items, station_catalog_items: :station_parameter)
                  .select("catalog_items.*, station_catalog_items.price")
                  .where.not(id: infinite_entitlements_ids)
-                 .where(station_parameters: { id: param.id})
+                 .where(station_parameters: { id: param.id })
                  .includes(:event)
   end
 

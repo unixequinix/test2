@@ -1,9 +1,12 @@
 class Api::V1::GtagWithCustomerSerializer < Api::V1::BaseSerializer
-  attributes :id, :tag_uid, :credential_redeemed, :banned, :credential_type_id, :customer
+  attributes :reference, :credential_redeemed, :banned, :credential_type_id, :customer
+
+  def reference
+    object.tag_uid
+  end
 
   def credential_type_id
-    ticket_type = object.company_ticket_type
-    ticket_type && ticket_type.credential_type_id
+    object.company_ticket_type&.credential_type_id
   end
 
   def customer
