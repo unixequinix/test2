@@ -734,9 +734,7 @@ ActiveRecord::Schema.define(version: 20160601145823) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "location"
-<<<<<<< Temporary merge branch 1
     t.integer  "position"
-=======
     t.string   "group"
     t.string   "category"
   end
