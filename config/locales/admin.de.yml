@@ -311,6 +311,7 @@ de:
       companies: "Firmen"
       company_ticket_types: "Firmenticketarten"
       access_transactions: "Access"
+      ban_transactions: "Ban"
       credit_transactions: "Credit"
       credential_transactions: "Credential"
       order_transactions: "Order"

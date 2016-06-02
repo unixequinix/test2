@@ -306,6 +306,7 @@ en:
       companies: "Companies"
       company_ticket_types: "Company ticket types"
       access_transactions: "Access"
+      ban_transactions: "Ban"
       credit_transactions: "Credit"
       credential_transactions: "Credential"
       order_transactions: "Order"
