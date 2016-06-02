@@ -266,6 +266,7 @@ th:
       logs: "Logs"
       accesses: "Accesses"
       event: "Event"
+      events: "Events"
       details: "Details"
       gtag_settings: "Gtag Settings"
       payment_settings: "Payment Settings"

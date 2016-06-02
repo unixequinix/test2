@@ -270,6 +270,7 @@ de:
       logs: "Logs"
       accesses: "Zugänge"
       event: "Veranstaltung"
+      events: "Events"
       details: "Details"
       gtag_settings: "Gtag Einstellungen"
       payment_settings: "Zahlungseinstellungen"

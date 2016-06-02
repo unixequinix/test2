@@ -266,6 +266,7 @@ es:
       logs: "Logs"
       accesses: "Accesos"
       event: "Evento"
+      events: "Eventos"
       details: "Detalles"
       gtag_settings: "Configuración de gtags"
       payment_settings: "Configuración de pagos"
