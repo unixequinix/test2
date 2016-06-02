@@ -1,5 +1,21 @@
 de:
   admin:
+    general:
+      id: "ID"
+      name: "Name"
+      description: "Description"
+      created_at: "Created at"
+      updated_at: "Updated at"
+    accesses:
+      step: "Step"
+      initial_amount: "Initial Amount"
+      max_purchasable: "Maximum Purchasable"
+      min_purchasable: "Minimum Purchasable"
+      mode: "Mode"
+      modes:
+        permanent: "Permanent"
+        permanent_strict: "Permanent Strict"
+        counter: "Counter"
     transactions:
       categories:
         access_transaction: "Access Transactions"

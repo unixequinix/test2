@@ -1,0 +1,32 @@
+- breadcrumb :admins_event_access, current_event, @access
+- provide :actions do
+  = link_to edit_admins_event_access_path(@current_event, @access), class: "btn btn-action btn-action-edit small" do
+    = fa_icon 'edit'
+    = t('actions.edit')
+  = link_to admins_event_accesses_path, class: "btn btn-action btn-action-back small" do
+    = fa_icon 'arrow-circle-left'
+    = t('actions.back')
+  
+.wrapper-negative-space
+  .container-show
+    dl
+      dt = t("admin.general.id")
+      dd = @access.id
+      dt = t("admin.general.name")
+      dd = @access.catalog_item.name
+      dt = t("admin.general.description")
+      dd = @access.catalog_item.description && "-"
+      dt = t("admin.accesses.mode")
+      dd = t("admin.accesses.modes.#{@access.entitlement.mode}")
+      dt = t("admin.accesses.step")
+      dd = @access.catalog_item.step
+      dt = t("admin.accesses.initial_amount")
+      dd = @access.catalog_item.initial_amount
+      dt = t("admin.accesses.max_purchasable")
+      dd = @access.catalog_item.max_purchasable
+      dt = t("admin.accesses.min_purchasable")
+      dd = @access.catalog_item.min_purchasable
+      dt = t("admin.general.created_at")
+      dd = @access.created_at.strftime("%y-%m-%d %H:%M:%S")
+      dt = t("admin.general.updated_at")
+      dd = @access.updated_at.strftime("%y-%m-%d %H:%M:%S")

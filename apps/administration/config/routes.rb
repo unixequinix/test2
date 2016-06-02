@@ -71,7 +71,7 @@ Rails.application.routes.draw do
         resources :companies, except: :show
         resources :products
         resources :catalog_items, only: :update
-        resources :accesses, except: :show do
+        resources :accesses do
           member do
             get :create_credential
             delete :destroy_credential
