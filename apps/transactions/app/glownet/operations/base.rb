@@ -28,7 +28,6 @@ class Operations::Base < ActiveJob::Base
     station = event.portal_station
     profile = Profile.find(atts[:profile_id])
     klass = "#{atts[:transaction_category]}_transaction".classify.constantize
-
     final_atts = {
       transaction_origin: "customer_portal",
       station_id: station.id,
@@ -39,13 +38,11 @@ class Operations::Base < ActiveJob::Base
       device_created_at: Time.zone.now.strftime("%Y-%m-%d %T.%L"),
       customer_tag_uid: profile.active_gtag_assignment&.credentiable&.tag_uid
     }.merge(atts.symbolize_keys)
-
     # TODO: Remove when this method is refactored. Now it's needed by sidekiq
     Operations::Credential::TicketChecker.inspect
     Operations::Credential::GtagChecker.inspect
     Operations::Credit::BalanceUpdater.inspect
     Operations::Order::CredentialAssigner.inspect
-
     klass.create!(column_attributes(klass, final_atts))
     execute_operations(final_atts)
   end
