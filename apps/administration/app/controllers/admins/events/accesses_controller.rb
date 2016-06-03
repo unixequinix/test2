@@ -84,7 +84,7 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
                                      :min_purchasable
                                    ],
                                    entitlement_attributes: [
-                                     :id,:memory_length,:mode,:event_id
+                                     :id, :memory_length, :mode, :event_id
                                    ])
   end
 end
