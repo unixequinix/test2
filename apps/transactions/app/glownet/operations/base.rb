@@ -27,7 +27,9 @@ class Operations::Base < ActiveJob::Base
     station = event.portal_station
     profile = Profile.find(atts[:profile_id])
     klass = "#{atts[:transaction_category]}_transaction".classify.constantize
-    counter = klass.where(profile_id: atts[:profile_id]).count + 1
+    counter = klass.where(event: event,
+                          profile_id: atts[:profile_id],
+                          transaction_origin: "customer_portal").count + 1
 
     final_atts = {
       transaction_origin: "customer_portal",

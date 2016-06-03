@@ -1,4 +1,6 @@
 class Admins::Events::ProductsController < Admins::Events::BaseController
+  before_action :set_product, except: [:index, :new, :create]
+
   def index
     set_presenter
   end
@@ -19,11 +21,9 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
   end
 
   def edit
-    @product = @fetcher.products.find(params[:id])
   end
 
   def update
-    @product = @fetcher.products.find(params[:id])
     respond_to do |format|
       if @product.update_attributes!(permitted_params)
         format.html { redirect_to admins_event_products_url, notice: I18n.t("alerts.updated") }
@@ -38,7 +38,6 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
   end
 
   def destroy
-    @product = @fetcher.products.find(params[:id])
     if @product.destroy
       flash[:notice] = I18n.t("alerts.destroyed")
       redirect_to admins_event_products_url
@@ -50,6 +49,10 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
   end
 
   private
+
+  def set_product
+    @product = @fetcher.products.find(params[:id])
+  end
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(

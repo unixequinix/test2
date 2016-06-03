@@ -1,9 +1,14 @@
 class Admins::Events::PacksController < Admins::Events::BaseController
+  before_action :set_pack, except: [:index, :new, :create]
+
   def index
     @packs = @fetcher.packs.includes(:catalog_items_included,
                                      catalog_item: :credential_type,
                                      pack_catalog_items: { catalog_item: :catalogable })
                      .page(params[:page])
+  end
+
+  def show
   end
 
   def new
@@ -25,12 +30,10 @@ class Admins::Events::PacksController < Admins::Events::BaseController
   end
 
   def edit
-    @pack = @fetcher.packs.find(params[:id])
     @catalog_items_collection = @fetcher.catalog_items
   end
 
   def update
-    @pack = @fetcher.packs.find(params[:id])
     @pack.assign_attributes(permitted_params)
     if @pack.save
       flash[:notice] = I18n.t("alerts.updated")
@@ -43,7 +46,7 @@ class Admins::Events::PacksController < Admins::Events::BaseController
   end
 
   def destroy
-    if @fetcher.packs.find(params[:id]).destroy
+    if @pack.destroy
       flash[:notice] = I18n.t("alerts.destroyed")
     else
       flash[:error] = I18n.t("errors.messages.station_dependent")
@@ -52,28 +55,19 @@ class Admins::Events::PacksController < Admins::Events::BaseController
   end
 
   def create_credential
-    pack = @fetcher.packs.find(params[:id])
-    pack.catalog_item.create_credential_type if pack.catalog_item.credential_type.blank?
+    @pack.catalog_item.create_credential_type if @pack.catalog_item.credential_type.blank?
     redirect_to admins_event_packs_url
   end
 
   def destroy_credential
-    pack = @fetcher.packs.find(params[:id])
-    pack.catalog_item.credential_type.destroy if pack.catalog_item.credential_type.present?
+    @pack.catalog_item.credential_type.destroy if @pack.catalog_item.credential_type.present?
     redirect_to admins_event_packs_url
   end
 
   private
 
-  def set_presenter
-    @list_model_presenter = ListModelPresenter.new(
-      model_name: "Pack".constantize.model_name,
-      fetcher: @fetcher.packs,
-      search_query: params[:q],
-      page: params[:page],
-      context: view_context,
-      include_for_all_items: [:catalog_items_included]
-    )
+  def set_pack
+    @pack = @fetcher.packs.find(params[:id])
   end
 
   def permitted_params

@@ -59,6 +59,7 @@ RSpec.describe Pack, type: :model do
       pack = create(:pack, :with_access)
       expect(pack.only_credits_pack?).to eq(false)
     end
+
     it "should return false if it doesn't have any credit inside (2 items inside)" do
       pack = create(:pack, :with_access, :with_credit)
       expect(pack.only_credits_pack?).to eq(false)
@@ -68,7 +69,6 @@ RSpec.describe Pack, type: :model do
       pack = create(:pack, :with_credit, :with_credit)
       deep_pack = create(:pack, :with_credit, :with_access)
       pack.pack_catalog_items.create!(catalog_item: deep_pack.catalog_item, amount: 5)
-
       expect(pack.only_credits_pack?).to eq(false)
     end
   end
@@ -94,6 +94,7 @@ RSpec.describe Pack, type: :model do
       expect(enriched_credit.catalog_item_id).not_to be_nil
       expect(enriched_credit.total_amount).to be(70)
     end
+
     it "should return the credits inside a pack grouped by their name (different credits)" do
       credit_a = create(:credit, value: 2, currency: "EUR", standard: false)
       credit_b = create(:credit, value: 3, currency: "EUR", standard: false)

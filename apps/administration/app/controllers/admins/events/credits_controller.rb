@@ -1,6 +1,11 @@
 class Admins::Events::CreditsController < Admins::Events::BaseController
+  before_action :set_credit, except: [:index, :new, :create]
+
   def index
     set_presenter
+  end
+
+  def show
   end
 
   def new
@@ -20,11 +25,9 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
   end
 
   def edit
-    @credit = @fetcher.credits.find(params[:id])
   end
 
   def update
-    @credit = @fetcher.credits.find(params[:id])
     if @credit.update(permitted_params)
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_credits_url
@@ -35,7 +38,6 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
   end
 
   def destroy
-    @credit = @fetcher.credits.find(params[:id])
     if @credit.destroy
       flash[:notice] = I18n.t("alerts.destroyed")
       redirect_to admins_event_credits_url
@@ -47,18 +49,20 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
   end
 
   def create_credential
-    credits = @fetcher.credits.find(params[:id])
-    credits.catalog_item.create_credential_type if credits.catalog_item.credential_type.blank?
+    @credit.catalog_item.create_credential_type if credit.catalog_item.credential_type.blank?
     redirect_to admins_event_credits_url
   end
 
   def destroy_credential
-    credits = @fetcher.credits.find(params[:id])
-    credits.catalog_item.credential_type.destroy if credits.catalog_item.credential_type.present?
+    @credit.catalog_item.credential_type.destroy if credit.catalog_item.credential_type.present?
     redirect_to admins_event_credits_url
   end
 
   private
+
+  def set_credit
+    @credit = @fetcher.credits.find(params[:id])
+  end
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(

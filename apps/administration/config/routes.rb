@@ -71,13 +71,13 @@ Rails.application.routes.draw do
         resources :companies, except: :show
         resources :products
         resources :catalog_items, only: :update
-        resources :accesses, except: :show do
+        resources :accesses do
           member do
             get :create_credential
             delete :destroy_credential
           end
         end
-        resources :credits, except: :show do
+        resources :credits do
           member do
             get :create_credential
             delete :destroy_credential
@@ -89,7 +89,7 @@ Rails.application.routes.draw do
             delete :destroy_credential
           end
         end
-        resources :packs, except: :show do
+        resources :packs do
           member do
             get :create_credential
             delete :destroy_credential

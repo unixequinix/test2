@@ -2,7 +2,7 @@ es:
   pdf:
     pdf_title: "Historial de transacciones"
     type: "Tipo"
-    quantity: "Cantidad"
+    amount: "Cantidad"
     station: "Estación"
     date: "Fecha"
     transaction_types:
@@ -73,12 +73,12 @@ es:
       ticket: "Añadir ticket"
       gtag: "Añadir %{gtag}"
     credits:
-      header: "Tu balance"
+      header: "tu saldo"
       call_to_action_started: "El evento ya ha comenzado, no puedes recargar más"
       call_to_action_no_admission_html: "Para poder recargar online,<br>deberás activar un Ticket primero"
       button: "Recarga"
       ticket_first: "Añade un ticket o %{gtag} primero"
-      calculating_balance: "Estamos calculando tu balance"
+      calculating_balance: "Estamos calculando tu saldo"
       refundable: "Reembolsable"
     autotopup:
       claim: "Toma ventaja!"
@@ -90,10 +90,10 @@ es:
       button: "Sincroniza con PayPal"
     event_refunds:
       claim: "El evento aún no ha acabado"
-      description: "Vuelve pronto para poder reclamar tu balance"
+      description: "Vuelve pronto para poder reclamar tu saldo"
     wait_refund_disclaimer:
       claim: "Has solicitado tu devolución con éxito"
-      description: "Te enviaremos un mail entre 5 y 15 días hábiles tan pronto como tu balance esté listo."
+      description: "Te enviaremos un mail entre 5 y 15 días hábiles tan pronto como tu saldo esté listo."
       description2: "Entonces podrás ver tu saldo, introducir tus datos bancarios y recibir el pago."
     more_gtags:
       description: "¿Tienes más %{gtag}s? Regístrate otra vez con un email diferente por cada una."
@@ -123,14 +123,14 @@ es:
     gtag_after_refund:
       description: "Tu devolución está en proceso"
     without_refunds:
-      title: "Tu balance restante:"
+      title: "tu saldo restante:"
       call_to_action: "Proceder a la devolución"
-      button: "Reclama tu balance"
+      button: "Reclama tu saldo"
     not_refundable:
       title: "Tus balance restante:"
       call_to_action: "Lo sentimos, pero no tienes suficientes balance para pedir una devolución"
     refunds:
-      title: "Tu balance restante:"
+      title: "tu saldo restante:"
       call_to_action: "Reembolso realizado con éxito, pronto se realizará su transferencia"
       button: "Modificar cuenta"
     event_started:
@@ -231,7 +231,7 @@ es:
     redirect: "Serás redirigido a la pasarela de pago del banco."
     button: "Reembolsar"
     button_iupay: "IUPAY"
-    refund: "Por favor, revisa que tu balance a devolver es correcto"
+    refund: "Por favor, revisa que tu saldo a devolver es correcto"
     claim_present:
       title: "Gracias!"
       description: "Tu petición ha sido procesada y la devolución está siendo procesada."
