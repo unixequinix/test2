@@ -13,7 +13,8 @@ RSpec.describe RefundService, type: :domain_logic do
       allow(claim.profile.event).to receive(:standard_credit_price).and_return(1)
       allow(mailer_double).to receive(:deliver_later).and_return true
       allow(ClaimMailer).to receive(:completed_email).and_return mailer_double
-      Station.create!(event: claim.profile.event, name: "Customer Portal", category: "customer_portal")
+      Station.create!(event: claim.profile.event, name: "Customer Portal",
+                      category: "customer_portal")
 
       YAML.load_file(Rails.root.join("db", "seeds", "standard_credits.yml")).each do |data|
         Credit.create!(standard: data["standard"],

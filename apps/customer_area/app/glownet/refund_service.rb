@@ -10,26 +10,21 @@ class RefundService
     status_ok = %w( SUCCESS PENDING ).include? refund.status
     return false unless status_ok
     @claim.complete!
-    update_balance_after_refund(refund)
+    run_transactions(refund)
     ClaimMailer.completed_email(@claim, @profile.event).deliver_later
-  end
-
-  def update_balance_after_refund(refund)
-    neg = (refund.amount * -1)
-    params = {
-      amount: neg, refundable_amount: neg, credit_value: @profile.event.standard_credit_price,
-      payment_method: refund.payment_solution, transaction_origin: "refund",
-      created_in_origin_at: Time.zone.now
-    }
-
-    run_transactions(params, refund)
   end
 
   def fee
     -1 * @claim.fee.to_f
   end
 
-  def run_transactions(params, refund)
+  def run_transactions(refund)
+    neg = (refund.amount * -1)
+    params = {
+      amount: neg, refundable_amount: neg, credit_value: @profile.event.standard_credit_price,
+      payment_method: refund.payment_solution, transaction_origin: "refund",
+      created_in_origin_at: Time.zone.now
+    }
     credit_refund_transaction(params)
     money_transaction(params, refund)
     credit_fee_transaction(params) if @claim.fee > 0

@@ -42,27 +42,6 @@ RSpec.describe Profile, type: :model do
       expect(profile.total_credits).to eq(20)
     end
 
-    describe ".refunding" do
-      let(:refund) { build(:refund, amount: 20, claim: build(:claim, aasm_state: "in_progress")) }
-
-      before do
-        create_list(:customer_credit_online, 2, ticket_atts.merge(amount: 20))
-        allow(profile.event).to receive(:standard_credit_price).and_return(1)
-      end
-
-      it "reduces refundable_credits_amount sum by the refund amount" do
-        left_over = profile.customer_credits.sum(:refundable_amount) - refund.amount
-        profile.update_balance_after_refund(refund)
-        expect(profile.reload.customer_credits.sum(:refundable_amount)).to eq(left_over)
-      end
-
-      it "reduces total_credits by the refund amount" do
-        left_over = profile.total_credits - refund.amount
-        profile.update_balance_after_refund(refund)
-        expect(profile.reload.total_credits).to eq(left_over)
-      end
-    end
-
     describe ".ticket_credits" do
       it "returns the amount of credits rounded" do
         create_list(:customer_credit_online, 2, ticket_atts.merge(amount: 20))
