@@ -25,14 +25,17 @@ class RefundService
     run_transactions(params, refund)
   end
 
+  def fee
+    -1 * @claim.fee.to_f
+  end
+
   def run_transactions(params, refund)
     credit_refund_transaction(params)
     money_transaction(params, refund)
     credit_fee_transaction(params) if @claim.fee > 0
   end
 
-  def credit_refund_transaction(params)
-    fee = -1 * @claim.fee.to_f
+  def credit_refund_transaction(params) # rubocop:disable Metrics/AbcSize
     fields = {
       event_id: @profile.event.id,
       transaction_origin: params[:transaction_origin],
@@ -68,7 +71,6 @@ class RefundService
   end
 
   def credit_fee_transaction(params)
-    fee = -1 * @claim.fee.to_f
     fields = {
       event_id: @profile.event.id,
       transaction_origin: params[:transaction_origin],

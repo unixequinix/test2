@@ -11,7 +11,7 @@
 #  banned      :boolean          default(FALSE)
 #
 
-class Profile < ActiveRecord::Base # rubocop:disable ClassLength
+class Profile < ActiveRecord::Base
   acts_as_paranoid
   default_scope { order(created_at: :desc) }
 
