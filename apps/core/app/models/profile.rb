@@ -26,6 +26,7 @@ class Profile < ActiveRecord::Base # rubocop:disable ClassLength
   has_many :payments, through: :orders
   has_many :credit_transactions
   has_many :customer_credits
+
   has_many :completed_claims, -> { where("aasm_state = 'completed' AND completed_at IS NOT NULL") },
            class_name: "Claim"
   has_many :credit_purchased_logs,
