@@ -77,7 +77,7 @@ Rails.application.routes.draw do
             delete :destroy_credential
           end
         end
-        resources :credits, except: :show do
+        resources :credits do
           member do
             get :create_credential
             delete :destroy_credential

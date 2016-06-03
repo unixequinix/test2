@@ -179,13 +179,18 @@ crumb :admins_event_credits do |event|
   parent :admins_event, event
 end
 
+crumb :edit_admins_event_access do |event, credit|
+  link t("breadcrumbs.general.edit"), edit_admins_event_credit_path(event, credit)
+  parent :admins_event_credit, event, credit
+end
+
 crumb :admins_event_credit do |event, credit|
   link credit.catalog_item.name, edit_admins_event_credit_path(event, credit)
   parent :admins_event_credits, event
 end
 
 crumb :new_admins_event_credit do |event|
-  link t("breadcrumbs.new_credit")
+  link t("breadcrumbs.general.new")
   parent :admins_event_credits, event
 end
 
