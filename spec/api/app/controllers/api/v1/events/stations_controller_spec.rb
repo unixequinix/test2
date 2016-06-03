@@ -59,7 +59,6 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
         it "returns the catalog items for each pos" do
           get :index, event_id: event.id
           s = JSON.parse(response.body).first["stations"].first
-          binding.pry
           expect(s).to have_key("products")
 
           s_ws_items = s["products"]

@@ -6,7 +6,6 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
   end
 
   def show
-
   end
 
   def new
