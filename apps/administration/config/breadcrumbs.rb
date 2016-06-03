@@ -150,6 +150,7 @@ crumb :station_items do |event, station|
   link t("breadcrumbs.station_items"), path
   parent :admins_event_station, event, station
 end
+
 ## Accesses
 
 crumb :admins_event_accesses do |event|
@@ -212,6 +213,7 @@ crumb :new_admins_event_voucher do |event|
 end
 
 ## Packs
+
 crumb :admins_event_packs do |event|
   link t("breadcrumbs.packs"), admins_event_packs_path(event)
   parent :admins_event, event
@@ -239,13 +241,18 @@ crumb :admins_event_products do |event|
   parent :admins_event, event
 end
 
+crumb :edit_admins_event_access do |event, product|
+  link t("breadcrumbs.general.edit"), edit_admins_event_product_path(event, product)
+  parent :admins_event_product, event, product
+end
+
 crumb :admins_event_product do |event, product|
   link product.name, edit_admins_event_product_path(event, product)
   parent :admins_event_products, event
 end
 
 crumb :new_admins_event_product do |event|
-  link t("breadcrumbs.new_product")
+  link t("breadcrumbs.general.new")
   parent :admins_event_products, event
 end
 
