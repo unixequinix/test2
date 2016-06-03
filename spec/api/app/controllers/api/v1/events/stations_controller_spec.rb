@@ -43,7 +43,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
 
       context "when the station is a point of sales" do
         before do
-          @station = create(:station, category: "point_of_sales", event: event, group: "monetary")
+          @station = create(:station, category: "vendor", event: event, group: "monetary")
           @station.station_products
                   .new(price: rand(1.0...20.0).round(2),
                        product: create(:product, event: event),
@@ -59,6 +59,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
         it "returns the catalog items for each pos" do
           get :index, event_id: event.id
           s = JSON.parse(response.body).first["stations"].first
+          binding.pry
           expect(s).to have_key("products")
 
           s_ws_items = s["products"]
