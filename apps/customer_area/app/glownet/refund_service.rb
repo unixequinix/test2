@@ -44,8 +44,8 @@ class RefundService
       credits: params[:amount].to_f - fee,
       credits_refundable: params[:refundable_amount].to_f - fee,
       credit_value: params[:credit_value].to_f,
-      final_balance: @profile.current_balance.final_balance.to_f + params[:amount].to_f - fee,
-      final_refundable_balance: @profile.current_balance.final_refundable_balance.to_f +
+      final_balance: @profile&.current_balance&.final_balance.to_f + params[:amount].to_f - fee,
+      final_refundable_balance: @profile&.current_balance&.final_refundable_balance.to_f +
                                 params[:refundable_amount].to_f - fee,
       profile_id: @profile.id
     }
