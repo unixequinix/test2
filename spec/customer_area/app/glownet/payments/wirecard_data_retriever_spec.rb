@@ -10,15 +10,9 @@ RSpec.describe Payments::Wirecard::DataRetriever, type: :domain_logic do
   end
 
   subject do
-    EventParameter.find_or_create_by(event: event,
-                                     value: "SECRETSECRET",
-                                     parameter: Parameter.find_by(category: "payment",
-                                                                  group: "wirecard",
-                                                                  name: "secret_key"))
-    params = {
-      consumer_ip_address: "192.168.1.1",
-      consumer_user_agent: "chrome"
-    }
+    params = { consumer_ip_address: "192.168.1.1", consumer_user_agent: "chrome" }
+    parameter = Parameter.find_by(category: "payment", group: "wirecard", name: "secret_key")
+    EventParameter.find_or_create_by(event: event, value: "SECRETSECRET", parameter: parameter)
     Payments::Wirecard::DataRetriever.new(event, order).with_params(params)
   end
 
@@ -36,8 +30,7 @@ RSpec.describe Payments::Wirecard::DataRetriever, type: :domain_logic do
 
   context ".order_ident" do
     it "should return the order_ident for Wirecard Credit Card" do
-      expect(subject.order_ident).to be_kind_of(Integer)
-      expect(subject.order_ident).to have(8).digits
+      expect(subject.order_ident.to_s.size).to eq(8)
     end
   end
 
@@ -61,15 +54,15 @@ RSpec.describe Payments::Wirecard::DataRetriever, type: :domain_logic do
 
   context ".success_url" do
     it "should return the success_url for Wirecard Credit Card" do
-      expect(subject.success_url).to
-      include("payment_services/wirecard/asynchronous_payments/success")
+      url = "payment_services/wirecard/asynchronous_payments/success"
+      expect(subject.success_url).to include(url)
     end
   end
 
   context ".failure_url" do
     it "should return the failure_url for Wirecard Credit Card" do
-      expect(subject.failure_url).to
-      include("payment_services/wirecard/asynchronous_payments/error")
+      url = "payment_services/wirecard/asynchronous_payments/error"
+      expect(subject.failure_url).to include(url)
     end
   end
 
