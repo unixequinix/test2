@@ -109,7 +109,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def portal_station
-    stations.includes(:station_type).find_by(station_types: { name: "customer_portal" })
+    stations.find_by(category: "customer_portal")
   end
 
   def total_credits

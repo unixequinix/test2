@@ -1,5 +1,4 @@
 .section-title-empty
   = image_tag "img-empty.png"
-  p = t("admin.defaults.empty_item",
-    item: @list_model_presenter.model_name.human(count: 0))
+  p = t("admin.defaults.empty_item", item: @list_model_presenter.model_name.human(count: 0))
   = render "admins/events/shared/no_transactions" if @list_model_presenter.can_create_items?

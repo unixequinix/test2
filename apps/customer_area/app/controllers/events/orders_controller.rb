@@ -1,7 +1,7 @@
 class Events::OrdersController < Events::BaseController
-  before_action :check_has_ticket!
-  before_action :require_permission!
-  before_action :require_credential!
+  before_action :check_has_ticket!, only: [:show, :update]
+  before_action :require_permission!, only: [:show, :update]
+  before_action :require_credential!, only: [:show, :update]
 
   def show
     order = Order.includes(order_items: :catalog_item).find(params[:id])
@@ -18,7 +18,7 @@ class Events::OrdersController < Events::BaseController
     @order = OrderManager.new(Order.find(params[:id])).sanitize_order
     params[:consumer_ip_address] = request.ip
     params[:consumer_user_agent] = request.user_agent
-    @form_data = "Payments::#{@payment_service.camelize}DataRetriever"
+    @form_data = "Payments::#{@payment_service.camelize}::DataRetriever"
                  .constantize.new(current_event, @order).with_params(params)
     @order.start_payment!
   end

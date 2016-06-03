@@ -18,14 +18,12 @@ Rails.application.routes.draw do
           resources :credits, only: :index
           resources :customers, only: [:index, :show]
           resources :gtags, only: [:index, :show]
-          get "/gtags/uid/:id", to: "gtags#uid"
           resources :orders, only: :index
           resources :packs, only: :index
           resources :parameters, only: :index
           resources :products, only: :index
           resources :stations, only: :index
           resources :tickets, only: [:index, :show]
-          get "/tickets/reference/:id", to: "tickets#reference"
           resources :vouchers, only: :index
           get "/time", to: "time#index"
         end

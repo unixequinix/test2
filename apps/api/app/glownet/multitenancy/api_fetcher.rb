@@ -45,12 +45,30 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
         (
           SELECT array_to_json(array_agg(row_to_json(cr)))
           FROM (
-            SELECT credentiable_id as id,
-            LOWER(credentiable_type) as type
-            FROM credential_assignments
-            WHERE profile_id = profiles.id
-              AND aasm_state = 'assigned'
-              AND deleted_at IS NULL
+            SELECT
+              code as reference,
+              LOWER(credential_assignments.credentiable_type) as type
+            FROM tickets
+            INNER JOIN credential_assignments
+            ON credential_assignments.profile_id = profiles.id
+              AND credential_assignments.credentiable_id = tickets.id
+              AND credential_assignments.credentiable_type = 'Ticket'
+              AND credential_assignments.aasm_state = 'assigned'
+              AND credential_assignments.deleted_at IS NULL
+            WHERE tickets.deleted_at IS NULL
+
+            UNION
+            SELECT
+              tag_uid as reference,
+              LOWER(credential_assignments.credentiable_type) as type
+            FROM gtags
+            INNER JOIN credential_assignments
+            ON credential_assignments.profile_id = profiles.id
+              AND credential_assignments.credentiable_id = gtags.id
+              AND credential_assignments.credentiable_type = 'Gtag'
+              AND credential_assignments.aasm_state = 'assigned'
+              AND credential_assignments.deleted_at IS NULL
+            WHERE gtags.deleted_at IS NULL
           ) cr
         ) as credentials,
         (
@@ -95,8 +113,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
     sql = <<-SQL
       SELECT array_to_json(array_agg(row_to_json(g)))
       FROM (
-        SELECT gtags.id,
-               gtags.tag_uid,
+        SELECT gtags.tag_uid as reference,
                gtags.credential_redeemed,
                gtags.banned,
                company_ticket_types.credential_type_id as credential_type_id ,
@@ -157,9 +174,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
   end
 
   def stations
-    StationGroup.includes(stations: :station_type)
-                .where(stations: { event_id: @event.id })
-                .where.not(station_types: { name: "customer_portal" })
+    Station.where(event: @event).where.not(category: "customer_portal")
   end
 
   def sql_tickets # rubocop:disable Metrics/MethodLength
@@ -167,7 +182,6 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
       SELECT array_to_json(array_agg(row_to_json(t)))
       FROM (
         SELECT
-          tickets.id,
           tickets.code as reference,
           tickets.credential_redeemed,
           tickets.banned,

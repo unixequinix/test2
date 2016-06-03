@@ -1,0 +1,9 @@
+= simple_form_for AccessControlGate.new, url: admins_event_station_station_items_path(current_event, @station) do |f|
+  .wrapper-negative-space
+    = hidden_field_tag :item_type, "access_control_gate"
+    = f.input :direction, collection: [["In", 1], ["Out", -1]], include_blank: "Select the direction"
+    = f.input :access_id, collection: @fetcher.accesses.map { |c| [c.catalog_item.name, c.id] }, include_blank: "Select the access"
+    = f.simple_fields_for :station_parameter_attributes do |sp|
+      = sp.input :station_id, as: :hidden, input_html: { value: @station.id }
+
+    = f.button :submit, class: "btn btn-primary"

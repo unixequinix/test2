@@ -3,7 +3,6 @@ require "rails_helper"
 RSpec.feature "Refund for Bank account", type: :feature do
   context "with account signed in" do
     before :all do
-      Seeder::SeedLoader.create_stations
       load_event
       load_customer
       load_gtag

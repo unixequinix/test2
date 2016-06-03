@@ -20,6 +20,8 @@
 #  ticket_code          :string
 #  created_at           :datetime
 #  updated_at           :datetime
+#  gtag_counter         :integer          default(0)
+#  counter              :integer          default(0)
 #
 
 class CredentialTransaction < Transaction

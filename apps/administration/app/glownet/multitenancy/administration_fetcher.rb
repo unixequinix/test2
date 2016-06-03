@@ -12,14 +12,6 @@ class Multitenancy::AdministrationFetcher
     CatalogItem.where(event: @event)
   end
 
-  def unassigned_catalog_items(station)
-    CatalogItem.unassigned_catalog_items(station).where(event: @event)
-  end
-
-  def unassigned_products(station)
-    Product.unassigned_products(station).where(event: @event)
-  end
-
   def company_event_agreements
     CompanyEventAgreement.where(event: @event).includes(:company)
   end
@@ -68,8 +60,7 @@ class Multitenancy::AdministrationFetcher
   end
 
   def point_of_sale_stations
-    Station.joins(:station_type)
-           .where(event: @event, station_types: { name: Station::POINT_OF_SALE_STATIONS })
+    Station.where(event: @event, category: Station::POINT_OF_SALE_STATIONS)
   end
 
   def products
@@ -81,17 +72,15 @@ class Multitenancy::AdministrationFetcher
   end
 
   def accreditation_stations
-    Station.joins(:station_type)
-           .where(event: @event, station_types: { name: Station::ACCREDITATION_STATIONS })
+    Station.where(event: @event, category: Station::ACCREDITATION_STATIONS)
   end
 
   def topup_stations
-    @event.stations.includes(:station_type).where(station_types: { name: Station::TOPUP_STATIONS })
+    @event.stations.where(category: Station::TOPUP_STATIONS)
   end
 
   def access_control_stations
-    @event.stations.includes(:station_type)
-          .where(station_types: { name: Station::ACCESS_CONTROL_STATIONS })
+    @event.stations.where(category: Station::ACCESS_CONTROL_STATIONS)
   end
 
   def station_catalog_items
@@ -99,7 +88,8 @@ class Multitenancy::AdministrationFetcher
   end
 
   def station_products
-    StationProduct.joins(:product).where(products: { event_id: @event.id })
+    StationProduct.joins(:product)
+                  .where(products: { event_id: @event.id })
                   .includes(:station_parameter)
   end
 

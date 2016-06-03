@@ -22,7 +22,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
       end
       it "returns the necessary keys" do
         JSON.parse(response.body).map do |ticket|
-          keys = %w(id reference credential_redeemed banned credential_type_id purchaser_first_name
+          keys = %w(reference credential_redeemed banned credential_type_id purchaser_first_name
                     purchaser_last_name purchaser_email customer_id)
           expect(ticket.keys).to eq(keys)
         end
@@ -30,9 +30,8 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
       it "returns the correct data" do
         JSON.parse(response.body).each do |list_ticket|
-          ticket = db_tickets[db_tickets.index { |t| t.id == list_ticket["id"] }]
+          ticket = db_tickets[db_tickets.index { |t| t.code == list_ticket["reference"] }]
           ticket_atts = {
-            id: ticket.id,
             reference: ticket.code,
             credential_redeemed: ticket.credential_redeemed,
             banned: ticket.banned?,
@@ -87,7 +86,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
       describe "when ticket exists" do
         before(:each) do
-          get :show, event_id: event.id, id: @ticket.id
+          get :show, event_id: event.id, id: @ticket.code
         end
 
         it "returns a 200 status code" do
@@ -96,7 +95,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
         it "returns the necessary keys" do
           ticket = JSON.parse(response.body)
-          ticket_keys = %w(id reference credential_redeemed banned credential_type_id customer
+          ticket_keys = %w(reference credential_redeemed banned credential_type_id customer
                            purchaser_first_name purchaser_last_name purchaser_email)
           c_keys = %w(id banned autotopup_gateways credentials first_name last_name email orders)
           order_keys = %w(online_order_counter catalogable_id catalogable_type amount)
@@ -112,7 +111,6 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
           orders = @ticket.assigned_profile.customer_orders
 
           ticket = {
-            id: @ticket.id,
             reference: @ticket.code,
             credential_redeemed: @ticket.credential_redeemed,
             banned: @ticket.banned,
@@ -152,35 +150,6 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
     context "without authentication" do
       it "returns a 401 status code" do
         get :show, event_id: event.id, id: db_tickets.last.id
-        expect(response.status).to eq(401)
-      end
-    end
-  end
-
-  describe "GET reference" do
-    context "with authentication" do
-      before(:each) do
-        http_login(admin.email, admin.access_token)
-      end
-
-      describe "when ticket doesn't exist" do
-        it "returns a 404 status code" do
-          get :reference, event_id: event.id, id: "IdDoesntExist"
-          expect(response.status).to eq(404)
-        end
-      end
-
-      describe "when ticket exists" do
-        it "returns a 200 status code" do
-          get :reference, event_id: event.id, id: db_tickets.last.code
-          expect(response.status).to eq(200)
-        end
-      end
-    end
-
-    context "without authentication" do
-      it "returns a 401 status code" do
-        get :reference, event_id: event.id, id: db_tickets.last.id
         expect(response.status).to eq(401)
       end
     end

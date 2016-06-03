@@ -37,24 +37,13 @@ class CatalogItem < ActiveRecord::Base
     combination.uniq
   }
 
-  scope :unassigned_catalog_items, lambda { |station|
-    where("id NOT IN (
-           SELECT station_catalog_items.catalog_item_id FROM station_catalog_items
-           INNER JOIN station_parameters
-           ON station_catalog_items.id = station_parameters.station_parametable_id
-           AND station_parameters.station_parametable_type = 'StationCatalogItem'
-           WHERE station_id = #{station.id})")
-  }
-
   scope :with_prices, lambda { |event|
     joins(:station_catalog_items, station_catalog_items: :station_parameter)
       .select("catalog_items.*, station_catalog_items.price")
       .where(station_parameters:
-                      { id: StationParameter.joins(station: :station_type)
-                                            .where(
-                                              stations: { event_id: event },
-                                              station_types: { name: "customer_portal" }
-                                            ) })
+                      { id: StationParameter.joins(:station)
+                                            .where(stations: { event_id: event,
+                                                               category: "customer_porta;" }) })
   }
 
   # Credentiable Types
@@ -68,11 +57,10 @@ class CatalogItem < ActiveRecord::Base
     station_catalog_items.joins(:station_parameter)
                          .select("station_catalog_items.price")
                          .where(station_parameters:
-                       { id: StationParameter.joins(station: :station_type)
-                                             .where(
-                                               stations: { event_id: event },
-                                               station_types: { name: "customer_portal" }
-                                             ) }).first.price
+                       { id: StationParameter.joins(:station)
+                                             .where(stations: { event_id: event,
+                                                                category: "customer_portal" }) })
+                         .first.price
   end
 
   def self.sorted
