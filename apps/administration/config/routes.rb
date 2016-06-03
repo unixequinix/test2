@@ -89,7 +89,7 @@ Rails.application.routes.draw do
             delete :destroy_credential
           end
         end
-        resources :packs, except: :show do
+        resources :packs do
           member do
             get :create_credential
             delete :destroy_credential

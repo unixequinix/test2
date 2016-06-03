@@ -207,10 +207,14 @@ crumb :new_admins_event_voucher do |event|
 end
 
 ## Packs
-
 crumb :admins_event_packs do |event|
   link t("breadcrumbs.packs"), admins_event_packs_path(event)
   parent :admins_event, event
+end
+
+crumb :edit_admins_event_access do |event, pack|
+  link t("breadcrumbs.general.edit"), edit_admins_event_pack_path(event, pack)
+  parent :admins_event_pack, event, pack
 end
 
 crumb :admins_event_pack do |event, pack|
@@ -219,7 +223,7 @@ crumb :admins_event_pack do |event, pack|
 end
 
 crumb :new_admins_event_pack do |event|
-  link t("breadcrumbs.new_pack")
+  link t("breadcrumbs.general.new")
   parent :admins_event_packs, event
 end
 

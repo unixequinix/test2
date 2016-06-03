@@ -1,0 +1,30 @@
+- breadcrumb :admins_event_access, current_event, @pack
+- provide :actions do
+  = link_to edit_admins_event_pack_path(@current_event, @pack), class: "btn btn-action btn-action-edit small" do
+    = fa_icon 'edit'
+    = t('actions.edit')
+  = link_to admins_event_packs_path, class: "btn btn-action btn-action-back small" do
+    = fa_icon 'arrow-circle-left'
+    = t('actions.back')
+  
+.wrapper-negative-space
+  .container-show
+    dl
+      dt = t("admin.general.id")
+      dd = @pack.id
+      dt = t("admin.general.name")
+      dd = @pack.catalog_item.name
+      dt = t("admin.general.description")
+      dd = @pack.catalog_item.description && "-"
+      dt = t("admin.accesses.step")
+      dd = @pack.catalog_item.step
+      dt = t("admin.accesses.initial_amount")
+      dd = @pack.catalog_item.initial_amount
+      dt = t("admin.accesses.max_purchasable")
+      dd = @pack.catalog_item.max_purchasable
+      dt = t("admin.accesses.min_purchasable")
+      dd = @pack.catalog_item.min_purchasable
+      dt = t("admin.general.created_at")
+      dd = @pack.created_at.strftime("%y-%m-%d %H:%M:%S")
+      dt = t("admin.general.updated_at")
+      dd = @pack.updated_at.strftime("%y-%m-%d %H:%M:%S")
