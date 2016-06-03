@@ -115,16 +115,6 @@ class Profile < ActiveRecord::Base # rubocop:disable ClassLength
     payments.sum(:amount)
   end
 
-  def update_balance_after_refund(refund)
-    neg = (refund.amount * -1)
-    params = {
-      amount: neg, refundable_amount: neg, credit_value: event.standard_credit_price,
-      payment_method: refund.payment_solution, transaction_origin: "refund",
-      created_in_origin_at: Time.zone.now
-    }
-    customer_credits.create!(params)
-  end
-
   def purchases
     customer_orders.joins(:catalog_item).select("sum(customer_orders.amount) as total_amount,
                                                  catalog_items.id,
