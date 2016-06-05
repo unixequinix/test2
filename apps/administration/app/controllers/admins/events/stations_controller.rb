@@ -32,8 +32,8 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     respond_to do |format|
       format.html do
         if @station.update(permitted_params)
-          redirect_to admins_event_stations_url(current_event, group: @group),
-                      notice: I18n.t("alerts.updated")
+          path = admins_event_stations_url(current_event, group: @group)
+          redirect_to path, notice: I18n.t("alerts.updated")
         else
           flash.now[:error] = @station.errors.full_messages.join(". ")
           render :edit
