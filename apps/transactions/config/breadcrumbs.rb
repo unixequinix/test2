@@ -1,51 +1,11 @@
-crumb :admins_event_access_transactions do |event|
-  link t("breadcrumbs.access_transactions"), admins_event_access_transactions_path(event)
+crumb :admins_event_transactions do |event, type|
+  link t("breadcrumbs.#{type}_transactions"), admins_event_transactions_path(event, type: type)
   parent :admins_event, event
 end
 
-crumb :admins_event_access_transaction do |event, transaction|
-  link transaction.id, admins_event_access_transactions_path(event)
-  parent :admins_event_access_transactions, event
-end
-
-crumb :admins_event_credential_transactions do |event|
-  link t("breadcrumbs.credential_transactions"), admins_event_credential_transactions_path(event)
-  parent :admins_event, event
-end
-
-crumb :admins_event_credential_transaction do |event, transaction|
-  link transaction.id, admins_event_credential_transactions_path(event)
-  parent :admins_event_credential_transactions, event
-end
-
-crumb :admins_event_credit_transactions do |event|
-  link t("breadcrumbs.credit_transactions"), admins_event_credit_transactions_path(event)
-  parent :admins_event, event
-end
-
-crumb :admins_event_credit_transaction do |event, transaction|
-  link transaction.id, admins_event_credit_transactions_path(event)
-  parent :admins_event_credit_transactions, event
-end
-
-crumb :admins_event_money_transactions do |event|
-  link t("breadcrumbs.money_transactions"), admins_event_money_transactions_path(event)
-  parent :admins_event, event
-end
-
-crumb :admins_event_money_transaction do |event, transaction|
-  link transaction.id, admins_event_money_transactions_path(event)
-  parent :admins_event_money_transactions, event
-end
-
-crumb :admins_event_order_transactions do |event|
-  link t("breadcrumbs.order_transactions"), admins_event_order_transactions_path(event)
-  parent :admins_event, event
-end
-
-crumb :admins_event_order_transaction do |event, transaction|
-  link transaction.id, admins_event_order_transactions_path(event)
-  parent :admins_event_order_transactions, event
+crumb :admins_event_transaction do |event, transaction, type|
+  link transaction.id, admins_event_transaction_path(event, transaction, type)
+  parent :admins_event_transactions, event, type
 end
 
 crumb :admins_event_missing_transactions do |event|

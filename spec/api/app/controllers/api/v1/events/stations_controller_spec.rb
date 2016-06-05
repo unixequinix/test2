@@ -43,7 +43,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
 
       context "when the station is a point of sales" do
         before do
-          @station = create(:station, category: "point_of_sales", event: event, group: "monetary")
+          @station = create(:station, category: "vendor", event: event, group: "monetary")
           @station.station_products
                   .new(price: rand(1.0...20.0).round(2),
                        product: create(:product, event: event),

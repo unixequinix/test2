@@ -13,17 +13,17 @@ FactoryGirl.define do
   factory :pack do
     trait :with_credit do
       after :build do |pack|
-        pack.pack_catalog_items.build(catalog_item: create(:credit_catalog_item), amount: 2)
+        pack.pack_catalog_items.build(catalog_item: create(:credit_catalog_item), amount: 1)
       end
     end
     trait :with_access do
       after :build do |pack|
-        pack.pack_catalog_items.build(catalog_item: create(:access_catalog_item), amount: 2)
+        pack.pack_catalog_items.build(catalog_item: create(:access_catalog_item), amount: 1)
       end
     end
     trait :with_voucher do
       after :build do |pack|
-        pack.pack_catalog_items.build(catalog_item: create(:voucher_catalog_item), amount: 2)
+        pack.pack_catalog_items.build(catalog_item: create(:voucher_catalog_item), amount: 1)
       end
     end
 

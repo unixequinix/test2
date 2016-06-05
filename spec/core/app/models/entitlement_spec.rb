@@ -21,9 +21,9 @@ RSpec.describe Entitlement, type: :model do
         expect(entitlement.memory_position).to be(1)
       end
 
-      it "adds the first memory position to the first entitlement" do
-        create(:entitlement, :with_access, event: event)
-        expect(entitlement.memory_position).to be(1)
+      it "adds the next memory_position to the new entitlement" do
+        create(:access, entitlement: build(:entitlement, event: event))
+        expect(entitlement.memory_position).to be(2)
       end
     end
   end

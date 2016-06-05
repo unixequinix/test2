@@ -32,7 +32,7 @@ class Events::BankAccountClaimsController < Events::ClaimsController
   def permitted_params
     params.require(form_name).permit(:iban, :swift, :number, :bsb, :bank_name, :account_holder,
                                      :account_holder_translation, :claim_id, :event_id,
-                                     :agreed_on_claim)
+                                     :agreed_on_claim, :bank_name, :sort_code, :account_number)
   end
 
   def service_type

@@ -1,6 +1,6 @@
 class Operations::Credit::BalanceUpdater < Operations::Base
   TRIGGERS = %w( sale topup refund fee sale_refund online_topup
-                 auto_topup create_credit ticket_credit ).freeze
+                 auto_topup create_credit ticket_credit online_refund ).freeze
 
   def perform(atts)
     credit_atts = column_attributes(CustomerCredit, atts)
