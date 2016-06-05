@@ -1,0 +1,42 @@
+h3.section-header
+  = fa_icon "money"
+  = t("admin.transactions.credits")
+
+dl
+  dt = t("admin.transactions.credit_value")
+  dd = @transaction.credit_value
+  
+  dt = t("admin.transactions.credits")
+  dd = @transaction.credits
+  
+  dt = t("admin.transactions.credits_refundable")
+  dd = @transaction.credits_refundable
+  
+  dt = t("admin.transactions.final_balance")
+  dd = @transaction.final_balance
+  
+  dt = t("admin.transactions.final_refundable_balance")
+  dd = @transaction.final_refundable_balance
+br
+
+- if @transaction.sale_items.present?
+  h3.section-header
+    = fa_icon "certificate"
+    = t("admin.transactions.sale_items")
+
+  table.refunds
+    thead
+      tr
+        th = t("admin.transactions.id")
+        th = t("admin.transactions.product")
+        th = t("admin.transactions.quantity")
+        th = t("admin.transactions.unit_price")
+        th = t("admin.transactions.total")
+    tbody
+      - @transaction.sale_items.each do |item|
+        tr
+          td data-label=t("admin.transactions.id") = item.id
+          td data-label=t("admin.transactions.product") = link_to item.product.name, edit_admins_event_product_path(current_event, item.product)
+          td data-label=t("admin.transactions.quantity") = item.quantity
+          td data-label=t("admin.transactions.unit_price") = item.unit_price
+          td data-label=t("admin.transactions.total") = item.unit_price * item.quantity

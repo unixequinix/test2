@@ -25,7 +25,7 @@ es:
           subject: '¡Ya puedes acceder a la devolución de tus créditos!'
           greet: '¡Hola %{name}!'
           mail_body: 'Ya puedes proceder a la devolución de tus creditos mediante el siguiente enlace.'
-          mail_link: "Acceder para ver tu balance y realizar la transferencia"
+          mail_link: "Acceder para ver tu saldo y realizar la transferencia"
         completed:
           title: 'Notificación de devolución'
           subject: 'Petición de devolución Completada'

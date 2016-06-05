@@ -1,5 +1,21 @@
 en:
   admin:
+    general:
+      id: "ID"
+      name: "Name"
+      description: "Description"
+      created_at: "Created at"
+      updated_at: "Updated at"
+    accesses:
+      step: "Step"
+      initial_amount: "Initial Amount"
+      max_purchasable: "Maximum Purchasable"
+      min_purchasable: "Minimum Purchasable"
+      mode: "Mode"
+      modes:
+        permanent: "Permanent"
+        permanent_strict: "Permanent Strict"
+        counter: "Counter"
     transactions:
       id: "ID"
       transaction_origin: "Origin"
@@ -265,6 +281,7 @@ en:
       logs: "Logs"
       accesses: "Accesses"
       event: "Event"
+      events: "Events"
       details: "Details"
       gtag_settings: "Gtag Settings"
       payment_settings: "Payment Settings"
@@ -288,12 +305,13 @@ en:
       credential_types: "Credential Types"
       companies: "Companies"
       company_ticket_types: "Company ticket types"
-      access_transactions: "Access Transactions"
-      credit_transactions: "Credit Transactions"
-      credential_transactions: "Credential Transactions"
-      order_transactions: "Order Transactions"
-      money_transactions: "Money Transactions"
-      missin_transactions: "Missing Transactions"
+      access_transactions: "Access"
+      ban_transactions: "Ban"
+      credit_transactions: "Credit"
+      credential_transactions: "Credential"
+      order_transactions: "Order"
+      money_transactions: "Money"
+      missin_transactions: "Missing"
       credit_inconsistencies: "Credit inconsistencies"
     dashboard:
       change_state: "Change state?"

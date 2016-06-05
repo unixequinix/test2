@@ -26,7 +26,7 @@ RSpec.describe Api::V1::Events::CompanyTicketTypesController, type: :controller 
 
       it "returns the necessary keys" do
         get :index, event_id: event.id
-        keys = %w(id name company_id catalog_item_id company_name company_ticket_type_ref)
+        keys = %w(id name company_id credential_type_id company_name company_ticket_type_ref)
         JSON.parse(response.body).map do |access|
           expect(access.keys).to eq(keys)
         end
@@ -39,7 +39,7 @@ RSpec.describe Api::V1::Events::CompanyTicketTypesController, type: :controller 
             id: db_ticket_types[index].id,
             name: db_ticket_types[index].name,
             company_id: db_ticket_types[index].company_event_agreement.company.id,
-            catalog_item_id: db_ticket_types[index].credential_type.catalog_item_id,
+            credential_type_id: db_ticket_types[index].credential_type.id,
             company_name: db_ticket_types[index].company_event_agreement.company.name,
             company_ticket_type_ref: db_ticket_types[index].company_code
           }

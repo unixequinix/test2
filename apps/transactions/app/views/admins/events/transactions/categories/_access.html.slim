@@ -1,0 +1,12 @@
+h3.section-header
+  = fa_icon "exchange"
+  = t("admin.transactions.access")
+dl
+  dt = t("admin.transactions.access")
+  dd = link_to @transaction.access.catalog_item.name, admins_event_access_path(current_event, @transaction.access)
+  
+  dt = t("admin.transactions.direction")
+  dd = @transaction.direction
+  
+  dt = t("admin.transactions.final_value")
+  dd = @transaction.final_access_value

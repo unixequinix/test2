@@ -1,0 +1,58 @@
+- breadcrumb :admins_event_transactions, current_event, @type
+- provide :actions do
+  = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
+    = fa_icon 'search'
+    = t('actions.search')
+  = link_to admins_event_path(current_event), class: "btn btn-action btn-action-back small" do
+    = fa_icon 'arrow-circle-left'
+    = t('actions.back')
+
+aside.mmenu-panel#search-menu
+  p.menu-header
+    = fa_icon "search"
+    = t("admin.defaults.search")
+
+  = search_form_for @q, url: search_admins_event_transactions_path(current_event), html: { novalidate: true, class: "searchForm" }  do |f|
+    .container-search
+      = hidden_field_tag :type, @type
+      = f.input :customer_tag_uid_cont, label: t("admin.transactions.customer_tag_uid"), placeholder: t("admin.transactions.customer_tag_uid")
+      = f.input :operator_tag_uid_cont, label: t("admin.transactions.operator_tag_uid"), placeholder: t("admin.transactions.operator_tag_uid")
+      = f.input :transaction_origin_cont, label: t("admin.transactions.transaction_origin"), placeholder: t("admin.transactions.transaction_origin")
+      = f.input :transaction_type_cont, label: t("admin.transactions.transaction_type"), placeholder: t("admin.transactions.transaction_type")
+      = f.input :device_uid_cont, label: t("admin.transactions.device_uid"), placeholder: t("admin.transactions.device_uid")
+      = f.input :station_name_cont, label: t("admin.transactions.station"), placeholder: t("admin.transactions.station")
+      = f.input :status_code_eq, label: t("admin.transactions.status_code"), placeholder: t("admin.transactions.status_code")
+      = f.submit class: "btn btn-secondary"
+
+
+.wrapper-negative-space
+  - if @transactions.any?
+    .current-showing = page_entries_info @transactions
+    table.transactions
+      thead
+        tr
+          th = t("admin.transactions.id")
+          th = t("admin.transactions.transaction_origin")
+          th = t("admin.transactions.transaction_type")
+          th = t("admin.transactions.station_id")
+          th = t("admin.transactions.device_uid")
+          th = t("admin.transactions.customer_tag_uid")
+      tbody
+        - @transactions.each do |transaction|
+          tr
+            td data-label=t("admin.transactions.id") = link_to transaction.id, admins_event_transaction_path(current_event, transaction, type: @type)
+            td data-label=t("admin.transactions.transaction_origin") = transaction.transaction_origin
+            td data-label=t("admin.transactions.transaction_type") = transaction.transaction_type
+            td data-label=t("admin.transactions.station_id") = transaction.station&.name
+            td data-label=t("admin.transactions.device_uid") = transaction.device_uid
+            td data-label=t("admin.transactions.customer_tag_uid")
+              - if transaction.profile
+                = link_to transaction.customer_tag_uid, admins_event_profile_path(current_event, transaction.profile)
+              - else
+                = transaction.customer_tag_uid
+    .container-pagination
+      = paginate @transactions
+  - else
+    .section-title-empty
+      = image_tag "img-empty.png"
+      p = t("admin.defaults.empty_item", item: 'transactions')

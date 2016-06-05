@@ -17,36 +17,11 @@ Rails.application.routes.draw do
         resources :missing_transactions, only: [:index]
         resources :credit_inconsistencies, only: [:index]
 
-        resources :access_transactions, only: [:index, :show] do
+        resources :transactions, only: [:index, :show] do
           collection do
             get :search
           end
         end
-
-        resources :credential_transactions, only: [:index, :show] do
-          collection do
-            get :search
-          end
-        end
-
-        resources :credit_transactions, only: [:index, :show] do
-          collection do
-            get :search
-          end
-        end
-
-        resources :money_transactions, only: [:index, :show] do
-          collection do
-            get :search
-          end
-        end
-
-        resources :order_transactions, only: [:index, :show] do
-          collection do
-            get :search
-          end
-        end
-        # resources :voucher_transactions, only: [:index, :show]
       end
     end
   end
