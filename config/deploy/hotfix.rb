@@ -1,4 +1,4 @@
-set :branch, "development"
+set :branch, "master"
 set :rails_env, "hotfix"
 
 # Default value for :log_level is :debug

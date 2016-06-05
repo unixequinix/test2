@@ -78,7 +78,7 @@ th:
       call_to_action_no_admission_html: "เติมเงินผ่านระบบออนไลน์ <br>กรุณาใส่บัตรเข้างานในระบบก่อน"
       button: "เติมเงิน"
       ticket_first: "Add a ticket or %{gtag} first"
-      calculating_balance: "Calculating your balance"
+      calculating_balance: "We are validating your final balance. Please return in 48 hours to proceed with your refund."
       refundable: "Refundable"
     autotopup:
       claim: "Take advantage!"

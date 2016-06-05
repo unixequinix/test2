@@ -78,7 +78,7 @@ it:
       call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Event Ticket first"
       button: "Top-up"
       ticket_first: "Add a ticket first"
-      calculating_balance: "Calculating your balance"
+      calculating_balance: "We are validating your final balance. Please return in 48 hours to proceed with your refund."
       refundable: "Refundable"
     autotopup:
       claim: "Take advantage!"
