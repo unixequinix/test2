@@ -63,7 +63,7 @@ es:
           gender: 'Género'
           birthdate: 'Fecha de Nacimiento'
           password_confirmation: 'Confirmación de contraseña'
-          remember_me: 'Recuerdame'
+          remember_me: 'Recuérdame'
           agreed_on_registration: "He leído y entiendo los términos del registro"
         edit:
           <<: *label_customer

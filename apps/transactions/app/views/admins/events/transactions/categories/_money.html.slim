@@ -1,0 +1,22 @@
+h3.section-header
+  = fa_icon "money"
+  = t("admin.transactions.money")
+dl
+  dt = t("admin.transactions.catalogable_type")
+  - catalogable = @transaction.catalogable_type
+  dd = link_to catalogable.capitalize, send("edit_admins_event_#{catalogable.downcase}_path", current_event, catalogable.classify.constantize.find(@transaction.catalogable_id))
+
+  dt = t("admin.transactions.catalogable_id")
+  dd = @transaction.catalogable_id
+
+  dt = t("admin.transactions.items_amount")
+  dd = @transaction.items_amount
+
+  dt = t("admin.transactions.price")
+  dd = @transaction.price
+
+  dt = t("admin.transactions.payment_method")
+  dd = @transaction.payment_method
+
+  dt = t("admin.transactions.payment_gateway")
+  dd = @transaction.payment_gateway

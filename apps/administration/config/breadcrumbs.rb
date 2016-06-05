@@ -150,11 +150,17 @@ crumb :station_items do |event, station|
   link t("breadcrumbs.station_items"), path
   parent :admins_event_station, event, station
 end
+
 ## Accesses
 
 crumb :admins_event_accesses do |event|
   link t("breadcrumbs.accesses"), admins_event_accesses_path(event)
   parent :admins_event, event
+end
+
+crumb :edit_admins_event_access do |event, access|
+  link t("breadcrumbs.general.edit"), edit_admins_event_access_path(event, access)
+  parent :admins_event_access, event, access
 end
 
 crumb :admins_event_access do |event, access|
@@ -163,7 +169,7 @@ crumb :admins_event_access do |event, access|
 end
 
 crumb :new_admins_event_access do |event|
-  link t("breadcrumbs.new_access")
+  link t("breadcrumbs.general.new")
   parent :admins_event_accesses, event
 end
 
@@ -174,13 +180,18 @@ crumb :admins_event_credits do |event|
   parent :admins_event, event
 end
 
+crumb :edit_admins_event_access do |event, credit|
+  link t("breadcrumbs.general.edit"), edit_admins_event_credit_path(event, credit)
+  parent :admins_event_credit, event, credit
+end
+
 crumb :admins_event_credit do |event, credit|
   link credit.catalog_item.name, edit_admins_event_credit_path(event, credit)
   parent :admins_event_credits, event
 end
 
 crumb :new_admins_event_credit do |event|
-  link t("breadcrumbs.new_credit")
+  link t("breadcrumbs.general.new")
   parent :admins_event_credits, event
 end
 
@@ -208,13 +219,18 @@ crumb :admins_event_packs do |event|
   parent :admins_event, event
 end
 
+crumb :edit_admins_event_access do |event, pack|
+  link t("breadcrumbs.general.edit"), edit_admins_event_pack_path(event, pack)
+  parent :admins_event_pack, event, pack
+end
+
 crumb :admins_event_pack do |event, pack|
   link pack.catalog_item.name, edit_admins_event_pack_path(event, pack)
   parent :admins_event_packs, event
 end
 
 crumb :new_admins_event_pack do |event|
-  link t("breadcrumbs.new_pack")
+  link t("breadcrumbs.general.new")
   parent :admins_event_packs, event
 end
 
@@ -225,13 +241,18 @@ crumb :admins_event_products do |event|
   parent :admins_event, event
 end
 
+crumb :edit_admins_event_access do |event, product|
+  link t("breadcrumbs.general.edit"), edit_admins_event_product_path(event, product)
+  parent :admins_event_product, event, product
+end
+
 crumb :admins_event_product do |event, product|
   link product.name, edit_admins_event_product_path(event, product)
   parent :admins_event_products, event
 end
 
 crumb :new_admins_event_product do |event|
-  link t("breadcrumbs.new_product")
+  link t("breadcrumbs.general.new")
   parent :admins_event_products, event
 end
 

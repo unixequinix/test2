@@ -11,7 +11,7 @@
 #  banned      :boolean          default(FALSE)
 #
 
-class Profile < ActiveRecord::Base # rubocop:disable ClassLength
+class Profile < ActiveRecord::Base
   acts_as_paranoid
   default_scope { order(created_at: :desc) }
 
@@ -26,6 +26,10 @@ class Profile < ActiveRecord::Base # rubocop:disable ClassLength
   has_many :payments, through: :orders
   has_many :credit_transactions
   has_many :customer_credits
+<<<<<<< HEAD
+=======
+
+>>>>>>> development
   has_many :completed_claims, -> { where("aasm_state = 'completed' AND completed_at IS NOT NULL") },
            class_name: "Claim"
   has_many :credit_purchased_logs,
@@ -112,16 +116,6 @@ class Profile < ActiveRecord::Base # rubocop:disable ClassLength
 
   def online_refundable_money_amount
     payments.sum(:amount)
-  end
-
-  def update_balance_after_refund(refund)
-    neg = (refund.amount * -1)
-    params = {
-      amount: neg, refundable_amount: neg, credit_value: event.standard_credit_price,
-      payment_method: refund.payment_solution, transaction_origin: "refund",
-      created_in_origin_at: Time.zone.now
-    }
-    customer_credits.create!(params)
   end
 
   def purchases
