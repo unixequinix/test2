@@ -341,6 +341,10 @@ it:
       is_alcohol: "Is alcohol"
     pack:
       number_catalog_items: "Number of items"
+      add_item: "Add Item"
+      instructions:
+        title: "Atention. Credits in a pack will be refundable only if:"
+        condition: "There aren't other kind of items in a pack, like accesses or vouchers"
     credential_type:
       id: "Id"
       memory_position: "Posición en memoria"

@@ -336,6 +336,10 @@ es:
       id: "Id"
     pack:
       number_catalog_items: "Número de items"
+      add_item: "Añadir Item"
+      instructions:
+        title: "Atención. Los créditos de un pack tendrán opción a devolución únicamente si:"
+        condition: "No hay elementos otra naturaleza en el pack, como Accesos o Cupones"
     credential_type:
       id: "Id"
       memory_position: "Posición en memoria"
