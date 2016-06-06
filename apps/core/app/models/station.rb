@@ -48,9 +48,9 @@ class Station < ActiveRecord::Base
   GROUPS = {
     access: [:check_in, :box_office, :customer_portal, :staff_accreditation, :access_control],
     event_management: [:incident_report, :exhibitor, :customer_service, :operator_permissions,
-                       :payout_top_up, :hospitality_top_up],
-    glownet: [:ticket_validation, :gtag_recycler, :envelope_linker, :cs_topup_refund,
-              :cs_gtag_balance_fix, :cs_accreditation],
+                       :payout_top_up, :hospitality_top_up, :cs_topup_refund,
+                       :cs_gtag_balance_fix, :cs_accreditation],
+    glownet: [:ticket_validation, :gtag_recycler, :envelope_linker],
     monetary: [:bar, :vendor, :top_up_refund],
     touchpoint: [:touchpoint]
   }.freeze
