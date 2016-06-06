@@ -2,10 +2,6 @@
   name: 'Customer Portal'
   category: customer_portal
   station_catalog_items:
-    # Credits
-    -
-      price: 1
-      catalog_item: 1
     # Accesses
     -
       price: 10
