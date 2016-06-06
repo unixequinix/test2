@@ -25,7 +25,7 @@
           td data-label=t("admin.gtags.tickets")
             - if gtag.assigned_profile&.active_tickets_assignment
               - gtag.assigned_profile&.active_tickets_assignment.each do |assigned_ticket|
-                = link_to assigned_ticket.credentiable.code, edit_admins_event_ticket_path(current_event, assigned_ticket.credentiable)  
+                = link_to assigned_ticket.credentiable&.code, edit_admins_event_ticket_path(current_event, assigned_ticket.credentiable)  
           td data-label=t("admin.gtags.banned")
             - if gtag.banned?
               = link_to unban_admins_event_gtag_path(current_event, gtag), method: :delete, title: "Unban gtag" do
