@@ -5,7 +5,7 @@
     = f.input :name, placeholder: true
     = f.input :location, placeholder: true
     - if station.new_record?
-      = f.input :category, collection: Station::GROUPS[@group.to_sym].collect{ |g| [g.to_s.humanize, g] }, include_blank: false
+      = f.input :category, collection: Station::GROUPS[@group.to_sym].collect{ |g| [I18n.t("admin.stations.categories.#{g}"), g] }, include_blank: false
 
 
     = f.button :submit, class: "btn btn-primary"
