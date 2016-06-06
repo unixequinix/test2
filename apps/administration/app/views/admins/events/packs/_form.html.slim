@@ -11,7 +11,8 @@
 
       .wrapper-instructions
         b = I18n.t("admin.pack.instructions.title")
-        .condition = I18n.t("admin.pack.instructions.condition")
+        - I18n.t("admin.pack.instructions.conditions").each do |condition|
+          .condition = " · #{condition}"
 
       = f.simple_fields_for :pack_catalog_items do |pack_catalog_item|
         = render 'pack_catalog_item_fields', f: pack_catalog_item

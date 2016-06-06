@@ -343,7 +343,9 @@ en:
       add_item: "Add Item"
       instructions:
         title: "Atention. Credits in a pack will be refundable only if:"
-        condition: "There aren't other kind of items in a pack, like accesses or vouchers"
+        conditions:
+          - "Credits in a pack will be refundable only if there aren't other kind of items in a pack, like accesses or vouchers"
+          - "If a pack includes special price credits, the refundable amount of the credits will be the result of multiplying the payed price by the credi value"
     credential_type:
       id: "Id"
       memory_position: "Memory position"
