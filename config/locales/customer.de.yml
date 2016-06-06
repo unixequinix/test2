@@ -73,7 +73,7 @@ de:
       call_to_action_no_admission_html: "Um Ihr online-Topup zu erhalten,<br>bitte zuerst ein Veranstaltungsticket aktivieren"
       button: "Top-up"
       ticket_first: "Zuerst ein Ticket oder %{gtag} hinzufügen"
-      calculating_balance: "Rechnung wird erstellt"
+      calculating_balance: "We are validating your final balance. Please return in 48 hours to proceed with your refund."
       refundable: "Erstattungsfähig"
     autotopup:
       claim: "Vorteil nutzen!"

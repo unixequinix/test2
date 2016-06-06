@@ -78,7 +78,7 @@ es:
       call_to_action_no_admission_html: "Para poder recargar online,<br>deberás activar un Ticket primero"
       button: "Recarga"
       ticket_first: "Añade un ticket o %{gtag} primero"
-      calculating_balance: "Estamos calculando tu saldo"
+      calculating_balance: "Estamos verificando tu balance final. Por favor vuelve en 48 horas para proceder con tu devolución."
       refundable: "Reembolsable"
     autotopup:
       claim: "Toma ventaja!"
