@@ -48,7 +48,11 @@ class EventCreator
   end
 
   def customer_portal_station
-    station = Station.create!(event: @event, name: "Customer Portal", category: "customer_portal")
+    station = Station.create!(event: @event,
+                              name: "Customer Portal",
+                              category: "customer_portal",
+                              group: "access")
+
     credit = @event.credits.standard.catalog_item
     station.station_catalog_items.create(catalog_item: credit, price: 1)
   end

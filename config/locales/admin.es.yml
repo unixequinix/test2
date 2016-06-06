@@ -89,6 +89,9 @@ es:
         gtag_recycler: "Reciclaje de Gtags"
         envelope_linker: "Envelope Linker"
         touchpoint: "Touchpoint"
+        cs_topup_refund: "AC Recarga/Devolución"
+        cs_gtag_balance_fix: "AC Corrección de saldo"
+        cs_accreditation: "AC Acreditación"
       station_groups:
         access: "Acceso"
         monetary: "Monetaria"
