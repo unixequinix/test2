@@ -25,7 +25,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     @group = @station.group
   end
 
-  def update
+  def update # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     @station = current_event.stations.find(params[:id])
     @group = @station.group
 
