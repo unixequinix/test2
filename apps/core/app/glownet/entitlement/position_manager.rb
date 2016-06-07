@@ -1,11 +1,11 @@
 class Entitlement::PositionManager
   def initialize(entitlement)
     @entitlement = entitlement
-    @position_creator = Entitlement::PositionCreator.new(@entitlement)
-    @position_updater = Entitlement::PositionUpdater.new(@entitlement)
   end
 
   def start(params)
+    @position_creator = Entitlement::PositionCreator.new(@entitlement)
+    @position_updater = Entitlement::PositionUpdater.new(@entitlement)
     send("#{params[:action]}_memory_position")
   end
 
