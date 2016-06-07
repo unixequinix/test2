@@ -12,6 +12,7 @@ class EventCreator
     standard_credit
     customer_portal_station
     customer_service_stations
+    tocuhpoint_station
     default_event_parameters
     default_event_translations
     @event
@@ -65,5 +66,9 @@ class EventCreator
 
     Station.create!(event: @event, name: "CS Accreditation",
                     category: "cs_accreditation", group: "event_management")
+  end
+
+  def tocuhpoint_station
+    Station.create!(event: @event, name: "Touchpoint", category: "touchpoint", group: "touchpoint")
   end
 end
