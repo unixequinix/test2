@@ -33,7 +33,7 @@ javascript:
     });
 
     $('.sortable').sortable().bind('sortupdate', function(e, ui) {
-      updated_order = []
+      updated_order = [];
       setPositions();
       $('.sortable tr').each(function(i) {
         updated_order.push({ id: $(this).data("id"), position: i + 1 });

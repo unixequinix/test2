@@ -11,7 +11,6 @@ function UpdateFlagFormValue() {
     }
   });
 //  }
-};
-
+}
 $(document).on('page:load', UpdateFlagFormValue);
 $(document).ready(UpdateFlagFormValue);

@@ -4,13 +4,13 @@ class Entitlement::PositionManager
   end
 
   def start(params)
-    @position_creator = Entitlement::PositionCreator.new(@entitlement)
-    @position_updater = Entitlement::PositionUpdater.new(@entitlement)
+    position_creator = Entitlement::PositionCreator.new(@entitlement)
+    position_updater = Entitlement::PositionUpdater.new(@entitlement)
     case params[:action]
     when :save
-      save_memory_position(@position_creator, @position_updater)
+      save_memory_position(position_creator, position_updater)
     when :destroy
-      destroy_memory_position(@position_updater)
+      destroy_memory_position(position_updater)
     when :validate
       validate_memory_position
     end
