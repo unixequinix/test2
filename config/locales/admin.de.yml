@@ -283,6 +283,7 @@ de:
       confirm: "Neues Passwort bestätigen"
       change: "Mein Passwort ändern"
       reset_password: "Passwort zurücksetzen"
+      reset_password_confirm: "The password will be set to '123456'.\n Are you sure?"
     confirm:
       delete: "Sind Sie sicher?"
     aside:

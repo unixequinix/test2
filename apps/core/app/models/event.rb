@@ -46,7 +46,6 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
              :gtag_form_disclaimer, :gtag_name, :agreed_event_condition_message,
              fallbacks_for_empty_translations: true
 
-
   include EventState # State machine
   include EventFlags # FlagShihTzu
 
