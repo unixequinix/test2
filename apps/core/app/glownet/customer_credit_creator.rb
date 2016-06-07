@@ -19,7 +19,6 @@ class CustomerCreditCreator
       profile_id: profile.id,
       payment_method: atts[:payment_method]
     }
-
     # TODO: Remove when this method is refactored. Now it's needed by sidekiq
     Operations::Credit::BalanceUpdater.inspect
     Operations::Base.new.portal_write(fields)
