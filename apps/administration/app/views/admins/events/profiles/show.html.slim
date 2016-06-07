@@ -20,6 +20,6 @@
       span Final Balance
 
     .wrapper-statistics
-      h2 = number_to_token @profile.final_refundbale_balance
+      h2 = number_to_token @profile.final_refundable_balance
       span Final Refundable Balance
   = render("profile_data", profile: @profile, credit_transactions: @credit_transactions)
