@@ -14,7 +14,7 @@ it:
           title: 'Notifica di ordine'
           subject: 'Ordine completato'
           order_number: 'Il tuo ordine'
-          greet: 'Ciao %{name}!'
+          greet: 'Ciao, %{name}!'
           date: 'Data del acquisto'
           description: 'All your purchased Online Credits will automatically be applied to your %{gtag} once you enter the event. Your Event %{gtag} is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.'
           success: 'Il tuo ordine è stato ricevuto. I dettagli sono in basso:'
@@ -23,38 +23,38 @@ it:
         available_claim:
           title: '¡Adesso è possibile rimborsare i tuoi crediti!'
           subject: '¡Adesso è possibile rimborsare i tuoi crediti!'
-          greet: 'Ciao %{name}!'
+          greet: 'Ciao, %{name}!'
           mail_body: 'Adesso è possibile rimborsare i tuoi crediti cliccando sul link in basso'
           mail_link: "Login per vedere il tuo saldo e per eseguire l'imborso"
         completed:
           title: 'Notifica di rimborso'
           subject: 'Rimborso completato'
           order_number: 'Numero di richiesta'
-          greet: 'Ciao %{name}!'
+          greet: 'Ciao, %{name}!'
           thanks: 'Grazie per aver richiesto il tuo rimborso! '
           description: 'I tuoi crediti sono stati trasferiti. Fra 1-4 giorni riceverai un pagamento nel tuo conto bancario.'
           success: 'Ecco i dettagli del tuo rimborso:'
           date: 'Data di transazione'
       confirmation:
         title: 'Conferma password'
-        greet: 'Ciao %{name}!'
+        greet: 'Ciao, %{name}!'
         mail_body: 'Puoi conferma il tuo account di email attraverso il link in basso'
         mail_link: "Conferma account"
       reset_password:
         title: 'Reset password'
-        greet: 'Ciao %{name}!'
+        greet: 'Ciao, %{name}!'
         mail_body: 'Qualcuno ha richiesto un link per cambiare il tuo password. Per cambiare la tua password clicca sul link in basso.'
         mail_link: "Cambia il mio password"
       gtag:
         assigned:
           title: '%{gtag} assigned'
           subject: '%{gtag} assigned'
-          greet: 'Ciao %{name}!'
+          greet: 'Ciao, %{name}!'
           mail_body: 'Hai assegnato un %{gtag} con il id:'
         unassigned:
           title: '%{gtag} cancellato'
           subject: '%{gtag} cancellato'
-          greet: 'Ciao %{name}!'
+          greet: 'Ciao, %{name}!'
           mail_body: 'Hai cancellato un %{gtag} con il id:'
           mail_link: 'Verificalo sul sito web'
       agreement:
