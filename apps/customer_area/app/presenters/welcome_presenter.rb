@@ -20,8 +20,7 @@ class WelcomePresenter < BasePresenter
   end
 
   def render_description
-    return I18n.t("sessions.first_register.description_with_credentiable") if
-      @event.gtag_assignation? || @event.ticket_assignation?
+    return if @event.gtag_assignation? || @event.ticket_assignation?
     I18n.t("sessions.first_register.description_without_credentiable")
   end
 
