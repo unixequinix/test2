@@ -48,7 +48,6 @@ class Operations::Base < ActiveJob::Base
     Operations::Credential::GtagChecker.inspect
     Operations::Credit::BalanceUpdater.inspect
     Operations::Order::CredentialAssigner.inspect
-
     klass.create!(column_attributes(klass, final_atts))
     execute_operations(final_atts)
   end

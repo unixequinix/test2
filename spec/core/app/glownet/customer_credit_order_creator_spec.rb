@@ -32,7 +32,7 @@ RSpec.describe CustomerCreditOrderCreator, type: :domain_logic do
 
         coc = CustomerCreditOrderCreator.new
         coc.save(order)
-
+        expect_any_instance_of(Operations::Base).to receive(:portal_write).exactly(3).times
         expect(CustomerCredit.count).to be(1)
 
         customer_credit = CustomerCredit.first
