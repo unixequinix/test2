@@ -72,8 +72,8 @@ class Station < ActiveRecord::Base
   def add_predefined_values
     return unless ASSOCIATIONS[:topup].include?(category.to_sym)
 
-    amounts = category.starts_with?("cs_") ? [0.01, 0.10, 0.50] : [20, 25, 50]
-    amounts += [1, 5, 10]
+    amounts = [1, 5, 10]
+    amounts += category.starts_with?("cs_") ? [0.01, 0.10, 0.50] : [20, 25, 50]
     amounts.each { |a| topup_credits.create!(amount: a, credit: event.credits.standard) }
   end
 end
