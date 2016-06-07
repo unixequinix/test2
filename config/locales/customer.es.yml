@@ -337,13 +337,13 @@ es:
       success_description: 'Ahora puedes realizar recargas automáticas en tu %{gtag}'
   sessions:
     first_register:
-      welcome: 'Bienvenido!!'
+      welcome: '¡¡Bienvenido!!'
       description_with_credentiable: 'Por favor, para continuar con el evento:'
       description_without_credentiable: "No hay nada que puedas hacer ahora mismo, vuelve más tarde"
     welcome: 'Bienvenido!'
     create_account:
-      title: 'No tienes cuenta aún?'
-      link: 'Crea una gratis!'
+      title: '¿No tienes cuenta aún?'
+      link: '¡Crea una!'
     log_in:
       title: 'Ya tienes cuenta?'
       link: 'Inicia sesión'
