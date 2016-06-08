@@ -9,7 +9,7 @@ class Payments::PaypalNvp::AutotopupPayer < Payments::PaypalNvp::BasePayer
   def start(customer_order_creator, customer_credit_creator)
     return if @gateway
     @order.start_payment!
-    charge_object = charge(@params)
+    charge_object = charge
     return charge_object unless charge_object["ACK"] == "Success"
     return unless create_agreement(charge_object, @params)
     notify_payment(charge_object, customer_order_creator, customer_credit_creator)
