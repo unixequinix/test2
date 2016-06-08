@@ -1,4 +1,4 @@
-class Payments::Paypal::Payer < Payments::Paypal:BasePayer
+class Payments::Paypal::Payer < Payments::Paypal::BasePayer
   def start(customer_order_creator, customer_credit_creator)
     @order.start_payment!
     charge_object = charge
