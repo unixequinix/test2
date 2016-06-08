@@ -1,4 +1,6 @@
 class Entitlement::PositionManager
+  attr_accessor :entitlement
+
   def initialize(entitlement)
     @entitlement = entitlement
   end
