@@ -259,3 +259,6 @@
         -
           name: format
           value: standard
+        -
+          name: card_can_refund
+          value: false

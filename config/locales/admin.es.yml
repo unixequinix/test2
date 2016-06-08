@@ -402,7 +402,7 @@ es:
     gtags:
       id: "Id"
       tag: "Tag UID"
-      serial: "Tag Número Serial"
+      format: "Formato"
       banned: "Baneado"
       tickets: "Tickets"
       customer: "Cliente"
@@ -413,6 +413,9 @@ es:
       gtag_assignation: "Asignaciones del Gtag"
       import: "Importar GTags (Seleccionar un fichero CSV separado por comas)"
       import_credits: "Importar Creditos (Seleccionar un fichero CSV separado por comas)"
+      formats:
+        card: "Tarjeta"
+        wristband: "Pulsera"
       search:
         tag_uid: "Tag UID"
         tag_serial: "Tag Número Serial"

@@ -28,8 +28,8 @@ class GtagSettingsForm
     end
   end
 
-  def gtag_formats
-    Gtag::FORMATS
+  def gtag_uid_formats
+    Gtag::UID_FORMATS
   end
 
   private

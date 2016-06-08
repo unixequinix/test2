@@ -406,7 +406,7 @@ de:
     gtags:
       id: "ID"
       tag: "Tag UID"
-      serial: "Tag Seriennummer"
+      format: "Format"
       banned: "Banned"
       tickets: "Tickets"
       customer: "Kunde"
@@ -417,6 +417,9 @@ de:
       gtag_assignation: "Gtag Anmeldungen"
       import: "GTags importieren (Wählen Sie ein CSV File mit Kommatrennung)"
       import_credits: " Guthaben importieren (Wählen Sie ein CSV File mit Kommatrennung)"
+      formats:
+        card: "Card"
+        wristband: "Wristband"
       search:
         tag_uid: "Tag UID"
         tag_serial: "Tag Seriennummer"

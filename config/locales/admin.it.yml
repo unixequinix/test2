@@ -402,7 +402,7 @@ it:
     gtags:
       id: "Id"
       tag: "Tag UID"
-      serial: "Tag Serial Number"
+      format: "Format"
       banned: "Banned"
       tickets: "Tickets"
       customer: "Customer"
@@ -413,6 +413,9 @@ it:
       gtag_assignation: "Gtag assignations"
       import: "Import GTags (Select a CSV file comma separated)"
       import_credits: "Import Credits (Select a CSV file comma separated)"
+      formats:
+        card: "Card"
+        wristband: "Wristband"
       search:
         tag_uid: "Tag UID"
         tag_serial: "Tag serial number"
