@@ -11,7 +11,6 @@ function showPaymentMethod() {
     $("#method-" + target).toggleClass("show-container").siblings(".container-method").removeClass("show-container");
   });
 
-};
-
+}
 $(document).on("page:load", showPaymentMethod);
 $(document).ready(showPaymentMethod);

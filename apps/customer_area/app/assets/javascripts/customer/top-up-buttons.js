@@ -4,7 +4,7 @@ function calculateTotalCheckout () {
   $('.amount-input').each(function(idx, element) {
     product = $(element);
     calculatedTotal += product.data('price') * product.val();
-  })
+  });
   $('#amount-total-checkout').text(calculatedTotal);
 }
 
@@ -46,7 +46,6 @@ function topUpButton() {
       calculateTotalCheckout();
     });
   }
-};
-
+}
 $(document).on('page:load', topUpButton);
 $(document).ready(topUpButton);

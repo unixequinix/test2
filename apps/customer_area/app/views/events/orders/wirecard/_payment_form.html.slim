@@ -49,7 +49,7 @@ javascript:
       }
     }
     console.log(s);
-  }
+  };
   var paymentType = "CCARD";
   var dataStorage = new WirecardCEE_DataStorage();
   var paymentInformation = {};
@@ -62,4 +62,4 @@ javascript:
     paymentInformation.cardverifycode = document.getElementById('cc_cardverifycode').value;
 
     dataStorage.storeCreditCardInformation(paymentInformation, callbackFunction);
-  })
+  });

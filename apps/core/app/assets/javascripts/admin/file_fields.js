@@ -3,7 +3,6 @@ function FileField() {
   $('#file').on('change', function(){
     $('#sendButton').prop('disabled', this.value == "" ? true : false);
   });
-};
-
+}
 $(document).on('page:load', FileField);
 $(document).ready(FileField);
