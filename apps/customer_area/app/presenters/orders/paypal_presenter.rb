@@ -16,8 +16,9 @@ class Orders::PaypalPresenter < Orders::BasePresenter
     @agreement ? "with_agreement" : "without_agreement"
   end
 
-  def path
-    "events/orders/paypal/payment_form"
+  def path(namespace = "")
+    namespace += "_" if namespace.present?
+    "events/orders/paypal/#{namespace}payment_form"
   end
 
   def autotopup_path

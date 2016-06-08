@@ -340,6 +340,12 @@ th:
       id: "Id"
     pack:
       number_catalog_items: "Number of items"
+      add_item: "Add Item"
+      instructions:
+        title: "Atention. Credits in a pack will be refundable only if:"
+        conditions:
+          - "Credits in a pack will be refundable only if there aren't other kind of items in a pack, like accesses or vouchers"
+          - "If a pack includes special price credits, the refundable amount of the credits will be the result of multiplying the payed price by the credi value"
     products:
       id: "Id"
       name: "Name"

@@ -9,9 +9,14 @@
       = catalog_item.input :max_purchasable, placeholder: true
       = catalog_item.input :min_purchasable, placeholder: true
 
+      .wrapper-instructions
+        b = I18n.t("admin.pack.instructions.title")
+        - I18n.t("admin.pack.instructions.conditions").each do |condition|
+          .condition = " · #{condition}"
+
       = f.simple_fields_for :pack_catalog_items do |pack_catalog_item|
         = render 'pack_catalog_item_fields', f: pack_catalog_item
-      = link_to_add_fields("Add item", f, :pack_catalog_items)
+      = link_to_add_fields(I18n.t("admin.pack.add_item"), f, :pack_catalog_items)
 
     = f.button :submit, class: "btn btn-primary"
 
