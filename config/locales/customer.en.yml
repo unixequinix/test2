@@ -20,7 +20,7 @@ en:
     edit: "Edit"
     delete: "Delete"
     delete_ticket: "Remove ticket"
-    check_news: "Back to Event Website"
+    check_news: "Home"
     delete_account: "Delete your account"
     logout: "Logout"
     confirm: "Confirm"
@@ -307,7 +307,7 @@ en:
       call_to_action: 'Contact us:'
     success:
       title: 'Refund Done'
-      description: 'Your refund has been processed. You will receive a confirmation email of your claim.'
+      description: 'Your refund has been completed. You will receive a confirmation email of your claim.'
   passwords:
     new:
       title: 'Forgot your password?'
