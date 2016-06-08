@@ -82,7 +82,7 @@ it:
       refundable: "Refundable"
     autotopup:
       claim: "Take advantage!"
-      description: "Sync your PayPal account and receive automatic refunds during the event."
+      description: "Sync your PayPal account and get automatic topup any time you run out of credits during the event."
       disclaimer: "This amount will be refunded inmediatly after the agreement is accepted"
     paypal:
       button: "Sync with PayPal"
