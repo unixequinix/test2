@@ -25,7 +25,7 @@ class Entitlement::PositionManager
 
   def validate_memory_position
     return if @entitlement.memory_position + @entitlement.memory_length <= limit
-    errors[:memory_position] << I18n.t("errors.messages.not_enough_space_for_entitlement")
+    @entitlement.errors[:memory_position] << I18n.t("errors.messages.not_enough_space_for_entitlement")
   end
 
   def last_element
