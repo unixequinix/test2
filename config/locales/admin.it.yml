@@ -279,6 +279,7 @@ it:
       confirm: "Confirm your new password"
       change: "Change my password"
       reset_password: "Reset password"
+      reset_password_confirm: "The password will be set to '123456'.\n Are you sure?"
     confirm:
       delete: "Are you sure?"
     aside:

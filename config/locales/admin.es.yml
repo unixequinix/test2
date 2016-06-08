@@ -279,6 +279,7 @@ es:
       confirm: "Confirma tu nueva contraseña."
       change: "Cambiar mi contraseña."
       reset_password: "Resetear contraseña"
+      reset_password_confirm: "La contraseña se cambiará a '123456'.\n ¿Estás seguro?"
     confirm:
       delete: "Estás seguro?"
     aside:

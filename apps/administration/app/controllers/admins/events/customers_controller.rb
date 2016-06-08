@@ -23,6 +23,12 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
                                             .includes(:station)
   end
 
+  def reset_password
+    @customer = @fetcher.customers.find(params[:id])
+    @customer.update(encrypted_password: Authentication::Encryptor.digest("123456"))
+    redirect_to admins_event_customer_path(current_event, @customer)
+  end
+
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Customer".constantize.model_name,
