@@ -122,7 +122,11 @@ class Gtag < ActiveRecord::Base
     return found[field.to_sym] if found
   end
 
-  private
+  FORMATS.each do |method_name|
+    define_method "#{method_name}?" do
+      format == method_name
+    end
+  end
 
   def upcase_gtag!
     tag_uid.upcase! if tag_uid

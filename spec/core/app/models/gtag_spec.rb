@@ -18,11 +18,19 @@ RSpec.describe Gtag, type: :model do
   let(:gtag) { credential_assignment.credentiable }
   let(:event) { gtag.event }
 
-  describe "upcase_gtag!" do
+  describe ".upcase_gtag!" do
     it "sets the tag_uid in upcase on validation" do
       gtag.tag_uid = "abc123abc"
       gtag.valid?
       expect(gtag.tag_uid =~ /[[:upper:]]+$/).not_to be_nil
+    end
+  end
+
+  describe "Gtag format access methods" do
+    Gtag::FORMATS.each do |format|
+      it "includes .#{format}?" do
+        expect(Gtag.method_defined?("#{format}?")).to be_truthy
+      end
     end
   end
 

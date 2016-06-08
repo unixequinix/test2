@@ -65,7 +65,7 @@
           name: format
           data_type: string
         -
-          name: card_can_refund
+          name: cards_can_refund
           data_type: boolean
 -
   name: payment

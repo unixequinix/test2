@@ -260,5 +260,5 @@
           name: format
           value: standard
         -
-          name: card_can_refund
+          name: cards_can_refund
           value: false

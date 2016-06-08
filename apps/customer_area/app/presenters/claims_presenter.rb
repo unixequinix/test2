@@ -1,6 +1,10 @@
 class ClaimsPresenter < BasePresenter
   def can_render?
-    @event.refunds? && @gtag_assignment.present?
+    binding.pry
+    @event.refunds? &&
+    @gtag_assignment.present? &&
+    (@gtag_assignment.credentiable.wristband? ||
+      (@gtag_assignment.credentiable.card? && cards_can_refund?))
   end
 
   def path
@@ -60,5 +64,11 @@ class ClaimsPresenter < BasePresenter
       refundable = refundable?(refund_service) ? "refundable" : "not_refundable"
       yield method("snippet_#{refundable}").call(refund_service)
     end
+  end
+
+  private
+
+  def cards_can_refund?
+    @event.get_parameter("gtag", "form", "cards_can_refund") == "true"
   end
 end
