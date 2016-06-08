@@ -19,7 +19,8 @@ class GtagAssignmentForm
       add_error("alerts.gtag.already_assigned") && return
     end
 
-    GtagMailer.assigned_email(assignment).deliver_later
+    # TODO: Removed for Sonar with potential permanent removal
+    # GtagMailer.assigned_email(assignment).deliver_later
   end
 
   private
