@@ -10,7 +10,6 @@ function DeleteAll() {
       }
     });
   }
-};
-
+}
 $(document).on('page:load', DeleteAll);
 $(document).ready(DeleteAll);

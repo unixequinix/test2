@@ -12,8 +12,7 @@ function SetupHeader() {
       $menu.removeClass('open');
     });
   });
-};
-
+}
 $(document).on('page:load', SetupHeader);
 $(document).ready(SetupHeader);
 

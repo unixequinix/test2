@@ -34,7 +34,9 @@ center
                             br
                             = link_to t('email.customer.claim.available_claim.mail_link'), event_url(@event), { :style => "color: #ff0090; font-size: 18px; text-decoration: underline; " }
 
-                            = raw @event.mass_email_claim_notification
+          tr
+            td[align="center" valign="top"]
+              = raw @event.mass_email_claim_notification
           tr
             td[align="center" valign="top"]
               table#templateFooter[border="0" cellpadding="10" cellspacing="0" width="600"]

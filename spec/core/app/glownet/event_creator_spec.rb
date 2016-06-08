@@ -67,7 +67,7 @@ RSpec.describe EventCreator, type: :domain_logic do
 
   describe ".tocuhpoint_station" do
     let(:event) { new_event.save }
-    
+
     it "creates the touchpoint station" do
       station = event.stations.find_by(category: "touchpoint", group: "touchpoint")
       expect(station).not_to be_nil

@@ -16,8 +16,7 @@ function showNavMobile() {
     unscrollableContent.removeClass('unscrollable-view');
     triggerIcon.toggleClass('fa-times');
   });
-};
-
+}
 $(document).on('page:load', showNavMobile);
 $(document).ready(showNavMobile);
 

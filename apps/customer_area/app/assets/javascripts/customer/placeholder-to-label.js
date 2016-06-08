@@ -4,8 +4,7 @@ function placeholderToLabel() {
   target.each(function() {
     if( this.value ) {
       $(this).prev().addClass("to-be-label");
-    };
-
+    }
     $(this).on("focus", function(event) {
       $(this).prev().addClass("to-be-label");
     });
@@ -14,10 +13,9 @@ function placeholderToLabel() {
       $(this).prev().removeClass("to-be-label");
       if( this.value ) {
         $(this).prev().addClass("to-be-label");
-      };
+      }
     });
   });
-};
-
+}
 $(document).on('page:load', placeholderToLabel);
 $(document).ready(placeholderToLabel);
