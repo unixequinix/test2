@@ -1,5 +1,6 @@
 - breadcrumb :admins_event_customer, current_event, @customer
 - provide :actions do
+  = link_to t("admin.passwords.reset_password"), reset_password_admins_event_customer_path(current_event, @customer), method: :put, data: { confirm: t('admin.passwords.reset_password_confirm') }, class: "btn btn-action btn-action-new small"
   = link_to t("admin.actions.assign_ticket"), new_admins_event_customer_ticket_assignment_path(current_event, @customer), class: "btn btn-action btn-action-new small"
   = link_to t("admin.actions.assign_gtag"), new_admins_event_customer_gtag_assignment_path(current_event, @customer), class: "btn btn-action btn-action-new small" if @customer.profile.nil? || (!@customer.profile.nil? && !@customer.profile.active_gtag_assignment)
   = link_to admins_event_customers_path(current_event), class: "btn btn-action btn-action-back small" do

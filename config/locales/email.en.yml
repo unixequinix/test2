@@ -14,7 +14,7 @@ en:
           title: 'Order Notification'
           subject: 'Order Completed'
           order_number: 'Your order'
-          greet: 'Hello %{name}!'
+          greet: 'Hello, %{name}!'
           date: 'Purchase date'
           description: 'All your purchased Online Credits will automatically be applied to your %{gtag} once you enter the event. Your Event %{gtag} is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.'
           success: 'Your order has been received. You can find details below:'
@@ -23,49 +23,49 @@ en:
         available_claim:
           title: '¡You can now refund your credits!'
           subject: '¡You can now refund your credits!'
-          greet: 'Hello %{name}!'
+          greet: 'Hello, %{name}!'
           mail_body: "You can now refund your credits using the link below."
           mail_link: "Login to see your balance and claim your refund."
         completed:
           title: 'Refund Notification'
           subject: 'Refund Completed'
           order_number: 'Claim number'
-          greet: 'Hello %{name}!'
+          greet: 'Hello, %{name}!'
           thanks: 'Thank you for your refund! '
           description: 'Your credits have been transferred. In 1-4 days you will recieve the payment in your bank account.'
           success: 'Here are the details of your refund:'
           date: 'Transaction date'
       confirmation:
         title: 'Confirm password'
-        greet: 'Hello %{name}!'
+        greet: 'Hello, %{name}!'
         mail_body: 'You can confirm your account email through the link below.'
         mail_link: "Confirm account"
       reset_password:
         title: 'Reset password'
-        greet: 'Hello %{name}!'
+        greet: 'Hello, %{name}!'
         mail_body: 'We have received a request to change your password. Click the link below to change it.'
         mail_link: "Change my password"
       gtag:
         assigned:
           title: '%{gtag} Assigned'
           subject: '%{gtag} Assigned'
-          greet: 'Hello %{name}!'
+          greet: 'Hello, %{name}!'
           mail_body: 'You assigned a %{gtag} with ID:'
         unassigned:
           title: '%{gtag} Removed'
           subject: '%{gtag} Removed'
-          greet: 'Hello %{name}!'
+          greet: 'Hello, %{name}!'
           mail_body: 'You removed a %{gtag} with the id:'
           mail_link: 'Check it on the website'
       agreement:
         accepted:
           title: 'Paypal Agreement Accepted'
           subject: 'Paypal Agreement Accepted'
-          greet: 'Hello %{name}!'
+          greet: 'Hello, %{name}!'
           mail_body: 'You have accepted the PayPal Agreement so you can now do auto-topups!'
     admin:
       reset_password:
-        greet: 'Hello %{email}!'
+        greet: 'Hello, %{email}!'
         mail_body: 'Someone has requested a link to change your password. You can do this through the link below.'
         mail_link: "Change my password"
         mail_ignore: "If you didn't request this, please ignore this email. Your password won't change until you access the link above and create a new one."

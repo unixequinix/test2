@@ -1,6 +1,6 @@
 class CreditsHistoryPresenter < BasePresenter
   def can_render?
-    (@event.started? || @event.finished?) && has_transactions?
+    (@event.started? || @event.finished?) && transactions? && @gtag_assignment.present?
   end
 
   def path
@@ -9,7 +9,7 @@ class CreditsHistoryPresenter < BasePresenter
 
   private
 
-  def has_transactions?
+  def transactions?
     CreditTransaction.where(status_code: 0, profile: @profile).present?
   end
 end
