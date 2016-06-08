@@ -1,6 +1,5 @@
 class ClaimsPresenter < BasePresenter
   def can_render?
-    binding.pry
     @event.refunds? &&
     @gtag_assignment.present? &&
     (@gtag_assignment.credentiable.wristband? ||
