@@ -196,7 +196,7 @@ de:
       sync_title: "Mit Paypal synchronisieren, um die Zahlung durchzuführen"
       sync_copy: "Paypal Experience"
       sync_description: "In order to validate your PayPal account, you will be charged 0.01€ which will be refunded automatically."
-      sync_final_description: "Select the amount you´d like to be automatically topped up at any point of sale. This amount WILL NOT BE CHARGED to your account."
+      sync_final_description: "Select the amount you'd like to be automatically topped up every time you run out of credits at the event. This amount WILL NOT BE CHARGED to your account."
       with_agreement_title: "Bereits mit PayPal synchronisiert"
       with_agreement_subtitle: "Sie können direkte Zahlungen durchführen"
   claims:
