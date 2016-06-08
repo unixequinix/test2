@@ -1,8 +1,8 @@
 class ClaimsPresenter < BasePresenter
   def can_render?
     @event.refunds? &&
-    @gtag_assignment.present? &&
-    (@gtag_assignment.credentiable.wristband? ||
+      @gtag_assignment.present? &&
+      (@gtag_assignment.credentiable.wristband? ||
       (@gtag_assignment.credentiable.card? && cards_can_refund?))
   end
 
