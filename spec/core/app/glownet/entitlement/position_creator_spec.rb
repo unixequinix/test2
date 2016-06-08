@@ -13,7 +13,7 @@ RSpec.describe Entitlement::PositionCreator, type: :domain_logic do
 
     it "last position not nil returns the sum of position and length" do
       obj = instance_double("Entitlement", memory_position: 11, memory_length: 5)
-      allow(position_creator).to receive(:last_element).and_return( obj )
+      allow(position_creator).to receive(:last_element).and_return(obj)
       expect(position_creator.create_new_position).to be(16)
     end
   end

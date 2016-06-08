@@ -11,7 +11,7 @@ RSpec.describe Entitlement::PositionUpdater, type: :domain_logic do
       entitlement2 = create(:entitlement, :with_access, event: event)
       value = rand(5)
       expect do
-         position_updater.change_memory_position(value)
+        position_updater.change_memory_position(value)
       end.to change { entitlement2.reload.memory_position } .by(value)
     end
   end

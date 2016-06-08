@@ -73,10 +73,10 @@ class Station < ActiveRecord::Base
     return unless ASSOCIATIONS[:topup].include?(category.to_sym)
 
     amounts = if category.starts_with?("cs_")
-       [0.01, 0.10, 0.50, 1, 5, 10]
-    else
-       [1, 5, 10, 20, 25, 50]
-    end
+                [0.01, 0.10, 0.50, 1, 5, 10]
+              else
+                [1, 5, 10, 20, 25, 50]
+              end
     amounts.each { |a| topup_credits.create!(amount: a, credit: event.credits.standard) }
   end
 end
