@@ -12,7 +12,6 @@
 #  position   :integer
 #  group      :string
 #  category   :string
-#
 
 class Station < ActiveRecord::Base
   acts_as_paranoid
