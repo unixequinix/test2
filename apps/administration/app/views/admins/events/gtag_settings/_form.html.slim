@@ -3,8 +3,9 @@
     h3.section-header
       = fa_icon "info-circle"
       = t("admin.event.fieldests.info")
-    = f.input :format, as: :select, collection: @gtag_settings_form.gtag_formats, include_blank: false
+    = f.input :format, as: :select, collection: @gtag_settings_form.gtag_uid_formats, include_blank: false
     = f.input :gtag_name
+    = f.input :cards_can_refund, as: :radio_buttons
 
     = f.input :event_id, as: :hidden, input_html: { value: @event.id }
 

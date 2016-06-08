@@ -20,7 +20,7 @@ en:
     edit: "Edit"
     delete: "Delete"
     delete_ticket: "Remove ticket"
-    check_news: "Back to Event Website"
+    check_news: "Home"
     delete_account: "Delete your account"
     logout: "Logout"
     confirm: "Confirm"
@@ -307,7 +307,7 @@ en:
       call_to_action: 'Contact us:'
     success:
       title: 'Refund Done'
-      description: 'Your refund has been processed. You will receive a confirmation email of your claim.'
+      description: 'Your refund has been completed. You will receive a confirmation email of your claim.'
   passwords:
     new:
       title: 'Forgot your password?'
@@ -347,8 +347,8 @@ en:
       description_without_credentiable: "There's nothing you can do right now, please come back later"
     welcome: 'Welcome!'
     create_account:
-      title: 'Don´t have an account?'
-      link: 'Get a free one!'
+      title: "Don't have an account?"
+      link: 'Create an account!'
     log_in:
       title: 'Already have an account?'
       link: 'Log in here'

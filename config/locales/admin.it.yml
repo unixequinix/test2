@@ -73,11 +73,12 @@ it:
       items: "Products"
       categories:
         customer_portal: "Customer Portal"
-        point_of_sales: "Point of sales"
+        bar: "Bar"
+        vendor: "Vendor"
         top_up_refund: "Top Up / Refund"
         box_office: "Box Office"
         check_in: "Check-in"
-        dummy_check_in: "Dummy Check-in"
+        ticket_validation: "Ticket Validation"
         staff_accreditation: "Staff Accreditation"
         access_control: "Access Control"
         incident_report: "Incident Report"
@@ -89,6 +90,9 @@ it:
         gtag_recycler: "Gtag Recycler"
         envelope_linker: "Envelope Linker"
         touchpoint: "Touchpoint"
+        cs_topup_refund: "CS Topup/Refund"
+        cs_gtag_balance_fix: "CS Gtag Balance Fix"
+        cs_accreditation: "CS Accreditation"
       station_groups:
         access: "Access"
         monetary: "Monetary"
@@ -276,6 +280,7 @@ it:
       confirm: "Confirm your new password"
       change: "Change my password"
       reset_password: "Reset password"
+      reset_password_confirm: "The password will be set to '123456'.\n Are you sure?"
     confirm:
       delete: "Are you sure?"
     aside:
@@ -341,6 +346,12 @@ it:
       is_alcohol: "Is alcohol"
     pack:
       number_catalog_items: "Number of items"
+      add_item: "Add Item"
+      instructions:
+        title: "Atention"
+        conditions:
+          - "Credits in a pack will be refundable only if there aren't other kind of items in a pack, like accesses or vouchers"
+          - "If a pack includes special price credits, the refundable amount of the credits will be the result of multiplying the payed price by the credi value"
     credential_type:
       id: "Id"
       memory_position: "Posición en memoria"
@@ -398,7 +409,7 @@ it:
     gtags:
       id: "Id"
       tag: "Tag UID"
-      serial: "Tag Serial Number"
+      format: "Format"
       banned: "Banned"
       tickets: "Tickets"
       customer: "Customer"
@@ -409,6 +420,9 @@ it:
       gtag_assignation: "Gtag assignations"
       import: "Import GTags (Select a CSV file comma separated)"
       import_credits: "Import Credits (Select a CSV file comma separated)"
+      formats:
+        card: "Card"
+        wristband: "Wristband"
       search:
         tag_uid: "Tag UID"
         tag_serial: "Tag serial number"

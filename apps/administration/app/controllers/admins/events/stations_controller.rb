@@ -25,21 +25,23 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     @group = @station.group
   end
 
-  def update
+  def update # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     @station = current_event.stations.find(params[:id])
     @group = @station.group
 
     respond_to do |format|
-      format.html do
-        if @station.update(permitted_params)
+      if @station.update(permitted_params)
+        format.html do
           path = admins_event_stations_url(current_event, group: @group)
           redirect_to path, notice: I18n.t("alerts.updated")
-        else
+        end
+        format.json { render json: @station }
+      else
+        format.html do
           flash.now[:error] = @station.errors.full_messages.join(". ")
           render :edit
         end
       end
-      format.json { render json: @station }
     end
   end
 

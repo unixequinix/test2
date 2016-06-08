@@ -103,12 +103,12 @@ Rails.application.routes.draw do
 
         resources :credential_types, except: :show
         resources :company_ticket_types, except: :show
+
         resources :customers, except: [:new, :create, :edit, :update] do
           resources :ticket_assignments, only: [:new, :create]
           resources :gtag_assignments, only: [:new, :create]
-          collection do
-            get :search
-          end
+          get :search, on: :collection
+          put :reset_password, on: :member
         end
 
         resources :profiles, except: [:new, :create, :edit, :update] do

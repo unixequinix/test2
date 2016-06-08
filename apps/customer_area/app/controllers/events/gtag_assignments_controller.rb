@@ -23,7 +23,8 @@ class Events::GtagAssignmentsController < Events::BaseController
     @gtag_assignment = CredentialAssignment.find(params[:id])
     @gtag_assignment.unassign!
     flash[:notice] = I18n.t("alerts.unassigned")
-    GtagMailer.unassigned_email(@gtag_assignment).deliver_later
+    # TODO: Removed for Sonar with potential permanent removal
+    # GtagMailer.unassigned_email(@gtag_assignment).deliver_later
     redirect_to event_url(current_event)
   end
 

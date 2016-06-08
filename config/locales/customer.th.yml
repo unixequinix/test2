@@ -349,7 +349,7 @@ th:
     welcome: 'Welcome!'
     create_account:
       title: 'Don´t have an account?'
-      link: 'Get a free one!'
+      link: 'Create one!'
     log_in:
       title: 'Already have an account?'
       link: 'Log in here'

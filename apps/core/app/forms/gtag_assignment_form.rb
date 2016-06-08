@@ -14,12 +14,13 @@ class GtagAssignmentForm
     add_error("alerts.gtag.invalid") && return unless gtag
 
     begin
-      assignment = Profile::Checker.for_credentiable(gtag, current_customer)
+      Profile::Checker.for_credentiable(gtag, current_customer)
     rescue RuntimeError
       add_error("alerts.gtag.already_assigned") && return
     end
 
-    GtagMailer.assigned_email(assignment).deliver_later
+    # TODO: Removed for Sonar with potential permanent removal
+    # GtagMailer.assigned_email(assignment).deliver_later
   end
 
   private

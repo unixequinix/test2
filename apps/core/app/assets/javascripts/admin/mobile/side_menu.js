@@ -13,7 +13,6 @@ function SideMenu() {
       }
     });
   }
-};
-
+}
 $(document).on('page:load', SideMenu);
 $(document).ready(SideMenu);

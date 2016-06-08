@@ -41,11 +41,8 @@ class Admins::Events::GtagSettingsController < Admins::Events::BaseController
   private
 
   def permitted_params
-    params_names = Parameter.where(group: "form", category: "gtag").map(&:name)
-    params_names << :event_id
-    params_names << :gtag_name
-    params_names << :gtag_form_disclaimer
-    params_names << :gtag_assignation_notification
+    params_names = Parameter.where(group: "form", category: "gtag").map(&:name).map(&:to_sym)
+    params_names += [:event_id, :gtag_name, :gtag_form_disclaimer, :gtag_assignation_notification]
     params.require("gtag_settings_form").permit(params_names)
   end
 end

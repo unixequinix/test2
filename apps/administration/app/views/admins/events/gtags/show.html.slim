@@ -11,6 +11,8 @@
       dd = @gtag.id
       dt = t("admin.gtags.tag")
       dd = @gtag.tag_uid
+      dt = t("admin.gtags.format")
+      dd = t("admin.gtags.formats.#{@gtag.format}")
 
       = render("purchaser", gtag: @gtag) if @gtag.purchaser.present?
 

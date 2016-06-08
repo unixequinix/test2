@@ -1,8 +1,12 @@
 class Api::V1::CredentialAssignmentSerializer < Api::V1::BaseSerializer
-  attributes :id, :type
+  attributes :reference, :type
 
-  def id
-    object.credentiable_id
+  def reference
+    if object.credentiable_type == "Ticket"
+      object.credentiable.code
+    else
+      object.credentiable.tag_uid
+    end
   end
 
   def type

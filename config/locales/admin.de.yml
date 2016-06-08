@@ -81,11 +81,12 @@ de:
       items: "Produkte"
       categories:
         customer_portal: "Kundenportal"
-        point_of_sales: "Verkaufsstelle"
+        bar: "Bar"
+        vendor: "Vendor"
         top_up_refund: "Top Up / Erstattung"
         box_office: "Box Office"
         check_in: "Check-in"
-        dummy_check_in: "Dummy Check-in"
+        ticket_validation: "Ticket Validation"
         staff_accreditation: "Personalakkreditierung"
         access_control: "Zugangskontrolle"
         incident_report: "Vorfallsbericht"
@@ -97,6 +98,9 @@ de:
         gtag_recycler: "Gtag Recycler"
         envelope_linker: "Envelope Linker"
         touchpoint: "Touchpoint"
+        cs_topup_refund: "CS Topup/Refund"
+        cs_gtag_balance_fix: "CS Gtag Balance Fix"
+        cs_accreditation: "CS Accreditation"
       station_groups:
         access: "Zugang"
         monetary: "Monetär"
@@ -280,6 +284,7 @@ de:
       confirm: "Neues Passwort bestätigen"
       change: "Mein Passwort ändern"
       reset_password: "Passwort zurücksetzen"
+      reset_password_confirm: "The password will be set to '123456'.\n Are you sure?"
     confirm:
       delete: "Sind Sie sicher?"
     aside:
@@ -345,6 +350,12 @@ de:
       is_alcohol: "alkoholisch"
     pack:
       number_catalog_items: "Anzahl der Artikel"
+      add_item: "Add Item"
+      instructions:
+        title: "Atention. Credits in a pack will be refundable only if:"
+        conditions:
+          - "Credits in a pack will be refundable only if there aren't other kind of items in a pack, like accesses or vouchers"
+          - "If a pack includes special price credits, the refundable amount of the credits will be the result of multiplying the payed price by the credi value"
     credential_type:
       id: "Id"
       memory_position: "Speicherposition"
@@ -402,7 +413,7 @@ de:
     gtags:
       id: "ID"
       tag: "Tag UID"
-      serial: "Tag Seriennummer"
+      format: "Format"
       banned: "Banned"
       tickets: "Tickets"
       customer: "Kunde"
@@ -413,6 +424,9 @@ de:
       gtag_assignation: "Gtag Anmeldungen"
       import: "GTags importieren (Wählen Sie ein CSV File mit Kommatrennung)"
       import_credits: " Guthaben importieren (Wählen Sie ein CSV File mit Kommatrennung)"
+      formats:
+        card: "Card"
+        wristband: "Wristband"
       search:
         tag_uid: "Tag UID"
         tag_serial: "Tag Seriennummer"

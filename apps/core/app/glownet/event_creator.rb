@@ -11,6 +11,8 @@ class EventCreator
     return unless @event.save
     standard_credit
     customer_portal_station
+    customer_service_stations
+    tocuhpoint_station
     default_event_parameters
     default_event_translations
     @event
@@ -48,8 +50,25 @@ class EventCreator
   end
 
   def customer_portal_station
-    station = Station.create!(event: @event, name: "Customer Portal", category: "customer_portal")
+    station = Station.create!(event: @event, name: "Customer Portal",
+                              category: "customer_portal", group: "access")
+
     credit = @event.credits.standard.catalog_item
     station.station_catalog_items.create(catalog_item: credit, price: 1)
+  end
+
+  def customer_service_stations
+    Station.create!(event: @event, name: "CS Topup/Refund",
+                    category: "cs_topup_refund", group: "event_management")
+
+    Station.create!(event: @event, name: "CS Gtag Balance Fix",
+                    category: "cs_gtag_balance_fix", group: "event_management")
+
+    Station.create!(event: @event, name: "CS Accreditation",
+                    category: "cs_accreditation", group: "event_management")
+  end
+
+  def tocuhpoint_station
+    Station.create!(event: @event, name: "Touchpoint", category: "touchpoint", group: "touchpoint")
   end
 end

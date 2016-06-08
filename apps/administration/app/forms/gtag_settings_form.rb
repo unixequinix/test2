@@ -7,6 +7,7 @@ class GtagSettingsForm
   attribute :gtag_name, String
   attribute :gtag_type, String
   attribute :maximum_gtag_balance, Float
+  attribute :cards_can_refund, String
   attribute :gtag_form_disclaimer
   attribute :gtag_assignation_notification
 
@@ -14,6 +15,7 @@ class GtagSettingsForm
   validates_presence_of :event_id
   validates_presence_of :gtag_name
   validates_presence_of :gtag_type
+  validates_presence_of :cards_can_refund
   validates_numericality_of :maximum_gtag_balance
 
   validate :enough_space_for_credential
@@ -28,8 +30,8 @@ class GtagSettingsForm
     end
   end
 
-  def gtag_formats
-    Gtag::FORMATS
+  def gtag_uid_formats
+    Gtag::UID_FORMATS
   end
 
   private

@@ -73,11 +73,12 @@ es:
       items: "Productos"
       categories:
         customer_portal: "Portal de cliente"
-        point_of_sales: "Punto de ventas"
+        bar: "Bar"
+        vendor: "Vendedor"
         top_up_refund: "Recargas / Devoluciones"
         box_office: "Oficina de venta"
         check_in: "Acceso"
-        dummy_check_in: "Acceso Dummy"
+        ticket_validation: "Validación de tickets"
         staff_accreditation: "Acreditación del personal"
         access_control: "Control de Acceso"
         incident_report: "Reporte de incidentes"
@@ -89,6 +90,9 @@ es:
         gtag_recycler: "Reciclaje de Gtags"
         envelope_linker: "Envelope Linker"
         touchpoint: "Touchpoint"
+        cs_topup_refund: "AC Recarga/Devolución"
+        cs_gtag_balance_fix: "AC Corrección de saldo"
+        cs_accreditation: "AC Acreditación"
       station_groups:
         access: "Acceso"
         monetary: "Monetaria"
@@ -276,6 +280,7 @@ es:
       confirm: "Confirma tu nueva contraseña."
       change: "Cambiar mi contraseña."
       reset_password: "Resetear contraseña"
+      reset_password_confirm: "La contraseña se cambiará a '123456'.\n ¿Estás seguro?"
     confirm:
       delete: "Estás seguro?"
     aside:
@@ -336,6 +341,12 @@ es:
       id: "Id"
     pack:
       number_catalog_items: "Número de items"
+      add_item: "Añadir Item"
+      instructions:
+        title: "Atención"
+        conditions:
+          - "Los créditos de un pack tendrán opción a devolución únicamente si no hay elementos otra naturaleza en el pack, como Accesos o Cupones"
+          - "Si un pack incluye créditos con un precio especial, los créditos con opción a devolución serán los equivalentes al precio pagado por los créditos multiplicado por el valor del crédito"
     credential_type:
       id: "Id"
       memory_position: "Posición en memoria"
@@ -398,7 +409,7 @@ es:
     gtags:
       id: "Id"
       tag: "Tag UID"
-      serial: "Tag Número Serial"
+      format: "Formato"
       banned: "Baneado"
       tickets: "Tickets"
       customer: "Cliente"
@@ -409,6 +420,9 @@ es:
       gtag_assignation: "Asignaciones del Gtag"
       import: "Importar GTags (Seleccionar un fichero CSV separado por comas)"
       import_credits: "Importar Creditos (Seleccionar un fichero CSV separado por comas)"
+      formats:
+        card: "Tarjeta"
+        wristband: "Pulsera"
       search:
         tag_uid: "Tag UID"
         tag_serial: "Tag Número Serial"
