@@ -14,7 +14,7 @@ class GtagAssignmentForm
     add_error("alerts.gtag.invalid") && return unless gtag
 
     begin
-      assignment = Profile::Checker.for_credentiable(gtag, current_customer)
+      Profile::Checker.for_credentiable(gtag, current_customer)
     rescue RuntimeError
       add_error("alerts.gtag.already_assigned") && return
     end
