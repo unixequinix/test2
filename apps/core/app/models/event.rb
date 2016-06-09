@@ -114,6 +114,10 @@ class Event < ActiveRecord::Base
     profiles.sum(:refundable_credits) * standard_credit_price
   end
 
+  def refund_fee(refund_service)
+    get_parameter("refund", refund_service, "fee")
+  end
+
   def get_parameter(category, group, name)
     event_parameters.includes(:parameter)
                     .find_by(parameters: { category: category, group: group, name: name })

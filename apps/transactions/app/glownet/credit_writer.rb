@@ -39,8 +39,8 @@ class CreditWriter
       transaction_type: "create_credit",
       transaction_origin: Transaction::ORIGINS[:portal],
       refundable_credits: atts[:credits],
-      final_balance: profile.credits + atts[:credits],
-      final_refundable_balance: profile.refundable_credits + atts[:refundable_credits],
+      final_balance: profile.credits.to_f + atts[:credits],
+      final_refundable_balance: profile.refundable_credits.to_f + atts[:refundable_credits],
       profile_id: profile.id,
       event_id: profile.event.id,
       device_created_at: Time.zone.now.strftime("%Y-%m-%d %T.%L")

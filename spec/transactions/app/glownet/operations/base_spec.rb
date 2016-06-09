@@ -23,7 +23,7 @@ RSpec.describe Operations::Base, type: :job do
     Operations::Credential::GtagChecker.inspect
     Operations::Credit::BalanceUpdater.inspect
     Operations::Order::CredentialAssigner.inspect
-    # Dont care about the BalanceUpdater or Porfile::Checker, so I mock the behaviour
+    # Dont care about the BalanceUpdater or Profile::Checker, so I mock the behaviour
     allow(Operations::Credit::BalanceUpdater).to receive(:perform_now)
   end
 
