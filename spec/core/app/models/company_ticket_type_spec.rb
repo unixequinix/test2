@@ -43,7 +43,7 @@ RSpec.describe CompanyTicketType, type: :model do
     end
 
     it "returns all the company ticket types that belongs to a company of a particular event" do
-      query = CompanyTicketType.search_by_company_and_event(agreement.company.name, event)
+      query = event.company_ticket_types.where(company_event_agreement: agreement)
       expect(query).to include(ticket_type)
       expect(query).to include(ticket_type2)
     end
