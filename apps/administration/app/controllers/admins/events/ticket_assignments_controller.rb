@@ -17,10 +17,9 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::CheckinBaseC
   end
 
   def destroy
-    customer_credit_creator = CustomerCreditTicketCreator.new
     credential_assignment = CredentialAssignment.find(params[:id])
     ticket = credential_assignment.credentiable
-    @credit_log = customer_credit_creator.unassign(ticket) if ticket.credits.present?
+    @credit_log = CreditWriter.reassign_ticket(ticket, :unassign) if ticket.credits.present?
     credential_assignment.unassign!
     flash[:notice] = I18n.t("alerts.unassigned")
     redirect_to :back

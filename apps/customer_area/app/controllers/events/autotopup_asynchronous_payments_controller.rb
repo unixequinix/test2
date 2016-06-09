@@ -7,7 +7,7 @@ class Events::AutotopupAsynchronousPaymentsController < Events::PaymentsBaseCont
   def create
     payment_service = params[:payment_service_id]
     payer = "Payments::#{payment_service.camelize}::AutotopupPayer".constantize.new(params)
-    payer.start(CustomerOrderCreator.new, CustomerCreditOrderCreator.new)
+    payer.start(CustomerOrderCreator.new, CreditWriter)
     render nothing: true
   end
 end

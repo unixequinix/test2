@@ -46,7 +46,8 @@ class Station < ActiveRecord::Base
   }.freeze
 
   GROUPS = {
-    access: [:ticket_validation, :check_in, :box_office, :customer_portal, :staff_accreditation, :access_control],
+    access: [:ticket_validation, :check_in, :box_office, :customer_portal,
+             :staff_accreditation, :access_control],
     event_management: [:incident_report, :exhibitor, :customer_service, :operator_permissions,
                        :payout_top_up, :hospitality_top_up, :cs_topup_refund,
                        :cs_gtag_balance_fix, :cs_accreditation],

@@ -33,10 +33,14 @@ class CreditTransaction < Transaction
 
   accepts_nested_attributes_for :sale_items
 
-  scope :with_event, ->(event) { where(event: event) }
-  scope :with_customer_tag, ->(tag_uid) { where(customer_tag_uid: tag_uid) }
+  # TODO: Move all to Transaction  after Rails 5 which solves issue with scopes in abstract classes
+  scope :with_event, -> (event) { where(event: event) }
+  scope :with_customer_tag, -> (tag_uid) { where(customer_tag_uid: tag_uid) }
+  scope :status_ok, -> { where(status_code: 0) }
+  scope :origin, -> (origin) { where(transaction_origin: Transaction::ORIGINS[origin]) }
+  scope :not_record_credit, -> { where.not(transaction_type: "record_credit") }
 
-  default_scope { order(device_created_at: :desc) }
+  default_scope { order(gtag_counter: :desc) }
 
   def self.mandatory_fields
     super + %w( credits credits_refundable credit_value final_balance final_refundable_balance )

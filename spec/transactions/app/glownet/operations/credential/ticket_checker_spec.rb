@@ -13,7 +13,7 @@ RSpec.describe Operations::Credential::TicketChecker, type: :job do
     {
       transaction_id: transaction.id,
       event_id: event.id,
-      transaction_origin: "device",
+      transaction_origin: Transaction::ORIGINS[:device],
       transaction_category: "credential",
       transaction_type: "ticket_checkin",
       customer_tag_uid: gtag.tag_uid,

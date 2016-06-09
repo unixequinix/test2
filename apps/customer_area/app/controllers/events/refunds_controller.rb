@@ -30,16 +30,12 @@ class Events::RefundsController < Events::BaseController
     redirect_to(error_event_refunds_url(current_event)) && return unless @claim
 
     RefundService.new(@claim)
-                 .create(amount: @claim.gtag.refundable_amount_after_fee("tipalti"),
-                         currency: I18n.t("currency_symbol"), message: "Created tipalti refund",
-                         payment_solution: "tipalti", status: "SUCCESS")
+                 .create(amount: @claim.profile.refundable_money_after_fee("tipalti"),
+                         currency: I18n.t("currency_symbol"),
+                         message: "Created tipalti refund",
+                         payment_solution: "tipalti",
+                         status: "SUCCESS")
 
     redirect_to(success_event_refunds_url(current_event))
-  end
-
-  def success
-  end
-
-  def error
   end
 end

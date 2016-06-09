@@ -1,4 +1,4 @@
-class CustomerOrderTicketCreator
+class CustomerOrderCreator
   def save(ticket)
     if ticket.credential_type_item.catalogable_type == "Pack"
       ticket.pack_catalog_items_included.each do |pack_catalog_item|

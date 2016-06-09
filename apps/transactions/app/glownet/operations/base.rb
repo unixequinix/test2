@@ -29,10 +29,10 @@ class Operations::Base < ActiveJob::Base
     klass = "#{atts[:transaction_category]}_transaction".classify.constantize
     counter = klass.where(event: event,
                           profile_id: atts[:profile_id],
-                          transaction_origin: "customer_portal").count + 1
+                          transaction_origin: Transaction::ORIGINS[:portal]).count + 1
 
     final_atts = {
-      transaction_origin: "customer_portal",
+      transaction_origin: Transaction::ORIGINS[:portal],
       counter: counter,
       station_id: station.id,
       status_code: 0,

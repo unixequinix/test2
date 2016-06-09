@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe Management::RefundManager, type: :domain_logic do
   let(:profile) { create(:profile) }
-  let(:amount) { profile.refundable_money_amount }
+  let(:amount) { profile.refundable_money }
   subject { Management::RefundManager.new(profile, amount) }
 
   describe ".get_online_payments" do
@@ -11,7 +11,7 @@ RSpec.describe Management::RefundManager, type: :domain_logic do
 
     before do
       payments.each { |p| p.update_attributes! amount: 100, order: p.order }
-      allow(profile).to receive(:refundable_money_amount).and_return(150.00)
+      allow(profile).to receive(:refundable_money).and_return(150.00)
     end
 
     it "should include the payents required to start the refund and respective amounts" do

@@ -14,38 +14,27 @@ RSpec.describe Operations::Credit::BalanceUpdater, type: :job do
       final_refundable_balance: 20,
       event_id: event.id,
       transaction_category: "credit",
-      transaction_origin: "device",
-      customer_tag_uid: "04C80D6AB63784"
-
+      transaction_origin: Transaction::ORIGINS[:device],
+      customer_tag_uid: "04C80D6AB63784",
+      profile_id: profile.id
     }
   end
 
-  it "includes payment method of 'credits'" do
-    params[:profile_id] = profile.id
-    credit = worker.perform_now(params)
-    expect(credit.payment_method).to eq("credits")
-  end
-
-  it "updates the balance of a customer when correct values are supplied" do
-    params[:profile_id] = profile.id
-    expect { worker.perform_later(params) }.to change(CustomerCredit, :count).by(1)
-  end
-
-  it "renames credits to amount" do
-    atts = hash_including(amount: params[:credits])
-    expect(CustomerCredit).to receive(:create!).with(atts)
+  it "updates the credits of a customer when correct values are supplied" do
     worker.perform_now(params)
+    profile.reload
+    expect(profile.credits.to_f).to eql(params[:credits].to_f)
   end
 
-  it "sets payment_method to 'credits'" do
-    atts = hash_including(payment_method: "credits")
-    expect(CustomerCredit).to receive(:create!).with(atts)
+  it "updates the refundable credits of a customer when correct values are supplied" do
     worker.perform_now(params)
+    profile.reload
+    expect(profile.refundable_credits.to_f).to eql(params[:credits_refundable].to_f)
   end
 
-  it "renames credits_refundable to refundable_amount" do
-    atts = hash_including(refundable_amount: params[:credits_refundable])
-    expect(CustomerCredit).to receive(:create!).with(atts)
+  it "renames credits_refundable to refundable_credits" do
+    atts = hash_including(refundable_credits: params[:credits_refundable])
+    expect_any_instance_of(Profile).to receive(:update!).with(atts)
     worker.perform_now(params)
   end
 

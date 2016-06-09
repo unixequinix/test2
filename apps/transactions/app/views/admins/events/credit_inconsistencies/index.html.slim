@@ -25,20 +25,7 @@
         tr
           th = t("admin.transactions.profile_id")
           th = t("admin.transactions.credits")
-          th = t("admin.transactions.credits_refundable")
-          th = t("admin.transactions.final_balance")
-          th = t("admin.transactions.final_refundable_balance")
-          th = t("admin.transactions.inconsistent_balance")
-          th = t("admin.transactions.inconsistent_refundable_balance")
-
-          th = t("admin.transactions.amount_sum_transaction")
-          th = t("admin.transactions.refundable_sum_transaction")
-
-
-          th = t("admin.transactions.final_transaction_balance")
-          th = t("admin.transactions.final_transaction_refundable_balance")
-          th = t("admin.transactions.inconsistent_transaction_balance")
-          th = t("admin.transactions.inconsistent_transaction_refundable_balance")
+          th = t("admin.transactions.refundable_credits")
           th = t("admin.transactions.gtag")
       tbody
         - @issues.each do |issue|
@@ -46,21 +33,6 @@
             td data-label=t("admin.transactions.id") = link_to issue[:profile].id, admins_event_profile_path(current_event, issue[:profile])
             td data-label=t("admin.transactions.credits") = issue[:amount_sum_credit]
             td data-label=t("admin.transactions.credits_refundable") = issue[:refundable_sum_credit]
-            td data-label=t("admin.transactions.final_balance") = issue[:final_balance]
-            td data-label=t("admin.transactions.final_refundable_balance") = issue[:final_refundable_balance]
-
-            td data-label=t("admin.transactions.inconsistent_balance") = issue[:inconsistent_balance]
-            td data-label=t("admin.transactions.inconsistent_refundable_balance") = issue[:inconsistent_refundable_balance]
-
-            // TODO: Internationalization for these data labels
-            td data-label="amount_sum_transaction" = issue[:amount_sum_transaction]
-            td data-label="refundable_sum_transaction" = issue[:refundable_sum_transaction]
-
-            td data-label=t("admin.transactions.final_transaction_balance") = issue[:final_transaction_balance]
-            td data-label=t("admin.transactions.final_transaction_refundable_balance") = issue[:final_transaction_refundable_balance]
-            td data-label=t("admin.transactions.inconsistent_transaction_balance") = issue[:inconsistent_transaction_balance]
-            td data-label=t("admin.transactions.inconsistent_transaction_refundable_balance") = issue[:inconsistent_transaction_refundable_balance]
-
             td data-label="gtag" = issue[:gtag]
   - else
     .section-title-empty

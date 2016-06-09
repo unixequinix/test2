@@ -67,40 +67,12 @@ class Gtag < ActiveRecord::Base
            AND credential_assignments.credentiable_type = 'Gtag'
            AND credential_assignments.deleted_at IS NULL
            LEFT OUTER JOIN customer_orders
-           ON customer_orders.profile_id =
-           credential_assignments.profile_id
+           ON customer_orders.profile_id = credential_assignments.profile_id
            AND customer_orders.deleted_at IS NULL")
       .select("gtags.id, gtags.event_id, gtags.company_ticket_type_id, gtags.tag_uid,
                gtags.credential_redeemed, customer_orders.amount")
       .where(event: event_id)
   }
-
-  scope :search_by_company_and_event, lambda { |company, event|
-    includes(:purchaser, :company_ticket_type, company_ticket_type: [:company])
-      .where(event: event, companies: { name: company })
-  }
-
-  # TODO: Right now we're calculating the refundable_amount ourselves, in the future when the
-  # =>    devices fix the writing in wristband problem we will use the final_refundable_balance
-  # =>    of the last customer_credit ordered by gtag_db_index
-  def refundable_amount
-    assigned_profile.customer_credits.map(&:refundable_amount).sum * event.standard_credit_price
-  end
-
-  def refundable_amount_after_fee(refund_service)
-    fee = event.refund_fee(refund_service)
-    refundable_amount - fee.to_f
-  end
-
-  def refundable?(refund_service)
-    minimum = event.refund_minimun(refund_service).to_f
-    amount = refundable_amount_after_fee(refund_service)
-    amount >= minimum && amount >= 0
-  end
-
-  def any_refundable_method?
-    event.selected_refund_services.any? { |service| refundable?(service) }
-  end
 
   def self.field_by_memory_length(memory_length:, field:)
     found = GTAG_DEFINITIONS.find do |definition|

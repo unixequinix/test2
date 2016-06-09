@@ -32,7 +32,7 @@ class Payments::PaypalNvp::AgreementPayer
   def notify_payment(charge, customer_order_creator, customer_credit_creator)
     return unless charge["ACK"] == "Success"
     create_payment(@order, charge, @method)
-    customer_credit_creator.save(@order)
+    customer_credit_creator.save_order(@order)
     customer_order_creator.save(@order, "paypal_nvp", "paypal_nvp")
     @order.complete!
     send_mail_for(@order, @event)

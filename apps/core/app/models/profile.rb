@@ -25,13 +25,10 @@ class Profile < ActiveRecord::Base
   has_many :online_orders, through: :customer_orders
   has_many :payments, through: :orders
   has_many :credit_transactions
-  has_many :customer_credits
   has_many :completed_claims, -> { where("aasm_state = 'completed' AND completed_at IS NOT NULL") },
            class_name: "Claim"
-  has_many :credit_purchased_logs,
-           -> { where(transaction_origin: CustomerCredit::CREDITS_PURCHASE) },
-           class_name: "CustomerCredit"
   has_many :credential_assignments
+  has_many :credit_transactions
   # credential_assignments_tickets
   has_many :ticket_assignments,
            -> { where(credentiable_type: "Ticket") },
@@ -71,62 +68,42 @@ class Profile < ActiveRecord::Base
   end
 
   def active_credentials?
-    active_tickets_assignment.any? || !active_gtag_assignment.nil?
+    active_tickets_assignment.any? || active_gtag_assignment.present?
   end
 
-  # TODO: check with customer_credits.current method for duplication
-  def current_balance
-    customer_credits.order(created_in_origin_at: :desc).first
+  def refundable?(refund_service)
+    minimum = event.refund_minimun(refund_service).to_f
+    amount = refundable_money_after_fee(refund_service)
+    amount >= minimum && amount >= 0
   end
 
-  def total_credits
-    customer_credits.sum(:amount)
+  def refundable_money
+    refundable_credits * event.standard_credit_price
   end
 
-  def total_refundable
-    customer_credits.sum(:refundable_amount)
+  def refundable_money_after_fee(refund_service)
+    refundable_money_amount - event.refund_fee(refund_service).to_f
   end
 
-  def ticket_credits
-    customer_credits.where.not(transaction_origin: CustomerCredit::CREDITS_PURCHASE)
-                    .sum(:amount).floor
-  end
-
-  def purchased_credits
-    customer_credits.where(transaction_origin: CustomerCredit::CREDITS_PURCHASE).sum(:amount).floor
-  end
-
-  def refundable_credits_amount
-    current_balance.present? ? current_balance.final_refundable_balance : 0
-  end
-
-  # TODO: should this method be here??
-  def refundable_money_amount
-    refundable_credits_amount * event.standard_credit_price
-  end
-
-  def refundable_amount_after_fee(refund_service)
-    fee = event.refund_fee(refund_service)
-    refundable_money_amount - fee.to_f
-  end
-
-  def online_refundable_money_amount
+  def online_refundable_money
     payments.sum(:amount)
   end
 
+  def inconsistent_credits?
+    trans = credit_transactions.status_ok.not_record_credit
+    credits.to_f != trans.sum(:credits) || refundable_credits.to_f != trans.sum(:credits_refundable)
+  end
+
   def purchases
-    customer_orders.joins(:catalog_item).select("sum(customer_orders.amount) as total_amount,
-                                                 catalog_items.id,
-                                                 catalog_items.name,
-                                                 catalog_items.catalogable_type,
-                                                 catalog_items.catalogable_id")
-                   .group("catalog_items.name, catalog_items.catalogable_type, "\
-             "catalog_items.catalogable_id, catalog_items.id")
+    atts = %w( id name catalogable_type catalogable_id ).map { |k| "catalog_items.#{k}" }.join(", ")
+    customer_orders.joins(:catalog_item)
+                   .select("sum(customer_orders.amount) as total_amount, #{atts}")
+                   .group(atts)
   end
 
   def infinite_entitlements_purchased
     single = customer_orders.includes(catalog_item: :catalogable).select do |customer_order|
-      customer_order.catalog_item.catalogable.try(:entitlement).try(:infinite?)
+      customer_order.catalog_item.catalogable&.entitlement&.infinite?
     end.map(&:catalog_item_id)
 
     packs_ids = Pack.joins(:catalog_items_included).where(catalog_items: { id: single })

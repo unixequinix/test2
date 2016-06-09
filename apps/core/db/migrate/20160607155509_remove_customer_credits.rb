@@ -15,10 +15,12 @@ class RemoveCustomerCredits < ActiveRecord::Migration
 
     Profile.includes(:customer_credits).each do |p|
       creds = p.customer_credits
-      p.credits = creds.sum(:amount)
-      p.refundable_credits = creds.sum(:refundable_amount)
-      p.final_balance = creds.last&.final_balance || 0.00
-      p.final_refundable_balance = creds.last&.final_refundable_balance || 0.00
+      last = creds.last
+      next unless last
+      p.credits = creds.map(&:amount).sum
+      p.refundable_credits = creds.map(&:refundable_amount).sum
+      p.final_balance = last.final_balance
+      p.final_refundable_balance = last.final_refundable_balance
       p.save!
     end
 

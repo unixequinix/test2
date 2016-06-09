@@ -418,10 +418,6 @@ en:
       actions:
         delete_gtags: "Delete all gtags"
         delete_credits: "Delete all credits"
-      report:
-        total_credits: "Total Credits in the System"
-        total_refundable_money: "Total Money To Refund (after fee)"
-        total_refundable_gtags: "Number of gTags to Refund"
     gtag_assignations:
       tag: "Tag UID"
       serial: "Tag Serial Number"
@@ -435,14 +431,6 @@ en:
         assigned: "Is assigned now"
         unassigned: "Previous assignation"
       button: "Accept"
-    customer_credits:
-      amount: "Amount"
-      refundable_amount: "Refundable amount"
-      credit_value: "value credit"
-      payment_method: "Payment method"
-      transaction_origin: "Transaction source"
-      final_balance: "Final balance"
-      final_refundable_balance: "Final refundable balance"
     profile:
       id: "Id"
     customers:
@@ -468,7 +456,6 @@ en:
       completed_claim: "Completed claims"
       customer_orders: "Customer orders"
       refund: "Refund"
-      customer_credits: "Customer credits"
       online_orders: "Online orders"
       claims: "Claims"
       gtag_credits: "Gtag Credits"

@@ -12,11 +12,11 @@ RSpec.describe Profile, type: :model do
         payments = orders.map(&:payments).flatten
         amount = payments.map(&:amount).sum
         expect(amount > 0).to be_truthy
-        expect(profile.online_refundable_money_amount).to eq(amount)
+        expect(profile.online_refundable_money).to eq(amount)
       end
 
       it "retuns 0 if no purchases are present" do
-        expect(profile.online_refundable_money_amount).to eq(0)
+        expect(profile.online_refundable_money).to eq(0)
       end
     end
   end
@@ -28,60 +28,5 @@ RSpec.describe Profile, type: :model do
     create(:credential_assignment_t_u, atts)
 
     expect(profile.active_assignments.count).to be(2)
-  end
-
-  context "when dealing with credits," do
-    let(:credit_atts) { atts.merge(transaction_origin: "credits_purchase") }
-    let(:ticket_atts) { atts.merge(transaction_origin: "ticket_assignment") }
-    let(:credit_1) { create(:customer_credit_online, credit_atts) }
-    let(:credit_2) { create(:customer_credit_online, credit_atts) }
-
-    it ".total_credits returns the number of credits rounded" do
-      credit_1.update_attribute :amount, 10
-      credit_2.update_attribute :amount, 10
-      expect(profile.total_credits).to eq(20)
-    end
-
-    describe ".ticket_credits" do
-      it "returns the amount of credits rounded" do
-        create_list(:customer_credit_online, 2, ticket_atts.merge(amount: 20))
-        expect(profile.ticket_credits).to eq(40)
-      end
-
-      it "returns the total amount of credits" do
-        create_list(:customer_credit_online, 2, ticket_atts.merge(amount: 10))
-        expect(profile.ticket_credits).to eq(20)
-      end
-
-      it "returns the total amount of credits,
-        only if the transaction_origin is ticket_assignment" do
-        credit_1.update_attribute :amount, 1
-        credit_2.update_attribute :amount, 1
-        create_list(:customer_credit_online, 3, ticket_atts.merge(amount: 1))
-        expect(profile.ticket_credits).to eq(3)
-      end
-    end
-
-    describe "purchased_credits method" do
-      it "returns the amount of credits rounded" do
-        credit_1.update_attribute :amount, 1.7
-        credit_2.update_attribute :amount, 2.7
-        expect(profile.purchased_credits).to eq(4)
-      end
-
-      it "returns the amount of purchased credits" do
-        credit_1.update_attribute :amount, 5
-        credit_2.update_attribute :amount, 5
-        expect(profile.purchased_credits).to eq(10)
-      end
-
-      it "returns the total amount of credits,
-        only if the transaction_origin is credits_purchase" do
-        credit_1.update_attribute :amount, 1
-        credit_2.update_attribute :amount, 1
-        create_list(:customer_credit_online, 3, ticket_atts.merge(amount: 1))
-        expect(profile.purchased_credits).to eq(2)
-      end
-    end
   end
 end

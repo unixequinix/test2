@@ -8,16 +8,15 @@ class CreditsPresenter < BasePresenter
   end
 
   def customer_total_credits
-    # TODO: Check this
-    @profile.total_credits
+    @profile.credits
+  end
+
+  def refundable_credits
+    @profile.refundable_credits
   end
 
   def event_started?
     @event.started?
-  end
-
-  def refundable_credits
-    @profile.total_refundable
   end
 
   def refundable_money

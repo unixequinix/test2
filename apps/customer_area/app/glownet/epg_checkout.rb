@@ -38,14 +38,12 @@ class EpgCheckout
     Base64.encode64(result)
   end
 
-  # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/AbcSize
-  def create_value
+  def create_value # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     profile = @claim.profile
     customer = profile.customer
 
     {
-      amount: @claim.gtag.refundable_amount_after_fee(Claim::EASY_PAYMENT_GATEWAY),
+      amount: profile.refundable_money_after_fee(Claim::EASY_PAYMENT_GATEWAY),
       country: @epg_values[:country],
       language: I18n.locale,
       currency: @epg_values[:currency],
@@ -68,8 +66,6 @@ class EpgCheckout
       statusURL: event_refunds_url(profile.event)
     }.to_param
   end
-  # rubocop:enable Metrics/MethodLength
-  # rubocop:enable Metrics/AbcSize
 
   def validate_characters(str)
     valid_characters = /[^0-9A-Za-zñÑ\-,'"ªº]/

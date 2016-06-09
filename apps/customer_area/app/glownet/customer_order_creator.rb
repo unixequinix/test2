@@ -18,7 +18,7 @@ class CustomerOrderCreator
       event_id: order_item.order.profile.event_id,
       station_id: station,
       transaction_category: "money",
-      transaction_origin: "customer_portal",
+      transaction_origin: Transaction::ORIGINS[:portal],
       transaction_type: "portal_purchase",
       customer_tag_uid: order_item.order.profile.active_gtag_assignment&.credentiable&.tag_uid,
       catalogable_id: order_item.catalog_item.catalogable_id,

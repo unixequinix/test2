@@ -12,7 +12,7 @@ class Payments::Wirecard::Payer
     return unless @params[:paymentState] == "SUCCESS"
     amount = @params[:amount].to_f
     order = Order.find(@params[:order_id])
-    customer_credit_creator.save(order)
+    customer_credit_creator.save_order(order)
     create_payment(order, amount)
     order.complete!
     customer_order_creator.save(order, "card", "wirecard")

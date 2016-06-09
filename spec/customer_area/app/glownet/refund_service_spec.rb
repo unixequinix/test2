@@ -16,6 +16,7 @@ RSpec.describe RefundService, type: :domain_logic do
       Station.create!(event: claim.profile.event, name: "Customer Portal",
                       category: "customer_portal")
 
+      # TODO: why are we not using SeedLoader here?
       YAML.load_file(Rails.root.join("db", "seeds", "standard_credits.yml")).each do |data|
         Credit.create!(standard: data["standard"],
                        currency: data["currency"],
