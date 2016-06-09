@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160601145823) do
+ActiveRecord::Schema.define(version: 20160609170141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -290,23 +290,6 @@ ActiveRecord::Schema.define(version: 20160601145823) do
 
   add_index "credits", ["deleted_at"], name: "index_credits_on_deleted_at", using: :btree
 
-  create_table "customer_credits", force: :cascade do |t|
-    t.integer  "profile_id",                                                     null: false
-    t.string   "transaction_origin",                                             null: false
-    t.string   "payment_method",                                                 null: false
-    t.decimal  "amount",                   precision: 8, scale: 2, default: 0.0, null: false
-    t.decimal  "refundable_amount",        precision: 8, scale: 2, default: 0.0, null: false
-    t.decimal  "final_balance",            precision: 8, scale: 2, default: 0.0, null: false
-    t.decimal  "final_refundable_balance", precision: 8, scale: 2, default: 0.0, null: false
-    t.decimal  "credit_value",             precision: 8, scale: 2, default: 1.0, null: false
-    t.datetime "deleted_at"
-    t.datetime "created_at",                                                     null: false
-    t.datetime "updated_at",                                                     null: false
-    t.datetime "created_in_origin_at"
-  end
-
-  add_index "customer_credits", ["deleted_at"], name: "index_customer_credits_on_deleted_at", using: :btree
-
   create_table "customer_orders", force: :cascade do |t|
     t.integer  "profile_id",      null: false
     t.integer  "catalog_item_id", null: false
@@ -459,14 +442,15 @@ ActiveRecord::Schema.define(version: 20160601145823) do
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
   create_table "gtags", force: :cascade do |t|
-    t.integer  "event_id",                               null: false
+    t.integer  "event_id",                                     null: false
     t.integer  "company_ticket_type_id"
-    t.string   "tag_uid",                                null: false
-    t.boolean  "credential_redeemed",    default: false, null: false
+    t.string   "tag_uid",                                      null: false
+    t.boolean  "credential_redeemed",    default: false,       null: false
     t.datetime "deleted_at"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
     t.boolean  "banned",                 default: false
+    t.string   "format",                 default: "wristband"
   end
 
   add_index "gtags", ["deleted_at", "tag_uid", "event_id"], name: "index_gtags_on_deleted_at_and_tag_uid_and_event_id", unique: true, using: :btree
@@ -570,12 +554,12 @@ ActiveRecord::Schema.define(version: 20160601145823) do
   add_index "orders", ["profile_id"], name: "index_orders_on_profile_id", using: :btree
 
   create_table "pack_catalog_items", force: :cascade do |t|
-    t.integer  "pack_id",         null: false
-    t.integer  "catalog_item_id", null: false
-    t.integer  "amount"
+    t.integer  "pack_id",                                 null: false
+    t.integer  "catalog_item_id",                         null: false
+    t.decimal  "amount",          precision: 8, scale: 2
     t.datetime "deleted_at"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
   end
 
   add_index "pack_catalog_items", ["catalog_item_id"], name: "index_pack_catalog_items_on_catalog_item_id", using: :btree
@@ -659,11 +643,15 @@ ActiveRecord::Schema.define(version: 20160601145823) do
 
   create_table "profiles", force: :cascade do |t|
     t.integer  "customer_id"
-    t.integer  "event_id",                    null: false
+    t.integer  "event_id",                                                         null: false
     t.datetime "deleted_at"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.boolean  "banned",      default: false
+    t.datetime "created_at",                                                       null: false
+    t.datetime "updated_at",                                                       null: false
+    t.boolean  "banned",                                           default: false
+    t.decimal  "credits",                  precision: 8, scale: 2, default: 0.0
+    t.decimal  "refundable_credits",       precision: 8, scale: 2, default: 0.0
+    t.decimal  "final_balance",            precision: 8, scale: 2, default: 0.0
+    t.decimal  "final_refundable_balance", precision: 8, scale: 2, default: 0.0
   end
 
   add_index "profiles", ["deleted_at"], name: "index_profiles_on_deleted_at", using: :btree
@@ -728,15 +716,16 @@ ActiveRecord::Schema.define(version: 20160601145823) do
   end
 
   create_table "stations", force: :cascade do |t|
-    t.integer  "event_id",   null: false
-    t.string   "name",       null: false
+    t.integer  "event_id",           null: false
+    t.string   "name",               null: false
     t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.string   "location"
     t.integer  "position"
     t.string   "group"
     t.string   "category"
+    t.string   "reporting_category"
   end
 
   add_index "stations", ["deleted_at"], name: "index_stations_on_deleted_at", using: :btree
