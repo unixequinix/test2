@@ -28,6 +28,8 @@ class Entitlement::PositionManager
     errors[:memory_position] << I18n.t("errors.messages.not_enough_space_for_entitlement")
   end
 
+  private
+
   def last_element
     Entitlement.where(event_id: @entitlement.event_id).order("memory_position DESC").first
   end
