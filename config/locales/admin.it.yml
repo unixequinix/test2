@@ -70,6 +70,7 @@ it:
       type: "Type"
       group: "Group"
       location: "Location"
+      reporting_category: "Reporting Category"
       items: "Products"
       categories:
         customer_portal: "Customer Portal"
