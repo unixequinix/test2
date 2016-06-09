@@ -5,7 +5,7 @@ class Multitenancy::CompanyFetcher
   end
 
   def company_ticket_types
-    CompanyTicketType.where(event: @event, company_event_agreement: @agreement.id)
+    @event.company_ticket_types.where(company_event_agreement: @agreement.id)
   end
 
   def gtags

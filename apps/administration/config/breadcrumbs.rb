@@ -241,7 +241,7 @@ crumb :admins_event_products do |event|
   parent :admins_event, event
 end
 
-crumb :edit_admins_event_access do |event, product|
+crumb :edit_admins_event_product do |event, product|
   link t("breadcrumbs.general.edit"), edit_admins_event_product_path(event, product)
   parent :admins_event_product, event, product
 end
