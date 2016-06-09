@@ -80,6 +80,10 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
     lines.delete_at(0)
 
     lines.each do |tt_name, tt_code, c_name, barcode, f_name, l_name, mail|
+      f_name = f_name.force_encoding("iso-8859-1").encode("utf-8")
+      l_name = l_name.force_encoding("iso-8859-1").encode("utf-8")
+      tt_name = tt_name.force_encoding("iso-8859-1").encode("utf-8")
+
       com = Company.find_by("LOWER(name) = ?", c_name.downcase) || Company.create!(name: c_name)
       agree = com.company_event_agreements.find_or_create_by!(event: event, aasm_state: "granted")
 

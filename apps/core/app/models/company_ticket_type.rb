@@ -23,7 +23,7 @@ class CompanyTicketType < ActiveRecord::Base
   belongs_to :company_event_agreement
 
   validates :name, :company_event_agreement, presence: true
-  validates :company_code, uniqueness: { scope: :company_event_agreement }
+  validates :company_code, uniqueness: { scope: :company_event_agreement }, allow_blank: true
 
   scope :companies, lambda { |_event|
     joins(company_event_agreement: :company)

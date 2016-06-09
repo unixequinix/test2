@@ -82,7 +82,7 @@ class Profile < ActiveRecord::Base
   end
 
   def refundable_money_after_fee(refund_service)
-    refundable_money_amount - event.refund_fee(refund_service).to_f
+    refundable_money - event.refund_fee(refund_service).to_f
   end
 
   def online_refundable_money
