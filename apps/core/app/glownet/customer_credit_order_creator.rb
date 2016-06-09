@@ -7,7 +7,11 @@ class CustomerCreditOrderCreator < CustomerCreditCreator
 
       pack = order_item.catalog_item.catalogable
       pack.credits.each do |credit_item|
-        refundable = pack.only_credits_pack? ? order_item.total / credit_item.value : 0
+        refundable = if pack.only_credits_pack?
+                       [(order_item.total / credit_item.value), order_item.amount * credit_item.total_amount].min
+                     else
+                       0
+                     end
         pack_customer_credit(order, order_item, credit_item, refundable)
       end
     end

@@ -11,6 +11,7 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  banned                 :boolean          default(FALSE)
+#  format                 :string           default("wristband")
 #
 
 class Gtag < ActiveRecord::Base
