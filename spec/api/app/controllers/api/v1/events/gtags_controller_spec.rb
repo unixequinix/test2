@@ -99,10 +99,11 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
           customer_keys = %w(id banned autotopup_gateways credentials first_name last_name email
                              orders)
           order_keys = %w(online_order_counter catalogable_id catalogable_type amount)
+          credential_keys = %w(reference type)
 
           expect(gtag.keys).to eq(gtag_keys)
           expect(gtag["customer"].keys).to eq(customer_keys)
-          expect(gtag["customer"]["credentials"].map(&:keys).flatten.uniq).to eq(%w(id type))
+          expect(gtag["customer"]["credentials"].map(&:keys).flatten.uniq).to eq(credential_keys)
           expect(gtag["customer"]["orders"].map(&:keys).flatten.uniq).to eq(order_keys)
         end
 
@@ -119,7 +120,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
               id:  @gtag.assigned_profile.id,
               banned: @gtag.assigned_profile.banned?,
               autotopup_gateways: [],
-              credentials: [{ id: @gtag.id, type: "gtag" }],
+              credentials: [{ reference: @gtag.tag_uid, type: "gtag" }],
               first_name: customer.first_name,
               last_name: customer.last_name,
               email: customer.email,

@@ -81,7 +81,9 @@ class Gtag < ActiveRecord::Base
       .where(event: event_id)
   }
 
-  delegate :balance, to: :assigned_profile
+  def balance
+    assigned_profile.total_credits
+  end
 
   # TODO: Right now we're calculating the refundable_amount ourselves, in the future when the
   # =>    devices fix the writing in wristband problem we will use the final_refundable_balance
