@@ -6,7 +6,6 @@ class CheckoutsPresenter
                                                                category: "customer_portal" })
     @catalog_items =
       CatalogItem.joins(:station_catalog_items, station_catalog_items: :station_parameter)
-                 .select("catalog_items.*, station_catalog_items.price")
                  .where.not(id: infinite_entitlements_ids)
                  .where(station_parameters: { id: param.ids })
                  .includes(:event)

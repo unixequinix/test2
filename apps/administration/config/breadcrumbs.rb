@@ -75,6 +75,7 @@ crumb :admins_event_gtag_settings do |event|
   link t("breadcrumbs.gtag_settings"), admin_root_path
   parent :admins_event, event
 end
+
 ## Gtag Keys
 
 crumb :admins_event_gtag_keys do |event|
@@ -180,7 +181,7 @@ crumb :admins_event_credits do |event|
   parent :admins_event, event
 end
 
-crumb :edit_admins_event_access do |event, credit|
+crumb :edit_admins_event_credit do |event, credit|
   link t("breadcrumbs.general.edit"), edit_admins_event_credit_path(event, credit)
   parent :admins_event_credit, event, credit
 end
@@ -241,7 +242,7 @@ crumb :admins_event_products do |event|
   parent :admins_event, event
 end
 
-crumb :edit_admins_event_access do |event, product|
+crumb :edit_admins_event_product do |event, product|
   link t("breadcrumbs.general.edit"), edit_admins_event_product_path(event, product)
   parent :admins_event_product, event, product
 end

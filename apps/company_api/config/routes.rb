@@ -12,6 +12,7 @@ Rails.application.routes.draw do
           post :bulk_upload, on: :collection
         end
         resources :ticket_types, only: [:index, :show, :create, :update]
+        resources :balances, only: :show
       end
     end
   end
