@@ -29,6 +29,8 @@ class Entitlement::PositionManager
     @entitlement.errors[:memory_position] << msg
   end
 
+  private
+
   def last_element
     Entitlement.where(event_id: @entitlement.event_id).order("memory_position DESC").first
   end
