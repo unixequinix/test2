@@ -69,6 +69,7 @@ en:
       name: "Name"
       type: "Type"
       location: "Location"
+      reporting_category: "Reporting Category"
       group: "Group"
       items: "Products"
       categories:
