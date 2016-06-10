@@ -6,13 +6,13 @@ table.table-order
     th = t('claims.amount')
   tr
     td [colspan="2"] #{t('claims.product_description')}
-    td.table-amount #{claim.total}
+    td.table-amount #{number_with_precision(claim.total, precision: 2)}
   - if claim.fee > 0
     tr
       td [colspan="2"] #{t('claims.fee')}
-      td.table-amount #{-claim.fee}
+      td.table-amount #{-number_with_precision(claim.fee, precision: 2)}
   tr.total-amount
     td [colspan="2"]
       = t('orders.total')
       .vat-text = t('orders.vat')
-    td [colspan="3"] #{claim.total - claim.fee} #{current_event.currency}
+    td [colspan="3"] #{number_with_precision(claim.total - claim.fee, precision: 2)} #{current_event.currency}

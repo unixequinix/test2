@@ -1,4 +1,5 @@
 class BasePresenter
+  include ActionView::Helpers::NumberHelper
   attr_accessor :context, :profile, :gtag_assignment, :refund, :event,
                 :ticket_assignments, :purchases
 

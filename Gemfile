@@ -108,6 +108,8 @@ gem 'sdoc', '~> 0.4.1', group: :doc
 # PDF Generation
 gem 'wicked_pdf'
 
+gem 'rollbar'
+
 group :development do
   gem 'foreman', '~> 0.78.0'
   gem 'annotate', '~> 2.6.10'
