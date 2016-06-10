@@ -22,13 +22,4 @@ RSpec.describe Entitlement::PositionManager, type: :domain_logic do
       position_manager.start(params)
     end
   end
-
-  describe ".save_memory_position" do
-    context "with a new entitlement" do
-      it "calls the method to retrieve the right memory position" do
-        position_manager_a = Entitlement::PositionManager.new(build(:entitlement, :with_access))
-        allow_any_instance_of(Entitlement::PositionManager).to receive(:step).and_return(1)
-      end
-    end
-  end
 end
