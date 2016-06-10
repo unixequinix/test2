@@ -176,6 +176,7 @@ end
 group :production, :staging, :demo, :refunds do
   gem 'dalli', '~> 2.7.4' # Memcached
   gem 'newrelic_rpm', '~> 3.12.0.288'
+  gem 'rollbar'
   gem 'therubyracer'
 end
 
