@@ -132,7 +132,7 @@ de:
       title: "Letzte Details!"
       description: "Wir schließen die Veranstaltungskonfiguration gerade ab, um Ihnen ein großartiges Erlebnis zu bieten. Bitte, kommen Sie zu einem späteren Zeitpunkt zurück und schauen Sie sich an, was wir für Sie aufgesetzt haben."
     tipalti:
-      disclaimer: "If you don't see the continue button, scroll to the left."
+      disclaimer: "The content of this page could take some seconds to load."
   admissions:
     title: "Ticketaktivierung"
     description: "Bitte gib den Code Deines Veranstaltungstickets ein. Du findest diesen unmittelbar unterhalb des Barcodes."

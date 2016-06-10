@@ -108,6 +108,8 @@ gem 'sdoc', '~> 0.4.1', group: :doc
 # PDF Generation
 gem 'wicked_pdf'
 
+gem 'rollbar'
+
 group :development do
   gem 'foreman', '~> 0.78.0'
   gem 'annotate', '~> 2.6.10'
@@ -176,7 +178,6 @@ end
 group :production, :staging, :demo, :refunds do
   gem 'dalli', '~> 2.7.4' # Memcached
   gem 'newrelic_rpm', '~> 3.12.0.288'
-  gem 'rollbar'
   gem 'therubyracer'
 end
 

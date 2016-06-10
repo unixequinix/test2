@@ -1,10 +1,11 @@
 .wrapper-module
   = render 'events/claims/claim_details', claim: @claim
+  
+  p.autotopup-disclaimer.center-text = t('dashboard.tipalti.disclaimer')
 
 .wrapper-module
   iframe id="tipaltiIframe" class="tipalti" frameBorder=0 src=@url
 
-  p.autotopup-disclaimer.center-text = t('dashboard.tipalti.disclaimer')
   
 .wrapper-module
   = link_to customer_root_path, class: "btn btn-action-back " do
