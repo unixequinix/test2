@@ -47,11 +47,6 @@ class Ticket < ActiveRecord::Base
       .where(event: event_id)
   }
 
-  scope :search_by_company_and_event, lambda { |company, event|
-    includes(:purchaser, :company_ticket_type, company_ticket_type: [:company])
-      .where(event: event, companies: { name: company })
-  }
-
   def pack_catalog_items_included
     company_ticket_type.credential_type.catalog_item.catalogable.pack_catalog_items
   end

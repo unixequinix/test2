@@ -56,6 +56,10 @@ class Station < ActiveRecord::Base
     touchpoint: [:touchpoint]
   }.freeze
 
+  def group_and_category
+    "#{group} -> #{category}"
+  end
+
   def form
     ASSOCIATIONS.select { |_, value| value.include?(category.to_sym) }.first&.first
   end

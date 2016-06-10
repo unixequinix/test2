@@ -82,10 +82,9 @@ class Gtag < ActiveRecord::Base
       .where(event: event_id)
   }
 
-  scope :search_by_company_and_event, lambda { |company, event|
-    includes(:purchaser, :company_ticket_type, company_ticket_type: [:company])
-      .where(event: event, companies: { name: company })
-  }
+  def balance
+    assigned_profile.total_credits
+  end
 
   # TODO: Right now we're calculating the refundable_amount ourselves, in the future when the
   # =>    devices fix the writing in wristband problem we will use the final_refundable_balance

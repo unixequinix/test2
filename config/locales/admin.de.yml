@@ -77,6 +77,7 @@ de:
       name: "Name"
       type: "Typ"
       location: "Ort"
+      reporting_category: "Reporting Category"
       group: "Gruppe"
       items: "Produkte"
       categories:
@@ -354,7 +355,7 @@ de:
       instructions:
         title: "Atention. Credits in a pack will be refundable only if:"
         conditions:
-          - "Credits in a pack will be refundable only if there aren't other kind of items in a pack, like accesses or vouchers"
+          - "There aren't other kind of items in a pack, like accesses or vouchers"
           - "If a pack includes special price credits, the refundable amount of the credits will be the result of multiplying the payed price by the credi value"
     credential_type:
       id: "Id"
