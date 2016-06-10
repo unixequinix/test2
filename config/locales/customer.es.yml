@@ -78,7 +78,7 @@ es:
       call_to_action_no_admission_html: "Para poder recargar online,<br>deberás activar un Ticket primero"
       button: "Recarga"
       ticket_first: "Añade un ticket o %{gtag} primero"
-      calculating_balance: "Estamos verificando tu balance final. Por favor vuelve en 48 horas para proceder con tu devolución."
+      calculating_balance: "Estamos verificando tu saldo final. Por favor vuelve en 48 horas para proceder con tu devolución."
       refundable: "Reembolsable"
     autotopup:
       claim: "Toma ventaja!"
@@ -105,11 +105,11 @@ es:
       description: "Vuelve a tu panel e inténtalo de nuevo."
     without_gtags:
       add : "Asigna tu %{gtag}"
-      title: "¿Te quedan balance?"
+      title: "¿Te queda saldo?"
       description: "Recuerda, sólo un %{gtag} por cuenta."
       button: "Introducir"
     without_gtags_disabled:
-      claim: "El tiempo para solicitar tu devolución del balance en tu %{gtag} ha terminado"
+      claim: "El tiempo para solicitar tu devolución del saldo en tu %{gtag} ha terminado"
       description: "Si has contactado al soporte con alguna pregunta previamente,"
       description2: "no te preocupes, te ayudaremos con tu devolución."
     without_gtags_claiming_started:
@@ -127,8 +127,8 @@ es:
       call_to_action: "Proceder a la devolución"
       button: "Reclama tu saldo"
     not_refundable:
-      title: "Tus balance restante:"
-      call_to_action: "Lo sentimos, pero no tienes suficientes balance para pedir una devolución"
+      title: "Tu saldo restante:"
+      call_to_action: "Lo sentimos, pero no tienes suficiente saldo para pedir una devolución"
     refunds:
       title: "tu saldo restante:"
       call_to_action: "Reembolso realizado con éxito, pronto se realizará su transferencia"
@@ -224,7 +224,7 @@ es:
     description: "Por favor, revisa tu órden y procede a realizar el pago."
     products: "Productos"
     amount: "Cantidad"
-    product_description: "Balance a devolver"
+    product_description: "Saldo a devolver"
     fee: "Comisión de devolución"
     total: "Total"
     vat: "IVA Incluido"
