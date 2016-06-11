@@ -2,16 +2,17 @@
 #
 # Table name: stations
 #
-#  id         :integer          not null, primary key
-#  event_id   :integer          not null
-#  name       :string           not null
-#  deleted_at :datetime
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  location   :string
-#  position   :integer
-#  group      :string
-#  category   :string
+#  id                 :integer          not null, primary key
+#  event_id           :integer          not null
+#  name               :string           not null
+#  deleted_at         :datetime
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  location           :string
+#  position           :integer
+#  group              :string
+#  category           :string
+#  reporting_category :string
 #
 
 class Station < ActiveRecord::Base
@@ -55,6 +56,10 @@ class Station < ActiveRecord::Base
     monetary: [:bar, :vendor, :top_up_refund],
     touchpoint: [:touchpoint]
   }.freeze
+
+  def group_and_category
+    "#{group} -> #{category}"
+  end
 
   def form
     ASSOCIATIONS.select { |_, value| value.include?(category.to_sym) }.first&.first

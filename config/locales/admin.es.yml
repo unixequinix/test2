@@ -69,6 +69,7 @@ es:
       name: "Nombre"
       type: "Tipo"
       location: "Lugar"
+      reporting_category: "Reporting Category"
       group: "Grupo"
       items: "Productos"
       categories:

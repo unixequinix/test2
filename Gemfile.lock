@@ -349,7 +349,6 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (3.1.1)
     netrc (0.11.0)
-    newrelic_rpm (3.12.0.288)
     nilify_blanks (1.2.1)
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -461,6 +460,8 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
+    rollbar (2.11.5)
+      multi_json
     roo (2.0.1)
       nokogiri (~> 1)
       rubyzip (~> 1.1, < 2.0.0)
@@ -674,7 +675,6 @@ DEPENDENCIES
   meta_request (~> 0.3.4)
   metamagic (~> 3.1.7)
   neat (~> 1.7.2)
-  newrelic_rpm (~> 3.12.0.288)
   nilify_blanks (~> 1.2.1)
   oj
   oj_mimic_json
@@ -696,6 +696,7 @@ DEPENDENCIES
   recaptcha
   reform (~> 2.0.5)
   refund_ngn!
+  rollbar
   roo (~> 2.0.0beta1)
   rspec-activemodel-mocks
   rspec-mocks
@@ -734,4 +735,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.12.3
+   1.12.5

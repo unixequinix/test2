@@ -1,13 +1,7 @@
 class Api::V1::AccessSerializer < Api::V1::BaseSerializer
-  attributes :id, :name, :mode, :position, :memory_length
+  attributes :id, :name, :mode, :description, :position, :memory_length
 
-  def attributes(*args)
-    hash = super
-    hash[:description] = item_description if item_description
-    hash
-  end
-
-  def item_description
+  def description
     object.catalog_item.description
   end
 

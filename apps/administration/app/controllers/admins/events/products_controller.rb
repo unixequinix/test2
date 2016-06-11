@@ -1,5 +1,5 @@
 class Admins::Events::ProductsController < Admins::Events::BaseController
-  before_action :set_product, except: [:index, :new, :create]
+  before_action :set_product, only: [:edit, :update, :destroy]
 
   def index
     set_presenter
@@ -46,6 +46,30 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
       set_presenter
       render :index
     end
+  end
+
+  def destroy_multiple
+    products = params[:products]
+    if products
+      @fetcher.products.where(id: products.keys).each do |product|
+        flash[:error] = product.errors.full_messages.join(". ") unless product.destroy
+      end
+    end
+    redirect_to admins_event_products_path(current_event)
+  end
+
+  def import # rubocop:disable Metrics/AbcSize
+    event = current_event.event
+    alert = "Seleccione un archivo para importar"
+    redirect_to(admins_event_products_path(event), alert: alert) && return unless params[:file]
+    lines = params[:file][:data].tempfile.map { |line| line.split(";") }
+    lines.delete_at(0)
+
+    lines.each do |name, is_alcohol|
+      Product.find_or_create_by!(event: event, name: name, is_alcohol: is_alcohol)
+    end
+
+    redirect_to(admins_event_products_path(event), notice: "Products imported")
   end
 
   private

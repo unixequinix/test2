@@ -1,14 +1,14 @@
 namespace :deploy do
   desc "Upload keys into the server"
   task :secrets do
-    %w[secrets database newrelic sidekiq].each do |file|
+    %w[secrets database sidekiq].each do |file|
       file_path = Rails.root.join("config", "#{file}.yml")
       system "scp #{file_path} ubuntu@#{Rails.application.secrets.host}:/home/ubuntu/glownet_web/shared/config"
     end
   end
 
   task :secrets_multiserver, [:server, :host] do |t, args|
-    %w[secrets database newrelic sidekiq].each do |file|
+    %w[secrets database sidekiq].each do |file|
       file_path = Rails.root.join("config/servers/#{args[:server]}", "#{file}.yml")
       system "scp #{file_path} ubuntu@#{args[:host]}:/home/ubuntu/glownet_web/shared/config"
     end

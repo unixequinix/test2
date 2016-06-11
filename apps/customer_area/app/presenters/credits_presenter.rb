@@ -9,7 +9,7 @@ class CreditsPresenter < BasePresenter
 
   def customer_total_credits
     # TODO: Check this
-    @profile.total_credits
+    number_with_precision(@profile.total_credits, precision: 2)
   end
 
   def event_started?
@@ -17,7 +17,7 @@ class CreditsPresenter < BasePresenter
   end
 
   def refundable_credits
-    @profile.total_refundable
+    number_with_precision(@profile.total_refundable, precision: 2)
   end
 
   def refundable_money

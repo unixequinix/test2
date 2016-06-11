@@ -62,6 +62,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   private
 
   def permitted_params
-    params.require(:station).permit(:name, :location, :event_id, :category, :group)
+    params.require(:station).permit(:name, :location, :event_id,
+                                    :category, :group, :reporting_category)
   end
 end
