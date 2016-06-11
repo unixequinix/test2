@@ -3,7 +3,10 @@
   = link_to new_admins_event_product_path, class: "btn btn-action btn-action-new small" do
     = fa_icon 'plus'
     = t('admin.actions.new')
-
+  = simple_form_for :file, url: import_admins_event_products_path(current_event), html: {style: "display: inline-block;", multipart: true} do |f|  
+    = f.file_field :data, label: :import, style: "width: 180px;"
+    = button_tag(type: 'submit', style: "background: none; border: none; color: #666;") do
+      = fa_icon 'upload'
 .wrapper-negative-space
   - if @list_model_presenter.there_any?
     = render 'admins/events/products/list', products: @list_model_presenter.all_items
