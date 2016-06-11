@@ -1,21 +1,28 @@
 .current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @list_model_presenter.current_items, total: @list_model_presenter.count)
-table.products
-  thead
-    tr
-      th = t('admin.products.name')
-      th = t('admin.products.description')
-      th = t('admin.products.is_alcohol')
-      th.table-actions-field = t('admin.defaults.actions')
-  tbody
-    - products.each do |product|
+= form_tag destroy_multiple_admins_event_products_path, method: :delete do
+  table.products
+    thead
       tr
-        td data-label=t('admin.products.name') = link_to(product.name, admins_event_product_path(current_event, product))
-        td data-label=t('admin.products.description') = product.description
-        td data-label=t('admin.products.is_alcohol') = product.is_alcohol
-        td.table-actions-field
-          ul
-            li.table-action.action-edit = link_to edit_admins_event_product_path(current_event, product) do
-              = fa_icon "edit"
-            li.table-action.action-delete = link_to admins_event_product_path(current_event, product), method: :delete, data: { confirm: t('admin.confirm.delete') } do
-              = fa_icon "trash"
-= paginate products
+        th.select-all
+          = check_box_tag "select-all", 1
+        th = t('admin.products.name')
+        th = t('admin.products.description')
+        th = t('admin.products.is_alcohol')
+        th.table-actions-field = t('admin.defaults.actions')
+    tbody
+      - products.each do |product|
+        tr
+          td.select-all data-label = t("admin.defaults.all")
+            = check_box_tag "products[#{product.id}]", 1
+          td data-label=t('admin.products.name') = link_to(product.name, admins_event_product_path(current_event, product))
+          td data-label=t('admin.products.description') = product.description
+          td data-label=t('admin.products.is_alcohol') = product.is_alcohol
+          td.table-actions-field
+            ul
+              li.table-action.action-edit = link_to edit_admins_event_product_path(current_event, product) do
+                = fa_icon "edit"
+              li.table-action.action-delete = link_to admins_event_product_path(current_event, product), method: :delete, data: { confirm: t('admin.confirm.delete') } do
+                = fa_icon "trash"
+  .container-pagination
+    = paginate products
+    = submit_tag t("admin.actions.delete_selected")

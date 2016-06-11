@@ -69,7 +69,12 @@ Rails.application.routes.draw do
         end
 
         resources :companies, except: :show
-        resources :products
+        resources :products do
+          collection do
+            delete :destroy_multiple
+            post :import
+          end
+        end
         resources :catalog_items, only: :update
         resources :accesses do
           member do
