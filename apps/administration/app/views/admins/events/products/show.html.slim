@@ -1,6 +1,6 @@
 - breadcrumb :admins_event_product, current_event, @product
 - provide :actions do
-  = link_to edit_admins_event_product_path(@current_event, @product), class: "btn btn-action btn-action-edit small" do
+  = link_to edit_admins_event_product_path(current_event, @product), class: "btn btn-action btn-action-edit small" do
     = fa_icon 'edit'
     = t('actions.edit')
   = link_to admins_event_products_path, class: "btn btn-action btn-action-back small" do
