@@ -208,10 +208,10 @@ de:
       features_options:
         top_ups: "Guthaben Top Ups"
         refunds: "Erstattungen"
-        ticket_assignations: 'Ticket assignations'
-        gtag_assignations: 'Gtag assignations'
+        ticket_assignation: 'Ticket assignations'
+        gtag_assignation: 'Gtag assignations'
         agreement_acceptance: 'Agreement acceptance'
-        log_in: 'Log in'
+        authorization: 'Authorization'
       locales_options:
         en_lang: "Englisch"
         it_lang: "Italienisch"

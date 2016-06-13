@@ -204,10 +204,10 @@ es:
       features_options:
         top_ups: 'Recarga de créditos'
         refunds: 'Devoluciones'
-        ticket_assignations: 'Asignación de tickets'
-        gtag_assignations: 'Asignación de gtags'
+        ticket_assignation: 'Asignación de tickets'
+        gtag_assignation: 'Asignación de gtags'
         agreement_acceptance: 'Aceptación de agreement'
-        log_in: 'Inicio de sesión'
+        authorization: 'Autorizatión'
       locales_options:
         en_lang: "Inglés"
         it_lang: "Italiano"
