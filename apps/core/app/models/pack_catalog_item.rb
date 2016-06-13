@@ -5,7 +5,7 @@
 #  id              :integer          not null, primary key
 #  pack_id         :integer          not null
 #  catalog_item_id :integer          not null
-#  amount          :integer
+#  amount          :decimal(8, 2)
 #  deleted_at      :datetime
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null

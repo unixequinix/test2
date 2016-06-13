@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160609152605) do
+ActiveRecord::Schema.define(version: 20160609170141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -571,12 +571,12 @@ ActiveRecord::Schema.define(version: 20160609152605) do
   add_index "orders", ["profile_id"], name: "index_orders_on_profile_id", using: :btree
 
   create_table "pack_catalog_items", force: :cascade do |t|
-    t.integer  "pack_id",         null: false
-    t.integer  "catalog_item_id", null: false
-    t.integer  "amount"
+    t.integer  "pack_id",                                 null: false
+    t.integer  "catalog_item_id",                         null: false
+    t.decimal  "amount",          precision: 8, scale: 2
     t.datetime "deleted_at"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
   end
 
   add_index "pack_catalog_items", ["catalog_item_id"], name: "index_pack_catalog_items_on_catalog_item_id", using: :btree
