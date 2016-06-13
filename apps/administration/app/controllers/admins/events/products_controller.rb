@@ -42,7 +42,7 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.destroyed")
       redirect_to admins_event_products_url
     else
-      flash.now[:error] = I18n.t("errors.messages.catalog_item_dependent")
+      flash.now[:error] = I18n.t("errors.messages.station_dependent")
       set_presenter
       render :index
     end
