@@ -31,7 +31,7 @@ es:
           subject: 'Petición de devolución Completada'
           order_number: 'Petición número'
           greet: '¡Hola, %{name}!'
-          thanks: 'Gracias por tu petición de devolución.'
+          thanks: 'Has completado la petición de devolución online satisfactoriamente.'
           description: 'Tu saldo a sido transferido. Recibirás el pago a tu cuenta bancaria entre 1-4 días.'
           success: 'Aquí están los detalles de tu devolución:'
           date: 'Fecha de transacción'
