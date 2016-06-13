@@ -22,7 +22,8 @@ class EventDecorator < Draper::Decorator
                         stripe: "stripe" }.freeze
 
   REFUND_SERVICES = [:bank_account, :epg, :tipalti, :direct].freeze
-  FEATURES = [:top_ups, :refunds].freeze
+  FEATURES = [:top_ups, :refunds, :ticket_assignations, :gtag_assignations, :agreement_acceptance,
+              :log_in].freeze
   LOCALES = [:en_lang, :es_lang, :it_lang, :th_lang, :de_lang].freeze
   REGISTRATION_PARAMETERS = [:phone, :address, :city, :country, :postcode, :gender,
                              :birthdate, :agreed_event_condition].freeze

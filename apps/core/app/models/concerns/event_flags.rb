@@ -7,6 +7,10 @@ module EventFlags
     has_flags(
       1 => :top_ups,
       2 => :refunds,
+      3 => :ticket_assignations,
+      4 => :gtag_assignations,
+      5 => :agreement_acceptance,
+      6 => :log_in,
       column: "features"
     )
     has_flags(

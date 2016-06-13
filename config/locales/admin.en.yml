@@ -204,6 +204,10 @@ en:
       features_options:
         top_ups: 'Credit top ups'
         refunds: 'Refunds'
+        ticket_assignations: 'Ticket assignations'
+        gtag_assignations: 'Gtag assignations'
+        agreement_acceptance: 'Agreement acceptance'
+        log_in: 'Log in'
       locales_options:
         en_lang: "English"
         it_lang: "Italian"
