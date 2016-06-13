@@ -1,4 +1,4 @@
-class Operations::Credential::TicketChecker < Operations::Credential::Base
+class Operations::Credential::TicketValidator < Operations::Credential::Base
   TRIGGERS = %w( ticket_validation ).freeze
 
   def perform(atts)
