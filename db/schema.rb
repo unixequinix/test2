@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160609170141) do
+ActiveRecord::Schema.define(version: 20160613133919) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -424,13 +424,11 @@ ActiveRecord::Schema.define(version: 20160609170141) do
     t.text     "style"
     t.integer  "logo_file_size"
     t.integer  "background_file_size"
-    t.integer  "features",                default: 0,                     null: false
+    t.integer  "features",                default: 32,                    null: false
     t.integer  "registration_parameters", default: 0,                     null: false
     t.integer  "locales",                 default: 1,                     null: false
     t.integer  "payment_services",        default: 0,                     null: false
     t.integer  "refund_services",         default: 0,                     null: false
-    t.boolean  "gtag_assignation",        default: true,                  null: false
-    t.boolean  "ticket_assignation",      default: true,                  null: false
     t.datetime "logo_updated_at"
     t.datetime "background_updated_at"
     t.datetime "start_date"
@@ -439,7 +437,6 @@ ActiveRecord::Schema.define(version: 20160609170141) do
     t.datetime "updated_at",                                              null: false
     t.string   "token_symbol",            default: "t"
     t.string   "company_name"
-    t.boolean  "agreement_acceptance",    default: false
   end
 
   add_index "events", ["slug"], name: "index_events_on_slug", unique: true, using: :btree

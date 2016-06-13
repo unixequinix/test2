@@ -67,4 +67,8 @@ class Events::BaseController < ApplicationController
   def check_has_gtag!
     redirect_to event_url(current_event) unless current_profile.active_gtag_assignment
   end
+
+  def check_authorization_flag!
+    redirect_to event_info_url(current_event) unless current_event.authorization?
+  end
 end

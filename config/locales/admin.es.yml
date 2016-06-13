@@ -112,8 +112,8 @@ es:
         is_alcohol: "¿Es alcohol?"
       topup_credit:
         amount: "Cantidad"
-        credit: "Credito"
-        credit_value: "Valor del credito"
+        credit: "Crédito"
+        credit_value: "Valor del crédito"
         price: "Precio"
       access_control_gate:
         name: "Nombre"
@@ -202,8 +202,12 @@ es:
         profile: "Imágen de perfil"
         background: "Imágen de fondo"
       features_options:
-        top_ups: 'Recarga de creditos'
+        top_ups: 'Recarga de créditos'
         refunds: 'Devoluciones'
+        ticket_assignation: 'Asignación de tickets'
+        gtag_assignation: 'Asignación de gtags'
+        agreement_acceptance: 'Aceptación de agreement'
+        authorization: 'Autorizatión'
       locales_options:
         en_lang: "Inglés"
         it_lang: "Italiano"
@@ -314,7 +318,7 @@ es:
       company_ticket_types: "Tipo de tickets de compañia"
       access_transactions: "Acceso"
       ban_transactions: "Baneo"
-      credit_transactions: "Credito"
+      credit_transactions: "Crédito"
       credential_transactions: "Credenciales"
       order_transactions: "Órdenes"
       money_transactions: "Monetarias"
@@ -420,7 +424,7 @@ es:
       total: "Créditos Totales"
       gtag_assignation: "Asignaciones del Gtag"
       import: "Importar GTags (Seleccionar un fichero CSV separado por comas)"
-      import_credits: "Importar Creditos (Seleccionar un fichero CSV separado por comas)"
+      import_credits: "Importar Créditos (Seleccionar un fichero CSV separado por comas)"
       formats:
         card: "Tarjeta"
         wristband: "Pulsera"
@@ -472,7 +476,7 @@ es:
       state: "Estado"
       admissions: "Registro de Tickets"
       purchases: "Compras"
-      creadit_logs: "Compras de creditos"
+      creadit_logs: "Compras de créditos"
       orders: "Ordenes"
       payments: "Pagos"
       payments_activated: "Pagos activados"
