@@ -323,6 +323,7 @@ es:
       order_transactions: "Órdenes"
       money_transactions: "Monetarias"
       missing_transactions: "Perdidas"
+      device_transactions: "Device"
       credit_inconsistencies: "Inconsistencias de créditos"
     dashboard:
       change_state: "Cambiar de Estado?"
