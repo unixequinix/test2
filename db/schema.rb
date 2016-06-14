@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160614163409) do
+ActiveRecord::Schema.define(version: 20160614163733) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -363,7 +363,7 @@ ActiveRecord::Schema.define(version: 20160614163409) do
     t.integer  "station_id"
     t.string   "device_uid"
     t.integer  "device_db_index"
-    t.datetime "device_created_at"
+    t.string   "device_created_at"
     t.string   "initialization_type"
     t.integer  "number_of_transactions"
     t.integer  "profile_id"
