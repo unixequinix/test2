@@ -28,16 +28,16 @@
       table.subtable.claim-subtable
         thead
           tr
-            th = t("admin.transactions.transaction_origin")
-            th = t("admin.transactions.transaction_category")
             th = t("admin.transactions.transaction_type")
-            th = t("admin.transactions.customer_tag_uid")
-            th = t("admin.transactions.operator_tag_uid")
+            th = t("admin.transactions.device_uid")
+            th = t("admin.transactions.device_created_at")
+            th = t("admin.transactions.initialization_type")
+            th = t("admin.transactions.number_of_transactions")
         tbody
           - transactions[0..2].each do |transaction|
             tr
-              td = transaction.transaction_origin
-              td = transaction.transaction_category
               td = transaction.transaction_type
-              td = transaction.customer_tag_uid
-              td = transaction.operator_tag_uid
+              td = transaction.device_uid
+              td = transaction.device_created_at
+              td = transaction.initialization_type
+              td = transaction.number_of_transactions

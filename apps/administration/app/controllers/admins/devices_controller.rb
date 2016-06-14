@@ -10,7 +10,7 @@ class Admins::DevicesController < Admins::BaseController
 
   def show
     @device = Device.find(params[:id])
-    @device_events = CreditTransaction.where(device_uid: @device.mac)
+    @device_events = DeviceTransaction.where(device_uid: @device.mac)
                                       .includes(:event).group_by(&:event)
   end
 
