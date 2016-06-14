@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160613133919) do
+ActiveRecord::Schema.define(version: 20160614160552) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -352,6 +352,30 @@ ActiveRecord::Schema.define(version: 20160613133919) do
   add_index "customers", ["deleted_at"], name: "index_customers_on_deleted_at", using: :btree
   add_index "customers", ["remember_token"], name: "index_customers_on_remember_token", unique: true, using: :btree
   add_index "customers", ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true, using: :btree
+
+  create_table "device_transactions", force: :cascade do |t|
+    t.integer  "event_id"
+    t.string   "transaction_origin"
+    t.string   "transaction_category"
+    t.string   "transaction_type"
+    t.string   "customer_tag_uid"
+    t.string   "operator_tag_uid"
+    t.integer  "station_id"
+    t.string   "device_uid"
+    t.integer  "device_db_index"
+    t.datetime "device_created_at"
+    t.string   "initialization_type"
+    t.integer  "number_of_transactions"
+    t.integer  "profile_id"
+    t.integer  "status_code"
+    t.string   "status_message"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "device_transactions", ["event_id"], name: "index_device_transactions_on_event_id", using: :btree
+  add_index "device_transactions", ["profile_id"], name: "index_device_transactions_on_profile_id", using: :btree
+  add_index "device_transactions", ["station_id"], name: "index_device_transactions_on_station_id", using: :btree
 
   create_table "devices", force: :cascade do |t|
     t.string   "name"
@@ -784,6 +808,9 @@ ActiveRecord::Schema.define(version: 20160613133919) do
   add_foreign_key "credit_transactions", "events"
   add_foreign_key "credit_transactions", "profiles"
   add_foreign_key "credit_transactions", "stations"
+  add_foreign_key "device_transactions", "events"
+  add_foreign_key "device_transactions", "profiles"
+  add_foreign_key "device_transactions", "stations"
   add_foreign_key "money_transactions", "events"
   add_foreign_key "money_transactions", "profiles"
   add_foreign_key "money_transactions", "stations"
