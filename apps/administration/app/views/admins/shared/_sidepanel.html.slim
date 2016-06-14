@@ -96,7 +96,6 @@ aside#main-menu
       li.aside-list = link_to admins_event_transactions_path(event, type: type)
         = fa_icon "list"
         = t("admin.aside.#{type}_transactions")
-    
 
     li.mobile-sign-out
       = link_to t("admin.aside.sign_out"), admins_sessions_path, method: :delete

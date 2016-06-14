@@ -22,6 +22,13 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :devices, only: [:index, :show, :update] do
+      collection do
+        get :search
+        post :import
+      end
+    end
+
     resources :admins, except: :show do
       collection do
         resource :sessions, only: [:new, :create, :destroy]

@@ -1,0 +1,43 @@
+- breadcrumb :admins_device, @device
+- provide :actions do
+  = link_to admins_devices_path, class: "btn btn-action btn-action-back small" do
+    = fa_icon 'arrow-circle-left'
+    = t('admin.actions.back')
+.wrapper-negative-space
+  .container-show
+    dl
+      dt = t("admin.general.id")
+      dd = @device.id
+      dt = t("admin.devices.device_model")
+      dd = @device.device_model || "-"
+      dt = t("admin.devices.asset_tracker")
+      dd = @device.asset_tracker || "-"
+      dt = t("admin.devices.mac")
+      dd = @device.mac
+      dt = t("admin.devices.imei")
+      dd = @device.imei
+      dt = t("admin.devices.serial_number")
+      dd = @device.serial_number
+
+- @device_events.each do |event, transactions|
+  - unless %w(launched closed).include?(event.aasm_state)
+    .container-show
+      h3
+        = fa_icon "table"
+        = event.name
+      table.subtable.claim-subtable
+        thead
+          tr
+            th = t("admin.transactions.transaction_origin")
+            th = t("admin.transactions.transaction_category")
+            th = t("admin.transactions.transaction_type")
+            th = t("admin.transactions.customer_tag_uid")
+            th = t("admin.transactions.operator_tag_uid")
+        tbody
+          - transactions[0..2].each do |transaction|
+            tr
+              td = transaction.transaction_origin
+              td = transaction.transaction_category
+              td = transaction.transaction_type
+              td = transaction.customer_tag_uid
+              td = transaction.operator_tag_uid
