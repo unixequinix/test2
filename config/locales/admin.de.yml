@@ -326,7 +326,8 @@ de:
       credential_transactions: "Credential"
       order_transactions: "Order"
       money_transactions: "Money"
-      missin_transactions: "Missing"
+      device_transactions: "Device"
+      missing_transactions: "Missing"
       credit_inconsistencies: "Credit inconsistencies"
     dashboard:
       change_state: "Status ändern?"

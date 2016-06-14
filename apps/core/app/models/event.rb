@@ -21,13 +21,11 @@
 #  style                   :text
 #  logo_file_size          :integer
 #  background_file_size    :integer
-#  features                :integer          default(0), not null
+#  features                :integer          default(32), not null
 #  registration_parameters :integer          default(0), not null
 #  locales                 :integer          default(1), not null
 #  payment_services        :integer          default(0), not null
 #  refund_services         :integer          default(0), not null
-#  gtag_assignation        :boolean          default(TRUE), not null
-#  ticket_assignation      :boolean          default(TRUE), not null
 #  logo_updated_at         :datetime
 #  background_updated_at   :datetime
 #  start_date              :datetime
@@ -36,7 +34,6 @@
 #  updated_at              :datetime         not null
 #  token_symbol            :string           default("t")
 #  company_name            :string
-#  agreement_acceptance    :boolean          default(FALSE)
 #
 
 class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
