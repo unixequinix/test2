@@ -7,7 +7,7 @@ class Transaction < ActiveRecord::Base
 
   validates_presence_of :transaction_type
 
-  TYPES = %w(access ban credential credit money order).freeze
+  TYPES = %w(access ban credential credit money order device).freeze
 
   def self.mandatory_fields
     %w( transaction_origin transaction_category transaction_type customer_tag_uid
