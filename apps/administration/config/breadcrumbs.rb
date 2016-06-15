@@ -6,6 +6,17 @@ end
 ## Admin
 ## -------------------------------------------------
 
+## Devices
+
+crumb :admins_devices do
+  link t("breadcrumbs.devices"), admin_root_path
+end
+
+crumb :admins_device do |device|
+  link device.id, admins_device_path(device)
+  parent :admins_devices
+end
+
 ## Admins
 
 crumb :admins_admins do

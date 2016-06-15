@@ -31,7 +31,7 @@ en:
           subject: 'Refund Completed'
           order_number: 'Claim number'
           greet: 'Hello, %{name}!'
-          thanks: 'Thank you for your refund! '
+          thanks: 'You successfully completed the application for online refund process.'
           description: 'Your credits have been transferred. In 1-4 days you will recieve the payment in your bank account.'
           success: 'Here are the details of your refund:'
           date: 'Transaction date'

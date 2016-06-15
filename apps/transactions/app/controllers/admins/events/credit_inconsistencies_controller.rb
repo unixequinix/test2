@@ -11,7 +11,7 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
       refundable_sum_credit = credits.map(&:refundable_amount).sum.round(2)
 
       transactions = CreditTransaction.where(status_code: 0, profile: profile)
-                                      .not(transaction_origin: "customer_portal")
+                                      .where.not(transaction_origin: "customer_portal")
 
       last_transaction = transactions.first
       amount_sum_transaction = transactions.map(&:credits).sum.round(2)

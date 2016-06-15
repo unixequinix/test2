@@ -1,3 +1,9 @@
+- if current_event.info || current_event.disclaimer
+  .container-event-column 
+    .wrapper-session
+      = raw current_event.info if current_event.info
+      = raw current_event.disclaimer if current_event.disclaimer
+
 = render "events/sessions/signed_up_message" if @sign_up
 = render "events/sessions/password_sent_message" if @password_sent
 
@@ -22,7 +28,3 @@
       = f.button :submit, t('links.buttons.sign_in'), class: "btn btn-action-enter"
     .sessions-shared-login
       = render "events/shared/links"
-
-.container-disclaimer
-  .wrapper-disclaimer
-    = raw current_event.info

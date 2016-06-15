@@ -6,6 +6,12 @@ th:
       description: "Description"
       created_at: "Created at"
       updated_at: "Updated at"
+    devices:
+      model: "Model"
+      asset: "Asset ID"
+      imei: "Imei"
+      serial_number: "Serial Number"
+      mac: "MAC"
     accesses:
       step: "Step"
       initial_amount: "Initial Amount"
@@ -204,6 +210,11 @@ th:
       features_options:
         top_ups: 'Credit top ups'
         refunds: 'Refunds'
+        ticket_assignation: 'Ticket assignations'
+        gtag_assignation: 'Gtag assignations'
+        agreement_acceptance: 'Agreement acceptance'
+        authorization: 'Authorization'
+        tickets_api_limit: 'Tickets API Limit'
       locales_options:
         en_lang: "English"
         it_lang: "Italian"
@@ -318,7 +329,8 @@ th:
       credential_transactions: "Credential"
       order_transactions: "Order"
       money_transactions: "Money"
-      missin_transactions: "Missing"
+      missing_transactions: "Missing"
+      device_transactions: "Device"
       credit_inconsistencies: "Credit inconsistencies"
     dashboard:
       change_state: "Change state?"

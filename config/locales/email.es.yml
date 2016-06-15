@@ -24,14 +24,14 @@ es:
           title: '¡Ya puedes acceder a la devolución de tus créditos!'
           subject: '¡Ya puedes acceder a la devolución de tus créditos!'
           greet: '¡Hola, %{name}!'
-          mail_body: 'Ya puedes proceder a la devolución de tus creditos mediante el siguiente enlace.'
+          mail_body: 'Ya puedes proceder a la devolución de tus créditos mediante el siguiente enlace.'
           mail_link: "Acceder para ver tu saldo y realizar la transferencia"
         completed:
           title: 'Notificación de devolución'
           subject: 'Petición de devolución Completada'
           order_number: 'Petición número'
           greet: '¡Hola, %{name}!'
-          thanks: 'Gracias por tu petición de devolución.'
+          thanks: 'Has completado la petición de devolución online satisfactoriamente.'
           description: 'Tu saldo a sido transferido. Recibirás el pago a tu cuenta bancaria entre 1-4 días.'
           success: 'Aquí están los detalles de tu devolución:'
           date: 'Fecha de transacción'

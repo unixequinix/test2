@@ -33,9 +33,6 @@ aside#main-menu
     li.aside-list = link_to admins_event_credits_path(event)
       = fa_icon "database"
       = t("admin.aside.credits")
-    / li.aside-list = link_to admins_event_vouchers_path(event)
-    /   = fa_icon "tag"
-    /   = t("admin.aside.vouchers")
     li.aside-list = link_to admins_event_packs_path(event)
       = fa_icon "archive"
       = t("admin.aside.packs")
@@ -99,13 +96,6 @@ aside#main-menu
       li.aside-list = link_to admins_event_transactions_path(event, type: type)
         = fa_icon "list"
         = t("admin.aside.#{type}_transactions")
-    li.aside-list = link_to admins_event_missing_transactions_path(event)
-      = fa_icon "list"
-      = t("admin.aside.missing_transactions")
-    li.aside-list = link_to admins_event_credit_inconsistencies_path(event)
-      = fa_icon "list"
-      = t("admin.aside.credit_inconsistencies")
-    
 
     li.mobile-sign-out
       = link_to t("admin.aside.sign_out"), admins_sessions_path, method: :delete

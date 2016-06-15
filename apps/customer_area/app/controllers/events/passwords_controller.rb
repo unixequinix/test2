@@ -1,6 +1,7 @@
 class Events::PasswordsController < Events::BaseController
   layout "welcome_customer"
   skip_before_filter :authenticate_customer!
+  before_action :check_authorization_flag!
 
   def new
     @customer = Customer.new

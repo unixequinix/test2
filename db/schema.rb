@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160609152605) do
+ActiveRecord::Schema.define(version: 20160614163733) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -353,13 +353,40 @@ ActiveRecord::Schema.define(version: 20160609152605) do
   add_index "customers", ["remember_token"], name: "index_customers_on_remember_token", unique: true, using: :btree
   add_index "customers", ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true, using: :btree
 
+  create_table "device_transactions", force: :cascade do |t|
+    t.integer  "event_id"
+    t.string   "transaction_origin"
+    t.string   "transaction_category"
+    t.string   "transaction_type"
+    t.string   "customer_tag_uid"
+    t.string   "operator_tag_uid"
+    t.integer  "station_id"
+    t.string   "device_uid"
+    t.integer  "device_db_index"
+    t.string   "device_created_at"
+    t.string   "initialization_type"
+    t.integer  "number_of_transactions"
+    t.integer  "profile_id"
+    t.integer  "status_code"
+    t.string   "status_message"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "gtag_counter",           default: 0
+    t.integer  "counter",                default: 0
+  end
+
+  add_index "device_transactions", ["event_id"], name: "index_device_transactions_on_event_id", using: :btree
+  add_index "device_transactions", ["profile_id"], name: "index_device_transactions_on_profile_id", using: :btree
+  add_index "device_transactions", ["station_id"], name: "index_device_transactions_on_station_id", using: :btree
+
   create_table "devices", force: :cascade do |t|
-    t.string   "name"
+    t.string   "device_model"
     t.string   "imei"
     t.string   "mac"
     t.string   "serial_number"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "asset_tracker"
   end
 
   create_table "entitlements", force: :cascade do |t|
@@ -424,13 +451,11 @@ ActiveRecord::Schema.define(version: 20160609152605) do
     t.text     "style"
     t.integer  "logo_file_size"
     t.integer  "background_file_size"
-    t.integer  "features",                default: 0,                     null: false
+    t.integer  "features",                default: 32,                    null: false
     t.integer  "registration_parameters", default: 0,                     null: false
     t.integer  "locales",                 default: 1,                     null: false
     t.integer  "payment_services",        default: 0,                     null: false
     t.integer  "refund_services",         default: 0,                     null: false
-    t.boolean  "gtag_assignation",        default: true,                  null: false
-    t.boolean  "ticket_assignation",      default: true,                  null: false
     t.datetime "logo_updated_at"
     t.datetime "background_updated_at"
     t.datetime "start_date"
@@ -439,7 +464,6 @@ ActiveRecord::Schema.define(version: 20160609152605) do
     t.datetime "updated_at",                                              null: false
     t.string   "token_symbol",            default: "t"
     t.string   "company_name"
-    t.boolean  "agreement_acceptance",    default: false
   end
 
   add_index "events", ["slug"], name: "index_events_on_slug", unique: true, using: :btree
@@ -571,12 +595,12 @@ ActiveRecord::Schema.define(version: 20160609152605) do
   add_index "orders", ["profile_id"], name: "index_orders_on_profile_id", using: :btree
 
   create_table "pack_catalog_items", force: :cascade do |t|
-    t.integer  "pack_id",         null: false
-    t.integer  "catalog_item_id", null: false
-    t.integer  "amount"
+    t.integer  "pack_id",                                 null: false
+    t.integer  "catalog_item_id",                         null: false
+    t.decimal  "amount",          precision: 8, scale: 2
     t.datetime "deleted_at"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
   end
 
   add_index "pack_catalog_items", ["catalog_item_id"], name: "index_pack_catalog_items_on_catalog_item_id", using: :btree
@@ -787,6 +811,9 @@ ActiveRecord::Schema.define(version: 20160609152605) do
   add_foreign_key "credit_transactions", "events"
   add_foreign_key "credit_transactions", "profiles"
   add_foreign_key "credit_transactions", "stations"
+  add_foreign_key "device_transactions", "events"
+  add_foreign_key "device_transactions", "profiles"
+  add_foreign_key "device_transactions", "stations"
   add_foreign_key "money_transactions", "events"
   add_foreign_key "money_transactions", "profiles"
   add_foreign_key "money_transactions", "stations"

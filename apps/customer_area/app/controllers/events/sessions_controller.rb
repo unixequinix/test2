@@ -1,6 +1,7 @@
 class Events::SessionsController < Events::BaseController
   layout "welcome_customer"
   skip_before_filter :authenticate_customer!, only: [:new, :create]
+  before_action :check_authorization_flag!
 
   def new
     @sign_up = params[:sign_up]
