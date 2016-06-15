@@ -224,7 +224,7 @@ de:
       button: "Veranlassen"
     invalid_claim:
       title: "Erstattung in Bearbeitung"
-      description: "Kontaktieren Sie uns für weitere Informationen"
+      description: "Please contact us at %{email} in order to process your refund."
     paypal:
       button: "Refund with PayPal"
   gtag_assignations:
