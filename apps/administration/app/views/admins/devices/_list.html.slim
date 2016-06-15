@@ -1,0 +1,26 @@
+.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @list_model_presenter.current_items, total: @list_model_presenter.count)
+table.tickets
+  thead
+    tr
+      th = t("admin.devices.model")
+      th = t("admin.devices.asset")
+      th = t("admin.devices.imei")
+      th = t("admin.devices.mac")
+      th = t("admin.devices.serial_number")
+      th.table-actions-field = t('admin.defaults.actions')
+  tbody
+    - devices.each do |device|
+      tr
+        td data-label= t("admin.devices.model")
+          = best_in_place device, :device_model, url: admins_device_path(device)
+        td data-label= t("admin.devices.asset")
+          = best_in_place device, :asset_tracker, url: admins_device_path(device)
+        td data-label= t("admin.devices.imei") = device.imei
+        td data-label= t("admin.devices.mac") = device.mac
+        td data-label= t("admin.devices.serial_number") = device.serial_number
+        td.table-actions-field
+          ul
+            li.table-action.action-add = link_to admins_device_path(device) do
+              = fa_icon "list-alt", class: "fa-fw"
+.container-pagination
+  = paginate devices

@@ -213,7 +213,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           ON company_ticket_types.id = tickets.company_ticket_type_id
           AND company_ticket_types.deleted_at IS NULL
         WHERE tickets.event_id = #{@event.id}
-        AND tickets.deleted_at IS NULL
+        AND tickets.deleted_at IS NULL #{"LIMIT (10000)" if @event.tickets_api_limit? }
       ) t
     SQL
 

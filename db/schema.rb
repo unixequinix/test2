@@ -380,12 +380,13 @@ ActiveRecord::Schema.define(version: 20160614163733) do
   add_index "device_transactions", ["station_id"], name: "index_device_transactions_on_station_id", using: :btree
 
   create_table "devices", force: :cascade do |t|
-    t.string   "name"
+    t.string   "device_model"
     t.string   "imei"
     t.string   "mac"
     t.string   "serial_number"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "asset_tracker"
   end
 
   create_table "entitlements", force: :cascade do |t|
