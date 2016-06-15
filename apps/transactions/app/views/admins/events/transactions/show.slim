@@ -67,8 +67,8 @@
       = t("admin.transactions.device")
     dl
       dt = t("admin.transactions.device_uid")
-      - device = Device.find_by_mac(transaction.device_uid)
-      dd = link_to_unless(device.nil?,transaction.device_uid, admins_device_path(device)) 
+      - device = Device.find_by_mac(@transaction.device_uid)
+      dd = link_to_unless(device.nil?, @transaction.device_uid, admins_device_path(device)) 
 
       dt = t("admin.transactions.device_db_index")
       dd = @transaction.device_db_index
