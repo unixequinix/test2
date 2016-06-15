@@ -68,7 +68,10 @@
     dl
       dt = t("admin.transactions.device_uid")
       - device = Device.find_by_mac(@transaction.device_uid)
-      dd = link_to_unless(device.nil?, @transaction.device_uid, admins_device_path(device)) 
+      - if device
+        dd = link_to(@transaction.device_uid, admins_device_path(device)) 
+      - else
+        dd = @transaction.device_uid
 
       dt = t("admin.transactions.device_db_index")
       dd = @transaction.device_db_index
