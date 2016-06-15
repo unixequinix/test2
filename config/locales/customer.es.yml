@@ -244,7 +244,7 @@ es:
       button: "Solicitar"
     invalid_claim:
       title: "Estamos trabajando en tu devolución"
-      description: "Contáctanos para más información"
+      description: "Por favor escribenos a %{email} para procesar tu devolución."
     paypal:
       button: "Reembolsar con PayPal"
   gtag_assignations:
