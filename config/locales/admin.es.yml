@@ -6,6 +6,12 @@ es:
       description: "Descripción"
       created_at: "Creado el"
       updated_at: "Actualizado el"
+    devices:
+      model: "Model"
+      asset: "Asset ID"
+      imei: "Imei"
+      serial_number: "Serial Number"
+      mac: "MAC"
     accesses:
       step: "Steps"
       initial_amount: "Cantidad inicial"
@@ -208,6 +214,7 @@ es:
         gtag_assignation: 'Asignación de gtags'
         agreement_acceptance: 'Aceptación de agreement'
         authorization: 'Autorizatión'
+        tickets_api_limit: 'Limite en tickets API'
       locales_options:
         en_lang: "Inglés"
         it_lang: "Italiano"

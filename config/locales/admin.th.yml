@@ -6,6 +6,12 @@ th:
       description: "Description"
       created_at: "Created at"
       updated_at: "Updated at"
+    devices:
+      model: "Model"
+      asset: "Asset ID"
+      imei: "Imei"
+      serial_number: "Serial Number"
+      mac: "MAC"
     accesses:
       step: "Step"
       initial_amount: "Initial Amount"
@@ -208,6 +214,7 @@ th:
         gtag_assignation: 'Gtag assignations'
         agreement_acceptance: 'Agreement acceptance'
         authorization: 'Authorization'
+        tickets_api_limit: 'Tickets API Limit'
       locales_options:
         en_lang: "English"
         it_lang: "Italian"
