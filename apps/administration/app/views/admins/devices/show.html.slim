@@ -35,7 +35,7 @@
               th = t("admin.transactions.initialization_type")
               th = t("admin.transactions.number_of_transactions")
           tbody
-            - transactions[0,5].sort_by(&:device_created_at).reverse.each do |transaction|
+            - transactions.sort_by(&:device_created_at).reverse[0,5].each do |transaction|
               tr
                 td = link_to transaction.id, admins_event_transaction_path(event, transaction, type: "device")
                 td = transaction.transaction_type
