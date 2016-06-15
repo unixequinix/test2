@@ -20,7 +20,7 @@
       dd = @device.serial_number
 
 - @device_events.each do |event, transactions|
-  - unless %w(launched closed).include?(event.aasm_state)
+  - unless event.aasm_state == "closed"
     .container-show
       h3
         = fa_icon "table"
