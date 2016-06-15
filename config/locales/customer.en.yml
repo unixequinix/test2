@@ -307,7 +307,7 @@ en:
       call_to_action: 'Contact us:'
     success:
       title: 'Refund Done'
-      description: 'Your refund has been completed. You will receive a confirmation email of your claim.'
+      description: 'Your application process for online refund has been completed. You will receive an email with a confirmation.'
   passwords:
     new:
       title: 'Forgot your password?'
