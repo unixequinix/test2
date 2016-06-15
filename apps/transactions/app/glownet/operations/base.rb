@@ -2,6 +2,7 @@ class Operations::Base < ActiveJob::Base
   SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at gtag_counter ).freeze
 
   def perform(atts) # rubocop:disable Metrics/AbcSize
+    atts[:customer_tag_uid] = atts[:customer_tag_uid].to_s.upcase
     atts[:profile_id] ||= atts[:customer_event_profile_id]
     atts.delete(:station_id) if atts[:station_id].to_i.zero?
     atts.delete(:sale_items_attributes) if atts[:sale_items_attributes].blank?

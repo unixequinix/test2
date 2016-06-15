@@ -46,7 +46,11 @@ aside.mmenu-panel#search-menu
             td data-label=t("admin.transactions.station_id") = transaction.station&.name
             td data-label=t("admin.transactions.device_uid")
               - device = Device.find_by_mac(transaction.device_uid)
-              = link_to_unless(device.nil?, transaction.device_uid, admins_device_path(device)) 
+              - if device
+                = link_to(transaction.device_uid, admins_device_path(device)) 
+              - else
+                = transaction.device_uid
+
             td data-label=t("admin.transactions.customer_tag_uid")
               - if transaction.profile
                 = link_to transaction.customer_tag_uid, admins_event_profile_path(current_event, transaction.profile)
