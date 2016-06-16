@@ -7,7 +7,6 @@ table.transactions
       th = "ID"
       th = t("admin.transactions.transaction_type")
       th = t("admin.transactions.transaction_origin")
-      th = t("admin.transactions.gtag_counter")
       th = t("admin.transactions.station_id")
       th = t("admin.transactions.device_uid")
       th = t("admin.transactions.credits")
@@ -15,6 +14,7 @@ table.transactions
       th = t("admin.transactions.final_balance")
       th = t("admin.transactions.final_refundable_balance")
       th = "Code"
+      th.table-actions-field = t("admin.transactions.gtag_counter")
 
   tbody
     - credit_transactions.each do |transaction|
@@ -22,7 +22,6 @@ table.transactions
           td = link_to transaction.id, admins_event_transaction_path(current_event, transaction, type: "credit")
           td data-label=t("admin.transactions.transaction_type") = transaction.transaction_type
           td data-label=t("admin.transactions.transaction_origin") = transaction.transaction_origin
-          td data-label=t("admin.transactions.gtag_counter") = transaction.gtag_counter
           td data-label=t("admin.transactions.station_id") = transaction.station&.name
           td data-label=t("admin.transactions.device_uid") = transaction.device_uid
           td data-label=t("admin.transactions.credits") = transaction.credits
@@ -30,3 +29,4 @@ table.transactions
           td data-label=t("admin.transactions.final_balance") = transaction.final_balance
           td data-label=t("admin.transactions.final_refundable_balance") = transaction.final_refundable_balance
           td data-label=t("admin.transactions.final_refundable_balance") = transaction.status_code
+          td.table-actions-field data-label=t("admin.transactions.gtag_counter") = transaction.gtag_counter
