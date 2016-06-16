@@ -35,6 +35,7 @@ class CreditTransaction < Transaction
 
   scope :with_event, ->(event) { where(event: event) }
   scope :with_customer_tag, ->(tag_uid) { where(customer_tag_uid: tag_uid) }
+  scope :status_ok, -> { where(status_code: 0) }
 
   default_scope { order(device_created_at: :desc) }
 

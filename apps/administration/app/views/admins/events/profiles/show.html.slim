@@ -16,10 +16,10 @@
       span R Credits Sum
 
     .wrapper-statistics
-      h2 = number_to_token @credit_transactions.sum(:credits)
+      h2 = number_to_token @credit_transactions.status_ok.sum(:credits)
       span Transaction Credits Sum
 
     .wrapper-statistics
-      h2 = number_to_token @credit_transactions.sum(:credits_refundable)
+      h2 = number_to_token @credit_transactions.status_ok.sum(:credits_refundable)
       span R Transactions Credits Sum
   = render("profile_data", profile: @profile, credit_transactions: @credit_transactions)

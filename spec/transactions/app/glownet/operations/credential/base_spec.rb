@@ -41,6 +41,19 @@ RSpec.describe Operations::Credential::Base, type: :job do
       @ctt = create(:company_ticket_type, event: event, company_code: ctt_id)
     end
 
+    context "with sonar decryption" do
+      before { allow(TicketDecoder::SonarDecoder).to receive(:perform).and_return(ctt_id) }
+      it "attaches the correct company_ticket_type based on ticket_code" do
+        ticket = worker.assign_ticket(transaction, atts)
+        expect(ticket.company_ticket_type).to eq(@ctt)
+      end
+
+      it "attaches the ticket_id to the transaction" do
+        worker.assign_ticket(transaction, atts)
+        expect(transaction.reload.ticket_id).not_to be_nil
+      end
+    end
+
     it "finds the ticket if present" do
       t = create(:ticket, event: event, code: ticket_code)
       expect(decoder).not_to receive(:perform)
@@ -50,12 +63,6 @@ RSpec.describe Operations::Credential::Base, type: :job do
     it "tries to decode the ticket if not present" do
       expect(decoder).to receive(:perform).and_return(ctt_id)
       worker.assign_ticket(transaction, atts)
-    end
-
-    it "attaches the correct company_ticket_type based on ticket_code" do
-      allow(TicketDecoder::SonarDecoder).to receive(:perform).and_return(ctt_id)
-      worker.assign_ticket(transaction, atts)
-      expect(transaction.ticket.company_ticket_type).to eq(@ctt)
     end
 
     it "raises error if ticket is neither found nor decoded" do
@@ -73,7 +80,7 @@ RSpec.describe Operations::Credential::Base, type: :job do
       transaction.create_ticket!(event: event, code: ticket_code, company_ticket_type: @ctt)
       expect do
         worker.assign_ticket(transaction, atts)
-      end.not_to change(transaction.event.tickets, :count)
+      end.not_to change(event.tickets, :count)
     end
   end
 
