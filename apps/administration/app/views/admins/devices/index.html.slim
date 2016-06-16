@@ -14,4 +14,6 @@ aside.mmenu-panel#search-menu
   - if @list_model_presenter.there_any?
     = render 'admins/devices/list', devices: @list_model_presenter.all_items
   - else
-    = render @list_model_presenter.no_items_for_presentation
+    .section-title-empty
+      = image_tag "img-empty.png"
+      p = t("admin.defaults.empty_item", item: 'devices')
