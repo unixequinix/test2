@@ -9,8 +9,9 @@
         th = t("admin.tickets.code")
         th = t("admin.tickets.gtags")
         th = t("admin.tickets.customer")
-        th = t("admin.tickets.banned")
-        th.table-actions-field = t("admin.defaults.actions")
+        - unless current_admin.customer_service?
+          th = t("admin.tickets.banned")
+          th.table-actions-field = t("admin.defaults.actions")
     tbody
       - tickets.each do |ticket|
         tr
@@ -23,16 +24,16 @@
               = link_to assign.credentiable.tag_uid, edit_admins_event_gtag_path(current_event, assign.credentiable) 
           td data-label=t("admin.tickets.customer")
             = link_to ticket.assigned_ticket_credential.profile.customer.email, admins_event_customer_path(current_event, ticket.assigned_ticket_credential.profile.customer) if ticket.assigned_ticket_credential&.profile&.customer
-          td data-label=t("admin.tickets.banned")
-            - if ticket.banned?
-              = link_to unban_admins_event_ticket_path(current_event, ticket), method: :delete, title: "Unban ticket" do
-                = fa_icon "circle"
-            - else
-              = link_to ban_admins_event_ticket_path(current_event, ticket), title: "Ban ticket" do
-                = fa_icon "circle-thin"
-
-          td.table-actions-field
-            = render 'admins/events/tickets/actions', ticket: ticket unless current_event.started?
+          - unless current_admin.customer_service?
+            td data-label=t("admin.tickets.banned")
+              - if ticket.banned?
+                = link_to unban_admins_event_ticket_path(current_event, ticket), method: :delete, title: "Unban ticket" do
+                  = fa_icon "circle"
+              - else
+                = link_to ban_admins_event_ticket_path(current_event, ticket), title: "Ban ticket" do
+                  = fa_icon "circle-thin"
+            td.table-actions-field
+              = render 'admins/events/tickets/actions', ticket: ticket unless current_event.started?
   .container-pagination
     = paginate tickets
     = submit_tag t("admin.actions.delete_selected")

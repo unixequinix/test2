@@ -14,7 +14,10 @@ html [lang=I18n.locale]
     .wrapper-main
       #notifications
         = render 'notifications'
-      = render 'admins/shared/sidepanel', event: @current_event
+      - if current_admin.customer_service?
+        = render 'admins/shared/cs_menu', event: @current_event
+      - else
+        = render 'admins/shared/admin_menu', event: @current_event
       .container-main.container-event
         = render 'admins/shared/header'
         = render 'admins/shared/action_bar'

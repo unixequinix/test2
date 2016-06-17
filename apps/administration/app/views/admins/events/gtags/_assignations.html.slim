@@ -11,7 +11,8 @@
         th = t("admin.gtag_assignations.aasm_state")
         th = t("admin.gtag_assignations.created_at")
         th = t("admin.gtag_assignations.updated_at")
-        th = t("admin.defaults.actions")
+        - unless current_admin.customer_service?
+          th = t("admin.defaults.actions")
     tbody
       - gtag.credential_assignments.each do |assignment|
         - profile = assignment&.profile
@@ -23,9 +24,10 @@
           td = t("admin.credential_assignments.states.#{assignment.aasm_state}")
           td = assignment.created_at.strftime("%y-%m-%d %H:%M:%S")
           td = assignment.updated_at.strftime("%y-%m-%d %H:%M:%S")
-          td.table-actions-field
-            ul
-              - if assignment.assigned?
-                li.table-action.action-delete
-                  = link_to admins_event_gtag_assignment_path(current_event, assignment), method: :delete, data: { confirm: t("admin.confirm.delete") } do
-                    = fa_icon "ban"
+          - unless current_admin.customer_service?
+            td.table-actions-field
+              ul
+                - if assignment.assigned?
+                  li.table-action.action-delete
+                    = link_to admins_event_gtag_assignment_path(current_event, assignment), method: :delete, data: { confirm: t("admin.confirm.delete") } do
+                      = fa_icon "ban"
