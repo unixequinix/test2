@@ -1,18 +1,19 @@
 - breadcrumb :admins_event_tickets, current_event
 - provide :actions do
-  = link_to new_admins_event_ticket_path, class: "btn btn-action btn-action-new small" do
-    = fa_icon 'plus'
-    = t('admin.actions.new')
-  = link_to admins_event_tickets_path(format: "csv"), class: "btn btn-action btn-action-back small"
-    = fa_icon "download"
-    = t('admin.actions.download')
+  - unless current_admin.customer_service?
+    = link_to new_admins_event_ticket_path, class: "btn btn-action btn-action-new small" do
+      = fa_icon 'plus'
+      = t('admin.actions.new')
+    = link_to admins_event_tickets_path(format: "csv"), class: "btn btn-action btn-action-back small"
+      = fa_icon "download"
+      = t('admin.actions.download')
+    = simple_form_for :file, url: import_admins_event_tickets_path(current_event.id), html: {style: "display: inline-block;", multipart: true} do |f|  
+      = f.file_field :data, label: :import, style: "width: 180px;"
+      = button_tag(type: 'submit', style: "background: none; border: none; color: #666;") do
+        = fa_icon 'upload'
   = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
     = fa_icon 'search'
     = t('admin.actions.search')
-  = simple_form_for :file, url: import_admins_event_tickets_path(current_event.id), html: {style: "display: inline-block;", multipart: true} do |f|  
-    = f.file_field :data, label: :import, style: "width: 180px;"
-    = button_tag(type: 'submit', style: "background: none; border: none; color: #666;") do
-      = fa_icon 'upload'
 
 
 
