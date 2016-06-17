@@ -38,7 +38,7 @@ class Admin < ActiveRecord::Base
   end
 
   def customer_service?
-    email == "admin@test.com"
+    email == "service@glownet.com"
   end
 
   private
