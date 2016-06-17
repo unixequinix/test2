@@ -179,7 +179,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
 
   def sql_tickets # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
-      SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(t))))
+      SELECT array_to_json(array_agg(row_to_json(t)))
       FROM (
         SELECT
           tickets.code as reference,
