@@ -2,7 +2,8 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
   def index # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     @issues = []
 
-    current_event.profiles.includes(:customer_credits,
+    current_event.profiles.includes(:credit_transactions,
+                                    :customer_credits,
                                     :active_gtag_assignment,
                                     active_gtag_assignment: :credentiable).each do |profile|
       next if profile.missing_credit_transactions?
