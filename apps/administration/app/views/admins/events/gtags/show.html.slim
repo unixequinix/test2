@@ -1,8 +1,11 @@
 - breadcrumb :admins_event_gtag, current_event, @gtag
 - provide :actions do
-  = link_to t("actions.delete"), admins_event_gtag_path(current_event, @gtag), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-action btn-action-new btn-action-delete small"
-  = link_to t("actions.edit"), edit_admins_event_gtag_path(current_event, @gtag), class: "btn btn-action btn-action-new small"
-  = link_to t("actions.back"), admins_event_gtags_path, class: "btn btn-action btn-action-back small"
+  - unless current_admin.customer_service?
+    = link_to t("actions.delete"), admins_event_gtag_path(current_event, @gtag), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-action btn-action-new btn-action-delete small"
+    = link_to t("actions.edit"), edit_admins_event_gtag_path(current_event, @gtag), class: "btn btn-action btn-action-new small"
+  = link_to admins_event_gtags_path, class: "btn btn-action btn-action-back small" do
+    = fa_icon "arrow-circle-left"
+    = t("actions.back")
 
 .wrapper-negative-space
   .container-show

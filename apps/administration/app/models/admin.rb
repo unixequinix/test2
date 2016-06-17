@@ -37,6 +37,10 @@ class Admin < ActiveRecord::Base
     access_token == token
   end
 
+  def customer_service?
+    email == "admin@test.com"
+  end
+
   private
 
   def generate_access_token
