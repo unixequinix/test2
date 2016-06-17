@@ -5,6 +5,7 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
     current_event.profiles.includes(:customer_credits,
                                     :active_gtag_assignment,
                                     active_gtag_assignment: :credentiable).each do |profile|
+      next if profile.missing_credit_transactions?
       credits = profile.customer_credits
       last_credit = credits.first
       amount_sum_credit = credits.map(&:amount).sum.round(2)

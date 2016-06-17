@@ -70,6 +70,13 @@ class Profile < ActiveRecord::Base
     Customer.unscoped { super }
   end
 
+  def missing_credit_transactions?
+    indexes = credit_transactions.map(&:gtag_counter).map(&:to_i).sort
+    all_indexes = (1..indexes.last.to_i).to_a
+    subset = all_indexes - indexes
+    not subset.empty?
+  end
+
   def active_credentials?
     active_tickets_assignment.any? || !active_gtag_assignment.nil?
   end
