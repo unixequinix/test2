@@ -1,5 +1,6 @@
 .container-show
   - root = "admins/events/profiles/sections/"
+  = render(root + "transaction_counters", profile: profile) if profile.missing_transaction_counters.any?
   = render(root + "payments_information", profile: profile) if profile.payment_gateway_customers.any?
   = render(root + "purchases_information", profile: profile) if profile.sorted_purchases(format: :list).any?
   = render(root + "ticket_assignments", profile: profile) if profile.ticket_assignments.any?

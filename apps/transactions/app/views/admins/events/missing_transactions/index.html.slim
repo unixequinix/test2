@@ -1,8 +1,10 @@
 - breadcrumb :admins_event_missing_transactions, current_event
 
 .wrapper-negative-space
-  - if @missing.present?
-    - @missing.each do |uid, hash|
+  h2 Missing from Devices
+
+  - if @missing[:device].present?
+    - @missing[:device].each do |uid, hash|
       h3 = "Device: #{uid}"
       table.transactions
         thead
@@ -18,4 +20,27 @@
   - else
    .section-title-empty
      = image_tag "img-empty.png"
-     p = t("admin.defaults.empty_item", item: "Missing Transactions")
+     p = t("admin.defaults.empty_item", item: "Missing Transactions from Devices")
+
+  h2 Missing from Gtags
+
+  - if @missing[:profiles].present?
+    table.customers
+      thead
+        tr
+          th = t("admin.profile.id")
+          th = t("admin.customers.email")
+          th = t("admin.customers.first_name")
+          th = t("admin.customers.last_name")
+          th = t("admin.customers.tickets")
+          th = t("admin.customers.credits")
+          th = t("admin.customers.gtags")
+          th = t("admin.customers.banned")
+      tbody
+        - @missing[:profiles].each do |profile|
+          tr [id="customer-#{profile.id}"]
+            = render 'admins/events/profiles/row', profile: profile
+  - else
+    .section-title-empty
+      = image_tag "img-empty.png"
+      p = t("admin.defaults.empty_item", item: "Missing Transactions from Gtags")
