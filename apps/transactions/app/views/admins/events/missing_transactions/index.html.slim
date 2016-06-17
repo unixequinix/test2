@@ -3,44 +3,25 @@
 .wrapper-negative-space
   h2 Missing from Devices
 
-  - if @missing[:device].present?
-    - @missing[:device].each do |uid, hash|
-      h3 = "Device: #{uid}"
-      table.transactions
-        thead
+  - if @devices.any?
+    h3 = "#{@devices.count} Devices with missing transactions"
+    table.transactions
+      thead
+        tr
+          th colspan=2 = t("admin.transactions.transaction_category")
+
+      tbody
+        - @devices.each do |uid, ts|
           tr
-            th = t("admin.transactions.transaction_category")
-            th = t("admin.transactions.keys")
-        tbody
-          - hash.each do |transaction_type, indexes|
+            td colspan=2 data-label=t("admin.transactions.id")
+              b = uid
+          - ts.map do |t|
             tr
-              td data-label=t("admin.transactions.id") = transaction_type
-              td data-label=t("admin.transactions.transaction_origin") = indexes.to_sentence
+              td style="text-align: right" data-label="time" = Time.parse(t.device_created_at).to_s(:short)
+              td data-label="info" =  t.transaction_type.humanize
+
       br
   - else
    .section-title-empty
      = image_tag "img-empty.png"
      p = t("admin.defaults.empty_item", item: "Missing Transactions from Devices")
-
-  h2 Missing from Gtags
-
-  - if @missing[:profiles].present?
-    table.customers
-      thead
-        tr
-          th = t("admin.profile.id")
-          th = t("admin.customers.email")
-          th = t("admin.customers.first_name")
-          th = t("admin.customers.last_name")
-          th = t("admin.customers.tickets")
-          th = t("admin.customers.credits")
-          th = t("admin.customers.gtags")
-          th = t("admin.customers.banned")
-      tbody
-        - @missing[:profiles].each do |profile|
-          tr [id="customer-#{profile.id}"]
-            = render 'admins/events/profiles/row', profile: profile
-  - else
-    .section-title-empty
-      = image_tag "img-empty.png"
-      p = t("admin.defaults.empty_item", item: "Missing Transactions from Gtags")
