@@ -2,7 +2,7 @@ h3
   = fa_icon "table"
   = "Credit Transactions "
   - if @profile.missing_transaction_counters.any?
-    | - Missing: 
+    | - Missing:
     = @profile.missing_transaction_counters.to_sentence
 table.transactions
   thead
