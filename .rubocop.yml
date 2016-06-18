@@ -23,7 +23,7 @@ Documentation:
   Enabled: false
 
 Metrics/LineLength:
-  Max: 100
+  Max: 120
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
