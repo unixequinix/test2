@@ -1,15 +1,19 @@
 class Operations::Base < ActiveJob::Base
   SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at gtag_counter ).freeze
 
+  def self.write(atts)
+    klass = "#{atts[:transaction_category]}_transaction".classify.constantize
+    obj = klass.find_by(atts.slice(*SEARCH_ATTS))
+    return obj if obj
+    perform_later(atts)
+  end
+
   def perform(atts) # rubocop:disable Metrics/AbcSize
     atts[:customer_tag_uid] = atts[:customer_tag_uid].to_s.upcase
     atts[:profile_id] ||= atts[:customer_event_profile_id]
     atts.delete(:station_id) if atts[:station_id].to_i.zero?
     atts.delete(:sale_items_attributes) if atts[:sale_items_attributes].blank?
     klass = "#{atts[:transaction_category]}_transaction".classify.constantize
-
-    obj = klass.find_by(atts.slice(*SEARCH_ATTS))
-    return obj if obj
     return klass.create!(column_attributes(klass, atts)) unless atts[:status_code].to_i.zero?
 
     gtag = Gtag.find_or_create_by!(tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id])
