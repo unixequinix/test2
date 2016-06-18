@@ -153,7 +153,7 @@ group :development, :test do
 end
 
 group :development, :test, :integration do
-  gem 'pry-rails'
+
   gem 'factory_girl_rails', '~> 4.5.0'
 end
 
