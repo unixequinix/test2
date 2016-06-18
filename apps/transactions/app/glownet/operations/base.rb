@@ -14,6 +14,9 @@ class Operations::Base < ActiveJob::Base
     atts.delete(:station_id) if atts[:station_id].to_i.zero?
     atts.delete(:sale_items_attributes) if atts[:sale_items_attributes].blank?
     klass = "#{atts[:transaction_category]}_transaction".classify.constantize
+
+    obj = klass.find_by(atts.slice(*SEARCH_ATTS))
+    return obj if obj
     return klass.create!(column_attributes(klass, atts)) unless atts[:status_code].to_i.zero?
 
     gtag = Gtag.find_or_create_by!(tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id])
