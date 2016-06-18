@@ -18,6 +18,7 @@ table.transactions
       th = t("admin.transactions.final_refundable_balance")
       th = "Code"
       th.table-actions-field = t("admin.transactions.gtag_counter")
+      th.table-actions-field = t("admin.defaults.actions")
 
   tbody
     - credit_transactions.each do |transaction|
@@ -33,3 +34,8 @@ table.transactions
           td data-label=t("admin.transactions.final_refundable_balance") = transaction.final_refundable_balance
           td data-label=t("admin.transactions.final_refundable_balance") = transaction.status_code
           td.table-actions-field data-label=t("admin.transactions.gtag_counter") = transaction.gtag_counter
+          td.table-actions-field  data-label=t("admin.defaults.actions")
+            - if transaction.status_code == 2
+              ul
+                li.table-action.action-edit = link_to fix_transaction_admins_event_profile_path(current_event, @profile, transaction: transaction.id) do
+                  = fa_icon "magic"

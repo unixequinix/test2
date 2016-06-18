@@ -53,6 +53,21 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
     redirect_to(admins_event_profile_path(current_event, profile))
   end
 
+  def fix_transaction
+    transaction = CreditTransaction.find(params[:transaction])
+    transaction.update!(status_code: 0, status_message: "OK")
+    atts = {
+      transaction_origin: transaction.transaction_origin,
+      profile_id: params[:id],
+      credits_refundable: transaction.credits_refundable,
+      credits: transaction.credits,
+      device_created_at: transaction.device_created_at
+    }
+    Operations::Credit::BalanceUpdater.new.perform(atts)
+
+    redirect_to(admins_event_profile_path(current_event, params[:id]))
+  end
+
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Profile".constantize.model_name,
