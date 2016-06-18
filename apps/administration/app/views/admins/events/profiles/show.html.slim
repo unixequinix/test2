@@ -8,20 +8,20 @@
   = render("credentials_information", profile: @profile)
   .container-statistics
     .wrapper-statistics
-      h2 = number_to_token @profile.customer_credits.sum(:amount)
+      h2 = number_to_token @profile.customer_credits.select{|c| c.amount < 0}.map(&:amount).sum
+      span Total Sales
+
+    .wrapper-statistics
+      h2 = number_to_token @profile.customer_credits.select{|c| c.amount > 0}.map(&:amount).sum
+      span Total Topups
+
+    .wrapper-statistics
+      h2 = number_to_token @profile.customer_credits.map(&:amount).sum
       span Credits Sum
 
     .wrapper-statistics
-      h2 = number_to_token @profile.customer_credits.sum(:refundable_amount)
-      span R Credits Sum
-
-    .wrapper-statistics
-      h2 = number_to_token @credit_transactions.status_ok.sum(:credits)
-      span Transaction Credits Sum
-
-    .wrapper-statistics
-      h2 = number_to_token @credit_transactions.status_ok.sum(:credits_refundable)
-      span R Transactions Credits Sum
+      h2 = number_to_token @profile.customer_credits.map(&:refundable_amount).sum
+      span Refundable Credits Sum
   .container-show
     - root = "admins/events/profiles/sections/"
     = render(root + "payments_information", profile: @profile) if @profile.payment_gateway_customers.any?
