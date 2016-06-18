@@ -27,6 +27,6 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
         inconsistent_refundable_balance: irb
       }
     end
-    @issues.sort_by! { |i| i[:inconsistent_balance] }
+    @issues = @issues.sort_by { |i| i[:inconsistent_balance] }
   end
 end
