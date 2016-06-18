@@ -47,6 +47,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   include EventFlags # FlagShihTzu
 
   # Associations
+  has_many :device_transactions
   has_many :company_ticket_types
   has_many :profiles
   has_many :event_parameters
