@@ -24,10 +24,9 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
         final_balance: last_credit.final_balance,
         final_refundable_balance: last_credit.final_refundable_balance,
         inconsistent_balance: ib,
-        inconsistent_refundable_balance: irb,
-        gtag: profile.active_gtag_assignment&.credentiable&.tag_uid
+        inconsistent_refundable_balance: irb
       }
     end
-    @issues.sort_by! { |i| i[:inconsistent_balance] }
+    @issues = @issues.sort_by { |i| i[:inconsistent_balance] }
   end
 end
