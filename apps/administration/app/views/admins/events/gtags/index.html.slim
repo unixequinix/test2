@@ -7,6 +7,10 @@
     = link_to admins_event_gtags_path(format: "csv"), class: "btn btn-action btn-action-download small"
       = fa_icon "download"
       = t('admin.actions.download')
+    = simple_form_for :file, url: import_admins_event_gtags_path(current_event.id), html: {style: "display: inline-block;", multipart: true} do |f|  
+      = f.file_field :data, label: :import, style: "width: 180px;"
+      = button_tag(type: 'submit', style: "background: none; border: none; color: #666;") do
+        = fa_icon 'upload'
   = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
     = fa_icon 'search'
     = t('actions.search')

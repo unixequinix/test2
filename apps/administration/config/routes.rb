@@ -56,6 +56,7 @@ Rails.application.routes.draw do
           collection do
             get :search
             delete :destroy_multiple
+            post :import
           end
         end
 
