@@ -97,7 +97,7 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
 
     lines.each do |uid, format|
       tag = current_event.gtags.find_by_tag_uid(uid)
-      tag.update!(format: format) && return if tag
+      tag.update!(format: format) && next if tag
       Gtag.create!(tag_uid: uid, event: current_event, format: format)
     end
 
