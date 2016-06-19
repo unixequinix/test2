@@ -241,6 +241,9 @@ it:
     invalid_claim:
       title: "Working in your refund"
       description: "Please contact us at %{email} in order to process your refund."
+    cards_disabled:
+      title: "Sorry"
+      description: "Cards are not elegible for online refunds"
     paypal:
       button: "Refund with PayPal"
   gtag_assignations:

@@ -245,6 +245,9 @@ es:
     invalid_claim:
       title: "Estamos trabajando en tu devolución"
       description: "Por favor escribenos a %{email} para procesar tu devolución."
+    cards_disabled:
+      title: "Lo sentimos"
+      description: "Las tarjetas no tienen opción a la devolución online"
     paypal:
       button: "Reembolsar con PayPal"
   gtag_assignations:
