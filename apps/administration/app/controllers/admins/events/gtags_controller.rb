@@ -96,7 +96,9 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
     lines.delete_at(0)
 
     lines.each do |uid, format|
-      Gtag.find_or_create_by(tag_uid: uid, event: current_event, format: format)
+      tag = current_event.gtags.find_by_tag_uid(uid)
+      tag.update!(format: format) && next if tag
+      Gtag.create!(tag_uid: uid, event: current_event, format: format)
     end
 
     redirect_to(admins_event_gtags_path(event), notice: "Gtags imported")
