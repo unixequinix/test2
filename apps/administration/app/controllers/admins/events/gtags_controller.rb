@@ -88,6 +88,20 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
     redirect_to(admins_event_gtags_url)
   end
 
+  def import # rubocop:disable Metrics/AbcSize
+    event = current_event.event
+    alert = "Seleccione un archivo para importar"
+    redirect_to(admins_event_gtags_path(event), alert: alert) && return unless params[:file]
+    lines = params[:file][:data].tempfile.map { |line| line.split(";") }
+    lines.delete_at(0)
+
+    lines.each do |uid, format|
+      Gtag.find_or_create_by(tag_uid: uid, event: current_event, format: format)
+    end
+
+    redirect_to(admins_event_gtags_path(event), notice: "Gtags imported")
+  end
+
   private
 
   def write_transaction(action, gtag)
