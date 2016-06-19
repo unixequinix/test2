@@ -142,6 +142,7 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
       :credential_redeemed,
       :banned,
       :company_ticket_type_id,
+      :format,
       purchaser_attributes: [:id, :first_name, :last_name, :email, :gtag_delivery_address]
     )
   end
