@@ -12,6 +12,7 @@ table.refunds
       th = t("admin.customer_credits.final_balance")
       th = t("admin.customer_credits.final_refundable_balance")
       th = t("admin.customer_credits.created_at")
+      th = t("admin.customer_credits.gtag_counter")
   tbody
     - profile.customer_credits.order(created_in_origin_at: :desc).each do |customer_credit|
       tr
@@ -23,3 +24,4 @@ table.refunds
         td data-label="final_balance" = customer_credit.final_balance
         td data-label="final_refundable_balance" = customer_credit.final_refundable_balance
         td data-label="created_at" = customer_credit.created_in_origin_at&.strftime("%y-%m-%d %H:%M:%S.%L")
+        td data-label="gtag_counter" = customer_credit.gtag_counter
