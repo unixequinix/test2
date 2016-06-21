@@ -35,6 +35,7 @@ table.transactions
           td data-label=t("admin.transactions.final_refundable_balance") = transaction.final_refundable_balance
           td data-label=t("admin.transactions.final_refundable_balance") = transaction.status_code
           td.table-actions-field data-label=t("admin.transactions.gtag_counter") = transaction.gtag_counter
+          td.table-actions-field data-label=t("admin.transactions.gtag_counter") = transaction.device_created_at
           td.table-actions-field  data-label=t("admin.defaults.actions")
             - if transaction.status_code == 2
               ul
