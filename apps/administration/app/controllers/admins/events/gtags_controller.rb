@@ -96,9 +96,9 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
     lines.delete_at(0)
 
     lines.each do |uid, format|
-      tag = current_event.gtags.find_by_tag_uid(uid)
+      tag = event.gtags.find_by_tag_uid(uid)
       tag.update!(format: format) && next if tag
-      Gtag.create!(tag_uid: uid, event: current_event, format: format)
+      Gtag.create!(tag_uid: uid, event: event, format: format)
     end
 
     redirect_to(admins_event_gtags_path(event), notice: "Gtags imported")
@@ -142,6 +142,7 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
       :credential_redeemed,
       :banned,
       :company_ticket_type_id,
+      :format,
       purchaser_attributes: [:id, :first_name, :last_name, :email, :gtag_delivery_address]
     )
   end
