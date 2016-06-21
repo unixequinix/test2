@@ -1,6 +1,6 @@
 class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
   def index
-    render(json: @fetcher.sql_profiles)
+    render(json: [])
   end
 
   def show
