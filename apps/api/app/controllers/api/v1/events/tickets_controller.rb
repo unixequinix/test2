@@ -1,7 +1,6 @@
 class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
   def index
-    render(json: Rails.cache.fetch("v1/event/#{current_event.id}/tickets",
-                                    expires_in: 45.minutes) { @fetcher.sql_tickets })
+    render(json: [])
   end
 
   def show
