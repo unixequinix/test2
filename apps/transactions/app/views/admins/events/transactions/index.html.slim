@@ -37,6 +37,7 @@ aside.mmenu-panel#search-menu
           th = t("admin.transactions.station_id")
           th = t("admin.transactions.device_uid")
           th = t("admin.transactions.customer_tag_uid")
+          th.table-actions-field = t("admin.transactions.gtag_counter")
       tbody
         - @transactions.each do |transaction|
           tr
@@ -56,6 +57,8 @@ aside.mmenu-panel#search-menu
                 = link_to transaction.customer_tag_uid, admins_event_profile_path(current_event, transaction.profile)
               - else
                 = transaction.customer_tag_uid
+            td.table-actions-field data-label=t("admin.transactions.gtag_counter") 
+              i = transaction.gtag_counter
     .container-pagination
       = paginate @transactions
   - else

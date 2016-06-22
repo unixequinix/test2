@@ -25,6 +25,10 @@ class Profile < ActiveRecord::Base
   has_many :online_orders, through: :customer_orders
   has_many :payments, through: :orders
   has_many :credit_transactions
+  has_many :access_transactions
+  has_many :credential_transactions
+  has_many :money_transactions
+  has_many :order_transactions
   has_many :customer_credits
   has_many :completed_claims, -> { where("aasm_state = 'completed' AND completed_at IS NOT NULL") },
            class_name: "Claim"
@@ -68,6 +72,21 @@ class Profile < ActiveRecord::Base
 
   def customer
     Customer.unscoped { super }
+  end
+
+  def all_transaction_counters
+    indexes = credit_transactions.map(&:gtag_counter)
+    indexes += access_transactions.map(&:gtag_counter)
+    indexes += credential_transactions.map(&:gtag_counter)
+    indexes += money_transactions.map(&:gtag_counter)
+    indexes += order_transactions.map(&:gtag_counter)
+    indexes.sort
+  end
+
+  def missing_transaction_counters
+    indexes = all_transaction_counters
+    all_indexes = (1..indexes.last.to_i).to_a
+    (all_indexes - indexes).sort
   end
 
   def active_credentials?

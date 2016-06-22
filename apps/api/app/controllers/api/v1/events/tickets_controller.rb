@@ -1,6 +1,6 @@
 class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
   def index
-    render(json: @fetcher.sql_tickets)
+    render(json: [])
   end
 
   def show

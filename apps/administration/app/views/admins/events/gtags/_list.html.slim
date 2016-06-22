@@ -3,21 +3,24 @@
   table.gtags
     thead
       tr
-        th.select-all
-          = check_box_tag "select-all", 1
+        - unless current_admin.customer_service?
+          th.select-all
+            = check_box_tag "select-all", 1
         th = t("admin.gtags.id")
         th = t("admin.gtags.tag")
         th = t("admin.gtags.customer")
         th = t("admin.gtags.tickets")
-        th = t("admin.gtags.banned")
-        th.table-actions-field = t ("admin.defaults.actions")
+        - unless current_admin.customer_service?
+          th = t("admin.gtags.banned")
+          th.table-actions-field = t ("admin.defaults.actions")
 
     tbody
       - gtags.each do |gtag|
         - customer = gtag&.assigned_gtag_credential&.profile&.customer
         tr
-          td.select-all data-label=t("admin.defaults.all")
-            = check_box_tag "gtags[#{gtag.id}]", 1
+          - unless current_admin.customer_service?
+            td.select-all data-label=t("admin.defaults.all")
+              = check_box_tag "gtags[#{gtag.id}]", 1
           td data-label=t("admin.gtags.id") = link_to gtag.id, admins_event_gtag_path(current_event, gtag)
           td data-label=t("admin.gtags.tag") = link_to gtag.tag_uid, admins_event_gtag_path(current_event, gtag)
           td data-label=t("admin.gtags.customer")
@@ -26,15 +29,17 @@
             - if gtag.assigned_profile&.active_tickets_assignment
               - gtag.assigned_profile&.active_tickets_assignment.each do |assigned_ticket|
                 = link_to assigned_ticket.credentiable&.code, edit_admins_event_ticket_path(current_event, assigned_ticket.credentiable)  
-          td data-label=t("admin.gtags.banned")
-            - if gtag.banned?
-              = link_to unban_admins_event_gtag_path(current_event, gtag), method: :delete, title: "Unban gtag" do
-                = fa_icon "circle"
-            - else
-              = link_to ban_admins_event_gtag_path(current_event, gtag), title: "Ban gtag" do
-                = fa_icon "circle-thin"
-          td.table-actions-field
-            = render 'admins/events/gtags/actions', gtag: gtag
+          - unless current_admin.customer_service?
+            td data-label=t("admin.gtags.banned")
+              - if gtag.banned?
+                = link_to unban_admins_event_gtag_path(current_event, gtag), method: :delete, title: "Unban gtag" do
+                  = fa_icon "circle"
+              - else
+                = link_to ban_admins_event_gtag_path(current_event, gtag), title: "Ban gtag" do
+                  = fa_icon "circle-thin"
+            td.table-actions-field
+              = render 'admins/events/gtags/actions', gtag: gtag
   .container-pagination
     = paginate gtags
-    = submit_tag t("admin.actions.delete_selected")
+    - unless current_admin.customer_service?
+      = submit_tag t("admin.actions.delete_selected")

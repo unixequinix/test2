@@ -1,14 +1,12 @@
 class ClaimsPresenter < BasePresenter
   def can_render?
-    @event.refunds? &&
-      @gtag_assignment.present? &&
-      (@gtag_assignment.credentiable.wristband? ||
-      (@gtag_assignment.credentiable.card? && cards_can_refund?))
+    @event.refunds? && @gtag_assignment.present?
   end
 
   def path
     profile = @profile
     enough_money = profile.refundable_money_amount <= profile.online_refundable_money_amount
+    return "cards_disabled" if @gtag_assignment.credentiable.card? && !cards_can_refund?
     return "claim_present" if profile.completed_claims.present?
     return "no_credits" if profile.refundable_money_amount.zero?
     return "invalid_balance" unless BalanceCalculator.new(profile).valid_balance?

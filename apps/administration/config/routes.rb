@@ -56,6 +56,7 @@ Rails.application.routes.draw do
           collection do
             get :search
             delete :destroy_multiple
+            post :import
           end
         end
 
@@ -125,6 +126,7 @@ Rails.application.routes.draw do
 
         resources :profiles, except: [:new, :create, :edit, :update] do
           member do
+            get :fix_transaction
             get :ban
             delete :unban
             delete :revoke_agreement

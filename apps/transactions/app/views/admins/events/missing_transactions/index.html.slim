@@ -1,21 +1,40 @@
 - breadcrumb :admins_event_missing_transactions, current_event
 
 .wrapper-negative-space
-  - if @missing.present?
-    - @missing.each do |uid, hash|
-      h3 = "Device: #{uid}"
-      table.transactions
-        thead
+  h2 Missing from Devices
+
+  - if @devices.any?
+    h3 = "#{@devices.count} Devices with missing transactions"
+    table.transactions
+      thead
+        tr
+          th colspan=2 = t("admin.transactions.transaction_category")
+
+      tbody
+        - @devices.each do |mac, ts|
           tr
-            th = t("admin.transactions.transaction_category")
-            th = t("admin.transactions.keys")
-        tbody
-          - hash.each do |transaction_type, indexes|
+            td colspan=2 data-label=t("admin.transactions.id")
+              b = @assets[mac]
+              = " | #{mac} | "
+              - if @missing_counters[mac].nil?
+                b style="color: red;" No indexes found!
+              - elsif @missing_counters[mac].any?
+                = " Missing indexes: #{@missing_counters[mac].to_sentence}"
+                = " | Last Counter: #{@counters[mac].try(:last).try(:to_i)}"
+              - else
+                b style="color: green;" All indexes present
+                = " | Last Counter: #{@counters[mac].try(:last).try(:to_i)}"
+
+          - ts.map do |t|
             tr
-              td data-label=t("admin.transactions.id") = transaction_type
-              td data-label=t("admin.transactions.transaction_origin") = indexes.to_sentence
+              td style="text-align: right" data-label="time" = Time.parse(t.device_created_at).to_s(:short)
+              td data-label="info"
+                b style="padding: 0 20px;"= t.device_db_index
+                = t.transaction_type.humanize
+                b = " - #{t.number_of_transactions} transactions" if t.transaction_type == "pack_device"
+
       br
   - else
    .section-title-empty
      = image_tag "img-empty.png"
-     p = t("admin.defaults.empty_item", item: "Missing Transactions")
+     p = t("admin.defaults.empty_item", item: "Missing Transactions from Devices")
