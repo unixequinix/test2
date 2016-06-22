@@ -28,11 +28,16 @@ table.transactions
           td data-label=t("admin.transactions.transaction_origin") = transaction.transaction_origin
           td data-label=t("admin.transactions.station_id") = transaction.station&.name
           td data-label=t("admin.transactions.device_uid") = transaction.device_uid
-          td data-label=t("admin.transactions.credits") = transaction.credits
-          td data-label=t("admin.transactions.credits_refundable") = transaction.credits_refundable
-          td data-label=t("admin.transactions.final_balance") = transaction.final_balance
-          td data-label=t("admin.transactions.final_refundable_balance") = transaction.final_refundable_balance
-          td data-label=t("admin.transactions.final_refundable_balance") = transaction.status_code
+          td data-label=t("admin.transactions.credits")
+            = best_in_place transaction, :credits, url: admins_event_transaction_path(current_event, transaction, type: 'credit')
+          td data-label=t("admin.transactions.credits_refundable")
+            = best_in_place transaction, :credits_refundable, url: admins_event_transaction_path(current_event, transaction, type: 'credit')
+          td data-label=t("admin.transactions.final_balance")
+            = best_in_place transaction, :final_balance, url: admins_event_transaction_path(current_event, transaction, type: 'credit')
+          td data-label=t("admin.transactions.final_refundable_balance")
+            = best_in_place transaction, :final_refundable_balance, url: admins_event_transaction_path(current_event, transaction, type: 'credit')
+          td data-label=t("admin.transactions.final_refundable_balance")
+            = best_in_place transaction, :status_code, url: admins_event_transaction_path(current_event, transaction, type: 'credit')
           td.table-actions-field data-label=t("admin.transactions.gtag_counter") = transaction.gtag_counter
           td.table-actions-field  data-label=t("admin.defaults.actions")
             - if transaction.status_code == 2
