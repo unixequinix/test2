@@ -19,9 +19,12 @@ table.refunds
         td data-label="id" = customer_credit.id
         td data-label="payment_method" = customer_credit.payment_method
         td data-label="transaction_origin" = customer_credit.transaction_origin
-        td data-label="amount" = customer_credit.amount
-        td data-label="refundable_amount" = customer_credit.refundable_amount
-        td data-label="final_balance" = customer_credit.final_balance
-        td data-label="final_refundable_balance" = customer_credit.final_refundable_balance
-        td data-label="created_at" = customer_credit.created_in_origin_at&.strftime("%y-%m-%d %H:%M:%S.%L")
-        td data-label="gtag_counter" = customer_credit.gtag_counter
+        td data-label="amount"
+          = best_in_place customer_credit, :amount, url: admins_event_customer_credit_path(current_event, customer_credit)
+        td data-label="refundable_amount"
+          = best_in_place customer_credit, :refundable_amount, url: admins_event_customer_credit_path(current_event, customer_credit)
+        td data-label="final_balance"
+          = best_in_place customer_credit, :final_balance, url: admins_event_customer_credit_path(current_event, customer_credit)
+        td data-label="final_refundable_balance"
+          = best_in_place customer_credit, :final_refundable_balance, url: admins_event_customer_credit_path(current_event, customer_credit)
+        td data-label="created_at" = customer_credit.created_in_origin_at&.strftime("%y-%m-%d %H:%M:%S")
