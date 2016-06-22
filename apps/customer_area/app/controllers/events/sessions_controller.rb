@@ -11,7 +11,7 @@ class Events::SessionsController < Events::BaseController
   end
 
   def create
-    c_params = { email: permitted_params[:email], event: current_event }
+    c_params = { email: permitted_params[:email].downcase, event: current_event }
     customer = Customer.find_by(c_params) || Customer.new
     @customer_login_form = CustomerLoginForm.new(customer)
 

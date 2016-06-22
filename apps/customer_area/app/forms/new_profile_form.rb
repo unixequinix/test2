@@ -40,7 +40,9 @@ class NewProfileForm
 
   def email_uniqueness
     msg = I18n.t("activerecord.errors.models.customer.attributes.email.taken")
-    errors[:email] << msg if Customer.exists?(email: email, event_id: event_id, deleted_at: nil)
+    errors[:email] << msg if Customer.exists?(email: email.downcase,
+                                              event_id: event_id,
+                                              deleted_at: nil)
   end
 
   def persist!
