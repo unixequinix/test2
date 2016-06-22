@@ -27,5 +27,5 @@ table.refunds
           = best_in_place customer_credit, :final_balance, url: admins_event_customer_credit_path(current_event, customer_credit)
         td data-label="final_refundable_balance"
           = best_in_place customer_credit, :final_refundable_balance, url: admins_event_customer_credit_path(current_event, customer_credit)
-        td data-label="created_at" = customer_credit.created_in_origin_at&.strftime("%y-%m-%d %H:%M:%S")
+        td data-label="created_at" = customer_credit.created_in_origin_at&.strftime("%y-%m-%d %H:%M:%S.%L")
         td data-label="gtag_counter" = customer_credit.gtag_counter
