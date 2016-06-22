@@ -11,4 +11,9 @@ module ApplicationHelper
   def number_to_token(number)
     number_to_currency number, unit: current_event.token_symbol.to_s + " "
   end
+
+  def title
+    return "Glownet" if Rails.env == "production"
+    "[#{Rails.env.upcase}] Glownet"
+  end
 end
