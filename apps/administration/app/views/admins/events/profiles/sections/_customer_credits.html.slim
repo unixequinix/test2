@@ -14,7 +14,7 @@ table.refunds
       th = t("admin.customer_credits.created_at")
       th = t("admin.customer_credits.gtag_counter")
   tbody
-    - profile.customer_credits.order(created_in_origin_at: :desc).each do |customer_credit|
+    - profile.customer_credits.each do |customer_credit|
       tr
         td data-label="id" = customer_credit.id
         td data-label="payment_method" = customer_credit.payment_method
