@@ -176,18 +176,24 @@ class Profile < ActiveRecord::Base
           ccl.final_refundable_balance - sum(ccfl.refundable_amount) as inconsistent_refundable,
           ccfl.profile_id
         FROM customer_credits ccfl
-        INNER JOIN (SELECT ccf.id, ccf.final_balance, ccf.final_refundable_balance, cc.profile_id, cc.last_date
+        INNER JOIN (SELECT
+                      ccf.id,
+                      ccf.final_balance,
+                      ccf.final_refundable_balance,
+                      cc.profile_id,
+                      cc.last_counter
                     FROM (
-                          SELECT profile_id, MAX(created_in_origin_at) as last_date
+                          SELECT profile_id, MAX(gtag_counter) as last_counter
                           FROM customer_credits
                           JOIN profiles ON customer_credits.profile_id = profiles.id
                           WHERE profiles.event_id = #{event.id}
                           GROUP BY profile_id
                     ) cc
                     INNER JOIN customer_credits ccf
-                    ON ccf.profile_id = cc.profile_id AND ccf.created_in_origin_at = cc.last_date
+                      ON ccf.profile_id = cc.profile_id
+                      AND ccf.gtag_counter = cc.last_counter
                   ) ccl
-        ON ccfl.profile_id = ccl.profile_id
+            ON ccfl.profile_id = ccl.profile_id
         GROUP BY ccl.final_balance, ccl.final_refundable_balance, ccfl.profile_id) ccall
         WHERE ccall.inconsistent != 0
         AND ccall.inconsistent_refundable != 0
