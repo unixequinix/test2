@@ -7,6 +7,10 @@ en:
       created_at: "Created at"
       updated_at: "Updated at"
     devices:
+      titles:
+        devices: "Devices"
+        tracker: "Asset tracker"
+      device: "Device"
       model: "Model"
       asset: "Asset ID"
       imei: "Imei"

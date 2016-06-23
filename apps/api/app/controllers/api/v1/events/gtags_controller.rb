@@ -1,6 +1,6 @@
 class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
   def index
-    render(json: [])
+    render(json: @fetcher.sql_gtags)
   end
 
   def show

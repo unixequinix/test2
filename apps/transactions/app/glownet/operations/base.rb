@@ -6,7 +6,7 @@ class Operations::Base < ActiveJob::Base
     atts[:profile_id] ||= atts[:customer_event_profile_id]
     atts.delete(:station_id) if atts[:station_id].to_i.zero?
     atts.delete(:sale_items_attributes) if atts[:sale_items_attributes].blank?
-    klass = "#{atts[:transaction_category]}_transaction".classify.constantize
+    klass = Transaction.class_for_type(atts[:transaction_category])
 
     obj = klass.find_by(atts.slice(*SEARCH_ATTS))
     return obj if obj
@@ -27,7 +27,7 @@ class Operations::Base < ActiveJob::Base
     event = Event.find(atts[:event_id])
     station = event.portal_station
     profile = Profile.find(atts[:profile_id])
-    klass = "#{atts[:transaction_category]}_transaction".classify.constantize
+    klass = Transaction.class_for_type(atts[:transaction_category])
     counter = klass.where(event: event,
                           profile_id: atts[:profile_id],
                           transaction_origin: "customer_portal").count + 1
