@@ -17,7 +17,7 @@ Rails.application.routes.draw do
         resources :missing_transactions, only: [:index]
         resources :credit_inconsistencies, only: [:index]
 
-        resources :transactions, only: [:index, :show] do
+        resources :transactions, only: [:index, :show, :update] do
           collection do
             get :search
           end

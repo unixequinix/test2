@@ -12,7 +12,7 @@
 #  station_id             :integer
 #  device_uid             :string
 #  device_db_index        :integer
-#  device_created_at      :datetime
+#  device_created_at      :string
 #  initialization_type    :string
 #  number_of_transactions :integer
 #  profile_id             :integer
@@ -20,6 +20,8 @@
 #  status_message         :string
 #  created_at             :datetime
 #  updated_at             :datetime
+#  gtag_counter           :integer          default(0)
+#  counter                :integer          default(0)
 #
 
 class DeviceTransaction < Transaction
