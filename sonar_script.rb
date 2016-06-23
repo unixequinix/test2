@@ -54,6 +54,8 @@ end.size
 
 
 
+
+
 # 3 - adds gtag counter to online customer_credits
 credits = CustomerCredit.includes(:profile).where(profile: Event.find(2).profiles, transaction_origin: "refund", gtag_counter: 0)
 credits.group_by(&:profile).each do |profile, online|
@@ -62,6 +64,21 @@ credits.group_by(&:profile).each do |profile, online|
     CreditUpdater.perform_later(c.id, online_counter: i + 1, gtag_counter: last_onsite_index)
   end
 end.size
+
+# makes online customer_credits to have propperly calculated finals
+profiles = Profile.where(id: CreditTransaction.where(event_id: 2, transaction_type: ["online_refund", "fee"]).pluck(:profile_id).uniq).includes(:customer_credits)
+profiles.each do |p|
+  all = p.customer_credits.reverse
+  online = all.select{|c| c.online_counter != 0}
+  offline = all - online
+  last_balance = offline.last.final_balance
+  last_r_balance = offline.last.final_refundable_balance
+  online.each_with_index do |c, i|
+    online_balance = last_balance + online.slice(0..i).map(&:amount).sum
+    online_r_balance = last_r_balance + online.slice(0..i).map(&:refundable_amount).sum
+    CreditUpdater.perform_later(c.id, final_balance: online_balance.to_f, final_refundable_balance: online_r_balance.to_f)
+  end
+end
 
 
 
