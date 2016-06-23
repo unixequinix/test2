@@ -13,7 +13,7 @@
   - Transaction::TYPES.in_groups_of(4, false) do |types|
     .container-statistics
       - types.each do |type|
-        - count = "#{type}_transaction".classify.constantize.where(event: @current_event).count
+        - count = Transaction.class_for_type(type).where(event: @current_event).count
         - next if count.zero?
         .wrapper-statistics
           h2 = number_with_delimiter(count)
