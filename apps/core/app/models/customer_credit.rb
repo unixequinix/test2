@@ -18,7 +18,7 @@
 #
 
 class CustomerCredit < ActiveRecord::Base
-  default_scope { order(created_in_origin_at: :desc) }
+  default_scope { order(gtag_counter: :desc, online_counter: :desc) }
   acts_as_paranoid
 
   belongs_to :profile
