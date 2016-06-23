@@ -29,7 +29,6 @@ tags = Gtag.where(event_id: 2).select {|tag| not(tag.valid?) }
 tags.group_by(&:tag_uid).each do |uid, tags|
   GtagMerger.perform_later(tags.map(&:id))
 end.size
-tags.group_by(&:tag_uid).size
 tags.select { |tag| tag.assigned_profile.nil? }.map(&:destroy)
 
 

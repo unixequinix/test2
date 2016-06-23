@@ -1,4 +1,4 @@
-set :branch, "sonar-fixin"
+set :branch, "development"
 set :rails_env, "hotfix"
 
 # Default value for :log_level is :debug
