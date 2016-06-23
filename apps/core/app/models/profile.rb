@@ -161,4 +161,44 @@ class Profile < ActiveRecord::Base
   def gateway_customer(gateway)
     payment_gateway_customers.find_by(gateway_type: gateway)
   end
+
+  def self.customer_credits_sum(event)
+    sql = <<-SQL
+      SELECT to_json(json_agg(row_to_json(inc)))
+      FROM (
+        SELECT *
+        FROM (SELECT
+          sum(ccfl.amount) as credits_amount,
+          sum(ccfl.refundable_amount) as refundable_credits_amount,
+          ccl.final_balance,
+          ccl.final_refundable_balance,
+          ccl.final_balance - sum(ccfl.amount) as inconsistent,
+          ccl.final_refundable_balance - sum(ccfl.refundable_amount) as inconsistent_refundable,
+          ccfl.profile_id
+        FROM customer_credits ccfl
+        INNER JOIN (SELECT
+                      ccf.id,
+                      ccf.final_balance,
+                      ccf.final_refundable_balance,
+                      cc.profile_id,
+                      cc.last_counter
+                    FROM (
+                          SELECT profile_id, MAX(gtag_counter) as last_counter
+                          FROM customer_credits
+                          JOIN profiles ON customer_credits.profile_id = profiles.id
+                          WHERE profiles.event_id = #{event.id}
+                          GROUP BY profile_id
+                    ) cc
+                    INNER JOIN customer_credits ccf
+                      ON ccf.profile_id = cc.profile_id
+                      AND ccf.gtag_counter = cc.last_counter
+                  ) ccl
+            ON ccfl.profile_id = ccl.profile_id
+        GROUP BY ccl.final_balance, ccl.final_refundable_balance, ccfl.profile_id) ccall
+        WHERE ccall.inconsistent != 0
+        AND ccall.inconsistent_refundable != 0
+      ) inc
+    SQL
+    JSON.parse(ActiveRecord::Base.connection.select_value(sql))
+  end
 end
