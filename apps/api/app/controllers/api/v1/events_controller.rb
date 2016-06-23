@@ -7,7 +7,9 @@ class Api::V1::EventsController < Api::BaseController
               end
 
     atts = { imei: params[:imei], mac: params[:mac], serial_number: params[:serial_number] }
-    Device.find_or_create_by(atts)
+    device = Device.find_by(mac: params[:mac])
+    device.update(atts)
+
     render json: @events, each_serializer: Api::V1::EventSerializer
   end
 end
