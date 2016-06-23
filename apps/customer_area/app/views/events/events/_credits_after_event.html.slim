@@ -10,4 +10,4 @@
         = "#{presenter.refundable_money}"
         span.currency-symbol = presenter.currency
   - else
-    span = t('dashboard.credits.calculating_balance')
+    span = t('dashboard.credits.calculating_balance', email: current_event.support_email)
