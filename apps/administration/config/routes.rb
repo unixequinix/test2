@@ -47,6 +47,11 @@ Rails.application.routes.draw do
         resource :gtag_settings, only: [:show, :edit, :update]
         resource :gtag_keys, only: [:show, :edit, :update]
         resources :customer_credits, only: [:update]
+        resources :devices, only: :index do
+          collection do
+            get :tracker
+          end
+        end
 
         resources :gtags do
           resources :comments, module: :gtags

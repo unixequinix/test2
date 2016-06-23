@@ -44,7 +44,7 @@ class EditProfileForm < Reform::Form
     errors[:email] <<
       I18n.t("activerecord.errors.models.customer.attributes.email.taken") if
       email != model.email &&
-      Customer.exists?(email: email, event_id: event_id, deleted_at: nil)
+      Customer.exists?(email: email.downcase, event_id: event_id, deleted_at: nil)
   end
 
   def autotopup_amounts(payment_gateway)

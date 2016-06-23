@@ -90,16 +90,21 @@ aside#main-menu
     li.aside-list = link_to admins_event_refunds_path(event) do
       = fa_icon "reply"
       = t("admin.aside.refunds")
+      
+    h3.aside-title = t("admin.aside.devices")
+    
+    li.aside-list = link_to admins_event_devices_path(event) do
+      = fa_icon "mobile"
+      = t("admin.aside.devices")
+    li.aside-list = link_to tracker_admins_event_devices_path(event) do
+      = fa_icon "table"
+      = t("admin.aside.asset_tracker")
 
     h3.aside-title = t("admin.aside.transactions")
 
     li.aside-list = link_to admins_event_credit_inconsistencies_path(event) do
       = fa_icon "list"
       = t("admin.aside.credit_inconsistencies")
-
-    li.aside-list = link_to admins_event_missing_transactions_path(event) do
-      = fa_icon "list"
-      = t("admin.aside.missing_transactions")
 
     - Transaction::TYPES.each do |type|
       li.aside-list = link_to admins_event_transactions_path(event, type: type) do
