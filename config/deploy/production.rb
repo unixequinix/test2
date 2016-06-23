@@ -23,7 +23,7 @@ set :linked_dirs, fetch(:linked_dirs) + %w(certs)
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server "gspot.glownet.com", user: "ubuntu", roles: %w(web app db)
+server "ec2-52-208-161-66.eu-west-1.compute.amazonaws.com", user: "ubuntu", roles: %w(web app db)
 
 # Custom SSH Options
 # ==================
