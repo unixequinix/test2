@@ -1,7 +1,7 @@
 class Admins::Events::StationsController < Admins::Events::BaseController
   def index
     @group = params[:group]
-    @stations = current_event.stations.where(group: @group)
+    @stations = current_event.stations.where(group: @group).order(name: :asc)
   end
 
   def new
