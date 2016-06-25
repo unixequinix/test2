@@ -64,7 +64,8 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
       credit_value: transaction.credit_value,
       final_balance: transaction.final_balance,
       final_refundable_balance: transaction.final_refundable_balance,
-      device_created_at: transaction.device_created_at
+      device_created_at: transaction.device_created_at,
+      gtag_counter: transaction.gtag_counter
     }
     Operations::Credit::BalanceUpdater.new.perform(atts)
 
