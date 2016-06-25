@@ -17,11 +17,11 @@
 
     .wrapper-statistics
       h2 = number_to_token @profile.customer_credits.map(&:amount).sum
-      span Credits Sum
+      span Calculated Balance
 
     .wrapper-statistics
       h2 = number_to_token @profile.customer_credits.map(&:refundable_amount).sum
-      span Refundable Credits Sum
+      span Calculated Refundable Balance
   .container-show
     - root = "admins/events/profiles/sections/"
     = render(root + "payments_information", profile: @profile) if @profile.payment_gateway_customers.any?
