@@ -31,6 +31,13 @@ class Operations::Base < ActiveJob::Base
     counter = klass.where(event: event,
                           profile_id: atts[:profile_id],
                           transaction_origin: "customer_portal").count + 1
+    begin
+      if atts[:transaction_type] == "credit"
+        atts[:online_counter] = profile.credit_transactions.where("transaction_origin != 'onsite'").count
+      end
+    rescue
+      nil
+    end
 
     final_atts = {
       transaction_origin: "customer_portal",
