@@ -7,8 +7,8 @@ class ClaimsPresenter < BasePresenter
     profile = @profile
     enough_money = profile.refundable_money_amount <= profile.online_refundable_money_amount
     return "cards_disabled" if @gtag_assignment.credentiable.card? && !cards_can_refund?
-    return "claim_present" if profile.completed_claims.present?
-    return "no_credits" if profile.refundable_money_amount.zero?
+    return "claim_present" if profile.complete_claims.present?
+    return "no_credits" if !any_refundable_method?
     return "invalid_balance" unless BalanceCalculator.new(profile).valid_balance?
     return "direct_claim" if enough_money && @event.direct?
     "transfer_claim"
