@@ -1,9 +1,9 @@
 h3
   = fa_icon "table"
   = "Credit Transactions "
-  - if @profile.missing_transaction_counters.any?
+  - if profile.missing_transaction_counters.any?
     | - Missing:
-    = @profile.missing_transaction_counters.to_sentence
+    = profile.missing_transaction_counters.to_sentence
 table.transactions
   thead
     tr
@@ -43,5 +43,5 @@ table.transactions
           td.table-actions-field data-label=t("admin.transactions.gtag_counter") = transaction.device_created_at
           td.table-actions-field  data-label=t("admin.defaults.actions")
             ul
-              li.table-action.action-edit = link_to fix_transaction_admins_event_profile_path(current_event, @profile, transaction: transaction.id) do
+              li.table-action.action-edit = link_to fix_transaction_admins_event_profile_path(current_event, profile, transaction: transaction.id) do
                 = fa_icon "magic"

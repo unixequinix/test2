@@ -1,25 +1,25 @@
 - breadcrumb :admins_event_credit_inconsistencies, current_event
 
 .wrapper-negative-space
-  .container-statistics
-    .wrapper-statistics
-      h2 = number_to_token @issues.map { |i| i["inconsistent"] if i["inconsistent"] > 0 }.compact.sum
-      span Topups
-
-    .wrapper-statistics
-      h2 = number_to_token @issues.map { |i| i["inconsistent"] if i["inconsistent"] < 0 }.compact.sum
-      span Sales
-
-    .wrapper-statistics
-      h2 = number_to_token @issues.map { |i| i["inconsistent_refundable"] if i["inconsistent_refundable"] > 0 }.compact.sum
-      span Refundable Topups
-
-    .wrapper-statistics
-      h2 = number_to_token @issues.map { |i| i["inconsistent_refundable"] if i["inconsistent_refundable"] < 0 }.compact.sum
-      span Refundable Sales
-
-  .current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @issues.size, total: @issues.size)
   - if @issues
+    .container-statistics
+      .wrapper-statistics
+        h2 = number_to_token @issues.map { |i| i["inconsistent"] if i["inconsistent"] > 0 }.compact.sum
+        span Topups
+
+      .wrapper-statistics
+        h2 = number_to_token @issues.map { |i| i["inconsistent"] if i["inconsistent"] < 0 }.compact.sum
+        span Sales
+
+      .wrapper-statistics
+        h2 = number_to_token @issues.map { |i| i["inconsistent_refundable"] if i["inconsistent_refundable"] > 0 }.compact.sum
+        span Refundable Topups
+
+      .wrapper-statistics
+        h2 = number_to_token @issues.map { |i| i["inconsistent_refundable"] if i["inconsistent_refundable"] < 0 }.compact.sum
+        span Refundable Sales
+
+    .current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @issues.size, total: @issues.size)
     table.transactions
       thead
         tr
