@@ -32,7 +32,6 @@ end.size
 tags.select { |tag| tag.assigned_profile.nil? }.map(&:destroy)
 
 
-
 # 2 - fills all gtag_counters for customer credits, and the correct time
 no_credit = []
 event = Event.find 2
@@ -53,9 +52,6 @@ profiles.each do |profile|
 end.size
 
 
-
-
-
 # 3 - adds gtag counter to online customer_credits
 credits = CustomerCredit.includes(:profile).where(profile: Event.find(2).profiles, transaction_origin: "refund", gtag_counter: 0)
 credits.group_by(&:profile).each do |profile, online|
@@ -65,7 +61,8 @@ credits.group_by(&:profile).each do |profile, online|
   end
 end.size
 
-# makes online customer_credits to have propperly calculated finals
+
+# 3.5 - makes online customer_credits to have propperly calculated finals
 profiles = Profile.where(id: CreditTransaction.where(event_id: 2, transaction_type: ["online_refund", "fee"]).pluck(:profile_id).uniq).includes(:customer_credits)
 profiles.each do |p|
   all = p.customer_credits.reverse
@@ -80,6 +77,33 @@ profiles.each do |p|
   end
 end
 
+
+# 4 - (final) resolves all inconsistencies. Reports and transactions not touched.
+profiles = Event.find(2).profiles.includes(:customer_credits)
+profiles.each do |p|
+  credits = p.customer_credits
+  last = credits.first
+  next unless last
+
+  new_amount = credits.map(&:amount).sum
+  new_r_amount = credits.map(&:refundable_amount).sum
+
+  next if new_amount == last.final_balance && new_r_amount == last.final_refundable_balance
+
+  new_amount = last.final_balance - new_amount
+  new_r_amount = last.final_refundable_balance - new_r_amount
+
+  p.customer_credits.create!(amount: new_amount,
+                             refundable_amount: new_r_amount,
+                             final_balance: last.final_balance,
+                             final_refundable_balance: last.final_refundable_balance,
+                             payment_method: "credits",
+                             created_in_origin_at: last.created_in_origin_at + 60,
+                             transaction_origin: "script",
+                             gtag_counter: last.gtag_counter,
+                             online_counter: last.online_counter + 1)
+
+end.size
 
 
 #detects fraud from wb copy
@@ -96,4 +120,3 @@ Event.find(2).profiles.select(:id).includes(:customer_credits, :credit_transacti
   end
 end.size
 puts @fraudsters.uniq.map(&:id)
-

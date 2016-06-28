@@ -194,7 +194,7 @@ class Profile < ActiveRecord::Base
         	      FROM customer_credits
         	      JOIN profiles
         	        ON customer_credits.profile_id = profiles.id
-        	      WHERE profiles.event_id = 2
+        	      WHERE profiles.event_id = #{event.id}
         	      GROUP BY profile_id
         	    ) cc
         	    INNER JOIN customer_credits ccf
