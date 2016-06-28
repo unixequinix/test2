@@ -55,7 +55,7 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
 
   def fix_transaction
     transaction = CreditTransaction.find(params[:transaction])
-    transaction.update!(status_code: 0, status_message: "OK")
+    transaction.update!(status_code: 0, status_message: "FIXED")
     atts = {
       transaction_origin: transaction.transaction_origin,
       profile_id: params[:id],
