@@ -233,7 +233,7 @@ it:
       description: "Your claim has been processed correctly and is on the way."
     no_credit:
       title: "Sorry"
-      description: "You don't have any refundable balance"
+      description: "You don't have sufficient refundable balance"
     direct_claim:
       title: "Claim for your balance"
       description: "We will refund your money automatically."
