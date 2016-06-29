@@ -207,6 +207,7 @@ class Profile < ActiveRecord::Base
         ) ccall
         WHERE last_final_balance <> credits_amount
         	OR last_final_refundable_balance <> refundable_credits_amount
+        ORDER BY inconsistent DESC
       ) inc
     SQL
     JSON.parse(ActiveRecord::Base.connection.select_value(sql))
