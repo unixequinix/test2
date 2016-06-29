@@ -1,5 +1,15 @@
 class Csv::CsvExporter
-  # Ticket Type
+
+  def self.sample(header, data)
+    csv_file = CSV.generate(col_sep: ";") do |csv|
+      csv << header
+      data.each do |item|
+        csv << item
+      end
+    end
+    csv_file
+  end
+
   def self.to_csv(items_and_extra_columns, csv_options = {})
     if items_and_extra_columns.first.class != items_and_extra_columns.second.class
       items, headers, extras = items_and_extra_columns
