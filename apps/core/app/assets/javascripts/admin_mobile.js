@@ -15,3 +15,4 @@
 //= require vendor/fastclick_load
 //= require vendor/selectize
 //= require vendor/sortable
+//= require vendor/remodal.min

@@ -43,7 +43,7 @@ es:
       not_belong_to_event: "no pertenece a este evento"
       catalog_item_dependent: "Imposible eliminar item, ya que está inlcuido en al menos un pack o estación"
       station_dependent: "Imposible eliminar item, ya que está inlcuido en al menos una estación"
-      station_has_associations: "Imposible eliminar la estación. Si no quieres que se muestre, puedes deshabilitarla."
+      station_has_associations: "Imposible borrar la estación, ya ha sido usada."
       company_ticket_type_dependent: "Imposible eliminar la compañia, tiene tipos de ticket asignados"
       max_standard_credits: "Sólo un crédito estándar por evento"
       not_enough_space_for_entitlement: "No hay suficiente espacio para ese entitlement"

@@ -58,6 +58,16 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
     redirect_to admins_event_products_path(current_event)
   end
 
+  def sample_csv
+    header = %w(name description is_alcohol)
+    data = [["Beer", "Franziskaner beer", "true"], ["Hotdog", "Hotdog with onion", "false"]]
+
+    csv_file = Csv::CsvExporter.sample(header, data)
+    respond_to do |format|
+      format.csv { send_data(csv_file) }
+    end
+  end
+
   def import # rubocop:disable Metrics/AbcSize
     event = current_event.event
     alert = "Seleccione un archivo para importar"
@@ -65,8 +75,10 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
     lines = params[:file][:data].tempfile.map { |line| line.split(";") }
     lines.delete_at(0)
 
-    lines.each do |name, is_alcohol|
-      Product.find_or_create_by!(event: event, name: name, is_alcohol: is_alcohol)
+    lines.each do |name, description, is_alcohol|
+      product = event.products.find_or_create_by!(name: name)
+      product.update!(description: description, is_alcohol: is_alcohol) && next if product
+      event.products.create!(name: name, description: description, is_alcohol: is_alcohol)
     end
 
     redirect_to(admins_event_products_path(event), notice: "Products imported")

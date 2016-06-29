@@ -20,6 +20,14 @@ class Station < ActiveRecord::Base
   belongs_to :event
   belongs_to :station_type
 
+  has_many :access_transactions, dependent: :restrict_with_error
+  has_many :ban_transactions, dependent: :restrict_with_error
+  has_many :credential_transactions, dependent: :restrict_with_error
+  has_many :credit_transactions, dependent: :restrict_with_error
+  has_many :money_transactions, dependent: :restrict_with_error
+  has_many :device_transactions, dependent: :restrict_with_error
+  has_many :order_transactions, dependent: :restrict_with_error
+
   has_many :station_parameters
   has_many :station_catalog_items, through: :station_parameters,
                                    source: :station_parametable,

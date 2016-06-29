@@ -26,7 +26,7 @@ RSpec.describe Operations::Ban::Banner, type: :job do
       expect { worker.perform_now(atts) }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
-    it "bans all the credentials if the object is a customer event profile" do
+    it "bans all the credentials if the object is a profile" do
       atts = { event_id: event.id, banneable_id: profile.id, banneable_type: "profile" }
 
       CredentialAssignment.create!(profile: profile, credentiable: gtag)

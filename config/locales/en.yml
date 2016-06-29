@@ -74,7 +74,7 @@ en:
         one: 'customer'
         other: 'customers'
       profile:
-        one: 'customer event profile'
+        one: 'profile'
         other: 'profiles'
       entitlement:
         one: 'entitlement'
