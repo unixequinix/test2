@@ -1,4 +1,5 @@
 class Admins::Events::StationsController < Admins::Events::BaseController
+  before_action :set_station, only: [:edit, :update, :destroy]
   def index
     @group = params[:group]
     @stations = current_event.stations.where(group: @group).order(name: :asc)
@@ -21,12 +22,10 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   end
 
   def edit
-    @station = current_event.stations.find(params[:id])
     @group = @station.group
   end
 
   def update # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-    @station = current_event.stations.find(params[:id])
     @group = @station.group
 
     respond_to do |format|
@@ -46,10 +45,14 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   end
 
   def destroy
-    @station = current_event.stations.find(params[:id])
     path = admins_event_stations_url(current_event, group: @station.group)
-    redirect_to(path, notice: I18n.t("alerts.destroyed")) && return if @station.destroy
-    redirect_to(path, error: I18n.t("errors.messages.station_dependent"))
+    if @station.destroy
+      flash[:notice] = I18n.t("alerts.destroyed")
+      redirect_to path
+    else
+      flash[:error] = I18n.t("errors.messages.station_has_associations")
+      redirect_to path
+    end
   end
 
   def sort
@@ -60,6 +63,10 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   end
 
   private
+
+  def set_station
+    @station = current_event.stations.find(params[:id])
+  end
 
   def permitted_params
     params.require(:station).permit(:name, :location, :event_id,
