@@ -9,16 +9,4 @@
 .wrapper-negative-space
   = render("customer_account_information", customer: @customer)
   = render("admins/events/profiles/credentials_information", profile: @customer.profile) if @customer.profile
-  
-  .container-show
-    - root = "admins/events/profiles/sections/"
-    = render(root + "payments_information", profile: @customer.profile) if @customer.profile.payment_gateway_customers.any?
-    = render(root + "purchases_information", profile: @customer.profile) if @customer.profile.sorted_purchases(format: :list).any?
-    = render(root + "ticket_assignments", profile: @customer.profile) if @customer.profile.ticket_assignments.any?
-    = render(root + "gtag_assignments", profile: @customer.profile) if @customer.profile.gtag_assignments.any?
-    = render(root + "customer_credits", profile: @customer.profile) if @customer.profile.customer_credits.any?
-    = render(root + "credit_transactions", credit_transactions: @credit_transactions, profile: @customer.profile) if @credit_transactions.present?
-    = render(root + "claims", profile: @customer.profile) if @customer.profile.claims.any?
-    = render(root + "completed_claims", profile: @customer.profile, refund: @customer.profile.completed_claim.refund) if @customer.profile.completed_claims.present?
-    = render(root + "orders", profile: @customer.profile) if @customer.profile.orders.any?
-    = render(root + "customer_orders", profile: @customer.profile) if @customer.profile.customer_orders.any?
+  = render("admins/events/profiles/profile_data", profile: @customer.profile, credit_transactions: @credit_transactions)
