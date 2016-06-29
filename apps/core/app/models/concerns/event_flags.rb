@@ -11,7 +11,7 @@ module EventFlags
       4 => :gtag_assignation,
       5 => :agreement_acceptance,
       6 => :authorization,
-      7 => :tickets_api_limit,
+      7 => :transactions_pdf,
       column: "features"
     )
     has_flags(

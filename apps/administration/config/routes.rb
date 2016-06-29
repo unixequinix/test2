@@ -85,8 +85,9 @@ Rails.application.routes.draw do
         resources :companies, except: :show
         resources :products do
           collection do
-            delete :destroy_multiple
             post :import
+            get :sample_csv
+            delete :destroy_multiple
           end
         end
         resources :catalog_items, only: :update

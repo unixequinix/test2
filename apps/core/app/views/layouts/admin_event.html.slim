@@ -11,7 +11,7 @@ html [lang=I18n.locale]
     script src="https://js.stripe.com/v2/" type="text/javascript"
 
   body class="#{controller_name} #{action_name}"
-    .wrapper-main
+    .wrapper-main.remodal-bg
       #notifications
         = render 'notifications'
       - if current_admin.customer_service?

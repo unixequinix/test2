@@ -1,6 +1,8 @@
 class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
   def index
-    render(json: @fetcher.sql_tickets)
+    modified = request.headers["If-Modified-Since"]
+    tickets = @fetcher.sql_tickets(modified) || []
+    render(json: tickets)
   end
 
   def show

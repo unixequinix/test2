@@ -1,6 +1,8 @@
 class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
   def index
-    render(json: @fetcher.sql_gtags)
+    modified = request.headers["If-Modified-Since"]
+    gtags = @fetcher.sql_gtags(modified) || []
+    render(json: gtags)
   end
 
   def show
