@@ -215,7 +215,7 @@ th:
         gtag_assignation: 'Gtag assignations'
         agreement_acceptance: 'Agreement acceptance'
         authorization: 'Authorization'
-        tickets_api_limit: 'Tickets API Limit'
+        transactions_pdf: 'Transactions PDF'
       locales_options:
         en_lang: "English"
         it_lang: "Italian"
