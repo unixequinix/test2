@@ -30,6 +30,7 @@ class Pack < ActiveRecord::Base
 
   validate :valid_max_value, if: :infinite_item?
   validate :valid_min_value, if: :infinite_item?
+  validates :pack_catalog_items, presence: true
 
   def credits
     open_all("Credit").uniq(&:catalog_item_id)
