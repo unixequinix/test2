@@ -17,7 +17,7 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
                        .find(params[:id])
 
     tag_uid = @profile.active_gtag_assignment&.credentiable&.tag_uid
-    @credit_transactions = @customer.profile&.credit_transactions
+    @credit_transactions = @profile.credit_transactions
   end
 
   def ban
