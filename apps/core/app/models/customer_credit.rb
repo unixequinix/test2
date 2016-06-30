@@ -15,6 +15,8 @@
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  created_in_origin_at     :datetime
+#  gtag_counter             :integer
+#  online_counter           :integer          default(0)
 #
 
 class CustomerCredit < ActiveRecord::Base
