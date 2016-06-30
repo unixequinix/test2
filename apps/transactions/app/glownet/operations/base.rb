@@ -11,7 +11,6 @@ class Operations::Base < ActiveJob::Base
 
     obj = klass.find_by(atts.slice(*SEARCH_ATTS))
     return obj if obj
-    return klass.create!(column_attributes(klass, atts)) unless atts[:status_code].to_i.zero?
 
     gtag = Gtag.find_or_create_by!(tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id])
     profile_id = Profile::Checker.for_transaction(gtag, atts[:profile_id], atts[:event_id])
@@ -19,6 +18,8 @@ class Operations::Base < ActiveJob::Base
 
     obj_atts = column_attributes(klass, atts)
     obj = klass.create!(obj_atts)
+
+    return unless atts[:status_code].to_i.zero?
 
     atts[:transaction_id] = obj.id
     execute_operations(atts)
@@ -32,13 +33,6 @@ class Operations::Base < ActiveJob::Base
     counter = klass.where(event: event,
                           profile_id: atts[:profile_id],
                           transaction_origin: "customer_portal").count + 1
-    begin
-      if atts[:transaction_type] == "credit"
-        atts[:online_counter] = profile.credit_transactions.where("transaction_origin != 'onsite'").count
-      end
-    rescue
-      nil
-    end
 
     final_atts = {
       transaction_origin: "customer_portal",
