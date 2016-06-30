@@ -77,6 +77,7 @@ Rails.application.routes.draw do
           end
           collection do
             get :search
+            get :sample_csv
             delete :destroy_multiple
             post :import
           end
