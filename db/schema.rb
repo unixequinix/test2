@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160622101228) do
+ActiveRecord::Schema.define(version: 20160630104754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -435,37 +435,41 @@ ActiveRecord::Schema.define(version: 20160622101228) do
   add_index "event_translations", ["locale"], name: "index_event_translations_on_locale", using: :btree
 
   create_table "events", force: :cascade do |t|
-    t.string   "name",                                                    null: false
+    t.string   "name",                                                         null: false
     t.string   "aasm_state"
-    t.string   "slug",                                                    null: false
+    t.string   "slug",                                                         null: false
     t.string   "location"
-    t.string   "support_email",           default: "support@glownet.com", null: false
+    t.string   "support_email",                default: "support@glownet.com", null: false
     t.string   "logo_file_name"
     t.string   "logo_content_type"
     t.string   "background_file_name"
     t.string   "background_content_type"
     t.string   "url"
-    t.string   "background_type",         default: "fixed"
-    t.string   "currency",                default: "USD",                 null: false
-    t.string   "host_country",            default: "US",                  null: false
+    t.string   "background_type",              default: "fixed"
+    t.string   "currency",                     default: "USD",                 null: false
+    t.string   "host_country",                 default: "US",                  null: false
     t.string   "token"
     t.text     "description"
     t.text     "style"
     t.integer  "logo_file_size"
     t.integer  "background_file_size"
-    t.integer  "features",                default: 32,                    null: false
-    t.integer  "registration_parameters", default: 0,                     null: false
-    t.integer  "locales",                 default: 1,                     null: false
-    t.integer  "payment_services",        default: 0,                     null: false
-    t.integer  "refund_services",         default: 0,                     null: false
+    t.integer  "features",                     default: 32,                    null: false
+    t.integer  "registration_parameters",      default: 0,                     null: false
+    t.integer  "locales",                      default: 1,                     null: false
+    t.integer  "payment_services",             default: 0,                     null: false
+    t.integer  "refund_services",              default: 0,                     null: false
     t.datetime "logo_updated_at"
     t.datetime "background_updated_at"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.datetime "created_at",                                              null: false
-    t.datetime "updated_at",                                              null: false
-    t.string   "token_symbol",            default: "t"
+    t.datetime "created_at",                                                   null: false
+    t.datetime "updated_at",                                                   null: false
+    t.string   "token_symbol",                 default: "t"
     t.string   "company_name"
+    t.string   "device_database_file_name"
+    t.string   "device_database_content_type"
+    t.integer  "device_database_file_size"
+    t.datetime "device_database_updated_at"
   end
 
   add_index "events", ["slug"], name: "index_events_on_slug", unique: true, using: :btree
@@ -529,6 +533,49 @@ ActiveRecord::Schema.define(version: 20160622101228) do
   add_index "money_transactions", ["event_id"], name: "index_money_transactions_on_event_id", using: :btree
   add_index "money_transactions", ["profile_id"], name: "index_money_transactions_on_profile_id", using: :btree
   add_index "money_transactions", ["station_id"], name: "index_money_transactions_on_station_id", using: :btree
+
+  create_table "oauth_access_grants", force: :cascade do |t|
+    t.integer  "resource_owner_id", null: false
+    t.integer  "application_id",    null: false
+    t.string   "token",             null: false
+    t.integer  "expires_in",        null: false
+    t.text     "redirect_uri",      null: false
+    t.datetime "created_at",        null: false
+    t.datetime "revoked_at"
+    t.string   "scopes"
+  end
+
+  add_index "oauth_access_grants", ["token"], name: "index_oauth_access_grants_on_token", unique: true, using: :btree
+
+  create_table "oauth_access_tokens", force: :cascade do |t|
+    t.integer  "resource_owner_id"
+    t.integer  "application_id"
+    t.string   "token",             null: false
+    t.string   "refresh_token"
+    t.integer  "expires_in"
+    t.datetime "revoked_at"
+    t.datetime "created_at",        null: false
+    t.string   "scopes"
+  end
+
+  add_index "oauth_access_tokens", ["refresh_token"], name: "index_oauth_access_tokens_on_refresh_token", unique: true, using: :btree
+  add_index "oauth_access_tokens", ["resource_owner_id"], name: "index_oauth_access_tokens_on_resource_owner_id", using: :btree
+  add_index "oauth_access_tokens", ["token"], name: "index_oauth_access_tokens_on_token", unique: true, using: :btree
+
+  create_table "oauth_applications", force: :cascade do |t|
+    t.string   "name",                      null: false
+    t.string   "uid",                       null: false
+    t.string   "secret",                    null: false
+    t.text     "redirect_uri",              null: false
+    t.string   "scopes",       default: "", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+  end
+
+  add_index "oauth_applications", ["owner_id", "owner_type"], name: "index_oauth_applications_on_owner_id_and_owner_type", using: :btree
+  add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
 
   create_table "online_orders", force: :cascade do |t|
     t.integer  "customer_order_id", null: false

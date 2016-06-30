@@ -91,6 +91,15 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     default_url: ":default_event_background_url"
   )
 
+  has_attached_file(
+    :device_database,
+    path: "#{S3_FOLDER}/event/:id/device_database/:filename",
+    url: "#{S3_FOLDER}/event/:id/device_database/:basename.:extension",
+    use_timestamp: false
+  )
+
+
+
   # Hooks
   before_create :generate_token
 
@@ -99,6 +108,8 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   validates :name, uniqueness: true
   validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
+  do_not_validate_attachment_file_type :device_database
+
 
   def standard_credit_price
     credits.standard.value
