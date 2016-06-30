@@ -5,6 +5,6 @@ class Admins::LocaleController < Admins::BaseController
   def change
     session[:locale] = params[:id]
     I18n.locale = params[:id]
-    redirect_to(admins_events_path)
+    redirect_to :back
   end
 end
