@@ -18,10 +18,7 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
     ).find(params[:id])
 
     tag_uid = @customer.profile&.active_gtag_assignment&.credentiable&.tag_uid
-    @credit_transactions = CreditTransaction.with_event(current_event)
-                                            .with_customer_tag(tag_uid)
-                                            .reorder(gtag_counter: :desc)
-                                            .includes(:station)
+    @credit_transactions = @customer.profile&.credit_transactions
   end
 
   def reset_password
