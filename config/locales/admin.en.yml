@@ -54,6 +54,7 @@ en:
       final_transaction_refundable_balance: "G.FRB"
       inconsistent_transaction_balance: "G.IB"
       inconsistent_transaction_refundable_balance: "G.IRB"
+      missing_transactions: "Missing?"
       product: "Product"
       quantity: "Quantity"
       unit_price: "Unit price"
