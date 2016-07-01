@@ -15,7 +15,7 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
                                  credential_assignments: :credentiable,
                                  customer_orders: [:catalog_item, :online_order])
                        .find(params[:id])
-    @credit_transactions = @profile.credit_transactions.order(:gtag_counter)
+    @credit_transactions = @profile.credit_transactions.reorder(gtag_counter: :desc)
   end
 
   def ban
