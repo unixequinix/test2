@@ -2,11 +2,11 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
   before_action :fetch_issues
 
   def missing
-    @issues.select! {|issue| not issue["missing"] }
+    @issues.select! {|issue| issue["missing"] }
   end
 
   def real
-    @issues.select! {|issue| issue["missing"] }
+    @issues.select! {|issue| not issue["missing"] }
   end
 
   private
