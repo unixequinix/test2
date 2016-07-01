@@ -41,9 +41,7 @@
             td data-label=t("admin.transactions.final_refundable_balance") = issue["last_final_refundable_balance"]
             td data-label=t("admin.transactions.inconsistent_balance") = issue["inconsistent"]
             td data-label=t("admin.transactions.inconsistent_refundable_balance") = issue["inconsistent_refundable"]
-            td data-label=t("admin.transactions.missing_transactions")
-              - counters = @counters[issue["profile_id"].to_i].first
-              = counters["gtag_total"] !=counters["gtag_last_total"] ? "Yes" : "No"
+            td data-label=t("admin.transactions.missing_transactions") = issue["missing"]  ? "Yes" : "No"
   - else
     .section-title-empty
       = image_tag "img-empty.png"
