@@ -30,7 +30,6 @@
           th = t("admin.transactions.final_refundable")
           th = t("admin.transactions.inconsistent")
           th = t("admin.transactions.inconsistent_refundable")
-          th = t("admin.transactions.missing_transactions")
       tbody
         - @issues.each do |issue|
           tr
@@ -41,7 +40,6 @@
             td data-label=t("admin.transactions.final_refundable_balance") = issue["last_final_refundable_balance"]
             td data-label=t("admin.transactions.inconsistent_balance") = issue["inconsistent"]
             td data-label=t("admin.transactions.inconsistent_refundable_balance") = issue["inconsistent_refundable"]
-            td data-label=t("admin.transactions.missing_transactions") = issue["missing"]  ? "Yes" : "No"
   - else
     .section-title-empty
       = image_tag "img-empty.png"
