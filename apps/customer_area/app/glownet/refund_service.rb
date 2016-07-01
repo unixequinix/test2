@@ -31,17 +31,20 @@ class RefundService
   end
 
   def credit_refund_transaction(params) # rubocop:disable Metrics/AbcSize
+    credits = params[:amount].to_f / params[:credit_value].to_f
+    refundable_credits = params[:refundable_amount].to_f / params[:credit_value].to_f
+    current_balance = @profile&.current_balance
+
     fields = {
       event_id: @profile.event.id,
       transaction_origin: params[:transaction_origin],
       transaction_category: "credit",
       transaction_type: "online_refund",
-      credits: params[:amount].to_f,
-      credits_refundable: params[:refundable_amount].to_f,
+      credits: credits,
+      credits_refundable: refundable_credits,
       credit_value: params[:credit_value].to_f,
-      final_balance: @profile&.current_balance&.final_balance.to_f + params[:amount].to_f,
-      final_refundable_balance: @profile&.current_balance&.final_refundable_balance.to_f +
-                                params[:refundable_amount].to_f,
+      final_balance: current_balance&.final_balance.to_f + credits,
+      final_refundable_balance: current_balance&.final_refundable_balance.to_f + refundable_credits,
       profile_id: @profile.id
     }
     Operations::Base.new.portal_write(fields)
