@@ -12,7 +12,7 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
   private
   def fetch_issues
     @issues = Profile.customer_credits_sum(current_event)
-    @counters = Profile.counters(current_event).select{|c|}
+    @counters = Profile.counters(current_event)
     @issues.each do |issue|
       counters = @counters[issue["profile_id"].to_i].first
       issue["missing"] = counters["gtag_total"] != counters["gtag_last_total"]
