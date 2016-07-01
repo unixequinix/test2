@@ -223,7 +223,7 @@ class Profile < ActiveRecord::Base
       ) cust
     SQL
 
-    JSON.parse(ActiveRecord::Base.connection.select_value(sql)).to_a.group_by { |t| t["profile_id"] }
+    JSON.parse(ActiveRecord::Base.connection.select_value(sql)).group_by { |t| t["profile_id"] }
   end
 
   def self.customer_credits_sum(event)
@@ -274,6 +274,6 @@ class Profile < ActiveRecord::Base
         ORDER BY inconsistent DESC
       ) inc
     SQL
-    JSON.parse(ActiveRecord::Base.connection.select_value(sql)).to_a.group_by { |t| t["profile_id"] }
+    JSON.parse(ActiveRecord::Base.connection.select_value(sql))
   end
 end
