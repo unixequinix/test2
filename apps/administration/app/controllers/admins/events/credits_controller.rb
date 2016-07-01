@@ -49,13 +49,13 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
   end
 
   def create_credential
-    @credit.catalog_item.create_credential_type if credit.catalog_item.credential_type.blank?
-    redirect_to admins_event_credits_url
+    @credit.catalog_item.create_credential_type if @credit.catalog_item.credential_type.blank?
+    redirect_to admins_event_credits_path
   end
 
   def destroy_credential
-    @credit.catalog_item.credential_type.destroy if credit.catalog_item.credential_type.present?
-    redirect_to admins_event_credits_url
+    @credit.catalog_item.credential_type.destroy if @credit.catalog_item.credential_type.present?
+    redirect_to admins_event_credits_path
   end
 
   private

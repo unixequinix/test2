@@ -2,6 +2,7 @@ class RefundService
   def initialize(claim)
     @claim = claim
     @profile = @claim.profile
+    @counters = Profile.counters(@profile.event)
   end
 
   def create(params)
@@ -31,18 +32,23 @@ class RefundService
   end
 
   def credit_refund_transaction(params) # rubocop:disable Metrics/AbcSize
+    credits = params[:amount].to_f / params[:credit_value].to_f
+    refundable_credits = params[:refundable_amount].to_f / params[:credit_value].to_f
+    current_balance = @profile&.current_balance
+
     fields = {
       event_id: @profile.event.id,
       transaction_origin: params[:transaction_origin],
       transaction_category: "credit",
       transaction_type: "online_refund",
-      credits: params[:amount].to_f,
-      credits_refundable: params[:refundable_amount].to_f,
+      credits: credits,
+      credits_refundable: refundable_credits,
       credit_value: params[:credit_value].to_f,
-      final_balance: @profile&.current_balance&.final_balance.to_f + params[:amount].to_f,
-      final_refundable_balance: @profile&.current_balance&.final_refundable_balance.to_f +
-                                params[:refundable_amount].to_f,
-      profile_id: @profile.id
+      final_balance: current_balance&.final_balance.to_f + credits,
+      final_refundable_balance: current_balance&.final_refundable_balance.to_f + refundable_credits,
+      profile_id: @profile.id,
+      gtag_counter: @counters[@profile.id][:gtag],
+      online_counter: @counters[@profile.id][:online] + 1
     }
     Operations::Base.new.portal_write(fields)
   end
@@ -60,7 +66,9 @@ class RefundService
       price: standard_credit.value.to_f,
       payment_method: "online",
       payment_gateway: refund.payment_solution,
-      profile_id: @profile.id
+      profile_id: @profile.id,
+      gtag_counter: @counters[@profile.id][:gtag],
+      online_counter: @counters[@profile.id][:online] + 1
     }
     Operations::Base.new.portal_write(fields)
   end
@@ -76,7 +84,9 @@ class RefundService
       credit_value: params[:credit_value].to_f,
       final_balance: @profile.current_balance.final_balance.to_f + fee,
       final_refundable_balance: @profile.current_balance.final_refundable_balance.to_f + fee,
-      profile_id: @profile.id
+      profile_id: @profile.id,
+      gtag_counter: @counters[@profile.id][:gtag],
+      online_counter: @counters[@profile.id][:online] + 1
     }
     Operations::Base.new.portal_write(fields)
   end
