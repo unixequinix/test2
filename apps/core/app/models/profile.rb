@@ -162,6 +162,70 @@ class Profile < ActiveRecord::Base
     payment_gateway_customers.find_by(gateway_type: gateway)
   end
 
+  def self.counters(event)
+    sql = <<-SQL
+      SELECT to_json(json_agg(row_to_json(cust)))
+      FROM (
+        SELECT
+          customer_trans.profile_id ,
+          MAX(customer_trans.gtag_counter) as gtag,
+          SUM(customer_trans.gtag_counter) as gtag_total,
+          MAX(customer_trans.gtag_counter) * (MAX(customer_trans.gtag_counter) + 1) / 2 as gtag_last_total,
+          MAX(customer_trans.counter) as online,
+          SUM(customer_trans.counter) as online_total,
+          MAX(customer_trans.counter) * (MAX(customer_trans.counter) + 1) / 2 as online_last_total
+        FROM
+        (
+            SELECT
+              profile_id,
+              gtag_counter,
+              counter
+            FROM access_transactions
+            WHERE event_id = #{event.id}
+            UNION ALL
+            SELECT
+              profile_id,
+              gtag_counter,
+              counter
+            FROM ban_transactions
+            WHERE event_id = #{event.id}
+            UNION ALL
+            SELECT
+              profile_id,
+              gtag_counter,
+              counter
+            FROM credential_transactions
+            WHERE event_id = #{event.id}
+            UNION ALL
+            SELECT
+              profile_id,
+              gtag_counter,
+              counter
+            FROM credit_transactions
+            WHERE event_id = #{event.id}
+            UNION ALL
+            SELECT
+              profile_id,
+              gtag_counter,
+              counter
+            FROM money_transactions
+            WHERE event_id = #{event.id}
+            UNION ALL
+            SELECT
+              profile_id,
+              gtag_counter,
+              counter
+            FROM order_transactions
+            WHERE event_id = #{event.id}
+        ) customer_trans
+        GROUP BY customer_trans.profile_id
+        ORDER BY customer_trans.profile_id
+      ) cust
+    SQL
+
+    JSON.parse(ActiveRecord::Base.connection.select_value(sql)).group_by { |t| t["profile_id"] }
+  end
+
   def self.customer_credits_sum(event)
     sql = <<-SQL
       SELECT to_json(json_agg(row_to_json(inc)))
