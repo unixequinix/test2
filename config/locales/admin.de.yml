@@ -6,6 +6,12 @@ de:
       description: "Description"
       created_at: "Created at"
       updated_at: "Updated at"
+    devices:
+      model: "Model"
+      asset: "Asset ID"
+      imei: "Imei"
+      serial_number: "Serial Number"
+      mac: "MAC"
     accesses:
       step: "Step"
       initial_amount: "Initial Amount"
@@ -30,6 +36,7 @@ de:
       transaction_type: "Typ"
       customer_tag_uid: "Kunden tag"
       operator_tag_uid: "Operator tag"
+      gtag_counter: "Gtag Counter"
       station_id: "Station id"
       device_uid: "Gerät uid"
       device_db_index: "Gerät DB Index"
@@ -77,15 +84,17 @@ de:
       name: "Name"
       type: "Typ"
       location: "Ort"
+      reporting_category: "Reporting Category"
       group: "Gruppe"
       items: "Produkte"
       categories:
         customer_portal: "Kundenportal"
-        point_of_sales: "Verkaufsstelle"
+        bar: "Bar"
+        vendor: "Vendor"
         top_up_refund: "Top Up / Erstattung"
         box_office: "Box Office"
         check_in: "Check-in"
-        dummy_check_in: "Dummy Check-in"
+        ticket_validation: "Ticket Validation"
         staff_accreditation: "Personalakkreditierung"
         access_control: "Zugangskontrolle"
         incident_report: "Vorfallsbericht"
@@ -206,6 +215,11 @@ de:
       features_options:
         top_ups: "Guthaben Top Ups"
         refunds: "Erstattungen"
+        ticket_assignation: 'Ticket assignations'
+        gtag_assignation: 'Gtag assignations'
+        agreement_acceptance: 'Agreement acceptance'
+        authorization: 'Authorization'
+        transactions_pdf: 'Transactions PDF'
       locales_options:
         en_lang: "Englisch"
         it_lang: "Italienisch"
@@ -320,7 +334,8 @@ de:
       credential_transactions: "Credential"
       order_transactions: "Order"
       money_transactions: "Money"
-      missin_transactions: "Missing"
+      device_transactions: "Device"
+      missing_transactions: "Missing"
       credit_inconsistencies: "Credit inconsistencies"
     dashboard:
       change_state: "Status ändern?"
@@ -349,6 +364,12 @@ de:
       is_alcohol: "alkoholisch"
     pack:
       number_catalog_items: "Anzahl der Artikel"
+      add_item: "Add Item"
+      instructions:
+        title: "Atention. Credits in a pack will be refundable only if:"
+        conditions:
+          - "There aren't other kind of items in a pack, like accesses or vouchers"
+          - "If a pack includes special price credits, the refundable amount of the credits will be the result of multiplying the payed price by the credi value"
     credential_type:
       id: "Id"
       memory_position: "Speicherposition"
@@ -406,7 +427,7 @@ de:
     gtags:
       id: "ID"
       tag: "Tag UID"
-      serial: "Tag Seriennummer"
+      format: "Format"
       banned: "Banned"
       tickets: "Tickets"
       customer: "Kunde"
@@ -417,6 +438,9 @@ de:
       gtag_assignation: "Gtag Anmeldungen"
       import: "GTags importieren (Wählen Sie ein CSV File mit Kommatrennung)"
       import_credits: " Guthaben importieren (Wählen Sie ein CSV File mit Kommatrennung)"
+      formats:
+        card: "Card"
+        wristband: "Wristband"
       search:
         tag_uid: "Tag UID"
         tag_serial: "Tag Seriennummer"

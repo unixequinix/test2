@@ -17,10 +17,8 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
                 customer_orders: [:catalog_item, :online_order]]
     ).find(params[:id])
 
-    tag = @customer.profile&.active_gtag_assignment&.credentiable&.tag_uid
-    @credit_transactions = CreditTransaction.where(event: current_event, customer_tag_uid: tag)
-                                            .order(device_created_at: :desc)
-                                            .includes(:station)
+    tag_uid = @customer.profile&.active_gtag_assignment&.credentiable&.tag_uid
+    @credit_transactions = @customer.profile&.credit_transactions
   end
 
   def reset_password

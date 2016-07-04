@@ -38,6 +38,9 @@
 .wrapper-terms {
   padding: modules(1);
 
+  p {
+    @include min-screen($bp3) { line-height: 1.5; }  
+  }
   h3 { margin-top: modules(1); }
   h2,
   h3 { @include mscale($base_font_size); }

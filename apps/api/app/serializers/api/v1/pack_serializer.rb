@@ -1,15 +1,7 @@
 class Api::V1::PackSerializer < Api::V1::BaseSerializer
-  attributes :id, :name
+  attributes :id, :name, :description, :accesses, :credits
 
-  def attributes(*args)
-    hash = super
-    hash[:description] = item_description if item_description
-    hash[:accesses] = accesses if accesses
-    hash[:credits] = credits if credits
-    hash
-  end
-
-  def item_description
+  def description
     object.catalog_item.description
   end
 

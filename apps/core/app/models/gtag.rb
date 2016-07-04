@@ -11,15 +11,23 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  banned                 :boolean          default(FALSE)
+#  format                 :string           default("wristband")
 #
 
 class Gtag < ActiveRecord::Base
+  acts_as_paranoid
+  default_scope { order(:id) }
+
   STANDARD = "standard".freeze
   CARD = "card".freeze
   SIMPLE = "simple".freeze
+  WRISTBAND = "wristband".freeze
 
-  # Type of the gtags
-  FORMATS = [STANDARD, CARD, SIMPLE].freeze
+  # UID categorization of the gtags
+  UID_FORMATS = [STANDARD, CARD, SIMPLE].freeze
+
+  # Physical type of the gtags
+  FORMATS = [CARD, WRISTBAND].freeze
 
   # Gtag limits
   GTAG_DEFINITIONS = [{ name: "mifare_classic",
@@ -32,35 +40,34 @@ class Gtag < ActiveRecord::Base
                         entitlement_limit: 56,
                         credential_limit: 32 }].freeze
 
-  before_validation :upcase_gtag!
-  default_scope { order(:id) }
-  acts_as_paranoid
-
   # Associations
   belongs_to :event
+  belongs_to :company_ticket_type
+
+  has_many :claims
+  has_many :comments, as: :commentable
+  has_many :credential_assignments, as: :credentiable, dependent: :destroy
+  has_many :profiles, through: :credential_assignments
+
+  has_one :refund
+  has_one :purchaser, as: :credentiable, dependent: :destroy
+  has_one :completed_claim, -> { where(aasm_state: :completed) }, class_name: "Claim"
+  has_one :assigned_profile, through: :assigned_gtag_credential, source: :profile
   has_one :assigned_gtag_credential,
           -> { where(credential_assignments: { aasm_state: :assigned }) },
           as: :credentiable,
           class_name: "CredentialAssignment"
-  has_one :assigned_profile,
-          through: :assigned_gtag_credential,
-          source: :profile
-  has_many :profiles, through: :credential_assignments
-  has_one :refund
-  has_many :claims
-  has_one :completed_claim, -> { where(aasm_state: :completed) }, class_name: "Claim"
-  has_many :comments, as: :commentable
-  has_many :credential_assignments, as: :credentiable, dependent: :destroy
-  has_one :purchaser, as: :credentiable, dependent: :destroy
-  belongs_to :company_ticket_type
 
   accepts_nested_attributes_for :purchaser, allow_destroy: true
+
+  # Callbacks
+  before_validation :upcase_gtag!
 
   # Validations
   validates_uniqueness_of :tag_uid, scope: :event_id
   validates :tag_uid, presence: true
 
-  # Scope
+  # Scopes
   scope :selected_data, lambda  { |event_id|
     joins("LEFT OUTER JOIN credential_assignments
            ON credential_assignments.credentiable_id = gtags.id
@@ -75,10 +82,9 @@ class Gtag < ActiveRecord::Base
       .where(event: event_id)
   }
 
-  scope :search_by_company_and_event, lambda { |company, event|
-    includes(:purchaser, :company_ticket_type, company_ticket_type: [:company])
-      .where(event: event, companies: { name: company })
-  }
+  def balance
+    assigned_profile.total_credits
+  end
 
   # TODO: Right now we're calculating the refundable_amount ourselves, in the future when the
   # =>    devices fix the writing in wristband problem we will use the final_refundable_balance
@@ -116,7 +122,11 @@ class Gtag < ActiveRecord::Base
     return found[field.to_sym] if found
   end
 
-  private
+  FORMATS.each do |method_name|
+    define_method "#{method_name}?" do
+      format == method_name
+    end
+  end
 
   def upcase_gtag!
     tag_uid.upcase! if tag_uid

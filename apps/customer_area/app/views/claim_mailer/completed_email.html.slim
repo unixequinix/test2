@@ -33,6 +33,7 @@ center
                             p = t('email.customer.claim.completed.thanks')
                             p = raw @event.refund_success_message
                             p = t('email.customer.claim.completed.success')
+
           tr
             //Order id and date
             td colspan="2"
@@ -72,7 +73,6 @@ center
                       tr
                         td style="width: 50; padding: 40px 10px 10px; font-weight: bold; font-size: 14px; vertical-align: middle;"  = t('orders.total')
                         td style="width: 50; padding: 40px 10px 10px; font-weight: bold; font-size: 14px; vertical-align: middle; text-align: right;" = "#{@claim.total - @claim.fee} #{@event.currency}"
-
           tr
             td[align="center" valign="top"]
               table#templateFooter[border="0" cellpadding="10" cellspacing="0" width="600"]

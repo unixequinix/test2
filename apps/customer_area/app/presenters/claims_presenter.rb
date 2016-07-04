@@ -6,8 +6,9 @@ class ClaimsPresenter < BasePresenter
   def path
     profile = @profile
     enough_money = profile.refundable_money_amount <= profile.online_refundable_money_amount
+    return "cards_disabled" if @gtag_assignment.credentiable.card? && !cards_can_refund?
     return "claim_present" if profile.completed_claims.present?
-    return "no_credits" if profile.refundable_money_amount.zero?
+    return "no_credits" if !any_refundable_method?
     return "invalid_balance" unless BalanceCalculator.new(profile).valid_balance?
     return "direct_claim" if enough_money && @event.direct?
     "transfer_claim"
@@ -60,5 +61,11 @@ class ClaimsPresenter < BasePresenter
       refundable = refundable?(refund_service) ? "refundable" : "not_refundable"
       yield method("snippet_#{refundable}").call(refund_service)
     end
+  end
+
+  private
+
+  def cards_can_refund?
+    @event.get_parameter("gtag", "form", "cards_can_refund") == "true"
   end
 end

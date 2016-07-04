@@ -93,6 +93,8 @@
   width: 100%;
   margin: 1.75rem 0;
   border-collapse: collapse;
+
+  tr { page-break-inside: avoid }
 }
 
 .bill-row { border-bottom: 1pt solid #c2c2c2; }
@@ -130,5 +132,3 @@
 .bill-total-value {
   font-size: 2.5rem;
 }
-
-// ···

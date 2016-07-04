@@ -3,6 +3,21 @@
   = link_to new_admins_event_product_path, class: "btn btn-action btn-action-new small" do
     = fa_icon 'plus'
     = t('admin.actions.new')
+  = link_to '#import-modal', class: "btn btn-action btn-action-search small" do
+    = fa_icon 'upload'
+    = t('admin.actions.import')
+
+.remodal data-remodal-id="import-modal" 
+  button.remodal-close data-remodal-action="close" 
+  h3.remodal__title Import products by CSV file
+  = simple_form_for :file, url: import_admins_event_products_path(current_event), html: { multipart: true} do |f|  
+    p = f.file_field :data, label: :import
+    p 
+      | Download a 
+      = link_to "sample CSV", sample_csv_admins_event_products_path(current_event, format: "csv")
+      |  template to see an example of the format required.
+    .remodal__actions
+      = f.submit "Submit", class: "btn btn-primary btn--block"
 
 .wrapper-negative-space
   - if @list_model_presenter.there_any?

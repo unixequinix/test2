@@ -20,7 +20,7 @@ en:
     edit: "Edit"
     delete: "Delete"
     delete_ticket: "Remove ticket"
-    check_news: "Back to Event Website"
+    check_news: "Home"
     delete_account: "Delete your account"
     logout: "Logout"
     confirm: "Confirm"
@@ -77,11 +77,11 @@ en:
       call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Event Ticket first"
       button: "Top-up"
       ticket_first: "Add a ticket or %{gtag} first"
-      calculating_balance: "We are validating your final balance. Please return in 48 hours to proceed with your refund."
+      calculating_balance: "Please contact us at %{email} in order to process your refund."
       refundable: "Refundable"
     autotopup:
       claim: "Take advantage!"
-      description: "Sync your PayPal account and receive automatic refunds during the event."
+      description: "Sync your PayPal account and get automatic topup any time you run out of credits during the event."
       disclaimer: "This amount will be refunded inmediatly after the agreement is accepted"
     paypal:
       button: "Sync with PayPal"
@@ -97,7 +97,7 @@ en:
     more_gtags:
       description: "Have more %{gtag}s? Please register again with a different email for each."
     success_refund_disclaimer:
-      claim: "You successfully processed your refund"
+      claim: "You successfully completed the application for online refund process"
       description: "In 1-4 days you will receive the payment in your bank account."
     error_refund_disclaimer:
       claim: "There was an error on your refund"
@@ -136,7 +136,7 @@ en:
       title: "Ultimating details!"
       description: "We are finishing event configuration to bring you a great experience. Please, come back later and see what we have made for you."
     tipalti:
-      disclaimer: "If you don't see the continue button, scroll to the left."
+      disclaimer: "The content of this page could take some seconds to load."
   admissions:
     title: "Ticket Activation"
     description: "Please enter the code that is printed on your event ticket just below the barcode."
@@ -216,7 +216,7 @@ en:
       sync_title: "Sync with PayPal to perform payment"
       sync_copy: "Paypal Experience"
       sync_description: "In order to validate your PayPal account, you will be charged 0.01€ which will be refunded automatically."
-      sync_final_description: "Select the amount you´d like to be automatically topped up at any point of sale. This amount WILL NOT BE CHARGED to your account."
+      sync_final_description: "Select the amount you'd like to be automatically topped up every time you run out of credits at the event. This amount WILL NOT BE CHARGED to your account."
       with_agreement_title: "Already sync with PayPal"
       with_agreement_subtitle: "You can perform direct payments"
   claims:
@@ -231,20 +231,23 @@ en:
     redirect: "You will be redirected to the bank’s payment gateway."
     button: "Refund"
     button_iupay: "IUPAY"
-    refund: "Please, review your balance to proceed refund"
+    refund: "Please, fill your bank details to proceed refund"
     claim_present:
       title: "Thank you!"
       description: "Your claim has been processed correctly and is on the way."
     no_credit:
       title: "Sorry"
-      description: "You don't have any refundable balance"
+      description: "You don't have sufficient refundable balance"
     direct_claim:
       title: "Claim for your balance"
       description: "We will refund your money automatically."
       button: "Proceed"
     invalid_claim:
       title: "Working in your refund"
-      description: "Contact us for more information"
+      description: "Please contact us at %{email} in order to process your refund."
+    cards_disabled:
+      title: "Sorry"
+      description: "Cards are not elegible for online refunds"
     paypal:
       button: "Refund with PayPal"
   gtag_assignations:
@@ -307,7 +310,7 @@ en:
       call_to_action: 'Contact us:'
     success:
       title: 'Refund Done'
-      description: 'Your refund has been processed. You will receive a confirmation email of your claim.'
+      description: 'Your application process for online refund has been completed. You will receive an email with a confirmation.'
   passwords:
     new:
       title: 'Forgot your password?'

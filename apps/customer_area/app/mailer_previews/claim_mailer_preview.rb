@@ -12,6 +12,6 @@ class ClaimMailerPreview < ActionMailer::Preview
   end
 
   def notification_email
-    ClaimMailer.notification_email(Profile.first, event)
+    ClaimMailer.notification_email(Profile.first, Event.first)
   end
 end

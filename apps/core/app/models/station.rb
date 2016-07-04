@@ -2,22 +2,31 @@
 #
 # Table name: stations
 #
-#  id         :integer          not null, primary key
-#  event_id   :integer          not null
-#  name       :string           not null
-#  deleted_at :datetime
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  location   :string
-#  position   :integer
-#  group      :string
-#  category   :string
+#  id                 :integer          not null, primary key
+#  event_id           :integer          not null
+#  name               :string           not null
+#  deleted_at         :datetime
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  location           :string
+#  position           :integer
+#  group              :string
+#  category           :string
+#  reporting_category :string
 #
 
 class Station < ActiveRecord::Base
   acts_as_paranoid
   belongs_to :event
   belongs_to :station_type
+
+  has_many :access_transactions, dependent: :restrict_with_error
+  has_many :ban_transactions, dependent: :restrict_with_error
+  has_many :credential_transactions, dependent: :restrict_with_error
+  has_many :credit_transactions, dependent: :restrict_with_error
+  has_many :money_transactions, dependent: :restrict_with_error
+  has_many :device_transactions, dependent: :restrict_with_error
+  has_many :order_transactions, dependent: :restrict_with_error
 
   has_many :station_parameters
   has_many :station_catalog_items, through: :station_parameters,
@@ -46,7 +55,8 @@ class Station < ActiveRecord::Base
   }.freeze
 
   GROUPS = {
-    access: [:ticket_validation, :check_in, :box_office, :customer_portal, :staff_accreditation, :access_control],
+    access: [:ticket_validation, :check_in, :box_office, :customer_portal,
+             :staff_accreditation, :access_control],
     event_management: [:incident_report, :exhibitor, :customer_service, :operator_permissions,
                        :payout_top_up, :hospitality_top_up, :cs_topup_refund,
                        :cs_gtag_balance_fix, :cs_accreditation],
@@ -54,6 +64,10 @@ class Station < ActiveRecord::Base
     monetary: [:bar, :vendor, :top_up_refund],
     touchpoint: [:touchpoint]
   }.freeze
+
+  def group_and_category
+    "#{group} -> #{category}"
+  end
 
   def form
     ASSOCIATIONS.select { |_, value| value.include?(category.to_sym) }.first&.first

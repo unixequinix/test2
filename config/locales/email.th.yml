@@ -14,7 +14,7 @@ th:
           title: 'การแจ้งเกี่ยวกับรายการ'
           subject: 'รายการสำเร็จ'
           order_number: 'รายการของคุณ'
-          greet: 'Hello %{name}!'
+          greet: 'Hello, %{name}!'
           date: 'วันที่ทำรายการ'
           description: 'หลังจากที่คุณเติมเงินโดยการซื้อเครดิตออนไลน์ที่นี่แล้ว คุณจะสามารถใช้เงินได้โดยอัตโนมัติผ่าน %{gtag} หลังจากเข้างาน  %{gtag} เป็นวิธีที่สะดวกสำหรับคุณที่จะซื้ออาหาร เครื่องดื่ม และสินค้าต่างๆ ที่งาน และนี่เป็นวิธีชำระเงินวิธีเดียวภายในงาน'
           success: 'ระบบได้รับรายการของคุณแล้ว คุณสามารถดูรายละเอียดได้ที่ด้านล่าง:'
@@ -30,7 +30,7 @@ th:
           title: 'การแจ้งเกี่ยวกับการคืนเงิน'
           subject: 'การคืนเงินสำเร็จ'
           order_number: 'หมายเลขเคลม'
-          greet: 'Hello %{name}!'
+          greet: 'Hello, %{name}!'
           thanks: 'ขอบคุณสำหรับการขอรับเงินคืน! '
           description: 'ระบบได้ทำการโอนเงินคืนให้คุณแล้ว คุณจะได้รับเงินในบัญชีของคุณในอีก 1 - 4 วัน'
           success: 'นี่คือรายละเอียดของเงินที่คุณจะได้รับคืน:'
@@ -61,7 +61,7 @@ th:
         accepted:
           title: 'Paypal Agreement Accepted'
           subject: 'Paypal Agreement Accepted'
-          greet: 'Hello %{name}!'
+          greet: 'Hello, %{name}!'
           mail_body: 'You have accepted the PayPal Agreement so you can now do auto-topups!'
     admin:
       reset_password:

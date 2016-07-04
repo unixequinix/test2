@@ -99,10 +99,11 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
                            purchaser_first_name purchaser_last_name purchaser_email)
           c_keys = %w(id banned autotopup_gateways credentials first_name last_name email orders)
           order_keys = %w(online_order_counter catalogable_id catalogable_type amount)
+          credential_keys = %w(reference type)
 
           expect(ticket.keys).to eq(ticket_keys)
           expect(ticket["customer"].keys).to eq(c_keys)
-          expect(ticket["customer"]["credentials"].map(&:keys).flatten.uniq).to eq(%w(id type))
+          expect(ticket["customer"]["credentials"].map(&:keys).flatten.uniq).to eq(credential_keys)
           expect(ticket["customer"]["orders"].map(&:keys).flatten.uniq).to eq(order_keys)
         end
 
@@ -119,7 +120,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
               id:  @ticket.assigned_profile.id,
               banned: @ticket.assigned_profile.banned?,
               autotopup_gateways: [],
-              credentials: [{ id: @ticket.id, type: "ticket" }],
+              credentials: [{ reference: @ticket.code, type: "ticket" }],
               first_name: customer.first_name,
               last_name: customer.last_name,
               email: customer.email,

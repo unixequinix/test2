@@ -15,10 +15,12 @@
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  created_in_origin_at     :datetime
+#  gtag_counter             :integer
+#  online_counter           :integer          default(0)
 #
 
 class CustomerCredit < ActiveRecord::Base
-  default_scope { order(created_in_origin_at: :desc) }
+  default_scope { order(gtag_counter: :desc, online_counter: :desc) }
   acts_as_paranoid
 
   belongs_to :profile

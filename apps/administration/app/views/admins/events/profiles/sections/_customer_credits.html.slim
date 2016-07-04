@@ -12,14 +12,22 @@ table.refunds
       th = t("admin.customer_credits.final_balance")
       th = t("admin.customer_credits.final_refundable_balance")
       th = t("admin.customer_credits.created_at")
+      th = t("admin.customer_credits.gtag_counter")
+      th = t("admin.customer_credits.online_counter")
   tbody
-    - profile.customer_credits.order(created_in_origin_at: :desc).each do |customer_credit|
+    - profile.customer_credits.each do |customer_credit|
       tr
         td data-label="id" = customer_credit.id
         td data-label="payment_method" = customer_credit.payment_method
         td data-label="transaction_origin" = customer_credit.transaction_origin
-        td data-label="amount" = customer_credit.amount
-        td data-label="refundable_amount" = customer_credit.refundable_amount
-        td data-label="final_balance" = customer_credit.final_balance
-        td data-label="final_refundable_balance" = customer_credit.final_refundable_balance
-        td data-label="created_at" = customer_credit.created_in_origin_at&.strftime("%y-%m-%d %H:%M:%S")
+        td data-label="amount"
+          = best_in_place customer_credit, :amount, url: admins_event_customer_credit_path(current_event, customer_credit)
+        td data-label="refundable_amount"
+          = best_in_place customer_credit, :refundable_amount, url: admins_event_customer_credit_path(current_event, customer_credit)
+        td data-label="final_balance"
+          = best_in_place customer_credit, :final_balance, url: admins_event_customer_credit_path(current_event, customer_credit)
+        td data-label="final_refundable_balance"
+          = best_in_place customer_credit, :final_refundable_balance, url: admins_event_customer_credit_path(current_event, customer_credit)
+        td data-label="created_at" = customer_credit.created_in_origin_at&.strftime("%y-%m-%d %H:%M:%S.%L")
+        td data-label="gtag_counter" = best_in_place customer_credit, :gtag_counter, url: admins_event_customer_credit_path(current_event, customer_credit)
+        td data-label="gtag_counter" = best_in_place customer_credit, :online_counter, url: admins_event_customer_credit_path(current_event, customer_credit)

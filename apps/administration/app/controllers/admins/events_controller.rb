@@ -5,6 +5,8 @@ class Admins::EventsController < Admins::BaseController
 
   def show
     @current_event = Event.friendly.find(params[:id])
+    redirect_to(admins_event_tickets_path(@current_event), layout: "admin_event") &&
+      return if current_admin.customer_service?
     render layout: "admin_event"
   end
 

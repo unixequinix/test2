@@ -1,0 +1,31 @@
+.wrapper-negative-space
+  - if @devices.any?
+    .current-showing  = "#{@devices.count} #{t("admin.devices.device").pluralize}"
+    table.transactions
+      thead
+        tr
+          th = t("admin.devices.device")
+          th = t("admin.devices.transactions")
+
+      tbody
+        - @devices.each do |mac, ts|
+          tr
+            td data-label=t("admin.transactions.id")
+              b = @assets[mac]
+              = " | #{mac}"
+            td
+
+          - ts.map do |t|
+            tr
+              td
+              td
+                = Time.parse(t.device_created_at).to_s(:short)
+                b style="padding: 0 20px;"= t.device_db_index
+                = t.transaction_type.humanize
+                b = " - #{t.number_of_transactions} transactions" if t.transaction_type == "pack_device"
+
+      br
+  - else
+   .section-title-empty
+     = image_tag "img-empty.png"
+     p = t("admin.defaults.empty_item", item: t("admin.devices.device").pluralize)
