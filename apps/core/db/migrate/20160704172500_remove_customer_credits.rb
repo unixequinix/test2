@@ -30,7 +30,7 @@ class RemoveCustomerCredits < ActiveRecord::Migration
         atts[:refundable_credits] = creds.map(&:refundable_amount).sum
         atts[:final_balance] = last.final_balance
         atts[:final_refundable_balance] = last.final_refundable_balance
-        Operations::ProfileUpdater.perform_later(p.id, atts)
+        ProfileUpdater.perform_later(p.id, atts)
       end
     end
 
