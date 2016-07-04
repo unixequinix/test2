@@ -17,6 +17,7 @@ class Product < ActiveRecord::Base
 
   belongs_to :event
   has_and_belongs_to_many :vouchers
+  has_many :station_products, dependent: :restrict_with_error
 
   validates :name, :event_id, presence: true
 end

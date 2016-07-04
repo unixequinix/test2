@@ -15,9 +15,7 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
                                  credential_assignments: :credentiable,
                                  customer_orders: [:catalog_item, :online_order])
                        .find(params[:id])
-
-    tag_uid = @profile.active_gtag_assignment&.credentiable&.tag_uid
-    @credit_transactions = CreditTransaction.with_event(current_event).with_customer_tag(tag_uid)
+    @credit_transactions = @profile.credit_transactions.reorder(gtag_counter: :desc, device_created_at: :desc)
   end
 
   def ban
@@ -51,6 +49,25 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
     profile.payment_gateway_customers.find(params[:agreement_id]).destroy
     flash[:notice] = I18n.t("alerts.destroyed")
     redirect_to(admins_event_profile_path(current_event, profile))
+  end
+
+  def fix_transaction
+    transaction = CreditTransaction.find(params[:transaction])
+    transaction.update!(status_code: 0, status_message: "FIXED")
+    atts = {
+      transaction_origin: transaction.transaction_origin,
+      profile_id: params[:id],
+      credits_refundable: transaction.credits_refundable,
+      credits: transaction.credits,
+      credit_value: transaction.credit_value,
+      final_balance: transaction.final_balance,
+      final_refundable_balance: transaction.final_refundable_balance,
+      device_created_at: transaction.device_created_at,
+      gtag_counter: transaction.gtag_counter
+    }
+    Operations::Credit::BalanceUpdater.new.perform(atts)
+
+    redirect_to(admins_event_profile_path(current_event, params[:id]))
   end
 
   def set_presenter

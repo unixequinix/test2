@@ -12,6 +12,7 @@
           th = t('admin.stations.name')
           th = t('admin.stations.type')
           th = t('admin.stations.location')
+          th = t('admin.stations.reporting_category')
           th.table-actions-field = t('admin.defaults.actions')
       tbody
         - @stations.each do |station|
@@ -22,6 +23,8 @@
               = t("admin.stations.categories.#{station.category}")
             td data-label=t('admin.stations.location')
               = best_in_place station, :location, url: admins_event_station_path(current_event, station)
+            td data-label=t('admin.stations.reporting_category')
+              = best_in_place station, :reporting_category, url: admins_event_station_path(current_event, station)
             td.table-actions-field
               ul
                 - if station.form

@@ -9,6 +9,8 @@ class CreditsPresenter < BasePresenter
 
   def customer_total_credits
     @profile.credits
+    # TODO: Check this
+    number_with_precision(@profile.total_credits, precision: 2)
   end
 
   def refundable_credits

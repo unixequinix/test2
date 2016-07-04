@@ -1,6 +1,10 @@
 class CreditsHistoryPresenter < BasePresenter
   def can_render?
-    (@event.started? || @event.finished?) && transactions? && @gtag_assignment.present?
+    (@event.started? || @event.finished?) &&
+      transactions? &&
+        @gtag_assignment.present? &&
+          BalanceCalculator.new(@profile).valid_balance? &&
+            @event.transactions_pdf?
   end
 
   def path

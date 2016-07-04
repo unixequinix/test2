@@ -21,12 +21,22 @@ fieldset {
   }
 }
 
+.wrapper-instructions,
 .wrapper-preevent-product {
   position: relative;
   border: 1px solid $graySilver;
   border-radius: 3px;
   margin-bottom: modules(1);
   padding: modules(0.5);
+}
+
+.wrapper-instructions {
+  background-color: $amber;
+  color: #fff;
+}
+
+.wrapper-instructions .condition {
+  padding-left: 1rem;
 }
 
 label {
@@ -215,4 +225,3 @@ input[type=checkbox]:checked + .collection_check_boxes {
   overflow: hidden;
   padding-bottom: modules(1);
 }
-

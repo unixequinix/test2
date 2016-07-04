@@ -2,6 +2,7 @@ class RefundService
   def initialize(claim)
     @claim = claim
     @profile = @claim.profile
+    @counters = Profile.counters(@profile.event)[@claim.profile_id.to_i].first
   end
 
   def create(params)
@@ -57,7 +58,9 @@ class RefundService
       price: standard_credit.value.to_f,
       payment_method: "online",
       payment_gateway: refund.payment_solution,
-      profile_id: @profile.id
+      profile_id: @profile.id,
+      gtag_counter: @counters["gtag"],
+      online_counter: @counters["online"] + 1
     }
     Operations::Base.new.portal_write(fields)
   end

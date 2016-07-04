@@ -82,7 +82,7 @@ th:
       refundable: "Refundable"
     autotopup:
       claim: "Take advantage!"
-      description: "Sync your PayPal account and receive automatic refunds during the event."
+      description: "Sync your PayPal account and get automatic topup any time you run out of credits during the event."
       disclaimer: "This amount will be refunded inmediatly after the agreement is accepted"
     paypal:
       button: "Sync with PayPal"
@@ -137,7 +137,7 @@ th:
       title: "Ultimating details!"
       description: "We are finishing event configuration to bring you a great experience. Please, come back later and see what we have made for you."
     tipalti:
-      disclaimer: "If you don't see the continue button, scroll to the left."
+      disclaimer: "The content of this page could take some seconds to load."
   admissions:
     title: "การใส่บัตรเข้างานในระบบ"
     description: "กรุณาใส่รหัสหมายเลขที่อยู้ด้านล่างของบาร์โค้ดบนบัตรเข้างานของคุณ"
@@ -217,7 +217,7 @@ th:
       sync_title: "Sync with PayPal to perform payment"
       sync_copy: "Paypal Experience"
       sync_description: "In order to validate your PayPal account, you will be charged 0.01€ which will be refunded automatically."
-      sync_final_description: "Select the amount you´d like to be automatically topped up at any point of sale. This amount WILL NOT BE CHARGED to your account."
+      sync_final_description: "Select the amount you'd like to be automatically topped up every time you run out of credits at the event. This amount WILL NOT BE CHARGED to your account."
       with_agreement_title: "Already sync with PayPal"
       with_agreement_subtitle: "You can perform direct payments"
   claims:
@@ -238,14 +238,17 @@ th:
       description: "Your claim has been processed correctly and is on the way."
     no_credit:
       title: "Sorry"
-      description: "You don't have any refundable balance"
+      description: "You don't have sufficient refundable balance"
     direct_claim:
       title: "Claim for your balance"
       description: "We will refund your money automatically."
       button: "Proceed"
     invalid_claim:
       title: "Working in your refund"
-      description: "Contact us for more information"
+      description: "Please contact us at %{email} in order to process your refund."
+    cards_disabled:
+      title: "Sorry"
+      description: "Cards are not elegible for online refunds"
     paypal:
       button: "Refund with PayPal"
   gtag_assignations:
@@ -349,7 +352,7 @@ th:
     welcome: 'Welcome!'
     create_account:
       title: 'Don´t have an account?'
-      link: 'Get a free one!'
+      link: 'Create one!'
     log_in:
       title: 'Already have an account?'
       link: 'Log in here'

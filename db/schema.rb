@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160607155509) do
+ActiveRecord::Schema.define(version: 20160630104754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -290,6 +290,25 @@ ActiveRecord::Schema.define(version: 20160607155509) do
 
   add_index "credits", ["deleted_at"], name: "index_credits_on_deleted_at", using: :btree
 
+  create_table "customer_credits", force: :cascade do |t|
+    t.integer  "profile_id",                                                     null: false
+    t.string   "transaction_origin",                                             null: false
+    t.string   "payment_method",                                                 null: false
+    t.decimal  "amount",                   precision: 8, scale: 2, default: 0.0, null: false
+    t.decimal  "refundable_amount",        precision: 8, scale: 2, default: 0.0, null: false
+    t.decimal  "final_balance",            precision: 8, scale: 2, default: 0.0, null: false
+    t.decimal  "final_refundable_balance", precision: 8, scale: 2, default: 0.0, null: false
+    t.decimal  "credit_value",             precision: 8, scale: 2, default: 1.0, null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at",                                                     null: false
+    t.datetime "updated_at",                                                     null: false
+    t.datetime "created_in_origin_at"
+    t.integer  "gtag_counter"
+    t.integer  "online_counter",                                   default: 0
+  end
+
+  add_index "customer_credits", ["deleted_at"], name: "index_customer_credits_on_deleted_at", using: :btree
+
   create_table "customer_orders", force: :cascade do |t|
     t.integer  "profile_id",      null: false
     t.integer  "catalog_item_id", null: false
@@ -336,13 +355,40 @@ ActiveRecord::Schema.define(version: 20160607155509) do
   add_index "customers", ["remember_token"], name: "index_customers_on_remember_token", unique: true, using: :btree
   add_index "customers", ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true, using: :btree
 
+  create_table "device_transactions", force: :cascade do |t|
+    t.integer  "event_id"
+    t.string   "transaction_origin"
+    t.string   "transaction_category"
+    t.string   "transaction_type"
+    t.string   "customer_tag_uid"
+    t.string   "operator_tag_uid"
+    t.integer  "station_id"
+    t.string   "device_uid"
+    t.integer  "device_db_index"
+    t.string   "device_created_at"
+    t.string   "initialization_type"
+    t.integer  "number_of_transactions"
+    t.integer  "profile_id"
+    t.integer  "status_code"
+    t.string   "status_message"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "gtag_counter",           default: 0
+    t.integer  "counter",                default: 0
+  end
+
+  add_index "device_transactions", ["event_id"], name: "index_device_transactions_on_event_id", using: :btree
+  add_index "device_transactions", ["profile_id"], name: "index_device_transactions_on_profile_id", using: :btree
+  add_index "device_transactions", ["station_id"], name: "index_device_transactions_on_station_id", using: :btree
+
   create_table "devices", force: :cascade do |t|
-    t.string   "name"
+    t.string   "device_model"
     t.string   "imei"
     t.string   "mac"
     t.string   "serial_number"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "asset_tracker"
   end
 
   create_table "entitlements", force: :cascade do |t|
@@ -389,40 +435,41 @@ ActiveRecord::Schema.define(version: 20160607155509) do
   add_index "event_translations", ["locale"], name: "index_event_translations_on_locale", using: :btree
 
   create_table "events", force: :cascade do |t|
-    t.string   "name",                                                    null: false
+    t.string   "name",                                                         null: false
     t.string   "aasm_state"
-    t.string   "slug",                                                    null: false
+    t.string   "slug",                                                         null: false
     t.string   "location"
-    t.string   "support_email",           default: "support@glownet.com", null: false
+    t.string   "support_email",                default: "support@glownet.com", null: false
     t.string   "logo_file_name"
     t.string   "logo_content_type"
     t.string   "background_file_name"
     t.string   "background_content_type"
     t.string   "url"
-    t.string   "background_type",         default: "fixed"
-    t.string   "currency",                default: "USD",                 null: false
-    t.string   "host_country",            default: "US",                  null: false
+    t.string   "background_type",              default: "fixed"
+    t.string   "currency",                     default: "USD",                 null: false
+    t.string   "host_country",                 default: "US",                  null: false
     t.string   "token"
     t.text     "description"
     t.text     "style"
     t.integer  "logo_file_size"
     t.integer  "background_file_size"
-    t.integer  "features",                default: 0,                     null: false
-    t.integer  "registration_parameters", default: 0,                     null: false
-    t.integer  "locales",                 default: 1,                     null: false
-    t.integer  "payment_services",        default: 0,                     null: false
-    t.integer  "refund_services",         default: 0,                     null: false
-    t.boolean  "gtag_assignation",        default: true,                  null: false
-    t.boolean  "ticket_assignation",      default: true,                  null: false
+    t.integer  "features",                     default: 32,                    null: false
+    t.integer  "registration_parameters",      default: 0,                     null: false
+    t.integer  "locales",                      default: 1,                     null: false
+    t.integer  "payment_services",             default: 0,                     null: false
+    t.integer  "refund_services",              default: 0,                     null: false
     t.datetime "logo_updated_at"
     t.datetime "background_updated_at"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.datetime "created_at",                                              null: false
-    t.datetime "updated_at",                                              null: false
-    t.string   "token_symbol",            default: "t"
+    t.datetime "created_at",                                                   null: false
+    t.datetime "updated_at",                                                   null: false
+    t.string   "token_symbol",                 default: "t"
     t.string   "company_name"
-    t.boolean  "agreement_acceptance",    default: false
+    t.string   "device_database_file_name"
+    t.string   "device_database_content_type"
+    t.integer  "device_database_file_size"
+    t.datetime "device_database_updated_at"
   end
 
   add_index "events", ["slug"], name: "index_events_on_slug", unique: true, using: :btree
@@ -442,14 +489,15 @@ ActiveRecord::Schema.define(version: 20160607155509) do
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
   create_table "gtags", force: :cascade do |t|
-    t.integer  "event_id",                               null: false
+    t.integer  "event_id",                                     null: false
     t.integer  "company_ticket_type_id"
-    t.string   "tag_uid",                                null: false
-    t.boolean  "credential_redeemed",    default: false, null: false
+    t.string   "tag_uid",                                      null: false
+    t.boolean  "credential_redeemed",    default: false,       null: false
     t.datetime "deleted_at"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
     t.boolean  "banned",                 default: false
+    t.string   "format",                 default: "wristband"
   end
 
   add_index "gtags", ["deleted_at", "tag_uid", "event_id"], name: "index_gtags_on_deleted_at_and_tag_uid_and_event_id", unique: true, using: :btree
@@ -485,6 +533,49 @@ ActiveRecord::Schema.define(version: 20160607155509) do
   add_index "money_transactions", ["event_id"], name: "index_money_transactions_on_event_id", using: :btree
   add_index "money_transactions", ["profile_id"], name: "index_money_transactions_on_profile_id", using: :btree
   add_index "money_transactions", ["station_id"], name: "index_money_transactions_on_station_id", using: :btree
+
+  create_table "oauth_access_grants", force: :cascade do |t|
+    t.integer  "resource_owner_id", null: false
+    t.integer  "application_id",    null: false
+    t.string   "token",             null: false
+    t.integer  "expires_in",        null: false
+    t.text     "redirect_uri",      null: false
+    t.datetime "created_at",        null: false
+    t.datetime "revoked_at"
+    t.string   "scopes"
+  end
+
+  add_index "oauth_access_grants", ["token"], name: "index_oauth_access_grants_on_token", unique: true, using: :btree
+
+  create_table "oauth_access_tokens", force: :cascade do |t|
+    t.integer  "resource_owner_id"
+    t.integer  "application_id"
+    t.string   "token",             null: false
+    t.string   "refresh_token"
+    t.integer  "expires_in"
+    t.datetime "revoked_at"
+    t.datetime "created_at",        null: false
+    t.string   "scopes"
+  end
+
+  add_index "oauth_access_tokens", ["refresh_token"], name: "index_oauth_access_tokens_on_refresh_token", unique: true, using: :btree
+  add_index "oauth_access_tokens", ["resource_owner_id"], name: "index_oauth_access_tokens_on_resource_owner_id", using: :btree
+  add_index "oauth_access_tokens", ["token"], name: "index_oauth_access_tokens_on_token", unique: true, using: :btree
+
+  create_table "oauth_applications", force: :cascade do |t|
+    t.string   "name",                      null: false
+    t.string   "uid",                       null: false
+    t.string   "secret",                    null: false
+    t.text     "redirect_uri",              null: false
+    t.string   "scopes",       default: "", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+  end
+
+  add_index "oauth_applications", ["owner_id", "owner_type"], name: "index_oauth_applications_on_owner_id_and_owner_type", using: :btree
+  add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
 
   create_table "online_orders", force: :cascade do |t|
     t.integer  "customer_order_id", null: false
@@ -553,12 +644,12 @@ ActiveRecord::Schema.define(version: 20160607155509) do
   add_index "orders", ["profile_id"], name: "index_orders_on_profile_id", using: :btree
 
   create_table "pack_catalog_items", force: :cascade do |t|
-    t.integer  "pack_id",         null: false
-    t.integer  "catalog_item_id", null: false
-    t.integer  "amount"
+    t.integer  "pack_id",                                 null: false
+    t.integer  "catalog_item_id",                         null: false
+    t.decimal  "amount",          precision: 8, scale: 2
     t.datetime "deleted_at"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
   end
 
   add_index "pack_catalog_items", ["catalog_item_id"], name: "index_pack_catalog_items_on_catalog_item_id", using: :btree
@@ -715,15 +806,16 @@ ActiveRecord::Schema.define(version: 20160607155509) do
   end
 
   create_table "stations", force: :cascade do |t|
-    t.integer  "event_id",   null: false
-    t.string   "name",       null: false
+    t.integer  "event_id",           null: false
+    t.string   "name",               null: false
     t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.string   "location"
     t.integer  "position"
     t.string   "group"
     t.string   "category"
+    t.string   "reporting_category"
   end
 
   add_index "stations", ["deleted_at"], name: "index_stations_on_deleted_at", using: :btree
@@ -772,6 +864,9 @@ ActiveRecord::Schema.define(version: 20160607155509) do
   add_foreign_key "credit_transactions", "events"
   add_foreign_key "credit_transactions", "profiles"
   add_foreign_key "credit_transactions", "stations"
+  add_foreign_key "device_transactions", "events"
+  add_foreign_key "device_transactions", "profiles"
+  add_foreign_key "device_transactions", "stations"
   add_foreign_key "money_transactions", "events"
   add_foreign_key "money_transactions", "profiles"
   add_foreign_key "money_transactions", "stations"

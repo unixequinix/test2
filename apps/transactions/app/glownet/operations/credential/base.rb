@@ -10,7 +10,7 @@ class Operations::Credential::Base < Operations::Base
 
     # If ticket is found by code, it is already there, assign and return it.
     ticket = event.tickets.find_by_code(code)
-    transaction.update_attributes(ticket: ticket) if ticket
+    transaction.update!(ticket: ticket) if ticket
     return ticket if ticket
 
     # Ticket is not found. perhaps is new sonar ticket?
@@ -22,7 +22,9 @@ class Operations::Credential::Base < Operations::Base
 
     # ticket is sonar. so insert it.
     ctt = event.company_ticket_types.find_by_company_code(id)
-    transaction.create_ticket!(event: event, code: code, company_ticket_type: ctt)
+    ticket = event.tickets.create!(code: code, company_ticket_type: ctt)
+    transaction.update!(ticket: ticket)
+    ticket
   end
 
   def assign_ticket_credential(ticket, profile_id)

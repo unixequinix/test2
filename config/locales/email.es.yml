@@ -14,7 +14,7 @@ es:
           title: 'Notificación de Compra'
           subject: 'Compra Completada'
           order_number: 'Tu Compra'
-          greet: '¡Hola %{name}!'
+          greet: '¡Hola, %{name}!'
           date: 'Fecha de compra'
           description: 'Todos los créditos que has comprado serán añadidos automáticamente a tu %{gtag} al entrar al event. Tu %{gtag} es una manera rápida y conveniente de pagar por comida, bebidas y merchandising. Es la única forma de pago acceptada por todas las tiendas dentro del evento.'
           success: 'Tu compra ha sido recibida. Encuentra los detalles debajo:'
@@ -23,38 +23,38 @@ es:
         available_claim:
           title: '¡Ya puedes acceder a la devolución de tus créditos!'
           subject: '¡Ya puedes acceder a la devolución de tus créditos!'
-          greet: '¡Hola %{name}!'
-          mail_body: 'Ya puedes proceder a la devolución de tus creditos mediante el siguiente enlace.'
+          greet: '¡Hola, %{name}!'
+          mail_body: 'Ya puedes proceder a la devolución de tus créditos mediante el siguiente enlace.'
           mail_link: "Acceder para ver tu saldo y realizar la transferencia"
         completed:
           title: 'Notificación de devolución'
           subject: 'Petición de devolución Completada'
           order_number: 'Petición número'
-          greet: '¡Hola %{name}!'
-          thanks: 'Gracias por tu petición de devolución.'
+          greet: '¡Hola, %{name}!'
+          thanks: 'Has completado la petición de devolución online satisfactoriamente.'
           description: 'Tu saldo a sido transferido. Recibirás el pago a tu cuenta bancaria entre 1-4 días.'
           success: 'Aquí están los detalles de tu devolución:'
           date: 'Fecha de transacción'
       confirmation:
         title: 'Confirmar contraseña'
-        greet: '¡Hola %{name}!'
+        greet: '¡Hola, %{name}!'
         mail_body: 'Puedes confirmar tu cuenta mediante el siguiente enlace:'
         mail_link: "Confirmar cuenta"
       reset_password:
         title: 'Cambiar contraseña'
-        greet: '¡Hola %{name}!'
+        greet: '¡Hola, %{name}!'
         mail_body: 'Has solicitado cambiar tu contraseña. Puedes hacerlo mediante el siguiente enlace:'
         mail_link: "Cambiar mi contraseña"
       gtag:
         assigned:
           title: '¡Gtag asignado!'
           subject: '¡Gtag asignado!'
-          greet: '¡Hola %{name}!'
+          greet: '¡Hola, %{name}!'
           mail_body: 'Has introducido una %{gtag} con el siguiente identificador:'
         unassigned:
           title: '%{gtag} borrada'
           subject: '%{gtag} borrada'
-          greet: '¡Hola %{name}!'
+          greet: '¡Hola, %{name}!'
           mail_body: 'Has borrado una %{gtag} con el siguiente identificador:'
           mail_link: 'Puede verlo en la web'
       agreement:
@@ -65,7 +65,7 @@ es:
           mail_body: 'You have accepted the PayPal Agreement so you can now do auto-topups!'
     admin:
       reset_password:
-        greet: '¡Hola %{email}!'
+        greet: '¡Hola, %{email}!'
         mail_body: 'Has solicitado cambiar tu contraseña. Puedes hacerlo mediante el siguiente enlace:'
         mail_link: "Cambiar mi contraseña."
         mail_ignore: "Si no lo has solicitado, por favor ignora este correo. Tu contraseña no sufrirá cambios hasta que se proceda al enlace proporcionado y se cree una nueva contraseña."

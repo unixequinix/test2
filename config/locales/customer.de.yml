@@ -77,7 +77,7 @@ de:
       refundable: "Erstattungsfähig"
     autotopup:
       claim: "Vorteil nutzen!"
-      description: "Sync your PayPal account and receive automatic refunds during the event."
+      description: "Sync your PayPal account and get automatic topup any time you run out of credits during the event."
       disclaimer: "This amount will be refunded inmediatly after the agreement is accepted"
     paypal:
       button: "Mit PayPal synchronisieren"
@@ -132,7 +132,7 @@ de:
       title: "Letzte Details!"
       description: "Wir schließen die Veranstaltungskonfiguration gerade ab, um Ihnen ein großartiges Erlebnis zu bieten. Bitte, kommen Sie zu einem späteren Zeitpunkt zurück und schauen Sie sich an, was wir für Sie aufgesetzt haben."
     tipalti:
-      disclaimer: "If you don't see the continue button, scroll to the left."
+      disclaimer: "The content of this page could take some seconds to load."
   admissions:
     title: "Ticketaktivierung"
     description: "Bitte gib den Code Deines Veranstaltungstickets ein. Du findest diesen unmittelbar unterhalb des Barcodes."
@@ -196,7 +196,7 @@ de:
       sync_title: "Mit Paypal synchronisieren, um die Zahlung durchzuführen"
       sync_copy: "Paypal Experience"
       sync_description: "In order to validate your PayPal account, you will be charged 0.01€ which will be refunded automatically."
-      sync_final_description: "Select the amount you´d like to be automatically topped up at any point of sale. This amount WILL NOT BE CHARGED to your account."
+      sync_final_description: "Select the amount you'd like to be automatically topped up every time you run out of credits at the event. This amount WILL NOT BE CHARGED to your account."
       with_agreement_title: "Bereits mit PayPal synchronisiert"
       with_agreement_subtitle: "Sie können direkte Zahlungen durchführen"
   claims:
@@ -224,7 +224,10 @@ de:
       button: "Veranlassen"
     invalid_claim:
       title: "Erstattung in Bearbeitung"
-      description: "Kontaktieren Sie uns für weitere Informationen"
+      description: "Please contact us at %{email} in order to process your refund."
+    cards_disabled:
+      title: "Sorry"
+      description: "Cards are not elegible for online refunds"
     paypal:
       button: "Refund with PayPal"
   gtag_assignations:

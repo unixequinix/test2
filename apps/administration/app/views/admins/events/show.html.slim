@@ -9,28 +9,22 @@
 .wrapper-negative-space
   = render "admins/events/controls", event: @current_event
 
+  h1 Transactions
+  - Transaction::TYPES.in_groups_of(4, false) do |types|
+    .container-statistics
+      - types.each do |type|
+        - count = Transaction.class_for_type(type).where(event: @current_event).count
+        - next if count.zero?
+        .wrapper-statistics
+          h2 = number_with_delimiter(count)
+          span = type.humanize
+
   .container-show
     dl
-      dt = t("admin.event.name")
-      dd = @current_event.name
-      dt = t("admin.event.slug")
-      dd = @current_event.slug
-      dt = t("admin.event.url")
-      dd = @current_event.url
-      dt = t("admin.event.support_email")
-      dd = @current_event.support_email
       dt = t("admin.event.features")
       dd = EventDecorator::FEATURES.map { |feature| t("admin.event.features_options.#{feature}") if @current_event.flag_enabled?(feature) }.reject(&:blank?).to_sentence
       dt = t("admin.event.refund_service")
       dd = EventDecorator::REFUND_SERVICES.map { |rs| t("admin.event.refund_services.#{rs}") if @current_event.flag_enabled?(rs) }.reject(&:blank?).to_sentence
-      dt = t("admin.event.location")
-      dd = @current_event.location
-      dt = t("admin.event.start_date")
-      dd = @current_event.start_date
-      dt = t("admin.event.end_date")
-      dd = @current_event.end_date
-      dt = t("admin.event.description")
-      dd = @current_event.description
       - if !@current_event.logo.blank?
         dt = t("admin.event.logo")
         dd
@@ -45,7 +39,3 @@
           = image_tag @current_event.background.url, class: "event-img-preview"
           = link_to remove_background_admins_event_path(@current_event), method: :post, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
             = fa_icon "trash"
-      dt = t("admin.event.info")
-      dd = @current_event.info
-      dt = t("admin.event.disclaimer")
-      dd = @current_event.disclaimer

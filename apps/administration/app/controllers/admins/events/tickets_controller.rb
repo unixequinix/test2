@@ -76,7 +76,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
     event = current_event.event
     alert = "Seleccione un archivo para importar"
     redirect_to(admins_event_tickets_path(event), alert: alert) && return unless params[:file]
-    lines = params[:file][:data].tempfile.map { |line| line.split(",") }
+    lines = params[:file][:data].tempfile.map { |line| line.split(";") }
     lines.delete_at(0)
 
     lines.each do |tt_name, tt_code, c_name, barcode, f_name, l_name, mail|
@@ -98,6 +98,17 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
     end
 
     redirect_to(admins_event_tickets_path(event), notice: "Tickets imported")
+  end
+
+  def sample_csv
+    header = %w(ticket_type_name ticket_type_code company_name barcode first_name last_name email)
+    data = [["VIP Night", "098", "Glownet Tickets", "0011223344", "Jon", "Snow", "jon@snow.com"],
+            ["VIP Day", "099", "Glownet Tickets", "4433221100", "Arya", "Stark", "arya@stark.com"]]
+
+    csv_file = Csv::CsvExporter.sample(header, data)
+    respond_to do |format|
+      format.csv { send_data(csv_file) }
+    end
   end
 
   def ban

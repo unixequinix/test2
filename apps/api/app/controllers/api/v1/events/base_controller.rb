@@ -3,10 +3,8 @@ class Api::V1::Events::BaseController < Api::BaseController
   before_filter :enable_fetcher
   serialization_scope :current_event
 
-  private
-
   def render_entities(entity)
-    plural = entity.pluralize
+    plural = entity.pluralize 
     modified = request.headers["If-Modified-Since"]
 
     obj = @fetcher.method(plural).call

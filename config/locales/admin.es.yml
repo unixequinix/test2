@@ -6,6 +6,12 @@ es:
       description: "Descripción"
       created_at: "Creado el"
       updated_at: "Actualizado el"
+    devices:
+      model: "Model"
+      asset: "Asset ID"
+      imei: "Imei"
+      serial_number: "Serial Number"
+      mac: "MAC"
     accesses:
       step: "Steps"
       initial_amount: "Cantidad inicial"
@@ -22,6 +28,7 @@ es:
       transaction_type: "Type"
       customer_tag_uid: "Customer"
       operator_tag_uid: "Operator"
+      gtag_counter: "Contador del Gtag"
       station_id: "Station"
       device_uid: "Device"
       device_db_index: "DB index"
@@ -69,15 +76,17 @@ es:
       name: "Nombre"
       type: "Tipo"
       location: "Lugar"
+      reporting_category: "Reporting Category"
       group: "Grupo"
       items: "Productos"
       categories:
         customer_portal: "Portal de cliente"
-        point_of_sales: "Punto de ventas"
+        bar: "Bar"
+        vendor: "Vendedor"
         top_up_refund: "Recargas / Devoluciones"
         box_office: "Oficina de venta"
         check_in: "Acceso"
-        dummy_check_in: "Acceso Dummy"
+        ticket_validation: "Validación de tickets"
         staff_accreditation: "Acreditación del personal"
         access_control: "Control de Acceso"
         incident_report: "Reporte de incidentes"
@@ -110,8 +119,8 @@ es:
         is_alcohol: "¿Es alcohol?"
       topup_credit:
         amount: "Cantidad"
-        credit: "Credito"
-        credit_value: "Valor del credito"
+        credit: "Crédito"
+        credit_value: "Valor del crédito"
         price: "Precio"
       access_control_gate:
         name: "Nombre"
@@ -200,8 +209,13 @@ es:
         profile: "Imágen de perfil"
         background: "Imágen de fondo"
       features_options:
-        top_ups: 'Recarga de creditos'
+        top_ups: 'Recarga de créditos'
         refunds: 'Devoluciones'
+        ticket_assignation: 'Asignación de tickets'
+        gtag_assignation: 'Asignación de gtags'
+        agreement_acceptance: 'Aceptación de agreement'
+        authorization: 'Autorizatión'
+        transactions_pdf: 'PDF de transacciones'
       locales_options:
         en_lang: "Inglés"
         it_lang: "Italiano"
@@ -312,11 +326,12 @@ es:
       company_ticket_types: "Tipo de tickets de compañia"
       access_transactions: "Acceso"
       ban_transactions: "Baneo"
-      credit_transactions: "Credito"
+      credit_transactions: "Crédito"
       credential_transactions: "Credenciales"
       order_transactions: "Órdenes"
       money_transactions: "Monetarias"
       missing_transactions: "Perdidas"
+      device_transactions: "Device"
       credit_inconsistencies: "Inconsistencias de créditos"
     dashboard:
       change_state: "Cambiar de Estado?"
@@ -340,6 +355,12 @@ es:
       id: "Id"
     pack:
       number_catalog_items: "Número de items"
+      add_item: "Añadir Item"
+      instructions:
+        title: "Atención"
+        conditions:
+          - "Los créditos de un pack tendrán opción a devolución únicamente si no hay elementos otra naturaleza en el pack, como Accesos o Cupones"
+          - "Si un pack incluye créditos con un precio especial, los créditos con opción a devolución serán los equivalentes al precio pagado por los créditos multiplicado por el valor del crédito"
     credential_type:
       id: "Id"
       memory_position: "Posición en memoria"
@@ -402,7 +423,7 @@ es:
     gtags:
       id: "Id"
       tag: "Tag UID"
-      serial: "Tag Número Serial"
+      format: "Formato"
       banned: "Baneado"
       tickets: "Tickets"
       customer: "Cliente"
@@ -412,7 +433,10 @@ es:
       total: "Créditos Totales"
       gtag_assignation: "Asignaciones del Gtag"
       import: "Importar GTags (Seleccionar un fichero CSV separado por comas)"
-      import_credits: "Importar Creditos (Seleccionar un fichero CSV separado por comas)"
+      import_credits: "Importar Créditos (Seleccionar un fichero CSV separado por comas)"
+      formats:
+        card: "Tarjeta"
+        wristband: "Pulsera"
       search:
         tag_uid: "Tag UID"
         tag_serial: "Tag Número Serial"
@@ -449,7 +473,7 @@ es:
       state: "Estado"
       admissions: "Registro de Tickets"
       purchases: "Compras"
-      creadit_logs: "Compras de creditos"
+      creadit_logs: "Compras de créditos"
       orders: "Ordenes"
       payments: "Pagos"
       payments_activated: "Pagos activados"

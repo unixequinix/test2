@@ -1,0 +1,78 @@
+de:
+  terms_of_use:
+    main_title: 'GLOWNET - WEBSITE NUTZUNGSBEDINGUNGEN'
+    ph_1:
+      title: "1. Einleitung"
+      line_1_1: "1.1 Diese Geschäfts- und Nutzungsbedingungen (die Konditionen) stellen die Basis dar, auf der Sie unsere Website (die Site) nutzen dürfen, z.B. um von einem Zahlungsservice- Provider für das Helene Beach Festival (die Veranstaltung) eine Rückerstattung von Guthaben zu erhalten (Services), das über die Site erworben wurden."
+      line_1_2: "1.2 Eigentümer und Betreiber dieser Site ist Glownet Limited, registriert unter der Nummer 08245670 und der Adresse Unit 2, 9 Dennington Park Rd, London, NW6 1BB, UK. Wir sind ein Technologieservice-Provider, der technische Dienstleistungen als Lösungen für bargeldlose Zahlungssysteme für Live-Veranstaltungen und Festivals anbietet (wir, uns oder unser/e). Wir sind weder Zahlungsservice-Provider noch Veranstalter der Veranstaltung."
+      line_1_3: "1.3 Die Nutzung der Site durch Sie unterliegt den hier enthaltenen Konditionen mit allen weiteren Dokumenten, die Bestandteil dieser Konditionen sind. Dies stellt einen rechtsgültigen Vertrag zwischen uns und Ihnen dar. Indem Sie unsere Website besuchen bzw. nutzen, stimmen Sie zu, an diese Konditionen rechtlich gebunden zu sein."
+      line_1_4: "1.4 Bezüglich der bargeldlosen Bezahlung beachten Sie bitte die Bedingungen des Zahlungsservice-Provider sowie des Veranstalters abrufbar unter "
+      line_1_4_1: "Address: 35B Wroughton Road, London, SW11 6BE."
+      line_1_4_2: "Wenn Sie Hilfe benötigen dieses Event Portal mit der Verwendung , mailen Sie bitte an "
+    ph_2:
+      title: "2. Änderungen der Konditionen"
+      line_2_1: "2.1 Wir dürfen die Konditionen von Zeit zu Zeit überarbeiten, wenn sich hierfür relevante Gesetze und regulatorische Anforderungen ändern oder wenn sich unsere Geschäftspraktiken ändern."
+      line_2_2: "2.2 Für die Nutzung der Site durch Sie gilt stets die jüngste auf unserer Website veröffentlichte Fassung der Konditionen. Wir empfehlen, dass Sie die auf der Site veröffentlichten Konditionen regelmäßig lesen, um sicher zu sein, dass Sie Kenntnis von jeglicher Änderung, die Sie möglicherweise betrifft, haben."
+    ph_3:
+      title: "3. Site-Zugang und -Nutzung"
+      line_3_1: "3.1 Sie sollten diese Site nur nutzen, wenn Sie mindestens 18 Jahre alt sind. Wenn nicht, stellen Sie bitte sicher, dass Ihre Eltern oder Ihr gesetzlicher Vertreter diese Konditionen lesen, und dass Sie deren/dessen Erlaubnis zur Nutzung der Site haben."
+      line_3_2: "3.2 Gegenwärtig wird Ihnen diese Site für Ihre persönliche, nicht-kommerzielle Nutzung ohne Kostenberechnung zur Verfügung gestellt, obwohl wir uns das Recht vorbehalten, in der Zukunft ein Entgelt für die Nutzung der Site zu berechnen. Selbstverständlich informieren wir Sie angemessen, bevor wir eine Kostenerhebung einführen."
+      line_3_3: "3.3 Der Zugriff auf unsere Site wird Ihnen nur vorübergehend gewährt. Wir haben das Recht, ohne vorherige Ankündigung die gesamte Site oder Teile davon auszusetzen, zu streichen oder zu verändern."
+      line_3_4: "3.4 Der Missbrauch der Site durch wissentliche Einführung von Viren, Trojanern, Würmern, Logikbomben oder anderem technisch schädlichen Material ist untersagt. Sie dürfen keinen Versuch unternehmen, sich unautorisiert Zugang zu der Site, zu dem Server, auf dem die Site gespeichert ist oder zu einem anderen Server, Computer oder einer Datenbank, die mit der Site verknüpft ist, zu verschaffen. Sie dürfen die Site nicht durch einen Dienstblockadeangriff oder durch einen verteilten Dienstblockadeangriff attackieren. Wir werden jedweden Verstoß gegen diese Kondition der/den zuständigen Vollzugsbehörde/n melden und mit solchen Behörden kooperieren, indem wir Ihre Identität preisgeben. Im Fall eines solchen Verstoßes haben Sie Ihr Recht zur Verwendung unserer Website unmittelbar verwirkt."
+      line_3_5: "3.5 Sie sind selbst dafür verantwortlich, alle für Sie erforderlichen Maßnahmen zu ergreifen, um auf unsere Website zugreifen zu können."
+    ph_4:
+      title: "4. Konto"
+      line_4_1: "4.1 Für den Zugang zu den auf der Site zur Verfügung gestellten Services müssen Sie über #{current_event.url}. ein Konto einrichten. Dabei müssen Sie persönliche Angaben über sich machen (einschließlich Name, Emailadresse, Passwort, Bankverbindung und Armband oder Identifikationsnummer der Festivalkarte)."
+      line_4_2: "4.2 Sie erklären sich damit einverstanden, dass Sie nur korrekte, aktuelle und vollständige Informationen über sich angeben, und dass Sie die in Ihrem Profil enthaltenen persönlichen Angaben auf dem aktuellen Stand halten und im Fall von Änderungen unverzüglich aktualisieren. Weitere Informationen darüber, wie wir mit Ihren personenbezogenen Daten umgehen, finden Sie in unseren Datenschutzrichtlinien "
+      line_4_3: "4.3 Sie stimmen zu, dass Sie mit niemandem Ihr Passwort teilen, und dass Ihr Passwort vertraulich bleibt."
+    ph_5:
+      title: "5. Services"
+      line_5_1: "5.1 Wir stellen Ihnen einen Zugang zur Verfügung, damit Sie eine Erstattung des Guthabens auf Ihrem Festival-Armband oder Ihrer Karte erhalten. Bitte beachten Sie, dass die auf der Site genannten Fristen für die Beantragung der Erstattungen bindend sind."
+      line_5_2: "5.2 Sobald Sie einen Antrag auf Erstattung bei uns eingereicht haben, werden Sie zu einem Zahlungsservice-Provider weitergeleitet, bei dem Sie zur Bearbeitung Ihrer Erstattung persönliche Angaben einschließlich Zahlungsinformationen machen müssen. Bitte lesen Sie die Geschäfts- und Nutzungsbedingungen des Zahlungsservice-Providers sorgfältig, ehe Sie dessen Website nutzen und lesen Sie alle Anweisungen, bevor Sie Ihre Erstattung beantragen. Der Zahlungsservice-Provider ist verantwortlich für sämtliche Erstattungen an Sie, nicht wir. Bitte kontaktieren Sie den Veranstalter direkt, wenn Sie mit jemandem über Ihre Erstattung sprechen möchten: "
+      line_5_3: "5.3 Im Falle einer erfolgreichen Erstattung erhalten Sie eine Bestätigung von dem Zahlungsservice-Provider, und nicht von uns. Wir sind nicht verantwortlich oder haftbar für Aktivitäten oder Versäumnisse eines Zahlungsservice-Providers."
+      line_5_4: "5.4 Wir sind nicht der Veranstalter und wir sind nicht verantwortlich oder haftbar für mögliche Fragen, die sich aus der Veranstaltung selbst, den Ticketverkäufen oder den Rückerstattungen ergeben. Wenn Sie diesbezüglich mit jemandem sprechen möchten, wenden Sie sich bitte an den Veranstalter: "
+    ph_6:
+      title: "6. Recht des geistigen Eigentums"
+      line_6_1: "6.1 Wir sind Eigentümer oder Lizenznehmer aller Rechte des geistigen Eigentums an dieser Site. Sie dürfen Auszüge aller Seiten der Site herunterladen, mit folgenden Einschränkungen bzw. Ausnahmen:"
+      line_6_1_1: "das Material darf nicht reproduziert oder in andere Arbeiten oder Publikationen in einem Medium integriert werden"
+      line_6_1_2: "das Material darf in keiner Weise modifiziert oder verändert werden"
+      line_6_1_3: "das Material darf nur für persönliche, nicht-kommerzielle Zwecke verwendet werden"
+      line_6_1_4: "das Material darf nicht verteilt oder an Dritte veräußert werden; und"
+      line_6_1_5: "in dem Material enthaltene Copyright-Vermerke oder andere Eigentumsangaben dürfen nicht entfernt werden."
+      line_6_2: "6.2 Bei im Hinblick auf die Konditionen missbräuchlicher Kopie oder Verwendung eines Bestandteils der zur Verfügung gestellten Site, erlischt Ihr Recht auf Nutzung der Site unmittelbar und Sie müssen sämtliche von Ihnen gemachten Kopien des Materials vernichten."
+    ph_7:
+      title: "7. Datenschutz und Privatsphäre"
+      line_7_1: "7.1 Sämtliche personenbezogene Daten, die wir über Sie während des Surfens und der Nutzung der Site erhalten, werden in Übereinstimmung mit unseren Datenschutzbestimmungen verwendet. Wenn Sie mehr über die von Ihnen gesammelten Daten und deren Verwendung erfahren wollen, finden Sie hier unsere Datenschutzrichtlinien "
+      line_7_2: "7.2 Wenn Sie diesen Konditionen zustimmen, erklären Sie sich auch mit der Nutzung Ihrer personenbezogenen Daten in Übereinstimmung mit unseren Datenschutzrichtlinien einverstanden "
+    ph_8:
+      title: "8. Beschwerden und Beanstandungen"
+      line_8_1: "8.1 Sollten Sie Beanstandungen oder Beschwerden zur Site oder den Services haben, nehmen Sie bitte – wie in Klausel 1.4. beschrieben – Kontakt mit uns auf. Wir werden die zumutbaren Anstrengungen unternehmen, um Ihnen zeitnah zu antworten."
+      line_8_2: "8.2 Sollten Sie Beanstandungen oder Beschwerden zur Veranstaltung selbst, zu Ticketverkäufen und Erstattungen haben und mit jemandem sprechen wollen, so kontaktieren Sie bitte den Veranstalter "
+    ph_9:
+      title: "9. Links zur und von der Site"
+      line_9_1: "9.1 Sie können zu jeder Seite unserer Site verlinken, vorausgesetzt, dies erfolgt auf faire und legale Art und Weise, schädigt unseren Ruf nicht und zieht auch keinen Vorteil daraus. Sie dürfen weder einen Link setzen, der eine Zusammenarbeit, eine Verbindung, ein Einverständnis oder eine Billigung unsererseits unterstellt, wenn diese nicht existiert, noch dürfen Sie einen Link zu unserer Site auf einer Website setzen, wenn sie nicht deren Eigentümer sind."
+      line_9_2: "9.2 Wir behalten uns das Recht vor, die Erlaubnis zur Verlinkung - jederzeit unter Angabe einer angemessenen Frist zum Entfernen der Verlinkung  - zu entziehen."
+      line_9_3: "9.3 Eventuelle Links auf der Site zu Webseiten und Quellen dritter Parteien werden Ihnen rein für Informationszwecke zur Verfügung gestellt. Wir haben keine Kontrolle über den Inhalt dieser Webseiten oder Quellen, und wir sind in keinerlei Hinsicht dafür verantwortlich oder haftbar."
+    ph_10:
+      title: "10. Verfügbarkeit"
+      line_10_1: "10.1 Wir unternehmen im Rahmen des Zumutbaren sämtliche Anstrengungen, um sicherzustellen, dass unsere Site frei von Fehlern und gebrauchstauglich ist und dass die von uns zur Verfügung gestellten Informationen korrekt sind. Dennoch können wir keine Garantie dafür geben, dass die Site immer verfügbar ist und ohne Unterbrechungen, sicher, bugs- und virenfrei funktioniert. Auch können wir nicht garantieren, dass die Site keine Fehler oder Lücken enthält."
+      line_10_2: "10.2 Wir sind nicht haftbar für jegliche Verzögerung oder Nichterbringung einer Leistung, sofern dies unvorhersehbaren Umständen geschuldet ist, die außerhalb unserer Kontrolle liegen. Dies umfasst uneingeschränkt auch jegliche Mängel an der Site und jegliche Erbringung von Services für Sie, sofern dies auf unvorhersehbare oder unkontrollierbare Umstände zurückzuführen ist, wie z.B. höhere Gewalt, Krieg, Terrorismus, Aufstände, Embargos, Aktivitäten der Zivil- oder Militärbehörden, Feuer, Hochwasser, Unfälle, Streiks, Epidemien oder andere Naturkatastrophen, Verknappung von Verkehrseinrichtungen, Benzin, Energie, Arbeit, Material, oder eine Störung des öffentlichen oder privaten Telekommunikationsnetzes."
+      line_10_3: "10.3 Tritt ein Vorfall außerhalb der uns zumutbaren Kontrolle ein, der bedingt, dass wir unseren Verpflichtungen laut dieser Konditionen nicht oder nicht vollständig nachkommen können, werden wir Sie, wenn im Rahmen angemessener Anstrengungen möglich, darüber in Kenntnis setzen, wobei unsere Verpflichtungen gemäß dieser Konditionen ausgesetzt werden und die Zeitspanne für die Erbringung unserer Leistungen um die Dauer der unvorhersehbaren Umstände verlängert wird."
+    ph_11:
+      title: "11. Haftungsbeschränkung"
+      line_11_1: "11.1 Sie erkennen an, dass die Site nicht entwickelt wurde, um Ihren individuellen Anforderungen zu entsprechen. Sie stimmen zu, die Site nicht für Verkaufszwecke zu verwenden."
+      line_11_2: "11.2 Wir stellen die Services nur für eigene und private Zwecke zur Verfügung. Sie stimmen zu, die Services nicht für kommerzielle, geschäftliche Zwecke oder Zwecke des Wiederverkaufs zu verwenden, und wir sind Ihnen gegenüber nicht haftbar für entgangene Gewinne, entgangene Geschäfte, Geschäftsunterbrechung oder Geschäftsausfälle."
+      line_11_3: "11.3 Kommen wir diesen Konditionen nicht nach, sind wir haftbar für Verlust oder Schaden, den Sie erleiden, sofern es sich dabei um eine vorhersehbare Folge der Nichteinhaltung der Konditionen oder der Nachlässigkeit durch uns handelt. Aber wir sind nicht haftbar für etwaigen Verlust oder Schaden, der nicht vorhersehbar war. Ein Verlust oder Schaden gilt als vorhersehbar, wenn es sich um eine offensichtlich unmittelbare Konsequenz der Nichteinhaltung der Konditionen unsererseits handelt, oder wenn diese von Ihnen und uns zu Beginn des Vertrages als solche eingestuft wurde."
+      line_11_4: "11.4 Sofern nicht gesetzlich anders geregelt, ist unsere maximale Gesamthaftung unter oder in Verbindung mit diesen Konditionen – sei es aus dem Vertrag, aus unerlaubter Handlung (einschließlich Fahrlässigkeit) oder aus anderen Gründen - auf 45000€ beschränkt."
+      line_11_5: " 11.5 Sollten uns Ansprüche, Kosten, Schäden, Verluste oder andere Verpflichtungen als Folge einer Ihrer Handlungen, Versäumnisse oder der missbräuchlichen Nutzung der Site im Hinblick auf diese Konditionen entstehen, sind Sie verpflichtet, uns zu entschädigen."
+      line_11_6: "11.6 Kein Bestandteil dieser Kondition schließt unsere Haftbarkeit aus oder beschränkt diese für:"
+      line_11_6_1: "Tod oder Personenschaden verursacht durch ein Versäumnis unsererseits, oder"
+      line_11_6_2: "Betrug oder betrügerische Falschdarstellung, oder"
+      line_11_6_3: "Jedwede Haftung, die nicht gesetzlich ausgeschlossen oder beschränkt werden kann."
+    ph_12:
+      title: "12. Allgemeines"
+      line_12_1: "12.1 Weder schaffen noch beeinträchtigen diese Konditionen einklagbare Rechte Dritter."
+      line_12_2: "12.2 Wir haben das Recht, unsere Rechte und Verpflichtungen aus diesen Konditionen auf eine andere Organisation zu übertragen. Dies darf sich aber nicht auf Ihre Rechte oder unsere Verpflichtungen aus diesen Konditionen auswirken. Sie haben nur nach schriftlicher Zustimmung unsererseits das Recht, Ihre Rechte oder Verpflichtungen aus diesen Konditionen auf eine andere Person zu übertragen."
+      line_12_3: "12.3 Sollten wir zu einem bestimmten Zeitpunkt entscheiden, einen Rechtsanspruch, den wir gegen Sie haben, nicht geltend zu machen, so bedeutet dies nicht, dass wir nicht zu einem späteren Zeitpunkt diesen Rechtsanspruch gegen Sie geltend machen."
+      line_12_4: "12.4 Jede Bedingung in diesen Konditionen steht für sich. Sollte ein Gericht oder eine zuständige Behörde feststellen, dass eine oder mehrere Bedingungen in diesen Konditionen ungesetzlich oder nicht durchsetzbar sind, bleiben die anderen Bedingungen davon unberührt."
+      line_12_5: " 12.5 Soweit dem nicht zwingende kollisionsrechtliche Normen entgegenstehen, unterliegen diese Konditionen und die Rechtsbeziehung zwischen Ihnen und uns englischem Recht. Falls es in Zusammenhang mit diesen Geschäftsbedingungen zu einer Auseinandersetzung kommen sollte oder diesbezüglich Ansprüche geltend gemacht werden sollten, unterliegt diese Auseinandersetzung bzw. dieser Anspruch, soweit rechtlich zulässig, der ausschließlichen Gerichtsbarkeit der englischen Gerichte."

@@ -18,7 +18,7 @@ RSpec.describe Gtag, type: :model do
   let(:gtag) { credential_assignment.credentiable }
   let(:event) { gtag.event }
 
-  describe "upcase_gtag!" do
+  describe ".upcase_gtag!" do
     it "sets the tag_uid in upcase on validation" do
       gtag.tag_uid = "abc123abc"
       gtag.valid?

@@ -7,21 +7,22 @@ td data-label=t("admin.profile.id") = link_to profile.id, admins_event_profile_p
   td
   td
   td
-- if profile.active_tickets_assignment
+- if profile.active_tickets_assignment.present?
   td
     - profile.active_tickets_assignment.each do |assigned_ticket|
-      = link_to assigned_ticket.credentiable.code, edit_admins_event_ticket_path(current_event, assigned_ticket.credentiable)
+      = link_to assigned_ticket.credentiable.code, admins_event_ticket_path(current_event, assigned_ticket.credentiable)
 - else
   td data-label=t("admin.customers.tickets") = t("admin.defaults.empty_tickets")
 td data-label=t("admin.customers.credits") = profile.credits
 - if !profile.active_gtag_assignment.nil?
-  td = link_to "#{profile.active_gtag_assignment.credentiable.tag_uid}", edit_admins_event_gtag_path(current_event, profile.active_gtag_assignment.credentiable)
+  td = link_to "#{profile.active_gtag_assignment.credentiable.tag_uid}", admins_event_gtag_path(current_event, profile.active_gtag_assignment.credentiable)
 - else
   td data-label=t("admin.customers.gtags") = t("admin.defaults.empty_gtags")
-td data-label=t("admin.customers.banned")
-  - if profile.banned?
-    = link_to unban_admins_event_profile_path(current_event, profile), method: :delete, title: "Unban profile" do
-      = fa_icon "circle"
-  - else
-    = link_to ban_admins_event_profile_path(current_event, profile), title: "Ban profile" do
-      = fa_icon "circle-thin"
+- unless current_admin.customer_service?
+  td data-label=t("admin.customers.banned")
+    - if profile.banned?
+      = link_to unban_admins_event_profile_path(current_event, profile), method: :delete, title: "Unban profile" do
+        = fa_icon "circle"
+    - else
+      = link_to ban_admins_event_profile_path(current_event, profile), title: "Ban profile" do
+        = fa_icon "circle-thin"

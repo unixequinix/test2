@@ -6,5 +6,6 @@
       li.customer-ticket
         = link_tag
         = fa_icon "angle-right"
-  .unstyled-wrapper.center-text
-    = raw presenter.refund_disclaimer
+  - if presenter.refund_disclaimer.present?
+    .wrapper-module-disclaimer
+      = raw presenter.refund_disclaimer

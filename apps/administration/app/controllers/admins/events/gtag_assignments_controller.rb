@@ -23,7 +23,8 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::CheckinBaseCon
     @credential_assignment.credentiable
 
     flash[:notice] = I18n.t("alerts.unassigned")
-    GtagMailer.unassigned_email(@credential_assignment).deliver_later
+    # TODO: Removed for Sonar with potential permanent removal
+    # GtagMailer.unassigned_email(@credential_assignment).deliver_later
     redirect_to :back
   end
 

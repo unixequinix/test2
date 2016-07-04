@@ -9,7 +9,8 @@ table.customers
       th = t("admin.customers.tickets")
       th = t("admin.customers.credits")
       th = t("admin.customers.gtags")
-      th = t("admin.customers.banned")
+      - unless current_admin.customer_service?
+        th = t("admin.customers.banned")
   tbody
     - profiles.each do |profile|
       tr [id="customer-#{profile.id}"]

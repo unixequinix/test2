@@ -21,13 +21,11 @@
 #  style                   :text
 #  logo_file_size          :integer
 #  background_file_size    :integer
-#  features                :integer          default(0), not null
+#  features                :integer          default(32), not null
 #  registration_parameters :integer          default(0), not null
 #  locales                 :integer          default(1), not null
 #  payment_services        :integer          default(0), not null
 #  refund_services         :integer          default(0), not null
-#  gtag_assignation        :boolean          default(TRUE), not null
-#  ticket_assignation      :boolean          default(TRUE), not null
 #  logo_updated_at         :datetime
 #  background_updated_at   :datetime
 #  start_date              :datetime
@@ -36,7 +34,6 @@
 #  updated_at              :datetime         not null
 #  token_symbol            :string           default("t")
 #  company_name            :string
-#  agreement_acceptance    :boolean          default(FALSE)
 #
 
 class Event < ActiveRecord::Base
@@ -50,6 +47,7 @@ class Event < ActiveRecord::Base
   include EventFlags # FlagShihTzu
 
   # Associations
+  has_many :device_transactions
   has_many :company_ticket_types
   has_many :profiles
   has_many :event_parameters
@@ -93,6 +91,15 @@ class Event < ActiveRecord::Base
     default_url: ":default_event_background_url"
   )
 
+  has_attached_file(
+    :device_database,
+    path: "#{S3_FOLDER}/event/:id/device_database/:filename",
+    url: "#{S3_FOLDER}/event/:id/device_database/:basename.:extension",
+    use_timestamp: false
+  )
+
+
+
   # Hooks
   before_create :generate_token
 
@@ -101,6 +108,8 @@ class Event < ActiveRecord::Base
   validates :name, uniqueness: true
   validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
+  do_not_validate_attachment_file_type :device_database
+
 
   def standard_credit_price
     credits.standard.value

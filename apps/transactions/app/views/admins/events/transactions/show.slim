@@ -22,6 +22,9 @@
       dt = t("admin.transactions.transaction_type")
       dd = @transaction.transaction_type
 
+      dt = t("admin.transactions.gtag_counter")
+      dd = @transaction.gtag_counter
+
       dt = t("admin.transactions.status_code")
       dd = @transaction.status_code
 
@@ -67,7 +70,11 @@
       = t("admin.transactions.device")
     dl
       dt = t("admin.transactions.device_uid")
-      dd = @transaction.device_uid
+      - device = Device.find_by_mac(@transaction.device_uid)
+      - if device
+        dd = link_to(@transaction.device_uid, admins_device_path(device)) 
+      - else
+        dd = @transaction.device_uid
 
       dt = t("admin.transactions.device_db_index")
       dd = @transaction.device_db_index

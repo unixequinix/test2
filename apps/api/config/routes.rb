@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: "json" } do
     namespace :v1 do
+      resources :devices, only: [:update]
       resources :events, only: :index do
         scope module: "events" do
           resources :accesses, only: :index
@@ -13,6 +14,7 @@ Rails.application.routes.draw do
           resources :backups, only: :create
           resources :banned_gtags, path: "gtags/banned", only: :index
           resources :banned_tickets, path: "tickets/banned", only: :index
+          resource :database, only: [:create, :show]
           resources :company_ticket_types, only: :index
           resources :credential_types, only: :index
           resources :credits, only: :index

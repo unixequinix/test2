@@ -25,6 +25,11 @@ class Profile < ActiveRecord::Base
   has_many :online_orders, through: :customer_orders
   has_many :payments, through: :orders
   has_many :credit_transactions
+  has_many :access_transactions
+  has_many :credential_transactions
+  has_many :money_transactions
+  has_many :order_transactions
+  has_many :customer_credits
   has_many :completed_claims, -> { where("aasm_state = 'completed' AND completed_at IS NOT NULL") },
            class_name: "Claim"
   has_many :credential_assignments
@@ -65,6 +70,21 @@ class Profile < ActiveRecord::Base
 
   def customer
     Customer.unscoped { super }
+  end
+
+  def all_transaction_counters
+    indexes = credit_transactions.map(&:gtag_counter)
+    indexes += access_transactions.map(&:gtag_counter)
+    indexes += credential_transactions.map(&:gtag_counter)
+    indexes += money_transactions.map(&:gtag_counter)
+    indexes += order_transactions.map(&:gtag_counter)
+    indexes.sort
+  end
+
+  def missing_transaction_counters
+    indexes = all_transaction_counters
+    all_indexes = (1..indexes.last.to_i).to_a
+    (all_indexes - indexes).sort
   end
 
   def active_credentials?
@@ -118,5 +138,120 @@ class Profile < ActiveRecord::Base
 
   def gateway_customer(gateway)
     payment_gateway_customers.find_by(gateway_type: gateway)
+  end
+
+  def self.counters(event)
+    sql = <<-SQL
+      SELECT to_json(json_agg(row_to_json(cust)))
+      FROM (
+        SELECT
+          customer_trans.profile_id ,
+          MAX(customer_trans.gtag_counter) as gtag,
+          SUM(customer_trans.gtag_counter) as gtag_total,
+          MAX(customer_trans.gtag_counter) * (MAX(customer_trans.gtag_counter) + 1) / 2 as gtag_last_total,
+          MAX(customer_trans.counter) as online,
+          SUM(customer_trans.counter) as online_total,
+          MAX(customer_trans.counter) * (MAX(customer_trans.counter) + 1) / 2 as online_last_total
+        FROM
+        (
+            SELECT
+              profile_id,
+              gtag_counter,
+              counter
+            FROM access_transactions
+            WHERE event_id = #{event.id}
+            UNION ALL
+            SELECT
+              profile_id,
+              gtag_counter,
+              counter
+            FROM ban_transactions
+            WHERE event_id = #{event.id}
+            UNION ALL
+            SELECT
+              profile_id,
+              gtag_counter,
+              counter
+            FROM credential_transactions
+            WHERE event_id = #{event.id}
+            UNION ALL
+            SELECT
+              profile_id,
+              gtag_counter,
+              counter
+            FROM credit_transactions
+            WHERE event_id = #{event.id}
+            UNION ALL
+            SELECT
+              profile_id,
+              gtag_counter,
+              counter
+            FROM money_transactions
+            WHERE event_id = #{event.id}
+            UNION ALL
+            SELECT
+              profile_id,
+              gtag_counter,
+              counter
+            FROM order_transactions
+            WHERE event_id = #{event.id}
+        ) customer_trans
+        GROUP BY customer_trans.profile_id
+        ORDER BY customer_trans.profile_id
+      ) cust
+    SQL
+
+    JSON.parse(ActiveRecord::Base.connection.select_value(sql)).to_a.group_by { |t| t["profile_id"] }
+  end
+
+  def self.customer_credits_sum(event)
+    sql = <<-SQL
+      SELECT to_json(json_agg(row_to_json(inc)))
+      FROM (
+        SELECT *
+        FROM (
+        	SELECT
+        		sum(ccfl.amount) as credits_amount,
+        		sum(ccfl.refundable_amount) as refundable_credits_amount,
+        		last_final_balance,
+        		last_final_refundable_balance,
+        		last_final_balance - sum(ccfl.amount) as inconsistent,
+        		last_final_refundable_balance - sum(ccfl.refundable_amount) as inconsistent_refundable,
+        		ccfl.profile_id
+
+        	FROM customer_credits ccfl
+        	INNER JOIN (
+        		SELECT
+        		  ccf.id,
+        		  ccf.final_balance as last_final_balance,
+        		  ccf.final_refundable_balance as last_final_refundable_balance,
+        		  cc.profile_id,
+        		  max_gtag_counter,
+        		  max_online_counter
+        	    FROM (
+        	      SELECT
+        	        profile_id,
+        	        MAX(gtag_counter) as max_gtag_counter,
+        	        MAX(online_counter) as max_online_counter
+        	      FROM customer_credits
+        	      JOIN profiles
+        	        ON customer_credits.profile_id = profiles.id
+        	      WHERE profiles.event_id = #{event.id}
+        	      GROUP BY profile_id
+        	    ) cc
+        	    INNER JOIN customer_credits ccf
+        	      ON ccf.profile_id = cc.profile_id
+        	      AND ccf.gtag_counter = cc.max_gtag_counter
+        	      AND ccf.online_counter = cc.max_online_counter
+        	) ccl
+        	ON ccfl.profile_id = ccl.profile_id
+        	GROUP BY last_final_balance, last_final_refundable_balance, ccfl.profile_id
+        ) ccall
+        WHERE last_final_balance <> credits_amount
+        	OR last_final_refundable_balance <> refundable_credits_amount
+        ORDER BY inconsistent DESC
+      ) inc
+    SQL
+    JSON.parse(ActiveRecord::Base.connection.select_value(sql)).to_a
   end
 end

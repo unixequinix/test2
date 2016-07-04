@@ -5,6 +5,7 @@
 //= require vendor/mmenu/jquery.mmenu.min
 //= require vendor/selectize
 //= require vendor/sortable
+//= require vendor/remodal.min
 
 //= require admin/desktop/side_menu
 //= require admin/file_fields

@@ -22,6 +22,13 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :devices, only: [:index, :show, :update] do
+      collection do
+        get :search
+        post :import
+      end
+    end
+
     resources :admins, except: :show do
       collection do
         resource :sessions, only: [:new, :create, :destroy]
@@ -39,6 +46,12 @@ Rails.application.routes.draw do
         resources :ticket_assignments, only: [:destroy]
         resource :gtag_settings, only: [:show, :edit, :update]
         resource :gtag_keys, only: [:show, :edit, :update]
+        resources :customer_credits, only: [:update]
+        resources :devices, only: :index do
+          collection do
+            get :tracker
+          end
+        end
 
         resources :gtags do
           resources :comments, module: :gtags
@@ -49,6 +62,7 @@ Rails.application.routes.draw do
           collection do
             get :search
             delete :destroy_multiple
+            post :import
           end
         end
 
@@ -63,13 +77,20 @@ Rails.application.routes.draw do
           end
           collection do
             get :search
+            get :sample_csv
             delete :destroy_multiple
             post :import
           end
         end
 
         resources :companies, except: :show
-        resources :products
+        resources :products do
+          collection do
+            post :import
+            get :sample_csv
+            delete :destroy_multiple
+          end
+        end
         resources :catalog_items, only: :update
         resources :accesses do
           member do
@@ -113,6 +134,7 @@ Rails.application.routes.draw do
 
         resources :profiles, except: [:new, :create, :edit, :update] do
           member do
+            get :fix_transaction
             get :ban
             delete :unban
             delete :revoke_agreement

@@ -1,6 +1,8 @@
 class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
   def index
-    render(json: @fetcher.sql_profiles)
+    modified = request.headers["If-Modified-Since"]
+    profiles = @fetcher.sql_profiles(modified) || []
+    render(json: profiles)
   end
 
   def show

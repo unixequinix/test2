@@ -1,11 +1,12 @@
 - breadcrumb :admins_event_ticket, current_event, @ticket
 - provide :actions do
-  = link_to admins_event_ticket_path(current_event, @ticket), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-action btn-action-new btn-action-delete small" do
-      = fa_icon "times"
-      = t("actions.delete")
-  = link_to edit_admins_event_ticket_path(current_event, @ticket), class: "btn btn-action btn-action-new small" do
-      = fa_icon "edit"
-      = t("actions.edit")
+  - unless current_admin.customer_service?
+    = link_to admins_event_ticket_path(current_event, @ticket), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-action btn-action-new btn-action-delete small" do
+        = fa_icon "times"
+        = t("actions.delete")
+    = link_to edit_admins_event_ticket_path(current_event, @ticket), class: "btn btn-action btn-action-new small" do
+        = fa_icon "edit"
+        = t("actions.edit")
   = link_to admins_event_tickets_path, class: "btn btn-action btn-action-back small" do
     = fa_icon "arrow-circle-left"
     = t("actions.back")
@@ -44,7 +45,8 @@
           th = t("admin.admissions.aasm_state")
           th = t("admin.admissions.created_at")
           th = t("admin.admissions.updated_at")
-          th = t("admin.defaults.actions")
+          - unless current_admin.customer_service?
+            th = t("admin.defaults.actions")
       tbody
         - @ticket.credential_assignments.each do |admission|
           - customer = admission&.profile&.customer
@@ -54,9 +56,10 @@
             td = t("admin.admissions.states.#{admission.aasm_state}")
             td = admission.created_at.strftime("%y-%m-%d %H:%M:%S")
             td = admission.updated_at.strftime("%y-%m-%d %H:%M:%S")
-            td.table-actions-field
-              ul
-                - if admission.assigned?
-                  li.table-action.action-delete
-                    = link_to admins_event_ticket_assignment_path(current_event, admission), method: :delete, data: { confirm: t("admin.confirm.delete") } do
-                      = fa_icon "ban"
+            - unless current_admin.customer_service?
+              td.table-actions-field
+                ul
+                  - if admission.assigned?
+                    li.table-action.action-delete
+                      = link_to admins_event_ticket_assignment_path(current_event, admission), method: :delete, data: { confirm: t("admin.confirm.delete") } do
+                        = fa_icon "ban"
