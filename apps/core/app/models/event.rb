@@ -92,12 +92,18 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   )
 
   has_attached_file(
-    :device_database,
-    path: "#{S3_FOLDER}/event/:id/device_database/:filename",
-    url: "#{S3_FOLDER}/event/:id/device_database/:basename.:extension",
+    :device_full_db,
+    path: "#{S3_FOLDER}/event/:id/device_full_db/:filename",
+    url: "#{S3_FOLDER}/event/:id/device_full_db/:basename.:extension",
     use_timestamp: false
   )
 
+  has_attached_file(
+    :device_basic_db,
+    path: "#{S3_FOLDER}/event/:id/device_basic_db/:filename",
+    url: "#{S3_FOLDER}/event/:id/device_basic_db/:basename.:extension",
+    use_timestamp: false
+  )
 
 
   # Hooks
@@ -108,7 +114,8 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   validates :name, uniqueness: true
   validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
-  do_not_validate_attachment_file_type :device_database
+  do_not_validate_attachment_file_type :device_full_db
+  do_not_validate_attachment_file_type :device_basic_db
 
 
   def standard_credit_price
