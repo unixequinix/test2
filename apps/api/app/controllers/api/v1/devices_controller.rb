@@ -1,7 +1,7 @@
 class Api::V1::DevicesController < Api::BaseController
   def update
     device = Device.find_by_mac(params[:id])
-    render(json: :updated) && return if device.update(permitted_params)
+    render(json: :updated) && return if device.update(asset_tracker: params[:asset_tracker])
     render(status: :unprocessable_entity, json: device.errors.full_messages)
   end
 
