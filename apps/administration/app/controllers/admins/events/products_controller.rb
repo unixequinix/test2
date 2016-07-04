@@ -72,13 +72,17 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
     event = current_event.event
     alert = "Seleccione un archivo para importar"
     redirect_to(admins_event_products_path(event), alert: alert) && return unless params[:file]
-    lines = params[:file][:data].tempfile.map { |line| line.split(";") }
-    lines.delete_at(0)
+    file = params[:file][:data].tempfile.path
 
-    lines.each do |name, description, is_alcohol|
-      product = event.products.find_or_create_by!(name: name)
-      product.update!(description: description, is_alcohol: is_alcohol) && next if product
-      event.products.create!(name: name, description: description, is_alcohol: is_alcohol)
+    CSV.foreach(file, headers: true, col_sep: ';') do |row|
+      product = event.products.find_or_create_by!(name: row.field("name"))
+      atts = {
+        name: row.field("name"),
+        description: row.field("description"),
+        is_alcohol: row.field("is_alcohol")
+      }
+      product.update!(atts) && next if product
+      event.products.create!(atts)
     end
 
     redirect_to(admins_event_products_path(event), notice: "Products imported")
