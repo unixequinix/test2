@@ -56,7 +56,6 @@ class EventCreator
     station.station_catalog_items.create(catalog_item: credit, price: 1)
   end
 
-  # rubocop:disable Metrics/LineLength
   def customer_service_stations
     @event.stations.create! name: "CS Topup/Refund", category: "cs_topup_refund", group: "event_management"
     @event.stations.create! name: "CS Gtag Balance Fix", category: "cs_gtag_balance_fix", group: "event_management"
