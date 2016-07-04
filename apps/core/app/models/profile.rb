@@ -11,7 +11,7 @@
 #  banned      :boolean          default(FALSE)
 #
 
-class Profile < ActiveRecord::Base
+class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   acts_as_paranoid
   default_scope { order(created_at: :desc) }
 
@@ -162,7 +162,7 @@ class Profile < ActiveRecord::Base
     payment_gateway_customers.find_by(gateway_type: gateway)
   end
 
-  def self.counters(event)
+  def self.counters(event) # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
       SELECT to_json(json_agg(row_to_json(cust)))
       FROM (
@@ -226,7 +226,7 @@ class Profile < ActiveRecord::Base
     JSON.parse(ActiveRecord::Base.connection.select_value(sql)).to_a.group_by { |t| t["profile_id"] }
   end
 
-  def self.customer_credits_sum(event)
+  def self.customer_credits_sum(event) # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
       SELECT to_json(json_agg(row_to_json(inc)))
       FROM (

@@ -91,26 +91,26 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
   def import # rubocop:disable Metrics/AbcSize
     event = current_event.event
     path = admins_event_gtags_path(event)
-    redirect_to(path, alert: t('admin.gtags.import.empty_file')) && return unless params[:file]
+    redirect_to(path, alert: t("admin.gtags.import.empty_file")) && return unless params[:file]
     file = params[:file][:data].tempfile.path
 
     begin
-      CSV.foreach(file, headers: true, col_sep: ';').with_index do |row, i|
+      CSV.foreach(file, headers: true, col_sep: ";").with_index do |row, _i|
         tag = event.gtags.find_or_create_by(tag_uid: row.field("tag_uid"))
         tag.update!(format: row.field("format"))
       end
     rescue
-      return redirect_to(path, alert: t('admin.gtags.import.error'))
+      return redirect_to(path, alert: t("admin.gtags.import.error"))
     end
 
-    redirect_to(path, notice: t('admin.gtags.import.success'))
+    redirect_to(path, notice: t("admin.gtags.import.success"))
   end
 
   def sample_csv
     header = %w(tag_uid format)
-    data = [["1218DECA31C9F92F", "card"],
-            ["E6312A015028B0FB", "wristband"],
-            ["A43FE1C5E9A622C2", "wristband"]]
+    data = [%w(1218DECA31C9F92F card),
+            %w(E6312A015028B0FB wristband),
+            %w(A43FE1C5E9A622C2 wristband)]
 
     csv_file = Csv::CsvExporter.sample(header, data)
     respond_to do |format|

@@ -1,4 +1,4 @@
-# rubocop:disable Metrics/MethodLength, Metrics/ClassLength, Metrics/ParameterLists
+# rubocop:disable Metrics/MethodLength, Metrics/ClassLength
 class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   before_filter :set_presenter, only: [:index, :search]
 
@@ -16,7 +16,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   def show
     @ticket = @fetcher.tickets.includes(credential_assignments: [profile: :customer],
                                         company_ticket_type: [company_event_agreement: :company])
-                              .find(params[:id])
+                      .find(params[:id])
   end
 
   def new
@@ -74,11 +74,11 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   def import # rubocop:disable Metrics/AbcSize
     event = current_event.event
     path = admins_event_tickets_path(event)
-    redirect_to(path, alert: t('admin.tickets.import.empty_file')) && return unless params[:file]
+    redirect_to(path, alert: t("admin.tickets.import.empty_file")) && return unless params[:file]
     file = params[:file][:data].tempfile.path
 
     begin
-      CSV.foreach(file, headers: true, col_sep: ';').with_index do |row, i|
+      CSV.foreach(file, headers: true, col_sep: ";").with_index do |row, _i|
         c_name = row.field("company_name")
         com = Company.find_by("LOWER(name) = ?", c_name.downcase) || Company.create!(name: c_name)
         agree = com.company_event_agreements.find_or_create_by!(event: event, aasm_state: "granted")
@@ -102,10 +102,10 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
         Purchaser.find_or_create_by!(purchaser_atts)
       end
     rescue
-      return redirect_to(path, alert: t('admin.tickets.import.error'))
+      return redirect_to(path, alert: t("admin.tickets.import.error"))
     end
 
-    redirect_to(path, notice: t('admin.tickets.import.success'))
+    redirect_to(path, notice: t("admin.tickets.import.success"))
   end
 
   def sample_csv

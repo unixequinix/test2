@@ -68,13 +68,13 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
     end
   end
 
-  def import # rubocop:disable Metrics/AbcSize
+  def import # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     event = current_event.event
     alert = "Seleccione un archivo para importar"
     redirect_to(admins_event_products_path(event), alert: alert) && return unless params[:file]
     file = params[:file][:data].tempfile.path
 
-    CSV.foreach(file, headers: true, col_sep: ';').with_index do |row, i|
+    CSV.foreach(file, headers: true, col_sep: ";").with_index do |row, i|
       atts = {
         name: row.field("name"),
         description: row.field("description"),

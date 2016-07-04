@@ -105,7 +105,6 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     use_timestamp: false
   )
 
-
   # Hooks
   before_create :generate_token
 
@@ -116,7 +115,6 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
   do_not_validate_attachment_file_type :device_full_db
   do_not_validate_attachment_file_type :device_basic_db
-
 
   def standard_credit_price
     credits.standard.value

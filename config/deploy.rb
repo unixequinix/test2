@@ -34,7 +34,7 @@ set :sidekiq_default_hooks, true
 set :sidekiq_pid, File.join(shared_path, "tmp", "pids", "sidekiq.pid")
 set :sidekiq_env, fetch(:rack_env, fetch(:rails_env, fetch(:stage)))
 set :sidekiq_log, File.join(shared_path, "log", "sidekiq.log")
-set :sidekiq_config, -> { File.join(shared_path, 'config', 'sidekiq.yml') }
+set :sidekiq_config, -> { File.join(shared_path, "config", "sidekiq.yml") }
 # set :sidekiq_options, nil
 # set :sidekiq_require, nil
 # set :sidekiq_tag, nil

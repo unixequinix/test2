@@ -1,5 +1,5 @@
 class Api::V1::Events::DatabasesController < Api::V1::Events::BaseController
-  def show
+  def show # rubocop:disable Metrics/AbcSize
     database = if params[:basic] == "true"
                  current_event.device_basic_db
                else
@@ -13,7 +13,7 @@ class Api::V1::Events::DatabasesController < Api::V1::Events::BaseController
     db = s3.buckets[Rails.application.secrets.s3_bucket].objects[database.path]
     render(status: :not_found, json: :not_found) && return if db.key.blank?
 
-    url = db.url_for(:get, { expires: 30.seconds.from_now, secure: true }).to_s
+    url = db.url_for(:get, expires: 30.seconds.from_now, secure: true).to_s
     render(json: { url: url })
   end
 

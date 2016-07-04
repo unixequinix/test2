@@ -25,7 +25,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     @group = @station.group
   end
 
-  def update # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+  def update
     @group = @station.group
 
     respond_to do |format|
@@ -48,11 +48,10 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     path = admins_event_stations_url(current_event, group: @station.group)
     if @station.destroy
       flash[:notice] = I18n.t("alerts.destroyed")
-      redirect_to path
     else
       flash[:error] = I18n.t("errors.messages.station_has_associations")
-      redirect_to path
     end
+    redirect_to(path)
   end
 
   def sort
