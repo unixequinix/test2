@@ -4,7 +4,7 @@ class Api::V1::Events::BaseController < Api::BaseController
   serialization_scope :current_event
 
   def render_entities(entity)
-    plural = entity.pluralize 
+    plural = entity.pluralize
     modified = request.headers["If-Modified-Since"]
 
     obj = @fetcher.method(plural).call

@@ -1,4 +1,4 @@
-# rubocop:disable Metrics/MethodLength, Metrics/ClassLength, Metrics/ParameterLists
+# rubocop:disable Metrics/MethodLength, Metrics/ClassLength
 class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   before_filter :set_presenter, only: [:index, :search]
 
@@ -14,9 +14,8 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   end
 
   def show
-    @ticket = @fetcher.tickets
-                      .includes(credential_assignments: [profile: :customer],
-                                company_ticket_type: [company_event_agreement: :company])
+    @ticket = @fetcher.tickets.includes(credential_assignments: [profile: :customer],
+                                        company_ticket_type: [company_event_agreement: :company])
                       .find(params[:id])
   end
 
@@ -74,34 +73,43 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
 
   def import # rubocop:disable Metrics/AbcSize
     event = current_event.event
-    alert = "Seleccione un archivo para importar"
-    redirect_to(admins_event_tickets_path(event), alert: alert) && return unless params[:file]
-    lines = params[:file][:data].tempfile.map { |line| line.split(";") }
-    lines.delete_at(0)
+    path = admins_event_tickets_path(event)
+    redirect_to(path, alert: t("admin.tickets.import.empty_file")) && return unless params[:file]
+    file = params[:file][:data].tempfile.path
 
-    lines.each do |tt_name, tt_code, c_name, barcode, f_name, l_name, mail|
-      f_name = f_name.force_encoding("iso-8859-1").encode("utf-8")
-      l_name = l_name.force_encoding("iso-8859-1").encode("utf-8")
-      tt_name = tt_name.force_encoding("iso-8859-1").encode("utf-8")
+    begin
+      CSV.foreach(file, headers: true, col_sep: ";").with_index do |row, _i|
+        c_name = row.field("company_name")
+        com = Company.find_by("LOWER(name) = ?", c_name.downcase) || Company.create!(name: c_name)
+        agree = com.company_event_agreements.find_or_create_by!(event: event, aasm_state: "granted")
 
-      com = Company.find_by("LOWER(name) = ?", c_name.downcase) || Company.create!(name: c_name)
-      agree = com.company_event_agreements.find_or_create_by!(event: event, aasm_state: "granted")
+        ticket_type_atts = {
+          name: row.field("ticket_type"),
+          company_code: row.field("company_code"),
+          ompany_event_agreement: agree
+        }
+        ticket_type = event.company_ticket_types.find_or_create_by!(ticket_type_atts)
 
-      type_params = { name: tt_name, company_code: tt_code, company_event_agreement: agree }
-      ticket_type = event.company_ticket_types.find_or_create_by!(type_params)
+        ticket_atts = { code: row.field("reference"), company_ticket_type: ticket_type }
+        ticket = event.tickets.find_or_create_by!(ticket_atts)
 
-      ticket_params = { code: barcode, company_ticket_type: ticket_type, event: event }
-      ticket = Ticket.find_or_create_by!(ticket_params)
-
-      p_params = { first_name: f_name, last_name: l_name, email: mail&.strip, credentiable: ticket }
-      Purchaser.find_or_create_by!(p_params)
+        purchaser_atts = {
+          first_name: row.field("first_name"),
+          last_name: row.field("last_name"),
+          email: row.field("email"),
+          credentiable: ticket
+        }
+        Purchaser.find_or_create_by!(purchaser_atts)
+      end
+    rescue
+      return redirect_to(path, alert: t("admin.tickets.import.error"))
     end
 
-    redirect_to(admins_event_tickets_path(event), notice: "Tickets imported")
+    redirect_to(path, notice: t("admin.tickets.import.success"))
   end
 
   def sample_csv
-    header = %w(ticket_type_name ticket_type_code company_name barcode first_name last_name email)
+    header = %w(ticket_type company_code company_name reference first_name last_name email)
     data = [["VIP Night", "098", "Glownet Tickets", "0011223344", "Jon", "Snow", "jon@snow.com"],
             ["VIP Day", "099", "Glownet Tickets", "4433221100", "Arya", "Stark", "arya@stark.com"]]
 

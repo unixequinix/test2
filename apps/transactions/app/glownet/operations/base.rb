@@ -1,7 +1,7 @@
 class Operations::Base < ActiveJob::Base
   SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at gtag_counter ).freeze
 
-  def perform(atts) # rubocop:disable Metrics/AbcSize
+  def perform(atts) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     atts[:customer_tag_uid] = atts[:customer_tag_uid].to_s.upcase
     atts[:catalogable_type] = atts[:catalogable_type].to_s.camelcase
     atts[:profile_id] ||= atts[:customer_event_profile_id]

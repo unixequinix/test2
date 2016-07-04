@@ -13,11 +13,12 @@
 #
 
 class Device < ActiveRecord::Base
+  validates :mac, uniqueness: true
 
-  def self.transactions_count(event)
+  def self.transactions_count(event) # rubocop:disable Metrics/MethodLength
     query = Transaction::TYPES.map do |type|
       "SELECT device_uid FROM \"#{type}_transactions\" WHERE \"#{type}_transactions\".\"event_id\" = #{event.id}"
-    end.join(' UNION ALL ')
+    end.join(" UNION ALL ")
 
     sql = <<-SQL
       SELECT to_json(json_agg(row_to_json(cep)))

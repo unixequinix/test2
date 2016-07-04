@@ -107,7 +107,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           AND customers.deleted_at IS NULL
 
         WHERE profiles.event_id = #{@event.id}
-        AND profiles.deleted_at IS NULL #{"AND profiles.updated_at > date" if date}
+        AND profiles.deleted_at IS NULL #{'AND profiles.updated_at > date' if date}
       ) cep
     SQL
     ActiveRecord::Base.connection.select_value(sql)
@@ -154,7 +154,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           AND company_ticket_types.deleted_at IS NULL
 
         WHERE gtags.event_id = #{@event.id}
-        AND gtags.deleted_at IS NULL #{"AND gtags.updated_at > date" if date}
+        AND gtags.deleted_at IS NULL #{'AND gtags.updated_at > date' if date}
       ) g
     SQL
     ActiveRecord::Base.connection.select_value(sql)

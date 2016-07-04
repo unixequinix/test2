@@ -14,6 +14,7 @@ class Admins::Events::CustomerCreditsController < Admins::Events::BaseController
 
   def permitted_params
     params.require(:customer_credit)
-          .permit(:amount, :refundable_amount, :final_balance, :final_refundable_balance, :gtag_counter, :online_counter)
+          .permit(:amount, :refundable_amount, :final_balance, :final_refundable_balance,
+                  :gtag_counter, :online_counter)
   end
 end
