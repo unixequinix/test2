@@ -1,4 +1,4 @@
-set :branch, "development"
+set :branch, "customer_credit_removal"
 set :rails_env, "hotfix"
 
 # Default value for :log_level is :debug

@@ -8,18 +8,19 @@
   = render("credentials_information", profile: @profile)
   .container-statistics
     .wrapper-statistics
-      h2 = number_to_token @profile.customer_credits.select{|c| c.amount < 0}.map(&:amount).sum
+      h2 = number_to_token @profile.credits
       span Credits
 
     .wrapper-statistics
-      h2 = number_to_token @profile.customer_credits.select{|c| c.amount > 0}.map(&:amount).sum
-      span R Credits
+      h2 = number_to_token @profile.refundable_credits
+      span Refundable Credits
 
     .wrapper-statistics
-      h2 = number_to_token @profile.customer_credits.map(&:amount).sum
+      h2 = number_to_token @profile.final_balance
       span Final Balance
 
     .wrapper-statistics
-      h2 = number_to_token @profile.customer_credits.map(&:refundable_amount).sum
+      h2 = number_to_token @profile.final_refundable_balance
       span Final Refundable Balance
+
   = render("profile_data", profile: @profile, credit_transactions: @credit_transactions)
