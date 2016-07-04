@@ -1,4 +1,12 @@
 class RemoveCustomerCredits < ActiveRecord::Migration
+  class CustomerCredit < ActiveRecord::Base
+    belongs_to :profile
+  end
+
+  class Profile < ActiveRecord::Base
+    has_many :customer_credits
+  end
+
   def change
     add_column :profiles, :credits,                  :float, default: 0.00
     add_column :profiles, :refundable_credits,       :float, default: 0.00
