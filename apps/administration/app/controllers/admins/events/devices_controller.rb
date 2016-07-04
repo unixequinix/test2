@@ -4,14 +4,14 @@ class Admins::Events::DevicesController < Admins::Events::BaseController
                             .order(device_created_at: :asc)
                             .group_by(&:device_uid)
     @assets = {}
-    Device.where(mac: @devices.map{|mac, _| mac }).each { |d| @assets[d.mac] = d.asset_tracker }
+    Device.where(mac: @devices.map { |mac, _| mac }).each { |d| @assets[d.mac] = d.asset_tracker }
   end
 
-  def tracker
+  def tracker # rubocop:disable Metrics/AbcSize
     devices = current_event.device_transactions.select(:device_uid).uniq
     asset_trackers = Device.all.select(:mac, :asset_tracker).group_by(&:mac)
     transactions = Device.transactions_count(current_event)
-    @devices = { wrong_transactions: [], not_packed: [], packed: []}
+    @devices = { wrong_transactions: [], not_packed: [], packed: [] }
 
     devices.each do |d_tr|
       hash = { device_uid: d_tr.device_uid }

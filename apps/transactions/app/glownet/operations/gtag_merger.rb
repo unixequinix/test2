@@ -1,7 +1,5 @@
 class GtagMerger < ActiveJob::Base
-  T_CLASSES = [CreditTransaction, BanTransaction, CredentialTransaction, MoneyTransaction, AccessTransaction]
-
-  def perform(tag_ids)
+  def perform(tag_ids) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     tags = Gtag.find(tag_ids)
     rest = tags.drop(1)
     first = tags.first
@@ -13,7 +11,10 @@ class GtagMerger < ActiveJob::Base
       profile.orders.update_all(profile_id: first_profile)
       profile.claims.update_all(profile_id: first_profile)
       profile.customer_orders.update_all(profile_id: first_profile)
-      T_CLASSES.each { |klass| klass.where(event_id: 2, profile: profile).update_all(profile_id: first_profile)}
+      Transaction::TYPES.each do |t|
+        klass = Transaction.class_for_type(t)
+        klass.where(event_id: 2, profile: profile).update_all(profile_id: first_profile)
+      end
       profile.customer_credits.update_all(profile_id: first_profile)
       profile.destroy!
       tag.destroy!

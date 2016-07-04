@@ -46,7 +46,7 @@ class RefundService
     CreditWriter.create_credit(@profile, params)
   end
 
-  def money_transaction(params, refund)
+  def money_transaction(params, refund) # rubocop:disable Metrics/MethodLength
     standard_credit = Credit.standard(@profile.event).first
     fields = {
       event_id: @profile.event.id,

@@ -1,5 +1,4 @@
 class Csv::CsvExporter
-
   def self.sample(header, data)
     csv_file = CSV.generate(col_sep: ";") do |csv|
       csv << header

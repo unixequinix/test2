@@ -447,10 +447,14 @@ ActiveRecord::Schema.define(version: 20160704172500) do
     t.datetime "updated_at",                                                   null: false
     t.string   "token_symbol",                 default: "t"
     t.string   "company_name"
-    t.string   "device_database_file_name"
-    t.string   "device_database_content_type"
-    t.integer  "device_database_file_size"
-    t.datetime "device_database_updated_at"
+    t.string   "device_full_db_file_name"
+    t.string   "device_full_db_content_type"
+    t.integer  "device_full_db_file_size"
+    t.datetime "device_full_db_updated_at"
+    t.string   "device_basic_db_file_name"
+    t.string   "device_basic_db_content_type"
+    t.integer  "device_basic_db_file_size"
+    t.datetime "device_basic_db_updated_at"
   end
 
   add_index "events", ["slug"], name: "index_events_on_slug", unique: true, using: :btree

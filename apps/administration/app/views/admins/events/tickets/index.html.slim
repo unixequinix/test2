@@ -17,7 +17,7 @@
 
 .remodal data-remodal-id="import-modal" 
   button.remodal-close data-remodal-action="close" 
-  h3.remodal__title Import products by CSV file
+  h3.remodal__title = t('admin.tickets.import.title')
   = simple_form_for :file, url: import_admins_event_tickets_path(current_event.id), html: { multipart: true} do |f|  
     p = f.file_field :data, label: :import
     p 

@@ -55,7 +55,7 @@ class Customer < ActiveRecord::Base
   validates_uniqueness_of :email, scope: [:event_id], conditions: -> { where(deleted_at: nil) }
 
   before_save do
-    self.email.downcase! if self.email
+    email.downcase! if email
   end
 
   # Methods
