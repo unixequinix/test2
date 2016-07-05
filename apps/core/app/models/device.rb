@@ -13,8 +13,6 @@
 #
 
 class Device < ActiveRecord::Base
-  validates :mac, uniqueness: true
-
   def self.transactions_count(event) # rubocop:disable Metrics/MethodLength
     query = Transaction::TYPES.map do |type|
       "SELECT device_uid FROM \"#{type}_transactions\" WHERE \"#{type}_transactions\".\"event_id\" = #{event.id}"
