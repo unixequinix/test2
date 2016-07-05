@@ -31,7 +31,7 @@ class RefundService
     credit_fee_transaction(params) if @claim.fee > 0
   end
 
-  def credit_refund_transaction(params) # rubocop:disable Metrics/AbcSize
+  def credit_refund_transaction(params) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     credits = params[:amount].to_f / params[:credit_value].to_f
     refundable_credits = params[:refundable_amount].to_f / params[:credit_value].to_f
     current_balance = @profile&.current_balance
@@ -53,7 +53,7 @@ class RefundService
     Operations::Base.new.portal_write(fields)
   end
 
-  def money_transaction(params, refund)
+  def money_transaction(params, refund) # rubocop:disable Metrics/MethodLength
     standard_credit = Credit.standard(@profile.event).first
     fields = {
       event_id: @profile.event.id,
@@ -73,7 +73,7 @@ class RefundService
     Operations::Base.new.portal_write(fields)
   end
 
-  def credit_fee_transaction(params)
+  def credit_fee_transaction(params) # rubocop:disable Metrics/AbcSize
     fields = {
       event_id: @profile.event.id,
       transaction_origin: params[:transaction_origin],
