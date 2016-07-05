@@ -182,6 +182,7 @@ th:
           location: 'งานจะเกิดขึ้นที่ไหน?'
           style: '/*ใส่ CSS*/'
           agreed_event_condition_message: 'ใส่เงื่อนไขที่คุณต้องการให้ผู้ใช้ทำการยอมรับตอนสมัครใช้บริการ'
+          receive_communications_message: 'Add the text for the receive communications checkbox'
         edit:
           <<: *placeholder_event
       entitlement:

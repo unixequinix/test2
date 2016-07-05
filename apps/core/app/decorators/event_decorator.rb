@@ -26,7 +26,7 @@ class EventDecorator < Draper::Decorator
               :authorization, :transactions_pdf].freeze
   LOCALES = [:en_lang, :es_lang, :it_lang, :th_lang, :de_lang].freeze
   REGISTRATION_PARAMETERS = [:phone, :address, :city, :country, :postcode, :gender,
-                             :birthdate, :agreed_event_condition].freeze
+                             :birthdate, :agreed_event_condition, :receive_communications].freeze
 
   # Background Types
   BACKGROUND_FIXED = "fixed".freeze

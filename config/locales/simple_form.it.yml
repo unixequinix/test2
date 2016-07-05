@@ -183,6 +183,7 @@ it:
           location: 'Where is the event?'
           style: '/*Add some CSS magic*/'
           agreed_event_condition_message: 'Adds the condition you want the user accepts when registering'
+          receive_communications_message: 'Add the text for the receive communications checkbox'
         edit:
           <<: *placeholder_event
       entitlement:

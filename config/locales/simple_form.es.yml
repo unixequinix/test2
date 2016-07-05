@@ -181,7 +181,8 @@ es:
           description: 'Añade algo de información extra u otros datos que consideres importantes'
           location: '¿Dónde se celebra?'
           style: '/*Dale vida con CSS*/'
-          agreed_event_condition_message: 'Añade la condición que quieres que el usuario acepte cuando se registre'
+          agreed_event_condition_message: 'Texto para la condición que quieres que el usuario acepte cuando se registre'
+          receive_communications_message: 'Texto para la condición de recibir notifacicaciones'
         edit:
           <<: *placeholder_event
       entitlement:

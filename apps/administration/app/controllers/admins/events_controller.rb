@@ -66,6 +66,6 @@ class Admins::EventsController < Admins::BaseController
                   :payment_services, :refund_services, :info, :disclaimer, :host_country,
                   :gtag_assignation, :currency, :registration_parameters, :token_symbol,
                   :agreed_event_condition_message, :ticket_assignation, :company_name,
-                  :agreement_acceptance)
+                  :agreement_acceptance, :receive_communications_message)
   end
 end
