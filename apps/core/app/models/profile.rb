@@ -2,13 +2,17 @@
 #
 # Table name: profiles
 #
-#  id          :integer          not null, primary key
-#  customer_id :integer
-#  event_id    :integer          not null
-#  deleted_at  :datetime
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  banned      :boolean          default(FALSE)
+#  id                       :integer          not null, primary key
+#  customer_id              :integer
+#  event_id                 :integer          not null
+#  deleted_at               :datetime
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#  banned                   :boolean          default(FALSE)
+#  credits                  :float            default(0.0)
+#  refundable_credits       :float            default(0.0)
+#  final_balance            :float            default(0.0)
+#  final_refundable_balance :float            default(0.0)
 #
 
 class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
