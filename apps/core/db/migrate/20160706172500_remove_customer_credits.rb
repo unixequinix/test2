@@ -13,14 +13,8 @@ class Profile < ActiveRecord::Base
 end
 
 class RemoveCustomerCredits < ActiveRecord::Migration
-
   def change
-    add_column :profiles, :credits,                  :float, default: 0.00
-    add_column :profiles, :refundable_credits,       :float, default: 0.00
-    add_column :profiles, :final_balance,            :float, default: 0.00
-    add_column :profiles, :final_refundable_balance, :float, default: 0.00
-
-    Profile.includes(:customer_credits).find_in_batches do |profiles|
+    Profile.includes(:customer_credits).find_in_batches(batch_size: 5000) do |profiles|
       profiles.each do |p|
         creds = p.customer_credits
         last = creds.last
