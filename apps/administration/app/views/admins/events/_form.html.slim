@@ -100,6 +100,8 @@
             label.collection_check_boxes for="#{parameter}-parameter" = t("admin.event.features_options.#{parameter}")
       .condition-message
         = f.input :agreed_event_condition_message, as: :text, input_html: { rows: 5, class: "textarea"}
+      .condition-message
+        = f.input :receive_communications_message, as: :text, input_html: { rows: 5, class: "textarea"}
     = f.input :registration_parameters, as: :hidden
 
   fieldset

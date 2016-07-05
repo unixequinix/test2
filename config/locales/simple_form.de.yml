@@ -179,6 +179,7 @@ de:
           location: "Wo findet die Veranstaltung statt?"
           style: "/*Add some CSS magic*/"
           agreed_event_condition_message: "Fügen Sie Konditionen hinzu, von denen Sie möchten, dass sie der User bei der Registrierung akzeptiert"
+          receive_communications_message: 'Add the text for the receive communications checkbox'
         edit:
           <<: *placeholder_event
       entitlement:
