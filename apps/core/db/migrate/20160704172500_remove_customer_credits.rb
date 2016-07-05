@@ -1,18 +1,18 @@
+class ProfileUpdater < ActiveJob::Base
+  def perform(id, atts)
+    Profile.find(id).update! atts
+  end
+end
+
+class CustomerCredit < ActiveRecord::Base
+  belongs_to :profile
+end
+
+class Profile < ActiveRecord::Base
+  has_many :customer_credits
+end
+
 class RemoveCustomerCredits < ActiveRecord::Migration
-
-  class CustomerCredit < ActiveRecord::Base
-    belongs_to :profile
-  end
-
-  class Profile < ActiveRecord::Base
-    has_many :customer_credits
-  end
-
-  class ProfileUpdater < ActiveJob::Base
-    def perform(id, atts)
-      Profile.find(id).update! atts
-    end
-  end
 
   def change
     add_column :profiles, :credits,                  :float, default: 0.00
