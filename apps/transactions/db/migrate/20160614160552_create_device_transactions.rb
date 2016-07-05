@@ -1,5 +1,5 @@
 class CreateDeviceTransactions < ActiveRecord::Migration
-  def change
+  def change # rubocop:disable all
     create_table :device_transactions do |t|
       t.references :event, index: true, foreign_key: true
       t.string :transaction_origin

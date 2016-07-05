@@ -405,7 +405,11 @@ en:
         customer: "Assigned customer email"
         purchaser_email: "Purchaser Email"
         type: "Type"
-      import: "Import tickets (Select a CSV file comma separated)"
+      import:
+        title:  "Import tickets by CSV file"
+        empty_file: "Please select a file to import"
+        success: "Tickets imported successfully"
+        error: "There was a problem importing the tickets. Download the sample CSV to check out the format"
       actions:
         delete_tickets: "Delete all tickets"
     admissions:
@@ -436,7 +440,11 @@ en:
       updated_at: "Updated at"
       total: "Total Credits"
       gtag_assignation: "Gtag assignations"
-      import: "Import GTags (Select a CSV file comma separated)"
+      import:
+        title:  "Import gtags by CSV file"
+        empty_file: "Please select a file to import"
+        success: "Gtags imported successfully"
+        error: "There was a problem importing the gtags. Download the sample CSV to check out the format"
       import_credits: "Import Credits (Select a CSV file comma separated)"
       formats:
         card: "Card"

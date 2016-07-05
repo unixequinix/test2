@@ -23,7 +23,7 @@ class Admins::DevicesController < Admins::BaseController
     end
   end
 
-  def import # rubocop:disable Metrics/AbcSize
+  def import
     alert = "Seleccione un archivo para importar"
     redirect_to(admins_devices_path, alert: alert) && return unless params[:file]
     lines = params[:file][:data].tempfile.map { |line| line.split(";") }

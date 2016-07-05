@@ -2,14 +2,15 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
   before_action :fetch_issues
 
   def missing
-    @issues.select! {|issue| issue["missing"] }
+    @issues.select! { |issue| issue["missing"] }
   end
 
   def real
-    @issues.select! {|issue| not issue["missing"] }
+    @issues.select! { |issue| !issue["missing"] }
   end
 
   private
+
   def fetch_issues
     @issues = Profile.customer_credits_sum(current_event)
     @counters = Profile.counters(current_event)
