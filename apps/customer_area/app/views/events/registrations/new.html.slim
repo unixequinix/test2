@@ -28,7 +28,7 @@
           = f.input :receive_communications, as: :boolean,
                                              checked_value: true,
                                              unchecked_value: false,
-                                             label: "#{current_event.receive_communications_message}",
+                                             label: current_event.receive_communications_message.html_safe,
                                              input_html: { checked: true },
                                              wrapper_html: { class: 'customer-agreed-on-registration' }
                                              
@@ -37,7 +37,7 @@
           = f.input :agreed_event_condition, as: :boolean,
                                              checked_value: true,
                                              unchecked_value: false,
-                                             label: "#{current_event.agreed_event_condition_message}",
+                                             label: current_event.agreed_event_condition_message.html_safe,
                                              wrapper_html: { class: 'customer-agreed-on-registration' }
 
       .session-accept-terms = f.input :agreed_on_registration, as: :boolean, checked_value: true, unchecked_value: false, label: ("#{t('conditions.action')} #{link_to t('conditions.terms_of_use'), event_terms_of_use_url, target: '_blank'} #{t('conditions.conjunction')} #{link_to t('conditions.privacy_conditions'), event_privacy_policy_url, target: '_blank'}").html_safe, wrapper_html: { class: 'customer-agreed-on-registration' }
