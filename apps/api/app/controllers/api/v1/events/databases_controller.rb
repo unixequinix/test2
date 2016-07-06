@@ -34,6 +34,6 @@ class Api::V1::Events::DatabasesController < Api::V1::Events::BaseController
   private
 
   def permitted_params
-    params.require(:database).permit(:file, :basic)
+    params.permit(:file, :basic)
   end
 end
