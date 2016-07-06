@@ -58,6 +58,11 @@ class Customer < ActiveRecord::Base
     email.downcase! if email
   end
 
+  scope :selected_data, lambda { |event|
+    select("first_name, last_name, email, birthdate, phone, postcode, address, city, country, gender")
+      .where(event: event, receive_communications: event.receive_communications?)
+  }
+
   # Methods
   # -------------------------------------------------------
   def refund_status
