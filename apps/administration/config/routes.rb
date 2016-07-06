@@ -25,7 +25,6 @@ Rails.application.routes.draw do
     resources :devices, only: [:index, :show, :update] do
       collection do
         get :search
-        post :import
       end
     end
 
