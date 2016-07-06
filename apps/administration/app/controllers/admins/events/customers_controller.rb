@@ -1,10 +1,14 @@
 class Admins::Events::CustomersController < Admins::Events::BaseController
+  before_filter :set_presenter, only: [:index, :search]
+
   def index
-    set_presenter
+    respond_to do |format|
+      format.html { set_presenter }
+      format.csv { send_data(Csv::CsvExporter.to_csv(Customer.selected_data(current_event))) }
+    end
   end
 
   def search
-    index
     render :index
   end
 

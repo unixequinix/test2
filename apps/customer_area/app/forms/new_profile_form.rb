@@ -16,6 +16,7 @@ class NewProfileForm
   attribute :birthdate, Date
   attribute :agreed_on_registration, Axiom::Types::Boolean
   attribute :agreed_event_condition, Axiom::Types::Boolean
+  attribute :receive_communications, Axiom::Types::Boolean
   attribute :encrypted_password, String
   attribute :password, String
 
