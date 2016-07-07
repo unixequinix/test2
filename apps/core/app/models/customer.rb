@@ -100,6 +100,15 @@ class Customer < ActiveRecord::Base
     where(email: warden_conditions[:email], event_id: warden_conditions[:event_id]).first
   end
 
+  def autotopup_amounts(payment_gateway)
+    amount = current_autotopup_amount(payment_gateway)
+    (PaymentGatewayCustomer::AUTOTOPUP_AMOUNTS + [amount]).uniq.sort
+  end
+
+  def current_autotopup_amount(payment_gateway)
+    payment_gateway.autotopup_amount
+  end
+
   private
 
   def generate_token(column)
