@@ -338,7 +338,7 @@ it:
     first_register:
       welcome: 'Benvenuto!'
       description_with_credentiable: "Please, to continue with your event:"
-      description_without_credentiable: "Non e possibile fare nulla adesso, perfavore riprovare più tardi"
+      description_without_credentiable: "Grazie per esserti iscritto! Come inizia evento vedrà ulteriori informazioni nel tuo account . Si prega di tornare più tardi."
     welcome: 'Benvenuto!'
     create_account:
       title: 'Non hai un account?'
