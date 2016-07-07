@@ -28,7 +28,6 @@ class NewProfileForm
   validate :email_uniqueness
 
   def save
-    binding.pry
     if valid?
       persist!
       true
