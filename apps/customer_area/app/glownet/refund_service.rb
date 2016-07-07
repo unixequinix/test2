@@ -21,7 +21,6 @@ class RefundService
   end
 
   def run_transactions(refund)
-    binding.pry
     neg = (refund.amount * -1)
     params = {
       amount: neg, refundable_amount: neg, credit_value: @profile.event.standard_credit_price,
