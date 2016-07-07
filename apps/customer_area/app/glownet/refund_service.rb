@@ -2,7 +2,8 @@ class RefundService
   def initialize(claim)
     @claim = claim
     @profile = @claim.profile
-    @counters = Profile.counters(@profile.event)[@claim.profile_id.to_i].first
+    @last_online_counter = @profile.all_online_counters.last.to_i
+    @last_gtag_counter = @profile.all_transaction_counters.last
   end
 
   def create(params)
@@ -20,6 +21,7 @@ class RefundService
   end
 
   def run_transactions(refund)
+    binding.pry
     neg = (refund.amount * -1)
     params = {
       amount: neg, refundable_amount: neg, credit_value: @profile.event.standard_credit_price,
@@ -47,8 +49,8 @@ class RefundService
       final_balance: current_balance&.final_balance.to_f + credits,
       final_refundable_balance: current_balance&.final_refundable_balance.to_f + refundable_credits,
       profile_id: @profile.id,
-      gtag_counter: @counters["gtag"],
-      online_counter: @counters["online"] + 1
+      gtag_counter: @last_gtag_counter,
+      online_counter: @last_online_counter + 1
     }
     Operations::Base.new.portal_write(fields)
   end
@@ -67,8 +69,8 @@ class RefundService
       payment_method: "online",
       payment_gateway: refund.payment_solution,
       profile_id: @profile.id,
-      gtag_counter: @counters["gtag"],
-      online_counter: @counters["online"] + 1
+      gtag_counter: @last_gtag_counter,
+      online_counter: @last_online_counter + 1
     }
     Operations::Base.new.portal_write(fields)
   end
@@ -85,8 +87,8 @@ class RefundService
       final_balance: @profile.current_balance.final_balance.to_f + fee,
       final_refundable_balance: @profile.current_balance.final_refundable_balance.to_f + fee,
       profile_id: @profile.id,
-      gtag_counter: @counters["gtag"],
-      online_counter: @counters["online"] + 1
+      gtag_counter: @last_gtag_counter,
+      online_counter: @last_online_counter + 1
     }
     Operations::Base.new.portal_write(fields)
   end
