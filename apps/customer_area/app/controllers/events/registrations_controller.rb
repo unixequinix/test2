@@ -8,8 +8,16 @@ class Events::RegistrationsController < Events::BaseController
   end
 
   def create
-    @customer_form = NewProfileForm.new(new_params)
+    atts = new_params.merge(recaptcha: verify_recaptcha(model: @customer_form))
 
+    if new_params["birthdate(1i)"]
+      date = Date.new(new_params["birthdate(1i)"].to_i,
+                      new_params["birthdate(2i)"].to_i,
+                      new_params["birthdate(3i)"].to_i)
+      atts.merge!(birthdate: date)
+    end
+
+    @customer_form = NewProfileForm.new(atts)
     if @customer_form.save
       flash[:notice] = t("registrations.customer.success")
       redirect_to after_inactive_sign_up_path
@@ -23,11 +31,20 @@ class Events::RegistrationsController < Events::BaseController
   end
 
   def update
+    atts = edit_params
+
+    if edit_params["birthdate(1i)"]
+      date = Date.new(edit_params["birthdate(1i)"].to_i,
+                      edit_params["birthdate(2i)"].to_i,
+                      edit_params["birthdate(3i)"].to_i)
+      atts.merge!(birthdate: date)
+    end
+
     @edit_profile_form = EditProfileForm.new(current_customer)
-    if @edit_profile_form.validate(edit_params) && @edit_profile_form.save
-      current_customer.profile.payment_gateway_customers
-                      .find_by_gateway_type("paypal_nvp")&.update(
-                        autotopup_amount: params[:autotopup_amount])
+    if @edit_profile_form.validate(atts) && @edit_profile_form.save
+      gateway = current_customer&.profile&.payment_gateway_customers
+      gateway.find_by_gateway_type("paypal_nvp")
+             &.update(autotopup_amount: params[:autotopup_amount]) if gateway
       redirect_to after_update_path
     else
       render :edit
@@ -50,7 +67,6 @@ class Events::RegistrationsController < Events::BaseController
                                              :birthdate, :password, :current_password,
                                              :agreed_on_registration, :agreed_event_condition,
                                              :receive_communications)
-          .merge(recaptcha: verify_recaptcha(model: @customer_form))
   end
 
   def edit_params

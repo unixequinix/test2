@@ -56,15 +56,14 @@ it:
           current_password: 'Password Attuale'
           password: 'Password'
           password_confirmation: 'Conferma Password'
-          phone: 'Numero di Telefono'
           remember_me: 'Ricordare'
-          phone: 'Phone Number'
+          phone: 'Cellulare'
           address: 'Address'
-          city: 'City'
-          country: 'Country'
+          city: 'Città'
+          country: 'Paese'
           postcode: 'Post Code'
           gender: 'Gender'
-          birthdate: 'Birthdate'
+          birthdate: 'Data di nascita'
           agreed_on_registration: "Ho letto e accetto i termini e le condizioni d'uso"
         edit:
           <<: *label_customer
