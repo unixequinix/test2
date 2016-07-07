@@ -326,7 +326,7 @@ de:
     first_register:
       welcome: 'Willkommen!'
       description_with_credentiable: "Um mit Deinem Event fortzufahren, bitte:"
-      description_without_credentiable: "There's nothing you can do right now, please come back later"
+      description_without_credentiable: "Thanks for registering! Once the event starts you will be able to see more information within your account. Please come back later."
     welcome: 'Willkommen!'
     create_account:
       title: 'Du hast noch keinen Festival account?'
