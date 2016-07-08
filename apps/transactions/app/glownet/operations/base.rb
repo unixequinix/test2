@@ -26,6 +26,10 @@ class Operations::Base < ActiveJob::Base
   end
 
   def portal_write(atts) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+
+    # TODO: WTF?????
+    Operations::Credit::BalanceUpdater.inspect
+
     event = Event.find(atts[:event_id])
     station = event.portal_station
     profile = Profile.find(atts[:profile_id])

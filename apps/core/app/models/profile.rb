@@ -127,7 +127,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   def infinite_entitlements_purchased
     single = customer_orders.includes(catalog_item: :catalogable).select do |customer_order|
-      customer_order.catalog_item.catalogable&.entitlement&.infinite?
+      customer_order.catalog_item.catalogable.try(:entitlement).try(:infinite?)
     end.map(&:catalog_item_id)
 
     packs_ids = Pack.joins(:catalog_items_included).where(catalog_items: { id: single })
