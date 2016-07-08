@@ -16,7 +16,7 @@ namespace :db do
     make_companies
     make_company_event_agreements
     make_accesses
-    # make_vouchers
+    make_vouchers
     make_packs
     make_company_ticket_types
     make_tickets
@@ -135,17 +135,17 @@ namespace :db do
     puts '----------------------------------------'
     Event.all.each do |event|
       YAML.load_file(Rails.root.join("lib", "tasks", "sample_data", 'packs.yml')).each do |data|
-        @pack = Pack.create!(catalog_item_attributes: { event: event,
+        @pack = Pack.new(catalog_item_attributes: { event: event,
                                                         name: data["name"],
                                                         step: data["step"],
                                                         min_purchasable: data["min_purchasable"],
                                                         max_purchasable: data["max_purchasable"],
                                                         initial_amount: data["initial_amount"] })
         data['pack_catalog_item'].map do |item|
-          PackCatalogItem.create!(pack: @pack,
-                                  catalog_item_id: item['catalog_item_id'],
-                                  amount: item['amount'])
+          @pack.pack_catalog_items.build(catalog_item_id: item['catalog_item_id'],
+                                         amount: item['amount'])
         end
+        @pack.save!
       end
     end
   end

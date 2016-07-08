@@ -2,38 +2,46 @@
 #
 # Table name: events
 #
-#  id                      :integer          not null, primary key
-#  name                    :string           not null
-#  aasm_state              :string
-#  slug                    :string           not null
-#  location                :string
-#  support_email           :string           default("support@glownet.com"), not null
-#  logo_file_name          :string
-#  logo_content_type       :string
-#  background_file_name    :string
-#  background_content_type :string
-#  url                     :string
-#  background_type         :string           default("fixed")
-#  currency                :string           default("USD"), not null
-#  host_country            :string           default("US"), not null
-#  token                   :string
-#  description             :text
-#  style                   :text
-#  logo_file_size          :integer
-#  background_file_size    :integer
-#  features                :integer          default(32), not null
-#  registration_parameters :integer          default(0), not null
-#  locales                 :integer          default(1), not null
-#  payment_services        :integer          default(0), not null
-#  refund_services         :integer          default(0), not null
-#  logo_updated_at         :datetime
-#  background_updated_at   :datetime
-#  start_date              :datetime
-#  end_date                :datetime
-#  created_at              :datetime         not null
-#  updated_at              :datetime         not null
-#  token_symbol            :string           default("t")
-#  company_name            :string
+#  id                           :integer          not null, primary key
+#  name                         :string           not null
+#  aasm_state                   :string
+#  slug                         :string           not null
+#  location                     :string
+#  support_email                :string           default("support@glownet.com"), not null
+#  logo_file_name               :string
+#  logo_content_type            :string
+#  background_file_name         :string
+#  background_content_type      :string
+#  url                          :string
+#  background_type              :string           default("fixed")
+#  currency                     :string           default("USD"), not null
+#  host_country                 :string           default("US"), not null
+#  token                        :string
+#  description                  :text
+#  style                        :text
+#  logo_file_size               :integer
+#  background_file_size         :integer
+#  features                     :integer          default(32), not null
+#  registration_parameters      :integer          default(0), not null
+#  locales                      :integer          default(1), not null
+#  payment_services             :integer          default(0), not null
+#  refund_services              :integer          default(0), not null
+#  logo_updated_at              :datetime
+#  background_updated_at        :datetime
+#  start_date                   :datetime
+#  end_date                     :datetime
+#  created_at                   :datetime         not null
+#  updated_at                   :datetime         not null
+#  token_symbol                 :string           default("t")
+#  company_name                 :string
+#  device_full_db_file_name     :string
+#  device_full_db_content_type  :string
+#  device_full_db_file_size     :integer
+#  device_full_db_updated_at    :datetime
+#  device_basic_db_file_name    :string
+#  device_basic_db_content_type :string
+#  device_basic_db_file_size    :integer
+#  device_basic_db_updated_at   :datetime
 #
 
 class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
