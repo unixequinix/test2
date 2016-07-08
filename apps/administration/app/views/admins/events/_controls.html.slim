@@ -11,34 +11,6 @@
     = render "admins/events/change_state", event: event, new_state: :closed, action: :close if event.finished?
     = render "admins/events/change_state", event: event, new_state: :created, action: :reboot if event.closed?
 
-.container-dashboard
-  h3.dashboard-table-header = t("admin.dashboard.api_access")
-  .wrapper-dashboard
-    p = t("admin.dashboard.current_token")
-    p.dashboard-highlight = current_admin.access_token
-
-.container-transactions
-  h3.dashboard-table-header = t("admin.dashboard.databases")
-  .wrapper-dashboard-reverse
-    .database
-      .database__name
-        = t('admin.event.databases.full')
-      .database__data
-        = @full_db_created_at
-      .database__actions
-        = link_to remove_db_admins_event_path(event, db: "full"), method: :post, class: "database__btn #{"database__btn--disabled" if event.device_full_db.blank?}"
-          => fa_icon("ban")
-          = t('admin.event.databases.clear')
-    .database
-      .database__name
-        = t('admin.event.databases.basic')
-      .database__data
-        = @basic_db_created_at
-      .database__actions
-        = link_to remove_db_admins_event_path(event, db: "basic"), method: :post, class: "database__btn #{"database__btn--disabled" if event.device_basic_db.blank?}"
-          => fa_icon("ban")
-          = t('admin.event.databases.clear')
-
 .container-transactions
   h3.dashboard-table-header = t("admin.dashboard.transactions")
   .wrapper-dashboard-reverse
