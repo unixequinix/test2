@@ -334,11 +334,11 @@ $statistics-size:       $base_font_size*2.5;
   padding: .5rem 0;
 
   &__name {
-    flex: 2;
+    flex: 1.2;
   }
 
   &__data {
-    flex: 3;
+    flex: 1;
   }
 
   &__actions {

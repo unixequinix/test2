@@ -5,6 +5,14 @@
     = t('actions.edit')
 
 .wrapper-negative-space
+  .container-show
+    dl
+      - @event_parameters.each do |event_parameter|
+        dt = t("admin.device_settings.form.#{event_parameter.parameter.name}")
+        dd = event_parameter.value
+    .container-hidden
+      = current_admin.access_token
+
   .container-transactions
     h3.dashboard-table-header = t("admin.dashboard.databases")
     .wrapper-dashboard-reverse
@@ -26,12 +34,3 @@
           = link_to remove_db_admins_event_path(@current_event, db: "basic"), method: :post, class: "database__btn #{"database__btn--disabled" if @current_event.device_basic_db.blank?}"
             => fa_icon("ban")
             = t('admin.event.databases.clear')
-
-  .container-show
-    dl
-      - @event_parameters.each do |event_parameter|
-        dt = t("admin.device_settings.form.#{event_parameter.parameter.name}")
-        dd = event_parameter.value
-        
-  .container-hidden
-    = current_admin.access_token
