@@ -29,6 +29,7 @@
 #  deleted_at             :datetime
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  receive_communications :boolean          default(FALSE)
 #
 
 class Customer < ActiveRecord::Base
