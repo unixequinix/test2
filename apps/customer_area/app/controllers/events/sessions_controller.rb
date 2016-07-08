@@ -22,6 +22,7 @@ class Events::SessionsController < Events::BaseController
 
     check_remember_token(params, customer)
     authenticate_customer!
+    current_customer.update(locale: I18n.locale) if current_customer
     redirect_to after_sign_in_path
   end
 
