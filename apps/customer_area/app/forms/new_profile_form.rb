@@ -19,6 +19,7 @@ class NewProfileForm
   attribute :receive_communications, Axiom::Types::Boolean
   attribute :encrypted_password, String
   attribute :password, String
+  attribute :locale, String
 
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
   validates :event_id, :email, :first_name, :last_name, :password, presence: true
@@ -61,6 +62,7 @@ class NewProfileForm
 
   def persist!
     self.encrypted_password = Authentication::Encryptor.digest(attributes.delete(:password))
+    self.locale = I18n.locale
     Customer.create!(attributes.except(:password))
   end
 end

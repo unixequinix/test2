@@ -1,12 +1,14 @@
 class GtagMailer < ApplicationMailer
   def assigned_email(gtag_assignment)
     config_parameters(gtag_assignment)
+    apply_locale(@customer)
     subject = I18n.t("email.customer.gtag.assigned.subject")
     mail(to: @customer.email, reply_to: @event.support_email, subject: subject)
   end
 
   def unassigned_email(gtag_assignment)
     config_parameters(gtag_assignment)
+    apply_locale(@customer)
     subject = I18n.t("email.customer.gtag.unassigned.subject")
     mail(to: @customer.email, reply_to: @event.support_email, subject: subject)
   end

@@ -30,6 +30,7 @@ class Pack < ActiveRecord::Base
 
   validate :valid_max_value, if: :infinite_item?
   validate :valid_min_value, if: :infinite_item?
+  validate :valid_max_credits
   validates :pack_catalog_items, presence: true
 
   def credits
@@ -99,5 +100,13 @@ class Pack < ActiveRecord::Base
   def valid_min_value
     return if catalog_item.min_purchasable.between?(0, 1)
     errors[:min_purchasable] << I18n.t("errors.messages.invalid_min_value_for_infinite")
+  end
+
+  def valid_max_credits
+    max_balance = catalog_item.event.get_parameter("gtag", "form", "maximum_gtag_balance").to_i
+    pack_credits = open_all("Credit").sum(&:total_amount)
+    error_msg = I18n.t("errors.messages.more_credits_than_max_balance")
+
+    errors[:pack_credits] <<  error_msg if pack_credits > max_balance
   end
 end

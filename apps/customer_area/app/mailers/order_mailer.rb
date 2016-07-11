@@ -1,7 +1,10 @@
 class OrderMailer < ApplicationMailer
   def completed_email(order, event)
+    customer = order.profile.customer
+
     config_parameters(order, event)
-    mail(to: order.profile.customer.email,
+    apply_locale(customer)
+    mail(to: customer.email,
          reply_to: @event.support_email,
          subject: I18n.t("email.customer.order.completed.subject"))
   end

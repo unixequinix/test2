@@ -4,6 +4,7 @@ class AgreementMailer < ApplicationMailer
     subject = I18n.t("email.customer.agreement.accepted.subject")
 
     config_parameters(customer, @event)
+    apply_locale(customer)
     mail(to: customer.email, reply_to: @event.support_email, subject: subject)
   end
 

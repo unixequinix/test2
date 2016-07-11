@@ -38,6 +38,7 @@ Rails.application.routes.draw do
       member do
         post :remove_logo
         post :remove_background
+        post :remove_db
       end
 
       scope module: "events" do

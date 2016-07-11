@@ -9,16 +9,6 @@
 .wrapper-negative-space
   = render "admins/events/controls", event: @current_event
 
-  h1 Transactions
-  - Transaction::TYPES.in_groups_of(4, false) do |types|
-    .container-statistics
-      - types.each do |type|
-        - count = Transaction.class_for_type(type).where(event: @current_event).count
-        - next if count.zero?
-        .wrapper-statistics
-          h2 = number_with_delimiter(count)
-          span = type.humanize
-
   .container-show
     dl
       dt = t("admin.event.features")
