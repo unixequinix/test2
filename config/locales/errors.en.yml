@@ -53,3 +53,4 @@ en:
       invalid_max_value_for_infinite: "The max value must be 1 or 0 if you have chosen infinite"
       invalid_min_value_for_infinite: "The min value must be 1 or 0 if you have chosen infinite"
       greater_than_maximum: "Minimum purchasable can't be greater than maximum purchasable"
+      end_date_after_start_date: "must be after start date"

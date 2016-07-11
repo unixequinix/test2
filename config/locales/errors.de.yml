@@ -49,3 +49,4 @@ de:
       invalid_max_value_for_infinite: "Der Maximum-Wert muss 1 oder 0 sein, wenn unendlich gewählt wurde"
       invalid_min_value_for_infinite: "Der Minimum-Wert muss 1 oder 0 sein, wenn unendlich gewählt wurde "
       greater_than_maximum: "The minimum purchasable can't be greater than maximum purchasable"
+      end_date_after_start_date: "must be after start date"
