@@ -13,9 +13,12 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         @body = JSON.parse(response.body)
       end
 
-      it "has a 200 status code" do
-        get :index
+      pending "has a 200 status code" do
         expect(response.status).to eq(200)
+      end
+
+      pending "returns a 202 status code if the device doesn't have a asset_tracker" do
+        expect(response.status).to eq(202)
       end
 
       it "returns all the events" do
