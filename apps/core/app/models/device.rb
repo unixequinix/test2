@@ -13,6 +13,7 @@
 #
 
 class Device < ActiveRecord::Base
+  before_validation :upcase_asset_tracker!
   validates :mac, :imei, :serial_number, presence: true
 
   def self.transactions_count(event) # rubocop:disable Metrics/MethodLength
@@ -46,5 +47,9 @@ class Device < ActiveRecord::Base
       ) cep
     SQL
     JSON.parse(ActiveRecord::Base.connection.select_value(sql))
+  end
+
+  def upcase_asset_tracker!
+    asset_tracker.upcase! if asset_tracker
   end
 end
