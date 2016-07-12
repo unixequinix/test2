@@ -79,6 +79,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
 
     begin
       CSV.foreach(file, headers: true, col_sep: ";").with_index do |row, _i|
+        binding.pry
         c_name = row.field("company_name")
         com = Company.find_by("LOWER(name) = ?", c_name.downcase) || Company.create!(name: c_name)
         agree = com.company_event_agreements.find_or_create_by!(event: event, aasm_state: "granted")
@@ -86,7 +87,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
         ticket_type_atts = {
           name: row.field("ticket_type"),
           company_code: row.field("company_code"),
-          ompany_event_agreement: agree
+          company_event_agreement: agree
         }
         ticket_type = event.company_ticket_types.find_or_create_by!(ticket_type_atts)
 
