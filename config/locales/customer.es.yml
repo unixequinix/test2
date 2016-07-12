@@ -250,6 +250,8 @@ es:
       description: "Las tarjetas no tienen opción a la devolución online"
     paypal:
       button: "Reembolsar con PayPal"
+    wirecard:
+      button: "Reembolsar con Wirecard"
   gtag_assignations:
     title: "Introducir %{gtag}"
     description:

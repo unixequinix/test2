@@ -251,6 +251,8 @@ th:
       description: "Cards are not elegible for online refunds"
     paypal:
       button: "Refund with PayPal"
+    wirecard:
+      button: "Refund with Wirecard"
   gtag_assignations:
     title: "ระบุ %{gtag}"
     description:

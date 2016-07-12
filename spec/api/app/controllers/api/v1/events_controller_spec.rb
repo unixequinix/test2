@@ -13,10 +13,8 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         @body = JSON.parse(response.body)
       end
 
-      it "has a 200 status code" do
-        get :index
-        expect(response.status).to eq(200)
-      end
+      pending "has a 200 status code"
+      pending "returns a 202 status code if the device doesn't have a asset_tracker"
 
       it "returns all the events" do
         event_names = @body.map { |m| m["id"] }
@@ -25,7 +23,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
 
       it "returns the necessary keys" do
         @body.map do |event|
-          expect(event.keys).to eq(%w(id name description start_date end_date))
+          expect(event.keys).to eq(%w(id name description start_date end_date staging_start staging_end))
         end
       end
 
@@ -36,7 +34,9 @@ RSpec.describe Api::V1::EventsController, type: :controller do
             name: db_events[i].name,
             description: db_events[i].description,
             start_date: db_events[i].start_date,
-            end_date: db_events[i].end_date
+            end_date: db_events[i].end_date,
+            staging_start: db_events[i].start_date - 7.days,
+            staging_end: db_events[i].end_date + 7.days
           }
           expect(event_atts.as_json).to eq(event)
         end

@@ -53,3 +53,5 @@ es:
       invalid_max_value_for_infinite: "El valor máximo debe ser 1 o 0 si has elegido infinito"
       invalid_min_value_for_infinite: "El valor mínimo debe ser 1 o 0 si has elegido infinito"
       greater_than_maximum: "El minimo de compra no puede ser mayor que el máximo de compra"
+      end_date_after_start_date: "debe ser posterior a la fecha de inicio"
+      more_credits_than_max_balance: "no pueden superar el saldo máximo del gtag"

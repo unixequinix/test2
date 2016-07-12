@@ -16,7 +16,7 @@ es:
     gtag_name: 'Pulsera'
   events:
     create:
-      error: "El evento no se ha podido crear, comprueba los errors más abajo"
+      error: "El evento no se ha podido crear, comprueba los errores más abajo"
   activemodel:
     errors:
       models:
