@@ -5,7 +5,12 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   def index
     respond_to do |format|
       format.html
-      format.csv { send_data(Csv::CsvExporter.to_csv(Ticket.selected_data(current_event.id))) }
+      format.csv {
+        tickets = Ticket.selected_data(current_event.id)
+        redirect_to(admins_event_tickets_path(current_event)) && return if tickets.empty?
+
+        send_data(Csv::CsvExporter.to_csv(tickets))
+      }
     end
   end
 
@@ -79,7 +84,6 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
 
     begin
       CSV.foreach(file, headers: true, col_sep: ";").with_index do |row, _i|
-        binding.pry
         c_name = row.field("company_name")
         com = Company.find_by("LOWER(name) = ?", c_name.downcase) || Company.create!(name: c_name)
         agree = com.company_event_agreements.find_or_create_by!(event: event, aasm_state: "granted")
