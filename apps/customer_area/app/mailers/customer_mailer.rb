@@ -3,6 +3,7 @@ class CustomerMailer < ApplicationMailer
 
   def reset_password_instructions_email(customer)
     config_parameters(customer)
+    apply_locale(customer)
     @reset_password_token = customer.reset_password_token
     mail(to: customer.email,
          reply_to: @event.support_email,

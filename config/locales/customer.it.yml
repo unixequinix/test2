@@ -1,16 +1,16 @@
 it:
   pdf:
-    pdf_title: "Transaction history"
-    type: "Type"
-    amount: "Amount"
+    pdf_title: "Riepilogo transazioni"
+    type: "Tipo"
+    amount: "Totale"
     station: "Station"
-    date: "Date"
+    date: "Data"
     transaction_types:
-      sale: "Sale"
-      topup: "Topup"
-      refund: "Refund"
+      sale: "Vendita"
+      topup: "Ricarica"
+      refund: "Rimborso"
   purchases:
-    accesses: "Accesses"
+    accesses: "Accessi"
     packs: "Packs"
     vouchers: "Vouchers"
   currency_symbol: EUR
@@ -19,29 +19,29 @@ it:
     cancel: "Cancella"
     edit: "Modifica"
     delete: "Rimuovere"
-    delete_ticket: "Delete ticket"
-    delete_account: "Delete your account"
+    delete_ticket: "Elimina Ticket"
+    delete_account: "Elimina il tuo account"
     check_news: "Torna al sito del evento"
     delete_account: "Elimina il tuo account"
-    logout: "Disconnettersi"
-    confirm: "Confirm"
-    finalize: "Finalize"
+    logout: "Disconnetti"
+    confirm: "Conferma"
+    finalize: "Termina"
   confirm:
-    remove_ticket: "Your purchased credits are assigned to your account. If you remove your ticket, you will need to assign another one to use those credits in the event."
-    cancel_paypal: "Cancelling you disassociate your %{gtag} from you PayPal account."
+    remove_ticket: "I crediti acquistati sono assegnati al vostro account. Se eliminate il ticket, dovrete assegnarne un altro per usare i crediti durante l’evento."
+    cancel_paypal: "Cancellando dissocerete il vostro %{gtag} dal vostro account PayPal."
     cancel_paypal_agreement: "Cancel agreement"
-    log_out: "Do you want to end this session?"
+    log_out: "Desidera terminare la sessione?"
   header:
     edit: "Modifica profilo"
     close: "Logout"
     menu: "Home"
     home: "Sito del evento"
-    help: "Help"
+    help: "Aiuto"
   conditions:
     action: 'Accetto'
     conjunction: 'e'
     privacy_conditions: 'la informativa sulla privacy'
-    terms_of_use: "le condizioni d'uso"
+    terms_of_use: "condizioni d'uso"
   links:
     sign_in: 'Hai già un account?'
     sign_up: 'Non ancora registrato?'
@@ -51,43 +51,43 @@ it:
       sign_in: 'Log in'
       sign_up: 'Iscriviti'
       join: 'Join'
-      back: 'Back to home'
+      back: 'Torna alla home'
   dashboard:
-    title: "My dashboard"
+    title: "Pannello di controllo"
     credits_history:
-      header: "Transaction history"
-      button: "Download Transactions"
+      header: "Riepilogo transazioni"
+      button: "Scarica transazioni"
     admissions:
       header: "Ticket %{company_ticket_type}"
-      call_to_action: "Do you want to remove this ticket?"
-      call_to_action_started: "The event just started so you cannot change the ticket"
-      success: "Ticket successfully activated!"
-      button: "Remove"
+      call_to_action: "Desidera eliminare questo ticket?"
+      call_to_action_started: "L’evento è gia cominciato. Non è possibile cambiare il ticket."
+      success: "Ticket attivato con successo!"
+      button: "Elimina"
     without_admissions:
-      call_to_action: "Only activate the ticket(s) which you will be using YOURSELF"
-      description: "Do NOT activate your friend's tickets under your account."
-      button: "Activate Ticket"
+      call_to_action: " Attivate SOLO i ticket che userete VOI STESSI"
+      description: "NON attivate ticket di amici con il vostro account."
+      button: "Attivare Ticket"
     purchases:
-      header: "Your purchases"
+      header: "I tuoi acquisti"
     first_register:
-      ticket: "Add ticket"
-      gtag: "Add %{gtag}"
+      ticket: "Aggiungi ticket"
+      gtag: "Aggiungi %{gtag}"
     credits:
-      header: "Your balance"
-      call_to_action_started: "The event just started so you cannot topup anymore"
-      call_to_action_no_admission_html: "To buy your Online Top-up,<br>please activate a Event Ticket first"
-      button: "Top-up"
-      ticket_first: "Add a ticket first"
-      calculating_balance: "We are validating your final balance. Please return in 48 hours to proceed with your refund."
-      refundable: "Refundable"
+      header: "Il tuo saldo"
+      call_to_action_started: "L’evento è gia cominciato. Non è più possibile effettuare ricariche online"
+      call_to_action_no_admission_html: "Per acquistare la tua Ricarica Online, <br>perfavore attivare Ticket dell’Evento"
+      button: "Ricarica"
+      ticket_first: "Aggiungere ticket"
+      calculating_balance: "Stiamo verificando il suo saldo finale. Perfavore riprovare in 48 ore per procedere con il rimborso."
+      refundable: "Rimborsabile"
     autotopup:
-      claim: "Take advantage!"
-      description: "Sync your PayPal account and get automatic topup any time you run out of credits during the event."
+      claim: "Avvantaggiati!"
+      description: "Sincronizzati con il tuo account PayPal e ricarica automaticamente any time you run out of credits during the event."
       disclaimer: "This amount will be refunded inmediatly after the agreement is accepted"
     paypal:
-      button: "Sync with PayPal"
+      button: "Sync con PayPal"
     paypal_nvp:
-      button: "Sync with PayPal"
+      button: "Sync con PayPal"
     event_refunds:
       claim: "L'evento non è ancora finito"
       description: "Torna presto per richiedere per un rimborso"
@@ -105,13 +105,13 @@ it:
       description: "Torna indietro e riprova."
     without_gtags:
       add : "Registra %{gtag}"
-      title: "Credits left?"
+      title: "Crediti residui?"
       description: "Si può registrare solo una %{gtag} per ogni account."
       button: "Registra"
     without_gtags_disabled:
-      claim: "Il periodo per richedere un rimborso dei tuoi crediti residui è chiuso"
-      description: "Se ci hai già contattato con qualsiasi domanda,"
-      description2: "non ti preocupare, ti aiuteremo con il tuo rimborso."
+      claim: "Il periodo per richiedere un rimborso dei tuoi crediti residui è chiuso"
+      description: "Se già ci avete contattati per eventuali domande,"
+      description2: "non vi preoccupate, vi aiuteremo con il processo di rimborso."
     without_gtags_claiming_started:
       claim: "Scusa"
       description: "Il periodo per richiedere un rimborso è chiuso, se hai qualsiasi domanda contattare il supporto."
@@ -119,7 +119,7 @@ it:
       title: "Il numero della tua Paycard:"
       call_to_action: "Registrato una Paycard sbagliata per?"
       button: "Cancella"
-      hint: "Put a wrong %{gtag} by mistake? Erase and restart the process"
+      hint: "Hai sbagliato a trascrivere il %{gtag}? Cancella e ricomincia il processo"
     gtag_after_refund:
       description: "Il tuo rimborso è in corso"
     without_refunds:
@@ -134,48 +134,48 @@ it:
       call_to_action: "La tua richiesta per un rimborso è stata effettuata con successo. Tra poco riceverai il trasferimento"
       button: "Modifica conto bancario"
     event_started:
-      title: "Ultimating details!"
-      description: "We are finishing event configuration to bring you a great experience. Please, come back later and see what we have made for you."
+      title: "Finalizzando dettagli!"
+      description: "Stiamo terminando la configuration dell’ event per assicurarvi la migliore esperienza. Perfavore, torna più tardi per vedette cost abbiamo preparation per te."
     tipalti:
-      disclaimer: "The content of this page could take some seconds to load."
+      disclaimer: "Il contenuto di questa pagina potrebbe metterci qualche secondo a caricare."
   admissions:
-    title: "Ticket Activation"
-    description: "Please enter the number that is printed on your event ticket just below the barcode."
-    description2: "Your code should start with '4UMoB'"
-    call_to_action: "Activate your Event Ticket!"
-    button: "Activate"
+    title: "Attivazione Ticket"
+    description: "Perfavore, inserisci il number stampato sul biglietto dell’ event sotto al codice a barre."
+    description2: "Il bodice dovrebbe cominciare con '4UMoB'"
+    call_to_action: "Attiva il ticket dell’ evento!"
+    button: "Attiva"
     placeholders:
-      ticket_code: "Event Ticket Code Number"
+      ticket_code: "Codice Numerico Biglietto"
   checkout:
-    title: "Top-up"
-    description: "After you buy online credits here, they will automatically be applied to your %{gtag} once you enter the event."
-    total: "Total"
-    button: "Confirm Order"
+    title: "Ricarica"
+    description: "Dopo aver acquistato il tuo credito online, sarà automaticamente assegnato al tuo %{gtag} una volta entrato all’ evento."
+    total: "Totale"
+    button: "Conferma Ordine"
     store: " store"
   orders:
-    title: "Confirm Top-up"
-    description: "Please, review your order and proceed to payment."
-    products: "Products"
-    price: "Price"
-    amount: "Amount"
-    total: "Total"
-    vat: "VAT Included"
-    redirect: "You will be redirected to the bank’s payment gateway."
-    button: "Pay"
+    title: "Conferma di ricarica"
+    description: "Si prega di controllare il suo ordine e procedere al pagamento."
+    products: "Prodotti"
+    price: "Prezzo"
+    amount: "Quantità"
+    total: "Totale"
+    vat: "IVA inclusa"
+    redirect: "Sarai ridirezzionato al gateway di pagamento della banca."
+    button: "Paga"
     button_iupay: "IUPAY"
-    card_info: "Card Info"
-    order_review: "Order review"
-    payment: "Payment method"
+    card_info: "Info Carta"
+    order_review: "Rivedere Ordine"
+    payment: "Metodo di pagamento"
     payment-buttons:
       redsys:
-        name: "Credit card"
-        icon: "credit-card"
+        name: "Carta di credito"
+        icon: "Carta di credito"
       stripe:
-        name: "Credit card"
-        icon: "credit-card"
+        name: "Carta di credito"
+        icon: "Carta di credito"
       braintree:
-        name: "Credit card"
-        icon: "credit-card"
+        name: "Carta di credito"
+        icon: "Carta di credito"
       paypal:
         name: "PayPal"
         icon: "paypal"
@@ -189,32 +189,32 @@ it:
         name: "Sofort"
         icon: "pf pf-sofort"
       wirecard:
-        name: "Credit card"
-        icon: "credit-card"
+        name: "Carta di credito"
+        icon: "Carta di credito"
     wirecard:
-      card_number: "Card number"
-      card_code_verification: "Card code verification (CCV)"
-      card_expiration_date: "Card expiration date"
-      card_holder: "Card Holder"
-      button: "Pay"
+      card_number: "Numero carta"
+      card_code_verification: "Codice di verificazione (CVV)"
+      card_expiration_date: "Data di scadenza"
+      card_holder: "Titolare della carta"
+      button: "Paga"
     braintree:
-      card_number: "Card number"
-      card_code_verification: "Card code verification (CCV)"
-      card_expiration_month: "Card expiration date"
-      card_expiration_year: "Card expiration date"
-      button: "Pay"
+      card_number: "Numero carta"
+      card_code_verification: "Codice di verificazione (CVV)"
+      card_expiration_month: "Mese di scadenza"
+      card_expiration_year: "Anno di scadenza"
+      button: "Paga"
     ideal:
       bank_account_iban: "IBAN"
       bank_bic: "BIC"
-      account_owner: "Owner"
+      account_owner: "Titolare"
     paypal:
-      charge: "Verification charge"
-      sync_title: "Sync with PayPal to perform payment"
+      charge: "Addebito di verifica"
+      sync_title: "Sincronizza con PayPal per effettuare il pagamento"
       sync_copy: "Paypal Experience"
-      sync_description: "In order to validate your PayPal account, you will be charged 0.01€ which will be refunded automatically."
-      sync_final_description: "Select the amount you'd like to be automatically topped up every time you run out of credits at the event. This amount WILL NOT BE CHARGED to your account."
-      with_agreement_title: "Already sync with PayPal"
-      with_agreement_subtitle: "You can perform direct payments"
+      sync_description: "Per validate il too onto PayPal, ti sara addebitato un pagamento di 0.01€ che vi sari restituto automaticamente."
+      sync_final_description: "Selezionare la quantità di ricarica desiderata ogni volta che vi finiranno i crediti durante l’ evento. Questa somma NON SARA ADDEBITATA al tuo conto."
+      with_agreement_title: "GIà sincronizzato con PayPall"
+      with_agreement_subtitle: "Si possono fare pagamenti diretti"
   claims:
     title: "Confermare rimborso"
     description: "Si prega di controllare il suo ordine e procedere al pagamento."
@@ -222,39 +222,39 @@ it:
     amount: "Importo"
     product_description: "Crediti da rimborsare"
     fee: "Spesa di rimborso"
-    total: "Total"
+    total: "Totale"
     vat: "IVA incluso"
     redirect: "Sarai reindirizzato al gateway di pagamento della banca."
     button: "Rimborso"
     button_iupay: "IUPAY"
     refund: "Verifica i tuoi crediti prima di richiedere il tuo rimborso"
     claim_present:
-      title: "Thank you!"
-      description: "Your claim has been processed correctly and is on the way."
+      title: "Grazie!"
+      description: "La sua richiesta è stata processata correttamente ed e in fase di elaborazione."
     no_credit:
-      title: "Sorry"
-      description: "You don't have sufficient refundable balance"
+      title: "Ci scusiamo"
+      description: "Il suo saldo rimborsabile non e sufficiente"
     direct_claim:
-      title: "Claim for your balance"
-      description: "We will refund your money automatically."
-      button: "Proceed"
+      title: "Richiesta di saldo"
+      description: "Rimborseremo il denaro automaticamente."
+      button: "Procedere"
     invalid_claim:
-      title: "Working in your refund"
-      description: "Please contact us at %{email} in order to process your refund."
+      title: "Stiamo lavorando sul suo rimborso"
+      description: "Perfavore contattateci tramite l’ email  %{email} per procedere al rimborso."
     cards_disabled:
-      title: "Sorry"
-      description: "Cards are not elegible for online refunds"
+      title: "Ci scusiamo"
+      description: "Carta non abilitata al rimborso online"
     paypal:
-      button: "Refund with PayPal"
+      button: "Rimborso con PayPal"
   gtag_assignations:
     title: "Registra la tua Paycard"
     description:
-      standard: "Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}"
-      card: "Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}"
-      simple: "Assign the yellow highlighted numbers as appears in your %{gtag}"
+      standard: "Assegna la seconda linea di numeri e lettere (evidenziate in giallo) del tuo %{gtag}"
+      card: "Assegna la seconda linea di numeri e lettere (evidenziate in giallo) del tuo %{gtag}"
+      simple: "Assegna i numeri evidenziati in giallo come appaiono nel tuo %{gtag}"
     call_to_action: "Registra la tua Paycard e inizia!"
     button: "Accetto"
-    back: "Volver"
+    back: "Indietro"
     placeholders:
       standard:
         line_1: "Codice 1 e.g: 12345"
@@ -269,7 +269,7 @@ it:
       line_1: 'Solo numero da "0" a "9"'
       line_2: 'Simboli ammessi: "0" - "9" e "A, B, C, D, E, F"'
   ticket_assignations:
-    button: "Aceptar"
+    button: "Accetto"
   refund:
     title: "Richiedi rimborso"
     description: "Abbiamo bisogno dei tuoi dati bancari per poter completare la richiesta."
@@ -279,7 +279,7 @@ it:
     title: "Richiedi rimborso"
     description: "Puoi modificare il tuo conto bancario per la richiesta del tuo rimborso."
     call_to_action: "Introdurre il tuo conto bancario!"
-    swift: "BIC/SWIFT (Se il conto bancario è fuori d'Italia)"
+    swift: "BIC/SWIFT (Se il conto bancario è fuori dall’ Italia)"
     button: "Salva"
     placeholders:
       swift: "0000 0000"
@@ -295,23 +295,23 @@ it:
       title: 'Il pagamento è stato eseguito'
       description: 'Grazie per il tuo ordine. Il tuo pagamento è stato effettuato. Riceverai una conferma email del tuo ordine.'
   refund:
-    refund_method: "Refund method"
+    refund_method: "Metodo di rimborso"
     error:
       title: 'Errore'
       call_to_action: 'Contattaci:'
     success:
       title: 'Il rimborso è stato fatto'
-      description: 'Grazie per la tua richiesta. Il tuo rimborso è stato effettuato. Riceverai una conferma email della tua richiest.'
+      description: 'Grazie per la tua richiesta. Il tuo rimborso è stato effettuato. Riceverai una conferma via email della tua richiesta.'
   passwords:
     new:
-      title: 'Dimenticato il tuo password?'
-      button: 'Mandami istruzioni per il password '
+      title: 'Dimenticato la tua password?'
+      button: 'Mandami istruzioni per la password '
     edit:
-      header: 'Nuovo password'
-      title: 'Cambia il tuo password'
-      button: 'Cambia il mio password'
-      password: "Nuovo password"
-      password_confirmation: "Confermare la tua password nuova"
+      header: 'Nuova password'
+      title: 'Cambia la tua password'
+      button: 'Cambia la mia password'
+      password: "Nuova password"
+      password_confirmation: "Confermare la tua nuova password"
   registration:
     new:
       title: 'Iscriviti'
@@ -326,26 +326,26 @@ it:
       waiting_confirmation: 'In attesa della conferma per:'
       button: 'Aggiornare'
     autotoup_agreement:
-      cancel: 'Do you want to cancel your autotopup agreement?'
-      title: 'Paypal agreement'
-      amount: 'Selected amount: '
-      billing_agreement_description: "I agree in get automated charges when running out of credit"
-      current_amount: 'Current top up:'
-      new_amount: 'Change your quantity:'
-      success: 'Account added!'
-      success_description: 'Now you can perform direct auto topups through your account'
+      cancel: 'Volete cancellare l’ accordo per le ricariche automatiche?'
+      title: 'Accordo Paypal'
+      amount: 'Importo selezionato: '
+      billing_agreement_description: "Accetto di ricevere ricariche automatiche quando termina il credito"
+      current_amount: 'Importo ricarica attuale:'
+      new_amount: 'Cambia importo:'
+      success: 'Account aggiunto!'
+      success_description: 'Adesso e possibile fare ricariche automatiche tramite il vostro account'
   sessions:
     first_register:
-      welcome: 'Bienvenido!!'
+      welcome: 'Benvenuto!'
       description_with_credentiable: "Please, to continue with your event:"
-      description_without_credentiable: "There's nothing you can do right now, please come back later"
-    welcome: 'Welcome!'
+      description_without_credentiable: "Grazie per esserti iscritto. Quando inizia l’evento potrai vedere ulteriori informazioni sul tuo account. Torna a trovarci più tardi."
+    welcome: 'Benvenuto!'
     create_account:
-      title: 'Don´t have an account?'
-      link: 'Create one!'
+      title: 'Non hai un account?'
+      link: 'Creane uno!'
     log_in:
-      title: 'Already have an account?'
-      link: 'Log in here'
+      title: 'Hai gia un account?'
+      link: 'Accedi qui'
     new:
       title: 'Log in'
       description: 'Ecco come funziona'
@@ -361,7 +361,7 @@ it:
       city: 'e.g. Madrid'
       post: 'e.g. 28012'
     end:
-      close_title: "Do you want to end session?"
+      close_title: "Desidera terminare la sessione?"
   cancel:
     title: 'Cancellare il mio account'
     unhappy: "Scrivici un email, vogliamo sapere cos'è successo!"
@@ -369,4 +369,4 @@ it:
     use: "Condizioni d'uso"
     privacy: "Informativa sulla privacy"
     copyright: "© Copyright Glownet"
-    support: 'Support'
+    support: 'Supporto'

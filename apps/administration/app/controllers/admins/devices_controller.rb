@@ -23,21 +23,6 @@ class Admins::DevicesController < Admins::BaseController
     end
   end
 
-  def import
-    alert = "Seleccione un archivo para importar"
-    redirect_to(admins_devices_path, alert: alert) && return unless params[:file]
-    lines = params[:file][:data].tempfile.map { |line| line.split(";") }
-    lines.delete_at(0)
-
-    lines.each do |asset_tracker, mac|
-      device = Device.find_by_mac(mac)
-      next unless device
-      device.update!(asset_tracker: asset_tracker)
-    end
-
-    redirect_to(admins_devices_path, notice: "Device data updated")
-  end
-
   private
 
   def permitted_params

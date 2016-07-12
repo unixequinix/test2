@@ -56,15 +56,14 @@ it:
           current_password: 'Password Attuale'
           password: 'Password'
           password_confirmation: 'Conferma Password'
-          phone: 'Numero di Telefono'
           remember_me: 'Ricordare'
-          phone: 'Phone Number'
+          phone: 'Cellulare'
           address: 'Address'
-          city: 'City'
-          country: 'Country'
+          city: 'Città'
+          country: 'Paese'
           postcode: 'Post Code'
           gender: 'Gender'
-          birthdate: 'Birthdate'
+          birthdate: 'Data di nascita'
           agreed_on_registration: "Ho letto e accetto i termini e le condizioni d'uso"
         edit:
           <<: *label_customer
@@ -183,6 +182,7 @@ it:
           location: 'Where is the event?'
           style: '/*Add some CSS magic*/'
           agreed_event_condition_message: 'Adds the condition you want the user accepts when registering'
+          receive_communications_message: 'Add the text for the receive communications checkbox'
         edit:
           <<: *placeholder_event
       entitlement:

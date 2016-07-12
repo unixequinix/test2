@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: "json" } do
     namespace :v1 do
-      resources :devices, only: [:update]
+      resources :devices, only: [:create]
       resources :events, only: :index do
         scope module: "events" do
           resources :accesses, only: :index

@@ -49,6 +49,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   translates :info, :disclaimer, :refund_success_message, :mass_email_claim_notification,
              :refund_disclaimer, :bank_account_disclaimer, :gtag_assignation_notification,
              :gtag_form_disclaimer, :gtag_name, :agreed_event_condition_message,
+             :receive_communications_message,
              fallbacks_for_empty_translations: true
 
   include EventState # State machine

@@ -175,6 +175,11 @@ en:
       mass_email_claim_notification: "Mass email claim notification"
       gtag_assignation_notification: "Gtag  assignation notification"
       gtag_form_disclaimer: "Gtag assignation form disclaimer"
+      databases:
+        full: "Full DB (with tickets)"
+        basic: "Basic DB (without tickets)"
+        clear: "Clear cache"
+        not_found: "Database not found"
       fieldests:
         info: "Event info"
         date: "Sate and location"

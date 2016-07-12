@@ -252,7 +252,7 @@
       values:
         -
           name: maximum_gtag_balance
-          value: 50
+          value: 300
         -
           name: gtag_type
           value: "ultralight_c"

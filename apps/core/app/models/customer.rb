@@ -29,6 +29,7 @@
 #  deleted_at             :datetime
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  receive_communications :boolean          default(FALSE)
 #
 
 class Customer < ActiveRecord::Base
@@ -57,6 +58,11 @@ class Customer < ActiveRecord::Base
   before_save do
     email.downcase! if email
   end
+
+  scope :selected_data, lambda { |event|
+    select("id, first_name, last_name, email, birthdate, phone, postcode, address, city, country, gender")
+      .where(event: event, receive_communications: event.receive_communications?)
+  }
 
   # Methods
   # -------------------------------------------------------
@@ -93,6 +99,15 @@ class Customer < ActiveRecord::Base
 
   def self.find_for_authentication(warden_conditions)
     where(email: warden_conditions[:email], event_id: warden_conditions[:event_id]).first
+  end
+
+  def autotopup_amounts(payment_gateway)
+    amount = current_autotopup_amount(payment_gateway)
+    (PaymentGatewayCustomer::AUTOTOPUP_AMOUNTS + [amount]).uniq.sort
+  end
+
+  def current_autotopup_amount(payment_gateway)
+    payment_gateway.autotopup_amount
   end
 
   private

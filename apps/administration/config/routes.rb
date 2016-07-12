@@ -25,7 +25,6 @@ Rails.application.routes.draw do
     resources :devices, only: [:index, :show, :update] do
       collection do
         get :search
-        post :import
       end
     end
 
@@ -39,6 +38,7 @@ Rails.application.routes.draw do
       member do
         post :remove_logo
         post :remove_background
+        post :remove_db
       end
 
       scope module: "events" do

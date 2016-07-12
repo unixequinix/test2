@@ -85,6 +85,15 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     indexes.sort
   end
 
+  def all_online_counters
+    indexes = credit_transactions.map(&:counter)
+    indexes += access_transactions.map(&:counter)
+    indexes += credential_transactions.map(&:counter)
+    indexes += money_transactions.map(&:counter)
+    indexes += order_transactions.map(&:counter)
+    indexes.sort
+  end
+
   def missing_transaction_counters
     indexes = all_transaction_counters
     all_indexes = (1..indexes.last.to_i).to_a

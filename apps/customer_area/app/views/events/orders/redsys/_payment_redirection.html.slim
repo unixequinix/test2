@@ -1,18 +1,7 @@
 = form_tag @form_data.form, id: 'gateway_load' do
-  = hidden_field_tag :Ds_Merchant_MerchantName, @form_data.name
-  = hidden_field_tag :Ds_Merchant_MerchantCode, @form_data.code
-  = hidden_field_tag :Ds_Merchant_Terminal, @form_data.terminal
-  = hidden_field_tag :Ds_Merchant_Order, @order.number
-  = hidden_field_tag :Ds_Merchant_Amount, @form_data.amount
-  = hidden_field_tag :Ds_Merchant_Currency, @form_data.currency
-  = hidden_field_tag :Ds_Merchant_TransactionType, @form_data.transaction_type
-  = hidden_field_tag :Ds_Merchant_MerchantSignature, @form_data.signature
-  = hidden_field_tag :Ds_Merchant_ProductDescription, @form_data.product_description
-  = hidden_field_tag :Ds_Merchant_Titular, @form_data.client_name
-  = hidden_field_tag :Ds_Merchant_PayMethods, @form_data.pay_methods
-  = hidden_field_tag :Ds_Merchant_MerchantURL, @form_data.notification_url
-  = hidden_field_tag :Ds_Merchant_UrlOK, success_event_order_payment_service_asynchronous_payments_url(current_event, @order, 'redsys')
-  = hidden_field_tag :Ds_Merchant_UrlKO, error_event_order_payment_service_asynchronous_payments_url(current_event, @order, 'redsys')
+ = hidden_field_tag :Ds_SignatureVersion, @form_data.signature_version
+ = hidden_field_tag :Ds_MerchantParameters, @form_data.parameters
+ = hidden_field_tag :Ds_Signature, @form_data.signature
 
 javascript:
   $('#gateway_load').submit();

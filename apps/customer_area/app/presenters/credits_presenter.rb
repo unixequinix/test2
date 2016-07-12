@@ -20,7 +20,7 @@ class CreditsPresenter < BasePresenter
   end
 
   def refundable_money
-    @profile.refundable_money_amount
+    number_with_precision(@profile.refundable_money_amount, precision: 2)
   end
 
   def token_symbol

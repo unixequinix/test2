@@ -18,13 +18,13 @@ class Api::V1::Events::DatabasesController < Api::V1::Events::BaseController
   end
 
   def create
-    render(status: :bad_request,
-           json: { error: "File empty" }) && return unless permitted_params[:file]
+    file = permitted_params[:file]
+    render(status: :bad_request, json: { error: "File empty" }) && return unless file
 
     if permitted_params[:basic] == "true"
-      current_event.device_basic_db = permitted_params[:file]
+      current_event.device_basic_db = file
     else
-      current_event.device_full_db = permitted_params[:file]
+      current_event.device_full_db = file
     end
 
     render(status: :created, json: :created) && return if current_event.save
@@ -34,6 +34,6 @@ class Api::V1::Events::DatabasesController < Api::V1::Events::BaseController
   private
 
   def permitted_params
-    params.require(:database).permit(:file, :basic)
+    params.permit(:file, :basic)
   end
 end

@@ -348,6 +348,8 @@ ActiveRecord::Schema.define(version: 20160704172500) do
     t.datetime "deleted_at"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
+    t.boolean  "receive_communications", default: false
+    t.string   "locale",                 default: "en"
   end
 
   add_index "customers", ["deleted_at", "email", "event_id"], name: "index_customers_on_deleted_at_and_email_and_event_id", unique: true, using: :btree
@@ -430,6 +432,7 @@ ActiveRecord::Schema.define(version: 20160704172500) do
     t.text     "bank_account_disclaimer"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+    t.text     "receive_communications_message"
   end
 
   add_index "event_translations", ["locale"], name: "index_event_translations_on_locale", using: :btree
