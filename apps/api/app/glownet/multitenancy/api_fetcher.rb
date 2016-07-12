@@ -139,18 +139,18 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
         FROM gtags
 
         LEFT OUTER JOIN  credential_assignments cred
-          ON cred.credentiable_id = tickets.id
-          AND cred.credentiable_type = 'Ticket'
+          ON cred.credentiable_id = gtags.id
+          AND cred.credentiable_type = 'Gtag'
           AND cred.deleted_at IS NULL
           AND cred.aasm_state = 'assigned'
 
         LEFT OUTER JOIN purchasers
-          ON purchasers.credentiable_id = tickets.id
-          AND purchasers.credentiable_type = 'Ticket'
+          ON purchasers.credentiable_id = gtags.id
+          AND purchasers.credentiable_type = 'Gtag'
           AND purchasers.deleted_at IS NULL
 
-        INNER JOIN company_ticket_types
-          ON company_ticket_types.id = tickets.company_ticket_type_id
+        LEFT OUTER JOIN company_ticket_types
+          ON company_ticket_types.id = gtags.company_ticket_type_id
           AND company_ticket_types.deleted_at IS NULL
 
         WHERE gtags.event_id = #{@event.id}

@@ -42,6 +42,14 @@ $statistics-size:       $base_font_size*2.5;
    @include min-screen($bp3) { text-align: left;}
 }
 
+.wrapper-dashboard-reverse {
+  padding: modules(1);
+  text-align: left;
+  min-height: modules(4);
+
+   @include min-screen($bp3) { text-align: center;}
+}
+
 .wrapper-dashboard-main {
   padding: modules(1);
   background-color: $blue;
@@ -51,6 +59,24 @@ $statistics-size:       $base_font_size*2.5;
 
 .container-statistics {
   @extend .container-show;
+}
+
+.container-transactions {
+  text-align: left;
+  position: relative;
+  overflow: visible;
+  margin-bottom: modules(1);
+  padding: 0;
+  border-radius: 3px;
+  box-shadow: inset 0px 0px 1px 0px $light_grey;
+  @include span-columns(12 of 12);
+
+  @include min-screen($bp5) {
+    text-align: center;
+    @include span-columns(6 of 12);
+      @include omega(2n);
+      min-height: modules(6);
+   }
 }
 
 .wrapper-statistics {
@@ -87,6 +113,43 @@ $statistics-size:       $base_font_size*2.5;
     color: $blue;
     @include min-screen($bp3) { @include mscale($statistics-mobile); }
     @include min-screen($bp5) { @include mscale($statistics-size); }
+  }
+
+  span {
+    color: $grey;
+  }
+}
+
+.wrapper-transactions {
+  text-align: left;
+  display: inline-block;
+  width: 25%;
+  padding-top: modules(1);
+
+  @include min-screen($bp2) {
+    text-align: center;
+    display: inline-block;
+    width: 14%;
+    padding: 0;
+    box-shadow: inset 1px 0px 0px 0px $graySilver;
+
+    &:first-child  { box-shadow: inset -1px 0px 0px 0px $graySilver; }
+    &:nth-child(2) { box-shadow: none; }
+    &:nth-child(3) { padding: 0; box-shadow: inset 1px 0px 0px 0px $graySilver; }
+    &:nth-child(4) { padding: 0; box-shadow: inset 1px 0px 0px 0px $graySilver; }
+  }
+
+  h2, span {
+    display: block;
+    width: 100%;
+    margin: 0;
+    margin-top: 0;
+  }
+
+  h2 {
+    font-size: 1rem;
+    font-weight: bold;
+    color: $blue;
   }
 
   span {
@@ -259,5 +322,42 @@ $statistics-size:       $base_font_size*2.5;
     content: "Current status:";
     display: block;
     line-height: 0;
+  }
+}
+
+// ========= DATABASES ========
+
+.database {
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  padding: .5rem 0;
+
+  &__name {
+    flex: 1.2;
+  }
+
+  &__data {
+    flex: 1;
+  }
+
+  &__actions {
+    flex: 1;
+    text-align: right;
+  }
+
+  &__btn {
+    padding: .25rem .5rem;
+    background: $amber;
+    border: 1px solid darken($amber, 5%);
+    border-radius: 3px;
+    color: $nuclear;
+
+    &--disabled {
+      background: lighten($graySilver, 15%);
+      border: 1px solid lighten($graySilver, 10%);
+      pointer-events: none;
+      cursor: default;
+    }
   }
 }

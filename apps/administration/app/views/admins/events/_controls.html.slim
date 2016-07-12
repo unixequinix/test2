@@ -11,8 +11,13 @@
     = render "admins/events/change_state", event: event, new_state: :closed, action: :close if event.finished?
     = render "admins/events/change_state", event: event, new_state: :created, action: :reboot if event.closed?
 
-.container-dashboard
-  h3.dashboard-table-header = t("admin.dashboard.api_access")
-  .wrapper-dashboard
-    p = t("admin.dashboard.current_token")
-    p.dashboard-highlight = current_admin.access_token
+.container-transactions
+  h3.dashboard-table-header = t("admin.dashboard.transactions")
+  .wrapper-dashboard-reverse
+    - Transaction::TYPES.in_groups_of(4, false) do |types|
+      - types.each do |type|
+        - count = Transaction.class_for_type(type).where(event: @current_event).count
+        - next if count.zero?
+        .wrapper-transactions
+          h2 = number_with_delimiter(count)
+          span = type.humanize

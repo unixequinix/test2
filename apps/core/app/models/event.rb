@@ -120,6 +120,9 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   # Validations
   validates :name, :support_email, presence: true
   validates :name, uniqueness: true
+  validates :agreed_event_condition_message, presence: true, if: :agreed_event_condition?
+  validates :receive_communications_message, presence: true, if: :receive_communications?
+  validate :end_date_after_start_date
   validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
   do_not_validate_attachment_file_type :device_full_db
@@ -188,6 +191,14 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   private
+
+  def end_date_after_start_date
+    return if end_date.blank? || start_date.blank?
+
+    if end_date < start_date
+      errors.add(:end_date, I18n.t("errors.messages.end_date_after_start_date"))
+    end
+  end
 
   def gtag_query(refund_service)
     fee = refund_fee(refund_service)

@@ -1,16 +1,20 @@
 class ClaimMailer < ApplicationMailer
   def completed_email(claim, event)
-    config_parameters(claim.profile.customer, event)
+    customer = claim.profile.customer
+    config_parameters(customer, event)
+    apply_locale(customer)
     @claim = claim
-    mail(to: claim.profile.customer.email,
+    mail(to: customer.email,
          reply_to: @event.support_email,
          subject: I18n.t("email.customer.claim.completed.subject"))
   end
 
   def notification_email(profile, event)
-    return unless profile.customer.present?
-    config_parameters(profile.customer, event)
-    mail(to: profile.customer.email,
+    customer = profile.customer
+    return unless customer.present?
+    config_parameters(customer, event)
+    apply_locale(customer)
+    mail(to: customer.email,
          reply_to: @event.support_email,
          subject: I18n.t("email.customer.claim.available_claim.subject"))
   end

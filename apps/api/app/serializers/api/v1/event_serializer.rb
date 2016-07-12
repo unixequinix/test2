@@ -1,3 +1,11 @@
 class Api::V1::EventSerializer < Api::V1::BaseSerializer
-  attributes :id, :name, :description, :start_date, :end_date
+  attributes :id, :name, :description, :start_date, :end_date, :staging_start, :staging_end
+
+  def staging_start
+    object.start_date - 7.days
+  end
+
+  def staging_end
+    object.end_date + 7.days
+  end
 end

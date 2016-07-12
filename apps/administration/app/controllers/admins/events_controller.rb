@@ -1,12 +1,11 @@
 class Admins::EventsController < Admins::BaseController
+  before_action :set_event, only: [:show, :edit, :update, :remove_logo, :remove_background, :remove_db]
+
   def index
     @events = Event.all.page(params[:page])
   end
 
   def show
-    @current_event = Event.friendly.find(params[:id])
-    redirect_to(admins_event_tickets_path(@current_event), layout: "admin_event") &&
-      return if current_admin.customer_service?
     render layout: "admin_event"
   end
 
@@ -28,12 +27,10 @@ class Admins::EventsController < Admins::BaseController
   end
 
   def edit
-    @current_event = Event.friendly.find(params[:id])
     render layout: "admin_event"
   end
 
   def update
-    @current_event = Event.friendly.find(params[:id])
     if @current_event.update_attributes(permitted_params)
       flash[:notice] = I18n.t("alerts.updated")
       @current_event.slug = nil
@@ -46,17 +43,30 @@ class Admins::EventsController < Admins::BaseController
   end
 
   def remove_logo
-    @current_event = Event.friendly.find(params[:id])
     @current_event.update(logo: nil)
     flash[:notice] = I18n.t("alerts.destroyed")
     redirect_to admins_event_url(@current_event)
   end
 
   def remove_background
-    @current_event = Event.friendly.find(params[:id])
     @current_event.update(background: nil)
     flash[:notice] = I18n.t("alerts.destroyed")
     redirect_to admins_event_url(@current_event)
+  end
+
+  def remove_db
+    if params[:db] == "basic"
+      @current_event.update(device_basic_db: nil)
+    else
+      @current_event.update(device_full_db: nil)
+    end
+    redirect_to admins_event_url(@current_event)
+  end
+
+  private
+
+  def set_event
+    @current_event = Event.friendly.find(params[:id])
   end
 
   def permitted_params
