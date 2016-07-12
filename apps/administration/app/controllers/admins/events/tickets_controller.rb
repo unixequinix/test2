@@ -5,7 +5,12 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   def index
     respond_to do |format|
       format.html
-      format.csv { send_data(Csv::CsvExporter.to_csv(Ticket.selected_data(current_event.id))) }
+      format.csv {
+        tickets = Ticket.selected_data(current_event.id)
+        redirect_to(admins_event_tickets_path(current_event)) && return if tickets.empty?
+
+        send_data(Csv::CsvExporter.to_csv(tickets))
+      }
     end
   end
 
@@ -86,7 +91,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
         ticket_type_atts = {
           name: row.field("ticket_type"),
           company_code: row.field("company_code"),
-          ompany_event_agreement: agree
+          company_event_agreement: agree
         }
         ticket_type = event.company_ticket_types.find_or_create_by!(ticket_type_atts)
 

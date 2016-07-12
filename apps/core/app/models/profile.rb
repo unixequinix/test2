@@ -24,6 +24,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   has_many :customer_orders
   has_many :online_orders, through: :customer_orders
   has_many :payments, through: :orders
+  has_many :ban_transactions
   has_many :credit_transactions
   has_many :access_transactions
   has_many :credential_transactions
@@ -80,6 +81,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     indexes += credential_transactions.map(&:gtag_counter)
     indexes += money_transactions.map(&:gtag_counter)
     indexes += order_transactions.map(&:gtag_counter)
+    indexes += ban_transactions.map(&:gtag_counter)
     indexes.sort
   end
 
@@ -89,6 +91,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     indexes += credential_transactions.map(&:counter)
     indexes += money_transactions.map(&:counter)
     indexes += order_transactions.map(&:counter)
+    indexes += ban_transactions.map(&:counter)
     indexes.sort
   end
 
@@ -190,42 +193,42 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
               gtag_counter,
               counter
             FROM access_transactions
-            WHERE event_id = #{event.id}
+            WHERE event_id = #{event.id} AND status_code = 0
             UNION ALL
             SELECT
               profile_id,
               gtag_counter,
               counter
             FROM ban_transactions
-            WHERE event_id = #{event.id}
+            WHERE event_id = #{event.id} AND status_code = 0
             UNION ALL
             SELECT
               profile_id,
               gtag_counter,
               counter
             FROM credential_transactions
-            WHERE event_id = #{event.id}
+            WHERE event_id = #{event.id} AND status_code = 0
             UNION ALL
             SELECT
               profile_id,
               gtag_counter,
               counter
             FROM credit_transactions
-            WHERE event_id = #{event.id}
+            WHERE event_id = #{event.id} AND status_code = 0
             UNION ALL
             SELECT
               profile_id,
               gtag_counter,
               counter
             FROM money_transactions
-            WHERE event_id = #{event.id}
+            WHERE event_id = #{event.id} AND status_code = 0
             UNION ALL
             SELECT
               profile_id,
               gtag_counter,
               counter
             FROM order_transactions
-            WHERE event_id = #{event.id}
+            WHERE event_id = #{event.id} AND status_code = 0
         ) customer_trans
         GROUP BY customer_trans.profile_id
         ORDER BY customer_trans.profile_id
