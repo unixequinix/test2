@@ -120,6 +120,8 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   # Validations
   validates :name, :support_email, presence: true
   validates :name, uniqueness: true
+  validates :agreed_event_condition_message, presence: true, if: :agreed_event_condition?
+  validates :receive_communications_message, presence: true, if: :receive_communications?
   validate :end_date_after_start_date
   validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}

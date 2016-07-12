@@ -104,9 +104,13 @@ class Pack < ActiveRecord::Base
 
   def valid_max_credits
     max_balance = catalog_item.event.get_parameter("gtag", "form", "maximum_gtag_balance").to_i
-    pack_credits = open_all("Credit").sum(&:total_amount)
-    error_msg = I18n.t("errors.messages.more_credits_than_max_balance")
+    pack_credits = if persisted?
+                     open_all("Credit").sum(&:total_amount)
+                   else
+                     pack_catalog_items.map {|i| i.amount.to_f }.sum
+                   end
 
+    error_msg = I18n.t("errors.messages.more_credits_than_max_balance")
     errors[:pack_credits] <<  error_msg if pack_credits > max_balance
   end
 end
