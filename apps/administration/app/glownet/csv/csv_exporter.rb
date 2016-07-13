@@ -10,7 +10,8 @@ class Csv::CsvExporter
   end
 
   def self.to_csv(objects, csv_options = {})
-    if objects.size > 2 && (objects.first.class != objects.second.class)
+    # FIXME: If objects size is 1 it breaks
+    if objects.first.class != objects.second.class
       items, headers, extras = objects
     else
       items = objects

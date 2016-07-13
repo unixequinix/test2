@@ -71,6 +71,20 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
              credential_assignments: { credentiable_type: "Gtag", aasm_state: :assigned })
   }
 
+  scope :query_for_csv, lambda { |event|
+    where(event: event)
+      .joins("LEFT OUTER JOIN customers ON profiles.customer_id = customers.id")
+      .joins(:customer_credits, :credential_assignments)
+      .joins("INNER JOIN tickets
+              ON credential_assignments.credentiable_id = tickets.id
+              AND credential_assignments.aasm_state = 'assigned'
+              AND credential_assignments.credentiable_type = 'Ticket'")
+      .select("profiles.id, customers.id as customer, customers.first_name, customers.last_name, customers.email,
+               SUM(customer_credits.amount) as credits, tickets.code as ticket")
+      .group("profiles.id, customers.first_name, customers.id, tickets.code")
+      .order("customers.first_name ASC")
+  }
+
   def customer
     Customer.unscoped { super }
   end

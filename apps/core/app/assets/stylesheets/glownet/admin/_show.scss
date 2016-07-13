@@ -149,3 +149,31 @@
   color: $dark_grey;
   font-weight: bold;
 }
+
+// ------------------------------- Styles for Event info -------------------------------
+
+.event-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.filters {
+  &__item {
+    margin-right: 1rem;
+    color: $grayAsh;
+    transition: color 0.2s;
+
+    &--active {
+      color: $grayDark;
+      text-decoration: underline;
+    }
+
+    &:hover {
+      color: $grayDark;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
