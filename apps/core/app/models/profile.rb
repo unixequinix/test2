@@ -79,8 +79,8 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
               ON credential_assignments.credentiable_id = tickets.id
               AND credential_assignments.aasm_state = 'assigned'
               AND credential_assignments.credentiable_type = 'Ticket'")
-      .select("profiles.id, customers.id as customer, customers.first_name, customers.last_name, customers.email,
-               SUM(customer_credits.amount) as credits, tickets.code as ticket")
+      .select("profiles.id, tickets.code as ticket, SUM(customer_credits.amount) as credits, customers.email,
+               customers.first_name, customers.last_name")
       .group("profiles.id, customers.first_name, customers.id, tickets.code")
       .order("customers.first_name ASC")
   }
