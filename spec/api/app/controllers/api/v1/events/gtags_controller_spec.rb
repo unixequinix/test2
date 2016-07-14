@@ -4,6 +4,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
   let(:event) { create(:event) }
   let(:admin) { create(:admin) }
   let(:db_gtags) { event.gtags }
+
   before do
     create_list(:gtag, 2, event: event)
     @deleted_gtag = create(:gtag, :with_purchaser, event: event, deleted_at: Time.zone.now)
@@ -22,7 +23,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
       it "returns the necessary keys" do
         JSON.parse(response.body).map do |gtag|
-          keys = %w(reference credential_redeemed banned credential_type_id
+          keys = %w(reference credential_redeemed banned updated_at credential_type_id
                     purchaser_first_name purchaser_last_name purchaser_email customer_id)
           expect(keys).to eq(gtag.keys)
         end
@@ -36,12 +37,13 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
             credential_redeemed: gtag.credential_redeemed,
             credential_type_id: gtag&.company_ticket_type&.credential_type_id,
             banned: gtag.banned?,
+            updated_at: gtag.updated_at,
             purchaser_first_name: gtag&.purchaser&.first_name,
             purchaser_last_name: gtag&.purchaser&.last_name,
             purchaser_email: gtag&.purchaser&.email,
             customer_id: gtag&.assigned_profile&.id
-          }.as_json
-          expect(list_gtag).to eq(gtag_atts)
+          }
+          expect(list_gtag).to eq(gtag_atts.as_json)
         end
       end
 
@@ -96,8 +98,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
         it "returns the necessary keys" do
           gtag = JSON.parse(response.body)
           gtag_keys = %w(reference credential_redeemed banned credential_type_id customer)
-          customer_keys = %w(id banned autotopup_gateways credentials first_name last_name email
-                             orders)
+          customer_keys = %w(id banned autotopup_gateways credentials first_name last_name email orders)
           order_keys = %w(online_order_counter catalogable_id catalogable_type amount)
           credential_keys = %w(reference type)
 
