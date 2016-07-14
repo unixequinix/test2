@@ -5,7 +5,7 @@ class Api::V1::Events::BaseController < Api::BaseController
 
   def render_entities(entity)
     plural = entity.pluralize
-    modified = request.headers["If-Modified-Since"].to_datetime
+    modified = request.headers["If-Modified-Since"]&.to_datetime
 
     obj = @fetcher.method(plural).call
     plural = plural.gsub('banned_', '') if plural.starts_with?('banned')
