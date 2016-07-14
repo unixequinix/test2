@@ -1,6 +1,9 @@
 class Admins::Events::ProfilesController < Admins::Events::BaseController
   def index
-    set_presenter
+    respond_to do |format|
+      format.html { set_presenter }
+      format.csv { send_data(Csv::CsvExporter.to_csv(Profile.query_for_csv(current_event))) }
+    end
   end
 
   def search

@@ -2,8 +2,8 @@ require "rails_helper"
 
 RSpec.describe Api::V1::PackSerializer, type: :serializer do
   context "Individual Resource Representation" do
-    let(:resource_access) { create(:pack, :with_access) }
-    let(:resource_credits) { create(:pack, :with_credit) }
+    let(:resource_access) { create(:catalog_item, :with_access_pack).catalogable }
+    let(:resource_credits) { create(:catalog_item, :with_credit_pack).catalogable }
 
     let(:serializer_access) { Api::V1::PackSerializer.new(resource_access) }
     let(:serialization_access) { ActiveModelSerializers::Adapter.create(serializer_access) }
@@ -50,7 +50,7 @@ RSpec.describe Api::V1::PackSerializer, type: :serializer do
         end
         total = selected.map(&:amount).inject(:+)
 
-        expect(subject_credit["credits"]).to eq(total)
+        expect(subject_credit["credits"].to_d).to eq(total)
       end
     end
   end

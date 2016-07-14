@@ -38,6 +38,8 @@ FactoryGirl.define do
     end
 
     factory :full_pack, traits: [:with_access, :with_voucher, :with_credit]
+    factory :credit_pack, traits: [:with_credit]
+    factory :access_pack, traits: [:with_access]
     factory :empty_pack, traits: [:empty]
   end
 end

@@ -2,7 +2,9 @@ class Admins::EventsController < Admins::BaseController
   before_action :set_event, only: [:show, :edit, :update, :remove_logo, :remove_background, :remove_db]
 
   def index
-    @events = Event.all.page(params[:page])
+    params[:status] ||= [:launched, :started, :finished]
+    @events = params[:status] == "all" ? Event.all : Event.status(params[:status])
+    @events = @events.page(params[:page])
   end
 
   def show

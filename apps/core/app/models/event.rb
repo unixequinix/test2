@@ -80,6 +80,9 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   has_many :gtags_assignments, through: :gtags, source: :credential_assignments,
                                class_name: "CredentialAssignment"
 
+  # Scopes
+  scope :status, -> (status) { where aasm_state: status }
+
   extend FriendlyId
   friendly_id :name, use: :slugged
 

@@ -8,6 +8,11 @@ aside.mmenu-panel#search-menu
   = render "search", q: @list_model_presenter.q
 
 .wrapper-negative-space
+  .event-info
+    .current-showing = page_entries_info @list_model_presenter.all_items
+    .filters
+      = select_tag "filter", options_for_select("A".."Z", selected: params[:filter]), include_blank: true, id: "js-device-filter"
+
   - if @list_model_presenter.there_any?
     = render 'admins/devices/list', devices: @list_model_presenter.all_items
   - else
