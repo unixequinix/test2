@@ -5,12 +5,12 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   def index
     respond_to do |format|
       format.html
-      format.csv {
+      format.csv do
         tickets = Ticket.selected_data(current_event.id)
         redirect_to(admins_event_tickets_path(current_event)) && return if tickets.empty?
 
         send_data(Csv::CsvExporter.to_csv(tickets))
-      }
+      end
     end
   end
 

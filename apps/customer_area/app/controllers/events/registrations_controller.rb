@@ -14,7 +14,7 @@ class Events::RegistrationsController < Events::BaseController
       date = Date.new(new_params["birthdate(1i)"].to_i,
                       new_params["birthdate(2i)"].to_i,
                       new_params["birthdate(3i)"].to_i)
-      atts.merge!(birthdate: date)
+      atts[:birthdate] = date
     end
 
     @customer_form = NewProfileForm.new(atts)
@@ -37,7 +37,7 @@ class Events::RegistrationsController < Events::BaseController
       date = Date.new(edit_params["birthdate(1i)"].to_i,
                       edit_params["birthdate(2i)"].to_i,
                       edit_params["birthdate(3i)"].to_i)
-      atts.merge!(birthdate: date)
+      atts[:birthdate] = date
     end
 
     @edit_profile_form = EditProfileForm.new(current_customer)
