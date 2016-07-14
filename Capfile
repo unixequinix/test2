@@ -8,7 +8,7 @@ require "capistrano/bundler"
 require "capistrano/rails"
 require "capistrano/sidekiq" # Rails has to be above sidekiq for deploy purposes
 require "capistrano/rails/assets"
-require "capistrano/faster_assets"
+# require "capistrano/faster_assets"
 require "whenever/capistrano"
 require "capistrano/passenger"
 require "capistrano/secrets_yml"

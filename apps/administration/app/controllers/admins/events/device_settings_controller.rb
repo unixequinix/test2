@@ -8,7 +8,7 @@ class Admins::Events::DeviceSettingsController < Admins::Events::BaseController
     basic_db = bucket.objects[@event.device_basic_db.path]
     full_db = bucket.objects[@event.device_full_db.path]
 
-    msg = t('admin.event.databases.not_found')
+    msg = t("admin.event.databases.not_found")
     @basic_db_created_at = basic_db.key.blank? ? msg : basic_db.last_modified.to_formatted_s(:db)
     @full_db_created_at = full_db.key.blank? ? msg : full_db.last_modified.to_formatted_s(:db)
 

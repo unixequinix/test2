@@ -28,6 +28,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   has_many :customer_orders
   has_many :online_orders, through: :customer_orders
   has_many :payments, through: :orders
+  has_many :ban_transactions
   has_many :credit_transactions
   has_many :access_transactions
   has_many :credential_transactions
@@ -72,6 +73,21 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
              credential_assignments: { credentiable_type: "Gtag", aasm_state: :assigned })
   }
 
+  scope :query_for_csv, lambda { |event|
+    where(event: event)
+      .joins("LEFT OUTER JOIN customers ON profiles.customer_id = customers.id")
+      .joins("LEFT OUTER JOIN customer_credits ON customer_credits.profile_id = profiles.id")
+      .joins(:credential_assignments)
+      .joins("INNER JOIN tickets
+              ON credential_assignments.credentiable_id = tickets.id
+              AND credential_assignments.aasm_state = 'assigned'
+              AND credential_assignments.credentiable_type = 'Ticket'")
+      .select("profiles.id, tickets.code as ticket, SUM(customer_credits.amount) as credits, customers.email,
+               customers.first_name, customers.last_name")
+      .group("profiles.id, customers.first_name, customers.id, tickets.code")
+      .order("customers.first_name ASC")
+  }
+
   def customer
     Customer.unscoped { super }
   end
@@ -82,6 +98,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     indexes += credential_transactions.map(&:gtag_counter)
     indexes += money_transactions.map(&:gtag_counter)
     indexes += order_transactions.map(&:gtag_counter)
+    indexes += ban_transactions.map(&:gtag_counter)
     indexes.sort
   end
 
@@ -91,6 +108,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     indexes += credential_transactions.map(&:counter)
     indexes += money_transactions.map(&:counter)
     indexes += order_transactions.map(&:counter)
+    indexes += ban_transactions.map(&:counter)
     indexes.sort
   end
 
@@ -172,42 +190,42 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
               gtag_counter,
               counter
             FROM access_transactions
-            WHERE event_id = #{event.id}
+            WHERE event_id = #{event.id} AND status_code = 0
             UNION ALL
             SELECT
               profile_id,
               gtag_counter,
               counter
             FROM ban_transactions
-            WHERE event_id = #{event.id}
+            WHERE event_id = #{event.id} AND status_code = 0
             UNION ALL
             SELECT
               profile_id,
               gtag_counter,
               counter
             FROM credential_transactions
-            WHERE event_id = #{event.id}
+            WHERE event_id = #{event.id} AND status_code = 0
             UNION ALL
             SELECT
               profile_id,
               gtag_counter,
               counter
             FROM credit_transactions
-            WHERE event_id = #{event.id}
+            WHERE event_id = #{event.id} AND status_code = 0
             UNION ALL
             SELECT
               profile_id,
               gtag_counter,
               counter
             FROM money_transactions
-            WHERE event_id = #{event.id}
+            WHERE event_id = #{event.id} AND status_code = 0
             UNION ALL
             SELECT
               profile_id,
               gtag_counter,
               counter
             FROM order_transactions
-            WHERE event_id = #{event.id}
+            WHERE event_id = #{event.id} AND status_code = 0
         ) customer_trans
         GROUP BY customer_trans.profile_id
         ORDER BY customer_trans.profile_id

@@ -780,6 +780,8 @@ ActiveRecord::Schema.define(version: 20160704172500) do
     t.string   "group"
     t.string   "category"
     t.string   "reporting_category"
+    t.string   "address"
+    t.string   "registration_num"
   end
 
   add_index "stations", ["deleted_at"], name: "index_stations_on_deleted_at", using: :btree

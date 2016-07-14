@@ -20,6 +20,18 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_credit_pack do
+      after(:build) do |catalog_item|
+        catalog_item.catalogable ||= build(:credit_pack, catalog_item: catalog_item)
+      end
+    end
+
+    trait :with_access_pack do
+      after(:build) do |catalog_item|
+        catalog_item.catalogable ||= build(:access_pack, catalog_item: catalog_item)
+      end
+    end
+
     trait :with_empty_pack do
       after(:build) do |catalog_item|
         catalog_item.catalogable ||= build(:empty_pack, catalog_item: catalog_item)

@@ -25,7 +25,7 @@ class Payments::Redsys::Payer
   end
 
   def decode_parameters(parameters)
-     JSON.parse(Base64.decode64(parameters.tr("-_", "+/")))
+    JSON.parse(Base64.decode64(parameters.tr("-_", "+/")))
   end
 
   private
@@ -37,7 +37,7 @@ class Payments::Redsys::Payer
   def create_payment(order, amount, decoded_params)
     Payment.create!(transaction_type: decoded_params["Ds_TransactionType"],
                     card_country: decoded_params["Ds_Card_Country"],
-                    paid_at: "#{decoded_params["Ds_Date"]}, #{decoded_params["Ds_Hour"]}",
+                    paid_at: "#{decoded_params['Ds_Date']}, #{decoded_params['Ds_Hour']}",
                     order: order,
                     response_code: decoded_params["Ds_Response"],
                     authorization_code: decoded_params["Ds_AuthorisationCode"],
