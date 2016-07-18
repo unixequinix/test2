@@ -45,7 +45,7 @@ en:
       payment_method: "Method"
       price: "Price"
       credits: "C.C"
-      credits_refundable: "C.RC"
+      refundable_credits: "C.RC"
       final_balance: "C.FB"
       final_refundable_balance: "C.FRB"
       inconsistent_balance: "C.IB"
