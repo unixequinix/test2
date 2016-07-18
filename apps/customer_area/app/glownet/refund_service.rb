@@ -62,7 +62,7 @@ class RefundService
   def credit_fee_transaction(params)
     params[:transaction_type] = "fee"
     params[:credits] = fee
-    params[:credits_refundable] = fee
+    params[:refundable_credits] = fee
     CreditWriter.create_credit(@profile, params)
   end
 end

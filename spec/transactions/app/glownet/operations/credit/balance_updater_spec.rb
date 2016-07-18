@@ -8,7 +8,7 @@ RSpec.describe Operations::Credit::BalanceUpdater, type: :job do
   let(:params) do
     {
       credits: 30,
-      credits_refundable: 1.2,
+      refundable_credits: 1.2,
       credit_value: 2,
       final_balance: 100,
       final_refundable_balance: 20,
@@ -29,11 +29,11 @@ RSpec.describe Operations::Credit::BalanceUpdater, type: :job do
   it "updates the refundable credits of a customer when correct values are supplied" do
     worker.perform_now(params)
     profile.reload
-    expect(profile.refundable_credits.to_f).to eql(params[:credits_refundable].to_f)
+    expect(profile.refundable_credits.to_f).to eql(params[:refundable_credits].to_f)
   end
 
-  it "renames credits_refundable to refundable_credits" do
-    atts = hash_including(refundable_credits: params[:credits_refundable])
+  it "renames refundable_credits to refundable_credits" do
+    atts = hash_including(refundable_credits: params[:refundable_credits])
     expect_any_instance_of(Profile).to receive(:update!).with(atts)
     worker.perform_now(params)
   end

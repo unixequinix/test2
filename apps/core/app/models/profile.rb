@@ -142,7 +142,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   def inconsistent_credits?
     trans = credit_transactions.status_ok.not_record_credit
-    credits.to_f != trans.sum(:credits) || refundable_credits.to_f != trans.sum(:credits_refundable)
+    credits.to_f != trans.sum(:credits) || refundable_credits.to_f != trans.sum(:refundable_credits)
   end
 
   def purchases
