@@ -16,6 +16,7 @@ class CreditWriter
       if item.single_credits?
         params[:credit_value] = item.catalog_item.catalogable.value
         params[:credits] = item.amount
+        params[:refundable_credits] = item.amount
 
       elsif item.pack_with_credits?
         pack = item.catalog_item.catalogable

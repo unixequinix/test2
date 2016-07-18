@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160718112332) do
+ActiveRecord::Schema.define(version: 20160718163258) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -261,7 +261,7 @@ ActiveRecord::Schema.define(version: 20160718112332) do
     t.integer  "device_db_index"
     t.string   "device_created_at"
     t.float    "credits"
-    t.float    "credits_refundable"
+    t.float    "refundable_credits"
     t.float    "credit_value"
     t.float    "final_balance"
     t.float    "final_refundable_balance"
@@ -703,10 +703,10 @@ ActiveRecord::Schema.define(version: 20160718112332) do
     t.datetime "created_at",                                                       null: false
     t.datetime "updated_at",                                                       null: false
     t.boolean  "banned",                                           default: false
-    t.decimal  "credits",                  precision: 8, scale: 2
-    t.decimal  "refundable_credits",       precision: 8, scale: 2
-    t.decimal  "final_balance",            precision: 8, scale: 2
-    t.decimal  "final_refundable_balance", precision: 8, scale: 2
+    t.decimal  "credits",                  precision: 8, scale: 2, default: 0.0
+    t.decimal  "refundable_credits",       precision: 8, scale: 2, default: 0.0
+    t.decimal  "final_balance",            precision: 8, scale: 2, default: 0.0
+    t.decimal  "final_refundable_balance", precision: 8, scale: 2, default: 0.0
   end
 
   add_index "profiles", ["deleted_at"], name: "index_profiles_on_deleted_at", using: :btree
