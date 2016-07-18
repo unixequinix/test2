@@ -32,7 +32,7 @@ class CreditWriter
 
   def self.create_credit(profile, *params)
     atts = params.first
-    %w( credits refundable_credits credit_value ).each { |key| atts[key.to_sym] = atts[key].to_f }
+    %w( credits refundable_credits credit_value ).each { |key| atts[key.to_sym] = atts[key.to_sym].to_f }
 
     common_atts = {
       transaction_category: "credit",

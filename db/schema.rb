@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160718112332) do
+ActiveRecord::Schema.define(version: 20160718153037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -261,7 +261,7 @@ ActiveRecord::Schema.define(version: 20160718112332) do
     t.integer  "device_db_index"
     t.string   "device_created_at"
     t.float    "credits"
-    t.float    "credits_refundable"
+    t.float    "refundable_credits"
     t.float    "credit_value"
     t.float    "final_balance"
     t.float    "final_refundable_balance"
