@@ -32,7 +32,7 @@ class CreditWriter
 
   def self.create_credit(profile, *params)
     atts = params.first
-    %w( credits refundable_credits credit_value ).each { |key| atts[key] = atts[key].to_f }
+    %w( credits refundable_credits credit_value ).each { |key| atts[key.to_sym] = atts[key].to_f }
 
     common_atts = {
       transaction_category: "credit",
@@ -44,7 +44,7 @@ class CreditWriter
       profile_id: profile.id,
       event_id: profile.event.id,
       device_created_at: Time.zone.now.strftime("%Y-%m-%d %T.%L")
-    }.merge(atts.symbolize_keys)
+    }.merge(atts)
 
     Operations::Base.new.portal_write(common_atts)
   end
