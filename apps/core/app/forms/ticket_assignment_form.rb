@@ -40,7 +40,7 @@ class TicketAssignmentForm
     current_profile.credential_assignments.create(credentiable: ticket)
     if ticket.company_ticket_type.credential_type
       CreditWriter.reassign_ticket(ticket, :assign) if ticket.credits.present?
-      CustomerOrderCreator.new.save(ticket)
+      CustomerOrderTicketCreator.new.save(ticket)
     end
 
     current_profile
