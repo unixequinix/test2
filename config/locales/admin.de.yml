@@ -362,6 +362,7 @@ de:
       name: "Name"
       description: "Beschreibung"
       is_alcohol: "alkoholisch"
+      vat: "VAT %"
     pack:
       number_catalog_items: "Anzahl der Artikel"
       add_item: "Add Item"

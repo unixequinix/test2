@@ -168,6 +168,8 @@ de:
       comment:
         new:
           body: "Kommentar"
+      product:
+        vat: "VAT %"
 
     placeholders:
       event:
