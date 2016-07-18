@@ -26,6 +26,7 @@ class Operations::Base < ActiveJob::Base
   end
 
   def portal_write(atts) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+    atts.symbolize_keys!
     event = Event.find(atts[:event_id])
     station = event.portal_station
     profile = Profile.find(atts[:profile_id])
@@ -44,7 +45,7 @@ class Operations::Base < ActiveJob::Base
       device_db_index: klass.where(event: event, station_id: station.id).count + 1,
       device_created_at: Time.zone.now.strftime("%Y-%m-%d %T.%L"),
       customer_tag_uid: profile.active_gtag_assignment&.credentiable&.tag_uid
-    }.merge(atts.symbolize_keys)
+    }.merge(atts)
 
     klass.create!(column_attributes(klass, final_atts))
     execute_operations(final_atts)
