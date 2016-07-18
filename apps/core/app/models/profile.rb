@@ -9,10 +9,10 @@
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  banned                   :boolean          default(FALSE)
-#  credits                  :decimal(8, 2)
-#  refundable_credits       :decimal(8, 2)
-#  final_balance            :decimal(8, 2)
-#  final_refundable_balance :decimal(8, 2)
+#  credits                  :decimal(8, 2)    default(0.0)
+#  refundable_credits       :decimal(8, 2)    default(0.0)
+#  final_balance            :decimal(8, 2)    default(0.0)
+#  final_refundable_balance :decimal(8, 2)    default(0.0)
 #
 
 class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
