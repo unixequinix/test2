@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160714071046) do
+ActiveRecord::Schema.define(version: 20160718112332) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -698,15 +698,15 @@ ActiveRecord::Schema.define(version: 20160714071046) do
 
   create_table "profiles", force: :cascade do |t|
     t.integer  "customer_id"
-    t.integer  "event_id",                                 null: false
+    t.integer  "event_id",                                                         null: false
     t.datetime "deleted_at"
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
-    t.boolean  "banned",                   default: false
-    t.float    "credits",                  default: 0.0
-    t.float    "refundable_credits",       default: 0.0
-    t.float    "final_balance",            default: 0.0
-    t.float    "final_refundable_balance", default: 0.0
+    t.datetime "created_at",                                                       null: false
+    t.datetime "updated_at",                                                       null: false
+    t.boolean  "banned",                                           default: false
+    t.decimal  "credits",                  precision: 8, scale: 2
+    t.decimal  "refundable_credits",       precision: 8, scale: 2
+    t.decimal  "final_balance",            precision: 8, scale: 2
+    t.decimal  "final_refundable_balance", precision: 8, scale: 2
   end
 
   add_index "profiles", ["deleted_at"], name: "index_profiles_on_deleted_at", using: :btree
