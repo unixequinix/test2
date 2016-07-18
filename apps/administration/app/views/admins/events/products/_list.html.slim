@@ -7,6 +7,7 @@
           = check_box_tag "select-all", 1
         th = t('admin.products.name')
         th = t('admin.products.description')
+        th = t('admin.products.vat')
         th = t('admin.products.is_alcohol')
         th.table-actions-field = t('admin.defaults.actions')
     tbody
@@ -16,6 +17,7 @@
             = check_box_tag "products[#{product.id}]", 1
           td data-label=t('admin.products.name') = link_to(product.name, admins_event_product_path(current_event, product))
           td data-label=t('admin.products.description') = product.description
+          td data-label=t('admin.products.is_alcohol') = product.vat
           td data-label=t('admin.products.is_alcohol') = product.is_alcohol
           td.table-actions-field
             ul

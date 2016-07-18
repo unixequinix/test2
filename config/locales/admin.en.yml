@@ -367,6 +367,7 @@ en:
       name: "Name"
       description: "Description"
       is_alcohol: "Is alcohol"
+      vat: "VAT %"
     pack:
       number_catalog_items: "Number of items"
       add_item: "Add Item"

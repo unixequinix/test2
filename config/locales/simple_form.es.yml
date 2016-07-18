@@ -171,6 +171,8 @@ es:
       comment:
         new:
           body: "Comentario"
+      product:
+        vat: "VAT %"
 
     placeholders:
       event:

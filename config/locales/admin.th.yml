@@ -366,6 +366,7 @@ th:
       name: "Name"
       description: "Description"
       is_alcohol: "Is alcohol"
+      vat: "VAT %"
     credential_type:
       id: "Id"
       memory_position: "Posición en memoria"
