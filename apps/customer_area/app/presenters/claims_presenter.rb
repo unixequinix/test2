@@ -9,7 +9,7 @@ class ClaimsPresenter < BasePresenter
     return "cards_disabled" if @gtag_assignment.credentiable.card? && !cards_can_refund?
     return "claim_present" if profile.completed_claims.present?
     return "no_credits" unless any_refundable_method?
-    return "invalid_balance" unless BalanceCalculator.new(profile).valid_balance?
+    return "invalid_balance" unless profile.valid_balance?
     return "direct_claim" if enough_money && @event.direct?
     "transfer_claim"
   end
