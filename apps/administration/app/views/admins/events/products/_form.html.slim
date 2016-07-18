@@ -2,11 +2,8 @@
   .wrapper-negative-space
     = f.input :name, placeholder: true
     = f.input :description, placeholder: true
+    = f.input :vat, placeholder: false
     = f.input :is_alcohol, as: :radio_buttons, placeholder: false
     = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
 
     = f.button :submit, class: "btn btn-primary"
-
-
-
-

@@ -683,6 +683,7 @@ ActiveRecord::Schema.define(version: 20160705113036) do
     t.datetime "updated_at",                  null: false
     t.string   "description"
     t.integer  "event_id"
+    t.float    "vat",         default: 0.0
   end
 
   add_index "products", ["deleted_at"], name: "index_products_on_deleted_at", using: :btree
