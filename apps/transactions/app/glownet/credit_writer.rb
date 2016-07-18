@@ -44,7 +44,7 @@ class CreditWriter
       profile_id: profile.id,
       event_id: profile.event.id,
       device_created_at: Time.zone.now.strftime("%Y-%m-%d %T.%L")
-    }.merge(atts)
+    }.merge(atts.symbolize_keys)
 
     Operations::Base.new.portal_write(common_atts)
   end
