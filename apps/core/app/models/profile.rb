@@ -140,9 +140,8 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     payments.sum(:amount)
   end
 
-  def inconsistent_credits?
-    trans = credit_transactions.status_ok.not_record_credit
-    credits.to_f != trans.sum(:credits) || refundable_credits.to_f != trans.sum(:refundable_credits)
+  def valid_balance?
+    credits == final_balance && refundable_credits == final_refundable_balance
   end
 
   def purchases
@@ -235,9 +234,9 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     JSON.parse(ActiveRecord::Base.connection.select_value(sql)).to_a.group_by { |t| t["profile_id"] }
   end
 
-  
-  
-  
+
+
+
   def self.customer_credits_sum(event) # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
       SELECT to_json(json_agg(row_to_json(inc)))

@@ -46,7 +46,6 @@ class Operations::Base < ActiveJob::Base
       device_created_at: Time.zone.now.strftime("%Y-%m-%d %T.%L"),
       customer_tag_uid: profile.active_gtag_assignment&.credentiable&.tag_uid
     }.merge(atts)
-    binding.pry
 
     klass.create!(column_attributes(klass, final_atts))
     execute_operations(final_atts)
