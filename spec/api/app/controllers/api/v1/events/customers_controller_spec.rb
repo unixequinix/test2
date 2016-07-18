@@ -25,9 +25,9 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
       end
 
       it "returns the necessary keys" do
-        cus_keys = %w(id banned first_name last_name email autotopup_gateways credentials orders)
-        cre_keys = %w(reference type)
-        order_keys = %w(online_order_counter amount catalogable_id catalogable_type)
+        cus_keys = %w(id banned updated_at first_name last_name email credentials orders autotopup_gateways)
+        cre_keys = %w(profile_id reference type)
+        order_keys = %w(profile_id online_order_counter amount catalogable_id catalogable_type)
 
         JSON.parse(response.body).map do |gtag|
           expect(gtag.keys).to eq(cus_keys)
@@ -42,9 +42,9 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
           profile_cred = Profile.find(c["id"]).credential_assignments.where(aasm_state: "assigned")
           db_cred = profile_cred.map do |obj|
             if obj.credentiable_type == "Ticket"
-              { reference: obj.credentiable.code, type: "ticket" }.as_json
+              { profile_id: obj.profile_id, reference: obj.credentiable.code, type: "ticket" }.as_json
             else
-              { reference: obj.credentiable.tag_uid, type: "gtag" }.as_json
+              { profile_id: obj.profile_id, reference: obj.credentiable.tag_uid, type: "gtag" }.as_json
             end
           end
           expect(api_cred).to eq(db_cred)

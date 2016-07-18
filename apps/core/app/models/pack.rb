@@ -107,10 +107,10 @@ class Pack < ActiveRecord::Base
     pack_credits = if persisted?
                      open_all("Credit").sum(&:total_amount)
                    else
-                     pack_catalog_items.map {|i| i.amount.to_f }.sum
+                     pack_catalog_items.map { |i| i.amount.to_f }.sum
                    end
 
     error_msg = I18n.t("errors.messages.more_credits_than_max_balance")
-    errors[:pack_credits] <<  error_msg if pack_credits > max_balance
+    errors[:pack_credits] << error_msg if pack_credits > max_balance
   end
 end

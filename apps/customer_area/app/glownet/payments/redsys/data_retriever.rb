@@ -35,7 +35,7 @@ class Payments::Redsys::DataRetriever < Payments::BaseDataRetriever
   end
 
   def parameters
-     Base64.strict_encode64(basic_parameters.to_json)
+    Base64.strict_encode64(basic_parameters.to_json)
   end
 
   def signature
@@ -46,16 +46,14 @@ class Payments::Redsys::DataRetriever < Payments::BaseDataRetriever
   private
 
   def sign_hmac256(data, key)
-    Base64.strict_encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha256'), key, data))
+    Base64.strict_encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new("sha256"), key, data))
   end
 
   def encrypt_3DES(data, key)
     cipher = OpenSSL::Cipher::Cipher.new("DES-EDE3-CBC")
     cipher.encrypt
     cipher.key = key
-    if (data.bytesize % 8) > 0
-      data += "\0" * (8 - data.bytesize % 8)
-    end
+    data += "\0" * (8 - data.bytesize % 8) if (data.bytesize % 8) > 0
     cipher.update(data)
   end
 
@@ -104,11 +102,11 @@ class Payments::Redsys::DataRetriever < Payments::BaseDataRetriever
   end
 
   def success_url
-    success_event_order_payment_service_asynchronous_payments_url(@current_event, @order, 'redsys')
+    success_event_order_payment_service_asynchronous_payments_url(@current_event, @order, "redsys")
   end
 
   def error_url
-    error_event_order_payment_service_asynchronous_payments_url(@current_event, @order, 'redsys')
+    error_event_order_payment_service_asynchronous_payments_url(@current_event, @order, "redsys")
   end
 
   def get_value_of_parameter(parameter)

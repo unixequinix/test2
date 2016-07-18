@@ -378,6 +378,7 @@ es:
       name: "Nombre"
       description: "Descripción"
       is_alcohol: "Es alcohol"
+      vat: "VAT %"
     ticket_types:
       id: "Id"
       name: "Nombre"

@@ -12,3 +12,4 @@
 //= require admin/delete_all
 //= require admin/features_form
 //= require admin/input_focus
+//= require admin/devices

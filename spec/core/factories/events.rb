@@ -71,8 +71,11 @@ FactoryGirl.define do
     end
 
     after :create do |event|
-      param = Parameter.find_by(category: "gtag", group: "form", name: "gtag_type")
-      EventParameter.find_or_create_by(event: event, value: "ultralight_c", parameter: param)
+      gtag_type = Parameter.find_by(category: "gtag", group: "form", name: "gtag_type")
+      EventParameter.find_or_create_by(event: event, value: "ultralight_c", parameter: gtag_type)
+
+      max_balance = Parameter.find_by(category: "gtag", group: "form", name: "maximum_gtag_balance")
+      EventParameter.find_or_create_by(event: event, value: "300", parameter: max_balance)
     end
 
     factory :event_with_refund_services, traits: [:refund_services]

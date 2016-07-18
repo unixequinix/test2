@@ -5,7 +5,7 @@ class CustomerPasswordStrategy < ::Warden::Strategies::Base
   end
 
   def authenticate!
-    customer = Customer.find_by(email: c_attr("email"), event_id: c_attr("event_id"))
+    customer = Customer.where('lower(email) = ?', c_attr("email").downcase).where(event_id: c_attr("event_id")).first
     bad_pass = !Authentication::Encryptor.compare(customer&.encrypted_password, c_attr("password"))
 
     fail!(message: "errors.messages.unauthorized") && return if customer.nil? || bad_pass

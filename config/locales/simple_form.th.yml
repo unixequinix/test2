@@ -172,6 +172,9 @@ th:
       comment:
         new:
           body: "ข้อคิดเห็น"
+      product:
+        vat: "VAT %"
+
     placeholders:
       event:
         new: &placeholder_event

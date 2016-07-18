@@ -1,5 +1,7 @@
 class Admins::DevicesController < Admins::BaseController
   def index
+    @devices = params[:filter].nil? ? Device.all : Device.where("substr(asset_tracker, 1, 1) = ?", params[:filter])
+    @devices = @devices.page(params[:page])
     set_presenter
   end
 
@@ -32,7 +34,7 @@ class Admins::DevicesController < Admins::BaseController
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Device".constantize.model_name,
-      fetcher: Device.all,
+      fetcher: @devices,
       search_query: params[:q],
       page: params[:page],
       context: view_context,
