@@ -60,7 +60,7 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
     atts = {
       transaction_origin: transaction.transaction_origin,
       profile_id: params[:id],
-      credits_refundable: transaction.credits_refundable,
+      refundable_credits: transaction.refundable_credits,
       credits: transaction.credits,
       credit_value: transaction.credit_value,
       final_balance: transaction.final_balance,

@@ -4,7 +4,6 @@ class Operations::Credit::BalanceUpdater < Operations::Base
 
   def perform(atts)
     profile = Profile.find(atts[:profile_id])
-    atts[:refundable_credits] = atts[:credits_refundable]
     device_trans = profile.credit_transactions.status_ok.not_record_credit
 
     # TODO: Too many queries? Maybe remove these two columns? Simplify in a single query with the select method

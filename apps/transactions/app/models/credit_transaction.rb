@@ -14,7 +14,7 @@
 #  device_db_index          :integer
 #  device_created_at        :string
 #  credits                  :float
-#  credits_refundable       :float
+#  refundable_credits       :float
 #  credit_value             :float
 #  final_balance            :float
 #  final_refundable_balance :float
@@ -43,7 +43,7 @@ class CreditTransaction < Transaction
   default_scope { order(gtag_counter: :desc) }
 
   def self.mandatory_fields
-    super + %w( credits credits_refundable credit_value final_balance final_refundable_balance )
+    super + %w( credits refundable_credits credit_value final_balance final_refundable_balance )
   end
 
   def self.column_names
