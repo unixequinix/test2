@@ -30,6 +30,7 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  receive_communications :boolean          default(FALSE)
+#  locale                 :string           default("en")
 #
 
 class Customer < ActiveRecord::Base
