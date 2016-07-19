@@ -38,30 +38,46 @@
 
 FactoryGirl.define do
   factory :event do
-    name { "Festival #{SecureRandom.urlsafe_base64}-#{rand(100_000)}" }
-    location { "#{rand(100)} some street" }
+    name { "Event #{SecureRandom.hex(16)}" }
+    location "Glownet"
     start_date { Time.zone.now }
     end_date { Time.zone.now + 2.days }
     description "This paragraph is something special"
-    support_email "valid@email.com"
-    style "html{color:white;}"
+    support_email "support@glownet.com"
+    style "html { font-family: Helvetica; }"
     url { "somedomain#{rand(100)}.example.com" }
-    currency "GBP"
-    host_country "GB"
-    background_type { EventDecorator::BACKGROUND_TYPES.sample }
+    currency "EUR"
+    host_country "ES"
+    background_type "fixed"
     disclaimer "Some Disclaimer"
     gtag_assignation_notification "Some gtag assignation notification"
     gtag_form_disclaimer "Some gtag form notification"
-    gtag_name "Some gtag name"
-    info "more info about the festival"
+    gtag_name "Wristband"
+    info "Information about the festival"
     mass_email_claim_notification "We are sending you email"
-    refund_success_message "your refund has been successfull"
+    refund_success_message "Your refund has been successfull"
     refund_services 0
     payment_services 0
 
-    trait :refund_services do
-      refund_services 2
+    # Event states
+
+    trait :pre_event do
+      aasm_state "launched"
     end
+
+    trait :started do
+      aasm_state "started"
+    end
+
+    trait :finished do
+      aasm_state "finished"
+    end
+
+    trait :closed do
+      aasm_state "closed"
+    end
+
+    # Payment services
 
     trait :payment_services do
       payment_services 3
