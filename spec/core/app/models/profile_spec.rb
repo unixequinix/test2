@@ -6,7 +6,7 @@ RSpec.describe Profile, type: :model do
   let(:atts) { { profile: profile } }
 
   context "when dealing with credits" do
-    describe ".online_refundable_money_amount" do
+    describe ".online_refundable_money" do
       it "returns the sum of all refundable online money from previous purchases made" do
         orders = create_list(:order_with_payment, 3, profile: profile)
         payments = orders.map(&:payments).flatten

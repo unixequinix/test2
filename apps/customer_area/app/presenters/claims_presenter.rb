@@ -5,7 +5,7 @@ class ClaimsPresenter < BasePresenter
 
   def path # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
     profile = @profile
-    enough_money = profile.refundable_money_amount <= profile.online_refundable_money_amount
+    enough_money = profile.refundable_money <= profile.online_refundable_money
     return "cards_disabled" if @gtag_assignment.credentiable.card? && !cards_can_refund?
     return "claim_present" if profile.completed_claims.present?
     return "no_credits" unless any_refundable_method?
