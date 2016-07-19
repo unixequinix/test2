@@ -23,10 +23,11 @@ RSpec.feature "Ticket Assignation", type: :feature do
       it "assigns the ticket" do
         customer_ticket = customer.profile.active_tickets_assignment.first.credentiable
         expect(customer_ticket.code).to eq(valid_ticket.code)
+        expect(page.body).to include(valid_ticket.code)
       end
 
       it "redirects to customer portal home page" do
-        eventually { expect(current_path).to eq(event_path) }
+        expect(current_path).to eq(event_path)
       end
     end
 
@@ -39,11 +40,11 @@ RSpec.feature "Ticket Assignation", type: :feature do
 
       it "doesn't assign the ticket" do
         expect(customer.profile).to be_nil
-          eventually { expect(page.body).to have_css(".msg-for-error") }
+        expect(page.body).to have_css(".msg-for-error")
       end
 
       it "renders the same page" do
-        eventually { expect(current_path).to eq(current_path) }
+        expect(current_path).to eq(current_path)
       end
     end
 
@@ -59,7 +60,7 @@ RSpec.feature "Ticket Assignation", type: :feature do
       end
 
       it "renders the same page" do
-        eventually { expect(current_path).to eq(current_path) }
+        expect(current_path).to eq(current_path)
       end
     end
   end
