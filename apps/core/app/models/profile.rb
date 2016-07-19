@@ -119,7 +119,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def refundable_money
-    refundable_credits * event.standard_credit_price
+    refundable_credits.to_f * event.standard_credit_price.to_f
   end
 
   def refundable_money_after_fee(refund_service)
