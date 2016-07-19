@@ -15,10 +15,19 @@
 
 FactoryGirl.define do
   factory :company_ticket_type do
-    event
     name { "Name #{rand(100)}" }
     company_code { rand(100) }
-    company_event_agreement
     credential_type
+    event
+
+    after(:build) do |ctt|
+      ctt.company_event_agreement = create(:company_event_agreement, event: ctt.event)
+    end
+
+    after(:create) do |ctt|
+      item = create(:catalog_item, :with_credit, event: ctt.event)
+      ctt.credential_type = create(:credential_type, catalog_item: item)
+      ctt.save
+    end
   end
 end

@@ -90,6 +90,7 @@ RSpec.configure do |config|
   config.include ControllerMacros, type: :controller
   config.include I18nMacros, type: :feature
   config.include ParametersMacros, type: :feature
+  config.include AsyncHelper, type: :feature
   config.include Warden::Test::Helpers
 
   Warden.test_mode!

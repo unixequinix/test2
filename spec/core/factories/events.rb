@@ -77,6 +77,14 @@ FactoryGirl.define do
       aasm_state "closed"
     end
 
+    # Event features
+
+    trait :ticket_assignation do
+      after(:build) do |event|
+        event.ticket_assignation = true
+      end
+    end
+
     # Payment services
 
     trait :payment_services do
