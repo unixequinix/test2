@@ -35,31 +35,24 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   has_many :money_transactions
   has_many :order_transactions
   has_many :customer_credits
-  has_many :completed_claims, -> { where("aasm_state = 'completed' AND completed_at IS NOT NULL") },
-           class_name: "Claim"
+  has_many :completed_claims, -> { where("aasm_state = 'completed' AND completed_at IS NOT NULL") }, class_name: "Claim"
   has_many :credential_assignments
   has_many :credit_transactions
   # credential_assignments_tickets
-  has_many :ticket_assignments,
-           -> { where(credentiable_type: "Ticket") },
+  has_many :ticket_assignments, -> { where(credentiable_type: "Ticket") },
            class_name: "CredentialAssignment", dependent: :destroy
   # credential_assignments_gtags
-  has_many :gtag_assignments,
-           -> { where(credentiable_type: "Gtag") },
+  has_many :gtag_assignments, -> { where(credentiable_type: "Gtag") },
            class_name: "CredentialAssignment", dependent: :destroy
   # credential_assignments_assigned
-  has_many :active_assignments,
-           -> { where(aasm_state: :assigned) }, class_name: "CredentialAssignment"
+  has_many :active_assignments, -> { where(aasm_state: :assigned) }, class_name: "CredentialAssignment"
   # credential_assignments_tickets_assigned
-  has_many :active_tickets_assignment,
-           -> { where(aasm_state: :assigned, credentiable_type: "Ticket") },
+  has_many :active_tickets_assignment, -> { where(aasm_state: :assigned, credentiable_type: "Ticket") },
            class_name: "CredentialAssignment"
   # credential_assignments_gtag_assigned
-  has_one :active_gtag_assignment,
-          -> { where(aasm_state: :assigned, credentiable_type: "Gtag") },
+  has_one :active_gtag_assignment, -> { where(aasm_state: :assigned, credentiable_type: "Gtag") },
           class_name: "CredentialAssignment"
-  has_one :completed_claim,
-          -> { where(aasm_state: :completed) }, class_name: "Claim"
+  has_one :completed_claim, -> { where(aasm_state: :completed) }, class_name: "Claim"
   has_many :payment_gateway_customers
 
   # Validations
@@ -69,8 +62,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   scope :for_event, -> (event) { where(event: event) }
   scope :with_gtag, lambda { |event|
     joins(:credential_assignments)
-      .where(event: event,
-             credential_assignments: { credentiable_type: "Gtag", aasm_state: :assigned })
+      .where(event: event, credential_assignments: { credentiable_type: "Gtag", aasm_state: :assigned })
   }
 
   scope :query_for_csv, lambda { |event|
@@ -147,9 +139,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   def purchases
     atts = %w( id name catalogable_type catalogable_id ).map { |k| "catalog_items.#{k}" }.join(", ")
-    customer_orders.joins(:catalog_item)
-                   .select("sum(customer_orders.amount) as total_amount, #{atts}")
-                   .group(atts)
+    customer_orders.joins(:catalog_item).select("sum(customer_orders.amount) as total_amount, #{atts}").group(atts)
   end
 
   def infinite_entitlements_purchased
@@ -172,6 +162,10 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def self.counters(event) # rubocop:disable Metrics/MethodLength
+    transactions_select = Transaction::TYPES.map do |t|
+      "SELECT profile_id, gtag_counter, counter FROM #{t}_transactions WHERE event_id = #{event.id} AND status_code = 0"
+    end.join(" UNION ALL ")
+
     sql = <<-SQL
       SELECT to_json(json_agg(row_to_json(cust)))
       FROM (
@@ -183,50 +177,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
           MAX(customer_trans.counter) as online,
           SUM(customer_trans.counter) as online_total,
           MAX(customer_trans.counter) * (MAX(customer_trans.counter) + 1) / 2 as online_last_total
-        FROM
-        (
-            SELECT
-              profile_id,
-              gtag_counter,
-              counter
-            FROM access_transactions
-            WHERE event_id = #{event.id} AND status_code = 0
-            UNION ALL
-            SELECT
-              profile_id,
-              gtag_counter,
-              counter
-            FROM ban_transactions
-            WHERE event_id = #{event.id} AND status_code = 0
-            UNION ALL
-            SELECT
-              profile_id,
-              gtag_counter,
-              counter
-            FROM credential_transactions
-            WHERE event_id = #{event.id} AND status_code = 0
-            UNION ALL
-            SELECT
-              profile_id,
-              gtag_counter,
-              counter
-            FROM credit_transactions
-            WHERE event_id = #{event.id} AND status_code = 0
-            UNION ALL
-            SELECT
-              profile_id,
-              gtag_counter,
-              counter
-            FROM money_transactions
-            WHERE event_id = #{event.id} AND status_code = 0
-            UNION ALL
-            SELECT
-              profile_id,
-              gtag_counter,
-              counter
-            FROM order_transactions
-            WHERE event_id = #{event.id} AND status_code = 0
-        ) customer_trans
+        FROM (#{transactions_select}) customer_trans
         GROUP BY customer_trans.profile_id
         ORDER BY customer_trans.profile_id
       ) cust
