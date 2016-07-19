@@ -26,6 +26,7 @@ class CustomerOrder < ActiveRecord::Base
 
   # Origins
   TICKET_ASSIGNMENT = "ticket_assignment".freeze
+  TICKET_UNASSIGNMENT = "ticket_unassignment".freeze
   DEVICE = "device".freeze
   PURCHASE = "online_purchase".freeze
 

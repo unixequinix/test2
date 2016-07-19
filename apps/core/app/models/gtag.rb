@@ -30,15 +30,9 @@ class Gtag < ActiveRecord::Base
   FORMATS = [CARD, WRISTBAND].freeze
 
   # Gtag limits
-  GTAG_DEFINITIONS = [{ name: "mifare_classic",
-                        entitlement_limit: 15,
-                        credential_limit: 15 },
-                      { name: "ultralight_ev1",
-                        entitlement_limit: 40,
-                        credential_limit: 32 },
-                      { name: "ultralight_c",
-                        entitlement_limit: 56,
-                        credential_limit: 32 }].freeze
+  GTAG_DEFINITIONS = [{ name: "mifare_classic", entitlement_limit: 15, credential_limit: 15 },
+                      { name: "ultralight_ev1", entitlement_limit: 40, credential_limit: 32 },
+                      { name: "ultralight_c", entitlement_limit: 56, credential_limit: 32 }].freeze
 
   # Associations
   belongs_to :event
@@ -53,8 +47,7 @@ class Gtag < ActiveRecord::Base
   has_one :purchaser, as: :credentiable, dependent: :destroy
   has_one :completed_claim, -> { where(aasm_state: :completed) }, class_name: "Claim"
   has_one :assigned_profile, through: :assigned_gtag_credential, source: :profile
-  has_one :assigned_gtag_credential,
-          -> { where(credential_assignments: { aasm_state: :assigned }) },
+  has_one :assigned_gtag_credential, -> { where(credential_assignments: { aasm_state: :assigned }) },
           as: :credentiable,
           class_name: "CredentialAssignment"
 
@@ -66,6 +59,7 @@ class Gtag < ActiveRecord::Base
   # Validations
   validates_uniqueness_of :tag_uid, scope: :event_id
   validates :tag_uid, presence: true
+  validates :tag_uid, format: { with: /\A[0-9A-Fa-f]+\z/, message: I18n.t("errors.messages.only_hex") }
 
   # Scopes
   scope :selected_data, lambda  { |event_id|
@@ -74,39 +68,12 @@ class Gtag < ActiveRecord::Base
            AND credential_assignments.credentiable_type = 'Gtag'
            AND credential_assignments.deleted_at IS NULL
            LEFT OUTER JOIN customer_orders
-           ON customer_orders.profile_id =
-           credential_assignments.profile_id
+           ON customer_orders.profile_id = credential_assignments.profile_id
            AND customer_orders.deleted_at IS NULL")
       .select("gtags.id, gtags.event_id, gtags.company_ticket_type_id, gtags.tag_uid,
                gtags.credential_redeemed, customer_orders.amount")
       .where(event: event_id)
   }
-
-  def balance
-    assigned_profile.total_credits
-  end
-
-  # TODO: Right now we're calculating the refundable_amount ourselves, in the future when the
-  # =>    devices fix the writing in wristband problem we will use the final_refundable_balance
-  # =>    of the last customer_credit ordered by gtag_db_index
-  def refundable_amount
-    assigned_profile.customer_credits.map(&:refundable_amount).sum * event.standard_credit_price
-  end
-
-  def refundable_amount_after_fee(refund_service)
-    fee = event.refund_fee(refund_service)
-    refundable_amount - fee.to_f
-  end
-
-  def refundable?(refund_service)
-    minimum = event.refund_minimun(refund_service).to_f
-    amount = refundable_amount_after_fee(refund_service)
-    amount >= minimum && amount >= 0
-  end
-
-  def any_refundable_method?
-    event.selected_refund_services.any? { |service| refundable?(service) }
-  end
 
   def self.field_by_memory_length(memory_length:, field:)
     found = GTAG_DEFINITIONS.find do |definition|

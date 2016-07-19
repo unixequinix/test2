@@ -13,7 +13,7 @@ table.transactions
       th = t("admin.transactions.station_id")
       th = t("admin.transactions.device_uid")
       th = t("admin.transactions.credits")
-      th = t("admin.transactions.credits_refundable")
+      th = t("admin.transactions.refundable_credits")
       th = t("admin.transactions.final_balance")
       th = t("admin.transactions.final_refundable_balance")
       th = t("admin.transactions.status_code")
@@ -31,8 +31,8 @@ table.transactions
           td data-label=t("admin.transactions.device_uid") = transaction.device_uid
           td data-label=t("admin.transactions.credits")
             = best_in_place transaction, :credits, url: admins_event_transaction_path(current_event, transaction, type: 'credit')
-          td data-label=t("admin.transactions.credits_refundable")
-            = best_in_place transaction, :credits_refundable, url: admins_event_transaction_path(current_event, transaction, type: 'credit')
+          td data-label=t("admin.transactions.refundable_credits")
+            = best_in_place transaction, :refundable_credits, url: admins_event_transaction_path(current_event, transaction, type: 'credit')
           td data-label=t("admin.transactions.final_balance")
             = best_in_place transaction, :final_balance, url: admins_event_transaction_path(current_event, transaction, type: 'credit')
           td data-label=t("admin.transactions.final_refundable_balance")
@@ -43,5 +43,6 @@ table.transactions
           td.table-actions-field data-label=t("admin.transactions.gtag_counter") = transaction.device_created_at
           td.table-actions-field  data-label=t("admin.defaults.actions")
             ul
-              li.table-action.action-edit = link_to fix_transaction_admins_event_profile_path(current_event, profile, transaction: transaction.id) do
-                = fa_icon "magic"
+              - if transaction.status_code == 2
+                li.table-action.action-edit = link_to fix_transaction_admins_event_profile_path(current_event, profile, transaction: transaction.id) do
+                  = fa_icon "magic"

@@ -2,7 +2,7 @@ class Events::AutotopupSynchronousPaymentsController < Events::PaymentsBaseContr
   def create
     payment_service = params[:payment_service_id]
     payer = "Payments::#{payment_service.camelize}::AutotopupPayer".constantize.new(params)
-    if payer.start(CustomerOrderCreator.new, CustomerCreditOrderCreator.new)
+    if payer.start(CustomerOrderCreator.new, CreditWriter)
       redirect_to success_event_order_payment_service_autotopup_synchronous_payments_path(
         current_event, params[:order_id], payment_service
       )

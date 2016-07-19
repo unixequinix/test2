@@ -41,7 +41,7 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:credit_transaction).permit(:credits, :credits_refundable, :final_balance,
+    params.require(:credit_transaction).permit(:credits, :refundable_credits, :final_balance,
                                                :final_refundable_balance, :status_code)
   end
 end

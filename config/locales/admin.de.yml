@@ -49,7 +49,7 @@ de:
       payment_method: "Method"
       price: "Price"
       credits: "C.C"
-      credits_refundable: "C.RC"
+      refundable_credits: "C.RC"
       final_balance: "C.FB"
       final_refundable_balance: "C.FRB"
       inconsistent_balance: "C.IB"
@@ -448,10 +448,6 @@ de:
       actions:
         delete_gtags: "Alle GTags löschen"
         delete_credits: "Alle Guthaben löschen"
-      report:
-        total_credits: "Gesamtguthaben im System"
-        total_refundable_money: "Gesamtbetrag für Erstattung (nach Gebührenabzug)"
-        total_refundable_gtags: "Anzahl gTags für Erstattung"
     gtag_assignations:
       tag: "Tag UID"
       serial: "Tag Seriennummer"
@@ -465,14 +461,6 @@ de:
         assigned: "Ist jetzt angemeldet"
         unassigned: "Vorherige Anmeldung"
       button: "Akzeptieren"
-    customer_credits:
-      amount: "Betrag"
-      refundable_amount: "Erstattungsfähiger Betrag"
-      credit_value: "Wertguthaben"
-      payment_method: "Zahlungsmethode"
-      transaction_origin: "Transaktionsquelle"
-      final_balance: "Schlussrechnung"
-      final_refundable_balance: "Endabrechnung für Erstattung"
     profile:
       id: "ID"
     customers:
@@ -498,7 +486,6 @@ de:
       completed_claim: "Endgültige Forderungen"
       customer_orders: "Kunden Bestellungen"
       refund: "Erstattung"
-      customer_credits: "Kunden Guthaben "
       online_orders: "Online Bestellungen"
       claims: "Forderungen"
       gtag_credits: "Gtag Guthaben"

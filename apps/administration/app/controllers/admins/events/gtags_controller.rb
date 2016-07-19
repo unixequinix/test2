@@ -125,7 +125,7 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
     Operations::Base.new.portal_write(event_id: current_event.id,
                                       station_id: station.id,
                                       transaction_category: "ban",
-                                      transaction_origin: "customer_portal",
+                                      transaction_origin: Transaction::ORIGINS[:portal],
                                       transaction_type: "#{action}_gtag",
                                       banneable_id: gtag.id,
                                       banneable_type: "Gtag",

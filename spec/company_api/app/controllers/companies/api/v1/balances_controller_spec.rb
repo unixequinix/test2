@@ -26,7 +26,7 @@ RSpec.describe Companies::Api::V1::BalancesController, type: :controller do
         it "returns the balance of the Gtag" do
           body = JSON.parse(response.body)
           expect(body["tag_uid"]).to eq(gtag.tag_uid)
-          expect(body["balance"]).to eq(gtag.balance.to_s)
+          expect(body["balance"]).to eq(gtag.assigned_profile.credits.to_s)
           expect(body["currency"]).to eq(gtag.event.token_symbol)
         end
       end

@@ -7,6 +7,7 @@ class Transaction < ActiveRecord::Base
 
   validates_presence_of :transaction_type
 
+  ORIGINS = { portal: "customer_portal", device: "onsite", admin: "admin_panel" }.freeze
   TYPES = %w(access ban credential credit money order device).freeze
 
   def self.class_for_type(type)

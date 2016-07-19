@@ -41,7 +41,7 @@ es:
       payment_method: "Method"
       price: "Price"
       credits: "C.C"
-      credits_refundable: "C.RC"
+      refundable_credits: "C.RC"
       final_balance: "C.FB"
       final_refundable_balance: "C.FRB"
       inconsistent_balance: "C.IB"
@@ -444,10 +444,6 @@ es:
       actions:
         delete_gtags: "Borrar gtags"
         delete_credits: "Borrar créditos"
-      report:
-        total_credits: "Créditos totales en el sistema"
-        total_refundable_money: "Dinero devolver (menos comisiones)"
-        total_refundable_gtags: "Gtags con crédito a devolver"
     gtag_assignations:
       tag: "Tag UID"
       serial: "Tag Número Serial"
@@ -461,14 +457,6 @@ es:
         assigned: "Asignación actual"
         unassigned: "Asignación previa"
       button: "Aceptar"
-    customer_credits:
-      amount: "Candidad"
-      refundable_amount: "Cantidad reembolsable"
-      credit_value: "Valor del crédito"
-      payment_method: "Método de pago"
-      transaction_origin: "Fuente de la transacción"
-      final_balance: "Balance final"
-      final_refundable_balance: "Balance final reembolsable"
     profile:
       id: "Id"
     customers:
@@ -494,7 +482,6 @@ es:
       completed_claim: "Peticiones de devolución completadas"
       refund: "Refund"
       claims: "Peticiones de devolución"
-      customer_credits: "Créditos de cliente"
       customer_orders: "Órdenes de cliente"
       online_orders: "Órdenes online"
       gtag_credits: "Créditos Gtag"

@@ -10,7 +10,7 @@ class Events::SessionsController < Events::BaseController
     redirect_to customer_root_path(current_event) if customer_signed_in?
   end
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     c_params = { email: permitted_params[:email].downcase, event: current_event }
     customer = Customer.find_by(c_params) || Customer.new
     @customer_login_form = CustomerLoginForm.new(customer)

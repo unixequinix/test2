@@ -46,7 +46,7 @@ class Payments::Braintree::Payer
   def notify_payment(charge, customer_order_creator, customer_credit_creator)
     transaction = charge.transaction
     return unless transaction.status == "submitted_for_settlement"
-    customer_credit_creator.save(@order)
+    customer_credit_creator.save_order(@order)
     create_payment(@order, charge)
     customer_order_creator.save(@order, "card", "braintree")
     @order.complete!

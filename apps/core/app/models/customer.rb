@@ -30,6 +30,7 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  receive_communications :boolean          default(FALSE)
+#  locale                 :string           default("en")
 #
 
 class Customer < ActiveRecord::Base
@@ -69,7 +70,7 @@ class Customer < ActiveRecord::Base
   # -------------------------------------------------------
   def refund_status
     return "no_credentials_assigned" unless profile
-    if profile.refundable_money_amount.zero? || !BalanceCalculator.new(profile).valid_balance?
+    if profile.refundable_money.zero? || !profile.valid_balance?
       "not_eligible"
     elsif profile.completed_claim
       "completed"

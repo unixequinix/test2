@@ -30,8 +30,7 @@ class Admins::BaseController < ApplicationController
 
   def current_admin
     @current_admin ||= Admin.find(warden.user(:admin)["id"]) unless
-        !warden.authenticated?(:admin) ||
-        Admin.where(id: warden.user(:admin)["id"]).empty?
+        !warden.authenticated?(:admin) || Admin.where(id: warden.user(:admin)["id"]).empty?
   end
 
   def prepare_for_mobile

@@ -27,10 +27,6 @@ class BasePresenter
 
   delegate :tag_uid, to: :gtag, prefix: true
 
-  def gtag_refundable_amount
-    gtag_assignment.refundable_amount
-  end
-
   private
 
   def gtag

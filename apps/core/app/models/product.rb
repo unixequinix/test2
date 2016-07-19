@@ -10,6 +10,7 @@
 #  updated_at  :datetime         not null
 #  description :string
 #  event_id    :integer
+#  vat         :float            default(0.0)
 #
 
 class Product < ActiveRecord::Base

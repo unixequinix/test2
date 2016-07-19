@@ -13,6 +13,8 @@
 #  group              :string
 #  category           :string
 #  reporting_category :string
+#  address            :string
+#  registration_num   :string
 #
 
 class Station < ActiveRecord::Base
