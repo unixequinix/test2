@@ -53,6 +53,12 @@ class Operations::Base < ActiveJob::Base
   end
 
   def execute_operations(atts)
+    #TODO: this shouldnt go here. remove when development class loading is not an issue
+    Operations::Credential::TicketChecker.inspect
+    Operations::Credential::GtagChecker.inspect
+    Operations::Credit::BalanceUpdater.inspect
+    Operations::Order::CredentialAssigner.inspect
+
     children = self.class.descendants
     children.each { |d| d.perform_later(atts) if d::TRIGGERS.include? atts[:transaction_type] }
   end
@@ -67,7 +73,6 @@ class Operations::Base < ActiveJob::Base
   end
 
   def self.descendants
-    Operations::Credit::BalanceUpdater.inspect
     @descendants || []
   end
 end
