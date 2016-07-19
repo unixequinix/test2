@@ -3,8 +3,8 @@
   p = t('admissions.description')
   = image_tag "img-bar-code.png", class: "img-ticket"
   = form_for @ticket_assignment_form, url: event_ticket_assignments_path(current_event) do |f|
-    = f.text_field :code, placeholder: t('admissions.placeholders.ticket_code'), autofocus: true
-    = submit_tag t('admissions.button'), class: "btn btn-action btn-action-primary"
+    = f.text_field :code, placeholder: t('admissions.placeholders.ticket_code'), autofocus: true, class: "cb-ticket_field"
+    = submit_tag t('admissions.button'), class: "btn btn-action btn-action-primary cb-ticket_submit"
 .wrapper-module
   = link_to customer_root_path, class: "btn btn-action-back" do
     = fa_icon "chevron-left"

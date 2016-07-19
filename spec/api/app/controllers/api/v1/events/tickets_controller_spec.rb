@@ -35,7 +35,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
             reference: ticket.code,
             credential_redeemed: ticket.credential_redeemed,
             banned: ticket.banned?,
-            updated_at: ticket.updated_at,
+            updated_at: ticket.updated_at.utc.strftime("%Y-%m-%dT%T.%6N"),
             credential_type_id: ticket&.company_ticket_type&.credential_type_id,
             purchaser_first_name: ticket&.purchaser&.first_name,
             purchaser_last_name: ticket&.purchaser&.last_name,

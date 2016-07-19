@@ -55,3 +55,4 @@ th:
       greater_than_maximum: "Minimum purchasable can't be greater than maximum purchasable"
       end_date_after_start_date: "must be after start date"
       more_credits_than_max_balance: "can't be greater than maximum gtag balance"
+      only_hex: "only allows hexadecimal values"

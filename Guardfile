@@ -32,7 +32,7 @@
 #  * zeus: 'zeus rspec' (requires the server to be started separately)
 #  * 'just' rspec: 'rspec'
 
-guard :rubocop, cli: "-a", notification: :failed, all_on_start: false do
+guard :rubocop, notification: :failed, all_on_start: false do
   watch(%r{.+\.rb$})
   watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
 end
