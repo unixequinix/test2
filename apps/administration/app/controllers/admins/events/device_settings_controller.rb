@@ -1,5 +1,5 @@
 class Admins::Events::DeviceSettingsController < Admins::Events::BaseController
-  def show
+  def show # rubocop:disable Metrics/AbcSize
     @event = current_event
     s3 = AWS::S3.new(access_key_id: Rails.application.secrets.s3_access_key_id,
                      secret_access_key: Rails.application.secrets.s3_secret_access_key)

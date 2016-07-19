@@ -37,7 +37,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
             credential_redeemed: gtag.credential_redeemed,
             credential_type_id: gtag&.company_ticket_type&.credential_type_id,
             banned: gtag.banned?,
-            updated_at: gtag.updated_at,
+            updated_at: gtag.updated_at.utc.strftime("%Y-%m-%dT%T.%6N"),
             purchaser_first_name: gtag&.purchaser&.first_name,
             purchaser_last_name: gtag&.purchaser&.last_name,
             purchaser_email: gtag&.purchaser&.email,

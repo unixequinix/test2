@@ -30,15 +30,9 @@ class Gtag < ActiveRecord::Base
   FORMATS = [CARD, WRISTBAND].freeze
 
   # Gtag limits
-  GTAG_DEFINITIONS = [{ name: "mifare_classic",
-                        entitlement_limit: 15,
-                        credential_limit: 15 },
-                      { name: "ultralight_ev1",
-                        entitlement_limit: 40,
-                        credential_limit: 32 },
-                      { name: "ultralight_c",
-                        entitlement_limit: 56,
-                        credential_limit: 32 }].freeze
+  GTAG_DEFINITIONS = [{ name: "mifare_classic", entitlement_limit: 15, credential_limit: 15 },
+                      { name: "ultralight_ev1", entitlement_limit: 40, credential_limit: 32 },
+                      { name: "ultralight_c", entitlement_limit: 56, credential_limit: 32 }].freeze
 
   # Associations
   belongs_to :event
@@ -53,8 +47,7 @@ class Gtag < ActiveRecord::Base
   has_one :purchaser, as: :credentiable, dependent: :destroy
   has_one :completed_claim, -> { where(aasm_state: :completed) }, class_name: "Claim"
   has_one :assigned_profile, through: :assigned_gtag_credential, source: :profile
-  has_one :assigned_gtag_credential,
-          -> { where(credential_assignments: { aasm_state: :assigned }) },
+  has_one :assigned_gtag_credential, -> { where(credential_assignments: { aasm_state: :assigned }) },
           as: :credentiable,
           class_name: "CredentialAssignment"
 
