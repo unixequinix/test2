@@ -34,7 +34,6 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   has_many :credential_transactions
   has_many :money_transactions
   has_many :order_transactions
-  has_many :customer_credits
   has_many :completed_claims, -> { where("aasm_state = 'completed' AND completed_at IS NOT NULL") }, class_name: "Claim"
   has_many :credential_assignments
   has_many :credit_transactions
@@ -68,13 +67,12 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   scope :query_for_csv, lambda { |event|
     where(event: event)
       .joins("LEFT OUTER JOIN customers ON profiles.customer_id = customers.id")
-      .joins("LEFT OUTER JOIN customer_credits ON customer_credits.profile_id = profiles.id")
       .joins(:credential_assignments)
       .joins("INNER JOIN tickets
               ON credential_assignments.credentiable_id = tickets.id
               AND credential_assignments.aasm_state = 'assigned'
               AND credential_assignments.credentiable_type = 'Ticket'")
-      .select("profiles.id, tickets.code as ticket, SUM(customer_credits.amount) as credits, customers.email,
+      .select("profiles.id, tickets.code as ticket, profiles.refundable_credits as credits, customers.email,
                customers.first_name, customers.last_name")
       .group("profiles.id, customers.first_name, customers.id, tickets.code")
       .order("customers.first_name ASC")

@@ -189,18 +189,6 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     end
   end
 
-  def gtag_query(refund_service)
-    fee = refund_fee(refund_service)
-    min = refund_minimun(refund_service)
-    gtags.joins(credential_assignments: [profile: :customer_credits])
-         .where("credential_assignments.aasm_state = 'assigned'")
-         .having("sum(customer_credits.credit_value * customer_credits.final_refundable_balance)" \
-              " - #{fee} >= #{min}")
-         .having("sum(customer_credits.credit_value * customer_credits.final_refundable_balance)" \
-              " - #{fee} > 0")
-         .group("gtags.id")
-  end
-
   def generate_token
     loop do
       self.token = SecureRandom.hex(6).upcase
