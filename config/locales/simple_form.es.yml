@@ -173,6 +173,8 @@ es:
           body: "Comentario"
       product:
         vat: "VAT %"
+      station:
+        official_name: "Nombre oficial de la compañía"
 
     placeholders:
       event:
