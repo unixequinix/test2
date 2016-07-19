@@ -14,6 +14,10 @@ class ClaimsPresenter < BasePresenter
     "transfer_claim"
   end
 
+  def cards_can_refund?
+    @event.get_parameter("gtag", "form", "cards_can_refund") == "true"
+  end
+
   def refund_services
     @event.selected_refund_services.map(&:to_s) & Claim::TRANSFER_REFUND_SERVICES
   end
