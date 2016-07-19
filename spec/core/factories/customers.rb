@@ -33,9 +33,9 @@
 
 FactoryGirl.define do
   factory :customer do
-    first_name { "Some name #{rand(100)}" }
-    last_name { "Some name #{rand(100)}" }
-    email { "seth#{rand(10_000)}-#{rand(10_000)}@swift.name" }
+    first_name { "FirstName #{rand(100)}" }
+    last_name { "LastName #{rand(100)}" }
+    email { "email_#{rand(10_000)}@glownet.com" }
     agreed_on_registration true
     encrypted_password Authentication::Encryptor.digest("password")
     phone { "1-800-#{rand(100)}" }
@@ -43,10 +43,7 @@ FactoryGirl.define do
     gender { %w(male female).sample }
     birthdate { (13..70).to_a.sample.years.ago }
     postcode { "12345" }
-    agreed_event_condition { [true, false].sample }
+    agreed_event_condition true
     event
-    after(:build) do |customer|
-      customer.profile ||= build(:profile, customer: customer)
-    end
   end
 end

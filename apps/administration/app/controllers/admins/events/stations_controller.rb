@@ -69,6 +69,6 @@ class Admins::Events::StationsController < Admins::Events::BaseController
 
   def permitted_params
     params.require(:station).permit(:name, :location, :event_id, :category, :group, :reporting_category,
-                                    :address, :registration_num)
+                                    :address, :registration_num, :official_name)
   end
 end

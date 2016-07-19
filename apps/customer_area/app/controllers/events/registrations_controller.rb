@@ -43,8 +43,7 @@ class Events::RegistrationsController < Events::BaseController
     @edit_profile_form = EditProfileForm.new(current_customer)
     if @edit_profile_form.validate(atts) && @edit_profile_form.save
       gateway = current_customer&.profile&.payment_gateway_customers
-      gateway.find_by_gateway_type("paypal_nvp")
-             &.update(autotopup_amount: params[:autotopup_amount]) if gateway
+      gateway.find_by_gateway_type("paypal_nvp")&.update(autotopup_amount: params[:autotopup_amount]) if gateway
       redirect_to after_update_path
     else
       render :edit

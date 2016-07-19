@@ -1,15 +1,15 @@
 class Operations::Credit::BalanceUpdater < Operations::Base
   TRIGGERS = %w( sale topup refund fee sale_refund online_topup
-                 auto_topup create_credit ticket_credit online_refund ).freeze
+                 auto_topup create_credit ticket_topup online_refund ).freeze
 
   def perform(atts)
-    credit_atts = column_attributes(CustomerCredit, atts)
+    profile = Profile.find(atts[:profile_id])
+    device_trans = profile.credit_transactions.status_ok.not_record_credit
 
-    # TODO: this is because of disparity of variables between portal and device, remove when fixed
-    credit_atts.merge!(refundable_amount: atts[:credits_refundable],
-                       amount: atts[:credits],
-                       payment_method: "credits",
-                       created_in_origin_at: atts[:device_created_at])
-    CustomerCredit.create!(credit_atts)
+    # TODO: Too many queries? Maybe remove these two columns? Simplify in a single query with the select method
+    profile.update! credits: profile.credits + atts[:credits].to_f,
+                    refundable_credits: profile.refundable_credits + atts[:refundable_credits].to_f,
+                    final_balance: device_trans.last&.final_balance,
+                    final_refundable_balance: device_trans.last&.final_refundable_balance
   end
 end

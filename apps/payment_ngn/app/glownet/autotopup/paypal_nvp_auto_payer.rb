@@ -16,10 +16,9 @@ class Autotopup::PaypalNvpAutoPayer
     order.save
 
     data = { event_id: event.id, order_id: order.id }
-    charge = Payments::PaypalNvpPayer.new(data).start(
-      CustomerOrderCreator.new,
-      CustomerCreditAutotopupOrderCreator.new
-    )
+    charge = Payments::PaypalNvp::Payer.new(data).start(CustomerOrderCreator.new,
+                                                        CreditWriter)
+
     # TODO: The errors variable is probably mistaken and it used to end in .to_json
     return { errors: charge["Errors"].to_s } unless charge["ACK"] == "Success"
     { gtag_uid: tag_uid, credit_amount: amount, money_amount: amount * value, credit_value: value }

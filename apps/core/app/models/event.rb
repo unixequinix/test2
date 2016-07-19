@@ -139,18 +139,16 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     stations.find_by(category: "customer_portal")
   end
 
-  def total_credits
-    CustomerCredit.where(profile: profiles).map(&:amount).sum
+  def total_refundable_money
+    profiles.sum(:refundable_credits) * standard_credit_price
   end
 
-  def total_refundable_money(_refund_service)
-    creds = CustomerCredit.where(profile: profiles)
-    creds.map(&:refundable_amount).sum * standard_credit_price
+  def refund_fee(refund_service)
+    get_parameter("refund", refund_service, "fee")
   end
 
-  def total_refundable_gtags(refund_service)
-    # .count returns a hash created by the group method.
-    gtag_query(refund_service).count.length
+  def refund_minimun(refund_service)
+    get_parameter("refund", refund_service, "fee")
   end
 
   def get_parameter(category, group, name)
@@ -161,14 +159,6 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   def selected_locales_formated
     selected_locales.map { |key| key.to_s.gsub("_lang", "") }
-  end
-
-  def refund_fee(refund_service)
-    get_parameter("refund", refund_service, "fee")
-  end
-
-  def refund_minimun(refund_service)
-    get_parameter("refund", refund_service, "minimum")
   end
 
   def only_credits_purchasable?
@@ -201,18 +191,6 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     if end_date < start_date
       errors.add(:end_date, I18n.t("errors.messages.end_date_after_start_date"))
     end
-  end
-
-  def gtag_query(refund_service)
-    fee = refund_fee(refund_service)
-    min = refund_minimun(refund_service)
-    gtags.joins(credential_assignments: [profile: :customer_credits])
-         .where("credential_assignments.aasm_state = 'assigned'")
-         .having("sum(customer_credits.credit_value * customer_credits.final_refundable_balance)" \
-              " - #{fee} >= #{min}")
-         .having("sum(customer_credits.credit_value * customer_credits.final_refundable_balance)" \
-              " - #{fee} > 0")
-         .group("gtags.id")
   end
 
   def generate_token

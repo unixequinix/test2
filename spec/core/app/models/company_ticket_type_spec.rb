@@ -42,12 +42,6 @@ RSpec.describe CompanyTicketType, type: :model do
       ticket_type2.inspect
     end
 
-    it "returns all the company ticket types that belongs to a company of a particular event" do
-      query = event.company_ticket_types.where(company_event_agreement: agreement)
-      expect(query).to include(ticket_type)
-      expect(query).to include(ticket_type2)
-    end
-
     it "returns the data in the proper format for select inputs" do
       query = CompanyTicketType.form_selector(event)
       expect(query).to include(["Jaquan", ticket_type.id])

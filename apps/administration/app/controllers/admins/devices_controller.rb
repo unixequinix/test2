@@ -1,12 +1,8 @@
 class Admins::DevicesController < Admins::BaseController
-  def index
-    @devices = params[:filter].nil? ? Device.all : Device.where("substr(asset_tracker, 1, 1) = ?", params[:filter])
-    @devices = @devices.page(params[:page])
-    set_presenter
-  end
+  before_action :set_devices, only: [:index, :search]
+  before_action :set_presenter, only: [:index, :search]
 
   def search
-    set_presenter
     render :index
   end
 
@@ -26,6 +22,10 @@ class Admins::DevicesController < Admins::BaseController
   end
 
   private
+
+  def set_devices
+    @devices = params[:filter].nil? ? Device.all : Device.where("substr(asset_tracker, 1, 1) = ?", params[:filter])
+  end
 
   def permitted_params
     params.require(:device).permit(:device_model, :asset_tracker)

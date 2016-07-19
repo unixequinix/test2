@@ -41,7 +41,7 @@ it:
       payment_method: "Method"
       price: "Price"
       credits: "C.C"
-      credits_refundable: "C.RC"
+      refundable_credits: "C.RC"
       final_balance: "C.FB"
       final_refundable_balance: "C.FRB"
       inconsistent_balance: "C.IB"
@@ -444,10 +444,6 @@ it:
       actions:
         delete_gtags: "Delete all gtags"
         delete_credits: "Delete all credits"
-      report:
-        total_credits: "Total Credits in the System"
-        total_refundable_money: "Total Money To Refund (after fee)"
-        total_refundable_gtags: "Number of gTags to Refund"
     gtag_assignations:
       tag: "Tag UID"
       serial: "Tag Serial Number"
@@ -461,14 +457,6 @@ it:
         assigned: "Is assigned now"
         unassigned: "Previous assignation"
       button: "Accetto"
-    customer_credits:
-      amount: "Amount"
-      refundable_amount: "Refundable amount"
-      credit_value: "value credit"
-      payment_method: "Payment method"
-      transaction_origin: "Transaction source"
-      final_balance: "Final balance"
-      final_refundable_balance: "Final refundable balance"
     profile:
       id: "Id"
     customers:
@@ -494,7 +482,6 @@ it:
       completed_claim: "Completed claims"
       refund: "Refund"
       claims: "Claims"
-      customer_credits: "Customer credits"
       customer_orders: "Customer orders"
       online_orders: "Online orders"
       gtag_credits: "Gtag Credits"

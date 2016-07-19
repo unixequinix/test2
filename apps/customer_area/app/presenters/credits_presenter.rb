@@ -8,20 +8,19 @@ class CreditsPresenter < BasePresenter
   end
 
   def customer_total_credits
-    # TODO: Check this
-    number_with_precision(@profile.total_credits, precision: 2)
+    number_with_precision(@profile.credits, precision: 2)
+  end
+
+  def refundable_credits
+    @profile.refundable_credits
   end
 
   def event_started?
     @event.started?
   end
 
-  def refundable_credits
-    number_with_precision(@profile.total_refundable, precision: 2)
-  end
-
   def refundable_money
-    number_with_precision(@profile.refundable_money_amount, precision: 2)
+    number_with_precision(@profile.refundable_money, precision: 2)
   end
 
   def token_symbol
@@ -33,7 +32,7 @@ class CreditsPresenter < BasePresenter
   end
 
   def valid_balance?
-    BalanceCalculator.new(@profile).valid_balance?
+    @profile.valid_balance?
   end
 
   def call_to_action

@@ -50,22 +50,16 @@ class EventCreator
   end
 
   def customer_portal_station
-    station = Station.create!(event: @event, name: "Customer Portal",
-                              category: "customer_portal", group: "access")
-
+    category = "customer_portal"
+    station = @event.stations.create! name: category.humanize, category: category, group: "access"
     credit = @event.credits.standard.catalog_item
     station.station_catalog_items.create(catalog_item: credit, price: 1)
   end
 
   def customer_service_stations
-    Station.create!(event: @event, name: "CS Topup/Refund",
-                    category: "cs_topup_refund", group: "event_management")
-
-    Station.create!(event: @event, name: "CS Gtag Balance Fix",
-                    category: "cs_gtag_balance_fix", group: "event_management")
-
-    Station.create!(event: @event, name: "CS Accreditation",
-                    category: "cs_accreditation", group: "event_management")
+    @event.stations.create! name: "CS Topup/Refund", category: "cs_topup_refund", group: "event_management"
+    @event.stations.create! name: "CS Accreditation", category: "cs_accreditation", group: "event_management"
+    @event.stations.create! name: "Glownet Food", category: "hospitality_top_up", group: "event_management"
   end
 
   def tocuhpoint_station

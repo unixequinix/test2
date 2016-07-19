@@ -17,9 +17,7 @@ class ListModelPresenter
   end
 
   def all_items
-    q.result(distinct: true)
-     .page(page)
-     .includes(@include_for_all_items)
+    q.result(distinct: true).page(page).includes(@include_for_all_items)
   end
 
   def current_items
@@ -44,8 +42,7 @@ class ListModelPresenter
   end
 
   def can_create_items?
-    @can_create_items != false &&
-      @context.respond_to?("new_admins_event_#{@model_name.singular}_path".to_sym)
+    @can_create_items != false && @context.respond_to?("new_admins_event_#{@model_name.singular}_path".to_sym)
   end
 
   private
