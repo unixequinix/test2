@@ -58,7 +58,7 @@ class RefundService
     }
     Operations::Base.new.portal_write(fields)
   end
-  
+
   def credit_fee_transaction(params)
     params[:transaction_type] = "fee"
     params[:credits] = fee

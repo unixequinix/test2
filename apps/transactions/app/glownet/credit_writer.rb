@@ -27,7 +27,7 @@ class CreditWriter
         end
       end
 
-      create_credit(order.profile, params) if params.has_key?(:credits)
+      create_credit(order.profile, params) if params.key?(:credits)
     end
   end
 
