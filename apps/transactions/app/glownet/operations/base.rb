@@ -5,6 +5,7 @@ class Operations::Base < ActiveJob::Base
     atts[:customer_tag_uid] = atts[:customer_tag_uid].to_s.upcase
     atts[:catalogable_type] = atts[:catalogable_type].to_s.camelcase
     atts[:profile_id] ||= atts[:customer_event_profile_id]
+    atts[:refundable_credits] ||= atts[:credits_refundable]
     atts.delete(:station_id) if atts[:station_id].to_i.zero?
     atts.delete(:sale_items_attributes) if atts[:sale_items_attributes].blank?
     klass = Transaction.class_for_type(atts[:transaction_category])
