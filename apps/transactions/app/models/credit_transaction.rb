@@ -42,6 +42,16 @@ class CreditTransaction < Transaction
 
   default_scope { order(gtag_counter: :desc) }
 
+  after_update :recalculate_profile_balance
+
+  def recalculate_profile_balance
+    transactions = profile.credit_transactions.status_ok.not_record_credit
+    profile.update(credits: transactions.sum(:credits),
+                   refundable_credits: transactions.sum(:refundable_credits),
+                   final_balance: transactions.last.final_balance,
+                   final_refundable_balance: transactions.last.final_refundable_balance)
+  end
+
   def self.mandatory_fields
     super + %w( credits refundable_credits credit_value final_balance final_refundable_balance )
   end
