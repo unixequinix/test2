@@ -235,9 +235,6 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     JSON.parse(ActiveRecord::Base.connection.select_value(sql)).to_a.group_by { |t| t["profile_id"] }
   end
 
-  
-  
-  
   def self.customer_credits_sum(event) # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
       SELECT to_json(json_agg(row_to_json(inc)))
