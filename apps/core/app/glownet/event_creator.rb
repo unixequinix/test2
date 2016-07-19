@@ -58,8 +58,8 @@ class EventCreator
 
   def customer_service_stations
     @event.stations.create! name: "CS Topup/Refund", category: "cs_topup_refund", group: "event_management"
-    @event.stations.create! name: "CS Gtag Balance Fix", category: "cs_gtag_balance_fix", group: "event_management"
     @event.stations.create! name: "CS Accreditation", category: "cs_accreditation", group: "event_management"
+    @event.stations.create! name: "Glownet Food", category: "hospitality_top_up", group: "event_management"
   end
 
   def tocuhpoint_station
