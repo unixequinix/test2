@@ -32,7 +32,7 @@ class CreditsPresenter < BasePresenter
   end
 
   def valid_balance?
-    @profile.credist == @profile.final_balance && @profile.refundable_credits == @profile.final_refundable_balance
+    @profile.valid_balance?
   end
 
   def call_to_action

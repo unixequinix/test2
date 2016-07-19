@@ -237,7 +237,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
 
 
-  def self.customer_credits_sum(event) # rubocop:disable Metrics/MethodLength
+  def self.credits_sum(event) # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
       SELECT to_json(json_agg(row_to_json(inc)))
       FROM (
