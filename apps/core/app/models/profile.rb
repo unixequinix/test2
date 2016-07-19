@@ -233,52 +233,22 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
     JSON.parse(ActiveRecord::Base.connection.select_value(sql)).to_a.group_by { |t| t["profile_id"] }
   end
-  
+
   def self.credits_sum(event) # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
       SELECT to_json(json_agg(row_to_json(inc)))
       FROM (
-        SELECT *
-        FROM (
-        	SELECT
-        		sum(ccfl.amount) as credits_amount,
-        		sum(ccfl.refundable_amount) as refundable_credits_amount,
-        		last_final_balance,
-        		last_final_refundable_balance,
-        		last_final_balance - sum(ccfl.amount) as inconsistent,
-        		last_final_refundable_balance - sum(ccfl.refundable_amount) as inconsistent_refundable,
-        		ccfl.profile_id
-
-        	FROM customer_credits ccfl
-        	INNER JOIN (
-        		SELECT
-        		  ccf.id,
-        		  ccf.final_balance as last_final_balance,
-        		  ccf.final_refundable_balance as last_final_refundable_balance,
-        		  cc.profile_id,
-        		  max_gtag_counter,
-        		  max_online_counter
-        	    FROM (
-        	      SELECT
-        	        profile_id,
-        	        MAX(gtag_counter) as max_gtag_counter,
-        	        MAX(online_counter) as max_online_counter
-        	      FROM customer_credits
-        	      JOIN profiles
-        	        ON customer_credits.profile_id = profiles.id
-        	      WHERE profiles.event_id = #{event.id}
-        	      GROUP BY profile_id
-        	    ) cc
-        	    INNER JOIN customer_credits ccf
-        	      ON ccf.profile_id = cc.profile_id
-        	      AND ccf.gtag_counter = cc.max_gtag_counter
-        	      AND ccf.online_counter = cc.max_online_counter
-        	) ccl
-        	ON ccfl.profile_id = ccl.profile_id
-        	GROUP BY last_final_balance, last_final_refundable_balance, ccfl.profile_id
-        ) ccall
-        WHERE last_final_balance <> credits_amount
-        	OR last_final_refundable_balance <> refundable_credits_amount
+        SELECT
+          id as profile_id,
+          credits,
+          refundable_credits,
+          final_balance,
+          final_refundable_balance,
+          final_balance - credits as inconsistent,
+          final_refundable_balance - refundable_credits as inconsistent_refundable
+        FROM profiles
+        WHERE event_id = #{event.id} AND
+              (final_balance <> credits OR final_refundable_balance <> refundable_credits)
         ORDER BY inconsistent DESC
       ) inc
     SQL
