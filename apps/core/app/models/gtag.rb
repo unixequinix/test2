@@ -59,7 +59,8 @@ class Gtag < ActiveRecord::Base
   # Validations
   validates_uniqueness_of :tag_uid, scope: :event_id
   validates :tag_uid, presence: true
-  validates :tag_uid, format: { with: /\A[0-9A-Fa-f]+\z/, message: I18n.t("errors.messages.only_hex") }
+  # TODO: enable when andriod stops sending fake uids (DEVICE, TAG)
+  # validates :tag_uid, format: { with: /\A[0-9A-Fa-f]+\z/, message: I18n.t("errors.messages.only_hex") }
 
   # Scopes
   scope :selected_data, lambda  { |event_id|

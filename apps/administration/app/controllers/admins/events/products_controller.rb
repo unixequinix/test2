@@ -76,8 +76,8 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
 
     CSV.foreach(file, headers: true, col_sep: ";", encoding: "utf-8").with_index do |row, i|
       atts = {
-        name: row.field("name").force_encoding('utf-8').encode('utf-8'),
-        description: row.field("description")&.force_encoding('utf-8')&.encode('utf-8'),
+        name: row.field("name").force_encoding("utf-8").encode("utf-8"),
+        description: row.field("description")&.force_encoding("utf-8")&.encode("utf-8"),
         is_alcohol: row.field("is_alcohol")
       }
       product = event.products.find_by(name: row.field("name")) || event.products.new

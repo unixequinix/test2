@@ -5,6 +5,7 @@ class Payments::PaypalNvp::BasePayer
     @paypal_nvp = Gateways::PaypalNvp::Transaction.new(@event)
     @profile = @order.profile
     @gateway = @profile.gateway_customer(EventDecorator::PAYPAL_NVP)
+    @payment_type = params[:payment_type]
     @params = params
   end
 
@@ -17,7 +18,7 @@ class Payments::PaypalNvp::BasePayer
     @paypal_nvp.do_express_checkout_payment(amount, @params[:token], @params[:payer_id])
   end
 
-  def auto_payment(amount, _params)
+  def auto_payment(amount)
     @paypal_nvp.do_reference_transaction(amount, @gateway.token)
   end
 
