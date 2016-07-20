@@ -17,12 +17,6 @@ RSpec.describe Operations::Base, type: :job do
   end
 
   before(:each) do
-    # make 100% sure they are loaded into memory
-    # inspect caled for rubocops sake
-    Operations::Credential::TicketChecker.inspect
-    Operations::Credential::GtagChecker.inspect
-    Operations::Credit::BalanceUpdater.inspect
-    Operations::Order::CredentialAssigner.inspect
     # Dont care about the BalanceUpdater or Profile::Checker, so I mock the behaviour
     allow(Operations::Credit::BalanceUpdater).to receive(:perform_now)
   end
@@ -83,7 +77,7 @@ RSpec.describe Operations::Base, type: :job do
   end
 
   context "when tag_uid is not present in DB" do
-    before { params[:customer_tag_uid] = "NOT_IN_DB" }
+    before { params[:customer_tag_uid] = "1234567890" }
 
     it "creates a Gtag for the event" do
       expect { base.perform_now(params) }.to change(Gtag, :count).by(1)

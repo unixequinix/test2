@@ -19,11 +19,10 @@ class CreditWriter
         params[:refundable_credits] = item.amount
 
       elsif item.pack_with_credits?
-        pack = item.catalog_item.catalogable
-        pack.credits.each do |credit|
+        catalog_item.catalogable.credits.each do |credit|
           params[:credit_value] = credit.value
           params[:credits] = credit.total_amount * item.amount
-          params[:refundable_credits] = pack.only_credits_pack? ? item.total / credit.value : 0
+          params[:refundable_credits] = catalog_item.catalogable.only_credits_pack? ? item.total / credit.value : 0
         end
       end
 
@@ -31,8 +30,7 @@ class CreditWriter
     end
   end
 
-  def self.create_credit(profile, *params)
-    atts = params.first
+  def self.create_credit(profile, atts)
     %w( credits refundable_credits credit_value ).each { |key| atts[key.to_sym] = atts[key.to_sym].to_f }
 
     common_atts = {

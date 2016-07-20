@@ -1,10 +1,10 @@
 class Admins::EventsController < Admins::BaseController
   before_action :set_event, only: [:show, :edit, :update, :remove_logo, :remove_background, :remove_db]
 
-  def index
+  def index # rubocop:disable Metrics/AbcSize
     if current_admin.email.start_with?("support_")
       event = Event.find_by_slug(current_admin.email.split("_")[1].split("@")[0])
-      return redirect_to(admins_event_path(event))
+      redirect_to(admins_event_path(event)) && return
     end
     params[:status] ||= [:launched, :started, :finished]
     @events = params[:status] == "all" ? Event.all : Event.status(params[:status])
