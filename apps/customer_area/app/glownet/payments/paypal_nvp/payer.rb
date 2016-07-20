@@ -18,8 +18,8 @@ class Payments::PaypalNvp::Payer < Payments::PaypalNvp::BasePayer
   def notify_payment(charge, customer_order_creator, customer_credit_creator)
     return unless charge["ACK"] == "Success"
     @payment = create_payment(@order, charge, @method)
-    customer_credit_creator.save_order(@order, "auto_topup") if @method.eql("auto")
-    customer_credit_creator.save_order(@order) if @method.eql("regular")
+    customer_credit_creator.save_order(@order, "auto_topup") if @method.eql?("auto")
+    customer_credit_creator.save_order(@order) if @method.eql?("regular")
     customer_order_creator.save(@order, "paypal_nvp", "paypal_nvp")
     @order.complete!
     send_mail_for(@order, @event)
