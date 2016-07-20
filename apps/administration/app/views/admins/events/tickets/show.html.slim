@@ -32,6 +32,10 @@
       dd = @ticket.created_at.strftime("%y-%m-%d %H:%M:%S")
       dt = t("admin.tickets.updated_at")
       dd = @ticket.updated_at.strftime("%y-%m-%d %H:%M:%S")
+      
+      dt = t("admin.tickets.code")
+      dd
+        #qrcode
 
   .container-show
     h3
@@ -63,3 +67,6 @@
                     li.table-action.action-delete
                       = link_to admins_event_ticket_assignment_path(current_event, admission), method: :delete, data: { confirm: t("admin.confirm.delete") } do
                         = fa_icon "ban"
+                        
+javascript:
+  $('#qrcode').qrcode("#{@ticket.code}");
