@@ -46,7 +46,7 @@
 
 class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   nilify_blanks
-  translates :info, :disclaimer, :refund_success_message, :mass_email_claim_notification,
+  translates :info, :disclaimer, :terms_of_use, :privacy_policy, :refund_success_message, :mass_email_claim_notification,
              :refund_disclaimer, :bank_account_disclaimer, :gtag_assignation_notification,
              :gtag_form_disclaimer, :gtag_name, :agreed_event_condition_message,
              :receive_communications_message,

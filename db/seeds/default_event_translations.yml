@@ -2,6 +2,8 @@
   locale: en
   info:
   disclaimer:
+  privacy_policy:
+  terms_of_use:
   refund_success_message:
   mass_email_claim_notification:
   gtag_assignation_notification:
@@ -11,6 +13,8 @@
   locale: es
   info:
   disclaimer:
+  privacy_policy:
+  terms_of_use:
   refund_success_message:
   mass_email_claim_notification:
   gtag_assignation_notification:
@@ -20,6 +24,8 @@
   locale: it
   info:
   disclaimer:
+  privacy_policy:
+  terms_of_use:
   refund_success_message:
   mass_email_claim_notification:
   gtag_assignation_notification:
