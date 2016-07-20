@@ -21,5 +21,7 @@ table.tickets
           ul
             li.table-action.action-add = link_to admins_device_path(device) do
               = fa_icon "list-alt", class: "fa-fw"
+            li.table-action.action-delete = link_to admins_device_path(device), method: :delete, data: { confirm: t('admin.confirm.delete') } do
+              = fa_icon "trash", class: "fa-fw"
 .container-pagination
   = paginate devices
