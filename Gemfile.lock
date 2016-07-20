@@ -577,6 +577,8 @@ GEM
     thread_safe (0.3.5)
     tilt (2.0.4)
     tins (1.10.2)
+    tinymce-rails (4.4.0)
+      railties (>= 3.1.1)
     turbolinks (2.5.3)
       coffee-rails
     tzinfo (1.2.2)
@@ -722,6 +724,7 @@ DEPENDENCIES
   stripe (~> 1.36.1)
   terminal-notifier-guard
   therubyracer
+  tinymce-rails
   transactions!
   turbolinks (~> 2.5.3)
   uglifier (~> 2.7.1)

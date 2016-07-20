@@ -74,6 +74,7 @@ gem 'iso-swift', '~>0.0.2'
 gem 'validate_nz_bank_acc', '~> 0.0.3'
 gem 'country_select', '~> 2.2.0'
 gem 'phony_rails', '~> 0.12.8'
+gem 'tinymce-rails'
 
 # Payments Infrastructures
 gem 'stripe', '~>1.36.1'
@@ -108,6 +109,8 @@ gem 'sdoc', '~> 0.4.1', group: :doc
 # PDF Generation
 gem 'wicked_pdf'
 
+
+# App monitoring
 gem 'rollbar'
 
 group :development do
