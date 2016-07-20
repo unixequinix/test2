@@ -1,5 +1,6 @@
 class Admins::DevicesController < Admins::BaseController
   before_action :set_devices, only: [:index, :search]
+  before_action :set_device, only: [:show, :update, :destroy]
   before_action :set_presenter, only: [:index, :search]
 
   def search
@@ -7,13 +8,10 @@ class Admins::DevicesController < Admins::BaseController
   end
 
   def show
-    @device = Device.find(params[:id])
-    @device_events = DeviceTransaction.where(device_uid: @device.mac)
-                                      .includes(:event).group_by(&:event)
+    @device_events = DeviceTransaction.where(device_uid: @device.mac).includes(:event).group_by(&:event)
   end
 
   def update
-    @device = Device.find(params[:id])
     if @device.update!(permitted_params)
       render json: @product
     else
@@ -21,7 +19,20 @@ class Admins::DevicesController < Admins::BaseController
     end
   end
 
+  def destroy
+    if @device.destroy
+      flash[:notice] = I18n.t("alerts.destroyed")
+    else
+      flash[:error] = @ticket.errors.full_messages.join(". ")
+    end
+    redirect_to admins_devices_path
+  end
+
   private
+
+  def set_device
+    @device = Device.find(params[:id])
+  end
 
   def set_devices
     @devices = params[:filter].nil? ? Device.all : Device.where("substr(asset_tracker, 1, 1) = ?", params[:filter])
