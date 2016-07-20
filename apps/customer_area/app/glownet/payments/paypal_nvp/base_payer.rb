@@ -17,7 +17,7 @@ class Payments::PaypalNvp::BasePayer
     @paypal_nvp.do_express_checkout_payment(amount, @params[:token], @params[:payer_id])
   end
 
-  def auto_payment(amount, _params)
+  def auto_payment(amount)
     @paypal_nvp.do_reference_transaction(amount, @gateway.token)
   end
 
