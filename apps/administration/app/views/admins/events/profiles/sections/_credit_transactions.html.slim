@@ -18,7 +18,7 @@ table.transactions
       th = t("admin.transactions.final_refundable_balance")
       th = t("admin.transactions.status_code")
       th = t("admin.transactions.gtag_counter")
-      th = t("admin.transactions.online_counter")
+      th = t("admin.transactions.counter")
       th = t("admin.transactions.device_created_at")
       th.table-actions-field = t("admin.defaults.actions")
 
@@ -41,7 +41,7 @@ table.transactions
           td data-label=t("admin.transactions.final_refundable_balance")
             = best_in_place transaction, :status_code, url: admins_event_transaction_path(current_event, transaction, type: 'credit')
           td data-label=t("admin.transactions.gtag_counter") = transaction.gtag_counter
-          td data-label=t("admin.transactions.online_counter") = transaction.online_counter
+          td data-label=t("admin.transactions.counter") = transaction.counter
           td data-label=t("admin.transactions.device_created_at") = transaction.device_created_at
           td.table-actions-field data-label=t("admin.defaults.actions")
             ul
