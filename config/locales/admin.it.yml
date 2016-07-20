@@ -27,6 +27,7 @@ it:
       transaction_origin: "Origin"
       transaction_type: "Type"
       gtag_counter: "Gtag Counter"
+      gtag_counter: "Counter"
       customer_tag_uid: "Customer"
       operator_tag_uid: "Operator"
       station_id: "Station"

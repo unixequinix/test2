@@ -29,6 +29,7 @@ es:
       customer_tag_uid: "Customer"
       operator_tag_uid: "Operator"
       gtag_counter: "Contador del Gtag"
+      counter: "Contador"
       station_id: "Station"
       device_uid: "Device"
       device_db_index: "DB index"
