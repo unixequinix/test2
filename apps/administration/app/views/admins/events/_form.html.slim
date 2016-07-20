@@ -103,8 +103,10 @@
             = check_box_tag "reg_form_param", event.flag_mapping["registration_parameters"][parameter], (:checked if event.flag_enabled?(parameter)), id: "#{parameter}-parameter", class: "flag-selector", data: {"checkbox-group" => "registration_parameters"}
             label.collection_check_boxes for="#{parameter}-parameter" = t("admin.event.features_options.#{parameter}")
       .condition-message
+        = f.label :agreed_event_condition_message
         = f.input :agreed_event_condition_message, as: :text, input_html: { rows: 5, class: "textarea tinymce"}
       .condition-message
+        = f.label :receive_communications_message
         = f.input :receive_communications_message, as: :text, input_html: { rows: 5, class: "textarea tinymce"}
     = f.input :registration_parameters, as: :hidden
 

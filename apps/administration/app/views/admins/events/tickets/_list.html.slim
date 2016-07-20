@@ -23,7 +23,7 @@
           td data-label=t("admin.tickets.code") = link_to ticket.code, admins_event_ticket_path(current_event, ticket)
           td data-label=t("admin.tickets.gtags")
             - if assign = ticket.assigned_profile&.active_gtag_assignment
-              = link_to assign.credentiable.tag_uid, edit_admins_event_gtag_path(current_event, assign.credentiable) 
+              = link_to assign.credentiable.tag_uid, admins_event_gtag_path(current_event, assign.credentiable)
           td data-label=t("admin.tickets.customer")
             = link_to ticket.assigned_ticket_credential.profile.customer.email, admins_event_customer_path(current_event, ticket.assigned_ticket_credential.profile.customer) if ticket.assigned_ticket_credential&.profile&.customer
           - unless current_admin.customer_service?
