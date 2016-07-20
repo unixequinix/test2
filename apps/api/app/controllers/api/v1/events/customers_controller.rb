@@ -3,7 +3,7 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
     modified = request.headers["If-Modified-Since"]
     profiles = @fetcher.sql_profiles(modified) || []
 
-    if profiles
+    if profiles.present?
       date = JSON.parse(profiles).map { |pr| pr["updated_at"] }.sort.last
       response.headers["Last-Modified"] = date.to_datetime.httpdate
     end
