@@ -3,6 +3,7 @@
 //= require best_in_place
 
 //= require vendor/mmenu/jquery.mmenu.min
+//= require vendor/jquery.qrcode
 //= require vendor/selectize
 //= require vendor/sortable
 //= require vendor/remodal.min

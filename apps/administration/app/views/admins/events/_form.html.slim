@@ -1,3 +1,5 @@
+= tinymce_assets
+
 = simple_form_for [:admins, event], html: { multipart: true } do |f|
   fieldset
     h3.section-header
@@ -64,9 +66,13 @@
     h3.section-header
       = fa_icon "file-text-o"
       = t("admin.event.fieldests.text")
-    = f.input :info, as: :text, input_html: { rows: 15, class: "textarea" }
-    = f.input :disclaimer, as: :text, input_html: { rows: 15, class: "textarea" }
+    = f.label :info
+    = f.input :info, as: :text, input_html: { rows: 15, class: "textarea tinymce" }
+    = f.label :disclaimer
+    = f.input :disclaimer, as: :text, input_html: { rows: 15, class: "textarea tinymce" }
+    = f.label :privacy_policy
     = f.input :privacy_policy, as: :text, input_html: { rows: 15, class: "textarea" }
+    = f.label :terms_of_use
     = f.input :terms_of_use, as: :text, input_html: { rows: 15, class: "textarea" }
 
   fieldset
@@ -101,9 +107,9 @@
             = check_box_tag "reg_form_param", event.flag_mapping["registration_parameters"][parameter], (:checked if event.flag_enabled?(parameter)), id: "#{parameter}-parameter", class: "flag-selector", data: {"checkbox-group" => "registration_parameters"}
             label.collection_check_boxes for="#{parameter}-parameter" = t("admin.event.features_options.#{parameter}")
       .condition-message
-        = f.input :agreed_event_condition_message, as: :text, input_html: { rows: 5, class: "textarea"}
+        = f.input :agreed_event_condition_message, as: :text, input_html: { rows: 5, class: "textarea tinymce"}
       .condition-message
-        = f.input :receive_communications_message, as: :text, input_html: { rows: 5, class: "textarea"}
+        = f.input :receive_communications_message, as: :text, input_html: { rows: 5, class: "textarea tinymce"}
     = f.input :registration_parameters, as: :hidden
 
   fieldset
@@ -114,3 +120,6 @@
 
   .wrapper-negative-space
     = f.button :submit, class: "btn btn-primary"
+
+
+= tinymce
