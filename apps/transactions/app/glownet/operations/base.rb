@@ -53,7 +53,7 @@ class Operations::Base < ActiveJob::Base
   end
 
   def execute_operations(atts)
-    #TODO: this shouldnt go here. remove when development class loading is not an issue
+    #TODO: this shouldn't go here. remove when class loading is not an issue
     Operations::Credential::TicketChecker.inspect
     Operations::Credential::GtagChecker.inspect
     Operations::Credit::BalanceUpdater.inspect
