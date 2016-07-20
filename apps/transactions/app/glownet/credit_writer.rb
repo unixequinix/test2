@@ -19,10 +19,11 @@ class CreditWriter
         params[:refundable_credits] = item.amount
 
       elsif item.pack_with_credits?
-        catalog_item.catalogable.credits.each do |credit|
+        pack = item.catalog_item.catalogable
+        pack.credits.each do |credit|
           params[:credit_value] = credit.value
           params[:credits] = credit.total_amount * item.amount
-          params[:refundable_credits] = catalog_item.catalogable.only_credits_pack? ? item.total / credit.value : 0
+          params[:refundable_credits] = pack.only_credits_pack? ? item.total / credit.value : 0
         end
       end
 
