@@ -5,6 +5,7 @@ class Payments::PaypalNvp::BasePayer
     @paypal_nvp = Gateways::PaypalNvp::Transaction.new(@event)
     @profile = @order.profile
     @gateway = @profile.gateway_customer(EventDecorator::PAYPAL_NVP)
+    @payment_type = params[:payment_type]
     @params = params
   end
 

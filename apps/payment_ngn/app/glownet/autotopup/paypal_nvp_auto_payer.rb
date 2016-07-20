@@ -13,7 +13,7 @@ class Autotopup::PaypalNvpAutoPayer
     order.order_items << OrderItem.new(catalog_item_id: credit.catalog_item.id, amount: amount, total: amount * value)
     order.save
 
-    data = { event_id: event.id, order_id: order.id }
+    data = { event_id: event.id, order_id: order.id, payment_type: "auto_topup" }
     charge = Payments::PaypalNvp::Payer.new(data).start(CustomerOrderCreator.new, CreditWriter)
 
     # TODO: The errors variable is probably mistaken and it used to end in .to_json
