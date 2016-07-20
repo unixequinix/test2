@@ -173,6 +173,8 @@ it:
           body: "Comment"
       product:
         vat: "VAT %"
+      station:
+        official_name: "Official Company Name"
 
     placeholders:
       event:
