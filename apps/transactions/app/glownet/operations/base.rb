@@ -53,12 +53,6 @@ class Operations::Base < ActiveJob::Base
   end
 
   def execute_operations(atts)
-    #TODO: this shouldn't go here. remove when class loading is not an issue
-    Operations::Credential::TicketChecker.inspect
-    Operations::Credential::GtagChecker.inspect
-    Operations::Credit::BalanceUpdater.inspect
-    Operations::Order::CredentialAssigner.inspect
-
     children = self.class.descendants
     children.each { |d| d.perform_later(atts) if d::TRIGGERS.include? atts[:transaction_type] }
   end
@@ -67,12 +61,12 @@ class Operations::Base < ActiveJob::Base
     atts.slice(*klass.column_names.map(&:to_sym))
   end
 
-  def self.inherited(klass)
-    @descendants ||= []
-    @descendants += klass.to_s.split("::").last.eql?("Base") ? klass.descendants : [klass]
-  end
-
   def self.descendants
-    @descendants || []
+    #TODO: this shouldn't go here. remove when class loading is not an issue
+    Operations::Credential::TicketChecker.inspect
+    Operations::Credential::GtagChecker.inspect
+    Operations::Credit::BalanceUpdater.inspect
+    Operations::Order::CredentialAssigner.inspect
+    ObjectSpace.each_object(Class).select { |klass| klass < self }
   end
 end
