@@ -4,6 +4,7 @@
 //= require best_in_place
 
 //= require vendor/mmenu/jquery.mmenu.min
+//= require vendor/jquery.qrcode
 
 //= require admin/mobile/side_menu
 //= require admin/file_fields
