@@ -81,9 +81,10 @@ class Admins::EventsController < Admins::BaseController
     params.require(:event)
           .permit(:aasm_state, :name, :url, :location, :start_date, :end_date, :description,
                   :support_email, :style, :logo, :background_type, :background, :features, :locales,
-                  :payment_services, :refund_services, :info, :disclaimer, :host_country,
-                  :gtag_assignation, :currency, :registration_parameters, :token_symbol,
-                  :agreed_event_condition_message, :ticket_assignation, :company_name,
-                  :agreement_acceptance, :receive_communications_message)
+                  :payment_services, :refund_services, :info, :disclaimer, :terms_of_use,
+                  :privacy_policy, :host_country, :gtag_assignation, :currency,
+                  :registration_parameters, :token_symbol, :agreed_event_condition_message,
+                  :ticket_assignation, :company_name, :agreement_acceptance,
+                  :receive_communications_message)
   end
 end
