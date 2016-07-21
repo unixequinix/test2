@@ -39,7 +39,7 @@ class Payments::Redsys::DataRetriever < Payments::BaseDataRetriever
   end
 
   def signature
-    unique_key_per_order = encrypt_3DES(@order.number, Base64.decode64(password))
+    unique_key_per_order = encrypt_3des(@order.number, Base64.decode64(password))
     sign_hmac256(parameters, unique_key_per_order)
   end
 
@@ -49,7 +49,7 @@ class Payments::Redsys::DataRetriever < Payments::BaseDataRetriever
     Base64.strict_encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new("sha256"), key, data))
   end
 
-  def encrypt_3DES(data, key)
+  def encrypt_3des(data, key)
     cipher = OpenSSL::Cipher::Cipher.new("DES-EDE3-CBC")
     cipher.encrypt
     cipher.key = key

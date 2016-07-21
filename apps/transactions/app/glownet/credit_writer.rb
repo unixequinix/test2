@@ -12,12 +12,10 @@ class CreditWriter
   def self.save_order(order, type = "online_topup")
     order.order_items.each do |item|
       params = { transaction_type: type }
-
       if item.single_credits?
         params[:credit_value] = item.catalog_item.catalogable.value
         params[:credits] = item.amount
         params[:refundable_credits] = item.amount
-
       elsif item.pack_with_credits?
         pack = item.catalog_item.catalogable
         pack.credits.each do |credit|
@@ -26,7 +24,6 @@ class CreditWriter
           params[:refundable_credits] = pack.only_credits_pack? ? item.total / credit.value : 0
         end
       end
-
       create_credit(order.profile, params) if params.key?(:credits)
     end
   end
