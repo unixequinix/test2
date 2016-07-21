@@ -43,8 +43,6 @@ class Payments::Redsys::DataRetriever < Payments::BaseDataRetriever
     sign_hmac256(parameters, unique_key_per_order)
   end
 
-  private
-
   def sign_hmac256(data, key)
     Base64.strict_encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new("sha256"), key, data))
   end
