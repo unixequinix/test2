@@ -103,6 +103,7 @@ class Pack < ActiveRecord::Base
   end
 
   def valid_max_credits
+    return false unless catalog_item.present?
     max_balance = catalog_item.event.get_parameter("gtag", "form", "maximum_gtag_balance").to_i
     pack_credits = if persisted?
                      open_all("Credit").sum(&:total_amount)
