@@ -30,7 +30,7 @@ class Events::RegistrationsController < Events::BaseController
     @edit_profile_form = EditProfileForm.new(current_customer)
   end
 
-  def update
+  def update # rubocop:disable Metrics/AbcSize
     atts = edit_params
 
     if edit_params["birthdate(1i)"]

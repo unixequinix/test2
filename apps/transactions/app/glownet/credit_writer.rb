@@ -31,8 +31,7 @@ class CreditWriter
     end
   end
 
-  def self.create_credit(profile, *params)
-    atts = params.first
+  def self.create_credit(profile, atts)
     %w( credits refundable_credits credit_value ).each { |key| atts[key.to_sym] = atts[key.to_sym].to_f }
 
     common_atts = {

@@ -27,6 +27,8 @@ class EventCreator
       I18n.locale = data["locale"]
       @event.update(info: data["info"],
                     disclaimer: data["disclaimer"],
+                    privacy_policy: data["privacy_policy"],
+                    terms_of_use: data["terms_of_use"],
                     refund_success_message: data["refund_success_message"],
                     mass_email_claim_notification: data["mass_email_claim_notification"],
                     gtag_assignation_notification: data["gtag_assignation_notification"],

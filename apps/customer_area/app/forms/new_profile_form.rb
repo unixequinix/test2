@@ -47,7 +47,7 @@ class NewProfileForm
                                               deleted_at: nil)
   end
 
-  def custom_inputs
+  def custom_inputs # rubocop:disable all
     event = Event.find(event_id)
     # TODO: Refactor
     errors[:phone] << I18n.t("errors.messages.blank") if phone.blank? && event.phone?

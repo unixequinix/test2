@@ -22,7 +22,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :devices, only: [:index, :show, :update] do
+    resources :devices, only: [:index, :show, :update, :destroy] do
       collection do
         get :search
       end

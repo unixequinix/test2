@@ -29,6 +29,10 @@ de:
           description: "Beschreibung"
           start_date: "Anfangsdatum"
           end_date: "Enddatum"
+          info: 'Info'
+          disclaimer: 'Disclaimer'
+          privacy_policy: 'Privacy policy'
+          terms_of_use: 'Terms of use'
           location: "Ort"
           logo: "Logo"
           refund_service: „Erstattungsservice"

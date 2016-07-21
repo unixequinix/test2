@@ -1,8 +1,15 @@
 class Api::V1::Events::StationsController < Api::V1::Events::BaseController
   def index
-    json = Station.where(event: current_event).group_by(&:group).map do |group, stations|
-      { station_group: group, stations: stations.map { |s| Api::V1::StationSerializer.new(s) } }
+    modified = request.headers["If-Modified-Since"]&.to_datetime
+    stations = Station.where(event: current_event)
+    stations = stations.where("stations.updated_at > ?", modified + 1) if modified
+    date = stations.maximum(:updated_at)&.httpdate
+
+    json = stations.group_by(&:group).map do |group, items|
+      { station_group: group, stations: items.map { |s| Api::V1::StationSerializer.new(s) } }
     end
-    render json: json
+
+    response.headers["Last-Modified"] = date if date
+    render(json: json)
   end
 end
