@@ -7,9 +7,8 @@ class Events::OrdersController < Events::BaseController
     order = Order.includes(order_items: :catalog_item).find(params[:id])
     @order_presenters = []
     current_event.selected_payment_services.each do |payment_service|
-      @order_presenters <<
-        "Orders::#{payment_service.to_s.camelize}Presenter".constantize
-        .new(current_event, order).with_params(params)
+      klass = "Orders::#{payment_service.to_s.camelize}Presenter".constantize
+      @order_presenters << klass.new(current_event, order).with_params(params)
     end
   end
 
@@ -18,8 +17,8 @@ class Events::OrdersController < Events::BaseController
     @order = OrderManager.new(Order.find(params[:id])).sanitize_order
     params[:consumer_ip_address] = request.ip
     params[:consumer_user_agent] = request.user_agent
-    @form_data = "Payments::#{@payment_service.camelize}::DataRetriever"
-                 .constantize.new(current_event, @order).with_params(params)
+    klass = "Payments::#{@payment_service.camelize}::DataRetriever"
+    @form_data = klass.constantize.new(current_event, @order).with_params(params)
     @order.start_payment!
   end
 
@@ -27,8 +26,7 @@ class Events::OrdersController < Events::BaseController
 
   def require_permission!
     @order = Order.find(params[:id])
-    return unless current_profile !=
-                  @order.profile || @order.completed? || @order.expired?
+    return unless current_profile != @order.profile || @order.completed? || @order.expired?
     flash.now[:error] = I18n.t("alerts.order_complete") if @order.completed?
     flash.now[:error] = I18n.t("alerts.order_expired") if @order.expired?
     redirect_to event_url(current_event)

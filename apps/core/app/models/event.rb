@@ -46,7 +46,7 @@
 
 class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   nilify_blanks
-  translates :info, :disclaimer, :refund_success_message, :mass_email_claim_notification,
+  translates :info, :disclaimer, :terms_of_use, :privacy_policy, :refund_success_message, :mass_email_claim_notification,
              :refund_disclaimer, :bank_account_disclaimer, :gtag_assignation_notification,
              :gtag_form_disclaimer, :gtag_name, :agreed_event_condition_message,
              :receive_communications_message,
@@ -186,11 +186,8 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   private
 
   def end_date_after_start_date
-    return if end_date.blank? || start_date.blank?
-
-    if end_date < start_date
-      errors.add(:end_date, I18n.t("errors.messages.end_date_after_start_date"))
-    end
+    return if end_date.blank? || start_date.blank? || end_date > start_date
+    errors.add(:end_date, I18n.t("errors.messages.end_date_after_start_date"))
   end
 
   def generate_token

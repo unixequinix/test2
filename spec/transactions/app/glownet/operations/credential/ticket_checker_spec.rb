@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Operations::Credential::TicketChecker, type: :job do
   let(:event) { create(:event) }
   let(:ticket) { create(:ticket, code: "TICKET_CODE", event: event) }
-  let(:gtag) { create(:gtag, tag_uid: "UID1AT20160321130133", event: event) }
+  let(:gtag) { create(:gtag, tag_uid: "FFF123FFF", event: event) }
   let(:profile) { create(:profile, event: event) }
   let(:transaction) do
     create(:credential_transaction, event: event, ticket: ticket, profile: profile)

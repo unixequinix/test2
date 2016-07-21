@@ -1,21 +1,18 @@
 class Operations::Base < ActiveJob::Base
   SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at gtag_counter ).freeze
 
-  def perform(atts) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-    atts[:customer_tag_uid] = atts[:customer_tag_uid].to_s.upcase
-    atts[:catalogable_type] = atts[:catalogable_type].to_s.camelcase
-    atts[:profile_id] ||= atts[:customer_event_profile_id]
-    atts[:refundable_credits] ||= atts[:credits_refundable]
-    atts.delete(:station_id) if atts[:station_id].to_i.zero?
-    atts.delete(:sale_items_attributes) if atts[:sale_items_attributes].blank?
+  def perform(atts)
+    atts = preformat_atts(atts)
     klass = Transaction.class_for_type(atts[:transaction_category])
 
     obj = klass.find_by(atts.slice(*SEARCH_ATTS))
     return obj if obj
 
-    gtag = Gtag.find_or_create_by!(tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id])
-    profile_id = Profile::Checker.for_transaction(gtag, atts[:profile_id], atts[:event_id])
-    atts[:profile_id] = profile_id
+    if atts[:customer_tag_uid].present?
+      gtag = Gtag.find_or_create_by!(tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id])
+      profile_id = Profile::Checker.for_transaction(gtag, atts[:profile_id], atts[:event_id])
+      atts[:profile_id] = profile_id
+    end
 
     obj_atts = column_attributes(klass, atts)
     obj = klass.create!(obj_atts)
@@ -53,12 +50,28 @@ class Operations::Base < ActiveJob::Base
   end
 
   def execute_operations(atts)
+    # TODO: this shouldn't go here. remove when class loading is not an issue
+    Operations::Credential::TicketChecker.inspect
+    Operations::Credential::GtagChecker.inspect
+    Operations::Credit::BalanceUpdater.inspect
+    Operations::Order::CredentialAssigner.inspect
+
     children = self.class.descendants
-    children.each { |d| d.perform_later(atts) if d::TRIGGERS.include? atts[:transaction_type] }
+    children.each { |klass| klass.perform_later(atts) if klass::TRIGGERS.include? atts[:transaction_type] }
   end
 
   def column_attributes(klass, atts)
     atts.slice(*klass.column_names.map(&:to_sym))
+  end
+
+  def preformat_atts(atts)
+    atts[:customer_tag_uid] = atts[:customer_tag_uid].to_s.upcase if atts.key?(:customer_tag_uid)
+    atts[:catalogable_type] = atts[:catalogable_type].to_s.camelcase if atts.key?(:catalogable_type)
+    atts[:profile_id] ||= atts[:customer_event_profile_id]
+    atts[:refundable_credits] ||= atts[:credits_refundable]
+    atts.delete(:station_id) if atts[:station_id].to_i.zero?
+    atts.delete(:sale_items_attributes) if atts[:sale_items_attributes].blank?
+    atts
   end
 
   def self.inherited(klass)
@@ -67,7 +80,6 @@ class Operations::Base < ActiveJob::Base
   end
 
   def self.descendants
-    Operations::Credit::BalanceUpdater.inspect
     @descendants || []
   end
 end

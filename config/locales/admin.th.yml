@@ -27,6 +27,7 @@ th:
       transaction_origin: "Origin"
       transaction_type: "Type"
       gtag_counter: "Gtag Counter"
+      counter: "Counter"
       customer_tag_uid: "Customer"
       operator_tag_uid: "Operator"
       station_id: "Station"
@@ -155,6 +156,10 @@ th:
       location: 'Location'
       start_date: 'Start date'
       end_date: 'End date'
+      info: 'Info'
+      disclaimer: 'Disclaimer'
+      privacy_policy: 'Privacy policy'
+      terms_of_use: 'Terms of use'
       description: 'Description'
       logo: 'Logo'
       background_type: 'Background type'

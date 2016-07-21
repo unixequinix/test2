@@ -37,6 +37,7 @@ de:
       customer_tag_uid: "Kunden tag"
       operator_tag_uid: "Operator tag"
       gtag_counter: "Gtag Counter"
+      counter: "Counter"
       station_id: "Station id"
       device_uid: "Gerät uid"
       device_db_index: "Gerät DB Index"
@@ -163,6 +164,10 @@ de:
       location: 'Ort'
       start_date: 'Anfangsdatum'
       end_date: 'Enddatum'
+      info: 'Info'
+      disclaimer: 'Disclaimer'
+      privacy_policy: 'Privacy policy'
+      terms_of_use: 'Terms of use'
       description: 'Beschreibung'
       logo: 'Logo'
       background_type: 'Hintergrundtyp'
