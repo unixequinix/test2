@@ -2,16 +2,14 @@ require "rails_helper"
 
 RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
   let(:event) { create(:event) }
-  let(:company) { create(:company) }
-  let(:agreement) { create(:company_event_agreement, event: event, company: company) }
-  let(:t_type) { create(:company_ticket_type, event: event, company_event_agreement: agreement) }
-  before { create_list(:ticket, 2, banned: true, event: event, company_ticket_type: t_type) }
+  let(:ticket_type) { create(:company_ticket_type, event: event) }
+  let(:agreement) { ticket_type.company_event_agreement }
+  let(:company) { agreement.company }
+  before { create_list(:ticket, 2, banned: true, event: event, company_ticket_type: ticket_type) }
 
   describe "GET index" do
     context "when authenticated" do
-      before(:each) do
-        http_login(event.token, company.access_token)
-      end
+      before { http_login(event.token, company.access_token) }
 
       it "returns 200 status code" do
         get :index, event_id: event.id
@@ -42,26 +40,21 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
 
   describe "POST create" do
     context "when authenticated" do
-      before(:each) do
-        http_login(event.token, company.access_token)
-      end
+      before { http_login(event.token, company.access_token) }
 
       context "when the request is valid" do
-        let(:ticket) { create(:ticket, :with_purchaser, event: event, company_ticket_type: t_type) }
+        let(:ticket) { create(:ticket, :with_purchaser, event: event, company_ticket_type: ticket_type) }
+        before { post :create, tickets_blacklist: { ticket_reference: ticket.code } }
 
         it "bans the ticket" do
-          post :create, tickets_blacklist: { ticket_reference: ticket.code }
           expect(ticket.reload).to be_banned
         end
 
         it "returns a 201 status code" do
-          post :create, tickets_blacklist: { ticket_reference: ticket.code }
           expect(response.status).to eq(201)
         end
 
         it "returns the banned ticket" do
-          post :create, tickets_blacklist: { ticket_reference: ticket.code }
-
           body = JSON.parse(response.body)
           expect(body["ticket_reference"]).to eq(ticket.code)
         end
@@ -84,19 +77,19 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
   end
 
   describe "DELETE destroy" do
-    let(:ticket) { create(:ticket, banned: true, event: event, company_ticket_type: t_type) }
+    let(:ticket) { create(:ticket, banned: true, event: event, company_ticket_type: ticket_type) }
 
     context "when authenticated" do
       before(:each) { http_login(event.token, company.access_token) }
 
       context "when the request is valid" do
+        before { delete :destroy, id: ticket.code }
+
         it "unbans the ticket" do
-          delete :destroy, id: ticket.code
           expect(ticket.reload).not_to be_banned
         end
 
         it "returns a 204 code status" do
-          delete :destroy, id: ticket.code
           expect(response.status).to eq(204)
         end
       end
