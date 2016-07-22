@@ -85,6 +85,6 @@ class Admins::EventsController < Admins::BaseController
                   :privacy_policy, :host_country, :gtag_assignation, :currency,
                   :registration_parameters, :token_symbol, :agreed_event_condition_message,
                   :ticket_assignation, :company_name, :agreement_acceptance,
-                  :receive_communications_message)
+                  :receive_communications_message, :address, :registration_num, :official_name)
   end
 end

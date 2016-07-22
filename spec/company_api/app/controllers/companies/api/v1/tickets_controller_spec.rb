@@ -1,45 +1,34 @@
 require "rails_helper"
 
 RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
-  before(:all) do
-    @event = create(:event)
-    @company = create(:company)
-    @agreement = create(:company_event_agreement, event: @event, company: @company)
-    @ticket_type = create(:company_ticket_type, event: @event, company_event_agreement: @agreement)
-
-    create_list(:ticket, 2, :with_purchaser, event: @event, company_ticket_type: @ticket_type)
-  end
+  let(:event) { create(:event) }
+  let(:ticket_type) { create(:company_ticket_type, event: event) }
+  let(:company) { ticket_type.company_event_agreement.company }
+  let(:tickets) { create_list(:ticket, 2, :with_purchaser, event: event, company_ticket_type: ticket_type) }
 
   describe "GET index" do
     context "when authenticated" do
-      before(:each) do
-        @company = Company.last
-        http_login(@event.token, @company.access_token)
+      before do
+        tickets
+        http_login(event.token, company.access_token)
+        get :index, event_id: event
       end
 
       it "returns 200 status code" do
-        get :index, event_id: @event.id
-
         expect(response.status).to eq(200)
       end
 
       it "returns only the tickets for that company" do
-        get :index, event_id: @event.id
+        get :index, event_id: event
 
-        body = JSON.parse(response.body)
-        tickets = body["tickets"].map { |m| m["ticket_reference"] }
-
-        db_tickets = Ticket.joins(company_ticket_type: :company_event_agreement)
-                           .where(event: @event, company_event_agreements: { id: @agreement.id })
-
-        expect(tickets).to match_array(db_tickets.map(&:code))
+        ws_tickets = JSON.parse(response.body)["tickets"].map { |m| m["ticket_reference"] }
+        expect(tickets.map(&:code)).to match_array(ws_tickets)
       end
     end
 
     context "when not authenticated" do
       it "returns a 401 status code" do
-        get :index, event_id: @event.id
-
+        get :index, event_id: event
         expect(response.status).to eq(401)
       end
     end
@@ -47,15 +36,10 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
 
   describe "GET show" do
     context "when authenticated" do
-      before(:each) do
-        @company = Company.last
-        http_login(@event.token, @company.access_token)
-      end
+      before { http_login(event.token, company.access_token) }
 
       context "when the ticket belongs to the company" do
-        before(:each) do
-          get :show, event_id: @event.id, id: Ticket.last.id
-        end
+        before { get :show, event_id: event, id: tickets.first }
 
         it "returns a 200 status code" do
           expect(response.status).to eq(200)
@@ -63,13 +47,13 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
 
         it "returns the correct ticket" do
           body = JSON.parse(response.body)
-          expect(body["ticket_reference"]).to eq(Ticket.last.code)
+          expect(body["ticket_reference"]).to eq(tickets.first.code)
         end
       end
 
       context "when the ticket doesn't belong to the company" do
         it "returns a 404 status code" do
-          get :show, event_id: @event.id, id: create(:ticket)
+          get :show, event_id: event, id: create(:ticket)
           expect(response.status).to eq(404)
         end
       end
@@ -77,8 +61,7 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
 
     context "when not authenticated" do
       it "returns a 401 status code" do
-        get :show, event_id: @event.id, id: Ticket.last.id
-
+        get :show, event_id: event, id: tickets.last
         expect(response.status).to eq(401)
       end
     end
@@ -86,21 +69,14 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
 
   describe "POST create" do
     context "when authenticated" do
-      before(:each) do
-        @company = Company.last
-        http_login(@event.token, @company.access_token)
-      end
+      before { http_login(event.token, company.access_token) }
 
       context "when the request is valid" do
         let(:params) do
           {
             ticket_reference: "t1ck3tt3st",
-            ticket_type_id: CompanyTicketType.last.id,
-            purchaser_attributes: {
-              first_name: "Glownet",
-              last_name: "Glownet",
-              email: "hi@glownet.com"
-            }
+            ticket_type_id: ticket_type.id,
+            purchaser_attributes: { first_name: "Glownet", last_name: "Glownet", email: "hi@glownet.com" }
           }
         end
 
@@ -143,8 +119,8 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
   describe "POST bulk_upload" do
     let(:params) do
       [{
-        ticket_reference: SecureRandom.hex(16),
-        ticket_type_id: @ticket_type.id,
+        ticket_reference: "11111",
+        ticket_type_id: ticket_type.id,
         purchaser_attributes: {
           first_name: "Glownet",
           last_name: "Glownet",
@@ -152,8 +128,8 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
         }
       },
        {
-         ticket_reference: SecureRandom.hex(16),
-         ticket_type_id: @ticket_type.id,
+         ticket_reference: "22222",
+         ticket_type_id: ticket_type.id,
          purchaser_attributes: {
            first_name: "Glownet",
            last_name: "Glownet",
@@ -163,7 +139,7 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
     end
     let(:invalid_params) do
       [{
-        ticket_reference: SecureRandom.hex(16),
+        ticket_reference: "11111",
         purchaser_attributes: {
           first_name: "Glownet",
           last_name: "Glownet",
@@ -171,8 +147,8 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
         }
       },
        {
-         ticket_reference: SecureRandom.hex(16),
-         ticket_type_id: @ticket_type.id,
+         ticket_reference: "22222",
+         ticket_type_id: ticket_type.id,
          purchaser_attributes: {
            first_name: "Glownet",
            last_name: "Glownet",
@@ -181,10 +157,7 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
        }]
     end
     context "when authenticated" do
-      before(:each) do
-        @company = Company.last
-        http_login(@event.token, @company.access_token)
-      end
+      before { http_login(event.token, company.access_token) }
 
       context "when the request is valid" do
         it "increases the tickets in the database by 2" do
@@ -223,60 +196,54 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
 
   describe "PATCH update" do
     context "when authenticated" do
-      before(:each) do
-        @company = Company.last
-        @ticket = Ticket.last
-        http_login(@event.token, @company.access_token)
-      end
+      before { http_login(event.token, company.access_token) }
 
       context "when the request is valid" do
         let(:params) do
-          { ticket_reference: "n3wt1cketr3fer3nc3",
-            purchaser_attributes: { email: "updated@email.com" } }
+          { ticket_reference: "n3wt1cketr3fer3nc3", purchaser_attributes: { email: "updated@email.com" } }
         end
 
         it "changes ticket's attributes" do
-          put :update, id: @ticket, ticket: params
-          @ticket.reload
-          expect(@ticket.code).to eq("n3wt1cketr3fer3nc3")
-          expect(@ticket.purchaser.email).to eq("updated@email.com")
+          put :update, id: tickets.first, ticket: params
+          tickets.first.reload
+          expect(tickets.first.code).to eq("n3wt1cketr3fer3nc3")
+          expect(tickets.first.purchaser.email).to eq("updated@email.com")
         end
 
         it "returns a 200 code status" do
-          put :update, id: @ticket, ticket: params
+          put :update, id: tickets.first, ticket: params
           expect(response.status).to eq(200)
         end
 
         it "returns the updated ticket" do
-          put :update, id: @ticket, ticket: params
+          put :update, id: tickets.first, ticket: params
           body = JSON.parse(response.body)
-          @ticket.reload
-          expect(body["ticket_reference"]).to eq(@ticket.code)
+          tickets.first.reload
+          expect(body["ticket_reference"]).to eq(tickets.first.code)
         end
       end
 
       context "when the request is invalid" do
         let(:params) do
-          { ticket_reference: nil,
-            purchaser_attributes: { email: "newemail@glownet.com" } }
+          { ticket_reference: nil, purchaser_attributes: { email: "newemail@glownet.com" } }
         end
 
         it "returns a 422 status code" do
-          put :update, id: @ticket, ticket: params
+          put :update, id: tickets.first, ticket: params
           expect(response.status).to eq(422)
         end
 
         it "doesn't change ticket's attributes" do
-          put :update, id: @ticket, ticket: params
-          @ticket.reload
-          expect(@ticket.purchaser.email).not_to eq("newemail@glownet.com")
+          put :update, id: tickets.first, ticket: params
+          tickets.first.reload
+          expect(tickets.first.purchaser.email).not_to eq("newemail@glownet.com")
         end
       end
     end
 
     context "when not authenticated" do
       it "returns a 401 status code" do
-        put :update, id: Ticket.last, ticket: { without: "Authenticate" }
+        put :update, id: tickets.first, ticket: { without: "Authenticate" }
         expect(response.status).to eq(401)
       end
     end

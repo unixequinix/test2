@@ -186,6 +186,7 @@ th:
         parameters: "Parameters"
         limits: "Limits"
         nfc: "NFC"
+        company: "Company information"
       states:
         created: 'Not published'
         launched: 'Pre-event'

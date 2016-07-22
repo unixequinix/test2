@@ -8,13 +8,16 @@ class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
       response.headers["Last-Modified"] = date.to_datetime.httpdate
     end
 
-    render(json: gtags)
+    status = gtags.present? ? 200 : 304 if modified
+    status ||= 200
+
+    render(status: status, json: gtags)
   end
 
   def show
-    serializer = Api::V1::GtagWithCustomerSerializer
-    @gtag = current_event.gtags.find_by_tag_uid(params[:id])
-    render(json: @gtag, serializer: serializer) && return if @gtag
-    render(json: :not_found, status: :not_found)
+    gtag = current_event.gtags.find_by_tag_uid(params[:id])
+
+    render(json: :not_found, status: :not_found) && return unless gtag
+    render(json: gtag, serializer: Api::V1::GtagWithCustomerSerializer)
   end
 end

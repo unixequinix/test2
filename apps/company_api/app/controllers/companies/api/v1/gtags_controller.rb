@@ -9,14 +9,10 @@ class Companies::Api::V1::GtagsController < Companies::Api::V1::BaseController
   end
 
   def show
-    @gtag = @fetcher.gtags.find_by(id: params[:id])
+    gtag = @fetcher.gtags.find_by(id: params[:id])
 
-    if @gtag
-      render json: @gtag, serializer: Companies::Api::V1::GtagSerializer
-    else
-      render(status: :not_found,
-             json: { status: "not_found", error: "Gtag with id #{params[:id]} not found." })
-    end
+    render(json: gtag, serializer: Companies::Api::V1::GtagSerializer) && return if gtag
+    render(status: :not_found, json: { status: "not_found", error: "Gtag with id #{params[:id]} not found." })
   end
 
   def create

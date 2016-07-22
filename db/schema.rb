@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160720125522) do
+ActiveRecord::Schema.define(version: 20160722114615) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -479,6 +479,9 @@ ActiveRecord::Schema.define(version: 20160720125522) do
     t.string   "device_basic_db_content_type"
     t.integer  "device_basic_db_file_size"
     t.datetime "device_basic_db_updated_at"
+    t.string   "address"
+    t.string   "registration_num"
+    t.string   "official_name"
   end
 
   add_index "events", ["slug"], name: "index_events_on_slug", unique: true, using: :btree

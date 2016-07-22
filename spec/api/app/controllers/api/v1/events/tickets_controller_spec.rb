@@ -72,12 +72,8 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         @ticket = create(:ticket, event: event, company_ticket_type: @ctt)
         @ticket2 = create(:ticket, event: event, company_ticket_type: @ctt)
         @profile = create(:profile, event: event)
-        create(:credential_assignment, credentiable: @ticket,
-                                       profile: @profile,
-                                       aasm_state: "assigned")
-        create(:credential_assignment, credentiable: @ticket2,
-                                       profile: @profile,
-                                       aasm_state: "unassigned")
+        create(:credential_assignment, credentiable: @ticket, profile: @profile, aasm_state: "assigned")
+        create(:credential_assignment, credentiable: @ticket2, profile: @profile, aasm_state: "unassigned")
         @customer = create(:customer, profile: @profile)
         @order = create(:customer_order, profile: @profile, catalog_item: @access)
         create(:online_order, counter: 1, customer_order: @order, redeemed: false)
