@@ -9,7 +9,6 @@ RSpec.describe Companies::Api::V1::BalancesController, type: :controller do
   before do
     create(:company_event_agreement, event: event, company: company)
     profile.credential_assignments.create!(credentiable: gtag)
-    create(:customer_credit_onsite, profile: profile)
   end
 
   describe "GET show" do

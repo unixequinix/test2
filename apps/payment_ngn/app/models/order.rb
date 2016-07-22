@@ -23,6 +23,7 @@ class Order < ActiveRecord::Base
 
   # Validations
   validates :profile, :number, :aasm_state, presence: true
+  validate :max_credit_reached
 
   # State machine
   include AASM
@@ -41,16 +42,16 @@ class Order < ActiveRecord::Base
     end
   end
 
-  def total
-    order_items.sum(:total)
-  end
-
   def total_formated
     format("%.2f", total)
   end
 
+  def total
+    order_items.sum(:total)
+  end
+
   def total_credits
-    order_items.to_a.sum(&:credits)
+    order_items.map(&:credits).sum.to_f
   end
 
   def total_refundable_credits
@@ -71,6 +72,12 @@ class Order < ActiveRecord::Base
   end
 
   private
+
+  def max_credit_reached
+    return unless profile
+    max_credits = profile.event.get_parameter("gtag", "form", "maximum_gtag_balance").to_f
+    errors.add(:credits, "maximum reached") if profile.credits + total_credits > max_credits
+  end
 
   def complete_order
     update(completed_at: Time.zone.now)
