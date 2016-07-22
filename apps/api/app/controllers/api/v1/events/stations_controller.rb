@@ -10,6 +10,9 @@ class Api::V1::Events::StationsController < Api::V1::Events::BaseController
     end
 
     response.headers["Last-Modified"] = date if date
-    render(json: json)
+
+    status = stations.present? ? 200 : 304 if modified
+    status ||= 200
+    render(status: status, json: json)
   end
 end
