@@ -171,7 +171,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
         .where(catalog_items: { event_id: @event.id })
   end
 
-  def parameters
+  def event_parameters
     gtag_type = @event.get_parameter("gtag", "form", "gtag_type")
 
     @event.event_parameters.joins(:parameter)
