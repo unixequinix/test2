@@ -8,7 +8,10 @@ class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
       response.headers["Last-Modified"] = date.to_datetime.httpdate
     end
 
-    render(json: gtags)
+    status = gtags.present? ? 200 : 304 if modified
+    status ||= 200
+
+    render(status: status, json: gtags)
   end
 
   def show

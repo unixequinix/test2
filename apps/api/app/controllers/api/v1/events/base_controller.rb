@@ -9,11 +9,16 @@ class Api::V1::Events::BaseController < Api::BaseController
 
     obj = @fetcher.method(plural).call
     plural = plural.gsub("banned_", "") if plural.starts_with?("banned")
-    obj = obj.where("#{plural}.updated_at > ?", modified + 1) if modified
+    if modified
+      obj = obj.where("#{plural}.updated_at > ?", modified + 1)
+      status = obj.present? ? 200 : 304
+    end
 
     date = obj.maximum(:updated_at)&.httpdate
     response.headers["Last-Modified"] = date if date
-    render(json: obj, each_serializer: "Api::V1::#{entity.camelcase}Serializer".constantize)
+
+    status ||= 200
+    render(status: status, json: obj, each_serializer: "Api::V1::#{entity.camelcase}Serializer".constantize)
   end
 
   def enable_fetcher
