@@ -1,4 +1,4 @@
-class Api::V1::ParameterSerializer < Api::V1::BaseSerializer
+class Api::V1::EventParameterSerializer < Api::V1::BaseSerializer
   attributes :id, :name, :value
 
   def name

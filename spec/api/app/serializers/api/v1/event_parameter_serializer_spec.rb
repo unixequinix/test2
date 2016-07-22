@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::ParameterSerializer, type: :serializer do
+RSpec.describe Api::V1::EventParameterSerializer, type: :serializer do
   context "Individual Resource Representation" do
     let(:resource) { build(:event_parameter) }
 
