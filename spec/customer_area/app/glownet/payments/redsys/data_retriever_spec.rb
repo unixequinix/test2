@@ -45,7 +45,7 @@ RSpec.describe Payments::Redsys::DataRetriever, type: :domain_logic do
     end
 
     it "returns the value of the password parameter" do
-      expect(redsys_data_retriever.password).to eq("qwertyasdf0123456789")
+      expect(redsys_data_retriever.password).to eq("sq7HjrUOBfKmC576ILgskD5srU870gJ7")
     end
 
     it "returns the total amount of all the order items attached to the order" do
@@ -71,24 +71,8 @@ RSpec.describe Payments::Redsys::DataRetriever, type: :domain_logic do
       expect(%w(http https).include?(uri.scheme)).to be(true)
     end
 
-    it "returns the message for the redsys system" do
-      message = ""
-      message += "12000"
-      message += number.to_s
-      message += "126327360"
-      message += "978"
-      message += "0"
-      message += Rails.application.secrets.host_url + "/"
-      message += redsys_data_retriever.current_event.slug
-      message += "/orders/#{redsys_data_retriever.order.id}"
-      message += "/payment"
-      message += "_services/redsys/asynchronous_paymentsqwertyasdf0123456789"
-
-      expect(redsys_data_retriever.message).to eq(message)
-    end
-
     it "returns the signature in uppercase" do
-      expect(redsys_data_retriever.signature).to match(/\A[A-Z0-9]{40}\z/)
+      expect(redsys_data_retriever.signature).to match(/[A-Za-z0-9=+]{44}/)
     end
   end
 end

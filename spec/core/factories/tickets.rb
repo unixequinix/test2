@@ -20,10 +20,11 @@ FactoryGirl.define do
     code { SecureRandom.hex(16).upcase.to_s }
     credential_redeemed { [true, false].sample }
     event
+    company_ticket_type
 
-    after(:build) do |ticket|
-      ticket.company_ticket_type = create(:company_ticket_type, event: ticket.event)
-    end
+    # after(:build) do |ticket|
+    #   ticket.company_ticket_type = create(:company_ticket_type, event: ticket.event)
+    # end
 
     trait :with_purchaser do
       after(:create) do |ticket|

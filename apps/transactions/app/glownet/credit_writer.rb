@@ -8,7 +8,7 @@ class CreditWriter
     end
   end
 
-  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def self.save_order(order, type = "online_topup")
     order.order_items.each do |item|
       params = { transaction_type: type }
@@ -17,7 +17,6 @@ class CreditWriter
         params[:credit_value] = item.catalog_item.catalogable.value
         params[:credits] = item.amount
         params[:refundable_credits] = item.amount
-
       elsif item.pack_with_credits?
         pack = item.catalog_item.catalogable
         pack.credits.each do |credit|

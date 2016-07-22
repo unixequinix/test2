@@ -57,7 +57,8 @@ class NewProfileForm
     errors[:postcode] << I18n.t("errors.messages.blank") if postcode.blank? && event.postcode?
     errors[:gender] << I18n.t("errors.messages.blank") if gender.blank? && event.gender?
     errors[:birthdate] << I18n.t("errors.messages.blank") if birthdate.blank? && event.birthdate?
-    errors[:agreed_event_condition] << I18n.t("errors.messages.accepted") if !agreed_event_condition && event.agreed_event_condition?
+    errors[:agreed_event_condition] <<
+      I18n.t("errors.messages.accepted") if !agreed_event_condition && event.agreed_event_condition?
   end
 
   def persist!

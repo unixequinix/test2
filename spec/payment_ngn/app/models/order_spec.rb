@@ -14,12 +14,23 @@
 require "rails_helper"
 
 RSpec.describe Order, type: :model do
-  it { is_expected.to validate_presence_of(:profile) }
-  it { is_expected.to validate_presence_of(:number) }
-  it { is_expected.to validate_presence_of(:aasm_state) }
-
-  let(:profile) { create(:profile) }
+  let(:event) { create(:event) }
+  let(:profile) { create(:profile, event: event) }
   let(:order) { create(:order_with_items, profile: profile) }
+
+  before { allow(event).to receive(:get_parameter).and_return(100) }
+
+  describe "validations" do
+    it { is_expected.to validate_presence_of(:profile) }
+    it { is_expected.to validate_presence_of(:number) }
+    it { is_expected.to validate_presence_of(:aasm_state) }
+
+    it "should fail if profile has reached the limit of credits in event settings" do
+      allow(profile).to receive(:credits).and_return(100)
+      allow(order).to receive(:total_credits).and_return(100)
+      expect(order).not_to be_valid
+    end
+  end
 
   describe "total" do
     it "returns the total of all the items in the order" do

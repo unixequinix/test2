@@ -186,6 +186,7 @@ es:
         parameters: "Parámetros"
         limits: "Límites"
         nfc: "NFC"
+        company: "Información de la compañía"
       states:
         created: 'No publicado'
         launched: 'Pre-evento'

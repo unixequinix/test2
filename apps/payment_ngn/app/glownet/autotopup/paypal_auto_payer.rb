@@ -1,5 +1,5 @@
 class Autotopup::PaypalAutoPayer
-  def self.start(tag_uid, order_id, event) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+  def self.start(tag_uid, order_id, event) # rubocop:disable Metrics/AbcSize
     profile = event.gtags.find_by_tag_uid(tag_uid)&.assigned_profile
     return { errors: "Customer not found" } unless profile
     credit = event.credits.standard

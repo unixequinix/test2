@@ -194,6 +194,7 @@ de:
         parameters: "Parameter"
         limits: "Limits"
         nfc: "NFC"
+        company: "Company information"
       states:
         created: "Nicht veröffentlicht"
         launched: "Vor der Veranstaltung"

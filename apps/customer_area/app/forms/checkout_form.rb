@@ -1,5 +1,6 @@
 class CheckoutForm
   include ActiveModel::Model
+  attr_reader :order
 
   def initialize(profile)
     @profile = profile
@@ -7,14 +8,8 @@ class CheckoutForm
   end
 
   def submit(params, catalog_items_fetched)
-    if persist(params, catalog_items_fetched)
-      true
-    else
-      false
-    end
+    persist(params, catalog_items_fetched)
   end
-
-  attr_reader :order
 
   private
 
@@ -30,6 +25,6 @@ class CheckoutForm
         total: amount * catalog_item.price
       )
     end
-    @order.save ? true : false
+    @order.save
   end
 end

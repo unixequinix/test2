@@ -8,6 +8,17 @@
     = f.input :name, placeholder: true, required: true
     = f.input :company_name
     = f.input :support_email, placeholder: true, required: true
+
+    h3.section-header
+      = fa_icon "info-circle"
+      = t("admin.event.fieldests.company")
+    = f.input :official_name, placeholder: true
+    = f.input :official_address, placeholder: true
+    = f.input :registration_num, placeholder: true
+
+    h3.section-header
+      = fa_icon "info-circle"
+      = t("admin.event.fieldests.features")
     #features
       label
         = t("admin.event.features")
