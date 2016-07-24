@@ -21,6 +21,6 @@ class Api::V1::PackSerializer < Api::V1::BaseSerializer
     selected = object.pack_catalog_items.select do |pack_item|
       pack_item.catalog_item.catalogable_type == "Credit"
     end
-    selected.map(&:amount).inject(:+)
+    selected.map(&:amount).inject(:+).to_f
   end
 end
