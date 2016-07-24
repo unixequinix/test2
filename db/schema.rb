@@ -479,7 +479,7 @@ ActiveRecord::Schema.define(version: 20160722114615) do
     t.string   "device_basic_db_content_type"
     t.integer  "device_basic_db_file_size"
     t.datetime "device_basic_db_updated_at"
-    t.string   "address"
+    t.string   "official_address"
     t.string   "registration_num"
     t.string   "official_name"
   end
