@@ -6,7 +6,7 @@ class Sorters::FakeCatalogItem
   attribute :catalogable_type, String
   attribute :catalogable_id, Integer
   attribute :catalog_item_id, Integer
-  attribute :total_amount, Integer
+  attribute :total_amount, Decimal
   attribute :value, Decimal
 
   def eql?(other)

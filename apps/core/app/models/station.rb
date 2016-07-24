@@ -15,6 +15,7 @@
 #  reporting_category :string
 #  address            :string
 #  registration_num   :string
+#  official_name      :string
 #
 
 class Station < ActiveRecord::Base

@@ -23,7 +23,7 @@ class Order < ActiveRecord::Base
 
   # Validations
   validates :profile, :number, :aasm_state, presence: true
-  validate :max_credit_reached
+  #validate :max_credit_reached
 
   # State machine
   include AASM
