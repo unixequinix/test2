@@ -44,6 +44,18 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     end
   end
 
+  def clone
+    @station = Station.find(params[:station_id])
+    path = admins_event_stations_url(current_event, group: @station.group)
+    station_clone = @station.dup(includes: {:station_parameters, :station_products})
+    if station_clone.update(name: @station.name +  (Time.now.to_i.to_s))
+      flash[:notice] = I18n.t("alerts.cloned")
+    else
+      flash[:error] = I18n.t("errors.messages.station_has_associations")
+    end
+    redirect_to(path)
+  end
+
   def destroy
     path = admins_event_stations_url(current_event, group: @station.group)
     if @station.destroy

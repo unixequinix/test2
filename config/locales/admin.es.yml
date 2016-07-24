@@ -302,6 +302,7 @@ es:
       reset_password_confirm: "La contraseña se cambiará a '123456'.\n ¿Estás seguro?"
     confirm:
       delete: "Estás seguro?"
+      clone: "Estás seguro?"
     aside:
       logs: "Logs"
       accesses: "Accesos"

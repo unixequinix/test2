@@ -5,6 +5,7 @@ it:
     resend: 'Ri-inviato con successo'
     imported: 'Importato con successo'
     destroyed: 'Rimosso con successo'
+    cloned: 'Succesfully cloned'
     unassigned: 'Annullato con successo'
     error: 'Controlla il modulo per possibili errori'
     checkout: 'You can only introduce numeric data without decimals, bigger than 0 and lower than %{limit}'

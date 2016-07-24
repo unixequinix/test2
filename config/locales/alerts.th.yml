@@ -5,6 +5,7 @@ th:
     resend: 'ส่งอีกครั้งสำเร็จ'
     imported: 'นำเข้าสำเร็จ'
     destroyed: 'ทำลายสำเร็จ'
+    cloned: 'Succesfully cloned'
     unassigned: 'ยกเลิกสำเร็จ'
     error: 'ดูรายละเอียดของข้อผิดพลาด'
     checkout: 'You can only introduce numeric data without decimals, bigger than 0 and lower than %{limit}'

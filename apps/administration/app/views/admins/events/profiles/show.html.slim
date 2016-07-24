@@ -23,4 +23,4 @@
       h2 = number_to_token @profile.final_refundable_balance
       span Final Refundable Balance
 
-  = render("profile_data", profile: @profile, credit_transactions: @credit_transactions)
+  = render("profile_data", profile: @profile, credit_transactions: @credit_transactions, money_transactions: @money_transactions)

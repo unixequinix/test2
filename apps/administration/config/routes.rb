@@ -117,6 +117,7 @@ Rails.application.routes.draw do
           end
         end
         resources :stations do
+          post :clone
           resources :station_items do
             put :sort, on: :collection
           end
