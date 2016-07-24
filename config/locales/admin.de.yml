@@ -367,6 +367,7 @@ de:
     products:
       id: "ID"
       name: "Name"
+      product_type: "Product Type"
       description: "Beschreibung"
       is_alcohol: "alkoholisch"
       vat: "VAT %"

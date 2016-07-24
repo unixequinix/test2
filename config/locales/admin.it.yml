@@ -363,6 +363,7 @@ it:
     products:
       id: "Id"
       name: "Name"
+      product_type: "Product Type"
       description: "Description"
       is_alcohol: "Is alcohol"
       vat: "VAT %"
