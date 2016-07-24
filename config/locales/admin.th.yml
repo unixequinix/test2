@@ -409,6 +409,8 @@ th:
         code: "Ticket barcode number"
         customer: "Assigned customer email"
         purchaser_email: "Purchaser Email"
+        purchaser_first_name: "Purchaser First Name"
+        purchaser_last_name: "Purchaser Last Name"
         type: "Type"
       import: "Import tickets (Select a CSV file comma separated)"
       actions:

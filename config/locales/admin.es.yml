@@ -409,6 +409,8 @@ es:
         code: "Ticket barcode number"
         customer: "Email cliente asignado"
         purchaser_email: "Email comprador"
+        purchaser_first_name: "Nombre del comprador"
+        purchaser_last_name: "Apellidos del comprador"
         type: "Tipo"
       import: "Importar tickets (Seleccionar un fichero CSV separado por comas)"
       actions:

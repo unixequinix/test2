@@ -413,6 +413,8 @@ de:
         code: "Ticket Barcode Nummer"
         customer: "Angemeldete Kunden Email"
         purchaser_email: "Käufer Email"
+        purchaser_first_name: "Käufer First Name"
+        purchaser_last_name: "Käufer Last Name"
         type: "Typ"
       import: "Tickets importieren (Wählen Sie ein CSV File mit Kommatrennung)"
       actions:
