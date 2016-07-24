@@ -10,7 +10,6 @@ class CreditWriter
 
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def self.save_order(order, type = "online_topup")
-    binding.pry
     order.order_items.each do |item|
       params = { transaction_type: type }
 
