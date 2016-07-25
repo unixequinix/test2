@@ -37,6 +37,10 @@ class Pack < ActiveRecord::Base
     open_all("Credit").uniq(&:catalog_item_id)
   end
 
+  def total_credits
+    credits.sum(:total_amount).total_amount
+  end
+
   def only_credits_pack?
     number_catalog_items = open_all.size
     number_catalog_credit_items = open_all.select do |catalog_item|

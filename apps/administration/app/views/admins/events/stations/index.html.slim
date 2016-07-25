@@ -34,8 +34,9 @@
                   = fa_icon "edit", class: "fa-fw"
                 li.table-action.action-delete = link_to admins_event_station_path(current_event, station), method: :delete, data: { confirm: t('admin.confirm.delete') } do
                   = fa_icon "trash", class: "fa-fw"
-                li.table-action.action-clone = link_to admins_event_station_clone_path(current_event, station), method: :post, data: { confirm: t('admin.confirm.clone') } do
-                  = fa_icon "clone", class: "fa-fw"
+
+                // li.table-action.action-clone = link_to admins_event_station_clone_path(current_event, station), method: :post, data: { confirm: t('admin.confirm.clone') } do
+                  //= fa_icon "clone", class: "fa-fw"
 
   - else
     .section-title-empty

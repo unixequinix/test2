@@ -42,6 +42,7 @@ de:
       station_has_associations: "Station has been used and can't be deleted."
       company_ticket_type_dependent: "Löschen des Unternehmens nicht möglich, es sind Ticketarten angeschlossen"
       max_standard_credits: "Nur ein Standardguthaben pro Veranstaltung"
+      max_credits_reached: "Du hast das maximale Guthaben erreicht"
       not_enough_space_for_entitlement: "Nicht genug Platz in gtag für diese Berechtigung"
       not_enough_space_for_credential: "Nicht genug Platz in gtag für diese Anmeldung"
       not_enough_space_for_entitlement_configuration: "Nicht genug Platz in gtag für die bestehende Berechtigungskonfiguration"
