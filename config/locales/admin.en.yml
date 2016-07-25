@@ -375,6 +375,7 @@ en:
       product_type: "Product Type"
       description: "Description"
       is_alcohol: "Is alcohol"
+      stations: "Stations"
       vat: "VAT %"
     pack:
       number_catalog_items: "Number of items"

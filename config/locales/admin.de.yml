@@ -370,6 +370,7 @@ de:
       product_type: "Product Type"
       description: "Beschreibung"
       is_alcohol: "alkoholisch"
+      stations: "Stations"
       vat: "VAT %"
     pack:
       number_catalog_items: "Anzahl der Artikel"

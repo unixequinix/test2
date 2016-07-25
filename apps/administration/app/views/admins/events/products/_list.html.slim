@@ -9,6 +9,7 @@
         th = t('admin.products.product_type')
         th = t('admin.products.vat')
         th = t('admin.products.is_alcohol')
+        th = t('admin.products.stations')
         th.table-actions-field = t('admin.defaults.actions')
     tbody
       - products.each do |product|
@@ -19,6 +20,7 @@
           td data-label=t('admin.products.product_type') = best_in_place product, :product_type, url: admins_event_product_path(current_event, product, type: 'product_type')
           td data-label=t('admin.products.is_alcohol') = best_in_place product, :vat, url: admins_event_product_path(current_event, product, type: 'vat')
           td data-label=t('admin.products.is_alcohol') = product.is_alcohol
+          td data-label=t('admin.products.stations') = product.station_products.first.station_parameter.station.name
           td.table-actions-field
             ul
               li.table-action.action-edit = link_to edit_admins_event_product_path(current_event, product) do

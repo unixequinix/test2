@@ -386,6 +386,7 @@ es:
       product_type: "Tipo de producto"
       description: "Descripción"
       is_alcohol: "Es alcohol"
+      stations: "Stations"
       vat: "VAT %"
     ticket_types:
       id: "Id"

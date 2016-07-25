@@ -374,6 +374,7 @@ th:
       product_type: "Product Type"
       description: "Description"
       is_alcohol: "Is alcohol"
+      stations: "Stations"
       vat: "VAT %"
     credential_type:
       id: "Id"
