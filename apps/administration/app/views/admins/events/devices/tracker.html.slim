@@ -43,7 +43,7 @@
           - @devices[:not_packed].each do |device|
             tr style="color: orange"
               td = device[:asset_tracker]
-              td = device[:device_uid]
+              td = link_to device[:device_uid], admins_device_path(device[:device_uid])
               td = device[:transaction_type]
               td = device[:transactions_count]
               td = device[:device_counter]
@@ -63,7 +63,7 @@
           - @devices[:packed].each do |device|
             tr style="color: green"
               td = device[:asset_tracker]
-              td = device[:device_uid]
+              td = link_to device[:device_uid], admins_device_path(device[:device_uid])
               td = device[:transaction_type]
               td = device[:transactions_count]
               td = device[:device_counter]
