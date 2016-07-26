@@ -20,6 +20,8 @@ class TopupCredit < ActiveRecord::Base
   validates :amount, :credit_id, presence: true
   validate :valid_topup_credit
 
+  after_update { station_parameter.station.touch }
+
   private
 
   def valid_topup_credit

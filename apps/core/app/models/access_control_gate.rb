@@ -18,4 +18,6 @@ class AccessControlGate < ActiveRecord::Base
   accepts_nested_attributes_for :station_parameter, allow_destroy: true
 
   validates :direction, :access_id, presence: true
+
+  after_update { station_parameter.station.touch }
 end

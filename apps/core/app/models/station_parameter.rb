@@ -12,6 +12,6 @@
 
 class StationParameter < ActiveRecord::Base
   # Associations
-  belongs_to :station
+  belongs_to :station, touch: true
   belongs_to :station_parametable, polymorphic: true, touch: true
 end

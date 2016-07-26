@@ -19,4 +19,6 @@ class StationCatalogItem < ActiveRecord::Base
 
   validates :price, presence: true
   validates_numericality_of :price
+
+  after_update { station_parameter.station.touch }
 end
