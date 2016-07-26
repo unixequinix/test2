@@ -46,11 +46,8 @@ Rails.application.routes.draw do
         resources :ticket_assignments, only: [:destroy]
         resource :gtag_settings, only: [:show, :edit, :update]
         resource :gtag_keys, only: [:show, :edit, :update]
-        resources :devices, only: :index do
-          collection do
-            get :tracker
-          end
-        end
+        resources :devices, only: :index
+        resources :asset_trackers
 
         resources :gtags do
           resources :comments, module: :gtags
