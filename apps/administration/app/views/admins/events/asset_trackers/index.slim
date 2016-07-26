@@ -1,0 +1,30 @@
+.wrapper-negative-space
+  - if @devices.any?
+    .container-statistics
+      - @devices.keys.each do |key|
+        - count = @devices[key]&.size || 0
+        .wrapper-statistics
+          h2 = number_with_delimiter(count)
+          span = key.to_s.humanize
+          
+    - [:wrong_transactions, :not_packed, :packed].each do |type|
+      - if @devices[type]
+        .current-showing = "#{@devices[type].count } devices packed with wrong transactions"
+        table.transactions
+          thead
+            tr
+              th = t("admin.devices.asset")
+              th = t("admin.devices.mac")
+              th = t("admin.transactions.transaction_type")
+              th = t("admin.transactions.counter")
+              th = t("admin.transactions.device_counter")
+
+          tbody      
+            - @devices[type].each do |device|
+              tr style="color: #{@colors[type]}"
+                td = device[:asset_tracker]
+                td = device[:device_uid]
+                td = device[:transaction_type]
+                td = device[:transactions_count]
+                td = device[:device_counter]  
+        br
