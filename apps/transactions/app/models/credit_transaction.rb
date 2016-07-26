@@ -40,7 +40,7 @@ class CreditTransaction < Transaction
   scope :origin, -> (origin) { where(transaction_origin: Transaction::ORIGINS[origin]) }
   scope :not_record_credit, -> { where.not(transaction_type: "record_credit") }
 
-  default_scope { order(gtag_counter: :desc) }
+  default_scope { order([gtag_counter: :asc, counter: :asc]) }
 
   after_update :recalculate_profile_balance
 

@@ -302,6 +302,7 @@ th:
       reset_password_confirm: "The password will be set to '123456'.\n Are you sure?"
     confirm:
       delete: "Are you sure?"
+      clone: "Are you sure?"
     aside:
       logs: "Logs"
       accesses: "Accesses"
@@ -370,8 +371,10 @@ th:
     products:
       id: "Id"
       name: "Name"
+      product_type: "Product Type"
       description: "Description"
       is_alcohol: "Is alcohol"
+      stations: "Stations"
       vat: "VAT %"
     credential_type:
       id: "Id"
@@ -407,6 +410,8 @@ th:
         code: "Ticket barcode number"
         customer: "Assigned customer email"
         purchaser_email: "Purchaser Email"
+        purchaser_first_name: "Purchaser First Name"
+        purchaser_last_name: "Purchaser Last Name"
         type: "Type"
       import: "Import tickets (Select a CSV file comma separated)"
       actions:

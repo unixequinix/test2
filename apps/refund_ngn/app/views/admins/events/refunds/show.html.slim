@@ -6,7 +6,7 @@
   .container-show
     dl
       dt = t("admin.refund.amount")
-      dd = @refund.claim.profile.refundable_balance
+      dd = @refund.claim.profile.refundable_credits
       dt = t("admin.refund.customer_name")
       dd = link_to "#{@refund.claim.profile.customer.first_name} #{@refund.claim.profile.customer.last_name}", admins_event_customer_path(current_event, @refund.claim.profile.customer) unless @refund.claim.profile.customer.nil?
       dt = t("admin.refunds.customer_email")

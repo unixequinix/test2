@@ -5,6 +5,7 @@ de:
     resend: "Erfolgreich wieder gesendet"
     imported: "Erfolgreich importiert"
     destroyed: "Erfolgreich entfernt"
+    cloned: 'Succesfully cloned'
     unassigned: "Erfolgreich nicht zugeteilt"
     error: "Formfehler prüfen"
     checkout: 'Du kannst nur numerische Daten ohne Dezimalstelle und niedriger als %{limit} verwenden'

@@ -27,7 +27,7 @@ class OrderItem < ActiveRecord::Base
 
   def credits
     result = amount if single_credits?
-    result = amount * catalog_item.catalogable.credits if pack_with_credits?
+    result = amount * catalog_item.catalogable.total_credits if pack_with_credits?
     result || 0
   end
 

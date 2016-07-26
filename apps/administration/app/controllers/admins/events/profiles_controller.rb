@@ -18,7 +18,9 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
                                  credential_assignments: :credentiable,
                                  customer_orders: [:catalog_item, :online_order])
                        .find(params[:id])
+    # TODO: Check this
     @credit_transactions = @profile.credit_transactions.reorder(gtag_counter: :desc, device_created_at: :desc)
+    @money_transactions = @profile.money_transactions.reorder(gtag_counter: :desc, device_created_at: :desc)
   end
 
   def ban

@@ -6,7 +6,7 @@
   = link_to admins_event_products_path, class: "btn btn-action btn-action-back small" do
     = fa_icon 'arrow-circle-left'
     = t('actions.back')
-  
+
 .wrapper-negative-space
   .container-show
     dl
@@ -14,6 +14,8 @@
       dd = @product.id
       dt = t("admin.general.name")
       dd = @product.name
+      dt = t("admin.products.product_type")
+      dd = @product.product_type
       dt = t("admin.general.description")
       dd = @product.description && "-"
       dt = t("admin.products.vat")

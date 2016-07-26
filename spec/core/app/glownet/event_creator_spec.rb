@@ -54,11 +54,6 @@ RSpec.describe EventCreator, type: :domain_logic do
       expect(station).not_to be_nil
     end
 
-    it "creates the cs gtag balance fix station" do
-      station = event.stations.find_by(category: "cs_gtag_balance_fix", group: "event_management")
-      expect(station).not_to be_nil
-    end
-
     it "creates the cs topup refund station" do
       station = event.stations.find_by(category: "cs_topup_refund", group: "event_management")
       expect(station).not_to be_nil

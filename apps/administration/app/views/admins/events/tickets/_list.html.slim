@@ -9,6 +9,9 @@
         th = t("admin.tickets.id")
         th = t("admin.tickets.code")
         th = t("admin.tickets.gtags")
+        th = t("admin.purchasers.first_name")
+        th = t("admin.purchasers.last_name")
+        th = t("admin.purchasers.email")
         th = t("admin.tickets.customer")
         - unless current_admin.customer_service?
           th = t("admin.tickets.banned")
@@ -24,6 +27,9 @@
           td data-label=t("admin.tickets.gtags")
             - if assign = ticket.assigned_profile&.active_gtag_assignment
               = link_to assign.credentiable.tag_uid, admins_event_gtag_path(current_event, assign.credentiable)
+          td data-label=t("admin.purchasers.first_name") = ticket.purchaser&.first_name
+          td data-label=t("admin.purchasers.last_name") = ticket.purchaser&.last_name
+          td data-label=t("admin.purchasers.email") = ticket.purchaser&.email
           td data-label=t("admin.tickets.customer")
             = link_to ticket.assigned_ticket_credential.profile.customer.email, admins_event_customer_path(current_event, ticket.assigned_ticket_credential.profile.customer) if ticket.assigned_ticket_credential&.profile&.customer
           - unless current_admin.customer_service?

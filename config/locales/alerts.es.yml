@@ -5,6 +5,7 @@ es:
     resend: 'Enviado con éxito'
     imported: 'Importado con éxito'
     destroyed: 'Eliminado con éxito'
+    cloned: 'Clonado con éxito'
     unassigned: 'Desactivado con éxito'
     error: 'Revisar errores de formulario'
     checkout: 'Solo se pueden introducir datos numéricos sin decimales, superiores a 0 e inferiores a %{limit}'

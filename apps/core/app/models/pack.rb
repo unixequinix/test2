@@ -37,6 +37,10 @@ class Pack < ActiveRecord::Base
     open_all("Credit").uniq(&:catalog_item_id)
   end
 
+  def total_credits
+    credits.sum(:total_amount).total_amount
+  end
+
   def only_credits_pack?
     number_catalog_items = open_all.size
     number_catalog_credit_items = open_all.select do |catalog_item|
@@ -45,6 +49,7 @@ class Pack < ActiveRecord::Base
     number_catalog_credit_items > 0 && number_catalog_credit_items == number_catalog_items
   end
 
+  # TODO: To check
   def only_infinite_items_pack?
     number_catalog_items = open_all.size
     number_catalog_infinite_items = open_all("Access", "Voucher").select do |catalog_item|
@@ -53,6 +58,7 @@ class Pack < ActiveRecord::Base
     number_catalog_infinite_items > 0 && number_catalog_infinite_items == number_catalog_items
   end
 
+  # TODO: To check
   def open_all(*category)
     catalog_items_included_without_destruction_marked.each_with_object([]) do |catalog_item, result|
       if catalog_item.catalogable_type == "Pack"
@@ -66,6 +72,7 @@ class Pack < ActiveRecord::Base
     end.flatten
   end
 
+  # TODO: To check
   def build_enriched_catalog_item(catalog_item)
     Sorters::FakeCatalogItem.new(
       catalog_item_id: catalog_item.id,

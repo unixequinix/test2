@@ -42,6 +42,9 @@
 #  device_basic_db_content_type :string
 #  device_basic_db_file_size    :integer
 #  device_basic_db_updated_at   :datetime
+#  official_address             :string
+#  registration_num             :string
+#  official_name                :string
 #
 
 class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength

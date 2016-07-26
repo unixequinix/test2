@@ -302,6 +302,7 @@ es:
       reset_password_confirm: "La contraseña se cambiará a '123456'.\n ¿Estás seguro?"
     confirm:
       delete: "Estás seguro?"
+      clone: "Estás seguro?"
     aside:
       logs: "Logs"
       accesses: "Accesos"
@@ -382,8 +383,10 @@ es:
     products:
       id: "Id"
       name: "Nombre"
+      product_type: "Tipo de producto"
       description: "Descripción"
       is_alcohol: "Es alcohol"
+      stations: "Stations"
       vat: "VAT %"
     ticket_types:
       id: "Id"
@@ -407,6 +410,8 @@ es:
         code: "Ticket barcode number"
         customer: "Email cliente asignado"
         purchaser_email: "Email comprador"
+        purchaser_first_name: "Nombre del comprador"
+        purchaser_last_name: "Apellidos del comprador"
         type: "Tipo"
       import: "Importar tickets (Seleccionar un fichero CSV separado por comas)"
       actions:

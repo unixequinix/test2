@@ -7,6 +7,8 @@ p.menu-header
     = f.input :code_cont, label: t("admin.tickets.search.code"), placeholder: t("admin.tickets.search.code")
     = f.input :assigned_ticket_credential_profile_customer_email_cont, label: t("admin.tickets.search.customer"), placeholder: t("admin.tickets.search.customer")
     = f.input :purchaser_email_cont, label: t("admin.tickets.search.purchaser_email"), placeholder: t("admin.tickets.search.purchaser_email")
+    = f.input :purchaser_first_name_cont, label: t("admin.tickets.search.purchaser_first_name"), placeholder: t("admin.tickets.search.purchaser_first_name")
+    = f.input :purchaser_last_name_cont, label: t("admin.tickets.search.purchaser_last_name"), placeholder: t("admin.tickets.search.purchaser_last_name")
     = f.input :banned_true, as: :select, label: "Banned?"
     = f.input :company_ticket_type_id_eq, as: :select, collection:  CompanyTicketType.form_selector(current_event), include_blank: t("admin.tickets.search.type"), label: 'Company Ticket Type'
     = f.submit class: "btn btn-secondary"

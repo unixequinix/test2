@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160722114615) do
+ActiveRecord::Schema.define(version: 20160724150001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -479,7 +479,7 @@ ActiveRecord::Schema.define(version: 20160722114615) do
     t.string   "device_basic_db_content_type"
     t.integer  "device_basic_db_file_size"
     t.datetime "device_basic_db_updated_at"
-    t.string   "address"
+    t.string   "official_address"
     t.string   "registration_num"
     t.string   "official_name"
   end
@@ -682,13 +682,14 @@ ActiveRecord::Schema.define(version: 20160722114615) do
 
   create_table "products", force: :cascade do |t|
     t.string   "name"
-    t.boolean  "is_alcohol",  default: false
+    t.boolean  "is_alcohol",   default: false
     t.datetime "deleted_at"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.string   "description"
     t.integer  "event_id"
-    t.float    "vat",         default: 0.0
+    t.float    "vat",          default: 0.0
+    t.string   "product_type"
   end
 
   add_index "products", ["deleted_at"], name: "index_products_on_deleted_at", using: :btree

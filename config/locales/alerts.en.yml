@@ -5,6 +5,7 @@ en:
     resend: 'Succesfully resend'
     imported: 'Succesfully imported'
     destroyed: 'Succesfully removed'
+    cloned: 'Succesfully cloned'
     unassigned: 'Succesfully unassigned'
     error: 'Check the form errors'
     checkout: 'You can only introduce numeric data without decimals, bigger than 0 and lower than %{limit}'
