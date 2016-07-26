@@ -6,7 +6,7 @@
         .wrapper-statistics
           h2 = number_with_delimiter(count)
           span = key.to_s.humanize
-          
+
     - [:wrong_transactions, :not_packed, :packed].each do |type|
       - if @devices[type]
         .current-showing = "#{@devices[type].count } devices packed with wrong transactions"
@@ -19,12 +19,12 @@
               th = t("admin.transactions.counter")
               th = t("admin.transactions.device_counter")
 
-          tbody      
+          tbody
             - @devices[type].each do |device|
               tr style="color: #{@colors[type]}"
                 td = device[:asset_tracker]
-                td = link_to device[:device_uid], admins_device_path(device[:device_uid])
+                td = link_to device[:device_uid], admins_device_path(device[:device_db_index])
                 td = device[:transaction_type]
                 td = device[:transactions_count]
-                td = device[:device_counter]  
+                td = device[:device_counter]
         br
