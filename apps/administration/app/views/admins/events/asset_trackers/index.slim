@@ -23,7 +23,7 @@
             - @devices[type].each do |device|
               tr style="color: #{@colors[type]}"
                 td = device[:asset_tracker]
-                td = device[:device_uid]
+                td = link_to device[:device_uid], admins_device_path(device[:device_uid])
                 td = device[:transaction_type]
                 td = device[:transactions_count]
                 td = device[:device_counter]  
