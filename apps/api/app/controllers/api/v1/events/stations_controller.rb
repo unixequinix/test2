@@ -2,7 +2,7 @@ class Api::V1::Events::StationsController < Api::V1::Events::BaseController
   def index
     modified = request.headers["If-Modified-Since"]&.to_datetime
     stations = Station.where(event: current_event)
-    binding.pry
+
     stations = stations.where("updated_at > ?", modified) if modified
     date = stations.maximum(:updated_at)&.httpdate
 
