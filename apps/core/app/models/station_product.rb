@@ -28,7 +28,8 @@ class StationProduct < ActiveRecord::Base
   private
 
   def product_already_exists
-    products =station_parameter.station.station_products.map(&:product_id)
+    return if persisted?
+    products = station_parameter.station.station_products.map(&:product_id)
     return unless products.include?(product_id)
     errors[:product] << I18n.t("errors.messages.product_already_added")
   end
