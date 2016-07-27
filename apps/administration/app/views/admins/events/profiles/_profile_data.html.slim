@@ -9,4 +9,9 @@
   = render(root + "completed_claims", profile: profile, refund: profile.completed_claim.refund) if profile.completed_claims.present?
   = render(root + "orders", profile: profile) if profile.orders.any?
   = render(root + "customer_orders", profile: profile) if profile.customer_orders.any?
-  = render(root + "money_transactions", money_transactions: money_transactions, profile: profile) if money_transactions.present?
+
+  - root_transactions = "admins/events/transactions/list"
+  = render(root_transactions, transactions: access_transactions, type: 'access') if access_transactions.present?
+  = render(root_transactions, transactions: credential_transactions, type: 'credential') if credential_transactions.present?
+  = render(root_transactions, transactions: order_transactions, type: 'order') if order_transactions.present?
+  = render(root_transactions, transactions: money_transactions, type: 'money') if money_transactions.present?
