@@ -10,7 +10,7 @@ class Api::V1::Events::BaseController < Api::BaseController
     obj = @fetcher.method(plural).call
     plural = plural.gsub("banned_", "") if plural.starts_with?("banned")
     if modified
-      obj = obj.where("#{plural}.updated_at > ?", modified + 1)
+      obj = obj.where("#{plural}.updated_at > ?", modified)
       status = obj.present? ? 200 : 304
     end
 
