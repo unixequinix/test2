@@ -25,9 +25,6 @@
         -
           name: autotopup_enabled
           value: false
-        -
-          name: gtag_blacklist
-          value: none
 -
   category: payment
   groups:
