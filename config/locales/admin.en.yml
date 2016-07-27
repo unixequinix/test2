@@ -33,6 +33,7 @@ en:
       customer_tag_uid: "Customer"
       operator_tag_uid: "Operator"
       gtag_counter: "Gtag Counter"
+      gtag: "Gtag"
       counter: "Counter"
       station_id: "Station"
       device_uid: "Device"

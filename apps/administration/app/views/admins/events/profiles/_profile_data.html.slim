@@ -10,8 +10,7 @@
   = render(root + "orders", profile: profile) if profile.orders.any?
   = render(root + "customer_orders", profile: profile) if profile.customer_orders.any?
 
-  - root_transactions = "admins/events/transactions/list"
-  = render(root_transactions, transactions: access_transactions, type: 'access') if access_transactions.present?
-  = render(root_transactions, transactions: credential_transactions, type: 'credential') if credential_transactions.present?
-  = render(root_transactions, transactions: order_transactions, type: 'order') if order_transactions.present?
-  = render(root_transactions, transactions: money_transactions, type: 'money') if money_transactions.present?
+  = render(root + "transactions_list", transactions: profile.access_transactions, type: 'access') if profile.access_transactions.present?
+  = render(root + "transactions_list", transactions: profile.credential_transactions, type: 'credential') if profile.credential_transactions.present?
+  = render(root + "transactions_list", transactions: profile.order_transactions, type: 'order') if profile.order_transactions.present?
+  = render(root + "transactions_list", transactions: profile.money_transactions, type: 'money') if profile.money_transactions.present?
