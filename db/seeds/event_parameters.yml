@@ -25,6 +25,9 @@
         -
           name: autotopup_enabled
           data_type: boolean
+        -
+          name: gtag_blacklist
+          data_type: string
 -
   name: gtag
   groups:
