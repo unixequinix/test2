@@ -25,14 +25,33 @@ class Device < ActiveRecord::Base
     sql = <<-SQL
       SELECT to_json(json_agg(row_to_json(cep)))
       FROM (
-        SELECT transaction.device_uid, count(transaction.device_uid) as transactions_count,
+        SELECT transaction.device_uid, count(transaction.device_uid) + 1 as transactions_count,
         (
-          SELECT number_of_transactions
-          FROM device_transactions
-          WHERE device_transactions.device_uid = transaction.device_uid
-          AND device_transactions.event_id = #{event.id}
-          ORDER BY device_created_at DESC
-          LIMIT 1
+          SELECT sum(num_transactions) FROM (
+            SELECT
+              num_transactions,
+              transaction_type
+            FROM (
+                SELECT
+                  number_of_transactions as num_transactions,
+                  transaction_type
+                FROM device_transactions
+                WHERE device_transactions.device_uid = transaction.device_uid
+                AND device_transactions.event_id = #{event.id}
+                ORDER BY device_created_at DESC
+                LIMIT 1
+              ) last_transaction
+            WHERE transaction_type <> 'pack_device'
+            UNION ALL
+            SELECT
+              sum(number_of_transactions) as num_transactions,
+              transaction_type
+            FROM device_transactions
+            WHERE device_transactions.device_uid = transaction.device_uid
+            AND device_transactions.event_id = #{event.id}
+            AND device_transactions.transaction_type = 'pack_device'
+            GROUP BY number_of_transactions, transaction_type
+          ) total_transactions
         ) as device_counter,
         (
           SELECT transaction_type
