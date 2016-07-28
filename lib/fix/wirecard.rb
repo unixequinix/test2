@@ -1,9 +1,6 @@
 require 'csv'
-require 'active_record'
 
-CSV.foreach("/Users/agonzaleznu/Workspace/glownet_web/lib/fix/wirecard.csv") do |row|
-  puts row[0]
-  puts row[1]
-  order = Order.find_by(number: row[0])
-  order.payment.update!(merchant_code: row[1])
+CSV.foreach("/home/ubuntu/glownet_web/current/lib/fix/wirecard.csv") do |row|
+  order = Order.find_by(number: row[1].to_s)
+  order&.payments&.first&.update(merchant_code: row[0].to_s)
 end
