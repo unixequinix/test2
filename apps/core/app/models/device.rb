@@ -21,6 +21,7 @@ class Device < ActiveRecord::Base
       "SELECT device_uid FROM \"#{type}_transactions\" WHERE \"#{type}_transactions\".\"event_id\" = #{event.id}"
     end.join(" UNION ALL ")
 
+    # TODO: This query has been adapted to a missing transaction is not sent from the devices
     sql = <<-SQL
       SELECT to_json(json_agg(row_to_json(cep)))
       FROM (
