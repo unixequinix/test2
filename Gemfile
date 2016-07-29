@@ -16,6 +16,7 @@ gem 'active_record_bulk_insert'
 gem 'nilify_blanks', '~>1.2.1'
 gem 'oj'
 gem 'oj_mimic_json'
+gem 'deep_cloneable', '~> 2.2.1'
 
 # Assets
 gem 'jquery-rails', '~> 4.0.3'
