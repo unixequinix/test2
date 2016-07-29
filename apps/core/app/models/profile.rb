@@ -127,7 +127,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def online_refundable_money
-    payments.sum(:amount)
+    payments.where(payment_type: Payment::DIRECT_TYPES).sum(:amount)
   end
 
   def valid_balance?
