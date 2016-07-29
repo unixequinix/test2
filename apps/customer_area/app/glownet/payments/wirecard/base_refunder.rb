@@ -34,7 +34,7 @@ class Payments::Wirecard::BaseRefunder
   end
 
   def order_number
-    @order.id
+    @order.payments.first.merchant_code
   end
 
   def secret_key
@@ -71,6 +71,7 @@ class Payments::Wirecard::BaseRefunder
       URI.parse("https://checkout.wirecard.com/seamless/backend/refund"),
       refund_parameters
     )
+    puts response
     response.body.split("&").map { |it| URI.decode_www_form(it).first }.to_h
   end
 
