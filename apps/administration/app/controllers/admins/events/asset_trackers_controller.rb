@@ -3,7 +3,6 @@ class Admins::Events::AssetTrackersController < Admins::Events::BaseController
     devices = current_event.device_transactions.select(:device_uid).uniq
     asset_trackers = Device.all.select(:mac, :asset_tracker).group_by(&:mac)
     transactions = Device.transactions_count(current_event)
-    @devices = classify_devices(devices, asset_trackers, transactions)
 
     @colors = { wrong_transactions: "#E53A40", not_packed: "#fc913a", packed: "#56A902" }
     @devices = { wrong_transactions: [], not_packed: [], packed: [] }
