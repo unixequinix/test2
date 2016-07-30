@@ -10,7 +10,7 @@ class Admins::Events::AssetTrackersController < Admins::Events::BaseController
 
   def classify_devices(devices, asset_trackers, transactions)
     @colors = { wrong_transactions: "#E53A40", not_packed: "#fc913a", packed: "#56A902" }
-    @devices = { wrong_transactions: [], not_packed: [], packed: [] }
+    classified_devices = { wrong_transactions: [], not_packed: [], packed: [] }
 
     devices.each do |d_tr|
       device_info = { device_uid: d_tr.device_uid }
@@ -19,11 +19,13 @@ class Admins::Events::AssetTrackersController < Admins::Events::BaseController
       device_info[:transactions_count] = transaction["transactions_count"]
       device_info[:device_counter] = transaction["device_counter"]
       device_info[:transaction_type] = transaction["transaction_type"].humanize
-      @devices[:not_packed] << hash && next if transaction["transaction_type"] != "pack_device"
-      @devices[:wrong_transactions] <<
+      classified_devices[:not_packed] <<
+        hash && next if transaction["transaction_type"] != "pack_device"
+      classified_devices[:wrong_transactions] <<
         hash && next if wrong?(device_info[:device_counter], device_info[:transactions_count])
-      @devices[:packed] << hash
+      classified_devices[:packed] << hash
     end
+    classified_devices
   end
 
   def wrong?(device_counter, transaction_count)
