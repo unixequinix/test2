@@ -26,8 +26,8 @@ class Admins::Events::AssetTrackersController < Admins::Events::BaseController
     end
   end
 
-  def wrong?(device_counter, transaction_count, device_info)
-    diff = device_info[:device_counter] - device_info[:transactions_count]
+  def wrong?(device_counter, transaction_count)
+    diff = device_counter - transaction_count
     diff > 5 || diff < -5
   end
 end
