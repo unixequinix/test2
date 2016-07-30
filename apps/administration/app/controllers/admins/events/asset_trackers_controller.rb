@@ -15,7 +15,7 @@ class Admins::Events::AssetTrackersController < Admins::Events::BaseController
 
       @colors = { wrong_transactions: "#E53A40", not_packed: "#fc913a", packed: "#56A902" }
       @devices[:not_packed] << hash && next if transaction["transaction_type"] != "pack_device"
-      @devices[:wrong_transactions] << hash && next if wrong?(hash[:device_counter] != hash[:transactions_count])
+      @devices[:wrong_transactions] << hash && next if wrong?(hash[:device_counter], hash[:transactions_count])
       @devices[:packed] << hash
     end
   end
