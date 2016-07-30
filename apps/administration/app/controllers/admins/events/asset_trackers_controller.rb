@@ -13,21 +13,21 @@ class Admins::Events::AssetTrackersController < Admins::Events::BaseController
     @devices = { wrong_transactions: [], not_packed: [], packed: [] }
 
     devices.each do |d_tr|
-      hash = { device_uid: d_tr.device_uid }
-      hash[:asset_tracker] = asset_trackers[d_tr.device_uid]&.first&.asset_tracker
+      device_info = { device_uid: d_tr.device_uid }
+      device_info[:asset_tracker] = asset_trackers[d_tr.device_uid]&.first&.asset_tracker
       transaction = transactions.find { |t| t["device_uid"] == d_tr.device_uid }
-      hash[:transactions_count] = transaction["transactions_count"]
-      hash[:device_counter] = transaction["device_counter"]
-      hash[:transaction_type] = transaction["transaction_type"].humanize
+      device_info[:transactions_count] = transaction["transactions_count"]
+      device_info[:device_counter] = transaction["device_counter"]
+      device_info[:transaction_type] = transaction["transaction_type"].humanize
       @devices[:not_packed] << hash && next if transaction["transaction_type"] != "pack_device"
       @devices[:wrong_transactions] <<
-        hash && next if wrong?(hash[:device_counter], hash[:transactions_count])
+        hash && next if wrong?(device_info[:device_counter], device_info[:transactions_count])
       @devices[:packed] << hash
     end
   end
 
-  def wrong?(device_counter, transaction_count)
-    diff = hash[:device_counter] - hash[:transactions_count]
+  def wrong?(device_counter, transaction_count, device_info)
+    diff = device_info[:device_counter] - device_info[:transactions_count]
     diff > 5 || diff < -5
   end
 end
