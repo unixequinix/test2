@@ -28,4 +28,6 @@ class Payment < ActiveRecord::Base
 
   # Validations
   validates :order, :amount, presence: true
+
+  DIRECT_TYPES = %w( wirecard paypal paypal_nvp braintree )
 end

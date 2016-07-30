@@ -21,6 +21,18 @@ class StationProduct < ActiveRecord::Base
 
   validates :price, presence: true
   validates_numericality_of :price
+  validate :product_already_exists
 
   after_update { station_parameter.station.touch }
+
+  private
+
+  def product_already_exists
+    # Return if persisted (update action), or station_parameter is nil (station duplication)
+    return if persisted? || station_parameter.nil?
+
+    products = station_parameter.station.station_products.map(&:product_id)
+    return unless products.include?(product_id)
+    errors[:product] << I18n.t("errors.messages.product_already_added")
+  end
 end

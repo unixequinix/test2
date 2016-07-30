@@ -15,6 +15,11 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
     @profile = @fetcher.profiles.with_deleted
                        .includes(:active_tickets_assignment,
                                  :active_gtag_assignment,
+                                 credit_transactions: :station,
+                                 money_transactions: :station,
+                                 access_transactions: :station,
+                                 credential_transactions: :station,
+                                 order_transactions: :station,
                                  credential_assignments: :credentiable,
                                  customer_orders: [:catalog_item, :online_order])
                        .find(params[:id])

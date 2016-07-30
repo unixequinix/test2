@@ -18,7 +18,7 @@ class Payments::Wirecard::BaseRefunder
   end
 
   def amount
-    @payment.amount
+    @amount
   end
 
   def customer_id
@@ -34,7 +34,7 @@ class Payments::Wirecard::BaseRefunder
   end
 
   def order_number
-    @order.id
+    @order.payments.where.not(transaction_type: "refund").first.merchant_code
   end
 
   def secret_key
@@ -42,12 +42,11 @@ class Payments::Wirecard::BaseRefunder
   end
 
   def shop_id
-    environment = get_value_of_parameter("environment")
-    environment == "production" ? "" : "qmore"
+    get_value_of_parameter("shop_id")
   end
 
   def password
-    "jcv45z"
+    get_value_of_parameter("password")
   end
 
   def get_value_of_parameter(parameter)
@@ -97,7 +96,6 @@ class Payments::Wirecard::BaseRefunder
     params = parameters
     params.delete(:secret)
     params[:requestFingerprint] = "request_fingerprint"
-
     params.each_with_object({}) { |(k, v), result| result[k] = send(v) }
   end
 end

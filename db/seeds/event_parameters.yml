@@ -205,6 +205,12 @@
         -
           name: environment
           data_type: string
+        -
+          name: shop_id
+          data_type: string
+        -
+          name: password
+          data_type: string
 -
   name: refund
   groups:

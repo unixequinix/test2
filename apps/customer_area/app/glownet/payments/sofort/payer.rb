@@ -34,7 +34,7 @@ class Payments::Sofort::Payer
                     response_code: @params[:avsResponseMessage],
                     authorization_code: @params[:responseFingerprint],
                     currency: @params[:currency],
-                    merchant_code: nil,
+                    merchant_code: @params[:orderNumber],
                     amount: amount,
                     terminal: nil,
                     success: true,
