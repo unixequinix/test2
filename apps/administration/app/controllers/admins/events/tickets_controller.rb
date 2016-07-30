@@ -150,6 +150,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
       search_query: params[:q],
       page: params[:page],
       include_for_all_items: [
+        :purchaser,
         :assigned_profile,
         assigned_ticket_credential: [profile: [:customer, active_gtag_assignment: :credentiable]]
       ],

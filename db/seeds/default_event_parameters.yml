@@ -126,13 +126,19 @@
       values:
         -
           name: customer_id
-          value: "D200001"
+          value: D200001
         -
           name: secret_key
           value: B8AKTPWBRMNBV455FG6M2DANE99WU2
         -
           name: environment
           value: demo
+        -
+          name: shop_id
+          data_type: qmore
+        -
+          name: password
+          data_type: jcv45z
 -
   category: refund
   groups:
