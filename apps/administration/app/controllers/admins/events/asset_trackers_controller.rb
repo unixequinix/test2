@@ -3,7 +3,7 @@ class Admins::Events::AssetTrackersController < Admins::Events::BaseController
     devices = current_event.device_transactions.select(:device_uid).uniq
     asset_trackers = Device.all.select(:mac, :asset_tracker).group_by(&:mac)
     transactions = Device.transactions_count(current_event)
-    classify_devices(devices, asset_trackers, transactions)
+    @devices = classify_devices(devices, asset_trackers, transactions)
   end
 
   private
