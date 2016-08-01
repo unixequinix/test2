@@ -38,11 +38,14 @@ Rails.application.routes.draw do
       member do
         post :remove_logo
         post :remove_background
-        post :remove_db
       end
 
       scope module: "events" do
-        resource :device_settings, only: [:show, :edit, :update]
+        resource :device_settings, only: [:show, :edit, :update] do
+          member do
+            post :remove_db
+          end
+        end
         resources :ticket_assignments, only: [:destroy]
         resource :gtag_settings, only: [:show, :edit, :update]
         resource :gtag_keys, only: [:show, :edit, :update]

@@ -62,15 +62,6 @@ class Admins::EventsController < Admins::BaseController
     redirect_to admins_event_url(@current_event)
   end
 
-  def remove_db
-    if params[:db] == "basic"
-      @current_event.update(device_basic_db: nil)
-    else
-      @current_event.update(device_full_db: nil)
-    end
-    redirect_to admins_event_url(@current_event)
-  end
-
   private
 
   def set_event
