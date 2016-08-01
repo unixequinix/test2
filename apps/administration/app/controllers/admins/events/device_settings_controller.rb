@@ -1,6 +1,8 @@
 class Admins::Events::DeviceSettingsController < Admins::Events::BaseController
   def show # rubocop:disable Metrics/AbcSize
     @event = current_event
+
+    # TODO: Move this outside this method
     s3 = AWS::S3.new(access_key_id: Rails.application.secrets.s3_access_key_id,
                      secret_access_key: Rails.application.secrets.s3_secret_access_key)
     bucket = s3.buckets[Rails.application.secrets.s3_bucket]

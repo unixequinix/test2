@@ -25,7 +25,7 @@ class Device < ActiveRecord::Base
     sql = <<-SQL
       SELECT to_json(json_agg(row_to_json(cep)))
       FROM (
-        SELECT transaction.device_uid, count(transaction.device_uid) + 1 as transactions_count,
+        SELECT transaction.device_uid, count(transaction.device_uid) as transactions_count,
         (
           SELECT sum(num_transactions) FROM (
             SELECT
