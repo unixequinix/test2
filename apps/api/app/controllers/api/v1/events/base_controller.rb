@@ -1,5 +1,6 @@
 class Api::V1::Events::BaseController < Api::BaseController
   before_action :fetch_current_event
+  before_action :api_enabled
   before_filter :enable_fetcher
   serialization_scope :current_event
 
@@ -23,5 +24,10 @@ class Api::V1::Events::BaseController < Api::BaseController
 
   def enable_fetcher
     @fetcher = Multitenancy::ApiFetcher.new(current_event)
+  end
+
+  def api_enabled
+    return if current_event.devices_api?
+    render(status: :unauthorized, json: :unauthorized)
   end
 end

@@ -189,7 +189,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   private
 
   def end_date_after_start_date
-    return if end_date.blank? || start_date.blank? || end_date > start_date
+    return if end_date.blank? || start_date.blank? || end_date >= start_date
     errors.add(:end_date, I18n.t("errors.messages.end_date_after_start_date"))
   end
 

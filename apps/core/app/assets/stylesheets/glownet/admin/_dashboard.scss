@@ -337,12 +337,17 @@ $statistics-size:       $base_font_size*2.5;
     flex: 1.2;
   }
 
-  &__data {
+  &__updated {
     flex: 1;
   }
 
-  &__actions {
+  &__size {
     flex: 1;
+    text-align: center;
+  }
+
+  &__actions {
+    flex: 2;
     text-align: right;
   }
 

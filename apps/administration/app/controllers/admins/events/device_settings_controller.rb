@@ -1,24 +1,9 @@
 class Admins::Events::DeviceSettingsController < Admins::Events::BaseController
-  def show # rubocop:disable Metrics/AbcSize
-    @event = current_event
-
-    # TODO: Move this outside this method
-    s3 = AWS::S3.new(access_key_id: Rails.application.secrets.s3_access_key_id,
-                     secret_access_key: Rails.application.secrets.s3_secret_access_key)
-    bucket = s3.buckets[Rails.application.secrets.s3_bucket]
-
-    basic_db = bucket.objects[@event.device_basic_db.path]
-    full_db = bucket.objects[@event.device_full_db.path]
-
-    msg = t("admin.event.databases.not_found")
-    @basic_db_created_at = basic_db.key.blank? ? msg : basic_db.last_modified.to_formatted_s(:db)
-    @full_db_created_at = full_db.key.blank? ? msg : full_db.last_modified.to_formatted_s(:db)
-
+  def show
     @event_parameters = @fetcher.device_general_parameters
   end
 
   def edit
-    @event = current_event
     @device_settings_form = DeviceSettingsForm.new
     event_parameters = @fetcher.device_general_parameters
 
@@ -28,16 +13,24 @@ class Admins::Events::DeviceSettingsController < Admins::Events::BaseController
   end
 
   def update
-    @event = Event.friendly.find(params[:event_id])
     @device_settings_form = DeviceSettingsForm.new(permitted_params)
 
     if @device_settings_form.save
       flash[:notice] = I18n.t("alerts.updated")
-      redirect_to admins_event_device_settings_url(@event)
+      redirect_to admins_event_device_settings_url(current_event)
     else
       flash[:error] = I18n.t("alerts.error")
       render :edit
     end
+  end
+
+  def remove_db
+    if params[:db] == "basic"
+      current_event.update(device_basic_db: nil)
+    else
+      current_event.update(device_full_db: nil)
+    end
+    redirect_to admins_event_device_settings_url(current_event)
   end
 
   private
