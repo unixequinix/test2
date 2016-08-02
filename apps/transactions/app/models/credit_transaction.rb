@@ -45,7 +45,7 @@ class CreditTransaction < Transaction
   after_update :recalculate_profile_balance
 
   def recalculate_profile_balance
-    transactions = profile.credit_transactions.status_ok
+    transactions = profile.credit_transactions.status_ok.origin("onsite")
     profile.update(credits: transactions.sum(:credits),
                    refundable_credits: transactions.sum(:refundable_credits),
                    final_balance: transactions.last.final_balance,
