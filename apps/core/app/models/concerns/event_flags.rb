@@ -12,6 +12,8 @@ module EventFlags
       5 => :agreement_acceptance,
       6 => :authorization,
       7 => :transactions_pdf,
+      8 => :devices_api,
+      9 => :thirdparty_api,
       column: "features"
     )
     has_flags(

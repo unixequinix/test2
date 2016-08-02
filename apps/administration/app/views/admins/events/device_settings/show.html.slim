@@ -13,14 +13,16 @@
     .container-hidden
       = current_admin.access_token
 
-  .container-transactions
+  .container-dashboard
     h3.dashboard-table-header = t("admin.dashboard.databases")
     .wrapper-dashboard-reverse
       .database
         .database__name
           = t('admin.event.databases.full')
-        .database__data
+        .database__updated
           = @current_event.device_full_db_updated_at&.strftime("%y-%m-%d %H:%M:%S") || t("admin.event.databases.not_found")
+        .database__size
+          = @current_event.device_full_db_file_size
         .database__actions
           = link_to remove_db_admins_event_device_settings_path(@current_event, db: "full"), method: :post, class: "database__btn #{"database__btn--disabled" if @current_event.device_full_db.blank?}"
             => fa_icon("ban")
@@ -28,8 +30,10 @@
       .database
         .database__name
           = t('admin.event.databases.basic')
-        .database__data
+        .database__updated
           = @current_event.device_basic_db_updated_at&.strftime("%y-%m-%d %H:%M:%S") || t("admin.event.databases.not_found")
+        .database__size
+          = @current_event.device_basic_db_file_size
         .database__actions
           = link_to remove_db_admins_event_device_settings_path(@current_event, db: "basic"), method: :post, class: "database__btn #{"database__btn--disabled" if @current_event.device_basic_db.blank?}"
             => fa_icon("ban")

@@ -182,10 +182,10 @@ en:
       gtag_assignation_notification: "Gtag  assignation notification"
       gtag_form_disclaimer: "Gtag assignation form disclaimer"
       databases:
-        full: "Full DB (with tickets)"
-        basic: "Basic DB (without tickets)"
+        full: "Full DB"
+        basic: "Basic DB"
         clear: "Clear cache"
-        not_found: "Database not found"
+        not_found: "Not found"
       fieldests:
         info: "Event info"
         date: "Sate and location"
@@ -233,6 +233,8 @@ en:
         agreement_acceptance: 'Agreement acceptance'
         authorization: 'Authorization'
         transactions_pdf: 'Transactions PDF'
+        devices_api: 'Devices API'
+        thirdparty_api: 'Thirdparty API'
       locales_options:
         en_lang: "English"
         it_lang: "Italian"
