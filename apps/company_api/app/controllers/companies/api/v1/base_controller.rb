@@ -1,5 +1,6 @@
 class Companies::Api::V1::BaseController < Companies::BaseController
   attr_reader :current_event, :agreement
+  before_action :api_enabled
   before_action :restrict_access_with_http
   before_filter :enable_fetcher
 
@@ -19,6 +20,11 @@ class Companies::Api::V1::BaseController < Companies::BaseController
 
   def enable_fetcher
     @fetcher = Multitenancy::CompanyFetcher.new(current_event, agreement)
+  end
+
+  def api_enabled
+    return if current_event.thirdparty_api?
+    render(status: :unauthorized, json: :unauthorized)
   end
 
   def validate_ticket_type!

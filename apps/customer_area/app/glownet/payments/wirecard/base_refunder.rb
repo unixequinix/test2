@@ -2,11 +2,12 @@ class Payments::Wirecard::BaseRefunder
   def initialize(payment, amount)
     @payment = payment
     @order = payment.order
-    @amount = amount
+    @event = @order.profile.event
+    @amount = amount - fee
     @payment_parameters = Parameter.joins(:event_parameters)
                                    .where(category: "payment",
                                           group: "wirecard",
-                                          event_parameters: { event: @order.profile.event })
+                                          event_parameters: { event: @event })
                                    .select("parameters.name, event_parameters.*")
   end
 
@@ -15,6 +16,10 @@ class Payments::Wirecard::BaseRefunder
     return charge_object if charge_object["creditNumber"].blank?
     create_payment(@order, charge_object)
     charge_object
+  end
+
+  def fee
+    @event.refund_fee("direct").to_f
   end
 
   def amount

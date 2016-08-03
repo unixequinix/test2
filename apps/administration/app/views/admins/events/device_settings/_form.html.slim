@@ -1,4 +1,4 @@
-= simple_form_for @device_settings_form, url: admins_event_device_settings_path(@event), method: :patch do |f|
+= simple_form_for @device_settings_form, url: admins_event_device_settings_path(@current_event), method: :patch do |f|
   fieldset
     h3.section-header
       = fa_icon "info-circle"
@@ -9,7 +9,7 @@
     = f.input :topup_initialize_gtag, as: :radio_buttons
     = f.input :cypher_enabled, as: :radio_buttons
     = f.input :autotopup_enabled, as: :radio_buttons
-    = f.input :event_id, as: :hidden, input_html: { value: @event.id }
+    = f.input :event_id, as: :hidden, input_html: { value: @current_event.id }
 
   fieldset
     h3.section-header

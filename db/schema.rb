@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160724150001) do
+ActiveRecord::Schema.define(version: 20160802133919) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -458,7 +458,7 @@ ActiveRecord::Schema.define(version: 20160724150001) do
     t.text     "style"
     t.integer  "logo_file_size"
     t.integer  "background_file_size"
-    t.integer  "features",                     default: 32,                    null: false
+    t.integer  "features",                     default: 416,                   null: false
     t.integer  "registration_parameters",      default: 0,                     null: false
     t.integer  "locales",                      default: 1,                     null: false
     t.integer  "payment_services",             default: 0,                     null: false
