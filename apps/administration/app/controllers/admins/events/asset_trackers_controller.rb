@@ -1,5 +1,5 @@
 class Admins::Events::AssetTrackersController < Admins::Events::BaseController
-  def index # rubocop:disable Metrics/AbcSize
+  def index # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     devices = current_event.device_transactions.select(:device_uid).uniq
     asset_trackers = Device.all.select(:mac, :asset_tracker).group_by(&:mac)
     transactions = Device.transactions_count(current_event)

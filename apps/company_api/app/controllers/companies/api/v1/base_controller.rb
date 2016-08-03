@@ -1,7 +1,7 @@
 class Companies::Api::V1::BaseController < Companies::BaseController
   attr_reader :current_event, :agreement
-  before_action :api_enabled
   before_action :restrict_access_with_http
+  before_action :api_enabled, except: [:restrict_access_with_http, :enable_fetcher]
   before_filter :enable_fetcher
 
   private
@@ -23,7 +23,7 @@ class Companies::Api::V1::BaseController < Companies::BaseController
   end
 
   def api_enabled
-    return if current_event.thirdparty_api?
+    return if @current_event.thirdparty_api?
     render(status: :unauthorized, json: :unauthorized)
   end
 
