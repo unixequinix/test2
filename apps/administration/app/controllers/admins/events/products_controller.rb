@@ -1,8 +1,9 @@
 class Admins::Events::ProductsController < Admins::Events::BaseController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_presenter, only: [:index, :search]
 
-  def index
-    set_presenter
+  def search
+    render :index
   end
 
   def new
