@@ -76,6 +76,8 @@ class Gtag < ActiveRecord::Base
       .where(event: event_id)
   }
 
+  scope :banned, -> { where(banned: true) }
+
   def self.field_by_memory_length(memory_length:, field:)
     found = GTAG_DEFINITIONS.find do |definition|
       definition[:memory_length] == memory_length
