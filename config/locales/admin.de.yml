@@ -152,6 +152,7 @@ de:
       download: "CSV"
       search: "Suchen"
       update: "Aktualisieren"
+      credits_history: "Credits history"
     event:
       name: 'Name'
       company_name: 'Firmenname'

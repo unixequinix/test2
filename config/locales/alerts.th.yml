@@ -20,6 +20,7 @@ th:
     ticket_doesnt_exist: "Ticket doesn't exist"
     credential_already_assigned: 'You already have the credential that comes with this ticket'
     access_only_one_way: 'Only one way per access'
+    profile_without_transactions: "The profile doesn't have credit transactions"
     gtag:
       invalid: "%{gtag} ไม่ถูกต้อง"
       already_assigned: "This %{gtag} is already assigned"
