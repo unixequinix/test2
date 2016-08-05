@@ -59,6 +59,10 @@ class Multitenancy::AdministrationFetcher
     Pack.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
   end
 
+  def payments
+    Payment.joins(order: :profile).where("profiles.event_id = ?", @event.id)
+  end
+
   def point_of_sale_stations
     Station.where(event: @event, category: Station::POINT_OF_SALE_STATIONS)
   end
