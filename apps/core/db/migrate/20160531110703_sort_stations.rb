@@ -24,7 +24,7 @@ class SortStations < ActiveRecord::Migration
 
     remove_column :stations, :station_type_id, :integer
 
-    drop_table :station_groups
     drop_table :station_types
+    drop_table :station_groups
   end
 end
