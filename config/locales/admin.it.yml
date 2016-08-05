@@ -144,6 +144,7 @@ it:
       download: "CSV"
       search: "Search"
       update: "Update"
+      credits_history: "Credits history"
     event:
       name: 'Name'
       company_name: 'Company name'

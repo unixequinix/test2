@@ -22,4 +22,5 @@ class Product < ActiveRecord::Base
   has_many :station_products, dependent: :restrict_with_error
 
   validates :name, :event_id, presence: true
+  validates :name, uniqueness: { scope: :event_id }
 end

@@ -16,7 +16,7 @@ class Events::CheckoutsController < Events::BaseController
       redirect_to event_order_url(current_event, @checkout_form.order)
     else
       errors = @checkout_form.order.errors.full_messages.join(". ")
-      errors = I18n.t("alerts.checkout", limit: 500) if !@checkout_form.order.order_items.present?
+      errors = I18n.t("alerts.checkout", limit: 500) unless @checkout_form.order.order_items.present?
       flash.now[:error] = errors || ""
       render :new
     end

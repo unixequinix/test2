@@ -77,6 +77,19 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
     redirect_to(admins_event_profile_path(current_event, params[:id]))
   end
 
+  def download_transactions
+    @profile = @fetcher.profiles.find(params[:id])
+    @pdf_transactions = CreditTransaction.where(status_code: 0, profile: @profile).order("device_created_at asc")
+    if @pdf_transactions.present?
+      html = render_to_string(action: :transactions_pdf, layout: false)
+      pdf = WickedPdf.new.pdf_from_string(html)
+      send_data(pdf, filename: "transaction_history_#{@profile.id}.pdf", disposition: "attachment")
+    else
+      flash[:error] = I18n.t("alerts.profile_without_transactions")
+      redirect_to(admins_event_profile_path(current_event, @profile))
+    end
+  end
+
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Profile".constantize.model_name,

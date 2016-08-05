@@ -144,6 +144,7 @@ es:
       download: "CSV"
       search: "Buscar"
       update: "Actualizar"
+      credits_history: "Historial de créditos"
     event:
       name: 'Nombre'
       company_name: 'Nombre de la compañía'

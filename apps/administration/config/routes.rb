@@ -86,6 +86,7 @@ Rails.application.routes.draw do
         resources :companies, except: :show
         resources :products do
           collection do
+            get :search
             post :import
             get :sample_csv
             delete :destroy_multiple
@@ -135,6 +136,7 @@ Rails.application.routes.draw do
 
         resources :profiles, except: [:new, :create, :edit, :update] do
           member do
+            get :download_transactions
             get :fix_transaction
             get :ban
             delete :unban
