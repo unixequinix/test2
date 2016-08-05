@@ -18,7 +18,6 @@ class DeviceSettingsForm
   validates_presence_of :topup_initialize_gtag
   validates_presence_of :private_zone_password
   validates_presence_of :cypher_enabled
-  validates_presence_of :gtag_blacklist
   validates_presence_of :autotopup_enabled
   validates_presence_of :event_id
 

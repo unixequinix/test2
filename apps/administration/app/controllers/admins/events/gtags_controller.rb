@@ -72,6 +72,10 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
   def ban
     gtag = @fetcher.gtags.find(params[:id])
     gtag.update!(banned: true)
+
+    # TODO: Refactor this when gtag blacklisting is defined
+    blacklist_parameter.update(value: @fetcher.gtags.banned.pluck(:tag_uid).join(","))
+
     write_transaction("ban", gtag)
     redirect_to(admins_event_gtags_url)
   end
@@ -83,6 +87,10 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
       flash[:error] = "Assigned profile is banned, unban it or unassign the gtag first"
     else
       gtag.update(banned: false)
+
+      # TODO: Refactor this when gtag blacklisting is defined
+      blacklist_parameter.update(value: @fetcher.gtags.banned.pluck(:tag_uid).join(","))
+
       write_transaction("unban", gtag)
     end
     redirect_to(admins_event_gtags_url)
@@ -120,10 +128,17 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
 
   private
 
+  def blacklist_parameter
+    current_event.event_parameters
+                 .includes(:parameter)
+                 .find_by(parameters: { category: "device", group: "general", name: "gtag_blacklist" })
+  end
+
   def write_transaction(action, gtag)
     station = current_event.stations.find_by(category: "customer_portal")
     Operations::Base.new.portal_write(event_id: current_event.id,
                                       station_id: station.id,
+                                      profile_id: gtag.assigned_profile.id,
                                       transaction_category: "ban",
                                       transaction_origin: Transaction::ORIGINS[:portal],
                                       transaction_type: "#{action}_gtag",
