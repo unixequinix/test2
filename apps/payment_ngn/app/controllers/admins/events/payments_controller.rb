@@ -4,7 +4,7 @@ class Admins::Events::PaymentsController < Admins::Events::PaymentsBaseControlle
   def index
     respond_to do |format|
       format.html
-      format.csv { send_data Csv::CsvExporter.to_csv(Payment.all) }
+      format.csv { send_data Csv::CsvExporter.to_csv(@fetcher.payments) }
     end
   end
 
