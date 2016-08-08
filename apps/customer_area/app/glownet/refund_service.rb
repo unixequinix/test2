@@ -2,8 +2,6 @@ class RefundService
   def initialize(claim)
     @claim = claim
     @profile = @claim.profile
-    @last_online_counter = @profile.all_online_counters.last.to_i
-    @last_gtag_counter = @profile.all_transaction_counters.last
   end
 
   def create(params)
@@ -33,13 +31,6 @@ class RefundService
     credit_fee_transaction(params) if @claim.fee > 0
   end
 
-  def credit_refund_transaction(params)
-    params[:transaction_type] = "online_refund"
-    params[:credits] = params[:credits] - fee
-    params[:refundable_credits] = params[:refundable_credits] - fee
-    CreditWriter.create_credit(@profile, params)
-  end
-
   def money_transaction(params, refund) # rubocop:disable Metrics/MethodLength
     standard_credit = Credit.standard(@profile.event).first
     fields = {
@@ -52,15 +43,24 @@ class RefundService
       price: standard_credit.value.to_f,
       payment_method: "online",
       payment_gateway: refund.payment_solution,
-      profile_id: @profile.id,
-      gtag_counter: @last_gtag_counter,
-      online_counter: @last_online_counter + 1
+      profile_id: @profile.id
     }
     Operations::Base.new.portal_write(fields)
   end
 
+  def credit_refund_transaction(params)
+    params[:transaction_type] = "online_refund"
+    params[:credits] = params[:credits]
+    params[:refundable_credits] = params[:refundable_credits]
+    params[:final_balance] = @profile.credits.to_f + params[:credits].to_f
+    params[:final_refundable_balance] = @profile.refundable_credits.to_f + params[:refundable_credits].to_f
+    CreditWriter.create_credit(@profile, params)
+  end
+
   def credit_fee_transaction(params)
     params[:transaction_type] = "fee"
+    params[:final_balance] = @profile.credits.to_f + params[:credits].to_f + fee
+    params[:final_refundable_balance] = @profile.refundable_credits.to_f + params[:refundable_credits].to_f + fee
     params[:credits] = fee
     params[:refundable_credits] = fee
     CreditWriter.create_credit(@profile, params)
