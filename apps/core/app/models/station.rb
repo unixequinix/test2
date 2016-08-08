@@ -49,7 +49,7 @@ class Station < ActiveRecord::Base
                                   source_type: "AccessControlGate"
 
   after_create :add_predefined_values
-  before_save :add_station_event_id
+  after_create :add_station_event_id
 
   ASSOCIATIONS = {
     accreditation:  [:customer_portal, :box_office, :staff_accreditation, :cs_accreditation],
