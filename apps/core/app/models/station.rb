@@ -49,6 +49,7 @@ class Station < ActiveRecord::Base
                                   source_type: "AccessControlGate"
 
   after_create :add_predefined_values
+  after_create :add_station_event_id
 
   ASSOCIATIONS = {
     accreditation:  [:customer_portal, :box_office, :staff_accreditation, :cs_accreditation],
@@ -58,11 +59,9 @@ class Station < ActiveRecord::Base
   }.freeze
 
   GROUPS = {
-    access: [:ticket_validation, :check_in, :box_office, :customer_portal,
-             :staff_accreditation, :access_control],
-    event_management: [:incident_report, :exhibitor, :customer_service, :operator_permissions,
-                       :payout_top_up, :hospitality_top_up, :cs_topup_refund,
-                       :cs_gtag_balance_fix, :cs_accreditation],
+    access: [:ticket_validation, :check_in, :box_office, :customer_portal, :staff_accreditation, :access_control],
+    event_management: [:incident_report, :exhibitor, :customer_service, :operator_permissions, :payout_top_up,
+                       :hospitality_top_up, :cs_topup_refund, :cs_gtag_balance_fix, :cs_accreditation],
     glownet: [:gtag_recycler, :envelope_linker],
     monetary: [:bar, :vendor, :top_up_refund],
     touchpoint: [:touchpoint]
@@ -85,6 +84,10 @@ class Station < ActiveRecord::Base
   end
 
   private
+
+  def add_station_event_id
+    self.station_event_id = event.stations.size + 1
+  end
 
   def add_predefined_values
     return unless ASSOCIATIONS[:topup].include?(category.to_sym)

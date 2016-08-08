@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160802133919) do
+ActiveRecord::Schema.define(version: 20160808102700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -765,6 +765,7 @@ ActiveRecord::Schema.define(version: 20160802133919) do
     t.string   "station_parametable_type", null: false
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.datetime "deleted_at"
   end
 
   create_table "station_products", force: :cascade do |t|
@@ -790,6 +791,7 @@ ActiveRecord::Schema.define(version: 20160802133919) do
     t.string   "address"
     t.string   "registration_num"
     t.string   "official_name"
+    t.integer  "station_event_id"
   end
 
   add_index "stations", ["deleted_at"], name: "index_stations_on_deleted_at", using: :btree
