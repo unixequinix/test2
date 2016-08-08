@@ -1,13 +1,11 @@
 class Payments::Wirecard::BaseRefunder
-  def initialize(payment, amount)
+  def initialize(payment, refund_amount)
     @payment = payment
     @order = payment.order
     @event = @order.profile.event
-    @amount = amount - fee
+    @amount = refund_amount - fee
     @payment_parameters = Parameter.joins(:event_parameters)
-                                   .where(category: "payment",
-                                          group: "wirecard",
-                                          event_parameters: { event: @event })
+                                   .where(category: "payment", group: "wirecard", event_parameters: { event: @event })
                                    .select("parameters.name, event_parameters.*")
   end
 

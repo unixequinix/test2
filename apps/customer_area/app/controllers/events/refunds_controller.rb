@@ -22,9 +22,7 @@ class Events::RefundsController < Events::BaseController
   end
 
   def tipalti_success
-    @claim = Claim.where(profile_id: params[:customerID],
-                         service_type: "tipalti",
-                         aasm_state: :in_progress)
+    @claim = Claim.where(profile_id: params[:customerID], service_type: "tipalti", aasm_state: :in_progress)
                   .order(id: :desc).first
 
     redirect_to(error_event_refunds_url(current_event)) && return unless @claim
