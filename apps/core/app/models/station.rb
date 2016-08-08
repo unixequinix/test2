@@ -49,6 +49,7 @@ class Station < ActiveRecord::Base
                                   source_type: "AccessControlGate"
 
   after_create :add_predefined_values
+  before_save :add_station_event_id
 
   ASSOCIATIONS = {
     accreditation:  [:customer_portal, :box_office, :staff_accreditation, :cs_accreditation],
@@ -85,6 +86,10 @@ class Station < ActiveRecord::Base
   end
 
   private
+
+  def add_station_event_id
+    self.station_event_id = event.stations.size + 1
+  end
 
   def add_predefined_values
     return unless ASSOCIATIONS[:topup].include?(category.to_sym)

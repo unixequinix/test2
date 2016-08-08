@@ -1,5 +1,5 @@
 class Api::V1::StationSerializer < Api::V1::BaseSerializer
-  attributes :id, :type, :name
+  attributes :id, :station_event_id, :type, :name
 
   def attributes(*args)
     hash = super
