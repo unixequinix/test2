@@ -39,7 +39,7 @@ class RefundService
       transaction_type: "portal_refund",
       catalogable_id: standard_credit.catalog_item.catalogable_id,
       catalogable_type: standard_credit.catalog_item.catalogable_type,
-      items_amount: params[:credits],
+      items_amount: params[:credits] * -1,
       price: params[:credits] * standard_credit.value.to_f,
       payment_method: "online",
       payment_gateway: refund.payment_solution,
