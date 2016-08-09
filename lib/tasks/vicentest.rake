@@ -68,6 +68,7 @@ namespace :glownet do
       a = Access.create!(catalog_item_attributes: {
                            event_id: @event.id,
                            name: access[:name],
+                           description: "@channel is awesome :)",
                            step: 1,
                            min_purchasable: 0,
                            max_purchasable: 1,
@@ -103,13 +104,14 @@ namespace :glownet do
 
     packs.each do |pack|
       p = Pack.new(catalog_item_attributes: { event_id: @event.id,
-                                                  name: pack[:name],
-                                                  step: 1,
-                                                  min_purchasable: 0,
-                                                  max_purchasable: 1,
-                                                  initial_amount: 0 })
+                                              name: pack[:name],
+                                              description: "@channel is awesome :)",
+                                              step: 1,
+                                              min_purchasable: 0,
+                                              max_purchasable: 1,
+                                              initial_amount: 0 })
      pack[:catalog_items].each do |ci|
-       item = @event.catalog_items.find_by(name: ci[:name])
+       item = @event.catalog_items.find_by(name: ci[:name], event: @event)
        p.pack_catalog_items.build(catalog_item: item, amount: ci[:amount] ).save
      end
 
@@ -171,7 +173,7 @@ namespace :glownet do
     station = @event.stations.create!(name: "Access Control", group: "access", category: "access_control")
 
     ­accesses.each do |access|
-      item = CatalogItem.find_by(name: access[:name])
+      item = CatalogItem.find_by(name: access[:name], event: @event)
       station.access_control_gates.new(direction: access[:direction],
                                        access: item.catalogable,
                                        station_parameter_attributes: { station_id: station.id }).save
@@ -192,11 +194,12 @@ namespace :glownet do
       { name: "Day + VIP", price: 30 },
       { name: "Night + VIP", price: 30 },
       { name: "Day + Camping", price: 30 },
-      { name: "Day + Night + VIP", price: 50 }
+      { name: "Day + Night + VIP", price: 50 },
+      { name: "50e + 15e Free Pack", price: 50 }
     ]
 
     items.each do |i|
-      item = CatalogItem.find_by(name: i[:name])
+      item = CatalogItem.find_by(name: i[:name], event: @event)
       bo.station_catalog_items.new(price: i[:price],
                                    catalog_item: item,
                                    station_parameter_attributes: { station_id: bo.id }).save
@@ -208,7 +211,7 @@ namespace :glownet do
     items = ["Staff", "Glownet Staff"]
 
     items.each do |item_name|
-      item = CatalogItem.find_by(name: item_name)
+      item = CatalogItem.find_by(name: item_name, event: @event)
       station.station_catalog_items.new(price: 0,
                                         catalog_item: item,
                                         station_parameter_attributes: { station_id: station.id }).save
@@ -231,7 +234,7 @@ namespace :glownet do
     station = @event.stations.create!(name: "MARKET 1", group: "monetary", category: "vendor")
 
     products.each do |p|
-      product = Product.find_by(name: p[:name])
+      product = Product.find_by(name: p[:name], event: @event)
       station.station_products.new(price: p[:price],
                                    product: product,
                                    station_parameter_attributes: { station_id: station.id }).save
@@ -254,7 +257,7 @@ namespace :glownet do
     station = @event.stations.create!(name: "BAR 1", group: "monetary", category: "bar")
 
     products.each do |p|
-      product = Product.find_by(name: p[:name])
+      product = Product.find_by(name: p[:name], event: @event)
       station.station_products.new(price: p[:price],
                                    product: product,
                                    station_parameter_attributes: { station_id: station.id }).save
