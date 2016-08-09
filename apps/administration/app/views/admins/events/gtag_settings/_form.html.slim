@@ -5,6 +5,7 @@
       = t("admin.event.fieldests.info")
     = f.input :format, as: :select, collection: @gtag_settings_form.gtag_uid_formats, include_blank: false
     = f.input :gtag_name
+    = f.input :gtag_deposit, as: :float
     = f.input :cards_can_refund, as: :radio_buttons
 
     = f.input :event_id, as: :hidden, input_html: { value: @event.id }

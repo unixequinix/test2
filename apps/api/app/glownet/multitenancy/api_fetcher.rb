@@ -178,7 +178,8 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           .where("(parameters.category = 'device') OR
               (parameters.category = 'gtag' AND parameters.group = '#{gtag_type}' OR
                parameters.group = 'form' AND parameters.name = 'gtag_type' OR
-               parameters.name = 'maximum_gtag_balance')")
+               parameters.name = 'maximum_gtag_balance' OR
+               parameters.name = 'gtag_deposit')")
   end
 
   def products
