@@ -268,3 +268,6 @@
         -
           name: cards_can_refund
           value: false
+        -
+          name: gtag_deposit
+          value: "0.0"
