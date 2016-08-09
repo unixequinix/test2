@@ -10,6 +10,7 @@ class GtagSettingsForm
   attribute :cards_can_refund, String
   attribute :gtag_form_disclaimer
   attribute :gtag_assignation_notification
+  attribute :gtag_deposit
 
   validates_presence_of :format
   validates_presence_of :event_id
@@ -17,6 +18,7 @@ class GtagSettingsForm
   validates_presence_of :gtag_type
   validates_presence_of :cards_can_refund
   validates_numericality_of :maximum_gtag_balance
+  validates_numericality_of :gtag_deposit
 
   validate :enough_space_for_credential
   validate :enough_space_for_entitlements
