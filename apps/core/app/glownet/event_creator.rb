@@ -13,6 +13,7 @@ class EventCreator
     customer_portal_station
     customer_service_stations
     tocuhpoint_station
+    event_management_stations
     default_event_parameters
     default_event_translations
     @event
@@ -65,6 +66,11 @@ class EventCreator
   end
 
   def tocuhpoint_station
-    Station.create!(event: @event, name: "Touchpoint", category: "touchpoint", group: "touchpoint")
+    @event.stations.create! name: "Touchpoint", category: "touchpoint", group: "touchpoint"
+  end
+
+  def event_management_stations
+    @event.stations.create! name: "Operator Permissions", category: "operator_permissions", group: "event_management"
+    @event.stations.create! name: "Gtag Recycler", category: "gtag_recycler", group: "glownet"
   end
 end
