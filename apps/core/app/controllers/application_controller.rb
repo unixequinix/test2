@@ -15,8 +15,8 @@ class ApplicationController < ActionController::Base
   end
 
   def extract_session_locale
-    return unless @current_event
     locale = session[:locale]
+    return unless @current_event && locale.present?
     @current_event.method(locale + "_lang?").call ? locale : nil
   end
 
