@@ -68,4 +68,18 @@ RSpec.describe EventCreator, type: :domain_logic do
       expect(station).not_to be_nil
     end
   end
+
+  describe ".event_management_stations" do
+    let(:event) { new_event.save }
+
+    it "creates the Gtag Recycler station" do
+      station = event.stations.find_by(category: "gtag_recycler", group: "glownet")
+      expect(station).not_to be_nil
+    end
+
+    it "creates the Operator permissions station" do
+      station = event.stations.find_by(category: "operator_permissions", group: "event_management")
+      expect(station).not_to be_nil
+    end
+  end
 end

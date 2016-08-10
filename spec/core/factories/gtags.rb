@@ -24,5 +24,11 @@ FactoryGirl.define do
         create :purchaser, :with_gtag_delivery_address, credentiable: gtag
       end
     end
+
+    trait :assigned do
+      after(:create) do |gtag|
+        create(:credential_assignment, :assigned, credentiable: gtag)
+      end
+    end
   end
 end

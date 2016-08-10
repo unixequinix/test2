@@ -19,7 +19,32 @@ $statistics-size:       $base_font_size*2.5;
     @include span-columns(6 of 12);
       @include omega(2n);
       min-height: modules(6);
-   }
+  }
+
+  h3 {
+    overflow: hidden;
+    width: 100%;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+  }
+
+  p { margin-bottom: 0; }
+}
+
+.container-databases {
+  position: relative;
+  overflow: visible;
+  margin: modules(1) auto;
+  padding: 0;
+  border-radius: 3px;
+  box-shadow: inset 0px 0px 1px 0px $light_grey;
+
+  @include min-screen($bp3) {
+    min-height: modules(6);
+  }
 
   h3 {
     overflow: hidden;
@@ -331,7 +356,25 @@ $statistics-size:       $base_font_size*2.5;
   text-align: left;
   display: flex;
   justify-content: space-between;
-  padding: .5rem 0;
+  flex-direction: column;
+  padding: 1rem .4rem;
+  border-bottom: 1px solid lighten($graySilver, 15%);
+
+  & > * {
+    margin: .5rem 0;
+  }
+
+  @include min-screen($bp4) {
+    flex-direction: row;
+
+    & > * {
+      margin: 0;
+    }
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
 
   &__name {
     flex: 1.2;
@@ -343,20 +386,30 @@ $statistics-size:       $base_font_size*2.5;
 
   &__size {
     flex: 1;
-    text-align: center;
+    @include min-screen($bp4) { text-align: center; }
   }
 
   &__actions {
     flex: 2;
-    text-align: right;
+    @include min-screen($bp4) { text-align: right; }
   }
 
   &__btn {
     padding: .25rem .5rem;
-    background: $amber;
-    border: 1px solid darken($amber, 5%);
+    background: $red;
+    border: 1px solid darken($red, 10%);
     border-radius: 3px;
     color: $nuclear;
+    margin-right: .4rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &--download {
+      background: $greenKickstarter;
+      border: 1px solid darken($greenKickstarter, 10%);
+    }
 
     &--disabled {
       background: lighten($graySilver, 15%);
