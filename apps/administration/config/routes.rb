@@ -43,7 +43,7 @@ Rails.application.routes.draw do
       scope module: "events" do
         resource :device_settings, only: [:show, :edit, :update] do
           member do
-            post :remove_db
+            delete :remove_db
           end
         end
         resources :ticket_assignments, only: [:destroy]

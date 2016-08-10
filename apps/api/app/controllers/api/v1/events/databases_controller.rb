@@ -1,19 +1,10 @@
 class Api::V1::Events::DatabasesController < Api::V1::Events::BaseController
-  def show # rubocop:disable Metrics/AbcSize
-    database = if params[:basic] == "true"
-                 current_event.device_basic_db
-               else
-                 current_event.device_full_db
-               end
+  def show
+    type = params[:basic].eql?("true") ? "basic" : "full"
+    database = Databases::DatabaseManager.new(current_event, type)
+    url = database.generate_url(30.seconds)
 
-    render(status: :not_found, json: :not_found) && return unless database
-
-    s3 = AWS::S3.new(access_key_id: Rails.application.secrets.s3_access_key_id,
-                     secret_access_key: Rails.application.secrets.s3_secret_access_key)
-    db = s3.buckets[Rails.application.secrets.s3_bucket].objects[database.path]
-    render(status: :not_found, json: :not_found) && return if db.key.blank?
-
-    url = db.url_for(:get, expires: 30.seconds.from_now, secure: true).to_s
+    render(status: :not_found, json: :not_found) && return unless url
     render(json: { url: url })
   end
 
