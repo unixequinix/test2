@@ -64,4 +64,71 @@ RSpec.feature "Ticket Assignation", type: :feature do
       end
     end
   end
+
+  describe "Ticket assignation availability" do
+    before do
+      login_as(customer, scope: :customer)
+      visit(event_path)
+    end
+
+    context "when event status is preevent" do
+      context "when ticket assignation is enabled" do
+        it "is available" do
+          expect(page.body).to include("Add ticket")
+        end
+      end
+
+      context "when ticket assignation is disabled" do
+        before do
+          event.update!(ticket_assignation: false)
+          visit(event_path)
+        end
+
+        it "is unavailable" do
+          expect(page.body).not_to include("Add ticket")
+        end
+      end
+    end
+
+    context "when event status is during event" do
+      before { event.update!(aasm_state: "started") }
+      context "when ticket assignation is enabled" do
+        it "is available" do
+          expect(page.body).to include("Add ticket")
+        end
+      end
+
+      context "when ticket assignation is disabled" do
+        before do
+          event.update!(ticket_assignation: false)
+          visit(event_path)
+        end
+
+        it "is unavailable" do
+          expect(page.body).not_to include("Add ticket")
+        end
+      end
+    end
+
+    context "when event status is finished" do
+      before { event.update!(aasm_state: "finished") }
+      context "when ticket assignation is enabled" do
+        it "is unavailable" do
+          expect(page.body).not_to include("Add ticket")
+          binding.pry
+        end
+      end
+
+      context "when ticket assignation is disabled" do
+        before do
+          event.update!(ticket_assignation: false)
+          visit(event_path)
+        end
+
+        it "is unavailable" do
+          expect(page.body).not_to include("Add ticket")
+        end
+      end
+    end
+  end
 end

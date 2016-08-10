@@ -7,7 +7,7 @@ RSpec.feature "Gtag Assignation", type: :feature do
   let(:invalid_gtag) { create(:gtag, :assigned, event: event) }
   let(:event_path) { customer_root_path(event) }
 
-  describe "User wants to assign a ticket" do
+  describe "User wants to assign a gtag" do
     before do
       login_as(customer, scope: :customer)
       visit(event_path)
@@ -61,6 +61,72 @@ RSpec.feature "Gtag Assignation", type: :feature do
 
       it "renders the same page" do
         expect(current_path).to eq(current_path)
+      end
+    end
+  end
+
+  describe "Gtag assignation availability" do
+    context "when event status is preevent" do
+      before do
+        login_as(customer, scope: :customer)
+        visit(event_path)
+      end
+
+      context "when gtag assignation is enabled" do
+        it "is available" do
+          expect(page.body).to include("Add #{event.gtag_name}")
+        end
+      end
+
+      context "when gtag assignation is disabled" do
+        before do
+          event.update!(gtag_assignation: false)
+          visit(event_path)
+        end
+
+        it "is unavailable" do
+          expect(page.body).not_to include("Add #{event.gtag_name}")
+        end
+      end
+    end
+
+    context "when event status is during event" do
+      before { event.update!(aasm_state: "started") }
+      context "when gtag assignation is enabled" do
+        it "is available" do
+          expect(page.body).not_to include("Add #{event.gtag_name}")
+        end
+      end
+
+      context "when gtag assignation is disabled" do
+        before do
+          event.update!(gtag_assignation: false)
+          visit(event_path)
+        end
+
+        it "is unavailable" do
+          expect(page.body).not_to include("Add #{event.gtag_name}")
+        end
+      end
+    end
+
+    context "when event status is finished" do
+      before { event.update!(aasm_state: "finished") }
+      context "when gtag assignation is enabled" do
+        it "is unavailable" do
+          expect(page.body).not_to include("Add #{event.gtag_name}")
+        end
+      end
+
+      context "when gtag assignation is disabled" do
+        before do
+          event.update!(gtag_assignation: false)
+          visit(event_path)
+        end
+
+        it "is unavailable" do
+          expect(page.body).not_to include("Add #{event.gtag_name}")
+        end
       end
     end
   end
