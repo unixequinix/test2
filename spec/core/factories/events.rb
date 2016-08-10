@@ -85,6 +85,12 @@ FactoryGirl.define do
       end
     end
 
+    trait :gtag_assignation do
+      after(:build) do |event|
+        event.gtag_assignation = true
+      end
+    end
+
     # Payment services
 
     trait :payment_services do

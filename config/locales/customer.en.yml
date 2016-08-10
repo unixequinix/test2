@@ -262,15 +262,7 @@ en:
     button: "Accept"
     back: "Back"
     placeholders:
-      standard:
-        line_1: "Line 1 e.g: 12345"
-        line_2: "Line 2 e.g: BA6D7DC0"
-      card:
-        line_1: "Line 1 e.g: 12345"
-        line_2: "Line 2 e.g: BA6D7DC0"
-      simple:
-        line_1: ""
-        line_2: "ID Number e.g: BA6D7DC0"
+      line_2: "Line 2 e.g: BA6D7DC0"
     info:
       line_1: 'Only numbers from "0" to "9"'
       line_2: 'Symbols allowed: "0" - "9" and "A, B, C, D, E, F"'
