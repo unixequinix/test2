@@ -169,7 +169,7 @@ group :development, :test, :staging do
 end
 
 group :test do
-  gem 'capybara', '~> 2.4.4'
+  gem 'capybara', '~> 2.5.0'
   gem 'capybara-slow_finder_errors'
   gem 'selenium-webdriver'
   gem 'poltergeist'
