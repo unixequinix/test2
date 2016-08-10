@@ -5,6 +5,7 @@ class RefundService
   end
 
   def create(params)
+    return false if @profile.completed_claim
     params = params.slice(*Refund.column_names.map(&:to_sym))
     refund = Refund.create!(params.merge(claim_id: @claim.id))
     status_ok = %w( SUCCESS PENDING ).include? refund.status
