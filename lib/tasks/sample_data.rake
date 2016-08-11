@@ -38,8 +38,8 @@ namespace :db do
     puts "Create admins"
     puts "----------------------------------------"
     Admin.destroy_all
-    Admin.create(email: 'admin@test.com',
-                 encrypted_password: Authentication::Encryptor.digest("password"))
+    Admin.create(email: 'developers@glownet.com',
+                 encrypted_password: Authentication::Encryptor.digest("C4shlessIsTheFutur3"))
   end
 
   def make_events
