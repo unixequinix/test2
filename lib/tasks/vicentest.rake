@@ -19,7 +19,7 @@ namespace :glownet do
 
     data = ["device_settings", "customers", "accesses", "packs", "products", "ticket_types", "tickets",
             "checkin_stations", "box_office_stations", "access_control_stations", "staff_accreditation_stations",
-            "event_management_stations", "vendor_stations", "bar_stations", "topup_stations"]
+            "vendor_stations", "bar_stations", "topup_stations"]
 
     data.each do |d|
       puts "+ Creating #{d.humanize}"
@@ -178,11 +178,6 @@ namespace :glownet do
                                        access: item.catalogable,
                                        station_parameter_attributes: { station_id: station.id }).save
     end
-  end
-
-  def create_event_management_stations
-    @event.stations.create!(name: "Operator Permissions", group: "event_management", category: "operator_permissions")
-    @event.stations.create!(name: "Gtag Recycler", group: "glownet", category: "gtag_recycler")
   end
 
   def create_box_office_stations
