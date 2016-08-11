@@ -143,6 +143,7 @@ namespace :glownet do
     credential_types.each do |credential_type|
       @event.company_ticket_types.create!(company_event_agreement: agreement,
                                           credential_type_id: credential_type.id,
+                                          company_code: Time.zone.now.to_s(:number),
                                           name: credential_type.catalog_item.name)
     end
   end
