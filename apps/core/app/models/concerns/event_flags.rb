@@ -52,6 +52,7 @@ module EventFlags
       3 => :it_lang,
       4 => :th_lang,
       5 => :de_lang,
+      6 => :pt_lang,
       column: "locales"
     )
   end

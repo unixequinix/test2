@@ -13,6 +13,7 @@ th:
       it: 'ITA'
       th: 'THA'
       de: 'GER'
+      pt: 'PT'
     gtag_name: 'สายรัดข้อมือ'
   events:
     create:
