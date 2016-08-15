@@ -1,0 +1,346 @@
+---
+pt:
+  country_iso_priority: [AT, BE, BG, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, GB]
+  general_company_name: 'Glownet'
+  general_support_email: 'support@glownet.com'
+  gender:
+    male: 'Male'
+    female: 'Female'
+  event:
+    subject_support: 'Need help for %{event}'
+    locales:
+      en: 'ENG'
+      es: 'ESP'
+      it: 'ITA'
+      th: 'THA'
+      de: 'GER'
+      pt: 'PT'
+    gtag_name: 'Wristband'
+  events:
+    create:
+      error: "Event couldn't be created, check the errors below"
+  activemodel:
+    errors:
+      models:
+        customer:
+          attributes:
+            phone:
+              improbable_phone: "It's not a valid phone number. Check that country matches the phone number."
+            birthdate:
+              invalid: "It's not a valid date"
+              too_young: "Must be older than %{age} years old"
+        epg_claim_form:
+          attributes:
+            phone:
+              improbable_phone: "It's not a valid phone number. Check that country matches the phone number."
+        bank_account_claim_form:
+          attributes:
+            swift:
+              invalid: "It's not a valid BIC/SWIFT"
+            iban:
+              invalid: "It's not a valid IBAN, introduce a valid account for SEPA"
+    attributes:
+      euro_bank_account_claim_form:
+        swift: "BIC/SWIFT"
+        iban: "IBAN"
+        account_holder: "Account holder's name"
+        bank_name: "Bank name"
+      aus_bank_account_claim_form:
+        bsb: "BSB"
+        account_holder: "Account holder's name"
+        bank_name: "Bank name"
+        number: "Account number"
+      nz_bank_account_claim_form:
+        bsb: "BSB"
+        account_holder: "Account holder's name"
+        bank_name: "Bank name"
+        number: "Account number (00 0000 0000000 000)"
+      thailand_bank_account_claim_form:
+        bsb: "BSB (000000)"
+        account_holder: "Account holder's name (Thai)"
+        account_holder_translation: "Account holder's name (English)"
+        bank_name: "Bank name"
+        number: "Account number"
+  activerecord:
+    models:
+      admin:
+        one: 'admin'
+        other: 'admins'
+      claim:
+        one: 'claim'
+        other: 'claims'
+      credit:
+        one: 'credit'
+        other: 'credits'
+      customer:
+        one: 'customer'
+        other: 'customers'
+      profile:
+        one: 'profile'
+        other: 'profiles'
+      entitlement:
+        one: 'entitlement'
+        other: 'entitlements'
+      gtag:
+        one: 'gtag'
+        other: 'gtags'
+      order:
+        one: 'order'
+        other: 'orders'
+      payment:
+        one: 'payment'
+        other: 'payments'
+      refund:
+        one: 'refund'
+        other: 'refunds'
+      ticket:
+        one: 'ticket'
+        other: 'tickets'
+      company:
+        one: 'company'
+        other: 'companies'
+      pack:
+        one: 'pack'
+        other: 'packs'
+      credential_type:
+        one: 'credential type'
+        other: 'credential types'
+      company_ticket_type:
+        one: 'company ticket type'
+        other: 'company ticket types'
+      voucher:
+        one: 'Voucher'
+        other: 'Vouchers'
+    errors:
+      models:
+        customer:
+          attributes:
+            email:
+              taken: 'Email taken'
+        entitlement:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: "Can't be deleted because there are ticket types associated"
+        ticket_type:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: "Can't be deleted because there are tickets associated"
+        ticket:
+          attributes:
+            number:
+              taken: 'Number taken'
+            base:
+              restrict_dependent_destroy:
+                many: "Can't be deleted because there are customers associated"
+        gtag:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: "Can't be deleted because there are customers associated"
+            tag_uid:
+              taken: 'Tag UID taken'
+        admission:
+          attributes:
+            ticket:
+              taken: 'taken'
+
+  date:
+    abbr_day_names:
+    - Dom
+    - Seg
+    - Ter
+    - Qua
+    - Qui
+    - Sex
+    - Sáb
+    abbr_month_names:
+    -
+    - Jan
+    - Fev
+    - Mar
+    - Abr
+    - Mai
+    - Jun
+    - Jul
+    - Ago
+    - Set
+    - Out
+    - Nov
+    - Dez
+    day_names:
+    - Domingo
+    - Segunda-feira
+    - Terça-feira
+    - Quarta-feira
+    - Quinta-feira
+    - Sexta-feira
+    - Sábado
+    formats:
+      default: "%d/%m/%Y"
+      long: "%d de %B de %Y"
+      short: "%d de %B"
+    month_names:
+    -
+    - Janeiro
+    - Fevereiro
+    - Março
+    - Abril
+    - Maio
+    - Junho
+    - Julho
+    - Agosto
+    - Setembro
+    - Outubro
+    - Novembro
+    - Dezembro
+    order:
+    - :day
+    - :month
+    - :year
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: aproximadamente 1 hora
+        other: aproximadamente %{count} horas
+      about_x_months:
+        one: aproximadamente 1 mês
+        other: aproximadamente %{count} meses
+      about_x_years:
+        one: aproximadamente 1 ano
+        other: aproximadamente %{count} anos
+      almost_x_years:
+        one: quase 1 ano
+        other: quase %{count} anos
+      half_a_minute: meio minuto
+      less_than_x_minutes:
+        one: menos de um minuto
+        other: menos de %{count} minutos
+      less_than_x_seconds:
+        one: menos de 1 segundo
+        other: menos de %{count} segundos
+      over_x_years:
+        one: mais de 1 ano
+        other: mais de %{count} anos
+      x_days:
+        one: 1 dia
+        other: "%{count} dias"
+      x_minutes:
+        one: 1 minuto
+        other: "%{count} minutos"
+      x_months:
+        one: 1 mês
+        other: "%{count} meses"
+      x_seconds:
+        one: 1 segundo
+        other: "%{count} segundos"
+    prompts:
+      day: Dia
+      hour: Hora
+      minute: Minuto
+      month: Mês
+      second: Segundo
+      year: Ano
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      accepted: tem de ser aceite
+      blank: não pode estar em branco
+      confirmation: não coincide com a confirmação
+      empty: não pode estar vazio
+      equal_to: tem de ser igual a %{count}
+      even: tem de ser par
+      exclusion: é reservado
+      greater_than: tem de ser maior que %{count}
+      greater_than_or_equal_to: tem de ser maior ou igual a %{count}
+      inclusion: não está incluído na lista
+      invalid: é inválido
+      less_than: tem de ser menor que %{count}
+      less_than_or_equal_to: tem de ser menor ou igual a %{count}
+      not_a_number: não é um número
+      not_an_integer: tem de ser um inteiro
+      odd: tem de ser ímpar
+      taken: não está disponível
+      too_long: é demasiado grande (o máximo é de %{count} caracteres)
+      too_short: é demasiado pequeno (o mínimo é de %{count} caracteres)
+      wrong_length: comprimento errado (deve ter %{count} caracteres)
+    template:
+      body: 'Por favor, verifique os seguintes campos:'
+      header:
+        one: 'Não foi possível guardar %{model}: 1 erro'
+        other: 'Não foi possível guardar %{model}: %{count} erros'
+  helpers:
+    select:
+      prompt: Por favor seleccione
+    submit:
+      create: Criar %{model}
+      submit: Gravar %{model}
+      update: Actualizar %{model}
+  number:
+    currency:
+      format:
+        delimiter: " "
+        format: "%n %u"
+        precision: 2
+        separator: ","
+        significant: false
+        strip_insignificant_zeros: false
+        unit: "€"
+    format:
+      delimiter: "."
+      precision: 3
+      separator: ","
+      significant: false
+      strip_insignificant_zeros: false
+    human:
+      decimal_units:
+        format: "%n %u"
+        units:
+          billion:
+            one: mil milhões
+            other: mil milhões
+          million:
+            one: milhão
+            other: milhões
+          quadrillion:
+            one: mil biliões
+            other: mil biliões
+          thousand: mil
+          trillion:
+            one: bilião
+            other: biliões
+          unit: ''
+      format:
+        delimiter: ''
+        precision: 1
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: Byte
+            other: Bytes
+          gb: GB
+          kb: KB
+          mb: MB
+          tb: TB
+    percentage:
+      format:
+        delimiter: ''
+    precision:
+      format:
+        delimiter: ''
+  support:
+    array:
+      last_word_connector: ", e"
+      two_words_connector: " e "
+      words_connector: ", "
+  time:
+    am: am
+    formats:
+      default: "%A, %d de %B de %Y, %H:%Mh"
+      long: "%A, %d de %B de %Y, %H:%Mh"
+      short: "%d/%m, %H:%M hs"
+    pm: pm

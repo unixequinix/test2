@@ -13,6 +13,7 @@ de:
       it: 'ITA'
       th: 'THA'
       de: 'GER'
+      pt: 'PT'
     gtag_name: 'Armband'
   events:
     create:
