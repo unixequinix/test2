@@ -234,6 +234,7 @@ de:
         es_lang: "Spanisch"
         th_lang: "Thai"
         de_lang: "Deustch"
+        pt_lang: "Portugiesisch"
     gtag_settings:
       form:
         format: "Format"

@@ -230,6 +230,7 @@ es:
         es_lang: "Español"
         th_lang: "Thailandes"
         de_lang: "Alemán"
+        pt_lang: "Portugués"
     gtag_settings:
       form:
         format: 'Formato'

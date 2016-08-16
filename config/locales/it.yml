@@ -13,6 +13,7 @@ it:
       it: 'ITA'
       th: 'THA'
       de: 'GER'
+      pt: 'PT'
     gtag_name: 'PAYCARD'
   events:
     create:

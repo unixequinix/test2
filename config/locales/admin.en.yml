@@ -241,6 +241,8 @@ en:
         it_lang: "Italian"
         es_lang: "Spanish"
         th_lang: "Thai"
+        de_lang: "German"
+        pt_lang: "Portuguese"
     gtag_settings:
       form:
         format: 'Format'
