@@ -68,13 +68,18 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     where(event: event)
       .joins("LEFT OUTER JOIN customers ON profiles.customer_id = customers.id")
       .joins(:credential_assignments)
-      .joins("INNER JOIN tickets
+      .joins("LEFT OUTER JOIN tickets
               ON credential_assignments.credentiable_id = tickets.id
               AND credential_assignments.aasm_state = 'assigned'
               AND credential_assignments.credentiable_type = 'Ticket'")
-      .select("profiles.id, tickets.code as ticket, profiles.refundable_credits as credits, customers.email,
-               customers.first_name, customers.last_name")
-      .group("profiles.id, customers.first_name, customers.id, tickets.code")
+      .joins("LEFT OUTER JOIN gtags
+              ON credential_assignments.credentiable_id = gtags.id
+              AND credential_assignments.aasm_state = 'assigned'
+              AND credential_assignments.credentiable_type = 'Gtag'")
+      .select("profiles.id, tickets.code as ticket, gtags.tag_uid as gtag, profiles.credits as credits,
+               profiles.refundable_credits as refundable_credits, customers.email, customers.first_name,
+               customers.last_name")
+      .group("profiles.id, customers.first_name, customers.id, tickets.code, gtags.tag_uid")
       .order("customers.first_name ASC")
   }
 
