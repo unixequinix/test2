@@ -65,19 +65,6 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
     credit_t.update!(fix_atts)
     money_t.update!(fix_atts)
 
-    atts = {
-      transaction_origin: credit_t.transaction_origin,
-      profile_id: params[:id],
-      refundable_credits: credit_t.refundable_credits,
-      credits: credit_t.credits,
-      credit_value: credit_t.credit_value,
-      final_balance: credit_t.final_balance,
-      final_refundable_balance: credit_t.final_refundable_balance,
-      device_created_at: credit_t.device_created_at,
-      gtag_counter: credit_t.gtag_counter
-    }
-    Operations::Credit::BalanceUpdater.new.perform(atts)
-
     redirect_to(admins_event_profile_path(current_event, params[:id]))
   end
 
