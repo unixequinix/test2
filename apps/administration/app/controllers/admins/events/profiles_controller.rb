@@ -59,18 +59,22 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
   end
 
   def fix_transaction
-    transaction = CreditTransaction.find(params[:transaction])
-    transaction.update!(status_code: 0, status_message: "FIXED")
+    credit_t = CreditTransaction.find(params[:transaction])
+    money_t = MoneyTransaction.find_by(device_created_at: credit_t.device_created_at, profile_id: params[:id])
+    fix_atts = { status_code: 0, status_message: "FIXED" }
+    credit_t.update!(fix_atts)
+    money_t.update!(fix_atts)
+
     atts = {
-      transaction_origin: transaction.transaction_origin,
+      transaction_origin: credit_t.transaction_origin,
       profile_id: params[:id],
-      refundable_credits: transaction.refundable_credits,
-      credits: transaction.credits,
-      credit_value: transaction.credit_value,
-      final_balance: transaction.final_balance,
-      final_refundable_balance: transaction.final_refundable_balance,
-      device_created_at: transaction.device_created_at,
-      gtag_counter: transaction.gtag_counter
+      refundable_credits: credit_t.refundable_credits,
+      credits: credit_t.credits,
+      credit_value: credit_t.credit_value,
+      final_balance: credit_t.final_balance,
+      final_refundable_balance: credit_t.final_refundable_balance,
+      device_created_at: credit_t.device_created_at,
+      gtag_counter: credit_t.gtag_counter
     }
     Operations::Credit::BalanceUpdater.new.perform(atts)
 
