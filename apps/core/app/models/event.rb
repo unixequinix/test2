@@ -108,14 +108,14 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   has_attached_file(
     :device_full_db,
-    path: "#{S3_FOLDER}/event/:id/device_full_db/:filename",
+    path: "#{S3_FOLDER}/event/:id/device_full_db/full_db.:extension",
     url: "#{S3_FOLDER}/event/:id/device_full_db/full_db.:extension",
     use_timestamp: false
   )
 
   has_attached_file(
     :device_basic_db,
-    path: "#{S3_FOLDER}/event/:id/device_basic_db/:filename",
+    path: "#{S3_FOLDER}/event/:id/device_basic_db/basic_db.:extension",
     url: "#{S3_FOLDER}/event/:id/device_basic_db/basic_db.:extension",
     use_timestamp: false
   )
