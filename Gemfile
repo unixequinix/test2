@@ -110,9 +110,11 @@ gem 'sdoc', '~> 0.4.1', group: :doc
 # PDF Generation
 gem 'wicked_pdf'
 
-
 # App monitoring
 gem 'rollbar'
+
+# Validations
+gem 'rfc-822'
 
 group :development do
   gem 'foreman', '~> 0.78.0'

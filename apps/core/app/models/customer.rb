@@ -50,7 +50,7 @@ class Customer < ActiveRecord::Base
   belongs_to :event
 
   # Validations
-  validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+  validates_format_of :email, with: RFC822::EMAIL
   validates :email, :first_name, :last_name, :encrypted_password, presence: true
   validates :agreed_on_registration, acceptance: { accept: true }
 
