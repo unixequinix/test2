@@ -4,10 +4,7 @@
       = link_to event_url(current_event), class: "btn-desktop-profile" do
         = fa_icon "home"
     li
-      = link_to event_logout_path(current_event), method: :delete,
-            class: "btn-desktop-profile",
-            data: { confirm: (t("confirm.log_out")) },
-            method: :delete do
+      = link_to event_logout_path(current_event), method: :delete, class: "btn-desktop-profile", data: { confirm: (t("confirm.log_out")) }, method: :delete do
         = fa_icon "sign-out"
 header.header-mobile.edit-profile-menu
   h1.mobile-event-name
