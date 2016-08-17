@@ -16,7 +16,7 @@ RSpec.feature "Admin Gtag assignation", type: :feature do
       visit "/admins/events/#{@event_creator.event.slug}/customers"
       click_link(@customer.email)
       find("a", text: t("admin.actions.assign_gtag")).click
-      fill_in(t("gtag_assignations.placeholders.standard.line_2"), with: @gtag.tag_uid)
+      fill_in(t("gtag_assignations.placeholders.line_2"), with: @gtag.tag_uid)
       click_on(t("gtag_assignations.button"))
       expect(page.body).to include(@gtag.tag_uid)
     end
@@ -25,7 +25,7 @@ RSpec.feature "Admin Gtag assignation", type: :feature do
       visit "/admins/events/#{@event_creator.event.slug}/customers"
       click_link(@customer.email)
       find("a", text: t("admin.actions.assign_gtag")).click
-      fill_in(t("gtag_assignations.placeholders.standard.line_2"), with: "invalid uid")
+      fill_in(t("gtag_assignations.placeholders.line_2"), with: "invalid uid")
       click_on(t("gtag_assignations.button"))
       expect(page.body).not_to include(@gtag.tag_uid)
     end
