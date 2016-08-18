@@ -12,6 +12,15 @@ module ApplicationHelper
     number_to_currency number, unit: current_event.token_symbol.to_s + " "
   end
 
+  def transaction_to_currency(transaction, meth)
+    number = tranaction.send(meth)
+    if transaction.category.eq? "money"
+      number_to_currency number, unit: current_event.currency.to_s + " "
+    else
+      number_to_token number
+    end
+  end
+
   def title
     return "Glownet" if Rails.env == "production"
     "[#{Rails.env.upcase}] Glownet"

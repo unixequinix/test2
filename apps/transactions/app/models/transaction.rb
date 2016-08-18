@@ -10,8 +10,20 @@ class Transaction < ActiveRecord::Base
   ORIGINS = { portal: "customer_portal", device: "onsite", admin: "admin_panel" }.freeze
   TYPES = %w(access ban credential credit money order device).freeze
 
+  def category
+    self.class.name.gsub("Transaction", "").downcase
+  end
+
   def self.class_for_type(type)
     "#{type}_transaction".classify.constantize
+  end
+
+  def description
+    "#{category.humanize} : #{transaction_type.humanize}"
+  end
+
+  def last_known_balance
+    profile.credit_transactions.where("gtag_counter <= ?", gtag_counter).last.try(:final_balance).to_f
   end
 
   def self.mandatory_fields

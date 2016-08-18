@@ -34,4 +34,8 @@ class MoneyTransaction < Transaction
   def self.mandatory_fields
     super + %w( catalogable_id catalogable_type items_amount price payment_method )
   end
+
+  def description
+    "Payment: #{event.currency} #{'%.2f' % price}"
+  end
 end

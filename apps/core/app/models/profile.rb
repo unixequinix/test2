@@ -36,7 +36,6 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   has_many :order_transactions
   has_many :completed_claims, -> { where("aasm_state = 'completed' AND completed_at IS NOT NULL") }, class_name: "Claim"
   has_many :credential_assignments
-  has_many :credit_transactions
   # credential_assignments_tickets
   has_many :ticket_assignments, -> { where(credentiable_type: "Ticket") },
            class_name: "CredentialAssignment", dependent: :destroy
@@ -85,6 +84,16 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   def customer
     Customer.unscoped { super }
+  end
+
+  def transactions
+    transactions = credit_transactions
+    transactions += access_transactions
+    transactions += credential_transactions
+    transactions += money_transactions
+    transactions += order_transactions
+    transactions += ban_transactions
+    transactions.sort_by { |t| [t.gtag_counter, t.counter] }
   end
 
   def all_transaction_counters

@@ -34,6 +34,13 @@ tr {
 
   &:nth-child(odd) { background-color: $admin_grey }
   &:last-child { box-shadow: none; }
+  &.danger {
+    background: #ffe2e2;
+
+    td {
+      box-shadow: inset 0px -1px 0px 0px darken(#ffe2e2, 5%);
+    }
+  }
 }
 
 td {
