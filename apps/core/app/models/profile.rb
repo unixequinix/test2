@@ -86,7 +86,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     Customer.unscoped { super }
   end
 
-  def transactions(sort)
+  def transactions(sort = "counters")
     transactions = credit_transactions
     transactions += access_transactions
     transactions += credential_transactions
