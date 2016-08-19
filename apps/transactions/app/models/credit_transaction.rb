@@ -40,7 +40,7 @@ class CreditTransaction < Transaction
   scope :origin, -> (origin) { where(transaction_origin: Transaction::ORIGINS[origin]) }
   scope :not_record_credit, -> { where.not(transaction_type: "record_credit") }
 
-  default_scope { order([gtag_counter: :asc, counter: :asc]) }
+  default_scope { order([gtag_counter: :asc, counter: :asc, status_code: :desc]) }
 
   after_update :recalculate_profile_balance
 
@@ -50,6 +50,10 @@ class CreditTransaction < Transaction
                    refundable_credits: transactions.sum(:refundable_credits),
                    final_balance: transactions.last.final_balance,
                    final_refundable_balance: transactions.last.final_refundable_balance)
+  end
+
+  def description
+    "#{transaction_type.humanize}: #{'%.2f' % credits} #{event.token_symbol}"
   end
 
   def self.mandatory_fields

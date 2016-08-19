@@ -7,6 +7,32 @@
     = fa_icon "arrow-circle-left"
     = t('actions.back')
 .wrapper-negative-space
-  = render("customer_account_information", customer: @customer)
-  = render("admins/events/profiles/credentials_information", profile: @customer.profile) if @customer.profile
-  = render("admins/events/profiles/profile_data", profile: @customer.profile, credit_transactions: @credit_transactions, money_transactions: @money_transactions) if @customer.profile
+  .container-show
+    dl
+      dt = t ("admin.customers.email")
+      dd = @customer.email
+
+      dt = t ("admin.customers.first_name")
+      dd = @customer.first_name
+
+      dt = t ("admin.customers.last_name")
+      dd = @customer.last_name
+
+      dt = t ("admin.customers.sign")
+      dd = @customer.sign_in_count
+
+      dt = t ("admin.customers.current_sign")
+      dd = @customer.current_sign_in_at
+
+      dt = t ("admin.customers.last_sign")
+      dd = @customer.last_sign_in_at
+
+      dt = t ("admin.customers.current_sign_ip")
+      dd = @customer.current_sign_in_ip
+
+      dt = t ("admin.customers.last_sign_ip")
+      dd = @customer.last_sign_in_ip
+
+      - if @customer.profile
+        dt = t ("admin.customers.profile")
+        dd = link_to @customer.profile.id, admins_event_profile_path(current_event, @customer.profile)
