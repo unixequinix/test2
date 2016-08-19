@@ -14,7 +14,7 @@
   = render(root + "credentials", profile: @profile)
   
   .container-show
-    = render(root + "transactions", transactions: @profile.transactions) if @profile.transactions.present?
+    = render(root + "transactions", transactions: @transactions) if @transactions.present?
 
     = render(root + "purchases_information", profile: @profile) if @profile.sorted_purchases(format: :list).any?
     = render(root + "orders", profile: @profile) if @profile.orders.any?
