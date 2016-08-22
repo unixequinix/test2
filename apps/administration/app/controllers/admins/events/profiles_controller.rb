@@ -13,6 +13,8 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
 
   def show
     @profile = @fetcher.profiles.with_deleted.find(params[:id])
+    # TODO: Its a workaround for sorting, remove after picnik is fixed
+    @transactions = @profile.transactions(params[:sort])
   end
 
   def ban

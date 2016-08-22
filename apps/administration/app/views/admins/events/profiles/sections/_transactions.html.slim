@@ -1,12 +1,10 @@
-h3
-  = fa_icon "table"
-  | Transactions
+h3 Transactions
 
 table.transactions
   thead
     tr
-      th = t("admin.transactions.counters")
-      th = t("admin.transactions.device_created_at")
+      th = link_to t("admin.transactions.counters"), sort: "counters"
+      th = link_to t("admin.transactions.device_created_at"), sort: "date"
       th = t("admin.transactions.station_id")
       th = t("admin.transactions.device_uid")
       th = t("admin.transactions.transaction_type")

@@ -151,7 +151,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def refund_minimun(refund_service)
-    get_parameter("refund", refund_service, "fee")
+    get_parameter("refund", refund_service, "minimum")
   end
 
   def get_parameter(category, group, name)
