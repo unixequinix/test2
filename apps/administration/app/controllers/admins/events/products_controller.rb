@@ -75,10 +75,10 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
     redirect_to(admins_event_products_path(event), alert: alert) && return unless params[:file]
     file = params[:file][:data].tempfile.path
 
-    CSV.foreach(file, headers: true, col_sep: ";", encoding: "utf-8").with_index do |row, i|
+    CSV.foreach(file, headers: true, col_sep: ";", encoding: "ISO8859-1:utf-8").with_index do |row, i|
       atts = {
-        name: row.field("name").force_encoding("utf-8").encode("utf-8"),
-        description: row.field("description")&.force_encoding("utf-8")&.encode("utf-8"),
+        name: row.field("name"),
+        description: row.field("description"),
         is_alcohol: row.field("is_alcohol")
       }
       product = event.products.find_by(name: row.field("name")) || event.products.new

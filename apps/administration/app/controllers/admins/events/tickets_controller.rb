@@ -83,7 +83,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
     file = params[:file][:data].tempfile.path
 
     begin
-      CSV.foreach(file, headers: true, col_sep: ";").with_index do |row, _i|
+      CSV.foreach(file, headers: true, col_sep: ";", encoding: "ISO8859-1:utf-8").with_index do |row, _i|
         c_name = row.field("company_name")
         com = Company.find_by("LOWER(name) = ?", c_name.downcase) || Company.create!(name: c_name)
         agree = com.company_event_agreements.find_or_create_by!(event: event, aasm_state: "granted")
