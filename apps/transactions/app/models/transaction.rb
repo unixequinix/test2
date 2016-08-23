@@ -26,6 +26,10 @@ class Transaction < ActiveRecord::Base
     profile.credit_transactions.where("gtag_counter <= ?", gtag_counter).last.try(:final_balance).to_f
   end
 
+  def last_known_refundable_balance
+    profile.credit_transactions.where("gtag_counter <= ?", gtag_counter).last.try(:final_refundable_balance).to_f
+  end
+
   def self.mandatory_fields
     %w( transaction_origin transaction_category transaction_type customer_tag_uid
         operator_tag_uid station_id device_uid device_db_index device_created_at status_code
