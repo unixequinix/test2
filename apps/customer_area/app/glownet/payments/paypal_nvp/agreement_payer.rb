@@ -4,13 +4,13 @@ class Payments::PaypalNvp::AgreementPayer
     @method = @gateway ? "auto" : "regular"
   end
 
-  def start(customer_order_creator, customer_credit_creator)
+  def start(customer_order_creator, credit_writer)
     @order.start_payment!
     charge_object = charge
     return charge_object unless charge_object["ACK"] == "Success"
     email = @paypal_nvp.get_express_checkout_details(@params[:token])["EMAIL"]
     create_agreement(charge_object, @params[:autotopup_amount], email) if create_agreement?(@params)
-    notify_payment(charge_object, customer_order_creator, customer_credit_creator)
+    notify_payment(charge_object, customer_order_creator, credit_writer)
     charge_object
   end
 
@@ -29,10 +29,10 @@ class Payments::PaypalNvp::AgreementPayer
 
   private
 
-  def notify_payment(charge, customer_order_creator, customer_credit_creator)
+  def notify_payment(charge, customer_order_creator, credit_writer)
     return unless charge["ACK"] == "Success"
     create_payment(@order, charge, @method)
-    customer_credit_creator.save_order(@order)
+    credit_writer.save_order(@order)
     customer_order_creator.save(@order, "paypal_nvp", "paypal_nvp")
     @order.complete!
     send_mail_for(@order, @event)

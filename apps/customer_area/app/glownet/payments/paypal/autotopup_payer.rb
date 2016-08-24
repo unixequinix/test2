@@ -1,12 +1,12 @@
 class Payments::Paypal::AutotopupPayer < Payments::Paypal::BasePayer
   include Payments::AutomaticRefundable
 
-  def start(customer_order_creator, customer_credit_creator)
+  def start(customer_order_creator, credit_writer)
     @order.start_payment!
     charge_object = charge
     return charge_object unless charge_object.success?
     create_agreement(charge_object, @params[:autotopup_amount]) if create_agreement?
-    notify_payment(charge_object, customer_order_creator, customer_credit_creator)
+    notify_payment(charge_object, customer_order_creator, credit_writer)
     automatic_refund(@payment, @order.total, @params[:payment_service_id])
     charge_object
   end
