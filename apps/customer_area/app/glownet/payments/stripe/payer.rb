@@ -5,11 +5,11 @@ class Payments::Stripe::Payer
     @params = params
   end
 
-  def start(customer_order_creator, customer_credit_creator)
+  def start(customer_order_creator, credit_writer)
     @order.start_payment!
     charge_object = charge
     return charge_object unless charge_object
-    notify_payment(charge_object, customer_order_creator, customer_credit_creator)
+    notify_payment(charge_object, customer_order_creator, credit_writer)
     charge_object
   end
 
@@ -33,10 +33,10 @@ class Payments::Stripe::Payer
     charge
   end
 
-  def notify_payment(charge, customer_order_creator, customer_credit_creator)
+  def notify_payment(charge, customer_order_creator, credit_writer)
     return unless charge.status == "succeeded"
     create_payment(@order, charge)
-    customer_credit_creator.save_order(@order)
+    credit_writer.save_order(@order)
     customer_order_creator.save(@order, "card", "stripe")
     @order.complete!
     send_mail_for(@order, @event)

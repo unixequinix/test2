@@ -25,7 +25,5 @@ table.transactions
           = link_to admins_event_transaction_path(current_event, transaction, type: transaction.category) do
             => icon
             = transaction.description
-        td data-label=t("admin.transactions.final_balance")
-          = number_to_token transaction.last_known_balance 
-        td data-label=t("admin.transactions.final_refundable_balance")
-          = number_to_token transaction.last_known_balance
+        td data-label=t("admin.transactions.final_balance") = number_to_token transaction.final_balance if transaction.is_a?(CreditTransaction)
+        td data-label=t("admin.transactions.final_refundable_balance") = number_to_token transaction.final_refundable_balance if transaction.is_a?(CreditTransaction)

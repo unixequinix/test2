@@ -3,16 +3,16 @@ class Payments::Wirecard::Payer
     @params = params
   end
 
-  def start(customer_order_creator, customer_credit_creator)
-    notify_payment(customer_order_creator, customer_credit_creator)
+  def start(customer_order_creator, credit_writer)
+    notify_payment(customer_order_creator, credit_writer)
   end
 
-  def notify_payment(customer_order_creator, customer_credit_creator)
+  def notify_payment(customer_order_creator, credit_writer)
     event = Event.friendly.find(@params[:event_id])
     return unless @params[:paymentState] == "SUCCESS"
     amount = @params[:amount].to_f
     order = Order.find(@params[:order_id])
-    customer_credit_creator.save_order(order)
+    credit_writer.save_order(order)
     create_payment(order, amount)
     order.complete!
     customer_order_creator.save(order, "card", "wirecard")

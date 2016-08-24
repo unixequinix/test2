@@ -40,24 +40,18 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
 
     params[:tickets].each do |atts|
       atts = ActionController::Parameters.new(atts)
-      atts.merge!(code: atts.delete(:ticket_reference),
-                  company_ticket_type_id: atts.delete(:ticket_type_id),
-                  event_id: current_event.id)
-      ticket_atts = atts.permit(:code,
-                                :company_ticket_type_id,
-                                :event_id,
-                                purchaser_attributes: [:id, :first_name, :last_name, :email])
 
-      ticket = Ticket.find_by_code(ticket_atts[:code])
-      ticket ||= Ticket.create(ticket_atts)
+      atts.merge!(code: atts.delete(:ticket_reference), company_ticket_type_id: atts.delete(:ticket_type_id), event_id: current_event.id)
+      ticket_atts = atts.permit(:code, :company_ticket_type_id, :event_id, purchaser_attributes: [:id, :first_name, :last_name, :email])
 
-      errors[:atts] << { ticket: ticket.code,
-                         errors: ticket.errors.full_messages } && next unless ticket.valid?
+      ticket = current_event.tickets.find_by_code(ticket_atts[:code])
+      ticket ||= current_event.tickets.create(ticket_atts)
+
+      errors[:atts] << { ticket: ticket.code, errors: ticket.errors.full_messages } && next unless ticket.valid?
     end
 
     errors.delete_if { |_, v| v.compact.empty? }
-    render(status: :unprocessable_entity, json: { status: :unprocessable_entity,
-                                                  errors: errors }) && return if errors.any?
+    render(status: :unprocessable_entity, json: { status: :unprocessable_entity, errors: errors }) && return if errors.any?
     render(status: :created, json: :created)
   end
 
