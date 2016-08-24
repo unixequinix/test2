@@ -17,7 +17,7 @@ class Payments::Redsys::Payer
     amount = decoded_params["Ds_Amount"].to_f / 100 # last two digits are decimals
     return unless success
     order = Order.find_by(number: decoded_params["Ds_Order"])
-    customer_credit_creator.save(order)
+    customer_credit_creator.save_order(order)
     create_payment(order, amount, decoded_params)
     order.complete!
     customer_order_creator.save(order, "card", "redsys")
