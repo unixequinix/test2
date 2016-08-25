@@ -3,15 +3,29 @@ class AccountManager::Stripe
     Rails.application.secrets.stripe_platform_secret
   end
 
-  def persist_parameters(params, _request)
+  def persist_parameters(params)
     Stripe.api_key = platform_secret_key
     @account = build_account(params)
     account_parameters = extract_account_parameters
-    # TODO: next lines are to manage legal parameters
-    # attach_legal_parameters(params, request)
-    # legal_parameters = extract_legal_parameters
     persist!(account_parameters, params[:event_id])
-    # persist!(legal_parameters, params[:event_id])
+  end
+
+  def update_parameters(params, request)
+    Stripe.api_key = platform_secret_key
+    @account = Stripe::Account.retrieve(params[:stripe_account_id])
+
+    @account.legal_entity.first_name = params[:legal_first_name]
+    @account.legal_entity.last_name = params[:legal_last_name]
+    @account.legal_entity.dob.day = params[:legal_dob].to_date.day
+    @account.legal_entity.dob.month = params[:legal_dob].to_date.month
+    @account.legal_entity.dob.year = params[:legal_dob].to_date.year
+    @account.legal_entity.type = params[:legal_type]
+
+    @account.tos_acceptance = @account.tos_acceptance
+    @account.tos_acceptance.ip = request.remote_ip
+    @account.tos_acceptance.date = Time.zone.now.to_i
+
+    @account.save
   end
 
   private
@@ -52,23 +66,6 @@ class AccountManager::Stripe
       tos_acceptance_date: tos.date,
       tos_acceptance_ip: tos.ip
     }
-  end
-
-  def attach_legal_parameters(params, request)
-    legal_entity(@account.legal_entity, params[:stripe_payment_settings_form])
-    tos = @account.tos_acceptance
-    tos.ip = request.remote_ip
-    tos.date = Time.zone.now.to_i
-    @account.save
-  end
-
-  def legal_entity(entity, params)
-    entity.first_name = params[:legal_first_name]
-    entity.last_name = params[:legal_last_name]
-    entity.dob.day = Date.parse(params[:legal_dob]).day
-    entity.dob.month = Date.parse(params[:legal_dob]).month
-    entity.dob.year = Date.parse(params[:legal_dob]).year
-    entity.type = params[:legal_type]
   end
 
   def persist!(new_params, event_id)

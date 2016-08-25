@@ -50,9 +50,9 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
     @event = Event.friendly.find(params[:event_id])
     @payment_service = params[:id]
     @payment_platform = EventDecorator::PAYMENT_PLATFORMS[@payment_service.to_sym]
-    @payment_settings_form = "#{@payment_service.camelize}PaymentSettingsForm"
-                             .constantize.new(settings_params)
-    if @payment_settings_form.update
+    @payment_settings_form = "#{@payment_service.camelize}PaymentSettingsForm".constantize.new(settings_params)
+
+    if @payment_settings_form.save(params, request)
       @event.save
       redirect_to admins_event_payment_settings_url(@event), notice: I18n.t("alerts.updated")
     else
