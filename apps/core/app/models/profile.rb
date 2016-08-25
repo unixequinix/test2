@@ -86,7 +86,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     Customer.unscoped { super }
   end
 
-  def transactions(sort = "counters")
+  def transactions(sort)
     transactions = credit_transactions
     transactions += access_transactions
     transactions += credential_transactions
@@ -94,7 +94,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     transactions += order_transactions
     transactions += ban_transactions
     # TODO: Its a workaround for sorting, remove after picnik is fixed
-    transactions.sort_by! { |t| [t.gtag_counter, t.counter] } if sort.eql?("counters")
+    transactions.sort_by! { |t| [t.gtag_counter, t.counter] } if sort.eql?("counters") || sort.nil?
     transactions.sort_by! { |t| [t.device_created_at, t.gtag_counter, t.counter] } if sort.eql?("date")
     transactions
   end

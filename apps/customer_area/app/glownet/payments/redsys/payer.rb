@@ -3,11 +3,11 @@ class Payments::Redsys::Payer
     @params = params
   end
 
-  def start(customer_order_creator, customer_credit_creator)
-    notify_payment(customer_order_creator, customer_credit_creator)
+  def start(customer_order_creator, credit_writer)
+    notify_payment(customer_order_creator, credit_writer)
   end
 
-  def notify_payment(customer_order_creator, customer_credit_creator)
+  def notify_payment(customer_order_creator, credit_writer)
     decoded_params = decode_parameters(@params["Ds_MerchantParameters"])
     event = Event.friendly.find(@params[:event_id])
     merchant_code = event.get_parameter("payment", "redsys", "code")
@@ -17,7 +17,7 @@ class Payments::Redsys::Payer
     amount = decoded_params["Ds_Amount"].to_f / 100 # last two digits are decimals
     return unless success
     order = Order.find_by(number: decoded_params["Ds_Order"])
-    customer_credit_creator.save(order)
+    credit_writer.save_order(order)
     create_payment(order, amount, decoded_params)
     order.complete!
     customer_order_creator.save(order, "card", "redsys")

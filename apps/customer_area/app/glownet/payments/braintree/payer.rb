@@ -6,10 +6,10 @@ class Payments::Braintree::Payer
     @params = params
   end
 
-  def start(customer_order_creator, customer_credit_creator)
+  def start(customer_order_creator, credit_writer)
     charge_object = charge
     return charge_object unless charge_object.success?
-    notify_payment(charge_object, customer_order_creator, customer_credit_creator)
+    notify_payment(charge_object, customer_order_creator, credit_writer)
     charge_object
   end
 
@@ -43,10 +43,10 @@ class Payments::Braintree::Payer
     }
   end
 
-  def notify_payment(charge, customer_order_creator, customer_credit_creator)
+  def notify_payment(charge, customer_order_creator, credit_writer)
     transaction = charge.transaction
     return unless transaction.status == "submitted_for_settlement"
-    customer_credit_creator.save_order(@order)
+    credit_writer.save_order(@order)
     create_payment(@order, charge)
     customer_order_creator.save(@order, "card", "braintree")
     @order.complete!
