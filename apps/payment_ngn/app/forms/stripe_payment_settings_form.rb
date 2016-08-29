@@ -25,16 +25,13 @@ class StripePaymentSettingsForm < BaseSettingsForm
   validates_presence_of :application_fee
 
   def save(params, request)
-    if valid?
-      manager = AccountManager::Stripe.new
-      p = params[:stripe_payment_settings_form]
-      self.document = manager.upload_document(p[:document], p[:stripe_account_id], p[:account_secret_key]) if p[:document]
-      manager.update_parameters(attributes, request)
-      persist!
-      true
-    else
-      false
-    end
+    return unless valid?
+
+    manager = AccountManager::Stripe.new
+    p = params[:stripe_payment_settings_form]
+    self.document = manager.upload_document(p[:document], p[:stripe_account_id], p[:account_secret_key]) if p[:document]
+    manager.update_parameters(attributes, request)
+    persist!
   end
 
   def main_parameters
