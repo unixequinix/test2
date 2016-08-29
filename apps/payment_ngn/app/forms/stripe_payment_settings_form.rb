@@ -17,7 +17,7 @@ class StripePaymentSettingsForm < BaseSettingsForm
   attribute :stripe_account_id, String
   attribute :account_secret_key, String
   attribute :account_publishable_key, String
-
+  attribute :document, String
 
   validates_presence_of :email
   validates_presence_of :currency
@@ -26,12 +26,19 @@ class StripePaymentSettingsForm < BaseSettingsForm
 
   def save(params, request)
     if valid?
-      AccountManager::Stripe.new.update_parameters(attributes, request)
+      manager = AccountManager::Stripe.new
+      p = params[:stripe_payment_settings_form]
+      self.document = manager.upload_document(p[:document], p[:stripe_account_id], p[:account_secret_key]) if p[:document]
+      manager.update_parameters(attributes, request)
       persist!
       true
     else
       false
     end
+  end
+
+  def main_parameters
+    attributes.keys.reject { |value| value == :event_id || value == :document}
   end
 
   private
