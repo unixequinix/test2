@@ -97,7 +97,7 @@ class AccountManager::Stripe
 
   def persist!(new_params, event_id)
     Parameter.where(category: "payment", group: "stripe", name: new_params.keys).each do |parameter|
-      next if new_params[parameter.name.to_sym].nil?
+      next unless new_params[parameter.name.to_sym]
       ep = EventParameter.find_or_create_by(event_id: event_id, parameter_id: parameter.id)
       ep.value = new_params[parameter.name.to_sym]
       ep.save!

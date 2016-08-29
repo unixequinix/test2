@@ -62,8 +62,9 @@ class StripePaymentSettingsForm < BaseSettingsForm
 
   def persist!
     Parameter.where(category: "payment", group: "stripe").each do |parameter|
+      next unless attributes[parameter.name.to_sym]
       ep = EventParameter.find_or_create_by(event_id: event_id, parameter_id: parameter.id)
-      value = attributes[parameter.name.to_sym] || Parameter::DATA_TYPES[parameter.data_type][:default]
+      value = attributes[parameter.name.to_sym]
       ep.update(value: value)
     end
   end
