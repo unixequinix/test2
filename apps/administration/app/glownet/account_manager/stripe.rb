@@ -17,13 +17,27 @@ class AccountManager::Stripe
     Stripe::FileUpload.create(file, {:stripe_account => stripe_account})[:id]
   end
 
+  def update_bank_account(params)
+    Stripe.api_key = params[:account_secret_key]
+
+    @account = Stripe::Account.retrieve(params[:stripe_account_id])
+
+    if @account.external_accounts.empty?
+      external_account = {object: "bank_account", account_number: params[:bank_account], country: params[:country], currency: params[:currency]}
+      @account.external_accounts.create(external_account: external_account)
+    else
+      b_account = @account.external_accounts.first
+      b_account.metadata["account_number"]  = params[:bank_account]
+      b_account.metadata["country"]  = params[:country]
+      b_account.metadata["currency"]  = params[:currency]
+      b_account.save
+    end
+  end
+
   def update_parameters(params, request)
     Stripe.api_key = params[:account_secret_key]
 
     @account = Stripe::Account.retrieve(params[:stripe_account_id])
-    if @account.external_accounts.empty?
-      @account.external_accounts.create(external_account: {object: "bank_account", account_number: params[:bank_account], country: params[:country], currency: params[:currency]})
-    end
     @account.legal_entity.verification.document = params[:document] if params[:document]
     @account.legal_entity.first_name = params[:legal_first_name]
     @account.legal_entity.last_name = params[:legal_last_name]
