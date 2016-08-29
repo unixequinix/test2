@@ -20,7 +20,9 @@ class AccountManager::Stripe
     @account.legal_entity.dob.month = params[:legal_dob].to_date.month
     @account.legal_entity.dob.year = params[:legal_dob].to_date.year
     @account.legal_entity.type = params[:legal_type]
-
+    @account.legal_entity.address.city = params[:city]
+    @account.legal_entity.address.line1 = params[:line1]
+    @account.legal_entity.address.postal_code = params[:postal_code]
     @account.tos_acceptance = @account.tos_acceptance
     @account.tos_acceptance.ip = request.remote_ip
     @account.tos_acceptance.date = Time.zone.now.to_i

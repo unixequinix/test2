@@ -7,6 +7,9 @@ class StripePaymentSettingsForm < BaseSettingsForm
   attribute :legal_last_name, String
   attribute :legal_dob, DateTime
   attribute :legal_type, String
+  attribute :city, String
+  attribute :line1, String
+  attribute :postal_code, String
   attribute :tos_acceptance_date, String
   attribute :tos_acceptance_ip, String
   attribute :event_id, Integer
@@ -14,6 +17,7 @@ class StripePaymentSettingsForm < BaseSettingsForm
   attribute :stripe_account_id, String
   attribute :account_secret_key, String
   attribute :account_publishable_key, String
+
 
   validates_presence_of :email
   validates_presence_of :currency
