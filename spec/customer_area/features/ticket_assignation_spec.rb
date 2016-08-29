@@ -115,7 +115,6 @@ RSpec.feature "Ticket Assignation", type: :feature do
       context "when ticket assignation is enabled" do
         it "is unavailable" do
           expect(page.body).not_to include("Add ticket")
-          binding.pry
         end
       end
 
