@@ -29,8 +29,29 @@ class StripePaymentSettingsForm < BaseSettingsForm
 
     manager = AccountManager::Stripe.new
     p = params[:stripe_payment_settings_form]
-    self.document = manager.upload_document(p[:document], p[:stripe_account_id], p[:account_secret_key]) if p[:document]
-    manager.update_parameters(attributes, request)
+
+    begin
+      self.document = manager.upload_document(p[:document], p[:stripe_account_id], p[:account_secret_key]) if p[:document]
+      manager.update_parameters(attributes, request)
+    rescue Stripe::CardError => e
+      err = e.json_body[:error]
+      errors.add(:stripe, ": #{err[:message]}") && return
+    rescue Stripe::InvalidRequestError => e
+      err = e.json_body[:error]
+      errors.add(:stripe, ": #{err[:message]}") && return
+    rescue Stripe::AuthenticationError => e
+      err = e.json_body[:error]
+      errors.add(:stripe, ": #{err[:message]}") && return
+    rescue Stripe::APIConnectionError => e
+      err = e.json_body[:error]
+      errors.add(:stripe, ": #{err[:message]}") && return
+    rescue Stripe::StripeError => e
+      err = e.json_body[:error]
+      errors.add(:stripe, ": #{err[:message]}") && return
+    rescue => e
+      errors.add(:stripe, ": #{e}")
+    end
+
     persist!
   end
 

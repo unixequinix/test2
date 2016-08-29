@@ -55,7 +55,7 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
       @event.save
       redirect_to admins_event_payment_settings_url(@event), notice: I18n.t("alerts.updated")
     else
-      flash[:error] = I18n.t("alerts.error")
+      flash.now[:alert] = @payment_settings_form.errors.full_messages.to_sentence
       render :edit
     end
   end
