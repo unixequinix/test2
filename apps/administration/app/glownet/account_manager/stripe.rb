@@ -34,6 +34,26 @@ class AccountManager::Stripe
     @account.legal_entity.address.city = params[:city]
     @account.legal_entity.address.line1 = params[:line1]
     @account.legal_entity.address.postal_code = params[:postal_code]
+    @account.legal_entity.additional_owners = [{
+      first_name: params[:additional_owner_first_name],
+      last_name: params[:additional_owner_last_name],
+      dob: {
+        day: params[:additional_owner_dob].to_date.day,
+        month: params[:additional_owner_dob].to_date.month,
+        year: params[:additional_owner_dob].to_date.year
+      },
+      address: {
+        city: params[:additional_owner_address_city],
+        line1: params[:additional_owner_address_line1],
+        postal_code: params[:additional_owner_address_postal_code]
+      }
+    }]
+    @account.legal_entity.additional_owners[0][:verification] = { document: params[:additional_owner_document] } if params[:additional_owner_document]
+    @account.legal_entity.business_name = params[:business_name]
+    @account.legal_entity.business_tax_id = params[:business_tax_id]
+    @account.legal_entity.personal_address.city = params[:city]
+    @account.legal_entity.personal_address.line1 = params[:line1]
+    @account.legal_entity.personal_address.postal_code = params[:postal_code]
     @account.tos_acceptance = @account.tos_acceptance
     @account.tos_acceptance.ip = request.remote_ip
     @account.tos_acceptance.date = Time.zone.now.to_i

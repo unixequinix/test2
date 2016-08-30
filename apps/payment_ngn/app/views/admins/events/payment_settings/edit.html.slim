@@ -11,4 +11,9 @@
         = fa_icon "file"
         = t("admin.event.fieldests.document")
       = f.file_field :document
+    fieldset
+      h3.section-header
+        = fa_icon "file"
+        = t("admin.event.fieldests.additional_owner_document")
+      = f.file_field :additional_owner_document
   = render "form", event: @event, f: f
