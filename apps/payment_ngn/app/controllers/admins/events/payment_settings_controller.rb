@@ -42,8 +42,7 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
                                .select("parameters.name, event_parameters.value")
                                .as_json
     total = event_parameters.reduce({}) { |a, e| a.merge(e["name"] => e["value"]) }
-    @payment_settings_form = "#{@payment_service.camelize}PaymentSettingsForm"
-                             .constantize.new(total)
+    @payment_settings_form = "#{@payment_service.camelize}PaymentSettingsForm".constantize.new(total)
   end
 
   def update
@@ -56,7 +55,7 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
       @event.save
       redirect_to admins_event_payment_settings_url(@event), notice: I18n.t("alerts.updated")
     else
-      flash[:error] = I18n.t("alerts.error")
+      flash.now[:alert] = @payment_settings_form.errors.full_messages.to_sentence
       render :edit
     end
   end
