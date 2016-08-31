@@ -6,9 +6,7 @@ header.header-desktop
   nav.header-nav
     ul
       - if customer_signed_in?
-        li
-          = link_to event_url(current_event), class: "btn-desktop-profile" do
-            = fa_icon "home"
-        li
-          = link_to edit_event_registrations_path(current_event, current_customer), class: "btn-desktop-profile" do
-            = fa_icon "user"
+        li = link_to fa_icon("home"), event_url(current_event), class: "btn-desktop-profile"
+        li = link_to fa_icon("user"), event_account_path(current_event), class: "btn-desktop-profile"
+        li = link_to(fa_icon("unlock-alt"), event_change_password_path(current_event), class: "btn-desktop-profile")
+        li = link_to fa_icon("sign-out"), event_logout_path(current_event), method: :delete, class: "btn-desktop-profile", data: { confirm: (t("confirm.log_out")) }      

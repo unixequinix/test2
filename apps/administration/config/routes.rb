@@ -1,9 +1,8 @@
-require "admin_constraints"
 require "sidekiq/web"
 
 Rails.application.routes.draw do
-  ## Resources
-  ## ------------------------------
+  devise_for :admin
+
   namespace :admins do
     resources :locale do
       member do
@@ -148,9 +147,7 @@ Rails.application.routes.draw do
         end
       end
     end
-    constraints AdminConstraints.new(scope: :admin) do
-      mount Sidekiq::Web, at: "/sidekiq"
-    end
+    mount Sidekiq::Web, at: "/sidekiq"
   end
 
   get "admins", to: "admins/events#index", as: :admin_root

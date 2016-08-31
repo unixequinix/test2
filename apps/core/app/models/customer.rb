@@ -34,7 +34,8 @@
 #
 
 class Customer < ActiveRecord::Base
-  include Trackable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,
+         authentication_keys: [:email, :event_id], reset_password_keys: [:email, :event_id]
   acts_as_paranoid
   default_scope { order("email") }
 
@@ -68,39 +69,9 @@ class Customer < ActiveRecord::Base
 
   # Methods
   # -------------------------------------------------------
-  def refund_status
-    return "no_credentials_assigned" unless profile
-    if profile.refundable_money.zero? || !profile.valid_balance?
-      "not_eligible"
-    elsif profile.completed_claim
-      "completed"
-    else
-      "not_performed"
-    end
-  end
-
-  def init_password_token!
-    generate_token(:reset_password_token)
-    self.reset_password_sent_at = Time.zone.now.utc
-    save
-  end
-
-  def init_remember_token!
-    generate_token(:remember_token)
-    self.remember_created_at = Time.zone.now.utc
-    save
-  end
-
-  def remember_me_token_expires_at(expiration_time)
-    remember_created_at + expiration_time
-  end
 
   def self.gender_selector
     GENDERS.map { |f| [I18n.t("gender." + f), f] }
-  end
-
-  def self.find_for_authentication(warden_conditions)
-    where(email: warden_conditions[:email], event_id: warden_conditions[:event_id]).first
   end
 
   def autotopup_amounts(payment_gateway)

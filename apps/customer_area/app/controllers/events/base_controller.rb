@@ -2,45 +2,16 @@ class Events::BaseController < ApplicationController
   layout "customer"
   protect_from_forgery
   before_action :fetch_current_event
-  before_action :ensure_customer
+  before_action :authenticate_customer!
   before_action :write_locale_to_session
   before_filter :set_i18n_globals
   helper_method :current_event
-  before_action :authenticate_customer!
-  helper_method :warden, :customer_signed_in?, :current_customer
+  helper_method :current_profile
 
-  def warden
-    request.env["warden"]
-  end
-
-  def authenticate_customer!
-    logout_customer! if customer_signed_in? && current_customer&.event != current_event
-    warden.authenticate!(scope: :customer)
-  end
-
-  def logout_customer!
-    warden.logout(:customer)
-  end
-
-  def ensure_customer
-    return if customer_signed_in?
-    logout_customer!
-    false
-  end
-
-  def customer_signed_in?
-    !current_customer.nil?
-  end
-
-  def current_customer
-    return nil if warden.user(:customer).nil?
-    Customer.find_by(id: warden.user(:customer)["id"])
-  end
 
   def current_profile
     current_customer.profile || Profile.new(customer: current_customer, event: current_event)
   end
-  helper_method :current_profile
 
   def prepare_for_mobile
     prepend_view_path Rails.root + "apps" + "customer_area" + "app" + "views_mobile"
@@ -70,5 +41,11 @@ class Events::BaseController < ApplicationController
 
   def check_authorization_flag!
     redirect_to event_info_url(current_event) unless current_event.authorization?
+  end
+
+  def authenticate_customer!
+    redirect_to(event_login_path(current_event)) && return unless customer_signed_in?
+    redirect_to(customer_root_path(current_customer.event)) && return unless current_customer.event == current_event
+    super
   end
 end

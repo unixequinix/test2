@@ -31,8 +31,7 @@ gem 'aws-sdk', '~> 2'
 gem 'best_in_place', '~> 3.0.1'
 
 # Authentication
-gem 'bcrypt', '~> 3.1.10'
-gem 'warden', '~> 1.2.3'
+gem 'devise'
 gem 'recaptcha', require: 'recaptcha/rails'
 
 # Design
