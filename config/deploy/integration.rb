@@ -1,4 +1,4 @@
-set :branch, "gtag_activation"
+set :branch, "gtag_activations"
 set :rails_env, "integration"
 
 # Default value for :log_level is :debug
