@@ -8,6 +8,16 @@
     = t('admin.actions.search')
 
 .wrapper-negative-space
+  - if @counts
+    .wrapper-negative-space
+      .container-transactions
+        h3.dashboard-table-header = t("admin.dashboard.payments")
+        .wrapper-dashboard-reverse
+          - @counts.each do |type, amount|
+            .wrapper-transactions
+              h2 = number_to_currency(amount.to_f, symbol: current_event.currency)
+              span = type.humanize
+
   - if @list_model_presenter.there_any?
     = render 'admins/events/payments/list',
       payments: @list_model_presenter.all_items
