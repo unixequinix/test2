@@ -345,7 +345,8 @@ en:
     welcome: 'Welcome!'
     create_account:
       title: "Don't have an account?"
-      link: 'Create an account!'
+      link: 'Create an account'
+      lost_password: 'Lost password?'
     log_in:
       title: 'Already have an account?'
       link: 'Log in here'

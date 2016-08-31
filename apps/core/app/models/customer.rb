@@ -34,9 +34,9 @@
 #
 
 class Customer < ActiveRecord::Base
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,
-         authentication_keys: [:email, :event_id], reset_password_keys: [:email, :event_id]
   acts_as_paranoid
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :omniauthable,
+         authentication_keys: [:email, :event_id], reset_password_keys: [:email, :event_id], :omniauth_providers => [:facebook, :twitter]
   default_scope { order("email") }
 
   # Genders
@@ -52,7 +52,7 @@ class Customer < ActiveRecord::Base
 
   # Validations
   validates_format_of :email, with: RFC822::EMAIL
-  validates :email, :first_name, :last_name, :encrypted_password, presence: true
+  validates :email, :first_name, :encrypted_password, presence: true
   validates :agreed_on_registration, acceptance: { accept: true }
 
   validates_uniqueness_of :email, scope: [:event_id], conditions: -> { where(deleted_at: nil) }
@@ -70,6 +70,19 @@ class Customer < ActiveRecord::Base
   # Methods
   # -------------------------------------------------------
 
+  def self.from_omniauth(auth, event)
+    where(provider: auth.provider, uid: auth.uid, event: event).first_or_create do |user|
+      token = Devise.friendly_token[0, 20]
+      user.provider = auth.provider
+      user.uid = auth.uid
+      user.email = auth.info.email
+      user.first_name = auth.info.name
+      user.password = token
+      user.password_confirmation = token
+      user.agreed_on_registration = true
+    end
+  end
+
   def self.gender_selector
     GENDERS.map { |f| [I18n.t("gender." + f), f] }
   end
@@ -81,6 +94,14 @@ class Customer < ActiveRecord::Base
 
   def current_autotopup_amount(payment_gateway)
     payment_gateway.autotopup_amount
+  end
+
+  def email_required?
+    false
+  end
+
+  def email_changed?
+    false
   end
 
   private

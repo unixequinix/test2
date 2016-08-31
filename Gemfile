@@ -31,8 +31,11 @@ gem 'aws-sdk', '~> 2'
 gem 'best_in_place', '~> 3.0.1'
 
 # Authentication
-gem 'devise'
-gem 'recaptcha', require: 'recaptcha/rails'
+gem 'devise', '~> 4.2'
+gem 'omniauth', '~> 1.3', '>= 1.3.1'
+gem 'omniauth-facebook', '~> 4.0'
+gem 'omniauth-twitter', '~> 1.2', '>= 1.2.1'
+gem 'omniauth-google'
 
 # Design
 gem 'bourbon', '~> 4.2.2'

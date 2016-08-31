@@ -1,0 +1,13 @@
+- breadcrumb :admins_admin, @admin_form
+- provide :actions do
+  = link_to admins_admins_path, class: "btn btn-action btn-action-back small" do
+    = fa_icon 'arrow-circle-left'
+    = t('actions.back')
+
+= simple_form_for [:admins, @admin_form] do |f|
+  .wrapper-negative-space
+    = f.input :email, placeholder: true, required: true
+    = f.input :current_password, autocomplete: "off", required: true
+    = f.input :password, autocomplete: "off"
+    = f.input :password_confirmation, autocomplete: "off"
+    = f.button :submit, class: "btn btn-primary"

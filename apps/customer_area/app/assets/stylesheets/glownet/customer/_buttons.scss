@@ -31,6 +31,47 @@
   }
 }
 
+.social-btn {
+  color: $white!important;
+  text-decoration: none!important;
+  padding: .6rem 0!important;
+  text-align: center;
+  width: 32%;
+  font-weight: bold;
+  border-radius: 3px;
+  transition: all .3s;
+  display: block;
+  width: 100%;
+  margin-bottom: 1.2rem;
+
+
+  i {
+    margin-right: .6rem;
+  }
+
+  &--twitter {
+    background: $twitter;
+
+    &:hover {
+      background: lighten($twitter, 12%)
+    }
+  }
+  &--facebook {
+    background: $facebook;
+
+    &:hover {
+      background: lighten($facebook, 12%)
+    }
+  }
+  &--google {
+    background: $google;
+
+    &:hover {
+      background: lighten($google, 12%)
+    }
+  }
+}
+
 .btn-action-enter {
   @include transition(opacity 200ms ease-in-out);
   display: block;

@@ -4,13 +4,19 @@
       = raw current_event.info if current_event.info
       = raw current_event.disclaimer if current_event.disclaimer
 
-.container-event-column
-  .wrapper-session.login-form
-    h3.center-text = t('sessions.welcome')
-    .wrapper-redirect-sessions.center-text
-      p = t('sessions.create_account.title')
-      = link_to t('sessions.create_account.link'), event_register_path(current_event)
-
+.container-event-login
+  .social-login
+      = link_to customer_twitter_omniauth_authorize_path(event: current_event.slug), class: "social-btn social-btn--twitter" do
+        = fa_icon "twitter"
+        = "Sign in"
+      = link_to customer_facebook_omniauth_authorize_path(event: current_event.slug), class: "social-btn social-btn--facebook" do
+        = fa_icon "facebook"
+        = "Sign in"
+      = link_to customer_facebook_omniauth_authorize_path(event: current_event.slug), class: "social-btn social-btn--google" do
+        = fa_icon "google"
+        = "Sign in"
+  .traditional-login
+    //h3.center-text = t('sessions.welcome')
     = simple_form_for resource, url: event_login_path(current_event), method: :post do |f|
       = f.input :event_id, as: :hidden, input_html: { value: current_event.id, class: 'session-input' }
       .wrapper-session-login
@@ -19,8 +25,8 @@
       .wrapper-session-login
         = f.input :password, placeholder: t("sessions.placeholder.password"), input_html: { class: 'session-input' }
         = fa_icon "key"
-      .session-form
-        = f.input :remember_me, as: :boolean, input_html: { class: 'session-remember-me' }
       = f.button :submit, t('links.buttons.sign_in'), class: "btn btn-action-enter"
-    .sessions-shared-login
-      = render "events/shared/links"
+    .wrapper-redirect-sessions.center-text
+      = link_to t('sessions.create_account.lost_password'), event_recover_password_path(current_event)
+      | |
+      = link_to t('sessions.create_account.link'), event_register_path(current_event)

@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
+  devise_for :customers, skip: [:session, :password, :registration, :confirmation], controllers: { omniauth_callbacks: 'events/omniauth_callbacks' }
+
   scope module: "events" do
     resources :events, only: [:show], path: "/" do
-      devise_for :customers
+      devise_for :customers, skip: :omniauth_callbacks
       devise_scope :customer do
         get "/login", to: "sessions#new"
         post "/login", to: "sessions#create"
