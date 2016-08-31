@@ -32,6 +32,7 @@ en:
       transaction_type: "Type"
       customer_tag_uid: "Customer"
       operator_tag_uid: "Operator"
+      activation: "Activation"
       gtag_counter: "Gtag Counter"
       counter: "Counter"
       counters: "Counters"

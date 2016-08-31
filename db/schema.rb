@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160830162540) do
+ActiveRecord::Schema.define(version: 20160831143049) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20160830162540) do
     t.datetime "updated_at"
     t.integer  "gtag_counter",       default: 0
     t.integer  "counter",            default: 0
+    t.integer  "activation_counter"
   end
 
   add_index "access_transactions", ["access_id"], name: "index_access_transactions_on_access_id", using: :btree
@@ -99,6 +100,7 @@ ActiveRecord::Schema.define(version: 20160830162540) do
     t.datetime "updated_at",                     null: false
     t.integer  "gtag_counter",       default: 0
     t.integer  "counter",            default: 0
+    t.integer  "activation_counter"
   end
 
   add_index "ban_transactions", ["event_id"], name: "index_ban_transactions_on_event_id", using: :btree
@@ -231,6 +233,7 @@ ActiveRecord::Schema.define(version: 20160830162540) do
     t.datetime "updated_at"
     t.integer  "gtag_counter",         default: 0
     t.integer  "counter",              default: 0
+    t.integer  "activation_counter"
   end
 
   add_index "credential_transactions", ["event_id", "device_uid", "device_db_index", "device_created_at"], name: "credential_transaction_uniqueness_on_device", unique: true, using: :btree
@@ -272,6 +275,7 @@ ActiveRecord::Schema.define(version: 20160830162540) do
     t.datetime "updated_at"
     t.integer  "gtag_counter",             default: 0
     t.integer  "counter",                  default: 0
+    t.integer  "activation_counter"
   end
 
   add_index "credit_transactions", ["event_id", "device_uid", "device_db_index", "device_created_at"], name: "credit_transaction_uniqueness_on_device", unique: true, using: :btree
@@ -538,6 +542,7 @@ ActiveRecord::Schema.define(version: 20160830162540) do
     t.datetime "updated_at"
     t.integer  "gtag_counter",         default: 0
     t.integer  "counter",              default: 0
+    t.integer  "activation_counter"
   end
 
   add_index "money_transactions", ["event_id", "device_uid", "device_db_index", "device_created_at"], name: "money_transaction_uniqueness_on_device", unique: true, using: :btree
@@ -589,6 +594,7 @@ ActiveRecord::Schema.define(version: 20160830162540) do
     t.datetime "updated_at"
     t.integer  "gtag_counter",         default: 0
     t.integer  "counter",              default: 0
+    t.integer  "activation_counter"
   end
 
   add_index "order_transactions", ["customer_order_id"], name: "index_order_transactions_on_customer_order_id", using: :btree
