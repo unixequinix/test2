@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160810134551) do
+ActiveRecord::Schema.define(version: 20160830162540) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -501,15 +501,14 @@ ActiveRecord::Schema.define(version: 20160810134551) do
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
   create_table "gtags", force: :cascade do |t|
-    t.integer  "event_id",                                     null: false
-    t.integer  "company_ticket_type_id"
-    t.string   "tag_uid",                                      null: false
-    t.boolean  "credential_redeemed",    default: false,       null: false
+    t.integer  "event_id",                                 null: false
+    t.string   "tag_uid",                                  null: false
     t.datetime "deleted_at"
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
-    t.boolean  "banned",                 default: false
-    t.string   "format",                 default: "wristband"
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.boolean  "banned",             default: false
+    t.string   "format",             default: "wristband"
+    t.integer  "activation_counter"
   end
 
   add_index "gtags", ["deleted_at", "tag_uid", "event_id"], name: "index_gtags_on_deleted_at_and_tag_uid_and_event_id", unique: true, using: :btree
@@ -765,7 +764,6 @@ ActiveRecord::Schema.define(version: 20160810134551) do
     t.string   "station_parametable_type", null: false
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
-    t.datetime "deleted_at"
   end
 
   create_table "station_products", force: :cascade do |t|
