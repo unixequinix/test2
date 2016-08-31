@@ -3,7 +3,6 @@
     = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
     = f.input :tag_uid, placeholder: true
     = f.input :format, as: :select, collection: Gtag::FORMATS, include_blank: false
-    = f.input :company_ticket_type_id, as: :select, collection: CompanyTicketType.form_selector(current_event), include_blank: true, placeholder: true
     = f.input :credential_redeemed, as: :radio_buttons, placeholder: true
     = f.input :banned, as: :radio_buttons, placeholder: true
     = f.simple_fields_for :purchaser do |purchaser|
