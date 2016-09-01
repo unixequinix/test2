@@ -24,8 +24,7 @@ class Admins::EventsController < Admins::BaseController
   def create
     event_creator = EventCreator.new(permitted_params)
     if event_creator.save
-      flash[:notice] = I18n.t("events.create.notice")
-      redirect_to admins_event_url(event_creator.event)
+      redirect_to admins_event_url(event_creator.event), notice: I18n.t("events.create.notice")
     else
       ## TODO HANDLE ERROR
       flash[:error] = I18n.t("events.create.error")
@@ -39,11 +38,8 @@ class Admins::EventsController < Admins::BaseController
   end
 
   def update
-    if @current_event.update_attributes(permitted_params)
-      flash[:notice] = I18n.t("alerts.updated")
-      @current_event.slug = nil
-      @current_event.save!
-      redirect_to admins_event_url(@current_event)
+    if @current_event.update_attributes(permitted_params.merge(slug: nil))
+      redirect_to admins_event_url(@current_event), notice: I18n.t("alerts.updated")
     else
       flash[:error] = I18n.t("alerts.error")
       render :edit
@@ -77,6 +73,6 @@ class Admins::EventsController < Admins::BaseController
                   :registration_parameters, :token_symbol, :agreed_event_condition_message,
                   :ticket_assignation, :company_name, :agreement_acceptance,
                   :receive_communications_message, :address, :registration_num, :official_name,
-                  :official_address)
+                  :official_address, :eventbrite_client_key, :eventbrite_event)
   end
 end

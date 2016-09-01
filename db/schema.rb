@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160825175952) do
+ActiveRecord::Schema.define(version: 20160901144111) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20160825175952) do
   create_table "access_control_gates", force: :cascade do |t|
     t.integer  "access_id",  null: false
     t.string   "direction",  null: false
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -53,19 +54,31 @@ ActiveRecord::Schema.define(version: 20160825175952) do
   add_index "access_transactions", ["station_id"], name: "index_access_transactions_on_station_id", using: :btree
 
   create_table "accesses", force: :cascade do |t|
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_index "accesses", ["deleted_at"], name: "index_accesses_on_deleted_at", using: :btree
+
   create_table "admins", force: :cascade do |t|
-    t.string   "email",               default: "", null: false
-    t.string   "encrypted_password",  default: "", null: false
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "access_token",                        null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet     "current_sign_in_ip"
+    t.inet     "last_sign_in_ip"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
+  add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
   create_table "ban_transactions", force: :cascade do |t|
     t.integer  "event_id"
@@ -112,10 +125,12 @@ ActiveRecord::Schema.define(version: 20160825175952) do
     t.integer  "step"
     t.integer  "max_purchasable"
     t.integer  "min_purchasable"
+    t.datetime "deleted_at"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end
 
+  add_index "catalog_items", ["deleted_at"], name: "index_catalog_items_on_deleted_at", using: :btree
   add_index "catalog_items", ["event_id"], name: "index_catalog_items_on_event_id", using: :btree
 
   create_table "claim_parameters", force: :cascade do |t|
@@ -136,10 +151,12 @@ ActiveRecord::Schema.define(version: 20160825175952) do
     t.decimal  "fee",          precision: 8, scale: 2, default: 0.0
     t.decimal  "minimum",      precision: 8, scale: 2, default: 0.0
     t.datetime "completed_at"
+    t.datetime "deleted_at"
     t.datetime "created_at",                                         null: false
     t.datetime "updated_at",                                         null: false
   end
 
+  add_index "claims", ["deleted_at"], name: "index_claims_on_deleted_at", using: :btree
   add_index "claims", ["number"], name: "index_claims_on_number", unique: true, using: :btree
 
   create_table "comments", force: :cascade do |t|
@@ -154,17 +171,23 @@ ActiveRecord::Schema.define(version: 20160825175952) do
   create_table "companies", force: :cascade do |t|
     t.string   "name",         null: false
     t.string   "access_token"
+    t.datetime "deleted_at"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
+
+  add_index "companies", ["deleted_at"], name: "index_companies_on_deleted_at", using: :btree
 
   create_table "company_event_agreements", force: :cascade do |t|
     t.integer  "company_id", null: false
     t.integer  "event_id",   null: false
     t.string   "aasm_state"
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "company_event_agreements", ["deleted_at"], name: "index_company_event_agreements_on_deleted_at", using: :btree
 
   create_table "company_ticket_types", force: :cascade do |t|
     t.integer  "event_id",                   null: false
@@ -172,15 +195,20 @@ ActiveRecord::Schema.define(version: 20160825175952) do
     t.integer  "credential_type_id"
     t.string   "name"
     t.string   "company_code"
+    t.datetime "deleted_at"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
   end
+
+  add_index "company_ticket_types", ["company_code", "company_event_agreement_id", "deleted_at"], name: "index_ticket_types_on_company_code_and_agreement_and_deleted_at", unique: true, using: :btree
+  add_index "company_ticket_types", ["deleted_at"], name: "index_company_ticket_types_on_deleted_at", using: :btree
 
   create_table "credential_assignments", force: :cascade do |t|
     t.integer  "profile_id"
     t.integer  "credentiable_id",   null: false
     t.string   "credentiable_type", null: false
     t.string   "aasm_state"
+    t.datetime "deleted_at"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
   end
@@ -217,9 +245,12 @@ ActiveRecord::Schema.define(version: 20160825175952) do
   create_table "credential_types", force: :cascade do |t|
     t.integer  "catalog_item_id", null: false
     t.integer  "memory_position", null: false
+    t.datetime "deleted_at"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
+
+  add_index "credential_types", ["deleted_at"], name: "index_credential_types_on_deleted_at", using: :btree
 
   create_table "credit_transactions", force: :cascade do |t|
     t.integer  "event_id"
@@ -256,18 +287,79 @@ ActiveRecord::Schema.define(version: 20160825175952) do
     t.boolean  "standard",                           default: false, null: false
     t.decimal  "value",      precision: 8, scale: 2, default: 1.0,   null: false
     t.string   "currency"
+    t.datetime "deleted_at"
     t.datetime "created_at",                                         null: false
     t.datetime "updated_at",                                         null: false
   end
+
+  add_index "credits", ["deleted_at"], name: "index_credits_on_deleted_at", using: :btree
+
+  create_table "customer_credits", force: :cascade do |t|
+    t.integer  "profile_id",                                                     null: false
+    t.string   "transaction_origin",                                             null: false
+    t.string   "payment_method",                                                 null: false
+    t.decimal  "amount",                   precision: 8, scale: 2, default: 0.0, null: false
+    t.decimal  "refundable_amount",        precision: 8, scale: 2, default: 0.0, null: false
+    t.decimal  "final_balance",            precision: 8, scale: 2, default: 0.0, null: false
+    t.decimal  "final_refundable_balance", precision: 8, scale: 2, default: 0.0, null: false
+    t.decimal  "credit_value",             precision: 8, scale: 2, default: 1.0, null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at",                                                     null: false
+    t.datetime "updated_at",                                                     null: false
+    t.datetime "created_in_origin_at"
+    t.integer  "gtag_counter"
+    t.integer  "online_counter",                                   default: 0
+  end
+
+  add_index "customer_credits", ["deleted_at"], name: "index_customer_credits_on_deleted_at", using: :btree
 
   create_table "customer_orders", force: :cascade do |t|
     t.integer  "profile_id",      null: false
     t.integer  "catalog_item_id", null: false
     t.string   "origin"
     t.integer  "amount"
+    t.datetime "deleted_at"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
+
+  add_index "customer_orders", ["deleted_at"], name: "index_customer_orders_on_deleted_at", using: :btree
+
+  create_table "customers", force: :cascade do |t|
+    t.integer  "event_id",                               null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "first_name",             default: "",    null: false
+    t.string   "last_name",              default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
+    t.string   "reset_password_token"
+    t.string   "phone"
+    t.string   "postcode"
+    t.string   "address"
+    t.string   "city"
+    t.string   "country"
+    t.string   "gender"
+    t.string   "remember_token"
+    t.integer  "sign_in_count",          default: 0,     null: false
+    t.boolean  "agreed_on_registration", default: false
+    t.boolean  "agreed_event_condition", default: false
+    t.inet     "last_sign_in_ip"
+    t.inet     "current_sign_in_ip"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.datetime "birthdate"
+    t.datetime "deleted_at"
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.boolean  "receive_communications", default: false
+    t.string   "locale",                 default: "en"
+  end
+
+  add_index "customers", ["deleted_at", "email", "event_id"], name: "index_customers_on_deleted_at_and_email_and_event_id", unique: true, using: :btree
+  add_index "customers", ["deleted_at"], name: "index_customers_on_deleted_at", using: :btree
+  add_index "customers", ["remember_token"], name: "index_customers_on_remember_token", unique: true, using: :btree
+  add_index "customers", ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true, using: :btree
 
   create_table "device_transactions", force: :cascade do |t|
     t.integer  "event_id"
@@ -310,11 +402,14 @@ ActiveRecord::Schema.define(version: 20160825175952) do
     t.string   "entitlementable_type",                     null: false
     t.integer  "event_id",                                 null: false
     t.integer  "memory_position",                          null: false
+    t.datetime "deleted_at"
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
     t.integer  "memory_length",        default: 1
     t.string   "mode",                 default: "counter"
   end
+
+  add_index "entitlements", ["deleted_at"], name: "index_entitlements_on_deleted_at", using: :btree
 
   create_table "event_parameters", force: :cascade do |t|
     t.string   "value",        default: "", null: false
@@ -391,6 +486,10 @@ ActiveRecord::Schema.define(version: 20160825175952) do
     t.string   "official_address"
     t.string   "registration_num"
     t.string   "official_name"
+    t.string   "eventbrite_token"
+    t.string   "eventbrite_event"
+    t.string   "eventbrite_client_key"
+    t.string   "eventbrite_client_secret"
   end
 
   add_index "events", ["slug"], name: "index_events_on_slug", unique: true, using: :btree
@@ -410,15 +509,18 @@ ActiveRecord::Schema.define(version: 20160825175952) do
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
   create_table "gtags", force: :cascade do |t|
-    t.integer  "event_id",                                     null: false
-    t.integer  "company_ticket_type_id"
-    t.string   "tag_uid",                                      null: false
-    t.boolean  "credential_redeemed",    default: false,       null: false
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
-    t.boolean  "banned",                 default: false
-    t.string   "format",                 default: "wristband"
+    t.integer  "event_id",                                 null: false
+    t.string   "tag_uid",                                  null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.boolean  "banned",             default: false
+    t.string   "format",             default: "wristband"
+    t.integer  "activation_counter"
   end
+
+  add_index "gtags", ["deleted_at", "tag_uid", "event_id"], name: "index_gtags_on_deleted_at_and_tag_uid_and_event_id", unique: true, using: :btree
+  add_index "gtags", ["deleted_at"], name: "index_gtags_on_deleted_at", using: :btree
 
   create_table "money_transactions", force: :cascade do |t|
     t.integer  "event_id"
@@ -456,18 +558,24 @@ ActiveRecord::Schema.define(version: 20160825175952) do
     t.integer  "customer_order_id", null: false
     t.integer  "counter"
     t.boolean  "redeemed"
+    t.datetime "deleted_at"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
   end
+
+  add_index "online_orders", ["deleted_at"], name: "index_online_orders_on_deleted_at", using: :btree
 
   create_table "order_items", force: :cascade do |t|
     t.integer  "order_id",                                null: false
     t.integer  "catalog_item_id",                         null: false
     t.integer  "amount"
     t.decimal  "total",           precision: 8, scale: 2, null: false
+    t.datetime "deleted_at"
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
   end
+
+  add_index "order_items", ["deleted_at"], name: "index_order_items_on_deleted_at", using: :btree
 
   create_table "order_transactions", force: :cascade do |t|
     t.integer  "event_id"
@@ -504,10 +612,12 @@ ActiveRecord::Schema.define(version: 20160825175952) do
     t.string   "aasm_state",   null: false
     t.integer  "profile_id"
     t.datetime "completed_at"
+    t.datetime "deleted_at"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
 
+  add_index "orders", ["deleted_at"], name: "index_orders_on_deleted_at", using: :btree
   add_index "orders", ["number"], name: "index_orders_on_number", unique: true, using: :btree
   add_index "orders", ["profile_id"], name: "index_orders_on_profile_id", using: :btree
 
@@ -515,18 +625,23 @@ ActiveRecord::Schema.define(version: 20160825175952) do
     t.integer  "pack_id",                                 null: false
     t.integer  "catalog_item_id",                         null: false
     t.decimal  "amount",          precision: 8, scale: 2
+    t.datetime "deleted_at"
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
   end
 
   add_index "pack_catalog_items", ["catalog_item_id"], name: "index_pack_catalog_items_on_catalog_item_id", using: :btree
+  add_index "pack_catalog_items", ["deleted_at"], name: "index_pack_catalog_items_on_deleted_at", using: :btree
   add_index "pack_catalog_items", ["pack_id"], name: "index_pack_catalog_items_on_pack_id", using: :btree
 
   create_table "packs", force: :cascade do |t|
     t.integer  "catalog_items_count", default: 0, null: false
+    t.datetime "deleted_at"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
   end
+
+  add_index "packs", ["deleted_at"], name: "index_packs_on_deleted_at", using: :btree
 
   create_table "parameters", force: :cascade do |t|
     t.string   "name",        null: false
@@ -544,6 +659,7 @@ ActiveRecord::Schema.define(version: 20160825175952) do
     t.integer  "profile_id"
     t.string   "token"
     t.string   "gateway_type"
+    t.datetime "deleted_at"
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
     t.boolean  "agreement_accepted", default: false, null: false
@@ -551,6 +667,7 @@ ActiveRecord::Schema.define(version: 20160825175952) do
     t.string   "email"
   end
 
+  add_index "payment_gateway_customers", ["deleted_at"], name: "index_payment_gateway_customers_on_deleted_at", using: :btree
   add_index "payment_gateway_customers", ["gateway_type"], name: "index_payment_gateway_customers_on_gateway_type", using: :btree
   add_index "payment_gateway_customers", ["token", "gateway_type"], name: "index_payment_gateway_customers_on_token_and_gateway_type", unique: true, using: :btree
 
@@ -575,6 +692,7 @@ ActiveRecord::Schema.define(version: 20160825175952) do
   create_table "products", force: :cascade do |t|
     t.string   "name"
     t.boolean  "is_alcohol",   default: false
+    t.datetime "deleted_at"
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.string   "description"
@@ -582,6 +700,8 @@ ActiveRecord::Schema.define(version: 20160825175952) do
     t.float    "vat",          default: 0.0
     t.string   "product_type"
   end
+
+  add_index "products", ["deleted_at"], name: "index_products_on_deleted_at", using: :btree
 
   create_table "products_vouchers", force: :cascade do |t|
     t.integer "product_id"
@@ -594,6 +714,7 @@ ActiveRecord::Schema.define(version: 20160825175952) do
   create_table "profiles", force: :cascade do |t|
     t.integer  "customer_id"
     t.integer  "event_id",                                                         null: false
+    t.datetime "deleted_at"
     t.datetime "created_at",                                                       null: false
     t.datetime "updated_at",                                                       null: false
     t.boolean  "banned",                                           default: false
@@ -601,27 +722,9 @@ ActiveRecord::Schema.define(version: 20160825175952) do
     t.decimal  "refundable_credits",       precision: 8, scale: 2, default: 0.0
     t.decimal  "final_balance",            precision: 8, scale: 2, default: 0.0
     t.decimal  "final_refundable_balance", precision: 8, scale: 2, default: 0.0
-    t.string   "email"
-    t.string   "encrypted_password"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "phone"
-    t.string   "postcode"
-    t.string   "address"
-    t.string   "city"
-    t.string   "country"
-    t.string   "gender"
-    t.datetime "birthdate"
-    t.boolean  "agreed_on_registration",                           default: false
-    t.boolean  "agreed_event_condition",                           default: false
-    t.boolean  "receive_communications",                           default: false
-    t.string   "locale",                                           default: "en"
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
   end
 
-  add_index "profiles", ["reset_password_token"], name: "index_profiles_on_reset_password_token", unique: true, using: :btree
+  add_index "profiles", ["deleted_at"], name: "index_profiles_on_deleted_at", using: :btree
 
   create_table "purchasers", force: :cascade do |t|
     t.integer  "credentiable_id",       null: false
@@ -630,9 +733,12 @@ ActiveRecord::Schema.define(version: 20160825175952) do
     t.string   "last_name"
     t.string   "email"
     t.string   "gtag_delivery_address"
+    t.datetime "deleted_at"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
   end
+
+  add_index "purchasers", ["deleted_at"], name: "index_purchasers_on_deleted_at", using: :btree
 
   create_table "refunds", force: :cascade do |t|
     t.integer  "claim_id",                                           null: false
@@ -657,6 +763,7 @@ ActiveRecord::Schema.define(version: 20160825175952) do
   create_table "station_catalog_items", force: :cascade do |t|
     t.integer  "catalog_item_id", null: false
     t.float    "price",           null: false
+    t.datetime "deleted_at"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
@@ -672,6 +779,7 @@ ActiveRecord::Schema.define(version: 20160825175952) do
   create_table "station_products", force: :cascade do |t|
     t.integer  "product_id", null: false
     t.float    "price",      null: false
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "position"
@@ -680,6 +788,7 @@ ActiveRecord::Schema.define(version: 20160825175952) do
   create_table "stations", force: :cascade do |t|
     t.integer  "event_id",                        null: false
     t.string   "name",                            null: false
+    t.datetime "deleted_at"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
     t.string   "location",           default: ""
@@ -693,19 +802,26 @@ ActiveRecord::Schema.define(version: 20160825175952) do
     t.integer  "station_event_id"
   end
 
+  add_index "stations", ["deleted_at"], name: "index_stations_on_deleted_at", using: :btree
+
   create_table "tickets", force: :cascade do |t|
     t.integer  "event_id",                               null: false
     t.integer  "company_ticket_type_id",                 null: false
     t.string   "code"
     t.boolean  "credential_redeemed",    default: false, null: false
+    t.datetime "deleted_at"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
     t.boolean  "banned",                 default: false
   end
 
+  add_index "tickets", ["deleted_at", "code", "event_id"], name: "index_tickets_on_deleted_at_and_code_and_event_id", unique: true, using: :btree
+  add_index "tickets", ["deleted_at"], name: "index_tickets_on_deleted_at", using: :btree
+
   create_table "topup_credits", force: :cascade do |t|
     t.float    "amount"
     t.integer  "credit_id"
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -713,9 +829,12 @@ ActiveRecord::Schema.define(version: 20160825175952) do
   add_index "topup_credits", ["credit_id"], name: "index_topup_credits_on_credit_id", using: :btree
 
   create_table "vouchers", force: :cascade do |t|
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "vouchers", ["deleted_at"], name: "index_vouchers_on_deleted_at", using: :btree
 
   add_foreign_key "access_transactions", "events"
   add_foreign_key "access_transactions", "profiles"
