@@ -3,6 +3,7 @@ h3 Transactions
 table.transactions
   thead
     tr
+      th = link_to t("admin.transactions.activation")
       th = link_to t("admin.transactions.counters"), sort: "counters"
       th = link_to t("admin.transactions.device_created_at"), sort: "date"
       th = t("admin.transactions.station_id")
@@ -13,6 +14,7 @@ table.transactions
   tbody
     - transactions.each do |transaction|
       tr class="#{"danger" unless transaction.status_code.zero?}"
+        td data-label=t("admin.transactions.activation") = transaction.activation_counter
         td data-label=t("admin.transactions.gtag_counter") = "#{transaction.gtag_counter}-#{transaction.counter}"
         td data-label=t("admin.transactions.device_created_at") = transaction.device_created_at.to_time.to_s(:short)
         td data-label=t("admin.transactions.station_id")
