@@ -100,12 +100,12 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def all_transaction_counters
-    indexes = credit_transactions.map(&:gtag_counter)
-    indexes += access_transactions.map(&:gtag_counter)
-    indexes += credential_transactions.map(&:gtag_counter)
-    indexes += money_transactions.map(&:gtag_counter)
-    indexes += order_transactions.map(&:gtag_counter)
-    indexes += ban_transactions.map(&:gtag_counter)
+    indexes = credit_transactions.map(&:gtag_counter).map(&:to_i)
+    indexes += access_transactions.map(&:gtag_counter).map(&:to_i)
+    indexes += credential_transactions.map(&:gtag_counter).map(&:to_i)
+    indexes += money_transactions.map(&:gtag_counter).map(&:to_i)
+    indexes += order_transactions.map(&:gtag_counter).map(&:to_i)
+    indexes += ban_transactions.map(&:gtag_counter).map(&:to_i)
     indexes.sort
   end
 
