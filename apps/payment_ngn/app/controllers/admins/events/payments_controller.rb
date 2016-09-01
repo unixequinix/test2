@@ -2,6 +2,9 @@ class Admins::Events::PaymentsController < Admins::Events::PaymentsBaseControlle
   before_filter :set_presenter, only: [:index, :search]
 
   def index
+    @counts = @fetcher.payments.pluck(:amount, :transaction_type).group_by(&:last)
+    @counts = @counts.map{|type, payments| [type, payments.sum{|amount, _| amount}.to_f]}
+
     respond_to do |format|
       format.html
       format.csv { send_data Csv::CsvExporter.to_csv(@fetcher.payments) }
