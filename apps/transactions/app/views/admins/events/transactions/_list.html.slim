@@ -29,6 +29,6 @@ table.transactions
           - else
             = transaction.customer_tag_uid
         td data-label=t("admin.transactions.activation")
-          i = transaction.activation_counter
+          i = transaction.try(:activation_counter)
         td.table-actions-field data-label=t("admin.transactions.gtag_counter")
           i = transaction.gtag_counter
