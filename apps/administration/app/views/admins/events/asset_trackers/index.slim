@@ -19,7 +19,7 @@
               th = t("admin.transactions.transaction_type")
               th = t("admin.transactions.server_transactions")
               th = t("admin.transactions.device_transactions")
-              th = t("admin.transactions.last_pack_device")
+              th = t("admin.transactions.last_device_transaction")
 
           tbody
             - @assets[type].each do |device, info|
@@ -29,5 +29,5 @@
                 td = info[:transaction_type].humanize
                 td = info[:server_transactions]
                 td = info[:device_transactions]
-                td = info[:last_pack_device]
+                td = info[:last_device_transaction]
         br
