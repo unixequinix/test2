@@ -198,10 +198,14 @@ de:
         fixed: "Fixiert"
         repeat: "Wiederholen"
       payment_services:
-        paypal: "Paypal"
-        redsys: "Redsys"
-        stripe: "Stripe"
-        braintree: "Braintree"
+        paypal: 'Braintree (Paypal)'
+        paypal_nvp: 'Paypal'
+        redsys: 'Redsys'
+        stripe: 'Stripe'
+        braintree: 'Braintree (Credit Card)'
+        sofort: 'Sofort'
+        ideal: 'Ideal'
+        wirecard: 'Wirecard'
       refund_services:
         bank_account: "Bankkonto"
         epg: "Einfaches Zahlungsgateway"
