@@ -69,10 +69,10 @@ $statistics-size:       $base_font_size*2.5;
 
 .wrapper-dashboard-reverse {
   padding: modules(1);
-  text-align: left;
+  text-align: center;
   min-height: modules(4);
-
-   @include min-screen($bp3) { text-align: center;}
+  display: flex;
+  justify-content: space-between;
 }
 
 .wrapper-dashboard-main {
@@ -146,15 +146,13 @@ $statistics-size:       $base_font_size*2.5;
 }
 
 .wrapper-transactions {
-  text-align: left;
   display: inline-block;
-  width: 25%;
   padding-top: modules(1);
+  flex: 1;
 
   @include min-screen($bp2) {
     text-align: center;
     display: inline-block;
-    width: 14%;
     padding: 0;
     box-shadow: inset 1px 0px 0px 0px $graySilver;
 
