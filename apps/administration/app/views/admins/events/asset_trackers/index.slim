@@ -1,30 +1,33 @@
+- colors = { to_check: "#E53A40", wrong_transactions: "#E53A40", in_use: "#fc913a", packed: "#56A902" }
 .wrapper-negative-space
-  - if @devices.any?
+  - if @assets.any?
     .container-statistics
-      - @devices.keys.each do |key|
-        - count = @devices[key]&.size || 0
+      - @assets.keys.each do |key|
+        - count = @assets[key]&.size || 0
         .wrapper-statistics
           h2 = number_with_delimiter(count)
           span = key.to_s.humanize
 
-    - [:wrong_transactions, :not_packed, :packed].each do |type|
-      - if @devices[type]
-        .current-showing = "#{@devices[type].count } devices packed with wrong transactions"
+    - ["to_check", "wrong_transactions", "in_use", "packed"].each do |type|
+      - if @assets[type]
+        h3 = type.humanize
         table.transactions
           thead
             tr
               th = t("admin.devices.asset")
               th = t("admin.devices.mac")
               th = t("admin.transactions.transaction_type")
-              th = t("admin.transactions.counter")
-              th = t("admin.transactions.device_counter")
+              th = t("admin.transactions.server_transactions")
+              th = t("admin.transactions.device_transactions")
+              th = t("admin.transactions.last_device_transaction")
 
           tbody
-            - @devices[type].each do |device|
-              tr style="color: #{@colors[type]}"
-                td = device[:asset_tracker]
-                td = device[:device_uid]
-                td = device[:transaction_type]
-                td = device[:transactions_count]
-                td = device[:device_counter]
+            - @assets[type].each do |device, info|
+              tr style="color: #{colors[info[:status].to_sym]}"
+                td = info[:asset_tracker]
+                td = device
+                td = info[:transaction_type].humanize
+                td = info[:server_transactions]
+                td = info[:device_transactions]
+                td = info[:last_device_transaction]
         br
