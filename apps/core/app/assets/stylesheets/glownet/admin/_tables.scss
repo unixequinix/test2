@@ -43,6 +43,14 @@ tr {
   }
 }
 
+.station-hidden {
+  color: #BBB;
+
+  .table-action {
+    color: #BBB;
+  }
+}
+
 td {
   overflow: hidden;
   position: relative;
@@ -240,6 +248,46 @@ td {
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
+}
+
+.action-visible {
+  text-align: left;
+
+  a {
+    padding: modules(0.1);
+    color: $white;
+
+    &:hover { color: $greenKickstarter; }
+
+    @include min-screen($bp3) {
+      color: $greenKickstarter;
+
+      &:hover, &:focus {
+        background-color: lighten($greenKickstarter,30%);
+        outline: none;
+      }
+    }
+  }
+}
+
+.action-hidden {
+  text-align: left;
+
+  a {
+    padding: modules(0.1);
+    color: $white;
+
+    &:hover { color: $grayAsh; }
+
+    @include min-screen($bp3) {
+      color: $grayAsh;
+
+      &:hover, &:focus {
+        background-color: lighten($grayAsh,30%);
+        outline: none;
+      }
+    }
+  }
 }
 
 .action-delete {

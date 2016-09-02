@@ -186,6 +186,10 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     EventDecorator::PAYMENT_PLATFORMS[payment_service]
   end
 
+  def active?
+    %w(launched started finished).include? aasm_state
+  end
+
   private
 
   def end_date_after_start_date

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160831143049) do
+ActiveRecord::Schema.define(version: 20160902140918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -354,6 +354,8 @@ ActiveRecord::Schema.define(version: 20160831143049) do
     t.datetime "updated_at",                             null: false
     t.boolean  "receive_communications", default: false
     t.string   "locale",                 default: "en"
+    t.string   "provider"
+    t.string   "uid"
   end
 
   add_index "customers", ["deleted_at", "email", "event_id"], name: "index_customers_on_deleted_at_and_email_and_event_id", unique: true, using: :btree
@@ -796,6 +798,7 @@ ActiveRecord::Schema.define(version: 20160831143049) do
     t.string   "registration_num"
     t.string   "official_name"
     t.integer  "station_event_id"
+    t.boolean  "hidden"
   end
 
   add_index "stations", ["deleted_at"], name: "index_stations_on_deleted_at", using: :btree

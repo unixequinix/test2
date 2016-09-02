@@ -1,5 +1,5 @@
 class Admins::Events::StationsController < Admins::Events::BaseController
-  before_action :set_station, only: [:edit, :update, :destroy]
+  before_action :set_station, only: [:edit, :update, :destroy, :visibility]
   def index
     @group = params[:group]
     @stations = current_event.stations.where(group: @group).order(name: :asc)
@@ -73,10 +73,17 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     render nothing: true
   end
 
+  def visibility
+    @station.hidden? ? @station.show! : @station.hide!
+    @group = @station.group
+    redirect_to admins_event_stations_url(current_event, group: @group), notice: I18n.t("alerts.updated")
+  end
+
   private
 
   def set_station
-    @station = current_event.stations.find(params[:id])
+    id = params[:id] || params[:station_id]
+    @station = current_event.stations.find(id)
   end
 
   def permitted_params
