@@ -10,16 +10,18 @@ class Admins::Events::AssetTrackersController < Admins::Events::BaseController
       pack = transactions.select { |t| t.transaction_type == "pack_device" }
       server_trans = transactions_sql.find { |t| t["device_uid"] == device }
 
-      if init.count - pack.count == 1
+      if (init.count - pack.count == 1) && (init.last&.device_created_at.to_s > pack.last&.device_created_at.to_s)
         status = "in_use"
         device_trans = (pack.map(&:number_of_transactions).sum - init[0..-2].map(&:number_of_transactions).sum) + init.count
-      elsif init.count == pack.count
+
+      elsif (init.count == pack.count) && (pack.last&.device_created_at.to_s > init.last&.device_created_at.to_s)
         device_trans = (pack.map(&:number_of_transactions).sum - init.map(&:number_of_transactions).sum) + init.count
         if device_trans == server_trans["transactions_count"]
           status = "packed"
         else
           status = "wrong_transactions"
         end
+
       else
         status = "to_check"
       end
