@@ -15,6 +15,6 @@ table.company_ticket_types
         td data-label=t('admin.company_ticket_types.company_code') = company_ticket_type.company_code
         td data-label=t('admin.company_ticket_types.credential_type') = company_ticket_type&.credential_type&.catalog_item&.name
         td.table-actions-field
-          = render 'admins/events/company_ticket_types/actions', company_ticket_type: company_ticket_type unless current_event.started?
+          = render 'admins/events/company_ticket_types/actions', company_ticket_type: company_ticket_type
 
 = paginate company_ticket_types

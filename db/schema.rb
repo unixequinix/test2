@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160831075427) do
+ActiveRecord::Schema.define(version: 20160902195320) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20160831075427) do
     t.datetime "updated_at"
     t.integer  "gtag_counter",       default: 0
     t.integer  "counter",            default: 0
+    t.integer  "activation_counter"
   end
 
   add_index "access_transactions", ["access_id"], name: "index_access_transactions_on_access_id", using: :btree
@@ -99,6 +100,7 @@ ActiveRecord::Schema.define(version: 20160831075427) do
     t.datetime "updated_at",                     null: false
     t.integer  "gtag_counter",       default: 0
     t.integer  "counter",            default: 0
+    t.integer  "activation_counter"
   end
 
   add_index "ban_transactions", ["event_id"], name: "index_ban_transactions_on_event_id", using: :btree
@@ -188,14 +190,15 @@ ActiveRecord::Schema.define(version: 20160831075427) do
   add_index "company_event_agreements", ["deleted_at"], name: "index_company_event_agreements_on_deleted_at", using: :btree
 
   create_table "company_ticket_types", force: :cascade do |t|
-    t.integer  "event_id",                   null: false
-    t.integer  "company_event_agreement_id", null: false
+    t.integer  "event_id",                                   null: false
+    t.integer  "company_event_agreement_id",                 null: false
     t.integer  "credential_type_id"
     t.string   "name"
     t.string   "company_code"
     t.datetime "deleted_at"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.boolean  "hidden",                     default: false
   end
 
   add_index "company_ticket_types", ["company_code", "company_event_agreement_id", "deleted_at"], name: "index_ticket_types_on_company_code_and_agreement_and_deleted_at", unique: true, using: :btree
@@ -231,6 +234,7 @@ ActiveRecord::Schema.define(version: 20160831075427) do
     t.datetime "updated_at"
     t.integer  "gtag_counter",         default: 0
     t.integer  "counter",              default: 0
+    t.integer  "activation_counter"
   end
 
   add_index "credential_transactions", ["event_id", "device_uid", "device_db_index", "device_created_at"], name: "credential_transaction_uniqueness_on_device", unique: true, using: :btree
@@ -272,6 +276,7 @@ ActiveRecord::Schema.define(version: 20160831075427) do
     t.datetime "updated_at"
     t.integer  "gtag_counter",             default: 0
     t.integer  "counter",                  default: 0
+    t.integer  "activation_counter"
   end
 
   add_index "credit_transactions", ["event_id", "device_uid", "device_db_index", "device_created_at"], name: "credit_transaction_uniqueness_on_device", unique: true, using: :btree
@@ -503,15 +508,14 @@ ActiveRecord::Schema.define(version: 20160831075427) do
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
   create_table "gtags", force: :cascade do |t|
-    t.integer  "event_id",                                     null: false
-    t.integer  "company_ticket_type_id"
-    t.string   "tag_uid",                                      null: false
-    t.boolean  "credential_redeemed",    default: false,       null: false
+    t.integer  "event_id",                                 null: false
+    t.string   "tag_uid",                                  null: false
     t.datetime "deleted_at"
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
-    t.boolean  "banned",                 default: false
-    t.string   "format",                 default: "wristband"
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.boolean  "banned",             default: false
+    t.string   "format",             default: "wristband"
+    t.integer  "activation_counter"
   end
 
   add_index "gtags", ["deleted_at", "tag_uid", "event_id"], name: "index_gtags_on_deleted_at_and_tag_uid_and_event_id", unique: true, using: :btree
@@ -541,6 +545,7 @@ ActiveRecord::Schema.define(version: 20160831075427) do
     t.datetime "updated_at"
     t.integer  "gtag_counter",         default: 0
     t.integer  "counter",              default: 0
+    t.integer  "activation_counter"
   end
 
   add_index "money_transactions", ["event_id", "device_uid", "device_db_index", "device_created_at"], name: "money_transaction_uniqueness_on_device", unique: true, using: :btree
@@ -592,6 +597,7 @@ ActiveRecord::Schema.define(version: 20160831075427) do
     t.datetime "updated_at"
     t.integer  "gtag_counter",         default: 0
     t.integer  "counter",              default: 0
+    t.integer  "activation_counter"
   end
 
   add_index "order_transactions", ["customer_order_id"], name: "index_order_transactions_on_customer_order_id", using: :btree
@@ -793,6 +799,7 @@ ActiveRecord::Schema.define(version: 20160831075427) do
     t.string   "registration_num"
     t.string   "official_name"
     t.integer  "station_event_id"
+    t.boolean  "hidden"
   end
 
   add_index "stations", ["deleted_at"], name: "index_stations_on_deleted_at", using: :btree

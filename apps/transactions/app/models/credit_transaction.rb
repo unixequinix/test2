@@ -55,7 +55,7 @@ class CreditTransaction < Transaction
   def description
    refundables = " - R #{refundable_credits} #{event.token_symbol}" if credits != refundable_credits
    "#{transaction_type.humanize}: #{credits} #{event.token_symbol}#{refundables}"
- end
+  end
 
   def self.mandatory_fields
     super + %w( credits credits_refundable credit_value final_balance final_refundable_balance )

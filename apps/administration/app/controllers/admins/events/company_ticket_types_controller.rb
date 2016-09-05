@@ -63,6 +63,12 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
     redirect_to admins_event_company_ticket_types_url
   end
 
+  def visibility
+    @ctt = @fetcher.company_ticket_types.find(params[:company_ticket_type_id])
+    @ctt.hidden? ? @ctt.show! : @ctt.hide!
+    redirect_to admins_event_company_ticket_types_path(current_event), notice: I18n.t("alerts.updated")
+  end
+
   private
 
   def set_presenter

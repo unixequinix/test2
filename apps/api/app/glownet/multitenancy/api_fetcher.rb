@@ -221,6 +221,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
         INNER JOIN company_ticket_types
           ON company_ticket_types.id = tickets.company_ticket_type_id
           AND company_ticket_types.deleted_at IS NULL
+          AND company_ticket_types.hidden = false
 
         WHERE tickets.event_id = #{@event.id}
         AND tickets.deleted_at IS NULL #{"AND tickets.updated_at > '#{date}'" if date}
