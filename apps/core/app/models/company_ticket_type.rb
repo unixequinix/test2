@@ -31,6 +31,14 @@ class CompanyTicketType < ActiveRecord::Base
       .uniq.pluck("companies.name")
   }
 
+  def hide!
+    update(hidden: true)
+  end
+
+  def show!
+    update(hidden: false)
+  end
+
   def self.form_selector(event)
     where(event: event).map { |company_tt| [company_tt.name, company_tt.id] }
   end
