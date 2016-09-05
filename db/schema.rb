@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160905100200) do
+ActiveRecord::Schema.define(version: 20160901144111) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -488,6 +488,10 @@ ActiveRecord::Schema.define(version: 20160905100200) do
     t.string   "official_address"
     t.string   "registration_num"
     t.string   "official_name"
+    t.string   "eventbrite_token"
+    t.string   "eventbrite_event"
+    t.string   "eventbrite_client_key"
+    t.string   "eventbrite_client_secret"
   end
 
   add_index "events", ["slug"], name: "index_events_on_slug", unique: true, using: :btree
