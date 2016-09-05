@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160902140918) do
+ActiveRecord::Schema.define(version: 20160902195320) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -190,14 +190,15 @@ ActiveRecord::Schema.define(version: 20160902140918) do
   add_index "company_event_agreements", ["deleted_at"], name: "index_company_event_agreements_on_deleted_at", using: :btree
 
   create_table "company_ticket_types", force: :cascade do |t|
-    t.integer  "event_id",                   null: false
-    t.integer  "company_event_agreement_id", null: false
+    t.integer  "event_id",                                   null: false
+    t.integer  "company_event_agreement_id",                 null: false
     t.integer  "credential_type_id"
     t.string   "name"
     t.string   "company_code"
     t.datetime "deleted_at"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.boolean  "hidden",                     default: false
   end
 
   add_index "company_ticket_types", ["company_code", "company_event_agreement_id", "deleted_at"], name: "index_ticket_types_on_company_code_and_agreement_and_deleted_at", unique: true, using: :btree
