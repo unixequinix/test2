@@ -122,6 +122,7 @@ Rails.application.routes.draw do
           post :visibility
           resources :station_items do
             put :sort, on: :collection
+            post :visibility
           end
         end
 

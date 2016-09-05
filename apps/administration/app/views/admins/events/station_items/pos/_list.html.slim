@@ -9,7 +9,7 @@ table.station_products
       th.table-actions-field = t('admin.defaults.actions')
   tbody.sortable
     - @items.each do |station_product|
-      tr data-id="#{station_product.id}"
+      tr data-id="#{station_product.id}" class="#{'station-hidden' if station_product.hidden?}"
         td.table-sortable-field = fa_icon("bars")
         td data-label=t('admin.stations.station_product.name')
           = best_in_place station_product.product, :name, url: admins_event_product_path(current_event, station_product.product_id)
@@ -21,8 +21,13 @@ table.station_products
           = best_in_place station_product.product, :description, url: admins_event_product_path(current_event, station_product.product_id)
         td.table-actions-field
           ul
-            li.table-action.action-delete = link_to admins_event_station_station_item_path(current_event, @station, station_product, item_type: "station_product"), method: :delete, data: { confirm: t('admin.confirm.delete') } do
-              = fa_icon "trash"
+            - unless current_event.active?
+              li.table-action.action-delete = link_to fa_icon("trash"), admins_event_station_station_item_path(current_event, @station, station_product, item_type: "station_product"), method: :delete, data: { confirm: t('admin.confirm.delete') }
+            - if station_product.hidden?
+              li.table-action.action-hidden = link_to fa_icon("eye-slash", class: "fa-fw"), admins_event_station_station_item_visibility_path(current_event, @station, station_product, item_type: "station_product"), method: :post
+            - else
+              li.table-action.action-visible = link_to fa_icon("eye", class: "fa-fw"), admins_event_station_station_item_visibility_path(current_event, @station, station_product, item_type: "station_product"), method: :post
+
               
 javascript:
   function setPositions() {

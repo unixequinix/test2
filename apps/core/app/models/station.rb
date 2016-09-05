@@ -83,14 +83,6 @@ class Station < ActiveRecord::Base
     event.products - station_products.map(&:product)
   end
 
-  def hide!
-    update(hidden: true)
-  end
-
-  def show!
-    update(hidden: false)
-  end
-
   private
 
   def add_station_event_id

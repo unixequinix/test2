@@ -74,7 +74,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   end
 
   def visibility
-    @station.hidden? ? @station.show! : @station.hide!
+    @station.update(hidden: !@station.hidden?)
     @group = @station.group
     redirect_to admins_event_stations_url(current_event, group: @group), notice: I18n.t("alerts.updated")
   end

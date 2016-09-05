@@ -18,7 +18,7 @@ class TopupCredit < ActiveRecord::Base
   accepts_nested_attributes_for :station_parameter, allow_destroy: true
 
   validates :amount, :credit_id, presence: true
-  validate :valid_topup_credit
+  validate :valid_topup_credit, on: :create
 
   after_update { station_parameter.station.touch }
 

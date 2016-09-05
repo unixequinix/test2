@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160902195320) do
+ActiveRecord::Schema.define(version: 20160905100200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20160902195320) do
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean  "hidden"
   end
 
   create_table "access_transactions", force: :cascade do |t|
@@ -355,8 +356,6 @@ ActiveRecord::Schema.define(version: 20160902195320) do
     t.datetime "updated_at",                             null: false
     t.boolean  "receive_communications", default: false
     t.string   "locale",                 default: "en"
-    t.string   "provider"
-    t.string   "uid"
   end
 
   add_index "customers", ["deleted_at", "email", "event_id"], name: "index_customers_on_deleted_at_and_email_and_event_id", unique: true, using: :btree
@@ -765,6 +764,7 @@ ActiveRecord::Schema.define(version: 20160902195320) do
     t.datetime "deleted_at"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.boolean  "hidden"
   end
 
   create_table "station_parameters", force: :cascade do |t|
@@ -782,6 +782,7 @@ ActiveRecord::Schema.define(version: 20160902195320) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "position"
+    t.boolean  "hidden"
   end
 
   create_table "stations", force: :cascade do |t|
@@ -824,6 +825,7 @@ ActiveRecord::Schema.define(version: 20160902195320) do
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean  "hidden"
   end
 
   add_index "topup_credits", ["credit_id"], name: "index_topup_credits_on_credit_id", using: :btree

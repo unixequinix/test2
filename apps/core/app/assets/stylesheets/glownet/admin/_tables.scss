@@ -284,15 +284,15 @@ td {
 
   a {
     padding: modules(0.1);
-    color: $white;
+    color: $redZurb;
 
-    &:hover { color: $grayAsh; }
+    &:hover { color: $redZurb; }
 
     @include min-screen($bp3) {
-      color: $grayAsh;
+      color: $redZurb;
 
       &:hover, &:focus {
-        background-color: lighten($grayAsh,30%);
+        background-color: lighten($redZurb,30%);
         outline: none;
       }
     }
