@@ -16,7 +16,7 @@
             td
 
           - ts.map do |t|
-            tr
+            tr class="#{"danger" unless t.status_code.zero?}"
               td
               td
                 = Time.parse(t.device_created_at).to_s(:short)

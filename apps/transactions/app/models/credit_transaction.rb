@@ -45,11 +45,21 @@ class CreditTransaction < Transaction
   after_update :recalculate_profile_balance
 
   def recalculate_profile_balance
+    binding.pry
     transactions = profile.credit_transactions.status_ok.not_record_credit
+
+    if transactions.map(&:transaction_origin).uniq.first == "customer_portal"
+      fb = transactions.sum(:credits)
+      frb = transactions.sum(:refundable_credits)
+    else
+      fb = transactions.last.final_balance
+      frb = transactions.last.final_refundable_balance
+    end
+
     profile.update(credits: transactions.sum(:credits),
                    refundable_credits: transactions.sum(:refundable_credits),
-                   final_balance: transactions.last.final_balance,
-                   final_refundable_balance: transactions.last.final_refundable_balance)
+                   final_balance: fb,
+                   final_refundable_balance: frb)
   end
 
   def description
