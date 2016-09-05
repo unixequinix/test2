@@ -94,8 +94,8 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     transactions += order_transactions
     transactions += ban_transactions
     # TODO: Its a workaround for sorting, remove after picnik is fixed
-    transactions.sort_by! { |t| [t.gtag_counter, t.counter] } if sort.eql?("counters") || sort.nil?
-    transactions.sort_by! { |t| [t.device_created_at, t.gtag_counter, t.counter] } if sort.eql?("date")
+    transactions.sort_by! { |t| [t.gtag_counter.to_i, t.counter.to_i] } if sort.eql?("counters") || sort.nil?
+    transactions.sort_by! { |t| [t.device_created_at, t.gtag_counter.to_i, t.counter.to_i] } if sort.eql?("date")
     transactions
   end
 
