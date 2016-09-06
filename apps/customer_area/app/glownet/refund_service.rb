@@ -30,6 +30,17 @@ class RefundService
     credit_refund_transaction(params)
     money_transaction(params, refund)
     credit_fee_transaction(params) if @claim.fee > 0
+    online_order(refund)
+  end
+
+  def online_order(refund)
+    neg = (@claim.total * -1).to_i
+    order = Order.new(profile: @profile)
+    order.generate_order_number!
+    order.order_items << OrderItem.new(catalog_item_id: @profile.event.credits.standard.id, amount: neg, total: neg * @profile.event.standard_credit_price.to_f)
+    order.save!
+    customer_order = CustomerOrder.create(profile: order.profile, amount: order_item.amount, catalog_item: order_item.catalog_item, origin: CustomerOrder::REFUND)
+    OnlineOrder.create(redeemed: false, customer_order: customer_order)
   end
 
   def money_transaction(params, refund) # rubocop:disable Metrics/MethodLength

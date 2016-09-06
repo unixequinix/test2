@@ -11,18 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160905100200) do
+ActiveRecord::Schema.define(version: 20160906103320) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "access_control_gates", force: :cascade do |t|
-    t.integer  "access_id",  null: false
-    t.string   "direction",  null: false
+    t.integer  "access_id",                  null: false
+    t.string   "direction",                  null: false
     t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean  "hidden"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "hidden",     default: false
   end
 
   create_table "access_transactions", force: :cascade do |t|
@@ -570,7 +570,7 @@ ActiveRecord::Schema.define(version: 20160905100200) do
   create_table "order_items", force: :cascade do |t|
     t.integer  "order_id",                                null: false
     t.integer  "catalog_item_id",                         null: false
-    t.integer  "amount"
+    t.float    "amount"
     t.decimal  "total",           precision: 8, scale: 2, null: false
     t.datetime "deleted_at"
     t.datetime "created_at",                              null: false
@@ -763,12 +763,12 @@ ActiveRecord::Schema.define(version: 20160905100200) do
   end
 
   create_table "station_catalog_items", force: :cascade do |t|
-    t.integer  "catalog_item_id", null: false
-    t.float    "price",           null: false
+    t.integer  "catalog_item_id",                 null: false
+    t.float    "price",                           null: false
     t.datetime "deleted_at"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.boolean  "hidden"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.boolean  "hidden",          default: false
   end
 
   create_table "station_parameters", force: :cascade do |t|
@@ -780,21 +780,21 @@ ActiveRecord::Schema.define(version: 20160905100200) do
   end
 
   create_table "station_products", force: :cascade do |t|
-    t.integer  "product_id", null: false
-    t.float    "price",      null: false
+    t.integer  "product_id",                 null: false
+    t.float    "price",                      null: false
     t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.integer  "position"
-    t.boolean  "hidden"
+    t.boolean  "hidden",     default: false
   end
 
   create_table "stations", force: :cascade do |t|
-    t.integer  "event_id",                        null: false
-    t.string   "name",                            null: false
+    t.integer  "event_id",                           null: false
+    t.string   "name",                               null: false
     t.datetime "deleted_at"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.string   "location",           default: ""
     t.integer  "position"
     t.string   "group"
@@ -804,7 +804,7 @@ ActiveRecord::Schema.define(version: 20160905100200) do
     t.string   "registration_num"
     t.string   "official_name"
     t.integer  "station_event_id"
-    t.boolean  "hidden"
+    t.boolean  "hidden",             default: false
   end
 
   add_index "stations", ["deleted_at"], name: "index_stations_on_deleted_at", using: :btree
@@ -827,9 +827,9 @@ ActiveRecord::Schema.define(version: 20160905100200) do
     t.float    "amount"
     t.integer  "credit_id"
     t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean  "hidden"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "hidden",     default: false
   end
 
   add_index "topup_credits", ["credit_id"], name: "index_topup_credits_on_credit_id", using: :btree
