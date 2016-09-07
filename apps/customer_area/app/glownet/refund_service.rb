@@ -5,7 +5,6 @@ class RefundService
   end
 
   def create(params)
-    return false if @profile.completed_claim
     params = params.slice(*Refund.column_names.map(&:to_sym))
     refund = Refund.create!(params.merge(claim_id: @claim.id))
     status_ok = %w( SUCCESS PENDING ).include? refund.status
@@ -39,7 +38,7 @@ class RefundService
     order.generate_order_number!
     order.order_items << OrderItem.new(catalog_item_id: @profile.event.credits.standard.id, amount: neg, total: neg * @profile.event.standard_credit_price.to_f)
     order.save!
-    customer_order = CustomerOrder.create(profile: order.profile, amount: order_item.amount, catalog_item: order_item.catalog_item, origin: CustomerOrder::REFUND)
+    customer_order = CustomerOrder.create(profile: order.profile, amount: order.order_items.first.amount, catalog_item: order.order_items.first.catalog_item, origin: CustomerOrder::REFUND)
     OnlineOrder.create(redeemed: false, customer_order: customer_order)
   end
 
