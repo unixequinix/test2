@@ -63,7 +63,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
 
           s_ws_items = s["products"]
           s_db_items = @station.station_products.map do |m|
-            { product_id: m["product_id"], price: m["price"], position: m["position"] }.as_json
+            { product_id: m["product_id"], price: m["price"], position: m["position"], hidden: m["hidden"] }.as_json
           end
           expect(s_ws_items).to eq(s_db_items)
         end
@@ -88,7 +88,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
 
           s_ws_items = s["top_up_credits"]
           s_db_items = @station.topup_credits.map do |m|
-            { "amount" => m.amount, "price" => (m.credit.value * m.amount).to_f.round(2) }
+            { "amount" => m.amount, "price" => (m.credit.value * m.amount).to_f.round(2), "hidden" => m.hidden }
           end
           expect(s_ws_items).to eq(s_db_items)
         end

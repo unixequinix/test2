@@ -32,6 +32,7 @@ en:
       transaction_type: "Type"
       customer_tag_uid: "Customer"
       operator_tag_uid: "Operator"
+      activation: "Activation"
       gtag_counter: "Gtag Counter"
       counter: "Counter"
       counters: "Counters"
@@ -207,11 +208,11 @@ en:
         fixed: 'Fixed'
         repeat: 'Repeat'
       payment_services:
-        paypal: 'Paypal'
-        paypal_nvp: 'Paypal NVP'
+        paypal: 'Braintree (Paypal)'
+        paypal_nvp: 'Paypal'
         redsys: 'Redsys'
         stripe: 'Stripe'
-        braintree: 'Braintree'
+        braintree: 'Braintree (Credit Card)'
         sofort: 'Sofort'
         ideal: 'Ideal'
         wirecard: 'Wirecard'

@@ -40,6 +40,13 @@ Rails.application.routes.draw do
       end
 
       scope module: "events" do
+
+        get 'eventbrite', to: "eventbrite#index"
+        get 'eventbrite/auth', to: "eventbrite#auth"
+        patch 'eventbrite/connect', to: "eventbrite#connect"
+        get 'eventbrite/disconnect', to: "eventbrite#disconnect"
+        get 'eventbrite/import_tickets', to: "eventbrite#import_tickets"
+
         resource :device_settings, only: [:show, :edit, :update] do
           member do
             delete :remove_db
@@ -118,8 +125,10 @@ Rails.application.routes.draw do
         end
         resources :stations do
           post :clone
+          post :visibility
           resources :station_items do
             put :sort, on: :collection
+            post :visibility
           end
         end
 

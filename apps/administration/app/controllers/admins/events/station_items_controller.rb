@@ -46,6 +46,15 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
     render nothing: true
   end
 
+  def visibility
+    item_class = params[:item_type]
+    @item = item_class.camelcase.constantize.find(params[:station_item_id])
+    @item.update(hidden: !@item.hidden?)
+
+    path = admins_event_station_station_items_path(current_event, params[:station_id])
+    redirect_to path, notice: I18n.t("alerts.updated")
+  end
+
   def destroy
     item_class = params[:item_type]
     @item = item_class.camelcase.constantize.find(params[:id]).destroy

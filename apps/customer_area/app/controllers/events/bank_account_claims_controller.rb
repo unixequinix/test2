@@ -5,10 +5,10 @@ class Events::BankAccountClaimsController < Events::ClaimsController
   end
 
   def create
-    @bank_account_claim_form = "#{area.camelize}BankAccountClaimForm"
-                               .constantize.new(permitted_params)
+    @bank_account_claim_form = "#{area.camelize}BankAccountClaimForm".constantize.new(permitted_params)
     @claim = Claim.find(permitted_params[:claim_id])
     render(:new) && return unless @bank_account_claim_form.save
+
     @claim.start_claim!
     # TODO: Remove hardcoded message text
     if refund(@claim)

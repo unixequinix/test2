@@ -6,6 +6,9 @@
   = link_to edit_admins_event_path(@current_event), class: "btn btn-action btn-action-edit small" do
     = fa_icon 'edit'
     = t('actions.edit')
+  = link_to customer_root_path(@current_event), class: "btn btn-action btn-action-link small", target: "_blank" do
+    = fa_icon 'external-link'
+    = t('actions.portal')
 .wrapper-negative-space
   = render "admins/events/controls", event: @current_event
 

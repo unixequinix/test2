@@ -43,10 +43,11 @@ gem 'neat', '~> 1.7.2'
 gem 'font-awesome-rails', '~> 4.5.0.1'
 gem 'scss_lint', require: false
 
-# JSON APIs
+# APIs
 gem 'jbuilder', '~> 2.2.13'
 gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_serializers.git'
 gem 'rack-cors', require: 'rack/cors'
+gem 'eventbrite'
 
 # Turbolinks
 gem 'turbolinks', '~> 2.5.3'

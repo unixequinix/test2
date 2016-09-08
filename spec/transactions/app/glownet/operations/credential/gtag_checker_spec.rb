@@ -31,9 +31,5 @@ RSpec.describe Operations::Credential::GtagChecker, type: :job do
     it "assigns a ticket credential" do
       expect(worker).to receive(:assign_gtag_credential)
     end
-
-    it "marks redeemed" do
-      expect(worker).to receive(:mark_redeemed)
-    end
   end
 end

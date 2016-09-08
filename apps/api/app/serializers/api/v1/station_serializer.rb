@@ -1,5 +1,5 @@
 class Api::V1::StationSerializer < Api::V1::BaseSerializer
-  attributes :id, :station_event_id, :type, :name
+  attributes :id, :station_event_id, :type, :name, :hidden
 
   def attributes(*args)
     hash = super
@@ -15,7 +15,8 @@ class Api::V1::StationSerializer < Api::V1::BaseSerializer
     hash[:catalog] = object.station_catalog_items.map do |ci|
       { catalogable_id: ci.catalog_item.catalogable_id,
         catalogable_type: ci.catalog_item.catalogable_type.downcase,
-        price: ci.price.round(2) }
+        price: ci.price.round(2),
+        hidden: ci.hidden? }
     end
   end
 
@@ -23,14 +24,16 @@ class Api::V1::StationSerializer < Api::V1::BaseSerializer
     hash[:products] = object.station_products.map do |sp|
       { product_id: sp.product_id,
         price: sp.price.round(2),
-        position: sp.position }
+        position: sp.position,
+        hidden: sp.hidden? }
     end
   end
 
   def topup(hash)
     hash[:top_up_credits] = object.topup_credits.map do |c|
       { amount: c.amount,
-        price: (c.amount * c.credit.value).to_f.round(2) }
+        price: (c.amount * c.credit.value).to_f.round(2),
+        hidden: c.hidden? }
     end
   end
 

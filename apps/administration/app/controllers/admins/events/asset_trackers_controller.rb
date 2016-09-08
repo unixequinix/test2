@@ -1,29 +1,36 @@
 class Admins::Events::AssetTrackersController < Admins::Events::BaseController
-  def index # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-    devices = current_event.device_transactions.select(:device_uid).uniq
-    asset_trackers = Device.all.select(:mac, :asset_tracker).group_by(&:mac)
-    transactions = Device.transactions_count(current_event)
-    @devices = { wrong_transactions: [], not_packed: [], packed: [] }
+  def index
+    devices = current_event.device_transactions.status_ok.order(device_created_at: :asc).group_by(&:device_uid)
+    @assets = {}
+    Device.where(mac: devices.map { |mac, _| mac }).each { |d| @assets[d.mac] = { asset_tracker: d.asset_tracker } }
+    transactions_sql = Device.transactions_count(current_event)
 
-    devices.each do |d_tr|
-      hash = { device_uid: d_tr.device_uid }
-      hash[:asset_tracker] = asset_trackers[d_tr.device_uid]&.first&.asset_tracker
-      transaction = transactions.find { |t| t["device_uid"] == d_tr.device_uid }
-      hash[:transactions_count] = transaction["transactions_count"]
-      hash[:device_counter] = transaction["device_counter"]
-      hash[:transaction_type] = transaction["transaction_type"].humanize
+    devices.map do |device, transactions|
+      init = transactions.select { |t| t.transaction_type == "device_initialization" }
+      pack = transactions.select { |t| t.transaction_type == "pack_device" }
+      server_trans = transactions_sql.find { |t| t["device_uid"] == device }
 
-      @colors = { wrong_transactions: "#E53A40", not_packed: "#fc913a", packed: "#56A902" }
-      @devices[:not_packed] << hash && next if transaction["transaction_type"] != "pack_device"
-      @devices[:wrong_transactions] << hash && next if wrong?(hash[:device_counter], hash[:transactions_count])
-      @devices[:packed] << hash
+      if (init.count - pack.count == 1) && (init.last&.device_created_at.to_s > pack.last&.device_created_at.to_s)
+        status = "in_use"
+        device_trans = (pack.map(&:number_of_transactions).sum - init[0..-2].map(&:number_of_transactions).sum) + init.count
+
+      elsif (init.count == pack.count) && (pack.last&.device_created_at.to_s > init.last&.device_created_at.to_s)
+        device_trans = (pack.map(&:number_of_transactions).sum - init.map(&:number_of_transactions).sum) + init.count
+        if device_trans == server_trans["transactions_count"]
+          status = "packed"
+        else
+          status = "wrong_transactions"
+        end
+
+      else
+        status = "to_check"
+      end
+      @assets[device].merge!(device_transactions: device_trans,
+                             server_transactions: server_trans["transactions_count"],
+                             transaction_type: server_trans["transaction_type"],
+                             last_device_transaction: transactions.last[:number_of_transactions],
+                             status: status)
     end
-  end
-
-  private
-
-  def wrong?(device_counter, transaction_count)
-    diff = device_counter - transaction_count
-    diff > 5 || diff < -5
+    @assets = @assets.group_by { |a| a.last[:status] }
   end
 end
