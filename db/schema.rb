@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160906103320) do
+ActiveRecord::Schema.define(version: 20160908170628) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -383,6 +383,7 @@ ActiveRecord::Schema.define(version: 20160906103320) do
     t.datetime "updated_at"
     t.integer  "gtag_counter",           default: 0
     t.integer  "counter",                default: 0
+    t.integer  "activation_counter"
   end
 
   add_index "device_transactions", ["event_id"], name: "index_device_transactions_on_event_id", using: :btree
