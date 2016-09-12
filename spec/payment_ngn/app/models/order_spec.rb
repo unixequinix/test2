@@ -48,6 +48,15 @@ RSpec.describe Order, type: :model do
     end
   end
 
+  describe "generate_token" do
+    it "is different for different seconds" do
+      token1 = Order.generate_token("2016-09-06 11:03:17.659946".to_datetime)
+      token2 = Order.generate_token("2016-09-06 11:03:18.659946".to_datetime)
+
+      expect(token1).not_to eq(token2)
+    end
+  end
+
   describe "complete_order" do
     it "should store the time when an order is completed" do
       time_before = order.completed_at.to_i

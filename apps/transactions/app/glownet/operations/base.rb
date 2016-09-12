@@ -1,5 +1,5 @@
 class Operations::Base < ActiveJob::Base
-  SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at gtag_counter ).freeze
+  SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at gtag_counter gtag_activations).freeze
 
   def perform(atts)
     atts = preformat_atts(atts)
@@ -9,7 +9,7 @@ class Operations::Base < ActiveJob::Base
     return obj if obj
 
     if atts[:customer_tag_uid].present?
-      gtag = Gtag.find_or_create_by!(tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id])
+      gtag = Gtag.find_or_create_by!(tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id], activation_counter: atts[:activation_counter])
       profile_id = Profile::Checker.for_transaction(gtag, atts[:profile_id], atts[:event_id])
       atts[:profile_id] = profile_id
     end

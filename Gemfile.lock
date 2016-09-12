@@ -237,6 +237,9 @@ GEM
       thread_safe
     equalizer (0.0.11)
     erubis (2.7.0)
+    eventbrite (0.0.1)
+      hashie (~> 3.0)
+      rest-client (~> 1.4)
     execjs (2.7.0)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
@@ -283,6 +286,7 @@ GEM
     guard-rubocop (1.2.0)
       guard (~> 2.0)
       rubocop (~> 0.20)
+    hashie (3.4.4)
     highline (1.7.8)
     hirb (0.7.3)
     http-cookie (1.0.2)
@@ -659,6 +663,7 @@ DEPENDENCIES
   database_cleaner (~> 1.4.1)
   deep_cloneable (~> 2.2.1)
   draper (~> 2.0)
+  eventbrite
   factory_girl_rails (~> 4.5.0)
   faker (~> 1.4.3)
   flag_shih_tzu (~> 0.3.13)

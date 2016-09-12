@@ -1,5 +1,5 @@
 .current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @list_model_presenter.current_items, total: @list_model_presenter.count)
-table.credits
+table
   thead
     tr
       th = t('admin.catalog_item.name')
@@ -27,14 +27,10 @@ table.credits
         td.table-actions-field
           ul
             - unless credit.standard
-              li.table-action.action-delete = link_to admins_event_credit_path(current_event, credit), method: :delete, data: { confirm: t('admin.confirm.delete') } do
-                = fa_icon "trash"
-            li.table-action.action-edit = link_to edit_admins_event_credit_path(current_event, credit) do
-              = fa_icon "edit"
+              li.table-action.action-delete = link_to fa_icon("trash"), admins_event_credit_path(current_event, credit), method: :delete, data: { confirm: t('admin.confirm.delete') }
+            li.table-action.action-edit = link_to fa_icon("edit"), edit_admins_event_credit_path(current_event, credit)
             - if credit.catalog_item.credential_type.present?
-                li.table-action.action-add_credential = link_to destroy_credential_admins_event_credit_path(current_event, credit), method: :delete, title: "Destroy Credential Type" do
-                  = fa_icon "circle"
+                li.table-action.action-add_credential = link_to fa_icon("circle"), destroy_credential_admins_event_credit_path(current_event, credit), method: :delete, title: "Destroy Credential Type" 
             - else
-                li.table-action.action-add_credential = link_to create_credential_admins_event_credit_path(current_event, credit), title: "Create Credentia Type" do
-                  = fa_icon "circle-thin"
+                li.table-action.action-add_credential = link_to fa_icon("circle-thin"), create_credential_admins_event_credit_path(current_event, credit), title: "Create Credentia Type" 
 = paginate credits

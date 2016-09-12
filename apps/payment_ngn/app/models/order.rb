@@ -61,14 +61,19 @@ class Order < ActiveRecord::Base
   end
 
   def generate_order_number!
-    time_hex = Time.zone.now.strftime("%H%M%L").to_i.to_s(16)
-    day = Time.zone.today.strftime("%y%m%d")
-    self.number = "#{day}#{time_hex}"
+    self.number = Order.generate_token
     save
   end
 
   def expired?
     Time.zone.now > created_at + 15.minutes
+  end
+
+  # TODO: This method shouldn't be here I extracted it to test it, because we had a bug related to it
+  def self.generate_token(date=Time.zone.now)
+    time_hex = date.strftime("%H%M%S%L").to_i.to_s(16)
+    day = date.strftime("%y%m%d")
+    "#{day}#{time_hex}"
   end
 
   private

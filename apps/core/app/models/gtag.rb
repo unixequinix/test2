@@ -36,7 +36,6 @@ class Gtag < ActiveRecord::Base
 
   # Associations
   belongs_to :event
-  belongs_to :company_ticket_type
 
   has_many :claims
   has_many :comments, as: :commentable
@@ -57,7 +56,7 @@ class Gtag < ActiveRecord::Base
   before_validation :upcase_gtag!
 
   # Validations
-  validates_uniqueness_of :tag_uid, scope: :event_id
+  validates_uniqueness_of :tag_uid, scope: [:event_id, :activation_counter]
   validates :tag_uid, presence: true
   # TODO: enable when andriod stops sending fake uids (DEVICE, TAG)
   # validates :tag_uid, format: { with: /\A[0-9A-Fa-f]+\z/, message: I18n.t("errors.messages.only_hex") }
@@ -71,7 +70,7 @@ class Gtag < ActiveRecord::Base
            LEFT OUTER JOIN customer_orders
            ON customer_orders.profile_id = credential_assignments.profile_id
            AND customer_orders.deleted_at IS NULL")
-      .select("gtags.id, gtags.event_id, gtags.company_ticket_type_id, gtags.tag_uid,
+      .select("gtags.id, gtags.event_id, gtags.tag_uid,
                gtags.credential_redeemed, customer_orders.amount")
       .where(event: event_id)
   }

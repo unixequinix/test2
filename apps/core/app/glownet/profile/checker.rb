@@ -2,11 +2,11 @@ class Profile::Checker
   def self.for_transaction(gtag, tr_profile, event_id)
     tg_profile = gtag.assigned_profile&.id
 
-    message = "Profile error - Transaction: #{tr_profile.inspect}, Gtag: #{tg_profile.inspect}"
+    message = "Profile fraud - Transaction: #{tr_profile.inspect}, Gtag: #{tg_profile.inspect}"
     raise message if tr_profile.present? && tg_profile.present? && tg_profile != tr_profile
 
-    return tg_profile if tg_profile
     return tr_profile if tr_profile
+    return tg_profile if tg_profile
 
     profile = Profile.create!(event_id: event_id)
     profile.credential_assignments.find_or_create_by!(credentiable: gtag, aasm_state: :assigned)

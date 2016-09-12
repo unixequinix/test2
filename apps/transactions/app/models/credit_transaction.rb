@@ -45,6 +45,7 @@ class CreditTransaction < Transaction
   after_update :recalculate_profile_balance
 
   def recalculate_profile_balance
+    binding.pry
     transactions = profile.credit_transactions.status_ok.not_record_credit
 
     if transactions.map(&:transaction_origin).uniq.first == "customer_portal"

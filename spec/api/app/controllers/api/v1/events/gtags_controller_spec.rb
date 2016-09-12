@@ -23,8 +23,8 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
       it "returns the necessary keys" do
         JSON.parse(response.body).map do |gtag|
-          keys = %w(reference credential_redeemed banned updated_at credential_type_id
-                    purchaser_first_name purchaser_last_name purchaser_email customer_id)
+          keys = %w(reference banned updated_at purchaser_first_name purchaser_last_name
+                    purchaser_email customer_id)
           expect(keys).to eq(gtag.keys)
         end
       end
@@ -34,8 +34,6 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
           gtag = db_gtags[db_gtags.index { |tag| tag.tag_uid == list_gtag["reference"] }]
           gtag_atts = {
             reference: gtag.tag_uid,
-            credential_redeemed: gtag.credential_redeemed,
-            credential_type_id: gtag&.company_ticket_type&.credential_type_id,
             banned: gtag.banned?,
             updated_at: gtag.updated_at.utc.strftime("%Y-%m-%dT%T.%6N"),
             purchaser_first_name: gtag&.purchaser&.first_name,
@@ -64,14 +62,9 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
   describe "GET show" do
     context "with authentication" do
       before do
-        @agreement = create(:company_event_agreement, event: event)
         @access = create(:access_catalog_item, event: event)
-        @credential = create(:credential_type, catalog_item: @access)
-        @ctt = create(:company_ticket_type, company_event_agreement: @agreement,
-                                            event: event,
-                                            credential_type: @credential)
-        @gtag = create(:gtag, event: event, company_ticket_type: @ctt)
-        @gtag2 = create(:gtag, event: event, company_ticket_type: @ctt)
+        @gtag = create(:gtag, event: event)
+        @gtag2 = create(:gtag, event: event)
         @profile = create(:profile, event: event)
         create(:credential_assignment, credentiable: @gtag,
                                        profile: @profile,
@@ -97,7 +90,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
         it "returns the necessary keys" do
           gtag = JSON.parse(response.body)
-          gtag_keys = %w(reference credential_redeemed banned credential_type_id customer)
+          gtag_keys = %w(reference banned customer)
           customer_keys = %w(id banned autotopup_gateways credentials first_name last_name email orders)
           order_keys = %w(online_order_counter catalogable_id catalogable_type amount)
           credential_keys = %w(reference type)
@@ -114,9 +107,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
           gtag = {
             reference: @gtag.tag_uid,
-            credential_redeemed: @gtag.credential_redeemed,
             banned: @gtag.banned,
-            credential_type_id: @gtag.company_ticket_type.credential_type_id,
             customer: {
               id:  @gtag.assigned_profile.id,
               banned: @gtag.assigned_profile.banned?,

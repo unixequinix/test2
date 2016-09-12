@@ -1,10 +1,10 @@
 class CreditsPresenter < BasePresenter
   def can_render?
-    @profile.active_credentials? && @profile.completed_claims.empty?
+    @profile.active_credentials?
   end
 
   def path
-    @event.finished? ? "events/events/credits_after_event" : "events/events/credits"
+    @event.top_ups? ? "events/events/credits" : "events/events/credits_after_event"
   end
 
   def customer_total_credits
