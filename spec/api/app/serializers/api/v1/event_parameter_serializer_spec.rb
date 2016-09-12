@@ -4,7 +4,7 @@ RSpec.describe Api::V1::EventParameterSerializer, type: :serializer do
   context "Individual Resource Representation" do
     let(:resource) { build(:event_parameter) }
 
-    let(:serializer) { Api::V1::ParameterSerializer.new(resource) }
+    let(:serializer) { Api::V1::EventParameterSerializer.new(resource) }
     let(:serialization) { ActiveModelSerializers::Adapter.create(serializer) }
 
     subject { JSON.parse(serialization.to_json) }

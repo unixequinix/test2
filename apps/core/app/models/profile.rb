@@ -119,6 +119,10 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     indexes.sort
   end
 
+  def enough_money?
+    refundable_money <= online_refundable_money
+  end
+
   def missing_transaction_counters
     indexes = all_transaction_counters
     all_indexes = (1..indexes.last.to_i).to_a

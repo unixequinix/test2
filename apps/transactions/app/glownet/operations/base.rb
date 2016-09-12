@@ -1,5 +1,5 @@
 class Operations::Base < ActiveJob::Base
-  SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at gtag_counter ).freeze
+  SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at gtag_counter gtag_activations).freeze
 
   def perform(atts)
     atts = preformat_atts(atts)

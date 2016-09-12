@@ -29,6 +29,7 @@ class CustomerOrder < ActiveRecord::Base
   TICKET_UNASSIGNMENT = "ticket_unassignment".freeze
   DEVICE = "device".freeze
   PURCHASE = "online_purchase".freeze
+  REFUND = "online_refund".freeze
 
   REFUND_SERVICES = [TICKET_ASSIGNMENT, DEVICE, PURCHASE].freeze
 end

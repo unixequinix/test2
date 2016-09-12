@@ -1,16 +1,13 @@
 class ClaimsPresenter < BasePresenter
   def can_render?
-    @event.refunds? && @gtag_assignment.present?
+    @event.refunds? && @gtag_assignment.present? && @profile.refundable_credits.positive?
   end
 
-  def path # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
-    profile = @profile
-    enough_money = profile.refundable_money <= profile.online_refundable_money
+  def path
     return "cards_disabled" if @gtag_assignment.credentiable.card? && !cards_can_refund?
-    return "claim_present" if profile.completed_claims.present?
     return "no_credits" unless any_refundable_method?
-    return "invalid_balance" unless profile.valid_balance?
-    return "direct_claim" if enough_money && @event.direct?
+    return "invalid_balance" unless @profile.valid_balance?
+    return "direct_claim" if @profile.enough_money? && @event.direct?
     "transfer_claim"
   end
 
@@ -41,7 +38,7 @@ class ClaimsPresenter < BasePresenter
 
   # TODO: check logic. Also check why this is the EXACT same as the method above.... Ridiculous
   def each_refundable
-    return [] unless any_refundable_method? && !completed_claim?
+    return [] unless any_refundable_method?
     refund_services.each do |refund_service|
       refundable = @profile.refundable?(refund_service) ? "refundable" : "not_refundable"
       yield method("snippet_#{refundable}").call(refund_service)

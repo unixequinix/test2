@@ -134,6 +134,10 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   do_not_validate_attachment_file_type :device_full_db
   do_not_validate_attachment_file_type :device_basic_db
 
+  def eventbrite?
+    eventbrite_token.present? && eventbrite_event.present?
+  end
+  
   def standard_credit_price
     credits.standard.value
   end
@@ -184,6 +188,10 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   def payment_service_parsed(payment_service)
     EventDecorator::PAYMENT_PLATFORMS[payment_service]
+  end
+
+  def active?
+    %w(launched started finished).include? aasm_state
   end
 
   private

@@ -24,6 +24,9 @@ aside#main-menu
     li.aside-list = link_to admins_event_device_settings_path(event) do
       = fa_icon "cogs"
       = t("admin.aside.device_settings")
+    li.aside-list = link_to admins_event_eventbrite_path(event) do
+      = fa_icon "cogs"
+      = t("admin.aside.eventbrite_settings")
 
     h3.aside-title = t("admin.aside.setup")
 

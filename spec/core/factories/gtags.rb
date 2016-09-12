@@ -16,8 +16,6 @@ FactoryGirl.define do
   factory :gtag do
     event
     tag_uid { "ERTYUJHB#{rand(100)}GH#{rand(100)}" }
-    credential_redeemed { [true, false].sample }
-    company_ticket_type
 
     trait :with_purchaser do
       after(:build) do |gtag|
