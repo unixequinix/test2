@@ -1,11 +1,14 @@
 class Operations::Base < ActiveJob::Base
-  SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at gtag_counter gtag_activations).freeze
+  # TODO: I feel dirty doing this. Fuck me.
+  OLD_SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at gtag_counter gtag_activations).freeze
+  NEW_SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at_fixed gtag_counter gtag_activations).freeze
 
   def perform(atts)
     atts = preformat_atts(atts)
     klass = Transaction.class_for_type(atts[:transaction_category])
 
-    obj = klass.find_by(atts.slice(*SEARCH_ATTS))
+    obj = klass.find_by(atts.slice(*NEW_SEARCH_ATTS))
+    obj ||= klass.find_by(atts.slice(*OLD_SEARCH_ATTS))
     return obj if obj
 
     if atts[:customer_tag_uid].present?
@@ -42,6 +45,7 @@ class Operations::Base < ActiveJob::Base
       device_uid: "portal",
       device_db_index: klass.where(event: event, station_id: station.id).count + 1,
       device_created_at: Time.zone.now.strftime("%Y-%m-%d %T.%L"),
+      device_created_at_fixed: Time.zone.now.strftime("%Y-%m-%d %T.%L"),
       customer_tag_uid: profile.active_gtag_assignment&.credentiable&.tag_uid
     }.merge(atts)
 
@@ -69,6 +73,7 @@ class Operations::Base < ActiveJob::Base
     atts[:catalogable_type] = atts[:catalogable_type].to_s.camelcase if atts.key?(:catalogable_type)
     atts[:profile_id] ||= atts[:customer_event_profile_id]
     atts[:refundable_credits] ||= atts[:credits_refundable]
+    atts[:device_created_at_fixed] = atts[:device_created_at]
     atts.delete(:station_id) if atts[:station_id].to_i.zero?
     atts.delete(:sale_items_attributes) if atts[:sale_items_attributes].blank?
     atts
