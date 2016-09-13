@@ -58,3 +58,4 @@ es:
       more_credits_than_max_balance: "no pueden superar el saldo máximo del gtag"
       only_hex: "sólo permite valores hexadecimales"
       product_already_added: "ya existe en esta estación"
+      ticket_type_has_tickets: "hay tickets usando este tipo de ticket"

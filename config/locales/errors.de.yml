@@ -54,3 +54,4 @@ de:
       more_credits_than_max_balance: "can't be greater than maximum gtag balance"
       only_hex: "only allows hexadecimal values"
       product_already_added: "already added to this station"
+      ticket_type_has_tickets: "there are tickets using this ticket type"

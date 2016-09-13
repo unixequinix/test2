@@ -58,8 +58,11 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
 
   def destroy
     @company_ticket_type = @fetcher.company_ticket_types.find(params[:id])
-    @company_ticket_type.destroy!
-    flash[:notice] = I18n.t("alerts.destroyed")
+    if @company_ticket_type.destroy
+      flash[:notice] = I18n.t("alerts.destroyed")
+    else
+      flash[:error] = I18n.t("errors.messages.ticket_type_has_tickets")
+    end
     redirect_to admins_event_company_ticket_types_url
   end
 
