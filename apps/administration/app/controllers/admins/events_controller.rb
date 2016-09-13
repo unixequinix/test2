@@ -1,4 +1,6 @@
 class Admins::EventsController < Admins::BaseController
+  include ActiveModel::Dirty
+
   before_action :set_event, only: [:show, :edit, :update, :remove_logo, :remove_background, :remove_db]
 
   def index # rubocop:disable Metrics/AbcSize
@@ -39,6 +41,11 @@ class Admins::EventsController < Admins::BaseController
 
   def update
     if @current_event.update_attributes(permitted_params.merge(slug: nil))
+
+      if @current_event.previous_changes[:name] || @current_event.previous_changes[:start_date] || @current_event.previous_changes[:end_date]
+        @current_event.update(device_full_db: nil, device_basic_db: nil)
+      end
+
       redirect_to admins_event_url(@current_event), notice: I18n.t("alerts.updated")
     else
       flash[:error] = I18n.t("alerts.error")
