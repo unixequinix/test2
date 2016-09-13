@@ -4,6 +4,11 @@ class Operations::Credential::Base < Operations::Base
     gtag.create_assigned_gtag_credential!(profile_id: profile_id)
   end
 
+  def unassign_gtag_credential(gtag, profile_id)
+    return unless gtag.assigned_gtag_credential
+    gtag.assigned_gtag_credential.unassign!
+  end
+
   def assign_ticket(transaction, atts)
     code = atts[:ticket_code]
     event = transaction.event
