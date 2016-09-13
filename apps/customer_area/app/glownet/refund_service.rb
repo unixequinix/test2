@@ -36,7 +36,7 @@ class RefundService
     neg = (@claim.total * -1).to_i
     order = Order.new(profile: @profile)
     order.generate_order_number!
-    order.order_items << OrderItem.new(catalog_item_id: @profile.event.credits.standard.id, amount: neg, total: neg * @profile.event.standard_credit_price.to_f)
+    order.order_items << OrderItem.new(catalog_item_id: @profile.event.credits.standard.catalog_item.id, amount: neg, total: neg * @profile.event.standard_credit_price.to_f)
     order.save!
     customer_order = CustomerOrder.create(profile: order.profile, amount: order.order_items.first.amount, catalog_item: order.order_items.first.catalog_item, origin: CustomerOrder::REFUND)
     OnlineOrder.create(redeemed: false, customer_order: customer_order)
