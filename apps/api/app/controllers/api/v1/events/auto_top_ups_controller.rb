@@ -9,7 +9,7 @@ class Api::V1::Events::AutoTopUpsController < Api::V1::Events::BaseController
     payer = "Autotopup::#{params[:payment_method].downcase.camelize}AutoPayer".constantize
     payer = payer.start(params[:gtag_uid], params[:order_id], current_event)
     errors = payer[:errors]
-    render(status: :unprocessable_entity, json: errors) && return if errors
+    render(status: :unprocessable_entity, json: { errors: errors }) && return if errors
 
     render(status: :created, json: payer)
   end
