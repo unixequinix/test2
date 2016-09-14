@@ -18,8 +18,8 @@ table.customer_orders
         td data-label=t("admin.customer_orders.origin") = customer_order.origin
         - if customer_order.online_order.present?
             td data-label=t("admin.customer_orders.online_order")
-              = fa_icon "star" if customer_order.online_order.present?
-            td data-label=t("admin.online_orders.redeemed") = customer_order.online_order.redeemed
+              = customer_order.online_order.counter
+            td data-label=t("admin.online_orders.redeemed") = customer_order.online_order.redeemed?
         - else
             td
             td

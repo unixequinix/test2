@@ -57,8 +57,10 @@ class Operations::Base < ActiveJob::Base
     # TODO: this shouldn't go here. remove when class loading is not an issue
     Operations::Credential::TicketChecker.inspect
     Operations::Credential::GtagChecker.inspect
+    Operations::Credential::GtagRecycler.inspect
     Operations::Credit::BalanceUpdater.inspect
     Operations::Order::CredentialAssigner.inspect
+    Operations::Order::OrderRedeemer.inspect
 
     children = self.class.descendants
     children.each { |klass| klass.perform_later(atts) if klass::TRIGGERS.include? atts[:transaction_type] }
