@@ -241,9 +241,9 @@ it:
     invalid_claim:
       title: "Stiamo lavorando sul suo rimborso"
       description: "Perfavore contattateci tramite l’ email  %{email} per procedere al rimborso."
-    cards_disabled:
-      title: "Ci scusiamo"
-      description: "Carta non abilitata al rimborso online"
+    credentiable_refund_disabled:
+      title: "Sorry"
+      description: "Your credential is not elegible for online refunds"
     paypal:
       button: "Rimborso con PayPal"
     wirecard:

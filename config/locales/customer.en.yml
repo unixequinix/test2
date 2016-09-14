@@ -245,9 +245,9 @@ en:
     invalid_claim:
       title: "Working in your refund"
       description: "Please contact us at %{email} in order to process your refund."
-    cards_disabled:
+    credentiable_refund_disabled:
       title: "Sorry"
-      description: "Cards are not elegible for online refunds"
+      description: "Your credential is not elegible for online refunds"
     paypal:
       button: "Refund with PayPal"
     wirecard:

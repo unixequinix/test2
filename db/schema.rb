@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160912104024) do
+ActiveRecord::Schema.define(version: 20160914094714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -524,6 +524,7 @@ ActiveRecord::Schema.define(version: 20160912104024) do
     t.boolean  "banned",             default: false
     t.string   "format",             default: "wristband"
     t.integer  "activation_counter"
+    t.boolean  "loyalty",            default: false
   end
 
   add_index "gtags", ["deleted_at", "tag_uid", "event_id"], name: "index_gtags_on_deleted_at_and_tag_uid_and_event_id", unique: true, using: :btree

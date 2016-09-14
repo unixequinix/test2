@@ -454,6 +454,7 @@ en:
       tag: "Tag UID"
       format: "Format"
       banned: "Banned"
+      loyalty: "Loyalty"
       tickets: "Tickets"
       customer: "Customer"
       assigned_at: "Assigned at"
