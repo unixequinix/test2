@@ -8,6 +8,7 @@ class GtagSettingsForm
   attribute :gtag_type, String
   attribute :maximum_gtag_balance, Float
   attribute :cards_can_refund, String
+  attribute :wristbands_can_refund, String
   attribute :gtag_form_disclaimer
   attribute :gtag_assignation_notification
   attribute :gtag_deposit
@@ -17,6 +18,7 @@ class GtagSettingsForm
   validates_presence_of :gtag_name
   validates_presence_of :gtag_type
   validates_presence_of :cards_can_refund
+  validates_presence_of :wristbands_can_refund
   validates_numericality_of :maximum_gtag_balance
   validates_numericality_of :gtag_deposit
 
