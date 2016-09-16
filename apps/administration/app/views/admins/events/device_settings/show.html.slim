@@ -27,7 +27,7 @@
           = link_to remove_db_admins_event_device_settings_path(@current_event, db: "full"), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "database__btn #{"database__btn--disabled" if @current_event.device_full_db.blank?}"
             => fa_icon("ban")
             = t('admin.event.databases.clear')
-          = link_to Databases::DatabaseManager.new(@current_event, "full").generate_url(1.hour), class: "database__btn database__btn--download #{"database__btn--disabled" if @current_event.device_full_db.blank?}"
+          = link_to Databases::DatabaseManager.new(@current_event, "full").generate_url(3600), class: "database__btn database__btn--download #{"database__btn--disabled" if @current_event.device_full_db.blank?}"
             => fa_icon("download")
             = t('admin.event.databases.download')
       .database
@@ -41,6 +41,6 @@
           = link_to remove_db_admins_event_device_settings_path(@current_event, db: "basic"), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "database__btn #{"database__btn--disabled" if @current_event.device_basic_db.blank?}"
             => fa_icon("ban")
             = t('admin.event.databases.clear')
-          = link_to Databases::DatabaseManager.new(@current_event, "basic").generate_url(1.hour), class: "database__btn database__btn--download #{"database__btn--disabled" if @current_event.device_basic_db.blank?}"
+          = link_to Databases::DatabaseManager.new(@current_event, "basic").generate_url(3600), class: "database__btn database__btn--download #{"database__btn--disabled" if @current_event.device_basic_db.blank?}"
             => fa_icon("download")
             = t('admin.event.databases.download')
