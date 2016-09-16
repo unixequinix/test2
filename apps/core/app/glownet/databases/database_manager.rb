@@ -8,6 +8,6 @@ class Databases::DatabaseManager
                      secret_access_key: Rails.application.secrets.s3_secret_access_key)
     db = s3.buckets[Rails.application.secrets.s3_bucket].objects[@database.path]
     return if db.key.blank?
-    db.url_for(:get, expires: time.from_now, secure: true).to_s
+    db.url_for(:get, expires: Time.zone.now + time.minutes, secure: true).to_s
   end
 end
