@@ -445,6 +445,7 @@ de:
       updated_at: "Aktualisiert bei "
       total: "Gesamtguthaben"
       gtag_assignation: "Gtag Anmeldungen"
+      activation_counter: "Activation"
       import: "GTags importieren (Wählen Sie ein CSV File mit Kommatrennung)"
       import_credits: " Guthaben importieren (Wählen Sie ein CSV File mit Kommatrennung)"
       formats:

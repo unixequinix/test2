@@ -16,6 +16,8 @@
       dd = @gtag.tag_uid
       dt = t("admin.gtags.format")
       dd = t("admin.gtags.formats.#{@gtag.format}")
+      dt = t("admin.gtags.activation_counter")
+      dd = @gtag.activation_counter
 
       = render("purchaser", gtag: @gtag) if @gtag.purchaser.present?
 

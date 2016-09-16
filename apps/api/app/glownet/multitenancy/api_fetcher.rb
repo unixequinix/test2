@@ -86,7 +86,8 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           from (
             SELECT
               customer_orders.profile_id as profile_id,
-              counter as online_order_counter, customer_orders.amount,
+              counter as online_order_counter,
+              customer_orders.amount,
               catalog_items.catalogable_id as catalogable_id,
               LOWER(catalog_items.catalogable_type) as catalogable_type
             FROM online_orders
