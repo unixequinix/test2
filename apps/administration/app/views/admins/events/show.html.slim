@@ -13,6 +13,10 @@
   = render "admins/events/controls", event: @current_event
 
   .container-show
+    - @alerts.each do |alert|
+      p #{alert}
+
+  .container-show
     dl
       dt = t("admin.event.features")
       dd = EventDecorator::FEATURES.map { |feature| t("admin.event.features_options.#{feature}") if @current_event.flag_enabled?(feature) }.reject(&:blank?).to_sentence
