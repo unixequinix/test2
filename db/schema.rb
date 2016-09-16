@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160908170628) do
+ActiveRecord::Schema.define(version: 20160916101348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,9 +43,10 @@ ActiveRecord::Schema.define(version: 20160908170628) do
     t.string   "operator_tag_uid"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "gtag_counter",       default: 0
-    t.integer  "counter",            default: 0
+    t.integer  "gtag_counter",            default: 0
+    t.integer  "counter",                 default: 0
     t.integer  "activation_counter"
+    t.string   "device_created_at_fixed"
   end
 
   add_index "access_transactions", ["access_id"], name: "index_access_transactions_on_access_id", using: :btree
@@ -92,16 +93,17 @@ ActiveRecord::Schema.define(version: 20160908170628) do
     t.string   "device_created_at"
     t.string   "customer_tag_uid"
     t.string   "operator_tag_uid"
-    t.integer  "banneable_id",                   null: false
-    t.string   "banneable_type",                 null: false
+    t.integer  "banneable_id",                        null: false
+    t.string   "banneable_type",                      null: false
     t.text     "reason"
     t.integer  "status_code"
     t.string   "status_message"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-    t.integer  "gtag_counter",       default: 0
-    t.integer  "counter",            default: 0
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.integer  "gtag_counter",            default: 0
+    t.integer  "counter",                 default: 0
     t.integer  "activation_counter"
+    t.string   "device_created_at_fixed"
   end
 
   add_index "ban_transactions", ["event_id"], name: "index_ban_transactions_on_event_id", using: :btree
@@ -233,9 +235,10 @@ ActiveRecord::Schema.define(version: 20160908170628) do
     t.string   "ticket_code"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "gtag_counter",         default: 0
-    t.integer  "counter",              default: 0
+    t.integer  "gtag_counter",            default: 0
+    t.integer  "counter",                 default: 0
     t.integer  "activation_counter"
+    t.string   "device_created_at_fixed"
   end
 
   add_index "credential_transactions", ["event_id", "device_uid", "device_db_index", "device_created_at"], name: "credential_transaction_uniqueness_on_device", unique: true, using: :btree
@@ -278,6 +281,7 @@ ActiveRecord::Schema.define(version: 20160908170628) do
     t.integer  "gtag_counter",             default: 0
     t.integer  "counter",                  default: 0
     t.integer  "activation_counter"
+    t.string   "device_created_at_fixed"
   end
 
   add_index "credit_transactions", ["event_id", "device_uid", "device_db_index", "device_created_at"], name: "credit_transaction_uniqueness_on_device", unique: true, using: :btree
@@ -316,13 +320,13 @@ ActiveRecord::Schema.define(version: 20160908170628) do
   add_index "customer_credits", ["deleted_at"], name: "index_customer_credits_on_deleted_at", using: :btree
 
   create_table "customer_orders", force: :cascade do |t|
-    t.integer  "profile_id",      null: false
-    t.integer  "catalog_item_id", null: false
+    t.integer  "profile_id",                              null: false
+    t.integer  "catalog_item_id",                         null: false
     t.string   "origin"
-    t.integer  "amount"
+    t.decimal  "amount",          precision: 8, scale: 2
     t.datetime "deleted_at"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
   end
 
   add_index "customer_orders", ["deleted_at"], name: "index_customer_orders_on_deleted_at", using: :btree
@@ -520,6 +524,7 @@ ActiveRecord::Schema.define(version: 20160908170628) do
     t.boolean  "banned",             default: false
     t.string   "format",             default: "wristband"
     t.integer  "activation_counter"
+    t.boolean  "loyalty",            default: false
   end
 
   add_index "gtags", ["deleted_at", "tag_uid", "event_id"], name: "index_gtags_on_deleted_at_and_tag_uid_and_event_id", unique: true, using: :btree
@@ -547,9 +552,10 @@ ActiveRecord::Schema.define(version: 20160908170628) do
     t.string   "status_message"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "gtag_counter",         default: 0
-    t.integer  "counter",              default: 0
+    t.integer  "gtag_counter",            default: 0
+    t.integer  "counter",                 default: 0
     t.integer  "activation_counter"
+    t.string   "device_created_at_fixed"
   end
 
   add_index "money_transactions", ["event_id", "device_uid", "device_db_index", "device_created_at"], name: "money_transaction_uniqueness_on_device", unique: true, using: :btree
@@ -571,7 +577,7 @@ ActiveRecord::Schema.define(version: 20160908170628) do
   create_table "order_items", force: :cascade do |t|
     t.integer  "order_id",                                null: false
     t.integer  "catalog_item_id",                         null: false
-    t.float    "amount"
+    t.decimal  "amount",          precision: 8, scale: 2
     t.decimal  "total",           precision: 8, scale: 2, null: false
     t.datetime "deleted_at"
     t.datetime "created_at",                              null: false
@@ -599,9 +605,10 @@ ActiveRecord::Schema.define(version: 20160908170628) do
     t.integer  "catalogable_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "gtag_counter",         default: 0
-    t.integer  "counter",              default: 0
+    t.integer  "gtag_counter",            default: 0
+    t.integer  "counter",                 default: 0
     t.integer  "activation_counter"
+    t.string   "device_created_at_fixed"
   end
 
   add_index "order_transactions", ["customer_order_id"], name: "index_order_transactions_on_customer_order_id", using: :btree
