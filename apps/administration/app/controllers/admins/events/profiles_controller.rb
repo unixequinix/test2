@@ -82,9 +82,9 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
       context: view_context,
       include_for_all_items: [
         :customer,
-        :active_tickets_assignment,
-        :active_gtag_assignment,
-        credential_assignments: :credentiable
+        credential_assignments: :credentiable,
+        active_tickets_assignment: :credentiable,
+        active_gtag_assignment: :credentiable
       ]
     )
   end
