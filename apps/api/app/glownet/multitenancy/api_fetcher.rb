@@ -132,9 +132,6 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           gtags.tag_uid as reference,
           gtags.banned,
           gtags.updated_at,
-          purchasers.first_name as purchaser_first_name,
-          purchasers.last_name as purchaser_last_name,
-          purchasers.email as purchaser_email,
           cred.profile_id as customer_id
 
         FROM gtags
@@ -144,11 +141,6 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           AND cred.credentiable_type = 'Gtag'
           AND cred.deleted_at IS NULL
           AND cred.aasm_state = 'assigned'
-
-        LEFT OUTER JOIN purchasers
-          ON purchasers.credentiable_id = gtags.id
-          AND purchasers.credentiable_type = 'Gtag'
-          AND purchasers.deleted_at IS NULL
 
         WHERE gtags.event_id = #{@event.id}
         AND gtags.deleted_at IS NULL #{"AND gtags.updated_at > '#{date}'" if date}
