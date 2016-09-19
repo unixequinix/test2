@@ -16,6 +16,7 @@ class EventCreator
     event_management_stations
     default_event_parameters
     default_event_translations
+    change_hardcoded_gtag_keys
     @event
   end
 
@@ -50,6 +51,26 @@ class EventCreator
                                                 max_purchasable: data["max_purchasable"],
                                                 initial_amount: data["initial_amount"] })
     end
+  end
+
+  # TODO: This is a completely shit, but it's what we have. Clown fiesta.
+  def change_hardcoded_gtag_keys
+    parameters = @event.event_parameters.includes(:parameter)
+
+    parameters.find_by(parameters: { category: "gtag", group: "ultralight_ev1", name: "ultralight_ev1_private_key" })
+              .update!(value: SecureRandom.hex(16))
+
+    parameters.find_by(parameters: { category: "gtag", group: "ultralight_c", name: "ultralight_c_private_key" })
+              .update!(value: SecureRandom.hex(16))
+
+    parameters.find_by(parameters: { category: "gtag", group: "mifare_classic", name: "mifare_classic_public_key" })
+              .update!(value: SecureRandom.hex(6))
+
+    parameters.find_by(parameters: { category: "gtag", group: "mifare_classic", name: "mifare_classic_private_key_a" })
+              .update!(value: SecureRandom.hex(6))
+
+    parameters.find_by(parameters: { category: "gtag", group: "mifare_classic", name: "mifare_classic_private_key_b" })
+              .update!(value: SecureRandom.hex(6))
   end
 
   def customer_portal_station

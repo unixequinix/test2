@@ -39,8 +39,8 @@ class Api::V1::StationSerializer < Api::V1::BaseSerializer
 
   def access(hash)
     hash[:entitlements] = {
-      in: object.access_control_gates.where(direction: "1").pluck(:access_id),
-      out: object.access_control_gates.where(direction: "-1").pluck(:access_id)
+      in: object.access_control_gates.where(direction: "1").map { |g| { id: g.access_id, hidden: g.hidden? } },
+      out: object.access_control_gates.where(direction: "-1").map { |g| { id: g.access_id, hidden: g.hidden? } }
     }
   end
 end

@@ -5,6 +5,11 @@ es:
 
     # The values :model, :attribute and :value are always available for interpolation
     # The value :count is available when applicable. Can be used for pluralization.
+    event_alerts:
+      company_codes: "Hay tipos de ticket sin código de compañía"
+      credential_types: "Hay tipos de ticket sin un credencial asignado"
+      refunds: "Las devoluciones están activas, pero no hay ningún servicio de devoluciones seleccionado"
+      topups: "Las recargas están activas, pero no hay ningún servicio de recargas seleccionado"
     main:
       error_400: "Solicitud incorrecta"
       error_404: "Ruta no encontrada"
@@ -58,3 +63,4 @@ es:
       more_credits_than_max_balance: "no pueden superar el saldo máximo del gtag"
       only_hex: "sólo permite valores hexadecimales"
       product_already_added: "ya existe en esta estación"
+      ticket_type_has_tickets: "hay tickets usando este tipo de ticket"

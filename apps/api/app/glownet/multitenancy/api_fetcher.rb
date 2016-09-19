@@ -86,7 +86,8 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           from (
             SELECT
               customer_orders.profile_id as profile_id,
-              counter as online_order_counter, customer_orders.amount,
+              counter as online_order_counter,
+              customer_orders.amount,
               catalog_items.catalogable_id as catalogable_id,
               LOWER(catalog_items.catalogable_type) as catalogable_type
             FROM online_orders
@@ -111,7 +112,10 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
         AND profiles.deleted_at IS NULL #{"AND profiles.updated_at > '#{date}'" if date}
       ) cep
     SQL
-    ActiveRecord::Base.connection.select_value(sql)
+    conn = ActiveRecord::Base.connection
+    sql = conn.select_value(sql)
+    conn.close
+    sql
   end
 
   def device_general_parameters
@@ -131,9 +135,6 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           gtags.tag_uid as reference,
           gtags.banned,
           gtags.updated_at,
-          purchasers.first_name as purchaser_first_name,
-          purchasers.last_name as purchaser_last_name,
-          purchasers.email as purchaser_email,
           cred.profile_id as customer_id
 
         FROM gtags
@@ -144,16 +145,14 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           AND cred.deleted_at IS NULL
           AND cred.aasm_state = 'assigned'
 
-        LEFT OUTER JOIN purchasers
-          ON purchasers.credentiable_id = gtags.id
-          AND purchasers.credentiable_type = 'Gtag'
-          AND purchasers.deleted_at IS NULL
-
         WHERE gtags.event_id = #{@event.id}
         AND gtags.deleted_at IS NULL #{"AND gtags.updated_at > '#{date}'" if date}
       ) g
     SQL
-    ActiveRecord::Base.connection.select_value(sql)
+    conn = ActiveRecord::Base.connection
+    sql = conn.select_value(sql)
+    conn.close
+    sql
   end
 
   def banned_gtags
@@ -194,9 +193,6 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           tickets.banned,
           tickets.updated_at,
           company_ticket_types.credential_type_id as credential_type_id,
-          purchasers.first_name as purchaser_first_name,
-          purchasers.last_name as purchaser_last_name,
-          purchasers.email as purchaser_email,
           cred.profile_id as customer_id
 
         FROM tickets
@@ -206,11 +202,6 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
           AND cred.credentiable_type = 'Ticket'
           AND cred.deleted_at IS NULL
           AND cred.aasm_state = 'assigned'
-
-        LEFT OUTER JOIN purchasers
-          ON purchasers.credentiable_id = tickets.id
-          AND purchasers.credentiable_type = 'Ticket'
-          AND purchasers.deleted_at IS NULL
 
         INNER JOIN company_ticket_types
           ON company_ticket_types.id = tickets.company_ticket_type_id
@@ -222,7 +213,10 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
       ) t
     SQL
 
-    ActiveRecord::Base.connection.select_value(sql)
+    conn = ActiveRecord::Base.connection
+    sql = conn.select_value(sql)
+    conn.close
+    sql
   end
 
   def banned_tickets

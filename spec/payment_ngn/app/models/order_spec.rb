@@ -41,7 +41,7 @@ RSpec.describe Order, type: :model do
   describe "generate_order_number!" do
     it "should create a new order number" do
       order.generate_order_number!
-      day = Time.zone.today.strftime("%y%m%d")
+      day = Time.zone.today.strftime("%y%m%d").to_i.to_s(16)
 
       expect(order.number).to start_with(day)
       expect(order.number).to match(/^[a-f0-9]*$/)
@@ -54,6 +54,11 @@ RSpec.describe Order, type: :model do
       token2 = Order.generate_token("2016-09-06 11:03:18.659946".to_datetime)
 
       expect(token1).not_to eq(token2)
+    end
+
+    it "doesn't have more than 12 characters length" do
+      token = Order.generate_token("2016-09-06 11:03:17.659946".to_datetime)
+      expect(token.size < 13).to be_truthy
     end
   end
 

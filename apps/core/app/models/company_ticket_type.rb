@@ -16,7 +16,7 @@
 class CompanyTicketType < ActiveRecord::Base
   acts_as_paranoid
 
-  has_many :tickets
+  has_many :tickets, dependent: :restrict_with_error
 
   belongs_to :event
   belongs_to :credential_type

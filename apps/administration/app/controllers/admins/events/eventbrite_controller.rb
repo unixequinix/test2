@@ -7,14 +7,13 @@ class Admins::Events::EventbriteController < Admins::Events::BaseController
   end
 
   def import_tickets
-
     Eventbrite.token = @current_event.eventbrite_token
     attendees = Eventbrite::Attendee.all({ event_id: @current_event.eventbrite_event })[:attendees]
     attendees.each do |attendee|
       attendee.barcodes.each do |barcode|
         ctt = @current_event.company_ticket_types.find_by_company_code(attendee.ticket_class_id)
-        error = "Company ticket type with company code #{attendee.ticket_class_id} not found, please create it"
-        redirect_to(admins_event_eventbrite_path(@current_event), error: error) && return unless ctt
+        error = "Company ticket type with company code #{attendee.ticket_class_id} (#{attendee.ticket_class_name}) not found, please create it"
+        redirect_to(admins_event_eventbrite_path(@current_event), alert: error) && return unless ctt
 
         ctt.tickets.find_or_create_by!(code: barcode.barcode, event: @current_event)
       end

@@ -454,6 +454,7 @@ en:
       tag: "Tag UID"
       format: "Format"
       banned: "Banned"
+      loyalty: "Loyalty"
       tickets: "Tickets"
       customer: "Customer"
       assigned_at: "Assigned at"
@@ -461,6 +462,7 @@ en:
       updated_at: "Updated at"
       total: "Total Credits"
       gtag_assignation: "Gtag assignations"
+      activation_counter: "Activation"
       import:
         title:  "Import gtags by CSV file"
         empty_file: "Please select a file to import"

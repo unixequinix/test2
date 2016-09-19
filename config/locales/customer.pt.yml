@@ -245,9 +245,9 @@ pt:
     invalid_claim:
       title: "Estamos a processar o teu reembolso"
       description: "Por favor contacta-nos para %{email} de forma a processarmos o teu reembolso"
-    cards_disabled:
-      title: "Desculpa"
-      description: "Os cartões não são elegíveis para reembolsos online"
+    credentiable_refund_disabled:
+      title: "Sorry"
+      description: "Your credential is not elegible for online refunds"
     paypal:
       button: "Reembolso com PayPal"
     wirecard:

@@ -38,7 +38,10 @@ class Device < ActiveRecord::Base
         ORDER BY device_uid
       ) cep
     SQL
-    JSON.parse(ActiveRecord::Base.connection.select_value(sql))
+    conn = ActiveRecord::Base.connection
+    sql = conn.select_value(sql)
+    conn.close
+    JSON.parse(sql)
   end
 
   def upcase_asset_tracker!

@@ -30,7 +30,4 @@ class OrderItem < ActiveRecord::Base
     result = amount * catalog_item.catalogable.total_credits if pack_with_credits?
     result || 0
   end
-
-  # Validations
-  validates :amount, numericality: { only_integer: true, less_than_or_equal_to: 500 }
 end

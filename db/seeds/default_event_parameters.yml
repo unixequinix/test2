@@ -269,5 +269,8 @@
           name: cards_can_refund
           value: false
         -
+          name: wristbands_can_refund
+          value: true
+        -
           name: gtag_deposit
           value: "0.0"

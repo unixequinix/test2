@@ -438,6 +438,7 @@ es:
       tag: "Tag UID"
       format: "Formato"
       banned: "Baneado"
+      loyalty: "Fidelidad"
       tickets: "Tickets"
       customer: "Cliente"
       assigned_at: "Asignado el"
@@ -445,6 +446,7 @@ es:
       updated_at: "Actualizado el"
       total: "Créditos Totales"
       gtag_assignation: "Asignaciones del Gtag"
+      activation_counter: "Activación"
       import: "Importar GTags (Seleccionar un fichero CSV separado por comas)"
       import_credits: "Importar Créditos (Seleccionar un fichero CSV separado por comas)"
       formats:
