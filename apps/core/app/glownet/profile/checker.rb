@@ -11,6 +11,8 @@ class Profile::Checker
         klass = Transaction.class_for_type(type)
         klass.where(profile_id: tg_profile).update_all(profile_id: tr_profile)
       end
+
+      profile.credit_transactions.last.recalculate_profile_balance
       return tr_profile
     end
 
