@@ -6,6 +6,8 @@ RSpec.describe Profile::Checker, type: :domain_logic do
   let(:tag_uid) { "SOMETAGUID" }
   let(:ticket)  { create(:ticket, code: "CODE", event: event) }
   let(:profile) { create(:profile, event: event) }
+  let(:gtag_profile) { create(:profile, event: event) }
+  let(:transaction) { create(:credential_transaction, event_id: event.id, profile_id: gtag_profile.id) }
   let(:gtag)    { create(:gtag, tag_uid: tag_uid, event: event) }
   let(:atts)    { { ticket_code: "CODE", event_id: event.id, customer_tag_uid: gtag.tag_uid } }
 
@@ -82,15 +84,19 @@ RSpec.describe Profile::Checker, type: :domain_logic do
 
   describe ".for_transaction" do
     context "with profile_id" do
-      before { create(:credential_assignment, credentiable: gtag, profile: profile) }
+      before { create(:credential_assignment, credentiable: gtag, profile: gtag_profile) }
 
-      it "fails if it does not match any gtag profiles for the event" do
-        expect { subject.for_transaction(gtag, 0, event.id) }.to raise_error(RuntimeError, /Profil/)
+      it "reaassings the current profile of the gtag" do
+        subject.for_transaction(gtag, profile.id, event.id)
+        gtag.reload
+        expect(gtag.assigned_profile).to eq(profile)
       end
 
-      it "returns gtag assigned profile id profile matches that of gtag" do
-        gtag.assigned_profile = profile
-        expect(subject.for_transaction(gtag, profile.id, event.id)).to eq(profile.id)
+      it "merges the old gtag profile transactions to the transaction profile" do
+        expect(transaction.profile_id).to eq(gtag_profile.id)
+        subject.for_transaction(gtag, profile.id, event.id)
+        transaction.reload
+        expect(transaction.profile_id).to eq(profile.id)
       end
     end
 

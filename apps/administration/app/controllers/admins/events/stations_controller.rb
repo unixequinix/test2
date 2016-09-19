@@ -1,8 +1,9 @@
 class Admins::Events::StationsController < Admins::Events::BaseController
   before_action :set_station, only: [:edit, :update, :destroy, :visibility]
+
   def index
     @group = params[:group]
-    @stations = current_event.stations.where(group: @group).order(name: :asc)
+    @stations = current_event.stations.where(group: @group).order("hidden ASC, name ASC")
   end
 
   def new
