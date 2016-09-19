@@ -1,4 +1,4 @@
-set :branch, "kappa_scripts"
+set :branch, "profile_merger"
 set :rails_env, "hotfix"
 
 # Default value for :log_level is :debug

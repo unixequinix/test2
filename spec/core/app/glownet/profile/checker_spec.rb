@@ -98,6 +98,12 @@ RSpec.describe Profile::Checker, type: :domain_logic do
         transaction.reload
         expect(transaction.profile_id).to eq(profile.id)
       end
+
+      it "raises an error if the profile already has a gtag" do
+        new_gtag = create(:gtag, event: event)
+        create(:credential_assignment, :assigned, credentiable: new_gtag, profile: profile)
+        expect { subject.for_transaction(gtag, profile.id, event.id) }.to raise_error(RuntimeError, /Profil/)
+      end
     end
 
     context "without profile_id" do

@@ -3,8 +3,11 @@ class Profile::Checker
     tg_profile = gtag.assigned_profile&.id
 
     if tr_profile.present? && tg_profile.present? && tg_profile != tr_profile
-      gtag.assigned_gtag_credential.unassign!
       profile = Profile.find(tr_profile)
+      message = "Profile fraud - Transaction: #{tr_profile.inspect}, Gtag: #{tg_profile.inspect}"
+      raise message if profile.active_gtag_assignment.present?
+
+      gtag.assigned_gtag_credential.unassign!
       profile.credential_assignments.find_or_create_by!(credentiable: gtag, aasm_state: :assigned)
 
       Transaction::TYPES.each do |type|
@@ -12,7 +15,7 @@ class Profile::Checker
         klass.where(profile_id: tg_profile).update_all(profile_id: tr_profile)
       end
 
-      profile.credit_transactions.last.recalculate_profile_balance
+      profile.credit_transactions.last.try(:recalculate_profile_balance)
       return tr_profile
     end
 
