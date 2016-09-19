@@ -10,11 +10,16 @@
     = fa_icon 'external-link'
     = t('actions.portal')
 .wrapper-negative-space
+  - if @alerts.present?
+    .alerts
+      h2.alerts__title
+        = fa_icon("warning")
+        | Warning
+      ul.alerts__messages
+        - @alerts.each do |alert|
+          li = alert
+        
   = render "admins/events/controls", event: @current_event
-
-  .container-show
-    - @alerts.each do |alert|
-      p #{alert}
 
   .container-show
     dl
