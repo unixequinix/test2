@@ -14,11 +14,11 @@ td data-label=t("admin.profile.id") = link_to profile.id, admins_event_profile_p
 - else
   td data-label=t("admin.customers.tickets") = t("admin.defaults.empty_tickets")
 td data-label=t("admin.customers.credits") = profile.credits
-- if !profile.active_gtag_assignment.nil?
-  td = link_to "#{profile.active_gtag_assignment.credentiable.tag_uid}", admins_event_gtag_path(current_event, profile.active_gtag_assignment.credentiable)
+- if gtag = profile.active_gtag_assignment&.credentiable
+  td = link_to "#{gtag.tag_uid} - #{gtag.activation_counter}", admins_event_gtag_path(current_event, profile.active_gtag_assignment.credentiable)
 - else
   td data-label=t("admin.customers.gtags") = t("admin.defaults.empty_gtags")
-- unless current_admin.customer_service?
+- unless customer_service
   td data-label=t("admin.customers.banned")
     - if profile.banned?
       = link_to unban_admins_event_profile_path(current_event, profile), method: :delete, title: "Unban profile" do

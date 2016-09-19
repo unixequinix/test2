@@ -1,4 +1,4 @@
-set :branch, "ruben"
+set :branch, "kappa_scripts"
 set :rails_env, "hotfix"
 
 # Default value for :log_level is :debug
