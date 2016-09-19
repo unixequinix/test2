@@ -446,6 +446,7 @@ es:
       updated_at: "Actualizado el"
       total: "Créditos Totales"
       gtag_assignation: "Asignaciones del Gtag"
+      activation_counter: "Activación"
       import: "Importar GTags (Seleccionar un fichero CSV separado por comas)"
       import_credits: "Importar Créditos (Seleccionar un fichero CSV separado por comas)"
       formats:

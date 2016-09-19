@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160914094714) do
+ActiveRecord::Schema.define(version: 20160916101348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -320,13 +320,13 @@ ActiveRecord::Schema.define(version: 20160914094714) do
   add_index "customer_credits", ["deleted_at"], name: "index_customer_credits_on_deleted_at", using: :btree
 
   create_table "customer_orders", force: :cascade do |t|
-    t.integer  "profile_id",      null: false
-    t.integer  "catalog_item_id", null: false
+    t.integer  "profile_id",                              null: false
+    t.integer  "catalog_item_id",                         null: false
     t.string   "origin"
-    t.integer  "amount"
+    t.decimal  "amount",          precision: 8, scale: 2
     t.datetime "deleted_at"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
   end
 
   add_index "customer_orders", ["deleted_at"], name: "index_customer_orders_on_deleted_at", using: :btree
@@ -577,7 +577,7 @@ ActiveRecord::Schema.define(version: 20160914094714) do
   create_table "order_items", force: :cascade do |t|
     t.integer  "order_id",                                null: false
     t.integer  "catalog_item_id",                         null: false
-    t.float    "amount"
+    t.decimal  "amount",          precision: 8, scale: 2
     t.decimal  "total",           precision: 8, scale: 2, null: false
     t.datetime "deleted_at"
     t.datetime "created_at",                              null: false

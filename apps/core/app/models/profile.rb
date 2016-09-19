@@ -200,8 +200,10 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
         ORDER BY customer_trans.profile_id
       ) cust
     SQL
-
-    JSON.parse(ActiveRecord::Base.connection.select_value(sql)).to_a.group_by { |t| t["profile_id"] }
+    conn = ActiveRecord::Base.connection
+    sql = conn.select_value(sql)
+    conn.close
+    JSON.parse(sql).to_a.group_by { |t| t["profile_id"] }
   end
 
   def self.credits_sum(event) # rubocop:disable Metrics/MethodLength
@@ -222,6 +224,9 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
         ORDER BY inconsistent DESC
       ) inc
     SQL
-    JSON.parse(ActiveRecord::Base.connection.select_value(sql)).to_a
+    conn = ActiveRecord::Base.connection
+    sql = conn.select_value(sql)
+    conn.close
+    JSON.parse(sql).to_a
   end
 end

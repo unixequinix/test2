@@ -5,6 +5,11 @@ es:
 
     # The values :model, :attribute and :value are always available for interpolation
     # The value :count is available when applicable. Can be used for pluralization.
+    event_alerts:
+      company_codes: "Hay tipos de ticket sin código de compañía"
+      credential_types: "Hay tipos de ticket sin un credencial asignado"
+      refunds: "Las devoluciones están activas, pero no hay ningún servicio de devoluciones seleccionado"
+      topups: "Las recargas están activas, pero no hay ningún servicio de recargas seleccionado"
     main:
       error_400: "Solicitud incorrecta"
       error_404: "Ruta no encontrada"

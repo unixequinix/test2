@@ -446,6 +446,7 @@ th:
       updated_at: "Updated at"
       total: "Total Credits"
       gtag_assignation: "Gtag assignations"
+      activation_counter: "Activation"
       import: "Import GTags (Select a CSV file comma separated)"
       import_credits: "Import Credits (Select a CSV file comma separated)"
       formats:

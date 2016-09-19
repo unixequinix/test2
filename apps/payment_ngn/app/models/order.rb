@@ -72,7 +72,7 @@ class Order < ActiveRecord::Base
   # TODO: This method shouldn't be here I extracted it to test it, because we had a bug related to it
   def self.generate_token(date=Time.zone.now)
     time_hex = date.strftime("%H%M%S%L").to_i.to_s(16)
-    day = date.strftime("%y%m%d").to_i.to_s(16)
+    day = date.strftime("%y%m%d").to_i.to_s(16) 
     "#{day}#{time_hex}"
   end
 
