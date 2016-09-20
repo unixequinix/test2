@@ -3,11 +3,10 @@ class Events::AutotopupAgreementsController < Events::OrdersController
 
   def new
     payment_service = params[:payment_service]
+    klass = "Orders::#{payment_service.to_s.camelize}Presenter".constantize
+
     @order = OrderCreator.autotopup_order(current_profile, current_event)
-    @order_presenter =
-      "Orders::#{payment_service.to_s.camelize}Presenter".constantize
-                                                         .new(current_event, @order)
-                                                         .with_params(params)
+    @order_presenter = klass.new(current_event, @order).with_params(params)
   end
 
   def update
@@ -29,8 +28,7 @@ class Events::AutotopupAgreementsController < Events::OrdersController
   private
 
   def check_autotopup!
-    redirect_to event_url(current_event) unless current_event.gtag_assignation? &&
-                                                current_profile.active_credentials? &&
+    redirect_to event_url(current_event) unless current_profile.active_credentials? &&
                                                 current_event.agreement_acceptance? &&
                                                 current_event.autotopup_payment_services.present?
   end
