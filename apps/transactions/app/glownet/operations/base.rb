@@ -28,21 +28,21 @@ class Operations::Base < ActiveJob::Base
     event = Event.find(atts[:event_id])
     station = event.portal_station
     profile = Profile.find(atts[:profile_id])
+    gtag = profile.active_gtag_assignment&.credentiable
     klass = Transaction.class_for_type(atts[:transaction_category])
-    counter = klass.where(event: event,
-                          profile_id: atts[:profile_id],
-                          transaction_origin: Transaction::ORIGINS[:portal]).count + 1
+    trans = klass.where(event: event, profile_id: atts[:profile_id], transaction_origin: Transaction::ORIGINS[:portal])
 
     final_atts = {
       transaction_origin: Transaction::ORIGINS[:portal],
-      counter: counter,
+      counter: trans.count + 1,
       station_id: station.id,
       status_code: 0,
       status_message: "OK",
       device_uid: "portal",
       device_db_index: klass.where(event: event, station_id: station.id).count + 1,
       device_created_at: Time.zone.now.strftime("%Y-%m-%d %T.%L"),
-      customer_tag_uid: profile.active_gtag_assignment&.credentiable&.tag_uid
+      customer_tag_uid: gtag&.tag_uid,
+      activation_counter: gtag&.activation_counter
     }.merge(atts)
 
     klass.create!(column_attributes(klass, final_atts))
