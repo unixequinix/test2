@@ -12,7 +12,6 @@ class PaypalNvpPaymentSettingsForm < BaseSettingsForm
   validates_presence_of :user
   validates_presence_of :password
   validates_presence_of :signature
-  validates_presence_of :merchant_id
   validates_presence_of :currency
   validates_presence_of :url
   validates_presence_of :api_url
