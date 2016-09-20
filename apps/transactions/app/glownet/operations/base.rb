@@ -45,7 +45,7 @@ class Operations::Base < ActiveJob::Base
       device_db_index: klass.where(event: event, station_id: station.id).count + 1,
       device_created_at: Time.zone.now.strftime("%Y-%m-%d %T.%L"),
       device_created_at_fixed: Time.zone.now.strftime("%Y-%m-%d %T.%L"),
-      activation_counter: gtag&.activation_counter
+      activation_counter: gtag&.activation_counter,
       customer_tag_uid: gtag&.tag_uid,
     }.merge(atts)
 
