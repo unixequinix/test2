@@ -119,7 +119,7 @@ it:
       title: "Il numero della tua Paycard:"
       call_to_action: "Registrato una Paycard sbagliata per?"
       button: "Cancella"
-      hint: "Hai sbagliato a trascrivere il %{gtag}? Cancella e ricomincia il processo"
+      hint: "Hai sbagliato a trascrivere il codice della tua %{gtag}? Cancella e ricomincia il processo"
     gtag_after_refund:
       description: "Il tuo rimborso è in corso"
     without_refunds:
@@ -251,11 +251,11 @@ it:
   gtag_assignations:
     title: "Registra la tua Paycard"
     description:
-      standard: "Assegna la seconda linea di numeri e lettere (evidenziate in giallo) del tuo %{gtag}"
-      card: "Assegna la seconda linea di numeri e lettere (evidenziate in giallo) del tuo %{gtag}"
+      standard: "Inserisci il codice alfanumerico che trovi sul retro (in baso a destra) della tua %{gtag}"
+      card: "Inserisci il codice alfanumerico che trovi sul retro (in baso a destra) della tua %{gtag}"
       simple: "Assegna i numeri evidenziati in giallo come appaiono nel tuo %{gtag}"
     call_to_action: "Registra la tua Paycard e inizia!"
-    button: "Accetto"
+    button: "Registra"
     back: "Indietro"
     placeholders:
       standard:
