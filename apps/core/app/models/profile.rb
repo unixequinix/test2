@@ -221,6 +221,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
         FROM profiles
         WHERE event_id = #{event.id} AND
               (final_balance <> credits OR final_refundable_balance <> refundable_credits)
+        AND deleted_at IS NULL
         ORDER BY inconsistent DESC
       ) inc
     SQL

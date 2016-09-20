@@ -6,14 +6,13 @@ RSpec.describe Profile::Checker, type: :domain_logic do
   let(:tag_uid) { "SOMETAGUID" }
   let(:ticket)  { create(:ticket, code: "CODE", event: event) }
   let(:profile) { create(:profile, event: event) }
+  let(:customer) { create(:customer, event: event) }
   let(:gtag_profile) { create(:profile, event: event) }
   let(:transaction) { create(:credential_transaction, event_id: event.id, profile_id: gtag_profile.id) }
   let(:gtag)    { create(:gtag, tag_uid: tag_uid, event: event) }
   let(:atts)    { { ticket_code: "CODE", event_id: event.id, customer_tag_uid: gtag.tag_uid } }
 
   describe ".for_credentiable" do
-    let(:customer) { create(:customer, event: event) }
-
     context "when credentiable does't have a profile assigned" do
       before { gtag.update!(assigned_profile: nil) }
 
@@ -34,7 +33,10 @@ RSpec.describe Profile::Checker, type: :domain_logic do
     end
 
     context "when credentiable has a profile assigned" do
-      before { gtag.update!(assigned_profile: profile) }
+      before do
+        gtag.update!(assigned_profile: profile)
+        profile.update!(customer: customer)
+      end
 
       it "fails when said profile already has a customer" do
         expect(profile.customer).not_to be_nil
@@ -45,7 +47,7 @@ RSpec.describe Profile::Checker, type: :domain_logic do
         before { profile.update!(customer: nil) }
 
         context "when current customer already has a profile" do
-          let(:portal_profile)  { create(:profile, event: event) }
+          let(:portal_profile)  { create(:profile, event: event, customer: create(:customer, event: event)) }
           let(:portal_customer) { portal_profile.customer }
 
           before(:each) do
@@ -100,8 +102,7 @@ RSpec.describe Profile::Checker, type: :domain_logic do
       end
 
       it "raises an error if the profile already has a gtag" do
-        new_gtag = create(:gtag, event: event)
-        create(:credential_assignment, :assigned, credentiable: new_gtag, profile: profile)
+        gtag.assigned_profile.update(customer: customer)
         expect { subject.for_transaction(gtag, profile.id, event.id) }.to raise_error(RuntimeError, /Profil/)
       end
     end
