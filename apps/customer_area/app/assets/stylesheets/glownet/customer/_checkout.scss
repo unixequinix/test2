@@ -112,4 +112,14 @@
   @include min-screen($bp5) { padding: modules(0.5) modules(3); }
 }
 
+.autotopup-amount-disclaimer {
+  margin-bottom: 0;
+  padding: modules(0.5);
+  border-radius: $radius;
+  background-color: lighten($blueBoot, 43%);
+  color: darken($blueBoot, 10%);
+
+  @include min-screen($bp5) { padding: modules(0.5) modules(3); }
+}
+
 // ···
