@@ -13,8 +13,11 @@
 FactoryGirl.define do
   factory :profile do
     event
-    after(:build) do |profile|
-      profile.customer ||= build(:customer, profile: profile)
+
+    trait :with_customer do
+      after(:build) do |profile|
+        profile.customer ||= build(:customer, profile: profile)
+      end
     end
   end
 end
