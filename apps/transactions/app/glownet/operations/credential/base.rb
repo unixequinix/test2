@@ -4,7 +4,7 @@ class Operations::Credential::Base < Operations::Base
     gtag.create_assigned_gtag_credential!(profile_id: profile_id)
   end
 
-  def unassign_gtag_credential(gtag, profile_id)
+  def unassign_gtag_credential(gtag, _profile_id)
     return unless gtag.assigned_gtag_credential
     gtag.assigned_gtag_credential.unassign!
   end

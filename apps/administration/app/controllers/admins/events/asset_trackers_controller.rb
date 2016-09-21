@@ -16,11 +16,11 @@ class Admins::Events::AssetTrackersController < Admins::Events::BaseController
 
       elsif (init.count == pack.count) && (pack.last&.device_created_at.to_s > init.last&.device_created_at.to_s)
         device_trans = (pack.map(&:number_of_transactions).sum - init.map(&:number_of_transactions).sum) + init.count
-        if device_trans == server_trans["transactions_count"]
-          status = "packed"
-        else
-          status = "wrong_transactions"
-        end
+        status = if device_trans == server_trans["transactions_count"]
+                   "packed"
+                 else
+                   "wrong_transactions"
+                 end
 
       else
         status = "to_check"

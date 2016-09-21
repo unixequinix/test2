@@ -11,15 +11,15 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         create_list(:event, 2)
         http_login(admin.email, admin.access_token)
       end
-      
+
       it "returns a 202 status code if the device doesn't have a asset_tracker_id" do
-        get :index, { imei: device.imei, mac: device.mac, serial_number: device.serial_number }
+        get :index, imei: device.imei, mac: device.mac, serial_number: device.serial_number
         expect(response.status).to eq(202)
       end
 
       it "returns a 200 status code if the device has asset_tracker_id" do
         device.update!(asset_tracker: "H20")
-        get :index, { imei: device.imei, mac: device.mac, serial_number: device.serial_number }
+        get :index, imei: device.imei, mac: device.mac, serial_number: device.serial_number
         expect(response.status).to eq(200)
       end
 

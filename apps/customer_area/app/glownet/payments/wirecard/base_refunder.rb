@@ -20,9 +20,7 @@ class Payments::Wirecard::BaseRefunder
     @event.refund_fee("direct").to_f
   end
 
-  def amount
-    @amount
-  end
+  attr_reader :amount
 
   def customer_id
     get_value_of_parameter("customer_id")

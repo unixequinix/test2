@@ -31,6 +31,6 @@ class AccessTransaction < Transaction
   end
 
   def description
-    "#{transaction_type.gsub("access", "").humanize}: #{access.catalog_item.name}"
+    "#{transaction_type.gsub('access', '').humanize}: #{access.catalog_item.name}"
   end
 end

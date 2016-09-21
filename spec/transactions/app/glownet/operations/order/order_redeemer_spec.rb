@@ -19,7 +19,7 @@ RSpec.describe Operations::Order::OrderRedeemer, type: :job do
     }
   end
 
-  before { create(:credential_assignment, profile: profile, credentiable: gtag)}
+  before { create(:credential_assignment, profile: profile, credentiable: gtag) }
   it "reedems the online order" do
     expect do
       worker.perform_later(atts)

@@ -1,8 +1,8 @@
 require "rails_helper"
 
 RSpec.describe Api::V1::Events::StationsController, type: :controller do
-  let(:event) { Event.first || create(:event) }
-  let(:admin) { Admin.first || create(:admin) }
+  let(:event) { create(:event) }
+  let(:admin) { create(:admin) }
 
   describe "GET index" do
     context "with authentication" do
@@ -121,14 +121,19 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
 
           ws_ent = s["entitlements"]
           db_ent =  {
-            "in" => @station.access_control_gates.where(direction: "1").pluck(:access_id),
-            "out" => @station.access_control_gates.where(direction: "-1").pluck(:access_id)
+            "in" => @station.access_control_gates.where(direction: "1")
+                            .map { |g| { id: g.access_id, hidden: g.hidden? } }
+                            .as_json,
+            "out" => @station.access_control_gates.where(direction: "-1")
+                             .map { |g| { id: g.access_id, hidden: g.hidden? } }
+                             .as_json
           }
 
           expect(ws_ent).to eq(db_ent)
         end
       end
     end
+
     context "without authentication" do
       it "has a 401 status code" do
         get :index, event_id: event.id

@@ -137,7 +137,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   def eventbrite?
     eventbrite_token.present? && eventbrite_event.present?
   end
-  
+
   def standard_credit_price
     credits.standard.value
   end
