@@ -119,8 +119,7 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
   end
 
   def device_general_parameters
-    @event.event_parameters.where(parameters: { category: "device", group: "general" })
-          .includes(:parameter)
+    @event.event_parameters.where(parameters: { category: "device", group: "general" }).includes(:parameter)
   end
 
   def gtags
