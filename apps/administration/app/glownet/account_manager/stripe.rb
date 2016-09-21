@@ -1,4 +1,5 @@
 class AccountManager::Stripe
+
   def platform_secret_key
     Rails.application.secrets.stripe_platform_secret
   end
@@ -12,8 +13,8 @@ class AccountManager::Stripe
 
   def upload_document(document, stripe_account, secret_key)
     Stripe.api_key = secret_key
-    file = { purpose: "identity_document", file: File.new(document.path) }
-    Stripe::FileUpload.create(file, stripe_account: stripe_account)[:id]
+    file = {:purpose => 'identity_document', :file => File.new(document.path) }
+    Stripe::FileUpload.create(file, {:stripe_account => stripe_account})[:id]
   end
 
   def update_bank_account(params)
@@ -22,18 +23,13 @@ class AccountManager::Stripe
     @account = Stripe::Account.retrieve(params[:stripe_account_id])
 
     if @account.external_accounts.empty?
-      external_account = {
-        object: "bank_account",
-        account_number: params[:bank_account],
-        country: params[:country],
-        currency: params[:currency]
-      }
+      external_account = {object: "bank_account", account_number: params[:bank_account], country: params[:country], currency: params[:currency]}
       @account.external_accounts.create(external_account: external_account)
     else
       b_account = @account.external_accounts.first
-      b_account.metadata["account_number"] = params[:bank_account]
-      b_account.metadata["country"] = params[:country]
-      b_account.metadata["currency"] = params[:currency]
+      b_account.metadata["account_number"]  = params[:bank_account]
+      b_account.metadata["country"]  = params[:country]
+      b_account.metadata["currency"]  = params[:currency]
       b_account.save
     end
   end

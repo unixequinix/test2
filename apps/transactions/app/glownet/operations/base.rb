@@ -12,9 +12,7 @@ class Operations::Base < ActiveJob::Base
     return obj if obj
 
     if atts[:customer_tag_uid].present?
-      gtag = Gtag.find_or_create_by!(tag_uid: atts[:customer_tag_uid],
-                                     event_id: atts[:event_id],
-                                     activation_counter: atts[:activation_counter])
+      gtag = Gtag.find_or_create_by!(tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id], activation_counter: atts[:activation_counter])
       profile_id = Profile::Checker.for_transaction(gtag, atts[:profile_id], atts[:event_id])
       atts[:profile_id] = profile_id
     end
@@ -48,7 +46,7 @@ class Operations::Base < ActiveJob::Base
       device_created_at: Time.zone.now.strftime("%Y-%m-%d %T.%L"),
       device_created_at_fixed: Time.zone.now.strftime("%Y-%m-%d %T.%L"),
       activation_counter: gtag&.activation_counter,
-      customer_tag_uid: gtag&.tag_uid
+      customer_tag_uid: gtag&.tag_uid,
     }.merge(atts)
 
     klass.create!(column_attributes(klass, final_atts))

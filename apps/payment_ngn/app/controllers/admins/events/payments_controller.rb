@@ -3,7 +3,7 @@ class Admins::Events::PaymentsController < Admins::Events::PaymentsBaseControlle
 
   def index
     @counts = @fetcher.payments.pluck(:amount, :transaction_type).group_by(&:last)
-    @counts = @counts.map { |type, payments| [type, payments.sum { |amount, _| amount }.to_f] }
+    @counts = @counts.map{|type, payments| [type, payments.sum{|amount, _| amount}.to_f]}
 
     respond_to do |format|
       format.html

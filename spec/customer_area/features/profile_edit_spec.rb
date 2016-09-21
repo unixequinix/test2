@@ -105,7 +105,7 @@ RSpec.feature "Edit customer", type: :feature do
     context "when using an invalid email" do
       invalid_emails = [
         "plainaddress",
-        "#@%^%#@#@#{$INPUT_LINE_NUMBER}com",
+        "#@%^%#@#@#$.com",
         "@example.com",
         "Joe Smith <email@example.com>",
         "email.example.com",

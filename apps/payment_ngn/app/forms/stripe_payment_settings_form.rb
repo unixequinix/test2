@@ -68,7 +68,7 @@ class StripePaymentSettingsForm < BaseSettingsForm
   end
 
   def main_parameters
-    attributes.keys.reject { |value| value == :event_id || value == :document || value == :additional_owner_document }
+    attributes.keys.reject { |value| value == :event_id || value == :document || value == :additional_owner_document}
   end
 
   private
