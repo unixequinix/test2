@@ -137,7 +137,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   def eventbrite?
     eventbrite_token.present? && eventbrite_event.present?
   end
-  
+
   def standard_credit_price
     credits.standard.value
   end
@@ -169,11 +169,10 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def only_credits_purchasable?
-    purchasable_items = stations.find_by_name("Customer Portal").station_catalog_items
+    purchasable_items = stations.find_by_category("customer_portal").station_catalog_items
     purchasable_items.count > 0 &&
-      purchasable_items.joins(:catalog_item).where.not(
-        catalog_items: { catalogable_type: "Credit" }
-      ).count == 0
+      purchasable_items.joins(:catalog_item)
+                       .where.not(catalog_items: { catalogable_type: "Credit" }).count.zero?
   end
 
   def autotopup_payment_services
