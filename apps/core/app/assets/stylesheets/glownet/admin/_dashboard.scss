@@ -279,6 +279,25 @@ $statistics-size:       $base_font_size*2.5;
   }
 }
 
+.refunds-paypal {
+  background-color: $blueDuller;
+
+  .change-status {
+    @include min-screen($bp4) { box-shadow: inset 1px 0px 0px 0px $nuclear; }
+  }
+
+  .btn {
+    width: 100%;
+    background-color: $greenKickstarter;
+    margin-top: modules(1);
+
+    @include min-screen($bp4) {
+      width: 100%;
+      margin-top: modules(1.5);
+    }
+  }
+}
+
 .event-status {
   position: relative;
   text-align: center;

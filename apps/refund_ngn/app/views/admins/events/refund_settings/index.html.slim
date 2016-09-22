@@ -1,10 +1,41 @@
 - breadcrumb :admins_event_refund_settings, @event
 .wrapper-negative-space
-  = render "admins/events/refund_settings/controls", event: @event
+  - if @event.finished?
+    .container-dashboard.wrapper-dashboard-main.refunds-alert
+      .event-status
+        h3 = @event.name
+        span.alert-sign = fa_icon "exclamation-triangle"
+        p.alert-text = t("admin.refund_settings.nofication_description")
+      .change-status
+        p = t("admin.refund_settings.want_to_notify")
+        = simple_form_for @event, url: notify_customers_admins_event_refund_settings_path(@event), method: :post, data: { confirm: t('admin.confirm.delete') } do |f|
+          = f.button :submit, t('admin.refund_settings.notify'), class: "btn btn-dashboard btn-dashboard-closed" 
+            
+    .container-dashboard.wrapper-dashboard-main.refunds-paypal
+      .event-status
+        h3 PAYPAL REFUNDS
+        span.alert-sign = fa_icon "paypal"
+        p.alert-text = t("admin.refund_settings.elegible_customers", customers: @direct_claim_profiles)
+      .change-status
+        p = t("admin.refund_settings.want_to_refund_paypal")
+        = simple_form_for @event, url: paypal_refund_admins_event_refund_settings_path(@event), method: :post, data: { confirm: t('admin.confirm.delete') } do |f|
+          = f.button :submit, t('admin.refund_settings.refund'), class: "btn btn-dashboard btn-dashboard-closed" 
 
   .container-refunds
     - @event.selected_refund_services.each do |refund_service|
-      = render "admins/events/refund_settings/refund_method", refund_service: refund_service
+      .container-show
+        dl
+          dt
+            p.refund-title = t("admin.refund_services.#{refund_service}")
+          dd
+          - @refund_parameters.where(parameters: { group: refund_service}).each do |refund_parameter|
+            dt = t("admin.refund_settings.#{refund_service}.#{refund_parameter.parameter.name}")
+            dd = refund_parameter.value
+
+        = link_to edit_admins_event_refund_setting_path(@event, refund_service), class: "btn btn-primary small" do
+          = fa_icon 'edit'
+          = t('actions.edit')
+
 
     .container-show
       dl

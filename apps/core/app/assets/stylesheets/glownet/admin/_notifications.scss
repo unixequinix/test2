@@ -4,9 +4,6 @@
 //
 // -------------------------------------------------------
 
-.msg-notification {
-}
-
 .alerts {
   border-radius: 3px;
   background: #ff9900;
@@ -33,7 +30,6 @@
 }
 
 .msg-for-alert, .msg-for-error {
-  opacity: 1;
   position: fixed;
   top: modules(1);
   left: modules(1);
@@ -54,12 +50,7 @@
   }
 }
 
-#msg-notice {
-}
-
 .msg-for-notice {
-  opacity: 0;
-  // ________
   position: absolute;
   top: modules(1);
   left: modules(1);
@@ -79,13 +70,6 @@
     margin-bottom: 0;
   }
 }
-
-.msg-for-success {
-
-}
-
-.msg-for-info { }
-
 
 .error_notification {
   padding: modules(1);
