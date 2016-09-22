@@ -41,33 +41,35 @@ class AccountManager::Stripe
     @account.legal_entity.verification.document = params[:document] if params[:document]
     @account.legal_entity.first_name = params[:legal_first_name]
     @account.legal_entity.last_name = params[:legal_last_name]
-    @account.legal_entity.dob.day = params[:legal_dob].to_date.day
-    @account.legal_entity.dob.month = params[:legal_dob].to_date.month
-    @account.legal_entity.dob.year = params[:legal_dob].to_date.year
+    @account.legal_entity.dob.day = params[:legal_dob].try(:to_date)&.day
+    @account.legal_entity.dob.month = params[:legal_dob].try(:to_date)&.month
+    @account.legal_entity.dob.year = params[:legal_dob].try(:to_date)&.year
     @account.legal_entity.type = params[:legal_type]
     @account.legal_entity.address.city = params[:city]
     @account.legal_entity.address.line1 = params[:line1]
     @account.legal_entity.address.postal_code = params[:postal_code]
-    @account.legal_entity.additional_owners = [{
-      first_name: params[:additional_owner_first_name],
-      last_name: params[:additional_owner_last_name],
-      dob: {
-        day: params[:additional_owner_dob].to_date.day,
-        month: params[:additional_owner_dob].to_date.month,
-        year: params[:additional_owner_dob].to_date.year
-      },
-      address: {
-        city: params[:additional_owner_address_city],
-        line1: params[:additional_owner_address_line1],
-        postal_code: params[:additional_owner_address_postal_code]
-      }
-    }]
-    @account.legal_entity.additional_owners[0][:verification] = { document: params[:additional_owner_document] } if params[:additional_owner_document]
-    @account.legal_entity.business_name = params[:business_name]
-    @account.legal_entity.business_tax_id = params[:business_tax_id]
-    @account.legal_entity.personal_address.city = params[:city]
-    @account.legal_entity.personal_address.line1 = params[:line1]
-    @account.legal_entity.personal_address.postal_code = params[:postal_code]
+    if (params[:additional_owner_first_name].present? || params[:additional_owner_last_name].present? || params[:additional_owner_dob].present? || params[:additional_owner_address_city].present? || params[:additional_owner_address_line1].present? || params[:additional_owner_address_postal_code].present?)
+      @account.legal_entity.additional_owners = [{
+        first_name: params[:additional_owner_first_name],
+        last_name: params[:additional_owner_last_name],
+        dob: {
+          day: params[:additional_owner_dob].try(:to_date)&.day,
+          month: params[:additional_owner_dob].try(:to_date)&.month,
+          year: params[:additional_owner_dob].try(:to_date)&.year
+        },
+        address: {
+          city: params[:additional_owner_address_city],
+          line1: params[:additional_owner_address_line1],
+          postal_code: params[:additional_owner_address_postal_code]
+        }
+      }]
+    end
+    @account.legal_entity.additional_owners[0][:verification] = { document: params[:additional_owner_document] } if params[:additional_owner_document].present?
+    @account.legal_entity.business_name = params[:business_name] if params[:business_name].present?
+    @account.legal_entity.business_tax_id = params[:business_tax_id] if params[:business_tax_id].present?
+    @account.legal_entity.personal_address.city = params[:city] if params[:city].present?
+    @account.legal_entity.personal_address.line1 = params[:line1] if params[:line1].present?
+    @account.legal_entity.personal_address.postal_code = params[:postal_code] if params[:postal_code].present?
     @account.tos_acceptance = @account.tos_acceptance
     @account.tos_acceptance.ip = request.remote_ip
     @account.tos_acceptance.date = Time.zone.now.to_i
