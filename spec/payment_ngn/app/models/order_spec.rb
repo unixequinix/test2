@@ -12,6 +12,7 @@
 #
 
 require "rails_helper"
+include ActionView::Helpers::NumberHelper
 
 RSpec.describe Order, type: :model do
   let(:event) { create(:event) }
@@ -32,13 +33,13 @@ RSpec.describe Order, type: :model do
     end
   end
 
-  describe "total" do
+  describe ".total" do
     it "returns the total of all the items in the order" do
-      expect(order.total).to eq(120.0)
+      expect(order.total).to eq(order.order_items.to_a.sum(&:total))
     end
   end
 
-  describe "generate_order_number!" do
+  describe ".generate_order_number!" do
     it "should create a new order number" do
       order.generate_order_number!
       day = Time.zone.today.strftime("%y%m%d").to_i.to_s(16)
@@ -48,7 +49,7 @@ RSpec.describe Order, type: :model do
     end
   end
 
-  describe "generate_token" do
+  describe ".generate_token" do
     it "is different for different seconds" do
       token1 = Order.generate_token("2016-09-06 11:03:17.659946".to_datetime)
       token2 = Order.generate_token("2016-09-06 11:03:18.659946".to_datetime)
@@ -62,7 +63,7 @@ RSpec.describe Order, type: :model do
     end
   end
 
-  describe "complete_order" do
+  describe ".complete_order" do
     it "should store the time when an order is completed" do
       time_before = order.completed_at.to_i
       order.start_payment
@@ -73,16 +74,19 @@ RSpec.describe Order, type: :model do
     end
   end
 
-  describe "total_credits" do
+  describe ".total_credits" do
     it "should return the total amount of credits available" do
-      event = profile.event
       order.order_items.destroy_all
-      2.times do
-        pp = create(:catalog_item, :with_credit, event: event)
-        order.order_items << create(:order_item, catalog_item: pp, order: order)
-      end
-      # Amount is set in order_items.rb
-      expect(order.total_credits).to eq(9 * 2)
+      pp = create(:catalog_item, :with_credit, event: event)
+      order.order_items << create(:order_item, catalog_item: pp, order: order)
+      order.reload
+      expect(order.total_credits).to eq(order.order_items.to_a.sum(&:credits))
+    end
+  end
+
+  describe ".total_formated" do
+    it "returns total formated with two decimals" do
+      expect(order.total_formated).to eq(number_with_precision(order.total.round(2), precision: 2))
     end
   end
 end
