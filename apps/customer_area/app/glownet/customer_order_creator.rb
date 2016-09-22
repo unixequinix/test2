@@ -1,11 +1,15 @@
 class CustomerOrderCreator
+  def initialize(redeemed=false)
+    @redeemed = redeemed
+  end
+
   def save(order, payment_method, payment_gateway)
     order.order_items.each do |order_item|
       customer_order = CustomerOrder.create(profile: order.profile,
                                             amount: order_item.amount,
                                             catalog_item: order_item.catalog_item,
                                             origin: CustomerOrder::PURCHASE)
-      OnlineOrder.create(redeemed: false, customer_order: customer_order)
+      OnlineOrder.create(redeemed: @redeemed, customer_order: customer_order)
       Operations::Base.new.portal_write(fields(order_item, payment_method, payment_gateway))
     end
   end
