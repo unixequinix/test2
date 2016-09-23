@@ -74,6 +74,7 @@ class Operations::Base < ActiveJob::Base
     atts[:customer_tag_uid] = atts[:customer_tag_uid].to_s.upcase if atts.key?(:customer_tag_uid)
     atts[:catalogable_type] = atts[:catalogable_type].to_s.camelcase if atts.key?(:catalogable_type)
     atts[:profile_id] ||= atts[:customer_event_profile_id]
+    atts[:profile_id] ||= Ticket.find_by(event_id: atts[:event_id], code: atts[:ticket_code])&.assigned_profile&.id
     atts[:refundable_credits] ||= atts[:credits_refundable]
     atts[:device_created_at_fixed] = atts[:device_created_at]
     atts.delete(:station_id) if atts[:station_id].to_i.zero?
