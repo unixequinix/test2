@@ -35,7 +35,9 @@ html
                       p.transaction-type-title = t("pdf.transaction_types.#{t.transaction_type}")
                       ul
                         - t.sale_items.each do |item|
-                          li = item.product.name
+                          li
+                            = "#{item.quantity} x "
+                            = item.product.name
                     td = t.station.name
                     td = t.device_created_at.split(" ").first
                     td.transaction-item-amount = number_to_token t.credits

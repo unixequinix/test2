@@ -4,15 +4,17 @@ class ClaimsPresenter < BasePresenter
   end
 
   def path
-    return "cards_disabled" if @gtag_assignment.credentiable.card? && !cards_can_refund?
+    return "credentiable_refund_disabled" unless credentiable_can_refund?(@gtag_assignment.credentiable)
     return "no_credits" unless any_refundable_method?
     return "invalid_balance" unless @profile.valid_balance?
     return "direct_claim" if @profile.enough_money? && @event.direct?
     "transfer_claim"
   end
 
-  def cards_can_refund?
-    @event.get_parameter("gtag", "form", "cards_can_refund") == "true"
+  def credentiable_can_refund?(credentiable)
+    return true if credentiable.loyalty? ||
+      (credentiable.card? && @event.get_parameter("gtag", "form", "cards_can_refund") == "true") ||
+      (credentiable.wristband? && @event.get_parameter("gtag", "form", "wristbands_can_refund") == "true")
   end
 
   def refund_services

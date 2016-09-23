@@ -17,6 +17,7 @@ de:
           greet: 'Hallo, %{name}!'
           date: 'Bestelldatum'
           description: 'Alle Ihre gekauften Online-Guthaben werden automatisch auf Ihr %{gtag} übertragen, sobald Sie die Veranstaltung betreten. Ihr Veranstaltungs %{gtag} ermöglicht Ihnen auf einfache und schnelle Art, für Ihre Speisen, Getränke und sonstigen Käufe zu bezahlen. Es ist die einzige Zahlungsmöglichkeit, die die Händler auf der Veranstaltung akzeptieren.'
+          autotopup_description: 'Your purchased Credits with PayPal Experience will automatically be applied to your %{gtag} in the Point of Sales. Your Event %{gtag} is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.'
           success: 'Ihre Bestellung wurde entgegengenommen. Details finden Sie nachfolgend.'
           thanks: 'Danke für Ihren Einkauf.'
       claim:

@@ -98,6 +98,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
         ticket_atts = { code: row.field("reference"), company_ticket_type: ticket_type }
         ticket = event.tickets.find_or_create_by!(ticket_atts)
 
+        next if ticket.purchaser
         purchaser_atts = {
           first_name: row.field("first_name"),
           last_name: row.field("last_name"),

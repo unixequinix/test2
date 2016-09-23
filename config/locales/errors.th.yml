@@ -5,6 +5,11 @@ th:
 
     # The values :model, :attribute and :value are always available for interpolation
     # The value :count is available when applicable. Can be used for pluralization.
+    event_alerts:
+      company_codes: "There are company ticket types without company code"
+      credential_types: "There are company ticket types without credential"
+      refunds: "Refunds are enabled but there is no refunds service selected"
+      topups: "Topups are enabled but there is no payments service selected"
     main:
       error_400: "Bad Request"
       error_404: "Route not found"
@@ -58,3 +63,4 @@ th:
       more_credits_than_max_balance: "can't be greater than maximum gtag balance"
       only_hex: "only allows hexadecimal values"
       product_already_added: "already added to this station"
+      ticket_type_has_tickets: "there are tickets using this ticket type"

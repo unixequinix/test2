@@ -62,7 +62,10 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
 
   def download_transactions
     @profile = @fetcher.profiles.find(params[:id])
-    @pdf_transactions = CreditTransaction.where(status_code: 0, profile: @profile).order("device_created_at asc")
+    @pdf_transactions = CreditTransaction.status_ok
+                                         .not_record_credit
+                                         .where(event: current_event, profile: @profile)
+                                         .order("device_created_at asc")
     if @pdf_transactions.present?
       html = render_to_string(action: :transactions_pdf, layout: false)
       pdf = WickedPdf.new.pdf_from_string(html)

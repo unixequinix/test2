@@ -44,7 +44,7 @@ class StripePaymentSettingsForm < BaseSettingsForm
 
     begin
       self.document = manager.upload_document(p[:document], p[:stripe_account_id], p[:account_secret_key]) if p[:document]
-      self.additional_owner_document = manager.upload_document(p[:additional_owner_document], p[:stripe_account_id], p[:account_secret_key]) if p[:document]
+      self.additional_owner_document = manager.upload_document(p[:additional_owner_document], p[:stripe_account_id], p[:account_secret_key]) if p[:additional_owner_document]
       manager.update_parameters(attributes, request)
       manager.update_bank_account(p)
     rescue Stripe::CardError => e

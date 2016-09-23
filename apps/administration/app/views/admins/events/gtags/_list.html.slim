@@ -8,9 +8,10 @@
           th.select-all = check_box_tag "select-all", 1
         th = t("admin.gtags.tag")
         th = t("admin.gtags.activation_counter")
-        th = t("admin.gtags.profile")
-        - unless customer_service
-          th = t("admin.gtags.banned")
+        th = t("admin.gtags.customer")
+        th = t("admin.gtags.loyalty")
+        th = t("admin.gtags.banned")
+        - unless current_admin.customer_service?
           th.table-actions-field = t ("admin.defaults.actions")
 
     tbody
@@ -23,14 +24,15 @@
           td data-label=t("admin.gtags.activation_counter") = gtag.activation_counter
           td data-label=t("admin.gtags.customer")
             = link_to gtag.assigned_profile&.id, admins_event_profile_path(current_event, gtag.assigned_profile&.id) if gtag.assigned_profile
-          - unless customer_service
-            td data-label=t("admin.gtags.banned")
-              - if gtag.banned?
-                = link_to unban_admins_event_gtag_path(current_event, gtag), method: :delete, title: "Unban gtag" do
-                  = fa_icon "circle"
-              - else
-                = link_to ban_admins_event_gtag_path(current_event, gtag), title: "Ban gtag" do
-                  = fa_icon "circle-thin"
+          td data-label=t("admin.gtags.loyalty") = gtag.loyalty? ? fa_icon("check-circle") : fa_icon("times-circle")
+          td data-label=t("admin.gtags.banned")
+            - if gtag.banned?
+              = link_to unban_admins_event_gtag_path(current_event, gtag), method: :delete, title: "Unban gtag" do
+                = fa_icon "circle"
+            - else
+              = link_to ban_admins_event_gtag_path(current_event, gtag), title: "Ban gtag" do
+                = fa_icon "circle-thin"
+          - unless current_admin.customer_service?
             td.table-actions-field
               = render 'admins/events/gtags/actions', gtag: gtag
   .container-pagination

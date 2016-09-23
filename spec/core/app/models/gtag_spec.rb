@@ -21,7 +21,7 @@ RSpec.describe Gtag, type: :model do
   describe ".upcase_gtag!" do
     it "sets the tag_uid in upcase on validation" do
       gtag.tag_uid = "abc123abc"
-      gtag.valid?
+      gtag.upcase_gtag!
       expect(gtag.tag_uid =~ /[[:upper:]]+$/).not_to be_nil
     end
   end

@@ -71,6 +71,9 @@
           name: cards_can_refund
           data_type: boolean
         -
+          name: wristbands_can_refund
+          data_type: boolean
+        -
           name: gtag_deposit
           data_type: currency
 -

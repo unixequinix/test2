@@ -17,6 +17,7 @@ th:
           greet: 'Hello, %{name}!'
           date: 'วันที่ทำรายการ'
           description: 'หลังจากที่คุณเติมเงินโดยการซื้อเครดิตออนไลน์ที่นี่แล้ว คุณจะสามารถใช้เงินได้โดยอัตโนมัติผ่าน %{gtag} หลังจากเข้างาน  %{gtag} เป็นวิธีที่สะดวกสำหรับคุณที่จะซื้ออาหาร เครื่องดื่ม และสินค้าต่างๆ ที่งาน และนี่เป็นวิธีชำระเงินวิธีเดียวภายในงาน'
+          autotopup_description: 'Your purchased Credits with PayPal Experience will automatically be applied to your %{gtag} in the Point of Sales. Your Event %{gtag} is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.'
           success: 'ระบบได้รับรายการของคุณแล้ว คุณสามารถดูรายละเอียดได้ที่ด้านล่าง:'
           thanks: 'ขอบคุณสำหรับรายการซื้อ'
       claim:

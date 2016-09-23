@@ -70,7 +70,7 @@ class Gtag < ActiveRecord::Base
            LEFT OUTER JOIN customer_orders
            ON customer_orders.profile_id = credential_assignments.profile_id
            AND customer_orders.deleted_at IS NULL")
-      .select("gtags.id, gtags.event_id, gtags.tag_uid, customer_orders.amount")
+      .select("gtags.id, gtags.event_id, gtags.tag_uid, customer_orders.amount as credits_amount")
       .where(event: event_id)
   }
 

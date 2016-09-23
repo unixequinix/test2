@@ -105,7 +105,7 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
     begin
       CSV.foreach(file, headers: true, col_sep: ";").with_index do |row, _i|
         tag = event.gtags.find_or_create_by(tag_uid: row.field("tag_uid"))
-        tag.update!(format: row.field("format"))
+        tag.update!(format: row.field("format"), loyalty: row.field("loyalty"))
       end
     rescue
       return redirect_to(path, alert: t("admin.gtags.import.error"))
@@ -115,10 +115,10 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
   end
 
   def sample_csv
-    header = %w(tag_uid format)
-    data = [%w(1218DECA31C9F92F card),
-            %w(E6312A015028B0FB wristband),
-            %w(A43FE1C5E9A622C2 wristband)]
+    header = %w(tag_uid format loyalty)
+    data = [%w(1218DECA31C9F92F card true),
+            %w(E6312A015028B0FB wristband false),
+            %w(A43FE1C5E9A622C2 wristband true)]
 
     csv_file = Csv::CsvExporter.sample(header, data)
     respond_to do |format|
@@ -170,6 +170,7 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
       :format,
       :credential_redeemed,
       :banned,
+      :loyalty,
       :company_ticket_type_id,
       :format,
       purchaser_attributes: [:id, :first_name, :last_name, :email, :gtag_delivery_address]

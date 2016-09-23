@@ -438,6 +438,7 @@ es:
       tag: "Tag UID"
       format: "Formato"
       banned: "Baneado"
+      loyalty: "Fidelidad"
       tickets: "Tickets"
       customer: "Cliente"
       assigned_at: "Asignado el"
