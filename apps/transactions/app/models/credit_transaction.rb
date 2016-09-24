@@ -42,12 +42,6 @@ class CreditTransaction < Transaction
 
   default_scope { order([gtag_counter: :asc, counter: :asc, status_code: :desc]) }
 
-  after_commit :recalculate_profile_balance
-
-  def recalculate_profile_balance
-    profile.recalculate_balance
-  end
-
   def description
    refundables = " - R #{refundable_credits} #{event.token_symbol}" if credits != refundable_credits
    "#{transaction_type.humanize}: #{credits} #{event.token_symbol}#{refundables}"
