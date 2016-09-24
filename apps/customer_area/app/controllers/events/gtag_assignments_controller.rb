@@ -1,7 +1,7 @@
 class Events::GtagAssignmentsController < Events::BaseController
   before_action :check_event_status!
   before_action :check_has_not_gtag_assignment!, only: [:new, :create]
-  # before_action :check_is_valid_status!, only: [:destroy]
+  before_action :check_is_valid_status!, only: [:destroy]
 
   def new
     @gtag_assignment_presenter = GtagAssignmentPresenter.new(current_event: current_event)
