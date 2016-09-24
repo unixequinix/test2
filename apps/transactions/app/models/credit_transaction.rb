@@ -42,7 +42,7 @@ class CreditTransaction < Transaction
 
   default_scope { order([gtag_counter: :asc, counter: :asc, status_code: :desc]) }
 
-  after_commit :recalculate_profile_balance
+  after_update :recalculate_profile_balance
 
   def recalculate_profile_balance
     transactions = profile.credit_transactions.status_ok.not_record_credit

@@ -15,7 +15,6 @@ class GtagAssignmentsPresenter < BasePresenter
     @event.gtag_name
   end
 
-  # TODO: Check why the avobe method is the same. Ridicolous.
   def gtag_assignments_enabled?
     @event.gtag_assignation?
   end
