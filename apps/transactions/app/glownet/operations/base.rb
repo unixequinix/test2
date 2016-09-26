@@ -33,11 +33,11 @@ class Operations::Base < ActiveJob::Base
     profile = Profile.find(atts[:profile_id])
     gtag = profile.active_gtag_assignment&.credentiable
     klass = Transaction.class_for_type(atts[:transaction_category])
-    trans = klass.where(event: event, profile_id: atts[:profile_id], transaction_origin: Transaction::ORIGINS[:portal])
 
     final_atts = {
       transaction_origin: Transaction::ORIGINS[:portal],
-      counter: trans.count + 1,
+      gtag_counter: profile.all_transaction_counters.last.to_i,
+      counter: profile.all_online_counters.last.to_i + 1,
       station_id: station.id,
       status_code: 0,
       status_message: "OK",

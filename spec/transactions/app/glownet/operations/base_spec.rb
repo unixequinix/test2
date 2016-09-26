@@ -4,6 +4,7 @@ RSpec.describe Operations::Base, type: :job do
   let(:base)  { Operations::Base }
   let(:event) { create(:event) }
   let(:gtag)  { create(:gtag, tag_uid: "AAAAA") }
+  let(:profile) { create(:profile, event: event) }
   let(:params) do
     {
       transaction_category: "credit",
@@ -133,9 +134,11 @@ RSpec.describe Operations::Base, type: :job do
       end
     end
 
-    describe "from portal" do
+    describe ".portal_write" do
       before do
-        params[:profile_id] = create(:profile, event: event).id
+        gtag.update(event: event)
+        create(:credential_assignment, profile: profile, credentiable: gtag)
+        params[:profile_id] = profile.id
         create(:station, category: "customer_portal", event: event)
       end
 
@@ -143,11 +146,17 @@ RSpec.describe Operations::Base, type: :job do
         expect { base.new.portal_write(params) }.to change(CreditTransaction, :count).by(1)
       end
 
-      it "sets the counter to the number of transactions present for a particular profile" do
-        count = rand(1000)
-        allow(CreditTransaction).to receive(:where).and_return(OpenStruct.new(count: count))
+      it "sets the last gtag_counter for online transactions" do
+        create(:credit_transaction, transaction_type: "topup", customer_tag_uid: gtag.tag_uid, gtag_counter: 10, profile_id: profile.id)
+        params.merge!(attributes_for(:money_transaction, transaction_type: "portal_purchase"))
         base.new.portal_write(params)
-        expect(CreditTransaction.last.counter).to eq(count + 1)
+        expect(MoneyTransaction.last.gtag_counter).to eq(10)
+      end
+
+      it "increases the counter for online transactions" do
+        create(:credit_transaction, transaction_type: "online_topup", customer_tag_uid: gtag.tag_uid, counter: 5, profile_id: profile.id)
+        base.new.portal_write(params)
+        expect(CreditTransaction.last.counter).to eq(6)
       end
     end
   end

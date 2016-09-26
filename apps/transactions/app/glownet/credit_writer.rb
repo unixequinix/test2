@@ -42,8 +42,7 @@ class CreditWriter
       final_refundable_balance: profile.refundable_credits.to_f + atts[:refundable_credits].to_f,
       profile_id: profile.id,
       event_id: profile.event.id,
-      device_created_at: Time.zone.now.strftime("%Y-%m-%d %T.%L"),
-      gtag_counter: profile.all_transaction_counters.last.to_i
+      device_created_at: Time.zone.now.strftime("%Y-%m-%d %T.%L")
     }.merge(atts)
 
     Operations::Base.new.portal_write(common_atts)
