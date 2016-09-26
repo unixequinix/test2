@@ -54,13 +54,11 @@ class CatalogItem < ActiveRecord::Base
   CREDENTIABLE_TYPES = [CREDIT, ACCESS, VOUCHER].freeze
 
   def price
-    station_catalog_items.joins(:station_parameter)
-                         .select("station_catalog_items.price")
-                         .where(station_parameters:
-                       { id: StationParameter.joins(:station)
-                                             .where(stations: { event_id: event,
-                                                                category: "customer_portal" }) })
-                         .first.price
+    parameters = StationParameter.joins(:station).where(stations: { event_id: event, category: "customer_portal" })
+    items = station_catalog_items.joins(:station_parameter)
+                                 .select("station_catalog_items.price")
+                                 .where(station_parameters: { id: parameters })
+    items&.first&.price 
   end
 
   def self.sorted

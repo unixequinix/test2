@@ -4,6 +4,7 @@ class DeviceSettingsForm
 
   attribute :min_version_apk, String
   attribute :private_zone_password, String
+  attribute :fast_removal_password, String
   attribute :uid_reverse, String
   attribute :touchpoint_update_online_orders, String
   attribute :topup_initialize_gtag, String
@@ -17,6 +18,7 @@ class DeviceSettingsForm
   validates_presence_of :touchpoint_update_online_orders
   validates_presence_of :topup_initialize_gtag
   validates_presence_of :private_zone_password
+  validates_presence_of :fast_removal_password
   validates_presence_of :cypher_enabled
   validates_presence_of :autotopup_enabled
   validates_presence_of :event_id

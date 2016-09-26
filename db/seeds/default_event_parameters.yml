@@ -9,7 +9,10 @@
           value: "1.0"
         -
           name: private_zone_password
-          value: "Glown3t1sth3Futur3"
+          value: "123456"
+        -
+          name: fast_removal_password
+          value: "123456"
         -
           name: uid_reverse
           value: false

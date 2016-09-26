@@ -16,6 +16,21 @@ FactoryGirl.define do
     final_refundable_balance { rand(10) }
   end
 
+  factory :credit_transaction do
+    transaction_type { "word #{rand(100)}" }
+    device_created_at { Time.zone.now }
+    customer_tag_uid { SecureRandom.urlsafe_base64.upcase }
+    operator_tag_uid { SecureRandom.urlsafe_base64.upcase }
+    device_uid { "word #{rand(100)}" }
+    status_code "0"
+    status_message "OK"
+    credits { rand(10) }
+    refundable_credits { rand(10) }
+    credit_value { rand(10) }
+    final_balance { rand(10) }
+    final_refundable_balance { rand(10) }
+  end
+
   factory :credential_transaction do
     transaction_type { "word #{rand(100)}" }
     device_created_at { Time.zone.now }

@@ -39,7 +39,7 @@
             td = order_item.total
             td = order_item.catalog_item.description
             td = order_item.catalog_item.catalogable_type
-    - if !@order.payments.empty?
+    - if @order.payments.present?
         h3
           = fa_icon "table"
           = t("admin.orders.payments")

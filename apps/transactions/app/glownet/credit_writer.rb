@@ -1,7 +1,7 @@
 class CreditWriter
   def self.reassign_ticket(ticket, assignation)
-    sign = 1 if assignation.eq?(:assign)
-    sign = -1 if assignation.eq?(:unassign)
+    sign = 1 if assignation.eql?(:assign)
+    sign = -1 if assignation.eql?(:unassign)
     ticket.credits.each do |credit|
       params = { credits: credit.total_amount * sign, credit_value: credit.value }
       create_credit(ticket.assigned_profile, params)
