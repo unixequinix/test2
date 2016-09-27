@@ -21,6 +21,7 @@ Rails.application.routes.draw do
             get :edit_messages
             patch :update_messages
             post :notify_customers
+            post :paypal_refund
           end
         end
         resources :claims, except: [:new, :create, :edit] do

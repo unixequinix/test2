@@ -50,6 +50,8 @@ class Claim < ActiveRecord::Base
       .order(:id)
   }
 
+  scope :completed, -> { where("aasm_state = 'completed'") }
+
   # State machine
   include AASM
 

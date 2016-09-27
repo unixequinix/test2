@@ -1,7 +1,7 @@
 - flash.each do |name, msg|
-  - if msg.present? and msg.is_a?(String)
+  - if msg.present? && msg.is_a?(String)
     - type = (['notice', 'success', 'alert', 'error'].include?(name.to_s) ? name : 'notice')
-    .msg-notification [class="msg-for-#{type}" id="msg-#{type}"]
+    .msg-notification class="msg-for-#{type}" id="msg-#{type}"
       p = msg
 
 javascript:
