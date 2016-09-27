@@ -69,11 +69,13 @@ class Admins::Events::RefundSettingsController < Admins::Events::BaseController
 
   def paypal_refund
     profiles = direct_claim_profiles.map do |profile|
+      gtag = profile.active_gtag_assignment&.credentiable
+      next unless gtag
       claim = Claim.new(service_type: Claim::DIRECT,
                         fee: current_event.refund_fee(Claim::DIRECT),
                         minimum: current_event.refund_minimun(Claim::DIRECT),
                         profile: profile,
-                        gtag: profile.active_gtag_assignment.credentiable,
+                        gtag: gtag,
                         total: profile.refundable_money,
                         aasm_state: "in_progress")
       claim.generate_claim_number!
