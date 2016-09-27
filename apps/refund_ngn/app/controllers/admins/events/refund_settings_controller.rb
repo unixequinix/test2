@@ -68,28 +68,26 @@ class Admins::Events::RefundSettingsController < Admins::Events::BaseController
   end
 
   def paypal_refund
-    # profiles = direct_claim_profiles.map do |profile|
-    #   claim = Claim.new(service_type: Claim::DIRECT,
-    #                     fee: current_event.refund_fee(Claim::DIRECT),
-    #                     minimum: current_event.refund_minimun(Claim::DIRECT),
-    #                     profile: profile,
-    #                     gtag: profile.active_gtag_assignment.credentiable,
-    #                     total: profile.refundable_money,
-    #                     aasm_state: "in_progress")
-    #   claim.generate_claim_number!
-    #   claim.save!
-    #   claim.start_claim!
-    #
-    #   if Management::RefundManager.new(profile, profile.refundable_money).execute
-    #     RefundService.new(claim).create(amount: profile.refundable_money_after_fee(Claim::DIRECT),
-    #                                     currency: current_event.currency,
-    #                                     message: "Created direct refund",
-    #                                     payment_solution: Claim::DIRECT,
-    #                                     status: "SUCCESS")
-    #   end
-    # end
+    profiles = direct_claim_profiles.map do |profile|
+      claim = Claim.new(service_type: Claim::DIRECT,
+                        fee: current_event.refund_fee(Claim::DIRECT),
+                        minimum: current_event.refund_minimun(Claim::DIRECT),
+                        profile: profile,
+                        gtag: profile.active_gtag_assignment.credentiable,
+                        total: profile.refundable_money,
+                        aasm_state: "in_progress")
+      claim.generate_claim_number!
+      claim.save!
+      claim.start_claim!
 
-    profiles = [true]
+      if Management::RefundManager.new(profile, profile.refundable_money).execute
+        RefundService.new(claim).create(amount: profile.refundable_money_after_fee(Claim::DIRECT),
+                                        currency: current_event.currency,
+                                        message: "Created direct refund",
+                                        payment_solution: Claim::DIRECT,
+                                        status: "SUCCESS")
+      end
+    end
 
     if profiles.all?
       flash[:notice] = I18n.t("alerts.updated")
