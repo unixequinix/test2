@@ -19,8 +19,9 @@ class GtagAssignmentsPresenter < BasePresenter
     @event.gtag_assignation?
   end
 
+  # TODO: Removed the event state validation for audiodrome
   def gtag_assignments_enabled
-    return unless @event.gtag_assignation? && valid_event_state?
+    return unless @event.gtag_assignation?
     snippet_gtag_assignments
   end
 

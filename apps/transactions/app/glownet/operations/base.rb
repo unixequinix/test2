@@ -33,11 +33,11 @@ class Operations::Base < ActiveJob::Base
     profile = Profile.find(atts[:profile_id])
     gtag = profile.active_gtag_assignment&.credentiable
     klass = Transaction.class_for_type(atts[:transaction_category])
-    trans = klass.where(event: event, profile_id: atts[:profile_id], transaction_origin: Transaction::ORIGINS[:portal])
 
     final_atts = {
       transaction_origin: Transaction::ORIGINS[:portal],
-      counter: trans.count + 1,
+      gtag_counter: profile.all_transaction_counters.last.to_i,
+      counter: profile.all_online_counters.last.to_i + 1,
       station_id: station.id,
       status_code: 0,
       status_message: "OK",
@@ -74,6 +74,7 @@ class Operations::Base < ActiveJob::Base
     atts[:customer_tag_uid] = atts[:customer_tag_uid].to_s.upcase if atts.key?(:customer_tag_uid)
     atts[:catalogable_type] = atts[:catalogable_type].to_s.camelcase if atts.key?(:catalogable_type)
     atts[:profile_id] ||= atts[:customer_event_profile_id]
+    atts[:profile_id] ||= Ticket.find_by(event_id: atts[:event_id], code: atts[:ticket_code])&.assigned_profile&.id
     atts[:refundable_credits] ||= atts[:credits_refundable]
     atts[:device_created_at_fixed] = atts[:device_created_at]
     atts.delete(:station_id) if atts[:station_id].to_i.zero?

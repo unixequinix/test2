@@ -42,25 +42,6 @@ class CreditTransaction < Transaction
 
   default_scope { order([gtag_counter: :asc, counter: :asc, status_code: :desc]) }
 
-  after_update :recalculate_profile_balance
-
-  def recalculate_profile_balance
-    transactions = profile.credit_transactions.status_ok.not_record_credit
-
-    if transactions.sum(:gtag_counter) != 0
-      fb = transactions.last.final_balance
-      frb = transactions.last.final_refundable_balance
-    else
-      fb = transactions.sum(:credits)
-      frb = transactions.sum(:refundable_credits)
-    end
-
-    profile.update(credits: transactions.sum(:credits),
-                   refundable_credits: transactions.sum(:refundable_credits),
-                   final_balance: fb,
-                   final_refundable_balance: frb)
-  end
-
   def description
    refundables = " - R #{refundable_credits} #{event.token_symbol}" if credits != refundable_credits
    "#{transaction_type.humanize}: #{credits} #{event.token_symbol}#{refundables}"

@@ -12,6 +12,7 @@ class RefundService
     @claim.complete!
     run_transactions(refund)
     ClaimMailer.completed_email(@claim, @profile.event).deliver_later
+    true
   end
 
   def fee

@@ -269,8 +269,11 @@ en:
         form: 'Form URL'
     refund_settings:
       nofication_description: 'Notify to the customers they can claim their refund.'
+      elegible_customers: "There are %{customers} customers elegibles for the direct refund."
       want_to_notify: 'Do you want to notify?'
+      want_to_refund_paypal: 'Do you want to refund?'
       notify: 'Notify'
+      refund: 'Refund'
       epg:
         fee: 'Refund Fee (in currency)'
         minimum: 'After-Fee Refund Minimum (in currency)'

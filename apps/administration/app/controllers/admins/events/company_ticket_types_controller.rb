@@ -43,7 +43,7 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
                                       .where(credential_assignments: { aasm_state: "assigned" })
         tickets.each do |ticket|
           CreditWriter.reassign_ticket(ticket, :assign) if ticket.credits.present?
-          CustomerOrderCreator.new.save(ticket)
+          CustomerOrderTicketCreator.new.save(ticket)
         end
       end
       redirect_to admins_event_company_ticket_types_url, notice: I18n.t("alerts.updated")
