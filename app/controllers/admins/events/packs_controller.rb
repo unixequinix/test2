@@ -2,19 +2,14 @@ class Admins::Events::PacksController < Admins::Events::BaseController
   before_action :set_pack, except: [:index, :new, :create]
 
   def index
-    @packs = @fetcher.packs.includes(:catalog_items_included,
-                                     catalog_item: :credential_type,
-                                     pack_catalog_items: { catalog_item: :catalogable })
-                     .page(params[:page])
+    @packs = current_event.packs
+                          .includes(:catalog_items_included, catalog_item: :credential_type, pack_catalog_items: { catalog_item: :catalogable })
+                          .page(params[:page])
   end
-
-  def show
-  end
-
   def new
     @pack = Pack.new
     @pack.build_catalog_item
-    @catalog_items_collection = @fetcher.catalog_items
+    @catalog_items_collection = current_event.catalog_items
   end
 
   def create
@@ -23,14 +18,14 @@ class Admins::Events::PacksController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_packs_url
     else
-      @catalog_items_collection = @fetcher.catalog_items
+      @catalog_items_collection = current_event.catalog_items
       flash.now[:error] = @pack.errors.full_messages.join(". ")
       render :new
     end
   end
 
   def edit
-    @catalog_items_collection = @fetcher.catalog_items
+    @catalog_items_collection = current_event.catalog_items
   end
 
   def update
@@ -39,7 +34,7 @@ class Admins::Events::PacksController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_packs_url
     else
-      @catalog_items_collection = @fetcher.catalog_items
+      @catalog_items_collection = current_event.catalog_items
       flash.now[:error] = @pack.errors.full_messages.join(". ")
       render :edit
     end
@@ -67,7 +62,7 @@ class Admins::Events::PacksController < Admins::Events::BaseController
   private
 
   def set_pack
-    @pack = @fetcher.packs.find(params[:id])
+    @pack = current_event.packs.find(params[:id])
   end
 
   def permitted_params

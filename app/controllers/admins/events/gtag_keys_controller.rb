@@ -1,18 +1,18 @@
 class Admins::Events::GtagKeysController < Admins::Events::BaseController
   def show
     @event = current_event
-    @event_parameters = @fetcher.event_parameters
-                                .where(parameters: { group: gtag_type, category: "gtag" })
-                                .includes(:parameter)
+    @event_parameters = current_event.event_parameters
+                                     .where(parameters: { group: gtag_type, category: "gtag" })
+                                     .includes(:parameter)
   end
 
   def edit
     @event = current_event
     @gtag_type = gtag_type
     @gtag_keys_form = "#{gtag_type}_form".classify.constantize.new
-    event_parameters = @fetcher.event_parameters
-                               .where(parameters: { group: gtag_type, category: "gtag" })
-                               .includes(:parameter)
+    event_parameters = current_event.event_parameters
+                                    .where(parameters: { group: gtag_type, category: "gtag" })
+                                    .includes(:parameter)
 
     event_parameters.each do |event_parameter|
       @gtag_keys_form[event_parameter.parameter.name.to_sym] = event_parameter.value

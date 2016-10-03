@@ -1,11 +1,13 @@
 class Admins::Events::VouchersController < Admins::Events::BaseController
+  before_action :set_voucher, only: [:show, :edit, :update, :destroy, :create_credential, :destroy_credential]
+
   def index
     set_presenter
   end
 
   def new
     @voucher = Voucher.new
-    @products_collection = @fetcher.products
+    @products_collection = current_event.products
     @voucher.build_catalog_item
     @voucher.build_entitlement
   end
@@ -16,31 +18,28 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_vouchers_url
     else
-      @products_collection = @fetcher.products
+      @products_collection = current_event.products
       flash.now[:error] = @voucher.errors.full_messages.join(". ")
       render :new
     end
   end
 
   def edit
-    @voucher = @fetcher.vouchers.find(params[:id])
-    @products_collection = @fetcher.products
+    @products_collection = current_event.products
   end
 
   def update
-    @voucher = @fetcher.vouchers.find(params[:id])
     if @voucher.update_attributes(permitted_params)
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_vouchers_url
     else
-      @products_collection = @fetcher.products
+      @products_collection = current_event.products
       flash.now[:error] = @voucher.errors.full_messages.join(". ")
       render :edit
     end
   end
 
   def destroy
-    @voucher = @fetcher.vouchers.find(params[:id])
     if @voucher.destroy
       flash[:notice] = I18n.t("alerts.destroyed")
       redirect_to admins_event_vouchers_url
@@ -52,23 +51,25 @@ class Admins::Events::VouchersController < Admins::Events::BaseController
   end
 
   def create_credential
-    voucher = @fetcher.vouchers.find(params[:id])
-    voucher.catalog_item.create_credential_type if voucher.catalog_item.credential_type.blank?
+    @voucher.catalog_item.create_credential_type if @voucher.catalog_item.credential_type.blank?
     redirect_to admins_event_vouchers_url
   end
 
   def destroy_credential
-    voucher = @fetcher.vouchers.find(params[:id])
-    voucher.catalog_item.credential_type.destroy if voucher.catalog_item.credential_type.present?
+    @voucher.catalog_item.credential_type.destroy if @voucher.catalog_item.credential_type.present?
     redirect_to admins_event_vouchers_url
   end
 
   private
 
+  def set_voucher
+    @voucher = current_event.vouchers.find(params[:id])
+  end
+
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Voucher".constantize.model_name,
-      fetcher: @fetcher.vouchers,
+      fetcher: current_event.vouchers,
       search_query: params[:q],
       page: params[:page],
       include_for_all_items: [:entitlement, catalog_item: :credential_type],

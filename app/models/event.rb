@@ -71,6 +71,9 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   has_many :products
   has_many :stations
   has_many :catalog_items
+  has_many :accesses, through: :catalog_items, source: :catalogable, source_type: "Access"
+  has_many :packs, through: :catalog_items, source: :catalogable, source_type: "Pack"
+  has_many :vouchers, through: :catalog_items, source: :catalogable, source_type: "Voucher"
   has_many :credits, through: :catalog_items, source: :catalogable, source_type: "Credit" do
     def standard
       find_by(standard: true)
@@ -133,6 +136,30 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
   do_not_validate_attachment_file_type :device_full_db
   do_not_validate_attachment_file_type :device_basic_db
+
+  def claims
+    Claim.joins(:profile).where(profiles: { event_id: id })
+  end
+
+  def refunds
+    Refund.joins(claim: :profile).where(profiles: { event_id: id })
+  end
+
+  def customer_orders
+    CustomerOrder.joins(:profile).where(profiles: { event_id: id })
+  end
+
+  def orders
+    Order.joins(:profile).where(profiles: { event_id: id })
+  end
+
+  def payments
+    Payment.joins(order: :profile).where(profiles: { event_id: id })
+  end
+
+  def credential_types
+    CredentialType.joins(:catalog_item).where(catalog_items: { event_id: id }).includes(:catalog_item)
+  end
 
   def eventbrite?
     eventbrite_token.present? && eventbrite_event.present?

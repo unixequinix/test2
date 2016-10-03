@@ -5,9 +5,6 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
     set_presenter
   end
 
-  def show
-  end
-
   def new
     @access = Access.new
     @access.build_catalog_item
@@ -23,9 +20,6 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
       flash.now[:error] = @access.errors.full_messages.join(". ")
       render :new
     end
-  end
-
-  def edit
   end
 
   def update
@@ -62,13 +56,13 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
   private
 
   def set_access
-    @access = @fetcher.accesses.find(params[:id])
+    @access = current_event.accesses.find(params[:id])
   end
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Access".constantize.model_name,
-      fetcher: @fetcher.accesses,
+      fetcher: current_event.accesses,
       search_query: params[:q],
       page: params[:page],
       include_for_all_items: [:entitlement, catalog_item: :credential_type],

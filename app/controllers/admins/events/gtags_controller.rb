@@ -1,6 +1,7 @@
 # rubocop:disable Metrics/ClassLength
-class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
+class Admins::Events::GtagsController < Admins::Events::BaseController
   before_filter :set_presenter, only: [:index, :search]
+  before_filter :set_gtag, only: [:show, :edit, :update, :destroy, :ban, :unban]
 
   def index
     respond_to do |format|
@@ -11,11 +12,6 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
 
   def search
     render :index
-  end
-
-  def show
-    @gtag = @fetcher.gtags.includes(credential_assignments: { profile: :customer })
-                    .find(params[:id])
   end
 
   def new
@@ -34,12 +30,7 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
     end
   end
 
-  def edit
-    @gtag = @fetcher.gtags.find(params[:id])
-  end
-
   def update
-    @gtag = @fetcher.gtags.find(params[:id])
     if @gtag.update(permitted_params)
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_gtag_url(current_event, @gtag)
@@ -50,7 +41,6 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
   end
 
   def destroy
-    @gtag = @fetcher.gtags.find(params[:id])
     if @gtag.destroy
       flash[:notice] = I18n.t("alerts.destroyed")
     else
@@ -62,7 +52,7 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
   def destroy_multiple
     gtags = params[:gtags]
     if gtags
-      @fetcher.gtags.where(id: gtags.keys).each do |gtag|
+      current_event.gtags.where(id: gtags.keys).each do |gtag|
         flash[:error] = gtag.errors.full_messages.join(". ") unless gtag.destroy
       end
     end
@@ -70,28 +60,25 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
   end
 
   def ban
-    gtag = @fetcher.gtags.find(params[:id])
-    gtag.update!(banned: true)
+    @gtag.update!(banned: true)
 
     # TODO: Refactor this when gtag blacklisting is defined
-    blacklist_parameter.update(value: @fetcher.gtags.banned.pluck(:tag_uid).join(","))
+    blacklist_parameter.update(value: current_event.gtags.banned.pluck(:tag_uid).join(","))
 
-    write_transaction("ban", gtag)
+    write_transaction("ban", @gtag)
     redirect_to(admins_event_gtags_url)
   end
 
   def unban
-    gtag = @fetcher.gtags.find(params[:id])
-
-    if gtag.assigned_profile&.banned?
+    if @gtag.assigned_profile&.banned?
       flash[:error] = "Assigned profile is banned, unban it or unassign the gtag first"
     else
-      gtag.update(banned: false)
+      @gtag.update(banned: false)
 
       # TODO: Refactor this when gtag blacklisting is defined
-      blacklist_parameter.update(value: @fetcher.gtags.banned.pluck(:tag_uid).join(","))
+      blacklist_parameter.update(value: current_event.gtags.banned.pluck(:tag_uid).join(","))
 
-      write_transaction("unban", gtag)
+      write_transaction("unban", @gtag)
     end
     redirect_to(admins_event_gtags_url)
   end
@@ -128,6 +115,10 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
 
   private
 
+  def set_gtag
+    @gtag = current_event.gtags.find(params[:id])
+  end
+
   def blacklist_parameter
     current_event.event_parameters
                  .includes(:parameter)
@@ -152,7 +143,7 @@ class Admins::Events::GtagsController < Admins::Events::CheckinBaseController
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Gtag".constantize.model_name,
-      fetcher: @fetcher.gtags,
+      fetcher: current_event.gtags,
       search_query: params[:q],
       page: params[:page],
       include_for_all_items: [

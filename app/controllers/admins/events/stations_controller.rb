@@ -69,7 +69,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
 
   def sort
     params[:order].each do |_key, value|
-      @fetcher.stations.find(value[:id]).update_attribute(:position, value[:position])
+      current_event.stations.find(value[:id]).update_attribute(:position, value[:position])
     end
     render nothing: true
   end

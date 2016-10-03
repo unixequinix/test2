@@ -1,4 +1,6 @@
 class Admins::Events::CompaniesController < Admins::Events::BaseController
+  before_action :set_company, only: [:edit, :update, :destroy]
+
   def index
     set_presenter
   end
@@ -18,12 +20,7 @@ class Admins::Events::CompaniesController < Admins::Events::BaseController
     end
   end
 
-  def edit
-    @company = @fetcher.companies.find(params[:id])
-  end
-
   def update
-    @company = @fetcher.companies.find(params[:id])
     if @company.update(permitted_params)
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_companies_url
@@ -34,7 +31,6 @@ class Admins::Events::CompaniesController < Admins::Events::BaseController
   end
 
   def destroy
-    @company = @fetcher.companies.find(params[:id])
     if @company.destroy
       flash[:notice] = I18n.t("alerts.destroyed")
       redirect_to admins_event_companies_url
@@ -47,10 +43,14 @@ class Admins::Events::CompaniesController < Admins::Events::BaseController
 
   private
 
+  def set_company
+    @company = current_event.companies.find(params[:id])
+  end
+
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Company".constantize.model_name,
-      fetcher: @fetcher.companies,
+      fetcher: current_event.companies,
       search_query: params[:q],
       page: params[:page],
       include_for_all_items: [],

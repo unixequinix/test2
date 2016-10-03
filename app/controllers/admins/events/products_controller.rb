@@ -52,7 +52,7 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
   def destroy_multiple
     products = params[:products]
     if products
-      @fetcher.products.where(id: products.keys).each do |product|
+      current_event.products.where(id: products.keys).each do |product|
         flash[:error] = product.errors.full_messages.join(". ") unless product.destroy
       end
     end
@@ -96,13 +96,13 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
   private
 
   def set_product
-    @product = @fetcher.products.find(params[:id])
+    @product = current_event.products.find(params[:id])
   end
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Product".constantize.model_name,
-      fetcher: @fetcher.products,
+      fetcher: current_event.products,
       search_query: params[:q],
       page: params[:page],
       include_for_all_items: [],

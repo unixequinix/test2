@@ -13,11 +13,11 @@ class Admins::Events::RefundsController < Admins::Events::RefundsBaseController
   end
 
   def show
-    @refund = @fetcher.refunds.find(params[:id])
+    @refund = current_event.refunds.find(params[:id])
   end
 
   def update
-    refund = @fetcher.refunds.find(params[:id])
+    refund = current_event.refunds.find(params[:id])
     if refund.update(permitted_params)
       flash[:notice] = I18n.t("alerts.updated")
     else
@@ -31,7 +31,7 @@ class Admins::Events::RefundsController < Admins::Events::RefundsBaseController
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Refund".constantize.model_name,
-      fetcher: @fetcher.refunds,
+      fetcher: current_event.refunds,
       search_query: params[:q],
       page: params[:page],
       context: view_context,

@@ -1,13 +1,10 @@
 class Admins::Events::DeviceSettingsController < Admins::Events::BaseController
-  def show
-    @event_parameters = @fetcher.device_general_parameters
-  end
+  before_action :set_device_settings, only: [:show, :edit]
 
   def edit
     @device_settings_form = DeviceSettingsForm.new
-    event_parameters = @fetcher.device_general_parameters
 
-    event_parameters.each do |event_parameter|
+    @event_parameters.each do |event_parameter|
       @device_settings_form[event_parameter.parameter.name.to_sym] = event_parameter.value
     end
   end
@@ -34,6 +31,12 @@ class Admins::Events::DeviceSettingsController < Admins::Events::BaseController
   end
 
   private
+
+  def set_device_settings
+    @event_parameters = current_event.event_parameters
+                                     .where(parameters: { category: "device", group: "general" })
+                                     .includes(:parameter)
+  end
 
   def permitted_params
     params_names = Parameter.where(category: "device", group: "general").map(&:name)

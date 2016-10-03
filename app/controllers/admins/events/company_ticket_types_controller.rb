@@ -6,17 +6,17 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
   def new
     @company_ticket_type = CompanyTicketType.new
     @credential_types_collection =
-      @fetcher.credential_types.includes(:catalog_item,
+      current_event.credential_types.includes(:catalog_item,
                                          company_ticket_types: [company_event_agreement: :company])
-    @company_event_agreement_collection = @fetcher.company_event_agreements
+    @company_event_agreement_collection = current_event.company_event_agreements
   end
 
   def create
     @company_ticket_type = CompanyTicketType.new(permitted_params)
     @credential_types_collection =
-      @fetcher.credential_types.includes(:catalog_item,
+      current_event.credential_types.includes(:catalog_item,
                                          company_ticket_types: [company_event_agreement: :company])
-    @company_event_agreement_collection = @fetcher.company_event_agreements
+    @company_event_agreement_collection = current_event.company_event_agreements
     if @company_ticket_type.save
       redirect_to admins_event_company_ticket_types_url, notice: I18n.t("alerts.created")
     else
@@ -27,13 +27,13 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
 
   def edit
     @company_ticket_type =
-      @fetcher.company_ticket_types.includes(company_event_agreement: [:company]).find(params[:id])
-    @credential_types_collection = @fetcher.credential_types
-    @company_event_agreement_collection = @fetcher.company_event_agreements
+      current_event.company_ticket_types.includes(company_event_agreement: [:company]).find(params[:id])
+    @credential_types_collection = current_event.credential_types
+    @company_event_agreement_collection = current_event.company_event_agreements
   end
 
   def update # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-    @company_ticket_type = @fetcher.company_ticket_types.find(params[:id])
+    @company_ticket_type = current_event.company_ticket_types.find(params[:id])
     credential_type_id = @company_ticket_type.credential_type_id
 
     if @company_ticket_type.update(permitted_params)
@@ -48,8 +48,8 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
       end
       redirect_to admins_event_company_ticket_types_url, notice: I18n.t("alerts.updated")
     else
-      @credential_types_collection = @fetcher.credential_types
-      @company_event_agreement_collection = @fetcher.company_event_agreements
+      @credential_types_collection = current_event.credential_types
+      @company_event_agreement_collection = current_event.company_event_agreements
 
       flash.now[:error] = @company_ticket_type.errors.full_messages.join(". ")
       render :edit
@@ -57,7 +57,7 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
   end
 
   def destroy
-    @company_ticket_type = @fetcher.company_ticket_types.find(params[:id])
+    @company_ticket_type = current_event.company_ticket_types.find(params[:id])
     if @company_ticket_type.destroy
       flash[:notice] = I18n.t("alerts.destroyed")
     else
@@ -67,7 +67,7 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
   end
 
   def visibility
-    @ctt = @fetcher.company_ticket_types.find(params[:company_ticket_type_id])
+    @ctt = current_event.company_ticket_types.find(params[:company_ticket_type_id])
     @ctt.hidden? ? @ctt.show! : @ctt.hide!
     redirect_to admins_event_company_ticket_types_path(current_event), notice: I18n.t("alerts.updated")
   end
@@ -77,7 +77,7 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "CompanyTicketType".constantize.model_name,
-      fetcher: @fetcher.company_ticket_types,
+      fetcher: current_event.company_ticket_types,
       search_query: params[:q],
       page: params[:page],
       context: view_context,

@@ -1,13 +1,13 @@
 class Admins::Events::TicketAssignmentsController < Admins::Events::CheckinBaseController
   def new
-    @customer = @fetcher.customers.with_deleted.find(params[:customer_id])
+    @customer = current_event.customers.with_deleted.find(params[:customer_id])
     @ticket_assignment_form = TicketAssignmentForm.new
   end
 
   def create
     @ticket_assignment_form = TicketAssignmentForm.new(ticket_assignment_parameters)
     @customer = current_customer
-    if @ticket_assignment_form.save(@fetcher.tickets, current_profile, current_event)
+    if @ticket_assignment_form.save(current_event.tickets, current_profile, current_event)
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_customer_url(current_event, @customer)
     else
@@ -32,7 +32,7 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::CheckinBaseC
   end
 
   def current_customer
-    @fetcher.customers.find(params[:customer_id])
+    current_event.customers.find(params[:customer_id])
   end
 
   def current_profile

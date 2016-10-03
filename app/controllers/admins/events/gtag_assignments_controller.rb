@@ -1,14 +1,14 @@
-class Admins::Events::GtagAssignmentsController < Admins::Events::CheckinBaseController
+class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
   def new
-    @customer = @fetcher.customers.with_deleted.find(params[:customer_id])
+    @customer = current_event.customers.find(params[:customer_id])
     @gtag_assignment_form = GtagAssignmentForm.new
   end
 
   def create
     @gtag_assignment_form = GtagAssignmentForm.new(gtag_assignment_parameters)
-    @customer = @fetcher.customers.with_deleted.find(params[:customer_id])
+    @customer = current_event.customers.find(params[:customer_id])
 
-    if @gtag_assignment_form.save(@fetcher.gtags, current_customer)
+    if @gtag_assignment_form.save(current_event.gtags, current_customer)
       redirect_to admins_event_customer_url(current_event, @customer),
                   notice: I18n.t("alerts.created")
     else
@@ -37,7 +37,7 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::CheckinBaseCon
   end
 
   def current_customer
-    @fetcher.customers.find(params[:customer_id])
+    current_event.customers.find(params[:customer_id])
   end
 
   def current_profile

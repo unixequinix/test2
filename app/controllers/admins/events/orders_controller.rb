@@ -9,7 +9,7 @@ class Admins::Events::OrdersController < Admins::Events::PaymentsBaseController
   end
 
   def show
-    @order = @fetcher.orders.includes(catalog_items: :event).find(params[:id])
+    @order = current_event.orders.includes(catalog_items: :event).find(params[:id])
   end
 
   private
@@ -17,7 +17,7 @@ class Admins::Events::OrdersController < Admins::Events::PaymentsBaseController
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Order".constantize.model_name,
-      fetcher: @fetcher.orders,
+      fetcher: current_event.orders,
       search_query: params[:q],
       page: params[:page],
       include_for_all_items:

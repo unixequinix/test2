@@ -61,13 +61,13 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
   private
 
   def set_credit
-    @credit = @fetcher.credits.find(params[:id])
+    @credit = current_event.credits.find(params[:id])
   end
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Credit".constantize.model_name,
-      fetcher: @fetcher.credits,
+      fetcher: current_event.credits,
       search_query: params[:q],
       page: params[:page],
       include_for_all_items: [:catalog_item],

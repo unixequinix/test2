@@ -19,9 +19,8 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   end
 
   def show
-    @ticket = @fetcher.tickets.includes(credential_assignments: [profile: :customer],
-                                        company_ticket_type: [company_event_agreement: :company])
-                      .find(params[:id])
+    assoc = { credential_assignments: [profile: :customer], company_ticket_type: [company_event_agreement: :company] }
+    @ticket = current_event.tickets.includes(assoc).find(params[:id])
   end
 
   def new
@@ -42,11 +41,11 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   end
 
   def edit
-    @ticket = @fetcher.tickets.find(params[:id])
+    @ticket = current_event.tickets.find(params[:id])
   end
 
   def update
-    @ticket = @fetcher.tickets.find(params[:id])
+    @ticket = current_event.tickets.find(params[:id])
     if @ticket.update(permitted_params)
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_event_ticket_url(current_event, @ticket)
@@ -57,7 +56,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   end
 
   def destroy
-    @ticket = @fetcher.tickets.find(params[:id])
+    @ticket = current_event.tickets.find(params[:id])
     if @ticket.destroy
       flash[:notice] = I18n.t("alerts.destroyed")
     else
@@ -69,7 +68,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   def destroy_multiple
     tickets = params[:tickets]
     if tickets
-      @fetcher.tickets.where(id: tickets.keys).each do |ticket|
+      current_event.tickets.where(id: tickets.keys).each do |ticket|
         flash[:error] = ticket.errors.full_messages.join(". ") unless ticket.destroy
       end
     end
@@ -126,13 +125,13 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   end
 
   def ban
-    ticket = @fetcher.tickets.find(params[:id])
+    ticket = current_event.tickets.find(params[:id])
     ticket.update(banned: true)
     redirect_to(admins_event_tickets_url)
   end
 
   def unban
-    ticket = @fetcher.tickets.find(params[:id])
+    ticket = current_event.tickets.find(params[:id])
 
     if ticket.assigned_profile&.banned?
       flash[:error] = "Assigned profile is banned, unban it or unassign the ticket first"
@@ -147,7 +146,7 @@ class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Ticket".constantize.model_name,
-      fetcher: @fetcher.tickets,
+      fetcher: current_event.tickets,
       search_query: params[:q],
       page: params[:page],
       include_for_all_items: [

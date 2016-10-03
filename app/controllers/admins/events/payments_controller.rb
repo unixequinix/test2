@@ -2,12 +2,12 @@ class Admins::Events::PaymentsController < Admins::Events::PaymentsBaseControlle
   before_filter :set_presenter, only: [:index, :search]
 
   def index
-    @counts = @fetcher.payments.pluck(:amount, :transaction_type).group_by(&:last)
+    @counts = current_event.payments.pluck(:amount, :transaction_type).group_by(&:last)
     @counts = @counts.map{|type, payments| [type, payments.sum{|amount, _| amount}.to_f]}
 
     respond_to do |format|
       format.html
-      format.csv { send_data Csv::CsvExporter.to_csv(@fetcher.payments) }
+      format.csv { send_data Csv::CsvExporter.to_csv(current_event.payments) }
     end
   end
 
@@ -16,7 +16,7 @@ class Admins::Events::PaymentsController < Admins::Events::PaymentsBaseControlle
   end
 
   def show
-    @payment = @fetcher.payments.find(params[:id])
+    @payment = current_event.payments.find(params[:id])
   end
 
   private
@@ -24,7 +24,7 @@ class Admins::Events::PaymentsController < Admins::Events::PaymentsBaseControlle
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Payment".constantize.model_name,
-      fetcher: @fetcher.payments,
+      fetcher: current_event.payments,
       search_query: params[:q],
       page: params[:page],
       include_for_all_items: [:order],

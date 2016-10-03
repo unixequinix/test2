@@ -1,7 +1,7 @@
 class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
   def index
     @event = Event.friendly.find(params[:event_id])
-    @payment_parameters = @fetcher.event_parameters.where(
+    @payment_parameters = current_event.event_parameters.where(
       parameters: {
         group: @event.selected_payment_services.map { |ps| EventDecorator::PAYMENT_PLATFORMS[ps] },
         category: "payment"
@@ -12,9 +12,8 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
   # TODO: Move this method out from this controller
   def new
     @event = Event.friendly.find(params[:event_id])
-    @fetcher.event_parameters.find_by(parameter: Parameter.where(group: "stripe",
-                                                                 category: "payment",
-                                                                 name: "stripe_account_id"))
+    stripe_account_id = Parameter.where(group: "stripe", category: "payment", name: "stripe_account_id")
+    current_event.event_parameters.find_by(parameter: stripe_account_id)
     @payment_settings_form = StripePaymentActivationForm.new
   end
 
@@ -36,7 +35,7 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
     @event = Event.friendly.find(params[:event_id])
     @payment_service = params[:id]
     @payment_platform = EventDecorator::PAYMENT_PLATFORMS[@payment_service.to_sym]
-    event_parameters = @fetcher.event_parameters
+    event_parameters = current_event.event_parameters
                                .where(parameters: { group: @payment_platform, category: "payment" })
                                .joins(:parameter)
                                .select("parameters.name, event_parameters.value")

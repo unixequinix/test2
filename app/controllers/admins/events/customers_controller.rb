@@ -12,8 +12,9 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
     render :index
   end
 
+  # TODO: Cleanup this shit.
   def show
-    @customer = @fetcher.customers.with_deleted.includes(
+    @customer = current_event.customers.includes(
       :profile,
       profile: [:ticket_assignments,
                 :active_gtag_assignment,
@@ -32,7 +33,7 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
   end
 
   def reset_password
-    @customer = @fetcher.customers.find(params[:id])
+    @customer = current_event.customers.find(params[:id])
     @customer.update(encrypted_password: Authentication::Encryptor.digest("123456"))
     redirect_to admins_event_customer_path(current_event, @customer)
   end
@@ -40,7 +41,7 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Customer".constantize.model_name,
-      fetcher: @fetcher.customers,
+      fetcher: current_event.customers,
       search_query: params[:q],
       page: params[:page],
       context: view_context,
