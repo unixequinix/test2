@@ -9,14 +9,6 @@ ENV['RANSACK_FORM_BUILDER'] = '::SimpleForm::FormBuilder'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-# require railties and engines here.
-require_relative "../lib/boot_inquirer"
-
-require 'core'
-BootInquirer.each_active_app do |app|
-  require app.gem_name
-end
-
 module GlownetWeb
   class Application < Rails::Application
 
@@ -27,12 +19,6 @@ module GlownetWeb
     # end
 
     config.middleware.use Rack::Deflater
-
-    config.eager_load_paths += ["#{config.root}/apps/core/app/models"]
-    BootInquirer.each_active_app do |app|
-      directory = "#{config.root}/apps/#{app.gem_name}/app/models"
-      config.eager_load_paths += [directory] if File.directory?(directory)
-    end
 
     # Locale
     I18n.config.enforce_available_locales = true

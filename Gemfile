@@ -1,6 +1,5 @@
 Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
-require File.dirname(__FILE__) + '/lib/boot_inquirer'
 
 ruby '2.3.1'
 source 'https://rubygems.org'
@@ -189,8 +188,3 @@ group :production, :staging, :demo, :refunds do
   gem 'dalli', '~> 2.7.4' # Memcached
   gem 'therubyracer'
 end
-
-BootInquirer.each_active_app do |app|
-  gemspec path: "apps/#{app.gem_name}"
-end
-gemspec path: 'apps/core'
