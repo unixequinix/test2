@@ -192,6 +192,7 @@ Rails.application.routes.draw do
         end
         resources :stations do
           post :clone
+          post :visibility 
           resources :station_items do
             put :sort, on: :collection
           end

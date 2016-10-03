@@ -40,7 +40,6 @@ gem "omniauth-google-oauth2"
 gem 'bourbon', '~> 4.2.2'
 gem 'neat', '~> 1.7.2'
 gem 'font-awesome-rails', '~> 4.5.0.1'
-gem 'scss_lint', require: false
 
 # APIs
 gem 'jbuilder', '~> 2.2.13'
@@ -111,9 +110,6 @@ gem 'sdoc', '~> 0.4.1', group: :doc
 
 # PDF Generation
 gem 'wicked_pdf'
-
-# App monitoring
-gem 'rollbar'
 
 # Validations
 gem 'rfc-822'
