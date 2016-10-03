@@ -258,7 +258,7 @@ Rails.application.routes.draw do
   #----------------------------------------------------------
   # Customer Area
   #----------------------------------------------------------
-  devise_for :customers, skip: [:session, :password, :registration, :confirmation], controllers: { omniauth_callbacks: 'events/omniauth_callbacks' } 
+  devise_for :customers, skip: [:session, :password, :registration, :confirmation], controllers: { omniauth_callbacks: 'events/omniauth_callbacks' }
   scope module: "events" do
     resources :events, only: [:show], path: "/" do
 
@@ -353,8 +353,6 @@ Rails.application.routes.draw do
     namespace :api, defaults: { format: "json" } do
       namespace :v1 do
         resources :banned_tickets, path: "tickets/blacklist", only: [:index, :create, :destroy]
-        resources :banned_gtags, path: "gtags/blacklist", only: [:index, :create, :destroy]
-        resources :gtags, only: [:index, :show, :create, :update]
         resources :tickets, only: [:index, :show, :create, :update] do
           post :bulk_upload, on: :collection
         end
