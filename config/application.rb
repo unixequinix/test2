@@ -31,22 +31,15 @@ module GlownetWeb
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
-    # Precompile additional assets
-    config.assets.precompile += %w( .svg .eot .woff .ttf )
-    config.assets.precompile += %w[welcome_admin.css]
-    config.assets.precompile += %w[admin.css admin.js]
-    config.assets.precompile += %w[admin_mobile.css admin_mobile.js]
-    config.assets.precompile += %w[customer.css customer.js]
-
     config.paperclip_defaults = {
       storage: :s3,
       s3_protocol: :https,
       s3_credentials: {
-                        access_key_id: Rails.application.secrets.s3_access_key_id,
-                        secret_access_key: Rails.application.secrets.s3_secret_access_key,
-                        bucket: Rails.application.secrets.s3_bucket,
-                        s3_host_name: Rails.application.secrets.s3_hostname
-                      }
+        access_key_id: Rails.application.secrets.s3_access_key_id,
+        secret_access_key: Rails.application.secrets.s3_secret_access_key,
+        bucket: Rails.application.secrets.s3_bucket,
+        s3_host_name: Rails.application.secrets.s3_hostname
+      }
     }
 
     # Custom exception handling
