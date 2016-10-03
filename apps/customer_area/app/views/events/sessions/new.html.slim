@@ -6,13 +6,10 @@
 
 .container-event-login
   .social-login
-      = link_to customer_twitter_omniauth_authorize_path(event: current_event.slug), class: "social-btn social-btn--twitter" do
-        = fa_icon "twitter"
-        = "Sign in"
       = link_to customer_facebook_omniauth_authorize_path(event: current_event.slug), class: "social-btn social-btn--facebook" do
         = fa_icon "facebook"
         = "Sign in"
-      = link_to customer_facebook_omniauth_authorize_path(event: current_event.slug), class: "social-btn social-btn--google" do
+      = link_to customer_google_oauth2_omniauth_authorize_path(event: current_event.slug), class: "social-btn social-btn--google" do
         = fa_icon "google"
         = "Sign in"
   .traditional-login

@@ -35,7 +35,7 @@ gem 'devise', '~> 4.2'
 gem 'omniauth', '~> 1.3', '>= 1.3.1'
 gem 'omniauth-facebook', '~> 4.0'
 gem 'omniauth-twitter', '~> 1.2', '>= 1.2.1'
-gem 'omniauth-google'
+gem "omniauth-google-oauth2"
 
 # Design
 gem 'bourbon', '~> 4.2.2'

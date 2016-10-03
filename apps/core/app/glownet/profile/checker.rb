@@ -5,7 +5,7 @@ class Profile::Checker
     if tr_profile.present? && tg_profile.present? && tg_profile != tr_profile
       profile = Profile.find(tr_profile)
       message = "Profile fraud - Transaction: #{tr_profile.inspect}, Gtag: #{tg_profile.inspect}"
-      raise message if gtag.assigned_profile.customer
+      raise message if profile.active_gtag_assignment.present?
 
       gtag.assigned_gtag_credential.unassign!
       profile.credential_assignments.find_or_create_by!(credentiable: gtag, aasm_state: :assigned)
