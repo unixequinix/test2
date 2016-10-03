@@ -36,7 +36,7 @@
 class Customer < ActiveRecord::Base
   acts_as_paranoid
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :omniauthable,
-         authentication_keys: [:email, :event_id], reset_password_keys: [:email, :event_id], :omniauth_providers => [:facebook, :twitter]
+         authentication_keys: [:email, :event_id], reset_password_keys: [:email, :event_id], :omniauth_providers => [:facebook, :google_oauth2]
   default_scope { order("email") }
 
   # Genders

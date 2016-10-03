@@ -12,15 +12,15 @@ class Events::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
   end
 
-  def twitter
+  def google_oauth2
     @customer = Customer.from_omniauth(request.env["omniauth.auth"], current_event)
 
     if @customer.persisted?
       bypass_sign_in @customer
       redirect_to customer_root_path(current_event)
-      set_flash_message(:notice, :success, :kind => "Twitter") if is_navigational_format?
+      set_flash_message(:notice, :success, :kind => "Google") if is_navigational_format?
     else
-      session["devise.twitter_data"] = request.env["omniauth.auth"].except("extra")
+      session["devise.google_data"] = request.env["omniauth.auth"].except("extra")
       redirect_to event_register_url(current_event)
     end
   end

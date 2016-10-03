@@ -360,6 +360,8 @@ ActiveRecord::Schema.define(version: 20160923104024) do
     t.datetime "updated_at",                             null: false
     t.boolean  "receive_communications", default: false
     t.string   "locale",                 default: "en"
+    t.string   "provider"
+    t.string   "uid"
   end
 
   add_index "customers", ["deleted_at", "email", "event_id"], name: "index_customers_on_deleted_at_and_email_and_event_id", unique: true, using: :btree
@@ -736,6 +738,7 @@ ActiveRecord::Schema.define(version: 20160923104024) do
   end
 
   add_index "profiles", ["deleted_at"], name: "index_profiles_on_deleted_at", using: :btree
+  add_index "profiles", ["event_id", "deleted_at", "updated_at"], name: "idx_customers_api", order: {"updated_at"=>:desc}, using: :btree
 
   create_table "purchasers", force: :cascade do |t|
     t.integer  "credentiable_id",       null: false
