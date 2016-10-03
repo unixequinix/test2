@@ -37,8 +37,9 @@ class OnlineOrder < ActiveRecord::Base
   end
 
   def calculate_counter
+    profile = customer_order.profile
     OnlineOrder.joins(:customer_order)
-               .where(customer_orders: { profile: profile })
+               .where(customer_orders: { profile_id: profile.id })
                .where("counter > ? ", counter)
                .each { |o_order| OnlineOrder.decrement_counter(:counter, o_order.id) }
   end
