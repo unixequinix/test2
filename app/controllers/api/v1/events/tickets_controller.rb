@@ -1,7 +1,7 @@
 class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
   def index
     modified = request.headers["If-Modified-Since"]
-    tickets = @fetcher.sql_tickets(modified) || []
+    tickets = sql_tickets(modified) || []
 
     if tickets.present?
       date = JSON.parse(tickets).map { |pr| pr["updated_at"] }.sort.last

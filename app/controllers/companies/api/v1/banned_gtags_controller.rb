@@ -2,14 +2,14 @@ class Companies::Api::V1::BannedGtagsController < Companies::Api::V1::BaseContro
   def index
     render json: {
       event_id: current_event.id,
-      blacklisted_gtags: @fetcher.banned_gtags.map do |gtag|
+      blacklisted_gtags: banned_gtags.map do |gtag|
         Companies::Api::V1::GtagSerializer.new(gtag)
       end
     }
   end
 
   def create
-    @gtag = @fetcher.gtags.find_by(tag_uid: params[:gtags_blacklist][:tag_uid])
+    @gtag = gtags.find_by(tag_uid: params[:gtags_blacklist][:tag_uid])
 
     render(status: :not_found,
            json: { status: :not_found, message: :not_found }) && return unless @gtag
@@ -20,7 +20,7 @@ class Companies::Api::V1::BannedGtagsController < Companies::Api::V1::BaseContro
   end
 
   def destroy
-    gtag = @fetcher.banned_gtags.find_by(tag_uid: params[:id])
+    gtag = banned_gtags.find_by(tag_uid: params[:id])
     render(status: :not_found,
            json: { status: :not_found, message: :not_found }) && return unless gtag
 

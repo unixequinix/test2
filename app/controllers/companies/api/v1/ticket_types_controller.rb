@@ -1,17 +1,15 @@
 class Companies::Api::V1::TicketTypesController < Companies::Api::V1::BaseController
   def index
-    @ticket_types = @fetcher.company_ticket_types
-
     render json: {
       event_id: current_event.id,
-      ticket_types: @ticket_types.map do |ticket_type|
+      ticket_types: company_ticket_types.map do |ticket_type|
         Companies::Api::V1::TicketTypeSerializer.new(ticket_type)
       end
     }
   end
 
   def show
-    @ticket_type = @fetcher.company_ticket_types.find_by(id: params[:id])
+    @ticket_type = company_ticket_types.find_by(id: params[:id])
 
     if @ticket_type
       render json: Companies::Api::V1::TicketTypeSerializer.new(@ticket_type)
@@ -34,7 +32,7 @@ class Companies::Api::V1::TicketTypesController < Companies::Api::V1::BaseContro
   end
 
   def update
-    @ticket_type = @fetcher.company_ticket_types.find_by(id: params[:id])
+    @ticket_type = company_ticket_types.find_by(id: params[:id])
 
     if @ticket_type
       if @ticket_type.update(ticket_type_params)

@@ -2,7 +2,7 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
   def index
     render json: {
       event_id: current_event.id,
-      blacklisted_tickets: @fetcher.banned_tickets.map do |ticket|
+      blacklisted_tickets: banned_tickets.map do |ticket|
         Companies::Api::V1::TicketSerializer.new(ticket)
       end
     }
@@ -13,18 +13,18 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
     render(status: :bad_request,
            json: { error: "Ticket reference is missing." }) && return unless t_code
 
-    @ticket = @fetcher.tickets.find_by_code(t_code)
+    @ticket = tickets.find_by_code(t_code)
 
     unless @ticket
       dec = TicketDecoder::SonarDecoder.perform(t_code)
       render(status: :not_found,
              json: { status: :not_found, error: "Invalid ticket reference." }) && return unless dec
 
-      ctt = @fetcher.company_ticket_types.find_by_company_code(dec)
+      ctt = company_ticket_types.find_by_company_code(dec)
       render(status: :not_found,
              json: { status: :not_found, error: "Ticket Type not found." }) && return unless ctt
 
-      @ticket = @fetcher.tickets.create!(company_ticket_type: ctt, code: t_code)
+      @ticket = tickets.create!(company_ticket_type: ctt, code: t_code)
     end
 
     @ticket.update!(banned: true)
@@ -33,7 +33,7 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
   end
 
   def destroy
-    ticket = @fetcher.tickets.find_by_code(params[:id])
+    ticket = tickets.find_by_code(params[:id])
     render(status: :not_found,
            json: { status: :not_found, message: :not_found }) && return unless ticket
 

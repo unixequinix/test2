@@ -1,15 +1,13 @@
 class Companies::Api::V1::GtagsController < Companies::Api::V1::BaseController
   def index
-    @gtags = @fetcher.gtags
-
     render json: {
       event_id: current_event.id,
-      gtags: @gtags.map { |gtag| Companies::Api::V1::GtagSerializer.new(gtag) }
+      gtags: gtags.map { |gtag| Companies::Api::V1::GtagSerializer.new(gtag) }
     }
   end
 
   def show
-    gtag = @fetcher.gtags.find_by(id: params[:id])
+    gtag = gtags.find_by(id: params[:id])
 
     render(json: gtag, serializer: Companies::Api::V1::GtagSerializer) && return if gtag
     render(status: :not_found, json: { status: "not_found", error: "Gtag with id #{params[:id]} not found." })
@@ -30,7 +28,7 @@ class Companies::Api::V1::GtagsController < Companies::Api::V1::BaseController
   end
 
   def update
-    @gtag = @fetcher.gtags.find_by(id: params[:id])
+    @gtag = gtags.find_by(id: params[:id])
 
     update_params = gtag_params
     purchaser_attributes = update_params[:purchaser_attributes]

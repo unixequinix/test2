@@ -1,8 +1,7 @@
 class Companies::Api::V1::BaseController < Companies::BaseController
   attr_reader :current_event, :agreement
   before_action :restrict_access_with_http
-  before_action :api_enabled, except: [:restrict_access_with_http, :enable_fetcher]
-  before_filter :enable_fetcher
+  before_action :api_enabled, except: [:restrict_access_with_http]
 
   private
 
@@ -16,10 +15,6 @@ class Companies::Api::V1::BaseController < Companies::BaseController
 
       @current_event && @agreement || render(status: 403, json: :unauthorized)
     end
-  end
-
-  def enable_fetcher
-    @fetcher = Multitenancy::CompanyFetcher.new(current_event, agreement)
   end
 
   def api_enabled
@@ -41,5 +36,41 @@ class Companies::Api::V1::BaseController < Companies::BaseController
     ticket_type = CompanyTicketType.find_by(id: params[:gtag][:ticket_type_id])
     ticket_type && ticket_type.company_event_agreement == agreement &&
       ticket_type.event == current_event && ticket_type.deleted_at.nil?
+  end
+
+  private
+
+  def company_ticket_types
+    current_event.company_ticket_types.where(company_event_agreement: @agreement.id)
+  end
+
+  def gtags
+    current_event.gtags
+                 .joins(company_ticket_type: :company_event_agreement)
+                 .where(company_ticket_types: { company_event_agreement_id: @agreement.id })
+                 .joins("LEFT OUTER JOIN purchasers
+                         ON purchasers.credentiable_id = gtags.id
+                         AND purchasers.credentiable_type = 'Gtag'
+                         AND purchasers.deleted_at IS NULL")
+                 .includes(:purchaser)
+  end
+
+  def tickets
+    current_event.tickets
+                 .joins(company_ticket_type: :company_event_agreement)
+                 .where(company_ticket_types: { company_event_agreement_id: @agreement.id })
+                 .joins("LEFT OUTER JOIN purchasers
+                         ON purchasers.credentiable_id = tickets.id
+                         AND purchasers.credentiable_type = 'Ticket'
+                         AND purchasers.deleted_at IS NULL")
+                 .includes(:purchaser)
+  end
+
+  def banned_tickets
+    tickets.where(banned: true)
+  end
+
+  def banned_gtags
+    gtags.where(banned: true)
   end
 end

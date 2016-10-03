@@ -1,7 +1,7 @@
 class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
   def index
     modified = request.headers["If-Modified-Since"]
-    gtags = @fetcher.sql_gtags(modified) || []
+    gtags = sql_gtags(modified) || []
 
     if gtags.present?
       date = JSON.parse(gtags).map { |pr| pr["updated_at"] }.sort.last

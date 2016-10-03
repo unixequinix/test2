@@ -1,15 +1,13 @@
 class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
   def index
-    @tickets = @fetcher.tickets
-
     render json: {
       event_id: current_event.id,
-      tickets: @tickets.map { |ticket| Companies::Api::V1::TicketSerializer.new(ticket) }
+      tickets: tickets.map { |ticket| Companies::Api::V1::TicketSerializer.new(ticket) }
     }
   end
 
   def show
-    @ticket = @fetcher.tickets.find_by(id: params[:id])
+    @ticket = tickets.find_by(id: params[:id])
 
     if @ticket
       render json: @ticket, serializer: Companies::Api::V1::TicketSerializer
@@ -56,7 +54,7 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
   end
 
   def update # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-    @ticket = @fetcher.tickets.find_by(id: params[:id])
+    @ticket = tickets.find_by(id: params[:id])
 
     render(status: :not_found,
            json: { status: "not_found", error: "Ticket with id #{params[:id]} not found." }) &&
