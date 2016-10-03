@@ -34,8 +34,9 @@
 #
 
 class Customer < ActiveRecord::Base
-  include Trackable
   acts_as_paranoid
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :omniauthable,
+         authentication_keys: [:email, :event_id], reset_password_keys: [:email, :event_id], :omniauth_providers => [:facebook, :twitter]
   default_scope { order("email") }
 
   # Genders
@@ -51,7 +52,7 @@ class Customer < ActiveRecord::Base
 
   # Validations
   validates_format_of :email, with: RFC822::EMAIL
-  validates :email, :first_name, :last_name, :encrypted_password, presence: true
+  validates :email, :first_name, :encrypted_password, presence: true
   validates :agreed_on_registration, acceptance: { accept: true }
 
   validates_uniqueness_of :email, scope: [:event_id], conditions: -> { where(deleted_at: nil) }
@@ -68,39 +69,22 @@ class Customer < ActiveRecord::Base
 
   # Methods
   # -------------------------------------------------------
-  def refund_status
-    return "no_credentials_assigned" unless profile
-    if profile.refundable_money.zero? || !profile.valid_balance?
-      "not_eligible"
-    elsif profile.completed_claim
-      "completed"
-    else
-      "not_performed"
+
+  def self.from_omniauth(auth, event)
+    where(provider: auth.provider, uid: auth.uid, event: event).first_or_create do |user|
+      token = Devise.friendly_token[0, 20]
+      user.provider = auth.provider
+      user.uid = auth.uid
+      user.email = auth.info.email
+      user.first_name = auth.info.name
+      user.password = token
+      user.password_confirmation = token
+      user.agreed_on_registration = true
     end
-  end
-
-  def init_password_token!
-    generate_token(:reset_password_token)
-    self.reset_password_sent_at = Time.zone.now.utc
-    save
-  end
-
-  def init_remember_token!
-    generate_token(:remember_token)
-    self.remember_created_at = Time.zone.now.utc
-    save
-  end
-
-  def remember_me_token_expires_at(expiration_time)
-    remember_created_at + expiration_time
   end
 
   def self.gender_selector
     GENDERS.map { |f| [I18n.t("gender." + f), f] }
-  end
-
-  def self.find_for_authentication(warden_conditions)
-    where(email: warden_conditions[:email], event_id: warden_conditions[:event_id]).first
   end
 
   def autotopup_amounts(payment_gateway)
@@ -110,6 +94,14 @@ class Customer < ActiveRecord::Base
 
   def current_autotopup_amount(payment_gateway)
     payment_gateway.autotopup_amount
+  end
+
+  def email_required?
+    false
+  end
+
+  def email_changed?
+    false
   end
 
   private

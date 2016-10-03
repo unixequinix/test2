@@ -354,6 +354,7 @@ pt:
     create_account:
       title: "Ainda não tens uma conta?"
       link: "Cria uma conta!"
+      lost_password: 'Lost password?'
     log_in:
       title: "Já criaste uma conta?"
       link: "Inicia a sessão aqui"

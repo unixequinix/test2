@@ -17,11 +17,9 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
-require "bcrypt"
 
 class Admin < ActiveRecord::Base
-  include BCrypt
-  include Trackable
+  devise :database_authenticatable, :rememberable, :recoverable
 
   # Validations
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i

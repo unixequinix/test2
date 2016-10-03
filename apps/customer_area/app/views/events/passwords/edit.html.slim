@@ -1,11 +1,10 @@
-.container-event-column
-  .wrapper-session.wrapper-module-centered.edit-profile-form
-    = simple_form_for @reset_password_form, url: event_passwords_path(current_event), method: :patch do |f|
-      = f.input :reset_password_token, as: :hidden
-      = f.full_error :reset_password_token
-      = f.error_notification
-      h3 = t('passwords.edit.header')
-      = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
-      = f.input :password, label: t('passwords.edit.password'), required: true, autofocus: true
-      = f.input :password_confirmation, label: t('passwords.edit.password_confirmation'), required: true
-      = f.button :submit, t('passwords.edit.button'),  class: "btn-action btn-edit-profile"
+.wrapper-session.wrapper-module-centered.edit-profile-form
+  = simple_form_for resource, url: event_edit_password_path(current_event), method: :patch do |f|
+    = f.input :reset_password_token, as: :hidden
+    = f.full_error :reset_password_token
+    = f.error_notification
+    h3 = t('passwords.edit.header')
+    = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
+    = f.input :password, label: t('passwords.edit.password'), required: true, autofocus: true
+    = f.input :password_confirmation, label: t('passwords.edit.password_confirmation'), required: true
+    = f.button :submit, t('passwords.edit.button'),  class: "btn-action btn-edit-profile"

@@ -1,6 +1,25 @@
 Rails.application.routes.draw do
+  devise_for :customers, skip: [:session, :password, :registration, :confirmation], controllers: { omniauth_callbacks: 'events/omniauth_callbacks' }
+
   scope module: "events" do
     resources :events, only: [:show], path: "/" do
+      devise_for :customers, skip: :omniauth_callbacks
+      devise_scope :customer do
+        get "/login", to: "sessions#new"
+        post "/login", to: "sessions#create"
+        delete "/logout", to: "sessions#destroy"
+        get "/register", to: "registrations#new"
+        get "/account", to: "registrations#edit"
+        post "/register", to: "registrations#create"
+        patch "/register", to: "registrations#update"
+        get "/change_password", to: "registrations#change_password"
+        patch "/change_password", to: "registrations#update_password"
+        get "/recover_password", to: "passwords#new"
+        post "/recover_password", to: "passwords#create"
+        get "/edit_password", to: "passwords#edit"
+        patch "/edit_password", to: "passwords#update"
+      end
+
       resource :info
       resources :locale do
         member do

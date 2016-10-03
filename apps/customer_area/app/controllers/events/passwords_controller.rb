@@ -1,69 +1,19 @@
-class Events::PasswordsController < Events::BaseController
-  layout "welcome_customer"
-  skip_before_filter :authenticate_customer!
-  before_action :check_authorization_flag!
+class Events::PasswordsController < Devise::PasswordsController
+  layout "customer"
+  helper_method :current_event
 
-  def new
-    @customer = Customer.new
+  def after_resetting_password_path_for(resource)
+   customer_root_path(current_event)
   end
 
-  def create
-    @customer = Customer.find_by(email: permitted_params[:email], event: current_event)
-    if @customer.present?
-      @customer.init_password_token!
-      CustomerMailer.reset_password_instructions_email(@customer).deliver_later
-      flash[:notice] = I18n.t("auth.passwords.send_instructions")
-      redirect_to after_sending_reset_password_instructions_path
-    else
-      @customer = Customer.new
-      flash.now[:error] = I18n.t("auth.failure.invalid", authentication_keys: "email")
-      render :new
-    end
+  # The path used after sending reset password instructions
+  def after_sending_reset_password_instructions_path_for(resource_name)
+   customer_root_path(current_event)
   end
 
-  def edit
-    @customer = Customer.find_by(reset_password_token: params[:reset_password_token])
-    if !@customer.nil?
-      @reset_password_form = ResetPasswordForm.new(@customer)
-    else
-      flash[:error] = I18n.t("errors.messages.expired")
-      redirect_to customer_root_url(current_event)
-    end
-  end
-
-  def update
-    customer = Customer.find_by(reset_password_token: permitted_params[:reset_password_token])
-    @reset_password_form = ResetPasswordForm.new(customer)
-
-    if expired?(@reset_password_form)
-      redirect_to edit_event_passwords_path(current_event), alert: I18n.t("errors.messages.expired")
-    elsif valid?(@reset_password_form) && @reset_password_form.save
-      redirect_to customer_root_url(current_event), notice: I18n.t("auth.passwords.updated")
-    else
-      render :edit
-    end
-  end
-
-  private
-
-  def expired?(form)
-    form.reset_password_sent_at < 2.hours.ago
-  end
-
-  def valid?(form)
-    form.validate(permitted_params)
-  end
-
-  def after_resetting_password_path
-    new_event_session_path(current_event)
-  end
-
-  def after_sending_reset_password_instructions_path
-    event_login_path(current_event, password_sent: true)
-  end
-
-  def permitted_params
-    params.require(:customer)
-          .permit(:event_id, :email, :password, :password_confirmation, :reset_password_token)
+  def current_event
+    id = params[:event_id] || params[:id]
+    return false unless id
+    Event.find_by_slug(id) || Event.find(id) if id
   end
 end

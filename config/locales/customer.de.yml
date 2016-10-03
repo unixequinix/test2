@@ -333,6 +333,7 @@ de:
     create_account:
       title: 'Du hast noch keinen Festival account?'
       link: 'Hier erhältst Du Einen kostenfreien!'
+      lost_password: 'Lost password?'
     log_in:
       title: 'Du hast bereits einen Festival account?'
       link: 'Logge Dich hier ein'

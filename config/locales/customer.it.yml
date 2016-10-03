@@ -345,6 +345,7 @@ it:
     create_account:
       title: 'Non hai un account?'
       link: 'Creane uno!'
+      lost_password: 'Lost password?'
     log_in:
       title: 'Hai gia un account?'
       link: 'Accedi qui'
