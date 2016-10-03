@@ -14,53 +14,6 @@ GIT
     i18n-globals (0.0.1)
       i18n
 
-PATH
-  remote: apps/administration
-  specs:
-    administration (0.0.1)
-      rails (~> 4.2.1)
-
-PATH
-  remote: apps/api
-  specs:
-    api (0.0.1)
-      rails (~> 4.2.1)
-
-PATH
-  remote: apps/company_api
-  specs:
-    company_api (0.0.1)
-      rails (~> 4.2.1)
-
-PATH
-  remote: apps/core
-  specs:
-    core (0.0.1)
-
-PATH
-  remote: apps/customer_area
-  specs:
-    customer_area (0.0.1)
-      rails (~> 4.2.1)
-
-PATH
-  remote: apps/payment_ngn
-  specs:
-    payment_ngn (0.0.1)
-      rails (~> 4.2.1)
-
-PATH
-  remote: apps/refund_ngn
-  specs:
-    refund_ngn (0.0.1)
-      rails (~> 4.2.1)
-
-PATH
-  remote: apps/transactions
-  specs:
-    transactions (0.0.1)
-      rails (~> 4.2.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -670,9 +623,7 @@ DEPENDENCIES
   active_record_bulk_insert
   activerecord-import (~> 0.11.0)
   acts_as_list
-  administration!
   annotate (~> 2.6.10)
-  api!
   awesome_print
   aws-sdk (~> 2)
   aws-sdk-v1
@@ -693,10 +644,7 @@ DEPENDENCIES
   capistrano-sidekiq (~> 0.5.3)
   capybara (~> 2.5.0)
   capybara-slow_finder_errors
-  company_api!
-  core!
   country_select (~> 2.2.0)
-  customer_area!
   dalli (~> 2.7.4)
   database_cleaner (~> 1.4.1)
   deep_cloneable (~> 2.2.1)
@@ -737,7 +685,6 @@ DEPENDENCIES
   omniauth-twitter (~> 1.2, >= 1.2.1)
   paperclip (~> 4.3.6)
   paranoia (~> 2.0)
-  payment_ngn!
   paypal-sdk-rest
   pg (~> 0.18.1)
   phony_rails (~> 0.12.8)
@@ -751,7 +698,6 @@ DEPENDENCIES
   ransack (~> 1.6.6)
   rb-fsevent
   reform (~> 2.0.5)
-  refund_ngn!
   rfc-822
   rollbar
   roo (~> 2.0.0beta1)
@@ -780,7 +726,6 @@ DEPENDENCIES
   terminal-notifier-guard
   therubyracer
   tinymce-rails
-  transactions!
   turbolinks (~> 2.5.3)
   uglifier (~> 2.7.1)
   validate_nz_bank_acc (~> 0.0.3)
