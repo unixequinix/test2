@@ -1,6 +1,5 @@
 Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
-require File.dirname(__FILE__) + '/lib/boot_inquirer'
 
 ruby '2.3.1'
 source 'https://rubygems.org'
@@ -41,7 +40,6 @@ gem "omniauth-google-oauth2"
 gem 'bourbon', '~> 4.2.2'
 gem 'neat', '~> 1.7.2'
 gem 'font-awesome-rails', '~> 4.5.0.1'
-gem 'scss_lint', require: false
 
 # APIs
 gem 'jbuilder', '~> 2.2.13'
@@ -112,9 +110,6 @@ gem 'sdoc', '~> 0.4.1', group: :doc
 
 # PDF Generation
 gem 'wicked_pdf'
-
-# App monitoring
-gem 'rollbar'
 
 # Validations
 gem 'rfc-822'
@@ -189,8 +184,3 @@ group :production, :staging, :demo, :refunds do
   gem 'dalli', '~> 2.7.4' # Memcached
   gem 'therubyracer'
 end
-
-BootInquirer.each_active_app do |app|
-  gemspec path: "apps/#{app.gem_name}"
-end
-gemspec path: 'apps/core'

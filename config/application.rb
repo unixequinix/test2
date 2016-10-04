@@ -9,14 +9,6 @@ ENV['RANSACK_FORM_BUILDER'] = '::SimpleForm::FormBuilder'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-# require railties and engines here.
-require_relative "../lib/boot_inquirer"
-
-require 'core'
-BootInquirer.each_active_app do |app|
-  require app.gem_name
-end
-
 module GlownetWeb
   class Application < Rails::Application
 
@@ -27,12 +19,6 @@ module GlownetWeb
     # end
 
     config.middleware.use Rack::Deflater
-
-    config.eager_load_paths += ["#{config.root}/apps/core/app/models"]
-    BootInquirer.each_active_app do |app|
-      directory = "#{config.root}/apps/#{app.gem_name}/app/models"
-      config.eager_load_paths += [directory] if File.directory?(directory)
-    end
 
     # Locale
     I18n.config.enforce_available_locales = true
@@ -45,22 +31,15 @@ module GlownetWeb
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
-    # Precompile additional assets
-    config.assets.precompile += %w( .svg .eot .woff .ttf )
-    config.assets.precompile += %w[welcome_admin.css]
-    config.assets.precompile += %w[admin.css admin.js]
-    config.assets.precompile += %w[admin_mobile.css admin_mobile.js]
-    config.assets.precompile += %w[customer.css customer.js]
-
     config.paperclip_defaults = {
       storage: :s3,
       s3_protocol: :https,
       s3_credentials: {
-                        access_key_id: Rails.application.secrets.s3_access_key_id,
-                        secret_access_key: Rails.application.secrets.s3_secret_access_key,
-                        bucket: Rails.application.secrets.s3_bucket,
-                        s3_host_name: Rails.application.secrets.s3_hostname
-                      }
+        access_key_id: Rails.application.secrets.s3_access_key_id,
+        secret_access_key: Rails.application.secrets.s3_secret_access_key,
+        bucket: Rails.application.secrets.s3_bucket,
+        s3_host_name: Rails.application.secrets.s3_hostname
+      }
     }
 
     # Custom exception handling

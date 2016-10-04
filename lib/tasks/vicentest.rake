@@ -50,7 +50,8 @@ namespace :glownet do
       birthdate: Date.new(rand(1900..2000), rand(1..12), rand(1..28)),
       postcode: "28012",
       agreed_event_condition: true,
-      encrypted_password: Authentication::Encryptor.digest("test")
+      password: "test",
+      password_confirmation: "test"
     })
   end
 
