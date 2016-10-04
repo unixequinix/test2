@@ -114,6 +114,8 @@ gem 'wicked_pdf'
 # Validations
 gem 'rfc-822'
 
+gem 'figaro', '~> 1.1', '>= 1.1.1'
+
 group :development do
   gem 'foreman', '~> 0.78.0'
   gem 'annotate', '~> 2.6.10'
