@@ -41,6 +41,6 @@ class OnlineOrder < ActiveRecord::Base
     OnlineOrder.joins(:customer_order)
                .where(customer_orders: { profile_id: profile.id })
                .where("counter > ? ", counter)
-               .each { |o_order| OnlineOrder.decrement_counter(:counter, o_order.id) }
+               .find { |o_order| OnlineOrder.decrement_counter(:counter, o_order.id) }
   end
 end

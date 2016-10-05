@@ -106,6 +106,9 @@ FactoryGirl.define do
 
       max_balance = Parameter.find_by(category: "gtag", group: "form", name: "maximum_gtag_balance")
       EventParameter.find_or_create_by(event: event, value: "300", parameter: max_balance)
+
+      ci = { event_id: event.id, name: "Credit", step: 5, min_purchasable: 0, max_purchasable: 300, initial_amount: 0 }
+      Credit.create(standard: true, currency: "EUR", value: 1, catalog_item_attributes: ci)
     end
 
     factory :event_with_refund_services, traits: [:refund_services]

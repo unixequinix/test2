@@ -9,8 +9,7 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
     @customer = current_event.customers.find(params[:customer_id])
 
     if @gtag_assignment_form.save(current_event.gtags, current_customer)
-      redirect_to admins_event_customer_url(current_event, @customer),
-                  notice: I18n.t("alerts.created")
+      redirect_to admins_event_customer_url(current_event, @customer), notice: I18n.t("alerts.created")
     else
       flash[:error] = @gtag_assignment_form.errors.full_messages.join
       render :new
@@ -23,17 +22,13 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
     @credential_assignment.credentiable
 
     flash[:notice] = I18n.t("alerts.unassigned")
-    # TODO: Removed for Sonar with potential permanent removal
-    # GtagMailer.unassigned_email(@credential_assignment).deliver_later
     redirect_to :back
   end
 
   private
 
   def gtag_assignment_parameters
-    params.require(:gtag_assignment_form)
-          .permit(:number, :tag_uid)
-          .merge(event_id: current_event.id)
+    params.require(:gtag_assignment_form).permit(:number, :tag_uid).merge(event_id: current_event.id)
   end
 
   def current_customer
@@ -41,7 +36,6 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
   end
 
   def current_profile
-    current_customer.profile ||
-      Profile.new(customer: current_customer, event: current_event)
+    current_customer.profile || Profile.create(customer: current_customer, event: current_event)
   end
 end

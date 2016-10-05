@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  before_filter :check_for_mobile
+  before_action :check_for_mobile
 
   # Get locale from user's browser and set it, unless it's present in session.
   # Use default otherwise.

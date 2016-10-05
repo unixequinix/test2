@@ -43,7 +43,7 @@ class CredentialType < ActiveRecord::Base
     CredentialType.joins(:catalog_item)
                   .where(catalog_items: { event_id: catalog_item.event_id })
                   .where("memory_position > ?", memory_position)
-                  .each { |ct| CredentialType.decrement_counter(:memory_position, ct.id) }
+                  .find_each { |ct| CredentialType.decrement_counter(:memory_position, ct.id) }
   end
 
   def valid_position

@@ -1,6 +1,6 @@
 class Events::RefundsController < Events::BaseController
   skip_before_action :authenticate_customer!, only: [:create, :tipalti_success]
-  skip_before_filter :verify_authenticity_token, only: [:create, :tipalti_success]
+  skip_before_action :verify_authenticity_token, only: [:create, :tipalti_success]
   skip_before_action :check_has_gtag!, only: [:create, :tipalti_success]
 
   def create

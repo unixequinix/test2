@@ -46,7 +46,6 @@
 #  registration_num             :string
 #  official_name                :string
 #
-
 class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   nilify_blanks
   translates :info, :disclaimer, :terms_of_use, :privacy_policy, :refund_success_message,

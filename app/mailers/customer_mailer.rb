@@ -6,7 +6,7 @@ class CustomerMailer < Devise::Mailer
           content_type: "multipart/mixed",
           parts_order: %w(multipart/alternative text/html text/enriched text/plain application/pdf)
 
-  def reset_password_instructions(record, token, opts={})
+  def reset_password_instructions(record, token, _opts = {})
     @event = record.event
     @name = "#{record.first_name} #{record.last_name}"
     @token = token

@@ -38,7 +38,7 @@ class Ticket < ActiveRecord::Base
   # has_many :comments, as: :commentable
 
   # Validations
-  validates_uniqueness_of :code, scope: :event_id
+  validates :code, uniqueness: { scope: :event_id }
   validates :code, presence: true
   validates :company_ticket_type_id, presence: true
 

@@ -2,7 +2,7 @@
   = simple_form_for resource, url: event_register_path(current_event), method: :patch do |f|
     = f.error_notification
     h3 = t('header.edit')
-    = f.input :event_id, as: :hidden, input_html: { value: current_event.id }, input_html: { class: 'session-input' }
+    = f.input :event_id, as: :hidden, input_html: { value: current_event.id, class: 'session-input' }
     = f.input :email, required: true, autofocus: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.email")
     = f.input :first_name, required: true, autofocus: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.first_name")
     = f.input :last_name, required: true, autofocus: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.last_name")
@@ -33,8 +33,7 @@
             @edit_profile_form.current_autotopup_amount(payment_gateway_customer)), include_blank: false
         = link_to event_autotopup_agreement_path(current_event, payment_gateway_customer), method: :delete,
             class: "btn btn-remove-agreement",
-            data: { confirm: (t('registration.autotoup_agreement.cancel')) },
-            method: :delete do
+            data: { confirm: (t('registration.autotoup_agreement.cancel')) } do
           = t('confirm.cancel_paypal_agreement')
           span.hint = t("confirm.cancel_paypal")
     = f.button :submit, t('registration.edit.button'),  class: "btn-action btn-edit-profile"

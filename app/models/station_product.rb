@@ -20,7 +20,7 @@ class StationProduct < ActiveRecord::Base
   accepts_nested_attributes_for :station_parameter, allow_destroy: true
 
   validates :price, presence: true
-  validates_numericality_of :price
+  validates :price, numericality: true
   validate :product_already_exists
 
   after_update { station_parameter.station.touch }

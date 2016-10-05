@@ -36,6 +36,6 @@ class MoneyTransaction < Transaction
   end
 
   def description
-    "Payment: #{event.currency} #{'%.2f' % price}"
+    "Payment: #{event.currency} #{format('%20.2f', price)}"
   end
 end

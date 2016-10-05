@@ -6,9 +6,7 @@ class Payments::Redsys::DataRetriever < Payments::BaseDataRetriever
     @current_event = event
     @order = order
     @payment_parameters = Parameter.joins(:event_parameters)
-                                   .where(category: "payment",
-                                          group: "redsys",
-                                          event_parameters: { event: event })
+                                   .where(category: "payment", group: "redsys", event_parameters: { event: event })
                                    .select("parameters.name, event_parameters.*")
   end
 

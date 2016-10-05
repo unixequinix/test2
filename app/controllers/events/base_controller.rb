@@ -4,13 +4,12 @@ class Events::BaseController < ApplicationController
   before_action :fetch_current_event
   before_action :authenticate_customer!
   before_action :write_locale_to_session
-  before_filter :set_i18n_globals
+  before_action :set_i18n_globals
   helper_method :current_event
   helper_method :current_profile
 
-
   def current_profile
-    current_customer.profile || Profile.new(customer: current_customer, event: current_event)
+    current_customer.profile || Profile.create(customer: current_customer, event: current_event)
   end
 
   def prepare_for_mobile

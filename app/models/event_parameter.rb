@@ -46,7 +46,8 @@ class EventParameter < ActiveRecord::Base
   def value_type
     validator = Parameter::DATA_TYPES[parameter.data_type][:validator]
     return unless validator
-    return if parameter.name === "gtag_blacklist" # TODO: Remove this when gtag blacklisting is defined
+    # TODO: Remove this when gtag blacklisting is defined
+    return if parameter.name == "gtag_blacklist"
     return if value =~ validator
     errors.add(:value, "errors.parameters.incorrect_type.#{parameter.data_type}")
   end

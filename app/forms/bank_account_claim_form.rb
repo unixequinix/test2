@@ -5,8 +5,8 @@ class BankAccountClaimForm
   attribute :claim_id, Integer
   attribute :agreed_on_claim, Boolean
 
-  validates_presence_of :claim_id
-  validates_presence_of :agreed_on_claim
+  validates :claim_id, presence: true
+  validates :agreed_on_claim, presence: true
 
   def save
     if valid?

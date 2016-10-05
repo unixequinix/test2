@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class Admins::Events::RefundSettingsController < Admins::Events::BaseController
   def index
     @event = Event.friendly.find(params[:event_id])
@@ -8,7 +9,7 @@ class Admins::Events::RefundSettingsController < Admins::Events::BaseController
       }
     ).includes(:parameter)
     @event_parameters = current_event.event_parameters.where(parameters: { group: "refund", category: "event" })
-                                                 .includes(:parameter)
+                                     .includes(:parameter)
     @direct_claim_profiles = direct_claim_profiles.count
   end
 
@@ -18,7 +19,7 @@ class Admins::Events::RefundSettingsController < Admins::Events::BaseController
     @parameters = Parameter.where(group: @refund_service, category: "refund")
     @refund_settings_form = "#{@refund_service.camelize}RefundSettingsForm".constantize.new
     event_parameters = current_event.event_parameters.where(parameters: { group: @refund_service, category: "refund" })
-                                                .includes(:parameter)
+                                    .includes(:parameter)
     event_parameters.each do |event_parameter|
       @refund_settings_form[event_parameter.parameter.name.to_sym] = event_parameter.value
     end
@@ -67,6 +68,7 @@ class Admins::Events::RefundSettingsController < Admins::Events::BaseController
     end
   end
 
+  # rubocop:disable Metrics/MethodLength
   def paypal_refund
     profiles = direct_claim_profiles.map do |profile|
       gtag = profile.active_gtag_assignment&.credentiable
@@ -82,13 +84,12 @@ class Admins::Events::RefundSettingsController < Admins::Events::BaseController
       claim.save!
       claim.start_claim!
 
-      if Management::RefundManager.new(profile, profile.refundable_money).execute
-        RefundService.new(claim).create(amount: profile.refundable_money_after_fee(Claim::DIRECT),
-                                        currency: current_event.currency,
-                                        message: "Created direct refund",
-                                        payment_solution: Claim::DIRECT,
-                                        status: "SUCCESS")
-      end
+      next unless Management::RefundManager.new(profile, profile.refundable_money).execute
+      RefundService.new(claim).create(amount: profile.refundable_money_after_fee(Claim::DIRECT),
+                                      currency: current_event.currency,
+                                      message: "Created direct refund",
+                                      payment_solution: Claim::DIRECT,
+                                      status: "SUCCESS")
     end
 
     if profiles.all?

@@ -1,15 +1,22 @@
+sudo: required
+dist: trusty
+
 language: ruby
+
 rvm:
   - 2.3.1
-env:
-  - DB=postgresql
-services:
-  - postgresql
+addons:
+  postgresql: "9.5"
+
+before_script:
+  - psql -c 'create database glownet_web_test;' -U postgres
+
 script:
   - RAILS_ENV=test bundle exec rake db:reset
   - RAILS_ENV=test bundle exec rake db:migrate --trace
   - RAILS_ENV=test bundle exec rake db:test:prepare
-  - bundle exec rspec
+  - bundle exec rspec --fail-fast
   - bundle exec rubocop
-before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
+
+matrix:
+  fast_finish: true

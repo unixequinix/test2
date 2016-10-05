@@ -1,8 +1,9 @@
 class Operations::Base < ActiveJob::Base
   # TODO: I feel dirty doing this. Fuck me.
   OLD_SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at gtag_counter gtag_activations).freeze
-  NEW_SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at_fixed gtag_counter gtag_activations).freeze
+  NEW_SEARCH_ATTS = %w( event_id device_uid device_db_index device_created_at_fixed gtag_counter gtag_activations).freeze # rubocop:disable Metrics/LineLength
 
+  # rubocop:disable Metrics/MethodLength
   def perform(atts)
     atts = preformat_atts(atts)
     klass = Transaction.class_for_type(atts[:transaction_category])
@@ -12,7 +13,9 @@ class Operations::Base < ActiveJob::Base
     return obj if obj
 
     if atts[:customer_tag_uid].present?
-      gtag = Gtag.find_or_create_by!(tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id], activation_counter: atts[:activation_counter])
+      gtag = Gtag.find_or_create_by!(tag_uid: atts[:customer_tag_uid],
+                                     event_id: atts[:event_id],
+                                     activation_counter: atts[:activation_counter])
       profile_id = Profile::Checker.for_transaction(gtag, atts[:profile_id], atts[:event_id])
       atts[:profile_id] = profile_id
     end
@@ -46,7 +49,7 @@ class Operations::Base < ActiveJob::Base
       device_created_at: Time.zone.now.strftime("%Y-%m-%d %T.%L"),
       device_created_at_fixed: Time.zone.now.strftime("%Y-%m-%d %T.%L"),
       activation_counter: gtag&.activation_counter,
-      customer_tag_uid: gtag&.tag_uid,
+      customer_tag_uid: gtag&.tag_uid
     }.merge(atts)
 
     klass.create!(column_attributes(klass, final_atts))
@@ -70,6 +73,7 @@ class Operations::Base < ActiveJob::Base
     atts.slice(*klass.column_names.map(&:to_sym))
   end
 
+  # rubocop disbale: Metrics/AbcSize
   def preformat_atts(atts)
     atts[:customer_tag_uid] = atts[:customer_tag_uid].to_s.upcase if atts.key?(:customer_tag_uid)
     atts[:catalogable_type] = atts[:catalogable_type].to_s.camelcase if atts.key?(:catalogable_type)

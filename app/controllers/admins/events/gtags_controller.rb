@@ -1,7 +1,7 @@
 # rubocop:disable Metrics/ClassLength
 class Admins::Events::GtagsController < Admins::Events::BaseController
-  before_filter :set_presenter, only: [:index, :search]
-  before_filter :set_gtag, only: [:show, :edit, :update, :destroy, :ban, :unban]
+  before_action :set_presenter, only: [:index, :search]
+  before_action :set_gtag, only: [:show, :edit, :update, :destroy, :ban, :unban]
 
   def index
     respond_to do |format|
@@ -83,7 +83,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
     redirect_to(admins_event_gtags_url)
   end
 
-  def import # rubocop:disable Metrics/AbcSize
+  def import
     event = current_event.event
     path = admins_event_gtags_path(event)
     redirect_to(path, alert: t("admin.gtags.import.empty_file")) && return unless params[:file]

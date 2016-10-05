@@ -5,7 +5,7 @@ class Transaction < ActiveRecord::Base
   belongs_to :station
   belongs_to :profile
 
-  validates_presence_of :transaction_type
+  validates :transaction_type, presence: true
 
   ORIGINS = { portal: "customer_portal", device: "onsite", admin: "admin_panel" }.freeze
   TYPES = %w(access ban credential credit money order device).freeze

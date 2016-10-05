@@ -31,7 +31,6 @@ class Pack < ActiveRecord::Base
   validate :valid_max_value, if: :infinite_item?
   validate :valid_min_value, if: :infinite_item?
   validate :valid_max_credits
-  validates :pack_catalog_items, presence: true
 
   def credits
     open_all("Credit").uniq(&:catalog_item_id)
@@ -63,7 +62,7 @@ class Pack < ActiveRecord::Base
     catalog_items_included_without_destruction_marked.each_with_object([]) do |catalog_item, result|
       if catalog_item.catalogable_type == "Pack"
         item_found = catalog_item.catalogable.open_all(*category)
-        parent_pack_amount = catalog_item.pack_catalog_items.where(pack_id: id).first.amount
+        parent_pack_amount = catalog_item.pack_catalog_items.find_by(pack_id: id).amount
         item_found.first.total_amount *= parent_pack_amount
         result.push(item_found) if item_found
       elsif category.include?(catalog_item.catalogable_type) || category.blank?

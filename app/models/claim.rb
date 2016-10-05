@@ -36,7 +36,7 @@ class Claim < ActiveRecord::Base
   belongs_to :gtag
 
   # Validations
-  validates_presence_of :profile, :gtag, :service_type, :number, :total, :aasm_state
+  validates :profile, :gtag, :service_type, :number, :total, :aasm_state, presence: true
 
   # Scopes
   scope :query_for_csv, lambda { |aasm_state, event|

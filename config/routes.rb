@@ -33,7 +33,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :admins, except: :show  do
+    resources :admins, except: :show do
       collection do
         resource :sessions, only: [:new, :create, :destroy]
       end
@@ -108,11 +108,11 @@ Rails.application.routes.draw do
         end
 
         # Eventbrite
-        get 'eventbrite', to: "eventbrite#index"
-        get 'eventbrite/auth', to: "eventbrite#auth"
-        patch 'eventbrite/connect', to: "eventbrite#connect"
-        get 'eventbrite/disconnect', to: "eventbrite#disconnect"
-        get 'eventbrite/import_tickets', to: "eventbrite#import_tickets"
+        get "eventbrite", to: "eventbrite#index"
+        get "eventbrite/auth", to: "eventbrite#auth"
+        patch "eventbrite/connect", to: "eventbrite#connect"
+        get "eventbrite/disconnect", to: "eventbrite#disconnect"
+        get "eventbrite/import_tickets", to: "eventbrite#import_tickets"
 
         resource :device_settings, only: [:show, :edit, :update] do
           member do
@@ -258,10 +258,10 @@ Rails.application.routes.draw do
   #----------------------------------------------------------
   # Customer Area
   #----------------------------------------------------------
-  devise_for :customers, skip: [:session, :password, :registration, :confirmation], controllers: { omniauth_callbacks: 'events/omniauth_callbacks' }
+  # rubocop disable: Metrics/LineLength
+  devise_for :customers, skip: [:session, :password, :registration, :confirmation], controllers: { omniauth_callbacks: "events/omniauth_callbacks" }
   scope module: "events" do
     resources :events, only: [:show], path: "/" do
-
       devise_for :customers, skip: :omniauth_callbacks
 
       devise_scope :customer do

@@ -18,9 +18,6 @@ class GtagAssignmentForm
     rescue RuntimeError
       add_error("alerts.gtag.already_assigned") && return
     end
-
-    # TODO: Removed for Sonar with potential permanent removal
-    # GtagMailer.assigned_email(assignment).deliver_later
   end
 
   private

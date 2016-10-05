@@ -4,8 +4,8 @@ class AusBankAccountClaimForm < BankAccountClaimForm
   attribute :bank_name, String
   attribute :account_holder, String
 
-  validates_presence_of :bsb
-  validates_presence_of :number
-  validates_presence_of :bank_name
-  validates_presence_of :account_holder
+  validates :bsb, presence: true
+  validates :number, presence: true
+  validates :bank_name, presence: true
+  validates :account_holder, presence: true
 end

@@ -22,7 +22,7 @@ class Admin < ActiveRecord::Base
   devise :database_authenticatable, :rememberable, :recoverable
 
   # Validations
-  validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+  validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
   validates :email, presence: true, uniqueness: true
 
   # Hooks

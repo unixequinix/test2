@@ -1,5 +1,5 @@
 class Admins::Events::ClaimsController < Admins::Events::RefundsBaseController
-  before_filter :set_presenter, only: [:index, :search]
+  before_action :set_presenter, only: [:index, :search]
 
   def index
     respond_to do |format|

@@ -1,6 +1,6 @@
 class Admins::SessionsController < Admins::BaseController
   layout "welcome_admin"
-  skip_before_filter :authenticate_admin!, only: [:new, :create]
+  skip_before_action :authenticate_admin!, only: [:new, :create]
 
   def new
     @admin = Admin.new

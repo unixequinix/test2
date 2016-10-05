@@ -1,0 +1,60 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  port: 5432
+  host: localhost
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+
+development:
+  <<: *default
+  database: glownet_web_development
+
+test:
+  <<: *default
+  database: glownet_web_test
+
+demo:
+  <<: *default
+  host: <%= ENV["pg_host"] %>
+  database: <%= ENV["pg_database"] %>
+  username: <%= ENV["pg_username"] %>
+  password: <%= ENV["pg_password"] %>
+
+integration:
+  <<: *default
+  host: <%= ENV["pg_host"] %>
+  database: <%= ENV["pg_database"] %>
+  username: <%= ENV["pg_username"] %>
+  password: <%= ENV["pg_password"] %>
+
+sandbox:
+  <<: *default
+  host: <%= ENV["pg_host"] %>
+  database: <%= ENV["pg_database"] %>
+  username: <%= ENV["pg_username"] %>
+  password: <%= ENV["pg_password"] %>
+
+staging:
+  <<: *default
+  host: <%= ENV["pg_host"] %>
+  database: <%= ENV["pg_database"] %>
+  username: <%= ENV["pg_username"] %>
+  password: <%= ENV["pg_password"] %>
+
+production:
+  <<: *default
+  host: <%= ENV["pg_host"] %>
+  database: <%= ENV["pg_database"] %>
+  username: <%= ENV["pg_username"] %>
+  password: <%= ENV["pg_password"] %>
+  pool: 10
+
+hotfix:
+  <<: *default
+  host: <%= ENV["pg_host"] %>
+  database: <%= ENV["pg_database"] %>
+  username: <%= ENV["pg_username"] %>
+  password: <%= ENV["pg_password"] %>
+  pool: 10

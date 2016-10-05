@@ -1,4 +1,5 @@
 class Profile::Checker
+  # rubocop:disable Metrics/MethodLength, Metrics/CyclomaticComplexity
   def self.for_transaction(gtag, tr_profile, event_id)
     tg_profile = gtag.assigned_profile&.id
 

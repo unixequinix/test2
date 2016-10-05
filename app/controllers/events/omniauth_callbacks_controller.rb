@@ -5,7 +5,7 @@ class Events::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if @customer.persisted?
       bypass_sign_in @customer
       redirect_to customer_root_path(current_event)
-      set_flash_message(:notice, :success, :kind => "Facebook") if is_navigational_format?
+      set_flash_message(:notice, :success, kind: "Facebook") if is_navigational_format?
     else
       session["devise.facebook_data"] = request.env["omniauth.auth"].except("extra")
       redirect_to event_register_url(current_event)
@@ -18,7 +18,7 @@ class Events::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if @customer.persisted?
       bypass_sign_in @customer
       redirect_to customer_root_path(current_event)
-      set_flash_message(:notice, :success, :kind => "Google") if is_navigational_format?
+      set_flash_message(:notice, :success, kind: "Google") if is_navigational_format?
     else
       session["devise.google_data"] = request.env["omniauth.auth"].except("extra")
       redirect_to event_register_url(current_event)

@@ -1,4 +1,6 @@
 class Payments::Wirecard::BaseRefunder
+  attr_reader :amount
+
   def initialize(payment, refund_amount)
     @payment = payment
     @order = payment.order
@@ -18,10 +20,6 @@ class Payments::Wirecard::BaseRefunder
 
   def fee
     @event.refund_fee("direct").to_f
-  end
-
-  def amount
-    @amount
   end
 
   def customer_id

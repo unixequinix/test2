@@ -12,9 +12,10 @@ class ClaimsPresenter < BasePresenter
   end
 
   def credentiable_can_refund?(credentiable)
-    return true if credentiable.loyalty? ||
-      (credentiable.card? && @event.get_parameter("gtag", "form", "cards_can_refund") == "true") ||
-      (credentiable.wristband? && @event.get_parameter("gtag", "form", "wristbands_can_refund") == "true")
+    loyalty = credentiable.loyalty?
+    card_can_refund = credentiable.card? && @event.get_parameter("gtag", "form", "cards_can_refund") == "true"
+    wristband = credentiable.wristband? && @event.get_parameter("gtag", "form", "wristbands_can_refund") == "true"
+    return true if loyalty || card_can_refund || wristband
   end
 
   def refund_services

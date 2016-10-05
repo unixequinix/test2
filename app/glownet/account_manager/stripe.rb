@@ -1,5 +1,5 @@
+# rubocop:disable Metrics/ClassLength
 class AccountManager::Stripe
-
   def platform_secret_key
     Rails.application.secrets.stripe_platform_secret
   end
@@ -13,8 +13,8 @@ class AccountManager::Stripe
 
   def upload_document(document, stripe_account, secret_key)
     Stripe.api_key = secret_key
-    file = {:purpose => 'identity_document', :file => File.new(document.path) }
-    Stripe::FileUpload.create(file, {:stripe_account => stripe_account})[:id]
+    file = { purpose: "identity_document", file: File.new(document.path) }
+    Stripe::FileUpload.create(file, stripe_account: stripe_account)[:id]
   end
 
   def update_bank_account(params)
@@ -23,17 +23,18 @@ class AccountManager::Stripe
     @account = Stripe::Account.retrieve(params[:stripe_account_id])
 
     if @account.external_accounts.empty?
-      external_account = {object: "bank_account", account_number: params[:bank_account], country: params[:country], currency: params[:currency]}
+      external_account = { object: "bank_account", account_number: params[:bank_account], country: params[:country], currency: params[:currency] } # rubocop:disable Metrics/LineLength
       @account.external_accounts.create(external_account: external_account)
     else
       b_account = @account.external_accounts.first
-      b_account.metadata["account_number"]  = params[:bank_account]
-      b_account.metadata["country"]  = params[:country]
-      b_account.metadata["currency"]  = params[:currency]
+      b_account.metadata["account_number"] = params[:bank_account]
+      b_account.metadata["country"] = params[:country]
+      b_account.metadata["currency"] = params[:currency]
       b_account.save
     end
   end
 
+  # rubocop:disable Metrics/PerceivedComplexity, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength
   def update_parameters(params, request)
     Stripe.api_key = params[:account_secret_key]
 
@@ -48,7 +49,8 @@ class AccountManager::Stripe
     @account.legal_entity.address.city = params[:city]
     @account.legal_entity.address.line1 = params[:line1]
     @account.legal_entity.address.postal_code = params[:postal_code]
-    if (params[:additional_owner_first_name].present? || params[:additional_owner_last_name].present? || params[:additional_owner_dob].present? || params[:additional_owner_address_city].present? || params[:additional_owner_address_line1].present? || params[:additional_owner_address_postal_code].present?)
+    # rubocop:disable Metrics/LineLength
+    if params[:additional_owner_first_name].present? || params[:additional_owner_last_name].present? || params[:additional_owner_dob].present? || params[:additional_owner_address_city].present? || params[:additional_owner_address_line1].present? || params[:additional_owner_address_postal_code].present?
       @account.legal_entity.additional_owners = [{
         first_name: params[:additional_owner_first_name],
         last_name: params[:additional_owner_last_name],
@@ -64,7 +66,7 @@ class AccountManager::Stripe
         }
       }]
     end
-    @account.legal_entity.additional_owners[0][:verification] = { document: params[:additional_owner_document] } if params[:additional_owner_document].present?
+    @account.legal_entity.additional_owners[0][:verification] = { document: params[:additional_owner_document] } if params[:additional_owner_document].present? # rubocop:disable Metrics/LineLength
     @account.legal_entity.business_name = params[:business_name] if params[:business_name].present?
     @account.legal_entity.business_tax_id = params[:business_tax_id] if params[:business_tax_id].present?
     @account.legal_entity.personal_address.city = params[:city] if params[:city].present?

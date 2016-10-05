@@ -3,7 +3,7 @@ class Admins::EventsController < Admins::BaseController
 
   before_action :set_event, only: [:show, :edit, :update, :remove_logo, :remove_background, :remove_db]
 
-  def index # rubocop:disable Metrics/AbcSize
+  def index
     if current_admin.email.start_with?("support_")
       event = Event.find_by_slug(current_admin.email.split("_")[1].split("@")[0])
       redirect_to(admins_event_path(event)) && return
@@ -43,8 +43,8 @@ class Admins::EventsController < Admins::BaseController
 
   def update
     if @current_event.update_attributes(permitted_params.merge(slug: nil))
-
-      if @current_event.previous_changes[:name] || @current_event.previous_changes[:start_date] || @current_event.previous_changes[:end_date]
+      previous_changes = @current_event.previous_changes
+      if previous_changes[:name] || previous_changes[:start_date] || previous_changes[:end_date]
         @current_event.update(device_full_db: nil, device_basic_db: nil)
       end
 

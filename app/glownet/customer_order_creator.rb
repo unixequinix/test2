@@ -1,5 +1,5 @@
 class CustomerOrderCreator
-  def initialize(redeemed=false)
+  def initialize(redeemed = false)
     @redeemed = redeemed
   end
 

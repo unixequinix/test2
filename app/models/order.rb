@@ -55,9 +55,7 @@ class Order < ActiveRecord::Base
   end
 
   def total_refundable_credits
-    order_items.joins(:catalog_item)
-               .where.not(catalog_items: { catalogable_type: "Pack" })
-               .to_a.sum(&:credits)
+    order_items.joins(:catalog_item).where.not(catalog_items: { catalogable_type: "Pack" }).to_a.sum(&:credits)
   end
 
   def generate_order_number!
@@ -70,10 +68,9 @@ class Order < ActiveRecord::Base
   end
 
   # TODO: This method shouldn't be here I extracted it to test it, because we had a bug related to it
-  def self.generate_token(date=Time.zone.now)
-    time_hex = date.strftime("%H%M%S%L").to_i.to_s(16)
-    day = date.strftime("%y%m%d").to_i.to_s(16) 
-    "#{day}#{time_hex}"
+  def self.generate_token
+    date = Time.zone.now
+    date.strftime("%y%m%d%H%M%S%L").to_i.to_s(16)
   end
 
   private

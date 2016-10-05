@@ -84,22 +84,23 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   def recalculate_balance
     transactions = credit_transactions.status_ok
-    has_onsite_transactions = transactions.sum(:gtag_counter) != 0
+    has_onsite_ts = transactions.sum(:gtag_counter) != 0
 
     self.credits = transactions.not_record_credit.sum(:credits)
     self.refundable_credits = transactions.not_record_credit.sum(:refundable_credits)
     # TODO: The conditional is because of a bug when buying multiple items online, there are several
     #       transactions and the previous are taken into account when calculating the final balances
-    self.final_balance = has_onsite_transactions ? transactions.last.final_balance : self.credits
-    self.final_refundable_balance = has_onsite_transactions ? transactions.last.final_refundable_balance : self.refundable_credits
+    self.final_balance = has_onsite_ts ? transactions.last.final_balance : credits
+    self.final_refundable_balance = has_onsite_ts ? transactions.last.final_refundable_balance : refundable_credits
 
-    self.save
+    save
   end
 
   def customer
     Customer.unscoped { super }
   end
 
+  # rubocop disable: Metrics/AbcSize
   def transactions(sort)
     transactions = credit_transactions
     transactions += access_transactions

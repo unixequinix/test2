@@ -38,8 +38,6 @@ class Companies::Api::V1::BaseController < Companies::BaseController
       ticket_type.event == current_event && ticket_type.deleted_at.nil?
   end
 
-  private
-
   def company_ticket_types
     current_event.company_ticket_types.where(company_event_agreement: @agreement.id)
   end

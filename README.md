@@ -1,4 +1,6 @@
-# Glownet web application
+[![Build Status](https://travis-ci.com/Gl0wnet/web-core.svg?token=dkW4HsWJ1eRgPpgUSjaB&branch=development)](https://travis-ci.com/Gl0wnet/web-core)
+
+# Glownet core test
  - [Coding Rules](#rules)
  - [Commit Message Guidelines](#commit)
 

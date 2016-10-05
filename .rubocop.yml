@@ -7,6 +7,7 @@ AllCops:
     - 'config/initializers/**/*'
     - 'config/environments/**/*'
     - 'config/application.rb'
+    - 'config/routes.rb'
     - 'bin/*'
     - '**/Guardfile'
     - '**/Rakefile'
@@ -15,6 +16,8 @@ AllCops:
     - '**/*.gemspec'
     - '**/Gemfile'
     - '**/i18n/**/*'
+    - 'script/**/*'
+    - 'vendor/**/*'
 
 FrozenStringLiteralComment:
   Enabled: false
@@ -38,10 +41,11 @@ Style/MultilineMethodCallIndentation:
   EnforcedStyle: aligned
 
 Metrics/AbcSize:
-  Max: 23
+  Max: 30
 
 Metrics/MethodLength:
   Max: 15
+  Enabled: true
 
 Lint/RequireParentheses:
   Enabled: true

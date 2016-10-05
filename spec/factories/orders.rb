@@ -13,8 +13,11 @@
 
 FactoryGirl.define do
   factory :order do
-    number { rand(10_000).to_s + rand(10_000).to_s }
-    profile
+    profile { create(:profile, :with_customer) }
+
+    after :build do |order|
+      order.number = Order.generate_token
+    end
 
     trait :with_different_items do
       after :build do |order|

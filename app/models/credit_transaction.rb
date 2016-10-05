@@ -43,8 +43,8 @@ class CreditTransaction < Transaction
   default_scope { order([gtag_counter: :asc, counter: :asc, status_code: :desc]) }
 
   def description
-   refundables = " - R #{refundable_credits} #{event.token_symbol}" if credits != refundable_credits
-   "#{transaction_type.humanize}: #{credits} #{event.token_symbol}#{refundables}"
+    refundables = " - R #{refundable_credits} #{event.token_symbol}" if credits != refundable_credits
+    "#{transaction_type.humanize}: #{credits} #{event.token_symbol}#{refundables}"
   end
 
   def self.mandatory_fields

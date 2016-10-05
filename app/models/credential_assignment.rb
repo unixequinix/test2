@@ -16,6 +16,7 @@ class CredentialAssignment < ActiveRecord::Base
   acts_as_paranoid
   belongs_to :profile
   belongs_to :credentiable, polymorphic: true, touch: true
+  # rubocop:disable Rails/HasAndBelongsToMany
   has_and_belongs_to_many :customer_orders, join_table: :c_assignments_c_orders
 
   # Validations

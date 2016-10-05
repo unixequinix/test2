@@ -3,9 +3,12 @@ class Admins::Events::PacksController < Admins::Events::BaseController
 
   def index
     @packs = current_event.packs
-                          .includes(:catalog_items_included, catalog_item: :credential_type, pack_catalog_items: { catalog_item: :catalogable })
+                          .includes(:catalog_items_included,
+                                    catalog_item: :credential_type,
+                                    pack_catalog_items: { catalog_item: :catalogable })
                           .page(params[:page])
   end
+
   def new
     @pack = Pack.new
     @pack.build_catalog_item

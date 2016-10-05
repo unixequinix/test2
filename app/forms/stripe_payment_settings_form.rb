@@ -36,6 +36,7 @@ class StripePaymentSettingsForm < BaseSettingsForm
   validates_presence_of :country
   validates_presence_of :application_fee
 
+  # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def save(params, request)
     return unless valid?
 
@@ -43,6 +44,7 @@ class StripePaymentSettingsForm < BaseSettingsForm
     p = params[:stripe_payment_settings_form]
 
     begin
+      # rubocop:disable Metrics/LineLength
       self.document = manager.upload_document(p[:document], p[:stripe_account_id], p[:account_secret_key]) if p[:document]
       self.additional_owner_document = manager.upload_document(p[:additional_owner_document], p[:stripe_account_id], p[:account_secret_key]) if p[:additional_owner_document]
       manager.update_parameters(attributes, request)
@@ -68,7 +70,7 @@ class StripePaymentSettingsForm < BaseSettingsForm
   end
 
   def main_parameters
-    attributes.keys.reject { |value| value == :event_id || value == :document || value == :additional_owner_document}
+    attributes.keys.reject { |value| value == :event_id || value == :document || value == :additional_owner_document }
   end
 
   private

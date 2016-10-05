@@ -26,7 +26,7 @@ class Parameter < ActiveRecord::Base
 
   # Validations
   validates :name, :category, :group, :data_type, presence: true
-  validates_uniqueness_of :name, scope: [:group, :category]
+  validates :name, uniqueness: { scope: [:group, :category] }
 
   # Methods
   # -------------------------------------------------------

@@ -58,7 +58,7 @@ class CatalogItem < ActiveRecord::Base
     items = station_catalog_items.joins(:station_parameter)
                                  .select("station_catalog_items.price")
                                  .where(station_parameters: { id: parameters })
-    items&.first&.price 
+    items&.first&.price
   end
 
   def self.sorted

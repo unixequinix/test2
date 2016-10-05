@@ -18,9 +18,7 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
                                              :credit_id,
                                              station_parameter_attributes: [:station_id])
     @item = item_class.camelcase.constantize.new(atts)
-    unless @item.save
-      flash[:error] = @item.errors.full_messages.to_sentence
-    end
+    flash[:error] = @item.errors.full_messages.to_sentence unless @item.save
     redirect_to admins_event_station_station_items_path(current_event, params[:station_id])
   end
 

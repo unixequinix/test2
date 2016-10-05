@@ -7,7 +7,7 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
     @company_ticket_type = CompanyTicketType.new
     @credential_types_collection =
       current_event.credential_types.includes(:catalog_item,
-                                         company_ticket_types: [company_event_agreement: :company])
+                                              company_ticket_types: [company_event_agreement: :company])
     @company_event_agreement_collection = current_event.company_event_agreements
   end
 
@@ -15,7 +15,7 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
     @company_ticket_type = CompanyTicketType.new(permitted_params)
     @credential_types_collection =
       current_event.credential_types.includes(:catalog_item,
-                                         company_ticket_types: [company_event_agreement: :company])
+                                              company_ticket_types: [company_event_agreement: :company])
     @company_event_agreement_collection = current_event.company_event_agreements
     if @company_ticket_type.save
       redirect_to admins_event_company_ticket_types_url, notice: I18n.t("alerts.created")

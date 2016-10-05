@@ -9,15 +9,15 @@ class BankAccountRefundSettingsForm
   attribute :area, String
   attribute :event_id, Integer
 
-  validates_presence_of :action_name
-  validates_presence_of :fee
-  validates_presence_of :minimum
-  validates_presence_of :area
-  validates_presence_of :event_id
+  validates :action_name, presence: true
+  validates :fee, presence: true
+  validates :minimum, presence: true
+  validates :area, presence: true
+  validates :event_id, presence: true
   validates_inclusion_of :validate_sepa, in: %w(true false)
 
-  validates_numericality_of :fee
-  validates_numericality_of :minimum
+  validates :fee, numericality: true
+  validates :minimum, numericality: true
 
   def save
     if valid?

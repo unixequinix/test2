@@ -19,6 +19,7 @@ class CustomerOrder < ActiveRecord::Base
   belongs_to :catalog_item
   belongs_to :profile
   has_one :online_order
+  # rubocop:disable Rails/HasAndBelongsToMany
   has_and_belongs_to_many :credential_assignments, join_table: :c_assignments_c_orders
 
   # Validations

@@ -18,6 +18,7 @@ class Product < ActiveRecord::Base
   acts_as_paranoid
 
   belongs_to :event
+  # rubocop:disable Rails/HasAndBelongsToMany
   has_and_belongs_to_many :vouchers
   has_many :station_products, dependent: :restrict_with_error
 

@@ -103,7 +103,7 @@ gem 'whenever', '~> 0.9.4', require: false
 
 # Internationalization
 gem 'globalize', '~> 5.0.1'
-gem 'i18n-globals', git: 'https://github.com/sebastianzillessen/i18n-globals.git'
+gem 'i18n-globals', '~> 0.0.4'
 
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.1', group: :doc
@@ -124,7 +124,6 @@ group :development do
   gem 'railroady', '~> 1.4.1' # Controller diagrams (ERD)
   gem 'quiet_assets', '~> 1.1.0'
   gem 'hirb', '~> 0.7.3' #  Improve ripl(irb)'s default inspect output
-  gem 'guard-rubocop'
   gem 'ruby-progressbar'
   gem 'capistrano'
   gem 'capistrano-rails', '~> 1.1.3'
@@ -134,10 +133,6 @@ group :development do
   gem 'capistrano-sidekiq', '~> 0.5.3'
   gem 'capistrano-faster-assets', '~> 1.0'
   gem 'capistrano-secrets-yml', '~> 1.0.0'
-end
-
-group :development, :darwin do
-  gem 'rb-fsevent'
 end
 
 group :development, :test do
@@ -150,12 +145,15 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.2.1'
   gem 'rspec-mocks'
   gem 'rspec-activemodel-mocks'
-  gem 'guard-rspec', '~> 4.5.0', require: false
-  gem 'spring-commands-rspec', '~> 1.0.4'
   gem 'awesome_print', require:'ap'
-  gem 'terminal-notifier-guard'
-  gem 'guard-bundler', require: false
   gem 'i18n-tasks', '~> 0.9.5'
+
+  gem 'guard'
+  gem 'guard-rubocop', require: false
+  gem 'guard-rspec', '~> 4.5.0', require: false
+  gem 'rb-fsevent'
+  gem 'terminal-notifier-guard', '~> 1.6.1'
+  gem 'terminal-notifier'
 end
 
 group :development, :test, :integration do

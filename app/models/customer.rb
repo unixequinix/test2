@@ -35,8 +35,14 @@
 
 class Customer < ActiveRecord::Base
   acts_as_paranoid
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :omniauthable,
-         authentication_keys: [:email, :event_id], reset_password_keys: [:email, :event_id], :omniauth_providers => [:facebook, :google_oauth2]
+  devise :database_authenticatable,
+         :registerable,
+         :recoverable,
+         :rememberable,
+         :validatable,
+         :omniauthable,
+         authentication_keys: [:email, :event_id],
+         reset_password_keys: [:email, :event_id], omniauth_providers: [:facebook, :google_oauth2]
   default_scope { order("email") }
 
   # Genders
@@ -51,11 +57,11 @@ class Customer < ActiveRecord::Base
   belongs_to :event
 
   # Validations
-  validates_format_of :email, with: RFC822::EMAIL
+  validates :email, format: { with: RFC822::EMAIL }
   validates :email, :first_name, :encrypted_password, presence: true
   validates :agreed_on_registration, acceptance: { accept: true }
 
-  validates_uniqueness_of :email, scope: [:event_id], conditions: -> { where(deleted_at: nil) }
+  validates :email, uniqueness: { scope: [:event_id], conditions: -> { where(deleted_at: nil) } }
 
   before_save do
     email.downcase! if email

@@ -39,6 +39,7 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
     params[:tickets].each do |atts|
       atts = ActionController::Parameters.new(atts)
 
+      # rubocop:disable Metrics/LineLength
       atts.merge!(code: atts.delete(:ticket_reference), company_ticket_type_id: atts.delete(:ticket_type_id), event_id: current_event.id)
       ticket_atts = atts.permit(:code, :company_ticket_type_id, :event_id, purchaser_attributes: [:id, :first_name, :last_name, :email])
 

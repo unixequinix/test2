@@ -36,7 +36,6 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::CheckinBaseC
   end
 
   def current_profile
-    current_customer.profile ||
-      Profile.new(customer: current_customer, event: current_event)
+    current_customer.profile || Profile.create(customer: current_customer, event: current_event)
   end
 end

@@ -15,6 +15,7 @@ class Voucher < ActiveRecord::Base
   has_one :catalog_item, as: :catalogable, dependent: :destroy
   accepts_nested_attributes_for :catalog_item, allow_destroy: true
   accepts_nested_attributes_for :entitlement, allow_destroy: true
+  # rubocop:disable Rails/HasAndBelongsToMany
   has_and_belongs_to_many :products
   validate :valid_max_value, if: :infinite?
   validate :valid_min_value, if: :infinite?
