@@ -30,12 +30,6 @@ FactoryGirl.define do
       end
     end
 
-    trait :with_voucher do
-      after(:build) do |order_item|
-        order_item.catalog_item ||= build(:voucher_catalog_item)
-      end
-    end
-
     trait :with_credit do
       after(:build) do |order_item|
         order_item.catalog_item ||= build(:credit_catalog_item)

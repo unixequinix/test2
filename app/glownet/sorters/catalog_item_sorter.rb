@@ -6,7 +6,7 @@ class Sorters::CatalogItemSorter < Sorters::ItemSorter
   FORMATS = [LIST, HASH].freeze
 
   def initialize(items)
-    @keys = %w(Credit Voucher Access Pack)
+    @keys = %w(Credit Access Pack)
     super(items)
   end
 

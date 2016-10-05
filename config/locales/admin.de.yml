@@ -328,7 +328,6 @@ de:
       sign_out: "Abmeldung"
       setup: "Einrichtung"
       crm: "CRM"
-      vouchers: "Gutscheine"
       credential_types: "Guthabentypen"
       companies: "Firmen"
       company_ticket_types: "Firmenticketarten"
@@ -358,9 +357,7 @@ de:
       initial_amount: "Anfangsbetrag"
       max_purchasable: "Max käuflich"
       min_purchasable: "Min käuflich"
-      catalogable_type: "Typ"
-    vouchers:
-      id: "ID"
+      catalogable_type: "Type"
     products:
       id: "ID"
       name: "Name"
@@ -375,7 +372,7 @@ de:
       instructions:
         title: "Atention. Credits in a pack will be refundable only if:"
         conditions:
-          - "There aren't other kind of items in a pack, like accesses or vouchers"
+          - "There aren't other kind of items in a pack, like accesses"
           - "If a pack includes special price credits, the refundable amount of the credits will be the result of multiplying the payed price by the credi value"
     credential_type:
       id: "Id"

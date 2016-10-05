@@ -22,8 +22,6 @@ FactoryGirl.define do
     trait :with_different_items do
       after :build do |order|
         order.order_items << build(:order_item, :with_access, order: order, amount: rand(500.00), total: rand(500.00))
-        order.order_items << build(:order_item, :with_voucher, order: order, amount: rand(500.00), total: rand(500.00))
-        order.order_items << build(:order_item, :with_voucher, order: order, amount: rand(500.00), total: rand(500.00))
       end
     end
 

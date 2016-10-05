@@ -6,7 +6,7 @@ class Sorters::PurchasesSorter < Sorters::ItemSorter
   FORMATS = [LIST, HASH].freeze
 
   def initialize(items, keys = nil)
-    @keys = keys || %w(Voucher Access)
+    @keys = keys || ["Access"]
     @hash = build_hash_of_arrays
     @items = items.map do |item|
       Sorters::FakeCatalogItem.new(

@@ -328,7 +328,6 @@ es:
       sign_out: "Cerrar Sesión"
       setup: "Setup"
       crm: "CRM"
-      vouchers: "Cupones"
       credential_types: "Tipos de Credenciales"
       companies: "Compañías"
       company_ticket_types: "Tipo de tickets de compañia"
@@ -359,8 +358,6 @@ es:
       max_purchasable: "Máximo Comprable"
       min_purchasable: "Mínimo Comprable"
       catalogable_type: "Tipo"
-    vouchers:
-      id: "Id"
     pack:
       number_catalog_items: "Número de items"
       add_item: "Añadir Item"

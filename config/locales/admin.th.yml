@@ -328,7 +328,6 @@ th:
       sign_out: "Sign out"
       setup: "Setup"
       crm: "CRM"
-      vouchers: "Vouchers"
       credential_types: "Credential Types"
       companies: "Companies"
       company_ticket_types: "Company ticket types"
@@ -359,15 +358,13 @@ th:
       max_purchasable: "Max purchasable"
       min_purchasable: "Min purchasable"
       catalogable_type: "Type"
-    vouchers:
-      id: "Id"
     pack:
       number_catalog_items: "Number of items"
       add_item: "Add Item"
       instructions:
         title: "Atention. Credits in a pack will be refundable only if:"
         conditions:
-          - "There aren't other kind of items in a pack, like accesses or vouchers"
+          - "There aren't other kind of items in a pack, like accesses"
           - "If a pack includes special price credits, the refundable amount of the credits will be the result of multiplying the payed price by the credi value"
     products:
       id: "Id"

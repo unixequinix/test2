@@ -107,9 +107,6 @@ th:
       company_ticket_type:
         one: 'company ticket type'
         other: 'company ticket types'
-      voucher:
-        one: 'Voucher'
-        other: 'Vouchers'
     errors:
       models:
         customer:

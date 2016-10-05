@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161005160739) do
+ActiveRecord::Schema.define(version: 20161005170445) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -707,14 +707,6 @@ ActiveRecord::Schema.define(version: 20161005160739) do
 
   add_index "products", ["deleted_at"], name: "index_products_on_deleted_at", using: :btree
 
-  create_table "products_vouchers", force: :cascade do |t|
-    t.integer "product_id"
-    t.integer "voucher_id"
-  end
-
-  add_index "products_vouchers", ["product_id"], name: "index_products_vouchers_on_product_id", using: :btree
-  add_index "products_vouchers", ["voucher_id"], name: "index_products_vouchers_on_voucher_id", using: :btree
-
   create_table "profiles", force: :cascade do |t|
     t.integer  "customer_id"
     t.integer  "event_id",                                                         null: false
@@ -835,14 +827,6 @@ ActiveRecord::Schema.define(version: 20161005160739) do
   end
 
   add_index "topup_credits", ["credit_id"], name: "index_topup_credits_on_credit_id", using: :btree
-
-  create_table "vouchers", force: :cascade do |t|
-    t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "vouchers", ["deleted_at"], name: "index_vouchers_on_deleted_at", using: :btree
 
   add_foreign_key "access_transactions", "events"
   add_foreign_key "access_transactions", "profiles"

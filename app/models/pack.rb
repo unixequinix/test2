@@ -51,7 +51,7 @@ class Pack < ActiveRecord::Base
   # TODO: To check
   def only_infinite_items_pack?
     number_catalog_items = open_all.size
-    number_catalog_infinite_items = open_all("Access", "Voucher").select do |catalog_item|
+    number_catalog_infinite_items = open_all("Access").select do |catalog_item|
       catalog_item.catalogable.entitlement.infinite?
     end.size
     number_catalog_infinite_items > 0 && number_catalog_infinite_items == number_catalog_items
@@ -94,7 +94,7 @@ class Pack < ActiveRecord::Base
 
   def infinite_item?
     open_all.any? do |item|
-      item.catalogable.entitlement.infinite? if %w(Access Voucher).include?(item.catalogable_type)
+      item.catalogable.entitlement.infinite? if ["Access"].include?(item.catalogable_type)
     end
   end
 

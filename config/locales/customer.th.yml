@@ -12,7 +12,6 @@ th:
   purchases:
     accesses: "Accesses"
     packs: "Packs"
-    vouchers: "Vouchers"
   currency_symbol: THA
   actions:
     back: "กลับไป"

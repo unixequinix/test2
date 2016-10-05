@@ -20,11 +20,5 @@ FactoryGirl.define do
         entitlement.entitlementable ||= build(:access)
       end
     end
-
-    trait :with_voucher do
-      after(:build) do |entitlement|
-        entitlement.entitlementable ||= build(:voucher)
-      end
-    end
   end
 end

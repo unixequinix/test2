@@ -23,12 +23,6 @@ FactoryGirl.define do
       end
     end
 
-    trait :with_voucher do
-      after :build do |pack|
-        pack.pack_catalog_items.build(catalog_item: create(:voucher_catalog_item), amount: 1)
-      end
-    end
-
     after :create do |pack|
       pack.catalog_item ||= create(:catalog_item, catalogable_type: "Pack", catalogable_id: pack.id)
     end
@@ -39,7 +33,7 @@ FactoryGirl.define do
       end
     end
 
-    factory :full_pack, traits: [:with_access, :with_voucher, :with_credit]
+    factory :full_pack, traits: [:with_access, :with_credit]
     factory :credit_pack, traits: [:with_credit]
     factory :access_pack, traits: [:with_access]
     factory :empty_pack, traits: [:empty]

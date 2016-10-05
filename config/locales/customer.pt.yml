@@ -12,7 +12,6 @@ pt:
   purchases:
     accesses: "Acessos"
     packs: "Pacotes"
-    vouchers: "Vouchers"
   currency_symbol: EUR
   actions:
     back: " Para trás "

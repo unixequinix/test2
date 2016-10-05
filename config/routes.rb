@@ -178,12 +178,6 @@ Rails.application.routes.draw do
             delete :destroy_credential
           end
         end
-        resources :vouchers, except: :show do
-          member do
-            get :create_credential
-            delete :destroy_credential
-          end
-        end
         resources :packs do
           member do
             get :create_credential
@@ -248,7 +242,6 @@ Rails.application.routes.draw do
           resources :stations, only: :index
           resources :tickets, only: [:index, :show]
           resources :transactions, only: :create
-          resources :vouchers, only: :index
           get "/time", to: "time#index"
         end
       end

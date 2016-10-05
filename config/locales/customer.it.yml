@@ -12,7 +12,6 @@ it:
   purchases:
     accesses: "Accessi"
     packs: "Packs"
-    vouchers: "Vouchers"
   currency_symbol: EUR
   actions:
     back: "Torna indietro"

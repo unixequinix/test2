@@ -107,9 +107,6 @@ es:
       company_ticket_type:
         one: 'Tipo de ticket de compañía'
         other: 'Tipos de ticket de compañía'
-      voucher:
-        one: 'Cupón'
-        other: 'Cupones'
     errors:
       models:
         customer:

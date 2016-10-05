@@ -72,7 +72,6 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   has_many :catalog_items
   has_many :accesses, through: :catalog_items, source: :catalogable, source_type: "Access"
   has_many :packs, through: :catalog_items, source: :catalogable, source_type: "Pack"
-  has_many :vouchers, through: :catalog_items, source: :catalogable, source_type: "Voucher"
   has_many :credits, through: :catalog_items, source: :catalogable, source_type: "Credit" do
     def standard
       find_by(standard: true)

@@ -233,8 +233,4 @@ class Api::V1::Events::BaseController < Api::BaseController
   def banned_tickets
     tickets.where(banned: true)
   end
-
-  def vouchers
-    current_event.vouchers.includes(:catalog_item, :entitlement)
-  end
 end
