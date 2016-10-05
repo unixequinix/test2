@@ -58,10 +58,19 @@ class Customer < ActiveRecord::Base
 
   # Validations
   validates :email, format: { with: RFC822::EMAIL }
-  validates :email, :first_name, :encrypted_password, presence: true
+  validates :email, :first_name, :last_name, :encrypted_password, presence: true
   validates :agreed_on_registration, acceptance: { accept: true }
 
   validates :email, uniqueness: { scope: [:event_id], conditions: -> { where(deleted_at: nil) } }
+
+  validates :phone, presence: true, if: -> { event && event.phone? }
+  validates :birthdate, presence: true, if: -> { event && event.birthdate? }
+  validates :phone, presence: true, if: -> { event && event.phone? }
+  validates :postcode, presence: true, if: -> { event && event.postcode? }
+  validates :address, presence: true, if: -> { event && event.address? }
+  validates :city, presence: true, if: -> { event && event.city? }
+  validates :country, presence: true, if: -> { event && event.country? }
+  validates :gender, presence: true, if: -> { event && event.gender? }
 
   before_save do
     email.downcase! if email
@@ -77,12 +86,16 @@ class Customer < ActiveRecord::Base
   # -------------------------------------------------------
 
   def self.from_omniauth(auth, event)
+    token = Devise.friendly_token[0, 20]
+    first_name = auth.info&.first_name || auth.info.name.split(" ").first
+    last_name = auth.info&.last_name || auth.info.name.split(" ").second
+
     where(provider: auth.provider, uid: auth.uid, event: event).first_or_create do |user|
-      token = Devise.friendly_token[0, 20]
       user.provider = auth.provider
       user.uid = auth.uid
       user.email = auth.info.email
-      user.first_name = auth.info.name
+      user.first_name = first_name
+      user.last_name = last_name
       user.password = token
       user.password_confirmation = token
       user.agreed_on_registration = true
