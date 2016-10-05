@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160923104024) do
+ActiveRecord::Schema.define(version: 20161005160739) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -161,15 +161,6 @@ ActiveRecord::Schema.define(version: 20160923104024) do
 
   add_index "claims", ["deleted_at"], name: "index_claims_on_deleted_at", using: :btree
   add_index "claims", ["number"], name: "index_claims_on_number", unique: true, using: :btree
-
-  create_table "comments", force: :cascade do |t|
-    t.integer  "commentable_id",   null: false
-    t.string   "commentable_type", null: false
-    t.integer  "admin_id",         null: false
-    t.text     "body"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-  end
 
   create_table "companies", force: :cascade do |t|
     t.string   "name",         null: false
@@ -738,7 +729,6 @@ ActiveRecord::Schema.define(version: 20160923104024) do
   end
 
   add_index "profiles", ["deleted_at"], name: "index_profiles_on_deleted_at", using: :btree
-  add_index "profiles", ["event_id", "deleted_at", "updated_at"], name: "idx_customers_api", order: {"updated_at"=>:desc}, using: :btree
 
   create_table "purchasers", force: :cascade do |t|
     t.integer  "credentiable_id",       null: false

@@ -35,8 +35,8 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
           expect(list_ticket["banned"]).to eq(ticket.banned?)
           expect(list_ticket["credential_type_id"]).to eq(ticket&.company_ticket_type&.credential_type_id)
           expect(list_ticket["customer_id"]).to eq(ticket&.assigned_profile&.id)
-          upated_at = Time.zone.parse(list_ticket["updated_at"]).strftime("%Y-%m-%dT%T.%6N")
-          expect(upated_at).to eq(ticket.updated_at.utc.strftime("%Y-%m-%dT%T.%6N"))
+          updated_at = Time.zone.parse(list_ticket["updated_at"]).strftime("%Y-%m-%dT%T.%6N")
+          expect(updated_at).to eq(ticket.updated_at.utc.strftime("%Y-%m-%dT%T.%6N"))
         end
       end
 

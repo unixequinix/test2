@@ -34,9 +34,6 @@ class Ticket < ActiveRecord::Base
 
   accepts_nested_attributes_for :purchaser, allow_destroy: true
 
-  # TODO: Remove comments from tickets
-  # has_many :comments, as: :commentable
-
   # Validations
   validates :code, uniqueness: { scope: :event_id }
   validates :code, presence: true

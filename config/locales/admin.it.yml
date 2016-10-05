@@ -592,8 +592,6 @@ it:
       paid: "Paid at"
       search:
         id: "Id eq"
-    comments:
-      title: "Comments"
     refunds:
       id: "Id"
       customer_id: "Customer Id"

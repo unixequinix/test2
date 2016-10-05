@@ -173,9 +173,6 @@ en:
         new:
           swift_html: "BIC/SWIFT<sup>1</sup>"
           iban_html: "IBAN<sup>2</sup>"
-      comment:
-        new:
-          body: "Comment"
       product:
         vat: "VAT %"
       station:

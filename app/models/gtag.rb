@@ -38,7 +38,6 @@ class Gtag < ActiveRecord::Base
   belongs_to :event
 
   has_many :claims
-  has_many :comments, as: :commentable
   has_many :credential_assignments, as: :credentiable, dependent: :destroy
   has_many :profiles, through: :credential_assignments
 
