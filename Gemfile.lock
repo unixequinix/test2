@@ -138,6 +138,10 @@ GEM
     cliver (0.3.2)
     cocaine (0.5.8)
       climate_control (>= 0.0.3, < 1.0)
+    codecov (0.1.5)
+      json
+      simplecov
+      url
     coderay (1.1.1)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
@@ -581,6 +585,7 @@ GEM
     unicode-display_width (1.0.5)
     unicode_utils (1.4.0)
     uniform_notifier (1.9.0)
+    url (0.3.2)
     uuidtools (2.1.5)
     validate_nz_bank_acc (0.0.3)
     virtus (1.0.5)
@@ -631,6 +636,7 @@ DEPENDENCIES
   capistrano-sidekiq (~> 0.5.3)
   capybara (~> 2.5.0)
   capybara-slow_finder_errors
+  codecov
   country_select (~> 2.2.0)
   dalli (~> 2.7.4)
   database_cleaner (~> 1.4.1)

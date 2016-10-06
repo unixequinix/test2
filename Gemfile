@@ -165,7 +165,6 @@ group :development, :test, :staging do
   gem 'faker', '~> 1.4.3'
   gem 'rubocop', require: false # Code quality https://github.com/bbatsov/rubocop
   gem 'rubocop-checkstyle_formatter', require: false
-  gem 'simplecov', '~> 0.10.0', require: false # Code quality https://github.com/colszowka/simplecov
 end
 
 group :test do
@@ -177,6 +176,8 @@ group :test do
   gem 'shoulda-matchers', '~> 2.8.0', require: false
   gem 'database_cleaner', '~> 1.4.1'
   gem 'rspec-sidekiq'
+  gem 'simplecov', '~> 0.10.0', require: false
+  gem 'codecov', require: false
 end
 
 group :production, :staging, :demo, :refunds do
