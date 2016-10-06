@@ -2,7 +2,7 @@
 lock "3.5.0"
 
 set :application, "glownet_web"
-set :repo_url, "git@gitlab.dev.glownet.com:acidtango/glownet_web.git"
+set :repo_url, "git@github.com:Gl0wnet/web-core.git"
 set :bundle_without, [:darwin, :development, :test]
 set :deploy_to, "~/glownet_web"
 
