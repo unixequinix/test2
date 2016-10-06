@@ -4,7 +4,7 @@ class Admins::Events::EventbriteController < Admins::Events::BaseController
       render && return unless @current_event.eventbrite?
       Eventbrite.token = @current_event.eventbrite_token
       @attendees = Eventbrite::Attendee.all({ event_id: @current_event.eventbrite_event })[:attendees]
-    rescue Eventbrite::APIError => e
+    rescue Exception => e
       @attendees = []
       flash.now.error = e.json_body[:error].message
     end
