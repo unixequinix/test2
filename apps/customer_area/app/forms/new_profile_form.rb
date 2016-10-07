@@ -26,14 +26,7 @@ class NewProfileForm
   validates_acceptance_of :agreed_on_registration, accept: true
   validates_acceptance_of :recaptcha, accept: true
   validate :email_uniqueness
-  validates :phone, presence: true, if: -> { event && event.phone? }
-  validates :birthdate, presence: true, if: -> { event && event.birthdate? }
-  validates :phone, presence: true, if: -> { event && event.phone? }
-  validates :postcode, presence: true, if: -> { event && event.postcode? }
-  validates :address, presence: true, if: -> { event && event.address? }
-  validates :city, presence: true, if: -> { event && event.city? }
-  validates :country, presence: true, if: -> { event && event.country? }
-  validates :gender, presence: true, if: -> { event && event.gender? }
+  validate :custom_inputs 
 
   def save
     if valid?
@@ -46,6 +39,20 @@ class NewProfileForm
   end
 
   private
+
+  def custom_inputs # rubocop:disable all
+    event = Event.find(event_id)
+    # TODO: Refactor
+    errors[:phone] << I18n.t("errors.messages.blank") if phone.blank? && event.phone?
+    errors[:address] << I18n.t("errors.messages.blank") if address.blank? && event.address?
+    errors[:city] << I18n.t("errors.messages.blank") if city.blank? && event.city?
+    errors[:country] << I18n.t("errors.messages.blank") if country.blank? && event.country?
+    errors[:postcode] << I18n.t("errors.messages.blank") if postcode.blank? && event.postcode?
+    errors[:gender] << I18n.t("errors.messages.blank") if gender.blank? && event.gender?
+    errors[:birthdate] << I18n.t("errors.messages.blank") if birthdate.blank? && event.birthdate?
+    errors[:agreed_event_condition] <<
+      I18n.t("errors.messages.accepted") if !agreed_event_condition && event.agreed_event_condition?
+  end
 
   def email_uniqueness
     msg = I18n.t("activerecord.errors.models.customer.attributes.email.taken")
