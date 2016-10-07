@@ -6,8 +6,8 @@ it:
       like_on_facebook: 'Mi piace su Facebook'
       suscribe_on_you_tube: 'Abbonati su YouTube'
       communication: "Questo è un messaggio automatico da %{event_name}"
-      footer_glownet: 'We are happy to assist you with the use of event portal if you message us at '
-      footer_organizer: 'Have a question for the event organiser? Contact them directly at '
+      footer_glownet: 'Saremo lieti di assistervi nell’ utilizzo di questo portale. Scriveteci a '
+      footer_organizer: 'Avete domande per l’ Organizzazione? Mettetevi in contatto direttamente '
       footer_copy: 'Copyright Glownet © %{year} Tutti i diritti riservati.'
       order:
         completed:
@@ -16,8 +16,8 @@ it:
           order_number: 'Il tuo ordine'
           greet: 'Ciao, %{name}!'
           date: 'Data del acquisto'
-          description: 'All your purchased Online Credits will automatically be applied to your %{gtag} once you enter the event. Your Event %{gtag} is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.'
-          autotopup_description: 'Your purchased Credits with PayPal Experience will automatically be applied to your %{gtag} in the Point of Sales. Your Event %{gtag} is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.'
+          description: 'Tutti i Crediti Online acquistati appariranno automaticamente sul tuo %{gtag} una volta entrati nell’ evento. Il tuo %{gtag}  è una maniera rapida e conveniente per pagare cibo, bevande e merchandise. Sarà l’ unico metodo di pagamento presente durante l’ evento.'
+          autotopup_description: 'I crediti acquistati con la PayPal Experience saranno applicati in modo automatico nel tuo %{gtag} nei punti di vendita. Il tuo %{gtag}  è una maniera rapida e conveniente per pagare cibo, bevande e merchandise. Sarà l’ unico metodo di pagamento presente durante l’ evento.'
           success: 'Il tuo ordine è stato ricevuto. I dettagli sono in basso:'
           thanks: 'Grazie per il tuo acquisto.'
       claim:
@@ -26,7 +26,7 @@ it:
           subject: '¡Adesso è possibile rimborsare i tuoi crediti!'
           greet: 'Ciao, %{name}!'
           mail_body: 'Adesso è possibile rimborsare i tuoi crediti cliccando sul link in basso'
-          mail_link: "Login per vedere il tuo saldo e per eseguire l'imborso"
+          mail_link: "Accedi per vedere il tuo saldo e per eseguire l'imborso"
         completed:
           title: 'Notifica di rimborso'
           subject: 'Rimborso completato'
@@ -63,7 +63,7 @@ it:
           title: 'Paypal Agreement Accepted'
           subject: 'Paypal Agreement Accepted'
           greet: 'Hello %{name}!'
-          mail_body: 'You have accepted the PayPal Agreement so you can now do auto-topups!'
+          mail_body: 'Avete accettato l’ Accordo di PayPal quindi potete procedere ad effettuare l’ auto-topup!'
     admin:
       reset_password:
         greet: 'Ciao %{email}!'
