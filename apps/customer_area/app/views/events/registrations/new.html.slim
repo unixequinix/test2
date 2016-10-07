@@ -12,10 +12,10 @@
       = f.input :password, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.password")
       = f.input :first_name, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.first_name")
       = f.input :last_name, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.last_name")
-      = f.input :phone, required: true, input_html: { class: 'session-input' }, label: "* #{t("simple_form.labels.customer.new.phone")}" if current_event.phone?
-      = f.input :address, required: true, input_html: { class: 'session-input' }, label: "* #{t("simple_form.labels.customer.new.address")}" if current_event.address?
-      = f.input :city, required: true, input_html: { class: 'session-input' }, label: "* #{t("simple_form.labels.customer.new.city")}" if current_event.city?
-      = f.input :postcode, required: true, input_html: { class: 'session-input' }, label: "* #{t("simple_form.labels.customer.new.postcode")}" if current_event.postcode?
+      = f.input :phone, required: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.phone") if current_event.phone?
+      = f.input :address, required: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.address") if current_event.address?
+      = f.input :city, required: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.city") if current_event.city?
+      = f.input :postcode, required: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.postcode") if current_event.postcode?
       // Country select
       = f.input :country, required: true, wrapper_html: { class: 'registration-select' }, input_html: { class: 'session-select' }, label: "* #{t("simple_form.labels.customer.new.country")}" if current_event.country?
       // Gender select
