@@ -1,4 +1,4 @@
-class Admins::Events::RefundsController < Admins::Events::RefundsBaseController
+class Admins::Events::RefundsController < Admins::Events::BaseController
   before_action :set_presenter, only: [:index, :search]
 
   def index
