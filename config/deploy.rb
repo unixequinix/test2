@@ -10,7 +10,7 @@ set :deploy_to, "~/glownet_web"
 set :pty, false
 
 # Default value for :linked_files is []
-set :linked_files, %w(config/database.yml config/secrets.yml config/newrelic.yml config/sidekiq.yml)
+set :linked_files, %w(config/database.yml config/application.yml config/newrelic.yml config/sidekiq.yml)
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w(log store tmp/pids tmp/cache tmp/sockets vendor/bundle public/system)
