@@ -1,6 +1,6 @@
-class Admins::Events::TicketAssignmentsController < Admins::Events::CheckinBaseController
+class Admins::Events::TicketAssignmentsController < Admins::Events::BaseController
   def new
-    @customer = current_event.customers.with_deleted.find(params[:customer_id])
+    @profile = current_event.profiles.find(params[:id])
     @ticket_assignment_form = TicketAssignmentForm.new
   end
 
@@ -29,13 +29,5 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::CheckinBaseC
 
   def ticket_assignment_parameters
     params.require(:ticket_assignment_form).permit(:code)
-  end
-
-  def current_customer
-    current_event.customers.find(params[:customer_id])
-  end
-
-  def current_profile
-    current_customer.profile || Profile.create(customer: current_customer, event: current_event)
   end
 end

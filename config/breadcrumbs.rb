@@ -415,7 +415,7 @@ crumb :admins_event_profiles do |event|
 end
 
 crumb :admins_event_profile do |event, profile|
-  link (profile.email || profile.id), admins_event_profile_path(event, profile)
+  link (profile.id || profile.id), admins_event_profile_path(event, profile)
   parent :admins_event_profiles, event
 end
 
@@ -427,4 +427,26 @@ end
 crumb :admins_event_profile_gtag_assignation do |event, profile|
   link "Gtag assignation"
   parent :admins_event_profile, event, profile
+end
+
+crumb :admins_event_profile_ticket_assignation do |event, profile|
+  link "Ticket assignation"
+  parent :admins_event_profile, event, profile
+end
+
+## Customers
+
+crumb :admins_event_customers do |event|
+  link t("breadcrumbs.customer"), admins_event_customers_path(event)
+  parent :admins_event, event
+end
+
+crumb :admins_event_customer do |event, customer|
+  link (customer.email || customer.id), admins_event_customer_path(event, customer)
+  parent :admins_event_customers, event
+end
+
+crumb :new_admins_event_customer do |event|
+  link t("breadcrumbs.new_customer")
+  parent :admins_event_customers, event
 end

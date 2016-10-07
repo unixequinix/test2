@@ -42,7 +42,7 @@ RSpec.describe Profile::Checker, type: :domain_logic do
 
       it "fails when said profile already has a customer" do
         expect(profile.customer).not_to be_nil
-        expect { subject.for_credentiable(gtag, customer) }.to raise_error(RuntimeError, /Fraud/)
+        expect(subject.for_credentiable(gtag, customer)).to be_nil
       end
 
       context "which doesn't have a customer," do

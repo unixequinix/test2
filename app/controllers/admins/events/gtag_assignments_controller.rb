@@ -1,17 +1,22 @@
 class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
   def new
-    @customer = current_event.customers.find(params[:customer_id])
-    @gtag_assignment_form = GtagAssignmentForm.new
+    @profile = current_event.profiles.find(params[:id])
   end
 
   def create
-    @gtag_assignment_form = GtagAssignmentForm.new(gtag_assignment_parameters)
-    @customer = current_event.customers.find(params[:customer_id])
+    @profile = current_event.profiles.find(params[:id])
+    gtag = current_event.gtags.find_by(tag_uid: permitted_params[:tag_uid].strip.upcase)
 
-    if @gtag_assignment_form.save(current_event.gtags, current_customer)
-      redirect_to admins_event_customer_url(current_event, @customer), notice: I18n.t("alerts.created")
+    if gtag
+      if gtag.assigned_profile
+        flash.now[:error] = I18n.t("alerts.gtag.already_assigned")
+        render :new
+      else
+        @profile.credential_assignments.find_or_create_by!(credentiable: gtag, aasm_state: :assigned)
+        redirect_to admins_event_profile_url(current_event, @profile), notice: I18n.t("alerts.created")
+      end
     else
-      flash[:error] = @gtag_assignment_form.errors.full_messages.join
+      flash.now[:error] = I18n.t("alerts.gtag.invalid")
       render :new
     end
   end
@@ -27,15 +32,7 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
 
   private
 
-  def gtag_assignment_parameters
-    params.require(:gtag_assignment_form).permit(:number, :tag_uid).merge(event_id: current_event.id)
-  end
-
-  def current_customer
-    current_event.customers.find(params[:customer_id])
-  end
-
-  def current_profile
-    current_customer.profile || Profile.create(customer: current_customer, event: current_event)
+  def permitted_params
+    params.permit(:tag_uid).merge(event_id: current_event.id)
   end
 end

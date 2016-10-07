@@ -102,6 +102,9 @@ Rails.application.routes.draw do
 
         # Customers
         resources :customers do
+          member do
+            put :reset_password
+          end
           collection do
             get :search
           end
@@ -202,7 +205,6 @@ Rails.application.routes.draw do
             get :download_transactions
             get :fix_transaction
             get :ban
-            put :reset_password
             delete :unban
             delete :revoke_agreement
           end

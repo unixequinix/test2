@@ -31,7 +31,7 @@ class Profile::Checker
   # TODO: when o_profile and c_profile are present, merge them.
   def self.for_credentiable(obj, customer)
     o_profile = obj.assigned_profile
-    raise "Credentiable Fraud detected" if o_profile&.customer
+    return if o_profile&.customer
 
     c_profile = customer.profile
     profile = o_profile || c_profile || customer.create_profile!(event: obj.event)

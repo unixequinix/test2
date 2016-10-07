@@ -721,6 +721,7 @@ ActiveRecord::Schema.define(version: 20161005170445) do
   end
 
   add_index "profiles", ["deleted_at"], name: "index_profiles_on_deleted_at", using: :btree
+  add_index "profiles", ["event_id", "deleted_at", "updated_at"], name: "idx_customers_api", order: {"updated_at"=>:desc}, using: :btree
 
   create_table "purchasers", force: :cascade do |t|
     t.integer  "credentiable_id",       null: false
