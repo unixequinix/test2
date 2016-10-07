@@ -1,5 +1,5 @@
 # rubocop:disable Metrics/MethodLength, Metrics/ClassLength
-class Admins::Events::TicketsController < Admins::Events::CheckinBaseController
+class Admins::Events::TicketsController < Admins::Events::BaseController
   before_action :set_presenter, only: [:index, :search]
 
   def index
