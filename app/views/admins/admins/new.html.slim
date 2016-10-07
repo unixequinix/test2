@@ -4,7 +4,7 @@
     = fa_icon 'arrow-circle-left'
     = t('actions.back')
 
-= simple_form_for [:admins, @admin_form] do |f|
+= simple_form_for [:admins, @admin] do |f|
   .wrapper-negative-space
     = f.input :email, placeholder: true, required: true
     = f.input :password, autocomplete: "off", required: true

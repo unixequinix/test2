@@ -1,15 +1,17 @@
 class Admins::AdminsController < Admins::BaseController
+  before_action :set_admin, only: [:edit, :update, :destroy]
+
   def index
     @admins = Admin.all.page(params[:page])
   end
 
   def new
-    @admin_form = NewAdminForm.new(Admin.new)
+    @admin = Admin.new
   end
 
   def create
-    @admin_form = NewAdminForm.new(Admin.new)
-    if @admin_form.validate(permitted_params) && @admin_form.save
+    @admin = Admin.new(permitted_params)
+    if @admin.save
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_admins_url
     else
@@ -18,12 +20,10 @@ class Admins::AdminsController < Admins::BaseController
   end
 
   def edit
-    @admin_form = EditAdminForm.new(Admin.find(params[:id]))
   end
 
   def update
-    @admin_form = EditAdminForm.new(Admin.find(params[:id]))
-    if @admin_form.validate(permitted_params) && @admin_form.save
+    if @admin.update(permitted_params)
       flash[:notice] = I18n.t("alerts.updated")
       redirect_to admins_admins_url
     else
@@ -32,7 +32,6 @@ class Admins::AdminsController < Admins::BaseController
   end
 
   def destroy
-    @admin = Admin.find(params[:id])
     if @admin.destroy
       flash[:notice] = I18n.t("alerts.destroyed")
     else
@@ -43,7 +42,11 @@ class Admins::AdminsController < Admins::BaseController
 
   private
 
+  def set_admin
+    @admin = Admin.find(params[:id])
+  end
+
   def permitted_params
-    params.require(:admin).permit(:email, :current_password, :password)
+    params.require(:admin).permit(:email, :password, :password_confirmation)
   end
 end

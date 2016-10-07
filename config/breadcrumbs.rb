@@ -128,56 +128,56 @@ end
 
 ## Devices
 
-crumb :admin_devices do
+crumb :admins_devices do
   link t("breadcrumbs.devices"), admin_root_path
 end
 
 crumb :admins_device do |device|
-  link device.asset_tracker, admin_device_path(device)
+  link device.asset_tracker, admins_device_path(device)
   parent :admin_devices
 end
 
 ## Admins
 
-crumb :admin_admins do
-  link t("breadcrumbs.admins"), admin_admins_path
+crumb :admins_admins do
+  link t("breadcrumbs.admins"), admins_admins_path
 end
 
 crumb :admins_admin do |admin|
-  link admin.email, edit_admin_admin_path(admin)
-  parent :admin_admins
+  link admin.email, edit_admins_admin_path(admin)
+  parent :admins_admins
 end
 
 crumb :new_admins_admin do
   link t("breadcrumbs.new_admin")
-  parent :admin_admins
+  parent :admins_admins
 end
 
 ## Companies
 
-crumb :admin_companies do
-  link t("breadcrumbs.companies"), admin_companies_path
+crumb :admins_companies do
+  link t("breadcrumbs.companies"), admins_companies_path
 end
 
-crumb :admin_company do |company|
-  link company.name, admin_company_path(company)
-  parent :admin_companies
+crumb :admins_company do |company|
+  link company.name, admins_company_path(company)
+  parent :admins_companies
 end
-crumb :edit_admin_company do |company|
-  link company.name, edit_admin_company_path(company)
-  parent :admin_companies
+crumb :edit_admins_company do |company|
+  link company.name, edit_admins_company_path(company)
+  parent :admins_companies
 end
 
 crumb :new_admin_company do
   link t("breadcrumbs.new_company")
-  parent :admin_companies
+  parent :admins_companies
 end
 
 ## Company Event Agreements
 
-crumb :admin_company_company_event_agreement do |company|
-  link company.name, admin_company_company_event_agreements_path(company)
-  parent :admin_companies
+crumb :admins_company_company_event_agreement do |company|
+  link company.name, admins_company_company_event_agreements_path(company)
+  parent :admins_companies
 end
 
 ## Dashboards

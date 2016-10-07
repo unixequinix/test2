@@ -19,5 +19,5 @@ header
         - if (index + 1 < I18n.available_locales.length)
           span |
 
-  = link_to admins_sessions_path, method: :delete, class: 'menu-option' do
+  = link_to destroy_admin_session_path, method: :delete, class: 'menu-option' do
     = fa_icon "sign-out"
