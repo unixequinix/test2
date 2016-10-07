@@ -1,4 +1,4 @@
-class Admins::Events::PaymentsController < Admins::Events::PaymentsBaseController
+class Admins::Events::PaymentsController < Admins::Events::BaseController
   before_action :set_presenter, only: [:index, :search]
 
   def index

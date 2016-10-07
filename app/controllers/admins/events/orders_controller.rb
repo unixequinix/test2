@@ -1,4 +1,4 @@
-class Admins::Events::OrdersController < Admins::Events::PaymentsBaseController
+class Admins::Events::OrdersController < Admins::Events::BaseController
   def index
     set_presenter
   end
