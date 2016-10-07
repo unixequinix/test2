@@ -12,16 +12,16 @@
       = f.input :password, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.password")
       = f.input :first_name, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.first_name")
       = f.input :last_name, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.last_name")
-      = f.input :phone, input_html: { class: 'session-input', required: true }, label: t("simple_form.labels.customer.new.phone") if current_event.phone?
-      = f.input :address, input_html: { class: 'session-input', required: true }, label: t("simple_form.labels.customer.new.address") if current_event.address?
-      = f.input :city, input_html: { class: 'session-input', required: true }, label: t("simple_form.labels.customer.new.city") if current_event.city?
-      = f.input :postcode, input_html: { class: 'session-input', required: true }, label: t("simple_form.labels.customer.new.postcode") if current_event.postcode?
+      = f.input :phone, input_html: { class: 'session-input required', required: true }, label: t("simple_form.labels.customer.new.phone") if current_event.phone?
+      = f.input :address, input_html: { class: 'session-input required', required: true }, label: t("simple_form.labels.customer.new.address") if current_event.address?
+      = f.input :city, input_html: { class: 'session-input required', required: true }, label: t("simple_form.labels.customer.new.city") if current_event.city?
+      = f.input :postcode, input_html: { class: 'session-input required', required: true }, label: t("simple_form.labels.customer.new.postcode") if current_event.postcode?
       // Country select
-      = f.input :country, wrapper_html: { class: 'registration-select' }, input_html: { class: 'session-select', required: true }, label: t("simple_form.labels.customer.new.country") if current_event.country?
+      = f.input :country, wrapper_html: { class: 'registration-select' }, input_html: { class: 'session-select required', required: true }, label: t("simple_form.labels.customer.new.country") if current_event.country?
       // Gender select
-      = f.input :gender, wrapper_html: { class: 'registration-select' }, input_html: { class: 'session-select', required: true }, collection: Customer.gender_selector, include_blank: false, label: t("simple_form.labels.customer.new.gender") if current_event.gender?
+      = f.input :gender, wrapper_html: { class: 'registration-select' }, input_html: { class: 'session-select required', required: true }, collection: Customer.gender_selector, include_blank: false, label: t("simple_form.labels.customer.new.gender") if current_event.gender?
       // Birthday select
-      = f.input :birthdate, wrapper_html: { class: 'registration-select' }, input_html: { class: 'session-select', required: true }, as: :date, start_year: 1950, end_year: Time.zone.today.year - 12, order: [:day, :month, :year], label: t("simple_form.labels.customer.new.birthdate") if current_event.birthdate?
+      = f.input :birthdate, wrapper_html: { class: 'registration-select' }, input_html: { class: 'session-select required', required: true }, as: :date, start_year: 1950, end_year: Time.zone.today.year - 12, order: [:day, :month, :year], label: t("simple_form.labels.customer.new.birthdate") if current_event.birthdate?
       
       - if current_event.receive_communications?
         .session-accept-terms
