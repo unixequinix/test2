@@ -55,6 +55,14 @@ class Customer < ActiveRecord::Base
   validates :agreed_on_registration, acceptance: { accept: true }
 
   validates_uniqueness_of :email, scope: [:event_id], conditions: -> { where(deleted_at: nil) }
+  validates :phone, presence: true, if: -> { event && event.phone? }
+  validates :birthdate, presence: true, if: -> { event && event.birthdate? }
+  validates :phone, presence: true, if: -> { event && event.phone? }
+  validates :postcode, presence: true, if: -> { event && event.postcode? }
+  validates :address, presence: true, if: -> { event && event.address? }
+  validates :city, presence: true, if: -> { event && event.city? }
+  validates :country, presence: true, if: -> { event && event.country? }
+  validates :gender, presence: true, if: -> { event && event.gender? }
 
   before_save do
     email.downcase! if email
