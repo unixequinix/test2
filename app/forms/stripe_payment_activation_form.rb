@@ -18,7 +18,7 @@ class StripePaymentActivationForm < BaseSettingsForm
   def save(params, request)
     if valid?
       persist!
-      AccountManager::Stripe.new.persist_parameters(params, request)
+      Payments::Stripe::AccountManager.new.persist_parameters(params, request)
       true
     else
       false

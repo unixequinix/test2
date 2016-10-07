@@ -40,7 +40,7 @@ class StripePaymentSettingsForm < BaseSettingsForm
   def save(params, request)
     return unless valid?
 
-    manager = AccountManager::Stripe.new
+    manager = Payments::Stripe::AccountManager.new
     p = params[:stripe_payment_settings_form]
 
     begin
