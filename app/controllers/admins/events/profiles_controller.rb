@@ -21,13 +21,13 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
     atts = fields(@profile.id, "Profile", "ban")
 
     @profile.update(banned: true)
-    Operations::Base.new.portal_write(atts)
+    Transactions::Base.new.portal_write(atts)
 
     @profile.credential_assignments.each do |cred|
       obj = cred.credentiable
       atts = fields(obj.id, obj.class.name, "ban", "Profile was banned.")
       cred.credentiable.update(banned: true)
-      Operations::Base.new.portal_write(atts)
+      Transactions::Base.new.portal_write(atts)
     end
 
     redirect_to(admins_event_profiles_url)
@@ -37,7 +37,7 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
     atts = fields(@profile.id, "Profile", "unban")
 
     @profile.update(banned: false)
-    Operations::Base.new.portal_write(atts)
+    Transactions::Base.new.portal_write(atts)
     redirect_to(admins_event_profiles_url)
   end
 

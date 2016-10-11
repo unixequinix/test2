@@ -7,10 +7,12 @@ set :bundle_without, [:darwin, :development, :test]
 set :deploy_to, "~/glownet_web"
 
 # Default value for :pty is false
+# There is a known bug that prevents sidekiq from starting when pty is true on Capistrano 3
 set :pty, false
+set :ssh_options, forward_agent: true, auth_methods: %w(publickey)
 
 # Default value for :linked_files is []
-set :linked_files, %w(config/database.yml config/application.yml config/newrelic.yml config/sidekiq.yml)
+set :linked_files, %w(config/application.yml)
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w(log store tmp/pids tmp/cache tmp/sockets vendor/bundle public/system)
@@ -19,7 +21,7 @@ set :sidekiq_default_hooks, true
 set :sidekiq_pid, File.join(shared_path, "tmp", "pids", "sidekiq.pid")
 set :sidekiq_env, fetch(:rack_env, fetch(:rails_env, fetch(:stage)))
 set :sidekiq_log, File.join(shared_path, "log", "sidekiq.log")
-set :sidekiq_config, -> { File.join(shared_path, "config", "sidekiq.yml") }
+set :sidekiq_config, -> { File.join(release_path, "config", "sidekiq.yml") }
 
 set :whenever_identifier, -> { "#{fetch(:application)}_#{fetch(:stage)}" }
 

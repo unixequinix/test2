@@ -16,7 +16,7 @@ class Profile::Checker
         klass.where(profile_id: tg_profile).update_all(profile_id: tr_profile)
       end
 
-      profile.credit_transactions.last.try(:recalculate_profile_balance)
+      profile.transactions.credit.last.try(:recalculate_profile_balance)
       return tr_profile
     end
 

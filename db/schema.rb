@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161005170445) do
+ActiveRecord::Schema.define(version: 20161010100326) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -721,7 +721,6 @@ ActiveRecord::Schema.define(version: 20161005170445) do
   end
 
   add_index "profiles", ["deleted_at"], name: "index_profiles_on_deleted_at", using: :btree
-  add_index "profiles", ["event_id", "deleted_at", "updated_at"], name: "idx_customers_api", order: {"updated_at"=>:desc}, using: :btree
 
   create_table "purchasers", force: :cascade do |t|
     t.integer  "credentiable_id",       null: false
@@ -828,6 +827,59 @@ ActiveRecord::Schema.define(version: 20161005170445) do
   end
 
   add_index "topup_credits", ["credit_id"], name: "index_topup_credits_on_credit_id", using: :btree
+
+  create_table "transactions", force: :cascade do |t|
+    t.integer  "event_id"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.string   "type"
+    t.string   "transaction_origin"
+    t.string   "transaction_category"
+    t.string   "transaction_type"
+    t.string   "customer_tag_uid"
+    t.string   "operator_tag_uid"
+    t.integer  "station_id"
+    t.string   "device_uid"
+    t.integer  "device_db_index"
+    t.string   "device_created_at"
+    t.string   "device_created_at_fixed"
+    t.integer  "gtag_counter"
+    t.integer  "counter"
+    t.integer  "activation_counter"
+    t.string   "status_message"
+    t.integer  "status_code"
+    t.integer  "customer_order_id"
+    t.integer  "access_id"
+    t.integer  "direction"
+    t.string   "final_access_value"
+    t.string   "reason"
+    t.string   "ticket_code"
+    t.float    "credits"
+    t.float    "refundable_credits"
+    t.float    "final_balance"
+    t.float    "final_refundable_balance"
+    t.string   "initialization_type"
+    t.integer  "number_of_transactions"
+    t.integer  "catalogable_id"
+    t.string   "catalogable_type"
+    t.float    "items_amount"
+    t.float    "price"
+    t.string   "payment_method"
+    t.string   "payment_gateway"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.integer  "profile_id"
+    t.integer  "ticket_id"
+    t.integer  "old_id"
+    t.float    "credit_value"
+  end
+
+  add_index "transactions", ["access_id"], name: "index_transactions_on_access_id", using: :btree
+  add_index "transactions", ["catalogable_type", "catalogable_id"], name: "index_transactions_on_catalogable_type_and_catalogable_id", using: :btree
+  add_index "transactions", ["event_id"], name: "index_transactions_on_event_id", using: :btree
+  add_index "transactions", ["old_id"], name: "index_transactions_on_old_id", using: :btree
+  add_index "transactions", ["owner_type", "owner_id"], name: "index_transactions_on_owner_type_and_owner_id", using: :btree
+  add_index "transactions", ["station_id"], name: "index_transactions_on_station_id", using: :btree
 
   add_foreign_key "access_transactions", "events"
   add_foreign_key "access_transactions", "profiles"

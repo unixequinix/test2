@@ -118,7 +118,6 @@ gem 'figaro', '~> 1.1', '>= 1.1.1'
 
 group :development do
   gem 'foreman', '~> 0.78.0'
-  gem 'annotate', '~> 2.6.10'
   gem 'bullet', '~> 4.14.4' # Help to kill N+1 queries and unused eager loading
   gem 'rails-erd', '~> 1.4.4' # Entity-relationship diagrams (ERD)
   gem 'railroady', '~> 1.4.1' # Controller diagrams (ERD)
