@@ -28,12 +28,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   has_many :customer_orders
   has_many :online_orders, through: :customer_orders
   has_many :payments, through: :orders
-  has_many :ban_transactions
-  has_many :credit_transactions
-  has_many :access_transactions
-  has_many :credential_transactions
-  has_many :money_transactions
-  has_many :order_transactions
+  has_many :transactions
   has_many :completed_claims, -> { where("aasm_state = 'completed' AND completed_at IS NOT NULL") }, class_name: "Claim"
   has_many :credential_assignments
   # credential_assignments_tickets
@@ -83,15 +78,15 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   }
 
   def recalculate_balance
-    transactions = credit_transactions.status_ok
-    has_onsite_ts = transactions.sum(:gtag_counter) != 0
+    ts = transactions.credit.status_ok
+    has_onsite_ts = ts.sum(:gtag_counter) != 0
 
-    self.credits = transactions.not_record_credit.sum(:credits)
-    self.refundable_credits = transactions.not_record_credit.sum(:refundable_credits)
+    self.credits = ts.not_record_credit.sum(:credits)
+    self.refundable_credits = ts.not_record_credit.sum(:refundable_credits)
     # TODO: The conditional is because of a bug when buying multiple items online, there are several
     #       transactions and the previous are taken into account when calculating the final balances
-    self.final_balance = has_onsite_ts ? transactions.last.final_balance : credits
-    self.final_refundable_balance = has_onsite_ts ? transactions.last.final_refundable_balance : refundable_credits
+    self.final_balance = has_onsite_ts ? ts.last.final_balance : credits
+    self.final_refundable_balance = has_onsite_ts ? ts.last.final_refundable_balance : refundable_credits
 
     save
   end
@@ -100,38 +95,12 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     Customer.unscoped { super }
   end
 
-  # rubocop disable: Metrics/AbcSize
-  def transactions(sort)
-    transactions = credit_transactions
-    transactions += access_transactions
-    transactions += credential_transactions
-    transactions += money_transactions
-    transactions += order_transactions
-    transactions += ban_transactions
-    # TODO: Its a workaround for sorting, remove after picnik is fixed
-    transactions.sort_by! { |t| [t.gtag_counter.to_i, t.counter.to_i] } if sort.eql?("counters") || sort.nil?
-    transactions.sort_by! { |t| [t.device_created_at, t.gtag_counter.to_i, t.counter.to_i] } if sort.eql?("date")
-    transactions
-  end
-
   def all_transaction_counters
-    indexes = credit_transactions.map(&:gtag_counter).map(&:to_i)
-    indexes += access_transactions.map(&:gtag_counter).map(&:to_i)
-    indexes += credential_transactions.map(&:gtag_counter).map(&:to_i)
-    indexes += money_transactions.map(&:gtag_counter).map(&:to_i)
-    indexes += order_transactions.map(&:gtag_counter).map(&:to_i)
-    indexes += ban_transactions.map(&:gtag_counter).map(&:to_i)
-    indexes.sort
+    transactions.pluck(:gtag_counter).map(&:to_i).sort
   end
 
   def all_online_counters
-    indexes = credit_transactions.map(&:counter)
-    indexes += access_transactions.map(&:counter)
-    indexes += credential_transactions.map(&:counter)
-    indexes += money_transactions.map(&:counter)
-    indexes += order_transactions.map(&:counter)
-    indexes += ban_transactions.map(&:counter)
-    indexes.sort
+    transactions.pluck(:counter).map(&:to_i).sort
   end
 
   def enough_money?
@@ -139,9 +108,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def missing_transaction_counters
-    indexes = all_transaction_counters
-    all_indexes = (1..indexes.last.to_i).to_a
-    (all_indexes - indexes).sort
+    (1..all_transaction_counters.last.to_i).to_a - all_transaction_counters
   end
 
   def active_credentials?

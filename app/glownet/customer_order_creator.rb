@@ -10,7 +10,7 @@ class CustomerOrderCreator
                                             catalog_item: order_item.catalog_item,
                                             origin: CustomerOrder::PURCHASE)
       OnlineOrder.create(redeemed: @redeemed, customer_order: customer_order)
-      Operations::Base.new.portal_write(fields(order_item, payment_method, payment_gateway))
+      Transactions::Base.new.portal_write(fields(order_item, payment_method, payment_gateway))
     end
   end
 

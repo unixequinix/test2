@@ -23,6 +23,6 @@ Devise.setup do |config|
 
   # Omniauth configuration
   config.omniauth_path_prefix = "/customers/auth"
-  config.omniauth :facebook, Rails.application.secrets.facebook_public, Rails.application.secrets.facebook_secret, callback_url: "#{Rails.application.secrets.host_url}customers/auth/facebook/callback"
-  config.omniauth :google_oauth2, Rails.application.secrets.google_public, Rails.application.secrets.google_secret, callback_url: "#{Rails.application.secrets.host_url}customers/auth/twitter/callback"
+  config.omniauth :facebook, Rails.application.secrets.facebook_public, Rails.application.secrets.facebook_secret, callback_url: "#{Rails.application.secrets.host_url}/customers/auth/facebook/callback"
+  config.omniauth :google_oauth2, Rails.application.secrets.google_public, Rails.application.secrets.google_secret, callback_url: "#{Rails.application.secrets.host_url}/customers/auth/twitter/callback"
 end

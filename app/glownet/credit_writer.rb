@@ -45,6 +45,6 @@ class CreditWriter
       device_created_at: Time.zone.now.strftime("%Y-%m-%d %T.%L")
     }.merge(atts)
 
-    Operations::Base.new.portal_write(common_atts)
+    Transactions::Base.new.portal_write(common_atts)
   end
 end

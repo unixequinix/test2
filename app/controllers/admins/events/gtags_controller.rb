@@ -127,17 +127,17 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
 
   def write_transaction(action, gtag)
     station = current_event.stations.find_by(category: "customer_portal")
-    Operations::Base.new.portal_write(event_id: current_event.id,
-                                      station_id: station.id,
-                                      profile_id: gtag.assigned_profile.id,
-                                      transaction_category: "ban",
-                                      transaction_origin: Transaction::ORIGINS[:portal],
-                                      transaction_type: "#{action}_gtag",
-                                      banneable_id: gtag.id,
-                                      banneable_type: "Gtag",
-                                      reason: "",
-                                      status_code: 0,
-                                      status_message: "OK")
+    Transactions::Base.new.portal_write(event_id: current_event.id,
+                                        station_id: station.id,
+                                        profile_id: gtag.assigned_profile.id,
+                                        transaction_category: "ban",
+                                        transaction_origin: Transaction::ORIGINS[:portal],
+                                        transaction_type: "#{action}_gtag",
+                                        banneable_id: gtag.id,
+                                        banneable_type: "Gtag",
+                                        reason: "",
+                                        status_code: 0,
+                                        status_message: "OK")
   end
 
   def set_presenter

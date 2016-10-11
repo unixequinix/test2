@@ -62,7 +62,7 @@ class RefundService
       payment_gateway: refund.payment_solution,
       profile_id: @profile.id
     }
-    Operations::Base.new.portal_write(fields)
+    Transactions::Base.new.portal_write(fields)
   end
 
   def credit_refund_transaction(params)

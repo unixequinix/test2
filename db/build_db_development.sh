@@ -21,8 +21,3 @@ echo 'Test Database config'
 bin/rake RAILS_ENV=test db:drop
 bin/rake RAILS_ENV=test db:create
 bin/rake RAILS_ENV=test db:migrate
-
-cd $current_dir
-
-bin/rake RAILS_ENV=development annotate:models
-bin/rake RAILS_ENV=development generate:erd_diagram
