@@ -180,7 +180,10 @@ group :test do
 end
 
 group :production, :staging, :demo, :refunds do
-  gem 'newrelic_rpm'
   gem 'dalli', '~> 2.7.4' # Memcached
   gem 'therubyracer'
+end
+
+group :production do
+  gem 'newrelic_rpm'
 end
