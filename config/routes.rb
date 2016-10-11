@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   #----------------------------------------------------------
   # Admin panel
   #----------------------------------------------------------
-  devise_for :admins
+  devise_for :admins, controllers: { sessions: "admins/sessions"}
 
   namespace :admins do
     resources :locale do
@@ -33,11 +33,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :admins, except: :show do
-      collection do
-        resource :sessions, only: [:new, :create, :destroy]
-      end
-    end
+    resources :admins, except: :show
 
     resources :events, only: [:index, :show, :new, :create, :edit, :update] do
       member do
