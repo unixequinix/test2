@@ -6,7 +6,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
     respond_to do |format|
       format.html
       format.csv do
-        tickets = Ticket.selected_data(current_event.id)
+        tickets = Ticket.query_for_csv(current_event)
         redirect_to(admins_event_tickets_path(current_event)) && return if tickets.empty?
 
         send_data(Csv::CsvExporter.to_csv(tickets))

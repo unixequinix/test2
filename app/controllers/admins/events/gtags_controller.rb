@@ -6,7 +6,12 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
   def index
     respond_to do |format|
       format.html
-      format.csv { send_data(Csv::CsvExporter.to_csv(Gtag.selected_data(current_event.id))) }
+      format.csv do
+        gtags = Gtag.query_for_csv(current_event)
+        redirect_to(admins_event_gtags_path(current_event)) && return if gtags.empty?
+
+        send_data(Csv::CsvExporter.to_csv(gtags))
+      end
     end
   end
 

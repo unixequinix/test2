@@ -4,7 +4,11 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
   def index
     respond_to do |format|
       format.html { set_presenter }
-      format.csv { send_data(Csv::CsvExporter.to_csv(Customer.selected_data(current_event))) }
+      format.csv do
+        customers = Customer.query_for_csv(current_event)
+        redirect_to(admins_event_customers_path(current_event)) && return if customers.empty?
+        send_data(Csv::CsvExporter.to_csv(customers))
+      end
     end
   end
 

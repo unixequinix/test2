@@ -1,68 +1,24 @@
-# == Schema Information
-#
-# Table name: customers
-#
-#  id                     :integer          not null, primary key
-#  event_id               :integer          not null
-#  email                  :string           default(""), not null
-#  first_name             :string           default(""), not null
-#  last_name              :string           default(""), not null
-#  encrypted_password     :string           default(""), not null
-#  reset_password_token   :string
-#  phone                  :string
-#  postcode               :string
-#  address                :string
-#  city                   :string
-#  country                :string
-#  gender                 :string
-#  remember_token         :string
-#  sign_in_count          :integer          default(0), not null
-#  agreed_on_registration :boolean          default(FALSE)
-#  agreed_event_condition :boolean          default(FALSE)
-#  last_sign_in_ip        :inet
-#  current_sign_in_ip     :inet
-#  reset_password_sent_at :datetime
-#  remember_created_at    :datetime
-#  current_sign_in_at     :datetime
-#  last_sign_in_at        :datetime
-#  birthdate              :datetime
-#  deleted_at             :datetime
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  receive_communications :boolean          default(FALSE)
-#  locale                 :string           default("en")
-#
-
 class Customer < ActiveRecord::Base
   acts_as_paranoid
-  devise :database_authenticatable,
-         :registerable,
-         :recoverable,
-         :rememberable,
-         :validatable,
-         :omniauthable,
-         authentication_keys: [:email, :event_id],
-         reset_password_keys: [:email, :event_id], omniauth_providers: [:facebook, :google_oauth2]
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :omniauthable,
+         authentication_keys: [:email, :event_id], reset_password_keys: [:email, :event_id],
+         omniauth_providers: [:facebook, :google_oauth2]
   default_scope { order("email") }
 
-  # Genders
+  # Constants
   MALE = "male".freeze
   FEMALE = "female".freeze
-
   GENDERS = [MALE, FEMALE].freeze
 
   # Associations
   has_one :profile
-
   belongs_to :event
 
   # Validations
   validates :email, format: { with: RFC822::EMAIL }
+  validates :email, uniqueness: { scope: [:event_id], conditions: -> { where(deleted_at: nil) } }
   validates :email, :first_name, :last_name, :encrypted_password, presence: true
   validates :agreed_on_registration, acceptance: { accept: true }
-
-  validates :email, uniqueness: { scope: [:event_id], conditions: -> { where(deleted_at: nil) } }
-
   validates :phone, presence: true, if: -> { event && event.phone? }
   validates :birthdate, presence: true, if: -> { event && event.birthdate? }
   validates :phone, presence: true, if: -> { event && event.phone? }
@@ -76,10 +32,10 @@ class Customer < ActiveRecord::Base
     email.downcase! if email
   end
 
-  scope :selected_data, lambda { |event|
-    customers = select("id, first_name, last_name, email, birthdate, phone, postcode, address, city, country, gender")
-                .where(event: event)
-    customers.where(receive_communications: true) if event.receive_communications?
+  scope :query_for_csv, lambda { |event|
+    customers = event.customers.select("id, first_name, last_name, email, birthdate, phone, postcode, address, city,
+                                       country, gender, created_at")
+    event.receive_communications? ? customers.where(receive_communications: true) : customers
   }
 
   # Methods

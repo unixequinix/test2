@@ -4,7 +4,12 @@ class Admins::Events::RefundsController < Admins::Events::BaseController
   def index
     respond_to do |format|
       format.html
-      format.csv { send_data Csv::CsvExporter.to_csv(Refund.selected_data(current_event.id)) }
+      format.csv do
+        refunds = Refund.query_for_csv(current_event)
+        redirect_to(admins_event_refunds_path(current_event)) && return if refunds.empty?
+
+        send_data(Csv::CsvExporter.to_csv(refunds))
+      end
     end
   end
 
@@ -35,8 +40,7 @@ class Admins::Events::RefundsController < Admins::Events::BaseController
       search_query: params[:q],
       page: params[:page],
       context: view_context,
-      include_for_all_items: [:claim,
-                              claim: [:profile, profile: :customer]]
+      include_for_all_items: [:claim, claim: [:profile, profile: :customer]]
     )
   end
 

@@ -61,16 +61,16 @@ class Gtag < ActiveRecord::Base
   # validates :tag_uid, format: { with: /\A[0-9A-Fa-f]+\z/, message: I18n.t("errors.messages.only_hex") }
 
   # Scopes
-  scope :selected_data, lambda  { |event_id|
-    joins("LEFT OUTER JOIN credential_assignments
-           ON credential_assignments.credentiable_id = gtags.id
-           AND credential_assignments.credentiable_type = 'Gtag'
-           AND credential_assignments.deleted_at IS NULL
-           LEFT OUTER JOIN customer_orders
-           ON customer_orders.profile_id = credential_assignments.profile_id
-           AND customer_orders.deleted_at IS NULL")
-      .select("gtags.id, gtags.event_id, gtags.tag_uid, customer_orders.amount as credits_amount")
-      .where(event: event_id)
+  scope :query_for_csv, lambda  { |event|
+    event.gtags.joins("LEFT OUTER JOIN credential_assignments
+                       ON credential_assignments.credentiable_id = gtags.id
+                       AND credential_assignments.credentiable_type = 'Gtag'
+                       AND credential_assignments.deleted_at IS NULL
+                       LEFT OUTER JOIN customer_orders
+                       ON customer_orders.profile_id = credential_assignments.profile_id
+                       AND customer_orders.deleted_at IS NULL")
+         .select("gtags.id, gtags.tag_uid, gtags.banned, gtags.loyalty, gtags.format,
+                        customer_orders.amount as credits_amount")
   }
 
   scope :banned, -> { where(banned: true) }

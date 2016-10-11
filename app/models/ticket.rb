@@ -39,11 +39,11 @@ class Ticket < ActiveRecord::Base
   validates :code, presence: true
   validates :company_ticket_type_id, presence: true
 
-  scope :selected_data, lambda { |event_id|
-    select("tickets.id, tickets.event_id, tickets.company_ticket_type_id as ticket_type_id,
-            company_ticket_types.name as ticket_type_name, tickets.code, tickets.banned, tickets.credential_redeemed")
-      .joins(:company_ticket_type)
-      .where(event: event_id)
+  scope :query_for_csv, lambda { |event|
+    event.tickets.select("tickets.id, tickets.event_id, tickets.company_ticket_type_id as ticket_type_id,
+                          company_ticket_types.name as ticket_type_name, tickets.code, tickets.banned,
+                          tickets.credential_redeemed")
+         .joins(:company_ticket_type)
   }
 
   def pack_catalog_items_included

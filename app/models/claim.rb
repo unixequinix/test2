@@ -1,22 +1,3 @@
-# == Schema Information
-#
-# Table name: claims
-#
-#  id           :integer          not null, primary key
-#  profile_id   :integer          not null
-#  gtag_id      :integer          not null
-#  number       :string           not null
-#  aasm_state   :string           not null
-#  total        :decimal(8, 2)    not null
-#  service_type :string
-#  fee          :decimal(8, 2)    default(0.0)
-#  minimum      :decimal(8, 2)    default(0.0)
-#  completed_at :datetime
-#  deleted_at   :datetime
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#
-
 class Claim < ActiveRecord::Base
   default_scope { order(created_at: :desc) }
 
@@ -44,9 +25,8 @@ class Claim < ActiveRecord::Base
       .includes(:claim_parameters, claim_parameters: :parameter)
       .where(aasm_state: aasm_state)
       .where(profiles: { event_id: event.id })
-      .select("claims.id, profiles.id as profile,
-            customers.first_name, customers.last_name, customers.email, gtags.tag_uid,
-            refunds.amount, claims.service_type")
+      .select("claims.id, profiles.id as profile, customers.first_name, customers.last_name, customers.email,
+               gtags.tag_uid, refunds.amount, claims.service_type, claims.created_at")
       .order(:id)
   }
 
@@ -78,20 +58,6 @@ class Claim < ActiveRecord::Base
     time_hex = Time.zone.now.strftime("%H%M%L").to_i.to_s(16)
     day = Time.zone.today.strftime("%y%m%d")
     self.number = "#{day}#{time_hex}"
-  end
-
-  def self.selected_data(aasm_state, event)
-    claims = query_for_csv(aasm_state, event)
-    headers = []
-    extra_columns = {}
-    claims.each_with_index do |claim, index|
-      extra_columns[index + 1] =
-        claim.claim_parameters.each_with_object({}) do |claim_parameter, acum|
-          headers |= [claim_parameter.parameter.name]
-          acum[claim_parameter.parameter.name] = claim_parameter.value
-        end
-    end
-    [claims, headers, extra_columns]
   end
 
   private

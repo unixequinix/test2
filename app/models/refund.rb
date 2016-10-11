@@ -1,20 +1,3 @@
-# == Schema Information
-#
-# Table name: refunds
-#
-#  id                         :integer          not null, primary key
-#  claim_id                   :integer          not null
-#  amount                     :decimal(8, 2)    not null
-#  currency                   :string
-#  message                    :string
-#  operation_type             :string
-#  gateway_transaction_number :string
-#  payment_solution           :string
-#  status                     :string
-#  created_at                 :datetime         not null
-#  updated_at                 :datetime         not null
-#
-
 class Refund < ActiveRecord::Base
   default_scope { order(created_at: :desc) }
 
@@ -24,9 +7,13 @@ class Refund < ActiveRecord::Base
   # Validations
   validates :claim, :amount, presence: true
 
-  scope :selected_data, lambda { |event_id|
+  # Scopes
+  scope :query_for_csv, lambda { |event|
     joins(claim: { profile: :customer })
-      .select("refunds.*, claims.number, customers.email")
-      .where(profiles: { event_id: event_id })
+      .select("refunds.id, refunds.amount, refunds.currency, refunds.operation_type, refunds.message,
+               refunds.gateway_transaction_number as transaction_number, refunds.payment_solution,
+               claims.number as claim_number, customers.email, customers.first_name, customers.last_name,
+               refunds.created_at")
+      .where(profiles: { event_id: event.id })
   }
 end
