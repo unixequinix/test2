@@ -192,7 +192,9 @@ Rails.application.routes.draw do
         end
 
         resources :credential_types, except: :show
-        resources :company_ticket_types, except: :show
+        resources :company_ticket_types, except: :show do
+          post :visibility
+        end
 
         resources :profiles, except: [:new, :create, :edit, :update] do
           member do
