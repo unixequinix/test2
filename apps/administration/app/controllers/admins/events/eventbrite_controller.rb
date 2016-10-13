@@ -21,7 +21,8 @@ class Admins::Events::EventbriteController < Admins::Events::BaseController
       end
     end
 
-    if @import_errors.uniq!.any?
+    if @import_errors.any?
+      @import_errors = @import_errors.uniq
       flash.now.alert = "Errors prevented some tickets import"
       render :index
     else
