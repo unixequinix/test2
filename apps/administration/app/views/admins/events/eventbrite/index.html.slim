@@ -4,69 +4,69 @@
     = fa_icon 'arrow-circle-left'
     = t('actions.back')
 
+    - if @current_event.eventbrite?
+      = link_to admins_event_eventbrite_disconnect_path(@current_event), data: { confirm: "Are you sure you want to disconnect Eventbrite?" }, class: "btn btn-action btn-action-back small" do
+        = fa_icon 'chain-broken'
+        = t('actions.disconnect')
+        = link_to admins_event_eventbrite_import_tickets_path(@current_event), class: "btn btn-action btn-action-back small" do
+          = fa_icon 'download'
+          = t('actions.import_tickets')
+
   - if @current_event.eventbrite?
-    = link_to admins_event_eventbrite_disconnect_path(@current_event), data: { confirm: "Are you sure you want to disconnect Eventbrite?" }, class: "btn btn-action btn-action-back small" do
-      = fa_icon 'chain-broken'
-      = t('actions.disconnect')
-    = link_to admins_event_eventbrite_import_tickets_path(@current_event), class: "btn btn-action btn-action-back small" do
-      = fa_icon 'download'
-      = t('actions.import_tickets')
+    .wrapper-negative-space
+      .container-dashboard.wrapper-dashboard-main
+        .event-status
+          h3 Eventbrite configuration
+          p
+            label Client key
+            = @current_event.eventbrite_client_key
+          br
+          p
+            label Event ID
+            = @current_event.eventbrite_event
 
-- if @current_event.eventbrite?
-  .wrapper-negative-space
-    .container-dashboard.wrapper-dashboard-main
-      .event-status
-        h3 Eventbrite configuration
-        p
-          label Client key
-          = @current_event.eventbrite_client_key
-        br
-        p
-          label Event ID
-          = @current_event.eventbrite_event
+      - if @import_errors
+    .container-dashboard.wrapper-dashboard-main.refunds-alert
+    .event-status
+    h3 These company ticket types must be created
+    - @import_errors.each do |attendee|
+      label= attendee.ticket_class_id
+      = attendee.ticket_class_name
+      br
 
 
-  .wrapper-negative-space
+    .wrapper-negative-space
     .container-show
-      table
-        tr
-          th First Name
-          th Last Name
-          th Email
-          th Tickets
-        - @attendees.each do |attendee|
-          tr
-            td = attendee.profile.first_name
-            td = attendee.profile.last_name
-            td = attendee.profile.email
-            td
-              - attendee.barcodes.each do |barcode|
-                - ticket = @tickets.find_by(code: barcode.barcode)
-                - if ticket.present?
-                  = link_to barcode.barcode, admins_event_ticket_path(@current_event, ticket)
-                - else
-                  = barcode.barcode
+    p
+    label Eventbrite attendees
+    = @eb_resume.object_count
+    p
+    label
+    = @current_event.name
+    \attendees
+    = @current_event.tickets.where()
 
 
-- elsif @current_event.eventbrite_token.present?
-  = simple_form_for [:admins, @current_event] do |f|
-    fieldset
-      h3.section-header
-        = fa_icon "info-circle"
-        = t("admin.event.fieldests.eventbrite")
-      = f.input :eventbrite_event, label: "Eventbrite Event ID", placeholder: true
 
-    .wrapper-negative-space
-    = f.button :submit, class: "btn btn-primary", value: "Update"
+  - elsif @current_event.eventbrite_token.present?
+    = simple_form_for [:admins, @current_event] do |f|
+      fieldset
+        h3.section-header
+          = fa_icon "info-circle"
+          = t("admin.event.fieldests.eventbrite")
+        = f.input :eventbrite_event, label: "Eventbrite Event ID", placeholder: true
 
-- else
-  = simple_form_for @current_event, url: admins_event_eventbrite_connect_path(current_event) do |f|
-    fieldset
-      h3.section-header
-        = fa_icon "info-circle"
-        = t("admin.event.fieldests.eventbrite")
-      = f.input :eventbrite_client_key, label: "Client Key", placeholder: true
-      = f.input :eventbrite_client_secret, label: "Client Secret", placeholder: true
+      .wrapper-negative-space
+      = f.button :submit, class: "btn btn-primary", value: "Update"
 
-    .wrapper-negative-space
+  - else
+    = simple_form_for @current_event, url: admins_event_eventbrite_connect_path(current_event) do |f|
+      fieldset
+        h3.section-header
+          = fa_icon "info-circle"
+          = t("admin.event.fieldests.eventbrite")
+        = f.input :eventbrite_client_key, label: "Client Key", placeholder: true
+        = f.input :eventbrite_client_secret, label: "Client Secret", placeholder: true
+
+      .wrapper-negative-space
       = f.button :submit, class: "btn btn-primary", value: "Connect"
