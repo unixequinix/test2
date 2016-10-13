@@ -8,6 +8,8 @@
     = f.input :last_name, required: true, autofocus: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.last_name")
     = f.input :current_password, required: true, autocomplete: "off", input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.current_password")
     = f.input :password, autocomplete: "off", hint: t('registration.edit.password_hint'), required: false, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.password")
+    = f.input :password_confirmation, required: false, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.password_confirmation")
+
     = f.input :phone, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.phone") if current_event.phone?
     = f.input :address, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.address") if current_event.address?
     = f.input :city, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.city") if current_event.city?
@@ -15,6 +17,7 @@
     = f.input :country, wrapper_html: { class: 'registration-select' }, label: t("simple_form.labels.customer.new.country"), input_html: { class: 'session-select' } if current_event.country?
     = f.input :gender, wrapper_html: { class: 'registration-select' }, label: t("simple_form.labels.customer.new.gender"), collection: Customer.gender_selector, include_blank: false, input_html: { class: 'session-input' } if current_event.gender?
     = f.input :birthdate, wrapper_html: { class: 'registration-select' }, label: t("simple_form.labels.customer.new.birthdate"), as: :date, default: @edit_profile_form.birthdate, start_year: 1950, end_year: Time.zone.today.year - 12, order: [:day, :month, :year] if current_event.birthdate?
+    
     - current_profile.payment_gateway_customers.each do |payment_gateway_customer|
       .wrapper-module-agreement
         p.hint-text.paypal-agreement-title

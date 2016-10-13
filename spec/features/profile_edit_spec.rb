@@ -48,7 +48,8 @@ RSpec.feature "Edit customer", type: :feature do
     context "when filling the fields correctly" do
       it "redirects to the main page" do
         find("#customer_current_password").set("password")
-        find("#customer_password").set("password")
+        find("#customer_password").set("new_password")
+        find("#customer_password_confirmation").set("new_password")
         click_button(I18n.t("registration.edit.button"))
 
         expect(current_path).to eq(event_path)

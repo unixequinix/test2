@@ -266,8 +266,6 @@ Rails.application.routes.draw do
         get "/account", to: "registrations#edit"
         post "/register", to: "registrations#create"
         patch "/register", to: "registrations#update"
-        get "/change_password", to: "registrations#change_password"
-        patch "/change_password", to: "registrations#update_password"
         get "/recover_password", to: "passwords#new"
         post "/recover_password", to: "passwords#create"
         get "/edit_password", to: "passwords#edit"

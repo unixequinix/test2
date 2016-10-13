@@ -4,15 +4,6 @@ class Events::RegistrationsController < Devise::RegistrationsController
   before_action :configure_permitted_parameters
   helper_method :current_profile
 
-  def update_password
-    if current_customer.update_with_password(profile_params)
-      bypass_sign_in current_customer
-      redirect_to after_update_path_for(current_customer)
-    else
-      render :change_password
-    end
-  end
-
   private
 
   # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
@@ -46,10 +37,6 @@ class Events::RegistrationsController < Devise::RegistrationsController
 
     devise_parameter_sanitizer.permit(:account_update, keys: customer)
     devise_parameter_sanitizer.permit(:sign_up, keys: customer)
-  end
-
-  def profile_params
-    params.require(:customer).permit(:password, :password_confirmation, :current_password)
   end
 
   def after_update_path_for(_resource)
