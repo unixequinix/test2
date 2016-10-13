@@ -5,7 +5,7 @@ class Admins::Events::EventbriteController < Admins::Events::BaseController
     @eb_pagination = Eventbrite::Attendee.all(event_id: @current_event.eventbrite_event).pagination
   end
 
-  def import_tickets
+  def import_tickets # rubocop:disable Metrics/MethodLength
     @import_errors = []
     eb_event = @current_event.eventbrite_event
     @eb_pagination = Eventbrite::Attendee.all(event_id: eb_event).pagination

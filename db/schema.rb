@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161013101044) do
+ActiveRecord::Schema.define(version: 20161013161533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,11 +82,6 @@ ActiveRecord::Schema.define(version: 20161013101044) do
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
-  create_table "alex_tags_complete", id: false, force: :cascade do |t|
-    t.string  "customer_tag_uid"
-    t.integer "num_of_nulls",     limit: 8
-  end
-
   create_table "ban_transactions", force: :cascade do |t|
     t.integer  "event_id"
     t.string   "transaction_origin"
@@ -114,30 +109,6 @@ ActiveRecord::Schema.define(version: 20161013101044) do
   add_index "ban_transactions", ["event_id"], name: "index_ban_transactions_on_event_id", using: :btree
   add_index "ban_transactions", ["profile_id"], name: "index_ban_transactions_on_profile_id", using: :btree
   add_index "ban_transactions", ["station_id"], name: "index_ban_transactions_on_station_id", using: :btree
-
-  create_table "banned_customer_event_profiles", force: :cascade do |t|
-    t.integer  "customer_event_profile_id", null: false
-    t.datetime "deleted_at"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-  end
-
-  add_index "banned_customer_event_profiles", ["deleted_at"], name: "index_banned_customer_event_profiles_on_deleted_at", using: :btree
-
-  create_table "banned_gtags", force: :cascade do |t|
-    t.integer  "gtag_id",    null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "banned_tickets", force: :cascade do |t|
-    t.integer  "ticket_id",  null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "deleted_at"
-  end
-
-  add_index "banned_tickets", ["deleted_at"], name: "index_banned_tickets_on_deleted_at", using: :btree
 
   create_table "c_assignments_c_orders", force: :cascade do |t|
     t.integer "credential_assignment_id"
@@ -338,16 +309,6 @@ ActiveRecord::Schema.define(version: 20161013101044) do
   end
 
   add_index "customer_credits", ["deleted_at"], name: "index_customer_credits_on_deleted_at", using: :btree
-
-  create_table "customer_event_profiles", force: :cascade do |t|
-    t.integer  "customer_id"
-    t.integer  "event_id",    null: false
-    t.datetime "deleted_at"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "customer_event_profiles", ["deleted_at"], name: "index_customer_event_profiles_on_deleted_at", using: :btree
 
   create_table "customer_orders", force: :cascade do |t|
     t.integer  "profile_id",                              null: false
@@ -908,12 +869,13 @@ ActiveRecord::Schema.define(version: 20161013101044) do
     t.float    "price"
     t.string   "payment_method"
     t.string   "payment_gateway"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.integer  "profile_id"
     t.integer  "ticket_id"
     t.integer  "old_id"
     t.float    "credit_value"
+    t.integer  "operator_activation_counter"
   end
 
   add_index "transactions", ["access_id"], name: "index_transactions_on_access_id", using: :btree
