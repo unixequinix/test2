@@ -2,25 +2,29 @@ class Admins::Events::EventbriteController < Admins::Events::BaseController
   def index
     render && return unless @current_event.eventbrite?
     Eventbrite.token = @current_event.eventbrite_token
-    @attendees = Eventbrite::Attendee.all(event_id: @current_event.eventbrite_event)[:attendees]
+    @eb_resume = Eventbrite::Attendee.all(event_id: @current_event.eventbrite_event).pagination
     @tickets = @current_event.tickets
   end
 
   def import_tickets
+    @import_errors = []
+    eb_event = @current_event.eventbrite_event
     Eventbrite.token = @current_event.eventbrite_token
-    attendees = Eventbrite::Attendee.all(event_id: @current_event.eventbrite_event)[:attendees]
-    attendees.each do |attendee|
-      attendee.barcodes.each do |barcode|
-        ctt = @current_event.company_ticket_types.find_by_company_code(attendee.ticket_class_id)
-        error = "Company ticket type with company code #{attendee.ticket_class_id} (#{attendee.ticket_class_name})
-                 not found, please create it"
-        # rubocop:disable Lint/NonLocalExitFromIterator
-        redirect_to(admins_event_eventbrite_path(@current_event), alert: error) && return unless ctt
-
-        ctt.tickets.find_or_create_by!(code: barcode.barcode, event: @current_event)
+    Eventbrite::Attendee.all(event_id: eb_event).pagination.page_count.times do |page_number|
+      Eventbrite::Attendee.all(event_id: eb_event, page: page_number).attendees.each do |attendee|
+        attendee.barcodes.each do |barcode|
+          ctt = @current_event.company_ticket_types.find_by_company_code(attendee.ticket_class_id)
+          @import_errors << attendee && next unless ctt
+          ctt.tickets.find_or_create_by!(code: barcode.barcode, event: @current_event)
+        end
       end
     end
-    redirect_to admins_event_eventbrite_path(@current_event), notice: "All tickets imported"
+
+    if @import_errors.any?
+      redirect_to(admins_event_eventbrite_path(@current_event), alert: "Errors prevented some tickets import")
+    else
+      redirect_to admins_event_eventbrite_path(@current_event), notice: "All tickets imported"
+    end
   end
 
   def disconnect

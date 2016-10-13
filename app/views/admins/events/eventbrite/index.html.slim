@@ -25,27 +25,27 @@
           label Event ID
           = @current_event.eventbrite_event
 
+    - if @import_errors
+      .container-dashboard.wrapper-dashboard-main.refunds-alert
+        .event-status
+          h3 These company ticket types must be created
+          - @import_errors.each do |attendee|
+            label= attendee.ticket_class_id
+            = attendee.ticket_class_name
+            br
+
 
   .wrapper-negative-space
     .container-show
-      table
-        tr
-          th First Name
-          th Last Name
-          th Email
-          th Tickets
-        - @attendees.each do |attendee|
-          tr
-            td = attendee.profile.first_name
-            td = attendee.profile.last_name
-            td = attendee.profile.email
-            td
-              - attendee.barcodes.each do |barcode|
-                - ticket = @tickets.find_by(code: barcode.barcode)
-                - if ticket.present?
-                  = link_to barcode.barcode, admins_event_ticket_path(@current_event, ticket)
-                - else
-                  = barcode.barcode
+      p
+        label Eventbrite attendees
+        = @eb_resume.object_count
+      p
+        label
+          = @current_event.name
+          \attendees
+        = @current_event.tickets.where()
+
 
 
 - elsif @current_event.eventbrite_token.present?
