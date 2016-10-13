@@ -12,7 +12,7 @@ class Admins::Events::EventbriteController < Admins::Events::BaseController
     Eventbrite.token = @current_event.eventbrite_token
 
     @eb_pagination.page_count.times do |page_number|
-      Eventbrite::Attendee.all(event_id: eb_event, page: page_number).attendees.each do |attendee|
+      Eventbrite::Attendee.all(event_id: eb_event, page: page_number + 1).attendees.each do |attendee|
         attendee.barcodes.each do |barcode|
           ctt = @current_event.company_ticket_types.find_by_company_code(attendee.ticket_class_id)
           @import_errors << [attendee.ticket_class_id, attendee.ticket_class_name] && next unless ctt
