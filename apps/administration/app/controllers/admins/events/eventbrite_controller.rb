@@ -2,26 +2,28 @@ class Admins::Events::EventbriteController < Admins::Events::BaseController
   def index
     render && return unless @current_event.eventbrite?
     Eventbrite.token = @current_event.eventbrite_token
-    @eb_resume = Eventbrite::Attendee.all(event_id: @current_event.eventbrite_event).pagination
-    @tickets = @current_event.tickets
+    @eb_pagination = Eventbrite::Attendee.all(event_id: @current_event.eventbrite_event).pagination
   end
 
   def import_tickets
     @import_errors = []
     eb_event = @current_event.eventbrite_event
+    @eb_pagination = Eventbrite::Attendee.all(event_id: eb_event).pagination
     Eventbrite.token = @current_event.eventbrite_token
-    Eventbrite::Attendee.all(event_id: eb_event).pagination.page_count.times do |page_number|
+
+    @eb_pagination.page_count.times do |page_number|
       Eventbrite::Attendee.all(event_id: eb_event, page: page_number).attendees.each do |attendee|
         attendee.barcodes.each do |barcode|
           ctt = @current_event.company_ticket_types.find_by_company_code(attendee.ticket_class_id)
-          @import_errors << attendee && next unless ctt
+          @import_errors << [attendee.ticket_class_id, attendee.ticket_class_name] && next unless ctt
           ctt.tickets.find_or_create_by!(code: barcode.barcode, event: @current_event)
         end
       end
     end
 
-    if @import_errors.any?
-      redirect_to(admins_event_eventbrite_path(@current_event), alert: "Errors prevented some tickets import")
+    if @import_errors.uniq!.any?
+      flash.now.alert = "Errors prevented some tickets import"
+      render :index
     else
       redirect_to admins_event_eventbrite_path(@current_event), notice: "All tickets imported"
     end

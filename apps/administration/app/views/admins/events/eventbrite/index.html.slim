@@ -25,28 +25,31 @@
             label Event ID
             = @current_event.eventbrite_event
 
+      .container-dashboard.wrapper-dashboard-main
+        .event-status
+          h3 Eventbrite Attendees
+          p
+            label Number
+            = @eb_pagination.object_count
+          br
+          p
+            label Pages
+            = @eb_pagination.page_count
+
       - if @import_errors
-    .container-dashboard.wrapper-dashboard-main.refunds-alert
-    .event-status
-    h3 These company ticket types must be created
-    - @import_errors.each do |attendee|
-      label= attendee.ticket_class_id
-      = attendee.ticket_class_name
-      br
-
-
     .wrapper-negative-space
     .container-show
-    p
-    label Eventbrite attendees
-    = @eb_resume.object_count
-    p
-    label
-    = @current_event.name
-    \attendees
-    = @current_event.tickets.where()
-
-
+    h2 Company Ticket Types missing
+    table
+    thead
+    tr
+    th ID
+    th Name
+    tbody
+    - @import_errors.each do |id, name|
+      tr
+        td= id
+        td= name
 
   - elsif @current_event.eventbrite_token.present?
     = simple_form_for [:admins, @current_event] do |f|
