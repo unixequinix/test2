@@ -134,7 +134,7 @@ end
 
 crumb :admins_device do |device|
   link device.asset_tracker, admins_device_path(device)
-  parent :admin_devices
+  parent :admins_devices
 end
 
 ## Admins
