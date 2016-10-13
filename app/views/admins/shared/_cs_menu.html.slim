@@ -26,4 +26,4 @@ aside#main-menu
         = t("admin.aside.#{type}_transactions")
 
     li.mobile-sign-out
-      = link_to t("admin.aside.sign_out"), admins_sessions_path, method: :delete
+      = link_to t("admin.aside.sign_out"), destroy_admin_session_path, method: :delete
