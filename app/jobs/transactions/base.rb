@@ -32,7 +32,6 @@ class Transactions::Base < ActiveJob::Base
     profile = Profile.find(atts[:profile_id])
     gtag = profile.active_gtag_assignment&.credentiable
     klass = Transaction.class_for_type(atts[:transaction_category])
-
     final_atts = {
       transaction_origin: Transaction::ORIGINS[:portal],
       gtag_counter: profile.all_transaction_counters.last.to_i,
@@ -47,6 +46,11 @@ class Transactions::Base < ActiveJob::Base
       activation_counter: gtag&.activation_counter,
       customer_tag_uid: gtag&.tag_uid
     }.merge(atts)
+
+    Transactions::Credential::TicketChecker.inspect
+    Transactions::Credential::GtagChecker.inspect
+    Transactions::Credit::BalanceUpdater.inspect
+    Transactions::Order::CredentialAssigner.inspect
 
     klass.create!(column_attributes(klass, final_atts))
     execute_operations(final_atts)

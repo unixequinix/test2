@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161013161533) do
+ActiveRecord::Schema.define(version: 20161014142221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -757,7 +757,10 @@ ActiveRecord::Schema.define(version: 20161013161533) do
     t.integer "quantity"
     t.float   "unit_price"
     t.integer "credit_transaction_id"
+    t.integer "transaction_id"
   end
+
+  add_index "sale_items", ["transaction_id"], name: "index_sale_items_on_transaction_id", using: :btree
 
   create_table "station_catalog_items", force: :cascade do |t|
     t.integer  "catalog_item_id",                 null: false
@@ -881,7 +884,6 @@ ActiveRecord::Schema.define(version: 20161013161533) do
   add_index "transactions", ["access_id"], name: "index_transactions_on_access_id", using: :btree
   add_index "transactions", ["catalogable_type", "catalogable_id"], name: "index_transactions_on_catalogable_type_and_catalogable_id", using: :btree
   add_index "transactions", ["event_id"], name: "index_transactions_on_event_id", using: :btree
-  add_index "transactions", ["old_id"], name: "index_transactions_on_old_id", using: :btree
   add_index "transactions", ["owner_type", "owner_id"], name: "index_transactions_on_owner_type_and_owner_id", using: :btree
   add_index "transactions", ["station_id"], name: "index_transactions_on_station_id", using: :btree
 
