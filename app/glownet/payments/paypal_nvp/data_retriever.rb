@@ -41,7 +41,7 @@ class Payments::PaypalNvp::DataRetriever < Payments::BaseDataRetriever
   end
 
   def return_url
-    return event_order_url(current_event, @order) unless @autotopup_agreement
+    return event_order_url(current_event, @order, payment_service: "paypal_nvp") unless @autotopup_agreement
     new_event_autotopup_agreement_url(
       current_event,
       order_id: @order,

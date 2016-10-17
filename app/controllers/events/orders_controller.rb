@@ -4,6 +4,7 @@ class Events::OrdersController < Events::BaseController
   before_action :require_credential!, only: [:show, :update]
 
   def show
+    @payment_service = params[:payment_service]
     order = Order.includes(order_items: :catalog_item).find(params[:id])
     @order_presenters = []
     current_event.selected_payment_services.each do |payment_service|
