@@ -1,6 +1,6 @@
 class ClaimsPresenter < BasePresenter
   def can_render?
-    @event.refunds? && @gtag_assignment.present? && @profile.refundable_credits.positive?
+    @event.refunds? && @gtag_assignment.present?
   end
 
   def path

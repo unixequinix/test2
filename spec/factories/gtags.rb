@@ -1,17 +1,3 @@
-# == Schema Information
-#
-# Table name: gtags
-#
-#  id                     :integer          not null, primary key
-#  tag_uid                :string           not null
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  deleted_at             :datetime
-#  event_id               :integer          not null
-#  credential_redeemed    :boolean          default(FALSE), not null
-#  company_ticket_type_id :integer
-#
-
 FactoryGirl.define do
   factory :gtag do
     event

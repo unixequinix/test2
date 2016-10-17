@@ -118,7 +118,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   def refundable?(refund_service)
     minimum = event.refund_minimun(refund_service).to_f
     amount = refundable_money_after_fee(refund_service)
-    amount >= minimum && amount >= 0
+    amount >= minimum && amount.positive?
   end
 
   def refundable_money

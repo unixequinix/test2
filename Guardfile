@@ -1,6 +1,6 @@
 notification :terminal_notifier if `uname` =~ /Darwin/
 
-guard :rubocop, all_on_start: false, cli: ['--display-cop-names', '--rails', '--auto-correct'] do
+guard :rubocop, all_on_start: false, cli: ['--display-cop-names', '--rails'] do
   watch(%r{.+\.rb$})
   watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
 end
