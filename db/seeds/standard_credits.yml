@@ -1,9 +1,0 @@
--
-   name: "Standard credit"
-   standard: true
-   value: 1
-   currency: EUR
-   initial_amount: 0
-   step: 5
-   min_purchasable: 0
-   max_purchasable: 200

@@ -1,8 +1,8 @@
 namespace :glownet do
   desc "Creates a basic event"
-  task vicentest: :environment do
+  task sample_event: :environment do
     @event = EventCreator.new({
-      name: "Vicentest v#{Time.zone.now.to_s(:number)}",
+      name: "Event v#{Time.zone.now.to_s(:number)}",
       location: "Glownet",
       start_date: DateTime.now,
       end_date: DateTime.now + 4.days,
