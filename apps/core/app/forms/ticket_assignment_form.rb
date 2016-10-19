@@ -12,10 +12,7 @@ class TicketAssignmentForm
   def save(ticket_fetcher, current_profile, current_event)
     ticket = ticket_fetcher.find_by(code: code.strip)
 
-    if ticket.blank?
-      companies = CompanyTicketType.companies(current_event).to_sentence
-      add_error("alerts.admissions", companies: companies) && return
-    end
+    add_error("alerts.admissions") && return if ticket.blank?
 
     t_type_owned = current_profile.active_assignments
                                   .map(&:credentiable)

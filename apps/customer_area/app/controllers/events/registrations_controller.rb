@@ -65,7 +65,7 @@ class Events::RegistrationsController < Events::BaseController
                                              :address, :city, :country, :postcode, :gender,
                                              :birthdate, :password, :current_password,
                                              :agreed_on_registration, :agreed_event_condition,
-                                             :receive_communications)
+                                             :receive_communications, :receive_communications_two)
   end
 
   def edit_params

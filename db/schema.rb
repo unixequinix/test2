@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160923104024) do
+ActiveRecord::Schema.define(version: 20161019111020) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -332,11 +332,11 @@ ActiveRecord::Schema.define(version: 20160923104024) do
   add_index "customer_orders", ["deleted_at"], name: "index_customer_orders_on_deleted_at", using: :btree
 
   create_table "customers", force: :cascade do |t|
-    t.integer  "event_id",                               null: false
-    t.string   "email",                  default: "",    null: false
-    t.string   "first_name",             default: "",    null: false
-    t.string   "last_name",              default: "",    null: false
-    t.string   "encrypted_password",     default: "",    null: false
+    t.integer  "event_id",                                   null: false
+    t.string   "email",                      default: "",    null: false
+    t.string   "first_name",                 default: "",    null: false
+    t.string   "last_name",                  default: "",    null: false
+    t.string   "encrypted_password",         default: "",    null: false
     t.string   "reset_password_token"
     t.string   "phone"
     t.string   "postcode"
@@ -345,9 +345,9 @@ ActiveRecord::Schema.define(version: 20160923104024) do
     t.string   "country"
     t.string   "gender"
     t.string   "remember_token"
-    t.integer  "sign_in_count",          default: 0,     null: false
-    t.boolean  "agreed_on_registration", default: false
-    t.boolean  "agreed_event_condition", default: false
+    t.integer  "sign_in_count",              default: 0,     null: false
+    t.boolean  "agreed_on_registration",     default: false
+    t.boolean  "agreed_event_condition",     default: false
     t.inet     "last_sign_in_ip"
     t.inet     "current_sign_in_ip"
     t.datetime "reset_password_sent_at"
@@ -356,10 +356,11 @@ ActiveRecord::Schema.define(version: 20160923104024) do
     t.datetime "last_sign_in_at"
     t.datetime "birthdate"
     t.datetime "deleted_at"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-    t.boolean  "receive_communications", default: false
-    t.string   "locale",                 default: "en"
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.boolean  "receive_communications",     default: false
+    t.string   "locale",                     default: "en"
+    t.boolean  "receive_communications_two", default: false
   end
 
   add_index "customers", ["deleted_at", "email", "event_id"], name: "index_customers_on_deleted_at_and_email_and_event_id", unique: true, using: :btree
@@ -430,8 +431,8 @@ ActiveRecord::Schema.define(version: 20160923104024) do
   add_index "event_parameters", ["event_id", "parameter_id"], name: "index_event_parameters_on_event_id_and_parameter_id", unique: true, using: :btree
 
   create_table "event_translations", force: :cascade do |t|
-    t.integer  "event_id",                       null: false
-    t.string   "locale",                         null: false
+    t.integer  "event_id",                           null: false
+    t.string   "locale",                             null: false
     t.string   "gtag_name"
     t.text     "info"
     t.text     "disclaimer"
@@ -442,11 +443,12 @@ ActiveRecord::Schema.define(version: 20160923104024) do
     t.text     "agreed_event_condition_message"
     t.text     "refund_disclaimer"
     t.text     "bank_account_disclaimer"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.text     "receive_communications_message"
     t.text     "privacy_policy"
     t.text     "terms_of_use"
+    t.text     "receive_communications_two_message"
   end
 
   add_index "event_translations", ["locale"], name: "index_event_translations_on_locale", using: :btree
@@ -736,6 +738,7 @@ ActiveRecord::Schema.define(version: 20160923104024) do
   end
 
   add_index "profiles", ["deleted_at"], name: "index_profiles_on_deleted_at", using: :btree
+  add_index "profiles", ["event_id", "deleted_at", "updated_at"], name: "idx_customers_api", order: {"updated_at"=>:desc}, using: :btree
 
   create_table "purchasers", force: :cascade do |t|
     t.integer  "credentiable_id",       null: false

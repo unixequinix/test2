@@ -53,6 +53,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
              :mass_email_claim_notification, :refund_disclaimer, :bank_account_disclaimer,
              :gtag_assignation_notification, :gtag_form_disclaimer, :gtag_name,
              :agreed_event_condition_message, :receive_communications_message,
+             :receive_communications_two_message,
              fallbacks_for_empty_translations: true
 
   include EventState # State machine
@@ -128,6 +129,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   validates :name, uniqueness: true
   validates :agreed_event_condition_message, presence: true, if: :agreed_event_condition?
   validates :receive_communications_message, presence: true, if: :receive_communications?
+  validates :receive_communications_two_message, presence: true, if: :receive_communications_two?
   validate :end_date_after_start_date
   validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}

@@ -192,6 +192,7 @@ en:
           style: '/*Add some CSS magic*/'
           agreed_event_condition_message: 'Add the text for the agreement condition checkbox'
           receive_communications_message: 'Add the text for the receive communications checkbox'
+          receive_communications_two_message: 'Add the text for the second receive communications checkbox'
         edit:
           <<: *placeholder_event
       entitlement:

@@ -9,7 +9,7 @@ it:
     unassigned: 'Annullato con successo'
     error: 'Controlla il modulo per possibili errori'
     checkout: 'You can only introduce numeric data without decimals, bigger than 0 and lower than %{limit}'
-    admissions:  "PayCard non riconosciuta. Se lai comprata entro le ultime 48 ore, riprova di nuovo mentre aggiorniamo il tuo acquisto. Altrimenti contatto l'uffico di supporto. Tieni in mente che solo %{companies} biglietti sono supportati per questo servizio pre-evento."
+    admissions:  "Ticket not found. If you have purchased it within the last 48 hours, please try again later until we update your purchase. Otherwise contact support."
     order_complete: 'Ordine completato'
     order_expired: 'Ordine scaduto. Ci sono voluti più di 15 minuti'
     claim_complete: 'Richiesta completata'

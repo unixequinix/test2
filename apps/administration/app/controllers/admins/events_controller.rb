@@ -80,8 +80,8 @@ class Admins::EventsController < Admins::BaseController
                   :payment_services, :refund_services, :info, :disclaimer, :terms_of_use,
                   :privacy_policy, :host_country, :gtag_assignation, :currency,
                   :registration_parameters, :token_symbol, :agreed_event_condition_message,
-                  :ticket_assignation, :company_name, :agreement_acceptance,
-                  :receive_communications_message, :address, :registration_num, :official_name,
+                  :ticket_assignation, :company_name, :agreement_acceptance, :official_name,
+                  :receive_communications_message, :receive_communications_two_message, :address, :registration_num,
                   :official_address, :eventbrite_client_key, :eventbrite_event)
   end
 end

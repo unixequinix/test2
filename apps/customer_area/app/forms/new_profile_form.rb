@@ -17,6 +17,7 @@ class NewProfileForm
   attribute :agreed_on_registration, Axiom::Types::Boolean
   attribute :agreed_event_condition, Axiom::Types::Boolean
   attribute :receive_communications, Axiom::Types::Boolean
+  attribute :receive_communications_two, Axiom::Types::Boolean
   attribute :encrypted_password, String
   attribute :password, String
   attribute :locale, String
@@ -26,7 +27,7 @@ class NewProfileForm
   validates_acceptance_of :agreed_on_registration, accept: true
   validates_acceptance_of :recaptcha, accept: true
   validate :email_uniqueness
-  validate :custom_inputs 
+  validate :custom_inputs
 
   def save
     if valid?

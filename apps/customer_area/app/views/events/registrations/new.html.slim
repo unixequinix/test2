@@ -31,6 +31,15 @@
                                              label: current_event.receive_communications_message.html_safe,
                                              input_html: { checked: true },
                                              wrapper_html: { class: 'customer-agreed-on-registration' }
+      
+      - if current_event.receive_communications_two?
+        .session-accept-terms
+          = f.input :receive_communications_two, as: :boolean,
+                                             checked_value: true,
+                                             unchecked_value: false,
+                                             label: current_event.receive_communications_two_message.html_safe,
+                                             input_html: { checked: true },
+                                             wrapper_html: { class: 'customer-agreed-on-registration' }
                                              
       - if current_event.agreed_event_condition?
         .session-accept-terms

@@ -9,7 +9,7 @@ en:
     unassigned: 'Succesfully unassigned'
     error: 'Check the form errors'
     checkout: 'You can only introduce numeric data without decimals, bigger than 0 and lower than %{limit}'
-    admissions:  "Ticket not recognized. If you purchased it within the last 48 hours, try again later while we update your purchase. Otherwise contact support. Please note that only %{companies} tickets are supported for this pre-event service."
+    admissions:  "Ticket not found. If you have purchased it within the last 48 hours, please try again later until we update your purchase. Otherwise contact support."
     order_complete: 'Order Completed'
     order_expired: 'Orden expired. Pasaron más de 15 minutos'
     claim_complete: 'Claim Completed. Spent more than 15 minutes'

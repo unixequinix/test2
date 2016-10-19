@@ -126,6 +126,9 @@
           .condition-message
             = f.label :receive_communications_message
             = f.input :receive_communications_message, as: :text, input_html: { rows: 5, class: "textarea tinymce"}
+          .condition-message
+            = f.label :receive_communications_two_message
+            = f.input :receive_communications_two_message, as: :text, input_html: { rows: 5, class: "textarea tinymce"}
         = f.input :registration_parameters, as: :hidden
 
       fieldset

@@ -9,7 +9,7 @@ th:
     unassigned: 'ยกเลิกสำเร็จ'
     error: 'ดูรายละเอียดของข้อผิดพลาด'
     checkout: 'You can only introduce numeric data without decimals, bigger than 0 and lower than %{limit}'
-    admissions:  "บัตรเข้างานไม่ถูกต้อง หากคุณเพิ่งทำการซื้อบัตรในเวลาไม่เกิน 48 ชั่วโมงที่ผ่านมา กรุณาลองใหม่อีกครั้งภายหลัง หมายเหตุ: บัตรเข้างาน %{companies} เท่านั้นที่สามารถใช้งานในระบบได้"
+    admissions:  "Ticket not found. If you have purchased it within the last 48 hours, please try again later until we update your purchase. Otherwise contact support."
     order_complete: 'รายการสำเร็จ'
     order_expired: 'หมดเวลาทำรายการ'
     claim_complete: 'การเคลมสำเร็จ ใช้เวลามากกว่า 15 นาที'

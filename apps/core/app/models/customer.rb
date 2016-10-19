@@ -69,9 +69,13 @@ class Customer < ActiveRecord::Base
   end
 
   scope :selected_data, lambda { |event|
-    customers = select("id, first_name, last_name, email, birthdate, phone, postcode, address, city, country, gender")
-                .where(event: event)
-    customers.where(receive_communications: true) if event.receive_communications?
+    customers = event.customers.select("id, first_name, last_name, email, birthdate, phone, postcode, address, city,
+                                       country, gender, created_at")
+    if event.receive_communications? || event.receive_communications_two?
+      customers.where("customers.receive_communications IS TRUE OR customers.receive_communications_two IS TRUE")
+    else
+      customer
+    end
   }
 
   # Methods
