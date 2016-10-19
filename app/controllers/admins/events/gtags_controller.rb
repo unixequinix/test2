@@ -140,7 +140,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
                                         transaction_type: "#{action}_gtag",
                                         banneable_id: gtag.id,
                                         banneable_type: "Gtag",
-                                        reason: "",
+                                        message: "",
                                         status_code: 0,
                                         status_message: "OK")
   end

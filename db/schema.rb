@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161014142221) do
+ActiveRecord::Schema.define(version: 20161019132714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -858,7 +858,7 @@ ActiveRecord::Schema.define(version: 20161014142221) do
     t.integer  "access_id"
     t.integer  "direction"
     t.string   "final_access_value"
-    t.string   "reason"
+    t.string   "message"
     t.string   "ticket_code"
     t.float    "credits"
     t.float    "refundable_credits"
@@ -879,6 +879,7 @@ ActiveRecord::Schema.define(version: 20161014142221) do
     t.integer  "old_id"
     t.float    "credit_value"
     t.integer  "operator_activation_counter"
+    t.integer  "priority"
   end
 
   add_index "transactions", ["access_id"], name: "index_transactions_on_access_id", using: :btree

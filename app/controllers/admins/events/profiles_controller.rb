@@ -94,14 +94,14 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
     @profile = current_event.profiles.find(params[:id])
   end
 
-  def fields(b_id, b_type, t_type, reason = "Banned by #{current_admin.email}")
+  def fields(b_id, b_type, t_type, message = "Banned by #{current_admin.email}")
     {
       event_id: current_event.id,
       transaction_category: "ban",
       transaction_type: "#{t_type}_#{b_type.downcase}",
       banneable_id: b_id,
       banneable_type: b_type,
-      reason: reason
+      message: message
     }
   end
 end

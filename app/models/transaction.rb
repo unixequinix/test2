@@ -18,7 +18,7 @@ class Transaction < ActiveRecord::Base
   scope :not_record_credit, -> { where.not(transaction_type: "record_credit") }
 
   ORIGINS = { portal: "customer_portal", device: "onsite", admin: "admin_panel" }.freeze
-  TYPES = %w(access ban credential credit money order device operator).freeze
+  TYPES = %w(access ban credential credit money order device operator user_engagement).freeze
 
   def category
     self.class.name.gsub("Transaction", "").downcase
