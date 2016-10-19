@@ -20,6 +20,9 @@
           name: touchpoint_update_online_orders
           data_type: boolean
         -
+          name: pos_update_online_orders
+          data_type: boolean
+        -
           name: topup_initialize_gtag
           data_type: boolean
         -
