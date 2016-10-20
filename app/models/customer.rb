@@ -19,6 +19,7 @@ class Customer < ActiveRecord::Base
   validates :email, uniqueness: { scope: [:event_id], conditions: -> { where(deleted_at: nil) } }
   validates :email, :first_name, :last_name, :encrypted_password, presence: true
   validates :agreed_on_registration, acceptance: { accept: true }
+  validates :agreed_event_condition, acceptance: { accept: true }, if: -> { event && event.agreed_event_condition? }
   validates :phone, presence: true, if: -> { event && event.phone? }
   validates :birthdate, presence: true, if: -> { event && event.birthdate? }
   validates :phone, presence: true, if: -> { event && event.phone? }
@@ -46,16 +47,17 @@ class Customer < ActiveRecord::Base
     first_name = auth.info&.first_name || auth.info.name.split(" ").first
     last_name = auth.info&.last_name || auth.info.name.split(" ").second
 
-    where(provider: auth.provider, uid: auth.uid, event: event).first_or_create do |user|
-      user.provider = auth.provider
-      user.uid = auth.uid
-      user.email = auth.info.email
-      user.first_name = first_name
-      user.last_name = last_name
-      user.password = token
-      user.password_confirmation = token
-      user.agreed_on_registration = true
-    end
+    customer = find_by(provider: auth.provider, uid: auth.uid, event: event)
+    customer ||= event.customers.new(provider: auth.provider,
+                                     uid: auth.uid,
+                                     email: auth.info.email,
+                                     first_name: first_name,
+                                     last_name: last_name,
+                                     password: token,
+                                     password_confirmation: token,
+                                     agreed_on_registration: true)
+
+    event.receive_communications? ? customer : customer.save
   end
 
   def self.gender_selector
