@@ -3,10 +3,8 @@ require "rails_helper"
 RSpec.describe ClaimsPresenter, type: :presenter do
   let(:event) { create(:event, :gtag_assignation, :refunds, :pre_event) }
   let(:gtag) { create(:gtag, :assigned, event: event) }
-  let(:profile) { gtag.assigned_profile }
-  let(:dashboard) do
-    OpenStruct.new(profile: profile, gtag_assignment: profile.active_gtag_assignment, event: event)
-  end
+  let(:profile) { gtag.profile }
+  let(:dashboard) { OpenStruct.new(profile: profile, gtag: profile.active_gtag, event: event) }
   subject { ClaimsPresenter.new(dashboard, nil) }
 
   describe ".can_render?" do
@@ -25,7 +23,7 @@ RSpec.describe ClaimsPresenter, type: :presenter do
     end
 
     context "when profile doens't have a gtag" do
-      before { profile.active_gtag_assignment.unassign! }
+      before { profile.active_gtag.update(profile: nil) }
 
       it "returns false" do
         profile.reload

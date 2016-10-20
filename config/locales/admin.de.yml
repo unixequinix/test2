@@ -489,11 +489,10 @@ de:
       orders: "Bestellungen"
       payments: "Zahlungen"
       payments_activated: "Aktivierte Zahlungen"
-      gtag_assignments: "Gtag Registrierungen"
+      gtag: "Gtags"
       completed_claim: "Endgültige Forderungen"
       customer_orders: "Kunden Bestellungen"
       refund: "Erstattung"
-      online_orders: "Online Bestellungen"
       claims: "Forderungen"
       gtag_credits: "Gtag Guthaben"
       tickets: "Tickets"
@@ -516,7 +515,7 @@ de:
         email: "Email eingeben"
         confirmed: "Bestätigt?"
         tickets: "Tickets?"
-        gtag_assignments: "Gtags?"
+        gtag: "Gtags"
         credits_purchased: "Guthaben erworben?"
     claims:
       claim_number: "Forderung Nummer"
@@ -568,11 +567,7 @@ de:
       profile: "Kunden Veranstaltungsprofil"
       catalog_item: "Katalogartikel"
       origin: "Quelle"
-      online_order: "Online Bestellung"
-    online_orders:
-      id: "ID"
       redeemed: "Eingelöst"
-      customer_order_id: "Kunden Bestellung ID"
     payments:
       id: "ID"
       order_id: "Order ID"

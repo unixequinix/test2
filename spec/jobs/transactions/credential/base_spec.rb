@@ -21,18 +21,18 @@ RSpec.describe Transactions::Credential::Base, type: :job do
 
   before { allow(decoder).to receive(:perform).with(ticket_code).and_return(ctt_id) }
 
-  describe ".assign_gtag_credential" do
+  describe ".assign_profile" do
     it "creates a credential for the gtag" do
       expect do
-        worker.assign_gtag_credential(gtag, profile.id)
-      end.to change(gtag, :assigned_gtag_credential)
+        worker.assign_profile(gtag, profile.id)
+      end.to change(gtag, :profile)
     end
 
-    it "leaves the current assigned_gtag_credential if one present" do
-      gtag.create_assigned_gtag_credential!(profile: profile)
+    it "leaves the current profile if one present" do
+      gtag.update!(profile: profile)
       expect do
-        worker.assign_gtag_credential(gtag, profile)
-      end.not_to change(gtag, :assigned_gtag_credential)
+        worker.assign_profile(gtag, profile)
+      end.not_to change(gtag, :profile)
     end
   end
 
@@ -84,18 +84,18 @@ RSpec.describe Transactions::Credential::Base, type: :job do
     end
   end
 
-  describe ".assign_ticket_credential" do
+  describe ".assign_profile_to_ticket" do
     it "creates a credential for the ticket" do
       expect do
-        worker.assign_ticket_credential(ticket, profile.id)
-      end.to change(ticket, :assigned_ticket_credential)
+        worker.assign_profile_to_ticket(ticket, profile.id)
+      end.to change(ticket, :profile)
     end
 
-    it "leaves the current assigned_ticket_credential if one present" do
-      ticket.create_assigned_ticket_credential!(profile: profile)
+    it "leaves the current profile if one present" do
+      ticket.update(profile: profile)
       expect do
-        worker.assign_ticket_credential(ticket, profile)
-      end.not_to change(ticket, :assigned_ticket_credential)
+        worker.assign_profile_to_ticket(ticket, profile)
+      end.not_to change(ticket, :profile)
     end
   end
 

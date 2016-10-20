@@ -6,8 +6,7 @@ RSpec.describe EpgCheckout, type: :domain_logic do
     ClaimParameter.destroy_all
     Refund.destroy_all
     Claim.destroy_all
-    credential_assignment = create(:credential_assignment_g_a)
-    gtag = credential_assignment.credentiable
+    gtag = create(:gtag, profile: create(:profile))
     event = gtag.event
     event.update_attribute(:refund_services, 2)
     profile = create(:profile, :with_customer, event: event)

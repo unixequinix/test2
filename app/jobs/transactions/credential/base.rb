@@ -1,12 +1,12 @@
 class Transactions::Credential::Base < Transactions::Base
-  def assign_gtag_credential(gtag, profile_id)
-    return if gtag.assigned_gtag_credential
-    gtag.create_assigned_gtag_credential!(profile_id: profile_id)
+  def assign_profile(gtag, profile_id)
+    return if gtag.profile_id
+    gtag.update!(profile_id: profile_id)
   end
 
-  def unassign_gtag_credential(gtag, _profile_id)
-    return unless gtag.assigned_gtag_credential
-    gtag.assigned_gtag_credential.unassign!
+  def unassign_profile(gtag)
+    return unless gtag.profile_id
+    gtag.update(active: false, profile: nil)
   end
 
   def assign_ticket(transaction, atts)
@@ -32,9 +32,9 @@ class Transactions::Credential::Base < Transactions::Base
     ticket
   end
 
-  def assign_ticket_credential(ticket, profile_id)
-    return if ticket.assigned_ticket_credential
-    ticket.create_assigned_ticket_credential!(profile_id: profile_id)
+  def assign_profile_to_ticket(ticket, profile_id)
+    return if ticket.profile
+    ticket.update! profile_id: profile_id
   end
 
   def mark_redeemed(obj)

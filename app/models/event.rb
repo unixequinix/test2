@@ -30,11 +30,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     end
   end
   has_many :tickets
-  has_many :tickets_assignments, through: :tickets, source: :credential_assignments,
-                                 class_name: "CredentialAssignment"
   has_many :gtags
-  has_many :gtags_assignments, through: :gtags, source: :credential_assignments,
-                               class_name: "CredentialAssignment"
 
   # Scopes
   scope :status, -> (status) { where aasm_state: status }

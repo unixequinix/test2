@@ -2,7 +2,7 @@ class Api::V1::CustomerOrderSerializer < Api::V1::BaseSerializer
   attributes :online_order_counter, :catalogable_id, :catalogable_type, :amount
 
   def online_order_counter
-    object.online_order && object.online_order.counter
+    object.counter
   end
 
   def catalogable_id

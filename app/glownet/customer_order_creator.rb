@@ -5,11 +5,11 @@ class CustomerOrderCreator
 
   def save(order, payment_method, payment_gateway)
     order.order_items.each do |order_item|
-      customer_order = CustomerOrder.create(profile: order.profile,
-                                            amount: order_item.amount,
-                                            catalog_item: order_item.catalog_item,
-                                            origin: CustomerOrder::PURCHASE)
-      OnlineOrder.create(redeemed: @redeemed, customer_order: customer_order)
+      CustomerOrder.create(profile: order.profile,
+                           amount: order_item.amount,
+                           catalog_item: order_item.catalog_item,
+                           origin: CustomerOrder::PURCHASE,
+                           redeemed: @redeemed)
       Transactions::Base.new.portal_write(fields(order_item, payment_method, payment_gateway))
     end
   end
@@ -24,7 +24,7 @@ class CustomerOrderCreator
       transaction_category: "money",
       transaction_origin: Transaction::ORIGINS[:portal],
       transaction_type: "portal_purchase",
-      customer_tag_uid: order_item.order.profile.active_gtag_assignment&.credentiable&.tag_uid,
+      customer_tag_uid: order_item.order.profile.active_gtag&.tag_uid,
       catalogable_id: order_item.catalog_item.catalogable_id,
       catalogable_type: order_item.catalog_item.catalogable_type,
       items_amount: order_item.amount,

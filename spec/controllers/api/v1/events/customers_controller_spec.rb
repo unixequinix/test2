@@ -10,9 +10,8 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
   describe "GET index" do
     context "with authentication" do
       before do
-        create(:credential_assignment_g_a, profile: profile)
-        order = create(:customer_order, profile: profile, catalog_item: item)
-        create(:online_order, customer_order: order, redeemed: false)
+        create(:gtag, profile: profile)
+        create(:customer_order, profile: profile, catalog_item: item)
       end
 
       before(:each) do
@@ -39,13 +38,8 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
       it "returns the correct reference of the credentiable" do
         JSON.parse(response.body).map do |c|
           api_cred = c["credentials"]
-          profile_cred = Profile.find(c["id"]).credential_assignments.where(aasm_state: "assigned")
-          db_cred = profile_cred.map do |obj|
-            if obj.credentiable_type == "Ticket"
-              { profile_id: obj.profile_id, reference: obj.credentiable.code, type: "ticket" }.as_json
-            else
-              { profile_id: obj.profile_id, reference: obj.credentiable.tag_uid, type: "gtag" }.as_json
-            end
+          db_cred = Profile.find(c["id"]).active_credentials.map do |obj|
+            { profile_id: obj.profile_id, reference: obj.reference, type: obj.class.name.downcase }.as_json
           end
           expect(api_cred).to eq(db_cred)
         end

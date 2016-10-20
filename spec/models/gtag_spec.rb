@@ -14,8 +14,7 @@
 require "rails_helper"
 
 RSpec.describe Gtag, type: :model do
-  let(:credential_assignment) { create(:credential_assignment_g_a) }
-  let(:gtag) { credential_assignment.credentiable }
+  let(:gtag) { create(:gtag) }
   let(:event) { gtag.event }
 
   describe ".upcase_gtag!" do

@@ -6,8 +6,8 @@ table.customer_orders
       th = t("admin.customer_orders.catalog_item")
       th = t("admin.customer_orders.amount")
       th = t("admin.customer_orders.origin")
-      th = t("admin.customer_orders.online_order")
-      th = t("admin.online_orders.redeemed")
+      th = t("admin.customer_orders.counter")
+      th = t("admin.customer_orders.redeemed")
   tbody
     - customer_orders.each do |customer_order|
       tr
@@ -16,10 +16,5 @@ table.customer_orders
         td data-label=t("admin.customer_orders.catalog_item") = customer_order.catalog_item.name
         td data-label=t("admin.customer_orders.amount") = customer_order.amount
         td data-label=t("admin.customer_orders.origin") = customer_order.origin
-        - if customer_order.online_order.present?
-            td data-label=t("admin.customer_orders.online_order")
-              = customer_order.online_order.counter
-            td data-label=t("admin.online_orders.redeemed") = customer_order.online_order.redeemed?
-        - else
-            td
-            td
+        td data-label=t("admin.customer_orders.counter") = customer_order.counter
+        td data-label=t("admin.customer_orders.redeemed") = customer_order.redeemed?

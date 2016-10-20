@@ -4,7 +4,7 @@ class GtagAssignmentsPresenter < BasePresenter
   end
 
   def path
-    @gtag_assignment.present? ? "gtag_assignments" : "new_gtag_assignments"
+    @gtag ? "gtag_assignments" : "new_gtag_assignments"
   end
 
   def customer_has_refund?
@@ -19,14 +19,13 @@ class GtagAssignmentsPresenter < BasePresenter
     @event.gtag_assignation?
   end
 
-  # TODO: Removed the event state validation for audiodrome
   def gtag_assignments_enabled
-    return unless @event.gtag_assignation?
+    return unless @event.gtag_assignation? && valid_event_state?
     snippet_gtag_assignments
   end
 
   def snippet_gtag_assignments
-    context.link_to(context.event_gtag_assignment_path(context.current_event, gtag_assignment),
+    context.link_to(context.event_gtag_assignment_path(context.current_event, gtag.id),
                     method: :delete, class: "btn btn-action btn-action-secondary") do
       "#{context.t('dashboard.gtag_registration.button')} " \
       "<span class='hint'>#{context.t('dashboard.gtag_registration.hint')}</span>".html_safe

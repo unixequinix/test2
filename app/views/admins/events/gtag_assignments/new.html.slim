@@ -9,4 +9,7 @@
     .input
       = label_tag t('admin.gtags.tag')
       = text_field_tag :tag_uid, nil, placeholder: t('gtag_assignations.placeholders.line_2')
+    .input
+      = label_tag t('admin.gtag_assignations.active')
+      = check_box_tag :active, 1, true
     = submit_tag t('gtag_assignations.button'), class: "btn btn-primary"

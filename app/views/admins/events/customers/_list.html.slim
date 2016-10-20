@@ -2,17 +2,34 @@
 table.customers
   thead
     tr
-      th = t("admin.customers.id")
       th = t("admin.customers.email")
       th = t("admin.customers.first_name")
       th = t("admin.customers.last_name")
+      th = t("admin.customers.credits")
       th = t("admin.customers.tickets")
       th = t("admin.customers.gtags")
-      th = t("admin.customers.credits")
       th = t("admin.customers.autotopup")
   tbody
     - customers.each do |customer|
       tr [id="customer-#{customer.id}"]
-        = render 'admins/events/customers/row', customer: customer
+        td data-label=t("admin.customers.email") = link_to customer.email, admins_event_customer_path(current_event, customer)
+        td data-label=t("admin.customers.first_name") = customer.first_name
+        td data-label=t("admin.customers.last_name") = customer.last_name
+        
+        - profile = customer.profile
+        td data-label=t("admin.customers.credits") = profile&.credits
+        td data-label=t("admin.customers.tickets")
+          - if profile && profile.tickets.any?
+            - customer.profile.tickets.each do |ticket|
+                = link_to ticket.code, admins_event_ticket_path(current_event, ticket)
+
+        td data-label=t("admin.customers.gtags")
+          - if profile && profile.active_gtag.present?
+            = link_to "#{customer.profile.active_gtag.tag_uid}", admins_event_gtag_path(current_event, customer.profile.active_gtag)
+
+        td data-label=t("admin.customers.autotopup")
+          - if profile
+            - profile.payment_gateway_customers.each do |g|
+               p = "#{g.gateway_type.humanize}: #{g.autotopup_amount}"
 
 = paginate customers

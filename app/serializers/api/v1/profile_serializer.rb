@@ -19,8 +19,6 @@ class Api::V1::ProfileSerializer < Api::V1::BaseSerializer
   end
 
   def credentials
-    object.credential_assignments
-          .where(aasm_state: "assigned")
-          .map { |obj| Api::V1::CredentialAssignmentSerializer.new(obj) }
+    object.active_credentials.map { |obj| Api::V1::CredentialAssignmentSerializer.new(obj) }
   end
 end

@@ -15,22 +15,31 @@
 class CustomerOrder < ActiveRecord::Base
   acts_as_paranoid
 
+  # Origins
+  TICKET_ASSIGNMENT = "ticket_assignment".freeze
+  PURCHASE = "online_purchase".freeze
+  REFUND = "online_refund".freeze
+
   # Associations
   belongs_to :catalog_item
   belongs_to :profile
-  has_one :online_order
-  # rubocop:disable Rails/HasAndBelongsToMany
-  has_and_belongs_to_many :credential_assignments, join_table: :c_assignments_c_orders
 
   # Validations
   validates :catalog_item_id, :profile_id, presence: true
 
-  # Origins
-  TICKET_ASSIGNMENT = "ticket_assignment".freeze
-  TICKET_UNASSIGNMENT = "ticket_unassignment".freeze
-  DEVICE = "device".freeze
-  PURCHASE = "online_purchase".freeze
-  REFUND = "online_refund".freeze
+  before_validation :set_counter
+  after_destroy :recalculate_counter
 
-  REFUND_SERVICES = [TICKET_ASSIGNMENT, DEVICE, PURCHASE].freeze
+  def set_counter
+    self.counter = last_position + 1 if id.nil?
+  end
+
+  def last_position
+    profile.customer_orders.order("counter DESC").first.try(:counter).to_i
+  end
+
+  def recalculate_counter
+    customer_orders = profile.customer_orders.where("counter > ? ", counter)
+    customer_orders.each { |order| CustomerOrder.decrement_counter(:counter, order.id) }
+  end
 end

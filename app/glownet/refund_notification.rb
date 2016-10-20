@@ -6,7 +6,7 @@ class RefundNotification
   private
 
   def notify_customers_to(event)
-    Profile.with_gtag(event).all? { |profile| send_mail_to(profile, event) }
+    event.profiles.with_gtag.all? { |profile| send_mail_to(profile, event) }
   end
 
   def send_mail_to(profile, event)

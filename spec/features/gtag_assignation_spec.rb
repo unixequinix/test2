@@ -4,7 +4,8 @@ RSpec.feature "Gtag Assignation", type: :feature do
   let(:event) { create(:event, :gtag_assignation, :pre_event) }
   let(:customer) { create(:customer, event: event) }
   let(:valid_gtag) { create(:gtag, event: event) }
-  let(:invalid_gtag) { create(:gtag, :assigned_with_customer, event: event) }
+  let(:profile) { create(:profile, customer: create(:customer, event: event)) }
+  let(:invalid_gtag) { create(:gtag, event: event, profile: profile) }
   let(:event_path) { customer_root_path(event) }
 
   describe "User wants to assign a gtag" do
@@ -22,7 +23,7 @@ RSpec.feature "Gtag Assignation", type: :feature do
 
       it "assigns the gtag" do
         customer.profile.reload
-        customer_gtag = customer.profile.active_gtag_assignment.credentiable
+        customer_gtag = customer.profile.active_gtag
         expect(customer_gtag.tag_uid).to eq(valid_gtag.tag_uid)
         expect(page.body).to include(valid_gtag.tag_uid)
       end
@@ -40,7 +41,7 @@ RSpec.feature "Gtag Assignation", type: :feature do
       end
 
       it "doesn't assign the gtag" do
-        expect(customer.profile.active_gtag_assignment).to be_nil
+        expect(customer.profile.active_gtag).to be_nil
         expect(page.body).to have_css(".msg-for-error")
       end
 
@@ -56,7 +57,7 @@ RSpec.feature "Gtag Assignation", type: :feature do
       end
 
       it "doesn't assign the gtag" do
-        expect(customer.profile.active_gtag_assignment).to be_nil
+        expect(customer.profile.active_gtag).to be_nil
         expect(page.body).to have_css(".msg-for-error")
       end
 

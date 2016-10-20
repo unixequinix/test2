@@ -9,9 +9,14 @@ class Transactions::Base < ActiveJob::Base
     return obj if obj
 
     if atts[:customer_tag_uid].present?
-      gtag = Gtag.find_or_create_by!(tag_uid: atts[:customer_tag_uid],
-                                     event_id: atts[:event_id],
-                                     activation_counter: atts[:activation_counter])
+      gtag_atts = { tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id] }
+      gtag = Gtag.find_by(gtag_atts)
+      if gtag
+        gtag_atts[:format] = gtag.format
+        gtag_atts[:loyalty] = gtag.loyalty
+      end
+
+      gtag = Gtag.find_or_create_by!(gtag_atts.merge(activation_counter: atts[:activation_counter]))
       profile_id = Profile::Checker.for_transaction(gtag, atts[:profile_id], atts[:event_id])
       atts[:profile_id] = profile_id
     end
@@ -30,7 +35,7 @@ class Transactions::Base < ActiveJob::Base
     event = Event.find(atts[:event_id])
     station = event.portal_station
     profile = Profile.find(atts[:profile_id])
-    gtag = profile.active_gtag_assignment&.credentiable
+    gtag = profile.active_gtag
     klass = Transaction.class_for_type(atts[:transaction_category])
     final_atts = {
       transaction_origin: Transaction::ORIGINS[:portal],
@@ -71,7 +76,7 @@ class Transactions::Base < ActiveJob::Base
     atts[:catalogable_type] = atts[:catalogable_type].to_s.camelcase if atts.key?(:catalogable_type)
     atts[:profile_id] ||= atts[:customer_event_profile_id]
     # TODO: This line should not be here
-    atts[:profile_id] ||= Ticket.find_by(event_id: atts[:event_id], code: atts[:ticket_code])&.assigned_profile&.id
+    atts[:profile_id] ||= Ticket.find_by(event_id: atts[:event_id], code: atts[:ticket_code])&.profile&.id
     atts[:refundable_credits] ||= atts[:credits_refundable]
     atts[:device_created_at_fixed] = atts[:device_created_at]
     atts.delete(:station_id) if atts[:station_id].to_i.zero?

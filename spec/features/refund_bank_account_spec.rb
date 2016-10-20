@@ -5,7 +5,7 @@ RSpec.feature "Refund for Bank account", type: :feature do
     EventCreator.new(event_to_hash_parameters(build(:event, :refunds, :finished, refund_services: 7))).save
   end
   let(:gtag) { create(:gtag, :assigned_with_customer, event: event) }
-  let(:profile) { gtag.assigned_profile }
+  let(:profile) { gtag.profile }
   let(:customer) { profile.customer }
 
   context "when logged in" do

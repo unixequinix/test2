@@ -6,21 +6,20 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::BaseControll
 
   def create
     @ticket_assignment_form = TicketAssignmentForm.new(ticket_assignment_parameters)
-    @customer = current_customer
     if @ticket_assignment_form.save(current_event.tickets, current_profile, current_event)
       flash[:notice] = I18n.t("alerts.created")
-      redirect_to admins_event_customer_url(current_event, @customer)
+      redirect_to admins_event_customer_url(current_event, current_customer)
     else
+      @profile = current_event.profiles.find(params[:id])
       flash.now[:error] = @ticket_assignment_form.errors.full_messages.join
       render :new
     end
   end
 
   def destroy
-    credential_assignment = CredentialAssignment.find(params[:id])
-    ticket = credential_assignment.credentiable
-    @credit_log = CreditWriter.reassign_ticket(ticket, :unassign) if ticket.credits.present?
-    credential_assignment.unassign!
+    ticket = Ticket.find(params[:id])
+    CreditWriter.reassign_ticket(ticket, :unassign) if ticket.credits.present?
+    ticket.update!(profile: nil)
     flash[:notice] = I18n.t("alerts.unassigned")
     redirect_to :back
   end

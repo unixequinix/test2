@@ -5,7 +5,9 @@ class Events::AutotopupAgreementsController < Events::OrdersController
     payment_service = params[:payment_service]
     klass = "Orders::#{payment_service.to_s.camelize}Presenter".constantize
 
-    @order = OrderCreator.autotopup_order(current_profile, current_event)
+    @order = Order.new(profile: current_profile)
+    @order.generate_order_number!
+    OrderItem.create!(catalog_item: current_event.credits.standard.catalog_item, order: @order, amount: 1, total: 0.01)
     @order_presenter = klass.new(current_event, @order).with_params(params)
   end
 

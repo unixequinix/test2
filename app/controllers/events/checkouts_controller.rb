@@ -1,6 +1,6 @@
 class Events::CheckoutsController < Events::BaseController
   before_action :check_top_ups_is_active!
-  before_action :check_has_ticket!
+  before_action :check_profile_has_credentials!
 
   def new
     @presenter = CheckoutsPresenter.new(current_event, current_profile)

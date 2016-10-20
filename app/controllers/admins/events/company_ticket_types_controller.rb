@@ -38,9 +38,7 @@ class Admins::Events::CompanyTicketTypesController < Admins::Events::BaseControl
 
     if @company_ticket_type.update(permitted_params)
       if credential_type_id.blank?
-        tickets = @company_ticket_type.tickets
-                                      .joins(:credential_assignments)
-                                      .where(credential_assignments: { aasm_state: "assigned" })
+        tickets = @company_ticket_type.tickets.active
         tickets.each do |ticket|
           CreditWriter.reassign_ticket(ticket, :assign) if ticket.credits.present?
           CustomerOrderTicketCreator.new.save(ticket)

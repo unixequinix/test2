@@ -7,6 +7,6 @@ class Transactions::Ban::Banner < Transactions::Base
     obj = event.method(method_name).call.find(atts[:banneable_id])
     obj.update!(banned: true)
     return unless obj.is_a?(Profile)
-    obj.credential_assignments.each { |cred| cred.credentiable.update!(banned: true) }
+    obj.active_credentials.each { |cred| cred.update!(banned: true) }
   end
 end

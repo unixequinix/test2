@@ -1,14 +1,12 @@
 class Dashboard
-  attr_accessor :context, :profile, :ticket_assignments, :gtag_assignment,
-                :completed_claim, :event, :purchases
+  attr_accessor :context, :profile, :tickets, :gtag, :completed_claim, :event, :purchases
 
   def initialize(profile, context)
     @context = context
     @profile = profile
     @event = profile.event
-    @ticket_assignments = profile.active_tickets_assignment
-                                 .includes(:credentiable, credentiable: :company_ticket_type)
-    @gtag_assignment = profile.active_gtag_assignment
+    @tickets = profile.tickets.includes(:company_ticket_type)
+    @gtag = profile.active_gtag
     @completed_claim = profile.completed_claim
     @purchases = profile.sorted_purchases(format: :hash)
     @presenters = []

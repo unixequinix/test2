@@ -17,27 +17,23 @@ class TicketAssignmentForm
       add_error("alerts.admissions", companies: companies) && return
     end
 
-    t_type_owned = current_profile.active_assignments
-                                  .map(&:credentiable)
-                                  .map(&:company_ticket_type_id)
-                                  .include?(ticket.company_ticket_type_id)
+    t_type_owned = current_profile.tickets.pluck(:company_ticket_type_id).include?(ticket.company_ticket_type_id)
 
-    cred_owned = if ticket.company_ticket_type.credential_type
-                   items = open_pack(ticket)
-                   infinites = items.all? { |item| item.catalogable.try(:entitlement)&.infinite? }
-                   items_owned = current_profile.customer_orders.map(&:catalog_item)
-                   same_items = (items - items_owned).empty?
-                   infinites && same_items
-                 end
+    cred_owned = false
+    if ticket.company_ticket_type.credential_type
+      items = open_pack(ticket)
+      infinites = items.all? { |item| item.catalogable.try(:entitlement)&.infinite? }
+      items_owned = current_profile.customer_orders.map(&:catalog_item)
+      same_items = (items - items_owned).empty?
+      cred_owned = infinites && same_items
+    end
 
     add_error("alerts.credential_already_assigned") && return if t_type_owned || cred_owned
-
-    credential = ticket.assigned_ticket_credential
-    add_error("alerts.ticket_already_assigned") && return if credential.present?
+    add_error("alerts.ticket_already_assigned") && return if ticket.profile
     add_error(full_messages.to_sentence) && return unless valid?
 
-    current_profile.save
-    current_profile.credential_assignments.create(credentiable: ticket)
+    ticket.update(profile: current_profile)
+
     if ticket.company_ticket_type.credential_type
       CreditWriter.reassign_ticket(ticket, :assign) if ticket.credits.present?
       CustomerOrderTicketCreator.new.save(ticket)

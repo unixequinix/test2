@@ -5,12 +5,14 @@ table.subtable.customer-show-subtable
   thead
     tr
       th = t("admin.customers.ticket")
-      th = t("admin.customers.state")
-      th = t("admin.customers.created_at")
+      th = t("admin.tickets.company_ticket_type_id")
+      th = t("admin.tickets.credential_redeemed")
+      th = t("admin.tickets.banned")
 
   tbody
-    - profile.ticket_assignments.each do |admission|
+    - profile.tickets.each do |ticket|
       tr
-        td = link_to "#{admission.credentiable.code}", admins_event_ticket_path(current_event, admission.credentiable)
-        td = t("admin.admissions.states.#{admission.aasm_state}")
-        td = admission.created_at.strftime("%y-%m-%d %H:%M:%S")
+        td = link_to ticket.code, admins_event_ticket_path(current_event, ticket)
+        td = ticket.company_ticket_type.name
+        td = ticket.credential_redeemed? ? fa_icon("check") : fa_icon("times")
+        td = ticket.banned? ? fa_icon("check") : fa_icon("times")

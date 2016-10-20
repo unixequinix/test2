@@ -7,14 +7,29 @@ table.customers
       th = t("admin.customers.email")
       th = t("admin.customers.first_name")
       th = t("admin.customers.last_name")
-      th = t("admin.customers.tickets")
       th = t("admin.customers.credits")
+      th = t("admin.customers.tickets")
       th = t("admin.customers.gtags")
-      - unless customer_service
-        th = t("admin.customers.banned")
   tbody
     - profiles.each do |profile|
       tr [id="customer-#{profile.id}"]
-        = render 'admins/events/profiles/row', profile: profile, customer_service: customer_service
+        td data-label=t("admin.profile.id") = link_to profile.id, admins_event_profile_path(current_event, profile), class: (profile.deleted? ? "deleted-field" : "")
+        - if profile.customer.present?
+          td data-label=t("admin.customers.email") = link_to profile.customer.email, admins_event_profile_path(current_event, profile), class: (profile.deleted? ? "deleted-field" : "")
+          td data-label=t("admin.customers.first_name") = profile.customer.first_name
+          td data-label=t("admin.customers.last_name") = profile.customer.last_name
+        - else
+          td
+          td
+          td
+        td data-label=t("admin.customers.credits") = profile.credits
+        td data-label=t("admin.customers.tickets")
+          - if profile.tickets.any?
+            - profile.tickets.each do |ticket|
+              = link_to ticket.code, admins_event_ticket_path(current_event, ticket)
+        td data-label=t("admin.customers.gtag")
+          - if gtag = profile.active_gtag
+            = link_to "#{gtag.tag_uid} - #{gtag.activation_counter}", admins_event_gtag_path(current_event, gtag)
+
 
 = paginate profiles

@@ -33,7 +33,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
           gtag = db_gtags[db_gtags.index { |tag| tag.tag_uid == list_gtag["reference"] }]
           expect(list_gtag["reference"]).to eq(gtag.tag_uid)
           expect(list_gtag["banned"]).to eq(gtag.banned?)
-          expect(list_gtag["customer_id"]).to eq(gtag&.assigned_profile&.id)
+          expect(list_gtag["customer_id"]).to eq(gtag&.profile&.id)
           updated_at = Time.zone.parse(list_gtag["updated_at"]).strftime("%Y-%m-%dT%T.%6N")
           expect(updated_at).to eq(gtag.updated_at.utc.strftime("%Y-%m-%dT%T.%6N"))
         end
@@ -57,18 +57,11 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
     context "with authentication" do
       before do
         @access = create(:access_catalog_item, event: event)
-        @gtag = create(:gtag, event: event)
-        @gtag2 = create(:gtag, event: event)
         @profile = create(:profile, event: event)
-        create(:credential_assignment, credentiable: @gtag,
-                                       profile: @profile,
-                                       aasm_state: "assigned")
-        create(:credential_assignment, credentiable: @gtag2,
-                                       profile: @profile,
-                                       aasm_state: "unassigned")
+        @gtag = create(:gtag, event: event, profile: @profile)
+        @gtag2 = create(:gtag, event: event, profile: @profile, active: false)
         @customer = create(:customer, profile: @profile)
-        @order = create(:customer_order, profile: @profile, catalog_item: @access)
-        create(:online_order, counter: 1, customer_order: @order, redeemed: false)
+        @order = create(:customer_order, profile: @profile, catalog_item: @access, counter: 1)
 
         http_login(admin.email, admin.access_token)
       end
@@ -96,22 +89,22 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
         end
 
         it "returns the correct data" do
-          customer = @gtag.assigned_profile.customer
-          orders = @gtag.assigned_profile.customer_orders
+          customer = @gtag.profile.customer
+          orders = @gtag.profile.customer_orders
 
           gtag = {
             reference: @gtag.tag_uid,
             banned: @gtag.banned,
             customer: {
-              id:  @gtag.assigned_profile.id,
-              banned: @gtag.assigned_profile.banned?,
+              id:  @gtag.profile.id,
+              banned: @gtag.profile.banned?,
               autotopup_gateways: [],
               credentials: [{ reference: @gtag.tag_uid, type: "gtag" }],
               first_name: customer.first_name,
               last_name: customer.last_name,
               email: customer.email,
               orders: [{
-                online_order_counter: orders.first.online_order.counter,
+                online_order_counter: orders.first.counter,
                 catalogable_id: orders.first.catalog_item.catalogable_id,
                 catalogable_type: orders.first.catalog_item.catalogable_type.downcase,
                 amount: orders.first.amount

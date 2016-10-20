@@ -29,7 +29,7 @@ RSpec.describe Transactions::Credential::GtagChecker, type: :job do
     before { allow(Profile::Checker).to receive(:for_transaction).and_return(profile.id) }
 
     it "assigns a ticket credential" do
-      expect(worker).to receive(:assign_gtag_credential)
+      expect(worker).to receive(:assign_profile)
     end
   end
 end

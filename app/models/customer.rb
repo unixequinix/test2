@@ -57,7 +57,8 @@ class Customer < ActiveRecord::Base
                                      password_confirmation: token,
                                      agreed_on_registration: true)
 
-    event.receive_communications? ? customer : customer.save
+    customer.save unless event.receive_communications?
+    customer
   end
 
   def self.gender_selector

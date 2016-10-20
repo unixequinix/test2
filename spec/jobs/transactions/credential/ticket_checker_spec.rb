@@ -38,11 +38,11 @@ RSpec.describe Transactions::Credential::TicketChecker, type: :job do
     end
 
     it "assigns a ticket credential" do
-      expect(worker).to receive(:assign_ticket_credential)
+      expect(worker).to receive(:assign_profile_to_ticket)
     end
 
     it "assigns a ticket credential" do
-      expect(worker).to receive(:assign_gtag_credential)
+      expect(worker).to receive(:assign_profile)
     end
 
     it "marks redeemed" do

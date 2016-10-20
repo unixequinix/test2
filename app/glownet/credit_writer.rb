@@ -4,7 +4,7 @@ class CreditWriter
     sign = -1 if assignation.eql?(:unassign)
     ticket.credits.each do |credit|
       params = { credits: credit.total_amount * sign, credit_value: credit.value }
-      create_credit(ticket.assigned_profile, params)
+      create_credit(ticket.profile, params)
     end
   end
 

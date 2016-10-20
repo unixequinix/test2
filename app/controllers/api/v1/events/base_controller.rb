@@ -74,29 +74,13 @@ class Api::V1::Events::BaseController < Api::BaseController
         LEFT OUTER JOIN (
           SELECT cr.profile_id as profile_id, array_to_json(array_agg(row_to_json(cr))) as credentials
           FROM (
-            SELECT
-              credential_assignments.profile_id as profile_id,
-              code as reference,
-              LOWER(credential_assignments.credentiable_type) as type
+            SELECT profile_id, code as reference, 'ticket' as type
             FROM tickets
-            INNER JOIN credential_assignments
-            ON credential_assignments.credentiable_id = tickets.id
-              AND credential_assignments.credentiable_type = 'Ticket'
-              AND credential_assignments.aasm_state = 'assigned'
-              AND credential_assignments.deleted_at IS NULL
             WHERE tickets.deleted_at IS NULL
             UNION
-            SELECT
-              credential_assignments.profile_id as profile_id,
-              tag_uid as reference,
-              LOWER(credential_assignments.credentiable_type) as type
+            SELECT profile_id, tag_uid as reference, 'gtag' as type
             FROM gtags
-            INNER JOIN credential_assignments
-            ON credential_assignments.credentiable_id = gtags.id
-              AND credential_assignments.credentiable_type = 'Gtag'
-              AND credential_assignments.aasm_state = 'assigned'
-              AND credential_assignments.deleted_at IS NULL
-            WHERE gtags.deleted_at IS NULL
+            WHERE gtags.active = true AND gtags.deleted_at IS NULL
           ) cr
           GROUP BY cr.profile_id
         ) cred
@@ -104,22 +88,19 @@ class Api::V1::Events::BaseController < Api::BaseController
 
         LEFT OUTER JOIN (
           SELECT o.profile_id as profile_id, array_to_json(array_agg(row_to_json(o))) as orders
-          from (
+          FROM (
             SELECT
-              customer_orders.profile_id as profile_id,
+              profile_id,
               counter as online_order_counter,
-              customer_orders.amount,
+              amount,
               catalog_items.catalogable_id as catalogable_id,
               LOWER(catalog_items.catalogable_type) as catalogable_type
-            FROM online_orders
-            INNER JOIN customer_orders
-              ON online_orders.customer_order_id = customer_orders.id
-              AND customer_orders.deleted_at IS NULL
+            FROM customer_orders
             INNER JOIN catalog_items
               ON catalog_items.id = customer_orders.catalog_item_id
-              AND catalog_items.deleted_at IS NULL
-            WHERE online_orders.deleted_at IS NULL
-              AND online_orders.redeemed IS false
+            AND catalog_items.deleted_at IS NULL
+            WHERE customer_orders.deleted_at IS NULL
+              AND customer_orders.redeemed IS FALSE
           ) o
           GROUP BY o.profile_id
         ) ord
@@ -151,16 +132,9 @@ class Api::V1::Events::BaseController < Api::BaseController
           gtags.tag_uid as reference,
           gtags.banned,
           gtags.updated_at,
-          cred.profile_id as customer_id
+          profile_id as customer_id
 
         FROM gtags
-
-        LEFT OUTER JOIN  credential_assignments cred
-          ON cred.credentiable_id = gtags.id
-          AND cred.credentiable_type = 'Gtag'
-          AND cred.deleted_at IS NULL
-          AND cred.aasm_state = 'assigned'
-
         WHERE gtags.event_id = #{current_event.id}
         AND gtags.deleted_at IS NULL #{"AND gtags.updated_at > '#{date}'" if date}
       ) g
@@ -204,15 +178,9 @@ class Api::V1::Events::BaseController < Api::BaseController
           tickets.banned,
           tickets.updated_at,
           company_ticket_types.credential_type_id as credential_type_id,
-          cred.profile_id as customer_id
+          profile_id as customer_id
 
         FROM tickets
-
-        LEFT OUTER JOIN  credential_assignments cred
-          ON cred.credentiable_id = tickets.id
-          AND cred.credentiable_type = 'Ticket'
-          AND cred.deleted_at IS NULL
-          AND cred.aasm_state = 'assigned'
 
         INNER JOIN company_ticket_types
           ON company_ticket_types.id = tickets.company_ticket_type_id

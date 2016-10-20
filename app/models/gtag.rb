@@ -36,18 +36,13 @@ class Gtag < ActiveRecord::Base
 
   # Associations
   belongs_to :event
+  belongs_to :profile
 
   has_many :claims
-  has_many :credential_assignments, as: :credentiable, dependent: :destroy
-  has_many :profiles, through: :credential_assignments
 
   has_one :refund
   has_one :purchaser, as: :credentiable, dependent: :destroy
   has_one :completed_claim, -> { where(aasm_state: :completed) }, class_name: "Claim"
-  has_one :assigned_profile, through: :assigned_gtag_credential, source: :profile
-  has_one :assigned_gtag_credential, -> { where(credential_assignments: { aasm_state: :assigned }) },
-          as: :credentiable,
-          class_name: "CredentialAssignment"
 
   accepts_nested_attributes_for :purchaser, allow_destroy: true
 
@@ -62,18 +57,20 @@ class Gtag < ActiveRecord::Base
 
   # Scopes
   scope :query_for_csv, lambda  { |event|
-    event.gtags.joins("LEFT OUTER JOIN credential_assignments
-                       ON credential_assignments.credentiable_id = gtags.id
-                       AND credential_assignments.credentiable_type = 'Gtag'
-                       AND credential_assignments.deleted_at IS NULL
-                       LEFT OUTER JOIN customer_orders
-                       ON customer_orders.profile_id = credential_assignments.profile_id
+    event.gtags.joins("LEFT OUTER JOIN customer_orders
+                       ON customer_orders.profile_id = profile_id
                        AND customer_orders.deleted_at IS NULL")
          .select("gtags.id, gtags.tag_uid, gtags.banned, gtags.loyalty, gtags.format,
                         customer_orders.amount as credits_amount")
   }
 
   scope :banned, -> { where(banned: true) }
+
+  alias_attribute :reference, :tag_uid
+
+  def assigned?
+    profile.present? && profile.customer.present?
+  end
 
   def self.field_by_memory_length(memory_length:, field:)
     found = GTAG_DEFINITIONS.find do |definition|

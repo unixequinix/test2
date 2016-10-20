@@ -4,6 +4,15 @@ RSpec.describe Profile, type: :model do
   it { is_expected.to validate_presence_of(:event) }
   let(:profile) { create(:profile) }
 
+  describe "active_gtag" do
+    it "returns the gtag which state is active" do
+      active = create(:gtag, active: true)
+      inactive = create(:gtag, active: false)
+      profile.gtags = [active, inactive]
+      expect(profile.active_gtag).to eq(active)
+    end
+  end
+
   describe ".online_refundable_money" do
     context "when profile has orders" do
       it "returns the sum of all online refundable money" do

@@ -29,8 +29,8 @@ RSpec.describe Transactions::Ban::Banner, type: :job do
     it "bans all the credentials if the object is a profile" do
       atts = { event_id: event.id, banneable_id: profile.id, banneable_type: "profile" }
 
-      CredentialAssignment.create!(profile: profile, credentiable: gtag)
-      CredentialAssignment.create!(profile: profile, credentiable: ticket)
+      gtag.update profile: profile
+      ticket.update profile: profile
 
       worker.perform_now(atts)
 

@@ -19,7 +19,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
   end
 
   def show
-    assoc = { credential_assignments: [profile: :customer], company_ticket_type: [company_event_agreement: :company] }
+    assoc = { profile: :customer, company_ticket_type: [company_event_agreement: :company] }
     @ticket = current_event.tickets.includes(assoc).find(params[:id])
   end
 
@@ -133,7 +133,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
   def unban
     ticket = current_event.tickets.find(params[:id])
 
-    if ticket.assigned_profile&.banned?
+    if ticket.profile&.banned?
       flash[:error] = "Assigned profile is banned, unban it or unassign the ticket first"
     else
       ticket.update(banned: false)
@@ -151,8 +151,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
       page: params[:page],
       include_for_all_items: [
         :purchaser,
-        :assigned_profile,
-        assigned_ticket_credential: [profile: [:customer, active_gtag_assignment: :credentiable]]
+        profile: [:customer, :active_gtag]
       ],
       context: view_context
     )

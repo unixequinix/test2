@@ -75,7 +75,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
   end
 
   def unban
-    if @gtag.assigned_profile&.banned?
+    if @gtag.profile&.banned?
       flash[:error] = "Assigned profile is banned, unban it or unassign the gtag first"
     else
       @gtag.update(banned: false)
@@ -134,7 +134,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
     station = current_event.stations.find_by(category: "customer_portal")
     Transactions::Base.new.portal_write(event_id: current_event.id,
                                         station_id: station.id,
-                                        profile_id: gtag.assigned_profile.id,
+                                        profile_id: gtag.profile.id,
                                         transaction_category: "ban",
                                         transaction_origin: Transaction::ORIGINS[:portal],
                                         transaction_type: "#{action}_gtag",
@@ -152,8 +152,8 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
       search_query: params[:q],
       page: params[:page],
       include_for_all_items: [
-        :assigned_profile,
-        assigned_gtag_credential: [profile: [:customer, active_tickets_assignment: :credentiable]]
+        :profile,
+        profile: [:customer, :tickets]
       ],
       context: view_context
     )

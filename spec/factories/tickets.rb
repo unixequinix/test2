@@ -33,9 +33,7 @@ FactoryGirl.define do
     end
 
     trait :assigned do
-      after(:create) do |ticket|
-        create(:credential_assignment, :assigned, credentiable: ticket)
-      end
+      profile
     end
   end
 end

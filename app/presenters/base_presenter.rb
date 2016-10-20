@@ -1,15 +1,14 @@
 class BasePresenter
   include ActionView::Helpers::NumberHelper
-  attr_accessor :context, :profile, :gtag_assignment, :refund, :event,
-                :ticket_assignments, :purchases
+  attr_accessor :context, :profile, :gtag, :refund, :event, :tickets, :purchases
 
   def initialize(dashboard, context)
     @context = context
     @profile = dashboard.profile
     @event = dashboard.event
-    @ticket_assignments = dashboard.ticket_assignments
+    @tickets = dashboard.tickets
     @completed_claim = dashboard.completed_claim
-    @gtag_assignment = dashboard.gtag_assignment
+    @gtag = dashboard.gtag
     @purchases = dashboard.purchases
   end
 
@@ -22,16 +21,12 @@ class BasePresenter
   end
 
   def credential_present?
-    @ticket_assignments.present? || @gtag_assignment.present?
+    @tickets.any? || @gtags.any?
   end
 
   delegate :tag_uid, to: :gtag, prefix: true
 
   private
-
-  def gtag
-    @gtag_assignment ? @gtag_assignment.credentiable : Gtag.new
-  end
 
   def formatted_date
     Time.zone.now.strftime("%Y-%m-%d")

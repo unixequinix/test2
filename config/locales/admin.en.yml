@@ -481,6 +481,7 @@ en:
     gtag_assignations:
       tag: "Tag UID"
       serial: "Tag Serial Number"
+      active: "Active"
       customer:
         email: "Email"
         complete_name: "Complete name"
@@ -512,11 +513,10 @@ en:
       orders: "Orders"
       payments: "Payments"
       payments_activated: "Payments activated"
-      gtag_assignments: "Gtag registrations"
+      gtags: "Gtags"
       completed_claim: "Completed claims"
       customer_orders: "Customer orders"
       refund: "Refund"
-      online_orders: "Online orders"
       claims: "Claims"
       gtag_credits: "Gtag Credits"
       tickets: "Tickets"
@@ -539,7 +539,7 @@ en:
         email: "Type email"
         confirmed: "Confirmed?"
         tickets: "Tickets?"
-        gtag_assignments: "Gtags?"
+        gtags: "Gtags"
         credits_purchased: "Credits Purchased?"
     claims:
       claim_number: "Claim number"
@@ -591,11 +591,7 @@ en:
       profile: "Profiles"
       catalog_item: "Catalog item"
       origin: "Origin"
-      online_order: "Online order"
-    online_orders:
-      id: "Id"
       redeemed: "Redeemed"
-      customer_order_id: "Customer order id"
     payments:
       id: "Id"
       order_id: "Order Id"

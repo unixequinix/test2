@@ -22,54 +22,28 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   # Associations
   belongs_to :customer
   belongs_to :event
+  has_many :tickets
+  has_many :gtags
+  has_one :active_gtag, -> { where(active: true) }, class_name: "Gtag"
   has_many :orders
   has_many :claims
   has_many :refunds, through: :claims
   has_many :customer_orders
-  has_many :online_orders, through: :customer_orders
   has_many :payments, through: :orders
   has_many :transactions
-  has_many :completed_claims, -> { where("aasm_state = 'completed' AND completed_at IS NOT NULL") }, class_name: "Claim"
-  has_many :credential_assignments
-  # credential_assignments_tickets
-  has_many :ticket_assignments, -> { where(credentiable_type: "Ticket") },
-           class_name: "CredentialAssignment", dependent: :destroy
-  # credential_assignments_gtags
-  has_many :gtag_assignments, -> { where(credentiable_type: "Gtag") },
-           class_name: "CredentialAssignment", dependent: :destroy
-  # credential_assignments_assigned
-  has_many :active_assignments, -> { where(aasm_state: :assigned) }, class_name: "CredentialAssignment"
-  # credential_assignments_tickets_assigned
-  has_many :active_tickets_assignment, -> { where(aasm_state: :assigned, credentiable_type: "Ticket") },
-           class_name: "CredentialAssignment"
-  # credential_assignments_gtag_assigned
-  has_one :active_gtag_assignment, -> { where(aasm_state: :assigned, credentiable_type: "Gtag") },
-          class_name: "CredentialAssignment"
+  has_many :completed_claims, -> { where(aasm_state: :completed).where.not(completed_at: nil) }, class_name: "Claim"
   has_one :completed_claim, -> { where(aasm_state: :completed) }, class_name: "Claim"
   has_many :payment_gateway_customers
 
-  # Validations
   validates :event, presence: true
 
-  # Scopes
-  scope :for_event, -> (event) { where(event: event) }
-  scope :with_gtag, lambda { |event|
-    joins(:credential_assignments)
-      .where(event: event, credential_assignments: { credentiable_type: "Gtag", aasm_state: :assigned })
-  }
+  scope :with_gtag, -> { includes(:gtags).where.not(gtags: { profile_id: nil }) }
 
   scope :query_for_csv, lambda { |event|
     where(event: event)
       .joins("LEFT OUTER JOIN customers ON profiles.customer_id = customers.id")
-      .joins(:credential_assignments)
-      .joins("LEFT OUTER JOIN tickets
-              ON credential_assignments.credentiable_id = tickets.id
-              AND credential_assignments.aasm_state = 'assigned'
-              AND credential_assignments.credentiable_type = 'Ticket'")
-      .joins("LEFT OUTER JOIN gtags
-              ON credential_assignments.credentiable_id = gtags.id
-              AND credential_assignments.aasm_state = 'assigned'
-              AND credential_assignments.credentiable_type = 'Gtag'")
+      .joins(:tickets)
+      .joins(:gtags)
       .select("profiles.id, tickets.code as ticket, gtags.tag_uid as gtag, profiles.credits as credits,
                profiles.refundable_credits as refundable_credits, customers.email, customers.first_name,
                customers.last_name")
@@ -89,6 +63,14 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     self.final_refundable_balance = has_onsite_ts ? ts.last.final_refundable_balance : refundable_credits
 
     save
+  end
+
+  def credentials
+    gtags + tickets
+  end
+
+  def active_credentials
+    [active_gtag, tickets].flatten.compact
   end
 
   def customer
@@ -112,7 +94,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def active_credentials?
-    active_tickets_assignment.any? || active_gtag_assignment.present?
+    tickets.any? || active_gtag.present?
   end
 
   def refundable?(refund_service)
@@ -162,10 +144,6 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def self.counters(event) # rubocop:disable Metrics/MethodLength
-    transactions_select = Transaction::TYPES.map do |t|
-      "SELECT profile_id, gtag_counter, counter FROM #{t}_transactions WHERE event_id = #{event.id} AND status_code = 0"
-    end.join(" UNION ALL ")
-
     sql = <<-SQL
       SELECT to_json(json_agg(row_to_json(cust)))
       FROM (
@@ -177,7 +155,11 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
           MAX(customer_trans.counter) as online,
           SUM(customer_trans.counter) as online_total,
           MAX(customer_trans.counter) * (MAX(customer_trans.counter) + 1) / 2 as online_last_total
-        FROM (#{transactions_select}) customer_trans
+        FROM (
+          SELECT profile_id, gtag_counter, counter
+          FROM transactions
+          WHERE event_id = #{event.id} AND status_code = 0
+        ) customer_trans
         GROUP BY customer_trans.profile_id
         ORDER BY customer_trans.profile_id
       ) cust

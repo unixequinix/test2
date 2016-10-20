@@ -34,7 +34,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
           expect(list_ticket["credential_redeemed"]).to eq(ticket.credential_redeemed)
           expect(list_ticket["banned"]).to eq(ticket.banned?)
           expect(list_ticket["credential_type_id"]).to eq(ticket&.company_ticket_type&.credential_type_id)
-          expect(list_ticket["customer_id"]).to eq(ticket&.assigned_profile&.id)
+          expect(list_ticket["customer_id"]).to eq(ticket&.profile&.id)
           updated_at = Time.zone.parse(list_ticket["updated_at"]).strftime("%Y-%m-%dT%T.%6N")
           expect(updated_at).to eq(ticket.updated_at.utc.strftime("%Y-%m-%dT%T.%6N"))
         end
@@ -63,14 +63,10 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         @ctt = create(:company_ticket_type, company_event_agreement: @agreement,
                                             event: event,
                                             credential_type: @credential)
-        @ticket = create(:ticket, event: event, company_ticket_type: @ctt)
-        @ticket2 = create(:ticket, event: event, company_ticket_type: @ctt)
         @profile = create(:profile, event: event)
-        create(:credential_assignment, credentiable: @ticket, profile: @profile, aasm_state: "assigned")
-        create(:credential_assignment, credentiable: @ticket2, profile: @profile, aasm_state: "unassigned")
         @customer = create(:customer, profile: @profile)
-        @order = create(:customer_order, profile: @profile, catalog_item: @access)
-        create(:online_order, counter: 1, customer_order: @order, redeemed: false)
+        @ticket = create(:ticket, event: event, company_ticket_type: @ctt, profile: @profile)
+        @order = create(:customer_order, profile: @profile, catalog_item: @access, counter: 1)
 
         http_login(admin.email, admin.access_token)
       end
@@ -99,8 +95,8 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         end
 
         it "returns the correct data" do
-          customer = @ticket.assigned_profile.customer
-          orders = @ticket.assigned_profile.customer_orders
+          customer = @ticket.profile.customer
+          orders = @ticket.profile.customer_orders
 
           ticket = {
             reference: @ticket.code,
@@ -108,15 +104,15 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
             banned: @ticket.banned,
             credential_type_id: @ticket.company_ticket_type.credential_type_id,
             customer: {
-              id:  @ticket.assigned_profile.id,
-              banned: @ticket.assigned_profile.banned?,
+              id:  @ticket.profile.id,
+              banned: @ticket.profile.banned?,
               autotopup_gateways: [],
               credentials: [{ reference: @ticket.code, type: "ticket" }],
               first_name: customer.first_name,
               last_name: customer.last_name,
               email: customer.email,
               orders: [{
-                online_order_counter: orders.first.online_order.counter,
+                online_order_counter: orders.first.counter,
                 catalogable_id: orders.first.catalog_item.catalogable_id,
                 catalogable_type: orders.first.catalog_item.catalogable_type.downcase,
                 amount: orders.first.amount

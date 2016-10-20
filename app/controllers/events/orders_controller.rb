@@ -34,7 +34,7 @@ class Events::OrdersController < Events::BaseController
   end
 
   def require_credential!
-    return if current_profile.active_assignments.present?
+    return if current_profile.tickets.any?
     redirect_to event_url(current_event)
   end
 end

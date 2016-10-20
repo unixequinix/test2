@@ -5,9 +5,7 @@ class Events::TicketAssignmentsController < Events::BaseController
 
   def create
     @ticket_assignment_form = TicketAssignmentForm.new(ticket_assignment_parameters)
-    if @ticket_assignment_form.save(Ticket.where(event: current_event),
-                                    current_profile,
-                                    current_event)
+    if @ticket_assignment_form.save(current_event.tickets, current_profile, current_event)
       flash[:notice] = I18n.t("alerts.created")
       redirect_to event_url(current_event)
     else
@@ -17,12 +15,9 @@ class Events::TicketAssignmentsController < Events::BaseController
   end
 
   def destroy
-    customer_order_creator = CustomerOrderCreator.new
-    @ticket_assignment = CredentialAssignment.find(params[:id])
-    ticket = @ticket_assignment.credentiable
-    customer_order_creator.delete(ticket)
-    @credit_log = CreditWriter.reassign_ticket(ticket, :unassign) if ticket.credits.present?
-    @ticket_assignment.unassign!
+    ticket = Ticket.find(params[:id])
+    CreditWriter.reassign_ticket(ticket, :unassign) if ticket.credits.present?
+    ticket.update!(profile: nil)
     flash[:notice] = I18n.t("alerts.unassigned")
     redirect_to event_url(current_event)
   end

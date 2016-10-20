@@ -1,6 +1,6 @@
 class Autotopup::PaypalNvpAutoPayer
   def self.start(tag_uid, order_id, event)
-    profile = event.gtags.find_by_tag_uid(tag_uid)&.assigned_profile
+    profile = event.gtags.find_by_tag_uid(tag_uid)&.profile
     return { errors: "Customer not found" } if profile.nil?
     credit = event.credits.standard
 

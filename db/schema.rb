@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161019132714) do
+ActiveRecord::Schema.define(version: 20161017173028) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,36 +24,6 @@ ActiveRecord::Schema.define(version: 20161019132714) do
     t.datetime "updated_at",                 null: false
     t.boolean  "hidden",     default: false
   end
-
-  create_table "access_transactions", force: :cascade do |t|
-    t.integer  "event_id"
-    t.string   "transaction_origin"
-    t.string   "customer_tag_uid"
-    t.string   "transaction_type"
-    t.integer  "station_id"
-    t.integer  "device_db_index"
-    t.string   "device_created_at"
-    t.integer  "profile_id"
-    t.integer  "access_id"
-    t.integer  "direction"
-    t.string   "final_access_value"
-    t.integer  "status_code"
-    t.string   "status_message"
-    t.string   "device_uid"
-    t.string   "operator_tag_uid"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "gtag_counter",            default: 0
-    t.integer  "counter",                 default: 0
-    t.integer  "activation_counter"
-    t.string   "device_created_at_fixed"
-  end
-
-  add_index "access_transactions", ["access_id"], name: "index_access_transactions_on_access_id", using: :btree
-  add_index "access_transactions", ["event_id", "device_uid", "device_db_index", "device_created_at"], name: "access_transaction_uniqueness_on_device", unique: true, using: :btree
-  add_index "access_transactions", ["event_id"], name: "index_access_transactions_on_event_id", using: :btree
-  add_index "access_transactions", ["profile_id"], name: "index_access_transactions_on_profile_id", using: :btree
-  add_index "access_transactions", ["station_id"], name: "index_access_transactions_on_station_id", using: :btree
 
   create_table "accesses", force: :cascade do |t|
     t.datetime "deleted_at"
@@ -81,42 +51,6 @@ ActiveRecord::Schema.define(version: 20161019132714) do
 
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
-
-  create_table "ban_transactions", force: :cascade do |t|
-    t.integer  "event_id"
-    t.string   "transaction_origin"
-    t.string   "transaction_type"
-    t.integer  "station_id"
-    t.integer  "profile_id"
-    t.string   "device_uid"
-    t.integer  "device_db_index"
-    t.string   "device_created_at"
-    t.string   "customer_tag_uid"
-    t.string   "operator_tag_uid"
-    t.integer  "banneable_id",                        null: false
-    t.string   "banneable_type",                      null: false
-    t.text     "reason"
-    t.integer  "status_code"
-    t.string   "status_message"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.integer  "gtag_counter",            default: 0
-    t.integer  "counter",                 default: 0
-    t.integer  "activation_counter"
-    t.string   "device_created_at_fixed"
-  end
-
-  add_index "ban_transactions", ["event_id"], name: "index_ban_transactions_on_event_id", using: :btree
-  add_index "ban_transactions", ["profile_id"], name: "index_ban_transactions_on_profile_id", using: :btree
-  add_index "ban_transactions", ["station_id"], name: "index_ban_transactions_on_station_id", using: :btree
-
-  create_table "c_assignments_c_orders", force: :cascade do |t|
-    t.integer "credential_assignment_id"
-    t.integer "customer_order_id"
-  end
-
-  add_index "c_assignments_c_orders", ["credential_assignment_id"], name: "index_c_assignments_c_orders_on_credential_assignment_id", using: :btree
-  add_index "c_assignments_c_orders", ["customer_order_id"], name: "index_c_assignments_c_orders_on_customer_order_id", using: :btree
 
   create_table "catalog_items", force: :cascade do |t|
     t.integer  "event_id",         null: false
@@ -198,46 +132,6 @@ ActiveRecord::Schema.define(version: 20161019132714) do
   add_index "company_ticket_types", ["company_code", "company_event_agreement_id", "deleted_at"], name: "index_ticket_types_on_company_code_and_agreement_and_deleted_at", unique: true, using: :btree
   add_index "company_ticket_types", ["deleted_at"], name: "index_company_ticket_types_on_deleted_at", using: :btree
 
-  create_table "credential_assignments", force: :cascade do |t|
-    t.integer  "profile_id"
-    t.integer  "credentiable_id",   null: false
-    t.string   "credentiable_type", null: false
-    t.string   "aasm_state"
-    t.datetime "deleted_at"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-  end
-
-  create_table "credential_transactions", force: :cascade do |t|
-    t.integer  "event_id"
-    t.string   "transaction_origin"
-    t.string   "transaction_category"
-    t.string   "transaction_type"
-    t.string   "customer_tag_uid"
-    t.string   "operator_tag_uid"
-    t.integer  "station_id"
-    t.string   "device_uid"
-    t.integer  "device_db_index"
-    t.string   "device_created_at"
-    t.integer  "ticket_id"
-    t.integer  "profile_id"
-    t.integer  "status_code"
-    t.string   "status_message"
-    t.string   "ticket_code"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "gtag_counter",            default: 0
-    t.integer  "counter",                 default: 0
-    t.integer  "activation_counter"
-    t.string   "device_created_at_fixed"
-  end
-
-  add_index "credential_transactions", ["event_id", "device_uid", "device_db_index", "device_created_at"], name: "credential_transaction_uniqueness_on_device", unique: true, using: :btree
-  add_index "credential_transactions", ["event_id"], name: "index_credential_transactions_on_event_id", using: :btree
-  add_index "credential_transactions", ["profile_id"], name: "index_credential_transactions_on_profile_id", using: :btree
-  add_index "credential_transactions", ["station_id"], name: "index_credential_transactions_on_station_id", using: :btree
-  add_index "credential_transactions", ["ticket_id"], name: "index_credential_transactions_on_ticket_id", using: :btree
-
   create_table "credential_types", force: :cascade do |t|
     t.integer  "catalog_item_id", null: false
     t.integer  "memory_position", null: false
@@ -247,38 +141,6 @@ ActiveRecord::Schema.define(version: 20161019132714) do
   end
 
   add_index "credential_types", ["deleted_at"], name: "index_credential_types_on_deleted_at", using: :btree
-
-  create_table "credit_transactions", force: :cascade do |t|
-    t.integer  "event_id"
-    t.string   "transaction_origin"
-    t.string   "transaction_category"
-    t.string   "transaction_type"
-    t.string   "customer_tag_uid"
-    t.string   "operator_tag_uid"
-    t.integer  "station_id"
-    t.string   "device_uid"
-    t.integer  "device_db_index"
-    t.string   "device_created_at"
-    t.float    "credits"
-    t.float    "refundable_credits"
-    t.float    "credit_value"
-    t.float    "final_balance"
-    t.float    "final_refundable_balance"
-    t.integer  "profile_id"
-    t.integer  "status_code"
-    t.string   "status_message"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "gtag_counter",             default: 0
-    t.integer  "counter",                  default: 0
-    t.integer  "activation_counter"
-    t.string   "device_created_at_fixed"
-  end
-
-  add_index "credit_transactions", ["event_id", "device_uid", "device_db_index", "device_created_at"], name: "credit_transaction_uniqueness_on_device", unique: true, using: :btree
-  add_index "credit_transactions", ["event_id"], name: "index_credit_transactions_on_event_id", using: :btree
-  add_index "credit_transactions", ["profile_id"], name: "index_credit_transactions_on_profile_id", using: :btree
-  add_index "credit_transactions", ["station_id"], name: "index_credit_transactions_on_station_id", using: :btree
 
   create_table "credits", force: :cascade do |t|
     t.boolean  "standard",                           default: false, null: false
@@ -311,13 +173,15 @@ ActiveRecord::Schema.define(version: 20161019132714) do
   add_index "customer_credits", ["deleted_at"], name: "index_customer_credits_on_deleted_at", using: :btree
 
   create_table "customer_orders", force: :cascade do |t|
-    t.integer  "profile_id",                              null: false
-    t.integer  "catalog_item_id",                         null: false
+    t.integer  "profile_id",                                              null: false
+    t.integer  "catalog_item_id",                                         null: false
     t.string   "origin"
     t.decimal  "amount",          precision: 8, scale: 2
     t.datetime "deleted_at"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
+    t.integer  "counter",                                 default: 0
+    t.boolean  "redeemed",                                default: false
   end
 
   add_index "customer_orders", ["deleted_at"], name: "index_customer_orders_on_deleted_at", using: :btree
@@ -359,34 +223,6 @@ ActiveRecord::Schema.define(version: 20161019132714) do
   add_index "customers", ["deleted_at"], name: "index_customers_on_deleted_at", using: :btree
   add_index "customers", ["remember_token"], name: "index_customers_on_remember_token", unique: true, using: :btree
   add_index "customers", ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true, using: :btree
-
-  create_table "device_transactions", force: :cascade do |t|
-    t.integer  "event_id"
-    t.string   "transaction_origin"
-    t.string   "transaction_category"
-    t.string   "transaction_type"
-    t.string   "customer_tag_uid"
-    t.string   "operator_tag_uid"
-    t.integer  "station_id"
-    t.string   "device_uid"
-    t.integer  "device_db_index"
-    t.string   "device_created_at"
-    t.string   "initialization_type"
-    t.integer  "number_of_transactions"
-    t.integer  "profile_id"
-    t.integer  "status_code"
-    t.string   "status_message"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "gtag_counter",            default: 0
-    t.integer  "counter",                 default: 0
-    t.integer  "activation_counter"
-    t.string   "device_created_at_fixed"
-  end
-
-  add_index "device_transactions", ["event_id"], name: "index_device_transactions_on_event_id", using: :btree
-  add_index "device_transactions", ["profile_id"], name: "index_device_transactions_on_profile_id", using: :btree
-  add_index "device_transactions", ["station_id"], name: "index_device_transactions_on_station_id", using: :btree
 
   create_table "devices", force: :cascade do |t|
     t.string   "device_model"
@@ -521,54 +357,13 @@ ActiveRecord::Schema.define(version: 20161019132714) do
     t.string   "format",             default: "wristband"
     t.integer  "activation_counter"
     t.boolean  "loyalty",            default: false
+    t.integer  "profile_id"
+    t.boolean  "active",             default: true
   end
 
   add_index "gtags", ["deleted_at", "tag_uid", "event_id"], name: "index_gtags_on_deleted_at_and_tag_uid_and_event_id", unique: true, using: :btree
   add_index "gtags", ["deleted_at"], name: "index_gtags_on_deleted_at", using: :btree
-
-  create_table "money_transactions", force: :cascade do |t|
-    t.integer  "event_id"
-    t.string   "transaction_origin"
-    t.string   "transaction_category"
-    t.string   "transaction_type"
-    t.string   "customer_tag_uid"
-    t.string   "operator_tag_uid"
-    t.integer  "station_id"
-    t.string   "device_uid"
-    t.integer  "device_db_index"
-    t.string   "device_created_at"
-    t.integer  "catalogable_id"
-    t.string   "catalogable_type"
-    t.float    "items_amount"
-    t.float    "price"
-    t.string   "payment_method"
-    t.string   "payment_gateway"
-    t.integer  "profile_id"
-    t.integer  "status_code"
-    t.string   "status_message"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "gtag_counter",            default: 0
-    t.integer  "counter",                 default: 0
-    t.integer  "activation_counter"
-    t.string   "device_created_at_fixed"
-  end
-
-  add_index "money_transactions", ["event_id", "device_uid", "device_db_index", "device_created_at"], name: "money_transaction_uniqueness_on_device", unique: true, using: :btree
-  add_index "money_transactions", ["event_id"], name: "index_money_transactions_on_event_id", using: :btree
-  add_index "money_transactions", ["profile_id"], name: "index_money_transactions_on_profile_id", using: :btree
-  add_index "money_transactions", ["station_id"], name: "index_money_transactions_on_station_id", using: :btree
-
-  create_table "online_orders", force: :cascade do |t|
-    t.integer  "customer_order_id", null: false
-    t.integer  "counter"
-    t.boolean  "redeemed"
-    t.datetime "deleted_at"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-  end
-
-  add_index "online_orders", ["deleted_at"], name: "index_online_orders_on_deleted_at", using: :btree
+  add_index "gtags", ["profile_id"], name: "index_gtags_on_profile_id", using: :btree
 
   create_table "order_items", force: :cascade do |t|
     t.integer  "order_id",                                null: false
@@ -581,37 +376,6 @@ ActiveRecord::Schema.define(version: 20161019132714) do
   end
 
   add_index "order_items", ["deleted_at"], name: "index_order_items_on_deleted_at", using: :btree
-
-  create_table "order_transactions", force: :cascade do |t|
-    t.integer  "event_id"
-    t.string   "transaction_origin"
-    t.string   "transaction_category"
-    t.string   "transaction_type"
-    t.string   "customer_tag_uid"
-    t.string   "operator_tag_uid"
-    t.integer  "station_id"
-    t.string   "device_uid"
-    t.integer  "device_db_index"
-    t.string   "device_created_at"
-    t.integer  "customer_order_id"
-    t.integer  "profile_id"
-    t.string   "status_message"
-    t.integer  "status_code"
-    t.string   "catalogable_type"
-    t.integer  "catalogable_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "gtag_counter",            default: 0
-    t.integer  "counter",                 default: 0
-    t.integer  "activation_counter"
-    t.string   "device_created_at_fixed"
-  end
-
-  add_index "order_transactions", ["customer_order_id"], name: "index_order_transactions_on_customer_order_id", using: :btree
-  add_index "order_transactions", ["event_id", "device_uid", "device_db_index", "device_created_at"], name: "order_transaction_uniqueness_on_device", unique: true, using: :btree
-  add_index "order_transactions", ["event_id"], name: "index_order_transactions_on_event_id", using: :btree
-  add_index "order_transactions", ["profile_id"], name: "index_order_transactions_on_profile_id", using: :btree
-  add_index "order_transactions", ["station_id"], name: "index_order_transactions_on_station_id", using: :btree
 
   create_table "orders", force: :cascade do |t|
     t.string   "number",       null: false
@@ -818,10 +582,12 @@ ActiveRecord::Schema.define(version: 20161019132714) do
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
     t.boolean  "banned",                 default: false
+    t.integer  "profile_id"
   end
 
   add_index "tickets", ["deleted_at", "code", "event_id"], name: "index_tickets_on_deleted_at_and_code_and_event_id", unique: true, using: :btree
   add_index "tickets", ["deleted_at"], name: "index_tickets_on_deleted_at", using: :btree
+  add_index "tickets", ["profile_id"], name: "index_tickets_on_profile_id", using: :btree
 
   create_table "topup_credits", force: :cascade do |t|
     t.float    "amount"
@@ -858,7 +624,7 @@ ActiveRecord::Schema.define(version: 20161019132714) do
     t.integer  "access_id"
     t.integer  "direction"
     t.string   "final_access_value"
-    t.string   "message"
+    t.string   "reason"
     t.string   "ticket_code"
     t.float    "credits"
     t.float    "refundable_credits"
@@ -876,10 +642,8 @@ ActiveRecord::Schema.define(version: 20161019132714) do
     t.datetime "updated_at",                  null: false
     t.integer  "profile_id"
     t.integer  "ticket_id"
-    t.integer  "old_id"
     t.float    "credit_value"
     t.integer  "operator_activation_counter"
-    t.integer  "priority"
   end
 
   add_index "transactions", ["access_id"], name: "index_transactions_on_access_id", using: :btree
@@ -888,27 +652,7 @@ ActiveRecord::Schema.define(version: 20161019132714) do
   add_index "transactions", ["owner_type", "owner_id"], name: "index_transactions_on_owner_type_and_owner_id", using: :btree
   add_index "transactions", ["station_id"], name: "index_transactions_on_station_id", using: :btree
 
-  add_foreign_key "access_transactions", "events"
-  add_foreign_key "access_transactions", "profiles"
-  add_foreign_key "access_transactions", "stations"
-  add_foreign_key "ban_transactions", "events"
-  add_foreign_key "ban_transactions", "stations"
-  add_foreign_key "credential_transactions", "events"
-  add_foreign_key "credential_transactions", "profiles"
-  add_foreign_key "credential_transactions", "stations"
-  add_foreign_key "credential_transactions", "tickets"
-  add_foreign_key "credit_transactions", "events"
-  add_foreign_key "credit_transactions", "profiles"
-  add_foreign_key "credit_transactions", "stations"
-  add_foreign_key "device_transactions", "events"
-  add_foreign_key "device_transactions", "profiles"
-  add_foreign_key "device_transactions", "stations"
-  add_foreign_key "money_transactions", "events"
-  add_foreign_key "money_transactions", "profiles"
-  add_foreign_key "money_transactions", "stations"
-  add_foreign_key "order_transactions", "customer_orders"
-  add_foreign_key "order_transactions", "events"
-  add_foreign_key "order_transactions", "profiles"
-  add_foreign_key "order_transactions", "stations"
+  add_foreign_key "gtags", "profiles"
+  add_foreign_key "tickets", "profiles"
   add_foreign_key "topup_credits", "credits"
 end

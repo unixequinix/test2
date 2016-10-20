@@ -4,7 +4,7 @@ RSpec.feature "Ticket Assignation", type: :feature do
   let(:event) { create(:event, :ticket_assignation, :pre_event) }
   let(:customer) { create(:customer, event: event) }
   let(:valid_ticket) { create(:ticket, event: event) }
-  let(:invalid_ticket) { create(:ticket, :assigned, event: event) }
+  let(:invalid_ticket) { create(:ticket, event: event, profile: create(:profile)) }
   let(:event_path) { customer_root_path(event) }
 
   describe "User wants to assign a ticket" do
@@ -21,8 +21,8 @@ RSpec.feature "Ticket Assignation", type: :feature do
       end
 
       it "assigns the ticket" do
-        customer_ticket = customer.profile.active_tickets_assignment.first.credentiable
-        expect(customer_ticket.code).to eq(valid_ticket.code)
+        codes = customer.profile.tickets.pluck(:code)
+        expect(codes).to include(valid_ticket.code)
         expect(page.body).to include(valid_ticket.code)
       end
 
@@ -39,7 +39,7 @@ RSpec.feature "Ticket Assignation", type: :feature do
       end
 
       it "doesn't assign the ticket" do
-        expect(customer.profile.active_tickets_assignment).to be_empty
+        expect(customer.profile.tickets).not_to include(invalid_ticket)
         expect(page.body).to have_css(".msg-for-error")
       end
 
@@ -55,7 +55,7 @@ RSpec.feature "Ticket Assignation", type: :feature do
       end
 
       it "doesn't assign the ticket" do
-        expect(customer.profile.active_tickets_assignment).to be_empty
+        expect(customer.profile.tickets).to be_empty
         expect(page.body).to have_css(".msg-for-error")
       end
 

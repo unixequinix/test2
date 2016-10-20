@@ -19,17 +19,8 @@ class Ticket < ActiveRecord::Base
 
   # Associations
   belongs_to :event
-  has_many :credential_assignments, as: :credentiable, dependent: :destroy
+  belongs_to :profile
   has_one :purchaser, as: :credentiable, dependent: :destroy
-  has_one :assigned_ticket_credential,
-          -> { where(aasm_state: :assigned) },
-          as: :credentiable,
-          class_name: "CredentialAssignment"
-  has_many :profiles, through: :credential_assignments
-  has_one :assigned_profile,
-          -> { where(credential_assignments: { aasm_state: :assigned }) },
-          through: :assigned_ticket_credential,
-          source: :profile
   belongs_to :company_ticket_type
 
   accepts_nested_attributes_for :purchaser, allow_destroy: true
@@ -45,6 +36,12 @@ class Ticket < ActiveRecord::Base
                           tickets.credential_redeemed")
          .joins(:company_ticket_type)
   }
+
+  alias_attribute :reference, :code
+
+  def assigned?
+    profile.present? && profile.customer.present?
+  end
 
   def pack_catalog_items_included
     company_ticket_type.credential_type.catalog_item.catalogable.pack_catalog_items

@@ -1,10 +1,10 @@
 class ClaimsPresenter < BasePresenter
   def can_render?
-    @event.refunds? && @gtag_assignment.present?
+    @event.refunds? && @gtag.present?
   end
 
   def path
-    return "credentiable_refund_disabled" unless credentiable_can_refund?(@gtag_assignment.credentiable)
+    return "credentiable_refund_disabled" unless credentiable_can_refund?(@gtag)
     return "no_credits" unless any_refundable_method?
     return "invalid_balance" unless @profile.valid_balance?
     return "direct_claim" if @profile.enough_money? && @event.direct?

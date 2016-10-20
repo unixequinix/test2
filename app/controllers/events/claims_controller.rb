@@ -24,7 +24,7 @@ class Events::ClaimsController < Events::BaseController
       fee: current_event.refund_fee(service_type),
       minimum: current_event.refund_minimun(service_type),
       profile: current_profile,
-      gtag: current_profile.active_gtag_assignment.credentiable,
+      gtag: current_profile.active_gtag,
       total: current_profile.refundable_money
     )
     @claim.generate_claim_number!

@@ -18,22 +18,7 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
 
   # TODO: Cleanup this shit.
   def show
-    @customer = current_event.customers.includes(
-      :profile,
-      profile: [:ticket_assignments,
-                :active_gtag_assignment,
-                :active_tickets_assignment,
-                :active_gtag_assignment,
-                credit_transactions: :station,
-                money_transactions: :station,
-                access_transactions: :station,
-                credential_transactions: :station,
-                order_transactions: :station,
-                credential_assignments: :credentiable,
-                customer_orders: [:catalog_item, :online_order]]
-    ).find(params[:id])
-
-    @credit_transactions = @customer.profile&.credit_transactions
+    @customer = current_event.customers.find(params[:id])
   end
 
   def reset_password
@@ -49,11 +34,7 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
       search_query: params[:q],
       page: params[:page],
       context: view_context,
-      include_for_all_items: [:profile,
-                              profile: [:active_tickets_assignment,
-                                        :active_gtag_assignment,
-                                        :payment_gateway_customers,
-                                        active_assignments: :credentiable]]
+      include_for_all_items: [:profile, profile: [:tickets, :active_gtag, :payment_gateway_customers]]
     )
   end
 end

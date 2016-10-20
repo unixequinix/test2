@@ -71,7 +71,7 @@ class Admins::Events::RefundSettingsController < Admins::Events::BaseController
   # rubocop:disable Metrics/MethodLength
   def paypal_refund
     profiles = direct_claim_profiles.map do |profile|
-      gtag = profile.active_gtag_assignment&.credentiable
+      gtag = profile.active_gtag
       next unless gtag
       claim = Claim.new(service_type: Claim::DIRECT,
                         fee: current_event.refund_fee(Claim::DIRECT),

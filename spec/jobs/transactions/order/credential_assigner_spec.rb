@@ -13,25 +13,18 @@ RSpec.describe Transactions::Order::CredentialAssigner, type: :job do
     }
   end
 
-  %w( customer_tag_uid profile_id ).each do |att|
-    it "requires #{att} as attribute" do
-      atts.delete(att.to_sym)
-      expect { worker.perform_later(atts) }.to raise_error
-    end
-  end
-
   it "creates a credential for the gtag" do
     expect do
       worker.perform_later(atts)
       gtag.reload
-    end.to change(gtag, :assigned_gtag_credential)
+    end.to change(gtag, :profile)
   end
 
-  it "leaves the current assigned_gtag_credential if one present" do
-    gtag.create_assigned_gtag_credential!(profile: profile)
+  it "leaves the current profile if one present" do
+    gtag.update!(profile: profile)
     expect do
       worker.perform_later(atts)
       gtag.reload
-    end.not_to change(gtag, :assigned_gtag_credential)
+    end.not_to change(gtag, :profile)
   end
 end

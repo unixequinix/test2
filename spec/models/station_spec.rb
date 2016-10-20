@@ -13,13 +13,13 @@ RSpec.describe Station, type: :model do
       station = build(:station, group: "monetary", category: "top_up_refund", event: event)
 
       expect { station.save }.to change(TopupCredit, :count).by(6)
-      expect(station.topup_credits.map(&:amount)).to eq([1, 5, 10, 20, 25, 50])
+      expect(station.topup_credits.map(&:amount).sort).to eq([1, 5, 10, 20, 25, 50].sort)
     end
 
     it "adds default buttons when is a cs topup station" do
       station = build(:station, group: "monetary", category: "cs_topup_refund", event: event)
       expect { station.save }.to change(TopupCredit, :count).by(6)
-      expect(station.topup_credits.map(&:amount)).to eq([1, 5, 10, 0.01, 0.10, 0.50])
+      expect(station.topup_credits.map(&:amount).sort).to eq([0.01, 0.10, 0.50, 1, 5, 10].sort)
     end
   end
 

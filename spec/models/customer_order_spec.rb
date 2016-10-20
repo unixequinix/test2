@@ -16,6 +16,5 @@
 require "rails_helper"
 
 RSpec.describe CustomerOrder, type: :model do
-  it { is_expected.to validate_presence_of(:catalog_item_id) }
-  it { is_expected.to validate_presence_of(:profile_id) }
+  pending "add some examples to (or delete) #{__FILE__}"
 end

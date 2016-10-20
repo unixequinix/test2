@@ -23,11 +23,10 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
     @profile.update(banned: true)
     Transactions::Base.new.portal_write(atts)
 
-    @profile.credential_assignments.each do |cred|
-      obj = cred.credentiable
-      atts = fields(obj.id, obj.class.name, "ban", "Profile was banned.")
-      cred.credentiable.update(banned: true)
-      Transactions::Base.new.portal_write(atts)
+    @profile.credentials.each do |obj|
+      obj.update(banned: true)
+      msg = "#{obj.class.name} #{obj.reference} was banned."
+      Transactions::Base.new.portal_write(fields(obj.id, obj.class.name, "ban", msg))
     end
 
     redirect_to(admins_event_profiles_url)
@@ -81,9 +80,8 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
       context: view_context,
       include_for_all_items: [
         :customer,
-        credential_assignments: :credentiable,
-        active_tickets_assignment: :credentiable,
-        active_gtag_assignment: :credentiable
+        :gtags,
+        :tickets
       ]
     )
   end

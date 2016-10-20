@@ -16,14 +16,14 @@
 
     tbody
       - gtags.each do |gtag|
-        - customer = gtag&.assigned_gtag_credential&.profile&.customer
+        - customer = gtag&.profile&.customer
         tr
           - unless customer_service
             td.select-all data-label=t("admin.defaults.all") = check_box_tag "gtags[#{gtag.id}]", 1
           td data-label=t("admin.gtags.tag") = link_to gtag.tag_uid, admins_event_gtag_path(current_event, gtag)
           td data-label=t("admin.gtags.activation_counter") = gtag.activation_counter
           td data-label=t("admin.gtags.customer")
-            = link_to gtag.assigned_profile&.id, admins_event_profile_path(current_event, gtag.assigned_profile&.id) if gtag.assigned_profile
+            = link_to gtag.profile&.id, admins_event_profile_path(current_event, gtag.profile&.id) if gtag.profile
           td data-label=t("admin.gtags.loyalty") = gtag.loyalty? ? fa_icon("check-circle") : fa_icon("times-circle")
           td data-label=t("admin.gtags.banned")
             - if gtag.banned?

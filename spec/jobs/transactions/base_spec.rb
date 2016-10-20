@@ -140,8 +140,7 @@ RSpec.describe Transactions::Base, type: :job do
 
     describe ".portal_write" do
       before do
-        gtag.update(event: event)
-        create(:credential_assignment, profile: profile, credentiable: gtag)
+        gtag.update(event: event, profile: profile)
         params[:profile_id] = profile.id
         create(:station, category: "customer_portal", event: event)
       end
