@@ -28,6 +28,7 @@ namespace :glownet do
 
     puts "-------------------------------------------"
     puts "Event name: '#{@event.name}'"
+    puts "https://#{Rails.env}.glownet.com/admins/events/#{@event.slug}"
   end
 
   def create_device_settings
@@ -165,13 +166,7 @@ namespace :glownet do
   end
 
   def create_access_control_stations
-    ­accesses = [
-      { name: "Day", direction: 1 },
-      { name: "Day", direction: -1 },
-      { name: "VIP", direction: 1 },
-      { name: "Camping", direction: 1},
-      { name: "Night", direction: 1 }]
-
+    ­accesses = [{ name: "Day", direction: 1 }, { name: "Day", direction: -1 }]
     station = @event.stations.create!(name: "Access Control", group: "access", category: "access_control")
 
     ­accesses.each do |access|
