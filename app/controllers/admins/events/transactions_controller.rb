@@ -26,7 +26,7 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   private
 
   def set_transaction
-    @transaction = "#{@type.capitalize}Transaction".constantize.find(params[:id])
+    @transaction = "#{@type}_transaction".constantize.find(params[:id])
   end
 
   def set_type
@@ -35,13 +35,13 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   end
 
   def set_transactions
-    klass = "#{@type.capitalize}Transaction".constantize
+    klass = "#{@type}_transaction".classify.constantize
     @q = klass.where(event: current_event).search(params[:q])
     @transactions = @q.result.page(params[:page]).includes(:profile, :station)
   end
 
   def permitted_params
-    params.require(:credit_transaction).permit(:credits, :refundable_credits, :final_balance,
-                                               :final_refundable_balance, :status_code)
+    params.require(:credit_transaction)
+          .permit(:credits, :refundable_credits, :final_balance, :final_refundable_balance, :status_code)
   end
 end
