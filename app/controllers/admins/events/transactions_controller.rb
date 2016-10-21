@@ -26,7 +26,7 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   private
 
   def set_transaction
-    @transaction = "#{@type}_transaction".constantize.find(params[:id])
+    @transaction = "#{@type}_transaction".classify.constantize.find(params[:id])
   end
 
   def set_type
