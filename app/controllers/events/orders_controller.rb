@@ -1,7 +1,6 @@
 class Events::OrdersController < Events::BaseController
-  before_action :check_has_ticket!, only: [:show, :update]
   before_action :require_permission!, only: [:show, :update]
-  before_action :require_credential!, only: [:show, :update]
+  before_action :require_credentials!, only: [:show, :update]
 
   def show
     @payment_service = params[:payment_service]
@@ -33,8 +32,8 @@ class Events::OrdersController < Events::BaseController
     redirect_to event_url(current_event)
   end
 
-  def require_credential!
-    return if current_profile.tickets.any?
+  def require_credentials!
+    return if current_profile.active_credentials?
     redirect_to event_url(current_event)
   end
 end
