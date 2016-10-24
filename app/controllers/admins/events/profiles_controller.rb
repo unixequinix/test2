@@ -14,7 +14,7 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
 
   def show
     # TODO: Its a workaround for sorting, remove after picnik is fixed
-    @transactions = @profile.transactions(params[:sort])
+    @transactions = @profile.transactions.order([:gtag_counter, :counter])
   end
 
   def ban
@@ -57,11 +57,8 @@ class Admins::Events::ProfilesController < Admins::Events::BaseController
   end
 
   def download_transactions
-    @pdf_transactions = CreditTransaction.status_ok
-                                         .not_record_credit
-                                         .where(event: current_event, profile: @profile)
-                                         .order("device_created_at asc")
-    if @pdf_transactions.present?
+    @pdf_transactions = @profile.transactions.credit.status_ok.not_record_credit.order("device_created_at asc")
+    if @pdf_transactions.any?
       html = render_to_string(action: :transactions_pdf, layout: false)
       pdf = WickedPdf.new.pdf_from_string(html)
       send_data(pdf, filename: "transaction_history_#{@profile.id}.pdf", disposition: "attachment")

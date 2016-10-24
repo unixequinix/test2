@@ -73,6 +73,10 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     [active_gtag, tickets].flatten.compact
   end
 
+  def active_credentials?
+    active_credentials.any?
+  end
+
   def customer
     Customer.unscoped { super }
   end
@@ -91,10 +95,6 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   def missing_transaction_counters
     (1..all_transaction_counters.last.to_i).to_a - all_transaction_counters
-  end
-
-  def active_credentials?
-    tickets.any? || active_gtag.present?
   end
 
   def refundable?(refund_service)
