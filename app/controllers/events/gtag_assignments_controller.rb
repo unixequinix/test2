@@ -8,14 +8,14 @@ class Events::GtagAssignmentsController < Events::BaseController
 
   # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
   def create
-    gtag = current_event.gtags.find_by(tag_uid: permitted_params[:tag_uid].strip.upcase)
+    gtag = current_event.gtags.where(tag_uid: permitted_params[:tag_uid].strip.upcase).order(:activation_counter).last
     @gtag_assignment_presenter = GtagAssignmentPresenter.new(current_event: current_event)
 
     flash.now[:error] = I18n.t("alerts.gtag.invalid") if gtag.nil?
     flash.now[:error] = I18n.t("alerts.gtag.already_assigned") if gtag&.assigned?
     render(:new) && return if flash.now[:error].present?
 
-    unless gtag.update(profile: current_profile, active: true)
+    unless Profile::Checker.for_credentiable(gtag, current_profile)
       flash.now[:error] = I18n.t("alerts.error")
       render(:new) && return
     end

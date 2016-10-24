@@ -23,7 +23,7 @@ class Events::RegistrationsController < Devise::RegistrationsController
       resource.password = token
       resource.password_confirmation = token
       resource.agreed_on_registration = true
-      resource.valid?
+      session.delete(:omniauth) && resource.valid?
     end
   end
 
