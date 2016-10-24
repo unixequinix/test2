@@ -11,15 +11,16 @@
         = simple_form_for @event, url: notify_customers_admins_event_refund_settings_path(@event), method: :post, data: { confirm: t('admin.confirm.delete') } do |f|
           = f.button :submit, t('admin.refund_settings.notify'), class: "btn btn-dashboard btn-dashboard-closed" 
             
-    .container-dashboard.wrapper-dashboard-main.refunds-paypal
-      .event-status
-        h3 PAYPAL REFUNDS
-        span.alert-sign = fa_icon "paypal"
-        p.alert-text = t("admin.refund_settings.elegible_customers", customers: @direct_claim_profiles)
-      .change-status
-        p = t("admin.refund_settings.want_to_refund_paypal")
-        = simple_form_for @event, url: paypal_refund_admins_event_refund_settings_path(@event), method: :post, data: { confirm: t('admin.confirm.delete') } do |f|
-          = f.button :submit, t('admin.refund_settings.refund'), class: "btn btn-dashboard btn-dashboard-closed" 
+    - if @event.direct?
+      .container-dashboard.wrapper-dashboard-main.refunds-paypal
+        .event-status
+          h3 PAYPAL REFUNDS
+          span.alert-sign = fa_icon "paypal"
+          p.alert-text = t("admin.refund_settings.elegible_customers", customers: @direct_claim_profiles)
+        .change-status
+          p = t("admin.refund_settings.want_to_refund_paypal")
+          = simple_form_for @event, url: paypal_refund_admins_event_refund_settings_path(@event), method: :post, data: { confirm: t('admin.confirm.delete') } do |f|
+            = f.button :submit, t('admin.refund_settings.refund'), class: "btn btn-dashboard btn-dashboard-closed" 
 
   .container-refunds
     - @event.selected_refund_services.each do |refund_service|
