@@ -9,7 +9,7 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
     ).includes(:parameter)
   end
 
-  # TODO: Move this method out from this controller
+  # TODO: Move this method out from this controller, as it only applies to Stripe
   def new
     @event = Event.friendly.find(params[:event_id])
     stripe_account_id = Parameter.where(group: "stripe", category: "payment", name: "stripe_account_id")
@@ -17,7 +17,7 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
     @payment_settings_form = StripePaymentActivationForm.new
   end
 
-  # TODO: Move this method out from this controller
+  # TODO: Move this method out from this controller, as it only applies to Stripe
   def create
     @event = Event.friendly.find(params[:event_id])
     @payment_service = "stripe"
@@ -26,8 +26,8 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
       @event.save
       redirect_to admins_event_payment_settings_url(@event), notice: I18n.t("alerts.updated")
     else
-      flash[:error] = I18n.t("alerts.error")
-      render :edit
+      flash[:error] = @payment_settings_form.errors.full_messages.to_sentence
+      render :new
     end
   end
 
@@ -47,13 +47,13 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
   def update
     @event = Event.friendly.find(params[:event_id])
     @payment_service = params[:id]
-    @payment_platform = EventDecorator::PAYMENT_PLATFORMS[@payment_service.to_sym]
     @payment_settings_form = "#{@payment_service.camelize}PaymentSettingsForm".constantize.new(settings_params)
 
     if @payment_settings_form.save(params, request)
       @event.save
       redirect_to admins_event_payment_settings_url(@event), notice: I18n.t("alerts.updated")
     else
+      @payment_platform = EventDecorator::PAYMENT_PLATFORMS[@payment_service.to_sym]
       flash.now[:alert] = @payment_settings_form.errors.full_messages.to_sentence
       render :edit
     end
@@ -62,14 +62,12 @@ class Admins::Events::PaymentSettingsController < Admins::Events::BaseController
   private
 
   def activation_params
-    params_names =
-      "#{@payment_service.camelize}PaymentActivationForm".constantize.attribute_set.map(&:name)
+    params_names = "#{@payment_service.camelize}PaymentActivationForm".constantize.attribute_set.map(&:name)
     params.require("#{@payment_service}_payment_activation_form").permit(params_names)
   end
 
   def settings_params
-    params_names =
-      "#{@payment_service.camelize}PaymentSettingsForm".constantize.attribute_set.map(&:name)
+    params_names = "#{@payment_service.camelize}PaymentSettingsForm".constantize.attribute_set.map(&:name)
     params.require("#{@payment_service}_payment_settings_form").permit(params_names)
   end
 end

@@ -49,6 +49,7 @@ class Payments::Stripe::AccountManager
     @account.legal_entity.address.city = params[:city]
     @account.legal_entity.address.line1 = params[:line1]
     @account.legal_entity.address.postal_code = params[:postal_code]
+
     # rubocop:disable Metrics/LineLength
     if params[:additional_owner_first_name].present? || params[:additional_owner_last_name].present? || params[:additional_owner_dob].present? || params[:additional_owner_address_city].present? || params[:additional_owner_address_line1].present? || params[:additional_owner_address_postal_code].present?
       @account.legal_entity.additional_owners = [{

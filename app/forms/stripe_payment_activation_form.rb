@@ -2,11 +2,6 @@ class StripePaymentActivationForm < BaseSettingsForm
   attribute :email, String
   attribute :currency, String
   attribute :country, String
-  # attribute :bank_account, String
-  # attribute :legal_first_name, String
-  # attribute :legal_last_name, String
-  # attribute :legal_dob, DateTime
-  # attribute :legal_type, String
   attribute :event_id, Integer
   attribute :application_fee, Integer
 
@@ -16,13 +11,17 @@ class StripePaymentActivationForm < BaseSettingsForm
   validates_presence_of :application_fee
 
   def save(params, request)
-    if valid?
-      persist!
+    return unless valid?
+    persist!
+
+    begin
       Payments::Stripe::AccountManager.new.persist_parameters(params, request)
-      true
-    else
-      false
+    rescue Stripe::InvalidRequestError => e
+      err = e.json_body[:error]
+      errors.add(:request, ": #{err[:message]}") && return
     end
+
+    true
   end
 
   private
