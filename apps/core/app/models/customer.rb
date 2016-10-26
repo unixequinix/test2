@@ -74,7 +74,7 @@ class Customer < ActiveRecord::Base
     if event.receive_communications? || event.receive_communications_two?
       customers.where("customers.receive_communications IS TRUE OR customers.receive_communications_two IS TRUE")
     else
-      customer
+      customers
     end
   }
 
