@@ -13,7 +13,8 @@ RSpec.describe Transactions::Base, type: :job do
       event_id: event.id,
       device_created_at: Time.zone.now.to_s,
       customer_tag_uid: gtag.tag_uid,
-      status_code: 0
+      status_code: 0,
+      activation_counter: 1
     }
   end
 

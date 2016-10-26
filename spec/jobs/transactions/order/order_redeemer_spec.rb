@@ -14,7 +14,8 @@ RSpec.describe Transactions::Order::OrderRedeemer, type: :job do
       profile_id: profile.id,
       catalogable_id: catalog_item.catalogable_id,
       catalogable_type: catalog_item.catalogable_type,
-      customer_order_id: customer_order.counter
+      customer_order_id: customer_order.counter,
+      activation_counter: 1
     }
   end
 
