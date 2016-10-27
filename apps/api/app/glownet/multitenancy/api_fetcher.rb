@@ -89,7 +89,8 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
               counter as online_order_counter,
               customer_orders.amount,
               catalog_items.catalogable_id as catalogable_id,
-              LOWER(catalog_items.catalogable_type) as catalogable_type
+              LOWER(catalog_items.catalogable_type) as catalogable_type,
+              redeemed
             FROM online_orders
             INNER JOIN customer_orders
               ON online_orders.customer_order_id = customer_orders.id
