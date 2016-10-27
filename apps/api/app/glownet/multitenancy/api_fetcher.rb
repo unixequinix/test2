@@ -99,7 +99,6 @@ class Multitenancy::ApiFetcher # rubocop:disable Metrics/ClassLength
               ON catalog_items.id = customer_orders.catalog_item_id
               AND catalog_items.deleted_at IS NULL
             WHERE online_orders.deleted_at IS NULL
-              AND online_orders.redeemed IS false
           ) o
           GROUP BY o.profile_id
         ) ord
