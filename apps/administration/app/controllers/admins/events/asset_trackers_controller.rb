@@ -25,6 +25,7 @@ class Admins::Events::AssetTrackersController < Admins::Events::BaseController
       else
         status = "to_check"
       end
+      @assets[device] = @assets[device] || {}
       @assets[device].merge!(device_transactions: device_trans,
                              server_transactions: server_trans["transactions_count"],
                              transaction_type: server_trans["transaction_type"],
