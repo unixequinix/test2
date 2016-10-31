@@ -8,7 +8,6 @@ class Payments::Stripe::Payer
   def start(customer_order_creator, credit_writer)
     @order.start_payment!
     charge_object = charge
-    return charge_object unless charge_object
     notify_payment(charge_object, customer_order_creator, credit_writer)
     charge_object
   end
@@ -26,15 +25,14 @@ class Payments::Stripe::Payer
         application_fee: get_event_parameter_value(@event, "application_fee")
       )
 
-    rescue Stripe::CardError
-      # The card has been declined
-      charge
+    rescue Exception => error
+      return error
     end
     charge
   end
 
   def notify_payment(charge, customer_order_creator, credit_writer)
-    return unless charge.status == "succeeded"
+    return unless charge.try(:status).eql?("succeeded")
     create_payment(@order, charge)
     credit_writer.save_order(@order)
     customer_order_creator.save(@order, "card", "stripe")

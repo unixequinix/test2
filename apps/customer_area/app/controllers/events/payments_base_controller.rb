@@ -9,5 +9,6 @@ class Events::PaymentsBaseController < Events::BaseController
     @admissions = current_profile.active_tickets_assignment
     @dashboard = Dashboard.new(current_profile, view_context)
     @presenter = CreditsPresenter.new(@dashboard, view_context)
+    @error = params[:error]
   end
 end

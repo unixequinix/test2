@@ -1,4 +1,4 @@
 .error_notification
-  p = t('payment.error.title')
+  p = @error || t('payment.error.title')
 
 = render 'events/events/credits', presenter: @presenter
