@@ -43,6 +43,10 @@ class ApplicationController < ActionController::Base
     @current_event.decorate || Event.new.decorate
   end
 
+  def secrets
+    Rails.application.secrets
+  end
+
   private
 
   def fetch_current_event
@@ -56,9 +60,5 @@ class ApplicationController < ActionController::Base
       admin = Admin.find_by(email: email)
       admin && admin.valid_token?(token)
     end
-  end
-
-  def secrets
-    Rails.application.secrets
   end
 end
