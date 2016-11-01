@@ -8,8 +8,8 @@ class Admins::EventbriteController < ApplicationController
     uri = URI("https://www.eventbrite.com/oauth/token")
     res = Net::HTTP.post_form(uri,
                               code: params[:code],
-                              client_secret: secrets.eventbrite_client_secret,
-                              client_id: secrets.eventbrite_client_id,
+                              client_secret: Rails.application.secrets.eventbrite_client_secret,
+                              client_id: Rails.application.secrets.eventbrite_client_id,
                               grant_type: "authorization_code")
 
     token = JSON.parse(res.body)["access_token"]

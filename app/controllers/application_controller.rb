@@ -43,10 +43,6 @@ class ApplicationController < ActionController::Base
     @current_event.decorate || Event.new.decorate
   end
 
-  def secrets
-    Rails.application.secrets
-  end
-
   private
 
   def fetch_current_event

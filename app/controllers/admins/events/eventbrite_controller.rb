@@ -5,7 +5,8 @@ class Admins::Events::EventbriteController < Admins::Events::BaseController
 
   def index
     session[:event_slug] = @current_event.slug
-    url = "https://www.eventbrite.com/oauth/authorize?response_type=code&client_id=#{secrets.eventbrite_client_id}"
+    atts = {response_type: :codec, client_id: Rails.application.secrets.eventbrite_client_id }.to_param
+    url = "https://www.eventbrite.com/oauth/authorize?#{atts}"
     redirect_to(url) && return unless @token.present?
 
     @eb_events = Eventbrite::User.owned_events({ user_id: "me" }, @token).events
