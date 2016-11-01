@@ -57,4 +57,8 @@ class ApplicationController < ActionController::Base
       admin && admin.valid_token?(token)
     end
   end
+
+  def secrets
+    Rails.application.secrets
+  end
 end

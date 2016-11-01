@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/envoy/eventbrite
+  revision: efa8c4752b7204a9f274345d26deed753d803361
+  specs:
+    eventbrite (0.1.0)
+      hashie (~> 3.0)
+      rest-client (~> 1.4)
+
+GIT
   remote: https://github.com/rails-api/active_model_serializers.git
   revision: f2cb497fe373864d47b8cfb519fbc851d9c4e589
   specs:
@@ -190,9 +198,6 @@ GEM
       thread_safe
     equalizer (0.0.11)
     erubis (2.7.0)
-    eventbrite (0.0.1)
-      hashie (~> 3.0)
-      rest-client (~> 1.4)
     execjs (2.7.0)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
@@ -639,7 +644,7 @@ DEPENDENCIES
   deep_cloneable (~> 2.2.1)
   devise (~> 4.2)
   draper (~> 2.0)
-  eventbrite
+  eventbrite!
   factory_girl_rails (~> 4.5.0)
   faker (~> 1.4.3)
   figaro (~> 1.1, >= 1.1.1)

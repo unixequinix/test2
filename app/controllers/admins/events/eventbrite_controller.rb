@@ -1,57 +1,96 @@
 class Admins::Events::EventbriteController < Admins::Events::BaseController
+  protect_from_forgery except: :webhooks
+  skip_before_action :authenticate_admin!, only: :webhooks
+  before_action :set_agreement, only: [:webhooks, :import_tickets]
+  before_action :check_token
+
   def index
-    render && return unless @current_event.eventbrite?
-    Eventbrite.token = @current_event.eventbrite_token
-    @eb_pagination = Eventbrite::Attendee.all(event_id: @current_event.eventbrite_event).pagination
-  end
+    session[:event_slug] = @current_event.slug
+    url = "https://www.eventbrite.com/oauth/authorize?response_type=code&client_id=#{secrets.eventbrite_client_id}"
+    redirect_to(url) && return unless @token.present?
 
-  def import_tickets # rubocop:disable Metrics/MethodLength
-    @import_errors = []
-    eb_event = @current_event.eventbrite_event
-    @eb_pagination = Eventbrite::Attendee.all(event_id: eb_event).pagination
-    Eventbrite.token = @current_event.eventbrite_token
-
-    @eb_pagination.page_count.times do |page_number|
-      Eventbrite::Attendee.all(event_id: eb_event, page: page_number).attendees.each do |attendee|
-        attendee.barcodes.each do |barcode|
-          ctt = @current_event.company_ticket_types.find_by_company_code(attendee.ticket_class_id)
-          @import_errors << [attendee.ticket_class_id, attendee.ticket_class_name] && next unless ctt
-          ctt.tickets.find_or_create_by!(code: barcode.barcode, event: @current_event)
-        end
-      end
-    end
-
-    if @import_errors.uniq!.any?
-      flash.now.alert = "Errors prevented some tickets import"
-      render :index
-    else
-      redirect_to admins_event_eventbrite_path(@current_event), notice: "All tickets imported"
-    end
-  end
-
-  def disconnect
-    @current_event.update(eventbrite_token: nil)
-    redirect_to admins_event_eventbrite_path(@current_event), success: "Eventbrite successfully disconnected"
+    @eb_events = Eventbrite::User.owned_events({ user_id: "me" }, @token).events
+    @eb_event = @eb_events.select { |event| event.id.eql? @current_event.eventbrite_event }.first
+    @eb_attendees = Eventbrite::Attendee.all({ event_id: @eb_event.id }, @token).pagination.object_count if @eb_event
   end
 
   def connect
-    key = params[:event][:eventbrite_client_key]
-    secret = params[:event][:eventbrite_client_secret]
-    redirect_to(:index, error: "Both fields are necessary") && return unless key && secret
-    @current_event.update(eventbrite_client_key: key, eventbrite_client_secret: secret)
-    redirect_to "https://www.eventbrite.com/oauth/authorize?response_type=code&client_id=#{params[:event][:eventbrite_client_key]}" # rubocop:disable Metrics/LineLength
+    event_id = params[:eb_event_id]
+    @current_event.update eventbrite_event: event_id
+    # url = "http://25883980.ngrok.io/admins/events/#{@current_event.slug}/eventbrite/webhooks"
+    url = admins_event_eventbrite_webhooks_url(@current_event)
+    actions = "order.placed,order.refunded,order.updated"
+    Eventbrite::Webhook.create({ endpoint_url: url, event_id: event_id, actions: actions }, @token)
+    redirect_to admins_event_eventbrite_import_tickets_path(@current_event)
   end
 
-  def auth
-    @params = { code: params[:code],
-                client_secret: @current_event.eventbrite_client_secret,
-                client_id: @current_event.eventbrite_client_key,
-                grant_type: "authorization_code" }
+  def disconnect
+    resp, token = Eventbrite.request(:get, "/webhooks", @token)
+    webhooks = Eventbrite::Util.convert_to_eventbrite_object(resp, token, Eventbrite::Webhook).webhooks
 
-    uri = URI.parse("https://www.eventbrite.com/oauth/token")
-    token = JSON.parse(Net::HTTP.post_form(uri, @params).body)["access_token"]
-    @current_event.update(eventbrite_token: token)
+    webhooks.select { |wh| wh.event_id == @current_event.eventbrite_event }.each do |wh|
+      Eventbrite::Webhook.delete(wh.id, @token)
+    end
 
-    redirect_to admins_event_eventbrite_path(@current_event), success: "Eventbrite successfully connected"
+    @current_event.update! eventbrite_token: nil, eventbrite_event: nil
+    redirect_to admins_event_path(@current_event), notice: "Successfully disconnected form Eventbrite"
+  end
+
+  def webhooks
+    path = URI(params[:eventbrite][:api_url]).path.gsub("/" + Eventbrite::DEFAULTS[:api_version], "")
+    resp, token = Eventbrite.request(:get, path, @token, expand: "attendees")
+    order = Eventbrite::Util.convert_to_eventbrite_object(resp, token)
+
+    process_order(order)
+    render nothing: true
+  end
+
+  def import_tickets
+    eb_event = @current_event.eventbrite_event
+    pages = Eventbrite::Order.all({ event_id: eb_event, expand: "attendees" }, @token).pagination.page_count
+
+    pages.times do |page_number|
+      orders = Eventbrite::Order.all({ event_id: eb_event, page: page_number, expand: "attendees" }, @token).orders
+      orders.each { |order| process_order(order) }
+    end
+
+    redirect_to admins_event_eventbrite_path(@current_event), notice: "All tickets imported"
+  end
+
+  private
+
+  def process_order(order)
+    barcodes = order.attendees.map(&:barcodes).flatten.map(&:barcode)
+    @current_event.tickets.where(code: barcodes).destroy_all && return unless order.status.eql?("placed")
+
+    ticket_types = @current_event.company_ticket_types.where(company_event_agreement: @agreement)
+
+    order.attendees.each do |attendee|
+      attendee.barcodes.each do |barcode|
+        ctt = ticket_types.find_or_create_by!(company_code: attendee.ticket_class_id, name: attendee.ticket_class_name)
+        ticket = ctt.tickets.find_or_create_by!(code: barcode.barcode, event: @current_event)
+        profile = attendee.profile
+        purchaser = ticket.purchaser || ticket.build_purchaser
+
+        purchaser.update! first_name: profile.first_name, last_name: profile.last_name, email: profile.email
+      end
+    end
+  end
+
+  def set_agreement
+    company = Company.find_or_create_by!(name: "Eventbrite")
+    @agreement = CompanyEventAgreement.find_or_create_by!(event: @current_event, company: company)
+  end
+
+  def check_token
+    @token = @current_event.eventbrite_token
+    return unless @token
+    begin
+      Eventbrite::User.retrieve("me", @token)
+    rescue Eventbrite::AuthenticationError
+      session[:event_slug] = @current_event.slug
+      @current_event.update! eventbrite_token: nil
+      redirect_to admins_eventbrite_auth_path
+    end
   end
 end

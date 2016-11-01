@@ -7,7 +7,7 @@ it:
       suscribe_on_you_tube: 'Abbonati su YouTube'
       communication: "Questo è un messaggio automatico da %{event_name}"
       footer_glownet: 'Saremo lieti di assistervi nell’ utilizzo di questo portale. Scriveteci a '
-      footer_organizer: 'Avete domande per l’ Organizzazione? Mettetevi in contatto direttamente '
+      footer_organizer: 'Avete domande per Movement Entertainment? Mettetevi in contatto direttamente cashless@movement.it'
       footer_copy: 'Copyright Glownet © %{year} Tutti i diritti riservati.'
       order:
         completed:
@@ -16,10 +16,10 @@ it:
           order_number: 'Il tuo ordine'
           greet: 'Ciao, %{name}!'
           date: 'Data del acquisto'
-          description: 'Tutti i Crediti Online acquistati appariranno automaticamente sul tuo %{gtag} una volta entrati nell’ evento. Il tuo %{gtag}  è una maniera rapida e conveniente per pagare cibo, bevande e merchandise. Sarà l’ unico metodo di pagamento presente durante l’ evento.'
-          autotopup_description: 'I crediti acquistati con la PayPal Experience saranno applicati in modo automatico nel tuo %{gtag} nei punti di vendita. Il tuo %{gtag}  è una maniera rapida e conveniente per pagare cibo, bevande e merchandise. Sarà l’ unico metodo di pagamento presente durante l’ evento.'
+          description: 'Tutti i crediti acquistati online appariranno automaticamente sul tuo %{gtag} una volta entrati nell’ evento. La tua %{gtag} è una maniera rapida e conveniente per pagare cibo, bevande, merchandise e altri beni e servizi. Sarà l’unico metodo di pagamento presente durante l’evento.'
+          autotopup_description: 'I crediti acquistati con la PayPal Experience saranno applicati in modo automatico nel tuo %{gtag} nei punti di vendita. Il tuo %{gtag}  è una maniera rapida e conveniente per pagare cibo, bevande e merchandise. Sarà l’unico metodo di pagamento presente durante l’evento.'
           success: 'Il tuo ordine è stato ricevuto. I dettagli sono in basso:'
-          thanks: 'Grazie per il tuo acquisto.'
+          thanks: 'Grazie per la tua ricarica.'
       claim:
         available_claim:
           title: '¡Adesso è possibile rimborsare i tuoi crediti!'

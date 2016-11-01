@@ -5,71 +5,53 @@
     = t('actions.back')
 
   - if @current_event.eventbrite?
-    = link_to admins_event_eventbrite_disconnect_path(@current_event), data: { confirm: "Are you sure you want to disconnect Eventbrite?" }, class: "btn btn-action btn-action-back small" do
-      = fa_icon 'chain-broken'
-      = t('actions.disconnect')
     = link_to admins_event_eventbrite_import_tickets_path(@current_event), class: "btn btn-action btn-action-back small" do
       = fa_icon 'download'
       = t('actions.import_tickets')
+    = link_to admins_event_eventbrite_disconnect_path(@current_event), class: "btn btn-action btn-action-back small", alert: "Beware! Tickets will remain in the system. If you want, delete them by hand." do
+      = fa_icon 'chain-broken'
+      | Disconnect
 
-- if @current_event.eventbrite?
-  .wrapper-negative-space
-    .container-dashboard.wrapper-dashboard-main
-      .event-status
-        h3 Eventbrite configuration
-        p
-          label Client key
-          = @current_event.eventbrite_client_key
-        br
-        p
-          label Event ID
-          = @current_event.eventbrite_event
+.wrapper-negative-space
+  - if @current_event.eventbrite_event.present?
+    h2 = "Connected to '#{@eb_event.name.text}'"
+    .container-show
+      = image_tag @eb_event.logo.original.url, width: "100%" if @eb_event.logo.present?
+      dl
+        dt Start
+        dd = Time.parse(@eb_event.start.local).to_s(:long)
+        dt End
+        dd = Time.parse(@eb_event.end.local).to_s(:long)
+        dt Attendees
+        dd = "#{@eb_attendees.to_i} sold out of #{@eb_event.capacity}"
+        dt Status
+        dd = @eb_event.status
+        dt Password
+        dd = @eb_event.try(:password)
+        dt Currency
+        dd = @eb_event.currency
+        dt ID
+        dd = @eb_event.id
+        dt URL
+        dd = link_to @eb_event.url, @eb_event.url, target: "_blank"
+        dt Description
+        dd = @eb_event.description.html.html_safe
 
-    .container-dashboard.wrapper-dashboard-main
-      .event-status
-        h3 Eventbrite Attendees
-        p
-          label Number
-          = @eb_pagination.object_count
-        br
-        p
-          label Pages
-          = @eb_pagination.page_count
-
-  - if @import_errors
-    .wrapper-negative-space
-      .container-show
-        h2 Company Ticket Types missing
-        table
-          thead
-            tr
-              th ID (Company Code)
-              th Name
-          tbody
-            - @import_errors.each do |id, name|
-              tr
-                td= id
-                td= name
-
-- elsif @current_event.eventbrite_token.present?
-  = simple_form_for [:admins, @current_event] do |f|
-    fieldset
-      h3.section-header
-        = fa_icon "info-circle"
-        = t("admin.event.fieldests.eventbrite")
-      = f.input :eventbrite_event, label: "Eventbrite Event ID", placeholder: true
-
-    .wrapper-negative-space
-    = f.button :submit, class: "btn btn-primary", value: "Update"
-
-- else
-  = simple_form_for @current_event, url: admins_event_eventbrite_connect_path(current_event) do |f|
-    fieldset
-      h3.section-header
-        = fa_icon "info-circle"
-        = t("admin.event.fieldests.eventbrite")
-      = f.input :eventbrite_client_key, label: "Client Key", placeholder: true
-      = f.input :eventbrite_client_secret, label: "Client Secret", placeholder: true
-
-    .wrapper-negative-space
-      = f.button :submit, class: "btn btn-primary", value: "Connect"
+  - else
+    h2 Connect Eventbrite and Glownet
+    table.events
+      thead
+        tr
+          th Name
+          th ID
+          th Connect
+      tbody
+        - @eb_events.each do |event|
+          tr
+            td = event.name.text
+            td = event.id
+            td
+              - if @current_event.eventbrite_event.eql?(event.id)
+                = fa_icon 'check'
+              - else
+                = link_to fa_icon('plug'), admins_event_eventbrite_connect_path(@current_event, event.id)

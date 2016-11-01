@@ -10,6 +10,11 @@ Rails.application.routes.draw do
   devise_for :admins, controllers: { sessions: "admins/sessions"}
 
   namespace :admins do
+
+    namespace :eventbrite do
+      get :auth
+    end
+
     resources :locale do
       member do
         get "change"
@@ -108,10 +113,10 @@ Rails.application.routes.draw do
 
         # Eventbrite
         get "eventbrite", to: "eventbrite#index"
-        get "eventbrite/auth", to: "eventbrite#auth"
-        patch "eventbrite/connect", to: "eventbrite#connect"
-        get "eventbrite/disconnect", to: "eventbrite#disconnect"
         get "eventbrite/import_tickets", to: "eventbrite#import_tickets"
+        get "eventbrite/disconnect", to: "eventbrite#disconnect"
+        get "eventbrite/connect/:eb_event_id", to: "eventbrite#connect", as: 'eventbrite_connect'
+        post "eventbrite/webhooks", to: "eventbrite#webhooks"
 
         resource :device_settings, only: [:show, :edit, :update] do
           member do

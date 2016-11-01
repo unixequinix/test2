@@ -22,8 +22,7 @@ module ApplicationHelper
   end
 
   def title
-    return "Glownet" if Rails.env == "production"
-    "[#{Rails.env.upcase}] Glownet"
+    Rails.env == "production" ? "Glownet" : "[#{Rails.env.upcase}] Glownet"
   end
 
   def icon_to_draw(payment_service)

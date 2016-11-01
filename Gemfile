@@ -45,7 +45,7 @@ gem 'font-awesome-rails', '~> 4.5.0.1'
 gem 'jbuilder', '~> 2.2.13'
 gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_serializers.git'
 gem 'rack-cors', require: 'rack/cors'
-gem 'eventbrite'
+gem 'eventbrite', git: "https://github.com/envoy/eventbrite"
 
 # Turbolinks
 gem 'turbolinks', '~> 2.5.3'
