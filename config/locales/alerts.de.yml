@@ -9,7 +9,7 @@ de:
     unassigned: "Erfolgreich nicht zugeteilt"
     error: "Formfehler prüfen"
     checkout: 'Du kannst nur numerische Daten ohne Dezimalstelle und niedriger als %{limit} verwenden'
-    admissions:  "Ticket nicht erkannt. Wenn Sie es innerhalb der vergangenen 48 Stunden erworben haben, versuchen Sie es bitte später wieder, während wir Ihre Kaufinformationen aktualisieren. Andernfalls wenden Sie sich bitte an den Support. Bitte beachten Sie, dass nur %{companies} Tickets für diesen Vor-Veranstaltungsservice unterstützt werden."
+    admissions:  "Ticket not found. If you have purchased it within the last 48 hours, please try again later until we update your purchase. Otherwise contact support."
     order_complete: "Bestellung abgeschlossen"
     order_expired: "Bestellung abgelaufen. Mehr als 15 Minuten vergangen."
     claim_complete: "Forderung abgeschlossen. Mehr als 15 Minuten vergangen."

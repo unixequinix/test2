@@ -36,7 +36,11 @@ class Customer < ActiveRecord::Base
   scope :query_for_csv, lambda { |event|
     customers = event.customers.select("id, first_name, last_name, email, birthdate, phone, postcode, address, city,
                                        country, gender, created_at")
-    event.receive_communications? ? customers.where(receive_communications: true) : customers
+    if event.receive_communications? || event.receive_communications_two?
+      customers.where("customers.receive_communications IS TRUE OR customers.receive_communications_two IS TRUE")
+    else
+      customers
+    end
   }
 
   # Methods

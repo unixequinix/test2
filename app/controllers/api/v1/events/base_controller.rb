@@ -94,13 +94,13 @@ class Api::V1::Events::BaseController < Api::BaseController
               counter as online_order_counter,
               amount,
               catalog_items.catalogable_id as catalogable_id,
-              LOWER(catalog_items.catalogable_type) as catalogable_type
+              LOWER(catalog_items.catalogable_type) as catalogable_type,
+              redeemed
             FROM customer_orders
             INNER JOIN catalog_items
               ON catalog_items.id = customer_orders.catalog_item_id
             AND catalog_items.deleted_at IS NULL
             WHERE customer_orders.deleted_at IS NULL
-              AND customer_orders.redeemed IS FALSE
           ) o
           GROUP BY o.profile_id
         ) ord

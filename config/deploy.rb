@@ -1,6 +1,3 @@
-# config valid only for current version of Capistrano
-lock "3.5.0"
-
 set :application, "glownet_web"
 set :repo_url, "git@github.com:Gl0wnet/web-core.git"
 set :bundle_without, [:darwin, :development, :test]
