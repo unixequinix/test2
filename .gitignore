@@ -15,13 +15,6 @@
 /log/*.log
 /tmp
 
-# Ignore secrets. This is symlinked using Capistrano.
-/config/secrets.yml
-/config/application.yml
-/config/database.yml
-/config/newrelic.yml
-/config/servers/*
-
 doc/
 *.swp
 *~
@@ -41,3 +34,6 @@ dump.rdb
 .ruby-gemset
 .idea/*
 *.sql
+
+# Ignore application configuration
+/config/application.yml

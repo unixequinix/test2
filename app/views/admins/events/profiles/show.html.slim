@@ -1,0 +1,30 @@
+- breadcrumb :admins_event_profile, current_event, @profile
+- provide :actions do
+  = link_to t("admin.actions.assign_ticket"), new_admins_event_ticket_assignment_path(current_event, @profile), class: "btn btn-action btn-action-new small"
+  = link_to t("admin.actions.assign_gtag"), new_admins_event_gtag_assignment_path(current_event, @profile), class: "btn btn-action btn-action-new small"
+  = link_to download_transactions_admins_event_profile_path(current_event, @profile), class: "btn btn-action btn-action-back small" do
+    = fa_icon "file-pdf-o"
+    = t('admin.actions.credits_history')
+  = link_to admins_event_profiles_path(current_event), class: "btn btn-action btn-action-back small" do
+    = fa_icon "arrow-circle-left"
+    = t('actions.back')
+
+.wrapper-negative-space
+  h2 =  "#{@profile.customer.first_name} #{@profile.customer.last_name}. #{@profile.customer.email}" if @profile.customer
+  - root = "admins/events/profiles/sections/"
+  = render(root + "credits", profile: @profile)
+  
+  .container-show
+    = render(root + "ticket_assignments", profile: @profile) if @profile.tickets.any?
+    = render(root + "gtag_assignments", profile: @profile) if @profile.gtags.any?
+
+    = render(root + "transactions", transactions: @transactions) if @transactions.present?
+
+    = render(root + "purchases_information", profile: @profile) if @profile.sorted_purchases(format: :list).any?
+    = render(root + "orders", profile: @profile) if @profile.orders.any?
+    = render(root + "customer_orders", profile: @profile) if @profile.customer_orders.any?
+
+    = render(root + "claims", profile: @profile) if @profile.claims.any?
+    = render(root + "completed_claims", profile: @profile, refund: @profile.completed_claim.refund) if @profile.completed_claims.present?
+
+    = render(root + "payments_information", profile: @profile) if @profile.payment_gateway_customers.any?

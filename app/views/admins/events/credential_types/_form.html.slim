@@ -1,0 +1,5 @@
+= simple_form_for [:admins, current_event, credential_type] do |f|
+  .wrapper-negative-space
+    = f.input :catalog_item_id, as: :select, collection: current_event.catalog_items.only_credentiables,
+      include_blank: false, placeholder: true, selected: credential_type.catalog_item_id
+    = f.button :submit, class: "btn btn-primary"

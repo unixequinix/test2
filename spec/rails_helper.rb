@@ -1,5 +1,6 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'simplecov'
+require 'codecov'
 require 'spec_helper'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
@@ -24,6 +25,7 @@ unless ARGV.any? {|e| e =~ /guard-rspec/ }
     add_filter "/vendor/"
     add_filter "/i18n/"
   end
+  SimpleCov.formatter = SimpleCov::Formatter::Codecov
 end
 
 require File.expand_path('../../config/environment', __FILE__)
@@ -90,7 +92,6 @@ RSpec.configure do |config|
   config.include ControllerMacros, type: :controller
   config.include I18nMacros, type: :feature
   config.include ParametersMacros, type: :feature
-  config.include AsyncHelper, type: :feature
   config.include Warden::Test::Helpers
 
   Warden.test_mode!

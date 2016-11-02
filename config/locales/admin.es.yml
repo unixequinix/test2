@@ -328,7 +328,6 @@ es:
       sign_out: "Cerrar Sesión"
       setup: "Setup"
       crm: "CRM"
-      vouchers: "Cupones"
       credential_types: "Tipos de Credenciales"
       companies: "Compañías"
       company_ticket_types: "Tipo de tickets de compañia"
@@ -359,8 +358,6 @@ es:
       max_purchasable: "Máximo Comprable"
       min_purchasable: "Mínimo Comprable"
       catalogable_type: "Tipo"
-    vouchers:
-      id: "Id"
     pack:
       number_catalog_items: "Número de items"
       add_item: "Añadir Item"
@@ -492,12 +489,11 @@ es:
       orders: "Ordenes"
       payments: "Pagos"
       payments_activated: "Pagos activados"
-      gtag_assignments: "Registro de Gtags"
+      gtag: "Gtags"
       completed_claim: "Peticiones de devolución completadas"
       refund: "Refund"
       claims: "Peticiones de devolución"
       customer_orders: "Órdenes de cliente"
-      online_orders: "Órdenes online"
       gtag_credits: "Créditos Gtag"
       tickets: "Tickets"
       credits: "Créditos"
@@ -519,7 +515,7 @@ es:
         email: "Email"
         confirmed: "¿Confirmado?"
         tickets: "¿Tickets?"
-        gtag_assignments: "¿Gtags?"
+        gtag: "¿Gtags?"
         credits_purchased: "¿Créditos Comprados?"
     claims:
       claim_number: "Claim number"
@@ -571,11 +567,7 @@ es:
       profile: "Perfil de cliente"
       catalog_item: "Producto del catálogo"
       origin: "Origen"
-      online_order: "Órden online"
-    online_orders:
-      id: "Id"
       redeemed: "Canjeado"
-      customer_order_id: "Id ordén de cliente"
     payments:
       id: "Id"
       order_id: "Order Id"

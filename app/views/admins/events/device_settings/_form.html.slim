@@ -1,0 +1,37 @@
+= simple_form_for @device_settings_form, url: admins_event_device_settings_path(@current_event), method: :patch do |f|
+  fieldset
+    h3.section-header
+      = fa_icon "info-circle"
+      = t("admin.event.fieldests.parameters")
+
+    = f.input :min_version_apk
+    = f.input :topup_initialize_gtag, as: :radio_buttons
+    = f.input :cypher_enabled, as: :radio_buttons
+    = f.input :autotopup_enabled, as: :radio_buttons
+    = f.input :event_id, as: :hidden, input_html: { value: @current_event.id }
+  
+  fieldset
+    h3.section-header
+      = fa_icon "shopping-cart"
+      = t("admin.event.fieldests.online_orders")
+    = f.input :touchpoint_update_online_orders, as: :radio_buttons
+    = f.input :pos_update_online_orders, as: :radio_buttons
+
+  fieldset
+    h3.section-header
+      = fa_icon "lock"
+      = t("admin.event.fieldests.security")
+
+    = f.input :private_zone_password, as: :string
+    = f.input :fast_removal_password, as: :string
+    = f.input :gtag_blacklist, as: :string
+
+  fieldset
+    h3.section-header
+      = fa_icon "rss"
+      = t("admin.event.fieldests.nfc")
+
+    = f.input :uid_reverse, as: :radio_buttons
+
+  .wrapper-negative-space
+    = f.button :submit, t('admin.actions.update'), class: "btn btn-primary"

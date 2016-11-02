@@ -331,7 +331,6 @@ it:
       sign_out: "Sign out"
       setup: "Setup"
       crm: "CRM"
-      vouchers: "Vouchers"
       credential_types: "Credential Types"
       companies: "Companies"
       company_ticket_types: "Company ticket types"
@@ -362,8 +361,6 @@ it:
       max_purchasable: "Max purchasable"
       min_purchasable: "Min purchasable"
       catalogable_type: "Type"
-    vouchers:
-      id: "Id"
     products:
       id: "Id"
       name: "Name"
@@ -378,7 +375,7 @@ it:
       instructions:
         title: "Atention"
         conditions:
-          - "There aren't other kind of items in a pack, like accesses or vouchers"
+          - "There aren't other kind of items in a pack, like accesses"
           - "If a pack includes special price credits, the refundable amount of the credits will be the result of multiplying the payed price by the credi value"
     credential_type:
       id: "Id"
@@ -495,12 +492,11 @@ it:
       orders: "Orders"
       payments: "Payments"
       payments_activated: "Payments activated"
-      gtag_assignments: "Gtag registrations"
+      gtag: "Gtags"
       completed_claim: "Completed claims"
       refund: "Refund"
       claims: "Claims"
       customer_orders: "Customer orders"
-      online_orders: "Online orders"
       gtag_credits: "Gtag Credits"
       credits: "Credits"
       search: "Name Count"
@@ -521,7 +517,7 @@ it:
         email: "Type email"
         confirmed: "Confirmed?"
         tickets: "Tickets?"
-        gtag_assignments: "Gtags?"
+        gtag: "Gtags"
         credits_purchased: "Credits Purchased?"
     claims:
       claim_number: "Claim number"
@@ -572,12 +568,8 @@ it:
       amount: "Amount"
       profile: "Profiles"
       catalog_item: "Catalog item"
-      online_order: "Online order"
       origin: "Origin"
-    online_orders:
-      id: "Id"
       redeemed: "Redeemed"
-      customer_order_id: "Customer order id"
     payments:
       id: "Id"
       order_id: "Order Id"
@@ -592,8 +584,6 @@ it:
       paid: "Paid at"
       search:
         id: "Id eq"
-    comments:
-      title: "Comments"
     refunds:
       id: "Id"
       customer_id: "Customer Id"

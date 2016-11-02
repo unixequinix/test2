@@ -1,0 +1,18 @@
+.wrapper-module.credential-types
+  h3 = @ticket.company_ticket_type.name
+  ul
+    li.ticket-detail-module
+      ul
+        | Ticket
+        = @ticket.code
+    - if @products.any?
+      li.ticket-detail-module
+        ul
+          label Products
+          - @products.each do |product|
+            li= product.name
+
+.wrapper-module
+  = link_to customer_root_path, class: "btn btn-action-back" do
+    = fa_icon "chevron-left"
+    = t("actions.back")

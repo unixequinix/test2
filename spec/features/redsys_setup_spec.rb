@@ -18,7 +18,7 @@ RSpec.feature "Redsys Setup", type: :feature do
           fill_in(t("#{@form_i18n}.name"), with: "Test")
           check("Redsys")
         end
-        click_button(t("helpers.submit.create", model: "Event"))
+        click_button(t("helpers.submit.create", model: "Event"), match: :first)
         expect(page).to have_text(t("admin.defaults.home"))
       end
     end

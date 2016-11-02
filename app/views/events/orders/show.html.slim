@@ -1,0 +1,27 @@
+.wrapper-module
+  = render("order_summary")
+  - if current_event.selected_payment_services.length > 1
+
+    p#payment-anchor.payment-anhor-mobile.hint-text
+      = t('orders.payment')
+    p.payment-anchor-desktop.hint-text
+      = t('orders.payment')
+
+    ul.container-payment-buttons
+      - current_event.selected_payment_services.each_with_index do |payment_service, index|
+        - selected = (index.zero? && @payment_service.nil?) || payment_service.to_s.eql?(@payment_service)
+        li
+          .btn-payment-trigger [data-target="#{payment_service}" class=(selected ? "button-selected" : "")]
+            = icon_to_draw(payment_service)
+            p = t("orders.payment-buttons.#{payment_service}.name")
+
+- @order_presenters.each_with_index do |order_presenter, index|
+  - presenter = order_presenter.class.to_s.split("::").last.gsub("Presenter", "").underscore
+  - selected = (index.zero? && @payment_service.nil?) || presenter.eql?(@payment_service)
+  .container-method [id="method-#{order_presenter.payment_service}" class=(selected ? "show-container" : "")]
+    = render order_presenter.path, order_presenter: order_presenter, autotopup_payment: true
+
+.wrapper-module
+  = link_to customer_root_path, class: "btn btn-action-back" do
+    = fa_icon "chevron-left"
+    = t("actions.back")

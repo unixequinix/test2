@@ -328,7 +328,6 @@ th:
       sign_out: "Sign out"
       setup: "Setup"
       crm: "CRM"
-      vouchers: "Vouchers"
       credential_types: "Credential Types"
       companies: "Companies"
       company_ticket_types: "Company ticket types"
@@ -359,15 +358,13 @@ th:
       max_purchasable: "Max purchasable"
       min_purchasable: "Min purchasable"
       catalogable_type: "Type"
-    vouchers:
-      id: "Id"
     pack:
       number_catalog_items: "Number of items"
       add_item: "Add Item"
       instructions:
         title: "Atention. Credits in a pack will be refundable only if:"
         conditions:
-          - "There aren't other kind of items in a pack, like accesses or vouchers"
+          - "There aren't other kind of items in a pack, like accesses"
           - "If a pack includes special price credits, the refundable amount of the credits will be the result of multiplying the payed price by the credi value"
     products:
       id: "Id"
@@ -492,12 +489,11 @@ th:
       orders: "Orders"
       payments: "Payments"
       payments_activated: "Payments activated"
-      gtag_assignments: "Gtag registrations"
+      gtags: "Gtags"
       completed_claim: "Completed claims"
       refund: "Refund"
       claims: "Claims"
       customer_orders: "Customer orders"
-      online_orders: "Online orders"
       gtag_credits: "Gtag Credits"
       tickets: "Tickets"
       credits: "Credits"
@@ -519,7 +515,7 @@ th:
         email: "Type email"
         confirmed: "Confirmed?"
         tickets: "Tickets?"
-        gtag_assignments: "Gtags?"
+        gtags: "Gtags"
         credits_purchased: "Credits Purchased?"
     claims:
       claim_number: "Claim number"
@@ -571,11 +567,7 @@ th:
       profile: "Profiles"
       catalog_item: "Catalog item"
       origin: "Origin"
-      online_order: "Online order"
-    online_orders:
-      id: "Id"
       redeemed: "Redeemed"
-      customer_order_id: "Customer order id"
     payments:
       id: "Id"
       order_id: "Order Id"
@@ -590,8 +582,6 @@ th:
       paid: "Paid at"
       search:
         id: "Id eq"
-    comments:
-      title: "Comments"
     refunds:
       id: "Id"
       customer_id: "Customer Id"

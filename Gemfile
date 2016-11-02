@@ -1,6 +1,5 @@
 Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
-require File.dirname(__FILE__) + '/lib/boot_inquirer'
 
 ruby '2.3.1'
 source 'https://rubygems.org'
@@ -31,21 +30,22 @@ gem 'aws-sdk', '~> 2'
 gem 'best_in_place', '~> 3.0.1'
 
 # Authentication
-gem 'bcrypt', '~> 3.1.10'
-gem 'warden', '~> 1.2.3'
-gem 'recaptcha', require: 'recaptcha/rails'
+gem 'devise', '~> 4.2'
+gem 'omniauth', '~> 1.3', '>= 1.3.1'
+gem 'omniauth-facebook', '~> 4.0'
+gem 'omniauth-twitter', '~> 1.2', '>= 1.2.1'
+gem "omniauth-google-oauth2"
 
 # Design
 gem 'bourbon', '~> 4.2.2'
 gem 'neat', '~> 1.7.2'
 gem 'font-awesome-rails', '~> 4.5.0.1'
-gem 'scss_lint', require: false
 
 # APIs
 gem 'jbuilder', '~> 2.2.13'
 gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_serializers.git'
 gem 'rack-cors', require: 'rack/cors'
-gem 'eventbrite'
+gem 'eventbrite', git: "https://github.com/envoy/eventbrite"
 
 # Turbolinks
 gem 'turbolinks', '~> 2.5.3'
@@ -103,7 +103,7 @@ gem 'whenever', '~> 0.9.4', require: false
 
 # Internationalization
 gem 'globalize', '~> 5.0.1'
-gem 'i18n-globals', git: 'https://github.com/sebastianzillessen/i18n-globals.git'
+gem 'i18n-globals', '~> 0.0.4'
 
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.1', group: :doc
@@ -111,21 +111,18 @@ gem 'sdoc', '~> 0.4.1', group: :doc
 # PDF Generation
 gem 'wicked_pdf'
 
-# App monitoring
-gem 'rollbar'
-
 # Validations
 gem 'rfc-822'
 
+gem 'figaro', '~> 1.1', '>= 1.1.1'
+
 group :development do
   gem 'foreman', '~> 0.78.0'
-  gem 'annotate', '~> 2.6.10'
   gem 'bullet', '~> 4.14.4' # Help to kill N+1 queries and unused eager loading
   gem 'rails-erd', '~> 1.4.4' # Entity-relationship diagrams (ERD)
   gem 'railroady', '~> 1.4.1' # Controller diagrams (ERD)
   gem 'quiet_assets', '~> 1.1.0'
   gem 'hirb', '~> 0.7.3' #  Improve ripl(irb)'s default inspect output
-  gem 'guard-rubocop'
   gem 'ruby-progressbar'
   gem 'capistrano'
   gem 'capistrano-rails', '~> 1.1.3'
@@ -135,10 +132,6 @@ group :development do
   gem 'capistrano-sidekiq', '~> 0.5.3'
   gem 'capistrano-faster-assets', '~> 1.0'
   gem 'capistrano-secrets-yml', '~> 1.0.0'
-end
-
-group :development, :darwin do
-  gem 'rb-fsevent'
 end
 
 group :development, :test do
@@ -151,12 +144,15 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.2.1'
   gem 'rspec-mocks'
   gem 'rspec-activemodel-mocks'
-  gem 'guard-rspec', '~> 4.5.0', require: false
-  gem 'spring-commands-rspec', '~> 1.0.4'
   gem 'awesome_print', require:'ap'
-  gem 'terminal-notifier-guard'
-  gem 'guard-bundler', require: false
   gem 'i18n-tasks', '~> 0.9.5'
+
+  gem 'guard'
+  gem 'guard-rubocop', require: false
+  gem 'guard-rspec', '~> 4.5.0', require: false
+  gem 'rb-fsevent'
+  gem 'terminal-notifier-guard', '~> 1.6.1'
+  gem 'terminal-notifier'
 end
 
 group :development, :test, :integration do
@@ -168,7 +164,6 @@ group :development, :test, :staging do
   gem 'faker', '~> 1.4.3'
   gem 'rubocop', require: false # Code quality https://github.com/bbatsov/rubocop
   gem 'rubocop-checkstyle_formatter', require: false
-  gem 'simplecov', '~> 0.10.0', require: false # Code quality https://github.com/colszowka/simplecov
 end
 
 group :test do
@@ -180,15 +175,15 @@ group :test do
   gem 'shoulda-matchers', '~> 2.8.0', require: false
   gem 'database_cleaner', '~> 1.4.1'
   gem 'rspec-sidekiq'
+  gem 'simplecov', '~> 0.10.0', require: false
+  gem 'codecov', require: false
 end
 
 group :production, :staging, :demo, :refunds do
-  gem 'newrelic_rpm'
   gem 'dalli', '~> 2.7.4' # Memcached
   gem 'therubyracer'
 end
 
-BootInquirer.each_active_app do |app|
-  gemspec path: "apps/#{app.gem_name}"
+group :production do
+  gem 'newrelic_rpm'
 end
-gemspec path: 'apps/core'

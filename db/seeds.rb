@@ -1,19 +1,5 @@
-# Event parameters
-# ------------------------------
-
-puts "----------------------------------------"
-puts "Create event parameters"
-puts "----------------------------------------"
-
+puts "- Creating Event parameters"
 Seeder::SeedLoader.create_event_parameters
 
-# Claim parameters
-# ------------------------------
-
-puts "Create Claim parameters"
-puts "----------------------------------------"
-
+puts "- Creating Calim parameters"
 Seeder::SeedLoader.create_claim_parameters
-
-# Stations
-# ------------------------------

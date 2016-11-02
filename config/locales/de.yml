@@ -107,9 +107,6 @@ de:
       company_ticket_type:
         one: 'Firmenticket-Typ'
         other: 'Firmenticket-Typen'
-      voucher:
-        one: 'Gutschein'
-        other: 'Gutscheine'
     errors:
       models:
         customer:
