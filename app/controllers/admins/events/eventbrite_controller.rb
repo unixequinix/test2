@@ -17,7 +17,7 @@ class Admins::Events::EventbriteController < Admins::Events::BaseController
   def connect
     event_id = params[:eb_event_id]
     @current_event.update eventbrite_event: event_id
-    #url = "http://25883980.ngrok.io/admins/events/#{@current_event.slug}/eventbrite/webhooks"
+    # url = "http://25883980.ngrok.io/admins/events/#{@current_event.slug}/eventbrite/webhooks"
     url = admins_event_eventbrite_webhooks_url(@current_event)
     actions = "order.placed,order.refunded,order.updated"
     Eventbrite::Webhook.create({ endpoint_url: url, event_id: event_id, actions: actions }, @token)
