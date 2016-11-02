@@ -5,8 +5,7 @@
     = f.input :code, placeholder: true
     = f.input :credential_redeemed, as: :radio_buttons, placeholder: true
     = f.input :banned, as: :radio_buttons, placeholder: true
-    = f.simple_fields_for :purchaser do |purchaser|
-      = purchaser.input :first_name
-      = purchaser.input :last_name
-      = purchaser.input :email
+    = f.input :purchaser_first_name
+    = f.input :purchaser_last_name
+    = f.input :purchaser_email
     = f.button :submit, class: "btn btn-primary"

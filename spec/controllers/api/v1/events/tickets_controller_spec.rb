@@ -22,7 +22,8 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
       end
       it "returns the necessary keys" do
         JSON.parse(response.body).map do |ticket|
-          keys = %w(reference credential_redeemed banned updated_at credential_type_id customer_id)
+          keys = %w(reference credential_redeemed purchaser_first_name purchaser_last_name purchaser_email banned
+                    updated_at credential_type_id customer_id)
           expect(ticket.keys).to eq(keys)
         end
       end
@@ -118,9 +119,9 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
                 amount: orders.first.amount
               }]
             },
-            purchaser_first_name: @ticket.purchaser&.first_name,
-            purchaser_last_name: @ticket.purchaser&.last_name,
-            purchaser_email: @ticket.purchaser&.email
+            purchaser_first_name: @ticket.purchaser_first_name,
+            purchaser_last_name: @ticket.purchaser_last_name,
+            purchaser_email: @ticket.purchaser_email
           }
 
           expect(JSON.parse(response.body)).to eq(ticket.as_json)

@@ -21,7 +21,6 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
 
   def new
     @gtag = Gtag.new
-    @gtag.build_purchaser
   end
 
   def create
@@ -168,8 +167,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
       :banned,
       :loyalty,
       :company_ticket_type_id,
-      :format,
-      purchaser_attributes: [:id, :first_name, :last_name, :email, :gtag_delivery_address]
+      :format
     )
   end
 end

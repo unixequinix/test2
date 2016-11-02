@@ -10,18 +10,6 @@ class Api::V1::TicketWithCustomerSerializer < Api::V1::BaseSerializer
     object.company_ticket_type&.credential_type_id
   end
 
-  def purchaser_first_name
-    object&.purchaser&.first_name
-  end
-
-  def purchaser_last_name
-    object&.purchaser&.last_name
-  end
-
-  def purchaser_email
-    object&.purchaser&.email
-  end
-
   def customer
     profile = object.profile
     return unless profile

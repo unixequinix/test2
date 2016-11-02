@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161102120146) do
+ActiveRecord::Schema.define(version: 20161102125453) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -489,20 +489,6 @@ ActiveRecord::Schema.define(version: 20161102120146) do
   add_index "profiles", ["deleted_at"], name: "index_profiles_on_deleted_at", using: :btree
   add_index "profiles", ["event_id", "deleted_at", "updated_at"], name: "idx_customers_api", order: {"updated_at"=>:desc}, using: :btree
 
-  create_table "purchasers", force: :cascade do |t|
-    t.integer  "credentiable_id",       null: false
-    t.string   "credentiable_type",     null: false
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "email"
-    t.string   "gtag_delivery_address"
-    t.datetime "deleted_at"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
-  end
-
-  add_index "purchasers", ["deleted_at"], name: "index_purchasers_on_deleted_at", using: :btree
-
   create_table "refunds", force: :cascade do |t|
     t.integer  "claim_id",                                           null: false
     t.decimal  "amount",                     precision: 8, scale: 2, null: false
@@ -583,6 +569,9 @@ ActiveRecord::Schema.define(version: 20161102120146) do
     t.datetime "updated_at",                             null: false
     t.boolean  "banned",                 default: false
     t.integer  "profile_id"
+    t.string   "purchaser_first_name"
+    t.string   "purchaser_last_name"
+    t.string   "purchaser_email"
   end
 
   add_index "tickets", ["deleted_at", "code", "event_id"], name: "index_tickets_on_deleted_at_and_code_and_event_id", unique: true, using: :btree

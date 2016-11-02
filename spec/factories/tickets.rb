@@ -27,8 +27,10 @@ FactoryGirl.define do
     # end
 
     trait :with_purchaser do
-      after(:create) do |ticket|
-        create(:purchaser, credentiable: ticket)
+      after(:build) do |ticket|
+        ticket.purchaser_first_name = "Name #{rand(100)}"
+        ticket.purchaser_last_name = "Lastname #{rand(100)}"
+        ticket.purchaser_email = "fake_email@glownet#{rand(100)}.com"
       end
     end
 

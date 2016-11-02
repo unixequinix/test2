@@ -1,4 +1,4 @@
-# rubocop:disable Metrics/MethodLength, Metrics/ClassLength
+# rubocop:disable Metrics/ClassLength
 class Admins::Events::TicketsController < Admins::Events::BaseController
   before_action :set_presenter, only: [:index, :search]
 
@@ -25,7 +25,6 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
 
   def new
     @ticket = Ticket.new
-    @ticket.build_purchaser
   end
 
   def create
@@ -34,7 +33,6 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_tickets_url
     else
-      @ticket.build_purchaser
       flash.now[:error] = I18n.t("alerts.error")
       render :new
     end
@@ -75,7 +73,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
     redirect_to admins_event_tickets_url
   end
 
-  def import # rubocop:disable Metrics/AbcSize
+  def import # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     event = current_event.event
     path = admins_event_tickets_path(event)
     redirect_to(path, alert: t("admin.tickets.import.empty_file")) && return unless params[:file]
@@ -94,17 +92,14 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
         }
         ticket_type = event.company_ticket_types.find_or_create_by!(ticket_type_atts)
 
-        ticket_atts = { code: row.field("reference"), company_ticket_type: ticket_type }
-        ticket = event.tickets.find_or_create_by!(ticket_atts)
-
-        next if ticket.purchaser
-        purchaser_atts = {
-          first_name: row.field("first_name"),
-          last_name: row.field("last_name"),
-          email: row.field("email"),
-          credentiable: ticket
+        ticket_atts = {
+          code: row.field("reference"),
+          company_ticket_type: ticket_type,
+          purchaser_first_name: row.field("first_name"),
+          purchaser_last_name: row.field("last_name"),
+          purchaser_email: row.field("email")
         }
-        Purchaser.find_or_create_by!(purchaser_atts)
+        event.tickets.find_or_create_by!(ticket_atts)
       end
     rescue
       return redirect_to(path, alert: t("admin.tickets.import.error"))
@@ -149,10 +144,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
       fetcher: current_event.tickets,
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [
-        :purchaser,
-        profile: [:customer, :active_gtag]
-      ],
+      include_for_all_items: [profile: [:customer, :active_gtag]],
       context: view_context
     )
   end
@@ -164,7 +156,9 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
       :company_ticket_type_id,
       :credential_redeemed,
       :banned,
-      purchaser_attributes: [:id, :first_name, :last_name, :email]
+      :purchaser_first_name,
+      :purchaser_last_name,
+      :purchaser_email
     )
   end
 end

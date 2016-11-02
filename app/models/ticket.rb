@@ -20,10 +20,7 @@ class Ticket < ActiveRecord::Base
   # Associations
   belongs_to :event
   belongs_to :profile
-  has_one :purchaser, as: :credentiable, dependent: :destroy
   belongs_to :company_ticket_type
-
-  accepts_nested_attributes_for :purchaser, allow_destroy: true
 
   # Validations
   validates :code, uniqueness: { scope: :event_id }

@@ -175,6 +175,9 @@ class Api::V1::Events::BaseController < Api::BaseController
         SELECT
           tickets.code as reference,
           tickets.credential_redeemed,
+          tickets.purchaser_first_name,
+          tickets.purchaser_last_name,
+          tickets.purchaser_email,
           tickets.banned,
           tickets.updated_at,
           company_ticket_types.credential_type_id as credential_type_id,
