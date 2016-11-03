@@ -42,8 +42,8 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   scope :query_for_csv, lambda { |event|
     where(event: event)
       .joins("LEFT OUTER JOIN customers ON profiles.customer_id = customers.id")
-      .joins(:tickets)
-      .joins(:gtags)
+      .joins("LEFT OUTER JOIN gtags ON gtags.profile_id = profiles.id")
+      .joins("LEFT OUTER JOIN tickets ON tickets.profile_id = profiles.id")
       .select("profiles.id, tickets.code as ticket, gtags.tag_uid as gtag, profiles.credits as credits,
                profiles.refundable_credits as refundable_credits, customers.email, customers.first_name,
                customers.last_name")
