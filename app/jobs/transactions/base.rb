@@ -9,14 +9,12 @@ class Transactions::Base < ActiveJob::Base
     return obj if obj
 
     if atts[:customer_tag_uid].present?
-      gtag_atts = { tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id] }
-      gtag = Gtag.find_by(gtag_atts)
-      if gtag
-        gtag_atts[:format] = gtag.format
-        gtag_atts[:loyalty] = gtag.loyalty
-      end
+      gtag_atts = { tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id], activation_counter: atts[:activation_counter] }
+      gtag = Gtag.find_or_create_by!(gtag_atts)
 
-      gtag = Gtag.find_or_create_by!(gtag_atts.merge(activation_counter: atts[:activation_counter]))
+      prev_activation = Gtag.find_by("tag_uid = ? AND activation_counter < ?", [gtag.tag_uid, gtag.activation_counter])
+      gtag.update!(format: prev_activation.format, loyalty: prev_activation.loyalty) if prev_activation
+
       profile_id = Profile::Checker.for_transaction(gtag, atts[:profile_id], atts[:event_id])
       atts[:profile_id] = profile_id
     end
@@ -29,6 +27,7 @@ class Transactions::Base < ActiveJob::Base
     atts[:transaction_id] = obj.id
     execute_operations(atts)
   end
+
 
   def portal_write(atts) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     atts.symbolize_keys!
