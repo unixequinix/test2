@@ -1,5 +1,5 @@
 class EventbriteImporter < ActiveJob::Base
-  def perform(order, event_id) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def perform(order, event_id) # rubocop:disable Metrics/AbcSize
     order = JSON.parse(order).symbolize_keys
     event = Event.find(event_id)
     company = Company.find_or_create_by!(name: "Eventbrite")
