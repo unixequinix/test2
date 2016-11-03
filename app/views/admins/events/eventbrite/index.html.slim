@@ -35,7 +35,7 @@
         dt URL
         dd = link_to @eb_event.url, @eb_event.url, target: "_blank"
         dt Description
-        dd = @eb_event.description.html.html_safe
+        dd = @eb_event.description.html&.html_safe
 
   - else
     h2 Connect Eventbrite and Glownet

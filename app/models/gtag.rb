@@ -37,14 +37,9 @@ class Gtag < ActiveRecord::Base
   # Associations
   belongs_to :event
   belongs_to :profile
-
   has_many :claims
-
   has_one :refund
-  has_one :purchaser, as: :credentiable, dependent: :destroy
   has_one :completed_claim, -> { where(aasm_state: :completed) }, class_name: "Claim"
-
-  accepts_nested_attributes_for :purchaser, allow_destroy: true
 
   # Callbacks
   before_validation :upcase_gtag!

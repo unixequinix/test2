@@ -44,6 +44,7 @@ module EventFlags
       7 => :birthdate,
       8 => :agreed_event_condition,
       9 => :receive_communications,
+      10 => :receive_communications_two,
       column: "registration_parameters"
     )
     has_flags(

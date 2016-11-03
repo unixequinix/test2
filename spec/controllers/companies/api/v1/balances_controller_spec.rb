@@ -4,7 +4,7 @@ RSpec.describe Companies::Api::V1::BalancesController, type: :controller do
   let(:event) { create(:event) }
   let(:company) { create(:company) }
   let(:profile) { create(:profile, event: event) }
-  let(:gtag) { create(:gtag, :with_purchaser, event: event, profile: profile) }
+  let(:gtag) { create(:gtag, event: event, profile: profile) }
 
   before do
     create(:company_event_agreement, event: event, company: company)

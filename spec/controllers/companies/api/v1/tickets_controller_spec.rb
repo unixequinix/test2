@@ -96,7 +96,7 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
 
           body = JSON.parse(response.body)
           expect(body["ticket_reference"]).to eq(Ticket.last.code)
-          expect(body["purchaser_email"]).to eq(Ticket.last.purchaser.email)
+          expect(body["purchaser_email"]).to eq(Ticket.last.purchaser_email)
         end
       end
 
@@ -121,39 +121,23 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
       [{
         ticket_reference: "11111",
         ticket_type_id: ticket_type.id,
-        purchaser_attributes: {
-          first_name: "Glownet",
-          last_name: "Glownet",
-          email: "hi@glownet.com"
-        }
+        purchaser_attributes: { first_name: "Glownet", last_name: "Glownet", email: "hi@glownet.com" }
       },
        {
          ticket_reference: "22222",
          ticket_type_id: ticket_type.id,
-         purchaser_attributes: {
-           first_name: "Glownet",
-           last_name: "Glownet",
-           email: "hi@glownet.com"
-         }
+         purchaser_attributes: { first_name: "Glownet", last_name: "Glownet", email: "hi@glownet.com" }
        }]
     end
     let(:invalid_params) do
       [{
         ticket_reference: "11111",
-        purchaser_attributes: {
-          first_name: "Glownet",
-          last_name: "Glownet",
-          email: "hi@glownet.com"
-        }
+        purchaser_attributes: { first_name: "Glownet", last_name: "Glownet", email: "hi@glownet.com" }
       },
        {
          ticket_reference: "22222",
          ticket_type_id: ticket_type.id,
-         purchaser_attributes: {
-           first_name: "Glownet",
-           last_name: "Glownet",
-           email: "hi@glownet.com"
-         }
+         purchaser_attributes: { first_name: "Glownet", last_name: "Glownet", email: "hi@glownet.com" }
        }]
     end
     context "when authenticated" do
@@ -207,7 +191,7 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
           put :update, id: tickets.first, ticket: params
           tickets.first.reload
           expect(tickets.first.code).to eq("n3wt1cketr3fer3nc3")
-          expect(tickets.first.purchaser.email).to eq("updated@email.com")
+          expect(tickets.first.purchaser_email).to eq("updated@email.com")
         end
 
         it "returns a 200 code status" do
@@ -236,7 +220,7 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
         it "doesn't change ticket's attributes" do
           put :update, id: tickets.first, ticket: params
           tickets.first.reload
-          expect(tickets.first.purchaser.email).not_to eq("newemail@glownet.com")
+          expect(tickets.first.purchaser_email).not_to eq("newemail@glownet.com")
         end
       end
     end

@@ -7,7 +7,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
   before do
     create_list(:gtag, 2, event: event)
-    @deleted_gtag = create(:gtag, :with_purchaser, event: event, deleted_at: Time.zone.now)
+    @deleted_gtag = create(:gtag, event: event, deleted_at: Time.zone.now)
   end
 
   describe "GET index" do

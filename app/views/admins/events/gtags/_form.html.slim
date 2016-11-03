@@ -5,9 +5,4 @@
     = f.input :format, as: :select, collection: Gtag::FORMATS, include_blank: false
     = f.input :banned, as: :radio_buttons, placeholder: true
     = f.input :loyalty, as: :radio_buttons, placeholder: true
-    = f.simple_fields_for :purchaser do |purchaser|
-      = purchaser.input :first_name
-      = purchaser.input :last_name
-      = purchaser.input :email
-      = purchaser.input :gtag_delivery_address
     = f.button :submit, class: "btn btn-primary"
