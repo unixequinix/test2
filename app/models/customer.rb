@@ -20,14 +20,14 @@ class Customer < ActiveRecord::Base
   validates :email, :first_name, :last_name, :encrypted_password, presence: true
   validates :agreed_on_registration, acceptance: { accept: true }
   validates :agreed_event_condition, acceptance: { accept: true }, if: -> { event && event.agreed_event_condition? }
-  validates :phone, presence: true, if: -> { event && event.phone? }
-  validates :birthdate, presence: true, if: -> { event && event.birthdate? }
-  validates :phone, presence: true, if: -> { event && event.phone? }
-  validates :postcode, presence: true, if: -> { event && event.postcode? }
-  validates :address, presence: true, if: -> { event && event.address? }
-  validates :city, presence: true, if: -> { event && event.city? }
-  validates :country, presence: true, if: -> { event && event.country? }
-  validates :gender, presence: true, if: -> { event && event.gender? }
+  validates :phone, presence: true, if: -> { custom_validation("phone") }
+  validates :birthdate, presence: true, if: -> { custom_validation("birthdate") }
+  validates :phone, presence: true, if: -> { custom_validation("phone") }
+  validates :postcode, presence: true, if: -> { custom_validation("postcode") }
+  validates :address, presence: true, if: -> { custom_validation("address") }
+  validates :city, presence: true, if: -> { custom_validation("city") }
+  validates :country, presence: true, if: -> { custom_validation("country") }
+  validates :gender, presence: true, if: -> { custom_validation("gender") }
 
   before_save do
     email.downcase! if email
@@ -79,6 +79,10 @@ class Customer < ActiveRecord::Base
 
   def email_changed?
     false
+  end
+
+  def custom_validation(field)
+    event && event.method("#{field}?").call && !reset_password_token_changed? && !encrypted_password_changed?
   end
 
   private
