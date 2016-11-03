@@ -9,13 +9,10 @@ class TicketAssignmentForm
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/PerceivedComplexity
-  def save(ticket_fetcher, current_profile, current_event)
+  def save(ticket_fetcher, current_profile, _current_event)
     ticket = ticket_fetcher.find_by(code: code.strip)
 
-    if ticket.blank?
-      companies = CompanyTicketType.companies(current_event).to_sentence
-      add_error("alerts.admissions", companies: companies) && return
-    end
+    add_error("alerts.admissions") && return if ticket.blank?
 
     t_type_owned = current_profile.tickets.pluck(:company_ticket_type_id).include?(ticket.company_ticket_type_id)
 
