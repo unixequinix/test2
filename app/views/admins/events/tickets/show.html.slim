@@ -24,11 +24,11 @@
       dd = @ticket.company_ticket_type.company_event_agreement.company.name unless @ticket.company_ticket_type.nil?
 
       dt = t("admin.purchasers.first_name")
-      dd = ticket.purchaser_first_name
+      dd = @ticket.purchaser_first_name
       dt = t("admin.purchasers.last_name")
-      dd = ticket.purchaser_last_name
+      dd = @ticket.purchaser_last_name
       dt = t("admin.purchasers.email")
-      dd = ticket.purchaser_email
+      dd = @ticket.purchaser_email
 
       dt = t("admin.tickets.banned")
       dd = @ticket.banned?

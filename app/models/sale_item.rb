@@ -10,6 +10,6 @@
 #
 
 class SaleItem < ActiveRecord::Base
-  belongs_to :parent, class_name: "Transaction", foreign_key: "transaction_id"
+  belongs_to :credit_transaction
   belongs_to :product
 end

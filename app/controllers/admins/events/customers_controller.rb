@@ -23,7 +23,7 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
 
   def reset_password
     @customer = current_event.customers.find(params[:id])
-    @customer.update(encrypted_password: Authentication::Encryptor.digest("123456"))
+    @customer.update(password: "123456", password_confirmation: "123456")
     redirect_to admins_event_customer_path(current_event, @customer)
   end
 
