@@ -1,6 +1,6 @@
 class CreditTransaction < Transaction
-  has_many :sale_items
   belongs_to :profile
+  has_many :sale_items, foreign_key: 'credit_transaction_id'
 
   accepts_nested_attributes_for :sale_items
 

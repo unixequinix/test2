@@ -26,7 +26,7 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   private
 
   def set_transaction
-    @transaction = "#{@type}_transaction".classify.constantize.find(params[:id])
+    @transaction = current_event.transactions.where(type: "#{@type}_transaction".classify).find(params[:id])
   end
 
   def set_type
@@ -35,8 +35,7 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   end
 
   def set_transactions
-    klass = "#{@type}_transaction".classify.constantize
-    @q = klass.where(event: current_event).search(params[:q])
+    @q = current_event.transactions.where(type: "#{@type}_transaction".classify).search(params[:q])
     @transactions = @q.result.page(params[:page]).includes(:profile, :station)
   end
 
