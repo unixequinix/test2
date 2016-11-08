@@ -34,6 +34,24 @@
         -
           name: gtag_blacklist
           data_type: string
+        -
+          name: sync_time_event_parameters
+          data_type: integer
+        -
+          name: sync_time_server_date
+          data_type: integer
+        -
+          name: sync_time_basic_download
+          data_type: integer
+        -
+          name: sync_time_tickets
+          data_type: integer
+        -
+          name: sync_time_gtags
+          data_type: integer
+        -
+          name: sync_time_customers
+          data_type: integer
 -
   name: gtag
   groups:

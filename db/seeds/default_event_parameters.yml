@@ -34,6 +34,24 @@
         -
           name: gtag_blacklist
           value: ""
+        -
+          name: sync_time_event_parameters
+          value: 1
+        -
+          name: sync_time_server_date
+          value: 1
+        -
+          name: sync_time_basic_download
+          value: 5
+        -
+          name: sync_time_tickets
+          value: 5
+        -
+          name: sync_time_gtags
+          value: 10
+        -
+          name: sync_time_customers
+          value: 10
 -
   category: payment
   groups:

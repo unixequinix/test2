@@ -13,6 +13,12 @@ class DeviceSettingsForm
   attribute :cypher_enabled, String
   attribute :gtag_blacklist, String
   attribute :event_id, Integer
+  attribute :sync_time_event_parameters, Integer
+  attribute :sync_time_server_date, Integer
+  attribute :sync_time_basic_download, Integer
+  attribute :sync_time_tickets, Integer
+  attribute :sync_time_gtags, Integer
+  attribute :sync_time_customers, Integer
 
   validates_presence_of :min_version_apk
   validates_presence_of :private_zone_password
@@ -24,6 +30,12 @@ class DeviceSettingsForm
   validates_presence_of :cypher_enabled
   validates_presence_of :autotopup_enabled
   validates_presence_of :event_id
+  validates_presence_of :sync_time_event_parameters
+  validates_presence_of :sync_time_server_date
+  validates_presence_of :sync_time_basic_download
+  validates_presence_of :sync_time_tickets
+  validates_presence_of :sync_time_gtags
+  validates_presence_of :sync_time_customers
 
   def save
     if valid?

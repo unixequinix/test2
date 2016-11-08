@@ -32,6 +32,17 @@
       = t("admin.event.fieldests.nfc")
 
     = f.input :uid_reverse, as: :radio_buttons
+  fieldset
+    h3.section-header
+      = fa_icon "rss"
+      = t("admin.event.fieldests.sync")
+
+    = f.input :sync_time_event_parameters, as: :integer
+    = f.input :sync_time_server_date, as: :integer
+    = f.input :sync_time_basic_download, as: :integer
+    = f.input :sync_time_tickets, as: :integer
+    = f.input :sync_time_gtags, as: :integer
+    = f.input :sync_time_customers, as: :integer
 
   .wrapper-negative-space
     = f.button :submit, t('admin.actions.update'), class: "btn btn-primary"
