@@ -52,7 +52,7 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   }
 
   def recalculate_balance
-    ts = transactions.credit.status_ok
+    ts = transactions.credit.status_ok.order([gtag_counter: :asc, counter: :asc, status_code: :desc])
     has_onsite_ts = ts.sum(:gtag_counter) != 0
 
     self.credits = ts.not_record_credit.sum(:credits)
