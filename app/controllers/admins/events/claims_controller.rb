@@ -5,7 +5,7 @@ class Admins::Events::ClaimsController < Admins::Events::BaseController
     respond_to do |format|
       format.html
       format.csv do
-        claims = Claim.query_for_csv(:completed, current_event)
+        claims = Claim.selected_data(:completed, current_event)
         redirect_to(admins_event_claims_path(current_event)) && return if claims.empty?
 
         send_data(Csv::CsvExporter.to_csv(claims))

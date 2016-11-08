@@ -60,6 +60,20 @@ class Claim < ActiveRecord::Base
     self.number = "#{day}#{time_hex}"
   end
 
+  def self.selected_data(aasm_state, event)
+    claims = query_for_csv(aasm_state, event)
+    headers = []
+    extra_columns = {}
+    claims.each_with_index do |claim, index|
+      extra_columns[index + 1] =
+        claim.claim_parameters.each_with_object({}) do |claim_parameter, acum|
+          headers |= [claim_parameter.parameter.name]
+          acum[claim_parameter.parameter.name] = claim_parameter.value
+        end
+    end
+    [claims, headers, extra_columns]
+  end
+
   private
 
   def complete_claim
