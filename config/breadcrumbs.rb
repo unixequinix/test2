@@ -168,7 +168,7 @@ crumb :edit_admins_company do |company|
   parent :admins_companies
 end
 
-crumb :new_admin_company do
+crumb :new_admins_company do
   link t("breadcrumbs.new_company")
   parent :admins_companies
 end
