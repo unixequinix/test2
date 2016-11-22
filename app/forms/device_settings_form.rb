@@ -12,6 +12,7 @@ class DeviceSettingsForm
   attribute :autotopup_enabled, String
   attribute :cypher_enabled, String
   attribute :gtag_blacklist, String
+  attribute :gtag_whitelist, String
   attribute :event_id, Integer
   attribute :sync_time_event_parameters, Integer
   attribute :sync_time_server_date, Integer

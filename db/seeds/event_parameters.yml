@@ -35,6 +35,9 @@
           name: gtag_blacklist
           data_type: string
         -
+          name: gtag_whitelist
+          data_type: string
+        -
           name: sync_time_event_parameters
           data_type: integer
         -

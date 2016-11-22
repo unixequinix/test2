@@ -55,8 +55,8 @@ class Profile < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     ts = transactions.credit.status_ok.order([gtag_counter: :asc, counter: :asc, status_code: :desc])
     has_onsite_ts = ts.map(&:gtag_counter).sum != 0
 
-    self.credits = ts.select{ |t| t.transaction_type != "record_credit" }.map(&:credits).sum
-    self.refundable_credits = ts.select{ |t| t.transaction_type != "record_credit" }.map(&:refundable_credits).sum
+    self.credits = ts.select { |t| t.transaction_type != "record_credit" }.map(&:credits).sum
+    self.refundable_credits = ts.select { |t| t.transaction_type != "record_credit" }.map(&:refundable_credits).sum
     # TODO: The conditional is because of a bug when buying multiple items online, there are several
     #       transactions and the previous are taken into account when calculating the final balances
     self.final_balance = has_onsite_ts ? ts.last.final_balance : credits
