@@ -10,6 +10,6 @@ table.accesses
       tr
         td data-label=t('admin.stations.name')
           = link_to station.name, admins_event_station_access_control_gates_path(current_event, station)
-        td data-label=t('admin.stations.items') = TopupCredit.joins(station_parameter: :station).where(station_parameters: { station_id: station.id } ).count
+        td data-label=t('admin.stations.items') = station.topup_credits.count
         td.table-actions-field = render 'admins/events/access_control_stations/actions', station: station
 = paginate stations

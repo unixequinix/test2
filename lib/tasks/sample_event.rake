@@ -155,14 +155,12 @@ namespace :glownet do
 
     accesses.each do |access|
       item = CatalogItem.find_by(name: access[:name], event: @event)
-      station.access_control_gates.new(direction: access[:direction],
-                                       access: item,
-                                       station_parameter_attributes: { station_id: station.id }).save
+      station.access_control_gates.create(direction: access[:direction], access: item, station: station)
     end
   end
 
   def create_box_office_stations
-    bo = @event.stations.create!(name: "Box office", group: "access", category: "box_office")
+    station = @event.stations.create!(name: "Box office", group: "access", category: "box_office")
 
     items = [
       { name: "Day", price: 20 },
@@ -176,9 +174,7 @@ namespace :glownet do
 
     items.each do |i|
       item = CatalogItem.find_by(name: i[:name], event: @event)
-      bo.station_catalog_items.new(price: i[:price],
-                                   catalog_item: item,
-                                   station_parameter_attributes: { station_id: bo.id }).save
+      station.station_catalog_items.create(price: i[:price], catalog_item: item, station: station)
     end
   end
 
@@ -188,9 +184,7 @@ namespace :glownet do
 
     items.each do |item_name|
       item = CatalogItem.find_by(name: item_name, event: @event)
-      station.station_catalog_items.new(price: 0,
-                                        catalog_item: item,
-                                        station_parameter_attributes: { station_id: station.id }).save
+      station.station_catalog_items.create(price: 0, catalog_item: item, station: station)
     end
   end
 
@@ -211,9 +205,7 @@ namespace :glownet do
 
     products.each do |p|
       product = Product.find_by(name: p[:name], event: @event)
-      station.station_products.new(price: p[:price],
-                                   product: product,
-                                   station_parameter_attributes: { station_id: station.id }).save
+      station.station_products.create(price: p[:price], product: product, station: station)
     end
   end
 
@@ -234,9 +226,7 @@ namespace :glownet do
 
     products.each do |p|
       product = Product.find_by(name: p[:name], event: @event)
-      station.station_products.new(price: p[:price],
-                                   product: product,
-                                   station_parameter_attributes: { station_id: station.id }).save
+      station.station_products.create(price: p[:price], product: product, station: station )
     end
   end
 

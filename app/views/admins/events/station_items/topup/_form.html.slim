@@ -2,7 +2,6 @@
     = hidden_field_tag :item_type, "topup_credit"
     = f.input :amount
     = f.input :credit_id, as: :hidden, input_html: { value: current_event.credit.id }
-    = f.simple_fields_for :station_parameter_attributes do |sp|
-      = sp.input :station_id, as: :hidden, input_html: { value: @station.id }
+    = f.input :station_id, as: :hidden, input_html: { value: @station.id }
 
     = f.button :submit, class: "btn btn-primary"
