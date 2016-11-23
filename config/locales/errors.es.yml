@@ -52,6 +52,7 @@ es:
       ticket_type_dependent: "Imposible eliminar la compañia, tiene tipos de ticket asignados"
       max_standard_credits: "Sólo un crédito estándar por evento"
       max_credits_reached: "Has llegado al máximo de recarga"
+      max_entitlements_reached: "Has llegado al máximo de accesos"
       not_enough_space_for_entitlement: "No hay suficiente espacio para ese entitlement"
       not_enough_space_for_credential: "No hay suficiente espacio para ese credencial"
       not_enough_space_for_entitlement_configuration: "No hay suficiente espacio para la configuración de entitlements existente"

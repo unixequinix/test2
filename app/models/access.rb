@@ -32,15 +32,13 @@ class Access < CatalogItem
   before_validation :set_memory_length
 
   validates :initial_amount, :step, :max_purchasable, :min_purchasable, presence: true
+  validates :max_purchasable, numericality: { less_than: 128 }
   validate :min_max_congruency
 
   scope :infinite, -> { includes(:entitlement).where(entitlements: { mode: Entitlement::ALL_PERMANENT }) }
+  delegate :infinite?, to: :entitlement
 
   private
-
-  def infinite?
-    entitlement.infinite?
-  end
 
   def set_infinite_values
     self.min_purchasable = 0

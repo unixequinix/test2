@@ -1,11 +1,8 @@
 class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
-  def new
-    @customer = current_event.customers.find(params[:id])
-  end
+  before_action :set_customer, only: [:new, :create]
 
   # rubocop:disable Metrics/AbcSize
   def create
-    @customer = current_event.customers.find(params[:id])
     gtag = current_event.gtags.find_by(tag_uid: permitted_params[:tag_uid].strip.upcase)
 
     flash.now[:error] = I18n.t("alerts.gtag.invalid") if gtag.nil?
@@ -29,6 +26,10 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
   end
 
   private
+
+  def set_customer
+    @customer = current_event.customers.find(params[:id])
+  end
 
   def create_transaction(action, gtag)
     CredentialTransaction.create!(

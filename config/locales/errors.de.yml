@@ -48,6 +48,7 @@ de:
       ticket_type_dependent: "Löschen des Unternehmens nicht möglich, es sind Ticketarten angeschlossen"
       max_standard_credits: "Nur ein Standardguthaben pro Veranstaltung"
       max_credits_reached: "Du hast das maximale Guthaben erreicht"
+      max_entitlements_reached: "You reached the maximun allowed entitlements"
       not_enough_space_for_entitlement: "Nicht genug Platz in gtag für diese Berechtigung"
       not_enough_space_for_credential: "Nicht genug Platz in gtag für diese Anmeldung"
       not_enough_space_for_entitlement_configuration: "Nicht genug Platz in gtag für die bestehende Berechtigungskonfiguration"

@@ -20,7 +20,7 @@
 
 FactoryGirl.define do
   factory :entitlement do
-    mode { [Entitlement::COUNTER, Entitlement::PERMANENT, Entitlement::PERMANENT_STRICT].sample }
+    mode Entitlement::PERMANENT_STRICT
     event
 
     trait :counter do

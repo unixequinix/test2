@@ -19,8 +19,8 @@ table.packs
         td data-label=t('admin.catalog_item.min_purchasable') = pack.min_purchasable
         td data-label=t('admin.pack.number_catalog_items')
           = pack.catalog_items.count
-          = "·" if pack.only_credits_pack?
-          = "∞" if pack.only_infinite_items_pack?
+          = "·" if pack.only_credits?
+          = "∞" if pack.only_infinite_items?
         td.table-actions-field
           ul
             li.table-action.action-edit = link_to edit_admins_event_pack_path(current_event, pack) do

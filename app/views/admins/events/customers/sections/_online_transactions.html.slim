@@ -1,0 +1,20 @@
+h3
+  = fa_icon "table"
+  = title
+
+table.transactions
+  thead
+    tr
+      th = t("admin.transactions.counters")
+      th = t("admin.transactions.device_created_at")
+      th = t("admin.transactions.transaction_origin")
+      th = t("admin.transactions.action")
+  tbody
+    - transactions.each do |transaction|
+      tr class="#{"danger" unless transaction.status_code.zero?}"
+        td data-label=t("admin.transactions.gtag_counter") = transaction.counter
+        td data-label=t("admin.transactions.device_created_at") = transaction.device_created_at.to_time.strftime("%H:%M:%S %d-%m-%y ")
+        td data-label=t("admin.transactions.transaction_origin")
+          = transaction.transaction_origin.humanize
+        td data-label=t("admin.transactions.action")
+          = link_to transaction.description, admins_event_transaction_path(current_event, transaction, type: transaction.category)

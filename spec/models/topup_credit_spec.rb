@@ -19,5 +19,13 @@
 require "spec_helper"
 
 RSpec.describe TopupCredit, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  subject { build(:topup_credit) }
+
+  describe ".after_update" do
+    before(:each) { subject.save }
+
+    it "resets the station updated_at field" do
+      expect { subject.update!(amount: 5.5) }.to change(subject.station, :updated_at)
+    end
+  end
 end

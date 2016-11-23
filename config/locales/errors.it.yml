@@ -52,6 +52,7 @@ it:
       ticket_type_dependent: "Impossible to delete the company, it has ticket types associated"
       max_standard_credits: "Only one standard credit per event"
       max_credits_reached: "You reached the maximun allowed balance"
+      max_entitlements_reached: "You reached the maximun allowed entitlements"
       not_enough_space_for_entitlement: "Not enough space in gtag for this entitlement"
       not_enough_space_for_credential: "Not enough space in gtag for this credential"
       not_enough_space_for_entitlement_configuration: "Not enough space in gtag for the existing entitlement configuration"

@@ -8,6 +8,7 @@ table.subtable.customer-show-subtable
       th = t("admin.tickets.ticket_type_id")
       th = t("admin.tickets.redeemed")
       th = t("admin.tickets.banned")
+      th.table-actions-field = t("admin.defaults.actions")
 
   tbody
     - customer.tickets.each do |ticket|
@@ -16,3 +17,7 @@ table.subtable.customer-show-subtable
         td = ticket.ticket_type.name
         td = ticket.redeemed? ? fa_icon("check") : fa_icon("times")
         td = ticket.banned? ? fa_icon("check") : fa_icon("times")
+        td.table-actions-field
+          ul
+            li.table-action.action-delete
+              = link_to fa_icon("ban"), admins_event_ticket_assignment_path(current_event, ticket), method: :delete, data: { confirm: t("admin.confirm.delete") }

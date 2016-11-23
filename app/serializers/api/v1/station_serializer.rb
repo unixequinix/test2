@@ -13,26 +13,19 @@ class Api::V1::StationSerializer < Api::V1::BaseSerializer
 
   def accreditation(hash)
     hash[:catalog] = object.station_catalog_items.map do |ci|
-      { catalog_item_id: ci.catalog_item_id,
-        price: ci.price.round(2),
-        hidden: ci.hidden? }
+      { catalog_item_id: ci.catalog_item_id, price: ci.price.round(2), hidden: ci.hidden? }
     end
   end
 
   def pos(hash)
     hash[:products] = object.station_products.map do |sp|
-      { product_id: sp.product_id,
-        price: sp.price.round(2),
-        position: sp.position,
-        hidden: sp.hidden? }
+      { product_id: sp.product_id, price: sp.price.round(2), position: sp.position, hidden: sp.hidden? }
     end
   end
 
   def topup(hash)
     hash[:top_up_credits] = object.topup_credits.map do |c|
-      { amount: c.amount,
-        price: (c.amount * c.credit.value).to_f.round(2),
-        hidden: c.hidden? }
+      { amount: c.amount, price: (c.amount * c.credit.value).to_f.round(2), hidden: c.hidden? }
     end
   end
 

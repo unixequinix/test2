@@ -38,6 +38,10 @@ class Entitlement < ActiveRecord::Base
     mode == PERMANENT || mode == PERMANENT_STRICT
   end
 
+  def counter?
+    mode == COUNTER
+  end
+
   private
 
   def save_memory_position

@@ -37,6 +37,10 @@ class Pack < CatalogItem
     pack_catalog_items.includes(:catalog_item).where(catalog_items: { type: "Credit" }).sum(:amount)
   end
 
+  def only_infinite_items?
+    catalog_items.all? { |item| item.try(:entitlement)&.infinite? }
+  end
+
   def only_credits?
     catalog_items.all? { |item| item.is_a?(Credit) }
   end
@@ -44,7 +48,7 @@ class Pack < CatalogItem
   private
 
   def infinite_item?
-    catalog_items.any? { |item| item.entitlement.infinite? if item.is_a?(Access) }
+    catalog_items.any? { |item| item.try(:entitlement)&.infinite? }
   end
 
   def valid_max_value

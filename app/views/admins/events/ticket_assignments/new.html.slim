@@ -4,9 +4,9 @@
     = fa_icon "arrow-circle-left"
     = t('actions.back')
 
-= form_for @ticket_assignment_form, url: admins_event_ticket_assignments_path(current_event, @customer) do |f|
+= form_tag admins_event_ticket_assignments_path(current_event, @customer) do |f|
   .wrapper-negative-space
     .input
-      = f.label t('admin.admissions.ticket')
-      = f.text_field :code, placeholder: t('admissions.placeholders.ticket_code')
-    = f.submit t('ticket_assignations.button'), class: "btn btn-primary"
+      = label_tag t('admin.admissions.ticket')
+      = text_field_tag :code, nil, placeholder: t('admissions.placeholders.ticket_code')
+    = submit_tag t('ticket_assignations.button'), class: "btn btn-primary"
