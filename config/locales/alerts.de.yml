@@ -1,27 +1,28 @@
 de:
   alerts:
-    created: "Erfolgreich erstellt"
-    updated: "Erfolgreich aktualisiert"
-    resend: "Erfolgreich wieder gesendet"
-    imported: "Erfolgreich importiert"
-    destroyed: "Erfolgreich entfernt"
-    cloned: 'Succesfully cloned'
-    unassigned: "Erfolgreich nicht zugeteilt"
-    error: "Formfehler prüfen"
-    checkout: 'Du kannst nur numerische Daten ohne Dezimalstelle und niedriger als %{limit} verwenden'
+    access_only_one_way: "Only one way per access"
     admissions:  "Ticket not found. If you have purchased it within the last 48 hours, please try again later until we update your purchase. Otherwise contact support."
+    checkout: "Du kannst nur numerische Daten ohne Dezimalstelle und niedriger als %{limit} verwenden"
+    claim_complete: "Forderung abgeschlossen. Mehr als 15 Minuten vergangen."
+    cloned: "Succesfully cloned"
+    created: "Erfolgreich erstellt"
+    credential_already_assigned: "Sie haben bereits die Ansprüche , die mit diesem Ticket verknüpft sind"
+    customer_without_transactions: "The customer doesn't have credit transactions"
+    destroyed: "Erfolgreich entfernt"
+    error: "Formfehler prüfen"
+    gtag_already_assigned: "Sie haben bereits ein gtag angemeldet"
+    imported: "Erfolgreich importiert"
     order_complete: "Bestellung abgeschlossen"
     order_expired: "Bestellung abgelaufen. Mehr als 15 Minuten vergangen."
-    claim_complete: "Forderung abgeschlossen. Mehr als 15 Minuten vergangen."
     quantity_not_refundable: "Guthabenmenge nicht erstattungsfähig"
-    gtag_already_assigned: "Sie haben bereits ein gtag angemeldet"
+    resend: "Erfolgreich wieder gesendet"
     ticket_already_assigned: "Ticket bereits angemeldet"
-    ticket_assigned: 'Ticket assigned successfully'
+    ticket_assigned: "Ticket assigned successfully"
     ticket_banned: "Ticket is blacklisted"
     ticket_doesnt_exist: "Ticket doesn't exist"
-    credential_already_assigned: "Sie haben bereits die Ansprüche , die mit diesem Ticket verknüpft sind"
-    access_only_one_way: 'Only one way per access'
-    customer_without_transactions: "The customer doesn't have credit transactions"
+    ticket_without_credential: "The ticket you entered is still being processed by our system and cannot being assigned yet. Please, come back later or contact support"
+    unassigned: "Erfolgreich nicht zugeteilt"
+    updated: "Erfolgreich aktualisiert"
     gtag:
       invalid: "Die ist keinen gültiger %{gtag}"
       already_assigned: "Dieser %{gtag} ist bereits angemeldet"

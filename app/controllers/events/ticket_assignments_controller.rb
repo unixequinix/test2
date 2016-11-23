@@ -8,6 +8,11 @@ class Events::TicketAssignmentsController < Events::BaseController
       render(:new) && return
     end
 
+    if @ticket.ticket_type&.catalog_item.nil?
+      flash.now[:error] = I18n.t("alerts.ticket_without_credential")
+      render(:new) && return
+    end
+
     if @ticket.banned?
       flash.now[:error] = I18n.t("alerts.ticket_banned")
       render(:new) && return

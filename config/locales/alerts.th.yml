@@ -1,28 +1,29 @@
 th:
   alerts:
-    created: 'สร้างสำเร็จ'
-    updated: 'อัพเดทสำเร็จ'
-    resend: 'ส่งอีกครั้งสำเร็จ'
-    imported: 'นำเข้าสำเร็จ'
-    destroyed: 'ทำลายสำเร็จ'
-    cloned: 'Succesfully cloned'
-    unassigned: 'ยกเลิกสำเร็จ'
-    error: 'ดูรายละเอียดของข้อผิดพลาด'
-    checkout: 'You can only introduce numeric data without decimals, bigger than 0 and lower than %{limit}'
+    access_only_one_way: "Only one way per access"
     admissions:  "Ticket not found. If you have purchased it within the last 48 hours, please try again later until we update your purchase. Otherwise contact support."
-    order_complete: 'รายการสำเร็จ'
-    order_expired: 'หมดเวลาทำรายการ'
-    claim_complete: 'การเคลมสำเร็จ ใช้เวลามากกว่า 15 นาที'
-    quantity_not_refundable: 'จำนวนเครดิตไม่มากพอสำหรับการขอรับเงินคืน'
-    gtag_already_assigned: 'คุณมีบัตรอยู่ในระบบแล้ว'
-    forbidden_gtag_change: 'Impossible to unassign gtag when event has started'
-    ticket_assigned: 'Ticket assigned successfully'
-    ticket_already_assigned: 'Ticket already assigned'
+    checkout: "You can only introduce numeric data without decimals, bigger than 0 and lower than %{limit}"
+    claim_complete: "การเคลมสำเร็จ ใช้เวลามากกว่า 15 นาที"
+    cloned: "Succesfully cloned"
+    created: "สร้างสำเร็จ"
+    credential_already_assigned: "You already have the credential that comes with this ticket"
+    customer_without_transactions: "The customer doesn't have credit transactions"
+    destroyed: "ทำลายสำเร็จ"
+    error: "ดูรายละเอียดของข้อผิดพลาด"
+    forbidden_gtag_change: "Impossible to unassign gtag when event has started"
+    gtag_already_assigned: "คุณมีบัตรอยู่ในระบบแล้ว"
+    imported: "นำเข้าสำเร็จ"
+    order_complete: "รายการสำเร็จ"
+    order_expired: "หมดเวลาทำรายการ"
+    quantity_not_refundable: "จำนวนเครดิตไม่มากพอสำหรับการขอรับเงินคืน"
+    resend: "ส่งอีกครั้งสำเร็จ"
+    ticket_already_assigned: "Ticket already assigned"
+    ticket_assigned: "Ticket assigned successfully"
     ticket_banned: "Ticket is blacklisted"
     ticket_doesnt_exist: "Ticket doesn't exist"
-    credential_already_assigned: 'You already have the credential that comes with this ticket'
-    access_only_one_way: 'Only one way per access'
-    customer_without_transactions: "The customer doesn't have credit transactions"
+    ticket_without_credential: "The ticket you entered is still being processed by our system and cannot being assigned yet. Please, come back later or contact support"
+    unassigned: "ยกเลิกสำเร็จ"
+    updated: "อัพเดทสำเร็จ"
     gtag:
       invalid: "%{gtag} ไม่ถูกต้อง"
       already_assigned: "This %{gtag} is already assigned"
