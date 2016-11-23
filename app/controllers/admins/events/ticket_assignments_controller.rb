@@ -1,7 +1,8 @@
 class Admins::Events::TicketAssignmentsController < Admins::Events::BaseController
   before_action :set_customer, only: [:new, :create]
 
-  def create # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/AbcSize
+  def create
     @code = permitted_params[:code].strip
     @ticket = current_event.tickets.find_by(code: @code)
 
@@ -45,7 +46,7 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::BaseControll
     @customer = current_event.customers.find(params[:id])
   end
 
-  def create_transaction(action, ticket)
+  def create_transaction(action, ticket) # rubocop:disable Metrics/MethodLength
     customer = ticket.customer
     CredentialTransaction.create!(
       event: current_event,

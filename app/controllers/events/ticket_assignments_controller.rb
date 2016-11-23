@@ -1,5 +1,6 @@
 class Events::TicketAssignmentsController < Events::BaseController
-  def create # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/AbcSize
+  def create
     @code = permitted_params[:code].strip
     @ticket = current_event.tickets.find_by(code: @code)
 
