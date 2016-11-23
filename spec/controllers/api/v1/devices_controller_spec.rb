@@ -1,4 +1,4 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Api::V1::EventsController, type: :controller do
   let(:admin) { create(:admin) }

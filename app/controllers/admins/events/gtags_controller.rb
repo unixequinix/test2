@@ -10,7 +10,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
         gtags = Gtag.query_for_csv(current_event)
         redirect_to(admins_event_gtags_path(current_event)) && return if gtags.empty?
 
-        send_data(Csv::CsvExporter.to_csv(gtags))
+        send_data(CsvExporter.to_csv(gtags))
       end
     end
   end
@@ -65,25 +65,15 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
 
   def ban
     @gtag.update!(banned: true)
-
     # TODO: Refactor this when gtag blacklisting is defined
-    blacklist_parameter.update(value: current_event.gtags.banned.pluck(:tag_uid).join(","))
-
-    write_transaction("ban", @gtag)
+    update_blacklist
     redirect_to(admins_event_gtags_url)
   end
 
   def unban
-    if @gtag.profile&.banned?
-      flash[:error] = "Assigned profile is banned, unban it or unassign the gtag first"
-    else
-      @gtag.update(banned: false)
-
-      # TODO: Refactor this when gtag blacklisting is defined
-      blacklist_parameter.update(value: current_event.gtags.banned.pluck(:tag_uid).join(","))
-
-      write_transaction("unban", @gtag)
-    end
+    @gtag.update(banned: false)
+    # TODO: Refactor this when gtag blacklisting is defined
+    update_blacklist
     redirect_to(admins_event_gtags_url)
   end
 
@@ -111,7 +101,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
             %w(E6312A015028B0FB wristband false),
             %w(A43FE1C5E9A622C2 wristband true)]
 
-    csv_file = Csv::CsvExporter.sample(header, data)
+    csv_file = CsvExporter.sample(header, data)
     respond_to do |format|
       format.csv { send_data(csv_file) }
     end
@@ -119,29 +109,15 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
 
   private
 
+  # TODO: Refactor this when gtag blacklisting is defined
+  def update_blacklist
+    atts = current_event.device_settings
+    atts[:gtag_blacklist] = current_event.gtags.banned.pluck(:tag_uid).join(",")
+    current_event.update(device_settings: atts)
+  end
+
   def set_gtag
     @gtag = current_event.gtags.find(params[:id])
-  end
-
-  def blacklist_parameter
-    current_event.event_parameters
-                 .includes(:parameter)
-                 .find_by(parameters: { category: "device", group: "general", name: "gtag_blacklist" })
-  end
-
-  def write_transaction(action, gtag)
-    station = current_event.stations.find_by(category: "customer_portal")
-    Transactions::Base.new.portal_write(event_id: current_event.id,
-                                        station_id: station.id,
-                                        profile_id: gtag.profile.id,
-                                        transaction_category: "ban",
-                                        transaction_origin: Transaction::ORIGINS[:portal],
-                                        transaction_type: "#{action}_gtag",
-                                        banneable_id: gtag.id,
-                                        banneable_type: "Gtag",
-                                        message: "",
-                                        status_code: 0,
-                                        status_message: "OK")
   end
 
   def set_presenter
@@ -151,8 +127,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
       search_query: params[:q],
       page: params[:page],
       include_for_all_items: [
-        :profile,
-        profile: [:customer, :tickets]
+        customer: :tickets
       ],
       context: view_context
     )
@@ -163,10 +138,10 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
       :event_id,
       :tag_uid,
       :format,
-      :credential_redeemed,
+      :redeemed,
       :banned,
       :loyalty,
-      :company_ticket_type_id,
+      :ticket_type_id,
       :format
     )
   end

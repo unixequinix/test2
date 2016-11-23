@@ -2,7 +2,7 @@ class Events::RegistrationsController < Devise::RegistrationsController
   layout "customer"
   helper_method :current_event
   before_action :configure_permitted_parameters
-  helper_method :current_profile
+  helper_method :current_customer
 
   private
 
@@ -25,10 +25,6 @@ class Events::RegistrationsController < Devise::RegistrationsController
       resource.agreed_on_registration = true
       session.delete(:omniauth) && resource.valid?
     end
-  end
-
-  def current_profile
-    current_customer.profile || Profile.new(customer: current_customer, event: current_event)
   end
 
   def configure_permitted_parameters

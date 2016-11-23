@@ -1,4 +1,4 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Api::V1::Events::BannedTicketsController, type: :controller do
   subject { Api::V1::Events::BannedTicketsController.new }

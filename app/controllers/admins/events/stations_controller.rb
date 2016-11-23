@@ -48,7 +48,10 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   def clone
     @station = Station.find(params[:station_id])
     path = admins_event_stations_url(current_event, group: @station.group)
-    station_clone = @station.deep_clone(include: { station_parameters: :station_parametable }, validate: false)
+    associations = [:station_catalog_items, :station_products, :topup_credits, :access_control_gates]
+
+    station_clone = @station.deep_clone(include:  associations, validate: false)
+
     if station_clone.update(name: @station.name + Time.now.to_i.to_s)
       flash[:notice] = I18n.t("alerts.cloned")
     else

@@ -11,20 +11,23 @@
 
 FactoryGirl.define do
   factory :pack do
+    event
+    name { "Random name #{rand(100)}" }
+    initial_amount 0
+    step { rand(5) }
+    max_purchasable 1
+    min_purchasable 0
+
     trait :with_credit do
       after :build do |pack|
-        pack.pack_catalog_items.build(catalog_item: create(:credit_catalog_item), amount: 1)
+        pack.pack_catalog_items.build(catalog_item: pack.event.credit, amount: 10)
       end
     end
 
     trait :with_access do
       after :build do |pack|
-        pack.pack_catalog_items.build(catalog_item: create(:access_catalog_item), amount: 1)
+        pack.pack_catalog_items.build(catalog_item: create(:access), amount: 1)
       end
-    end
-
-    after :create do |pack|
-      pack.catalog_item ||= create(:catalog_item, catalogable_type: "Pack", catalogable_id: pack.id)
     end
 
     trait :empty do |_pack|

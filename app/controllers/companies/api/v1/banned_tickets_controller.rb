@@ -16,15 +16,15 @@ class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseCont
     @ticket = tickets.find_by_code(t_code)
 
     unless @ticket
-      dec = TicketDecoder::SonarDecoder.perform(t_code)
+      dec = SonarDecoder.perform(t_code)
       render(status: :not_found,
              json: { status: :not_found, error: "Invalid ticket reference." }) && return unless dec
 
-      ctt = company_ticket_types.find_by_company_code(dec)
+      ctt = ticket_types.find_by_company_code(dec)
       render(status: :not_found,
              json: { status: :not_found, error: "Ticket Type not found." }) && return unless ctt
 
-      @ticket = tickets.create!(company_ticket_type: ctt, code: t_code)
+      @ticket = tickets.create!(ticket_type: ctt, code: t_code)
     end
 
     @ticket.update!(banned: true)

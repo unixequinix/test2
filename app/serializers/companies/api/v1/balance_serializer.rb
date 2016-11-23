@@ -2,7 +2,7 @@ class Companies::Api::V1::BalanceSerializer < Companies::Api::V1::BaseSerializer
   attributes :tag_uid, :balance, :currency
 
   def balance
-    object.profile.credits
+    object.customer.credits
   end
 
   def currency

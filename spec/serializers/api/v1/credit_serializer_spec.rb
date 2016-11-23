@@ -1,4 +1,4 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Api::V1::CreditSerializer, type: :serializer do
   context "Individual Resource Representation" do
@@ -9,12 +9,8 @@ RSpec.describe Api::V1::CreditSerializer, type: :serializer do
 
     subject { JSON.parse(serialization.to_json) }
 
-    it "returns the catalog_items description" do
-      expect(subject["description"]).to eq(resource.catalog_item.description)
-    end
-
     it "returns the catalog_items name" do
-      expect(subject["name"]).to eq(resource.catalog_item.name)
+      expect(subject["name"]).to eq(resource.name)
     end
   end
 end

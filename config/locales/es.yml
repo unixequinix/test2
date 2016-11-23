@@ -74,9 +74,6 @@ es:
       customer:
         one: 'Cliente'
         other: 'Clientes'
-      profile:
-        one: 'Perfil de evento'
-        other: 'Perfiles de evento'
       entitlement:
         one: 'Derecho'
         other: 'Derechos'
@@ -101,10 +98,7 @@ es:
       pack:
         one: 'Pack'
         other: 'Packs'
-      credential_type:
-        one: 'Tipos de credencia'
-        other: 'Tipos de credencia'
-      company_ticket_type:
+      ticket_type:
         one: 'Tipo de ticket de compañía'
         other: 'Tipos de ticket de compañía'
     errors:

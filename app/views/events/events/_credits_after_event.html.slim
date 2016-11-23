@@ -4,6 +4,8 @@
     p.panel-amount-number
       = presenter.customer_total_credits
       span.currency-symbol = presenter.token_symbol
+    - if current_event.refunds?
+      = link_to t('dashboard.refunds.button'), new_event_refund_path(current_event), class: "btn btn-action btn-action-dashboard"
     ul.refundable-conversion-list
       p.refundable-text.center-text.bold-text = t('dashboard.credits.refundable')
       li

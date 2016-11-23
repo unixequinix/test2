@@ -2,45 +2,36 @@
 #
 # Table name: stations
 #
-#  id                 :integer          not null, primary key
-#  event_id           :integer          not null
-#  name               :string           not null
-#  deleted_at         :datetime
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  location           :string
-#  position           :integer
-#  group              :string
-#  category           :string
-#  reporting_category :string
 #  address            :string
-#  registration_num   :string
+#  category           :string
+#  created_at         :datetime         not null
+#  group              :string
+#  location           :string           default("")
+#  name               :string           not null
 #  official_name      :string
+#  position           :integer
+#  registration_num   :string
+#  reporting_category :string
+#  updated_at         :datetime         not null
+#
+# Indexes
+#
+#  index_stations_on_event_id          (event_id)
+#  index_stations_on_station_event_id  (station_event_id)
+#
+# Foreign Keys
+#
+#  fk_rails_4d84bcb9bb  (event_id => events.id)
 #
 
 class Station < ActiveRecord::Base
-  acts_as_paranoid
   belongs_to :event
-  belongs_to :station_type
 
   has_many :transactions, dependent: :restrict_with_error
-
-  has_many :station_parameters
-  has_many :station_catalog_items, through: :station_parameters,
-                                   source: :station_parametable,
-                                   source_type: "StationCatalogItem"
-
-  has_many :station_products, through: :station_parameters,
-                              source: :station_parametable,
-                              source_type: "StationProduct"
-
-  has_many :topup_credits, through: :station_parameters,
-                           source: :station_parametable,
-                           source_type: "TopupCredit"
-
-  has_many :access_control_gates, through: :station_parameters,
-                                  source: :station_parametable,
-                                  source_type: "AccessControlGate"
+  has_many :station_catalog_items
+  has_many :station_products
+  has_many :topup_credits
+  has_many :access_control_gates
 
   after_create :add_predefined_values
   before_save :add_station_event_id
@@ -54,16 +45,11 @@ class Station < ActiveRecord::Base
 
   GROUPS = {
     access: [:ticket_validation, :check_in, :box_office, :customer_portal, :staff_accreditation, :access_control],
-    event_management: [:incident_report, :exhibitor, :customer_service, :operator_permissions, :payout_top_up,
-                       :hospitality_top_up, :cs_topup_refund, :cs_gtag_balance_fix, :cs_accreditation],
+    event_management: [:incident_report, :exhibitor, :customer_service, :operator_permissions, :payout_top_up, :hospitality_top_up, :cs_topup_refund, :cs_gtag_balance_fix, :cs_accreditation], # rubocop:disable Metrics/LineLength
     glownet: [:gtag_recycler, :envelope_linker],
     monetary: [:bar, :vendor, :top_up_refund],
     touchpoint: [:touchpoint]
   }.freeze
-
-  def group_and_category
-    "#{group} -> #{category}"
-  end
 
   def form
     ASSOCIATIONS.select { |_, value| value.include?(category.to_sym) }.first&.first
@@ -88,6 +74,6 @@ class Station < ActiveRecord::Base
 
     amounts = [1, 5, 10]
     amounts += category.starts_with?("cs_") ? [0.01, 0.10, 0.50] : [20, 25, 50]
-    amounts.each { |a| topup_credits.create!(amount: a, credit: event.credits.standard) }
+    amounts.each { |a| topup_credits.create!(amount: a, credit: event.credit) }
   end
 end

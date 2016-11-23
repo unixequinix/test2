@@ -1,5 +1,0 @@
-.wrapper-module.add-bottom-shadow
-  = form_tag event_order_payment_service_autotopup_synchronous_payments_path(order_presenter.event, order_presenter.order, order_presenter.payment_service), method: :post, id: "paypal-payment-form", class: "basic-grey"
-    = render "events/orders/paypal_nvp/#{order_presenter.actual_agreement_state('autotopup')}", order_presenter: order_presenter
-    .actions
-      = submit_tag t('actions.confirm'), id: "paypal-submit", class: "btn btn-action btn-action-primary"

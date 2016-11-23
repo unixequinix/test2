@@ -1,0 +1,25 @@
+.wrapper-store-module
+  h3.center-text
+    = current_event.name
+    = t('checkout.store')
+  p.center-text = t('checkout.description')
+
+= form_tag event_orders_path(current_event), method: :post, class: "wrapper-module form-module", id: "checkout-form" do |f|
+  - @catalog_items.each do |category, catalog_items|
+    .wrapper-module
+      h3.store-module-title = category.pluralize
+      - catalog_items.each do |catalog_item|
+        - partial = catalog_item.is_a?(Credit) ? "credit" : "catalog_item"
+        = render partial, catalog_item: catalog_item
+  .wrapper-store-module
+    .checkout-total
+      p.checkout-title = t('checkout.total')
+      .checkout-amount.top-up-amount [data-id="checkout"]
+        span [id="amount-total-checkout"] 0
+        span #{current_event.currency}
+    = button_tag t('checkout.button'), class: "btn btn-action btn-action-checkout"
+
+.wrapper-module
+  = link_to customer_root_path, class: "btn btn-action-back " do
+    = fa_icon "chevron-left"
+    = t("actions.back")

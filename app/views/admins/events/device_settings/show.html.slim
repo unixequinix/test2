@@ -5,14 +5,7 @@
     = t('actions.edit')
 
 .wrapper-negative-space
-  .container-show
-    dl
-      - @event_parameters.each do |event_parameter|
-        dt = t("admin.device_settings.form.#{event_parameter.parameter.name}")
-        dd = event_parameter.value
-    .container-hidden
-      = current_admin.access_token
-  - unless current_admin.customer_service? 
+  - unless current_admin.customer_service?
     .container-databases
       h3.dashboard-table-header = t("admin.dashboard.databases")
       .wrapper-dashboard-reverse-devices
@@ -27,7 +20,7 @@
             = link_to remove_db_admins_event_device_settings_path(@current_event, db: "full"), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "database__btn #{"database__btn--disabled" if @current_event.device_full_db.blank?}"
               => fa_icon("ban")
               = t('admin.event.databases.clear')
-            = link_to Databases::DatabaseManager.new(@current_event, "full").generate_url(60), class: "database__btn database__btn--download #{"database__btn--disabled" if @current_event.device_full_db.blank?}"
+            = link_to DatabaseManager.new(@current_event, "full").generate_url(60), class: "database__btn database__btn--download #{"database__btn--disabled" if @current_event.device_full_db.blank?}"
               => fa_icon("download")
               = t('admin.event.databases.download')
         .database
@@ -41,6 +34,14 @@
             = link_to remove_db_admins_event_device_settings_path(@current_event, db: "basic"), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "database__btn #{"database__btn--disabled" if @current_event.device_basic_db.blank?}"
               => fa_icon("ban")
               = t('admin.event.databases.clear')
-            = link_to Databases::DatabaseManager.new(@current_event, "basic").generate_url(60), class: "database__btn database__btn--download #{"database__btn--disabled" if @current_event.device_basic_db.blank?}"
+            = link_to DatabaseManager.new(@current_event, "basic").generate_url(60), class: "database__btn database__btn--download #{"database__btn--disabled" if @current_event.device_basic_db.blank?}"
               => fa_icon("download")
               = t('admin.event.databases.download')
+
+  .container-show
+    dl
+      - @device_settings.each do |setting, value|
+        dt = t("admin.device_settings.form.#{setting}")
+        dd = value
+    .container-hidden
+      = current_admin.access_token

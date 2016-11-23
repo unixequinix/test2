@@ -10,21 +10,13 @@
 .wrapper-negative-space
   .container-show
     dl
-      dt = t("admin.general.id")
-      dd = @credit.id
       dt = t("admin.general.name")
-      dd = @credit.catalog_item.name
-      dt = t("admin.general.description")
-      dd = @credit.catalog_item.description && "-"
+      dd = @credit.name
       dt = t("admin.accesses.step")
-      dd = @credit.catalog_item.step
+      dd = @credit.step
       dt = t("admin.accesses.initial_amount")
-      dd = @credit.catalog_item.initial_amount
+      dd = @credit.initial_amount
       dt = t("admin.accesses.max_purchasable")
-      dd = @credit.catalog_item.max_purchasable
+      dd = @credit.max_purchasable
       dt = t("admin.accesses.min_purchasable")
-      dd = @credit.catalog_item.min_purchasable
-      dt = t("admin.general.created_at")
-      dd = @credit.created_at.strftime("%y-%m-%d %H:%M:%S")
-      dt = t("admin.general.updated_at")
-      dd = @credit.updated_at.strftime("%y-%m-%d %H:%M:%S")
+      dd = @credit.min_purchasable

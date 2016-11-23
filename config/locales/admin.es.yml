@@ -25,7 +25,7 @@ es:
     transactions:
       id: "ID"
       transaction_origin: "Origen"
-      transaction_type: "Tipo"
+      action: "Tipo"
       customer_tag_uid: "Cliente"
       operator_tag_uid: "Operador"
       gtag_counter: "Contador del Gtag"
@@ -36,7 +36,7 @@ es:
       device_uid: "Dispositivo"
       device_db_index: "Indice de BD"
       device_created_at: "Fecha"
-      profile_id: "Perfil"
+      customer_id: "Perfil"
       status_code: "Código de estado"
       status_message: "Mensaje de estado"
       ticket_code: "Ticket"
@@ -58,15 +58,14 @@ es:
       station: "Estación"
       event: "Evento"
       device: "Dispositivo"
-      customer_order: "Pedido"
       access: "Accesso"
       direction: "Dirección"
       final_value: "Valor final"
       credential: "Credencial"
       ticket: "Ticket"
       money: "Dinero"
-      catalogable_type: "Tipo"
-      catalogable_id: "ID"
+      type: "Tipo"
+      catalog_item_id: "Catalog Item ID"
       items_amount: "Cantidad"
     agreements:
       status: "Estado"
@@ -197,22 +196,8 @@ es:
       background_types:
         fixed: 'Fijo'
         repeat: 'Repetir'
-      payment_services:
-        paypal: 'Braintree (Paypal)'
-        paypal_nvp: 'Paypal'
-        redsys: 'Redsys'
-        stripe: 'Stripe'
-        braintree: 'Braintree (Credit Card)'
-        sofort: 'Sofort'
-        ideal: 'Ideal'
-        wirecard: 'Wirecard'
-      refund_services:
-        bank_account: 'Cuenta bancaria'
-        epg: 'Easy payment gateway'
-        tipalti: 'Tipalti'
-        direct: 'Por cancelación de pagos'
       images:
-        profile: "Imágen de perfil"
+        customer: "Imágen de perfil"
         background: "Imágen de fondo"
       features_options:
         top_ups: 'Recarga de créditos'
@@ -319,18 +304,16 @@ es:
       gtag: "GTags"
       credits: "Créditos"
       customers: "Clientes"
-      profiles: "Perfiles de evento"
+      customers: "Perfiles de evento"
       orders: "Órdenes"
-      customer_orders: "Órdenes de clientes"
       payments: "Pagos"
       claims: "Peticiones"
       refunds: "Devoluciones"
       sign_out: "Cerrar Sesión"
       setup: "Setup"
       crm: "CRM"
-      credential_types: "Tipos de Credenciales"
       companies: "Compañías"
-      company_ticket_types: "Tipo de tickets de compañia"
+      ticket_types: "Tipo de tickets de compañia"
       access_transactions: "Acceso"
       ban_transactions: "Baneo"
       credit_transactions: "Crédito"
@@ -357,7 +340,7 @@ es:
       initial_amount: "Cantidad Inicial"
       max_purchasable: "Máximo Comprable"
       min_purchasable: "Mínimo Comprable"
-      catalogable_type: "Tipo"
+      type: "Tipo"
     pack:
       number_catalog_items: "Número de items"
       add_item: "Añadir Item"
@@ -366,14 +349,6 @@ es:
         conditions:
           - "Los créditos de un pack tendrán opción a devolución únicamente si no hay elementos otra naturaleza en el pack, como Accesos o Cupones"
           - "Si un pack incluye créditos con un precio especial, los créditos con opción a devolución serán los equivalentes al precio pagado por los créditos multiplicado por el valor del crédito"
-    credential_type:
-      id: "Id"
-      memory_position: "Posición en memoria"
-    company_ticket_types:
-      id: "Id"
-      name: "Nombre"
-      company_code: "Código de la compañía"
-      credential_type: "Tipo de credencial"
     entitlement:
       mode: "Modo"
       memory_length: "Longitud"
@@ -394,11 +369,13 @@ es:
       credit: "Crédito"
       entitlements: "Derecho"
       import: "Importar tipos de ticket (Seleccionar un fichero CSV separado por comas)"
+      company_code: "Código de la compañía"
+      catalog_item: "Item"
     tickets:
       id: "Id"
       code: "Código"
       banned: "Baneado"
-      company_ticket_type: "Tipo de ticket de compañía"
+      ticket_type: "Tipo de ticket de compañía"
       gtags: "Gtags"
       ticket_type_simplified: "Tipo de Ticket Simplificado"
       customer: "Cliente asignado"
@@ -468,7 +445,7 @@ es:
         assigned: "Asignación actual"
         unassigned: "Asignación previa"
       button: "Aceptar"
-    profile:
+    customer:
       id: "Id"
     customers:
       id: "Id"
@@ -484,7 +461,6 @@ es:
       gtag: "Gtag"
       state: "Estado"
       admissions: "Registro de Tickets"
-      purchases: "Compras"
       creadit_logs: "Compras de créditos"
       orders: "Ordenes"
       payments: "Pagos"
@@ -493,7 +469,6 @@ es:
       completed_claim: "Peticiones de devolución completadas"
       refund: "Refund"
       claims: "Peticiones de devolución"
-      customer_orders: "Órdenes de cliente"
       gtag_credits: "Créditos Gtag"
       tickets: "Tickets"
       credits: "Créditos"
@@ -507,7 +482,6 @@ es:
       transactions: "Transacciones"
       transactions_type: "Tipos de Transacciones"
       created_at: "Creado el"
-      deleted_at: "Borrado el"
       amount: "Cantidad"
       search:
         first_name: "Nombre"
@@ -517,35 +491,8 @@ es:
         tickets: "¿Tickets?"
         gtag: "¿Gtags?"
         credits_purchased: "¿Créditos Comprados?"
-    claims:
-      claim_number: "Claim number"
-      number: "Número"
-      customer: "Cliente"
-      state: "Estado"
-      created: "Creado en"
-      completed: "Completado en"
-      amount: "Cantidad"
-      product_price: "Precio del Producto"
-      total: "Total"
-      service_type: "Tipo de servicio"
-      product_name: "Nomebre del Producto"
-      product_description: "Descripción del Producto"
-      product_type: "Tipo de Producto"
-      order_item: "Items de Órdenes"
-      claim_parameters: "Parametros"
-      claim_parameter: "Parametro"
-      claim_parameter_value: "Valor"
-      parameters:
-        state: "Provincia"
-        city: "Ciudad"
-        post_code: "Código postal"
-        phone: "Teléfono"
-        address: "Dirección"
-        iban: "IBAN"
-        swift: "BIC/SWIFT"
-      search:
-        number: "Número"
     orders:
+      gateway: "Pasarela"
       number: "Número"
       customer: "Cliente"
       state: "Estado"
@@ -561,48 +508,23 @@ es:
       payments: "Pagos"
       search:
         number: "Número"
-    customer_orders:
+    order_items:
       id: "Id"
       amount: "Cantidad"
-      profile: "Perfil de cliente"
+      customer: "Perfil de cliente"
       catalog_item: "Producto del catálogo"
-      origin: "Origen"
       redeemed: "Canjeado"
-    payments:
-      id: "Id"
-      order_id: "Order Id"
-      amount: "Cantidad"
-      transaction_type: "Tipo de Transacción"
-      card_country: "País de Tarjeta"
-      last4: "Últimos 4 dígitos"
-      response_code: "Código de Respuesta"
-      authorization_code: "Código de Autorización"
-      currency: "Moneda"
-      success: "Exitoso"
-      paid: "Pagado en"
-      search:
-        id: "Id eq"
-    comments:
-      title: "Comentarios"
     refunds:
       id: "Id"
-      customer_id: "Customer Id"
       customer_name: "Nombre del cliente"
       customer_email: "Email del cliente"
-      gtag_uid: "UID"
       iban: "Número IBAN"
-      swift: "Número BIC/SWIFT"
+      swift: "Número SWIFT"
       amount: "Cantidad"
-      aasm_state: "Estado"
       created_at: "Creado en"
       updated_at: "Actualizado en"
-      claim: "Petición"
       amount: "Cantidad"
-      currency: "Moneda"
-      message: "Mensaje"
-      operation_type: "Tipo de operación"
-      gateway_transaction_number: "Número de transacción"
-      payment_solution: "Solución de pago"
+      fee: "Comisión"
       status: "Estado"
       search:
         claim: "Número de petición"

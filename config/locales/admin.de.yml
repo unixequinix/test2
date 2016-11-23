@@ -25,7 +25,7 @@ de:
     transactions:
       id: "ID"
       transaction_origin: "Origin"
-      transaction_type: "Type"
+      action: "Type"
       customer_tag_uid: "Customer"
       operator_tag_uid: "Operator"
       gtag_counter: "Gtag Counter"
@@ -36,7 +36,7 @@ de:
       device_uid: "Device"
       device_db_index: "DB index"
       device_created_at: "Date"
-      profile_id: "Profile"
+      customer_id: "Customer"
       status_code: "Status Code"
       status_message: "Status Message"
       ticket_code: "Ticket"
@@ -58,15 +58,14 @@ de:
       station: "Station"
       event: "Event"
       device: "Device"
-      customer_order: "Customer Order"
       access: "Access"
       direction: "Direction"
       final_value: "Final Value"
       credential: "Credential"
       ticket: "Ticket"
       money: "Money"
-      catalogable_type: "Catalogable Type"
-      catalogable_id: "Catalogable ID"
+      type: "Catalogable Type"
+      catalog_item_id: "Catalog Item ID"
       items_amount: "Items Amount"
     agreements:
       status: "Status"
@@ -197,22 +196,8 @@ de:
       background_types:
         fixed: "Fixiert"
         repeat: "Wiederholen"
-      payment_services:
-        paypal: 'Braintree (Paypal)'
-        paypal_nvp: 'Paypal'
-        redsys: 'Redsys'
-        stripe: 'Stripe'
-        braintree: 'Braintree (Credit Card)'
-        sofort: 'Sofort'
-        ideal: 'Ideal'
-        wirecard: 'Wirecard'
-      refund_services:
-        bank_account: "Bankkonto"
-        epg: "Einfaches Zahlungsgateway"
-        tipalti: "Tipalti"
-        direct: "Zahlung Storno Erstattung"
       images:
-        profile: "Profilbild Vorschau"
+        customer: "Profilbild Vorschau"
         background: "Hintergrundbild Vorschau "
       features_options:
         top_ups: "Guthaben Top Ups"
@@ -319,18 +304,16 @@ de:
       gtag: "GTags"
       credits: "Guthaben"
       customers: "Kunden"
-      profiles: "Kunden Veranstaltungsprofile "
+      customers: "Kunden Veranstaltungscustomer "
       orders: "Bestellungen"
-      customer_orders: "Kunden Bestellungen"
       payments: "Zahlungen"
       claims: "Forderungen"
       refunds: "Erstattungen"
       sign_out: "Abmeldung"
       setup: "Einrichtung"
       crm: "CRM"
-      credential_types: "Guthabentypen"
       companies: "Firmen"
-      company_ticket_types: "Firmenticketarten"
+      ticket_types: "Firmenticketarten"
       access_transactions: "Access"
       ban_transactions: "Ban"
       credit_transactions: "Credit"
@@ -352,12 +335,11 @@ de:
       value: "Wert"
     catalog_item:
       name: "Name"
-      description: "Beschreibung"
       step: "Schritt"
       initial_amount: "Anfangsbetrag"
       max_purchasable: "Max käuflich"
       min_purchasable: "Min käuflich"
-      catalogable_type: "Type"
+      type: "Type"
     products:
       id: "ID"
       name: "Name"
@@ -374,14 +356,6 @@ de:
         conditions:
           - "There aren't other kind of items in a pack, like accesses"
           - "If a pack includes special price credits, the refundable amount of the credits will be the result of multiplying the payed price by the credi value"
-    credential_type:
-      id: "Id"
-      memory_position: "Speicherposition"
-    company_ticket_types:
-      id: "Id"
-      name: "Name"
-      company_code: "Firmencode"
-      credential_type: "Guthabentyp"
     entitlement:
       mode: "Mode"
       memory_length: "Länge"
@@ -394,11 +368,13 @@ de:
       credit: "Guthaben"
       entitlements: "Berechtigungen"
       import: "Wichtige Ticketarten (Wählen Sie ein CSV File mit Kommatrennung)"
+      company_code: "Firmencode"
+      catalog_item: "Item"
     tickets:
       id: "ID"
       code: "Code"
       banned: "Banned"
-      company_ticket_type: "Firmenticketart"
+      ticket_type: "Firmenticketart"
       gtags: "Gtags"
       ticket_type_simplified: "Vereinfachte Ticketart"
       customer: "Angemeldeter Kunde"
@@ -468,7 +444,7 @@ de:
         assigned: "Ist jetzt angemeldet"
         unassigned: "Vorherige Anmeldung"
       button: "Akzeptieren"
-    profile:
+    customer:
       id: "ID"
     customers:
       id: "Id"
@@ -483,7 +459,6 @@ de:
       gtags: "Gtags"
       gtag: "Gtag"
       state: "Status"
-      purchases: "Käufe"
       admissions: "Ticketregistrierungen"
       creadit_logs: "Guthaben logs"
       orders: "Bestellungen"
@@ -491,7 +466,6 @@ de:
       payments_activated: "Aktivierte Zahlungen"
       gtag: "Gtags"
       completed_claim: "Endgültige Forderungen"
-      customer_orders: "Kunden Bestellungen"
       refund: "Erstattung"
       claims: "Forderungen"
       gtag_credits: "Gtag Guthaben"
@@ -507,7 +481,6 @@ de:
       transactions: "Transaktion"
       transactions_type: "Transaktionstyp"
       created_at: "Erstellt bei "
-      deleted_at: "Gelöscht bei"
       amount: "Betrag"
       search:
         first_name: "Vornamen eingeben"
@@ -517,35 +490,8 @@ de:
         tickets: "Tickets?"
         gtag: "Gtags"
         credits_purchased: "Guthaben erworben?"
-    claims:
-      claim_number: "Forderung Nummer"
-      number: "Nummer"
-      customer: "Kunde"
-      state: "Status"
-      created: "Erstellt am"
-      completed: "Abgeschlossen am"
-      amount: "Betrag"
-      product_price: "Produktpreis"
-      total: "Summe"
-      service_type: "Serviceart"
-      product_name: "Produktname"
-      product_description: "Produktbeschreibung"
-      product_type: "Productart"
-      order_item: "Bestellung Artikel"
-      claim_parameters: "Parameter"
-      claim_parameter: "Parameter"
-      claim_parameter_value: "Wert"
-      parameters:
-        state: "Land"
-        city: "Stadt"
-        post_code: "Postleitzahl"
-        phone: "Telefon"
-        address: "Adresse"
-        iban: "IBAN"
-        swift: "BIC/SWIFT"
-      search:
-        number: "Nummer"
     orders:
+      gateway: "Gateway"
       number: "Nummer"
       customer: "Kunde"
       state: "Status"
@@ -561,51 +507,23 @@ de:
       payments: "Zahlungen"
       search:
         number: "Nummer"
-    customer_orders:
+    order_items:
       id: "ID"
       amount: "Betrag"
-      profile: "Kunden Veranstaltungsprofil"
+      customer: "Kunden Veranstaltungsprofil"
       catalog_item: "Katalogartikel"
-      origin: "Quelle"
       redeemed: "Eingelöst"
-    payments:
-      id: "ID"
-      order_id: "Order ID"
-      amount: "Betrag"
-      transaction_type: "Transaktionstyp"
-      card_country: "Karte Land"
-      last4: "Karte letzte Ziffern"
-      response_code: "Antwort Code"
-      authorization_code: "Authorisierungscode"
-      currency: "Währung"
-      success: "Erfolg"
-      paid: "Bezahlt am"
-      search:
-        id: "ID eq"
-    comments:
-      title: "Bemerkungen"
     refunds:
       id: "ID"
-      customer_id: "Kunden ID"
       customer_name: "Name des Kunden"
       customer_email: "Email des Kunden"
-      gtag_uid: "UID Nummer"
       iban: "IBAN Nummer"
-      swift: "BIC/SWIFT Nummer"
-      amount: "Betrag"
-      aasm_state: "Status"
+      swift: "SWIFT Nummer"
       created_at: "Erstellt bei"
       updated_at: "Aktualisiert bei"
-      claim: "Forderung"
       amount: "Betrag"
-      currency: "Währung"
-      message: "Nachricht"
-      operation_type: "Vorgang Typ"
-      gateway_transaction_number: "Gateway Transaktionsnummer"
-      payment_solution: "Zahlungsart"
+      fee: "Gebühr"
       status: "Status"
       search:
-        claim: "Forderung Nummer"
-        gateway_transaction_number: "Gateway Transaktionsnummer"
         amount: "Betrag"
         status: "Status"

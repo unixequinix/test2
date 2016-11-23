@@ -1,4 +1,4 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Api::V1::EventsController, type: :controller do
   let(:admin) { create(:admin) }
@@ -34,7 +34,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         get :index
         @body = JSON.parse(response.body)
         @body.map do |event|
-          expect(event.keys).to eq(%w(id name description start_date end_date staging_start staging_end))
+          expect(event.keys).to eq(%w(id name start_date end_date staging_start staging_end))
         end
       end
 
@@ -45,7 +45,6 @@ RSpec.describe Api::V1::EventsController, type: :controller do
           event_atts = {
             id: db_events[i].id,
             name: db_events[i].name,
-            description: db_events[i].description,
             start_date: db_events[i].start_date,
             end_date: db_events[i].end_date,
             staging_start: db_events[i].start_date - 7.days,

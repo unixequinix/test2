@@ -1,4 +1,25 @@
-require "rails_helper"
+# == Schema Information
+#
+# Table name: products
+#
+#  created_at   :datetime         not null
+#  description  :string
+#  is_alcohol   :boolean          default(FALSE)
+#  name         :string
+#  product_type :string
+#  updated_at   :datetime         not null
+#  vat          :float            default(0.0)
+#
+# Indexes
+#
+#  index_products_on_event_id  (event_id)
+#
+# Foreign Keys
+#
+#  fk_rails_ab0be0bcf2  (event_id => events.id)
+#
+
+require "spec_helper"
 
 RSpec.describe Product, type: :model do
   it "has a valid factory" do

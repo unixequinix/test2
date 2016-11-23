@@ -74,9 +74,6 @@ de:
       customer:
         one: 'Kunde'
         other: 'Kunden'
-      profile:
-        one: 'Veranstaltungsprofil des Kunden'
-        other: 'Veranstaltungsprofile des Kunden'
       entitlement:
         one: 'Berechtigung'
         other: 'Berechtigungen'
@@ -101,10 +98,7 @@ de:
       pack:
         one: 'Paket'
         other: 'Pakete'
-      credential_type:
-        one: 'Anmeldeart'
-        other: 'Anmeldearten'
-      company_ticket_type:
+      ticket_type:
         one: 'Firmenticket-Typ'
         other: 'Firmenticket-Typen'
     errors:

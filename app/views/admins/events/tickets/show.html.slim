@@ -18,10 +18,10 @@
       dd = @ticket.id
       dt = t("admin.tickets.code")
       dd = @ticket.code
-      dt = t("admin.tickets.company_ticket_type")
-      dd = @ticket.company_ticket_type.name unless @ticket.company_ticket_type.nil?
-      dt = t("admin.company_ticket_types.company")
-      dd = @ticket.company_ticket_type.company_event_agreement.company.name unless @ticket.company_ticket_type.nil?
+      dt = t("admin.tickets.ticket_type")
+      dd = @ticket.ticket_type.name unless @ticket.ticket_type.nil?
+      dt = t("admin.ticket_types.company")
+      dd = @ticket.ticket_type.company_event_agreement.company.name unless @ticket.ticket_type.nil?
 
       dt = t("admin.purchasers.first_name")
       dd = @ticket.purchaser_first_name
@@ -42,21 +42,20 @@
       dd
         #qrcode
 
-  - if @ticket.assigned?
-    - profile = @ticket.profile
-    - customer = profile.customer
+  - if @ticket.customer
+    - customer = @ticket.customer
     .container-show
       h3
         = fa_icon "table"
         = t("admin.tickets.admission")
-      table.subtable.claim-subtable
+      table.subtable
         thead
           tr
             th = t("admin.admissions.customer.email")
             th = t("admin.admissions.customer.complete_name")
             th = t("admin.admissions.aasm_state")
             - unless current_admin.customer_service?
-              th = t("admin.defaults.actions")
+              th &nbsp;
         tbody
           tr
             td = link_to customer.email, admins_event_customer_path(current_event, customer)
@@ -68,6 +67,23 @@
                   li.table-action.action-delete
                     = link_to admins_event_ticket_assignment_path(current_event, @ticket.id), method: :delete, data: { confirm: t("admin.confirm.delete") } do
                       = fa_icon "ban"
-                        
+
+  - if @catalog_item
+    .container-show
+      h3
+        = fa_icon "table"
+        | Items included
+
+
+      table.subtable
+        thead
+          tr
+            th = t("admin.tickets.item")
+            th = t("admin.tickets.credits")
+        tbody
+          tr
+            td = link_to @catalog_item.name, url_for([:admins, @current_event, @catalog_item])
+            td = number_to_token @catalog_item.credits
+
 javascript:
   $('#qrcode').qrcode("#{@ticket.code}");

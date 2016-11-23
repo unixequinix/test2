@@ -54,7 +54,7 @@ Must be one of the following:
 
 ### Scope
 The scope could be anything specifying place of the commit change. For example `asset_tracker`,
-`profile.rb`, `device_manager`, `missing_transactions`, `credit_transactions`, `customer_area`, `admin_panel`, etc...
+`customer.rb`, `device_manager`, `missing_transactions`, `credit_transactions`, `customer_area`, `admin_panel`, etc...
 
 ### Subject
 The subject contains succinct description of the change:

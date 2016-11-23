@@ -7,8 +7,8 @@ class Admins::Events::AssetTrackersController < Admins::Events::BaseController
     transactions_sql = Device.transactions_count(current_event)
 
     devices.map do |device, transactions|
-      init = transactions.select { |t| t.transaction_type == "device_initialization" }
-      pack = transactions.select { |t| t.transaction_type == "pack_device" }
+      init = transactions.select { |t| t.action == "device_initialization" }
+      pack = transactions.select { |t| t.action == "pack_device" }
       server_trans = transactions_sql.find { |t| t["device_uid"] == device }
 
       if (init.count - pack.count == 1) && (init.last&.device_created_at.to_s > pack.last&.device_created_at.to_s)
@@ -29,7 +29,7 @@ class Admins::Events::AssetTrackersController < Admins::Events::BaseController
       @assets[device] = @assets[device] || {}
       @assets[device].merge!(device_transactions: device_trans,
                              server_transactions: server_trans["transactions_count"],
-                             transaction_type: server_trans["transaction_type"],
+                             action: server_trans["action"],
                              last_device_transaction: transactions.last[:number_of_transactions],
                              status: status)
     end

@@ -1,30 +1,36 @@
 class Events::TicketAssignmentsController < Events::BaseController
-  def new
-    @ticket_assignment_form = TicketAssignmentForm.new
-  end
+  def create # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength
+    @code = permitted_params[:code].strip
+    @ticket = current_event.tickets.find_by(code: @code)
 
-  def create
-    @ticket_assignment_form = TicketAssignmentForm.new(ticket_assignment_parameters)
-    if @ticket_assignment_form.save(current_event.tickets, current_profile, current_event)
-      flash[:notice] = I18n.t("alerts.created")
-      redirect_to event_url(current_event)
-    else
-      flash.now[:error] = @ticket_assignment_form.errors.full_messages.join
-      render :new
+    if @ticket.blank?
+      flash.now[:error] = I18n.t("alerts.admissions")
+      render(:new) && return
     end
+
+    if @ticket.banned?
+      flash.now[:error] = I18n.t("alerts.ticket_banned")
+      render(:new) && return
+    end
+
+    if @ticket.customer
+      flash.now[:error] = I18n.t("alerts.ticket_already_assigned")
+      render(:new) && return
+    end
+
+    @ticket.update!(customer: current_customer)
+    redirect_to(customer_root_path(current_event), notice: I18n.t("alerts.ticket_assigned"))
   end
 
   def destroy
-    ticket = Ticket.find(params[:id])
-    CreditWriter.reassign_ticket(ticket, :unassign) if ticket.credits.present?
-    ticket.update!(profile: nil)
-    flash[:notice] = I18n.t("alerts.unassigned")
-    redirect_to event_url(current_event)
+    ticket = current_event.tickets.find(params[:id])
+    ticket.update!(customer: nil)
+    redirect_to customer_root_path(current_event), notice: I18n.t("alerts.unassigned")
   end
 
   private
 
-  def ticket_assignment_parameters
-    params.require(:ticket_assignment_form).permit(:code)
+  def permitted_params
+    params.require(:ticket).permit(:code)
   end
 end

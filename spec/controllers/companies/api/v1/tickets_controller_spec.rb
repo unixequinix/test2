@@ -1,10 +1,10 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
   let(:event) { create(:event) }
-  let(:ticket_type) { create(:company_ticket_type, event: event) }
+  let(:ticket_type) { create(:ticket_type, event: event) }
   let(:company) { ticket_type.company_event_agreement.company }
-  let(:tickets) { create_list(:ticket, 2, :with_purchaser, event: event, company_ticket_type: ticket_type) }
+  let(:tickets) { create_list(:ticket, 2, :with_purchaser, event: event, ticket_type: ticket_type) }
 
   describe "GET index" do
     context "when authenticated" do

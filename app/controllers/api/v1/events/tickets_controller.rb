@@ -18,6 +18,6 @@ class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
     ticket = current_event.tickets.find_by_code(params[:id])
 
     render(json: :not_found, status: :not_found) && return unless ticket
-    render(json: ticket, serializer: Api::V1::TicketWithCustomerSerializer)
+    render(json: ticket, serializer: Api::V1::TicketSerializer)
   end
 end

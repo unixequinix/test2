@@ -16,11 +16,13 @@ th:
     quantity_not_refundable: 'จำนวนเครดิตไม่มากพอสำหรับการขอรับเงินคืน'
     gtag_already_assigned: 'คุณมีบัตรอยู่ในระบบแล้ว'
     forbidden_gtag_change: 'Impossible to unassign gtag when event has started'
+    ticket_assigned: 'Ticket assigned successfully'
     ticket_already_assigned: 'Ticket already assigned'
+    ticket_banned: "Ticket is blacklisted"
     ticket_doesnt_exist: "Ticket doesn't exist"
     credential_already_assigned: 'You already have the credential that comes with this ticket'
     access_only_one_way: 'Only one way per access'
-    profile_without_transactions: "The profile doesn't have credit transactions"
+    customer_without_transactions: "The customer doesn't have credit transactions"
     gtag:
       invalid: "%{gtag} ไม่ถูกต้อง"
       already_assigned: "This %{gtag} is already assigned"

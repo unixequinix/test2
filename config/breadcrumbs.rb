@@ -2,7 +2,7 @@ crumb :root do
   link t("admins.defaults.home"), admin_root_path
 end
 
-# transactions
+# Transactions
 crumb :admins_event_transactions do |event, type|
   link t("breadcrumbs.#{type}_transactions"), admins_event_transactions_path(event, type: type)
   parent :admins_event, event
@@ -23,30 +23,6 @@ crumb :admins_event_real_credit_inconsistencies do |event|
   parent :admins_event, event
 end
 
-## Refund Settings
-
-crumb :admins_event_refund_settings do |event|
-  link t("breadcrumbs.refund_settings"), admin_root_path
-  parent :admins_event, event
-end
-
-## Claims
-
-crumb :admins_event_claims do |event|
-  link t("breadcrumbs.claim"), admins_event_claims_path(event)
-  parent :admins_event, event
-end
-
-crumb :admins_event_claim do |event, claim|
-  link claim.number, admins_event_claim_path(event, claim)
-  parent :admins_event_claims, event
-end
-
-crumb :new_admins_event_claim do |event|
-  link t("breadcrumbs.new_claim_type")
-  parent :admins_event_claims, event
-end
-
 ## Refunds
 
 crumb :admins_event_refunds do |event|
@@ -64,28 +40,16 @@ crumb :new_admins_event_refund do |event|
   parent :admins_event_refunds, event
 end
 
-## Payment Settings
+## Payment Gateways
 
-crumb :admins_event_payment_settings do |event|
-  link t("breadcrumbs.payment_settings"), admin_root_path
+crumb :admins_event_payment_gateways do |event|
+  link t("breadcrumbs.payment_gateways"), admins_event_payment_gateways_path(event)
   parent :admins_event, event
 end
 
-## CustomerOrders
-
-crumb :admins_event_customer_orders do |event|
-  link t("breadcrumbs.customer_order"), admins_event_customer_orders_path(event)
-  parent :admins_event, event
-end
-
-crumb :admins_event_customer_order do |event, customer_order|
-  link customer_order.number, admins_event_customer_order_path(event, customer_order)
-  parent :admins_event_customer_orders, event
-end
-
-crumb :new_admins_event_customer_order do |event|
-  link t("breadcrumbs.new_customer_order_type")
-  parent :admins_event_customer_orders, event
+crumb :new_admins_event_payment_gateway do |event|
+  link t("actions.new"), admin_root_path
+  parent :admins_event_payment_gateways, event
 end
 
 ## Orders
@@ -296,7 +260,7 @@ crumb :edit_admins_event_access do |event, access|
 end
 
 crumb :admins_event_access do |event, access|
-  link access.catalog_item.name, edit_admins_event_access_path(event, access)
+  link access.name, edit_admins_event_access_path(event, access)
   parent :admins_event_accesses, event
 end
 
@@ -318,7 +282,7 @@ crumb :edit_admins_event_credit do |event, credit|
 end
 
 crumb :admins_event_credit do |event, credit|
-  link credit.catalog_item.name, edit_admins_event_credit_path(event, credit)
+  link credit.name, edit_admins_event_credit_path(event, credit)
   parent :admins_event_credits, event
 end
 
@@ -340,7 +304,7 @@ crumb :edit_admins_event_access do |event, pack|
 end
 
 crumb :admins_event_pack do |event, pack|
-  link pack.catalog_item.name, edit_admins_event_pack_path(event, pack)
+  link pack.name, edit_admins_event_pack_path(event, pack)
   parent :admins_event_packs, event
 end
 
@@ -371,67 +335,49 @@ crumb :new_admins_event_product do |event|
   parent :admins_event_products, event
 end
 
-## CredentialTypes
+## TicketType
 
-crumb :admins_event_credential_types do |event|
-  link t("breadcrumbs.credential_types"), admins_event_credential_types_path(event)
+crumb :admins_event_ticket_types do |event|
+  link t("breadcrumbs.ticket_types"), admins_event_ticket_types_path(event)
   parent :admins_event, event
 end
 
-crumb :admins_event_credential_type do |event, credential_type|
-  link credential_type.catalog_item.name,
-       edit_admins_event_credential_type_path(event, credential_type)
-  parent :admins_event_credential_types, event
+crumb :admins_event_ticket_type do |event, ticket_type|
+  link ticket_type.name,
+       edit_admins_event_ticket_type_path(event, ticket_type)
+  parent :admins_event_ticket_types, event
 end
 
-crumb :new_admins_event_credential_type do |event|
-  link t("breadcrumbs.new_credential_type")
-  parent :admins_event_credential_types, event
+crumb :new_admins_event_ticket_type do |event|
+  link t("breadcrumbs.new_ticket_type")
+  parent :admins_event_ticket_types, event
 end
 
-## CompanyTicketType
+## Customers
 
-crumb :admins_event_company_ticket_types do |event|
-  link t("breadcrumbs.company_ticket_types"), admins_event_company_ticket_types_path(event)
+crumb :admins_event_customers do |event|
+  link t("breadcrumbs.customer"), admins_event_customers_path(event)
   parent :admins_event, event
 end
 
-crumb :admins_event_company_ticket_type do |event, company_ticket_type|
-  link company_ticket_type.name,
-       edit_admins_event_company_ticket_type_path(event, company_ticket_type)
-  parent :admins_event_company_ticket_types, event
+crumb :admins_event_customer do |event, customer|
+  link (customer.id || customer.id), admins_event_customer_path(event, customer)
+  parent :admins_event_customers, event
 end
 
-crumb :new_admins_event_company_ticket_type do |event|
-  link t("breadcrumbs.new_company_ticket_type")
-  parent :admins_event_company_ticket_types, event
+crumb :new_admins_event_customer do |event|
+  link t("breadcrumbs.new_customer")
+  parent :admins_event_customers, event
 end
 
-## Profiles
-
-crumb :admins_event_profiles do |event|
-  link t("breadcrumbs.profile"), admins_event_profiles_path(event)
-  parent :admins_event, event
-end
-
-crumb :admins_event_profile do |event, profile|
-  link (profile.id || profile.id), admins_event_profile_path(event, profile)
-  parent :admins_event_profiles, event
-end
-
-crumb :new_admins_event_profile do |event|
-  link t("breadcrumbs.new_profile")
-  parent :admins_event_profiles, event
-end
-
-crumb :admins_event_profile_gtag_assignation do |event, profile|
+crumb :admins_event_customer_gtag_assignation do |event, customer|
   link "Gtag assignation"
-  parent :admins_event_profile, event, profile
+  parent :admins_event_customer, event, customer
 end
 
-crumb :admins_event_profile_ticket_assignation do |event, profile|
+crumb :admins_event_customer_ticket_assignation do |event, customer|
   link "Ticket assignation"
-  parent :admins_event_profile, event, profile
+  parent :admins_event_customer, event, customer
 end
 
 ## Customers

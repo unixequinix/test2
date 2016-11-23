@@ -8,7 +8,7 @@ class EventbriteImporter < ActiveJob::Base
 
     event.tickets.where(code: barcodes).destroy_all && return unless order[:status].eql?("placed")
 
-    ticket_types = event.company_ticket_types.where(company_event_agreement: agreement)
+    ticket_types = event.ticket_types.where(company_event_agreement: agreement)
 
     order[:attendees].each do |attendee|
       attendee["barcodes"].each do |barcode|

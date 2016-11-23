@@ -1,22 +1,17 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Api::V1::AccessSerializer, type: :serializer do
   context "Individual Resource Representation" do
-    let(:resource) { build(:access) }
-    let(:catalog_item) { resource.catalog_item }
-    let(:entitlement) { resource.entitlement }
+    let(:access) { build(:access) }
+    let(:entitlement) { access.entitlement }
 
-    let(:serializer) { Api::V1::AccessSerializer.new(resource) }
+    let(:serializer) { Api::V1::AccessSerializer.new(access) }
     let(:serialization) { ActiveModelSerializers::Adapter.create(serializer) }
 
     subject { JSON.parse(serialization.to_json) }
 
-    it "returns the catalog_items description" do
-      expect(subject["description"]).to eq(catalog_item.description)
-    end
-
     it "returns the catalog_items name" do
-      expect(subject["name"]).to eq(catalog_item.name)
+      expect(subject["name"]).to eq(access.name)
     end
 
     it "returns the entitlements mode" do

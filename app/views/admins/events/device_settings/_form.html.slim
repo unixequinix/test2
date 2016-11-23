@@ -1,49 +1,100 @@
-= simple_form_for @device_settings_form, url: admins_event_device_settings_path(@current_event), method: :patch do |f|
-  fieldset
-    h3.section-header
-      = fa_icon "info-circle"
-      = t("admin.event.fieldests.parameters")
+= form_tag ["admins", current_event, "device_settings"], method: :patch do
+  - unless current_admin.customer_service?
+    fieldset
+      h3.section-header
+        = fa_icon "info-circle"
+        = t("admin.event.fieldests.parameters")
 
-    = f.input :min_version_apk
-    = f.input :topup_initialize_gtag, as: :radio_buttons
-    = f.input :cypher_enabled, as: :radio_buttons
-    = f.input :autotopup_enabled, as: :radio_buttons
-    = f.input :event_id, as: :hidden, input_html: { value: @current_event.id }
-  
-  fieldset
-    h3.section-header
-      = fa_icon "shopping-cart"
-      = t("admin.event.fieldests.online_orders")
-    = f.input :touchpoint_update_online_orders, as: :radio_buttons
-    = f.input :pos_update_online_orders, as: :radio_buttons
+      .input
+        label Minimum APK version
+        = number_field_tag "device_settings[min_version_apk]", @device_settings["min_version_apk"]
+      
+      .input
+        label Topup initialize Gtag?
+        = hidden_field_tag "device_settings[topup_initialize_gtag]", false
+        = check_box_tag "device_settings[topup_initialize_gtag]", true, @device_settings["topup_initialize_gtag"]
+      
+      .input
+        label Cypher enabled?
+        = hidden_field_tag "device_settings[cypher_enabled]", false
+        = check_box_tag "device_settings[cypher_enabled]", true, @device_settings["cypher_enabled"]
+
+    fieldset
+      h3.section-header
+        = fa_icon "shopping-cart"
+        = t("admin.event.fieldests.online_orders")
+      
+      .input
+        label Touchpoint update online orders?
+        = hidden_field_tag "device_settings[touchpoint_update_online_orders]", false
+        = check_box_tag "device_settings[touchpoint_update_online_orders]", true, @device_settings["touchpoint_update_online_orders"]
+          
+      .input
+        label POS update online orders?
+        = hidden_field_tag "device_settings[pos_update_online_orders]", false
+        = check_box_tag "device_settings[pos_update_online_orders]", true, @device_settings["pos_update_online_orders"]
 
   fieldset
     h3.section-header
       = fa_icon "lock"
       = t("admin.event.fieldests.security")
+    - unless current_admin.customer_service?
+      .input
+        label Private zone password
+        = text_field_tag "device_settings[private_zone_password]", @device_settings["private_zone_password"]
+      
+      .input
+        label Fast removal password
+        = text_field_tag "device_settings[fast_removal_password]", @device_settings["fast_removal_password"]
+      
+    .input
+      label Gtag blacklist
+      = text_field_tag "device_settings[gtag_blacklist]", @device_settings["gtag_blacklist"]
+    
+    .input
+      label Gtag whitelist
+      = text_field_tag "device_settings[gtag_whitelist]", @device_settings["gtag_whitelist"]
 
-    = f.input :private_zone_password, as: :string
-    = f.input :fast_removal_password, as: :string
-    = f.input :gtag_blacklist, as: :string
-    = f.input :gtag_whitelist, as: :string
+  - unless current_admin.customer_service?
+    fieldset
+      h3.section-header
+        = fa_icon "rss"
+        = t("admin.event.fieldests.nfc")
 
-  fieldset
-    h3.section-header
-      = fa_icon "rss"
-      = t("admin.event.fieldests.nfc")
+      .input
+        label UID Reverse?
+        = hidden_field_tag "device_settings[uid_reverse]", false
+        = check_box_tag "device_settings[uid_reverse]", true, @device_settings["uid_reverse"]
 
-    = f.input :uid_reverse, as: :radio_buttons
-  fieldset
-    h3.section-header
-      = fa_icon "rss"
-      = t("admin.event.fieldests.sync")
+    fieldset
+      h3.section-header
+        = fa_icon "rss"
+        = t("admin.event.fieldests.sync")
 
-    = f.input :sync_time_event_parameters, as: :integer
-    = f.input :sync_time_server_date, as: :integer
-    = f.input :sync_time_basic_download, as: :integer
-    = f.input :sync_time_tickets, as: :integer
-    = f.input :sync_time_gtags, as: :integer
-    = f.input :sync_time_customers, as: :integer
+      .input
+        label Event parameters
+        = number_field_tag "device_settings[sync_time_event_parameters]", @device_settings["sync_time_event_parameters"]
+      
+      .input
+        label Server Date
+        = number_field_tag "device_settings[sync_time_server_date]", @device_settings["sync_time_server_date"]
+      
+      .input
+        label Basic Download
+        = number_field_tag "device_settings[sync_time_basic_download]", @device_settings["sync_time_basic_download"]
+      
+      .input
+        label Tickets
+        = number_field_tag "device_settings[sync_time_tickets]", @device_settings["sync_time_tickets"]
+      
+      .input
+        label Gtags
+        = number_field_tag "device_settings[sync_time_gtags]", @device_settings["sync_time_gtags"]
+      
+      .input
+        label Customers
+        = number_field_tag "device_settings[sync_time_customers]", @device_settings["sync_time_customers"]
+      
 
   .wrapper-negative-space
-    = f.button :submit, t('admin.actions.update'), class: "btn btn-primary"
+    = submit_tag t('admin.actions.update'), class: "btn btn-primary"

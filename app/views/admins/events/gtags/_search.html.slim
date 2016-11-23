@@ -6,7 +6,7 @@ p.menu-header
   .container-search
     = f.input :tag_uid_cont, label: "Tag uid", placeholder: t("admin.gtags.search.tag_uid")
     / TODO: Add translations
-    = f.input :profile_id_not_null, as: :select, label: "With profile?", placeholder: t("admin.gtags.search.tag_serial")
+    = f.input :customer_id_not_null, as: :select, label: "With customer?", placeholder: t("admin.gtags.search.tag_serial")
     = f.input :banned_true, as: :select, label: "Banned?"
     = f.input :active_eq, label: "Credential status", placeholder: "assigned or unassigned"
     = f.submit class: "btn btn-secondary"

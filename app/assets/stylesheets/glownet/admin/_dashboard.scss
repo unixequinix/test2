@@ -37,7 +37,7 @@ $statistics-size:       $base_font_size*2.5;
 .container-databases {
   position: relative;
   overflow: visible;
-  margin: modules(1) auto;
+  margin: 0 auto modules(1) auto;
   padding: 0;
   border-radius: 3px;
   box-shadow: inset 0px 0px 1px 0px $light_grey;

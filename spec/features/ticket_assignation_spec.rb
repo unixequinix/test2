@@ -1,10 +1,10 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.feature "Ticket Assignation", type: :feature do
   let(:event) { create(:event, :ticket_assignation, :pre_event) }
   let(:customer) { create(:customer, event: event) }
   let(:valid_ticket) { create(:ticket, event: event) }
-  let(:invalid_ticket) { create(:ticket, event: event, profile: create(:profile)) }
+  let(:invalid_ticket) { create(:ticket, event: event, customer: create(:customer)) }
   let(:event_path) { customer_root_path(event) }
 
   describe "User wants to assign a ticket" do
@@ -21,7 +21,7 @@ RSpec.feature "Ticket Assignation", type: :feature do
       end
 
       it "assigns the ticket" do
-        codes = customer.profile.tickets.pluck(:code)
+        codes = customer.tickets.pluck(:code)
         expect(codes).to include(valid_ticket.code)
         expect(page.body).to include(valid_ticket.code)
       end
@@ -39,8 +39,8 @@ RSpec.feature "Ticket Assignation", type: :feature do
       end
 
       it "doesn't assign the ticket" do
-        expect(customer.profile.tickets).not_to include(invalid_ticket)
-        expect(page.body).to have_css(".msg-for-error")
+        expect(customer.tickets).not_to include(invalid_ticket)
+        expect(page.body).to have_css(".error-message")
       end
 
       it "renders the same page" do
@@ -55,8 +55,8 @@ RSpec.feature "Ticket Assignation", type: :feature do
       end
 
       it "doesn't assign the ticket" do
-        expect(customer.profile.tickets).to be_empty
-        expect(page.body).to have_css(".msg-for-error")
+        expect(customer.tickets).to be_empty
+        expect(page.body).to have_css(".error-message")
       end
 
       it "renders the same page" do

@@ -5,13 +5,10 @@ en:
     amount: "Amount"
     station: "Station"
     date: "Date"
-    transaction_types:
+    actions:
       sale: "Sale"
       topup: "Topup"
       refund: "Refund"
-  purchases:
-    accesses: "Accesses"
-    packs: "Packs"
   currency_symbol: EUR
   actions:
     back: "Back"
@@ -30,7 +27,7 @@ en:
     cancel_paypal_agreement: "Cancel agreement"
     log_out: "Do you want to end this session?"
   header:
-    edit: "Edit Profile"
+    edit: "Edit Customer"
     close: "Logout"
     menu: "Home"
     home: "Event Website"
@@ -56,7 +53,7 @@ en:
       header: "Transaction history"
       button: "Download Transactions"
     admissions:
-      header: "Ticket %{company_ticket_type}"
+      header: "Ticket %{ticket_type}"
       call_to_action: "Do you want to remove this ticket?"
       call_to_action_started: "The event just started so you cannot change the ticket"
       success: "Ticket successfully activated!"
@@ -65,8 +62,6 @@ en:
       call_to_action: "Only activate the ticket(s) which you will be using YOURSELF"
       description: "Do NOT activate your friend's tickets under your account."
       button: "Add more"
-    purchases:
-      header: "Your purchases"
     first_register:
       ticket: "Add ticket"
       gtag: "Add %{gtag}"
@@ -83,9 +78,7 @@ en:
       description: "Sync your PayPal account and get automatic topup any time you run out of credits during the event."
       disclaimer: "This amount will be refunded inmediatly after the agreement is accepted"
     paypal:
-      button: "Sync with PayPal"
-    paypal_nvp:
-      button: "Sync with PayPal"
+      button: "Pay with PayPal"
     event_refunds:
       claim: "Event hasn't finished yet"
       description: "Come back soon to apply for your credits refund"
@@ -128,9 +121,9 @@ en:
       title: "Your balance:"
       call_to_action: "We are sorry, but you don't have enough credits to be refunded"
     refunds:
-      title: "Your balance:"
-      call_to_action: "Refund successfully claimed, soon you will receive your transfer"
-      button: "Modify bank account"
+      title: "Claim your money back"
+      success: "Refund successfully claimed, soon you will receive your transfer"
+      button: "Refund"
     event_started:
       title: "Ultimating details!"
       description: "We are finishing event configuration to bring you a great experience. Please, come back later and see what we have made for you."
@@ -170,54 +163,19 @@ en:
       stripe:
         name: "Credit card"
         icon: "credit-card"
-      braintree:
+      wirecard:
         name: "Credit card"
         icon: "credit-card"
       paypal:
         name: "PayPal"
         icon: "paypal"
-      paypal_nvp:
-        name: "PayPal"
-        icon: "paypal"
-      ideal:
-        name: "Ideal"
-        icon: "pf pf-ideal"
-      sofort:
-        name: "Sofort"
-        icon: "pf pf-sofort"
-      wirecard:
-        name: "Credit card"
-        icon: "credit-card"
     payment: "Payment method"
-    stripe:
-      card_number: "Card number"
-      card_code_verification: "Card code verification (CCV)"
-      card_expiration_date: "Card expiration date"
-      button: "Pay"
-    wirecard:
-      card_number: "Card number"
-      card_code_verification: "Card code verification (CCV)"
-      card_expiration_date: "Card expiration date"
-      card_holder: "Card Holder"
-      button: "Pay"
-    braintree:
-      card_number: "Card number"
-      card_code_verification: "Card code verification (CCV)"
-      card_expiration_month: "Card expiration month"
-      card_expiration_year: "Card expiration year"
-      button: "Pay"
-    ideal:
-      bank_account_iban: "IBAN"
-      bank_bic: "BIC"
-      account_owner: "Owner"
-    paypal:
-      charge: "Verification charge"
-      sync_title: "Sync with PayPal to perform payment"
-      sync_copy: "Paypal Experience"
-      sync_description: "In order to validate your PayPal account, you will be charged 0.01€ which will be refunded automatically."
-      sync_final_description: "Select the amount you'd like to be automatically topped up every time you run out of credits at the event. This amount WILL NOT BE CHARGED to your account."
-      with_agreement_title: "Already sync with PayPal"
-      with_agreement_subtitle: "You can perform direct payments"
+    card_number: "Card number"
+    first_name: "First name"
+    last_name: "Last name"
+    card_code_verification: "Card code verification (CCV)"
+    card_expiration_date: "Card expiration date"
+    button: "Pay"
   claims:
     title: "Confirm Refund"
     description: "Please, review your order and proceed to payment."

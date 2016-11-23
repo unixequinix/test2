@@ -21,8 +21,8 @@
               td
                 = Time.parse(t.device_created_at).to_s(:short)
                 b style="padding: 0 20px;"= t.device_db_index
-                = t.transaction_type.humanize
-                b = " - #{t.number_of_transactions} transactions" if t.transaction_type == "pack_device"
+                = t.action.humanize
+                b = " - #{t.number_of_transactions} transactions" if t.action == "pack_device"
 
       br
   - else

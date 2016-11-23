@@ -88,7 +88,7 @@
   }
 }
 
-.btn-edit-profile {
+.btn-edit-customer {
   clear: both;
   width: 100%;
   margin: modules(2) auto modules(0.75);
@@ -137,9 +137,17 @@
   height: auto;
   border-radius: 25px;
 
+  &--refund {
+    top: 4rem;
+  }
+
   @include min-screen($bp3) {
     top: modules(1.35);
     right: modules(1);
+
+    &--refund {
+      top: 5rem;
+    }
   }
 
   &:hover {
@@ -166,9 +174,9 @@
   }
 }
 
-// Link to user profile in desktop
+// Link to user customer in desktop
 
-.btn-desktop-profile {
+.btn-desktop-customer {
   position: absolute;
   top: modules(0.75);
   right: modules(0.75);
@@ -231,7 +239,7 @@
 
 // Auto top up buttons
 
-.btn-action-autptopup {
+.btn-action-autotopup {
   @include transition(background-color 200ms ease-in-out);
   width: 100%;
   height: auto;
@@ -256,6 +264,12 @@
   color: $nuclear;
 
   &:hover { background-color: lighten($paypal, 7%); }
+
+  &--disabled {
+    background-color: lighten($paypal, 40%);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
 }
 
 .btn-remove-agreement {

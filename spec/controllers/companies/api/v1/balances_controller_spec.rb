@@ -1,10 +1,10 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Companies::Api::V1::BalancesController, type: :controller do
   let(:event) { create(:event) }
   let(:company) { create(:company) }
-  let(:profile) { create(:profile, event: event) }
-  let(:gtag) { create(:gtag, event: event, profile: profile) }
+  let(:customer) { create(:customer, event: event) }
+  let(:gtag) { create(:gtag, event: event, customer: customer) }
 
   before do
     create(:company_event_agreement, event: event, company: company)
@@ -24,7 +24,7 @@ RSpec.describe Companies::Api::V1::BalancesController, type: :controller do
         it "returns the balance of the Gtag" do
           body = JSON.parse(response.body)
           expect(body["tag_uid"]).to eq(gtag.tag_uid)
-          expect(body["balance"]).to eq(gtag.profile.credits.to_s)
+          expect(body["balance"]).to eq(gtag.customer.credits)
           expect(body["currency"]).to eq(gtag.event.token_symbol)
         end
       end

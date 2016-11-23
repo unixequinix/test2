@@ -1,39 +1,71 @@
 class Events::RefundsController < Events::BaseController
-  skip_before_action :authenticate_customer!, only: [:create, :tipalti_success]
-  skip_before_action :verify_authenticity_token, only: [:create, :tipalti_success]
-  skip_before_action :check_has_gtag!, only: [:create, :tipalti_success]
-
-  def create
-    Nokogiri::XML(request.body.read).xpath("//payfrex-response/operations/operation").each do |op|
-      op_hash = Hash.from_xml(op.to_s)["operation"]
-      @claim = Claim.find_by(number: op_hash["merchantTransactionId"])
-      next unless @claim
-
-      RefundService.new(@claim)
-                   .create(amount: op_hash["amount"],
-                           currency: op_hash["currency"],
-                           message: op_hash["message"],
-                           operation_type: op_hash["operationType"],
-                           gateway_transaction_number: op_hash["payFrexTransactionId"],
-                           payment_solution: op_hash["paymentSolution"],
-                           status: op_hash["status"])
-    end
-    render nothing: true
+  def new
+    @refund = current_customer.refunds.new
   end
 
-  def tipalti_success
-    @claim = Claim.where(profile_id: params[:customerID], service_type: "tipalti", aasm_state: :in_progress)
-                  .order(id: :desc).first
+  def create
+    fee = current_event.payment_gateways.bank_account.data[:fee].to_f
+    amount = current_customer.refundable_credits - fee
+    atts = { amount: amount, status: "started", fee: fee }
+    @refund = current_customer.refunds.new(permitted_params.merge(atts))
 
-    redirect_to(error_event_refunds_url(current_event)) && return unless @claim
+    if @refund.save
+      fee_transaction(@refund)
+      credit_transaction(@refund)
+      money_transaction(@refund)
+      redirect_to customer_root_path(current_event), success: t("dashboard.refunds.success")
+    else
+      render :new
+    end
+  end
 
-    RefundService.new(@claim)
-                 .create(amount: @claim.profile.refundable_money_after_fee("tipalti"),
-                         currency: I18n.t("currency_symbol"),
-                         message: "Created tipalti refund",
-                         payment_solution: "tipalti",
-                         status: "SUCCESS")
+  private
 
-    redirect_to(success_event_refunds_url(current_event))
+  def fee_transaction(refund)
+    fee = refund.fee.to_f
+    Transactions::Base.new.portal_write(
+      event_id: current_event.id,
+      customer_id: current_customer.id,
+      transaction_category: "credit",
+      action: "fee",
+      credits: fee * -1,
+      refundable_credits: fee * -1,
+      final_balance: current_customer.credits - fee,
+      final_refundable_balance: current_customer.refundable_credits.to_f - fee
+    )
+  end
+
+  def credit_transaction(refund)
+    amount = refund.amount.to_f
+    Transactions::Base.new.portal_write(
+      event_id: current_event.id,
+      customer_id: current_customer.id,
+      transaction_category: "credit",
+      action: "refund",
+      credits: amount * -1,
+      refundable_credits: amount * -1,
+      final_balance: current_customer.credits - amount,
+      final_refundable_balance: current_customer.refundable_credits.to_f - amount
+    )
+  end
+
+  def money_transaction(refund)
+    credit = current_event.credit
+    amount = refund.amount.to_f * -1
+    Transactions::Base.new.portal_write(
+      event_id: current_event.id,
+      catalog_item_id: credit.id,
+      customer_id: current_customer.id,
+      transaction_category: "money",
+      action: "online_refund",
+      payment_method: "online",
+      payment_gateway: "bank_account",
+      items_amount: amount,
+      price: amount * credit.value.to_f
+    )
+  end
+
+  def permitted_params
+    params.require(:refund).permit(:iban, :swift)
   end
 end

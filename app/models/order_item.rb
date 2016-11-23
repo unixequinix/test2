@@ -2,32 +2,45 @@
 #
 # Table name: order_items
 #
-#  id              :integer          not null, primary key
-#  order_id        :integer          not null
-#  catalog_item_id :integer          not null
-#  amount          :integer
-#  total           :decimal(8, 2)    not null
-#  deleted_at      :datetime
+#  amount          :decimal(8, 2)
+#  counter         :integer
 #  created_at      :datetime         not null
+#  redeemed        :boolean
+#  total           :decimal(8, 2)    not null
 #  updated_at      :datetime         not null
+#
+# Indexes
+#
+#  index_order_items_on_catalog_item_id  (catalog_item_id)
+#  index_order_items_on_order_id         (order_id)
+#
+# Foreign Keys
+#
+#  fk_rails_d59832cd1f  (catalog_item_id => catalog_items.id)
+#  fk_rails_e3cb28f071  (order_id => orders.id)
 #
 
 class OrderItem < ActiveRecord::Base
-  # Associations
   belongs_to :order
   belongs_to :catalog_item
 
+  alias_attribute :online_order_counter, :counter
+
   def single_credits?
-    catalog_item.catalogable_type == "Credit"
+    catalog_item.is_a?(Credit)
   end
 
   def pack_with_credits?
-    catalog_item.catalogable_type == "Pack" && catalog_item.catalogable.credits.any?
+    catalog_item.is_a?(Pack) && catalog_item.credits > 0
   end
 
   def credits
-    result = amount if single_credits?
-    result = amount * catalog_item.catalogable.total_credits if pack_with_credits?
-    result || 0
+    amount * catalog_item.credits
+  end
+
+  def refundable_credits
+    return credits unless catalog_item.is_a?(Pack)
+    return 0 unless catalog_item.only_credits?
+    total / catalog_item.catalog_items.first.value
   end
 end

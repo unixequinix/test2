@@ -2,12 +2,12 @@ class Admins::Events::PaymentsController < Admins::Events::BaseController
   before_action :set_presenter, only: [:index, :search]
 
   def index
-    @counts = current_event.payments.pluck(:amount, :transaction_type).group_by(&:last)
+    @counts = current_event.payments.pluck(:amount, :action).group_by(&:last)
     @counts = @counts.map { |type, payments| [type, payments.sum { |amount, _| amount }.to_f] }
 
     respond_to do |format|
       format.html
-      format.csv { send_data Csv::CsvExporter.to_csv(current_event.payments) }
+      format.csv { send_data CsvExporter.to_csv(current_event.payments) }
     end
   end
 

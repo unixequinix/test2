@@ -1,0 +1,26 @@
+div
+  .product-amount
+    .minus-button
+      = fa_icon "minus", class: "amount-button",
+        data: { id: "#{catalog_item.id}",
+          price: "#{catalog_item.value}",
+          operation: "minus",
+          step: "#{catalog_item.step}" }
+    .wrapper-credits-total
+      = number_field_tag "checkout_form[catalog_items][#{catalog_item.id}]", "#{catalog_item.initial_amount}", autocomplete: :off,
+        min: "#{catalog_item.min_purchasable}",
+        max: "#{catalog_item.max_purchasable}",
+        step: "#{catalog_item.step}",
+        id: "amount-input-#{catalog_item.id}",
+        class: "amount-input",
+        data: { id: "#{catalog_item.id}", price: "#{catalog_item.value}" }
+      .top-up-amount [data-id="#{catalog_item.id}"]
+        span [id="amount-total-#{catalog_item.id}"] #{(catalog_item.value * catalog_item.initial_amount)}
+        span #{current_event.currency}
+    .plus-button
+      = fa_icon "plus",
+        class: "amount-button",
+        data: { id: "#{catalog_item.id}",
+          price: "#{catalog_item.value}",
+          operation: "plus",
+          step: "#{catalog_item.step}" }

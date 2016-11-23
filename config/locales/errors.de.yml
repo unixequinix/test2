@@ -7,7 +7,7 @@ de:
       error_500: "Interner Serverfehler"
     event_alerts:
       company_codes: "There are company ticket types without company code"
-      credential_types: "There are company ticket types without credential"
+      catalog_items: "There are company ticket types without any catalog items associated"
       refunds: "Refunds are enabled but there is no refunds service selected"
       topups: "Topups are enabled but there is no payments service selected"
     messages:
@@ -45,7 +45,7 @@ de:
       catalog_item_dependent: "Bestandteil kann nicht gelöscht werden, ist Teil eines Paketes or Station"
       station_dependent: "Bestandteil kann nicht gelöscht werden, ist Teil eines Station"
       station_has_associations: "Station has been used and can't be deleted."
-      company_ticket_type_dependent: "Löschen des Unternehmens nicht möglich, es sind Ticketarten angeschlossen"
+      ticket_type_dependent: "Löschen des Unternehmens nicht möglich, es sind Ticketarten angeschlossen"
       max_standard_credits: "Nur ein Standardguthaben pro Veranstaltung"
       max_credits_reached: "Du hast das maximale Guthaben erreicht"
       not_enough_space_for_entitlement: "Nicht genug Platz in gtag für diese Berechtigung"

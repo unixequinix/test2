@@ -16,7 +16,7 @@ class GtagMailer < ApplicationMailer
   private
 
   def config_parameters(gtag)
-    @customer = gtag.profile.customer
+    @customer = gtag.customer
     @name = "#{@customer.first_name} #{@customer.last_name}"
     @gtag = gtag
     @event = gtag.event

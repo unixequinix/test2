@@ -16,10 +16,12 @@ de:
     quantity_not_refundable: "Guthabenmenge nicht erstattungsfähig"
     gtag_already_assigned: "Sie haben bereits ein gtag angemeldet"
     ticket_already_assigned: "Ticket bereits angemeldet"
+    ticket_assigned: 'Ticket assigned successfully'
+    ticket_banned: "Ticket is blacklisted"
     ticket_doesnt_exist: "Ticket doesn't exist"
     credential_already_assigned: "Sie haben bereits die Ansprüche , die mit diesem Ticket verknüpft sind"
     access_only_one_way: 'Only one way per access'
-    profile_without_transactions: "The profile doesn't have credit transactions"
+    customer_without_transactions: "The customer doesn't have credit transactions"
     gtag:
       invalid: "Die ist keinen gültiger %{gtag}"
       already_assigned: "Dieser %{gtag} ist bereits angemeldet"

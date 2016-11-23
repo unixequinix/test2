@@ -59,9 +59,31 @@ $success_border:   rgba(150, 150, 150, 0.3);
 .success-message {
   margin: modules(0.5);
   padding: modules(0.5);
-  border-radius: 3px;
+  border-radius: 3px 3px 0 0;
   border: 1px solid $success_border;
   background-color: $app_success;
+  color: $nuclear;
+  text-align: center;
+
+  @include min-screen($bp3) {
+    max-width: 40%;
+    margin: modules(1) auto;
+  }
+
+  i {
+    @include mscale($base_font_size * 1.25);
+    display: block;
+    margin-bottom: modules(0.25);
+    color: $nuclear;
+  }
+}
+
+.error-message {
+  margin: modules(0.5);
+  padding: modules(0.5);
+  border-radius: 3px 3px 0 0;
+  border: 1px solid $success_border;
+  background-color: $red;
   color: $nuclear;
   text-align: center;
 

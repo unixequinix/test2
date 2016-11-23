@@ -1,2 +1,0 @@
-class SofortPaymentSettingsForm < WirecardPaymentSettingsForm
-end

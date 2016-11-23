@@ -17,12 +17,12 @@ class Admins::EventsController < Admins::BaseController
     # TODO: Remove this when we have roles, this was a workaround for sonar, but as a lot of things it still  here
     redirect_to(admins_event_tickets_path(@current_event), layout: "admin_event") &&
       return if current_admin.customer_service?
-    @alerts = Event::Validator.new(current_event).all
+    @alerts = EventValidator.new(current_event).all
     render layout: "admin_event"
   end
 
   def new
-    @event = Event.new
+    @event = Event.new(default_settings)
   end
 
   def create
@@ -42,7 +42,7 @@ class Admins::EventsController < Admins::BaseController
   end
 
   def update
-    if @current_event.update_attributes(permitted_params.merge(slug: nil))
+    if @current_event.update(permitted_params.merge(slug: nil))
       previous_changes = @current_event.previous_changes
       if previous_changes[:name] || previous_changes[:start_date] || previous_changes[:end_date]
         @current_event.update(device_full_db: nil, device_basic_db: nil)
@@ -75,12 +75,28 @@ class Admins::EventsController < Admins::BaseController
 
   def permitted_params
     params.require(:event)
-          .permit(:aasm_state, :name, :url, :location, :start_date, :end_date, :description, :support_email, :style,
-                  :logo, :background_type, :background, :features, :locales, :payment_services, :refund_services, :info,
-                  :disclaimer, :terms_of_use, :privacy_policy, :host_country, :gtag_assignation, :currency,
-                  :registration_parameters, :token_symbol, :agreed_event_condition_message, :ticket_assignation,
-                  :company_name, :agreement_acceptance, :official_name, :receive_communications_message,
-                  :receive_communications_two_message, :address, :registration_num, :official_address,
-                  :eventbrite_client_key, :eventbrite_event)
+          .permit(:aasm_state, :name, :url, :location, :start_date, :end_date, :support_email, :style,
+                  :logo, :background_type, :background, :info, :disclaimer, :terms_of_use, :privacy_policy,
+                  :host_country, :gtag_assignation, :currency, :token_symbol, :agreed_event_condition_message,
+                  :ticket_assignation, :company_name, :agreement_acceptance, :official_name, :official_address,
+                  :receive_communications_message, :receive_communications_two_message, :address, :registration_num,
+                  :eventbrite_client_key, :eventbrite_event, registration_settings: Event::REGISTRATION_SETTINGS)
+  end
+
+  def default_settings
+    {
+      registration_settings: {
+        phone: false,
+        address: false,
+        city: false,
+        country: false,
+        postcode: false,
+        gender: false,
+        birthdate: false,
+        agreed_event_condition: false,
+        receive_communications: false,
+        receive_communications_two: false
+      }.as_json
+    }
   end
 end

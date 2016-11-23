@@ -1,0 +1,37 @@
+- breadcrumb :admins_event_payment_gateways, current_event
+
+.wrapper-negative-space
+  table.events
+    thead
+      tr
+        th Gateway
+        th Topups
+        th Refunds
+        th.table-actions-field Actions
+    tbody
+      - PaymentGateway::GATEWAYS.keys.each do |gateway|
+        - gw = @gateways.find_by(gateway: gateway)
+        tr
+          td = gateway.to_s.humanize
+          td
+            - if gw
+              - if gw&.topup?
+                li = link_to fa_icon("circle", class: "fa-fw"), topup_admins_event_payment_gateway_path(current_event, gw), method: :post
+              - else
+                li = link_to fa_icon("circle-thin", class: "fa-fw"), topup_admins_event_payment_gateway_path(current_event, gw), method: :post
+          td
+            - if gw
+              - if gw&.refund?
+                li = link_to fa_icon("circle", class: "fa-fw"), refund_admins_event_payment_gateway_path(current_event, gw), method: :post
+              - else
+                li = link_to fa_icon("circle-thin", class: "fa-fw"), refund_admins_event_payment_gateway_path(current_event, gw), method: :post
+          td.table-actions-field
+            ul
+              - if gw
+                li.table-action.action-edit
+                  = link_to fa_icon("edit"), edit_admins_event_payment_gateway_path(current_event, gw)
+                li.table-action.action-delete
+                  = link_to fa_icon("trash"), admins_event_payment_gateway_path(current_event, gw), method: :delete, data: { confirm: t('admin.confirm.delete') }
+              - else
+                li.table-action.action-new
+                  = link_to fa_icon('plus'), new_admins_event_payment_gateway_path(current_event, gateway: gateway)

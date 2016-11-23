@@ -1,22 +1,40 @@
 # == Schema Information
 #
-# Table name: accesses
+# Table name: catalog_items
 #
-#  id         :integer          not null, primary key
-#  deleted_at :datetime
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  created_at      :datetime         not null
+#  initial_amount  :integer
+#  max_purchasable :integer
+#  min_purchasable :integer
+#  name            :string
+#  step            :integer
+#  type            :string           not null
+#  updated_at      :datetime         not null
+#  value           :decimal(8, 2)    default(1.0), not null
+#
+# Indexes
+#
+#  index_catalog_items_on_event_id  (event_id)
+#
+# Foreign Keys
+#
+#  fk_rails_6d2668d4ae  (event_id => events.id)
 #
 
-class Access < ActiveRecord::Base
-  has_one :catalog_item, as: :catalogable, dependent: :destroy
-  has_one :entitlement, as: :entitlementable, dependent: :destroy
-  has_one :credential_type, through: :catalog_item
-  accepts_nested_attributes_for :catalog_item, allow_destroy: true
+class Access < CatalogItem
+  has_one :entitlement, dependent: :destroy
+
+  has_many :access_transactions
+
   accepts_nested_attributes_for :entitlement, allow_destroy: true
+
   before_validation :set_infinite_values, if: :infinite?
   before_validation :set_memory_length
+
+  validates :initial_amount, :step, :max_purchasable, :min_purchasable, presence: true
   validate :min_max_congruency
+
+  scope :infinite, -> { includes(:entitlement).where(entitlements: { mode: Entitlement::ALL_PERMANENT }) }
 
   private
 
@@ -25,18 +43,18 @@ class Access < ActiveRecord::Base
   end
 
   def set_infinite_values
-    catalog_item.min_purchasable = 0
-    catalog_item.max_purchasable = 1
-    catalog_item.step = 1
-    catalog_item.initial_amount = 0
+    self.min_purchasable = 0
+    self.max_purchasable = 1
+    self.step = 1
+    self.initial_amount = 0
   end
 
   def set_memory_length
-    entitlement.memory_length = 2 if catalog_item.max_purchasable.to_i > 7
+    entitlement.memory_length = 2 if max_purchasable.to_i > 7
   end
 
   def min_max_congruency
-    return if catalog_item.min_purchasable.to_i <= catalog_item.max_purchasable.to_i
+    return if min_purchasable.to_i <= max_purchasable.to_i
     errors[:min_purchasable] << I18n.t("errors.messages.greater_than_maximum")
   end
 end

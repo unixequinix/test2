@@ -12,12 +12,10 @@ namespace :glownet do
       host_country: "USA",
       gtag_name: "Wristband",
       token_symbol: "t",
-      features: 495,
-      refund_services: 3,
-      payment_services: 1
+      features: 495
     }).save
 
-    data = ["device_settings", "customers", "accesses", "packs", "products", "ticket_types", "tickets",
+    data = ["customers", "accesses", "packs", "products", "ticket_types", "tickets",
             "checkin_stations", "box_office_stations", "access_control_stations", "staff_accreditation_stations",
             "vendor_stations", "bar_stations", "topup_stations"]
 
@@ -29,13 +27,6 @@ namespace :glownet do
     puts "-------------------------------------------"
     puts "Event name: '#{@event.name}'"
     puts "https://#{Rails.env}.glownet.com/admins/events/#{@event.slug}"
-  end
-
-  def create_device_settings
-    @event.event_parameters
-          .includes(:parameter)
-          .find_by(parameters: { category: "device", group: "general", name: "private_zone_password" })
-          .update!(value: "a")
   end
 
   def create_customers
@@ -67,18 +58,14 @@ namespace :glownet do
     ]
 
     accesses.each do |access|
-      a = Access.create!(catalog_item_attributes: {
-                           event_id: @event.id,
-                           name: access[:name],
-                           description: "@channel is awesome :)",
-                           step: 1,
-                           min_purchasable: 0,
-                           max_purchasable: 1,
-                           initial_amount: 0
-                         },
+      Access.create!(event_id: @event.id,
+                         name: access[:name],
+                         description: "@channel is awesome :)",
+                         step: 1,
+                         min_purchasable: 0,
+                         max_purchasable: 1,
+                         initial_amount: 0,
                          entitlement_attributes: { event_id: @event.id, mode: access[:mode], })
-
-      a.catalog_item.create_credential_type if access[:credential]
     end
   end
 
@@ -105,21 +92,19 @@ namespace :glownet do
     ]
 
     packs.each do |pack|
-      p = Pack.new(catalog_item_attributes: { event_id: @event.id,
-                                              name: pack[:name],
-                                              description: "@channel is awesome :)",
-                                              step: 1,
-                                              min_purchasable: 0,
-                                              max_purchasable: 1,
-                                              initial_amount: 0 })
+      p = Pack.new(event_id: @event.id,
+                   name: pack[:name],
+                   description: "@channel is awesome :)",
+                   step: 1,
+                   min_purchasable: 0,
+                   max_purchasable: 1,
+                   initial_amount: 0)
      pack[:catalog_items].each do |ci|
        item = @event.catalog_items.find_by(name: ci[:name], event: @event)
        p.pack_catalog_items.build(catalog_item: item, amount: ci[:amount] ).save
      end
 
      p.save! # Because association validation in pack model
-
-     p.catalog_item.create_credential_type if pack[:credential]
     end
   end
 
@@ -140,22 +125,21 @@ namespace :glownet do
   def create_ticket_types
     company = Company.find_or_create_by(name: "Glownet")
     agreement = CompanyEventAgreement.create!(event: @event, company: company)
-    credential_types = CredentialType.joins(:catalog_item).where(catalog_items: { event_id: @event.id })
 
-    credential_types.each do |credential_type|
-      @event.company_ticket_types.create!(company_event_agreement: agreement,
-                                          credential_type_id: credential_type.id,
+    event.catalog_items.each do |catalog_item|
+      @event.ticket_types.create!(company_event_agreement: agreement,
+                                          catalog_item: catalog_item,
                                           company_code: Time.zone.now.to_i + rand(10000),
-                                          name: credential_type.catalog_item.name)
+                                          name: catalog_item.name)
     end
   end
 
   def create_tickets
-    ticket_types = CompanyTicketType.where(event: @event)
+    ticket_types = TicketType.where(event: @event)
 
     ticket_types.each do |tt|
       5.times do
-        @event.tickets.create!(company_ticket_type: tt, code: SecureRandom.hex(16).upcase, credential_redeemed: false)
+        @event.tickets.create!(ticket_type: tt, code: SecureRandom.hex(16).upcase, redeemed: false)
       end
     end
   end
@@ -166,13 +150,13 @@ namespace :glownet do
   end
 
   def create_access_control_stations
-    ­accesses = [{ name: "Day", direction: 1 }, { name: "Day", direction: -1 }]
+    accesses = [{ name: "Day", direction: 1 }, { name: "Day", direction: -1 }]
     station = @event.stations.create!(name: "Access Control", group: "access", category: "access_control")
 
-    ­accesses.each do |access|
+    accesses.each do |access|
       item = CatalogItem.find_by(name: access[:name], event: @event)
       station.access_control_gates.new(direction: access[:direction],
-                                       access: item.catalogable,
+                                       access: item,
                                        station_parameter_attributes: { station_id: station.id }).save
     end
   end

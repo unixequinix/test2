@@ -1,12 +1,12 @@
 notification :terminal_notifier if `uname` =~ /Darwin/
 
-guard :rubocop, all_on_start: false, cli: ['--display-cop-names', '--rails'] do
+guard :rubocop, all_on_start: false, cli: ['--display-cop-names', '--rails', '--auto-correct'] do
   watch(%r{.+\.rb$})
   watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
 end
 
 guard :rspec, cmd: 'bundle exec rspec' do
-  watch('spec/rails_helper.rb')                        { "spec" }
+  watch('spec/spec_helper.rb')                        { "spec" }
   watch('config/routes.rb')                           { "spec/routing" }
   watch('app/controllers/application_controller.rb')  { "spec/controllers" }
   watch(%r{^spec/.+_spec\.rb$})

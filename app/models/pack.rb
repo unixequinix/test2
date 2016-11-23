@@ -1,101 +1,50 @@
 # == Schema Information
 #
-# Table name: packs
+# Table name: catalog_items
 #
-#  id                  :integer          not null, primary key
-#  catalog_items_count :integer          default(0), not null
-#  deleted_at          :datetime
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
+#  created_at      :datetime         not null
+#  initial_amount  :integer
+#  max_purchasable :integer
+#  min_purchasable :integer
+#  name            :string
+#  step            :integer
+#  type            :string           not null
+#  updated_at      :datetime         not null
+#  value           :decimal(8, 2)    default(1.0), not null
+#
+# Indexes
+#
+#  index_catalog_items_on_event_id  (event_id)
+#
+# Foreign Keys
+#
+#  fk_rails_6d2668d4ae  (event_id => events.id)
 #
 
-class Pack < ActiveRecord::Base
-  acts_as_paranoid
-
-  has_one :catalog_item, as: :catalogable, dependent: :destroy
-  accepts_nested_attributes_for :catalog_item, allow_destroy: true
-
-  has_many :pack_catalog_items, dependent: :destroy, inverse_of: :pack
-  has_many :catalog_items_included, through: :pack_catalog_items, source: :catalog_item
+class Pack < CatalogItem
+  has_many :pack_catalog_items, autosave: true, dependent: :destroy, inverse_of: :pack
+  has_many :catalog_items, through: :pack_catalog_items
   accepts_nested_attributes_for :pack_catalog_items, allow_destroy: true
 
-  # Scope
+  scope :credentiable_packs, -> { where(catalog_items: { type: CREDENTIABLE_TYPES }) }
 
-  scope :credentiable_packs, lambda {
-    joins(:catalog_items_included)
-      .where(catalog_items: {
-               catalogable_type: CatalogItem::CREDENTIABLE_TYPES
-             })
-  }
-
+  validates :initial_amount, :step, :max_purchasable, :min_purchasable, presence: true
   validate :valid_max_value, if: :infinite_item?
   validate :valid_min_value, if: :infinite_item?
   validate :valid_max_credits
 
   def credits
-    open_all("Credit").uniq(&:catalog_item_id)
+    pack_catalog_items.includes(:catalog_item).where(catalog_items: { type: "Credit" }).sum(:amount)
   end
 
-  def total_credits
-    credits.sum(:total_amount).total_amount
-  end
-
-  def only_credits_pack?
-    number_catalog_items = open_all.size
-    number_catalog_credit_items = open_all.select do |catalog_item|
-      catalog_item.catalogable_type == "Credit"
-    end.size
-    number_catalog_credit_items > 0 && number_catalog_credit_items == number_catalog_items
-  end
-
-  # TODO: To check
-  def only_infinite_items_pack?
-    number_catalog_items = open_all.size
-    number_catalog_infinite_items = open_all("Access").select do |catalog_item|
-      catalog_item.catalogable.entitlement.infinite?
-    end.size
-    number_catalog_infinite_items > 0 && number_catalog_infinite_items == number_catalog_items
-  end
-
-  # TODO: To check
-  def open_all(*category)
-    catalog_items_included_without_destruction_marked.each_with_object([]) do |catalog_item, result|
-      if catalog_item.catalogable_type == "Pack"
-        item_found = catalog_item.catalogable.open_all(*category)
-        parent_pack_amount = catalog_item.pack_catalog_items.find_by(pack_id: id).amount
-        item_found.first.total_amount *= parent_pack_amount
-        result.push(item_found) if item_found
-      elsif category.include?(catalog_item.catalogable_type) || category.blank?
-        result.push(build_enriched_catalog_item(catalog_item))
-      end
-    end.flatten
-  end
-
-  # TODO: To check
-  def build_enriched_catalog_item(catalog_item)
-    Sorters::FakeCatalogItem.new(
-      catalog_item_id: catalog_item.id,
-      catalogable_id: catalog_item.catalogable_id,
-      catalogable_type: catalog_item.catalogable_type,
-      product_name: catalog_item.name,
-      value: catalog_item.catalogable_type == "Credit" && catalog_item.catalogable.value,
-      total_amount: catalog_item.pack_catalog_items.where(pack_id: id).sum(:amount)
-    )
+  def only_credits?
+    catalog_items.all? { |item| item.is_a?(Credit) }
   end
 
   private
 
-  def catalog_items_included_without_destruction_marked
-    accepted_ids = pack_catalog_items.map do |e|
-      e.catalog_item.id unless e.marked_for_destruction?
-    end.compact
-    catalog_items_included(true).where(id: accepted_ids)
-  end
-
   def infinite_item?
-    open_all.any? do |item|
-      item.catalogable.entitlement.infinite? if ["Access"].include?(item.catalogable_type)
-    end
+    catalog_items.any? { |item| item.entitlement.infinite? if item.is_a?(Access) }
   end
 
   def valid_max_value
@@ -109,15 +58,7 @@ class Pack < ActiveRecord::Base
   end
 
   def valid_max_credits
-    return false unless catalog_item.present?
-    max_balance = catalog_item.event.get_parameter("gtag", "form", "maximum_gtag_balance").to_i
-    pack_credits = if persisted?
-                     open_all("Credit").sum(&:total_amount)
-                   else
-                     pack_catalog_items.map { |i| i.amount.to_f }.sum
-                   end
-
-    error_msg = I18n.t("errors.messages.more_credits_than_max_balance")
-    errors[:pack_credits] << error_msg if pack_credits > max_balance
+    max_balance = event.gtag_settings["maximum_gtag_balance"].to_i
+    errors[:pack_credits] << I18n.t("errors.messages.more_credits_than_max_balance") if credits > max_balance
   end
 end

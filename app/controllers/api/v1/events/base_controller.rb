@@ -23,105 +23,83 @@ class Api::V1::Events::BaseController < Api::BaseController
   end
 
   def api_enabled
-    return if current_event.devices_api?
+    return unless current_event.finished?
     render(status: :unauthorized, json: :unauthorized)
   end
 
   private
 
+  def user_flags
+    current_event.user_flags
+  end
+
   def accesses
     current_event.accesses.includes(:entitlement, :catalog_item)
   end
 
-  def company_ticket_types
-    current_event.company_ticket_types
-  end
-
-  def credential_types
-    current_event.credential_types
+  def ticket_types
+    current_event.ticket_types
   end
 
   def credits
-    current_event.credits
+    [current_event.credit]
   end
 
-  def sql_profiles(date) # rubocop:disable Metrics/MethodLength
+  def sql_customers(date) # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
       SELECT array_to_json(array_agg(row_to_json(cep)))
       FROM (
         SELECT
-          profiles.id,
-          profiles.banned,
-          profiles.updated_at,
+          customers.id,
+          customers.banned,
+          customers.updated_at,
           customers.first_name,
           customers.last_name,
           customers.email,
           cred.credentials,
-          ord.orders,
-          gateways.gateway_types as autotopup_gateways
+          ord.orders
 
-        FROM profiles
-
-        LEFT OUTER JOIN (
-          SELECT profile_id, array_agg(gateway_type) as gateway_types
-          FROM payment_gateway_customers
-          WHERE agreement_accepted IS TRUE
-            AND deleted_at IS NULL
-          GROUP BY profile_id
-        ) gateways
-          ON gateways.profile_id = profiles.id
+        FROM customers
 
         LEFT OUTER JOIN (
-          SELECT cr.profile_id as profile_id, array_to_json(array_agg(row_to_json(cr))) as credentials
+          SELECT cr.customer_id as customer_id, array_to_json(array_agg(row_to_json(cr))) as credentials
           FROM (
-            SELECT profile_id, code as reference, 'ticket' as type
+            SELECT customer_id, code as reference, 'ticket' as type
             FROM tickets
-            WHERE tickets.deleted_at IS NULL
             UNION
-            SELECT profile_id, tag_uid as reference, 'gtag' as type
+            SELECT customer_id, tag_uid as reference, 'gtag' as type
             FROM gtags
-            WHERE gtags.active = true AND gtags.deleted_at IS NULL
+            WHERE gtags.active = true
           ) cr
-          GROUP BY cr.profile_id
+          GROUP BY cr.customer_id
         ) cred
-        ON profiles.id = cred.profile_id
+        ON customers.id = cred.customer_id
 
         LEFT OUTER JOIN (
-          SELECT o.profile_id as profile_id, array_to_json(array_agg(row_to_json(o))) as orders
+          SELECT o.customer_id as customer_id, array_to_json(array_agg(row_to_json(o))) as orders
           FROM (
             SELECT
-              profile_id,
+              customer_id,
               counter as online_order_counter,
               amount,
-              catalog_items.catalogable_id as catalogable_id,
-              LOWER(catalog_items.catalogable_type) as catalogable_type,
+              catalog_item_id,
               redeemed
-            FROM customer_orders
+            FROM order_items
             INNER JOIN catalog_items
-              ON catalog_items.id = customer_orders.catalog_item_id
-            AND catalog_items.deleted_at IS NULL
-            WHERE customer_orders.deleted_at IS NULL
+              ON catalog_items.id = order_items.catalog_item_id
+            INNER JOIN orders
+              ON orders.id = order_items.order_id
           ) o
-          GROUP BY o.profile_id
+          GROUP BY o.customer_id
         ) ord
-        ON profiles.id = ord.profile_id
-
-        LEFT OUTER JOIN customers
-          ON customers.id = profiles.customer_id
-          AND customers.deleted_at IS NULL
-
-        WHERE profiles.event_id = #{current_event.id}
-        AND profiles.deleted_at IS NULL #{"AND profiles.updated_at > '#{date}'" if date}
+        ON customers.id = ord.customer_id
+        WHERE customers.event_id = #{current_event.id} #{"AND customers.updated_at > '#{date}'" if date}
       ) cep
     SQL
     conn = ActiveRecord::Base.connection
     sql = conn.select_value(sql)
     conn.close
     sql
-  end
-
-  def device_general_parameters
-    current_event.device_general_parameters
   end
 
   def sql_gtags(date) # rubocop:disable Metrics/MethodLength
@@ -132,11 +110,10 @@ class Api::V1::Events::BaseController < Api::BaseController
           gtags.tag_uid as reference,
           gtags.banned,
           gtags.updated_at,
-          profile_id as customer_id
+          customer_id as customer_id
 
         FROM gtags
-        WHERE gtags.event_id = #{current_event.id}
-        AND gtags.deleted_at IS NULL #{"AND gtags.updated_at > '#{date}'" if date}
+        WHERE gtags.event_id = #{current_event.id} #{"AND gtags.updated_at > '#{date}'" if date}
       ) g
     SQL
     conn = ActiveRecord::Base.connection
@@ -150,18 +127,7 @@ class Api::V1::Events::BaseController < Api::BaseController
   end
 
   def packs
-    current_event.packs.includes(:catalog_item, pack_catalog_items: :catalog_item)
-  end
-
-  def event_parameters
-    gtag_type = current_event.get_parameter("gtag", "form", "gtag_type")
-
-    current_event.event_parameters.joins(:parameter)
-                 .where("(parameters.category = 'device') OR
-                         (parameters.category = 'gtag' AND parameters.group = '#{gtag_type}' OR
-                          parameters.group = 'form' AND parameters.name = 'gtag_type' OR
-                          parameters.name = 'maximum_gtag_balance' OR
-                          parameters.name = 'gtag_deposit')")
+    current_event.packs.includes(pack_catalog_items: :catalog_item)
   end
 
   def products
@@ -174,24 +140,22 @@ class Api::V1::Events::BaseController < Api::BaseController
       FROM (
         SELECT
           tickets.code as reference,
-          tickets.credential_redeemed,
+          tickets.redeemed,
           tickets.purchaser_first_name,
           tickets.purchaser_last_name,
           tickets.purchaser_email,
           tickets.banned,
           tickets.updated_at,
-          company_ticket_types.credential_type_id as credential_type_id,
-          profile_id as customer_id
+          ticket_types.catalog_item_id,
+          customer_id
 
         FROM tickets
 
-        INNER JOIN company_ticket_types
-          ON company_ticket_types.id = tickets.company_ticket_type_id
-          AND company_ticket_types.deleted_at IS NULL
-          AND company_ticket_types.hidden = false
+        INNER JOIN ticket_types
+          ON ticket_types.id = tickets.ticket_type_id
+          AND ticket_types.hidden = false
 
-        WHERE tickets.event_id = #{current_event.id}
-        AND tickets.deleted_at IS NULL #{"AND tickets.updated_at > '#{date}'" if date}
+        WHERE tickets.event_id = #{current_event.id} #{"AND tickets.updated_at > '#{date}'" if date}
       ) t
     SQL
 

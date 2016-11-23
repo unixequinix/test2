@@ -5,7 +5,7 @@ class CreateGtags < ActiveRecord::Migration
       t.references :company_ticket_type
       t.string :tag_serial_number
       t.string :tag_uid, null: false
-      t.boolean :credential_redeemed, default: false, null: false
+      t.boolean :redeemed, default: false, null: false
 
       t.datetime :deleted_at, index: true
       t.timestamps null: false

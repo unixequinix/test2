@@ -74,9 +74,6 @@ th:
       customer:
         one: 'ลูกค้า'
         other: 'ลูกค้าอื่นๆ'
-      profile:
-        one: 'profile'
-        other: 'profiles'
       entitlement:
         one: 'การมีสิทธิ์'
         other: 'การมีสิทธิ์'
@@ -101,10 +98,7 @@ th:
       pack:
         one: 'pack'
         other: 'packs'
-      credential_type:
-        one: 'credential type'
-        other: 'credential types'
-      company_ticket_type:
+      ticket_type:
         one: 'company ticket type'
         other: 'company ticket types'
     errors:

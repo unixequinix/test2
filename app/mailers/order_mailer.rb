@@ -1,6 +1,6 @@
 class OrderMailer < ApplicationMailer
   def completed_email(order, event)
-    customer = order.profile.customer
+    customer = order.customer
 
     config_parameters(order, event)
     apply_locale(customer)
@@ -14,8 +14,8 @@ class OrderMailer < ApplicationMailer
   def config_parameters(order, event)
     headers["X-No-Spam"] = "True"
     headers["In-Reply-To"] = event.support_email
-    first_name = order.profile.customer.first_name
-    last_name = order.profile.customer.last_name
+    first_name = order.customer.first_name
+    last_name = order.customer.last_name
     @name = [first_name, last_name].join(" ")
     @order = order
     @event = event

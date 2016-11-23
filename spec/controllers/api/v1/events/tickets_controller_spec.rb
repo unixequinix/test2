@@ -1,4 +1,5 @@
-require "rails_helper"
+
+require "spec_helper"
 
 RSpec.describe Api::V1::Events::TicketsController, type: :controller do
   let(:event) { create(:event) }
@@ -7,7 +8,6 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
   before do
     create_list(:ticket, 2, :with_purchaser, event: event)
-    @deleted_ticket = create(:ticket, :with_purchaser, event: event, deleted_at: Time.zone.now)
   end
 
   describe "GET index" do
@@ -22,8 +22,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
       end
       it "returns the necessary keys" do
         JSON.parse(response.body).map do |ticket|
-          keys = %w(reference credential_redeemed purchaser_first_name purchaser_last_name purchaser_email banned
-                    updated_at credential_type_id customer_id)
+          keys = %w(reference redeemed purchaser_first_name purchaser_last_name purchaser_email banned updated_at catalog_item_id customer_id) # rubocop:disable Metrics/LineLength
           expect(ticket.keys).to eq(keys)
         end
       end
@@ -32,18 +31,12 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         JSON.parse(response.body).each do |list_ticket|
           ticket = db_tickets[db_tickets.index { |t| t.code == list_ticket["reference"] }]
           expect(list_ticket["reference"]).to eq(ticket.code)
-          expect(list_ticket["credential_redeemed"]).to eq(ticket.credential_redeemed)
+          expect(list_ticket["redeemed"]).to eq(ticket.redeemed)
           expect(list_ticket["banned"]).to eq(ticket.banned?)
-          expect(list_ticket["credential_type_id"]).to eq(ticket&.company_ticket_type&.credential_type_id)
-          expect(list_ticket["customer_id"]).to eq(ticket&.profile&.id)
+          expect(list_ticket["customer_id"]).to eq(ticket&.customer&.id)
           updated_at = Time.zone.parse(list_ticket["updated_at"]).strftime("%Y-%m-%dT%T.%6N")
           expect(updated_at).to eq(ticket.updated_at.utc.strftime("%Y-%m-%dT%T.%6N"))
         end
-      end
-
-      it "doesn't returns deleted tickets" do
-        tickets = JSON.parse(response.body).map { |ticket| ticket["id"] }
-        expect(tickets).not_to include(@deleted_ticket.id)
       end
     end
 
@@ -59,15 +52,13 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
     context "with authentication" do
       before do
         @agreement = create(:company_event_agreement, event: event)
-        @access = create(:access_catalog_item, event: event)
-        @credential = create(:credential_type, catalog_item: @access)
-        @ctt = create(:company_ticket_type, company_event_agreement: @agreement,
-                                            event: event,
-                                            credential_type: @credential)
-        @profile = create(:profile, event: event)
-        @customer = create(:customer, profile: @profile)
-        @ticket = create(:ticket, event: event, company_ticket_type: @ctt, profile: @profile)
-        @order = create(:customer_order, profile: @profile, catalog_item: @access, counter: 1)
+        @pack = create(:pack, :with_access)
+        @access = @pack.catalog_items.accesses.first
+        @ctt = create(:ticket_type, company_event_agreement: @agreement, event: event, catalog_item: @pack)
+        @customer = create(:customer, event: event)
+        @ticket = create(:ticket, event: event, ticket_type: @ctt, customer: @customer)
+        order = create(:order, customer: @customer)
+        @item = create(:order_item, order: order, catalog_item: @access, counter: 1)
 
         http_login(admin.email, admin.access_token)
       end
@@ -83,10 +74,9 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
         it "returns the necessary keys" do
           ticket = JSON.parse(response.body)
-          ticket_keys = %w(reference credential_redeemed banned credential_type_id customer
-                           purchaser_first_name purchaser_last_name purchaser_email)
-          c_keys = %w(id banned autotopup_gateways credentials first_name last_name email orders)
-          order_keys = %w(online_order_counter catalogable_id catalogable_type amount)
+          ticket_keys = %w(reference credential_redeemed banned catalog_item_id customer purchaser_first_name purchaser_last_name purchaser_email) # rubocop:disable Metrics/LineLength
+          c_keys = %w(id credentials first_name last_name email orders)
+          order_keys = %w(online_order_counter catalog_item_id amount)
           credential_keys = %w(reference type)
 
           expect(ticket.keys).to eq(ticket_keys)
@@ -96,27 +86,23 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         end
 
         it "returns the correct data" do
-          customer = @ticket.profile.customer
-          orders = @ticket.profile.customer_orders
+          customer = @ticket.customer
 
           ticket = {
             reference: @ticket.code,
-            credential_redeemed: @ticket.credential_redeemed,
+            credential_redeemed: @ticket.redeemed,
             banned: @ticket.banned,
-            credential_type_id: @ticket.company_ticket_type.credential_type_id,
+            catalog_item_id: @ticket.ticket_type.catalog_item.id,
             customer: {
-              id:  @ticket.profile.id,
-              banned: @ticket.profile.banned?,
-              autotopup_gateways: [],
+              id:  @ticket.customer.id,
               credentials: [{ reference: @ticket.code, type: "ticket" }],
               first_name: customer.first_name,
               last_name: customer.last_name,
               email: customer.email,
               orders: [{
-                online_order_counter: orders.first.counter,
-                catalogable_id: orders.first.catalog_item.catalogable_id,
-                catalogable_type: orders.first.catalog_item.catalogable_type.downcase,
-                amount: orders.first.amount
+                online_order_counter: @item.counter,
+                catalog_item_id: @item.catalog_item_id,
+                amount: @item.amount
               }]
             },
             purchaser_first_name: @ticket.purchaser_first_name,

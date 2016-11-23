@@ -2,30 +2,29 @@
 #
 # Table name: entitlements
 #
-#  id                   :integer          not null, primary key
-#  entitlementable_id   :integer          not null
-#  entitlementable_type :string           not null
-#  event_id             :integer          not null
-#  memory_position      :integer          not null
-#  deleted_at           :datetime
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#  memory_length        :integer          default(1)
-#  mode                 :string           default("counter")
+#  created_at      :datetime         not null
+#  memory_length   :integer          default(1)
+#  memory_position :integer          not null
+#  mode            :string           default("counter")
+#  updated_at      :datetime         not null
+#
+# Indexes
+#
+#  index_entitlements_on_access_id  (access_id)
+#  index_entitlements_on_event_id   (event_id)
+#
+# Foreign Keys
+#
+#  fk_rails_dcf903a298  (event_id => events.id)
 #
 
 class Entitlement < ActiveRecord::Base
-  acts_as_paranoid
-  belongs_to :entitlementable, polymorphic: true, touch: true
-  belongs_to :access, -> { where(entitlement: { entitlementable_type: "Access" }) },
-             foreign_key: "entitlementable_id"
+  belongs_to :access
   belongs_to :event
-  before_validation :position
-  after_destroy :position_after_destroy
-  validate :valid_position
+  before_validation :save_memory_position
+  after_destroy :destroy_memory_position
+  validate :validate_memory_position
   validates :memory_length, :mode, presence: true
-
-  LENGTH = [1, 2].freeze
 
   # Modes
   COUNTER = "counter".freeze
@@ -33,6 +32,7 @@ class Entitlement < ActiveRecord::Base
   PERMANENT_STRICT = "permanent_strict".freeze
 
   MODES = [COUNTER, PERMANENT, PERMANENT_STRICT].freeze
+  ALL_PERMANENT = [PERMANENT, PERMANENT_STRICT].freeze
 
   def infinite?
     mode == PERMANENT || mode == PERMANENT_STRICT
@@ -40,15 +40,34 @@ class Entitlement < ActiveRecord::Base
 
   private
 
-  def position
-    Entitlement::PositionManager.new(self).start(action: :save)
+  def save_memory_position
+    last_element = event.entitlements.order("memory_position DESC").first
+    if id.nil?
+      new_position = last_element.blank? ? 1 : last_element.memory_position + last_element.memory_length
+      self.memory_position = new_position
+    else
+      step = memory_length - memory_position_was
+      return change_memory_position(step) if (last_element&.memory_position).to_i + step <= limit
+      errors[:memory_position] << I18n.t("errors.messages.not_enough_space_for_entitlement")
+    end
   end
 
-  def position_after_destroy
-    Entitlement::PositionManager.new(self).start(action: :destroy)
+  def validate_memory_position
+    return if memory_position + memory_length <= limit
+    errors[:memory_position] << I18n.t("errors.messages.not_enough_space_for_entitlement")
   end
 
-  def valid_position
-    Entitlement::PositionManager.new(self).start(action: :validate)
+  def destroy_memory_position
+    change_memory_position(-memory_length)
+  end
+
+  def change_memory_position(step)
+    event.entitlements.where("memory_position > ?", memory_position)
+         .find_each { |e| e.increment!(:memory_position, step) }
+  end
+
+  def limit
+    gtag_type = event.gtag_settings["gtag_type"].to_sym
+    Gtag::DEFINITIONS[gtag_type][:entitlement_limit]
   end
 end

@@ -1,4 +1,4 @@
-.wrapper-session.wrapper-module-centered.edit-profile-form
+.wrapper-session.wrapper-module-centered.edit-customer-form
   = simple_form_for resource, url: event_register_path(current_event), method: :patch do |f|
     = f.error_notification
     h3 = t('header.edit')
@@ -16,30 +16,8 @@
     = f.input :postcode, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.postcode") if current_event.postcode?
     = f.input :country, wrapper_html: { class: 'registration-select' }, label: t("simple_form.labels.customer.new.country"), input_html: { class: 'session-select' } if current_event.country?
     = f.input :gender, wrapper_html: { class: 'registration-select' }, label: t("simple_form.labels.customer.new.gender"), collection: Customer.gender_selector, include_blank: false, input_html: { class: 'session-input' } if current_event.gender?
-    = f.input :birthdate, wrapper_html: { class: 'registration-select' }, label: t("simple_form.labels.customer.new.birthdate"), as: :date, default: @edit_profile_form.birthdate, start_year: 1950, end_year: Time.zone.today.year - 12, order: [:day, :month, :year] if current_event.birthdate?
-    
-    - current_profile.payment_gateway_customers.each do |payment_gateway_customer|
-      .wrapper-module-agreement
-        p.hint-text.paypal-agreement-title
-          = fa_icon 'paypal'
-          = t('registration.autotoup_agreement.title')
-        p.agreement-description = t("orders.paypal.sync_description")
-        .agreemet-current
-          p.agreement-hint = t('registration.autotoup_agreement.current_amount')
-          p.agreement-amount
-            span = @edit_profile_form.current_autotopup_amount(payment_gateway_customer)
-            span.currency-symbol = current_event.token_symbol
-        .agreement-select
-          p.agreement-hint = t('registration.autotoup_agreement.new_amount')
-          = select_tag :autotopup_amount,
-            options_for_select(@edit_profile_form.autotopup_amounts(payment_gateway_customer),
-            @edit_profile_form.current_autotopup_amount(payment_gateway_customer)), include_blank: false
-        = link_to event_autotopup_agreement_path(current_event, payment_gateway_customer), method: :delete,
-            class: "btn btn-remove-agreement",
-            data: { confirm: (t('registration.autotoup_agreement.cancel')) } do
-          = t('confirm.cancel_paypal_agreement')
-          span.hint = t("confirm.cancel_paypal")
-    = f.button :submit, t('registration.edit.button'),  class: "btn-action btn-edit-profile"
+    = f.input :birthdate, wrapper_html: { class: 'registration-select' }, label: t("simple_form.labels.customer.new.birthdate"), as: :date, default: @edit_customer_form.birthdate, start_year: 1950, end_year: Time.zone.today.year - 12, order: [:day, :month, :year] if current_event.birthdate?
+    = f.button :submit, t('registration.edit.button'),  class: "btn-action btn-edit-customer"
 .wrapper-module
   = link_to customer_root_path, class: "btn btn-action-back add-bottom" do
     = fa_icon "chevron-left"

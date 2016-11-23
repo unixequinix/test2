@@ -1,5 +1,5 @@
 .wrapper-module.credential-types
-  h3 = @ticket.company_ticket_type.name
+  h3 = @ticket.ticket_type.name
   ul
     li.ticket-detail-module
       ul
@@ -11,6 +11,9 @@
           label Products
           - @products.each do |product|
             li= product.name
+  = link_to event_ticket_assignment_path(current_event, @ticket), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-remove-ticket" do
+    = fa_icon("trash")
+    = t('actions.unnasign')
 
 .wrapper-module
   = link_to customer_root_path, class: "btn btn-action-back" do

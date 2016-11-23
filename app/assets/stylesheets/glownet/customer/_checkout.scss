@@ -122,4 +122,52 @@
   @include min-screen($bp5) { padding: modules(0.5) modules(3); }
 }
 
-// ···
+// Orders
+
+.orders-disclaimer {
+  margin-bottom: 0;
+  padding: modules(0.3) modules(0.5);
+  font-style: italic;
+  border-radius: $radius;
+  background-color: lighten($blueBoot, 50%);
+  color: $blueBoot;
+  border: 1px solid lighten($blueBoot, 40%);
+  margin-bottom: 1rem;
+}
+
+.order {
+  margin-bottom: 1rem;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid $form_gray;
+  }
+
+  &__title {
+    font-weight: bold;
+  }
+
+  &__status {
+    font-size: .8rem;
+    margin-left: .4rem;
+    font-weight: bold;
+    font-style: italic;
+
+    &--completed {
+      color: lighten($green, 13%);
+    }
+
+    &--tba {
+      color: lighten($red, 8%);
+    }
+
+    &--cancelled {
+      color: #999;
+    }
+  }
+}
+
+.order-item {
+  font-style: italic;
+}

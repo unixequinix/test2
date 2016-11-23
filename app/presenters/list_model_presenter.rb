@@ -17,7 +17,7 @@ class ListModelPresenter
   end
 
   def all_items
-    q.result(distinct: true).page(page).includes(@include_for_all_items)
+    q.result.page(page).includes(@include_for_all_items)
   end
 
   def current_items

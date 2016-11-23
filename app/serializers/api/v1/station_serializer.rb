@@ -13,8 +13,7 @@ class Api::V1::StationSerializer < Api::V1::BaseSerializer
 
   def accreditation(hash)
     hash[:catalog] = object.station_catalog_items.map do |ci|
-      { catalogable_id: ci.catalog_item.catalogable_id,
-        catalogable_type: ci.catalog_item.catalogable_type.downcase,
+      { catalog_item_id: ci.catalog_item_id,
         price: ci.price.round(2),
         hidden: ci.hidden? }
     end

@@ -1,16 +1,9 @@
 function UpdateFlagFormValue() {
-//  if( $("#registration_parameters").length > 0 ) {
-  $(".flag-selector").change(function() {
-    checkboxGroup = $(this).data("checkbox-group");
-    var eventParameters = $("#event_"+checkboxGroup);
-    var eventValue = eventParameters.attr("value");
-    if(!$(this).is(':checked')) {
-        eventParameters.attr("value", +eventValue - +$(this).attr("value"));
-    } else {
-        eventParameters.attr("value", +eventValue + +$(this).attr("value"));
-    }
+  $(".collection_check_boxes").click(function() {
+    var att = $(this).attr('for');
+    var input = $("#" + att);
+    input.prop('value', input.val() !== "true");
   });
-//  }
 }
 $(document).on('page:load', UpdateFlagFormValue);
 $(document).ready(UpdateFlagFormValue);

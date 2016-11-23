@@ -16,7 +16,7 @@
             tr
               th = t("admin.devices.asset")
               th = t("admin.devices.mac")
-              th = t("admin.transactions.transaction_type")
+              th = t("admin.transactions.action")
               th = t("admin.transactions.server_transactions")
               th = t("admin.transactions.device_transactions")
               th = t("admin.transactions.last_device_transaction")
@@ -26,7 +26,7 @@
               tr style="color: #{colors[info[:status].to_sym]}"
                 td = info[:asset_tracker]
                 td = device
-                td = info[:transaction_type].humanize
+                td = info[:action].humanize
                 td = info[:server_transactions]
                 td = info[:device_transactions]
                 td = info[:last_device_transaction]

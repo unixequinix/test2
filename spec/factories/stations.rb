@@ -1,8 +1,34 @@
+# == Schema Information
+#
+# Table name: stations
+#
+#  address            :string
+#  category           :string
+#  created_at         :datetime         not null
+#  group              :string
+#  location           :string           default("")
+#  name               :string           not null
+#  official_name      :string
+#  position           :integer
+#  registration_num   :string
+#  reporting_category :string
+#  updated_at         :datetime         not null
+#
+# Indexes
+#
+#  index_stations_on_event_id          (event_id)
+#  index_stations_on_station_event_id  (station_event_id)
+#
+# Foreign Keys
+#
+#  fk_rails_4d84bcb9bb  (event_id => events.id)
+#
+
 FactoryGirl.define do
   factory :station do
     event
     name { "Station #{rand(100)}" }
-    category { "customer_portal" }
-    group { "access" }
+    category "customer_portal"
+    group "access"
   end
 end

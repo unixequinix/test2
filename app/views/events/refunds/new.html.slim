@@ -1,3 +1,20 @@
-h3 = t('refund.call_to_action')
-p = t('refund.description')
-= render 'customers/refunds/form', refund: @refund
+.wrapper-module
+  - if current_customer.active_gtag.can_refund?
+    h3.center-text = t('dashboard.refunds.title')
+    = simple_form_for [current_event, @refund], class: "form" do |f|
+      = f.input :iban, label: false, label: "IBAN", input_html: { class: 'session-input' }
+      = f.input :swift, label: false, label: "SWIFT", input_html: { class: 'session-input' }
+      = f.button :submit, t('dashboard.refunds.button'),  class: "btn-action btn-edit-customer"
+
+    .wrapper-module-disclaimer
+      = raw current_event.refund_disclaimer
+  - else
+    .wrapper-module-centered
+      h3 = t("claims.credentiable_refund_disabled.title")
+      = image_tag "refunds/#{current_customer.active_gtag.format}.png", class: "wristband-image"
+      p = t("claims.credentiable_refund_disabled.description")
+
+.wrapper-module
+  = link_to customer_root_path, class: "btn btn-action-back " do
+    = fa_icon "chevron-left"
+    = t("actions.back")

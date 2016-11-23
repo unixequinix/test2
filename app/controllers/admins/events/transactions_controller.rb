@@ -9,7 +9,7 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
 
   def show
     @gtag = Gtag.find_by_tag_uid(@transaction.customer_tag_uid)
-    @profile = Profile.find_by_id(@transaction.profile_id)
+    @customer = Customer.find_by_id(@transaction.customer_id)
     @operator = Gtag.find_by_tag_uid(@transaction.operator_tag_uid)
   end
 
@@ -36,7 +36,7 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
 
   def set_transactions
     @q = current_event.transactions.where(type: "#{@type}_transaction".classify).search(params[:q])
-    @transactions = @q.result.page(params[:page]).includes(:profile, :station)
+    @transactions = @q.result.page(params[:page]).includes(:customer, :station)
   end
 
   def permitted_params

@@ -9,13 +9,15 @@
       dt = t("admin.orders.number")
       dd = @order.number
       dt = t("admin.orders.customer")
-      dd = link_to @order.profile.customer.email, admins_event_profile_path(current_event, @order.profile)
+      dd = link_to @order.customer.email, admins_event_customer_path(current_event, @order.customer)
+      dt = t("admin.orders.gateway")
+      dd = @order.gateway
       dt = t("admin.orders.state")
-      dd = @order.aasm_state
+      dd = @order.status
       dt = t("admin.orders.created")
-      dd = @order.created_at
+      dd = @order.created_at&.strftime("%d-%m-%Y %H:%M:%S")
       dt = t("admin.orders.completed")
-      dd = @order.completed_at
+      dd = @order.completed_at&.strftime("%d-%m-%Y %H:%M:%S")
 
   .container-show
     h3
@@ -28,7 +30,6 @@
           th = t("admin.orders.amount")
           th = t("admin.orders.product_price")
           th = t("admin.orders.total")
-          th = t("admin.orders.product_description")
           th = t("admin.orders.product_type")
       tbody
         - @order.order_items.each do |order_item|
@@ -37,33 +38,4 @@
             td = order_item.amount
             td = order_item.catalog_item.price
             td = order_item.total
-            td = order_item.catalog_item.description
-            td = order_item.catalog_item.catalogable_type
-    - if @order.payments.present?
-        h3
-          = fa_icon "table"
-          = t("admin.orders.payments")
-        table.subtable.order-subtable
-          thead
-            tr
-              th = t("admin.payments.id")
-              th = t("admin.payments.amount")
-              th = t("admin.payments.transaction_type")
-              th = t("admin.payments.card_country")
-              th = t("admin.payments.response_code")
-              th = t("admin.payments.authorization_code")
-              th = t("admin.payments.currency")
-              th = t("admin.payments.success")
-              th = t("admin.payments.paid")
-          tbody
-            - @order.payments.each do |payment|
-              tr
-                td data-label=t("admin.payments.id") = link_to payment.id, admins_event_payment_path(current_event, payment)
-                td data-label=t("admin.payments.amount") = payment.amount
-                td data-label=t("admin.payments.transaction_type") = payment.transaction_type
-                td data-label=t("admin.payments.card_country") = payment.card_country
-                td data-label=t("admin.payments.response_code") = payment.response_code
-                td data-label=t("admin.payments.authorization_code") = payment.authorization_code
-                td data-label=t("admin.payments.currency") = payment.currency
-                td data-label=t("admin.payments.success") = payment.success
-                td data-label=t("admin.payments.paid") = payment.paid_at.strftime("%y-%m-%d %H:%M:%S")
+            td = order_item.catalog_item.type

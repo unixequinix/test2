@@ -2,94 +2,136 @@
 #
 # Table name: orders
 #
-#  id                        :integer          not null, primary key
-#  number                    :string           not null
-#  aasm_state                :string           not null
-#  completed_at              :datetime
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
-#  profile_id :integer
+#  completed_at :datetime
+#  created_at   :datetime         not null
+#  gateway      :string
+#  payment_data :json
+#  status       :string           default("in_progress"), not null
+#  updated_at   :datetime         not null
+#
+# Indexes
+#
+#  index_orders_on_customer_id  (customer_id)
+#
+# Foreign Keys
+#
+#  fk_rails_3dad120da9  (customer_id => customers.id)
 #
 
-require "rails_helper"
-include ActionView::Helpers::NumberHelper
+require "spec_helper"
 
 RSpec.describe Order, type: :model do
-  let(:event) { create(:event) }
-  let(:profile) { create(:profile, event: event) }
-  let(:order) { create(:order_with_items, profile: profile) }
+  subject { build(:order) }
 
-  before { allow(event).to receive(:get_parameter).and_return(100) }
-
-  describe "validations" do
-    it { is_expected.to validate_presence_of(:profile) }
-    it { is_expected.to validate_presence_of(:number) }
-    it { is_expected.to validate_presence_of(:aasm_state) }
-
-    it "should fail if profile has reached the limit of credits in event settings" do
-      allow(profile).to receive(:credits).and_return(100)
-      allow(order).to receive(:total_credits).and_return(100)
-      expect(order).not_to be_valid
+  describe ".complete!" do
+    it "marks the order as completed" do
+      subject.complete!("paypal", {})
+      expect(subject).to be_completed
     end
   end
 
-  describe ".total" do
-    it "returns the total of all the items in the order" do
-      expect(order.total).to eq(order.order_items.to_a.sum(&:total))
+  describe ".completed?" do
+    it "returns true if the status is completed" do
+      subject.status = "completed"
+      expect(subject).to be_completed
     end
   end
 
-  describe ".generate_order_number!" do
-    it "should create a new order number" do
-      order.generate_order_number!
-      expect(order.number).not_to be_nil
+  describe ".fail!" do
+    it "marks the order as faild" do
+      subject.fail!("paypal", {})
+      expect(subject.status).to eq("failed")
     end
   end
 
-  describe ".generate_token" do
-    it "is different for different seconds" do
-      allow(Time.zone).to receive(:now).and_return(Time.zone.now)
-      allow(Time.zone.now).to receive(:strftime).and_return("161005140046599")
-      token1 = Order.generate_token
-      allow(Time.zone.now).to receive(:strftime).and_return("161005140046600")
-      token2 = Order.generate_token
-
-      expect(token1).not_to eq(token2)
-    end
-
-    it "is hexadecimal" do
-      expect(Order.generate_token).to match(/^[a-f0-9]*$/)
-    end
-
-    it "doesn't have more than 12 characters length" do
-      expect(Order.generate_token.size < 13).to be_truthy
+  describe ".cancel!" do
+    it "marks the order as canceld" do
+      subject.cancel!({})
+      expect(subject.status).to eq("cancelled")
     end
   end
 
-  describe ".complete_order" do
-    it "should store the time when an order is completed" do
-      time_before = order.completed_at.to_i
-      order.start_payment
-      order.complete!
-      time_after = order.completed_at.to_i
-
-      expect(time_after).to be > time_before
+  describe ".cancelled?" do
+    it "returns true if the status is cancelled" do
+      subject.status = "cancelled"
+      expect(subject).to be_cancelled
     end
   end
 
-  describe ".total_credits" do
-    it "should return the total amount of credits available" do
-      order.order_items.destroy_all
-      pp = create(:catalog_item, :with_credit, event: event)
-      order.order_items << create(:order_item, catalog_item: pp, order: order)
-      order.reload
-      expect(order.total_credits).to eq(order.order_items.to_a.sum(&:credits))
+  describe ".number" do
+    it "returns always the same size of digits in the order number" do
+      subject.id = 1
+      expect(subject.number.size).to eq(12)
+
+      subject.id = 122
+      expect(subject.number.size).to eq(12)
+    end
+  end
+
+  describe ".redeemed?" do
+    it "returns true if all the order_items are redeemed" do
+      subject.order_items << build(:order_item, :with_access)
+      subject.order_items.first.update(redeemed: false)
+      expect(subject).not_to be_redeemed
+      subject.order_items.first.update(redeemed: true)
+      expect(subject).to be_redeemed
     end
   end
 
   describe ".total_formated" do
-    it "returns total formated with two decimals" do
-      expect(order.total_formated).to eq(number_with_precision(order.total.round(2), precision: 2))
+    it "returns the total formated" do
+      allow(subject).to receive(:total).and_return(5)
+      expect(subject.total_formated).to eq("5.00")
+    end
+  end
+
+  describe ".total" do
+    it "returns the sum of the order_items total" do
+      subject.order_items << build(:order_item, :with_access, total: 10)
+      subject.order_items << build(:order_item, :with_access, total: 23)
+      expect(subject.total).to eq(33)
+    end
+  end
+
+  describe ".credits" do
+    it "returns the sum of the order_items credits" do
+      subject.order_items << build(:order_item, :with_credit, amount: 10)
+      subject.order_items << build(:order_item, :with_credit, amount: 23)
+      expect(subject.credits).to eq(33)
+    end
+  end
+
+  describe ".refundable_credits" do
+    it "returns the sum of the order_items refundable credits" do
+      item1 = build(:order_item, :with_credit)
+      allow(item1).to receive(:refundable_credits).and_return(10)
+      item2 = build(:order_item, :with_credit)
+      allow(item2).to receive(:refundable_credits).and_return(23)
+      subject.order_items << item1
+      subject.order_items << item2
+      expect(subject.refundable_credits).to eq(33)
+    end
+  end
+
+  describe ".set_counters" do
+    it "sets the correct counter" do
+      expect(subject).to be_new_record
+      subject.order_items << build(:order_item, :with_credit, amount: 10)
+      subject.order_items << build(:order_item, :with_credit, amount: 23)
+      subject.save
+      expect(subject.order_items.first.counter).to eq(1)
+      expect(subject.order_items.last.counter).to eq(2)
+
+      order = create(:order, :with_different_items, customer: subject.customer)
+      expect(order.order_items.first.counter).to eq(3)
+    end
+  end
+
+  describe ".max_credit_reached" do
+    it "adds an error if the credits exceeds the maximum allowed" do
+      expect(subject).to be_valid
+      subject.order_items << build(:order_item, :with_credit, amount: 100_000)
+      expect(subject).not_to be_valid
     end
   end
 end

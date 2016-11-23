@@ -1,23 +1,17 @@
 class BasePresenter
   include ActionView::Helpers::NumberHelper
-  attr_accessor :context, :profile, :gtag, :refund, :event, :tickets, :purchases
+  attr_accessor :context, :customer, :gtag, :refund, :event, :tickets
 
   def initialize(dashboard, context)
     @context = context
-    @profile = dashboard.profile
+    @customer = dashboard.customer
     @event = dashboard.event
     @tickets = dashboard.tickets
-    @completed_claim = dashboard.completed_claim
     @gtag = dashboard.gtag
-    @purchases = dashboard.purchases
   end
 
   def event_url
     @event.url
-  end
-
-  def completed_claim?
-    @completed_claim.present?
   end
 
   def credential_present?

@@ -222,6 +222,30 @@ input[type=checkbox]:checked + .collection_check_boxes {
   &:hover { background-color: $light_blue; }
 }
 
+.user_flag {
+  overflow: hidden;
+  width: 100%;
+  display: inline-block;
+  background-color: $input_grey;
+  box-shadow: inset 0px 0px 0px 1px $graySilver;
+  border-radius:4px;
+  color: darken($graySilver,20%);
+  padding: modules(0.5);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor:pointer;
+
+  &:hover { background-color: $white; }
+}
+
+input[type=checkbox]:checked + .user_flag {
+  background-color: $blue;
+  color: $white;
+  box-shadow: none;
+
+  &:hover { background-color: $light_blue; }
+}
+
 // _______
 
 .input {

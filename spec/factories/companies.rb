@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: companies
+#
+#  access_token :string
+#  created_at   :datetime         not null
+#  name         :string           not null
+#  updated_at   :datetime         not null
+#
+
 FactoryGirl.define do
   factory :company do
     name { "Company name #{rand(100)}" }

@@ -2,34 +2,47 @@
 #
 # Table name: customers
 #
-#  id                     :integer          not null, primary key
-#  email                  :string           default(""), not null
-#  first_name             :string           default(""), not null
-#  last_name              :string           default(""), not null
-#  encrypted_password     :string           default(""), not null
-#  reset_password_token   :string
-#  reset_password_sent_at :datetime
-#  remember_created_at    :datetime
-#  sign_in_count          :integer          default(0), not null
-#  current_sign_in_at     :datetime
-#  last_sign_in_at        :datetime
-#  current_sign_in_ip     :inet
-#  last_sign_in_ip        :inet
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  deleted_at             :datetime
-#  agreed_on_registration :boolean          default(FALSE)
-#  phone                  :string
-#  postcode               :string
-#  address                :string
-#  city                   :string
-#  country                :string
-#  gender                 :string
-#  birthdate              :datetime
-#  event_id               :integer          not null
+#  address                    :string
+#  agreed_event_condition     :boolean          default(FALSE)
+#  agreed_on_registration     :boolean          default(FALSE)
+#  banned                     :boolean
+#  birthdate                  :datetime
+#  city                       :string
+#  country                    :string
+#  created_at                 :datetime         not null
+#  current_sign_in_at         :datetime
+#  current_sign_in_ip         :inet
+#  email                      :string           default(""), not null
+#  encrypted_password         :string           default(""), not null
+#  first_name                 :string           default(""), not null
+#  gender                     :string
+#  last_name                  :string           default(""), not null
+#  last_sign_in_at            :datetime
+#  last_sign_in_ip            :inet
+#  locale                     :string           default("en")
+#  phone                      :string
+#  postcode                   :string
+#  receive_communications     :boolean          default(FALSE)
+#  receive_communications_two :boolean          default(FALSE)
+#  remember_created_at        :datetime
+#  remember_token             :string
+#  reset_password_sent_at     :datetime
+#  reset_password_token       :string
+#  sign_in_count              :integer          default(0), not null
+#  updated_at                 :datetime         not null
+#
+# Indexes
+#
+#  index_customers_on_event_id              (event_id)
+#  index_customers_on_remember_token        (remember_token) UNIQUE
+#  index_customers_on_reset_password_token  (reset_password_token) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_0b9257e0c6  (event_id => events.id)
 #
 
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Customer, type: :model do
   let(:customer) { build(:customer) }

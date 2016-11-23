@@ -1,4 +1,4 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Api::V1::Events::StationsController, type: :controller do
   let(:event) { create(:event) }
@@ -18,10 +18,8 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
       context "when the station is a box office" do
         before do
           @station = create(:station, event: event, group: "access", category: "box_office")
-          @station.station_catalog_items
-                  .new(price: rand(1.0...20.0).round(2),
-                       catalog_item_id: create(:access_catalog_item, event: event).id,
-                       station_parameter_attributes: { station_id: @station.id }).save
+          access = create(:access, event: event)
+          @station.station_catalog_items.create(price: rand(1.0...20.0).round(2), catalog_item_id: access.id)
         end
 
         it "returns all the box office stations" do
@@ -33,8 +31,8 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
         it "returns the catalog items for each box office" do
           get :index, event_id: event.id
           s = JSON.parse(response.body).first["stations"].first
-          s_ws_items = s["catalog"].map { |m| m["catalogable_id"] }
-          s_db_items = @station.station_catalog_items.map { |m| m.catalog_item.catalogable_id }
+          s_ws_items = s["catalog"].map { |m| m["catalog_item_id"] }
+          s_db_items = @station.station_catalog_items.map { |m| m.catalog_item.id }
 
           expect(s).to have_key("catalog")
           expect(s_ws_items).to eq(s_db_items)
@@ -44,10 +42,8 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
       context "when the station is a point of sales" do
         before do
           @station = create(:station, category: "vendor", event: event, group: "monetary")
-          @station.station_products
-                  .new(price: rand(1.0...20.0).round(2),
-                       product: create(:product, event: event),
-                       station_parameter_attributes: { station_id: @station.id }).save
+          item = create(:product, event: event)
+          @station.station_products.create(price: rand(1.0...20.0).round(2), product: item)
         end
 
         it "returns all the pos stations" do
@@ -93,16 +89,10 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
 
       context "when the station is an access_control" do
         before do
-          access = create(:access_catalog_item, event: event).catalogable
+          access = create(:access, event: event)
           @station = create(:station, category: "access_control", group: "access", event: event)
-          @station.access_control_gates
-                  .new(direction: "1",
-                       access: access,
-                       station_parameter_attributes: { station_id: @station.id }).save
-          @station.access_control_gates
-                  .new(direction: "-1",
-                       access: access,
-                       station_parameter_attributes: { station_id: @station.id }).save
+          @station.access_control_gates.create(direction: "1", access: access)
+          @station.access_control_gates.create(direction: "-1", access: access)
         end
 
         it "returns all the access control stations" do

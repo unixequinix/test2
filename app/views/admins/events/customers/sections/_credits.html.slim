@@ -1,0 +1,16 @@
+.credits
+  .credit
+    p.credit__amount = number_to_token customer.credits
+    h2.credit__title Credits
+
+  .credit
+    p.credit__amount = number_to_token customer.refundable_credits
+    h2.credit__title Refundable Credits
+
+  .credit
+    p.credit__amount = number_to_token customer.final_balance
+    h2.credit__title Final Balance
+
+  .credit
+    p.credit__amount = number_to_token customer.final_refundable_balance
+    h2.credit__title Final Refundable Balance

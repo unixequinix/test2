@@ -3,6 +3,11 @@ aside#main-menu
     = link_to admin_root_path
       = image_tag ("admin-panel-logo.png")
   ul
+
+    h3.aside-title = t("admin.aside.event")
+    li.aside-list = link_to admins_event_device_settings_path(event) do
+      = fa_icon "cogs"
+      = t("admin.aside.device_settings")
   
     h3.aside-title = t("admin.aside.event") 
 
@@ -20,9 +25,9 @@ aside#main-menu
       = fa_icon "tags"
       = t("admin.aside.gtag")
 
-    li.aside-list = link_to admins_event_profiles_path(event) do
+    li.aside-list = link_to admins_event_customers_path(event) do
       = fa_icon "user"
-      = t("admin.aside.profiles")
+      = t("admin.aside.customers")
 
     h3.aside-title = t("admin.aside.transactions")
 

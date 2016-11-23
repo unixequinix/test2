@@ -13,17 +13,17 @@
 
 FactoryGirl.define do
   factory :credit do |_param|
-    standard false
+    event
+    name { "Random name #{rand(100)}" }
+    initial_amount 0
+    step { rand(5) }
+    max_purchasable 1
+    min_purchasable 0
+
     value { rand(1..10) }
-    currency { %w(EUR GBP).sample }
 
     trait :standard do
-      standard true
       value 1
-    end
-
-    after(:build) do |credit|
-      credit.catalog_item ||= build(:catalog_item)
     end
 
     factory :standard_credit, traits: [:standard]

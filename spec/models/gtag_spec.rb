@@ -1,27 +1,52 @@
 # == Schema Information
-# require "../../../../apps/core/app/models/event"
-
+#
 # Table name: gtags
 #
-#  id                :integer          not null, primary key
-#  tag_uid           :string           not null
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  deleted_at        :datetime
-#  event_id          :integer          not null
+#  activation_counter       :integer          default(1)
+#  active                   :boolean          default(TRUE)
+#  banned                   :boolean          default(FALSE)
+#  created_at               :datetime         not null
+#  credits                  :decimal(8, 2)
+#  final_balance            :decimal(8, 2)
+#  final_refundable_balance :decimal(8, 2)
+#  format                   :string           default("wristband")
+#  loyalty                  :boolean          default(FALSE)
+#  refundable_credits       :decimal(8, 2)
+#  updated_at               :datetime         not null
+#
+# Indexes
+#
+#  index_gtags_on_customer_id  (customer_id)
+#  index_gtags_on_event_id     (event_id)
+#
+# Foreign Keys
+#
+#  fk_rails_084fd46c5e  (event_id => events.id)
+#  fk_rails_70b4405c01  (customer_id => customers.id)
 #
 
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Gtag, type: :model do
-  let(:gtag) { create(:gtag) }
-  let(:event) { gtag.event }
+  subject { create(:gtag) }
+
+  it "has a valid factory" do
+    expect(subject).to be_valid
+  end
 
   describe ".upcase_gtag!" do
-    it "sets the tag_uid in upcase on validation" do
-      gtag.tag_uid = "abc123abc"
-      gtag.upcase_gtag!
-      expect(gtag.tag_uid =~ /[[:upper:]]+$/).not_to be_nil
+    it "upcases the tag_uid" do
+      subject.tag_uid = "aaa"
+      subject.valid?
+      expect(subject.tag_uid).to eq("AAA")
     end
+  end
+
+  it "responds to the method card?" do
+    expect(subject).to respond_to(:card?)
+  end
+
+  it "responds to the method wristband?" do
+    expect(subject).to respond_to(:wristband?)
   end
 end

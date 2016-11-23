@@ -5,7 +5,7 @@ de:
     amount: "Amount"
     station: "Station"
     date: "Date"
-    transaction_types:
+    actions:
       sale: "Sale"
       topup: "Topup"
       refund: "Refund"
@@ -53,7 +53,7 @@ de:
       header: "Transaction history"
       button: "Download Transactions"
     admissions:
-      header: "Ticket %{company_ticket_type}"
+      header: "Ticket %{ticket_type}"
       call_to_action: "Wollen Sie dieses Ticket entfernen?"
       call_to_action_started: "Die Veranstaltung hat soeben begonnen. Daher sind Ticketänderungen nicht möglich."
       success: "Ticket erfolgreich aktiviert!"
@@ -62,8 +62,6 @@ de:
       call_to_action: "Aktivieren Sie nur solche Tickets, die Sie auch SELBST benutzen"
       description: "Aktivieren Sie NICHT das Ticket eines Freundes über Ihr Konto."
       button: "Mehr hinzufügen"
-    purchases:
-      header: "Ihre Käufe"
     first_register:
       ticket: "Ticket hinzufügen"
       wristband: "%{gtag} hinzufügen"

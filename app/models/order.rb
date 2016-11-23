@@ -2,44 +2,63 @@
 #
 # Table name: orders
 #
-#  id           :integer          not null, primary key
-#  number       :string           not null
-#  aasm_state   :string           not null
-#  profile_id   :integer
 #  completed_at :datetime
-#  deleted_at   :datetime
 #  created_at   :datetime         not null
+#  gateway      :string
+#  payment_data :json
+#  status       :string           default("in_progress"), not null
 #  updated_at   :datetime         not null
+#
+# Indexes
+#
+#  index_orders_on_customer_id  (customer_id)
+#
+# Foreign Keys
+#
+#  fk_rails_3dad120da9  (customer_id => customers.id)
 #
 
 class Order < ActiveRecord::Base
   default_scope { order(created_at: :desc) }
 
-  # Associations
-  belongs_to :profile
+  belongs_to :customer
   has_many :order_items
-  has_many :payments
   has_many :catalog_items, through: :order_items, class_name: "CatalogItem"
 
-  # Validations
-  validates :profile, :number, :aasm_state, presence: true
+  validates :number, :status, presence: true
   validate :max_credit_reached
 
-  # State machine
-  include AASM
+  scope :completed, -> { where(status: "completed") }
+  scope :in_progress, -> { where(status: "in_progress") }
 
-  aasm do
-    state :started, initial: true
-    state :in_progress
-    state :completed, enter: :complete_order
+  before_create :set_counters
 
-    event :start_payment do
-      transitions from: [:started, :in_progress], to: :in_progress
-    end
+  def complete!(gateway, payment)
+    update(status: "completed", gateway: gateway, completed_at: Time.zone.now, payment_data: payment)
+  end
 
-    event :complete do
-      transitions from: :in_progress, to: :completed
-    end
+  def completed?
+    status.eql?("completed")
+  end
+
+  def fail!(gateway, payment)
+    update(status: "failed", gateway: gateway, payment_data: payment)
+  end
+
+  def cancel!(payment)
+    update(status: "cancelled", payment_data: payment)
+  end
+
+  def cancelled?
+    status.eql?("cancelled")
+  end
+
+  def number
+    id.to_s.rjust(12, "0")
+  end
+
+  def redeemed?
+    order_items.pluck(:redeemed).all?
   end
 
   def total_formated
@@ -50,39 +69,25 @@ class Order < ActiveRecord::Base
     order_items.to_a.sum(&:total)
   end
 
-  def total_credits
+  def credits
     order_items.to_a.sum(&:credits)
   end
 
-  def total_refundable_credits
-    order_items.joins(:catalog_item).where.not(catalog_items: { catalogable_type: "Pack" }).to_a.sum(&:credits)
-  end
-
-  def generate_order_number!
-    self.number = Order.generate_token
-    save
-  end
-
-  def expired?
-    Time.zone.now > created_at + 15.minutes
-  end
-
-  # TODO: This method shouldn't be here I extracted it to test it, because we had a bug related to it
-  def self.generate_token
-    date = Time.zone.now
-    date.strftime("%y%m%d%H%M%S%L").to_i.to_s(16)
+  def refundable_credits
+    order_items.to_a.sum(&:refundable_credits)
   end
 
   private
 
-  def max_credit_reached
-    return unless profile
-    max_credits = profile.event.get_parameter("gtag", "form", "maximum_gtag_balance").to_f
-    max_credits_reached = profile.credits + total_credits > max_credits
-    errors.add(:credits, I18n.t("errors.messages.max_credits_reached")) if max_credits_reached
+  def set_counters
+    last_counter = customer.order_counters.last.to_i
+    order_items.each.with_index { |item, index| item.counter = index + last_counter + 1 }
   end
 
-  def complete_order
-    update(completed_at: Time.zone.now)
+  def max_credit_reached
+    return unless customer
+    max_credits = customer.event.gtag_settings["maximum_gtag_balance"].to_f
+    max_credits_reached = customer.orders.map(&:credits).sum + credits > max_credits
+    errors.add(:credits, I18n.t("errors.messages.max_credits_reached")) if max_credits_reached
   end
 end

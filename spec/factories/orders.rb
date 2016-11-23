@@ -2,22 +2,25 @@
 #
 # Table name: orders
 #
-#  id                        :integer          not null, primary key
-#  number                    :string           not null
-#  aasm_state                :string           not null
-#  completed_at              :datetime
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
-#  profile_id :integer
+#  completed_at :datetime
+#  created_at   :datetime         not null
+#  gateway      :string
+#  payment_data :json
+#  status       :string           default("in_progress"), not null
+#  updated_at   :datetime         not null
+#
+# Indexes
+#
+#  index_orders_on_customer_id  (customer_id)
+#
+# Foreign Keys
+#
+#  fk_rails_3dad120da9  (customer_id => customers.id)
 #
 
 FactoryGirl.define do
   factory :order do
-    profile { create(:profile, :with_customer) }
-
-    after :build do |order|
-      order.number = Order.generate_token
-    end
+    customer
 
     trait :with_different_items do
       after :build do |order|

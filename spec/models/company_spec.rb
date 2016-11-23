@@ -2,17 +2,14 @@
 #
 # Table name: companies
 #
-#  id         :integer          not null, primary key
-#  event_id   :integer          not null
-#  name       :string           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  access_token :string
+#  created_at   :datetime         not null
+#  name         :string           not null
+#  updated_at   :datetime         not null
 #
 
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Company, type: :model do
-  it "has a valid factory" do
-    expect(build(:company)).to be_valid
-  end
+  pending "add some examples to (or delete) #{__FILE__}"
 end

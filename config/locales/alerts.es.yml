@@ -16,11 +16,13 @@ es:
     quantity_not_refundable: 'Créditos insuficientes para ser reembolsados'
     gtag_already_assigned: 'Ya tienes uno asignado'
     forbidden_gtag_change: 'Impossible to unassign gtag when event has started'
+    ticket_assigned: 'Ticket asignado correctamente'
     ticket_already_assigned: 'Ticket ya asignado'
+    ticket_banned: "Ticket no permitido"
     ticket_doesnt_exist: 'Ticket no existe'
     credential_already_assigned: 'You already have the credential that comes with this ticket'
     access_only_one_way: 'Sólo una dirección por acceso'
-    profile_without_transactions: "El perfil no tiene transacciones de crédito"
+    customer_without_transactions: "El perfil no tiene transacciones de crédito"
     gtag:
       invalid: "%{gtag} no válida"
       already_assigned: "%{gtag} ya ha sido asignada a otro usuario"
