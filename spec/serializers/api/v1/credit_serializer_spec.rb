@@ -12,5 +12,9 @@ RSpec.describe Api::V1::CreditSerializer, type: :serializer do
     it "returns the catalog_items name" do
       expect(subject["name"]).to eq(resource.name)
     end
+
+    it "returns the events currency" do
+      expect(subject["currency"]).to eq(resource.event.currency)
+    end
   end
 end

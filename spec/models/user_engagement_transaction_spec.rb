@@ -15,9 +15,7 @@
 #  final_balance               :float
 #  final_refundable_balance    :float
 #  gtag_counter                :integer
-#  initialization_type         :string
 #  items_amount                :float
-#  number_of_transactions      :integer
 #  operator_activation_counter :integer
 #  operator_value              :string
 #  order_item_counter          :integer
