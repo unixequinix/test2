@@ -137,14 +137,14 @@ class Gtag < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
       SELECT to_json(json_agg(row_to_json(inc)))
       FROM (
         SELECT
-          id as gtag_id,
+          id,
           credits,
           refundable_credits,
           final_balance,
           final_refundable_balance,
           final_balance - credits as inconsistent,
           final_refundable_balance - refundable_credits as inconsistent_refundable
-        FROM customers
+        FROM gtags
         WHERE event_id = #{event.id} AND
               (final_balance <> credits OR final_refundable_balance <> refundable_credits)
         ORDER BY inconsistent DESC
