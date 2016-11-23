@@ -1,24 +1,43 @@
 class Events::PaypalController < Events::PaymentsController
   before_action :set_order_details, only: [:setup_purchase, :purchase, :refund]
 
-  def setup_purchase
+  def setup_purchase # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     items = @order.order_items.map do |oi|
-      { name: oi.catalog_item.name, quantity: oi.amount.to_i, amount: (oi.total.to_f * 100).round }
+      {
+        name: oi.catalog_item.name,
+        description: "test",
+        amount: (oi.catalog_item.price.to_f * 100).round,
+        quantity: oi.amount.to_i
+      }
     end
 
     response = paypal.setup_purchase(
       @total,
-      ip: request.remote_ip,
+      subtotal: @total,
+      shipping: 0,
+      handling: 0,
+      tax: 0,
       items: items,
+      ip: request.remote_ip,
       return_url: event_paypal_purchase_url(current_event, order_id: @order),
       cancel_return_url: event_order_url(current_event, @order),
       currency: current_event.currency
     )
-    redirect_to paypal.redirect_url_for(response.token)
+
+    if response.success?
+      redirect_to paypal.redirect_url_for(response.token)
+    else
+      redirect_to event_order_path(current_event, @order, gateway: "paypal"), alert: response.message
+    end
   end
 
   def purchase
-    response = paypal.purchase(@total, payer_id: params[:PayerID], token: params[:token])
+    response = paypal.purchase(
+      @total,
+      payer_id: params[:PayerID],
+      token: params[:token],
+      currency: current_event.currency
+    )
 
     if response.success?
       @order.complete!("paypal", response.params.as_json)
