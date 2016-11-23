@@ -75,10 +75,10 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   scope :query_for_csv, lambda { |event|
     where(event: event)
-      .joins("LEFT OUTER JOIN gtags ON gtags.customer_id = id")
-      .joins("LEFT OUTER JOIN tickets ON tickets.customer_id = id")
-      .select("id, tickets.code as ticket, gtags.tag_uid as gtag, gtags.credits as credits, gtags.refundable_credits as refundable_credits, email, first_name, last_name") # rubocop:disable Metrics/LineLength
-      .group("id, first_name, tickets.code, gtags.tag_uid")
+      .joins("LEFT OUTER JOIN gtags ON gtags.customer_id = customers.id")
+      .joins("LEFT OUTER JOIN tickets ON tickets.customer_id = customers.id")
+      .select("customers.id, tickets.code as ticket, gtags.tag_uid as gtag, gtags.credits as credits, gtags.refundable_credits as refundable_credits, email, first_name, last_name") # rubocop:disable Metrics/LineLength
+      .group("customers.id, first_name, tickets.code, gtags.tag_uid, gtags.credits, gtags.refundable_credits")
       .order("first_name ASC")
   }
 
