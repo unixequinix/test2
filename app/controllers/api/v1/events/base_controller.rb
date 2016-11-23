@@ -34,7 +34,7 @@ class Api::V1::Events::BaseController < Api::BaseController
   end
 
   def accesses
-    current_event.accesses.includes(:entitlement, :catalog_item)
+    current_event.accesses.includes(:entitlement)
   end
 
   def ticket_types
