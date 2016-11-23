@@ -42,7 +42,7 @@ class Api::V1::Events::BaseController < Api::BaseController
   end
 
   def credits
-    [current_event.credit]
+    Credit.where(id: current_event.credit.id)
   end
 
   def sql_customers(date) # rubocop:disable Metrics/MethodLength
