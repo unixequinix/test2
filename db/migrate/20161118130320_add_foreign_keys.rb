@@ -24,7 +24,7 @@ class AddForeignKeys < ActiveRecord::Migration
     add_foreign_key :stations, :events
     add_foreign_key :tickets, :events
 
-    all_types = ActiveRecord::Base.connection.execute("SELECT company_ticket_type_id FROM tickets;").column_values(0).uniq.map(&:to_i)
+    all_types = ActiveRecord::Base.connection.execute("SELECT company_ticket_type_id, id FROM tickets;").column_values(0).uniq.map(&:to_i)
     all_tickets = Ticket.uniq.pluck(:company_ticket_type_id)
     Ticket.where(company_ticket_type_id: all_tickets - all_types).destroy_all
 
