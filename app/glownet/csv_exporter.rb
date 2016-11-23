@@ -10,12 +10,7 @@ class CsvExporter
   end
 
   def self.to_csv(objects, csv_options = {})
-    # FIXME: If objects size is 1 it breaks
-    if objects.first.class != objects.second.class
-      items, headers, extras = objects
-    else
-      items = objects
-    end
+    items = [objects].flatten
     column_names = items.first.attributes.keys
     csv_file = CSV.generate(csv_options) do |csv|
       csv << column_names
@@ -23,7 +18,6 @@ class CsvExporter
         csv << item.attributes.values_at(*column_names)
       end
     end
-    csv_file = attach_columns_to_csv(csv_file, headers, extras).join if extras
     csv_file
   end
 
