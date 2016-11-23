@@ -33,18 +33,4 @@ class PaymentGateway < ActiveRecord::Base
   scope :stripe, -> { find_by(gateway: "stripe") }
   scope :wirecard, -> { find_by(gateway: "wirecard") }
   scope :bank_account, -> { find_by(gateway: "bank_account") }
-
-  def redirected?
-    GATEWAYS[gateway]["type"].eql?("redirected")
-  end
-
-  private
-
-  def data_present
-    fields = GATEWAYS[gateway][:config]
-    fields.each do |field|
-      next if data[field].present?
-      errors[field] = I18n.t("errors.messages.blank")
-    end
-  end
 end

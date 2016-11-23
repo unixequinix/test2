@@ -14,7 +14,7 @@ FactoryGirl.define do
 
     trait :with_company_event_agreement do
       after(:build) do |company|
-        company.company_event_agreements << build(:company_event_agreement)
+        company.company_event_agreements << build(:company_event_agreement, company: company)
       end
     end
   end
