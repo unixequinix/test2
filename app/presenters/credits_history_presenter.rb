@@ -11,6 +11,6 @@ class CreditsHistoryPresenter < BasePresenter
   private
 
   def transactions?
-    @gtag.transactions.credit.status_ok.present?
+    @gtag && @gtag.transactions.credit.status_ok.any?
   end
 end
