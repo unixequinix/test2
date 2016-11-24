@@ -12,6 +12,7 @@ class DeviceSettingsForm
   attribute :autotopup_enabled, String
   attribute :cypher_enabled, String
   attribute :gtag_blacklist, String
+  attribute :gtag_whitelist, String
   attribute :event_id, Integer
 
   validates_presence_of :min_version_apk

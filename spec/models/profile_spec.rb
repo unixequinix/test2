@@ -38,7 +38,8 @@ RSpec.describe Profile, type: :model do
                                                    refundable_credits: 5,
                                                    credit_value: 1,
                                                    final_balance: 10,
-                                                   final_refundable_balance: 5)
+                                                   final_refundable_balance: 5,
+                                                   gtag_counter: 0)
         @transaction = create(:credit_transaction,
                               profile: profile,
                               transaction_type: "online_topup",
@@ -46,7 +47,8 @@ RSpec.describe Profile, type: :model do
                               refundable_credits: 30,
                               credit_value: 1,
                               final_balance: 30,
-                              final_refundable_balance: 30)
+                              final_refundable_balance: 30,
+                              gtag_counter: 0)
       end
 
       it "recalculates the balance properly" do
@@ -68,7 +70,8 @@ RSpec.describe Profile, type: :model do
                                refundable_credits: 5,
                                credit_value: 1,
                                final_balance: 10,
-                               final_refundable_balance: 5)
+                               final_refundable_balance: 5,
+                               gtag_counter: 0)
         @onsite_topup = create(:credit_transaction,
                                profile: profile,
                                transaction_type: "topup",

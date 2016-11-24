@@ -4,6 +4,12 @@ aside#main-menu
       = image_tag ("admin-panel-logo.png")
   ul
   
+    h3.aside-title = t("admin.aside.event")  
+ 
+    li.aside-list = link_to admins_event_device_settings_path(event) do  
+      = fa_icon "cogs"  
+      = t("admin.aside.device_settings") 
+  
     h3.aside-title = t("admin.aside.credentials")
 
     li.aside-list = link_to admins_event_tickets_path(event) do

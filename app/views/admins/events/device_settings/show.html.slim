@@ -13,34 +13,35 @@
     .container-hidden
       = current_admin.access_token
 
-  .container-databases
-    h3.dashboard-table-header = t("admin.dashboard.databases")
-    .wrapper-dashboard-reverse-devices
-      .database
-        .database__name
-          = t('admin.event.databases.full')
-        .database__updated
-          = @current_event.device_full_db_updated_at&.strftime("%y-%m-%d %H:%M:%S") || t("admin.event.databases.not_found")
-        .database__size
-          = number_to_human_size(@current_event.device_full_db_file_size)
-        .database__actions
-          = link_to remove_db_admins_event_device_settings_path(@current_event, db: "full"), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "database__btn #{"database__btn--disabled" if @current_event.device_full_db.blank?}"
-            => fa_icon("ban")
-            = t('admin.event.databases.clear')
-          = link_to Databases::DatabaseManager.new(@current_event, "full").generate_url(60), class: "database__btn database__btn--download #{"database__btn--disabled" if @current_event.device_full_db.blank?}"
-            => fa_icon("download")
-            = t('admin.event.databases.download')
-      .database
-        .database__name
-          = t('admin.event.databases.basic')
-        .database__updated
-          = @current_event.device_basic_db_updated_at&.strftime("%y-%m-%d %H:%M:%S") || t("admin.event.databases.not_found")
-        .database__size
-          = number_to_human_size(@current_event.device_basic_db_file_size)
-        .database__actions
-          = link_to remove_db_admins_event_device_settings_path(@current_event, db: "basic"), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "database__btn #{"database__btn--disabled" if @current_event.device_basic_db.blank?}"
-            => fa_icon("ban")
-            = t('admin.event.databases.clear')
-          = link_to Databases::DatabaseManager.new(@current_event, "basic").generate_url(60), class: "database__btn database__btn--download #{"database__btn--disabled" if @current_event.device_basic_db.blank?}"
-            => fa_icon("download")
-            = t('admin.event.databases.download')
+  - unless current_admin.customer_service?
+    .container-databases
+      h3.dashboard-table-header = t("admin.dashboard.databases")
+      .wrapper-dashboard-reverse-devices
+        .database
+          .database__name
+            = t('admin.event.databases.full')
+          .database__updated
+            = @current_event.device_full_db_updated_at&.strftime("%y-%m-%d %H:%M:%S") || t("admin.event.databases.not_found")
+          .database__size
+            = number_to_human_size(@current_event.device_full_db_file_size)
+          .database__actions
+            = link_to remove_db_admins_event_device_settings_path(@current_event, db: "full"), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "database__btn #{"database__btn--disabled" if @current_event.device_full_db.blank?}"
+              => fa_icon("ban")
+              = t('admin.event.databases.clear')
+            = link_to Databases::DatabaseManager.new(@current_event, "full").generate_url(60), class: "database__btn database__btn--download #{"database__btn--disabled" if @current_event.device_full_db.blank?}"
+              => fa_icon("download")
+              = t('admin.event.databases.download')
+        .database
+          .database__name
+            = t('admin.event.databases.basic')
+          .database__updated
+            = @current_event.device_basic_db_updated_at&.strftime("%y-%m-%d %H:%M:%S") || t("admin.event.databases.not_found")
+          .database__size
+            = number_to_human_size(@current_event.device_basic_db_file_size)
+          .database__actions
+            = link_to remove_db_admins_event_device_settings_path(@current_event, db: "basic"), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "database__btn #{"database__btn--disabled" if @current_event.device_basic_db.blank?}"
+              => fa_icon("ban")
+              = t('admin.event.databases.clear')
+            = link_to Databases::DatabaseManager.new(@current_event, "basic").generate_url(60), class: "database__btn database__btn--download #{"database__btn--disabled" if @current_event.device_basic_db.blank?}"
+              => fa_icon("download")
+              = t('admin.event.databases.download')

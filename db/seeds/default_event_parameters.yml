@@ -34,6 +34,9 @@
         -
           name: gtag_blacklist
           value: ""
+        -
+          name: gtag_whitelist
+          value: "" 
 -
   category: payment
   groups:
