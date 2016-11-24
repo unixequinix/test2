@@ -1,5 +1,5 @@
 class Api::V1::TicketTypeSerializer < Api::V1::BaseSerializer
-  attributes :id, :name, :company_id, :company_name, :ticket_type_ref
+  attributes :id, :name, :company_id, :company_name, :ticket_type_ref, :catalog_item_id
 
   def company_id
     object.company_event_agreement.company.id
