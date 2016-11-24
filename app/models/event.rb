@@ -61,8 +61,6 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
              :agreed_event_condition_message, :receive_communications_message, :receive_communications_two_message,
              fallbacks_for_empty_translations: true
 
-  include EventState # State machine
-
   # Associations
   has_many :accesses
   has_many :catalog_items
@@ -93,6 +91,38 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   REGISTRATION_SETTINGS = [:phone, :address, :city, :country, :postcode, :gender, :birthdate, :agreed_event_condition,
                            :receive_communications, :receive_communications_two].freeze
   LOCALES = [:en, :es, :it, :de, :th].freeze
+
+  include AASM
+
+  aasm do
+    state :created, initial: true
+    state :launched
+    state :started
+    state :finished
+    state :closed
+
+    event :launch do
+      transitions from: :created, to: :launched
+    end
+
+    event :start do
+      transitions from: :launched, to: :started
+      # TODO: Validates Company Ticket Types
+      # TODO: Validates Device Private Key
+    end
+
+    event :finish do
+      transitions from: :started, to: :finished
+    end
+
+    event :close do
+      transitions from: :finished, to: :closed
+    end
+
+    event :reboot do
+      transitions from: :closed, to: :created
+    end
+  end
 
   has_attached_file(
     :logo,
@@ -172,13 +202,6 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   def total_refundable_money
     customers.sum(:refundable_credits) * credit_price
-  end
-
-  def only_credits_purchasable?
-    purchasable_items = stations.find_by_category("customer_portal").station_catalog_items
-    purchasable_items.count > 0 &&
-      purchasable_items.joins(:catalog_item)
-                       .where.not(catalog_items: { type: "Credit" }).count.zero?
   end
 
   def active?
