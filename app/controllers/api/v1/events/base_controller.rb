@@ -5,12 +5,12 @@ class Api::V1::Events::BaseController < Api::BaseController
   serialization_scope :current_event
 
   def render_entities(entity)
-    plural = entity.pluralize
     modified = request.headers["If-Modified-Since"]&.to_datetime
-    obj = method(plural).call
+    obj = method(entity.pluralize).call
+    table = %w( access credit pack user_flag ).include?(entity) ? "catalog_items" : entity.pluralize
 
     if modified
-      obj = obj.where("#{plural}.updated_at > ?", modified)
+      obj = obj.where("#{table}.updated_at > ?", modified)
       status = obj.present? ? 200 : 304
     end
 
