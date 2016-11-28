@@ -4,7 +4,7 @@ class Transactions::Base < ActiveJob::Base
   # rubocop:disable Metrics/MethodLength
   def perform(atts)
     atts = preformat_atts(atts)
-    klass = Transaction.class_for_type(atts[:transaction_category])
+    klass = Transaction.class_for_type(atts[:type])
 
     obj = klass.find_by(atts.slice(*SEARCH_ATTS))
     return obj if obj
@@ -32,7 +32,7 @@ class Transactions::Base < ActiveJob::Base
     event = Event.find(atts[:event_id])
     customer = event.customers.find(atts[:customer_id])
     station = event.portal_station
-    klass = Transaction.class_for_type(atts[:transaction_category])
+    klass = Transaction.class_for_type(atts[:type])
     final_atts = {
       transaction_origin: Transaction::ORIGINS[:portal],
       counter: customer.transactions.maximum(:counter).to_i + 1,
@@ -60,12 +60,7 @@ class Transactions::Base < ActiveJob::Base
   # rubocop disbale: Metrics/AbcSize
   def preformat_atts(atts)
     atts[:customer_tag_uid] = atts[:customer_tag_uid].to_s.upcase if atts.key?(:customer_tag_uid)
-    atts[:catalog_item_id] = atts[:catalogable_id] if atts.key?(:catalogable_id)
-    atts[:order_item_counter] ||= atts[:customer_order_id]
-    atts[:action] ||= atts.delete(:transaction_type)
-    atts[:refundable_credits] ||= atts[:credits_refundable]
     atts[:device_created_at_fixed] = atts[:device_created_at]
-    atts.delete(:station_id) if atts[:station_id].to_i.zero?
     atts.delete(:sale_items_attributes) if atts[:sale_items_attributes].blank?
     atts
   end

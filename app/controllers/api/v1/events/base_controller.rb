@@ -79,7 +79,7 @@ class Api::V1::Events::BaseController < Api::BaseController
           FROM (
             SELECT
               customer_id,
-              counter as online_order_counter,
+              counter as id,
               amount,
               catalog_item_id,
               redeemed

@@ -23,7 +23,7 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
         status_code: "1",
         status_message: "Ticket already check-in 0034854TYS9QSD4992",
         credits: 2,
-        credits_refundable: 2,
+        refundable_credits: 2,
         credit_value: 1,
         final_balance: 4,
         final_refundable_balance: 4

@@ -1,3 +1,7 @@
 class Api::V1::OrderItemSerializer < Api::V1::BaseSerializer
-  attributes :online_order_counter, :catalog_item_id, :amount
+  attributes :id, :catalog_item_id, :amount
+
+  def id
+    object.online_order_counter
+  end
 end

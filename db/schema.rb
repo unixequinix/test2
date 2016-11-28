@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161122222038) do
+ActiveRecord::Schema.define(version: 20161128164344) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,18 +67,10 @@ ActiveRecord::Schema.define(version: 20161122222038) do
     t.string   "access_token"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.integer  "event_id"
   end
 
-  create_table "company_event_agreements", force: :cascade do |t|
-    t.integer  "company_id", null: false
-    t.integer  "event_id",   null: false
-    t.string   "aasm_state"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "company_event_agreements", ["company_id"], name: "index_company_event_agreements_on_company_id", using: :btree
-  add_index "company_event_agreements", ["event_id"], name: "index_company_event_agreements_on_event_id", using: :btree
+  add_index "companies", ["event_id"], name: "index_companies_on_event_id", using: :btree
 
   create_table "customers", force: :cascade do |t|
     t.integer  "event_id",                                   null: false
@@ -405,22 +397,19 @@ ActiveRecord::Schema.define(version: 20161122222038) do
   add_index "stations", ["station_event_id"], name: "index_stations_on_station_event_id", using: :btree
 
   create_table "ticket_types", force: :cascade do |t|
-    t.integer  "event_id",                                   null: false
-    t.integer  "company_event_agreement_id",                 null: false
     t.string   "name"
     t.string   "company_code"
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
-    t.boolean  "hidden",                     default: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.boolean  "hidden",          default: false
     t.integer  "catalog_item_id"
+    t.integer  "company_id"
   end
 
   add_index "ticket_types", ["catalog_item_id"], name: "index_ticket_types_on_catalog_item_id", using: :btree
-  add_index "ticket_types", ["company_event_agreement_id"], name: "index_ticket_types_on_company_event_agreement_id", using: :btree
-  add_index "ticket_types", ["event_id"], name: "index_ticket_types_on_event_id", using: :btree
+  add_index "ticket_types", ["company_id"], name: "index_ticket_types_on_company_id", using: :btree
 
   create_table "tickets", force: :cascade do |t|
-    t.integer  "event_id",                             null: false
     t.integer  "ticket_type_id",                       null: false
     t.string   "code"
     t.boolean  "redeemed",             default: false, null: false
@@ -435,7 +424,6 @@ ActiveRecord::Schema.define(version: 20161122222038) do
   end
 
   add_index "tickets", ["customer_id"], name: "index_tickets_on_customer_id", using: :btree
-  add_index "tickets", ["event_id"], name: "index_tickets_on_event_id", using: :btree
   add_index "tickets", ["ticket_type_id"], name: "index_tickets_on_ticket_type_id", using: :btree
 
   create_table "topup_credits", force: :cascade do |t|
@@ -454,7 +442,6 @@ ActiveRecord::Schema.define(version: 20161122222038) do
     t.integer  "event_id"
     t.string   "type"
     t.string   "transaction_origin"
-    t.string   "transaction_category"
     t.string   "action"
     t.string   "customer_tag_uid"
     t.string   "operator_tag_uid"
@@ -506,8 +493,7 @@ ActiveRecord::Schema.define(version: 20161122222038) do
 
   add_foreign_key "access_control_gates", "stations"
   add_foreign_key "catalog_items", "events"
-  add_foreign_key "company_event_agreements", "companies"
-  add_foreign_key "company_event_agreements", "events"
+  add_foreign_key "companies", "events"
   add_foreign_key "customers", "events"
   add_foreign_key "device_transactions", "events"
   add_foreign_key "entitlements", "events"
@@ -528,10 +514,8 @@ ActiveRecord::Schema.define(version: 20161122222038) do
   add_foreign_key "station_products", "stations"
   add_foreign_key "stations", "events"
   add_foreign_key "ticket_types", "catalog_items"
-  add_foreign_key "ticket_types", "company_event_agreements"
-  add_foreign_key "ticket_types", "events"
+  add_foreign_key "ticket_types", "companies"
   add_foreign_key "tickets", "customers"
-  add_foreign_key "tickets", "events"
   add_foreign_key "tickets", "ticket_types"
   add_foreign_key "topup_credits", "stations"
   add_foreign_key "transactions", "catalog_items"

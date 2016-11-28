@@ -27,7 +27,6 @@
 #  status_code                 :integer
 #  status_message              :string
 #  ticket_code                 :string
-#  transaction_category        :string
 #  transaction_origin          :string
 #  type                        :string
 #  updated_at                  :datetime         not null
@@ -68,7 +67,7 @@ class CreditTransaction < Transaction
   end
 
   def self.mandatory_fields
-    super + %w( credits credits_refundable credit_value final_balance final_refundable_balance )
+    super + %w( credits refundable_credits credit_value final_balance final_refundable_balance )
   end
 
   def self.column_names
