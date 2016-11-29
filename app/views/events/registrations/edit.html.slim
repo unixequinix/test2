@@ -1,11 +1,11 @@
 .wrapper-session.wrapper-module-centered.edit-customer-form
-  = simple_form_for resource, url: event_register_path(current_event), method: :patch do |f|
+  = simple_form_for resource, url: event_register_path(current_event), method: :patch, html: { autocomplete: "off" } do |f|
     = f.error_notification
     h3 = t('header.edit')
     = f.input :event_id, as: :hidden, input_html: { value: current_event.id, class: 'session-input' }
-    = f.input :email, required: true, autofocus: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.email")
-    = f.input :first_name, required: true, autofocus: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.first_name")
-    = f.input :last_name, required: true, autofocus: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.last_name")
+    = f.input :email, required: true, autocomplete: "off", input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.email")
+    = f.input :first_name, required: true, autocomplete: "off", input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.first_name")
+    = f.input :last_name, required: true, autocomplete: "off", input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.last_name")
     = f.input :current_password, required: true, autocomplete: "off", input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.current_password")
     = f.input :password, autocomplete: "off", hint: t('registration.edit.password_hint'), required: false, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.password")
     = f.input :password_confirmation, required: false, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.password_confirmation")
