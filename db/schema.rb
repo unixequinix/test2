@@ -108,9 +108,9 @@ ActiveRecord::Schema.define(version: 20161128164344) do
     t.datetime "updated_at",                                 null: false
     t.boolean  "receive_communications",     default: false
     t.string   "locale",                     default: "en"
+    t.boolean  "receive_communications_two", default: false
     t.string   "provider"
     t.string   "uid"
-    t.boolean  "receive_communications_two", default: false
     t.boolean  "banned"
   end
 
@@ -336,8 +336,8 @@ ActiveRecord::Schema.define(version: 20161128164344) do
     t.decimal  "fee",         precision: 8, scale: 2
     t.string   "iban"
     t.string   "swift"
-    t.integer  "customer_id"
     t.decimal  "money",       precision: 8, scale: 2
+    t.integer  "customer_id"
   end
 
   add_index "refunds", ["customer_id"], name: "index_refunds_on_customer_id", using: :btree

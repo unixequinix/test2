@@ -183,10 +183,6 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     Order.joins(:customer).where(customers: { event_id: id })
   end
 
-  def payments
-    Payment.joins(order: :customer).where(customers: { event_id: id })
-  end
-
   def eventbrite?
     eventbrite_token.present? && eventbrite_event.present?
   end

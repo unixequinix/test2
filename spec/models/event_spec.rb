@@ -56,6 +56,57 @@
 require "spec_helper"
 
 RSpec.describe Event, type: :model do
+  subject { build(:event) }
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_presence_of(:support_email) }
+
+  describe ".eventbrite?" do
+    it "returns true if the event has eventbrite_token and eventbrite_event" do
+      expect(subject).not_to be_eventbrite
+      subject.eventbrite_token = "test"
+      expect(subject).not_to be_eventbrite
+      subject.eventbrite_event = "test"
+      expect(subject).to be_eventbrite
+    end
+  end
+
+  describe ".credit_price" do
+    it "returns the event credit value" do
+      subject.save
+      subject.create_credit!(value: 1, step: 5, min_purchasable: 0, max_purchasable: 300, initial_amount: 0, name: "CR")
+      expect(subject.credit_price).to eq(subject.credit.value)
+    end
+  end
+
+  describe ".active?" do
+    it "returns true if the event is launched, started or finished" do
+      subject.aasm_state = "closed"
+      expect(subject).not_to be_active
+      subject.aasm_state = "created"
+      expect(subject).not_to be_active
+
+      subject.aasm_state = "launched"
+      expect(subject).to be_active
+      subject.aasm_state = "started"
+      expect(subject).to be_active
+      subject.aasm_state = "finished"
+      expect(subject).to be_active
+    end
+  end
+
+  describe ".refunds" do
+    it "returns the event refunds" do
+      subject.save
+      refund = create(:refund, customer: create(:customer, event: subject))
+      expect(subject.refunds).to eq([refund])
+    end
+  end
+
+  describe ".orders" do
+    it "returns the event orders" do
+      subject.save
+      order = create(:order, customer: create(:customer, event: subject))
+      expect(subject.orders).to eq([order])
+    end
+  end
 end
