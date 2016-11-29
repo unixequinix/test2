@@ -1,34 +1,25 @@
 class Admins::Events::TicketAssignmentsController < Admins::Events::BaseController
   before_action :set_customer, only: [:new, :create]
 
-  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/AbcSize
+  # rubocop:disable Metrics/AbcSize
   def create
     @code = permitted_params[:code].strip
     @ticket = current_event.tickets.find_by(code: @code)
 
-    if @ticket.blank?
-      flash.now[:error] = I18n.t("alerts.admissions")
-      render(:new) && return
-    end
+    errors = []
+    errors << I18n.t("alerts.admissions") if @ticket.blank?
+    errors << I18n.t("alerts.ticket_without_credential") if @ticket.ticket_type&.catalog_item.nil?
+    errors << I18n.t("alerts.ticket_banned") if @ticket.banned?
+    errors << I18n.t("alerts.ticket_already_assigned") if @ticket.customer
 
-    if @ticket.ticket_type&.catalog_item.nil?
-      flash.now[:error] = I18n.t("alerts.ticket_without_credential")
-      render(:new) && return
+    if errors.any?
+      flash.now[:errors] = errors.to_sentence
+      render(:new)
+    else
+      @ticket.update!(customer: @customer)
+      create_transaction("ticket_assigned", @ticket)
+      redirect_to(admins_event_customer_path(current_event, @customer), notice: I18n.t("alerts.ticket_assigned"))
     end
-
-    if @ticket.banned?
-      flash.now[:error] = I18n.t("alerts.ticket_banned")
-      render(:new) && return
-    end
-
-    if @ticket.customer
-      flash.now[:error] = I18n.t("alerts.ticket_already_assigned")
-      render(:new) && return
-    end
-
-    @ticket.update!(customer: @customer)
-    create_transaction("ticket_assigned", @ticket)
-    redirect_to(admins_event_customer_path(current_event, @customer), notice: I18n.t("alerts.ticket_assigned"))
   end
 
   def destroy
@@ -46,12 +37,11 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::BaseControll
     @customer = current_event.customers.find(params[:id])
   end
 
-  def create_transaction(action, ticket) # rubocop:disable Metrics/MethodLength
+  def create_transaction(action, ticket)
     customer = ticket.customer
     CredentialTransaction.create!(
       event: current_event,
       transaction_origin: Transaction::ORIGINS[:admin],
-      transaction_category: "credential",
       action: action,
       ticket: ticket,
       station: current_event.portal_station,

@@ -10,7 +10,7 @@ RSpec.describe Transactions::Credential::TicketChecker, type: :job do
     {
       transaction_id: transaction.id,
       event_id: event.id,
-      transaction_category: "credential",
+      type: "credential",
       action: "ticket_checkin",
       customer_tag_uid: gtag.tag_uid,
       ticket_code: "TICKET_CODE",

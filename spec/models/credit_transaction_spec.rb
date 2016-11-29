@@ -27,7 +27,6 @@
 #  status_code                 :integer
 #  status_message              :string
 #  ticket_code                 :string
-#  transaction_category        :string
 #  transaction_origin          :string
 #  type                        :string
 #  updated_at                  :datetime         not null

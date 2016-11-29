@@ -27,7 +27,6 @@
 #  status_code                 :integer
 #  status_message              :string
 #  ticket_code                 :string
-#  transaction_category        :string
 #  transaction_origin          :string
 #  type                        :string
 #  updated_at                  :datetime         not null
@@ -83,9 +82,7 @@ RSpec.describe Transaction, type: :model do
   end
 
   describe ".mandatory_fields" do
-    fields = %w( transaction_origin transaction_category action customer_tag_uid
-                 operator_tag_uid station_id device_uid device_db_index device_created_at status_code
-                 status_message )
+    fields = %w( transaction_origin action customer_tag_uid operator_tag_uid station_id device_uid device_db_index device_created_at status_code status_message ) # rubocop:disable Metrics/LineLength
 
     fields.each do |field|
       it "validates '#{field}' field" do

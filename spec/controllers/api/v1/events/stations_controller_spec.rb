@@ -25,7 +25,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
         it "returns all the box office stations" do
           get :index, event_id: event.id
           stations = JSON.parse(response.body).first["stations"].map { |m| m["id"] }
-          expect(stations).to include(@station.id)
+          expect(stations).to include(@station.station_event_id)
         end
 
         it "returns the catalog items for each box office" do
@@ -49,7 +49,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
         it "returns all the pos stations" do
           get :index, event_id: event.id
           stations = JSON.parse(response.body).first["stations"].map { |m| m["id"] }
-          expect(stations).to eq([@station.id])
+          expect(stations).to eq([@station.station_event_id])
         end
 
         it "returns the catalog items for each pos" do
@@ -71,7 +71,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
         it "returns all the pos stations" do
           get :index, event_id: event.id
           stations = JSON.parse(response.body).first["stations"].map { |m| m["id"] }
-          expect(stations).to eq([@station.id])
+          expect(stations).to eq([@station.station_event_id])
         end
 
         it "returns the credits for each station" do
@@ -98,7 +98,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
         it "returns all the access control stations" do
           get :index, event_id: event.id
           stations = JSON.parse(response.body).first["stations"].map { |m| m["id"] }
-          expect(stations).to eq([@station.id])
+          expect(stations).to eq([@station.station_event_id])
         end
 
         it "returns the entitlements for each station" do
@@ -108,12 +108,8 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
 
           ws_ent = s["entitlements"]
           db_ent =  {
-            "in" => @station.access_control_gates
-                            .where(direction: "1")
-                            .map { |g| { "id" => g.access_id, "hidden" => g.hidden? } },
-            "out" => @station.access_control_gates
-                             .where(direction: "-1")
-                             .map { |g| { "id" => g.access_id, "hidden" => g.hidden? } }
+            "in" => @station.access_control_gates.in.map { |g| { "id" => g.access_id, "hidden" => g.hidden? } },
+            "out" => @station.access_control_gates.out.map { |g| { "id" => g.access_id, "hidden" => g.hidden? } }
           }
 
           expect(ws_ent).to eq(db_ent)

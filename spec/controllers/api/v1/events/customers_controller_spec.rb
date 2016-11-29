@@ -27,7 +27,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
       it "returns the necessary keys" do
         cus_keys = %w(id banned updated_at first_name last_name email credentials orders)
         cre_keys = %w(customer_id reference type)
-        order_keys = %w(customer_id online_order_counter amount catalog_item_id redeemed)
+        order_keys = %w(customer_id id amount catalog_item_id redeemed)
 
         JSON.parse(response.body).map do |gtag|
           expect(gtag.keys).to eq(cus_keys)

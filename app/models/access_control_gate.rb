@@ -22,5 +22,8 @@ class AccessControlGate < ActiveRecord::Base
 
   validates :direction, :access_id, presence: true
 
+  scope :in, -> { where(direction: "1") }
+  scope :out, -> { where(direction: "-1") }
+
   after_update { station.touch }
 end

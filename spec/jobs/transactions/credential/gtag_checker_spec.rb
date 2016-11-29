@@ -9,7 +9,7 @@ RSpec.describe Transactions::Credential::GtagChecker, type: :job do
     {
       event_id: event.id,
       transaction_origin: Transaction::ORIGINS[:device],
-      transaction_category: "credential",
+      type: "credential",
       action: "ticket_checkin",
       customer_tag_uid: gtag.tag_uid,
       operator_tag_uid: "A54DSF8SD3JS0",

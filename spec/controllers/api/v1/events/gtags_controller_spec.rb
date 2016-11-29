@@ -72,7 +72,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
           gtag = JSON.parse(response.body)
           gtag_keys = %w(reference banned customer)
           customer_keys = %w(id credentials first_name last_name email orders)
-          order_keys = %w(online_order_counter catalog_item_id amount)
+          order_keys = %w(id catalog_item_id amount)
           credential_keys = %w(reference type)
 
           expect(gtag.keys).to eq(gtag_keys)
@@ -94,7 +94,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
               last_name: customer.last_name,
               email: customer.email,
               orders: [{
-                online_order_counter: @item.counter,
+                id: @item.counter,
                 catalog_item_id: @item.catalog_item_id,
                 amount: @item.amount
               }]

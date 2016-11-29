@@ -1,10 +1,10 @@
 class Transactions::Base < ActiveJob::Base
   SEARCH_ATTS = %w(event_id device_uid device_db_index device_created_at_fixed gtag_counter activation_counter).freeze
 
-  # rubocop:disable Metrics/MethodLength
-  def perform(atts)
+  def perform(atts) # rubocop:disable Metrics/MethodLength
     atts = preformat_atts(atts)
     klass = Transaction.class_for_type(atts[:type])
+    atts[:type] = klass.to_s
 
     obj = klass.find_by(atts.slice(*SEARCH_ATTS))
     return obj if obj
@@ -27,12 +27,12 @@ class Transactions::Base < ActiveJob::Base
     execute_operations(atts)
   end
 
-  def portal_write(atts)
+  def portal_write(atts) # rubocop:disable Metrics/MethodLength
     atts.symbolize_keys!
     event = Event.find(atts[:event_id])
+    klass = atts[:type].constantize
     customer = event.customers.find(atts[:customer_id])
     station = event.portal_station
-    klass = Transaction.class_for_type(atts[:type])
     final_atts = {
       transaction_origin: Transaction::ORIGINS[:portal],
       counter: customer.transactions.maximum(:counter).to_i + 1,
@@ -57,7 +57,6 @@ class Transactions::Base < ActiveJob::Base
     atts.slice(*klass.column_names.map(&:to_sym))
   end
 
-  # rubocop disbale: Metrics/AbcSize
   def preformat_atts(atts)
     atts[:customer_tag_uid] = atts[:customer_tag_uid].to_s.upcase if atts.key?(:customer_tag_uid)
     atts[:device_created_at_fixed] = atts[:device_created_at]

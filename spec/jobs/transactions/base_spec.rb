@@ -7,7 +7,7 @@ RSpec.describe Transactions::Base, type: :job do
   let(:customer) { create(:customer, event: event) }
   let(:params) do
     {
-      transaction_category: "credit",
+      type: "credit",
       action: "sale",
       credits: 30,
       event_id: event.id,
@@ -23,7 +23,7 @@ RSpec.describe Transactions::Base, type: :job do
     allow(Transactions::Credit::BalanceUpdater).to receive(:perform_now)
   end
 
-  it "creates transactions based on transaction_category" do
+  it "creates transactions based on type" do
     expect { base.perform_now(params) }.to change(CreditTransaction, :count).by(1)
   end
 
@@ -132,6 +132,7 @@ RSpec.describe Transactions::Base, type: :job do
         gtag.update(event: event, customer: customer)
         params[:customer_id] = customer.id
         params[:action] = "some_action"
+        params[:type] = "CreditTransaction"
         create(:station, category: "customer_portal", event: event)
       end
 
@@ -153,7 +154,7 @@ RSpec.describe Transactions::Base, type: :job do
       params[:action] = "sale"
       expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once
       base.perform_now(params)
-      at = params.merge(transaction_category: "credit", device_created_at: params[:device_created_at])
+      at = params.merge(type: "credit", device_created_at: params[:device_created_at])
       base.perform_now(at)
     end
   end

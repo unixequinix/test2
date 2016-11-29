@@ -33,7 +33,6 @@ class Events::GtagAssignmentsController < Events::BaseController
     CredentialTransaction.create!(
       event: current_event,
       transaction_origin: Transaction::ORIGINS[:portal],
-      transaction_category: "credential",
       action: action,
       customer_tag_uid: gtag.tag_uid,
       activation_counter: gtag.activation_counter,

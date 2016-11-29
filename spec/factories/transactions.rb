@@ -27,7 +27,6 @@
 #  status_code                 :integer
 #  status_message              :string
 #  ticket_code                 :string
-#  transaction_category        :string
 #  transaction_origin          :string
 #  type                        :string
 #  updated_at                  :datetime         not null
@@ -56,7 +55,6 @@
 
 FactoryGirl.define do
   factory :money_transaction do
-    transaction_category "money"
     action { "word #{rand(100)}" }
     device_created_at { Time.zone.now }
     customer_tag_uid { SecureRandom.urlsafe_base64.upcase }

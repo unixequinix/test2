@@ -9,7 +9,7 @@ class Events::PaymentsController < Events::BaseController
   def finish_payment!(order, gateway, type)
     Transactions::Base.new.portal_write(event_id: current_event.id,
                                         station_id: current_event.portal_station.id,
-                                        transaction_category: "money",
+                                        type: "MoneyTransaction",
                                         transaction_origin: Transaction::ORIGINS[:portal],
                                         action: "portal_#{type}",
                                         customer_tag_uid: order.customer.active_gtag&.tag_uid,

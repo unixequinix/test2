@@ -24,8 +24,6 @@ class OrderItem < ActiveRecord::Base
   belongs_to :order
   belongs_to :catalog_item
 
-  alias_attribute :online_order_counter, :counter
-
   def single_credits?
     catalog_item.is_a?(Credit)
   end
