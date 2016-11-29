@@ -17,7 +17,7 @@ class Admins::EventsController < Admins::BaseController
     # TODO: Remove this when we have roles, this was a workaround for sonar, but as a lot of things it still  here
     redirect_to(admins_event_tickets_path(@current_event), layout: "admin_event") &&
       return if current_admin.customer_service?
-    @alerts = Event::Validator.new(current_event).all
+    @alerts = Event::Validator.new(@current_event).all
     render layout: "admin_event"
   end
 
