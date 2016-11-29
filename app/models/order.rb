@@ -22,8 +22,9 @@ class Order < ActiveRecord::Base
   default_scope { order(created_at: :desc) }
 
   belongs_to :customer
-  has_many :order_items
+  has_many :order_items, dependent: :destroy
   has_many :catalog_items, through: :order_items, class_name: "CatalogItem"
+  accepts_nested_attributes_for :order_items
 
   validates :number, :status, presence: true
   validate :max_credit_reached
@@ -32,6 +33,10 @@ class Order < ActiveRecord::Base
   scope :in_progress, -> { where(status: "in_progress") }
 
   before_create :set_counters
+
+  def refund?
+    gateway.eql?("refund")
+  end
 
   def complete!(gateway, payment)
     update(status: "completed", gateway: gateway, completed_at: Time.zone.now, payment_data: payment)

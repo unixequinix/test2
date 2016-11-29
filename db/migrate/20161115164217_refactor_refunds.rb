@@ -4,10 +4,13 @@ class RefactorRefunds < ActiveRecord::Migration
     add_column :refunds, :fee, :decimal, precision: 8, scale: 2
     add_column :refunds, :iban, :string
     add_column :refunds, :swift, :string
+    add_column :refunds, :money, :decimal, precision: 8, scale: 2
 
     sql = "UPDATE refunds RF
            SET profile_id = CL.profile_id,
-               fee = CL.fee
+               fee = CL.fee,
+               money = RF.amount,
+               amount = CL.total - CL.fee
            FROM claims CL
            WHERE CL.id = RF.claim_id"
 

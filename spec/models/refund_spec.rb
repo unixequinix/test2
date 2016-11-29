@@ -45,4 +45,14 @@ RSpec.describe Refund, type: :model do
       expect(subject.total).to eq(12)
     end
   end
+
+  describe ".number" do
+    it "returns always the same size of digits in the refund number" do
+      subject.id = 1
+      expect(subject.number.size).to eq(12)
+
+      subject.id = 122
+      expect(subject.number.size).to eq(12)
+    end
+  end
 end

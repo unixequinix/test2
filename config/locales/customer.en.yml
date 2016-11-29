@@ -73,27 +73,10 @@ en:
       ticket_first: "Add a ticket or %{gtag} first"
       calculating_balance: "Please contact us at %{email} in order to process your refund."
       refundable: "Refundable"
-    autotopup:
-      claim: "Take advantage!"
-      description: "Sync your PayPal account and get automatic topup any time you run out of credits during the event."
-      disclaimer: "This amount will be refunded inmediatly after the agreement is accepted"
     paypal:
       button: "Pay with PayPal"
-    event_refunds:
-      claim: "Event hasn't finished yet"
-      description: "Come back soon to apply for your credits refund"
-    wait_refund_disclaimer:
-      claim: "You successfully applied for your refund"
-      description: "Expect an e-mail between 5 to 15 business days when your credits are ready."
-      description2: "Then you will be able to check your balance, enter your bank details and receive the payment."
     more_gtags:
       description: "Have more %{gtag}s? Please register again with a different email for each."
-    success_refund_disclaimer:
-      claim: "You successfully completed the application for online refund process"
-      description: "In 1-4 days you will receive the payment in your bank account."
-    error_refund_disclaimer:
-      claim: "There was an error on your refund"
-      description: "Try to go back to your dashboard and claim again."
     without_gtags:
       add : "Assign %{gtag}"
       title: "Credits left?"
@@ -111,19 +94,6 @@ en:
       call_to_action: "Edit"
       button: "Remove"
       hint: "Put a wrong %{gtag} by mistake? Erase and restart the process"
-    gtag_after_refund:
-      description: "Your refund is in process"
-    without_refunds:
-      title: "Your balance:"
-      call_to_action: "Proceed to refund"
-      button: "Claim your balance"
-    not_refundable:
-      title: "Your balance:"
-      call_to_action: "We are sorry, but you don't have enough credits to be refunded"
-    refunds:
-      title: "Claim your money back"
-      success: "Refund successfully claimed, soon you will receive your transfer"
-      button: "Refund"
     event_started:
       title: "Ultimating details!"
       description: "We are finishing event configuration to bring you a great experience. Please, come back later and see what we have made for you."
@@ -154,7 +124,6 @@ en:
     redirect: "You will be redirected to the bank’s payment gateway."
     card_info: "Card info"
     button: "Pay"
-    button_iupay: "IUPAY"
     order_review: "Order review"
     payment-buttons:
       redsys:
@@ -176,39 +145,19 @@ en:
     card_code_verification: "Card code verification (CCV)"
     card_expiration_date: "Card expiration date"
     button: "Pay"
-  claims:
-    title: "Confirm Refund"
-    description: "Please, review your order and proceed to payment."
-    products: "Products"
+  refunds:
     amount: "Amount"
-    product_description: "Balance to be refunded"
-    fee: "Refund fee"
-    total: "Total"
-    vat: "VAT Included"
-    redirect: "You will be redirected to the bank’s payment gateway."
     button: "Refund"
-    button_iupay: "IUPAY"
-    refund: "Please, fill your bank details to proceed refund"
-    claim_present:
-      title: "Thank you!"
-      description: "Your claim has been processed correctly and is on the way."
-    no_credit:
-      title: "Sorry"
-      description: "You don't have sufficient refundable balance"
-    direct_claim:
-      title: "Claim for your balance"
-      description: "We will refund your money automatically."
-      button: "Proceed"
-    invalid_claim:
-      title: "Working in your refund"
-      description: "Please contact us at %{email} in order to process your refund."
     credentiable_refund_disabled:
       title: "Sorry"
       description: "Your credential is not elegible for online refunds"
-    paypal:
-      button: "Refund with PayPal"
-    wirecard:
-      button: "Refund with Wirecard"
+    fee: "Refund fee"
+    product_description: "Balance to be refunded"
+    products: "Products"
+    redirect: "You will be redirected to the bank’s payment gateway."
+    success: "Refund successfully claimed, soon you will receive your transfer"
+    total: "Total"
+    vat: "VAT Included"
   gtag_assignations:
     title: "Assign %{gtag}"
     description:
@@ -225,23 +174,6 @@ en:
       line_2: 'Symbols allowed: "0" - "9" and "A, B, C, D, E, F"'
   ticket_assignations:
     button: "Aceptar"
-  refund:
-    title: "Refund claim"
-    description: "We need your bank account to complete your claim."
-    call_to_action: "Introduce your bank account!"
-    button: "Save"
-  edit_refund:
-    title: "Refund claim"
-    description: "You can edit the bank account for your claim."
-    call_to_action: "Introduce your bank account!"
-    swift: "BIC/SWIFT (If account is outside Spain)"
-    button: "Save"
-    placeholders:
-      swift: "0000 0000"
-      bank_account: 'ES00 0000 0000 0000 0000 0000'
-  bank_account_claim:
-    bic_swift_disclaimer_html: "<sup>1</sup><a href='http://www.business.hsbc.co.uk/1/2/international-business/iban-bic' target='_blank'>What is BIC / SWIFT and where can I find mine?</a>"
-    iban_disclaimer_html: "<sup>2</sup><a href='http://www.business.hsbc.co.uk/1/2/international-business/iban-bic' target='_blank'>What is IBAN and where can I find mine?</a>"
   payment:
     error:
       title: 'Transaction failed. Please try again or contact support!'
@@ -249,19 +181,6 @@ en:
     success:
       title: 'Payment Done'
       description: 'Thank you for your order. Your payment has been processed. You will receive a confirmation email of your order.'
-
-  sessions:
-    new:
-      email: 'Forgot your password?'
-      password: 'Send me password instructions'
-  refund:
-    refund_method: "Refund method"
-    error:
-      title: 'Transaction failed'
-      call_to_action: 'Contact us:'
-    success:
-      title: 'Refund Done'
-      description: 'Your application process for online refund has been completed. You will receive an email with a confirmation.'
   passwords:
     new:
       title: 'Forgot your password?'
@@ -285,15 +204,6 @@ en:
       current_password_hint: "we need your current password to confirm your changes"
       waiting_confirmation: 'Currently waiting confirmation for:'
       button: 'Update'
-    autotoup_agreement:
-      title: 'Paypal agreement'
-      amount: 'Selected amount: '
-      cancel: 'Do you want to cancel your autotopup agreement?'
-      current_amount: 'Current top up:'
-      new_amount: 'Change your quantity:'
-      billing_agreement_description: "I agree in get automated charges when running out of credit"
-      success: 'Account added!'
-      success_description: 'Now you can perform direct auto topups through your account'
   sessions:
     first_register:
       welcome: 'Welcome!'
@@ -308,6 +218,8 @@ en:
       title: 'Already have an account?'
       link: 'Log in here'
     new:
+      email: 'Forgot your password?'
+      password: 'Send me password instructions'
       title: 'Log in'
       description: 'This is how it works'
       button: 'Log in'

@@ -6,6 +6,7 @@
 #  created_at  :datetime         not null
 #  fee         :decimal(8, 2)
 #  iban        :string
+#  money       :decimal(8, 2)
 #  status      :string
 #  swift       :string
 #  updated_at  :datetime         not null
@@ -28,12 +29,16 @@ class Refund < ActiveRecord::Base
 
   scope :query_for_csv, lambda { |event|
     joins(:customer)
-      .select("refunds.id, customers.email, refunds.amount, refunds.status, refunds.iban,
+      .select("refunds.id, customers.email, refunds.amount, refunds.fee, refunds.money, refunds.status, refunds.iban,
                refunds.swift, refunds.created_at").where(customers: { event_id: event.id })
   }
 
   def total
     amount.to_f + fee.to_f
+  end
+
+  def number
+    id.to_s.rjust(12, "0")
   end
 
   private

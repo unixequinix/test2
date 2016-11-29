@@ -72,8 +72,10 @@ RSpec.describe Order, type: :model do
     it "returns true if all the order_items are redeemed" do
       subject.order_items << build(:order_item, :with_access)
       subject.order_items.first.update(redeemed: false)
+      subject.save
       expect(subject).not_to be_redeemed
       subject.order_items.first.update(redeemed: true)
+      subject.reload
       expect(subject).to be_redeemed
     end
   end

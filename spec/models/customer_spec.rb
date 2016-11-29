@@ -51,6 +51,14 @@ RSpec.describe Customer, type: :model do
   it { is_expected.to validate_presence_of(:first_name) }
   it { is_expected.to validate_presence_of(:last_name) }
 
+  describe ".full_name" do
+    it "return the first_name and last_name together" do
+      allow(subject).to receive(:first_name).and_return("Glownet")
+      allow(subject).to receive(:last_name).and_return("Test")
+      expect(subject.full_name).to eq("Glownet Test")
+    end
+  end
+
   context "with a new customer" do
     describe "the phone" do
       it "is not required" do

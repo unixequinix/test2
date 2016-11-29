@@ -548,6 +548,7 @@ en:
       updated_at: "Updated at"
       amount: "Amount"
       fee: "Fee"
+      money: "Total money"
       status: "Status"
       search:
         amount: "Amount"

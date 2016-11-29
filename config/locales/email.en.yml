@@ -20,20 +20,20 @@ en:
           autotopup_description: 'Your purchased Credits with PayPal Experience will automatically be applied to your %{gtag} in the Point of Sales. Your Event %{gtag} is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.'
           success: 'Your order has been received. You can find details below:'
           thanks: 'Thank you for your purchase.'
-      claim:
-        available_claim:
-          title: '¡You can now refund your credits!'
-          subject: '¡You can now refund your credits!'
+      refund:
+        available:
+          title: 'You can now apply for your refund!'
+          subject: 'You can now apply for your refund!'
           greet: 'Hello, %{name}!'
-          mail_body: "You can now refund your credits using the link below."
-          mail_link: "Login to see your balance and claim your refund."
+          mail_body: "You can now apply for a refund using the link below."
+          mail_link: "Login to see your balance and refund your credits."
         completed:
-          title: 'Refund Notification'
-          subject: 'Refund Completed'
-          order_number: 'Claim number'
+          title: 'Refund confirmation'
+          subject: 'Refund confirmation'
+          order_number: 'Refund number'
           greet: 'Hello, %{name}!'
           thanks: 'You successfully completed the application for online refund process.'
-          description: 'Your credits have been transferred. In 1-4 days you will recieve the payment in your bank account.'
+          description: 'You will recieve the payment in your bank account shortly.'
           success: 'Here are the details of your refund:'
           date: 'Transaction date'
       confirmation:
@@ -46,24 +46,6 @@ en:
         greet: 'Hello, %{name}!'
         mail_body: 'We have received a request to change your password. Click the link below to change it.'
         mail_link: "Change my password"
-      gtag:
-        assigned:
-          title: '%{gtag} Assigned'
-          subject: '%{gtag} Assigned'
-          greet: 'Hello, %{name}!'
-          mail_body: 'You assigned a %{gtag} with ID:'
-        unassigned:
-          title: '%{gtag} Removed'
-          subject: '%{gtag} Removed'
-          greet: 'Hello, %{name}!'
-          mail_body: 'You removed a %{gtag} with the id:'
-          mail_link: 'Check it on the website'
-      agreement:
-        accepted:
-          title: 'Paypal Agreement Accepted'
-          subject: 'Paypal Agreement Accepted'
-          greet: 'Hello, %{name}!'
-          mail_body: 'You have accepted the PayPal Agreement so you can now do auto-topups!'
     admin:
       reset_password:
         greet: 'Hello, %{email}!'

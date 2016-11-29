@@ -47,7 +47,7 @@ class Events::PaypalController < Events::PaymentsController
 
   def refund
     payment_number = @order.payment_data["PaymentInfo"]["TransactionID"]
-    response = paypal.refund(@total, payment_number)
+    response = paypal.refund(@total, payment_number, currency: current_event.currency)
 
     if response.success?
       @order.cancel!(response.params.as_json)
