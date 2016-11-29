@@ -30,7 +30,9 @@
                 - if station.form
                   li.table-action.action-add = link_to_unless(station.hidden?, fa_icon("list-alt", class: "fa-fw"), admins_event_station_station_items_path(current_event, station))
                 li.table-action.action-edit = link_to_unless(station.hidden?, fa_icon("edit", class: "fa-fw"), edit_admins_event_station_path(current_event, station))
-                li.table-action.action-add = link_to_unless(station.hidden?, fa_icon("clone", class: "fa-fw"), admins_event_station_clone_path(current_event, station), method: :post, data: { confirm: t('admin.confirm.clone') })
+                
+                - unless station.category.eql?("customer_portal")
+                  li.table-action.action-add = link_to_unless(station.hidden?, fa_icon("clone", class: "fa-fw"), admins_event_station_clone_path(current_event, station), method: :post, data: { confirm: t('admin.confirm.clone') })
                 
                 - unless station.category.eql?("touchpoint")
                   - if station.hidden?
@@ -38,7 +40,7 @@
                   - else
                     li.table-action.action-visible = link_to fa_icon("eye", class: "fa-fw"), admins_event_station_visibility_path(current_event, station, group: @group), method: :post
                 
-                - unless current_event.active?
+                - unless current_event.active? || station.category.eql?("customer_portal")
                   li.table-action.action-delete = link_to_unless(station.hidden?, fa_icon("trash", class: "fa-fw"), admins_event_station_path(current_event, station), method: :delete, data: { confirm: t('admin.confirm.delete') })
 
   - else

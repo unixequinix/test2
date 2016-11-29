@@ -144,7 +144,7 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
                                      password_confirmation: token,
                                      agreed_on_registration: true)
 
-    customer.save unless event.receive_communications?
+    customer.save unless event.receive_communications? || event.receive_communications_two?
     customer
   end
 

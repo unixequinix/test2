@@ -18,11 +18,20 @@ html [lang=I18n.locale]
     = render 'application/analytics'
 
   body class="#{controller_name} #{action_name} #{"fixed-background" if current_event.background_type == EventDecorator::BACKGROUND_FIXED}" style=("background-image: url(#{current_event.background})")
-    #notifications
-      = render 'notifications'
     .container-main
       #mainWrapper.wrapper-main
         .container-welcome-logo
           = render 'events/shared/sub_header'
+        .container-event-column
+          - flash.each do |type, msg|
+            - if msg.present? && msg.is_a?(String)
+              - if type.eql?("notice")
+                .success-message.full-width
+                  = fa_icon "check-circle"
+                  = msg
+              - else
+                .error-message.full-width
+                  = fa_icon "times-circle"
+                  = msg
         == yield
     = render 'events/shared/footer'

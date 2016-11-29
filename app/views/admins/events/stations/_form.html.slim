@@ -9,7 +9,8 @@
     = f.input :address, placeholder: true
     = f.input :registration_num, placeholder: true
     - if station.new_record?
-      = f.input :category, collection: Station::GROUPS[@group.to_sym].collect{ |g| [I18n.t("admin.stations.categories.#{g}"), g] }, include_blank: false
+      - stations = Station::GROUPS[@group.to_sym].reject { |s| s.eql?(:customer_portal) }
+      = f.input :category, collection: stations.map { |g| [I18n.t("admin.stations.categories.#{g}"), g] }, include_blank: false
 
 
     = f.button :submit, class: "btn btn-primary"

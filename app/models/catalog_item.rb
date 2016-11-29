@@ -49,7 +49,7 @@ class CatalogItem < ActiveRecord::Base
   CREDENTIABLE_TYPES = [CREDIT, ACCESS].freeze
 
   def all_catalog_items
-    catalog_item.is_a?(Pack) ? catalog_item.catalog_items : [catalog_item]
+    is_a?(Pack) ? catalog_items : [self]
   end
 
   def credits

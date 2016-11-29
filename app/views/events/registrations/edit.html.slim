@@ -16,7 +16,7 @@
     = f.input :postcode, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.postcode") if current_event.postcode?
     = f.input :country, wrapper_html: { class: 'registration-select' }, label: t("simple_form.labels.customer.new.country"), input_html: { class: 'session-select' } if current_event.country?
     = f.input :gender, wrapper_html: { class: 'registration-select' }, label: t("simple_form.labels.customer.new.gender"), collection: Customer.gender_selector, include_blank: false, input_html: { class: 'session-input' } if current_event.gender?
-    = f.input :birthdate, wrapper_html: { class: 'registration-select' }, label: t("simple_form.labels.customer.new.birthdate"), as: :date, default: @edit_customer_form.birthdate, start_year: 1950, end_year: Time.zone.today.year - 12, order: [:day, :month, :year] if current_event.birthdate?
+    = f.input :birthdate, wrapper_html: { class: 'registration-select' }, label: t("simple_form.labels.customer.new.birthdate"), as: :date, default: resource.birthdate, start_year: 1950, end_year: Time.zone.today.year - 12, order: [:day, :month, :year] if current_event.birthdate?
     = f.button :submit, t('registration.edit.button'),  class: "btn-action btn-edit-customer"
 .wrapper-module
   = link_to customer_root_path, class: "btn btn-action-back add-bottom" do
