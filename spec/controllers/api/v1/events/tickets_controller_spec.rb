@@ -20,6 +20,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
       it "returns a 200 status code" do
         expect(response.status).to eq(200)
       end
+
       it "returns the necessary keys" do
         JSON.parse(response.body).map do |ticket|
           keys = %w(reference redeemed purchaser_first_name purchaser_last_name purchaser_email banned updated_at catalog_item_id customer_id) # rubocop:disable Metrics/LineLength
