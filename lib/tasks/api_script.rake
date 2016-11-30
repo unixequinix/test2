@@ -4,9 +4,7 @@ namespace :glownet do
     event_common = { start_date: DateTime.now, end_date: DateTime.now + 4.days, location: "Spain", support_email: "support@glownet.com", currency: "EUR", host_country: "Spain", gtag_name: "Wristband", token_symbol: "t" }
     @event = EventCreator.new(event_common.merge({ name: "PreEvent #{Time.now.to_i}", aasm_state: "launched"})).save
 
-    data = ["customers", "accesses", "packs", "products", "ticket_types", "tickets",
-            "checkin_stations", "box_office_stations", "access_control_stations", "staff_accreditation_stations",
-            "vendor_stations", "bar_stations", "topup_stations"]
+    data = ["customers", "accesses", "packs", "products", "ticket_types", "tickets", "checkin_stations", "box_office_stations", "access_control_stations", "staff_accreditation_stations", "vendor_stations", "bar_stations", "topup_stations"]
 
     data.each do |d|
       puts "+ Creating #{d.humanize}"
@@ -55,24 +53,12 @@ namespace :glownet do
 
   def add_packs
     packs = [
-      { name: "Day + Night",
-        catalog_items: [{ name: "Day", amount: 1 }, { name: "Night", amount: 1 }],
-        credential: true },
-      { name: "Day + VIP",
-        catalog_items: [{ name: "Day", amount: 1 }, { name: "VIP", amount: 1 }],
-        credential: true },
-      { name: "Night + VIP",
-        catalog_items: [{ name: "Night", amount: 1 }, { name: "VIP", amount: 1 }],
-        credential: true },
-      { name: "Day + Camping",
-        catalog_items: [{ name: "Day", amount: 1 }, { name: "Camping", amount: 1 }],
-        credential: true },
-      { name: "Day + Night + VIP",
-        catalog_items: [{ name: "Day", amount: 1 }, { name: "Night", amount: 1 }, { name: "VIP", amount: 1 }],
-        credential: true },
-      { name: "50e + 15e Free Pack",
-        catalog_items: [{ name: "CRD", amount: 65 }],
-        credential: false }
+      { name: "Day + Night", catalog_items: [{ name: "Day", amount: 1 }, { name: "Night", amount: 1 }]},
+      { name: "Day + VIP", catalog_items: [{ name: "Day", amount: 1 }, { name: "VIP", amount: 1 }]},
+      { name: "Night + VIP", catalog_items: [{ name: "Night", amount: 1 }, { name: "VIP", amount: 1 }]},
+      { name: "Day + Camping", catalog_items: [{ name: "Day", amount: 1 }, { name: "Camping", amount: 1 }]},
+      { name: "Day + Night + VIP", catalog_items: [{ name: "Day", amount: 1 }, { name: "Night", amount: 1 }, { name: "VIP", amount: 1 }]},
+      { name: "50e + 15e Free Pack", catalog_items: [{ name: "CRD", amount: 65 }]}
     ]
 
     packs.each do |pack|
@@ -88,24 +74,19 @@ namespace :glownet do
   end
 
   def add_products
-    10.times do |index|
-      @event.products.create!(name: "Product #{index + 1}", is_alcohol: [true, false].sample)
-    end
-
-    10.times do |index|
-      @event.products.create!(name: "Market #{index + 1}", is_alcohol: [true, false].sample)
-    end
+    10.times { |i| @event.products.create!(name: "Product #{i + 1}", is_alcohol: [true, false].sample) }
+    10.times { |i| @event.products.create!(name: "Market #{i + 1}", is_alcohol: [true, false].sample) }
   end
 
   def add_ticket_types
     company = Company.find_or_add_by(name: "Glownet")
-    agreement = CompanyEventAgreement.create!(event: @event, company: company)
+    agreement = @event.company_event_agreements.create!(company: company)
 
     event.catalog_items.each do |catalog_item|
       @event.ticket_types.create!(company_event_agreement: agreement,
                                   catalog_item: catalog_item,
                                   company_code: Time.zone.now.to_i + rand(10000),
-                                  name: catalog_item.name)
+                                  name: "#{company.name} - #{catalog_item.name}")
     end
   end
 
@@ -123,13 +104,10 @@ namespace :glownet do
   end
 
   def add_access_control_stations
-    accesses = [{ name: "Day", direction: 1 }, { name: "Day", direction: -1 }]
     station = @event.stations.create!(name: "Access Control", group: "access", category: "access_control")
-
-    accesses.each do |access|
-      item = CatalogItem.find_by(name: access[:name], event: @event)
-      station.access_control_gates.create(direction: access[:direction], access: item, station: station)
-    end
+    item = @event.accesses.find_by_name("Day")
+    station.access_control_gates.create(direction: 1, access: item)
+    station.access_control_gates.create(direction: -1, access: item)
   end
 
   def add_box_office_stations
@@ -147,38 +125,23 @@ namespace :glownet do
 
     items.each do |i|
       item = CatalogItem.find_by(name: i[:name], event: @event)
-      station.station_catalog_items.create(price: i[:price], catalog_item: item, station: station)
+      station.station_catalog_items.create(price: i[:price], catalog_item: item)
     end
   end
 
   def add_staff_accreditation_stations
     station = @event.stations.create!(name: "Staff Accreditation", group: "access", category: "staff_accreditation")
-    items = ["Staff", "Glownet Staff"]
-
-    items.each do |item_name|
-      item = CatalogItem.find_by(name: item_name, event: @event)
-      station.station_catalog_items.create(price: 0, catalog_item: item, station: station)
-    end
+    station.station_catalog_items.create(price: 0, catalog_item: @event.catalog_items.find_by_name("Staff"))
+    station.station_catalog_items.create(price: 0, catalog_item: @event.catalog_items.find_by_name("Glownet Staff"))
   end
 
   def add_vendor_stations
-    products = [
-      { name: "Market 1", price: 0.01 },
-      { name: "Market 2", price: 0.05 },
-      { name: "Market 3", price: 0.1 },
-      { name: "Market 4", price: 0.5 },
-      { name: "Market 5", price: 1 },
-      { name: "Market 6", price: 5 },
-      { name: "Market 7", price: 10 },
-      { name: "Market 8", price: 20 },
-      { name: "Market 9", price: 25 },
-      { name: "Market 10", price: 50 }
-    ]
     station = @event.stations.create!(name: "MARKET 1", group: "monetary", category: "vendor")
 
-    products.each do |p|
-      product = Product.find_by(name: p[:name], event: @event)
-      station.station_products.create(price: p[:price], product: product, station: station)
+    10.times do |i|
+      product = @event.products.find_by_name("Market #{i}")
+      price = (rand * 100).round(2)
+      station.station_products.create(price: price, product: product)
     end
   end
 
@@ -186,8 +149,8 @@ namespace :glownet do
     station = @event.stations.create!(name: "BAR 1", group: "monetary", category: "bar")
 
     10.times do |i|
-      product = Product.find_by(name: "Product #{i}", event: @event)
-      station.station_products.create(price: i, product: product, station: station )
+      product = @event.products.find_by_name("Product #{i}")
+      station.station_products.create(price: i, product: product)
     end
   end
 

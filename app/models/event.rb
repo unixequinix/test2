@@ -60,24 +60,22 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
              :agreed_event_condition_message, :receive_communications_message, :receive_communications_two_message,
              fallbacks_for_empty_translations: true
 
-  # Associations
-  has_many :accesses
-  has_many :catalog_items
   has_many :companies, through: :company_event_agreements
   has_many :company_event_agreements
   has_many :ticket_types
   has_many :customers
-  has_many :customers
-  has_many :device_transactions
   has_many :entitlements
   has_many :gtags
-  has_many :packs
   has_many :payment_gateways
   has_many :products
   has_many :stations
   has_many :tickets
   has_many :transactions
+  has_many :device_transactions
   has_many :user_flags
+  has_many :accesses
+  has_many :catalog_items
+  has_many :packs
   has_one :credit
 
   # Scopes
