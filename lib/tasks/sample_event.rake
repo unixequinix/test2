@@ -6,13 +6,11 @@ namespace :glownet do
       location: "Glownet",
       start_date: DateTime.now,
       end_date: DateTime.now + 4.days,
-      description: "Keep calm and keep testing!",
       support_email: "support@glownet.com",
       currency: "EUR",
       host_country: "USA",
       gtag_name: "Wristband",
-      token_symbol: "t",
-      features: 495
+      token_symbol: "t"
     }).save
 
     data = ["customers", "accesses", "packs", "products", "ticket_types", "tickets",
@@ -58,14 +56,12 @@ namespace :glownet do
     ]
 
     accesses.each do |access|
-      Access.create!(event_id: @event.id,
-                         name: access[:name],
-                         description: "@channel is awesome :)",
-                         step: 1,
-                         min_purchasable: 0,
-                         max_purchasable: 1,
-                         initial_amount: 0,
-                         entitlement_attributes: { event_id: @event.id, mode: access[:mode], })
+      @event.accesses.create!(name: access[:name],
+                              step: 1,
+                              min_purchasable: 0,
+                              max_purchasable: 1,
+                              initial_amount: 0,
+                              entitlement_attributes: { event_id: @event.id, mode: access[:mode], })
     end
   end
 
@@ -87,20 +83,19 @@ namespace :glownet do
         catalog_items: [{ name: "Day", amount: 1 }, { name: "Night", amount: 1 }, { name: "VIP", amount: 1 }],
         credential: true },
       { name: "50e + 15e Free Pack",
-        catalog_items: [{ name: "Standard credit", amount: 65 }],
+        catalog_items: [{ name: "CRD", amount: 65 }],
         credential: false }
     ]
 
     packs.each do |pack|
       p = Pack.new(event_id: @event.id,
                    name: pack[:name],
-                   description: "@channel is awesome :)",
                    step: 1,
                    min_purchasable: 0,
                    max_purchasable: 1,
                    initial_amount: 0)
      pack[:catalog_items].each do |ci|
-       item = @event.catalog_items.find_by(name: ci[:name], event: @event)
+       item = @event.catalog_items.find_by_name(ci[:name])
        p.pack_catalog_items.build(catalog_item: item, amount: ci[:amount] ).save
      end
 
@@ -110,15 +105,11 @@ namespace :glownet do
 
   def create_products
     10.times do |index|
-      @event.products.create!(name: "Product #{index + 1}",
-                              description: "@channel is awesome :)",
-                              is_alcohol: [true, false].sample)
+      @event.products.create!(name: "Product #{index + 1}", description: "blah blah", is_alcohol: [true, false].sample)
     end
 
     10.times do |index|
-      @event.products.create!(name: "Market #{index + 1}",
-                              description: "@channel is awesome :)",
-                              is_alcohol: [true, false].sample)
+      @event.products.create!(name: "Market #{index + 1}", description: "blah blah", is_alcohol: [true, false].sample)
     end
   end
 
@@ -126,11 +117,11 @@ namespace :glownet do
     company = Company.find_or_create_by(name: "Glownet")
     agreement = CompanyEventAgreement.create!(event: @event, company: company)
 
-    event.catalog_items.each do |catalog_item|
+    @event.catalog_items.each do |catalog_item|
       @event.ticket_types.create!(company_event_agreement: agreement,
-                                          catalog_item: catalog_item,
-                                          company_code: Time.zone.now.to_i + rand(10000),
-                                          name: catalog_item.name)
+                                  catalog_item: catalog_item,
+                                  company_code: Time.zone.now.to_i + rand(10000),
+                                  name: catalog_item.name)
     end
   end
 

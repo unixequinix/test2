@@ -44,13 +44,12 @@ namespace :glownet do
     ]
 
     accesses.each do |access|
-      Access.create!(event_id: @event.id,
-                     name: access[:name],
-                     step: 1,
-                     min_purchasable: 0,
-                     max_purchasable: 1,
-                     initial_amount: 0,
-                     entitlement_attributes: { event_id: @event.id, mode: access[:mode], })
+      @event.accesses.create!(name: access[:name],
+                              step: 1,
+                              min_purchasable: 0,
+                              max_purchasable: 1,
+                              initial_amount: 0,
+                              entitlement_attributes: { event_id: @event.id, mode: access[:mode], })
     end
   end
 
@@ -72,18 +71,14 @@ namespace :glownet do
         catalog_items: [{ name: "Day", amount: 1 }, { name: "Night", amount: 1 }, { name: "VIP", amount: 1 }],
         credential: true },
       { name: "50e + 15e Free Pack",
-        catalog_items: [{ name: "Standard credit", amount: 65 }],
+        catalog_items: [{ name: "CRD", amount: 65 }],
         credential: false }
     ]
 
     packs.each do |pack|
-      p = Pack.new(event_id: @event.id,
-                   name: pack[:name],
-                   step: 1,
-                   min_purchasable: 0,
-                   max_purchasable: 1,
-                   initial_amount: 0)
-     pack[:catalog_items].each do |ci|
+      p = @event.packs.new(name: pack[:name], step: 1, min_purchasable: 0, max_purchasable: 1, initial_amount: 0)
+
+      pack[:catalog_items].each do |ci|
        item = @event.catalog_items.find_by(name: ci[:name], event: @event)
        p.pack_catalog_items.build(catalog_item: item, amount: ci[:amount] ).save
      end
@@ -108,16 +103,14 @@ namespace :glownet do
 
     event.catalog_items.each do |catalog_item|
       @event.ticket_types.create!(company_event_agreement: agreement,
-                                          catalog_item: catalog_item,
-                                          company_code: Time.zone.now.to_i + rand(10000),
-                                          name: catalog_item.name)
+                                  catalog_item: catalog_item,
+                                  company_code: Time.zone.now.to_i + rand(10000),
+                                  name: catalog_item.name)
     end
   end
 
   def add_tickets
-    ticket_types = TicketType.where(event: @event)
-
-    ticket_types.each do |tt|
+    @event.ticket_types.each do |tt|
       5.times do
         @event.tickets.create!(ticket_type: tt, code: SecureRandom.hex(16).upcase, redeemed: false)
       end
@@ -190,23 +183,11 @@ namespace :glownet do
   end
 
   def add_bar_stations
-    products = [
-      { name: "Product 1", price: 1 },
-      { name: "Product 2", price: 2 },
-      { name: "Product 3", price: 3 },
-      { name: "Product 4", price: 4 },
-      { name: "Product 5", price: 5 },
-      { name: "Product 6", price: 6 },
-      { name: "Product 7", price: 7 },
-      { name: "Product 8", price: 8 },
-      { name: "Product 9", price: 9 },
-      { name: "Product 10", price: 10 }
-    ]
     station = @event.stations.create!(name: "BAR 1", group: "monetary", category: "bar")
 
-    products.each do |p|
-      product = Product.find_by(name: p[:name], event: @event)
-      station.station_products.create(price: p[:price], product: product, station: station )
+    10.times do |i|
+      product = Product.find_by(name: "Product #{i}", event: @event)
+      station.station_products.create(price: i, product: product, station: station )
     end
   end
 
