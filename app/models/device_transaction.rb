@@ -9,6 +9,8 @@
 #  device_db_index         :integer
 #  initialization_type     :string
 #  number_of_transactions  :integer
+#  status_code             :integer          default(0)
+#  status_message          :string
 #  updated_at              :datetime
 #
 # Indexes

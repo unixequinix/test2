@@ -7,14 +7,12 @@ class Api::V1::Events::DeviceTransactionsController < ApplicationController
     errors = { atts: [] }
 
     params[:_json].each_with_index do |atts, index|
+      atts[:device_created_at_fixed] = atts[:device_created_at]
       att_errors = validate_params(atts.keys, index)
       errors[:atts] << att_errors && next if att_errors
-      new_atts = atts.slice(:initialization_type, :number_of_transactions, :device_created_at, :device_db_index, :device_uid, :event_id, :status_code, :status_message, :action) # rubocop:disable Metrics/LineLength
-
-      next if DeviceTransaction.find_by(new_atts)
-
-      atts[:device_created_at_fixed] = atts[:device_created_at]
-      DeviceTransaction.create!(new_atts)
+      new_atts = atts.slice(:device_created_at_fixed, :device_db_index, :device_uid, :event_id, :status_code, :action)
+      next if DeviceTransaction.find_by(new_atts.symbolize_keys)
+      DeviceTransaction.create!(atts)
     end
 
     errors.delete_if { |_, v| v.compact.empty? }

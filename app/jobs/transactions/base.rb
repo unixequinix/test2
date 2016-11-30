@@ -58,6 +58,7 @@ class Transactions::Base < ActiveJob::Base
   end
 
   def preformat_atts(atts)
+    atts[:transaction_origin] = Transaction::ORIGINS[:device]
     atts[:customer_tag_uid] = atts[:customer_tag_uid].to_s.upcase if atts.key?(:customer_tag_uid)
     atts[:device_created_at_fixed] = atts[:device_created_at]
     atts.delete(:sale_items_attributes) if atts[:sale_items_attributes].blank?
