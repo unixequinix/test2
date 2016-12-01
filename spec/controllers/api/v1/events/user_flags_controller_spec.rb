@@ -1,13 +1,13 @@
 require "spec_helper"
 
-RSpec.describe Api::V1::Events::AccessesController, type: :controller do
+RSpec.describe Api::V1::Events::UserFlagsController, type: :controller do
   let(:event) { create(:event) }
   let(:admin) { create(:admin) }
-  let(:db_accesses) { event.accesses }
+  let(:db_user_flags) { event.user_flags }
 
   before do
-    create(:access, event: event)
-    @new_access = create(:access, event: event, updated_at: Time.zone.now + 4.hours)
+    create(:user_flag, event: event)
+    @new_user_flag = create(:user_flag, event: event, updated_at: Time.zone.now + 4.hours)
   end
 
   describe "GET index" do
@@ -21,24 +21,24 @@ RSpec.describe Api::V1::Events::AccessesController, type: :controller do
 
       it "returns the necessary keys" do
         get :index, event_id: event.id
-        access_keys = %w(id name mode position memory_length )
-        JSON.parse(response.body).map { |access| expect(access.keys).to eq(access_keys) }
+        user_flag_keys = %w( id name )
+        JSON.parse(response.body).map { |user_flag| expect(user_flag.keys).to eq(user_flag_keys) }
       end
 
       context "with the 'If-Modified-Since' header" do
-        it "returns only the modified accesses" do
-          request.headers["If-Modified-Since"] = (@new_access.updated_at - 2.hours)
+        it "returns only the modified user_flags" do
+          request.headers["If-Modified-Since"] = (@new_user_flag.updated_at - 2.hours)
           get :index, event_id: event.id
-          accesses = JSON.parse(response.body).map { |m| m["id"] }
-          expect(accesses).to eq([@new_access.id])
+          user_flags = JSON.parse(response.body).map { |m| m["id"] }
+          expect(user_flags).to eq([@new_user_flag.id])
         end
       end
 
       context "without the 'If-Modified-Since' header" do
-        it "returns all the accesses" do
+        it "returns all the user_flags" do
           get :index, event_id: event.id
-          api_accesses = JSON.parse(response.body).map { |m| m["id"] }
-          expect(api_accesses).to eq(db_accesses.map(&:id))
+          api_user_flags = JSON.parse(response.body).map { |m| m["id"] }
+          expect(api_user_flags).to eq(db_user_flags.map(&:id))
         end
       end
     end

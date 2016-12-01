@@ -15,7 +15,7 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
       end
 
       it "returns 200 status code" do
-        expect(response.status).to eq(200)
+        expect(response).to be_ok
       end
 
       it "returns only the tickets for that company" do
@@ -29,7 +29,7 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
     context "when not authenticated" do
       it "returns a 401 status code" do
         get :index, event_id: event
-        expect(response.status).to eq(401)
+        expect(response).to be_unauthorized
       end
     end
   end
@@ -42,7 +42,7 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
         before { get :show, event_id: event, id: tickets.first }
 
         it "returns a 200 status code" do
-          expect(response.status).to eq(200)
+          expect(response).to be_ok
         end
 
         it "returns the correct ticket" do
@@ -62,7 +62,7 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
     context "when not authenticated" do
       it "returns a 401 status code" do
         get :show, event_id: event, id: tickets.last
-        expect(response.status).to eq(401)
+        expect(response).to be_unauthorized
       end
     end
   end
@@ -111,7 +111,7 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
     context "when not authenticated" do
       it "returns a 401 status code" do
         post :create, ticket: { with: "Some data" }
-        expect(response.status).to eq(401)
+        expect(response).to be_unauthorized
       end
     end
   end
@@ -173,7 +173,7 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
     context "when not authenticated" do
       it "returns a 401 status code" do
         post :bulk_upload, tickets: params
-        expect(response.status).to eq(401)
+        expect(response).to be_unauthorized
       end
     end
   end
@@ -196,7 +196,7 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
 
         it "returns a 200 code status" do
           put :update, id: tickets.first, ticket: params
-          expect(response.status).to eq(200)
+          expect(response).to be_ok
         end
 
         it "returns the updated ticket" do
@@ -228,7 +228,7 @@ RSpec.describe Companies::Api::V1::TicketsController, type: :controller do
     context "when not authenticated" do
       it "returns a 401 status code" do
         put :update, id: tickets.first, ticket: { without: "Authenticate" }
-        expect(response.status).to eq(401)
+        expect(response).to be_unauthorized
       end
     end
   end

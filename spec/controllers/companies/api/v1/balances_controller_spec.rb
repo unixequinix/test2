@@ -18,7 +18,7 @@ RSpec.describe Companies::Api::V1::BalancesController, type: :controller do
         before(:each) { get :show, event_id: event, id: gtag.tag_uid }
 
         it "returns a 200 status code" do
-          expect(response.status).to eq(200)
+          expect(response).to be_ok
         end
 
         it "returns the balance of the Gtag" do
@@ -40,7 +40,7 @@ RSpec.describe Companies::Api::V1::BalancesController, type: :controller do
     context "when not authenticated" do
       it "returns a 401 status code" do
         get :show, event_id: event, id: gtag.tag_uid
-        expect(response.status).to eq(401)
+        expect(response).to be_unauthorized
       end
     end
   end

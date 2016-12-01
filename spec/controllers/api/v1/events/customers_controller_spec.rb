@@ -21,11 +21,11 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
       end
 
       it "returns a 200 status code" do
-        expect(response.status).to eq(200)
+        expect(response).to be_ok
       end
 
       it "returns the necessary keys" do
-        cus_keys = %w(id banned updated_at first_name last_name email credentials orders)
+        cus_keys = %w(id updated_at first_name last_name email credentials orders)
         cre_keys = %w(customer_id reference type)
         order_keys = %w(customer_id id amount catalog_item_id redeemed)
 
@@ -50,7 +50,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
     context "without authentication" do
       it "has a 401 status code" do
         get :index, event_id: event.id
-        expect(response.status).to eq(401)
+        expect(response).to be_unauthorized
       end
     end
   end

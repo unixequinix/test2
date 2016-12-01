@@ -13,7 +13,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
 
       it "returns 200 status code" do
         get :index, event_id: event.id
-        expect(response.status).to eq(200)
+        expect(response).to be_ok
       end
 
       it "returns only the banned tickets for that company" do
@@ -33,7 +33,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
     context "when not authenticated" do
       it "returns a 401 status code" do
         get :index, event_id: event.id
-        expect(response.status).to eq(401)
+        expect(response).to be_unauthorized
       end
     end
   end
@@ -71,7 +71,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
     context "when not authenticated" do
       it "returns a 401 status code" do
         post :create, tickets_blacklist: { with: "Some data" }
-        expect(response.status).to eq(401)
+        expect(response).to be_unauthorized
       end
     end
   end
@@ -105,7 +105,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
     context "when not authenticated" do
       it "returns a 401 status code" do
         delete :destroy, id: ticket.code, ticket: { without: "Authenticate" }
-        expect(response.status).to eq(401)
+        expect(response).to be_unauthorized
       end
     end
   end

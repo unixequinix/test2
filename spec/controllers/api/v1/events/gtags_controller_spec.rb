@@ -6,7 +6,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
   let(:db_gtags) { event.gtags }
 
   before do
-    create_list(:gtag, 2, event: event)
+    create(:gtag, event: event, customer: create(:customer, event: event))
   end
 
   describe "GET index" do
@@ -17,7 +17,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
       end
 
       it "returns a 200 status code" do
-        expect(response.status).to eq(200)
+        expect(response).to be_ok
       end
 
       it "returns the necessary keys" do
@@ -42,7 +42,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
     context "without authentication" do
       it "returns a 401 status code" do
         get :index, event_id: event.id
-        expect(response.status).to eq(401)
+        expect(response).to be_unauthorized
       end
     end
   end
@@ -65,7 +65,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
         end
 
         it "returns a 200 status code" do
-          expect(response.status).to eq(200)
+          expect(response).to be_ok
         end
 
         it "returns the necessary keys" do
@@ -116,7 +116,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
     context "without authentication" do
       it "returns a 401 status code" do
         get :show, event_id: event.id, id: Gtag.last.id
-        expect(response.status).to eq(401)
+        expect(response).to be_unauthorized
       end
     end
   end

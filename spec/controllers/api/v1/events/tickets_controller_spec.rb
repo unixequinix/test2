@@ -18,7 +18,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
       end
 
       it "returns a 200 status code" do
-        expect(response.status).to eq(200)
+        expect(response).to be_ok
       end
 
       it "returns the necessary keys" do
@@ -44,7 +44,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
     context "without authentication" do
       it "returns a 401 status code" do
         get :index, event_id: event.id
-        expect(response.status).to eq(401)
+        expect(response).to be_unauthorized
       end
     end
   end
@@ -57,7 +57,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         @access = @pack.catalog_items.accesses.first
         @ctt = create(:ticket_type, company_event_agreement: @agreement, event: event, catalog_item: @pack)
         @customer = create(:customer, event: event)
-        @ticket = create(:ticket, event: event, ticket_type: @ctt, customer: @customer)
+        @ticket = create(:ticket, :with_purchaser, event: event, ticket_type: @ctt, customer: @customer)
         order = create(:order, customer: @customer)
         @item = create(:order_item, order: order, catalog_item: @access, counter: 1)
 
@@ -70,7 +70,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         end
 
         it "returns a 200 status code" do
-          expect(response.status).to eq(200)
+          expect(response).to be_ok
         end
 
         it "returns the necessary keys" do
@@ -126,7 +126,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
     context "without authentication" do
       it "returns a 401 status code" do
         get :show, event_id: event.id, id: db_tickets.last.id
-        expect(response.status).to eq(401)
+        expect(response).to be_unauthorized
       end
     end
   end
