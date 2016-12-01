@@ -48,8 +48,8 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   has_one :active_gtag, -> { where(active: true) }, class_name: "Gtag"
 
-  has_many :orders
-  has_many :refunds
+  has_many :orders, dependent: :destroy
+  has_many :refunds, dependent: :destroy
   has_many :gtags
   has_many :tickets
   has_many :transactions
