@@ -12,6 +12,7 @@
 #
 # Foreign Keys
 #
+#  fk_rails_c98e605038  (credit_transaction_id => transactions.id)
 #  fk_rails_ee606308b2  (product_id => products.id)
 #
 

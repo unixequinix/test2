@@ -23,10 +23,10 @@ class CatalogItem < ActiveRecord::Base
   belongs_to :event
   has_many :pack_catalog_items, dependent: :destroy
   has_many :packs, through: :pack_catalog_items
-  has_many :station_catalog_items
+  has_many :station_catalog_items, dependent: :destroy
   has_many :order_items
   has_many :orders, through: :order_items, class_name: "Order"
-  has_many :ticket_types
+  has_many :ticket_types, dependent: :destroy
 
   validates :name, presence: true
   validates :step, numericality: { greater_than: 0 }

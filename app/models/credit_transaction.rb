@@ -51,11 +51,9 @@
 
 class CreditTransaction < Transaction
   belongs_to :customer
-  has_many :sale_items, foreign_key: 'credit_transaction_id'
+  has_many :sale_items, foreign_key: 'credit_transaction_id', dependent: :destroy
 
   accepts_nested_attributes_for :sale_items
-
-  default_scope { order([gtag_counter: :asc, counter: :asc, status_code: :desc]) }
 
   def description
     refundables = " - R #{refundable_credits} #{event.token_symbol}" if credits != refundable_credits

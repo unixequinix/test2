@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161130135447) do
+ActiveRecord::Schema.define(version: 20161201182728) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -524,6 +524,7 @@ ActiveRecord::Schema.define(version: 20161130135447) do
   add_foreign_key "products", "events"
   add_foreign_key "refunds", "customers"
   add_foreign_key "sale_items", "products"
+  add_foreign_key "sale_items", "transactions", column: "credit_transaction_id"
   add_foreign_key "station_catalog_items", "catalog_items"
   add_foreign_key "station_catalog_items", "stations"
   add_foreign_key "station_products", "products"

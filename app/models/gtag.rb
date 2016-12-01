@@ -46,7 +46,7 @@ class Gtag < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   belongs_to :event
   belongs_to :customer
 
-  has_many :transactions
+  has_many :transactions, dependent: :destroy
 
   before_validation :upcase_gtag!
 
