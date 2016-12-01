@@ -2,9 +2,7 @@
 #
 # Table name: station_catalog_items
 #
-#  created_at      :datetime         not null
 #  price           :float            not null
-#  updated_at      :datetime         not null
 #
 # Indexes
 #

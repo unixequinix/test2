@@ -2,11 +2,9 @@
 #
 # Table name: entitlements
 #
-#  created_at      :datetime         not null
 #  memory_length   :integer          default(1)
 #  memory_position :integer          not null
 #  mode            :string           default("counter")
-#  updated_at      :datetime         not null
 #
 # Indexes
 #

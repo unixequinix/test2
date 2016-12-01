@@ -9,7 +9,6 @@
 #  birthdate                  :datetime
 #  city                       :string
 #  country                    :string
-#  created_at                 :datetime         not null
 #  current_sign_in_at         :datetime
 #  current_sign_in_ip         :inet
 #  email                      :string           default(""), not null
@@ -24,12 +23,10 @@
 #  postcode                   :string
 #  receive_communications     :boolean          default(FALSE)
 #  receive_communications_two :boolean          default(FALSE)
-#  remember_created_at        :datetime
 #  remember_token             :string
 #  reset_password_sent_at     :datetime
 #  reset_password_token       :string
 #  sign_in_count              :integer          default(0), not null
-#  updated_at                 :datetime         not null
 #
 # Indexes
 #

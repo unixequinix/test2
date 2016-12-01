@@ -2,12 +2,10 @@
 #
 # Table name: products
 #
-#  created_at   :datetime         not null
 #  description  :string
 #  is_alcohol   :boolean          default(FALSE)
 #  name         :string
 #  product_type :string
-#  updated_at   :datetime         not null
 #  vat          :float            default(0.0)
 #
 # Indexes

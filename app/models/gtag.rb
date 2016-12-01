@@ -5,14 +5,12 @@
 #  activation_counter       :integer          default(1)
 #  active                   :boolean          default(TRUE)
 #  banned                   :boolean          default(FALSE)
-#  created_at               :datetime         not null
 #  credits                  :decimal(8, 2)
 #  final_balance            :decimal(8, 2)
 #  final_refundable_balance :decimal(8, 2)
 #  format                   :string           default("wristband")
 #  loyalty                  :boolean          default(FALSE)
 #  refundable_credits       :decimal(8, 2)
-#  updated_at               :datetime         not null
 #
 # Indexes
 #

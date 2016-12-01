@@ -2,12 +2,10 @@
 #
 # Table name: payment_gateways
 #
-#  created_at :datetime         not null
 #  data       :json
 #  gateway    :string
 #  refund     :boolean
 #  topup      :boolean
-#  updated_at :datetime         not null
 #
 # Indexes
 #

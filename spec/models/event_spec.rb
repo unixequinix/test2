@@ -7,18 +7,14 @@
 #  background_file_name         :string
 #  background_file_size         :integer
 #  background_type              :string           default("fixed")
-#  background_updated_at        :datetime
 #  company_name                 :string
-#  created_at                   :datetime         not null
 #  currency                     :string           default("USD"), not null
 #  device_basic_db_content_type :string
 #  device_basic_db_file_name    :string
 #  device_basic_db_file_size    :integer
-#  device_basic_db_updated_at   :datetime
 #  device_full_db_content_type  :string
 #  device_full_db_file_name     :string
 #  device_full_db_file_size     :integer
-#  device_full_db_updated_at    :datetime
 #  device_settings              :json
 #  end_date                     :datetime
 #  eventbrite_client_key        :string
@@ -32,7 +28,6 @@
 #  logo_content_type            :string
 #  logo_file_name               :string
 #  logo_file_size               :integer
-#  logo_updated_at              :datetime
 #  name                         :string           not null
 #  official_address             :string
 #  official_name                :string
@@ -45,7 +40,6 @@
 #  ticket_assignation           :boolean          default(FALSE)
 #  token                        :string
 #  token_symbol                 :string           default("t")
-#  updated_at                   :datetime         not null
 #  url                          :string
 #
 # Indexes

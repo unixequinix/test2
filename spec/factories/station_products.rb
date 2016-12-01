@@ -2,10 +2,8 @@
 #
 # Table name: station_products
 #
-#  created_at :datetime         not null
 #  position   :integer
 #  price      :float            not null
-#  updated_at :datetime         not null
 #
 # Indexes
 #

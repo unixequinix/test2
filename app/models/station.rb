@@ -4,7 +4,6 @@
 #
 #  address            :string
 #  category           :string
-#  created_at         :datetime         not null
 #  group              :string
 #  location           :string           default("")
 #  name               :string           not null
@@ -12,7 +11,6 @@
 #  position           :integer
 #  registration_num   :string
 #  reporting_category :string
-#  updated_at         :datetime         not null
 #
 # Indexes
 #

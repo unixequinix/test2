@@ -2,14 +2,12 @@
 #
 # Table name: catalog_items
 #
-#  created_at      :datetime         not null
 #  initial_amount  :integer
 #  max_purchasable :integer
 #  min_purchasable :integer
 #  name            :string
 #  step            :integer
 #  type            :string           not null
-#  updated_at      :datetime         not null
 #  value           :decimal(8, 2)    default(1.0), not null
 #
 # Indexes

@@ -4,10 +4,8 @@
 #
 #  amount          :decimal(8, 2)
 #  counter         :integer
-#  created_at      :datetime         not null
 #  redeemed        :boolean
 #  total           :decimal(8, 2)    not null
-#  updated_at      :datetime         not null
 #
 # Indexes
 #

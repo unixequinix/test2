@@ -3,13 +3,11 @@
 # Table name: device_transactions
 #
 #  action                  :string
-#  created_at              :datetime
-#  device_created_at       :string
-#  device_created_at_fixed :string
 #  device_db_index         :integer
 #  initialization_type     :string
 #  number_of_transactions  :integer
-#  updated_at              :datetime
+#  status_code             :integer          default(0)
+#  status_message          :string
 #
 # Indexes
 #

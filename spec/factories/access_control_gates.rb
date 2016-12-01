@@ -2,9 +2,7 @@
 #
 # Table name: access_control_gates
 #
-#  created_at :datetime         not null
 #  direction  :string           not null
-#  updated_at :datetime         not null
 #
 # Indexes
 #

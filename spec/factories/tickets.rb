@@ -4,13 +4,11 @@
 #
 #  banned               :boolean          default(FALSE)
 #  code                 :string
-#  created_at           :datetime         not null
 #  description          :string
 #  purchaser_email      :string
 #  purchaser_first_name :string
 #  purchaser_last_name  :string
 #  redeemed             :boolean          default(FALSE), not null
-#  updated_at           :datetime         not null
 #
 # Indexes
 #

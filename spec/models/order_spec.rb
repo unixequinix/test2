@@ -3,11 +3,9 @@
 # Table name: orders
 #
 #  completed_at :datetime
-#  created_at   :datetime         not null
 #  gateway      :string
 #  payment_data :json
 #  status       :string           default("in_progress"), not null
-#  updated_at   :datetime         not null
 #
 # Indexes
 #

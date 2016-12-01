@@ -5,10 +5,7 @@
 #  action                      :string
 #  activation_counter          :integer
 #  counter                     :integer
-#  created_at                  :datetime         not null
 #  credits                     :float
-#  device_created_at           :string
-#  device_created_at_fixed     :string
 #  device_db_index             :integer
 #  direction                   :integer
 #  final_access_value          :string
@@ -29,7 +26,6 @@
 #  ticket_code                 :string
 #  transaction_origin          :string
 #  type                        :string
-#  updated_at                  :datetime         not null
 #
 # Indexes
 #

@@ -3,8 +3,6 @@
 # Table name: company_event_agreements
 #
 #  aasm_state :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
 #
 # Indexes
 #

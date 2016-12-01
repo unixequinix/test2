@@ -3,9 +3,7 @@
 # Table name: ticket_types
 #
 #  company_code               :string
-#  created_at                 :datetime         not null
 #  name                       :string
-#  updated_at                 :datetime         not null
 #
 # Indexes
 #

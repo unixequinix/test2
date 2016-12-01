@@ -3,13 +3,11 @@
 # Table name: refunds
 #
 #  amount      :decimal(8, 2)    not null
-#  created_at  :datetime         not null
 #  fee         :decimal(8, 2)
 #  iban        :string
 #  money       :decimal(8, 2)
 #  status      :string
 #  swift       :string
-#  updated_at  :datetime         not null
 #
 # Indexes
 #

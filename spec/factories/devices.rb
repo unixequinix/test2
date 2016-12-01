@@ -3,12 +3,10 @@
 # Table name: devices
 #
 #  asset_tracker :string
-#  created_at    :datetime         not null
 #  device_model  :string
 #  imei          :string
 #  mac           :string
 #  serial_number :string
-#  updated_at    :datetime         not null
 #
 # Indexes
 #
