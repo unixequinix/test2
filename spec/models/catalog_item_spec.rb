@@ -24,8 +24,13 @@ require "spec_helper"
 RSpec.describe CatalogItem, type: :model do
   subject { build(:catalog_item) }
 
-  it "has a valid factiry" do
+  it "has a valid factory" do
     expect(subject).to be_valid
+  end
+
+  it "validates step is greater than 1" do
+    subject.step = 0
+    expect(subject).not_to be_valid
   end
 
   describe ".credits" do

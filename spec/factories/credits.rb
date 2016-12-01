@@ -14,18 +14,11 @@
 FactoryGirl.define do
   factory :credit do |_param|
     event
-    name { "Random name #{rand(100)}" }
+    sequence(:name) { |n| "CRD #{n}" }
     initial_amount 0
-    step { rand(5) }
+    step 1
     max_purchasable 1
     min_purchasable 0
-
-    value { rand(1..10) }
-
-    trait :standard do
-      value 1
-    end
-
-    factory :standard_credit, traits: [:standard]
+    value 1
   end
 end

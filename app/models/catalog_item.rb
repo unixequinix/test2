@@ -29,6 +29,7 @@ class CatalogItem < ActiveRecord::Base
   has_many :ticket_types
 
   validates :name, presence: true
+  validates :step, numericality: { greater_than: 0 }
 
   scope :accesses, -> { where(type: "Access") }
   scope :credits, -> { where(type: "Credit") }
@@ -36,9 +37,7 @@ class CatalogItem < ActiveRecord::Base
   scope :user_flags, -> { where(type: "UserFlag") }
   scope :not_user_flags, -> { where.not(type: "UserFlag") }
 
-  scope :only_credentiables, lambda {
-    (where(type: CREDENTIABLE_TYPES) + where(type: "Pack", id: Pack.credentiable_packs)).uniq
-  }
+  scope :only_credentiables, -> { (where(type: CREDENTIABLE_TYPES) + where(type: "Pack", id: Pack.credentiable_packs)).uniq } # rubocop:disable Metrics/LineLength
 
   # Credentiable Types
   CREDIT = "Credit".freeze

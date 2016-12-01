@@ -12,6 +12,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
   describe "GET index" do
     context "with authentication" do
       before(:each) do
+        db_gtags.each { |tag| tag.update!(customer: create(:customer, event: event)) }
         http_login(admin.email, admin.access_token)
         get :index, event_id: event.id
       end
@@ -32,7 +33,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
           gtag = db_gtags[db_gtags.index { |tag| tag.tag_uid == list_gtag["reference"] }]
           expect(list_gtag["reference"]).to eq(gtag.tag_uid)
           expect(list_gtag["banned"]).to eq(gtag.banned?)
-          expect(list_gtag["customer_id"]).to eq(gtag&.customer&.id)
+          expect(list_gtag["customer_id"]).to eq(gtag.customer_id)
           updated_at = Time.zone.parse(list_gtag["updated_at"]).strftime("%Y-%m-%dT%T.%6N")
           expect(updated_at).to eq(gtag.updated_at.utc.strftime("%Y-%m-%dT%T.%6N"))
         end

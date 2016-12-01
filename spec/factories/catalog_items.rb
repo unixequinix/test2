@@ -22,10 +22,10 @@
 FactoryGirl.define do
   factory :catalog_item do
     event
-    type { %w( Credit Access Pack ).sample }
-    name { "Random name #{rand(100)}" }
+    type "CatalogItem"
+    sequence(:name) { |n| "Item #{n}" }
     initial_amount 0
-    step { rand(5) }
+    step 1
     max_purchasable 1
     min_purchasable 0
   end
