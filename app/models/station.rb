@@ -25,11 +25,11 @@
 class Station < ActiveRecord::Base
   belongs_to :event
 
-  has_many :transactions, dependent: :restrict_with_error
-  has_many :station_catalog_items
-  has_many :station_products
-  has_many :topup_credits
-  has_many :access_control_gates
+  has_many :transactions, dependent: :destroy
+  has_many :station_catalog_items, dependent: :destroy
+  has_many :station_products, dependent: :destroy
+  has_many :topup_credits, dependent: :destroy
+  has_many :access_control_gates, dependent: :destroy
 
   after_create :add_predefined_values
   before_save :add_station_event_id

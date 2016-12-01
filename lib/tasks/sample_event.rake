@@ -117,7 +117,7 @@ namespace :glownet do
     company = Company.find_or_create_by(name: "Glownet")
     agreement = CompanyEventAgreement.create!(event: @event, company: company)
 
-    @event.catalog_items.each do |catalog_item|
+    @event.accesses.each do |catalog_item|
       @event.ticket_types.create!(company_event_agreement: agreement,
                                   catalog_item: catalog_item,
                                   company_code: Time.zone.now.to_i + rand(10000),

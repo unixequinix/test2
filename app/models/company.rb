@@ -7,8 +7,8 @@
 #
 
 class Company < ActiveRecord::Base
-  has_many :company_event_agreements
-  has_many :events, through: :company_event_agreements, dependent: :restrict_with_error
+  has_many :company_event_agreements, dependent: :destroy
+  has_many :events, through: :company_event_agreements
 
   before_create :generate_access_token
 

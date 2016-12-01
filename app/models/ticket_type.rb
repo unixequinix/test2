@@ -19,7 +19,7 @@
 #
 
 class TicketType < ActiveRecord::Base
-  has_many :tickets, dependent: :restrict_with_error
+  has_many :tickets, dependent: :destroy
 
   belongs_to :event
   belongs_to :catalog_item

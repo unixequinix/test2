@@ -19,7 +19,7 @@
 
 class Product < ActiveRecord::Base
   belongs_to :event
-  has_many :station_products, dependent: :restrict_with_error
+  has_many :station_products, dependent: :destroy
 
   validates :name, :event_id, presence: true
   validates :name, uniqueness: { scope: :event_id }

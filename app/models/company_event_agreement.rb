@@ -18,7 +18,7 @@
 class CompanyEventAgreement < ActiveRecord::Base
   belongs_to :company
   belongs_to :event
-  has_many :ticket_types, dependent: :restrict_with_error
+  has_many :ticket_types, dependent: :destroy
 
   # State machine
   include AASM
