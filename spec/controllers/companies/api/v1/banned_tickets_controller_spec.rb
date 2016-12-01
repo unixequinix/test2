@@ -43,7 +43,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
       before { http_login(event.token, company.access_token) }
 
       context "when the request is valid" do
-        let(:ticket) { create(:ticket, :with_purchaser, event: event, ticket_type: ticket_type) }
+        let(:ticket) { create(:ticket, event: event, ticket_type: ticket_type) }
         before { post :create, tickets_blacklist: { ticket_reference: ticket.code } }
 
         it "bans the ticket" do

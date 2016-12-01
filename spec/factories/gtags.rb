@@ -30,6 +30,6 @@ FactoryGirl.define do
     refundable_credits 0
     final_balance 0
     final_refundable_balance 0
-    tag_uid { "ERTYUJHB#{rand(100)}GH#{rand(100)}" }
+    sequence(:tag_uid) { |n| "TAGUID#{n}" }
   end
 end

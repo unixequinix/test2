@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :user_flag do
     event
-    name { "flag#{rand(100)}" }
+    sequence(:name) { |n| "Flag #{n}" }
+    step 1
   end
 end

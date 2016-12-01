@@ -20,8 +20,8 @@
 FactoryGirl.define do
   factory :product do
     event
-    name { "Product #{rand(10_000)}" }
-    description { "Description #{rand(10_000)}" }
-    is_alcohol { [true, false].sample }
+    sequence(:name) { |n| "Product #{n}" }
+    sequence(:description) { |n| "Description #{n}" }
+    is_alcohol false
   end
 end

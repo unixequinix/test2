@@ -21,6 +21,6 @@
 FactoryGirl.define do
   factory :device_transaction do
     action "device_initialization"
-    device_uid { "DEVICE##{rand(100)}" }
+    sequence(:device_uid) { |n| "DEVICE##{n}" }
   end
 end

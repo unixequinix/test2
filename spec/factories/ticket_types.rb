@@ -20,8 +20,8 @@
 
 FactoryGirl.define do
   factory :ticket_type do
-    name { "Name #{rand(100)}" }
-    company_code { rand(100) }
+    sequence(:name) { |n| "Ticket Type #{n}" }
+    sequence(:company_code) { |n| n }
     catalog_item
     event
 

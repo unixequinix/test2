@@ -25,7 +25,7 @@
 FactoryGirl.define do
   factory :station do
     event
-    name { "Station #{rand(100)}" }
+    sequence(:name) { |n| "Station #{n}" }
     category "customer_portal"
     group "access"
   end

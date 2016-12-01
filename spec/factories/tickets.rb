@@ -28,13 +28,8 @@ FactoryGirl.define do
     code { SecureRandom.hex(16).upcase.to_s }
     event
     ticket_type
-
-    trait :with_purchaser do
-      after(:build) do |ticket|
-        ticket.purchaser_first_name = "Name #{rand(100)}"
-        ticket.purchaser_last_name = "Lastname #{rand(100)}"
-        ticket.purchaser_email = "fake_email@glownet#{rand(100)}.com"
-      end
-    end
+    sequence(:purchaser_first_name) { |n| "Name #{n}" }
+    sequence(:purchaser_last_name) { |n| "Lastname #{n}" }
+    sequence(:purchaser_email) { |n| "fake_email@glownet#{n}.com" }
   end
 end

@@ -25,7 +25,7 @@ class EventCreator
     @event
   end
 
-  def default_settings # rubocop:disable Metrics/MethodLength
+  def default_settings
     {
       device_settings: YAML.load_file(Rails.root.join('config', 'glownet', 'device_settings.yml')),
       gtag_settings: YAML.load(ERB.new(File.read("#{Rails.root}/config/glownet/gtag_settings.yml")).result),

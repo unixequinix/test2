@@ -7,7 +7,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
   let(:db_tickets) { event.tickets }
 
   before do
-    create_list(:ticket, 2, :with_purchaser, event: event)
+    create_list(:ticket, 2, event: event)
   end
 
   describe "GET index" do
@@ -57,7 +57,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         @access = @pack.catalog_items.accesses.first
         @ctt = create(:ticket_type, company_event_agreement: @agreement, event: event, catalog_item: @pack)
         @customer = create(:customer, event: event)
-        @ticket = create(:ticket, :with_purchaser, event: event, ticket_type: @ctt, customer: @customer)
+        @ticket = create(:ticket, event: event, ticket_type: @ctt, customer: @customer)
         order = create(:order, customer: @customer)
         @item = create(:order_item, order: order, catalog_item: @access, counter: 1)
 

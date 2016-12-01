@@ -56,7 +56,7 @@ FactoryGirl.define do
     end_date { Time.zone.now + 2.days }
     support_email "support@glownet.com"
     style "html { font-family: Helvetica; }"
-    url { "somedomain#{rand(100)}.example.com" }
+    sequence(:url) { |n| "somedomain.#{n}.example.com" }
     currency "EUR"
     host_country "ES"
     background_type "fixed"

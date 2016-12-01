@@ -8,7 +8,7 @@
 
 FactoryGirl.define do
   factory :company do
-    name { "Company name #{rand(100)}" }
+    sequence(:name) { |n| "Company #{n}" }
 
     trait :with_company_event_agreement do
       after(:build) do |company|
