@@ -6,6 +6,7 @@ class Api::V1::Events::BaseController < Api::BaseController
 
   def render_entities(entity)
     modified = request.headers["If-Modified-Since"]&.to_datetime
+
     obj = method(entity.pluralize).call
     table = %w( access credit pack user_flag ).include?(entity) ? "catalog_items" : entity.pluralize
 
@@ -46,7 +47,7 @@ class Api::V1::Events::BaseController < Api::BaseController
 
   def sql_customers(date) # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
-      SELECT array_to_json(array_agg(row_to_json(cep)))
+      SELECT array_to_json(array_agg(json_strip_nulls(row_to_json(cep))))
       FROM (
         SELECT
           customers.id,
@@ -103,7 +104,7 @@ class Api::V1::Events::BaseController < Api::BaseController
 
   def sql_gtags(date) # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
-      SELECT array_to_json(array_agg(row_to_json(g)))
+      SELECT array_to_json(array_agg(json_strip_nulls(row_to_json(g))))
       FROM (
         SELECT
           gtags.tag_uid as reference,
@@ -122,7 +123,7 @@ class Api::V1::Events::BaseController < Api::BaseController
   end
 
   def banned_gtags
-    gtags.where(banned: true)
+    current_event.gtags.where(banned: true)
   end
 
   def packs
@@ -135,7 +136,7 @@ class Api::V1::Events::BaseController < Api::BaseController
 
   def sql_tickets(date) # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
-      SELECT array_to_json(array_agg(row_to_json(t)))
+      SELECT array_to_json(array_agg(json_strip_nulls(row_to_json(t))))
       FROM (
         SELECT
           tickets.code as reference,

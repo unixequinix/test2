@@ -8,7 +8,7 @@ class EventCreator
 
   def save
     I18n.locale = "en"
-    @event = Event.new(@params.merge(default_settings))
+    @event = Event.new(default_settings.merge(@params))
     return unless @event.save
     @event.create_credit!(value: 1, name: "CRD", step: 5, min_purchasable: 0, max_purchasable: 300, initial_amount: 0)
     UserFlag.create!(event_id: @event.id, name: "no_alcohol")
@@ -29,7 +29,19 @@ class EventCreator
     {
       device_settings: YAML.load_file(Rails.root.join('config', 'glownet', 'device_settings.yml')),
       gtag_settings: YAML.load(ERB.new(File.read("#{Rails.root}/config/glownet/gtag_settings.yml")).result),
-      gtag_name: "wristband"
+      gtag_name: "wristband",
+      registration_settings: {
+        phone: false,
+        address: false,
+        city: false,
+        country: false,
+        postcode: false,
+        gender: false,
+        birthdate: false,
+        agreed_event_condition: false,
+        receive_communications: false,
+        receive_communications_two: false
+      }
     }
   end
 end

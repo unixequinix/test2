@@ -5,7 +5,6 @@ class Api::V1::Events::TransactionsController < ApplicationController
   def create # rubocop:disable Metrics/CyclomaticComplexity
     render(status: :bad_request, json: :bad_request) && return unless params[:_json]
     errors = { atts: [] }
-
     params[:_json].each_with_index do |atts, index|
       att_errors = validate_params(atts.keys, atts[:type], index)
       errors[:atts] << att_errors && next if att_errors
