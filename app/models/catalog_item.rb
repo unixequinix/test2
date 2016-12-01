@@ -24,7 +24,7 @@ class CatalogItem < ActiveRecord::Base
   has_many :pack_catalog_items, dependent: :destroy
   has_many :packs, through: :pack_catalog_items
   has_many :station_catalog_items, dependent: :destroy
-  has_many :order_items
+  has_many :order_items, dependent: :destroy
   has_many :orders, through: :order_items, class_name: "Order"
   has_many :ticket_types, dependent: :destroy
 
