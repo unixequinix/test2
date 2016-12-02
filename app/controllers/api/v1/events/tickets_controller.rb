@@ -19,7 +19,7 @@ class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
 
   def tickets_sql # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
-      SELECT array_to_json(array_agg(row_to_json(t)))
+      SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(t))))
       FROM (
         SELECT
           tickets.code as reference,
