@@ -85,6 +85,6 @@ class Transaction < ActiveRecord::Base
   end
 
   def self.mandatory_fields
-    %w( transaction_origin action customer_tag_uid operator_tag_uid station_id device_uid device_db_index device_created_at status_code status_message ) # rubocop:disable Metrics/LineLength
+    %w( action customer_tag_uid operator_tag_uid station_id device_uid device_db_index device_created_at status_code status_message ) # rubocop:disable Metrics/LineLength
   end
 end
