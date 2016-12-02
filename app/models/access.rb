@@ -22,7 +22,8 @@
 class Access < CatalogItem
   has_one :entitlement, dependent: :destroy
 
-  has_many :access_transactions
+  has_many :access_transactions, dependent: :destroy
+  has_many :access_control_gates, dependent: :destroy
 
   accepts_nested_attributes_for :entitlement, allow_destroy: true
 
