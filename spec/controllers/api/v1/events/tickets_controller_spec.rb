@@ -7,7 +7,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
   let(:db_tickets) { event.tickets }
 
   before do
-    create_list(:ticket, 2, event: event)
+    create_list(:ticket, 2, event: event, customer: create(:customer, event: event))
   end
 
   describe "GET index" do
