@@ -25,8 +25,9 @@
             ul
               li.table-action.action-edit = link_to edit_admins_event_product_path(current_event, product) do
                 = fa_icon "edit"
-              li.table-action.action-delete = link_to admins_event_product_path(current_event, product), method: :delete, data: { confirm: t('admin.confirm.delete') } do
-                = fa_icon "trash"
+              - if current_event.created? || current_event.launched?
+                li.table-action.action-delete = link_to admins_event_product_path(current_event, product), method: :delete, data: { confirm: t('admin.confirm.delete') } do
+                  = fa_icon "trash"
   .container-pagination
     = paginate products
     = submit_tag t("admin.actions.delete_selected")
