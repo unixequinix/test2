@@ -41,4 +41,11 @@ RSpec.describe Admin, type: :model do
       expect(subject).to be_customer_service
     end
   end
+
+  describe ".promoter?" do
+    it "returns true if the email starts with admin_" do
+      subject.email = "admin_glownet@glownet.com"
+      expect(subject).to be_promoter
+    end
+  end
 end

@@ -35,6 +35,10 @@ class Admin < ActiveRecord::Base
     email.start_with?("support_")
   end
 
+  def promoter?
+    email.start_with?("admin_")
+  end
+
   private
 
   def generate_access_token

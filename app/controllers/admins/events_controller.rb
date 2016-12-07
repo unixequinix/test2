@@ -4,7 +4,7 @@ class Admins::EventsController < Admins::BaseController
   before_action :set_event, only: [:show, :edit, :update, :remove_logo, :remove_background, :remove_db]
 
   def index
-    if current_admin.email.start_with?("support_")
+    if current_admin.customer_service? || current_admin.promoter?
       event = Event.find_by_slug(current_admin.email.split("_")[1].split("@")[0])
       redirect_to(admins_event_path(event)) && return
     end
