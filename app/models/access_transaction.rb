@@ -13,6 +13,7 @@
 #  final_refundable_balance    :float
 #  gtag_counter                :integer
 #  items_amount                :float
+#  message                     :string
 #  operator_activation_counter :integer
 #  operator_value              :string
 #  order_item_counter          :integer
