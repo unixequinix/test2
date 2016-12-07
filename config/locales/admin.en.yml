@@ -365,6 +365,10 @@ en:
       stations: "Stations"
       vat: "VAT %"
     pack:
+      catalog_items:
+        name: "Name"
+        type: "Type"
+        amount: "Amount"
       number_catalog_items: "Number of items"
       add_item: "Add Item"
       instructions:
