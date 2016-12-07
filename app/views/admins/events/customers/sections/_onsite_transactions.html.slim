@@ -34,4 +34,4 @@ table.transactions
         td data-label=t("admin.transactions.final_balance") = number_to_token transaction.final_balance if transaction.is_a?(CreditTransaction)
         td.magic_wand data-label=t("admin.transactions.final_refundable_balance")
           span = number_to_token transaction.final_refundable_balance if transaction.is_a?(CreditTransaction)
-          = link_to fa_icon("magic"), fix_transaction_admins_event_customer_path(current_event, @customer, transaction: transaction.id) if transaction.is_a?(CreditTransaction) && transaction.status_code == 2
+          = link_to fa_icon("magic"), fix_admins_event_transaction_path(current_event, transaction, type: "credit") if transaction.is_a?(CreditTransaction) && transaction.status_code == 2

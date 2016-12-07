@@ -1,7 +1,7 @@
 class Admins::Events::TransactionsController < Admins::Events::BaseController
   before_action :set_type
   before_action :set_transactions, except: :show
-  before_action :set_transaction, only: [:show, :update]
+  before_action :set_transaction, only: [:show, :update, :fix]
 
   def search
     render :index
@@ -23,10 +23,22 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
     end
   end
 
+  def fix
+    find_atts = { device_created_at: @transaction.device_created_at, gtag_id: @transaction.gtag_id, type: "MoneyTransaction" } # rubocop:disable Metrics/LineLength
+    money_t = current_event.transactions.find_by(find_atts)
+    fix_atts = { status_code: 0, status_message: "FIX" }
+
+    @transaction.update!(fix_atts)
+    @transaction.gtag&.recalculate_balance
+    money_t.update(fix_atts) if money_t
+
+    redirect_to(:back, notice: "Transaction fixed successfully")
+  end
+
   private
 
   def set_transaction
-    @transaction = current_event.transactions.where(type: "#{@type}_transaction".classify).find(params[:id])
+    @transaction = current_event.transactions.find_by(id: params[:id], type: "#{@type}_transaction".classify)
   end
 
   def set_type

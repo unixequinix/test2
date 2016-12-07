@@ -26,8 +26,10 @@ table.transactions
         td data-label=t("admin.transactions.customer_tag_uid")
           - if transaction.customer
             = link_to transaction.customer_tag_uid, admins_event_customer_path(current_event, transaction.customer)
-          - else
+          - elsif transaction.gtag
             = link_to transaction.customer_tag_uid, admins_event_gtag_path(current_event, transaction.gtag)
+          - else
+            = transaction.customer_tag_uid
         td data-label=t("admin.transactions.activation")
           i = transaction.try(:activation_counter)
         td.table-actions-field data-label=t("admin.transactions.gtag_counter")

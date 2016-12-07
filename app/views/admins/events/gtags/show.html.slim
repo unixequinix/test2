@@ -8,9 +8,12 @@
     = link_to edit_admins_event_gtag_path(current_event, @gtag), class: "btn btn-action btn-action-new small" do
       = fa_icon "edit"
       = t("actions.edit")
-    = link_to admins_event_gtag_path(current_event, @gtag), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-action btn-action-new btn-action-delete small" do
+    = link_to admins_event_gtag_path(current_event, @gtag), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-action btn-action-delete small" do
       = fa_icon "times-circle"
       = t("actions.delete")
+    = link_to recalculate_balance_admins_event_gtag_path(current_event, @gtag), class: "btn btn-action small" do
+      = fa_icon "refresh"
+      = t("actions.recalculate_balance")
   = link_to admins_event_gtags_path, class: "btn btn-action btn-action-back small" do
     = fa_icon "arrow-circle-left"
     = t("actions.back")
@@ -18,20 +21,24 @@
 .wrapper-negative-space
   .container-show
     dl
-      dt = t("admin.gtags.id")
-      dd = @gtag.id
       dt = t("admin.gtags.tag")
       dd = "#{@gtag.tag_uid} - #{@gtag.activation_counter.to_i}"
       dt = t("admin.gtags.format")
       dd = t("admin.gtags.formats.#{@gtag.format}")
-      dt = t("admin.gtags.created_at")
-      dd = @gtag.created_at.strftime("%y-%m-%d %H:%M:%S")
-      dt = t("admin.gtags.updated_at")
-      dd = @gtag.updated_at.strftime("%y-%m-%d %H:%M:%S")
-      
-      - if @gtag.customer
+      dt = t("admin.gtags.server_balance")
+      dd = "#{number_to_token @gtag.credits} (Refundable: #{number_to_token @gtag.refundable_credits})"
+      dt = t("admin.gtags.gtag_balance")
+      dd = "#{number_to_token @gtag.final_balance} (Refundable: #{number_to_token @gtag.final_refundable_balance})"
+      dt = t("admin.gtags.status")
+      dd
+        - if @gtag.valid_balance?
+          .label_notice CONSISTENT
+        - else
+          .label_error INCONSISTENT
+
+      - if customer = @gtag.customer
         dt = t("admin.gtags.customer")
-        dd = link_to @gtag.customer_id, admins_event_customer_path(current_event, @gtag.customer)
+        dd = link_to "#{customer.full_name} - #{customer.email}", admins_event_customer_path(current_event, @gtag.customer)
 
   .container-show
     = render("admins/events/customers/sections/onsite_transactions", transactions: @transactions, title: "Onsite Transactions" ) if @transactions.present?

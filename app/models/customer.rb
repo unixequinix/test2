@@ -90,19 +90,11 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def credits
-    active_gtag&.credits.to_f
+    active_gtag&.credits.to_f - refunds.map(&:total).sum
   end
 
   def refundable_credits
-    active_gtag&.refundable_credits.to_f
-  end
-
-  def final_balance
-    active_gtag&.final_balance.to_f
-  end
-
-  def final_refundable_balance
-    active_gtag&.final_refundable_balance.to_f
+    active_gtag&.refundable_credits.to_f - refunds.map(&:total).sum
   end
 
   def credentials

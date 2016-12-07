@@ -27,16 +27,6 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
     redirect_to admins_event_customer_path(current_event, @customer)
   end
 
-  def fix_transaction
-    credit_t = CreditTransaction.find(params[:transaction])
-    money_t = MoneyTransaction.find_by(device_created_at: credit_t.device_created_at, customer_id: params[:id])
-    fix_atts = { status_code: 0, status_message: "FIX" }
-    credit_t.update!(fix_atts)
-    money_t.update(fix_atts) if money_t
-
-    redirect_to(admins_event_customer_path(current_event, params[:id]))
-  end
-
   def download_transactions
     @pdf_transactions = @customer.transactions.credit.status_ok.not_record_credit.order("device_created_at asc")
     if @pdf_transactions.any?

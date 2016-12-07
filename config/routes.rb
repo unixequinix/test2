@@ -60,6 +60,10 @@ Rails.application.routes.draw do
           collection do
             get :search
           end
+
+          member do
+            get :fix
+          end
         end
 
         # Refunds
@@ -90,7 +94,6 @@ Rails.application.routes.draw do
             resources :ticket_assignments, only: [:new, :create]
             resources :gtag_assignments, only: [:new, :create]
             get :download_transactions
-            get :fix_transaction
             put :reset_password
           end
           collection do
@@ -118,6 +121,7 @@ Rails.application.routes.draw do
         resources :gtags do
           resources :comments, module: :gtags
           member do
+            get :recalculate_balance
             get :ban
             delete :unban
           end
