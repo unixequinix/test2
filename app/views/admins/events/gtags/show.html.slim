@@ -32,3 +32,6 @@
       - if @gtag.customer
         dt = t("admin.gtags.customer")
         dd = link_to @gtag.customer_id, admins_event_customer_path(current_event, @gtag.customer)
+
+  .container-show
+    = render("admins/events/customers/sections/onsite_transactions", transactions: @transactions, title: "Onsite Transactions" ) if @transactions.present?

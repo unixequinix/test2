@@ -11,6 +11,7 @@ table.transactions
       th = t("admin.transactions.station_id")
       th = t("admin.transactions.device_uid")
       th = t("admin.transactions.action")
+      th = t("admin.transactions.credits")
       th = t("admin.transactions.final_balance")
       th = t("admin.transactions.final_refundable_balance")
   tbody
@@ -29,6 +30,7 @@ table.transactions
           = link_to admins_event_transaction_path(current_event, transaction, type: transaction.category) do
             => icon
             = transaction.description
+        td data-label=t("admin.transactions.credits") = number_to_token transaction.credits
         td data-label=t("admin.transactions.final_balance") = number_to_token transaction.final_balance if transaction.is_a?(CreditTransaction)
         td.magic_wand data-label=t("admin.transactions.final_refundable_balance")
           span = number_to_token transaction.final_refundable_balance if transaction.is_a?(CreditTransaction)

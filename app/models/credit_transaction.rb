@@ -56,8 +56,8 @@ class CreditTransaction < Transaction
   accepts_nested_attributes_for :sale_items
 
   def description
-    refundables = " - R #{refundable_credits} #{event.token_symbol}" if credits != refundable_credits
-    "#{action.humanize}: #{credits} #{event.token_symbol}#{refundables}"
+    refundables = ": R #{refundable_credits} #{event.token_symbol}" if credits != refundable_credits
+    "#{action.humanize} #{refundables}"
   end
 
   def self.mandatory_fields

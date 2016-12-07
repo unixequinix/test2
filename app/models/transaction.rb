@@ -71,7 +71,7 @@ class Transaction < ActiveRecord::Base
 
   ORIGINS = { portal: "customer_portal", device: "onsite", admin: "admin_panel" }.freeze
   TYPES = %w(access credential credit money order operator user_engagement).freeze
-
+  
   def category
     type.gsub("Transaction", "").downcase
   end
