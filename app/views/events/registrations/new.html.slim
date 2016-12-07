@@ -6,9 +6,15 @@
       = link_to t('sessions.log_in.link'), event_login_path(current_event)
 
     = f.error_notification
-    = f.input :event_id, as: :hidden, input_html: { value: current_event.id, class: 'session-input' }
+    = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
     = f.input :email, autofocus: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.email")
-    - unless resource.provider || resource.uid
+
+    - if resource.provider && resource.uid
+      = f.input :provider, as: :hidden, input_html: { value: resource.provider }
+      = f.input :uid, as: :hidden, input_html: { value: resource.uid }
+      = f.input :password, input_html: { value: resource.password }
+      = f.input :password_confirmation, input_html: { value: resource.password_confirmation }
+    - else
       = f.input :password, required: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.password")
       = f.input :password_confirmation, required: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.password_confirmation")
 

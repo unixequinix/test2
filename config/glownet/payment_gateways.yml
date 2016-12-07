@@ -18,7 +18,7 @@ redsys:
   config:
     - login
     - secret_key
-    - termina
+    - terminal
 
 stripe:
   <<: *commons
