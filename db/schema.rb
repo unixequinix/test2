@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161213192458) do
+ActiveRecord::Schema.define(version: 20161213214512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -506,6 +506,7 @@ ActiveRecord::Schema.define(version: 20161213192458) do
   add_index "transactions", ["operator_station_id"], name: "index_transactions_on_operator_station_id", using: :btree
   add_index "transactions", ["order_id"], name: "index_transactions_on_order_id", using: :btree
   add_index "transactions", ["station_id"], name: "index_transactions_on_station_id", using: :btree
+  add_index "transactions", ["ticket_id"], name: "index_transactions_on_ticket_id", using: :btree
   add_index "transactions", ["type"], name: "index_transactions_on_type", using: :btree
 
   add_foreign_key "access_control_gates", "stations"
@@ -545,4 +546,5 @@ ActiveRecord::Schema.define(version: 20161213192458) do
   add_foreign_key "transactions", "gtags"
   add_foreign_key "transactions", "orders"
   add_foreign_key "transactions", "stations"
+  add_foreign_key "transactions", "tickets"
 end
