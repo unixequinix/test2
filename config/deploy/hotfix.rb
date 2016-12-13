@@ -11,4 +11,4 @@ set :linked_dirs, fetch(:linked_dirs) + %w(certs)
 server "hotfix.glownet.com", user: "ubuntu", roles: %w(web app db)
 
 # Let it rip!!
-set :sidekiq_concurrency, 10
+set :sidekiq_concurrency, 1
