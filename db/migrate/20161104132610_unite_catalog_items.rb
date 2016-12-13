@@ -1,7 +1,7 @@
 class UniteCatalogItems < ActiveRecord::Migration
   def change
     add_column :catalog_items, :standard, :boolean, default: false, null: false
-    add_column :catalog_items, :value, :decimal, precision: 8, scale: 2, default: 1.0, null: false
+    add_column :catalog_items, :value, :decimal, precision: 8, scale: 2, default: 1.0, null: false unless column_exists?(:catalog_items, :value, :decimal)
     add_column :catalog_items, :currency, :string
     rename_column :catalog_items, :catalogable_type, :type
 

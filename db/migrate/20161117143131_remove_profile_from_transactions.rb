@@ -1,13 +1,6 @@
 class RemoveProfileFromTransactions < ActiveRecord::Migration
   def change
-    add_reference :transactions, :gtag
-    puts "-- adding gtag_id to transactions (this may take a while)"
-    sql = "UPDATE transactions TR
-           SET gtag_id = GT.id
-           FROM gtags GT
-           WHERE GT.tag_uid = TR.customer_tag_uid AND GT.event_id = TR.event_id"
-    ActiveRecord::Base.connection.execute(sql)
-
+    # Updating origins and transaction_types
     puts "-- removing origin 'device'"
     sql = "UPDATE transactions TR
            SET transaction_origin = 'onsite'

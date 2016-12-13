@@ -1,4 +1,4 @@
-set :branch, "develop"
+set :branch, "alex_gtag_id"
 set :rails_env, "hotfix"
 
 # Default value for :log_level is :debug
