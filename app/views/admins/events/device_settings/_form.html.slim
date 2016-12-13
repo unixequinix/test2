@@ -50,10 +50,6 @@
     .input
       label Gtag blacklist
       = text_field_tag "device_settings[gtag_blacklist]", @device_settings["gtag_blacklist"]
-    
-    .input
-      label Gtag whitelist
-      = text_field_tag "device_settings[gtag_whitelist]", @device_settings["gtag_whitelist"]
 
   - unless current_admin.customer_service?
     fieldset
@@ -72,29 +68,37 @@
         = t("admin.event.fieldests.sync")
 
       .input
+        label Transaction buffer
+        = number_field_tag "device_settings[transaction_buffer]", @device_settings["transaction_buffer"], min: @device_settings["transaction_buffer"], step: 1
+
+      .input
+        label Days to keep backups
+        = number_field_tag "device_settings[days_to_keep_backup]", @device_settings["days_to_keep_backup"], min: @device_settings["days_to_keep_backup_min"], step: 1
+
+      .input
         label Event parameters
-        = number_field_tag "device_settings[sync_time_event_parameters]", @device_settings["sync_time_event_parameters"]
-      
+        = number_field_tag "device_settings[sync_time_event_parameters]", @device_settings["sync_time_event_parameters"], min: @device_settings["sync_time_event_parameters_min"], step: 1
+
       .input
         label Server Date
-        = number_field_tag "device_settings[sync_time_server_date]", @device_settings["sync_time_server_date"]
-      
+        = number_field_tag "device_settings[sync_time_server_date]", @device_settings["sync_time_server_date"], min: @device_settings["sync_time_server_date_min"], step: 1
+
       .input
         label Basic Download
-        = number_field_tag "device_settings[sync_time_basic_download]", @device_settings["sync_time_basic_download"]
-      
+        = number_field_tag "device_settings[sync_time_basic_download]", @device_settings["sync_time_basic_download"], min: @device_settings["sync_time_basic_download_min"], step: 1
+
       .input
         label Tickets
-        = number_field_tag "device_settings[sync_time_tickets]", @device_settings["sync_time_tickets"]
-      
+        = number_field_tag "device_settings[sync_time_tickets]", @device_settings["sync_time_tickets"], min: @device_settings["sync_time_tickets_min"], step: 1
+
       .input
         label Gtags
-        = number_field_tag "device_settings[sync_time_gtags]", @device_settings["sync_time_gtags"]
-      
+        = number_field_tag "device_settings[sync_time_gtags]", @device_settings["sync_time_gtags"], min: @device_settings["sync_time_gtags_min"], step: 1
+
       .input
         label Customers
-        = number_field_tag "device_settings[sync_time_customers]", @device_settings["sync_time_customers"]
-      
+        = number_field_tag "device_settings[sync_time_customers]", @device_settings["sync_time_customers"], min: @device_settings["sync_time_customers_min"], step: 1
+
 
   .wrapper-negative-space
     = submit_tag t('admin.actions.update'), class: "btn btn-primary"
