@@ -1,11 +1,10 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.feature "Gtag Assignation", type: :feature do
   let(:event) { create(:event, :gtag_assignation, :pre_event) }
   let(:customer) { create(:customer, event: event) }
-  let(:valid_gtag) { create(:gtag, event: event) }
-  let(:profile) { create(:profile, customer: create(:customer, event: event)) }
-  let(:invalid_gtag) { create(:gtag, event: event, profile: profile) }
+  let(:valid_gtag) { create(:gtag, event: event, customer: customer) }
+  let(:invalid_gtag) { create(:gtag, event: event, customer: customer) }
   let(:event_path) { customer_root_path(event) }
 
   describe "User wants to assign a gtag" do
@@ -22,8 +21,8 @@ RSpec.feature "Gtag Assignation", type: :feature do
       end
 
       it "assigns the gtag" do
-        customer.profile.reload
-        customer_gtag = customer.profile.active_gtag
+        customer.reload
+        customer_gtag = customer.active_gtag
         expect(customer_gtag.tag_uid).to eq(valid_gtag.tag_uid)
         expect(page.body).to include(valid_gtag.tag_uid)
       end
@@ -33,7 +32,7 @@ RSpec.feature "Gtag Assignation", type: :feature do
       end
     end
 
-    context "when gtag is already registered" do
+    context "when gtag is already assigned" do
       before do
         find("a", text: "Add #{event.gtag_name}").click
         find(".cb-gtag_field").set(invalid_gtag.tag_uid)
@@ -41,8 +40,8 @@ RSpec.feature "Gtag Assignation", type: :feature do
       end
 
       it "doesn't assign the gtag" do
-        expect(customer.profile.active_gtag).to be_nil
-        expect(page.body).to have_css(".msg-for-error")
+        expect(customer.active_gtag).to be_nil
+        expect(page.body).to have_css(".error-message")
       end
 
       it "renders the same page" do
@@ -57,8 +56,8 @@ RSpec.feature "Gtag Assignation", type: :feature do
       end
 
       it "doesn't assign the gtag" do
-        expect(customer.profile.active_gtag).to be_nil
-        expect(page.body).to have_css(".msg-for-error")
+        expect(customer.active_gtag).to be_nil
+        expect(page.body).to have_css(".error-message")
       end
 
       it "renders the same page" do

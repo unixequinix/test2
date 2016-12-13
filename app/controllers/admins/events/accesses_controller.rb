@@ -6,13 +6,12 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
   end
 
   def new
-    @access = Access.new
-    @access.build_catalog_item
+    @access = current_event.accesses.new
     @access.build_entitlement
   end
 
   def create
-    @access = Access.new(permitted_params)
+    @access = current_event.accesses.new(permitted_params)
     if @access.save
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_accesses_url
@@ -43,16 +42,6 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
     end
   end
 
-  def create_credential
-    @access.catalog_item.create_credential_type if @access.catalog_item.credential_type.blank?
-    redirect_to admins_event_accesses_url
-  end
-
-  def destroy_credential
-    @access.catalog_item.credential_type.destroy if @access.catalog_item.credential_type.present?
-    redirect_to admins_event_accesses_url
-  end
-
   private
 
   def set_access
@@ -60,21 +49,17 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
   end
 
   def set_presenter
-    @list_model_presenter = ListModelPresenter.new(
-      model_name: "Access".constantize.model_name,
-      fetcher: current_event.accesses,
-      search_query: params[:q],
-      page: params[:page],
-      include_for_all_items: [:entitlement, catalog_item: :credential_type],
-      context: view_context
-    )
+    @list_model_presenter = ListModelPresenter.new(model_name: "Access".constantize.model_name,
+                                                   fetcher: current_event.accesses,
+                                                   search_query: params[:q],
+                                                   page: params[:page],
+                                                   include_for_all_items: [],
+                                                   context: view_context)
   end
 
   def permitted_params
-    ci_atts = [:id, :event_id, :name, :description, :initial_amount,
-               :step, :max_purchasable, :min_purchasable]
+    ci_atts = [:id, :name, :initial_amount, :step, :max_purchasable, :min_purchasable]
     ent_atts = [:id, :memory_length, :mode, :event_id]
-    params.require(:access).permit(catalog_item_attributes: ci_atts,
-                                   entitlement_attributes: ent_atts)
+    params.require(:access).permit(ci_atts, entitlement_attributes: ent_atts)
   end
 end

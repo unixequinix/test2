@@ -1,19 +1,20 @@
 class Admins::Events::RefundsController < Admins::Events::BaseController
-  before_action :set_presenter, only: [:index, :search]
-
   def index
     respond_to do |format|
-      format.html
+      format.html do
+        set_refunds
+      end
       format.csv do
         refunds = Refund.query_for_csv(current_event)
         redirect_to(admins_event_refunds_path(current_event)) && return if refunds.empty?
 
-        send_data(Csv::CsvExporter.to_csv(refunds))
+        send_data(CsvExporter.to_csv(refunds))
       end
     end
   end
 
   def search
+    set_refunds
     render :index
   end
 
@@ -33,15 +34,9 @@ class Admins::Events::RefundsController < Admins::Events::BaseController
 
   private
 
-  def set_presenter
-    @list_model_presenter = ListModelPresenter.new(
-      model_name: "Refund".constantize.model_name,
-      fetcher: current_event.refunds,
-      search_query: params[:q],
-      page: params[:page],
-      context: view_context,
-      include_for_all_items: [:claim, claim: [:profile, profile: :customer]]
-    )
+  def set_refunds
+    @q = current_event.refunds.search(params[:q])
+    @refunds = @q.result.page(params[:page])
   end
 
   def permitted_params

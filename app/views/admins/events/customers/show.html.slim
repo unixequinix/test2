@@ -1,36 +1,23 @@
 - breadcrumb :admins_event_customer, current_event, @customer
 - provide :actions do
-  = link_to t("admin.passwords.reset_password"), reset_password_admins_event_customer_path(current_event, @customer), method: :put, data: { confirm: t('admin.passwords.reset_password_confirm') }, class: "btn btn-action btn-action-new small"
+  = link_to t("admin.actions.assign_ticket"), new_admins_event_ticket_assignment_path(current_event, @customer), class: "btn btn-action btn-action-new small"
+  = link_to t("admin.actions.assign_gtag"), new_admins_event_gtag_assignment_path(current_event, @customer), class: "btn btn-action btn-action-new small"
+  = link_to download_transactions_admins_event_customer_path(current_event, @customer), class: "btn btn-action btn-action-back small" do
+    = fa_icon "file-pdf-o"
+    = t('admin.actions.credits_history')
   = link_to admins_event_customers_path(current_event), class: "btn btn-action btn-action-back small" do
     = fa_icon "arrow-circle-left"
     = t('actions.back')
+
 .wrapper-negative-space
+  h2 =  "#{@customer.first_name} #{@customer.last_name}. #{@customer.email}"
+  - root = "admins/events/customers/sections/"
+  = render(root + "credits", customer: @customer)
+  
   .container-show
-    dl
-      dt = t ("admin.customers.email")
-      dd = @customer.email
-
-      dt = t ("admin.customers.first_name")
-      dd = @customer.first_name
-
-      dt = t ("admin.customers.last_name")
-      dd = @customer.last_name
-
-      dt = t ("admin.customers.sign")
-      dd = @customer.sign_in_count
-
-      dt = t ("admin.customers.current_sign")
-      dd = @customer.current_sign_in_at
-
-      dt = t ("admin.customers.last_sign")
-      dd = @customer.last_sign_in_at
-
-      dt = t ("admin.customers.current_sign_ip")
-      dd = @customer.current_sign_in_ip
-
-      dt = t ("admin.customers.last_sign_ip")
-      dd = @customer.last_sign_in_ip
-
-      - if @customer.profile
-        dt = t ("admin.customers.profile")
-        dd = link_to @customer.profile.id, admins_event_profile_path(current_event, @customer.profile)
+    = render(root + "ticket_assignments", customer: @customer) if @customer.tickets.any?
+    = render(root + "gtag_assignments", customer: @customer) if @customer.gtags.any?
+    = render(root + "online_transactions", transactions: @online_transactions, title: "Online Transactions" ) if @online_transactions.present?
+    = render(root + "onsite_transactions", transactions: @onsite_transactions, title: "Onsite Transactions" ) if @onsite_transactions.present?
+    = render(root + "refunds", customer: @customer) if @customer.refunds.present?
+    = render(root + "orders", customer: @customer) if @customer.orders.any?

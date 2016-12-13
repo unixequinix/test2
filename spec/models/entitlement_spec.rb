@@ -1,8 +1,25 @@
-require "rails_helper"
+# == Schema Information
+#
+# Table name: entitlements
+#
+#  memory_length   :integer          default(1)
+#  memory_position :integer          not null
+#  mode            :string           default("counter")
+#
+# Indexes
+#
+#  index_entitlements_on_access_id  (access_id)
+#  index_entitlements_on_event_id   (event_id)
+#
+# Foreign Keys
+#
+#  fk_rails_dcf903a298  (event_id => events.id)
+#
+
+require "spec_helper"
 
 RSpec.describe Entitlement, type: :model do
   let(:event) { create(:event) }
-  let(:manager) { Entitlement::PositionManager }
   let(:entitlement) { create(:entitlement, :with_access, event: event) }
 
   describe ".infinite?" do
@@ -24,17 +41,6 @@ RSpec.describe Entitlement, type: :model do
 
   context "before validations" do
     describe ".position " do
-      it "calls position manager with action 'save'" do
-        manager_instance = manager.new(entitlement)
-
-        allow(manager).to receive(:new).twice.with(entitlement).and_return(manager_instance)
-        allow(manager_instance).to receive(:start).with(action: :validate)
-
-        expect(manager_instance).to receive(:start).with(action: :save)
-
-        entitlement.valid?
-      end
-
       it "adds the next memory_position to the new entitlement" do
         create(:access, entitlement: build(:entitlement, event: event))
         expect(entitlement.memory_position).to be(2)

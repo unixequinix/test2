@@ -12,25 +12,19 @@ module ApplicationHelper
     number_to_currency number, unit: current_event.token_symbol.to_s + " "
   end
 
-  def transaction_to_currency(transaction, meth)
-    number = tranaction.send(meth)
-    if transaction.category.eq? "money"
-      number_to_currency number, unit: current_event.currency.to_s + " "
-    else
-      number_to_token number
-    end
-  end
-
   def title
     Rails.env == "production" ? "Glownet" : "[#{Rails.env.upcase}] Glownet"
   end
 
-  def icon_to_draw(payment_service)
-    payment_service = payment_service.to_sym
-    if %i(paypal redsys braintree stripe paypal_nvp wirecard).include? payment_service
-      fa_icon t("orders.payment-buttons.#{payment_service}.icon")
-    elsif %i(ideal sofort).include? payment_service
-      content_tag(:i, "", class: t("orders.payment-buttons.#{payment_service}.icon"))
+  def format_abstract_value(value)
+    case value
+    when true then fa_icon('check')
+    when "true" then fa_icon('check')
+    when false then fa_icon('times')
+    when "false" then fa_icon('times')
+    when nil then content_tag(:em, "Empty")
+    when "" then content_tag(:em, "Empty")
+    else value
     end
   end
 end

@@ -1,0 +1,22 @@
+.wrapper-negative-space
+  = simple_form_for [:admins, current_event, @gateway] do |f|
+    .container-show
+      = hidden_field_tag "payment_gateway[gateway]", @gateway.gateway
+      - if @config_atts
+        h3.section-header
+          = fa_icon "info-circle"
+          = t("admin.event.fieldests.basic_settings")
+        - @config_atts.map(&:to_s).each do |att|
+          .input
+            label = att.to_s.humanize
+            = text_field_tag "payment_gateway[data[#{att}]]", @gateway.data[att]
+      - if @refund_atts
+        h3.section-header
+          = fa_icon "info-circle"
+          = t("admin.event.fieldests.refund_settings")
+        - @refund_atts.map(&:to_s).each do |att|
+          .input
+            label = att.to_s.humanize
+            = text_field_tag "payment_gateway[data[#{att}]]", @gateway.data[att]
+      fieldset
+        = f.submit t('admin.actions.update'), class: "btn btn-primary"

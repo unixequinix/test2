@@ -6,6 +6,6 @@ header.header-desktop
   nav.header-nav
     ul
       - if customer_signed_in?
-        li = link_to fa_icon("home"), event_url(current_event), class: "btn-desktop-profile"
-        li = link_to fa_icon("user"), event_account_path(current_event), class: "btn-desktop-profile"
-        li = link_to fa_icon("sign-out"), event_logout_path(current_event), method: :delete, class: "btn-desktop-profile", data: { confirm: (t("confirm.log_out")) }      
+        li = link_to fa_icon("home"), event_url(current_event), class: "btn-desktop-customer"
+        li = link_to fa_icon("user"), event_account_path(current_event), class: "btn-desktop-customer"
+        li = link_to fa_icon("sign-out"), event_logout_path(current_event), method: :delete, class: "btn-desktop-customer", data: { confirm: (t("confirm.log_out")) }

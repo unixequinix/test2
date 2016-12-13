@@ -2,19 +2,23 @@
 #
 # Table name: company_event_agreements
 #
-#  id         :integer          not null, primary key
-#  company_id :integer          not null
-#  event_id   :integer          not null
 #  aasm_state :string
-#  deleted_at :datetime
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#
+# Indexes
+#
+#  index_company_event_agreements_on_company_id  (company_id)
+#  index_company_event_agreements_on_event_id    (event_id)
+#
+# Foreign Keys
+#
+#  fk_rails_52b6bdbbec  (company_id => companies.id)
+#  fk_rails_88826edadd  (event_id => events.id)
 #
 
 class CompanyEventAgreement < ActiveRecord::Base
   belongs_to :company
   belongs_to :event
-  has_many :company_ticket_types, dependent: :restrict_with_error
+  has_many :ticket_types, dependent: :destroy
 
   # State machine
   include AASM

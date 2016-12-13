@@ -4,7 +4,7 @@ header
     h3.aside-title.first = t("admin.aside.access")
 
   .container-language
-    - unless current_admin.customer_service?
+    - unless current_admin.customer_service? || current_admin.promoter?
       = link_to t("admin.aside.events"), admins_events_path, class: "language-item"
       span |
       = link_to t("admin.aside.admins"), admins_admins_path, class: "language-item"

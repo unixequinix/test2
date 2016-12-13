@@ -3,7 +3,7 @@ class Transactions::Order::CredentialAssigner < Transactions::Base
 
   def perform(atts)
     gtag = Gtag.find_by(tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id])
-    return if gtag.profile
-    gtag.update!(profile_id: atts[:profile_id])
+    return if gtag.customer
+    gtag.update!(customer_id: atts[:customer_id])
   end
 end

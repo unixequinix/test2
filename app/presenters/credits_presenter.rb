@@ -1,18 +1,18 @@
 class CreditsPresenter < BasePresenter
   def can_render?
-    @profile.active_credentials?
+    @customer.active_credentials?
   end
 
   def path
-    @event.top_ups? ? "events/events/credits" : "events/events/credits_after_event"
+    @event.topups? ? "events/events/credits" : "events/events/credits_after_event"
   end
 
   def customer_total_credits
-    number_with_precision(@profile.credits, precision: 2)
+    number_with_precision(@customer.credits, precision: 2)
   end
 
   def refundable_credits
-    @profile.refundable_credits
+    @customer.refundable_credits
   end
 
   def event_started?
@@ -20,7 +20,7 @@ class CreditsPresenter < BasePresenter
   end
 
   def refundable_money
-    number_with_precision(@profile.refundable_money, precision: 2)
+    number_with_precision(@customer.active_gtag&.refundable_money || 0, precision: 2)
   end
 
   def token_symbol
@@ -32,7 +32,7 @@ class CreditsPresenter < BasePresenter
   end
 
   def valid_balance?
-    @profile.valid_balance?
+    @customer.active_gtag.nil? || @customer.active_gtag&.valid_balance?
   end
 
   def call_to_action

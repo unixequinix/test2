@@ -1,4 +1,4 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
   include ControllerMacros
@@ -11,19 +11,19 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
       {
         event_id: "1",
         customer_tag_uid: "324",
-        transaction_category: "credit",
+        type: "credit",
         transaction_origin: Transaction::ORIGINS[:device],
-        transaction_type: "test_type",
+        action: "test_type",
         operator_tag_uid: "A54DSF8SD3JS0",
         station_id: "34",
         device_uid: "2353",
         device_db_index: "2353",
         device_created_at: "2016-02-05 11:13:39 +0100",
-        profile_id: "23",
+        customer_id: "23",
         status_code: "1",
         status_message: "Ticket already check-in 0034854TYS9QSD4992",
         credits: 2,
-        credits_refundable: 2,
+        refundable_credits: 2,
         credit_value: 1,
         final_balance: 4,
         final_refundable_balance: 4
@@ -54,8 +54,8 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
         it "returns a 400 status code" do
           params.first.delete(:event_id)
           params.first.delete(:station_id)
-          params.first.delete(:transaction_type)
-          params.first.delete(:profile_id)
+          params.first.delete(:action)
+          params.first.delete(:customer_id)
           post(:create, event_id: event.id, _json: params)
           expect(response.status).to eq(422)
         end

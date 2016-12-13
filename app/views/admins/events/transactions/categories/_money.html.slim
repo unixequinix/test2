@@ -2,12 +2,16 @@ h3.section-header
   = fa_icon "money"
   = t("admin.transactions.money")
 dl
-  dt = t("admin.transactions.catalogable_type")
-  - catalogable = @transaction.catalogable_type
-  dd = link_to catalogable.capitalize, send("edit_admins_event_#{catalogable.downcase}_path", current_event, catalogable.classify.constantize.find(@transaction.catalogable_id))
+  - if order = @transaction.order
+    dt = t("admin.transactions.order")
+    dd = link_to order.number, admin_event_orders_path(current_event, @transaction.order)
 
-  dt = t("admin.transactions.catalogable_id")
-  dd = @transaction.catalogable_id
+  - if class_name = @transaction.catalog_item&.class.to_s
+    dt = t("admin.transactions.type")
+    dd = link_to class_name.capitalize, send("edit_admins_event_#{class_name.downcase}_path", current_event, @transaction.catalog_item)
+
+  dt = t("admin.transactions.id")
+  dd = @transaction.catalog_item_id
 
   dt = t("admin.transactions.items_amount")
   dd = @transaction.items_amount

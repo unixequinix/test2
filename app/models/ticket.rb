@@ -2,53 +2,49 @@
 #
 # Table name: tickets
 #
-#  id                     :integer          not null, primary key
-#  event_id               :integer          not null
-#  company_ticket_type_id :integer          not null
-#  code                   :string
-#  credential_redeemed    :boolean          default(FALSE), not null
-#  deleted_at             :datetime
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  banned                 :boolean          default(FALSE)
+#  banned               :boolean          default(FALSE)
+#  code                 :string
+#  description          :string
+#  purchaser_email      :string
+#  purchaser_first_name :string
+#  purchaser_last_name  :string
+#  redeemed             :boolean          default(FALSE), not null
+#
+# Indexes
+#
+#  index_tickets_on_customer_id     (customer_id)
+#  index_tickets_on_event_id        (event_id)
+#  index_tickets_on_ticket_type_id  (ticket_type_id)
+#
+# Foreign Keys
+#
+#  fk_rails_4def87ea62  (event_id => events.id)
+#  fk_rails_5685ed71b0  (customer_id => customers.id)
+#  fk_rails_9ee4d47696  (ticket_type_id => ticket_types.id)
 #
 
 class Ticket < ActiveRecord::Base
   default_scope { order(:id) }
-  acts_as_paranoid
 
   # Associations
   belongs_to :event
-  belongs_to :profile
-  belongs_to :company_ticket_type
+  belongs_to :customer
+  belongs_to :ticket_type
+
+  has_many :transactions, dependent: :destroy
 
   # Validations
   validates :code, uniqueness: { scope: :event_id }
   validates :code, presence: true
-  validates :company_ticket_type_id, presence: true
+  validates :ticket_type_id, presence: true
 
   scope :query_for_csv, lambda { |event|
-    event.tickets.select("tickets.id, tickets.event_id, tickets.company_ticket_type_id as ticket_type_id,
-                          company_ticket_types.name as ticket_type_name, tickets.code, tickets.banned,
-                          tickets.credential_redeemed")
-         .joins(:company_ticket_type)
+    event.tickets.select("tickets.id, tickets.event_id, tickets.ticket_type_id as ticket_type_id,
+                         ticket_types.name as ticket_type_name, tickets.code, tickets.banned,
+                          tickets.redeemed")
+         .joins(:ticket_type)
   }
 
   alias_attribute :reference, :code
-
-  def assigned?
-    profile.present? && profile.customer.present?
-  end
-
-  def pack_catalog_items_included
-    company_ticket_type.credential_type.catalog_item.catalogable.pack_catalog_items
-  end
-
-  def credential_type_item
-    company_ticket_type.credential_type.catalog_item
-  end
-
-  def credits
-    company_ticket_type.credential_type.credits if company_ticket_type.credential_type
-  end
+  alias_attribute :ticket_reference, :code
 end

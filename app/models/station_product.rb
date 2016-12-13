@@ -2,37 +2,29 @@
 #
 # Table name: station_products
 #
-#  id         :integer          not null, primary key
-#  product_id :integer          not null
-#  price      :float            not null
-#  deleted_at :datetime
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
 #  position   :integer
+#  price      :float            not null
+#
+# Indexes
+#
+#  index_station_products_on_product_id  (product_id)
+#  index_station_products_on_station_id  (station_id)
+#
+# Foreign Keys
+#
+#  fk_rails_b1a69cdc0c  (product_id => products.id)
+#  fk_rails_d96ed1200f  (station_id => stations.id)
 #
 
 class StationProduct < ActiveRecord::Base
-  acts_as_paranoid
   default_scope { order("position ASC") }
 
   belongs_to :product
-  has_one :station_parameter, as: :station_parametable, dependent: :destroy
-  accepts_nested_attributes_for :station_parameter, allow_destroy: true
+  belongs_to :station
 
   validates :price, presence: true
   validates :price, numericality: true
-  validate :product_already_exists
+  validates :product_id, uniqueness: { scope: :station_id }
 
-  after_update { station_parameter.station.touch }
-
-  private
-
-  def product_already_exists
-    # Return if persisted (update action), or station_parameter is nil (station duplication)
-    return if persisted? || station_parameter.nil?
-
-    products = station_parameter.station.station_products.map(&:product_id)
-    return unless products.include?(product_id)
-    errors[:product] << I18n.t("errors.messages.product_already_added")
-  end
+  after_update { station.touch }
 end

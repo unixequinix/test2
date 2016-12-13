@@ -3,7 +3,6 @@ table.packs
   thead
     tr
       th = t('admin.catalog_item.name')
-      th = t('admin.catalog_item.description')
       th = t('admin.catalog_item.step')
       th = t('admin.catalog_item.initial_amount')
       th = t('admin.catalog_item.max_purchasable')
@@ -13,24 +12,17 @@ table.packs
   tbody
     - @packs.each do |pack|
       tr
-        td data-label=t('admin.catalog_item.name') = link_to(pack.catalog_item.name, admins_event_pack_path(current_event, pack))
-        td data-label=t('admin.catalog_item.description') = pack.catalog_item.description
-        td data-label=t('admin.catalog_item.step') = pack.catalog_item.step
-        td data-label=t('admin.catalog_item.initial_amount') = pack.catalog_item.initial_amount
-        td data-label=t('admin.catalog_item.max_purchasable') = pack.catalog_item.max_purchasable
-        td data-label=t('admin.catalog_item.min_purchasable') = pack.catalog_item.min_purchasable
+        td data-label=t('admin.catalog_item.name') = link_to(pack.name, admins_event_pack_path(current_event, pack))
+        td data-label=t('admin.catalog_item.step') = pack.step
+        td data-label=t('admin.catalog_item.initial_amount') = pack.initial_amount
+        td data-label=t('admin.catalog_item.max_purchasable') = pack.max_purchasable
+        td data-label=t('admin.catalog_item.min_purchasable') = pack.min_purchasable
         td data-label=t('admin.pack.number_catalog_items')
-          = pack.catalog_items_count
-          = "·" if pack.only_credits_pack?
-          = "∞" if pack.only_infinite_items_pack?
+          = pack.catalog_items.count
+          = "·" if pack.only_credits?
+          = "∞" if pack.only_infinite_items?
         td.table-actions-field
           ul
-            - if pack.catalog_item.credential_type.present?
-                li.table-action.action-add_credential = link_to destroy_credential_admins_event_pack_path(current_event, pack), method: :delete, title: "Destroy Credential Type" do
-                  = fa_icon "circle"
-            - else
-                li.table-action.action-add_credential = link_to create_credential_admins_event_pack_path(current_event, pack), title: "Create Credentia Type" do
-                  = fa_icon "circle-thin"
             li.table-action.action-edit = link_to edit_admins_event_pack_path(current_event, pack) do
               = fa_icon "edit"
             li.table-action.action-delete = link_to admins_event_pack_path(current_event, pack), method: :delete, data: { confirm: t('admin.confirm.delete') } do

@@ -2,14 +2,14 @@ class Companies::Api::V1::TicketTypesController < Companies::Api::V1::BaseContro
   def index
     render json: {
       event_id: current_event.id,
-      ticket_types: company_ticket_types.map do |ticket_type|
+      ticket_types: ticket_types.map do |ticket_type|
         Companies::Api::V1::TicketTypeSerializer.new(ticket_type)
       end
     }
   end
 
   def show
-    @ticket_type = company_ticket_types.find_by(id: params[:id])
+    @ticket_type = ticket_types.find_by(id: params[:id])
 
     if @ticket_type
       render json: Companies::Api::V1::TicketTypeSerializer.new(@ticket_type)
@@ -20,7 +20,7 @@ class Companies::Api::V1::TicketTypesController < Companies::Api::V1::BaseContro
   end
 
   def create
-    @ticket_type = agreement.company_ticket_types.build(ticket_type_params)
+    @ticket_type = agreement.ticket_types.build(ticket_type_params)
     @ticket_type.event = current_event
 
     if @ticket_type.save
@@ -32,7 +32,7 @@ class Companies::Api::V1::TicketTypesController < Companies::Api::V1::BaseContro
   end
 
   def update
-    @ticket_type = company_ticket_types.find_by(id: params[:id])
+    @ticket_type = ticket_types.find_by(id: params[:id])
 
     if @ticket_type
       if @ticket_type.update(ticket_type_params)
@@ -50,7 +50,7 @@ class Companies::Api::V1::TicketTypesController < Companies::Api::V1::BaseContro
   private
 
   def ticket_type_params
-    ticket_type_ref = params[:ticket_type][:company_ticket_type_ref]
+    ticket_type_ref = params[:ticket_type][:ticket_type_ref]
     params[:ticket_type][:company_code] = ticket_type_ref if ticket_type_ref
 
     params.require(:ticket_type).permit(:name, :company_code)

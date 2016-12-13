@@ -1,0 +1,39 @@
+commons: &commons
+  actions:
+    - topup
+    - refund
+  refund:
+    - fee
+    - minimum
+
+paypal:
+  <<: *commons
+  config:
+    - login
+    - password
+    - signature
+
+redsys:
+  <<: *commons
+  config:
+    - login
+    - secret_key
+    - terminal
+
+stripe:
+  <<: *commons
+  config:
+    - login
+    - destination
+
+wirecard:
+  <<: *commons
+  config:
+    - login
+    - password
+    - signature
+
+bank_account:
+  <<: *commons
+  actions:
+    - refund

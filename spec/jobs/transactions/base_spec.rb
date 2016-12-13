@@ -1,14 +1,14 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Transactions::Base, type: :job do
   let(:base)  { Transactions::Base }
   let(:event) { create(:event) }
   let(:gtag)  { create(:gtag, tag_uid: "AAAAA") }
-  let(:profile) { create(:profile, event: event) }
+  let(:customer) { create(:customer, event: event) }
   let(:params) do
     {
-      transaction_category: "credit",
-      transaction_type: "nothing",
+      type: "credit",
+      action: "sale",
       credits: 30,
       event_id: event.id,
       device_created_at: Time.zone.now.to_s,
@@ -19,16 +19,11 @@ RSpec.describe Transactions::Base, type: :job do
   end
 
   before(:each) do
-    # Dont care about the BalanceUpdater or Profile::Checker, so I mock the behaviour
+    # Dont care about the BalanceUpdater, so I mock the behaviour
     allow(Transactions::Credit::BalanceUpdater).to receive(:perform_now)
   end
 
-  it "checks the profile" do
-    expect(Profile::Checker).to receive(:for_transaction).once
-    base.perform_now(params)
-  end
-
-  it "creates transactions based on transaction_category" do
+  it "creates transactions based on type" do
     expect { base.perform_now(params) }.to change(CreditTransaction, :count).by(1)
   end
 
@@ -56,8 +51,8 @@ RSpec.describe Transactions::Base, type: :job do
 
   describe "when passed sale_items in attributes" do
     before do
-      params.merge!(sale_items_attributes: [{ product_id: 4, quantity: 1.0, unit_price: 8.31 },
-                                            { product_id: 5, quantity: 1.0, unit_price: 2.72 }])
+      params.merge!(sale_items_attributes: [{ product_id: create(:product).id, quantity: 1.0, unit_price: 8.31 },
+                                            { product_id: create(:product).id, quantity: 1.0, unit_price: 2.72 }])
     end
 
     it "saves sale_items" do
@@ -86,8 +81,8 @@ RSpec.describe Transactions::Base, type: :job do
     end
   end
 
-  it "executes the job defined by transaction_type" do
-    params[:transaction_type] = "sale"
+  it "executes the job defined by action" do
+    params[:action] = "sale"
     expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once.with(params)
     base.perform_now(params)
   end
@@ -121,19 +116,12 @@ RSpec.describe Transactions::Base, type: :job do
         end.to change(CreditTransaction, :count).by(1)
       end
 
-      it "passes the correct profile_id" do
-        allow(Profile::Checker).to receive(:for_transaction).and_return(5)
-        args = hash_including(profile_id: 5)
-        expect(CreditTransaction).to receive(:create!).with(args).and_return(CreditTransaction.new)
-        base.perform_now(params)
-      end
-
       it "works even if jobs fail" do
-        params[:transaction_type] = "sale"
+        params[:action] = "sale"
         allow(Transactions::Credit::BalanceUpdater).to receive(:perform_later).and_raise("Error_1")
         expect { base.perform_now(params) }.to raise_error("Error_1")
         params.delete(:transaction_id)
-        params.delete(:profile_id)
+        params.delete(:customer_id)
         params.delete(:device_created_at)
         expect(CreditTransaction.where(params)).not_to be_empty
       end
@@ -141,8 +129,10 @@ RSpec.describe Transactions::Base, type: :job do
 
     describe ".portal_write" do
       before do
-        gtag.update(event: event, profile: profile)
-        params[:profile_id] = profile.id
+        gtag.update(event: event, customer: customer)
+        params[:customer_id] = customer.id
+        params[:action] = "some_action"
+        params[:type] = "CreditTransaction"
         create(:station, category: "customer_portal", event: event)
       end
 
@@ -150,19 +140,8 @@ RSpec.describe Transactions::Base, type: :job do
         expect { base.new.portal_write(params) }.to change(CreditTransaction, :count).by(1)
       end
 
-      it "sets the last gtag_counter for online transactions" do
-        create(:credit_transaction,
-               transaction_type: "topup",
-               customer_tag_uid: gtag.tag_uid,
-               gtag_counter: 10,
-               profile_id: profile.id)
-        params.merge!(attributes_for(:money_transaction, transaction_type: "portal_purchase"))
-        base.new.portal_write(params)
-        expect(MoneyTransaction.last.gtag_counter).to eq(10)
-      end
-
       it "increases the counter for online transactions" do
-        atts = { transaction_type: "online_topup", customer_tag_uid: gtag.tag_uid, counter: 5, profile_id: profile.id }
+        atts = { action: "some_action", customer_tag_uid: gtag.tag_uid, counter: 5, customer_id: customer.id }
         create(:credit_transaction, atts)
         base.new.portal_write(params)
         expect(CreditTransaction.find_by(params).counter).to eq(6)
@@ -172,11 +151,10 @@ RSpec.describe Transactions::Base, type: :job do
 
   context "executing subscriptors" do
     it "should only execute subscriptors if the transaction created is new" do
-      params[:transaction_type] = "sale"
+      params[:action] = "sale"
       expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once
       base.perform_now(params)
-      at = params.merge(transaction_category: "credit",
-                        device_created_at: params[:device_created_at])
+      at = params.merge(type: "credit", device_created_at: params[:device_created_at])
       base.perform_now(at)
     end
   end

@@ -5,7 +5,7 @@
     - presenter.tickets.each do |ticket|
       li.customer-ticket
         = link_to event_ticket_path(current_event, ticket)
-          p = ticket.company_ticket_type.name
+          p = ticket.ticket_type.name
           p.ticket-id =  ticket.code
           = fa_icon "angle-right"
     - if presenter.event_started?

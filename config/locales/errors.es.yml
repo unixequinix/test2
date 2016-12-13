@@ -7,7 +7,7 @@ es:
     # The value :count is available when applicable. Can be used for pluralization.
     event_alerts:
       company_codes: "Hay tipos de ticket sin código de compañía"
-      credential_types: "Hay tipos de ticket sin un credencial asignado"
+      catalog_items: "There are company ticket types without any catalog items associated"
       refunds: "Las devoluciones están activas, pero no hay ningún servicio de devoluciones seleccionado"
       topups: "Las recargas están activas, pero no hay ningún servicio de recargas seleccionado"
     main:
@@ -49,9 +49,10 @@ es:
       catalog_item_dependent: "Imposible eliminar item, ya que está inlcuido en al menos un pack o estación"
       station_dependent: "Imposible eliminar item, ya que está inlcuido en al menos una estación"
       station_has_associations: "Imposible borrar la estación, ya ha sido usada."
-      company_ticket_type_dependent: "Imposible eliminar la compañia, tiene tipos de ticket asignados"
+      ticket_type_dependent: "Imposible eliminar la compañia, tiene tipos de ticket asignados"
       max_standard_credits: "Sólo un crédito estándar por evento"
       max_credits_reached: "Has llegado al máximo de recarga"
+      max_entitlements_reached: "Has llegado al máximo de accesos"
       not_enough_space_for_entitlement: "No hay suficiente espacio para ese entitlement"
       not_enough_space_for_credential: "No hay suficiente espacio para ese credencial"
       not_enough_space_for_entitlement_configuration: "No hay suficiente espacio para la configuración de entitlements existente"

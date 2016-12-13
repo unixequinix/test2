@@ -9,6 +9,4 @@
 //= require customer/placeholder-to-label
 //= require customer/nav-mobile
 //= require customer/top-up-buttons
-//= require customer/paypal-checkout
-//= require customer/braintree
 //= require customer/show-payment-method

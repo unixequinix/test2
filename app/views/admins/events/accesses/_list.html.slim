@@ -12,12 +12,12 @@ table.accesses
   tbody
     - accesses.each do |access|
       tr
-        td data-label=t('admin.catalog_item.name') = link_to(access.catalog_item.name, admins_event_access_path(current_event, access))
-        td data-label=t('admin.catalog_item.step') = access.catalog_item.step
-        td data-label=t('admin.catalog_item.initial_amount') = access.catalog_item.initial_amount
-        td data-label=t('admin.catalog_item.max_purchasable') = access.catalog_item.max_purchasable
-        td data-label=t('admin.catalog_item.min_purchasable') = access.catalog_item.min_purchasable
-        td data-label=t('admin.entitlement.mode') = access.entitlement.mode
+        td data-label=t('admin.catalog_item.name') = link_to(access.name, admins_event_access_path(current_event, access))
+        td data-label=t('admin.catalog_item.step') = access.step
+        td data-label=t('admin.catalog_item.initial_amount') = access.initial_amount
+        td data-label=t('admin.catalog_item.max_purchasable') = access.max_purchasable
+        td data-label=t('admin.catalog_item.min_purchasable') = access.min_purchasable
+        td data-label=t('admin.entitlement.mode') = access.entitlement&.mode
         td.table-actions-field
           = render 'admins/events/accesses/actions', access: access unless current_event.started?
 = paginate accesses

@@ -31,10 +31,7 @@ center
                           div[mc:edit="std_content00"]
                             h1.h1 = t('email.customer.order.completed.greet', name: @name)
                             p = t('email.customer.order.completed.thanks')
-                            - if @order.payments&.first&.transaction_type == "merchtpmt"
-                              p = t('email.customer.order.completed.autotopup_description', gtag: @event.gtag_name)
-                            - else
-                              p = t('email.customer.order.completed.description', gtag: @event.gtag_name)
+                            p = t('email.customer.order.completed.description', gtag: @event.gtag_name)
                             p = t('email.customer.order.completed.success')
           tr
             //Order id and date

@@ -5,9 +5,8 @@ class Api::V1::Events::TransactionsController < ApplicationController
   def create # rubocop:disable Metrics/CyclomaticComplexity
     render(status: :bad_request, json: :bad_request) && return unless params[:_json]
     errors = { atts: [] }
-
     params[:_json].each_with_index do |atts, index|
-      att_errors = validate_params(atts.keys, atts[:transaction_category], index)
+      att_errors = validate_params(atts.keys, atts[:type], index)
       errors[:atts] << att_errors && next if att_errors
       Transactions::Base.perform_later(ActiveSupport::HashWithIndifferentAccess.new(atts))
     end
@@ -21,7 +20,7 @@ class Api::V1::Events::TransactionsController < ApplicationController
 
   def validate_params(keys, category, index)
     return [:category] unless category
-    mandatory = "#{category.camelcase}Transaction".constantize.mandatory_fields
+    mandatory = Transaction.class_for_type(category).mandatory_fields
     missing = (mandatory.map(&:to_sym) - keys.map(&:to_sym)).to_sentence
     "Missing keys for position #{index}: #{missing}" unless missing.blank?
   end

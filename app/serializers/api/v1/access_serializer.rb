@@ -1,13 +1,7 @@
 class Api::V1::AccessSerializer < Api::V1::BaseSerializer
-  attributes :id, :name, :mode, :description, :position, :memory_length
+  attributes :id, :name, :mode, :position, :memory_length
 
-  def description
-    object.catalog_item.description
-  end
-
-  def name
-    object.catalog_item.name
-  end
+  delegate :name, to: :object
 
   def mode
     object.entitlement.mode

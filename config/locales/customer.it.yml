@@ -5,13 +5,10 @@ it:
     amount: "Totale"
     station: "Station"
     date: "Data"
-    transaction_types:
+    actions:
       sale: "Vendita"
       topup: "Ricarica"
       refund: "Rimborso"
-  purchases:
-    accesses: "Accessi"
-    packs: "Packs"
   currency_symbol: EUR
   actions:
     back: "Torna indietro"
@@ -57,7 +54,7 @@ it:
       header: "Riepilogo transazioni"
       button: "Scarica transazioni"
     admissions:
-      header: "Ticket %{company_ticket_type}"
+      header: "Ticket %{ticket_type}"
       call_to_action: "Desidera eliminare questo ticket?"
       call_to_action_started: "L’evento è gia cominciato. Non è possibile cambiare il ticket."
       success: "Ticket attivato con successo!"
@@ -66,8 +63,6 @@ it:
       call_to_action: " Attivate SOLO i ticket che userete VOI STESSI"
       description: "NON attivate ticket di amici con il vostro account."
       button: "Attivare Ticket"
-    purchases:
-      header: "I tuoi acquisti"
     first_register:
       ticket: "Aggiungi ticket"
       gtag: "Aggiungi %{gtag}"

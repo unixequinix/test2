@@ -5,13 +5,10 @@ es:
     amount: "Cantidad"
     station: "Estación"
     date: "Fecha"
-    transaction_types:
+    actions:
       sale: "Venta"
       topup: "Recarga"
       refund: "Reembolso"
-  purchases:
-    accesses: "Accesos"
-    packs: "Packs"
   currency_symbol: EUR
   actions:
     back: "Atrás"
@@ -57,7 +54,7 @@ es:
       button: "Descargar transacciones"
     admissions:
       header: "Tu número de Ticket"
-      header: "Ticket %{company_ticket_type}"
+      header: "Ticket %{ticket_type}"
       call_to_action: "¿Quiéres borrar el ticket?"
       call_to_action_started: "El evento ya ha comenzado, no puedes cambiar tu ticket"
       success: "¡Ticket activado con éxito!"
@@ -66,8 +63,6 @@ es:
       call_to_action: "Solo activa los tickets que vayas a utilizar"
       description: "NO actives los tickets de tus amigos en tu cuenta."
       button: "Añadir"
-    purchases:
-      header: "Tus compras"
     first_register:
       ticket: "Añadir ticket"
       gtag: "Añadir %{gtag}"

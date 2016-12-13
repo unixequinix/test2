@@ -1,11 +1,7 @@
 class Api::V1::CreditSerializer < Api::V1::BaseSerializer
-  attributes :id, :name, :description, :value, :standard, :currency
+  attributes :id, :name, :value, :currency
 
-  def description
-    object.catalog_item.description
-  end
-
-  def name
-    object.catalog_item.name
+  def currency
+    object.event.currency
   end
 end

@@ -1,5 +1,26 @@
+# == Schema Information
+#
+# Table name: devices
+#
+#  asset_tracker :string
+#  device_model  :string
+#  imei          :string
+#  mac           :string
+#  serial_number :string
+#
+# Indexes
+#
+#  index_devices_on_mac_and_imei_and_serial_number  (mac,imei,serial_number) UNIQUE
+#
+
 class Device < ActiveRecord::Base
   before_validation :upcase_asset_tracker!
+
+  SETTINGS = [:min_version_apk, :private_zone_password, :fast_removal_password, :uid_reverse, :transaction_buffer,
+              :days_to_keep_backup, :touchpoint_update_online_orders, :pos_update_online_orders,
+              :topup_initialize_gtag, :autotopup_enabled, :cypher_enabled, :gtag_blacklist, :event_id,
+              :sync_time_event_parameters, :sync_time_server_date, :sync_time_basic_download, :sync_time_tickets,
+              :sync_time_gtags, :sync_time_customers].freeze
 
   def self.transactions_count(event) # rubocop:disable Metrics/MethodLength
     sql = <<-SQL
@@ -14,7 +35,7 @@ class Device < ActiveRecord::Base
           AND transactions.type = 'DeviceTransaction'
           ORDER BY device_created_at DESC
           LIMIT 1
-        ) as transaction_type
+        ) as action
         FROM (SELECT device_uid FROM transactions WHERE transactions.event_id = #{event.id}) as transaction
         GROUP BY device_uid
         ORDER BY device_uid

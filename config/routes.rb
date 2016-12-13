@@ -60,37 +60,24 @@ Rails.application.routes.draw do
           collection do
             get :search
           end
+
+          member do
+            get :fix
+          end
         end
 
         # Refunds
-        resources :refunds, except: [:new, :create, :edit] do
-          collection do
-            get :search
-          end
-        end
-
-        resources :refund_settings, only: [:index, :edit, :update] do
-          collection do
-            get :edit_messages
-            patch :update_messages
-            post :notify_customers
-            post :paypal_refund
-          end
-        end
-
-        # Claims
-        resources :claims, except: [:new, :create, :edit] do
+        resources :refunds, only: [:index, :show] do
           collection do
             get :search
           end
         end
 
         # Payments
-        resources :payment_settings, only: [:index, :new, :create, :edit, :update]
-
-        resources :payments, except: [:new, :create, :edit, :update] do
-          collection do
-            get :search
+        resources :payment_gateways do
+          member do
+            post :topup
+            post :refund
           end
         end
 
@@ -104,6 +91,9 @@ Rails.application.routes.draw do
         # Customers
         resources :customers do
           member do
+            resources :ticket_assignments, only: [:new, :create]
+            resources :gtag_assignments, only: [:new, :create]
+            get :download_transactions
             put :reset_password
           end
           collection do
@@ -125,13 +115,13 @@ Rails.application.routes.draw do
         end
         resources :ticket_assignments, only: [:destroy]
         resource :gtag_settings, only: [:show, :edit, :update]
-        resource :gtag_keys, only: [:show, :edit, :update]
         resources :devices, only: :index
         resources :asset_trackers
 
         resources :gtags do
           resources :comments, module: :gtags
           member do
+            get :recalculate_balance
             get :ban
             delete :unban
           end
@@ -197,24 +187,8 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :credential_types, except: :show
-        resources :company_ticket_types, except: :show do
+        resources :ticket_types, except: :show do
           post :visibility
-        end
-
-        resources :profiles, except: [:new, :create, :edit, :update] do
-          member do
-            resources :ticket_assignments, only: [:new, :create]
-            resources :gtag_assignments, only: [:new, :create]
-            get :download_transactions
-            get :fix_transaction
-            get :ban
-            delete :unban
-            delete :revoke_agreement
-          end
-          collection do
-            get :search
-          end
         end
       end
     end
@@ -230,14 +204,13 @@ Rails.application.routes.draw do
       resources :devices, only: [:create]
       resources :events, only: :index do
         scope module: "events" do
+          resource :database, only: [:create, :show]
           resources :accesses, only: :index
           resources :auto_top_ups, only: :create
           resources :backups, only: :create
           resources :banned_gtags, path: "gtags/banned", only: :index
           resources :banned_tickets, path: "tickets/banned", only: :index
-          resource :database, only: [:create, :show]
-          resources :company_ticket_types, only: :index
-          resources :credential_types, only: :index
+          resources :ticket_types, only: :index
           resources :credits, only: :index
           resources :customers, only: [:index, :show]
           resources :gtags, only: [:index, :show]
@@ -248,6 +221,8 @@ Rails.application.routes.draw do
           resources :stations, only: :index
           resources :tickets, only: [:index, :show]
           resources :transactions, only: :create
+          resources :device_transactions, only: :create
+          resources :user_flags, only: :index
           get "/time", to: "time#index"
         end
       end
@@ -291,55 +266,31 @@ Rails.application.routes.draw do
       resources :autotopup_agreements, only: [:new, :show, :update, :destroy]
       resources :ticket_assignments, only: [:new, :create, :destroy]
       resources :gtag_assignments, only: [:new, :create, :destroy]
-      resources :checkouts, only: [:new, :create]
       resources :tickets, only: [:show]
+      resources :orders, expect: :destroy
       get "credits_history", to: "credits_histories#download"
       get "privacy_policy", to: "static_pages#privacy_policy"
       get "terms_of_use", to: "static_pages#terms_of_use"
-      resources :orders, only: [:show, :update] do
-        resources :payment_services, only: [] do
-          resources :autotopup_synchronous_payments, only: [:new, :create] do
-            collection do
-              get "success"
-              get "error"
-            end
-          end
-          resources :autotopup_asynchronous_payments, only: [:new, :create] do
-            collection do
-              get "success"
-              post "success"
-              get "error"
-              post "error"
-            end
-          end
-          resources :synchronous_payments, only: [:new, :create] do
-            collection do
-              get "success"
-              get "error"
-            end
-          end
-          resources :asynchronous_payments, only: [:new, :create] do
-            collection do
-              get "success"
-              post "success"
-              get "error"
-              post "error"
-            end
-          end
-        end
-      end
 
-      resources :refunds, only: [:create] do
-        collection do
-          get "success"
-          get "error"
-          get "tipalti_success"
-        end
-      end
-      resources :epg_claims, only: [:new, :create]
-      resources :bank_account_claims, only: [:new, :create]
-      resources :tipalti_claims, only: [:new]
-      resources :direct_claims, only: [:new, :create]
+      # Paypal
+      get :paypal_setup_purchase, to: "paypal#setup_purchase"
+      get :paypal_purchase, to: "paypal#purchase"
+      post :paypal_refund, to: "paypal#refund"
+
+      # Redsys
+      post :redsys_purchase, to: "redsys#purchase"
+      post :redsys_refund, to: "redsys#refund"
+
+      # Stripe
+      post :stripe_purchase, to: "stripe#purchase"
+      post :stripe_refund, to: "stripe#refund"
+
+      # Wirecard
+      post :wirecard_purchase, to: "wirecard#purchase"
+      post :wirecard_refund, to: "wirecard#refund"
+
+      # Bank Account
+      resources :refunds
     end
   end
 

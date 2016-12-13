@@ -1,8 +1,13 @@
 - flash.each do |name, msg|
   - if msg.present? && msg.is_a?(String)
-    - type = (['notice', 'success', 'alert', 'error'].include?(name.to_s) ? name : 'notice')
-    .msg-notification class="msg-for-#{type}" id="msg-#{type}"
-      p = msg
-
+    .snackbar class="snackbar--#{name}"
+      .snackbar__msg
+        = %w( alert error).include?(name) ? fa_icon("exclamation-triangle") : fa_icon("check")
+        = msg
+      .snackbar__btn
+        button class="js-close-snackbar" DISMISS
 javascript:
-  $(".msg-notification").slideDown(200).delay(7500).slideUp(200, function() { $(this).remove(); } );
+  $(".snackbar").slideDown(200).delay(3000).slideUp(200, function() { $(this).remove(); } );
+  $(".js-close-snackbar").click(function() {
+    $(".snackbar").clearQueue().slideUp(200, function() { $(".snackbar").remove(); })
+  });

@@ -1,10 +1,10 @@
-- breadcrumb :admins_event_profile_gtag_assignation, current_event, @profile
+- breadcrumb :admins_event_customer_gtag_assignation, current_event, @customer
 - provide :actions do
-  = link_to admins_event_profile_path(current_event, @profile), class: "btn btn-action btn-action-back small" do
+  = link_to admins_event_customer_path(current_event, @customer), class: "btn btn-action btn-action-back small" do
     = fa_icon "arrow-circle-left"
     = t('actions.back')
 
-= form_tag admins_event_gtag_assignments_path(current_event, @profile) do |f|
+= form_tag admins_event_gtag_assignments_path(current_event, @customer) do |f|
   .wrapper-negative-space
     .input
       = label_tag t('admin.gtags.tag')

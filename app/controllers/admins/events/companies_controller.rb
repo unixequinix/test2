@@ -35,7 +35,7 @@ class Admins::Events::CompaniesController < Admins::Events::BaseController
       flash[:notice] = I18n.t("alerts.destroyed")
       redirect_to admins_event_companies_url
     else
-      flash.now[:error] = I18n.t("errors.messages.company_ticket_type_dependent")
+      flash.now[:error] = I18n.t("errors.messages.ticket_type_dependent")
       set_presenter
       render :index
     end

@@ -6,28 +6,22 @@ class Events::GtagAssignmentsController < Events::BaseController
     @gtag_assignment_presenter = GtagAssignmentPresenter.new(current_event: current_event)
   end
 
-  # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     gtag = current_event.gtags.where(tag_uid: permitted_params[:tag_uid].strip.upcase).order(:activation_counter).last
     @gtag_assignment_presenter = GtagAssignmentPresenter.new(current_event: current_event)
 
     flash.now[:error] = I18n.t("alerts.gtag.invalid") if gtag.nil?
-    flash.now[:error] = I18n.t("alerts.gtag.already_assigned") if gtag&.assigned?
+    flash.now[:error] = I18n.t("alerts.gtag.already_assigned") if gtag&.customer
     render(:new) && return if flash.now[:error].present?
 
-    unless Profile::Checker.for_credentiable(gtag, current_profile)
-      flash.now[:error] = I18n.t("alerts.error")
-      render(:new) && return
-    end
-
+    gtag.update(customer: current_customer)
     create_transaction("gtag_assigned", gtag)
-    flash[:notice] = I18n.t("alerts.created")
-    redirect_to event_url(current_event)
+    redirect_to event_url(current_event), notice: I18n.t("alerts.created")
   end
 
   def destroy
     gtag = current_event.gtags.find(params[:id])
-    gtag.update(profile: nil)
+    gtag.update(customer: nil)
     create_transaction("gtag_unassigned", gtag)
     flash[:notice] = I18n.t("alerts.unassigned")
     redirect_to event_url(current_event)
@@ -39,8 +33,7 @@ class Events::GtagAssignmentsController < Events::BaseController
     CredentialTransaction.create!(
       event: current_event,
       transaction_origin: Transaction::ORIGINS[:portal],
-      transaction_category: "credential",
-      transaction_type: action,
+      action: action,
       customer_tag_uid: gtag.tag_uid,
       activation_counter: gtag.activation_counter,
       operator_tag_uid: current_customer.email,
@@ -57,7 +50,7 @@ class Events::GtagAssignmentsController < Events::BaseController
   end
 
   def check_has_not_gtag!
-    return if current_profile.active_gtag.nil?
+    return if current_customer.active_gtag.nil?
     redirect_to event_url(current_event), flash: { error: I18n.t("alerts.gtag_already_assigned") }
   end
 

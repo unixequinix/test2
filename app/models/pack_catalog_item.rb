@@ -2,30 +2,36 @@
 #
 # Table name: pack_catalog_items
 #
-#  id              :integer          not null, primary key
-#  pack_id         :integer          not null
-#  catalog_item_id :integer          not null
 #  amount          :decimal(8, 2)
-#  deleted_at      :datetime
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#
+# Indexes
+#
+#  index_pack_catalog_items_on_catalog_item_id  (catalog_item_id)
+#  index_pack_catalog_items_on_pack_id          (pack_id)
+#
+# Foreign Keys
+#
+#  fk_rails_b4c71ddbac  (catalog_item_id => catalog_items.id)
 #
 
 class PackCatalogItem < ActiveRecord::Base
-  acts_as_paranoid
-
-  belongs_to :pack, counter_cache: :catalog_items_count, inverse_of: :pack_catalog_items
+  belongs_to :pack, inverse_of: :pack_catalog_items
   belongs_to :catalog_item
 
   validates :amount, presence: true
   validates :amount, numericality: true
+
   validate :limit_amount, if: :infinite?
+  validate :packception
 
   private
 
+  def packception
+    errors[:catalog_item] << "Cannot be a pack" if catalog_item.is_a?(Pack)
+  end
+
   def infinite?
-    type = catalog_item.catalogable_type
-    catalog_item.catalogable.entitlement.infinite? if %w(Access).include?(type)
+    catalog_item.entitlement.infinite? if catalog_item.is_a?(Access)
   end
 
   def limit_amount

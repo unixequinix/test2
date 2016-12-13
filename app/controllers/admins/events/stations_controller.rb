@@ -1,5 +1,5 @@
 class Admins::Events::StationsController < Admins::Events::BaseController
-  before_action :set_station, only: [:edit, :update, :destroy, :visibility]
+  before_action :set_station, except: [:index, :new, :create]
 
   def index
     @group = params[:group]
@@ -13,32 +13,24 @@ class Admins::Events::StationsController < Admins::Events::BaseController
 
   def create
     @station = Station.new(permitted_params)
+    @group = @station.group
     if @station.save
       path = admins_event_stations_url(current_event, group: @station.group)
       redirect_to path, notice: I18n.t("alerts.created")
     else
-      flash.now[:error] = @station.errors.full_messages.join(". ")
+      flash.now[:error] = I18n.t("alerts.error")
       render :new
     end
   end
 
-  def edit
-    @group = @station.group
-  end
-
   def update
-    @group = @station.group
-
     respond_to do |format|
       if @station.update(permitted_params)
-        format.html do
-          path = admins_event_stations_url(current_event, group: @group)
-          redirect_to path, notice: I18n.t("alerts.updated")
-        end
+        format.html { redirect_to admins_event_stations_url(current_event, group: @group), notice: I18n.t("alerts.updated") } # rubocop:disable Metrics/LineLength
         format.json { render json: @station }
       else
         format.html do
-          flash.now[:error] = @station.errors.full_messages.join(". ")
+          flash.now[:error] = I18n.t("alerts.error")
           render :edit
         end
       end
@@ -46,25 +38,21 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   end
 
   def clone
-    @station = Station.find(params[:station_id])
-    path = admins_event_stations_url(current_event, group: @station.group)
-    station_clone = @station.deep_clone(include: { station_parameters: :station_parametable }, validate: false)
-    if station_clone.update(name: @station.name + Time.now.to_i.to_s)
-      flash[:notice] = I18n.t("alerts.cloned")
+    associations = [:station_catalog_items, :station_products, :topup_credits, :access_control_gates]
+    name = @station.name + Time.now.to_i.to_s
+    @station = @station.deep_clone(include: associations, validate: false)
+
+    if @station.update(name: name)
+      redirect_to admins_event_stations_url(current_event, group: @station.group), notice: I18n.t("alerts.cloned")
     else
       flash[:error] = I18n.t("errors.messages.station_has_associations")
+      render :new
     end
-    redirect_to(path)
   end
 
   def destroy
-    path = admins_event_stations_url(current_event, group: @station.group)
-    if @station.destroy
-      flash[:notice] = I18n.t("alerts.destroyed")
-    else
-      flash[:error] = I18n.t("errors.messages.station_has_associations")
-    end
-    redirect_to(path)
+    @station.destroy
+    redirect_to admins_event_stations_url(current_event, group: @station.group), notice: I18n.t("alerts.destroyed")
   end
 
   def sort
@@ -76,7 +64,6 @@ class Admins::Events::StationsController < Admins::Events::BaseController
 
   def visibility
     @station.update(hidden: !@station.hidden?)
-    @group = @station.group
     redirect_to admins_event_stations_url(current_event, group: @group), notice: I18n.t("alerts.updated")
   end
 
@@ -85,10 +72,10 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   def set_station
     id = params[:id] || params[:station_id]
     @station = current_event.stations.find(id)
+    @group = @station.group
   end
 
   def permitted_params
-    params.require(:station).permit(:name, :location, :event_id, :category, :group, :reporting_category,
-                                    :address, :registration_num, :official_name)
+    params.require(:station).permit(:name, :location, :event_id, :category, :group, :reporting_category, :address, :registration_num, :official_name) # rubocop:disable Metrics/LineLength
   end
 end

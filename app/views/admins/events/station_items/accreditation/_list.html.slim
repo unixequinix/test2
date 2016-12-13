@@ -5,7 +5,6 @@ table.station_catalog_items
       - unless @station.category == "staff_accreditation"
         th = t('admin.stations.station_catalog_item.price')
       th = t('admin.stations.station_catalog_item.type')
-      th = t('admin.stations.station_catalog_item.description')
       th.table-actions-field = t('admin.defaults.actions')
   tbody
     - @items.each do |item|
@@ -14,11 +13,12 @@ table.station_catalog_items
           = best_in_place item.catalog_item, :name, url: admins_event_catalog_item_path(current_event, item.catalog_item_id)
         - unless @station.category == "staff_accreditation"
           td data-label=t('admin.stations.station_catalog_item.price')
-            = best_in_place item, :price, as: :input, url: admins_event_station_station_item_path(current_event, item.station_parameter.station_id, item, item_type: "station_catalog_item")
+            - if item.catalog_item.is_a?(Credit)
+              = item.catalog_item.value
+            - else
+              = best_in_place item, :price, as: :input, url: admins_event_station_station_item_path(current_event, item.station_id, item, item_type: "station_catalog_item")
         td data-label=t('admin.stations.station_catalog_item.name')
-          = item.catalog_item.catalogable_type
-        td data-label=t('admin.stations.station_catalog_item.description')
-          = best_in_place item.catalog_item, :description, url: admins_event_catalog_item_path(current_event, item.catalog_item_id)
+          = item.catalog_item.type
         td.table-actions-field
           ul
             - unless current_event.active?

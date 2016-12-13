@@ -1,6 +1,6 @@
 class TicketsPresenter < BasePresenter
   def can_render?
-    !event_started? && @profile.active_credentials? && @event.ticket_assignation?
+    !event_started? && @customer.active_credentials? && @event.ticket_assignation?
   end
 
   def path

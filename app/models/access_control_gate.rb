@@ -2,22 +2,26 @@
 #
 # Table name: access_control_gates
 #
-#  id         :integer          not null, primary key
-#  access_id  :integer          not null
 #  direction  :string           not null
-#  deleted_at :datetime
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#
+# Indexes
+#
+#  index_access_control_gates_on_access_id   (access_id)
+#  index_access_control_gates_on_station_id  (station_id)
+#
+# Foreign Keys
+#
+#  fk_rails_1846655ccd  (station_id => stations.id)
 #
 
 class AccessControlGate < ActiveRecord::Base
-  acts_as_paranoid
-
   belongs_to :access
-  has_one :station_parameter, as: :station_parametable, dependent: :destroy
-  accepts_nested_attributes_for :station_parameter, allow_destroy: true
+  belongs_to :station
 
   validates :direction, :access_id, presence: true
 
-  after_update { station_parameter.station.touch }
+  scope :in, -> { where(direction: "1") }
+  scope :out, -> { where(direction: "-1") }
+
+  after_update { station.touch }
 end

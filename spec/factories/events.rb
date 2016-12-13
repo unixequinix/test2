@@ -1,13 +1,62 @@
+# == Schema Information
+#
+# Table name: events
+#
+#  aasm_state                   :string
+#  background_content_type      :string
+#  background_file_name         :string
+#  background_file_size         :integer
+#  background_type              :string           default("fixed")
+#  company_name                 :string
+#  currency                     :string           default("USD"), not null
+#  device_basic_db_content_type :string
+#  device_basic_db_file_name    :string
+#  device_basic_db_file_size    :integer
+#  device_full_db_content_type  :string
+#  device_full_db_file_name     :string
+#  device_full_db_file_size     :integer
+#  device_settings              :json
+#  end_date                     :datetime
+#  eventbrite_client_key        :string
+#  eventbrite_client_secret     :string
+#  eventbrite_event             :string
+#  eventbrite_token             :string
+#  gtag_assignation             :boolean          default(FALSE)
+#  gtag_settings                :json
+#  host_country                 :string           default("US"), not null
+#  location                     :string
+#  logo_content_type            :string
+#  logo_file_name               :string
+#  logo_file_size               :integer
+#  name                         :string           not null
+#  official_address             :string
+#  official_name                :string
+#  registration_num             :string
+#  registration_settings        :json
+#  slug                         :string           not null
+#  start_date                   :datetime
+#  style                        :text
+#  support_email                :string           default("support@glownet.com"), not null
+#  ticket_assignation           :boolean          default(FALSE)
+#  token                        :string
+#  token_symbol                 :string           default("t")
+#  url                          :string
+#
+# Indexes
+#
+#  index_events_on_slug  (slug) UNIQUE
+#
+
 FactoryGirl.define do
   factory :event do
     name { "Event #{SecureRandom.hex(16)}" }
+    aasm_state "started"
     location "Glownet"
     start_date { Time.zone.now }
     end_date { Time.zone.now + 2.days }
-    description "This paragraph is something special"
     support_email "support@glownet.com"
     style "html { font-family: Helvetica; }"
-    url { "somedomain#{rand(100)}.example.com" }
+    sequence(:url) { |n| "somedomain.#{n}.example.com" }
     currency "EUR"
     host_country "ES"
     background_type "fixed"
@@ -16,10 +65,8 @@ FactoryGirl.define do
     gtag_form_disclaimer "Some gtag form notification"
     gtag_name "Wristband"
     info "Information about the festival"
-    mass_email_claim_notification "We are sending you email"
     refund_success_message "Your refund has been successfull"
-    refund_services 0
-    payment_services 0
+    gtag_settings { { gtag_type: "ultralight_c", maximum_gtag_balance: 300 }.as_json }
 
     # Event states
 
@@ -42,45 +89,15 @@ FactoryGirl.define do
     # Event features
 
     trait :ticket_assignation do
-      after(:build) do |event|
-        event.ticket_assignation = true
-      end
+      ticket_assignation true
     end
 
     trait :gtag_assignation do
-      after(:build) do |event|
-        event.gtag_assignation = true
-      end
-    end
-
-    # Payment services
-    trait :payment_services do
-      payment_services 3
-    end
-
-    # Refund services
-    trait :refunds do
-      after(:build) do |event|
-        event.refunds = true
-      end
-    end
-
-    trait :with_standard_credit do |_event|
+      gtag_assignation true
     end
 
     after :create do |event|
-      gtag_type = Parameter.find_by(category: "gtag", group: "form", name: "gtag_type")
-      EventParameter.find_or_create_by(event: event, value: "ultralight_c", parameter: gtag_type)
-
-      max_balance = Parameter.find_by(category: "gtag", group: "form", name: "maximum_gtag_balance")
-      EventParameter.find_or_create_by(event: event, value: "300", parameter: max_balance)
-
-      ci = { event_id: event.id, name: "Credit", step: 5, min_purchasable: 0, max_purchasable: 300, initial_amount: 0 }
-      Credit.create(standard: true, currency: "EUR", value: 1, catalog_item_attributes: ci)
+      event.create_credit(value: 1, step: 5, min_purchasable: 0, max_purchasable: 300, initial_amount: 0, name: "CR")
     end
-
-    factory :event_with_refund_services, traits: [:refund_services]
-    factory :event_with_payment_services, traits: [:payment_services]
-    factory :event_with_standard_credit, traits: [:with_standard_credit]
   end
 end

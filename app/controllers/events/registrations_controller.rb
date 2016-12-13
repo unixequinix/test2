@@ -2,7 +2,7 @@ class Events::RegistrationsController < Devise::RegistrationsController
   layout "customer"
   helper_method :current_event
   before_action :configure_permitted_parameters
-  helper_method :current_profile
+  helper_method :current_customer
 
   private
 
@@ -27,13 +27,10 @@ class Events::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  def current_profile
-    current_customer.profile || Profile.new(customer: current_customer, event: current_event)
-  end
-
   def configure_permitted_parameters
     customer = [:first_name, :last_name, :phone, :postcode, :address, :city, :country, :gender, :birthdate,
-                :agreed_on_registration, :agreed_event_condition, :receive_communications, :receive_communications_two]
+                :agreed_on_registration, :agreed_event_condition, :receive_communications, :receive_communications_two,
+                :provider, :uid]
 
     devise_parameter_sanitizer.permit(:account_update, keys: customer)
     devise_parameter_sanitizer.permit(:sign_up, keys: customer)

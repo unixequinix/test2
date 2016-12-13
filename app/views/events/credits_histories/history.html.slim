@@ -32,7 +32,7 @@ html
                 - @pdf_transactions.each do |t|
                   tr.bill-row
                     td.transaction-type-cell
-                      p.transaction-type-title = t("pdf.transaction_types.#{t.transaction_type}")
+                      p.transaction-type-title = t("pdf.actions.#{t.action}")
                       ul
                         - t.sale_items.each do |item|
                           li

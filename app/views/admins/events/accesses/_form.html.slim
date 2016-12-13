@@ -5,15 +5,12 @@
       = entitlement.input :memory_length, as: :hidden, input_html: { value: 1 }
       = entitlement.input :event_id, as: :hidden, input_html: { value: current_event.id }
 
-    = f.simple_fields_for :catalog_item do |catalog_item|
-      = catalog_item.input :name, autofocus: false, placeholder: true
-      = catalog_item.input :description, placeholder: true
-      #shop-fields
-        = catalog_item.input :step, placeholder: true
-        = catalog_item.input :initial_amount, placeholder: true
-        = catalog_item.input :max_purchasable, placeholder: true
-        = catalog_item.input :min_purchasable, placeholder: true
-      = catalog_item.input :event_id, as: :hidden, input_html: { value: current_event.id }
+    = f.input :name, autofocus: false, placeholder: true
+    #shop-fields
+      = f.input :step, placeholder: true
+      = f.input :initial_amount, placeholder: true
+      = f.input :max_purchasable, placeholder: true
+      = f.input :min_purchasable, placeholder: true
 
     = f.button :submit, class: "btn btn-primary"
 

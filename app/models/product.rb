@@ -2,23 +2,25 @@
 #
 # Table name: products
 #
-#  id           :integer          not null, primary key
-#  name         :string
-#  is_alcohol   :boolean          default(FALSE)
-#  deleted_at   :datetime
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
 #  description  :string
-#  event_id     :integer
-#  vat          :float            default(0.0)
+#  is_alcohol   :boolean          default(FALSE)
+#  name         :string
 #  product_type :string
+#  vat          :float            default(0.0)
+#
+# Indexes
+#
+#  index_products_on_event_id  (event_id)
+#
+# Foreign Keys
+#
+#  fk_rails_ab0be0bcf2  (event_id => events.id)
 #
 
 class Product < ActiveRecord::Base
-  acts_as_paranoid
-
   belongs_to :event
-  has_many :station_products, dependent: :restrict_with_error
+  has_many :station_products, dependent: :destroy
+  has_many :sale_items, dependent: :destroy
 
   validates :name, :event_id, presence: true
   validates :name, uniqueness: { scope: :event_id }

@@ -1,23 +1,35 @@
 class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
+  before_action :set_modified
+
   def index
-    modified = request.headers["If-Modified-Since"]
-    gtags = sql_gtags(modified) || []
+    gtags = gtags_sql || []
+    date = current_event.gtags.maximum(:updated_at)&.httpdate
 
-    if gtags.present?
-      date = JSON.parse(gtags).map { |pr| pr["updated_at"] }.sort.last
-      response.headers["Last-Modified"] = date.to_datetime.httpdate
-    end
-
-    status = gtags.present? ? 200 : 304 if modified
-    status ||= 200
-
-    render(status: status, json: gtags)
+    render_entity(gtags, date)
   end
 
   def show
     gtag = current_event.gtags.find_by_tag_uid(params[:id])
 
     render(json: :not_found, status: :not_found) && return unless gtag
-    render(json: gtag, serializer: Api::V1::GtagWithCustomerSerializer)
+    render(json: gtag, serializer: Api::V1::GtagSerializer)
+  end
+
+  private
+
+  def gtags_sql
+    sql = <<-SQL
+      SELECT json_strip_nulls(array_to_json(array_agg(row_to_json(g))))
+      FROM (
+        SELECT
+          gtags.tag_uid as reference,
+          gtags.banned,
+          gtags.updated_at,
+          customer_id as customer_id
+        FROM gtags
+        WHERE gtags.event_id = #{current_event.id} #{"AND gtags.updated_at > '#{@modified}'" if @modified}
+      ) g
+    SQL
+    ActiveRecord::Base.connection.select_value(sql)
   end
 end

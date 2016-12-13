@@ -1,36 +1,77 @@
+# == Schema Information
+#
+# Table name: events
+#
+#  aasm_state                   :string
+#  background_content_type      :string
+#  background_file_name         :string
+#  background_file_size         :integer
+#  background_type              :string           default("fixed")
+#  company_name                 :string
+#  currency                     :string           default("USD"), not null
+#  device_basic_db_content_type :string
+#  device_basic_db_file_name    :string
+#  device_basic_db_file_size    :integer
+#  device_full_db_content_type  :string
+#  device_full_db_file_name     :string
+#  device_full_db_file_size     :integer
+#  device_settings              :json
+#  end_date                     :datetime
+#  eventbrite_client_key        :string
+#  eventbrite_client_secret     :string
+#  eventbrite_event             :string
+#  eventbrite_token             :string
+#  gtag_assignation             :boolean          default(FALSE)
+#  gtag_settings                :json
+#  host_country                 :string           default("US"), not null
+#  location                     :string
+#  logo_content_type            :string
+#  logo_file_name               :string
+#  logo_file_size               :integer
+#  name                         :string           not null
+#  official_address             :string
+#  official_name                :string
+#  registration_num             :string
+#  registration_settings        :json
+#  slug                         :string           not null
+#  start_date                   :datetime
+#  style                        :text
+#  support_email                :string           default("support@glownet.com"), not null
+#  ticket_assignation           :boolean          default(FALSE)
+#  timezone                     :string
+#  token                        :string
+#  token_symbol                 :string           default("t")
+#  url                          :string
+#
+# Indexes
+#
+#  index_events_on_slug  (slug) UNIQUE
+#
+
 class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
-  nilify_blanks
   translates :info, :disclaimer, :terms_of_use, :privacy_policy, :refund_success_message,
-             :mass_email_claim_notification, :refund_disclaimer, :bank_account_disclaimer,
+             :refund_disclaimer, :bank_account_disclaimer,
              :gtag_assignation_notification, :gtag_form_disclaimer, :gtag_name,
              :agreed_event_condition_message, :receive_communications_message, :receive_communications_two_message,
              fallbacks_for_empty_translations: true
 
-  include EventState # State machine
-  include EventFlags # FlagShihTzu
-
-  # Associations
-  has_many :device_transactions
-  has_many :company_ticket_types
-  has_many :profiles
-  has_many :event_parameters
-  has_many :parameters, through: :event_parameters
-  has_many :customers
-  has_many :company_event_agreements
+  has_many :catalog_items, dependent: :destroy
+  has_many :transactions, dependent: :destroy
+  has_many :ticket_types, dependent: :destroy
   has_many :companies, through: :company_event_agreements
-  has_many :transactions
-  has_many :products
-  has_many :stations
-  has_many :catalog_items
-  has_many :accesses, through: :catalog_items, source: :catalogable, source_type: "Access"
-  has_many :packs, through: :catalog_items, source: :catalogable, source_type: "Pack"
-  has_many :credits, through: :catalog_items, source: :catalogable, source_type: "Credit" do
-    def standard
-      find_by(standard: true)
-    end
-  end
-  has_many :tickets
-  has_many :gtags
+  has_many :company_event_agreements, dependent: :destroy
+  has_many :entitlements, dependent: :destroy
+  has_many :gtags, dependent: :destroy
+  has_many :payment_gateways, dependent: :destroy
+  has_many :products, dependent: :destroy
+  has_many :stations, dependent: :destroy
+  has_many :tickets, dependent: :destroy
+  has_many :device_transactions, dependent: :destroy
+  has_many :user_flags, dependent: :destroy
+  has_many :accesses, dependent: :destroy
+  has_many :packs, dependent: :destroy
+  has_one :credit, dependent: :destroy
+  has_many :customers, dependent: :destroy
 
   # Scopes
   scope :status, -> (status) { where aasm_state: status }
@@ -39,6 +80,41 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   friendly_id :name, use: :slugged
 
   S3_FOLDER = Rails.application.secrets.s3_images_folder
+  REGISTRATION_SETTINGS = [:phone, :address, :city, :country, :postcode, :gender, :birthdate, :agreed_event_condition,
+                           :receive_communications, :receive_communications_two].freeze
+  LOCALES = [:en, :es, :it, :de, :th].freeze
+
+  include AASM
+
+  aasm do
+    state :created, initial: true
+    state :launched
+    state :started
+    state :finished
+    state :closed
+
+    event :launch do
+      transitions from: :created, to: :launched
+    end
+
+    event :start do
+      transitions from: :launched, to: :started
+      # TODO: Validates Company Ticket Types
+      # TODO: Validates Device Private Key
+    end
+
+    event :finish do
+      transitions from: :started, to: :finished
+    end
+
+    event :close do
+      transitions from: :finished, to: :closed
+    end
+
+    event :reboot do
+      transitions from: :closed, to: :created
+    end
+  end
 
   has_attached_file(
     :logo,
@@ -84,36 +160,28 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   do_not_validate_attachment_file_type :device_full_db
   do_not_validate_attachment_file_type :device_basic_db
 
-  def claims
-    Claim.joins(:profile).where(profiles: { event_id: id })
+  def topups?
+    payment_gateways.map(&:topup).any?
+  end
+
+  def refunds?
+    payment_gateways.map(&:refund).any?
   end
 
   def refunds
-    Refund.joins(claim: :profile).where(profiles: { event_id: id })
-  end
-
-  def customer_orders
-    CustomerOrder.joins(:profile).where(profiles: { event_id: id })
+    Refund.includes(:customer).where(customers: { event_id: id })
   end
 
   def orders
-    Order.joins(:profile).where(profiles: { event_id: id })
-  end
-
-  def payments
-    Payment.joins(order: :profile).where(profiles: { event_id: id })
-  end
-
-  def credential_types
-    CredentialType.joins(:catalog_item).where(catalog_items: { event_id: id }).includes(:catalog_item)
+    Order.joins(:customer).where(customers: { event_id: id })
   end
 
   def eventbrite?
     eventbrite_token.present? && eventbrite_event.present?
   end
 
-  def standard_credit_price
-    credits.standard.value
+  def credit_price
+    credit.value
   end
 
   def portal_station
@@ -121,50 +189,19 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def total_refundable_money
-    profiles.sum(:refundable_credits) * standard_credit_price
-  end
-
-  def refund_fee(refund_service)
-    get_parameter("refund", refund_service, "fee")
-  end
-
-  def refund_minimun(refund_service)
-    get_parameter("refund", refund_service, "minimum")
-  end
-
-  def get_parameter(category, group, name)
-    event_parameters.includes(:parameter)
-                    .find_by(parameters: { category: category, group: group, name: name })
-                    &.value
-  end
-
-  def selected_locales_formated
-    selected_locales.map { |key| key.to_s.gsub("_lang", "") }
-  end
-
-  def only_credits_purchasable?
-    purchasable_items = stations.find_by_category("customer_portal").station_catalog_items
-    purchasable_items.count > 0 &&
-      purchasable_items.joins(:catalog_item)
-                       .where.not(catalog_items: { catalogable_type: "Credit" }).count.zero?
-  end
-
-  def autotopup_payment_services
-    selected_autotopup_payment_services.select do |payment_service|
-      get_parameter("payment", payment_service_parsed(payment_service), "autotopup") == "true"
-    end
-  end
-
-  def selected_autotopup_payment_services
-    selected_payment_services & EventDecorator::AUTOTOPUP_PAYMENT_SERVICES
-  end
-
-  def payment_service_parsed(payment_service)
-    EventDecorator::PAYMENT_PLATFORMS[payment_service]
+    customers.sum(:refundable_credits) * credit_price
   end
 
   def active?
     %w(launched started finished).include? aasm_state
+  end
+
+  # Defines a method with a question mark for each registration setting which returns true if the setting is present
+  # Examples: current_event.phone? / current_event.address?
+  REGISTRATION_SETTINGS.each do |method_name|
+    define_method "#{method_name}?" do
+      registration_settings && registration_settings[method_name.to_s] == "true"
+    end
   end
 
   private

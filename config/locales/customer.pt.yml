@@ -5,13 +5,10 @@ pt:
     amount: "Quantia"
     station: "Local"
     date: "Data"
-    transaction_types:
+    actions:
       sale: "Venda"
       topup: "Carregamento"
       refund: "Reembolso"
-  purchases:
-    accesses: "Acessos"
-    packs: "Pacotes"
   currency_symbol: EUR
   actions:
     back: " Para trás "
@@ -56,7 +53,7 @@ pt:
       header: "Histórico de transcções"
       button: "Descarregar transacções"
     admissions:
-      header: "Bilhete %{company_ticket_type}"
+      header: "Bilhete %{ticket_type}"
       call_to_action: "Pretendes remover este bilhete?"
       call_to_action_started: "Após o início do evento já não podes alterar o teu bilhete"
       success: "Bilhete activado com sucesso!"
@@ -65,8 +62,6 @@ pt:
       call_to_action: "Activa apenas o(s) bilhete(s) que vão ser utilizados por ti"
       description: "Não actives bilhetes dos teus amigos com a tua conta e/ou a tua sessão iniciada"
       button: "Adiciona mais bilhetes"
-    purchases:
-      header: "As tuas compras"
     first_register:
       ticket: "Adicionar bilhete"
       gtag: "Adicionar %{gtag}"

@@ -29,9 +29,9 @@ en:
     transactions:
       id: "ID"
       transaction_origin: "Origin"
-      transaction_type: "Type"
-      customer_tag_uid: "Customer"
-      operator_tag_uid: "Operator"
+      action: "Type"
+      customer_tag_uid: "Customer Tag"
+      operator_tag_uid: "Operator Tag"
       activation: "Activation"
       gtag_counter: "Gtag Counter"
       counter: "Counter"
@@ -41,7 +41,7 @@ en:
       device_uid: "Device"
       device_db_index: "DB index"
       device_created_at: "Date"
-      profile_id: "Profile"
+      customer_id: "Customer"
       status_code: "Status Code"
       status_message: "Status Message"
       ticket_code: "Ticket"
@@ -63,15 +63,14 @@ en:
       station: "Station"
       event: "Event"
       device: "Device"
-      customer_order: "Customer Order"
       access: "Access"
       direction: "Direction"
       final_value: "Final Value"
       credential: "Credential"
       ticket: "Ticket"
       money: "Money"
-      catalogable_type: "Catalogable Type"
-      catalogable_id: "Catalogable ID"
+      type: "Catalogable Type"
+      catalog_item_id: "Catalog Item ID"
       items_amount: "Items Amount"
     agreements:
       status: "Status"
@@ -207,22 +206,8 @@ en:
       background_types:
         fixed: 'Fixed'
         repeat: 'Repeat'
-      payment_services:
-        paypal: 'Braintree (Paypal)'
-        paypal_nvp: 'Paypal'
-        redsys: 'Redsys'
-        stripe: 'Stripe'
-        braintree: 'Braintree (Credit Card)'
-        sofort: 'Sofort'
-        ideal: 'Ideal'
-        wirecard: 'Wirecard'
-      refund_services:
-        bank_account: 'Bank account'
-        epg: 'Easy payment gateway'
-        tipalti: 'Tipalti'
-        direct: 'Payment cancellation refund'
       images:
-        profile: "Profile image preview"
+        customer: "Customer image preview"
         background: "Background image preview"
       features_options:
         top_ups: 'Credit top ups'
@@ -334,18 +319,16 @@ en:
       gtag: "GTags"
       credits: "Credits"
       customers: "Customers"
-      profiles: "Profiles"
+      customers: "Customers"
       orders: "Orders"
-      customer_orders: "Customer orders"
       payments: "Payments"
       claims: "Claims"
       refunds: "Refunds"
       sign_out: "Sign out"
       setup: "Setup"
       crm: "CRM"
-      credential_types: "Credential Types"
       companies: "Companies"
-      company_ticket_types: "Company ticket types"
+      ticket_types: "Company ticket types"
       access_transactions: "Access"
       ban_transactions: "Ban"
       credit_transactions: "Credit"
@@ -372,7 +355,7 @@ en:
       initial_amount: "Initial amount"
       max_purchasable: "Max purchasable"
       min_purchasable: "Min purchasable"
-      catalogable_type: "Type"
+      type: "Type"
     products:
       id: "Id"
       name: "Name"
@@ -382,6 +365,10 @@ en:
       stations: "Stations"
       vat: "VAT %"
     pack:
+      catalog_items:
+        name: "Name"
+        type: "Type"
+        amount: "Amount"
       number_catalog_items: "Number of items"
       add_item: "Add Item"
       instructions:
@@ -389,14 +376,6 @@ en:
         conditions:
           - "There aren't other kind of items in a pack, like accesses"
           - "If a pack includes special price credits, the refundable amount of the credits will be the result of multiplying the payed price by the credi value"
-    credential_type:
-      id: "Id"
-      memory_position: "Memory position"
-    company_ticket_types:
-      id: "Id"
-      name: "Name"
-      company_code: "Company code"
-      credential_type: "Credential type"
     entitlement:
       mode: "Mode"
       memory_length: "Length"
@@ -409,11 +388,13 @@ en:
       credit: "Credit"
       entitlements: "Entitlements"
       import: "Import ticket types (Select a CSV file comma separated)"
+      company_code: "Company code"
+      catalog_item: "Item"
     tickets:
       id: "Id"
       code: "Code"
       banned: "Banned"
-      company_ticket_type: "Company ticket type"
+      ticket_type: "Company ticket type"
       gtags: "Gtags"
       ticket_type_simplified: "Simplified Ticket type"
       customer: "Assigned customer"
@@ -492,7 +473,7 @@ en:
         assigned: "Is assigned now"
         unassigned: "Previous assignation"
       button: "Accept"
-    profile:
+    customer:
       id: "Id"
     customers:
       id: "Id"
@@ -507,7 +488,6 @@ en:
       gtags: "Gtags"
       gtag: "Gtag"
       state: "State"
-      purchases: "Purchases"
       admissions: "Ticket registrations"
       creadit_logs: "Credits logs"
       orders: "Orders"
@@ -515,7 +495,6 @@ en:
       payments_activated: "Payments activated"
       gtags: "Gtags"
       completed_claim: "Completed claims"
-      customer_orders: "Customer orders"
       refund: "Refund"
       claims: "Claims"
       gtag_credits: "Gtag Credits"
@@ -531,7 +510,6 @@ en:
       transactions: "Transactions"
       transactions_type: "Transactions type"
       created_at: "Created at"
-      deleted_at: "Deleted at"
       amount: "Amount"
       search:
         first_name: "Type first name"
@@ -541,35 +519,8 @@ en:
         tickets: "Tickets?"
         gtags: "Gtags"
         credits_purchased: "Credits Purchased?"
-    claims:
-      claim_number: "Claim number"
-      number: "Number"
-      customer: "Customer"
-      state: "State"
-      created: "Created at"
-      completed: "Completed at"
-      amount: "Amount"
-      product_price: "Product price"
-      total: "Total"
-      service_type: "Service Type"
-      product_name: "Product name"
-      product_description: "Product description"
-      product_type: "Product type"
-      order_item: "Order items"
-      claim_parameters: "Parameters"
-      claim_parameter: "Parameter"
-      claim_parameter_value: "Value"
-      parameters:
-        state: "State"
-        city: "City"
-        post_code: "Post code"
-        phone: "Phone"
-        address: "Address"
-        iban: "IBAN"
-        swift: "BIC/SWIFT"
-      search:
-        number: "Number"
     orders:
+      gateway: "Gateway"
       number: "Number"
       customer: "Customer"
       state: "State"
@@ -585,49 +536,24 @@ en:
       payments: "Payments"
       search:
         number: "Number"
-    customer_orders:
+    order_items:
       id: "Id"
       amount: "Amount"
-      profile: "Profiles"
+      customer: "Customers"
       catalog_item: "Catalog item"
-      origin: "Origin"
       redeemed: "Redeemed"
-    payments:
-      id: "Id"
-      order_id: "Order Id"
-      amount: "Amount"
-      transaction_type: "Transaction type"
-      card_country: "Card country"
-      last4: "Card last digits"
-      response_code: "Response code"
-      authorization_code: "Authorization code"
-      currency: "Currency"
-      success: "Success"
-      paid: "Paid at"
-      search:
-        id: "Id eq"
     refunds:
       id: "Id"
-      customer_id: "Customer Id"
       customer_name: "Customer name"
       customer_email: "Customer email"
-      gtag_uid: "UID number"
       iban: "IBAN number"
-      swift: "BIC/SWIFT number"
-      amount: "Amount"
-      aasm_state: "State"
+      swift: "SWIFT number"
       created_at: "Created at"
       updated_at: "Updated at"
-      claim: "Claim"
       amount: "Amount"
-      currency: "Currency"
-      message: "Message"
-      operation_type: "Operation type"
-      gateway_transaction_number: "Gateway transaction number"
-      payment_solution: "Payment solution"
+      fee: "Fee"
+      money: "Total money"
       status: "Status"
       search:
-        claim: "Claim number"
-        gateway_transaction_number: "Gateway transaction number"
         amount: "Amount"
         status: "State"

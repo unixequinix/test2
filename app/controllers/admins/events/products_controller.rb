@@ -26,13 +26,10 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
 
   def update
     respond_to do |format|
-      if @product.update_attributes!(permitted_params)
+      if @product.update_attributes(permitted_params)
         format.html { redirect_to admins_event_products_url, notice: I18n.t("alerts.updated") }
       else
-        format.html do
-          flash.now[:error] = @product.errors.full_messages.join(". ")
-          render :edit
-        end
+        format.html { render :edit }
       end
       format.json { render json: @product }
     end
@@ -63,7 +60,7 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
     header = %w(name description is_alcohol)
     data = [["Beer", "Franziskaner beer", "true"], ["Hotdog", "Hotdog with onion", "false"]]
 
-    csv_file = Csv::CsvExporter.sample(header, data)
+    csv_file = CsvExporter.sample(header, data)
     respond_to do |format|
       format.csv { send_data(csv_file) }
     end

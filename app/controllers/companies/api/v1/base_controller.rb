@@ -18,34 +18,32 @@ class Companies::Api::V1::BaseController < Companies::BaseController
   end
 
   def api_enabled
-    return if @current_event.thirdparty_api?
+    return unless @current_event.finished?
     render(status: :unauthorized, json: :unauthorized)
   end
 
   def validate_ticket_type!
-    ticket_type_id = params[:ticket][:company_ticket_type_id]
+    ticket_type_id = params[:ticket][:ticket_type_id]
     return true unless ticket_type_id
-    ticket_type = CompanyTicketType.find_by(id: ticket_type_id)
-    ticket_type && ticket_type.company_event_agreement == agreement &&
-      ticket_type.event == current_event && ticket_type.deleted_at.nil?
+    ticket_type = TicketType.find_by(id: ticket_type_id)
+    ticket_type && ticket_type.company_event_agreement == agreement && ticket_type.event == current_event
   end
 
   def validate_gtag_type!
-    ticket_type_id = params[:gtag][:company_ticket_type_id]
+    ticket_type_id = params[:gtag][:ticket_type_id]
     return true unless ticket_type_id
-    ticket_type = CompanyTicketType.find_by(id: params[:gtag][:ticket_type_id])
-    ticket_type && ticket_type.company_event_agreement == agreement &&
-      ticket_type.event == current_event && ticket_type.deleted_at.nil?
+    ticket_type = TicketType.find_by(id: params[:gtag][:ticket_type_id])
+    ticket_type && ticket_type.company_event_agreement == agreement && ticket_type.event == current_event
   end
 
-  def company_ticket_types
-    current_event.company_ticket_types.where(company_event_agreement: @agreement.id)
+  def ticket_types
+    current_event.ticket_types.where(company_event_agreement: @agreement.id)
   end
 
   def tickets
     current_event.tickets
-                 .joins(company_ticket_type: :company_event_agreement)
-                 .where(company_ticket_types: { company_event_agreement_id: @agreement.id })
+                 .joins(ticket_type: :company_event_agreement)
+                 .where(ticket_types: { company_event_agreement_id: @agreement.id })
   end
 
   def banned_tickets

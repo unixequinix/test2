@@ -20,13 +20,14 @@
           td data-label=t('admin.products.product_type') = best_in_place product, :product_type, url: admins_event_product_path(current_event, product, type: 'product_type')
           td data-label=t('admin.products.is_alcohol') = best_in_place product, :vat, url: admins_event_product_path(current_event, product, type: 'vat')
           td data-label=t('admin.products.is_alcohol') = product.is_alcohol
-          td data-label=t('admin.products.stations') = product.station_products&.first&.station_parameter&.station&.name
+          td data-label=t('admin.products.stations') = product.station_products&.first&.station&.name
           td.table-actions-field
             ul
               li.table-action.action-edit = link_to edit_admins_event_product_path(current_event, product) do
                 = fa_icon "edit"
-              li.table-action.action-delete = link_to admins_event_product_path(current_event, product), method: :delete, data: { confirm: t('admin.confirm.delete') } do
-                = fa_icon "trash"
+              - if current_event.created? || current_event.launched?
+                li.table-action.action-delete = link_to admins_event_product_path(current_event, product), method: :delete, data: { confirm: t('admin.confirm.delete') } do
+                  = fa_icon "trash"
   .container-pagination
     = paginate products
     = submit_tag t("admin.actions.delete_selected")

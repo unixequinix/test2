@@ -74,9 +74,6 @@ en:
       customer:
         one: 'customer'
         other: 'customers'
-      profile:
-        one: 'profile'
-        other: 'profiles'
       entitlement:
         one: 'entitlement'
         other: 'entitlements'
@@ -101,10 +98,7 @@ en:
       pack:
         one: 'pack'
         other: 'packs'
-      credential_type:
-        one: 'credential type'
-        other: 'credential types'
-      company_ticket_type:
+      ticket_type:
         one: 'company ticket type'
         other: 'company ticket types'
     errors:

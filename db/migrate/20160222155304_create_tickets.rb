@@ -4,7 +4,7 @@ class CreateTickets < ActiveRecord::Migration
       t.references :event, null: false
       t.references :company_ticket_type, null: false
       t.string :code, index: { unique: true }
-      t.boolean :credential_redeemed, default: false, null: false
+      t.boolean :redeemed, default: false, null: false
 
       t.datetime :deleted_at, index: true
       t.timestamps null: false

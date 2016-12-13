@@ -1,0 +1,7 @@
+- breadcrumb :admins_event_ticket_type, current_event, @ticket_type
+- provide :actions do
+  = link_to admins_event_ticket_types_path, class: "btn btn-action btn-action-back small" do
+    = fa_icon 'arrow-circle-left'
+    = t('admin.actions.back')
+
+= render "form", ticket_type: @ticket_type

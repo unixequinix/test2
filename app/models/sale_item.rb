@@ -2,14 +2,21 @@
 #
 # Table name: sale_items
 #
-#  id                    :integer          not null, primary key
-#  product_id            :integer
 #  quantity              :integer
 #  unit_price            :float
-#  credit_transaction_id :integer
+#
+# Indexes
+#
+#  index_sale_items_on_credit_transaction_id  (credit_transaction_id)
+#  index_sale_items_on_product_id             (product_id)
+#
+# Foreign Keys
+#
+#  fk_rails_c98e605038  (credit_transaction_id => transactions.id)
+#  fk_rails_ee606308b2  (product_id => products.id)
 #
 
 class SaleItem < ActiveRecord::Base
-  belongs_to :credit_transaction
+  belongs_to :credit_transaction, dependent: :destroy
   belongs_to :product
 end

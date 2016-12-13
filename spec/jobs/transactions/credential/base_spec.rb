@@ -1,14 +1,14 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Transactions::Credential::Base, type: :job do
   let(:event) { create(:event) }
   let(:transaction) { create(:credential_transaction, event: event) }
   let(:gtag) { create(:gtag, event: event) }
   let(:ticket_code) { "TC8B106BA990BDC56" }
-  let(:ticket) { create(:ticket, event: event, credential_redeemed: false, code: ticket_code) }
-  let(:profile) { create(:profile, event: event) }
+  let(:ticket) { create(:ticket, event: event, redeemed: false, code: ticket_code) }
+  let(:customer) { create(:customer, event: event) }
   let(:worker) { Transactions::Credential::Base.new }
-  let(:decoder) { TicketDecoder::SonarDecoder }
+  let(:decoder) { SonarDecoder }
   let(:ctt_id) { "99" }
   let(:atts) do
     {
@@ -21,31 +21,31 @@ RSpec.describe Transactions::Credential::Base, type: :job do
 
   before { allow(decoder).to receive(:perform).with(ticket_code).and_return(ctt_id) }
 
-  describe ".assign_profile" do
+  describe ".assign_customer" do
     it "creates a credential for the gtag" do
       expect do
-        worker.assign_profile(gtag, profile.id)
-      end.to change(gtag, :profile)
+        worker.assign_customer(gtag, customer.id)
+      end.to change(gtag, :customer)
     end
 
-    it "leaves the current profile if one present" do
-      gtag.update!(profile: profile)
+    it "leaves the current customer if one present" do
+      gtag.update!(customer: customer)
       expect do
-        worker.assign_profile(gtag, profile)
-      end.not_to change(gtag, :profile)
+        worker.assign_customer(gtag, customer)
+      end.not_to change(gtag, :customer)
     end
   end
 
   describe ".assign_ticket" do
     before(:each) do
-      @ctt = create(:company_ticket_type, event: event, company_code: ctt_id)
+      @ctt = create(:ticket_type, event: event, company_code: ctt_id)
     end
 
     context "with sonar decryption" do
-      before { allow(TicketDecoder::SonarDecoder).to receive(:perform).and_return(ctt_id) }
-      it "attaches the correct company_ticket_type based on ticket_code" do
+      before { allow(SonarDecoder).to receive(:perform).and_return(ctt_id) }
+      it "attaches the correct ticket_type based on ticket_code" do
         ticket = worker.assign_ticket(transaction, atts)
-        expect(ticket.company_ticket_type).to eq(@ctt)
+        expect(ticket.ticket_type).to eq(@ctt)
       end
 
       it "attaches the ticket_id to the transaction" do
@@ -77,33 +77,18 @@ RSpec.describe Transactions::Credential::Base, type: :job do
     end
 
     it "leaves the ticket if already present" do
-      transaction.create_ticket!(event: event, code: ticket_code, company_ticket_type: @ctt)
+      transaction.create_ticket!(event: event, code: ticket_code, ticket_type: @ctt)
       expect do
         worker.assign_ticket(transaction, atts)
       end.not_to change(event.tickets, :count)
     end
   end
 
-  describe ".assign_profile_to_ticket" do
-    it "creates a credential for the ticket" do
-      expect do
-        worker.assign_profile_to_ticket(ticket, profile.id)
-      end.to change(ticket, :profile)
-    end
-
-    it "leaves the current profile if one present" do
-      ticket.update(profile: profile)
-      expect do
-        worker.assign_profile_to_ticket(ticket, profile)
-      end.not_to change(ticket, :profile)
-    end
-  end
-
   describe ".mark_redeemed" do
-    it "marks object as credential_redeemed" do
+    it "marks object as redeemed" do
       expect do
         worker.mark_redeemed(ticket)
-      end.to change(ticket, :credential_redeemed)
+      end.to change(ticket, :redeemed)
     end
   end
 end

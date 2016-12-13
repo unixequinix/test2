@@ -1,9 +1,9 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Api::V1::PackSerializer, type: :serializer do
   context "Individual Resource Representation" do
-    let(:resource_access) { create(:catalog_item, :with_access_pack).catalogable }
-    let(:resource_credits) { create(:catalog_item, :with_credit_pack).catalogable }
+    let(:resource_access) { create(:access_pack) }
+    let(:resource_credits) { create(:credit_pack) }
 
     let(:serializer_access) { Api::V1::PackSerializer.new(resource_access) }
     let(:serialization_access) { ActiveModelSerializers::Adapter.create(serializer_access) }
@@ -15,11 +15,7 @@ RSpec.describe Api::V1::PackSerializer, type: :serializer do
     let(:subject_credit) { JSON.parse(serialization_credits.to_json) }
 
     it "returns the catalog_items name" do
-      expect(subject_access["name"]).to eq(resource_access.catalog_item.name)
-    end
-
-    it "return the catalog_items description" do
-      expect(subject_access["description"]).to eq(resource_access.catalog_item.description)
+      expect(subject_access["name"]).to eq(resource_access.name)
     end
 
     it "returns accesses only when available" do
@@ -29,15 +25,13 @@ RSpec.describe Api::V1::PackSerializer, type: :serializer do
 
     it "returns credits only when available" do
       expect(subject_credit["credits"]).not_to be_nil
-      expect(subject_access["credits"]).to be_nil
+      expect(subject_access["credits"]).to eq("0.0")
     end
 
     describe ".accesses" do
       it "returns the id and the amount of each access" do
-        selected = resource_access.pack_catalog_items.select do |pack_item|
-          pack_item.catalog_item.catalogable_type == "Access"
-        end
-        accesses = selected.map { |a| { id: a.catalog_item.catalogable_id, amount: a.amount } }
+        selected = resource_access.pack_catalog_items.select { |item| item.catalog_item.type == "Access" }
+        accesses = selected.map { |a| { id: a.catalog_item.id, amount: a.amount } }
 
         expect(subject_access["accesses"]).to eq(accesses.as_json)
       end
@@ -46,7 +40,7 @@ RSpec.describe Api::V1::PackSerializer, type: :serializer do
     describe ".credits" do
       it "returns the total amount of credits" do
         selected = resource_credits.pack_catalog_items.select do |pack_item|
-          pack_item.catalog_item.catalogable_type == "Credit"
+          pack_item.catalog_item.type == "Credit"
         end
         total = selected.map(&:amount).inject(:+)
 

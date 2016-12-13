@@ -2,23 +2,25 @@
 #
 # Table name: station_catalog_items
 #
-#  id              :integer          not null, primary key
-#  catalog_item_id :integer          not null
 #  price           :float            not null
-#  deleted_at      :datetime
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#
+# Indexes
+#
+#  index_station_catalog_items_on_catalog_item_id  (catalog_item_id)
+#  index_station_catalog_items_on_station_id       (station_id)
+#
+# Foreign Keys
+#
+#  fk_rails_0ed24067c2  (station_id => stations.id)
+#  fk_rails_9e5dde160a  (catalog_item_id => catalog_items.id)
 #
 
 class StationCatalogItem < ActiveRecord::Base
-  acts_as_paranoid
-
   belongs_to :catalog_item
-  has_one :station_parameter, as: :station_parametable, dependent: :destroy
-  accepts_nested_attributes_for :station_parameter, allow_destroy: true
+  belongs_to :station
 
   validates :price, presence: true
   validates :price, numericality: true
 
-  after_update { station_parameter.station.touch }
+  after_update { station.touch }
 end

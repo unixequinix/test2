@@ -29,54 +29,58 @@
   }
 }
 
-.msg-for-alert, .msg-for-error {
+.snackbar {
+  align-items: center;
+  background-color: #333;
+  border-radius: 3px 3px 0 0;
+  bottom: 0;
+  color: #FFF;
+  display: flex;
+  justify-content: space-between;
+  left: 2.4rem;
+  margin-top: 1.4rem;
+  margin: 0 auto;
+  max-width: 680px;
+  padding: .8rem 1.6rem;
   position: fixed;
-  top: modules(1);
-  left: modules(1);
-  right: modules(1);
-  padding: modules(1);
-  border-radius: 4px;
-  background-color: lighten($red,35%);
-  box-shadow: inset 0px 0px 0px 2px $red;
-  color: $red;
-  text-align: center;
-  z-index: 6;
+  right: 2.4rem;
+  transition: all .35s cubic-bezier(0.4, 0, 0.2, 1) 7;
+  z-index: 999;
 
-  @include min-screen($bp3) { left: modules(2); right: modules(2); }
-  @include min-screen($bp4) { left: modules(3); right: modules(3); }
-
-  p {
-    margin-bottom: 0;
+  &__msg {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: block;
   }
-}
 
-.msg-for-notice {
-  position: absolute;
-  top: modules(1);
-  left: modules(1);
-  right: modules(1);
-  padding: modules(1);
-  border-radius: 4px;
-  background-color: lighten($greenKickstarter,35%);
-  box-shadow: inset 0px 0px 0px 2px $greenKickstarter;
-  color: darken($greenKickstarter,10%);
-  text-align: center;
-  z-index: 6;
-
-  @include min-screen($bp3) { left: modules(2); right: modules(2); }
-  @include min-screen($bp4) { left: modules(3); right: modules(3); }
-
-  p {
-    margin-bottom: 0;
+  i {
+    margin-right: .8rem;
   }
-}
 
-.error_notification {
-  padding: modules(1);
-  border-radius: 3px;
-  background-color: $red;
-  text-align: center;
-  color: $white;
+  button {
+    margin: 0;
+    background: none;
+    font-weight: bold;
+    box-shadow: none;
+    border: none;
+    outline: none;
+    padding: .4rem .8rem;
+
+    &:hover {
+      background: #444;
+    }
+  }
+
+  &--success,
+  &--notice {
+    button { color: $greenKickstarter; }
+  }
+
+  &--error,
+  &--alert {
+    button { color: $red; }
+  }
 }
 
 .error {
@@ -85,6 +89,10 @@
   display: block;
   padding: 0 modules(0.25);
   background-color: $red;
+  &--success,
+  &--notice {
+    button { color: $greenKickstarter; }
+  }
 
   @include min-screen($bp3) {
     @include span-columns(8);
@@ -93,7 +101,9 @@
     left: auto;
     bottom: modules(0.45);
     z-index: 4;
+    &--error,
+    &--alert {
+      button { color: $red; }
+    }
   }
 }
-
-// ···

@@ -11,20 +11,29 @@
 
 FactoryGirl.define do
   factory :pack do
+    event
+    sequence(:name) { |n| "Pack #{n}" }
+    initial_amount 0
+    step 1
+    max_purchasable 1
+    min_purchasable 0
+
     trait :with_credit do
       after :build do |pack|
-        pack.pack_catalog_items.build(catalog_item: create(:credit_catalog_item), amount: 1)
+        pack.pack_catalog_items.build(catalog_item: pack.event.credit, amount: 10)
       end
     end
 
     trait :with_access do
       after :build do |pack|
-        pack.pack_catalog_items.build(catalog_item: create(:access_catalog_item), amount: 1)
+        pack.pack_catalog_items.build(catalog_item: create(:access), amount: 1)
       end
     end
 
-    after :create do |pack|
-      pack.catalog_item ||= create(:catalog_item, catalogable_type: "Pack", catalogable_id: pack.id)
+    trait :with_user_flag do
+      after :build do |pack|
+        pack.pack_catalog_items.build(catalog_item: create(:user_flag), amount: 1)
+      end
     end
 
     trait :empty do |_pack|
@@ -33,7 +42,7 @@ FactoryGirl.define do
       end
     end
 
-    factory :full_pack, traits: [:with_access, :with_credit]
+    factory :full_pack, traits: [:with_access, :with_credit, :with_user_flag]
     factory :credit_pack, traits: [:with_credit]
     factory :access_pack, traits: [:with_access]
     factory :empty_pack, traits: [:empty]

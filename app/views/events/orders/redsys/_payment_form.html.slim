@@ -1,7 +1,23 @@
 .wrapper-module
-  p.hint-redirect.center-text = t('orders.redirect')
-  = button_to t('orders.button'), event_order_path(order_presenter.event, order_presenter.order, payment_service: order_presenter.payment_service), method: :patch, remote: true, class: "btn btn-action btn-action-primary"
-  //.wrapper-seal
-  //  = render 'events/shared/ssl_cert_seal'
-
-  #paymentForm
+  p.hint-text
+    = t('orders.card_info')
+  .wrapper-payments-methods
+    = fa_icon "cc-visa"
+    = fa_icon "cc-mastercard"
+    = fa_icon "cc-amex"
+  = form_tag event_redsys_purchase_path(current_event), id: "redsys-payment-form", class: "basic-grey"
+    .payment-errors#stripe-errors
+    .control-group
+      .controls
+        = label_tag t('orders.card_number'), nil, required: true
+        = text_field_tag :card_number, nil, class: "input-block-level"
+      .controls
+        = label_tag t('orders.card_code_verification'), nil, required: true
+        = text_field_tag :card_verification, nil, class: "input-block-level"
+      = label_tag t('orders.card_expiration_date'), nil, required: true, class: "expiration-label"
+      .wrapper-selects
+        = select_tag :exp_month, options_for_select(Date::MONTHNAMES.compact.each_with_index.map { |name,i| ["#{i+1} - #{name}", i+1] }), include_blank: false, class: "payment-expiration-year"
+        = select_tag :exp_year, options_for_select((Time.zone.today.year..(Time.zone.today.year+10)).to_a), include_blank: false, class: "payment-expiration-month"
+      = hidden_field_tag :order_id, @order.id
+      .actions
+        = submit_tag t('orders.button'), class: "btn btn-action btn-action-primary"

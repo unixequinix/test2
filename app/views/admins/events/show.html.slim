@@ -9,6 +9,7 @@
   = link_to customer_root_path(@current_event), class: "btn btn-action btn-action-link small", target: "_blank" do
     = fa_icon 'external-link'
     = t('actions.portal')
+
 .wrapper-negative-space
   - if @alerts.present?
     .alerts
@@ -23,11 +24,7 @@
 
   .container-show
     dl
-      dt = t("admin.event.features")
-      dd = EventDecorator::FEATURES.map { |feature| t("admin.event.features_options.#{feature}") if @current_event.flag_enabled?(feature) }.reject(&:blank?).to_sentence
-      dt = t("admin.event.refund_service")
-      dd = EventDecorator::REFUND_SERVICES.map { |rs| t("admin.event.refund_services.#{rs}") if @current_event.flag_enabled?(rs) }.reject(&:blank?).to_sentence
-      - if !@current_event.logo.blank?
+      - if @current_event.logo.present?
         dt = t("admin.event.logo")
         dd
           = image_tag @current_event.logo.url, class: "event-img-preview"
@@ -35,7 +32,7 @@
             = fa_icon "trash"
       dt = t("admin.event.background_type")
       dt = t("admin.event.background_types." + @current_event.background_type)
-      - if !@current_event.background.blank?
+      - if @current_event.background.present?
         dt = t("admin.event.background")
         dd
           = image_tag @current_event.background.url, class: "event-img-preview"

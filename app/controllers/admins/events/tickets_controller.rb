@@ -9,7 +9,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
         tickets = Ticket.query_for_csv(current_event)
         redirect_to(admins_event_tickets_path(current_event)) && return if tickets.empty?
 
-        send_data(Csv::CsvExporter.to_csv(tickets))
+        send_data(CsvExporter.to_csv(tickets))
       end
     end
   end
@@ -19,8 +19,9 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
   end
 
   def show
-    assoc = { profile: :customer, company_ticket_type: [company_event_agreement: :company] }
-    @ticket = current_event.tickets.includes(assoc).find(params[:id])
+    assoc = { ticket_type: [company_event_agreement: :company] }
+    @ticket = current_event.tickets.includes(:customer, assoc).find(params[:id])
+    @catalog_item = @ticket.ticket_type&.catalog_item
   end
 
   def new
@@ -90,11 +91,11 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
           company_code: row.field("company_code"),
           company_event_agreement: agree
         }
-        ticket_type = event.company_ticket_types.find_or_create_by!(ticket_type_atts)
+        ticket_type = event.ticket_types.find_or_create_by!(ticket_type_atts)
 
         ticket_atts = {
           code: row.field("reference"),
-          company_ticket_type: ticket_type,
+          ticket_type: ticket_type,
           purchaser_first_name: row.field("first_name"),
           purchaser_last_name: row.field("last_name"),
           purchaser_email: row.field("email")
@@ -113,7 +114,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
     data = [["VIP Night", "098", "Glownet Tickets", "0011223344", "Jon", "Snow", "jon@snow.com"],
             ["VIP Day", "099", "Glownet Tickets", "4433221100", "Arya", "Stark", "arya@stark.com"]]
 
-    csv_file = Csv::CsvExporter.sample(header, data)
+    csv_file = CsvExporter.sample(header, data)
     respond_to do |format|
       format.csv { send_data(csv_file) }
     end
@@ -127,12 +128,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
 
   def unban
     ticket = current_event.tickets.find(params[:id])
-
-    if ticket.profile&.banned?
-      flash[:error] = "Assigned profile is banned, unban it or unassign the ticket first"
-    else
-      ticket.update(banned: false)
-    end
+    ticket.update(banned: false)
     redirect_to(admins_event_tickets_url)
   end
 
@@ -144,21 +140,12 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
       fetcher: current_event.tickets,
       search_query: params[:q],
       page: params[:page],
-      include_for_all_items: [profile: [:customer, :active_gtag]],
+      include_for_all_items: [customer: [:active_gtag]],
       context: view_context
     )
   end
 
   def permitted_params
-    params.require(:ticket).permit(
-      :event_id,
-      :code,
-      :company_ticket_type_id,
-      :credential_redeemed,
-      :banned,
-      :purchaser_first_name,
-      :purchaser_last_name,
-      :purchaser_email
-    )
+    params.require(:ticket).permit(:event_id, :code, :ticket_type_id, :redeemed, :banned, :purchaser_first_name, :purchaser_last_name, :purchaser_email, :catalog_item_id) # rubocop:disable Metrics/LineLength
   end
 end

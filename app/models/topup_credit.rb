@@ -2,34 +2,32 @@
 #
 # Table name: topup_credits
 #
-#  id         :integer          not null, primary key
 #  amount     :float
-#  credit_id  :integer
-#  deleted_at :datetime
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#
+# Indexes
+#
+#  index_topup_credits_on_credit_id   (credit_id)
+#  index_topup_credits_on_station_id  (station_id)
+#
+# Foreign Keys
+#
+#  fk_rails_c5b24eb933  (station_id => stations.id)
 #
 
 class TopupCredit < ActiveRecord::Base
-  acts_as_paranoid
-
   belongs_to :credit
-  has_one :station_parameter, as: :station_parametable, dependent: :destroy
-  accepts_nested_attributes_for :station_parameter, allow_destroy: true
+  belongs_to :station
 
+  validates :amount, uniqueness: { scope: :station_id }
   validates :amount, :credit_id, presence: true
   validate :valid_topup_credit, on: :create
 
-  after_update { station_parameter.station.touch }
+  after_update { station.touch }
 
   private
 
   def valid_topup_credit
-    return unless station_parameter
-    credits = Station.find_by(id: station_parameter.station_id).topup_credits
-
-    errors[:credit_count] << I18n.t("errors.messages.topup_credit_count") if credits.count >= 6
-    errors[:credit_id] << I18n.t("errors.messages.topup_credit_id") unless
-      credits.pluck(:credit_id).include?(credit_id) || credits.empty?
+    return unless station
+    errors[:credit_count] << I18n.t("errors.messages.topup_credit_count") if station.topup_credits.count >= 6
   end
 end

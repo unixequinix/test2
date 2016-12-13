@@ -7,7 +7,7 @@ table.access_control_gates
   tbody
     - @items.each do |gate|
       tr class="#{'station-hidden' if gate.hidden?}"
-        td data-label=t('admin.stations.access_control_gate.name') = gate.access.catalog_item.name
+        td data-label=t('admin.stations.access_control_gate.name') = gate.access.name
         td data-label=t('admin.stations.access_control_gate.direction') = gate.direction == "1" ? "In" : "Out"
         td.table-actions-field
           ul

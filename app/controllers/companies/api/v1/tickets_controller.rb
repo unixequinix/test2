@@ -39,13 +39,13 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
       # rubocop:disable Metrics/LineLength
       atts.merge!(
         code: atts.delete(:ticket_reference),
-        company_ticket_type_id: atts.delete(:ticket_type_id),
+        ticket_type_id: atts.delete(:ticket_type_id),
         event_id: current_event.id,
         purchaser_first_name: atts[:purchaser_attributes].delete(:first_name),
         purchaser_last_name: atts[:purchaser_attributes].delete(:last_name),
         purchaser_email: atts[:purchaser_attributes].delete(:email)
       )
-      ticket_atts = atts.permit(:code, :company_ticket_type_id, :event_id, :purchaser_first_name, :purchaser_last_name, :purchaser_email)
+      ticket_atts = atts.permit(:code, :ticket_type_id, :event_id, :purchaser_first_name, :purchaser_last_name, :purchaser_email)
 
       ticket = current_event.tickets.find_by_code(ticket_atts[:code])
       ticket ||= current_event.tickets.create(ticket_atts)
@@ -82,14 +82,14 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
     ticket = params[:ticket]
     purchaser = ticket[:purchaser_attributes]
     ticket[:code] = ticket[:ticket_reference]
-    ticket[:company_ticket_type_id] = ticket[:ticket_type_id] if ticket[:ticket_type_id]
+    ticket[:ticket_type_id] = ticket[:ticket_type_id] if ticket[:ticket_type_id]
     ticket.merge!(
       purchaser_first_name: purchaser && purchaser[:first_name],
       purchaser_last_name: purchaser && purchaser[:last_name],
       purchaser_email: purchaser && purchaser[:email]
     )
 
-    params.require(:ticket)
-          .permit(:code, :company_ticket_type_id, :purchaser_first_name, :purchaser_last_name, :purchaser_email)
+    params.require(:ticket).permit(:code, :description, :ticket_type_id, :purchaser_first_name,
+                                   :purchaser_last_name, :purchaser_email)
   end
 end

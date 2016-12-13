@@ -8,14 +8,15 @@ html [lang=I18n.locale]
     = stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"
     = javascript_include_tag 'admin', 'data-turbolinks-track' => true
     = csrf_meta_tags
-    script src="https://js.stripe.com/v2/" type="text/javascript"
 
-  body class="#{controller_name} #{action_name}"
+  body
     .wrapper-main.remodal-bg
       #notifications
         = render 'notifications'
       - if current_admin.customer_service?
         = render 'admins/shared/cs_menu', event: @current_event
+      - elsif current_admin.promoter?
+        = render 'admins/shared/promoter_menu', event: @current_event
       - else
         = render 'admins/shared/admin_menu', event: @current_event
       .container-main.container-event

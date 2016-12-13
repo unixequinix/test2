@@ -9,7 +9,6 @@ gem 'sprockets-rails', '2.3.3'
 
 # Database
 gem 'pg', '~> 0.18.1'
-gem 'paranoia', '~> 2.0'
 gem 'activerecord-import', '~> 0.11.0'
 gem 'active_record_bulk_insert'
 gem 'nilify_blanks', '~>1.2.1'
@@ -71,27 +70,18 @@ gem 'ransack', '~> 1.6.6'
 gem 'draper', '~> 2.0'
 
 # Form normalizers
-gem 'iban-tools', '~>1.0.0'
-gem 'iso-swift', '~>0.0.2'
-gem 'validate_nz_bank_acc', '~> 0.0.3'
 gem 'country_select', '~> 2.2.0'
 gem 'phony_rails', '~> 0.12.8'
 gem 'tinymce-rails'
 
-# Payments Infrastructures
-gem 'stripe', '~>1.36.1'
-gem 'braintree', '~>2.57.0'
-gem 'paypal-sdk-rest'
+# Payments
+gem 'activemerchant', '~> 1.60'
 
 # Flags
 gem 'flag_shih_tzu', '~>0.3.13'
 
 # Lists
 gem 'acts_as_list'
-
-# Architectural
-gem 'virtus', '~> 1.0.5'
-gem 'reform', '~> 2.0.5'
 
 # Asyncronous mailer
 gem 'sinatra', require: false
@@ -113,6 +103,8 @@ gem 'wicked_pdf'
 
 # Validations
 gem 'rfc-822'
+gem 'iban-tools', '~> 1.1'
+gem 'iso-swift', '~> 0.0.2'
 
 gem 'figaro', '~> 1.1', '>= 1.1.1'
 
@@ -132,6 +124,7 @@ group :development do
   gem 'capistrano-sidekiq', '~> 0.5.3'
   gem 'capistrano-faster-assets', '~> 1.0'
   gem 'capistrano-secrets-yml', '~> 1.0.0'
+  gem 'annotate'
 end
 
 group :development, :test do

@@ -6,11 +6,7 @@ class Events::BaseController < ApplicationController
   before_action :write_locale_to_session
   before_action :set_i18n_globals
   helper_method :current_event
-  helper_method :current_profile
-
-  def current_profile
-    current_customer.profile || Profile.create(customer: current_customer, event: current_event)
-  end
+  helper_method :current_customer
 
   def prepare_for_mobile
     prepend_view_path Rails.root + "apps" + "customer_area" + "app" + "views_mobile"
@@ -19,7 +15,7 @@ class Events::BaseController < ApplicationController
   private
 
   def write_locale_to_session
-    super(current_event.selected_locales_formated)
+    super(Event::LOCALES.map(&:to_s))
   end
 
   def set_i18n_globals
@@ -27,19 +23,19 @@ class Events::BaseController < ApplicationController
   end
 
   def check_top_ups_is_active!
-    redirect_to event_url(current_event) unless current_event.top_ups?
+    redirect_to event_url(current_event) unless current_event.topups?
   end
 
   def check_has_ticket!
-    redirect_to event_url(current_event) unless current_profile.tickets.any?
+    redirect_to event_url(current_event) unless current_customer.tickets.any?
   end
 
   def check_has_gtag!
-    redirect_to event_url(current_event) unless current_profile.active_gtag.present?
+    redirect_to event_url(current_event) unless current_customer.active_gtag.present?
   end
 
-  def check_profile_has_credentials!
-    redirect_to event_url(current_event) unless current_profile.active_credentials?
+  def check_customer_has_credentials!
+    redirect_to event_url(current_event) unless current_customer.active_credentials?
   end
 
   def check_has_credentials!

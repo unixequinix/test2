@@ -2,49 +2,44 @@
 #
 # Table name: catalog_items
 #
-#  id               :integer          not null, primary key
-#  event_id         :integer          not null
-#  catalogable_id   :integer          not null
-#  catalogable_type :string           not null
-#  name             :string
-#  description      :text
-#  initial_amount   :integer
-#  step             :integer
-#  max_purchasable  :integer
-#  min_purchasable  :integer
-#  deleted_at       :datetime
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
+#  initial_amount  :integer
+#  max_purchasable :integer
+#  min_purchasable :integer
+#  name            :string
+#  step            :integer
+#  type            :string           not null
+#  value           :decimal(8, 2)    default(1.0), not null
+#
+# Indexes
+#
+#  index_catalog_items_on_event_id  (event_id)
+#
+# Foreign Keys
+#
+#  fk_rails_6d2668d4ae  (event_id => events.id)
 #
 
 class CatalogItem < ActiveRecord::Base
-  acts_as_paranoid
-
   belongs_to :event
-  belongs_to :catalogable, polymorphic: true, touch: true
-  has_many :pack_catalog_items, dependent: :restrict_with_error
+  has_many :pack_catalog_items, dependent: :destroy
   has_many :packs, through: :pack_catalog_items
-  has_many :station_catalog_items, dependent: :restrict_with_error
-  has_many :order_items
-  has_many :orders, through: :order_items, class_name: "Order"
-  has_one :credential_type
+  has_many :station_catalog_items, dependent: :destroy
+  has_many :order_items, dependent: :destroy
+  has_many :orders, through: :order_items
+  has_many :ticket_types, dependent: :nullify
+  has_many :transactions, dependent: :destroy
 
-  validates :name, :initial_amount, :step, :max_purchasable, :min_purchasable, presence: true
+  validates :name, presence: true
+  validates :step, numericality: { greater_than: 0 }
 
-  scope :only_credentiables, lambda {
-    combination = where(catalogable_type: CatalogItem::CREDENTIABLE_TYPES) +
-                  where(catalogable_type: "Pack", catalogable_id: Pack.credentiable_packs)
-    combination.uniq
-  }
+  scope :accesses, -> { where(type: "Access") }
+  scope :credits, -> { where(type: "Credit") }
+  scope :packs, -> { where(type: "Pack") }
+  scope :not_packs, -> { where.not(type: "Pack") }
+  scope :user_flags, -> { where(type: "UserFlag") }
+  scope :not_user_flags, -> { where.not(type: "UserFlag") }
 
-  scope :with_prices, lambda { |event|
-    joins(:station_catalog_items, station_catalog_items: :station_parameter)
-      .select("catalog_items.*, station_catalog_items.price")
-      .where(station_parameters:
-                      { id: StationParameter.joins(:station)
-                                            .where(stations: { event_id: event,
-                                                               category: "customer_porta;" }) })
-  }
+  scope :only_credentiables, -> { (where(type: CREDENTIABLE_TYPES) + where(type: "Pack", id: Pack.credentiable_packs)).uniq } # rubocop:disable Metrics/LineLength
 
   # Credentiable Types
   CREDIT = "Credit".freeze
@@ -52,19 +47,15 @@ class CatalogItem < ActiveRecord::Base
 
   CREDENTIABLE_TYPES = [CREDIT, ACCESS].freeze
 
+  def all_catalog_items
+    is_a?(Pack) ? catalog_items : [self]
+  end
+
+  def credits
+    0
+  end
+
   def price
-    parameters = StationParameter.joins(:station).where(stations: { event_id: event, category: "customer_portal" })
-    items = station_catalog_items.joins(:station_parameter)
-                                 .select("station_catalog_items.price")
-                                 .where(station_parameters: { id: parameters })
-    items&.first&.price
-  end
-
-  def self.sorted
-    Sorters::CatalogItemSorter.new(all).sort(format: :list)
-  end
-
-  def self.hash_sorted
-    Sorters::CatalogItemSorter.new(all).sort(format: :hash)
+    station_catalog_items.find_by(station: event.portal_station)&.price
   end
 end

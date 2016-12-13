@@ -2,53 +2,50 @@
 #
 # Table name: admins
 #
-#  id                     :integer          not null, primary key
+#  access_token           :string           not null
+#  current_sign_in_at     :datetime
+#  current_sign_in_ip     :inet
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
-#  access_token           :string           not null
-#  reset_password_token   :string
-#  reset_password_sent_at :datetime
-#  remember_created_at    :datetime
-#  sign_in_count          :integer          default(0), not null
-#  current_sign_in_at     :datetime
 #  last_sign_in_at        :datetime
-#  current_sign_in_ip     :inet
 #  last_sign_in_ip        :inet
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
+#  reset_password_sent_at :datetime
+#  reset_password_token   :string
+#  sign_in_count          :integer          default(0), not null
+#
+# Indexes
+#
+#  index_admins_on_email                 (email) UNIQUE
+#  index_admins_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe Admin, type: :model do
-  it { is_expected.to validate_presence_of(:email) }
-  let(:admin) { build(:admin) }
+  subject { build(:admin) }
 
-  context "with a new admin" do
-    describe "the email" do
-      %w(admin.foo.com admintest _test.).each do |wrong_mail|
-        it "is invalid if resembles #{wrong_mail}" do
-          admin.email = wrong_mail
-          expect(admin).to be_invalid
-        end
-      end
-    end
+  it "has a valid factory" do
+    expect(subject).to be_valid
+  end
 
-    describe "a new token" do
-      it "is set" do
-        admin = create(:admin)
-        expect(admin.access_token).not_to be_nil
-      end
+  describe ".valid_token?" do
+    it "returns true if the token is valid" do
+      subject.access_token = "0000000001"
+      expect(subject.valid_token?("0000000001")).to be_truthy
     end
   end
 
-  context "with an existing admin" do
-    describe "the token" do
-      it "can be validated" do
-        admin = create(:admin)
-        token = admin.access_token
-        expect(admin.valid_token?(token)).to eq(true)
-      end
+  describe ".customer_service?" do
+    it "returns true if the email starts with support_" do
+      subject.email = "support_glownet@glownet.com"
+      expect(subject).to be_customer_service
+    end
+  end
+
+  describe ".promoter?" do
+    it "returns true if the email starts with admin_" do
+      subject.email = "admin_glownet@glownet.com"
+      expect(subject).to be_promoter
     end
   end
 end

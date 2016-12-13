@@ -1,10 +1,4 @@
 ul
-  - if access.catalog_item.credential_type.present?
-    li.table-action.action-add_credential = link_to destroy_credential_admins_event_access_path(current_event, access), method: :delete, title: "Destroy Credential Type" do
-      = fa_icon "circle"
-  - else
-    li.table-action.action-add_credential = link_to create_credential_admins_event_access_path(current_event, access), title: "Create Credential Type" do
-      = fa_icon "circle-thin"
   li.table-action.action-edit = link_to edit_admins_event_access_path(current_event, access) do
     = fa_icon "edit"
   li.table-action.action-delete = link_to admins_event_access_path(current_event, access), method: :delete, data: { confirm: t('admin.confirm.delete') } do

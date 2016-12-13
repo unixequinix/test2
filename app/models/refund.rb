@@ -1,19 +1,55 @@
+# == Schema Information
+#
+# Table name: refunds
+#
+#  amount      :decimal(8, 2)    not null
+#  fee         :decimal(8, 2)
+#  iban        :string
+#  money       :decimal(8, 2)
+#  status      :string
+#  swift       :string
+#
+# Indexes
+#
+#  index_refunds_on_customer_id  (customer_id)
+#
+# Foreign Keys
+#
+#  fk_rails_6a4a43dcc1  (customer_id => customers.id)
+#
+
 class Refund < ActiveRecord::Base
-  default_scope { order(created_at: :desc) }
+  belongs_to :customer
 
-  # Associations
-  belongs_to :claim
+  validates :iban, :swift, presence: true
+  validate :valid_iban
+  validate :valid_swift
 
-  # Validations
-  validates :claim, :amount, presence: true
-
-  # Scopes
   scope :query_for_csv, lambda { |event|
-    joins(claim: { profile: :customer })
-      .select("refunds.id, refunds.amount, refunds.currency, refunds.operation_type, refunds.message,
-               refunds.gateway_transaction_number as transaction_number, refunds.payment_solution,
-               claims.number as claim_number, customers.email, customers.first_name, customers.last_name,
-               refunds.created_at")
-      .where(profiles: { event_id: event.id })
+    joins(:customer)
+      .select("refunds.id, customers.email, refunds.amount, refunds.fee, refunds.money, refunds.status, refunds.iban,
+               refunds.swift, refunds.created_at").where(customers: { event_id: event.id })
   }
+
+  def total
+    amount.to_f + fee.to_f
+  end
+
+  def number
+    id.to_s.rjust(12, "0")
+  end
+
+  private
+
+  def valid_swift
+    validator = ISO::SWIFT.new(swift)
+    msg = validator.errors.map(&:to_s).map(&:humanize).to_sentence
+    errors.add(:swift, msg) unless validator.valid?
+  end
+
+  def valid_iban
+    validator = IBANTools::IBAN
+    msg = validator.new(iban).validation_errors.map(&:to_s).map(&:humanize).to_sentence
+    errors.add(:iban, msg) unless validator.valid?(iban)
+  end
 end

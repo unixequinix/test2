@@ -1,8 +1,0 @@
-p.error_notification.full-width
-  = t('refund.error.title')
-
-.wrapper-module-centered.wrapper-claim
-  h3 = t('dashboard.error_refund_disclaimer.claim')
-  p = t('dashboard.error_refund_disclaimer.description')
-  = link_to href="#{customer_root_url}", class: "btn btn-action btn-action-empty-state add-bottom" do
-    = t("actions.back")

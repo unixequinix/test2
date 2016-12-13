@@ -19,9 +19,6 @@ class Admins::AdminsController < Admins::BaseController
     end
   end
 
-  def edit
-  end
-
   def update
     if @admin.update(permitted_params)
       flash[:notice] = I18n.t("alerts.updated")

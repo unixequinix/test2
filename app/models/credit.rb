@@ -1,43 +1,30 @@
 # == Schema Information
 #
-# Table name: credits
+# Table name: catalog_items
 #
-#  id         :integer          not null, primary key
-#  standard   :boolean          default(FALSE), not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  deleted_at :datetime
-#  value      :decimal(8, 2)    default(1.0), not null
-#  currency   :string
+#  initial_amount  :integer
+#  max_purchasable :integer
+#  min_purchasable :integer
+#  name            :string
+#  step            :integer
+#  type            :string           not null
+#  value           :decimal(8, 2)    default(1.0), not null
+#
+# Indexes
+#
+#  index_catalog_items_on_event_id  (event_id)
+#
+# Foreign Keys
+#
+#  fk_rails_6d2668d4ae  (event_id => events.id)
 #
 
-class Credit < ActiveRecord::Base
-  acts_as_paranoid
-
-  # Associations
-  has_one :catalog_item, as: :catalogable, dependent: :destroy
-  accepts_nested_attributes_for :catalog_item, allow_destroy: true
-
-  scope :standard, lambda { |event|
-    joins(:catalog_item).where(standard: true, catalog_items: { event_id: event.id })
-  }
-
+class Credit < CatalogItem
   # Validations
-  validates :catalog_item, :currency, :value, presence: true
+  validates :value, :initial_amount, :step, :max_purchasable, :min_purchasable, presence: true
   validates :value, numericality: { greater_than: 0 }
-  validate :only_one_standard_credit
 
-  def rounded_value
-    value.round == value ? value.floor : value
-  end
-
-  private
-
-  def only_one_standard_credit
-    return unless standard?
-    return unless catalog_item.event
-    matches = Credit.standard(catalog_item.event)
-    matches = matches.where("credits.id != ?", id) if persisted?
-    errors.add(:standard, I18n.t("errors.messages.max_standard_credits")) if matches.exists?
+  def credits
+    1
   end
 end

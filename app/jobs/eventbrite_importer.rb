@@ -6,9 +6,9 @@ class EventbriteImporter < ActiveJob::Base
     agreement = CompanyEventAgreement.find_or_create_by!(event: event, company: company)
     barcodes = order[:attendees].map { |attendee| attendee["barcodes"].map { |b| b["barcode"] } }.flatten
 
-    event.tickets.where(code: barcodes).destroy_all && return unless order[:status].eql?("placed")
+    event.tickets.where(code: barcodes).update_all(banned: true) && return unless order[:status].eql?("placed")
 
-    ticket_types = event.company_ticket_types.where(company_event_agreement: agreement)
+    ticket_types = event.ticket_types.where(company_event_agreement: agreement)
 
     order[:attendees].each do |attendee|
       attendee["barcodes"].each do |barcode|

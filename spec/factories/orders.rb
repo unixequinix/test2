@@ -2,22 +2,23 @@
 #
 # Table name: orders
 #
-#  id                        :integer          not null, primary key
-#  number                    :string           not null
-#  aasm_state                :string           not null
-#  completed_at              :datetime
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
-#  profile_id :integer
+#  completed_at :datetime
+#  gateway      :string
+#  payment_data :json
+#  status       :string           default("in_progress"), not null
+#
+# Indexes
+#
+#  index_orders_on_customer_id  (customer_id)
+#
+# Foreign Keys
+#
+#  fk_rails_3dad120da9  (customer_id => customers.id)
 #
 
 FactoryGirl.define do
   factory :order do
-    profile { create(:profile, :with_customer) }
-
-    after :build do |order|
-      order.number = Order.generate_token
-    end
+    customer
 
     trait :with_different_items do
       after :build do |order|
@@ -30,20 +31,7 @@ FactoryGirl.define do
         order.order_items << build(:order_item, :with_credit, order: order, amount: rand(500), total: rand(50.00))
       end
     end
+
     factory :order_with_items, traits: [:with_different_items]
-
-    trait :with_payment do
-      after :build do |order|
-        order.payments << build(:payment, order: order)
-      end
-    end
-    factory :order_with_payment, traits: [:with_payment, :with_different_items]
-
-    trait :with_direct_payment do
-      after :build do |order|
-        order.payments << build(:payment, order: order, payment_type: Payment::DIRECT_TYPES.sample)
-      end
-    end
-    factory :order_with_direct_payment, traits: [:with_direct_payment, :with_different_items]
   end
 end

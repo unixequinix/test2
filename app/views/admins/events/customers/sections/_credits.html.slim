@@ -1,0 +1,16 @@
+.credits
+  .credit
+    p.credit__amount = number_to_token customer.credits
+    h2.credit__title Server Balance
+
+  .credit
+    p.credit__amount = number_to_token customer.refundable_credits
+    h2.credit__title Server Refundable Balance
+
+  .credit
+    p.credit__amount = number_to_token customer.active_gtag&.final_balance
+    h2.credit__title Gtag Balance
+
+  .credit
+    p.credit__amount = number_to_token customer.active_gtag&.final_refundable_balance
+    h2.credit__title Gtag Refundable Balance

@@ -5,13 +5,10 @@ th:
     amount: "Amount"
     station: "Station"
     date: "Date"
-    transaction_types:
+    actions:
       sale: "Sale"
       topup: "Topup"
       refund: "Refund"
-  purchases:
-    accesses: "Accesses"
-    packs: "Packs"
   currency_symbol: THA
   actions:
     back: "กลับไป"
@@ -66,8 +63,6 @@ th:
       call_to_action: "กรุณาใส่บัตรเข้างานที่คุณจะใช้เองเท่านั้นในระบบ"
       description: "ห้ามไม่ให้ใส่บัตรของผู้อื่นเข้าในระบบ"
       button: "ใส่บัตรเข้างานในระบบ"
-    purchases:
-      header: "Your purchases"
     first_register:
       ticket: "Add ticket"
       gtag: "Add %{gtag}"
