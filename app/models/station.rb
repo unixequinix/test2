@@ -31,6 +31,9 @@ class Station < ActiveRecord::Base
   has_many :topup_credits, dependent: :destroy
   has_many :access_control_gates, dependent: :destroy
 
+  validates :name, presence: true
+  validates :name, uniqueness: { scope: :event }
+
   after_create :add_predefined_values
   before_save :add_station_event_id
 
