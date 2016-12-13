@@ -35,7 +35,7 @@ class Station < ActiveRecord::Base
   validates :name, uniqueness: { scope: :event }
 
   after_create :add_predefined_values
-  before_save :add_station_event_id
+  before_create :add_station_event_id
 
   ASSOCIATIONS = {
     accreditation:  [:customer_portal, :box_office, :staff_accreditation, :cs_accreditation],

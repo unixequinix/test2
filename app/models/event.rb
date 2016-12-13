@@ -38,6 +38,7 @@
 #  style                        :text
 #  support_email                :string           default("support@glownet.com"), not null
 #  ticket_assignation           :boolean          default(FALSE)
+#  timezone                     :string
 #  token                        :string
 #  token_symbol                 :string           default("t")
 #  url                          :string
