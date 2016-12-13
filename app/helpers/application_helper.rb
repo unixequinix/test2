@@ -19,10 +19,11 @@ module ApplicationHelper
   def format_abstract_value(value)
     case value
     when true then fa_icon('check')
+    when "true" then fa_icon('check')
     when false then fa_icon('times')
+    when "false" then fa_icon('times')
     when nil then content_tag(:em, "Empty")
     when "" then content_tag(:em, "Empty")
-    when Numeric then number_to_human_size value
     else value
     end
   end
