@@ -1,8 +1,14 @@
 class AddForeignKeys < ActiveRecord::Migration
   def change
+
+    # Production: One transaction fix (confirmed to be from Helene Beach)
     Customer.where(event_id: 0).update_all(event_id: 5)
-    Ticket.where(company_ticket_type_id: 150).destroy_all
-    Transaction.where(station_id: 817).destroy_all
+
+    # This will make NO changes in Production, but may be useful for other env
+    all_types = ActiveRecord::Base.connection.execute("SELECT id FROM company_ticket_types;").column_values(0).uniq.map(&:to_i)
+    all_tickets = Ticket.unscoped.uniq.pluck(:company_ticket_type_id)
+    Ticket.where(company_ticket_type_id: all_tickets - all_types).destroy_all
+
 
     add_foreign_key :catalog_items, :events
     add_foreign_key :company_event_agreements, :companies
@@ -23,11 +29,6 @@ class AddForeignKeys < ActiveRecord::Migration
     add_foreign_key :station_products, :products
     add_foreign_key :stations, :events
     add_foreign_key :tickets, :events
-
-    all_types = ActiveRecord::Base.connection.execute("SELECT id FROM company_ticket_types;").column_values(0).uniq.map(&:to_i)
-    all_tickets = Ticket.unscoped.uniq.pluck(:company_ticket_type_id)
-    Ticket.where(company_ticket_type_id: all_tickets - all_types).destroy_all
-
     add_foreign_key :tickets, :company_ticket_types
     add_foreign_key :transactions, :catalog_items
     add_foreign_key :transactions, :orders

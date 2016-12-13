@@ -56,21 +56,21 @@ class RemoveProfileFromTransactions < ActiveRecord::Migration
            WHERE TR.transaction_type = 'create_credit'"
     ActiveRecord::Base.connection.execute(sql)
 
-    puts "-- removing type 'sale' from online transactions"
+    puts "-- adding status_message 'FIX' to sale transactions created in the portal"
     sql = "UPDATE transactions TR
-           SET transaction_type = 'script'
+           SET status_message = 'FIX'
            WHERE TR.transaction_type = 'sale' AND TR.transaction_origin IN ('admin_panel', 'customer_portal')"
     ActiveRecord::Base.connection.execute(sql)
 
-    puts "-- removing type 'script' from customer_portal origin"
+    puts "-- adjusting origin for 'script' transactions"
     sql = "UPDATE transactions TR
            SET transaction_origin = 'admin_panel', status_message = 'FIX'
            WHERE TR.transaction_type = 'script' AND TR.transaction_origin IN ('admin_panel', 'customer_portal')"
     ActiveRecord::Base.connection.execute(sql)
 
-    puts "-- removing type 'topup' and 'refund' from admin_panel origin"
+    puts "-- adding status_message 'FIX' to sale transactions created in the admin panel"
     sql = "UPDATE transactions TR
-           SET transaction_type = 'script', status_message = 'FIX'
+           SET status_message = 'FIX'
            WHERE TR.transaction_type IN ('topup', 'refund') AND TR.transaction_origin = 'admin_panel'"
     ActiveRecord::Base.connection.execute(sql)
 
@@ -81,12 +81,14 @@ class RemoveProfileFromTransactions < ActiveRecord::Migration
     ActiveRecord::Base.connection.execute(sql)
 
     add_reference :transactions, :customer
+
     sql = "UPDATE transactions TR
            SET customer_id = PR.customer_id
            FROM profiles PR
            WHERE PR.id = TR.profile_id
              AND transaction_origin IN ('customer_portal', 'admin_panel')"
     ActiveRecord::Base.connection.execute(sql)
+
     remove_reference :transactions, :profile
     remove_column :transactions, :owner_id
     remove_column :transactions, :owner_type
