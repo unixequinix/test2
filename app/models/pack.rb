@@ -20,16 +20,18 @@
 #
 
 class Pack < CatalogItem
-  has_many :pack_catalog_items, autosave: true, dependent: :destroy, inverse_of: :pack
+  has_many :pack_catalog_items, dependent: :destroy, inverse_of: :pack
   has_many :catalog_items, through: :pack_catalog_items
+
   accepts_nested_attributes_for :pack_catalog_items, allow_destroy: true
 
   scope :credentiable_packs, -> { where(catalog_items: { type: CREDENTIABLE_TYPES }) }
 
   validates :initial_amount, :step, :max_purchasable, :min_purchasable, presence: true
+  validates :pack_catalog_items, associated: true
+
   validate :valid_max_value, if: :infinite_item?
   validate :valid_min_value, if: :infinite_item?
-  validate :valid_max_credits
 
   def credits
     pack_catalog_items.includes(:catalog_item).where(catalog_items: { type: "Credit" }).sum(:amount)
@@ -50,17 +52,12 @@ class Pack < CatalogItem
   end
 
   def valid_max_value
-    return if catalog_items.max_purchasable.between?(0, 1)
+    return if max_purchasable.between?(0, 1)
     errors[:max_purchasable] << I18n.t("errors.messages.invalid_max_value_for_infinite")
   end
 
   def valid_min_value
-    return if catalog_items.min_purchasable.between?(0, 1)
+    return if min_purchasable.between?(0, 1)
     errors[:min_purchasable] << I18n.t("errors.messages.invalid_min_value_for_infinite")
-  end
-
-  def valid_max_credits
-    max_balance = event.gtag_settings["maximum_gtag_balance"].to_i
-    errors[:pack_credits] << I18n.t("errors.messages.more_credits_than_max_balance") if credits > max_balance
   end
 end

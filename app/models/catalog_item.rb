@@ -35,6 +35,7 @@ class CatalogItem < ActiveRecord::Base
   scope :accesses, -> { where(type: "Access") }
   scope :credits, -> { where(type: "Credit") }
   scope :packs, -> { where(type: "Pack") }
+  scope :not_packs, -> { where.not(type: "Pack") }
   scope :user_flags, -> { where(type: "UserFlag") }
   scope :not_user_flags, -> { where.not(type: "UserFlag") }
 

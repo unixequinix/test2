@@ -15,11 +15,12 @@
 #
 
 class PackCatalogItem < ActiveRecord::Base
-  belongs_to :pack
+  belongs_to :pack, inverse_of: :pack_catalog_items
   belongs_to :catalog_item
 
   validates :amount, presence: true
   validates :amount, numericality: true
+
   validate :limit_amount, if: :infinite?
   validate :packception
 
