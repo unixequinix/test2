@@ -9,11 +9,11 @@
     dl
       - @gtag_settings.each do |setting, value|
         dt = t("admin.gtag_settings.form.#{setting}")
-        dd = value
+        dd = format_abstract_value value
 
       dt = t("admin.event.gtag_name")
-      dd = current_event.gtag_name
+      dd = format_abstract_value current_event.gtag_name
       dt = t("admin.event.gtag_form_disclaimer")
-      dd = current_event.gtag_form_disclaimer
+      dd = format_abstract_value current_event.gtag_form_disclaimer
       dt = t("admin.event.gtag_assignation_notification")
-      dd = current_event.gtag_assignation_notification
+      dd = format_abstract_value current_event.gtag_assignation_notification

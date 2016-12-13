@@ -42,6 +42,6 @@
     dl
       - @device_settings.each do |setting, value|
         dt = t("admin.device_settings.form.#{setting}")
-        dd = value
+        dd = format_abstract_value value
     .container-hidden
       = current_admin.access_token

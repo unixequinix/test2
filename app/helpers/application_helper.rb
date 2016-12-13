@@ -15,4 +15,15 @@ module ApplicationHelper
   def title
     Rails.env == "production" ? "Glownet" : "[#{Rails.env.upcase}] Glownet"
   end
+
+  def format_abstract_value(value)
+    case value
+    when true then fa_icon('check')
+    when false then fa_icon('times')
+    when nil then content_tag(:em, "Empty")
+    when "" then content_tag(:em, "Empty")
+    when Numeric then number_to_human_size value
+    else value
+    end
+  end
 end
