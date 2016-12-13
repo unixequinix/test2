@@ -50,12 +50,12 @@ class Pack < CatalogItem
   end
 
   def valid_max_value
-    return if catalog_item.max_purchasable.between?(0, 1)
+    return if catalog_items.max_purchasable.between?(0, 1)
     errors[:max_purchasable] << I18n.t("errors.messages.invalid_max_value_for_infinite")
   end
 
   def valid_min_value
-    return if catalog_item.min_purchasable.between?(0, 1)
+    return if catalog_items.min_purchasable.between?(0, 1)
     errors[:min_purchasable] << I18n.t("errors.messages.invalid_min_value_for_infinite")
   end
 

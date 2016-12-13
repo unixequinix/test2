@@ -59,7 +59,7 @@ class Transactions::Base < ActiveJob::Base
 
   def preformat_atts(atts)
     atts[:transaction_origin] = Transaction::ORIGINS[:device]
-    atts[:station_id] = Station.find_by(event_id: atts[:event_id], station_event_id: atts[:station_id]).id
+    atts[:station_id] = Station.find_by(event_id: atts[:event_id], station_event_id: atts[:station_id])&.id
     atts[:customer_tag_uid] = atts[:customer_tag_uid].to_s.upcase if atts.key?(:customer_tag_uid)
     atts[:device_created_at_fixed] = atts[:device_created_at]
     atts.delete(:sale_items_attributes) if atts[:sale_items_attributes].blank?
