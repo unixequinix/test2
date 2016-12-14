@@ -108,9 +108,9 @@ ActiveRecord::Schema.define(version: 20161213214512) do
     t.datetime "updated_at",                                 null: false
     t.boolean  "receive_communications",     default: false
     t.string   "locale",                     default: "en"
-    t.boolean  "receive_communications_two", default: false
     t.string   "provider"
     t.string   "uid"
+    t.boolean  "receive_communications_two", default: false
     t.boolean  "banned"
   end
 
