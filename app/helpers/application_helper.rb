@@ -16,6 +16,7 @@ module ApplicationHelper
     Rails.env == "production" ? "Glownet" : "[#{Rails.env.upcase}] Glownet"
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity
   def format_abstract_value(value)
     case value
     when true then fa_icon('check')
