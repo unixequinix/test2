@@ -37,8 +37,10 @@ class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
         INNER JOIN ticket_types
           ON ticket_types.id = tickets.ticket_type_id
           AND ticket_types.hidden = false
+          AND ticket_types.catalog_item_id IS NOT NULL
 
-        WHERE tickets.event_id = #{current_event.id} #{"AND tickets.updated_at > '#{@modified}'" if @modified}
+        WHERE tickets.event_id = #{current_event.id}
+        #{"AND tickets.updated_at > '#{@modified}'" if @modified}
       ) t
     SQL
     ActiveRecord::Base.connection.select_value(sql)

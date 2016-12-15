@@ -111,6 +111,7 @@ ActiveRecord::Schema.define(version: 20161213214512) do
     t.boolean  "receive_communications_two", default: false
     t.string   "provider"
     t.string   "uid"
+    t.boolean  "receive_communications_two", default: false
     t.boolean  "banned"
   end
 

@@ -27,7 +27,10 @@ class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
           gtags.updated_at,
           customer_id as customer_id
         FROM gtags
-        WHERE gtags.event_id = #{current_event.id} #{"AND gtags.updated_at > '#{@modified}'" if @modified}
+        WHERE
+          customer_id is not NULL AND
+          gtags.event_id = #{current_event.id}
+          #{"AND gtags.updated_at > '#{@modified}'" if @modified}
       ) g
     SQL
     ActiveRecord::Base.connection.select_value(sql)
