@@ -1,5 +1,6 @@
-class DatabaseInit < ActiveRecord::Migration
+class InitialDatabase < ActiveRecord::Migration
   def change
+
     create_table "access_control_gates", force: :cascade do |t|
       t.integer  "access_id",                  null: false
       t.string   "direction",                  null: false
@@ -7,10 +8,10 @@ class DatabaseInit < ActiveRecord::Migration
       t.datetime "updated_at",                 null: false
       t.boolean  "hidden",     default: false
       t.integer  "station_id"
-    end
+    end  unless table_exists?(:access_control_gates)
 
-    add_index "access_control_gates", ["access_id"], name: "index_access_control_gates_on_access_id", using: :btree
-    add_index "access_control_gates", ["station_id"], name: "index_access_control_gates_on_station_id", using: :btree
+    add_index("access_control_gates", ["access_id"], name: "index_access_control_gates_on_access_id", using: :btree) unless index_exists?(:access_control_gates, :access_id)
+    add_index("access_control_gates", ["station_id"], name: "index_access_control_gates_on_station_id", using: :btree) unless index_exists?(:access_control_gates, :station_id)
 
     create_table "admins", force: :cascade do |t|
       t.string   "email",                  default: "", null: false
@@ -26,10 +27,10 @@ class DatabaseInit < ActiveRecord::Migration
       t.inet     "last_sign_in_ip"
       t.datetime "created_at",                          null: false
       t.datetime "updated_at",                          null: false
-    end
+    end  unless table_exists?(:admins)
 
-    add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
-    add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
+    add_index("admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree) unless index_exists?(:admins, :email)
+    add_index("admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree) unless index_exists?(:admins, :reset_password_token)
 
     create_table "catalog_items", force: :cascade do |t|
       t.integer  "event_id",                                              null: false
@@ -42,16 +43,16 @@ class DatabaseInit < ActiveRecord::Migration
       t.datetime "created_at",                                            null: false
       t.datetime "updated_at",                                            null: false
       t.decimal  "value",           precision: 8, scale: 2, default: 1.0, null: false
-    end
+    end  unless table_exists?(:catalog_items)
 
-    add_index "catalog_items", ["event_id"], name: "index_catalog_items_on_event_id", using: :btree
+    add_index("catalog_items", ["event_id"], name: "index_catalog_items_on_event_id", using: :btree) unless index_exists?(:catalog_items, :event_id)
 
     create_table "companies", force: :cascade do |t|
       t.string   "name",         null: false
       t.string   "access_token"
       t.datetime "created_at",   null: false
       t.datetime "updated_at",   null: false
-    end
+    end  unless table_exists?(:companies)
 
     create_table "company_event_agreements", force: :cascade do |t|
       t.integer  "company_id", null: false
@@ -59,10 +60,10 @@ class DatabaseInit < ActiveRecord::Migration
       t.string   "aasm_state"
       t.datetime "created_at", null: false
       t.datetime "updated_at", null: false
-    end
+    end  unless table_exists?(:company_event_agreements)
 
-    add_index "company_event_agreements", ["company_id"], name: "index_company_event_agreements_on_company_id", using: :btree
-    add_index "company_event_agreements", ["event_id"], name: "index_company_event_agreements_on_event_id", using: :btree
+    add_index("company_event_agreements", ["company_id"], name: "index_company_event_agreements_on_company_id", using: :btree) unless index_exists?(:company_event_agreements, :company_id)
+    add_index("company_event_agreements", ["event_id"], name: "index_company_event_agreements_on_event_id", using: :btree) unless index_exists?(:company_event_agreements, :event_id)
 
     create_table "customers", force: :cascade do |t|
       t.integer  "event_id",                                   null: false
@@ -96,11 +97,11 @@ class DatabaseInit < ActiveRecord::Migration
       t.string   "uid"
       t.boolean  "receive_communications_two", default: false
       t.boolean  "banned"
-    end
+    end  unless table_exists?(:customers)
 
-    add_index "customers", ["event_id"], name: "index_customers_on_event_id", using: :btree
-    add_index "customers", ["remember_token"], name: "index_customers_on_remember_token", unique: true, using: :btree
-    add_index "customers", ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true, using: :btree
+    add_index("customers", ["event_id"], name: "index_customers_on_event_id", using: :btree) unless index_exists?(:customers, :event_id)
+    add_index("customers", ["remember_token"], name: "index_customers_on_remember_token", unique: true, using: :btree) unless index_exists?(:customers, :remember_token)
+    add_index("customers", ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true, using: :btree) unless index_exists?(:customers, :reset_password_token)
 
     create_table "device_transactions", force: :cascade do |t|
       t.integer  "event_id"
@@ -115,9 +116,9 @@ class DatabaseInit < ActiveRecord::Migration
       t.datetime "updated_at"
       t.integer  "status_code",             default: 0
       t.string   "status_message"
-    end
+    end  unless table_exists?(:device_transactions)
 
-    add_index "device_transactions", ["event_id"], name: "index_device_transactions_on_event_id", using: :btree
+    add_index("device_transactions", ["event_id"], name: "index_device_transactions_on_event_id", using: :btree) unless index_exists?(:device_transactions, :event_id)
 
     create_table "devices", force: :cascade do |t|
       t.string   "device_model"
@@ -127,9 +128,9 @@ class DatabaseInit < ActiveRecord::Migration
       t.datetime "created_at",    null: false
       t.datetime "updated_at",    null: false
       t.string   "asset_tracker"
-    end
+    end  unless table_exists?(:devices)
 
-    add_index "devices", ["mac", "imei", "serial_number"], name: "index_devices_on_mac_and_imei_and_serial_number", unique: true, using: :btree
+    add_index("devices", ["mac", "imei", "serial_number"], name: "index_devices_on_mac_and_imei_and_serial_number", unique: true, using: :btree) unless index_exists?(:devices, :mac)
 
     create_table "entitlements", force: :cascade do |t|
       t.integer  "access_id",                           null: false
@@ -139,10 +140,10 @@ class DatabaseInit < ActiveRecord::Migration
       t.datetime "updated_at",                          null: false
       t.integer  "memory_length",   default: 1
       t.string   "mode",            default: "counter"
-    end
+    end  unless table_exists?(:entitlements)
 
-    add_index "entitlements", ["access_id"], name: "index_entitlements_on_access_id", using: :btree
-    add_index "entitlements", ["event_id"], name: "index_entitlements_on_event_id", using: :btree
+    add_index("entitlements", ["access_id"], name: "index_entitlements_on_access_id", using: :btree) unless index_exists?(:entitlements, :access_id)
+    add_index("entitlements", ["event_id"], name: "index_entitlements_on_event_id", using: :btree) unless index_exists?(:entitlements, :event_id)
 
     create_table "event_translations", force: :cascade do |t|
       t.integer  "event_id",                           null: false
@@ -163,10 +164,10 @@ class DatabaseInit < ActiveRecord::Migration
       t.text     "privacy_policy"
       t.text     "terms_of_use"
       t.text     "receive_communications_two_message"
-    end
+    end  unless table_exists?(:event_translations)
 
-    add_index "event_translations", ["event_id"], name: "index_event_translations_on_event_id", using: :btree
-    add_index "event_translations", ["locale"], name: "index_event_translations_on_locale", using: :btree
+    add_index("event_translations", ["event_id"], name: "index_event_translations_on_event_id", using: :btree) unless index_exists?(:event_translations, :event_id)
+    add_index("event_translations", ["locale"], name: "index_event_translations_on_locale", using: :btree) unless index_exists?(:event_translations, :locale)
 
     create_table "events", force: :cascade do |t|
       t.string   "name",                                                         null: false
@@ -215,9 +216,9 @@ class DatabaseInit < ActiveRecord::Migration
       t.json     "gtag_settings"
       t.json     "device_settings"
       t.string   "timezone"
-    end
+    end  unless table_exists?(:events)
 
-    add_index "events", ["slug"], name: "index_events_on_slug", unique: true, using: :btree
+    add_index("events", ["slug"], name: "index_events_on_slug", unique: true, using: :btree) unless index_exists?(:events, :slug)
 
     create_table "friendly_id_slugs", force: :cascade do |t|
       t.string   "slug",                      null: false
@@ -226,12 +227,12 @@ class DatabaseInit < ActiveRecord::Migration
       t.string   "scope"
       t.datetime "created_at",                null: false
       t.datetime "updated_at",                null: false
-    end
+    end  unless table_exists?(:friendly_id_slugs)
 
-    add_index "friendly_id_slugs", ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, using: :btree
-    add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
-    add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
-    add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+    add_index("friendly_id_slugs", ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, using: :btree) unless index_exists?(:friendly_id_slugs, :slug)
+    add_index("friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree) unless index_exists?(:friendly_id_slugs, :slug)
+    add_index("friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree) unless index_exists?(:friendly_id_slugs, :sluggable_id)
+    add_index("friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree) unless index_exists?(:friendly_id_slugs, :sluggable_type)
 
     create_table "gtags", force: :cascade do |t|
       t.integer  "event_id",                                                               null: false
@@ -248,10 +249,10 @@ class DatabaseInit < ActiveRecord::Migration
       t.decimal  "final_balance",            precision: 8, scale: 2
       t.decimal  "final_refundable_balance", precision: 8, scale: 2
       t.integer  "customer_id"
-    end
+    end  unless table_exists?(:gtags)
 
-    add_index "gtags", ["customer_id"], name: "index_gtags_on_customer_id", using: :btree
-    add_index "gtags", ["event_id"], name: "index_gtags_on_event_id", using: :btree
+    add_index("gtags", ["customer_id"], name: "index_gtags_on_customer_id", using: :btree) unless index_exists?(:gtags, :customer_id)
+    add_index("gtags", ["event_id"], name: "index_gtags_on_event_id", using: :btree) unless index_exists?(:gtags, :event_id)
 
     create_table "order_items", force: :cascade do |t|
       t.integer  "order_id",                                null: false
@@ -262,10 +263,10 @@ class DatabaseInit < ActiveRecord::Migration
       t.datetime "updated_at",                              null: false
       t.boolean  "redeemed"
       t.integer  "counter"
-    end
+    end  unless table_exists?(:order_items)
 
-    add_index "order_items", ["catalog_item_id"], name: "index_order_items_on_catalog_item_id", using: :btree
-    add_index "order_items", ["order_id"], name: "index_order_items_on_order_id", using: :btree
+    add_index("order_items", ["catalog_item_id"], name: "index_order_items_on_catalog_item_id", using: :btree) unless index_exists?(:order_items, :catalog_item_id)
+    add_index("order_items", ["order_id"], name: "index_order_items_on_order_id", using: :btree) unless index_exists?(:order_items, :order_id)
 
     create_table "orders", force: :cascade do |t|
       t.string   "status",       default: "in_progress", null: false
@@ -275,9 +276,9 @@ class DatabaseInit < ActiveRecord::Migration
       t.json     "payment_data"
       t.string   "gateway"
       t.integer  "customer_id"
-    end
+    end  unless table_exists?(:orders)
 
-    add_index "orders", ["customer_id"], name: "index_orders_on_customer_id", using: :btree
+    add_index("orders", ["customer_id"], name: "index_orders_on_customer_id", using: :btree) unless index_exists?(:orders, :customer_id)
 
     create_table "pack_catalog_items", force: :cascade do |t|
       t.integer  "pack_id",                                 null: false
@@ -285,10 +286,10 @@ class DatabaseInit < ActiveRecord::Migration
       t.decimal  "amount",          precision: 8, scale: 2
       t.datetime "created_at",                              null: false
       t.datetime "updated_at",                              null: false
-    end
+    end  unless table_exists?(:pack_catalog_items)
 
-    add_index "pack_catalog_items", ["catalog_item_id"], name: "index_pack_catalog_items_on_catalog_item_id", using: :btree
-    add_index "pack_catalog_items", ["pack_id"], name: "index_pack_catalog_items_on_pack_id", using: :btree
+    add_index("pack_catalog_items", ["catalog_item_id"], name: "index_pack_catalog_items_on_catalog_item_id", using: :btree) unless index_exists?(:pack_catalog_items, :catalog_item_id)
+    add_index("pack_catalog_items", ["pack_id"], name: "index_pack_catalog_items_on_pack_id", using: :btree) unless index_exists?(:pack_catalog_items, :pack_id)
 
     create_table "payment_gateways", force: :cascade do |t|
       t.integer  "event_id"
@@ -298,9 +299,9 @@ class DatabaseInit < ActiveRecord::Migration
       t.datetime "updated_at", null: false
       t.boolean  "refund"
       t.boolean  "topup"
-    end
+    end  unless table_exists?(:payment_gateways)
 
-    add_index "payment_gateways", ["event_id"], name: "index_payment_gateways_on_event_id", using: :btree
+    add_index("payment_gateways", ["event_id"], name: "index_payment_gateways_on_event_id", using: :btree) unless index_exists?(:payment_gateways, :event_id)
 
     create_table "products", force: :cascade do |t|
       t.string   "name"
@@ -311,9 +312,9 @@ class DatabaseInit < ActiveRecord::Migration
       t.integer  "event_id"
       t.float    "vat",          default: 0.0
       t.string   "product_type"
-    end
+    end  unless table_exists?(:products)
 
-    add_index "products", ["event_id"], name: "index_products_on_event_id", using: :btree
+    add_index("products", ["event_id"], name: "index_products_on_event_id", using: :btree) unless index_exists?(:products, :event_id)
 
     create_table "refunds", force: :cascade do |t|
       t.decimal  "amount",      precision: 8, scale: 2, null: false
@@ -325,19 +326,19 @@ class DatabaseInit < ActiveRecord::Migration
       t.string   "swift"
       t.decimal  "money",       precision: 8, scale: 2
       t.integer  "customer_id"
-    end
+    end  unless table_exists?(:refunds)
 
-    add_index "refunds", ["customer_id"], name: "index_refunds_on_customer_id", using: :btree
+    add_index("refunds", ["customer_id"], name: "index_refunds_on_customer_id", using: :btree) unless index_exists?(:refunds, :customer_id)
 
     create_table "sale_items", force: :cascade do |t|
       t.integer "product_id"
       t.integer "quantity"
       t.float   "unit_price"
       t.integer "credit_transaction_id"
-    end
+    end  unless table_exists?(:sale_items)
 
-    add_index "sale_items", ["credit_transaction_id"], name: "index_sale_items_on_credit_transaction_id", using: :btree
-    add_index "sale_items", ["product_id"], name: "index_sale_items_on_product_id", using: :btree
+    add_index("sale_items", ["credit_transaction_id"], name: "index_sale_items_on_credit_transaction_id", using: :btree) unless index_exists?(:sale_items, :credit_transaction_id)
+    add_index("sale_items", ["product_id"], name: "index_sale_items_on_product_id", using: :btree) unless index_exists?(:sale_items, :product_id)
 
     create_table "station_catalog_items", force: :cascade do |t|
       t.integer  "catalog_item_id",                 null: false
@@ -346,10 +347,10 @@ class DatabaseInit < ActiveRecord::Migration
       t.datetime "updated_at",                      null: false
       t.boolean  "hidden",          default: false
       t.integer  "station_id"
-    end
+    end  unless table_exists?(:station_catalog_items)
 
-    add_index "station_catalog_items", ["catalog_item_id"], name: "index_station_catalog_items_on_catalog_item_id", using: :btree
-    add_index "station_catalog_items", ["station_id"], name: "index_station_catalog_items_on_station_id", using: :btree
+    add_index("station_catalog_items", ["catalog_item_id"], name: "index_station_catalog_items_on_catalog_item_id", using: :btree) unless index_exists?(:station_catalog_items, :catalog_item_id)
+    add_index("station_catalog_items", ["station_id"], name: "index_station_catalog_items_on_station_id", using: :btree) unless index_exists?(:station_catalog_items, :station_id)
 
     create_table "station_parameters", force: :cascade do |t|
       t.integer  "station_id",               null: false
@@ -357,7 +358,7 @@ class DatabaseInit < ActiveRecord::Migration
       t.string   "station_parametable_type", null: false
       t.datetime "created_at",               null: false
       t.datetime "updated_at",               null: false
-    end
+    end  unless table_exists?(:station_parameters)
 
     create_table "station_products", force: :cascade do |t|
       t.integer  "product_id",                 null: false
@@ -367,10 +368,10 @@ class DatabaseInit < ActiveRecord::Migration
       t.integer  "position"
       t.boolean  "hidden",     default: false
       t.integer  "station_id"
-    end
+    end  unless table_exists?(:station_products)
 
-    add_index "station_products", ["product_id"], name: "index_station_products_on_product_id", using: :btree
-    add_index "station_products", ["station_id"], name: "index_station_products_on_station_id", using: :btree
+    add_index("station_products", ["product_id"], name: "index_station_products_on_product_id", using: :btree) unless index_exists?(:station_products, :product_id)
+    add_index("station_products", ["station_id"], name: "index_station_products_on_station_id", using: :btree) unless index_exists?(:station_products, :station_id)
 
     create_table "stations", force: :cascade do |t|
       t.integer  "event_id",                           null: false
@@ -387,10 +388,10 @@ class DatabaseInit < ActiveRecord::Migration
       t.string   "official_name"
       t.integer  "station_event_id"
       t.boolean  "hidden",             default: false
-    end
+    end  unless table_exists?(:stations)
 
-    add_index "stations", ["event_id"], name: "index_stations_on_event_id", using: :btree
-    add_index "stations", ["station_event_id"], name: "index_stations_on_station_event_id", using: :btree
+    add_index("stations", ["event_id"], name: "index_stations_on_event_id", using: :btree) unless index_exists?(:stations, :event_id)
+    add_index("stations", ["station_event_id"], name: "index_stations_on_station_event_id", using: :btree) unless index_exists?(:stations, :station_event_id)
 
     create_table "ticket_types", force: :cascade do |t|
       t.integer  "event_id",                                   null: false
@@ -401,11 +402,11 @@ class DatabaseInit < ActiveRecord::Migration
       t.datetime "updated_at",                                 null: false
       t.boolean  "hidden",                     default: false
       t.integer  "catalog_item_id"
-    end
+    end  unless table_exists?(:ticket_types)
 
-    add_index "ticket_types", ["catalog_item_id"], name: "index_ticket_types_on_catalog_item_id", using: :btree
-    add_index "ticket_types", ["company_event_agreement_id"], name: "index_ticket_types_on_company_event_agreement_id", using: :btree
-    add_index "ticket_types", ["event_id"], name: "index_ticket_types_on_event_id", using: :btree
+    add_index("ticket_types", ["catalog_item_id"], name: "index_ticket_types_on_catalog_item_id", using: :btree) unless index_exists?(:ticket_types, :catalog_item_id)
+    add_index("ticket_types", ["company_event_agreement_id"], name: "index_ticket_types_on_company_event_agreement_id", using: :btree) unless index_exists?(:ticket_types, :company_event_agreement_id)
+    add_index("ticket_types", ["event_id"], name: "index_ticket_types_on_event_id", using: :btree) unless index_exists?(:ticket_types, :event_id)
 
     create_table "tickets", force: :cascade do |t|
       t.integer  "event_id",                             null: false
@@ -420,11 +421,11 @@ class DatabaseInit < ActiveRecord::Migration
       t.string   "purchaser_email"
       t.integer  "customer_id"
       t.string   "description"
-    end
+    end  unless table_exists?(:tickets)
 
-    add_index "tickets", ["customer_id"], name: "index_tickets_on_customer_id", using: :btree
-    add_index "tickets", ["event_id"], name: "index_tickets_on_event_id", using: :btree
-    add_index "tickets", ["ticket_type_id"], name: "index_tickets_on_ticket_type_id", using: :btree
+    add_index("tickets", ["customer_id"], name: "index_tickets_on_customer_id", using: :btree) unless index_exists?(:tickets, :customer_id)
+    add_index("tickets", ["event_id"], name: "index_tickets_on_event_id", using: :btree) unless index_exists?(:tickets, :event_id)
+    add_index("tickets", ["ticket_type_id"], name: "index_tickets_on_ticket_type_id", using: :btree) unless index_exists?(:tickets, :ticket_type_id)
 
     create_table "topup_credits", force: :cascade do |t|
       t.float    "amount"
@@ -433,10 +434,10 @@ class DatabaseInit < ActiveRecord::Migration
       t.datetime "updated_at",                 null: false
       t.boolean  "hidden",     default: false
       t.integer  "station_id"
-    end
+    end  unless table_exists?(:topup_credits)
 
-    add_index "topup_credits", ["credit_id"], name: "index_topup_credits_on_credit_id", using: :btree
-    add_index "topup_credits", ["station_id"], name: "index_topup_credits_on_station_id", using: :btree
+    add_index("topup_credits", ["credit_id"], name: "index_topup_credits_on_credit_id", using: :btree) unless index_exists?(:topup_credits, :credit_id)
+    add_index("topup_credits", ["station_id"], name: "index_topup_credits_on_station_id", using: :btree) unless index_exists?(:topup_credits, :station_id)
 
     create_table "transactions", force: :cascade do |t|
       t.integer  "event_id"
@@ -480,56 +481,56 @@ class DatabaseInit < ActiveRecord::Migration
       t.integer  "order_id"
       t.integer  "gtag_id"
       t.integer  "customer_id"
-    end
+    end  unless table_exists?(:transactions)
 
-    add_index "transactions", ["access_id"], name: "index_transactions_on_access_id", using: :btree
-    add_index "transactions", ["catalog_item_id"], name: "index_transactions_on_catalog_item_id", using: :btree
-    add_index "transactions", ["customer_id"], name: "index_transactions_on_customer_id", using: :btree
-    add_index "transactions", ["event_id"], name: "index_transactions_on_event_id", using: :btree
-    add_index "transactions", ["gtag_id"], name: "index_transactions_on_gtag_id", using: :btree
-    add_index "transactions", ["operator_station_id"], name: "index_transactions_on_operator_station_id", using: :btree
-    add_index "transactions", ["order_id"], name: "index_transactions_on_order_id", using: :btree
-    add_index "transactions", ["station_id"], name: "index_transactions_on_station_id", using: :btree
-    add_index "transactions", ["ticket_id"], name: "index_transactions_on_ticket_id", using: :btree
-    add_index "transactions", ["type"], name: "index_transactions_on_type", using: :btree
+    add_index("transactions", ["access_id"], name: "index_transactions_on_access_id", using: :btree) unless index_exists?(:transactions, :access_id)
+    add_index("transactions", ["catalog_item_id"], name: "index_transactions_on_catalog_item_id", using: :btree) unless index_exists?(:transactions, :catalog_item_id)
+    add_index("transactions", ["customer_id"], name: "index_transactions_on_customer_id", using: :btree) unless index_exists?(:transactions, :customer_id)
+    add_index("transactions", ["event_id"], name: "index_transactions_on_event_id", using: :btree) unless index_exists?(:transactions, :event_id)
+    add_index("transactions", ["gtag_id"], name: "index_transactions_on_gtag_id", using: :btree) unless index_exists?(:transactions, :gtag_id)
+    add_index("transactions", ["operator_station_id"], name: "index_transactions_on_operator_station_id", using: :btree) unless index_exists?(:transactions, :operator_station_id)
+    add_index("transactions", ["order_id"], name: "index_transactions_on_order_id", using: :btree) unless index_exists?(:transactions, :order_id)
+    add_index("transactions", ["station_id"], name: "index_transactions_on_station_id", using: :btree) unless index_exists?(:transactions, :station_id)
+    add_index("transactions", ["ticket_id"], name: "index_transactions_on_ticket_id", using: :btree) unless index_exists?(:transactions, :ticket_id)
+    add_index("transactions", ["type"], name: "index_transactions_on_type", using: :btree) unless index_exists?(:transactions, :type)
 
-    add_foreign_key "access_control_gates", "stations"
-    add_foreign_key "catalog_items", "events"
-    add_foreign_key "company_event_agreements", "companies"
-    add_foreign_key "company_event_agreements", "events"
-    add_foreign_key "customers", "events"
-    add_foreign_key "device_transactions", "events"
-    add_foreign_key "entitlements", "events"
-    add_foreign_key "event_translations", "events"
-    add_foreign_key "gtags", "customers"
-    add_foreign_key "gtags", "events"
-    add_foreign_key "order_items", "catalog_items"
-    add_foreign_key "order_items", "orders"
-    add_foreign_key "orders", "customers"
-    add_foreign_key "pack_catalog_items", "catalog_items"
-    add_foreign_key "payment_gateways", "events"
-    add_foreign_key "products", "events"
-    add_foreign_key "refunds", "customers"
-    add_foreign_key "sale_items", "products"
-    add_foreign_key "sale_items", "transactions", column: "credit_transaction_id"
-    add_foreign_key "station_catalog_items", "catalog_items"
-    add_foreign_key "station_catalog_items", "stations"
-    add_foreign_key "station_products", "products"
-    add_foreign_key "station_products", "stations"
-    add_foreign_key "stations", "events"
-    add_foreign_key "ticket_types", "catalog_items"
-    add_foreign_key "ticket_types", "company_event_agreements"
-    add_foreign_key "ticket_types", "events"
-    add_foreign_key "tickets", "customers"
-    add_foreign_key "tickets", "events"
-    add_foreign_key "tickets", "ticket_types"
-    add_foreign_key "topup_credits", "stations"
-    add_foreign_key "transactions", "catalog_items"
-    add_foreign_key "transactions", "customers"
-    add_foreign_key "transactions", "events"
-    add_foreign_key "transactions", "gtags"
-    add_foreign_key "transactions", "orders"
-    add_foreign_key "transactions", "stations"
-    add_foreign_key "transactions", "tickets"
+    add_foreign_key("access_control_gates", "stations")
+    add_foreign_key("catalog_items", "events")
+    add_foreign_key("company_event_agreements", "companies")
+    add_foreign_key("company_event_agreements", "events")
+    add_foreign_key("customers", "events")
+    add_foreign_key("device_transactions", "events")
+    add_foreign_key("entitlements", "events")
+    add_foreign_key("event_translations", "events")
+    add_foreign_key("gtags", "customers")
+    add_foreign_key("gtags", "events")
+    add_foreign_key("order_items", "catalog_items")
+    add_foreign_key("order_items", "orders")
+    add_foreign_key("orders", "customers")
+    add_foreign_key("pack_catalog_items", "catalog_items")
+    add_foreign_key("payment_gateways", "events")
+    add_foreign_key("products", "events")
+    add_foreign_key("refunds", "customers")
+    add_foreign_key("sale_items", "products")
+    add_foreign_key("sale_items", "transactions", column: "credit_transaction_id")
+    add_foreign_key("station_catalog_items", "catalog_items")
+    add_foreign_key("station_catalog_items", "stations")
+    add_foreign_key("station_products", "products")
+    add_foreign_key("station_products", "stations")
+    add_foreign_key("stations", "events")
+    add_foreign_key("ticket_types", "catalog_items")
+    add_foreign_key("ticket_types", "company_event_agreements")
+    add_foreign_key("ticket_types", "events")
+    add_foreign_key("tickets", "customers")
+    add_foreign_key("tickets", "events")
+    add_foreign_key("tickets", "ticket_types")
+    add_foreign_key("topup_credits", "stations")
+    add_foreign_key("transactions", "catalog_items")
+    add_foreign_key("transactions", "customers")
+    add_foreign_key("transactions", "events")
+    add_foreign_key("transactions", "gtags")
+    add_foreign_key("transactions", "orders")
+    add_foreign_key("transactions", "stations")
+    add_foreign_key("transactions", "tickets")
   end
 end
