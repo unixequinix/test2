@@ -10,7 +10,6 @@ set :ssh_options, forward_agent: true, auth_methods: %w(publickey)
 
 # Default value for :linked_files is []
 set :linked_files, %w(config/application.yml)
-set :figaro_yml_remote_path, File.join(shared_path, "config", "application.yml")
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w(log store tmp/pids tmp/cache tmp/sockets vendor/bundle public/system)
