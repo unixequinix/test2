@@ -10,6 +10,7 @@ require "capistrano/sidekiq" # Rails has to be above sidekiq for deploy purposes
 require "capistrano/rails/assets"
 require "whenever/capistrano"
 require "capistrano/passenger"
+require 'capistrano/rails/console'
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
 Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }

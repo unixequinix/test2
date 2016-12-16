@@ -123,6 +123,7 @@ group :development do
   gem 'capistrano-passenger'
   gem 'capistrano-sidekiq', '~> 0.5.3'
   gem 'capistrano-faster-assets', '~> 1.0'
+  gem 'capistrano-rails-console'
   gem 'annotate'
 end
 

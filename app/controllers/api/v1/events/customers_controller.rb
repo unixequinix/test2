@@ -61,6 +61,7 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
               ON catalog_items.id = order_items.catalog_item_id
             INNER JOIN orders
               ON orders.id = order_items.order_id
+            WHERE orders.status = 'completed' AND order_items.redeemed != true
           ) o
           GROUP BY o.customer_id
         ) ord
