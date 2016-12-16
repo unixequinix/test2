@@ -45,6 +45,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.json     :gtag_settings
       t.json     :device_settings
       t.string   :timezone
+      t.timestamps
     end  unless table_exists?(:events)
     add_index(:events, [:slug], name: :index_events_on_slug, unique: true, using: :btree) unless index_exists?(:events, :slug)
 
@@ -61,6 +62,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.string   :official_name
       t.integer :station_event_id
       t.boolean  :hidden,             default: false
+      t.timestamps
     end  unless table_exists?(:stations)
 
     create_table :access_control_gates do |t|
@@ -96,19 +98,21 @@ class InitialDatabase < ActiveRecord::Migration
       t.integer  :step
       t.integer  :max_purchasable
       t.integer  :min_purchasable
-      t.timestamps
       t.decimal  :value,           precision: 8, scale: 2, default: 1.0, null: false
+      t.timestamps
     end  unless table_exists?(:catalog_items)
 
     create_table :companies do |t|
       t.string   :name,         null: false
       t.string   :access_token
+      t.timestamps
     end  unless table_exists?(:companies)
 
     create_table :company_event_agreements do |t|
       t.references :company, index: true, foreign_key: true
       t.references :event, index: true, foreign_key: true
       t.string   :aasm_state
+      t.timestamps
     end  unless table_exists?(:company_event_agreements)
 
     create_table :customers do |t|
@@ -141,6 +145,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.string   :uid
       t.boolean  :receive_communications_two, default: false
       t.boolean  :banned
+      t.timestamps
     end  unless table_exists?(:customers)
     add_index(:customers, [:remember_token], name: :index_customers_on_remember_token, unique: true, using: :btree) unless index_exists?(:customers, :remember_token)
     add_index(:customers, [:reset_password_token], name: :index_customers_on_reset_password_token, unique: true, using: :btree) unless index_exists?(:customers, :reset_password_token)
@@ -156,6 +161,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.integer  :number_of_transactions
       t.integer  :status_code,             default: 0
       t.string   :status_message
+      t.timestamps
     end  unless table_exists?(:device_transactions)
 
     create_table :devices do |t|
@@ -164,6 +170,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.string   :mac
       t.string   :serial_number
       t.string   :asset_tracker
+      t.timestamps
     end  unless table_exists?(:devices)
     add_index(:devices, [:mac, :imei, :serial_number], name: :index_devices_on_mac_and_imei_and_serial_number, unique: true, using: :btree) unless index_exists?(:devices, [:mac, :imei, :serial_number])
 
@@ -173,6 +180,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.integer  :memory_position,                     null: false
       t.integer  :memory_length,   default: 1
       t.string   :mode,            default: :counter
+      t.timestamps
     end  unless table_exists?(:entitlements)
 
     create_table :event_translations do |t|
@@ -192,6 +200,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.text     :privacy_policy
       t.text     :terms_of_use
       t.text     :receive_communications_two_message
+      t.timestamps
     end  unless table_exists?(:event_translations)
     add_index(:event_translations, [:locale], name: :index_event_translations_on_locale, using: :btree) unless index_exists?(:event_translations, :locale)
 
@@ -219,6 +228,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.decimal  :final_balance,            precision: 8, scale: 2
       t.decimal  :final_refundable_balance, precision: 8, scale: 2
       t.references :customer, index: true, foreign_key: true
+      t.timestamps
     end  unless table_exists?(:gtags)
 
     create_table :orders do |t|
@@ -227,6 +237,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.json     :payment_data
       t.string   :gateway
       t.references :customer, index: true, foreign_key: true
+      t.timestamps
     end  unless table_exists?(:orders)
 
     create_table :order_items do |t|
@@ -236,12 +247,14 @@ class InitialDatabase < ActiveRecord::Migration
       t.decimal  :total,           precision: 8, scale: 2, null: false
       t.boolean  :redeemed
       t.integer  :counter
+      t.timestamps
     end  unless table_exists?(:order_items)
 
     create_table :pack_catalog_items do |t|
       t.references :pack, index: true
       t.references :catalog_item, index: true, foreign_key: true
       t.decimal  :amount,          precision: 8, scale: 2
+      t.timestamps
     end  unless table_exists?(:pack_catalog_items)
 
     create_table :payment_gateways do |t|
@@ -250,6 +263,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.json     :data
       t.boolean  :refund
       t.boolean  :topup
+      t.timestamps
     end  unless table_exists?(:payment_gateways)
 
     create_table :products do |t|
@@ -259,6 +273,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.string   :description
       t.float    :vat,          default: 0.0
       t.string   :product_type
+      t.timestamps
     end  unless table_exists?(:products)
 
     create_table :refunds do |t|
@@ -269,6 +284,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.string   :swift
       t.decimal  :money,       precision: 8, scale: 2
       t.references :customer, index: true, foreign_key: true
+      t.timestamps
     end  unless table_exists?(:refunds)
 
     create_table :station_catalog_items do |t|
@@ -276,12 +292,14 @@ class InitialDatabase < ActiveRecord::Migration
       t.float    :price,                           null: false
       t.boolean  :hidden,          default: false
       t.references :station, index: true, foreign_key: true
+      t.timestamps
     end  unless table_exists?(:station_catalog_items)
 
     create_table :station_parameters do |t|
       t.references :station, index: true, foreign_key: true
       t.integer  :station_parametable_id,   null: false
       t.string   :station_parametable_type, null: false
+      t.timestamps
     end  unless table_exists?(:station_parameters)
 
     create_table :station_products do |t|
@@ -290,6 +308,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.integer  :position
       t.boolean  :hidden,     default: false
       t.references :station, index: true, foreign_key: true
+      t.timestamps
     end  unless table_exists?(:station_products)
 
     create_table :ticket_types do |t|
@@ -299,6 +318,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.string   :company_code
       t.boolean  :hidden,                     default: false
       t.references :catalog_item, index: true, foreign_key: true
+      t.timestamps
     end  unless table_exists?(:ticket_types)
 
     create_table :tickets do |t|
@@ -312,6 +332,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.string   :purchaser_email
       t.references :customer, index: true, foreign_key: true
       t.string   :description
+      t.timestamps
     end  unless table_exists?(:tickets)
 
     create_table :topup_credits do |t|
@@ -319,6 +340,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.references :credit, index: true
       t.boolean  :hidden,     default: false
       t.references :station, index: true, foreign_key: true
+      t.timestamps
     end  unless table_exists?(:topup_credits)
 
     create_table :transactions do |t|
@@ -361,6 +383,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.references :order, index: true, foreign_key: true
       t.references :gtag, index: true, foreign_key: true
       t.references :customer, index: true, foreign_key: true
+      t.timestamps
     end  unless table_exists?(:transactions)
     add_index(:transactions, [:type], name: :index_transactions_on_type, using: :btree) unless index_exists?(:transactions, :type)
 
@@ -370,6 +393,7 @@ class InitialDatabase < ActiveRecord::Migration
         t.integer :quantity
         t.float   :unit_price
         t.references :credit_transaction, index: true
+        t.timestamps
       end
       add_foreign_key "sale_items", "transactions", column: "credit_transaction_id"
     end
