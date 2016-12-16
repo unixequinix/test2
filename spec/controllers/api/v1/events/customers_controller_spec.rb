@@ -11,7 +11,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
     context "with authentication" do
       before do
         create(:gtag, customer: customer)
-        order = create(:order, customer: customer)
+        order = create(:order, customer: customer, status: "completed")
         create(:order_item, order: order, catalog_item: item)
       end
 
