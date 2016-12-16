@@ -130,7 +130,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.string   "asset_tracker"
     end  unless table_exists?(:devices)
 
-    add_index("devices", ["mac", "imei", "serial_number"], name: "index_devices_on_mac_and_imei_and_serial_number", unique: true, using: :btree) unless index_exists?(:devices, :mac)
+    add_index("devices", ["mac", "imei", "serial_number"], name: "index_devices_on_mac_and_imei_and_serial_number", unique: true, using: :btree) unless index_exists?(:devices, :mac, :imei, :serial_number)
 
     create_table "entitlements", force: :cascade do |t|
       t.integer  "access_id",                           null: false
