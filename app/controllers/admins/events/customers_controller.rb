@@ -17,14 +17,15 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
 
   def show
     @customer = current_event.customers.find(params[:id])
-    @online_transactions = @customer.transactions.order(:counter)
+    @online_transactions = @customer.transactions.online.order(:counter)
     @onsite_transactions = @customer.active_gtag&.transactions&.order(:gtag_counter)
   end
 
   def reset_password
+    password = "123456"
     @customer = current_event.customers.find(params[:id])
-    @customer.update(password: "123456", password_confirmation: "123456")
-    redirect_to admins_event_customer_path(current_event, @customer)
+    @customer.update(password: password, password_confirmation: password)
+    redirect_to admins_event_customer_path(current_event, @customer), notice: "Password reset to '#{password}'"
   end
 
   def download_transactions

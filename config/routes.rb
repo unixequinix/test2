@@ -94,7 +94,7 @@ Rails.application.routes.draw do
             resources :ticket_assignments, only: [:new, :create]
             resources :gtag_assignments, only: [:new, :create]
             get :download_transactions
-            put :reset_password
+            get :reset_password
           end
           collection do
             get :search
