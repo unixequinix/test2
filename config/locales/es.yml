@@ -1134,15 +1134,6 @@ es:
     home: Web del Evento
     menu: Home
   helpers:
-    page_entries_info:
-      more_pages:
-        display_entries: Mostrando %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b> en total
-        display_entries_small: Mostrando %{count} de %{total} en total
-      one_page:
-        display_entries:
-          one: Mostrando <b>1</b> %{entry_name}
-          other: Mostrando <b>todos %{count}</b> %{entry_name}
-          zero: No se ha encontrado %{entry_name}
     select:
       prompt: Por favor seleccione
     submit:

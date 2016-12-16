@@ -1084,15 +1084,6 @@ de:
     home: Veranstaltungswebsite
     menu: Home
   helpers:
-    page_entries_info:
-      more_pages:
-        display_entries: Anzeige %{entry_name} <b>%{erste}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b> insgesamt
-        display_entries_small: Anzeige %{count} of %{total} insgesamt
-      one_page:
-        display_entries:
-          one: Anzeige <b>1</b> %{entry_name}
-          other: Anzeige <b>all %{count}</b> %{entry_name}
-          zero: Keinen %{entry_name} gefunden
     select:
       prompt: Bitte wählen
     submit:

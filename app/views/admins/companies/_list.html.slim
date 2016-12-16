@@ -1,4 +1,3 @@
-.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: companies.count, total: Company.count)
 table
   thead
     tr
@@ -13,5 +12,3 @@ table
         td data-label=t('admin.companies.name') = company.access_token
         td.table-actions-field
           = render 'admins/companies/actions', company: company
-
-= paginate companies

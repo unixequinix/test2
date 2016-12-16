@@ -1,4 +1,4 @@
-.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @list_model_presenter.current_items, total: @list_model_presenter.count)
+.current-showing = page_entries_info @list_model_presenter.all_items
 = form_tag destroy_multiple_admins_event_products_path, method: :delete do
   table.products
     thead
