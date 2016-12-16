@@ -1,5 +1,142 @@
 ---
 es:
+  country_iso_priority: [AT, BE, BG, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, GB]
+  general_company_name: 'Glownet'
+  general_support_email: 'support@glownet.com'
+  gender:
+    male: 'Male'
+    female: 'Female'
+  event:
+    subject_support: 'Need help for %{event}'
+    locales:
+      en: 'ENG'
+      es: 'ESP'
+      it: 'ITA'
+      th: 'THA'
+      de: 'GER'
+      pt: 'PT'
+    gtag_name: 'Wristband'
+  events:
+    create:
+      error: "Event couldn't be created, check the errors below"
+  activemodel:
+    errors:
+      models:
+        customer:
+          attributes:
+            phone:
+              improbable_phone: "It's not a valid phone number. Check that country matches the phone number."
+            birthdate:
+              invalid: "It's not a valid date"
+              too_young: "Must be older than %{age} years old"
+        epg_claim_form:
+          attributes:
+            phone:
+              improbable_phone: "It's not a valid phone number. Check that country matches the phone number."
+        bank_account_claim_form:
+          attributes:
+            swift:
+              invalid: "It's not a valid BIC/SWIFT"
+            iban:
+              invalid: "It's not a valid IBAN, introduce a valid account for SEPA"
+    attributes:
+      euro_bank_account_claim_form:
+        swift: "BIC/SWIFT"
+        iban: "IBAN"
+        account_holder: "Account holder's name"
+        bank_name: "Bank name"
+      aus_bank_account_claim_form:
+        bsb: "BSB"
+        account_holder: "Account holder's name"
+        bank_name: "Bank name"
+        number: "Account number"
+      nz_bank_account_claim_form:
+        bsb: "BSB"
+        account_holder: "Account holder's name"
+        bank_name: "Bank name"
+        number: "Account number (00 0000 0000000 000)"
+      thailand_bank_account_claim_form:
+        bsb: "BSB (000000)"
+        account_holder: "Account holder's name (Thai)"
+        account_holder_translation: "Account holder's name (English)"
+        bank_name: "Bank name"
+        number: "Account number"
+  activerecord:
+    models:
+      admin:
+        one: 'admin'
+        other: 'admins'
+      claim:
+        one: 'claim'
+        other: 'claims'
+      credit:
+        one: 'credit'
+        other: 'credits'
+      customer:
+        one: 'customer'
+        other: 'customers'
+      entitlement:
+        one: 'entitlement'
+        other: 'entitlements'
+      gtag:
+        one: 'gtag'
+        other: 'gtags'
+      order:
+        one: 'order'
+        other: 'orders'
+      payment:
+        one: 'payment'
+        other: 'payments'
+      refund:
+        one: 'refund'
+        other: 'refunds'
+      ticket:
+        one: 'ticket'
+        other: 'tickets'
+      company:
+        one: 'company'
+        other: 'companies'
+      pack:
+        one: 'pack'
+        other: 'packs'
+      ticket_type:
+        one: 'company ticket type'
+        other: 'company ticket types'
+    errors:
+      models:
+        customer:
+          attributes:
+            email:
+              taken: 'Email taken'
+        entitlement:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: "Can't be deleted because there are ticket types associated"
+        ticket_type:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: "Can't be deleted because there are tickets associated"
+        ticket:
+          attributes:
+            number:
+              taken: 'Number taken'
+            base:
+              restrict_dependent_destroy:
+                many: "Can't be deleted because there are customers associated"
+        gtag:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: "Can't be deleted because there are customers associated"
+            tag_uid:
+              taken: 'Tag UID taken'
+        admission:
+          attributes:
+            ticket:
+              taken: 'taken'
+
   actions:
     back: Atrás
     cancel: Cancelar
