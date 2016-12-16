@@ -20,7 +20,6 @@
 #
 
 class Credit < CatalogItem
-  # Validations
   validates :value, :initial_amount, :step, :max_purchasable, :min_purchasable, presence: true
   validates :value, numericality: { greater_than: 0 }
 

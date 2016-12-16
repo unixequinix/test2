@@ -70,10 +70,9 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   has_many :user_flags, dependent: :destroy
   has_many :accesses, dependent: :destroy
   has_many :packs, dependent: :destroy
-  has_one :credit, dependent: :destroy
   has_many :customers, dependent: :destroy
+  has_one :credit, dependent: :destroy
 
-  # Scopes
   scope :status, -> (status) { where aasm_state: status }
 
   extend FriendlyId
@@ -145,10 +144,8 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     use_timestamp: false
   )
 
-  # Hooks
   before_create :generate_token
 
-  # Validations
   validates :name, :support_email, presence: true
   validates :name, uniqueness: true
   validates :agreed_event_condition_message, presence: true, if: :agreed_event_condition?
