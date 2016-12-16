@@ -2,10 +2,10 @@
 #
 # Table name: payment_gateways
 #
-#  data       :json
-#  gateway    :string
-#  refund     :boolean
-#  topup      :boolean
+#  data     :json
+#  gateway  :string
+#  refund   :boolean
+#  topup    :boolean
 #
 # Indexes
 #
