@@ -229,7 +229,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.datetime "updated_at",                null: false
     end  unless table_exists?(:friendly_id_slugs)
 
-    add_index("friendly_id_slugs", ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, using: :btree) unless index_exists?(:friendly_id_slugs, :slug)
+    add_index("friendly_id_slugs", ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, using: :btree) unless index_exists?(:friendly_id_slugs, [:slug, :sluggable_type, :scope])
     add_index("friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree) unless index_exists?(:friendly_id_slugs, :slug)
     add_index("friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree) unless index_exists?(:friendly_id_slugs, :sluggable_id)
     add_index("friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree) unless index_exists?(:friendly_id_slugs, :sluggable_type)
