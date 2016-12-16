@@ -1,8 +1,9 @@
 h3.section-header
   = fa_icon "list"
   = t("admin.transactions.order_item")
+  = @transaction.order_item_counter
 
-- if order_item = Order_item.find_by(order: @transaction.customer.orders, counter: @transaction.order_item_counter)
+- if order_item = OrderItem.find_by(order: @transaction.customer.orders, counter: @transaction.order_item_counter)
   table.order_items
     thead
       tr
