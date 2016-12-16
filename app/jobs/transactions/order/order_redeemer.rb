@@ -1,5 +1,5 @@
 class Transactions::Order::OrderRedeemer < Transactions::Base
-  TRIGGERS = %w( ).freeze
+  TRIGGERS = %w( order_redeemed ).freeze
 
   def perform(atts)
     tag = { tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id], activation_counter: atts[:activation_counter] }
