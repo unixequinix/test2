@@ -21,21 +21,6 @@ RSpec.describe Transactions::Credential::Base, type: :job do
 
   before { allow(decoder).to receive(:perform).with(ticket_code).and_return(ctt_id) }
 
-  describe ".assign_customer" do
-    it "creates a credential for the gtag" do
-      expect do
-        worker.assign_customer(gtag, customer.id)
-      end.to change(gtag, :customer)
-    end
-
-    it "leaves the current customer if one present" do
-      gtag.update!(customer: customer)
-      expect do
-        worker.assign_customer(gtag, customer)
-      end.not_to change(gtag, :customer)
-    end
-  end
-
   describe ".assign_ticket" do
     before(:each) do
       @ctt = create(:ticket_type, event: event, company_code: ctt_id)

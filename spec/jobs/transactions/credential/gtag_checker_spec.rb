@@ -26,9 +26,5 @@ RSpec.describe Transactions::Credential::GtagChecker, type: :job do
 
   describe "actions include" do
     after  { worker.perform(atts) }
-
-    it "assigns a ticket credential" do
-      expect(worker).to receive(:assign_customer)
-    end
   end
 end

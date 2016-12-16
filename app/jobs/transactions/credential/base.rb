@@ -1,9 +1,4 @@
 class Transactions::Credential::Base < Transactions::Base
-  def unassign_customer(gtag)
-    return unless gtag.customer_id
-    gtag.update(active: false, customer: nil)
-  end
-
   def assign_ticket(transaction, atts)
     code = atts[:ticket_code]
     event = transaction.event
