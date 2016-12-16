@@ -11,7 +11,7 @@ class EventCreator
     @event = Event.new(default_settings.merge(@params))
     return unless @event.save
     @event.create_credit!(value: 1, name: "CRD", step: 5, min_purchasable: 0, max_purchasable: 300, initial_amount: 0)
-    UserFlag.create!(event_id: @event.id, name: "no_alcohol", step: 1)
+    UserFlag.create!(event_id: @event.id, name: "alcohol_forbidden", step: 1)
 
     category = "customer_portal"
     station = @event.stations.create! name: category.humanize, category: category, group: "access"
