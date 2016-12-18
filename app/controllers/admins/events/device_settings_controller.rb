@@ -1,8 +1,9 @@
 class Admins::Events::DeviceSettingsController < Admins::Events::BaseController
   def update
-    type_cast_booleans(%w( uid_reverse touchpoint_update_online_orders pos_update_online_orders topup_initialize_gtag cypher_enabled )) # rubocop:disable Metrics/LineLength
+    cols = %w(uid_reverse touchpoint_update_online_orders pos_update_online_orders topup_initialize_gtag cypher_enabled)
+    atts = type_cast_booleans(cols, permitted_params)
 
-    if @current_event.update(permitted_params)
+    if @current_event.update(atts)
       redirect_to admins_event_device_settings_path(@current_event), notice: I18n.t("alerts.updated")
     else
       flash[:error] = I18n.t("alerts.error")

@@ -39,10 +39,10 @@ class ApplicationController < ActionController::Base
     request.user_agent =~ /(iPhone|iPod|Android|webOS|Mobile|iPad)/
   end
 
-  def type_cast_booleans(cols)
+  def type_cast_booleans(cols, atts)
     cols.map!(&:to_sym)
-    cols.each { |att| params[att] = ActiveRecord::ConnectionAdapters::Column::TRUE_VALUES.include?(params[att]) }
-    hash
+    cols.each { |att| atts[att] = ActiveRecord::ConnectionAdapters::Column::TRUE_VALUES.include?(atts[att]) }
+    atts
   end
 
   private

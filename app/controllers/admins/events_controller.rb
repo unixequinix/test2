@@ -66,21 +66,21 @@ class Admins::EventsController < Admins::BaseController
   end
 
   def create_admin
-    pass = "123456"
-    notice = "Admin with with email for this event successfully created!"
-    email = "admin_#{@current_event.slug}@glownet.com"
-    admin = Admin.find_or_initialize_by(email: email)
-    admin.update!(password: pass, password_confirmation: pass)
-    redirect_to edit_admins_admin_path(admin), notice: notice
+    @admin = Admin.find_or_initialize_by(email: "admin_#{@current_event.slug}@glownet.com")
+    if @admin.new_record?
+      render 'admins/admins/new'
+    else
+      render 'admins/admins/edit'
+    end
   end
 
   def create_customer_support
-    pass = "123456"
-    notice = "Admin with with email for this event successfully created!"
-    email = "support_#{@current_event.slug}@glownet.com"
-    admin = Admin.find_or_initialize_by(email: email)
-    admin.update!(password: pass, password_confirmation: pass)
-    redirect_to edit_admins_admin_path(admin), notice: notice
+    @admin = Admin.find_or_initialize_by(email: "support_#{@current_event.slug}@glownet.com")
+    if @admin.new_record?
+      render 'admins/admins/new'
+    else
+      render 'admins/admins/edit'
+    end
   end
 
   private
