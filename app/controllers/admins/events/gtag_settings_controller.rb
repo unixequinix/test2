@@ -1,7 +1,6 @@
 class Admins::Events::GtagSettingsController < Admins::Events::BaseController
   def update
     atts = type_cast_booleans(%w( cards_can_refund wristbands_can_refund ), permitted_params)
-    binding.pry
     if @current_event.update(atts)
       redirect_to admins_event_gtag_settings_path(@current_event), notice: I18n.t("alerts.updated")
     else
