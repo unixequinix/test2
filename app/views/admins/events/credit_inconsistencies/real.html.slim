@@ -19,7 +19,6 @@
         h2 = number_to_token @issues.map { |i| i["inconsistent_refundable"] if i["inconsistent_refundable"] < 0 }.compact.sum
         span Refundable Sales
 
-    .current-showing = page_entries_info @issues
     table.transactions
       thead
         tr
