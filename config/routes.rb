@@ -111,10 +111,15 @@ Rails.application.routes.draw do
         resource :device_settings, only: [:show, :edit, :update] do
           member do
             delete :remove_db
+            get :load_defaults
           end
         end
         resources :ticket_assignments, only: [:destroy]
-        resource :gtag_settings, only: [:show, :edit, :update]
+        resource :gtag_settings, only: [:show, :edit, :update] do
+          member do
+            get :load_defaults
+          end
+        end
         resources :devices, only: :index
         resources :asset_trackers
 
@@ -263,7 +268,6 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :autotopup_agreements, only: [:new, :show, :update, :destroy]
       resources :ticket_assignments, only: [:new, :create, :destroy]
       resources :gtag_assignments, only: [:new, :create, :destroy]
       resources :tickets, only: [:show]

@@ -248,7 +248,6 @@ th:
       admissions: Ticket registrations
       agreed_event_condition: Event condition agreed
       amount: Amount
-      autotopup: Autotopup?
       banned: Banned
       claims: Claims
       completed_claim: Completed claims
@@ -888,10 +887,6 @@ th:
       call_to_action_started: "'งานได้เริ่มแล้ว ไม่สามารถยกเลิกบัตรเข้างานได้"
       header: บัตรเข้างาน%{ticket_type}
       success: บัตรเข้างานได้อยู่ในระบบแล้ว!
-    autotopup:
-      claim: Take advantage!
-      description: Sync your PayPal account and get automatic topup any time you run out of credits during the event.
-      disclaimer: This amount will be refunded inmediatly after the agreement is accepted
     credits:
       button: เติมเงิน
       calculating_balance: We are validating your final balance. Please return in 48 hours to proceed with your refund.
@@ -1127,7 +1122,6 @@ th:
       like_on_facebook: Like on Facebook
       order:
         completed:
-          autotopup_description: Your purchased Credits with PayPal Experience will automatically be applied to your %{gtag} in the Point of Sales. Your Event %{gtag} is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.
           date: วันที่ทำรายการ
           description: หลังจากที่คุณเติมเงินโดยการซื้อเครดิตออนไลน์ที่นี่แล้ว คุณจะสามารถใช้เงินได้โดยอัตโนมัติผ่าน %{gtag} หลังจากเข้างาน  %{gtag} เป็นวิธีที่สะดวกสำหรับคุณที่จะซื้ออาหาร เครื่องดื่ม และสินค้าต่างๆ ที่งาน และนี่เป็นวิธีชำระเงินวิธีเดียวภายในงาน
           greet: Hello, %{name}!
@@ -1525,15 +1519,6 @@ th:
       description: ระบบกำลังดำเนินการคืนเงินให้กับคุณ และคุณจะได้รับอีเมลยืนยัน
       title: การคืนเงินสำเร็จ
   registration:
-    autotoup_agreement:
-      amount: 'Selected amount: '
-      billing_agreement_description: I agree in get automated charges when running out of credit
-      cancel: Do you want to cancel your autotopup agreement?
-      current_amount: 'Current top up:'
-      new_amount: 'Change your quantity:'
-      success: Account added!
-      success_description: Now you can perform direct auto topups through your account
-      title: Paypal agreement
     edit:
       button: อัพเดท
       current_password_hint: กรุณาใส่รหัสผ่านปัจจุบันเพื่อยืนยันการเปลี่ยนแปลง

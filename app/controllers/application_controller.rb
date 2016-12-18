@@ -38,7 +38,13 @@ class ApplicationController < ActionController::Base
   end
 
   def current_event
-    @current_event.decorate || Event.new.decorate
+    @current_event
+  end
+
+  def type_cast_booleans(cols)
+    cols.map!(&:to_sym)
+    cols.each { |att| params[att] = ActiveRecord::ConnectionAdapters::Column::TRUE_VALUES.include?(params[att]) }
+    hash
   end
 
   private
@@ -46,7 +52,7 @@ class ApplicationController < ActionController::Base
   def fetch_current_event
     id = params[:event_id] || params[:id]
     return false unless id
-    @current_event = Event.find_by_slug(id) || Event.find(id) if id
+    @current_event = Event.find_by_slug(id) || Event.find(id)
   end
 
   def restrict_access_with_http

@@ -66,9 +66,6 @@ gem 'kaminari', '~>0.16.3'
 # Search
 gem 'ransack', '~> 1.6.6'
 
-# Decorators
-gem 'draper', '~> 2.0'
-
 # Form normalizers
 gem 'country_select', '~> 2.2.0'
 gem 'phony_rails', '~> 0.12.8'

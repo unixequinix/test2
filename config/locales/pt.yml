@@ -219,10 +219,6 @@ pt:
       call_to_action_started: Após o início do evento já não podes alterar o teu bilhete
       header: Bilhete %{ticket_type}
       success: Bilhete activado com sucesso!
-    autotopup:
-      claim: Tira partido!
-      description: " Sincroniza a tua conta Paypal para poderes configurar carregamentos automáticos, sempre que ficares sem créditos, durante o evento."
-      disclaimer: 'Este montante será devolvido imediatamente a seguir à aceitação dos termos e condições. '
     credits:
       button: Carregamento
       calculating_balance: Por favor contacta-nos para %{email} de forma a processarmos o teu reembolso

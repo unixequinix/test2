@@ -15,14 +15,14 @@
 #  device_full_db_content_type  :string
 #  device_full_db_file_name     :string
 #  device_full_db_file_size     :integer
-#  device_settings              :json
+#  device_settings              :jsonb            not null
 #  end_date                     :datetime
 #  eventbrite_client_key        :string
 #  eventbrite_client_secret     :string
 #  eventbrite_event             :string
 #  eventbrite_token             :string
 #  gtag_assignation             :boolean          default(FALSE)
-#  gtag_settings                :json
+#  gtag_settings                :jsonb            not null
 #  host_country                 :string           default("US"), not null
 #  location                     :string
 #  logo_content_type            :string
@@ -32,7 +32,7 @@
 #  official_address             :string
 #  official_name                :string
 #  registration_num             :string
-#  registration_settings        :json
+#  registration_settings        :jsonb            not null
 #  slug                         :string           not null
 #  start_date                   :datetime
 #  style                        :text
@@ -79,9 +79,11 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   friendly_id :name, use: :slugged
 
   S3_FOLDER = Rails.application.secrets.s3_images_folder
-  REGISTRATION_SETTINGS = [:phone, :address, :city, :country, :postcode, :gender, :birthdate, :agreed_event_condition,
-                           :receive_communications, :receive_communications_two].freeze
+  REGISTRATION_SETTINGS = [:phone, :address, :city, :country, :postcode, :gender, :birthdate, :agreed_event_condition, :receive_communications, :receive_communications_two].freeze # rubocop:disable Metrics/LineLength
   LOCALES = [:en, :es, :it, :de, :th].freeze
+  BACKGROUND_FIXED = "fixed".freeze
+  BACKGROUND_REPEAT = "repeat".freeze
+  BACKGROUND_TYPES = [BACKGROUND_FIXED, BACKGROUND_REPEAT].freeze
 
   include AASM
 
@@ -154,8 +156,29 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   validate :end_date_after_start_date
   validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
   validates_attachment_content_type :background, content_type: %r{\Aimage/.*\Z}
+
   do_not_validate_attachment_file_type :device_full_db
   do_not_validate_attachment_file_type :device_basic_db
+
+  serialize :registration_settings, HashSerializer
+  serialize :gtag_settings, HashSerializer
+  serialize :device_settings, HashSerializer
+
+  store_accessor :registration_settings, :phone, :address, :city, :country, :postcode, :gender, :birthdate, :agreed_event_condition, :receive_communications, :receive_communications_two # rubocop:disable Metrics/LineLength
+  store_accessor :gtag_settings, :format, :gtag_type, :gtag_deposit, :ultralight_c, :mifare_classic, :ultralight_ev1, :cards_can_refund, :maximum_gtag_balance, :wristbands_can_refund # rubocop:disable Metrics/LineLength
+  store_accessor :device_settings, :min_version_apk, :private_zone_password, :fast_removal_password, :uid_reverse, :touchpoint_update_online_orders, :pos_update_online_orders, :topup_initialize_gtag, :cypher_enabled, :gtag_blacklist, :transaction_buffer, :days_to_keep_backup, :days_to_keep_backup_min, :sync_time_event_parameters, :sync_time_event_parameters_min, :sync_time_server_date, :sync_time_server_date_min, :sync_time_basic_download, :sync_time_basic_download_min, :sync_time_tickets, :sync_time_tickets_min, :sync_time_gtags, :sync_time_gtags_min, :sync_time_customers, :sync_time_customers_min # rubocop:disable Metrics/LineLength
+
+  def background_fixed?
+    object.background_type.eql? BACKGROUND_FIXED
+  end
+
+  def background_repeat?
+    object.background_type.eql? BACKGROUND_REPEAT
+  end
+
+  def self.background_types_selector
+    BACKGROUND_TYPES.map { |f| [I18n.t("admin.event.background_types." + f.to_s), f] }
+  end
 
   def topups?
     payment_gateways.map(&:topup).any?

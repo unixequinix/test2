@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161215170717) do
+ActiveRecord::Schema.define(version: 20161218121801) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -225,9 +225,9 @@ ActiveRecord::Schema.define(version: 20161215170717) do
     t.string   "eventbrite_client_secret"
     t.boolean  "ticket_assignation",           default: false
     t.boolean  "gtag_assignation",             default: false
-    t.json     "registration_settings"
-    t.json     "gtag_settings"
-    t.json     "device_settings"
+    t.jsonb    "registration_settings",        default: {},                    null: false
+    t.jsonb    "gtag_settings",                default: {},                    null: false
+    t.jsonb    "device_settings",              default: {},                    null: false
     t.string   "timezone"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -284,7 +284,7 @@ ActiveRecord::Schema.define(version: 20161215170717) do
   create_table "orders", force: :cascade do |t|
     t.string   "status",       default: "in_progress", null: false
     t.datetime "completed_at"
-    t.json     "payment_data"
+    t.jsonb    "payment_data", default: {},            null: false
     t.string   "gateway"
     t.integer  "customer_id"
     t.datetime "created_at"
@@ -307,7 +307,7 @@ ActiveRecord::Schema.define(version: 20161215170717) do
   create_table "payment_gateways", force: :cascade do |t|
     t.integer  "event_id"
     t.string   "gateway"
-    t.json     "data"
+    t.jsonb    "data",       default: {}, null: false
     t.boolean  "refund"
     t.boolean  "topup"
     t.datetime "created_at"

@@ -248,7 +248,6 @@ de:
       admissions: Ticketregistrierungen
       agreed_event_condition: Veranstaltungskondition zugestimmt
       amount: Betrag
-      autotopup: Autotopup?
       banned: Banned
       claims: Forderungen
       completed_claim: Endgültige Forderungen
@@ -845,10 +844,6 @@ de:
       call_to_action_started: Die Veranstaltung hat soeben begonnen. Daher sind Ticketänderungen nicht möglich.
       header: Ticket %{ticket_type}
       success: Ticket erfolgreich aktiviert!
-    autotopup:
-      claim: Vorteil nutzen!
-      description: Sync your PayPal account and get automatic topup any time you run out of credits during the event.
-      disclaimer: This amount will be refunded inmediatly after the agreement is accepted
     credits:
       button: Top-up
       calculating_balance: We are validating your final balance. Please return in 48 hours to proceed with your refund.
@@ -1083,7 +1078,6 @@ de:
       like_on_facebook: Gefällt mir auf Facebook
       order:
         completed:
-          autotopup_description: Your purchased Credits with PayPal Experience will automatically be applied to your %{gtag} in the Point of Sales. Your Event %{gtag} is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.
           date: Bestelldatum
           description: Alle Ihre gekauften Online-Guthaben werden automatisch auf Ihr %{gtag} übertragen, sobald Sie die Veranstaltung betreten. Ihr Veranstaltungs %{gtag} ermöglicht Ihnen auf einfache und schnelle Art, für Ihre Speisen, Getränke und sonstigen Käufe zu bezahlen. Es ist die einzige Zahlungsmöglichkeit, die die Händler auf der Veranstaltung akzeptieren.
           greet: Hallo, %{name}!

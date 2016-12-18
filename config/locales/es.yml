@@ -249,7 +249,6 @@ es:
       admissions: Registro de Tickets
       agreed_event_condition: Condición del evento aceptada
       amount: Cantidad
-      autotopup: Autorecarga?
       banned: Baneado
       claims: Peticiones de devolución
       completed_claim: Peticiones de devolución completadas
@@ -891,10 +890,6 @@ es:
       call_to_action_started: El evento ya ha comenzado, no puedes cambiar tu ticket
       header: Ticket %{ticket_type}
       success: "¡Ticket activado con éxito!"
-    autotopup:
-      claim: Toma ventaja!
-      description: Sincroniza con tu cuenta de PayPal y realiza recargas automáticas durante el evento.
-      disclaimer: Para validar tu cuenta PayPal se va a realizar un pago de 0.01€ que será devuelto inmediatamente.
     credits:
       button: Recarga
       calculating_balance: Por favor escribenos a %{email} para procesar tu devolución.
@@ -1130,7 +1125,6 @@ es:
       like_on_facebook: Dale a me gusta en Facebook
       order:
         completed:
-          autotopup_description: Todos los créditos que has comprado con la Experiencia PayPal serán añadidos automáticamente a tu %{gtag} en un Punto de Venta. Tu %{gtag} es una manera rápida y conveniente de pagar por comida, bebidas y merchandising. Es la única forma de pago acceptada por todas las tiendas dentro del evento.
           date: Fecha de compra
           description: Todos los créditos que has comprado serán añadidos automáticamente a tu %{gtag} al entrar al event. Tu %{gtag} es una manera rápida y conveniente de pagar por comida, bebidas y merchandising. Es la única forma de pago acceptada por todas las tiendas dentro del evento.
           greet: "¡Hola, %{name}!"

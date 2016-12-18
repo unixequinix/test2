@@ -249,7 +249,6 @@ en:
       admissions: Ticket registrations
       agreed_event_condition: Event condition agreed
       amount: Amount
-      autotopup: Autotopup?
       banned: Banned
       claims: Claims
       completed_claim: Completed claims
@@ -1097,7 +1096,6 @@ en:
       like_on_facebook: Like on Facebook
       order:
         completed:
-          autotopup_description: Your purchased Credits with PayPal Experience will automatically be applied to your %{gtag} in the Point of Sales. Your Event %{gtag} is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.
           date: Purchase date
           description: All your purchased Online Credits will automatically be applied to your %{gtag} once you enter the event. Your Event %{gtag} is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.
           greet: Hello, %{name}!
