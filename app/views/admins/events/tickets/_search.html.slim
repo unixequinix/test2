@@ -10,5 +10,5 @@ p.menu-header
     = f.input :purchaser_first_name_cont, label: t("admin.tickets.search.purchaser_first_name"), placeholder: t("admin.tickets.search.purchaser_first_name")
     = f.input :purchaser_last_name_cont, label: t("admin.tickets.search.purchaser_last_name"), placeholder: t("admin.tickets.search.purchaser_last_name")
     = f.input :banned_true, as: :select, label: "Banned?"
-    = f.input :ticket_type_id_eq, as: :select, collection:  TicketType.form_selector(current_event), include_blank: t("admin.tickets.search.type"), label: 'Company Ticket Type'
+    = f.input :ticket_type_id_eq, as: :select, collection:  TicketType.form_selector(@current_event), include_blank: t("admin.tickets.search.type"), label: 'Company Ticket Type'
     = f.submit class: "btn btn-secondary"

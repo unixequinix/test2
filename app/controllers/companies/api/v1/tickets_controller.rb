@@ -1,7 +1,7 @@
 class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
   def index
     render json: {
-      event_id: current_event.id,
+      event_id: @current_event.id,
       tickets: tickets.map { |ticket| Companies::Api::V1::TicketSerializer.new(ticket) }
     }
   end
@@ -17,7 +17,7 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
   end
 
   def create
-    @ticket = Ticket.new(ticket_params.merge(event: current_event))
+    @ticket = Ticket.new(ticket_params.merge(event: @current_event))
 
     render(status: :unprocessable_entity,
            json: { status: "unprocessable_entity", error: "Ticket type not found." }) &&
@@ -40,15 +40,15 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
       atts.merge!(
         code: atts.delete(:ticket_reference),
         ticket_type_id: atts.delete(:ticket_type_id),
-        event_id: current_event.id,
+        event_id: @current_event.id,
         purchaser_first_name: atts[:purchaser_attributes].delete(:first_name),
         purchaser_last_name: atts[:purchaser_attributes].delete(:last_name),
         purchaser_email: atts[:purchaser_attributes].delete(:email)
       )
       ticket_atts = atts.permit(:code, :ticket_type_id, :event_id, :purchaser_first_name, :purchaser_last_name, :purchaser_email)
 
-      ticket = current_event.tickets.find_by_code(ticket_atts[:code])
-      ticket ||= current_event.tickets.create(ticket_atts)
+      ticket = @current_event.tickets.find_by_code(ticket_atts[:code])
+      ticket ||= @current_event.tickets.create(ticket_atts)
 
       errors[:atts] << { ticket: ticket.code, errors: ticket.errors.full_messages } && next unless ticket.valid?
     end

@@ -44,13 +44,13 @@ class Admins::Events::CompaniesController < Admins::Events::BaseController
   private
 
   def set_company
-    @company = current_event.companies.find(params[:id])
+    @company = @current_event.companies.find(params[:id])
   end
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Company".constantize.model_name,
-      fetcher: current_event.companies,
+      fetcher: @current_event.companies,
       search_query: params[:q],
       page: params[:page],
       include_for_all_items: [],

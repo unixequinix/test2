@@ -12,8 +12,8 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
   private
 
   def fetch_issues
-    @issues = Gtag.credits_sum(current_event)
-    @counters = Gtag.counters(current_event)
+    @issues = Gtag.credits_sum(@current_event)
+    @counters = Gtag.counters(@current_event)
     @issues.each do |issue|
       counters = @counters[issue["customer_id"].to_i]&.first
       next unless counters

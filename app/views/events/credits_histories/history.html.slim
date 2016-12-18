@@ -9,7 +9,7 @@ html
       table.table-bill
         tr
           th.transaction-bill-title colspan="4"
-            span = current_event.name
+            span = @current_event.name
             span = t("pdf.pdf_title")
         tbody
 
@@ -20,7 +20,7 @@ html
                 span = current_customer.last_name
               p.account-user.user-mail = current_customer.email
             td.wrapper-bill-logo
-              = image_tag current_event.logo.url(:paypal), class: "bill-logo" unless current_event.logo.blank?
+              = image_tag @current_event.logo.url(:paypal), class: "bill-logo" unless @current_event.logo.blank?
           tr
             table.related-bill
               thead.bill-row

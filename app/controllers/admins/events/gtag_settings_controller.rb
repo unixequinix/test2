@@ -2,8 +2,8 @@ class Admins::Events::GtagSettingsController < Admins::Events::BaseController
   def update
     type_cast_booleans(%w( cards_can_refund wristbands_can_refund ))
 
-    if current_event.update(permitted_params)
-      redirect_to admins_event_gtag_settings_path(current_event), notice: I18n.t("alerts.updated")
+    if @current_event.update(permitted_params)
+      redirect_to admins_event_gtag_settings_path(@current_event), notice: I18n.t("alerts.updated")
     else
       flash[:error] = I18n.t("alerts.error")
       render :edit
@@ -12,11 +12,11 @@ class Admins::Events::GtagSettingsController < Admins::Events::BaseController
 
   def load_defaults
     defaults = YAML.load(ERB.new(File.read("#{Rails.root}/config/glownet/gtag_settings.yml")).result)
-    current_event.update!(gtag_settings: defaults,
-                          gtag_name: "wristband",
-                          gtag_form_disclaimer: nil,
-                          gtag_assignation_notification: nil)
-    redirect_to admins_event_gtag_settings_path(current_event), notice: I18n.t("alerts.updated")
+    @current_event.update!(gtag_settings: defaults,
+                           gtag_name: "wristband",
+                           gtag_form_disclaimer: nil,
+                           gtag_assignation_notification: nil)
+    redirect_to admins_event_gtag_settings_path(@current_event), notice: I18n.t("alerts.updated")
   end
 
   private

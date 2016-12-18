@@ -9,22 +9,22 @@ class Events::RedsysController < Events::PaymentsController
       verification_value:  params[:card_verification]
     )
 
-    response = redsys.purchase(@total, credit_card, order_id: @order.number, currency: current_event.currency)
+    response = redsys.purchase(@total, credit_card, order_id: @order.number, currency: @current_event.currency)
 
     if response.success?
       @order.complete!("redsys", response.params.as_json)
       finish_payment!(@order, "redsys", "purchase")
-      redirect_to customer_root_path(current_event), notice: "Payment completed successfully."
+      redirect_to customer_root_path(@current_event), notice: "Payment completed successfully."
     else
       @order.fail!("redsys", response.params.as_json)
-      redirect_to event_order_path(current_event, @order, gateway: "redsys"), alert: response.message
+      redirect_to event_order_path(@current_event, @order, gateway: "redsys"), alert: response.message
     end
   end
 
   private
 
   def redsys
-    gateway = current_event.payment_gateways.redsys
+    gateway = @current_event.payment_gateways.redsys
     ActiveMerchant::Billing::RedsysGateway.new(gateway.data.merge(signature_algorithm: "sha256").symbolize_keys)
   end
 end

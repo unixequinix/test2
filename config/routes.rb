@@ -44,6 +44,8 @@ Rails.application.routes.draw do
       member do
         post :remove_logo
         post :remove_background
+        get :create_admin
+        get :create_customer_support
       end
 
       scope module: "events" do

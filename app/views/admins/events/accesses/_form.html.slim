@@ -1,9 +1,9 @@
-= simple_form_for [:admins, current_event, access] do |f|
+= simple_form_for [:admins, @current_event, access] do |f|
   .wrapper-negative-space
     = f.simple_fields_for :entitlement do |entitlement|
       = entitlement.input :mode, collection: Entitlement::MODES, include_blank: false, id: "mode_selector"
       = entitlement.input :memory_length, as: :hidden, input_html: { value: 1 }
-      = entitlement.input :event_id, as: :hidden, input_html: { value: current_event.id }
+      = entitlement.input :event_id, as: :hidden, input_html: { value: @current_event.id }
 
     = f.input :name, autofocus: false, placeholder: true
     #shop-fields

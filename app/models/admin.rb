@@ -39,6 +39,13 @@ class Admin < ActiveRecord::Base
     email.start_with?("admin_")
   end
 
+  def slug
+    result = email[/[^@]+/]
+    result.gsub! "admin_", ""
+    result.gsub! "support_", ""
+    result
+  end
+
   private
 
   def generate_access_token

@@ -3,7 +3,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
 
   def index
     @group = params[:group]
-    @stations = current_event.stations.where(group: @group).order("hidden ASC, name ASC")
+    @stations = @current_event.stations.where(group: @group).order("hidden ASC, name ASC")
   end
 
   def new
@@ -15,7 +15,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     @station = Station.new(permitted_params)
     @group = @station.group
     if @station.save
-      path = admins_event_stations_url(current_event, group: @station.group)
+      path = admins_event_stations_url(@current_event, group: @station.group)
       redirect_to path, notice: I18n.t("alerts.created")
     else
       flash.now[:error] = I18n.t("alerts.error")
@@ -26,7 +26,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   def update
     respond_to do |format|
       if @station.update(permitted_params)
-        format.html { redirect_to admins_event_stations_url(current_event, group: @group), notice: I18n.t("alerts.updated") } # rubocop:disable Metrics/LineLength
+        format.html { redirect_to admins_event_stations_url(@current_event, group: @group), notice: I18n.t("alerts.updated") } # rubocop:disable Metrics/LineLength
         format.json { render json: @station }
       else
         format.html do
@@ -43,7 +43,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     @station = @station.deep_clone(include: associations, validate: false)
 
     if @station.update(name: name)
-      redirect_to admins_event_stations_url(current_event, group: @station.group), notice: I18n.t("alerts.cloned")
+      redirect_to admins_event_stations_url(@current_event, group: @station.group), notice: I18n.t("alerts.cloned")
     else
       flash[:error] = I18n.t("errors.messages.station_has_associations")
       render :new
@@ -52,26 +52,26 @@ class Admins::Events::StationsController < Admins::Events::BaseController
 
   def destroy
     @station.destroy
-    redirect_to admins_event_stations_url(current_event, group: @station.group), notice: I18n.t("alerts.destroyed")
+    redirect_to admins_event_stations_url(@current_event, group: @station.group), notice: I18n.t("alerts.destroyed")
   end
 
   def sort
     params[:order].each do |_key, value|
-      current_event.stations.find(value[:id]).update_attribute(:position, value[:position])
+      @current_event.stations.find(value[:id]).update_attribute(:position, value[:position])
     end
     render nothing: true
   end
 
   def visibility
     @station.update(hidden: !@station.hidden?)
-    redirect_to admins_event_stations_url(current_event, group: @group), notice: I18n.t("alerts.updated")
+    redirect_to admins_event_stations_url(@current_event, group: @group), notice: I18n.t("alerts.updated")
   end
 
   private
 
   def set_station
     id = params[:id] || params[:station_id]
-    @station = current_event.stations.find(id)
+    @station = @current_event.stations.find(id)
     @group = @station.group
   end
 

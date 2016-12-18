@@ -6,7 +6,7 @@ class Events::RefundsController < Events::BaseController
     @refund.swift = permitted_params[:swift]
 
     if @refund.save
-      credit = current_event.credit
+      credit = @current_event.credit
 
       # Create money transaction
       MoneyTransaction.create(
@@ -14,7 +14,7 @@ class Events::RefundsController < Events::BaseController
         catalog_item: credit,
         counter: current_customer.transactions.maximum(:counter).to_i + 1,
         customer: current_customer,
-        event: current_event,
+        event: @current_event,
         items_amount: @refund.amount.to_f * -1,
         payment_gateway: "bank_account",
         payment_method: "online",
@@ -32,9 +32,9 @@ class Events::RefundsController < Events::BaseController
         ]
       )
 
-      RefundMailer.completed_email(@refund, current_event.event).deliver_later
+      RefundMailer.completed_email(@refund, @current_event.event).deliver_later
       current_customer.active_gtag.recalculate_balance
-      redirect_to customer_root_path(current_event), success: t("refunds.success")
+      redirect_to customer_root_path(@current_event), success: t("refunds.success")
     else
       render :new
     end
@@ -43,9 +43,9 @@ class Events::RefundsController < Events::BaseController
   private
 
   def set_refund
-    fee = current_event.payment_gateways.bank_account.data["fee"].to_f
+    fee = @current_event.payment_gateways.bank_account.data["fee"].to_f
     amount = current_customer.refundable_credits - fee
-    money = amount * current_event.credit.value
+    money = amount * @current_event.credit.value
     atts = { amount: amount, status: "started", fee: fee, money: money }
     @refund = current_customer.refunds.new(atts)
   end

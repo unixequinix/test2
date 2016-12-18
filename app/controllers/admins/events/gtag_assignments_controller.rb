@@ -3,7 +3,7 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
 
   # rubocop:disable Metrics/AbcSize
   def create
-    gtag = current_event.gtags.find_by(tag_uid: permitted_params[:tag_uid].strip.upcase)
+    gtag = @current_event.gtags.find_by(tag_uid: permitted_params[:tag_uid].strip.upcase)
 
     flash.now[:error] = I18n.t("alerts.gtag.invalid") if gtag.nil?
     flash.now[:error] = I18n.t("alerts.gtag.already_assigned") if gtag&.customer
@@ -13,7 +13,7 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
     @customer.gtags.update_all(active: false) if gtag.active?
     @customer.gtags << gtag
     create_transaction("gtag_assigned", gtag)
-    redirect_to admins_event_customer_url(current_event, @customer), notice: I18n.t("alerts.created")
+    redirect_to admins_event_customer_url(@current_event, @customer), notice: I18n.t("alerts.created")
   end
 
   def destroy
@@ -28,12 +28,12 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
   private
 
   def set_customer
-    @customer = current_event.customers.find(params[:id])
+    @customer = @current_event.customers.find(params[:id])
   end
 
   def create_transaction(action, gtag)
     CredentialTransaction.create!(
-      event: current_event,
+      event: @current_event,
       transaction_origin: Transaction::ORIGINS[:admin],
       action: action,
       customer_tag_uid: gtag.tag_uid,
@@ -47,6 +47,6 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.permit(:tag_uid, :active).merge(event_id: current_event.id)
+    params.permit(:tag_uid, :active).merge(event_id: @current_event.id)
   end
 end

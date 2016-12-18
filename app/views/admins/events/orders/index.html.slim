@@ -1,4 +1,4 @@
-- breadcrumb :admins_event_orders, current_event
+- breadcrumb :admins_event_orders, @current_event
 - provide :actions do
   = link_to '#search-menu', class: 'btn btn-action btn-action-search small' do
     = fa_icon 'search'
@@ -31,8 +31,8 @@ aside.mmenu-panel#search-menu
       tbody
         - @orders.each do |order|
           tr
-            td data-label=t("admin.orders.number") = link_to order.number, admins_event_order_path(current_event, order)
-            td data-label=t("admin.orders.customer") = link_to order.customer.email, admins_event_customer_path(current_event, order.customer)
+            td data-label=t("admin.orders.number") = link_to order.number, admins_event_order_path(@current_event, order)
+            td data-label=t("admin.orders.customer") = link_to order.customer.email, admins_event_customer_path(@current_event, order.customer)
             td data-label=t("admin.orders.gateway") = order.gateway&.humanize
             td data-label=t("admin.orders.state") = order.status&.humanize
 

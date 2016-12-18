@@ -1,6 +1,6 @@
-- breadcrumb :admins_event_transaction, current_event, @transaction, @type
+- breadcrumb :admins_event_transaction, @current_event, @transaction, @type
 - provide :actions do
-  = link_to admins_event_transactions_path(current_event, type: @type), class: "btn btn-action btn-action-back small" do
+  = link_to admins_event_transactions_path(@current_event, type: @type), class: "btn btn-action btn-action-back small" do
     = fa_icon 'arrow-circle-left'
     = t('actions.back')
 
@@ -42,14 +42,14 @@
       dt Tag UID
       dd
         - if @gtag
-          = link_to @gtag.tag_uid, admins_event_gtag_path(current_event, @gtag)
+          = link_to @gtag.tag_uid, admins_event_gtag_path(@current_event, @gtag)
         - else
           = @transaction.customer_tag_uid
 
       dt = t("admin.transactions.customer_id")
       dd
         - if @customer
-          = link_to @customer.id, admins_event_customer_path(current_event, @customer)
+          = link_to @customer.id, admins_event_customer_path(@current_event, @customer)
         - else
           = @transaction.customer_id
     br
@@ -85,7 +85,7 @@
       dt = t("admin.transactions.operator_tag_uid")
       dd
         - if @operator
-          = link_to @operator.tag_uid, admins_event_gtag_path(current_event.id, @operator)
+          = link_to @operator.tag_uid, admins_event_gtag_path(@current_event.id, @operator)
         - else
           = @transaction.operator_tag_uid
     br

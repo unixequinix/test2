@@ -1,5 +1,5 @@
 .wrapper-negative-space
-  = simple_form_for [:admins, current_event, @gateway] do |f|
+  = simple_form_for [:admins, @current_event, @gateway] do |f|
     .container-show
       = hidden_field_tag "payment_gateway[gateway]", @gateway.gateway
       - if @config_atts

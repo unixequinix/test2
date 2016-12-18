@@ -17,4 +17,4 @@ table.transactions
         td data-label=t("admin.transactions.transaction_origin")
           = transaction.transaction_origin.humanize
         td data-label=t("admin.transactions.action")
-          = link_to transaction.description, admins_event_transaction_path(current_event, transaction, type: transaction.category)
+          = link_to transaction.description, admins_event_transaction_path(@current_event, transaction, type: transaction.category)

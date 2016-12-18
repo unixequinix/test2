@@ -1,6 +1,6 @@
-- breadcrumb :admins_event_order, current_event, @order
+- breadcrumb :admins_event_order, @current_event, @order
 - provide :actions do
-  = link_to admins_event_orders_path(current_event), class: "btn btn-action btn-action-back small" do
+  = link_to admins_event_orders_path(@current_event), class: "btn btn-action btn-action-back small" do
     = fa_icon 'arrow-circle-left'
     = t('actions.back')
 .wrapper-negative-space
@@ -9,7 +9,7 @@
       dt = t("admin.orders.number")
       dd = @order.number
       dt = t("admin.orders.customer")
-      dd = link_to @order.customer.email, admins_event_customer_path(current_event, @order.customer)
+      dd = link_to @order.customer.email, admins_event_customer_path(@current_event, @order.customer)
       dt = t("admin.orders.gateway")
       dd = @order.gateway
       dt = t("admin.orders.state")

@@ -14,7 +14,7 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
   private
 
   def set_credit
-    @credit = current_event.credit
+    @credit = @current_event.credit
   end
 
   def permitted_params

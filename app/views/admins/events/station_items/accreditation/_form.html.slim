@@ -1,4 +1,4 @@
-= simple_form_for StationCatalogItem.new, url: admins_event_station_station_items_path(current_event, @station) do |f|
+= simple_form_for StationCatalogItem.new, url: admins_event_station_station_items_path(@current_event, @station) do |f|
     .wrapper-negative-space
         = hidden_field_tag :item_type, "station_catalog_item"
         

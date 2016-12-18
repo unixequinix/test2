@@ -1,6 +1,6 @@
-- breadcrumb :admins_event_refunds, current_event
+- breadcrumb :admins_event_refunds, @current_event
 - provide :actions do
-  = link_to admins_event_refunds_path(current_event, format: "csv"), class: "btn btn-action btn-action-download small"
+  = link_to admins_event_refunds_path(@current_event, format: "csv"), class: "btn btn-action btn-action-download small"
     = fa_icon "download"
     = t('admin.actions.download')
   = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
@@ -37,8 +37,8 @@ aside.mmenu-panel#search-menu
       tbody
         - @refunds.each do |refund|
           tr
-            td data-label=t("admin.refunds.id") = link_to (refund.id), admins_event_refund_path(current_event, refund)
-            td data-label=t("admin.refunds.customer_email") = link_to refund.customer.email, admins_event_customer_path(current_event, refund.customer)
+            td data-label=t("admin.refunds.id") = link_to (refund.id), admins_event_refund_path(@current_event, refund)
+            td data-label=t("admin.refunds.customer_email") = link_to refund.customer.email, admins_event_customer_path(@current_event, refund.customer)
             td data-label=t('admin.refunds.status') = refund.status.humanize
             td data-label=t('admin.refunds.amount') = refund.amount
             td data-label=t('admin.refunds.fee') = refund.fee

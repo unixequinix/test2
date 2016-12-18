@@ -1,10 +1,9 @@
 class Admins::Events::TicketAssignmentsController < Admins::Events::BaseController
   before_action :set_customer, only: [:new, :create]
 
-  # rubocop:disable Metrics/AbcSize
   def create
     @code = permitted_params[:code].strip
-    @ticket = current_event.tickets.find_by(code: @code)
+    @ticket = @current_event.tickets.find_by(code: @code)
 
     errors = []
     errors << I18n.t("alerts.admissions") if @ticket.blank?
@@ -18,7 +17,7 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::BaseControll
     else
       @ticket.update!(customer: @customer)
       create_transaction("ticket_assigned", @ticket)
-      redirect_to(admins_event_customer_path(current_event, @customer), notice: I18n.t("alerts.ticket_assigned"))
+      redirect_to(admins_event_customer_path(@current_event, @customer), notice: I18n.t("alerts.ticket_assigned"))
     end
   end
 
@@ -34,17 +33,17 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::BaseControll
   private
 
   def set_customer
-    @customer = current_event.customers.find(params[:id])
+    @customer = @current_event.customers.find(params[:id])
   end
 
   def create_transaction(action, ticket)
     customer = ticket.customer
     CredentialTransaction.create!(
-      event: current_event,
+      event: @current_event,
       transaction_origin: Transaction::ORIGINS[:admin],
       action: action,
       ticket: ticket,
-      station: current_event.portal_station,
+      station: @current_event.portal_station,
       customer: customer,
       counter: customer.transactions.maximum(:counter).to_i + 1,
       operator_tag_uid: current_admin.email,
@@ -56,6 +55,6 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::BaseControll
   end
 
   def permitted_params
-    params.permit(:code).merge(event_id: current_event.id)
+    params.permit(:code).merge(event_id: @current_event.id)
   end
 end

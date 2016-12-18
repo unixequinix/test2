@@ -1,7 +1,7 @@
 class Companies::Api::V1::TicketTypesController < Companies::Api::V1::BaseController
   def index
     render json: {
-      event_id: current_event.id,
+      event_id: @current_event.id,
       ticket_types: ticket_types.map do |ticket_type|
         Companies::Api::V1::TicketTypeSerializer.new(ticket_type)
       end
@@ -21,7 +21,7 @@ class Companies::Api::V1::TicketTypesController < Companies::Api::V1::BaseContro
 
   def create
     @ticket_type = agreement.ticket_types.build(ticket_type_params)
-    @ticket_type.event = current_event
+    @ticket_type.event = @current_event
 
     if @ticket_type.save
       render status: :created, json: Companies::Api::V1::TicketTypeSerializer.new(@ticket_type)

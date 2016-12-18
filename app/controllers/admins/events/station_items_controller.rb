@@ -1,6 +1,6 @@
 class Admins::Events::StationItemsController < Admins::Events::BaseController
   def index
-    @station = current_event.stations.find(params[:station_id])
+    @station = @current_event.stations.find(params[:station_id])
     @items = @station.topup_credits +
              @station.station_catalog_items +
              @station.station_products +
@@ -19,7 +19,7 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
                                              :station_id)
     @item = item_class.camelcase.constantize.new(atts)
     flash[:error] = @item.errors.full_messages.to_sentence unless @item.save
-    redirect_to admins_event_station_station_items_path(current_event, params[:station_id])
+    redirect_to admins_event_station_station_items_path(@current_event, params[:station_id])
   end
 
   def update
@@ -49,13 +49,13 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
     @item = item_class.camelcase.constantize.find(params[:station_item_id])
     @item.update(hidden: !@item.hidden?)
 
-    path = admins_event_station_station_items_path(current_event, params[:station_id])
+    path = admins_event_station_station_items_path(@current_event, params[:station_id])
     redirect_to path, notice: I18n.t("alerts.updated")
   end
 
   def destroy
     item_class = params[:item_type]
     @item = item_class.camelcase.constantize.find(params[:id]).destroy
-    redirect_to admins_event_station_station_items_path(current_event, params[:station_id])
+    redirect_to admins_event_station_station_items_path(@current_event, params[:station_id])
   end
 end

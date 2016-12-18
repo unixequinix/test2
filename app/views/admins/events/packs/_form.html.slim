@@ -1,4 +1,4 @@
-= simple_form_for [:admins, current_event, pack] do |f|
+= simple_form_for [:admins, @current_event, pack] do |f|
   fieldset
     h3.section-header
       = fa_icon "info-circle"
@@ -13,7 +13,7 @@
       = fa_icon "flag"
       = t("admin.pack.fieldests.user_flags")
     .controls style="box-shadow: none;"
-      - current_event.user_flags.each do |flag|
+      - @current_event.user_flags.each do |flag|
         span.checkbox
           - if pack.pack_catalog_items.map(&:catalog_item_id).include?(flag.id)
             - pci = pack.pack_catalog_items.find_by(catalog_item: flag)

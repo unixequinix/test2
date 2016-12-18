@@ -27,11 +27,11 @@ table.transactions
           = device ? link_to(device.asset_tracker, admins_device_path(device)) : transaction.device_uid
         td data-label=t("admin.transactions.action")
           - icon = transaction.direction.positive? ? fa_icon("sign-out") : fa_icon("sign-in") if transaction.action == "access_checkpoint"
-          = link_to admins_event_transaction_path(current_event, transaction, type: transaction.category) do
+          = link_to admins_event_transaction_path(@current_event, transaction, type: transaction.category) do
             => icon
             = transaction.description
         td data-label=t("admin.transactions.credits") = number_to_token transaction.credits
         td data-label=t("admin.transactions.final_balance") = number_to_token transaction.final_balance if transaction.is_a?(CreditTransaction)
         td.magic_wand data-label=t("admin.transactions.final_refundable_balance")
           span = number_to_token transaction.final_refundable_balance if transaction.is_a?(CreditTransaction)
-          = link_to fa_icon("magic"), fix_admins_event_transaction_path(current_event, transaction, type: "credit") if transaction.is_a?(CreditTransaction) && transaction.status_code == 2
+          = link_to fa_icon("magic"), fix_admins_event_transaction_path(@current_event, transaction, type: "credit") if transaction.is_a?(CreditTransaction) && transaction.status_code == 2

@@ -1,4 +1,4 @@
-= simple_form_for [:admins, current_event], url: admins_event_gtag_settings_path(current_event), method: :patch do |f|
+= simple_form_for [:admins, @current_event], url: admins_event_gtag_settings_path(@current_event), method: :patch do |f|
   fieldset
     h3.section-header
       = fa_icon "info-circle"
@@ -24,8 +24,8 @@
       = fa_icon "file-text-o"
       = t("admin.event.fieldests.text")
 
-    = f.input :gtag_form_disclaimer, rows: 15, as: :text
-    = f.input :gtag_assignation_notification, rows: 15, as: :text
+    = f.input :gtag_form_disclaimer, as: :text, input_html: { rows: 15, class: "textarea tinymce"}
+    = f.input :gtag_assignation_notification, as: :text, input_html: { rows: 15, class: "textarea tinymce"}
 
   .wrapper-negative-space
     = f.submit t('admin.actions.update'), class: "btn btn-primary"

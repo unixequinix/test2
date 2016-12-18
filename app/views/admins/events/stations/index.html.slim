@@ -1,4 +1,4 @@
-- breadcrumb :admins_event_stations, current_event, @group
+- breadcrumb :admins_event_stations, @current_event, @group
 - provide :actions do
   = link_to new_admins_event_station_path(group: @group), class: "btn btn-action btn-action-new small" do
     = fa_icon 'plus'
@@ -18,30 +18,30 @@
         - @stations.each do |station|
           tr class="#{'station-hidden' if station.hidden?}"
             td data-label=t('admin.stations.name')
-              = best_in_place station, :name, url: admins_event_station_path(current_event, station)
+              = best_in_place station, :name, url: admins_event_station_path(@current_event, station)
             td data-label=t('admin.stations.type')
               = t("admin.stations.categories.#{station.category}")
             td data-label=t('admin.stations.location')
-              = best_in_place station, :location, url: admins_event_station_path(current_event, station)
+              = best_in_place station, :location, url: admins_event_station_path(@current_event, station)
             td data-label=t('admin.stations.reporting_category')
-              = best_in_place station, :reporting_category, url: admins_event_station_path(current_event, station)
+              = best_in_place station, :reporting_category, url: admins_event_station_path(@current_event, station)
             td.table-actions-field
               ul
                 - if station.form
-                  li.table-action.action-add = link_to_unless(station.hidden?, fa_icon("list-alt", class: "fa-fw"), admins_event_station_station_items_path(current_event, station))
-                li.table-action.action-edit = link_to_unless(station.hidden?, fa_icon("edit", class: "fa-fw"), edit_admins_event_station_path(current_event, station))
+                  li.table-action.action-add = link_to_unless(station.hidden?, fa_icon("list-alt", class: "fa-fw"), admins_event_station_station_items_path(@current_event, station))
+                li.table-action.action-edit = link_to_unless(station.hidden?, fa_icon("edit", class: "fa-fw"), edit_admins_event_station_path(@current_event, station))
                 
                 - unless station.category.eql?("customer_portal")
-                  li.table-action.action-add = link_to_unless(station.hidden?, fa_icon("clone", class: "fa-fw"), admins_event_station_clone_path(current_event, station), method: :post, data: { confirm: t('admin.confirm.clone') })
+                  li.table-action.action-add = link_to_unless(station.hidden?, fa_icon("clone", class: "fa-fw"), admins_event_station_clone_path(@current_event, station), method: :post, data: { confirm: t('admin.confirm.clone') })
                 
                 - unless station.category.eql?("touchpoint")
                   - if station.hidden?
-                    li.table-action.action-hidden = link_to fa_icon("eye-slash", class: "fa-fw"), admins_event_station_visibility_path(current_event, station, group: @group), method: :post
+                    li.table-action.action-hidden = link_to fa_icon("eye-slash", class: "fa-fw"), admins_event_station_visibility_path(@current_event, station, group: @group), method: :post
                   - else
-                    li.table-action.action-visible = link_to fa_icon("eye", class: "fa-fw"), admins_event_station_visibility_path(current_event, station, group: @group), method: :post
+                    li.table-action.action-visible = link_to fa_icon("eye", class: "fa-fw"), admins_event_station_visibility_path(@current_event, station, group: @group), method: :post
                 
-                - unless current_event.active? || station.category.eql?("customer_portal")
-                  li.table-action.action-delete = link_to_unless(station.hidden?, fa_icon("trash", class: "fa-fw"), admins_event_station_path(current_event, station), method: :delete, data: { confirm: t('admin.confirm.delete') })
+                - unless @current_event.active? || station.category.eql?("customer_portal")
+                  li.table-action.action-delete = link_to_unless(station.hidden?, fa_icon("trash", class: "fa-fw"), admins_event_station_path(@current_event, station), method: :delete, data: { confirm: t('admin.confirm.delete') })
 
   - else
     .section-title-empty

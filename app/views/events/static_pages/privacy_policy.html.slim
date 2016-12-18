@@ -24,7 +24,7 @@
       ul
         li
           = t("privacy_policy.ph_1.line_1_1")
-          = link_to current_event.name, event_url(current_event), target:"_blank"
+          = link_to @current_event.name, event_url(@current_event), target:"_blank"
           = t("privacy_policy.ph_1.line_1_1_bis")
 
         li  = t("privacy_policy.ph_1.line_1_2")
@@ -38,7 +38,7 @@
           li  = t("privacy_policy.ph_2.line_2_2_1")
           li
             = t("privacy_policy.ph_2.line_2_2_2")
-            = mail_to current_event.support_email
+            = mail_to @current_event.support_email
       li
         h3  = t("privacy_policy.ph_3.title")
       ul
@@ -50,7 +50,7 @@
       ul
         li
           = t("privacy_policy.ph_4.line_4_1")
-          = link_to t("footer.use"), event_terms_of_use_url(current_event), target: '_blank'
+          = link_to t("footer.use"), event_terms_of_use_url(@current_event), target: '_blank'
           = t("privacy_policy.ph_4.line_4_1_bis")
 
         li  = t("privacy_policy.ph_4.line_4_2")
@@ -108,4 +108,4 @@
           li  = t("privacy_policy.ph_11.line_11_2")
           li  = t("privacy_policy.ph_11.line_11_3")
 
-    = raw current_event.privacy_policy
+    = raw @current_event.privacy_policy

@@ -13,9 +13,9 @@ table.refunds
   tbody
     - customer.refunds.each do |refund|
       tr
-        td data-label=t("admin.refunds.id") = link_to refund.id, admins_event_refund_path(current_event, refund)
+        td data-label=t("admin.refunds.id") = link_to refund.id, admins_event_refund_path(@current_event, refund)
         td data-label=t("admin.refunds.status") = refund.status.humanize
         td data-label=t("admin.refunds.amount") = refund.amount
         td data-label=t("admin.refunds.fee") = refund.fee
-        td data-label=t("admin.refunds.money") = refund.amount * current_event.credit.value
+        td data-label=t("admin.refunds.money") = refund.amount * @current_event.credit.value
         td data-label=t("admin.refunds.created_at") = refund.created_at.strftime("%d-%m-%Y %H:%M:%S")

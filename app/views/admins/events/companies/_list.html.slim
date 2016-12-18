@@ -9,10 +9,10 @@ table.companies
   tbody
     - companies.each do |company|
       tr
-        td data-label=t('admin.companies.name') = link_to(company.name, edit_admins_event_company_path(current_event, company))
-        td data-label=t('admin.companies.name') = current_event.token
+        td data-label=t('admin.companies.name') = link_to(company.name, edit_admins_event_company_path(@current_event, company))
+        td data-label=t('admin.companies.name') = @current_event.token
         td data-label=t('admin.companies.name') = company.token
         td.table-actions-field
-          = render 'admins/events/companies/actions', company: company unless current_event.started?
+          = render 'admins/events/companies/actions', company: company unless @current_event.started?
 
 = paginate companies

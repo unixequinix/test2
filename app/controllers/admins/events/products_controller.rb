@@ -49,11 +49,11 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
   def destroy_multiple
     products = params[:products]
     if products
-      current_event.products.where(id: products.keys).each do |product|
+      @current_event.products.where(id: products.keys).each do |product|
         flash[:error] = product.errors.full_messages.join(". ") unless product.destroy
       end
     end
-    redirect_to admins_event_products_path(current_event)
+    redirect_to admins_event_products_path(@current_event)
   end
 
   def sample_csv
@@ -67,7 +67,7 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
   end
 
   def import # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-    event = current_event.event
+    event = @current_event.event
     alert = "Seleccione un archivo para importar"
     redirect_to(admins_event_products_path(event), alert: alert) && return unless params[:file]
     file = params[:file][:data].tempfile.path
@@ -93,13 +93,13 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
   private
 
   def set_product
-    @product = current_event.products.find(params[:id])
+    @product = @current_event.products.find(params[:id])
   end
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Product".constantize.model_name,
-      fetcher: current_event.products,
+      fetcher: @current_event.products,
       search_query: params[:q],
       page: params[:page],
       include_for_all_items: [],

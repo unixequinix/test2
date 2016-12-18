@@ -91,6 +91,7 @@ RSpec.configure do |config|
   config.include ControllerMacros, type: :controller
   config.include I18nMacros, type: :feature
   config.include Warden::Test::Helpers
+  config.include Devise::Test::ControllerHelpers, type: :controller
 
   Warden.test_mode!
   Sidekiq::Testing.inline!

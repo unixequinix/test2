@@ -1,4 +1,4 @@
-- breadcrumb :admins_event_missing_credit_inconsistencies, current_event
+- breadcrumb :admins_event_missing_credit_inconsistencies, @current_event
 
 .wrapper-negative-space
   - if @issues
@@ -33,7 +33,7 @@
       tbody
         - @issues.each do |issue|
           tr
-            td data-label=t("admin.transactions.id") = link_to issue["customer_id"], admins_event_customer_path(current_event, issue["customer_id"])
+            td data-label=t("admin.transactions.id") = link_to issue["customer_id"], admins_event_customer_path(@current_event, issue["customer_id"])
             td data-label=t("admin.transactions.credits") = issue["credits"]
             td data-label=t("admin.transactions.refundable_credits") = issue["refundable_credits"]
             td data-label=t("admin.transactions.final_balance") = issue["final_balance"]

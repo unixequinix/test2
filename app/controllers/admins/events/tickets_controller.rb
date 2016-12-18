@@ -6,8 +6,8 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
     respond_to do |format|
       format.html
       format.csv do
-        tickets = Ticket.query_for_csv(current_event)
-        redirect_to(admins_event_tickets_path(current_event)) && return if tickets.empty?
+        tickets = Ticket.query_for_csv(@current_event)
+        redirect_to(admins_event_tickets_path(@current_event)) && return if tickets.empty?
 
         send_data(CsvExporter.to_csv(tickets))
       end
@@ -20,7 +20,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
 
   def show
     assoc = { ticket_type: [company_event_agreement: :company] }
-    @ticket = current_event.tickets.includes(:customer, assoc).find(params[:id])
+    @ticket = @current_event.tickets.includes(:customer, assoc).find(params[:id])
     @catalog_item = @ticket.ticket_type&.catalog_item
   end
 
@@ -40,14 +40,14 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
   end
 
   def edit
-    @ticket = current_event.tickets.find(params[:id])
+    @ticket = @current_event.tickets.find(params[:id])
   end
 
   def update
-    @ticket = current_event.tickets.find(params[:id])
+    @ticket = @current_event.tickets.find(params[:id])
     if @ticket.update(permitted_params)
       flash[:notice] = I18n.t("alerts.updated")
-      redirect_to admins_event_ticket_url(current_event, @ticket)
+      redirect_to admins_event_ticket_url(@current_event, @ticket)
     else
       flash.now[:error] = I18n.t("alerts.error")
       render :edit
@@ -55,7 +55,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
   end
 
   def destroy
-    @ticket = current_event.tickets.find(params[:id])
+    @ticket = @current_event.tickets.find(params[:id])
     if @ticket.destroy
       flash[:notice] = I18n.t("alerts.destroyed")
     else
@@ -67,7 +67,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
   def destroy_multiple
     tickets = params[:tickets]
     if tickets
-      current_event.tickets.where(id: tickets.keys).each do |ticket|
+      @current_event.tickets.where(id: tickets.keys).each do |ticket|
         flash[:error] = ticket.errors.full_messages.join(". ") unless ticket.destroy
       end
     end
@@ -75,7 +75,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
   end
 
   def import # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-    event = current_event.event
+    event = @current_event.event
     path = admins_event_tickets_path(event)
     redirect_to(path, alert: t("admin.tickets.import.empty_file")) && return unless params[:file]
     file = params[:file][:data].tempfile.path
@@ -121,13 +121,13 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
   end
 
   def ban
-    ticket = current_event.tickets.find(params[:id])
+    ticket = @current_event.tickets.find(params[:id])
     ticket.update(banned: true)
     redirect_to(admins_event_tickets_url)
   end
 
   def unban
-    ticket = current_event.tickets.find(params[:id])
+    ticket = @current_event.tickets.find(params[:id])
     ticket.update(banned: false)
     redirect_to(admins_event_tickets_url)
   end
@@ -137,7 +137,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Ticket".constantize.model_name,
-      fetcher: current_event.tickets,
+      fetcher: @current_event.tickets,
       search_query: params[:q],
       page: params[:page],
       include_for_all_items: [customer: [:active_gtag]],

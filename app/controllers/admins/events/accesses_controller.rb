@@ -6,12 +6,12 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
   end
 
   def new
-    @access = current_event.accesses.new
+    @access = @current_event.accesses.new
     @access.build_entitlement
   end
 
   def create
-    @access = current_event.accesses.new(permitted_params)
+    @access = @current_event.accesses.new(permitted_params)
     if @access.save
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_accesses_url
@@ -45,12 +45,12 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
   private
 
   def set_access
-    @access = current_event.accesses.find(params[:id])
+    @access = @current_event.accesses.find(params[:id])
   end
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(model_name: "Access".constantize.model_name,
-                                                   fetcher: current_event.accesses,
+                                                   fetcher: @current_event.accesses,
                                                    search_query: params[:q],
                                                    page: params[:page],
                                                    include_for_all_items: [],

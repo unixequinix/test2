@@ -217,7 +217,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   # Defines a method with a question mark for each registration setting which returns true if the setting is present
-  # Examples: current_event.phone? / current_event.address?
+  # Examples: @current_event.phone? / @current_event.address?
   REGISTRATION_SETTINGS.each do |method_name|
     define_method "#{method_name}?" do
       registration_settings && registration_settings[method_name.to_s] == "true"

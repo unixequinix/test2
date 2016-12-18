@@ -1863,7 +1863,7 @@ de:
       line_3_5: 3.5 Sie sind selbst dafür verantwortlich, alle für Sie erforderlichen Maßnahmen zu ergreifen, um auf unsere Website zugreifen zu können.
       title: 3. Site-Zugang und -Nutzung
     ph_4:
-      line_4_1: '4.1 Für den Zugang zu den auf der Site zur Verfügung gestellten Services müssen Sie über #{current_event.url}. ein Konto einrichten. Dabei müssen Sie persönliche Angaben über sich machen (einschließlich Name, Emailadresse, Passwort, Bankverbindung und Armband oder Identifikationsnummer der Festivalkarte).'
+      line_4_1: '4.1 Für den Zugang zu den auf der Site zur Verfügung gestellten Services müssen Sie über #{@current_event.url}. ein Konto einrichten. Dabei müssen Sie persönliche Angaben über sich machen (einschließlich Name, Emailadresse, Passwort, Bankverbindung und Armband oder Identifikationsnummer der Festivalkarte).'
       line_4_2: '4.2 Sie erklären sich damit einverstanden, dass Sie nur korrekte, aktuelle und vollständige Informationen über sich angeben, und dass Sie die in Ihrem Profil enthaltenen persönlichen Angaben auf dem aktuellen Stand halten und im Fall von Änderungen unverzüglich aktualisieren. Weitere Informationen darüber, wie wir mit Ihren personenbezogenen Daten umgehen, finden Sie in unseren Datenschutzrichtlinien '
       line_4_3: 4.3 Sie stimmen zu, dass Sie mit niemandem Ihr Passwort teilen, und dass Ihr Passwort vertraulich bleibt.
       title: 4. Konto

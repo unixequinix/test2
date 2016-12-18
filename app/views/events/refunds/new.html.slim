@@ -7,24 +7,24 @@
         th = t('refunds.amount')
       tr
         td [colspan="2"] #{t('refunds.product_description')}
-        td.table-amount #{number_with_precision(@refund.total, precision: 2)} #{current_event.credit.name}
+        td.table-amount #{number_with_precision(@refund.total, precision: 2)} #{@current_event.credit.name}
       tr
         td [colspan="2"] #{t('refunds.fee')}
-        td.table-amount #{-number_with_precision(@refund.fee, precision: 2)} #{current_event.credit.name}
+        td.table-amount #{-number_with_precision(@refund.fee, precision: 2)} #{@current_event.credit.name}
       tr.total-amount
         td [colspan="2"]
           = t('orders.total')
           .vat-text = t('orders.vat')
-        td [colspan="3"] #{number_with_precision(@refund.money, precision: 2)} #{current_event.currency}
+        td [colspan="3"] #{number_with_precision(@refund.money, precision: 2)} #{@current_event.currency}
 
-    = simple_form_for [current_event, @refund], class: "form" do |f|
+    = simple_form_for [@current_event, @refund], class: "form" do |f|
       = f.input :iban, label: false, label: "IBAN", input_html: { class: 'session-input' }
       = f.input :swift, label: false, label: "SWIFT", input_html: { class: 'session-input' }
       = f.button :submit, t('refunds.button'),  class: "btn-action btn-edit-customer"
 
-    - if current_event.refund_disclaimer
+    - if @current_event.refund_disclaimer
       .wrapper-module-disclaimer
-        = raw current_event.refund_disclaimer
+        = raw @current_event.refund_disclaimer
   - else
     .wrapper-module-centered
       h3 = t("refunds.credentiable_refund_disabled.title")

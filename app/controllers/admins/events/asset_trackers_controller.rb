@@ -1,10 +1,10 @@
 class Admins::Events::AssetTrackersController < Admins::Events::BaseController
   # rubocop:disable all
   def index
-    devices = current_event.device_transactions.order(device_created_at: :asc).group_by(&:device_uid)
+    devices = @current_event.device_transactions.order(device_created_at: :asc).group_by(&:device_uid)
     @assets = {}
     Device.where(mac: devices.map { |mac, _| mac }).each { |d| @assets[d.mac] = { asset_tracker: d.asset_tracker } }
-    transactions_sql = Device.transactions_count(current_event)
+    transactions_sql = Device.transactions_count(@current_event)
 
     devices.map do |device, transactions|
       init = transactions.select { |t| t.action == "device_initialization" }

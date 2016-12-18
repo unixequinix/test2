@@ -1,7 +1,7 @@
 class Companies::Api::V1::BannedTicketsController < Companies::Api::V1::BaseController
   def index
     render json: {
-      event_id: current_event.id,
+      event_id: @current_event.id,
       blacklisted_tickets: banned_tickets.map do |ticket|
         Companies::Api::V1::TicketSerializer.new(ticket)
       end

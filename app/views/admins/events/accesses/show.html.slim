@@ -1,4 +1,4 @@
-- breadcrumb :admins_event_access, current_event, @access
+- breadcrumb :admins_event_access, @current_event, @access
 - provide :actions do
   - unless current_admin.customer_service?
     = link_to edit_admins_event_access_path(@current_event, @access), class: "btn btn-action btn-action-edit small" do

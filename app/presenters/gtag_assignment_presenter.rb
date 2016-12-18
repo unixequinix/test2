@@ -6,8 +6,8 @@ class GtagAssignmentPresenter
 
   def initialize(attributes = {})
     attributes.each { |name, value| send("#{name}=", value) }
-    self.gtag_format = current_event.gtag_settings["format"]&.downcase
-    self.gtag_name = current_event.gtag_name
-    self.gtag_form_disclaimer = current_event.gtag_form_disclaimer
+    self.gtag_format = @current_event.gtag_settings["format"]&.downcase
+    self.gtag_name = @current_event.gtag_name
+    self.gtag_form_disclaimer = @current_event.gtag_form_disclaimer
   end
 end
