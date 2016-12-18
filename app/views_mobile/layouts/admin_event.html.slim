@@ -18,7 +18,7 @@ html [lang=I18n.locale]
           = yield
         = render 'admins/shared/footer'
     - if current_admin.customer_service?
-      = render 'admins/shared/cs_menu', event: @current_event
+      = render 'admins/shared/cs_menu', event: current_event
     - else
-      = render 'admins/shared/admin_menu', event: @current_event
+      = render 'admins/shared/admin_menu', event: current_event
     = render 'admins/shared/searchpanel' if lookup_context.exists?("search", ["admins/#{controller_name}"], true) && (action_name == 'index' || action_name == 'search')

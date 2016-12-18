@@ -2,7 +2,7 @@
 #
 # Table name: payment_gateways
 #
-#  data       :json
+#  data       :jsonb            not null
 #  gateway    :string
 #  refund     :boolean
 #  topup      :boolean

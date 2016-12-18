@@ -5,7 +5,7 @@ class Events::OrdersController < Events::BaseController
   def show
     @payment_service = params[:payment_service]
     @order = Order.includes(order_items: :catalog_item).find(params[:id])
-    @payment_gateways = current_event.payment_gateways.topup
+    @payment_gateways = @current_event.payment_gateways.topup
   end
 
   def new
@@ -19,12 +19,12 @@ class Events::OrdersController < Events::BaseController
     @catalog_items = catalog_items_hash
     catalog_items.each do |item_id, amount|
       next unless amount.to_i.positive?
-      item = current_event.catalog_items.find(item_id)
+      item = @current_event.catalog_items.find(item_id)
       @order.order_items << OrderItem.new(catalog_item: item, amount: amount.to_i, total: amount.to_i * item.price)
     end
 
     if @order.total.positive? && @order.save
-      redirect_to event_order_url(current_event, @order)
+      redirect_to event_order_url(@current_event, @order)
     else
       flash.now[:error] = @order.errors.full_messages.to_sentence
       render :new
@@ -34,7 +34,7 @@ class Events::OrdersController < Events::BaseController
   private
 
   def catalog_items_hash
-    portal_items = current_event.portal_station.station_catalog_items
+    portal_items = @current_event.portal_station.station_catalog_items
     CatalogItem.joins(:station_catalog_items)
                .select("catalog_items.*, station_catalog_items.price")
                .where.not(id: current_customer.infinite_entitlements_purchased)

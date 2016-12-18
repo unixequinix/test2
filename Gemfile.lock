@@ -119,6 +119,9 @@ GEM
     capistrano-rails (1.1.6)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
+    capistrano-rails-console (2.2.0)
+      capistrano (>= 3.5.0, < 4.0.0)
+      sshkit-interactive (~> 0.2.0)
     capistrano-rvm (0.1.2)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
@@ -179,11 +182,6 @@ GEM
     docile (1.1.5)
     domain_name (0.5.20160310)
       unf (>= 0.0.5, < 1.0.0)
-    draper (2.1.0)
-      actionpack (>= 3.0)
-      activemodel (>= 3.0)
-      activesupport (>= 3.0)
-      request_store (~> 1.0)
     easy_translate (0.5.0)
       json
       thread
@@ -243,7 +241,7 @@ GEM
     i18n (0.7.0)
     i18n-globals (0.0.4)
       i18n
-    i18n-tasks (0.9.5)
+    i18n-tasks (0.9.6)
       activesupport (>= 4.0.2)
       ast (>= 2.1.0)
       easy_translate (>= 0.5.0)
@@ -431,7 +429,6 @@ GEM
       json (~> 1.4)
     redis (3.3.0)
     ref (2.0.0)
-    request_store (1.3.1)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
     rest-client (1.8.0)
@@ -534,8 +531,10 @@ GEM
     sshkit (1.10.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    sshkit-interactive (0.2.0)
+      sshkit (~> 1.9)
     temple (0.7.7)
-    term-ansicolor (1.3.2)
+    term-ansicolor (1.4.0)
       tins (~> 1.0)
     terminal-notifier (1.7.1)
     terminal-notifier-guard (1.6.4)
@@ -547,7 +546,7 @@ GEM
     thread (0.2.2)
     thread_safe (0.3.5)
     tilt (2.0.4)
-    tins (1.10.2)
+    tins (1.13.0)
     tinymce-rails (4.4.0)
       railties (>= 3.1.1)
     turbolinks (2.5.3)
@@ -601,6 +600,7 @@ DEPENDENCIES
   capistrano-faster-assets (~> 1.0)
   capistrano-passenger
   capistrano-rails (~> 1.1.3)
+  capistrano-rails-console
   capistrano-rvm
   capistrano-sidekiq (~> 0.5.3)
   capybara (~> 2.5.0)
@@ -611,7 +611,6 @@ DEPENDENCIES
   database_cleaner (~> 1.4.1)
   deep_cloneable (~> 2.2.1)
   devise (~> 4.2)
-  draper (~> 2.0)
   eventbrite!
   factory_girl_rails (~> 4.5.0)
   faker (~> 1.4.3)

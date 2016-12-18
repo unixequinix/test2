@@ -8,7 +8,7 @@
         ul
           li
             = t("terms_of_use.ph_1.line_1_1")
-            = link_to current_event.name, event_url(current_event), target:"_blank"
+            = link_to @current_event.name, event_url(@current_event), target:"_blank"
 
           li = t("terms_of_use.ph_1.line_1_2")
 
@@ -18,7 +18,7 @@
           ol
             li = t("terms_of_use.ph_1.line_1_4_1")
             li = t("terms_of_use.ph_1.line_1_4_2")
-            = mail_to current_event.support_email
+            = mail_to @current_event.support_email
 
       li
         h3 = t("terms_of_use.ph_2.title")
@@ -40,7 +40,7 @@
 
           li
             = t("terms_of_use.ph_4.line_4_2")
-            = link_to t("footer.privacy"), event_privacy_policy_url(current_event), target: '_blank'
+            = link_to t("footer.privacy"), event_privacy_policy_url(@current_event), target: '_blank'
           li = t("terms_of_use.ph_4.line_4_3")
 
       li
@@ -50,17 +50,17 @@
 
           li
             = t("terms_of_use.ph_5.line_5_2")
-            = mail_to current_event.support_email, subject: t('event.subject_support', event: current_event.name) do
+            = mail_to @current_event.support_email, subject: t('event.subject_support', event: @current_event.name) do
               span
-                | #{current_event.name}
+                | #{@current_event.name}
 
           li = t("terms_of_use.ph_5.line_5_3")
 
           li
             = t("terms_of_use.ph_5.line_5_4")
-            = mail_to current_event.support_email, subject: t('event.subject_support', event: current_event.name) do
+            = mail_to @current_event.support_email, subject: t('event.subject_support', event: @current_event.name) do
               span
-                | #{current_event.name}
+                | #{@current_event.name}
       li
         h3 = t("terms_of_use.ph_6.title")
         ul
@@ -77,19 +77,19 @@
         ul
           li
             = t("terms_of_use.ph_7.line_7_1")
-            = link_to t("footer.privacy"), event_privacy_policy_url(current_event), target: '_blank'
+            = link_to t("footer.privacy"), event_privacy_policy_url(@current_event), target: '_blank'
           li
             = t("terms_of_use.ph_7.line_7_2")
-            = link_to t("footer.privacy"), event_privacy_policy_url(current_event), target: '_blank'
+            = link_to t("footer.privacy"), event_privacy_policy_url(@current_event), target: '_blank'
       li
         h3 = t("terms_of_use.ph_8.title")
         ul
           li = t("terms_of_use.ph_8.line_8_1")
           li
             = t("terms_of_use.ph_8.line_8_2")
-            = mail_to current_event.support_email, subject: t('event.subject_support', event: current_event.name) do
+            = mail_to @current_event.support_email, subject: t('event.subject_support', event: @current_event.name) do
               span
-                | #{current_event.name}
+                | #{@current_event.name}
       li
         h3 = t("terms_of_use.ph_9.title")
         ul
@@ -125,4 +125,4 @@
           li = t("terms_of_use.ph_12.line_12_4")
           li = t("terms_of_use.ph_12.line_12_5")
 
-    = raw current_event.terms_of_use
+    = raw @current_event.terms_of_use

@@ -11,7 +11,7 @@
           label Products
           - @products.each do |product|
             li= product.name
-  = link_to event_ticket_assignment_path(current_event, @ticket), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-remove-ticket" do
+  = link_to event_ticket_assignment_path(@current_event, @ticket), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-remove-ticket" do
     = fa_icon("trash")
     = t('actions.unnasign')
 

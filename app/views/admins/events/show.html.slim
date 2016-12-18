@@ -9,6 +9,12 @@
   = link_to customer_root_path(@current_event), class: "btn btn-action btn-action-link small", target: "_blank" do
     = fa_icon 'external-link'
     = t('actions.portal')
+  = link_to create_admin_admins_event_path(@current_event), class: "btn btn-action btn-action-link small" do
+    = fa_icon 'user'
+    = t('actions.create_admin')
+  = link_to create_customer_support_admins_event_path(@current_event), class: "btn btn-action btn-action-link small" do
+    = fa_icon 'user-md'
+    = t('actions.create_support')
 
 .wrapper-negative-space
   - if @alerts.present?

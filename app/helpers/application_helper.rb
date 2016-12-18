@@ -9,7 +9,7 @@ module ApplicationHelper
   end
 
   def number_to_token(number)
-    number_to_currency number, unit: current_event.token_symbol.to_s + " "
+    number_to_currency number, unit: @current_event.token_symbol.to_s + " "
   end
 
   def title

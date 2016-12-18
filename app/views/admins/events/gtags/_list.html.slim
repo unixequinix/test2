@@ -1,5 +1,5 @@
 - customer_service = current_admin.customer_service?
-.current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @list_model_presenter.current_items, total: @list_model_presenter.count)
+.current-showing = page_entries_info @list_model_presenter.all_items
 = form_tag destroy_multiple_admins_event_gtags_path, method: :delete do
   table.gtags
     thead
@@ -20,17 +20,17 @@
         tr
           - unless customer_service
             td.select-all data-label=t("admin.defaults.all") = check_box_tag "gtags[#{gtag.id}]", 1
-          td data-label=t("admin.gtags.tag") = link_to gtag.tag_uid, admins_event_gtag_path(current_event, gtag)
+          td data-label=t("admin.gtags.tag") = link_to gtag.tag_uid, admins_event_gtag_path(@current_event, gtag)
           td data-label=t("admin.gtags.activation_counter") = gtag.activation_counter
           td data-label=t("admin.gtags.customer")
-            = link_to gtag.customer&.id, admins_event_customer_path(current_event, gtag.customer&.id) if gtag.customer
+            = link_to gtag.customer&.id, admins_event_customer_path(@current_event, gtag.customer&.id) if gtag.customer
           td data-label=t("admin.gtags.loyalty") = gtag.loyalty? ? fa_icon("check-circle") : fa_icon("times-circle")
           td data-label=t("admin.gtags.banned")
             - if gtag.banned?
-              = link_to unban_admins_event_gtag_path(current_event, gtag), method: :delete, title: "Unban gtag" do
+              = link_to unban_admins_event_gtag_path(@current_event, gtag), method: :delete, title: "Unban gtag" do
                 = fa_icon "circle"
             - else
-              = link_to ban_admins_event_gtag_path(current_event, gtag), title: "Ban gtag" do
+              = link_to ban_admins_event_gtag_path(@current_event, gtag), title: "Ban gtag" do
                 = fa_icon "circle-thin"
           - unless current_admin.customer_service?
             td.table-actions-field

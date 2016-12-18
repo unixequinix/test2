@@ -14,7 +14,7 @@ class Events::RegistrationsController < Devise::RegistrationsController
       name = session[:omniauth]["info"]["name"].split(" ")
       first_name = session[:omniauth]["info"]["first_name"] || name.first
       last_name = session[:omniauth]["info"]["last_name"] || name.second
-      resource.event = current_event
+      resource.event = @current_event
       resource.provider = session[:omniauth]["provider"]
       resource.uid = session[:omniauth]["uid"]
       resource.email = session[:omniauth]["info"]["email"]
@@ -46,7 +46,8 @@ class Events::RegistrationsController < Devise::RegistrationsController
 
   def current_event
     id = params[:event_id] || params[:id]
+    id = current_admin.slug if current_admin&.promoter? || current_admin&.customer_service?
     return false unless id
-    Event.find_by_slug(id) || Event.find(id) if id
+    @current_event = Event.find_by(slug: id) || Event.find_by(id: id)
   end
 end

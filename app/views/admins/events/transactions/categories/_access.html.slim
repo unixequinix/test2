@@ -3,7 +3,7 @@ h3.section-header
   = t("admin.transactions.access")
 dl
   dt = t("admin.transactions.access")
-  dd = link_to @transaction.access.name, admins_event_access_path(current_event, @transaction.access)
+  dd = link_to @transaction.access.name, admins_event_access_path(@current_event, @transaction.access)
   
   dt = t("admin.transactions.direction")
   dd = @transaction.direction

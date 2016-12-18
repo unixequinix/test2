@@ -6,7 +6,6 @@ touchpoint_update_online_orders: false
 pos_update_online_orders: false
 topup_initialize_gtag: true
 cypher_enabled: false
-autotopup_enabled: false
 gtag_blacklist: ""
 transaction_buffer: 100
 days_to_keep_backup: 5

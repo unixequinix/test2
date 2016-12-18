@@ -1,10 +1,10 @@
-- breadcrumb :admins_event_ticket, current_event, @ticket
+- breadcrumb :admins_event_ticket, @current_event, @ticket
 - provide :actions do
   - unless current_admin.customer_service?
-    = link_to admins_event_ticket_path(current_event, @ticket), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-action btn-action-new btn-action-delete small" do
+    = link_to admins_event_ticket_path(@current_event, @ticket), method: :delete, data: { confirm: t("admin.confirm.delete") }, class: "btn btn-action btn-action-new btn-action-delete small" do
         = fa_icon "times"
         = t("actions.delete")
-    = link_to edit_admins_event_ticket_path(current_event, @ticket), class: "btn btn-action btn-action-new small" do
+    = link_to edit_admins_event_ticket_path(@current_event, @ticket), class: "btn btn-action btn-action-new small" do
         = fa_icon "edit"
         = t("actions.edit")
   = link_to admins_event_tickets_path, class: "btn btn-action btn-action-back small" do
@@ -58,14 +58,14 @@
               th &nbsp;
         tbody
           tr
-            td = link_to customer.email, admins_event_customer_path(current_event, customer)
+            td = link_to customer.email, admins_event_customer_path(@current_event, customer)
             td = "#{customer.first_name} #{customer.last_name}"
             td = t("admin.admissions.states.assigned")
             - unless current_admin.customer_service?
               td.table-actions-field
                 ul
                   li.table-action.action-delete
-                    = link_to admins_event_ticket_assignment_path(current_event, @ticket.id), method: :delete, data: { confirm: t("admin.confirm.delete") } do
+                    = link_to admins_event_ticket_assignment_path(@current_event, @ticket.id), method: :delete, data: { confirm: t("admin.confirm.delete") } do
                       = fa_icon "ban"
 
   - if @catalog_item

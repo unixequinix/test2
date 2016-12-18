@@ -2,7 +2,7 @@ class Events::TicketAssignmentsController < Events::BaseController
   # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/AbcSize
   def create
     @code = permitted_params[:code].strip
-    @ticket = current_event.tickets.find_by(code: @code)
+    @ticket = @current_event.tickets.find_by(code: @code)
 
     if @ticket.blank?
       flash.now[:error] = I18n.t("alerts.admissions")
@@ -25,13 +25,13 @@ class Events::TicketAssignmentsController < Events::BaseController
     end
 
     @ticket.update!(customer: current_customer)
-    redirect_to(customer_root_path(current_event), notice: I18n.t("alerts.ticket_assigned"))
+    redirect_to(customer_root_path(@current_event), notice: I18n.t("alerts.ticket_assigned"))
   end
 
   def destroy
-    ticket = current_event.tickets.find(params[:id])
+    ticket = @current_event.tickets.find(params[:id])
     ticket.update!(customer: nil)
-    redirect_to customer_root_path(current_event), notice: I18n.t("alerts.unassigned")
+    redirect_to customer_root_path(@current_event), notice: I18n.t("alerts.unassigned")
   end
 
   private

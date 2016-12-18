@@ -14,7 +14,8 @@ class Events::SessionsController < Devise::SessionsController
 
   def current_event
     id = params[:event_id] || params[:id]
+    id = current_admin.slug if current_admin&.promoter? || current_admin&.customer_service?
     return false unless id
-    Event.find_by_slug(id) || Event.find(id) if id
+    @current_event = Event.find_by(slug: id) || Event.find_by(id: id)
   end
 end

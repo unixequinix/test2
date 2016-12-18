@@ -1,4 +1,4 @@
-- breadcrumb :admins_event_credits, current_event
+- breadcrumb :admins_event_credits, @current_event
 
 .wrapper-negative-space
   table
@@ -13,7 +13,7 @@
         th.table-actions-field = t('admin.defaults.actions')
     tbody
       tr
-        td data-label=t('admin.catalog_item.name') = link_to @credit.name, admins_event_credit_path(current_event, @credit)
+        td data-label=t('admin.catalog_item.name') = link_to @credit.name, admins_event_credit_path(@current_event, @credit)
         td data-label=t('admin.catalog_item.step') = @credit.step
         td data-label=t('admin.catalog_item.initial_amount') = @credit.initial_amount
         td data-label=t('admin.catalog_item.max_purchasable') = @credit.max_purchasable
@@ -21,4 +21,4 @@
         td data-label=t('admin.credits.value') = @credit.value
         td.table-actions-field
           ul
-            li.table-action.action-edit = link_to fa_icon("edit"), edit_admins_event_credit_path(current_event, @credit)
+            li.table-action.action-edit = link_to fa_icon("edit"), edit_admins_event_credit_path(@current_event, @credit)

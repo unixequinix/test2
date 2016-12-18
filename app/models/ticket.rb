@@ -33,7 +33,6 @@ class Ticket < ActiveRecord::Base
 
   has_many :transactions, dependent: :destroy
 
-  # Validations
   validates :code, uniqueness: { scope: :event_id }
   validates :code, presence: true
   validates :ticket_type_id, presence: true

@@ -65,6 +65,8 @@ class Transaction < ActiveRecord::Base
   scope :ban, -> { where(type: "BanTransaction") }
   scope :orders, -> { where(type: "OrderTransaction") }
   scope :device, -> { where(type: "DeviceTransaction") }
+  scope :onsite, -> { where(transaction_origin: ORIGINS[:device]) }
+  scope :online, -> { where(transaction_origin: [ORIGINS[:portal], ORIGINS[:admin]]) }
 
   scope :with_event, -> (event) { where(event: event) }
   scope :with_customer_tag, -> (tag_uid) { where(customer_tag_uid: tag_uid) }

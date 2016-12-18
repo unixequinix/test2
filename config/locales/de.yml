@@ -1,12 +1,13 @@
+---
 de:
   country_iso_priority: [AT, BE, BG, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, GB]
   general_company_name: 'Glownet'
   general_support_email: 'support@glownet.com'
   gender:
-    male: 'Männlich'
-    female: 'Weiblich'
+    male: 'Male'
+    female: 'Female'
   event:
-    subject_support: 'Hilfe benötigt für %{event}'
+    subject_support: 'Need help for %{event}'
     locales:
       en: 'ENG'
       es: 'ESP'
@@ -14,7 +15,7 @@ de:
       th: 'THA'
       de: 'GER'
       pt: 'PT'
-    gtag_name: 'Armband'
+    gtag_name: 'Wristband'
   events:
     create:
       error: "Event couldn't be created, check the errors below"
@@ -24,114 +25,1889 @@ de:
         customer:
           attributes:
             phone:
-              improbable_phone: "Dies ist keine gültige Telefonnummer. Überprüfen Sie, dass Land und Telefonnummer zusammenpassen."
+              improbable_phone: "It's not a valid phone number. Check that country matches the phone number."
             birthdate:
-              invalid: "Dies ist kein gültiges Datum"
-              too_young: "Muss älter als %{age} Jahre sein"
+              invalid: "It's not a valid date"
+              too_young: "Must be older than %{age} years old"
         epg_claim_form:
           attributes:
             phone:
-              improbable_phone: "Dies ist keine gültige Telefonnummer. Überprüfen Sie, dass Land und Telefonnummer zusammenpassen."
+              improbable_phone: "It's not a valid phone number. Check that country matches the phone number."
         bank_account_claim_form:
           attributes:
             swift:
-              invalid: "Dies ist keine gültige BIC/SWIFT"
+              invalid: "It's not a valid BIC/SWIFT"
             iban:
-              invalid: "Dies ist keine gültige IBAN, geben Sie ein für SEPA gültiges Konto ein"
+              invalid: "It's not a valid IBAN, introduce a valid account for SEPA"
     attributes:
       euro_bank_account_claim_form:
         swift: "BIC/SWIFT"
         iban: "IBAN"
-        account_holder: "Name des Kontoinhabers"
-        bank_name: "Name der Bank"
+        account_holder: "Account holder's name"
+        bank_name: "Bank name"
       aus_bank_account_claim_form:
         bsb: "BSB"
-        account_holder: "Name des Kontoinhabers "
-        bank_name: "Name der Bank"
-        number: "Kontonummer"
+        account_holder: "Account holder's name"
+        bank_name: "Bank name"
+        number: "Account number"
       nz_bank_account_claim_form:
         bsb: "BSB"
-        account_holder: "Name des Kontoinhabers"
-        bank_name: "Name der Bank"
-        number: "Kontonummer (00 0000 0000000 000)"
+        account_holder: "Account holder's name"
+        bank_name: "Bank name"
+        number: "Account number (00 0000 0000000 000)"
       thailand_bank_account_claim_form:
         bsb: "BSB (000000)"
-        account_holder: "Name des Kontoinhabers (Thai)"
-        account_holder_translation: "Name des Kontoinhabers (Englisch)"
-        bank_name: "Name der Bank"
-        number: "Kontonummer"
+        account_holder: "Account holder's name (Thai)"
+        account_holder_translation: "Account holder's name (English)"
+        bank_name: "Bank name"
+        number: "Account number"
   activerecord:
     models:
       admin:
-        one: 'Admin'
-        other: 'Admins'
+        one: 'admin'
+        other: 'admins'
       claim:
-        one: 'Forderung'
-        other: 'Forderungen'
+        one: 'claim'
+        other: 'claims'
       credit:
-        one: 'Guthaben'
-        other: 'Guthaben'
+        one: 'credit'
+        other: 'credits'
       customer:
-        one: 'Kunde'
-        other: 'Kunden'
+        one: 'customer'
+        other: 'customers'
       entitlement:
-        one: 'Berechtigung'
-        other: 'Berechtigungen'
+        one: 'entitlement'
+        other: 'entitlements'
       gtag:
         one: 'gtag'
         other: 'gtags'
       order:
-        one: 'Bestellung'
-        other: 'Bestellungen'
+        one: 'order'
+        other: 'orders'
       payment:
-        one: 'Zahlung'
-        other: 'Zahlungen'
+        one: 'payment'
+        other: 'payments'
       refund:
-        one: 'Erstattung'
-        other: 'Erstattungen'
+        one: 'refund'
+        other: 'refunds'
       ticket:
-        one: 'Ticket'
-        other: 'Tickets'
+        one: 'ticket'
+        other: 'tickets'
       company:
-        one: 'Firma'
-        other: 'Firmen'
+        one: 'company'
+        other: 'companies'
       pack:
-        one: 'Paket'
-        other: 'Pakete'
+        one: 'pack'
+        other: 'packs'
       ticket_type:
-        one: 'Firmenticket-Typ'
-        other: 'Firmenticket-Typen'
+        one: 'company ticket type'
+        other: 'company ticket types'
     errors:
       models:
         customer:
           attributes:
             email:
-              taken: 'Email entgegengenommen'
+              taken: 'Email taken'
         entitlement:
           attributes:
             base:
               restrict_dependent_destroy:
-                many: "Kann nicht gelöscht werden, weil Tickettypen angeschlossen sind"
+                many: "Can't be deleted because there are ticket types associated"
         ticket_type:
           attributes:
             base:
               restrict_dependent_destroy:
-                many: "Kann nicht gelöscht werden, weil Tickettypen angeschlossen sind"
+                many: "Can't be deleted because there are tickets associated"
         ticket:
           attributes:
             number:
-              taken: 'Nummer entgegengenommen'
+              taken: 'Number taken'
             base:
               restrict_dependent_destroy:
-                many: "Kann nicht gelöscht werden, weil Kunden angeschlossen sind"
+                many: "Can't be deleted because there are customers associated"
         gtag:
           attributes:
             base:
               restrict_dependent_destroy:
-                many: "Kann nicht gelöscht werden, weil Kunden angeschlossen sind"
+                many: "Can't be deleted because there are customers associated"
             tag_uid:
-              taken: 'Seriennummer und UID entgegengenommen'
+              taken: 'Tag UID taken'
         admission:
           attributes:
             ticket:
-              taken: 'entgegengenommen'
+              taken: 'taken'
+
+  actions:
+    back: Zurück
+    cancel: Stornieren
+    check_news: Zurück zur Veranstaltungswebsite
+    confirm: Confirm
+    delete: Löschen
+    delete_account: Löschen Sie Ihr Konto
+    delete_ticket: Ticket löschen
+    edit: Bearbeiten
+    finalize: Finalize
+    logout: Logout
+  admin:
+    accesses:
+      initial_amount: Initial Amount
+      max_purchasable: Maximum Purchasable
+      min_purchasable: Minimum Purchasable
+      mode: Mode
+      modes:
+        counter: Counter
+        permanent: Permanent
+        permanent_strict: Permanent Strict
+      step: Step
+    actions:
+      assign_gtag: gtag anmelden
+      assign_ticket: Ticket anmelden
+      back: Zurück
+      cancel: Storno
+      credits_history: Credits history
+      csv: CSV
+      delete_selected: Löschen ausgewählt
+      disable: Sperren
+      download: CSV
+      manual_claims_csv: Manuelle Forderungen CSV
+      new: Neu
+      search: Suchen
+      select_all: Alle auswählen
+      update: Aktualisieren
+    admins:
+      email: Email
+    admissions:
+      aasm_state: Status
+      created_at: Erstellt am
+      customer:
+        complete_name: Vollständiger Name
+        email: Email
+      states:
+        assigned: Ist jetzt angemeldet
+        unassigned: Vorherige Anmeldung
+      ticket: Ticket
+      updated_at: Aktualisiert am
+    agreements:
+      granted: Garantiert
+      revoked: Widerrufen
+      status: Status
+    aside:
+      access_transactions: Access
+      accesses: Zugänge
+      admins: Admins
+      ban_transactions: Ban
+      claims: Forderungen
+      companies: Firmen
+      credential_transactions: Credential
+      credit_inconsistencies: Credit inconsistencies
+      credit_transactions: Credit
+      credits: Guthaben
+      crm: CRM
+      customers: 'Kunden Veranstaltungscustomer '
+      details: Details
+      device_transactions: Device
+      entitlements: Berechtigungen
+      event: Veranstaltung
+      events: Events
+      gtag: GTags
+      gtag_settings: Gtag Einstellungen
+      logs: Logs
+      missing_transactions: Missing
+      money_transactions: Money
+      operator_transactions: Operator
+      order_transactions: Order
+      orders: Bestellungen
+      payment_settings: Zahlungseinstellungen
+      payments: Zahlungen
+      refund_settings: Erstattungseinstellungen
+      refunds: Erstattungen
+      setup: Einrichtung
+      sign_out: Abmeldung
+      ticket_types: Firmenticketarten
+      user_engagement_transactions: User Engagement
+    catalog_item:
+      initial_amount: Anfangsbetrag
+      max_purchasable: Max käuflich
+      min_purchasable: Min käuflich
+      name: Name
+      step: Schritt
+      type: Type
+    companies:
+      name: Name
+      token: Firmenschlüssel
+    confirm:
+      clone: Sind Sie sicher?
+      delete: Sind Sie sicher?
+    credits:
+      currency: Währung
+      standard: Standard
+      value: Wert
+    customer:
+      id: ID
+    customers:
+      admissions: Ticketregistrierungen
+      agreed_event_condition: Veranstaltungskondition zugestimmt
+      amount: Betrag
+      banned: Banned
+      claims: Forderungen
+      completed_claim: Endgültige Forderungen
+      creadit_logs: Guthaben logs
+      created_at: 'Erstellt bei '
+      credits: Guthaben
+      current_sign: Aktuell angemeldet
+      current_sign_ip: Aktuelle Anmeldung IP
+      delete: Gelöscht
+      email: Email
+      first_name: Vorname
+      gtag: Gtags
+      gtag_credits: Gtag Guthaben
+      id: Id
+      last_name: Nachname
+      last_sign: Letzte Anmeldung am
+      last_sign_ip: Letzte Anmeldung IP
+      orders: Bestellungen
+      payments: Zahlungen
+      payments_activated: Aktivierte Zahlungen
+      refund: Erstattung
+      search:
+        confirmed: Bestätigt?
+        credits_purchased: Guthaben erworben?
+        email: Email eingeben
+        first_name: Vornamen eingeben
+        gtag: Gtags
+        last_name: Nachnamen eingeben
+        tickets: Tickets?
+      sign: Anmeldung Zählung
+      state: Status
+      ticket: Ticket
+      tickets: Tickets
+      transactions: Transaktion
+      transactions_type: Transaktionstyp
+    dashboard:
+      api_access: API Zugang
+      change_state: Status ändern?
+      current_token: 'Ihr aktueller API Zugangsschlüssel:'
+    defaults:
+      actions: Aktionen
+      all: Auswahl
+      empty_events: No events
+      empty_item: Keinen %{item}
+      home: Home
+      item_not_found: Keinen %{item} gefunden
+      log_in: Login
+      search: Suche
+    device_settings:
+      form:
+        currency: Währungssymbol
+        maximum_wb_balance: Maximum Armband Rechnung
+        min_version_apk: Minimum APK Version
+        private_zone_password: Privater Bereich Passwort
+        public_key_a: Tag Passwort
+        uid_reverse: UID Reverse
+    devices:
+      asset: Asset ID
+      imei: Imei
+      mac: MAC
+      model: Model
+      serial_number: Serial Number
+    entitlement:
+      memory_length: Länge
+      memory_position: Speicherposition
+      mode: Mode
+    event:
+      background: Hintergrund
+      background_type: Hintergrundtyp
+      background_types:
+        fixed: Fixiert
+        repeat: Wiederholen
+      bank_account_disclaimer: Bankkonto Disclaimer
+      company_name: Firmenname
+      description: Beschreibung
+      disclaimer: Disclaimer
+      end_date: Enddatum
+      features: Aktivierte Features
+      features_options:
+        agreement_acceptance: Agreement acceptance
+        authorization: Authorization
+        gtag_assignation: Gtag assignations
+        refunds: Erstattungen
+        ticket_assignation: Ticket assignations
+        top_ups: Guthaben Top Ups
+        transactions_pdf: Transactions PDF
+      fee: Gebühr
+      fieldests:
+        company: Company information
+        custom: Benutzerdefinierte Formatvorlagen
+        date: Datum und Ort
+        image: Bilder
+        info: Veranstaltungsinformation
+        limits: Limits
+        nfc: NFC
+        optional_form_parameters: Optionale Formatparameter
+        parameters: Parameter
+        security: Sicherheit
+        text: Texte
+      gtag_assignation_notification: Benachrichtigung über Gtag Anmeldung
+      gtag_form_disclaimer: Gtag Anmeldeformular Disclaimer
+      images:
+        background: 'Hintergrundbild Vorschau '
+        customer: Profilbild Vorschau
+      info: Info
+      locales: Aktivierte Sprachen
+      locales_options:
+        de_lang: Deustch
+        en_lang: Englisch
+        es_lang: Spanisch
+        it_lang: Italienisch
+        pt_lang: Portugiesisch
+        th_lang: Thai
+      location: Ort
+      logo: Logo
+      mass_email_claim_notification: Benachrichtigung über Massenemailanforderung
+      minimum: Minimum
+      name: Name
+      payment_service: Zahlungsservice
+      privacy_policy: Privacy policy
+      refund_disclaimer: Erstattung Disclaimer
+      refund_service: Erstattungsservices
+      refund_success_message: Nachricht über erfolgreiche Erstattung (zur Prüfung Überprüfung anklicken)
+      slug: Slug
+      start_date: Anfangsdatum
+      states:
+        claiming_started: Anforderung begonnen
+        closed: abgeschlossen
+        created: Nicht veröffentlicht
+        finished: Nach der Veranstaltung
+        launched: Vor der Veranstaltung
+        started: Während der Veranstaltung
+      status: Status
+      style: Stil
+      support_email: Support Email
+      terms_of_use: Terms of use
+      token: Veranstaltungsschlüssel
+      url: Veranstaltung URL
+    general:
+      created_at: Created at
+      description: Description
+      id: ID
+      name: Name
+      updated_at: Updated at
+    gtag_assignations:
+      aasm_state: Status
+      button: Akzeptieren
+      created_at: 'Erstellt bei '
+      customer:
+        complete_name: Vollständiger Name
+        email: Email
+      serial: Tag Seriennummer
+      states:
+        assigned: Ist jetzt angemeldet
+        unassigned: Vorherige Anmeldung
+      tag: Tag UID
+      updated_at: 'Aktualisiert bei '
+    gtag_settings:
+      form:
+        format: Format
+        mifare_classic: Mifare Classic
+        name: Name
+        ultralight_c: Ultralight C
+        ultralight_ev1: Ultralight EV1
+    gtags:
+      actions:
+        delete_credits: Alle Guthaben löschen
+        delete_gtags: Alle GTags löschen
+      activation_counter: Activation
+      assigned_at: Angemeldet bei
+      banned: Banned
+      created_at: 'Erstellt bei '
+      customer: Kunde
+      format: Format
+      formats:
+        card: Card
+        wristband: Wristband
+      gtag_assignation: Gtag Anmeldungen
+      id: ID
+      import: GTags importieren (Wählen Sie ein CSV File mit Kommatrennung)
+      import_credits: " Guthaben importieren (Wählen Sie ein CSV File mit Kommatrennung)"
+      loyalty: Loyalty
+      search:
+        tag_serial: Tag Seriennummer
+        tag_uid: Tag UID
+      tag: Tag UID
+      tickets: Tickets
+      total: Gesamtguthaben
+      updated_at: 'Aktualisiert bei '
+    order_items:
+      amount: Betrag
+      catalog_item: Katalogartikel
+      customer: Kunden Veranstaltungsprofil
+      id: ID
+      redeemed: Eingelöst
+    orders:
+      amount: Betrag
+      completed: Abgeschlossen am
+      created: Erstellt am
+      customer: Kunde
+      gateway: Gateway
+      items: Items
+      number: Nummer
+      order_item: Bestellung Artikel
+      payments: Zahlungen
+      product_description: Produktbeschreibung
+      product_name: Produktname
+      product_price: Produktpreis
+      product_type: Produktart
+      search:
+        number: Nummer
+      state: Status
+      total: Summe
+    pack:
+      add_item: Add Item
+      instructions:
+        conditions:
+        - There aren't other kind of items in a pack, like accesses
+        - If a pack includes special price credits, the refundable amount of the credits will be the result of multiplying the payed price by the credi value
+        title: 'Atention. Credits in a pack will be refundable only if:'
+      number_catalog_items: Anzahl der Artikel
+    passwords:
+      change: Mein Passwort ändern
+      confirm: Neues Passwort bestätigen
+      forgotten: Passwort vergessen?
+      new: Neues Passwort
+      reset_password: Passwort zurücksetzen
+      reset_password_confirm: |-
+        The password will be set to '123456'.
+         Are you sure?
+      send_instructions: "'Bitte lass mir die Passwort-Instruktionen zukommen'"
+    payment_settings:
+      redsys:
+        code: Code
+        currency: Währung
+        form: Formular URL
+        ip: IP
+        name: Name
+        password: Passwort
+        pay_methods: Zahlungsmethode
+        terminal: Terminal
+        transaction_type: Transaktionstyp
+    products:
+      description: Beschreibung
+      id: ID
+      is_alcohol: alkoholisch
+      name: Name
+      product_type: Product Type
+      stations: Stations
+      vat: VAT %
+    purchasers:
+      email: Käufer Email
+      first_name: Käufer Vorname
+      gtag_delivery_address: Gtag Lieferadresse
+      last_name: Käufer Nachname
+    refund_settings:
+      bank_account:
+        fee: Erstattungsgebühr (in Währung)
+        minimum: Nach Gebühr Erstattung minimum (in Währung)
+      epg:
+        country: Land
+        currency: Währung
+        fee: Erstattungsgebühr (in Währung)
+        md5key: Md5 Schlüssel
+        merchant_id: Händler ID
+        minimum: Nach Gebühr Erstattung minimum (in Währung)
+        operation_type: Bearbeitungstyp
+        payment_solution: Zahlungsart
+        product_id: Produkt
+        url: URL
+      nofication_description: Benachrichtigen Sie die Kunden, dass sie ihre Erstattung anfordern können.
+      notify: Benachrichtigen
+      tipalti:
+        country: Land
+        fee: Erstattungsgebühr (in Währung)
+        idap: Idap
+        minimum: Nach Gebühr Erstattung minimum (in Währung)
+        payer: Zahlender
+        secret_key: Geheimschlüssel
+        url: URL
+      want_to_notify: Wollen Sie benachrichtigen?
+    refunds:
+      amount: Betrag
+      created_at: Erstellt bei
+      customer_email: Email des Kunden
+      customer_name: Name des Kunden
+      fee: Gebühr
+      iban: IBAN Nummer
+      id: ID
+      search:
+        amount: Betrag
+        status: Status
+      status: Status
+      swift: SWIFT Nummer
+      updated_at: Aktualisiert bei
+    sessions:
+      mail: anwender@domain.com
+      password: Passwort
+    stations:
+      access_control_gate:
+        direction: Richtung
+        name: Name
+      categories:
+        access_control: Zugangskontrolle
+        bar: Bar
+        box_office: Box Office
+        check_in: Check-in
+        cs_accreditation: CS Accreditation
+        cs_gtag_balance_fix: CS Gtag Balance Fix
+        cs_topup_refund: CS Topup/Refund
+        customer_portal: Kundenportal
+        customer_service: Kundenservice
+        envelope_linker: Envelope Linker
+        exhibitor: Aussteller
+        gtag_recycler: Gtag Recycler
+        hospitality_top_up: Bewirtung Top Up
+        incident_report: Vorfallsbericht
+        operator_permissions: Operator Berechtigungen
+        payout_top_up: Auszahlung Top Up
+        staff_accreditation: Personalakkreditierung
+        ticket_validation: Ticket Validation
+        top_up_refund: Top Up / Erstattung
+        touchpoint: Touchpoint
+        vendor: Vendor
+      group: Gruppe
+      items: Produkte
+      location: Ort
+      name: Name
+      reporting_category: Reporting Category
+      station_catalog_item:
+        description: Beschreibung
+        name: Name
+        price: Preis
+        type: Type
+      station_groups:
+        access: Zugang
+        event_management: Eventmanagement
+        glownet: Glownet
+        monetary: Monetär
+        touchpoint: Touchpoint
+      station_product:
+        description: Beschreibung
+        is_alcohol: Is alcohol?
+        name: Name
+        price: Preis
+      topup_credit:
+        amount: Betrag
+        credit: Guthaben
+        credit_value: Wert des Guthabens
+        price: Preis
+      type: Typ
+    ticket_types:
+      catalog_item: Item
+      company: Firma
+      company_code: Firmencode
+      credit: Guthaben
+      entitlements: Berechtigungen
+      id: ID
+      import: Wichtige Ticketarten (Wählen Sie ein CSV File mit Kommatrennung)
+      name: Name
+      number_of_tickets: Tickets
+      simplified_name: Kurzname
+    tickets:
+      actions:
+        delete_tickets: Alle Tickets löschen
+      admission: Ticketregistrierungen
+      banned: Banned
+      code: Code
+      created_at: Erstellt am
+      customer: Angemeldeter Kunde
+      gtags: Gtags
+      id: ID
+      import: Tickets importieren (Wählen Sie ein CSV File mit Kommatrennung)
+      search:
+        code: Ticket Barcode Nummer
+        customer: Angemeldete Kunden Email
+        purchaser_email: Käufer Email
+        purchaser_first_name: Käufer First Name
+        purchaser_last_name: Käufer Last Name
+        type: Typ
+      ticket_type: Firmenticketart
+      ticket_type_simplified: Vereinfachte Ticketart
+    transactions:
+      access: Access
+      action: Type
+      catalog_item_id: Catalog Item ID
+      counter: Counter
+      counters: Counters
+      credential: Credential
+      credit_value: Credit Value
+      credits: Credits
+      customer_id: Customer
+      customer_tag_uid: Customer Tag
+      device: Device
+      device_created_at: Date
+      device_db_index: DB index
+      device_uid: Device
+      direction: Direction
+      event: Event
+      final_balance: Final Balance
+      final_refundable_balance: R Final Balance
+      final_value: Final Value
+      gtag: Gtag
+      gtag_counter: Gtag Counter
+      id: ID
+      inconsistent_balance: Inconsistent
+      inconsistent_refundable_balance: R Inconsistent
+      items_amount: Items Amount
+      missing_transactions: Missing?
+      money: Money
+      operator_tag_uid: Operator Tag
+      payment_gateway: Gateway
+      payment_method: Method
+      price: Price
+      product: Product
+      quantity: Quantity
+      refundable_credits: R Balance
+      station: Station
+      station_id: Station
+      status_code: Status Code
+      status_message: Status Message
+      ticket: Ticket
+      ticket_code: Ticket
+      total: Total
+      transaction_origin: Origin
+      type: Catalogable Type
+      unit_price: Unit price
+  admissions:
+    button: Aktivieren
+    call_to_action: Aktivieren Sie Ihr Veranstaltungsticket!
+    description: Bitte gib den Code Deines Veranstaltungstickets ein. Du findest diesen unmittelbar unterhalb des Barcodes.
+    description2: Ihr Code sollte mit '4UMoB beginnen.'
+    placeholders:
+      ticket_code: Veranstaltungsticket Codenummer
+    title: Ticketaktivierung
+  alerts:
+    access_only_one_way: Only one way per access
+    admissions: Ticket not found. If you have purchased it within the last 48 hours, please try again later until we update your purchase. Otherwise contact support.
+    checkout: Du kannst nur numerische Daten ohne Dezimalstelle und niedriger als %{limit} verwenden
+    claim_complete: Forderung abgeschlossen. Mehr als 15 Minuten vergangen.
+    cloned: Succesfully cloned
+    created: Erfolgreich erstellt
+    credential_already_assigned: Sie haben bereits die Ansprüche , die mit diesem Ticket verknüpft sind
+    customer_without_transactions: The customer doesn't have credit transactions
+    destroyed: Erfolgreich entfernt
+    error: Formfehler prüfen
+    gtag:
+      already_assigned: Dieser %{gtag} ist bereits angemeldet
+      invalid: Die ist keinen gültiger %{gtag}
+    gtag_already_assigned: Sie haben bereits ein gtag angemeldet
+    imported: Erfolgreich importiert
+    order_complete: Bestellung abgeschlossen
+    order_expired: Bestellung abgelaufen. Mehr als 15 Minuten vergangen.
+    quantity_not_refundable: Guthabenmenge nicht erstattungsfähig
+    resend: Erfolgreich wieder gesendet
+    ticket_already_assigned: Ticket bereits angemeldet
+    ticket_assigned: Ticket assigned successfully
+    ticket_banned: Ticket is blacklisted
+    ticket_doesnt_exist: Ticket doesn't exist
+    ticket_without_credential: The ticket you entered is still being processed by our system and cannot being assigned yet. Please, come back later or contact support
+    unassigned: Erfolgreich nicht zugeteilt
+    updated: Erfolgreich aktualisiert
+  auth:
+    failure:
+      already_authenticated: Sie sind bereits angemeldet.
+      inactive: Ihr Konto ist noch nicht aktiviert.
+      invalid: Falsche %{authentication_keys} oder Passwort.
+      invalid_current_password: Ungültiges Passwort
+      last_attempt: Sie haben einen weiteren Versuch, ehe Ihr Konto gesperrt ist.
+      locked: Ihr Konto ist gesperrt.
+      not_found_in_database: Ungültige Zugangsberechtigung.
+      timeout: Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an, um fortzufahren.
+      unauthenticated: Sie müssen sich anmelden oder registrieren, um fortzufahren.
+    mailer:
+      reset_password_instructions:
+        subject: Anleitung zur Passwort-Rücksetzung
+      unlock_instructions:
+        subject: Anleitungen zur Entsperrung
+    omniauth_callbacks:
+      failure: Konnte Sie nicht authentifizieren aufgrund von %{kind} aus "%{reason}".
+      success: Erfolgreich authentifizierte mit %{kind} Konto.
+    passwords:
+      no_token: Sie müssen von einer Email mit Passwortrücksetzung kommen, um Zugang zu dieser Seite zu haben. Wenn dies der Fall ist, stellen Sie bitte sicher, dass Sie die komplette URL eingegeben haben, die Sie erhalten haben.
+      send_instructions: Sie erhalten eine Email mit Anleitungen, wie Sie in wenigen Minuten Ihr Passwort zurücksetzen können.
+      send_paranoid_instructions: Wenn sich Ihre Emailadresse in unserer Datenbank befindet, erhalten Sie in wenigen Minuten an diese Emailadresse einen Link zur Passwort-Wiederherstellung.
+      updated: Ihr Passwort wurde erfolgreich geändert. Sie sind jetzt angemeldet.
+      updated_not_active: Ihr Passwort wurde erfolgreich geändert.
+    registrations:
+      destroyed: Auf Wiedersehen! Ihr Konto wurde erfolgreich gelöscht. Wir hoffen Sie kommen bald zurück.
+      signed_up: Willkommen! Sie haben sich erfolgreich registriert.
+      signed_up_but_inactive: Sie haben sich erfolgreich registriert. Allerdings konnten wir Sie nicht anmelden, weil Ihr Konto noch nicht aktiviert ist.
+      signed_up_but_locked: Sie haben sich erfolgreich registriert. Allerdings konnten wir Sie noch nicht anmelden, weil Ihr Konto gesperrt ist.
+      update_needs_confirmation: Sie haben Ihr Konto erfolgreich aktualisiert. Allerdings müssen wir noch Ihre neue Emailadresse prüfen. Bitte öffnen Sie Ihr Emailkonto und folgen Sie dem von uns übersandten Link zur Bestätigung Ihrer neuen Emailadresse.
+      updated: Ihr Konto wurde erfolgreich aktualisiert.
+    sessions:
+      already_signed_out: Erfolgreich angemeldet.
+      signed_in: Erfolgreich angemeldet.
+      signed_out: Erfolgreich abgemeldet.
+    unlocks:
+      send_instructions: Sie erhalten eine Email mit Anleitungen, wie Sie in wenigen Minuten Ihr Konto entsperren können.
+      send_paranoid_instructions: Wenn Ihr Konto existiert, erhalten Sie eine Email mit Anleitungen, wie Sie Ihr Konto in wenigen Minuten entsperren können.
+      unlocked: Ihr Konto wurde erfolgreich entsperrt. Um fortzufahren, einfach anmelden.
+  bank_account_claim:
+    bic_swift_disclaimer_html: "<sup>1</sup><a href='http://www.business.hsbc.co.uk/1/2/international-business/iban-bic' target='_blank'>Was bedeutet BIC / SWIFT und wo finde ich meine Daten dazu?</a>"
+    iban_disclaimer_html: "<sup>2</sup><a href='http://www.business.hsbc.co.uk/1/2/international-business/iban-bic' target='_blank'> Was bedeutet BIC / SWIFT und wo finde ich meine Daten dazu?</a>"
+  cancel:
+    title: Mein Konto löschen
+    unhappy: Schreiben Sie uns eine Email, wir möchten erfahren, was passiert ist!
+  checkout:
+    button: Bestellung bestätigen
+    description: Nachdem Du hier Online-Guthaben erworben hast, werden diese automatisch auf Dein %{gtag} übertragen, sobald Du die Veranstaltung betreten hast.
+    store: " shop"
+    title: Top-up
+    total: Summe
+  claims:
+    amount: Betrag
+    button: Erstattung
+    button_iupay: IUPAY
+    claim_present:
+      description: Ihre Forderung wurde korrekt gestellt und ist auf dem Weg.
+      title: Vielen Dank!
+    credentiable_refund_disabled:
+      description: Your credential is not elegible for online refunds
+      title: Sorry
+    description: " Bitte überprüfen Sie Ihre Bestellung und veranlassen Sie die Bezahlung."
+    direct_claim:
+      button: Veranlassen
+      description: Wir werden Ihr Guthaben automatisch zurückerstatten.
+      title: Anforderung Ihrer Abrechnung
+    fee: Erstattungsgebühr
+    invalid_claim:
+      description: Please contact us at %{email} in order to process your refund.
+      title: Erstattung in Bearbeitung
+    no_credit:
+      description: Sie haben keinen erstattungsfähiges Guthaben
+      title: Es tut uns leid
+    paypal:
+      button: Refund with PayPal
+    product_description: Erstattungsfähiges Guthaben
+    products: Produkte
+    redirect: " Du wirst zum Zahlungsgateway der Bank weitergeleitet."
+    refund: Bitte überprüfen Sie Ihr Guthaben, um die Rückerstattung zu veranlassen.
+    title: Erstattung bestätigen
+    total: Summe
+    vat: inklusive MwSt
+    wirecard:
+      button: Refund with Wirecard
+  conditions:
+    action: Ich stimme den
+    conjunction: und den
+    privacy_conditions: Nutzungsbedingungen zu
+    terms_of_use: Datenschutzbedingungen
+  confirm:
+    cancel_paypal: Bei Stornierung wird Ihr %{gtag} von Ihrem Paypal-Konto getrennt.
+    cancel_paypal_agreement: Cancel agreement
+    log_out: Möchten Sie diese Sitzung beenden?
+    remove_ticket: Ihre erworbenen Guthaben sind auf Ihr Konto übertragen. Wenn Sie Ihr Ticket entfernen, müssen Sie jemand anderen dazu berechtigen, Ihre Guthaben für die Veranstaltung zu verwenden.
+  cookies:
+    all_sites_settings_dialog_subtitle: Sie können den Cookies für alle Websites zustimmen, die dieses Plugin verwenden.
+    all_sites_settings_dialog_title_a: Privatsphäre Einstellungen
+    all_sites_settings_dialog_title_b: Für alle Websiten
+    allow_cookies: Cookies zulassen
+    allow_cookies_implicit: Schließen
+    allow_for_all_sites: Für alle Sites zulassen
+    analytics_default_description: Wir bewerten anonym Ihre Nutzung dieser Website, um Ihre Erfahrung damit zu verbessern
+    analytics_default_title: Analytics
+    back_to_site_settings: Zurück zu den Website-Einstellungen
+    change_for_all_sites_link: Einstellungen für alle Websites ändern
+    description: Wenn Sie auf dieser Website fortfahren, gehen wir davon aus, dass Sie unsere Konditionen akzeptieren
+    hide_details: verbergen
+    learn_more: Cookies Bestimmungen
+    not_using_cookies: Diese Website verwendet keinen Cookies.
+    notification_title: Wir verwenden Cookies um sicherzustellen, dass Du die komfortabelste Erfahrung mit unserer Website machst. Wenn Du fortfährst, gehen wir davon aus, dass Du die Verwendung von Cookies akzeptierst.
+    notification_title_implicit: GSpot verwendet kundenspezifische Cookies und Cookies Dritter, um den Service zu verbessern.
+    preference_always: Immer zulassen
+    preference_ask: Bei jedem Mal nachfragen
+    preference_consent: Ich stimme zu
+    preference_decline: Ich lehne ab
+    preference_never: Niemals zulassen
+    preference_use_global: Allgemeine Einstellung verwenden
+    privacy_settings: Privatsphäre
+    privacy_settings_dialog_subtitle: Einige Features dieser Website bedürfen Ihrer Zustimmung um festzuhalten, wer Sie sind.
+    privacy_settings_dialog_title_a: Privatsphäre Einstellungen
+    privacy_settings_dialog_title_b: für diese Website
+    save_for_all_sites: Für alle Sites speichern
+    save_preference: Präferenzen speichern
+    see_details: siehe Details
+    see_details_implicit: Einstellungen ändern
+  currency_symbol: EUR
+  dashboard:
+    admissions:
+      button: Entfernen
+      call_to_action: Wollen Sie dieses Ticket entfernen?
+      call_to_action_started: Die Veranstaltung hat soeben begonnen. Daher sind Ticketänderungen nicht möglich.
+      header: Ticket %{ticket_type}
+      success: Ticket erfolgreich aktiviert!
+    credits:
+      button: Top-up
+      calculating_balance: We are validating your final balance. Please return in 48 hours to proceed with your refund.
+      call_to_action_no_admission_html: Um Ihr online-Topup zu erhalten,<br>bitte zuerst ein Veranstaltungsticket aktivieren
+      call_to_action_started: Die Veranstaltung hat soeben begonnen. Topup ist nicht mehr möglich.
+      header: Dein Guthaben
+      refundable: Erstattungsfähig
+      ticket_first: Zuerst ein Ticket oder %{gtag} hinzufügen
+    credits_history:
+      button: Download Transactions
+      header: Transaction history
+    error_refund_disclaimer:
+      claim: Zu Ihrer Erstattung ist ein Fehler aufgetreten
+      description: Versuchen Sie zurück zur Übersicht zu gehen und den Antrag erneut zu stellen.
+    event_refunds:
+      claim: Die Veranstaltung ist noch nicht zu Ende
+      description: Kommen Sie bald zurück, um die Erstattung Ihres Guthabens zu beantragen
+    event_started:
+      description: Wir schließen die Veranstaltungskonfiguration gerade ab, um Ihnen ein großartiges Erlebnis zu bieten. Bitte, kommen Sie zu einem späteren Zeitpunkt zurück und schauen Sie sich an, was wir für Sie aufgesetzt haben.
+      title: Letzte Details!
+    first_register:
+      ticket: Ticket hinzufügen
+      wristband: "%{gtag} hinzufügen"
+    gtag_after_refund:
+      description: Ihre Erstattung wird bearbeitet
+    gtag_registration:
+      button: Ändern
+      call_to_action: Bearbeiten
+      hint: Sie haben versehentlich ein falsches %{gtag} verwendet? Löschen Sie den Vorgang und beginnen Sie erneut
+      title: Ihr %{gtag}
+    more_gtags:
+      description: Sie haben mehrere %{gtag}s? Bitte erneut mit jeweils einer anderen Email registrieren.
+    not_refundable:
+      call_to_action: Es tut uns leid. Sie haben keinen erstattungsfähiges Guthaben.
+      title: 'Ihre Rechnung:'
+    paypal:
+      button: Mit PayPal synchronisieren
+    paypal_nvp:
+      button: Mit PayPal synchronisieren
+    refunds:
+      button: Bankkonto ändern
+      call_to_action: Erstattung erfolgreich beantragt. Sie erhalten in Kürze Ihre Überweisung.
+      title: 'Ihre Rechnung:'
+    success_refund_disclaimer:
+      claim: Sie haben Ihre Erstattung erfolgreich beantragt
+      description: In 1-4 Werktagen erhalten Sie die Zahlung auf Ihrem Bankkonto.
+    tipalti:
+      disclaimer: The content of this page could take some seconds to load.
+    title: Meine Übersichtsseite
+    wait_refund_disclaimer:
+      claim: Sie haben Ihre Erstattung erfolgreich beantragt
+      description: In 5 bis 15 Werktagen erhalten Sie eine Email, wenn Ihre Guthaben bereitstehen.
+      description2: Dann können Sie Ihre Rechnung prüfen, Ihre Bankdetails eingeben und die Zahlung erhalten.
+    without_admissions:
+      button: Mehr hinzufügen
+      call_to_action: Aktivieren Sie nur solche Tickets, die Sie auch SELBST benutzen
+      description: Aktivieren Sie NICHT das Ticket eines Freundes über Ihr Konto.
+    without_gtags:
+      add: Anmelden %{gtag}
+      button: Anmelden
+      description: 'Bitte beachten: Pro Konto kann nur ein %{gtag} aktiviert werden.'
+      title: Guthaben übrig?
+    without_gtags_claiming_started:
+      claim: Entschuldigung
+      description: Der Zeitraum für Erstattungen ist vorbei. Bei Fragen wenden Sie sich bitte an den Support.
+    without_gtags_disabled:
+      claim: Der Zeitraum, in der eine Erstattung Ihres %{gtag} Guthabens beantragt werden konnte, ist vorbei.
+      description: Wenn Sie zu einem früheren Zeitpunkt eine Supportanfrage an uns gerichtet haben,
+      description2: keinene Sorge, wir helfen Ihnen mit Ihrer Erstattung weiter.
+    without_refunds:
+      button: Rechnung anfordern
+      call_to_action: Weiter zur Erstattung
+      title: 'Ihre Rechnung:'
+  date:
+    abbr_day_names:
+    - So
+    - Mo
+    - Di
+    - Mi
+    - Do
+    - Fr
+    - Sa
+    abbr_month_names:
+    - 
+    - Jan
+    - Feb
+    - Mär
+    - Apr
+    - Mai
+    - Jun
+    - Jul
+    - Aug
+    - Sep
+    - Okt
+    - Nov
+    - Dez
+    day_names:
+    - Sonntag
+    - Montag
+    - Dienstag
+    - Mittwoch
+    - Donnerstag
+    - Freitag
+    - Samstag
+    formats:
+      custom: "%{month} %{day}"
+      default: "%Y-%m-%d"
+      long: "%B %d, %Y"
+      short: "%B %d"
+    month_names:
+    - 
+    - Januar
+    - Februar
+    - März
+    - April
+    - Mai
+    - Juni
+    - Juli
+    - August
+    - September
+    - Oktober
+    - November
+    - Dezember
+    order:
+    - :day
+    - :month
+    - :year
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: etwa eine Stunde
+        other: etwa %{count} Stunden
+      about_x_months:
+        one: etwa ein Monat
+        other: etwa %{count} Monate
+      about_x_years:
+        one: etwa ein Jahr
+        other: etwa %{count} Jahre
+      almost_x_years:
+        one: fast ein Jahr
+        other: fast %{count} Jahre
+      half_a_minute: eine halbe Minute
+      less_than_x_minutes:
+        one: weniger als eine Minute
+        other: weniger als %{count} Minuten
+      less_than_x_seconds:
+        one: weniger als eine Sekunde
+        other: weniger als %{count} Sekunden
+      over_x_years:
+        one: mehr als ein Jahr
+        other: mehr als %{count} Jahre
+      x_days:
+        one: ein Tag
+        other: "%{count} Tage"
+      x_minutes:
+        one: eine Minute
+        other: "%{count} Minuten"
+      x_months:
+        one: ein Monat
+        other: "%{count} Monate"
+      x_seconds:
+        one: eine Sekunde
+        other: "%{count} Sekunden"
+    prompts:
+      day: Tag
+      hour: Stunden
+      minute: Minute
+      month: Monat
+      second: Sekunde
+      year: Jahr
+  edit_refund:
+    button: Speichern
+    call_to_action: Geben Sie Ihre Bankverbindung ein!
+    description: Sie können die Bankverbindung für Ihre Forderung bearbeiten.
+    placeholders:
+      bank_account: ES00 0000 0000 0000 0000 0000
+      swift: 0000 0000
+    swift: BIC/SWIFT (Falls sich das Konto außerhalb Deutschlands befindet)
+    title: Anforderung der Erstattung
+  email:
+    admin:
+      reset_password:
+        greet: Hallo, %{email}!
+        mail_body: Es wurde ein Link zur Änderung Ihres Passwortes angefordert. Mit nachfolgendem Link kann dies durchgeführt werden.
+        mail_ignore: Wenn Sie dies nicht beantragt haben, ignorieren Sie bitte diese Email. Ihr Passwort wird nicht geändert, es sei denn, Sie nutzen den obigen Link und erstellen ein neues Passwort.
+        mail_link: Mein Passwort ändern
+    customer:
+      agreement:
+        accepted:
+          greet: Hello %{name}!
+          mail_body: You have accepted the PayPal Agreement so you can now do auto-topups!
+          subject: Paypal Agreement Accepted
+          title: Paypal Agreement Accepted
+      claim:
+        available_claim:
+          greet: Hallo, %{name}!
+          mail_body: " Sie können Ihr Guthaben jetzt erstattet bekommen, wenn Sie dem nachfolgenden Link folgen."
+          mail_link: Loggen Sie sich jetzt ein um Ihre Rechnung zu sehen und Ihre Erstattung zu beantragen.
+          subject: Sie können Ihr Guthaben jetzt erstattet bekommen!
+          title: Sie können Ihr Guthaben jetzt erstattet bekommen!
+        completed:
+          date: Datum der Transaktion
+          description: Ihr Guthaben wurde angewiesen. In 1-4 Tagen erhalten Sie die Zahlung auf Ihrem Bankkonto gutgeschrieben.
+          greet: Hallo, %{name}!
+          order_number: Nummer der Erstattung
+          subject: Erstattung abgeschlossen
+          success: 'Hier finden Sie die Einzelheiten zu Ihrer Erstattung:'
+          thanks: 'Danke für die Beantragung der Erstattung! '
+          title: Benachrichtigung über die Erstattung
+      communication: Dies ist eine automatisierte Kommunikation der Veranstaltung %{event_name}
+      confirmation:
+        greet: Hallo, %{name}!
+        mail_body: Mit nachfolgendem Link können Sie die Emailadresse für Ihr Konto bestätigen.
+        mail_link: Konto bestätigen
+        title: Passwort bestätigen
+      follow_on_twitter: Folgen Sie uns auf Twitter
+      footer_copy: Copyright Glownet © %{year} Alle Rechte vorbehalten.
+      footer_glownet: 'We are happy to assist you with the use of event portal if you message us at '
+      footer_organizer: 'Have a question for the event organiser? Contact them directly at '
+      gtag:
+        assigned:
+          greet: Hallo, %{name}!
+          mail_body: 'Ihnen wurde ein %{gtag} mit folgender ID zugewiesen:'
+          subject: "%{gtag} zugewiesen"
+          title: "%{gtag} zugewiesen"
+        unassigned:
+          greet: Hallo, %{name}!
+          mail_body: 'Sie haben ein %{gtag} mit folgender ID gelöscht:'
+          mail_link: Auf der Website überprüfen
+          subject: "%{gtag} gelöscht"
+          title: "%{gtag} gelöscht"
+      like_on_facebook: Gefällt mir auf Facebook
+      order:
+        completed:
+          date: Bestelldatum
+          description: Alle Ihre gekauften Online-Guthaben werden automatisch auf Ihr %{gtag} übertragen, sobald Sie die Veranstaltung betreten. Ihr Veranstaltungs %{gtag} ermöglicht Ihnen auf einfache und schnelle Art, für Ihre Speisen, Getränke und sonstigen Käufe zu bezahlen. Es ist die einzige Zahlungsmöglichkeit, die die Händler auf der Veranstaltung akzeptieren.
+          greet: Hallo, %{name}!
+          order_number: Ihre Bestellung
+          subject: "‚Bestellung abgeschlossen’"
+          success: Ihre Bestellung wurde entgegengenommen. Details finden Sie nachfolgend.
+          thanks: Danke für Ihren Einkauf.
+          title: Benachrichtigung über eine Bestellung
+      our_company: Erfahren Sie mehr über Glownet
+      reset_password:
+        greet: Hallo, %{name}!
+        mail_body: Wir haben einen Antrag auf Änderung des Passwortes erhalten. Um dies durchzuführen, auf den folgenden Link klicken.
+        mail_link: Mein Passwort ändern
+        title: Passwort zurücksetzen
+      suscribe_on_you_tube: In YouTube abonnieren
+  errors:
+    event_alerts:
+      catalog_items: There are company ticket types without any catalog items associated
+      company_codes: There are company ticket types without company code
+      refunds: Refunds are enabled but there is no refunds service selected
+      topups: Topups are enabled but there is no payments service selected
+    format: "%{attribute} %{message}"
+    main:
+      error_400: Fehlerhafte Anfrage
+      error_404: Pfad nicht gefunden
+      error_500: Interner Serverfehler
+    messages:
+      accepted: muss akzeptiert werden
+      blank: muss ausgefüllt werden
+      catalog_item_dependent: Bestandteil kann nicht gelöscht werden, ist Teil eines Paketes or Station
+      confirmation: stimmt nicht mit %{attribute} überein
+      empty: muss ausgefüllt werden
+      end_date_after_start_date: must be after start date
+      equal_to: muss genau %{count} sein
+      even: muss gerade sein
+      exclusion: ist nicht verfügbar
+      expired: ist abgelaufen, bitte neu beantragen
+      greater_than: muss größer als %{count} sein
+      greater_than_maximum: The minimum purchasable can't be greater than maximum purchasable
+      greater_than_or_equal_to: muss größer oder gleich %{count} sein
+      inclusion: ist keinen gültiger Wert
+      invalid: ist nicht gültig
+      invalid_max_value_for_infinite: Der Maximum-Wert muss 1 oder 0 sein, wenn unendlich gewählt wurde
+      invalid_min_value_for_infinite: 'Der Minimum-Wert muss 1 oder 0 sein, wenn unendlich gewählt wurde '
+      less_than: muss kleiner als %{count} sein
+      less_than_or_equal_to: muss kleiner oder gleich %{count} sein
+      max_credits_reached: Du hast das maximale Guthaben erreicht
+      max_entitlements_reached: You reached the maximun allowed entitlements
+      max_standard_credits: Nur ein Standardguthaben pro Veranstaltung
+      model_invalid: 'Überprüfung fehlgeschlagen: %{errors}'
+      more_credits_than_max_balance: can't be greater than maximum gtag balance
+      not_a_number: ist keinene Zahl
+      not_an_integer: muss ganzzahlig sein
+      not_belong_to_event: gehört nicht zu dieser Veranstaltung
+      not_enough_space_for_credential: Nicht genug Platz in gtag für diese Anmeldung
+      not_enough_space_for_credential_configuration: Nicht genug Platz in gtag für die bestehende Anmeldungskonfiguration
+      not_enough_space_for_entitlement: Nicht genug Platz in gtag für diese Berechtigung
+      not_enough_space_for_entitlement_configuration: Nicht genug Platz in gtag für die bestehende Berechtigungskonfiguration
+      not_found: nicht gefunden
+      not_locked: war nicht gesperrt
+      not_saved:
+        one: '1 Error hat verhindert, dass diese %{resource} gespeichert werden konnte:'
+        other: "%{count} Error haben verhindert, dass diese %{resource} gespeichert werden konnte:"
+      odd: muss ungerade sein
+      only_hex: only allows hexadecimal values
+      other_than: darf nicht gleich %{count} sein
+      present: darf nicht ausgefüllt werden
+      product_already_added: already added to this station
+      required: muss ausgefüllt werden
+      station_dependent: Bestandteil kann nicht gelöscht werden, ist Teil eines Station
+      station_has_associations: Station has been used and can't be deleted.
+      taken: ist bereits vergeben
+      ticket_type_dependent: Löschen des Unternehmens nicht möglich, es sind Ticketarten angeschlossen
+      ticket_type_has_tickets: there are tickets using this ticket type
+      too_long:
+        one: ist zu lang (mehr als 1 Zeichen)
+        other: ist zu lang (mehr als %{count} Zeichen)
+      too_short:
+        one: ist zu kurz (weniger als 1 Zeichen)
+        other: ist zu kurz (weniger als %{count} Zeichen)
+      topup_credit_count: Sie können in dem Topup höchstens 6 Buttons haben
+      topup_credit_id: Sie können bei jedem Topup nur 1 Kredittyp haben
+      unauthorized: Ungültiger Berechtigungsnachweis
+      wrong_length:
+        one: hat die falsche Länge (muss genau 1 Zeichen haben)
+        other: hat die falsche Länge (muss genau %{count} Zeichen haben)
+    template:
+      body: 'Bitte überprüfen Sie die folgenden Felder:'
+      header:
+        one: 'Konnte %{model} nicht speichern: ein Fehler.'
+        other: 'Konnte %{model} nicht speichern: %{count} Fehler.'
+  event:
+    locales:
+      de: GER
+      en: ENG
+      es: ESP
+      it: ITA
+      pt: PT
+      th: THA
+    subject_support: Hilfe benötigt für %{event}
+  events:
+    create:
+      error: Event couldn't be created, check the errors below
+  footer:
+    copyright: "© Copyright Glownet"
+    privacy: Datenschutzbestimmungen
+    support: Support
+    use: Nutzungsbedingungen
+  gtag_assignations:
+    back: Zurück
+    button: Akzeptieren
+    call_to_action: " %{gtag} anmelden und los!"
+    description:
+      card: Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}
+      simple: Assign the yellow highlighted numbers as appears in your %{gtag}
+      standard: Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}
+    info:
+      line_1: Nur Zahlen von "0" bis "9"
+      line_2: 'Symbole möglich: "0" - "9" und "A, B, C, D, E, F"'
+    placeholders:
+      card:
+        line_1: 'Zeile 1 z.B.: 12345'
+        line_2: 'Zeile 2 z.B.: BA6D7DC0'
+      simple:
+        line_1: ''
+        line_2: 'ID Nummer z.B.: BA6D7DC0'
+      standard:
+        line_1: 'Zeile 1 z.B.: 12345'
+        line_2: 'Zeile 2 z.B.: BA6D7DC0'
+    title: Anmelden %{gtag}
+  header:
+    close: Logout
+    edit: Profil bearbeiten
+    help: Hilfe
+    home: Veranstaltungswebsite
+    menu: Home
+  helpers:
+    select:
+      prompt: Bitte wählen
+    submit:
+      create: "%{model} erstellen"
+      submit: "%{model} speichern"
+      update: "%{model} aktualisieren"
+  links:
+    buttons:
+      back: Zurück zu Home
+      join: Beitreten
+      sign_in: Login
+      sign_up: Konto erstellen
+    forgot: Passwort vergessen?
+    resend_confirmation: Sie haben keinen Email-Bestätigung erhalten?
+    sign_in: Haben Sie ein Konto?
+    sign_up: Noch nicht registriert?
+  number:
+    currency:
+      format:
+        delimiter: "."
+        format: "%n %u"
+        precision: 2
+        separator: ","
+        significant: false
+        strip_insignificant_zeros: false
+        unit: "€"
+    format:
+      delimiter: "."
+      precision: 2
+      separator: ","
+      significant: false
+      strip_insignificant_zeros: false
+    human:
+      decimal_units:
+        format: "%n %u"
+        units:
+          billion:
+            one: Milliarde
+            other: Milliarden
+          million: Millionen
+          quadrillion:
+            one: Billiarde
+            other: Billiarden
+          thousand: Tausend
+          trillion: Billionen
+          unit: ''
+      format:
+        delimiter: ''
+        precision: 3
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: Byte
+            other: Bytes
+          gb: GB
+          kb: KB
+          mb: MB
+          tb: TB
+    percentage:
+      format:
+        delimiter: ''
+        format: "%n %"
+    precision:
+      format:
+        delimiter: ''
+  orders:
+    amount: Betrag
+    braintree:
+      button: Bezahlen
+      card_code_verification: Kartenprüfnummer (CCV)
+      card_expiration_month: Ablaufmonat der Karte
+      card_expiration_year: Ablaufjahr der Karte
+      card_number: Kartennummer
+    button: Bezahlen
+    button_iupay: IUPAY
+    card_info: Karteninformation
+    description: Bitte überprüfen Sie Ihre Bestellung und veranlassen Sie die Bezahlung.
+    order_review: Überprüfung der Bestellung
+    payment: Zahlungsmethode
+    payment-buttons:
+      braintree:
+        icon: Credit Card
+        name: Kreditkarte
+      paypal:
+        icon: paypal
+        name: PayPal
+      redsys:
+        icon: Credit Card
+        name: Kreditkarte
+      stripe:
+        icon: Credit Card
+        name: Kreditkarte
+    paypal:
+      charge: Verification charge
+      sync_copy: Paypal Experience
+      sync_description: In order to validate your PayPal account, you will be charged 0.01€ which will be refunded automatically.
+      sync_final_description: Select the amount you'd like to be automatically topped up every time you run out of credits at the event. This amount WILL NOT BE CHARGED to your account.
+      sync_title: Mit Paypal synchronisieren, um die Zahlung durchzuführen
+      with_agreement_subtitle: Sie können direkte Zahlungen durchführen
+      with_agreement_title: Bereits mit PayPal synchronisiert
+    price: Preis
+    products: Produkte
+    redirect: Du wirst zum Zahlungsgateway der Bank weitergeleitet.
+    stripe:
+      button: Bezahlen
+      card_code_verification: Kartenprüfnummer (CCV)
+      card_expiration_date: Ablaufdatum der Karte
+      card_number: Kartennummer
+    title: " Top-up bestätigen"
+    total: Summe
+    vat: inklusive MwSt
+    wirecard:
+      button: Bezahlen
+      card_code_verification: Kartenprüfnummer (CCV)
+      card_expiration_date: Ablaufdatum der Karte
+      card_holder: Card Holder
+      card_number: Kartennummer
+  passwords:
+    edit:
+      button: Mein Passwort ändern
+      header: Neues Passwort
+      password: 'Neues Passwort '
+      password_confirmation: Neues Passwort bestätigen
+      title: Passwort ändern
+    new:
+      button: Bitte lass mir die Passwort-Instruktionen zukommen
+      title: Passwort vergessen?
+  payment:
+    error:
+      call_to_action: 'Bitte kontaktieren Sie uns:'
+      title: Transaktion fehlgeschlagen
+    success:
+      description: Danke für Ihre Bestellung. Deine Zahlung wurde erfolgreich durchgeführt. Du erhältst eine Bestätigungsemail zu Deiner Bestellung
+      title: Zahlung durchgeführt
+  pdf:
+    actions:
+      refund: Refund
+      sale: Sale
+      topup: Topup
+    amount: Amount
+    date: Date
+    pdf_title: Transaction history
+    station: Station
+    type: Type
+  privacy_policy:
+    main_title: GLOWNET - DATENSCHUTZRICHTLINIEN
+    ph_0:
+      line_0_1: Vielen Dank für Ihr Interesse an unserer Handhabung Ihrer Daten.
+      line_0_10: Das bargeldlose Aufladen von Guthaben über das Internet erfolgt über einen Dritten Zahlungsservice-Provider. Diese gewährleistet Datensicherheit nach dem PCI DSS Industrie-Standards ("Payment Card Industry Data Security Standard"). Nähere Hinweise finden Sie unter www.wirecard.com/privacy-protection/.
+      line_0_11: Das Aufladen von Guthaben auf der Veranstaltung erfolgt über den Veranstalter Helene Beach via Bargeld oder EC-karte.
+      line_0_12: Die bargeldlose Bezahlung auf der Veranstaltung erfolgt über die von uns zur Verfügung gestellte Technologie auf Rechnung des Veranstalters. Der Veranstalter erfasst, speichert und verarbeitet die für die Bezahlung notwendigen Daten (Name, Anschrift, Guthaben etc.). Sofern dies über unsere technischen Systeme erfolgt handeln wir im Auftrag des Veranstalters (Auftragsdatenverarbeitung - § 11 BDSG).
+      line_0_2: Es ist zu jeder Zeit das Ziel der Glownet Limited, registriert unter der Nummer 08245670 und der Adresse Unit 2, 9 Dennington Park Rd, London, NW6 1BB, UK (wir, uns oder unser/e), Ihre Privatsphäre zu schützen. Wir sind ein Technologieservice-Provider, der Lösungen für bargeldlose Zahlungssysteme für Live-Veranstaltungen und Festivals über RFID Technologie anbietet. Wir verstehen uns als Experte im Bereich IT-Sicherheit. Daher hat der Schutz Ihrer persönlichen Daten für uns höchste Priorität.
+      line_0_3: Im Rahmen dieser Datenschutzrichtlinien möchten wir Ihnen mehr Informationen über die Art und Weise zur Verfügung stellen, in der wir bei Ihrem Besuch unserer Webseite und/oder der Verwendung unserer Produkte und Dienstleistungen, Daten erfassen, speichern, verwenden und übermitteln oder weitergeben. Darüber hinaus werden wir auch erläutern, wie wir personenbezogene Daten, Cookies (siehe hierzu die detaillierte Erläuterung und Definition unten) und Analysetools auf unserer Webseite und im Zusammenhang mit unseren Produkten und Dienstleistungen verwenden. Wir geben Ihre Daten (dazu zählen auch personenbezogene Daten) nicht an Dritte weiter, wenn dies nicht auf eine Art und Weise geschieht, die diesen Datenschutzrichtlinien oder Datenschutzgesetzen entspricht (unter Umständen müssen Sie dazu Ihre ausdrückliche Zustimmung erteilen).
+      line_0_4: EINVERSTÄNDNISERKLÄRUNG
+      line_0_5: DURCH DIE PRÜFUNG UND ANNAHME DIESER DATENSCHUTZRICHTLINIEN UND DURCH DIE VERWENDUNG UNSERER PRODUKTE UND DIENSTLEISTUNGEN ERKLÄREN SIE SICH AUSDRÜCKLICH DAMIT EINVERSTANDEN, DASS WIR GEMÄSS DIESEN DATENSCHUTZRICHTLINIEN UNTER BEACHTUNG DER GRUNDSÄTZE DER DATENSPARSAMKEIT UND DER DATENVERMEIDUNG PERSONENBEZOGEN DATEN VON IHNEN ERHEBEN, NUTZEN, VERARBEITEN UND GEGEBENEN FALLS AN DRITTE ÜBERMITTELN BZW. WEITERLEITEN.
+      line_0_6: EINE ERHEBUNG, NUTZUNG, VERARBEITUNG, ÜBERMITTLUNG ODER WEITERLEITUNG PERSONENBEZOGENER DATEN AUSSERHALB DIESER DATENSCHUTZRICHTLINIEN FINDET NICHT STATT.
+      line_0_7: Ihre personenbezogenen Daten benötigen wir zur Angebots-, Vertrags- und Leistungsabwicklung. Darüber hinaus verwenden wir Ihre Daten zur Durchführung einer bargeldlosen Zahlung, zur Überprüfung unserer Leistungspflicht und zu Ihrer Beratung und Information.
+      line_0_8: Mit unserem Dienst können Sie bargeldlos auf  Veranstaltungen bezahlen. Dafür werden an uns von Ihnen übermittelten, persönlichen Daten (Name, Adresse, E-Mail, Guthaben) auf dem Bezahlarmband mit RFID Technologie gespeichert. Gegebenenfalls werden bestimmte Daten über Ihren Computer, Ihr Smartphone oder Ihren Tablet-PC (nachfolgend „Gerät“ bzw. “Geräte”) und deren Zusammenspiel mit anderen Geräten erhoben, gespeichert und verwendet (nachfolgend “Datennutzung”). Wenn Sie sich nach erfolgter Registrierung und Aktivierung Ihres Profils mit der dort hinterlegten E-Mailadresse an Event teilnehmen, wird Ihr Profil diesem Event zugeordnet, um Daten betreffend Ihres Guthabens und der Bezahlung auszutauschen, die für die Bereitstellung der Services dort erforderlich sind. Nach Bestätigung durch Sie werden Ihre aktuellen Daten (Name, E-Mail-/Kontaktadresse, Telefonnummer, Liste der Identifizierungs-Chips (RFID), Guthaben) aus dem Armband in ihr Profil übernommen, damit sie die jeweiligen Funktionen nutzen können.
+      line_0_9: Die Datennutzung betrifft unter anderem die Identifikationsnummer, die IP-Adresse, den Standort, Inhalte, Spracheinstellungen, die IMEI-Nummer, die Marke, das Modell, den Batteriestand, das Hardwaremodell, die Betriebssystemversion, die SIM-Nummer, den Netzwerkanbieter, den Arbeitsspeicherstatus und geografische Informationen auf Grundlage der GPS/Wi-Fi-Netzwerkposition Ihres Geräts bzw. Ihrer Geräte. Zusätzlich erheben wir auch Kontaktinformationen, die unter anderem Ihren Namen, Ihre Adresse, Ihre Telefonnummer, Ihre E-Mail-Adresse, Ihre Bankdaten für den Lastschrifteinzug (SEPA), Kreditkarteninformationen und andere Informationen einschließen, die zu Ihrer Identifizierung verwendet werden können.
+    ph_1:
+      line_1_1: '1.1 Diese Datenschutzrichtlinien stellen die Basis dar, auf der wir die personenbezogenen Daten verwenden, die wir von Ihnen erhalten, wenn Sie unsere Website '
+      line_1_1_bis: " nutzen.  Bitte lesen Sie die folgenden Datenschutzrichtlinien sorgfältig durch, damit Sie wissen, wie wir Ihre uns gegenüber gemachten personenbezogenen Angaben verwenden und schützen."
+      line_1_2: 1.2 Wenn Sie auf unserer Site surfen, stimmen Sie der Verwendung Ihrer personenbezogenen Daten in Übereinstimmung mit diesen Datenschutzrichtlinien zu.
+      title: 1. Einleitung
+    ph_10:
+      line_10_1: '10.1 Wir behalten uns vor, von Zeit zu Zeit Änderungen in diesen Datenschutzrichtlinien vorzunehmen. Derartige Änderungen werden von uns auf unserer Site veröffentlicht, bzw. wenn es uns angemessen erscheint, informieren wir Sie über die Änderungen per Email. '
+      title: 10. Änderungen unserer Datenschutzrichtlinien
+    ph_11:
+      line_11_1: 11.1 Wir verwenden Google Analytics, einen Webanalysedienst der Google Inc. (nachfolgend „Google“). Durch Google Analytics wird eine Analyse der Nutzung unserer Webseite ermöglicht, indem Cookies und Zählpixel eingesetzt werden. Die durch Cookies erzeugten Informationen über Ihre Benutzung unserer Webseite werden in der Regel an einen Server von Google in den USA übertragen und dort gespeichert. Die IP-Adressen von Nutzern unserer Webseite, die sich innerhalb der Mitgliedstaaten der Europäischen Union oder in einem anderen Vertragsstaat des Abkommens über den Europäischen Wirtschaftsraum befinden, werden vor der Übertragung in die USA von Google allerdings gekürzt und damit anonymisiert (anonymized IP-Verfahren von Google). Nur in Ausnahmefällen wird die volle IP-Adresse an einen Server von Google in den USA übertragen und erst dort gekürzt. Durch die Anonymisierung wird sichergestellt, dass Ihre IP-Adresse nicht zu Ihnen zurückverfolgt werden kann. Google verwendet diese Informationen, um Ihre Nutzung der Webseite auszuwerten, um Reports über die Webseitenaktivitäten für COCUS zusammenzustellen und um weitere, mit der Webseitennutzung und der Internetnutzung verbundene Dienstleistungen zu erbringen. Google kann diese Informationen gegebenenfalls an Dritte weitergeben, sofern dies gesetzlich erlaubt ist, oder soweit Dritte diese Daten im Auftrag von Google verarbeiten. Google wird Ihre IP-Adresse nicht mit anderen Daten von Google in Verbindung bringen. Durch die Nutzung unserer Webseite erklären Sie sich ausdrücklich mit der Verwendung von Google Analytics und der Erfassung und Speicherung der über Sie erhobenen Daten durch Google in der zuvor beschriebenen Art und Weise und zu dem zuvor benannten Zweck einverstanden.
+      line_11_2: 11.2 Sie haben weiterhin die Möglichkeit, die Erfassung der durch Cookies erzeugten und auf Ihre Nutzung der Webseite bezogenen Daten (inkl. Ihrer IP-Adresse) an Google und die Verarbeitung dieser Daten durch Google zu verhindern, indem Sie ein von Google zur Verfügung gestelltes Browser-Plugin herunterladen und installieren.
+      line_11_3: '11.3 Im Übrigen finden die Datenschutzrichtlinien von Google Inc., die hier abrufbar sind: www.google.de/intl/de/policies/privacy/ Sie können dieser Analyse auf folgender Internetseite widersprechen:  https://tools.google.com/dlpage/gaoptout?hl=de'
+      title: 11. Google Analytics
+    ph_2:
+      line_2_1: 2.1 Glownet Limited ist der Datenverantwortliche im Hinblick auf sämtliche personenbezogenen Daten, die Sie uns gegenüber abgeben oder die wir erfassen, wenn Sie unsere Site nutzen. Wir sind ein in England registriertes Unternehmen, eingetragen unter der Registernummer 08245670 mit registriertem Firmensitz mit der Adresse Unit 2, 9 Dennington Park Rd, London, NW6 1BB, UK. Für weitere Informationen über uns besuchen Sie bitte unsere Site.
+      line_2_2: '2.2 Wenn Sie wissen möchten, welche Informationen wir über Sie erfasst und gespeichert haben, oder wenn Sie Fragen oder Beschwerden im Zusammenhang mit diesen Datenschutzrichtlinien oder mit unserer Site haben, erreichen Sie uns über folgende Kontaktdetails:'
+      line_2_2_1: 'Address: 35B Wroughton Road, London, SW11 6BE.'
+      line_2_2_2: 'Wenn Sie Hilfe benötigen dieses Event Portal mit der Verwendung , mailen Sie bitte an '
+      title: 2. Kontaktaufnahme mit uns
+    ph_3:
+      line_3_1: 3.1 Wir erfassen sämtliche Informationen, die Sie uns zur Verfügung stellen, wenn Sie uns via Email oder über unsere Site kontaktieren. Diese Informationen können Ihren Namen, E-Mail-Adresse, Passwort, Bankdetails und Identifikationsnummern von Armband- oder Festivalkarten umfassen, die verwendet werden, wenn wir Ihnen unsere Leistungen zur Verfügung stellen – inklusive der Bereitstellung eines Zugangs für die Gelderstattung von einem Zahlungsservice-Provider an Sie, der Kontaktaufnahme mit Ihnen zur weiteren Information über unsere Leistungen oder eine Verbesserung unserer Site, sowie weiteres Feedback, das auf der/den Site/s von Glownet eingeführt wird.
+      line_3_2: 3.2 Wir erfassen sämtliche in der Korrespondenz zwischen Ihnen und uns enthaltenen Informationen. Zum Beispiel dürfen wir die Aufzeichnung der Korrespondenz mit Ihnen behalten, wenn Sie uns kontaktiert haben. Wir sind auch berechtigt, Sie nach Informationen fragen, wenn Sie uns von einem Problem mit unserer Site berichten.
+      line_3_3: 3.3 Wir sind berechtigt, bestimmte Informationen über Ihre Besuche auf unserer Site zu erfassen, sowie darüber, wie Sie diese verwenden. Dies kann Ihren geografischen Standort, Ihre IP-Adresse, Geräteinformationen, Browsertyp, Verweisquelle, Dauer eines Besuches und Anzahl der Seitenaufrufe umfassen. Wir sind berechtigt, derartige Informationen für verschiedene Zwecke zu nutzen – inklusive der Verwaltung der Site, der Optimierung ihrer Nutzung und Performance, der Weitergabe an dritte Parteien oder zu Sicherheitszwecken. Individuelle Nutzer können aus diesen Informationen nicht identifiziert werden – mit Ausnahme des Anschlussinhabers, der in bestimmten Fällen anhand der IP-Adresse bei Offenlegung durch den Internet-Service-provider ermittelt werden kann. Diese Daten dürfen von einer dritten Partei, dem Siteanalysen-Serviceprovider in unserem Namen erfasst werden, auch unter Verwendung von Cookies.
+      title: 3. Informationen, die wir auf der Site über Sie erfassen
+    ph_4:
+      line_4_1: '4.1 Je nach Anwendbarkeit verwenden wir die von Ihnen erfassten personenbezogenen Daten ausschließlich in Übereinstimmung mit diesen Datenschutzrichtlinien und unseren Site- Nutzungsbedingungen '
+      line_4_1_bis: " as applicable to you."
+      line_4_2: '4.2 Zusätzlich zu der unter Ziffer 3. ausgeführten spezifischen Nutzung, dürfen wir Ihre Angaben für folgende Zwecke nutzen:'
+      line_4_2_1: um sicherzustellen, dass die Inhalte unserer Site so effizient wie möglich präsentiert werden;
+      line_4_2_2: um Ihnen allgemeine kommerzielle Kommunikation (nicht werblich) zuzusenden, wie zum Beispiel Informationen über die Site und die Leistungen, die wir Ihnen zu dem Zeitpunkt zur Verfügung stellen;
+      line_4_2_3: um Ihnen in Verbindung mit Ihrer Nutzung der Site einen Kundenservice zur Verfügung zu stellen, um Sie zu kontaktieren, Fragen und Beschwerden im Zusammenhang mit der Nutzung der Site zu bearbeiten und um Sie über Änderungen unserer Leistungen zu informieren;
+      line_4_2_4: um die Site weiter zu entwickeln und zu verbessern und somit das Surfen für Sie zu erleichtern und Ihr Surf- und Betrachtungserlebnis zu verbessern;
+      line_4_2_5: um dritten Parteien statistische, anonymisierte Informationen über unsere Nutzer zur Verfügung zu stellen, wobei aus diesen Informationen – mit Ausnahme des in Ziffer 3.3. geregelten Falles – kein individueller Nutzer identifiziert werden kann;
+      line_4_2_6: zu Sicherheitszwecken.
+      title: 4. Verwendung Ihrer Informationen
+    ph_5:
+      line_5_1: 5.1 Soweit dies nicht ausdrücklich in diesen Datenschutzrichtlinien formuliert ist oder anderweitig gesetzlich vorausgesetzt oder erlaubt wird, werden wir keine Ihrer uns zur Verfügung gestellten Informationen ohne Ihre Zustimmung teilen, verkaufen oder weitergeben.
+      line_5_2: '5.2 Wir dürfen Ihre personenbezogenen Daten preisgeben:'
+      line_5_2_1: an alle Tochterunternehmen oder dritte Parteien, wenn dies für die Erbringung einer von Ihnen über die Site bestellten Leistung, für die von Ihnen über die Site bestellte Lieferung eines Produktes oder für die Abrechnung eines über die Site abgeschlossenen Vertragsverhältnisses nötig ist; solche Leistungen oder Produkte dürfen von diesen Tochterunternehmen oder dritten Parteien zur Verfügung gestellt werden;
+      line_5_2_2: an den jeweiligen Veranstalter oder Zahlungsdiensteanbieter mit Bezug auf sämtliche Erstattungsanforderungen, die Sie über die Site tätigen;
+      line_5_2_3: wenn wir unser Unternehmen, eine Tochtergesellschaft oder Geschäftszweig oder unsere wesentliche Vermögenswerte verkaufen oder kaufen, und wir in diesem Fall Ihre personenbezogenen Daten an den vorgesehenen Verkäufer oder Käufer des Unternehmens oder Geschäftszweigs oder der wesentlichen Vermögenswerte weitergeben;
+      line_5_2_4: wenn wir oder im Wesentlichen alle unsere Vermögenswerte von einer dritten Partei aufgekauft werden, da in diesem Fall alle uns anvertrauten personenbezogenen Daten über unsere Kunden einen Teil der übertragenen Vermögenswerte darstellen; und
+      line_5_2_5: an jedwede Person, wenn die Preisgabe nötig ist, um unsere Rechte durchsetzen oder schützen können oder um die Rechte, das Eigentum oder die Sicherheit unserer Mitarbeiter zu schützen oder in solchen Fällen, in denen eine Preisgabe rechtlich gestattet oder erforderlich ist (ohne Beschränkung auf ein Gericht, eine Regulierungsbehörde oder eine andere zuständige Autorität).
+      title: 5. Preisgabe Ihrer Informationen
+    ph_6:
+      line_6_1: 6.1 Unsere Site darf Inhalte von und Links zu anderen Websites und Microsites enthalten, die von Dritten betrieben werden. Zudem dürfen Werbeanzeigen auf unserer Site als Link zur Website des Werbetreibenden angelegt sein, wobei solche Werbetreibende und dritte Parteien auch Cookies auf Ihren Computer verwenden und platzieren dürfen.
+      line_6_2: 6.2 Solche Websites, Werbeanzeigen und Cookies von dritten Parteien werden von uns nicht  kontrolliert, unsere Datenschutzrichtlinien gelten nicht als bindend für diese dritten Parteien. Sämtliche Informationen, die solchen dritten Parteien zugänglich werden, nachdem Sie deren Link auf unserer Seite angeklickt haben, werden dann in Übereinstimmung mit den Datenschutzrichtlinien der betreffenden dritten Partei erfasst und genutzt. Aus diesem Grund bitten wir Sie, sich über die Geschäftsbedingungen und Datenschutzrichtlinien für die Websites und Microsites der betreffenden dritten Partei zu informieren, um zu erfahren, wie diese Ihre personenbezogenen Daten sammelt und verwendet und ob bzw. zu welchem Zweck die dritte Partei Cookies verwendet.
+      title: 6. Inhalt, Websites von Dritten und Mitwirkenden
+    ph_7:
+      line_7_1: 7.1 Wir treffen geeignete technische und operative Sicherheitsvorkehrungen, um jeglichen unautorisierten Zugriff auf oder jegliche ungesetzliche Verarbeitung von Ihren uns vorliegenden personenbezogenen Daten zu verhindern. Wir speichern Ihre Informationen so lange dies für die Erbringung unserer Leistungen an Sie nötig ist oder so lange es vernunftmäßig sinnvoll ist oder so lange es das Gesetz anderweitig erlaubt.
+      line_7_2: 7.2 Datenübertragung via Internet ist in sich unsicher, und obwohl wir geeignete technische und operative Sicherheitsvorkehrungen treffen, um Ihre Daten vor jeglichem unautorisierten Zugriff zu schützen, können wir die Sicherheit von über das Internet übertragenen Daten nicht garantieren.
+      title: 7. Sicherheitsvorkehrungen und Datenspeicherung
+    ph_8:
+      line_8_1: 8.1 Wir sind berechtigt, Ihre von uns erfassten Daten nach Irland zu übertragen und in Irland zu speichern. Zudem darf einer unserer Service Provider als dritte Partei in unserem Auftrag die Datenübertragung durchführen. Derartige Unternehmen dürfen ihren Firmensitz oder das von Ihnen verwendete IT-Equipment außerhalb des Europäischen Wirtschaftsraumes oder außerhalb des Landes, in dem Ihre Daten erfasst wurden, haben, soweit dort ein angemessenes Datenschutzniveau gewährleistet wird. Wenn dies der Fall ist, ergreifen wir Maßnahmen, um sicherzustellen, dass Ihre personenbezogenen Daten in entsprechendem Maße geschützt werden.
+      line_8_2: 8.2 Unser Hauptsitz liegt im Vereinigten Königreich. Ihre personenbezogenen Daten dürfen im Vereinigten Königreich und anderen Ländern des Europäischen Wirtschaftsraumes (EWR) sowie Ländern mit einem angemessenen Schutzniveau im Sinne der Datenschutzrichtlinie 2002/56/EG verarbeitet werden, wo Ihre Daten Gegenstand von Zugriffsanfragen seitens der Regierungsbehörden, der Gerichte oder Behörden der Rechtsdurchsetzung werden können.
+      line_8_3: 8.3 Durch Angabe Ihrer personenbezogenen Daten und Akzeptieren dieser Datenschutzbestimmungen stimmen Sie dieser Art von Datentransfer, -speicherung und -verarbeitung zu.
+      title: 8. Internationale Datenübertragung
+    ph_9:
+      line_9_1: 9.1 Sie haben das Recht zu erfahren, welche personenbezogenen Daten wir von Ihnen erfasst haben und Sie haben das Recht auf Änderung der Informationen durch uns, um sicherzustellen, dass die Daten korrekt und aktuell sind. In bestimmten gesetzlichen Fällen haben Sie auch das Recht, zu verlangen, dass wir bestimmte Informationen über Sie sperren oder löschen.
+      line_9_2: 9.2 Bei Fragen zu oder in Zusammenhang mit den personenbezogenen Daten, die wir über Sie haben, kontaktieren Sie uns bitte über die unter Nummer 2. genannten Kontaktdaten. Sofern wir aufgrund von geltendem Gesetz das Recht haben, eine kostendeckende Gebühr für die Bereitstellung von Ihrerseits angefragten Details über Ihre personenbezogenen Daten bei uns zu berechnen, werden wir Sie darüber entsprechend informieren. Auch sind wir berechtigt, von Ihnen eine ausreichende Identifizierung zu verlangen, ehe wir die Anfrage bearbeiten.
+      line_9_3: 9.3 Sie haben das Recht, von uns jederzeit die Einstellung der Zusendung von Marketinginformationen zu verlangen, indem Sie uns dies schriftlich mitteilen oder indem Sie die „unsubscribe“-Anleitung befolgen, die jede von uns übersendete Marketingkommunikation vorsieht.
+      title: 9. Ihre Rechte
+  ransack:
+    all: alle
+    and: und
+    any: jegliche
+    asc: ansteigend
+    attribute: Zusatz
+    between: zwischen
+    combinator: Kombinator
+    condition: Kondition
+    desc: absteigend
+    or: oder
+    predicate: Prädikat
+  refund:
+    error:
+      call_to_action: 'Kontaktieren Sie uns:'
+      title: Transaktion fehlgeschlagen
+    refund_method: Art der Erstattung
+    success:
+      description: Ihre Erstattung wurde erfolgreich durchgeführt. Sie erhalten dazu eine Bestätigungsemail.
+      title: Erstattung ausgeführt
+  registration:
+    autotoup_agreement:
+      billing_agreement_description: Ich stimme automatisch entstehenden Kosten zu, falls mein Guthaben ausgeht
+      cancel: Möchten Sie Ihre Autotopup Vereinbarung stornieren?
+      current_amount: 'Current top up:'
+      new_amount: 'Change your quantity:'
+      success: Account added!
+      success_description: Now you can perform direct auto topups through your account
+      title: Paypal Vereinbarung
+    edit:
+      button: Aktualisierung
+      current_password_hint: Um Ihre Änderungen zu bestätigen, benötigen wir Ihr Passwort.
+      password_hint: Einfach frei lassen, wenn Sie dies nicht ändern wollen.
+      title: Bearbeiten
+      waiting_confirmation: 'Warten auf Bestätigung für:'
+    new:
+      button: Registrieren
+      details: "'Bitte geben Sie Ihre korrekten persönlichen Daten als Gast der Veranstaltung ein. Dies ermöglicht uns, Ihnen einen sicheren und komfortablen Service zu bieten."
+      info: Bitte geben Sie nachfolgend Ihre korrekten persönlichen Daten ein. Dies ermöglicht uns, Ihnen einen sicheren und komfortablen Service zu bieten.
+      or: oder
+      title: Jetzt beginnen
+  sessions:
+    create_account:
+      link: Hier erhältst Du Einen kostenfreien!
+      lost_password: Lost password?
+      title: Du hast noch keinen Festival account?
+    end:
+      close_title: Möchten Sie die Session beenden?
+    first_register:
+      description_with_credentiable: 'Um mit Deinem Event fortzufahren, bitte:'
+      description_without_credentiable: Thanks for registering! Once the event starts you will be able to see more information within your account. Please come back later.
+      welcome: Willkommen!
+    log_in:
+      link: Logge Dich hier ein
+      title: Du hast bereits einen Festival account?
+    new:
+      button: Login
+      copy: Was sind die Vorteile?
+      description: So funktioniert es
+      title: Login
+    placeholder:
+      address: z.B. Marktplatz 1
+      city: z.B. Berlin
+      email: z.B. spitzname@mail.com
+      last_name: z.B. Hendricks
+      name: z.B. Richard
+      password: z.B. · · · · · ·
+      phone: z.B. 111 22 33 44
+      post: z.B. 10333
+    welcome: Willkommen!
+  simple_form:
+    error_notification:
+      default_message: 'Bitte die unten aufgeführten Probleme überprüfen:'
+    'false': Nein
+    labels:
+      admin:
+        edit:
+          current_password: Aktuelles Passwort
+          email: Email
+          password: Passwort
+          password_confirmation: Bestätigung des Passworts
+        new:
+          current_password: Aktuelles Passwort
+          email: Email
+          password: Passwort
+          password_confirmation: Bestätigung des Passworts
+      bank_account_claim_form:
+        new:
+          iban_html: IBAN<sup>2</sup>
+          swift_html: BIC/SWIFT<sup>1</sup>
+      bank_account_refund_settings_form:
+        edit:
+          fee: Erstattungsgebühr (in Währung)
+          minimum: Rückerstattungsminimum nach Gebührenabzug (in Währung)
+          product_id: Produkt
+      comment:
+        new:
+          body: Kommentar
+      customer:
+        edit:
+          address: Adresse
+          agreed_on_registration: Ich habe die Nutzungsbedingungen gelesen und verstanden
+          birthdate: Geburtsdatum
+          city: Stadt
+          country: Land
+          current_password: Aktuelles Passwort
+          email: Email
+          first_name: Vorname
+          gender: Geschlecht
+          last_name: Nachname
+          password: Passwort
+          password_confirmation: Bestätigung des Passworts
+          phone: Telefonnummer
+          postcode: Postleitzahl
+          remember_me: Merken
+        new:
+          address: Adresse
+          agreed_on_registration: Ich habe die Nutzungsbedingungen gelesen und verstanden
+          birthdate: Geburtsdatum
+          city: Stadt
+          country: Land
+          current_password: Aktuelles Passwort
+          email: Email
+          first_name: Vorname
+          gender: Geschlecht
+          last_name: Nachname
+          password: Passwort
+          password_confirmation: Bestätigung des Passworts
+          phone: Telefonnummer
+          postcode: Postleitzahl
+          remember_me: Merken
+      defaults:
+        created_at: Erstellt am
+        password: Passwort
+        updated_at: Aktualisiert am
+      device_settings_form:
+        edit:
+          currency: Währungssymbol
+          maximum_wb_balance: Maximum Armband-Rechnung
+          min_version_apk: Minimum APK Version
+          private_zone_password: Passwort für privaten Bereich
+          public_key_a: Tag Passwort
+          uid_reverse: UID verkertrum
+      entitlement:
+        new:
+          name: Name
+      epg_claim_form:
+        new:
+          address: Adresse
+          city: Stadt
+          country_code: Länderkennzeichen
+          phone: Telefonnummer
+          post_code: Postleitzahl
+          state: Staat
+      epg_refund_settings_form:
+        edit:
+          country: Land
+          currency: Währung
+          fee: Erstattungsgebühr (in Währung)
+          md5key: Md5 Schlüssel
+          merchant: Händler
+          minimum: Rückerstattungsminimum nach Gebührenabzug (in Währung)
+          operation_type: Transaktionsart
+          payment_solution: Bezahl-Lösung
+          product_id: Produkt
+          url: URL
+      event:
+        edit:
+          agreed_event_condition_message: Condition message
+          background: Hintergrund
+          background_type: Hintergrundtyp
+          company_name: Firmenname
+          currency: Währung
+          description: Beschreibung
+          disclaimer: Disclaimer
+          end_date: Enddatum
+          gtag_registration: Gtag Registrierung
+          host_country: Land
+          info: Info
+          location: Ort
+          logo: Logo
+          mass_email_claim_notification: Benachrichtigung über Massenemail-Anforderung
+          name: Name
+          payment_service: Zahlungsservice
+          privacy_policy: Privacy policy
+          refund_disclaimer: Ablehnung der Erstattung
+          refund_service: „Erstattungsservice"
+          refund_success_message: Benachrichtigung über erfolgreiche Rückerstattung
+          start_date: Anfangsdatum
+          style: Stil
+          support_email: Support Email
+          terms_of_use: Terms of use
+        new:
+          agreed_event_condition_message: Condition message
+          background: Hintergrund
+          background_type: Hintergrundtyp
+          company_name: Firmenname
+          currency: Währung
+          description: Beschreibung
+          disclaimer: Disclaimer
+          end_date: Enddatum
+          gtag_registration: Gtag Registrierung
+          host_country: Land
+          info: Info
+          location: Ort
+          logo: Logo
+          mass_email_claim_notification: Benachrichtigung über Massenemail-Anforderung
+          name: Name
+          payment_service: Zahlungsservice
+          privacy_policy: Privacy policy
+          refund_disclaimer: Ablehnung der Erstattung
+          refund_service: „Erstattungsservice"
+          refund_success_message: Benachrichtigung über erfolgreiche Rückerstattung
+          start_date: Anfangsdatum
+          style: Stil
+          support_email: Support Email
+          terms_of_use: Terms of use
+      gtag:
+        edit:
+          gtag_credit_log: Bingo
+          tag_uid: Tag UID
+        new:
+          gtag_credit_log: Bingo
+          tag_uid: Tag UID
+      gtag_credit_log:
+        edit:
+          amount: Betrag
+        new:
+          amount: Betrag
+      gtag_settings_form:
+        edit:
+          format: Format
+          gtag_assignation_notification: Benachrichtigung über Gtag Zuweisung
+          gtag_form_disclaimer: Gtag assignation form disclaimer
+          name: Name
+      online_product:
+        edit:
+          description: Beschreibung
+          initial_amount: Anfangsbetrag
+          max_purchasable: Max käuflich
+          min_purchasable: Min käuflich
+          name: Name
+          price: Preis
+          step: Schritt
+        new:
+          description: Beschreibung
+          initial_amount: Anfangsbetrag
+          max_purchasable: Max käuflich
+          min_purchasable: Min käuflich
+          name: Name
+          price: Preis
+          step: Schritt
+      product:
+        vat: VAT %
+      purchaser:
+        edit:
+          email: Email
+          first_name: Vorname
+          gtag_delivery_address: Lieferadresse
+          last_name: Familienname
+        new:
+          email: Email
+          first_name: Vorname
+          gtag_delivery_address: Lieferadresse
+          last_name: Familienname
+      redsys_payment_settings_form:
+        edit:
+          code: Code
+          currency: Währung
+          form: Formular URL
+          ip: IP
+          name: Name
+          password: Passwort
+          pay_methods: Zahlungsmethode
+          terminal: Terminal
+          transaction_type: Transaktionstyp
+      ticket:
+        edit:
+          code: Nummer
+        new:
+          code: Nummer
+      ticket_type:
+        edit:
+          company: Firma
+          credit: Guthaben
+          entitlement: Berechtigung
+          name: Name
+          simplified_name: Kurzname
+        new:
+          company: Firma
+          credit: Guthaben
+          entitlement: Berechtigung
+          name: Name
+          simplified_name: Kurzname
+    placeholders:
+      bank_account_claim_form:
+        new:
+          iban: DE00 0000 0000 0000 0000 0000
+          swift: 0000 0000
+      comment:
+        new:
+          body: Kommentar hinzufügen
+      entitlement:
+        edit:
+          name: Wählen Sie einen Namen für die Berechtigung
+        new:
+          name: Wählen Sie einen Namen für die Berechtigung
+      epg_claim_form:
+        new:
+          address: Adresse, Hausnummer, Etage
+          phone: 'Telefonnummer mit internationaler Vorwahl: +1123...'
+          state: Ihr Herkunftsland
+      event:
+        edit:
+          agreed_event_condition_message: Fügen Sie Konditionen hinzu, von denen Sie möchten, dass sie der User bei der Registrierung akzeptiert
+          description: Fügen Sie eine besondere bzw. weitere Informationen, die Sie für wichtig halten, hinzu
+          location: Wo findet die Veranstaltung statt?
+          name: Veranstaltungsname. Empfohlen wird zudem die Angabe der Jahreszahl
+          receive_communications_message: Add the text for the receive communications checkbox
+          style: "/*Add some CSS magic*/"
+          support_email: Kunden-Emailsupport
+          url: Offizielle Website zur Veranstaltung
+        new:
+          agreed_event_condition_message: Fügen Sie Konditionen hinzu, von denen Sie möchten, dass sie der User bei der Registrierung akzeptiert
+          description: Fügen Sie eine besondere bzw. weitere Informationen, die Sie für wichtig halten, hinzu
+          location: Wo findet die Veranstaltung statt?
+          name: Veranstaltungsname. Empfohlen wird zudem die Angabe der Jahreszahl
+          receive_communications_message: Add the text for the receive communications checkbox
+          style: "/*Add some CSS magic*/"
+          support_email: Kunden-Emailsupport
+          url: Offizielle Website zur Veranstaltung
+      gtag:
+        edit:
+          tag_uid: Zweite Zahlenreihe des %{gtag}
+        new:
+          tag_uid: Zweite Zahlenreihe des %{gtag}
+      gtag_credit_log:
+        edit:
+          amount: Betrag
+        new:
+          amount: Verfügbarer Betrag
+      purchaser:
+        edit:
+          email: Emailadresse des Käufers
+          first_name: Vorname des Käufers
+          gtag_delivery_address: "%{gtag} Lieferadresse"
+          last_name: Nachname des Käufers
+        new:
+          email: Emailadresse des Käufers
+          first_name: Vorname des Käufers
+          gtag_delivery_address: "%{gtag} Lieferadresse"
+          last_name: Nachname des Käufers
+      ticket:
+        edit:
+          code: Ticketnummer
+        new:
+          code: Ticketnummer
+      ticket_type:
+        edit:
+          company: Veranstalter
+          credit: Verfügbares Guthaben
+          entitlement: Berechtigung
+          name: Wählen Sie einen Ticketnamen
+          simplified_name: Der Kurzname für Ihr Ticket
+        new:
+          company: Veranstalter
+          credit: Verfügbares Guthaben
+          entitlement: Berechtigung
+          name: Wählen Sie einen Ticketnamen
+          simplified_name: Der Kurzname für Ihr Ticket
+    required:
+      mark: "*"
+      text: erforderlich
+    'true': Ja
+  support:
+    array:
+      last_word_connector: " und "
+      two_words_connector: " und "
+      words_connector: ", "
+  terms_of_use:
+    main_title: GLOWNET - WEBSITE NUTZUNGSBEDINGUNGEN
+    ph_1:
+      line_1_1: 1.1 Diese Geschäfts- und Nutzungsbedingungen (die Konditionen) stellen die Basis dar, auf der Sie unsere Website (die Site) nutzen dürfen, z.B. um von einem Zahlungsservice- Provider für das Helene Beach Festival (die Veranstaltung) eine Rückerstattung von Guthaben zu erhalten (Services), das über die Site erworben wurden.
+      line_1_2: 1.2 Eigentümer und Betreiber dieser Site ist Glownet Limited, registriert unter der Nummer 08245670 und der Adresse Unit 2, 9 Dennington Park Rd, London, NW6 1BB, UK. Wir sind ein Technologieservice-Provider, der technische Dienstleistungen als Lösungen für bargeldlose Zahlungssysteme für Live-Veranstaltungen und Festivals anbietet (wir, uns oder unser/e). Wir sind weder Zahlungsservice-Provider noch Veranstalter der Veranstaltung.
+      line_1_3: 1.3 Die Nutzung der Site durch Sie unterliegt den hier enthaltenen Konditionen mit allen weiteren Dokumenten, die Bestandteil dieser Konditionen sind. Dies stellt einen rechtsgültigen Vertrag zwischen uns und Ihnen dar. Indem Sie unsere Website besuchen bzw. nutzen, stimmen Sie zu, an diese Konditionen rechtlich gebunden zu sein.
+      line_1_4: '1.4 Bezüglich der bargeldlosen Bezahlung beachten Sie bitte die Bedingungen des Zahlungsservice-Provider sowie des Veranstalters abrufbar unter '
+      line_1_4_1: 'Address: 35B Wroughton Road, London, SW11 6BE.'
+      line_1_4_2: 'Wenn Sie Hilfe benötigen dieses Event Portal mit der Verwendung , mailen Sie bitte an '
+      title: 1. Einleitung
+    ph_10:
+      line_10_1: 10.1 Wir unternehmen im Rahmen des Zumutbaren sämtliche Anstrengungen, um sicherzustellen, dass unsere Site frei von Fehlern und gebrauchstauglich ist und dass die von uns zur Verfügung gestellten Informationen korrekt sind. Dennoch können wir keine Garantie dafür geben, dass die Site immer verfügbar ist und ohne Unterbrechungen, sicher, bugs- und virenfrei funktioniert. Auch können wir nicht garantieren, dass die Site keine Fehler oder Lücken enthält.
+      line_10_2: 10.2 Wir sind nicht haftbar für jegliche Verzögerung oder Nichterbringung einer Leistung, sofern dies unvorhersehbaren Umständen geschuldet ist, die außerhalb unserer Kontrolle liegen. Dies umfasst uneingeschränkt auch jegliche Mängel an der Site und jegliche Erbringung von Services für Sie, sofern dies auf unvorhersehbare oder unkontrollierbare Umstände zurückzuführen ist, wie z.B. höhere Gewalt, Krieg, Terrorismus, Aufstände, Embargos, Aktivitäten der Zivil- oder Militärbehörden, Feuer, Hochwasser, Unfälle, Streiks, Epidemien oder andere Naturkatastrophen, Verknappung von Verkehrseinrichtungen, Benzin, Energie, Arbeit, Material, oder eine Störung des öffentlichen oder privaten Telekommunikationsnetzes.
+      line_10_3: 10.3 Tritt ein Vorfall außerhalb der uns zumutbaren Kontrolle ein, der bedingt, dass wir unseren Verpflichtungen laut dieser Konditionen nicht oder nicht vollständig nachkommen können, werden wir Sie, wenn im Rahmen angemessener Anstrengungen möglich, darüber in Kenntnis setzen, wobei unsere Verpflichtungen gemäß dieser Konditionen ausgesetzt werden und die Zeitspanne für die Erbringung unserer Leistungen um die Dauer der unvorhersehbaren Umstände verlängert wird.
+      title: 10. Verfügbarkeit
+    ph_11:
+      line_11_1: 11.1 Sie erkennen an, dass die Site nicht entwickelt wurde, um Ihren individuellen Anforderungen zu entsprechen. Sie stimmen zu, die Site nicht für Verkaufszwecke zu verwenden.
+      line_11_2: 11.2 Wir stellen die Services nur für eigene und private Zwecke zur Verfügung. Sie stimmen zu, die Services nicht für kommerzielle, geschäftliche Zwecke oder Zwecke des Wiederverkaufs zu verwenden, und wir sind Ihnen gegenüber nicht haftbar für entgangene Gewinne, entgangene Geschäfte, Geschäftsunterbrechung oder Geschäftsausfälle.
+      line_11_3: 11.3 Kommen wir diesen Konditionen nicht nach, sind wir haftbar für Verlust oder Schaden, den Sie erleiden, sofern es sich dabei um eine vorhersehbare Folge der Nichteinhaltung der Konditionen oder der Nachlässigkeit durch uns handelt. Aber wir sind nicht haftbar für etwaigen Verlust oder Schaden, der nicht vorhersehbar war. Ein Verlust oder Schaden gilt als vorhersehbar, wenn es sich um eine offensichtlich unmittelbare Konsequenz der Nichteinhaltung der Konditionen unsererseits handelt, oder wenn diese von Ihnen und uns zu Beginn des Vertrages als solche eingestuft wurde.
+      line_11_4: 11.4 Sofern nicht gesetzlich anders geregelt, ist unsere maximale Gesamthaftung unter oder in Verbindung mit diesen Konditionen – sei es aus dem Vertrag, aus unerlaubter Handlung (einschließlich Fahrlässigkeit) oder aus anderen Gründen - auf 45000€ beschränkt.
+      line_11_5: " 11.5 Sollten uns Ansprüche, Kosten, Schäden, Verluste oder andere Verpflichtungen als Folge einer Ihrer Handlungen, Versäumnisse oder der missbräuchlichen Nutzung der Site im Hinblick auf diese Konditionen entstehen, sind Sie verpflichtet, uns zu entschädigen."
+      line_11_6: '11.6 Kein Bestandteil dieser Kondition schließt unsere Haftbarkeit aus oder beschränkt diese für:'
+      line_11_6_1: Tod oder Personenschaden verursacht durch ein Versäumnis unsererseits, oder
+      line_11_6_2: Betrug oder betrügerische Falschdarstellung, oder
+      line_11_6_3: Jedwede Haftung, die nicht gesetzlich ausgeschlossen oder beschränkt werden kann.
+      title: 11. Haftungsbeschränkung
+    ph_12:
+      line_12_1: 12.1 Weder schaffen noch beeinträchtigen diese Konditionen einklagbare Rechte Dritter.
+      line_12_2: 12.2 Wir haben das Recht, unsere Rechte und Verpflichtungen aus diesen Konditionen auf eine andere Organisation zu übertragen. Dies darf sich aber nicht auf Ihre Rechte oder unsere Verpflichtungen aus diesen Konditionen auswirken. Sie haben nur nach schriftlicher Zustimmung unsererseits das Recht, Ihre Rechte oder Verpflichtungen aus diesen Konditionen auf eine andere Person zu übertragen.
+      line_12_3: 12.3 Sollten wir zu einem bestimmten Zeitpunkt entscheiden, einen Rechtsanspruch, den wir gegen Sie haben, nicht geltend zu machen, so bedeutet dies nicht, dass wir nicht zu einem späteren Zeitpunkt diesen Rechtsanspruch gegen Sie geltend machen.
+      line_12_4: 12.4 Jede Bedingung in diesen Konditionen steht für sich. Sollte ein Gericht oder eine zuständige Behörde feststellen, dass eine oder mehrere Bedingungen in diesen Konditionen ungesetzlich oder nicht durchsetzbar sind, bleiben die anderen Bedingungen davon unberührt.
+      line_12_5: " 12.5 Soweit dem nicht zwingende kollisionsrechtliche Normen entgegenstehen, unterliegen diese Konditionen und die Rechtsbeziehung zwischen Ihnen und uns englischem Recht. Falls es in Zusammenhang mit diesen Geschäftsbedingungen zu einer Auseinandersetzung kommen sollte oder diesbezüglich Ansprüche geltend gemacht werden sollten, unterliegt diese Auseinandersetzung bzw. dieser Anspruch, soweit rechtlich zulässig, der ausschließlichen Gerichtsbarkeit der englischen Gerichte."
+      title: 12. Allgemeines
+    ph_2:
+      line_2_1: 2.1 Wir dürfen die Konditionen von Zeit zu Zeit überarbeiten, wenn sich hierfür relevante Gesetze und regulatorische Anforderungen ändern oder wenn sich unsere Geschäftspraktiken ändern.
+      line_2_2: 2.2 Für die Nutzung der Site durch Sie gilt stets die jüngste auf unserer Website veröffentlichte Fassung der Konditionen. Wir empfehlen, dass Sie die auf der Site veröffentlichten Konditionen regelmäßig lesen, um sicher zu sein, dass Sie Kenntnis von jeglicher Änderung, die Sie möglicherweise betrifft, haben.
+      title: 2. Änderungen der Konditionen
+    ph_3:
+      line_3_1: 3.1 Sie sollten diese Site nur nutzen, wenn Sie mindestens 18 Jahre alt sind. Wenn nicht, stellen Sie bitte sicher, dass Ihre Eltern oder Ihr gesetzlicher Vertreter diese Konditionen lesen, und dass Sie deren/dessen Erlaubnis zur Nutzung der Site haben.
+      line_3_2: 3.2 Gegenwärtig wird Ihnen diese Site für Ihre persönliche, nicht-kommerzielle Nutzung ohne Kostenberechnung zur Verfügung gestellt, obwohl wir uns das Recht vorbehalten, in der Zukunft ein Entgelt für die Nutzung der Site zu berechnen. Selbstverständlich informieren wir Sie angemessen, bevor wir eine Kostenerhebung einführen.
+      line_3_3: 3.3 Der Zugriff auf unsere Site wird Ihnen nur vorübergehend gewährt. Wir haben das Recht, ohne vorherige Ankündigung die gesamte Site oder Teile davon auszusetzen, zu streichen oder zu verändern.
+      line_3_4: 3.4 Der Missbrauch der Site durch wissentliche Einführung von Viren, Trojanern, Würmern, Logikbomben oder anderem technisch schädlichen Material ist untersagt. Sie dürfen keinen Versuch unternehmen, sich unautorisiert Zugang zu der Site, zu dem Server, auf dem die Site gespeichert ist oder zu einem anderen Server, Computer oder einer Datenbank, die mit der Site verknüpft ist, zu verschaffen. Sie dürfen die Site nicht durch einen Dienstblockadeangriff oder durch einen verteilten Dienstblockadeangriff attackieren. Wir werden jedweden Verstoß gegen diese Kondition der/den zuständigen Vollzugsbehörde/n melden und mit solchen Behörden kooperieren, indem wir Ihre Identität preisgeben. Im Fall eines solchen Verstoßes haben Sie Ihr Recht zur Verwendung unserer Website unmittelbar verwirkt.
+      line_3_5: 3.5 Sie sind selbst dafür verantwortlich, alle für Sie erforderlichen Maßnahmen zu ergreifen, um auf unsere Website zugreifen zu können.
+      title: 3. Site-Zugang und -Nutzung
+    ph_4:
+      line_4_1: '4.1 Für den Zugang zu den auf der Site zur Verfügung gestellten Services müssen Sie über #{@current_event.url}. ein Konto einrichten. Dabei müssen Sie persönliche Angaben über sich machen (einschließlich Name, Emailadresse, Passwort, Bankverbindung und Armband oder Identifikationsnummer der Festivalkarte).'
+      line_4_2: '4.2 Sie erklären sich damit einverstanden, dass Sie nur korrekte, aktuelle und vollständige Informationen über sich angeben, und dass Sie die in Ihrem Profil enthaltenen persönlichen Angaben auf dem aktuellen Stand halten und im Fall von Änderungen unverzüglich aktualisieren. Weitere Informationen darüber, wie wir mit Ihren personenbezogenen Daten umgehen, finden Sie in unseren Datenschutzrichtlinien '
+      line_4_3: 4.3 Sie stimmen zu, dass Sie mit niemandem Ihr Passwort teilen, und dass Ihr Passwort vertraulich bleibt.
+      title: 4. Konto
+    ph_5:
+      line_5_1: 5.1 Wir stellen Ihnen einen Zugang zur Verfügung, damit Sie eine Erstattung des Guthabens auf Ihrem Festival-Armband oder Ihrer Karte erhalten. Bitte beachten Sie, dass die auf der Site genannten Fristen für die Beantragung der Erstattungen bindend sind.
+      line_5_2: '5.2 Sobald Sie einen Antrag auf Erstattung bei uns eingereicht haben, werden Sie zu einem Zahlungsservice-Provider weitergeleitet, bei dem Sie zur Bearbeitung Ihrer Erstattung persönliche Angaben einschließlich Zahlungsinformationen machen müssen. Bitte lesen Sie die Geschäfts- und Nutzungsbedingungen des Zahlungsservice-Providers sorgfältig, ehe Sie dessen Website nutzen und lesen Sie alle Anweisungen, bevor Sie Ihre Erstattung beantragen. Der Zahlungsservice-Provider ist verantwortlich für sämtliche Erstattungen an Sie, nicht wir. Bitte kontaktieren Sie den Veranstalter direkt, wenn Sie mit jemandem über Ihre Erstattung sprechen möchten: '
+      line_5_3: 5.3 Im Falle einer erfolgreichen Erstattung erhalten Sie eine Bestätigung von dem Zahlungsservice-Provider, und nicht von uns. Wir sind nicht verantwortlich oder haftbar für Aktivitäten oder Versäumnisse eines Zahlungsservice-Providers.
+      line_5_4: '5.4 Wir sind nicht der Veranstalter und wir sind nicht verantwortlich oder haftbar für mögliche Fragen, die sich aus der Veranstaltung selbst, den Ticketverkäufen oder den Rückerstattungen ergeben. Wenn Sie diesbezüglich mit jemandem sprechen möchten, wenden Sie sich bitte an den Veranstalter: '
+      title: 5. Services
+    ph_6:
+      line_6_1: '6.1 Wir sind Eigentümer oder Lizenznehmer aller Rechte des geistigen Eigentums an dieser Site. Sie dürfen Auszüge aller Seiten der Site herunterladen, mit folgenden Einschränkungen bzw. Ausnahmen:'
+      line_6_1_1: das Material darf nicht reproduziert oder in andere Arbeiten oder Publikationen in einem Medium integriert werden
+      line_6_1_2: das Material darf in keiner Weise modifiziert oder verändert werden
+      line_6_1_3: das Material darf nur für persönliche, nicht-kommerzielle Zwecke verwendet werden
+      line_6_1_4: das Material darf nicht verteilt oder an Dritte veräußert werden; und
+      line_6_1_5: in dem Material enthaltene Copyright-Vermerke oder andere Eigentumsangaben dürfen nicht entfernt werden.
+      line_6_2: 6.2 Bei im Hinblick auf die Konditionen missbräuchlicher Kopie oder Verwendung eines Bestandteils der zur Verfügung gestellten Site, erlischt Ihr Recht auf Nutzung der Site unmittelbar und Sie müssen sämtliche von Ihnen gemachten Kopien des Materials vernichten.
+      title: 6. Recht des geistigen Eigentums
+    ph_7:
+      line_7_1: '7.1 Sämtliche personenbezogene Daten, die wir über Sie während des Surfens und der Nutzung der Site erhalten, werden in Übereinstimmung mit unseren Datenschutzbestimmungen verwendet. Wenn Sie mehr über die von Ihnen gesammelten Daten und deren Verwendung erfahren wollen, finden Sie hier unsere Datenschutzrichtlinien '
+      line_7_2: '7.2 Wenn Sie diesen Konditionen zustimmen, erklären Sie sich auch mit der Nutzung Ihrer personenbezogenen Daten in Übereinstimmung mit unseren Datenschutzrichtlinien einverstanden '
+      title: 7. Datenschutz und Privatsphäre
+    ph_8:
+      line_8_1: 8.1 Sollten Sie Beanstandungen oder Beschwerden zur Site oder den Services haben, nehmen Sie bitte – wie in Klausel 1.4. beschrieben – Kontakt mit uns auf. Wir werden die zumutbaren Anstrengungen unternehmen, um Ihnen zeitnah zu antworten.
+      line_8_2: '8.2 Sollten Sie Beanstandungen oder Beschwerden zur Veranstaltung selbst, zu Ticketverkäufen und Erstattungen haben und mit jemandem sprechen wollen, so kontaktieren Sie bitte den Veranstalter '
+      title: 8. Beschwerden und Beanstandungen
+    ph_9:
+      line_9_1: 9.1 Sie können zu jeder Seite unserer Site verlinken, vorausgesetzt, dies erfolgt auf faire und legale Art und Weise, schädigt unseren Ruf nicht und zieht auch keinen Vorteil daraus. Sie dürfen weder einen Link setzen, der eine Zusammenarbeit, eine Verbindung, ein Einverständnis oder eine Billigung unsererseits unterstellt, wenn diese nicht existiert, noch dürfen Sie einen Link zu unserer Site auf einer Website setzen, wenn sie nicht deren Eigentümer sind.
+      line_9_2: 9.2 Wir behalten uns das Recht vor, die Erlaubnis zur Verlinkung - jederzeit unter Angabe einer angemessenen Frist zum Entfernen der Verlinkung  - zu entziehen.
+      line_9_3: 9.3 Eventuelle Links auf der Site zu Webseiten und Quellen dritter Parteien werden Ihnen rein für Informationszwecke zur Verfügung gestellt. Wir haben keine Kontrolle über den Inhalt dieser Webseiten oder Quellen, und wir sind in keinerlei Hinsicht dafür verantwortlich oder haftbar.
+      title: 9. Links zur und von der Site
+  ticket_assignations:
+    button: Akzeptieren
+  time:
+    am: vormittags
+    formats:
+      default: "%A, %d. %B %Y, %H:%M Uhr"
+      long: "%A, %d. %B %Y, %H:%M Uhr"
+      short: "%d. %B, %H:%M Uhr"
+    pm: nachmittags
+  views:
+    pagination:
+      first: "&laquo; Erste"
+      last: Letzte &raquo;
+      next: Nächste &rsaquo;
+      previous: "&lsaquo; Vorangegangene"
+      truncate: "&hellip;"

@@ -7,7 +7,7 @@ class Admins::Events::BaseController < Admins::BaseController
   private
 
   def set_i18n_globals
-    I18n.config.globals[:gtag] = current_event.gtag_name
+    I18n.config.globals[:gtag] = @current_event.gtag_name
   end
 
   def after_sign_out_path_for(resource)

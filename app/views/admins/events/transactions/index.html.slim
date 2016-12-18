@@ -1,9 +1,9 @@
-- breadcrumb :admins_event_transactions, current_event, @type
+- breadcrumb :admins_event_transactions, @current_event, @type
 - provide :actions do
   = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
     = fa_icon 'search'
     = t('actions.search')
-  = link_to admins_event_path(current_event), class: "btn btn-action btn-action-back small" do
+  = link_to admins_event_path(@current_event), class: "btn btn-action btn-action-back small" do
     = fa_icon 'arrow-circle-left'
     = t('actions.back')
 
@@ -12,7 +12,7 @@ aside.mmenu-panel#search-menu
     = fa_icon "search"
     = t("admin.defaults.search")
 
-  = search_form_for @q, url: search_admins_event_transactions_path(current_event), html: { novalidate: true, class: "searchForm" }  do |f|
+  = search_form_for @q, url: search_admins_event_transactions_path(@current_event), html: { novalidate: true, class: "searchForm" }  do |f|
     .container-search
       = hidden_field_tag :type, @type
       = f.input :customer_tag_uid_cont, label: t("admin.transactions.customer_tag_uid"), placeholder: t("admin.transactions.customer_tag_uid")

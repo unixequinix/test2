@@ -237,26 +237,6 @@
   padding: modules(0.5);
 }
 
-// Auto top up buttons
-
-.btn-action-autotopup {
-  @include transition(background-color 200ms ease-in-out);
-  width: 100%;
-  height: auto;
-  background-color: lighten($light_grey, 23%);
-  color: $grey;
-
-  @include min-screen($bp3) { width: modules(11); }
-
-  i {
-    display: inline-block;
-    width: auto;
-    padding-right: modules(0.25);
-  }
-
-  &:hover { background-color: lighten($light_grey, 30%); }
-}
-
 .btn-full-width { max-width: modules(11); }
 
 .btn-action-add-paypal {

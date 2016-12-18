@@ -3,15 +3,15 @@ class Events::WirecardController < Events::PaymentsController
 
   def purchase
     credit_card = ActiveMerchant::Billing::CreditCard.new(permitted_params)
-    response = wirecard.purchase(@total, credit_card, currency: current_event.currency)
+    response = wirecard.purchase(@total, credit_card, currency: @current_event.currency)
 
     if response.success?
       @order.complete!("wirecard", response.params.as_json)
       finish_payment!(@order, "wirecard", "purchase")
-      redirect_to customer_root_path(current_event), notice: "Payment completed successfully."
+      redirect_to customer_root_path(@current_event), notice: "Payment completed successfully."
     else
       @order.fail!("wirecard", response.params.as_json)
-      redirect_to event_order_path(current_event, @order, gateway: "wirecard"), alert: response.message
+      redirect_to event_order_path(@current_event, @order, gateway: "wirecard"), alert: response.message
     end
   end
 
@@ -21,9 +21,9 @@ class Events::WirecardController < Events::PaymentsController
     if response.success?
       @order.cancel!(response.params.as_json)
       finish_payment!(@order, "wirecard", "refund")
-      redirect_to customer_root_path(current_event), notice: "Order ##{@order.number} cancelled successfully."
+      redirect_to customer_root_path(@current_event), notice: "Order ##{@order.number} cancelled successfully."
     else
-      redirect_to customer_root_path(current_event), alert: response.message
+      redirect_to customer_root_path(@current_event), alert: response.message
     end
   end
 
@@ -34,7 +34,7 @@ class Events::WirecardController < Events::PaymentsController
   end
 
   def wirecard
-    gateway = current_event.payment_gateways.wirecard
+    gateway = @current_event.payment_gateways.wirecard
     ActiveMerchant::Billing::WirecardGateway.new(gateway.data.symbolize_keys)
   end
 end

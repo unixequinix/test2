@@ -3,13 +3,13 @@ class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
 
   def index
     tickets = tickets_sql || []
-    date = current_event.tickets.maximum(:updated_at)&.httpdate
+    date = @current_event.tickets.maximum(:updated_at)&.httpdate
 
     render_entity(tickets, date)
   end
 
   def show
-    ticket = current_event.tickets.find_by_code(params[:id])
+    ticket = @current_event.tickets.find_by_code(params[:id])
 
     render(json: :not_found, status: :not_found) && return unless ticket
     render(json: ticket, serializer: Api::V1::TicketSerializer)
@@ -39,7 +39,7 @@ class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
           AND ticket_types.hidden = false
           AND ticket_types.catalog_item_id IS NOT NULL
 
-        WHERE tickets.event_id = #{current_event.id}
+        WHERE tickets.event_id = #{@current_event.id}
         #{"AND tickets.updated_at > '#{@modified}'" if @modified}
       ) t
     SQL

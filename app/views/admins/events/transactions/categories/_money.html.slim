@@ -4,11 +4,11 @@ h3.section-header
 dl
   - if order = @transaction.order
     dt = t("admin.transactions.order")
-    dd = link_to order.number, admin_event_orders_path(current_event, @transaction.order)
+    dd = link_to order.number, admin_event_orders_path(@current_event, @transaction.order)
 
   - if class_name = @transaction.catalog_item&.class.to_s
     dt = t("admin.transactions.type")
-    dd = link_to class_name.capitalize, send("edit_admins_event_#{class_name.downcase}_path", current_event, @transaction.catalog_item)
+    dd = link_to class_name.capitalize, send("edit_admins_event_#{class_name.downcase}_path", @current_event, @transaction.catalog_item)
 
   dt = t("admin.transactions.id")
   dd = @transaction.catalog_item_id

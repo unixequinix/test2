@@ -20,7 +20,6 @@ class CompanyEventAgreement < ActiveRecord::Base
   belongs_to :event
   has_many :ticket_types, dependent: :destroy
 
-  # State machine
   include AASM
 
   aasm do
@@ -36,7 +35,6 @@ class CompanyEventAgreement < ActiveRecord::Base
     end
   end
 
-  # Validations
   validates :company, :event, presence: true
   validates :event, uniqueness: { scope: :company }
 end

@@ -1,6 +1,6 @@
-- breadcrumb :admins_event_refund, current_event, @refund
+- breadcrumb :admins_event_refund, @current_event, @refund
 - provide :actions do
-  = link_to admins_event_refunds_path(current_event), class: "btn btn-action btn-action-back small" do
+  = link_to admins_event_refunds_path(@current_event), class: "btn btn-action btn-action-back small" do
     = fa_icon 'arrow-circle-left'
     = t("actions.back")
 
@@ -10,7 +10,7 @@
       dt = t("admin.refund.customer_name")
       dd = "#{@refund.customer.first_name} #{@refund.customer.last_name}"
       dt = t("admin.refunds.customer_email")
-      dd = link_to @refund.customer.email, admins_event_customer_path(current_event, @refund.customer)
+      dd = link_to @refund.customer.email, admins_event_customer_path(@current_event, @refund.customer)
       dt =t('admin.refunds.status')
       dd = @refund.status.humanize
       dt =t('admin.refunds.created_at')

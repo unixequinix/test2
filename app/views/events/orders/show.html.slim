@@ -15,7 +15,7 @@
       td [colspan="2"]
         = t('orders.total')
         .vat-text = t('orders.vat')
-      td [colspan="3"] #{@order.total_formated} #{current_event.currency}
+      td [colspan="3"] #{@order.total_formated} #{@current_event.currency}
 
   - if @payment_gateways.size.positive?
     p#payment-anchor.payment-anhor-mobile.hint-text

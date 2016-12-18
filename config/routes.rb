@@ -44,6 +44,8 @@ Rails.application.routes.draw do
       member do
         post :remove_logo
         post :remove_background
+        get :create_admin
+        get :create_customer_support
       end
 
       scope module: "events" do
@@ -94,7 +96,7 @@ Rails.application.routes.draw do
             resources :ticket_assignments, only: [:new, :create]
             resources :gtag_assignments, only: [:new, :create]
             get :download_transactions
-            put :reset_password
+            get :reset_password
           end
           collection do
             get :search
@@ -111,10 +113,15 @@ Rails.application.routes.draw do
         resource :device_settings, only: [:show, :edit, :update] do
           member do
             delete :remove_db
+            get :load_defaults
           end
         end
         resources :ticket_assignments, only: [:destroy]
-        resource :gtag_settings, only: [:show, :edit, :update]
+        resource :gtag_settings, only: [:show, :edit, :update] do
+          member do
+            get :load_defaults
+          end
+        end
         resources :devices, only: :index
         resources :asset_trackers
 
@@ -263,7 +270,6 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :autotopup_agreements, only: [:new, :show, :update, :destroy]
       resources :ticket_assignments, only: [:new, :create, :destroy]
       resources :gtag_assignments, only: [:new, :create, :destroy]
       resources :tickets, only: [:show]

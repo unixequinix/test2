@@ -12,7 +12,7 @@ table.transactions
   tbody
     - transactions.each do |transaction|
       tr
-        td data-label=t("admin.transactions.id") = link_to transaction.id, admins_event_transaction_path(current_event, transaction, type: type)
+        td data-label=t("admin.transactions.id") = link_to transaction.id, admins_event_transaction_path(@current_event, transaction, type: type)
         td data-label=t("admin.transactions.transaction_origin") = transaction.transaction_origin
         td data-label=t("admin.transactions.action") = transaction.action
         td data-label=t("admin.transactions.station_id") = transaction.station&.name
@@ -25,9 +25,9 @@ table.transactions
 
         td data-label=t("admin.transactions.customer_tag_uid")
           - if transaction.customer
-            = link_to transaction.customer_tag_uid, admins_event_customer_path(current_event, transaction.customer)
+            = link_to transaction.customer_tag_uid, admins_event_customer_path(@current_event, transaction.customer)
           - elsif transaction.gtag
-            = link_to transaction.customer_tag_uid, admins_event_gtag_path(current_event, transaction.gtag)
+            = link_to transaction.customer_tag_uid, admins_event_gtag_path(@current_event, transaction.gtag)
           - else
             = transaction.customer_tag_uid
         td data-label=t("admin.transactions.activation")

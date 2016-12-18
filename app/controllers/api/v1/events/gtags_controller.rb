@@ -3,13 +3,13 @@ class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
 
   def index
     gtags = gtags_sql || []
-    date = current_event.gtags.maximum(:updated_at)&.httpdate
+    date = @current_event.gtags.maximum(:updated_at)&.httpdate
 
     render_entity(gtags, date)
   end
 
   def show
-    gtag = current_event.gtags.find_by_tag_uid(params[:id])
+    gtag = @current_event.gtags.find_by_tag_uid(params[:id])
 
     render(json: :not_found, status: :not_found) && return unless gtag
     render(json: gtag, serializer: Api::V1::GtagSerializer)
@@ -29,7 +29,7 @@ class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
         FROM gtags
         WHERE
           customer_id is not NULL AND
-          gtags.event_id = #{current_event.id}
+          gtags.event_id = #{@current_event.id}
           #{"AND gtags.updated_at > '#{@modified}'" if @modified}
       ) g
     SQL

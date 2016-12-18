@@ -3,13 +3,13 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
 
   def index
     customers = customers_sql || []
-    date = current_event.tickets.maximum(:updated_at)&.httpdate
+    date = @current_event.tickets.maximum(:updated_at)&.httpdate
 
     render_entity(customers, date)
   end
 
   def show
-    customer = current_event.customers.find_by(id: params[:id])
+    customer = @current_event.customers.find_by(id: params[:id])
 
     render(status: :not_found, json: :not_found) && return unless customer
     render(json: customer, serializer: Api::V1::CustomerSerializer)
@@ -61,11 +61,12 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
               ON catalog_items.id = order_items.catalog_item_id
             INNER JOIN orders
               ON orders.id = order_items.order_id
+            WHERE orders.status = 'completed'
           ) o
           GROUP BY o.customer_id
         ) ord
         ON customers.id = ord.customer_id
-        WHERE customers.event_id = #{current_event.id} #{"AND customers.updated_at > '#{@modified}'" if @modified}
+        WHERE customers.event_id = #{@current_event.id} #{"AND customers.updated_at > '#{@modified}'" if @modified}
       ) cep
     SQL
     ActiveRecord::Base.connection.select_value(sql)

@@ -5,8 +5,8 @@ class Admins::Events::RefundsController < Admins::Events::BaseController
         set_refunds
       end
       format.csv do
-        refunds = Refund.query_for_csv(current_event)
-        redirect_to(admins_event_refunds_path(current_event)) && return if refunds.empty?
+        refunds = Refund.query_for_csv(@current_event)
+        redirect_to(admins_event_refunds_path(@current_event)) && return if refunds.empty?
 
         send_data(CsvExporter.to_csv(refunds))
       end
@@ -19,11 +19,11 @@ class Admins::Events::RefundsController < Admins::Events::BaseController
   end
 
   def show
-    @refund = current_event.refunds.find(params[:id])
+    @refund = @current_event.refunds.find(params[:id])
   end
 
   def update
-    refund = current_event.refunds.find(params[:id])
+    refund = @current_event.refunds.find(params[:id])
     if refund.update(permitted_params)
       flash[:notice] = I18n.t("alerts.updated")
     else
@@ -35,7 +35,7 @@ class Admins::Events::RefundsController < Admins::Events::BaseController
   private
 
   def set_refunds
-    @q = current_event.refunds.search(params[:q])
+    @q = @current_event.refunds.search(params[:q])
     @refunds = @q.result.page(params[:page])
   end
 

@@ -3,15 +3,15 @@ class Events::StripeController < Events::PaymentsController
 
   def purchase
     credit_card = ActiveMerchant::Billing::CreditCard.new(permitted_params)
-    response = stripe.purchase(@total, credit_card, currency: current_event.currency)
+    response = stripe.purchase(@total, credit_card, currency: @current_event.currency)
 
     if response.success?
       @order.complete!("stripe", response.params.as_json)
       finish_payment!(@order, "stripe", "purchase")
-      redirect_to customer_root_path(current_event), notice: "Payment completed successfully."
+      redirect_to customer_root_path(@current_event), notice: "Payment completed successfully."
     else
       @order.fail!("stripe", response.params.as_json)
-      redirect_to event_order_path(current_event, @order, gateway: "stripe"), alert: response.message
+      redirect_to event_order_path(@current_event, @order, gateway: "stripe"), alert: response.message
     end
   end
 
@@ -21,9 +21,9 @@ class Events::StripeController < Events::PaymentsController
     if response.success?
       @order.cancel!(response.params.as_json)
       finish_payment!(@order, "stripe", "refund")
-      redirect_to customer_root_path(current_event), notice: "Order ##{@order.number} cancelled successfully."
+      redirect_to customer_root_path(@current_event), notice: "Order ##{@order.number} cancelled successfully."
     else
-      redirect_to customer_root_path(current_event), alert: response.message
+      redirect_to customer_root_path(@current_event), alert: response.message
     end
   end
 
@@ -34,7 +34,7 @@ class Events::StripeController < Events::PaymentsController
   end
 
   def stripe
-    gateway = current_event.payment_gateways.stripe
+    gateway = @current_event.payment_gateways.stripe
     ActiveMerchant::Billing::StripeGateway.new(gateway.data.symbolize_keys)
   end
 end

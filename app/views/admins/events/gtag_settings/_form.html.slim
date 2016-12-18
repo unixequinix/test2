@@ -1,50 +1,31 @@
-= form_tag ["admins", current_event, "gtag_settings"], method: :patch do
+= simple_form_for [:admins, @current_event], url: admins_event_gtag_settings_path(@current_event), method: :patch do |f|
   fieldset
     h3.section-header
       = fa_icon "info-circle"
       = t("admin.event.fieldests.info")
-    
-    .input
-      label Format
-      = select_tag "gtag_settings[format]", options_for_select(Gtag::UID_FORMATS.map(&:to_s).map(&:humanize), @gtag_settings["format"]&.humanize)
-    
-    .input
-      label Gtag name
-      = text_field_tag :gtag_name, @gtag_name
-    .input
-      label Cards can refund?
-      = hidden_field_tag "gtag_settings[cards_can_refund]", false
-      = check_box_tag "gtag_settings[cards_can_refund]", true, @gtag_settings["cards_can_refund"] == "true"
-    .input
-      label Wristbands can refund?
-      = hidden_field_tag "gtag_settings[wristbands_can_refund]", false
-      = check_box_tag "gtag_settings[wristbands_can_refund]", true, @gtag_settings["wristbands_can_refund"] == "true"
+
+    = f.input :format, collection: Gtag::UID_FORMATS, include_blank: false
+    = f.input :gtag_name
+    = f.input :cards_can_refund, as: :boolean, boolean_style: :inline, checked_value: true, unchecked_value: false
+    = f.input :wristbands_can_refund, as: :boolean, boolean_style: :inline, checked_value: true, unchecked_value: false
 
   fieldset
     h3.section-header
       = fa_icon "cogs"
       = t("admin.event.fieldests.device")
 
-    .input
-      label Gtag chip type
-      = select_tag "gtag_settings[gtag_type]", options_for_select(Gtag.chips, @gtag_settings["gtag_type"])
-    .input
-      label Gtag deposit
-      = number_field_tag "gtag_settings[gtag_deposit]", @gtag_settings["gtag_deposit"]
-    .input
-      label Maxmium Gtag balance
-      = number_field_tag "gtag_settings[maximum_gtag_balance]", @gtag_settings["maximum_gtag_balance"]
+    = f.input :gtag_type, collection: Gtag.chips, include_blank: false
+    = f.input :gtag_deposit
+    = f.input :maximum_gtag_balance
+
 
   fieldset
     h3.section-header
       = fa_icon "file-text-o"
       = t("admin.event.fieldests.text")
-    .input
-      label Gtag form disclaimer
-      = text_area_tag :gtag_form_disclaimer, @gtag_form_disclaimer, rows: 15, class: "textarea"
-    .input
-      label Gtag assignation notification
-      = text_area_tag :gtag_assignation_notification, @gtag_assignation_notification, rows: 15, class: "textarea"
+
+    = f.input :gtag_form_disclaimer, as: :text, input_html: { rows: 15, class: "textarea tinymce"}
+    = f.input :gtag_assignation_notification, as: :text, input_html: { rows: 15, class: "textarea tinymce"}
 
   .wrapper-negative-space
-    = submit_tag t('admin.actions.update'), class: "btn btn-primary"
+    = f.submit t('admin.actions.update'), class: "btn btn-primary"

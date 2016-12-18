@@ -1,5 +1,5 @@
 .wrapper-module
-  = link_to event_paypal_setup_purchase_path(current_event, order_id: @order), class: "btn btn-action-autotopup btn-action-add-paypal btn-full-width" do
+  = link_to event_paypal_setup_purchase_path(@current_event, order_id: @order), class: "btn btn-action-add-paypal btn-full-width" do
     = fa_icon("paypal")
     = t("dashboard.paypal.button")
 

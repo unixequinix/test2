@@ -16,7 +16,7 @@ div
         data: { id: "#{catalog_item.id}", price: "#{catalog_item.value}" }
       .top-up-amount [data-id="#{catalog_item.id}"]
         span [id="amount-total-#{catalog_item.id}"] #{(catalog_item.value * catalog_item.initial_amount)}
-        span #{current_event.currency}
+        span #{@current_event.currency}
     .plus-button
       = fa_icon "plus",
         class: "amount-button",

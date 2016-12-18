@@ -25,7 +25,7 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
 
   def fix
     find_atts = { device_created_at: @transaction.device_created_at, gtag_id: @transaction.gtag_id, type: "MoneyTransaction" } # rubocop:disable Metrics/LineLength
-    money_t = current_event.transactions.find_by(find_atts)
+    money_t = @current_event.transactions.find_by(find_atts)
     fix_atts = { status_code: 0, status_message: "FIX" }
 
     @transaction.update!(fix_atts)
@@ -38,16 +38,16 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   private
 
   def set_transaction
-    @transaction = current_event.transactions.find_by(id: params[:id], type: "#{@type}_transaction".classify)
+    @transaction = @current_event.transactions.find_by(id: params[:id], type: "#{@type}_transaction".classify)
   end
 
   def set_type
     @type = params[:type]
-    redirect_to(admins_event_path(current_event)) && return unless @type
+    redirect_to(admins_event_path(@current_event)) && return unless @type
   end
 
   def set_transactions
-    @q = current_event.transactions.where(type: "#{@type}_transaction".classify).search(params[:q])
+    @q = @current_event.transactions.where(type: "#{@type}_transaction".classify).search(params[:q])
     @transactions = @q.result.page(params[:page]).includes(:customer, :station)
   end
 

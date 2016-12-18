@@ -2,29 +2,30 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
   def index
     respond_to do |format|
       format.html do
-        @q = current_event.customers.search(params[:q])
+        @q = @current_event.customers.search(params[:q])
         @customers = @q.result.page(params[:page])
       end
-      format.csv { send_data(CsvExporter.to_csv(Customer.query_for_csv(current_event))) }
+      format.csv { send_data(CsvExporter.to_csv(Customer.query_for_csv(@current_event))) }
     end
   end
 
   def search
-    @q = current_event.customers.search(params[:q])
+    @q = @current_event.customers.search(params[:q])
     @customers = @q.result.page(params[:page])
     render :index
   end
 
   def show
-    @customer = current_event.customers.find(params[:id])
-    @online_transactions = @customer.transactions.order(:counter)
+    @customer = @current_event.customers.find(params[:id])
+    @online_transactions = @customer.transactions.online.order(:counter)
     @onsite_transactions = @customer.active_gtag&.transactions&.order(:gtag_counter)
   end
 
   def reset_password
-    @customer = current_event.customers.find(params[:id])
-    @customer.update(password: "123456", password_confirmation: "123456")
-    redirect_to admins_event_customer_path(current_event, @customer)
+    password = "123456"
+    @customer = @current_event.customers.find(params[:id])
+    @customer.update(password: password, password_confirmation: password)
+    redirect_to admins_event_customer_path(@current_event, @customer), notice: "Password reset to '#{password}'"
   end
 
   def download_transactions
@@ -35,13 +36,13 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
       send_data(pdf, filename: "transaction_history_#{@customer.id}.pdf", disposition: "attachment")
     else
       flash[:error] = I18n.t("alerts.customer_without_transactions")
-      redirect_to(admins_event_customer_path(current_event, @customer))
+      redirect_to(admins_event_customer_path(@current_event, @customer))
     end
   end
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(model_name: "Customer".constantize.model_name,
-                                                   fetcher: current_event.customers,
+                                                   fetcher: @current_event.customers,
                                                    search_query: params[:q],
                                                    page: params[:page],
                                                    context: view_context,

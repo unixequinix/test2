@@ -26,24 +26,24 @@ class Companies::Api::V1::BaseController < Companies::BaseController
     ticket_type_id = params[:ticket][:ticket_type_id]
     return true unless ticket_type_id
     ticket_type = TicketType.find_by(id: ticket_type_id)
-    ticket_type && ticket_type.company_event_agreement == agreement && ticket_type.event == current_event
+    ticket_type && ticket_type.company_event_agreement == agreement && ticket_type.event == @current_event
   end
 
   def validate_gtag_type!
     ticket_type_id = params[:gtag][:ticket_type_id]
     return true unless ticket_type_id
     ticket_type = TicketType.find_by(id: params[:gtag][:ticket_type_id])
-    ticket_type && ticket_type.company_event_agreement == agreement && ticket_type.event == current_event
+    ticket_type && ticket_type.company_event_agreement == agreement && ticket_type.event == @current_event
   end
 
   def ticket_types
-    current_event.ticket_types.where(company_event_agreement: @agreement.id)
+    @current_event.ticket_types.where(company_event_agreement: @agreement.id)
   end
 
   def tickets
-    current_event.tickets
-                 .joins(ticket_type: :company_event_agreement)
-                 .where(ticket_types: { company_event_agreement_id: @agreement.id })
+    @current_event.tickets
+                  .joins(ticket_type: :company_event_agreement)
+                  .where(ticket_types: { company_event_agreement_id: @agreement.id })
   end
 
   def banned_tickets

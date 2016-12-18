@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161213214512) do
+ActiveRecord::Schema.define(version: 20161218121801) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,9 +108,9 @@ ActiveRecord::Schema.define(version: 20161213214512) do
     t.datetime "updated_at",                                 null: false
     t.boolean  "receive_communications",     default: false
     t.string   "locale",                     default: "en"
+    t.boolean  "receive_communications_two", default: false
     t.string   "provider"
     t.string   "uid"
-    t.boolean  "receive_communications_two", default: false
     t.boolean  "banned"
   end
 
@@ -227,9 +227,9 @@ ActiveRecord::Schema.define(version: 20161213214512) do
     t.string   "eventbrite_client_secret"
     t.boolean  "ticket_assignation",           default: false
     t.boolean  "gtag_assignation",             default: false
-    t.json     "registration_settings"
-    t.json     "gtag_settings"
-    t.json     "device_settings"
+    t.jsonb    "registration_settings",        default: {},                    null: false
+    t.jsonb    "gtag_settings",                default: {},                    null: false
+    t.jsonb    "device_settings",              default: {},                    null: false
     t.string   "timezone"
   end
 
@@ -288,7 +288,7 @@ ActiveRecord::Schema.define(version: 20161213214512) do
     t.datetime "completed_at"
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
-    t.json     "payment_data"
+    t.jsonb    "payment_data", default: {},            null: false
     t.string   "gateway"
     t.integer  "customer_id"
   end
@@ -309,9 +309,9 @@ ActiveRecord::Schema.define(version: 20161213214512) do
   create_table "payment_gateways", force: :cascade do |t|
     t.integer  "event_id"
     t.string   "gateway"
-    t.json     "data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.jsonb    "data",       default: {}, null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
     t.boolean  "refund"
     t.boolean  "topup"
   end

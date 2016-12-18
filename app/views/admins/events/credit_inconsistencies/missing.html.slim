@@ -1,4 +1,4 @@
-- breadcrumb :admins_event_missing_credit_inconsistencies, current_event
+- breadcrumb :admins_event_missing_credit_inconsistencies, @current_event
 
 .wrapper-negative-space
   - if @issues
@@ -19,7 +19,6 @@
         h2 = number_to_token @issues.map { |i| i["inconsistent_refundable"] if i["inconsistent_refundable"] < 0 }.compact.sum
         span Refundable Sales
 
-    .current-showing = t('helpers.page_entries_info.more_pages.display_entries_small', count: @issues.size, total: @issues.size)
     table.transactions
       thead
         tr
@@ -33,7 +32,7 @@
       tbody
         - @issues.each do |issue|
           tr
-            td data-label=t("admin.transactions.id") = link_to issue["customer_id"], admins_event_customer_path(current_event, issue["customer_id"])
+            td data-label=t("admin.transactions.id") = link_to issue["customer_id"], admins_event_customer_path(@current_event, issue["customer_id"])
             td data-label=t("admin.transactions.credits") = issue["credits"]
             td data-label=t("admin.transactions.refundable_credits") = issue["refundable_credits"]
             td data-label=t("admin.transactions.final_balance") = issue["final_balance"]

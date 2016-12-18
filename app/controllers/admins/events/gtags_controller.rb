@@ -7,8 +7,8 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
     respond_to do |format|
       format.html
       format.csv do
-        gtags = Gtag.query_for_csv(current_event)
-        redirect_to(admins_event_gtags_path(current_event)) && return if gtags.empty?
+        gtags = Gtag.query_for_csv(@current_event)
+        redirect_to(admins_event_gtags_path(@current_event)) && return if gtags.empty?
 
         send_data(CsvExporter.to_csv(gtags))
       end
@@ -41,7 +41,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
   def update
     if @gtag.update(permitted_params)
       flash[:notice] = I18n.t("alerts.updated")
-      redirect_to admins_event_gtag_url(current_event, @gtag)
+      redirect_to admins_event_gtag_url(@current_event, @gtag)
     else
       flash.now[:error] = @gtag.errors.full_messages.join(". ")
       render :edit
@@ -60,7 +60,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
   def destroy_multiple
     gtags = params[:gtags]
     if gtags
-      current_event.gtags.where(id: gtags.keys).each do |gtag|
+      @current_event.gtags.where(id: gtags.keys).each do |gtag|
         flash[:error] = gtag.errors.full_messages.join(". ") unless gtag.destroy
       end
     end
@@ -69,7 +69,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
 
   def recalculate_balance
     @gtag.recalculate_balance
-    redirect_to admins_event_gtag_path(current_event, @gtag), notice: "Gtag balance was recalculated successfully"
+    redirect_to admins_event_gtag_path(@current_event, @gtag), notice: "Gtag balance was recalculated successfully"
   end
 
   def ban
@@ -87,7 +87,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
   end
 
   def import
-    event = current_event.event
+    event = @current_event.event
     path = admins_event_gtags_path(event)
     redirect_to(path, alert: t("admin.gtags.import.empty_file")) && return unless params[:file]
     file = params[:file][:data].tempfile.path
@@ -120,19 +120,19 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
 
   # TODO: Refactor this when gtag blacklisting is defined
   def update_blacklist
-    atts = current_event.device_settings
-    atts[:gtag_blacklist] = current_event.gtags.banned.pluck(:tag_uid).join(",")
-    current_event.update(device_settings: atts)
+    atts = @current_event.device_settings
+    atts[:gtag_blacklist] = @current_event.gtags.banned.pluck(:tag_uid).join(",")
+    @current_event.update(device_settings: atts)
   end
 
   def set_gtag
-    @gtag = current_event.gtags.find(params[:id])
+    @gtag = @current_event.gtags.find(params[:id])
   end
 
   def set_presenter
     @list_model_presenter = ListModelPresenter.new(
       model_name: "Gtag".constantize.model_name,
-      fetcher: current_event.gtags,
+      fetcher: @current_event.gtags,
       search_query: params[:q],
       page: params[:page],
       include_for_all_items: [

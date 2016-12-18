@@ -19,23 +19,23 @@ class Events::BaseController < ApplicationController
   end
 
   def set_i18n_globals
-    I18n.config.globals[:gtag] = current_event.gtag_name
+    I18n.config.globals[:gtag] = @current_event.gtag_name
   end
 
   def check_top_ups_is_active!
-    redirect_to event_url(current_event) unless current_event.topups?
+    redirect_to event_url(@current_event) unless @current_event.topups?
   end
 
   def check_has_ticket!
-    redirect_to event_url(current_event) unless current_customer.tickets.any?
+    redirect_to event_url(@current_event) unless current_customer.tickets.any?
   end
 
   def check_has_gtag!
-    redirect_to event_url(current_event) unless current_customer.active_gtag.present?
+    redirect_to event_url(@current_event) unless current_customer.active_gtag.present?
   end
 
   def check_customer_has_credentials!
-    redirect_to event_url(current_event) unless current_customer.active_credentials?
+    redirect_to event_url(@current_event) unless current_customer.active_credentials?
   end
 
   def check_has_credentials!
@@ -43,12 +43,12 @@ class Events::BaseController < ApplicationController
   end
 
   def check_authorization_flag!
-    redirect_to event_info_url(current_event) unless current_event.authorization?
+    redirect_to event_info_url(@current_event) unless @current_event.authorization?
   end
 
   def authenticate_customer!
-    redirect_to(event_login_path(current_event)) && return unless customer_signed_in?
-    redirect_to(customer_root_path(current_customer.event)) && return unless current_customer.event == current_event
+    redirect_to(event_login_path(@current_event)) && return unless customer_signed_in?
+    redirect_to(customer_root_path(current_customer.event)) && return unless current_customer.event == @current_event
     super
   end
 end

@@ -1,12 +1,7 @@
 class Api::V1::Events::CreditsController < Api::V1::Events::BaseController
-  before_action :set_modified
-
   def index
-    credits = Credit.where(event: current_event)
-    credits = credits.where("catalog_items.updated_at > ?", @modified) if @modified
-    date = credits.maximum(:updated_at)&.httpdate
-    credits = ActiveModelSerializers::Adapter.create(credits.map { |a| Api::V1::CreditSerializer.new(a) }).to_json if credits.present? # rubocop:disable Metrics/LineLength
-
-    render_entity(credits, date)
+    date = @current_event.credit.updated_at.httpdate
+    credit = ActiveModelSerializers::Adapter.create([Api::V1::CreditSerializer.new(@current_event.credit)]).to_json
+    render_entity(credit, date)
   end
 end

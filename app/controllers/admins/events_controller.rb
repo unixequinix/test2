@@ -1,8 +1,6 @@
 class Admins::EventsController < Admins::BaseController
   include ActiveModel::Dirty
 
-  before_action :set_event, only: [:show, :edit, :update, :remove_logo, :remove_background, :remove_db]
-
   def index
     if current_admin.customer_service? || current_admin.promoter?
       event = Event.find_by_slug(current_admin.email.split("_")[1].split("@")[0])
@@ -17,7 +15,7 @@ class Admins::EventsController < Admins::BaseController
     # TODO: Remove this when we have roles, this was a workaround for sonar, but as a lot of things it still  here
     redirect_to(admins_event_tickets_path(@current_event), layout: "admin_event") &&
       return if current_admin.customer_service?
-    @alerts = EventValidator.new(current_event).all
+    @alerts = EventValidator.new(@current_event).all
     render layout: "admin_event"
   end
 
@@ -67,11 +65,25 @@ class Admins::EventsController < Admins::BaseController
     redirect_to admins_event_url(@current_event)
   end
 
-  private
-
-  def set_event
-    @current_event = Event.friendly.find(params[:id])
+  def create_admin
+    @admin = Admin.find_or_initialize_by(email: "admin_#{@current_event.slug}@glownet.com")
+    if @admin.new_record?
+      render 'admins/admins/new'
+    else
+      render 'admins/admins/edit'
+    end
   end
+
+  def create_customer_support
+    @admin = Admin.find_or_initialize_by(email: "support_#{@current_event.slug}@glownet.com")
+    if @admin.new_record?
+      render 'admins/admins/new'
+    else
+      render 'admins/admins/edit'
+    end
+  end
+
+  private
 
   def permitted_params
     params.require(:event)

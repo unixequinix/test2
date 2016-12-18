@@ -1,7 +1,7 @@
 class Api::V1::Events::DatabasesController < Api::V1::Events::BaseController
   def show
     type = params[:basic].eql?("true") ? "basic" : "full"
-    database = DatabaseManager.new(current_event, type)
+    database = DatabaseManager.new(@current_event, type)
     url = database.generate_url(5)
 
     render(status: :not_found, json: :not_found) && return unless url
@@ -13,13 +13,13 @@ class Api::V1::Events::DatabasesController < Api::V1::Events::BaseController
     render(status: :bad_request, json: { error: "File empty" }) && return unless file
 
     if permitted_params[:basic] == "true"
-      current_event.device_basic_db = file
+      @current_event.device_basic_db = file
     else
-      current_event.device_full_db = file
+      @current_event.device_full_db = file
     end
 
-    render(status: :created, json: :created) && return if current_event.save
-    render(status: :unprocessable_entity, json: { errors: current_event.errors.full_messages })
+    render(status: :created, json: :created) && return if @current_event.save
+    render(status: :unprocessable_entity, json: { errors: @current_event.errors.full_messages })
   end
 
   private

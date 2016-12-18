@@ -12,7 +12,7 @@ table.packs
   tbody
     - @packs.each do |pack|
       tr
-        td data-label=t('admin.catalog_item.name') = link_to(pack.name, admins_event_pack_path(current_event, pack))
+        td data-label=t('admin.catalog_item.name') = link_to(pack.name, admins_event_pack_path(@current_event, pack))
         td data-label=t('admin.catalog_item.step') = pack.step
         td data-label=t('admin.catalog_item.initial_amount') = pack.initial_amount
         td data-label=t('admin.catalog_item.max_purchasable') = pack.max_purchasable
@@ -23,8 +23,8 @@ table.packs
           = "∞" if pack.only_infinite_items?
         td.table-actions-field
           ul
-            li.table-action.action-edit = link_to edit_admins_event_pack_path(current_event, pack) do
+            li.table-action.action-edit = link_to edit_admins_event_pack_path(@current_event, pack) do
               = fa_icon "edit"
-            li.table-action.action-delete = link_to admins_event_pack_path(current_event, pack), method: :delete, data: { confirm: t('admin.confirm.delete') } do
+            li.table-action.action-delete = link_to admins_event_pack_path(@current_event, pack), method: :delete, data: { confirm: t('admin.confirm.delete') } do
               = fa_icon "trash"
 = paginate @packs

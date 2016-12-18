@@ -3,7 +3,7 @@
 h3 = t('gtag_registrations.call_to_action', gtag: @gtag_registration_presenter.gtag_name)
 p = t("gtag_registrations.description.#{@gtag_registration_presenter.gtag_format}", gtag: @gtag_registration_presenter.gtag_name)
 p = @gtag_registration_presenter.gtag_form_disclaimer
-= form_tag event_gtag_registrations_path(current_event) do |f|
+= form_tag event_gtag_registrations_path(@current_event) do |f|
   = render "events/gtag_registrations/#{@gtag_registration_presenter.gtag_format}"
   p
     = fa_icon "info-circle"

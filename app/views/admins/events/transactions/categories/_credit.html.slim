@@ -33,7 +33,7 @@ br
       - @transaction.sale_items.each do |item|
         tr
           td data-label=t("admin.transactions.id") = item.id
-          td data-label=t("admin.transactions.product") = link_to item.product.name, edit_admins_event_product_path(current_event, item.product)
+          td data-label=t("admin.transactions.product") = link_to item.product.name, edit_admins_event_product_path(@current_event, item.product)
           td data-label=t("admin.transactions.quantity") = item.quantity
           td data-label=t("admin.transactions.unit_price") = item.unit_price
           td data-label=t("admin.transactions.total") = item.unit_price * item.quantity
