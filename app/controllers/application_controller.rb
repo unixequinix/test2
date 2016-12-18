@@ -37,9 +37,7 @@ class ApplicationController < ActionController::Base
     request.user_agent =~ /(iPhone|iPod|Android|webOS|Mobile|iPad)/
   end
 
-  def current_event
-    @current_event
-  end
+  attr_reader :current_event
 
   def type_cast_booleans(cols)
     cols.map!(&:to_sym)

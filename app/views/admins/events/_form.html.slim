@@ -62,7 +62,7 @@
             = t('admin.event.images.customer')
           .container-image-preview
             = image_tag event.logo.url unless event.logo.blank?
-        = f.input :background_type, collection: EventDecorator.background_types_selector, include_blank: false
+        = f.input :background_type, collection: event.background_types_selector, include_blank: false
         = f.input :background
         .edit-event-image
           label

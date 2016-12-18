@@ -1,6 +1,6 @@
 class Admins::Events::DeviceSettingsController < Admins::Events::BaseController
   def update
-    type_cast_booleans(%w( uid_reverse touchpoint_update_online_orders pos_update_online_orders topup_initialize_gtag cypher_enabled ))
+    type_cast_booleans(%w( uid_reverse touchpoint_update_online_orders pos_update_online_orders topup_initialize_gtag cypher_enabled )) # rubocop:disable Metrics/LineLength
 
     if current_event.update(permitted_params)
       redirect_to admins_event_device_settings_path(current_event), notice: I18n.t("alerts.updated")
@@ -23,7 +23,7 @@ class Admins::Events::DeviceSettingsController < Admins::Events::BaseController
 
   private
 
-  def permitted_params
+  def permitted_params # rubocop:disable Metrics/MethodLength
     params.require(:event).permit(:min_version_apk,
                                   :private_zone_password,
                                   :fast_removal_password,

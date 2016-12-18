@@ -67,6 +67,7 @@ FactoryGirl.define do
     info "Information about the festival"
     refund_success_message "Your refund has been successfull"
     gtag_settings { { gtag_type: "ultralight_c", maximum_gtag_balance: 300 }.as_json }
+    registration_settings { {}.as_json }
 
     # Event states
 
