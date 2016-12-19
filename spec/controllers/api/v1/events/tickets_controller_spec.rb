@@ -58,7 +58,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         @ctt = create(:ticket_type, company_event_agreement: @agreement, event: event, catalog_item: @pack)
         @customer = create(:customer, event: event)
         @ticket = create(:ticket, event: event, ticket_type: @ctt, customer: @customer)
-        order = create(:order, customer: @customer)
+        order = create(:order, customer: @customer, status: "completed")
         @item = create(:order_item, order: order, catalog_item: @access, counter: 1)
 
         http_login(admin.email, admin.access_token)

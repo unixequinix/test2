@@ -18,6 +18,7 @@
 FactoryGirl.define do
   factory :station_catalog_item do
     sequence(:price, &:to_f)
-    catalog_item { build(:catalog_item, :with_access) }
+    catalog_item
+    station
   end
 end

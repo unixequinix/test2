@@ -20,7 +20,7 @@ RSpec.describe TopupCredit, type: :model do
   subject { build(:topup_credit) }
   let(:station) { subject.station }
 
-  describe ".after_update" do
+  describe "station touch" do
     before(:each) { subject.save }
 
     it "resets the station updated_at field" do

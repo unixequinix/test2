@@ -1,4 +1,5 @@
-= simple_form_for AccessControlGate.new, url: admins_event_station_station_items_path(@current_event, @station) do |f|
+- @item ||= AccessControlGate.new
+= simple_form_for @item, url: admins_event_station_station_items_path(@current_event, @station) do |f|
   .wrapper-negative-space
     = hidden_field_tag :item_type, "access_control_gate"
     = f.input :direction, collection: [["In", 1], ["Out", -1]], include_blank: "Select the direction"

@@ -18,5 +18,8 @@
 
 FactoryGirl.define do
   factory :station_product do
+    station
+    product
+    price 99
   end
 end

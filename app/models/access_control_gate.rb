@@ -16,12 +16,10 @@
 
 class AccessControlGate < ActiveRecord::Base
   belongs_to :access
-  belongs_to :station
+  belongs_to :station, touch: true
 
   validates :direction, :access_id, presence: true
 
   scope :in, -> { where(direction: "1") }
   scope :out, -> { where(direction: "-1") }
-
-  after_update { station.touch }
 end

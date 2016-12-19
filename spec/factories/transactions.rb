@@ -58,8 +58,8 @@ FactoryGirl.define do
     sequence(:device_uid) { |n| "DEVICE#{n}" }
     status_code "0"
     status_message "OK"
-    sequence(:items_amount) { |n| n }
-    sequence(:price)  { |n| n }
+    sequence(:items_amount)
+    sequence(:price)
     payment_gateway { [nil, "braintree", "stripe"].sample }
     payment_method { %w(bank_account epg).sample }
   end
@@ -72,10 +72,10 @@ FactoryGirl.define do
     sequence(:device_uid) { |n| "DEVICE#{n}" }
     status_code "0"
     status_message "OK"
-    sequence(:credits) { |n| n }
-    sequence(:refundable_credits) { |n| n }
-    sequence(:final_balance) { |n| n }
-    sequence(:final_refundable_balance) { |n| n }
+    sequence(:credits)
+    sequence(:refundable_credits)
+    sequence(:final_balance)
+    sequence(:final_refundable_balance)
   end
 
   factory :credential_transaction do

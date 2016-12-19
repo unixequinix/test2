@@ -20,11 +20,9 @@ class StationProduct < ActiveRecord::Base
   default_scope { order("position ASC") }
 
   belongs_to :product
-  belongs_to :station
+  belongs_to :station, touch: true
 
-  validates :price, presence: true
+  validates :price, :product_id, presence: true
   validates :price, numericality: true
   validates :product_id, uniqueness: { scope: :station_id }
-
-  after_update { station.touch }
 end
