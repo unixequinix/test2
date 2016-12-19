@@ -64,6 +64,10 @@ class Station < ActiveRecord::Base
     event.products - station_products.map(&:product)
   end
 
+  def all_station_items
+    topup_credits + station_catalog_items + station_products + access_control_gates
+  end
+
   private
 
   def add_station_event_id

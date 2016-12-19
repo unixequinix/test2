@@ -16,13 +16,11 @@
 
 class TopupCredit < ActiveRecord::Base
   belongs_to :credit
-  belongs_to :station
+  belongs_to :station, touch: true
 
   validates :amount, uniqueness: { scope: :station_id }
   validates :amount, :credit_id, presence: true
   validate :valid_topup_credit, on: :create
-
-  after_update { station.touch }
 
   private
 

@@ -21,7 +21,7 @@
 FactoryGirl.define do
   factory :ticket_type do
     sequence(:name) { |n| "Ticket Type #{n}" }
-    sequence(:company_code) { |n| n }
+    sequence(:company_code)
     catalog_item
     event
 

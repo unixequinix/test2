@@ -21,8 +21,8 @@
 FactoryGirl.define do
   factory :refund do
     customer
-    sequence(:amount) { |n| n }
-    sequence(:fee) { |n| n }
+    sequence(:amount)
+    sequence(:fee)
     status "started"
     iban "ES91 2100 0418 4502 0005 1332"
     swift "BBVAESMMXXX"

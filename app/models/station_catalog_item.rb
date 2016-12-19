@@ -17,10 +17,8 @@
 
 class StationCatalogItem < ActiveRecord::Base
   belongs_to :catalog_item
-  belongs_to :station
+  belongs_to :station, touch: true
 
   validates :price, presence: true
   validates :price, numericality: true
-
-  after_update { station.touch }
 end

@@ -55,7 +55,8 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
         @customer = create(:customer, event: event)
         @gtag = create(:gtag, event: event, customer: @customer)
         @gtag2 = create(:gtag, event: event, customer: @customer, active: false)
-        @item = create(:order_item, order: create(:order, customer: @customer), catalog_item: @pack, counter: 1)
+        @order = create(:order, customer: @customer, status: "completed")
+        @item = create(:order_item, order: @order, catalog_item: @pack, counter: 1)
 
         http_login(admin.email, admin.access_token)
       end
