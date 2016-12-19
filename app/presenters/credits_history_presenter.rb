@@ -1,7 +1,6 @@
 class CreditsHistoryPresenter < BasePresenter
   def can_render?
-    (@event.started? || @event.finished?) &&
-      transactions? && @gtag.present? && @gtag.valid_balance? && @event.transactions_pdf?
+    (@event.started? || @event.finished?) && transactions? && @gtag.present? && @gtag.valid_balance?
   end
 
   def path
