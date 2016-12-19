@@ -9,6 +9,3 @@ set :linked_dirs, fetch(:linked_dirs) + %w(certs)
 
 # server settings
 server "integration.glownet.com", user: "ubuntu", roles: %w(web app db)
-
-# Let it rip!!
-set :sidekiq_concurrency, 5
