@@ -1,0 +1,44 @@
+.wrapper-negative-space
+  - if @gtags.any?
+    .container-statistics
+      .wrapper-statistics
+        h2 = number_to_token @topups
+        span Topups
+
+      .wrapper-statistics
+        h2 = number_to_token @sales
+        span Sales
+
+      .wrapper-statistics
+        h2 = number_to_token @topup_refundables
+        span Refundable Topups
+
+      .wrapper-statistics
+        h2 = number_to_token @sale_refundables
+        span Refundable Sales
+
+    .current-showing = "#{@gtags.size} inconsistencies found"
+    table.transactions
+      thead
+        tr
+          th = t("admin.transactions.customer_id")
+          th = t("admin.transactions.credits")
+          th = t("admin.transactions.refundable_credits")
+          th = t("admin.transactions.final")
+          th = t("admin.transactions.final_refundable")
+          th = t("admin.transactions.inconsistent")
+          th = t("admin.transactions.inconsistent_refundable")
+      tbody
+        - @gtags.each do |gtag|
+          tr
+            td data-label=t("admin.transactions.id") = link_to gtag.id, admins_event_gtag_path(@current_event, gtag)
+            td data-label=t("admin.transactions.credits") = gtag.credits
+            td data-label=t("admin.transactions.refundable_credits") = gtag.refundable_credits
+            td data-label=t("admin.transactions.final_balance") = gtag.final_balance
+            td data-label=t("admin.transactions.final_refundable_balance") = gtag.final_refundable_balance
+            td data-label=t("admin.transactions.inconsistent_balance") = gtag.inconsistency
+            td data-label=t("admin.transactions.inconsistent_refundable_balance") = gtag.refundable_inconsistency
+  - else
+    .section-title-empty
+      = image_tag "img-empty.png"
+      p = t("admin.defaults.empty_item", item: "Credit Inconsistencies")

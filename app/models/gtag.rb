@@ -23,7 +23,7 @@
 #  fk_rails_70b4405c01  (customer_id => customers.id)
 #
 
-class Gtag < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
+class Gtag < ActiveRecord::Base
   STANDARD = "standard".freeze
   CARD = "card".freeze
   SIMPLE = "simple".freeze
@@ -101,56 +101,5 @@ class Gtag < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     card_can_refund = card? && event.gtag_settings["cards_can_refund"] == "true"
     wristband = wristband? && event.gtag_settings["wristbands_can_refund"] == "true"
     return true if loyalty? || card_can_refund || wristband
-  end
-
-  def self.counters(event) # rubocop:disable Metrics/MethodLength
-    sql = <<-SQL
-      SELECT to_json(json_agg(row_to_json(cust)))
-      FROM (
-        SELECT
-          customer_trans.gtag_id,
-          MAX(customer_trans.gtag_counter) as gtag,
-          SUM(customer_trans.gtag_counter) as gtag_total,
-          MAX(customer_trans.gtag_counter) * (MAX(customer_trans.gtag_counter) + 1) / 2 as gtag_last_total,
-          MAX(customer_trans.counter) as online,
-          SUM(customer_trans.counter) as online_total,
-          MAX(customer_trans.counter) * (MAX(customer_trans.counter) + 1) / 2 as online_last_total
-        FROM (
-          SELECT gtag_id, gtag_counter, counter
-          FROM transactions
-          WHERE event_id = #{event.id} AND status_code = 0
-        ) customer_trans
-        GROUP BY customer_trans.gtag_id
-        ORDER BY customer_trans.gtag_id
-      ) cust
-    SQL
-    conn = ActiveRecord::Base.connection
-    sql = conn.select_value(sql)
-    conn.close
-    JSON.parse(sql).to_a.group_by { |t| t["gtag_id"] }
-  end
-
-  def self.credits_sum(event) # rubocop:disable Metrics/MethodLength
-    sql = <<-SQL
-      SELECT to_json(json_agg(row_to_json(inc)))
-      FROM (
-        SELECT
-          id,
-          credits,
-          refundable_credits,
-          final_balance,
-          final_refundable_balance,
-          final_balance - credits as inconsistent,
-          final_refundable_balance - refundable_credits as inconsistent_refundable
-        FROM gtags
-        WHERE event_id = #{event.id} AND
-              (final_balance <> credits OR final_refundable_balance <> refundable_credits)
-        ORDER BY inconsistent DESC
-      ) inc
-    SQL
-    conn = ActiveRecord::Base.connection
-    sql = conn.select_value(sql)
-    conn.close
-    JSON.parse(sql).to_a
   end
 end
