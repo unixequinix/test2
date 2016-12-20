@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161220144920) do
+ActiveRecord::Schema.define(version: 20161220145645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -266,8 +266,10 @@ ActiveRecord::Schema.define(version: 20161220144920) do
     t.integer  "customer_id"
   end
 
+  add_index "gtags", ["activation_counter"], name: "index_gtags_on_activation_counter", using: :btree
   add_index "gtags", ["customer_id"], name: "index_gtags_on_customer_id", using: :btree
   add_index "gtags", ["event_id"], name: "index_gtags_on_event_id", using: :btree
+  add_index "gtags", ["tag_uid"], name: "index_gtags_on_tag_uid", using: :btree
 
   create_table "order_items", force: :cascade do |t|
     t.integer  "order_id",                                null: false
