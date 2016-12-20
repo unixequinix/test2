@@ -32,7 +32,7 @@ Style/CaseIndentation:
   Enabled: false
 
 Metrics/LineLength:
-  Max: 120
+  Max: 150
 
 Style/StringLiterals:
   Enabled: false
