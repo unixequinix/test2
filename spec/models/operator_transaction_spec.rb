@@ -40,6 +40,7 @@
 #  index_transactions_on_station_id           (station_id)
 #  index_transactions_on_ticket_id            (ticket_id)
 #  index_transactions_on_type                 (type)
+#  transactions_on_device_columns             (event_id,device_uid,device_db_index,device_created_at_fixed,gtag_counter,activation_counter) UNIQUE
 #
 # Foreign Keys
 #
