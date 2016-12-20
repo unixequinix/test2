@@ -27,27 +27,6 @@ class Transactions::Base < ActiveJob::Base
     execute_operations(atts)
   end
 
-  def portal_write(atts) # rubocop:disable Metrics/MethodLength
-    atts.symbolize_keys!
-    event = Event.find(atts[:event_id])
-    klass = atts[:type].constantize
-    customer = event.customers.find(atts[:customer_id])
-    station = event.portal_station
-    final_atts = {
-      transaction_origin: Transaction::ORIGINS[:portal],
-      counter: customer.transactions.maximum(:counter).to_i + 1,
-      station_id: station.id,
-      status_code: 0,
-      status_message: "OK",
-      device_db_index: klass.where(event: event, station_id: station.id).count + 1,
-      device_created_at: Time.zone.now.strftime("%Y-%m-%d %T.%L"),
-      device_created_at_fixed: Time.zone.now.strftime("%Y-%m-%d %T.%L")
-    }.merge(atts)
-
-    klass.create!(column_attributes(klass, final_atts))
-    execute_operations(final_atts)
-  end
-
   def execute_operations(atts)
     children = self.class.descendants
     children.each { |klass| klass.perform_later(atts) if klass::TRIGGERS.include? atts[:action] }

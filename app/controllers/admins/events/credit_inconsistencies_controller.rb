@@ -18,8 +18,7 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
     @sale_refundables = @gtags.select { |gtag| gtag.refundable_inconsistency < 0 }.map(&:refundable_inconsistency).sum
   end
 
-
-  #TODO: Once UserEngagementTransactions start changing and sending gtag counter, remove the condition
+  # TODO: Once UserEngagementTransactions start changing and sending gtag counter, remove the condition
   def inconsistencies(event)
     sql = <<-SQL
       SELECT

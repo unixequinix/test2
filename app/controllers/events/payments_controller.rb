@@ -7,19 +7,9 @@ class Events::PaymentsController < Events::BaseController
   end
 
   def finish_payment!(order, gateway, type)
-    Transactions::Base.new.portal_write(event_id: @current_event.id,
-                                        station_id: @current_event.portal_station.id,
-                                        type: "MoneyTransaction",
-                                        transaction_origin: Transaction::ORIGINS[:portal],
-                                        action: "portal_#{type}",
-                                        customer_tag_uid: order.customer.active_gtag&.tag_uid,
-                                        payment_method: gateway,
-                                        payment_gateway: gateway,
-                                        order_id: order.id,
-                                        customer_id: order.customer_id,
-                                        price: order.total.to_f,
-                                        status_code: 0,
-                                        status_message: "OK")
+    customer = order.customer
+    atts = { payment_method: gateway, payment_gateway: gateway, order_id: order.id, price: order.total.to_f }
+    Transactions.write!(@current_event, MoneyTransaction, "portal_#{type}", :portal, customer, customer, atts)
   end
 
   def check_order_status!

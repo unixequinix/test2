@@ -25,6 +25,12 @@ FrozenStringLiteralComment:
 Documentation:
   Enabled: false
 
+Style/EmptyCaseCondition:
+  Enabled: false
+
+Style/CaseIndentation:
+  Enabled: false
+
 Metrics/LineLength:
   Max: 120
 

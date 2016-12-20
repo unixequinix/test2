@@ -126,27 +126,6 @@ RSpec.describe Transactions::Base, type: :job do
         expect(CreditTransaction.where(params)).not_to be_empty
       end
     end
-
-    describe ".portal_write" do
-      before do
-        gtag.update(event: event, customer: customer)
-        params[:customer_id] = customer.id
-        params[:action] = "some_action"
-        params[:type] = "CreditTransaction"
-        create(:station, category: "customer_portal", event: event)
-      end
-
-      it "creates the appropiate transaction" do
-        expect { base.new.portal_write(params) }.to change(CreditTransaction, :count).by(1)
-      end
-
-      it "increases the counter for online transactions" do
-        atts = { action: "some_action", customer_tag_uid: gtag.tag_uid, counter: 5, customer_id: customer.id }
-        create(:credit_transaction, atts)
-        base.new.portal_write(params)
-        expect(CreditTransaction.find_by(params).counter).to eq(6)
-      end
-    end
   end
 
   context "executing subscriptors" do

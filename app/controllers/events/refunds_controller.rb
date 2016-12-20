@@ -7,26 +7,16 @@ class Events::RefundsController < Events::BaseController
 
     if @refund.save
       credit = @current_event.credit
+      atts = { items_amount: @refund.amount.to_f * -1,
+               payment_gateway: "bank_account",
+               payment_method: "online",
+               price: @refund.money.to_f * -1 }
 
-      # Create money transaction
-      MoneyTransaction.create(
-        action: "refund",
-        catalog_item: credit,
-        counter: current_customer.transactions.maximum(:counter).to_i + 1,
-        customer: current_customer,
-        event: @current_event,
-        items_amount: @refund.amount.to_f * -1,
-        payment_gateway: "bank_account",
-        payment_method: "online",
-        price: @refund.money.to_f * -1,
-        status_code: 0,
-        status_message: "OK",
-        transaction_origin: Transaction::ORIGINS[:portal]
-      )
+      Transaction.write!(@current_event, MoneyTransaction, "refund", :portal, current_customer, current_customer, atts)
 
       # Create negative online order
       order = current_customer.orders.create(gateway: "refund")
-      order.order_items.create(catalog_item: credit, amount: -(@refund.total), total:  -(@refund.total * credit.value))
+      order.order_items.create(catalog_item: credit, amount: -@refund.total, total:  -(@refund.total * credit.value))
 
       RefundMailer.completed_email(@refund, @current_event.event).deliver_later
       current_customer.active_gtag.recalculate_balance

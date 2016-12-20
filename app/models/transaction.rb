@@ -77,6 +77,21 @@ class Transaction < ActiveRecord::Base
   ORIGINS = { portal: "customer_portal", device: "onsite", admin: "admin_panel" }.freeze
   TYPES = %w(access credential credit money order operator user_engagement).freeze
 
+  def self.write!(event, klass, action, origin, customer, operator, atts) # rubocop:disable Metrics/ParameterLists
+    attributes = { event: event,
+                   action: action,
+                   counter: customer.transactions.maximum(:counter).to_i + 1,
+                   customer: customer,
+                   status_code: 0,
+                   status_message: "OK",
+                   transaction_origin: Transaction::ORIGINS[origin],
+                   station: event.portal_station,
+                   device_created_at: Time.zone.now,
+                   device_created_at_fixed: Time.zone.now,
+                   operator_tag_uid: operator&.email }.merge(atts)
+    klass.create!(attributes)
+  end
+
   def category
     type.gsub("Transaction", "").downcase
   end
