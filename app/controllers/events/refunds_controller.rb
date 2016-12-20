@@ -25,12 +25,8 @@ class Events::RefundsController < Events::BaseController
       )
 
       # Create negative online order
-      current_customer.orders.create(
-        gateway: "refund",
-        order_items_attributes: [
-          { catalog_item: credit, amount: @refund.total * -1, total: @refund.total * credit.value * -1 }
-        ]
-      )
+      order = current_customer.orders.create(gateway: "refund")
+      order.order_items.create(catalog_item: credit, amount: -(@refund.total), total:  -(@refund.total * credit.value))
 
       RefundMailer.completed_email(@refund, @current_event.event).deliver_later
       current_customer.active_gtag.recalculate_balance

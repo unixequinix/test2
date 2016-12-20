@@ -19,7 +19,7 @@
       dt = t("admin.tickets.code")
       dd = @ticket.code
       dt = t("admin.tickets.ticket_type")
-      dd = @ticket.ticket_type.name unless @ticket.ticket_type.nil?
+      dd = link_to @ticket.ticket_type.name, admins_event_ticket_type_path(@current_event, @ticket.ticket_type) unless @ticket.ticket_type.nil?
       dt = t("admin.ticket_types.company")
       dd = @ticket.ticket_type.company_event_agreement.company.name unless @ticket.ticket_type.nil?
 
