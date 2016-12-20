@@ -18,7 +18,7 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
   def show
     @customer = @current_event.customers.find(params[:id])
     @online_transactions = @customer.transactions.online.order(:counter)
-    @onsite_transactions = @customer.active_gtag&.transactions&.order(:gtag_counter)
+    @onsite_transactions = @customer.active_gtag&.transactions&.onsite&.order(:gtag_counter)
   end
 
   def reset_password

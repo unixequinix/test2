@@ -30,16 +30,21 @@
 #
 # Indexes
 #
-#  index_transactions_on_access_id            (access_id)
-#  index_transactions_on_catalog_item_id      (catalog_item_id)
-#  index_transactions_on_customer_id          (customer_id)
-#  index_transactions_on_event_id             (event_id)
-#  index_transactions_on_gtag_id              (gtag_id)
-#  index_transactions_on_operator_station_id  (operator_station_id)
-#  index_transactions_on_order_id             (order_id)
-#  index_transactions_on_station_id           (station_id)
-#  index_transactions_on_ticket_id            (ticket_id)
-#  index_transactions_on_type                 (type)
+#  index_transactions_on_access_id                (access_id)
+#  index_transactions_on_activation_counter       (activation_counter)
+#  index_transactions_on_catalog_item_id          (catalog_item_id)
+#  index_transactions_on_customer_id              (customer_id)
+#  index_transactions_on_device_created_at_fixed  (device_created_at_fixed)
+#  index_transactions_on_device_db_index          (device_db_index)
+#  index_transactions_on_device_uid               (device_uid)
+#  index_transactions_on_event_id                 (event_id)
+#  index_transactions_on_gtag_counter             (gtag_counter)
+#  index_transactions_on_gtag_id                  (gtag_id)
+#  index_transactions_on_operator_station_id      (operator_station_id)
+#  index_transactions_on_order_id                 (order_id)
+#  index_transactions_on_station_id               (station_id)
+#  index_transactions_on_ticket_id                (ticket_id)
+#  index_transactions_on_type                     (type)
 #
 # Foreign Keys
 #
@@ -76,6 +81,22 @@ class Transaction < ActiveRecord::Base
 
   ORIGINS = { portal: "customer_portal", device: "onsite", admin: "admin_panel" }.freeze
   TYPES = %w(access credential credit money order operator user_engagement).freeze
+
+  def self.write!(event, klass, action, origin, customer, operator, atts) # rubocop:disable Metrics/ParameterLists
+    Time.zone = event.timezone
+    attributes = { event: event,
+                   action: action,
+                   counter: customer.transactions.maximum(:counter).to_i + 1,
+                   customer: customer,
+                   status_code: 0,
+                   status_message: "OK",
+                   transaction_origin: Transaction::ORIGINS[origin],
+                   station: event.portal_station,
+                   device_created_at: Time.zone.now.to_formatted_s(:transactions),
+                   device_created_at_fixed: Time.zone.now.to_formatted_s(:transactions),
+                   operator_tag_uid: operator&.email }.merge(atts)
+    klass.create!(attributes)
+  end
 
   def category
     type.gsub("Transaction", "").downcase

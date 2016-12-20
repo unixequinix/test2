@@ -1,0 +1,10 @@
+.wrapper-module
+  h3 Tickets
+  ul.customer-tickets-list
+    - presenter.tickets.each do |ticket|
+      li.customer-ticket
+        a
+          p = ticket.ticket_type.name
+          p.ticket-id =  ticket.code
+          = fa_icon "angle-right"
+    p = t('dashboard.admissions.call_to_action_started')

@@ -15,14 +15,14 @@
 #  device_full_db_content_type  :string
 #  device_full_db_file_name     :string
 #  device_full_db_file_size     :integer
-#  device_settings              :json
+#  device_settings              :jsonb            not null
 #  end_date                     :datetime
 #  eventbrite_client_key        :string
 #  eventbrite_client_secret     :string
 #  eventbrite_event             :string
 #  eventbrite_token             :string
 #  gtag_assignation             :boolean          default(FALSE)
-#  gtag_settings                :json
+#  gtag_settings                :jsonb            not null
 #  host_country                 :string           default("US"), not null
 #  location                     :string
 #  logo_content_type            :string
@@ -32,12 +32,13 @@
 #  official_address             :string
 #  official_name                :string
 #  registration_num             :string
-#  registration_settings        :json
+#  registration_settings        :jsonb            not null
 #  slug                         :string           not null
 #  start_date                   :datetime
 #  style                        :text
 #  support_email                :string           default("support@glownet.com"), not null
 #  ticket_assignation           :boolean          default(FALSE)
+#  timezone                     :string           default("UTC")
 #  token                        :string
 #  token_symbol                 :string           default("t")
 #  url                          :string

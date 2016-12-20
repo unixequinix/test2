@@ -38,7 +38,7 @@
 #  style                        :text
 #  support_email                :string           default("support@glownet.com"), not null
 #  ticket_assignation           :boolean          default(FALSE)
-#  timezone                     :string
+#  timezone                     :string           default("UTC")
 #  token                        :string
 #  token_symbol                 :string           default("t")
 #  url                          :string
@@ -148,7 +148,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   before_create :generate_token
 
-  validates :name, :support_email, presence: true
+  validates :name, :support_email, :timezone, presence: true
   validates :name, uniqueness: true
   validates :agreed_event_condition_message, presence: true, if: :agreed_event_condition?
   validates :receive_communications_message, presence: true, if: :receive_communications?
