@@ -13,6 +13,7 @@
 #  final_refundable_balance    :float
 #  gtag_counter                :integer
 #  items_amount                :float
+#  message                     :string
 #  operator_activation_counter :integer
 #  operator_value              :string
 #  order_item_counter          :integer
@@ -37,10 +38,12 @@
 #  index_transactions_on_operator_station_id  (operator_station_id)
 #  index_transactions_on_order_id             (order_id)
 #  index_transactions_on_station_id           (station_id)
+#  index_transactions_on_ticket_id            (ticket_id)
 #  index_transactions_on_type                 (type)
 #
 # Foreign Keys
 #
+#  fk_rails_091c1eea0c  (ticket_id => tickets.id)
 #  fk_rails_35e85c4b19  (catalog_item_id => catalog_items.id)
 #  fk_rails_4855921d15  (event_id => events.id)
 #  fk_rails_59d791a33f  (order_id => orders.id)

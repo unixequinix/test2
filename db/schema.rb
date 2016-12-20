@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161220141910) do
+ActiveRecord::Schema.define(version: 20161220144920) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -499,9 +499,14 @@ ActiveRecord::Schema.define(version: 20161220141910) do
   end
 
   add_index "transactions", ["access_id"], name: "index_transactions_on_access_id", using: :btree
+  add_index "transactions", ["activation_counter"], name: "index_transactions_on_activation_counter", using: :btree
   add_index "transactions", ["catalog_item_id"], name: "index_transactions_on_catalog_item_id", using: :btree
   add_index "transactions", ["customer_id"], name: "index_transactions_on_customer_id", using: :btree
+  add_index "transactions", ["device_created_at_fixed"], name: "index_transactions_on_device_created_at_fixed", using: :btree
+  add_index "transactions", ["device_db_index"], name: "index_transactions_on_device_db_index", using: :btree
+  add_index "transactions", ["device_uid"], name: "index_transactions_on_device_uid", using: :btree
   add_index "transactions", ["event_id"], name: "index_transactions_on_event_id", using: :btree
+  add_index "transactions", ["gtag_counter"], name: "index_transactions_on_gtag_counter", using: :btree
   add_index "transactions", ["gtag_id"], name: "index_transactions_on_gtag_id", using: :btree
   add_index "transactions", ["operator_station_id"], name: "index_transactions_on_operator_station_id", using: :btree
   add_index "transactions", ["order_id"], name: "index_transactions_on_order_id", using: :btree

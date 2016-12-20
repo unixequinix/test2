@@ -1,25 +1,18 @@
 # == Schema Information
 #
-# Table name: stations
+# Table name: station_catalog_items
 #
-#  address            :string
-#  category           :string
-#  group              :string
-#  location           :string           default("")
-#  name               :string           not null
-#  official_name      :string
-#  position           :integer
-#  registration_num   :string
-#  reporting_category :string
+#  price           :float            not null
 #
 # Indexes
 #
-#  index_stations_on_event_id          (event_id)
-#  index_stations_on_station_event_id  (station_event_id)
+#  index_station_catalog_items_on_catalog_item_id  (catalog_item_id)
+#  index_station_catalog_items_on_station_id       (station_id)
 #
 # Foreign Keys
 #
-#  fk_rails_4d84bcb9bb  (event_id => events.id)
+#  fk_rails_0ed24067c2  (station_id => stations.id)
+#  fk_rails_9e5dde160a  (catalog_item_id => catalog_items.id)
 #
 
 require "spec_helper"
