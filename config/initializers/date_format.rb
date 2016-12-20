@@ -9,3 +9,5 @@
 #     strftime("%FT%T.%L%z")
 #   end
 # end
+
+Time::DATE_FORMATS[:transactions] = "%Y-%m-%dT%T.%L%z"

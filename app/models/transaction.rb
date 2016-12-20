@@ -78,6 +78,7 @@ class Transaction < ActiveRecord::Base
   TYPES = %w(access credential credit money order operator user_engagement).freeze
 
   def self.write!(event, klass, action, origin, customer, operator, atts) # rubocop:disable Metrics/ParameterLists
+    Time.zone = event.timezone
     attributes = { event: event,
                    action: action,
                    counter: customer.transactions.maximum(:counter).to_i + 1,
@@ -86,8 +87,8 @@ class Transaction < ActiveRecord::Base
                    status_message: "OK",
                    transaction_origin: Transaction::ORIGINS[origin],
                    station: event.portal_station,
-                   device_created_at: Time.zone.now,
-                   device_created_at_fixed: Time.zone.now,
+                   device_created_at: Time.zone.now.to_formatted_s(:transactions),
+                   device_created_at_fixed: Time.zone.now.to_formatted_s(:transactions),
                    operator_tag_uid: operator&.email }.merge(atts)
     klass.create!(attributes)
   end
