@@ -12,7 +12,8 @@ class EventbriteImporter < ActiveJob::Base
 
     order[:attendees].each do |attendee|
       attendee["barcodes"].each do |barcode|
-        ctt = ticket_types.find_or_create_by!(company_code: attendee["ticket_class_id"], name: attendee["ticket_class_name"]) # rubocop:disable Metrics/LineLength
+        ctt = ticket_types.find_or_create_by!(company_code: attendee["ticket_class_id"])
+        ctt.update!(name: attendee["ticket_class_name"])
         profile = attendee["profile"]
 
         ticket = ctt.tickets.find_or_create_by!(code: barcode["barcode"], event: event)
