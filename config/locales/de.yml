@@ -873,7 +873,7 @@ de:
       button: Ändern
       call_to_action: Bearbeiten
       hint: Sie haben versehentlich ein falsches %{gtag} verwendet? Löschen Sie den Vorgang und beginnen Sie erneut
-      title: Ihr %{gtag}
+      title: Dein %{gtag}
     more_gtags:
       description: Sie haben mehrere %{gtag}s? Bitte erneut mit jeweils einer anderen Email registrieren.
     not_refundable:
@@ -1014,6 +1014,23 @@ de:
       month: Monat
       second: Sekunde
       year: Jahr
+
+  devise:
+      confirmations:
+        confirmed: Your email address has been successfully confirmed
+        send_instructions: You will receive an email with instructions for how to confirm your email address in a few minutes
+        send_paranoid_instructions: If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes
+      failure:
+        already_authenticated: You are already signed in
+        inactive: Your account is not activated yet
+        invalid: Passwort und %{authentication_keys} stimmen nicht ueberein
+        last_attempt: You have one more attempt before your account is locked
+        locked: Your account is locked.
+        not_found_in_database: Passwort und %{authentication_keys} stimmen nicht ueberein
+        timeout: Your session expired. Please sign in again to continue
+        unauthenticated: You need to sign in or sign up before continuing
+        unconfirmed: You have to confirm your email address before continuing
+
   edit_refund:
     button: Speichern
     call_to_action: Geben Sie Ihre Bankverbindung ein!
@@ -1188,7 +1205,7 @@ de:
     use: Nutzungsbedingungen
   gtag_assignations:
     back: Zurück
-    button: Akzeptieren
+    button: Registrieren
     call_to_action: " %{gtag} anmelden und los!"
     description:
       card: Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}
@@ -1479,11 +1496,11 @@ de:
       details: "'Bitte geben Sie Ihre korrekten persönlichen Daten als Gast der Veranstaltung ein. Dies ermöglicht uns, Ihnen einen sicheren und komfortablen Service zu bieten."
       info: Bitte geben Sie nachfolgend Ihre korrekten persönlichen Daten ein. Dies ermöglicht uns, Ihnen einen sicheren und komfortablen Service zu bieten.
       or: oder
-      title: Jetzt beginnen
+      title: Jetzt Registrieren
   sessions:
     create_account:
-      link: Hier erhältst Du Einen kostenfreien!
-      lost_password: Lost password?
+      link: Neu Registrieren!
+      lost_password: Passwort vergessen?
       title: Du hast noch keinen Festival account?
     end:
       close_title: Möchten Sie die Session beenden?
@@ -1493,7 +1510,7 @@ de:
       welcome: Willkommen!
     log_in:
       link: Logge Dich hier ein
-      title: Du hast bereits einen Festival account?
+      title: Du hast bereits ein account?
     new:
       button: Login
       copy: Was sind die Vorteile?
