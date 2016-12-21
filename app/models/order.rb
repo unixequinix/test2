@@ -27,8 +27,10 @@ class Order < ActiveRecord::Base
   validates :number, :status, presence: true
   validate :max_credit_reached
 
-  scope :completed, -> { where(status: "completed") }
   scope :in_progress, -> { where(status: "in_progress") }
+  scope :completed, -> { where(status: "completed") }
+  scope :cancelled, -> { where(status: "cancelled") }
+  scope :failed, -> { where(status: "failed") }
 
   before_create :set_counters
 

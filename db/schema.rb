@@ -503,7 +503,7 @@ ActiveRecord::Schema.define(version: 20161220150710) do
   add_index "transactions", ["access_id"], name: "index_transactions_on_access_id", using: :btree
   add_index "transactions", ["catalog_item_id"], name: "index_transactions_on_catalog_item_id", using: :btree
   add_index "transactions", ["customer_id"], name: "index_transactions_on_customer_id", using: :btree
-  add_index "transactions", ["event_id", "device_uid", "device_db_index", "device_created_at_fixed", "gtag_counter", "activation_counter"], name: "transactions_on_device_columns", unique: true, using: :btree
+  add_index "transactions", ["event_id", "device_uid", "device_db_index", "device_created_at_fixed", "gtag_counter", "activation_counter"], name: "index_transactions_on_device_columns", unique: true, using: :btree
   add_index "transactions", ["event_id"], name: "index_transactions_on_event_id", using: :btree
   add_index "transactions", ["gtag_id"], name: "index_transactions_on_gtag_id", using: :btree
   add_index "transactions", ["operator_station_id"], name: "index_transactions_on_operator_station_id", using: :btree

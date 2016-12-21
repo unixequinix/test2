@@ -8,6 +8,6 @@ class OrdersPresenter < BasePresenter
   end
 
   def orders
-    @customer.orders
+    @customer.orders.completed
   end
 end
