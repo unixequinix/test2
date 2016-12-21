@@ -239,7 +239,6 @@ Rails.application.routes.draw do
   #----------------------------------------------------------
   # Customer Area
   #----------------------------------------------------------
-  # rubocop disable: Metrics/LineLength
   devise_for :customers, skip: [:session, :password, :registration, :confirmation], controllers: { omniauth_callbacks: "events/omniauth_callbacks" }
   scope module: "events" do
     resources :events, only: [:show], path: "/" do

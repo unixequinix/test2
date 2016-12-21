@@ -1,5 +1,5 @@
 class EventbriteImporter < ActiveJob::Base
-  def perform(order, event_id) # rubocop:disable Metrics/AbcSize
+  def perform(order, event_id) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     order = JSON.parse(order).symbolize_keys
     event = Event.find(event_id)
     company = Company.find_or_create_by!(name: "Eventbrite")
@@ -9,14 +9,14 @@ class EventbriteImporter < ActiveJob::Base
     event.tickets.where(code: barcodes).update_all(banned: true) && return unless order[:status].eql?("placed")
 
     ticket_types = event.ticket_types.where(company_event_agreement: agreement)
-
     order[:attendees].each do |attendee|
       attendee["barcodes"].each do |barcode|
-        ctt = ticket_types.find_or_create_by!(company_code: attendee["ticket_class_id"], name: attendee["ticket_class_name"]) # rubocop:disable Metrics/LineLength
+        ctt = ticket_types.find_or_create_by!(company_code: attendee["ticket_class_id"])
+        ctt.update!(name: attendee["ticket_class_name"])
         profile = attendee["profile"]
 
         ticket = ctt.tickets.find_or_create_by!(code: barcode["barcode"], event: event)
-        ticket.update!(purchaser_first_name: profile["first_name"], purchaser_last_name: profile["last_name"], purchaser_email: profile["email"]) # rubocop:disable Metrics/LineLength
+        ticket.update!(purchaser_first_name: profile["first_name"], purchaser_last_name: profile["last_name"], purchaser_email: profile["email"])
       end
     end
   end

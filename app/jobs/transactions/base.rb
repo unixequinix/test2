@@ -10,7 +10,7 @@ class Transactions::Base < ActiveJob::Base
     return obj if obj
 
     if atts[:customer_tag_uid].present?
-      gtag_atts = { tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id], activation_counter: atts[:activation_counter] } # rubocop:disable Metrics/LineLength
+      gtag_atts = { tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id], activation_counter: atts[:activation_counter] }
       gtag = Gtag.find_or_create_by!(gtag_atts)
 
       prev_activation = Gtag.find_by("tag_uid = ? AND activation_counter < ?", gtag.tag_uid, gtag.activation_counter)
@@ -37,6 +37,7 @@ class Transactions::Base < ActiveJob::Base
   end
 
   def preformat_atts(atts)
+    atts[:activation_counter] = 1 if atts[:activation_counter].to_i.zero?
     atts[:transaction_origin] = Transaction::ORIGINS[:device]
     atts[:station_id] = Station.find_by(event_id: atts[:event_id], station_event_id: atts[:station_id])&.id
     atts[:customer_tag_uid] = atts[:customer_tag_uid].to_s.upcase if atts.key?(:customer_tag_uid)

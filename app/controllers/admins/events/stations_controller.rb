@@ -26,7 +26,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   def update
     respond_to do |format|
       if @station.update(permitted_params)
-        format.html { redirect_to admins_event_stations_url(@current_event, group: @group), notice: I18n.t("alerts.updated") } # rubocop:disable Metrics/LineLength
+        format.html { redirect_to admins_event_stations_url(@current_event, group: @group), notice: I18n.t("alerts.updated") }
         format.json { render json: @station }
       else
         format.html do
@@ -76,6 +76,6 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:station).permit(:name, :location, :event_id, :category, :group, :reporting_category, :address, :registration_num, :official_name) # rubocop:disable Metrics/LineLength
+    params.require(:station).permit(:name, :location, :event_id, :category, :group, :reporting_category, :address, :registration_num, :official_name)
   end
 end

@@ -23,7 +23,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
       it "returns the necessary keys" do
         JSON.parse(response.body).map do |ticket|
-          keys = %w(reference redeemed purchaser_first_name purchaser_last_name purchaser_email banned updated_at catalog_item_id customer_id) # rubocop:disable Metrics/LineLength
+          keys = %w(reference redeemed purchaser_first_name purchaser_last_name purchaser_email banned updated_at catalog_item_id customer_id)
           expect(ticket.keys).to eq(keys)
         end
       end
@@ -75,7 +75,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
         it "returns the necessary keys" do
           ticket = JSON.parse(response.body)
-          ticket_keys = %w(reference credential_redeemed banned catalog_item_id customer purchaser_first_name purchaser_last_name purchaser_email) # rubocop:disable Metrics/LineLength
+          ticket_keys = %w(reference credential_redeemed banned catalog_item_id customer purchaser_first_name purchaser_last_name purchaser_email)
           c_keys = %w(id credentials first_name last_name email orders)
           order_keys = %w(id catalog_item_id amount)
           credential_keys = %w(reference type)

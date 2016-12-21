@@ -60,6 +60,6 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
 
   def permitted_params
     params.require(:payment_gateway)
-          .permit(:gateway, data: [:login, :password, :secret_key, :client_id, :signature, :terminal, :currency, :destination, :fee, :minimum]) # rubocop:disable Metrics/LineLength
+          .permit(:gateway, data: [:login, :password, :secret_key, :client_id, :signature, :terminal, :currency, :destination, :fee, :minimum])
   end
 end
