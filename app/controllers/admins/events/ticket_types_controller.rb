@@ -74,6 +74,6 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:ticket_type).permit(:event_id, :company_id, :name, :company_code, :company_event_agreement_id, :catalog_item_id) # rubocop:disable Metrics/LineLength
+    params.require(:ticket_type).permit(:event_id, :company_id, :name, :company_code, :company_event_agreement_id, :catalog_item_id)
   end
 end

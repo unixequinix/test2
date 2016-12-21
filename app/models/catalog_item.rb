@@ -39,7 +39,7 @@ class CatalogItem < ActiveRecord::Base
   scope :user_flags, -> { where(type: "UserFlag") }
   scope :not_user_flags, -> { where.not(type: "UserFlag") }
 
-  scope :only_credentiables, -> { (where(type: CREDENTIABLE_TYPES) + where(type: "Pack", id: Pack.credentiable_packs)).uniq } # rubocop:disable Metrics/LineLength
+  scope :only_credentiables, -> { (where(type: CREDENTIABLE_TYPES) + where(type: "Pack", id: Pack.credentiable_packs)).uniq }
 
   # Credentiable Types
   CREDIT = "Credit".freeze

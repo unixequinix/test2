@@ -24,7 +24,7 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   end
 
   def fix
-    find_atts = { device_created_at: @transaction.device_created_at, gtag_id: @transaction.gtag_id, type: "MoneyTransaction" } # rubocop:disable Metrics/LineLength
+    find_atts = { device_created_at: @transaction.device_created_at, gtag_id: @transaction.gtag_id, type: "MoneyTransaction" }
     money_t = @current_event.transactions.find_by(find_atts)
     fix_atts = { status_code: 0, status_message: "FIX" }
 
