@@ -45,6 +45,9 @@ class ApplicationController < ActionController::Base
     atts
   end
 
+  def validate_numeric_settings(atts)
+  end
+
   private
 
   def fetch_current_event

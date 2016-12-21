@@ -28,7 +28,6 @@ class Admins::Events::DeviceSettingsController < Admins::Events::BaseController
     params.require(:event).permit(:min_version_apk,
                                   :private_zone_password,
                                   :fast_removal_password,
-                                  :uid_reverse,
                                   :touchpoint_update_online_orders,
                                   :pos_update_online_orders,
                                   :topup_initialize_gtag,
@@ -36,18 +35,11 @@ class Admins::Events::DeviceSettingsController < Admins::Events::BaseController
                                   :gtag_blacklist,
                                   :transaction_buffer,
                                   :days_to_keep_backup,
-                                  :days_to_keep_backup_min,
                                   :sync_time_event_parameters,
-                                  :sync_time_event_parameters_min,
                                   :sync_time_server_date,
-                                  :sync_time_server_date_min,
                                   :sync_time_basic_download,
-                                  :sync_time_basic_download_min,
                                   :sync_time_tickets,
-                                  :sync_time_tickets_min,
                                   :sync_time_gtags,
-                                  :sync_time_gtags_min,
-                                  :sync_time_customers,
-                                  :sync_time_customers_min)
+                                  :sync_time_customers)
   end
 end
