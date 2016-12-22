@@ -36,6 +36,11 @@ The **header** is mandatory and the **scope** of the header is optional.
 Any line of the commit message cannot be longer 100 characters! This allows the message to be easier
 to read on GitHub as well as in various git tools.
 
+### Amends
+Ammends are only allowed in 1 of 2 cases:
+ * If it is a hotfix commit straight to develop, only do amends when commit is not pushed. 
+ * If it is on a feature branch, amends are always allowed
+
 ### Revert
 If the commit reverts a previous commit, it should begin with `revert: `, followed by the header of the reverted commit. In the body it should say: `This reverts commit <hash>.`, where the hash is the SHA of the commit being reverted.
 
