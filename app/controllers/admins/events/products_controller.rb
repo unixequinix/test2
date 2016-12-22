@@ -67,9 +67,8 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
   end
 
   def import # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-    event = @current_event.event
     alert = "Seleccione un archivo para importar"
-    redirect_to(admins_event_products_path(event), alert: alert) && return unless params[:file]
+    redirect_to(admins_event_products_path(@current_event), alert: alert) && return unless params[:file]
     file = params[:file][:data].tempfile.path
 
     CSV.foreach(file, headers: true, col_sep: ";", encoding: "ISO8859-1:utf-8").with_index do |row, i|
@@ -78,16 +77,16 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
         description: row.field("description"),
         is_alcohol: row.field("is_alcohol")
       }
-      product = event.products.find_by(name: row.field("name")) || event.products.new
+      product = @current_event.products.find_by(name: row.field("name")) || @current_event.products.new
       product.assign_attributes(atts)
 
       unless product.save
         errors = "Line #{i}: " + product.errors.full_messages.join(". ")
-        return redirect_to(admins_event_products_path(event), alert: errors)
+        return redirect_to(admins_event_products_path(@current_event), alert: errors)
       end
     end
 
-    redirect_to(admins_event_products_path(event), notice: "Products imported")
+    redirect_to(admins_event_products_path(@current_event), notice: "Products imported")
   end
 
   private
