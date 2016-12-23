@@ -43,7 +43,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   end
 
   def update
-    if @current_event.update(atts.merge(slug: nil))
+    if @current_event.update(permitted_params.merge(slug: nil))
       cols = %w( name start_date end_date)
       @current_event.update(device_full_db: nil, device_basic_db: nil) if @current_event.changes.keys.any? { |att| cols.include? att }
       redirect_to admins_event_url(@current_event), notice: I18n.t("alerts.updated")

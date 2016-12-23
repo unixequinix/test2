@@ -2,7 +2,7 @@
   .wrapper-negative-space
     = f.input :event_id, as: :hidden, input_html: { value: @current_event.id }
     = f.input :ticket_type_id, as: :select, collection: TicketType.form_selector(@current_event), include_blank: false, placeholder: true
-    = f.input :code, placeholder: true
+    = f.input :code, placeholder: true, as: :string
     = f.input :redeemed, as: :radio_buttons, placeholder: true
     = f.input :banned, as: :radio_buttons, placeholder: true
     = f.input :purchaser_first_name

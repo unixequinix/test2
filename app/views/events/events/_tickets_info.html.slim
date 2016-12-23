@@ -1,5 +1,6 @@
 .wrapper-module
   h3 Tickets
+  = link_to t('dashboard.without_admissions.button'), new_event_ticket_assignment_path(@current_event), class: "btn btn-action btn-action-dashboard" unless @current_event.finished?
   ul.customer-tickets-list
     - presenter.tickets.each do |ticket|
       li.customer-ticket
