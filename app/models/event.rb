@@ -2,46 +2,74 @@
 #
 # Table name: events
 #
-#  aasm_state                   :string
-#  background_content_type      :string
-#  background_file_name         :string
-#  background_file_size         :integer
-#  background_type              :string           default("fixed")
-#  company_name                 :string
-#  currency                     :string           default("USD"), not null
-#  device_basic_db_content_type :string
-#  device_basic_db_file_name    :string
-#  device_basic_db_file_size    :integer
-#  device_full_db_content_type  :string
-#  device_full_db_file_name     :string
-#  device_full_db_file_size     :integer
-#  device_settings              :jsonb            not null
-#  end_date                     :datetime
-#  eventbrite_client_key        :string
-#  eventbrite_client_secret     :string
-#  eventbrite_event             :string
-#  eventbrite_token             :string
-#  gtag_assignation             :boolean          default(FALSE)
-#  gtag_settings                :jsonb            not null
-#  host_country                 :string           default("US"), not null
-#  location                     :string
-#  logo_content_type            :string
-#  logo_file_name               :string
-#  logo_file_size               :integer
-#  name                         :string           not null
-#  official_address             :string
-#  official_name                :string
-#  registration_num             :string
-#  registration_settings        :jsonb            not null
-#  slug                         :string           not null
-#  start_date                   :datetime
-#  style                        :text
-#  support_email                :string           default("support@glownet.com"), not null
-#  ticket_assignation           :boolean          default(FALSE)
-#  timezone                     :string           default("UTC")
-#  token                        :string
-#  token_symbol                 :string           default("t")
-#  url                          :string
+#  aasm_state                      :string
+#  address_mandatory               :boolean
+#  agreed_event_condition          :boolean
+#  background_content_type         :string
+#  background_file_name            :string
+#  background_file_size            :integer
+#  background_type                 :string           default("fixed")
+#  birthdate_mandatory             :boolean
+#  cards_can_refund                :boolean          default(TRUE)
+#  city_mandatory                  :boolean
+#  company_name                    :string
+#  country_mandatory               :boolean
+#  currency                        :string           default("USD"), not null
+#  days_to_keep_backup             :integer          default(5)
+#  device_basic_db_content_type    :string
+#  device_basic_db_file_name       :string
+#  device_basic_db_file_size       :integer
+#  device_full_db_content_type     :string
+#  device_full_db_file_name        :string
+#  device_full_db_file_size        :integer
+#  end_date                        :datetime
+#  eventbrite_client_key           :string
+#  eventbrite_client_secret        :string
+#  eventbrite_event                :string
+#  eventbrite_token                :string
+#  fast_removal_password           :string           default("123456")
+#  gender_mandatory                :boolean
+#  gtag_assignation                :boolean          default(FALSE)
+#  gtag_deposit                    :integer          default(0)
+#  gtag_format                     :string           default("standard")
+#  gtag_type                       :string           default("ultralight_c")
+#  logo_content_type               :string
+#  logo_file_name                  :string
+#  logo_file_size                  :integer
+#  maximum_gtag_balance            :integer          default(300)
+#  mifare_classic_private_key_a    :string
+#  mifare_classic_private_key_b    :string
+#  mifare_classic_public_key       :string
+#  name                            :string           not null
+#  official_address                :string
+#  official_name                   :string
+#  phone_mandatory                 :boolean
+#  pos_update_online_orders        :boolean          default(FALSE)
+#  postcode_mandatory              :boolean
+#  private_zone_password           :string           default("123456")
+#  receive_communications          :boolean
+#  receive_communications_two      :boolean
+#  registration_num                :string
+#  slug                            :string           not null
+#  start_date                      :datetime
+#  style                           :text
+#  support_email                   :string           default("support@glownet.com"), not null
+#  sync_time_basic_download        :integer          default(5)
+#  sync_time_customers             :integer          default(10)
+#  sync_time_event_parameters      :integer          default(1)
+#  sync_time_gtags                 :integer          default(10)
+#  sync_time_server_date           :integer          default(1)
+#  sync_time_tickets               :integer          default(5)
+#  ticket_assignation              :boolean          default(FALSE)
+#  timezone                        :string           default("UTC")
+#  token                           :string
+#  token_symbol                    :string           default("t")
+#  topup_initialize_gtag           :boolean          default(TRUE)
+#  touchpoint_update_online_orders :boolean          default(FALSE)
+#  transaction_buffer              :integer          default(100)
+#  ultralight_c_private_key        :string
+#  ultralight_ev1_private_key      :string
+#  wristbands_can_refund           :boolean          default(TRUE)
 #
 # Indexes
 #
@@ -78,8 +106,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   extend FriendlyId
   friendly_id :name, use: :slugged
 
-  S3_FOLDER = Rails.application.secrets.s3_images_folder
-  REGISTRATION_SETTINGS = [:phone, :address, :city, :country, :postcode, :gender, :birthdate, :agreed_event_condition, :receive_communications, :receive_communications_two].freeze # rubocop:disable Metrics/LineLength
+  S3_FOLDER = "#{Rails.application.secrets.s3_images_folder}/event/:id/".freeze
   LOCALES = [:en, :es, :it, :de, :th].freeze
   BACKGROUND_FIXED = "fixed".freeze
   BACKGROUND_REPEAT = "repeat".freeze
@@ -100,8 +127,6 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
     event :start do
       transitions from: :launched, to: :started
-      # TODO: Validates Company Ticket Types
-      # TODO: Validates Device Private Key
     end
 
     event :finish do
@@ -117,38 +142,15 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     end
   end
 
-  has_attached_file(
-    :logo,
-    path: "#{S3_FOLDER}/event/:id/logos/:style/:filename",
-    url: "#{S3_FOLDER}/event/:id/logos/:style/:basename.:extension",
-    styles: { email: "x120", paypal: "x50" },
-    default_url: ":default_event_image_url"
-  )
+  has_attached_file(:logo, path: "#{S3_FOLDER}logos/:style/:filename", url: "#{S3_FOLDER}logos/:style/:basename.:extension", styles: { email: "x120", paypal: "x50" }, default_url: ":default_event_image_url") # rubocop:disable Metrics/LineLength
+  has_attached_file(:background, path: "#{S3_FOLDER}backgrounds/:filename", url: "#{S3_FOLDER}backgrounds/:basename.:extension", default_url: ":default_event_background_url") # rubocop:disable Metrics/LineLength
+  has_attached_file(:device_full_db, path: "#{S3_FOLDER}device_full_db/full_db.:extension", url: "#{S3_FOLDER}device_full_db/full_db.:extension", use_timestamp: false) # rubocop:disable Metrics/LineLength
+  has_attached_file(:device_basic_db, path: "#{S3_FOLDER}device_basic_db/basic_db.:extension", url: "#{S3_FOLDER}device_basic_db/basic_db.:extension", use_timestamp: false) # rubocop:disable Metrics/LineLength
 
-  has_attached_file(
-    :background,
-    path: "#{S3_FOLDER}/event/:id/backgrounds/:filename",
-    url: "#{S3_FOLDER}/event/:id/backgrounds/:basename.:extension",
-    default_url: ":default_event_background_url"
-  )
-
-  has_attached_file(
-    :device_full_db,
-    path: "#{S3_FOLDER}/event/:id/device_full_db/full_db.:extension",
-    url: "#{S3_FOLDER}/event/:id/device_full_db/full_db.:extension",
-    use_timestamp: false
-  )
-
-  has_attached_file(
-    :device_basic_db,
-    path: "#{S3_FOLDER}/event/:id/device_basic_db/basic_db.:extension",
-    url: "#{S3_FOLDER}/event/:id/device_basic_db/basic_db.:extension",
-    use_timestamp: false
-  )
-
-  before_create :generate_token
+  before_create :generate_tokens
 
   validates :name, :support_email, :timezone, presence: true
+  validates :sync_time_gtags, :sync_time_tickets, :transaction_buffer, :days_to_keep_backup, :sync_time_customers, :sync_time_server_date, :sync_time_basic_download, :sync_time_event_parameters, numericality: { greater_than: 0 } # rubocop:disable Metrics/LineLength
   validates :name, uniqueness: true
   validates :agreed_event_condition_message, presence: true, if: :agreed_event_condition?
   validates :receive_communications_message, presence: true, if: :receive_communications?
@@ -160,14 +162,6 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   do_not_validate_attachment_file_type :device_full_db
   do_not_validate_attachment_file_type :device_basic_db
 
-  serialize :registration_settings, HashSerializer
-  serialize :gtag_settings, HashSerializer
-  serialize :device_settings, HashSerializer
-
-  store_accessor :registration_settings, :phone, :address, :city, :country, :postcode, :gender, :birthdate, :agreed_event_condition, :receive_communications, :receive_communications_two # rubocop:disable Metrics/LineLength
-  store_accessor :gtag_settings, :format, :gtag_type, :gtag_deposit, :ultralight_c, :mifare_classic, :ultralight_ev1, :cards_can_refund, :maximum_gtag_balance, :wristbands_can_refund # rubocop:disable Metrics/LineLength
-  store_accessor :device_settings, :min_version_apk, :private_zone_password, :fast_removal_password, :uid_reverse, :touchpoint_update_online_orders, :pos_update_online_orders, :topup_initialize_gtag, :cypher_enabled, :gtag_blacklist, :transaction_buffer, :days_to_keep_backup, :days_to_keep_backup_min, :sync_time_event_parameters, :sync_time_event_parameters_min, :sync_time_server_date, :sync_time_server_date_min, :sync_time_basic_download, :sync_time_basic_download_min, :sync_time_tickets, :sync_time_tickets_min, :sync_time_gtags, :sync_time_gtags_min, :sync_time_customers, :sync_time_customers_min # rubocop:disable Metrics/LineLength
-
   def background_fixed?
     object.background_type.eql? BACKGROUND_FIXED
   end
@@ -177,7 +171,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def self.background_types_selector
-    BACKGROUND_TYPES.map { |f| [I18n.t("admin.event.background_types." + f.to_s), f] }
+    BACKGROUND_TYPES.map { |f| [I18n.t("admin.event.background_types.#{f}"), f] }
   end
 
   def topups?
@@ -216,14 +210,6 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     %w(launched started finished).include? aasm_state
   end
 
-  # Defines a method with a question mark for each registration setting which returns true if the setting is present
-  # Examples: @current_event.phone? / @current_event.address?
-  REGISTRATION_SETTINGS.each do |method_name|
-    define_method "#{method_name}?" do
-      registration_settings && registration_settings[method_name.to_s] == "true"
-    end
-  end
-
   private
 
   def end_date_after_start_date
@@ -231,10 +217,12 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     errors.add(:end_date, I18n.t("errors.messages.end_date_after_start_date"))
   end
 
-  def generate_token
-    loop do
-      self.token = SecureRandom.hex(6).upcase
-      break unless self.class.exists?(token: token)
-    end
+  def generate_tokens
+    self.token = SecureRandom.hex(6).upcase
+    self.ultralight_c_private_key = SecureRandom.hex(16)
+    self.ultralight_ev1_private_key = SecureRandom.hex(16)
+    self.mifare_classic_public_key = SecureRandom.hex(6)
+    self.mifare_classic_private_key_a = SecureRandom.hex(6)
+    self.mifare_classic_private_key_b = SecureRandom.hex(6)
   end
 end

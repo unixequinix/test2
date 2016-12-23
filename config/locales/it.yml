@@ -210,7 +210,6 @@ it:
       event: Event
       events: Events
       gtag: GTags
-      gtag_settings: Gtag Settings
       logs: Logs
       missing_transactions: Missing
       money_transactions: Money
@@ -301,7 +300,6 @@ it:
       form:
         currency: Currency Symbol
         maximum_wb_balance: Maximum wristband balance
-        min_version_apk: Minimum APK version
         private_zone_password: Private Zone Password
         public_key_a: Tag Password
         uid_reverse: UID Reverse
@@ -362,7 +360,6 @@ it:
         it_lang: Italiano
         pt_lang: Portuguese
         th_lang: Thai
-      location: Location
       logo: Logo
       mass_email_claim_notification: Mass email claim notification
       minimum: Minimum
@@ -406,13 +403,6 @@ it:
         unassigned: Previous assignation
       tag: Tag UID
       updated_at: Updated at
-    gtag_settings:
-      form:
-        format: Format
-        mifare_classic: Mifare Classic
-        name: Name
-        ultralight_c: Ultralight C
-        ultralight_ev1: Ultralight EV1
     gtags:
       actions:
         delete_credits: Delete all credits
@@ -770,7 +760,6 @@ it:
     dashboard: Dashboard
     entitlements: Entitlements
     events: Events
-    gtag_settings: Gtag Settings
     gtags: Gtags
     home: Home
     new_access: New access
@@ -1634,7 +1623,6 @@ it:
         edit:
           currency: Currency Symbol
           maximum_wb_balance: Maximum wristband balance
-          min_version_apk: Minimum APK version
           private_zone_password: Private Zone Password
           public_key_a: Tag Password
           uid_reverse: UID Reverse
@@ -1672,9 +1660,7 @@ it:
           disclaimer: Disclaimer
           end_date: Data di fine
           gtag_registration: Registrazione Gtag
-          host_country: Nazione
           info: Info
-          location: Localizzazione
           logo: Logo
           mass_email_claim_notification: Mass email claim notification
           name: Nome
@@ -1697,9 +1683,7 @@ it:
           disclaimer: Disclaimer
           end_date: Data di fine
           gtag_registration: Registrazione Gtag
-          host_country: Nazione
           info: Info
-          location: Localizzazione
           logo: Logo
           mass_email_claim_notification: Mass email claim notification
           name: Nome
@@ -1724,12 +1708,6 @@ it:
           amount: Importo
         new:
           amount: Importo
-      gtag_settings_form:
-        edit:
-          format: Format
-          gtag_assignation_notification: Gtag  assignation notification
-          gtag_form_disclaimer: Gtag assignation form disclaimer
-          name: Name
       online_product:
         edit:
           description: Descrizione
@@ -1813,7 +1791,6 @@ it:
         edit:
           agreed_event_condition_message: Adds the condition you want the user accepts when registering
           description: Add some extra information and other information you consider is important
-          location: Where is the event?
           name: Event´s name. Include year is a good idea
           receive_communications_message: Add the text for the receive communications checkbox
           style: "/*Add some CSS magic*/"
@@ -1822,7 +1799,6 @@ it:
         new:
           agreed_event_condition_message: Adds the condition you want the user accepts when registering
           description: Add some extra information and other information you consider is important
-          location: Where is the event?
           name: Event´s name. Include year is a good idea
           receive_communications_message: Add the text for the receive communications checkbox
           style: "/*Add some CSS magic*/"
@@ -1921,7 +1897,7 @@ it:
       line_3_5: 3.5 You are responsible for making all arrangements necessary for you to have access to the Site.
       title: 3. Access and use of the Site
     ph_4:
-      line_4_1: '4.1 To access our Services made available on the Site, you will need to set up an account #{@current_event.url}. You will be required to provide personal information about yourself (including name, email address, password, country, address, state, city, post code, phone, bank account details and wristband or event card identification numbers).'
+      line_4_1: '4.1 To access our Services made available on the Site, you will need to set up an account. You will be required to provide personal information about yourself (including name, email address, password, country, address, state, city, post code, phone, bank account details and wristband or event card identification numbers).'
       line_4_2: '4.2  You agree that you will provide accurate, current and complete information about yourself, and maintain and promptly update your personal information contained in your account customer. For more information about how we will use your personal information please see our '
       line_4_3: 4.3 You agree to not share your account password, and to keep your password confidential.
       title: 4. Account

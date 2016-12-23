@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
   end
 
   def type_cast_booleans(cols, atts)
-    cols.map!(&:to_sym)
+    cols = cols.map(&:to_sym)
     cols.each { |att| atts[att] = ActiveRecord::ConnectionAdapters::Column::TRUE_VALUES.include?(atts[att]) }
     atts
   end

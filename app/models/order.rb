@@ -19,7 +19,7 @@
 class Order < ActiveRecord::Base
   default_scope { order(created_at: :desc) }
 
-  belongs_to :customer
+  belongs_to :customer, touch: true
   has_many :order_items, dependent: :destroy
   has_many :catalog_items, through: :order_items, class_name: "CatalogItem"
   accepts_nested_attributes_for :order_items
@@ -91,7 +91,7 @@ class Order < ActiveRecord::Base
 
   def max_credit_reached
     return unless customer
-    max_credits = customer.event.gtag_settings["maximum_gtag_balance"].to_f
+    max_credits = customer.event.maximum_gtag_balance.to_f
     max_credits_reached = customer.orders.map(&:credits).sum + credits > max_credits
     errors.add(:credits, I18n.t("errors.messages.max_credits_reached")) if max_credits_reached
   end

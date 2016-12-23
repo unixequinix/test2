@@ -18,7 +18,7 @@ class Events::RefundsController < Events::BaseController
       order = current_customer.orders.create(gateway: "refund")
       order.order_items.create(catalog_item: credit, amount: -@refund.total, total:  -(@refund.total * credit.value))
 
-      RefundMailer.completed_email(@refund, @current_event.event).deliver_later
+      RefundMailer.completed_email(@refund, @current_event).deliver_later
       current_customer.active_gtag.recalculate_balance
       redirect_to customer_root_path(@current_event), success: t("refunds.success")
     else

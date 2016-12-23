@@ -80,6 +80,7 @@ class Transaction < ActiveRecord::Base
 
   def self.write!(event, action, origin, customer, operator, atts) # rubocop:disable Metrics/ParameterLists
     Time.zone = event.timezone
+    now = Time.zone.now.to_formatted_s(:transactions)
     attributes = { event: event,
                    action: action,
                    counter: customer.transactions.maximum(:counter).to_i + 1,
@@ -88,8 +89,8 @@ class Transaction < ActiveRecord::Base
                    status_message: "OK",
                    transaction_origin: Transaction::ORIGINS[origin],
                    station: event.portal_station,
-                   device_created_at: Time.zone.now.to_formatted_s(:transactions),
-                   device_created_at_fixed: Time.zone.now.to_formatted_s(:transactions),
+                   device_created_at: now,
+                   device_created_at_fixed: now,
                    operator_tag_uid: operator&.email }.merge(atts)
     create!(attributes)
   end

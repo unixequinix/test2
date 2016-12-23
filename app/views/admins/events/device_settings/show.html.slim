@@ -46,9 +46,6 @@
       h3.section-header
         = fa_icon "info-circle"
         = t("admin.event.fieldests.parameters")
-
-      dt = t("admin.device_settings.form.min_version_apk")
-      dd = format_abstract_value @current_event.min_version_apk
       dt = t("admin.device_settings.form.topup_initialize_gtag")
       dd = format_abstract_value @current_event.topup_initialize_gtag
 
@@ -67,10 +64,6 @@
       dd = format_abstract_value @current_event.private_zone_password
       dt = t("admin.device_settings.form.fast_removal_password")
       dd = format_abstract_value @current_event.fast_removal_password
-      dt = t("admin.device_settings.form.cypher_enabled")
-      dd = format_abstract_value @current_event.cypher_enabled
-      dt = t("admin.device_settings.form.gtag_blacklist")
-      dd = format_abstract_value @current_event.gtag_blacklist
 
       h3.section-header
         = fa_icon "rss"

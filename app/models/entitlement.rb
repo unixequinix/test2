@@ -69,7 +69,6 @@ class Entitlement < ActiveRecord::Base
   end
 
   def limit
-    gtag_type = event.gtag_settings["gtag_type"].to_sym
-    Gtag::DEFINITIONS[gtag_type][:entitlement_limit]
+    Gtag::DEFINITIONS[event.gtag_type.to_sym][:entitlement_limit]
   end
 end

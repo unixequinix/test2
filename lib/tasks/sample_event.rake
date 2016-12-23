@@ -1,17 +1,25 @@
 namespace :glownet do
   desc "Creates a basic event"
   task sample_event: :environment do
-    @event = EventCreator.new({
+    @event = Event.create({
       name: "Event v#{Time.zone.now.to_s(:number)}",
-      location: "Glownet",
       start_date: DateTime.now,
       end_date: DateTime.now + 4.days,
       support_email: "support@glownet.com",
       currency: "EUR",
-      host_country: "USA",
       gtag_name: "Wristband",
       token_symbol: "t"
-    }).save
+    })
+
+    UserFlag.create!(event_id: @event.id, name: "alcohol_forbidden", step: 1)
+    station = @event.stations.create! name: "Customer Portal", category: "customer_portal", group: "access"
+    station.station_catalog_items.create(catalog_item: @event.credit, price: 1)
+    @event.stations.create! name: "CS Topup/Refund", category: "cs_topup_refund", group: "event_management"
+    @event.stations.create! name: "CS Accreditation", category: "cs_accreditation", group: "event_management"
+    @event.stations.create! name: "Glownet Food", category: "hospitality_top_up", group: "event_management"
+    @event.stations.create! name: "Touchpoint", category: "touchpoint", group: "touchpoint"
+    @event.stations.create! name: "Operator Permissions", category: "operator_permissions", group: "event_management"
+    @event.stations.create! name: "Gtag Recycler", category: "gtag_recycler", group: "glownet"
 
     data = ["customers", "accesses", "packs", "products", "ticket_types", "tickets",
             "checkin_stations", "box_office_stations", "access_control_stations", "staff_accreditation_stations",

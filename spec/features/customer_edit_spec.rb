@@ -5,9 +5,7 @@ RSpec.feature "Edit customer", type: :feature do
   let(:customer) { create(:customer, event: event) }
   let(:event_path) { customer_root_path(event) }
   let(:edit_path) { event_account_path(event) }
-  let(:valid_data) do
-    { email: "valid@email.com", first_name: "Glownet", last_name: "Glownet", current_password: "password" }
-  end
+  let(:valid_data) { { email: "valid@email.com", first_name: "Glownet", last_name: "Glownet", current_password: "password" } }
 
   describe "User wants to edit his customer data in edit customer screen" do
     before do

@@ -2,12 +2,13 @@ class Api::V1::Events::ParametersController < Api::V1::Events::BaseController
   before_action :set_modified
 
   def index
-    gtag_base = @current_event.gtag_settings
-    gtag_common = gtag_base.reject { |key| Gtag::DEFINITIONS.keys.include?(key.to_sym) }
+    render(status: 304, json: :none) && return if @modified && @current_event.updated_at.httpdate <= @modified
 
-    gtag_settings = gtag_common.merge(gtag_base[gtag_base["gtag_type"]]).map { |k, v| { name: k, value: v } }
-    device_settings = @current_event.device_settings.map { |k, v| { name: k, value: v } }
+    cols = %w( uid_reverse sync_time_gtags sync_time_tickets transaction_buffer days_to_keep_backup sync_time_customers fast_removal_password private_zone_password sync_time_server_date topup_initialize_gtag pos_update_online_orders sync_time_basic_download sync_time_event_parameters touchpoint_update_online_orders gtag_format gtag_type gtag_deposit cards_can_refund maximum_gtag_balance wristbands_can_refund ) # rubocop:disable Metrics/LineLength
+    cols += @current_event.attributes.keys.select { |k| k.to_s.starts_with? @current_event.gtag_type }.map(&:to_s)
 
-    render(status: 200, json: device_settings + gtag_settings)
+    body = cols.map { |col| { name: col, value: @current_event.send(col) } }
+
+    render_entity(body.as_json, @current_event.updated_at&.httpdate)
   end
 end

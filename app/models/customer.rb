@@ -162,7 +162,7 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def custom_validation(field)
-    event && event.method("#{field}?").call && !reset_password_token_changed? &&
+    event && event.method("#{field}_mandatory?").call && !reset_password_token_changed? &&
       (!encrypted_password_changed? || new_record?)
   end
 

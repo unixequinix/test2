@@ -61,10 +61,6 @@ class Gtag < ActiveRecord::Base
 
   alias_attribute :reference, :tag_uid
 
-  def self.chips
-    DEFINITIONS.keys.map { |f| [I18n.t("admin.gtag_settings.form." + f.to_s), f] }
-  end
-
   def recalculate_balance
     ts = transactions.credit.status_ok.order(gtag_counter: :asc)
     self.credits = ts.map(&:credits).sum
@@ -99,8 +95,8 @@ class Gtag < ActiveRecord::Base
   end
 
   def can_refund?
-    card_can_refund = card? && event.gtag_settings["cards_can_refund"] == "true"
-    wristband = wristband? && event.gtag_settings["wristbands_can_refund"] == "true"
-    return true if loyalty? || card_can_refund || wristband
+    card = card? && event.cards_can_refund?
+    wristband = wristband? && event.wristbands_can_refund?
+    return true if loyalty? || card || wristband
   end
 end

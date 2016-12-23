@@ -3,8 +3,6 @@
     h3.section-header
       = fa_icon "info-circle"
       = t("admin.event.fieldests.parameters")
-
-    = f.input :min_version_apk
     = f.input :topup_initialize_gtag, as: :boolean, boolean_style: :inline, checked_value: true, unchecked_value: false
 
   fieldset
@@ -22,8 +20,6 @@
 
     = f.input :private_zone_password, as: :string
     = f.input :fast_removal_password, as: :string
-    = f.input :cypher_enabled, as: :boolean, boolean_style: :inline, checked_value: true, unchecked_value: false
-    = f.input :gtag_blacklist
 
   fieldset
     h3.section-header

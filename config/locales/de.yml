@@ -210,7 +210,6 @@ de:
       event: Veranstaltung
       events: Events
       gtag: GTags
-      gtag_settings: Gtag Einstellungen
       logs: Logs
       missing_transactions: Missing
       money_transactions: Money
@@ -300,7 +299,6 @@ de:
       form:
         currency: Währungssymbol
         maximum_wb_balance: Maximum Armband Rechnung
-        min_version_apk: Minimum APK Version
         private_zone_password: Privater Bereich Passwort
         public_key_a: Tag Passwort
         uid_reverse: UID Reverse
@@ -361,7 +359,6 @@ de:
         it_lang: Italienisch
         pt_lang: Portugiesisch
         th_lang: Thai
-      location: Ort
       logo: Logo
       mass_email_claim_notification: Benachrichtigung über Massenemailanforderung
       minimum: Minimum
@@ -405,13 +402,6 @@ de:
         unassigned: Vorherige Anmeldung
       tag: Tag UID
       updated_at: 'Aktualisiert bei '
-    gtag_settings:
-      form:
-        format: Format
-        mifare_classic: Mifare Classic
-        name: Name
-        ultralight_c: Ultralight C
-        ultralight_ev1: Ultralight EV1
     gtags:
       actions:
         delete_credits: Alle Guthaben löschen
@@ -1595,7 +1585,6 @@ de:
         edit:
           currency: Währungssymbol
           maximum_wb_balance: Maximum Armband-Rechnung
-          min_version_apk: Minimum APK Version
           private_zone_password: Passwort für privaten Bereich
           public_key_a: Tag Passwort
           uid_reverse: UID verkertrum
@@ -1633,9 +1622,7 @@ de:
           disclaimer: Disclaimer
           end_date: Enddatum
           gtag_registration: Gtag Registrierung
-          host_country: Land
           info: Info
-          location: Ort
           logo: Logo
           mass_email_claim_notification: Benachrichtigung über Massenemail-Anforderung
           name: Name
@@ -1658,9 +1645,7 @@ de:
           disclaimer: Disclaimer
           end_date: Enddatum
           gtag_registration: Gtag Registrierung
-          host_country: Land
           info: Info
-          location: Ort
           logo: Logo
           mass_email_claim_notification: Benachrichtigung über Massenemail-Anforderung
           name: Name
@@ -1685,12 +1670,6 @@ de:
           amount: Betrag
         new:
           amount: Betrag
-      gtag_settings_form:
-        edit:
-          format: Format
-          gtag_assignation_notification: Benachrichtigung über Gtag Zuweisung
-          gtag_form_disclaimer: Gtag assignation form disclaimer
-          name: Name
       online_product:
         edit:
           description: Beschreibung
@@ -1772,7 +1751,6 @@ de:
         edit:
           agreed_event_condition_message: Fügen Sie Konditionen hinzu, von denen Sie möchten, dass sie der User bei der Registrierung akzeptiert
           description: Fügen Sie eine besondere bzw. weitere Informationen, die Sie für wichtig halten, hinzu
-          location: Wo findet die Veranstaltung statt?
           name: Veranstaltungsname. Empfohlen wird zudem die Angabe der Jahreszahl
           receive_communications_message: Add the text for the receive communications checkbox
           style: "/*Add some CSS magic*/"
@@ -1781,7 +1759,6 @@ de:
         new:
           agreed_event_condition_message: Fügen Sie Konditionen hinzu, von denen Sie möchten, dass sie der User bei der Registrierung akzeptiert
           description: Fügen Sie eine besondere bzw. weitere Informationen, die Sie für wichtig halten, hinzu
-          location: Wo findet die Veranstaltung statt?
           name: Veranstaltungsname. Empfohlen wird zudem die Angabe der Jahreszahl
           receive_communications_message: Add the text for the receive communications checkbox
           style: "/*Add some CSS magic*/"
@@ -1880,7 +1857,7 @@ de:
       line_3_5: 3.5 Sie sind selbst dafür verantwortlich, alle für Sie erforderlichen Maßnahmen zu ergreifen, um auf unsere Website zugreifen zu können.
       title: 3. Site-Zugang und -Nutzung
     ph_4:
-      line_4_1: '4.1 Für den Zugang zu den auf der Site zur Verfügung gestellten Services müssen Sie über #{@current_event.url}. ein Konto einrichten. Dabei müssen Sie persönliche Angaben über sich machen (einschließlich Name, Emailadresse, Passwort, Bankverbindung und Armband oder Identifikationsnummer der Festivalkarte).'
+      line_4_1: '4.1 Für den Zugang zu den auf der Site zur Verfügung gestellten Services müssen Sie über. ein Konto einrichten. Dabei müssen Sie persönliche Angaben über sich machen (einschließlich Name, Emailadresse, Passwort, Bankverbindung und Armband oder Identifikationsnummer der Festivalkarte).'
       line_4_2: '4.2 Sie erklären sich damit einverstanden, dass Sie nur korrekte, aktuelle und vollständige Informationen über sich angeben, und dass Sie die in Ihrem Profil enthaltenen persönlichen Angaben auf dem aktuellen Stand halten und im Fall von Änderungen unverzüglich aktualisieren. Weitere Informationen darüber, wie wir mit Ihren personenbezogenen Daten umgehen, finden Sie in unseren Datenschutzrichtlinien '
       line_4_3: 4.3 Sie stimmen zu, dass Sie mit niemandem Ihr Passwort teilen, und dass Ihr Passwort vertraulich bleibt.
       title: 4. Konto

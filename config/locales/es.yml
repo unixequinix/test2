@@ -210,7 +210,6 @@ es:
       event: Evento
       events: Eventos
       gtag: GTags
-      gtag_settings: Configuración de gtags
       logs: Logs
       missing_transactions: Perdidas
       money_transactions: Monetarias
@@ -301,7 +300,6 @@ es:
       form:
         currency: Símbolo de la moneda
         maximum_wb_balance: Balance máximo de la pulsera
-        min_version_apk: Versión mínima del APK
         private_zone_password: Contraseña de la zona privada
         public_key_a: Contraseña del Gtag
         uid_reverse: UID Reverse
@@ -362,7 +360,6 @@ es:
         it_lang: Italiano
         pt_lang: Portugués
         th_lang: Thailandes
-      location: Localización
       logo: Logo
       mass_email_claim_notification: Notificación general (petición de devolución)
       minimum: Mínimo
@@ -406,13 +403,6 @@ es:
         unassigned: Asignación previa
       tag: Tag UID
       updated_at: Actualizado el
-    gtag_settings:
-      form:
-        format: Formato
-        mifare_classic: Mifare Classic
-        name: Nombre
-        ultralight_c: Ultralight C
-        ultralight_ev1: Ultralight EV1
     gtags:
       actions:
         delete_credits: Borrar créditos
@@ -769,7 +759,6 @@ es:
     dashboard: Panel de Control
     entitlements: Privilegios
     events: Eventos
-    gtag_settings: Configuración de gtags
     gtags: Gtags
     home: Home
     new_access: Nuevo acceso
@@ -1640,7 +1629,6 @@ es:
         edit:
           currency: Símbolo de la moneda
           maximum_wb_balance: Balance máximo de la pulsera
-          min_version_apk: Versión mínima del APK
           private_zone_password: Contraseña de la zona privada
           public_key_a: Contraseña del Gtag
           uid_reverse: UID Reverse
@@ -1678,9 +1666,7 @@ es:
           disclaimer: Advertencia
           end_date: Fecha de finalización
           gtag_registration: Registro de Gtag
-          host_country: País
           info: Información
-          location: Localización
           logo: Logo
           mass_email_claim_notification: Notificación general (petición de devolución)
           name: Nombre
@@ -1703,9 +1689,7 @@ es:
           disclaimer: Advertencia
           end_date: Fecha de finalización
           gtag_registration: Registro de Gtag
-          host_country: País
           info: Información
-          location: Localización
           logo: Logo
           mass_email_claim_notification: Notificación general (petición de devolución)
           name: Nombre
@@ -1730,12 +1714,6 @@ es:
           amount: Cantidad
         new:
           amount: Cantidad
-      gtag_settings_form:
-        edit:
-          format: Formato
-          gtag_assignation_notification: Notificación al asignar el Gtag
-          gtag_form_disclaimer: Texto formulario asignación Gtag
-          name: Nombre
       online_product:
         edit:
           description: Descripción
@@ -1819,7 +1797,6 @@ es:
         edit:
           agreed_event_condition_message: Texto para la condición que quieres que el usuario acepte cuando se registre
           description: Añade algo de información extra u otros datos que consideres importantes
-          location: "¿Dónde se celebra?"
           name: Nombre del evento. No olvides el año
           receive_communications_message: Texto para la condición de recibir notifacicaciones
           style: "/*Dale vida con CSS*/"
@@ -1828,7 +1805,6 @@ es:
         new:
           agreed_event_condition_message: Texto para la condición que quieres que el usuario acepte cuando se registre
           description: Añade algo de información extra u otros datos que consideres importantes
-          location: "¿Dónde se celebra?"
           name: Nombre del evento. No olvides el año
           receive_communications_message: Texto para la condición de recibir notifacicaciones
           style: "/*Dale vida con CSS*/"

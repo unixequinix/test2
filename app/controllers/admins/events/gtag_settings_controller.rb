@@ -10,11 +10,9 @@ class Admins::Events::GtagSettingsController < Admins::Events::BaseController
   end
 
   def load_defaults
-    defaults = YAML.load(ERB.new(File.read("#{Rails.root}/config/glownet/gtag_settings.yml")).result)
-    @current_event.update!(gtag_settings: defaults,
-                           gtag_name: "wristband",
-                           gtag_form_disclaimer: nil,
-                           gtag_assignation_notification: nil)
+    params[:event] = Event.new.attributes
+    atts = { gtag_name: "wristband", gtag_form_disclaimer: nil, gtag_assignation_notification: nil }.merge(permitted_params)
+    @current_event.update!(atts)
     redirect_to admins_event_gtag_settings_path(@current_event), notice: I18n.t("alerts.updated")
   end
 
