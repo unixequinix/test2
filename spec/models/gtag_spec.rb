@@ -34,14 +34,6 @@ RSpec.describe Gtag, type: :model do
     expect(subject).to be_valid
   end
 
-  describe ".upcase_gtag!" do
-    it "upcases the tag_uid" do
-      subject.tag_uid = "aaa"
-      subject.valid?
-      expect(subject.tag_uid).to eq("AAA")
-    end
-  end
-
   it "responds to the method card?" do
     expect(subject).to respond_to(:card?)
   end

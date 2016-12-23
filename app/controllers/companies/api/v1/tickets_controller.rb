@@ -76,6 +76,6 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
     ticket[:ticket_type_id] = ticket[:ticket_type_id] if ticket[:ticket_type_id]
     ticket.merge!(purchaser_first_name: purchaser[:first_name], purchaser_last_name: purchaser[:last_name], purchaser_email: purchaser[:email])
 
-    params.require(:ticket).permit(:code, :description, :ticket_type_id, :purchaser_first_name, :purchaser_last_name, :purchaser_email)
+    params.require(:ticket).permit(:code, :ticket_type_id, :purchaser_first_name, :purchaser_last_name, :purchaser_email)
   end
 end

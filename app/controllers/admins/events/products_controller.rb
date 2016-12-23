@@ -66,7 +66,7 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
     end
   end
 
-  def import # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def import # rubocop:disable Metrics/MethodLength
     alert = "Seleccione un archivo para importar"
     redirect_to(admins_event_products_path(@current_event), alert: alert) && return unless params[:file]
     file = params[:file][:data].tempfile.path

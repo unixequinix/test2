@@ -7,7 +7,7 @@
 
     = f.error_notification
     = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
-    = f.input :email, autofocus: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.email")
+    = f.input :email, autofocus: true, input_html: { class: 'session-input' }, label: t("simple_form.labels.customer.new.email"), as: :string
 
     - if resource.provider && resource.uid
       = f.input :provider, as: :hidden, input_html: { value: resource.provider }

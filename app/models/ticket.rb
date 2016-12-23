@@ -19,7 +19,7 @@
 #
 #  fk_rails_4def87ea62  (event_id => events.id)
 #  fk_rails_5685ed71b0  (customer_id => customers.id)
-#  fk_rails_89217f3a4e  (ticket_type_id => ticket_types.id)
+#  fk_rails_9ee4d47696  (ticket_type_id => ticket_types.id)
 #
 
 class Ticket < ActiveRecord::Base
@@ -36,7 +36,7 @@ class Ticket < ActiveRecord::Base
   validates :code, presence: true
   validates :ticket_type_id, presence: true
 
-  scope :query_for_csv, lambda { |event| event.tickets.select("tickets.*, ticket_types.name as ticket_type_name").joins(:ticket_type) }
+  scope :query_for_csv, ->(event) { event.tickets.select("tickets.*, ticket_types.name as ticket_type_name").joins(:ticket_type) }
 
   alias_attribute :reference, :code
   alias_attribute :ticket_reference, :code

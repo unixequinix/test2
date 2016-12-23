@@ -6,7 +6,7 @@
 
 = simple_form_for [:admins, @admin] do |f|
   .wrapper-negative-space
-    = f.input :email, placeholder: true, required: true
+    = f.input :email, placeholder: true, required: true, as: :string
     = f.input :password, autocomplete: "off"
     = f.input :password_confirmation, autocomplete: "off"
     = f.button :submit, class: "btn btn-primary"
