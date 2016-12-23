@@ -11,7 +11,7 @@
 #  country                    :string
 #  current_sign_in_at         :datetime
 #  current_sign_in_ip         :inet
-#  email                      :string           default(""), not null
+#  email                      :citext           default(""), not null
 #  encrypted_password         :string           default(""), not null
 #  first_name                 :string           default(""), not null
 #  gender                     :string
@@ -67,8 +67,6 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   validates :city, presence: true, if: -> { custom_validation("city") }
   validates :country, presence: true, if: -> { custom_validation("country") }
   validates :gender, presence: true, if: -> { custom_validation("gender") }
-
-  before_save { email.downcase! if email }
 
   scope :query_for_csv, lambda { |event|
     where(event: event)

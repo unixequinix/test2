@@ -3,8 +3,7 @@
 # Table name: tickets
 #
 #  banned               :boolean          default(FALSE)
-#  code                 :string
-#  description          :string
+#  code                 :citext
 #  purchaser_email      :string
 #  purchaser_first_name :string
 #  purchaser_last_name  :string
@@ -37,12 +36,7 @@ class Ticket < ActiveRecord::Base
   validates :code, presence: true
   validates :ticket_type_id, presence: true
 
-  scope :query_for_csv, lambda { |event|
-    event.tickets.select("tickets.id, tickets.event_id, tickets.ticket_type_id as ticket_type_id,
-                         ticket_types.name as ticket_type_name, tickets.code, tickets.banned,
-                          tickets.redeemed")
-         .joins(:ticket_type)
-  }
+  scope :query_for_csv, lambda { |event| event.tickets.select("tickets.*, ticket_types.name as ticket_type_name").joins(:ticket_type) }
 
   alias_attribute :reference, :code
   alias_attribute :ticket_reference, :code

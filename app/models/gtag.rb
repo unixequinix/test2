@@ -50,8 +50,6 @@ class Gtag < ActiveRecord::Base
 
   has_many :transactions, dependent: :destroy
 
-  before_validation :upcase_gtag!
-
   validates :tag_uid, uniqueness: { scope: [:event_id, :activation_counter] }
   validates :tag_uid, presence: true
 
@@ -93,10 +91,6 @@ class Gtag < ActiveRecord::Base
     define_method "#{method_name}?" do
       format == method_name
     end
-  end
-
-  def upcase_gtag!
-    tag_uid.upcase! if tag_uid
   end
 
   def can_refund?
