@@ -3,8 +3,7 @@
 # Table name: tickets
 #
 #  banned               :boolean          default(FALSE)
-#  code                 :string
-#  description          :string
+#  code                 :citext
 #  purchaser_email      :string
 #  purchaser_first_name :string
 #  purchaser_last_name  :string

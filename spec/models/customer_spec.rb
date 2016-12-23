@@ -11,7 +11,7 @@
 #  country                    :string
 #  current_sign_in_at         :datetime
 #  current_sign_in_ip         :inet
-#  email                      :string           default(""), not null
+#  email                      :citext           default(""), not null
 #  encrypted_password         :string           default(""), not null
 #  first_name                 :string           default(""), not null
 #  gender                     :string

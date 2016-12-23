@@ -5,7 +5,7 @@
 #  access_token           :string           not null
 #  current_sign_in_at     :datetime
 #  current_sign_in_ip     :inet
-#  email                  :string           default(""), not null
+#  email                  :citext           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :inet
