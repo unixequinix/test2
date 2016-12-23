@@ -12,7 +12,7 @@ class Events::RefundsController < Events::BaseController
                payment_method: "online",
                price: @refund.money.to_f * -1 }
 
-      Transaction.write!(@current_event, MoneyTransaction, "refund", :portal, current_customer, current_customer, atts)
+      MoneyTransaction.write!(@current_event, "refund", :portal, current_customer, current_customer, atts)
 
       # Create negative online order
       order = current_customer.orders.create(gateway: "refund")

@@ -23,11 +23,10 @@
 #
 
 class Ticket < ActiveRecord::Base
-  default_scope { order(:id) }
+  include Credentiable
 
   # Associations
   belongs_to :event
-  belongs_to :customer
   belongs_to :ticket_type
 
   has_many :transactions, dependent: :destroy
@@ -40,4 +39,8 @@ class Ticket < ActiveRecord::Base
 
   alias_attribute :reference, :code
   alias_attribute :ticket_reference, :code
+
+  def assignation_atts
+    { ticket: self }
+  end
 end

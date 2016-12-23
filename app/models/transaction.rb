@@ -78,7 +78,7 @@ class Transaction < ActiveRecord::Base
   ORIGINS = { portal: "customer_portal", device: "onsite", admin: "admin_panel" }.freeze
   TYPES = %w(access credential credit money order operator user_engagement).freeze
 
-  def self.write!(event, klass, action, origin, customer, operator, atts) # rubocop:disable Metrics/ParameterLists
+  def self.write!(event, action, origin, customer, operator, atts) # rubocop:disable Metrics/ParameterLists
     Time.zone = event.timezone
     attributes = { event: event,
                    action: action,
@@ -91,7 +91,7 @@ class Transaction < ActiveRecord::Base
                    device_created_at: Time.zone.now.to_formatted_s(:transactions),
                    device_created_at_fixed: Time.zone.now.to_formatted_s(:transactions),
                    operator_tag_uid: operator&.email }.merge(atts)
-    klass.create!(attributes)
+    create!(attributes)
   end
 
   def category

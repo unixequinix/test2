@@ -26,6 +26,8 @@
 #
 
 class Gtag < ActiveRecord::Base
+  include Credentiable
+
   STANDARD = "standard".freeze
   CARD = "card".freeze
   SIMPLE = "simple".freeze
@@ -46,7 +48,6 @@ class Gtag < ActiveRecord::Base
               :wristbands_can_refund].freeze
 
   belongs_to :event
-  belongs_to :customer
 
   has_many :transactions, dependent: :destroy
 
@@ -55,6 +56,7 @@ class Gtag < ActiveRecord::Base
 
   scope :query_for_csv, ->(event) { event.gtags.select("id, tag_uid, banned, loyalty, format") }
   scope :banned, -> { where(banned: true) }
+
   default_scope { order(:id) }
 
   alias_attribute :reference, :tag_uid
@@ -65,7 +67,6 @@ class Gtag < ActiveRecord::Base
 
   def recalculate_balance
     ts = transactions.credit.status_ok.order(gtag_counter: :asc)
-
     self.credits = ts.map(&:credits).sum
     self.refundable_credits = ts.map(&:refundable_credits).sum
     self.final_balance = ts.last&.final_balance.to_f
@@ -84,6 +85,10 @@ class Gtag < ActiveRecord::Base
 
   def assigned?
     customer.present?
+  end
+
+  def assignation_atts
+    { customer_tag_uid: tag_uid }
   end
 
   # Defines a method with a question mark for each gtag format which returns if the gtag has that format
