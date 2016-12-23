@@ -29,7 +29,7 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
   end
 
   def download_transactions
-    @pdf_transactions = @customer.transactions.credit.status_ok.not_record_credit.order("device_created_at asc")
+    @pdf_transactions = @customer.transactions.credit.status_ok.order(:gtag_counter)
     if @pdf_transactions.any?
       html = render_to_string(action: :transactions_pdf, layout: false)
       pdf = WickedPdf.new.pdf_from_string(html)

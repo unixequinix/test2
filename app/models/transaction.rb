@@ -73,7 +73,6 @@ class Transaction < ActiveRecord::Base
   scope :with_customer_tag, -> (tag_uid) { where(customer_tag_uid: tag_uid) }
   scope :status_ok, -> { where(status_code: 0) }
   scope :origin, -> (origin) { where(transaction_origin: Transaction::ORIGINS[origin]) }
-  scope :not_record_credit, -> { where.not(action: "record_credit") }
 
   ORIGINS = { portal: "customer_portal", device: "onsite", admin: "admin_panel" }.freeze
   TYPES = %w(access credential credit money order operator user_engagement).freeze
