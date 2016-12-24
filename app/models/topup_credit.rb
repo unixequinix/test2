@@ -22,10 +22,12 @@ class TopupCredit < ActiveRecord::Base
   validates :amount, :credit_id, presence: true
   validate :valid_topup_credit, on: :create
 
+  scope :visible, -> { where(hidden: [false, nil]) }
+
   private
 
   def valid_topup_credit
     return unless station
-    errors[:credit_count] << I18n.t("errors.messages.topup_credit_count") if station.topup_credits.count >= 6
+    errors[:credit_count] << I18n.t("errors.messages.topup_credit_count") if station.topup_credits..count >= 6
   end
 end
