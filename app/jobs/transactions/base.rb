@@ -11,11 +11,7 @@ class Transactions::Base < ActiveJob::Base
 
     if atts[:customer_tag_uid].present?
       gtag_atts = { tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id], activation_counter: atts[:activation_counter] }
-      gtag = Gtag.find_or_create_by!(gtag_atts)
-
-      prev_activation = Gtag.find_by("tag_uid = ? AND activation_counter < ?", gtag.tag_uid, gtag.activation_counter)
-      gtag.update!(format: prev_activation.format, loyalty: prev_activation.loyalty) if prev_activation
-      atts[:gtag_id] = gtag.id
+      atts[:gtag_id] = Gtag.find_or_create_by!(gtag_atts).id
     end
 
     obj_atts = column_attributes(klass, atts)
