@@ -15,7 +15,8 @@ class Api::V1::Events::BaseController < Api::BaseController
   end
 
   def api_enabled
-    return unless @current_event.finished?
+    return unless current_event
+    return unless current_event.finished?
     render(status: :unauthorized, json: :unauthorized)
   end
 
