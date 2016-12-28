@@ -49,7 +49,7 @@ class Gtag < ActiveRecord::Base
 
   belongs_to :event
 
-  has_many :transactions, dependent: :destroy
+  has_many :transactions
 
   validates :tag_uid, uniqueness: { scope: [:event_id, :activation_counter] }
   validates :tag_uid, presence: true

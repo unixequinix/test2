@@ -84,7 +84,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
              fallbacks_for_empty_translations: true
 
   has_many :catalog_items, dependent: :destroy
-  has_many :transactions, dependent: :destroy
+  has_many :transactions
   has_many :ticket_types, dependent: :destroy
   has_many :companies, through: :company_event_agreements
   has_many :company_event_agreements, dependent: :destroy

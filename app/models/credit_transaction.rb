@@ -55,7 +55,7 @@
 
 class CreditTransaction < Transaction
   belongs_to :customer
-  has_many :sale_items, foreign_key: 'credit_transaction_id', dependent: :destroy
+  has_many :sale_items, foreign_key: 'credit_transaction_id'
 
   accepts_nested_attributes_for :sale_items
 
