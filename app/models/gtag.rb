@@ -48,7 +48,7 @@ class Gtag < ActiveRecord::Base
   belongs_to :event
   belongs_to :customer
 
-  has_many :transactions, dependent: :destroy
+  has_many :transactions
 
   before_validation :upcase_gtag!
 

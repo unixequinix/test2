@@ -2,6 +2,13 @@ h3
   = fa_icon "table"
   = title
 
+p
+  - counters = transactions.pluck(:gtag_counter).sort
+  - missing = (1..counters.last).to_a - counters
+  i = "#{missing.size} Transactions missing: #{missing.to_sentence}"
+
+br
+
 table.transactions
   thead
     tr
