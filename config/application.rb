@@ -34,6 +34,7 @@ module GlownetWeb
     config.paperclip_defaults = {
       storage: :s3,
       s3_protocol: :https,
+      s3_region: "eu-west-1",
       s3_credentials: {
         access_key_id: Rails.application.secrets.s3_access_key_id,
         secret_access_key: Rails.application.secrets.s3_secret_access_key,
