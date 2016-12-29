@@ -24,7 +24,6 @@ gem 'uglifier', '~> 2.7.1'
 gem 'slim', '~> 3.0.3'
 gem 'simple_form', '~> 3.1.0'
 gem 'paperclip', '~> 4.3.6'
-gem 'aws-sdk-v1'
 gem 'aws-sdk', '~> 2'
 gem 'best_in_place', '~> 3.0.1'
 
