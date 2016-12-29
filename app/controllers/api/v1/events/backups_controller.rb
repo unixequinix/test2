@@ -10,15 +10,7 @@ class Api::V1::Events::BackupsController < Api::V1::Events::BaseController
     time = Time.parse(params[:backup_created_at]).to_i
     name = "gspot/event/#{params[:event_id]}/backups/#{device}/#{time}.db"
     obj = s3.bucket(Rails.application.secrets.s3_bucket).object(name)
-
-    file = Tempfile.new
-    begin
-      file.write(params[:backup])
-      obj.upload_file(file)
-    ensure
-      file.close
-      file.unlink
-    end
+    obj.put(body: params[:backup])
 
     render(status: :bad_request, json: { error: "params missing" }) && return unless keys
     render(status: :created, json: :created)
