@@ -7,7 +7,7 @@ class Api::V1::Events::BackupsController < Api::V1::Events::BaseController
     s3 = Aws::S3::Resource.new(region:'eu-west-1', credentials: credentials)
 
     time = Time.parse(params[:backup_created_at]).to_i
-    name = "/gspot/event/#{params[:event_id]}/backups/#{params[:device_uid]}/#{params[:device_uid]}-#{time}"
+    name = "gspot/event/#{params[:event_id]}/backups/#{params[:device_uid]}/#{params[:device_uid]}-#{time}.db"
     obj = s3.bucket(Rails.application.secrets.s3_bucket).object(name)
 
     file = Tempfile.new { |f| f.write(params[:backup]) }
