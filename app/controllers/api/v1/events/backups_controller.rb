@@ -12,7 +12,6 @@ class Api::V1::Events::BackupsController < Api::V1::Events::BaseController
     obj = s3.bucket(Rails.application.secrets.s3_bucket).object(name)
     obj.put(body: params[:backup])
 
-    render(status: :bad_request, json: { error: "params missing" }) && return unless keys
-    render(status: :created, json: :created)
+    render(status: :bad_request, json: { error: "params missing" })
   end
 end
