@@ -39,6 +39,10 @@ class Admin < ActiveRecord::Base
     email.start_with?("admin_")
   end
 
+  def root?
+    not (promoter? || customer_service?)
+  end
+
   def slug
     result = email[/[^@]+/]
     result.gsub! "admin_", ""
