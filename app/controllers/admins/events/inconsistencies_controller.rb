@@ -35,7 +35,7 @@ class Admins::Events::InconsistenciesController < Admins::Events::BaseController
       FROM gtags LEFT JOIN transactions ON transactions.gtag_id = gtags.id and transactions.type != 'UserEngagementTransaction'
       WHERE
         gtags.event_id = #{event.id} AND
-        (gtags.final_balance != gtags.credits OR gtags.final_refundable_balance != gtags.refundable_credits) 
+        (gtags.final_balance != gtags.credits OR gtags.final_refundable_balance != gtags.refundable_credits)
         #{good_transactions_sql if only_good_transactions}
       GROUP BY gtags.id
       ORDER BY gtags.final_balance - gtags.credits DESC

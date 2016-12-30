@@ -40,7 +40,7 @@ class Admin < ActiveRecord::Base
   end
 
   def root?
-    not (promoter? || customer_service?)
+    !(promoter? || customer_service?)
   end
 
   def slug

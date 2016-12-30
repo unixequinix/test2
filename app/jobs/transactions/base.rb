@@ -1,7 +1,7 @@
 class Transactions::Base < ActiveJob::Base
   SEARCH_ATTS = %w(event_id device_uid device_db_index device_created_at_fixed gtag_counter activation_counter).freeze
 
-  def perform(atts) # rubocop:disable Metrics/MethodLength
+  def perform(atts)
     atts = preformat_atts(atts)
     klass = Transaction.class_for_type(atts[:type])
     atts[:type] = klass.to_s
