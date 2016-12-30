@@ -16,7 +16,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
   end
 
   def show
-    @transactions = @gtag.transactions.order(:gtag_counter)
+    @transactions = @gtag.transactions.includes(:station).order(:gtag_counter)
   end
 
   def search

@@ -199,7 +199,7 @@ th:
       claims: Claims
       companies: Companies
       credential_transactions: Credential
-      credit_inconsistencies: Credit inconsistencies
+      inconsistencies: Inconsistencies
       credit_transactions: Credit
       credits: Credits
       crm: CRM

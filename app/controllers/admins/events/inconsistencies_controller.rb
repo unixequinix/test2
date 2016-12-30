@@ -1,6 +1,11 @@
-class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseController
+class Admins::Events::InconsistenciesController < Admins::Events::BaseController
   def missing
     @gtags = inconsistencies(@current_event).select { |gtag| !gtag.real }
+    calculate_totals
+  end
+
+  def resolvable
+    @gtags = inconsistencies(@current_event, false).select { |gtag| !gtag.real } - inconsistencies(@current_event).select { |gtag| !gtag.real }
     calculate_totals
   end
 
@@ -19,7 +24,8 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
   end
 
   # TODO: Once UserEngagementTransactions start changing and sending gtag counter, remove the condition
-  def inconsistencies(event)
+  def inconsistencies(event, only_good_transactions = true)
+    good_transactions_sql = "AND transactions.status_code = 0"
     sql = <<-SQL
       SELECT
         gtags.*,
@@ -29,8 +35,8 @@ class Admins::Events::CreditInconsistenciesController < Admins::Events::BaseCont
       FROM gtags LEFT JOIN transactions ON transactions.gtag_id = gtags.id and transactions.type != 'UserEngagementTransaction'
       WHERE
         gtags.event_id = #{event.id} AND
-        (gtags.final_balance != gtags.credits OR gtags.final_refundable_balance != gtags.refundable_credits) AND
-        transactions.status_code = 0
+        (gtags.final_balance != gtags.credits OR gtags.final_refundable_balance != gtags.refundable_credits) 
+        #{good_transactions_sql if only_good_transactions}
       GROUP BY gtags.id
       ORDER BY gtags.final_balance - gtags.credits DESC
     SQL

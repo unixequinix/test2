@@ -49,11 +49,12 @@ Rails.application.routes.draw do
       end
 
       scope module: "events" do
-        # Credit inconsistencies
-        resources :credit_inconsistencies do
+        # Inconsistencies
+        resources :inconsistencies do
           collection do
             get :missing
             get :real
+            get :resolvable
           end
         end
 
