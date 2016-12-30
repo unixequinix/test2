@@ -4,7 +4,7 @@ RSpec.describe Transactions::Credit::BalanceUpdater, type: :job do
   let(:base) { Transactions::Base }
   let(:worker) { Transactions::Credit::BalanceUpdater }
   let(:event) { create(:event) }
-  let(:params) { { gtag_id: create(:gtag, event: event).id } }
+  let(:params) { { gtag_id: create(:gtag, event: event).id, event_id: event.id } }
 
   it "calls recalculate_balance on the given customer" do
     expect_any_instance_of(Gtag).to receive(:recalculate_balance)

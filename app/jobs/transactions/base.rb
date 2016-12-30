@@ -9,10 +9,8 @@ class Transactions::Base < ActiveJob::Base
     obj = klass.find_by(atts.slice(*SEARCH_ATTS))
     return obj if obj
 
-    if atts[:customer_tag_uid].present?
-      gtag_atts = { tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id], activation_counter: atts[:activation_counter] }
-      atts[:gtag_id] = Gtag.find_or_create_by!(gtag_atts).id
-    end
+    gtag_atts = { tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id], activation_counter: atts[:activation_counter] }
+    atts[:gtag_id] = Gtag.find_or_create_by!(gtag_atts).id if atts[:customer_tag_uid].present?
 
     obj_atts = column_attributes(klass, atts)
     obj = klass.create!(obj_atts)
