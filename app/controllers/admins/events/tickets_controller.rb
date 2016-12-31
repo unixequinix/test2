@@ -75,7 +75,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
   end
 
   def import # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-    event = @current_event.event
+    event = @current_event
     path = admins_event_tickets_path(event)
     redirect_to(path, alert: t("admin.tickets.import.empty_file")) && return unless params[:file]
     file = params[:file][:data].tempfile.path
