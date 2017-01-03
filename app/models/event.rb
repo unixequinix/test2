@@ -52,7 +52,7 @@
 #  registration_num                :string
 #  slug                            :string           not null
 #  start_date                      :datetime
-#  state                           :string
+#  state                           :string           default("created")
 #  style                           :text
 #  support_email                   :string           default("support@glownet.com"), not null
 #  sync_time_basic_download        :integer          default(5)
