@@ -57,8 +57,6 @@ class Gtag < ActiveRecord::Base
   scope :query_for_csv, ->(event) { event.gtags.select("id, tag_uid, banned, loyalty, format") }
   scope :banned, -> { where(banned: true) }
 
-  default_scope { order(:id) }
-
   alias_attribute :reference, :tag_uid
 
   def recalculate_balance
