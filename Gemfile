@@ -107,11 +107,12 @@ group :development do
   gem 'bullet' # Help to kill N+1 queries and unused eager loading
   gem 'rails-erd' # Entity-relationship diagrams (ERD)
   gem 'ruby-progressbar'
+  gem 'capistrano'
   gem 'capistrano-rails'
   gem 'capistrano-rvm'
   gem 'capistrano-bundler'
   gem 'capistrano-passenger'
-  gem 'capistrano-sidekiq'
+  gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
   gem 'capistrano-faster-assets'
   gem 'capistrano-rails-console'
   gem 'annotate'

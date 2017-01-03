@@ -1,7 +1,7 @@
 class Transactions::Base < ActiveJob::Base
   SEARCH_ATTS = %w(event_id device_uid device_db_index device_created_at_fixed gtag_counter activation_counter).freeze
 
-  def perform(atts)
+  def perform(atts) # rubocop:disable Metrics/MethodLength
     atts = preformat_atts(atts)
     klass = Transaction.class_for_type(atts[:type])
     atts[:type] = klass.to_s
@@ -9,8 +9,14 @@ class Transactions::Base < ActiveJob::Base
     obj = klass.find_by(atts.slice(*SEARCH_ATTS))
     return obj if obj
 
-    gtag_atts = { tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id], activation_counter: atts[:activation_counter] }
-    atts[:gtag_id] = Gtag.find_or_create_by!(gtag_atts).id if atts[:customer_tag_uid].present?
+    if atts[:customer_tag_uid].present?
+      gtag_atts = { tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id] }
+      begin
+        Gtag.transaction(requires_new: true) { atts[:gtag_id] = Gtag.find_or_create_by(gtag_atts).id }
+      rescue ActiveRecord::RecordNotUnique
+        retry
+      end
+    end
 
     obj_atts = column_attributes(klass, atts)
     obj = klass.create!(obj_atts)

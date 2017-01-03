@@ -40,6 +40,14 @@ GIT
       jsonapi (= 0.1.1.beta6)
 
 GIT
+  remote: https://github.com/seuros/capistrano-sidekiq.git
+  revision: 339c42e24f42d8d72173daae832b23504930f941
+  specs:
+    capistrano-sidekiq (0.10.0)
+      capistrano
+      sidekiq (>= 3.4)
+
+GIT
   remote: https://github.com/sinatra/sinatra.git
   revision: 5579523773551333b07204708bc1eefb3c2fc836
   specs:
@@ -152,9 +160,6 @@ GEM
     capistrano-rvm (0.1.2)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
-    capistrano-sidekiq (0.10.0)
-      capistrano
-      sidekiq (>= 3.4)
     capybara (2.11.0)
       addressable
       mime-types (>= 1.16)
@@ -569,13 +574,14 @@ DEPENDENCIES
   bourbon
   bullet
   byebug
+  capistrano
   capistrano-bundler
   capistrano-faster-assets
   capistrano-passenger
   capistrano-rails
   capistrano-rails-console
   capistrano-rvm
-  capistrano-sidekiq
+  capistrano-sidekiq!
   capybara
   capybara-slow_finder_errors
   codecov
