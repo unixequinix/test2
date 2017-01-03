@@ -10,7 +10,6 @@ RSpec.describe Transactions::Credential::GtagChecker, type: :job do
       event_id: event.id,
       transaction_origin: Transaction::ORIGINS[:device],
       type: "credential",
-      action: "ticket_checkin",
       customer_tag_uid: gtag.tag_uid,
       operator_tag_uid: "A54DSF8SD3JS0",
       station_id: rand(100),
@@ -25,6 +24,13 @@ RSpec.describe Transactions::Credential::GtagChecker, type: :job do
   end
 
   describe "actions include" do
-    after  { worker.perform(atts) }
+    it "gtag_checkin" do
+      atts[:action] = "gtag_checkin"
+    end
+
+    after { worker.perform(atts) }
+  end
+
+  it "assigns the customer to the gtag specified" do
   end
 end
