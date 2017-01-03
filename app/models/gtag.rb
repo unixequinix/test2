@@ -14,11 +14,10 @@
 #
 # Indexes
 #
-#  index_gtags_on_activation_counter    (activation_counter)
-#  index_gtags_on_customer_id           (customer_id)
-#  index_gtags_on_event_id              (event_id)
-#  index_gtags_on_event_id_and_tag_uid  (event_id,tag_uid) UNIQUE
-#  index_gtags_on_tag_uid               (tag_uid)
+#  index_gtags_on_activation_counter  (activation_counter)
+#  index_gtags_on_customer_id         (customer_id)
+#  index_gtags_on_event_id            (event_id)
+#  index_gtags_on_tag_uid             (tag_uid)
 #
 # Foreign Keys
 #
@@ -52,7 +51,7 @@ class Gtag < ActiveRecord::Base
 
   has_many :transactions
 
-  validates :tag_uid, uniqueness: { scope: :event_id }
+  validates :tag_uid, uniqueness: { scope: [:event_id, :activation_counter] }
   validates :tag_uid, presence: true
 
   scope :query_for_csv, ->(event) { event.gtags.select("id, tag_uid, banned, loyalty, format") }
