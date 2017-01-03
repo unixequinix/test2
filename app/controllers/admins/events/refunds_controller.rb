@@ -22,16 +22,6 @@ class Admins::Events::RefundsController < Admins::Events::BaseController
     @refund = @current_event.refunds.find(params[:id])
   end
 
-  def update
-    refund = @current_event.refunds.find(params[:id])
-    if refund.update(permitted_params)
-      flash[:notice] = I18n.t("alerts.updated")
-    else
-      flash[:error] = I18n.t("alerts.error")
-    end
-    redirect_to admins_refund_url(refund)
-  end
-
   private
 
   def set_refunds

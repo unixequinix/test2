@@ -4,10 +4,10 @@
 #
 #  amount      :decimal(8, 2)    not null
 #  fee         :decimal(8, 2)
-#  iban        :string
+#  field_a     :string
+#  field_b     :string
 #  money       :decimal(8, 2)
 #  status      :string
-#  swift       :string
 #
 # Indexes
 #
@@ -19,16 +19,17 @@
 #
 
 class Refund < ActiveRecord::Base
-  belongs_to :customer
+  attr_accessor :validate_iban
 
-  validates :iban, :swift, presence: true
-  validate :valid_iban
-  validate :valid_swift
+  belongs_to :customer
+  validate :correct_iban_and_swift, if: :validate_iban
+  validates :field_a, presence: true
+  validates :field_b, presence: true
 
   scope :query_for_csv, lambda { |event|
     joins(:customer)
-      .select("refunds.id, customers.email, refunds.amount, refunds.fee, refunds.money, refunds.status, refunds.iban,
-               refunds.swift, refunds.created_at").where(customers: { event_id: event.id })
+      .select("refunds.id, customers.email, refunds.amount, refunds.fee, refunds.money, refunds.status, refunds.field_a,
+               refunds.field_b, refunds.created_at").where(customers: { event_id: event.id })
   }
 
   def total
@@ -39,17 +40,12 @@ class Refund < ActiveRecord::Base
     id.to_s.rjust(12, "0")
   end
 
-  private
-
-  def valid_swift
-    validator = ISO::SWIFT.new(swift)
-    msg = validator.errors.map(&:to_s).map(&:humanize).to_sentence
-    errors.add(:swift, msg) unless validator.valid?
-  end
-
-  def valid_iban
+  def correct_iban_and_swift
     validator = IBANTools::IBAN
-    msg = validator.new(iban).validation_errors.map(&:to_s).map(&:humanize).to_sentence
-    errors.add(:iban, msg) unless validator.valid?(iban)
+    msg = validator.new(field_a).validation_errors.map(&:to_s).map(&:humanize).to_sentence
+    errors.add(:field_a, msg) unless validator.valid?(field_a)
+    validator = ISO::SWIFT.new(field_b)
+    msg = validator.errors.map(&:to_s).map(&:humanize).to_sentence
+    errors.add(:field_b, msg) unless validator.valid?
   end
 end

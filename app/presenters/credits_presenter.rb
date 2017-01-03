@@ -20,7 +20,7 @@ class CreditsPresenter < BasePresenter
   end
 
   def refundable_money
-    number_with_precision(@customer.active_gtag&.refundable_money || 0, precision: 2)
+    number_with_precision(@customer.refundable_money || 0, precision: 2)
   end
 
   def token_symbol
