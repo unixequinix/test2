@@ -18,12 +18,15 @@ class Transactions::Base < ActiveJob::Base
       end
     end
 
-    obj_atts = column_attributes(klass, atts)
-    obj = klass.create!(obj_atts)
+    obj_atts =
+
+    begin
+      Transaction.transaction(requires_new: true) { atts[:transaction_id] = Transaction.find_or_create_by(column_attributes(klass, atts)).id }
+    rescue ActiveRecord::RecordNotUnique
+      retry
+    end
 
     return unless atts[:status_code].to_i.zero?
-
-    atts[:transaction_id] = obj.id
     execute_operations(atts)
   end
 
