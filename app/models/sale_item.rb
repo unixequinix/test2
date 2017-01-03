@@ -17,6 +17,6 @@
 #
 
 class SaleItem < ActiveRecord::Base
-  belongs_to :credit_transaction, dependent: :destroy
+  belongs_to :credit_transaction
   belongs_to :product
 end

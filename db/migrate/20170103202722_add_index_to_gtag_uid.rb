@@ -1,9 +1,10 @@
 class AddIndexToGtagUid < ActiveRecord::Migration[5.0]
   def change
-    tags = Gtag.select(:id, :event_id, :tag_uid, :activation_counter).group(:event_id, :tag_uid, :activation_counter).having("count(*) > 1").pluck(:id)
-    SaleItem.where(credit_transaction: Transaction.where(gtag_id: tags)).destroy_all
-    Transaction.where(gtag_id: tags)
-    Gtag.where(id: tags).destroy_all
+    tags = Gtag.select(:event_id, :tag_uid, :activation_counter).group(:event_id, :tag_uid, :activation_counter).having("count(*) > 1").map(&:tag_uid)
+    tags = Gtag.where(tag_uid: tags, event_id: [13, 29])
+    SaleItem.where(credit_transaction: Transaction.where(gtag: tags)).delete_all
+    Transaction.where(gtag: tags).delete_all
+    tags.destroy_all
     add_index :gtags, [:event_id, :tag_uid, :activation_counter], unique: true
   end
 end

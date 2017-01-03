@@ -80,7 +80,7 @@ class UniteSettingsInEvent < ActiveRecord::Migration
       event.mifare_classic_private_key_a = event.gtag_settings["mifare_classic"]["mifare_classic_private_key_a"]
       event.mifare_classic_private_key_b = event.gtag_settings["mifare_classic"]["mifare_classic_private_key_b"]
       event.ultralight_ev1_private_key = event.gtag_settings["ultralight_ev1"]["ultralight_ev1_private_key"]
-      event.save!
+      event.save(validate: false)
     end
 
     remove_column :events, :registration_settings, :jsonb
