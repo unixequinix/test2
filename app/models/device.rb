@@ -48,6 +48,6 @@ class Device < ActiveRecord::Base
   end
 
   def upcase_asset_tracker!
-    asset_tracker.upcase! if asset_tracker
+    asset_tracker&.upcase!
   end
 end

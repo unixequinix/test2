@@ -9,6 +9,7 @@
 #  background_file_size            :integer
 #  background_type                 :string           default("fixed")
 #  birthdate_mandatory             :boolean
+#  card_return_fee                 :integer          default(0)
 #  cards_can_refund                :boolean          default(TRUE)
 #  city_mandatory                  :boolean
 #  company_name                    :string
@@ -30,6 +31,7 @@
 #  gender_mandatory                :boolean
 #  gtag_assignation                :boolean          default(FALSE)
 #  gtag_deposit                    :integer          default(0)
+#  gtag_deposit_fee                :integer          default(0)
 #  gtag_format                     :string           default("standard")
 #  gtag_type                       :string           default("ultralight_c")
 #  iban_enabled                    :boolean          default(TRUE)
@@ -65,6 +67,7 @@
 #  timezone                        :string           default("UTC")
 #  token                           :string
 #  token_symbol                    :string           default("t")
+#  topup_fee                       :integer          default(0)
 #  topup_initialize_gtag           :boolean          default(TRUE)
 #  touchpoint_update_online_orders :boolean          default(FALSE)
 #  transaction_buffer              :integer          default(100)
@@ -102,7 +105,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   has_many :customers, dependent: :destroy
   has_one :credit, dependent: :destroy
 
-  scope :status, -> (status) { where state: status }
+  scope :status, ->(status) { where state: status }
 
   extend FriendlyId
   friendly_id :name, use: :slugged
@@ -112,7 +115,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   BACKGROUND_FIXED = "fixed".freeze
   BACKGROUND_REPEAT = "repeat".freeze
   BACKGROUND_TYPES = [BACKGROUND_FIXED, BACKGROUND_REPEAT].freeze
-  STATES = %w( created launched started finished closed ).freeze
+  STATES = %w(created launched started finished closed).freeze
 
   has_attached_file(:logo, path: "#{S3_FOLDER}logos/:style/:filename", url: "#{S3_FOLDER}logos/:style/:basename.:extension", styles: { email: "x120", paypal: "x50" }, default_url: ":default_event_image_url") # rubocop:disable Metrics/LineLength
   has_attached_file(:background, path: "#{S3_FOLDER}backgrounds/:filename", url: "#{S3_FOLDER}backgrounds/:basename.:extension", default_url: ":default_event_background_url") # rubocop:disable Metrics/LineLength
@@ -123,6 +126,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   validates :name, :support_email, :timezone, presence: true
   validates :sync_time_gtags, :sync_time_tickets, :transaction_buffer, :days_to_keep_backup, :sync_time_customers, :sync_time_server_date, :sync_time_basic_download, :sync_time_event_parameters, numericality: { greater_than: 0 } # rubocop:disable Metrics/LineLength
+  validates :gtag_deposit_fee, :topup_fee, :card_return_fee, numericality: { greater_than_or_equal_to: 0 }
   validates :name, uniqueness: true
   validates :agreed_event_condition_message, presence: true, if: :agreed_event_condition?
   validates :receive_communications_message, presence: true, if: :receive_communications?

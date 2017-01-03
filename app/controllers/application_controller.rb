@@ -22,12 +22,11 @@ class ApplicationController < ActionController::Base
   # Mobile recognition and view configuration
 
   def check_for_mobile
-    session[:mobile_override] = (params[:mobile] == "1") ? "1" : "0"
+    session[:mobile_override] = params[:mobile] == "1" ? "1" : "0"
     prepare_for_mobile if mobile_device?
   end
 
-  def prepare_for_mobile
-  end
+  def prepare_for_mobile; end
 
   def mobile_device?
     (session[:mobile_override] == "1") || user_agent_mobile?
@@ -45,8 +44,7 @@ class ApplicationController < ActionController::Base
     atts
   end
 
-  def validate_numeric_settings(atts)
-  end
+  def validate_numeric_settings(atts); end
 
   private
 

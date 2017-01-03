@@ -21,11 +21,9 @@ class GtagAssignmentsPresenter < BasePresenter
   end
 
   def snippet_gtag_assignments
-    context.link_to(context.event_gtag_assignment_path(context.current_event, gtag.id),
-                    method: :delete, class: "btn btn-action btn-action-secondary") do
-      "#{context.t('dashboard.gtag_registration.button')} " \
-      "<span class='hint'>#{context.t('dashboard.gtag_registration.hint')}</span>".html_safe
-    end
+    text = "#{context.t('dashboard.gtag_registration.button')} <span class='hint'>#{context.t('dashboard.gtag_registration.hint')}</span>"
+    path = context.event_gtag_assignment_path(context.current_event, gtag.id)
+    context.link_to(text, path, method: :delete, class: "btn btn-action btn-action-secondary")
   end
 
   def valid_event_state?

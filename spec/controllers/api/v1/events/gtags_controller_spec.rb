@@ -14,7 +14,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
       before(:each) do
         db_gtags.each { |tag| tag.update!(customer: create(:customer, event: event)) }
         http_login(admin.email, admin.access_token)
-        get :index, event_id: event.id
+        get :index, params: { event_id: event.id }
       end
 
       it "returns a 200 status code" do
@@ -42,7 +42,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
     context "without authentication" do
       it "returns a 401 status code" do
-        get :index, event_id: event.id
+        get :index, params: { event_id: event.id }
         expect(response).to be_unauthorized
       end
     end
@@ -63,7 +63,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
       describe "when gtag exists" do
         before(:each) do
-          get :show, event_id: event.id, id: @gtag.tag_uid
+          get :show, params: { event_id: event.id, id: @gtag.tag_uid }
         end
 
         it "returns a 200 status code" do
@@ -109,7 +109,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
       describe "when gtag doesn't exist" do
         it "returns a 404 status code" do
-          get :show, event_id: event.id, id: (Gtag.last.id + 10)
+          get :show, params: { event_id: event.id, id: (Gtag.last.id + 10) }
           expect(response.status).to eq(404)
         end
       end
@@ -117,7 +117,7 @@ RSpec.describe Api::V1::Events::GtagsController, type: :controller do
 
     context "without authentication" do
       it "returns a 401 status code" do
-        get :show, event_id: event.id, id: Gtag.last.id
+        get :show, params: { event_id: event.id, id: Gtag.last.id }
         expect(response).to be_unauthorized
       end
     end

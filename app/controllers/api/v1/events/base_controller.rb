@@ -9,11 +9,6 @@ class Api::V1::Events::BaseController < Api::BaseController
     render(status: status, json: obj)
   end
 
-  def render_200(obj)
-    ActiveModelSerializers::Adapter.create(obj).to_json
-    render(status: 200, json: obj)
-  end
-
   def api_enabled
     return unless current_event
     return unless current_event.finished?

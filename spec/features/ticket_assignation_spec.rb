@@ -21,7 +21,7 @@ RSpec.feature "Ticket Assignation", type: :feature do
       end
 
       it "assigns the ticket" do
-        codes = customer.tickets.pluck(:code)
+        codes = customer.reload.tickets.pluck(:code)
         expect(codes).to include(valid_ticket.code)
         expect(page.body).to include(valid_ticket.code)
       end

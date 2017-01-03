@@ -52,7 +52,7 @@ RSpec.describe Transactions::Credential::Base, type: :job do
 
     it "raises error if ticket is neither found nor decoded" do
       atts[:ticket_code] = "NOT_VALID_CODE"
-      expect { worker.assign_ticket(transaction, atts) }.to raise_error
+      expect { worker.assign_ticket(transaction, atts) }.to raise_error(RuntimeError)
     end
 
     it "creates a ticket for the event" do

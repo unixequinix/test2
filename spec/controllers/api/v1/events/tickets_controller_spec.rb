@@ -14,7 +14,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
     context "with authentication" do
       before(:each) do
         http_login(admin.email, admin.access_token)
-        get :index, event_id: event.id
+        get :index, params: { event_id: event.id }
       end
 
       it "returns a 200 status code" do
@@ -43,7 +43,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
     context "without authentication" do
       it "returns a 401 status code" do
-        get :index, event_id: event.id
+        get :index, params: { event_id: event.id }
         expect(response).to be_unauthorized
       end
     end
@@ -66,7 +66,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
       describe "when ticket exists" do
         before(:each) do
-          get :show, event_id: event.id, id: @ticket.code
+          get :show, params: { event_id: event.id, id: @ticket.code }
         end
 
         it "returns a 200 status code" do
@@ -117,7 +117,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
       describe "when ticket doesn't exist" do
         it "returns a 404 status code" do
-          get :show, event_id: event.id, id: (db_tickets.last.id + 10)
+          get :show, params: { event_id: event.id, id: (db_tickets.last.id + 10) }
           expect(response.status).to eq(404)
         end
       end
@@ -125,7 +125,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
     context "without authentication" do
       it "returns a 401 status code" do
-        get :show, event_id: event.id, id: db_tickets.last.id
+        get :show, params: { event_id: event.id, id: db_tickets.last.id }
         expect(response).to be_unauthorized
       end
     end

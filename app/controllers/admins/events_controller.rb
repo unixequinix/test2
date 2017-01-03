@@ -2,7 +2,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   include ActiveModel::Dirty
 
   def index
-    redirect_to(admins_event_path(Event.find_by_slug(current_admin.slug))) && return if current_admin.customer_service? || current_admin.promoter?
+    redirect_to(admins_event_path(Event.find_by(slug: current_admin.slug))) && return if current_admin.customer_service? || current_admin.promoter?
 
     params[:status] ||= [:launched, :started, :finished]
     @events = params[:status] == "all" ? Event.all : Event.status(params[:status])
@@ -44,7 +44,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
 
   def update
     if @current_event.update(permitted_params.merge(slug: nil))
-      cols = %w( name start_date end_date)
+      cols = %w(name start_date end_date)
       @current_event.update(device_full_db: nil, device_basic_db: nil) if @current_event.changes.keys.any? { |att| cols.include? att }
       redirect_to admins_event_url(@current_event), notice: I18n.t("alerts.updated")
     else

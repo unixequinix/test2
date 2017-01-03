@@ -1,5 +1,5 @@
 class Transactions::Credential::GtagChecker < Transactions::Credential::Base
-  TRIGGERS = %w( gtag_checkin ).freeze
+  TRIGGERS = %w(gtag_checkin).freeze
 
   def perform(atts)
     ActiveRecord::Base.transaction do

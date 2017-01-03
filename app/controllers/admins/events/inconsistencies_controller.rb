@@ -17,10 +17,10 @@ class Admins::Events::InconsistenciesController < Admins::Events::BaseController
   private
 
   def calculate_totals
-    @topups = @gtags.select { |gtag| gtag.inconsistency > 0 }.map(&:inconsistency).sum
-    @topup_refundables = @gtags.select { |gtag| gtag.refundable_inconsistency > 0 }.map(&:refundable_inconsistency).sum
-    @sales = @gtags.select { |gtag| gtag.inconsistency < 0 }.map(&:inconsistency).sum
-    @sale_refundables = @gtags.select { |gtag| gtag.refundable_inconsistency < 0 }.map(&:refundable_inconsistency).sum
+    @topups = @gtags.select { |gtag| gtag.inconsistency.positive? }.map(&:inconsistency).sum
+    @topup_refundables = @gtags.select { |gtag| gtag.refundable_inconsistency.positive? }.map(&:refundable_inconsistency).sum
+    @sales = @gtags.select { |gtag| gtag.inconsistency.negative? }.map(&:inconsistency).sum
+    @sale_refundables = @gtags.select { |gtag| gtag.refundable_inconsistency.negative? }.map(&:refundable_inconsistency).sum
   end
 
   # TODO: Once UserEngagementTransactions start changing and sending gtag counter, remove the condition

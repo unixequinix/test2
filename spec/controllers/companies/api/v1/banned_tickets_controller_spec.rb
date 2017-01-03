@@ -12,12 +12,12 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
       before { http_login(event.token, company.access_token) }
 
       it "returns 200 status code" do
-        get :index, event_id: event.id
+        get :index, params: { event_id: event.id }
         expect(response).to be_ok
       end
 
       it "returns only the banned tickets for that company" do
-        get :index, event_id: event.id
+        get :index, params: { event_id: event.id }
 
         body = JSON.parse(response.body)
         tickets = body["blacklisted_tickets"].map { |m| m["ticket_reference"] }
@@ -32,7 +32,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
 
     context "when not authenticated" do
       it "returns a 401 status code" do
-        get :index, event_id: event.id
+        get :index, params: { event_id: event.id }
         expect(response).to be_unauthorized
       end
     end
@@ -44,7 +44,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
 
       context "when the request is valid" do
         let(:ticket) { create(:ticket, event: event, ticket_type: ticket_type) }
-        before { post :create, tickets_blacklist: { ticket_reference: ticket.code } }
+        before { post :create, params: { tickets_blacklist: { ticket_reference: ticket.code } } }
 
         it "bans the ticket" do
           expect(ticket.reload).to be_banned
@@ -62,7 +62,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
 
       context "when the request is invalid" do
         it "returns a 400 status code" do
-          post :create, tickets_blacklist: { with: "Invalid request" }
+          post :create, params: { tickets_blacklist: { with: "Invalid request" } }
           expect(response.status).to eq(400)
         end
       end
@@ -70,7 +70,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
 
     context "when not authenticated" do
       it "returns a 401 status code" do
-        post :create, tickets_blacklist: { with: "Some data" }
+        post :create, params: { tickets_blacklist: { with: "Some data" } }
         expect(response).to be_unauthorized
       end
     end
@@ -83,7 +83,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
       before(:each) { http_login(event.token, company.access_token) }
 
       context "when the request is valid" do
-        before { delete :destroy, id: ticket.code }
+        before { delete :destroy, params: { id: ticket.code } }
 
         it "unbans the ticket" do
           expect(ticket.reload).not_to be_banned
@@ -96,7 +96,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
 
       context "when the request is invalid" do
         it "returns a 404 status code" do
-          delete :destroy, id: "InvalidTicketReference"
+          delete :destroy, params: { id: "InvalidTicketReference" }
           expect(response.status).to eq(404)
         end
       end
@@ -104,7 +104,7 @@ RSpec.describe Companies::Api::V1::BannedTicketsController, type: :controller do
 
     context "when not authenticated" do
       it "returns a 401 status code" do
-        delete :destroy, id: ticket.code, ticket: { without: "Authenticate" }
+        delete :destroy, params: { id: ticket.code, ticket: { without: "Authenticate" } }
         expect(response).to be_unauthorized
       end
     end

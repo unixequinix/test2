@@ -27,7 +27,7 @@ class OrderItem < ActiveRecord::Base
   end
 
   def pack_with_credits?
-    catalog_item.is_a?(Pack) && catalog_item.credits > 0
+    catalog_item.is_a?(Pack) && catalog_item.credits.positive?
   end
 
   def credits

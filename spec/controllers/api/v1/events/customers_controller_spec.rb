@@ -17,7 +17,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
 
       before(:each) do
         http_login(admin.email, admin.access_token)
-        get :index, event_id: event.id
+        get :index, params: { event_id: event.id }
       end
 
       it "returns a 200 status code" do
@@ -49,7 +49,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
 
     context "without authentication" do
       it "has a 401 status code" do
-        get :index, event_id: event.id
+        get :index, params: { event_id: event.id }
         expect(response).to be_unauthorized
       end
     end

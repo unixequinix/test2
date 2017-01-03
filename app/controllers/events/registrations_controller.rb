@@ -9,22 +9,22 @@ class Events::RegistrationsController < Devise::RegistrationsController
   # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
   def build_resource(*args)
     super
-    if session[:omniauth]
-      token = Devise.friendly_token[0, 20]
-      name = session[:omniauth]["info"]["name"].split(" ")
-      first_name = session[:omniauth]["info"]["first_name"] || name.first
-      last_name = session[:omniauth]["info"]["last_name"] || name.second
-      resource.event = @current_event
-      resource.provider = session[:omniauth]["provider"]
-      resource.uid = session[:omniauth]["uid"]
-      resource.email = session[:omniauth]["info"]["email"]
-      resource.first_name = first_name
-      resource.last_name = last_name
-      resource.password = token
-      resource.password_confirmation = token
-      resource.agreed_on_registration = true
-      session.delete(:omniauth) && resource.valid?
-    end
+    return unless session[:omniauth]
+
+    token = Devise.friendly_token[0, 20]
+    name = session[:omniauth]["info"]["name"].split(" ")
+    first_name = session[:omniauth]["info"]["first_name"] || name.first
+    last_name = session[:omniauth]["info"]["last_name"] || name.second
+    resource.event = @current_event
+    resource.provider = session[:omniauth]["provider"]
+    resource.uid = session[:omniauth]["uid"]
+    resource.email = session[:omniauth]["info"]["email"]
+    resource.first_name = first_name
+    resource.last_name = last_name
+    resource.password = token
+    resource.password_confirmation = token
+    resource.agreed_on_registration = true
+    session.delete(:omniauth) && resource.valid?
   end
 
   def configure_permitted_parameters

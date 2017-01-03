@@ -37,7 +37,7 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
     context "when the request is VALID" do
       it "returns a 201 status code" do
         expect(Transactions::Base).to receive(:perform_later).and_return(transaction)
-        post(:create, event_id: event.id, _json: params)
+        post :create, params: { event_id: event.id, _json: params }
         expect(response.status).to eq(201)
       end
     end
@@ -45,7 +45,7 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
     context "when the request is INVALID" do
       context "when there are no parameters" do
         it "returns a 400 status code" do
-          post(:create, event_id: event.id)
+          post :create, params: { event_id: event.id }
           expect(response.status).to eq(400)
         end
       end
@@ -56,7 +56,7 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
           params.first.delete(:station_id)
           params.first.delete(:action)
           params.first.delete(:customer_id)
-          post(:create, event_id: event.id, _json: params)
+          post :create, params: { event_id: event.id, _json: params }
           expect(response.status).to eq(422)
         end
       end

@@ -9,7 +9,7 @@ class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
   end
 
   def show
-    gtag = @current_event.gtags.find_by_tag_uid(params[:id])
+    gtag = @current_event.gtags.find_by(tag_uid: params[:id])
 
     render(json: :not_found, status: :not_found) && return unless gtag
     render(json: gtag, serializer: Api::V1::GtagSerializer)

@@ -4,10 +4,7 @@ Encoding.default_internal = Encoding::UTF_8
 source 'https://rubygems.org'
 ruby '2.3.1'
 
-git_source(:github) do |repo_name|
-  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
-  "https://github.com/#{repo_name}.git"
-end
+git_source(:github) { |repo_name| "https://github.com/#{repo_name}.git" }
 
 
 
@@ -18,6 +15,7 @@ gem 'turbolinks', '~> 5'
 gem 'globalize', github: 'globalize/globalize'
 gem 'figaro'
 gem 'aws-sdk', '~> 2'
+gem 'thor', '0.19.1'
 
 # Database
 gem 'activerecord-import'
@@ -52,9 +50,9 @@ gem 'font-awesome-rails'
 
 # APIs
 gem 'jbuilder', '~> 2.5'
-gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_serializers.git'
+gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
 gem 'rack-cors', require: 'rack/cors'
-gem 'eventbrite', git: "https://github.com/envoy/eventbrite"
+gem 'eventbrite', github: "envoy/eventbrite"
 
 # SEO
 gem 'friendly_id'
@@ -64,7 +62,7 @@ gem 'roo'
 
 # Navigation
 gem 'kaminari'
-gem 'gretel', git: 'git@github.com:lassebunk/gretel.git'
+gem 'gretel', github: 'lassebunk/gretel'
 
 # Search
 gem 'ransack'
@@ -94,7 +92,7 @@ gem 'wicked_pdf'
 # Validations
 gem 'rfc-822'
 gem 'iban-tools'
-gem 'iso-swift'
+gem 'iso-swift', github: "hugolantaume/iso-swift"
 
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 3.0'

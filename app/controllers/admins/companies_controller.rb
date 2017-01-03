@@ -23,8 +23,7 @@ class Admins::CompaniesController < Admins::BaseController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @company.update(permitted_params)

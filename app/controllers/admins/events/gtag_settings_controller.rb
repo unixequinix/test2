@@ -1,7 +1,6 @@
 class Admins::Events::GtagSettingsController < Admins::Events::BaseController
   def update
-    atts = type_cast_booleans(%w( cards_can_refund wristbands_can_refund ), permitted_params)
-    if @current_event.update(atts)
+    if @current_event.update(permitted_params)
       redirect_to admins_event_gtag_settings_path(@current_event), notice: I18n.t("alerts.updated")
     else
       flash[:error] = I18n.t("alerts.error")
@@ -29,6 +28,9 @@ class Admins::Events::GtagSettingsController < Admins::Events::BaseController
                                   :ultralight_ev1,
                                   :cards_can_refund,
                                   :maximum_gtag_balance,
-                                  :wristbands_can_refund)
+                                  :wristbands_can_refund,
+                                  :gtag_deposit_fee,
+                                  :topup_fee,
+                                  :card_return_fee)
   end
 end

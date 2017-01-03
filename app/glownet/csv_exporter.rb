@@ -23,7 +23,7 @@ class CsvExporter
 
   def self.attach_columns_to_csv(csv_file, headers, extra_columns)
     csv_file.split("\n").to_enum.with_index.map do |row, index|
-      if index == 0
+      if index.zero?
         row + "," + headers.join(",") + "\n"
       else
         new_row_to_add = headers.reduce("") do |new_row, key|

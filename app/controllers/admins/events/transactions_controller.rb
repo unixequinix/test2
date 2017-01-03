@@ -8,9 +8,9 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
   end
 
   def show
-    @gtag = Gtag.find_by_tag_uid(@transaction.customer_tag_uid)
-    @customer = Customer.find_by_id(@transaction.customer_id)
-    @operator = Gtag.find_by_tag_uid(@transaction.operator_tag_uid)
+    @gtag = Gtag.find_by(tag_uid: @transaction.customer_tag_uid)
+    @customer = Customer.find_by(id: @transaction.customer_id)
+    @operator = Gtag.find_by(tag_uid: @transaction.operator_tag_uid)
   end
 
   def update
@@ -30,7 +30,7 @@ class Admins::Events::TransactionsController < Admins::Events::BaseController
 
     @transaction.update!(fix_atts)
     @transaction.gtag&.recalculate_balance
-    money_t.update(fix_atts) if money_t
+    money_t&.update(fix_atts)
 
     redirect_to(:back, notice: "Transaction fixed successfully")
   end

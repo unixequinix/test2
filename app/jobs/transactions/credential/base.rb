@@ -4,7 +4,7 @@ class Transactions::Credential::Base < Transactions::Base
     event = transaction.event
 
     # If ticket is found by code, it is already there, assign and return it.
-    ticket = event.tickets.find_by_code(code)
+    ticket = event.tickets.find_by(code: code)
     transaction.update!(ticket: ticket) if ticket
     return ticket if ticket
 
@@ -16,7 +16,7 @@ class Transactions::Credential::Base < Transactions::Base
     raise "Ticket with code #{code} not found and not sonar." unless id
 
     # ticket is sonar. so insert it.
-    ctt = event.ticket_types.find_by_company_code(id)
+    ctt = event.ticket_types.find_by(company_code: id)
     ticket = event.tickets.create!(code: code, ticket_type: ctt)
     transaction.update!(ticket: ticket)
     ticket

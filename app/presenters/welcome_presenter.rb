@@ -17,7 +17,7 @@ class WelcomePresenter < BasePresenter
     output << ticket_btn if @event.ticket_assignation? && !@event.finished?
     output << sep if @event.gtag_assignation? && (@event.ticket_assignation? && !@event.finished?)
     output << gtag_btn if @event.gtag_assignation?
-    output.html_safe
+    output
   end
 
   def render_description
@@ -28,9 +28,7 @@ class WelcomePresenter < BasePresenter
   def generate_button(button)
     css = "btn btn-action btn-action-first-registration"
     css += " btn-action-secondary" if @event.gtag_assignation? && (@event.ticket_assignation? && !@event.finished?)
-
-    context.link_to(I18n.t("dashboard.first_register.#{button}"),
-                    context.send("new_event_#{button}_assignment_path", @event),
-                    class: css + " cb-add_#{button}")
+    path = context.send("new_event_#{button}_assignment_path", @event)
+    context.link_to(I18n.t("dashboard.first_register.#{button}"), path, class: css + " cb-add_#{button}")
   end
 end
