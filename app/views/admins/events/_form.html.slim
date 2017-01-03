@@ -16,6 +16,7 @@
           = t("admin.event.fieldests.currency")
         = f.input :currency
         = f.input :token_symbol
+        = f.input :iban_enabled
 
       fieldset
         h3.section-header
@@ -37,18 +38,18 @@
           = fa_icon "info-circle"
           = t("admin.event.fieldests.features")
 
-        = f.input :ticket_assignation, as: :boolean, boolean_style: :inline, checked_value: true, unchecked_value: false
-        = f.input :gtag_assignation, as: :boolean, boolean_style: :inline, checked_value: true, unchecked_value: false
-        = f.input :phone_mandatory, as: :boolean, boolean_style: :inline, checked_value: true, unchecked_value: false
-        = f.input :address_mandatory, as: :boolean, boolean_style: :inline, checked_value: true, unchecked_value: false
-        = f.input :city_mandatory, as: :boolean, boolean_style: :inline, checked_value: true, unchecked_value: false
-        = f.input :country_mandatory, as: :boolean, boolean_style: :inline, checked_value: true, unchecked_value: false
-        = f.input :postcode_mandatory, as: :boolean, boolean_style: :inline, checked_value: true, unchecked_value: false
-        = f.input :gender_mandatory, as: :boolean, boolean_style: :inline, checked_value: true, unchecked_value: false
-        = f.input :birthdate_mandatory, as: :boolean, boolean_style: :inline, checked_value: true, unchecked_value: false
-        = f.input :agreed_event_condition, as: :boolean, boolean_style: :inline, checked_value: true, unchecked_value: false
-        = f.input :receive_communications, as: :boolean, boolean_style: :inline, checked_value: true, unchecked_value: false
-        = f.input :receive_communications_two, as: :boolean, boolean_style: :inline, checked_value: true, unchecked_value: false
+        = f.input :ticket_assignation
+        = f.input :gtag_assignation
+        = f.input :phone_mandatory
+        = f.input :address_mandatory
+        = f.input :city_mandatory
+        = f.input :country_mandatory
+        = f.input :postcode_mandatory
+        = f.input :gender_mandatory
+        = f.input :birthdate_mandatory
+        = f.input :agreed_event_condition
+        = f.input :receive_communications
+        = f.input :receive_communications_two
 
       fieldset
         h3.section-header

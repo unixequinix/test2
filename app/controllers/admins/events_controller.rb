@@ -127,6 +127,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
                                   :birthdate_mandatory,
                                   :agreed_event_condition,
                                   :receive_communications,
-                                  :receive_communications_two)
+                                  :receive_communications_two,
+                                  :iban_enabled)
   end
 end

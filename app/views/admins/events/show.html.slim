@@ -91,6 +91,8 @@
       dd = @current_event.token_symbol
       dt = t("admin.event.currency")
       dd = @current_event.currency
+      dt = t("admin.event.iban_enabled")
+      dd = format_abstract_value(@current_event.iban_enabled?)
 
       h3.section-header
         = fa_icon "info-circle"

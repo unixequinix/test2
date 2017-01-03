@@ -33,6 +33,7 @@
 #  gtag_deposit                    :integer          default(0)
 #  gtag_format                     :string           default("standard")
 #  gtag_type                       :string           default("ultralight_c")
+#  iban_enabled                    :boolean          default(TRUE)
 #  logo_content_type               :string
 #  logo_file_name                  :string
 #  logo_file_size                  :integer
