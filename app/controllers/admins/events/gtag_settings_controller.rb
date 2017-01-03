@@ -11,7 +11,7 @@ class Admins::Events::GtagSettingsController < Admins::Events::BaseController
 
   def load_defaults
     params[:event] = Event.new.attributes
-    atts = { gtag_name: "wristband", gtag_form_disclaimer: nil, gtag_assignation_notification: nil }.merge(permitted_params)
+    atts = { gtag_form_disclaimer: nil, gtag_assignation_notification: nil }.merge(permitted_params)
     @current_event.update!(atts)
     redirect_to admins_event_gtag_settings_path(@current_event), notice: I18n.t("alerts.updated")
   end
@@ -19,8 +19,7 @@ class Admins::Events::GtagSettingsController < Admins::Events::BaseController
   private
 
   def permitted_params
-    params.require(:event).permit(:gtag_name,
-                                  :gtag_form_disclaimer,
+    params.require(:event).permit(:gtag_form_disclaimer,
                                   :gtag_assignation_notification,
                                   :format,
                                   :gtag_type,

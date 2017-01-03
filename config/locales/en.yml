@@ -6,6 +6,7 @@ en:
   gender:
     male: 'Male'
     female: 'Female'
+  gtag_name: 'Wristband'
   event:
     subject_support: 'Need help for %{event}'
     locales:
@@ -15,7 +16,6 @@ en:
       th: 'THA'
       de: 'GER'
       pt: 'PT'
-    gtag_name: 'Wristband'
   events:
     create:
       error: "Event couldn't be created, check the errors below"
@@ -716,8 +716,8 @@ en:
     error: Check the form errors
     forbidden_gtag_change: Impossible to unassign gtag when event has started
     gtag:
-      already_assigned: This %{gtag} is already assigned
-      invalid: This is not a valid %{gtag}
+      already_assigned: This Tag is already assigned
+      invalid: This is not a valid Tag
     gtag_already_assigned: You have one already assigned
     imported: Succesfully imported
     order_complete: Order Completed
@@ -819,7 +819,7 @@ en:
     unhappy: Write us an email, we want to know what happened!
   checkout:
     button: Confirm Order
-    description: After you buy online credits here, they will automatically be applied to your %{gtag} once you enter the event.
+    description: After you buy online credits here, they will automatically be applied to your Tag once you enter the event.
     store: " store"
     title: Top-up
     total: Total
@@ -829,7 +829,7 @@ en:
     privacy_conditions: the privacy policy
     terms_of_use: the terms of use
   confirm:
-    cancel_paypal: Cancelling you disassociate your %{gtag} from you PayPal account.
+    cancel_paypal: Cancelling you disassociate your Tag from you PayPal account.
     cancel_paypal_agreement: Cancel agreement
     log_out: Do you want to end this session?
     remove_ticket: Your purchased credits are assigned to your account. If you remove your ticket, you will need to assign another one to use those credits in the event.
@@ -879,7 +879,7 @@ en:
       call_to_action_started: The event just started so you cannot topup anymore
       header: Your balance
       refundable: Refundable
-      ticket_first: Add a ticket or %{gtag} first
+      ticket_first: Add a ticket or Tag first
     credits_history:
       button: Download Transactions
       header: Transaction history
@@ -887,15 +887,15 @@ en:
       description: We are finishing event configuration to bring you a great experience. Please, come back later and see what we have made for you.
       title: Ultimating details!
     first_register:
-      gtag: Add %{gtag}
+      gtag: Add Tag
       ticket: Add ticket
     gtag_registration:
       button: Remove
       call_to_action: Edit
-      hint: Put a wrong %{gtag} by mistake? Erase and restart the process
-      title: Your %{gtag}
+      hint: Put a wrong Tag by mistake? Erase and restart the process
+      title: Your Tag
     more_gtags:
-      description: Have more %{gtag}s? Please register again with a different email for each.
+      description: Have more Tags? Please register again with a different email for each.
     paypal:
       button: Pay with PayPal
     tipalti:
@@ -906,15 +906,15 @@ en:
       call_to_action: Only activate the ticket(s) which you will be using YOURSELF
       description: Do NOT activate your friend's tickets under your account.
     without_gtags:
-      add: Assign %{gtag}
-      button: Assign
-      description: 'Remember: only one %{gtag} can be activated per account.'
+      add: Assign Tag
+      button: Assign Tag
+      description: 'Remember: only one Tag can be activated per account.'
       title: Credits left?
     without_gtags_claiming_started:
       claim: Sorry
       description: The refunds period is finished, If you have any question contact support.
     without_gtags_disabled:
-      claim: The period to apply for a refund of your %{gtag} credits is closed
+      claim: The period to apply for a refund of your Tag credits is closed
       description: If you have previously contacted us with any support question,
       description2: do not worry, we will help you through with your refund.
   date:
@@ -1086,7 +1086,7 @@ en:
       order:
         completed:
           date: Purchase date
-          description: All your purchased Online Credits will automatically be applied to your %{gtag} once you enter the event. Your Event %{gtag} is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.
+          description: All your purchased Online Credits will automatically be applied to your Tag once you enter the event. Your Event Tag is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.
           greet: Hello, %{name}!
           order_number: Your order
           subject: Order Completed
@@ -1217,17 +1217,17 @@ en:
   gtag_assignations:
     back: Back
     button: Accept
-    call_to_action: Assign your %{gtag} and go!
+    call_to_action: Assign your Tag and go!
     description:
-      card: Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}
-      simple: Assign the yellow highlighted numbers and letters as appears in your %{gtag}
-      standard: Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}
+      card: Assign the second row of numbers and letters (yellow highlighted) of your Tag
+      simple: Assign the yellow highlighted numbers and letters as appears in your Tag
+      standard: Assign the second row of numbers and letters (yellow highlighted) of your Tag
     info:
       line_1: Only numbers from "0" to "9"
       line_2: 'Symbols allowed: "0" - "9" and "A, B, C, D, E, F"'
     placeholders:
       line_2: 'Line 2 e.g: BA6D7DC0'
-    title: Assign %{gtag}
+    title: Assign Tag
   header:
     close: Logout
     edit: Edit Customer
@@ -1754,9 +1754,9 @@ en:
           url: Official site of the event
       gtag:
         edit:
-          tag_uid: Second numbers line of the %{gtag}
+          tag_uid: Second numbers line of the Tag
         new:
-          tag_uid: Second numbers line of the %{gtag}
+          tag_uid: Second numbers line of the Tag
       gtag_credit_log:
         edit:
           amount: Amount
@@ -1766,12 +1766,12 @@ en:
         edit:
           email: Purchaser's email
           first_name: Purchaser's first name
-          gtag_delivery_address: "%{gtag} delivery address"
+          gtag_delivery_address: "Tag delivery address"
           last_name: Purchaser's last name
         new:
           email: Purchaser's email
           first_name: Purchaser's first name
-          gtag_delivery_address: "%{gtag} delivery address"
+          gtag_delivery_address: "Tag delivery address"
           last_name: Purchaser's last name
       ticket:
         edit:

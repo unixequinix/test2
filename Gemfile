@@ -89,7 +89,6 @@ gem 'whenever', '~> 0.9.4', require: false
 
 # Internationalization
 gem 'globalize', '~> 5.0.1'
-gem 'i18n-globals', '~> 0.0.4'
 
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.1', group: :doc

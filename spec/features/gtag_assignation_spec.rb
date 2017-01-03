@@ -15,7 +15,7 @@ RSpec.feature "Gtag Assignation", type: :feature do
 
     context "when gtag is valid and unregistered" do
       before do
-        find("a", text: "Add #{event.gtag_name}").click
+        find("a", text: "Add Tag").click
         find(".cb-gtag_field").set(valid_gtag.tag_uid)
         click_button("Accept")
       end
@@ -34,7 +34,7 @@ RSpec.feature "Gtag Assignation", type: :feature do
 
     context "when gtag is already assigned" do
       before do
-        find("a", text: "Add #{event.gtag_name}").click
+        find("a", text: "Add Tag").click
         find(".cb-gtag_field").set(invalid_gtag.tag_uid)
         click_button("Accept")
       end
@@ -51,7 +51,7 @@ RSpec.feature "Gtag Assignation", type: :feature do
 
     context "when gtag is blank" do
       before do
-        find("a", text: "Add #{event.gtag_name}").click
+        find("a", text: "Add Tag").click
         click_button("Accept")
       end
 
@@ -75,7 +75,7 @@ RSpec.feature "Gtag Assignation", type: :feature do
 
       context "when gtag assignation is enabled" do
         it "is available" do
-          expect(page.body).to include("Add #{event.gtag_name}")
+          expect(page.body).to include("Add Tag")
         end
       end
 
@@ -86,7 +86,7 @@ RSpec.feature "Gtag Assignation", type: :feature do
         end
 
         it "is unavailable" do
-          expect(page.body).not_to include("Add #{event.gtag_name}")
+          expect(page.body).not_to include("Add Tag")
         end
       end
     end
@@ -95,7 +95,7 @@ RSpec.feature "Gtag Assignation", type: :feature do
       before { event.update!(aasm_state: "started") }
       context "when gtag assignation is enabled" do
         it "is available" do
-          expect(page.body).not_to include("Add #{event.gtag_name}")
+          expect(page.body).not_to include("Add Tag")
         end
       end
 
@@ -106,7 +106,7 @@ RSpec.feature "Gtag Assignation", type: :feature do
         end
 
         it "is unavailable" do
-          expect(page.body).not_to include("Add #{event.gtag_name}")
+          expect(page.body).not_to include("Add Tag")
         end
       end
     end
@@ -115,7 +115,7 @@ RSpec.feature "Gtag Assignation", type: :feature do
       before { event.update!(aasm_state: "finished") }
       context "when gtag assignation is enabled" do
         it "is unavailable" do
-          expect(page.body).not_to include("Add #{event.gtag_name}")
+          expect(page.body).not_to include("Add Tag")
         end
       end
 
@@ -126,7 +126,7 @@ RSpec.feature "Gtag Assignation", type: :feature do
         end
 
         it "is unavailable" do
-          expect(page.body).not_to include("Add #{event.gtag_name}")
+          expect(page.body).not_to include("Add Tag")
         end
       end
     end

@@ -7,7 +7,6 @@ namespace :glownet do
       end_date: DateTime.now + 4.days,
       support_email: "support@glownet.com",
       currency: "EUR",
-      gtag_name: "Wristband",
       token_symbol: "t"
     })
 

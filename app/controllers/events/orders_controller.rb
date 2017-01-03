@@ -1,6 +1,6 @@
 class Events::OrdersController < Events::BaseController
   before_action :check_top_ups_is_active!
-  before_action :check_customer_has_credentials!
+  before_action :check_customer_credentials!
 
   def show
     @payment_service = params[:payment_service]

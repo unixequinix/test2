@@ -6,6 +6,7 @@ it:
   gender:
     male: 'Male'
     female: 'Female'
+  gtag_name: 'Wristband'
   event:
     subject_support: 'Need help for %{event}'
     locales:
@@ -15,7 +16,6 @@ it:
       th: 'THA'
       de: 'GER'
       pt: 'PT'
-    gtag_name: 'Wristband'
   events:
     create:
       error: "Event couldn't be created, check the errors below"
@@ -690,8 +690,8 @@ it:
     error: Controlla il modulo per possibili errori
     forbidden_gtag_change: Impossible to unassign gtag when event has started
     gtag:
-      already_assigned: This %{gtag} is already assigned
-      invalid: Questa PayCard non è valida %{gtag}
+      already_assigned: This Tag is already assigned
+      invalid: Questa PayCard non è valida Tag
     gtag_already_assigned: Hanno già uno assegnato
     imported: Importato con successo
     order_complete: Ordine completato
@@ -794,7 +794,7 @@ it:
     unhappy: Scrivici un email, vogliamo sapere cos'è successo!
   checkout:
     button: Conferma Ordine
-    description: Dopo aver acquistato il tuo credito online, sarà automaticamente assegnato al tuo %{gtag} una volta entrato all’ evento.
+    description: Dopo aver acquistato il tuo credito online, sarà automaticamente assegnato al tuo Tag una volta entrato all’ evento.
     store: " store"
     title: Ricarica
     total: Totale
@@ -837,7 +837,7 @@ it:
     privacy_conditions: la informativa sulla privacy
     terms_of_use: condizioni d'uso
   confirm:
-    cancel_paypal: Cancellando dissocerete il vostro %{gtag} dal vostro account PayPal.
+    cancel_paypal: Cancellando dissocerete il vostro Tag dal vostro account PayPal.
     cancel_paypal_agreement: Cancel agreement
     log_out: Desidera terminare la sessione?
     remove_ticket: I crediti acquistati sono assegnati al vostro account. Se eliminate il ticket, dovrete assegnarne un altro per usare i crediti durante l’evento.
@@ -901,14 +901,14 @@ it:
       description: Stiamo terminando la configuration dell’ event per assicurarvi la migliore esperienza. Perfavore, torna più tardi per vedette cost abbiamo preparation per te.
       title: Finalizzando dettagli!
     first_register:
-      gtag: Aggiungi %{gtag}
+      gtag: Aggiungi Tag
       ticket: Aggiungi ticket
     gtag_after_refund:
       description: Il tuo rimborso è in corso
     gtag_registration:
       button: Cancella
       call_to_action: Registrato una Paycard sbagliata per?
-      hint: Hai sbagliato a trascrivere il codice della tua %{gtag}? Cancella e ricomincia il processo
+      hint: Hai sbagliato a trascrivere il codice della tua Tag? Cancella e ricomincia il processo
       title: 'Il numero della tua Paycard:'
     more_gtags:
       description: Si prega di registrare ogni Paycard diversa con un indirizzo email diverso.
@@ -938,9 +938,9 @@ it:
       call_to_action: " Attivate SOLO i ticket che userete VOI STESSI"
       description: NON attivate ticket di amici con il vostro account.
     without_gtags:
-      add: Registra %{gtag}
-      button: Registra
-      description: Si può registrare solo una %{gtag} per ogni account.
+      add: Registra Tag
+      button: Registra Tag
+      description: Si può registrare solo una Tag per ogni account.
       title: Crediti residui?
     without_gtags_claiming_started:
       claim: Scusa
@@ -1103,20 +1103,20 @@ it:
       gtag:
         assigned:
           greet: Ciao, %{name}!
-          mail_body: 'Hai assegnato un %{gtag} con il id:'
-          subject: "%{gtag} assigned"
-          title: "%{gtag} assigned"
+          mail_body: 'Hai assegnato un Tag con il id:'
+          subject: "Tag assigned"
+          title: "Tag assigned"
         unassigned:
           greet: Ciao, %{name}!
-          mail_body: 'Hai cancellato un %{gtag} con il id:'
+          mail_body: 'Hai cancellato un Tag con il id:'
           mail_link: Verificalo sul sito web
-          subject: "%{gtag} cancellato"
-          title: "%{gtag} cancellato"
+          subject: "Tag cancellato"
+          title: "Tag cancellato"
       like_on_facebook: Mi piace su Facebook
       order:
         completed:
           date: Data del acquisto
-          description: Tutti i crediti acquistati online appariranno automaticamente sul tuo %{gtag} una volta entrati nell’ evento. La tua %{gtag} è una maniera rapida e conveniente per pagare cibo, bevande, merchandise e altri beni e servizi. Sarà l’unico metodo di pagamento presente durante l’evento.
+          description: Tutti i crediti acquistati online appariranno automaticamente sul tuo Tag una volta entrati nell’ evento. La tua Tag è una maniera rapida e conveniente per pagare cibo, bevande, merchandise e altri beni e servizi. Sarà l’unico metodo di pagamento presente durante l’evento.
           greet: Ciao, %{name}!
           order_number: Il tuo ordine
           subject: Ordine completato
@@ -1231,9 +1231,9 @@ it:
     button: Registra
     call_to_action: Registra la tua Paycard e inizia!
     description:
-      card: Inserisci il codice alfanumerico che trovi sul retro (in baso a destra) della tua %{gtag}
-      simple: Assegna i numeri evidenziati in giallo come appaiono nel tuo %{gtag}
-      standard: Inserisci il codice alfanumerico che trovi sul retro (in baso a destra) della tua %{gtag}
+      card: Inserisci il codice alfanumerico che trovi sul retro (in baso a destra) della tua Tag
+      simple: Assegna i numeri evidenziati in giallo come appaiono nel tuo Tag
+      standard: Inserisci il codice alfanumerico che trovi sul retro (in baso a destra) della tua Tag
     info:
       line_1: Solo numero da "0" a "9"
       line_2: 'Simboli ammessi: "0" - "9" e "A, B, C, D, E, F"'
@@ -1806,9 +1806,9 @@ it:
           url: Official site of the event
       gtag:
         edit:
-          tag_uid: La seconda linea di numeri della %{gtag}
+          tag_uid: La seconda linea di numeri della Tag
         new:
-          tag_uid: La seconda linea di numeri della %{gtag}
+          tag_uid: La seconda linea di numeri della Tag
       gtag_credit_log:
         edit:
           amount: Importo
@@ -1818,12 +1818,12 @@ it:
         edit:
           email: Purchaser's email
           first_name: Purchaser's first name
-          gtag_delivery_address: "%{gtag} delivery address"
+          gtag_delivery_address: "Tag delivery address"
           last_name: Purchaser's last name
         new:
           email: Purchaser's email
           first_name: Purchaser's first name
-          gtag_delivery_address: "%{gtag} delivery address"
+          gtag_delivery_address: "Tag delivery address"
           last_name: Purchaser's last name
       ticket:
         edit:

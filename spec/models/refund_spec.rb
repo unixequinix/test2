@@ -4,10 +4,10 @@
 #
 #  amount      :decimal(8, 2)    not null
 #  fee         :decimal(8, 2)
-#  iban        :string
+#  field_a     :string
+#  field_b     :string
 #  money       :decimal(8, 2)
 #  status      :string
-#  swift       :string
 #
 # Indexes
 #

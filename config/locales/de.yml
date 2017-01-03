@@ -6,6 +6,7 @@ de:
   gender:
     male: 'Male'
     female: 'Female'
+  gtag_name: 'Wristband'
   event:
     subject_support: 'Need help for %{event}'
     locales:
@@ -15,7 +16,6 @@ de:
       th: 'THA'
       de: 'GER'
       pt: 'PT'
-    gtag_name: 'Wristband'
   events:
     create:
       error: "Event couldn't be created, check the errors below"
@@ -685,8 +685,8 @@ de:
     destroyed: Erfolgreich entfernt
     error: Formfehler prüfen
     gtag:
-      already_assigned: Dieser %{gtag} ist bereits angemeldet
-      invalid: Die ist keinen gültiger %{gtag}
+      already_assigned: Dieser Tag ist bereits angemeldet
+      invalid: Die ist keinen gültiger Tag
     gtag_already_assigned: Sie haben bereits ein gtag angemeldet
     imported: Erfolgreich importiert
     order_complete: Bestellung abgeschlossen
@@ -748,7 +748,7 @@ de:
     unhappy: Schreiben Sie uns eine Email, wir möchten erfahren, was passiert ist!
   checkout:
     button: Bestellung bestätigen
-    description: Nachdem Du hier Online-Guthaben erworben hast, werden diese automatisch auf Dein %{gtag} übertragen, sobald Du die Veranstaltung betreten hast.
+    description: Nachdem Du hier Online-Guthaben erworben hast, werden diese automatisch auf Dein Tag übertragen, sobald Du die Veranstaltung betreten hast.
     store: " shop"
     title: Top-up
     total: Summe
@@ -791,7 +791,7 @@ de:
     privacy_conditions: Nutzungsbedingungen zu
     terms_of_use: Datenschutzbedingungen
   confirm:
-    cancel_paypal: Bei Stornierung wird Ihr %{gtag} von Ihrem Paypal-Konto getrennt.
+    cancel_paypal: Bei Stornierung wird Ihr Tag von Ihrem Paypal-Konto getrennt.
     cancel_paypal_agreement: Cancel agreement
     log_out: Möchten Sie diese Sitzung beenden?
     remove_ticket: Ihre erworbenen Guthaben sind auf Ihr Konto übertragen. Wenn Sie Ihr Ticket entfernen, müssen Sie jemand anderen dazu berechtigen, Ihre Guthaben für die Veranstaltung zu verwenden.
@@ -841,7 +841,7 @@ de:
       call_to_action_started: Die Veranstaltung hat soeben begonnen. Topup ist nicht mehr möglich.
       header: Dein Guthaben
       refundable: Erstattungsfähig
-      ticket_first: Zuerst ein Ticket oder %{gtag} hinzufügen
+      ticket_first: Zuerst ein Ticket oder Tag hinzufügen
     credits_history:
       button: Download Transactions
       header: Transaction history
@@ -856,16 +856,16 @@ de:
       title: Letzte Details!
     first_register:
       ticket: Ticket hinzufügen
-      wristband: "%{gtag} hinzufügen"
+      wristband: "Tag hinzufügen"
     gtag_after_refund:
       description: Ihre Erstattung wird bearbeitet
     gtag_registration:
       button: Ändern
       call_to_action: Bearbeiten
-      hint: Sie haben versehentlich ein falsches %{gtag} verwendet? Löschen Sie den Vorgang und beginnen Sie erneut
-      title: Dein %{gtag}
+      hint: Sie haben versehentlich ein falsches Tag verwendet? Löschen Sie den Vorgang und beginnen Sie erneut
+      title: Dein Tag
     more_gtags:
-      description: Sie haben mehrere %{gtag}s? Bitte erneut mit jeweils einer anderen Email registrieren.
+      description: Sie haben mehrere Tags? Bitte erneut mit jeweils einer anderen Email registrieren.
     not_refundable:
       call_to_action: Es tut uns leid. Sie haben keinen erstattungsfähiges Guthaben.
       title: 'Ihre Rechnung:'
@@ -892,15 +892,15 @@ de:
       call_to_action: Aktivieren Sie nur solche Tickets, die Sie auch SELBST benutzen
       description: Aktivieren Sie NICHT das Ticket eines Freundes über Ihr Konto.
     without_gtags:
-      add: Anmelden %{gtag}
-      button: Anmelden
-      description: 'Bitte beachten: Pro Konto kann nur ein %{gtag} aktiviert werden.'
+      add: Anmelden Tag
+      button: Anmelden Tag
+      description: 'Bitte beachten: Pro Konto kann nur ein Tag aktiviert werden.'
       title: Guthaben übrig?
     without_gtags_claiming_started:
       claim: Entschuldigung
       description: Der Zeitraum für Erstattungen ist vorbei. Bei Fragen wenden Sie sich bitte an den Support.
     without_gtags_disabled:
-      claim: Der Zeitraum, in der eine Erstattung Ihres %{gtag} Guthabens beantragt werden konnte, ist vorbei.
+      claim: Der Zeitraum, in der eine Erstattung Ihres Tag Guthabens beantragt werden konnte, ist vorbei.
       description: Wenn Sie zu einem früheren Zeitpunkt eine Supportanfrage an uns gerichtet haben,
       description2: keinene Sorge, wir helfen Ihnen mit Ihrer Erstattung weiter.
     without_refunds:
@@ -1073,20 +1073,20 @@ de:
       gtag:
         assigned:
           greet: Hallo, %{name}!
-          mail_body: 'Ihnen wurde ein %{gtag} mit folgender ID zugewiesen:'
-          subject: "%{gtag} zugewiesen"
-          title: "%{gtag} zugewiesen"
+          mail_body: 'Ihnen wurde ein Tag mit folgender ID zugewiesen:'
+          subject: "Tag zugewiesen"
+          title: "Tag zugewiesen"
         unassigned:
           greet: Hallo, %{name}!
-          mail_body: 'Sie haben ein %{gtag} mit folgender ID gelöscht:'
+          mail_body: 'Sie haben ein Tag mit folgender ID gelöscht:'
           mail_link: Auf der Website überprüfen
-          subject: "%{gtag} gelöscht"
-          title: "%{gtag} gelöscht"
+          subject: "Tag gelöscht"
+          title: "Tag gelöscht"
       like_on_facebook: Gefällt mir auf Facebook
       order:
         completed:
           date: Bestelldatum
-          description: Alle Ihre gekauften Online-Guthaben werden automatisch auf Ihr %{gtag} übertragen, sobald Sie die Veranstaltung betreten. Ihr Veranstaltungs %{gtag} ermöglicht Ihnen auf einfache und schnelle Art, für Ihre Speisen, Getränke und sonstigen Käufe zu bezahlen. Es ist die einzige Zahlungsmöglichkeit, die die Händler auf der Veranstaltung akzeptieren.
+          description: Alle Ihre gekauften Online-Guthaben werden automatisch auf Ihr Tag übertragen, sobald Sie die Veranstaltung betreten. Ihr Veranstaltungs Tag ermöglicht Ihnen auf einfache und schnelle Art, für Ihre Speisen, Getränke und sonstigen Käufe zu bezahlen. Es ist die einzige Zahlungsmöglichkeit, die die Händler auf der Veranstaltung akzeptieren.
           greet: Hallo, %{name}!
           order_number: Ihre Bestellung
           subject: "‚Bestellung abgeschlossen’"
@@ -1196,11 +1196,11 @@ de:
   gtag_assignations:
     back: Zurück
     button: Registrieren
-    call_to_action: " %{gtag} anmelden und los!"
+    call_to_action: "Tag anmelden und los!"
     description:
-      card: Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}
-      simple: Assign the yellow highlighted numbers as appears in your %{gtag}
-      standard: Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}
+      card: Assign the second row of numbers and letters (yellow highlighted) of your Tag
+      simple: Assign the yellow highlighted numbers as appears in your Tag
+      standard: Assign the second row of numbers and letters (yellow highlighted) of your Tag
     info:
       line_1: Nur Zahlen von "0" bis "9"
       line_2: 'Symbole möglich: "0" - "9" und "A, B, C, D, E, F"'
@@ -1214,7 +1214,7 @@ de:
       standard:
         line_1: 'Zeile 1 z.B.: 12345'
         line_2: 'Zeile 2 z.B.: BA6D7DC0'
-    title: Anmelden %{gtag}
+    title: Anmelden Tag
   header:
     close: Logout
     edit: Profil bearbeiten
@@ -1766,9 +1766,9 @@ de:
           url: Offizielle Website zur Veranstaltung
       gtag:
         edit:
-          tag_uid: Zweite Zahlenreihe des %{gtag}
+          tag_uid: Zweite Zahlenreihe des Tag
         new:
-          tag_uid: Zweite Zahlenreihe des %{gtag}
+          tag_uid: Zweite Zahlenreihe des Tag
       gtag_credit_log:
         edit:
           amount: Betrag
@@ -1778,12 +1778,12 @@ de:
         edit:
           email: Emailadresse des Käufers
           first_name: Vorname des Käufers
-          gtag_delivery_address: "%{gtag} Lieferadresse"
+          gtag_delivery_address: "Tag Lieferadresse"
           last_name: Nachname des Käufers
         new:
           email: Emailadresse des Käufers
           first_name: Vorname des Käufers
-          gtag_delivery_address: "%{gtag} Lieferadresse"
+          gtag_delivery_address: "Tag Lieferadresse"
           last_name: Nachname des Käufers
       ticket:
         edit:

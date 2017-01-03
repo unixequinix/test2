@@ -80,7 +80,7 @@
 class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   translates :info, :disclaimer, :terms_of_use, :privacy_policy, :refund_success_message,
              :refund_disclaimer, :bank_account_disclaimer,
-             :gtag_assignation_notification, :gtag_form_disclaimer, :gtag_name,
+             :gtag_assignation_notification, :gtag_form_disclaimer,
              :agreed_event_condition_message, :receive_communications_message, :receive_communications_two_message,
              fallbacks_for_empty_translations: true
 

@@ -6,6 +6,7 @@ es:
   gender:
     male: 'Male'
     female: 'Female'
+  gtag_name: 'Wristband'
   event:
     subject_support: 'Need help for %{event}'
     locales:
@@ -15,7 +16,6 @@ es:
       th: 'THA'
       de: 'GER'
       pt: 'PT'
-    gtag_name: 'Wristband'
   events:
     create:
       error: "Event couldn't be created, check the errors below"
@@ -689,8 +689,8 @@ es:
     error: Revisar errores de formulario
     forbidden_gtag_change: Impossible to unassign gtag when event has started
     gtag:
-      already_assigned: "%{gtag} ya ha sido asignada a otro usuario"
-      invalid: "%{gtag} no válida"
+      already_assigned: "Tag ya ha sido asignada a otro usuario"
+      invalid: "Tag no válida"
     gtag_already_assigned: Ya tienes uno asignado
     imported: Importado con éxito
     order_complete: Orden completada
@@ -793,7 +793,7 @@ es:
     unhappy: "¡Queremos saber que ha ocurrido, envíanos un correo!"
   checkout:
     button: Confirmar Orden
-    description: Los créditos que compras aquí serán añadidos automáticamente a tu %{gtag} al entrar al evento.
+    description: Los créditos que compras aquí serán añadidos automáticamente a tu Tag al entrar al evento.
     store: " tienda"
     title: Recarga
     total: Total
@@ -836,7 +836,7 @@ es:
     privacy_conditions: la política de privacidad
     terms_of_use: las condiciones de uso
   confirm:
-    cancel_paypal: Al cancelar desvicularás tu %{gtag} de tu cuenta de PayPal.
+    cancel_paypal: Al cancelar desvicularás tu Tag de tu cuenta de PayPal.
     cancel_paypal_agreement: Cancelar acuerdo
     log_out: "¿Quieres finalizar la sesión?"
     remove_ticket: Tus créditos comprados se asignan a tu cuenta. Si borras tu ticket, tendrás que asignar otro para utilizar esos créditos en el evento.
@@ -886,7 +886,7 @@ es:
       call_to_action_started: El evento ya ha comenzado, no puedes recargar más
       header: tu saldo
       refundable: Reembolsable
-      ticket_first: Añade un ticket o %{gtag} primero
+      ticket_first: Añade un ticket o Tag primero
     credits_history:
       button: Descargar transacciones
       header: Historial de transacciones
@@ -900,17 +900,17 @@ es:
       description: Estamos trabajando en los últimos detalles del evento para que tu experiencia sea la mejor posible. Por favor, vuelve en unas horas y mira lo que hemos preparado para ti.
       title: Últimos detalles!
     first_register:
-      gtag: Añadir %{gtag}
+      gtag: Añadir Tag
       ticket: Añadir ticket
     gtag_after_refund:
       description: Tu devolución está en proceso
     gtag_registration:
       button: Borrar
       call_to_action: "¿Introdujiste una incorrecta por error?"
-      hint: Has introducido una %{gtag} por error? Bórrala y reinicia el proceso
-      title: Tu %{gtag}
+      hint: Has introducido una Tag por error? Bórrala y reinicia el proceso
+      title: Tu Tag
     more_gtags:
-      description: "¿Tienes más %{gtag}s? Regístrate otra vez con un email diferente por cada una."
+      description: "¿Tienes más Tags? Regístrate otra vez con un email diferente por cada una."
     not_refundable:
       call_to_action: Lo sentimos, pero no tienes suficiente saldo para pedir una devolución
       title: 'Tu saldo restante:'
@@ -937,15 +937,15 @@ es:
       call_to_action: Solo activa los tickets que vayas a utilizar
       description: NO actives los tickets de tus amigos en tu cuenta.
     without_gtags:
-      add: Asigna tu %{gtag}
-      button: Introducir
-      description: Recuerda, sólo un %{gtag} por cuenta.
+      add: Asigna tu Tag
+      button: Introducir Tag
+      description: Recuerda, sólo un Tag por cuenta.
       title: "¿Te queda saldo?"
     without_gtags_claiming_started:
       claim: Lo sentimos
       description: Ya ha pasado el periodo de devolución, ponte en contacto con soporte si tienes alguna duda.
     without_gtags_disabled:
-      claim: El tiempo para solicitar tu devolución del saldo en tu %{gtag} ha terminado
+      claim: El tiempo para solicitar tu devolución del saldo en tu Tag ha terminado
       description: Si has contactado al soporte con alguna pregunta previamente,
       description2: no te preocupes, te ayudaremos con tu devolución.
     without_refunds:
@@ -1102,20 +1102,20 @@ es:
       gtag:
         assigned:
           greet: "¡Hola, %{name}!"
-          mail_body: 'Has introducido una %{gtag} con el siguiente identificador:'
+          mail_body: 'Has introducido una Tag con el siguiente identificador:'
           subject: "¡Gtag asignado!"
           title: "¡Gtag asignado!"
         unassigned:
           greet: "¡Hola, %{name}!"
-          mail_body: 'Has borrado una %{gtag} con el siguiente identificador:'
+          mail_body: 'Has borrado una Tag con el siguiente identificador:'
           mail_link: Puede verlo en la web
-          subject: "%{gtag} borrada"
-          title: "%{gtag} borrada"
+          subject: "Tag borrada"
+          title: "Tag borrada"
       like_on_facebook: Dale a me gusta en Facebook
       order:
         completed:
           date: Fecha de compra
-          description: Todos los créditos que has comprado serán añadidos automáticamente a tu %{gtag} al entrar al event. Tu %{gtag} es una manera rápida y conveniente de pagar por comida, bebidas y merchandising. Es la única forma de pago acceptada por todas las tiendas dentro del evento.
+          description: Todos los créditos que has comprado serán añadidos automáticamente a tu Tag al entrar al event. Tu Tag es una manera rápida y conveniente de pagar por comida, bebidas y merchandising. Es la única forma de pago acceptada por todas las tiendas dentro del evento.
           greet: "¡Hola, %{name}!"
           order_number: Tu Compra
           subject: Compra Completada
@@ -1228,11 +1228,11 @@ es:
   gtag_assignations:
     back: Volver
     button: Aceptar
-    call_to_action: "¡Introduce el código de tu %{gtag} y continúa!"
+    call_to_action: "¡Introduce el código de tu Tag y continúa!"
     description:
-      card: Introduce la segunda serie de números y letras (resaltada en amarillo) de tu %{gtag}
-      simple: Introduce los números y letras resaltados en amarillo que aparecen en tu %{gtag}.
-      standard: Introduce la segunda fila de números y letras (resaltada en amarillo) de tu %{gtag}
+      card: Introduce la segunda serie de números y letras (resaltada en amarillo) de tu Tag
+      simple: Introduce los números y letras resaltados en amarillo que aparecen en tu Tag.
+      standard: Introduce la segunda fila de números y letras (resaltada en amarillo) de tu Tag
     info:
       line_1: Sólo números del "0" al "9"
       line_2: 'Símbolos permitidos: "0" - "9" y "A, B, C, D, E, F"'
@@ -1246,7 +1246,7 @@ es:
       standard:
         line_1: 'Línea 1 ej: 12345'
         line_2: 'Línea 2 ej: BA6D7DC0'
-    title: Introducir %{gtag}
+    title: Introducir Tag
   header:
     close: Cerrar sesión
     edit: Editar Perfil
@@ -1517,7 +1517,7 @@ es:
       current_amount: 'Recarga actual:'
       new_amount: 'Cambia la cantidad:'
       success: Cuenta añadida!
-      success_description: Ahora puedes realizar recargas automáticas en tu %{gtag}
+      success_description: Ahora puedes realizar recargas automáticas en tu Tag
       title: Contrato Paypal
     edit:
       button: Actualizar
@@ -1812,9 +1812,9 @@ es:
           url: Página oficial del evento
       gtag:
         edit:
-          tag_uid: Número de la segunda línea de la %{gtag}
+          tag_uid: Número de la segunda línea de la Tag
         new:
-          tag_uid: Número de la segunda línea de la %{gtag}
+          tag_uid: Número de la segunda línea de la Tag
       gtag_credit_log:
         edit:
           amount: Cantidad disponible
@@ -1824,12 +1824,12 @@ es:
         edit:
           email: Email del comprador
           first_name: Nombre del comprador
-          gtag_delivery_address: Dirección de envío de la %{gtag}
+          gtag_delivery_address: Dirección de envío de la Tag
           last_name: Apellido del comprador
         new:
           email: Email del comprador
           first_name: Nombre del comprador
-          gtag_delivery_address: Dirección de envío de la %{gtag}
+          gtag_delivery_address: Dirección de envío de la Tag
           last_name: Apellido del comprador
       ticket:
         edit:

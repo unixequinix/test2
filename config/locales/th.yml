@@ -6,6 +6,7 @@ th:
   gender:
     male: 'Male'
     female: 'Female'
+  gtag_name: 'Wristband'
   event:
     subject_support: 'Need help for %{event}'
     locales:
@@ -15,7 +16,6 @@ th:
       th: 'THA'
       de: 'GER'
       pt: 'PT'
-    gtag_name: 'Wristband'
   events:
     create:
       error: "Event couldn't be created, check the errors below"
@@ -686,8 +686,8 @@ th:
     error: ดูรายละเอียดของข้อผิดพลาด
     forbidden_gtag_change: Impossible to unassign gtag when event has started
     gtag:
-      already_assigned: This %{gtag} is already assigned
-      invalid: "%{gtag} ไม่ถูกต้อง"
+      already_assigned: This Tag is already assigned
+      invalid: "Tag ไม่ถูกต้อง"
     gtag_already_assigned: คุณมีบัตรอยู่ในระบบแล้ว
     imported: นำเข้าสำเร็จ
     order_complete: รายการสำเร็จ
@@ -790,7 +790,7 @@ th:
     unhappy: เพื่อให้เราทำการปรับปรุง กรุณาส่งอีเมลหาเราเพื่อแจ้งเหตุผลของการเลิกใช้บริการ
   checkout:
     button: ยืนยันการเติมเงิน
-    description: หลังจากที่คุณเติมเงินโดยการซื้อเครดิตออนไลน์ที่นี่แล้ว คุณจะสามารถใช้เงินได้โดยอัตโนมัติผ่าน %{gtag} หลังจากเข้างาน
+    description: หลังจากที่คุณเติมเงินโดยการซื้อเครดิตออนไลน์ที่นี่แล้ว คุณจะสามารถใช้เงินได้โดยอัตโนมัติผ่าน Tag หลังจากเข้างาน
     store: " store"
     title: เติมเงิน
     total: ทั้งหมด
@@ -833,7 +833,7 @@ th:
     privacy_conditions: นโยบายความเป็นส่วนตัว
     terms_of_use: ข้อตกลงการใช้งาน
   confirm:
-    cancel_paypal: Cancelling you disassociate your %{gtag} from you PayPal account.
+    cancel_paypal: Cancelling you disassociate your Tag from you PayPal account.
     cancel_paypal_agreement: Cancel agreement
     log_out: Do you want to end this session?
     remove_ticket: เครดิตที่คุณได้ทำการซื้อไปจะอยู่ในบัญชีผู้ใช้งานนี้ของคุณ หากคุณยกเลิกบัตรเข้างาน คุณจะต้องทำการโอนเครดิตไปยังบัตรอื่นเพื่อที่จะใช้ในงาน
@@ -883,7 +883,7 @@ th:
       call_to_action_started: ไม่สามารถเติมเงินผ่านระบบออนไลน์ได้ เนื่องจากงานได้เริ่มแล้ว
       header: เครดิตที่ยังคงเหลืออยู่ของคุณ
       refundable: Refundable
-      ticket_first: Add a ticket or %{gtag} first
+      ticket_first: Add a ticket or Tag first
     credits_history:
       button: Download Transactions
       header: Transaction history
@@ -897,17 +897,17 @@ th:
       description: We are finishing event configuration to bring you a great experience. Please, come back later and see what we have made for you.
       title: Ultimating details!
     first_register:
-      gtag: Add %{gtag}
+      gtag: Add Tag
       ticket: Add ticket
     gtag_after_refund:
       description: ระบบกำลังดำเนินการคืนเงินให้กับคุณ
     gtag_registration:
       button: Remove
-      call_to_action: ใส่หมายเลข %{gtag} ผิด?
-      hint: Put a wrong %{gtag} by mistake? Erase and restart the process
-      title: หมายเลข %{gtag} ของคุณ
+      call_to_action: ใส่หมายเลข Tag ผิด?
+      hint: Put a wrong Tag by mistake? Erase and restart the process
+      title: หมายเลข Tag ของคุณ
     more_gtags:
-      description: มีเพิ่ม %{gtag}? กรุณาใช้อีเมลใหม่เพื่อทำการสมัครใช้งานในระบบ
+      description: มีเพิ่ม Tag? กรุณาใช้อีเมลใหม่เพื่อทำการสมัครใช้งานในระบบ
     not_refundable:
       call_to_action: ขออภัย คุณไม่มีเครดิตมากพอที่จะขอรับเงินคืน
       title: 'เครดิตของคุณ:'
@@ -934,9 +934,9 @@ th:
       call_to_action: กรุณาใส่บัตรเข้างานที่คุณจะใช้เองเท่านั้นในระบบ
       description: ห้ามไม่ให้ใส่บัตรของผู้อื่นเข้าในระบบ
     without_gtags:
-      add: Assign %{gtag}
-      button: Assign
-      description: 'Remember: only one %{gtag} can be activated per account.'
+      add: Assign Tag
+      button: Assign Tag
+      description: 'Remember: only one Tag can be activated per account.'
       title: Credits left?
     without_gtags_claiming_started:
       claim: ขออภัย
@@ -1099,20 +1099,20 @@ th:
       gtag:
         assigned:
           greet: สวัสดี %{name}!
-          mail_body: 'คุณได้ทำการใส่รหัส id ให้กับ %{gtag}:'
+          mail_body: 'คุณได้ทำการใส่รหัส id ให้กับ Tag:'
           subject: คุณได้ทำการขอรับเงินคืนสำเร็จแล้ว!
           title: คุณได้ทำการขอรับเงินคืนสำเร็จแล้ว!
         unassigned:
           greet: สวัสดี %{name}!
-          mail_body: 'คุณได้ทำการยกเลิก %{gtag} ที่มี id:'
+          mail_body: 'คุณได้ทำการยกเลิก Tag ที่มี id:'
           mail_link: ทำการเช็คที่เว็บไซด์
-          subject: 'ยกเลิก%{gtag} '
-          title: 'ยกเลิก%{gtag} '
+          subject: 'ยกเลิกTag '
+          title: 'ยกเลิกTag '
       like_on_facebook: Like on Facebook
       order:
         completed:
           date: วันที่ทำรายการ
-          description: หลังจากที่คุณเติมเงินโดยการซื้อเครดิตออนไลน์ที่นี่แล้ว คุณจะสามารถใช้เงินได้โดยอัตโนมัติผ่าน %{gtag} หลังจากเข้างาน  %{gtag} เป็นวิธีที่สะดวกสำหรับคุณที่จะซื้ออาหาร เครื่องดื่ม และสินค้าต่างๆ ที่งาน และนี่เป็นวิธีชำระเงินวิธีเดียวภายในงาน
+          description: หลังจากที่คุณเติมเงินโดยการซื้อเครดิตออนไลน์ที่นี่แล้ว คุณจะสามารถใช้เงินได้โดยอัตโนมัติผ่าน Tag หลังจากเข้างาน  Tag เป็นวิธีที่สะดวกสำหรับคุณที่จะซื้ออาหาร เครื่องดื่ม และสินค้าต่างๆ ที่งาน และนี่เป็นวิธีชำระเงินวิธีเดียวภายในงาน
           greet: Hello, %{name}!
           order_number: รายการของคุณ
           subject: รายการสำเร็จ
@@ -1225,11 +1225,11 @@ th:
   gtag_assignations:
     back: Back
     button: ตกลง
-    call_to_action: ระบุ %{gtag} ของคุณ และไปต่อ!
+    call_to_action: ระบุ Tag ของคุณ และไปต่อ!
     description:
-      card: Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}
-      simple: Assign the yellow highlighted numbers as appears in your %{gtag}
-      standard: Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}
+      card: Assign the second row of numbers and letters (yellow highlighted) of your Tag
+      simple: Assign the yellow highlighted numbers as appears in your Tag
+      standard: Assign the second row of numbers and letters (yellow highlighted) of your Tag
     info:
       line_1: Only numbers from "0" to "9"
       line_2: 'Symbols allowed: "0" - "9" and "A, B, C, D, E, F"'
@@ -1243,7 +1243,7 @@ th:
       standard:
         line_1: 'บรรทัดที่ 1 เช่น: 12345'
         line_2: 'บรรทัดที่ 2 เช่น: BA6D7DC0'
-    title: ระบุ %{gtag}
+    title: ระบุ Tag
   header:
     close: ออกจากระบบ
     edit: แก้ไขบัญชีผู้ใช้งาน
@@ -1802,9 +1802,9 @@ th:
           url: เว็บไซด์ของงาน
       gtag:
         edit:
-          tag_uid: หมายเลขบรรทัดที่สอง %{gtag}
+          tag_uid: หมายเลขบรรทัดที่สอง Tag
         new:
-          tag_uid: หมายเลขบรรทัดที่สอง %{gtag}
+          tag_uid: หมายเลขบรรทัดที่สอง Tag
       gtag_credit_log:
         edit:
           amount: จำนวน
@@ -1814,12 +1814,12 @@ th:
         edit:
           email: Purchaser's email
           first_name: Purchaser's first name
-          gtag_delivery_address: "%{gtag} delivery address"
+          gtag_delivery_address: "Tag delivery address"
           last_name: Purchaser's last name
         new:
           email: Purchaser's email
           first_name: Purchaser's first name
-          gtag_delivery_address: "%{gtag} delivery address"
+          gtag_delivery_address: "Tag delivery address"
           last_name: Purchaser's last name
       ticket:
         edit:

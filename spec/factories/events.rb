@@ -33,6 +33,7 @@
 #  gtag_deposit                    :integer          default(0)
 #  gtag_format                     :string           default("standard")
 #  gtag_type                       :string           default("ultralight_c")
+#  iban_enabled                    :boolean          default(TRUE)
 #  logo_content_type               :string
 #  logo_file_name                  :string
 #  logo_file_size                  :integer
@@ -89,7 +90,6 @@ FactoryGirl.define do
     disclaimer "Some Disclaimer"
     gtag_assignation_notification "Some gtag assignation notification"
     gtag_form_disclaimer "Some gtag form notification"
-    gtag_name "Wristband"
     info "Information about the festival"
     refund_success_message "Your refund has been successfull"
     gtag_type "ultralight_c"

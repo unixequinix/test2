@@ -11,10 +11,6 @@ class GtagAssignmentsPresenter < BasePresenter
     @refund.present?
   end
 
-  def gtag_name
-    @event.gtag_name
-  end
-
   def gtag_assignments_enabled?
     @event.gtag_assignation?
   end
