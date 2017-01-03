@@ -27,14 +27,16 @@ RSpec.describe Refund, type: :model do
     expect(subject).to be_valid
   end
 
-  it "validates IBAN" do
-    subject.iban = "000"
-    expect(subject).not_to be_valid
-  end
+  describe ".valid_iban_and_swift" do
+    it "validates IBAN" do
+      subject.field_a = nil
+      expect(subject).not_to be_valid
+    end
 
-  it "validates SWIFT" do
-    subject.swift = "000"
-    expect(subject).not_to be_valid
+    it "validates SWIFT" do
+      subject.field_b = nil
+      expect(subject).not_to be_valid
+    end
   end
 
   describe ".total" do

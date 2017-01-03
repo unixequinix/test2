@@ -24,6 +24,7 @@
 #  gtag_assignation             :boolean          default(FALSE)
 #  gtag_settings                :jsonb            not null
 #  host_country                 :string           default("US"), not null
+#  iban_enabled                 :boolean          default(TRUE)
 #  location                     :string
 #  logo_content_type            :string
 #  logo_file_name               :string

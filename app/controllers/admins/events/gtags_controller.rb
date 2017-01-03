@@ -87,14 +87,13 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
   end
 
   def import
-    event = @current_event.event
-    path = admins_event_gtags_path(event)
+    path = admins_event_gtags_path(@current_event)
     redirect_to(path, alert: t("admin.gtags.import.empty_file")) && return unless params[:file]
     file = params[:file][:data].tempfile.path
 
     begin
       CSV.foreach(file, headers: true, col_sep: ";").with_index do |row, _i|
-        tag = event.gtags.find_or_create_by(tag_uid: row.field("tag_uid"))
+        tag = @current_event.gtags.find_or_create_by(tag_uid: row.field("tag_uid"))
         tag.update!(format: row.field("format"), loyalty: row.field("loyalty"))
       end
     rescue

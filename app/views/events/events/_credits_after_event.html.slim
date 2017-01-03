@@ -4,12 +4,19 @@
     p.panel-amount-number
       = presenter.customer_total_credits
       span.currency-symbol = presenter.token_symbol
-    - if @current_event.refunds?
+    - if @current_event.refunds? && current_customer.refundable_credits.positive? && !current_customer.refunding?
       = link_to t('refunds.button'), new_event_refund_path(@current_event), class: "btn btn-action btn-action-dashboard"
     ul.refundable-conversion-list
       p.refundable-text.center-text.bold-text = t('dashboard.credits.refundable')
       li
-        = "#{presenter.refundable_money}"
+        = presenter.refundable_money
         span.currency-symbol = presenter.currency
+
+    - if @current_customer.refunding?
+      ul.refundable-conversion-list
+        p.refundable-text.center-text.bold-text = t('dashboard.credits.refund_pending')
+        li
+          = @current_customer.refunds.map(&:money).sum
+          span.currency-symbol = @current_event.currency
   - else
     span = t('dashboard.credits.calculating_balance', email: @current_event.support_email)

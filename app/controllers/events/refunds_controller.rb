@@ -2,8 +2,10 @@ class Events::RefundsController < Events::BaseController
   before_action :set_refund, only: [:new, :create]
 
   def create # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-    @refund.iban = permitted_params[:iban]
-    @refund.swift = permitted_params[:swift]
+    @refund.field_a = permitted_params[:field_a]
+    @refund.field_b = permitted_params[:field_b]
+
+    @refund.validate_iban = true if @current_event.iban_enabled?
 
     if @refund.save
       credit = @current_event.credit
@@ -18,8 +20,7 @@ class Events::RefundsController < Events::BaseController
       order = current_customer.orders.create(gateway: "refund")
       order.order_items.create(catalog_item: credit, amount: -@refund.total, total:  -(@refund.total * credit.value))
 
-      RefundMailer.completed_email(@refund, @current_event.event).deliver_later
-      current_customer.active_gtag.recalculate_balance
+      RefundMailer.completed_email(@refund, @current_event).deliver_later
       redirect_to customer_root_path(@current_event), success: t("refunds.success")
     else
       render :new
@@ -34,9 +35,10 @@ class Events::RefundsController < Events::BaseController
     money = amount * @current_event.credit.value
     atts = { amount: amount, status: "started", fee: fee, money: money }
     @refund = current_customer.refunds.new(atts)
+    @refund_gateway = @current_event.payment_gateways.bank_account
   end
 
   def permitted_params
-    params.require(:refund).permit(:iban, :swift)
+    params.require(:refund).permit(:field_a, :field_b)
   end
 end

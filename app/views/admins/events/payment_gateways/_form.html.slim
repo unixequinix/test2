@@ -14,6 +14,8 @@
         h3.section-header
           = fa_icon "info-circle"
           = t("admin.event.fieldests.refund_settings")
+        = f.input :refund_field_a_name
+        = f.input :refund_field_b_name
         - @refund_atts.map(&:to_s).each do |att|
           .input
             label = att.to_s.humanize

@@ -100,8 +100,8 @@ class Gtag < ActiveRecord::Base
   end
 
   def can_refund?
-    card_can_refund = card? && event.gtag_settings["cards_can_refund"] == "true"
-    wristband = wristband? && event.gtag_settings["wristbands_can_refund"] == "true"
+    card_can_refund = card? && event.cards_can_refund
+    wristband = wristband? && event.wristbands_can_refund
     return true if loyalty? || card_can_refund || wristband
   end
 end

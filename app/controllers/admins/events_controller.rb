@@ -92,7 +92,7 @@ class Admins::EventsController < Admins::BaseController
                   :host_country, :gtag_assignation, :currency, :token_symbol, :agreed_event_condition_message,
                   :ticket_assignation, :company_name, :agreement_acceptance, :official_name, :official_address,
                   :receive_communications_message, :receive_communications_two_message, :address, :registration_num,
-                  :eventbrite_client_key, :eventbrite_event, :timezone,
+                  :eventbrite_client_key, :eventbrite_event, :timezone, :iban_enabled,
                   registration_settings: Event::REGISTRATION_SETTINGS)
   end
 
