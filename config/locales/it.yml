@@ -177,7 +177,7 @@ it:
     admins:
       email: Email
     admissions:
-      aasm_state: State
+      state: State
       created_at: Created at
       customer:
         complete_name: Complete name
@@ -391,7 +391,7 @@ it:
       name: Name
       updated_at: Updated at
     gtag_assignations:
-      aasm_state: State
+      state: State
       button: Accetto
       created_at: Created at
       customer:

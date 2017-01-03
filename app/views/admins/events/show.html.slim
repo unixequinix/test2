@@ -30,7 +30,7 @@
       .event-status
         hd = @current_event.name
 
-        p.current-status = t("admin.event.states.#{@current_event.aasm_state}")
+        p.current-status = t("admin.event.states.#{@current_event.state}")
       .change-status
         p = t("admin.dashboard.change_state")
         = render "change_state", new_state: :launched, action: :launch if @current_event.created?
@@ -56,7 +56,7 @@
         = fa_icon "info-circle"
         = t("admin.event.fieldests.info")
       dt = t("admin.event.state")
-      dd = @current_event.aasm_state
+      dd = @current_event.state
       dt = t("admin.event.slug")
       dd = @current_event.slug
       dt = t("admin.event.support_email")

@@ -2,7 +2,6 @@
 #
 # Table name: events
 #
-#  aasm_state                      :string
 #  address_mandatory               :boolean
 #  agreed_event_condition          :boolean
 #  background_content_type         :string
@@ -53,6 +52,7 @@
 #  registration_num                :string
 #  slug                            :string           not null
 #  start_date                      :datetime
+#  state                           :string
 #  style                           :text
 #  support_email                   :string           default("support@glownet.com"), not null
 #  sync_time_basic_download        :integer          default(5)
@@ -102,7 +102,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   has_many :customers, dependent: :destroy
   has_one :credit, dependent: :destroy
 
-  scope :status, -> (status) { where aasm_state: status }
+  scope :status, -> (status) { where state: status }
 
   extend FriendlyId
   friendly_id :name, use: :slugged
@@ -112,36 +112,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   BACKGROUND_FIXED = "fixed".freeze
   BACKGROUND_REPEAT = "repeat".freeze
   BACKGROUND_TYPES = [BACKGROUND_FIXED, BACKGROUND_REPEAT].freeze
-
-  include AASM
-
-  aasm do
-    state :created, initial: true
-    state :launched
-    state :started
-    state :finished
-    state :closed
-
-    event :launch do
-      transitions from: :created, to: :launched
-    end
-
-    event :start do
-      transitions from: :launched, to: :started
-    end
-
-    event :finish do
-      transitions from: :started, to: :finished
-    end
-
-    event :close do
-      transitions from: :finished, to: :closed
-    end
-
-    event :reboot do
-      transitions from: :closed, to: :created
-    end
-  end
+  STATES = %w( created launched started finished closed ).freeze
 
   has_attached_file(:logo, path: "#{S3_FOLDER}logos/:style/:filename", url: "#{S3_FOLDER}logos/:style/:basename.:extension", styles: { email: "x120", paypal: "x50" }, default_url: ":default_event_image_url") # rubocop:disable Metrics/LineLength
   has_attached_file(:background, path: "#{S3_FOLDER}backgrounds/:filename", url: "#{S3_FOLDER}backgrounds/:basename.:extension", default_url: ":default_event_background_url") # rubocop:disable Metrics/LineLength
@@ -162,6 +133,12 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   do_not_validate_attachment_file_type :device_full_db
   do_not_validate_attachment_file_type :device_basic_db
+
+  STATES.each do |method_name|
+    define_method "#{method_name}?" do
+      state == method_name
+    end
+  end
 
   def background_fixed?
     object.background_type.eql? BACKGROUND_FIXED
@@ -208,7 +185,7 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def active?
-    %w(launched started finished).include? aasm_state
+    %w(launched started finished).include? state
   end
 
   private

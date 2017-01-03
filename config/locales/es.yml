@@ -177,7 +177,7 @@ es:
     admins:
       email: Email
     admissions:
-      aasm_state: Estado
+      state: Estado
       created_at: Creado el
       customer:
         complete_name: Nombre completo
@@ -391,7 +391,7 @@ es:
       name: Nombre
       updated_at: Actualizado el
     gtag_assignations:
-      aasm_state: Estado
+      state: Estado
       button: Aceptar
       created_at: Creado el
       customer:

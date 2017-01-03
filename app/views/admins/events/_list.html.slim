@@ -7,6 +7,6 @@ table.events
     - events.each do |event|
       tr
         td data-label=t('admin.event.name') = link_to event.name, admins_event_path(event)
-        td data-label=t('admin.event.status') = t("admin.event.states.#{event.aasm_state}")
+        td data-label=t('admin.event.status') = t("admin.event.states.#{event.state}")
 
 = paginate events

@@ -2,7 +2,6 @@
 #
 # Table name: company_event_agreements
 #
-#  aasm_state :string
 #
 # Indexes
 #
@@ -19,21 +18,6 @@ class CompanyEventAgreement < ActiveRecord::Base
   belongs_to :company
   belongs_to :event
   has_many :ticket_types, dependent: :destroy
-
-  include AASM
-
-  aasm do
-    state :granted, initial: true
-    state :revoked
-
-    event :grant do
-      transitions from: :revoked, to: :granted
-    end
-
-    event :revoke do
-      transitions from: :granted, to: :revoked
-    end
-  end
 
   validates :company, :event, presence: true
   validates :event, uniqueness: { scope: :company }

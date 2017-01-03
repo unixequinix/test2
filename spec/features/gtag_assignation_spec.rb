@@ -92,7 +92,7 @@ RSpec.feature "Gtag Assignation", type: :feature do
     end
 
     context "when event status is during event" do
-      before { event.update!(aasm_state: "started") }
+      before { event.update!(state: "started") }
       context "when gtag assignation is enabled" do
         it "is available" do
           expect(page.body).not_to include("Add Tag")
@@ -112,7 +112,7 @@ RSpec.feature "Gtag Assignation", type: :feature do
     end
 
     context "when event status is finished" do
-      before { event.update!(aasm_state: "finished") }
+      before { event.update!(state: "finished") }
       context "when gtag assignation is enabled" do
         it "is unavailable" do
           expect(page.body).not_to include("Add Tag")

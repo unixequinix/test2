@@ -2,7 +2,7 @@
 #
 # Table name: events
 #
-#  aasm_state                      :string
+#  state                      :string
 #  address_mandatory               :boolean
 #  agreed_event_condition          :boolean
 #  background_content_type         :string
@@ -80,7 +80,7 @@
 FactoryGirl.define do
   factory :event do
     name { "Event #{SecureRandom.hex(16)}" }
-    aasm_state "started"
+    state "started"
     start_date { Time.zone.now }
     end_date { Time.zone.now + 2.days }
     support_email "support@glownet.com"
@@ -97,19 +97,19 @@ FactoryGirl.define do
     # Event states
 
     trait :pre_event do
-      aasm_state "launched"
+      state "launched"
     end
 
     trait :started do
-      aasm_state "started"
+      state "started"
     end
 
     trait :finished do
-      aasm_state "finished"
+      state "finished"
     end
 
     trait :closed do
-      aasm_state "closed"
+      state "closed"
     end
 
     # Event features

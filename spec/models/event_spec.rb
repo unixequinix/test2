@@ -2,7 +2,7 @@
 #
 # Table name: events
 #
-#  aasm_state                      :string
+#  state                      :string
 #  address_mandatory               :boolean
 #  agreed_event_condition          :boolean
 #  background_content_type         :string
@@ -81,8 +81,6 @@ require "spec_helper"
 
 RSpec.describe Event, type: :model do
   subject { build(:event) }
-  it { is_expected.to validate_presence_of(:name) }
-  it { is_expected.to validate_presence_of(:support_email) }
 
   describe ".eventbrite?" do
     it "returns true if the event has eventbrite_token and eventbrite_event" do
@@ -104,16 +102,16 @@ RSpec.describe Event, type: :model do
 
   describe ".active?" do
     it "returns true if the event is launched, started or finished" do
-      subject.aasm_state = "closed"
+      subject.state = "closed"
       expect(subject).not_to be_active
-      subject.aasm_state = "created"
+      subject.state = "created"
       expect(subject).not_to be_active
 
-      subject.aasm_state = "launched"
+      subject.state = "launched"
       expect(subject).to be_active
-      subject.aasm_state = "started"
+      subject.state = "started"
       expect(subject).to be_active
-      subject.aasm_state = "finished"
+      subject.state = "finished"
       expect(subject).to be_active
     end
   end

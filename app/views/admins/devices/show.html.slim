@@ -21,7 +21,7 @@
 
   .container-show
     - @device_events.each do |event, transactions|
-      - unless event.aasm_state == "closed"    
+      - unless event.closed?
         h3
           = fa_icon "table"
           = link_to event.name, admins_event_path(event)

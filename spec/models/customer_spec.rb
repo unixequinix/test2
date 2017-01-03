@@ -44,10 +44,6 @@ require "spec_helper"
 RSpec.describe Customer, type: :model do
   let(:customer) { build(:customer) }
 
-  it { is_expected.to validate_presence_of(:email) }
-  it { is_expected.to validate_presence_of(:first_name) }
-  it { is_expected.to validate_presence_of(:last_name) }
-
   describe ".full_name" do
     it "return the first_name and last_name together" do
       allow(subject).to receive(:first_name).and_return("Glownet")

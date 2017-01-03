@@ -24,7 +24,6 @@ gem 'uglifier', '~> 2.7.1'
 gem 'slim', '~> 3.0.3'
 gem 'simple_form', '~> 3.1.0'
 gem 'paperclip', '~> 5.1.0'
-gem 'aws-sdk', '~> 2'
 gem 'best_in_place', '~> 3.0.1'
 
 # Authentication
@@ -49,18 +48,14 @@ gem 'eventbrite', git: "https://github.com/envoy/eventbrite"
 gem 'turbolinks', '~> 2.5.3'
 
 # SEO
-gem 'metamagic', '~> 3.1.7'
 gem 'friendly_id', '~> 5.1.0'
-
-# Logic
-gem 'aasm', '~> 4.1.0'
 
 # CSV
 gem 'roo', '~> 2.0.0beta1'
 
 # Navigation
-gem 'gretel', '~> 3.0.8'
-gem 'kaminari', '~>0.16.3'
+gem 'gretel', '~> 3.0.8' # Flexible Ruby on Rails breadcrumbs plugin
+gem 'kaminari', '~>0.16.3' # A Scope & Engine based, clean, powerful, customizable and sophisticated paginator
 
 # Search
 gem 'ransack', '~> 1.6.6'
@@ -72,12 +67,6 @@ gem 'tinymce-rails'
 
 # Payments
 gem 'activemerchant', '~> 1.60'
-
-# Flags
-gem 'flag_shih_tzu', '~>0.3.13'
-
-# Lists
-gem 'acts_as_list'
 
 # Asyncronous mailer
 gem 'sinatra', require: false
@@ -102,14 +91,13 @@ gem 'iban-tools', '~> 1.1'
 gem 'iso-swift', '~> 0.0.2'
 
 gem 'figaro', '~> 1.1', '>= 1.1.1'
+gem 'aws-sdk', '~> 2'
 
 group :development do
   gem 'foreman', '~> 0.78.0'
   gem 'bullet', '~> 4.14.4' # Help to kill N+1 queries and unused eager loading
   gem 'rails-erd', '~> 1.4.4' # Entity-relationship diagrams (ERD)
-  gem 'railroady', '~> 1.4.1' # Controller diagrams (ERD)
   gem 'quiet_assets', '~> 1.1.0'
-  gem 'hirb', '~> 0.7.3' #  Improve ripl(irb)'s default inspect output
   gem 'ruby-progressbar'
   gem 'capistrano'
   gem 'capistrano-rails', '~> 1.1.3'
@@ -123,11 +111,8 @@ group :development do
 end
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', '~> 4.0.5'
-  gem 'better_errors', '~> 2.1.1'
+  gem 'byebug', '~> 4.0.5' # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'binding_of_caller', '~> 0.7.2' # extra features for better_errors
-  gem 'meta_request', '~> 0.3.4' # for rails_panel chrome extension
   gem 'spring', '~> 1.3.5' # App preloader. https://github.com/rails/spring
   gem 'rspec-rails', '~> 3.2.1'
   gem 'rspec-mocks'
@@ -144,7 +129,6 @@ group :development, :test do
 end
 
 group :development, :test, :integration do
-  gem 'pry-rails'
   gem 'factory_girl_rails', '~> 4.5.0'
 end
 
@@ -158,10 +142,7 @@ group :test do
   gem 'capybara', '~> 2.5.0'
   gem 'capybara-slow_finder_errors'
   gem 'selenium-webdriver'
-  gem 'poltergeist'
-  gem 'launchy'
-  gem 'shoulda-matchers', '~> 2.8.0', require: false
-  gem 'database_cleaner', '~> 1.4.1'
+  gem 'poltergeist' # A PhantomJS driver for Capybara
   gem 'rspec-sidekiq'
   gem 'simplecov', '~> 0.10.0', require: false
   gem 'codecov', require: false

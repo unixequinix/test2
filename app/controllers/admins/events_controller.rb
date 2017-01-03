@@ -86,7 +86,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   private
 
   def permitted_params # rubocop:disable Metrics/MethodLength
-    params.require(:event).permit(:aasm_state,
+    params.require(:event).permit(:state,
                                   :name,
                                   :url,
                                   :start_date,

@@ -23,12 +23,7 @@ Rails.application.routes.draw do
 
     resources :companies do
       scope module: "companies" do
-        resources :company_event_agreements, only: [:index, :new, :create] do
-          member do
-            get :grant_agreement
-            delete :revoke_agreement
-          end
-        end
+        resources :company_event_agreements, only: [:index, :new, :create, :destroy]
       end
     end
 

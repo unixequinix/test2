@@ -28,11 +28,13 @@ RSpec.describe Refund, type: :model do
   end
 
   it "validates field_a" do
-    expect(subject).to validate_presence_of(:field_a)
+    subject.field_a = nil
+    expect(subject).not_to be_valid
   end
 
   it "validates field_b" do
-    expect(subject).to validate_presence_of(:field_b)
+    subject.field_b = nil
+    expect(subject).not_to be_valid
   end
 
   describe ".total" do

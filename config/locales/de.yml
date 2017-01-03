@@ -177,7 +177,7 @@ de:
     admins:
       email: Email
     admissions:
-      aasm_state: Status
+      state: Status
       created_at: Erstellt am
       customer:
         complete_name: Vollständiger Name
@@ -390,7 +390,7 @@ de:
       name: Name
       updated_at: Updated at
     gtag_assignations:
-      aasm_state: Status
+      state: Status
       button: Akzeptieren
       created_at: 'Erstellt bei '
       customer:
