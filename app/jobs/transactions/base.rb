@@ -5,29 +5,21 @@ class Transactions::Base < ActiveJob::Base
     atts = preformat_atts(atts)
     klass = Transaction.class_for_type(atts[:type])
     atts[:type] = klass.to_s
-
-    obj = klass.find_by(atts.slice(*SEARCH_ATTS))
-    return obj if obj
-
-    if atts[:customer_tag_uid].present?
-      gtag_atts = { tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id], activation_counter: atts[:activation_counter] }
-      begin
-        Gtag.transaction(requires_new: true) { atts[:gtag_id] = Gtag.find_or_create_by(gtag_atts).id }
-      rescue ActiveRecord::RecordNotUnique
-        retry
-      end
-    end
-
-    obj_atts =
+    gtag_atts = { tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id], activation_counter: atts[:activation_counter] }
 
     begin
-      Transaction.transaction(requires_new: true) { atts[:transaction_id] = Transaction.find_or_create_by(column_attributes(klass, atts)).id }
+      transaction = klass.transaction(requires_new: true) { klass.find_or_create_by(atts.slice(*SEARCH_ATTS)) }
+      atts[:gtag_id] = Gtag.transaction(requires_new: true) { Gtag.find_or_create_by(gtag_atts).id } if atts[:customer_tag_uid].present?
     rescue ActiveRecord::RecordNotUnique
       retry
     end
 
+    return if transaction.executed?
+    transaction.update!(column_attributes(klass, atts))
+
     return unless atts[:status_code].to_i.zero?
-    execute_operations(atts)
+    execute_operations(atts.merge(transaction_id: transaction.id))
+    transaction.update! executed: true
   end
 
   def execute_operations(atts)

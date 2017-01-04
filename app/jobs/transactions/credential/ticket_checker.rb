@@ -6,7 +6,6 @@ class Transactions::Credential::TicketChecker < Transactions::Credential::Base
     ticket = assign_ticket(t, atts)
     mark_redeemed(ticket)
     return unless atts[:customer_id]
-    gtag = Gtag.find_by(event_id: atts[:event_id], tag_uid: atts[:customer_tag_uid])
-    gtag.update!(customer_id: atts[:customer_id])
+    Gtag.find(atts[:gtag_id]).update!(customer_id: atts[:customer_id])
   end
 end

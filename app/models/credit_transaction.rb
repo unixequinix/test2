@@ -8,6 +8,7 @@
 #  credits                     :float
 #  device_db_index             :integer
 #  direction                   :integer
+#  executed                    :boolean
 #  final_access_value          :string
 #  final_balance               :float
 #  final_refundable_balance    :float
