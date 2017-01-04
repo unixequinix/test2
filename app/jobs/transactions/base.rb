@@ -44,7 +44,7 @@ class Transactions::Base < ActiveJob::Base
 
   def self.inherited(klass)
     @descendants ||= []
-    @descendants += klass.to_s.split("::").last.eql?("Base") ? klass.descendants : [klass]
+    @descendants << klass
   end
 
   def self.descendants

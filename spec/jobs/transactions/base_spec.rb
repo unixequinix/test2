@@ -88,19 +88,10 @@ RSpec.describe Transactions::Base, type: :job do
       expect(base.descendants).not_to be_empty
     end
 
-    it "do not include Base clases" do
-      expect(base.descendants).not_to include(Transactions::Credential::Base)
-    end
-
     it "should include the descendants of base classes" do
-      Transactions::Credential::TicketChecker.inspect
-      Transactions::Credential::GtagChecker.inspect
-      Transactions::Credit::BalanceUpdater.inspect
-      Transactions::Order::CredentialAssigner.inspect
       expect(base.descendants).to include(Transactions::Credential::TicketChecker)
       expect(base.descendants).to include(Transactions::Credential::GtagChecker)
       expect(base.descendants).to include(Transactions::Credit::BalanceUpdater)
-      expect(base.descendants).to include(Transactions::Order::CredentialAssigner)
     end
   end
 
