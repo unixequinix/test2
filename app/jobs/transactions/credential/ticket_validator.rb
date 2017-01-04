@@ -4,6 +4,6 @@ class Transactions::Credential::TicketValidator < Transactions::Credential::Base
   def perform(atts)
     t = CredentialTransaction.find(atts[:transaction_id])
     ticket = assign_ticket(t, atts)
-    mark_redeemed(ticket)
+    ticket.update!(redeemed: true)
   end
 end

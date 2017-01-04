@@ -22,10 +22,6 @@ class Transactions::Credential::Base < Transactions::Base
     ticket
   end
 
-  def mark_redeemed(obj)
-    obj.update!(redeemed: true)
-  end
-
   def self.inherited(klass)
     superclass.inherited(klass)
   end
