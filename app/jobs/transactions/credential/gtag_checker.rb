@@ -1,4 +1,4 @@
-class Transactions::Credential::GtagChecker < Transactions::Credential::Base
+class Transactions::Credential::GtagChecker < Transactions::Base
   TRIGGERS = %w(gtag_checkin record_purchase).freeze
 
   def perform(atts)
