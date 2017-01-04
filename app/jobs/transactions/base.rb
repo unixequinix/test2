@@ -8,8 +8,8 @@ class Transactions::Base < ActiveJob::Base
     gtag_atts = { tag_uid: atts[:customer_tag_uid], event_id: atts[:event_id], activation_counter: atts[:activation_counter] }
 
     begin
-      transaction = klass.transaction(requires_new: true) { klass.find_or_create_by(atts.slice(*SEARCH_ATTS)) }
-      atts[:gtag_id] = Gtag.transaction(requires_new: true) { Gtag.find_or_create_by(gtag_atts).id } if atts[:customer_tag_uid].present?
+      transaction = klass.find_or_create_by(atts.slice(*SEARCH_ATTS))
+      atts[:gtag_id] = Gtag.find_or_create_by(gtag_atts).id if atts[:customer_tag_uid].present?
     rescue ActiveRecord::RecordNotUnique
       retry
     end
