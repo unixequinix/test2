@@ -4,9 +4,9 @@ p.menu-header
 
 = search_form_for q, url: search_admins_event_gtags_path, html: { novalidate: true, class: "searchForm" }  do |f|
   .container-search
-    = f.input :tag_uid_cont, label: "Tag uid", placeholder: t("admin.gtags.search.tag_uid")
+    = f.search_field :tag_uid_cont, label: "Tag uid", placeholder: t("admin.gtags.search.tag_uid")
     / TODO: Add translations
-    = f.input :customer_id_not_null, as: :select, label: "With customer?", placeholder: t("admin.gtags.search.tag_serial")
-    = f.input :banned_true, as: :select, label: "Banned?"
-    = f.input :active_eq, label: "Credential status", placeholder: "assigned or unassigned"
+    = f.search_field :customer_id_not_null, as: :select, label: "With customer?", placeholder: t("admin.gtags.search.tag_serial")
+    = f.search_field :banned_true, as: :select, label: "Banned?"
+    = f.search_field :active_eq, label: "Credential status", placeholder: "assigned or unassigned"
     = f.submit class: "btn btn-secondary"

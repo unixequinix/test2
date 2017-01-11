@@ -11,6 +11,7 @@ namespace :glownet do
     })
 
     UserFlag.create!(event_id: @event.id, name: "alcohol_forbidden", step: 1)
+    @event.create_credit!(value: 1, name: "CRD", step: 5, min_purchasable: 0, max_purchasable: 300, initial_amount: 0)
     station = @event.stations.create! name: "Customer Portal", category: "customer_portal", group: "access"
     station.station_catalog_items.create(catalog_item: @event.credit, price: 1)
     @event.stations.create! name: "CS Topup/Refund", category: "cs_topup_refund", group: "event_management"
@@ -35,21 +36,18 @@ namespace :glownet do
   end
 
   def create_customers
-    Customer.create!({
-      event_id: @event.id,
-      first_name: "Vicentest",
-      last_name: "Test",
-      email: "test@test.com",
-      agreed_on_registration: true,
-      phone: "512 2301 440",
-      country: "ES",
-      gender: "male",
-      birthdate: Date.new(rand(1900..2000), rand(1..12), rand(1..28)),
-      postcode: "28012",
-      agreed_event_condition: true,
-      password: "test",
-      password_confirmation: "test"
-    })
+    @event.customers.create!(first_name: "Vicentest",
+                             last_name: "Test",
+                             email: "test@test.com",
+                             agreed_on_registration: true,
+                             phone: "512 2301 440",
+                             country: "ES",
+                             gender: "male",
+                             birthdate: Date.new(rand(1900..2000), rand(1..12), rand(1..28)),
+                             postcode: "28012",
+                             agreed_event_condition: true,
+                             password: "test",
+                             password_confirmation: "test")
   end
 
   def create_accesses

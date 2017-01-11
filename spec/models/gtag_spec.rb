@@ -14,10 +14,11 @@
 #
 # Indexes
 #
-#  index_gtags_on_activation_counter  (activation_counter)
-#  index_gtags_on_customer_id         (customer_id)
-#  index_gtags_on_event_id            (event_id)
-#  index_gtags_on_tag_uid             (tag_uid)
+#  index_gtags_on_activation_counter                           (activation_counter)
+#  index_gtags_on_customer_id                                  (customer_id)
+#  index_gtags_on_event_id                                     (event_id)
+#  index_gtags_on_event_id_and_tag_uid_and_activation_counter  (event_id,tag_uid,activation_counter) UNIQUE
+#  index_gtags_on_tag_uid                                      (tag_uid)
 #
 # Foreign Keys
 #

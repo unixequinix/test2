@@ -2,20 +2,21 @@ Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
 
 source 'https://rubygems.org'
-ruby '2.3.1'
+ruby '2.3.3'
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}.git" }
 
 
 
 gem 'rails', '~> 5.0.1' # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'puma', '~> 3.0' # Use Puma as the app server
 gem 'therubyracer', platforms: :ruby
 gem 'turbolinks', '~> 5'
 gem 'globalize', github: 'globalize/globalize'
 gem 'figaro'
 gem 'aws-sdk', '~> 2'
 gem 'thor', '0.19.1'
+gem 'redis', '~> 3.0' # Use Redis adapter to run Action Cable in production
+# gem 'bcrypt', '~> 3.1.7' # Use ActiveModel has_secure_password
 
 # Database
 gem 'activerecord-import'
@@ -65,7 +66,7 @@ gem 'kaminari'
 gem 'gretel', github: 'lassebunk/gretel'
 
 # Search
-gem 'ransack'
+gem 'ransack', github: 'activerecord-hackery/ransack'
 
 # Form normalizers
 gem 'country_select'
@@ -94,11 +95,6 @@ gem 'rfc-822'
 gem 'iban-tools'
 gem 'iso-swift', github: "hugolantaume/iso-swift"
 
-# Use Redis adapter to run Action Cable in production
-gem 'redis', '~> 3.0'
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console', '>= 3.3.0'
@@ -107,14 +103,13 @@ group :development do
   gem 'bullet' # Help to kill N+1 queries and unused eager loading
   gem 'rails-erd' # Entity-relationship diagrams (ERD)
   gem 'ruby-progressbar'
-  gem 'capistrano'
-  gem 'capistrano-rails'
+  gem 'capistrano', '~> 3.6'
+  gem 'capistrano-rails', '~> 1.1'
   gem 'capistrano-rvm'
-  gem 'capistrano-bundler'
   gem 'capistrano-passenger'
+  gem 'capistrano-faster-assets', '~> 1.0'
+  gem 'capistrano-rails-console', require: false
   gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
-  gem 'capistrano-faster-assets'
-  gem 'capistrano-rails-console'
   gem 'annotate'
 end
 
@@ -133,14 +128,8 @@ group :development, :test do
   gem 'rb-fsevent'
   gem 'terminal-notifier-guard'
   gem 'terminal-notifier'
-end
-
-group :development, :test, :integration do
+  gem 'puma', '~> 3.0' # Use Puma as the app server
   gem 'factory_girl_rails'
-end
-
-group :development, :test, :staging do
-  gem 'faker'
   gem 'rubocop', require: false # Code quality https://github.com/bbatsov/rubocop
   gem 'rubocop-checkstyle_formatter', require: false
 end

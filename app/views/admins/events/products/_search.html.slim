@@ -4,7 +4,7 @@ p.menu-header
 
 = search_form_for q, url: search_admins_event_products_path, html: { novalidate: true, class: "searchForm" }  do |f|
   .container-search
-    = f.input :name_cont, label: t("admin.products.name"), placeholder: t("admin.products.name")
-    = f.input :product_type_cont, label: t("admin.products.product_type"), placeholder: t("admin.products.product_type")
-    = f.input :is_alcohol_true, as: :select, label: t("admin.products.is_alcohol")
+    = f.search_field :name_cont, label: t("admin.products.name"), placeholder: t("admin.products.name")
+    = f.search_field :product_type_cont, label: t("admin.products.product_type"), placeholder: t("admin.products.product_type")
+    = f.search_field :is_alcohol_true, as: :select, label: t("admin.products.is_alcohol")
     = f.submit class: "btn btn-secondary"

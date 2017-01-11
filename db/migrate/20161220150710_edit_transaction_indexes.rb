@@ -7,6 +7,6 @@ class EditTransactionIndexes < ActiveRecord::Migration
     remove_index(:transactions, :activation_counter) if index_exists?(:transactions, :activation_counter)
 
     columns = [:event_id, :device_uid, :device_db_index, :device_created_at_fixed, :gtag_counter, :activation_counter]
-    add_index(:transactions, columns, name: :index_transactions_on_device_columns, unique: true, using: :btree) unless index_exists?(:transactions, columns, name: :transactions_on_device_columns, unique: true)
+    add_index(:transactions, columns, name: :index_transactions_on_device_columns, unique: true, using: :btree) unless index_exists?(:transactions, columns, name: :index_transactions_on_device_columns, unique: true)
   end
 end

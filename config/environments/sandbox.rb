@@ -11,7 +11,7 @@ Rails.application.configure do
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on.
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local       = true
   config.action_controller.perform_caching = true
 
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
@@ -46,7 +46,7 @@ Rails.application.configure do
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
-  config.log_level = :info
+  config.log_level = :debug
 
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]
@@ -77,12 +77,8 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.action_mailer.default_url_options = {
-    host: Rails.application.secrets.mail_host
-  }
-
+  config.action_mailer.default_url_options = { host: Rails.application.secrets.mail_host }
   config.action_mailer.delivery_method = :smtp
-
   config.action_mailer.default_url_options = { host: Rails.application.secrets.host }
 
   Rails.application.routes.default_url_options[:host] = Rails.application.secrets.host_url

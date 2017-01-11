@@ -1,38 +1,34 @@
-set :application, "glownet_web"
+set :application, "arepa"
 set :repo_url, "git@github.com:Gl0wnet/web-core.git"
-set :bundle_without, [:darwin, :development, :test]
-set :deploy_to, "~/glownet_web"
+
+# Default branch is :master
+# ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
+
+# Default deploy_to directory is /var/www/my_app_name
+set :deploy_to, "/home/deploy"
+
+# Default value for :format is :airbrussh.
+# set :format, :airbrussh
+
+# You can configure the Airbrussh format using :format_options.
+# These are the defaults.
+# set :format_options, command_output: true, log_file: "log/capistrano.log", color: :auto, truncate: :auto
 
 # Default value for :pty is false
-# There is a known bug that prevents sidekiq from starting when pty is true on Capistrano 3
-set :pty, false
-set :ssh_options, forward_agent: true, auth_methods: %w(publickey)
+# set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, %w(config/application.yml)
+append :linked_files, "config/application.yml"
 
 # Default value for linked_dirs is []
-set :linked_dirs, %w(log store tmp/pids tmp/cache tmp/sockets vendor/bundle public/system)
+append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets"
 
-# sidekiq options here better to separate per production
-set :sidekiq_default_hooks, true
-set :sidekiq_pid, File.join(shared_path, "tmp", "pids", "sidekiq.pid")
-set :sidekiq_env, fetch(:rack_env, fetch(:rails_env, fetch(:stage)))
-set :sidekiq_log, File.join(shared_path, "log", "sidekiq.log")
-set :sidekiq_concurrency, 1
-set :sidekiq_queue, [:default, :mailers]
+# Default value for default_env is {}
+# set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
-set :whenever_identifier, -> { "#{fetch(:application)}_#{fetch(:stage)}" }
+# Default value for keep_releases is 5
+# set :keep_releases, 5
 
-namespace :glownet do
-  desc "Create or reset admin account"
-  task :create_admin do
-    on roles(:app) do
-      within release_path do
-        with rails_env: fetch(:rails_env) do
-          execute :rake, "glownet:create_admin"
-        end
-      end
-    end
-  end
-end
+set :rvm_ruby_version, '2.3.3'
+
+set :sidekiq_config, File.join(current_path, 'config', 'sidekiq.yml')

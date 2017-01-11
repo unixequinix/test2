@@ -2,7 +2,6 @@
 #
 # Table name: company_event_agreements
 #
-#  state :string
 #
 # Indexes
 #

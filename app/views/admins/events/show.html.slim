@@ -47,7 +47,7 @@
             - count = Transaction.class_for_type(type).where(event: @current_event).count
             - next if count.zero?
             .wrapper-transactions
-              h2 = number_with_delimiter(count)
+              h2 = number_to_human(count)
               span = type.humanize
 
   .container-show

@@ -14,11 +14,11 @@ aside.mmenu-panel#search-menu
 
   = search_form_for @q, url: search_admins_event_customers_path, html: { novalidate: true, class: "searchForm" }  do |f|
     .container-search
-      = f.input :first_name_cont, label: t("admin.customers.search.first_name"), placeholder: t("admin.customers.search.first_name")
-      = f.input :last_name_cont, label: t("admin.customers.search.last_name"), placeholder: t("admin.customers.search.last_name")
-      = f.input :email_cont, label: t("admin.customers.search.email"), placeholder: t("admin.customers.search.email"), as: :string
-      = f.input :tickets_id_not_null, as: :select, label: t("admin.customers.search.tickets")
-      = f.input :active_gtag_id_not_null, as: :select, label: t("admin.customers.search.gtags")
+      = f.search_field :first_name_cont, label: t("admin.customers.search.first_name"), placeholder: t("admin.customers.search.first_name")
+      = f.search_field :last_name_cont, label: t("admin.customers.search.last_name"), placeholder: t("admin.customers.search.last_name")
+      = f.search_field :email_cont, label: t("admin.customers.search.email"), placeholder: t("admin.customers.search.email"), as: :string
+      = f.search_field :tickets_id_not_null, as: :select, label: t("admin.customers.search.tickets")
+      = f.search_field :active_gtag_id_not_null, as: :select, label: t("admin.customers.search.gtags")
       = f.submit class: "btn btn-secondary"
 
 .wrapper-negative-space

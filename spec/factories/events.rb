@@ -2,7 +2,6 @@
 #
 # Table name: events
 #
-#  state                      :string
 #  address_mandatory               :boolean
 #  agreed_event_condition          :boolean
 #  background_content_type         :string
@@ -10,6 +9,7 @@
 #  background_file_size            :integer
 #  background_type                 :string           default("fixed")
 #  birthdate_mandatory             :boolean
+#  card_return_fee                 :integer          default(0)
 #  cards_can_refund                :boolean          default(TRUE)
 #  city_mandatory                  :boolean
 #  company_name                    :string
@@ -31,6 +31,7 @@
 #  gender_mandatory                :boolean
 #  gtag_assignation                :boolean          default(FALSE)
 #  gtag_deposit                    :integer          default(0)
+#  gtag_deposit_fee                :integer          default(0)
 #  gtag_format                     :string           default("standard")
 #  gtag_type                       :string           default("ultralight_c")
 #  iban_enabled                    :boolean          default(TRUE)
@@ -53,6 +54,7 @@
 #  registration_num                :string
 #  slug                            :string           not null
 #  start_date                      :datetime
+#  state                           :string           default("created")
 #  style                           :text
 #  support_email                   :string           default("support@glownet.com"), not null
 #  sync_time_basic_download        :integer          default(5)
@@ -65,6 +67,7 @@
 #  timezone                        :string           default("UTC")
 #  token                           :string
 #  token_symbol                    :string           default("t")
+#  topup_fee                       :integer          default(0)
 #  topup_initialize_gtag           :boolean          default(TRUE)
 #  touchpoint_update_online_orders :boolean          default(FALSE)
 #  transaction_buffer              :integer          default(100)
