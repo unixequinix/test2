@@ -8,7 +8,7 @@
 # server "db.example.com", user: "deploy", roles: %w{db}
 server "52.214.240.130", user: "deploy", roles: %w(web app db)
 
-set :branch, "new_deploy"
+set :branch, "develop"
 set :rails_env, "demo"
 
 # role-based syntax
