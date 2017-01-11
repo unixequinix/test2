@@ -10,4 +10,4 @@
 #   end
 # end
 
-Time::DATE_FORMATS[:transactions] = "%Y-%m-%dT%T.%L%z"
+Time::DATE_FORMATS[:transactions] = "%Y-%m-%dT%T.%L%:z"
