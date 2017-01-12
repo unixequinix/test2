@@ -7,7 +7,11 @@ namespace :glownet do
       end_date: DateTime.now + 4.days,
       support_email: "support@glownet.com",
       currency: "EUR",
-      token_symbol: "t"
+      token_symbol: "t",
+      ticket_assignation: true,
+      gtag_assignation: true,
+      private_zone_password: 'a',
+      fast_removal_password: 'a'
     })
 
     UserFlag.create!(event_id: @event.id, name: "alcohol_forbidden", step: 1)
@@ -146,12 +150,14 @@ namespace :glownet do
   end
 
   def create_access_control_stations
-    accesses = [{ name: "Day", direction: 1 }, { name: "Day", direction: -1 }]
-    station = @event.stations.create!(name: "Access Control", group: "access", category: "access_control")
+    accesses = %w(Day Night VIP)
+    accesses.each do |access_name|
+      item = @event.catalog_items.find_by(name: access_name)
+      station = @event.stations.create!(name: "#{access_name} IN", group: "access", category: "access_control")
+      station.access_control_gates.create(direction: 1, access: item)
 
-    accesses.each do |access|
-      item = CatalogItem.find_by(name: access[:name], event: @event)
-      station.access_control_gates.create(direction: access[:direction], access: item, station: station)
+      station = @event.stations.create!(name: "#{access_name} OUT", group: "access", category: "access_control")
+      station.access_control_gates.create(direction: -1, access: item)
     end
   end
 
