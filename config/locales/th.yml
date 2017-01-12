@@ -75,9 +75,6 @@ th:
       customer:
         one: 'customer'
         other: 'customers'
-      entitlement:
-        one: 'entitlement'
-        other: 'entitlements'
       gtag:
         one: 'gtag'
         other: 'gtags'
@@ -108,11 +105,6 @@ th:
           attributes:
             email:
               taken: 'Email taken'
-        entitlement:
-          attributes:
-            base:
-              restrict_dependent_destroy:
-                many: "Can't be deleted because there are ticket types associated"
         ticket_type:
           attributes:
             base:
@@ -206,7 +198,6 @@ th:
       customers: Customers
       details: Details
       device_transactions: Device
-      entitlements: Entitlements
       event: Event
       events: Events
       gtag: GTags
@@ -308,10 +299,6 @@ th:
       mac: MAC
       model: Model
       serial_number: Serial Number
-    entitlement:
-      memory_length: Length
-      memory_position: Memory position
-      mode: Mode
     event:
       background: Background
       background_type: Background type
@@ -594,7 +581,6 @@ th:
       company: Company
       company_code: Company code
       credit: Credit
-      entitlements: Entitlements
       id: Id
       import: Import ticket types (Select a CSV file comma separated)
       name: Name
@@ -754,7 +740,6 @@ th:
     customer: Customer
     customers: Customers
     dashboard: Dashboard
-    entitlements: Entitlements
     events: Events
     gtags: Gtags
     home: Home
@@ -765,7 +750,6 @@ th:
     new_customer: New customer
     new_customer_admission: Assigning Ticket
     new_customer_gtag_assignation: Assigning Gtag
-    new_entitlement: New entitlement
     new_event: New event
     new_gtag: New tag
     new_order: New order
@@ -1158,7 +1142,6 @@ th:
       less_than: must be less than %{count}
       less_than_or_equal_to: must be less than or equal to %{count}
       max_credits_reached: You reached the maximun allowed balance
-      max_entitlements_reached: You reached the maximun allowed entitlements
       max_standard_credits: Only one credit per event
       model_invalid: 'Validation failed: %{errors}'
       more_credits_than_max_balance: can't be greater than maximum gtag balance
@@ -1167,8 +1150,6 @@ th:
       not_belong_to_event: doesn't belong to this event
       not_enough_space_for_credential: Not enough space in gtag for this credential
       not_enough_space_for_credential_configuration: Not enough space in gtag for the existing credential configuration
-      not_enough_space_for_entitlement: Not enough space in gtag for this entitlement
-      not_enough_space_for_entitlement_configuration: Not enough space in gtag for the existing entitlement configuration
       not_found: ไม่พบ
       not_locked: ไม่ถูกล๊อคแล้ว
       not_saved:
@@ -1617,9 +1598,6 @@ th:
           private_zone_password: Private Zone Password
           public_key_a: Tag Password
           uid_reverse: UID Reverse
-      entitlement:
-        new:
-          name: ชื่อ
       epg_claim_form:
         new:
           address: ที่อยู่
@@ -1751,13 +1729,11 @@ th:
         edit:
           company: บริษัท
           credit: เครดิต
-          entitlement: สิทธิ์
           name: ชื่อ
           simplified_name: ชื่อย่อ
         new:
           company: บริษัท
           credit: เครดิต
-          entitlement: สิทธิ์
           name: ชื่อ
           simplified_name: ชื่อย่อ
     placeholders:
@@ -1765,11 +1741,6 @@ th:
         new:
           iban: GB00 0000 0000 0000 0000 0000
           swift: 0000 0000
-      entitlement:
-        edit:
-          name: ชื่อของผู้มีสิทธิ์
-        new:
-          name: ชื่อของผู้มีสิทธิ์
       epg_claim_form:
         new:
           address: ที่อยู่
@@ -1824,13 +1795,11 @@ th:
         edit:
           company: บริษัทของงาน
           credit: เครดิตคงเหลือ
-          entitlement: สิทธิ
           name: ชื่อของบัตรเข้างาน
           simplified_name: ชื่อของบัตรเข้างาน
         new:
           company: บริษัทของงาน
           credit: เครดิตคงเหลือ
-          entitlement: สิทธิ
           name: ชื่อของบัตรเข้างาน
           simplified_name: ชื่อของบัตรเข้างาน
     required:

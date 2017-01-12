@@ -4,7 +4,10 @@
 #
 #  initial_amount  :integer
 #  max_purchasable :integer
+#  memory_length   :integer
+#  memory_position :integer
 #  min_purchasable :integer
+#  mode            :string
 #  name            :string
 #  step            :integer
 #  type            :string           not null
@@ -38,7 +41,7 @@ class Pack < CatalogItem
   end
 
   def only_infinite_items?
-    catalog_items.all? { |item| item.try(:entitlement)&.infinite? }
+    catalog_items.all?(&:infinite?)
   end
 
   def only_credits?
@@ -48,7 +51,7 @@ class Pack < CatalogItem
   private
 
   def infinite_item?
-    catalog_items.any? { |item| item.try(:entitlement)&.infinite? }
+    catalog_items.any?(&:infinite?)
   end
 
   def valid_max_value

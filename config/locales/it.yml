@@ -75,9 +75,6 @@ it:
       customer:
         one: 'customer'
         other: 'customers'
-      entitlement:
-        one: 'entitlement'
-        other: 'entitlements'
       gtag:
         one: 'gtag'
         other: 'gtags'
@@ -108,11 +105,6 @@ it:
           attributes:
             email:
               taken: 'Email taken'
-        entitlement:
-          attributes:
-            base:
-              restrict_dependent_destroy:
-                many: "Can't be deleted because there are ticket types associated"
         ticket_type:
           attributes:
             base:
@@ -206,7 +198,6 @@ it:
       customers: Customers
       details: Details
       device_transactions: Device
-      entitlements: Entitlements
       event: Event
       events: Events
       gtag: GTags
@@ -309,10 +300,6 @@ it:
       mac: MAC
       model: Model
       serial_number: Serial Number
-    entitlement:
-      memory_length: Length
-      memory_position: Memory position
-      mode: Mode
     event:
       background: Background
       background_type: Background type
@@ -595,7 +582,6 @@ it:
       company: Company
       company_code: Company code
       credit: Credit
-      entitlements: Entitlements
       id: Id
       import: Import ticket types (Select a CSV file comma separated)
       name: Name
@@ -758,7 +744,6 @@ it:
     customer: Customer
     customers: Customers
     dashboard: Dashboard
-    entitlements: Entitlements
     events: Events
     gtags: Gtags
     home: Home
@@ -769,7 +754,6 @@ it:
     new_customer: New customer
     new_customer_admission: Assigning Ticket
     new_customer_gtag_assignation: Assigning Gtag
-    new_entitlement: New entitlement
     new_event: New event
     new_gtag: New tag
     new_order: New order
@@ -1162,7 +1146,6 @@ it:
       less_than: deve essere minore di %{count}
       less_than_or_equal_to: deve essere minore o uguale a %{count}
       max_credits_reached: You reached the maximun allowed balance
-      max_entitlements_reached: You reached the maximun allowed entitlements
       max_standard_credits: Only one standard credit per event
       model_invalid: 'Validazione fallita: %{errors}'
       more_credits_than_max_balance: can't be greater than maximum gtag balance
@@ -1171,8 +1154,6 @@ it:
       not_belong_to_event: doesn't belong to this event
       not_enough_space_for_credential: Not enough space in gtag for this credential
       not_enough_space_for_credential_configuration: Not enough space in gtag for the existing credential configuration
-      not_enough_space_for_entitlement: Not enough space in gtag for this entitlement
-      not_enough_space_for_entitlement_configuration: Not enough space in gtag for the existing entitlement configuration
       not_found: non trovato
       not_locked: non è stato bloccato
       not_saved:
@@ -1626,9 +1607,6 @@ it:
           private_zone_password: Private Zone Password
           public_key_a: Tag Password
           uid_reverse: UID Reverse
-      entitlement:
-        new:
-          name: Nome
       epg_claim_form:
         new:
           address: Indirizzo
@@ -1760,13 +1738,11 @@ it:
         edit:
           company: Compagnia
           credit: Credito
-          entitlement: Entitlement
           name: Nome
           simplified_name: Nome semplificata
         new:
           company: Compagnia
           credit: Credito
-          entitlement: Entitlement
           name: Nome
           simplified_name: Nome semplificata
     placeholders:
@@ -1774,11 +1750,6 @@ it:
         new:
           iban: IT00 0000 0000 0000 0000 0000
           swift: 0000 0000
-      entitlement:
-        edit:
-          name: Choose a name for entitlement
-        new:
-          name: Choose a name for entitlement
       epg_claim_form:
         new:
           address: Indirizzo e numero
@@ -1831,13 +1802,11 @@ it:
         edit:
           company: Event company
           credit: Available Credit
-          entitlement: Entitlement
           name: 'Choose a ticket name '
           simplified_name: A Simplified Name for your ticket
         new:
           company: Event company
           credit: Available Credit
-          entitlement: Entitlement
           name: 'Choose a ticket name '
           simplified_name: A Simplified Name for your ticket
     required:

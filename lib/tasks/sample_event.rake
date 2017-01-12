@@ -65,12 +65,7 @@ namespace :glownet do
     ]
 
     accesses.each do |access|
-      @event.accesses.create!(name: access[:name],
-                              step: 1,
-                              min_purchasable: 0,
-                              max_purchasable: 1,
-                              initial_amount: 0,
-                              entitlement_attributes: { event_id: @event.id, mode: access[:mode], })
+      @event.accesses.create!(name: access[:name], step: 1, min_purchasable: 0, max_purchasable: 1, initial_amount: 0, mode: access[:mode])
     end
   end
 

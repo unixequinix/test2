@@ -6,9 +6,18 @@ FactoryGirl.define do
     step 1
     max_purchasable 1
     min_purchasable 0
+    mode Access::PERMANENT_STRICT
 
-    after(:build) do |access|
-      access.entitlement ||= build(:entitlement, event: access.event)
+    trait :counter do
+      mode Access::COUNTER
+    end
+
+    trait :permanent do
+      mode Access::PERMANENT
+    end
+
+    trait :permanent_strict do
+      mode Access::PERMANENT_STRICT
     end
   end
 end

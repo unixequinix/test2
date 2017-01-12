@@ -3,15 +3,13 @@ class Api::V1::AccessSerializer < Api::V1::BaseSerializer
 
   delegate :name, to: :object
 
-  def mode
-    object.entitlement.mode
-  end
+  delegate :mode, to: :object
 
   def position
-    object.entitlement.memory_position
+    object.memory_position
   end
 
   def memory_length
-    object.entitlement.memory_length.to_i
+    object.memory_length.to_i
   end
 end

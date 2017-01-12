@@ -123,7 +123,7 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     OrderItem.where(order: orders.completed)
   end
 
-  def infinite_entitlements_purchased
+  def infinite_accesses_purchased
     catalog_items = order_items.pluck(:catalog_item_id)
     accesses = Access.where(id: catalog_items).infinite.pluck(:id)
     packs = Pack.joins(:catalog_items)

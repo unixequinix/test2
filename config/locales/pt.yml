@@ -75,9 +75,6 @@ pt:
       customer:
         one: 'customer'
         other: 'customers'
-      entitlement:
-        one: 'entitlement'
-        other: 'entitlements'
       gtag:
         one: 'gtag'
         other: 'gtags'
@@ -108,11 +105,6 @@ pt:
           attributes:
             email:
               taken: 'Email taken'
-        entitlement:
-          attributes:
-            base:
-              restrict_dependent_destroy:
-                many: "Can't be deleted because there are ticket types associated"
         ticket_type:
           attributes:
             base:

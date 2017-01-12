@@ -22,40 +22,61 @@
 require "spec_helper"
 
 RSpec.describe Access, type: :model do
-  subject { build(:access) }
+  subject { build(:access, mode: "counter") }
 
   it "has a valid factory" do
     expect(subject).to be_valid
   end
 
+  describe ".infinite?" do
+    it "false for 'counter'" do
+      allow(subject).to receive(:mode).and_return("counter")
+      expect(subject.infinite?).to eq(false)
+    end
+
+    it "true for 'permanent'" do
+      allow(subject).to receive(:mode).and_return("permanent")
+      expect(subject.infinite?).to eq(true)
+    end
+
+    it "true for 'permanent_strict'" do
+      allow(subject).to receive(:mode).and_return("permanent_strict")
+      expect(subject.infinite?).to eq(true)
+    end
+  end
+
+  context "before validations" do
+    describe ".position " do
+      it "adds the next memory_position to the new subject" do
+        event = create(:event)
+        create(:access, event: event)
+        access = create(:access, event: event)
+        expect(access.memory_position).to eq(2)
+      end
+    end
+  end
+
   describe ".set_infinite_values" do
-    it "sets propper values for permanent entitlements" do
-      subject.entitlement = build(:entitlement, :permanent)
-      subject.valid?
-      expect(subject.min_purchasable).to eq(0)
-      expect(subject.max_purchasable).to eq(1)
-      expect(subject.step).to eq(1)
-      expect(subject.initial_amount).to eq(0)
+    it "sets proper values for permanent subjects" do
+      access = build(:access, :permanent)
+      access.valid?
+      expect(access.min_purchasable).to eq(0)
+      expect(access.max_purchasable).to eq(1)
+      expect(access.step).to eq(1)
+      expect(access.initial_amount).to eq(0)
     end
   end
 
   describe ".set_memory_length" do
-    it "sets the entitlement memory_length to 2 if the max purchasable is bigger than 7" do
-      entitlement = build(:entitlement, :counter)
-      subject.entitlement = entitlement
-      subject.max_purchasable = 1
-      subject.valid?
-      expect(entitlement.memory_length).to eq(1)
+    it "sets the subject memory_length to 2 if the max purchasable is bigger than 7" do
       subject.max_purchasable = 10
-      subject.valid?
-      expect(entitlement.memory_length).to eq(2)
+      subject.save!
+      expect(subject.memory_length).to eq(2)
     end
   end
 
   describe ".min_max_congruency" do
     it "returns an error if the min purchasable is bigger than max purchasable" do
-      subject.entitlement = build(:entitlement, :counter)
-      expect(subject).to be_valid
       subject.max_purchasable = 10
       subject.min_purchasable = 20
       expect(subject).not_to be_valid

@@ -80,7 +80,7 @@
 #  index_events_on_slug  (slug) UNIQUE
 #
 
-class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
+class Event < ActiveRecord::Base
   translates :info, :disclaimer, :terms_of_use, :privacy_policy, :refund_success_message,
              :refund_disclaimer, :bank_account_disclaimer,
              :gtag_assignation_notification, :gtag_form_disclaimer,
@@ -92,7 +92,6 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   has_many :ticket_types, dependent: :destroy
   has_many :companies, through: :company_event_agreements
   has_many :company_event_agreements, dependent: :destroy
-  has_many :entitlements, dependent: :destroy
   has_many :gtags, dependent: :destroy
   has_many :payment_gateways, dependent: :destroy
   has_many :products, dependent: :destroy

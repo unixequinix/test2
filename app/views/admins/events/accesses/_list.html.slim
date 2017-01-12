@@ -7,7 +7,7 @@ table.accesses
       th = t('admin.catalog_item.initial_amount')
       th = t('admin.catalog_item.max_purchasable')
       th = t('admin.catalog_item.min_purchasable')
-      th = t('admin.entitlement.mode')
+      th = t('admin.catalog_item.mode')
       th.table-actions-field = t('admin.defaults.actions')
   tbody
     - accesses.each do |access|
@@ -17,7 +17,7 @@ table.accesses
         td data-label=t('admin.catalog_item.initial_amount') = access.initial_amount
         td data-label=t('admin.catalog_item.max_purchasable') = access.max_purchasable
         td data-label=t('admin.catalog_item.min_purchasable') = access.min_purchasable
-        td data-label=t('admin.entitlement.mode') = access.entitlement&.mode
+        td data-label=t('admin.accesses.mode') = access.mode
         td.table-actions-field
           = render 'admins/events/accesses/actions', access: access unless @current_event.started?
 = paginate accesses

@@ -1,10 +1,6 @@
 = simple_form_for [:admins, @current_event, access] do |f|
   .wrapper-negative-space
-    = f.simple_fields_for :entitlement do |entitlement|
-      = entitlement.input :mode, collection: Entitlement::MODES, include_blank: false, id: "mode_selector"
-      = entitlement.input :memory_length, as: :hidden, input_html: { value: 1 }
-      = entitlement.input :event_id, as: :hidden, input_html: { value: @current_event.id }
-
+    = f.input :mode, collection: Access::MODES, include_blank: false, id: "mode_selector"
     = f.input :name, autofocus: false, placeholder: true
     #shop-fields
       = f.input :step, placeholder: true
@@ -16,15 +12,12 @@
 
 javascript:
   var changeSelect = function() {
-    var value = $("#access_entitlement_attributes_mode").val();
+    var value = $("#access_mode").val();
 
-    if(value === "counter") {
-     $("#shop-fields").show();
-    } else {
-     $("#shop-fields").hide();
-    }
+    if(value === "counter") {$("#shop-fields").show();}
+    else { $("#shop-fields").hide(); }
   };
 
-  $("#access_entitlement_attributes_mode").change(changeSelect);
+  $("#access_mode").change(changeSelect);
   $(document).on('page:load', changeSelect);
   $(document).ready(changeSelect);

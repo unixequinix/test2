@@ -75,9 +75,6 @@ de:
       customer:
         one: 'customer'
         other: 'customers'
-      entitlement:
-        one: 'entitlement'
-        other: 'entitlements'
       gtag:
         one: 'gtag'
         other: 'gtags'
@@ -108,11 +105,6 @@ de:
           attributes:
             email:
               taken: 'Email taken'
-        entitlement:
-          attributes:
-            base:
-              restrict_dependent_destroy:
-                many: "Can't be deleted because there are ticket types associated"
         ticket_type:
           attributes:
             base:
@@ -206,7 +198,6 @@ de:
       customers: 'Kunden Veranstaltungscustomer '
       details: Details
       device_transactions: Device
-      entitlements: Berechtigungen
       event: Veranstaltung
       events: Events
       gtag: GTags
@@ -308,10 +299,6 @@ de:
       mac: MAC
       model: Model
       serial_number: Serial Number
-    entitlement:
-      memory_length: Länge
-      memory_position: Speicherposition
-      mode: Mode
     event:
       background: Hintergrund
       background_type: Hintergrundtyp
@@ -594,7 +581,6 @@ de:
       company: Firma
       company_code: Firmencode
       credit: Guthaben
-      entitlements: Berechtigungen
       id: ID
       import: Wichtige Ticketarten (Wählen Sie ein CSV File mit Kommatrennung)
       name: Name
@@ -1132,7 +1118,6 @@ de:
       less_than: muss kleiner als %{count} sein
       less_than_or_equal_to: muss kleiner oder gleich %{count} sein
       max_credits_reached: Du hast das maximale Guthaben erreicht
-      max_entitlements_reached: You reached the maximun allowed entitlements
       max_standard_credits: Nur ein Standardguthaben pro Veranstaltung
       model_invalid: 'Überprüfung fehlgeschlagen: %{errors}'
       more_credits_than_max_balance: can't be greater than maximum gtag balance
@@ -1141,8 +1126,6 @@ de:
       not_belong_to_event: gehört nicht zu dieser Veranstaltung
       not_enough_space_for_credential: Nicht genug Platz in gtag für diese Anmeldung
       not_enough_space_for_credential_configuration: Nicht genug Platz in gtag für die bestehende Anmeldungskonfiguration
-      not_enough_space_for_entitlement: Nicht genug Platz in gtag für diese Berechtigung
-      not_enough_space_for_entitlement_configuration: Nicht genug Platz in gtag für die bestehende Berechtigungskonfiguration
       not_found: nicht gefunden
       not_locked: war nicht gesperrt
       not_saved:
@@ -1585,9 +1568,6 @@ de:
           private_zone_password: Passwort für privaten Bereich
           public_key_a: Tag Passwort
           uid_reverse: UID verkertrum
-      entitlement:
-        new:
-          name: Name
       epg_claim_form:
         new:
           address: Adresse
@@ -1717,13 +1697,11 @@ de:
         edit:
           company: Firma
           credit: Guthaben
-          entitlement: Berechtigung
           name: Name
           simplified_name: Kurzname
         new:
           company: Firma
           credit: Guthaben
-          entitlement: Berechtigung
           name: Name
           simplified_name: Kurzname
     placeholders:
@@ -1731,11 +1709,6 @@ de:
         new:
           iban: DE00 0000 0000 0000 0000 0000
           swift: 0000 0000
-      entitlement:
-        edit:
-          name: Wählen Sie einen Namen für die Berechtigung
-        new:
-          name: Wählen Sie einen Namen für die Berechtigung
       epg_claim_form:
         new:
           address: Adresse, Hausnummer, Etage
@@ -1788,13 +1761,11 @@ de:
         edit:
           company: Veranstalter
           credit: Verfügbares Guthaben
-          entitlement: Berechtigung
           name: Wählen Sie einen Ticketnamen
           simplified_name: Der Kurzname für Ihr Ticket
         new:
           company: Veranstalter
           credit: Verfügbares Guthaben
-          entitlement: Berechtigung
           name: Wählen Sie einen Ticketnamen
           simplified_name: Der Kurzname für Ihr Ticket
     required:

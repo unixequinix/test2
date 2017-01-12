@@ -7,11 +7,11 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
 
   def new
     @access = @current_event.accesses.new
-    @access.build_entitlement
   end
 
   def create
     @access = @current_event.accesses.new(permitted_params)
+
     if @access.save
       flash[:notice] = I18n.t("alerts.created")
       redirect_to admins_event_accesses_url
@@ -58,8 +58,6 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
   end
 
   def permitted_params
-    ci_atts = [:id, :name, :initial_amount, :step, :max_purchasable, :min_purchasable]
-    ent_atts = [:id, :memory_length, :mode, :event_id]
-    params.require(:access).permit(ci_atts, entitlement_attributes: ent_atts)
+    params.require(:access).permit(:name, :initial_amount, :step, :max_purchasable, :min_purchasable, :mode)
   end
 end
