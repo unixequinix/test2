@@ -9,7 +9,7 @@ class Transactions::Credential::TicketChecker < Transactions::Base
     Gtag.find(atts[:gtag_id]).update!(customer_id: atts[:customer_id])
   end
 
-  def assign_ticket(transaction, atts)
+  def assign_ticket(transaction, atts) # rubocop:disable Metrics/MethodLength
     code = atts[:ticket_code]
     event = transaction.event
 
