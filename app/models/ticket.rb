@@ -11,9 +11,10 @@
 #
 # Indexes
 #
-#  index_tickets_on_customer_id     (customer_id)
-#  index_tickets_on_event_id        (event_id)
-#  index_tickets_on_ticket_type_id  (ticket_type_id)
+#  index_tickets_on_customer_id        (customer_id)
+#  index_tickets_on_event_id           (event_id)
+#  index_tickets_on_event_id_and_code  (event_id,code) UNIQUE
+#  index_tickets_on_ticket_type_id     (ticket_type_id)
 #
 # Foreign Keys
 #

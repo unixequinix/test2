@@ -15,8 +15,12 @@ class EventbriteImporter < ActiveJob::Base
         ctt.update!(name: attendee["ticket_class_name"])
         profile = attendee["profile"]
 
-        ticket = ctt.tickets.find_or_create_by!(code: barcode["barcode"], event: event)
-        ticket.update!(purchaser_first_name: profile["first_name"], purchaser_last_name: profile["last_name"], purchaser_email: profile["email"])
+        begin
+          ticket = ctt.tickets.find_or_create_by!(code: barcode["barcode"], event: event)
+          ticket.update!(purchaser_first_name: profile["first_name"], purchaser_last_name: profile["last_name"], purchaser_email: profile["email"])
+        rescue ActiveRecord::RecordNotUnique
+          retry
+        end
       end
     end
   end

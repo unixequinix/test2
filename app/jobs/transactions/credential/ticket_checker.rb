@@ -27,8 +27,12 @@ class Transactions::Credential::TicketChecker < Transactions::Base
 
     # ticket is sonar. so insert it.
     ctt = event.ticket_types.find_by(company_code: id)
-    ticket = event.tickets.find_or_create_by!(code: code, ticket_type: ctt)
-    transaction.update!(ticket: ticket)
+    begin
+      ticket = event.tickets.find_or_create_by!(code: code, ticket_type: ctt)
+      transaction.update!(ticket: ticket)
+    rescue ActiveRecord::RecordNotUnique
+      retry
+    end
     ticket
   end
 end
