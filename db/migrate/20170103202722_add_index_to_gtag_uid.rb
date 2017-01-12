@@ -5,7 +5,7 @@ class AddIndexToGtagUid < ActiveRecord::Migration[5.0]
       next if tags.size == 1
       first = tags.first
       rest = tags.drop(1)
-      Transaction.where(gtag: rest).update_all(gtag: first, updated_at: Time.zone.now)
+      Transaction.where(gtag_id: rest.map(&:id)).update_all(gtag: first, updated_at: Time.zone.now)
       rest.map(&:delete)
     end
 
