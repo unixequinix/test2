@@ -50,4 +50,3 @@ function topUpButton() {
 
 $(document).on('page:load', topUpButton);
 $(document).ready(topUpButton);
-topUpButton();
