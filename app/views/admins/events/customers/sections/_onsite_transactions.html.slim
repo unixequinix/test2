@@ -30,8 +30,9 @@ table.transactions
         td data-label=t("admin.transactions.station_id")
           = transaction.station&.name
         td data-label=t("admin.transactions.device_uid")
-          - device = Device.find_by_mac(transaction.device_uid)
-          = device ? link_to(device.asset_tracker, admins_device_path(device)) : transaction.device_uid
+          - if transaction.device_uid.present?
+            - device = Device.find_by_mac(transaction.device_uid)
+            = link_to(device.asset_tracker, admins_device_path(device))
         td data-label=t("admin.transactions.action")
           - icon = transaction.direction.positive? ? fa_icon("sign-out") : fa_icon("sign-in") if transaction.action == "access_checkpoint"
           = link_to admins_event_transaction_path(@current_event, transaction, type: transaction.category) do

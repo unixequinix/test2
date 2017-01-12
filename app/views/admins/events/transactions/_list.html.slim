@@ -17,11 +17,9 @@ table.transactions
         td data-label=t("admin.transactions.action") = transaction.action
         td data-label=t("admin.transactions.station_id") = transaction.station&.name
         td data-label=t("admin.transactions.device_uid")
-          - device = Device.find_by_mac(transaction.device_uid)
-          - if device
+          - if transaction.device_uid.present?
+            - device = Device.find_by_mac(transaction.device_uid)
             = link_to(transaction.device_uid, admins_device_path(device))
-          - else
-            = transaction.device_uid
 
         td data-label=t("admin.transactions.customer_tag_uid")
           - if transaction.customer

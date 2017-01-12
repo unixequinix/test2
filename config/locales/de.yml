@@ -1541,9 +1541,6 @@ de:
           fee: Erstattungsgebühr (in Währung)
           minimum: Rückerstattungsminimum nach Gebührenabzug (in Währung)
           product_id: Produkt
-      comment:
-        new:
-          body: Kommentar
       customer:
         edit:
           address: Adresse
@@ -1734,9 +1731,6 @@ de:
         new:
           iban: DE00 0000 0000 0000 0000 0000
           swift: 0000 0000
-      comment:
-        new:
-          body: Kommentar hinzufügen
       entitlement:
         edit:
           name: Wählen Sie einen Namen für die Berechtigung

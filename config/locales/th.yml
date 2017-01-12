@@ -1573,9 +1573,6 @@ th:
           fee: ค่าบริการในการคืนเงิน (ในสกุลเงิน)
           minimum: ยอดเงินคืนขั้นต่ำหลังหักค่าบริการ (ในสกุลเงิน)
           product_id: สินค้า
-      comment:
-        new:
-          body: ข้อคิดเห็น
       customer:
         edit:
           address: ที่อยู่
@@ -1768,9 +1765,6 @@ th:
         new:
           iban: GB00 0000 0000 0000 0000 0000
           swift: 0000 0000
-      comment:
-        new:
-          body: ใส่ข้อคิดเห็น
       entitlement:
         edit:
           name: ชื่อของผู้มีสิทธิ์

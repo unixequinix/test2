@@ -14,6 +14,9 @@
     = link_to recalculate_balance_admins_event_gtag_path(@current_event, @gtag), class: "btn btn-action small" do
       = fa_icon "refresh"
       = t("actions.recalculate_balance")
+    = link_to solve_inconsistent_admins_event_gtag_path(@current_event, type: @type), class: "btn btn-action btn-action-back small" do
+      = fa_icon 'exclamation'
+      = t('actions.solve_inconsistency')
   = link_to admins_event_gtags_path, class: "btn btn-action btn-action-back small" do
     = fa_icon "arrow-circle-left"
     = t("actions.back")

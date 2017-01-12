@@ -1774,9 +1774,6 @@ it:
         new:
           iban: IT00 0000 0000 0000 0000 0000
           swift: 0000 0000
-      comment:
-        new:
-          body: Add a comment
       entitlement:
         edit:
           name: Choose a name for entitlement

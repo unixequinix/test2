@@ -122,10 +122,10 @@ Rails.application.routes.draw do
         resources :asset_trackers
 
         resources :gtags do
-          resources :comments, module: :gtags
           member do
             get :recalculate_balance
             get :ban
+            get :solve_inconsistent
             delete :unban
           end
           collection do
@@ -140,7 +140,6 @@ Rails.application.routes.draw do
         resources :ticket_types, except: :show
 
         resources :tickets do
-          resources :comments, module: :tickets
           member do
             get :ban
             delete :unban

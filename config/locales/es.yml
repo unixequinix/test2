@@ -1585,9 +1585,6 @@ es:
           fee: Comisión de devolución (en la moneda seleccionada)
           minimum: Mínimo a devolver después de comisiones (en la moneda seleccionada)
           product_id: Producto
-      comment:
-        new:
-          body: Comentario
       customer:
         edit:
           address: Dirección
@@ -1780,9 +1777,6 @@ es:
         new:
           iban: ES00 0000 0000 0000 0000 0000
           swift: 0000 0000
-      comment:
-        new:
-          body: Añade un comentario
       entitlement:
         edit:
           name: Elige un nombre para el Derecho

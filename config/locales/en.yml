@@ -1271,11 +1271,11 @@ en:
       decimal_units:
         format: "%n %u"
         units:
-          billion: Billion
-          million: Million
-          quadrillion: Quadrillion
-          thousand: Thousand
-          trillion: Trillion
+          billion: Bn
+          million: M
+          quadrillion: Qd
+          thousand: K
+          trillion: Tr
           unit: ''
       format:
         delimiter: ''
@@ -1720,9 +1720,6 @@ en:
         new:
           iban: GB00 0000 0000 0000 0000 0000
           swift: 0000 0000
-      comment:
-        new:
-          body: Add a comment
       entitlement:
         edit:
           name: Choose a name for entitlement

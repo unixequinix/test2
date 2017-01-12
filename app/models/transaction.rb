@@ -83,7 +83,7 @@ class Transaction < ActiveRecord::Base
     now = Time.zone.now.to_formatted_s(:transactions)
     attributes = { event: event,
                    action: action,
-                   counter: customer.transactions.maximum(:counter).to_i + 1,
+                   counter: customer&.transactions&.maximum(:counter).to_i + 1,
                    customer: customer,
                    status_code: 0,
                    status_message: "OK",

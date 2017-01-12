@@ -1,7 +1,7 @@
 # rubocop:disable Metrics/ClassLength
 class Admins::Events::GtagsController < Admins::Events::BaseController
   before_action :set_presenter, only: [:index, :search]
-  before_action :set_gtag, only: [:show, :edit, :update, :destroy, :ban, :unban, :recalculate_balance]
+  before_action :set_gtag, only: [:show, :edit, :update, :destroy, :ban, :unban, :recalculate_balance, :solve_inconsistent]
 
   def index
     respond_to do |format|
@@ -65,6 +65,11 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
       end
     end
     redirect_to admins_event_gtags_url
+  end
+
+  def solve_inconsistent
+    @gtag.solve_inconsistent
+    redirect_to admins_event_gtag_path(@current_event, @gtag), notice: "Gtag balance was recalculated successfully"
   end
 
   def recalculate_balance

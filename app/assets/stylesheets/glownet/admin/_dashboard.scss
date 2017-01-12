@@ -188,56 +188,7 @@ $statistics-size:       $base_font_size*2.5;
   }
 }
 
-// ========= COMMENTS ========
 
-.container-comment {
-  position: relative;
-  background-color: lighten($graySilver,13%);
-  color: $dark_grey;
-  margin-bottom: modules(1);
-  padding: modules(0.5);
-  border-radius: 7px;
-
-  &:before {
-    content: "";
-    position: absolute;
-    bottom: -9px;
-    display: block;
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid lighten($graySilver,13%);
-  }
-
-    &:nth-child(odd) { right: modules(1.25); }
-    &:nth-child(even) { left: modules(1.25); }
-}
-
-.new_comment {
-  clear: both;
-  overflow: hidden;
-  padding: modules(0.5);
-  border-radius: 6px;
-  background-color: $blue;
-  text-align: right;
-
-  @include min-screen($bp3) {
-    width: 50%;
-    float: right;
-  }
-
-  .input { padding-bottom: modules(0.5); }
-
-  .comment_body {
-    display: block;
-    width: 100%;
-
-    textarea { width: 100%; margin-bottom: 0; }
-  }
-}
-
-// ===========================
 
 .dashboard-table-header {
   margin-bottom: 0;

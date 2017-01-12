@@ -69,6 +69,18 @@ class Gtag < ActiveRecord::Base
     save
   end
 
+  def solve_inconsistent
+    ts = transactions.credit.order(gtag_counter: :asc).select { |t| t.status_code.zero? }
+    transaction = transactions.credit.find_by(gtag_counter: 0)
+    atts = assignation_atts.merge(gtag_counter: 0, gtag_id: id, activation_counter: 0, final_balance: 0, final_refundable_balance: 0)
+    transaction = CreditTransaction.write!(event, "correction", :device, nil, nil, atts) unless transaction
+    credits = ts.last&.final_balance.to_f - ts.map(&:credits).sum
+    refundable_credits = ts.last&.final_refundable_balance.to_f - ts.map(&:refundable_credits).sum
+
+    transaction.update! credits: credits, refundable_credits: refundable_credits
+    recalculate_balance
+  end
+
   def refundable_money
     refundable_credits.to_i * event.credit.value
   end
