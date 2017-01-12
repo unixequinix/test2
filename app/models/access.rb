@@ -15,7 +15,8 @@
 #
 # Indexes
 #
-#  index_catalog_items_on_event_id  (event_id)
+#  index_catalog_items_on_event_id                      (event_id)
+#  index_catalog_items_on_memory_position_and_event_id  (memory_position,event_id) UNIQUE
 #
 # Foreign Keys
 #
