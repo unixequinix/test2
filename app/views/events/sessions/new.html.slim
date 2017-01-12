@@ -8,10 +8,11 @@
   .social-login
       = link_to customer_facebook_omniauth_authorize_path(event: current_event.slug), class: "social-btn social-btn--facebook" do
         = fa_icon "facebook"
-        = "Sign in"
+        = "Sign in with Facebook"
       = link_to customer_google_oauth2_omniauth_authorize_path(event: current_event.slug), class: "social-btn social-btn--google" do
         = fa_icon "google"
-        = "Sign in"
+        = "Sign in with Google"
+      = link_to t('sessions.create_account.link'), event_register_path(current_event), class: "btn btn-action-register"
   .traditional-login
     //h3.center-text = t('sessions.welcome')
     = simple_form_for resource, url: event_login_path(current_event), method: :post do |f|
@@ -25,5 +26,4 @@
       = f.button :submit, t('links.buttons.sign_in'), class: "btn btn-action-enter"
     .wrapper-redirect-sessions.center-text
       = link_to t('sessions.create_account.lost_password'), event_recover_password_path(current_event)
-      | |
-      = link_to t('sessions.create_account.link'), event_register_path(current_event)
+
