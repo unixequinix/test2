@@ -42,7 +42,7 @@ class Pack < CatalogItem
   end
 
   def only_infinite_items?
-    catalog_items.all?(&:infinite?)
+    catalog_items.all? { |item| item.is_a?(Access) && item.infinite? }
   end
 
   def only_credits?
