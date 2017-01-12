@@ -2,4 +2,7 @@
   - unless presenter.customer_has_refund?
     h3 = t('dashboard.gtag_registration.title')
     p.id-number = presenter.gtag_tag_uid
-    = presenter.gtag_assignments_enabled
+    - if presenter.gtag_show_remove?
+      = link_to event_gtag_assignment_path(current_event, presenter.gtag.id), method: :delete, class: "btn btn-action btn-action-secondary" do
+        = t('dashboard.gtag_registration.button')
+        span.hint = t('dashboard.gtag_registration.hint')
