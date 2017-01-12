@@ -25,7 +25,7 @@
 #  refundable_credits          :float
 #  status_code                 :integer
 #  status_message              :string
-#  ticket_code                 :string
+#  ticket_code                 :citext
 #  transaction_origin          :string
 #  type                        :string
 #
