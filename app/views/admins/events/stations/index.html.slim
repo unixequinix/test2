@@ -32,7 +32,7 @@
                 li.table-action.action-edit = link_to_unless(station.hidden?, fa_icon("edit", class: "fa-fw"), edit_admins_event_station_path(@current_event, station))
                 
                 - unless station.category.eql?("customer_portal")
-                  li.table-action.action-add = link_to_unless(station.hidden?, fa_icon("clone", class: "fa-fw"), admins_event_station_clone_path(@current_event, station), method: :post, data: { confirm: t('admin.confirm.clone') })
+                  li.table-action.action-add = link_to_unless(station.hidden?, fa_icon("clone", class: "fa-fw"), admins_event_station_clone_path(@current_event, station), method: :post)
                 
                 - unless station.category.eql?("touchpoint")
                   - if station.hidden?
