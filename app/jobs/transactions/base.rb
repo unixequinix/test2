@@ -32,7 +32,6 @@ class Transactions::Base < ActiveJob::Base
   end
 
   def preformat_atts(atts)
-    atts.symbolize_keys!
     atts[:activation_counter] = 1 if atts[:activation_counter].to_i.zero?
     atts[:transaction_origin] = Transaction::ORIGINS[:device]
     atts[:station_id] = Station.find_by(event_id: atts[:event_id], station_event_id: atts[:station_id])&.id unless atts[:event_id].to_i.eql?(33)
