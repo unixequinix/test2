@@ -4,7 +4,7 @@
 #
 #  initial_amount  :integer
 #  max_purchasable :integer
-#  memory_length   :integer
+#  memory_length   :integer          default(1)
 #  memory_position :integer
 #  min_purchasable :integer
 #  mode            :string

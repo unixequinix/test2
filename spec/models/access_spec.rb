@@ -4,7 +4,10 @@
 #
 #  initial_amount  :integer
 #  max_purchasable :integer
+#  memory_length   :integer          default(1)
+#  memory_position :integer
 #  min_purchasable :integer
+#  mode            :string
 #  name            :string
 #  step            :integer
 #  type            :string           not null
@@ -12,7 +15,8 @@
 #
 # Indexes
 #
-#  index_catalog_items_on_event_id  (event_id)
+#  index_catalog_items_on_event_id                      (event_id)
+#  index_catalog_items_on_memory_position_and_event_id  (memory_position,event_id) UNIQUE
 #
 # Foreign Keys
 #
