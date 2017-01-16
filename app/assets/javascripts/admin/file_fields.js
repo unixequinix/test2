@@ -4,5 +4,5 @@ function FileField() {
     $('#sendButton').prop('disabled', this.value == "" ? true : false);
   });
 }
-$(document).on('page:load', FileField);
+$(document).on('turbolinks:load', FileField);
 $(document).ready(FileField);

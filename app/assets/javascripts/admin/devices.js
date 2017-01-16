@@ -10,5 +10,5 @@ function DeviceFilter() {
     });
   }
 }
-$(document).on('page:load', DeviceFilter);
+$(document).on('turbolinks:load', DeviceFilter);
 $(document).ready(DeviceFilter);

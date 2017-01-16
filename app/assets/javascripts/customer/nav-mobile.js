@@ -17,7 +17,7 @@ function showNavMobile() {
     triggerIcon.toggleClass('fa-times');
   });
 }
-$(document).on('page:load', showNavMobile);
+$(document).on('turbolinks:load', showNavMobile);
 $(document).ready(showNavMobile);
 
 

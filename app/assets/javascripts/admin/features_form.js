@@ -5,5 +5,5 @@ function UpdateFlagFormValue() {
     input.prop('value', input.val() !== "true");
   });
 }
-$(document).on('page:load', UpdateFlagFormValue);
+$(document).on('turbolinks:load', UpdateFlagFormValue);
 $(document).ready(UpdateFlagFormValue);

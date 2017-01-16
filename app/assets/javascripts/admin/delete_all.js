@@ -11,5 +11,5 @@ function DeleteAll() {
     });
   }
 }
-$(document).on('page:load', DeleteAll);
+$(document).on('turbolinks:load', DeleteAll);
 $(document).ready(DeleteAll);

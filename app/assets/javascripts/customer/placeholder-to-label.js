@@ -18,5 +18,5 @@ function placeholderToLabel() {
     });
   });
 }
-$(document).on('page:load', placeholderToLabel);
+$(document).on('turbolinks:load', placeholderToLabel);
 $(document).ready(placeholderToLabel);

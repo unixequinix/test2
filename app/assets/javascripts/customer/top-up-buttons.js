@@ -48,5 +48,5 @@ function topUpButton() {
   }
 }
 
-$(document).on('page:load', topUpButton);
+$(document).on('turbolinks:load', topUpButton);
 $(document).ready(topUpButton);
