@@ -52,6 +52,7 @@ class Transactions::Base < ActiveJob::Base
   end
 
   private
+
   def permitted_params
     params.require(:company).permit(:name, :event_id)
   end
