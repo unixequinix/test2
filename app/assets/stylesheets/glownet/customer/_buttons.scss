@@ -88,6 +88,22 @@
   }
 }
 
+.btn-action-enter {
+  @include transition(opacity 200ms ease-in-out);
+  display: block;
+  width: 100%;
+  height: modules(2);
+  margin: 0 auto modules(1);
+
+  @include min-screen($bp3) { width: 45%; }
+
+  &:focus,
+  &:hover {
+    opacity: 0.6;
+    outline: none;
+  }
+}
+
 .btn-edit-customer {
   clear: both;
   width: 100%;
