@@ -57,7 +57,7 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
               counter as id,
               amount,
               catalog_item_id,
-              redeemed
+              redeemed,
               orders.status
 
             FROM order_items
