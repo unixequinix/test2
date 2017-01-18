@@ -1,6 +1,5 @@
 class Api::V1::TicketSerializer < Api::V1::BaseSerializer
-  attributes :reference, :credential_redeemed, :banned, :catalog_item_id, :customer, :purchaser_first_name, :purchaser_last_name, :purchaser_email
-  attribute :redeemed, key: :credential_redeemed
+  attributes :reference, :redeemed, :banned, :catalog_item_id, :customer, :purchaser_first_name, :purchaser_last_name, :purchaser_email
 
   def catalog_item_id
     object.ticket_type&.catalog_item_id
