@@ -1,4 +1,4 @@
-class Api::V1::PackSerializer < Api::V1::BaseSerializer
+class Api::V1::PackSerializer < ActiveModel::Serializer
   attributes :id, :name, :accesses, :credits, :user_flags
 
   def accesses

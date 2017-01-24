@@ -1,3 +1,3 @@
-class Api::V1::UserFlagSerializer < Api::V1::BaseSerializer
+class Api::V1::UserFlagSerializer < ActiveModel::Serializer
   attributes :id, :name
 end

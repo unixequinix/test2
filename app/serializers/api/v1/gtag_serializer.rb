@@ -1,4 +1,4 @@
-class Api::V1::GtagSerializer < Api::V1::BaseSerializer
+class Api::V1::GtagSerializer < ActiveModel::Serializer
   attributes :reference, :banned, :customer
 
   def customer

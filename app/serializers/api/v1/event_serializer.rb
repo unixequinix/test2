@@ -1,4 +1,4 @@
-class Api::V1::EventSerializer < Api::V1::BaseSerializer
+class Api::V1::EventSerializer < ActiveModel::Serializer
   attributes :id, :name, :start_date, :end_date, :staging_start, :staging_end
 
   def staging_start

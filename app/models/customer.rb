@@ -119,17 +119,10 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     OrderItem.where(order: orders)
   end
 
-  def completed_order_items
-    OrderItem.where(order: orders.completed)
-  end
-
   def infinite_accesses_purchased
     catalog_items = order_items.pluck(:catalog_item_id)
     accesses = Access.where(id: catalog_items).infinite.pluck(:id)
-    packs = Pack.joins(:catalog_items)
-                .where(id: catalog_items, catalog_items: { type: "Access" })
-                .select { |pack| pack.catalog_items.accesses.infinite.any? }
-                .map(&:id)
+    packs = Pack.joins(:catalog_items).where(id: catalog_items, catalog_items: { type: "Access" }).select { |pack| pack.catalog_items.accesses.infinite.any? }.map(&:id) # rubocop:disable Metrics/LineLength
 
     accesses + packs
   end

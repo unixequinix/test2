@@ -1,7 +1,8 @@
-class Api::V1::OrderItemSerializer < Api::V1::BaseSerializer
-  attributes :id, :catalog_item_id, :amount
+class Api::V1::OrderItemSerializer < ActiveModel::Serializer
+  attributes :catalog_item_id, :amount, :status, :redeemed
+  attribute :counter, key: :id
 
-  def id
-    object.counter
+  def status
+    object.order.status
   end
 end

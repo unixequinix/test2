@@ -62,10 +62,8 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
 
             FROM order_items
 
-            INNER JOIN catalog_items
-              ON catalog_items.id = order_items.catalog_item_id
-            INNER JOIN orders
-              ON orders.id = order_items.order_id
+            INNER JOIN catalog_items ON catalog_items.id = order_items.catalog_item_id
+            INNER JOIN orders ON orders.id = order_items.order_id
             WHERE orders.status IN ('completed', 'cancelled')
           ) o
           GROUP BY o.customer_id

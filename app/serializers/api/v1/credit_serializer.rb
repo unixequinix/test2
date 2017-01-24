@@ -1,4 +1,4 @@
-class Api::V1::CreditSerializer < Api::V1::BaseSerializer
+class Api::V1::CreditSerializer < ActiveModel::Serializer
   attributes :id, :name, :value, :currency
 
   def currency
