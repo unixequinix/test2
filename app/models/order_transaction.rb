@@ -37,6 +37,7 @@
 #  index_transactions_on_device_columns       (event_id,device_uid,device_db_index,device_created_at_fixed,gtag_counter,activation_counter) UNIQUE
 #  index_transactions_on_event_id             (event_id)
 #  index_transactions_on_gtag_id              (gtag_id)
+#  index_transactions_on_gtag_id_and_type     (gtag_id,type)
 #  index_transactions_on_operator_station_id  (operator_station_id)
 #  index_transactions_on_order_id             (order_id)
 #  index_transactions_on_station_id           (station_id)
