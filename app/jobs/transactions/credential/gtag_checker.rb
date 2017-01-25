@@ -1,10 +1,7 @@
-class Transactions::Credential::GtagChecker < Transactions::Credential::Base
-  TRIGGERS = %w( gtag_checkin ).freeze
+class Transactions::Credential::GtagChecker < Transactions::Base
+  TRIGGERS = %w(gtag_checkin record_purchase).freeze
 
   def perform(atts)
-    ActiveRecord::Base.transaction do
-      gtag = Gtag.find_by(event_id: atts[:event_id], tag_uid: atts[:customer_tag_uid])
-      gtag.update!(customer_id: atts[:customer_id])
-    end
+    Gtag.find(atts[:gtag_id]).update!(customer_id: atts[:customer_id])
   end
 end

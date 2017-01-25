@@ -1,4 +1,4 @@
-class Api::V1::StationSerializer < Api::V1::BaseSerializer
+class Api::V1::StationSerializer < ActiveModel::Serializer
   attributes :id, :type, :name, :hidden
 
   def id

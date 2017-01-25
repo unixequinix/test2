@@ -10,10 +10,8 @@
 .wrapper-negative-space
   .container-show
     dl
-      dt = t("admin.event.gtag_name")
-      dd = format_abstract_value @current_event.gtag_name
       dt = t("admin.gtag_settings.form.format")
-      dd = format_abstract_value @current_event.format
+      dd = format_abstract_value @current_event.gtag_format
       dt = t("admin.gtag_settings.form.gtag_type")
       dd = format_abstract_value @current_event.gtag_type
       dt = t("admin.gtag_settings.form.cards_can_refund")
@@ -24,6 +22,12 @@
       dd = format_abstract_value @current_event.maximum_gtag_balance
       dt = t("admin.gtag_settings.form.gtag_deposit")
       dd = format_abstract_value @current_event.gtag_deposit
+      dt = t("admin.event.gtag_deposit_fee")
+      dd = format_abstract_value @current_event.gtag_deposit_fee
+      dt = t("admin.event.topup_fee")
+      dd = format_abstract_value @current_event.topup_fee
+      dt = t("admin.event.card_return_fee")
+      dd = format_abstract_value @current_event.card_return_fee
       dt = t("admin.event.gtag_form_disclaimer")
       dd = format_abstract_value @current_event.gtag_form_disclaimer
       dt = t("admin.event.gtag_assignation_notification")

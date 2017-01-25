@@ -6,6 +6,7 @@ it:
   gender:
     male: 'Male'
     female: 'Female'
+  gtag_name: 'Wristband'
   event:
     subject_support: 'Need help for %{event}'
     locales:
@@ -15,7 +16,6 @@ it:
       th: 'THA'
       de: 'GER'
       pt: 'PT'
-    gtag_name: 'Wristband'
   events:
     create:
       error: "Event couldn't be created, check the errors below"
@@ -75,9 +75,6 @@ it:
       customer:
         one: 'customer'
         other: 'customers'
-      entitlement:
-        one: 'entitlement'
-        other: 'entitlements'
       gtag:
         one: 'gtag'
         other: 'gtags'
@@ -108,11 +105,6 @@ it:
           attributes:
             email:
               taken: 'Email taken'
-        entitlement:
-          attributes:
-            base:
-              restrict_dependent_destroy:
-                many: "Can't be deleted because there are ticket types associated"
         ticket_type:
           attributes:
             base:
@@ -177,7 +169,7 @@ it:
     admins:
       email: Email
     admissions:
-      aasm_state: State
+      state: State
       created_at: Created at
       customer:
         complete_name: Complete name
@@ -199,18 +191,16 @@ it:
       claims: Claims
       companies: Companies
       credential_transactions: Credential
-      credit_inconsistencies: Credit inconsistencies
+      inconsistencies: Inconsistencies
       credit_transactions: Credit
       credits: Credits
       crm: CRM
       customers: Customers
       details: Details
       device_transactions: Device
-      entitlements: Entitlements
       event: Event
       events: Events
       gtag: GTags
-      gtag_settings: Gtag Settings
       logs: Logs
       missing_transactions: Missing
       money_transactions: Money
@@ -301,7 +291,6 @@ it:
       form:
         currency: Currency Symbol
         maximum_wb_balance: Maximum wristband balance
-        min_version_apk: Minimum APK version
         private_zone_password: Private Zone Password
         public_key_a: Tag Password
         uid_reverse: UID Reverse
@@ -311,10 +300,6 @@ it:
       mac: MAC
       model: Model
       serial_number: Serial Number
-    entitlement:
-      memory_length: Length
-      memory_position: Memory position
-      mode: Mode
     event:
       background: Background
       background_type: Background type
@@ -362,7 +347,6 @@ it:
         it_lang: Italiano
         pt_lang: Portuguese
         th_lang: Thai
-      location: Location
       logo: Logo
       mass_email_claim_notification: Mass email claim notification
       minimum: Minimum
@@ -394,7 +378,7 @@ it:
       name: Name
       updated_at: Updated at
     gtag_assignations:
-      aasm_state: State
+      state: State
       button: Accetto
       created_at: Created at
       customer:
@@ -406,13 +390,6 @@ it:
         unassigned: Previous assignation
       tag: Tag UID
       updated_at: Updated at
-    gtag_settings:
-      form:
-        format: Format
-        mifare_classic: Mifare Classic
-        name: Name
-        ultralight_c: Ultralight C
-        ultralight_ev1: Ultralight EV1
     gtags:
       actions:
         delete_credits: Delete all credits
@@ -605,7 +582,6 @@ it:
       company: Company
       company_code: Company code
       credit: Credit
-      entitlements: Entitlements
       id: Id
       import: Import ticket types (Select a CSV file comma separated)
       name: Name
@@ -700,8 +676,8 @@ it:
     error: Controlla il modulo per possibili errori
     forbidden_gtag_change: Impossible to unassign gtag when event has started
     gtag:
-      already_assigned: This %{gtag} is already assigned
-      invalid: Questa PayCard non è valida %{gtag}
+      already_assigned: This Tag is already assigned
+      invalid: Questa PayCard non è valida Tag
     gtag_already_assigned: Hanno già uno assegnato
     imported: Importato con successo
     order_complete: Ordine completato
@@ -768,9 +744,7 @@ it:
     customer: Customer
     customers: Customers
     dashboard: Dashboard
-    entitlements: Entitlements
     events: Events
-    gtag_settings: Gtag Settings
     gtags: Gtags
     home: Home
     new_access: New access
@@ -780,7 +754,6 @@ it:
     new_customer: New customer
     new_customer_admission: Assigning Ticket
     new_customer_gtag_assignation: Assigning Gtag
-    new_entitlement: New entitlement
     new_event: New event
     new_gtag: New tag
     new_order: New order
@@ -805,7 +778,7 @@ it:
     unhappy: Scrivici un email, vogliamo sapere cos'è successo!
   checkout:
     button: Conferma Ordine
-    description: Dopo aver acquistato il tuo credito online, sarà automaticamente assegnato al tuo %{gtag} una volta entrato all’ evento.
+    description: Dopo aver acquistato il tuo credito online, sarà automaticamente assegnato al tuo Tag una volta entrato all’ evento.
     store: " store"
     title: Ricarica
     total: Totale
@@ -848,7 +821,7 @@ it:
     privacy_conditions: la informativa sulla privacy
     terms_of_use: condizioni d'uso
   confirm:
-    cancel_paypal: Cancellando dissocerete il vostro %{gtag} dal vostro account PayPal.
+    cancel_paypal: Cancellando dissocerete il vostro Tag dal vostro account PayPal.
     cancel_paypal_agreement: Cancel agreement
     log_out: Desidera terminare la sessione?
     remove_ticket: I crediti acquistati sono assegnati al vostro account. Se eliminate il ticket, dovrete assegnarne un altro per usare i crediti durante l’evento.
@@ -912,14 +885,14 @@ it:
       description: Stiamo terminando la configuration dell’ event per assicurarvi la migliore esperienza. Perfavore, torna più tardi per vedette cost abbiamo preparation per te.
       title: Finalizzando dettagli!
     first_register:
-      gtag: Aggiungi %{gtag}
+      gtag: Aggiungi Tag
       ticket: Aggiungi ticket
     gtag_after_refund:
       description: Il tuo rimborso è in corso
     gtag_registration:
       button: Cancella
       call_to_action: Registrato una Paycard sbagliata per?
-      hint: Hai sbagliato a trascrivere il codice della tua %{gtag}? Cancella e ricomincia il processo
+      hint: Hai sbagliato a trascrivere il codice della tua Tag? Cancella e ricomincia il processo
       title: 'Il numero della tua Paycard:'
     more_gtags:
       description: Si prega di registrare ogni Paycard diversa con un indirizzo email diverso.
@@ -949,9 +922,9 @@ it:
       call_to_action: " Attivate SOLO i ticket che userete VOI STESSI"
       description: NON attivate ticket di amici con il vostro account.
     without_gtags:
-      add: Registra %{gtag}
-      button: Registra
-      description: Si può registrare solo una %{gtag} per ogni account.
+      add: Registra Tag
+      button: Registra Tag
+      description: Si può registrare solo una Tag per ogni account.
       title: Crediti residui?
     without_gtags_claiming_started:
       claim: Scusa
@@ -1114,20 +1087,20 @@ it:
       gtag:
         assigned:
           greet: Ciao, %{name}!
-          mail_body: 'Hai assegnato un %{gtag} con il id:'
-          subject: "%{gtag} assigned"
-          title: "%{gtag} assigned"
+          mail_body: 'Hai assegnato un Tag con il id:'
+          subject: "Tag assigned"
+          title: "Tag assigned"
         unassigned:
           greet: Ciao, %{name}!
-          mail_body: 'Hai cancellato un %{gtag} con il id:'
+          mail_body: 'Hai cancellato un Tag con il id:'
           mail_link: Verificalo sul sito web
-          subject: "%{gtag} cancellato"
-          title: "%{gtag} cancellato"
+          subject: "Tag cancellato"
+          title: "Tag cancellato"
       like_on_facebook: Mi piace su Facebook
       order:
         completed:
           date: Data del acquisto
-          description: Tutti i crediti acquistati online appariranno automaticamente sul tuo %{gtag} una volta entrati nell’ evento. La tua %{gtag} è una maniera rapida e conveniente per pagare cibo, bevande, merchandise e altri beni e servizi. Sarà l’unico metodo di pagamento presente durante l’evento.
+          description: Tutti i crediti acquistati online appariranno automaticamente sul tuo Tag una volta entrati nell’ evento. La tua Tag è una maniera rapida e conveniente per pagare cibo, bevande, merchandise e altri beni e servizi. Sarà l’unico metodo di pagamento presente durante l’evento.
           greet: Ciao, %{name}!
           order_number: Il tuo ordine
           subject: Ordine completato
@@ -1173,7 +1146,6 @@ it:
       less_than: deve essere minore di %{count}
       less_than_or_equal_to: deve essere minore o uguale a %{count}
       max_credits_reached: You reached the maximun allowed balance
-      max_entitlements_reached: You reached the maximun allowed entitlements
       max_standard_credits: Only one standard credit per event
       model_invalid: 'Validazione fallita: %{errors}'
       more_credits_than_max_balance: can't be greater than maximum gtag balance
@@ -1182,8 +1154,6 @@ it:
       not_belong_to_event: doesn't belong to this event
       not_enough_space_for_credential: Not enough space in gtag for this credential
       not_enough_space_for_credential_configuration: Not enough space in gtag for the existing credential configuration
-      not_enough_space_for_entitlement: Not enough space in gtag for this entitlement
-      not_enough_space_for_entitlement_configuration: Not enough space in gtag for the existing entitlement configuration
       not_found: non trovato
       not_locked: non è stato bloccato
       not_saved:
@@ -1242,9 +1212,9 @@ it:
     button: Registra
     call_to_action: Registra la tua Paycard e inizia!
     description:
-      card: Inserisci il codice alfanumerico che trovi sul retro (in baso a destra) della tua %{gtag}
-      simple: Assegna i numeri evidenziati in giallo come appaiono nel tuo %{gtag}
-      standard: Inserisci il codice alfanumerico che trovi sul retro (in baso a destra) della tua %{gtag}
+      card: Inserisci il codice alfanumerico che trovi sul retro (in baso a destra) della tua Tag
+      simple: Assegna i numeri evidenziati in giallo come appaiono nel tuo Tag
+      standard: Inserisci il codice alfanumerico che trovi sul retro (in baso a destra) della tua Tag
     info:
       line_1: Solo numero da "0" a "9"
       line_2: 'Simboli ammessi: "0" - "9" e "A, B, C, D, E, F"'
@@ -1634,13 +1604,9 @@ it:
         edit:
           currency: Currency Symbol
           maximum_wb_balance: Maximum wristband balance
-          min_version_apk: Minimum APK version
           private_zone_password: Private Zone Password
           public_key_a: Tag Password
           uid_reverse: UID Reverse
-      entitlement:
-        new:
-          name: Nome
       epg_claim_form:
         new:
           address: Indirizzo
@@ -1672,9 +1638,7 @@ it:
           disclaimer: Disclaimer
           end_date: Data di fine
           gtag_registration: Registrazione Gtag
-          host_country: Nazione
           info: Info
-          location: Localizzazione
           logo: Logo
           mass_email_claim_notification: Mass email claim notification
           name: Nome
@@ -1697,9 +1661,7 @@ it:
           disclaimer: Disclaimer
           end_date: Data di fine
           gtag_registration: Registrazione Gtag
-          host_country: Nazione
           info: Info
-          location: Localizzazione
           logo: Logo
           mass_email_claim_notification: Mass email claim notification
           name: Nome
@@ -1724,12 +1686,6 @@ it:
           amount: Importo
         new:
           amount: Importo
-      gtag_settings_form:
-        edit:
-          format: Format
-          gtag_assignation_notification: Gtag  assignation notification
-          gtag_form_disclaimer: Gtag assignation form disclaimer
-          name: Name
       online_product:
         edit:
           description: Descrizione
@@ -1782,13 +1738,11 @@ it:
         edit:
           company: Compagnia
           credit: Credito
-          entitlement: Entitlement
           name: Nome
           simplified_name: Nome semplificata
         new:
           company: Compagnia
           credit: Credito
-          entitlement: Entitlement
           name: Nome
           simplified_name: Nome semplificata
     placeholders:
@@ -1796,14 +1750,6 @@ it:
         new:
           iban: IT00 0000 0000 0000 0000 0000
           swift: 0000 0000
-      comment:
-        new:
-          body: Add a comment
-      entitlement:
-        edit:
-          name: Choose a name for entitlement
-        new:
-          name: Choose a name for entitlement
       epg_claim_form:
         new:
           address: Indirizzo e numero
@@ -1813,7 +1759,6 @@ it:
         edit:
           agreed_event_condition_message: Adds the condition you want the user accepts when registering
           description: Add some extra information and other information you consider is important
-          location: Where is the event?
           name: Event´s name. Include year is a good idea
           receive_communications_message: Add the text for the receive communications checkbox
           style: "/*Add some CSS magic*/"
@@ -1822,7 +1767,6 @@ it:
         new:
           agreed_event_condition_message: Adds the condition you want the user accepts when registering
           description: Add some extra information and other information you consider is important
-          location: Where is the event?
           name: Event´s name. Include year is a good idea
           receive_communications_message: Add the text for the receive communications checkbox
           style: "/*Add some CSS magic*/"
@@ -1830,9 +1774,9 @@ it:
           url: Official site of the event
       gtag:
         edit:
-          tag_uid: La seconda linea di numeri della %{gtag}
+          tag_uid: La seconda linea di numeri della Tag
         new:
-          tag_uid: La seconda linea di numeri della %{gtag}
+          tag_uid: La seconda linea di numeri della Tag
       gtag_credit_log:
         edit:
           amount: Importo
@@ -1842,12 +1786,12 @@ it:
         edit:
           email: Purchaser's email
           first_name: Purchaser's first name
-          gtag_delivery_address: "%{gtag} delivery address"
+          gtag_delivery_address: "Tag delivery address"
           last_name: Purchaser's last name
         new:
           email: Purchaser's email
           first_name: Purchaser's first name
-          gtag_delivery_address: "%{gtag} delivery address"
+          gtag_delivery_address: "Tag delivery address"
           last_name: Purchaser's last name
       ticket:
         edit:
@@ -1858,13 +1802,11 @@ it:
         edit:
           company: Event company
           credit: Available Credit
-          entitlement: Entitlement
           name: 'Choose a ticket name '
           simplified_name: A Simplified Name for your ticket
         new:
           company: Event company
           credit: Available Credit
-          entitlement: Entitlement
           name: 'Choose a ticket name '
           simplified_name: A Simplified Name for your ticket
     required:
@@ -1921,7 +1863,7 @@ it:
       line_3_5: 3.5 You are responsible for making all arrangements necessary for you to have access to the Site.
       title: 3. Access and use of the Site
     ph_4:
-      line_4_1: '4.1 To access our Services made available on the Site, you will need to set up an account #{@current_event.url}. You will be required to provide personal information about yourself (including name, email address, password, country, address, state, city, post code, phone, bank account details and wristband or event card identification numbers).'
+      line_4_1: '4.1 To access our Services made available on the Site, you will need to set up an account. You will be required to provide personal information about yourself (including name, email address, password, country, address, state, city, post code, phone, bank account details and wristband or event card identification numbers).'
       line_4_2: '4.2  You agree that you will provide accurate, current and complete information about yourself, and maintain and promptly update your personal information contained in your account customer. For more information about how we will use your personal information please see our '
       line_4_3: 4.3 You agree to not share your account password, and to keep your password confidential.
       title: 4. Account

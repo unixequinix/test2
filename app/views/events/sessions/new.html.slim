@@ -18,7 +18,7 @@
     = simple_form_for resource, url: event_login_path(current_event), method: :post do |f|
       = f.input :event_id, as: :hidden, input_html: { value: current_event.id, class: 'session-input' }
       .wrapper-session-login
-        = f.input :email, placeholder: t("sessions.placeholder.email"), input_html: { class: 'session-input' }
+        = f.input :email, placeholder: t("sessions.placeholder.email"), input_html: { class: 'session-input' }, as: :string
         = fa_icon "envelope-o"
       .wrapper-session-login
         = f.input :password, placeholder: t("sessions.placeholder.password"), input_html: { class: 'session-input' }

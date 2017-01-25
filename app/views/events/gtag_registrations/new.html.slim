@@ -1,7 +1,7 @@
 // TODO: Do we use this view?
 = image_tag "#{@gtag_registration_presenter.gtag_format}-gtag.png"
-h3 = t('gtag_registrations.call_to_action', gtag: @gtag_registration_presenter.gtag_name)
-p = t("gtag_registrations.description.#{@gtag_registration_presenter.gtag_format}", gtag: @gtag_registration_presenter.gtag_name)
+h3 = t('gtag_registrations.call_to_action')
+p = t("gtag_registrations.description.#{@gtag_registration_presenter.gtag_format}")
 p = @gtag_registration_presenter.gtag_form_disclaimer
 = form_tag event_gtag_registrations_path(@current_event) do |f|
   = render "events/gtag_registrations/#{@gtag_registration_presenter.gtag_format}"

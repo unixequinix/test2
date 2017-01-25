@@ -3,7 +3,7 @@
     = f.error_notification
     h3.center-text = t('passwords.new.title')
     = f.input :event_id, as: :hidden, input_html: { value: current_event.id }
-    = f.input :email, required: true, autofocus: true, autofocus: true, input_html: { class: 'session-input' }
+    = f.input :email, required: true, autofocus: true, autofocus: true, input_html: { class: 'session-input' }, as: :string
     = f.button :submit, t('passwords.new.button'), class: "btn btn-action btn-action-primary"
   .sessions-shared-login
     = render "events/shared/links"

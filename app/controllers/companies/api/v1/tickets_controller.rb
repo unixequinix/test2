@@ -19,12 +19,16 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
   def create
     @ticket = Ticket.new(ticket_params.merge(event: @current_event))
 
-    render(status: :unprocessable_entity,
-           json: { status: "unprocessable_entity", error: "Ticket type not found." }) &&
-      return unless validate_ticket_type!
+    unless validate_ticket_type!
+      render(status: :unprocessable_entity,
+             json: { status: "unprocessable_entity", error: "Ticket type not found." }) &&
+        return
+    end
 
-    render(status: :unprocessable_entity,
-           json: { status: "unprocessable_entity", error: @ticket.errors.full_messages }) && return unless @ticket.save
+    unless @ticket.save
+      render(status: :unprocessable_entity,
+             json: { status: "unprocessable_entity", error: @ticket.errors.full_messages }) && return
+    end
 
     render(status: :created, json: Companies::Api::V1::TicketSerializer.new(@ticket))
   end
@@ -34,7 +38,7 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
     errors = { atts: [] }
 
     params[:tickets].each do |atts|
-      atts = ActionController::Parameters.new(atts)
+      atts = ActionController::Parameters.new(atts.to_unsafe_h)
 
       atts.merge!(
         code: atts.delete(:ticket_reference),
@@ -46,32 +50,24 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
       )
       ticket_atts = atts.permit(:code, :ticket_type_id, :event_id, :purchaser_first_name, :purchaser_last_name, :purchaser_email)
 
-      ticket = @current_event.tickets.find_by_code(ticket_atts[:code])
+      ticket = @current_event.tickets.find_by(code: ticket_atts[:code])
       ticket ||= @current_event.tickets.create(ticket_atts)
 
       errors[:atts] << { ticket: ticket.code, errors: ticket.errors.full_messages } && next unless ticket.valid?
     end
 
     errors.delete_if { |_, v| v.compact.empty? }
-    render(status: :unprocessable_entity,
-           json: { status: :unprocessable_entity, errors: errors }) && return if errors.any?
+
+    render(status: :unprocessable_entity, json: { status: :unprocessable_entity, errors: errors }) && return if errors.any?
     render(status: :created, json: :created)
   end
 
   def update # rubocop:disable Metrics/CyclomaticComplexity
     @ticket = tickets.find_by(id: params[:id])
 
-    render(status: :not_found,
-           json: { status: "not_found", error: "Ticket with id #{params[:id]} not found." }) && return unless @ticket
-
-    render(status: :unprocessable_entity,
-           json: { status: "unprocessable_entity",
-                   error: "The ticket type doesn't belongs to your company" }) && return unless validate_ticket_type!
-
-    render(status: :unprocessable_entity,
-           json: { status: "unprocessable_entity", errors: @ticket.errors.full_messages }) &&
-      return unless @ticket.update(ticket_params)
-
+    render(status: :not_found, json: { status: "not_found", error: "Ticket with id #{params[:id]} not found." }) && return unless @ticket
+    render(status: :unprocessable_entity, json: { status: "unprocessable_entity", error: "The ticket type doesn't belongs to your company" }) && return unless validate_ticket_type! # rubocop:disable Metrics/LineLength
+    render(status: :unprocessable_entity, json: { status: "unprocessable_entity", errors: @ticket.errors.full_messages }) && return unless @ticket.update(ticket_params) # rubocop:disable Metrics/LineLength
     render(json: Companies::Api::V1::TicketSerializer.new(@ticket))
   end
 
@@ -79,16 +75,11 @@ class Companies::Api::V1::TicketsController < Companies::Api::V1::BaseController
 
   def ticket_params
     ticket = params[:ticket]
-    purchaser = ticket[:purchaser_attributes]
+    purchaser = ticket[:purchaser_attributes] || {}
     ticket[:code] = ticket[:ticket_reference]
     ticket[:ticket_type_id] = ticket[:ticket_type_id] if ticket[:ticket_type_id]
-    ticket.merge!(
-      purchaser_first_name: purchaser && purchaser[:first_name],
-      purchaser_last_name: purchaser && purchaser[:last_name],
-      purchaser_email: purchaser && purchaser[:email]
-    )
+    ticket.merge!(purchaser_first_name: purchaser[:first_name], purchaser_last_name: purchaser[:last_name], purchaser_email: purchaser[:email])
 
-    params.require(:ticket).permit(:code, :description, :ticket_type_id, :purchaser_first_name,
-                                   :purchaser_last_name, :purchaser_email)
+    params.require(:ticket).permit(:code, :ticket_type_id, :purchaser_first_name, :purchaser_last_name, :purchaser_email)
   end
 end

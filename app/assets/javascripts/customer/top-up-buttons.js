@@ -37,9 +37,9 @@ function topUpButton() {
 
     $('.amount-input').on('change',function(){
       var $this = $(this),
-          inputId = $this.data('id');
-          price = $this.data('price');
-          amount = $this.val();
+          inputId = $this.data('id'),
+          price = $this.data('price'),
+          amount = $this.val(),
           total = $('#amount-total-' + inputId);
 
       total.text((amount * price));
@@ -47,5 +47,6 @@ function topUpButton() {
     });
   }
 }
-$(document).on('page:load', topUpButton);
+
+$(document).on('turbolinks:load', topUpButton);
 $(document).ready(topUpButton);

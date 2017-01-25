@@ -1,17 +1,29 @@
 namespace :glownet do
   desc "Creates a basic event"
   task sample_event: :environment do
-    @event = EventCreator.new({
+    @event = Event.create({
       name: "Event v#{Time.zone.now.to_s(:number)}",
-      location: "Glownet",
       start_date: DateTime.now,
       end_date: DateTime.now + 4.days,
       support_email: "support@glownet.com",
       currency: "EUR",
-      host_country: "USA",
-      gtag_name: "Wristband",
-      token_symbol: "t"
-    }).save
+      token_symbol: "t",
+      ticket_assignation: true,
+      gtag_assignation: true,
+      private_zone_password: 'a',
+      fast_removal_password: 'a'
+    })
+
+    UserFlag.create!(event_id: @event.id, name: "alcohol_forbidden", step: 1)
+    @event.create_credit!(value: 1, name: "CRD", step: 5, min_purchasable: 0, max_purchasable: 300, initial_amount: 0)
+    station = @event.stations.create! name: "Customer Portal", category: "customer_portal", group: "access"
+    station.station_catalog_items.create(catalog_item: @event.credit, price: 1)
+    @event.stations.create! name: "CS Topup/Refund", category: "cs_topup_refund", group: "event_management"
+    @event.stations.create! name: "CS Accreditation", category: "cs_accreditation", group: "event_management"
+    @event.stations.create! name: "Glownet Food", category: "hospitality_top_up", group: "event_management"
+    @event.stations.create! name: "Touchpoint", category: "touchpoint", group: "touchpoint"
+    @event.stations.create! name: "Operator Permissions", category: "operator_permissions", group: "event_management"
+    @event.stations.create! name: "Gtag Recycler", category: "gtag_recycler", group: "glownet"
 
     data = ["customers", "accesses", "packs", "products", "ticket_types", "tickets",
             "checkin_stations", "box_office_stations", "access_control_stations", "staff_accreditation_stations",
@@ -28,21 +40,18 @@ namespace :glownet do
   end
 
   def create_customers
-    Customer.create!({
-      event_id: @event.id,
-      first_name: "Vicentest",
-      last_name: "Test",
-      email: "test@test.com",
-      agreed_on_registration: true,
-      phone: "512 2301 440",
-      country: "ES",
-      gender: "male",
-      birthdate: Date.new(rand(1900..2000), rand(1..12), rand(1..28)),
-      postcode: "28012",
-      agreed_event_condition: true,
-      password: "test",
-      password_confirmation: "test"
-    })
+    @event.customers.create!(first_name: "Vicentest",
+                             last_name: "Test",
+                             email: "test@test.com",
+                             agreed_on_registration: true,
+                             phone: "512 2301 440",
+                             country: "ES",
+                             gender: "male",
+                             birthdate: Date.new(rand(1900..2000), rand(1..12), rand(1..28)),
+                             postcode: "28012",
+                             agreed_event_condition: true,
+                             password: "test",
+                             password_confirmation: "test")
   end
 
   def create_accesses
@@ -56,12 +65,7 @@ namespace :glownet do
     ]
 
     accesses.each do |access|
-      @event.accesses.create!(name: access[:name],
-                              step: 1,
-                              min_purchasable: 0,
-                              max_purchasable: 1,
-                              initial_amount: 0,
-                              entitlement_attributes: { event_id: @event.id, mode: access[:mode], })
+      @event.accesses.create!(name: access[:name], step: 1, min_purchasable: 0, max_purchasable: 1, initial_amount: 0, mode: access[:mode])
     end
   end
 
@@ -141,12 +145,14 @@ namespace :glownet do
   end
 
   def create_access_control_stations
-    accesses = [{ name: "Day", direction: 1 }, { name: "Day", direction: -1 }]
-    station = @event.stations.create!(name: "Access Control", group: "access", category: "access_control")
+    accesses = %w(Day Night VIP)
+    accesses.each do |access_name|
+      item = @event.catalog_items.find_by(name: access_name)
+      station = @event.stations.create!(name: "#{access_name} IN", group: "access", category: "access_control")
+      station.access_control_gates.create(direction: 1, access: item)
 
-    accesses.each do |access|
-      item = CatalogItem.find_by(name: access[:name], event: @event)
-      station.access_control_gates.create(direction: access[:direction], access: item, station: station)
+      station = @event.stations.create!(name: "#{access_name} OUT", group: "access", category: "access_control")
+      station.access_control_gates.create(direction: -1, access: item)
     end
   end
 

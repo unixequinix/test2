@@ -43,54 +43,47 @@
 
   .container-show
     dl
-      dt = t("admin.device_settings.form.min_version_apk")
-      dd = format_abstract_value @current_event.min_version_apk
-      dt = t("admin.device_settings.form.private_zone_password")
-      dd = format_abstract_value @current_event.private_zone_password
-      dt = t("admin.device_settings.form.fast_removal_password")
-      dd = format_abstract_value @current_event.fast_removal_password
-      dt = t("admin.device_settings.form.uid_reverse")
-      dd = format_abstract_value @current_event.uid_reverse
+      h3.section-header
+        = fa_icon "info-circle"
+        = t("admin.event.fieldests.parameters")
+      dt = t("admin.device_settings.form.topup_initialize_gtag")
+      dd = format_abstract_value @current_event.topup_initialize_gtag
+
+      h3.section-header
+        = fa_icon "shopping-cart"
+        = t("admin.event.fieldests.online_orders")
       dt = t("admin.device_settings.form.touchpoint_update_online_orders")
       dd = format_abstract_value @current_event.touchpoint_update_online_orders
       dt = t("admin.device_settings.form.pos_update_online_orders")
       dd = format_abstract_value @current_event.pos_update_online_orders
-      dt = t("admin.device_settings.form.topup_initialize_gtag")
-      dd = format_abstract_value @current_event.topup_initialize_gtag
-      dt = t("admin.device_settings.form.cypher_enabled")
-      dd = format_abstract_value @current_event.cypher_enabled
-      dt = t("admin.device_settings.form.gtag_blacklist")
-      dd = format_abstract_value @current_event.gtag_blacklist
+
+      h3.section-header
+        = fa_icon "lock"
+        = t("admin.event.fieldests.security")
+      dt = t("admin.device_settings.form.private_zone_password")
+      dd = format_abstract_value @current_event.private_zone_password
+      dt = t("admin.device_settings.form.fast_removal_password")
+      dd = format_abstract_value @current_event.fast_removal_password
+
+      h3.section-header
+        = fa_icon "rss"
+        = t("admin.event.fieldests.sync")
       dt = t("admin.device_settings.form.transaction_buffer")
       dd = format_abstract_value @current_event.transaction_buffer
       dt = t("admin.device_settings.form.days_to_keep_backup")
       dd = format_abstract_value @current_event.days_to_keep_backup
-      dt = t("admin.device_settings.form.days_to_keep_backup_min")
-      dd = format_abstract_value @current_event.days_to_keep_backup_min
       dt = t("admin.device_settings.form.sync_time_event_parameters")
       dd = format_abstract_value @current_event.sync_time_event_parameters
-      dt = t("admin.device_settings.form.sync_time_event_parameters_min")
-      dd = format_abstract_value @current_event.sync_time_event_parameters_min
       dt = t("admin.device_settings.form.sync_time_server_date")
       dd = format_abstract_value @current_event.sync_time_server_date
-      dt = t("admin.device_settings.form.sync_time_server_date_min")
-      dd = format_abstract_value @current_event.sync_time_server_date_min
       dt = t("admin.device_settings.form.sync_time_basic_download")
       dd = format_abstract_value @current_event.sync_time_basic_download
-      dt = t("admin.device_settings.form.sync_time_basic_download_min")
-      dd = format_abstract_value @current_event.sync_time_basic_download_min
       dt = t("admin.device_settings.form.sync_time_tickets")
       dd = format_abstract_value @current_event.sync_time_tickets
-      dt = t("admin.device_settings.form.sync_time_tickets_min")
-      dd = format_abstract_value @current_event.sync_time_tickets_min
       dt = t("admin.device_settings.form.sync_time_gtags")
       dd = format_abstract_value @current_event.sync_time_gtags
-      dt = t("admin.device_settings.form.sync_time_gtags_min")
-      dd = format_abstract_value @current_event.sync_time_gtags_min
       dt = t("admin.device_settings.form.sync_time_customers")
       dd = format_abstract_value @current_event.sync_time_customers
-      dt = t("admin.device_settings.form.sync_time_customers_min")
-      dd = format_abstract_value @current_event.sync_time_customers_min
 
     .container-hidden
       = current_admin.access_token

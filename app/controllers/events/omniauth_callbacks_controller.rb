@@ -30,6 +30,6 @@ class Events::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def current_event
-    @current_event = Event.find_by_slug(request.env["omniauth.params"]["event"])
+    @current_event = Event.find_by(slug: request.env["omniauth.params"]["event"])
   end
 end

@@ -31,7 +31,7 @@ class PackCatalogItem < ActiveRecord::Base
   end
 
   def infinite?
-    catalog_item.entitlement.infinite? if catalog_item.is_a?(Access)
+    catalog_item.infinite? if catalog_item.is_a?(Access)
   end
 
   def limit_amount

@@ -15,10 +15,10 @@ aside.mmenu-panel#search-menu
 
   = search_form_for @q, url: search_admins_event_refunds_path, html: { novalidate: true, class: "searchForm" }  do |f|
     .container-search
-      = f.input :status_cont, label: t("admin.refunds.search.status"),placeholder: t("admin.refunds.search.status")
+      = f.search_field :status_cont, label: t("admin.refunds.search.status"),placeholder: t("admin.refunds.search.status")
       .range
-        = f.input :created_at_gteq, as: :datetime, label: t('simple_form.labels.defaults.created_at') + " " + t('ransack.between'), discard_hour: true, include_blank: true
-        = f.input :created_at_lteq, as: :datetime, label: t('ransack.and'), discard_hour: true, include_blank: true
+        = f.search_field :created_at_lteq, as: :datetime, label: t('ransack.and'), discard_hour: true, include_blank: true
+        = f.search_field :created_at_gteq, as: :datetime, label: t('simple_form.labels.defaults.created_at') + " " + t('ransack.between'), discard_hour: true, include_blank: true
       = f.submit class: "btn btn-secondary"
 
 

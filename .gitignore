@@ -5,17 +5,17 @@
 #   git config --global core.excludesfile '~/.gitignore_global'
 
 # Ignore bundler config.
-/.bundle
+.bundle
 
 # Database ignores
-/db/*.sqlite3
-/db/*.sqlite3-journal
-/db/schema.rb
+db/*.sqlite3
+db/*.sqlite3-journal
+db/schema.rb
 
 
 # Ignore all logfiles and tempfiles.
-/log/*.log
-/tmp
+log/*.log
+tmp/
 
 doc/
 *.swp
@@ -26,7 +26,7 @@ erd.pdf
 models_complete.png
 .zeus.sock/*
 
-/public/sitemap.xml.gz
+public/sitemap.xml.gz
 public/system/*
 
 coverage
@@ -38,4 +38,9 @@ dump.rdb
 *.sql
 
 # Ignore application configuration
-/config/application.yml
+config/application.yml
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

@@ -43,7 +43,7 @@ staging:
   username: <%= ENV["pg_username"] %>
   password: <%= ENV["pg_password"] %>
 
-production:
+hotfix:
   <<: *default
   host: <%= ENV["pg_host"] %>
   database: <%= ENV["pg_database"] %>
@@ -51,7 +51,7 @@ production:
   password: <%= ENV["pg_password"] %>
   pool: 10
 
-hotfix:
+production:
   <<: *default
   host: <%= ENV["pg_host"] %>
   database: <%= ENV["pg_database"] %>

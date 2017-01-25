@@ -4,7 +4,6 @@ class Events::BaseController < ApplicationController
   before_action :fetch_current_event
   before_action :authenticate_customer!
   before_action :write_locale_to_session
-  before_action :set_i18n_globals
   helper_method :current_event
   helper_method :current_customer
 
@@ -16,10 +15,6 @@ class Events::BaseController < ApplicationController
 
   def write_locale_to_session
     super(Event::LOCALES.map(&:to_s))
-  end
-
-  def set_i18n_globals
-    I18n.config.globals[:gtag] = @current_event.gtag_name
   end
 
   def check_top_ups_is_active!
@@ -34,7 +29,7 @@ class Events::BaseController < ApplicationController
     redirect_to event_url(@current_event) unless current_customer.active_gtag.present?
   end
 
-  def check_customer_has_credentials!
+  def check_customer_credentials!
     redirect_to event_url(@current_event) unless current_customer.active_credentials?
   end
 

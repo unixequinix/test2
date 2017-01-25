@@ -22,12 +22,11 @@ class ApplicationController < ActionController::Base
   # Mobile recognition and view configuration
 
   def check_for_mobile
-    session[:mobile_override] = (params[:mobile] == "1") ? "1" : "0"
+    session[:mobile_override] = params[:mobile] == "1" ? "1" : "0"
     prepare_for_mobile if mobile_device?
   end
 
-  def prepare_for_mobile
-  end
+  def prepare_for_mobile; end
 
   def mobile_device?
     (session[:mobile_override] == "1") || user_agent_mobile?
@@ -40,10 +39,12 @@ class ApplicationController < ActionController::Base
   end
 
   def type_cast_booleans(cols, atts)
-    cols.map!(&:to_sym)
+    cols = cols.map(&:to_sym)
     cols.each { |att| atts[att] = ActiveRecord::ConnectionAdapters::Column::TRUE_VALUES.include?(atts[att]) }
     atts
   end
+
+  def validate_numeric_settings(atts); end
 
   private
 

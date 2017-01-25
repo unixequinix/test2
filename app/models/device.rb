@@ -16,7 +16,7 @@
 class Device < ActiveRecord::Base
   before_validation :upcase_asset_tracker!
 
-  SETTINGS = [:min_version_apk, :private_zone_password, :fast_removal_password, :uid_reverse, :transaction_buffer,
+  SETTINGS = [:private_zone_password, :fast_removal_password, :uid_reverse, :transaction_buffer,
               :days_to_keep_backup, :touchpoint_update_online_orders, :pos_update_online_orders,
               :topup_initialize_gtag, :cypher_enabled, :gtag_blacklist, :event_id,
               :sync_time_event_parameters, :sync_time_server_date, :sync_time_basic_download, :sync_time_tickets,
@@ -48,6 +48,6 @@ class Device < ActiveRecord::Base
   end
 
   def upcase_asset_tracker!
-    asset_tracker.upcase! if asset_tracker
+    asset_tracker&.upcase!
   end
 end

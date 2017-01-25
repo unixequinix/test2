@@ -11,7 +11,7 @@
 #  country                    :string
 #  current_sign_in_at         :datetime
 #  current_sign_in_ip         :inet
-#  email                      :string           default(""), not null
+#  email                      :citext           default(""), not null
 #  encrypted_password         :string           default(""), not null
 #  first_name                 :string           default(""), not null
 #  gender                     :string
@@ -68,8 +68,6 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   validates :country, presence: true, if: -> { custom_validation("country") }
   validates :gender, presence: true, if: -> { custom_validation("gender") }
 
-  before_save { email.downcase! if email }
-
   scope :query_for_csv, lambda { |event|
     where(event: event)
       .joins("LEFT OUTER JOIN gtags ON gtags.customer_id = customers.id")
@@ -121,17 +119,10 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     OrderItem.where(order: orders)
   end
 
-  def completed_order_items
-    OrderItem.where(order: orders.completed)
-  end
-
-  def infinite_entitlements_purchased
+  def infinite_accesses_purchased
     catalog_items = order_items.pluck(:catalog_item_id)
     accesses = Access.where(id: catalog_items).infinite.pluck(:id)
-    packs = Pack.joins(:catalog_items)
-                .where(id: catalog_items, catalog_items: { type: "Access" })
-                .select { |pack| pack.catalog_items.accesses.infinite.any? }
-                .map(&:id)
+    packs = Pack.joins(:catalog_items).where(id: catalog_items, catalog_items: { type: "Access" }).select { |pack| pack.catalog_items.accesses.infinite.any? }.map(&:id) # rubocop:disable Metrics/LineLength
 
     accesses + packs
   end
@@ -168,7 +159,7 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def custom_validation(field)
-    event && event.method("#{field}?").call && !reset_password_token_changed? &&
+    event && event.method("#{field}_mandatory?").call && !reset_password_token_changed? &&
       (!encrypted_password_changed? || new_record?)
   end
 

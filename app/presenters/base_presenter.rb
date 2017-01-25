@@ -10,10 +10,6 @@ class BasePresenter
     @gtag = dashboard.gtag
   end
 
-  def event_url
-    @event.url
-  end
-
   def credential_present?
     @tickets.any? || @gtags.any?
   end

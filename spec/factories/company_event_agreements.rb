@@ -2,7 +2,6 @@
 #
 # Table name: company_event_agreements
 #
-#  aasm_state :string
 #
 # Indexes
 #

@@ -28,13 +28,9 @@ RSpec.describe Transactions::Base, type: :job do
   end
 
   describe "when sale_items_attributes is blank" do
-    before do
-      atts = hash_not_including(:sale_item_attributes)
-      value = CreditTransaction.new
-      expect(CreditTransaction).to receive(:create!).with(atts).and_return(value)
+    after do
+      expect { base.perform_now(params) }.to change(Transaction, :count).by(1)
     end
-
-    after { base.perform_now(params) }
 
     it "works when status code is error (other than 0)" do
       params[:status_code] = 2
@@ -83,7 +79,7 @@ RSpec.describe Transactions::Base, type: :job do
 
   it "executes the job defined by action" do
     params[:action] = "sale"
-    expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once.with(params)
+    expect(Transactions::Credit::BalanceUpdater).to receive(:perform_later).once.with(hash_including(params))
     base.perform_now(params)
   end
 
@@ -92,19 +88,10 @@ RSpec.describe Transactions::Base, type: :job do
       expect(base.descendants).not_to be_empty
     end
 
-    it "do not include Base clases" do
-      expect(base.descendants).not_to include(Transactions::Credential::Base)
-    end
-
     it "should include the descendants of base classes" do
-      Transactions::Credential::TicketChecker.inspect
-      Transactions::Credential::GtagChecker.inspect
-      Transactions::Credit::BalanceUpdater.inspect
-      Transactions::Order::CredentialAssigner.inspect
       expect(base.descendants).to include(Transactions::Credential::TicketChecker)
       expect(base.descendants).to include(Transactions::Credential::GtagChecker)
       expect(base.descendants).to include(Transactions::Credit::BalanceUpdater)
-      expect(base.descendants).to include(Transactions::Order::CredentialAssigner)
     end
   end
 

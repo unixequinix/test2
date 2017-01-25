@@ -22,11 +22,11 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
         customer_id: "23",
         status_code: "1",
         status_message: "Ticket already check-in 0034854TYS9QSD4992",
-        credits: 2,
-        refundable_credits: 2,
-        credit_value: 1,
-        final_balance: 4,
-        final_refundable_balance: 4
+        credits: "2",
+        refundable_credits: "2",
+        credit_value: "1",
+        final_balance: "4",
+        final_refundable_balance: "4"
       }
     ]
   end
@@ -36,16 +36,21 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
   describe "POST create" do
     context "when the request is VALID" do
       it "returns a 201 status code" do
-        expect(Transactions::Base).to receive(:perform_later).and_return(transaction)
-        post(:create, event_id: event.id, _json: params)
+        allow(Transactions::Base).to receive(:perform_later).and_return(transaction)
+        post :create, params: { event_id: event.id, _json: params }
         expect(response.status).to eq(201)
+      end
+
+      it "sends all JSON parameters to the base writer" do
+        expect(Transactions::Base).to receive(:perform_later).once.with(params.first).and_return(transaction)
+        post :create, params: { event_id: event.id, _json: params }
       end
     end
 
     context "when the request is INVALID" do
       context "when there are no parameters" do
         it "returns a 400 status code" do
-          post(:create, event_id: event.id)
+          post :create, params: { event_id: event.id }
           expect(response.status).to eq(400)
         end
       end
@@ -56,7 +61,7 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
           params.first.delete(:station_id)
           params.first.delete(:action)
           params.first.delete(:customer_id)
-          post(:create, event_id: event.id, _json: params)
+          post :create, params: { event_id: event.id, _json: params }
           expect(response.status).to eq(422)
         end
       end

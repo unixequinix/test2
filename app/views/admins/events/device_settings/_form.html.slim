@@ -3,8 +3,6 @@
     h3.section-header
       = fa_icon "info-circle"
       = t("admin.event.fieldests.parameters")
-
-    = f.input :min_version_apk
     = f.input :topup_initialize_gtag, as: :boolean, boolean_style: :inline, checked_value: true, unchecked_value: false
 
   fieldset
@@ -22,14 +20,6 @@
 
     = f.input :private_zone_password, as: :string
     = f.input :fast_removal_password, as: :string
-    = f.input :gtag_blacklist
-
-  fieldset
-    h3.section-header
-      = fa_icon "rss"
-      = t("admin.event.fieldests.nfc")
-
-    = f.input :uid_reverse, as: :boolean, boolean_style: :inline, checked_value: true, unchecked_value: false
 
   fieldset
     h3.section-header
@@ -38,19 +28,12 @@
 
     = f.input :transaction_buffer
     = f.input :days_to_keep_backup
-    = f.input :days_to_keep_backup_min
     = f.input :sync_time_event_parameters
-    = f.input :sync_time_event_parameters_min
     = f.input :sync_time_server_date
-    = f.input :sync_time_server_date_min
     = f.input :sync_time_basic_download
-    = f.input :sync_time_basic_download_min
     = f.input :sync_time_tickets
-    = f.input :sync_time_tickets_min
     = f.input :sync_time_gtags
-    = f.input :sync_time_gtags_min
     = f.input :sync_time_customers
-    = f.input :sync_time_customers_min
 
   .wrapper-negative-space
     = f.submit t('admin.actions.update'), class: "btn btn-primary"

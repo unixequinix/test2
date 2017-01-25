@@ -8,6 +8,7 @@
 #  credits                     :float
 #  device_db_index             :integer
 #  direction                   :integer
+#  executed                    :boolean
 #  final_access_value          :string
 #  final_balance               :float
 #  final_refundable_balance    :float
@@ -24,7 +25,7 @@
 #  refundable_credits          :float
 #  status_code                 :integer
 #  status_message              :string
-#  ticket_code                 :string
+#  ticket_code                 :citext
 #  transaction_origin          :string
 #  type                        :string
 #
@@ -36,6 +37,7 @@
 #  index_transactions_on_device_columns       (event_id,device_uid,device_db_index,device_created_at_fixed,gtag_counter,activation_counter) UNIQUE
 #  index_transactions_on_event_id             (event_id)
 #  index_transactions_on_gtag_id              (gtag_id)
+#  index_transactions_on_gtag_id_and_type     (gtag_id,type)
 #  index_transactions_on_operator_station_id  (operator_station_id)
 #  index_transactions_on_order_id             (order_id)
 #  index_transactions_on_station_id           (station_id)
@@ -57,7 +59,7 @@ class AccessTransaction < Transaction
   belongs_to :access
 
   def self.mandatory_fields
-    super + %w( access_id direction final_access_value )
+    super + %w(access_id direction final_access_value)
   end
 
   def description

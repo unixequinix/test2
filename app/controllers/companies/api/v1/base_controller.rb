@@ -8,11 +8,7 @@ class Companies::Api::V1::BaseController < Companies::BaseController
   def restrict_access_with_http
     authenticate_or_request_with_http_basic do |event_token, company_token|
       @current_event = Event.find_by(token: event_token)
-
-      @agreement = @current_event&.company_event_agreements
-                                 &.includes(:company)
-                                 &.find_by(companies: { access_token: company_token })
-
+      @agreement = @current_event&.company_event_agreements&.includes(:company)&.find_by(companies: { access_token: company_token })
       @current_event && @agreement || render(status: 403, json: :unauthorized)
     end
   end
@@ -41,9 +37,7 @@ class Companies::Api::V1::BaseController < Companies::BaseController
   end
 
   def tickets
-    @current_event.tickets
-                  .joins(ticket_type: :company_event_agreement)
-                  .where(ticket_types: { company_event_agreement_id: @agreement.id })
+    @current_event.tickets.joins(ticket_type: :company_event_agreement).where(ticket_types: { company_event_agreement_id: @agreement.id })
   end
 
   def banned_tickets

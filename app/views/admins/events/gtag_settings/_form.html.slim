@@ -4,19 +4,21 @@
       = fa_icon "info-circle"
       = t("admin.event.fieldests.info")
 
-    = f.input :format, collection: Gtag::UID_FORMATS, include_blank: false
-    = f.input :gtag_name
-    = f.input :cards_can_refund, as: :boolean, boolean_style: :inline, checked_value: true, unchecked_value: false
-    = f.input :wristbands_can_refund, as: :boolean, boolean_style: :inline, checked_value: true, unchecked_value: false
+    = f.input :gtag_format, collection: Gtag::UID_FORMATS.map{ |format| [format.to_s.humanize, format] }, include_blank: false
+    = f.input :cards_can_refund
+    = f.input :wristbands_can_refund
 
   fieldset
     h3.section-header
       = fa_icon "cogs"
       = t("admin.event.fieldests.device")
 
-    = f.input :gtag_type, collection: Gtag.chips, include_blank: false
+    = f.input :gtag_type, collection: Gtag::DEFINITIONS.keys.map{ |key| [key.to_s.humanize, key] }, include_blank: false
     = f.input :gtag_deposit
     = f.input :maximum_gtag_balance
+    = f.input :gtag_deposit_fee
+    = f.input :topup_fee
+    = f.input :card_return_fee
 
 
   fieldset

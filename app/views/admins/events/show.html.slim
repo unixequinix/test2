@@ -23,25 +23,128 @@
       h2.alerts__title
         = fa_icon("warning")
         | Warning
-      ul.alerts__messages
-        - @alerts.each do |alert|
-          li = alert
+      ul.alerts__messages= @alerts.map { |alert| content_tag :li, alert }
         
-  = render "admins/events/controls", event: @current_event
+  .div
+    .container-dashboard.wrapper-dashboard-main
+      .event-status
+        hd = @current_event.name
+
+        p.current-status = t("admin.event.states.#{@current_event.state}")
+      .change-status
+        p = t("admin.dashboard.change_state")
+        = render "change_state", new_state: :launched, action: :launch if @current_event.created?
+        = render "change_state", new_state: :started, action: :start if @current_event.launched?
+        = render "change_state", new_state: :finished, action: :finish if @current_event.started?
+        = render "change_state", new_state: :closed, action: :close if @current_event.finished?
+        = render "change_state", new_state: :created, action: :reboot if @current_event.closed?
+
+    .container-transactions
+      h3.dashboard-table-header = t("admin.dashboard.transactions")
+      .wrapper-dashboard-reverse
+        - Transaction::TYPES.in_groups_of(4, false) do |types|
+          - types.each do |type|
+            - count = Transaction.class_for_type(type).where(event: @current_event).count
+            - next if count.zero?
+            .wrapper-transactions
+              h2 = number_to_human(count)
+              span = type.humanize
 
   .container-show
     dl
+      h3.section-header
+        = fa_icon "info-circle"
+        = t("admin.event.fieldests.info")
+      dt = t("admin.event.state")
+      dd = @current_event.state
+      dt = t("admin.event.slug")
+      dd = @current_event.slug
+      dt = t("admin.event.support_email")
+      dd = @current_event.support_email
+
+      h3.section-header
+        = fa_icon "calendar"
+        = t("admin.event.fieldests.date")
+      dt = t("admin.event.timezone")
+      dd = @current_event.timezone
+      dt = t("admin.event.end_date")
+      dd = @current_event.end_date.to_formatted_s(:long)
+      dt = t("admin.event.start_date")
+      dd = @current_event.start_date.to_formatted_s(:long)
+
+      h3.section-header
+        = fa_icon "info-circle"
+        = t("admin.event.fieldests.company")
+      dt = t("admin.event.company_name")
+      dd = format_abstract_value(@current_event.company_name)
+      dt = t("admin.event.official_address")
+      dd = format_abstract_value(@current_event.official_address)
+      dt = t("admin.event.official_name")
+      dd = format_abstract_value(@current_event.official_name)
+      dt = t("admin.event.registration_num")
+      dd = format_abstract_value(@current_event.registration_num)
+
+      h3.section-header
+        = fa_icon "info-circle"
+        = t("admin.event.fieldests.currency")
+      dt = t("admin.event.token_symbol")
+      dd = @current_event.token_symbol
+      dt = t("admin.event.currency")
+      dd = @current_event.currency
+      dt = t("admin.event.iban_enabled")
+      dd = format_abstract_value(@current_event.iban_enabled?)
+
+      h3.section-header
+        = fa_icon "info-circle"
+        = t("admin.event.fieldests.features")
+      dt = t("admin.event.eventbrite")
+      dd = format_abstract_value(@current_event.eventbrite?)
+      dt = t("admin.event.gtag_assignation")
+      dd = format_abstract_value(@current_event.gtag_assignation)
+      dt = t("admin.event.ticket_assignation")
+      dd = format_abstract_value(@current_event.ticket_assignation)
+      dt = t("admin.event.ticket_assignation")
+      dd = format_abstract_value(@current_event.ticket_assignation)
+      dt = t("admin.event.gtag_assignation")
+      dd = format_abstract_value(@current_event.gtag_assignation)
+      dt = t("admin.event.phone_mandatory")
+      dd = format_abstract_value(@current_event.phone_mandatory)
+      dt = t("admin.event.address_mandatory")
+      dd = format_abstract_value(@current_event.address_mandatory)
+      dt = t("admin.event.city_mandatory")
+      dd = format_abstract_value(@current_event.city_mandatory)
+      dt = t("admin.event.country_mandatory")
+      dd = format_abstract_value(@current_event.country_mandatory)
+      dt = t("admin.event.postcode_mandatory")
+      dd = format_abstract_value(@current_event.postcode_mandatory)
+      dt = t("admin.event.gender_mandatory")
+      dd = format_abstract_value(@current_event.gender_mandatory)
+      dt = t("admin.event.birthdate_mandatory")
+      dd = format_abstract_value(@current_event.birthdate_mandatory)
+      dt = t("admin.event.agreed_event_condition")
+      dd = format_abstract_value(@current_event.agreed_event_condition)
+      dt = t("admin.event.receive_communications")
+      dd = format_abstract_value(@current_event.receive_communications)
+      dt = t("admin.event.receive_communications_two")
+      dd = format_abstract_value(@current_event.receive_communications_two)
+
+      h3.section-header
+        = fa_icon "camera"
+        = t("admin.event.fieldests.image")
       - if @current_event.logo.present?
         dt = t("admin.event.logo")
         dd
           = image_tag @current_event.logo.url, class: "event-img-preview"
           = link_to remove_logo_admins_event_path(@current_event), method: :post, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
             = fa_icon "trash"
-      dt = t("admin.event.background_type")
-      dt = t("admin.event.background_types." + @current_event.background_type)
       - if @current_event.background.present?
         dt = t("admin.event.background")
         dd
           = image_tag @current_event.background.url, class: "event-img-preview"
           = link_to remove_background_admins_event_path(@current_event), method: :post, data: { confirm: t('admin.confirm.delete') }, class: "delete-image" do
             = fa_icon "trash"
+
+      dt = t("admin.event.background_type")
+      dt = t("admin.event.background_types." + @current_event.background_type)
+      dt = t("admin.event.background_content_type")
+      dd = @current_event.background_content_type

@@ -11,7 +11,7 @@
 #  country                    :string
 #  current_sign_in_at         :datetime
 #  current_sign_in_ip         :inet
-#  email                      :string           default(""), not null
+#  email                      :citext           default(""), not null
 #  encrypted_password         :string           default(""), not null
 #  first_name                 :string           default(""), not null
 #  gender                     :string
@@ -43,10 +43,6 @@ require "spec_helper"
 
 RSpec.describe Customer, type: :model do
   let(:customer) { build(:customer) }
-
-  it { is_expected.to validate_presence_of(:email) }
-  it { is_expected.to validate_presence_of(:first_name) }
-  it { is_expected.to validate_presence_of(:last_name) }
 
   describe ".full_name" do
     it "return the first_name and last_name together" do

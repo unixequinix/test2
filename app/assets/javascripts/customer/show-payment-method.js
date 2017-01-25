@@ -12,5 +12,5 @@ function showPaymentMethod() {
   });
 
 }
-$(document).on("page:load", showPaymentMethod);
+$(document).on("turbolinks:load", showPaymentMethod);
 $(document).ready(showPaymentMethod);

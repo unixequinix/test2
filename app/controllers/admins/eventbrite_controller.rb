@@ -2,7 +2,7 @@ class Admins::EventbriteController < ApplicationController
   # this method is here because all auth sessions redirect to a common action (this one).
   # this allows to being able to create only one common app in Eventbrite
   def auth
-    event = Event.find_by_slug session[:event_slug]
+    event = Event.find_by slug: session[:event_slug]
     redirect_to(admins_event_path(event), alert: "Access Denied") && return if params[:error]
 
     uri = URI("https://www.eventbrite.com/oauth/token")

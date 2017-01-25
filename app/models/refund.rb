@@ -12,10 +12,12 @@
 # Indexes
 #
 #  index_refunds_on_customer_id  (customer_id)
+#  index_refunds_on_event_id     (event_id)
 #
 # Foreign Keys
 #
 #  fk_rails_6a4a43dcc1  (customer_id => customers.id)
+#  fk_rails_ab1c98fb18  (event_id => events.id)
 #
 
 class Refund < ActiveRecord::Base
@@ -28,8 +30,8 @@ class Refund < ActiveRecord::Base
 
   scope :query_for_csv, lambda { |event|
     joins(:customer)
-      .select("refunds.id, customers.email, customers.first_name, customers.last_name, refunds.amount, refunds.fee, refunds.money, refunds.status, refunds.field_a,
-               refunds.field_b, refunds.created_at").where(customers: { event_id: event.id })
+      .select("refunds.id, customers.email, customers.first_name, customers.last_name, refunds.amount, refunds.fee, refunds.money,
+               refunds.status, refunds.field_a, refunds.field_b, refunds.created_at").where(customers: { event_id: event.id })
   }
 
   def total

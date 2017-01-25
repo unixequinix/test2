@@ -3,3 +3,5 @@
 
 # Disable for ArraySerializer
 # ActiveModel::ArraySerializer.root = false
+
+# ActiveModelSerializers.config.adapter = :json_api

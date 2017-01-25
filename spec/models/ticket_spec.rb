@@ -3,8 +3,7 @@
 # Table name: tickets
 #
 #  banned               :boolean          default(FALSE)
-#  code                 :string
-#  description          :string
+#  code                 :citext
 #  purchaser_email      :string
 #  purchaser_first_name :string
 #  purchaser_last_name  :string
@@ -12,9 +11,10 @@
 #
 # Indexes
 #
-#  index_tickets_on_customer_id     (customer_id)
-#  index_tickets_on_event_id        (event_id)
-#  index_tickets_on_ticket_type_id  (ticket_type_id)
+#  index_tickets_on_code_and_event_id  (code,event_id) UNIQUE
+#  index_tickets_on_customer_id        (customer_id)
+#  index_tickets_on_event_id           (event_id)
+#  index_tickets_on_ticket_type_id     (ticket_type_id)
 #
 # Foreign Keys
 #

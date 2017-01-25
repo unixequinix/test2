@@ -4,24 +4,17 @@ class Events::TicketAssignmentsController < Events::BaseController
     @ticket = @current_event.tickets.find_by(code: @code)
     render(:new) && return unless can_assign?(@ticket)
 
-    @ticket.update!(customer: current_customer)
-    create_transaction("ticket_assigned")
+    @ticket.assign_customer(current_customer, :portal, current_customer)
     redirect_to(customer_root_path(@current_event), notice: I18n.t("alerts.ticket_assigned"))
   end
 
   def destroy
     @ticket = @current_event.tickets.find(params[:id])
-    create_transaction("ticket_unassigned")
-    @ticket.update!(customer: nil)
+    @ticket.unassign_customer(:portal, current_customer)
     redirect_to customer_root_path(@current_event), notice: I18n.t("alerts.unassigned")
   end
 
   private
-
-  def create_transaction(action)
-    atts = { ticket: @ticket }
-    Transaction.write!(@current_event, CredentialTransaction, action, :portal, current_customer, current_admin, atts)
-  end
 
   def can_assign?(ticket)
     flash.now[:error] = case

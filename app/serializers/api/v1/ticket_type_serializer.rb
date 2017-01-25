@@ -1,4 +1,4 @@
-class Api::V1::TicketTypeSerializer < Api::V1::BaseSerializer
+class Api::V1::TicketTypeSerializer < ActiveModel::Serializer
   attributes :id, :name, :company_id, :company_name, :ticket_type_ref, :catalog_item_id
 
   def company_id

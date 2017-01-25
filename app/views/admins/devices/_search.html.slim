@@ -4,8 +4,8 @@ p.menu-header
 
 = search_form_for q, url: search_admins_devices_path, html: { novalidate: true, class: "searchForm" }  do |f|
   .container-search
-    = f.input :mac_cont, label: t("admin.devices.mac"), placeholder: t("admin.devices.mac")
-    = f.input :imei_cont, label: t("admin.devices.imei"), placeholder: t("admin.devices.imei")
-    = f.input :serial_number_cont, label: t("admin.devices.serial_number"), placeholder: t("admin.devices.serial_number")
-    = f.input :asset_tracker_cont, label: t("admin.devices.asset"), placeholder: t("admin.devices.asset")
+    = f.search_field :mac_cont, label: t("admin.devices.mac"), placeholder: t("admin.devices.mac")
+    = f.search_field :imei_cont, label: t("admin.devices.imei"), placeholder: t("admin.devices.imei")
+    = f.search_field :serial_number_cont, label: t("admin.devices.serial_number"), placeholder: t("admin.devices.serial_number")
+    = f.search_field :asset_tracker_cont, label: t("admin.devices.asset"), placeholder: t("admin.devices.asset")
     = f.submit class: "btn btn-secondary"

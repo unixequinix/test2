@@ -1,36 +1,39 @@
-class Admins::EventsController < Admins::BaseController
+class Admins::EventsController < Admins::BaseController # rubocop:disable Metrics/ClassLength
   include ActiveModel::Dirty
 
   def index
-    if current_admin.customer_service? || current_admin.promoter?
-      event = Event.find_by_slug(current_admin.email.split("_")[1].split("@")[0])
-      redirect_to(admins_event_path(event)) && return
-    end
+    redirect_to(admins_event_path(Event.find_by(slug: current_admin.slug))) && return if current_admin.customer_service? || current_admin.promoter?
+
     params[:status] ||= [:launched, :started, :finished]
     @events = params[:status] == "all" ? Event.all : Event.status(params[:status])
     @events = @events.page(params[:page])
   end
 
   def show
-    # TODO: Remove this when we have roles, this was a workaround for sonar, but as a lot of things it still  here
-    redirect_to(admins_event_tickets_path(@current_event), layout: "admin_event") &&
-      return if current_admin.customer_service?
-    @alerts = EventValidator.new(@current_event).all
     render layout: "admin_event"
   end
 
   def new
-    @event = Event.new(default_settings)
+    @event = Event.new
   end
 
-  def create
-    event_creator = EventCreator.new(permitted_params)
-    if event_creator.save
-      redirect_to admins_event_url(event_creator.event), notice: I18n.t("events.create.notice")
+  def create # rubocop:disable Metrics/MethodLength
+    @event = Event.new(permitted_params)
+
+    if @event.save
+      @event.create_credit!(value: 1, name: "CRD", step: 5, min_purchasable: 0, max_purchasable: 300, initial_amount: 0)
+      UserFlag.create!(event_id: @event.id, name: "alcohol_forbidden", step: 1)
+      station = @event.stations.create! name: "Customer Portal", category: "customer_portal", group: "access"
+      station.station_catalog_items.create(catalog_item: @event.credit, price: 1)
+      @event.stations.create! name: "CS Topup/Refund", category: "cs_topup_refund", group: "event_management"
+      @event.stations.create! name: "CS Accreditation", category: "cs_accreditation", group: "event_management"
+      @event.stations.create! name: "Glownet Food", category: "hospitality_top_up", group: "event_management"
+      @event.stations.create! name: "Touchpoint", category: "touchpoint", group: "touchpoint"
+      @event.stations.create! name: "Operator Permissions", category: "operator_permissions", group: "event_management"
+      @event.stations.create! name: "Gtag Recycler", category: "gtag_recycler", group: "glownet"
+      redirect_to admins_event_url(@event), notice: I18n.t("events.create.notice")
     else
-      ## TODO HANDLE ERROR
       flash[:error] = I18n.t("events.create.error")
-      @event = event_creator.event
       render :new
     end
   end
@@ -41,11 +44,8 @@ class Admins::EventsController < Admins::BaseController
 
   def update
     if @current_event.update(permitted_params.merge(slug: nil))
-      previous_changes = @current_event.previous_changes
-      if previous_changes[:name] || previous_changes[:start_date] || previous_changes[:end_date]
-        @current_event.update(device_full_db: nil, device_basic_db: nil)
-      end
-
+      cols = %w(name start_date end_date)
+      @current_event.update(device_full_db: nil, device_basic_db: nil) if @current_event.changes.keys.any? { |att| cols.include? att }
       redirect_to admins_event_url(@current_event), notice: I18n.t("alerts.updated")
     else
       flash[:error] = I18n.t("alerts.error")
@@ -85,31 +85,49 @@ class Admins::EventsController < Admins::BaseController
 
   private
 
-  def permitted_params
-    params.require(:event)
-          .permit(:aasm_state, :name, :url, :location, :start_date, :end_date, :support_email, :style,
-                  :logo, :background_type, :background, :info, :disclaimer, :terms_of_use, :privacy_policy,
-                  :host_country, :gtag_assignation, :currency, :token_symbol, :agreed_event_condition_message,
-                  :ticket_assignation, :company_name, :agreement_acceptance, :official_name, :official_address,
-                  :receive_communications_message, :receive_communications_two_message, :address, :registration_num,
-                  :eventbrite_client_key, :eventbrite_event, :timezone, :iban_enabled,
-                  registration_settings: Event::REGISTRATION_SETTINGS)
-  end
-
-  def default_settings
-    {
-      registration_settings: {
-        phone: false,
-        address: false,
-        city: false,
-        country: false,
-        postcode: false,
-        gender: false,
-        birthdate: false,
-        agreed_event_condition: false,
-        receive_communications: false,
-        receive_communications_two: false
-      }.as_json
-    }
+  def permitted_params # rubocop:disable Metrics/MethodLength
+    params.require(:event).permit(:state,
+                                  :name,
+                                  :url,
+                                  :start_date,
+                                  :end_date,
+                                  :support_email,
+                                  :style,
+                                  :logo,
+                                  :background_type,
+                                  :background,
+                                  :info,
+                                  :disclaimer,
+                                  :terms_of_use,
+                                  :privacy_policy,
+                                  :gtag_assignation,
+                                  :currency,
+                                  :token_symbol,
+                                  :agreed_event_condition_message,
+                                  :ticket_assignation,
+                                  :company_name,
+                                  :agreement_acceptance,
+                                  :official_name,
+                                  :official_address,
+                                  :receive_communications_message,
+                                  :receive_communications_two_message,
+                                  :address,
+                                  :registration_num,
+                                  :eventbrite_client_key,
+                                  :eventbrite_event,
+                                  :timezone,
+                                  :ticket_assignation,
+                                  :gtag_assignation,
+                                  :phone_mandatory,
+                                  :address_mandatory,
+                                  :city_mandatory,
+                                  :country_mandatory,
+                                  :postcode_mandatory,
+                                  :gender_mandatory,
+                                  :birthdate_mandatory,
+                                  :agreed_event_condition,
+                                  :receive_communications,
+                                  :receive_communications_two,
+                                  :iban_enabled)
   end
 end

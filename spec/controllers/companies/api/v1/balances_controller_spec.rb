@@ -15,7 +15,7 @@ RSpec.describe Companies::Api::V1::BalancesController, type: :controller do
       before(:each) { http_login(event.token, company.access_token) }
 
       context "when the gtag belongs to the event" do
-        before(:each) { get :show, event_id: event, id: gtag.tag_uid }
+        before(:each) { get :show, params: { event_id: event, id: gtag.tag_uid } }
 
         it "returns a 200 status code" do
           expect(response).to be_ok
@@ -31,7 +31,7 @@ RSpec.describe Companies::Api::V1::BalancesController, type: :controller do
 
       context "when the gtag doesn't belong to the event" do
         it "returns a 404 status code" do
-          get :show, event_id: event, id: 999
+          get :show, params: { event_id: event, id: 999 }
           expect(response.status).to eq(404)
         end
       end
@@ -39,7 +39,7 @@ RSpec.describe Companies::Api::V1::BalancesController, type: :controller do
 
     context "when not authenticated" do
       it "returns a 401 status code" do
-        get :show, event_id: event, id: gtag.tag_uid
+        get :show, params: { event_id: event, id: gtag.tag_uid }
         expect(response).to be_unauthorized
       end
     end

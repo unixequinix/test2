@@ -15,26 +15,19 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::BaseControll
       flash.now[:errors] = errors.to_sentence
       render(:new)
     else
-      @ticket.update!(customer: @customer)
-      create_transaction("ticket_assigned")
+      @ticket.assign_customer(@customer, :admin, current_admin)
       redirect_to(admins_event_customer_path(@current_event, @customer), notice: I18n.t("alerts.ticket_assigned"))
     end
   end
 
   def destroy
     @ticket = Ticket.find(params[:id])
-    create_transaction("ticket_unassigned")
-    @ticket.update!(customer: nil)
+    @ticket.unassign_customer(:admin, current_admin)
     flash[:notice] = I18n.t("alerts.unassigned")
     redirect_to :back
   end
 
   private
-
-  def create_transaction(action)
-    atts = { ticket: @ticket }
-    Transaction.write!(@current_event, CredentialTransaction, action, :admin, current_customer, current_admin, atts)
-  end
 
   def set_customer
     @customer = @current_event.customers.find(params[:id])

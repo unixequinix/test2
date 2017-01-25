@@ -8,7 +8,7 @@ class Api::V1::Events::TransactionsController < ApplicationController
     params[:_json].each_with_index do |atts, index|
       att_errors = validate_params(atts.keys, atts[:type], index)
       errors[:atts] << att_errors && next if att_errors
-      Transactions::Base.perform_later(ActiveSupport::HashWithIndifferentAccess.new(atts))
+      Transactions::Base.perform_later(atts.to_unsafe_h)
     end
 
     errors.delete_if { |_, v| v.compact.empty? }

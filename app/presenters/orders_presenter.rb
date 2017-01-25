@@ -1,6 +1,6 @@
 class OrdersPresenter < BasePresenter
   def can_render?
-    @customer.active_credentials? && @customer.orders.present?
+    @customer.active_credentials? && orders.present?
   end
 
   def path
@@ -8,6 +8,6 @@ class OrdersPresenter < BasePresenter
   end
 
   def orders
-    @customer.orders
+    @customer.orders.completed
   end
 end

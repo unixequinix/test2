@@ -1,9 +1,5 @@
-class Api::V1::CredentialAssignmentSerializer < Api::V1::BaseSerializer
+class Api::V1::CredentialAssignmentSerializer < ActiveModel::Serializer
   attributes :reference, :type
-
-  def reference
-    object.reference.to_s
-  end
 
   def type
     object.class.name.downcase

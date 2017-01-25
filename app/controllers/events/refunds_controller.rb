@@ -14,11 +14,11 @@ class Events::RefundsController < Events::BaseController
                payment_method: "online",
                price: @refund.money.to_f * -1 }
 
-      Transaction.write!(@current_event, MoneyTransaction, "refund", :portal, current_customer, current_customer, atts)
+      MoneyTransaction.write!(@current_event, "refund", :portal, current_customer, current_customer, atts)
 
       # Create negative online order
       order = current_customer.orders.create(gateway: "refund")
-      order.order_items.create(catalog_item: credit, amount: -@refund.total, total:  -(@refund.total * credit.value))
+      order.order_items.create(catalog_item: credit, amount: -@refund.total, total: -(@refund.total * credit.value))
 
       RefundMailer.completed_email(@refund, @current_event).deliver_later
       redirect_to customer_root_path(@current_event), success: t("refunds.success")

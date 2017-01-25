@@ -1,9 +1,6 @@
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
 
 require 'rails/all'
-require 'csv'
-
-ENV['RANSACK_FORM_BUILDER'] = '::SimpleForm::FormBuilder'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -11,16 +8,12 @@ Bundler.require(*Rails.groups)
 
 module GlownetWeb
   class Application < Rails::Application
+    # Settings in config/environments/* take precedence over those specified here.
+    # Application configuration should go into files in config/initializers
+    # -- all .rb files in that directory are automatically loaded.
 
-    #Use the IRB console instead of the Pry one
-    # console do
-    #   require 'irb'
-    #   config.console = IRB
-    # end
+    Figaro.load
 
-    config.middleware.use Rack::Deflater
-
-    # Locale
     I18n.config.enforce_available_locales = true
     config.i18n.default_locale = :en
     config.i18n.available_locales = [:en, :es, :it, :th, :de, :pt]
@@ -28,29 +21,19 @@ module GlownetWeb
     config.time_zone = "Madrid"
     config.encoding = "utf-8"
 
-    # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
-
     config.paperclip_defaults = {
-      storage: :s3,
-      s3_protocol: :https,
-      s3_credentials: {
-        access_key_id: Rails.application.secrets.s3_access_key_id,
-        secret_access_key: Rails.application.secrets.s3_secret_access_key,
-        bucket: Rails.application.secrets.s3_bucket,
-        s3_host_name: Rails.application.secrets.s3_hostname
-      }
+        storage: :s3,
+        s3_protocol: :https,
+        s3_region: "eu-west-1",
+        s3_credentials: {
+            access_key_id: Rails.application.secrets.s3_access_key_id,
+            secret_access_key: Rails.application.secrets.s3_secret_access_key,
+            bucket: Rails.application.secrets.s3_bucket,
+            s3_host_name: Rails.application.secrets.s3_hostname
+        }
     }
 
-    # Custom exception handling
-    config.exceptions_app = ->(env) {
-      params = env["action_dispatch.request.parameters"]
-      namespace = params["controller"].split('/')[0].capitalize if params
-      controller = namespace.nil? ? "ExceptionsController" : "#{namespace}::ExceptionsController"
-      controller.constantize.action(:show).call(env)
-    }
-
-    config.middleware.insert_before 0, 'Rack::Cors' do
+    config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'
         resource '*', headers: :any, methods: [:get, :post, :options]

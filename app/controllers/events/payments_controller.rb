@@ -9,7 +9,7 @@ class Events::PaymentsController < Events::BaseController
   def finish_payment!(order, gateway, type)
     customer = order.customer
     atts = { payment_method: gateway, payment_gateway: gateway, order_id: order.id, price: order.total.to_f }
-    Transactions.write!(@current_event, MoneyTransaction, "portal_#{type}", :portal, customer, customer, atts)
+    MoneyTransaction.write!(@current_event, "portal_#{type}", :portal, customer, customer, atts)
   end
 
   def check_order_status!

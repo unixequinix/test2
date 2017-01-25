@@ -21,7 +21,7 @@ RSpec.feature "Ticket Assignation", type: :feature do
       end
 
       it "assigns the ticket" do
-        codes = customer.tickets.pluck(:code)
+        codes = customer.reload.tickets.pluck(:code)
         expect(codes).to include(valid_ticket.code)
         expect(page.body).to include(valid_ticket.code)
       end
@@ -91,7 +91,7 @@ RSpec.feature "Ticket Assignation", type: :feature do
     end
 
     context "when event status is during event" do
-      before { event.update!(aasm_state: "started") }
+      before { event.update!(state: "started") }
       context "when ticket assignation is enabled" do
         it "is available" do
           expect(page.body).to include(I18n.t("dashboard.first_register.ticket"))
@@ -112,7 +112,7 @@ RSpec.feature "Ticket Assignation", type: :feature do
 
     context "when event status is finished" do
       before do
-        event.update!(aasm_state: "finished")
+        event.update!(state: "finished")
         visit(event_path)
       end
 

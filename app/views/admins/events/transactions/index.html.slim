@@ -15,14 +15,14 @@ aside.mmenu-panel#search-menu
   = search_form_for @q, url: search_admins_event_transactions_path(@current_event), html: { novalidate: true, class: "searchForm" }  do |f|
     .container-search
       = hidden_field_tag :type, @type
-      = f.input :customer_tag_uid_cont, label: t("admin.transactions.customer_tag_uid"), placeholder: t("admin.transactions.customer_tag_uid")
-      = f.input :operator_tag_uid_cont, label: t("admin.transactions.operator_tag_uid"), placeholder: t("admin.transactions.operator_tag_uid")
-      = f.input :transaction_origin_cont, label: t("admin.transactions.transaction_origin"), placeholder: t("admin.transactions.transaction_origin")
-      = f.input :action_cont, label: t("admin.transactions.action"), placeholder: t("admin.transactions.action")
-      = f.input :device_uid_cont, label: t("admin.transactions.device_uid"), placeholder: t("admin.transactions.device_uid")
-      = f.input :station_name_cont, label: t("admin.transactions.station"), placeholder: t("admin.transactions.station")
-      = f.input :status_code_eq, label: t("admin.transactions.status_code"), placeholder: t("admin.transactions.status_code")
-      = f.input :status_message_cont, label: t("admin.transactions.status_message"), placeholder: t("admin.transactions.status_message")
+      = f.search_field :customer_tag_uid_cont, label: t("admin.transactions.customer_tag_uid"), placeholder: t("admin.transactions.customer_tag_uid")
+      = f.search_field :operator_tag_uid_cont, label: t("admin.transactions.operator_tag_uid"), placeholder: t("admin.transactions.operator_tag_uid")
+      = f.search_field :transaction_origin_cont, label: t("admin.transactions.transaction_origin"), placeholder: t("admin.transactions.transaction_origin")
+      = f.search_field :action_cont, label: t("admin.transactions.action"), placeholder: t("admin.transactions.action")
+      = f.search_field :device_uid_cont, label: t("admin.transactions.device_uid"), placeholder: t("admin.transactions.device_uid")
+      = f.search_field :station_name_cont, label: t("admin.transactions.station"), placeholder: t("admin.transactions.station")
+      = f.search_field :status_code_eq, label: t("admin.transactions.status_code"), placeholder: t("admin.transactions.status_code")
+      = f.search_field :status_message_cont, label: t("admin.transactions.status_message"), placeholder: t("admin.transactions.status_message")
       = f.submit class: "btn btn-secondary"
 
 

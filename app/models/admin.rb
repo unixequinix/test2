@@ -5,18 +5,24 @@
 #  access_token           :string           not null
 #  current_sign_in_at     :datetime
 #  current_sign_in_ip     :inet
-#  email                  :string           default(""), not null
+#  email                  :citext           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :inet
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
+#  role                   :integer          default(3)
 #  sign_in_count          :integer          default(0), not null
 #
 # Indexes
 #
 #  index_admins_on_email                 (email) UNIQUE
+#  index_admins_on_event_id              (event_id)
 #  index_admins_on_reset_password_token  (reset_password_token) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_c310acab8d  (event_id => events.id)
 #
 
 class Admin < ActiveRecord::Base
@@ -37,6 +43,10 @@ class Admin < ActiveRecord::Base
 
   def promoter?
     email.start_with?("admin_")
+  end
+
+  def root?
+    !(promoter? || customer_service?)
   end
 
   def slug

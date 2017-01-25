@@ -1,14 +1,9 @@
 .wrapper-module-centered
   - if presenter.gtag_assignments_enabled?
     h3 = t('dashboard.without_gtags.add')
-    //p.center-text = t('dashboard.without_gtags.description', gtag: @current_event.gtag_name)
-    = link_to t('dashboard.without_gtags.button', gtag: @current_event.gtag_name),
+    = link_to t('dashboard.without_gtags.button'),
       new_event_gtag_assignment_path(@current_event), class: 'btn btn-action btn-action-empty-state btn-full-width'
   - else
-    // TODO Manu: form-input outside a form???
     h3.claim = t('dashboard.without_gtags_disabled.claim')
     h3 = t('dashboard.without_gtags_disabled.description')
     h3 = t('dashboard.without_gtags_disabled.description2')
-    = link_to href="#{presenter.event_url}", target: '_blank',
-      class: 'btn btn-action btn-dashboard' do
-      = t('actions.check_news')

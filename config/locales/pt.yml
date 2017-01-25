@@ -6,6 +6,7 @@ pt:
   gender:
     male: 'Male'
     female: 'Female'
+  gtag_name: 'Wristband'
   event:
     subject_support: 'Need help for %{event}'
     locales:
@@ -15,7 +16,6 @@ pt:
       th: 'THA'
       de: 'GER'
       pt: 'PT'
-    gtag_name: 'Wristband'
   events:
     create:
       error: "Event couldn't be created, check the errors below"
@@ -75,9 +75,6 @@ pt:
       customer:
         one: 'customer'
         other: 'customers'
-      entitlement:
-        one: 'entitlement'
-        other: 'entitlements'
       gtag:
         one: 'gtag'
         other: 'gtags'
@@ -108,11 +105,6 @@ pt:
           attributes:
             email:
               taken: 'Email taken'
-        entitlement:
-          attributes:
-            base:
-              restrict_dependent_destroy:
-                many: "Can't be deleted because there are ticket types associated"
         ticket_type:
           attributes:
             base:
@@ -164,7 +156,7 @@ pt:
     unhappy: Por favor envia-nos um email, queremos saber o que se passou!
   checkout:
     button: Confirmar pedido
-    description: Os créditos adquiridos online vão ser automaticamente adicionados ao teu %{gtag} assim que chegares ao evento.
+    description: Os créditos adquiridos online vão ser automaticamente adicionados ao teu Tag assim que chegares ao evento.
     store: guardar
     title: Carregamento
     total: Total
@@ -207,7 +199,7 @@ pt:
     privacy_conditions: Política de privacidade
     terms_of_use: Condições de Utilização
   confirm:
-    cancel_paypal: Ao cancelar estás a desassociar a conta %{gtag} da tua conta  Paypal.
+    cancel_paypal: Ao cancelar estás a desassociar a conta Tag da tua conta  Paypal.
     cancel_paypal_agreement: Acordo de cancelamento
     log_out: Pretendes terminar a sessão?
     remove_ticket: " Os créditos adquiridos foram atribuídos à tua conta. Se removeres o teu bilhete, é necessário associar uma nova conta para voltar a utilizar os créditos."
@@ -226,7 +218,7 @@ pt:
       call_to_action_started: " Após o início do evento já não podes efectuar mais carregamentos online "
       header: O teu saldo
       refundable: " Reembolsável "
-      ticket_first: Adiciona um bilhete ou %{gtag} primeiro
+      ticket_first: Adiciona um bilhete ou Tag primeiro
     credits_history:
       button: Descarregar transacções
       header: Histórico de transcções
@@ -240,17 +232,17 @@ pt:
       description: Estamos a terminar a configuração do evento para te proporcionarmos uma óptima experiência. Por favor volta mais tarde para veres o que preparámos para ti.
       title: Últimos detalhes!
     first_register:
-      gtag: Adicionar %{gtag}
+      gtag: Adicionar Tag
       ticket: Adicionar bilhete
     gtag_after_refund:
       description: O teu reembolso está a ser processado
     gtag_registration:
       button: Remover
       call_to_action: Editar
-      hint: Inseriste %{gtag} por engano? Por favor apaga e recomeça o processo
-      title: O teu %{gtag}
+      hint: Inseriste Tag por engano? Por favor apaga e recomeça o processo
+      title: O teu Tag
     more_gtags:
-      description: Tens mais %{gtag}s? Por favor regista-te com um email diferente para cada.
+      description: Tens mais Tags? Por favor regista-te com um email diferente para cada.
     not_refundable:
       call_to_action: Lamentamos, mas não tens créditos suficientes para subscreveres o reembolso.
       title: 'O teu saldo:'
@@ -277,15 +269,15 @@ pt:
       call_to_action: Activa apenas o(s) bilhete(s) que vão ser utilizados por ti
       description: Não actives bilhetes dos teus amigos com a tua conta e/ou a tua sessão iniciada
     without_gtags:
-      add: Atribui %{gtag}
-      button: " Atribui "
-      description: 'Lembra-te: apenas %{gtag} pode ser activado para cada conta.'
+      add: Atribui Tag
+      button: Atribui Tag
+      description: 'Lembra-te: apenas Tag pode ser activado para cada conta.'
       title: Sobraram-te créditos?
     without_gtags_claiming_started:
       claim: Desculpa
       description: O período de subscrição de reembolsos terminou, caso tenhas alguma dúvida, por favor, entra em contacto com o nosso suporte técnico.
     without_gtags_disabled:
-      claim: O período de subscrição de %{gtag} de créditos está fechado
+      claim: O período de subscrição de Tag de créditos está fechado
       description: Se já entraste em contacto com o nosso suporte técnico,
       description2: não te preocupes, podemos ajudar-te na tua subscrição do reembolso.
     without_refunds:
@@ -321,11 +313,11 @@ pt:
   gtag_assignations:
     back: Para trás
     button: Aceitar
-    call_to_action: Activa o teu %{gtag} e segue!
+    call_to_action: Activa o teu Tag e segue!
     description:
-      card: " Atribui a segunda linha de números e letras (destacados a amarelo) do teu %{gtag}"
-      simple: " Atribui a segunda linha de números e letras (destacados a amarelo) do teu %{gtag}"
-      standard: Atribui a segunda linha de números e letras (destacados a amarelo) da tua %{gtag}
+      card: " Atribui a segunda linha de números e letras (destacados a amarelo) do teu Tag"
+      simple: " Atribui a segunda linha de números e letras (destacados a amarelo) do teu Tag"
+      standard: Atribui a segunda linha de números e letras (destacados a amarelo) da tua Tag
     info:
       line_1: Apenas números de "0" a "9"
       line_2: 'Simbolos permitidos: "0" - "9" and "A, B, C, D, E, F"'
@@ -339,7 +331,7 @@ pt:
       standard:
         line_1: 'Line 1 e.g: 12345'
         line_2: 'Line 2 e.g: BA6D7DC0'
-    title: Atribui %{gtag}
+    title: Atribui Tag
   header:
     close: Terminar sessão
     edit: Editar perfil

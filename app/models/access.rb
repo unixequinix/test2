@@ -4,7 +4,10 @@
 #
 #  initial_amount  :integer
 #  max_purchasable :integer
+#  memory_length   :integer          default(1)
+#  memory_position :integer
 #  min_purchasable :integer
+#  mode            :string
 #  name            :string
 #  step            :integer
 #  type            :string           not null
@@ -12,7 +15,8 @@
 #
 # Indexes
 #
-#  index_catalog_items_on_event_id  (event_id)
+#  index_catalog_items_on_event_id                      (event_id)
+#  index_catalog_items_on_memory_position_and_event_id  (memory_position,event_id) UNIQUE
 #
 # Foreign Keys
 #
@@ -20,24 +24,37 @@
 #
 
 class Access < CatalogItem
-  has_one :entitlement, dependent: :destroy
-
   has_many :access_transactions, dependent: :destroy
   has_many :access_control_gates, dependent: :destroy
 
-  accepts_nested_attributes_for :entitlement, allow_destroy: true
-
   before_validation :set_infinite_values, if: :infinite?
   before_validation :set_memory_length
+  before_validation :calculate_memory_position
 
+  validates :memory_length, :mode, presence: true
   validates :initial_amount, :step, :max_purchasable, :min_purchasable, presence: true
   validates :max_purchasable, numericality: { less_than: 128 }
-  validate :min_max_congruency
 
-  scope :infinite, -> { includes(:entitlement).where(entitlements: { mode: Entitlement::ALL_PERMANENT }) }
-  delegate :infinite?, to: :entitlement
+  validate :validate_memory_position
+  validate :min_below_max
 
-  private
+  scope :infinite, -> { where(mode: ALL_PERMANENT) }
+
+  # Modes
+  COUNTER = "counter".freeze
+  PERMANENT = "permanent".freeze
+  PERMANENT_STRICT = "permanent_strict".freeze
+
+  MODES = [COUNTER, PERMANENT, PERMANENT_STRICT].freeze
+  ALL_PERMANENT = [PERMANENT, PERMANENT_STRICT].freeze
+
+  def infinite?
+    mode == PERMANENT || mode == PERMANENT_STRICT
+  end
+
+  def counter?
+    mode == COUNTER
+  end
 
   def set_infinite_values
     self.min_purchasable = 0
@@ -47,11 +64,23 @@ class Access < CatalogItem
   end
 
   def set_memory_length
-    entitlement.memory_length = 2 if max_purchasable.to_i > 7
+    self.memory_length = 2 if max_purchasable.to_i > 7
   end
 
-  def min_max_congruency
+  def min_below_max
     return if min_purchasable.to_i <= max_purchasable.to_i
     errors[:min_purchasable] << I18n.t("errors.messages.greater_than_maximum")
+  end
+
+  def calculate_memory_position
+    return if memory_position.present?
+    last_access = event.catalog_items.accesses.order(:memory_position).last
+    new_position = last_access.present? ? last_access.memory_position.to_i + last_access.memory_length.to_i : 1
+    self.memory_position = new_position
+  end
+
+  def validate_memory_position
+    return if memory_position.to_i + memory_length.to_i <= Gtag::DEFINITIONS[event.gtag_type.to_sym][:entitlement_limit]
+    errors.add(:memory_position, "You reached the maximun allowed accesses")
   end
 end

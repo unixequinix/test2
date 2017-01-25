@@ -24,9 +24,6 @@ RSpec.describe TicketType, type: :model do
   subject { build(:ticket_type) }
   let(:event) { create(:event) }
 
-  it { is_expected.to validate_presence_of(:name) }
-  it { is_expected.to allow_value("", nil).for(:company_code) }
-
   it "has a valid factory" do
     expect(subject).to be_valid
   end

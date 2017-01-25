@@ -30,6 +30,6 @@ class Admins::Events::RefundsController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:refund).permit(:aasm_state)
+    params.require(:refund).permit(:state)
   end
 end

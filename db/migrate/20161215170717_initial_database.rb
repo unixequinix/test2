@@ -281,7 +281,7 @@ class InitialDatabase < ActiveRecord::Migration
       t.string   :status
       t.decimal  :fee,         precision: 8, scale: 2
       t.string   :iban
-      field_at.string   :swift
+      t.string   :swift
       t.decimal  :money,       precision: 8, scale: 2
       t.references :customer, index: true, foreign_key: true
       t.timestamps

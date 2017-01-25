@@ -30,7 +30,6 @@ end
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
-require 'shoulda/matchers'
 require 'warden'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -92,6 +91,8 @@ RSpec.configure do |config|
   config.include I18nMacros, type: :feature
   config.include Warden::Test::Helpers
   config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include FactoryGirl::Syntax::Methods
+
 
   Warden.test_mode!
   Sidekiq::Testing.inline!
@@ -99,6 +100,7 @@ RSpec.configure do |config|
   config.before(:suite) do
     Sidekiq::Worker.clear_all
   end
+  config.before(:suite) { FactoryGirl.lint } if ENV["LINT"]
 
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true

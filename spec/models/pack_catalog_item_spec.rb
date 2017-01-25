@@ -34,7 +34,7 @@ RSpec.describe PackCatalogItem, type: :model do
     it "validates the amount if the catalog_item is infinite" do
       subject.catalog_item = build(:access)
       subject.amount = 10
-      allow(subject.catalog_item.entitlement).to receive(:infinite?).and_return(true)
+      allow(subject.catalog_item).to receive(:infinite?).and_return(true)
       expect(subject).not_to be_valid
     end
   end

@@ -13,6 +13,6 @@ function SetupHeader() {
     });
   });
 }
-$(document).on('page:load', SetupHeader);
+$(document).on('turbolinks:load', SetupHeader);
 $(document).ready(SetupHeader);
 

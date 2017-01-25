@@ -5,7 +5,7 @@ class Events::LocaleController < Events::BaseController
   def change
     session[:locale] = params[:id]
     I18n.locale = params[:id]
-    current_customer.update(locale: I18n.locale) if current_customer
+    current_customer&.update(locale: I18n.locale)
     redirect_to(@current_event)
   end
 end

@@ -23,12 +23,7 @@ Rails.application.routes.draw do
 
     resources :companies do
       scope module: "companies" do
-        resources :company_event_agreements, only: [:index, :new, :create] do
-          member do
-            get :grant_agreement
-            delete :revoke_agreement
-          end
-        end
+        resources :company_event_agreements, only: [:index, :new, :create, :destroy]
       end
     end
 
@@ -49,11 +44,12 @@ Rails.application.routes.draw do
       end
 
       scope module: "events" do
-        # Credit inconsistencies
-        resources :credit_inconsistencies do
+        # Inconsistencies
+        resources :inconsistencies do
           collection do
             get :missing
             get :real
+            get :resolvable
           end
         end
 
@@ -126,10 +122,10 @@ Rails.application.routes.draw do
         resources :asset_trackers
 
         resources :gtags do
-          resources :comments, module: :gtags
           member do
             get :recalculate_balance
             get :ban
+            get :solve_inconsistent
             delete :unban
           end
           collection do
@@ -144,7 +140,6 @@ Rails.application.routes.draw do
         resources :ticket_types, except: :show
 
         resources :tickets do
-          resources :comments, module: :tickets
           member do
             get :ban
             delete :unban

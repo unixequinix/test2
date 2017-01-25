@@ -9,9 +9,14 @@
           = fa_icon "info-circle"
           = t("admin.event.fieldests.info")
         = f.input :name, placeholder: true, required: true
-        = f.input :timezone, as: :time_zone, include_blank: false
-        = f.input :url, placeholder: true
         = f.input :support_email, placeholder: true, required: true
+
+        h3.section-header
+          = fa_icon "money"
+          = t("admin.event.fieldests.currency")
+        = f.input :currency
+        = f.input :token_symbol
+        = f.input :iban_enabled
 
       fieldset
         h3.section-header
@@ -19,38 +24,32 @@
           = t("admin.event.fieldests.date")
         = f.input :start_date, as: :datetime
         = f.input :end_date, as: :datetime
-        = f.input :location, placeholder: true
-        = f.input :host_country
+        = f.input :timezone, as: :time_zone, include_blank: false
 
         h3.section-header
           = fa_icon "info-circle"
           = t("admin.event.fieldests.company")
         = f.input :company_name
-        = f.input :official_name, placeholder: true
-        = f.input :official_address, placeholder: true
-        = f.input :registration_num, placeholder: true
+        = f.input :official_name
+        = f.input :official_address
+        = f.input :registration_num
 
         h3.section-header
           = fa_icon "info-circle"
           = t("admin.event.fieldests.features")
-        = f.input :ticket_assignation, as: :select, checked_value: true, unchecked_value: false
-        = f.input :gtag_assignation, as: :select, checked_value: true, unchecked_value: false
-        = f.input :iban_enabled, as: :select, checked_value: true, unchecked_value: false
-        = f.input :currency
-        = f.input :token_symbol
 
-      fieldset
-        h3.section-header
-          = fa_icon "file-text-o"
-          = t("admin.event.fieldests.text")
-        = f.label :info
-        = f.input :info, as: :text, input_html: { rows: 15, class: "textarea tinymce" }
-        = f.label :disclaimer
-        = f.input :disclaimer, as: :text, input_html: { rows: 15, class: "textarea tinymce" }
-        = f.label :privacy_policy
-        = f.input :privacy_policy, as: :text, input_html: { rows: 15, class: "textarea tinymce" }
-        = f.label :terms_of_use
-        = f.input :terms_of_use, as: :text, input_html: { rows: 15, class: "textarea tinymce" }
+        = f.input :ticket_assignation
+        = f.input :gtag_assignation
+        = f.input :phone_mandatory
+        = f.input :address_mandatory
+        = f.input :city_mandatory
+        = f.input :country_mandatory
+        = f.input :postcode_mandatory
+        = f.input :gender_mandatory
+        = f.input :birthdate_mandatory
+        = f.input :agreed_event_condition
+        = f.input :receive_communications
+        = f.input :receive_communications_two
 
       fieldset
         h3.section-header
@@ -74,27 +73,22 @@
       fieldset
         h3.section-header
           = fa_icon "file-text-o"
-          = t("admin.event.fieldests.optional_form_parameters")
-        #registration_parameters
-          label
-            = t("admin.event.features")
-          .controls
-            - Event::REGISTRATION_SETTINGS.each do |parameter|
-              span.checkbox
-                - value = event.registration_settings[parameter.to_s] === "true"
-                = hidden_field_tag "event[registration_settings][#{parameter}]", false
-                = check_box_tag "event[registration_settings][#{parameter}]", value, (:checked if value), id: "#{parameter}-parameter"
-                label.collection_check_boxes for="#{parameter}-parameter" = t("admin.event.features_options.#{parameter}")
-          
-          .condition-message
-            = f.label :agreed_event_condition_message
-            = f.input :agreed_event_condition_message, as: :text, input_html: { rows: 4, class: "textarea tinymce"}
-          .condition-message
-            = f.label :receive_communications_message
-            = f.input :receive_communications_message, as: :text, input_html: { rows: 4, class: "textarea tinymce"}
-          .condition-message
-            = f.label :receive_communications_two_message
-            = f.input :receive_communications_two_message, as: :text, input_html: { rows: 4, class: "textarea tinymce"}
+          = t("admin.event.fieldests.texts")
+
+        = f.label :agreed_event_condition_message
+        = f.input :agreed_event_condition_message, as: :text, input_html: { rows: 4, class: "textarea tinymce"}
+        = f.label :receive_communications_message
+        = f.input :receive_communications_message, as: :text, input_html: { rows: 4, class: "textarea tinymce"}
+        = f.label :receive_communications_two_message
+        = f.input :receive_communications_two_message, as: :text, input_html: { rows: 4, class: "textarea tinymce"}
+        = f.label :info
+        = f.input :info, as: :text, input_html: { rows: 15, class: "textarea tinymce" }
+        = f.label :disclaimer
+        = f.input :disclaimer, as: :text, input_html: { rows: 15, class: "textarea tinymce" }
+        = f.label :privacy_policy
+        = f.input :privacy_policy, as: :text, input_html: { rows: 15, class: "textarea tinymce" }
+        = f.label :terms_of_use
+        = f.input :terms_of_use, as: :text, input_html: { rows: 15, class: "textarea tinymce" }
 
       fieldset
         h3.section-header

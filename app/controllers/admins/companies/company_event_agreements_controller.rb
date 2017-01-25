@@ -2,26 +2,18 @@ class Admins::Companies::CompanyEventAgreementsController < Admins::BaseControll
   before_action :set_company
 
   def index
-    @agreements = @company.company_event_agreements
-                          .includes(:event)
-                          .page(params[:page])
-                          .per(10)
+    @agreements = @company.company_event_agreements.includes(:event).page(params[:page]).per(10)
     @agreement = CompanyEventAgreement.new
   end
 
   def create
     @agreement = @company.company_event_agreements.create!(permitted_params)
-  end
-
-  def revoke_agreement
-    @agreement = @company.company_event_agreements.find_by(id: params[:id])
-    @agreement.revoke!
     redirect_to admins_company_company_event_agreements_path(@company)
   end
 
-  def grant_agreement
-    @agreement = @company.company_event_agreements.find_by(id: params[:id])
-    @agreement.grant!
+  def destroy
+    @agreement = @company.company_event_agreements.find(params[:id])
+    @agreement.destroy
     redirect_to admins_company_company_event_agreements_path(@company)
   end
 

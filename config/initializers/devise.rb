@@ -20,7 +20,8 @@ Devise.setup do |config|
   config.email_regexp = /\A[^@\s]+@[^@\s]+\z/
   config.reset_password_within = 6.hours
   config.sign_out_via = :delete
-  config.secret_key = Rails.application.secrets.secret_key_base
+  # config.secret_key = Rails.application.secrets.secret_key_base
+  config.secret_key = '92b0f6a8ba7a3a8fa377bbe3c29a903e75eddff403c309ea15db385957bdcef743007fd4e08bbbd01048d02c9f5529b9523d6742903e42f5e3ad4255536898a4'
 
   # Omniauth configuration
   config.omniauth_path_prefix = "/customers/auth"

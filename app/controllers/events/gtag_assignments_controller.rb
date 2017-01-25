@@ -14,25 +14,18 @@ class Events::GtagAssignmentsController < Events::BaseController
     flash.now[:error] = I18n.t("alerts.gtag.already_assigned") if @gtag&.customer
     render(:new) && return if flash.now[:error].present?
 
-    @gtag.update(customer: current_customer)
-    create_transaction("gtag_assigned")
+    @gtag.assign_customer(current_customer, :portal, current_customer)
     redirect_to event_url(@current_event), notice: I18n.t("alerts.created")
   end
 
   def destroy
     @gtag = @current_event.gtags.find(params[:id])
-    create_transaction("gtag_unassigned")
-    @gtag.update(customer: nil)
+    @gtag.unassign_customer(:portal, current_customer)
     flash[:notice] = I18n.t("alerts.unassigned")
     redirect_to event_url(@current_event)
   end
 
   private
-
-  def create_transaction(action)
-    atts = { customer_tag_uid: @gtag.tag_uid }
-    Transaction.write!(@current_event, CredentialTransaction, action, :portal, current_customer, current_admin, atts)
-  end
 
   def check_event_status!
     return if @current_event.gtag_assignation?

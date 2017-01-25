@@ -8,6 +8,7 @@
 #  credits                     :float
 #  device_db_index             :integer
 #  direction                   :integer
+#  executed                    :boolean
 #  final_access_value          :string
 #  final_balance               :float
 #  final_refundable_balance    :float
@@ -24,7 +25,7 @@
 #  refundable_credits          :float
 #  status_code                 :integer
 #  status_message              :string
-#  ticket_code                 :string
+#  ticket_code                 :citext
 #  transaction_origin          :string
 #  type                        :string
 #
@@ -33,6 +34,7 @@
 #  index_transactions_on_access_id            (access_id)
 #  index_transactions_on_catalog_item_id      (catalog_item_id)
 #  index_transactions_on_customer_id          (customer_id)
+#  index_transactions_on_device_columns       (event_id,device_uid,device_db_index,device_created_at_fixed,gtag_counter,activation_counter) UNIQUE
 #  index_transactions_on_event_id             (event_id)
 #  index_transactions_on_gtag_id              (gtag_id)
 #  index_transactions_on_operator_station_id  (operator_station_id)
@@ -40,7 +42,6 @@
 #  index_transactions_on_station_id           (station_id)
 #  index_transactions_on_ticket_id            (ticket_id)
 #  index_transactions_on_type                 (type)
-#  transactions_on_device_columns             (event_id,device_uid,device_db_index,device_created_at_fixed,gtag_counter,activation_counter) UNIQUE
 #
 # Foreign Keys
 #
@@ -57,7 +58,7 @@ require "spec_helper"
 
 RSpec.describe CreditTransaction, type: :model do
   it "can create sale_items with nested attributes" do
-    items = %w( 25 9 11 ).map { |n| { product_id: create(:product).id, quantity: n, unit_price: 2.72 } }
+    items = %w(25 9 11).map { |n| { product_id: create(:product).id, quantity: n, unit_price: 2.72 } }
     expect do
       CreditTransaction.create!(action: "sale", sale_items_attributes: items)
     end.to change(SaleItem, :count).by(items.size)

@@ -38,16 +38,8 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   end
 
   def clone
-    associations = [:station_catalog_items, :station_products, :topup_credits, :access_control_gates]
-    name = @station.name + Time.now.to_i.to_s
-    @station = @station.deep_clone(include: associations, validate: false)
-
-    if @station.update(name: name)
-      redirect_to admins_event_stations_url(@current_event, group: @station.group), notice: I18n.t("alerts.cloned")
-    else
-      flash[:error] = I18n.t("errors.messages.station_has_associations")
-      render :new
-    end
+    @station = @station.deep_clone(include: [:station_catalog_items, :station_products, :topup_credits, :access_control_gates], validate: false)
+    render :new
   end
 
   def destroy

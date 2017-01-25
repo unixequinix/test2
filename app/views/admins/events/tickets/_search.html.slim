@@ -4,11 +4,11 @@ p.menu-header
 
 = search_form_for q, url: search_admins_event_tickets_path, html: { novalidate: true, class: "searchForm" }  do |f|
   .container-search
-    = f.input :code_cont, label: t("admin.tickets.search.code"), placeholder: t("admin.tickets.search.code")
-    = f.input :customer_email_cont, label: t("admin.tickets.search.customer"), placeholder: t("admin.tickets.search.customer")
-    = f.input :purchaser_email_cont, label: t("admin.tickets.search.purchaser_email"), placeholder: t("admin.tickets.search.purchaser_email")
-    = f.input :purchaser_first_name_cont, label: t("admin.tickets.search.purchaser_first_name"), placeholder: t("admin.tickets.search.purchaser_first_name")
-    = f.input :purchaser_last_name_cont, label: t("admin.tickets.search.purchaser_last_name"), placeholder: t("admin.tickets.search.purchaser_last_name")
-    = f.input :banned_true, as: :select, label: "Banned?"
-    = f.input :ticket_type_id_eq, as: :select, collection:  TicketType.form_selector(@current_event), include_blank: t("admin.tickets.search.type"), label: 'Company Ticket Type'
+    = f.search_field :code_cont, label: t("admin.tickets.search.code"), placeholder: t("admin.tickets.search.code")
+    = f.search_field :customer_email_cont, label: t("admin.tickets.search.customer"), placeholder: t("admin.tickets.search.customer")
+    = f.search_field :purchaser_email_cont, label: t("admin.tickets.search.purchaser_email"), placeholder: t("admin.tickets.search.purchaser_email")
+    = f.search_field :purchaser_first_name_cont, label: t("admin.tickets.search.purchaser_first_name"), placeholder: t("admin.tickets.search.purchaser_first_name")
+    = f.search_field :purchaser_last_name_cont, label: t("admin.tickets.search.purchaser_last_name"), placeholder: t("admin.tickets.search.purchaser_last_name")
+    = f.search_field :banned_true, as: :select, label: "Banned?"
+    = f.search_field :ticket_type_id_eq, as: :select, collection:  TicketType.form_selector(@current_event), include_blank: t("admin.tickets.search.type"), label: 'Company Ticket Type'
     = f.submit class: "btn btn-secondary"

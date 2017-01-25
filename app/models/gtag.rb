@@ -14,10 +14,11 @@
 #
 # Indexes
 #
-#  index_gtags_on_activation_counter  (activation_counter)
-#  index_gtags_on_customer_id         (customer_id)
-#  index_gtags_on_event_id            (event_id)
-#  index_gtags_on_tag_uid             (tag_uid)
+#  index_gtags_on_activation_counter                           (activation_counter)
+#  index_gtags_on_customer_id                                  (customer_id)
+#  index_gtags_on_event_id                                     (event_id)
+#  index_gtags_on_event_id_and_tag_uid_and_activation_counter  (event_id,tag_uid,activation_counter) UNIQUE
+#  index_gtags_on_tag_uid                                      (tag_uid)
 #
 # Foreign Keys
 #
@@ -26,6 +27,8 @@
 #
 
 class Gtag < ActiveRecord::Base
+  include Credentiable
+
   STANDARD = "standard".freeze
   CARD = "card".freeze
   SIMPLE = "simple".freeze
@@ -46,34 +49,36 @@ class Gtag < ActiveRecord::Base
               :wristbands_can_refund].freeze
 
   belongs_to :event
-  belongs_to :customer
-
   has_many :transactions
-
-  before_validation :upcase_gtag!
 
   validates :tag_uid, uniqueness: { scope: [:event_id, :activation_counter] }
   validates :tag_uid, presence: true
 
   scope :query_for_csv, ->(event) { event.gtags.select("id, tag_uid, banned, loyalty, format") }
   scope :banned, -> { where(banned: true) }
-  default_scope { order(:id) }
 
   alias_attribute :reference, :tag_uid
 
-  def self.chips
-    DEFINITIONS.keys.map { |f| [I18n.t("admin.gtag_settings.form." + f.to_s), f] }
-  end
-
   def recalculate_balance
-    ts = transactions.credit.status_ok.order(gtag_counter: :asc)
-
+    ts = transactions.credit.select { |t| t.status_code.zero? }.sort_by { |t| t.gtag_counter }
     self.credits = ts.map(&:credits).sum
     self.refundable_credits = ts.map(&:refundable_credits).sum
     self.final_balance = ts.last&.final_balance.to_f
     self.final_refundable_balance = ts.last&.final_refundable_balance.to_f
 
     save
+  end
+
+  def solve_inconsistent
+    ts = transactions.credit.order(gtag_counter: :asc).select { |t| t.status_code.zero? }
+    transaction = transactions.credit.find_by(gtag_counter: 0)
+    atts = assignation_atts.merge(gtag_counter: 0, gtag_id: id, activation_counter: 0, final_balance: 0, final_refundable_balance: 0)
+    transaction = CreditTransaction.write!(event, "correction", :device, nil, nil, atts) unless transaction
+    credits = ts.last&.final_balance.to_f - ts.map(&:credits).sum
+    refundable_credits = ts.last&.final_refundable_balance.to_f - ts.map(&:refundable_credits).sum
+
+    transaction.update! credits: credits, refundable_credits: refundable_credits
+    recalculate_balance
   end
 
   def refundable_money
@@ -88,6 +93,10 @@ class Gtag < ActiveRecord::Base
     customer.present?
   end
 
+  def assignation_atts
+    { customer_tag_uid: tag_uid }
+  end
+
   # Defines a method with a question mark for each gtag format which returns if the gtag has that format
   FORMATS.each do |method_name|
     define_method "#{method_name}?" do
@@ -95,13 +104,9 @@ class Gtag < ActiveRecord::Base
     end
   end
 
-  def upcase_gtag!
-    tag_uid.upcase! if tag_uid
-  end
-
   def can_refund?
-    card_can_refund = card? && event.cards_can_refund
-    wristband = wristband? && event.wristbands_can_refund
-    return true if loyalty? || card_can_refund || wristband
+    card = card? && event.cards_can_refund?
+    wristband = wristband? && event.wristbands_can_refund?
+    return true if loyalty? || card || wristband
   end
 end

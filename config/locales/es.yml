@@ -6,6 +6,7 @@ es:
   gender:
     male: 'Male'
     female: 'Female'
+  gtag_name: 'Wristband'
   event:
     subject_support: 'Need help for %{event}'
     locales:
@@ -15,7 +16,6 @@ es:
       th: 'THA'
       de: 'GER'
       pt: 'PT'
-    gtag_name: 'Wristband'
   events:
     create:
       error: "Event couldn't be created, check the errors below"
@@ -75,9 +75,6 @@ es:
       customer:
         one: 'customer'
         other: 'customers'
-      entitlement:
-        one: 'entitlement'
-        other: 'entitlements'
       gtag:
         one: 'gtag'
         other: 'gtags'
@@ -108,11 +105,6 @@ es:
           attributes:
             email:
               taken: 'Email taken'
-        entitlement:
-          attributes:
-            base:
-              restrict_dependent_destroy:
-                many: "Can't be deleted because there are ticket types associated"
         ticket_type:
           attributes:
             base:
@@ -177,7 +169,7 @@ es:
     admins:
       email: Email
     admissions:
-      aasm_state: Estado
+      state: Estado
       created_at: Creado el
       customer:
         complete_name: Nombre completo
@@ -199,18 +191,16 @@ es:
       claims: Peticiones
       companies: Compañías
       credential_transactions: Credenciales
-      credit_inconsistencies: Inconsistencias de créditos
+      inconsistencies: Inconsistencias de créditos
       credit_transactions: Crédito
       credits: Créditos
       crm: CRM
       customers: Perfiles de evento
       details: Detalles
       device_transactions: Device
-      entitlements: Privilegios
       event: Evento
       events: Eventos
       gtag: GTags
-      gtag_settings: Configuración de gtags
       logs: Logs
       missing_transactions: Perdidas
       money_transactions: Monetarias
@@ -301,7 +291,6 @@ es:
       form:
         currency: Símbolo de la moneda
         maximum_wb_balance: Balance máximo de la pulsera
-        min_version_apk: Versión mínima del APK
         private_zone_password: Contraseña de la zona privada
         public_key_a: Contraseña del Gtag
         uid_reverse: UID Reverse
@@ -311,10 +300,6 @@ es:
       mac: MAC
       model: Model
       serial_number: Serial Number
-    entitlement:
-      memory_length: Longitud
-      memory_position: Posición en memoria
-      mode: Modo
     event:
       background: Fondo
       background_type: Tipo de Fondo
@@ -362,7 +347,6 @@ es:
         it_lang: Italiano
         pt_lang: Portugués
         th_lang: Thailandes
-      location: Localización
       logo: Logo
       mass_email_claim_notification: Notificación general (petición de devolución)
       minimum: Mínimo
@@ -394,7 +378,7 @@ es:
       name: Nombre
       updated_at: Actualizado el
     gtag_assignations:
-      aasm_state: Estado
+      state: Estado
       button: Aceptar
       created_at: Creado el
       customer:
@@ -406,13 +390,6 @@ es:
         unassigned: Asignación previa
       tag: Tag UID
       updated_at: Actualizado el
-    gtag_settings:
-      form:
-        format: Formato
-        mifare_classic: Mifare Classic
-        name: Nombre
-        ultralight_c: Ultralight C
-        ultralight_ev1: Ultralight EV1
     gtags:
       actions:
         delete_credits: Borrar créditos
@@ -607,7 +584,6 @@ es:
       company: Compañía
       company_code: Código de la compañía
       credit: Crédito
-      entitlements: Derecho
       id: Id
       import: Importar tipos de ticket (Seleccionar un fichero CSV separado por comas)
       name: Nombre
@@ -699,8 +675,8 @@ es:
     error: Revisar errores de formulario
     forbidden_gtag_change: Impossible to unassign gtag when event has started
     gtag:
-      already_assigned: "%{gtag} ya ha sido asignada a otro usuario"
-      invalid: "%{gtag} no válida"
+      already_assigned: "Tag ya ha sido asignada a otro usuario"
+      invalid: "Tag no válida"
     gtag_already_assigned: Ya tienes uno asignado
     imported: Importado con éxito
     order_complete: Orden completada
@@ -767,9 +743,7 @@ es:
     customer: Perfil de evento
     customers: Clientes
     dashboard: Panel de Control
-    entitlements: Privilegios
     events: Eventos
-    gtag_settings: Configuración de gtags
     gtags: Gtags
     home: Home
     new_access: Nuevo acceso
@@ -779,7 +753,6 @@ es:
     new_customer: Nuevo perfil de evento
     new_customer_admission: Asignando Ticket
     new_customer_gtag_assignation: Asignando Gtag
-    new_entitlement: Nuevo Derecho
     new_event: Nuevo evento
     new_gtag: Nuevo Tag
     new_order: Nueva Orden
@@ -804,7 +777,7 @@ es:
     unhappy: "¡Queremos saber que ha ocurrido, envíanos un correo!"
   checkout:
     button: Confirmar Orden
-    description: Los créditos que compras aquí serán añadidos automáticamente a tu %{gtag} al entrar al evento.
+    description: Los créditos que compras aquí serán añadidos automáticamente a tu Tag al entrar al evento.
     store: " tienda"
     title: Recarga
     total: Total
@@ -847,7 +820,7 @@ es:
     privacy_conditions: la política de privacidad
     terms_of_use: las condiciones de uso
   confirm:
-    cancel_paypal: Al cancelar desvicularás tu %{gtag} de tu cuenta de PayPal.
+    cancel_paypal: Al cancelar desvicularás tu Tag de tu cuenta de PayPal.
     cancel_paypal_agreement: Cancelar acuerdo
     log_out: "¿Quieres finalizar la sesión?"
     remove_ticket: Tus créditos comprados se asignan a tu cuenta. Si borras tu ticket, tendrás que asignar otro para utilizar esos créditos en el evento.
@@ -897,7 +870,7 @@ es:
       call_to_action_started: El evento ya ha comenzado, no puedes recargar más
       header: tu saldo
       refundable: Reembolsable
-      ticket_first: Añade un ticket o %{gtag} primero
+      ticket_first: Añade un ticket o Tag primero
     credits_history:
       button: Descargar transacciones
       header: Historial de transacciones
@@ -911,17 +884,17 @@ es:
       description: Estamos trabajando en los últimos detalles del evento para que tu experiencia sea la mejor posible. Por favor, vuelve en unas horas y mira lo que hemos preparado para ti.
       title: Últimos detalles!
     first_register:
-      gtag: Añadir %{gtag}
+      gtag: Añadir Tag
       ticket: Añadir ticket
     gtag_after_refund:
       description: Tu devolución está en proceso
     gtag_registration:
       button: Borrar
       call_to_action: "¿Introdujiste una incorrecta por error?"
-      hint: Has introducido una %{gtag} por error? Bórrala y reinicia el proceso
-      title: Tu %{gtag}
+      hint: Has introducido una Tag por error? Bórrala y reinicia el proceso
+      title: Tu Tag
     more_gtags:
-      description: "¿Tienes más %{gtag}s? Regístrate otra vez con un email diferente por cada una."
+      description: "¿Tienes más Tags? Regístrate otra vez con un email diferente por cada una."
     not_refundable:
       call_to_action: Lo sentimos, pero no tienes suficiente saldo para pedir una devolución
       title: 'Tu saldo restante:'
@@ -948,15 +921,15 @@ es:
       call_to_action: Solo activa los tickets que vayas a utilizar
       description: NO actives los tickets de tus amigos en tu cuenta.
     without_gtags:
-      add: Asigna tu %{gtag}
-      button: Introducir
-      description: Recuerda, sólo un %{gtag} por cuenta.
+      add: Asigna tu Tag
+      button: Introducir Tag
+      description: Recuerda, sólo un Tag por cuenta.
       title: "¿Te queda saldo?"
     without_gtags_claiming_started:
       claim: Lo sentimos
       description: Ya ha pasado el periodo de devolución, ponte en contacto con soporte si tienes alguna duda.
     without_gtags_disabled:
-      claim: El tiempo para solicitar tu devolución del saldo en tu %{gtag} ha terminado
+      claim: El tiempo para solicitar tu devolución del saldo en tu Tag ha terminado
       description: Si has contactado al soporte con alguna pregunta previamente,
       description2: no te preocupes, te ayudaremos con tu devolución.
     without_refunds:
@@ -1113,20 +1086,20 @@ es:
       gtag:
         assigned:
           greet: "¡Hola, %{name}!"
-          mail_body: 'Has introducido una %{gtag} con el siguiente identificador:'
+          mail_body: 'Has introducido una Tag con el siguiente identificador:'
           subject: "¡Gtag asignado!"
           title: "¡Gtag asignado!"
         unassigned:
           greet: "¡Hola, %{name}!"
-          mail_body: 'Has borrado una %{gtag} con el siguiente identificador:'
+          mail_body: 'Has borrado una Tag con el siguiente identificador:'
           mail_link: Puede verlo en la web
-          subject: "%{gtag} borrada"
-          title: "%{gtag} borrada"
+          subject: "Tag borrada"
+          title: "Tag borrada"
       like_on_facebook: Dale a me gusta en Facebook
       order:
         completed:
           date: Fecha de compra
-          description: Todos los créditos que has comprado serán añadidos automáticamente a tu %{gtag} al entrar al event. Tu %{gtag} es una manera rápida y conveniente de pagar por comida, bebidas y merchandising. Es la única forma de pago acceptada por todas las tiendas dentro del evento.
+          description: Todos los créditos que has comprado serán añadidos automáticamente a tu Tag al entrar al event. Tu Tag es una manera rápida y conveniente de pagar por comida, bebidas y merchandising. Es la única forma de pago acceptada por todas las tiendas dentro del evento.
           greet: "¡Hola, %{name}!"
           order_number: Tu Compra
           subject: Compra Completada
@@ -1172,7 +1145,6 @@ es:
       less_than: debe ser menor que %{count}
       less_than_or_equal_to: debe ser menor que o igual a %{count}
       max_credits_reached: Has llegado al máximo de recarga
-      max_entitlements_reached: Has llegado al máximo de accesos
       max_standard_credits: Sólo un crédito estándar por evento
       model_invalid: 'Validación fallida: %{errors}'
       more_credits_than_max_balance: no pueden superar el saldo máximo del gtag
@@ -1181,8 +1153,6 @@ es:
       not_belong_to_event: no pertenece a este evento
       not_enough_space_for_credential: No hay suficiente espacio para ese credencial
       not_enough_space_for_credential_configuration: No hay suficiente espacio para la configuración de credenciales existente
-      not_enough_space_for_entitlement: No hay suficiente espacio para ese entitlement
-      not_enough_space_for_entitlement_configuration: No hay suficiente espacio para la configuración de entitlements existente
       not_found: no encontrado
       not_locked: no ha sido bloqueado
       not_saved:
@@ -1239,11 +1209,11 @@ es:
   gtag_assignations:
     back: Volver
     button: Aceptar
-    call_to_action: "¡Introduce el código de tu %{gtag} y continúa!"
+    call_to_action: "¡Introduce el código de tu Tag y continúa!"
     description:
-      card: Introduce la segunda serie de números y letras (resaltada en amarillo) de tu %{gtag}
-      simple: Introduce los números y letras resaltados en amarillo que aparecen en tu %{gtag}.
-      standard: Introduce la segunda fila de números y letras (resaltada en amarillo) de tu %{gtag}
+      card: Introduce la segunda serie de números y letras (resaltada en amarillo) de tu Tag
+      simple: Introduce los números y letras resaltados en amarillo que aparecen en tu Tag.
+      standard: Introduce la segunda fila de números y letras (resaltada en amarillo) de tu Tag
     info:
       line_1: Sólo números del "0" al "9"
       line_2: 'Símbolos permitidos: "0" - "9" y "A, B, C, D, E, F"'
@@ -1257,7 +1227,7 @@ es:
       standard:
         line_1: 'Línea 1 ej: 12345'
         line_2: 'Línea 2 ej: BA6D7DC0'
-    title: Introducir %{gtag}
+    title: Introducir Tag
   header:
     close: Cerrar sesión
     edit: Editar Perfil
@@ -1528,7 +1498,7 @@ es:
       current_amount: 'Recarga actual:'
       new_amount: 'Cambia la cantidad:'
       success: Cuenta añadida!
-      success_description: Ahora puedes realizar recargas automáticas en tu %{gtag}
+      success_description: Ahora puedes realizar recargas automáticas en tu Tag
       title: Contrato Paypal
     edit:
       button: Actualizar
@@ -1596,9 +1566,6 @@ es:
           fee: Comisión de devolución (en la moneda seleccionada)
           minimum: Mínimo a devolver después de comisiones (en la moneda seleccionada)
           product_id: Producto
-      comment:
-        new:
-          body: Comentario
       customer:
         edit:
           address: Dirección
@@ -1640,13 +1607,9 @@ es:
         edit:
           currency: Símbolo de la moneda
           maximum_wb_balance: Balance máximo de la pulsera
-          min_version_apk: Versión mínima del APK
           private_zone_password: Contraseña de la zona privada
           public_key_a: Contraseña del Gtag
           uid_reverse: UID Reverse
-      entitlement:
-        new:
-          name: Nombre
       epg_claim_form:
         new:
           address: Dirección
@@ -1678,9 +1641,7 @@ es:
           disclaimer: Advertencia
           end_date: Fecha de finalización
           gtag_registration: Registro de Gtag
-          host_country: País
           info: Información
-          location: Localización
           logo: Logo
           mass_email_claim_notification: Notificación general (petición de devolución)
           name: Nombre
@@ -1703,9 +1664,7 @@ es:
           disclaimer: Advertencia
           end_date: Fecha de finalización
           gtag_registration: Registro de Gtag
-          host_country: País
           info: Información
-          location: Localización
           logo: Logo
           mass_email_claim_notification: Notificación general (petición de devolución)
           name: Nombre
@@ -1730,12 +1689,6 @@ es:
           amount: Cantidad
         new:
           amount: Cantidad
-      gtag_settings_form:
-        edit:
-          format: Formato
-          gtag_assignation_notification: Notificación al asignar el Gtag
-          gtag_form_disclaimer: Texto formulario asignación Gtag
-          name: Nombre
       online_product:
         edit:
           description: Descripción
@@ -1788,13 +1741,11 @@ es:
         edit:
           company: Compañía
           credit: Crédito
-          entitlement: Derecho
           name: Nombre
           simplified_name: Nombre simplificado
         new:
           company: Compañía
           credit: Crédito
-          entitlement: Derecho
           name: Nombre
           simplified_name: Nombre simplificado
     placeholders:
@@ -1802,14 +1753,6 @@ es:
         new:
           iban: ES00 0000 0000 0000 0000 0000
           swift: 0000 0000
-      comment:
-        new:
-          body: Añade un comentario
-      entitlement:
-        edit:
-          name: Elige un nombre para el Derecho
-        new:
-          name: Elige un nombre para el Derecho
       epg_claim_form:
         new:
           address: Dirección, número y piso
@@ -1819,7 +1762,6 @@ es:
         edit:
           agreed_event_condition_message: Texto para la condición que quieres que el usuario acepte cuando se registre
           description: Añade algo de información extra u otros datos que consideres importantes
-          location: "¿Dónde se celebra?"
           name: Nombre del evento. No olvides el año
           receive_communications_message: Texto para la condición de recibir notifacicaciones
           style: "/*Dale vida con CSS*/"
@@ -1828,7 +1770,6 @@ es:
         new:
           agreed_event_condition_message: Texto para la condición que quieres que el usuario acepte cuando se registre
           description: Añade algo de información extra u otros datos que consideres importantes
-          location: "¿Dónde se celebra?"
           name: Nombre del evento. No olvides el año
           receive_communications_message: Texto para la condición de recibir notifacicaciones
           style: "/*Dale vida con CSS*/"
@@ -1836,9 +1777,9 @@ es:
           url: Página oficial del evento
       gtag:
         edit:
-          tag_uid: Número de la segunda línea de la %{gtag}
+          tag_uid: Número de la segunda línea de la Tag
         new:
-          tag_uid: Número de la segunda línea de la %{gtag}
+          tag_uid: Número de la segunda línea de la Tag
       gtag_credit_log:
         edit:
           amount: Cantidad disponible
@@ -1848,12 +1789,12 @@ es:
         edit:
           email: Email del comprador
           first_name: Nombre del comprador
-          gtag_delivery_address: Dirección de envío de la %{gtag}
+          gtag_delivery_address: Dirección de envío de la Tag
           last_name: Apellido del comprador
         new:
           email: Email del comprador
           first_name: Nombre del comprador
-          gtag_delivery_address: Dirección de envío de la %{gtag}
+          gtag_delivery_address: Dirección de envío de la Tag
           last_name: Apellido del comprador
       ticket:
         edit:
@@ -1864,13 +1805,11 @@ es:
         edit:
           company: Compañía del Evento
           credit: Créditos Disponibles
-          entitlement: Privilegios
           name: Elige un nombre de ticket
           simplified_name: Un nombre simplificado para tu ticket
         new:
           company: Compañía del Evento
           credit: Créditos Disponibles
-          entitlement: Privilegios
           name: Elige un nombre de ticket
           simplified_name: Un nombre simplificado para tu ticket
     required:

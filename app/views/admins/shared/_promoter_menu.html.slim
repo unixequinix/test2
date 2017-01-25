@@ -76,5 +76,25 @@ aside#main-menu
       = fa_icon "reply"
       = t("admin.aside.refunds")
 
+
+    h3.aside-title = t("admin.aside.devices")
+
+    li.aside-list = link_to admins_event_devices_path(event) do
+      = fa_icon "mobile"
+      = t("admin.aside.devices")
+
+    h3.aside-title = t("admin.aside.inconsistencies")
+    li.aside-list = link_to real_admins_event_inconsistencies_path(event) do
+      = fa_icon "list"
+      = t("admin.aside.real")
+
+    li.aside-list = link_to missing_admins_event_inconsistencies_path(event) do
+      = fa_icon "list"
+      = t("admin.aside.missing")
+
+    li.aside-list = link_to resolvable_admins_event_inconsistencies_path(event) do
+      = fa_icon "list"
+      = t("admin.aside.resolvable")
+
     li.mobile-sign-out
       = link_to t("admin.aside.sign_out"), destroy_admin_session_path, method: :delete

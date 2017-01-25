@@ -6,6 +6,7 @@ en:
   gender:
     male: 'Male'
     female: 'Female'
+  gtag_name: 'Wristband'
   event:
     subject_support: 'Need help for %{event}'
     locales:
@@ -15,7 +16,6 @@ en:
       th: 'THA'
       de: 'GER'
       pt: 'PT'
-    gtag_name: 'Wristband'
   events:
     create:
       error: "Event couldn't be created, check the errors below"
@@ -75,9 +75,6 @@ en:
       customer:
         one: 'customer'
         other: 'customers'
-      entitlement:
-        one: 'entitlement'
-        other: 'entitlements'
       gtag:
         one: 'gtag'
         other: 'gtags'
@@ -108,11 +105,6 @@ en:
           attributes:
             email:
               taken: 'Email taken'
-        entitlement:
-          attributes:
-            base:
-              restrict_dependent_destroy:
-                many: "Can't be deleted because there are ticket types associated"
         ticket_type:
           attributes:
             base:
@@ -177,7 +169,7 @@ en:
     admins:
       email: Email
     admissions:
-      aasm_state: State
+      state: State
       created_at: Created at
       customer:
         complete_name: Complete name
@@ -199,18 +191,16 @@ en:
       claims: Claims
       companies: Companies
       credential_transactions: Credential
-      credit_inconsistencies: Credit inconsistencies
+      inconsistencies: Inconsistencies
       credit_transactions: Credit
       credits: Credits
       crm: CRM
       customers: Customers
       details: Details
       device_transactions: Device
-      entitlements: Entitlements
       event: Event
       events: Events
       gtag: GTags
-      gtag_settings: Gtag Settings
       logs: Logs
       missing_transactions: Missing
       money_transactions: Money
@@ -301,7 +291,6 @@ en:
       form:
         currency: Currency Symbol
         maximum_wb_balance: Maximum wristband balance
-        min_version_apk: Minimum APK version
         private_zone_password: Private Zone Password
         public_key_a: Tag Password
         uid_reverse: UID Reverse
@@ -315,10 +304,6 @@ en:
       titles:
         devices: Devices
         tracker: Asset tracker
-    entitlement:
-      memory_length: Length
-      memory_position: Memory position
-      mode: Mode
     event:
       background: Background
       background_type: Background type
@@ -373,7 +358,6 @@ en:
         it_lang: Italian
         pt_lang: Portuguese
         th_lang: Thai
-      location: Location
       logo: Logo
       mass_email_claim_notification: Mass email claim notification
       minimum: Minimum
@@ -405,7 +389,7 @@ en:
       name: Name
       updated_at: Updated at
     gtag_assignations:
-      aasm_state: State
+      state: State
       active: Active
       button: Accept
       created_at: Created at
@@ -418,13 +402,6 @@ en:
         unassigned: Previous assignation
       tag: Tag UID
       updated_at: Updated at
-    gtag_settings:
-      form:
-        format: Format
-        mifare_classic: Mifare Classic
-        name: Name
-        ultralight_c: Ultralight C
-        ultralight_ev1: Ultralight EV1
     gtags:
       actions:
         delete_credits: Delete all credits
@@ -629,7 +606,6 @@ en:
       company: Company
       company_code: Company code
       credit: Credit
-      entitlements: Entitlements
       id: Id
       import: Import ticket types (Select a CSV file comma separated)
       name: Name
@@ -726,8 +702,8 @@ en:
     error: Check the form errors
     forbidden_gtag_change: Impossible to unassign gtag when event has started
     gtag:
-      already_assigned: This %{gtag} is already assigned
-      invalid: This is not a valid %{gtag}
+      already_assigned: This Tag is already assigned
+      invalid: This is not a valid Tag
     gtag_already_assigned: You have one already assigned
     imported: Succesfully imported
     order_complete: Order Completed
@@ -794,9 +770,7 @@ en:
     customer: Customer
     customers: Customers
     dashboard: Dashboard
-    entitlements: Entitlements
     events: Events
-    gtag_settings: Gtag Settings
     gtags: Gtags
     home: Home
     new_admin: New Admin
@@ -805,7 +779,6 @@ en:
     new_customer: New customer
     new_customer_admission: Assigning Ticket
     new_customer_gtag_assignation: Assigning Gtag
-    new_entitlement: New entitlement
     new_event: New event
     new_gtag: New tag
     new_order: New order
@@ -830,7 +803,7 @@ en:
     unhappy: Write us an email, we want to know what happened!
   checkout:
     button: Confirm Order
-    description: After you buy online credits here, they will automatically be applied to your %{gtag} once you enter the event.
+    description: After you buy online credits here, they will automatically be applied to your Tag once you enter the event.
     store: " store"
     title: Top-up
     total: Total
@@ -840,7 +813,7 @@ en:
     privacy_conditions: the privacy policy
     terms_of_use: the terms of use
   confirm:
-    cancel_paypal: Cancelling you disassociate your %{gtag} from you PayPal account.
+    cancel_paypal: Cancelling you disassociate your Tag from you PayPal account.
     cancel_paypal_agreement: Cancel agreement
     log_out: Do you want to end this session?
     remove_ticket: Your purchased credits are assigned to your account. If you remove your ticket, you will need to assign another one to use those credits in the event.
@@ -890,7 +863,7 @@ en:
       call_to_action_started: The event just started so you cannot topup anymore
       header: Your balance
       refundable: Refundable
-      ticket_first: Add a ticket or %{gtag} first
+      ticket_first: Add a ticket or Tag first
     credits_history:
       button: Download Transactions
       header: Transaction history
@@ -898,15 +871,15 @@ en:
       description: We are finishing event configuration to bring you a great experience. Please, come back later and see what we have made for you.
       title: Ultimating details!
     first_register:
-      gtag: Add %{gtag}
+      gtag: Add Tag
       ticket: Add ticket
     gtag_registration:
       button: Remove
       call_to_action: Edit
-      hint: Put a wrong %{gtag} by mistake? Erase and restart the process
-      title: Your %{gtag}
+      hint: Put a wrong Tag by mistake? Erase and restart the process
+      title: Your Tag
     more_gtags:
-      description: Have more %{gtag}s? Please register again with a different email for each.
+      description: Have more Tags? Please register again with a different email for each.
     paypal:
       button: Pay with PayPal
     tipalti:
@@ -917,15 +890,15 @@ en:
       call_to_action: Only activate the ticket(s) which you will be using YOURSELF
       description: Do NOT activate your friend's tickets under your account.
     without_gtags:
-      add: Assign %{gtag}
-      button: Assign
-      description: 'Remember: only one %{gtag} can be activated per account.'
+      add: Assign Tag
+      button: Assign Tag
+      description: 'Remember: only one Tag can be activated per account.'
       title: Credits left?
     without_gtags_claiming_started:
       claim: Sorry
       description: The refunds period is finished, If you have any question contact support.
     without_gtags_disabled:
-      claim: The period to apply for a refund of your %{gtag} credits is closed
+      claim: The period to apply for a refund of your Tag credits is closed
       description: If you have previously contacted us with any support question,
       description2: do not worry, we will help you through with your refund.
   date:
@@ -1097,7 +1070,7 @@ en:
       order:
         completed:
           date: Purchase date
-          description: All your purchased Online Credits will automatically be applied to your %{gtag} once you enter the event. Your Event %{gtag} is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.
+          description: All your purchased Online Credits will automatically be applied to your Tag once you enter the event. Your Event Tag is a convenient and fast way to pay for food, drinks and merchandise. It is the only payment method accepted by merchants inside the event.
           greet: Hello, %{name}!
           order_number: Your order
           subject: Order Completed
@@ -1161,7 +1134,6 @@ en:
       less_than: must be less than %{count}
       less_than_or_equal_to: must be less than or equal to %{count}
       max_credits_reached: You reached the maximun allowed balance
-      max_entitlements_reached: You reached the maximun allowed entitlements
       max_standard_credits: Only one standard credit per event
       model_invalid: 'Validation failed: %{errors}'
       more_credits_than_max_balance: can't be greater than maximum gtag balance
@@ -1170,8 +1142,6 @@ en:
       not_belong_to_event: doesn't belong to this event
       not_enough_space_for_credential: Not enough space in gtag for this credential
       not_enough_space_for_credential_configuration: Not enough space in gtag for the existing credential configuration
-      not_enough_space_for_entitlement: Not enough space in gtag for this entitlement
-      not_enough_space_for_entitlement_configuration: Not enough space in gtag for the existing entitlement configuration
       not_found: not found
       not_locked: was not locked
       not_saved:
@@ -1228,17 +1198,17 @@ en:
   gtag_assignations:
     back: Back
     button: Accept
-    call_to_action: Assign your %{gtag} and go!
+    call_to_action: Assign your Tag and go!
     description:
-      card: Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}
-      simple: Assign the yellow highlighted numbers and letters as appears in your %{gtag}
-      standard: Assign the second row of numbers and letters (yellow highlighted) of your %{gtag}
+      card: Assign the second row of numbers and letters (yellow highlighted) of your Tag
+      simple: Assign the yellow highlighted numbers and letters as appears in your Tag
+      standard: Assign the second row of numbers and letters (yellow highlighted) of your Tag
     info:
       line_1: Only numbers from "0" to "9"
       line_2: 'Symbols allowed: "0" - "9" and "A, B, C, D, E, F"'
     placeholders:
       line_2: 'Line 2 e.g: BA6D7DC0'
-    title: Assign %{gtag}
+    title: Assign Tag
   header:
     close: Logout
     edit: Edit Customer
@@ -1282,11 +1252,11 @@ en:
       decimal_units:
         format: "%n %u"
         units:
-          billion: Billion
-          million: Million
-          quadrillion: Quadrillion
-          thousand: Thousand
-          trillion: Trillion
+          billion: Bn
+          million: M
+          quadrillion: Qd
+          thousand: K
+          trillion: Tr
           unit: ''
       format:
         delimiter: ''
@@ -1580,13 +1550,9 @@ en:
         edit:
           currency: Currency Symbol
           maximum_wb_balance: Maximum wristband balance
-          min_version_apk: Minimum APK version
           private_zone_password: Private Zone Password
           public_key_a: Tag Password
           uid_reverse: UID Reverse
-      entitlement:
-        new:
-          name: Name
       epg_claim_form:
         new:
           address: Address
@@ -1618,9 +1584,7 @@ en:
           disclaimer: Disclaimer
           end_date: End date
           gtag_registration: Gtag Registration
-          host_country: Country
           info: Info
-          location: Location
           logo: Logo
           mass_email_claim_notification: Mass email claim notification
           name: Name
@@ -1643,9 +1607,7 @@ en:
           disclaimer: Disclaimer
           end_date: End date
           gtag_registration: Gtag Registration
-          host_country: Country
           info: Info
-          location: Location
           logo: Logo
           mass_email_claim_notification: Mass email claim notification
           name: Name
@@ -1670,12 +1632,6 @@ en:
           amount: Amount
         new:
           amount: Amount
-      gtag_settings_form:
-        edit:
-          format: Format
-          gtag_assignation_notification: Gtag  assignation notification
-          gtag_form_disclaimer: Gtag assignation form disclaimer
-          name: Name
       online_product:
         edit:
           description: Description
@@ -1728,13 +1684,11 @@ en:
         edit:
           company: Company
           credit: Credit
-          entitlement: Entitlement
           name: Name
           simplified_name: Simplified Name
         new:
           company: Company
           credit: Credit
-          entitlement: Entitlement
           name: Name
           simplified_name: Simplified Name
     placeholders:
@@ -1742,14 +1696,6 @@ en:
         new:
           iban: GB00 0000 0000 0000 0000 0000
           swift: 0000 0000
-      comment:
-        new:
-          body: Add a comment
-      entitlement:
-        edit:
-          name: Choose a name for entitlement
-        new:
-          name: Choose a name for entitlement
       epg_claim_form:
         new:
           address: Address, number and door number
@@ -1759,7 +1705,6 @@ en:
         edit:
           agreed_event_condition_message: Add the text for the agreement condition checkbox
           description: Add some extra information and other information you consider is important
-          location: Where is the event?
           name: Event´s name. Include year is a good idea
           receive_communications_message: Add the text for the receive communications checkbox
           receive_communications_two_message: Add the text for the second receive communications checkbox
@@ -1769,7 +1714,6 @@ en:
         new:
           agreed_event_condition_message: Add the text for the agreement condition checkbox
           description: Add some extra information and other information you consider is important
-          location: Where is the event?
           name: Event´s name. Include year is a good idea
           receive_communications_message: Add the text for the receive communications checkbox
           receive_communications_two_message: Add the text for the second receive communications checkbox
@@ -1778,9 +1722,9 @@ en:
           url: Official site of the event
       gtag:
         edit:
-          tag_uid: Second numbers line of the %{gtag}
+          tag_uid: Second numbers line of the Tag
         new:
-          tag_uid: Second numbers line of the %{gtag}
+          tag_uid: Second numbers line of the Tag
       gtag_credit_log:
         edit:
           amount: Amount
@@ -1790,12 +1734,12 @@ en:
         edit:
           email: Purchaser's email
           first_name: Purchaser's first name
-          gtag_delivery_address: "%{gtag} delivery address"
+          gtag_delivery_address: "Tag delivery address"
           last_name: Purchaser's last name
         new:
           email: Purchaser's email
           first_name: Purchaser's first name
-          gtag_delivery_address: "%{gtag} delivery address"
+          gtag_delivery_address: "Tag delivery address"
           last_name: Purchaser's last name
       ticket:
         edit:
@@ -1806,13 +1750,11 @@ en:
         edit:
           company: Event company
           credit: Available Credit
-          entitlement: Entitlement
           name: 'Choose a ticket name '
           simplified_name: A Simplified Name for your ticket
         new:
           company: Event company
           credit: Available Credit
-          entitlement: Entitlement
           name: 'Choose a ticket name '
           simplified_name: A Simplified Name for your ticket
     required:
@@ -1869,7 +1811,7 @@ en:
       line_3_5: 3.5 You are responsible for making all arrangements necessary for you to have access to the Site.
       title: 3. Access and use of the Site
     ph_4:
-      line_4_1: '4.1 To access our Services made available on the Site, you will need to set up an account #{@current_event.url}. You will be required to provide personal information about yourself (including name, email address, password, country, address, state, city, post code, phone, bank account details and wristband or event card identification numbers).'
+      line_4_1: '4.1 To access our Services made available on the Site, you will need to set up an account. You will be required to provide personal information about yourself (including name, email address, password, country, address, state, city, post code, phone, bank account details and wristband or event card identification numbers).'
       line_4_2: '4.2  You agree that you will provide accurate, current and complete information about yourself, and maintain and promptly update your personal information contained in your account customer. For more information about how we will use your personal information please see our '
       line_4_3: 4.3 You agree to not share your account password, and to keep your password confidential.
       title: 4. Account
