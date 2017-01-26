@@ -3,7 +3,7 @@ h3
   = title
 
 p
-  - counters = transactions.pluck(:gtag_counter).sort
+  - counters = transactions.pluck(:gtag_counter).map(&:to_i).sort
   - missing = (1..counters.last).to_a - counters
   i = "#{missing.size} Transactions missing: #{missing.to_sentence}"
 
@@ -30,8 +30,7 @@ table.transactions
         td data-label=t("admin.transactions.station_id")
           = transaction.station&.name
         td data-label=t("admin.transactions.device_uid")
-          - if transaction.device_uid.present?
-            - device = Device.find_by_mac(transaction.device_uid)
+          - if device = Device.find_by_mac(transaction.device_uid)
             = link_to(device.asset_tracker, admins_device_path(device))
         td data-label=t("admin.transactions.action")
           - icon = transaction.direction.positive? ? fa_icon("sign-out") : fa_icon("sign-in") if transaction.action == "access_checkpoint"
