@@ -60,9 +60,9 @@ class Gtag < ActiveRecord::Base
   alias_attribute :reference, :tag_uid
 
   def recalculate_balance
-    ts = transactions.credit.select { |t| t.status_code.zero? }.sort_by(&:gtag_counter)
-    self.credits = ts.map(&:credits).sum
-    self.refundable_credits = ts.map(&:refundable_credits).sum
+    ts = transactions.credit.where(status_code: 0).order(:gtag_counter)
+    self.credits = ts.sum(:credits)
+    self.refundable_credits = ts.sum(:refundable_credits)
     self.final_balance = ts.last&.final_balance.to_f
     self.final_refundable_balance = ts.last&.final_refundable_balance.to_f
 

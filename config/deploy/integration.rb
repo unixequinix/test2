@@ -11,6 +11,8 @@ server "integration.glownet.com", user: "deploy", roles: %w(web app db)
 set :branch, "develop"
 set :rails_env, "integration"
 
+set :sidekiq_processes, 2
+
 # role-based syntax
 # ==================
 
