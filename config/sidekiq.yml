@@ -24,4 +24,4 @@ production:
   :concurrency: 25
 
 integration:
-  :concurrency: 5
+  :concurrency: 15

@@ -66,7 +66,7 @@ class Gtag < ActiveRecord::Base
     self.final_balance = ts.last&.final_balance.to_f
     self.final_refundable_balance = ts.last&.final_refundable_balance.to_f
 
-    save
+    save if changed?
   end
 
   def solve_inconsistent
