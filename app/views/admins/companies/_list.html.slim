@@ -1,14 +1,24 @@
-table
-  thead
-    tr
-      th = t('admin.companies.name')
-      th = t('admin.companies.token')
-      th.table-actions-field = t('admin.defaults.actions')
-  tbody
-    - companies.each do |company|
+.mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @companies
+
+.admin-card-wide.mdl-card.mdl-shadow--2dp
+  .mdl-card__title
+    .mdl-cell.mdl-cell--4-col Companies
+    .mdl-cell.mdl-cell--8-col
+      .tools
+        .tool-item
+          = link_to new_admins_company_path do
+            span#add.icon.material-icons add
+            span.mdl-tooltip data-mdl-for="add"  Add
+  table.mdl-data-table.mdl-js-data-table.within-card
+    thead
       tr
-        td data-label=t('admin.companies.name')
-          = link_to company.name, admins_company_company_event_agreements_path(company)
-        td data-label=t('admin.companies.name') = company.access_token
-        td.table-actions-field
-          = render 'admins/companies/actions', company: company
+        th.mdl-data-table__cell--non-numeric Name
+        th Token
+    tbody
+      - companies.each do |company|
+        tr
+          td.mdl-data-table__cell--non-numeric
+            = link_to company.name, admins_company_company_event_agreements_path(company)
+            = render 'admins/companies/actions', company: company
+          td= company.access_token
+

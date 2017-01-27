@@ -1,9 +1,11 @@
-= simple_form_for [:admins, @current_event, ticket_type] do |f|
-  .wrapper-negative-space
-    = f.input :name
-    = f.input :company_code
-    = f.input :event_id, as: :hidden, input_html: { value: @current_event.id }
-    = f.association :catalog_item, collection: @catalog_items, label_method: lambda { |item| item.name }
-    = f.association :company_event_agreement,collection: @company_event_agreement_collection, label_method: lambda { |cea| "#{cea.company.name}" }, label: "Owner", include_blank: false
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  = simple_form_for [:admins, @current_event, ticket_type], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+    .form-inputs
+      = f.input :name
+      = f.input :company_code
+      = f.input :event_id, as: :hidden, input_html: { value: @current_event.id }
+      = f.association :catalog_item, collection: @catalog_items, label_method: lambda { |item| item.name }
+      = f.association :company_event_agreement,collection: @agreements, label_method: lambda { |cea| "#{cea.company.name}" }, label: "Owner", include_blank: false
+    .form-actions
+      = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
 
-    = f.button :submit, class: "btn btn-primary"

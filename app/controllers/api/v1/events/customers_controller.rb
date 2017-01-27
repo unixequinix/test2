@@ -35,7 +35,7 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
 
         LEFT OUTER JOIN (
           SELECT cr.customer_id as customer_id, json_strip_nulls(array_to_json(array_agg(row_to_json(cr)))) as credentials
-          
+
           FROM (
             SELECT customer_id, code as reference, 'ticket' as type
             FROM tickets
@@ -50,7 +50,7 @@ class Api::V1::Events::CustomersController < Api::V1::Events::BaseController
 
         LEFT OUTER JOIN (
           SELECT o.customer_id as customer_id, json_strip_nulls(array_to_json(array_agg(row_to_json(o)))) as orders
-          
+
           FROM (
             SELECT
               customer_id,

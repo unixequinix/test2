@@ -1,31 +1,30 @@
-.wrapper-negative-space
-  - if @devices.any?
-    .current-showing  = "#{@devices.count} #{t("admin.devices.device").pluralize}"
-    table.transactions
-      thead
-        tr
-          th = t("admin.devices.device")
-          th = t("admin.devices.transactions")
+- if @devices.any?
+  .content-grid.mdl-grid
+    .mdl-layout-spacer
+    .mdl-cell.mdl-cell--8-col
+      .mdl-cell.mdl-cell--12-col.italic.small.right #{@devices.count} Devices
+      .admin-card-wide.mdl-card.mdl-shadow--2dp
+        table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Device
+          tbody
+            - @devices.each do |mac, ts|
+              tr class="focus" data-device= "#{mac}"
+                td
+                  b = @assets[mac]
+                  = " | #{mac}"
+                td
+                td
+              - ts.map do |t|
+                tr class="#{"danger" unless t.status_code.zero?} hiding #{mac} left"
+                  td = Time.parse(t.device_created_at).to_s(:short)
+                  td class="middle" = t.device_db_index
+                  td class="left" = t.action.humanize
 
-      tbody
-        - @devices.each do |mac, ts|
-          tr
-            td data-label=t("admin.transactions.id")
-              b = @assets[mac]
-              = " | #{mac}"
-            td
+    .mdl-layout-spacer
 
-          - ts.map do |t|
-            tr class="#{"danger" unless t.status_code.zero?}"
-              td
-              td
-                = Time.parse(t.device_created_at).to_s(:short)
-                b style="padding: 0 20px;"= t.device_db_index
-                = t.action.humanize
-                b = " - #{t.number_of_transactions} transactions" if t.action == "pack_device"
-
-      br
-  - else
-   .section-title-empty
-     = image_tag "img-empty.png"
-     p = t("admin.defaults.empty_item", item: t("admin.devices.device").pluralize)
+- else
+ .section-title-empty
+   = image_tag "img-empty.png"
+   p = t("alerts.empty_items_list", item: 'devices')

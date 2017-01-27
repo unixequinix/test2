@@ -66,4 +66,8 @@ class MoneyTransaction < Transaction
   def description
     "Payment: #{event.currency} #{format('%20.2f', price)}"
   end
+
+  def self.policy_class
+    TransactionPolicy
+  end
 end

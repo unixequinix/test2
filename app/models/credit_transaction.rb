@@ -73,4 +73,8 @@ class CreditTransaction < Transaction
   def self.column_names
     super + %w(sale_items_attributes)
   end
+
+  def self.policy_class
+    TransactionPolicy
+  end
 end

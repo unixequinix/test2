@@ -39,7 +39,7 @@ html
                             = item.product.name
                             = " (#{item.quantity})"
                     td = t.station.name
-                    td = t.device_created_at.to_time.to_formatted_s(:long)
+                    td = l Time.zone.parse(t.device_created_at)
                     td.transaction-item-amount = number_to_token t.credits
 
                 tr

@@ -1,11 +1,19 @@
-.wrapper-welcome
-  h1
-    = link_to admin_root_path
-      = image_tag "glownet-login-logo.png", class: "logo"
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--4-col
+    .login-header= image_tag("glownet-event-logo.png")
+    .demo-card-wide.mdl-card.mdl-shadow--2dp.login-card
+      .mdl-card__supporting-text
+        = simple_form_for(@user, url: new_user_session_path, method: :post, wrapper: :mdl_field_floating, wrapper_mappings:{text: :mdl_text_edit, boolean: :mdl_boolean}) do |f|
+          .form-inputs
+            = f.input :email, autofocus: true
+            = f.input :password
+            label.mdl-checkbox.mdl-js-checkbox.mdl-js-ripple-effect for="remember"
+              span.mdl-checkbox__label.form-label Remember me
+              = f.input :remember_me, as: :boolean, :input_html => { :id => 'remember'}
 
-  = simple_form_for(@admin, url: new_admin_session_path, method: :post) do |f|
-    .form-inputs
-      = f.input :email, placeholder: t("admin.sessions.mail"), autofocus: true, as: :string
-      = f.input :password, placeholder: t("admin.sessions.password")
-      = f.input :remember_me, as: :boolean
-      = f.button :submit, "Log in", class: "btn btn-login"
+            = f.button :submit, "Log in", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent login-submit"
+      .register-action =link_to 'Register as a promoter', new_user_path
+  .mdl-layout-spacer
+
+

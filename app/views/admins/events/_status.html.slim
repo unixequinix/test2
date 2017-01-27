@@ -1,0 +1,72 @@
+-if event.created?
+  .container
+    input#five.radio.change-state name="progress" type="radio" data-state="launched" data-id=event.id
+    label for="five"  LAUNCHED
+    input#twentyfive.radio.change-state name="progress" type="radio" data-state="started" data-id=event.id
+    label for="twentyfive"  STARTED
+    input#fifty.radio.change-state name="progress" type="radio" data-state="finished" data-id=event.id
+    label for="fifty"  FINISHED
+    input#seventyfive.radio.change-state name="progress" type="radio" data-state="closed" data-id=event.id
+    label for="seventyfive"  CLOSED
+    input#onehundred.radio.change-state checked='checked' name="progress" type="radio" data-state="created" data-id=event.id
+    label for="onehundred"  REBOOT
+    .progress
+      .progress-bar
+-if event.launched?
+  .container
+    input#five.radio.change-state checked='checked' name="progress" type="radio" data-state="launched" data-id=event.id
+    label for="five"  LAUNCHED
+    input#twentyfive.radio.change-state name="progress" type="radio" data-state="started" data-id=event.id
+    label for="twentyfive"  STARTED
+    input#fifty.radio.change-state name="progress" type="radio" data-state="finished" data-id=event.id
+    label for="fifty"  FINISHED
+    input#seventyfive.radio.change-state name="progress" type="radio" data-state="closed" data-id=event.id
+    label for="seventyfive"  CLOSED
+    input#onehundred.radio.change-state name="progress" type="radio" data-state="created" data-id=event.id
+    label for="onehundred"  REBOOT
+    .progress
+      .progress-bar
+-if event.started?
+  .container
+    input#five.radio.change-state name="progress" type="radio" data-state="launched" data-id=event.id
+    label for="five"  LAUNCHED
+    input#twentyfive.radio.change-state checked='checked' name="progress" type="radio" data-state="started" data-id=event.id
+    label for="twentyfive"  STARTED
+    input#fifty.radio.change-state name="progress" type="radio" data-state="finished" data-id=event.id
+    label for="fifty"  FINISHED
+    input#seventyfive.radio.change-state name="progress" type="radio" data-state="closed" data-id=event.id
+    label for="seventyfive"  CLOSED
+    input#onehundred.radio.change-state name="progress" type="radio" data-state="created" data-id=event.id
+    label for="onehundred"  REBOOT
+    .progress
+      .progress-bar
+-if event.finished?
+  .container
+    input#five.radio.change-state name="progress" type="radio" data-state="launched" data-id=event.id
+    label for="five"  LAUNCHED
+    input#twentyfive.radio.change-state name="progress" type="radio" data-state="started" data-id=event.id
+    label for="twentyfive"  STARTED
+    input#fifty.radio.change-state checked='checked' name="progress" type="radio" data-state="finished" data-id=event.id
+    label for="fifty"  FINISHED
+    input#seventyfive.radio.change-state name="progress" type="radio" data-state="closed" data-id=event.id
+    label for="seventyfive"  CLOSED
+    input#onehundred.radio.change-state name="progress" type="radio" data-state="created" data-id=event.id
+    label for="onehundred"  REBOOT
+    .progress
+      .progress-bar
+-if event.closed?
+  .container
+    input#five.radio.change-state name="progress" type="radio" data-state="launched" data-id=event.id
+    label for="five"  LAUNCHED
+    input#twentyfive.radio.change-state name="progress" type="radio" data-state="started" data-id=event.id
+    label for="twentyfive"  STARTED
+    input#fifty.radio.change-state name="progress" type="radio" data-state="finished" data-id=event.id
+    label for="fifty"  FINISHED
+    input#seventyfive.radio.change-state name="progress" type="radio" data-state="closed" data-id=event.id
+    label for="seventyfive"  CLOSED
+    input#onehundred.radio.change-state checked='checked' name="progress" type="radio" data-state="created" data-id=event.id
+    label for="onehundred"  REBOOT
+    .progress
+      .progress-bar
+
+

@@ -1,4 +1,5 @@
 .wrapper-module-centered
   h3 = t('sessions.first_register.welcome')
   p = presenter.render_description
-  .wrapper-first-login.center-text = raw presenter.render_credentiable_links
+  .wrapper-first-login.center-text
+    = presenter.render_credentiable_links

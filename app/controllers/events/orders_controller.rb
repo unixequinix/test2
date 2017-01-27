@@ -24,7 +24,7 @@ class Events::OrdersController < Events::BaseController
     end
 
     if @order.total.positive? && @order.save
-      redirect_to event_order_url(@current_event, @order)
+      redirect_to event_order_path(@current_event, @order)
     else
       flash.now[:error] = @order.errors.full_messages.to_sentence
       render :new

@@ -52,7 +52,7 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   has_many :refunds, dependent: :destroy
   has_many :gtags, dependent: :nullify
   has_many :tickets, dependent: :nullify
-  has_many :transactions
+  has_many :transactions, dependent: :restrict_with_error
 
   validates :email, format: { with: RFC822::EMAIL }
   validates :email, uniqueness: { scope: [:event_id] }

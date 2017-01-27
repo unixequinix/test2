@@ -1,101 +1,127 @@
-= tinymce_assets
-
-= simple_form_for [:admins, event], html: { multipart: true } do |f|
-  .wrapper-negative-space
-    = f.button :submit, class: "btn btn-primary"
-    .container-show
-      fieldset
-        h3.section-header
-          = fa_icon "info-circle"
-          = t("admin.event.fieldests.info")
-        = f.input :name, placeholder: true, required: true
+= javascript_include_tag "specific/events-form.js"
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  = simple_form_for [:admins, event], html: {multipart: true}, wrapper: :mdl_field_floating, wrapper_mappings:{text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+    .fieldset
+      .section-header
+        i.material-icons info
+        span Event Info
+      .form-inputs
+        = f.input :name, placeholder: true
+        = f.input :timezone, as: :time_zone, include_blank: false
         = f.input :support_email, placeholder: true, required: true
 
-        h3.section-header
-          = fa_icon "money"
-          = t("admin.event.fieldests.currency")
+    .fieldset
+      .section-header
+        i.material-icons local_atm
+        span Currency
+      .form-inputs.short-input
         = f.input :currency
         = f.input :token_symbol
-        = f.input :iban_enabled
+      .form-inputs
+        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='iban_enabled'
+          span.mdl-switch__label.form-label Iban enabled
+          = f.input :iban_enabled, :input_html => { id: 'iban_enabled' }
 
-      fieldset
-        h3.section-header
-          = fa_icon "calendar"
-          = t("admin.event.fieldests.date")
+    .fieldset
+      .section-header
+        i.material-icons event
+        span Date & Location
+      .form-inputs
         = f.input :start_date, as: :datetime
         = f.input :end_date, as: :datetime
-        = f.input :timezone, as: :time_zone, include_blank: false
 
-        h3.section-header
-          = fa_icon "info-circle"
-          = t("admin.event.fieldests.company")
+    .fieldset
+      .section-header
+        i.material-icons work
+        span Company Information
+      .form-inputs
         = f.input :company_name
-        = f.input :official_name
-        = f.input :official_address
-        = f.input :registration_num
+        = f.input :official_name, placeholder: true
+        = f.input :official_address, placeholder: true
+        = f.input :registration_num, placeholder: true
 
-        h3.section-header
-          = fa_icon "info-circle"
-          = t("admin.event.fieldests.features")
+    .fieldset
+      .section-header
+        i.material-icons build
+        span Features
+      .form-inputs
+        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='event_ticket_assignation'
+          span.mdl-switch__label.form-label Ticket assignation
+          = f.input :ticket_assignation, :input_html => { :id => 'event_ticket_assignation' }
+        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='event_gtag_assignation'
+          span.mdl-switch__label.form-label Gtag assignation
+          = f.input :gtag_assignation, :input_html => { :id => 'event_gtag_assignation' }
+        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='phone_mandatory'
+          span.mdl-switch__label.form-label Phone Mandatory
+          = f.input :phone_mandatory, :input_html => { :id => 'phone_mandatory' }
+        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='address_mandatory'
+          span.mdl-switch__label.form-label Address Mandatory
+          = f.input :address_mandatory, :input_html => { :id => 'address_mandatory' }
+        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='city_mandatory'
+          span.mdl-switch__label.form-label City Mandatory
+          = f.input :city_mandatory, :input_html => { :id => 'city_mandatory' }
+        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='country_mandatory'
+          span.mdl-switch__label.form-label Country Mandatory
+          = f.input :country_mandatory, :input_html => { :id => 'country_mandatory' }
+        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='postcode_mandatory'
+          span.mdl-switch__label.form-label Postcode Mandatory
+          = f.input :postcode_mandatory, :input_html => { :id => 'postcode_mandatory' }
+        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='gender_mandatory'
+          span.mdl-switch__label.form-label Gender Mandatory
+          = f.input :gender_mandatory, :input_html => { :id => 'gender_mandatory' }
+        label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='birthdate_mandatory'
+          span.mdl-switch__label.form-label Birthday Mandatory
+          = f.input :birthdate_mandatory, :input_html => { :id => 'birthdate_mandatory' }
 
-        = f.input :ticket_assignation
-        = f.input :gtag_assignation
-        = f.input :phone_mandatory
-        = f.input :address_mandatory
-        = f.input :city_mandatory
-        = f.input :country_mandatory
-        = f.input :postcode_mandatory
-        = f.input :gender_mandatory
-        = f.input :birthdate_mandatory
-        = f.input :agreed_event_condition
-        = f.input :receive_communications
-        = f.input :receive_communications_two
+    .fieldset
+      .section-header
+        i.material-icons insert_photo
+        span Images
+      .file-inputs
+        input#uploadL.mdl-textfield__input placeholder="Logo" readonly="readonly" type="text" /
+        .mdl-button.mdl-button--primary.mdl-button--icon.mdl-button--file
+          i.material-icons attach_file
+          = f.input :background, :input_html => { :id => 'uploadLogo', :type => 'file'}
 
-      fieldset
-        h3.section-header
-          = fa_icon "camera"
-          = t("admin.event.fieldests.image")
+        input#uploadB.mdl-textfield__input placeholder="Background" readonly="readonly" type="text" /
+        .mdl-button.mdl-button--primary.mdl-button--icon.mdl-button--file
+          i.material-icons attach_file
+          = f.input :background, :input_html => { :id => 'uploadBackground', :type => 'file'}
 
-        = f.input :logo
-        .edit-event-image
-          label
-            = t('admin.event.images.customer')
-          .container-image-preview
-            = image_tag event.logo.url unless event.logo.blank?
+      .form-inputs.short-input
         = f.input :background_type, collection: Event.background_types_selector, include_blank: false
-        = f.input :background
-        .edit-event-image
-          label
-            = t('admin.event.images.background')
-          .container-image-preview
-            = image_tag event.background.url unless event.background.blank?
-
-      fieldset
-        h3.section-header
-          = fa_icon "file-text-o"
-          = t("admin.event.fieldests.texts")
-
-        = f.label :agreed_event_condition_message
-        = f.input :agreed_event_condition_message, as: :text, input_html: { rows: 4, class: "textarea tinymce"}
-        = f.label :receive_communications_message
-        = f.input :receive_communications_message, as: :text, input_html: { rows: 4, class: "textarea tinymce"}
-        = f.label :receive_communications_two_message
-        = f.input :receive_communications_two_message, as: :text, input_html: { rows: 4, class: "textarea tinymce"}
-        = f.label :info
-        = f.input :info, as: :text, input_html: { rows: 15, class: "textarea tinymce" }
-        = f.label :disclaimer
-        = f.input :disclaimer, as: :text, input_html: { rows: 15, class: "textarea tinymce" }
-        = f.label :privacy_policy
-        = f.input :privacy_policy, as: :text, input_html: { rows: 15, class: "textarea tinymce" }
-        = f.label :terms_of_use
-        = f.input :terms_of_use, as: :text, input_html: { rows: 15, class: "textarea tinymce" }
-
-      fieldset
-        h3.section-header
-          = fa_icon "paint-brush"
-          = t("admin.event.fieldests.custom")
-        = f.input :style, as: :text, input_html: { rows: 30, class: "textarea" }
-    = f.button :submit, class: "btn btn-primary"
 
 
-= tinymce
+    .fieldset
+      .section-header
+        i.material-icons message
+        span Texts
+      .form-inputs.form-texts
+        = f.label :agreed_event_condition_message, class: 'form-label'
+        = f.input :agreed_event_condition_message, as: :text, input_html: { rows: 4, class: "textarea" }
+        = f.label :receive_communications_message, class: 'form-label'
+        = f.input :receive_communications_message, as: :text, input_html: { rows: 4, class: "textarea" }
+        = f.label :receive_communications_two_message, class: 'form-label'
+        = f.input :receive_communications_two_message, as: :text, input_html: { rows: 4, class: "textarea" }
+      .form-inputs.form-texts
+        = f.label :info, class: 'form-label'
+        = f.input :info, as: :text, input_html: { rows: 15, class: "textarea" }
+        = f.label :disclaimer, class: 'form-label'
+        = f.input :disclaimer, as: :text, input_html: { rows: 15, class: "textarea" }
+        = f.label :privacy_policy, class: 'form-label'
+        = f.input :privacy_policy, as: :text, input_html: { rows: 15, class: "textarea" }
+        = f.label :terms_of_use, class: 'form-label'
+        = f.input :terms_of_use, as: :text, input_html: { rows: 15, class: "textarea" }
+
+    .fieldset
+      .section-header
+        i.material-icons brush
+        span Custom styles
+      .form-inputs.form-texts
+        = f.label :style, class: 'form-label'
+        = f.input :style, as: :text, input_html: { rows: 20, class: "cssarea" }
+
+    .form-actions
+      .col-sm-offset-3.col-sm-9
+        = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+

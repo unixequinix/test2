@@ -1,4 +1,6 @@
 class Admins::Events::GtagSettingsController < Admins::Events::BaseController
+  before_action :execute_policy
+
   def update
     if @current_event.update(permitted_params)
       redirect_to admins_event_gtag_settings_path(@current_event), notice: I18n.t("alerts.updated")
@@ -16,6 +18,10 @@ class Admins::Events::GtagSettingsController < Admins::Events::BaseController
   end
 
   private
+
+  def execute_policy
+    authorize @current_event, :event_settings?
+  end
 
   def permitted_params
     params.require(:event).permit(:gtag_form_disclaimer,

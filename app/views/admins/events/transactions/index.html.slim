@@ -1,38 +1,54 @@
-- breadcrumb :admins_event_transactions, @current_event, @type
-- provide :actions do
-  = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
-    = fa_icon 'search'
-    = t('actions.search')
-  = link_to admins_event_path(@current_event), class: "btn btn-action btn-action-back small" do
-    = fa_icon 'arrow-circle-left'
-    = t('actions.back')
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp.search-card
+      .mdl-card__title
+        .mdl-cell.mdl-cell--4-col
+        .mdl-cell.mdl-cell--8-col
+          .tools
+            .tool-item
+              span.search-toggle.icon.material-icons search
+              span.mdl-tooltip data-mdl-for="search-toggle"  Search
+              .search-toggle Advanced Search
+      = search_form_for @q, url: search_admins_event_transactions_path(@current_event), html: { novalidate: true, method: :post}  do |f|
+        .container-search
+          .form-inputs
+            = hidden_field_tag :type, @type
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              = f.search_field :customer_tag_uid_cont, placeholder: "Customer tag", class: "mdl-textfield__input", type: "text"
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              = f.search_field :operator_tag_uid_cont, placeholder: "Operator tag", class: "mdl-textfield__input"
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              = f.search_field :transaction_origin_cont, placeholder: "Origin", class: "mdl-textfield__input"
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              = f.search_field :action_cont, placeholder: "Type", class: "mdl-textfield__input"
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              = f.search_field :device_uid_cont, placeholder: "Device", class: "mdl-textfield__input"
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              = f.search_field :station_name_cont, placeholder: "Station", class: "mdl-textfield__input"
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              = f.search_field :status_code_eq, placeholder: "Status Code", class: "mdl-textfield__input"
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              = f.search_field :status_message_cont, placeholder: "Status Message", class: "mdl-textfield__input"
+          .form-actions
+            = f.submit class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+            .mdl-button.mdl-js-button.mdl-button--raised.search-toggle Close
+  .mdl-layout-spacer
 
-aside.mmenu-panel#search-menu
-  p.menu-header
-    = fa_icon "search"
-    = t("admin.defaults.search")
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    - if @transactions.any?
+      .mdl-cell.mdl-cell--12-col.right = paginate @transactions, :params => { :controller => 'transactions', :action => 'index', _: nil, _method: nil, authenticity_token: nil, utf8: nil}
+      .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @transactions
+      = render "admins/events/transactions/list", transactions: @transactions, type: @type
+      .mdl-cell.mdl-cell--12-col = paginate @transactions, :params => { :controller => 'transactions', :action => 'index', _: nil, _method: nil, authenticity_token: nil, utf8: nil}
 
-  = search_form_for @q, url: search_admins_event_transactions_path(@current_event), html: { novalidate: true, class: "searchForm" }  do |f|
-    .container-search
-      = hidden_field_tag :type, @type
-      = f.search_field :customer_tag_uid_cont, label: t("admin.transactions.customer_tag_uid"), placeholder: t("admin.transactions.customer_tag_uid")
-      = f.search_field :operator_tag_uid_cont, label: t("admin.transactions.operator_tag_uid"), placeholder: t("admin.transactions.operator_tag_uid")
-      = f.search_field :transaction_origin_cont, label: t("admin.transactions.transaction_origin"), placeholder: t("admin.transactions.transaction_origin")
-      = f.search_field :action_cont, label: t("admin.transactions.action"), placeholder: t("admin.transactions.action")
-      = f.search_field :device_uid_cont, label: t("admin.transactions.device_uid"), placeholder: t("admin.transactions.device_uid")
-      = f.search_field :station_name_cont, label: t("admin.transactions.station"), placeholder: t("admin.transactions.station")
-      = f.search_field :status_code_eq, label: t("admin.transactions.status_code"), placeholder: t("admin.transactions.status_code")
-      = f.search_field :status_message_cont, label: t("admin.transactions.status_message"), placeholder: t("admin.transactions.status_message")
-      = f.submit class: "btn btn-secondary"
+    - else
+      .section-title-empty
+        = image_tag "img-empty.png"
+        p = t("alerts.empty_items_list", item: 'transactions')
+  .mdl-layout-spacer
 
 
-.wrapper-negative-space
-  - if @transactions.any?
-    .current-showing = page_entries_info @transactions
-    = render "admins/events/transactions/list", transactions: @transactions, type: @type
-    .container-pagination
-      = paginate @transactions
-  - else
-    .section-title-empty
-      = image_tag "img-empty.png"
-      p = t("admin.defaults.empty_item", item: 'transactions')
+

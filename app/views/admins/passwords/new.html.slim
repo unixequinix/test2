@@ -3,12 +3,10 @@
     = link_to admin_root_path
       = image_tag "glownet-login-logo", class: "logo"
 
-  h3 = t("admin.passwords.forgotten")
-
   = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
     = f.error_notification
     .form-inputs
-      = f.input :email, required: true, autofocus: true, placeholder: t("admin.sessions.mail"), as: :string
+      = f.input :email, required: true, autofocus: true, as: :string
     .form-actions
-      = f.button :submit, t("admin.passwords.send_instructions"), class: "btn btn-login"
+      = f.button :submit, class: "btn btn-login"
   = render "admins/shared/links"

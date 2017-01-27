@@ -1,39 +1,57 @@
-- breadcrumb :admins_event_pack, @current_event, @pack
-- provide :actions do
-  = link_to edit_admins_event_pack_path(@current_event, @pack), class: "btn btn-action btn-action-edit small" do
-    = fa_icon 'edit'
-    = t('actions.edit')
-  = link_to admins_event_packs_path, class: "btn btn-action btn-action-back small" do
-    = fa_icon 'arrow-circle-left'
-    = t('actions.back')
-  
-.wrapper-negative-space
-  .container-show
-    dl
-      dt = t("admin.general.name")
-      dd = @pack.name
-      dt = t("admin.accesses.step")
-      dd = @pack.step
-      dt = t("admin.accesses.initial_amount")
-      dd = @pack.initial_amount
-      dt = t("admin.accesses.max_purchasable")
-      dd = @pack.max_purchasable
-      dt = t("admin.accesses.min_purchasable")
-      dd = @pack.min_purchasable
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--8-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--4-col Pack #{@pack.name}
+        .mdl-cell.mdl-cell--8-col
+          .tools
+            .tool-item
+              = link_to admins_event_packs_path do
+                span#undo.icon.material-icons undo
+                span.mdl-tooltip data-mdl-for="undo"  Back
+            .tool-item
+              = link_to edit_admins_event_pack_path(@current_event, @pack) do
+                span#edit.icon.material-icons edit
+                span.mdl-tooltip data-mdl-for="edit"  Edit
 
-    - if @pack.catalog_items.present?
-      h3
-        = fa_icon "table"
-        = t ("admin.packs.items")
-      table.pack.catalog_items
+      table.mdl-data-table.mdl-js-data-table.within-card
+        tbody
+          tr
+            td.mdl-data-table__cell--non-numeric Name
+            td = @pack.name
+          tr
+            td.mdl-data-table__cell--non-numeric Step
+            td = @pack.step
+          tr
+            td.mdl-data-table__cell--non-numeric Initial amount
+            td = @pack.initial_amount
+          tr
+            td.mdl-data-table__cell--non-numeric Max purchasable
+            td = @pack.max_purchasable
+          tr
+            td.mdl-data-table__cell--non-numeric Min purchasable
+            td = @pack.min_purchasable
+  .mdl-layout-spacer
+
+- if @pack.catalog_items.present?
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--8-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--4-col Items
+        .mdl-cell.mdl-cell--8-col
+      table.mdl-data-table.mdl-js-data-table.within-card
         thead
           tr
-            th = t("admin.pack.catalog_items.name")
-            th = t("admin.pack.catalog_items.type")
-            th = t("admin.pack.catalog_items.amount")
+            th.mdl-data-table__cell--non-numeric Name
+            th Type
+            th Amount
         tbody
           - @pack.pack_catalog_items.each do |pci|
             tr
-              td data-label=t("admin.pack.catalog_items.name") = pci.catalog_item.name
-              td data-label=t("admin.pack.catalog_items.type") = pci.catalog_item.type.humanize
-              td data-label=t("admin.pack.catalog_items.amount") = pci.amount
+              td.mdl-data-table__cell--non-numeric = pci.catalog_item.name
+              td = pci.catalog_item.type.humanize
+              td = pci.amount
+  .mdl-layout-spacer

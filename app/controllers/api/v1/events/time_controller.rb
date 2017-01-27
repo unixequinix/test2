@@ -1,6 +1,7 @@
 class Api::V1::Events::TimeController < Api::V1::Events::BaseController
   def index
-    Time.zone = @current_event.timezone
-    render text: Time.zone.now.as_json
+    Time.use_zone(@current_event.timezone) do
+      render plain: Time.current.as_json
+    end
   end
 end

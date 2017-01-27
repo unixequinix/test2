@@ -7,10 +7,6 @@ class Events::BaseController < ApplicationController
   helper_method :current_event
   helper_method :current_customer
 
-  def prepare_for_mobile
-    prepend_view_path Rails.root + "apps" + "customer_area" + "app" + "views_mobile"
-  end
-
   private
 
   def write_locale_to_session
@@ -18,19 +14,19 @@ class Events::BaseController < ApplicationController
   end
 
   def check_top_ups_is_active!
-    redirect_to event_url(@current_event) unless @current_event.topups?
+    redirect_to event_path(@current_event) unless @current_event.topups?
   end
 
   def check_has_ticket!
-    redirect_to event_url(@current_event) unless current_customer.tickets.any?
+    redirect_to event_path(@current_event) unless current_customer.tickets.any?
   end
 
   def check_has_gtag!
-    redirect_to event_url(@current_event) unless current_customer.active_gtag.present?
+    redirect_to event_path(@current_event) unless current_customer.active_gtag.present?
   end
 
   def check_customer_credentials!
-    redirect_to event_url(@current_event) unless current_customer.active_credentials?
+    redirect_to event_path(@current_event) unless current_customer.active_credentials?
   end
 
   def check_has_credentials!
@@ -38,7 +34,7 @@ class Events::BaseController < ApplicationController
   end
 
   def check_authorization_flag!
-    redirect_to event_info_url(@current_event) unless @current_event.authorization?
+    redirect_to event_info_path(@current_event) unless @current_event.authorization?
   end
 
   def authenticate_customer!

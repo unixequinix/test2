@@ -2,6 +2,7 @@
 require 'simplecov'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
+require 'pundit/rspec'
 
 ENV['RAILS_ENV'] ||= 'test'
 

@@ -1,7 +1,6 @@
-- breadcrumb :edit_admins_event_station, @current_event, @station
-- provide :actions do
-  = link_to admins_event_stations_path(group: @group), class: "btn btn-action btn-action-back small" do
-    = fa_icon 'arrow-circle-left'
-    = t('admin.actions.back')
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    = render "form", station: @station
+  .mdl-layout-spacer
 
-= render "form", station: @station

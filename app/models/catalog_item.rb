@@ -31,7 +31,7 @@ class CatalogItem < ActiveRecord::Base
   has_many :order_items, dependent: :destroy
   has_many :orders, through: :order_items
   has_many :ticket_types, dependent: :nullify
-  has_many :transactions
+  has_many :transactions, dependent: :restrict_with_error
 
   validates :name, presence: true
   validates :step, numericality: { greater_than: 0 }

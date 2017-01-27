@@ -1,51 +1,12 @@
-- breadcrumb :admins_event_refunds, @current_event
-- provide :actions do
-  = link_to admins_event_refunds_path(@current_event, format: "csv"), class: "btn btn-action btn-action-download small"
-    = fa_icon "download"
-    = t('admin.actions.download')
-  = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
-    = fa_icon 'search'
-    = t('admin.actions.search')
-
-
-aside.mmenu-panel#search-menu
-  p.menu-header
-    = fa_icon "search"
-    = t("admin.defaults.search")
-
-  = search_form_for @q, url: search_admins_event_refunds_path, html: { novalidate: true, class: "searchForm" }  do |f|
-    .container-search
-      = f.search_field :status_cont, label: t("admin.refunds.search.status"),placeholder: t("admin.refunds.search.status")
-      .range
-        = f.search_field :created_at_lteq, as: :datetime, label: t('ransack.and'), discard_hour: true, include_blank: true
-        = f.search_field :created_at_gteq, as: :datetime, label: t('simple_form.labels.defaults.created_at') + " " + t('ransack.between'), discard_hour: true, include_blank: true
-      = f.submit class: "btn btn-secondary"
-
-
-.wrapper-negative-space
-  - if @refunds.present?
-    .current-showing = page_entries_info @refunds
-    table.refunds
-      thead
-        tr
-          th = t("admin.refunds.id")
-          th = t("admin.refunds.customer_email")
-          th = t('admin.refunds.status')
-          th = t('admin.refunds.amount')
-          th = t('admin.refunds.currency')
-          th = t('admin.refunds.created_at')
-      tbody
-        - @refunds.each do |refund|
-          tr
-            td data-label=t("admin.refunds.id") = link_to (refund.id), admins_event_refund_path(@current_event, refund)
-            td data-label=t("admin.refunds.customer_email") = link_to refund.customer.email, admins_event_customer_path(@current_event, refund.customer)
-            td data-label=t('admin.refunds.status') = refund.status.humanize
-            td data-label=t('admin.refunds.amount') = refund.amount
-            td data-label=t('admin.refunds.fee') = refund.fee
-            td data-label=t('admin.refunds.created_at') = refund.created_at.strftime("%y-%m-%d %H:%M:%S")
-
-    = paginate @refunds
-  - else
-    .section-title-empty
-      = image_tag "img-empty.png"
-      p = t("admin.defaults.empty_item", item: 'refunds')
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    - if @refunds.present?
+      .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @refunds
+      = render "admins/events/refunds/list", refunds: @refunds
+      .mdl-cell.mdl-cell--12-col = paginate @refunds
+    - else
+      .section-title-empty
+        = image_tag "img-empty.png"
+        p = t("alerts.empty_items_list", item: 'refunds')
+  .mdl-layout-spacer

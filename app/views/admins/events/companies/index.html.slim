@@ -2,10 +2,6 @@
 - provide :actions do
   = link_to new_admins_event_company_path, class: "btn btn-action btn-action-new small" do
     = fa_icon 'plus'
-    = t('admin.actions.new')
+    | New
 
-.wrapper-negative-space
-  - if @list_model_presenter.there_any?
-    = render 'admins/events/companies/list', companies: @list_model_presenter.all_items
-  - else
-    = render @list_model_presenter.no_items_for_presentation
+.wrapper-negative-space = render 'admins/events/companies/list', companies: @companies

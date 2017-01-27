@@ -3,19 +3,22 @@ class Admins::Events::PacksController < Admins::Events::BaseController
   before_action :set_catalog_items, except: [:index, :destroy]
 
   def index
-    @packs = @current_event.packs.includes(:catalog_items).page(params[:page])
+    @packs = @current_event.packs.includes(:catalog_items)
+    authorize @packs
+    @packs = @packs.page(params[:page])
   end
 
   def new
     @pack = @current_event.packs.new
+    authorize @pack
   end
 
   def create
     @pack = @current_event.packs.new(permitted_params)
+    authorize @pack
 
     if @pack.save
-      flash[:notice] = I18n.t("alerts.created")
-      redirect_to admins_event_packs_url
+      redirect_to admins_event_packs_path, notice: I18n.t("alerts.created")
     else
       flash.now[:error] = I18n.t("alerts.error")
       render :new
@@ -24,12 +27,12 @@ class Admins::Events::PacksController < Admins::Events::BaseController
 
   def update
     if @pack.update(permitted_params)
-      # TODO: find out why the fuck are these lines necessary when rails supposedly does this by itself.
+
+      # TODO: find out why the fuck are these lines necessary when rails supposedly does this by itself. (jake)
       @pack.pack_catalog_items.map(&:save)
       @pack.pack_catalog_items.select(&:marked_for_destruction?).map(&:destroy)
 
-      flash[:notice] = I18n.t("alerts.updated")
-      redirect_to admins_event_packs_path
+      redirect_to admins_event_packs_path, notice: I18n.t("alerts.updated")
     else
       flash.now[:error] = I18n.t("alerts.error")
       render :edit
@@ -37,14 +40,21 @@ class Admins::Events::PacksController < Admins::Events::BaseController
   end
 
   def destroy
-    @pack.destroy
-    redirect_to admins_event_packs_path, notice: I18n.t("alerts.destroyed")
+    respond_to do |format|
+      if @pack.destroy
+        format.html { redirect_to admins_event_packs_path, notice: 'Pack was successfully deleted.' }
+        format.json { render :show, status: :ok, location: admins_event_packs_path }
+      else
+        redirect_to [:admins, @current_event, @pack], error: @pack.errors.full_messages.to_sentence
+      end
+    end
   end
 
   private
 
   def set_pack
     @pack = @current_event.packs.find(params[:id])
+    authorize @pack
   end
 
   def set_catalog_items
@@ -52,6 +62,7 @@ class Admins::Events::PacksController < Admins::Events::BaseController
   end
 
   def permitted_params
-    params.require(:pack).permit(:name, :initial_amount, :step, :max_purchasable, :min_purchasable, pack_catalog_items_attributes: [:id, :catalog_item_id, :amount, :_destroy]) # rubocop:disable Metrics/LineLength
+    params.require(:pack).permit(:name, :initial_amount, :step, :max_purchasable, :min_purchasable,
+                                 pack_catalog_items_attributes: [:id, :catalog_item_id, :amount, :_destroy])
   end
 end

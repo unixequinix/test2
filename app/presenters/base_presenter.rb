@@ -15,10 +15,4 @@ class BasePresenter
   end
 
   delegate :tag_uid, to: :gtag, prefix: true
-
-  private
-
-  def formatted_date
-    Time.zone.now.strftime("%Y-%m-%d")
-  end
 end

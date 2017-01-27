@@ -13,8 +13,11 @@ class Admins::Companies::CompanyEventAgreementsController < Admins::BaseControll
 
   def destroy
     @agreement = @company.company_event_agreements.find(params[:id])
-    @agreement.destroy
-    redirect_to admins_company_company_event_agreements_path(@company)
+    respond_to do |format|
+      @agreement.destroy
+      format.html { redirect_to admins_company_company_event_agreements_path(@company) }
+      format.json { render :show, status: :ok, location: admins_company_company_event_agreements_path }
+    end
   end
 
   private

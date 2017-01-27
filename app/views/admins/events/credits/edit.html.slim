@@ -1,7 +1,18 @@
-- breadcrumb :edit_admins_event_access, @current_event, @credit
-- provide :actions do
-  = link_to admins_event_credits_path, class: "btn btn-action btn-action-back small" do
-    = fa_icon 'arrow-circle-left'
-    = t('admin.actions.back')
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+      = simple_form_for [:admins, @current_event, @credit], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+        .form-inputs.short-input
+          = f.input :name, placeholder: true
+          = f.input :step, placeholder: true
+          = f.input :initial_amount, placeholder: true
+          = f.input :max_purchasable, placeholder: true
+          = f.input :min_purchasable, placeholder: true
+          = f.input :value, placeholder: true
+        .form-actions
+          = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+  .mdl-layout-spacer
 
-= render "form", credit: @credit
+
+

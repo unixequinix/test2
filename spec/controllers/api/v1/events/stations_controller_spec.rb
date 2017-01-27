@@ -2,12 +2,12 @@ require "spec_helper"
 
 RSpec.describe Api::V1::Events::StationsController, type: :controller do
   let(:event) { create(:event) }
-  let(:admin) { create(:admin) }
+  let(:user) { create(:user) }
 
   describe "GET index" do
     context "with authentication" do
       before(:each) do
-        http_login(admin.email, admin.access_token)
+        http_login(user.email, user.access_token)
       end
 
       it "has a 200 status code" do

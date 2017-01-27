@@ -1,0 +1,16 @@
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+      = simple_form_for [:admins, @current_event, @user], wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
+        .field
+          = f.input :email, placeholder: true
+        .field
+          = f.input :password, autocomplete: "off"
+        .field
+          = f.input :password_confirmation, autocomplete: "off"
+        .field
+          = f.input :role, collection: User.roles.keys - ["admin"], include_blank: false
+        .form-actions
+          = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+  .mdl-layout-spacer

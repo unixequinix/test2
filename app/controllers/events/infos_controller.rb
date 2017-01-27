@@ -3,6 +3,6 @@ class Events::InfosController < Events::BaseController
   skip_before_action :authenticate_customer!
 
   def show
-    redirect_to(event_url(@current_event)) && return if @current_event.authorization?
+    redirect_to(event_path(@current_event)) && return if @current_event.authorization?
   end
 end

@@ -42,18 +42,21 @@ gem 'devise'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
-gem "omniauth-google-oauth2"
+gem 'omniauth-google-oauth2'
+gem 'pundit'
 
 # Design
 gem 'bourbon'
 gem 'neat'
 gem 'font-awesome-rails'
+gem 'chartkick'
+gem 'groupdate'
 
 # APIs
 gem 'jbuilder', '~> 2.5'
 gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
 gem 'rack-cors', require: 'rack/cors'
-gem 'eventbrite', github: "envoy/eventbrite"
+gem 'eventbrite', github: 'envoy/eventbrite'
 
 # SEO
 gem 'friendly_id'
@@ -93,7 +96,7 @@ gem 'wicked_pdf'
 # Validations
 gem 'rfc-822'
 gem 'iban-tools'
-gem 'iso-swift', github: "hugolantaume/iso-swift"
+gem 'iso-swift', github: 'hugolantaume/iso-swift'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
@@ -111,6 +114,7 @@ group :development do
   gem 'capistrano-rails-console', require: false
   gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
   gem 'annotate'
+  # gem 'i18n-tasks' # enable when needed
 end
 
 group :development, :test do
@@ -132,6 +136,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'rubocop', require: false # Code quality https://github.com/bbatsov/rubocop
   gem 'rubocop-checkstyle_formatter', require: false
+  gem 'pry'
 end
 
 group :test do

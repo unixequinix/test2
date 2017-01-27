@@ -24,6 +24,10 @@ class TopupCredit < ActiveRecord::Base
 
   scope :visible, -> { where(hidden: [false, nil]) }
 
+  def self.policy_class
+    StationItemPolicy
+  end
+
   private
 
   def valid_topup_credit

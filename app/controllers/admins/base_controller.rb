@@ -1,13 +1,8 @@
 class Admins::BaseController < ApplicationController
   layout "admin"
-  protect_from_forgery
-  before_action :authenticate_admin!
+  before_action :authenticate_user!
   before_action :write_locale_to_session
   before_action :fetch_current_event
-
-  def prepare_for_mobile
-    prepend_view_path Rails.root + "apps" + "administration" + "app" + "views_mobile"
-  end
 
   private
 

@@ -1,12 +1,12 @@
 namespace :glownet do
   desc "Creates a basic admin access"
   task create_admin: :environment do
-    admin = Admin.find_by(email: "developers@glownet.com")
+    admin = User.find_by(email: "developers@glownet.com")
     if admin
       admin.update!(password: "password", password_confirmation: "password")
       puts "- Admin password reseted"
     else
-      Admin.create!(email: "developers@glownet.com", password: "password", password_confirmation: "password")
+      User.create!(email: "developers@glownet.com", password: "password", password_confirmation: "password")
       puts "- Admin created successfuly"
     end
   end

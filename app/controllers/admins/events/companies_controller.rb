@@ -1,19 +1,23 @@
 class Admins::Events::CompaniesController < Admins::Events::BaseController
-  before_action :set_company, only: [:edit, :update, :destroy]
+  before_action :set_company, except: [:index, :new, :create]
 
   def index
-    set_presenter
+    @companies = @current_event.companies
+    authorize @companies
+    @companies = @companies.page(params[:page])
   end
 
   def new
     @company = Company.new
+    authorize @company
   end
 
   def create
     @company = Company.new(permitted_params)
+    authorize @company
     if @company.save
       flash[:notice] = I18n.t("alerts.created")
-      redirect_to admins_event_companies_url
+      redirect_to admins_event_companies_path
     else
       flash[:error] = @company.errors.full_messages.join(". ")
       render :new
@@ -23,7 +27,7 @@ class Admins::Events::CompaniesController < Admins::Events::BaseController
   def update
     if @company.update(permitted_params)
       flash[:notice] = I18n.t("alerts.updated")
-      redirect_to admins_event_companies_url
+      redirect_to admins_event_companies_path
     else
       flash[:error] = @company.errors.full_messages.join(". ")
       render :edit
@@ -33,10 +37,10 @@ class Admins::Events::CompaniesController < Admins::Events::BaseController
   def destroy
     if @company.destroy
       flash[:notice] = I18n.t("alerts.destroyed")
-      redirect_to admins_event_companies_url
+      redirect_to admins_event_companies_path
     else
       flash.now[:error] = I18n.t("errors.messages.ticket_type_dependent")
-      set_presenter
+      @companies = @current_event.companies.page
       render :index
     end
   end
@@ -45,17 +49,7 @@ class Admins::Events::CompaniesController < Admins::Events::BaseController
 
   def set_company
     @company = @current_event.companies.find(params[:id])
-  end
-
-  def set_presenter
-    @list_model_presenter = ListModelPresenter.new(
-      model_name: "Company".constantize.model_name,
-      fetcher: @current_event.companies,
-      search_query: params[:q],
-      page: params[:page],
-      include_for_all_items: [],
-      context: view_context
-    )
+    authorize @company
   end
 
   def permitted_params

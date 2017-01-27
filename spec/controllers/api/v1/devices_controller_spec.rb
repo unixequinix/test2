@@ -1,13 +1,13 @@
 require "spec_helper"
 
 RSpec.describe Api::V1::DevicesController, type: :controller do
-  let(:admin) { create(:admin) }
+  let(:user) { create(:user) }
   let(:device) { build(:device) }
   let(:params) { { imei: device.imei, mac: device.mac, serial_number: device.serial_number } }
 
   describe "POST create" do
     before do
-      http_login(admin.email, admin.access_token)
+      http_login(user.email, user.access_token)
     end
 
     it "creates the device if it doesn't exist" do

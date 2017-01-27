@@ -106,22 +106,6 @@ crumb :admins_device do |device|
   parent :admins_devices
 end
 
-## Admins
-
-crumb :admins_admins do
-  link t("breadcrumbs.admins"), admins_admins_path
-end
-
-crumb :admins_admin do |admin|
-  link admin.email, edit_admins_admin_path(admin)
-  parent :admins_admins
-end
-
-crumb :new_admins_admin do
-  link t("breadcrumbs.new_admin")
-  parent :admins_admins
-end
-
 ## Companies
 
 crumb :admins_companies do

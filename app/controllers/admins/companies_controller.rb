@@ -17,7 +17,7 @@ class Admins::CompaniesController < Admins::BaseController
     @company = Company.new(permitted_params)
     if @company.save
       flash[:notice] = I18n.t("alerts.created")
-      redirect_to admins_companies_url
+      redirect_to admins_companies_path
     else
       render :new
     end
@@ -28,7 +28,7 @@ class Admins::CompaniesController < Admins::BaseController
   def update
     if @company.update(permitted_params)
       flash[:notice] = I18n.t("alerts.updated")
-      redirect_to admins_companies_url
+      redirect_to admins_companies_path
     else
       render :edit
     end
@@ -40,7 +40,7 @@ class Admins::CompaniesController < Admins::BaseController
     else
       flash[:error] = @company.errors.full_messages.join(". ")
     end
-    redirect_to admins_companies_url
+    redirect_to admins_companies_path
   end
 
   private

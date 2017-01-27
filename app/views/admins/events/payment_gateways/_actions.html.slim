@@ -1,0 +1,14 @@
+- gw = @gateways.find_by(gateway: gateway)
+- if gw
+  .table-action
+    = link_to edit_admins_event_payment_gateway_path(@current_event, gw) do
+      button.material-icons edit
+  .table-action
+    = link_to admins_event_payment_gateway_path(@current_event, gw), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+      button.material-icons delete
+
+- else
+  .table-action
+    = link_to new_admins_event_payment_gateway_path(@current_event, gateway: gateway) do
+      button.material-icons add
+

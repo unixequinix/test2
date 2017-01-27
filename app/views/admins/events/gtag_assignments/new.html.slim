@@ -1,15 +1,20 @@
-- breadcrumb :admins_event_customer_gtag_assignation, @current_event, @customer
-- provide :actions do
-  = link_to admins_event_customer_path(@current_event, @customer), class: "btn btn-action btn-action-back small" do
-    = fa_icon "arrow-circle-left"
-    = t('actions.back')
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--8-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+      = form_tag admins_event_gtag_assignments_path(@current_event, @customer) do |f|
+        .form-inputs.short-input
+          .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+            = text_field_tag :tag_uid, nil, placeholder: "Line 2 e.g:BA6D7DCO", class: "mdl-textfield__input"
+          label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='active'
+            = check_box_tag :active, 1, true, class: "mdl-switch__input"
+            span.mdl-switch__label.form-label Active
 
-= form_tag admins_event_gtag_assignments_path(@current_event, @customer) do |f|
-  .wrapper-negative-space
-    .input
-      = label_tag t('admin.gtags.tag')
-      = text_field_tag :tag_uid, nil, placeholder: t('gtag_assignations.placeholders.line_2')
-    .input
-      = label_tag t('admin.gtag_assignations.active')
-      = check_box_tag :active, 1, true
-    = submit_tag t('gtag_assignations.button'), class: "btn btn-primary"
+        .form-actions
+          .col-sm-offset-3.col-sm-9
+            = submit_tag "Accept", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+  .mdl-layout-spacer
+
+
+
+

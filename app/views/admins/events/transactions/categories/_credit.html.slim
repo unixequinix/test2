@@ -1,39 +1,47 @@
-h3.section-header
-  = fa_icon "money"
-  = t("admin.transactions.credits")
-
-dl
-  dt = t("admin.transactions.credits")
-  dd = @transaction.credits
-  
-  dt = t("admin.transactions.refundable_credits")
-  dd = @transaction.refundable_credits
-  
-  dt = t("admin.transactions.final_balance")
-  dd = @transaction.final_balance
-  
-  dt = t("admin.transactions.final_refundable_balance")
-  dd = @transaction.final_refundable_balance
-br
+.mdl-cell.mdl-cell--12-col
+  .transaction-card-wide.mdl-card.mdl-shadow--2dp
+    .mdl-card__title
+      h2.mdl-card__title-text
+        i.material-icons local_atm
+        |Credit
+    .mdl-card__supporting-text
+      table.mdl-data-table.mdl-js-data-table.within-card
+        tbody
+          tr
+            td.mdl-data-table__cell--non-numeric credits
+            td = @transaction.credits
+          tr
+            td.mdl-data-table__cell--non-numeric Refundable credits
+            td = @transaction.refundable_credits
+          tr
+            td.mdl-data-table__cell--non-numeric Final balance
+            td = @transaction.final_balance
+          tr
+            td.mdl-data-table__cell--non-numeric Final refundable balance
+            td = @transaction.final_refundable_balance
 
 - if @transaction.sale_items.present?
-  h3.section-header
-    = fa_icon "certificate"
-    = t("admin.transactions.sale_items")
+  .mdl-cell.mdl-cell--12-col
+    .transaction-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        h2.mdl-card__title-text
+          i.material-icons star_rate
+          |Sale Items
+      .mdl-card__supporting-text
+        table.mdl-data-table.mdl-js-data-table.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Name
+              th Product
+              th Quantity
+              th Unit price
+              th Total
+          tbody
+            - @transaction.sale_items.each do |item|
+              tr
+                td.mdl-data-table__cell--non-numeric = item.id
+                td = link_to item.product.name, edit_admins_event_product_path(@current_event, item.product)
+                td = item.quantity
+                td = item.unit_price
+                td = item.unit_price * item.quantity
 
-  table.refunds
-    thead
-      tr
-        th = t("admin.transactions.id")
-        th = t("admin.transactions.product")
-        th = t("admin.transactions.quantity")
-        th = t("admin.transactions.unit_price")
-        th = t("admin.transactions.total")
-    tbody
-      - @transaction.sale_items.each do |item|
-        tr
-          td data-label=t("admin.transactions.id") = item.id
-          td data-label=t("admin.transactions.product") = link_to item.product.name, edit_admins_event_product_path(@current_event, item.product)
-          td data-label=t("admin.transactions.quantity") = item.quantity
-          td data-label=t("admin.transactions.unit_price") = item.unit_price
-          td data-label=t("admin.transactions.total") = item.unit_price * item.quantity

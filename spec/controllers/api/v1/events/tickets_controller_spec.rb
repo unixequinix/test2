@@ -3,7 +3,7 @@ require "spec_helper"
 
 RSpec.describe Api::V1::Events::TicketsController, type: :controller do
   let(:event) { create(:event) }
-  let(:admin) { create(:admin) }
+  let(:user) { create(:user) }
   let(:db_tickets) { event.tickets }
 
   before do
@@ -13,7 +13,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
   describe "GET index" do
     context "with authentication" do
       before(:each) do
-        http_login(admin.email, admin.access_token)
+        http_login(user.email, user.access_token)
         get :index, params: { event_id: event.id }
       end
 
@@ -61,7 +61,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
         order = create(:order, customer: @customer, status: "completed")
         @item = create(:order_item, order: order, catalog_item: @access, counter: 1)
 
-        http_login(admin.email, admin.access_token)
+        http_login(user.email, user.access_token)
       end
 
       describe "when ticket exists" do
@@ -75,9 +75,9 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
         it "returns the necessary keys" do
           ticket = JSON.parse(response.body)
-          ticket_keys = %w(reference credential_redeemed banned catalog_item_id customer purchaser_first_name purchaser_last_name purchaser_email)
+          ticket_keys = %w(reference redeemed banned catalog_item_id customer purchaser_first_name purchaser_last_name purchaser_email)
           c_keys = %w(id credentials first_name last_name email orders)
-          order_keys = %w(id catalog_item_id amount)
+          order_keys = %w(catalog_item_id amount status redeemed id)
           credential_keys = %w(reference type)
 
           expect(ticket.keys).to eq(ticket_keys)
@@ -91,7 +91,7 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
 
           ticket = {
             reference: @ticket.code,
-            credential_redeemed: @ticket.redeemed,
+            redeemed: @ticket.redeemed,
             banned: @ticket.banned,
             catalog_item_id: @ticket.ticket_type.catalog_item.id,
             customer: {
@@ -100,11 +100,11 @@ RSpec.describe Api::V1::Events::TicketsController, type: :controller do
               first_name: customer.first_name,
               last_name: customer.last_name,
               email: customer.email,
-              orders: [{
-                id: @item.counter,
-                catalog_item_id: @item.catalog_item_id,
-                amount: @item.amount
-              }]
+              orders: [{ catalog_item_id: @item.catalog_item_id,
+                         amount: @item.amount,
+                         status: @item.order.status,
+                         redeemed: @item.redeemed,
+                         id: @item.counter }]
             },
             purchaser_first_name: @ticket.purchaser_first_name,
             purchaser_last_name: @ticket.purchaser_last_name,

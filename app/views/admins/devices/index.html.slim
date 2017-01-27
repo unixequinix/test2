@@ -1,21 +1,13 @@
-- breadcrumb :admins_devices
-- provide :actions do
-  = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
-    = fa_icon 'search'
-    = t('actions.search')
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @devices
+    - if @devices.empty?
+      .section-title-empty
+        = image_tag "img-empty.png"
+        | p = t("alerts.empty_items_list", item: 'devices')
+    - else
+      = render 'admins/devices/list', devices: @devices
+  .mdl-layout-spacer
 
-aside.mmenu-panel#search-menu
-  = render "search", q: @list_model_presenter.q
 
-.wrapper-negative-space
-  .event-info
-    .current-showing = page_entries_info @list_model_presenter.all_items
-    .filters
-      = select_tag "filter", options_for_select("A".."Z", selected: params[:filter]), include_blank: true, id: "js-device-filter"
-
-  - if @list_model_presenter.there_any?
-    = render 'admins/devices/list', devices: @list_model_presenter.all_items
-  - else
-    .section-title-empty
-      = image_tag "img-empty.png"
-      p = t("admin.defaults.empty_item", item: 'devices')

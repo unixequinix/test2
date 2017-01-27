@@ -1,93 +1,115 @@
-- breadcrumb :admins_event_transaction, @current_event, @transaction, @type
-- provide :actions do
-  = link_to admins_event_transactions_path(@current_event, type: @type), class: "btn btn-action btn-action-back small" do
-    = fa_icon 'arrow-circle-left'
-    = t('actions.back')
+.content-grid.mdl-grid
+  .mdl-cell.mdl-cell--6-col
+    .mdl-grid
+      .mdl-cell.mdl-cell--12-col
+        .transaction-card-wide.mdl-card.mdl-shadow--2dp
+          .mdl-card__title
+            h2.mdl-card__title-text
+              i.material-icons info_outline
+              |General
+          .mdl-card__supporting-text
+            table.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric id
+                  td = @transaction.id
+                tr
+                  td.mdl-data-table__cell--non-numeric Event
+                  td = "#{@transaction.event.name} (#{@transaction.event.id})"
+                tr
+                  td.mdl-data-table__cell--non-numeric Transaction origin
+                  td = @transaction.transaction_origin
+                tr
+                  td.mdl-data-table__cell--non-numeric Action
+                  td = @transaction.action.humanize
+                tr
+                  td.mdl-data-table__cell--non-numeric Gtag counter
+                  td = @transaction.gtag_counter
+                tr
+                  td.mdl-data-table__cell--non-numeric Status code
+                  td = @transaction.status_code
+                tr
+                  td.mdl-data-table__cell--non-numeric Status message
+                  td = @transaction.status_message || "null"
+                tr
+                  td.mdl-data-table__cell--non-numeric Created in device at
+                  td = l Time.zone.parse(@transaction.device_created_at)
+                tr
+                  td.mdl-data-table__cell--non-numeric Saved in server at
+                  td = l @transaction.created_at
+                tr
+                  td.mdl-data-table__cell--non-numeric Last modified at
+                  td = l @transaction.updated_at
 
-.wrapper-negative-space
-  .container-show
-    h3.section-header
-      = fa_icon "info"
-      = t("admin.transactions.general")
-    dl
-      dt = t("admin.transactions.id")
-      dd = @transaction.id
+      .mdl-cell.mdl-cell--12-col
+        .transaction-card-wide.mdl-card.mdl-shadow--2dp
+          .mdl-card__title
+            h2.mdl-card__title-text
+              i.material-icons info_outline
+              |Device
+          .mdl-card__supporting-text
+            table.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric Device uid
+                  - device = Device.find_by_mac(@transaction.device_uid)
+                  - if device
+                    td = link_to(@transaction.device_uid, admins_device_path(device))
+                  - else
+                    td = @transaction.device_uid
+                tr
+                  td.mdl-data-table__cell--non-numeric Device db index
+                  td = @transaction.device_db_index
+                tr
+                  td.mdl-data-table__cell--non-numeric Operator tag uid
+                  td
+                    - if @operator
+                      = link_to @operator.tag_uid, admins_event_gtag_path(@current_event.id, @operator)
+                    - else
+                      = @transaction.operator_tag_uid
 
-      dt = t("admin.transactions.event")
-      dd = "#{@transaction.event.name} (#{@transaction.event.id})"
+  .mdl-cell.mdl-cell--6-col
+    .mdl-grid
+      .mdl-cell.mdl-cell--12-col
+        .transaction-card-wide.mdl-card.mdl-shadow--2dp
+          .mdl-card__title
+            h2.mdl-card__title-text
+              i.material-icons perm_identity
+              | Customer
+          .mdl-card__supporting-text
+            table.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric Tag UID
+                  td
+                    - if @gtag
+                      = link_to @gtag.tag_uid, admins_event_gtag_path(@current_event, @gtag)
+                    - else
+                      = @transaction.customer_tag_uid
+                tr
+                  td.mdl-data-table__cell--non-numeric Customer
+                  td
+                    - if @customer
+                      = link_to @customer.name, admins_event_customer_path(@current_event, @customer)
+                    - else
+                      = @transaction.customer_id
 
-      dt = t("admin.transactions.transaction_origin")
-      dd = @transaction.transaction_origin
+      .mdl-cell.mdl-cell--12-col
+        .transaction-card-wide.mdl-card.mdl-shadow--2dp
+          .mdl-card__title
+            h2.mdl-card__title-text
+              i.material-icons place
+              | Station
+          .mdl-card__supporting-text
+            table.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric Station
+                  td = @transaction.station&.name
+                tr
+                  td.mdl-data-table__cell--non-numeric Station id
+                  td = @transaction.station_id
 
-      dt = t("admin.transactions.action")
-      dd = @transaction.action
 
-      dt = t("admin.transactions.gtag_counter")
-      dd = @transaction.gtag_counter
 
-      dt = t("admin.transactions.status_code")
-      dd = @transaction.status_code
-
-      dt = t("admin.transactions.status_message")
-      dd = @transaction.status_message || "null"
-
-      dt = t("admin.transactions.created_at")
-      dd = @transaction.created_at
-    br
-
-    h3.section-header
-      = fa_icon "street-view"
-      = t("admin.transactions.customer")
-    dl
-      dt Tag UID
-      dd
-        - if @gtag
-          = link_to @gtag.tag_uid, admins_event_gtag_path(@current_event, @gtag)
-        - else
-          = @transaction.customer_tag_uid
-
-      dt = t("admin.transactions.customer_id")
-      dd
-        - if @customer
-          = link_to @customer.id, admins_event_customer_path(@current_event, @customer)
-        - else
-          = @transaction.customer_id
-    br
-
-    h3.section-header
-      = fa_icon "map-marker"
-      = t("admin.transactions.station")
-    dl
-      dt = t("admin.transactions.station")
-      dd = @transaction.station&.name
-
-      dt = t("admin.transactions.station_id")
-      dd = @transaction.station_id
-    br
-
-    h3.section-header
-      = fa_icon "tablet"
-      = t("admin.transactions.device")
-    dl
-      dt = t("admin.transactions.device_uid")
-      - device = Device.find_by_mac(@transaction.device_uid)
-      - if device
-        dd = link_to(@transaction.device_uid, admins_device_path(device)) 
-      - else
-        dd = @transaction.device_uid
-
-      dt = t("admin.transactions.device_db_index")
-      dd = @transaction.device_db_index
-
-      dt = t("admin.transactions.device_created_at")
-      dd = @transaction.device_created_at
-
-      dt = t("admin.transactions.operator_tag_uid")
-      dd
-        - if @operator
-          = link_to @operator.tag_uid, admins_event_gtag_path(@current_event.id, @operator)
-        - else
-          = @transaction.operator_tag_uid
-    br
-    
-    = render(partial: "admins/events/transactions/categories/#{@type}")
+      = render(partial: "admins/events/transactions/categories/#{@type}")

@@ -25,4 +25,8 @@ class StationProduct < ActiveRecord::Base
   validates :price, :product_id, presence: true
   validates :price, numericality: true
   validates :product_id, uniqueness: { scope: :station_id }
+
+  def self.policy_class
+    StationItemPolicy
+  end
 end

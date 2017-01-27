@@ -21,6 +21,7 @@
 class Order < ActiveRecord::Base
   default_scope { order(created_at: :desc) }
 
+  belongs_to :event
   belongs_to :customer, touch: true
   has_many :order_items, dependent: :destroy
   has_many :catalog_items, through: :order_items, class_name: "CatalogItem"

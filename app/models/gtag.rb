@@ -49,7 +49,7 @@ class Gtag < ActiveRecord::Base
               :wristbands_can_refund].freeze
 
   belongs_to :event
-  has_many :transactions
+  has_many :transactions, dependent: :restrict_with_error
 
   validates :tag_uid, uniqueness: { scope: [:event_id, :activation_counter] }
   validates :tag_uid, presence: true
@@ -60,7 +60,7 @@ class Gtag < ActiveRecord::Base
   alias_attribute :reference, :tag_uid
 
   def recalculate_balance
-    ts = transactions.credit.select { |t| t.status_code.zero? }.sort_by { |t| t.gtag_counter }
+    ts = transactions.credit.select { |t| t.status_code.zero? }.sort_by(&:gtag_counter)
     self.credits = ts.map(&:credits).sum
     self.refundable_credits = ts.map(&:refundable_credits).sum
     self.final_balance = ts.last&.final_balance.to_f

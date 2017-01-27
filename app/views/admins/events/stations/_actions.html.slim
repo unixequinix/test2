@@ -1,0 +1,30 @@
+- unless station.hidden?
+  - if station.form
+    .table-action
+      = link_to admins_event_station_station_items_path(@current_event, station) do
+        button.material-icons add
+    .table-action
+      = link_to edit_admins_event_station_path(@current_event, station) do
+        button.material-icons edit
+
+  - unless station.category.eql?("customer_portal")
+    .table-action
+      = link_to admins_event_station_clone_path(@current_event, station), method: :post do
+        button.material-icons content_copy
+
+  - unless @current_event.active? || station.category.eql?("customer_portal")
+    .table-action
+      = link_to admins_event_station_path(@current_event, station), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+        button.material-icons delete
+
+- unless station.category.eql?("touchpoint")
+  - if station.hidden?
+    .table-action
+      = link_to admins_event_station_visibility_path(@current_event, station, group: @group), method: :post do
+        button.material-icons visibility
+  - else
+    .table-action
+      = link_to admins_event_station_visibility_path(@current_event, station, group: @group), method: :post do
+        button.material-icons visibility_off
+
+

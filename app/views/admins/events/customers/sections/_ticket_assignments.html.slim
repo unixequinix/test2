@@ -1,23 +1,26 @@
-h3
-  = fa_icon "table"
-  = t ("admin.customers.admissions")
-table.subtable.customer-show-subtable
-  thead
-    tr
-      th = t("admin.customers.ticket")
-      th = t("admin.tickets.ticket_type_id")
-      th = t("admin.tickets.redeemed")
-      th = t("admin.tickets.banned")
-      th.table-actions-field = t("admin.defaults.actions")
+.mdl-layout-spacer
+.mdl-cell.mdl-cell--12-col
+  .admin-card-wide.mdl-card.mdl-shadow--2dp
+    .mdl-card__title
+      .mdl-cell.mdl-cell--4-col Admissions
+      .mdl-cell.mdl-cell--8-col
+    table.mdl-data-table.mdl-js-data-table.within-card
+      thead
+        tr
+          th.mdl-data-table__cell--non-numeric Ticket
+          th Ticket type
+          th Redeemed
+          th Banned
+      tbody
+         - customer.tickets.each do |ticket|
+          tr
+            td.mdl-data-table__cell--non-numeric
+              = link_to ticket.code, admins_event_ticket_path(@current_event, ticket)
+              = link_to admins_event_ticket_assignment_path(@current_event, ticket), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                button#revoke.icon.material-icons delete
+            td = ticket.ticket_type.name
+            td = ticket.redeemed? ? fa_icon("check") : fa_icon("times")
+            td = ticket.banned? ? fa_icon("check") : fa_icon("times")
+.mdl-layout-spacer
 
-  tbody
-    - customer.tickets.each do |ticket|
-      tr
-        td = link_to ticket.code, admins_event_ticket_path(@current_event, ticket)
-        td = ticket.ticket_type.name
-        td = ticket.redeemed? ? fa_icon("check") : fa_icon("times")
-        td = ticket.banned? ? fa_icon("check") : fa_icon("times")
-        td.table-actions-field
-          ul
-            li.table-action.action-delete
-              = link_to fa_icon("ban"), admins_event_ticket_assignment_path(@current_event, ticket), method: :delete, data: { confirm: t("admin.confirm.delete") }
+

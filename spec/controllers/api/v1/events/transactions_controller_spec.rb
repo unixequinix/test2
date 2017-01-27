@@ -4,7 +4,7 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
   include ControllerMacros
 
   let(:event) { create(:event) }
-  let(:admin) { create(:admin) }
+  let(:user) { create(:user) }
   let(:transaction) { CreditTransaction.new }
   let(:params) do
     [
@@ -31,7 +31,7 @@ RSpec.describe Api::V1::Events::TransactionsController, type: :controller do
     ]
   end
 
-  before { http_login(admin.email, admin.access_token) }
+  before { http_login(user.email, user.access_token) }
 
   describe "POST create" do
     context "when the request is VALID" do

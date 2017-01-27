@@ -1,17 +1,16 @@
 table.topup_credits
   thead
     tr
-      th = t('admin.stations.topup_credit.amount')
-      th = t('admin.stations.topup_credit.credit_value')
-      th = t('admin.stations.topup_credit.price')
-      th.table-actions-field = t('admin.defaults.actions')
+      th Amount
+      th Credit value
+      th Price
+      th.table-actions-field Actions
   tbody
     - @items.each do |topup_credit|
       tr class="#{'station-hidden' if topup_credit.hidden?}"
-        td data-label=t('admin.stations.topup_credit.amount')
-          = best_in_place topup_credit, :amount, url: admins_event_station_station_item_path(@current_event, @station, topup_credit, item_type: "topup_credit")
-        td data-label=t('admin.stations.topup_credit.credit_value') = topup_credit.credit.value
-        td data-label=t('admin.stations.topup_credit.price') = topup_credit.credit.value * topup_credit.amount
+        td = best_in_place topup_credit, :amount, url: admins_event_station_station_item_path(@current_event, @station, topup_credit, item_type: "topup_credit")
+        td = topup_credit.credit.value
+        td = topup_credit.credit.value * topup_credit.amount
         td.table-actions-field
           ul
             - if topup_credit.hidden?
@@ -19,4 +18,4 @@ table.topup_credits
             - else
               li.table-action.action-visible = link_to fa_icon("eye", class: "fa-fw"), admins_event_station_station_item_visibility_path(@current_event, @station, topup_credit, item_type: "topup_credit"), method: :post
             - unless @current_event.active?
-              li.table-action.action-delete = link_to fa_icon("trash"), admins_event_station_station_item_path(@current_event, @station, topup_credit, item_type: "topup_credit"), method: :delete, data: { confirm: t('admin.confirm.delete') }
+              li.table-action.action-delete = link_to fa_icon("trash"), admins_event_station_station_item_path(@current_event, @station, topup_credit, item_type: "topup_credit"), method: :delete, data: { confirm: t("alerts.confirm_delete") }

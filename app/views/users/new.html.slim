@@ -1,0 +1,16 @@
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--4-col
+    .login-header= image_tag("glownet-event-logo.png")
+    .demo-card-wide.mdl-card.mdl-shadow--2dp.login-card
+      .mdl-card__supporting-text
+        = simple_form_for @user, wrapper: :mdl_field_floating, wrapper_mappings: { text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload } do |f|
+          .field
+            = f.input :email, placeholder: true
+          .field
+            = f.input :password, autocomplete: "off"
+          .field
+            = f.input :password_confirmation, autocomplete: "off"
+          .form-actions
+            = f.button :submit, "Register", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+  .mdl-layout-spacer

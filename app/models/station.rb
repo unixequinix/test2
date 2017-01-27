@@ -25,7 +25,7 @@
 class Station < ActiveRecord::Base
   belongs_to :event
 
-  has_many :transactions
+  has_many :transactions, dependent: :restrict_with_error
   has_many :station_catalog_items, dependent: :destroy
   has_many :station_products, dependent: :destroy
   has_many :topup_credits, dependent: :destroy

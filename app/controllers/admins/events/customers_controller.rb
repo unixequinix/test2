@@ -1,29 +1,24 @@
 class Admins::Events::CustomersController < Admins::Events::BaseController
+  before_action :set_customer, except: [:index]
+
   def index
+    @customers = @current_event.customers
+    authorize @customers
+    @customers = @customers.page(params[:page])
+
     respond_to do |format|
-      format.html do
-        @q = @current_event.customers.search(params[:q])
-        @customers = @q.result.page(params[:page])
-      end
+      format.html
       format.csv { send_data(CsvExporter.to_csv(Customer.query_for_csv(@current_event))) }
     end
   end
 
-  def search
-    @q = @current_event.customers.search(params[:q])
-    @customers = @q.result.page(params[:page])
-    render :index
-  end
-
   def show
-    @customer = @current_event.customers.find(params[:id])
     @online_transactions = @customer.transactions.online.order(:counter)
     @onsite_transactions = @customer.active_gtag&.transactions&.onsite&.order(:gtag_counter)
   end
 
   def reset_password
     password = "123456"
-    @customer = @current_event.customers.find(params[:id])
     @customer.update(password: password, password_confirmation: password)
     redirect_to admins_event_customer_path(@current_event, @customer), notice: "Password reset to '#{password}'"
   end
@@ -40,12 +35,10 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
     end
   end
 
-  def set_presenter
-    @list_model_presenter = ListModelPresenter.new(model_name: "Customer".constantize.model_name,
-                                                   fetcher: @current_event.customers,
-                                                   search_query: params[:q],
-                                                   page: params[:page],
-                                                   context: view_context,
-                                                   include_for_all_items: [:gtags, :tickets])
+  private
+
+  def set_customer
+    @customer = @current_event.customers.find(params[:id])
+    authorize @customer
   end
 end

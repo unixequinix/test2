@@ -4,16 +4,19 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
 
   def index
     @gateways = @current_event.payment_gateways
+    authorize @gateways
   end
 
   def new
     @gateway = @current_event.payment_gateways.new(gateway: params[:gateway], data: {})
+    authorize @gateway
   end
 
   def create
     @gateway = @current_event.payment_gateways.new(gateway: permitted_params[:gateway], data: permitted_params[:data])
+    authorize @gateway
     if @gateway.save
-      redirect_to admins_event_payment_gateways_path(@current_event)
+      redirect_to admins_event_payment_gateways_path(@current_event), notice: I18n.t("alerts.created")
     else
       @attributes = set_attributes
       flash.now[:error] = @gateway.errors.full_messages.to_sentence
@@ -23,7 +26,7 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
 
   def update
     if @gateway.update(permitted_params)
-      redirect_to admins_event_payment_gateways_path(@current_event)
+      redirect_to admins_event_payment_gateways_path(@current_event), notice: I18n.t("alerts.updated")
     else
       flash.now[:error] = @gateway.errors.full_messages.to_sentence
       render :edit
@@ -32,23 +35,24 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
 
   def destroy
     @gateway.destroy
-    redirect_to admins_event_payment_gateways_path(@current_event)
+    redirect_to admins_event_payment_gateways_path(@current_event), notice: I18n.t("alerts.destroyed")
   end
 
   def topup
     @gateway.update(topup: !@gateway.topup?)
-    redirect_to admins_event_payment_gateways_path(@current_event)
+    redirect_to admins_event_payment_gateways_path(@current_event), notice: I18n.t("alerts.updated")
   end
 
   def refund
     @gateway.update(refund: !@gateway.refund?)
-    redirect_to admins_event_payment_gateways_path(@current_event)
+    redirect_to admins_event_payment_gateways_path(@current_event), notice: I18n.t("alerts.updated")
   end
 
   private
 
   def set_gateway
     @gateway = @current_event.payment_gateways.find(params[:id])
+    authorize @gateway
   end
 
   def set_attributes

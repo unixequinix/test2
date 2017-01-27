@@ -14,12 +14,12 @@
         table.transactions
           thead
             tr
-              th = t("admin.devices.asset")
-              th = t("admin.devices.mac")
-              th = t("admin.transactions.action")
-              th = t("admin.transactions.server_transactions")
-              th = t("admin.transactions.device_transactions")
-              th = t("admin.transactions.last_device_transaction")
+              th Asset
+              th Mac
+              th Action
+              th Server Transactions
+              th Device Transactions
+              th Last device transaction
 
           tbody
             - @assets[type].each do |device, info|

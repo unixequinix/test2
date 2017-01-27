@@ -7,97 +7,49 @@ Rails.application.routes.draw do
   #----------------------------------------------------------
   # Admin panel
   #----------------------------------------------------------
-  devise_for :admins, controllers: { sessions: "admins/sessions"}
+  devise_for :users, controllers: { sessions: "admins/sessions"}
+
+  resources :users
 
   namespace :admins do
+    resources :devices, only: [:index, :show, :edit, :update, :destroy]
 
     namespace :eventbrite do
       get :auth
     end
 
     resources :locale do
-      member do
-        get "change"
-      end
+      get :change, on: :member
     end
-
     resources :companies do
       scope module: "companies" do
-        resources :company_event_agreements, only: [:index, :new, :create, :destroy]
+        resources :company_event_agreements, only: [:index, :create, :destroy]
       end
     end
-
-    resources :devices, only: [:index, :show, :update, :destroy] do
-      collection do
-        get :search
-      end
-    end
-
-    resources :admins, except: :show
-
-    resources :events, only: [:index, :show, :new, :create, :edit, :update] do
+    resources :events, except: :destroy do
       member do
         post :remove_logo
         post :remove_background
         get :create_admin
         get :create_customer_support
+        get :transactions_chart
+        get :credits_chart
       end
 
       scope module: "events" do
-        # Inconsistencies
-        resources :inconsistencies do
-          collection do
-            get :missing
-            get :real
-            get :resolvable
-          end
-        end
-
-        # Transactions
-        resources :transactions, only: [:index, :show, :update] do
-          collection do
-            get :search
-          end
-
-          member do
-            get :fix
-          end
-        end
-
-        # Refunds
-        resources :refunds, only: [:index, :show] do
-          collection do
-            get :search
-          end
-        end
-
-        # Payments
-        resources :payment_gateways do
-          member do
-            post :topup
-            post :refund
-          end
-        end
-
-        # Orders
-        resources :orders, except: [:new, :create, :edit, :update] do
-          collection do
-            get :search
-          end
-        end
-
-        # Customers
-        resources :customers do
-          member do
-            resources :ticket_assignments, only: [:new, :create]
-            resources :gtag_assignments, only: [:new, :create]
-            get :download_transactions
-            get :reset_password
-          end
-          collection do
-            get :search
-          end
-        end
+        resources :refunds, only: [:index, :show]
+        resources :orders, only: [:index, :show]
+        resources :gtag_assignments, only: :destroy
+        resources :ticket_types, except: :show
+        resources :devices, only: :index
+        resources :asset_trackers
+        resources :credits, except: [:new, :create]
+        resources :catalog_items, only: :update
+        resources :accesses
+        resources :packs
+        resources :ticket_assignments, only: :destroy
+        resources :companies, except: :show
+        resources :users
 
         # Eventbrite
         get "eventbrite", to: "eventbrite#index"
@@ -106,21 +58,40 @@ Rails.application.routes.draw do
         get "eventbrite/connect/:eb_event_id", to: "eventbrite#connect", as: 'eventbrite_connect'
         post "eventbrite/webhooks", to: "eventbrite#webhooks"
 
+        resources :inconsistencies do
+          collection do
+            get :missing
+            get :real
+            get :resolvable
+          end
+        end
+        resources :transactions, only: [:index, :show, :update] do
+          post :search, on: :collection
+          get :fix, on: :member
+        end
+        resources :payment_gateways, except: :show do
+          member do
+            post :topup
+            post :refund
+          end
+        end
+        resources :customers, only: [:index, :show] do
+          member do
+            resources :ticket_assignments, only: [:new, :create]
+            resources :gtag_assignments, only: [:new, :create]
+            get :download_transactions
+            get :reset_password
+          end
+        end
         resource :device_settings, only: [:show, :edit, :update] do
           member do
             delete :remove_db
             get :load_defaults
           end
         end
-        resources :ticket_assignments, only: [:destroy]
         resource :gtag_settings, only: [:show, :edit, :update] do
-          member do
-            get :load_defaults
-          end
+          get :load_defaults, on: :member
         end
-        resources :devices, only: :index
-        resources :asset_trackers
-
         resources :gtags do
           member do
             get :recalculate_balance
@@ -129,55 +100,27 @@ Rails.application.routes.draw do
             delete :unban
           end
           collection do
-            get :search
             get :sample_csv
             delete :destroy_multiple
             post :import
           end
         end
-
-        resources :gtag_assignments, only: [:destroy]
-        resources :ticket_types, except: :show
-
         resources :tickets do
           member do
             get :ban
             delete :unban
           end
           collection do
-            get :search
             get :sample_csv
             delete :destroy_multiple
             post :import
           end
         end
-
-        resources :companies, except: :show
         resources :products do
           collection do
-            get :search
             post :import
             get :sample_csv
             delete :destroy_multiple
-          end
-        end
-        resources :catalog_items, only: :update
-        resources :accesses do
-          member do
-            get :create_credential
-            delete :destroy_credential
-          end
-        end
-        resources :credits do
-          member do
-            get :create_credential
-            delete :destroy_credential
-          end
-        end
-        resources :packs do
-          member do
-            get :create_credential
-            delete :destroy_credential
           end
         end
         resources :stations do
@@ -188,7 +131,6 @@ Rails.application.routes.draw do
             post :visibility
           end
         end
-
         resources :ticket_types, except: :show do
           post :visibility
         end
@@ -196,39 +138,6 @@ Rails.application.routes.draw do
     end
 
     mount Sidekiq::Web, at: "/sidekiq"
-  end
-
-  #----------------------------------------------------------
-  # API
-  #----------------------------------------------------------
-  namespace :api, defaults: { format: "json" } do
-    namespace :v1 do
-      resources :devices, only: [:create]
-      resources :events, only: :index do
-        scope module: "events" do
-          resource :database, only: [:create, :show]
-          resources :accesses, only: :index
-          resources :auto_top_ups, only: :create
-          resources :backups, only: :create
-          resources :banned_gtags, path: "gtags/banned", only: :index
-          resources :banned_tickets, path: "tickets/banned", only: :index
-          resources :ticket_types, only: :index
-          resources :credits, only: :index
-          resources :customers, only: [:index, :show]
-          resources :gtags, only: [:index, :show]
-          resources :orders, only: :index
-          resources :packs, only: :index
-          resources :parameters, only: :index
-          resources :products, only: :index
-          resources :stations, only: :index
-          resources :tickets, only: [:index, :show]
-          resources :transactions, only: :create
-          resources :device_transactions, only: :create
-          resources :user_flags, only: :index
-          get "/time", to: "time#index"
-        end
-      end
-    end
   end
 
   #----------------------------------------------------------
@@ -291,6 +200,39 @@ Rails.application.routes.draw do
 
       # Bank Account
       resources :refunds
+    end
+  end
+
+  #----------------------------------------------------------
+  # API
+  #----------------------------------------------------------
+  namespace :api, defaults: { format: "json" } do
+    namespace :v1 do
+      resources :devices, only: [:create]
+      resources :events, only: :index do
+        scope module: "events" do
+          resource :database, only: [:create, :show]
+          resources :accesses, only: :index
+          resources :auto_top_ups, only: :create
+          resources :backups, only: :create
+          resources :banned_gtags, path: "gtags/banned", only: :index
+          resources :banned_tickets, path: "tickets/banned", only: :index
+          resources :ticket_types, only: :index
+          resources :credits, only: :index
+          resources :customers, only: [:index, :show]
+          resources :gtags, only: [:index, :show]
+          resources :orders, only: :index
+          resources :packs, only: :index
+          resources :parameters, only: :index
+          resources :products, only: :index
+          resources :stations, only: :index
+          resources :tickets, only: [:index, :show]
+          resources :transactions, only: :create
+          resources :device_transactions, only: :create
+          resources :user_flags, only: :index
+          get "/time", to: "time#index"
+        end
+      end
     end
   end
 

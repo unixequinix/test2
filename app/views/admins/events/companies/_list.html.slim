@@ -1,18 +1,17 @@
-.current-showing = page_entries_info @list_model_presenter.all_items
+.current-showing = page_entries_info companies
 table.companies
   thead
     tr
-      th = t('admin.companies.name')
-      th = t('admin.event.token')
-      th = t('admin.companies.token')
-      th.table-actions-field = t('admin.defaults.actions')
+      th Name
+      th Event Token
+      th Company Token
+      th.table-actions-field Actions
   tbody
     - companies.each do |company|
       tr
-        td data-label=t('admin.companies.name') = link_to(company.name, edit_admins_event_company_path(@current_event, company))
-        td data-label=t('admin.companies.name') = @current_event.token
-        td data-label=t('admin.companies.name') = company.token
-        td.table-actions-field
-          = render 'admins/events/companies/actions', company: company unless @current_event.started?
+        td = link_to(company.name, edit_admins_event_company_path(@current_event, company))
+        td = @current_event.token
+        td = company.token
+        td.table-actions-field = render 'admins/events/companies/actions', company: company unless @current_event.started?
 
 = paginate companies

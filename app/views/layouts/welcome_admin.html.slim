@@ -1,14 +1,21 @@
 doctype html
-html [lang=I18n.locale]
-
+html
   head
-    title Glownet
-    meta name='viewport' content='width=device-width, initial-scale=1.0'
-    = stylesheet_link_tag 'welcome_admin', media: 'all', 'data-turbolinks-track' => true
+    title
+      | Glownet
+    = stylesheet_link_tag "layout"
+    = stylesheet_link_tag "application", media: "all"
+    = javascript_include_tag "application"
+    link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" /
+    link href="https://code.getmdl.io/1.2.1/material.teal-pink.min.css" rel="stylesheet" /
+    script defer="defer" src="https://code.getmdl.io/1.2.1/material.min.js" 
+    script src="//cdn.tinymce.com/4/tinymce.min.js" 
+    meta content="width=device-width, initial-scale=1.0" name="viewport" /
     = csrf_meta_tags
 
-  body class="#{controller_name} #{action_name}"
-    #notifications
-      = render 'notifications'
+  body class=("#{controller_name} #{action_name}") style="background-color: #b2dfdb"
     .container-main
       = yield
+
+
+

@@ -1,7 +1,5 @@
-- breadcrumb :admins_event_payment_gateways, @current_event
-- provide :actions do
-  = link_to admins_event_payment_gateways_path(@current_event), class: "btn btn-action btn-action-back small" do
-    = fa_icon 'arrow-circle-left'
-    = t('actions.back')
-
-= render 'form'
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    = render "form"
+  .mdl-layout-spacer

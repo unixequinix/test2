@@ -1,0 +1,2 @@
+class AccessPolicy < ApplicationPolicy
+end

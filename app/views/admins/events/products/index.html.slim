@@ -1,29 +1,54 @@
-- breadcrumb :admins_event_products, @current_event
-- provide :actions do
-  = link_to new_admins_event_product_path, class: "btn btn-action btn-action-new small" do
-    = fa_icon 'plus'
-    = t('admin.actions.new')
-  = link_to '#import-modal', class: "btn btn-action btn-action-search small" do
-    = fa_icon 'upload'
-    = t('admin.actions.import')
-  = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
-    = fa_icon 'search'
-    = t('admin.actions.search')
-
-.remodal data-remodal-id="import-modal" 
-  button.remodal-close data-remodal-action="close" 
+.remodal data-remodal-id="import-modal"
+  button.remodal-close data-remodal-action="close"
   h3.remodal__title Import products by CSV file
-  = simple_form_for :file, url: import_admins_event_products_path(@current_event), html: { multipart: true} do |f|
+  = simple_form_for :file, url: import_admins_event_products_path(@current_event), html: { multipart: true}, wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
     p = f.file_field :data, label: :import
-    p 
-      | Download a 
+    p
+      | Download a
       = link_to "sample CSV", sample_csv_admins_event_products_path(@current_event, format: "csv")
       |  template to see an example of the format required.
     .remodal__actions
-      = f.submit "Submit", class: "btn btn-primary btn--block"
+      = f.submit "Submit", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
 
-.wrapper-negative-space
-  - if @list_model_presenter.there_any?
-    = render 'admins/events/products/list', products: @list_model_presenter.all_items
-  - else
-    = render @list_model_presenter.no_items_for_presentation
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @products
+
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--4-col Products
+        .mdl-cell.mdl-cell--8-col
+          .tools
+            .tool-item
+              = link_to new_admins_event_product_path do
+                span#add.icon.material-icons add
+                span.mdl-tooltip data-mdl-for="add"  Add
+            .tool-item
+              = link_to '#import-modal' do
+                span#upload.icon.material-icons file_upload
+                span.mdl-tooltip data-mdl-for="upload"  Import
+      table.mdl-data-table.mdl-js-data-table.within-card
+        thead
+          tr
+            th.mdl-data-table__cell--non-numeric Name
+            th Product_type
+            th VAT
+            th Is alcohol?
+            th Stations
+        tbody
+          - @products.each do |product|
+            tr data-event=@current_event.id data-product=product.id
+              td.mdl-data-table__cell--non-numeric
+                = link_to(product.name, admins_event_product_path(@current_event, product))
+                .table-action
+                  = link_to edit_admins_event_product_path(@current_event, product) do
+                    button.icon.material-icons edit
+              td = product.product_type
+              td = product.vat
+              td = product.is_alcohol
+              td = product.station_products&.first&.station&.name
+    .mdl-cell.mdl-cell--12-col.italic.small = paginate @products
+  .mdl-layout-spacer
+
+

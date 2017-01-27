@@ -1,34 +1,72 @@
-- breadcrumb :admins_event_tickets, @current_event
-- provide :actions do
-  - unless current_admin.customer_service?
-    = link_to new_admins_event_ticket_path, class: "btn btn-action btn-action-new small" do
-      = fa_icon 'plus'
-      = t('admin.actions.new')
-    = link_to admins_event_tickets_path(format: "csv"), class: "btn btn-action btn-action-back small"
-      = fa_icon "download"
-      = t('admin.actions.download')
-    = link_to '#import-modal', class: "btn btn-action btn-action-search small" do
-      = fa_icon 'upload'
-      = t('admin.actions.import')
-  = link_to '#search-menu', class: "btn btn-action btn-action-search small" do
-    = fa_icon 'search'
-    = t('admin.actions.search')
-
-
-.remodal data-remodal-id="import-modal" 
-  button.remodal-close data-remodal-action="close" 
-  h3.remodal__title = t('admin.tickets.import.title')
-  = simple_form_for :file, url: import_admins_event_tickets_path(@current_event.id), html: { multipart: true} do |f|
+.remodal data-remodal-id="import-modal"
+  button.remodal-close data-remodal-action="close"
+  h3.remodal__title Import products by CSV file
+  = simple_form_for :file, url: import_admins_event_tickets_path(@current_event.id), html: { multipart: true}, wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
     p = f.file_field :data, label: :import
-    p 
-      | Download a 
+    p
+      | Download a
       = link_to "sample CSV", sample_csv_admins_event_tickets_path(@current_event, format: "csv")
       |  template to see an example of the format required.
     .remodal__actions
-      = f.submit "Submit", class: "btn btn-primary btn--block"
+      = f.submit "Submit", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
 
-.wrapper-negative-space
-  - if @list_model_presenter.there_any?
-    = render 'admins/events/tickets/list', tickets: @list_model_presenter.all_items
-  - else
-    = render @list_model_presenter.no_items_for_presentation
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @tickets
+
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--4-col Tickets
+        .mdl-cell.mdl-cell--8-col
+          .tools
+            .tool-item
+              = link_to new_admins_event_ticket_path do
+                span#add.icon.material-icons add
+                span.mdl-tooltip data-mdl-for="add"  Add
+            .tool-item
+              = link_to admins_event_tickets_path(format: "csv") do
+                span#dowload.icon.material-icons file_download
+                span.mdl-tooltip data-mdl-for="download"  Download CSV
+            .tool-item
+              = link_to '#import-modal' do
+                span#upload.icon.material-icons file_upload
+                span.mdl-tooltip data-mdl-for="upload"  Import
+            .tool-item
+              span#check.icon.material-icons done_all
+              span.mdl-tooltip data-mdl-for="check"  Toggle Checkboxes
+            .tool-item
+              span#bulk.icon.material-icons more_vert
+              span.mdl-tooltip data-mdl-for="bulk"  Bulk Actions
+              ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="bulk"
+                li.mdl-menu__item#deleteticket Delete selected
+      table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
+        thead
+          tr
+            th.mdl-data-table__cell--non-numeric Code
+            th First Name
+            th Last Name
+            th Email
+            th Customer
+            th Banned
+        tbody
+          - @tickets.each do |ticket|
+            tr data-event=@current_event.id data-ticket=ticket.id
+              td.mdl-data-table__cell--non-numeric
+                = link_to ticket.code, admins_event_ticket_path(@current_event, ticket)
+                = render 'admins/events/tickets/actions', ticket: ticket unless @current_event.started?
+              td = ticket.purchaser_first_name
+              td = ticket.purchaser_last_name
+              td = ticket.purchaser_email
+              td = link_to ticket.customer.email, admins_event_customer_path(@current_event, ticket.customer) if ticket.customer
+              td
+                - if ticket.banned?
+                  = link_to unban_admins_event_ticket_path(@current_event, ticket), method: :delete, title: "Unban ticket" do
+                     .material-icons radio_button_checked
+                - else
+                  = link_to ban_admins_event_ticket_path(@current_event, ticket), title: "Ban ticket" do
+                     .material-icons radio_button_unchecked
+    .mdl-cell.mdl-cell--12-col.italic.small = paginate @tickets
+  .mdl-layout-spacer
+
+

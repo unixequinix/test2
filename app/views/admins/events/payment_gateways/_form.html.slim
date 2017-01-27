@@ -1,24 +1,28 @@
-.wrapper-negative-space
-  = simple_form_for [:admins, @current_event, @gateway] do |f|
-    .container-show
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  = simple_form_for [:admins, @current_event, @gateway], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+    .field
       = hidden_field_tag "payment_gateway[gateway]", @gateway.gateway
       - if @config_atts
-        h3.section-header
-          = fa_icon "info-circle"
-          = t("admin.event.fieldests.basic_settings")
-        - @config_atts.map(&:to_s).each do |att|
-          .input
-            label = att.to_s.humanize
-            = text_field_tag "payment_gateway[data[#{att}]]", @gateway.data[att]
+        .section-header
+          i.material-icons info_outline
+          span Basic Settings
+        .form-inputs.short-input
+          - @config_atts.map(&:to_s).each do |att|
+            .mdl-textfield.mdl-js-textfield.mdl_field_floating
+              label.mdl-textfield__label = att.to_s.humanize
+              = text_field_tag "payment_gateway[data[#{att}]]", @gateway.data[att], class: 'mdl-textfield__input'
+
       - if @refund_atts
-        h3.section-header
-          = fa_icon "info-circle"
-          = t("admin.event.fieldests.refund_settings")
-        = f.input :refund_field_a_name
-        = f.input :refund_field_b_name
-        - @refund_atts.map(&:to_s).each do |att|
-          .input
-            label = att.to_s.humanize
-            = text_field_tag "payment_gateway[data[#{att}]]", @gateway.data[att]
-      fieldset
-        = f.submit t('admin.actions.update'), class: "btn btn-primary"
+        .section-header
+          i.material-icons info_outline
+          span Refund Settings
+        .form-inputs.short-input
+          = f.input :refund_field_a_name
+          = f.input :refund_field_b_name
+          - @refund_atts.map(&:to_s).each do |att|
+            .mdl-textfield.mdl-js-textfield.mdl_field_floating
+              label.mdl-textfield__label = att.to_s.humanize
+              = text_field_tag "payment_gateway[data[#{att}]]", @gateway.data[att], class: 'mdl-textfield__input'
+
+    .form-actions
+      = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"

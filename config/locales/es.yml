@@ -1,299 +1,77 @@
 ---
 es:
-  country_iso_priority: [AT, BE, BG, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, GB]
-  general_company_name: 'Glownet'
-  general_support_email: 'support@glownet.com'
-  gender:
-    male: 'Male'
-    female: 'Female'
-  gtag_name: 'Wristband'
-  event:
-    subject_support: 'Need help for %{event}'
-    locales:
-      en: 'ENG'
-      es: 'ESP'
-      it: 'ITA'
-      th: 'THA'
-      de: 'GER'
-      pt: 'PT'
-  events:
-    create:
-      error: "Event couldn't be created, check the errors below"
-  activemodel:
-    errors:
-      models:
-        customer:
-          attributes:
-            phone:
-              improbable_phone: "It's not a valid phone number. Check that country matches the phone number."
-            birthdate:
-              invalid: "It's not a valid date"
-              too_young: "Must be older than %{age} years old"
-        epg_claim_form:
-          attributes:
-            phone:
-              improbable_phone: "It's not a valid phone number. Check that country matches the phone number."
-        bank_account_claim_form:
-          attributes:
-            swift:
-              invalid: "It's not a valid BIC/SWIFT"
-            iban:
-              invalid: "It's not a valid IBAN, introduce a valid account for SEPA"
-    attributes:
-      euro_bank_account_claim_form:
-        swift: "BIC/SWIFT"
-        iban: "IBAN"
-        account_holder: "Account holder's name"
-        bank_name: "Bank name"
-      aus_bank_account_claim_form:
-        bsb: "BSB"
-        account_holder: "Account holder's name"
-        bank_name: "Bank name"
-        number: "Account number"
-      nz_bank_account_claim_form:
-        bsb: "BSB"
-        account_holder: "Account holder's name"
-        bank_name: "Bank name"
-        number: "Account number (00 0000 0000000 000)"
-      thailand_bank_account_claim_form:
-        bsb: "BSB (000000)"
-        account_holder: "Account holder's name (Thai)"
-        account_holder_translation: "Account holder's name (English)"
-        bank_name: "Bank name"
-        number: "Account number"
-  activerecord:
-    models:
-      admin:
-        one: 'admin'
-        other: 'admins'
-      claim:
-        one: 'claim'
-        other: 'claims'
-      credit:
-        one: 'credit'
-        other: 'credits'
-      customer:
-        one: 'customer'
-        other: 'customers'
-      gtag:
-        one: 'gtag'
-        other: 'gtags'
-      order:
-        one: 'order'
-        other: 'orders'
-      payment:
-        one: 'payment'
-        other: 'payments'
-      refund:
-        one: 'refund'
-        other: 'refunds'
-      ticket:
-        one: 'ticket'
-        other: 'tickets'
-      company:
-        one: 'company'
-        other: 'companies'
-      pack:
-        one: 'pack'
-        other: 'packs'
-      ticket_type:
-        one: 'company ticket type'
-        other: 'company ticket types'
-    errors:
-      models:
-        customer:
-          attributes:
-            email:
-              taken: 'Email taken'
-        ticket_type:
-          attributes:
-            base:
-              restrict_dependent_destroy:
-                many: "Can't be deleted because there are tickets associated"
-        ticket:
-          attributes:
-            number:
-              taken: 'Number taken'
-            base:
-              restrict_dependent_destroy:
-                many: "Can't be deleted because there are customers associated"
-        gtag:
-          attributes:
-            base:
-              restrict_dependent_destroy:
-                many: "Can't be deleted because there are customers associated"
-            tag_uid:
-              taken: 'Tag UID taken'
-        admission:
-          attributes:
-            ticket:
-              taken: 'taken'
-
   actions:
     back: Atrás
-    cancel: Cancelar
     check_news: Volver
-    confirm: Confirmar
     delete: Borrar
-    delete_account: Eliminar tu cuenta
-    delete_ticket: Borrar ticket
     edit: Editar
-    finalize: Finalizar
-    logout: Cerrar sessión
   admin:
     accesses:
       initial_amount: Cantidad inicial
       max_purchasable: Compra máxima
       min_purchasable: Compra mínima
-      mode: Modo
-      modes:
-        counter: Contador
-        permanent: Permanente
-        permanent_strict: Permanente Estricto
       step: Steps
     actions:
-      assign_gtag: Asignar gtag
-      assign_ticket: Asignar ticket
       back: Atrás
-      cancel: Cancelar
-      credits_history: Historial de créditos
-      csv: CSV
       delete_selected: Borrar seleccionados
-      disable: Deshabilitar
       download: CSV
-      manual_claims_csv: CSV Peticiones Manuales
       new: Nuevo
-      search: Buscar
-      select_all: Seleccionar todo
       update: Actualizar
-    admins:
-      email: Email
     admissions:
-      state: Estado
-      created_at: Creado el
       customer:
         complete_name: Nombre completo
         email: Email
+      state: Estado
       states:
         assigned: Asignación actual
-        unassigned: Asignación previa
       ticket: Ticket
-      updated_at: Actualizado el
-    agreements:
-      granted: Aceptado
-      revoked: Revocado
-      status: Estado
     aside:
-      access_transactions: Acceso
       accesses: Accesos
       admins: Administradores
-      ban_transactions: Baneo
-      claims: Peticiones
       companies: Compañías
-      credential_transactions: Credenciales
-      inconsistencies: Inconsistencias de créditos
-      credit_transactions: Crédito
       credits: Créditos
       crm: CRM
       customers: Perfiles de evento
       details: Detalles
-      device_transactions: Device
       event: Evento
       events: Eventos
       gtag: GTags
-      logs: Logs
-      missing_transactions: Perdidas
-      money_transactions: Monetarias
-      operator_transactions: Operator
-      order_transactions: Órdenes
+      inconsistencies: Inconsistencias de créditos
       orders: Órdenes
       payment_settings: Configuración de pagos
-      payments: Pagos
-      refund_settings: Configuración de devoluciones
       refunds: Devoluciones
       setup: Setup
       sign_out: Cerrar Sesión
       ticket_types: Tipo de tickets de compañia
-      user_engagement_transactions: User Engagement
     catalog_item:
-      description: Descripción
       initial_amount: Cantidad Inicial
       max_purchasable: Máximo Comprable
       min_purchasable: Mínimo Comprable
       name: Nombre
       step: Escala
-      type: Tipo
     companies:
       name: Nombre
       token: Token de la compañia
     confirm:
-      clone: Estás seguro?
       delete: Estás seguro?
     credits:
-      currency: Divisa
-      standard: Estándar
       value: Valor
-    customer:
-      id: Id
     customers:
-      admissions: Registro de Tickets
-      agreed_event_condition: Condición del evento aceptada
-      amount: Cantidad
-      banned: Baneado
-      claims: Peticiones de devolución
-      completed_claim: Peticiones de devolución completadas
-      creadit_logs: Compras de créditos
-      created_at: Creado el
-      credits: Créditos
-      current_sign: Inicio de Sesión Actual
-      current_sign_ip: Inicio de Sesión Actual en IP
-      delete: Borrado
       email: Email
       first_name: Nombre
       gtag: Gtags
-      gtag_credits: Créditos Gtag
-      id: Id
       last_name: Apellidos
-      last_sign: Último Inicio de Sesión en
-      last_sign_ip: Último Inicio de Sesión en IP
-      orders: Ordenes
-      payments: Pagos
-      payments_activated: Pagos activados
-      refund: Refund
-      search:
-        confirmed: "¿Confirmado?"
-        credits_purchased: "¿Créditos Comprados?"
-        email: Email
-        first_name: Nombre
-        gtag: "¿Gtags?"
-        last_name: Apellido
-        tickets: "¿Tickets?"
-      sign: Número de inicios de Sesión
-      state: Estado
       ticket: Ticket
       tickets: Tickets
-      transactions: Transacciones
-      transactions_type: Tipos de Transacciones
-    dashboard:
-      api_access: Acceso API
-      change_state: Cambiar de Estado?
-      current_token: 'Tu token de acceso del API:'
     defaults:
       actions: Acciones
       all: Seleccionar
-      empty_events: No hay eventos
       empty_item: Sin %{item}
-      home: Home
       item_not_found: No se encontraron %{item}
       log_in: Iniciar Sesión
-      search: Buscar
     device_settings:
       form:
-        currency: Símbolo de la moneda
-        maximum_wb_balance: Balance máximo de la pulsera
         private_zone_password: Contraseña de la zona privada
-        public_key_a: Contraseña del Gtag
-        uid_reverse: UID Reverse
     devices:
       asset: Asset ID
       imei: Imei
@@ -301,120 +79,32 @@ es:
       model: Model
       serial_number: Serial Number
     event:
-      background: Fondo
-      background_type: Tipo de Fondo
       background_types:
         fixed: Fijo
         repeat: Repetir
-      bank_account_disclaimer: Mensaje de cuenta bancaria
-      company_name: Nombre de la compañía
-      description: Descripción
-      disclaimer: Advertencia
-      end_date: Fecha de finalización
-      features: Funcionalidades habilitadas
-      features_options:
-        agreement_acceptance: Aceptación de agreement
-        authorization: Autorizatión
-        gtag_assignation: Asignación de gtags
-        refunds: Devoluciones
-        ticket_assignation: Asignación de tickets
-        top_ups: Recarga de créditos
-        transactions_pdf: PDF de transacciones
-      fee: Comisión
       fieldests:
-        company: Información de la compañía
-        custom: Personalización
-        date: Fechas y localización
-        image: Imágenes
-        info: Info del evento
-        limits: Límites
-        nfc: NFC
-        optional_form_parameters: Parámetros opcionales de formulario
         parameters: Parámetros
         security: Seguridad
-        text: Textos
       gtag_assignation_notification: Notificación al asignar el Gtag
       gtag_form_disclaimer: Texto formulario asignación Gtag
-      images:
-        background: Imágen de fondo
-        customer: Imágen de perfil
-      info: Información
-      locales: Idiomas habilitados
-      locales_options:
-        de_lang: Alemán
-        en_lang: Inglés
-        es_lang: Español
-        it_lang: Italiano
-        pt_lang: Portugués
-        th_lang: Thailandes
-      logo: Logo
-      mass_email_claim_notification: Notificación general (petición de devolución)
-      minimum: Mínimo
       name: Nombre
-      payment_service: Servicio de pago
-      privacy_policy: Política de privacidad
-      refund_disclaimer: Mensaje general de devolución
-      refund_service: Servicios de devolución
-      refund_success_message: Mensaje de éxito en la devolución (Pulsar para verificar)
-      slug: Identificador
-      start_date: Fecha de inicio
-      states:
-        claiming_started: Devoluciones
-        closed: Cerrado
-        created: No publicado
-        finished: Después evento
-        launched: Pre-evento
-        started: Durante evento
-      status: Estado
-      style: Estilo
-      support_email: Email de soporte
-      terms_of_use: Condiciones de uso
       token: Token del evento
-      url: Url del evento
     general:
       created_at: Creado el
       description: Descripción
       id: ID
       name: Nombre
       updated_at: Actualizado el
-    gtag_assignations:
-      state: Estado
-      button: Aceptar
-      created_at: Creado el
-      customer:
-        complete_name: Nombre completo
-        email: Email
-      serial: Tag Número Serial
-      states:
-        assigned: Asignación actual
-        unassigned: Asignación previa
-      tag: Tag UID
-      updated_at: Actualizado el
     gtags:
-      actions:
-        delete_credits: Borrar créditos
-        delete_gtags: Borrar gtags
       activation_counter: Activación
-      assigned_at: Asignado el
       banned: Baneado
-      created_at: Creado el
       customer: Cliente
       format: Formato
       formats:
         card: Tarjeta
         wristband: Pulsera
-      gtag_assignation: Asignaciones del Gtag
-      id: Id
-      import: Importar GTags (Seleccionar un fichero CSV separado por comas)
-      import_credits: Importar Créditos (Seleccionar un fichero CSV separado por comas)
       loyalty: Fidelidad
-      search:
-        tag_serial: Tag Número Serial
-        tag_uid: Tag UID
       tag: Tag UID
-      tickets: Tickets
-      total: Créditos Totales
-      updated_at: Actualizado el
     order_items:
       amount: Cantidad
       catalog_item: Producto del catálogo
@@ -429,14 +119,9 @@ es:
       gateway: Pasarela
       items: Items
       number: Número
-      order_item: Items de Órdenes
-      payments: Pagos
-      product_description: Descripción del Producto
       product_name: Producto
       product_price: Precio del Producto
       product_type: Tipo de Producto
-      search:
-        number: Número
       state: Estado
       total: Total
     pack:
@@ -452,25 +137,8 @@ es:
       confirm: Confirma tu nueva contraseña.
       forgotten: Olvidaste tu contraseña?
       new: Nueva contraseña
-      reset_password: Resetear contraseña
-      reset_password_confirm: |-
-        La contraseña se cambiará a '123456'.
-         ¿Estás seguro?
       send_instructions: Reenviar instrucciones
-    payment_settings:
-      redsys:
-        code: Código
-        currency: Moneda
-        form: Url del formulario
-        ip: IP
-        name: Nombre
-        password: Password
-        pay_methods: Metodos de pago
-        terminal: Terminal
-        transaction_type: Tipo de transacción
     products:
-      description: Descripción
-      id: Id
       is_alcohol: Es alcohol
       name: Nombre
       product_type: Tipo de producto
@@ -479,53 +147,16 @@ es:
     purchasers:
       email: Email comprador
       first_name: Nombre comprador
-      gtag_delivery_address: Dirección de envio de Gtag
       last_name: Apellido comprador
-    refund_settings:
-      bank_account:
-        fee: Comisión de devolución (en la moneda seleccionada)
-        minimum: Mínimo a devolver después de comisiones (en la moneda seleccionada)
-      epg:
-        country: País
-        currency: Moneda
-        fee: Comisión de devolución (en la moneda seleccionada)
-        md5key: Clave md5
-        merchant_id: Número de comercio
-        minimum: Mínimo a devolver después de comisiones (en la moneda seleccionada)
-        operation_type: Tipo de operación
-        payment_solution: Solución de pago
-        product_id: Producto
-        url: URL
-      nofication_description: Proceder a notificar a los usuarios que ya pueden reclamar su devolución.
-      notify: Notificar
-      tipalti:
-        country: País
-        fee: Comisión de devolución (en la moneda seleccionada)
-        idap: Idap
-        minimum: Mínimo a devolver después de comisiones (en la moneda seleccionada)
-        payer: Pagador
-        secret_key: Clave secreta
-        url: URL
-      want_to_notify: "¿Quiere notificar?"
     refunds:
       amount: Cantidad
       created_at: Creado en
       customer_email: Email del cliente
-      customer_name: Nombre del cliente
       fee: Comisión
-      iban: Número IBAN
       id: Id
-      search:
-        amount: Cantidad
-        claim: Número de petición
-        gateway_transaction_number: Número de transacción
-        status: Estado
       status: Estado
-      swift: Número SWIFT
-      updated_at: Actualizado en
     sessions:
       mail: user@domain.com
-      password: password
     stations:
       access_control_gate:
         direction: Dirección
@@ -539,7 +170,6 @@ es:
         cs_gtag_balance_fix: AC Corrección de saldo
         cs_topup_refund: AC Recarga/Devolución
         customer_portal: Portal de cliente
-        customer_service: Soporte al consumidor
         envelope_linker: Envelope Linker
         exhibitor: Exibitor
         gtag_recycler: Reciclaje de Gtags
@@ -552,22 +182,14 @@ es:
         top_up_refund: Recargas / Devoluciones
         touchpoint: Touchpoint
         vendor: Vendedor
-      group: Grupo
       items: Productos
       location: Lugar
       name: Nombre
       reporting_category: Reporting Category
       station_catalog_item:
-        description: Descripción
         name: Nombre
         price: Precio
         type: Tipo
-      station_groups:
-        access: Acceso
-        event_management: Administración del evento
-        glownet: Glownet
-        monetary: Monetaria
-        touchpoint: Touchpoint
       station_product:
         description: Descripción
         is_alcohol: "¿Es alcohol?"
@@ -575,52 +197,25 @@ es:
         price: Precio
       topup_credit:
         amount: Cantidad
-        credit: Crédito
         credit_value: Valor del crédito
         price: Precio
       type: Tipo
     ticket_types:
       catalog_item: Item
-      company: Compañía
       company_code: Código de la compañía
-      credit: Crédito
-      id: Id
-      import: Importar tipos de ticket (Seleccionar un fichero CSV separado por comas)
       name: Nombre
       number_of_tickets: Tickets
-      simplified_name: Nombre Simplificado
     tickets:
-      actions:
-        delete_tickets: Borrar tickets
-      admission: Registros de tickets
       banned: Baneado
       code: Código
-      created_at: Creado el
       customer: Cliente asignado
-      gtags: Gtags
-      id: Id
-      import: Importar tickets (Seleccionar un fichero CSV separado por comas)
-      search:
-        code: Ticket barcode number
-        customer: Email cliente asignado
-        purchaser_email: Email comprador
-        purchaser_first_name: Nombre del comprador
-        purchaser_last_name: Apellidos del comprador
-        type: Tipo
-      ticket_type: Tipo de ticket de compañía
-      ticket_type_simplified: Tipo de Ticket Simplificado
     transactions:
       access: Accesso
       action: Tipo
-      catalog_item_id: Catalog Item ID
-      counter: Contador
       counters: Contadores
-      credential: Credencial
-      credit_value: Valor del crédito
       credits: Creditos
       customer_id: Perfil
       customer_tag_uid: Tag Cliente
-      device: Dispositivo
       device_created_at: Fecha
       device_db_index: Indice de BD
       device_uid: Dispositivo
@@ -629,14 +224,9 @@ es:
       final_balance: Saldo Final
       final_refundable_balance: Saldo Final R
       final_value: Valor final
-      gtag: Gtag
       gtag_counter: Contador del Gtag
       id: ID
-      inconsistent_balance: Incosistente
-      inconsistent_refundable_balance: Inconsistente R
       items_amount: Cantidad
-      missing_transactions: "¿Perdidas?"
-      money: Dinero
       operator_tag_uid: Tag Operador
       payment_gateway: Pasarela
       payment_method: Método
@@ -649,7 +239,6 @@ es:
       status_code: Código de estado
       status_message: Mensaje de estado
       ticket: Ticket
-      ticket_code: Ticket
       total: Total
       transaction_origin: Origen
       type: Tipo
@@ -658,211 +247,58 @@ es:
     button: Activar
     call_to_action: "¡Activa tu Ticket del Evento!"
     description: Por favor, introduce el código impreso debajo del código de barras en tu ticket del evento.
-    description2: Tu código debería empezar por '4UMoB'.
     placeholders:
       ticket_code: Código de Ticket
-    title: Activación del Ticket
   alerts:
-    access_only_one_way: Sólo una dirección por acceso
     admissions: Ticket no reconocido. Si has realizado tu compra en las últimas 48 horas, intenta de nuevo luego mientras actualizamos tu compra. Si persiste, contacta con soporte.
-    checkout: Solo se pueden introducir datos numéricos sin decimales, superiores a 0 e inferiores a %{limit}
-    claim_complete: Devolución completada
-    cloned: Clonado con éxito
     created: Creado con éxito
-    credential_already_assigned: You already have the credential that comes with this ticket
     customer_without_transactions: El perfil no tiene transacciones de crédito
     destroyed: Eliminado con éxito
     error: Revisar errores de formulario
-    forbidden_gtag_change: Impossible to unassign gtag when event has started
     gtag:
-      already_assigned: "Tag ya ha sido asignada a otro usuario"
-      invalid: "Tag no válida"
-    gtag_already_assigned: Ya tienes uno asignado
-    imported: Importado con éxito
+      already_assigned: Tag ya ha sido asignada a otro usuario
+      invalid: Tag no válida
     order_complete: Orden completada
-    order_expired: Orden expirada. Pasaron más de 15 minutos
-    quantity_not_refundable: Créditos insuficientes para ser reembolsados
-    resend: Enviado con éxito
     ticket_already_assigned: Ticket ya asignado
     ticket_assigned: Ticket asignado correctamente
     ticket_banned: Ticket no permitido
-    ticket_doesnt_exist: Ticket no existe
     ticket_without_credential: El ticket que has introducido está aún siendo procesado por nuestro sistema y no puede ser asignado. Por favor, inténtalo más tarde o contacta con soporte
     unassigned: Desactivado con éxito
     updated: Actualizado con éxito
   auth:
-    failure:
-      already_authenticated: Ya has iniciado sesión.
-      inactive: Tu cuenta no ha sido activada todavía.
-      invalid: "%{authentication_keys} o contraseña incorrecta."
-      invalid_current_password: contraseña incorrecta
-      last_attempt: Te queda un intento para proceder al bloqueo de tu cuenta.
-      locked: Tu cuenta ha sido bloqueada.
-      not_found_in_database: "%{authentication_keys} o contraseña inválida."
-      timeout: Tu sesión ha expirado. Por favor inicia sesión de nuevo para continuar.
-      unauthenticated: Debes iniciar sesión or registrarte para continuar.
     mailer:
       reset_password_instructions:
         subject: Solicitud de cambio de contraseña.
-      unlock_instructions:
-        subject: Desbloquear instrucciones.
-    omniauth_callbacks:
-      failure: No hemos podido autenticarte desde %{kind} porque "%{reason}".
-      success: Autenticado exitosamente desde la cuenta %{kind}.
-    passwords:
-      no_token: No puedes acceder a esta página sin haber venido del correo para resetear tu contraseña. Si vienes del correo de reseteo de contraseña, por favor asegúrate de usar el URL completo proporcionado.
-      send_instructions: Recibirás un correo con instrucciones de como resetear tu contraseña en un par de minutos.
-      send_paranoid_instructions: Si tu correo ya existe en nuestro sistema, recibirás un correo con un enlace para recuperar tu contraseña en un par de minutos.
-      updated: Tu contraseña se ha cambiado exitosamente. Tu sesión ha iniciado.
-      updated_not_active: Tu contraseña se ha cambiado exitosamente.
-    registrations:
-      destroyed: Tu cuenta se ha cancelado exitosamente. ¡Esperamos verte por aquí de nuevo!
-      signed_up: "¡Bienvenido! Te has registstrado exitosamente."
-      signed_up_but_inactive: Te has registrado exitosamente. Sin embargo, no has iniciado sesión debido a que tu cuenta no ha sido activada todavía.
-      signed_up_but_locked: Te has registrado exitosamente. Sin embargo, no has iniciado sesión debido a que tu cuenta ha sido bloqueada.
-      update_needs_confirmation: Has actualizado tu cuenta exitosamente, pero necesitamos verificar tu nueva dirección de correo. Por favor revisa tu correo y procede al enlace de confirmación para confirmar tu nueva dirección de correo.
-      updated: Tu cuenta ha sido actualizada exitosamente
-    sessions:
-      already_signed_out: Cierre de sesión exitosa.
-      signed_in: Inicio de sesión exitosa.
-      signed_out: Cierre de sesión exitosa.
-    unlocks:
-      send_instructions: Recibirás un correo con instrucciones de como desbloquear tu cuenta en un par de minutos.
-      send_paranoid_instructions: Si tu cuenta existe, recibirás un correo con instrucciones de como desbloquearla en un par de minutos.
-      unlocked: Tu cuenta ha sido desbloqueda exitosamente. Por favor inicia sesión para continuar.
-  bank_account_claim:
-    bic_swift_disclaimer_html: "<sup>1</sup><a href='http://www.ennaranja.com/economia-facil/que-son-los-codigos-iban-y-bic-y-para-que-sirven-al-hacer-transferencias/ ' target='_blank'>¿Qué es el número BIC / SWIFT y donde puedo encontrar el mío?</a>"
-    iban_disclaimer_html: "<sup>2</sup><a href='http://www.ennaranja.com/economia-facil/que-son-los-codigos-iban-y-bic-y-para-que-sirven-al-hacer-transferencias/' target='_blank'>¿Qué es el número IBAN y donde puedo encontrar el mío?</a>"
-  breadcrumbs:
-    accesses: Accesos
-    accreditation_stations: Estaciones de acreditación
-    admins: Administradores
-    claims: Peticiones
-    companies: Compañías
-    credits: Créditos
-    customer: Perfil de evento
-    customers: Clientes
-    dashboard: Panel de Control
-    events: Eventos
-    gtags: Gtags
-    home: Home
-    new_access: Nuevo acceso
-    new_admin: Nuevo Administrador
-    new_claim: Nueva Petición
-    new_credit: Nuevo crédito
-    new_customer: Nuevo perfil de evento
-    new_customer_admission: Asignando Ticket
-    new_customer_gtag_assignation: Asignando Gtag
-    new_event: Nuevo evento
-    new_gtag: Nuevo Tag
-    new_order: Nueva Orden
-    new_pack: Nuevo pack
-    new_payment: Nuevo Pago
-    new_refund: Nueva devolución
-    new_station: Nueva Estación
-    new_ticket: Nuevo Ticket
-    new_ticket_type: Nuevo Tipo de Ticket
-    orders: Órdenes
-    packs: Pack
-    payment_settings: Configuración de pagos
-    payments: Pagos
-    refund_settings: Configuración de devoluciones
-    refunds: Devoluciones
-    station_catalog_products: Productos de la estación
-    stations: Estaciones
-    ticket_types: Tipos de Ticket
-    tickets: Tickets
-  cancel:
-    title: Cancelar cuenta
-    unhappy: "¡Queremos saber que ha ocurrido, envíanos un correo!"
   checkout:
     button: Confirmar Orden
     description: Los créditos que compras aquí serán añadidos automáticamente a tu Tag al entrar al evento.
     store: " tienda"
-    title: Recarga
     total: Total
   claims:
-    amount: Cantidad
-    button: Reembolsar
-    button_iupay: IUPAY
-    claim_present:
-      description: Tu petición ha sido procesada y la devolución está siendo procesada.
-      title: Gracias!
     credentiable_refund_disabled:
       description: Ese tipo de credencial no tiene opción a devolución online
       title: Lo sentimos
-    description: Por favor, revisa tu órden y procede a realizar el pago.
-    direct_claim:
-      button: Solicitar
-      description: La petición se procesará automáticamente
-      title: Solicita tu devolución
-    fee: Gastos de gestión
     invalid_claim:
       description: Por favor escribenos a %{email} para procesar tu devolución.
       title: Estamos trabajando en tu devolución
     no_credit:
       description: No tienes crédito para realizar la devolución
       title: Lo sentimos
-    paypal:
-      button: Reembolsar con PayPal
-    product_description: Saldo a devolver
-    products: Productos
-    redirect: Serás redirigido a la pasarela de pago del banco.
-    refund: Por favor, rellena tus datos bancarios para continuar con el proceso
-    title: Confirmar Reembolso
-    total: Total
-    vat: IVA Incluido
-    wirecard:
-      button: Reembolsar con Wirecard
   conditions:
     action: Acepto
     conjunction: y
     privacy_conditions: la política de privacidad
     terms_of_use: las condiciones de uso
   confirm:
-    cancel_paypal: Al cancelar desvicularás tu Tag de tu cuenta de PayPal.
-    cancel_paypal_agreement: Cancelar acuerdo
     log_out: "¿Quieres finalizar la sesión?"
-    remove_ticket: Tus créditos comprados se asignan a tu cuenta. Si borras tu ticket, tendrás que asignar otro para utilizar esos créditos en el evento.
   cookies:
-    all_sites_settings_dialog_subtitle: Puedes permitir estas cookies para todas las webs que usan este plugin
-    all_sites_settings_dialog_title_a: Ajustes de privacidad
-    all_sites_settings_dialog_title_b: para todas las páginas
-    allow_cookies: Permitir cookies
-    allow_cookies_implicit: Cerrar
-    allow_for_all_sites: Permitir para todas las páginas
-    analytics_default_description: Medimos de forma anónima el uso de esta web para mejorar tu experiencia
-    analytics_default_title: Analíticas
-    back_to_site_settings: Volver a ajustes de la web
-    change_for_all_sites_link: Cambiar ajustes para todas las páginas
-    description: 'Al continuar navegando entendemos que acepta nuestra '
-    hide_details: esconder
     learn_more: Política de Cookies
-    not_using_cookies: Esta página no usa cookies.
     notification_title: Usamos cookies para mejorar tu experiencia en esta página Web. Si continúas navegando, consideramos que aceptas su uso.
-    notification_title_implicit: GSpot utiliza cookies propias y de terceros para mejorar el servicio.
-    preference_always: Permitir siempre
-    preference_ask: Preguntarme cada vez
     preference_consent: Acepto
-    preference_decline: No acepto
-    preference_never: No permitir nunca
-    preference_use_global: Usar ajustes globales
-    privacy_settings: Privacidad
-    privacy_settings_dialog_subtitle: Algunas caracterísiticas de esta web requieren tu consentiemiento para recordar quién eres
-    privacy_settings_dialog_title_a: Ajustes de privacidad
-    privacy_settings_dialog_title_b: para esta web
-    save_for_all_sites: Salvar para todas las páginas
-    save_preference: Salvar preferencias
-    see_details: ver detalles
-    see_details_implicit: cambiar ajustes
-  currency_symbol: EUR
   dashboard:
     admissions:
-      button: Borrar
       call_to_action: "¿Quiéres borrar el ticket?"
       call_to_action_started: El evento ya ha comenzado, no puedes cambiar tu ticket
-      header: Ticket %{ticket_type}
-      success: "¡Ticket activado con éxito!"
     credits:
       button: Recarga
       calculating_balance: Por favor escribenos a %{email} para procesar tu devolución.
@@ -870,61 +306,24 @@ es:
       call_to_action_started: El evento ya ha comenzado, no puedes recargar más
       header: tu saldo
       refundable: Reembolsable
-      ticket_first: Añade un ticket o Tag primero
     credits_history:
       button: Descargar transacciones
       header: Historial de transacciones
-    error_refund_disclaimer:
-      claim: Ha habido un error en tu devolución
-      description: Vuelve a tu panel e inténtalo de nuevo.
-    event_refunds:
-      claim: El evento aún no ha acabado
-      description: Vuelve pronto para poder reclamar tu saldo
     event_started:
       description: Estamos trabajando en los últimos detalles del evento para que tu experiencia sea la mejor posible. Por favor, vuelve en unas horas y mira lo que hemos preparado para ti.
       title: Últimos detalles!
     first_register:
       gtag: Añadir Tag
       ticket: Añadir ticket
-    gtag_after_refund:
-      description: Tu devolución está en proceso
     gtag_registration:
-      button: Borrar
-      call_to_action: "¿Introdujiste una incorrecta por error?"
-      hint: Has introducido una Tag por error? Bórrala y reinicia el proceso
       title: Tu Tag
-    more_gtags:
-      description: "¿Tienes más Tags? Regístrate otra vez con un email diferente por cada una."
-    not_refundable:
-      call_to_action: Lo sentimos, pero no tienes suficiente saldo para pedir una devolución
-      title: 'Tu saldo restante:'
     paypal:
       button: Sincroniza con PayPal
-    paypal_nvp:
-      button: Sincroniza con PayPal
-    refunds:
-      button: Modificar cuenta
-      call_to_action: Reembolso realizado con éxito, pronto se realizará su transferencia
-      title: 'tu saldo restante:'
-    success_refund_disclaimer:
-      claim: Has solicitado tu devolución con éxito
-      description: En 1-4 días recibirás el embolso en tu cuenta.
-    tipalti:
-      disclaimer: El contenido de esta página puede tardar unos segundos en aparecer.
-    title: My dashboard
-    wait_refund_disclaimer:
-      claim: Has solicitado tu devolución con éxito
-      description: Te enviaremos un mail entre 5 y 15 días hábiles tan pronto como tu saldo esté listo.
-      description2: Entonces podrás ver tu saldo, introducir tus datos bancarios y recibir el pago.
     without_admissions:
       button: Añadir
-      call_to_action: Solo activa los tickets que vayas a utilizar
-      description: NO actives los tickets de tus amigos en tu cuenta.
     without_gtags:
       add: Asigna tu Tag
       button: Introducir Tag
-      description: Recuerda, sólo un Tag por cuenta.
-      title: "¿Te queda saldo?"
     without_gtags_claiming_started:
       claim: Lo sentimos
       description: Ya ha pasado el periodo de devolución, ponte en contacto con soporte si tienes alguna duda.
@@ -933,116 +332,7 @@ es:
       description: Si has contactado al soporte con alguna pregunta previamente,
       description2: no te preocupes, te ayudaremos con tu devolución.
     without_refunds:
-      button: Reclama tu saldo
       call_to_action: Proceder a la devolución
-      title: 'tu saldo restante:'
-  date:
-    abbr_day_names:
-    - dom
-    - lun
-    - mar
-    - mié
-    - jue
-    - vie
-    - sáb
-    abbr_month_names:
-    - 
-    - ene
-    - feb
-    - mar
-    - abr
-    - may
-    - jun
-    - jul
-    - ago
-    - sep
-    - oct
-    - nov
-    - dic
-    datepicker: dd/mm/yyyy
-    day_names:
-    - domingo
-    - lunes
-    - martes
-    - miércoles
-    - jueves
-    - viernes
-    - sábado
-    formats:
-      custom: "%{day} de %{month}"
-      default: "%d/%m/%Y"
-      long: "%d de %B de %Y"
-      short: "%d de %b"
-    month_names:
-    - 
-    - enero
-    - febrero
-    - marzo
-    - abril
-    - mayo
-    - junio
-    - julio
-    - agosto
-    - septiembre
-    - octubre
-    - noviembre
-    - diciembre
-    order:
-    - :day
-    - :month
-    - :year
-  datetime:
-    distance_in_words:
-      about_x_hours:
-        one: alrededor de 1 hora
-        other: alrededor de %{count} horas
-      about_x_months:
-        one: alrededor de 1 mes
-        other: alrededor de %{count} meses
-      about_x_years:
-        one: alrededor de 1 año
-        other: alrededor de %{count} años
-      almost_x_years:
-        one: casi 1 año
-        other: casi %{count} años
-      half_a_minute: medio minuto
-      less_than_x_minutes:
-        one: menos de 1 minuto
-        other: menos de %{count} minutos
-      less_than_x_seconds:
-        one: menos de 1 segundo
-        other: menos de %{count} segundos
-      over_x_years:
-        one: más de 1 año
-        other: más de %{count} años
-      x_days:
-        one: 1 día
-        other: "%{count} días"
-      x_minutes:
-        one: 1 minuto
-        other: "%{count} minutos"
-      x_months:
-        one: 1 mes
-        other: "%{count} meses"
-      x_seconds:
-        one: 1 segundo
-        other: "%{count} segundos"
-    prompts:
-      day: Día
-      hour: Hora
-      minute: Minutos
-      month: Mes
-      second: Segundos
-      year: Año
-  edit_refund:
-    button: 'Guardar '
-    call_to_action: "¡Introduce tu cuenta de banco!"
-    description: Puedes editar tu cuenta de banco para pedir tu devolución.
-    placeholders:
-      bank_account: ES00 0000 0000 0000 0000 0000
-      swift: 0000 0000
-    swift: BIC/SWIFT (Sólo para cuentas fueras de España)
-    title: Reembolso
   email:
     admin:
       reset_password:
@@ -1055,46 +345,12 @@ es:
         accepted:
           greet: Hello %{name}!
           mail_body: You have accepted the PayPal Agreement so you can now do auto-topups!
-          subject: Paypal Agreement Accepted
           title: Paypal Agreement Accepted
-      claim:
-        available_claim:
-          greet: "¡Hola, %{name}!"
-          mail_body: Ya puedes proceder a la devolución de tus créditos mediante el siguiente enlace.
-          mail_link: Acceder para ver tu saldo y realizar la transferencia
-          subject: "¡Ya puedes acceder a la devolución de tus créditos!"
-          title: "¡Ya puedes acceder a la devolución de tus créditos!"
-        completed:
-          date: Fecha de transacción
-          description: Tu saldo a sido transferido. Recibirás el pago a tu cuenta bancaria entre 1-4 días.
-          greet: "¡Hola, %{name}!"
-          order_number: Petición número
-          subject: Petición de devolución Completada
-          success: 'Aquí están los detalles de tu devolución:'
-          thanks: Has completado la petición de devolución online satisfactoriamente.
-          title: Notificación de devolución
       communication: Este es un mensaje automático de %{event_name}
-      confirmation:
-        greet: "¡Hola, %{name}!"
-        mail_body: 'Puedes confirmar tu cuenta mediante el siguiente enlace:'
-        mail_link: Confirmar cuenta
-        title: Confirmar contraseña
       follow_on_twitter: Síguenos en Twitter
       footer_copy: Copyright Glownet © %{year} Todos los derechos reservados.
       footer_glownet: 'Estaremos encantados de ayudarte con el uso del portal si nos escribes a '
       footer_organizer: "¿Tienes alguna pregunta para el organizador? Contacta con él en "
-      gtag:
-        assigned:
-          greet: "¡Hola, %{name}!"
-          mail_body: 'Has introducido una Tag con el siguiente identificador:'
-          subject: "¡Gtag asignado!"
-          title: "¡Gtag asignado!"
-        unassigned:
-          greet: "¡Hola, %{name}!"
-          mail_body: 'Has borrado una Tag con el siguiente identificador:'
-          mail_link: Puede verlo en la web
-          subject: "Tag borrada"
-          title: "Tag borrada"
       like_on_facebook: Dale a me gusta en Facebook
       order:
         completed:
@@ -1114,81 +370,15 @@ es:
         title: Cambiar contraseña
       suscribe_on_you_tube: Suscríbete en YouTube
   errors:
-    event_alerts:
-      catalog_items: There are company ticket types without any catalog items associated
-      company_codes: Hay tipos de ticket sin código de compañía
-      refunds: Las devoluciones están activas, pero no hay ningún servicio de devoluciones seleccionado
-      topups: Las recargas están activas, pero no hay ningún servicio de recargas seleccionado
-    format: "%{attribute} %{message}"
-    main:
-      error_400: Solicitud incorrecta
-      error_404: Ruta no encontrada
-      error_500: Error interno
     messages:
-      accepted: debe ser aceptado
-      blank: no puede estar en blanco
       catalog_item_dependent: Imposible eliminar item, ya que está inlcuido en al menos un pack o estación
-      confirmation: no coincide
-      empty: no puede estar vacío
       end_date_after_start_date: debe ser posterior a la fecha de inicio
-      equal_to: debe ser igual a %{count}
-      even: debe ser par
-      exclusion: está reservado
-      expired: ha expirado, por favor solicita uno nuevo.
-      greater_than: debe ser mayor que %{count}
       greater_than_maximum: El minimo de compra no puede ser mayor que el máximo de compra
-      greater_than_or_equal_to: debe ser mayor que o igual a %{count}
-      inclusion: no está incluido en la lista
-      invalid: no es válido
       invalid_max_value_for_infinite: El valor máximo debe ser 1 o 0 si has elegido infinito
       invalid_min_value_for_infinite: El valor mínimo debe ser 1 o 0 si has elegido infinito
-      less_than: debe ser menor que %{count}
-      less_than_or_equal_to: debe ser menor que o igual a %{count}
       max_credits_reached: Has llegado al máximo de recarga
-      max_standard_credits: Sólo un crédito estándar por evento
-      model_invalid: 'Validación fallida: %{errors}'
-      more_credits_than_max_balance: no pueden superar el saldo máximo del gtag
-      not_a_number: no es un número
-      not_an_integer: debe ser un entero
-      not_belong_to_event: no pertenece a este evento
-      not_enough_space_for_credential: No hay suficiente espacio para ese credencial
-      not_enough_space_for_credential_configuration: No hay suficiente espacio para la configuración de credenciales existente
-      not_found: no encontrado
-      not_locked: no ha sido bloqueado
-      not_saved:
-        one: 1 error no ha permitido este %{resource} de ser guardado.
-        other: "%{count} errores no han permitido este %{resource} de ser guardado."
-      odd: debe ser impar
-      only_hex: sólo permite valores hexadecimales
-      other_than: debe ser distinto de %{count}
-      present: debe estar en blanco
-      product_already_added: ya existe en esta estación
-      record_invalid: 'La validación falló: %{errors}'
-      restrict_dependent_destroy:
-        many: No se puede eliminar el registro porque existen %{record} dependientes
-        one: No se puede eliminar el registro porque existe un %{record} dependiente
-      station_dependent: Imposible eliminar item, ya que está inlcuido en al menos una estación
-      station_has_associations: Imposible borrar la estación, ya ha sido usada.
-      taken: ya está en uso
       ticket_type_dependent: Imposible eliminar la compañia, tiene tipos de ticket asignados
-      ticket_type_has_tickets: hay tickets usando este tipo de ticket
-      too_long:
-        one: es demasiado largo (1 caracter máximo)
-        other: es demasiado largo (%{count} caracteres máximo)
-      too_short:
-        one: es demasiado largo (1 caracter mínimo)
-        other: es demasiado largo (%{count} caracteres mínimo)
       topup_credit_count: No puedes tener más de 6 botones en el topup
-      topup_credit_id: Sólo puedes tener un tipo de crédito por topup
-      unauthorized: Credenciales inválidos
-      wrong_length:
-        one: no tiene la longitud correcta (1 caracter exacto)
-        other: no tiene la longitud correcta (%{count} caracteres exactos)
-    template:
-      body: 'Se encontraron problemas con los siguientes campos:'
-      header:
-        one: No se pudo guardar este/a %{model} porque se encontró 1 error
-        other: No se pudo guardar este/a %{model} porque se encontraron %{count} errores
   event:
     locales:
       de: GER
@@ -1198,16 +388,12 @@ es:
       pt: PT
       th: THA
     subject_support: Necesito ayuda para %{event}
-  events:
-    create:
-      error: El evento no se ha podido crear, comprueba los errores más abajo
   footer:
     copyright: "© Copyright Glownet"
     privacy: Política de privacidad
     support: Soporte
     use: Condiciones de uso
   gtag_assignations:
-    back: Volver
     button: Aceptar
     call_to_action: "¡Introduce el código de tu Tag y continúa!"
     description:
@@ -1215,102 +401,16 @@ es:
       simple: Introduce los números y letras resaltados en amarillo que aparecen en tu Tag.
       standard: Introduce la segunda fila de números y letras (resaltada en amarillo) de tu Tag
     info:
-      line_1: Sólo números del "0" al "9"
       line_2: 'Símbolos permitidos: "0" - "9" y "A, B, C, D, E, F"'
-    placeholders:
-      card:
-        line_1: 'Línea 1 ej: 12345'
-        line_2: 'Línea 2 ej: BA6D7DC0'
-      simple:
-        line_1: ''
-        line_2: 'Numero ID e.g: BA6D7DC0'
-      standard:
-        line_1: 'Línea 1 ej: 12345'
-        line_2: 'Línea 2 ej: BA6D7DC0'
-    title: Introducir Tag
   header:
-    close: Cerrar sesión
     edit: Editar Perfil
-    help: Ayuda
-    home: Web del Evento
-    menu: Home
-  helpers:
-    select:
-      prompt: Por favor seleccione
-    submit:
-      create: Crear %{model}
-      submit: Guardar %{model}
-      update: Actualizar %{model}
   links:
     buttons:
-      back: Inicio
-      join: Únete
       sign_in: Inicia Sesión
-      sign_up: Crear cuenta
     forgot: "¿Olvidaste tu contraseña?"
-    resend_confirmation: "¿No has recibido el email de confirmación?"
-    sign_in: "¿Ya tienes cuenta?"
-    sign_up: "¿Todavía no te has registrado?"
-  number:
-    currency:
-      format:
-        delimiter: "."
-        format: "%n %u"
-        precision: 2
-        separator: ","
-        significant: false
-        strip_insignificant_zeros: false
-        unit: "€"
-    format:
-      delimiter: "."
-      precision: 3
-      separator: ","
-      significant: false
-      strip_insignificant_zeros: false
-    human:
-      decimal_units:
-        format: "%n %u"
-        units:
-          billion: mil millones
-          million: millón
-          quadrillion: mil billones
-          thousand: mil
-          trillion: billón
-          unit: ''
-      format:
-        delimiter: ''
-        precision: 1
-        significant: true
-        strip_insignificant_zeros: true
-      storage_units:
-        format: "%n %u"
-        units:
-          byte:
-            one: Byte
-            other: Bytes
-          gb: GB
-          kb: KB
-          mb: MB
-          tb: TB
-    percentage:
-      format:
-        delimiter: ''
-        format: "%n%"
-    precision:
-      format:
-        delimiter: ''
   orders:
-    amount: Cantidad
-    braintree:
-      button: Pagar
-      card_code_verification: Código de verificación (CCV)
-      card_expiration_month: Mes de caducidad
-      card_expiration_year: Año de caducidad
-      card_number: Número de tarjeta
     button: Pagar
-    button_iupay: IUPAY
     card_info: Información de tarjeta
-    description: Por favor, revisa tu órden y procede a realizar el pago.
     order_review: Resumen de compra
     payment: Método de pago
     payment-buttons:
@@ -1318,9 +418,6 @@ es:
         icon: credit-card
         name: Tarjeta de crédito
       ideal:
-        account_owner: Propietario
-        bank_account_iban: IBAN
-        bank_bic: BIC
         icon: credit-card
         name: Ideal
       paypal:
@@ -1341,48 +438,19 @@ es:
       wirecard:
         icon: pf pf-sofort
         name: Credit card
-    paypal:
-      charge: Cargo de verificación
-      sync_copy: Experiencia PayPal
-      sync_description: Puedes vincular tu cuenta PayPal para realizar recargas automáticas en los puntos de venta, sin esperar cola en los puntos de recarga.
-      sync_final_description: Selecciona la cantidad que quieres recargar automáticamente en los puntos de venta. Esta cantidad NO SE COBRARÁ en este momento.
-      sync_title: Regístrate en PayPal para completar el pago
-      with_agreement_subtitle: Ahora puedes realizar pagos directamente
-      with_agreement_title: Cuenta sicronizada con PayPal
     price: Precio
     products: Productos
-    redirect: Serás redirigido a la pasarela de pago del banco.
-    stripe:
-      button: Pagar
-      card_code_verification: Código de verificación (CCV)
-      card_expiration_date: Fecha de caducidad
-      card_number: Número de tarjeta
-    title: Confirmar Recarga
     total: Total
     vat: IVA Incluido
-    wirecard:
-      button: Pagar
-      card_code_verification: Código de verificación (CCV)
-      card_expiration_date: Fecha de caducidad
-      card_holder: Titular
-      card_number: Número de tarjeta
   passwords:
     edit:
       button: Cambiar tu contraseña
       header: Nueva contraseña
       password: Contraseña nueva
       password_confirmation: Confirma tu nueva contraseña
-      title: Cambiar tu contraseña
     new:
       button: Reenviar instrucciones
       title: "¿Olvidaste tu contraseña?"
-  payment:
-    error:
-      call_to_action: 'Contáctanos:'
-      title: Transacción fallida
-    success:
-      description: Gracias por tu compra. El pago ha sido realizado. Recibirás un email de confirmación de tu compra.
-      title: Pago realizado
   pdf:
     actions:
       refund: Reembolso
@@ -1470,106 +538,32 @@ es:
       line_9_2: 9.2 Si tienes alguna duda sobre la información personal que tenemos sobre ti o deseas realizar cualquier petición al respecto, por favor ponte en contacto con nosotros usando la información de contacto que encontrarás en el apartado anterior.(2) Te informaremos de cuando estamos autorizados por la ley aplicable a cobrar una cuota para cubrir los costes que conlleve proporcionarte los detalles de la información que tenemos sobre ti; podemos pedirte asimismo que nos proporciones una identificación apropiada antes de cumplir con tu petición.
       line_9_3: 9.3 Puedes solicitar que dejemos de mandarte información publicitaria en cualquier momento mediante una notificación por escrito o siguiendo las instrucciones de “darse de baja” incluidas en cualquier comunicación comercial que te hagamos llegar.
       title: 9. Tus derechos
-  ransack:
-    all: todos
-    and: y
-    any: cualquier
-    asc: ascendente
-    attribute: atributo
-    between: entre
-    combinator: combinado
-    condition: condición
-    desc: descendente
-    or: o
-    predicate: predicado
-  refund:
-    error:
-      call_to_action: 'Contáctanos:'
-      title: Transacción fallida
-    refund_method: Método de devolución
-    success:
-      description: La petición de devolución ha sido completada. Recibirás un email de confirmación de tu petición.
-      title: Pago realizado
   registration:
-    autotoup_agreement:
-      amount: 'Cantidad seleccionada: '
-      billing_agreement_description: Acepto que se me hagan cargos cuando me quedo sin crédito
-      cancel: "¿Quieres cancelar tu contrato de autorecarga?"
-      current_amount: 'Recarga actual:'
-      new_amount: 'Cambia la cantidad:'
-      success: Cuenta añadida!
-      success_description: Ahora puedes realizar recargas automáticas en tu Tag
-      title: Contrato Paypal
     edit:
       button: Actualizar
-      current_password_hint: Necesitamos tu contraseña para confirmar los cambios realizados.
       password_hint: Déjala en blanco si no la quieres cambiar
-      title: Editar
-      waiting_confirmation: 'En espera de confirmarción de:'
     new:
       button: Regístrate
-      details: Por favor introduce tus datos personales. Esto permitirá proporcionarte un servicio más seguro y personalizado
-      info: Por favor introduce tus detalles personales para que podamos ofrecerte un servicio seguro y conveniente.
       or: o
       title: Regístrate
   sessions:
     create_account:
       link: "¡Crea una!"
       lost_password: Contraseña perdida
-      title: "¿No tienes cuenta aún?"
-    end:
-      close_title: "¿Quieres finalizar la sesión?"
     first_register:
-      description_with_credentiable: 'Por favor, para continuar con el evento:'
       description_without_credentiable: Gracias por registrarte! En cuanto comience el evento podrás ver más información dentro de tu cuenta. Por favor, vuelve más tarde.
       welcome: "¡¡Bienvenido!!"
     log_in:
       link: Inicia sesión
       title: Ya tienes cuenta?
-    new:
-      button: Inicia Sesión
-      copy: "¿Qué ventajas tiene?"
-      description: Así es como funciona
-      title: Inicia Sesión
     placeholder:
-      address: ej. C/ Pied Piper
-      city: ej. Madrid
       email: ej. nickname@mail.com
-      last_name: ej. Hendricks
-      name: ej. Richard
       password: ej. · · · · · ·
-      phone: ej. 111 22 33 44
-      post: ej. 28012
-    welcome: Bienvenido!
   simple_form:
-    error_notification:
-      default_message: 'Por favor revisar los siguientes problemas:'
-    'false': 'No'
     labels:
-      admin:
-        edit:
-          current_password: Contraseña actual
-          email: Email
-          password: Contraseña
-          password_confirmation: Confirmación de contraseña
-        new:
-          current_password: Contraseña actual
-          email: Email
-          password: Contraseña
-          password_confirmation: Confirmación de contraseña
-      bank_account_claim_form:
-        new:
-          iban_html: IBAN<sup>2</sup>
-          swift_html: BIC/SWIFT<sup>1</sup>
-      bank_account_refund_settings_form:
-        edit:
-          fee: Comisión de devolución (en la moneda seleccionada)
-          minimum: Mínimo a devolver después de comisiones (en la moneda seleccionada)
-          product_id: Producto
       customer:
-        edit:
+        new:
           address: Dirección
-          agreed_on_registration: He leído y entiendo los términos del registro
           birthdate: Fecha de Nacimiento
           city: Ciudad
           country: País
@@ -1582,245 +576,6 @@ es:
           password_confirmation: Confirmación de contraseña
           phone: Número de Teléfono
           postcode: Código Postal
-          remember_me: Recuérdame
-        new:
-          address: Dirección
-          agreed_on_registration: He leído y entiendo los términos del registro
-          birthdate: Fecha de Nacimiento
-          city: Ciudad
-          country: País
-          current_password: Contraseña actual
-          email: Email
-          first_name: Nombre
-          gender: Género
-          last_name: Apellidos
-          password: Contraseña
-          password_confirmation: Confirmación de contraseña
-          phone: Número de Teléfono
-          postcode: Código Postal
-          remember_me: Recuérdame
-      defaults:
-        created_at: Creado el
-        password: Contraseña
-        updated_at: Actualizado el
-      device_settings_form:
-        edit:
-          currency: Símbolo de la moneda
-          maximum_wb_balance: Balance máximo de la pulsera
-          private_zone_password: Contraseña de la zona privada
-          public_key_a: Contraseña del Gtag
-          uid_reverse: UID Reverse
-      epg_claim_form:
-        new:
-          address: Dirección
-          city: Ciudad
-          country_code: País
-          phone: Teléfono
-          post_code: Código Postal
-          state: Provincia
-      epg_refund_settings_form:
-        edit:
-          country: Pais
-          currency: Moneda
-          fee: Comisión de devolución (en la moneda seleccionada)
-          md5key: Md5key
-          merchant: Comercio
-          minimum: Mínimo a devolver después de comisiones (en la moneda seleccionada)
-          operation_type: Tipo de operación
-          payment_solution: Solución de pago
-          product_id: Producto
-          url: Url
-      event:
-        edit:
-          agreed_event_condition_message: Mensaje de la condición
-          background: Fondo
-          background_type: Tipo de fondo
-          company_name: Nombre de la compañía
-          currency: Moneda
-          description: Descripción
-          disclaimer: Advertencia
-          end_date: Fecha de finalización
-          gtag_registration: Registro de Gtag
-          info: Información
-          logo: Logo
-          mass_email_claim_notification: Notificación general (petición de devolución)
-          name: Nombre
-          payment_service: Servicio de pago
-          privacy_policy: Política de privacidad
-          refund_disclaimer: Mensaje general de devolución
-          refund_service: Servicio de devolución
-          refund_success_message: Mensaje de éxito en la devolución
-          start_date: Fecha de inicio
-          style: Estilo
-          support_email: Email de soporte
-          terms_of_use: Condiciones de uso
-        new:
-          agreed_event_condition_message: Mensaje de la condición
-          background: Fondo
-          background_type: Tipo de fondo
-          company_name: Nombre de la compañía
-          currency: Moneda
-          description: Descripción
-          disclaimer: Advertencia
-          end_date: Fecha de finalización
-          gtag_registration: Registro de Gtag
-          info: Información
-          logo: Logo
-          mass_email_claim_notification: Notificación general (petición de devolución)
-          name: Nombre
-          payment_service: Servicio de pago
-          privacy_policy: Política de privacidad
-          refund_disclaimer: Mensaje general de devolución
-          refund_service: Servicio de devolución
-          refund_success_message: Mensaje de éxito en la devolución
-          start_date: Fecha de inicio
-          style: Estilo
-          support_email: Email de soporte
-          terms_of_use: Condiciones de uso
-      gtag:
-        edit:
-          gtag_credit_log: Bingo
-          tag_uid: Tag UID
-        new:
-          gtag_credit_log: Bingo
-          tag_uid: Tag UID
-      gtag_credit_log:
-        edit:
-          amount: Cantidad
-        new:
-          amount: Cantidad
-      online_product:
-        edit:
-          description: Descripción
-          initial_amount: Cantidad Inicial
-          max_purchasable: Máximo Comprable
-          min_purchasable: Mínimo Comprable
-          name: Nombre
-          price: Precio
-          step: Escala
-        new:
-          description: Descripción
-          initial_amount: Cantidad Inicial
-          max_purchasable: Máximo Comprable
-          min_purchasable: Mínimo Comprable
-          name: Nombre
-          price: Precio
-          step: Escala
-      product:
-        vat: VAT %
-      purchaser:
-        edit:
-          email: Email
-          first_name: Nombre
-          gtag_delivery_address: Dirección de envío
-          last_name: Apellido
-        new:
-          email: Email
-          first_name: Nombre
-          gtag_delivery_address: Dirección de envío
-          last_name: Apellido
-      redsys_payment_settings_form:
-        edit:
-          code: Código
-          currency: Moneda
-          form: Url del formulario
-          ip: IP
-          name: Nombre
-          password: Password
-          pay_methods: Metodos de pago
-          terminal: Terminal
-          transaction_type: Tipo de transacción
-      station:
-        official_name: Nombre oficial de la compañía
-      ticket:
-        edit:
-          code: Número
-        new:
-          code: Número
-      ticket_type:
-        edit:
-          company: Compañía
-          credit: Crédito
-          name: Nombre
-          simplified_name: Nombre simplificado
-        new:
-          company: Compañía
-          credit: Crédito
-          name: Nombre
-          simplified_name: Nombre simplificado
-    placeholders:
-      bank_account_claim_form:
-        new:
-          iban: ES00 0000 0000 0000 0000 0000
-          swift: 0000 0000
-      epg_claim_form:
-        new:
-          address: Dirección, número y piso
-          phone: 'Teléfono con código internacional: +34123...'
-          state: Tu provincia o estado
-      event:
-        edit:
-          agreed_event_condition_message: Texto para la condición que quieres que el usuario acepte cuando se registre
-          description: Añade algo de información extra u otros datos que consideres importantes
-          name: Nombre del evento. No olvides el año
-          receive_communications_message: Texto para la condición de recibir notifacicaciones
-          style: "/*Dale vida con CSS*/"
-          support_email: Mail de ayuda para los usuarios
-          url: Página oficial del evento
-        new:
-          agreed_event_condition_message: Texto para la condición que quieres que el usuario acepte cuando se registre
-          description: Añade algo de información extra u otros datos que consideres importantes
-          name: Nombre del evento. No olvides el año
-          receive_communications_message: Texto para la condición de recibir notifacicaciones
-          style: "/*Dale vida con CSS*/"
-          support_email: Mail de ayuda para los usuarios
-          url: Página oficial del evento
-      gtag:
-        edit:
-          tag_uid: Número de la segunda línea de la Tag
-        new:
-          tag_uid: Número de la segunda línea de la Tag
-      gtag_credit_log:
-        edit:
-          amount: Cantidad disponible
-        new:
-          amount: Cantidad disponible
-      purchaser:
-        edit:
-          email: Email del comprador
-          first_name: Nombre del comprador
-          gtag_delivery_address: Dirección de envío de la Tag
-          last_name: Apellido del comprador
-        new:
-          email: Email del comprador
-          first_name: Nombre del comprador
-          gtag_delivery_address: Dirección de envío de la Tag
-          last_name: Apellido del comprador
-      ticket:
-        edit:
-          code: Número de Ticket
-        new:
-          code: Número de Ticket
-      ticket_type:
-        edit:
-          company: Compañía del Evento
-          credit: Créditos Disponibles
-          name: Elige un nombre de ticket
-          simplified_name: Un nombre simplificado para tu ticket
-        new:
-          company: Compañía del Evento
-          credit: Créditos Disponibles
-          name: Elige un nombre de ticket
-          simplified_name: Un nombre simplificado para tu ticket
-    required:
-      mark: "*"
-      text: requerido
-    'true': Sí
-  support:
-    array:
-      last_word_connector: " y "
-      two_words_connector: " y "
-      words_connector: ", "
   terms_of_use:
     main_title: GLOWNET – CONDICIONES DE USO DE LA WEB
     ph_1:
@@ -1900,17 +655,3 @@ es:
       title: 9. Links al y desde el sitio web
   ticket_assignations:
     button: Aceptar
-  time:
-    am: am
-    formats:
-      default: "%A, %d de %B de %Y %H:%M:%S %z"
-      long: "%d de %B de %Y %H:%M"
-      short: "%d de %b %H:%M"
-    pm: pm
-  views:
-    pagination:
-      first: "&laquo; Primero"
-      last: Último &raquo;
-      next: Siguiente &rsaquo;
-      previous: "&lsaquo; Previo"
-      truncate: "&hellip;"

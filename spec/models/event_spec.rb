@@ -118,20 +118,4 @@ RSpec.describe Event, type: :model do
       expect(subject).to be_active
     end
   end
-
-  describe ".refunds" do
-    it "returns the event refunds" do
-      subject.save
-      refund = create(:refund, customer: create(:customer, event: subject))
-      expect(subject.refunds).to eq([refund])
-    end
-  end
-
-  describe ".orders" do
-    it "returns the event orders" do
-      subject.save
-      order = create(:order, customer: create(:customer, event: subject))
-      expect(subject.orders).to eq([order])
-    end
-  end
 end

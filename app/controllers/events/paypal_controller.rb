@@ -15,13 +15,13 @@ class Events::PaypalController < Events::PaymentsController
       tax: 0,
       items: items,
       ip: request.remote_ip,
-      return_url: event_paypal_purchase_url(@current_event, order_id: @order),
-      cancel_return_url: event_order_url(@current_event, @order),
+      return_path: event_paypal_purchase_path(@current_event, order_id: @order),
+      cancel_return_path: event_order_path(@current_event, @order),
       currency: @current_event.currency
     )
 
     if response.success?
-      redirect_to paypal.redirect_url_for(response.token)
+      redirect_to paypal.redirect_path_for(response.token)
     else
       redirect_to event_order_path(@current_event, @order, gateway: "paypal"), alert: response.message
     end

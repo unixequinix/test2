@@ -1,49 +1,36 @@
-- breadcrumb :admins_event_stations, @current_event, @group
-- provide :actions do
-  = link_to new_admins_event_station_path(group: @group), class: "btn btn-action btn-action-new small" do
-    = fa_icon 'plus'
-    = t('admin.actions.new')
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--4-col #{@group.humanize} Stations
+        .mdl-cell.mdl-cell--8-col
+          .tools
+            .tool-item
+              = link_to new_admins_event_station_path(group: @group) do
+                span#add.icon.material-icons add
+                span.mdl-tooltip data-mdl-for="add"  Add
+      - if @stations.any?
+        table.mdl-data-table.mdl-js-data-table.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Name
+              th Type
+              th Location
+              th Reporting Category
+          tbody
+            - @stations.each do |station|
+              tr class="#{'station-hidden' if station.hidden?}"
+                td.mdl-data-table__cell--non-numeric
+                  = station.name
+                  = render 'admins/events/stations/actions', station: station
+                td = station.category
+                td = station.location
+                td = station.reporting_category
+      - else
+        .section-title-empty
+          = image_tag "img-empty.png"
+          p = t("alerts.empty_items_list", item: 'stations')
 
-.wrapper-negative-space
-  - if @stations.any?
-    table.accesses
-      thead
-        tr
-          th = t('admin.stations.name')
-          th = t('admin.stations.type')
-          th = t('admin.stations.location')
-          th = t('admin.stations.reporting_category')
-          th.table-actions-field = t('admin.defaults.actions')
-      tbody
-        - @stations.each do |station|
-          tr class="#{'station-hidden' if station.hidden?}"
-            td data-label=t('admin.stations.name')
-              = best_in_place station, :name, url: admins_event_station_path(@current_event, station)
-            td data-label=t('admin.stations.type')
-              = t("admin.stations.categories.#{station.category}")
-            td data-label=t('admin.stations.location')
-              = best_in_place station, :location, url: admins_event_station_path(@current_event, station)
-            td data-label=t('admin.stations.reporting_category')
-              = best_in_place station, :reporting_category, url: admins_event_station_path(@current_event, station)
-            td.table-actions-field
-              ul
-                - if station.form
-                  li.table-action.action-add = link_to_unless(station.hidden?, fa_icon("list-alt", class: "fa-fw"), admins_event_station_station_items_path(@current_event, station))
-                li.table-action.action-edit = link_to_unless(station.hidden?, fa_icon("edit", class: "fa-fw"), edit_admins_event_station_path(@current_event, station))
-                
-                - unless station.category.eql?("customer_portal")
-                  li.table-action.action-add = link_to_unless(station.hidden?, fa_icon("clone", class: "fa-fw"), admins_event_station_clone_path(@current_event, station), method: :post)
-                
-                - unless station.category.eql?("touchpoint")
-                  - if station.hidden?
-                    li.table-action.action-hidden = link_to fa_icon("eye-slash", class: "fa-fw"), admins_event_station_visibility_path(@current_event, station, group: @group), method: :post
-                  - else
-                    li.table-action.action-visible = link_to fa_icon("eye", class: "fa-fw"), admins_event_station_visibility_path(@current_event, station, group: @group), method: :post
-                
-                - unless @current_event.active? || station.category.eql?("customer_portal")
-                  li.table-action.action-delete = link_to_unless(station.hidden?, fa_icon("trash", class: "fa-fw"), admins_event_station_path(@current_event, station), method: :delete, data: { confirm: t('admin.confirm.delete') })
+  .mdl-layout-spacer
 
-  - else
-    .section-title-empty
-      = image_tag "img-empty.png"
-      p = t("admin.defaults.empty_item", item: 'stations')

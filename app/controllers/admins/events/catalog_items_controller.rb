@@ -1,6 +1,8 @@
 class Admins::Events::CatalogItemsController < Admins::Events::BaseController
   def update
-    @item = CatalogItem.find(params[:id]).update_attributes(permitted_params)
+    @item = @current_event.catalog_items.find(params[:id])
+    authorize @item
+    @item.update_attributes(permitted_params)
     render json: @item
   end
 

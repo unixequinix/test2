@@ -2,7 +2,7 @@ class Api::V1::Events::DatabasesController < Api::V1::Events::BaseController
   def show
     type = params[:basic].eql?("true") ? "basic" : "full"
     database = DatabaseManager.new(@current_event, type)
-    url = database.generate_url(5)
+    url = database.generate_path(5)
 
     render(status: :not_found, json: :not_found) && return unless url
     render(json: { url: url })

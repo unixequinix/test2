@@ -1,10 +1,11 @@
 class Admins::Events::CreditsController < Admins::Events::BaseController
-  before_action :set_credit, except: [:new, :create]
+  before_action :set_credit
 
   def update
+    authorize @credit
     if @credit.update(permitted_params)
       flash[:notice] = I18n.t("alerts.updated")
-      redirect_to admins_event_credits_url
+      redirect_to admins_event_credits_path
     else
       flash.now[:error] = @credit.errors.full_messages.join(". ")
       render :edit
@@ -15,18 +16,10 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
 
   def set_credit
     @credit = @current_event.credit
+    authorize @credit
   end
 
   def permitted_params
-    params.require(:credit).permit(:currency,
-                                   :value,
-                                   :id,
-                                   :event_id,
-                                   :name,
-                                   :description,
-                                   :initial_amount,
-                                   :step,
-                                   :max_purchasable,
-                                   :min_purchasable)
+    params.require(:credit).permit(:currency, :value, :id, :name, :description, :initial_amount, :step, :max_purchasable, :min_purchasable)
   end
 end

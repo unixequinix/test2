@@ -1,89 +1,140 @@
-- breadcrumb :admins_event_device_settings, @current_event
-- provide :actions do
-  = link_to edit_admins_event_device_settings_path(@current_event), class: "btn btn-action btn-action-edit small" do
-    = fa_icon 'edit'
-    = t('actions.edit')
-  = link_to load_defaults_admins_event_device_settings_path(@current_event), class: "btn btn-action btn-action-edit small", data: { confirm: "This will override all Device settings, are you sure?" } do
-    = fa_icon 'cogs'
-    = t('actions.load_defaults')
+.content-grid.mdl-grid
+  .mdl-cell.mdl-cell--12-col
+    .inconsistencies-card.mdl-card
+      .mdl-card__title
+        h4.mdl-cell.mdl-cell--4-col Device Settings
+        .mdl-cell.mdl-cell--8-col
+          .tools
+            .tool-item
+              = link_to edit_admins_event_device_settings_path(@current_event) do
+                span#edit.material-icons edit
+                span.mdl-tooltip data-mdl-for="edit" Edit
+            .tool-item
+              = link_to load_defaults_admins_event_device_settings_path(@current_event), data: { confirm: "This will override all Device settings, are you sure?" } do
+                span#default.material-icons settings
+                span.mdl-tooltip data-mdl-for="default" Load Defaults
 
-.wrapper-negative-space
-  - unless current_admin.customer_service?
-    .container-databases
-      h3.dashboard-table-header = t("admin.dashboard.databases")
-      .wrapper-dashboard-reverse-devices
-        .database
-          .database__name
-            = t('admin.event.databases.full')
-          .database__updated
-            = @current_event.device_full_db_updated_at&.strftime("%y-%m-%d %H:%M:%S") || t("admin.event.databases.not_found")
-          .database__size
-            = number_to_human_size(@current_event.device_full_db_file_size)
-          .database__actions
-            = link_to remove_db_admins_event_device_settings_path(@current_event, db: "device_full_db"), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "database__btn #{"database__btn--disabled" if @current_event.device_full_db.blank?}"
-              => fa_icon("ban")
-              = t('admin.event.databases.clear')
-            = link_to DatabaseManager.new(@current_event, "full").generate_url(60), class: "database__btn database__btn--download #{"database__btn--disabled" if @current_event.device_full_db.blank?}"
-              => fa_icon("download")
-              = t('admin.event.databases.download')
-        .database
-          .database__name
-            = t('admin.event.databases.basic')
-          .database__updated
-            = @current_event.device_basic_db_updated_at&.strftime("%y-%m-%d %H:%M:%S") || t("admin.event.databases.not_found")
-          .database__size
-            = number_to_human_size(@current_event.device_basic_db_file_size)
-          .database__actions
-            = link_to remove_db_admins_event_device_settings_path(@current_event, db: "device_basic_db"), method: :delete, data: { confirm: t('admin.confirm.delete') }, class: "database__btn #{"database__btn--disabled" if @current_event.device_basic_db.blank?}"
-              => fa_icon("ban")
-              = t('admin.event.databases.clear')
-            = link_to DatabaseManager.new(@current_event, "basic").generate_url(60), class: "database__btn database__btn--download #{"database__btn--disabled" if @current_event.device_basic_db.blank?}"
-              => fa_icon("download")
-              = t('admin.event.databases.download')
 
-  .container-show
-    dl
-      h3.section-header
-        = fa_icon "info-circle"
-        = t("admin.event.fieldests.parameters")
-      dt = t("admin.device_settings.form.topup_initialize_gtag")
-      dd = format_abstract_value @current_event.topup_initialize_gtag
+  .mdl-cell.mdl-cell--12-col
+    .mdl-grid
+      .mdl-cell.mdl-cell--12-col
+        .transaction-card-wide.mdl-card.mdl-shadow--2dp
+          .mdl-card__title
+            h2.mdl-card__title-text Databases
+          .mdl-card__supporting-text
+            table.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric Full DB
+                  td = @current_event.device_full_db_updated_at ? l(@current_event.device_full_db_updated_at) : "Not found"
+                  td = number_to_human_size(@current_event.device_full_db_file_size)
+                  td.database__actions
+                    = link_to remove_db_admins_event_device_settings_path(@current_event, db: "device_full_db"), method: :delete, data: { confirm: 'Are you sure?' }, class: "database__btn #{"database__btn--disabled" if @current_event.device_full_db.blank?}" do
+                      span.icon.material-icons clear
+                      | Clear cache
+                    = link_to DatabaseManager.new(@current_event, "full").generate_url(60), class: "#{"database__btn--disabled" if @current_event.device_full_db.blank?}"
+                      span.icon.material-icons file_download
+                      | Download
 
-      h3.section-header
-        = fa_icon "shopping-cart"
-        = t("admin.event.fieldests.online_orders")
-      dt = t("admin.device_settings.form.touchpoint_update_online_orders")
-      dd = format_abstract_value @current_event.touchpoint_update_online_orders
-      dt = t("admin.device_settings.form.pos_update_online_orders")
-      dd = format_abstract_value @current_event.pos_update_online_orders
+                tr
+                  td.mdl-data-table__cell--non-numeric Basic DB
+                  td = @current_event.device_basic_db_updated_at ? l(@current_event.device_basic_db_updated_at) : "Not found"
+                  td = number_to_human_size(@current_event.device_basic_db_file_size)
+                  td.database__actions
+                    = link_to remove_db_admins_event_device_settings_path(@current_event, db: "device_basic_db"), method: :delete, data: { confirm: 'Are you sure?'  }, class: "#{"database__btn--disabled" if @current_event.device_basic_db.blank?}" do
+                      span.icon.material-icons clear
+                      | Clear cache
+                    = link_to DatabaseManager.new(@current_event, "basic").generate_url(60), class: "database__btn database__btn--download #{"database__btn--disabled" if @current_event.device_basic_db.blank?}"
+                      span.icon.material-icons file_download
+                      | Download
 
-      h3.section-header
-        = fa_icon "lock"
-        = t("admin.event.fieldests.security")
-      dt = t("admin.device_settings.form.private_zone_password")
-      dd = format_abstract_value @current_event.private_zone_password
-      dt = t("admin.device_settings.form.fast_removal_password")
-      dd = format_abstract_value @current_event.fast_removal_password
+  .mdl-cell.mdl-cell--12-col
+    .mdl-grid
+      .mdl-layout-spacer
+      .mdl-cell.mdl-cell--6-col
+        .transaction-card-wide.mdl-card.mdl-shadow--2dp
+          .mdl-card__title
+            .mdl-card__title-text
+              i.material-icons info_outline
+              | Parameters
+          .mdl-card__supporting-text
+            table.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric Topup Initialize Gtag
+                  td = format_abstract_value @current_event.topup_initialize_gtag
+      .mdl-layout-spacer
+      .mdl-cell.mdl-cell--6-col
+        .transaction-card-wide.mdl-card.mdl-shadow--2dp
+          .mdl-card__title
+            .mdl-card__title-text
+              i.material-icons shopping_cart
+              | Online Orders
+          .mdl-card__supporting-text
+            table.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric Touchpoint Update Online Orders
+                  td = format_abstract_value @current_event.touchpoint_update_online_orders
+                tr
+                  td.mdl-data-table__cell--non-numeric Pos Update Online Orders
+                  td = format_abstract_value @current_event.pos_update_online_orders
+      .mdl-layout-spacer
 
-      h3.section-header
-        = fa_icon "rss"
-        = t("admin.event.fieldests.sync")
-      dt = t("admin.device_settings.form.transaction_buffer")
-      dd = format_abstract_value @current_event.transaction_buffer
-      dt = t("admin.device_settings.form.days_to_keep_backup")
-      dd = format_abstract_value @current_event.days_to_keep_backup
-      dt = t("admin.device_settings.form.sync_time_event_parameters")
-      dd = format_abstract_value @current_event.sync_time_event_parameters
-      dt = t("admin.device_settings.form.sync_time_server_date")
-      dd = format_abstract_value @current_event.sync_time_server_date
-      dt = t("admin.device_settings.form.sync_time_basic_download")
-      dd = format_abstract_value @current_event.sync_time_basic_download
-      dt = t("admin.device_settings.form.sync_time_tickets")
-      dd = format_abstract_value @current_event.sync_time_tickets
-      dt = t("admin.device_settings.form.sync_time_gtags")
-      dd = format_abstract_value @current_event.sync_time_gtags
-      dt = t("admin.device_settings.form.sync_time_customers")
-      dd = format_abstract_value @current_event.sync_time_customers
+  .mdl-cell.mdl-cell--12-col
+    .mdl-grid
+      .mdl-layout-spacer
+      .mdl-cell.mdl-cell--6-col
+        .transaction-card-wide.mdl-card.mdl-shadow--2dp
+          .mdl-card__title
+            .mdl-card__title-text
+              i.material-icons lock_outline
+              | Security
+          .mdl-card__supporting-text
+            table.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric Private Zone Password
+                  td = format_abstract_value @current_event.private_zone_password
+                tr
+                  td.mdl-data-table__cell--non-numeric Fast Removal Password
+                  td = format_abstract_value @current_event.fast_removal_password
+      .mdl-layout-spacer
+      .mdl-cell.mdl-cell--6-col
+        .transaction-card-wide.mdl-card.mdl-shadow--2dp
+          .mdl-card__title
+            .mdl-card__title-text
+              i.material-icons cast
+              | Sync
+          .mdl-card__supporting-text
+            table.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric Transaction Buffer
+                  td = format_abstract_value @current_event.transaction_buffer
+                tr
+                  td.mdl-data-table__cell--non-numeric Days To Keep Backup
+                  td = format_abstract_value @current_event.days_to_keep_backup
+                tr
+                  td.mdl-data-table__cell--non-numeric Sync Time Event Parameters
+                  td = format_abstract_value @current_event.sync_time_event_parameters
+                tr
+                  td.mdl-data-table__cell--non-numeric Sync Time Server Date
+                  td = format_abstract_value @current_event.sync_time_server_date
+                tr
+                  td.mdl-data-table__cell--non-numeric Sync Time Basic Download
+                  td = format_abstract_value @current_event.sync_time_basic_download
+                tr
+                  td.mdl-data-table__cell--non-numeric Sync Time Tickets
+                  td  = format_abstract_value @current_event.sync_time_tickets
+                tr
+                  td.mdl-data-table__cell--non-numeric Sync Time Gtags
+                  td = format_abstract_value @current_event.sync_time_gtags
+                tr
+                  td.mdl-data-table__cell--non-numeric Sync Time Customers
+                  td = format_abstract_value @current_event.sync_time_customers
+      .mdl-layout-spacer
 
-    .container-hidden
-      = current_admin.access_token
+
+.container-invisible
+  = current_user.access_token

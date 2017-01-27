@@ -1,55 +1,12 @@
-- breadcrumb :admins_event_customers, @current_event
-- provide :actions do
-  = link_to admins_event_customers_path(format: "csv"), class: "btn btn-action btn-action-back small"
-    = fa_icon "download"
-    = t('admin.actions.download')
-  = link_to '#search-menu', class: 'btn btn-action btn-action-search small'  do
-    = fa_icon 'search'
-    = t('admin.actions.search')
-
-aside.mmenu-panel#search-menu
-  p.menu-header
-    = fa_icon "search"
-    = t("admin.defaults.search")
-
-  = search_form_for @q, url: search_admins_event_customers_path, html: { novalidate: true, class: "searchForm" }  do |f|
-    .container-search
-      = f.search_field :first_name_cont, label: t("admin.customers.search.first_name"), placeholder: t("admin.customers.search.first_name")
-      = f.search_field :last_name_cont, label: t("admin.customers.search.last_name"), placeholder: t("admin.customers.search.last_name")
-      = f.search_field :email_cont, label: t("admin.customers.search.email"), placeholder: t("admin.customers.search.email"), as: :string
-      = f.search_field :tickets_id_not_null, as: :select, label: t("admin.customers.search.tickets")
-      = f.search_field :active_gtag_id_not_null, as: :select, label: t("admin.customers.search.gtags")
-      = f.submit class: "btn btn-secondary"
-
-.wrapper-negative-space
-  - if @customers.present?
-    - customer_service = current_admin.customer_service?
-    .current-showing = page_entries_info @customers
-    table.customers
-      thead
-        tr
-          th = t("admin.customers.email")
-          th = t("admin.customers.first_name")
-          th = t("admin.customers.last_name")
-          th = t("admin.customers.tickets")
-          th = t("admin.customers.gtags")
-      tbody
-        - @customers.each do |customer|
-          tr [id="customer-#{customer.id}"]
-            td data-label=t("admin.customers.email") = link_to customer.email, admins_event_customer_path(@current_event, customer)
-            td data-label=t("admin.customers.first_name") = customer.first_name
-            td data-label=t("admin.customers.last_name") = customer.last_name
-            td data-label=t("admin.customers.tickets")
-              - if customer.tickets.any?
-                - customer.tickets.each do |ticket|
-                  = link_to ticket.code, admins_event_ticket_path(@current_event, ticket)
-            td data-label=t("admin.customers.gtag")
-              - if gtag = customer.active_gtag
-                = link_to "#{gtag.tag_uid} - #{gtag.activation_counter}", admins_event_gtag_path(@current_event, gtag)
-
-
-    = paginate @customers
-  - else
-    .section-title-empty
-      = image_tag "img-empty.png"
-      p = t("admin.defaults.empty_item", item: 'customers')
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--12-col
+    - if @customers.present?
+      .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @customers
+      = render "admins/events/customers/list", customers: @customers
+      .mdl-cell.mdl-cell--12-col = paginate @customers
+    - else
+      .section-title-empty
+        = image_tag "img-empty.png"
+        p = t("alerts.empty_items_list", item: 'customers')
+  .mdl-layout-spacer

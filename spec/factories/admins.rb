@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: admins
+# Table name: users
 #
 #  access_token           :string           not null
 #  current_sign_in_at     :datetime
@@ -20,8 +20,8 @@
 #
 
 FactoryGirl.define do
-  factory :admin do
-    sequence(:email) { |n| "admin#{n}@glownet.com" }
+  factory :user do
+    sequence(:email) { |n| "user#{n}@glownet.com" }
     password "password"
     password_confirmation "password"
   end

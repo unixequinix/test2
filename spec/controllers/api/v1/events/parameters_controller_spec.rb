@@ -1,13 +1,13 @@
 require "spec_helper"
 
 RSpec.describe Api::V1::Events::ParametersController, type: :controller do
-  let(:admin) { create(:admin) }
+  let(:user) { create(:user) }
   let(:event) { create(:event, gtag_type: "ultralight_c", ultralight_c_private_key: "ab") }
 
   describe "GET index" do
     describe "common parameters" do
       before do
-        http_login(admin.email, admin.access_token)
+        http_login(user.email, user.access_token)
         get :index, params: { event_id: event.id }
         @body = JSON.parse(response.body)
       end
@@ -95,7 +95,7 @@ RSpec.describe Api::V1::Events::ParametersController, type: :controller do
 
     describe "gtag_type" do
       before do
-        http_login(admin.email, admin.access_token)
+        http_login(user.email, user.access_token)
       end
 
       it "should include ultralight_c_private_key if gtag_type is ultralight_c" do

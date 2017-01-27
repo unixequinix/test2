@@ -1,7 +1,7 @@
 class UniteEntitlementsEndAccesses < ActiveRecord::Migration[5.0]
   def change
     add_column :catalog_items, :memory_position, :integer
-    add_column :catalog_items, :memory_length, :integer
+    add_column :catalog_items, :memory_length, :integer, default: 1
     add_column :catalog_items, :mode, :string
 
     sql = "UPDATE catalog_items

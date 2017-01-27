@@ -1,23 +1,22 @@
 doctype html
-html [lang=I18n.locale]
+html
   head
-    title = current_event.name
-    meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    meta name="apple-mobile-web-app-capable" content="yes"
-    meta charset="utf-8"
-
+    title= current_event.name
+    = stylesheet_link_tag 'customer', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'customer', 'data-turbolinks-track' => true
-    = stylesheet_link_tag    'customer', media: 'all', 'data-turbolinks-track' => true
-    = stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"
+    link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" /
+    link href="https://code.getmdl.io/1.2.1/material.teal-pink.min.css" rel="stylesheet" /
+    script defer="defer" src="https://code.getmdl.io/1.2.1/material.min.js" 
+    meta content="width=device-width, initial-scale=1.0" name="viewport" /
     = csrf_meta_tags
 
     = content_tag :style, current_event.style, type: "text/css"
     = content_tag :style, "body { background-repeat: no-repeat; }", type: "text/css" if current_event.background_type == Event::BACKGROUND_FIXED
 
     = render 'events/shared/cookies_consent'
-    = render 'application/analytics'
+    = render 'layouts/analytics'
 
-  body class="#{controller_name} #{action_name} #{"fixed-background" if current_event.background_type == Event::BACKGROUND_FIXED}" style=("background-image: url(#{current_event.background})")
+  body class=("#{controller_name} #{action_name} #{"fixed-background" if current_event.background_type == Event::BACKGROUND_FIXED}") style=("background-image: url(#{current_event.background})") 
     .container-main
       #mainWrapper.wrapper-main
         .container-welcome-logo
@@ -33,5 +32,9 @@ html [lang=I18n.locale]
                 .error-message.full-width
                   = fa_icon "times-circle"
                   = msg
-        == yield
+      = yield
+
     = render 'events/shared/footer'
+
+
+

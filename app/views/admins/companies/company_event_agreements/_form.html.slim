@@ -1,4 +1,4 @@
-= simple_form_for [:admins, company, agreement] do |f|
-  .wrapper-negative-space
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  = simple_form_for [:admins, company, agreement], remote: true, wrapper: :mdl_field_floating, wrapper_mappings:{text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
     = f.association :event, collection: company.unassigned_events
-    = f.button :submit, class: "btn btn-primary"
+    = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent event-submit", value: 'Create event agreement'

@@ -15,26 +15,26 @@ class Events::GtagAssignmentsController < Events::BaseController
     render(:new) && return if flash.now[:error].present?
 
     @gtag.assign_customer(current_customer, :portal, current_customer)
-    redirect_to event_url(@current_event), notice: I18n.t("alerts.created")
+    redirect_to event_path(@current_event), notice: I18n.t("alerts.created")
   end
 
   def destroy
     @gtag = @current_event.gtags.find(params[:id])
     @gtag.unassign_customer(:portal, current_customer)
     flash[:notice] = I18n.t("alerts.unassigned")
-    redirect_to event_url(@current_event)
+    redirect_to event_path(@current_event)
   end
 
   private
 
   def check_event_status!
     return if @current_event.gtag_assignation?
-    redirect_to event_url(@current_event), flash: { error: I18n.t("alerts.error") }
+    redirect_to event_path(@current_event), flash: { error: I18n.t("alerts.error") }
   end
 
   def check_has_not_gtag!
     return if current_customer.active_gtag.nil?
-    redirect_to event_url(@current_event), flash: { error: I18n.t("alerts.gtag_already_assigned") }
+    redirect_to event_path(@current_event), flash: { error: I18n.t("alerts.credential.already_assigned", item: "Tag") }
   end
 
   def permitted_params

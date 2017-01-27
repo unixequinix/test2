@@ -65,4 +65,8 @@ class AccessTransaction < Transaction
   def description
     "#{action.gsub('access', '').humanize}: #{access.name}"
   end
+
+  def self.policy_class
+    TransactionPolicy
+  end
 end

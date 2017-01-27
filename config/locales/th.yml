@@ -1,298 +1,78 @@
 ---
 th:
-  country_iso_priority: [AT, BE, BG, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, GB]
-  general_company_name: 'Glownet'
-  general_support_email: 'support@glownet.com'
-  gender:
-    male: 'Male'
-    female: 'Female'
-  gtag_name: 'Wristband'
-  event:
-    subject_support: 'Need help for %{event}'
-    locales:
-      en: 'ENG'
-      es: 'ESP'
-      it: 'ITA'
-      th: 'THA'
-      de: 'GER'
-      pt: 'PT'
-  events:
-    create:
-      error: "Event couldn't be created, check the errors below"
-  activemodel:
-    errors:
-      models:
-        customer:
-          attributes:
-            phone:
-              improbable_phone: "It's not a valid phone number. Check that country matches the phone number."
-            birthdate:
-              invalid: "It's not a valid date"
-              too_young: "Must be older than %{age} years old"
-        epg_claim_form:
-          attributes:
-            phone:
-              improbable_phone: "It's not a valid phone number. Check that country matches the phone number."
-        bank_account_claim_form:
-          attributes:
-            swift:
-              invalid: "It's not a valid BIC/SWIFT"
-            iban:
-              invalid: "It's not a valid IBAN, introduce a valid account for SEPA"
-    attributes:
-      euro_bank_account_claim_form:
-        swift: "BIC/SWIFT"
-        iban: "IBAN"
-        account_holder: "Account holder's name"
-        bank_name: "Bank name"
-      aus_bank_account_claim_form:
-        bsb: "BSB"
-        account_holder: "Account holder's name"
-        bank_name: "Bank name"
-        number: "Account number"
-      nz_bank_account_claim_form:
-        bsb: "BSB"
-        account_holder: "Account holder's name"
-        bank_name: "Bank name"
-        number: "Account number (00 0000 0000000 000)"
-      thailand_bank_account_claim_form:
-        bsb: "BSB (000000)"
-        account_holder: "Account holder's name (Thai)"
-        account_holder_translation: "Account holder's name (English)"
-        bank_name: "Bank name"
-        number: "Account number"
-  activerecord:
-    models:
-      admin:
-        one: 'admin'
-        other: 'admins'
-      claim:
-        one: 'claim'
-        other: 'claims'
-      credit:
-        one: 'credit'
-        other: 'credits'
-      customer:
-        one: 'customer'
-        other: 'customers'
-      gtag:
-        one: 'gtag'
-        other: 'gtags'
-      order:
-        one: 'order'
-        other: 'orders'
-      payment:
-        one: 'payment'
-        other: 'payments'
-      refund:
-        one: 'refund'
-        other: 'refunds'
-      ticket:
-        one: 'ticket'
-        other: 'tickets'
-      company:
-        one: 'company'
-        other: 'companies'
-      pack:
-        one: 'pack'
-        other: 'packs'
-      ticket_type:
-        one: 'company ticket type'
-        other: 'company ticket types'
-    errors:
-      models:
-        customer:
-          attributes:
-            email:
-              taken: 'Email taken'
-        ticket_type:
-          attributes:
-            base:
-              restrict_dependent_destroy:
-                many: "Can't be deleted because there are tickets associated"
-        ticket:
-          attributes:
-            number:
-              taken: 'Number taken'
-            base:
-              restrict_dependent_destroy:
-                many: "Can't be deleted because there are customers associated"
-        gtag:
-          attributes:
-            base:
-              restrict_dependent_destroy:
-                many: "Can't be deleted because there are customers associated"
-            tag_uid:
-              taken: 'Tag UID taken'
-        admission:
-          attributes:
-            ticket:
-              taken: 'taken'
-
   actions:
     back: กลับไป
-    cancel: ยกเลิก
     check_news: กลับไปที่เว็บไซด์ของงาน
-    confirm: Confirm
     delete: ลบ
-    delete_account: ลบบัญชีของคุณ
-    delete_ticket: Delete ticket
     edit: แก้ไข
-    finalize: Finalize
-    logout: ออกจากระบบ
   admin:
     accesses:
       initial_amount: Initial Amount
       max_purchasable: Maximum Purchasable
       min_purchasable: Minimum Purchasable
-      mode: Mode
-      modes:
-        counter: Counter
-        permanent: Permanent
-        permanent_strict: Permanent Strict
       step: Step
     actions:
-      assign_gtag: Assign gtag
-      assign_ticket: Assign ticket
       back: Back
-      cancel: Cancel
-      credits_history: Credits history
-      csv: CSV
       delete_selected: Delete selected
-      disable: Disable
       download: CSV
-      manual_claims_csv: Manual claims CSV
       new: New
-      search: Search
-      select_all: Select all
       update: Update
-    admins:
-      email: Email
     admissions:
-      state: State
-      created_at: Created at
       customer:
         complete_name: Complete name
         email: Email
+      state: State
       states:
         assigned: Is assigned now
-        unassigned: Previous assignation
       ticket: Ticket
-      updated_at: Updated at
-    agreements:
-      granted: Granted
-      revoked: Revoked
-      status: Status
     aside:
-      access_transactions: Access
       accesses: Accesses
       admins: Admins
-      ban_transactions: Ban
-      claims: Claims
       companies: Companies
-      credential_transactions: Credential
-      inconsistencies: Inconsistencies
-      credit_transactions: Credit
       credits: Credits
       crm: CRM
       customers: Customers
       details: Details
-      device_transactions: Device
       event: Event
       events: Events
       gtag: GTags
-      logs: Logs
-      missing_transactions: Missing
-      money_transactions: Money
-      operator_transactions: Operator
-      order_transactions: Order
+      inconsistencies: Inconsistencies
       orders: Orders
       payment_settings: Payment Settings
-      payments: Payments
-      refund_settings: Refund Settings
       refunds: Refunds
       setup: Setup
       sign_out: Sign out
       ticket_types: Ticket types
-      user_engagement_transactions: User Engagement
     catalog_item:
       initial_amount: Initial amount
       max_purchasable: Max purchasable
       min_purchasable: Min purchasable
       name: Name
       step: Step
-      type: Type
     companies:
       name: Name
       token: Company token
     confirm:
-      clone: Are you sure?
       delete: Are you sure?
     credits:
-      currency: Currency
-      standard: Standard
       value: Value
-    customer:
-      id: Id
     customers:
-      admissions: Ticket registrations
-      agreed_event_condition: Event condition agreed
-      amount: Amount
-      banned: Banned
-      claims: Claims
-      completed_claim: Completed claims
-      creadit_logs: Credits logs
-      created_at: Created at
-      credits: Credits
-      current_sign: Current sign in
-      current_sign_ip: Current sign in ip
-      delete: Deleted
       email: Email
       first_name: First name
       gtag: Gtag
-      gtag_credits: Gtag Credits
       gtags: Gtags
-      id: Id
       last_name: Last name
-      last_sign: Last sign in at
-      last_sign_ip: Last sign in ip
-      orders: Orders
-      payments: Payments
-      payments_activated: Payments activated
-      refund: Refund
-      search:
-        confirmed: Confirmed?
-        credits_purchased: Credits Purchased?
-        email: Type email
-        first_name: Type first name
-        last_name: Type last name
-        tickets: Tickets?
-      sign: Sign in count
-      state: State
       ticket: Ticket
       tickets: Tickets
-      transactions: Transactions
-      transactions_type: Transactions type
-    dashboard:
-      api_access: API access
-      change_state: Change state?
-      current_token: 'Your current API access token:'
     defaults:
       actions: Actions
       all: Select
-      empty_events: No events
       empty_item: No %{item}
-      home: Home
       item_not_found: No %{item} found
       log_in: Log In
-      search: Search
     device_settings:
       form:
-        currency: Currency Symbol
-        maximum_wb_balance: Maximum wristband balance
         private_zone_password: Private Zone Password
-        public_key_a: Tag Password
-        uid_reverse: UID Reverse
     devices:
       asset: Asset ID
       imei: Imei
@@ -300,120 +80,32 @@ th:
       model: Model
       serial_number: Serial Number
     event:
-      background: Background
-      background_type: Background type
       background_types:
         fixed: Fixed
         repeat: Repeat
-      bank_account_disclaimer: Bank account disclaimer
-      company_name: Company name
-      description: Description
-      disclaimer: Disclaimer
-      end_date: End date
-      features: Enabled Features
-      features_options:
-        agreement_acceptance: Agreement acceptance
-        authorization: Authorization
-        gtag_assignation: Gtag assignations
-        refunds: Refunds
-        ticket_assignation: Ticket assignations
-        top_ups: Credit top ups
-        transactions_pdf: Transactions PDF
-      fee: Fee
       fieldests:
-        company: Company information
-        custom: Custom styles
-        date: Sate and location
-        image: Images
-        info: Event info
-        limits: Limits
-        nfc: NFC
-        optional_form_parameters: Optional form parameters
         parameters: Parameters
         security: Security
-        text: Texts
       gtag_assignation_notification: Gtag  assignation notification
       gtag_form_disclaimer: Gtag assignation form disclaimer
-      images:
-        background: Background image preview
-        customer: Customer image preview
-      info: Info
-      locales: Enabled Languages
-      locales_options:
-        de_lang: German
-        en_lang: English
-        es_lang: Spanish
-        it_lang: Italian
-        pt_lang: Portuguese
-        th_lang: Thai
-      logo: Logo
-      mass_email_claim_notification: Mass email claim notification
-      minimum: Minimum
       name: Name
-      payment_service: Payment service
-      privacy_policy: Privacy policy
-      refund_disclaimer: Refund disclaimer
-      refund_service: Refund services
-      refund_success_message: Refund success message (Click to check)
-      slug: Slug
-      start_date: Start date
-      states:
-        claiming_started: Claim started
-        closed: Closed
-        created: Not published
-        finished: After event
-        launched: Pre-event
-        started: During event
-      status: Status
-      style: Style
-      support_email: Support email
-      terms_of_use: Terms of use
       token: Event token
-      url: Event url
     general:
       created_at: Created at
       description: Description
       id: ID
       name: Name
       updated_at: Updated at
-    gtag_assignations:
-      state: State
-      button: ตกลง
-      created_at: Created at
-      customer:
-        complete_name: Complete name
-        email: Email
-      serial: Tag Serial Number
-      states:
-        assigned: Is assigned now
-        unassigned: Previous assignation
-      tag: Tag UID
-      updated_at: Updated at
     gtags:
-      actions:
-        delete_credits: Delete all credits
-        delete_gtags: Delete all gtags
       activation_counter: Activation
-      assigned_at: Assigned at
       banned: Banned
-      created_at: Created at
       customer: Customer
       format: Format
       formats:
         card: Card
         wristband: Wristband
-      gtag_assignation: Gtag assignations
-      id: Id
-      import: Import GTags (Select a CSV file comma separated)
-      import_credits: Import Credits (Select a CSV file comma separated)
       loyalty: Loyalty
-      search:
-        tag_serial: Tag serial number
-        tag_uid: Tag UID
       tag: Tag UID
-      tickets: Tickets
-      total: Total Credits
-      updated_at: Updated at
     order_items:
       amount: Amount
       catalog_item: Catalog item
@@ -428,14 +120,9 @@ th:
       gateway: Gateway
       items: Items
       number: Number
-      order_item: Order items
-      payments: Payments
-      product_description: Product description
       product_name: Product name
       product_price: Product price
       product_type: Product type
-      search:
-        number: Number
       state: State
       total: Total
     pack:
@@ -451,25 +138,8 @@ th:
       confirm: Confirm your new password
       forgotten: Forgot your password?
       new: New password
-      reset_password: Reset password
-      reset_password_confirm: |-
-        The password will be set to '123456'.
-         Are you sure?
       send_instructions: Send me reset password instructions
-    payment_settings:
-      redsys:
-        code: Code
-        currency: Currency
-        form: Form URL
-        ip: IP
-        name: Name
-        password: Password
-        pay_methods: Pay methods
-        terminal: Terminal
-        transaction_type: Transaction Type
     products:
-      description: Description
-      id: Id
       is_alcohol: Is alcohol
       name: Name
       product_type: Product Type
@@ -478,51 +148,16 @@ th:
     purchasers:
       email: Purchaser Email
       first_name: Purchaser First name
-      gtag_delivery_address: Gtag Delivery Address
       last_name: Purchaser Last name
-    refund_settings:
-      bank_account:
-        fee: Refund Fee (in currency)
-        minimum: After-Fee Refund Minimum (in currency)
-      epg:
-        country: Country
-        currency: Currency
-        fee: Refund Fee (in currency)
-        md5key: Md5 key
-        merchant_id: Merchant Id
-        minimum: After-Fee Refund Minimum (in currency)
-        operation_type: Operation type
-        payment_solution: Payment solution
-        product_id: Product
-        url: URL
-      nofication_description: Notify to the customers they can claim their refund.
-      notify: Notify
-      tipalti:
-        country: Country
-        fee: Refund Fee (in currency)
-        idap: Idap
-        minimum: After-Fee Refund Minimum (in currency)
-        payer: Payer
-        secret_key: Secret key
-        url: URL
-      want_to_notify: Do you want to notify?
     refunds:
       amount: Amount
       created_at: Created at
       customer_email: Customer email
-      customer_name: Customer name
       fee: Fee
-      iban: IBAN number
       id: Id
-      search:
-        amount: Amount
-        status: State
       status: Status
-      swift: SWIFT number
-      updated_at: Updated at
     sessions:
       mail: user@domain.com
-      password: password
     stations:
       access_control_gate:
         direction: Direction
@@ -536,7 +171,6 @@ th:
         cs_gtag_balance_fix: CS Gtag Balance Fix
         cs_topup_refund: CS Topup/Refund
         customer_portal: Customer Portal
-        customer_service: Customer Service
         envelope_linker: Envelope Linker
         exhibitor: Exhibitor
         gtag_recycler: Gtag Recycler
@@ -549,22 +183,14 @@ th:
         top_up_refund: Top Up / Refund
         touchpoint: Touchpoint
         vendor: Vendor
-      group: Group
       items: Products
       location: Location
       name: Name
       reporting_category: Reporting Category
       station_catalog_item:
-        description: Description
         name: Name
         price: Price
         type: Type
-      station_groups:
-        access: Access
-        event_management: Event management
-        glownet: Glownet
-        monetary: Monetary
-        touchpoint: Touchpoint
       station_product:
         description: Description
         is_alcohol: Is alcohol?
@@ -572,52 +198,25 @@ th:
         price: Price
       topup_credit:
         amount: Amount
-        credit: Credit
         credit_value: Credit value
         price: Price
       type: Type
     ticket_types:
       catalog_item: Item
-      company: Company
       company_code: Company code
-      credit: Credit
-      id: Id
-      import: Import ticket types (Select a CSV file comma separated)
       name: Name
       number_of_tickets: Tickets
-      simplified_name: Simplified Name
     tickets:
-      actions:
-        delete_tickets: Delete all tickets
-      admission: Tickets registrations
       banned: Banned
       code: Code
-      created_at: Created at
       customer: Assigned customer
-      gtags: Gtags
-      id: Id
-      import: Import tickets (Select a CSV file comma separated)
-      search:
-        code: Ticket barcode number
-        customer: Assigned customer email
-        purchaser_email: Purchaser Email
-        purchaser_first_name: Purchaser First Name
-        purchaser_last_name: Purchaser Last Name
-        type: Type
-      ticket_type: Ticket type
-      ticket_type_simplified: Simplified Ticket type
     transactions:
       access: Access
       action: Type
-      catalog_item_id: Catalog Item ID
-      counter: Counter
       counters: Counters
-      credential: Credential
-      credit_value: Credit Value
       credits: Credits
       customer_id: Customer
       customer_tag_uid: Customer Tag
-      device: Device
       device_created_at: Date
       device_db_index: DB index
       device_uid: Device
@@ -626,14 +225,9 @@ th:
       final_balance: Final Balance
       final_refundable_balance: R Final Balance
       final_value: Final Value
-      gtag: Gtag
       gtag_counter: Gtag Counter
       id: ID
-      inconsistent_balance: Inconsistent
-      inconsistent_refundable_balance: R Inconsistent
       items_amount: Items Amount
-      missing_transactions: Missing?
-      money: Money
       operator_tag_uid: Operator Tag
       payment_gateway: Gateway
       payment_method: Method
@@ -646,7 +240,6 @@ th:
       status_code: Status Code
       status_message: Status Message
       ticket: Ticket
-      ticket_code: Ticket
       total: Total
       transaction_origin: Origin
       type: Catalogable Type
@@ -655,211 +248,58 @@ th:
     button: เริ่มการใช้งานในระบบ
     call_to_action: ใส่บัตรเข้างานของคุณในระบบ!
     description: กรุณาใส่รหัสหมายเลขที่อยู้ด้านล่างของบาร์โค้ดบนบัตรเข้างานของคุณ
-    description2: รหัสหมายเลขของคุณควรเริ่มต้นด้วย'
     placeholders:
       ticket_code: หมายเลขบาร์โค้ดของงาน
-    title: การใส่บัตรเข้างานในระบบ
   alerts:
-    access_only_one_way: Only one way per access
     admissions: Ticket not found. If you have purchased it within the last 48 hours, please try again later until we update your purchase. Otherwise contact support.
-    checkout: You can only introduce numeric data without decimals, bigger than 0 and lower than %{limit}
-    claim_complete: การเคลมสำเร็จ ใช้เวลามากกว่า 15 นาที
-    cloned: Succesfully cloned
     created: สร้างสำเร็จ
-    credential_already_assigned: You already have the credential that comes with this ticket
     customer_without_transactions: The customer doesn't have credit transactions
     destroyed: ทำลายสำเร็จ
     error: ดูรายละเอียดของข้อผิดพลาด
-    forbidden_gtag_change: Impossible to unassign gtag when event has started
     gtag:
       already_assigned: This Tag is already assigned
-      invalid: "Tag ไม่ถูกต้อง"
-    gtag_already_assigned: คุณมีบัตรอยู่ในระบบแล้ว
-    imported: นำเข้าสำเร็จ
+      invalid: Tag ไม่ถูกต้อง
     order_complete: รายการสำเร็จ
-    order_expired: หมดเวลาทำรายการ
-    quantity_not_refundable: จำนวนเครดิตไม่มากพอสำหรับการขอรับเงินคืน
-    resend: ส่งอีกครั้งสำเร็จ
     ticket_already_assigned: Ticket already assigned
     ticket_assigned: Ticket assigned successfully
     ticket_banned: Ticket is blacklisted
-    ticket_doesnt_exist: Ticket doesn't exist
     ticket_without_credential: The ticket you entered is still being processed by our system and cannot being assigned yet. Please, come back later or contact support
     unassigned: ยกเลิกสำเร็จ
     updated: อัพเดทสำเร็จ
   auth:
-    failure:
-      already_authenticated: คุณได้เข้าสู่ระบบเป็นที่เรียบร้อยแล้ว
-      inactive: บัญชีผู้ใช้งานของคุณยังไม่ได้รับการเปิดใช้งานของบัญชีอย่างสมบูรณ์
-      invalid: "%{authentication_keys} หรือ รหัสผ่าน ไม่ถูกต้อง"
-      invalid_current_password: รหัสผ่านไม่ถูกต้อง
-      last_attempt: คุณเหลือโอกาสเพียงหนึ่งครั้งก่อนที่บัญชีของคุณจะถูกล๊อค
-      locked: บัญชีผู้ใช้งานของคุณถูกล๊อค
-      not_found_in_database: รหัสผ่านไม่ถูกต้อง
-      timeout: เซสชั่นของคุณหมดอายุแล้ว กรุณาเข้าสู่ระบบอีกครั้ง
-      unauthenticated: คุณจำเป็นต้องเข้าสู่ระบบหรือลงทะเบียนก่อนทำรายการต่อไป
     mailer:
       reset_password_instructions:
         subject: คำสั่งรีเซ็ตรหัสผ่าน
-      unlock_instructions:
-        subject: คำสั่งปลดล๊อค
-    omniauth_callbacks:
-      failure: ราไม่สามารถรับรองความน่าเชื่อถือของท่านจาก %{kind} เพราะ %{reason}
-      success: เราได้ทำยืนยันความน่าเชื่อถือจากบัญชีของ %{kind} สมบูรณ์แล้ว
-    passwords:
-      no_token: คุณไม่สามารถเข้าสู่หน้านี้ได้เพราะคุณไม่ได้มาจากอีเมลยืนยันการเปลี่ยนแปลงรหัสผ่าน ถ้าคุณมาจากอีเมลดังกล่าว กรุณาใส่ URL ที่ส่งไปให้ให้ครบ
-      send_instructions: คุณจะได้รับอีเมล์ชี้แจงรายละเอียดวิธีการรีเซ็ตรหัสผ่านภายในไม่ช้านี้
-      send_paranoid_instructions: คุณจะได้รับอีเมล์ชี้แจงรายละเอียดวิธีการยืนยันอีเมล์ของท่านในไม่ช้านี้ ในกรณีที่อีเมล์ของคุณมีอยู่ในฐานข้อมูลของเรา
-      updated: รหัสผ่านของคุณได้ถูกเปลี่ยนโดยสมบูรณ์แล้ว ในขณะนี้คุณสามารถเข้าสู่ระบบได้
-      updated_not_active: รหัสผ่านของคุณได้ถูกเปลี่ยนโดยสมบูรณ์แล้ว
-    registrations:
-      destroyed: บัญชีผู้ใช้งานของคุณได้ถูกยกเลิกแล้ว เราหวังว่าจะได้พบกันอีกครั้ง
-      signed_up: ยินดีต้อนรับ! คุณได้ลงทะเบียนสมบูรณ์แล้ว
-      signed_up_but_inactive: คุณได้ลงทะเบียนสมบูรณ์แล้ว แต่เราไม่สามารถให้คุณเข้าสู่ระบบได้เนื่องจากบัญชีของคุณยังไม่ถูกเปิดใช้งานอย่างสมบูรณ์
-      signed_up_but_locked: คุณได้ลงทะเบียนสมบูรณ์แล้ว แต่เราไม่สามารถให้คุณเข้าสู่ระบบได้เนื่องจากบัญชีของคุณถูกล๊อค
-      update_needs_confirmation: คุณได้เปลี่ยนแปลงข้อมูลบัญชีผู้ใช้งานของคุณสมบูรณ์แล้ว แต่เราจำเป็นต้องทำการตรวจสอบอีเมลใหม่ของคุณ คุณสามารถยืนยันอีเมล์หม่ได้จากลิงคข้อความทางอีเมลของคุณ
-      updated: คุณได้เปลี่ยนแปลงข้อมูลบัญชีผู้ใช้งานของคุณสมบูรณ์แล้ว
-    sessions:
-      already_signed_out: ออกจากระบบเรียบร้อย
-      signed_in: เข้าสู่ระบบเรียบร้อย
-      signed_out: ออกจากระบบเรียบร้อย
-    unlocks:
-      send_instructions: คุณจะได้รับอีเมล์ชี้แจงรายละเอียดวิธีการปลดล๊อคบัญชีของคุณภายในไม่ช้านี้
-      send_paranoid_instructions: คุณจะได้รับอีเมลชี้แจงรายละเอียดวิธีการปลดล๊อคบัญชีของคุณภายในไม่ช้านี้ ในกรณีที่อีเมลของคุณมีอยู่ในฐานข้อมูลของเรา
-      unlocked: บัญชีของคุณได้รับการปลดล๊อคแล้ว คุณสามารถเข้าสู่ระบบเพื่อทำรายการต่อไป
-  bank_account_claim:
-    bic_swift_disclaimer_html: "<sup>1</sup><a href='http://www.business.hsbc.co.uk/1/2/international-business/iban-bic' target='_blank'>อะไรคือ BIC / SWIFT และจะหาข้อมูลได้ที่ไหน?</a>"
-    iban_disclaimer_html: "<sup>2</sup><a href='http://www.business.hsbc.co.uk/1/2/international-business/iban-bic' target='_blank'>อะไรคือI BAN และจะหาข้อมูลได้ที่ไหน?</a>"
-  breadcrumbs:
-    accesses: Accesses
-    accreditation_stations: Accreditation Stations
-    admins: Admins
-    claims: Claims
-    companies: Companies
-    credits: Credits
-    customer: Customer
-    customers: Customers
-    dashboard: Dashboard
-    events: Events
-    gtags: Gtags
-    home: Home
-    new_access: New access
-    new_admin: New Admin
-    new_claim: New claims
-    new_credit: New credit
-    new_customer: New customer
-    new_customer_admission: Assigning Ticket
-    new_customer_gtag_assignation: Assigning Gtag
-    new_event: New event
-    new_gtag: New tag
-    new_order: New order
-    new_pack: New pack
-    new_payment: New payment
-    new_refund: New refund
-    new_station: New Station
-    new_ticket: New ticket
-    new_ticket_type: New ticket type
-    orders: Orders
-    packs: Packs
-    payment_settings: Payment Settings
-    payments: Payments
-    refund_settings: Refund Settings
-    refunds: Refunds
-    station_catalog_products: Station products
-    stations: Stations
-    ticket_types: Ticket types
-    tickets: Tickets
-  cancel:
-    title: ยกเลิกบัญชีการใช้งาน
-    unhappy: เพื่อให้เราทำการปรับปรุง กรุณาส่งอีเมลหาเราเพื่อแจ้งเหตุผลของการเลิกใช้บริการ
   checkout:
     button: ยืนยันการเติมเงิน
     description: หลังจากที่คุณเติมเงินโดยการซื้อเครดิตออนไลน์ที่นี่แล้ว คุณจะสามารถใช้เงินได้โดยอัตโนมัติผ่าน Tag หลังจากเข้างาน
     store: " store"
-    title: เติมเงิน
     total: ทั้งหมด
   claims:
-    amount: จำนวน
-    button: การคืนเงิน
-    button_iupay: IUPAY
-    claim_present:
-      description: Your claim has been processed correctly and is on the way.
-      title: Thank you!
     credentiable_refund_disabled:
       description: Your credential is not elegible for online refunds
       title: Sorry
-    description: กรุณาตรวจสอบรายละเอียดของการขอรับเงินของคุณ และทำการชำระเงิน.
-    direct_claim:
-      button: Proceed
-      description: We will refund your money automatically.
-      title: Claim for your balance
-    fee: ค่าธรรมเนียมในการคืนเงิน
     invalid_claim:
       description: Please contact us at %{email} in order to process your refund.
       title: Working in your refund
     no_credit:
       description: You don't have sufficient refundable balance
       title: Sorry
-    paypal:
-      button: Refund with PayPal
-    product_description: เครดิตที่จะได้รับการคืนเงิน
-    products: สินค้า
-    redirect: ระบบกำลังจะพาคุณไปที่หน้าสำหรับการชำระเงิน
-    refund: กรุณาตรวจสอบรายละเอียดของเครดิตของคุณก่อนทำการติดต่อขอรับเงินคืน
-    title: ยืนยันการขอรับเงินคืน
-    total: ทั้งหมด
-    vat: รวม VAT
-    wirecard:
-      button: Refund with Wirecard
   conditions:
     action: ข้าพเจ้าตกลง
     conjunction: และ
     privacy_conditions: นโยบายความเป็นส่วนตัว
     terms_of_use: ข้อตกลงการใช้งาน
   confirm:
-    cancel_paypal: Cancelling you disassociate your Tag from you PayPal account.
-    cancel_paypal_agreement: Cancel agreement
     log_out: Do you want to end this session?
-    remove_ticket: เครดิตที่คุณได้ทำการซื้อไปจะอยู่ในบัญชีผู้ใช้งานนี้ของคุณ หากคุณยกเลิกบัตรเข้างาน คุณจะต้องทำการโอนเครดิตไปยังบัตรอื่นเพื่อที่จะใช้ในงาน
   cookies:
-    all_sites_settings_dialog_subtitle: คุณสามารถยินยอมให้เว็บไซด์อื่นๆ ใช้คุ๊กกี้ของคุณในลักษณะเดียวกันได้
-    all_sites_settings_dialog_title_a: ตั้งค่าความเป็นส่วนตัว
-    all_sites_settings_dialog_title_b: สำหรับทุกเว็บไซด์
-    allow_cookies: ยอมรับการใช้คุ๊กกี้
-    allow_cookies_implicit: ปิด
-    allow_for_all_sites: ยินยอมสำหรับทุกเว็บไซด์
-    analytics_default_description: เราจะทำเก็บข้อมูลการใช้งานแบบไม่ระบุตัวตนเพื่อใช้ในการพัฒนาเว็บไซด์ต่อไป
-    analytics_default_title: Analytics
-    back_to_site_settings: กลับไปหน้าตั้งของเว็บไซด์
-    change_for_all_sites_link: เปลี่ยนการตั้งค่าสำหรับทุกเว็บไซด์
-    description: ระหว่างการใช้เว็บไซด์ เราถือว่าคุณได้ยอมรับ
-    hide_details: ซ่อน
     learn_more: นโยบายการใช้คุ๊กกี้
-    not_using_cookies: เว็บไซด์นี้ไม่ใช้คุ๊กกี้.
     notification_title: เราใช้คุ๊กกี้ของคุณเพื่อให้ระบบสามารถให้การใช้งานที่ดีที่สุดสำหรับคุณได้ ถ้าคุณทำการใช้งานบนเว็บไซด์ต่อไป เราถือว่าคุณได้ทำการยอมรับเงื่อนไขนี้
-    notification_title_implicit: GSpot ใช้คุ๊กกี้จากบริษัทอื่นเพื่อใช้ในการพัฒนาเว็บไซด์
-    preference_always: ยอมรับ
-    preference_ask: ถามทุกครั้งเวลาใช้งาน
     preference_consent: ข้าพเจ้ายอมรับ
-    preference_decline: ข้าพเจ้าไม่ยอมรับ
-    preference_never: ไม่ยอมรับ
-    preference_use_global: ใช้การตั้งค่าทั่วไป
-    privacy_settings: ความเป็นส่วนตัว
-    privacy_settings_dialog_subtitle: คุณจำเป็นต้องทำการยินยอมให้เว็บไซด์นี้บันทึกข้อมูลของคุณ
-    privacy_settings_dialog_title_a: ตั้งค่าความเป็นส่วนตัว
-    privacy_settings_dialog_title_b: สำหรับเว็บไซด์
-    save_for_all_sites: บันทึกสำหรับทุกเว็บไซด์
-    save_preference: บันทึกการตั้งค่าในแบบของคุณ
-    see_details: ดูรายละเอียด
-    see_details_implicit: เปลี่ยนการตั้งค่า
-  currency_symbol: THA
   dashboard:
     admissions:
-      button: ยกเลิก
       call_to_action: ต้องการยกเลิกบัตรเข้างาน?
       call_to_action_started: "'งานได้เริ่มแล้ว ไม่สามารถยกเลิกบัตรเข้างานได้"
-      header: บัตรเข้างาน%{ticket_type}
-      success: บัตรเข้างานได้อยู่ในระบบแล้ว!
     credits:
       button: เติมเงิน
       calculating_balance: We are validating your final balance. Please return in 48 hours to proceed with your refund.
@@ -867,61 +307,24 @@ th:
       call_to_action_started: ไม่สามารถเติมเงินผ่านระบบออนไลน์ได้ เนื่องจากงานได้เริ่มแล้ว
       header: เครดิตที่ยังคงเหลืออยู่ของคุณ
       refundable: Refundable
-      ticket_first: Add a ticket or Tag first
     credits_history:
       button: Download Transactions
       header: Transaction history
-    error_refund_disclaimer:
-      claim: มีข้อผิดพลาดในการขอรับเงินคืน
-      description: กลับไปที่หน้าบัญชีผู้ใช้งานของคุณ และทำการขอรับเงินคืนอีกครั้ง
-    event_refunds:
-      claim: งานยังไม่จบ
-      description: กรุณาทำการขอรับเงินคืนอีกครั้งหลังงานเลิก
     event_started:
       description: We are finishing event configuration to bring you a great experience. Please, come back later and see what we have made for you.
       title: Ultimating details!
     first_register:
       gtag: Add Tag
       ticket: Add ticket
-    gtag_after_refund:
-      description: ระบบกำลังดำเนินการคืนเงินให้กับคุณ
     gtag_registration:
-      button: Remove
-      call_to_action: ใส่หมายเลข Tag ผิด?
-      hint: Put a wrong Tag by mistake? Erase and restart the process
       title: หมายเลข Tag ของคุณ
-    more_gtags:
-      description: มีเพิ่ม Tag? กรุณาใช้อีเมลใหม่เพื่อทำการสมัครใช้งานในระบบ
-    not_refundable:
-      call_to_action: ขออภัย คุณไม่มีเครดิตมากพอที่จะขอรับเงินคืน
-      title: 'เครดิตของคุณ:'
     paypal:
       button: Sync with PayPal
-    paypal_nvp:
-      button: Sync with PayPal
-    refunds:
-      button: แก้ไขบัญชีธนาคารของคุณ
-      call_to_action: การขอรับเงินคืนสำเร็จแล้ว คุณจะได้รับการโอนเงินเร็วๆ นี้
-      title: 'เครดิตของคุณ:'
-    success_refund_disclaimer:
-      claim: คุณได้ทำเรื่องขอรับเงินคืนเรียบร้อยแล้ว
-      description: เงินจะถูกโอนไปยังบัญชีธนาคารของคุณภายใน 1- 4 วัน
-    tipalti:
-      disclaimer: The content of this page could take some seconds to load.
-    title: หน้าบัญชีผู้ใช้งานของฉัน
-    wait_refund_disclaimer:
-      claim: คุณได้ทำการขอรับเงินคืนเรียบร้อยแล้ว
-      description: คุณจะได้รับการแจ้งทางอีเมลภายใน 5 - 15 วันหลังจากที่ทางระบบพร้อมโอนเงินคืนให้คุณ
-      description2: คุณจะสามารถเช็คยอดเครดิตของคุณได้ จากนั้นให้คุณระบุรายละเอียดของบัญชีธนาคารของคุณเพื่อให้ทางระบบโอนเงินเข้าไป
     without_admissions:
       button: ใส่บัตรเข้างานในระบบ
-      call_to_action: กรุณาใส่บัตรเข้างานที่คุณจะใช้เองเท่านั้นในระบบ
-      description: ห้ามไม่ให้ใส่บัตรของผู้อื่นเข้าในระบบ
     without_gtags:
       add: Assign Tag
       button: Assign Tag
-      description: 'Remember: only one Tag can be activated per account.'
-      title: Credits left?
     without_gtags_claiming_started:
       claim: ขออภัย
       description: หมดเขตการขอรับเงินคืนแล้ว หากมีข้อสงสัย กรุณาติดต่อเรา
@@ -930,116 +333,7 @@ th:
       description: หากคุณเคยติดต่อเรา และมีคำถาม
       description2: ไม่ต้องกังวล เราจะช่วยคุณทำการขอรับเงินคืน
     without_refunds:
-      button: ทำเรื่องติดต่อขอรับเงินคืน
       call_to_action: เริ่มทำการขอรับเงินคืน
-      title: 'เครดิตของคุณ:'
-  date:
-    abbr_day_names:
-    - Sun
-    - Mon
-    - Tue
-    - Wed
-    - Thu
-    - Fri
-    - Sat
-    abbr_month_names:
-    - 
-    - Jan
-    - Feb
-    - Mar
-    - Apr
-    - May
-    - Jun
-    - Jul
-    - Aug
-    - Sep
-    - Oct
-    - Nov
-    - Dec
-    datepicker: mm/dd/yyyy
-    day_names:
-    - Sunday
-    - Monday
-    - Tuesday
-    - Wednesday
-    - Thursday
-    - Friday
-    - Saturday
-    formats:
-      custom: "%{month} %{day}"
-      default: "%Y-%m-%d"
-      long: "%B %d, %Y"
-      short: "%B %d"
-    month_names:
-    - 
-    - January
-    - February
-    - March
-    - April
-    - May
-    - June
-    - July
-    - August
-    - September
-    - October
-    - November
-    - December
-    order:
-    - :year
-    - :month
-    - :day
-  datetime:
-    distance_in_words:
-      about_x_hours:
-        one: about 1 hour
-        other: about %{count} hours
-      about_x_months:
-        one: about 1 month
-        other: about %{count} months
-      about_x_years:
-        one: about 1 year
-        other: about %{count} years
-      almost_x_years:
-        one: almost 1 year
-        other: almost %{count} years
-      half_a_minute: half a minute
-      less_than_x_minutes:
-        one: less than a minute
-        other: less than %{count} minutes
-      less_than_x_seconds:
-        one: less than 1 second
-        other: less than %{count} seconds
-      over_x_years:
-        one: over 1 year
-        other: over %{count} years
-      x_days:
-        one: 1 day
-        other: "%{count} days"
-      x_minutes:
-        one: 1 minute
-        other: "%{count} minutes"
-      x_months:
-        one: 1 month
-        other: "%{count} months"
-      x_seconds:
-        one: 1 second
-        other: "%{count} seconds"
-    prompts:
-      day: Day
-      hour: Hour
-      minute: Minute
-      month: Month
-      second: Seconds
-      year: Year
-  edit_refund:
-    button: บันทึก
-    call_to_action: ใส่ข้อมูลบัญชีธนาคารของคุณ!
-    description: คุณสามารถแก้ไขข้อมูลบัญชีธนาคารของคุณสำหรับการรับเงินคืน
-    placeholders:
-      bank_account: ES00 0000 0000 0000 0000 0000
-      swift: 0000 0000
-    swift: BIC/SWIFT (ในกรณีที่ธนาคารไม่ได้อยู่ที่ประเทศเสปน)
-    title: ทำการขอรับเงินคืน
   email:
     admin:
       reset_password:
@@ -1052,46 +346,12 @@ th:
         accepted:
           greet: Hello, %{name}!
           mail_body: You have accepted the PayPal Agreement so you can now do auto-topups!
-          subject: Paypal Agreement Accepted
           title: Paypal Agreement Accepted
-      claim:
-        available_claim:
-          greet: สวัสดี%{name}!
-          mail_body: คุณสามารถทำการขอรับเงินเครดิตคืนได้แล้วที่ลิงค์ด้านล่าง
-          mail_link: เข้าระบบเพื่อดูยอดเครดิตที่ยังคงเหลือของคุณ และทำการโอน
-          subject: "¡คุณสามารถทำการขอรับเงินเครดิตคืนได้แล้ว!"
-          title: "¡คุณสามารถทำการขอรับเงินเครดิตคืนได้แล้ว!"
-        completed:
-          date: วันที่ทำรายการ
-          description: ระบบได้ทำการโอนเงินคืนให้คุณแล้ว คุณจะได้รับเงินในบัญชีของคุณในอีก 1 - 4 วัน
-          greet: Hello, %{name}!
-          order_number: หมายเลขเคลม
-          subject: การคืนเงินสำเร็จ
-          success: 'นี่คือรายละเอียดของเงินที่คุณจะได้รับคืน:'
-          thanks: 'ขอบคุณสำหรับการขอรับเงินคืน! '
-          title: การแจ้งเกี่ยวกับการคืนเงิน
       communication: นี่เป็นการสื่อสารจากระบบอัตโนมัติจาก %{event_name}
-      confirmation:
-        greet: สวัสดี %{name}!
-        mail_body: คุณสามารถยืนยันบัญชีผู้ใช้งานของคุณได้ทางอีเมลผ่านลิงค์ด้านล่าง
-        mail_link: ยืนยันบัญชีผู้ใช้งาน
-        title: ยืนยันรหัสผ่าน
       follow_on_twitter: Follow on Twitter
       footer_copy: Copyright Glownet © %{year} All rights reserved.
       footer_glownet: 'We are happy to assist you with the use of event portal if you message us at '
       footer_organizer: 'Have a question for the event organiser? Contact them directly at '
-      gtag:
-        assigned:
-          greet: สวัสดี %{name}!
-          mail_body: 'คุณได้ทำการใส่รหัส id ให้กับ Tag:'
-          subject: คุณได้ทำการขอรับเงินคืนสำเร็จแล้ว!
-          title: คุณได้ทำการขอรับเงินคืนสำเร็จแล้ว!
-        unassigned:
-          greet: สวัสดี %{name}!
-          mail_body: 'คุณได้ทำการยกเลิก Tag ที่มี id:'
-          mail_link: ทำการเช็คที่เว็บไซด์
-          subject: 'ยกเลิกTag '
-          title: 'ยกเลิกTag '
       like_on_facebook: Like on Facebook
       order:
         completed:
@@ -1111,81 +371,15 @@ th:
         title: ตั้งรหัสผ่านใหม่
       suscribe_on_you_tube: Subscribe on YouTube
   errors:
-    event_alerts:
-      catalog_items: There are company ticket types without any catalog items associated
-      company_codes: There are company ticket types without company code
-      refunds: Refunds are enabled but there is no refunds service selected
-      topups: Topups are enabled but there is no payments service selected
-    format: "%{attribute} %{message}"
-    main:
-      error_400: Bad Request
-      error_404: Route not found
-      error_500: Internal Server Error
     messages:
-      accepted: must be accepted
-      blank: can't be blank
       catalog_item_dependent: Impossible to delete item, it is included in a pack or station
-      confirmation: doesn't match %{attribute}
-      empty: can't be empty
       end_date_after_start_date: must be after start date
-      equal_to: must be equal to %{count}
-      even: must be even
-      exclusion: is reserved
-      expired: หมดอายุแล้ว โปรดร้องขอใหม่อีกครั้ง
-      greater_than: must be greater than %{count}
       greater_than_maximum: Minimum purchasable can't be greater than maximum purchasable
-      greater_than_or_equal_to: must be greater than or equal to %{count}
-      inclusion: is not included in the list
-      invalid: is invalid
       invalid_max_value_for_infinite: The max value must be 1 or 0 if you have chosen infinite
       invalid_min_value_for_infinite: The min value must be 1 or 0 if you have chosen infinite
-      less_than: must be less than %{count}
-      less_than_or_equal_to: must be less than or equal to %{count}
       max_credits_reached: You reached the maximun allowed balance
-      max_standard_credits: Only one credit per event
-      model_invalid: 'Validation failed: %{errors}'
-      more_credits_than_max_balance: can't be greater than maximum gtag balance
-      not_a_number: is not a number
-      not_an_integer: must be an integer
-      not_belong_to_event: doesn't belong to this event
-      not_enough_space_for_credential: Not enough space in gtag for this credential
-      not_enough_space_for_credential_configuration: Not enough space in gtag for the existing credential configuration
-      not_found: ไม่พบ
-      not_locked: ไม่ถูกล๊อคแล้ว
-      not_saved:
-        one: '1 ข้อผิดพลาด %{resource} จะไม่ถูกบันทึก:'
-        other: "%{count} ข้อผิดพลาด %{resource} จะไม่ถูกบันทึก:"
-      odd: must be odd
-      only_hex: only allows hexadecimal values
-      other_than: must be other than %{count}
-      present: must be blank
-      product_already_added: already added to this station
-      record_invalid: 'Validation failed: %{errors}'
-      restrict_dependent_destroy:
-        many: Cannot delete record because dependent %{record} exist
-        one: Cannot delete record because a dependent %{record} exists
-      station_dependent: Impossible to delete item, it is included in a station
-      station_has_associations: Station has been used and can't be deleted.
-      taken: has already been taken
       ticket_type_dependent: Impossible to delete the company, it has ticket types associated
-      ticket_type_has_tickets: there are tickets using this ticket type
-      too_long:
-        one: is too long (maximum is 1 character)
-        other: is too long (maximum is %{count} characters)
-      too_short:
-        one: is too short (minimum is 1 character)
-        other: is too short (minimum is %{count} characters)
       topup_credit_count: You can't have more than 6 buttons in the topup
-      topup_credit_id: You can only have 1 credit type in each topup
-      unauthorized: รหัสผ่านไม่ถูกต้อง
-      wrong_length:
-        one: is the wrong length (should be 1 character)
-        other: is the wrong length (should be %{count} characters)
-    template:
-      body: 'There were problems with the following fields:'
-      header:
-        one: 1 error prohibited this %{model} from being saved
-        other: "%{count} errors prohibited this %{model} from being saved"
   event:
     locales:
       de: GER
@@ -1195,16 +389,12 @@ th:
       pt: PT
       th: THA
     subject_support: ต้องการความช่วยเหลือสำหรับงาน %{event}
-  events:
-    create:
-      error: Event couldn't be created, check the errors below
   footer:
     copyright: "© Copyright Glownet"
     privacy: นโยบายความเป็นส่วนตัว
     support: ช่วยเหลือ
     use: ข้อตกลงการใช้งาน
   gtag_assignations:
-    back: Back
     button: ตกลง
     call_to_action: ระบุ Tag ของคุณ และไปต่อ!
     description:
@@ -1212,106 +402,16 @@ th:
       simple: Assign the yellow highlighted numbers as appears in your Tag
       standard: Assign the second row of numbers and letters (yellow highlighted) of your Tag
     info:
-      line_1: Only numbers from "0" to "9"
       line_2: 'Symbols allowed: "0" - "9" and "A, B, C, D, E, F"'
-    placeholders:
-      card:
-        line_1: 'บรรทัดที่ 1 เช่น: 12345'
-        line_2: 'บรรทัดที่ 2 เช่น: BA6D7DC0'
-      simple:
-        line_1: ''
-        line_2: 'หมายเลข ID เช่น: BA6D7DC0'
-      standard:
-        line_1: 'บรรทัดที่ 1 เช่น: 12345'
-        line_2: 'บรรทัดที่ 2 เช่น: BA6D7DC0'
-    title: ระบุ Tag
   header:
-    close: ออกจากระบบ
     edit: แก้ไขบัญชีผู้ใช้งาน
-    help: ช่วยเหลือ
-    home: เว็บไซด์ของงาน
-    menu: หน้าหลัก
-  helpers:
-    select:
-      prompt: Please select
-    submit:
-      create: Create %{model}
-      submit: Save %{model}
-      update: Update %{model}
   links:
     buttons:
-      back: Back to home
-      join: Join
       sign_in: เข้าระบบ
-      sign_up: ทำการสมัคร
     forgot: ลืมรหัสผ่าน?
-    resend_confirmation: ไม่ได้รับอีเมลยืนยัน?
-    sign_in: คุณมีบัญชีผู้ใช้งาน?
-    sign_up: คุณยังไม่ได้สมัครใช้งาน?
-  number:
-    currency:
-      format:
-        delimiter: ","
-        format: "%u%n"
-        precision: 2
-        separator: "."
-        significant: false
-        strip_insignificant_zeros: false
-        unit: "$"
-    format:
-      delimiter: ","
-      precision: 3
-      separator: "."
-      significant: false
-      strip_insignificant_zeros: false
-    human:
-      decimal_units:
-        format: "%n %u"
-        units:
-          billion: Billion
-          million: Million
-          quadrillion: Quadrillion
-          thousand: Thousand
-          trillion: Trillion
-          unit: ''
-      format:
-        delimiter: ''
-        precision: 3
-        significant: true
-        strip_insignificant_zeros: true
-      storage_units:
-        format: "%n %u"
-        units:
-          byte:
-            one: Byte
-            other: Bytes
-          gb: GB
-          kb: KB
-          mb: MB
-          tb: TB
-    percentage:
-      format:
-        delimiter: ''
-        format: "%n%"
-    precision:
-      format:
-        delimiter: ''
   orders:
-    amount: จำนวนt
-    braintree:
-      button: ชำระเงิน
-      card_code_verification: หมายเลขตรวจสอบยืนยันบัตร (CCV)
-      card_expiration_month: วันหมดอายุของบัตร
-      card_expiration_year: วันหมดอายุของบัตร
-      card_number: หมายเลขบัตร
     button: ชำระเงิน
-    button_iupay: IUPAY
     card_info: Card Info
-    description: กรุณาตรวจสอบรายละเอียดของการเติมเงินของคุณ และทำการชำระเงิน.
-    ideal:
-      account_owner: Owner
-      bank_account_iban: IBAN
-      bank_bic: BIC
     order_review: Order review
     payment: Payment method
     payment-buttons:
@@ -1339,48 +439,19 @@ th:
       wirecard:
         icon: credit-card
         name: Credit card
-    paypal:
-      charge: Verification charge
-      sync_copy: Paypal Experience
-      sync_description: In order to validate your PayPal account, you will be charged 0.01€ which will be refunded automatically.
-      sync_final_description: Select the amount you'd like to be automatically topped up every time you run out of credits at the event. This amount WILL NOT BE CHARGED to your account.
-      sync_title: Sync with PayPal to perform payment
-      with_agreement_subtitle: You can perform direct payments
-      with_agreement_title: Already sync with PayPal
     price: ราคา
     products: สินค้า
-    redirect: ระบบกำลังจะพาคุณไปที่หน้าสำหรับการชำระเงิน
-    stripe:
-      button: ชำระเงิน
-      card_code_verification: หมายเลขตรวจสอบยืนยันบัตร (CCV)
-      card_expiration_date: วันหมดอายุของบัตร
-      card_number: หมายเลขบัตร
-    title: ยืนยันการเติมเงิน
     total: ทั้งหมด
     vat: รวม VAT แล้ว
-    wirecard:
-      button: ชำระเงิน
-      card_code_verification: หมายเลขตรวจสอบยืนยันบัตร (CCV)
-      card_expiration_date: วันหมดอายุของบัตร
-      card_holder: Card Holder
-      card_number: หมายเลขบัตร
   passwords:
     edit:
       button: เปลี่ยนรหัสผ่าน
       header: รหัสผ่านใหม่
       password: รหัสผ่านใหม่
       password_confirmation: ยืนยันรหัสผ่านใหม่
-      title: เปลี่ยนรหัสผ่าน
     new:
       button: ส่งขั้นตอนในการตั้งรหัสผ่านให้กับฉัน
       title: ลืมรหัสผ่าน?
-  payment:
-    error:
-      call_to_action: 'ติดต่อเรา:'
-      title: ไม่สามารถทำรายการได้
-    success:
-      description: ขอบคุณสำหรับการทำรายการ ขณะนี้ระบบกำลังดำเนินการให้กับคุณ คุณจะได้รับอีเมลยืนยันการทำรายการนี้
-      title: การชำระเงินสำเร็จ
   pdf:
     actions:
       refund: Refund
@@ -1468,96 +539,31 @@ th:
       line_9_2: 9.2 If you have any questions about the personal information that we hold about you or would like to make any requests in relation to it, please contact us using the contact information provided in section 2 above. Where we are entitled by applicable law to charge a fee to meet our costs in providing you with details of the information we hold about you, we will let you know, and we may also require you to provide us with appropriate identification before we comply with this request.
       line_9_3: 9.3 You may request that we cease sending you any marketing information at any time by notifying us in writing or following any “unsubscribe” instructions included in any marketing communications which we send to you.
       title: 9. Your rights
-  ransack:
-    all: all
-    and: and
-    any: any
-    asc: ascending
-    attribute: attribute
-    between: between
-    combinator: combinator
-    condition: condition
-    desc: descending
-    or: or
-    predicate: predicate
-  refund:
-    error:
-      call_to_action: 'ติดต่อเรา:'
-      title: ทำรายการไม่สำเร็จ
-    refund_method: Refund method
-    success:
-      description: ระบบกำลังดำเนินการคืนเงินให้กับคุณ และคุณจะได้รับอีเมลยืนยัน
-      title: การคืนเงินสำเร็จ
   registration:
     edit:
       button: อัพเดท
-      current_password_hint: กรุณาใส่รหัสผ่านปัจจุบันเพื่อยืนยันการเปลี่ยนแปลง
       password_hint: กรุณาทิ้งช่องว่างหากคุณไม่ต้องการทำการเปลี่ยนแปลง
-      title: แก้ไข
-      waiting_confirmation: 'กำลังรอการยืนยัน:'
     new:
       button: สมัครเข้าใช้ระบบ
-      details: กรุณาใส่ข้อมูลส่วนตัวของคุณและระบุว่าคุณเป็นผู้ร่วมงาน เพื่อที่จะได้ไม่มีการผิดพลาดในการให้บริการคุณผ่านระบบ
-      info: กรุณาใส่ข้อมูลส่วนตัวของคุณที่ถูกต้อง เพื่อที่จะได้ไม่มีการผิดพลาดในการให้บริการคุณผ่านระบบ
       or: or
       title: สมัครเข้าใช้ระบบ
   sessions:
     create_account:
       link: Create one!
-      title: Don´t have an account?
-    end:
-      close_title: Do you want to end session?
     first_register:
-      description_with_credentiable: 'Please, to continue with your event:'
       description_without_credentiable: Thanks for registering! Once the event starts you will be able to see more information within your account. Please come back later.
       welcome: Bienvenido!!
     log_in:
       link: Log in here
       title: Already have an account?
-    new:
-      button: Log in
-      copy: ข้อไดเปรียบ?
-      description: วิธีใช้งาน
-      title: เข้าระบบ
     placeholder:
-      address: e.g. 1 Pied Piper
-      city: e.g. Madrid
       email: e.g. nickname@mail.com
-      last_name: e.g. Hendricks
-      name: e.g. Richard
       password: e.g. · · · · · ·
-      phone: e.g. 111 22 33 44
-      post: e.g. 28012
-    welcome: Welcome!
   simple_form:
-    error_notification:
-      default_message: กรุณาตรวจสอบปัญหาด้านล่าง
-    'false': ไม่ใช่
     labels:
-      admin:
-        edit:
-          current_password: รหัสผ่านปัจจุบัน
-          email: อีเมล
-          password: รหัสผ่าน
-          password_confirmation: ยืนยันรหัสผ่าน
-        new:
-          current_password: รหัสผ่านปัจจุบัน
-          email: อีเมล
-          password: รหัสผ่าน
-          password_confirmation: ยืนยันรหัสผ่าน
-      bank_account_claim_form:
-        new:
-          iban_html: IBAN<sup>2</sup>
-          swift_html: BIC/SWIFT<sup>1</sup>
-      bank_account_refund_settings_form:
-        edit:
-          fee: ค่าบริการในการคืนเงิน (ในสกุลเงิน)
-          minimum: ยอดเงินคืนขั้นต่ำหลังหักค่าบริการ (ในสกุลเงิน)
-          product_id: สินค้า
       customer:
-        edit:
+        new:
           address: ที่อยู่
-          agreed_on_registration: ข้าพเจ้าได้อ่านและทำความเข้าใจกับข้อตกลงการใช้งาน
           birthdate: วันเกิด
           city: จังหวัด
           country: ประเทศ
@@ -1570,247 +576,6 @@ th:
           password_confirmation: ยืนยันรหัสผ่าน
           phone: เบอร์โทรศัพท์
           postcode: รหัสไปรษณีย์
-          remember_me: บันทึกข้อมูลของฉัน
-        new:
-          address: ที่อยู่
-          agreed_on_registration: ข้าพเจ้าได้อ่านและทำความเข้าใจกับข้อตกลงการใช้งาน
-          birthdate: วันเกิด
-          city: จังหวัด
-          country: ประเทศ
-          current_password: รหัสผ่านปัจจุบัน
-          email: อีเมลl
-          first_name: ชื่อ
-          gender: เพศ
-          last_name: นามสกุล
-          password: รหัสผ่าน
-          password_confirmation: ยืนยันรหัสผ่าน
-          phone: เบอร์โทรศัพท์
-          postcode: รหัสไปรษณีย์
-          remember_me: บันทึกข้อมูลของฉัน
-      defaults:
-        created_at: สร้างขึ้นเมื่อ
-        password: รหัสผ่าน
-        updated_at: อัพเดทเมื่อ
-      device_settings_form:
-        edit:
-          currency: Currency Symbol
-          maximum_wb_balance: Maximum wristband balance
-          private_zone_password: Private Zone Password
-          public_key_a: Tag Password
-          uid_reverse: UID Reverse
-      epg_claim_form:
-        new:
-          address: ที่อยู่
-          city: จังหวัด
-          country_code: ประเทศ
-          phone: เบอร์โทรศัพท์
-          post_code: รหัสไปรษณีย์
-          state: จังหวัด
-      epg_refund_settings_form:
-        edit:
-          country: ประเทศ
-          currency: สกุลเงิน
-          fee: ค่าบริการในการคืนเงิน (ในสกุลเงิน)
-          md5key: Md5key
-          merchant: ร้านค้า
-          minimum: ยอดเงินคืนขั้นต่ำหลังหักค่าบริการ (ในสกุลเงิน)
-          operation_type: Operation type
-          payment_solution: Payment solution
-          product_id: สินค้า
-          url: Url
-      event:
-        edit:
-          agreed_event_condition_message: Condition message
-          background: background
-          background_type: Background type
-          company_name: Company name
-          currency: สกุลเงิน
-          description: คำอธิบาย
-          disclaimer: Disclaimer
-          end_date: วันจบ
-          gtag_registration: สมัครใช้งาน
-          info: Info
-          logo: โลโก้
-          mass_email_claim_notification: ส่งอีเมลแจ้งสถานะการเคลม
-          name: ชื่อ
-          payment_service: บริการชำระเงิน
-          privacy_policy: Privacy policy
-          refund_disclaimer: เงื่อนไขการรับเงินคืน
-          refund_service: บริการคืนเงิน
-          refund_success_message: ข้อความแจ้งว่าการคืนเงินสำเร็จ
-          start_date: วันเริ่ม
-          style: Style
-          support_email: อีเมลช่วยเหลือ
-          terms_of_use: Terms of use
-        new:
-          agreed_event_condition_message: Condition message
-          background: background
-          background_type: Background type
-          company_name: Company name
-          currency: สกุลเงิน
-          description: คำอธิบาย
-          disclaimer: Disclaimer
-          end_date: วันจบ
-          gtag_registration: สมัครใช้งาน
-          info: Info
-          logo: โลโก้
-          mass_email_claim_notification: ส่งอีเมลแจ้งสถานะการเคลม
-          name: ชื่อ
-          payment_service: บริการชำระเงิน
-          privacy_policy: Privacy policy
-          refund_disclaimer: เงื่อนไขการรับเงินคืน
-          refund_service: บริการคืนเงิน
-          refund_success_message: ข้อความแจ้งว่าการคืนเงินสำเร็จ
-          start_date: วันเริ่ม
-          style: Style
-          support_email: อีเมลช่วยเหลือ
-          terms_of_use: Terms of use
-      gtag:
-        edit:
-          gtag_credit_log: Bingo
-          tag_uid: Tag UID
-        new:
-          gtag_credit_log: Bingo
-          tag_uid: Tag UID
-      gtag_credit_log:
-        edit:
-          amount: จำนวน
-        new:
-          amount: จำนวน
-      online_product:
-        edit:
-          description: คำอธิบาย
-          initial_amount: จำนวนเดิม
-          max_purchasable: การซื้อสูงสุด
-          min_purchasable: การซื้อขั้นต่ำ
-          name: ชื่อ
-          price: ราคา
-          step: ขั้นตอน
-        new:
-          description: คำอธิบาย
-          initial_amount: จำนวนเดิม
-          max_purchasable: การซื้อสูงสุด
-          min_purchasable: การซื้อขั้นต่ำ
-          name: ชื่อ
-          price: ราคา
-          step: ขั้นตอน
-      product:
-        vat: VAT %
-      purchaser:
-        edit:
-          email: Email
-          first_name: First name
-          gtag_delivery_address: Delivery address
-          last_name: Last name
-        new:
-          email: Email
-          first_name: First name
-          gtag_delivery_address: Delivery address
-          last_name: Last name
-      redsys_payment_settings_form:
-        edit:
-          code: โค้ด
-          currency: สกุลเงิน
-          form: Form URL
-          ip: IP
-          name: ชื่อ
-          password: รหัสผ่าน
-          pay_methods: วิธีการชำระเงิน
-          terminal: Terminal
-          transaction_type: ประเภทของการชำระเงิน
-      station:
-        official_name: Official Company Name
-      ticket:
-        edit:
-          code: ชื่อ
-        new:
-          code: ชื่อ
-      ticket_type:
-        edit:
-          company: บริษัท
-          credit: เครดิต
-          name: ชื่อ
-          simplified_name: ชื่อย่อ
-        new:
-          company: บริษัท
-          credit: เครดิต
-          name: ชื่อ
-          simplified_name: ชื่อย่อ
-    placeholders:
-      bank_account_claim_form:
-        new:
-          iban: GB00 0000 0000 0000 0000 0000
-          swift: 0000 0000
-      epg_claim_form:
-        new:
-          address: ที่อยู่
-          phone: 'หมายเลขโทรศัพท์ พร้อมรหัสประเทศ: +1123...'
-          state: จังหวัด
-      event:
-        edit:
-          agreed_event_condition_message: ใส่เงื่อนไขที่คุณต้องการให้ผู้ใช้ทำการยอมรับตอนสมัครใช้บริการ
-          description: ใส่ข้อมูลของงานและข้อมูลอื่นๆ ที่คุณคิดว่าสำคัญ
-          location: งานจะเกิดขึ้นที่ไหน?
-          name: ชื่องาน และปีที่งานจะเกิดขึ้น
-          receive_communications_message: Add the text for the receive communications checkbox
-          style: "/*ใส่ CSS*/"
-          support_email: อีเมลช่วยเหลือ
-          url: เว็บไซด์ของงาน
-        new:
-          agreed_event_condition_message: ใส่เงื่อนไขที่คุณต้องการให้ผู้ใช้ทำการยอมรับตอนสมัครใช้บริการ
-          description: ใส่ข้อมูลของงานและข้อมูลอื่นๆ ที่คุณคิดว่าสำคัญ
-          location: งานจะเกิดขึ้นที่ไหน?
-          name: ชื่องาน และปีที่งานจะเกิดขึ้น
-          receive_communications_message: Add the text for the receive communications checkbox
-          style: "/*ใส่ CSS*/"
-          support_email: อีเมลช่วยเหลือ
-          url: เว็บไซด์ของงาน
-      gtag:
-        edit:
-          tag_uid: หมายเลขบรรทัดที่สอง Tag
-        new:
-          tag_uid: หมายเลขบรรทัดที่สอง Tag
-      gtag_credit_log:
-        edit:
-          amount: จำนวน
-        new:
-          amount: จำนวนคงเหลือ
-      purchaser:
-        edit:
-          email: Purchaser's email
-          first_name: Purchaser's first name
-          gtag_delivery_address: "Tag delivery address"
-          last_name: Purchaser's last name
-        new:
-          email: Purchaser's email
-          first_name: Purchaser's first name
-          gtag_delivery_address: "Tag delivery address"
-          last_name: Purchaser's last name
-      ticket:
-        edit:
-          code: หมายเลขบัตร
-        new:
-          code: หมายเลขบัตร
-      ticket_type:
-        edit:
-          company: บริษัทของงาน
-          credit: เครดิตคงเหลือ
-          name: ชื่อของบัตรเข้างาน
-          simplified_name: ชื่อของบัตรเข้างาน
-        new:
-          company: บริษัทของงาน
-          credit: เครดิตคงเหลือ
-          name: ชื่อของบัตรเข้างาน
-          simplified_name: ชื่อของบัตรเข้างาน
-    required:
-      mark: "*"
-      text: จำเป็น
-    'true': ใช่
-  support:
-    array:
-      last_word_connector: ", and "
-      two_words_connector: " and "
-      words_connector: ", "
   terms_of_use:
     main_title: GLOWNET - WEBSITE TERMS OF USE
     ph_1:
@@ -1856,7 +621,7 @@ th:
       line_3_5: 3.5 You are responsible for making all arrangements necessary for you to have access to the Site.
       title: 3. Access and use of the Site
     ph_4:
-      line_4_1: '4.1 To access our Services made available on the Site, you will need to set up an account. You will be required to provide personal information about yourself (including name, email address, password, country, address, state, city, post code, phone, bank account details and wristband or event card identification numbers).'
+      line_4_1: 4.1 To access our Services made available on the Site, you will need to set up an account. You will be required to provide personal information about yourself (including name, email address, password, country, address, state, city, post code, phone, bank account details and wristband or event card identification numbers).
       line_4_2: '4.2  You agree that you will provide accurate, current and complete information about yourself, and maintain and promptly update your personal information contained in your account customer. For more information about how we will use your personal information please see our '
       line_4_3: 4.3 You agree to not share your account password, and to keep your password confidential.
       title: 4. Account
@@ -1890,17 +655,3 @@ th:
       title: 9.  Links to and from the Site
   ticket_assignations:
     button: Aceptar
-  time:
-    am: am
-    formats:
-      default: "%a, %d %b %Y %H:%M:%S %z"
-      long: "%B %d, %Y %H:%M"
-      short: "%d %b %H:%M"
-    pm: pm
-  views:
-    pagination:
-      first: "&laquo; First"
-      last: Last &raquo;
-      next: Next &rsaquo;
-      previous: "&lsaquo; Prev"
-      truncate: "&hellip;"

@@ -1,10 +1,16 @@
-ul
-  -  unless @current_event.started?
-    li.table-action.action-delete = link_to admins_event_ticket_type_path(@current_event, ticket_type), method: :delete, data: { confirm: t('admin.confirm.delete') } do
-      = fa_icon "trash"
-    li.table-action.action-edit = link_to edit_admins_event_ticket_type_path(@current_event, ticket_type) do
-      = fa_icon "edit"
-  - if ticket_type.hidden?
-    li.table-action.action-hidden = link_to fa_icon("eye-slash", class: "fa-fw"), admins_event_ticket_type_visibility_path(@current_event, ticket_type), method: :post
-  - else
-    li.table-action.action-visible = link_to fa_icon("eye", class: "fa-fw"), admins_event_ticket_type_visibility_path(@current_event, ticket_type), method: :post
+- unless @current_event.started?
+  .table-action
+    = link_to edit_admins_event_ticket_type_path(@current_event, ticket_type) do
+      button.material-icons edit
+  .table-action
+    = link_to admins_event_ticket_type_path(@current_event, ticket_type), method: :delete, data: { confirm: "Are you sure?" } do
+      button.material-icons delete
+
+- if ticket_type.hidden?
+  .table-action
+    = link_to admins_event_ticket_type_visibility_path(@current_event, ticket_type), method: :post do
+      button.material-icons visibility
+- else
+  .table-action
+    = link_to admins_event_ticket_type_visibility_path(@current_event, ticket_type), method: :post do
+      button.material-icons visibility_off

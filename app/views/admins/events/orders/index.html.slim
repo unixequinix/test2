@@ -1,43 +1,16 @@
-- breadcrumb :admins_event_orders, @current_event
-- provide :actions do
-  = link_to '#search-menu', class: 'btn btn-action btn-action-search small' do
-    = fa_icon 'search'
-    = t('admin.actions.search')
-
-aside.mmenu-panel#search-menu
-  p.menu-header
-    = fa_icon "search"
-    = t("admin.defaults.search")
-
-  = search_form_for @q, url: search_admins_event_orders_path, html: { novalidate: true, class: "searchForm" }  do |f|
-    .container-search
-      = f.search_field :gateway_cont, label: t("admin.orders.search.gateway"), placeholder: t("admin.orders.search.gateway")
-      .range
-        = f.search_field :created_at_gteq, as: :datetime, label: t('simple_form.labels.defaults.created_at') + " " + t('ransack.between'), discard_hour: true, include_blank: true
-        = f.search_field :created_at_lteq, as: :datetime, label: t('ransack.and'), discard_hour: true, include_blank: true
-      = f.submit class: "btn btn-secondary"
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    - if @orders.present?
+      .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @orders
+      = render "admins/events/orders/list", orders: @orders
+      .mdl-cell.mdl-cell--12-col = paginate @orders
+    - else
+      .section-title-empty
+        = image_tag "img-empty.png"
+        p = t("alerts.empty_items_list", item: 'refunds')
+  .mdl-layout-spacer
 
 
-.wrapper-negative-space
-  - if @orders.present?
-    .current-showing = page_entries_info @orders
-    table.orders
-      thead
-        tr
-          th = t("admin.orders.number")
-          th = t("admin.orders.customer")
-          th = t("admin.orders.gateway")
-          th = t("admin.orders.state")
-      tbody
-        - @orders.each do |order|
-          tr
-            td data-label=t("admin.orders.number") = link_to order.number, admins_event_order_path(@current_event, order)
-            td data-label=t("admin.orders.customer") = link_to order.customer.email, admins_event_customer_path(@current_event, order.customer)
-            td data-label=t("admin.orders.gateway") = order.gateway&.humanize
-            td data-label=t("admin.orders.state") = order.status&.humanize
 
-    = paginate @orders
-  - else
-    .section-title-empty
-      = image_tag "img-empty.png"
-      p = t("admin.defaults.empty_item", item: 'orders')
+

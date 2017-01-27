@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: admins
+# Table name: users
 #
 #  access_token           :string           not null
 #  current_sign_in_at     :datetime
@@ -21,31 +21,10 @@
 
 require "spec_helper"
 
-RSpec.describe Admin, type: :model do
-  subject { build(:admin) }
+RSpec.describe User, type: :model do
+  subject { build(:user) }
 
   it "has a valid factory" do
     expect(subject).to be_valid
-  end
-
-  describe ".valid_token?" do
-    it "returns true if the token is valid" do
-      subject.access_token = "0000000001"
-      expect(subject.valid_token?("0000000001")).to be_truthy
-    end
-  end
-
-  describe ".customer_service?" do
-    it "returns true if the email starts with support_" do
-      subject.email = "support_glownet@glownet.com"
-      expect(subject).to be_customer_service
-    end
-  end
-
-  describe ".promoter?" do
-    it "returns true if the email starts with admin_" do
-      subject.email = "admin_glownet@glownet.com"
-      expect(subject).to be_promoter
-    end
   end
 end

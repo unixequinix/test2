@@ -1,41 +1,59 @@
-- breadcrumb :admins_event_order, @current_event, @order
-- provide :actions do
-  = link_to admins_event_orders_path(@current_event), class: "btn btn-action btn-action-back small" do
-    = fa_icon 'arrow-circle-left'
-    = t('actions.back')
-.wrapper-negative-space
-  .container-show
-    dl
-      dt = t("admin.orders.number")
-      dd = @order.number
-      dt = t("admin.orders.customer")
-      dd = link_to @order.customer.email, admins_event_customer_path(@current_event, @order.customer)
-      dt = t("admin.orders.gateway")
-      dd = @order.gateway
-      dt = t("admin.orders.state")
-      dd = @order.status
-      dt = t("admin.orders.created")
-      dd = @order.created_at&.strftime("%d-%m-%Y %H:%M:%S")
-      dt = t("admin.orders.completed")
-      dd = @order.completed_at&.strftime("%d-%m-%Y %H:%M:%S")
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--8-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--4-col Order #{@order.id}
+        .mdl-cell.mdl-cell--8-col
+          .tools
+            .tool-item
+              = link_to admins_event_orders_path(@current_event) do
+                span#undo.icon.material-icons undo
+                span.mdl-tooltip data-mdl-for="undo"  Back
 
-  .container-show
-    h3
-      = fa_icon "table"
-      = t("admin.orders.order_item")
-    table.subtable.order-subtable
-      thead
-        tr
-          th = t("admin.orders.product_name")
-          th = t("admin.orders.amount")
-          th = t("admin.orders.product_price")
-          th = t("admin.orders.total")
-          th = t("admin.orders.product_type")
-      tbody
-        - @order.order_items.each do |order_item|
+      table.mdl-data-table.mdl-js-data-table.within-card
+        tbody
           tr
-            td = order_item.catalog_item.name
-            td = order_item.amount
-            td = order_item.catalog_item.price
-            td = order_item.total
-            td = order_item.catalog_item.type
+            td.mdl-data-table__cell--non-numeric Number
+            td = @order.number
+          tr
+            td.mdl-data-table__cell--non-numeric Customer
+            td = link_to @order.customer.email, admins_event_customer_path(@current_event, @order.customer)
+          tr
+            td.mdl-data-table__cell--non-numeric Gateway
+            td = @order.gateway
+          tr
+            td.mdl-data-table__cell--non-numeric State
+            td = @order.status
+          tr
+            td.mdl-data-table__cell--non-numeric Created
+            td = l @order.created_at if @order.created_at
+          tr
+            td.mdl-data-table__cell--non-numeric Completed
+            td = l @order.completed_at if @order.completed_at
+  .mdl-layout-spacer
+
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--8-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--4-col Order Items
+        .mdl-cell.mdl-cell--8-col
+      table.mdl-data-table.mdl-js-data-table.within-card
+        thead
+          tr
+            th.mdl-data-table__cell--non-numeric Product Name
+            th Amount
+            th Product Price
+            th Total
+            th Product Type
+        tbody
+          - @order.order_items.each do |order_item|
+            tr
+              td.mdl-data-table__cell--non-numeric = order_item.catalog_item.name
+              td = order_item.amount
+              td = order_item.catalog_item.price
+              td = order_item.total
+              td = order_item.catalog_item.type
+  .mdl-layout-spacer

@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe Api::V1::Events::CustomersController, type: :controller do
   let(:event) { create(:event) }
-  let(:admin) { create(:admin) }
+  let(:user) { create(:user) }
   let(:customer) { create(:customer, event: event) }
   let(:item) { create(:access, event: event) }
   let(:db_customers) { event.customers }
@@ -16,7 +16,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
       end
 
       before(:each) do
-        http_login(admin.email, admin.access_token)
+        http_login(user.email, user.access_token)
         get :index, params: { event_id: event.id }
       end
 
@@ -27,7 +27,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
       it "returns the necessary keys" do
         cus_keys = %w(id updated_at first_name last_name email credentials orders)
         cre_keys = %w(customer_id reference type)
-        order_keys = %w(customer_id id amount catalog_item_id redeemed)
+        order_keys = %w(customer_id id amount catalog_item_id redeemed status)
 
         JSON.parse(response.body).map do |gtag|
           expect(gtag.keys).to eq(cus_keys)

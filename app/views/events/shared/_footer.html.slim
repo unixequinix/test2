@@ -13,9 +13,7 @@ footer
         = link_to t("footer.privacy"), event_privacy_policy_url(current_event), target: '_blank'
       li
         = link_to t("footer.use"), event_terms_of_use_url(current_event), target: '_blank'
-      li
-        = mail_to current_event.support_email, subject: t('event.subject_support', event: current_event.name) do
-          = t("footer.support")
+
 
   = link_to href="http://glownet.com/", target: "_blank", class: "copyright" do
     = t('footer.copyright')

@@ -1,86 +1,81 @@
 class Admins::EventsController < Admins::BaseController # rubocop:disable Metrics/ClassLength
-  include ActiveModel::Dirty
-
   def index
-    redirect_to(admins_event_path(Event.find_by(slug: current_admin.slug))) && return if current_admin.customer_service? || current_admin.promoter?
-
     params[:status] ||= [:launched, :started, :finished]
-    @events = params[:status] == "all" ? Event.all : Event.status(params[:status])
+    @events = policy_scope(Event)
+    @events = @events.with_state(params[:status]) if params[:status] != "all"
     @events = @events.page(params[:page])
   end
 
   def show
+    authorize @current_event
     render layout: "admin_event"
+  end
+
+  def transactions_chart
+    result = %w(access credential credit money).map { |type| { name: type, data: @current_event.transactions.send(type).group_by_day(:created_at).count } } # rubocop:disable Metrics/LineLength
+    authorize @current_event, :event_charts?
+    render json: result.chart_json
+  end
+
+  def credits_chart
+    result = %w(sale topup).map do |action|
+      data = @current_event.transactions.credit.where(action: action).group_by_day(:created_at).sum(:credits)
+      data = data.collect { |k, v| [k, v.to_i.abs] }
+      { name: action, data: Hash[data] }
+    end
+    authorize @current_event, :event_charts?
+    render json: result.chart_json
   end
 
   def new
     @event = Event.new
+    authorize(@event)
   end
 
-  def create # rubocop:disable Metrics/MethodLength
-    @event = Event.new(permitted_params)
+  def create
+    @event = Event.new(permitted_params.merge(owner: current_user))
+    authorize(@event)
 
     if @event.save
-      @event.create_credit!(value: 1, name: "CRD", step: 5, min_purchasable: 0, max_purchasable: 300, initial_amount: 0)
-      UserFlag.create!(event_id: @event.id, name: "alcohol_forbidden", step: 1)
-      station = @event.stations.create! name: "Customer Portal", category: "customer_portal", group: "access"
-      station.station_catalog_items.create(catalog_item: @event.credit, price: 1)
-      @event.stations.create! name: "CS Topup/Refund", category: "cs_topup_refund", group: "event_management"
-      @event.stations.create! name: "CS Accreditation", category: "cs_accreditation", group: "event_management"
-      @event.stations.create! name: "Glownet Food", category: "hospitality_top_up", group: "event_management"
-      @event.stations.create! name: "Touchpoint", category: "touchpoint", group: "touchpoint"
-      @event.stations.create! name: "Operator Permissions", category: "operator_permissions", group: "event_management"
-      @event.stations.create! name: "Gtag Recycler", category: "gtag_recycler", group: "glownet"
-      redirect_to admins_event_url(@event), notice: I18n.t("events.create.notice")
+      @event.initial_setup!
+      redirect_to admins_event_path(@event), notice: I18n.t("alerts.created")
     else
-      flash[:error] = I18n.t("events.create.error")
+      flash[:error] = I18n.t("alerts.error")
       render :new
     end
   end
 
   def edit
+    authorize @current_event
     render layout: "admin_event"
   end
 
   def update
-    if @current_event.update(permitted_params.merge(slug: nil))
-      cols = %w(name start_date end_date)
-      @current_event.update(device_full_db: nil, device_basic_db: nil) if @current_event.changes.keys.any? { |att| cols.include? att }
-      redirect_to admins_event_url(@current_event), notice: I18n.t("alerts.updated")
-    else
-      flash[:error] = I18n.t("alerts.error")
-      render :edit
+    authorize @current_event
+    respond_to do |format|
+      if @current_event.update(permitted_params.merge(slug: nil))
+        format.html { redirect_to admins_event_path(@current_event), notice: I18n.t("alerts.updated") }
+        format.json { render :show, status: :ok, location: @current_event }
+      else
+        flash.now[:error] = I18n.t("alerts.error")
+        format.html { render :edit }
+        format.json { render json: @current_event.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   def remove_logo
+    authorize @current_event
     @current_event.update(logo: nil)
     flash[:notice] = I18n.t("alerts.destroyed")
-    redirect_to admins_event_url(@current_event)
+    redirect_to admins_event_path(@current_event)
   end
 
   def remove_background
+    authorize @current_event
     @current_event.update(background: nil)
     flash[:notice] = I18n.t("alerts.destroyed")
-    redirect_to admins_event_url(@current_event)
-  end
-
-  def create_admin
-    @admin = Admin.find_or_initialize_by(email: "admin_#{@current_event.slug}@glownet.com")
-    if @admin.new_record?
-      render 'admins/admins/new'
-    else
-      render 'admins/admins/edit'
-    end
-  end
-
-  def create_customer_support
-    @admin = Admin.find_or_initialize_by(email: "support_#{@current_event.slug}@glownet.com")
-    if @admin.new_record?
-      render 'admins/admins/new'
-    else
-      render 'admins/admins/edit'
-    end
+    redirect_to admins_event_path(@current_event)
   end
 
   private

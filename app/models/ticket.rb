@@ -30,7 +30,7 @@ class Ticket < ActiveRecord::Base
   belongs_to :event
   belongs_to :ticket_type
 
-  has_many :transactions
+  has_many :transactions, dependent: :restrict_with_error
 
   validates :code, uniqueness: { scope: :event_id }
   validates :code, presence: true

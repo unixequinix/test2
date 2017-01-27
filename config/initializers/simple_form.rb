@@ -5,7 +5,8 @@ SimpleForm.setup do |config|
   # wrapper, change the order or even add your own to the
   # stack. The options given below are used to wrap the
   # whole input.
-  config.wrappers :default, class: :input, hint_class: :field_with_hint, error_class: :field_with_errors do |b|
+  config.wrappers :default, class: :input,
+    hint_class: :field_with_hint, error_class: :field_with_errors do |b|
     ## Extensions enabled by default
     # Any of these extensions can be disabled for a
     # given input by passing: `f.input EXTENSION_NAME => false`.
@@ -50,17 +51,6 @@ SimpleForm.setup do |config|
     # b.use :full_error, wrap_with: { tag: :span, class: :error }
   end
 
-  config.wrappers :checkboxes, class: :input, hint_class: :field_with_hint, error_class: :field_with_errors do |b|
-    b.use :html5
-    b.use :placeholder
-    b.use :label
-    b.wrapper tag: 'div', class: 'controls' do |ba|
-      ba.use :input
-      ba.use :error, wrap_with: { tag:  'span', class: 'help-inline' }
-      ba.use :hint,  wrap_with: { tag:  'p', class: 'help-block' }
-    end
-  end
-
   # The default wrapper to be used by the FormBuilder.
   config.default_wrapper = :default
 
@@ -68,7 +58,7 @@ SimpleForm.setup do |config|
   # Defaults to :nested for bootstrap config.
   #   inline: input + label
   #   nested: label > input
-  config.boolean_style = :inline
+  config.boolean_style = :nested
 
   # Default class for buttons
   config.button_class = 'btn'
@@ -100,15 +90,14 @@ SimpleForm.setup do |config|
   # config.collection_wrapper_class = nil
 
   # You can wrap each item in a collection of radio/check boxes with a tag,
-  # defaulting to :span. Please note that when using :boolean_style = :nested,
-  # SimpleForm will force this option to be a label.
+  # defaulting to :span.
   # config.item_wrapper_tag = :span
 
   # You can define a class to use in all item wrappers. Defaulting to none.
   # config.item_wrapper_class = nil
 
   # How the label text should be generated altogether with the required text.
-  config.label_text = lambda { |label, required, explicit_label| "#{label} #{required}" }
+  # config.label_text = lambda { |label, required, explicit_label| "#{required} #{label}" }
 
   # You can define the class to use on all labels. Default is nil.
   # config.label_class = nil
@@ -136,11 +125,11 @@ SimpleForm.setup do |config|
   # Custom mappings for input types. This should be a hash containing a regexp
   # to match as key, and the input type that will be used when the field name
   # matches the regexp as value.
-  # config.input_mappings = { /count/ => :integer }
+  # config.input_mappings = { /citext/ => :string }
 
   # Custom wrappers for input types. This should be a hash containing an input
   # type as key and the wrapper that will be used for all inputs with specified type.
-  # config.wrapper_mappings = { string: :prepend }
+  # config.wrapper_mappings = { citext: :mdl_text_edit }
 
   # Namespaces where SimpleForm should look for custom input classes that
   # override default inputs.
@@ -156,7 +145,7 @@ SimpleForm.setup do |config|
   # config.translate_labels = true
 
   # Automatically discover new inputs in Rails' autoload path.
-  # config.inputs_discovery = true
+  config.inputs_discovery = true
 
   # Cache SimpleForm inputs discovery
   # config.cache_discovery = !Rails.env.development?
@@ -165,7 +154,7 @@ SimpleForm.setup do |config|
   # config.input_class = nil
 
   # Define the default class of the input wrapper of the boolean input.
-  config.boolean_label_class = 'boolean'
+  config.boolean_label_class = 'checkbox'
 
   # Defines if the default input wrapper class should be included in radio
   # collection wrappers.
@@ -173,4 +162,10 @@ SimpleForm.setup do |config|
 
   # Defines which i18n scope will be used in Simple Form.
   # config.i18n_scope = 'simple_form'
+end
+
+module SimpleForm
+  class FormBuilder < ActionView::Helpers::FormBuilder
+    map_type :citext, to: SimpleForm::Inputs::StringInput
+  end
 end

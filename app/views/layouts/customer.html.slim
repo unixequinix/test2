@@ -15,7 +15,7 @@ html [lang=I18n.locale]
     = content_tag :style, "body { background-repeat: no-repeat; }", type: "text/css" if current_event.background_type == Event::BACKGROUND_FIXED
 
     = render 'events/shared/cookies_consent'
-    = render 'application/analytics'
+    = render 'layouts/analytics'
 
   body class="#{controller_name} #{"fixed-background" if current_event.background_type == Event::BACKGROUND_FIXED}" style=("background-image: url(#{current_event.background})")
     .container-main

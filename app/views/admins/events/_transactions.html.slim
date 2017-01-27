@@ -1,0 +1,14 @@
+.chart-container
+  ul
+    - Transaction::TYPES.in_groups_of(4, false) do |types|
+      - types.each do |type|
+        - count = Transaction.class_for_type(type).where(event: @current_event).count
+        - next if count.zero?
+        li.card
+          .card__flipper
+            .card__front
+              p.card__name
+                = succeed type.humanize do
+                  br/
+              p.card__num= number_with_delimiter(count)
+

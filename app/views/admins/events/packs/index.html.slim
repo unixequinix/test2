@@ -1,14 +1,13 @@
-- breadcrumb :admins_event_packs, @current_event
-- provide :actions do
-  = link_to new_admins_event_pack_path, class: "btn btn-action btn-action-new small" do
-    = fa_icon "plus"
-    = t("admin.actions.new")
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--10-col
+    - if @packs.any?
+      = render "admins/events/packs/list"
+    - else
+      .section-title-empty
+        = image_tag "img-empty.png"
+        p = t("alerts.empty_items_list", item: "Pack")
+        = link_to t("actions.back"), admins_event_packs_path, class: "btn btn-action btn-action-new"
+  .mdl-layout-spacer
 
-.wrapper-negative-space
-  - if @packs.any?
-    = render "admins/events/packs/list"
-  - else
-    .section-title-empty
-      = image_tag "img-empty.png"
-      p = t("admin.defaults.item_not_found", item: "Pack")
-      = link_to t("actions.back"),eval("admins_event_packs_path"),class: "btn btn-action btn-action-new"
+

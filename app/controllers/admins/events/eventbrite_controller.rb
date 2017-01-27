@@ -1,9 +1,11 @@
 class Admins::Events::EventbriteController < Admins::Events::BaseController
   protect_from_forgery except: :webhooks
-  skip_before_action :authenticate_admin!, only: :webhooks
+  skip_before_action :authenticate_user!, only: :webhooks
+  skip_after_action :verify_authorized, only: :webhooks
   before_action :check_token
 
   def index
+    authorize @current_event, :eventbrite_index?
     session[:event_slug] = @current_event.slug
     atts = { response_type: :code, client_id: Rails.application.secrets.eventbrite_client_id }.to_param
     url = "https://www.eventbrite.com/oauth/authorize?#{atts}"
@@ -15,16 +17,18 @@ class Admins::Events::EventbriteController < Admins::Events::BaseController
   end
 
   def connect
+    authorize @current_event, :eventbrite_connect?
     event_id = params[:eb_event_id]
     @current_event.update eventbrite_event: event_id
     # url = "http://25883980.ngrok.io/admins/events/#{@current_event.slug}/eventbrite/webhooks"
-    url = admins_event_eventbrite_webhooks_url(@current_event)
+    url = admins_event_eventbrite_webhooks_path(@current_event)
     actions = "order.placed,order.refunded,order.updated"
-    Eventbrite::Webhook.create({ endpoint_url: url, event_id: event_id, actions: actions }, @token)
+    Eventbrite::Webhook.create({ endpoint_path: url, event_id: event_id, actions: actions }, @token)
     redirect_to admins_event_eventbrite_import_tickets_path(@current_event)
   end
 
   def disconnect
+    authorize @current_event, :eventbrite_disconnect?
     resp, token = Eventbrite.request(:get, "/webhooks", @token)
     webhooks = Eventbrite::Util.convert_to_eventbrite_object(resp, token, Eventbrite::Webhook).webhooks
 
@@ -37,7 +41,8 @@ class Admins::Events::EventbriteController < Admins::Events::BaseController
   end
 
   def webhooks
-    path = URI(params[:eventbrite][:api_url]).path.gsub("/" + Eventbrite::DEFAULTS[:api_version], "")
+    authorize @current_event, :eventbrite_import_tickets?
+    path = URI(params[:eventbrite][:api_path]).path.gsub("/" + Eventbrite::DEFAULTS[:api_version], "")
     resp, token = Eventbrite.request(:get, path, @token, expand: "attendees")
     order = Eventbrite::Util.convert_to_eventbrite_object(resp, token)
 

@@ -80,7 +80,7 @@
 #  index_events_on_slug  (slug) UNIQUE
 #
 
-class Event < ActiveRecord::Base
+class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   translates :info, :disclaimer, :terms_of_use, :privacy_policy, :refund_success_message,
              :refund_disclaimer, :bank_account_disclaimer,
              :gtag_assignation_notification, :gtag_form_disclaimer,
@@ -88,7 +88,7 @@ class Event < ActiveRecord::Base
              fallbacks_for_empty_translations: true
 
   has_many :catalog_items, dependent: :destroy
-  has_many :transactions
+  has_many :transactions, dependent: :restrict_with_error
   has_many :ticket_types, dependent: :destroy
   has_many :companies, through: :company_event_agreements
   has_many :company_event_agreements, dependent: :destroy
@@ -102,9 +102,15 @@ class Event < ActiveRecord::Base
   has_many :accesses, dependent: :destroy
   has_many :packs, dependent: :destroy
   has_many :customers, dependent: :destroy
+  has_many :orders, dependent: :destroy
+  has_many :refunds, dependent: :destroy
+  has_many :users, dependent: :destroy
+
   has_one :credit, dependent: :destroy
 
-  scope :status, ->(status) { where state: status }
+  belongs_to :owner, class_name: 'User'
+
+  scope :with_state, ->(status) { where state: status }
 
   extend FriendlyId
   friendly_id :name, use: :slugged
@@ -152,7 +158,7 @@ class Event < ActiveRecord::Base
   end
 
   def self.background_types_selector
-    BACKGROUND_TYPES.map { |f| [I18n.t("admin.event.background_types.#{f}"), f] }
+    BACKGROUND_TYPES.map { |f| f }
   end
 
   def topups?
@@ -161,14 +167,6 @@ class Event < ActiveRecord::Base
 
   def refunds?
     payment_gateways.map(&:refund).any?
-  end
-
-  def refunds
-    Refund.includes(:customer).where(customers: { event_id: id })
-  end
-
-  def orders
-    Order.joins(:customer).where(customers: { event_id: id })
   end
 
   def eventbrite?
@@ -189,6 +187,19 @@ class Event < ActiveRecord::Base
 
   def active?
     %w(launched started finished).include? state
+  end
+
+  def initial_setup!
+    create_credit!(value: 1, name: "CRD", step: 5, min_purchasable: 0, max_purchasable: 300, initial_amount: 0)
+    user_flags.create!(name: "alcohol_forbidden", step: 1)
+    station = stations.create! name: "Customer Portal", category: "customer_portal", group: "access"
+    station.station_catalog_items.create(catalog_item: credit, price: 1)
+    stations.create! name: "CS Topup/Refund", category: "cs_topup_refund", group: "event_management"
+    stations.create! name: "CS Accreditation", category: "cs_accreditation", group: "event_management"
+    stations.create! name: "Glownet Food", category: "hospitality_top_up", group: "event_management"
+    stations.create! name: "Touchpoint", category: "touchpoint", group: "touchpoint"
+    stations.create! name: "Operator Permissions", category: "operator_permissions", group: "event_management"
+    stations.create! name: "Gtag Recycler", category: "gtag_recycler", group: "glownet"
   end
 
   private

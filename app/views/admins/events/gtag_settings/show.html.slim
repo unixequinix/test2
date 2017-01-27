@@ -1,34 +1,53 @@
-- breadcrumb :admins_event_gtag_settings, @current_event
-- provide :actions do
-  = link_to edit_admins_event_gtag_settings_path(@current_event), class: "btn btn-action btn-action-edit small" do
-    = fa_icon 'edit'
-    = t('actions.edit')
-  = link_to load_defaults_admins_event_gtag_settings_path(@current_event), class: "btn btn-action btn-action-edit small", data: {confirm: "This will override all Gtag settings, are you sure?"} do
-    = fa_icon 'cogs'
-    = t('actions.load_defaults')
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--6-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--4-col Gtag Settings
+        .mdl-cell.mdl-cell--8-col
+          .tools
+            .tool-item
+              = link_to edit_admins_event_gtag_settings_path(@current_event) do
+                span#edit.icon.material-icons edit
+                span.mdl-tooltip data-mdl-for="edit"  Edit
+            .tool-item
+              = link_to load_defaults_admins_event_gtag_settings_path(@current_event), data: {confirm: "This will override all Gtag settings, are you sure?"} do
+                span#settings.icon.material-icons settings
+                span.mdl-tooltip data-mdl-for="settings"  Load Defaults
 
-.wrapper-negative-space
-  .container-show
-    dl
-      dt = t("admin.gtag_settings.form.format")
-      dd = format_abstract_value @current_event.gtag_format
-      dt = t("admin.gtag_settings.form.gtag_type")
-      dd = format_abstract_value @current_event.gtag_type
-      dt = t("admin.gtag_settings.form.cards_can_refund")
-      dd = format_abstract_value @current_event.cards_can_refund
-      dt = t("admin.gtag_settings.form.wristbands_can_refund")
-      dd = format_abstract_value @current_event.wristbands_can_refund
-      dt = t("admin.gtag_settings.form.maximum_gtag_balance")
-      dd = format_abstract_value @current_event.maximum_gtag_balance
-      dt = t("admin.gtag_settings.form.gtag_deposit")
-      dd = format_abstract_value @current_event.gtag_deposit
-      dt = t("admin.event.gtag_deposit_fee")
-      dd = format_abstract_value @current_event.gtag_deposit_fee
-      dt = t("admin.event.topup_fee")
-      dd = format_abstract_value @current_event.topup_fee
-      dt = t("admin.event.card_return_fee")
-      dd = format_abstract_value @current_event.card_return_fee
-      dt = t("admin.event.gtag_form_disclaimer")
-      dd = format_abstract_value @current_event.gtag_form_disclaimer
-      dt = t("admin.event.gtag_assignation_notification")
-      dd = format_abstract_value @current_event.gtag_assignation_notification
+      table.mdl-data-table.mdl-js-data-table.within-card
+        tbody
+          tr
+            td.mdl-data-table__cell--non-numeric Format
+            td = format_abstract_value @current_event.gtag_format
+          tr
+            td.mdl-data-table__cell--non-numeric Gtag Type
+            td = format_abstract_value @current_event.gtag_type
+          tr
+            td.mdl-data-table__cell--non-numeric Cards can refund?
+            td = format_abstract_value @current_event.cards_can_refund
+          tr
+            td.mdl-data-table__cell--non-numeric Wristbands can refund?
+            td = format_abstract_value @current_event.wristbands_can_refund
+          tr
+            td.mdl-data-table__cell--non-numeric Maximum Gtag balance
+            td = format_abstract_value @current_event.maximum_gtag_balance
+          tr
+            td.mdl-data-table__cell--non-numeric Gtag deposit
+            td = format_abstract_value @current_event.gtag_deposit
+          tr
+            td.mdl-data-table__cell--non-numeric Gtag deposit fee
+            td = format_abstract_value @current_event.gtag_deposit_fee
+          tr
+            td.mdl-data-table__cell--non-numeric Topup fee
+            td = format_abstract_value @current_event.topup_fee
+          tr
+            td.mdl-data-table__cell--non-numeric Card return fee
+            td = format_abstract_value @current_event.card_return_fee
+          tr
+            td.mdl-data-table__cell--non-numeric Gtag form disclaimer
+            td = format_abstract_value @current_event.gtag_form_disclaimer
+          tr
+            td.mdl-data-table__cell--non-numeric Gtag assignation notification
+            td = format_abstract_value @current_event.gtag_assignation_notification
+  .mdl-layout-spacer

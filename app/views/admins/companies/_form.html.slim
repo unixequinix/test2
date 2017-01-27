@@ -1,4 +1,7 @@
-= simple_form_for [:admins, company] do |f|
-  .wrapper-negative-space
-    = f.input :name, placeholder: true, required: true
-    = f.button :submit, class: "btn btn-primary"
+.admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  = simple_form_for [:admins, @company], wrapper: :mdl_field_floating, wrapper_mappings:{text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
+    .field
+      = f.input :name, placeholder: true
+    .form-actions
+      = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+

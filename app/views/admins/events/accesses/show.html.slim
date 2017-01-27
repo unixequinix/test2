@@ -1,31 +1,51 @@
-- breadcrumb :admins_event_access, @current_event, @access
-- provide :actions do
-  - unless current_admin.customer_service?
-    = link_to edit_admins_event_access_path(@current_event, @access), class: "btn btn-action btn-action-edit small" do
-      = fa_icon 'edit'
-      = t('actions.edit')
-    = link_to admins_event_accesses_path, class: "btn btn-action btn-action-back small" do
-      = fa_icon 'arrow-circle-left'
-      = t('actions.back')
-  
-.wrapper-negative-space
-  .container-show
-    dl
-      dt = t("admin.general.id")
-      dd = @access.id
-      dt = t("admin.general.name")
-      dd = @access.name
-      dt = t("admin.accesses.mode")
-      dd = t("admin.accesses.modes.#{@access.mode}")
-      dt = t("admin.accesses.step")
-      dd = @access.step
-      dt = t("admin.accesses.initial_amount")
-      dd = @access.initial_amount
-      dt = t("admin.accesses.max_purchasable")
-      dd = @access.max_purchasable
-      dt = t("admin.accesses.min_purchasable")
-      dd = @access.min_purchasable
-      dt = t("admin.general.created_at")
-      dd = @access.created_at.strftime("%y-%m-%d %H:%M:%S")
-      dt = t("admin.general.updated_at")
-      dd = @access.updated_at.strftime("%y-%m-%d %H:%M:%S")
+.content-grid.mdl-grid
+  .mdl-layout-spacer
+  .mdl-cell.mdl-cell--6-col
+    .admin-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--4-col = @access.name
+        .mdl-cell.mdl-cell--8-col
+          .tools
+            .tool-item
+              = link_to edit_admins_event_access_path(@current_event, @access) do
+                span#edit.icon.material-icons edit
+                span.mdl-tooltip data-mdl-for="edit"  Edit
+            .tool-item
+              = link_to admins_event_access_path(@current_event, @access), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                span#destroy.icon.material-icons delete
+                span.mdl-tooltip data-mdl-for="destroy"  Delete
+            .tool-item
+              = link_to admins_event_accesses_path do
+                span#undo.icon.material-icons undo
+                span.mdl-tooltip data-mdl-for="undo"  Back
+
+      table.mdl-data-table.mdl-js-data-table.within-card
+        tbody
+          tr
+            td.mdl-data-table__cell--non-numeric ID
+            td = @access.id
+          tr
+            td.mdl-data-table__cell--non-numeric Name
+            td = @access.name
+          tr
+            td.mdl-data-table__cell--non-numeric Mode
+            td = @access.mode
+          tr
+            td.mdl-data-table__cell--non-numeric Step
+            td = @access.step
+          tr
+            td.mdl-data-table__cell--non-numeric Initial Amount
+            td = @access.initial_amount
+          tr
+            td.mdl-data-table__cell--non-numeric Max Purchasable
+            td = @access.max_purchasable
+          tr
+            td.mdl-data-table__cell--non-numeric Miin Purchasable
+            td = @access.min_purchasable
+          tr
+            td.mdl-data-table__cell--non-numeric Created At
+            td = l @access.created_at
+          tr
+            td.mdl-data-table__cell--non-numeric Updated At
+            td = l @access.updated_at
+  .mdl-layout-spacer
