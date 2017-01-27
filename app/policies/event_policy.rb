@@ -4,11 +4,11 @@ class EventPolicy < ApplicationPolicy
   end
 
   def new?
-    user.admin? || user.promoter?
+    user.admin?
   end
 
   def create?
-    user.admin? || user.promoter?
+    user.admin?
   end
 
   def edit?
