@@ -22,6 +22,3 @@
 # you can override settings based on environment
 production:
   :concurrency: 25
-
-integration:
-  :concurrency: 15
