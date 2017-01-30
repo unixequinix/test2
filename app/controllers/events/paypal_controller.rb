@@ -15,8 +15,8 @@ class Events::PaypalController < Events::PaymentsController
       tax: 0,
       items: items,
       ip: request.remote_ip,
-      return_url: event_paypal_purchase_path(@current_event, order_id: @order),
-      cancel_return_url: event_order_path(@current_event, @order),
+      return_url: event_paypal_purchase_url(@current_event, order_id: @order),
+      cancel_return_url: event_order_url(@current_event, @order),
       currency: @current_event.currency
     )
 
