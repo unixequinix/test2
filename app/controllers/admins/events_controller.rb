@@ -66,14 +66,14 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
 
   def remove_logo
     authorize @current_event
-    @current_event.update(logo: nil)
+    @current_event.logo.destroy
     flash[:notice] = I18n.t("alerts.destroyed")
     redirect_to admins_event_path(@current_event)
   end
 
   def remove_background
     authorize @current_event
-    @current_event.update(background: nil)
+    @current_event.background.destroy
     flash[:notice] = I18n.t("alerts.destroyed")
     redirect_to admins_event_path(@current_event)
   end
