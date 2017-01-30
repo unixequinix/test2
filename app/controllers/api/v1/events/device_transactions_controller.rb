@@ -12,7 +12,7 @@ class Api::V1::Events::DeviceTransactionsController < ApplicationController
       errors[:atts] << att_errors && next if att_errors
       new_atts = atts.slice(:device_created_at_fixed, :device_db_index, :device_uid, :event_id, :status_code, :action)
       next if DeviceTransaction.find_by(new_atts.to_unsafe_h.symbolize_keys)
-      DeviceTransaction.create!(atts.permit!)
+      DeviceTransaction.create!(atts.permit!.slice(*DeviceTransaction.column_names))
     end
 
     errors.delete_if { |_, v| v.compact.empty? }
