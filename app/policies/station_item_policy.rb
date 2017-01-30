@@ -1,4 +1,9 @@
 class StationItemPolicy < ApplicationPolicy
+
+  def index?
+    admin_promoter_and_support
+  end
+
   def show?
     admin_promoter_and_support
     scope.where(id: record.id).exists?

@@ -2,6 +2,10 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
   before_action :set_item_class, except: [:index]
   before_action :set_station, only: [:index, :create]
 
+  def index
+    skip_authorization
+  end
+
   def create
     @item = @klass.new(permitted_params)
     authorize @item
