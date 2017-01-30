@@ -177,7 +177,7 @@ Rails.application.routes.draw do
       resources :gtag_assignments, only: [:new, :create, :destroy]
       resources :tickets, only: [:show]
       resources :orders, expect: :destroy
-      get "credits_history", to: "credits_histories#download"
+      get "credits_history", to: "credits_histories#history"
       get "privacy_policy", to: "static_pages#privacy_policy"
       get "terms_of_use", to: "static_pages#terms_of_use"
 
