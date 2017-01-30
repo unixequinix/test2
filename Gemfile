@@ -92,6 +92,7 @@ gem 'sdoc', group: :doc
 
 # PDF Generation
 gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
 
 # Validations
 gem 'rfc-822'
