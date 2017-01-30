@@ -15,7 +15,7 @@ class Events::OrdersController < Events::BaseController
 
   def create # rubocop:disable Metrics/AbcSize
     catalog_items = params[:checkout_form][:catalog_items]
-    @order = current_customer.orders.new
+    @order = current_customer.orders.new(event: @current_event)
     @catalog_items = catalog_items_hash
     catalog_items.each do |item_id, amount|
       next unless amount.to_i.positive?
