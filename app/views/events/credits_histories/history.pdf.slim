@@ -16,8 +16,7 @@ html
           tr
             td.wrapper-bill-user
               p.account-user-name
-                span = current_customer.first_name
-                span = current_customer.last_name
+                span = current_customer.full_name
               p.account-user.user-mail = current_customer.email
             td.wrapper-bill-logo
               = image_tag @current_event.logo.url(:paypal), class: "bill-logo" unless @current_event.logo.blank?
