@@ -90,7 +90,7 @@
                   td.mdl-data-table__cell--non-numeric Customer
                   td
                     - if @customer
-                      = link_to @customer.name, admins_event_customer_path(@current_event, @customer)
+                      = link_to @customer.full_name, admins_event_customer_path(@current_event, @customer)
                     - else
                       = @transaction.customer_id
 
