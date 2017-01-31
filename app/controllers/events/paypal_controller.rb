@@ -21,7 +21,7 @@ class Events::PaypalController < Events::PaymentsController
     )
 
     if response.success?
-      redirect_to paypal.redirect_path_for(response.token)
+      redirect_to paypal.redirect_url_for(response.token)
     else
       redirect_to event_order_path(@current_event, @order, gateway: "paypal"), alert: response.message
     end
