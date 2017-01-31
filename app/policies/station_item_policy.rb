@@ -1,5 +1,4 @@
 class StationItemPolicy < ApplicationPolicy
-
   def index?
     admin_promoter_and_support
   end
