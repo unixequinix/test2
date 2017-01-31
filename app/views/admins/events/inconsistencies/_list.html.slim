@@ -27,26 +27,27 @@
       .mdl-cell.mdl-cell--12-col.italic.small.right "#{@gtags.size} inconsistencies found"
       .mdl-cell.mdl-cell--12-col
         .admin-card-wide.mdl-card.mdl-shadow--2dp
-          table.mdl-data-table.mdl-js-data-table.within-card
-            thead
-              tr
-                th.mdl-data-table__cell--non-numeric Tag
-                th.mdl-data-table__cell--non-numeric Credits
-                th.mdl-data-table__cell--non-numeric Refundable Credits
-                th.mdl-data-table__cell--non-numeric Final
-                th.mdl-data-table__cell--non-numeric Final Refundable
-                th.mdl-data-table__cell--non-numeric Inconsistent
-                th.mdl-data-table__cell--non-numeric Inconsistent Refundable
-            tbody
-              - @gtags.each do |gtag|
+          .table-responsive
+            table.mdl-data-table.mdl-js-data-table.within-card
+              thead
                 tr
-                  td.mdl-data-table__cell--non-numeric = link_to gtag.tag_uid, admins_event_gtag_path(@current_event, gtag), class: "no_link"
-                  td.mdl-data-table__cell--non-numeric = gtag.credits
-                  td.mdl-data-table__cell--non-numeric = gtag.refundable_credits
-                  td.mdl-data-table__cell--non-numeric = gtag.final_balance
-                  td.mdl-data-table__cell--non-numeric = gtag.final_refundable_balance
-                  td.mdl-data-table__cell--non-numeric = gtag.inconsistency
-                  td.mdl-data-table__cell--non-numeric = gtag.refundable_inconsistency
+                  th.mdl-data-table__cell--non-numeric Tag
+                  th.mdl-data-table__cell--non-numeric Credits
+                  th.mdl-data-table__cell--non-numeric Refundable Credits
+                  th.mdl-data-table__cell--non-numeric Final
+                  th.mdl-data-table__cell--non-numeric Final Refundable
+                  th.mdl-data-table__cell--non-numeric Inconsistent
+                  th.mdl-data-table__cell--non-numeric Inconsistent Refundable
+              tbody
+                - @gtags.each do |gtag|
+                  tr
+                    td.mdl-data-table__cell--non-numeric data-label="Tags" = link_to gtag.tag_uid, admins_event_gtag_path(@current_event, gtag), class: "no_link"
+                    td.mdl-data-table__cell--non-numeric data-label="Credits" = gtag.credits
+                    td.mdl-data-table__cell--non-numeric data-label="Refundable Credits" = gtag.refundable_credits
+                    td.mdl-data-table__cell--non-numeric data-label="Final" = gtag.final_balance
+                    td.mdl-data-table__cell--non-numeric data-label="Final Refundable" = gtag.final_refundable_balance
+                    td.mdl-data-table__cell--non-numeric data-label="Inconsistent" = gtag.inconsistency
+                    td.mdl-data-table__cell--non-numeric data-label="Inconsistent Refundable" = gtag.refundable_inconsistency
 
 - else
   .section-title-empty

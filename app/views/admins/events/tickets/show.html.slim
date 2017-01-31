@@ -19,42 +19,43 @@
                 span#edit.material-icons edit
                 span.mdl-tooltip data-mdl-for="edit"  Edit
 
-      table.mdl-data-table.mdl-js-data-table.within-card
-        tbody
-          tr
-            td.mdl-data-table__cell--non-numeric ID
-            td = @ticket.id
-          tr
-            td.mdl-data-table__cell--non-numeric Code
-            td = @ticket.code
-          tr
-            td.mdl-data-table__cell--non-numeric Ticket type
-            td = link_to @ticket.ticket_type.name, admins_event_ticket_type_path(@current_event, @ticket.ticket_type) unless @ticket.ticket_type.nil?
-          tr
-            td.mdl-data-table__cell--non-numeric Company
-            td = @ticket.ticket_type.company_event_agreement.company.name unless @ticket.ticket_type.nil?
-          tr
-            td.mdl-data-table__cell--non-numeric Purchaser First Name
-            td = @ticket.purchaser_first_name
-          tr
-            td.mdl-data-table__cell--non-numeric Purchaser Last Name
-            td = @ticket.purchaser_last_name
-          tr
-            td.mdl-data-table__cell--non-numeric Purchaser Email
-            td = @ticket.purchaser_email
-          tr
-            td.mdl-data-table__cell--non-numeric Banned
-            td = @ticket.banned?
-          tr
-            td.mdl-data-table__cell--non-numeric Created At
-            td = l @ticket.created_at
-          tr
-            td.mdl-data-table__cell--non-numeric Updated At
-            td = l @ticket.updated_at
-          tr
-            td.mdl-data-table__cell--non-numeric Code
-            td
-              #qrcode
+      .table-fix
+        table.mdl-data-table.mdl-js-data-table.within-card
+          tbody
+            tr
+              td.mdl-data-table__cell--non-numeric ID
+              td = @ticket.id
+            tr
+              td.mdl-data-table__cell--non-numeric Code
+              td = @ticket.code
+            tr
+              td.mdl-data-table__cell--non-numeric Ticket type
+              td = link_to @ticket.ticket_type.name, admins_event_ticket_type_path(@current_event, @ticket.ticket_type) unless @ticket.ticket_type.nil?
+            tr
+              td.mdl-data-table__cell--non-numeric Company
+              td = @ticket.ticket_type.company_event_agreement.company.name unless @ticket.ticket_type.nil?
+            tr
+              td.mdl-data-table__cell--non-numeric Purchaser First Name
+              td = @ticket.purchaser_first_name
+            tr
+              td.mdl-data-table__cell--non-numeric Purchaser Last Name
+              td = @ticket.purchaser_last_name
+            tr
+              td.mdl-data-table__cell--non-numeric Purchaser Email
+              td = @ticket.purchaser_email
+            tr
+              td.mdl-data-table__cell--non-numeric Banned
+              td = @ticket.banned?
+            tr
+              td.mdl-data-table__cell--non-numeric Created At
+              td = l @ticket.created_at
+            tr
+              td.mdl-data-table__cell--non-numeric Updated At
+              td = l @ticket.updated_at
+            tr
+              td.mdl-data-table__cell--non-numeric Code
+              td
+                #qrcode
   .mdl-layout-spacer
 
 - if @ticket.customer

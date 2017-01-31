@@ -12,22 +12,23 @@
               = link_to new_admins_event_ticket_type_path do
                 span#add.icon.material-icons add
                 span.mdl-tooltip data-mdl-for="add"  Add
-      table.mdl-data-table.mdl-js-data-table.within-card
-        thead
-          tr
-            th.mdl-data-table__cell--non-numeric Name
-            th Company Code
-            th Catalog Item
-            th Number of Tickets
-        tbody
-          - @ticket_types.each do |ticket_type|
-            tr class="#{'ticket-hidden' if ticket_type.hidden?}"
-              td.mdl-data-table__cell--non-numeric
-                = link_to ticket_type.name, edit_admins_event_ticket_type_path(@current_event, ticket_type), class: "no_link"
-                = render 'admins/events/ticket_types/actions', ticket_type: ticket_type
-              td = ticket_type.company_code
-              td = ticket_type.catalog_item&.name
-              td = ticket_type.tickets.count
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Name
+              th Company Code
+              th Catalog Item
+              th Number of Tickets
+          tbody
+            - @ticket_types.each do |ticket_type|
+              tr class="#{'ticket-hidden' if ticket_type.hidden?}"
+                td.mdl-data-table__cell--non-numeric data-label="Name"
+                  = link_to ticket_type.name, edit_admins_event_ticket_type_path(@current_event, ticket_type), class: "no_link"
+                  = render 'admins/events/ticket_types/actions', ticket_type: ticket_type
+                td data-label="Company Code" = ticket_type.company_code
+                td data-label="Catalog Item" = ticket_type.catalog_item&.name
+                td data-label="Number of Tickets" = ticket_type.tickets.count
     .mdl-cell.mdl-cell--12-col.italic.small = paginate @ticket_types
   .mdl-layout-spacer
 

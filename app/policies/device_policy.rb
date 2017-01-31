@@ -1,5 +1,5 @@
 class DevicePolicy < ApplicationPolicy
   def index?
-    admin.admin? || admin.promoter?
+    user.admin? || user.promoter?
   end
 end

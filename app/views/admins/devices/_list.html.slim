@@ -4,23 +4,22 @@
     .mdl-cell.mdl-cell--8-col.dropdown-search
       .mdl-textfield
         = select_tag "filter", options_for_select("A".."Z", selected: params[:filter]), include_blank: true, id: "js-device-filter", class: "mdl-textfield__input"
-  table.mdl-data-table.mdl-js-data-table.within-card
-    thead
-      tr
-        th.mdl-data-table__cell--non-numeric Model
-        th Asset
-        th Imei
-        th Mac
-        th Serial number
-    tbody
-      - devices.each do |device|
+  .table-responsive
+    table.mdl-data-table.mdl-js-data-table.within-card
+      thead
         tr
-          td.mdl-data-table__cell--non-numeric
-            = device.device_model
-            = render 'admins/devices/actions', device: device
-          td= device.asset_tracker
-          td= device.imei
-          td= device.mac
-          td= device.serial_number
-
-= paginate devices
+          th.mdl-data-table__cell--non-numeric Model
+          th Asset
+          th Imei
+          th Mac
+          th Serial number
+      tbody
+        - devices.each do |device|
+          tr
+            td.mdl-data-table__cell--non-numeric data-label="Model"
+              = device.device_model
+              = render 'admins/devices/actions', device: device
+            td data-label="Asset" = device.asset_tracker
+            td data-label="Imei" = device.imei
+            td data-label="Mac" = device.mac
+            td data-label="Serial number" = device.serial_number

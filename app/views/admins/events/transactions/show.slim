@@ -48,25 +48,26 @@
               i.material-icons info_outline
               |Device
           .mdl-card__supporting-text
-            table.mdl-data-table.mdl-js-data-table.within-card
-              tbody
-                tr
-                  td.mdl-data-table__cell--non-numeric Device uid
-                  - device = Device.find_by_mac(@transaction.device_uid)
-                  - if device
-                    td = link_to(@transaction.device_uid, admins_device_path(device))
-                  - else
-                    td = @transaction.device_uid
-                tr
-                  td.mdl-data-table__cell--non-numeric Device db index
-                  td = @transaction.device_db_index
-                tr
-                  td.mdl-data-table__cell--non-numeric Operator tag uid
-                  td
-                    - if @operator
-                      = link_to @operator.tag_uid, admins_event_gtag_path(@current_event.id, @operator)
+            .table-fix
+              table.mdl-data-table.mdl-js-data-table.within-card
+                tbody
+                  tr
+                    td.mdl-data-table__cell--non-numeric Device uid
+                    - device = Device.find_by_mac(@transaction.device_uid)
+                    - if device
+                      td = link_to(@transaction.device_uid, admins_device_path(device))
                     - else
-                      = @transaction.operator_tag_uid
+                      td = @transaction.device_uid
+                  tr
+                    td.mdl-data-table__cell--non-numeric Device db index
+                    td = @transaction.device_db_index
+                  tr
+                    td.mdl-data-table__cell--non-numeric Operator tag uid
+                    td
+                      - if @operator
+                        = link_to @operator.tag_uid, admins_event_gtag_path(@current_event.id, @operator)
+                      - else
+                        = @transaction.operator_tag_uid
 
   .mdl-cell.mdl-cell--6-col
     .mdl-grid
@@ -77,22 +78,23 @@
               i.material-icons perm_identity
               | Customer
           .mdl-card__supporting-text
-            table.mdl-data-table.mdl-js-data-table.within-card
-              tbody
-                tr
-                  td.mdl-data-table__cell--non-numeric Tag UID
-                  td
-                    - if @gtag
-                      = link_to @gtag.tag_uid, admins_event_gtag_path(@current_event, @gtag)
-                    - else
-                      = @transaction.customer_tag_uid
-                tr
-                  td.mdl-data-table__cell--non-numeric Customer
-                  td
-                    - if @customer
-                      = link_to @customer.name, admins_event_customer_path(@current_event, @customer)
-                    - else
-                      = @transaction.customer_id
+            .table-fix
+              table.mdl-data-table.mdl-js-data-table.within-card
+                tbody
+                  tr
+                    td.mdl-data-table__cell--non-numeric Tag UID
+                    td
+                      - if @gtag
+                        = link_to @gtag.tag_uid, admins_event_gtag_path(@current_event, @gtag)
+                      - else
+                        = @transaction.customer_tag_uid
+                  tr
+                    td.mdl-data-table__cell--non-numeric Customer
+                    td
+                      - if @customer
+                        = link_to @customer.full_name, admins_event_customer_path(@current_event, @customer)
+                      - else
+                        = @transaction.customer_id
 
       .mdl-cell.mdl-cell--12-col
         .transaction-card-wide.mdl-card.mdl-shadow--2dp

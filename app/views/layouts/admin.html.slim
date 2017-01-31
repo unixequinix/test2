@@ -22,7 +22,7 @@ html
           button#hdrbtn.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon
             i.material-icons more_vert
           ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="hdrbtn"
-            = link_to edit_user_path(@current_user) do
+            = link_to edit_user_path(current_user) do
               li.mdl-menu__item Edit Profile
             = link_to destroy_user_session_path, method: :delete do
               li.mdl-menu__item Log out

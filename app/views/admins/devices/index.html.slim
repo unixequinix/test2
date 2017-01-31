@@ -8,6 +8,7 @@
         | p = t("alerts.empty_items_list", item: 'devices')
     - else
       = render 'admins/devices/list', devices: @devices
+      .mdl-cell.mdl-cell--12-col = paginate @devices
   .mdl-layout-spacer
 
 

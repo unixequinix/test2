@@ -7,22 +7,23 @@
           = link_to admins_event_refunds_path(@current_event, format: "csv")
             span#download.icon.material-icons file_download
             span.mdl-tooltip data-mdl-for="download" Download CSV
-  table.mdl-data-table.mdl-js-data-table.within-card
-    thead
-      tr
-        th.mdl-data-table__cell--non-numeric ID
-        th Customer email
-        th Status
-        th Amount
-        th Currency
-        th Created at
-    tbody
-      - refunds.each do |refund|
+  .table-responsive
+    table.mdl-data-table.mdl-js-data-table.within-card
+      thead
         tr
-          td.mdl-data-table__cell--non-numeric = link_to (refund.id), admins_event_refund_path(@current_event, refund)
-          td = link_to refund.customer.email, admins_event_customer_path(@current_event, refund.customer)
-          td = refund.status.humanize
-          td = refund.amount
-          td = refund.fee
-          td = l refund.created_at
+          th.mdl-data-table__cell--non-numeric ID
+          th Customer email
+          th Status
+          th Amount
+          th Currency
+          th Created at
+      tbody
+        - refunds.each do |refund|
+          tr
+            td.mdl-data-table__cell--non-numeric data-label="ID" = link_to (refund.id), admins_event_refund_path(@current_event, refund)
+            td data-label="Customer email" = link_to refund.customer.email, admins_event_customer_path(@current_event, refund.customer)
+            td data-label="Status" = refund.status.humanize
+            td data-label="Amount" = refund.amount
+            td data-label="Currency" = refund.fee
+            td data-label="Created at" = l refund.created_at
 

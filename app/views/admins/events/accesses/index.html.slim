@@ -10,38 +10,39 @@
           .tools
             .tool-item
               = link_to new_admins_event_access_path do
-                span#add.icon.material-icons add
+                span#add.material-icons add
                 span.mdl-tooltip data-mdl-for="add"  Add
             .tool-item
-              span#check.icon.material-icons done_all
+              span#check.material-icons done_all
               span.mdl-tooltip data-mdl-for="check"  Toggle Checkboxes
             .tool-item
-              span#bulk.icon.material-icons more_vert
+              span#bulk.material-icons more_vert
               span.mdl-tooltip data-mdl-for="bulk"  Bulk Actions
               ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="bulk"
                 li.mdl-menu__item#hide Hide selected
                 li.mdl-menu__item#show Show all
                 li.mdl-menu__item#deleteaccess Delete selected
-      table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
-        thead
-          tr
-            th.mdl-data-table__cell--non-numeric Name
-            th Step
-            th Initial amount
-            th Max purchasable
-            th Min purchasable
-            th Mode
-        tbody
-          - @accesses.each do |access|
-            tr data-event=@current_event.id data-access=access.id
-              td.mdl-data-table__cell--non-numeric
-                = link_to(access.name, admins_event_access_path(@current_event, access), class: "no_link")
-                = render 'admins/events/accesses/actions', access: access unless @current_event.started?
-              td = access.step
-              td = access.initial_amount
-              td = access.max_purchasable
-              td = access.min_purchasable
-              td = access.mode
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Name
+              th Step
+              th Initial amount
+              th Max purchasable
+              th Min purchasable
+              th Mode
+          tbody
+            - @accesses.each do |access|
+              tr data-event=@current_event.id data-access=access.id
+                td.mdl-data-table__cell--non-numeric data-label="Name"
+                  = link_to(access.name, admins_event_access_path(@current_event, access), class: "no_link")
+                  = render 'admins/events/accesses/actions', access: access unless @current_event.started?
+                td data-label="Step" = access.step
+                td data-label="Initial Amount" = access.initial_amount
+                td data-label="Max purchasable" = access.max_purchasable
+                td data-label="Min purchasable" = access.min_purchasable
+                td data-label="Mode"= access.mode
     .mdl-cell.mdl-cell--12-col.italic.small = paginate @accesses
   .mdl-layout-spacer
 

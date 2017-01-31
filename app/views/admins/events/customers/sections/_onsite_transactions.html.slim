@@ -8,38 +8,39 @@
           - counters = transactions.pluck(:gtag_counter).map(&:to_i).sort
           - missing = (1..counters.last).to_a - counters
           i = "#{missing.size} Transactions missing: #{missing.to_sentence}"
-    table.mdl-data-table.mdl-js-data-table.within-card
-      thead
-        tr
-          th.mdl-data-table__cell--non-numeric Activation
-          th Counters
-          th Device Created At
-          th Station
-          th Device UID
-          th Action
-          th Credits
-          th Final Balance
-          th R Final Balance
-      tbody
-         - transactions.each do |transaction|
-          tr class="#{"danger" unless transaction.status_code.zero?}"
-            td.mdl-data-table__cell--non-numeric = transaction.activation_counter
-            td = transaction.gtag_counter
-            td = l Time.zone.parse(transaction.device_created_at)
-            td = transaction.station&.name
-            td
-              - if device = Device.find_by_mac(transaction.device_uid)
-                = link_to(device.asset_tracker, admins_device_path(device))
-            td
-              - icon = transaction.direction.positive? ? fa_icon("sign-out") : fa_icon("sign-in") if transaction.action == "access_checkpoint"
-              = link_to admins_event_transaction_path(@current_event, transaction, type: transaction.category) do
-                => icon
-                = transaction.description
-            td = number_to_token transaction.credits
-            td = number_to_token transaction.final_balance if transaction.is_a?(CreditTransaction)
-            td
-              span = number_to_token transaction.final_refundable_balance if transaction.is_a?(CreditTransaction)
-              = link_to fa_icon("magic"), fix_admins_event_transaction_path(@current_event, transaction, type: "credit") if transaction.is_a?(CreditTransaction) && transaction.status_code == 2
+    .table-responsive
+      table.mdl-data-table.mdl-js-data-table.within-card
+        thead
+          tr
+            th.mdl-data-table__cell--non-numeric Activation
+            th Counters
+            th Device Created At
+            th Station
+            th Device UID
+            th Action
+            th Credits
+            th Final Balance
+            th R Final Balance
+        tbody
+           - transactions.each do |transaction|
+            tr class="#{"danger" unless transaction.status_code.zero?}"
+              td.mdl-data-table__cell--non-numeric data-label="Activation" = transaction.activation_counter
+              td data-label="Counters" = transaction.gtag_counter
+              td data-label="Device Created At" = l Time.zone.parse(transaction.device_created_at)
+              td data-label="Station" = transaction.station&.name
+              td data-label="Device UID"
+                - if device = Device.find_by_mac(transaction.device_uid)
+                  = link_to(device.asset_tracker, admins_device_path(device))
+              td data-label="Action"
+                - icon = transaction.direction.positive? ? fa_icon("sign-out") : fa_icon("sign-in") if transaction.action == "access_checkpoint"
+                = link_to admins_event_transaction_path(@current_event, transaction, type: transaction.category) do
+                  => icon
+                  = transaction.description
+              td data-label="Credits" = number_to_token transaction.credits
+              td data-label="Final Balance" = number_to_token transaction.final_balance if transaction.is_a?(CreditTransaction)
+              td data-label="R Final Balance"
+                span = number_to_token transaction.final_refundable_balance if transaction.is_a?(CreditTransaction)
+                = link_to fa_icon("magic"), fix_admins_event_transaction_path(@current_event, transaction, type: "credit") if transaction.is_a?(CreditTransaction) && transaction.status_code == 2
 
 .mdl-layout-spacer
 

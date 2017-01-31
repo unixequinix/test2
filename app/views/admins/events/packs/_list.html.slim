@@ -17,29 +17,30 @@
           span.mdl-tooltip data-mdl-for="bulk"  Bulk Actions
           ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="bulk"
             li.mdl-menu__item#deletepack Delete selected
-  table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
-    thead
-      tr
-        th.mdl-data-table__cell--non-numeric Name
-        th Step
-        th Initial amount
-        th Max purchasable
-        th Min purchasable
-        th Number of items
-    tbody
-      - @packs.each do |pack|
-        tr data-event =@current_event.id data-pack =pack.id
-          td.mdl-data-table__cell--non-numeric
-            = link_to(pack.name, admins_event_pack_path(@current_event, pack))
-            = render 'actions', pack: pack
-          td = pack.step
-          td = pack.initial_amount
-          td = pack.max_purchasable
-          td = pack.min_purchasable
-          td
-            = pack.catalog_items.count
-            = "·" if pack.only_credits?
-            = "∞" if pack.only_infinite_items?
+  .table-responsive
+    table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
+      thead
+        tr
+          th.mdl-data-table__cell--non-numeric Name
+          th Step
+          th Initial amount
+          th Max purchasable
+          th Min purchasable
+          th Number of items
+      tbody
+        - @packs.each do |pack|
+          tr data-event =@current_event.id data-pack =pack.id
+            td.mdl-data-table__cell--non-numeric data-label="Name"
+              = link_to(pack.name, admins_event_pack_path(@current_event, pack))
+              = render 'actions', pack: pack
+            td data-label="Step" = pack.step
+            td data-label="Initial amount" = pack.initial_amount
+            td data-label="Max purchasable" = pack.max_purchasable
+            td data-label="Min purchasable" = pack.min_purchasable
+            td data-label="Number of items"
+              = pack.catalog_items.count
+              = "·" if pack.only_credits?
+              = "∞" if pack.only_infinite_items?
 .mdl-cell.mdl-cell--12-col.italic.small = paginate @packs
 
 

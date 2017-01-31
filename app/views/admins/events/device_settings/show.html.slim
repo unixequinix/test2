@@ -22,31 +22,32 @@
           .mdl-card__title
             h2.mdl-card__title-text Databases
           .mdl-card__supporting-text
-            table.mdl-data-table.mdl-js-data-table.within-card
-              tbody
-                tr
-                  td.mdl-data-table__cell--non-numeric Full DB
-                  td = @current_event.device_full_db_updated_at ? l(@current_event.device_full_db_updated_at) : "Not found"
-                  td = number_to_human_size(@current_event.device_full_db_file_size)
-                  td.database__actions
-                    = link_to remove_db_admins_event_device_settings_path(@current_event, db: "device_full_db"), method: :delete, data: { confirm: 'Are you sure?' }, class: "database__btn #{"database__btn--disabled" if @current_event.device_full_db.blank?}" do
-                      span.icon.material-icons clear
-                      | Clear cache
-                    = link_to DatabaseManager.new(@current_event, "full").generate_url(60), class: "#{"database__btn--disabled" if @current_event.device_full_db.blank?}"
-                      span.icon.material-icons file_download
-                      | Download
+            .table-responsive
+              table.mdl-data-table.mdl-js-data-table.within-card
+                tbody
+                  tr
+                    td.mdl-data-table__cell--non-numeric Full DB
+                    td = @current_event.device_full_db_updated_at ? l(@current_event.device_full_db_updated_at) : "Not found"
+                    td = number_to_human_size(@current_event.device_full_db_file_size)
+                    td.database__actions
+                      = link_to remove_db_admins_event_device_settings_path(@current_event, db: "device_full_db"), method: :delete, data: { confirm: 'Are you sure?' }, class: "database__btn #{"database__btn--disabled" if @current_event.device_full_db.blank?}" do
+                        span.icon.material-icons clear
+                        | Clear cache
+                      = link_to DatabaseManager.new(@current_event, "full").generate_url(60), class: "#{"database__btn--disabled" if @current_event.device_full_db.blank?}"
+                        span.icon.material-icons file_download
+                        | Download
 
-                tr
-                  td.mdl-data-table__cell--non-numeric Basic DB
-                  td = @current_event.device_basic_db_updated_at ? l(@current_event.device_basic_db_updated_at) : "Not found"
-                  td = number_to_human_size(@current_event.device_basic_db_file_size)
-                  td.database__actions
-                    = link_to remove_db_admins_event_device_settings_path(@current_event, db: "device_basic_db"), method: :delete, data: { confirm: 'Are you sure?'  }, class: "#{"database__btn--disabled" if @current_event.device_basic_db.blank?}" do
-                      span.icon.material-icons clear
-                      | Clear cache
-                    = link_to DatabaseManager.new(@current_event, "basic").generate_url(60), class: "database__btn database__btn--download #{"database__btn--disabled" if @current_event.device_basic_db.blank?}"
-                      span.icon.material-icons file_download
-                      | Download
+                  tr
+                    td.mdl-data-table__cell--non-numeric Basic DB
+                    td = @current_event.device_basic_db_updated_at ? l(@current_event.device_basic_db_updated_at) : "Not found"
+                    td = number_to_human_size(@current_event.device_basic_db_file_size)
+                    td.database__actions
+                      = link_to remove_db_admins_event_device_settings_path(@current_event, db: "device_basic_db"), method: :delete, data: { confirm: 'Are you sure?'  }, class: "#{"database__btn--disabled" if @current_event.device_basic_db.blank?}" do
+                        span.icon.material-icons clear
+                        | Clear cache
+                      = link_to DatabaseManager.new(@current_event, "basic").generate_url(60), class: "database__btn database__btn--download #{"database__btn--disabled" if @current_event.device_basic_db.blank?}"
+                        span.icon.material-icons file_download
+                        | Download
 
   .mdl-cell.mdl-cell--12-col
     .mdl-grid

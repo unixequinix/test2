@@ -27,31 +27,32 @@
                 span#solve.material-icons priority_high
                 span.mdl-tooltip data-mdl-for="solve" Solve Inconsistency
 
-      table.mdl-data-table.mdl-js-data-table.within-card
-        tbody
-          tr
-            td.mdl-data-table__cell--non-numeric Tag UID
-            td = "#{@gtag.tag_uid} - #{@gtag.activation_counter.to_i}"
-          tr
-            td.mdl-data-table__cell--non-numeric Format
-            td @gtag.format
-          tr
-            td.mdl-data-table__cell--non-numeric Server Balance
-            td = "#{number_to_token @gtag.credits} (Refundable: #{number_to_token @gtag.refundable_credits})"
-          tr
-            td.mdl-data-table__cell--non-numeric Gtag Balance
-            td = "#{number_to_token @gtag.final_balance} (Refundable: #{number_to_token @gtag.final_refundable_balance})"
-          tr
-            td.mdl-data-table__cell--non-numeric Status
-            td
-              - if @gtag.valid_balance?
-                .label_notice CONSISTENT
-              - else
-                .label_error INCONSISTENT
-          - if customer = @gtag.customer
+      .table-fix
+        table.mdl-data-table.mdl-js-data-table.within-card
+          tbody
             tr
-              td.mdl-data-table__cell--non-numeric Gtag Customer
-              td = link_to "#{customer.full_name} - #{customer.email}", admins_event_customer_path(@current_event, @gtag.customer)
+              td.mdl-data-table__cell--non-numeric Tag UID
+              td = "#{@gtag.tag_uid} - #{@gtag.activation_counter.to_i}"
+            tr
+              td.mdl-data-table__cell--non-numeric Format
+              td @gtag.format
+            tr
+              td.mdl-data-table__cell--non-numeric Server Balance
+              td = "#{number_to_token @gtag.credits} (Refundable: #{number_to_token @gtag.refundable_credits})"
+            tr
+              td.mdl-data-table__cell--non-numeric Gtag Balance
+              td = "#{number_to_token @gtag.final_balance} (Refundable: #{number_to_token @gtag.final_refundable_balance})"
+            tr
+              td.mdl-data-table__cell--non-numeric Status
+              td
+                - if @gtag.valid_balance?
+                  .label_notice CONSISTENT
+                - else
+                  .label_error INCONSISTENT
+            - if customer = @gtag.customer
+              tr
+                td.mdl-data-table__cell--non-numeric Gtag Customer
+                td = link_to "#{customer.full_name} - #{customer.email}", admins_event_customer_path(@current_event, @gtag.customer)
   .mdl-layout-spacer
 
 .content-grid.mdl-grid

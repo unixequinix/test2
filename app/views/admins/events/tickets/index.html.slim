@@ -40,32 +40,33 @@
               span.mdl-tooltip data-mdl-for="bulk"  Bulk Actions
               ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="bulk"
                 li.mdl-menu__item#deleteticket Delete selected
-      table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
-        thead
-          tr
-            th.mdl-data-table__cell--non-numeric Code
-            th First Name
-            th Last Name
-            th Email
-            th Customer
-            th Banned
-        tbody
-          - @tickets.each do |ticket|
-            tr data-event=@current_event.id data-ticket=ticket.id
-              td.mdl-data-table__cell--non-numeric
-                = link_to ticket.code, admins_event_ticket_path(@current_event, ticket)
-                = render 'admins/events/tickets/actions', ticket: ticket unless @current_event.started?
-              td = ticket.purchaser_first_name
-              td = ticket.purchaser_last_name
-              td = ticket.purchaser_email
-              td = link_to ticket.customer.email, admins_event_customer_path(@current_event, ticket.customer) if ticket.customer
-              td
-                - if ticket.banned?
-                  = link_to unban_admins_event_ticket_path(@current_event, ticket), method: :delete, title: "Unban ticket" do
-                     .material-icons radio_button_checked
-                - else
-                  = link_to ban_admins_event_ticket_path(@current_event, ticket), title: "Ban ticket" do
-                     .material-icons radio_button_unchecked
+      .table-responsive
+        table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
+          thead
+            tr
+              th.mdl-data-table__cell--non-numeric Code
+              th First Name
+              th Last Name
+              th Email
+              th Customer
+              th Banned
+          tbody
+            - @tickets.each do |ticket|
+              tr data-event=@current_event.id data-ticket=ticket.id
+                td.mdl-data-table__cell--non-numeric data-label="Code"
+                  = link_to ticket.code, admins_event_ticket_path(@current_event, ticket)
+                  = render 'admins/events/tickets/actions', ticket: ticket unless @current_event.started?
+                td data-label="First Name" = ticket.purchaser_first_name
+                td data-label="Last Name" = ticket.purchaser_last_name
+                td data-label="Email"= ticket.purchaser_email
+                td data-label="Customer"= link_to ticket.customer.email, admins_event_customer_path(@current_event, ticket.customer) if ticket.customer
+                td data-label="Banned"
+                  - if ticket.banned?
+                    = link_to unban_admins_event_ticket_path(@current_event, ticket), method: :delete, title: "Unban ticket" do
+                       .material-icons radio_button_checked
+                  - else
+                    = link_to ban_admins_event_ticket_path(@current_event, ticket), title: "Ban ticket" do
+                       .material-icons radio_button_unchecked
     .mdl-cell.mdl-cell--12-col.italic.small = paginate @tickets
   .mdl-layout-spacer
 
