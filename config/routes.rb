@@ -215,21 +215,23 @@ Rails.application.routes.draw do
           resources :accesses, only: :index
           resources :auto_top_ups, only: :create
           resources :backups, only: :create
-          resources :banned_gtags, path: "gtags/banned", only: :index
-          resources :banned_tickets, path: "tickets/banned", only: :index
           resources :ticket_types, only: :index
           resources :credits, only: :index
           resources :customers, only: [:index, :show]
-          resources :gtags, only: [:index, :show]
           resources :orders, only: :index
           resources :packs, only: :index
           resources :parameters, only: :index
           resources :products, only: :index
           resources :stations, only: :index
-          resources :tickets, only: [:index, :show]
           resources :transactions, only: :create
           resources :device_transactions, only: :create
           resources :user_flags, only: :index
+          resources :tickets, only: [:index, :show] do
+            get :banned, on: :collection
+          end
+          resources :gtags, only: [:index, :show] do
+            get :banned, on: :collection
+          end
           get "/time", to: "time#index"
         end
       end

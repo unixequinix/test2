@@ -45,9 +45,6 @@ class Gtag < ActiveRecord::Base
                   ultralight_ev1: { entitlement_limit: 40, credential_limit: 32 },
                   ultralight_c:   { entitlement_limit: 56, credential_limit: 32 } }.freeze
 
-  SETTINGS = [:format, :gtag_type, :maximum_gtag_balance, :cards_can_refund, :gtag_deposit,
-              :wristbands_can_refund].freeze
-
   belongs_to :event
   has_many :transactions, dependent: :restrict_with_error
 
