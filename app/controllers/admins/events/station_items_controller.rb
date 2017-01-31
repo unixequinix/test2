@@ -59,7 +59,9 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
 
   private
 
-  def redirect_path; end
+  def redirect_path
+    admins_event_station_station_items_path(@current_event, params[:station_id])
+  end
 
   def set_station
     @station = @current_event.stations.find(params[:station_id])
