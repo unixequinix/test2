@@ -1,5 +1,4 @@
 .wrapper-module
-  - unless presenter.customer_has_refund?
-    h3 = t('dashboard.gtag_registration.title')
-    p.id-number = presenter.gtag_tag_uid
-    = presenter.gtag_assignments_enabled?
+  h3 = t('dashboard.gtag_registration.title')
+  p.id-number = presenter.gtag_tag_uid
+
