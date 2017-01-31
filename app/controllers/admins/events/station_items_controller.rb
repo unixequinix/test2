@@ -30,11 +30,8 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
   end
 
   def sort
-    params[:order].each do |_key, value|
-      @item = @klass.find(value[:id])
-      authorize @item
-      @item.update(position: value[:position])
-    end
+    skip_authorization
+    params[:order].each { |_key, value| @klass.find(value[:id]).update(position: value[:position]) }
     render nothing: true
   end
 

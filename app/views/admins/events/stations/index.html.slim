@@ -25,7 +25,7 @@
                   td.mdl-data-table__cell--non-numeric data-label="Name"
                     = station.name
                     = render 'admins/events/stations/actions', station: station
-                  td data-label="Type" = station.category
+                  td data-label="Type" = station.category.humanize
                   td data-label="Location" = station.location
                   td data-label="Reporting Category" = station.reporting_category
       - else
