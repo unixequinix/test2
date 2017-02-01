@@ -8,9 +8,6 @@
           .form-inputs
             = f.input :email, autofocus: true
             = f.input :password
-            label.mdl-checkbox.mdl-js-checkbox.mdl-js-ripple-effect for="remember"
-              span.mdl-checkbox__label.form-label Remember me
-              = f.input :remember_me, as: :boolean, :input_html => { :id => 'remember'}
 
             = f.button :submit, "Log in", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent login-submit"
       .register-action =link_to 'Register as a promoter', new_user_path
