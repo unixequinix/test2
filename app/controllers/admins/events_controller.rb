@@ -1,8 +1,9 @@
 class Admins::EventsController < Admins::BaseController # rubocop:disable Metrics/ClassLength
   def index
     params[:status] ||= [:launched, :started, :finished]
-    @events = policy_scope(Event)
-    @events = @events.with_state(params[:status]) if params[:status] != "all"
+    @q = policy_scope(Event).ransack(params[:q])
+    @events = @q.result
+    @events = @events.with_state(params[:status]) if params[:status] != "all" && params[:q].empty?
     @events = @events.page(params[:page])
   end
 
