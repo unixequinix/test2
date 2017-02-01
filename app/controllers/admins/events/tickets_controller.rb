@@ -62,7 +62,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
       CSV.foreach(file, headers: true, col_sep: ";", encoding: "ISO8859-1:utf-8").with_index do |row, _i|
         c_name = row.field("company_name")
         com = Company.find_by("LOWER(name) = ?", c_name.downcase) || Company.create!(name: c_name)
-        agree = com.company_event_agreements.find_or_create_by!(event: @current_event, state: "granted")
+        agree = com.company_event_agreements.find_or_create_by!(event: @current_event)
 
         ticket_type_atts = { name: row.field("ticket_type"), company_code: row.field("company_code"), company_event_agreement: agree }
         ticket_type = @current_event.ticket_types.find_or_create_by!(ticket_type_atts)
