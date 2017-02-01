@@ -42,7 +42,7 @@ class Order < ActiveRecord::Base
   end
 
   def complete!(gateway, payment)
-    update(status: "completed", gateway: gateway, completed_at: Time.zone.now, payment_data: payment)
+    update!(status: "completed", gateway: gateway, completed_at: Time.zone.now, payment_data: payment)
   end
 
   def completed?
