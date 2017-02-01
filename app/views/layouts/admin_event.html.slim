@@ -162,6 +162,9 @@ html
           = link_to admins_event_transactions_path(@current_event, type: "user_engagement"), class: "mdl-navigation__link" do
             i.mdl-color-text--teal-200.material-icons loyalty
             | User Engagement
+          = link_to admins_event_transactions_path(@current_event, type: "user_flag"), class: "mdl-navigation__link" do
+            i.mdl-color-text--teal-200.material-icons flag
+            | User Flag
       main.mdl-layout__content
         #notifications
           = render 'layouts/notifications'
