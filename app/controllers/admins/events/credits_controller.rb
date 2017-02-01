@@ -4,7 +4,7 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
   def update
     authorize @credit
     if @credit.update(permitted_params)
-      flash[:notice] = I18n.t("alerts.updated")
+      flash[:notice] = t("alerts.updated")
       redirect_to admins_event_credits_path
     else
       flash.now[:error] = @credit.errors.full_messages.join(". ")

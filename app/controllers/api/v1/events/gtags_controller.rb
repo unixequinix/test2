@@ -37,8 +37,8 @@ class Api::V1::Events::GtagsController < Api::V1::Events::BaseController
         WHERE
           customer_id is not NULL AND
           gtags.event_id = #{@current_event.id}
-          #{"AND gtags.updated_at > '#{@modified}'" if @modified }
-          #{"AND gtags.banned = TRUE" if only_banned }
+          #{"AND gtags.updated_at > '#{@modified}'" if @modified}
+          #{'AND gtags.banned = TRUE' if only_banned}
       ) g
     SQL
     ActiveRecord::Base.connection.select_value(sql)

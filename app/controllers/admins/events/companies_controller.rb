@@ -16,7 +16,7 @@ class Admins::Events::CompaniesController < Admins::Events::BaseController
     @company = Company.new(permitted_params)
     authorize @company
     if @company.save
-      flash[:notice] = I18n.t("alerts.created")
+      flash[:notice] = t("alerts.created")
       redirect_to admins_event_companies_path
     else
       flash[:error] = @company.errors.full_messages.join(". ")
@@ -26,7 +26,7 @@ class Admins::Events::CompaniesController < Admins::Events::BaseController
 
   def update
     if @company.update(permitted_params)
-      flash[:notice] = I18n.t("alerts.updated")
+      flash[:notice] = t("alerts.updated")
       redirect_to admins_event_companies_path
     else
       flash[:error] = @company.errors.full_messages.join(". ")
@@ -36,10 +36,10 @@ class Admins::Events::CompaniesController < Admins::Events::BaseController
 
   def destroy
     if @company.destroy
-      flash[:notice] = I18n.t("alerts.destroyed")
+      flash[:notice] = t("alerts.destroyed")
       redirect_to admins_event_companies_path
     else
-      flash.now[:error] = I18n.t("errors.messages.ticket_type_dependent")
+      flash.now[:error] = t("errors.messages.ticket_type_dependent")
       @companies = @current_event.companies.page
       render :index
     end

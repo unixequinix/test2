@@ -39,7 +39,9 @@
               span#bulk.icon.material-icons more_vert
               span.mdl-tooltip data-mdl-for="bulk"  Bulk Actions
               ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="bulk"
-                li.mdl-menu__item#deleteticket Delete selected
+                li.mdl-menu__item#delete_multiple data-type="ticket" Delete selected
+                li.mdl-menu__item#ban_multiple data-type="ticket" Ban selected
+                li.mdl-menu__item#unban_multiple data-type="ticket" Unban selected
       .table-responsive
         table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
           thead
@@ -67,6 +69,7 @@
                   - else
                     = link_to ban_admins_event_ticket_path(@current_event, ticket), title: "Ban ticket" do
                        .material-icons radio_button_unchecked
+              span.mdl-tooltip data-mdl-for="edit_#{ticket.id}" Edit
     .mdl-cell.mdl-cell--12-col.italic.small = paginate @tickets
   .mdl-layout-spacer
 

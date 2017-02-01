@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     @user = User.new(permitted_params.merge(role: "promoter"))
     if @user.save
       sign_in(@user, scope: :user)
-      redirect_to admins_events_path, notice: I18n.t("alerts.created")
+      redirect_to admins_events_path, notice: t("alerts.created")
     else
       render :new
     end
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update(permitted_params)
-      redirect_to admins_events_path, notice: I18n.t("alerts.updated")
+      redirect_to admins_events_path, notice: t("alerts.updated")
     else
       render :edit
     end

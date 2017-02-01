@@ -39,7 +39,9 @@
               span#bulk.icon.material-icons more_vert
               span.mdl-tooltip data-mdl-for="bulk"  Bulk Actions
               ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="bulk"
-                li.mdl-menu__item#deletegtag Delete selected
+                li.mdl-menu__item#delete_multiple data-type="gtag" Delete selected
+                li.mdl-menu__item#ban_multiple data-type="gtag" Ban selected
+                li.mdl-menu__item#unban_multiple data-type="gtag" Unban selected
       .table-responsive
         table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
           thead
@@ -65,6 +67,8 @@
                   - else
                     = link_to ban_admins_event_gtag_path(@current_event, gtag), title: "Ban gtag" do
                        .material-icons radio_button_unchecked
+              span.mdl-tooltip data-mdl-for="edit_#{gtag.id}" Edit
+              span.mdl-tooltip data-mdl-for="delete_#{gtag.id}" Delete
     .mdl-cell.mdl-cell--12-col.italic.small = paginate @gtags
   .mdl-layout-spacer
 

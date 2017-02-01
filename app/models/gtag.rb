@@ -104,6 +104,6 @@ class Gtag < ActiveRecord::Base
   def can_refund?
     card = card? && event.cards_can_refund?
     wristband = wristband? && event.wristbands_can_refund?
-    return true if loyalty? || card || wristband
+    loyalty? || card || wristband
   end
 end

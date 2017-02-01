@@ -19,9 +19,9 @@ class Admins::Events::StationsController < Admins::Events::BaseController
     @group = @station.group
     if @station.save
       path = admins_event_stations_path(@current_event, group: @station.group)
-      redirect_to path, notice: I18n.t("alerts.created")
+      redirect_to path, notice: t("alerts.created")
     else
-      flash.now[:error] = I18n.t("alerts.error")
+      flash.now[:error] = t("alerts.error")
       render :new
     end
   end
@@ -29,11 +29,11 @@ class Admins::Events::StationsController < Admins::Events::BaseController
   def update
     respond_to do |format|
       if @station.update(permitted_params)
-        format.html { redirect_to admins_event_stations_path(@current_event, group: @group), notice: I18n.t("alerts.updated") }
+        format.html { redirect_to admins_event_stations_path(@current_event, group: @group), notice: t("alerts.updated") }
         format.json { render json: @station }
       else
         format.html do
-          flash.now[:error] = I18n.t("alerts.error")
+          flash.now[:error] = t("alerts.error")
           render :edit
         end
       end
@@ -47,7 +47,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
 
   def destroy
     if @station.destroy
-      flash[:notice] = I18n.t("alerts.destroyed")
+      flash[:notice] = t("alerts.destroyed")
     else
       flash[:error] = @pack.errors.full_messages.to_sentence
     end
@@ -62,7 +62,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
 
   def visibility
     @station.update(hidden: !@station.hidden?)
-    redirect_to admins_event_stations_path(@current_event, group: @group), notice: I18n.t("alerts.updated")
+    redirect_to admins_event_stations_path(@current_event, group: @group), notice: t("alerts.updated")
   end
 
   private

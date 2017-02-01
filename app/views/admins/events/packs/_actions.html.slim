@@ -1,6 +1,6 @@
 .table-action
   = link_to edit_admins_event_pack_path(@current_event, pack) do
-    button.icon.material-icons edit
+    button.icon.material-icons id ="edit_#{pack.id}" edit
 .table-action
   = link_to admins_event_pack_path(@current_event, pack), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
-    button#revoke.icon.material-icons delete
+    button.icon.material-icons id ="delete_#{pack.id}" delete

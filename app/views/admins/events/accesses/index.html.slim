@@ -21,7 +21,7 @@
               ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="bulk"
                 li.mdl-menu__item#hide Hide selected
                 li.mdl-menu__item#show Show all
-                li.mdl-menu__item#deleteaccess Delete selected
+                li.mdl-menu__item#delete_multiple data-type="access" Delete selected
       .table-responsive
         table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable.within-card
           thead
@@ -43,6 +43,9 @@
                 td data-label="Max purchasable" = access.max_purchasable
                 td data-label="Min purchasable" = access.min_purchasable
                 td data-label="Mode"= access.mode
+              span.mdl-tooltip data-mdl-for="edit_#{access.id}" Edit
+              span.mdl-tooltip data-mdl-for="delete_#{access.id}" Delete
+
     .mdl-cell.mdl-cell--12-col.italic.small = paginate @accesses
   .mdl-layout-spacer
 

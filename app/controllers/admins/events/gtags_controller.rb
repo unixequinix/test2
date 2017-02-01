@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/ClassLength
 class Admins::Events::GtagsController < Admins::Events::BaseController
   before_action :set_gtag, except: [:index, :new, :create]
 
@@ -26,20 +25,18 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
     @gtag = Gtag.new(permitted_params)
     authorize @gtag
     if @gtag.save
-      flash[:notice] = I18n.t("alerts.created")
-      redirect_to admins_event_gtags_path
+      redirect_to admins_event_gtags_path, notice: t("alerts.created")
     else
-      flash.now[:error] = @gtag.errors.full_messages.join(". ")
+      flash.now[:error] = t("alerts.error")
       render :new
     end
   end
 
   def update
     if @gtag.update(permitted_params)
-      flash[:notice] = I18n.t("alerts.updated")
-      redirect_to admins_event_gtag_path(@current_event, @gtag)
+      redirect_to admins_event_gtag_path(@current_event, @gtag), notice: t("alerts.updated")
     else
-      flash.now[:error] = @gtag.errors.full_messages.join(". ")
+      flash.now[:error] = t("alerts.error")
       render :edit
     end
   end
@@ -47,28 +44,18 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
   def destroy
     respond_to do |format|
       if @gtag.destroy
-        format.html { redirect_to admins_event_gtags_path, notice: 'GTag was successfully deleted.' }
-        format.json { render :show, status: :ok, location: admins_event_gtags_path }
+        format.html { redirect_to admins_event_gtags_path, notice: t("alerts.destroyed") }
+        format.json { render json: true }
       else
-        redirect_to [:admins, @current_event, @gtag], error: @gtag.errors.full_messages.to_sentence
+        format.html { redirect_to [:admins, @current_event, @gtag], error: @gtag.errors.full_messages.to_sentence }
+        format.json { render json: { errors: @gtag.errors.full_messages.to_sentence }, status: :unprocessable_entity }
       end
     end
-  end
-
-  def destroy_multiple
-    @gtags = params[:gtags]
-    authorize @gtags
-    if gtags
-      @current_event.gtags.where(id: gtags.keys).each do |gtag|
-        flash[:error] = gtag.errors.full_messages.join(". ") unless gtag.destroy
-      end
-    end
-    redirect_to admins_event_gtags_path
   end
 
   def solve_inconsistent
     @gtag.solve_inconsistent
-    redirect_to admins_event_gtag_path(@current_event, @gtag), notice: "Gtag balance was recalculated successfully"
+    redirect_to admins_event_gtag_path(@current_event, @gtag), notice: "Gtag balance was made consistent"
   end
 
   def recalculate_balance
@@ -77,18 +64,24 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
   end
 
   def ban
-    @gtag.update!(banned: true)
-    redirect_to(admins_event_gtags_path)
+    @gtag.ban
+    respond_to do |format|
+      format.html { redirect_to admins_event_gtags_path, notice: t("alerts.updated") }
+      format.json { render json: true }
+    end
   end
 
   def unban
-    @gtag.update(banned: false)
-    redirect_to(admins_event_gtags_path)
+    @gtag.unban
+    respond_to do |format|
+      format.html { redirect_to admins_event_gtags_path, notice: t("alerts.updated") }
+      format.json { render json: true }
+    end
   end
 
   def import
     path = admins_event_gtags_path(@current_event)
-    redirect_to(path, alert: t("admin.gtags.import.empty_file")) && return unless params[:file]
+    redirect_to(path, alert: "File not supplied") && return unless params[:file]
     file = params[:file][:data].tempfile.path
 
     begin
@@ -97,10 +90,10 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
         tag.update!(format: row.field("format"), loyalty: row.field("loyalty"))
       end
     rescue
-      return redirect_to(path, alert: t("admin.gtags.import.error"))
+      return redirect_to(path, alert: t("alerts.error"))
     end
 
-    redirect_to(path, notice: t("admin.gtags.import.success"))
+    redirect_to(path, notice: "Gtags successfully imported")
   end
 
   def sample_csv

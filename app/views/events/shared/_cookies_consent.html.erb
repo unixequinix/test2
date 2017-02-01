@@ -2,13 +2,13 @@
 
 $(document).ready(function(){
   $.cookieBar({
-    message: "<%= t('cookies.notification_title') %>",
+    message: 'We use cookies to track usage and preferences.',
     fixed: true,
     acceptButton: true,
-    acceptText: "<%= t('cookies.preference_consent') %>",
+    acceptText: 'I Understand',
     policyButton: true,
-    policyText: "<%= t('cookies.learn_more') %>",
-    policyURL: "<%= event_privacy_policy_url(current_event) %>"
+    policyText: 'Privacy Policy',
+    policyURL: '/privacy-policy/'
   });
 });
 

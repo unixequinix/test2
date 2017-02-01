@@ -15,7 +15,7 @@ class Admins::Events::UsersController < Admins::Events::BaseController
     @user = @current_event.users.new(permitted_params)
     authorize @user
     if @user.save
-      redirect_to admins_event_users_path, notice: I18n.t("alerts.created")
+      redirect_to admins_event_users_path, notice: t("alerts.created")
     else
       render :new
     end
@@ -23,7 +23,7 @@ class Admins::Events::UsersController < Admins::Events::BaseController
 
   def update
     if @user.update(permitted_params)
-      redirect_to admins_event_users_path, notice: I18n.t("alerts.updated")
+      redirect_to admins_event_users_path, notice: t("alerts.updated")
     else
       render :edit
     end
@@ -31,9 +31,9 @@ class Admins::Events::UsersController < Admins::Events::BaseController
 
   def destroy
     if @user.destroy
-      redirect_to admins_event_users_path, notice: I18n.t("alerts.destroyed")
+      redirect_to admins_event_users_path, notice: t("alerts.destroyed")
     else
-      redirect_to [:admins, @current_event, @user], error: I18n.t("alerts.error")
+      redirect_to [:admins, @current_event, @user], error: t("alerts.error")
     end
   end
 

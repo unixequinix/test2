@@ -28,6 +28,8 @@
 #  ticket_code                 :citext
 #  transaction_origin          :string
 #  type                        :string
+#  user_flag                   :string
+#  user_flag_active            :boolean
 #
 # Indexes
 #

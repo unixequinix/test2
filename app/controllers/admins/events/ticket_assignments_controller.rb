@@ -11,16 +11,16 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::BaseControll
     @ticket = @current_event.tickets.find_by(code: @code)
 
     errors = []
-    errors << I18n.t("alerts.alerts.not_found", item: "Ticket") if @ticket.blank?
-    errors << I18n.t("alerts.credentail.without_credential") if @ticket&.ticket_type&.catalog_item.nil?
-    errors << I18n.t("alerts.credentail.already_assigned", item: "Ticket") if @ticket&.customer
+    errors << t("alerts.alerts.not_found", item: "Ticket") if @ticket.blank?
+    errors << t("alerts.credentail.without_credential") if @ticket&.ticket_type&.catalog_item.nil?
+    errors << t("alerts.credentail.already_assigned", item: "Ticket") if @ticket&.customer
 
     if errors.any?
       flash.now[:errors] = errors.to_sentence
       render(:new)
     else
       @ticket.assign_customer(@customer, :admin, current_user)
-      redirect_to(admins_event_customer_path(@current_event, @customer), notice: I18n.t("alerts.credential.assigned", item: "Ticket"))
+      redirect_to(admins_event_customer_path(@current_event, @customer), notice: t("alerts.credential.assigned", item: "Ticket"))
     end
   end
 
@@ -28,7 +28,7 @@ class Admins::Events::TicketAssignmentsController < Admins::Events::BaseControll
     @ticket = @current_event.tickets.find(params[:id])
     authorize @ticket.customer, :destroy_credential?
     @ticket.unassign_customer(:admin, current_user)
-    flash[:notice] = I18n.t("alerts.credential.unassigned", item: "Ticket")
+    flash[:notice] = t("alerts.credential.unassigned", item: "Ticket")
     redirect_to :back
   end
 

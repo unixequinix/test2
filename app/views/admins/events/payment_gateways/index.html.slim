@@ -34,6 +34,9 @@
                   - else
                     = link_to refund_admins_event_payment_gateway_path(@current_event, gw), method: :post do
                       .material-icons radio_button_unchecked
+            span.mdl-tooltip data-mdl-for="edit_#{gateway}" Edit
+            span.mdl-tooltip data-mdl-for="add_#{gateway}" Add
+            span.mdl-tooltip data-mdl-for="delete_#{gateway}" Delete
   .mdl-layout-spacer
 
 

@@ -28,6 +28,12 @@
                   td data-label="Type" = station.category.humanize
                   td data-label="Location" = station.location
                   td data-label="Reporting Category" = station.reporting_category
+                span.mdl-tooltip data-mdl-for="edit_#{station.id}" Edit
+                span.mdl-tooltip data-mdl-for="delete_#{station.id}" Delete
+                span.mdl-tooltip data-mdl-for="hide_#{station.id}" Hide
+                span.mdl-tooltip data-mdl-for="show_#{station.id}" Show
+                span.mdl-tooltip data-mdl-for="copy_#{station.id}" Make a copy
+                span.mdl-tooltip data-mdl-for="add_#{station.id}" Add
       - else
         .section-title-empty
           = image_tag "img-empty.png"

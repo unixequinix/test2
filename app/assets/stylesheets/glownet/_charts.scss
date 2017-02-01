@@ -10,7 +10,7 @@ $color2: #F48FB1;
 		@if($i != $stepnum){
 			$separator: #{','};
 		}
-		$gradient_steps: append( #{$gradient_steps}, #{$i}px #{$i}px $colour_mix $separator );
+		$gradient_steps: append( unquote("#{$gradient_steps}"), unquote("#{$i}px") unquote("#{$i}px") $colour_mix $separator );
  }
   @return $gradient_steps;
 }

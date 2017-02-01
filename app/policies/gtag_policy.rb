@@ -1,8 +1,4 @@
 class GtagPolicy < ApplicationPolicy
-  def destroy_multiple?
-    admin_and_promoter
-  end
-
   def solve_inconsistent?
     admin_promoter_and_support
   end

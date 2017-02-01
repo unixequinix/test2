@@ -17,7 +17,7 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
     @ticket_type = TicketType.new(permitted_params)
     authorize @ticket_type
     if @ticket_type.save
-      redirect_to admins_event_ticket_types_path, notice: I18n.t("alerts.created")
+      redirect_to admins_event_ticket_types_path, notice: t("alerts.created")
     else
       flash.now[:error] = @ticket_type.errors.full_messages.join(". ")
       render :new
@@ -26,7 +26,7 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
 
   def update
     if @ticket_type.update(permitted_params)
-      redirect_to admins_event_ticket_types_path, notice: I18n.t("alerts.updated")
+      redirect_to admins_event_ticket_types_path, notice: t("alerts.updated")
     else
       flash.now[:error] = @ticket_type.errors.full_messages.join(". ")
       render :edit
@@ -35,7 +35,7 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
 
   def destroy
     if @ticket_type.destroy
-      redirect_to admins_event_ticket_types_path(@current_event), notice: I18n.t("alerts.destroyed")
+      redirect_to admins_event_ticket_types_path(@current_event), notice: t("alerts.destroyed")
     else
       redirect_to admins_event_ticket_types_path(@current_event, @ticket_type), error: @ticket_type.errors.full_messages.to_sentence
     end
@@ -45,7 +45,7 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
     @ticket_type = @current_event.ticket_types.find(params[:ticket_type_id])
     authorize @ticket_type
     @ticket_type.hidden? ? @ticket_type.show! : @ticket_type.hide!
-    redirect_to admins_event_ticket_types_path(@current_event), notice: I18n.t("alerts.updated")
+    redirect_to admins_event_ticket_types_path(@current_event), notice: t("alerts.updated")
   end
 
   private

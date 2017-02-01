@@ -24,7 +24,7 @@ class Admins::DevicesController < Admins::BaseController
 
   def destroy
     if @device.destroy
-      flash[:notice] = I18n.t("alerts.destroyed")
+      flash[:notice] = t("alerts.destroyed")
     else
       flash[:error] = @ticket.errors.full_messages.join(". ")
     end

@@ -1,16 +1,16 @@
 - unless @current_event.started?
   .table-action
     = link_to edit_admins_event_ticket_type_path(@current_event, ticket_type) do
-      button.material-icons edit
+      button.icon.material-icons id ="edit_#{ticket_type}" edit
   .table-action
     = link_to admins_event_ticket_type_path(@current_event, ticket_type), method: :delete, data: { confirm: "Are you sure?" } do
-      button.material-icons delete
+      button.icon.material-icons id ="delete_#{ticket_type}" delete
 
 - if ticket_type.hidden?
   .table-action
     = link_to admins_event_ticket_type_visibility_path(@current_event, ticket_type), method: :post do
-      button.material-icons visibility
+      button.icon.material-icons id ="show_#{ticket_type}" visibility
 - else
   .table-action
     = link_to admins_event_ticket_type_visibility_path(@current_event, ticket_type), method: :post do
-      button.material-icons visibility_off
+      button.icon.material-icons id ="hide_#{ticket_type}" visibility_off

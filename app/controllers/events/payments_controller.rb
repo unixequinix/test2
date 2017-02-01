@@ -15,7 +15,7 @@ class Events::PaymentsController < Events::BaseController
   def check_order_status!
     @order = @current_event.orders.find(params[:order_id])
     return unless current_customer != @order.customer || @order.completed?
-    flash.now[:error] = I18n.t("alerts.order_complete") if @order.completed?
+    flash.now[:error] = t("alerts.order_complete") if @order.completed?
     redirect_to event_path(@current_event)
   end
 end

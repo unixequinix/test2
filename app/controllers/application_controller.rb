@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
   private
 
   def user_not_authorized
-    flash[:error] = I18n.t("alerts.not_authorized")
+    flash[:error] = t("alerts.not_authorized")
     redirect_to(request.referer || admins_events_path)
   end
 

@@ -10,9 +10,9 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
     @item = @klass.new(permitted_params)
     authorize @item
     if @item.save
-      redirect_to redirect_path, notice: I18n.t("alerts.created")
+      redirect_to admins_event_station_station_items_path(@current_event, @item.station), notice: t("alerts.created")
     else
-      flash.now[:alert] = I18n.t("alerts.error")
+      flash.now[:alert] = t("alerts.error")
       render :index
     end
   end
@@ -39,7 +39,7 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
     @item = @klass.find(params[:station_item_id])
     authorize @item
     @item.toggle!(:hidden)
-    redirect_to redirect_path, notice: I18n.t("alerts.updated")
+    redirect_to admins_event_station_station_items_path(@current_event, @item.station), notice: t("alerts.updated")
   end
 
   def destroy
@@ -47,7 +47,7 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
     authorize @item
 
     if @item.destroy
-      flash[:notice] = I18n.t("alerts.destroyed")
+      flash[:notice] = t("alerts.destroyed")
     else
       flash[:error] = @pack.errors.full_messages.to_sentence
     end
@@ -55,10 +55,6 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
   end
 
   private
-
-  def redirect_path
-    admins_event_station_station_items_path(@current_event, params[:station_id])
-  end
 
   def set_station
     @station = @current_event.stations.find(params[:station_id])

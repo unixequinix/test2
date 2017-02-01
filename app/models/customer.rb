@@ -147,7 +147,7 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def self.gender_selector
-    %w(male female).map { |f| [I18n.t("gender." + f), f] }
+    %w(male female).map { |f| [t("gender." + f), f] }
   end
 
   def email_required?

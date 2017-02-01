@@ -3,9 +3,9 @@ class Admins::Events::GtagSettingsController < Admins::Events::BaseController
 
   def update
     if @current_event.update(permitted_params)
-      redirect_to admins_event_gtag_settings_path(@current_event), notice: I18n.t("alerts.updated")
+      redirect_to admins_event_gtag_settings_path(@current_event), notice: t("alerts.updated")
     else
-      flash[:error] = I18n.t("alerts.error")
+      flash[:error] = t("alerts.error")
       render :edit
     end
   end
@@ -14,7 +14,7 @@ class Admins::Events::GtagSettingsController < Admins::Events::BaseController
     params[:event] = Event.new.attributes
     atts = { gtag_form_disclaimer: nil, gtag_assignation_notification: nil }.merge(permitted_params)
     @current_event.update!(atts)
-    redirect_to admins_event_gtag_settings_path(@current_event), notice: I18n.t("alerts.updated")
+    redirect_to admins_event_gtag_settings_path(@current_event), notice: t("alerts.updated")
   end
 
   private

@@ -38,9 +38,9 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
 
     if @event.save
       @event.initial_setup!
-      redirect_to admins_event_path(@event), notice: I18n.t("alerts.created")
+      redirect_to admins_event_path(@event), notice: t("alerts.created")
     else
-      flash[:error] = I18n.t("alerts.error")
+      flash[:error] = t("alerts.error")
       render :new
     end
   end
@@ -54,10 +54,10 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     authorize @current_event
     respond_to do |format|
       if @current_event.update(permitted_params.merge(slug: nil))
-        format.html { redirect_to admins_event_path(@current_event), notice: I18n.t("alerts.updated") }
+        format.html { redirect_to admins_event_path(@current_event), notice: t("alerts.updated") }
         format.json { render :show, status: :ok, location: @current_event }
       else
-        flash.now[:error] = I18n.t("alerts.error")
+        flash.now[:error] = t("alerts.error")
         format.html { render :edit }
         format.json { render json: @current_event.errors, status: :unprocessable_entity }
       end
@@ -67,14 +67,14 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
   def remove_logo
     authorize @current_event
     @current_event.logo.destroy
-    flash[:notice] = I18n.t("alerts.destroyed")
+    flash[:notice] = t("alerts.destroyed")
     redirect_to admins_event_path(@current_event)
   end
 
   def remove_background
     authorize @current_event
     @current_event.background.destroy
-    flash[:notice] = I18n.t("alerts.destroyed")
+    flash[:notice] = t("alerts.destroyed")
     redirect_to admins_event_path(@current_event)
   end
 

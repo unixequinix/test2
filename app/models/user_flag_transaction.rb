@@ -57,9 +57,9 @@
 #  fk_rails_f51c7f5cfc  (station_id => stations.id)
 #
 
-class OperatorTransaction < Transaction
+class UserFlagTransaction < Transaction
   def self.mandatory_fields
-    super + %w(operator_value operator_station_id)
+    super + %w(user_flag user_flag_active)
   end
 
   def self.policy_class

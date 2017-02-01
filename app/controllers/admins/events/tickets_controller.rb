@@ -1,9 +1,11 @@
 class Admins::Events::TicketsController < Admins::Events::BaseController
-  before_action :set_ticket, except: [:index, :new, :create, :import, :sample_csv, :destroy_multiple]
+  before_action :set_ticket, except: [:index, :new, :create, :import, :sample_csv]
+
   def index
-    @tickets = @current_event.tickets
+    @tickets = @current_event.tickets.order(:code)
     authorize @tickets
     @tickets = @tickets.page(params[:page])
+
     respond_to do |format|
       format.html
       format.csv { send_data(CsvExporter.to_csv(Ticket.query_for_csv(@current_event))) }
@@ -23,18 +25,18 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
     @ticket = @current_event.tickets.new(permitted_params)
     authorize @ticket
     if @ticket.save
-      redirect_to admins_event_tickets_path, notice: I18n.t("alerts.created")
+      redirect_to admins_event_tickets_path, notice: t("alerts.created")
     else
-      flash.now[:error] = I18n.t("alerts.error")
+      flash.now[:error] = t("alerts.error")
       render :new
     end
   end
 
   def update
     if @ticket.update(permitted_params)
-      redirect_to admins_event_ticket_path(@current_event, @ticket), notice: I18n.t("alerts.updated")
+      redirect_to admins_event_ticket_path(@current_event, @ticket), notice: t("alerts.updated")
     else
-      flash.now[:error] = I18n.t("alerts.error")
+      flash.now[:error] = t("alerts.error")
       render :edit
     end
   end
@@ -48,14 +50,6 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
         redirect_to [:admins, @current_event, @ticket], error: @ticket.errors.full_messages.to_sentence
       end
     end
-  end
-
-  def destroy_multiple
-    @current_event.tickets.where(id: params[:tickets].to_h.keys).each do |ticket|
-      authorize ticket
-      flash[:error] = ticket.errors.full_messages.to_sentence unless ticket.destroy
-    end
-    redirect_to admins_event_tickets_path
   end
 
   def import # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
@@ -94,13 +88,19 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
   end
 
   def ban
-    @ticket.update(banned: true)
-    redirect_to(admins_event_tickets_path)
+    @ticket.ban
+    respond_to do |format|
+      format.html { redirect_to admins_event_gtags_path, notice: t("alerts.updated") }
+      format.json { render json: true }
+    end
   end
 
   def unban
-    @ticket.update(banned: false)
-    redirect_to(admins_event_tickets_path)
+    @ticket.unban
+    respond_to do |format|
+      format.html { redirect_to admins_event_gtags_path, notice: t("alerts.updated") }
+      format.json { render json: true }
+    end
   end
 
   private

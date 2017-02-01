@@ -48,7 +48,7 @@ class Api::V1::Events::TicketsController < Api::V1::Events::BaseController
 
         WHERE tickets.event_id = #{@current_event.id}
         #{"AND tickets.updated_at > '#{@modified}'" if @modified}
-        #{"AND tickets.banned = TRUE" if only_banned}
+        #{'AND tickets.banned = TRUE' if only_banned}
       ) t
     SQL
     ActiveRecord::Base.connection.select_value(sql)

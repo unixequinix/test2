@@ -11,8 +11,8 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
     @gtag = @current_event.gtags.find_by(tag_uid: permitted_params[:tag_uid].strip.upcase)
 
     errors = []
-    errors << I18n.t("alerts.credential.not_found", item: "Gtag") if @gtag.blank?
-    errors << I18n.t("alerts.credential.already_assigned", item: "Gtag") if @gtag&.customer
+    errors << t("alerts.credential.not_found", item: "Gtag") if @gtag.blank?
+    errors << t("alerts.credential.already_assigned", item: "Gtag") if @gtag&.customer
 
     if errors.any?
       flash.now[:errors] = errors.to_sentence
@@ -21,7 +21,7 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
       @gtag.update(active: permitted_params[:active].present?)
       @customer.gtags.update_all(active: false) if @gtag.active?
       @gtag.assign_customer(@customer, :admin, current_user)
-      redirect_to admins_event_customer_path(@current_event, @customer), notice: I18n.t("alerts.credential.assigned", item: "Gtag")
+      redirect_to admins_event_customer_path(@current_event, @customer), notice: t("alerts.credential.assigned", item: "Gtag")
     end
   end
 
@@ -29,7 +29,7 @@ class Admins::Events::GtagAssignmentsController < Admins::Events::BaseController
     @gtag = @current_event.gtags.find(params[:id])
     authorize @gtag.customer, :destroy_credential?
     @gtag.unassign_customer(:admin, current_user)
-    flash[:notice] = I18n.t("alerts.credential.unassigned", item: "Gtag")
+    flash[:notice] = t("alerts.credential.unassigned", item: "Gtag")
     redirect_to :back
   end
 

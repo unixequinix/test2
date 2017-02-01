@@ -49,6 +49,7 @@
                 td data-label="VAT" = product.vat
                 td data-label="Is alcohol?"= product.is_alcohol
                 td data-label="Stations" = product.station_products&.first&.station&.name
+              span.mdl-tooltip data-mdl-for="edit_#{product.id}" Edit
     .mdl-cell.mdl-cell--12-col.italic.small = paginate @products
   .mdl-layout-spacer
 

@@ -18,9 +18,9 @@ class Admins::Events::PacksController < Admins::Events::BaseController
     authorize @pack
 
     if @pack.save
-      redirect_to admins_event_packs_path, notice: I18n.t("alerts.created")
+      redirect_to admins_event_packs_path, notice: t("alerts.created")
     else
-      flash.now[:error] = I18n.t("alerts.error")
+      flash.now[:error] = t("alerts.error")
       render :new
     end
   end
@@ -32,9 +32,9 @@ class Admins::Events::PacksController < Admins::Events::BaseController
       @pack.pack_catalog_items.map(&:save)
       @pack.pack_catalog_items.select(&:marked_for_destruction?).map(&:destroy)
 
-      redirect_to admins_event_packs_path, notice: I18n.t("alerts.updated")
+      redirect_to admins_event_packs_path, notice: t("alerts.updated")
     else
-      flash.now[:error] = I18n.t("alerts.error")
+      flash.now[:error] = t("alerts.error")
       render :edit
     end
   end
@@ -42,10 +42,11 @@ class Admins::Events::PacksController < Admins::Events::BaseController
   def destroy
     respond_to do |format|
       if @pack.destroy
-        format.html { redirect_to admins_event_packs_path, notice: 'Pack was successfully deleted.' }
-        format.json { render :show, status: :ok, location: admins_event_packs_path }
+        format.html { redirect_to admins_event_packs_path, notice: t("alerts.destroyed") }
+        format.json { render json: true }
       else
-        redirect_to [:admins, @current_event, @pack], error: @pack.errors.full_messages.to_sentence
+        format.html { redirect_to [:admins, @current_event, @pack], error: @pack.errors.full_messages.to_sentence }
+        format.json { render json: { errors: @pack.errors.full_messages.to_sentence }, status: :unprocessable_entity }
       end
     end
   end

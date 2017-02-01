@@ -16,7 +16,7 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
     authorize @access
 
     if @access.save
-      flash[:notice] = I18n.t("alerts.created")
+      flash[:notice] = t("alerts.created")
       redirect_to admins_event_accesses_path
     else
       flash.now[:error] = @access.errors.full_messages.join(". ")
@@ -26,7 +26,7 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
 
   def update
     if @access.update(permitted_params)
-      flash[:notice] = I18n.t("alerts.updated")
+      flash[:notice] = t("alerts.updated")
       redirect_to admins_event_accesses_path
     else
       flash.now[:error] = @access.errors.full_messages.join(". ")

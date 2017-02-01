@@ -3,9 +3,9 @@ class Admins::Events::DeviceSettingsController < Admins::Events::BaseController
 
   def update
     if @current_event.update(permitted_params)
-      redirect_to admins_event_device_settings_path(@current_event), notice: I18n.t("alerts.updated")
+      redirect_to admins_event_device_settings_path(@current_event), notice: t("alerts.updated")
     else
-      flash.now[:error] = I18n.t("alerts.error")
+      flash.now[:error] = t("alerts.error")
       render :edit
     end
   end
@@ -18,7 +18,7 @@ class Admins::Events::DeviceSettingsController < Admins::Events::BaseController
   def load_defaults
     params[:event] = Event.new.attributes
     @current_event.update!(permitted_params)
-    redirect_to admins_event_device_settings_path(@current_event), notice: I18n.t("alerts.updated")
+    redirect_to admins_event_device_settings_path(@current_event), notice: t("alerts.updated")
   end
 
   private

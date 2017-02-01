@@ -97,22 +97,20 @@ Rails.application.routes.draw do
             get :recalculate_balance
             get :ban
             get :solve_inconsistent
-            delete :unban
+            get :unban
           end
           collection do
             get :sample_csv
-            delete :destroy_multiple
             post :import
           end
         end
         resources :tickets do
           member do
             get :ban
-            delete :unban
+            get :unban
           end
           collection do
             get :sample_csv
-            delete :destroy_multiple
             post :import
           end
         end
@@ -120,7 +118,6 @@ Rails.application.routes.draw do
           collection do
             post :import
             get :sample_csv
-            delete :destroy_multiple
           end
         end
         resources :stations do

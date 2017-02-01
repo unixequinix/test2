@@ -16,9 +16,9 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
     @product = Product.new(permitted_params)
     authorize @product
     if @product.save
-      redirect_to admins_event_products_path, notice: I18n.t("alerts.created")
+      redirect_to admins_event_products_path, notice: t("alerts.created")
     else
-      flash.now[:error] = I18n.t("alerts.error")
+      flash.now[:error] = t("alerts.error")
       render :new
     end
   end
@@ -26,7 +26,7 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
   def update
     respond_to do |format|
       if @product.update_attributes(permitted_params)
-        format.html { redirect_to admins_event_products_path, notice: I18n.t("alerts.updated") }
+        format.html { redirect_to admins_event_products_path, notice: t("alerts.updated") }
       else
         format.html { render :edit }
       end
@@ -37,17 +37,10 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
 
   def destroy
     if @product.destroy
-      redirect_to admins_event_products_path, notice: I18n.t("alerts.destroyed")
+      redirect_to admins_event_products_path, notice: t("alerts.destroyed")
     else
       redirect_to admins_event_product_path(@current_event, @product), error: @product.errors.full_messages.to_sentence
     end
-  end
-
-  def destroy_multiple
-    @current_event.products.where(id: params[:products].to_h.keys).each do |product|
-      flash[:error] = product.errors.full_messages.join(". ") unless product.destroy
-    end
-    redirect_to admins_event_products_path(@current_event)
   end
 
   def sample_csv

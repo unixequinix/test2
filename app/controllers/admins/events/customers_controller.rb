@@ -30,7 +30,7 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
       pdf = WickedPdf.new.pdf_from_string(html)
       send_data(pdf, filename: "transaction_history_#{@customer.id}.pdf", disposition: "attachment")
     else
-      flash[:error] = I18n.t("alerts.customer_without_transactions")
+      flash[:error] = t("alerts.customer_without_transactions")
       redirect_to(admins_event_customer_path(@current_event, @customer))
     end
   end

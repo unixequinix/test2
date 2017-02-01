@@ -28,6 +28,8 @@
 #  ticket_code                 :citext
 #  transaction_origin          :string
 #  type                        :string
+#  user_flag                   :string
+#  user_flag_active            :boolean
 #
 # Indexes
 #
@@ -77,7 +79,7 @@ class Transaction < ActiveRecord::Base
   scope :origin, ->(origin) { where(transaction_origin: Transaction::ORIGINS[origin]) }
 
   ORIGINS = { portal: "customer_portal", device: "onsite", admin: "admin_panel" }.freeze
-  TYPES = %w(access credential credit money order operator user_engagement).freeze
+  TYPES = %w(access credential credit money order operator user_engagement user_flag).freeze
 
   def self.write!(event, action, origin, customer, operator, atts) # rubocop:disable Metrics/ParameterLists
     Time.zone = event.timezone
