@@ -41,7 +41,7 @@ $(document).on("ready", function(){
         url: url,
         dataType: "json",
         async: false,
-        success: function(){ $(elem).find("a .material-icons").html("radio_button_checked"); }
+        success: function(){ $(elem).find("a .material-icons:contains('radio_button_unchecked')").html("radio_button_checked"); }
       });
 
     }
@@ -61,7 +61,7 @@ $(document).on("ready", function(){
         url: url,
         dataType: "json",
         async: false,
-        success: function(){ $(elem).find("a .material-icons").html("radio_button_unchecked"); }
+        success: function(){ $(elem).find("a .material-icons:contains('radio_button_checked')").html("radio_button_unchecked"); }
       });
 
     }
