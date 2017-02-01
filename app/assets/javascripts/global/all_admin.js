@@ -1,5 +1,4 @@
 $(document).on("ready", function(){
-
   $("#delete_multiple").on("click",function(event){
     var type = $(this).data("type");
     var myElements = document.querySelectorAll(".is-selected");

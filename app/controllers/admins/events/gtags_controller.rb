@@ -2,7 +2,8 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
   before_action :set_gtag, except: [:index, :new, :create]
 
   def index
-    @gtags = @current_event.gtags.order(:tag_uid)
+    @q = @current_event.gtags.order(:tag_uid).ransack(params[:q])
+    @gtags = @q.result
     authorize @gtags
     @gtags = @gtags.page(params[:page])
 

@@ -2,7 +2,8 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
   before_action :set_ticket, except: [:index, :new, :create, :import, :sample_csv]
 
   def index
-    @tickets = @current_event.tickets.order(:code)
+    @q = @current_event.tickets.order(:code).ransack(params[:q])
+    @tickets = @q.result
     authorize @tickets
     @tickets = @tickets.page(params[:page])
 

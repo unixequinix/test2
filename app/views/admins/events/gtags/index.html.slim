@@ -1,3 +1,7 @@
+- content_for(:search) do
+  = search_form_for @q, url: admins_event_gtags_path do |f|
+    = f.search_field :tag_uid_cont, class: "mdl-textfield__input", id: "fixed-header-drawer-exp"
+
 .remodal data-remodal-id="import-modal"
   button.remodal-close data-remodal-action="close"
   h3.remodal__title Import products by CSV file

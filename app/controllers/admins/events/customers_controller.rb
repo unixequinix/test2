@@ -2,7 +2,8 @@ class Admins::Events::CustomersController < Admins::Events::BaseController
   before_action :set_customer, except: [:index]
 
   def index
-    @customers = @current_event.customers
+    @q = @current_event.customers.ransack(params[:q])
+    @customers = @q.result
     authorize @customers
     @customers = @customers.page(params[:page])
 

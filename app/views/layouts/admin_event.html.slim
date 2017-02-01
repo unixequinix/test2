@@ -25,11 +25,13 @@ html
             span.mdl-tooltip data-mdl-for="launch" Customer Portal
           = link_to "#{@current_event.name}" "#{l Time.use_zone(@current_event.timezone) { Time.current }, format: :zone_description}", admins_event_path(@current_event), class: "mdl-layout-title header-item"
           .mdl-layout-spacer
-          .mdl-textfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label.mdl-textfield--align-right
-            label.mdl-button.mdl-js-button.mdl-button--icon for="fixed-header-drawer-exp"
-              i.material-icons search
-            .mdl-textfield__expandable-holder
-              input#fixed-header-drawer-exp.mdl-textfield__input name="sample" type="text" /
+          - if @q
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label.mdl-textfield--align-right
+              label.mdl-button.mdl-js-button.mdl-button--icon for="fixed-header-drawer-exp"
+                i.material-icons search
+              .mdl-textfield__expandable-holder
+                = yield(:search)
+
           button#vertmenu.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon
             i.material-icons more_vert
           ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="vertmenu"

@@ -34,13 +34,6 @@ GIT
       countries
 
 GIT
-  remote: https://github.com/lassebunk/gretel.git
-  revision: 8038a7cdd73dd4cc04a2c4020035a57241bd56d7
-  specs:
-    gretel (3.0.9)
-      rails (>= 3.1.0)
-
-GIT
   remote: https://github.com/rails-api/active_model_serializers.git
   revision: 93ca27fe444c3a940890cb7a4dedbd8369f481f3
   specs:
@@ -604,7 +597,6 @@ DEPENDENCIES
   foreman
   friendly_id
   globalize!
-  gretel!
   groupdate
   guard
   guard-rspec

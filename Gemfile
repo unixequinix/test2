@@ -66,7 +66,6 @@ gem 'roo'
 
 # Navigation
 gem 'kaminari'
-gem 'gretel', github: 'lassebunk/gretel'
 
 # Search
 gem 'ransack', github: 'activerecord-hackery/ransack'

@@ -2,7 +2,8 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
 
   def index
-    @products = @current_event.products
+    @q = @current_event.products.ransack(params[:q])
+    @products = @q.result
     authorize @products
     @products = @products.page(params[:page])
   end
