@@ -1,4 +1,12 @@
 .admin-card-wide.mdl-card.mdl-shadow--2dp.form-card
+  .mdl-card__title
+    .mdl-cell.mdl-cell--12-col
+      .tools
+        .tool-item
+          = link_to [:admins, @current_event, product] do
+            span#undo.icon.material-icons undo
+            span.mdl-tooltip data-mdl-for="undo"  Back
+
   = simple_form_for [:admins, @current_event, product], wrapper: :mdl_field_floating, wrapper_mappings: {text: :mdl_text_edit, boolean: :mdl_switch, file: :mdl_upload} do |f|
     .form-inputs
       = f.input :name, placeholder: true
