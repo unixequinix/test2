@@ -1,12 +1,7 @@
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
-    - if @refunds.present?
-      .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @refunds
-      = render "admins/events/refunds/list", refunds: @refunds
-      .mdl-cell.mdl-cell--12-col = paginate @refunds
-    - else
-      .section-title-empty
-        = image_tag "img-empty.png"
-        p = t("alerts.empty_items_list", item: 'refunds')
+    .mdl-cell.mdl-cell--12-col.italic.small.right = page_entries_info @refunds
+    = render "admins/events/refunds/list", refunds: @refunds
+    .mdl-cell.mdl-cell--12-col = paginate @refunds
   .mdl-layout-spacer

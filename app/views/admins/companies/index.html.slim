@@ -1,11 +1,5 @@
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--10-col
-    - if @companies.empty?
-      .section-title-empty
-        = image_tag "img-empty.png"
-        | p = t("alerts.empty_items_list", item: "companies")
-        = link_to t("actions.new"), new_admins_company_path, class: "btn btn-action btn-action-new"
-    - else
-      = render "admins/companies/list", companies: @companies
+    = render "admins/companies/list", companies: @companies
   .mdl-layout-spacer
