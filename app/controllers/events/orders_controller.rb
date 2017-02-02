@@ -14,7 +14,7 @@ class Events::OrdersController < Events::BaseController
   end
 
   def create
-    @order = current_customer.build_order(params[:checkout_form][:catalog_items])
+    @order = current_customer.build_order(params[:checkout_form][:catalog_items].to_a)
     if @order.total.positive? && @order.save
       redirect_to event_order_path(@current_event, @order)
     else
