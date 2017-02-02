@@ -79,6 +79,10 @@ class Order < ActiveRecord::Base
     order_items.to_a.sum(&:credits)
   end
 
+  def refundable_credits
+    order_items.to_a.sum(&:refundable_credits)
+  end
+
   private
 
   def max_credit_reached

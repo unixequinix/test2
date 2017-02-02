@@ -22,6 +22,8 @@ class OrderItem < ActiveRecord::Base
   belongs_to :order
   belongs_to :catalog_item
 
+  validates :total, :counter, presence: true
+
   def single_credits?
     catalog_item.is_a?(Credit)
   end

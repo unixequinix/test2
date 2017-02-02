@@ -12,7 +12,7 @@ RSpec.describe Api::V1::Events::CustomersController, type: :controller do
       before do
         create(:gtag, customer: customer)
         order = create(:order, customer: customer, status: "completed")
-        create(:order_item, order: order, catalog_item: item)
+        create(:order_item, order: order, catalog_item: item, counter: 1)
       end
 
       before(:each) do
