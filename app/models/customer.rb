@@ -116,7 +116,7 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def build_order(items)
-    order = orders.new(event: @current_event)
+    order = orders.new(event: event)
     last_counter = order_items.pluck(:counter).sort.last.to_i
     items.each.with_index do |arr, index|
       item_id, amount = arr
