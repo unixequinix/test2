@@ -45,7 +45,7 @@ RSpec.describe Customer, type: :model do
   let(:event) { create(:event) }
   let(:customer) { create(:customer, event: event) }
 
-  describe ".create_order" do
+  describe ".build_order" do
     before do
       @station = create(:station, category: "customer_portal", event: event)
       @accesses = create_list(:access, 2, event: event)
@@ -54,7 +54,8 @@ RSpec.describe Customer, type: :model do
         @station.station_catalog_items.create!(catalog_item: item, price: num)
         [item.id, item.id]
       end
-      @order = customer.create_order(@items)
+      @order = customer.build_order(@items)
+      expect(@order.save).to be_truthy
     end
 
     it "creates a valid order" do
@@ -84,7 +85,7 @@ RSpec.describe Customer, type: :model do
     describe "on a second run" do
       before do
         @items = @accesses.map { |item| [item.id, item.id] }
-        @order = customer.create_order(@items)
+        @order = customer.build_order(@items)
       end
 
       it "should add counters" do

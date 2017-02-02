@@ -115,8 +115,8 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     OrderItem.where(order: orders)
   end
 
-  def create_order(items)
-    order = orders.create(event: @current_event)
+  def build_order(items)
+    order = orders.new(event: @current_event)
     last_counter = order_items.pluck(:counter).sort.last.to_i
     items.each.with_index do |arr, index|
       item_id, amount = arr
@@ -124,7 +124,7 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
       item = event.catalog_items.find(item_id)
       counter = last_counter + index + 1
       total = amount.to_i * item.price
-      order.order_items.create(catalog_item: item, amount: amount.to_i, total: total, counter: counter)
+      order.order_items.new(catalog_item: item, amount: amount.to_i, total: total, counter: counter)
     end
     order
   end
