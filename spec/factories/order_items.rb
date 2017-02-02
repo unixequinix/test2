@@ -24,7 +24,6 @@ FactoryGirl.define do
     total "9.99"
     order
     redeemed false
-    sequence(:counter)
 
     trait :with_pack do
       after(:build) do |order_item|

@@ -13,19 +13,12 @@ class Events::OrdersController < Events::BaseController
     @catalog_items = catalog_items_hash
   end
 
-  def create # rubocop:disable Metrics/AbcSize
-    catalog_items = params[:checkout_form][:catalog_items]
-    @order = current_customer.orders.new(event: @current_event)
-    @catalog_items = catalog_items_hash
-    catalog_items.each do |item_id, amount|
-      next unless amount.to_i.positive?
-      item = @current_event.catalog_items.find(item_id)
-      @order.order_items << OrderItem.new(catalog_item: item, amount: amount.to_i, total: amount.to_i * item.price)
-    end
-
+  def create
+    @order = current_custoemr.create_order(params[:checkout_form][:catalog_items])
     if @order.total.positive? && @order.save
       redirect_to event_order_path(@current_event, @order)
     else
+      @catalog_items = catalog_items_hash
       flash.now[:error] = @order.errors.full_messages.to_sentence
       render :new
     end

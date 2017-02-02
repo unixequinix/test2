@@ -35,8 +35,6 @@ class Order < ActiveRecord::Base
   scope :cancelled, -> { where(status: "cancelled") }
   scope :failed, -> { where(status: "failed") }
 
-  before_create :set_counters
-
   def refund?
     gateway.eql?("refund")
   end
@@ -81,16 +79,7 @@ class Order < ActiveRecord::Base
     order_items.to_a.sum(&:credits)
   end
 
-  def refundable_credits
-    order_items.to_a.sum(&:refundable_credits)
-  end
-
   private
-
-  def set_counters
-    last_counter = customer.order_counters.last.to_i
-    order_items.each.with_index { |item, index| item.counter = index + last_counter + 1 }
-  end
 
   def max_credit_reached
     return unless customer

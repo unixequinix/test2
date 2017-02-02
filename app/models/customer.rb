@@ -111,18 +111,30 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     active_credentials.any?
   end
 
-  def order_counters
-    order_items.pluck(:counter).sort
-  end
-
   def order_items
     OrderItem.where(order: orders)
+  end
+
+  def create_order(items)
+    order = orders.create(event: @current_event)
+    last_counter = order_items.pluck(:counter).sort.last.to_i
+    items.each.with_index do |arr, index|
+      item_id, amount = arr
+      next unless amount.to_i.positive?
+      item = event.catalog_items.find(item_id)
+      counter = last_counter + index + 1
+      total = amount.to_i * item.price
+      order.order_items.create(catalog_item: item, amount: amount.to_i, total: total, counter: counter)
+    end
+    order
   end
 
   def infinite_accesses_purchased
     catalog_items = order_items.pluck(:catalog_item_id)
     accesses = Access.where(id: catalog_items).infinite.pluck(:id)
-    packs = Pack.joins(:catalog_items).where(id: catalog_items, catalog_items: { type: "Access" }).select { |pack| pack.catalog_items.accesses.infinite.any? }.map(&:id) # rubocop:disable Metrics/LineLength
+    packs = Pack.joins(:catalog_items)
+                .where(id: catalog_items, catalog_items: { type: "Access" })
+                .select { |pack| pack.catalog_items.accesses.infinite.any? }.map(&:id)
 
     accesses + packs
   end

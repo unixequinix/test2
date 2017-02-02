@@ -121,20 +121,6 @@ RSpec.describe Order, type: :model do
     end
   end
 
-  describe ".set_counters" do
-    it "sets the correct counter" do
-      expect(subject).to be_new_record
-      subject.order_items << build(:order_item, :with_credit, amount: 10)
-      subject.order_items << build(:order_item, :with_credit, amount: 23)
-      subject.save
-      expect(subject.order_items.first.counter).to eq(1)
-      expect(subject.order_items.last.counter).to eq(2)
-
-      order = create(:order, :with_different_items, customer: subject.customer)
-      expect(order.order_items.first.counter).to eq(3)
-    end
-  end
-
   describe ".max_credit_reached" do
     it "adds an error if the credits exceeds the maximum allowed" do
       expect(subject).to be_valid

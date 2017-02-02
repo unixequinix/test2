@@ -42,13 +42,62 @@
 require "spec_helper"
 
 RSpec.describe Customer, type: :model do
-  let(:customer) { build(:customer) }
+  let(:event) { create(:event) }
+  let(:customer) { create(:customer, event: event) }
+
+  describe ".create_order" do
+    before do
+      @station = create(:station, category: "customer_portal", event: event)
+      @accesses = create_list(:access, 2, event: event)
+      @items = @accesses.map do |item|
+        num = rand(100)
+        @station.station_catalog_items.create!(catalog_item: item, price: num)
+        [item.id, item.id]
+      end
+      @order = customer.create_order(@items)
+    end
+
+    it "creates a valid order" do
+      expect(@order).to be_valid
+    end
+
+    describe "creates order_items" do
+      before { @order_items = @order.order_items }
+
+      it "which are valid" do
+        expect(@order_items).not_to be_empty
+        @order_items.each { |oi| expect(oi).to be_valid }
+      end
+
+      it "with correct price" do
+        @order_items.each do |order_item|
+          catalog_item = order_item.catalog_item
+          expect(order_item.total).to eq(catalog_item.price * catalog_item.id)
+        end
+      end
+
+      it "with correct counters" do
+        expect(@order_items.map(&:counter).sort).to eq([1, 2])
+      end
+    end
+
+    describe "on a second run" do
+      before do
+        @items = @accesses.map { |item| [item.id, item.id] }
+        @order = customer.create_order(@items)
+      end
+
+      it "should add counters" do
+        expect(@order.order_items.map(&:counter).sort).to eq([3, 4])
+      end
+    end
+  end
 
   describe ".full_name" do
     it "return the first_name and last_name together" do
-      allow(subject).to receive(:first_name).and_return("Glownet")
-      allow(subject).to receive(:last_name).and_return("Test")
-      expect(subject.full_name).to eq("Glownet Test")
+      allow(customer).to receive(:first_name).and_return("Glownet")
+      allow(customer).to receive(:last_name).and_return("Test")
+      expect(customer.full_name).to eq("Glownet Test")
     end
   end
 
