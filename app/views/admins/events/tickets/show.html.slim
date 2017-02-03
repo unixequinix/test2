@@ -47,6 +47,9 @@
               td.mdl-data-table__cell--non-numeric Banned
               td = @ticket.banned?
             tr
+              td.mdl-data-table__cell--non-numeric Redeemed
+              td = @ticket.redeemed?
+            tr
               td.mdl-data-table__cell--non-numeric Created At
               td = l @ticket.created_at
             tr
