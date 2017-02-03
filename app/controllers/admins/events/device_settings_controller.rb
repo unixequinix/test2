@@ -5,7 +5,7 @@ class Admins::Events::DeviceSettingsController < Admins::Events::BaseController
     if @current_event.update(permitted_params)
       redirect_to admins_event_device_settings_path(@current_event), notice: t("alerts.updated")
     else
-      flash.now[:error] = t("alerts.error")
+      flash.now[:alert] = t("alerts.error")
       render :edit
     end
   end

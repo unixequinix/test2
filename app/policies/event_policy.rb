@@ -75,6 +75,10 @@ class EventPolicy < ApplicationPolicy
     missing? || resolvable? || real?
   end
 
+  def destroy?
+    user.admin?
+  end
+
   class Scope < Scope
     def resolve
       case

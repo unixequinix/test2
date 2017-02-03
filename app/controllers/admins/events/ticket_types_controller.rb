@@ -19,7 +19,7 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
     if @ticket_type.save
       redirect_to admins_event_ticket_types_path, notice: t("alerts.created")
     else
-      flash.now[:error] = @ticket_type.errors.full_messages.join(". ")
+      flash.now[:alert] = @ticket_type.errors.full_messages.join(". ")
       render :new
     end
   end
@@ -28,7 +28,7 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
     if @ticket_type.update(permitted_params)
       redirect_to admins_event_ticket_types_path, notice: t("alerts.updated")
     else
-      flash.now[:error] = @ticket_type.errors.full_messages.join(". ")
+      flash.now[:alert] = @ticket_type.errors.full_messages.join(". ")
       render :edit
     end
   end
@@ -37,7 +37,7 @@ class Admins::Events::TicketTypesController < Admins::Events::BaseController
     if @ticket_type.destroy
       redirect_to admins_event_ticket_types_path(@current_event), notice: t("alerts.destroyed")
     else
-      redirect_to admins_event_ticket_types_path(@current_event, @ticket_type), error: @ticket_type.errors.full_messages.to_sentence
+      redirect_to admins_event_ticket_types_path(@current_event, @ticket_type), alert: @ticket_type.errors.full_messages.to_sentence
     end
   end
 

@@ -30,11 +30,10 @@
         span Device
       .form-inputs.short-input
         = f.input :gtag_type, collection: Gtag::DEFINITIONS.keys.map{ |key| [key.to_s.humanize, key] }, include_blank: false
-        = f.input :gtag_deposit
         = f.input :maximum_gtag_balance
         = f.input :gtag_deposit_fee
+        = f.input :initial_topup_fee
         = f.input :topup_fee
-        = f.input :card_return_fee
 
     .fieldset
       .section-header

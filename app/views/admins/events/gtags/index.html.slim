@@ -60,7 +60,12 @@
               tr data-event =@current_event.id data-gtag =gtag.id
                 td.mdl-data-table__cell--non-numeric data-label="Tag UID"
                   = link_to gtag.tag_uid, admins_event_gtag_path(@current_event, gtag)
-                  = render 'admins/events/gtags/actions', gtag: gtag unless @current_event.started?
+                  .table-action
+                    = link_to edit_admins_event_gtag_path(@current_event, gtag) do
+                      button.icon.material-icons id ="edit_#{gtag.id}" edit
+                  .table-action
+                    = link_to admins_event_gtag_path(@current_event, gtag), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                      button.icon.material-icons id ="delete_#{gtag.id}" delete
                 td data-label="Activation" = gtag.activation_counter
                 td data-label="Customer" = link_to gtag.customer&.id, admins_event_customer_path(@current_event, gtag.customer&.id) if gtag.customer
                 td data-label="Loyalty" = gtag.loyalty? ? fa_icon("check-circle") : fa_icon("times-circle")

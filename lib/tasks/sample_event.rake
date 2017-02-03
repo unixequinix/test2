@@ -200,9 +200,9 @@ namespace :glownet do
     ]
     station = @event.stations.create!(name: "MARKET 1", group: "monetary", category: "vendor")
 
-    products.each do |p|
+    products.each.with_index do |p, index|
       product = Product.find_by(name: p[:name], event: @event)
-      station.station_products.create(price: p[:price], product: product, station: station)
+      station.station_products.create(price: p[:price], product: product, station: station, counter: index + 1)
     end
   end
 

@@ -1,6 +1,0 @@
-.table-action
-  = link_to edit_admins_event_gtag_path(@current_event, gtag) do
-    button.icon.material-icons id ="edit_#{gtag.id}" edit
-.table-action
-  = link_to admins_event_gtag_path(@current_event, gtag), method: :delete, data: { confirm: 'Are you sure you want to delete this gtag?' } do
-    button.icon.material-icons id ="delete_#{gtag.id}" delete

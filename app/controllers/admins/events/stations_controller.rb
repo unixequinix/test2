@@ -21,7 +21,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
       path = admins_event_stations_path(@current_event, group: @station.group)
       redirect_to path, notice: t("alerts.created")
     else
-      flash.now[:error] = t("alerts.error")
+      flash.now[:alert] = t("alerts.error")
       render :new
     end
   end
@@ -33,7 +33,7 @@ class Admins::Events::StationsController < Admins::Events::BaseController
         format.json { render json: @station }
       else
         format.html do
-          flash.now[:error] = t("alerts.error")
+          flash.now[:alert] = t("alerts.error")
           render :edit
         end
       end

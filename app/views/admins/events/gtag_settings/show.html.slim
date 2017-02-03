@@ -33,17 +33,14 @@
             td.mdl-data-table__cell--non-numeric Maximum Gtag balance
             td = format_abstract_value @current_event.maximum_gtag_balance
           tr
-            td.mdl-data-table__cell--non-numeric Gtag deposit
-            td = format_abstract_value @current_event.gtag_deposit
-          tr
             td.mdl-data-table__cell--non-numeric Gtag deposit fee
             td = format_abstract_value @current_event.gtag_deposit_fee
           tr
+            td.mdl-data-table__cell--non-numeric Initial Topup fee
+            td = format_abstract_value @current_event.initial_topup_fee
+          tr
             td.mdl-data-table__cell--non-numeric Topup fee
             td = format_abstract_value @current_event.topup_fee
-          tr
-            td.mdl-data-table__cell--non-numeric Card return fee
-            td = format_abstract_value @current_event.card_return_fee
           tr
             td.mdl-data-table__cell--non-numeric Gtag form disclaimer
             td = format_abstract_value @current_event.gtag_form_disclaimer

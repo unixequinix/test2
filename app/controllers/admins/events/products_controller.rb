@@ -19,7 +19,7 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
     if @product.save
       redirect_to admins_event_products_path, notice: t("alerts.created")
     else
-      flash.now[:error] = t("alerts.error")
+      flash.now[:alert] = t("alerts.error")
       render :new
     end
   end
@@ -40,7 +40,7 @@ class Admins::Events::ProductsController < Admins::Events::BaseController
     if @product.destroy
       redirect_to admins_event_products_path, notice: t("alerts.destroyed")
     else
-      redirect_to admins_event_product_path(@current_event, @product), error: @product.errors.full_messages.to_sentence
+      redirect_to admins_event_product_path(@current_event, @product), alert: @product.errors.full_messages.to_sentence
     end
   end
 

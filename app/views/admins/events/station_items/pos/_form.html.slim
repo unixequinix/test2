@@ -7,4 +7,4 @@
       = f.input :product_id, collection: @station.unassigned_products, wrapper_html: { style: "overflow: inherit;"}
       = f.input :station_id, as: :hidden, input_html: { value: @station.id }
     .form-actions
-      = f.button :submit, class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"
+      = f.button :submit, "Add Product", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent form-submit"

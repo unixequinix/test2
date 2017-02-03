@@ -20,7 +20,7 @@ class Admins::Events::PacksController < Admins::Events::BaseController
     if @pack.save
       redirect_to admins_event_packs_path, notice: t("alerts.created")
     else
-      flash.now[:error] = t("alerts.error")
+      flash.now[:alert] = t("alerts.error")
       render :new
     end
   end
@@ -34,7 +34,7 @@ class Admins::Events::PacksController < Admins::Events::BaseController
 
       redirect_to admins_event_packs_path, notice: t("alerts.updated")
     else
-      flash.now[:error] = t("alerts.error")
+      flash.now[:alert] = t("alerts.error")
       render :edit
     end
   end
@@ -45,7 +45,7 @@ class Admins::Events::PacksController < Admins::Events::BaseController
         format.html { redirect_to admins_event_packs_path, notice: t("alerts.destroyed") }
         format.json { render json: true }
       else
-        format.html { redirect_to [:admins, @current_event, @pack], error: @pack.errors.full_messages.to_sentence }
+        format.html { redirect_to [:admins, @current_event, @pack], alert: @pack.errors.full_messages.to_sentence }
         format.json { render json: { errors: @pack.errors.full_messages.to_sentence }, status: :unprocessable_entity }
       end
     end

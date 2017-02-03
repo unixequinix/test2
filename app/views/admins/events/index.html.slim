@@ -7,13 +7,13 @@
   .mdl-cell.mdl-cell--8-col
     .mdl-grid
       .mdl-cell.mdl-cell--9-col
-        = link_to "Active", admins_events_path, class: "filters__item #{"filters__item--active" if params[:status] == [:launched, :started, :finished]}"
-        = link_to "All", admins_events_path(status: "all"), class: "filters__item #{"filters__item--active" if params[:status] == "all"}"
-        = link_to "Not published", admins_events_path(status: "created"), class: "filters__item #{"filters__item--active" if params[:status] == "created"}"
-        = link_to "Pre-Event", admins_events_path(status: "launched"), class: "filters__item #{"filters__item--active" if params[:status] == "launched"}"
-        = link_to "During Event", admins_events_path(status: "started"), class: "filters__item #{"filters__item--active" if params[:status] == "started"}"
-        = link_to "Post-Event", admins_events_path(status: "finished"), class: "filters__item #{"filters__item--active" if params[:status] == "finished"}"
-        = link_to "Closed", admins_events_path(status: "closed"), class: "filters__item #{"filters__item--active" if params[:status] == "closed"}"
+        = link_to "Active", admins_events_path, class: "filters__item #{"filters__item--active" if @status == [:launched, :started, :finished]}"
+        = link_to "All", admins_events_path(status: "all"), class: "filters__item #{"filters__item--active" if @status == "all"}"
+        = link_to "Not published", admins_events_path(status: "created"), class: "filters__item #{"filters__item--active" if @status == "created"}"
+        = link_to "Pre-Event", admins_events_path(status: "launched"), class: "filters__item #{"filters__item--active" if @status == "launched"}"
+        = link_to "During Event", admins_events_path(status: "started"), class: "filters__item #{"filters__item--active" if @status == "started"}"
+        = link_to "Post-Event", admins_events_path(status: "finished"), class: "filters__item #{"filters__item--active" if @status == "finished"}"
+        = link_to "Closed", admins_events_path(status: "closed"), class: "filters__item #{"filters__item--active" if @status == "closed"}"
       .mdl-cell.mdl-cell--3-col.italic.small.right = page_entries_info @events
 
     .admin-card-wide.mdl-card.mdl-shadow--2dp
@@ -34,8 +34,19 @@
         tbody
           - @events.each do |event|
             tr
-              td.mdl-data-table__cell--non-numeric = link_to event.name, admins_event_path(event), class: "no_link"
+              td.mdl-data-table__cell--non-numeric
+                = link_to event.name, admins_event_path(event), class: "no_link"
+                .table-action
+                  = link_to edit_admins_event_path(event) do
+                    button.icon.material-icons id ="edit_#{event.id}" edit
+                - if Rails.env.staging? || Rails.env.development?
+                  .table-action
+                    = link_to admins_event_path(event, status: @status), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                      button.icon.material-icons id ="delete_#{event.id}" delete
               td.mdl-data-table__cell--non-numeric = event.state
+            span.mdl-tooltip data-mdl-for="edit_#{event.id}" Edit
+            - if Rails.env.staging? || Rails.env.development?
+              span.mdl-tooltip data-mdl-for="delete_#{event.id}" Delete
   .mdl-layout-spacer
 
 

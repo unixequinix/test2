@@ -77,7 +77,15 @@ RSpec.describe Api::V1::Events::ParametersController, type: :controller do
       end
 
       it "includes gtag_deposit" do
-        expect(@body).to include("name" => "gtag_deposit", "value" => event.gtag_deposit)
+        expect(@body).to include("name" => "gtag_deposit_fee", "value" => event.gtag_deposit_fee)
+      end
+
+      it "includes topup_fee" do
+        expect(@body).to include("name" => "gtag_deposit_fee", "value" => event.topup_fee)
+      end
+
+      it "includes initial_topup_fee" do
+        expect(@body).to include("name" => "initial_topup_fee", "value" => event.initial_topup_fee)
       end
 
       it "includes cards_can_refund" do
@@ -88,7 +96,7 @@ RSpec.describe Api::V1::Events::ParametersController, type: :controller do
         expect(@body).to include("name" => "maximum_gtag_balance", "value" => event.maximum_gtag_balance)
       end
 
-      it "includes wristbands_can_refu" do
+      it "includes wristbands_can_refund" do
         expect(@body).to include("name" => "wristbands_can_refund", "value" => event.wristbands_can_refund)
       end
     end

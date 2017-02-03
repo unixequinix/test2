@@ -1,6 +1,7 @@
 class Admins::EventsController < Admins::BaseController # rubocop:disable Metrics/ClassLength
   def index
     params[:status] ||= [:launched, :started, :finished]
+    @status = params[:status]
     @q = policy_scope(Event).ransack(params[:q])
     @events = @q.result
     @events = @events.with_state(params[:status]) if params[:status] != "all" && params[:q].blank?
@@ -58,7 +59,7 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
         format.html { redirect_to admins_event_path(@current_event), notice: t("alerts.updated") }
         format.json { render :show, status: :ok, location: @current_event }
       else
-        flash.now[:error] = t("alerts.error")
+        flash.now[:alert] = t("alerts.error")
         format.html { render :edit }
         format.json { render json: @current_event.errors, status: :unprocessable_entity }
       end
@@ -77,6 +78,19 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     @current_event.background.destroy
     flash[:notice] = t("alerts.destroyed")
     redirect_to admins_event_path(@current_event)
+  end
+
+  def destroy
+    authorize @current_event
+    transactions = @current_event.transactions
+    SaleItem.where(credit_transaction_id: transactions).delete_all
+    Transaction.where(id: @current_event.transactions).delete_all
+    Transaction.where(catalog_item_id: @current_event.catalog_items).update_all(catalog_item_id: nil)
+    @current_event.device_transactions.delete_all
+    @current_event.tickets.delete_all
+    @current_event.gtags.delete_all
+    @current_event.destroy
+    redirect_to admins_events_path(status: params[:status]), notice: t("alerts.destroyed")
   end
 
   private

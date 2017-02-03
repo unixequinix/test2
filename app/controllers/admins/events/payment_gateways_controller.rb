@@ -19,7 +19,7 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
       redirect_to admins_event_payment_gateways_path(@current_event), notice: t("alerts.created")
     else
       @attributes = set_attributes
-      flash.now[:error] = @gateway.errors.full_messages.to_sentence
+      flash.now[:alert] = @gateway.errors.full_messages.to_sentence
       render :new, gateway: permitted_params[:gateway]
     end
   end
@@ -28,7 +28,7 @@ class Admins::Events::PaymentGatewaysController < Admins::Events::BaseController
     if @gateway.update(permitted_params)
       redirect_to admins_event_payment_gateways_path(@current_event), notice: t("alerts.updated")
     else
-      flash.now[:error] = @gateway.errors.full_messages.to_sentence
+      flash.now[:alert] = @gateway.errors.full_messages.to_sentence
       render :edit
     end
   end

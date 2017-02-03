@@ -34,6 +34,8 @@ class ApplicationController < ActionController::Base
   end
 
   def restrict_access_with_http
+    skip_authorization
+    skip_policy_scope
     authenticate_or_request_with_http_basic do |email, token|
       admin = User.find_by(email: email)
       admin && admin.access_token.eql?(token)

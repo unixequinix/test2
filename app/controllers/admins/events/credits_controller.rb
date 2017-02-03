@@ -7,7 +7,7 @@ class Admins::Events::CreditsController < Admins::Events::BaseController
       flash[:notice] = t("alerts.updated")
       redirect_to admins_event_credits_path
     else
-      flash.now[:error] = @credit.errors.full_messages.join(". ")
+      flash.now[:alert] = @credit.errors.full_messages.join(". ")
       render :edit
     end
   end

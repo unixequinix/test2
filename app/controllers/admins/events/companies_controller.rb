@@ -39,7 +39,7 @@ class Admins::Events::CompaniesController < Admins::Events::BaseController
       flash[:notice] = t("alerts.destroyed")
       redirect_to admins_event_companies_path
     else
-      flash.now[:error] = t("errors.messages.ticket_type_dependent")
+      flash.now[:alert] = t("errors.messages.ticket_type_dependent")
       @companies = @current_event.companies.page
       render :index
     end

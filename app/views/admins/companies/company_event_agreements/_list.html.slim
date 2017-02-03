@@ -13,7 +13,7 @@
           td.mdl-data-table__cell--non-numeric
             = agreement.event.name
             .table-action
-              = link_to admins_company_company_event_agreement_path(company, agreement), method: :delete, data: { confirm: 'Are you sure you want to revoke this agreeement?' } do
+              = link_to admins_company_company_event_agreement_path(company, agreement), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
                 button.icon.material-icons do_not_disturb
           td = agreement.event.token
 

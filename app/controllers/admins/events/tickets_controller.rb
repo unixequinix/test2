@@ -28,7 +28,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
     if @ticket.save
       redirect_to admins_event_tickets_path, notice: t("alerts.created")
     else
-      flash.now[:error] = t("alerts.error")
+      flash.now[:alert] = t("alerts.error")
       render :new
     end
   end
@@ -37,7 +37,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
     if @ticket.update(permitted_params)
       redirect_to admins_event_ticket_path(@current_event, @ticket), notice: t("alerts.updated")
     else
-      flash.now[:error] = t("alerts.error")
+      flash.now[:alert] = t("alerts.error")
       render :edit
     end
   end
@@ -48,7 +48,7 @@ class Admins::Events::TicketsController < Admins::Events::BaseController
         format.html { redirect_to admins_event_tickets_path, notice: 'Ticket was successfully deleted.' }
         format.json { render :show, status: :ok, location: admins_event_tickets_path }
       else
-        redirect_to [:admins, @current_event, @ticket], error: @ticket.errors.full_messages.to_sentence
+        redirect_to [:admins, @current_event, @ticket], alert: @ticket.errors.full_messages.to_sentence
       end
     end
   end

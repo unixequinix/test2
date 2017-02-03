@@ -28,7 +28,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
     if @gtag.save
       redirect_to admins_event_gtags_path, notice: t("alerts.created")
     else
-      flash.now[:error] = t("alerts.error")
+      flash.now[:alert] = t("alerts.error")
       render :new
     end
   end
@@ -37,7 +37,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
     if @gtag.update(permitted_params)
       redirect_to admins_event_gtag_path(@current_event, @gtag), notice: t("alerts.updated")
     else
-      flash.now[:error] = t("alerts.error")
+      flash.now[:alert] = t("alerts.error")
       render :edit
     end
   end
@@ -48,7 +48,7 @@ class Admins::Events::GtagsController < Admins::Events::BaseController
         format.html { redirect_to admins_event_gtags_path, notice: t("alerts.destroyed") }
         format.json { render json: true }
       else
-        format.html { redirect_to [:admins, @current_event, @gtag], error: @gtag.errors.full_messages.to_sentence }
+        format.html { redirect_to [:admins, @current_event, @gtag], alert: @gtag.errors.full_messages.to_sentence }
         format.json { render json: { errors: @gtag.errors.full_messages.to_sentence }, status: :unprocessable_entity }
       end
     end

@@ -9,7 +9,6 @@
 #  background_file_size            :integer
 #  background_type                 :string           default("fixed")
 #  birthdate_mandatory             :boolean
-#  card_return_fee                 :integer          default(0)
 #  cards_can_refund                :boolean          default(TRUE)
 #  city_mandatory                  :boolean
 #  company_name                    :string
@@ -30,11 +29,11 @@
 #  fast_removal_password           :string           default("123456")
 #  gender_mandatory                :boolean
 #  gtag_assignation                :boolean          default(FALSE)
-#  gtag_deposit                    :integer          default(0)
 #  gtag_deposit_fee                :integer          default(0)
 #  gtag_format                     :string           default("standard")
 #  gtag_type                       :string           default("ultralight_c")
 #  iban_enabled                    :boolean          default(TRUE)
+#  initial_topup_fee               :integer          default(0)
 #  logo_content_type               :string
 #  logo_file_name                  :string
 #  logo_file_size                  :integer
@@ -87,8 +86,9 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
              :agreed_event_condition_message, :receive_communications_message, :receive_communications_two_message,
              fallbacks_for_empty_translations: true
 
-  has_many :catalog_items, dependent: :destroy
   has_many :transactions, dependent: :restrict_with_error
+  has_many :tickets, dependent: :destroy
+  has_many :catalog_items, dependent: :destroy
   has_many :ticket_types, dependent: :destroy
   has_many :companies, through: :company_event_agreements
   has_many :company_event_agreements, dependent: :destroy
@@ -96,7 +96,6 @@ class Event < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   has_many :payment_gateways, dependent: :destroy
   has_many :products, dependent: :destroy
   has_many :stations, dependent: :destroy
-  has_many :tickets, dependent: :destroy
   has_many :device_transactions, dependent: :destroy
   has_many :user_flags, dependent: :destroy
   has_many :accesses, dependent: :destroy

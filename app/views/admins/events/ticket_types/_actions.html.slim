@@ -3,7 +3,7 @@
     = link_to edit_admins_event_ticket_type_path(@current_event, ticket_type) do
       button.icon.material-icons id ="edit_#{ticket_type}" edit
   .table-action
-    = link_to admins_event_ticket_type_path(@current_event, ticket_type), method: :delete, data: { confirm: "Are you sure?" } do
+    = link_to admins_event_ticket_type_path(@current_event, ticket_type), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
       button.icon.material-icons id ="delete_#{ticket_type}" delete
 
 - if ticket_type.hidden?

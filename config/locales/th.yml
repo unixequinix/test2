@@ -52,8 +52,6 @@ th:
     companies:
       name: Name
       token: Company token
-    confirm:
-      delete: Are you sure?
     credits:
       value: Value
     customers:

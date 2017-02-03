@@ -19,7 +19,7 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
       flash[:notice] = t("alerts.created")
       redirect_to admins_event_accesses_path
     else
-      flash.now[:error] = @access.errors.full_messages.join(". ")
+      flash.now[:alert] = @access.errors.full_messages.join(". ")
       render :new
     end
   end
@@ -29,7 +29,7 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
       flash[:notice] = t("alerts.updated")
       redirect_to admins_event_accesses_path
     else
-      flash.now[:error] = @access.errors.full_messages.join(". ")
+      flash.now[:alert] = @access.errors.full_messages.join(". ")
       render :edit
     end
   end
@@ -40,7 +40,7 @@ class Admins::Events::AccessesController < Admins::Events::BaseController
         format.html { redirect_to admins_event_accesses_path, notice: 'Access was successfully deleted.' }
         format.json { render :show, status: :ok, location: admins_event_accesses_path }
       else
-        redirect_to [:admins, @current_event, @access], error: @access.errors.full_messages.to_sentence
+        redirect_to [:admins, @current_event, @access], alert: @access.errors.full_messages.to_sentence
       end
     end
   end

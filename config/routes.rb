@@ -26,7 +26,7 @@ Rails.application.routes.draw do
         resources :company_event_agreements, only: [:index, :create, :destroy]
       end
     end
-    resources :events, except: :destroy do
+    resources :events do
       member do
         post :remove_logo
         post :remove_background
