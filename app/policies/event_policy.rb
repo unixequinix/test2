@@ -7,6 +7,10 @@ class EventPolicy < ApplicationPolicy
     user.admin?
   end
 
+  def sample_event?
+    user.admin?
+  end
+
   def create?
     user.admin?
   end

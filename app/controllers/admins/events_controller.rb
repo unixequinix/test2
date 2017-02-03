@@ -34,6 +34,12 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     authorize(@event)
   end
 
+  def sample_event
+    @event = SampleEvent.run
+    authorize(@event)
+    redirect_to [:admins, @event], notice: t("alerts.created")
+  end
+
   def create
     @event = Event.new(permitted_params.merge(owner: current_user))
     authorize(@event)

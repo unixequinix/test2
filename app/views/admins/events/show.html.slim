@@ -10,6 +10,11 @@
                 = link_to edit_admins_event_path(@current_event) do
                   span#edit.material-icons edit
                   span.mdl-tooltip data-mdl-for="edit"  Edit Event
+              - unless Rails.env.production?
+                .tool-item
+                  = link_to admins_event_path(@current_event, status: @status), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
+                    span#delete.material-icons delete
+                    span.mdl-tooltip data-mdl-for="delete" Delete Event
 
   .mdl-cell.mdl-cell--12-col
     .data-card-wide.mdl-card.mdl-shadow--2dp

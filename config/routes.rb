@@ -27,6 +27,8 @@ Rails.application.routes.draw do
       end
     end
     resources :events do
+      get :sample_event, on: :collection
+
       member do
         post :remove_logo
         post :remove_background

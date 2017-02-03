@@ -21,10 +21,15 @@
         .mdl-cell.mdl-cell--4-col Events
         .mdl-cell.mdl-cell--8-col
           .tools
-            .tool-item
-              = link_to new_admins_event_path do
-                span#add.icon.material-icons add
-                span.mdl-tooltip data-mdl-for="add"  Add
+            - unless Rails.env.production?
+              .tool-item
+                = link_to sample_event_admins_events_path do
+                  span#add-fake.icon.material-icons add_box
+                  span.mdl-tooltip data-mdl-for="add-fake" Sample event
+              .tool-item
+                = link_to new_admins_event_path do
+                  span#add.icon.material-icons add
+                  span.mdl-tooltip data-mdl-for="add"  Add
 
       table.mdl-data-table.mdl-js-data-table.within-card
         thead
@@ -39,13 +44,13 @@
                 .table-action
                   = link_to edit_admins_event_path(event) do
                     button.icon.material-icons id ="edit_#{event.id}" edit
-                - if Rails.env.staging? || Rails.env.development?
+                - unless Rails.env.production?
                   .table-action
                     = link_to admins_event_path(event, status: @status), method: :delete, data: { confirm: t("alerts.confirm_delete") } do
                       button.icon.material-icons id ="delete_#{event.id}" delete
               td.mdl-data-table__cell--non-numeric = event.state
             span.mdl-tooltip data-mdl-for="edit_#{event.id}" Edit
-            - if Rails.env.staging? || Rails.env.development?
+            - unless Rails.env.production?
               span.mdl-tooltip data-mdl-for="delete_#{event.id}" Delete
   .mdl-layout-spacer
 
