@@ -52,10 +52,18 @@ RSpec.describe Customer, type: :model do
       @items = @accesses.map do |item|
         num = rand(100)
         @station.station_catalog_items.create!(catalog_item: item, price: num)
-        [item.id, item.id]
+        [item.id, 11]
       end
       @order = customer.build_order(@items)
       expect(@order.save).to be_truthy
+    end
+
+    it "with negative total if it is_refund" do
+      expect(customer.build_order(@items, true).order_items.map(&:total).sum).to be_negative
+    end
+
+    it "with negative amount if it supplied" do
+      expect(customer.build_order([[@accesses.first.id, -11]]).order_items.map(&:amount).sum).to be_negative
     end
 
     it "creates a valid order" do
@@ -73,7 +81,7 @@ RSpec.describe Customer, type: :model do
       it "with correct price" do
         @order_items.each do |order_item|
           catalog_item = order_item.catalog_item
-          expect(order_item.total).to eq(catalog_item.price * catalog_item.id)
+          expect(order_item.total).to eq(catalog_item.price * 11)
         end
       end
 
@@ -84,7 +92,7 @@ RSpec.describe Customer, type: :model do
 
     describe "on a second run" do
       before do
-        @items = @accesses.map { |item| [item.id, item.id] }
+        @items = @accesses.map { |item| [item.id, 11] }
         @order = customer.build_order(@items)
       end
 

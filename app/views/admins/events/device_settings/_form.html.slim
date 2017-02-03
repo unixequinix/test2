@@ -20,13 +20,13 @@
     .fieldset
       .section-header
         i.material-icons shopping_cart
-        span Online Orders
+        span Orders
       .form-inputs
         label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='touchpoint_update_online_orders'
-          span.mdl-switch__label.form-label Touchpoint Update Oonline Orders
+          span.mdl-switch__label.form-label Touchpoint Update Orders
           = f.input :touchpoint_update_online_orders, :input_html => { :id => 'touchpoint_update_online_orders' }, checked_value: true, unchecked_value: false
         label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect for='pos_update_online_orders'
-          span.mdl-switch__label.form-label Pos Update Online Orders
+          span.mdl-switch__label.form-label Pos Update Orders
           = f.input :pos_update_online_orders, :input_html => { :id => 'pos_update_online_orders' }, checked_value: true, unchecked_value: false
 
     .fieldset

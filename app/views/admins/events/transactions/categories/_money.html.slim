@@ -10,7 +10,7 @@
           tr
             - if order = @transaction.order
               td.mdl-data-table__cell--non-numeric Order
-              td = link_to order.number, admin_event_orders_path(@current_event, @transaction.order)
+              td = link_to order.number, admins_event_orders_path(@current_event, @transaction.order)
 
             - if class_name = @transaction.catalog_item&.class.to_s
               td.mdl-data-table__cell--non-numeric Type

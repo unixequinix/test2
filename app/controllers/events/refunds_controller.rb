@@ -17,9 +17,8 @@ class Events::RefundsController < Events::BaseController
       MoneyTransaction.write!(@current_event, "refund", :portal, current_customer, current_customer, atts)
 
       # Create negative online order
-      order = current_customer.orders.create(gateway: "refund")
-      order.order_items.create(catalog_item: credit, amount: -@refund.total, total: -(@refund.total * credit.value))
-
+      order = current_customer.build_order([[credit.id, -@refund.total]], true)
+      order.update_attribute :gateway, "refund"
       order.complete!("bank_account", {}.as_json)
 
       CustomerMailer.completed_refund_email(@refund, @current_event).deliver_later
@@ -35,7 +34,7 @@ class Events::RefundsController < Events::BaseController
     fee = @current_event.payment_gateways.bank_account.data["fee"].to_f
     amount = current_customer.refundable_credits - fee
     money = amount * @current_event.credit.value
-    atts = { amount: amount, status: "started", fee: fee, money: money }
+    atts = { amount: amount, status: "started", fee: fee, money: money, event: @current_event }
     @refund = current_customer.refunds.new(atts)
     @refund_gateway = @current_event.payment_gateways.bank_account
   end
