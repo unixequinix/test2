@@ -17,7 +17,7 @@ class Events::RefundsController < Events::BaseController
       MoneyTransaction.write!(@current_event, "refund", :portal, current_customer, current_customer, atts)
 
       # Create negative online order
-      order = current_customer.build_order([[credit.id, -@refund.total]], true)
+      order = current_customer.build_order([[credit.id, -@refund.total]])
       order.update_attribute :gateway, "refund"
       order.complete!("bank_account", {}.as_json)
 
