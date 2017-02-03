@@ -22,11 +22,19 @@ class StationProduct < ActiveRecord::Base
   belongs_to :product
   belongs_to :station, touch: true
 
-  validates :price, :product_id, presence: true
+  validates :price, :product_id, :position, presence: true
   validates :price, numericality: true
   validates :product_id, uniqueness: { scope: :station_id }
 
+  before_create :set_position
+
   def self.policy_class
     StationItemPolicy
+  end
+
+  private
+
+  def set_position
+    self.position = station.station_products.count + 1
   end
 end

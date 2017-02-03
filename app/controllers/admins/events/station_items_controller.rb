@@ -31,8 +31,11 @@ class Admins::Events::StationItemsController < Admins::Events::BaseController
 
   def sort
     skip_authorization
-    params[:order].each { |_key, value| @klass.find(value[:id]).update(position: value[:position]) }
-    render nothing: true
+    params[:order].to_unsafe_h.each_pair do |_key, value|
+      next unless value[:id]
+      @klass.find(value[:id]).update(position: value[:position].to_i - 1)
+    end
+    head(:ok)
   end
 
   def visibility

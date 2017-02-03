@@ -21,5 +21,6 @@ FactoryGirl.define do
     station
     product
     price 99
+    sequence(:position)
   end
 end

@@ -43,7 +43,7 @@ RSpec.describe Api::V1::Events::StationsController, type: :controller do
         before do
           @station = create(:station, category: "vendor", event: event, group: "monetary")
           item = create(:product, event: event)
-          @station.station_products.create(price: rand(1.0...20.0).round(2), product: item)
+          @station.station_products.create(price: rand(1.0...20.0).round(2), product: item, position: 9)
         end
 
         it "returns all the pos stations" do
