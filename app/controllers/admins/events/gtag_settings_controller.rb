@@ -23,12 +23,14 @@ class Admins::Events::GtagSettingsController < Admins::Events::BaseController
     authorize @current_event, :event_settings?
   end
 
-  def permitted_params
+  def permitted_params # rubocop:disable Metrics/MethodLength
     params.require(:event).permit(:gtag_form_disclaimer,
                                   :gtag_assignation_notification,
                                   :format,
                                   :gtag_type,
                                   :gtag_deposit,
+                                  :initial_topup_fee,
+                                  :topup_fee,
                                   :ultralight_c,
                                   :mifare_classic,
                                   :ultralight_ev1,
