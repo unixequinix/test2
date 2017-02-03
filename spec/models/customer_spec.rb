@@ -58,12 +58,16 @@ RSpec.describe Customer, type: :model do
       expect(@order.save).to be_truthy
     end
 
-    it "with negative total if it is_refund" do
-      expect(customer.build_order(@items, true).order_items.map(&:total).sum).to be_negative
-    end
+    describe "when creating refunds" do
+      before { @items = [[@accesses.first.id, -11], [@accesses.first.id, -5]] }
 
-    it "with negative amount if it supplied" do
-      expect(customer.build_order([[@accesses.first.id, -11]]).order_items.map(&:amount).sum).to be_negative
+      it "creates order_items with negative total" do
+        expect(customer.build_order(@items).order_items.map(&:total).sum).to be_negative
+      end
+
+      it "creates order_items with negative amount" do
+        expect(customer.build_order(@items).order_items.map(&:amount).sum).to be_negative
+      end
     end
 
     it "creates a valid order" do

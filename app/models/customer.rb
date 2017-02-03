@@ -115,7 +115,7 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     OrderItem.where(order: orders)
   end
 
-  def build_order(items, is_refund = false)
+  def build_order(items)
     order = orders.new(event: event)
     last_counter = order_items.pluck(:counter).sort.last.to_i
     items.each.with_index do |arr, index|
@@ -123,7 +123,6 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
       item = event.catalog_items.find(item_id)
       counter = last_counter + index + 1
       total = amount.to_i * item.price * event.credit.value
-      total = -total if is_refund
       order.order_items.new(catalog_item: item, amount: amount.to_i, total: total, counter: counter)
     end
     order
