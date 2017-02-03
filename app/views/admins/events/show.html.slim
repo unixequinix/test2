@@ -23,233 +23,219 @@
       .info-container = render "admins/events/status", event: @current_event
 
 
-- if policy(@current_event).event_charts?
-  .content-grid.mdl-grid
-    .mdl-cell.mdl-cell--12-col
-      .data-card-wide.mdl-card.mdl-shadow--2dp
-        .mdl-card__title
-          h2.mdl-card__title-text Transactions flow
-        .info-container
-          = line_chart transactions_chart_admins_event_path, legend: "top", colors: ["#00BCD4", "#FFEB3B", "#F50057", "#3F51B5", "#4CAF50", "#CDDC39", "#FF9800"]
-    .mdl-cell.mdl-cell--12-col
-      .data-card-wide.mdl-card.mdl-shadow--2dp
-        .mdl-card__title
-          h2.mdl-card__title-text Credits flow
-        .info-container
-          = line_chart credits_chart_admins_event_path, legend: "top", colors: ["#00BCD4", "#FFEB3B", "#F50057", "#3F51B5", "#4CAF50", "#CDDC39", "#FF9800"]
 
+.content-grid.mdl-grid
+  .mdl-cell.mdl-cell--6-col
+    .transaction-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--4-col
+          i.material-icons info_outline
+          |Event info
+        .mdl-cell.mdl-cell--8-col
+          .tools
+            .tool-item
+              = link_to edit_admins_event_path(@current_event) do
+                span#edit1.material-icons edit
+                span.mdl-tooltip data-mdl-for="edit1" Edit
+      .mdl-card__supporting-text
+        table.table-show.mdl-data-table.mdl-js-data-table.within-card
+          tbody
+            tr
+              td.mdl-data-table__cell--non-numeric State
+              td = @current_event.state
+            tr
+              td.mdl-data-table__cell--non-numeric Slug
+              td = @current_event.slug
+            tr
+              td.mdl-data-table__cell--non-numeric Support email
+              td = @current_event.support_email
 
-    .mdl-cell.mdl-cell--6-col
-      .transaction-card-wide.mdl-card.mdl-shadow--2dp
-        .mdl-card__title
-          .mdl-cell.mdl-cell--4-col
-            i.material-icons info_outline
-            |Event info
-          .mdl-cell.mdl-cell--8-col
-            .tools
-              .tool-item
-                = link_to edit_admins_event_path(@current_event) do
-                  span#edit1.material-icons edit
-                  span.mdl-tooltip data-mdl-for="edit1" Edit
-        .mdl-card__supporting-text
-          table.table-show.mdl-data-table.mdl-js-data-table.within-card
-            tbody
-              tr
-                td.mdl-data-table__cell--non-numeric State
-                td = @current_event.state
-              tr
-                td.mdl-data-table__cell--non-numeric Slug
-                td = @current_event.slug
-              tr
-                td.mdl-data-table__cell--non-numeric Support email
-                td = @current_event.support_email
+  .mdl-cell.mdl-cell--6-col
+    .transaction-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--4-col
+          i.material-icons place
+          |State & Location
+        .mdl-cell.mdl-cell--8-col
+          .tools
+            .tool-item
+              = link_to edit_admins_event_path(@current_event) do
+                span#edit2.material-icons edit
+                span.mdl-tooltip data-mdl-for="edit2" Edit
 
-    .mdl-cell.mdl-cell--6-col
-      .transaction-card-wide.mdl-card.mdl-shadow--2dp
-        .mdl-card__title
-          .mdl-cell.mdl-cell--4-col
-            i.material-icons place
-            |State & Location
-          .mdl-cell.mdl-cell--8-col
-            .tools
-              .tool-item
-                = link_to edit_admins_event_path(@current_event) do
-                  span#edit2.material-icons edit
-                  span.mdl-tooltip data-mdl-for="edit2" Edit
+      .mdl-card__supporting-text
+        table.table-show.mdl-data-table.mdl-js-data-table.within-card
+          tbody
+            tr
+              td.mdl-data-table__cell--non-numeric Timezone
+              td = @current_event.timezone
+            tr
+              td.mdl-data-table__cell--non-numeric End date
+              td = l @current_event.end_date
+            tr
+              td.mdl-data-table__cell--non-numeric Start date
+              td = l @current_event.start_date
 
-        .mdl-card__supporting-text
-          table.table-show.mdl-data-table.mdl-js-data-table.within-card
-            tbody
-              tr
-                td.mdl-data-table__cell--non-numeric Timezone
-                td = @current_event.timezone
-              tr
-                td.mdl-data-table__cell--non-numeric End date
-                td = l @current_event.end_date
-              tr
-                td.mdl-data-table__cell--non-numeric Start date
-                td = l @current_event.start_date
+  .mdl-cell.mdl-cell--6-col
+    .transaction-card-wide.mdl-card.fix-height.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--6-col
+          i.material-icons work
+          |Company information
+        .mdl-cell.mdl-cell--6-col
+          .tools
+            .tool-item
+              = link_to edit_admins_event_path(@current_event) do
+                span#edit3.material-icons edit
+                span.mdl-tooltip data-mdl-for="edit3" Edit
 
-    .mdl-cell.mdl-cell--6-col
-      .transaction-card-wide.mdl-card.fix-height.mdl-shadow--2dp
-        .mdl-card__title
+      .mdl-card__supporting-text
+        table.table-show.mdl-data-table.mdl-js-data-table.within-card
+          tbody
+            tr
+              td.mdl-data-table__cell--non-numeric Company Name
+              td = format_abstract_value(@current_event.company_name)
+            tr
+              td.mdl-data-table__cell--non-numeric Official Address
+              td = format_abstract_value(@current_event.official_address)
+            tr
+              td.mdl-data-table__cell--non-numeric Official Name
+              td = format_abstract_value(@current_event.official_name)
+            tr
+              td.mdl-data-table__cell--non-numeric Registration Num
+              td = format_abstract_value(@current_event.registration_num)
+
+  .mdl-cell.mdl-cell--6-col
+    .transaction-card-wide.mdl-card.fix-height.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--4-col
+          i.material-icons local_atm
+          |Currency
+        .mdl-cell.mdl-cell--8-col
+          .tools
+            .tool-item
+              = link_to edit_admins_event_path(@current_event) do
+                span#edit4.material-icons edit
+                span.mdl-tooltip data-mdl-for="edit4" Edit
+
+      .mdl-card__supporting-text
+        table.table-show.mdl-data-table.mdl-js-data-table.within-card
+          tbody
+            tr
+              td.mdl-data-table__cell--non-numeric Token symbol
+              td = @current_event.token_symbol
+            tr
+              td.mdl-data-table__cell--non-numeric Currency
+              td = @current_event.currency
+            tr
+              td.mdl-data-table__cell--non-numeric IBAN enabled?
+              td = format_abstract_value(@current_event.iban_enabled?)
+
+  .mdl-cell.mdl-cell--12-col
+    .transaction-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--4-col
+          i.material-icons build
+          |Features
+        .mdl-cell.mdl-cell--8-col
+          .tools
+            .tool-item
+              = link_to edit_admins_event_path(@current_event) do
+                span#edit6.material-icons edit
+                span.mdl-tooltip data-mdl-for="edit6" Edit
+
+      .mdl-card__supporting-text
+        .content-grid.mdl-grid
           .mdl-cell.mdl-cell--6-col
-            i.material-icons work
-            |Company information
+            table.table-show.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric Evenbrite
+                  td = format_abstract_value(@current_event.eventbrite?)
+                tr
+                  td.mdl-data-table__cell--non-numeric Gtag Assignation
+                  td = format_abstract_value(@current_event.gtag_assignation)
+                tr
+                  td.mdl-data-table__cell--non-numeric Ticket Assignation
+                  td = format_abstract_value(@current_event.ticket_assignation)
+                tr
+                  td.mdl-data-table__cell--non-numeric Phone Mandatory
+                  td = format_abstract_value(@current_event.phone_mandatory)
+                tr
+                  td.mdl-data-table__cell--non-numeric Address Mandatory
+                  td = format_abstract_value(@current_event.address_mandatory)
+                tr
+                  td.mdl-data-table__cell--non-numeric City Mandatory
+                  td = format_abstract_value(@current_event.city_mandatory)
+                tr
+                  td.mdl-data-table__cell--non-numeric Country Mandatory
+                  td = format_abstract_value(@current_event.country_mandatory)
           .mdl-cell.mdl-cell--6-col
-            .tools
-              .tool-item
-                = link_to edit_admins_event_path(@current_event) do
-                  span#edit3.material-icons edit
-                  span.mdl-tooltip data-mdl-for="edit3" Edit
+            table.table-show.mdl-data-table.mdl-js-data-table.within-card
+              tbody
+                tr
+                  td.mdl-data-table__cell--non-numeric Postcode Mandatory
+                  td = format_abstract_value(@current_event.postcode_mandatory)
+                tr
+                  td.mdl-data-table__cell--non-numeric Gender Mandatory
+                  td = format_abstract_value(@current_event.gender_mandatory)
+                tr
+                  td.mdl-data-table__cell--non-numeric Birthday Mandatory
+                  td = format_abstract_value(@current_event.birthdate_mandatory)
+                tr
+                  td.mdl-data-table__cell--non-numeric Agreed Event Condition
+                  td = format_abstract_value(@current_event.agreed_event_condition)
+                tr
+                  td.mdl-data-table__cell--non-numeric Receive Communications
+                  td = format_abstract_value(@current_event.receive_communications)
+                tr
+                  td.mdl-data-table__cell--non-numeric Receive Communications Two
+                  td = format_abstract_value(@current_event.receive_communications_two)
 
-        .mdl-card__supporting-text
-          table.table-show.mdl-data-table.mdl-js-data-table.within-card
-            tbody
-              tr
-                td.mdl-data-table__cell--non-numeric Company Name
-                td = format_abstract_value(@current_event.company_name)
-              tr
-                td.mdl-data-table__cell--non-numeric Official Address
-                td = format_abstract_value(@current_event.official_address)
-              tr
-                td.mdl-data-table__cell--non-numeric Official Name
-                td = format_abstract_value(@current_event.official_name)
-              tr
-                td.mdl-data-table__cell--non-numeric Registration Num
-                td = format_abstract_value(@current_event.registration_num)
+  .mdl-cell.mdl-cell--12-col
+    .transaction-card-wide.mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        .mdl-cell.mdl-cell--4-col
+          i.material-icons insert_photo
+          |Images
+        .mdl-cell.mdl-cell--8-col
+          .tools
+            .tool-item
+              = link_to edit_admins_event_path(@current_event) do
+                span#edit5.material-icons edit
+                span.mdl-tooltip data-mdl-for="edit5" Edit
 
-    .mdl-cell.mdl-cell--6-col
-      .transaction-card-wide.mdl-card.fix-height.mdl-shadow--2dp
-        .mdl-card__title
-          .mdl-cell.mdl-cell--4-col
-            i.material-icons local_atm
-            |Currency
-          .mdl-cell.mdl-cell--8-col
-            .tools
-              .tool-item
-                = link_to edit_admins_event_path(@current_event) do
-                  span#edit4.material-icons edit
-                  span.mdl-tooltip data-mdl-for="edit4" Edit
+      .mdl-card__supporting-text
+        table.table-show.mdl-data-table.mdl-js-data-table.within-card
+          tbody
+            tr
+              td.mdl-data-table__cell--non-numeric Background Type
+              td = @current_event.background_type
+            tr
+              td.mdl-data-table__cell--non-numeric Background Content Type
+              td = @current_event.background_content_type
+            tr
+              - if @current_event.logo.present?
+                td.mdl-data-table__cell--non-numeric
+                  |Logo
+                  .table-action
+                    = link_to remove_logo_admins_event_path(@current_event), method: :post, data: { confirm: t('admin.confirm.delete') } do
+                      button#delete_logo.icon.material-icons delete
+                td = image_tag @current_event.logo.url, class: "event-img-preview"
+              - else
+                td.mdl-data-table__cell--non-numeric Logo
+                td.italic No logo found
 
-        .mdl-card__supporting-text
-          table.table-show.mdl-data-table.mdl-js-data-table.within-card
-            tbody
-              tr
-                td.mdl-data-table__cell--non-numeric Token symbol
-                td = @current_event.token_symbol
-              tr
-                td.mdl-data-table__cell--non-numeric Currency
-                td = @current_event.currency
-              tr
-                td.mdl-data-table__cell--non-numeric IBAN enabled?
-                td = format_abstract_value(@current_event.iban_enabled?)
-
-    .mdl-cell.mdl-cell--12-col
-      .transaction-card-wide.mdl-card.mdl-shadow--2dp
-        .mdl-card__title
-          .mdl-cell.mdl-cell--4-col
-            i.material-icons build
-            |Features
-          .mdl-cell.mdl-cell--8-col
-            .tools
-              .tool-item
-                = link_to edit_admins_event_path(@current_event) do
-                  span#edit6.material-icons edit
-                  span.mdl-tooltip data-mdl-for="edit6" Edit
-
-        .mdl-card__supporting-text
-          .content-grid.mdl-grid
-            .mdl-cell.mdl-cell--6-col
-              table.table-show.mdl-data-table.mdl-js-data-table.within-card
-                tbody
-                  tr
-                    td.mdl-data-table__cell--non-numeric Evenbrite
-                    td = format_abstract_value(@current_event.eventbrite?)
-                  tr
-                    td.mdl-data-table__cell--non-numeric Gtag Assignation
-                    td = format_abstract_value(@current_event.gtag_assignation)
-                  tr
-                    td.mdl-data-table__cell--non-numeric Ticket Assignation
-                    td = format_abstract_value(@current_event.ticket_assignation)
-                  tr
-                    td.mdl-data-table__cell--non-numeric Phone Mandatory
-                    td = format_abstract_value(@current_event.phone_mandatory)
-                  tr
-                    td.mdl-data-table__cell--non-numeric Address Mandatory
-                    td = format_abstract_value(@current_event.address_mandatory)
-                  tr
-                    td.mdl-data-table__cell--non-numeric City Mandatory
-                    td = format_abstract_value(@current_event.city_mandatory)
-                  tr
-                    td.mdl-data-table__cell--non-numeric Country Mandatory
-                    td = format_abstract_value(@current_event.country_mandatory)
-            .mdl-cell.mdl-cell--6-col
-              table.table-show.mdl-data-table.mdl-js-data-table.within-card
-                tbody
-                  tr
-                    td.mdl-data-table__cell--non-numeric Postcode Mandatory
-                    td = format_abstract_value(@current_event.postcode_mandatory)
-                  tr
-                    td.mdl-data-table__cell--non-numeric Gender Mandatory
-                    td = format_abstract_value(@current_event.gender_mandatory)
-                  tr
-                    td.mdl-data-table__cell--non-numeric Birthday Mandatory
-                    td = format_abstract_value(@current_event.birthdate_mandatory)
-                  tr
-                    td.mdl-data-table__cell--non-numeric Agreed Event Condition
-                    td = format_abstract_value(@current_event.agreed_event_condition)
-                  tr
-                    td.mdl-data-table__cell--non-numeric Receive Communications
-                    td = format_abstract_value(@current_event.receive_communications)
-                  tr
-                    td.mdl-data-table__cell--non-numeric Receive Communications Two
-                    td = format_abstract_value(@current_event.receive_communications_two)
-
-    .mdl-cell.mdl-cell--12-col
-      .transaction-card-wide.mdl-card.mdl-shadow--2dp
-        .mdl-card__title
-          .mdl-cell.mdl-cell--4-col
-            i.material-icons insert_photo
-            |Images
-          .mdl-cell.mdl-cell--8-col
-            .tools
-              .tool-item
-                = link_to edit_admins_event_path(@current_event) do
-                  span#edit5.material-icons edit
-                  span.mdl-tooltip data-mdl-for="edit5" Edit
-
-        .mdl-card__supporting-text
-          table.table-show.mdl-data-table.mdl-js-data-table.within-card
-            tbody
-              tr
-                td.mdl-data-table__cell--non-numeric Background Type
-                td = @current_event.background_type
-              tr
-                td.mdl-data-table__cell--non-numeric Background Content Type
-                td = @current_event.background_content_type
-              tr
-                - if @current_event.logo.present?
-                  td.mdl-data-table__cell--non-numeric
-                    |Logo
-                    .table-action
-                      = link_to remove_logo_admins_event_path(@current_event), method: :post, data: { confirm: t('admin.confirm.delete') } do
-                        button#delete_logo.icon.material-icons delete
-                  td = image_tag @current_event.logo.url, class: "event-img-preview"
-                - else
-                  td.mdl-data-table__cell--non-numeric Logo
-                  td.italic No logo found
-
-              tr
-                - if @current_event.background.present?
-                  td.mdl-data-table__cell--non-numeric
-                    |Background
-                    .table-action
-                      = link_to remove_background_admins_event_path(@current_event), method: :post, data: { confirm: t('admin.confirm.delete') } do
-                        button#delete_background.icon.material-icons delete
-                  td = image_tag @current_event.background.url, class: "event-img-preview"
-                - else
-                  td.mdl-data-table__cell--non-numeric Background
-                  td.italic No background found
-              span.mdl-tooltip data-mdl-for="delete_background" Delete Background
-              span.mdl-tooltip data-mdl-for="delete_logo" Delete Logo
+            tr
+              - if @current_event.background.present?
+                td.mdl-data-table__cell--non-numeric
+                  |Background
+                  .table-action
+                    = link_to remove_background_admins_event_path(@current_event), method: :post, data: { confirm: t('admin.confirm.delete') } do
+                      button#delete_background.icon.material-icons delete
+                td = image_tag @current_event.background.url, class: "event-img-preview"
+              - else
+                td.mdl-data-table__cell--non-numeric Background
+                td.italic No background found
+            span.mdl-tooltip data-mdl-for="delete_background" Delete Background
+            span.mdl-tooltip data-mdl-for="delete_logo" Delete Logo

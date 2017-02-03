@@ -30,6 +30,7 @@ Rails.application.routes.draw do
       get :sample_event, on: :collection
 
       member do
+        get :stats
         post :remove_logo
         post :remove_background
         get :create_admin

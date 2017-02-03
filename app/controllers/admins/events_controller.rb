@@ -13,6 +13,11 @@ class Admins::EventsController < Admins::BaseController # rubocop:disable Metric
     render layout: "admin_event"
   end
 
+  def stats
+    authorize @current_event
+    render layout: "admin_event"
+  end
+
   def transactions_chart
     result = %w(access credential credit money).map { |type| { name: type, data: @current_event.transactions.send(type).group_by_day(:created_at).count } } # rubocop:disable Metrics/LineLength
     authorize @current_event, :event_charts?

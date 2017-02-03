@@ -3,6 +3,10 @@ class EventPolicy < ApplicationPolicy
     admin_and_promoter || (user.support? && user.event.eql?(record))
   end
 
+  def stats?
+    admin_and_promoter
+  end
+
   def new?
     user.admin?
   end
