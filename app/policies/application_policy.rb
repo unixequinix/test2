@@ -36,7 +36,7 @@ class ApplicationPolicy
   end
 
   def destroy?
-    admin_and_promoter
+    admin_and_promoter && %w(created launched).include?(record.event.state)
   end
 
   def scope
