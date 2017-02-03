@@ -1,5 +1,5 @@
 -if event.created?
-  .container
+  .status-container
     input#five.radio.change-state name="progress" type="radio" data-state="launched" data-id=event.id
     label for="five"  LAUNCHED
     input#twentyfive.radio.change-state name="progress" type="radio" data-state="started" data-id=event.id
@@ -13,7 +13,7 @@
     .progress
       .progress-bar
 -if event.launched?
-  .container
+  .status-container
     input#five.radio.change-state checked='checked' name="progress" type="radio" data-state="launched" data-id=event.id
     label for="five"  LAUNCHED
     input#twentyfive.radio.change-state name="progress" type="radio" data-state="started" data-id=event.id
@@ -27,7 +27,7 @@
     .progress
       .progress-bar
 -if event.started?
-  .container
+  .status-container
     input#five.radio.change-state name="progress" type="radio" data-state="launched" data-id=event.id
     label for="five"  LAUNCHED
     input#twentyfive.radio.change-state checked='checked' name="progress" type="radio" data-state="started" data-id=event.id
@@ -41,7 +41,7 @@
     .progress
       .progress-bar
 -if event.finished?
-  .container
+  .status-container
     input#five.radio.change-state name="progress" type="radio" data-state="launched" data-id=event.id
     label for="five"  LAUNCHED
     input#twentyfive.radio.change-state name="progress" type="radio" data-state="started" data-id=event.id
@@ -55,7 +55,7 @@
     .progress
       .progress-bar
 -if event.closed?
-  .container
+  .status-container
     input#five.radio.change-state name="progress" type="radio" data-state="launched" data-id=event.id
     label for="five"  LAUNCHED
     input#twentyfive.radio.change-state name="progress" type="radio" data-state="started" data-id=event.id

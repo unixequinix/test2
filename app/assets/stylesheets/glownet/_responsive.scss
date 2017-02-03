@@ -1,3 +1,4 @@
+// VERTICAL DEVICES
 @media only screen and (max-width: 480px) {
 
   .mdl-layout-title.header-item{
@@ -86,4 +87,15 @@
     box-shadow: none !important;
   }
 
+  // Status progress-bar
+  .status-container label{
+    display: block;
+  }
+
+  // Event's background and logo show
+  .event-img-preview{
+    width: 100%;
+    height: auto;
+  }
 }
+

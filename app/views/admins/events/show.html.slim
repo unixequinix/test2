@@ -15,7 +15,7 @@
     .data-card-wide.mdl-card.mdl-shadow--2dp
       .mdl-card__title
         h2.mdl-card__title-text Current Status
-      .info-container= render "admins/events/status", event: @current_event
+      .info-container = render "admins/events/status", event: @current_event
 
 
 - if policy(@current_event).event_charts?
