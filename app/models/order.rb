@@ -67,20 +67,20 @@ class Order < ActiveRecord::Base
     order_items.pluck(:redeemed).all?
   end
 
-  def total_formated
+  def total_formatted
     format("%.2f", total)
   end
 
   def total
-    order_items.to_a.sum(&:total)
+    order_items.map(&:total).sum
   end
 
   def credits
-    order_items.to_a.sum(&:credits)
+    order_items.map(&:credits).sum
   end
 
   def refundable_credits
-    order_items.to_a.sum(&:refundable_credits)
+    order_items.map(&:refundable_credits).sum
   end
 
   private

@@ -86,10 +86,10 @@ RSpec.describe Order, type: :model do
     end
   end
 
-  describe ".total_formated" do
+  describe ".total_formatted" do
     it "returns the total formated" do
       allow(subject).to receive(:total).and_return(5)
-      expect(subject.total_formated).to eq("5.00")
+      expect(subject.total_formatted).to eq("5.00")
     end
   end
 

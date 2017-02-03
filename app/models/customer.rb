@@ -123,7 +123,7 @@ class Customer < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
       next unless amount.to_i.positive?
       item = event.catalog_items.find(item_id)
       counter = last_counter + index + 1
-      total = amount.to_i * item.price
+      total = amount.to_i * item.price * event.credit.value
       order.order_items.new(catalog_item: item, amount: amount.to_i, total: total, counter: counter)
     end
     order

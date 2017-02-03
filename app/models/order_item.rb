@@ -36,6 +36,10 @@ class OrderItem < ActiveRecord::Base
     amount * catalog_item.credits
   end
 
+  def total_formatted
+    format("%.2f", total)
+  end
+
   def refundable_credits
     return credits unless catalog_item.is_a?(Pack)
     return 0 unless catalog_item.only_credits?
