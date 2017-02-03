@@ -8,14 +8,15 @@ html
     = javascript_include_tag "application"
     link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" /
     link href="https://code.getmdl.io/1.2.1/material.teal-pink.min.css" rel="stylesheet" /
-    script defer="defer" src="https://code.getmdl.io/1.2.1/material.min.js" 
-    script src="//cdn.tinymce.com/4/tinymce.min.js" 
+    script defer="defer" src="https://code.getmdl.io/1.2.1/material.min.js"
+    script src="//cdn.tinymce.com/4/tinymce.min.js"
     meta content="width=device-width, initial-scale=1.0" name="viewport" /
     = csrf_meta_tags
 
   body class=("#{controller_name} #{action_name}") style="background-color: #b2dfdb"
     .container-main
+      #notifications
+        = render 'layouts/notifications'
       = yield
-
 
 

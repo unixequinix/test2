@@ -1,7 +1,7 @@
 .content-grid.mdl-grid
   .mdl-layout-spacer
   .mdl-cell.mdl-cell--4-col
-    .login-header= image_tag("glownet-event-logo.png")
+    .login-header = image_tag("glownet-event-logo.png")
     .demo-card-wide.mdl-card.mdl-shadow--2dp.login-card
       .mdl-card__supporting-text
         = simple_form_for(@user, url: new_user_session_path, method: :post, wrapper: :mdl_field_floating, wrapper_mappings:{text: :mdl_text_edit, boolean: :mdl_boolean}) do |f|
