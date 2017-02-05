@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   get "/admins", to: "admins/events#index", as: :admin_root
   get ":event_id", to: "events/events#show", as: :customer_root
 
+  mount ActionCable.server => '/cable'
+
   #----------------------------------------------------------
   # Admin panel
   #----------------------------------------------------------

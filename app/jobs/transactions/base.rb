@@ -1,7 +1,7 @@
 class Transactions::Base < ActiveJob::Base
   SEARCH_ATTS = %w(event_id device_uid device_db_index device_created_at_fixed gtag_counter activation_counter).freeze
 
-  def perform(atts)
+  def perform(atts) # rubocop:disable Metrics/MethodLength
     atts = preformat_atts(atts)
     klass = Transaction.class_for_type(atts[:type])
     atts[:type] = klass.to_s
@@ -15,9 +15,10 @@ class Transactions::Base < ActiveJob::Base
       transaction.update!(column_attributes(klass, atts))
 
       return unless atts[:status_code].to_i.zero?
+
+      EventStatsChannel.broadcast_to(Event.find(atts[:event_id]), data: transaction)
       execute_operations(atts.merge(transaction_id: transaction.id))
       transaction.update! executed: true
-
     rescue ActiveRecord::RecordNotUnique
       retry
     end

@@ -7,6 +7,8 @@ html
     = stylesheet_link_tag "https://fonts.googleapis.com/icon?family=Material+Icons"
     = stylesheet_link_tag "https://code.getmdl.io/1.2.1/material.teal-pink.min.css"
 
+    = yield(:javascripts)
+
     = javascript_include_tag "application"
     = javascript_include_tag "//www.google.com/jsapi", "chartkick"
     = javascript_include_tag "https://code.getmdl.io/1.2.1/material.min.js"
@@ -15,6 +17,7 @@ html
     meta content="width=device-width, initial-scale=1.0" name="viewport"
 
     = csrf_meta_tags
+
 
   body class=("#{controller_name} #{action_name}")
     .mdl-layout.mdl-js-layout.mdl-layout--fixed-drawer.mdl-layout--fixed-header
@@ -54,7 +57,7 @@ html
           - if policy(@current_event).event_charts?
             = link_to stats_admins_event_path(@current_event), class: "mdl-navigation__link" do
               i.mdl-color-text--teal-200.material-icons show_chart
-              | Stats
+              | Live Stats
 
           - if policy(@current_event).event_settings?
             = link_to admins_event_users_path(@current_event), class: "mdl-navigation__link" do

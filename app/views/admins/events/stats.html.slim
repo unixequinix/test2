@@ -1,14 +1,30 @@
+- content_for(:javascripts) do
+  = action_cable_meta_tag
+  = javascript_include_tag 'cable', 'data-turbolinks-track': 'reload'
+
 .content-grid.mdl-grid
   .mdl-cell.mdl-cell--12-col
-    .data-card-wide.mdl-card.mdl-shadow--2dp
-      .mdl-card__title
-        h2.mdl-card__title-text Transactions flow
-      .info-container
-        = line_chart transactions_chart_admins_event_path, legend: "top", colors: ["#00BCD4", "#FFEB3B", "#F50057", "#3F51B5", "#4CAF50", "#CDDC39", "#FF9800"]
-  .mdl-cell.mdl-cell--12-col
-    .data-card-wide.mdl-card.mdl-shadow--2dp
-      .mdl-card__title
-        h2.mdl-card__title-text Credits flow
-      .info-container
-        = line_chart credits_chart_admins_event_path, legend: "top", colors: ["#00BCD4", "#FFEB3B", "#F50057", "#3F51B5", "#4CAF50", "#CDDC39", "#FF9800"]
+    .mdl-grid#stats
+      .mdl-cell.mdl-cell--5-col
+      .mdl-cell.mdl-cell--2-col
+        i.fa.fa-spinner.fa-spin style="font-size:100px; color: rgb(0, 150, 136)"
+        .mdl-card__title.center-text Please wait
+      .mdl-cell.mdl-cell--5-col
 
+
+javascript:
+  App.chat = App.cable.subscriptions.create({channel: "EventStatsChannel", id: "#{@current_event.id}"} , {
+      connected: function () {
+          // Called when the subscription is ready for use on the server
+      },
+
+      disconnected: function () {
+          // Called when the subscription has been terminated by the server
+      },
+
+      received: function (data) {
+          // Called when there's incoming data on the websocket for this channel
+          // return this.perform('speak');
+          $("#stats").html(data);
+      }
+  });
